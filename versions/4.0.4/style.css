@@ -80,13 +80,13 @@
 .connectivity-row .switch{border:0;margin-left:auto}
 .settings-action-switch{align-self:center;margin-right:5px;min-width:40px;height:19px;border:0;background:#292d30;color:#b0b0b0!important;font-size:10px;font-weight:bold}
 .settings-action-switch.on{background:#137fa0;color:#d1f4ff!important}
-.settings-app .holo-switch{position:relative;flex:none;width:72px;height:22px;margin-left:auto;padding:0;border:0;border-radius:0;background:url('assets/switch_bg_holo_dark.9.png') center/100% 100% no-repeat;color:#9da0a2!important;display:flex;align-items:center;isolation:isolate;font-size:9px;font-weight:bold;text-shadow:0 1px #000a}
-.settings-app .holo-switch::before{content:"";position:absolute;z-index:0;inset:0 auto 0 0;width:42px;height:22px;background:url('assets/switch_thumb_holo_dark.9.png') center/100% 100% no-repeat;transform:translateX(0);transition:transform .18s ease-out,background-image .18s}
-.settings-app .holo-switch.on::before{transform:translateX(30px);background-image:url('assets/switch_thumb_activated_holo_dark.9.png')}
-.settings-app .holo-switch span{position:relative;z-index:1;display:grid;place-items:center;width:50%;height:100%;line-height:1}
-.settings-app .holo-switch:not(.on) .switch-off,.settings-app .holo-switch.on .switch-on{color:#fff}
+.settings-app .holo-switch{position:relative;flex:none;width:84px;height:22px;margin-left:auto;padding:0;border:0;border-radius:0;background:url('assets/switch_bg_holo_dark.9.png') center/100% 100% no-repeat;color:#fff!important;display:block;font-size:9px;font-weight:bold;text-shadow:0 1px #000a}
+.settings-app .holo-switch::before{content:"";position:absolute;z-index:0;inset:0 auto 0 0;width:50px;height:22px;background:url('assets/switch_thumb_holo_dark.9.png') center/100% 100% no-repeat;transform:translateX(0);transition:transform .18s ease-out,background-image .18s}
+.settings-app .holo-switch.on::before{transform:translateX(34px);background-image:url('assets/switch_thumb_activated_holo_dark.9.png')}
+.settings-app .holo-switch .switch-label{position:absolute;z-index:1;left:0;top:0;display:grid;place-items:center;width:50px;height:22px;line-height:1;transform:translateX(0);transition:transform .18s ease-out}
+.settings-app .holo-switch.on .switch-label{transform:translateX(34px)}
 .settings-app .holo-switch:focus-visible{outline:1px solid #33b5e5;outline-offset:2px}
-.settings-app .holo-switch.settings-action-switch{align-self:center;margin:0 5px 0 auto;min-width:72px}
+.settings-app .holo-switch.settings-action-switch{align-self:center;margin:0 5px 0 auto;min-width:84px}
 .settings-scan{align-self:center;margin-right:2px;border:0;background:transparent;color:#33b5e5!important;font-size:12px}
 .connectivity-page .section-label{padding:13px 11px 5px}
 .settings-app .network-row{min-height:56px;padding:7px 11px;font-size:14px}
