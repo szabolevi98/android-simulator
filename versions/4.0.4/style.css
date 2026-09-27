@@ -70,14 +70,17 @@
 .settings-app.settings-main,.settings-main .app-content.settings-dark,.settings-main .section-label,.settings-main .settings-row{background:transparent}
 .settings-main .settings-row{border-bottom-color:#b6d4ea38}
 .settings-main .settings-row:hover,.settings-main .settings-row:focus-visible{background:#b9e8ff18}
-.notification-shade{background:#111315;color:#f2f5f6;display:flex;flex-direction:column}
-.shade-top{height:52px;min-height:52px;padding:3px 3px 5px 16px;display:flex;align-items:center;background:linear-gradient(#23282b,#171b1e);gap:0}
-.shade-date{font-size:15px;color:#f1f4f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
-.shade-top button{border:0;background:transparent;width:42px;height:44px;flex:none;display:grid;place-items:center;padding:0}
+.notification-shade{background:transparent;color:#f2f5f6;display:flex;flex-direction:column}
+.shade-top{height:52px;min-height:52px;padding:3px 3px 5px 16px;display:flex;align-items:center;background:#000;gap:0}
+.shade-date{font-size:16px;color:#33b5e5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}
+.shade-top button{border:0;background:transparent;width:34px;height:44px;flex:none;display:grid;place-items:center;padding:0}
 .shade-top button:hover,.shade-top button:focus-visible{background:#30383c}
-.shade-top button img{width:32px;height:32px;object-fit:contain}
+.shade-top button img{width:27px;height:27px;object-fit:contain}
+.shade-status{margin-left:auto;flex:none;padding-right:4px}
+.shade-status img{height:16px}
+.shade-status .status-clock{font-size:11px}
 .shade-divider{height:2px;min-height:2px;background:#33b5e5;box-shadow:0 1px 1px #000}
-.shade-list{flex:1;min-height:0;overflow-y:auto;background:#101214}
+.shade-list{flex:1;min-height:0;overflow-y:auto;background:#000000d8}
 .notification{display:flex;width:100%;height:64px;min-height:64px;align-items:center;gap:0;background:#1b1d20;border:0;border-bottom:1px solid #35393b;margin:0;padding:0;text-align:left;color:#eee!important}
 .notification:hover,.notification:focus-visible{background:#2b3539}
 .notification-icon{height:63px;width:56px;display:grid;place-items:center;flex:none;background:#181b1d}
@@ -85,7 +88,6 @@
 .notification>span:last-child{padding:0 10px;min-width:0}
 .notification strong{display:block;font-size:14px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .notification small{display:block;color:#aeb6b9;margin-top:3px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.shade-empty{padding:16px 8px;color:#e5e5e5;font-size:18px}
 .status-button{background:#000;color:#33b5e5!important}
 .status-left,.status-right{display:flex;align-items:center;gap:0;height:100%}
 .status-left img{width:auto;height:18px;max-width:24px;object-fit:contain;margin-right:2px}

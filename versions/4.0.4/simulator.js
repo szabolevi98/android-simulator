@@ -114,10 +114,12 @@
   const row = (title, subtitle, action, id, icon = '') => `<button class="settings-row" data-action="${action}" data-id="${safe(id)}"><span class="row-icon">${icon === null ? '' : settingIcon(id, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="chevron">›</span></button>`;
   const toggleRow = (title, subtitle, key, icon = '') => `<button class="settings-row" data-action="toggle-setting" data-id="${key}" aria-pressed="${data.settings[key]}"><span class="row-icon">${settingIcon(key === 'wifi' ? 'wireless' : key, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="switch ${data.settings[key] ? 'on' : ''}"><span>${data.settings[key] ? 'ON' : 'OFF'}</span></span></button>`;
   const label = text => `<div class="section-label">${safe(text)}</div>`;
+  const statusIndicators = (extraClass = '') => `<span class="status-right ${extraClass}">${data.settings.bluetooth ? '<img src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.airplane ? '<img src="assets/stat_sys_signal_flightmode.png" alt="">' : `<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="" class="${data.settings.wifi ? '' : 'status-hidden'}"><img src="assets/stat_sys_signal_4_fully.png" alt="">`}<img src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
 
   function renderStatus() {
     const notificationIcons = data.notifications.length ? `${data.notifications.some(item => item.id === 2) ? '<img src="assets/stat_notify_sms.png" alt="">' : ''}${data.notifications.some(item => item.id !== 2) ? '<img src="assets/stat_notify_more.png" alt="">' : ''}` : '';
-    statusRoot.innerHTML = `<button class="status-button" data-action="shade" aria-label="Open notifications"><span class="status-left">${notificationIcons}</span><span class="status-right">${data.settings.bluetooth ? '<img src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.airplane ? '<img src="assets/stat_sys_signal_flightmode.png" alt="">' : `<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="" class="${data.settings.wifi ? '' : 'status-hidden'}"><img src="assets/stat_sys_signal_4_fully.png" alt="">`}<img src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span></button>`;
+    statusRoot.innerHTML = `<button class="status-button" data-action="shade" aria-label="Open notifications"><span class="status-left">${notificationIcons}</span>${statusIndicators()}</button>`;
+    i18n.translateDOM(statusRoot);
   }
   function renderNav() {
     navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/nav-back.png" alt=""></button><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/nav-home.png" alt=""></button><button class="nav-key nav-recent" data-action="recent" aria-label="Recent apps"><img src="assets/nav-recent.png" alt=""></button>`;
@@ -202,7 +204,7 @@
   }
   function renderOverlay() {
     if (ui.overlay === 'shade') {
-      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-list">${data.notifications.length ? data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('') : '<div class="shade-empty">No notifications</div>'}</div></div>`;
+      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${statusIndicators('shade-status')}${data.notifications.length ? '<button data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-list">${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div></div>`;
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel"><h3>Recent apps</h3>${ui.recent.length ? ui.recent.map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span>${appNames[id]}</span></div>`).join('') : '<p>No recent apps</p>'}</div>`;
     } else if (ui.overlay === 'google-folder') {
@@ -588,7 +590,7 @@
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const scrollTarget = event.pointerType === 'mouse' && ui.view === 'settings' && !ui.overlay && event.target.closest('.settings-app .app-content') && !event.target.closest('input, select, textarea, .wallpaper-choice') ? event.target.closest('.settings-app') : null;
-    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search') };
+    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search') };
     if (pointerStart.lockDrag) { screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     if (event.target.closest('.easter-robot')) eggTimer = setTimeout(() => { event.target.closest('.easter-robot')?.classList.add('expanding'); eggTimer = setTimeout(() => { ui.easterNyan = true; render(); }, 1100); }, 850);
     if (pointerStart.source && event.pointerType !== 'mouse') dragTimer = setTimeout(() => startDrag(event.clientX, event.clientY), 440);
@@ -598,6 +600,13 @@
     if (dragState) { moveGhost(event.clientX, event.clientY); return; }
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
     if (pointerStart.lockDrag) { event.preventDefault(); const handle = viewport.querySelector('.lock-handle'); if (handle) handle.style.setProperty('--lock-x', `${Math.max(-112, Math.min(112, dx))}px`); return; }
+    if (pointerStart.shadeDragging || pointerStart.shadeDragEligible && dy > 8 && dy > Math.abs(dx)) {
+      if (!pointerStart.shadeDragging) { pointerStart.shadeDragging = true; ui.overlay = 'shade'; renderOverlay(); try { screen.setPointerCapture(event.pointerId); } catch {} }
+      event.preventDefault();
+      const shade = overlayRoot.querySelector('.notification-shade');
+      if (shade) shade.style.clipPath = `inset(0 0 ${Math.max(0, shade.clientHeight - Math.max(24, dy + 24))}px 0)`;
+      return;
+    }
     if (pointerStart.scrolling) { event.preventDefault(); pointerStart.scrollTarget.scrollTop = pointerStart.scrollTop - dy; return; }
     if (pointerStart.scrollTarget && Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx)) {
       pointerStart.scrolling = true; screen.classList.add('settings-scrolling');
@@ -625,6 +634,12 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     clearTimeout(eggTimer); clearTimeout(dragTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if (pointerStart.shadeDragging) {
+      suppressClickUntil = Date.now() + 350;
+      if (dy > 75) overlayRoot.querySelector('.notification-shade')?.style.removeProperty('clip-path');
+      else { ui.overlay = ''; renderOverlay(); }
+      pointerStart = null; return;
+    }
     if (pointerStart.lockDrag) {
       screen.classList.remove('lock-dragging');
       if (dx < -75) { suppressClickUntil = Date.now() + 350; home(); }
@@ -645,7 +660,7 @@
     else if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); const content = viewport.querySelector('.home-content'); if (content) { content.style.transform = ''; content.style.opacity = ''; } const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); const content = viewport.querySelector('.home-content'); if (content) { content.style.transform = ''; content.style.opacity = ''; } const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging) { ui.overlay = ''; renderOverlay(); } pointerStart = null; });
   document.addEventListener('keydown', event => {
     if (event.target.matches('.recent-item') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
     if (event.key === 'Escape' || event.key === 'Backspace' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); back(); }
