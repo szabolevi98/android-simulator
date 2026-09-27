@@ -124,6 +124,7 @@
 .status-left,.status-right{display:flex;align-items:center;gap:0;height:100%}
 .status-left img{width:auto;height:18px;max-width:24px;object-fit:contain;margin-right:2px}
 .status-right img{width:auto;height:18px;object-fit:contain}
+.status-right img.status-battery{margin-left:4px}
 .status-right img.status-bluetooth{margin-right:4px}
 .status-right img.status-hidden{display:none}
 .status-clock{padding-left:4px;color:#33b5e5;font-size:12px}
