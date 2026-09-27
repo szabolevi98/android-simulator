@@ -180,14 +180,14 @@
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) ui.recentSnapshots[ui.view] = viewport.innerHTML;
   }
-  function home() { captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; render(); }
+  function home(resetPage = true) { captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; if (resetPage) ui.page = 2; render(); }
   function back() {
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'lock') return;
-    if (ui.view === 'drawer') { home(); return; }
+    if (ui.view === 'drawer') { home(false); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.sub) { ui.sub = ''; render(); return; }
-    home();
+    home(false);
   }
   function toast(message) {
     document.querySelector('.toast')?.remove();
@@ -497,7 +497,7 @@
     if (pointerStart.source.type === 'drawer') {
       const slot = data.homePages[ui.page].findIndex(id => id === null);
       if (slot < 0) { toast('This home screen is full'); return; }
-      data.homePages[ui.page][slot] = pointerStart.source.id; save(); suppressClickUntil = Date.now() + 500; home(); toast('Shortcut added. Drag it to move it.'); pointerStart = null; return;
+      data.homePages[ui.page][slot] = pointerStart.source.id; save(); suppressClickUntil = Date.now() + 500; home(false); toast('Shortcut added. Drag it to move it.'); pointerStart = null; return;
     }
     dragState = pointerStart.source;
     const ghost = document.createElement('div'); ghost.className = 'drag-ghost'; ghost.innerHTML = appIcon(dragState.id); screen.append(ghost);
