@@ -14,7 +14,17 @@ for (const version of versions) {
     card.className = 'version-card';
     card.innerHTML = `
     <div class="version-art" aria-hidden="true">
-      <div class="mini-phone"><div class="mini-status">▴ ▰ 4:04</div><div class="mini-search"><span>Google</span><span class="mini-mic"></span></div><svg class="mini-clock" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="35" fill="none" stroke="white" stroke-width="3" stroke-dasharray="1 17.3" stroke-linecap="round"/><path d="M50 50 L37 41 M50 50 L53 23" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/></svg><div class="mini-shortcuts"><img src="versions/4.0.4/assets/camera.png" alt=""><span>Google</span></div><div class="mini-dock"><img src="versions/4.0.4/assets/phone.png" alt=""><img src="versions/4.0.4/assets/people.png" alt=""><img src="versions/4.0.4/assets/apps.png" alt=""><img src="versions/4.0.4/assets/messaging.png" alt=""><img src="versions/4.0.4/assets/browser.png" alt=""></div><div class="mini-nav">◀　⌂　▣</div></div>
+      <div class="mini-phone">
+        <span class="mini-earpiece"></span><span class="mini-camera"></span>
+        <div class="mini-screen">
+          <div class="mini-status"><img src="versions/4.0.4/assets/stat_notify_sms.png" alt=""><span class="mini-status-right"><img src="versions/4.0.4/assets/stat_sys_wifi_signal_4_fully.png" alt=""><img src="versions/4.0.4/assets/stat_sys_signal_4_fully.png" alt=""><img src="versions/4.0.4/assets/stat_sys_battery_71.png" alt="">4:04</span></div>
+          <div class="mini-search"><span>Google</span><img src="versions/4.0.4/assets/ic_btn_speak_now.png" alt=""></div>
+          <svg class="mini-clock" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="35" fill="none" stroke="white" stroke-width="3" stroke-dasharray="1 17.3" stroke-linecap="round"/><path d="M50 50 L37 41 M50 50 L53 23" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/></svg>
+          <div class="mini-shortcuts"><img src="versions/4.0.4/assets/camera.png" alt=""><span class="mini-google"><img src="versions/4.0.4/assets/browser.png" alt=""><img src="versions/4.0.4/assets/email.png" alt=""><img src="versions/4.0.4/assets/calendar.png" alt=""><img src="versions/4.0.4/assets/gallery.png" alt=""></span></div>
+          <div class="mini-dock"><img src="versions/4.0.4/assets/phone.png" alt=""><img src="versions/4.0.4/assets/people.png" alt=""><img src="versions/4.0.4/assets/apps.png" alt=""><img src="versions/4.0.4/assets/messaging.png" alt=""><img src="versions/4.0.4/assets/browser.png" alt=""></div>
+          <div class="mini-nav"><img src="versions/4.0.4/assets/nav-back.png" alt=""><img src="versions/4.0.4/assets/nav-home.png" alt=""><img src="versions/4.0.4/assets/nav-recent.png" alt=""></div>
+        </div>
+      </div>
     </div>
     <div class="version-details">
       <div class="version-meta"><span class="badge">${i18n.t('AVAILABLE')}</span><span>${version.year}</span></div>

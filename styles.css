@@ -12,12 +12,24 @@
 .header-right{display:flex;align-items:center;gap:24px}
 #language-select{border:1px solid #6a9da556;border-radius:5px;background:#152835;color:#c9e8ec;padding:8px 10px;font-size:12px;cursor:pointer}
 @media(max-width:780px){.header-right{gap:0}}
-.mini-search{height:16px;margin:8px 6px 0;padding:1px 4px;background:#06080bd9;border:1px solid #bcc1c3;color:#fff;font:8px Georgia,'Times New Roman',serif;align-items:center}
-.mini-mic{width:4px;height:7px;border:1px solid white;border-radius:3px;position:relative;margin-right:1px}
-.mini-mic:after{content:'';position:absolute;left:-2px;top:3px;width:6px;height:5px;border:1px solid white;border-top:0;border-radius:0 0 4px 4px}
+/* The catalog thumbnail uses the same ICS assets and layout as the simulator. */
+.mini-phone{width:146px;height:280px;border:2px solid #30383d;border-radius:27px;background:linear-gradient(125deg,#1c2226,#050708 43%,#151b20);box-shadow:0 12px 25px #000a,inset 0 0 0 2px #090c0f,0 0 0 1px #52626b;transform:rotate(-8deg) translateY(25px);overflow:hidden}
+.mini-earpiece{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:30px;height:3px;border-radius:4px;background:#070b0d;box-shadow:0 1px 1px #687177}
+.mini-camera{position:absolute;top:9px;right:31px;width:5px;height:5px;border:1px solid #37434b;border-radius:50%;background:#0a1118}
+.mini-screen{position:absolute;top:25px;bottom:18px;left:6px;right:6px;overflow:hidden;background:#05080d url('versions/4.0.4/assets/wallpaper_chroma.jpg') center/cover}
+.mini-status{height:12px;padding:0 3px;background:#040709d9;display:flex;align-items:center;justify-content:space-between}
+.mini-status>img{width:7px;height:7px;object-fit:contain}
+.mini-status-right{display:flex;align-items:center;gap:2px;font-size:6px;color:#6bcff3}
+.mini-status-right img{width:7px;height:7px;object-fit:contain}
+.mini-search{height:15px;margin:6px 5px 0;padding:1px 3px;background:#030609a1;border:1px solid #aeb7ba;color:#fff;font:8px Georgia,'Times New Roman',serif;display:flex;align-items:center;justify-content:space-between}
+.mini-search img{width:11px;height:11px;object-fit:contain;filter:brightness(0) invert(1)}
 .mini-clock{display:block;width:62px;height:62px;margin:19px auto 0;filter:drop-shadow(0 1px 2px #000)}
-.mini-shortcuts{position:absolute;bottom:51px;left:8px;right:8px;display:flex;align-items:center;justify-content:space-between;font-size:8px}
-.mini-shortcuts img{width:21px;height:21px;object-fit:contain}
-.mini-shortcuts span{border:1px solid #b0b5ba;border-radius:50%;width:23px;height:23px;display:grid;place-items:center;background:#12191fa6;font-size:6px}
-.mini-dock{bottom:17px;left:5px;right:5px;height:31px;border-top:1px solid #b7bec0;align-items:center}
+.mini-shortcuts{position:absolute;bottom:51px;left:8px;right:8px;display:flex;align-items:center;justify-content:space-between}
+.mini-shortcuts>img{width:21px;height:21px;object-fit:contain}
+.mini-shortcuts .mini-google{border:1px solid #b0b5ba;border-radius:50%;width:23px;height:23px;display:grid;grid-template-columns:repeat(2,1fr);place-items:center;gap:0;padding:2px;background:#12191fa6}
+.mini-google img{width:8px;height:8px;object-fit:contain}
+.mini-dock{bottom:17px;left:2px;right:2px;height:31px;border-top:1px solid #b7bec0;align-items:center}
 .mini-dock img{width:19px;height:19px;object-fit:contain}
+.mini-nav{height:17px;background:#050709;display:flex;align-items:center;justify-content:space-around}
+.mini-nav img{width:15px;height:12px;object-fit:contain}
+@media(max-width:780px){.mini-phone{transform:rotate(-8deg) translateY(40px)}}
