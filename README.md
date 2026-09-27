@@ -1,38 +1,38 @@
 # Android Simulator
 
-Klasszikus Android-verziókat felidéző, böngészőben futó interaktív szimulátor. A kezdőlapon kiválasztható a verzió; jelenleg az **Android 4.0.4 Ice Cream Sandwich** használható. A következő tervezett verziók: Gingerbread 2.3.7, Jelly Bean 4.3, KitKat 4.4.4 és Lollipop 5.1.1.
+An interactive browser simulator inspired by classic Android releases. Choose a version on the landing page; **Android 4.0.4 Ice Cream Sandwich** is currently available. Planned versions are Gingerbread 2.3.7, Jelly Bean 4.3, KitKat 4.4.4, and Lollipop 5.1.1.
 
-## Indítás
+## Getting started
 
-A projekt tisztán statikus HTML, CSS és JavaScript, telepítés és build nélkül. Nyisd meg az `index.html` fájlt, vagy indíts helyi szervert a projekt gyökerében:
+The project uses static HTML, CSS, and JavaScript. No installation or build step is required. Open `index.html`, or start a local server from the project root:
 
 ```bash
 php -S 127.0.0.1:8090 -t .
 ```
 
-Ezután nyisd meg a `http://127.0.0.1:8090/` címet. XAMPP alatt a mappa a `htdocs/android-simulator` helyre kerülhet.
+Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs/android-simulator`.
 
-## ICS funkciók
+## Ice Cream Sandwich features
 
-- Öt kezdőképernyő egérrel vagy érintéssel húzható lapozással, alkalmazásfiók, widgetek és alsó dokk.
-- Ikonok húzással rendezhetők a kezdőképernyőn és a dokkon; az oldalpöttyre húzva másik oldalra kerülnek, a Remove célpontra húzva eltűnnek. Az alkalmazásfiók ikonjának nyomva tartása új parancsikont tesz a kezdőképernyőre.
-- Zárolás és feloldás, értesítési sáv, alkalmazás-előnézetes legutóbbi alkalmazások és három szoftveres navigációs gomb.
-- A Beállítások listája egérrel megfogva is görgethető; a sorok rövid kattintással továbbra is megnyílnak. Kapcsolók, fényerő és háttérválasztó is működik. A **Settings → About phone → Android version** sor ötszöri megnyomása megnyitja a korabeli easter egget; a figurát nyomva tartva indul a nyandroid animáció.
-- Offline mintalapokat és keresést tartalmazó böngésző, lapok, könyvjelzők és előzmények.
-- Telefon, névjegyek, üzenetek, kamera, galéria, naptár, óra, számológép, zene és e-mail mintafunkciók.
-- A személyre szabás és a mintadatok `localStorage`-ban maradnak. A jobb felső visszaállítás gomb törli a szimulátor helyi állapotát.
-- Angol, magyar, német, francia és spanyol kezelőfelület. Első indításkor a böngésző nyelvét követi; más nyelvnél az angol az alap. A nyelv a fejlécben és a Beállítások → Nyelv és bevitel alatt váltható.
+- Five home screens with mouse and touch swiping, an app drawer, widgets, and a dock.
+- Drag to rearrange home screen and dock icons. Drop an icon on a page indicator to move it to another page, or on the Remove target to delete its shortcut. Long-press an app drawer icon to add a home screen shortcut.
+- Lock screen, notification shade, recent apps with previews, and the three on-screen navigation buttons.
+- Settings with switches, brightness, and wallpaper selection. Grab and drag the Settings list with a mouse to scroll it; a short click still opens a row. Tap **Settings → About phone → Android version** five times to open the period-correct easter egg, then hold the Android figure to start Nyandroid.
+- Offline sample pages and search in the browser, with tabs, bookmarks, and history.
+- Sample functionality for Phone, People, Messaging, Camera, Gallery, Calendar, Clock, Calculator, Music, and Email.
+- Customization and sample data are saved in `localStorage`. The reset button in the upper-right corner clears the simulator's local state.
+- English, Hungarian, German, French, and Spanish UI. On first launch, the simulator uses the browser language when supported and falls back to English otherwise. Change the language in the header or under **Settings → Language & input**.
 
-A szimulátor nem futtat Androidot vagy APK-fájlokat. A hívások, weboldalak, kamera, zene és e-mail helyi demonstrációk, nem kapcsolódnak valódi szolgáltatásokhoz.
+This is a browser simulation, not an Android runtime. It cannot run APKs. Calls, web pages, camera, music, and email use local demo content and do not connect to real services.
 
-## Új verzió hozzáadása
+## Adding a version
 
-1. Hozz létre egy új `versions/<verzió>/` mappát saját `index.html`, CSS, JavaScript és eszközfájlokkal.
-2. Vegyél fel egy bejegyzést a `versions/catalog.js` fájlba `status: 'available'` értékkel és a mappára mutató `url` mezővel.
+1. Create a `versions/<version>/` directory with its own `index.html`, CSS, JavaScript, and assets.
+2. Add an entry to `versions/catalog.js` with `status: 'available'` and a `url` pointing to the new directory.
 
-A verziók felülete és mentett állapota külön marad, ezért egy későbbi kiadás nem módosítja az ICS viselkedését.
+Each version keeps its interface and saved state separate, so adding a release does not change the ICS simulation.
 
-## Ellenőrzés
+## Checks
 
 ```bash
 node --check app.js
@@ -41,5 +41,4 @@ node --check versions/catalog.js
 node --check versions/4.0.4/simulator.js
 ```
 
-Az AOSP eszközfájlok eredetét és licencét a [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) írja le.
-Az eredeti Android felülettel végzett összevetés, valamint a fennmaradó eltérések a [docs/visual-audit.md](docs/visual-audit.md) fájlban vannak.
+For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). For comparisons with the original Android interface and remaining visual differences, see [docs/visual-audit.md](docs/visual-audit.md).
