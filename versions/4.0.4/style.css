@@ -109,17 +109,21 @@
 .battery-usage-name span{color:#aeb5b7;font-size:10px}
 .battery-meter{height:7px;margin-top:4px;background:#2c3235}
 .battery-meter i{height:100%;display:block;background:#4cadd4}
-.recent-panel{background:#15191d;inset:0 0 47px;padding:14px 10px}
-.recent-panel h3{padding:0 3px 11px;border-bottom:1px solid #384249}
-.recent-item{height:96px;margin:0;background:transparent;border-bottom:1px solid #394149;gap:12px;padding:5px 6px}
-.recent-item:hover{background:#25343b}
-.recent-thumbnail{display:block;width:58px;height:83px;flex:none;overflow:hidden;background:#080c0e;border:1px solid #56636a}
-.recent-thumbnail-inner{display:block;width:322px;height:505px;transform:scale(.18);transform-origin:top left;pointer-events:none}
+.recent-panel{inset:24px 0 47px;padding:0;background:linear-gradient(180deg,#000000e6,#000000c0);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.recent-list{width:100%;max-height:100%;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;justify-content:safe flex-end;mask-image:linear-gradient(to bottom,transparent,#000 24px,#000);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 24px,#000)}
+.recent-list::-webkit-scrollbar{display:none}
+.recent-item{position:relative;display:flex;align-items:flex-start;width:242px;height:129px;min-height:129px;margin:0 auto;padding:0;border:0;background:transparent;text-align:left;cursor:pointer}
+.recent-label{width:78px;flex:none;margin-top:10px;font-size:13px;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#f1f1f1;text-shadow:0 1px 2px #000}
+.recent-label:after{content:'';display:block;height:1px;margin-top:2px;width:80px;background:linear-gradient(90deg,#8e9a9f,#394c59)}
+.recent-thumbnail{display:block;width:146px;height:129px;margin-left:18px;flex:none;overflow:hidden;background:#070a0c;border:1px solid #3a464e;box-shadow:0 2px 4px #000b}
+.recent-thumbnail-inner{display:block;width:322px;height:505px;transform:scale(.4534);transform-origin:top left;pointer-events:none}
 .recent-thumbnail-inner .app-view{width:322px;height:505px}
-.recent-fallback{width:322px;height:505px;display:grid;place-items:center;background:#19272e}
+.recent-fallback{width:322px;height:505px;display:grid;place-items:start center;padding-top:80px;background:#19272e}
 .recent-fallback .app-icon{transform:scale(3)}
-.recent-item>span:nth-child(2){flex:1;text-align:left}
-.recent-close{border:0;background:none;color:#a9b7bb;font-size:18px;padding:8px}
+.recent-app-icon{position:absolute;left:78px;top:8px;width:43px;height:43px;z-index:1}
+.recent-app-icon .app-icon{width:43px;height:43px}
+.recent-item:hover .recent-thumbnail,.recent-item:focus-visible .recent-thumbnail{border-color:#33b5e5;box-shadow:0 0 7px #33b5e577}
+.recent-empty{margin:auto;text-align:center;color:#33b5e5;font-size:18px}
 /* Galaxy Nexus stock launcher details, checked against the reference photo. */
 .home-search{height:34px;margin:14px 10px 0;background:#07090bc7;border:1px solid #9d9fa0;border-radius:0;box-shadow:inset 0 0 0 1px #31363a,0 1px 3px #0009;padding:0 9px;justify-content:space-between;color:#f5f5f5!important;text-align:left}
 .home-search:focus-visible{outline:1px solid #63d0e4;outline-offset:1px}
