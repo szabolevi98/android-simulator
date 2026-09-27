@@ -14,10 +14,11 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 
 ## Ice Cream Sandwich features
 
-- Five home screens with mouse and touch swiping, an app drawer, widgets, and a dock.
+- Five home screens with mouse and touch swiping, a paged Apps/Widgets drawer, and a dock. Shortcuts and widgets share an invisible grid.
 - Drag to rearrange home screen and dock icons. Drop an icon on a page indicator to move it to another page, or on the Remove target to delete its shortcut. Long-press an app drawer icon to add a home screen shortcut.
-- Lock screen, notification shade, recent apps with previews, and the three on-screen navigation buttons.
-- Settings with switches, brightness, and wallpaper selection. Grab and drag the Settings list with a mouse to scroll it; a short click still opens a row. Tap **Settings → About phone → Android version** five times to open the period-correct easter egg, then hold the Android figure to start Nyandroid.
+- Long-press an empty home-screen cell to choose from the eleven original AOSP wallpapers or a Gallery image. Add, drag, and remove 2 × 2 widgets from the Widgets drawer.
+- Lock screen, notification shade, swipe-away recent apps with previews, and the three on-screen navigation buttons.
+- Settings with simulated Wi-Fi networks, Bluetooth devices, switches, brightness, and wallpaper selection. Grab and drag the Settings list with a mouse to scroll it; a short click still opens a row. Tap **Settings → About phone → Android version** five times to open the period-correct easter egg, then hold the Android figure to start Nyandroid. Tap **Build number** seven times to reveal Developer options.
 - Offline sample pages and search in the browser, with tabs, bookmarks, and history.
 - Sample functionality for Phone, People, Messaging, Camera, Gallery, Calendar, Clock, Calculator, Music, and Email.
 - Customization and sample data are saved in `localStorage`. The reset button in the upper-right corner clears the simulator's local state.

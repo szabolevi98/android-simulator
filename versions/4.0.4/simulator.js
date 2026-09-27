@@ -11,9 +11,16 @@
       [null,null,null,null,null,null,null,null,'camera',null,null,'google'],
       [null,null,null,null,null,null,null,null,'email','camera','clock',null],
       [null,null,null,null,null,null,null,null,'calculator','settings',null,null]
+    ].map(page => [null, null, null, null, ...page]),
+    homeWidgets: [
+      [{ id: 'default-clock', type: 'digital', x: 1, y: 0 }],
+      [{ id: 'default-weather', type: 'weather', x: 1, y: 0 }],
+      [{ id: 'default-analog', type: 'analog', x: 1, y: 0 }],
+      [{ id: 'default-music', type: 'music', x: 1, y: 0 }],
+      [{ id: 'default-calendar', type: 'calendar', x: 1, y: 0 }]
     ],
     dock: ['phone', 'people', 'apps', 'messaging', 'browser'],
-    settings: { wifi: true, bluetooth: false, airplane: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
+    settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
     contacts: [
       { id: 1, name: 'Alex Morgan', phone: '202-555-0148', email: 'alex@example.com' },
       { id: 2, name: 'Sam Rivera', phone: '202-555-0192', email: 'sam@example.com' },
@@ -49,20 +56,23 @@
       if (!saved) return clone(defaultData);
       const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
       if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
+      result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
+      if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
+      if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
       return result;
     } catch { return clone(defaultData); }
   }
   let data = load();
   function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
   const ui = {
-    view: 'home', sub: '', page: 2, drawerTab: 'apps', overlay: '',
+    view: 'home', sub: '', page: 2, drawerTab: 'apps', drawerPage: 0, overlay: '',
     selectedContact: 1, thread: 1, selectedPhoto: 1,
-    dial: '', callNumber: '', aboutTaps: 0, easterNyan: false, settingsRootScroll: 0,
+    dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, easterNyan: false, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
     calendarDate: new Date(), selectedDate: new Date().toISOString().slice(0, 10),
     calc: '0', calcOperator: '', calcMemory: null, calcFresh: true,
     musicPlaying: false, musicTrack: 0, musicPosition: 0,
-    emailId: 1, recent: [], recentSnapshots: {}, toastTimer: null
+    emailId: 1, recent: [], recentSnapshots: {}, toastTimer: null, wifiTarget: '', bluetoothScanned: false
   };
   const emailData = [
     { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Galaxy Nexus is ready. Explore the new look of Android 4.0, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
@@ -81,6 +91,21 @@
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e']
+  ];
+  const wifiNetworks = [
+    { name: 'AndroidAP', security: 'WPA2', strength: 4 },
+    { name: 'CoffeeShop', security: 'Open', strength: 3 },
+    { name: 'Home Network', security: 'WPA2', strength: 4 },
+    { name: 'Library Wi-Fi', security: 'Open', strength: 2 }
+  ];
+  const wallpaperFiles = ['chroma','architecture','bubblegum','canyon','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
+  const widgetTypes = [
+    { type: 'analog', name: 'Analog clock', app: 'clock' },
+    { type: 'digital', name: 'Digital clock', app: 'clock' },
+    { type: 'calendar', name: 'Calendar', app: 'calendar' },
+    { type: 'weather', name: 'Weather', app: 'browser' },
+    { type: 'music', name: 'Music', app: 'music' },
+    { type: 'photo', name: 'Photo frame', app: 'gallery' }
   ];
   const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
@@ -107,14 +132,17 @@
       : `<span class="app-icon fallback" style="--icon-light:${item[3]};--icon-dark:${item[4]}">${item[2]}</span>`;
   };
   const launcherIcon = id => `<button class="launcher-icon" data-action="${id === 'apps' ? 'drawer' : id === 'google' ? 'google-folder' : 'open-app'}" ${id === 'apps' ? '' : `data-app="${id}"`} aria-label="${safe(appNames[id] || 'Apps')}">${appIcon(id)}<span>${safe(appNames[id] || 'Apps')}</span></button>`;
-  const actionbar = (title, right = '') => `<div class="actionbar"><button class="up" data-action="back" aria-label="Back">${ui.view === 'settings' && (!ui.sub || ui.sub === 'about') ? '<img class="settings-header-icon" src="assets/settings.png" alt="">' : '‹'}</button><h2>${safe(title)}</h2>${right}</div>`;
+  const actionbar = (title, right = '') => `<div class="actionbar"><button class="up" data-action="back" aria-label="Back">${ui.view === 'settings' && (!ui.sub || ui.sub === 'about' || ui.sub === 'wireless') ? '<img class="settings-header-icon" src="assets/settings.png" alt="">' : '‹'}</button><h2>${safe(title)}</h2>${right}</div>`;
   const content = (inner, theme = '') => `<div class="app-content ${theme}">${inner}</div>`;
   const appView = (title, inner, theme = '', right = '') => `<div class="app-view ${ui.view === 'settings' ? `settings-app ${!ui.sub ? 'settings-main' : ''}` : ''}">${actionbar(title, right)}${content(inner, ui.view === 'settings' ? `settings-dark ${theme}` : theme)}</div>`;
-  const settingIcon = (id, fallback) => ui.view === 'settings' && ['wireless','data','sound','display','storage','battery','apps','language','date','about','sync','location','security','backup','accessibility','development'].includes(id) ? `<img src="assets/setting-${id}.png" alt="">` : fallback;
+  const settingIcon = (id, fallback) => ui.view === 'settings' && ['wireless','bluetooth','data','sound','display','storage','battery','apps','language','date','about','sync','location','security','backup','accessibility','development'].includes(id) ? `<img src="assets/setting-${id}.png" alt="">` : fallback;
   const row = (title, subtitle, action, id, icon = '') => `<button class="settings-row" data-action="${action}" data-id="${safe(id)}"><span class="row-icon">${icon === null ? '' : settingIcon(id, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="chevron">›</span></button>`;
   const toggleRow = (title, subtitle, key, icon = '') => `<button class="settings-row" data-action="toggle-setting" data-id="${key}" aria-pressed="${data.settings[key]}"><span class="row-icon">${settingIcon(key === 'wifi' ? 'wireless' : key, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="switch ${data.settings[key] ? 'on' : ''}"><span>${data.settings[key] ? 'ON' : 'OFF'}</span></span></button>`;
+  const connectivityRow = (title, key) => `<div class="settings-row connectivity-row"><button class="connectivity-open" data-action="settings-sub" data-id="${key}"><span class="row-icon">${settingIcon(key === 'wifi' ? 'wireless' : key, '')}</span><span class="row-copy">${safe(title)}</span></button><button class="switch ${data.settings[key] ? 'on' : ''}" data-action="toggle-setting" data-id="${key}" aria-label="${safe(title)} ${data.settings[key] ? 'ON' : 'OFF'}" aria-pressed="${data.settings[key]}"><span>${data.settings[key] ? 'ON' : 'OFF'}</span></button></div>`;
+  const wirelessRow = (title, subtitle, id) => `<button class="settings-row wireless-row" data-action="settings-sub" data-id="${id}"><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span></button>`;
+  const wirelessCheckRow = (title, subtitle, key) => `<button class="settings-row wireless-row" data-action="toggle-setting" data-id="${key}" aria-pressed="${data.settings[key]}"><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="check-box ${data.settings[key] ? 'checked' : ''}" aria-hidden="true">${data.settings[key] ? '✓' : ''}</span></button>`;
   const label = text => `<div class="section-label">${safe(text)}</div>`;
-  const statusIndicators = (extraClass = '') => `<span class="status-right ${extraClass}">${data.settings.bluetooth ? '<img src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.airplane ? '<img src="assets/stat_sys_signal_flightmode.png" alt="">' : `<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="" class="${data.settings.wifi ? '' : 'status-hidden'}"><img src="assets/stat_sys_signal_4_fully.png" alt="">`}<img src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
+  const statusIndicators = (extraClass = '') => `<span class="status-right ${extraClass}">${data.settings.bluetooth ? '<img class="status-bluetooth" src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.airplane ? '<img src="assets/stat_sys_signal_flightmode.png" alt="">' : `<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="" class="${data.settings.wifi ? '' : 'status-hidden'}"><img src="assets/stat_sys_signal_4_fully.png" alt="">`}<img src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
 
   function renderStatus() {
     const notificationIcons = data.notifications.length ? `${data.notifications.some(item => item.id === 2) ? '<img src="assets/stat_notify_sms.png" alt="">' : ''}${data.notifications.some(item => item.id !== 2) ? '<img src="assets/stat_notify_more.png" alt="">' : ''}` : '';
@@ -126,7 +154,7 @@
   }
   function render() {
     screen.className = `screen wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}`;
-    screen.style.background = data.wallpaper === 4 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : '';
+    screen.style.background = data.wallpaper === 11 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('assets/wallpaper_${wallpaperFiles[data.wallpaper] || 'chroma'}.jpg') center center / cover no-repeat`;
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav();
     if (ui.view === 'lock') viewport.innerHTML = renderLock();
@@ -143,22 +171,43 @@
     const now = new Date();
     return `<div class="analog-clock" aria-label="${clock()}">${Array.from({length: 12}, (_, i) => `<i class="clock-dot" style="transform:rotate(${i * 30}deg) translateY(-44px)"></i>`).join('')}<i class="clock-hand hour" style="transform:rotate(${(now.getHours() % 12) * 30 + now.getMinutes() / 2}deg)"></i><i class="clock-hand minute" style="transform:rotate(${now.getMinutes() * 6}deg)"></i><i class="clock-pivot"></i></div>`;
   }
+  function widgetArt(type) {
+    if (type === 'analog') return analogClock();
+    if (type === 'digital') return `<strong class="widget-time">${clock()}</strong><span>${fullDate()}</span>`;
+    if (type === 'calendar') return `<strong class="widget-date">${new Date().getDate()}</strong><span>${data.events[0]?.title || 'No events'}</span>`;
+    if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
+    if (type === 'music') return `<strong class="widget-music">♫</strong><span>${safe(tracks[ui.musicTrack].title)}</span><small>${safe(tracks[ui.musicTrack].artist)}</small>`;
+    return `<span class="widget-photo" style="background:${photoStyle(data.photos[0] || {colors:['#31678a','#c5a083','#191c36']})}"></span>`;
+  }
+  const homeWidget = widget => `<div class="home-widget widget-${widget.type}" data-widget-id="${safe(widget.id)}" style="grid-column:${widget.x + 1}/span 2;grid-row:${widget.y + 1}/span 2"><button data-action="open-app" data-app="${widgetTypes.find(item => item.type === widget.type)?.app || 'gallery'}" aria-label="${safe(widgetTypes.find(item => item.type === widget.type)?.name || 'Widget')}">${widgetArt(widget.type)}</button></div>`;
+  const wallpaperChoices = () => `<div class="wallpaper-grid">${wallpaperFiles.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}" aria-label="${safe(name)}"><span class="wallpaper-swatch" style="background-image:url('assets/wallpaper_${name}.jpg')"></span><strong>${safe(name[0].toUpperCase() + name.slice(1))}</strong></button>`).join('')}</div>`;
   function renderHome() {
-    const widgets = [
-      '<div class="home-clock"><div class="large-time">'+clock()+'</div><div class="date">'+fullDate()+'</div></div>',
-      '<div class="home-clock"><div class="large-time">22°</div><div class="date">Sunny · San Francisco</div></div>',
-      analogClock(),
-      '<div class="home-clock"><div class="large-time">♫</div><div class="date">Music</div></div>',
-      '<div class="home-clock"><div class="large-time">'+new Date().getDate()+'</div><div class="date">'+fullDate()+'</div></div>'
-    ];
-    return `<div class="home-view"><button class="home-search" data-action="browser-search" aria-label="Search"><span class="google-word">Google</span><span class="mic-shape" aria-hidden="true"></span></button><div class="home-content">${widgets[ui.page]}<div class="home-apps">${data.homePages[ui.page].map((id, slot) => `<div class="home-slot" data-home-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: 5 }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="Home screen ${i + 1}"></button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drag-remove" data-drop-remove="true">× Remove</div></div>`;
+    return `<div class="home-view"><button class="home-search" data-action="browser-search" aria-label="Search"><span class="google-word">Google</span><img class="search-microphone" src="assets/ic_btn_speak_now.png" alt=""></button><div class="home-content"><div class="home-grid">${data.homePages[ui.page].map((id, slot) => `<div class="home-slot" data-home-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}${data.homeWidgets[ui.page].map(homeWidget).join('')}</div></div><div class="page-indicators">${Array.from({ length: 5 }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="Home screen ${i + 1}"></button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drag-remove" data-drop-remove="true">× Remove</div></div>`;
   }
   function renderDrawer() {
-    const widgetContent = `<div class="widget-preview"><h4>Analog clock</h4><button data-action="open-app" data-app="clock">◷　${clock()}</button></div><div class="widget-preview"><h4>Calendar</h4><button data-action="open-app" data-app="calendar">▦　${fullDate()}</button></div><div class="widget-preview"><h4>Music</h4><button data-action="open-app" data-app="music">♫　${tracks[ui.musicTrack].title}</button></div>`;
-    return `<div class="drawer-view"><div class="drawer-tabs"><button class="${ui.drawerTab === 'apps' ? 'active' : ''}" data-action="drawer-tab" data-id="apps">Apps</button><button class="${ui.drawerTab === 'widgets' ? 'active' : ''}" data-action="drawer-tab" data-id="widgets">Widgets</button></div><div class="drawer-grid">${ui.drawerTab === 'apps' ? apps.map(app => launcherIcon(app[0])).join('') : widgetContent}</div><div class="drawer-footer">${ui.drawerTab === 'apps' ? 'Hold an app to add it to the home screen' : 'Tap a widget to open its app'}</div></div>`;
+    const isApps = ui.drawerTab === 'apps';
+    const pages = Math.ceil((isApps ? apps.length : widgetTypes.length) / (isApps ? 20 : 4));
+    const current = Math.min(ui.drawerPage, pages - 1);
+    const items = isApps ? apps.slice(current * 20, current * 20 + 20).map(app => launcherIcon(app[0])).join('') : widgetTypes.slice(current * 4, current * 4 + 4).map(widget => `<button class="drawer-widget" data-action="add-widget" data-widget-type="${widget.type}" aria-label="${safe(widget.name)}"><span class="drawer-widget-title">${safe(widget.name)} <small>2 × 2</small></span><span class="drawer-widget-preview widget-${widget.type}">${widgetArt(widget.type)}</span></button>`).join('');
+    return `<div class="drawer-view"><div class="drawer-tabs"><button class="${isApps ? 'active' : ''}" data-action="drawer-tab" data-id="apps">Apps</button><button class="${!isApps ? 'active' : ''}" data-action="drawer-tab" data-id="widgets">Widgets</button><button class="drawer-market" data-action="market" aria-label="Shop"><img src="assets/ic_launcher_market_holo.png" alt=""></button></div><div class="drawer-page ${isApps ? 'drawer-apps' : 'drawer-widgets'}">${items}</div><div class="drawer-indicators">${Array.from({length:pages},(_,i)=>`<button class="${i===current?'active':''}" data-action="drawer-page" data-id="${i}" aria-label="Page ${i+1}"></button>`).join('')}</div></div>`;
+  }
+  function widgetFits(page, x, y, ignoredId = '') {
+    if (x < 0 || y < 0 || x > 2 || y > 2) return false;
+    for (let row = y; row < y + 2; row++) for (let column = x; column < x + 2; column++) {
+      if (data.homePages[page][row * 4 + column]) return false;
+    }
+    return !data.homeWidgets[page].some(widget => widget.id !== ignoredId && x < widget.x + 2 && x + 2 > widget.x && y < widget.y + 2 && y + 2 > widget.y);
+  }
+  function addWidget(type, x = null, y = null) {
+    const spots = x === null ? Array.from({length:9}, (_, i) => [i % 3, Math.floor(i / 3)]) : [[x,y]];
+    const spot = spots.find(([column,row]) => widgetFits(ui.page, column, row));
+    if (!spot) return false;
+    data.homeWidgets[ui.page].push({id:`widget-${Date.now()}`,type,x:spot[0],y:spot[1]});
+    save(); return true;
   }
   function renderApp() {
     switch (ui.view) {
+      case 'wallpaper-picker': return `<div class="app-view wallpaper-picker"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>Wallpapers</h2></div><div class="app-content dark">${wallpaperChoices()}</div></div>`;
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
       case 'phone': return renderPhone();
@@ -188,9 +237,11 @@
   function back() {
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'lock') return;
-    if (ui.view === 'drawer') { home(false); return; }
+    if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.easterNyan = false; render(); return; }
+    if (ui.view === 'settings' && ['vpn', 'tethering', 'beam', 'mobile-networks'].includes(ui.sub)) { ui.sub = 'wireless'; render(); return; }
+    if (ui.view === 'settings' && ui.sub === 'wifi-advanced') { ui.sub = 'wifi'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'sync-google') { ui.sub = 'sync'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'reset-info') { ui.sub = 'backup'; render(); return; }
     if (ui.sub) { ui.sub = ''; render(); if (ui.view === 'settings') viewport.querySelector('.settings-app').scrollTop = ui.settingsRootScroll; return; }
@@ -206,7 +257,13 @@
     if (ui.overlay === 'shade') {
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${statusIndicators('shade-status')}${data.notifications.length ? '<button data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-list">${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div></div>`;
     } else if (ui.overlay === 'recent') {
-      overlayRoot.innerHTML = `<div class="recent-panel">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
+      overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
+    } else if (ui.overlay === 'wifi-dialog') {
+      const network = wifiNetworks.find(item => item.name === ui.wifiTarget);
+      const connected = data.settings.wifiNetwork === ui.wifiTarget;
+      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(ui.wifiTarget)}"><h3>${safe(ui.wifiTarget)}</h3><p>${safe(network?.security || 'WPA2')}</p>${connected ? '<p>Connected</p>' : network?.security !== 'Open' ? '<label>Password<input class="wifi-password" type="password" autocomplete="off"></label>' : ''}<div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button>${connected ? '<button data-action="wifi-forget">Forget</button>' : '<button data-action="wifi-connect">Connect</button>'}</div></div>`;
+    } else if (ui.overlay === 'wallpaper-source') {
+      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="wallpaper-source" role="dialog" aria-label="Select wallpaper from"><h3>Select wallpaper from</h3><button data-action="open-wallpapers">Wallpapers</button><button data-action="gallery-wallpaper">Gallery</button></div>`;
     } else if (ui.overlay === 'google-folder') {
       overlayRoot.innerHTML = `<div class="folder-scrim" data-action="close-overlay"></div><div class="home-folder"><h3>Google</h3><div>${['browser','email','calendar','gallery'].map(id => launcherIcon(id)).join('')}</div></div>`;
     } else overlayRoot.innerHTML = '';
@@ -215,16 +272,22 @@
 
   function renderSettings() {
     const s = ui.sub;
+    if (s === 'wifi') return appView('Wi-Fi', `<div class="connectivity-page">${data.settings.wifi ? `${label('WI-FI NETWORKS')}${wifiNetworks.map(network => `<button class="settings-row network-row" data-action="wifi-network" data-id="${safe(network.name)}"><span class="network-signal"><img src="assets/setting-wireless.png" alt=""></span><span class="row-copy">${safe(network.name)}<small>${data.settings.wifiNetwork === network.name ? 'Connected' : network.security === 'Open' ? 'Open network' : `Secured with ${network.security}`}</small></span></button>`).join('')}${row('Advanced', '', 'settings-sub', 'wifi-advanced', null)}` : '<p class="connectivity-empty">Turn on Wi-Fi to see available networks</p>'}</div>`, '', `<button class="settings-action-switch ${data.settings.wifi ? 'on' : ''}" data-action="toggle-setting" data-id="wifi">${data.settings.wifi ? 'ON' : 'OFF'}</button>`);
+    if (s === 'wifi-advanced') return appView('Advanced Wi-Fi', `${wirelessCheckRow('Network notification', 'Notify me when an open network is available', 'wifiNotify')}${row('Keep Wi-Fi on during sleep', 'Always', 'toast', 'Always', null)}`, 'wireless-more');
+    if (s === 'bluetooth') return appView('Bluetooth', `<div class="connectivity-page">${data.settings.bluetooth ? `${wirelessCheckRow('Make device visible', 'Visible to nearby Bluetooth devices', 'bluetoothVisible')}${label('PAIRED DEVICES')}${data.settings.pairedDevice ? `<button class="settings-row network-row" data-action="bluetooth-pair" data-id="${safe(data.settings.pairedDevice)}"><span class="network-signal">ᛒ</span><span class="row-copy">${safe(data.settings.pairedDevice)}<small>Paired · tap to unpair</small></span></button>` : '<p class="connectivity-empty small">No paired devices</p>'}${label('AVAILABLE DEVICES')}${ui.bluetoothScanned ? ['Wireless Headset','Car Audio'].filter(name => name !== data.settings.pairedDevice).map(name => `<button class="settings-row network-row" data-action="bluetooth-pair" data-id="${safe(name)}"><span class="network-signal">ᛒ</span><span class="row-copy">${safe(name)}<small>Tap to pair</small></span></button>`).join('') : '<p class="connectivity-empty small">Tap Scan to find nearby devices</p>'}` : '<p class="connectivity-empty">Turn on Bluetooth to see nearby devices</p>'}</div>`, '', `<button class="settings-action-switch ${data.settings.bluetooth ? 'on' : ''}" data-action="toggle-setting" data-id="bluetooth">${data.settings.bluetooth ? 'ON' : 'OFF'}</button>${data.settings.bluetooth ? '<button class="settings-scan" data-action="bluetooth-scan">Scan</button>' : ''}`);
     if (s === 'wallpaper') {
-      const names = ['AOSP default', 'Phase glow', 'Deep blue', 'Ocean beam'];
-      return appView('Wallpaper', `<div class="wallpaper-grid">${names.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}"><span class="wallpaper-swatch wallpaper-${i}" style="${i === 0 ? "background-image:url('assets/aosp-wallpaper.jpg')" : ''}"></span><strong>${name}</strong></button>`).join('')}</div><div class="notice">Tap a wallpaper to apply it to the home and lock screens.</div>`);
+      return appView('Wallpaper', wallpaperChoices());
     }
-    if (s === 'about') return appView('About phone', `${row('Status', 'Phone number, signal, etc.', 'settings-sub', 'about-status')}${row('Legal information', '', 'settings-sub', 'about-legal')}${row('Model number', 'Galaxy Nexus', 'noop', '')}${row('Android version', '4.0.4', 'about-tap', '')}${row('Baseband version', 'I9250XXLA02', 'noop', '')}${row('Kernel version', '3.0.8-g034fec9\nandroid-build@vpbs1 #1\nTue Mar 13 15:46:20 PDT 2012', 'noop', '')}${row('Build number', 'IMM76D', 'noop', '')}`, 'about-settings');
+    if (s === 'about') return appView('About phone', `${row('Status', 'Phone number, signal, etc.', 'settings-sub', 'about-status')}${row('Legal information', '', 'settings-sub', 'about-legal')}${row('Model number', 'Galaxy Nexus', 'noop', '')}${row('Android version', '4.0.4', 'about-tap', '')}${row('Baseband version', 'I9250XXLA02', 'noop', '')}${row('Kernel version', '3.0.8-g034fec9\nandroid-build@vpbs1 #1\nTue Mar 13 15:46:20 PDT 2012', 'noop', '')}${row('Build number', 'IMM76D', 'developer-tap', '')}`, 'about-settings');
     if (s === 'about-status') return appView('Status', `${row('Phone number', 'Unknown', 'noop', '')}${row('Network', 'AndroidAP', 'noop', '')}${row('Signal strength', 'Good', 'noop', '')}${row('Battery level', '78%', 'noop', '')}`, 'about-settings');
     if (s === 'about-legal') return appView('Legal information', `${row('Open source licenses', 'Android Open Source Project', 'noop', '')}${row('Google legal', 'Offline demonstration', 'noop', '')}`, 'about-settings');
     if (s === 'about-safety') return appView('Safety information', `<div class="detail-pad"><p>Galaxy Nexus safety information is not available in this offline simulation.</p></div>`, 'about-settings');
     if (s === 'easter') return `<div class="easter-view">${ui.easterNyan ? `<div class="nyan-sky" data-action="back" role="button" tabindex="0" aria-label="Close Nyandroid">${Array.from({length:20}, (_, i) => `<span class="nyan-star" style="--x:${(i * 47) % 97}%;--y:${(i * 31) % 93}%;--delay:-${(i * 7) % 12 / 10}s"></span>`).join('')}${Array.from({length:20}, (_, i) => `<span class="nyan-cat" style="--top:${(i * 37) % 89}%;--delay:-${(i * 13) % 91 / 10}s;--duration:${5 + i % 6}s;--size:${58 + i % 4 * 18}px"></span>`).join('')}</div>` : '<button class="easter-robot" data-action="egg-nyan" aria-label="Android easter egg"><img src="assets/platlogo.png" alt="Ice Cream Sandwich Android"></button>'}</div>`;
-    if (s === 'wireless') return appView('Wireless & networks', `${toggleRow('Wi-Fi', data.settings.wifi ? 'Connected to AndroidAP' : 'Off', 'wifi', '◢')}${toggleRow('Bluetooth', data.settings.bluetooth ? 'On' : 'Off', 'bluetooth', 'ᛒ')}${toggleRow('Airplane mode', 'Disable wireless connections', 'airplane', '✈')}${row('Data usage', 'This month: 284 MB', 'settings-sub', 'data', '▥')}`);
+    if (s === 'wireless') return appView('Wireless & networks', `${wirelessCheckRow('Airplane mode', '', 'airplane')}${wirelessRow('VPN', '', 'vpn')}${wirelessRow('Tethering & portable hotspot', '', 'tethering')}${wirelessCheckRow('NFC', 'Allow data exchange when the phone touches another device', 'nfc')}${wirelessRow('Android Beam', 'Ready to transmit app content via NFC', 'beam')}${wirelessCheckRow('WiFi direct', '', 'wifiDirect')}${wirelessRow('Mobile networks', '', 'mobile-networks')}`, 'wireless-more');
+    if (s === 'vpn') return appView('VPN', `<div class="detail-pad"><p>No VPN networks configured</p></div>`);
+    if (s === 'tethering') return appView('Tethering & portable hotspot', `${wirelessCheckRow('Portable Wi-Fi hotspot', '', 'portableHotspot')}`, 'wireless-more');
+    if (s === 'beam') return appView('Android Beam', `${wirelessCheckRow('Android Beam', 'Ready to transmit app content via NFC', 'androidBeam')}`, 'wireless-more');
+    if (s === 'mobile-networks') return appView('Mobile networks', `${wirelessCheckRow('Data enabled', '', 'dataEnabled')}${wirelessCheckRow('Data roaming', '', 'dataRoaming')}`, 'wireless-more');
     if (s === 'sound') return appView('Sound', `${toggleRow('Silent mode', 'Mute all sounds except media', 'silent', '♫')}${row('Volumes', 'Ringtone 70% · Media 60%', 'settings-sub', 'volumes', '◖')}${row('Phone ringtone', 'Orion', 'settings-sub', 'ringtone', '♫')}`);
     if (s === 'display') return appView('Display', `${row('Brightness', `${data.settings.brightness}%`, 'settings-sub', 'brightness', '☼')}${row('Wallpaper', 'Choose your background', 'settings-sub', 'wallpaper', '▧')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${row('Sleep', 'After 30 seconds of inactivity', 'settings-sub', 'sleep', '◷')}`);
     if (s === 'brightness') return appView('Brightness', `<div class="detail-pad"><h3>Brightness</h3><input type="range" min="10" max="100" value="${data.settings.brightness}" data-field="brightness" aria-label="Brightness"><p>${data.settings.brightness}%</p></div>`);
@@ -246,7 +309,7 @@
     if (s === 'language') return appView('Language & input', `<div class="detail-pad"><h3>Language</h3><div class="language-options">${[['en','English'],['hu','Magyar'],['de','Deutsch'],['fr','Français'],['es','Español']].map(([code,name]) => `<button class="language-choice ${i18n.language === code ? 'selected' : ''}" data-action="set-language" data-id="${code}" aria-pressed="${i18n.language === code}">${name}<span>${i18n.language === code ? '✓' : ''}</span></button>`).join('')}</div></div>${row('Keyboard', 'Android keyboard', 'noop', '', '▦')}`);
     if (s === 'date') return appView('Date & time', `${row('Automatic date & time', 'Use browser clock', 'noop', '', '◷')}${row('Date', fullDate(), 'noop', '', '▦')}${row('Time', clock(), 'noop', '', '◷')}`);
     if (s === 'volumes' || s === 'ringtone' || s === 'sleep') return appView(s === 'volumes' ? 'Volumes' : s === 'ringtone' ? 'Phone ringtone' : 'Sleep', `<div class="detail-pad"><p>${s === 'ringtone' ? 'Orion is selected.' : s === 'sleep' ? 'Screen turns off after 30 seconds.' : 'Ringtone 70% · Media 60% · Alarm 80%'}</p></div>`);
-    return appView('Settings', `${label('WIRELESS & NETWORKS')}${toggleRow('Wi-Fi', '', 'wifi', '◢')}${toggleRow('Bluetooth', '', 'bluetooth', 'ᛒ')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', null)}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${label('PERSONAL')}${row('Accounts & sync', '', 'settings-sub', 'sync', '↻')}${row('Location services', '', 'settings-sub', 'location', '◎')}${row('Security', '', 'settings-sub', 'security', '◉')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Backup & reset', '', 'settings-sub', 'backup', '↻')}${label('SYSTEM')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${row('Accessibility', '', 'settings-sub', 'accessibility', '◉')}${row('Developer options', '', 'settings-sub', 'development', '⚙')}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
+    return appView('Settings', `${label('WIRELESS & NETWORKS')}${connectivityRow('Wi-Fi', 'wifi')}${connectivityRow('Bluetooth', 'bluetooth')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', null)}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${label('PERSONAL')}${row('Accounts & sync', '', 'settings-sub', 'sync', '↻')}${row('Location services', '', 'settings-sub', 'location', '◎')}${row('Security', '', 'settings-sub', 'security', '◉')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Backup & reset', '', 'settings-sub', 'backup', '↻')}${label('SYSTEM')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${row('Accessibility', '', 'settings-sub', 'accessibility', '◉')}${data.settings.developerUnlocked ? row('Developer options', '', 'settings-sub', 'development', '⚙') : ''}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
   }
 
   function normalizeAddress(raw) {
@@ -388,7 +451,12 @@
       case 'back': back(); break;
       case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
       case 'google-folder': ui.overlay = 'google-folder'; renderOverlay(); break;
-      case 'drawer-tab': ui.drawerTab = id; render(); break;
+      case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = 0; render(); break;
+      case 'drawer-page': ui.drawerPage = Number(id); render(); break;
+      case 'add-widget': if (addWidget(button.dataset.widgetType)) { home(false); toast('Widget added'); } else toast('This home screen is full'); break;
+      case 'open-wallpapers': ui.overlay = ''; ui.view = 'wallpaper-picker'; render(); break;
+      case 'gallery-wallpaper': ui.overlay = ''; openApp('gallery'); break;
+      case 'market': toast('App store unavailable offline'); break;
       case 'page': ui.page = Number(id); render(); break;
       case 'shade': ui.overlay = ui.overlay === 'shade' ? '' : 'shade'; renderOverlay(); break;
       case 'recent': if (ui.view === 'lock') break; if (ui.overlay !== 'recent') captureRecentView(); ui.overlay = ui.overlay === 'recent' ? '' : 'recent'; renderOverlay(); break;
@@ -398,18 +466,31 @@
       case 'notification-open': ui.overlay = ''; if (Number(id) === 2) { ui.view = 'messaging'; ui.thread = 1; ui.sub = 'thread'; } else { ui.view = 'settings'; ui.sub = 'about'; } render(); break;
       case 'unlock': ui.view = 'home'; render(); break;
       case 'unlock-camera': openApp('camera'); break;
-      case 'settings-sub': if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
+      case 'settings-sub': if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
+      case 'wifi-network': ui.wifiTarget = id; ui.overlay = 'wifi-dialog'; renderOverlay(); break;
+      case 'wifi-connect': {
+        const network = wifiNetworks.find(item => item.name === ui.wifiTarget);
+        if (network?.security !== 'Open' && !overlayRoot.querySelector('.wifi-password')?.value.trim()) { toast('Enter a password'); break; }
+        data.settings.wifiNetwork = ui.wifiTarget; data.settings.wifi = true; data.settings.airplane = false;
+        save(); ui.overlay = ''; render(); break;
+      }
+      case 'wifi-forget': data.settings.wifiNetwork = ''; save(); ui.overlay = ''; render(); break;
+      case 'bluetooth-scan': ui.bluetoothScanned = true; render(); break;
+      case 'bluetooth-pair': data.settings.pairedDevice = data.settings.pairedDevice === id ? '' : id; save(); render(); break;
       case 'set-language': i18n.setLanguage(id); location.reload(); break;
       case 'toggle-setting': {
         const previousScroll = viewport.querySelector('.settings-app')?.scrollTop || 0;
         data.settings[id] = !data.settings[id];
-        if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; }
+        if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; data.settings.wifiDirect = false; data.settings.portableHotspot = false; }
+        if (id === 'nfc' && !data.settings.nfc) data.settings.androidBeam = false;
+        if (id === 'nfc' && data.settings.nfc) data.settings.androidBeam = true;
         if ((id === 'wifi' || id === 'bluetooth') && data.settings[id]) data.settings.airplane = false;
         save(); render(); const settingsView = viewport.querySelector('.settings-app'); if (settingsView) settingsView.scrollTop = previousScroll; break;
       }
-      case 'wallpaper': data.wallpaper = Number(id); delete data.customWallpaper; save(); render(); toast('Wallpaper set'); break;
+      case 'wallpaper': data.wallpaper = Number(id); delete data.customWallpaper; save(); if (ui.view === 'wallpaper-picker') home(false); else render(); toast('Wallpaper set'); break;
       case 'factory-reset': if (confirm(i18n.t('Reset all local ICS simulator data?'))) { data = clone(defaultData); save(); home(); } break;
       case 'about-tap': ui.aboutTaps++; if (ui.aboutTaps >= 5) { ui.sub = 'easter'; ui.easterNyan = false; ui.aboutTaps = 0; } render(); break;
+      case 'developer-tap': if (!data.settings.developerUnlocked && ++ui.buildTaps >= 7) { data.settings.developerUnlocked = true; save(); toast('Developer options unlocked'); } break;
       case 'egg-nyan': toast('Android 4.0: Ice Cream Sandwich'); break;
       case 'toast': toast(id); break;
       case 'noop': break;
@@ -441,7 +522,7 @@
       case 'photo-wallpaper': {
         const photo = data.photos.find(item => item.id === Number(id));
         if (!photo) break;
-        data.wallpaper = 4; data.customWallpaper = photo.colors; save(); render(); toast('Wallpaper set'); break;
+        data.wallpaper = 11; data.customWallpaper = photo.colors; save(); render(); toast('Wallpaper set'); break;
       }
       case 'shoot': {
         const colors = [['#4e859a','#ae9f8a','#1b3743'],['#78b0a0','#c3ad6f','#28535e'],['#7c849e','#d29888','#242e4d']][data.photos.length % 3];
@@ -503,6 +584,13 @@
 
   let pointerStart = null, eggTimer = null, dragTimer = null, dragState = null;
   function dragSource(target) {
+    const homeWidget = target.closest('.home-widget[data-widget-id]');
+    if (homeWidget) {
+      const widget = data.homeWidgets[ui.page].find(item => item.id === homeWidget.dataset.widgetId);
+      return widget ? { type: 'widget', id: widget.id, widgetType: widget.type, page: ui.page } : null;
+    }
+    const drawerWidget = target.closest('.drawer-widget[data-widget-type]');
+    if (drawerWidget) return { type: 'drawer-widget', widgetType: drawerWidget.dataset.widgetType };
     const icon = target.closest('.launcher-icon');
     if (!icon) return null;
     const homeSlot = icon.closest('[data-home-slot]');
@@ -514,13 +602,9 @@
   }
   function startDrag(x, y) {
     if (!pointerStart?.source || dragState) return;
-    if (pointerStart.source.type === 'drawer') {
-      const slot = data.homePages[ui.page].findIndex(id => id === null);
-      if (slot < 0) { toast('This home screen is full'); return; }
-      data.homePages[ui.page][slot] = pointerStart.source.id; save(); suppressClickUntil = Date.now() + 500; home(false); toast('Shortcut added. Drag it to move it.'); pointerStart = null; return;
-    }
     dragState = pointerStart.source;
-    const ghost = document.createElement('div'); ghost.className = 'drag-ghost'; ghost.innerHTML = appIcon(dragState.id); screen.append(ghost);
+    if (dragState.type === 'drawer' || dragState.type === 'drawer-widget') { ui.view = 'home'; ui.overlay = ''; render(); }
+    const ghost = document.createElement('div'); ghost.className = `drag-ghost${dragState.widgetType ? ' widget-ghost' : ''}`; ghost.innerHTML = dragState.widgetType ? widgetArt(dragState.widgetType) : appIcon(dragState.id); screen.append(ghost);
     dragState.ghost = ghost;
     moveGhost(x, y);
     screen.classList.add('dragging');
@@ -529,8 +613,9 @@
   function moveGhost(x, y) {
     if (!dragState) return;
     const rect = screen.getBoundingClientRect();
-    dragState.ghost.style.left = `${x - rect.left - 27}px`;
-    dragState.ghost.style.top = `${y - rect.top - 27}px`;
+    const offset = dragState.widgetType ? 65 : 27;
+    dragState.ghost.style.left = `${x - rect.left - offset}px`;
+    dragState.ghost.style.top = `${y - rect.top - offset}px`;
   }
   function finishDrag(x, y) {
     if (!dragState) return false;
@@ -540,22 +625,36 @@
     const dockSlot = target?.closest('[data-dock-slot]');
     const pageButton = target?.closest('.page-indicators button');
     const remove = target?.closest('[data-drop-remove]');
-    const sourceList = source.type === 'home' ? data.homePages[source.page] : data.dock;
-    if (remove) {
-      sourceList[source.slot] = null;
-      toast('Shortcut removed');
-    } else if (homeSlot) {
-      const slot = Number(homeSlot.dataset.homeSlot);
-      const destination = data.homePages[ui.page];
-      const previous = destination[slot]; destination[slot] = source.id; sourceList[source.slot] = previous;
-    } else if (dockSlot && Number(dockSlot.dataset.dockSlot) !== 2) {
-      const slot = Number(dockSlot.dataset.dockSlot);
-      const previous = data.dock[slot]; data.dock[slot] = source.id; sourceList[source.slot] = previous;
-    } else if (pageButton) {
-      const nextPage = Number(pageButton.dataset.id);
-      const slot = data.homePages[nextPage].findIndex(id => id === null);
-      if (slot >= 0) { data.homePages[nextPage][slot] = source.id; sourceList[source.slot] = null; ui.page = nextPage; }
-      else toast('This home screen is full');
+    if (source.widgetType) {
+      const oldWidget = source.type === 'widget' ? data.homeWidgets[source.page].find(widget => widget.id === source.id) : null;
+      if (remove && oldWidget) data.homeWidgets[source.page] = data.homeWidgets[source.page].filter(widget => widget.id !== source.id);
+      else if (homeSlot) {
+        const slot = Number(homeSlot.dataset.homeSlot), column = slot % 4, row = Math.floor(slot / 4);
+        if (widgetFits(ui.page, column, row, oldWidget?.id || '')) {
+          if (oldWidget) { oldWidget.x = column; oldWidget.y = row; }
+          else addWidget(source.widgetType, column, row);
+        } else toast('This home screen is full');
+      }
+    } else {
+      const sourceList = source.type === 'home' ? data.homePages[source.page] : source.type === 'dock' ? data.dock : null;
+      if (remove && sourceList) { sourceList[source.slot] = null; toast('Shortcut removed'); }
+      else if (homeSlot) {
+        const slot = Number(homeSlot.dataset.homeSlot);
+        const covered = data.homeWidgets[ui.page].some(widget => slot % 4 >= widget.x && slot % 4 < widget.x + 2 && Math.floor(slot / 4) >= widget.y && Math.floor(slot / 4) < widget.y + 2);
+        if (!covered) {
+          const destination = data.homePages[ui.page], previous = destination[slot];
+          destination[slot] = source.id;
+          if (sourceList) sourceList[source.slot] = previous;
+        }
+      } else if (dockSlot && Number(dockSlot.dataset.dockSlot) !== 2) {
+        const slot = Number(dockSlot.dataset.dockSlot), previous = data.dock[slot]; data.dock[slot] = source.id;
+        if (sourceList) sourceList[source.slot] = previous;
+      } else if (pageButton) {
+        const nextPage = Number(pageButton.dataset.id);
+        const slot = data.homePages[nextPage].findIndex((id, index) => id === null && !data.homeWidgets[nextPage].some(widget => index % 4 >= widget.x && index % 4 < widget.x + 2 && Math.floor(index / 4) >= widget.y && Math.floor(index / 4) < widget.y + 2));
+        if (slot >= 0) { data.homePages[nextPage][slot] = source.id; if (sourceList) sourceList[source.slot] = null; ui.page = nextPage; }
+        else toast('This home screen is full');
+      }
     }
     source.ghost.remove(); dragState = null; screen.classList.remove('dragging');
     save(); render(); suppressClickUntil = Date.now() + 350;
@@ -567,7 +666,6 @@
     const distance = Math.max(-screen.clientWidth * .65, Math.min(screen.clientWidth * .65, dx));
     content.style.transition = 'none';
     content.style.transform = `translate3d(${distance}px, 0, 0)`;
-    content.style.opacity = String(1 - Math.abs(distance) / screen.clientWidth * .25);
   }
   function finishHomePage(dx) {
     const nextPage = Math.max(0, Math.min(4, ui.page + (dx < 0 ? 1 : -1)));
@@ -576,21 +674,38 @@
     if (Math.abs(dx) > 45 && nextPage !== ui.page) {
       ui.page = nextPage;
       render();
+      viewport.querySelector('.home-content')?.animate([{transform:`translateX(${dx < 0 ? '100%' : '-100%'})`},{transform:'translateX(0)'}],{duration:190,easing:'ease-out'});
     } else {
       const content = viewport.querySelector('.home-content');
       if (content) {
-        content.style.transition = 'transform .2s ease-out, opacity .2s ease-out';
+        content.style.transition = 'transform .18s ease-out';
         content.style.transform = '';
-        content.style.opacity = '';
       }
     }
   }
+  function finishDrawerPage(dx) {
+    const pageCount = ui.drawerTab === 'apps' ? Math.ceil(apps.length / 20) : Math.ceil(widgetTypes.length / 4);
+    const nextPage = Math.max(0,Math.min(pageCount - 1,ui.drawerPage + (dx < 0 ? 1 : -1)));
+    suppressClickUntil = Date.now() + 350;
+    if (Math.abs(dx) > 45 && nextPage !== ui.drawerPage) {
+      ui.drawerPage = nextPage; render();
+      viewport.querySelector('.drawer-page')?.animate([{transform:`translateX(${dx < 0 ? '100%' : '-100%'})`,opacity:.5},{transform:'translateX(0)',opacity:1}],{duration:210,easing:'ease-out'});
+    } else {
+      const page = viewport.querySelector('.drawer-page');
+      if (page) { page.style.transition = 'transform .18s ease-out'; page.style.transform = ''; }
+    }
+  }
   screen.addEventListener('dragstart', event => event.preventDefault());
+  let homeLongPressTimer = null;
+  screen.addEventListener('contextmenu', event => {
+    if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { event.preventDefault(); ui.overlay = 'wallpaper-source'; renderOverlay(); }
+  });
   screen.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const scrollTarget = event.pointerType === 'mouse' && ui.view === 'settings' && !ui.overlay && event.target.closest('.settings-app .app-content') && !event.target.closest('input, select, textarea, .wallpaper-choice') ? event.target.closest('.settings-app') : null;
-    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search') };
+    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
+    if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; }, 550);
     if (pointerStart.lockDrag) { screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     if (event.target.closest('.easter-robot')) eggTimer = setTimeout(() => { event.target.closest('.easter-robot')?.classList.add('expanding'); eggTimer = setTimeout(() => { ui.easterNyan = true; render(); }, 1100); }, 850);
     if (pointerStart.source && event.pointerType !== 'mouse') dragTimer = setTimeout(() => startDrag(event.clientX, event.clientY), 440);
@@ -599,6 +714,26 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     if (dragState) { moveGhost(event.clientX, event.clientY); return; }
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if (Math.hypot(dx,dy) > 8) clearTimeout(homeLongPressTimer);
+    if (pointerStart.drawerSwipeEligible && (pointerStart.drawerSwiping || Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.1 && performance.now() - pointerStart.downTime < 260)) {
+      pointerStart.drawerSwiping = true;
+      clearTimeout(dragTimer);
+      event.preventDefault();
+      try { screen.setPointerCapture(event.pointerId); } catch {}
+      const page = viewport.querySelector('.drawer-page');
+      if (page) { page.style.transition = 'none'; page.style.transform = `translateX(${Math.max(-screen.clientWidth*.65,Math.min(screen.clientWidth*.65,dx))}px)`; }
+      return;
+    }
+    const recentCard = ui.overlay === 'recent' ? pointerStart.target.closest('.recent-item') : null;
+    if (recentCard && (pointerStart.recentSwiping || Math.abs(dx) > 9 && Math.abs(dx) > Math.abs(dy))) {
+      pointerStart.recentSwiping = true;
+      suppressClickUntil = Date.now() + 350;
+      event.preventDefault();
+      try { screen.setPointerCapture(event.pointerId); } catch {}
+      recentCard.style.transform = `translateX(${dx}px)`;
+      recentCard.style.opacity = String(Math.max(.25, 1 - Math.abs(dx) / 240));
+      return;
+    }
     if (pointerStart.lockDrag) { event.preventDefault(); const handle = viewport.querySelector('.lock-handle'); if (handle) handle.style.setProperty('--lock-x', `${Math.max(-112, Math.min(112, dx))}px`); return; }
     if (pointerStart.shadeDragging || pointerStart.shadeDragEligible && dy > 8 && dy > Math.abs(dx)) {
       if (!pointerStart.shadeDragging) { pointerStart.shadeDragging = true; ui.overlay = 'shade'; renderOverlay(); try { screen.setPointerCapture(event.pointerId); } catch {} }
@@ -632,8 +767,28 @@
   });
   window.addEventListener('pointerup', event => {
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
-    clearTimeout(eggTimer); clearTimeout(dragTimer);
+    clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if (pointerStart.drawerSwiping) { finishDrawerPage(dx); pointerStart = null; return; }
+    if (pointerStart.recentSwiping) {
+      const card = pointerStart.target.closest('.recent-item');
+      if (card) {
+        card.style.transition = 'transform .16s ease-out, opacity .16s ease-out';
+        if (Math.abs(dx) > 55) {
+          const id = card.dataset.app;
+          card.style.transform = `translateX(${Math.sign(dx || 1) * screen.clientWidth}px)`;
+          card.style.opacity = '0';
+          setTimeout(() => {
+            ui.recent = ui.recent.filter(item => item !== id);
+            if (ui.overlay !== 'recent') return;
+            if (!ui.recent.length) ui.overlay = '';
+            renderOverlay();
+          }, 160);
+        } else { card.style.transform = ''; card.style.opacity = ''; }
+      }
+      suppressClickUntil = Date.now() + 350;
+      pointerStart = null; return;
+    }
     if (pointerStart.shadeDragging) {
       suppressClickUntil = Date.now() + 350;
       if (dy > 75) overlayRoot.querySelector('.notification-shade')?.style.removeProperty('clip-path');
@@ -651,16 +806,15 @@
     if (pointerStart.swiping || pointerStart.pageSwipeEligible && !dragState && Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) && (!pointerStart.source || pointerStart.source.type === 'home' && performance.now() - pointerStart.downTime < 260)) {
       finishHomePage(dx); pointerStart = null; return;
     }
-    if (!dragState && pointerStart?.source && pointerStart.source.type !== 'drawer' && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 9) startDrag(event.clientX, event.clientY);
+    if (!dragState && pointerStart?.source && !['drawer', 'drawer-widget'].includes(pointerStart.source.type) && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 9) startDrag(event.clientX, event.clientY);
     if (finishDrag(event.clientX, event.clientY)) { pointerStart = null; return; }
     if (!pointerStart) return;
     if (ui.overlay === 'shade' && pointerStart.target.closest('.notification') && Math.abs(dx) > 55) { const id = Number(pointerStart.target.closest('.notification').dataset.id); data.notifications = data.notifications.filter(n => n.id !== id); save(); renderStatus(); renderOverlay(); pointerStart = null; return; }
-    if (ui.overlay === 'recent' && pointerStart.target.closest('.recent-item') && Math.abs(dx) > 55) { const id = pointerStart.target.closest('.recent-item').dataset.app; ui.recent = ui.recent.filter(item => item !== id); suppressClickUntil = Date.now() + 350; renderOverlay(); pointerStart = null; return; }
     if (ui.overlay === 'shade' && dy < -55) { ui.overlay = ''; renderOverlay(); }
     else if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); const content = viewport.querySelector('.home-content'); if (content) { content.style.transform = ''; content.style.opacity = ''; } const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging) { ui.overlay = ''; renderOverlay(); } pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); const content = viewport.querySelector('.home-content'); if (content) content.style.transform = ''; const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging) { ui.overlay = ''; renderOverlay(); } pointerStart = null; });
   document.addEventListener('keydown', event => {
     if (event.target.matches('.recent-item') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
     if (event.key === 'Escape' || event.key === 'Backspace' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); back(); }
