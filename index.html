@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d17">
+  <meta name="description" content="Klasszikus Android-verziók interaktív, böngészőben futó szimulátora.">
+  <title>Android Time Machine</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="i18n.js"></script>
+  <script defer src="versions/catalog.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="layout">
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="Android Time Machine kezdőlap"><span class="brand-mark" aria-hidden="true">◉</span><span>ANDROID<br><strong>TIME MACHINE</strong></span></a>
+      <div class="header-right"><span class="edition" data-i18n="Classic Android, in your hands again.">Classic Android, in your hands again.</span><select id="language-select" aria-label="Language"><option value="en">English</option><option value="hu">Magyar</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="es">Español</option></select></div>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <div class="eyebrow"><span class="live-dot"></span> <span data-i18n="INTERACTIVE TIME TRAVEL">INTERACTIVE TIME TRAVEL</span></div>
+        <h1 id="page-title"><span data-i18n="Which Android shall we">Which Android shall we</span><br><em data-i18n="switch on?">switch on?</em></h1>
+        <p data-i18n="Choose an era and explore the phone. The device and apps run in your browser with local sample content.">Choose an era and explore the phone. The device and apps run in your browser with local sample content.</p>
+      </div>
+      <div class="orbit" aria-hidden="true"><span class="orbit-ring ring-one"></span><span class="orbit-ring ring-two"></span><span class="orbit-core">4.0</span></div>
+    </section>
+
+    <section class="versions" aria-labelledby="versions-title">
+      <div class="section-heading"><h2 id="versions-title" data-i18n="Available versions">Available versions</h2><span id="version-count"></span></div>
+      <div id="version-list" class="version-list"></div>
+    </section>
+
+    <footer class="footer"><span>Android Time Machine</span><span data-i18n="Your simulated data stays in this browser.">Your simulated data stays in this browser.</span></footer>
+  </main>
+</body>
+</html>
