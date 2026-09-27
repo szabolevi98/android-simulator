@@ -13,7 +13,7 @@
       [null,null,null,null,null,null,null,null,'calculator','settings',null,null]
     ],
     dock: ['phone', 'people', 'apps', 'messaging', 'browser'],
-    settings: { wifi: true, bluetooth: false, airplane: false, silent: false, rotate: true, brightness: 68 },
+    settings: { wifi: true, bluetooth: false, airplane: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
     contacts: [
       { id: 1, name: 'Alex Morgan', phone: '202-555-0148', email: 'alex@example.com' },
       { id: 2, name: 'Sam Rivera', phone: '202-555-0192', email: 'sam@example.com' },
@@ -57,7 +57,7 @@
   const ui = {
     view: 'home', sub: '', page: 2, drawerTab: 'apps', overlay: '',
     selectedContact: 1, thread: 1, selectedPhoto: 1,
-    dial: '', callNumber: '', aboutTaps: 0, easterNyan: false,
+    dial: '', callNumber: '', aboutTaps: 0, easterNyan: false, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
     calendarDate: new Date(), selectedDate: new Date().toISOString().slice(0, 10),
     calc: '0', calcOperator: '', calcMemory: null, calcFresh: true,
@@ -95,6 +95,7 @@
   const today = () => new Date().toISOString().slice(0, 10);
   const clock = () => new Date().toLocaleTimeString(i18n.locale(), { hour: 'numeric', minute: '2-digit', hour12: false });
   const fullDate = () => new Date().toLocaleDateString(i18n.locale(), { weekday: 'long', month: 'long', day: 'numeric' });
+  const shadeDate = () => new Date().toLocaleDateString(i18n.locale(), { weekday: 'short', month: 'short', day: 'numeric' });
   const contact = id => data.contacts.find(item => item.id === Number(id));
   const appIcon = id => {
     if (id === 'apps') return '<span class="app-icon"><img src="assets/apps.png" alt=""></span>';
@@ -109,19 +110,20 @@
   const actionbar = (title, right = '') => `<div class="actionbar"><button class="up" data-action="back" aria-label="Back">${ui.view === 'settings' && (!ui.sub || ui.sub === 'about') ? '<img class="settings-header-icon" src="assets/settings.png" alt="">' : '‹'}</button><h2>${safe(title)}</h2>${right}</div>`;
   const content = (inner, theme = '') => `<div class="app-content ${theme}">${inner}</div>`;
   const appView = (title, inner, theme = '', right = '') => `<div class="app-view ${ui.view === 'settings' ? 'settings-app' : ''}">${actionbar(title, right)}${content(inner, ui.view === 'settings' ? `settings-dark ${theme}` : theme)}</div>`;
-  const settingIcon = (id, fallback) => ui.view === 'settings' && ['wireless','data','sound','display','storage','battery','apps','language','date','about'].includes(id) ? `<img src="assets/setting-${id}.png" alt="">` : fallback;
+  const settingIcon = (id, fallback) => ui.view === 'settings' && ['wireless','data','sound','display','storage','battery','apps','language','date','about','sync','location','security','backup','accessibility','development'].includes(id) ? `<img src="assets/setting-${id}.png" alt="">` : fallback;
   const row = (title, subtitle, action, id, icon = '') => `<button class="settings-row" data-action="${action}" data-id="${safe(id)}"><span class="row-icon">${settingIcon(id, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="chevron">›</span></button>`;
   const toggleRow = (title, subtitle, key, icon = '') => `<button class="settings-row" data-action="toggle-setting" data-id="${key}" aria-pressed="${data.settings[key]}"><span class="row-icon">${settingIcon(key === 'wifi' ? 'wireless' : key, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="switch ${data.settings[key] ? 'on' : ''}"><span>${data.settings[key] ? 'ON' : 'OFF'}</span></span></button>`;
   const label = text => `<div class="section-label">${safe(text)}</div>`;
 
   function renderStatus() {
-    statusRoot.innerHTML = `<button class="status-button" data-action="shade" aria-label="Open notifications"><span class="status-left">${data.notifications.length ? '▣' : ''}</span><span class="status-right">${data.settings.airplane ? '✈' : (data.settings.wifi ? '◢' : '▴')} ${data.settings.bluetooth ? 'ᛒ' : ''} <span class="battery"></span> <span class="status-clock">${clock()}</span></span></button>`;
+    const notificationIcons = data.notifications.length ? `${data.notifications.some(item => item.id === 2) ? '<img src="assets/stat_notify_sms.png" alt="">' : ''}${data.notifications.some(item => item.id !== 2) ? '<img src="assets/stat_notify_more.png" alt="">' : ''}` : '';
+    statusRoot.innerHTML = `<button class="status-button" data-action="shade" aria-label="Open notifications"><span class="status-left">${notificationIcons}</span><span class="status-right">${data.settings.bluetooth ? '<img src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.airplane ? '<img src="assets/stat_sys_signal_flightmode.png" alt="">' : `<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="" class="${data.settings.wifi ? '' : 'status-hidden'}"><img src="assets/stat_sys_signal_4_fully.png" alt="">`}<img src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span></button>`;
   }
   function renderNav() {
     navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/nav-back.png" alt=""></button><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/nav-home.png" alt=""></button><button class="nav-key nav-recent" data-action="recent" aria-label="Recent apps"><img src="assets/nav-recent.png" alt=""></button>`;
   }
   function render() {
-    screen.className = `screen wallpaper-${data.wallpaper}`;
+    screen.className = `screen wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}`;
     screen.style.background = data.wallpaper === 4 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : '';
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav();
@@ -133,7 +135,7 @@
     i18n.translateDOM(screen);
   }
   function renderLock() {
-    return `<div class="lock-view"><div class="lock-time">${clock()}</div><div class="lock-date">${fullDate()}</div><div class="lock-ring"><button data-action="unlock" aria-label="Unlock">🔒</button></div><button class="lock-unlock" data-action="unlock" aria-label="Unlock">◉</button><button class="lock-camera" data-action="unlock-camera" aria-label="Camera">▣</button><div class="lock-hint">Drag the lock to unlock</div></div>`;
+    return `<div class="lock-view"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${fullDate()}</div></div><div class="lock-wave"><div class="lock-outer-ring"></div><button class="lock-target lock-target-unlock" data-action="unlock" aria-label="Unlock"><img src="assets/ic_lockscreen_unlock_normal.png" alt=""></button><button class="lock-target lock-target-camera" data-action="unlock-camera" aria-label="Camera"><img src="assets/ic_lockscreen_camera_normal.png" alt=""></button><button class="lock-handle" data-action="unlock" aria-label="Slide to unlock"><img src="assets/ic_lockscreen_handle_normal.png" alt=""></button></div><div class="lock-carrier">Android</div></div>`;
   }
   function analogClock() {
     const now = new Date();
@@ -173,7 +175,7 @@
   function openApp(app) {
     if (!appNames[app]) return;
     captureRecentView();
-    ui.view = app; ui.sub = ''; ui.overlay = '';
+    ui.view = app; ui.sub = ''; ui.overlay = ''; if (app === 'settings') ui.settingsRootScroll = 0;
     ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 7);
     render();
   }
@@ -187,7 +189,9 @@
     if (ui.view === 'drawer') { home(false); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.easterNyan = false; render(); return; }
-    if (ui.sub) { ui.sub = ''; render(); return; }
+    if (ui.view === 'settings' && ui.sub === 'sync-google') { ui.sub = 'sync'; render(); return; }
+    if (ui.view === 'settings' && ui.sub === 'reset-info') { ui.sub = 'backup'; render(); return; }
+    if (ui.sub) { ui.sub = ''; render(); if (ui.view === 'settings') viewport.querySelector('.settings-app').scrollTop = ui.settingsRootScroll; return; }
     home(false);
   }
   function toast(message) {
@@ -198,7 +202,7 @@
   }
   function renderOverlay() {
     if (ui.overlay === 'shade') {
-      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><div><strong>${clock()}</strong><span>${fullDate()}</span></div><button data-action="open-app" data-app="settings" aria-label="Settings">⚙</button></div><div class="shade-title"><span>NOTIFICATIONS</span><button data-action="clear-notifications" aria-label="Clear notifications">✕</button></div>${data.notifications.length ? data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon">${n.id === 2 ? '✉' : '◉'}</span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('') : '<div class="shade-empty">No notifications</div>'}<div class="shade-footer">${data.notifications.length ? 'Swipe a notification to dismiss it' : 'Android 4.0.4'}</div></div>`;
+      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-list">${data.notifications.length ? data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('') : '<div class="shade-empty">No notifications</div>'}</div></div>`;
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel"><h3>Recent apps</h3>${ui.recent.length ? ui.recent.map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span>${appNames[id]}</span></div>`).join('') : '<p>No recent apps</p>'}</div>`;
     } else if (ui.overlay === 'google-folder') {
@@ -229,10 +233,18 @@
       return appView('Battery', `<div class="battery-page"><div class="battery-state">78% · <span>Discharging</span></div><div class="battery-chart"><span>2h 20m 14s on battery</span></div>${usage.map(([name,percent,icon]) => `<div class="battery-usage"><span class="battery-usage-icon">${icon}</span><div class="battery-usage-body"><div class="battery-usage-name">${name}<span>${percent}%</span></div><div class="battery-meter"><i style="width:${percent * 4}%"></i></div></div></div>`).join('')}</div>`);
     }
     if (s === 'apps') return appView('Apps', `${apps.map(a => row(a[1], 'Installed', 'open-app', a[0], a[2])).join('')}`);
+    if (s === 'sync') return appView('Accounts & sync', `${toggleRow('Auto-sync', 'Sync app data automatically', 'autoSync', '↻')}${label('ACCOUNTS')}${row('Google', 'demo@android.local', 'settings-sub', 'sync-google', '◎')}${row('Add account', '', 'toast', 'Demo account already added', '+')}`);
+    if (s === 'sync-google') return appView('Google', `<div class="detail-pad"><h3>demo@android.local</h3><p>Sample account data is stored only in this browser.</p></div>${row('Sync Gmail', 'Last synced today', 'noop', '', '✉')}${row('Sync Calendar', 'Last synced today', 'noop', '', '▦')}${row('Sync Contacts', 'Last synced today', 'noop', '', '◉')}`);
+    if (s === 'location') return appView('Location services', `${toggleRow("Google's location service", 'Let apps use approximate location', 'networkLocation', '◎')}${toggleRow('GPS satellites', 'Let apps use precise location', 'gps', '◉')}`);
+    if (s === 'security') return appView('Security', `${label('SCREEN SECURITY')}${row('Screen lock', 'Slide', 'toast', 'Slide lock is active', '◉')}${label('PASSWORDS')}${toggleRow('Make passwords visible', 'Show password characters as you type', 'visiblePasswords', '◉')}${label('DEVICE ADMINISTRATION')}${toggleRow('Unknown sources', 'Allow installation of non-Market apps', 'unknownSources', '◉')}`);
+    if (s === 'backup') return appView('Backup & reset', `${label('BACKUP & RESTORE')}${toggleRow('Back up my data', 'Back up app data and settings', 'backup', '↻')}${toggleRow('Automatic restore', 'Restore settings when reinstalling apps', 'autoRestore', '↻')}${label('PERSONAL DATA')}${row('Factory data reset', 'Erase local simulator data', 'settings-sub', 'reset-info', '⚠')}`);
+    if (s === 'reset-info') return appView('Factory data reset', `<div class="detail-pad"><h3>Erase local simulator data</h3><p>This clears the saved home screens, settings, and sample content for this version.</p><button class="small-button" data-action="factory-reset">Reset simulator</button></div>`);
+    if (s === 'accessibility') return appView('Accessibility', `${label('SERVICES')}${row('No services installed', '', 'noop', '', '')}${label('SYSTEM')}${toggleRow('Large text', 'Use larger text in Settings', 'largeText', 'A')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${toggleRow('Speak passwords', 'Speak password characters as you type', 'speakPasswords', '◉')}`);
+    if (s === 'development') return appView('Developer options', `${toggleRow('USB debugging', 'Debug mode when USB is connected', 'usbDebug', '⚙')}${toggleRow('Stay awake', 'Screen will never sleep while charging', 'stayAwake', '◷')}${toggleRow('Allow mock locations', 'Permit mock locations', 'mockLocations', '◎')}${label('USER INTERFACE')}${toggleRow('Show touches', 'Show visual feedback for touches', 'showTouches', '◉')}`);
     if (s === 'language') return appView('Language & input', `<div class="detail-pad"><h3>Language</h3><div class="language-options">${[['en','English'],['hu','Magyar'],['de','Deutsch'],['fr','Français'],['es','Español']].map(([code,name]) => `<button class="language-choice ${i18n.language === code ? 'selected' : ''}" data-action="set-language" data-id="${code}" aria-pressed="${i18n.language === code}">${name}<span>${i18n.language === code ? '✓' : ''}</span></button>`).join('')}</div></div>${row('Keyboard', 'Android keyboard', 'noop', '', '▦')}`);
     if (s === 'date') return appView('Date & time', `${row('Automatic date & time', 'Use browser clock', 'noop', '', '◷')}${row('Date', fullDate(), 'noop', '', '▦')}${row('Time', clock(), 'noop', '', '◷')}`);
     if (s === 'volumes' || s === 'ringtone' || s === 'sleep') return appView(s === 'volumes' ? 'Volumes' : s === 'ringtone' ? 'Phone ringtone' : 'Sleep', `<div class="detail-pad"><p>${s === 'ringtone' ? 'Orion is selected.' : s === 'sleep' ? 'Screen turns off after 30 seconds.' : 'Ringtone 70% · Media 60% · Alarm 80%'}</p></div>`);
-    return appView('Settings', `${label('WIRELESS & NETWORKS')}${toggleRow('Wi-Fi', '', 'wifi', '◢')}${toggleRow('Bluetooth', '', 'bluetooth', 'ᛒ')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', '···')}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${label('PERSONAL')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${label('SYSTEM')}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
+    return appView('Settings', `${label('WIRELESS & NETWORKS')}${toggleRow('Wi-Fi', '', 'wifi', '◢')}${toggleRow('Bluetooth', '', 'bluetooth', 'ᛒ')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', '···')}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${label('PERSONAL')}${row('Accounts & sync', '', 'settings-sub', 'sync', '↻')}${row('Location services', '', 'settings-sub', 'location', '◎')}${row('Security', '', 'settings-sub', 'security', '◉')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Backup & reset', '', 'settings-sub', 'backup', '↻')}${label('SYSTEM')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${row('Accessibility', '', 'settings-sub', 'accessibility', '◉')}${row('Developer options', '', 'settings-sub', 'development', '⚙')}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
   }
 
   function normalizeAddress(raw) {
@@ -370,29 +382,31 @@
     const { action, id, app, url } = button.dataset;
     switch (action) {
       case 'open-app': openApp(app || id); break;
-      case 'home': home(); break;
+      case 'home': if (ui.view !== 'lock') home(); break;
       case 'back': back(); break;
       case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
       case 'google-folder': ui.overlay = 'google-folder'; renderOverlay(); break;
       case 'drawer-tab': ui.drawerTab = id; render(); break;
       case 'page': ui.page = Number(id); render(); break;
       case 'shade': ui.overlay = ui.overlay === 'shade' ? '' : 'shade'; renderOverlay(); break;
-      case 'recent': if (ui.overlay !== 'recent') captureRecentView(); ui.overlay = ui.overlay === 'recent' ? '' : 'recent'; renderOverlay(); break;
+      case 'recent': if (ui.view === 'lock') break; if (ui.overlay !== 'recent') captureRecentView(); ui.overlay = ui.overlay === 'recent' ? '' : 'recent'; renderOverlay(); break;
       case 'close-overlay': ui.overlay = ''; renderOverlay(); break;
       case 'remove-recent': event.stopPropagation(); ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
       case 'clear-notifications': data.notifications = []; save(); renderStatus(); renderOverlay(); break;
       case 'notification-open': ui.overlay = ''; if (Number(id) === 2) { ui.view = 'messaging'; ui.thread = 1; ui.sub = 'thread'; } else { ui.view = 'settings'; ui.sub = 'about'; } render(); break;
       case 'unlock': ui.view = 'home'; render(); break;
       case 'unlock-camera': openApp('camera'); break;
-      case 'settings-sub': ui.sub = id; render(); break;
+      case 'settings-sub': if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
       case 'set-language': i18n.setLanguage(id); location.reload(); break;
       case 'toggle-setting': {
+        const previousScroll = viewport.querySelector('.settings-app')?.scrollTop || 0;
         data.settings[id] = !data.settings[id];
         if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; }
         if ((id === 'wifi' || id === 'bluetooth') && data.settings[id]) data.settings.airplane = false;
-        save(); render(); break;
+        save(); render(); const settingsView = viewport.querySelector('.settings-app'); if (settingsView) settingsView.scrollTop = previousScroll; break;
       }
       case 'wallpaper': data.wallpaper = Number(id); delete data.customWallpaper; save(); render(); toast('Wallpaper set'); break;
+      case 'factory-reset': if (confirm(i18n.t('Reset all local ICS simulator data?'))) { data = clone(defaultData); save(); home(); } break;
       case 'about-tap': ui.aboutTaps++; if (ui.aboutTaps >= 5) { ui.sub = 'easter'; ui.easterNyan = false; ui.aboutTaps = 0; } render(); break;
       case 'egg-nyan': toast('Android 4.0: Ice Cream Sandwich'); break;
       case 'toast': toast(id); break;
@@ -572,8 +586,10 @@
   screen.addEventListener('dragstart', event => event.preventDefault());
   screen.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
+    if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const scrollTarget = event.pointerType === 'mouse' && ui.view === 'settings' && !ui.overlay && event.target.closest('.settings-app .app-content') && !event.target.closest('input, select, textarea, .wallpaper-choice') ? event.target.closest('.settings-app') : null;
-    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search') };
+    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search') };
+    if (pointerStart.lockDrag) { screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     if (event.target.closest('.easter-robot')) eggTimer = setTimeout(() => { event.target.closest('.easter-robot')?.classList.add('expanding'); eggTimer = setTimeout(() => { ui.easterNyan = true; render(); }, 1100); }, 850);
     if (pointerStart.source && event.pointerType !== 'mouse') dragTimer = setTimeout(() => startDrag(event.clientX, event.clientY), 440);
   });
@@ -581,6 +597,7 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     if (dragState) { moveGhost(event.clientX, event.clientY); return; }
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if (pointerStart.lockDrag) { event.preventDefault(); const handle = viewport.querySelector('.lock-handle'); if (handle) handle.style.setProperty('--lock-x', `${Math.max(-112, Math.min(112, dx))}px`); return; }
     if (pointerStart.scrolling) { event.preventDefault(); pointerStart.scrollTarget.scrollTop = pointerStart.scrollTop - dy; return; }
     if (pointerStart.scrollTarget && Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx)) {
       pointerStart.scrolling = true; screen.classList.add('settings-scrolling');
@@ -608,6 +625,13 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     clearTimeout(eggTimer); clearTimeout(dragTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if (pointerStart.lockDrag) {
+      screen.classList.remove('lock-dragging');
+      if (dx < -75) { suppressClickUntil = Date.now() + 350; home(); }
+      else if (dx > 75) { suppressClickUntil = Date.now() + 350; openApp('camera'); }
+      else { const handle = viewport.querySelector('.lock-handle'); if (handle) handle.style.removeProperty('--lock-x'); if (Math.hypot(dx, dy) > 6) suppressClickUntil = Date.now() + 350; }
+      pointerStart = null; return;
+    }
     if (pointerStart.scrolling) { screen.classList.remove('settings-scrolling'); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
     if (pointerStart.swiping || pointerStart.pageSwipeEligible && !dragState && Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) && (!pointerStart.source || pointerStart.source.type === 'home' && performance.now() - pointerStart.downTime < 260)) {
       finishHomePage(dx); pointerStart = null; return;
@@ -617,16 +641,15 @@
     if (!pointerStart) return;
     if (ui.overlay === 'shade' && pointerStart.target.closest('.notification') && Math.abs(dx) > 55) { const id = Number(pointerStart.target.closest('.notification').dataset.id); data.notifications = data.notifications.filter(n => n.id !== id); save(); renderStatus(); renderOverlay(); pointerStart = null; return; }
     if (ui.overlay === 'recent' && pointerStart.target.closest('.recent-item') && Math.abs(dx) > 55) { const id = pointerStart.target.closest('.recent-item').dataset.app; ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); pointerStart = null; return; }
-    if (ui.view === 'lock' && Math.hypot(dx, dy) > 65) { ui.view = 'home'; render(); }
-    else if (ui.overlay === 'shade' && dy < -55) { ui.overlay = ''; renderOverlay(); }
+    if (ui.overlay === 'shade' && dy < -55) { ui.overlay = ''; renderOverlay(); }
     else if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling'); const content = viewport.querySelector('.home-content'); if (content) { content.style.transform = ''; content.style.opacity = ''; } pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); const content = viewport.querySelector('.home-content'); if (content) { content.style.transform = ''; content.style.opacity = ''; } const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); pointerStart = null; });
   document.addEventListener('keydown', event => {
     if (event.target.matches('.recent-item') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
     if (event.key === 'Escape' || event.key === 'Backspace' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); back(); }
-    else if (event.key === 'Home' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); home(); }
+    else if (event.key === 'Home' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); if (ui.view !== 'lock') home(); }
     else if (ui.view === 'calculator' && (/^[0-9.+\-*/=%]$/.test(event.key) || event.key === 'Enter') && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) {
       const map = { '*':'×','/':'÷','-':'−','Enter':'=' }; operateCalculator(map[event.key] || event.key); render();
     }

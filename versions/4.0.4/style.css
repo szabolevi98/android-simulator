@@ -64,22 +64,28 @@
 .settings-app .notice{background:#183039;color:#bceaf1}
 .settings-app .wallpaper-choice{background:#20272b;color:#eee!important}
 .settings-app .about-logo small{color:#b5c1c5}
-.notification-shade{background:#161a1dcf;backdrop-filter:blur(8px);color:#f2f5f6}
-.notification-shade{background:#111416;backdrop-filter:none}
-.shade-top{height:95px;padding:14px 13px 9px;display:flex;align-items:flex-start;justify-content:space-between;background:linear-gradient(#1a2024,#252c30);border-bottom:1px solid #4d595d}
-.shade-top div{display:flex;flex-direction:column;gap:1px}
-.shade-top strong{font-size:37px;font-weight:400;color:#f4f7f8;line-height:1}
-.shade-top span{font-size:13px;color:#69bcd2}
-.shade-top button{border:0;background:none;font-size:26px;color:#9ecbda;padding:0 2px}
-.shade-title{height:30px;padding:6px 10px;background:#101416;border-bottom:1px solid #333d40;color:#86bdcc;font-size:10px;letter-spacing:.07em;display:flex;justify-content:space-between;align-items:center}
-.shade-title button{border:0;background:none;color:#9faeb3;font-size:15px;padding:0}
-.notification{display:flex;width:100%;min-height:60px;align-items:center;gap:12px;background:#242a2d;border:0;border-bottom:1px solid #394347;margin:0;padding:9px 12px;text-align:left;color:#eee!important}
-.notification:hover{background:#304047}
-.notification-icon{height:28px;width:28px;display:grid;place-items:center;color:#72c4dd;font-size:20px;flex:none}
-.notification strong{display:block;font-size:13px;font-weight:400}
-.notification small{display:block;color:#a9b7bc;margin-top:3px;font-size:11px}
-.shade-empty{padding:23px;text-align:center;color:#a6b1b5;font-size:13px}
-.shade-footer{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:10px;color:#75888e}
+.notification-shade{background:#111315;color:#f2f5f6;display:flex;flex-direction:column}
+.shade-top{height:52px;min-height:52px;padding:3px 3px 5px 16px;display:flex;align-items:center;background:linear-gradient(#23282b,#171b1e);gap:0}
+.shade-date{font-size:15px;color:#f1f4f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.shade-top button{border:0;background:transparent;width:42px;height:44px;flex:none;display:grid;place-items:center;padding:0}
+.shade-top button:hover,.shade-top button:focus-visible{background:#30383c}
+.shade-top button img{width:32px;height:32px;object-fit:contain}
+.shade-divider{height:2px;min-height:2px;background:#33b5e5;box-shadow:0 1px 1px #000}
+.shade-list{flex:1;min-height:0;overflow-y:auto;background:#101214}
+.notification{display:flex;width:100%;height:64px;min-height:64px;align-items:center;gap:0;background:#1b1d20;border:0;border-bottom:1px solid #35393b;margin:0;padding:0;text-align:left;color:#eee!important}
+.notification:hover,.notification:focus-visible{background:#2b3539}
+.notification-icon{height:63px;width:56px;display:grid;place-items:center;flex:none;background:#181b1d}
+.notification-icon img{width:26px;height:26px;object-fit:contain}
+.notification>span:last-child{padding:0 10px;min-width:0}
+.notification strong{display:block;font-size:14px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.notification small{display:block;color:#aeb6b9;margin-top:3px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shade-empty{padding:16px 8px;color:#e5e5e5;font-size:18px}
+.status-button{background:#000;color:#33b5e5!important}
+.status-left,.status-right{display:flex;align-items:center;gap:0;height:100%}
+.status-left img{width:auto;height:18px;max-width:24px;object-fit:contain;margin-right:2px}
+.status-right img{width:auto;height:18px;object-fit:contain}
+.status-right img.status-hidden{display:none}
+.status-clock{padding-left:4px;color:#33b5e5;font-size:12px}
 .header-actions select{height:34px;border:1px solid #63808a61;background:#122630;color:#a9dae3;border-radius:5px;padding:0 5px;font-size:11px;cursor:pointer}
 @media(max-width:500px){.header-actions{gap:6px}}
 .language-options{display:grid;gap:1px;background:#333b3e;border:1px solid #333b3e}
@@ -156,3 +162,22 @@
 @keyframes nyan-star-frames{0%{background-image:url('assets/star0.png')}16.67%{background-image:url('assets/star1.png')}33.33%{background-image:url('assets/star2.png')}50%{background-image:url('assets/star3.png')}66.67%{background-image:url('assets/star4.png')}83.33%{background-image:url('assets/star5.png')}}
 @keyframes nyan-frames{0%{background-image:url('assets/nyandroid00.png')}8.33%{background-image:url('assets/nyandroid01.png')}16.67%{background-image:url('assets/nyandroid02.png')}25%{background-image:url('assets/nyandroid03.png')}33.33%{background-image:url('assets/nyandroid04.png')}41.67%{background-image:url('assets/nyandroid05.png')}50%{background-image:url('assets/nyandroid06.png')}58.33%{background-image:url('assets/nyandroid07.png')}66.67%{background-image:url('assets/nyandroid08.png')}75%{background-image:url('assets/nyandroid09.png')}83.33%{background-image:url('assets/nyandroid10.png')}91.67%{background-image:url('assets/nyandroid11.png')}}
 @media(prefers-reduced-motion:reduce){.nyan-cat{animation:nyan-flight 16s linear infinite}.nyan-star{animation:none}.easter-robot.expanding{animation:none}}
+.lock-view{display:block;position:relative;background:#00000024;text-align:right}
+.lock-clock{position:absolute;top:20px;right:27px;text-align:right;text-shadow:0 2px 6px #0009}
+.lock-time{margin:0;font-size:71px;font-weight:300;letter-spacing:-.055em;line-height:1;color:#f3f5f5}
+.lock-date{margin-top:2px;font-size:15px;color:#e5e9ea}
+.lock-wave{position:absolute;left:0;right:0;bottom:20px;height:240px;touch-action:none}
+.lock-outer-ring{position:absolute;left:calc(50% - 135px);bottom:-47px;width:270px;height:270px;border:2px solid #ffffff1a;border-radius:50%;opacity:0;transition:opacity .2s}
+.lock-target,.lock-handle{position:absolute;border:0;background:transparent;padding:0;width:108px;height:108px;display:grid;place-items:center;touch-action:none}
+.lock-target img,.lock-handle img{width:108px;height:108px;object-fit:contain;pointer-events:none}
+.lock-target{bottom:34px;opacity:0;pointer-events:none;transition:opacity .2s}
+.lock-target-unlock{left:calc(50% - 166px)}
+.lock-target-camera{left:calc(50% + 58px)}
+.lock-handle{left:calc(50% - 54px);bottom:34px;transform:translateX(var(--lock-x,0px));transition:transform .22s ease-out;cursor:grab}
+.screen.lock-dragging .lock-handle{transition:none;cursor:grabbing}
+.screen.lock-dragging .lock-outer-ring,.screen.lock-dragging .lock-target{opacity:1}
+.lock-carrier{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#b9c1c2;font-size:13px}
+.screen.large-text .settings-app .settings-row{font-size:16px}
+.screen.large-text .settings-app .row-copy small{font-size:13px}
+.touch-indicator{position:absolute;width:18px;height:18px;border:2px solid #33b5e5;border-radius:50%;transform:translate(-50%,-50%);background:#33b5e555;box-shadow:0 0 8px #33b5e5;z-index:40;pointer-events:none;animation:touch-fade .4s ease-out forwards}
+@keyframes touch-fade{to{opacity:0;transform:translate(-50%,-50%) scale(1.8)}}
