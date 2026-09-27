@@ -129,3 +129,30 @@
 .home-folder{position:absolute;z-index:20;left:9%;right:9%;top:38%;background:#24292c;border:1px solid #68777e;box-shadow:0 12px 30px #000b;padding:12px}
 .home-folder h3{font-weight:400;margin:0 0 12px;font-size:15px}
 .home-folder>div{display:grid;grid-template-columns:repeat(4,1fr)}
+.home-content{cursor:grab;touch-action:pan-y}
+.screen.page-swiping .home-content,.screen.page-swiping .home-content *{cursor:grabbing!important}
+.screen img{-webkit-user-drag:none;user-select:none}
+.settings-app .app-content{cursor:grab}
+.settings-app .app-content input,.settings-app .app-content select,.settings-app .app-content textarea{cursor:auto}
+.screen.settings-scrolling .settings-app .app-content,.screen.settings-scrolling .settings-app .app-content *{cursor:grabbing!important}
+.settings-app .about-settings .row-icon{display:none}
+.settings-app .about-settings .settings-row{min-height:64px;padding:9px 16px;font-size:16px}
+.settings-app .about-settings .settings-row:nth-child(6){min-height:82px}
+.settings-app .about-settings .row-copy{gap:1px}
+.settings-app .about-settings .row-copy small{font-size:13px}
+.settings-app .about-settings .row-copy small{white-space:pre-line}
+.easter-view{background:#000}
+.easter-view p{display:none}
+.easter-robot{animation:none;filter:none;touch-action:none}
+.easter-robot img{width:170px;height:204px;object-fit:contain}
+.easter-robot.expanding{animation:egg-grow 1.1s ease-in forwards}
+@keyframes egg-grow{0%{transform:scale(1)}25%{transform:scale(1.25)}50%{transform:scale(2)}75%{transform:scale(3.25)}100%{transform:scale(5)}}
+.nyan-sky{position:absolute;inset:0;background:#003366;overflow:hidden}
+.screen:has(.nyan-sky) #status-bar,.screen:has(.nyan-sky) #nav-bar{display:none}
+.screen:has(.nyan-sky) #viewport{top:0;bottom:0}
+.nyan-star{position:absolute;left:var(--x);top:var(--y);width:20px;height:20px;background:url('assets/star0.png') center/contain no-repeat;image-rendering:pixelated;animation:nyan-star-frames .48s steps(1) infinite;animation-delay:var(--delay)}
+.nyan-cat{position:absolute;left:-130px;top:var(--top);height:var(--size);width:var(--size);background:url('assets/nyandroid00.png') center/contain no-repeat;image-rendering:pixelated;animation:nyan-frames .96s steps(1) infinite,nyan-flight var(--duration) linear infinite;animation-delay:var(--delay),var(--delay)}
+@keyframes nyan-flight{from{left:-130px}to{left:110%}}
+@keyframes nyan-star-frames{0%{background-image:url('assets/star0.png')}16.67%{background-image:url('assets/star1.png')}33.33%{background-image:url('assets/star2.png')}50%{background-image:url('assets/star3.png')}66.67%{background-image:url('assets/star4.png')}83.33%{background-image:url('assets/star5.png')}}
+@keyframes nyan-frames{0%{background-image:url('assets/nyandroid00.png')}8.33%{background-image:url('assets/nyandroid01.png')}16.67%{background-image:url('assets/nyandroid02.png')}25%{background-image:url('assets/nyandroid03.png')}33.33%{background-image:url('assets/nyandroid04.png')}41.67%{background-image:url('assets/nyandroid05.png')}50%{background-image:url('assets/nyandroid06.png')}58.33%{background-image:url('assets/nyandroid07.png')}66.67%{background-image:url('assets/nyandroid08.png')}75%{background-image:url('assets/nyandroid09.png')}83.33%{background-image:url('assets/nyandroid10.png')}91.67%{background-image:url('assets/nyandroid11.png')}}
+@media(prefers-reduced-motion:reduce){.nyan-cat{animation:nyan-flight 16s linear infinite}.nyan-star{animation:none}.easter-robot.expanding{animation:none}}

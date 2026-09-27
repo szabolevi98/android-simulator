@@ -106,7 +106,7 @@
       : `<span class="app-icon fallback" style="--icon-light:${item[3]};--icon-dark:${item[4]}">${item[2]}</span>`;
   };
   const launcherIcon = id => `<button class="launcher-icon" data-action="${id === 'apps' ? 'drawer' : id === 'google' ? 'google-folder' : 'open-app'}" ${id === 'apps' ? '' : `data-app="${id}"`} aria-label="${safe(appNames[id] || 'Apps')}">${appIcon(id)}<span>${safe(appNames[id] || 'Apps')}</span></button>`;
-  const actionbar = (title, right = '') => `<div class="actionbar"><button class="up" data-action="back" aria-label="Back">${ui.view === 'settings' && !ui.sub ? '<img class="settings-header-icon" src="assets/settings.png" alt="">' : '‹'}</button><h2>${safe(title)}</h2>${right}</div>`;
+  const actionbar = (title, right = '') => `<div class="actionbar"><button class="up" data-action="back" aria-label="Back">${ui.view === 'settings' && (!ui.sub || ui.sub === 'about') ? '<img class="settings-header-icon" src="assets/settings.png" alt="">' : '‹'}</button><h2>${safe(title)}</h2>${right}</div>`;
   const content = (inner, theme = '') => `<div class="app-content ${theme}">${inner}</div>`;
   const appView = (title, inner, theme = '', right = '') => `<div class="app-view ${ui.view === 'settings' ? 'settings-app' : ''}">${actionbar(title, right)}${content(inner, ui.view === 'settings' ? `settings-dark ${theme}` : theme)}</div>`;
   const settingIcon = (id, fallback) => ui.view === 'settings' && ['wireless','data','sound','display','storage','battery','apps','language','date','about'].includes(id) ? `<img src="assets/setting-${id}.png" alt="">` : fallback;
@@ -186,6 +186,7 @@
     if (ui.view === 'lock') return;
     if (ui.view === 'drawer') { home(false); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
+    if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.easterNyan = false; render(); return; }
     if (ui.sub) { ui.sub = ''; render(); return; }
     home(false);
   }
@@ -212,8 +213,11 @@
       const names = ['AOSP default', 'Phase glow', 'Deep blue', 'Ocean beam'];
       return appView('Wallpaper', `<div class="wallpaper-grid">${names.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}"><span class="wallpaper-swatch wallpaper-${i}" style="${i === 0 ? "background-image:url('assets/aosp-wallpaper.jpg')" : ''}"></span><strong>${name}</strong></button>`).join('')}</div><div class="notice">Tap a wallpaper to apply it to the home and lock screens.</div>`);
     }
-    if (s === 'about') return appView('About phone', `<div class="about-logo">◉<small>Android</small></div>${row('System updates', 'Your system is up to date', 'toast', 'No updates available', '↻')}${row('Model number', 'Galaxy Nexus', 'noop', '', '▣')}${row('Android version', '4.0.4', 'about-tap', '', '◉')}${row('Baseband version', 'I9250XXLA2', 'noop', '', '≋')}${row('Kernel version', '3.0.8-gda6252b', 'noop', '', '⚙')}${row('Build number', 'IMM76D', 'noop', '', '▤')}`);
-    if (s === 'easter') return `<div class="easter-view">${ui.easterNyan ? Array.from({length:5}, () => '<div class="nyan"><span class="rainbow-trail"></span><img src="assets/platlogo.png" alt=""></div>').join('') : '<button class="easter-robot" data-action="egg-nyan" aria-label="Android easter egg"><img src="assets/platlogo.png" alt="Ice Cream Sandwich Android"></button><p>Android 4.0 Ice Cream Sandwich</p><p>Hold the Android</p>'}</div>`;
+    if (s === 'about') return appView('About phone', `${row('Status', 'Phone number, signal, etc.', 'settings-sub', 'about-status')}${row('Legal information', '', 'settings-sub', 'about-legal')}${row('Model number', 'Galaxy Nexus', 'noop', '')}${row('Android version', '4.0.4', 'about-tap', '')}${row('Baseband version', 'I9250XXLA02', 'noop', '')}${row('Kernel version', '3.0.8-g034fec9\nandroid-build@vpbs1 #1\nTue Mar 13 15:46:20 PDT 2012', 'noop', '')}${row('Build number', 'IMM76D', 'noop', '')}`, 'about-settings');
+    if (s === 'about-status') return appView('Status', `${row('Phone number', 'Unknown', 'noop', '')}${row('Network', 'AndroidAP', 'noop', '')}${row('Signal strength', 'Good', 'noop', '')}${row('Battery level', '78%', 'noop', '')}`, 'about-settings');
+    if (s === 'about-legal') return appView('Legal information', `${row('Open source licenses', 'Android Open Source Project', 'noop', '')}${row('Google legal', 'Offline demonstration', 'noop', '')}`, 'about-settings');
+    if (s === 'about-safety') return appView('Safety information', `<div class="detail-pad"><p>Galaxy Nexus safety information is not available in this offline simulation.</p></div>`, 'about-settings');
+    if (s === 'easter') return `<div class="easter-view">${ui.easterNyan ? `<div class="nyan-sky" data-action="back" role="button" tabindex="0" aria-label="Close Nyandroid">${Array.from({length:20}, (_, i) => `<span class="nyan-star" style="--x:${(i * 47) % 97}%;--y:${(i * 31) % 93}%;--delay:-${(i * 7) % 12 / 10}s"></span>`).join('')}${Array.from({length:20}, (_, i) => `<span class="nyan-cat" style="--top:${(i * 37) % 89}%;--delay:-${(i * 13) % 91 / 10}s;--duration:${5 + i % 6}s;--size:${58 + i % 4 * 18}px"></span>`).join('')}</div>` : '<button class="easter-robot" data-action="egg-nyan" aria-label="Android easter egg"><img src="assets/platlogo.png" alt="Ice Cream Sandwich Android"></button>'}</div>`;
     if (s === 'wireless') return appView('Wireless & networks', `${toggleRow('Wi-Fi', data.settings.wifi ? 'Connected to AndroidAP' : 'Off', 'wifi', '◢')}${toggleRow('Bluetooth', data.settings.bluetooth ? 'On' : 'Off', 'bluetooth', 'ᛒ')}${toggleRow('Airplane mode', 'Disable wireless connections', 'airplane', '✈')}${row('Data usage', 'This month: 284 MB', 'settings-sub', 'data', '▥')}`);
     if (s === 'sound') return appView('Sound', `${toggleRow('Silent mode', 'Mute all sounds except media', 'silent', '♫')}${row('Volumes', 'Ringtone 70% · Media 60%', 'settings-sub', 'volumes', '◖')}${row('Phone ringtone', 'Orion', 'settings-sub', 'ringtone', '♫')}`);
     if (s === 'display') return appView('Display', `${row('Brightness', `${data.settings.brightness}%`, 'settings-sub', 'brightness', '☼')}${row('Wallpaper', 'Choose your background', 'settings-sub', 'wallpaper', '▧')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${row('Sleep', 'After 30 seconds of inactivity', 'settings-sub', 'sleep', '◷')}`);
@@ -389,8 +393,8 @@
         save(); render(); break;
       }
       case 'wallpaper': data.wallpaper = Number(id); delete data.customWallpaper; save(); render(); toast('Wallpaper set'); break;
-      case 'about-tap': ui.aboutTaps++; if (ui.aboutTaps >= 5) { ui.sub = 'easter'; ui.aboutTaps = 0; } render(); break;
-      case 'egg-nyan': toast('Hold the Android to see the secret'); break;
+      case 'about-tap': ui.aboutTaps++; if (ui.aboutTaps >= 5) { ui.sub = 'easter'; ui.easterNyan = false; ui.aboutTaps = 0; } render(); break;
+      case 'egg-nyan': toast('Android 4.0: Ice Cream Sandwich'); break;
       case 'toast': toast(id); break;
       case 'noop': break;
       case 'browser-search': openApp('browser'); document.querySelector('.browser-toolbar input')?.focus(); break;
@@ -541,33 +545,84 @@
     save(); render(); suppressClickUntil = Date.now() + 350;
     return true;
   }
+  function moveHomePage(dx) {
+    const content = viewport.querySelector('.home-content');
+    if (!content) return;
+    const distance = Math.max(-screen.clientWidth * .65, Math.min(screen.clientWidth * .65, dx));
+    content.style.transition = 'none';
+    content.style.transform = `translate3d(${distance}px, 0, 0)`;
+    content.style.opacity = String(1 - Math.abs(distance) / screen.clientWidth * .25);
+  }
+  function finishHomePage(dx) {
+    const nextPage = Math.max(0, Math.min(4, ui.page + (dx < 0 ? 1 : -1)));
+    screen.classList.remove('page-swiping');
+    suppressClickUntil = Date.now() + 350;
+    if (Math.abs(dx) > 45 && nextPage !== ui.page) {
+      ui.page = nextPage;
+      render();
+    } else {
+      const content = viewport.querySelector('.home-content');
+      if (content) {
+        content.style.transition = 'transform .2s ease-out, opacity .2s ease-out';
+        content.style.transform = '';
+        content.style.opacity = '';
+      }
+    }
+  }
+  screen.addEventListener('dragstart', event => event.preventDefault());
   screen.addEventListener('pointerdown', event => {
-    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType };
-    if (event.target.closest('.easter-robot')) eggTimer = setTimeout(() => { ui.easterNyan = true; render(); }, 650);
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    const scrollTarget = event.pointerType === 'mouse' && ui.view === 'settings' && !ui.overlay && event.target.closest('.settings-app .app-content') && !event.target.closest('input, select, textarea, .wallpaper-choice') ? event.target.closest('.settings-app') : null;
+    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search') };
+    if (event.target.closest('.easter-robot')) eggTimer = setTimeout(() => { event.target.closest('.easter-robot')?.classList.add('expanding'); eggTimer = setTimeout(() => { ui.easterNyan = true; render(); }, 1100); }, 850);
     if (pointerStart.source && event.pointerType !== 'mouse') dragTimer = setTimeout(() => startDrag(event.clientX, event.clientY), 440);
   });
   window.addEventListener('pointermove', event => {
-    if (!pointerStart) return;
+    if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     if (dragState) { moveGhost(event.clientX, event.clientY); return; }
-    const distance = Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y);
+    const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if (pointerStart.scrolling) { event.preventDefault(); pointerStart.scrollTarget.scrollTop = pointerStart.scrollTop - dy; return; }
+    if (pointerStart.scrollTarget && Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx)) {
+      pointerStart.scrolling = true; screen.classList.add('settings-scrolling');
+      try { screen.setPointerCapture(event.pointerId); } catch {}
+      suppressClickUntil = Date.now() + 350;
+      event.preventDefault(); pointerStart.scrollTarget.scrollTop = pointerStart.scrollTop - dy; return;
+    }
+    if (pointerStart.swiping) { event.preventDefault(); moveHomePage(dx); return; }
+    const distance = Math.hypot(dx, dy);
     if (distance > 9) clearTimeout(dragTimer);
-    if (pointerStart.source && event.pointerType === 'mouse' && distance > 8) startDrag(event.clientX, event.clientY);
+    const horizontal = Math.abs(dx) > Math.abs(dy) * 1.1;
+    const quickHomeIcon = pointerStart.source?.type === 'home' && performance.now() - pointerStart.downTime < 260;
+    if (pointerStart.pageSwipeEligible && horizontal && Math.abs(dx) > (pointerStart.source ? 28 : 10) && (!pointerStart.source || quickHomeIcon)) {
+      pointerStart.swiping = true;
+      screen.classList.add('page-swiping');
+      try { screen.setPointerCapture(event.pointerId); } catch {}
+      suppressClickUntil = Date.now() + 350;
+      event.preventDefault();
+      moveHomePage(dx);
+      return;
+    }
+    if (pointerStart.source && event.pointerType === 'mouse' && distance > 8 && !(quickHomeIcon && horizontal)) startDrag(event.clientX, event.clientY);
   });
   window.addEventListener('pointerup', event => {
+    if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     clearTimeout(eggTimer); clearTimeout(dragTimer);
+    const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if (pointerStart.scrolling) { screen.classList.remove('settings-scrolling'); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
+    if (pointerStart.swiping || pointerStart.pageSwipeEligible && !dragState && Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) && (!pointerStart.source || pointerStart.source.type === 'home' && performance.now() - pointerStart.downTime < 260)) {
+      finishHomePage(dx); pointerStart = null; return;
+    }
     if (!dragState && pointerStart?.source && pointerStart.source.type !== 'drawer' && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 9) startDrag(event.clientX, event.clientY);
     if (finishDrag(event.clientX, event.clientY)) { pointerStart = null; return; }
     if (!pointerStart) return;
-    const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
     if (ui.overlay === 'shade' && pointerStart.target.closest('.notification') && Math.abs(dx) > 55) { const id = Number(pointerStart.target.closest('.notification').dataset.id); data.notifications = data.notifications.filter(n => n.id !== id); save(); renderStatus(); renderOverlay(); pointerStart = null; return; }
     if (ui.overlay === 'recent' && pointerStart.target.closest('.recent-item') && Math.abs(dx) > 55) { const id = pointerStart.target.closest('.recent-item').dataset.app; ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); pointerStart = null; return; }
     if (ui.view === 'lock' && Math.hypot(dx, dy) > 65) { ui.view = 'home'; render(); }
     else if (ui.overlay === 'shade' && dy < -55) { ui.overlay = ''; renderOverlay(); }
     else if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
-    else if (ui.view === 'home' && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) { ui.page = Math.max(0, Math.min(4, ui.page + (dx < 0 ? 1 : -1))); render(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging'); pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling'); const content = viewport.querySelector('.home-content'); if (content) { content.style.transform = ''; content.style.opacity = ''; } pointerStart = null; });
   document.addEventListener('keydown', event => {
     if (event.target.matches('.recent-item') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
     if (event.key === 'Escape' || event.key === 'Backspace' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); back(); }

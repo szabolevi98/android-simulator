@@ -12,6 +12,8 @@ Az etalon a **gyári AOSP/Galaxy Nexus Android 4.0.x**, nem a Samsung TouchWiz. 
 | Képernyő | Megállapítás | Állapot |
 | --- | --- | --- |
 | Beállítások főoldal | A korábbi világos felület hibás volt. Sötét Holo háttér, kék elválasztó, kis fehér ikonok, korabeli kapcsolóforma és csoportok kerültek be. | Jelentősen javítva; a sorok mérete és néhány ikon még nem pixelpontos. |
+| A telefonról | A mellékelt Android 4.0.4 Nexus S képpel ellenőrzött sorrend, sötét sorok és kisebb szürke értékek. A modell, rádió, kernel és build adatai a Galaxy Nexus GSM IMM76D kiadáshoz igazodnak. | Lényegesen közelebb a referenciához; a pontos betűméret és sortávolság még finomítható. |
+| Easter egg | Az eredeti AOSP `platlogo.png`, a Nyandroid 12 képkockája és a csillagok hat képkockája került be, fekete nyitóképernyővel és sötétkék animációs háttérrel. | Az eredeti grafikákat használja; a mozgás időzítése böngészős közelítés. |
 | Akkumulátor | A korábbi egyetlen töltöttségcsík nem hasonlított a mintára. Fogyasztási grafikon és részletezett alkalmazáslista került be. | A mellékelt kép elrendezéséhez közelít; a számok mintadatok. |
 | Értesítési panel | Az eredeti ICS nem a későbbi Android gyorsbeállítás-csempéit használta. A csempék kikerültek, a panel sötét, dátumot és beállítási ikont mutat, az értesítések oldalra húzhatók. | Funkció és korszak helyesebb; a betűméretek és térközök tovább finomítandók képernyőkép alapján. |
 | Alkalmazásfiók | A sötét háttér, APPS/WIDGETS fülek, kék aktív csík és AOSP ikonok megvannak. | Hiányos: az eredeti gyári alkalmazáskészlet nagyobb és több soros; a sorrend is eltér. |

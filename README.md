@@ -14,10 +14,10 @@ Ezután nyisd meg a `http://127.0.0.1:8090/` címet. XAMPP alatt a mappa a `htdo
 
 ## ICS funkciók
 
-- Öt kezdőképernyő lapozással, alkalmazásfiók, widgetek és alsó dokk.
+- Öt kezdőképernyő egérrel vagy érintéssel húzható lapozással, alkalmazásfiók, widgetek és alsó dokk.
 - Ikonok húzással rendezhetők a kezdőképernyőn és a dokkon; az oldalpöttyre húzva másik oldalra kerülnek, a Remove célpontra húzva eltűnnek. Az alkalmazásfiók ikonjának nyomva tartása új parancsikont tesz a kezdőképernyőre.
 - Zárolás és feloldás, értesítési sáv, alkalmazás-előnézetes legutóbbi alkalmazások és három szoftveres navigációs gomb.
-- Beállítások kapcsolókkal, fényerővel és háttérválasztóval. A **Settings → About phone → Android version** sor ötszöri megnyomása megnyitja a korabeli easter egget; a figurát nyomva tartva indul a nyandroid animáció.
+- A Beállítások listája egérrel megfogva is görgethető; a sorok rövid kattintással továbbra is megnyílnak. Kapcsolók, fényerő és háttérválasztó is működik. A **Settings → About phone → Android version** sor ötszöri megnyomása megnyitja a korabeli easter egget; a figurát nyomva tartva indul a nyandroid animáció.
 - Offline mintalapokat és keresést tartalmazó böngésző, lapok, könyvjelzők és előzmények.
 - Telefon, névjegyek, üzenetek, kamera, galéria, naptár, óra, számológép, zene és e-mail mintafunkciók.
 - A személyre szabás és a mintadatok `localStorage`-ban maradnak. A jobb felső visszaállítás gomb törli a szimulátor helyi állapotát.
