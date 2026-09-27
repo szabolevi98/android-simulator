@@ -64,6 +64,12 @@
 .settings-app .notice{background:#183039;color:#bceaf1}
 .settings-app .wallpaper-choice{background:#20272b;color:#eee!important}
 .settings-app .about-logo small{color:#b5c1c5}
+/* Galaxy Nexus video reference: the Settings list brightens toward the bottom.
+   Paint it on the viewport so the gradient stays in place while the list scrolls. */
+#viewport:has(>.settings-main){background:linear-gradient(180deg,#17191c 0%,#1e242d 28%,#29394e 57%,#365575 79%,#416f9b 100%)}
+.settings-app.settings-main,.settings-main .app-content.settings-dark,.settings-main .section-label,.settings-main .settings-row{background:transparent}
+.settings-main .settings-row{border-bottom-color:#b6d4ea38}
+.settings-main .settings-row:hover,.settings-main .settings-row:focus-visible{background:#b9e8ff18}
 .notification-shade{background:#111315;color:#f2f5f6;display:flex;flex-direction:column}
 .shade-top{height:52px;min-height:52px;padding:3px 3px 5px 16px;display:flex;align-items:center;background:linear-gradient(#23282b,#171b1e);gap:0}
 .shade-date{font-size:15px;color:#f1f4f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
