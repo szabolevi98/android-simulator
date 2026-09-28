@@ -33,7 +33,7 @@ Every listed app was opened in the browser and checked for missing images, horiz
 
 | App | Current mismatch / next required work |
 | --- | --- |
-| Phone | White dial pad, generic title bar and round green call button are not the ICS dialer. Rebuild from Contacts' dialpad layouts and assets, including tabs and bottom actions. |
+| Phone | Dialpad now uses original key images, texture, tabs and bottom actions with the source 20/65/15 proportions. Search, add-to-contact handoff and persistent outgoing call log work. Favorites/contact list, log details and the in-call screen remain simplified; voicemail, pause/wait dialing and full call settings are not implemented. |
 | People | Letter circles, generic header, floating add button and contact detail layout need replacement with the original People lists/tabs/profile presentation. |
 | Messaging | Floating add button, circular avatars and bubble conversation styling are not the original Mms layouts. Original source has separate sent/received row layouts. |
 | Browser | Toolbar, tab overview, menus and bookmark controls are simplified. Offline web content is intentionally dummy; the surrounding browser chrome still needs matching. |
@@ -41,12 +41,20 @@ Every listed app was opened in the browser and checked for missing images, horiz
 | Gallery | Uses a generic white grid of demo pictures rather than the original album/filmstrip/detail navigation. |
 | Clock | The digital screen, white alarm list, modern pill toggles and floating add button need the original DeskClock/alarm layouts. |
 | Calendar | Localized month grid works, but the original action bar, day/week/month/agenda modes and event editor are incomplete. |
-| Calculator | Current C/±/% key arrangement and colored operator column are not an ICS reproduction. Reconstruct the original basic/scientific panels. |
+| Calculator | Rebuilt basic and advanced portrait panels from original XML, including original key frames, DEL/CLR row and display proportions. Drag paging, menu switching, expression precedence, radians, powers, factorials, roots, keyboard deletion and persisted history work. Numeric precision uses JavaScript with 12 significant digits rather than the original Arity engine; history navigation uses keyboard Up/Down rather than the Android display gesture. |
 | Music | Generic artwork/control layout; library tabs, queue and original player view remain missing. The widget is also an approximation. |
 | Email | Letter avatars, floating compose action and generic message/list layout need original Email action bars and list/detail views. |
 | Settings detail pages | Data usage, battery chart, storage, installed-app management, volumes/ringtone/sleep and several security/accessibility options remain simplified. Some rows are informational placeholders. About-phone baseband/kernel values are illustrative and have not been verified against a specific factory image. |
 
 The seven-tap Build-number Developer-options unlock is retained **at the owner's explicit request**. Stock ICS exposes Developer options by default; hiding it behind Build-number taps belongs to later Android releases.
+
+## Phone and Calculator follow-up
+
+![Phone and both Calculator panels](screenshots/ics-phone-calculator.png)
+
+The follow-up uses the [Contacts dialpad layout](https://android.googlesource.com/platform/packages/apps/Contacts/+/refs/tags/android-4.0.4_r2.1/res/layout/dialpad.xml), [dialpad dimensions](https://android.googlesource.com/platform/packages/apps/Contacts/+/refs/tags/android-4.0.4_r2.1/res/values/dimens.xml), and Calculator's [portrait main layout](https://android.googlesource.com/platform/packages/apps/Calculator/+/refs/tags/android-4.0.4_r2.1/res/layout-port/main.xml), [basic pad](https://android.googlesource.com/platform/packages/apps/Calculator/+/refs/tags/android-4.0.4_r2.1/res/layout-port/simple_pad.xml), [advanced pad](https://android.googlesource.com/platform/packages/apps/Calculator/+/refs/tags/android-4.0.4_r2.1/res/layout-port/advanced_pad.xml) and [styles](https://android.googlesource.com/platform/packages/apps/Calculator/+/refs/tags/android-4.0.4_r2.1/res/values/styles.xml).
+
+Verified in the browser: entering a phone number, ending a simulated call, history persistence across reload, formatted-number contact matching, returning a history number to the pad, and searching contacts. Calculator: `2+3×4=14`, dragging to the advanced panel, `sin(π÷2)=1` with an omitted closing parenthesis, Back returning to the basic panel, Backspace deleting rather than exiting, and Up recalling the last expression. The Calculator menu was also checked in all five languages with no horizontal overflow, and the add-to-contact editor handoff was exercised. No captured JavaScript errors. The isolated evaluator tests cover 19 valid expressions and 8 invalid inputs.
 
 ## Browser verification performed
 

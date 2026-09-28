@@ -31,3 +31,10 @@ All resources below use the same AOSP tag and Apache-2.0 license:
 - `toast_frame_holo.png`: framework `core/res/res/drawable-xhdpi/toast_frame_holo.9.png`.
 
 For converted `.9.png` resources, the one-pixel Android stretch-metadata border was removed. CSS border images or repeat/stretch rules reproduce the frame; the original artwork inside the metadata border is retained.
+
+## Phone and Calculator reconstruction
+
+- `dial_num_*_wht.png`, `dial_background_texture.png`, `ic_ab_{dialer,history,favourites}_holo_dark.png`, `ic_dial_action_*.png`, `ic_menu_overflow.png`, `ic_call_outgoing_holo_dark.png`, `ic_contact_picture_holo_dark.png`: [Contacts hdpi resources](https://android.googlesource.com/platform/packages/apps/Contacts/+/refs/tags/android-4.0.4_r2.1/res/drawable-hdpi/).
+- `calc-btn_keyboard_key_*.png`: [Calculator hdpi resources](https://android.googlesource.com/platform/packages/apps/Calculator/+/refs/tags/android-4.0.4_r2.1/res/drawable-hdpi/), renamed and stripped of their one-pixel nine-patch metadata borders. CSS preserves the source stretch regions.
+
+These resources retain the AOSP Apache-2.0 license described above. The JavaScript expression evaluator is project code, not a port of Calculator's Arity dependency.

@@ -387,3 +387,57 @@
 .power-cell.enabled i{background:transparent url('assets/appwidget_settings_ind_on_c_holo.png') center/100% 100%}
 .drawer-widget-preview .power-cell i{height:8px;margin-top:0}
 .power-widget{background:none;border:7px solid transparent;border-image:url('assets/widget-power-bg.png') 12 fill stretch;padding:0;border-radius:0}
+/* AOSP Contacts dialpad: 20/65/15 vertical weights and original hdpi art. */
+.phone-app{display:flex;flex-direction:column;background:#000;color:#eee;overflow:hidden}
+.phone-tabs{height:48px;flex:none;display:flex;background:#080808;border-bottom:1px solid #33b5e5}
+.phone-tabs button{position:relative;flex:1;border:0;background:transparent;display:grid;place-items:center}
+.phone-tabs button+button:before{content:'';position:absolute;left:0;top:13px;bottom:13px;width:1px;background:#333}
+.phone-tabs button[aria-selected=true]{box-shadow:inset 0 -5px #33b5e5}
+.phone-tabs img{width:32px;height:32px}
+.ics-dialer{display:flex;flex:1;min-height:0;flex-direction:column;gap:2px}
+.dial-digits,.ics-dial-pad,.dial-actions{background:#171717 url('assets/dial_background_texture.png') repeat;background-size:5px 5px}
+.dial-digits{flex:20;min-height:0;display:flex;align-items:center}
+.dial-digits output{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:29px;text-align:center;padding-left:12px;white-space:nowrap}
+.dial-digits button{width:48px;height:100%;border:0;background:none;flex:none}
+.dial-digits img{width:32px;height:32px}
+.ics-dial-pad{flex:65;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);padding:0 5px 8px}
+.ics-dial-pad button{border:0;background:transparent;min-width:0;min-height:0;padding:0;display:grid;place-items:center}
+.ics-dial-pad img{width:90px;height:62.67px;max-width:100%;max-height:100%;object-fit:contain;pointer-events:none}
+.dial-actions{flex:15;min-height:0;display:flex;align-items:stretch}
+.dial-actions button{background:none;border:0;width:48px;display:grid;place-items:center}
+.dial-actions button img{width:32px;height:32px;object-fit:contain}
+.dial-actions .dial-call{flex:1;width:auto}
+.dial-actions .dial-call img{width:45px;height:45px}
+.phone-app button:active{background-color:#33b5e555}
+.phone-list{flex:1;min-height:0;overflow-y:auto;background:#111 url('assets/background_holo_dark.png') center/100% 100%}
+.phone-history-row{display:flex;align-items:center;width:100%;min-height:64px;padding:7px 8px;gap:10px;text-align:left;color:#eee;background:none;border:0;border-bottom:1px solid #333}
+.phone-contact-image{width:48px;height:48px;object-fit:cover}
+.phone-history-row span{flex:1;min-width:0;font-size:17px;overflow-wrap:anywhere}
+.phone-history-row small{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:12px;color:#aaa}
+.phone-history-row small img{width:12px;height:12px}
+.phone-redial{width:32px;height:32px}
+.phone-section{padding:9px 12px 5px;color:#ccc;text-transform:uppercase;font-size:12px;border-bottom:2px solid #555}
+.phone-search{display:flex;padding:8px;gap:6px}
+.phone-search input{flex:1;min-width:0;background:none;border:0;border-bottom:1px solid #33b5e5;color:#eee}
+.phone-search button{border:0;background:none}
+.phone-search img{width:28px;height:28px}
+.phone-overflow{top:auto;bottom:104px}
+/* Calculator portrait XML: display 3, delete row 1.5, paged keys 10. */
+.ics-calculator{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;overflow:hidden}
+.ics-calc-display{flex:3;min-height:0;display:flex;align-items:center}
+.ics-calc-display output{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;text-align:right;padding:8px;font-size:30px;scrollbar-width:none}
+.ics-calc-display>button{width:40px;height:100%;flex:none;background:none;border:0;padding:4px}
+.ics-calc-display img{width:32px;height:32px}
+.ics-calc-delete{flex:1.5;min-height:0;display:grid;grid-template-columns:3fr 1fr;gap:1px}
+.ics-calc-delete>span,.ics-calc-delete>button,.ics-calc-grid button{background:transparent;border-style:solid;border-color:transparent;border-width:4px 5.33px 4px 6.67px;border-image:url('assets/calc-btn_keyboard_key_dark_normal_holo.png') 6 8 6 10 fill stretch;color:#fff;border-radius:0}
+.ics-calc-delete>button{font-size:15px}
+.calc-pager{flex:10;min-height:0;overflow:hidden;touch-action:none}
+.calc-panels{height:100%;width:200%;display:flex;transition:transform 180ms ease-out}
+.ics-calc-grid{width:50%;height:100%;flex:none;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);column-gap:1px}
+.ics-calc-grid.scientific{grid-template-columns:repeat(3,1fr)}
+.ics-calc-grid button{font-size:34px;font-weight:400;padding:0;min-width:0}
+.ics-calc-grid.scientific button{font-size:28px}
+.ics-calc-grid button.digit{border-image-source:url('assets/calc-btn_keyboard_key_light_normal_holo.png')}
+.ics-calc-delete>button:active,.ics-calc-grid button:active{border-image-source:url('assets/calc-btn_keyboard_key_dark_pressed_holo.png')}
+.ics-calc-grid button.digit:active{border-image-source:url('assets/calc-btn_keyboard_key_light_pressed_holo.png')}
+@media(prefers-reduced-motion:reduce){.calc-panels{transition:none}}

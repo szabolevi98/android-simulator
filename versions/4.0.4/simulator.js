@@ -78,7 +78,7 @@
     dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, easterNyan: false, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
     calendarDate: new Date(), selectedDate: localDate(),
-    calc: '0', calcOperator: '', calcMemory: null, calcFresh: true,
+    calc: '', calcFresh: false, calcPanel: 0, calcHistoryIndex: -1, phoneTab: 'dialpad',
     musicPlaying: false, musicTrack: 0, musicPosition: 0,
     emailId: 1, recent: [], recentSnapshots: {}, toastTimer: null, wifiTarget: '', bluetoothScanned: false
   };
@@ -262,6 +262,7 @@
   function back() {
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'lock') return;
+    if (ui.view === 'calculator' && ui.calcPanel) { setCalculatorPanel(0); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.easterNyan = false; render(); return; }
@@ -285,6 +286,10 @@
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
+    } else if (ui.overlay === 'calc-menu') {
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">Clear history</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${ui.calcPanel ? 'Basic panel' : 'Advanced panel'}</button></div>`;
+    } else if (ui.overlay === 'phone-menu') {
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu phone-overflow"><button data-action="phone-add-contact">Add to contacts</button></div>`;
     } else if (ui.overlay === 'connectivity-menu') {
       const wifi = ui.connectivityMenu === 'wifi';
       const enabled = data.settings[wifi ? 'wifi' : 'bluetooth'];
@@ -403,9 +408,19 @@
 
   function renderPhone() {
     if (ui.sub === 'calling') return `<div class="app-view"><div class="call-view"><div class="avatar">☎</div><h2>${safe(contactByPhone(ui.callNumber)?.name || ui.callNumber)}</h2><p>Calling…</p><button data-action="hangup" aria-label="End call">☎</button></div></div>`;
-    return appView('Phone', `<div class="dial-display">${safe(ui.dial) || '&nbsp;'}</div><div class="dial-pad">${['1','2','3','4','5','6','7','8','9','*','0','#'].map(digit => `<button data-action="dial" data-id="${digit}">${digit}</button>`).join('')}</div><button class="call-button" data-action="call" aria-label="Call">☎</button><div style="text-align:center"><button class="small-button" data-action="dial-delete">⌫</button></div>`);
+    const tabs = [['dialpad','Dial pad','dialer'],['history','Call log','history'],['favorites','Favorites','favourites']];
+    const header = `<div class="phone-tabs" role="tablist">${tabs.map(([id,title,icon]) => `<button role="tab" aria-selected="${ui.phoneTab === id}" aria-label="${title}" data-action="phone-tab" data-id="${id}"><img src="assets/ic_ab_${icon}_holo_dark.png" alt=""></button>`).join('')}</div>`;
+    let body;
+    if (ui.phoneTab === 'history') {
+      body = `<div class="phone-list">${(data.callHistory || []).length ? [...data.callHistory].reverse().map(call => `<button class="phone-history-row" data-action="phone-redial" data-id="${safe(call.number)}"><img class="phone-contact-image" src="assets/ic_contact_picture_holo_dark.png" alt=""><span>${safe(contactByPhone(call.number)?.name || call.number)}<small><img src="assets/ic_call_outgoing_holo_dark.png" alt="">${new Date(call.time).toLocaleString(i18n.locale(),{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</small></span><img class="phone-redial" src="assets/ic_dial_action_call.png" alt=""></button>`).join('') : '<p class="empty-note">Call log is empty</p>'}</div>`;
+    } else if (ui.phoneTab === 'favorites') {
+      body = `<div class="phone-list">${ui.phoneSearch !== undefined ? `<form class="phone-search" data-form="phone-search"><input name="query" aria-label="Search contacts" placeholder="Search contacts" value="${safe(ui.phoneSearch)}"><button aria-label="Search" type="submit"><img src="assets/ic_dial_action_search.png" alt=""></button></form>` : ''}<div class="phone-section">All contacts</div>${data.contacts.filter(person => !ui.phoneSearch || `${person.name} ${person.phone}`.toLocaleLowerCase().includes(ui.phoneSearch.toLocaleLowerCase())).map(person => `<button class="phone-history-row" data-action="contact-call" data-id="${person.id}"><img class="phone-contact-image" src="assets/ic_contact_picture_holo_dark.png" alt=""><span>${safe(person.name)}<small>${safe(person.phone)}</small></span></button>`).join('')}</div>`;
+    } else {
+      body = `<div class="ics-dialer"><div class="dial-digits"><output aria-label="Phone number">${safe(ui.dial)}</output><button data-action="dial-delete" aria-label="Delete"><img src="assets/ic_dial_action_delete.png" alt=""></button></div><div class="ics-dial-pad">${['1','2','3','4','5','6','7','8','9','*','0','#'].map(digit => `<button data-action="dial" data-id="${digit}" aria-label="${digit}"><img src="assets/dial_num_${digit === '*' ? 'star' : digit === '#' ? 'pound' : digit}_wht.png" alt=""></button>`).join('')}</div><div class="dial-actions"><button data-action="phone-search" aria-label="Search contacts"><img src="assets/ic_dial_action_search.png" alt=""></button><button class="dial-call" data-action="call" aria-label="Call"><img src="assets/ic_dial_action_call.png" alt=""></button><button data-action="phone-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div></div>`;
+    }
+    return `<div class="app-view phone-app">${header}${body}</div>`;
   }
-  function contactByPhone(number) { return data.contacts.find(item => item.phone === number); }
+  function contactByPhone(number) { const normalized = String(number).replace(/[^\d+]/g, ''); return data.contacts.find(item => item.phone.replace(/[^\d+]/g, '') === normalized); }
   function renderPeople() {
     if (ui.sub === 'detail') {
       const person = contact(ui.selectedContact); if (!person) return appView('People', '<div class="empty-note">Contact not found</div>');
@@ -452,8 +467,18 @@
     return appView('Clock', `<div class="relative"><div class="clock-face"><div class="digital">${clock()}</div><div class="day">${fullDate()}</div></div>${label('Alarms')}${data.alarms.map(alarm => `<button class="alarm-row" style="width:100%;border-left:0;border-top:0;border-right:0;color:#222" data-action="alarm-toggle" data-id="${alarm.id}"><strong>${safe(alarm.time)}</strong><span class="switch ${alarm.enabled ? 'on' : ''}"></span></button>`).join('')}<button class="fab" data-action="alarm-new" aria-label="Add alarm">＋</button></div>`);
   }
   function renderCalculator() {
-    const keys = ['C','±','%','÷','7','8','9','×','4','5','6','−','1','2','3','+','0','.','⌫','='];
-    return `<div class="app-view"><div class="calculator"><div class="calc-display">${safe(ui.calc)}</div><div class="calc-grid">${keys.map(key => `<button class="${['÷','×','−','+'].includes(key) ? 'op' : key === '=' ? 'equals' : ''}" data-action="calc-key" data-id="${key}">${key}</button>`).join('')}</div></div></div>`;
+    const basic = ['7','8','9','÷','4','5','6','×','1','2','3','−','.','0','=','+'];
+    const advanced = ['sin','cos','tan','ln','log','!','π','e','^','(',')','√'];
+    const keys = (items, scientific = false) => items.map(key => `<button class="${!scientific && /^[0-9.]$/.test(key) ? 'digit' : 'function'}" data-action="calc-key" data-id="${key}">${key}</button>`).join('');
+    return `<div class="app-view"><div class="ics-calculator"><div class="ics-calc-display"><output aria-label="Calculator display">${safe(ui.calc)}</output><button data-action="calc-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div><div class="ics-calc-delete"><span></span><button data-action="calc-key" data-id="${ui.calcFresh ? 'C' : '⌫'}" aria-label="${ui.calcFresh ? 'Clear' : 'Delete'}">${ui.calcFresh ? 'CLR' : 'DEL'}</button></div><div class="calc-pager"><div class="calc-panels" style="transform:translateX(-${ui.calcPanel * 50}%)"><div class="ics-calc-grid" aria-label="Basic panel" ${ui.calcPanel ? 'inert' : ''}>${keys(basic)}</div><div class="ics-calc-grid scientific" aria-label="Advanced panel" ${ui.calcPanel ? '' : 'inert'}>${keys(advanced,true)}</div></div></div></div></div>`;
+  }
+  function setCalculatorPanel(index) {
+    ui.calcPanel = index;
+    const track = viewport.querySelector('.calc-panels');
+    if (!track) return;
+    track.style.transition = '';
+    track.style.transform = `translateX(-${index * 50}%)`;
+    track.querySelectorAll('.ics-calc-grid').forEach((panel, i) => { panel.inert = i !== index; });
   }
   function renderMusic() {
     const track = tracks[ui.musicTrack];
@@ -467,21 +492,20 @@
   }
 
   function operateCalculator(key) {
-    if (key === 'C') { ui.calc = '0'; ui.calcMemory = null; ui.calcOperator = ''; ui.calcFresh = true; return; }
-    if (key === '⌫') { ui.calc = ui.calc.length > 1 ? ui.calc.slice(0, -1) : '0'; return; }
-    if (key === '±') { ui.calc = String(-Number(ui.calc)); return; }
-    if (key === '%') { ui.calc = String(Number(ui.calc) / 100); return; }
-    if (['÷','×','−','+'].includes(key)) { ui.calcMemory = Number(ui.calc); ui.calcOperator = key; ui.calcFresh = true; return; }
+    if (key === 'C') { ui.calc = ''; ui.calcFresh = false; return; }
+    if (key === '⌫') { ui.calc = ui.calc === 'Error' ? '' : ui.calc.replace(/(?:sin|cos|tan|log|sqrt|√|ln)\($|.$/, ''); ui.calcFresh = false; return; }
     if (key === '=') {
-      if (ui.calcOperator && ui.calcMemory !== null) {
-        const a = ui.calcMemory, b = Number(ui.calc);
-        const result = ui.calcOperator === '+' ? a + b : ui.calcOperator === '−' ? a - b : ui.calcOperator === '×' ? a * b : b === 0 ? NaN : a / b;
-        ui.calc = Number.isFinite(result) ? String(Number(result.toFixed(8))) : 'Error';
-      }
-      ui.calcOperator = ''; ui.calcMemory = null; ui.calcFresh = true; return;
+      if (!ui.calc || ui.calc === 'Error') return;
+      try { const expression = ui.calc; ui.calc = ICSCalculator.evaluate(expression); data.calcHistory = [...(data.calcHistory || []), {expression, result:ui.calc}].slice(-50); ui.calcHistoryIndex = -1; save(); } catch { ui.calc = 'Error'; }
+      ui.calcFresh = true; return;
     }
-    if (key === '.') { if (ui.calcFresh) { ui.calc = '0.'; ui.calcFresh = false; } else if (!ui.calc.includes('.')) ui.calc += '.'; return; }
-    if (/^\d$/.test(key)) { ui.calc = ui.calcFresh || ui.calc === '0' || ui.calc === 'Error' ? key : ui.calc + key; ui.calcFresh = false; }
+    if (ui.calc.length > 150) return;
+    const operator = ['÷','×','−','+','^','!'].includes(key);
+    if (ui.calc === 'Error' || ui.calcFresh && !operator) ui.calc = '';
+    ui.calcFresh = false;
+    const token = key === '√' ? '√(' : /^(sin|cos|tan|ln|log)$/.test(key) ? `${key}(` : key;
+    if (operator && key !== '!' && /[÷×−+^]$/.test(ui.calc) && key !== '−') ui.calc = ui.calc.slice(0,-1);
+    ui.calc += token;
   }
   function addNotification(title, detail) { data.notifications.unshift({ id: Date.now(), title, detail }); save(); renderStatus(); }
   function sendMessage(id, body) {
@@ -573,10 +597,15 @@
       case 'browser-tab': ui.browserTab = Number(id); ui.browserUrl = ui.browserTabs[ui.browserTab]; ui.sub = ''; render(); break;
       case 'browser-new-tab': ui.browserTabs.push('www.google.com'); ui.browserTab = ui.browserTabs.length - 1; ui.browserUrl = 'www.google.com'; ui.sub = ''; render(); break;
       case 'browser-save': if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
-      case 'dial': ui.dial += id; render(); break;
+      case 'phone-tab': ui.phoneTab = id; ui.phoneSearch = undefined; render(); break;
+      case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
+      case 'phone-menu': ui.overlay = 'phone-menu'; renderOverlay(); break;
+      case 'phone-add-contact': ui.overlay = ''; openApp('people'); ui.sub = 'new'; render(); viewport.querySelector('[name="phone"]').value = ui.dial; break;
+      case 'phone-redial': ui.dial = id; ui.phoneTab = 'dialpad'; render(); break;
+      case 'dial': if (ui.dial.length < 30) ui.dial += id; render(); break;
       case 'dial-delete': ui.dial = ui.dial.slice(0, -1); render(); break;
       case 'call': if (!ui.dial) { toast('Enter a phone number'); break; } ui.callNumber = ui.dial; ui.sub = 'calling'; render(); break;
-      case 'hangup': ui.sub = ''; ui.dial = ''; render(); toast('Call ended'); break;
+      case 'hangup': data.callHistory = [...(data.callHistory || []), {number:ui.callNumber,time:Date.now()}].slice(-50); save(); ui.sub = ''; ui.dial = ''; render(); toast('Call ended'); break;
       case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
       case 'new-contact': ui.sub = 'new'; render(); break;
       case 'contact-call': ui.callNumber = contact(id)?.phone || ''; ui.dial = ui.callNumber; ui.view = 'phone'; ui.sub = 'calling'; render(); break;
@@ -604,6 +633,9 @@
       case 'event-delete': data.events = data.events.filter(item => item.id !== Number(id)); save(); render(); break;
       case 'alarm-new': ui.sub = 'new'; render(); break;
       case 'alarm-toggle': { const alarm = data.alarms.find(item => item.id === Number(id)); if (alarm) alarm.enabled = !alarm.enabled; save(); render(); break; }
+      case 'calc-menu': ui.overlay = 'calc-menu'; renderOverlay(); break;
+      case 'calc-panel': ui.overlay = ''; renderOverlay(); setCalculatorPanel(Number(id)); break;
+      case 'calc-clear': data.calcHistory = []; ui.calcHistoryIndex = -1; save(); operateCalculator('C'); ui.overlay = ''; render(); break;
       case 'calc-key': operateCalculator(id); render(); break;
       case 'music-play': ui.musicPlaying = !ui.musicPlaying; render(); break;
       case 'music-prev': ui.musicTrack = (ui.musicTrack + tracks.length - 1) % tracks.length; ui.musicPosition = 0; render(); break;
@@ -620,6 +652,7 @@
     const form = event.target.closest('[data-form]');
     if (!form || !screen.contains(form)) return;
     event.preventDefault(); const values = new FormData(form);
+    if (form.dataset.form === 'phone-search') { ui.phoneSearch = String(values.get('query') || '').trim(); render(); return; }
     if (form.dataset.form === 'wifi-add') {
       const name = String(values.get('ssid') || '').trim();
       const security = values.get('security');
@@ -823,7 +856,7 @@
     setHomePage(ui.page + Math.sign(delta));
   }, {passive:false});
   screen.addEventListener('dragstart', event => event.preventDefault());
-  let homeLongPressTimer = null;
+  let homeLongPressTimer = null, calculatorClearTimer = null;
   screen.addEventListener('contextmenu', event => {
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { event.preventDefault(); ui.overlay = 'wallpaper-source'; renderOverlay(); }
   });
@@ -835,13 +868,22 @@
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; }, 550);
     if (pointerStart.lockDrag) { screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     if (event.target.closest('.easter-robot')) eggTimer = setTimeout(() => { event.target.closest('.easter-robot')?.classList.add('expanding'); eggTimer = setTimeout(() => { ui.easterNyan = true; render(); }, 1100); }, 850);
+    if (ui.view === 'calculator' && !ui.overlay && event.target.closest('.calc-pager')) pointerStart.calculatorSwipe = true;
+    if (event.target.closest('.ics-calc-delete button')) calculatorClearTimer = setTimeout(() => { operateCalculator('C'); suppressClickUntil = Date.now() + 350; render(); }, 600);
     if (pointerStart.source) dragTimer = setTimeout(() => startDrag(event.clientX, event.clientY), 440);
   });
   window.addEventListener('pointermove', event => {
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     if (dragState) { moveGhost(event.clientX, event.clientY); return; }
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
-    if (Math.hypot(dx,dy) > 8) clearTimeout(homeLongPressTimer);
+    if (Math.hypot(dx,dy) > 8) { clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); }
+    if (pointerStart.calculatorSwipe && (pointerStart.calculatorSwiping || Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy))) {
+      pointerStart.calculatorSwiping = true; suppressClickUntil = Date.now() + 350; event.preventDefault();
+      try { screen.setPointerCapture(event.pointerId); } catch {}
+      const track = viewport.querySelector('.calc-panels');
+      if (track) { track.style.transition = 'none'; track.style.transform = `translateX(${Math.max(-screen.clientWidth, Math.min(0, -ui.calcPanel * screen.clientWidth + dx))}px)`; }
+      return;
+    }
     if (pointerStart.drawerSwipeEligible && (pointerStart.drawerSwiping || Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.1 && performance.now() - pointerStart.downTime < 260)) {
       pointerStart.drawerSwiping = true;
       clearTimeout(dragTimer);
@@ -898,8 +940,9 @@
   });
   window.addEventListener('pointerup', event => {
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
-    clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer);
+    clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if (pointerStart.calculatorSwiping) { setCalculatorPanel(Math.abs(dx) > 50 ? (dx < 0 ? 1 : 0) : ui.calcPanel); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
     if (pointerStart.drawerSwiping) { finishDrawerPage(dx); pointerStart = null; return; }
     if (pointerStart.recentSwiping) {
       const card = pointerStart.target.closest('.recent-item, .notification');
@@ -954,14 +997,20 @@
     if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade') renderOverlay(); pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade') renderOverlay(); pointerStart = null; });
   document.addEventListener('keydown', event => {
     if (event.target.matches('.recent-item') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
+    if (ui.view === 'calculator' && !ui.overlay && ['ArrowUp','ArrowDown'].includes(event.key) && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) {
+      event.preventDefault(); const history = data.calcHistory || []; if (!history.length) return;
+      ui.calcHistoryIndex = event.key === 'ArrowUp' ? (ui.calcHistoryIndex < 0 ? history.length - 1 : Math.max(0,ui.calcHistoryIndex - 1)) : (ui.calcHistoryIndex < 0 ? history.length - 1 : Math.min(history.length - 1,ui.calcHistoryIndex + 1));
+      ui.calc = history[ui.calcHistoryIndex].expression; ui.calcFresh = false; render(); return;
+    }
+    if (ui.view === 'calculator' && !ui.overlay && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName) && (/^[0-9.+\-*/=()!^]$/.test(event.key) || ['Enter','Backspace','Delete'].includes(event.key))) {
+      event.preventDefault(); const map = {'*':'×','/':'÷','-':'−','Enter':'=','Backspace':'⌫','Delete':'C'}; operateCalculator(map[event.key] || event.key); render(); return;
+    }
     if (event.key === 'Escape' || event.key === 'Backspace' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); back(); }
     else if (event.key === 'Home' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); if (ui.view !== 'lock') home(); }
-    else if (ui.view === 'calculator' && (/^[0-9.+\-*/=%]$/.test(event.key) || event.key === 'Enter') && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) {
-      const map = { '*':'×','/':'÷','-':'−','Enter':'=' }; operateCalculator(map[event.key] || event.key); render();
-    }
+
   });
   document.querySelector('#power-button').addEventListener('click', () => { ui.view = ui.view === 'lock' ? 'home' : 'lock'; ui.overlay = ''; render(); });
   const languageSelect = document.querySelector('#language-select');

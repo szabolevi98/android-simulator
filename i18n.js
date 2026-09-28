@@ -4,6 +4,19 @@
   const supported = ['en', 'hu', 'de', 'fr', 'es'];
   const locale = { en: 'en-US', hu: 'hu-HU', de: 'de-DE', fr: 'fr-FR', es: 'es-ES' };
   const rows = [
+    ['Clear','Törlés','Löschen','Effacer','Borrar'],
+    ['Favorites','Kedvencek','Favoriten','Favoris','Favoritos'],
+    ['Dial pad','Tárcsázó','Wähltasten','Clavier','Teclado'],
+    ['Call log','Hívásnapló','Anrufliste','Journal d’appels','Registro de llamadas'],
+    ['Call log is empty','A hívásnapló üres','Anrufliste ist leer','Le journal d’appels est vide','El registro de llamadas está vacío'],
+    ['All contacts','Összes névjegy','Alle Kontakte','Tous les contacts','Todos los contactos'],
+    ['Search contacts','Névjegyek keresése','Kontakte suchen','Rechercher des contacts','Buscar contactos'],
+    ['Add to contacts','Hozzáadás a névjegyekhez','Zu Kontakten hinzufügen','Ajouter aux contacts','Añadir a contactos'],
+    ['Basic panel','Alappanel','Grundfunktionen','Fonctions de base','Panel básico'],
+    ['Advanced panel','Speciális panel','Erweiterte Funktionen','Fonctions avancées','Panel avanzado'],
+    ['Clear history','Előzmények törlése','Verlauf löschen','Effacer l’historique','Borrar historial'],
+    ['Calculator display','Számológép kijelzője','Rechneranzeige','Écran de calculatrice','Pantalla de calculadora'],
+    ['Phone number','Telefonszám','Telefonnummer','Numéro de téléphone','Número de teléfono'],
     ['Page','Oldal','Seite','Page','Página'],
     ['Save','Mentés','Speichern','Enregistrer','Guardar'],
     ['This space is occupied','Ez a hely már foglalt','Dieser Platz ist belegt','Cet emplacement est occupé','Este espacio está ocupado'],
