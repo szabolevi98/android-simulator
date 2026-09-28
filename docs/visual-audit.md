@@ -93,3 +93,13 @@ All AOSP references use tag `android-4.0.4_r2.1`.
 - [Contacts dialpad](https://android.googlesource.com/platform/packages/apps/Contacts/+/refs/tags/android-4.0.4_r2.1/res/layout/dialpad_fragment.xml), [Mms sent row](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/layout/message_list_item_send.xml), [Mms received row](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/layout/message_list_item_recv.xml), [DeskClock](https://android.googlesource.com/platform/packages/apps/DeskClock/+/refs/tags/android-4.0.4_r2.1/res/layout/desk_clock.xml).
 
 Resource licenses and conversion notes are in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
+
+## Mobile browser gesture correction
+
+- Suppress the browser image/context menu inside the simulated screen, with editable fields retaining their normal text menus. Images no longer receive pointer targeting; their parent buttons handle interaction.
+- Give the status/navigation bars and launcher/drawer custom gesture ownership with `touch-action: none`. Keep native vertical scrolling in application lists and contain scroll chaining. A scoped, non-passive touchmove fallback protects simulator-owned gestures on WebKit.
+- Capture an active icon drag on the persistent screen before replacing the drawer DOM.
+- Remove the desktop minimum workspace height from the mobile layout, keep the page within the dynamic viewport, and suppress document overscroll.
+- Browser verification at 390×844 and 390×650: document height equals viewport height; shade drag opens while page scroll stays zero; icon context-menu action stays inside the simulator; Settings can still be dragged to its bottom (scrollTop 292) without moving the document. JavaScript syntax and whitespace checks passed.
+
+These are desktop browser checks at mobile viewport sizes. Physical Android/iOS long-press and browser pull-to-refresh were not directly exercised by the available input tool.

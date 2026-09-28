@@ -718,6 +718,8 @@
   }
   function startDrag(x, y) {
     if (!pointerStart?.source || dragState) return;
+    // Keep touch delivery on the stable screen when a drawer item replaces its view.
+    try { screen.setPointerCapture(pointerStart.pointerId); } catch {}
     dragState = pointerStart.source;
     if (dragState.type === 'widget') {
       const rect = pointerStart.target.closest('.home-widget').getBoundingClientRect();
@@ -858,8 +860,18 @@
   screen.addEventListener('dragstart', event => event.preventDefault());
   let homeLongPressTimer = null, calculatorClearTimer = null;
   screen.addEventListener('contextmenu', event => {
-    if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { event.preventDefault(); ui.overlay = 'wallpaper-source'; renderOverlay(); }
+    if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    event.preventDefault();
+    if (!dragState && ui.view === 'home' && !ui.overlay && event.button === 2 && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { ui.overlay = 'wallpaper-source'; renderOverlay(); }
   });
+  // Older WebKit versions may still start page rubber-banding during a custom
+  // gesture. Cancel only gestures owned by the simulator; lists scroll natively.
+  screen.addEventListener('touchmove', event => {
+    if (event.touches.length !== 1 || !pointerStart || event.target.closest('input, textarea, select')) return;
+    if (pointerStart.source || pointerStart.target.closest('#status-bar, #nav-bar, .home-view, .drawer-view, .lock-view, .shade-top, .shade-handle, .calc-pager, .easter-robot')) {
+      if (event.cancelable) event.preventDefault();
+    }
+  }, { passive: false });
   screen.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }

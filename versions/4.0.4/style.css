@@ -441,3 +441,16 @@
 .ics-calc-delete>button:active,.ics-calc-grid button:active{border-image-source:url('assets/calc-btn_keyboard_key_dark_pressed_holo.png')}
 .ics-calc-grid button.digit:active{border-image-source:url('assets/calc-btn_keyboard_key_light_pressed_holo.png')}
 @media(prefers-reduced-motion:reduce){.calc-panels{transition:none}}
+/* Keep mobile browser gestures outside the simulated device interactions. */
+html,body{overscroll-behavior-y:none}
+.screen{-webkit-touch-callout:none;-webkit-user-select:none;overscroll-behavior:none}
+.screen img{pointer-events:none;-webkit-touch-callout:none;-webkit-user-select:none;-webkit-user-drag:none}
+.screen input,.screen textarea,.screen [contenteditable="true"]{-webkit-touch-callout:default;-webkit-user-select:text;user-select:text}
+#status-bar,#nav-bar,.home-view,.drawer-view{touch-action:none}
+.app-view,.app-content,.phone-list,.shade-list,.recent-list,.browser-page,.bubbles,.tabs-list{overscroll-behavior-y:contain}
+@media(max-width:500px){
+  html,body{height:100%;overflow:hidden}
+  .page-shell{height:100dvh;min-height:0;overflow:hidden}
+  .site-header{flex:0 0 48px}
+  .workspace{display:block;min-height:0;min-width:0;padding:0}
+}
