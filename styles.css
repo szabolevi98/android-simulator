@@ -33,3 +33,4 @@
 .mini-nav{height:17px;background:#050709;display:flex;align-items:center;justify-content:space-around}
 .mini-nav img{width:15px;height:12px;object-fit:contain}
 @media(max-width:780px){.mini-phone{transform:rotate(-8deg) translateY(40px)}}
+.mini-clock{position:relative}.mini-clock img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}

@@ -15,3 +15,19 @@ The Android 4.0.4 simulator includes artwork and a font from the Android Open So
 - `versions/4.0.4/assets/setting-bluetooth.png`: the `ic_settings_bluetooth2.png` resource selected by the [Android 4.0.4 Settings header](https://android.googlesource.com/platform/packages/apps/Settings/+/refs/tags/android-4.0.4_r2.1/res/xml/settings_headers.xml).
 
 Android is a trademark of Google LLC. This project is an independent, unofficial browser simulation.
+
+## Additional resources used by the 2026-09-28 audit
+
+All resources below use the same AOSP tag and Apache-2.0 license:
+
+- `background_holo_dark.png`: framework `core/res/res/drawable-nodpi/background_holo_dark.png`.
+- `appwidget_clock_dial.png`, `appwidget_clock_hour.png`, `appwidget_clock_minute.png`: [DeskClock `res/drawable-hdpi`](https://android.googlesource.com/platform/packages/apps/DeskClock/+/refs/tags/android-4.0.4_r2.1/res/drawable-hdpi/).
+- `btn_check_*_holo_dark.png`, `ic_ab_back_holo_dark.png`, `ic_menu_moreoverflow_normal_holo_dark.png`: framework `core/res/res/drawable-hdpi`.
+- `ic_bt_*.png`, `ic_wifi_*.png`: [Settings `res/drawable-hdpi`](https://android.googlesource.com/platform/packages/apps/Settings/+/refs/tags/android-4.0.4_r2.1/res/drawable-hdpi/).
+- `power-*.png`: Settings `ic_appwidget_settings_*_holo.png`, renamed for browser use.
+- `widget-power-bg.png`: Settings `appwidget_bg_holo.9.png`.
+- `appwidget_settings_ind_*_c_holo.png`: corresponding Settings `.9.png` resources.
+- `status_bar_close_on.png`: SystemUI `res/drawable-hdpi/status_bar_close_on.9.png`.
+- `toast_frame_holo.png`: framework `core/res/res/drawable-xhdpi/toast_frame_holo.9.png`.
+
+For converted `.9.png` resources, the one-pixel Android stretch-metadata border was removed. CSS border images or repeat/stretch rules reproduce the frame; the original artwork inside the metadata border is retained.

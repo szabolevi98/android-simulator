@@ -15,16 +15,18 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 ## Ice Cream Sandwich features
 
 - Five home screens with mouse and touch swiping, a paged Apps/Widgets drawer, and a dock. Shortcuts and widgets share an invisible grid.
-- Drag to rearrange home screen and dock icons. Drop an icon on a page indicator to move it to another page, or on the Remove target to delete its shortcut. Long-press an app drawer icon to add a home screen shortcut.
-- Long-press an empty home-screen cell to choose from the eleven original AOSP wallpapers or a Gallery image. Add, drag, and remove 2 × 2 widgets from the Widgets drawer.
-- Lock screen, notification shade, swipe-away recent apps with previews, and the three on-screen navigation buttons.
-- Settings with simulated Wi-Fi networks, Bluetooth devices, switches, brightness, and wallpaper selection. Grab and drag the Settings list with a mouse to scroll it; a short click still opens a row. Tap **Settings → About phone → Android version** five times to open the period-correct easter egg, then hold the Android figure to start Nyandroid. Tap **Build number** seven times to reveal Developer options.
+- Drag to rearrange home screen and dock icons. Hold a dragged item at a screen edge to change pages, or drop it on Remove to delete its shortcut. Long-press an app drawer icon to add a home screen shortcut. The Home button returns to the center page; swiping and the mouse wheel change pages without a 3D transition.
+- Long-press an empty home-screen cell to choose from eleven original AOSP wallpapers or a Gallery image. The widget drawer includes the original analog clock artwork, a working 4 × 1 Power control widget, and simplified Calendar, Music, and Photo frame widgets. Widgets and shortcuts occupy the same 4 × 4 grid. Existing customized layouts are preserved when upgrading.
+- Lock screen with camera on the left and unlock on the right. The notification shade uses the AOSP black tracking color, a carrier label, and a bottom drag handle. Notifications and recent apps follow horizontal dismissal gestures. Recent apps resume their previous subpage.
+- Settings with simulated Wi-Fi network connection, addition and forgetting, Bluetooth discovery, pairing and device naming, switches, brightness, and wallpaper selection. Grab and drag the Settings list with a mouse to scroll it; a short click still opens a row. Tap **Settings → About phone → Android version** three times within half a second to open the easter egg, then hold the Android figure to start Nyandroid. Tap **Build number** seven times to reveal Developer options (a requested deviation from ICS, where these options were visible by default).
 - Offline sample pages and search in the browser, with tabs, bookmarks, and history.
 - Sample functionality for Phone, People, Messaging, Camera, Gallery, Calendar, Clock, Calculator, Music, and Email.
 - Customization and sample data are saved in `localStorage`. The reset button in the upper-right corner clears the simulator's local state.
 - English, Hungarian, German, French, and Spanish UI. On first launch, the simulator uses the browser language when supported and falls back to English otherwise. Change the language in the header or under **Settings → Language & input**.
 
 This is a browser simulation, not an Android runtime. It cannot run APKs. Calls, web pages, camera, music, and email use local demo content and do not connect to real services.
+
+The simulator is **not yet a complete visual reproduction**. The launcher and SystemUI have been compared against Android 4.0.4 sources; several app interiors still use demo layouts. The [visual audit](docs/visual-audit.md) lists the verified changes, remaining differences, and browser checks. The default simulated carrier is Telekom; airplane mode displays the localized “No service.” label. Wi-Fi passwords are not saved.
 
 ## Adding a version
 
