@@ -4,6 +4,10 @@ An interactive browser simulator inspired by classic Android releases. Choose a 
 
 ## Getting started
 
+**Live demo:** [Android Simulator on GitHub Pages](https://szabolevi98.github.io/android-simulator/).
+
+GitHub Pages publishes the repository root from the `main` branch automatically after each push. The `.nojekyll` file keeps this plain static site out of Jekyll processing. Deployment progress is available in the repository's **Actions** tab, and the publishing source is configured under **Settings → Pages**.
+
 The project uses static HTML, CSS, and JavaScript. No installation or build step is required. Open `index.html`, or start a local server from the project root:
 
 ```bash
