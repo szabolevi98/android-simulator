@@ -1,0 +1,93 @@
+/* 2012 storefront: textured dark chrome, lime accents and compact light lists. */
+.play-store{display:flex;flex-direction:column;background:#eee;color:#333;overflow:hidden}
+.play-header{height:48px;min-height:48px;display:flex;align-items:center;background:#222 url('assets/dial_background_texture.png');color:#eee;box-shadow:0 2px 3px #0005;z-index:2}
+.play-header h2{font-size:18px;font-weight:400;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
+.play-header button{position:relative;flex:none;display:grid;place-items:center;width:36px;height:48px;border:0;background:none;padding:3px}
+.play-header button:first-child{width:43px;padding-left:8px}
+.play-header img{width:28px;height:28px;object-fit:contain}
+.play-up{position:absolute;left:0;top:8px;color:#aaa;font-size:28px}
+.play-tabs{display:flex;flex:none;min-height:37px;background:#363636;box-shadow:0 1px 1px #0004}
+.play-tabs button{flex:1;min-width:0;padding:10px 3px 8px;border:0;border-bottom:3px solid transparent;background:none;color:#aaa;font-size:11px;text-transform:uppercase;overflow-wrap:anywhere}
+.play-tabs button[aria-pressed=true]{color:#bad36c;border-bottom-color:#a4c639}
+.play-content{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none}
+.play-content button{color:inherit}
+.play-list-heading{margin:0;padding:13px 9px;background:#aaa;color:white;font-size:16px;font-weight:400}
+.play-row{display:flex;align-items:center;width:100%;gap:9px;min-height:74px;border:0;border-bottom:1px solid #d0d0d0;padding:9px 7px;background:#eee;text-align:left}
+.play-app-icon{width:47px;height:47px;object-fit:contain;flex:none}
+span.play-app-icon{display:grid;place-items:center;font-size:37px;color:#fff;border:1px solid #ffffff60;box-shadow:inset 0 1px 3px #fff6,0 1px 2px #0004;border-radius:6px}
+.play-icon-orbit{background:radial-gradient(circle at 70% 25%,#e8c964 2%,#5b83b5 7%,#15233e 65%)}
+.play-icon-blocks{background:linear-gradient(140deg,#75a955,#f1bd4c 48%,#d2784a)}
+.play-row-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.play-row-copy strong{font-size:13px;font-weight:bold;overflow-wrap:anywhere}
+.play-row-copy small{font-size:11px;color:#999}
+.play-stars{color:#777;white-space:nowrap;font-size:13px;letter-spacing:-1px}
+.play-stars>span{color:#aaa}
+.play-stars small{letter-spacing:0;margin-left:3px}
+.play-price{color:#809632;font-size:11px;align-self:flex-end;max-width:78px;text-align:right;text-transform:uppercase}
+.play-rank{font-size:11px;color:#888;min-width:10px}
+.play-featured{padding:7px;background:#e7e7e7}
+.play-feature-banner{height:155px;width:100%;position:relative;border:0;background:#333;padding:0;display:block;text-align:left;overflow:hidden}
+.play-feature-banner>.play-art{height:100%}
+.play-feature-banner>span,.play-feature-banner>small{position:absolute;left:10px;color:#fff;text-shadow:0 1px 3px #000;right:8px}
+.play-feature-banner>span{top:12px;font-size:24px;line-height:1.1}
+.play-feature-banner>small{bottom:10px;text-transform:uppercase;font-size:12px}
+.play-feature-banner .play-art-caption{display:none}
+.play-feature-tiles{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0 10px}
+.play-feature-tiles>button{position:relative;min-width:0;height:110px;border:0;background:#232323;color:#b0cc55;text-align:left;font-size:12px;padding:8px;overflow:hidden;text-transform:uppercase}
+.play-feature-tiles>button>span{display:block;font-size:45px;line-height:60px;text-align:right}
+.play-feature-tiles>button:has(.play-art){padding:0}
+.play-feature-tiles strong{position:absolute;bottom:0;left:0;right:0;background:#111b;padding:7px;color:#eee;font-weight:400}
+.play-feature-tiles .play-art{height:100%}
+.play-feature-tiles .play-art-caption{display:none}
+.play-featured .play-list-heading{font-size:14px;padding:9px;margin:0 -7px}
+.play-featured .play-row{width:calc(100% + 14px);margin:0 -7px}
+.play-art{position:relative;overflow:hidden;height:145px;background:#1b3248;color:#fff;display:grid;place-items:center}
+.play-art-symbol{font-size:66px;text-shadow:0 2px 5px #0008;z-index:1;line-height:1}
+.play-art-caption{position:absolute;left:0;bottom:0;right:0;background:#1119;padding:6px;font-size:11px;text-align:center}
+.play-art-photo{background:#456a79 url('assets/wallpaper_canyon.jpg') center/cover}
+.play-art-orbit{background:radial-gradient(circle at 75% 23%,#e5cf88 0 5%,transparent 5.5%),radial-gradient(ellipse at 25% 75%,#674974,#121d36 60%)}
+.play-orbit-ring{display:none}
+.play-art-orbit>.play-orbit-ring{display:block;position:absolute;width:120px;height:120px;border:1px solid #c6deef60;border-radius:50%;background:none;transform:rotate(-30deg) scaleX(1.6)}
+.play-art-blocks{background:repeating-linear-gradient(0deg,transparent 0 24px,#172a3f 25px 28px),repeating-linear-gradient(90deg,#be7653 0 24px,#172a3f 25px 28px,#ceb66e 29px 53px,#172a3f 54px 57px,#6c9e83 58px 82px)}
+.play-art-music{background:linear-gradient(140deg,#213f4f,#779a99)}
+.play-art-web{background:linear-gradient(#c8dfe5 0 13%,#477e9a 13% 25%,#e5e2cb 25% 100%);color:#34516b}
+.play-art-calendar{background:linear-gradient(#8dbacc 0 22%,#eee 22%);color:#555}
+.play-art-clock{background:radial-gradient(circle,#354451,#080a0c)}
+.play-art-calculator{background:repeating-linear-gradient(0deg,#333 0 27px,#171717 28px 30px);color:#ddd}
+.play-art.variation-1{filter:hue-rotate(25deg);background-position:25% center}
+.play-art.variation-2{filter:hue-rotate(-30deg);background-position:75% center}
+.play-category-list>button{width:100%;border:0;border-bottom:1px solid #ccc;padding:20px 14px;display:flex;justify-content:space-between;text-align:left;background:#eee;font-size:16px}
+.play-category-list>button>span:last-child{color:#8d9f4b}
+.play-search{display:flex;padding:8px;background:#ddd;gap:8px}
+.play-search input{flex:1;min-width:0;background:#fafafa;color:#333;border:1px solid #aaa;padding:9px;font-size:16px}
+.play-search button{width:38px;border:1px solid #aaa;background:#eee;font-size:25px}
+.play-empty{padding:35px 12px;text-align:center;color:#888}
+.play-product{display:flex;padding:15px 12px 8px;gap:12px}
+.play-product .play-app-icon{width:60px;height:60px}
+.play-product h3{font-size:21px;font-weight:400;margin:0 0 4px;overflow-wrap:anywhere}
+.play-product p{margin:0 0 3px;color:#777;font-size:12px}
+.play-product small{font-size:11px;color:#809632}
+.play-product-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 12px}
+.play-product-actions>button{min-width:115px;max-width:60%;padding:9px 15px;border:1px solid #879d3c;background:linear-gradient(#bfd477,#a0bc4e);color:#26300a;text-transform:uppercase;font-size:13px;box-shadow:inset 0 1px #ffffff70}
+.play-demo-note{font-size:10px;color:#888;margin:4px 12px 12px}
+.play-screenshots{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:0 10px}
+.play-screenshots>button{min-width:0;border:1px solid #ccc;padding:0;background:#222}
+.play-screenshots .play-art{height:132px}
+.play-screenshots .play-art-symbol{font-size:36px}
+.play-screenshots .play-art-caption{font-size:8px}
+.play-section{margin:16px 12px;border-top:1px solid #c9c9c9;padding-top:9px;font-size:13px;line-height:1.5}
+.play-section h3{margin:0 0 8px;font-size:16px;font-weight:400}
+.play-section p{margin:6px 0 12px}
+.play-section>strong{font-size:12px;font-weight:400}
+.play-rating{display:flex}
+.play-rating>button{background:none;border:0;color:#aaa;font-size:31px;flex:1;min-width:0;padding:2px}
+.play-rating>button.rated{color:#98af48}
+.play-metadata{padding:0 12px 14px;font-size:12px}
+.play-metadata>div{display:flex;justify-content:space-between;border-top:1px solid #ccc;padding:9px 0}
+.play-metadata dt{color:#777}.play-metadata dd{margin:0}
+.play-preview{padding:15px 10px;background:#111;min-height:100%;color:#eee}
+.play-preview>.play-art{height:330px;max-height:65vh}
+.play-preview-controls{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+.play-preview-controls button{width:50px;height:40px;border:1px solid #555;background:#333;font-size:25px}
+.play-preview p{font-size:12px;color:#aaa;text-align:center}
+.play-store button:active{filter:brightness(.85)}
