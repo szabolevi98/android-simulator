@@ -454,3 +454,6 @@ html,body{overscroll-behavior-y:none}
   .site-header{flex:0 0 48px}
   .workspace{display:block;min-height:0;min-width:0;padding:0}
 }
+
+/* Android toasts do not intercept taps on the app underneath. */
+.toast{pointer-events:none}

@@ -48,6 +48,8 @@ node --check i18n.js
 node --check versions/catalog.js
 node --check versions/4.0.4/simulator.js
 node --check versions/4.0.4/play-store.js
+node --check versions/4.0.4/messaging.js
+node tests/messaging.test.cjs
 ```
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). For comparisons with the original Android interface and remaining visual differences, see [docs/visual-audit.md](docs/visual-audit.md).
@@ -57,3 +59,9 @@ For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NO
 The Phone dialpad uses original ICS assets and includes contact search and a locally saved outgoing call log. The Calculator has the original basic/scientific key arrangements; drag horizontally or use its menu to switch panels. Functions use radians. Backspace deletes a character, Delete clears the display, and Up/Down recall saved expressions.
 
 Run the expression checks with `node tests/calculator-engine.test.cjs`. Visual fidelity limits and browser verification are tracked in [the audit](docs/visual-audit.md).
+
+### Messaging
+
+The Messaging app follows the ICS Mms layout: a dark action bar, a bottom toolbar on the conversation list, square contact pictures, and white incoming/outgoing message rows. Search conversations, select a contact by name or enter a phone number, and send local sample messages. Drafts and messages survive reloads. The composer counts GSM/Unicode SMS segments and supports sample Gallery picture attachments.
+
+Open message options by tapping, holding, or right-clicking a message to forward it, inspect its details, or delete it. The conversation menu also offers smileys, draft discard, and conversation deletion with confirmation. Calls open the simulator's Phone app. There is no real SMS/MMS transmission; group messaging, delivery reports and the original Android keyboard are not implemented.

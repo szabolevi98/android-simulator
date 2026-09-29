@@ -254,13 +254,16 @@
     ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
     ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 7);
     render();
-    if (resume && viewport.firstElementChild) (app === 'play-store' ? viewport.querySelector('.play-content') : viewport.firstElementChild).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
+    if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
+  }
+  function appScrollContainer(app) {
+    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) {
       ui.recentSnapshots[ui.view] = viewport.innerHTML;
       ui.recentState ||= {};
-      ui.recentState[ui.view] = {sub: ui.sub, scrollTop: (ui.view === 'play-store' ? viewport.querySelector('.play-content') : viewport.firstElementChild).scrollTop};
+      ui.recentState[ui.view] = {sub: ui.sub, scrollTop: appScrollContainer(ui.view).scrollTop};
     }
   }
   function home(resetPage = true) { captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; if (resetPage) ui.page = 2; render(); }
@@ -282,6 +285,7 @@
     if (ui.view === 'settings' && ui.sub === 'reset-info') { ui.sub = 'backup'; render(); return; }
     if (ui.view === 'settings' && ['brightness','wallpaper','sleep'].includes(ui.sub)) { ui.sub = 'display'; render(); return; }
     if (ui.view === 'settings' && ['volumes','ringtone'].includes(ui.sub)) { ui.sub = 'sound'; render(); return; }
+    if (ui.view === 'messaging' && ui.sub === 'thread') { ui.sub = ui.mmsListMode || ''; render(); return; }
     if (ui.sub) { ui.sub = ''; render(); if (ui.view === 'settings') viewport.querySelector('.settings-app').scrollTop = ui.settingsRootScroll; return; }
     home(false);
   }
@@ -296,6 +300,8 @@
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
+    } else if (ui.overlay.startsWith('mms-')) {
+      overlayRoot.innerHTML = renderMessageOverlay();
     } else if (ui.overlay === 'play-menu') {
       overlayRoot.innerHTML = '<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="play-my-apps">My apps</button><button data-action="market">Shop</button></div>';
     } else if (ui.overlay === 'calc-menu') {
@@ -446,14 +452,40 @@
     return appView('People', `<div class="relative">${data.contacts.map(person => `<button class="list-row" data-action="contact" data-id="${person.id}"><span class="avatar">${safe(person.name[0])}</span><span class="row-copy">${safe(person.name)}<small>${safe(person.phone)}</small></span><span class="chevron">›</span></button>`).join('')}<button class="fab" data-action="new-contact" aria-label="Add contact">＋</button></div>`);
   }
   function renderMessaging() {
-    if (ui.sub === 'new') return appView('New message', `<form class="form-stack" data-form="new-message"><label>To<select name="contact" required style="width:100%;padding:10px;background:white;color:#222;border:1px solid #aaa">${data.contacts.map(person => `<option value="${person.id}">${safe(person.name)}</option>`).join('')}</select></label><label>Message<textarea name="body" required maxlength="500"></textarea></label><button class="primary-button" type="submit">Send</button></form>`);
-    if (ui.sub === 'thread') {
-      const person = contact(ui.thread);
-      const messages = data.messages.filter(item => item.contact === ui.thread);
-      return `<div class="app-view">${actionbar(person?.name || 'Message')}<div class="sms-view"><div class="bubbles">${messages.map(msg => `<div class="bubble ${msg.mine ? 'mine' : ''}">${safe(msg.body)}<small>${safe(msg.time)}</small></div>`).join('')}</div><form class="compose-bar" data-form="reply"><input name="body" placeholder="Type message" maxlength="500" required aria-label="Type message"><button type="submit">Send</button></form></div></div>`;
+    return ICSMessaging.render(data, ui, key => i18n.t(key), i18n.locale());
+  }
+  function messageDraft() {
+    data.messageDrafts ||= {};
+    const key = ICSMessaging.draftKey(ui);
+    return data.messageDrafts[key] ||= {body:'',recipient:''};
+  }
+  function openMessageThread(key) {
+    if (ui.view !== 'messaging') openApp('messaging');
+    if (ui.sub !== 'thread') ui.mmsListMode = ui.sub === 'search' ? 'search' : '';
+    ui.thread = key; ui.sub = 'thread'; ui.overlay = '';
+    data.messages.filter(m => String(m.contact) === String(key)).forEach(m => { m.read = true; });
+    if (String(key) === '1') data.notifications = data.notifications.filter(n => n.id !== 2);
+    save(); render(); scrollMessages();
+  }
+  function scrollMessages() {
+    const history = viewport.querySelector('.mms-history');
+    if (history) history.scrollTop = history.scrollHeight;
+  }
+  function renderMessageOverlay() {
+    const dialog = (title, content) => `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="${safe(i18n.t(title))}"><h3>${safe(i18n.t(title))}</h3>${content}</div>`;
+    const option = (action, text, id = '') => `<button data-action="${action}" data-id="${safe(id)}">${safe(i18n.t(text))}</button>`;
+    if (ui.overlay === 'mms-menu') {
+      const composing = ['thread','new'].includes(ui.sub);
+      return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu ${composing ? '' : 'mms-menu-root'}">${composing ? option('mms-smiley','Insert smiley') + option('mms-discard','Discard draft') + (ui.sub === 'thread' ? option('mms-delete-thread','Delete thread') : '') : option('new-message','New message') + option('mms-search','Search messages')}</div>`;
     }
-    const threads = [...new Set(data.messages.map(item => item.contact))];
-    return appView('Messaging', `<div class="relative thread-list">${threads.map(id => { const person = contact(id); const last = [...data.messages].reverse().find(msg => msg.contact === id); return `<button class="list-row" data-action="thread" data-id="${id}"><span class="avatar">${safe(person?.name[0] || '?')}</span><span class="row-copy"><strong>${safe(person?.name || 'Unknown')}</strong><small>${safe(last?.body || '')}</small></span><span class="chevron">›</span></button>`; }).join('')}<button class="fab" data-action="new-message" aria-label="New message">＋</button></div>`);
+    if (ui.overlay === 'mms-attach') return dialog('Add attachment', `<div class="mms-dialog-list">${data.photos.map(p => `<button data-action="mms-photo" data-id="${p.id}">${ICSMessaging.photo(p)}</button>`).join('') || '<p>No photos</p>'}</div>`);
+    if (ui.overlay === 'mms-smiley') return dialog('Insert smiley', `<div class="mms-dialog-list">${[':-)',':-(', ';-)',':-D',':-P'].map(face=>option('mms-insert-smiley',face,face)).join('')}</div>`);
+    if (ui.overlay === 'mms-delete-confirm') return dialog(ui.mmsDelete === 'thread' ? 'Delete thread' : 'Delete message', `<p>Delete this conversation or message from the simulator?</p><div class="settings-dialog-actions">${option('close-overlay','Cancel')}${option('mms-confirm-delete','Delete')}</div>`);
+    const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage));
+    if (!message) return '';
+    if (ui.overlay === 'mms-message') return dialog('Message options', `<div class="mms-dialog-list">${option('mms-forward','Forward message')}${option('mms-details','View message details')}${option('mms-delete-message','Delete message')}</div>`);
+    if (ui.overlay === 'mms-details') return dialog('Message details', `<p>${message.attachment ? 'MMS' : 'SMS'} · ${safe(i18n.t(message.mine ? 'Sent' : 'Received'))}</p><p>${safe(ICSMessaging.identity(message.contact,data.contacts).phone)}</p><p>${safe(message.timestamp ? new Date(message.timestamp).toLocaleString(i18n.locale()) : i18n.t(message.time))}</p><p>${safe(message.body)}</p><div class="settings-dialog-actions">${option('close-overlay','OK')}</div>`);
+    return '';
   }
   function photoStyle(photo) { return `background:linear-gradient(160deg,${photo.colors[0]},${photo.colors[1]} 53%,${photo.colors[2]})`; }
   function renderGallery() {
@@ -524,10 +556,11 @@
     ui.calc += token;
   }
   function addNotification(title, detail) { data.notifications.unshift({ id: Date.now(), title, detail }); save(); renderStatus(); }
-  function sendMessage(id, body) {
-    data.messages.push({ id: Date.now(), contact: Number(id), body, mine: true, time: clock() }); save();
-    ui.thread = Number(id); ui.view = 'messaging'; ui.sub = 'thread'; render();
-    requestAnimationFrame(() => { const bubbles = document.querySelector('.bubbles'); if (bubbles) bubbles.scrollTop = bubbles.scrollHeight; });
+  function sendMessage(id, body, attachment) {
+    if (!body && !attachment) return;
+    data.messages.push({ id: Date.now(), contact: id, body, mine: true, time: clock(), timestamp:Date.now(), read:true, ...(attachment ? {attachment:clone(attachment)} : {}) });
+    delete data.messageDrafts?.[ICSMessaging.draftKey(ui)];
+    openMessageThread(id);
   }
 
   let suppressClickUntil = 0;
@@ -572,7 +605,7 @@
       case 'close-overlay': ui.overlay = ''; renderOverlay(); break;
       case 'remove-recent': event.stopPropagation(); ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
       case 'clear-notifications': data.notifications = []; ui.overlay = ''; save(); renderStatus(); renderOverlay(); break;
-      case 'notification-open': ui.overlay = ''; if (Number(id) === 2) { ui.view = 'messaging'; ui.thread = 1; ui.sub = 'thread'; } else { ui.view = 'settings'; ui.sub = 'about'; } render(); break;
+      case 'notification-open': ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break;
       case 'unlock': ui.view = 'home'; render(); break;
       case 'unlock-camera': openApp('camera'); break;
       case 'settings-sub': ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
@@ -635,10 +668,27 @@
       case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
       case 'new-contact': ui.sub = 'new'; render(); break;
       case 'contact-call': ui.callNumber = contact(id)?.phone || ''; ui.dial = ui.callNumber; ui.view = 'phone'; ui.sub = 'calling'; render(); break;
-      case 'contact-message': ui.thread = Number(id); ui.view = 'messaging'; ui.sub = 'thread'; render(); break;
+      case 'contact-message': openMessageThread(id); break;
       case 'contact-email': ui.emailTo = contact(id)?.email || ''; ui.view = 'email'; ui.sub = 'compose'; render(); break;
-      case 'thread': ui.thread = Number(id); ui.sub = 'thread'; render(); break;
-      case 'new-message': ui.sub = 'new'; render(); break;
+      case 'thread': openMessageThread(id); break;
+      case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
+      case 'mms-menu': case 'mms-attach': case 'mms-smiley': ui.overlay = action; renderOverlay(); break;
+      case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }
+      case 'mms-call': { const person = ICSMessaging.identity(ui.thread,data.contacts); openApp('phone'); ui.callNumber = person.phone; ui.dial = person.phone; ui.sub = 'calling'; render(); break; }
+      case 'mms-photo': { const photo = data.photos.find(p => p.id === Number(id)); if (photo) { messageDraft().attachment = clone(photo); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); } break; }
+      case 'mms-remove-attachment': delete messageDraft().attachment; save(); render(); scrollMessages(); break;
+      case 'mms-insert-smiley': messageDraft().body = ((messageDraft().body || '') + ' ' + id).trim().slice(0,2000); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); break;
+      case 'mms-discard': delete data.messageDrafts?.[ICSMessaging.draftKey(ui)]; save(); ui.overlay = ''; render(); scrollMessages(); break;
+      case 'mms-message': ui.mmsMessage = id; ui.overlay = 'mms-message'; renderOverlay(); break;
+      case 'mms-details': ui.overlay = 'mms-details'; renderOverlay(); break;
+      case 'mms-forward': { const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage)); if (!message) break; ui.sub = 'new'; Object.assign(messageDraft(),{body:message.body,recipient:'',attachment:message.attachment ? clone(message.attachment) : null,updated:Date.now()}); save(); ui.overlay = ''; render(); break; }
+      case 'mms-delete-thread': case 'mms-delete-message': ui.mmsDelete = action === 'mms-delete-thread' ? 'thread' : 'message'; ui.overlay = 'mms-delete-confirm'; renderOverlay(); break;
+      case 'mms-confirm-delete': {
+        data.messages = data.messages.filter(m => ui.mmsDelete === 'thread' ? String(m.contact) !== String(ui.thread) : String(m.id) !== String(ui.mmsMessage));
+        if (ui.mmsDelete === 'thread') { delete data.messageDrafts?.[String(ui.thread)]; ui.sub = ''; }
+        save(); ui.overlay = ''; render(); break;
+      }
+      case 'new-message': ui.sub = 'new'; ui.overlay = ''; render(); viewport.querySelector('[name=recipient]')?.focus(); break;
       case 'photo': ui.selectedPhoto = Number(id); ui.sub = 'photo'; render(); break;
       case 'photo-delete': data.photos = data.photos.filter(photo => photo.id !== Number(id)); save(); ui.sub = ''; render(); toast('Photo deleted'); break;
       case 'photo-wallpaper': {
@@ -699,8 +749,12 @@
     switch (form.dataset.form) {
       case 'address': navigateBrowser(values.get('address')); break;
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
-      case 'reply': sendMessage(ui.thread, String(values.get('body')).trim()); break;
-      case 'new-message': sendMessage(values.get('contact'), String(values.get('body')).trim()); break;
+      case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
+      case 'mms-send': {
+        const target = ui.sub === 'thread' ? {key:ui.thread} : ICSMessaging.recipient(values.get('recipient'),data.contacts);
+        if (!target) { toast('Enter a contact name or valid phone number'); return; }
+        sendMessage(target.key, String(values.get('body') || '').trim(), messageDraft().attachment); break;
+      }
       case 'contact': {
         const name = String(values.get('name')).trim(), phone = String(values.get('phone')).trim(), email = String(values.get('email')).trim();
         if (!name || !phone) return;
@@ -717,6 +771,21 @@
     }
   });
   document.addEventListener('input', event => {
+    if (event.target.closest('.mms-compose')) {
+      const draft = messageDraft();
+      if (event.target.name === 'body') draft.body = event.target.value;
+      if (event.target.name === 'recipient') {
+        draft.recipient = event.target.value;
+        const query = draft.recipient.trim().toLocaleLowerCase();
+        viewport.querySelector('.mms-suggestions').innerHTML = query ? data.contacts.filter(p => `${p.name} ${p.phone}`.toLocaleLowerCase().includes(query)).slice(0,5).map(p => `<button type="button" data-action="mms-recipient" data-id="${p.id}">${safe(p.name)}<small>${safe(p.phone)}</small></button>`).join('') : '';
+      }
+      draft.updated = Date.now(); save();
+      const count = ICSMessaging.counter(draft.body || '');
+      viewport.querySelector('.mms-counter').textContent = draft.attachment ? 'MMS' : count.count > 1 || count.remaining < 10 ? `${count.remaining} / ${count.count}` : '';
+      viewport.querySelector('.mms-send').disabled = !(draft.body || '').trim() && !draft.attachment;
+      if (event.target.name === 'body') { event.target.style.height = '44px'; event.target.style.height = `${Math.min(88,event.target.scrollHeight)}px`; }
+      return;
+    }
     if (event.target.dataset.field === 'brightness') {
       data.settings.brightness = Number(event.target.value); save();
       const display = event.target.closest('.detail-pad')?.querySelector('p'); if (display) display.textContent = `${data.settings.brightness}%`;
@@ -885,10 +954,12 @@
     setHomePage(ui.page + Math.sign(delta));
   }, {passive:false});
   screen.addEventListener('dragstart', event => event.preventDefault());
-  let homeLongPressTimer = null, calculatorClearTimer = null;
+  let homeLongPressTimer = null, calculatorClearTimer = null, messageHoldTimer = null;
   screen.addEventListener('contextmenu', event => {
     if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
     event.preventDefault();
+    const message = event.target.closest('.mms-message');
+    if (message && !ui.overlay) { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; renderOverlay(); }
     if (!dragState && ui.view === 'home' && !ui.overlay && event.button === 2 && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { ui.overlay = 'wallpaper-source'; renderOverlay(); }
   });
   // Older WebKit versions may still start page rubber-banding during a custom
@@ -903,9 +974,11 @@
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const scrollTarget = event.pointerType === 'mouse' && !ui.overlay && !event.target.closest('input, select, textarea, .wallpaper-choice')
-      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content')) : null;
+      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll')) : null;
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; }, 550);
+    const message = event.target.closest('.mms-message');
+    if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressClickUntil = Date.now() + 700; renderOverlay(); }, 550);
     if (pointerStart.lockDrag) { screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     if (event.target.closest('.easter-robot')) eggTimer = setTimeout(() => { event.target.closest('.easter-robot')?.classList.add('expanding'); eggTimer = setTimeout(() => { ui.easterNyan = true; render(); }, 1100); }, 850);
     if (ui.view === 'calculator' && !ui.overlay && event.target.closest('.calc-pager')) pointerStart.calculatorSwipe = true;
@@ -916,7 +989,7 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     if (dragState) { moveGhost(event.clientX, event.clientY); return; }
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
-    if (Math.hypot(dx,dy) > 8) { clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); }
+    if (Math.hypot(dx,dy) > 8) { clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); }
     if (pointerStart.calculatorSwipe && (pointerStart.calculatorSwiping || Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy))) {
       pointerStart.calculatorSwiping = true; suppressClickUntil = Date.now() + 350; event.preventDefault();
       try { screen.setPointerCapture(event.pointerId); } catch {}
@@ -980,7 +1053,7 @@
   });
   window.addEventListener('pointerup', event => {
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
-    clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer);
+    clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
     if (pointerStart.calculatorSwiping) { setCalculatorPanel(Math.abs(dx) > 50 ? (dx < 0 ? 1 : 0) : ui.calcPanel); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
     if (pointerStart.drawerSwiping) { finishDrawerPage(dx); pointerStart = null; return; }
@@ -1037,7 +1110,7 @@
     if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade') renderOverlay(); pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade') renderOverlay(); pointerStart = null; });
   document.addEventListener('keydown', event => {
     if (event.target.matches('.recent-item') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
     if (ui.view === 'calculator' && !ui.overlay && ['ArrowUp','ArrowDown'].includes(event.key) && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) {

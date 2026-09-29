@@ -1,0 +1,29 @@
+/* AOSP Mms uses Holo.Light.DarkActionBar, white message blocks and square avatars. */
+.mms-app{display:flex;flex-direction:column;background:#fff;color:#111;overflow:hidden;color-scheme:light}
+.mms-header{height:48px;min-height:48px;display:flex;align-items:center;background:#333;color:#fff;box-shadow:0 2px 3px #0004;z-index:2}
+.mms-header button,.mms-actions button{height:48px;min-width:36px;padding:6px;border:0;background:none;display:grid;place-items:center}
+.mms-header img,.mms-actions img{width:32px;height:32px;object-fit:contain}
+.mms-header .mms-up{position:relative;width:44px;padding:5px 3px 5px 9px;flex:none}
+.mms-up>span{position:absolute;left:0;font-size:25px;color:#bbb}
+.mms-title{flex:1;min-width:0}.mms-title h2{font-size:18px;font-weight:400;margin:0;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.mms-title small{font-size:11px;color:#ccc;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mms-scroll{overflow-y:auto;min-height:0;flex:1;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none}
+.mms-thread{position:relative;display:flex;width:100%;height:68px;gap:10px;padding:8px 10px 8px 0;border:0;border-bottom:1px solid #ccc;text-align:left;background:#eee;color:#111!important;align-items:center}
+.mms-thread.unread{background:#fff}.mms-thread.unread strong{font-weight:700}
+.mms-avatar{width:50px;height:50px;object-fit:cover;flex:none;background:#ccc}
+.mms-thread-copy{min-width:0;flex:1;align-self:stretch;padding-top:2px}.mms-thread-copy strong{display:block;font-size:17px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mms-thread-copy em{font-size:13px;font-style:normal;color:#888}.mms-thread-copy>span{display:block;max-width:calc(100% - 50px);font-size:13px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:5px}.mms-thread-copy b{color:#b33;font-weight:400}
+.mms-thread time{position:absolute;right:10px;bottom:12px;font-size:11px;color:#777}
+.mms-actions{display:flex;min-height:48px;background:#333;box-shadow:0 -1px 3px #0003}.mms-actions button{flex:1}.mms-actions button:last-child{flex:0 0 48px}
+.mms-compose{display:flex;flex:1;flex-direction:column;min-height:0;background:#f1f1f1}
+.mms-history{display:flex;flex-direction:column;padding:8px 0;gap:0}.mms-history::before{content:"";flex:1}
+.mms-message{display:flex;flex-shrink:0;align-items:flex-start;border:0;background:transparent;padding:0;width:100%;text-align:left;color:#000!important;position:relative}
+.mms-message>.mms-avatar{height:64px;width:64px}.mms-message.sent{flex-direction:row-reverse;text-align:right}
+.mms-message::after{content:"";position:absolute;left:56px;top:8px;width:8px;height:16px;background:url('assets/mms-msg_bubble_left.png') center/100% 100% no-repeat}.mms-message.sent::after{left:auto;right:56px;background-image:url('assets/mms-msg_bubble_right.png')}
+.mms-message-copy{flex:1;min-width:0;min-height:64px;background:white;padding:5px 12px 8px;font-size:16px;line-height:1.35;white-space:pre-wrap;overflow-wrap:anywhere}.mms-message time{display:block;font-size:12px;color:#aaa;margin-top:4px}
+.mms-compose-bar{display:flex;align-items:flex-end;background:#fff;border-top:1px solid #ddd;padding:4px 4px 4px 8px;gap:4px;flex-shrink:0}.mms-compose-bar textarea{min-width:0;flex:1;min-height:44px;max-height:88px;resize:none;border:0;border-bottom:2px solid #aaa;background:linear-gradient(#aaa,#aaa) left bottom/1px 5px no-repeat,linear-gradient(#aaa,#aaa) right bottom/1px 5px no-repeat;color:#111;padding:10px 4px 5px;font-size:16px;line-height:22px;outline:none}.mms-compose-bar textarea:focus{border-color:#33b5e5}.mms-compose-bar>div{width:46px;text-align:center}.mms-send{width:46px;height:40px;border:0;background:none;padding:4px}.mms-send img{width:32px;height:32px;object-fit:contain}.mms-send:disabled{opacity:.35}.mms-counter{font-size:11px;color:#555}
+.mms-recipient{position:relative;padding:5px 8px;background:#fff}.mms-recipient input,.mms-search input{width:100%;border:0;border-bottom:2px solid #33b5e5;background:#fff;color:#111;padding:9px 4px;font-size:16px;outline:none;min-width:0}.mms-suggestions{position:absolute;z-index:4;top:100%;left:8px;right:8px;background:#fff;box-shadow:0 3px 6px #0005;max-height:190px;overflow:auto}.mms-suggestions button{display:block;width:100%;padding:10px;text-align:left;background:white;color:#111!important;border:0;border-bottom:1px solid #ddd}.mms-suggestions small{display:block;color:#777}
+.mms-search{display:flex;padding:5px;background:#fff}.mms-search button{border:0;background:#eee;color:#333!important;font-size:25px;width:42px}
+.mms-empty{text-align:center;padding:35px 15px;color:#777;font-size:16px}.mms-new-draft{width:100%;text-align:left;padding:15px;border:0;border-bottom:1px solid #ccc;background:#eee;color:#a33!important;overflow-wrap:anywhere}
+.mms-attachment{position:relative;padding:6px 10px;flex-shrink:0}.mms-photo{height:120px;position:relative;overflow:hidden}.mms-photo::before{content:"";position:absolute;border-radius:50%;background:#ffffff60;width:55px;height:55px;top:12%;right:15%}.mms-photo span{position:absolute;bottom:5px;left:5px;font-size:11px;color:#fff;text-shadow:0 1px 2px #000}.mms-attachment .mms-photo{height:85px}.mms-attachment>button{position:absolute;right:12px;top:7px;background:#333b;color:white;border:0;width:30px;height:30px;font-size:22px}
+.mms-dialog{background:#f5f5f5;color:#222;max-height:85%;overflow:auto}.mms-dialog button{color:#222!important}.mms-dialog-list{display:grid}.mms-dialog-list>button{background:none;border:0;border-bottom:1px solid #ddd;text-align:left;padding:15px;font-size:16px}.mms-dialog p{white-space:pre-wrap;overflow-wrap:anywhere}.mms-dialog .mms-photo{height:80px}.mms-app button:active{background-color:#c0e8f6}.mms-header button:active,.mms-actions button:active{background:#ffffff25}
+
+.mms-menu-root{top:auto;bottom:48px}

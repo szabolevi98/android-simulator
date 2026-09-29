@@ -42,3 +42,7 @@ These resources retain the AOSP Apache-2.0 license described above. The JavaScri
 ## Play Store demo
 
 `assets/play-store.svg` is a project-authored recreation of a shopping bag with the Play mark. Storefront illustrations are project CSS, apart from the existing AOSP canyon wallpaper and application icons listed above. No Google Play APK, proprietary storefront assets, or historical screenshot is redistributed. Google Play is a trademark of Google LLC; this offline sample catalog is unofficial and is not connected to Google services.
+
+## Messaging reconstruction
+
+`versions/4.0.4/assets/mms-*.png` are unmodified [AOSP Mms hdpi resources at `android-4.0.4_r2.1`](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/drawable-hdpi/), renamed with the `mms-` prefix: `ic_contact_picture`, `ic_menu_attachment`, `ic_menu_call`, `ic_menu_msg_compose_holo_dark`, `ic_menu_search_holo_dark`, `ic_send_holo_light`, `msg_bubble_left` and `msg_bubble_right`. They retain the AOSP Apache-2.0 license described above. The browser UI and SMS segment counter are project code.

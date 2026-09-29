@@ -35,7 +35,7 @@ Every listed app was opened in the browser and checked for missing images, horiz
 | --- | --- |
 | Phone | Dialpad now uses original key images, texture, tabs and bottom actions with the source 20/65/15 proportions. Search, add-to-contact handoff and persistent outgoing call log work. Favorites/contact list, log details and the in-call screen remain simplified; voicemail, pause/wait dialing and full call settings are not implemented. |
 | People | Letter circles, generic header, floating add button and contact detail layout need replacement with the original People lists/tabs/profile presentation. |
-| Messaging | Floating add button, circular avatars and bubble conversation styling are not the original Mms layouts. Original source has separate sent/received row layouts. |
+| Messaging | Reconstructed from the Mms layouts; see the Messaging section below. Browser typography, menus and attachment selection remain approximations; no group messages, delivery reports or Android keyboard. |
 | Browser | Toolbar, tab overview, menus and bookmark controls are simplified. Offline web content is intentionally dummy; the surrounding browser chrome still needs matching. |
 | Camera | Viewfinder and controls are generic placeholders. Match original Camera controls while keeping a local mock preview and capture result. |
 | Gallery | Uses a generic white grid of demo pictures rather than the original album/filmstrip/detail navigation. |
@@ -115,3 +115,19 @@ Browser checks passed for the drawer icon and Shop shortcut, category filtering,
 At a 390×650 viewport, all five language variants showed translated tabs, no horizontal content overflow, no document overflow, and no broken storefront images. Desktop and mobile-size views were visually inspected; browser error logs were empty. Physical touch-device behavior was not tested.
 
 ![Play storefront and sample app detail](screenshots/ics-play-store.png)
+
+## Messaging reconstruction — 2026-09-29
+
+Sources at AOSP tag `android-4.0.4_r2.1`:
+
+- [Manifest](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/AndroidManifest.xml) and [styles](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/values/styles.xml): Holo.Light.DarkActionBar and the conversation list's split action bar on narrow screens.
+- [Conversation list item](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/layout/conversation_list_item.xml), [list menu](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/menu/conversation_list_menu.xml), [compose layout](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/layout/compose_message_activity.xml), and the sent/received row sources linked above.
+- [Colors](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/values/colors.xml), [dimensions](https://android.googlesource.com/platform/packages/apps/Mms/+/refs/tags/android-4.0.4_r2.1/res/values/dimens.xml) and `QuickContactDivot.java`: gray history background, white message blocks, 64dp square message avatars and the original small pointers over the avatars.
+
+The floating compose button, round letter avatars and colored bubbles were replaced. Original compose/search/call/attachment/send icons and default contact pictures are included. Functional additions include recipient suggestions, arbitrary phone numbers, conversation search, persistent drafts, GSM/Unicode segment counts, sample picture attachments, forwarding, details, smileys and confirmed deletion. Existing numeric contact references and saved messages remain readable. Recents restores the nested message scroll container; desktop mouse dragging also scrolls it.
+
+Browser checks covered draft persistence after reload, sending to an existing contact and a new phone number, invalid recipient handling, picture-only sending, message deletion, searching message text and returning to search, forwarding, Unicode counting, details, right-click options, simulated calling and returning through Recents. All five languages were checked at 390×650: translated input labels, no horizontal/document overflow, no broken images or logged browser errors. Unit checks cover segment boundaries, extended GSM characters, Unicode/emoji, contact normalization, legacy numeric/string thread references, draft sorting, search and HTML escaping.
+
+Limits: menus expose a functional subset of Mms; attachments use the simulator's illustrated Gallery, and a tap also opens message options as a mouse/keyboard convenience. No group messages, real transport, delivery reports, video/audio attachments, contact photo editing or replica Android keyboard. Physical touch-device long-press and keyboard resizing were not tested. This is a source-informed browser approximation, not a pixel-exact Android rendering.
+
+![Messaging conversation list and thread](screenshots/ics-messaging.png)
