@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs'),vm=require('node:vm');
+const context={window:{}};
+for(const file of ['people','browser-session'])vm.runInNewContext(fs.readFileSync(`versions/4.0.4/${file}.js`,'utf8'),context);
+const b=context.window.ICSBrowserSession,p=context.window.ICSPeople;
+let session=b.restore(null,['www.google.com']);
+b.navigate(session,'news.example');b.add(session);b.navigate(session,'retro.example');
+b.move(session,-1);assert.equal(b.url(session),'www.google.com');
+session.active=0;assert.equal(b.url(session),'news.example');
+b.move(session,-1);b.navigate(session,'maps.example');assert.equal(b.current(session).history.length,2);
+session=b.restore(JSON.parse(JSON.stringify(session)));assert.equal(b.url(session),'maps.example');
+b.close(session,0);assert.equal(b.url(session),'www.google.com');b.close(session,0);assert.equal(session.tabs.length,1);
+const data={contacts:[{id:1,name:'Alex',phone:'202-555-0100',favorite:true},{id:2,name:'Sam',phone:'5551111'}],contactGroups:[{id:'friends',members:[1,2]}],messages:[{contact:1,body:'Keep me'}],messageDrafts:{1:{body:'Keep draft'}}};
+assert.equal(p.list(data,'favorites','','','en').length,1);
+assert.equal(p.list(data,'all','SAM','','en')[0].id,2);
+p.remove(data,1);assert.equal(data.contacts.length,1);assert.equal(data.messages[0].contact,'tel:2025550100');assert.equal(data.messageDrafts['tel:2025550100'].body,'Keep draft');assert.equal(data.contactGroups[0].members.length,1);
+console.log('People/Browser checks passed: filters, conversation retention, independent histories, tab closing and restore.');

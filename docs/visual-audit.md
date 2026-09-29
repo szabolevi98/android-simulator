@@ -34,9 +34,9 @@ Every listed app was opened in the browser and checked for missing images, horiz
 | App | Current mismatch / next required work |
 | --- | --- |
 | Phone | Dialpad now uses original key images, texture, tabs and bottom actions with the source 20/65/15 proportions. Search, add-to-contact handoff and persistent outgoing call log work. Favorites/contact list, log details and the in-call screen remain simplified; voicemail, pause/wait dialing and full call settings are not implemented. |
-| People | Letter circles, generic header, floating add button and contact detail layout need replacement with the original People lists/tabs/profile presentation. |
+| People | Replaced with source-informed lists, tabs and photo header; see the People and Browser section below. Favorites tiles, contact photos, multi-value fields and account synchronization remain incomplete. |
 | Messaging | Reconstructed from the Mms layouts; see the Messaging section below. Browser typography, menus and attachment selection remain approximations; no group messages, delivery reports or Android keyboard. |
-| Browser | Toolbar, tab overview, menus and bookmark controls are simplified. Offline web content is intentionally dummy; the surrounding browser chrome still needs matching. |
+| Browser | Phone toolbar and tab/library controls reconstructed; see below. Tab previews remain simplified text cards, and the web content is intentionally fictional. |
 | Camera | Viewfinder and controls are generic placeholders. Match original Camera controls while keeping a local mock preview and capture result. |
 | Gallery | Uses a generic white grid of demo pictures rather than the original album/filmstrip/detail navigation. |
 | Clock | The digital screen, white alarm list, modern pill toggles and floating add button need the original DeskClock/alarm layouts. |
@@ -131,3 +131,20 @@ Browser checks covered draft persistence after reload, sending to an existing co
 Limits: menus expose a functional subset of Mms; attachments use the simulator's illustrated Gallery, and a tap also opens message options as a mouse/keyboard convenience. No group messages, real transport, delivery reports, video/audio attachments, contact photo editing or replica Android keyboard. Physical touch-device long-press and keyboard resizing were not tested. This is a source-informed browser approximation, not a pixel-exact Android rendering.
 
 ![Messaging conversation list and thread](screenshots/ics-messaging.png)
+
+## People and Browser — 2026-09-29
+
+Primary layout references at AOSP tag `android-4.0.4_r2.1`:
+
+- [Contacts people_activity.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-4.0.4_r2.1/res/layout/people_activity.xml), [contact detail rows](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-4.0.4_r2.1/res/layout/contact_detail_list_item.xml), and [photo header](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-4.0.4_r2.1/res/layout/carousel_about_tab.xml).
+- [Browser phone navigation bar](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_browser/android-4.0.4_r2.1/res/layout/title_bar_nav.xml) and [tab card](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_browser/android-4.0.4_r2.1/res/layout/nav_tab_view.xml).
+
+People now uses a cyan header, three tabs, alphabetic white lists, original square placeholder photos, a photo detail header and a bottom action bar. Contacts can be searched, created, edited, starred and deleted; groups can be created and edited. Changes persist locally. Removing a contact preserves its messages under the phone number. The contact overflow menu exposes editing and deletion.
+
+Browser uses the phone address bar, original tab/close icons, an overflow menu and a tab overview. Each tab has an independent navigation stack that persists across reloads. Bookmarks, history, saved sample pages and find-on-page highlighting work with the offline site collection. Two linked fictional articles were added. Saving a page stores a reference to bundled content, not a snapshot of an external website.
+
+Checks: contact creation, editing, favorites and persistence; group creation, membership editing and persistence; independent browser histories, tab selection/closing and persistence; bookmarks and saved-page persistence; find-on-page counts and linked article navigation. Both apps were inspected at 390×650 in all five languages: no document/content horizontal overflow or broken images; browser error logs were empty. The contact editor was also visually checked at this size. Unit tests cover filtering, conversation retention, tab-history branching, closing and restore. JavaScript syntax and whitespace checks passed.
+
+Remaining differences: People has a simplified favorites list, single phone/email fields, default photos and no Updates/account synchronization. Browser tab previews are text summaries rather than captured page thumbnails; menus expose a subset of the Android app. Font metrics, animation and browser rendering are approximations. Physical touch devices and their keyboards were not exercised.
+
+![People and Browser](screenshots/ics-people-browser.png)

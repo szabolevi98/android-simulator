@@ -25,6 +25,7 @@
       { id: 3, name: 'Taylor Lee', phone: '202-555-0116', email: 'taylor@example.com' },
       { id: 4, name: 'Mom', phone: '202-555-0107', email: 'mom@example.com' }
     ],
+    contactGroups: [{id:'friends',name:'Friends',members:[1,2,3]},{id:'family',name:'Family',members:[4]}],
     messages: [
       { id: 1, contact: 1, body: 'Hey! Are we still on for coffee tomorrow?', mine: false, time: '10:42' },
       { id: 2, contact: 1, body: 'Absolutely. See you at 11!', mine: true, time: '10:45' },
@@ -93,6 +94,8 @@
     { title: 'Afterglow', artist: 'The Demo Tapes' },
     { title: 'Night Drive', artist: 'The Demo Tapes' }
   ];
+  ui.browserSession = ICSBrowserSession.restore(data.browserSession,data.browserHistory);
+  syncBrowserState();
   const apps = [
     ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'People', '◉', '#efa96f', '#a45142'],
     ['messaging', 'Messaging', '✉', '#84cf62', '#428c43'], ['browser', 'Browser', '◎', '#65aee2', '#246ba8'],
@@ -179,6 +182,7 @@
     else viewport.innerHTML = renderApp();
     renderOverlay();
     i18n.translateDOM(screen);
+    if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
   }
   function renderLock() {
     return `<div class="lock-view"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${fullDate()}</div></div><div class="lock-wave"><div class="lock-outer-ring"></div><button class="lock-target lock-target-unlock" data-action="unlock" aria-label="Unlock"><img src="assets/ic_lockscreen_unlock_normal.png" alt=""></button><button class="lock-target lock-target-camera" data-action="unlock-camera" aria-label="Camera"><img src="assets/ic_lockscreen_camera_normal.png" alt=""></button><button class="lock-handle" data-action="lock-hint" aria-label="Slide to unlock"><img src="assets/ic_lockscreen_handle_normal.png" alt=""></button></div><div class="lock-carrier">${carrierName()}</div></div>`;
@@ -257,7 +261,7 @@
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
   function appScrollContainer(app) {
-    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : '.app-view') || viewport.firstElementChild;
+    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) {
@@ -277,6 +281,7 @@
     }
     if (ui.view === 'calculator' && ui.calcPanel) { setCalculatorPanel(0); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
+    if (ui.view === 'browser' && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.easterNyan = false; render(); return; }
     if (ui.view === 'settings' && ['vpn', 'tethering', 'beam', 'mobile-networks'].includes(ui.sub)) { ui.sub = 'wireless'; render(); return; }
@@ -286,6 +291,7 @@
     if (ui.view === 'settings' && ['brightness','wallpaper','sleep'].includes(ui.sub)) { ui.sub = 'display'; render(); return; }
     if (ui.view === 'settings' && ['volumes','ringtone'].includes(ui.sub)) { ui.sub = 'sound'; render(); return; }
     if (ui.view === 'messaging' && ui.sub === 'thread') { ui.sub = ui.mmsListMode || ''; render(); return; }
+    if (ui.view === 'people' && ui.sub === 'edit') { ui.sub = 'detail'; render(); return; }
     if (ui.sub) { ui.sub = ''; render(); if (ui.view === 'settings') viewport.querySelector('.settings-app').scrollTop = ui.settingsRootScroll; return; }
     home(false);
   }
@@ -300,6 +306,10 @@
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
+    } else if (ui.overlay.startsWith('people-')) {
+      overlayRoot.innerHTML = peopleOverlay();
+    } else if (ui.overlay === 'browser-menu') {
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu web-menu"><button data-action="browser-forward" ${ui.browserIndex >= ui.browserHistory.length-1?'disabled':''}>Forward</button><button data-action="browser-refresh">Refresh</button><button data-action="browser-new-tab">New tab</button><button data-action="browser-save">Bookmark</button><button data-action="browser-bookmarks">Bookmarks</button><button data-action="browser-saved">Saved pages</button><button data-action="browser-save-page">Save for offline reading</button><button data-action="browser-find">Find on page</button></div>`;
     } else if (ui.overlay.startsWith('mms-')) {
       overlayRoot.innerHTML = renderMessageOverlay();
     } else if (ui.overlay === 'play-menu') {
@@ -392,17 +402,22 @@
     if (value.includes(' ') || !value.includes('.')) return `search:${value}`;
     return value.toLowerCase();
   }
+  function syncBrowserState() {
+    const tab = ICSBrowserSession.current(ui.browserSession);
+    ui.browserUrl = ICSBrowserSession.url(ui.browserSession);
+    ui.browserHistory = tab.history; ui.browserIndex = tab.index;
+    ui.browserTab = ui.browserSession.active;
+    ui.browserTabs = ui.browserSession.tabs.map(tab => tab.history[tab.index]);
+  }
+  function saveBrowserState() { syncBrowserState(); data.browserSession = clone(ui.browserSession); save(); }
   function navigateBrowser(url) {
     const normalized = normalizeAddress(url);
-    ui.browserUrl = normalized; ui.sub = '';
-    ui.browserHistory = ui.browserHistory.slice(0, ui.browserIndex + 1);
-    ui.browserHistory.push(normalized); ui.browserIndex++;
-    data.browserHistory = ui.browserHistory.slice(-50); save();
-    ui.browserTabs[ui.browserTab] = normalized;
-    render();
+    ICSBrowserSession.navigate(ui.browserSession,normalized);
+    data.browserHistory = [...data.browserHistory,normalized].slice(-50);
+    ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render();
   }
-  function browserBack() { if (ui.browserIndex > 0) { ui.browserIndex--; ui.browserUrl = ui.browserHistory[ui.browserIndex]; ui.browserTabs[ui.browserTab] = ui.browserUrl; render(); } }
-  function browserForward() { if (ui.browserIndex < ui.browserHistory.length - 1) { ui.browserIndex++; ui.browserUrl = ui.browserHistory[ui.browserIndex]; ui.browserTabs[ui.browserTab] = ui.browserUrl; render(); } }
+  function browserBack() { ICSBrowserSession.move(ui.browserSession,-1); saveBrowserState(); render(); }
+  function browserForward() { ICSBrowserSession.move(ui.browserSession,1); ui.overlay = ''; saveBrowserState(); render(); }
   function browserLink(url, title, subtitle = '') { return `<div class="web-result"><a href="#" data-action="browser-link" data-url="${safe(url)}"><strong>${safe(title)}</strong></a><small>${safe(url)}</small><p>${safe(subtitle)}</p></div>`; }
   function renderWebsite(url) {
     if (url === 'www.google.com') return `<div class="google-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div><form class="search-form" data-form="web-search"><input name="query" aria-label="Search the web" placeholder="Search the web" required><button type="submit">Search</button></form><div class="browser-tiles">${[['www.android.com','Android'],['en.wikipedia.org/wiki/Android','Wikipedia'],['news.example','News'],['retro.example','2012 Web']].map(item => `<button data-action="browser-link" data-url="${item[0]}">${item[1]}</button>`).join('')}</div><p style="font-size:11px;color:#888;margin-top:24px">Offline demo pages · 2012</p>`;
@@ -412,16 +427,37 @@
     }
     if (url.includes('android.com')) return `<h2 style="color:#79b93f">android</h2><h3>Meet Android 4.0</h3><p>A new, refined Android for phones and tablets. Share more, browse faster and personalize your home screen.</p><div style="background:#23343c;color:white;padding:25px;text-align:center;font-size:38px">🤖<br><small style="font-size:17px">Ice Cream Sandwich</small></div>${browserLink('en.wikipedia.org/wiki/Android','Learn about Android','The story of Android.')}`;
     if (url.includes('wikipedia.org')) return `<h2>Android (operating system)</h2><p><small>From Wikipedia, the free encyclopedia</small></p><hr><p>Android is a mobile operating system based on a modified version of the Linux kernel. Android 4.0, known as Ice Cream Sandwich, introduced the Holo interface and virtual navigation buttons.</p><h3>Versions</h3><p>Gingerbread · Ice Cream Sandwich · Jelly Bean · KitKat</p>${browserLink('www.android.com','Official Android website')}`;
-    if (url.includes('news.example')) return `<h2>Tech News</h2><p style="color:#777">Friday, June 15, 2012</p><hr><h3>The Galaxy Nexus experience</h3><p>Android 4.0 makes multitasking, notifications and home screen customization easier than ever.</p><h3>Apps in your pocket</h3><p>Explore the growing world of mobile apps and connected devices.</p>${browserLink('retro.example','Visit the 2012 Web')}`;
-    if (url.includes('retro.example')) return `<h2>Welcome to the 2012 Web</h2><p>A little time capsule from the early smartphone era.</p><ul><li>Share photos</li><li>Check your email</li><li>Customize your phone</li></ul>${browserLink('www.google.com','Back to Google')}`;
+    if (url === 'news.example/galaxy-nexus' || url === 'retro.example/holo') return `<article class="web-offline-article"><h2>${url.startsWith('news')?'A day with Galaxy Nexus':'A closer look at Holo'}</h2><time>June 15, 2012 · Demo archive</time><p>The phone has a large screen, three navigation buttons and a blue-accented interface. Open the app drawer to discover the classic Android experience.</p><h3>Everyday essentials</h3><p>Contacts, messages and the browser share a simple visual language. Swipe between home screens, arrange your favorite apps, and pull down the notification shade.</p><h3>Make it yours</h3><p>Choose a wallpaper, add an analog clock and keep your favorite contacts close. This small offline archive is a fictional snapshot of the early smartphone era.</p>${browserLink('news.example','Back to Tech News')}${browserLink('retro.example/holo','Explore the Holo interface')}</article>`;
+    if (url.includes('news.example')) return `<h2>Tech News</h2><p style="color:#777">Friday, June 15, 2012</p><hr><h3>The Galaxy Nexus experience</h3><p>Android 4.0 makes multitasking, notifications and home screen customization easier than ever.</p><h3>Apps in your pocket</h3><p>Explore the growing world of mobile apps and connected devices.</p>${browserLink('news.example/galaxy-nexus','Read the Galaxy Nexus story')}${browserLink('retro.example','Visit the 2012 Web')}`;
+    if (url.includes('retro.example')) return `<h2>Welcome to the 2012 Web</h2><p>A little time capsule from the early smartphone era.</p><ul><li>Share photos</li><li>Check your email</li><li>Customize your phone</li></ul>${browserLink('retro.example/holo','Explore the Holo interface')}${browserLink('maps.example','Open the sample map')}${browserLink('www.google.com','Back to Google')}`;
     if (url.includes('maps.example')) return `<h2>Maps</h2><div style="height:230px;background:repeating-linear-gradient(35deg,#e2ead9,#e2ead9 18px,#c7dfd7 18px,#c7dfd7 24px);display:grid;place-items:center;color:#426a68">San Francisco · Demo map</div><p>Map data is a local illustration.</p>`;
     return `<h2>Webpage unavailable</h2><p>The simulator browses a small collection of offline example pages.</p>${browserLink('www.google.com','Go to Google')}`;
   }
+  function browserTitle(url) {
+    return url === 'www.google.com' ? 'Google' : url.startsWith('search:') ? url.slice(7) : url.replace(/^www\./,'');
+  }
   function renderBrowser() {
-    if (ui.sub === 'tabs') return appView('Tabs', `<div class="tabs-list">${ui.browserTabs.map((url, i) => `<button data-action="browser-tab" data-id="${i}">${i === ui.browserTab ? '● ' : ''}${safe(url)}</button>`).join('')}<button data-action="browser-new-tab">＋ New tab</button></div>`, '');
-    if (ui.sub === 'bookmarks') return appView('Bookmarks', `${data.bookmarks.map(url => row(url, 'Saved page', 'browser-bookmark', url, '★')).join('')}${row('History', 'Recently visited', 'browser-history', '', '◷')}`);
-    if (ui.sub === 'history') return appView('History', `${[...ui.browserHistory].reverse().map(url => row(url, 'Visited', 'browser-bookmark', url, '◷')).join('')}`);
-    return `<div class="app-view"><div class="browser-toolbar"><button data-action="browser-back" aria-label="Back">‹</button><button data-action="browser-forward" aria-label="Forward">›</button><form data-form="address"><input name="address" aria-label="Web address" value="${safe(ui.browserUrl.startsWith('search:') ? ui.browserUrl.slice(7) : ui.browserUrl)}"></form><button data-action="browser-tabs" aria-label="Tabs">▣</button><button data-action="browser-menu" aria-label="Bookmarks">⋮</button></div><div class="browser-page">${renderWebsite(ui.browserUrl)}<div style="margin-top:25px;border-top:1px solid #ddd;padding-top:12px"><button class="browser-action" data-action="browser-save">☆ Bookmark</button> <button class="browser-action" data-action="browser-bookmarks">Bookmarks</button></div></div></div>`;
+    const header = title => `<header class="web-header"><button data-action="back" aria-label="Back">‹</button><h2>${safe(i18n.t(title))}</h2><button data-action="browser-new-tab" aria-label="New tab"><img src="assets/web-ic_new_window_holo_dark.png" alt=""></button></header>`;
+    if (ui.sub === 'tabs') return `<div class="app-view ics-browser">${header('Tabs')}<div class="web-tabs">${ui.browserTabs.map((url,i)=>`<article class="web-tab-card ${i===ui.browserTab?'current':''}"><div class="web-tab-title"><button data-action="browser-tab" data-id="${i}">${safe(browserTitle(url))}</button><button data-action="browser-close-tab" data-id="${i}" aria-label="Close tab"><img src="assets/web-ic_tab_close.png" alt=""></button></div><button class="web-tab-preview" data-action="browser-tab" data-id="${i}"><div><h2>${safe(browserTitle(url))}</h2><p>${safe(renderWebsite(url).replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').slice(0,650))}</p></div></button></article>`).join('')}</div></div>`;
+    if (['bookmarks','history','saved'].includes(ui.sub)) {
+      const urls = ui.sub==='history' ? [...data.browserHistory].reverse() : ui.sub==='saved' ? data.savedPages || [] : data.bookmarks;
+      return `<div class="app-view ics-browser">${header('Bookmarks')}<nav class="web-library-tabs">${[['bookmarks','Bookmarks'],['history','History'],['saved','Saved pages']].map(([id,label])=>`<button class="${ui.sub===id?'active':''}" data-action="browser-${id}">${safe(i18n.t(label))}</button>`).join('')}</nav><div class="web-library">${urls.map(url=>`<div class="web-library-row"><button data-action="browser-bookmark" data-id="${safe(url)}">${safe(browserTitle(url))}<small>${safe(url)}</small></button>${ui.sub!=='history'?`<button data-action="browser-remove-saved" data-id="${safe(url)}" aria-label="Delete">×</button>`:''}</div>`).join('')||'<p class="empty-note">No saved pages</p>'}</div></div>`;
+    }
+    return `<div class="app-view ics-browser"><div class="browser-toolbar"><form data-form="address"><img src="assets/browser.png" alt=""><input name="address" aria-label="Web address" value="${safe(ui.browserUrl.startsWith('search:')?ui.browserUrl.slice(7):ui.browserUrl)}"></form><button data-action="browser-tabs" aria-label="Tabs"><img src="assets/web-ic_windows_holo_dark.png" alt=""><span class="browser-tab-count">${ui.browserTabs.length}</span></button><button data-action="browser-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div>${ui.browserFind!==undefined?`<form class="web-find" data-form="browser-find"><input name="query" aria-label="Find on page" placeholder="Find on page" value="${safe(ui.browserFind)}"><button type="submit">Search</button><button type="button" data-action="browser-close-find" aria-label="Close">×</button></form><div class="web-find-count" aria-live="polite"></div>`:''}<div class="browser-page">${renderWebsite(ui.browserUrl)}</div></div>`;
+  }
+  function highlightBrowserText() {
+    const root=viewport.querySelector('.browser-page'), query=ui.browserFind.toLocaleLowerCase();
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT), nodes=[]; let node;
+    while((node=walker.nextNode())) nodes.push(node);
+    let count=0;
+    for(const text of nodes) {
+      let value=text.nodeValue, offset=0, index=value.toLocaleLowerCase().indexOf(query); if(index<0)continue;
+      const fragment=document.createDocumentFragment();
+      while(index>=0) { fragment.append(document.createTextNode(value.slice(offset,index)));const mark=document.createElement('mark');mark.textContent=value.slice(index,index+query.length);fragment.append(mark);count++;offset=index+query.length;index=value.toLocaleLowerCase().indexOf(query,offset); }
+      fragment.append(document.createTextNode(value.slice(offset)));text.replaceWith(fragment);
+    }
+    viewport.querySelector('.web-find-count').textContent=`${count} ${i18n.t('matches')}`;
+    root.querySelector('mark')?.scrollIntoView({block:'nearest'});
   }
 
   function navigatePlay(next) {
@@ -443,13 +479,18 @@
     return `<div class="app-view phone-app">${header}${body}</div>`;
   }
   function contactByPhone(number) { const normalized = String(number).replace(/[^\d+]/g, ''); return data.contacts.find(item => item.phone.replace(/[^\d+]/g, '') === normalized); }
-  function renderPeople() {
-    if (ui.sub === 'detail') {
-      const person = contact(ui.selectedContact); if (!person) return appView('People', '<div class="empty-note">Contact not found</div>');
-      return appView(person.name, `<div class="contact-card"><div class="avatar">${safe(person.name[0])}</div><div><div style="font-size:22px">${safe(person.name)}</div><small>Mobile</small></div></div><div class="contact-actions"><button data-action="contact-call" data-id="${person.id}">☎ Call</button><button data-action="contact-message" data-id="${person.id}">✉ Message</button></div>${row(person.phone, 'Mobile', 'contact-call', person.id, '☎')}${row(person.email, 'Email', 'contact-email', person.id, '✉')}`);
-    }
-    if (ui.sub === 'new') return appView('New contact', `<form class="form-stack" data-form="contact"><label>Name<input name="name" required maxlength="50"></label><label>Phone<input name="phone" required maxlength="24"></label><label>Email<input name="email" type="email" maxlength="80"></label><button class="primary-button" type="submit">Save contact</button></form>`);
-    return appView('People', `<div class="relative">${data.contacts.map(person => `<button class="list-row" data-action="contact" data-id="${person.id}"><span class="avatar">${safe(person.name[0])}</span><span class="row-copy">${safe(person.name)}<small>${safe(person.phone)}</small></span><span class="chevron">›</span></button>`).join('')}<button class="fab" data-action="new-contact" aria-label="Add contact">＋</button></div>`);
+  function renderPeople() { return ICSPeople.render(data,ui,key => i18n.t(key),i18n.locale()); }
+  function editPerson(isNew = false) {
+    const person = isNew ? {} : contact(ui.selectedContact);
+    if (!person) return;
+    ui.peopleDraft = {...person,groups:data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>g.id)};
+    ui.sub = isNew ? 'new' : 'edit'; ui.overlay = ''; render();
+  }
+  function peopleOverlay() {
+    if (ui.overlay === 'people-menu') return '<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="people-edit">Edit contact</button><button data-action="people-delete">Delete contact</button></div>';
+    if (ui.overlay === 'people-delete') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="Delete contact"><h3>Delete contact</h3><p>${safe(contact(ui.selectedContact)?.name || '')}</p><p>Messages will be kept under the phone number.</p><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="people-confirm-delete">Delete</button></div></div>`;
+    const group = data.contactGroups.find(g=>g.id===ui.peopleEditGroup);
+    return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog mms-dialog people-editor" role="dialog" aria-label="${group?'Edit group':'New group'}" data-form="people-group"><h3>${group?'Edit group':'New group'}</h3><label>Group name<input name="name" required maxlength="50" value="${safe(group?.name||'')}"></label>${data.contacts.map(p=>`<label class="people-membership"><input type="checkbox" name="members" value="${p.id}" ${group?.members.includes(p.id)?'checked':''}>${safe(p.name)}</label>`).join('')}<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Save</button></div></form>`;
   }
   function renderMessaging() {
     return ICSMessaging.render(data, ui, key => i18n.t(key), i18n.locale());
@@ -635,7 +676,7 @@
         save(); render(); const settingsView = viewport.querySelector('.settings-app'); if (settingsView) settingsView.scrollTop = previousScroll; break;
       }
       case 'wallpaper': data.wallpaper = Number(id); delete data.customWallpaper; save(); if (ui.view === 'wallpaper-picker') home(false); else render(); toast('Wallpaper set'); break;
-      case 'factory-reset': if (confirm(i18n.t('Reset all local ICS simulator data?'))) { data = clone(defaultData); save(); home(); } break;
+      case 'factory-reset': if (confirm(i18n.t('Reset all local ICS simulator data?'))) { data = clone(defaultData); ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory); syncBrowserState(); ui.peopleDraft=null; ui.peopleQuery=''; ui.peopleTab='all'; save(); home(); } break;
       case 'about-tap':
         ui.aboutTapTimes = [...(ui.aboutTapTimes || []), performance.now()].slice(-3);
         if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { ui.sub = 'easter'; ui.easterNyan = false; ui.aboutTapTimes = []; render(); }
@@ -649,24 +690,41 @@
       case 'browser-back': browserBack(); break;
       case 'browser-forward': browserForward(); break;
       case 'browser-tabs': ui.sub = 'tabs'; render(); break;
-      case 'browser-menu': ui.sub = 'bookmarks'; render(); break;
-      case 'browser-bookmarks': ui.sub = 'bookmarks'; render(); break;
+      case 'browser-menu': ui.overlay = 'browser-menu'; renderOverlay(); break;
+      case 'browser-bookmarks': ui.sub = 'bookmarks'; ui.overlay = ''; render(); break;
       case 'browser-bookmark': navigateBrowser(id); break;
+      case 'browser-saved': ui.sub='saved'; ui.overlay=''; render(); break;
+      case 'browser-save-page': data.savedPages ||= []; if(!data.savedPages.includes(ui.browserUrl))data.savedPages.push(ui.browserUrl); save(); ui.overlay=''; renderOverlay(); toast('Page saved'); break;
+      case 'browser-remove-saved': if(ui.sub==='saved')data.savedPages=data.savedPages.filter(url=>url!==id); else data.bookmarks=data.bookmarks.filter(url=>url!==id); save(); render(); break;
+      case 'browser-close-tab': ICSBrowserSession.close(ui.browserSession,Number(id)); saveBrowserState(); render(); break;
+      case 'browser-refresh': ui.overlay=''; render(); break;
+      case 'browser-find': ui.browserFind=''; ui.overlay=''; render(); viewport.querySelector('.web-find input')?.focus(); break;
+      case 'browser-close-find': ui.browserFind=undefined; render(); break;
       case 'browser-history': ui.sub = 'history'; render(); break;
-      case 'browser-tab': ui.browserTab = Number(id); ui.browserUrl = ui.browserTabs[ui.browserTab]; ui.sub = ''; render(); break;
-      case 'browser-new-tab': ui.browserTabs.push('www.google.com'); ui.browserTab = ui.browserTabs.length - 1; ui.browserUrl = 'www.google.com'; ui.sub = ''; render(); break;
-      case 'browser-save': if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
+      case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
+      case 'browser-new-tab': if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); break; } ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
+      case 'browser-save': ui.overlay = ''; renderOverlay(); if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
       case 'phone-tab': ui.phoneTab = id; ui.phoneSearch = undefined; render(); break;
       case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
       case 'phone-menu': ui.overlay = 'phone-menu'; renderOverlay(); break;
-      case 'phone-add-contact': ui.overlay = ''; openApp('people'); ui.sub = 'new'; render(); viewport.querySelector('[name="phone"]').value = ui.dial; break;
+      case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phone=ui.dial; render(); break;
       case 'phone-redial': ui.dial = id; ui.phoneTab = 'dialpad'; render(); break;
       case 'dial': if (ui.dial.length < 30) ui.dial += id; render(); break;
       case 'dial-delete': ui.dial = ui.dial.slice(0, -1); render(); break;
       case 'call': if (!ui.dial) { toast('Enter a phone number'); break; } ui.callNumber = ui.dial; ui.sub = 'calling'; render(); break;
       case 'hangup': data.callHistory = [...(data.callHistory || []), {number:ui.callNumber,time:Date.now()}].slice(-50); save(); ui.sub = ''; ui.dial = ''; render(); toast('Call ended'); break;
+      case 'people-tab': ui.peopleTab=id; ui.sub=''; ui.peopleQuery=''; ui.peopleSearching=false; render(); break;
+      case 'people-search': ui.peopleTab='all'; ui.peopleSearching=true; render(); viewport.querySelector('.people-search input')?.focus(); break;
+      case 'people-edit': editPerson(); break;
+      case 'people-menu': ui.overlay='people-menu'; renderOverlay(); break;
+      case 'people-star': { const person=contact(ui.selectedContact); if(person)person.favorite=!person.favorite; save(); render(); break; }
+      case 'people-delete': ui.overlay='people-delete'; renderOverlay(); break;
+      case 'people-confirm-delete': ICSPeople.remove(data,ui.selectedContact); save(); ui.sub=''; ui.overlay=''; render(); break;
+      case 'people-group': ui.peopleGroup=id; ui.sub='group'; ui.peopleQuery=''; render(); break;
+      case 'people-new-group': ui.peopleEditGroup=''; ui.overlay='people-group'; renderOverlay(); break;
+      case 'people-edit-group': ui.peopleEditGroup=ui.peopleGroup; ui.overlay='people-group'; renderOverlay(); break;
       case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
-      case 'new-contact': ui.sub = 'new'; render(); break;
+      case 'new-contact': editPerson(true); break;
       case 'contact-call': ui.callNumber = contact(id)?.phone || ''; ui.dial = ui.callNumber; ui.view = 'phone'; ui.sub = 'calling'; render(); break;
       case 'contact-message': openMessageThread(id); break;
       case 'contact-email': ui.emailTo = contact(id)?.email || ''; ui.view = 'email'; ui.sub = 'compose'; render(); break;
@@ -747,6 +805,25 @@
       save(); ui.overlay = ''; render(); return;
     }
     switch (form.dataset.form) {
+      case 'browser-find': ui.browserFind=String(values.get('query')||'').trim(); render(); break;
+      case 'people-search': ui.peopleQuery=String(values.get('query')||'').trim(); render(); break;
+      case 'people-save': {
+        const name=String(values.get('name')||'').trim(); if(!name)return;
+        const id=ui.sub==='edit'?ui.selectedContact:Date.now();
+        const person=contact(id)||{id};
+        for(const key of ['name','phone','email','company','notes'])person[key]=String(values.get(key)||'').trim();
+        if(!contact(id))data.contacts.push(person);
+        const groups=values.getAll('groups');
+        data.contactGroups.forEach(g=>{g.members=g.members.filter(member=>member!==id);if(groups.includes(g.id))g.members.push(id);});
+        save();ui.selectedContact=id;ui.sub='detail';ui.peopleDraft=null;render();toast('Contact saved');break;
+      }
+      case 'people-group': {
+        const name=String(values.get('name')||'').trim();if(!name)return;
+        const group=data.contactGroups.find(g=>g.id===ui.peopleEditGroup)||{id:'group-'+Date.now()};
+        group.name=name;group.members=values.getAll('members').map(Number).filter(id=>!!contact(id));
+        if(!data.contactGroups.some(g=>g.id===group.id))data.contactGroups.push(group);
+        save();ui.peopleGroup=group.id;ui.peopleTab='groups';ui.sub='group';ui.overlay='';render();break;
+      }
       case 'address': navigateBrowser(values.get('address')); break;
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
@@ -771,6 +848,11 @@
     }
   });
   document.addEventListener('input', event => {
+    if(event.target.closest('#people-editor')) {
+      if(event.target.name==='groups')ui.peopleDraft.groups=[...viewport.querySelectorAll('[name=groups]:checked')].map(input=>input.value);
+      else ui.peopleDraft[event.target.name]=event.target.value;
+      return;
+    }
     if (event.target.closest('.mms-compose')) {
       const draft = messageDraft();
       if (event.target.name === 'body') draft.body = event.target.value;
@@ -974,7 +1056,7 @@
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const scrollTarget = event.pointerType === 'mouse' && !ui.overlay && !event.target.closest('input, select, textarea, .wallpaper-choice')
-      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll')) : null;
+      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library')) : null;
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; }, 550);
     const message = event.target.closest('.mms-message');
@@ -1131,7 +1213,7 @@
   languageSelect.addEventListener('change', event => { i18n.setLanguage(event.target.value); location.reload(); });
   document.querySelector('#reset-button').addEventListener('click', () => {
     if (!confirm(i18n.t('Reset all local ICS simulator data?'))) return;
-    data = clone(defaultData); save(); ui.view = 'home'; ui.sub = ''; ui.page = 2; ui.overlay = ''; render();
+    data = clone(defaultData); ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory); syncBrowserState(); ui.peopleDraft=null; ui.peopleQuery=''; ui.peopleTab='all'; save(); ui.view = 'home'; ui.sub = ''; ui.page = 2; ui.overlay = ''; render();
   });
   setInterval(() => {
     document.querySelectorAll('.status-clock').forEach(node => { node.textContent = clock(); });
