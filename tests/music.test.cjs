@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.0.4/music.js','utf8'),context);const music=context.window.ICSMusic;
+let state=music.restore();state.queue=[0,1];state.track=1;state.position=music.tracks[1].duration-1;state.playing=true;
+music.tick(state);assert.equal(state.playing,false);assert.equal(state.track,1);
+state.repeat='all';state.playing=true;music.tick(state);assert.equal(state.track,0);assert.equal(state.position,0);
+state.repeat='one';state.position=music.tracks[0].duration-1;music.tick(state);assert.equal(state.track,0);assert.equal(state.position,0);
+state.position=20;music.step(state,-1);assert.equal(state.track,0);assert.equal(state.position,0);
+state.shuffle=true;music.step(state,1,false,()=>0);assert.equal(state.track,1);
+state.playlists=[{id:1,name:'<script>bad()</script>',tracks:[0,0,88]}];
+const restored=music.restore(JSON.parse(JSON.stringify(state)));assert.equal(restored.playing,false);assert.equal(restored.playlists[0].tracks.length,1);
+assert.ok(!music.render(restored,{musicTab:'Playlists',sub:''},x=>x).includes('<script>'));
+assert.equal(music.time(213),'3:33');
+console.log('Music checks passed: queue end, repeat modes, previous restart, shuffle exclusion, persistence validation and escaping.');

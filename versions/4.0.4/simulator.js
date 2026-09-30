@@ -89,11 +89,9 @@
     { id: 2, from: 'Alex Morgan', subject: 'Photos from the weekend', body: 'I added a few pictures to our album. Take a look when you have a moment!', time: 'Yesterday' },
     { id: 3, from: 'Calendar', subject: 'Coffee with Alex', body: 'Reminder: Coffee with Alex at 11:00.', time: 'Yesterday' }
   ];
-  const tracks = [
-    { title: 'Blue Horizon', artist: 'The Demo Tapes' },
-    { title: 'Afterglow', artist: 'The Demo Tapes' },
-    { title: 'Night Drive', artist: 'The Demo Tapes' }
-  ];
+  const tracks = ICSMusic.tracks;
+  ui.music=ICSMusic.restore(data.music);
+  ui.musicTrack=ui.music.track;
   ui.browserSession = ICSBrowserSession.restore(data.browserSession,data.browserHistory);
   syncBrowserState();
   const apps = [
@@ -262,7 +260,7 @@
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
   function appScrollContainer(app) {
-    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
+    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : app === 'music' ? '.music-library-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) {
@@ -278,6 +276,7 @@
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
+    if(ui.view==='music' && ui.sub==='queue'){ui.sub='player';render();return;}
     if (ui.view === 'play-store' && ui.playHistory.length) {
       ui.play = ui.playHistory.pop(); render();
       viewport.querySelector('.play-content').scrollTop = ui.play.scrollTop || 0;
@@ -317,6 +316,8 @@
       overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('calendar-')) {
       overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
+    } else if (ui.overlay.startsWith('music-')) {
+      overlayRoot.innerHTML = ICSMusic.overlay(ui.music,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'browser-menu') {
@@ -596,8 +597,20 @@
     track.querySelectorAll('.ics-calc-grid').forEach((panel, i) => { panel.inert = i !== index; });
   }
   function renderMusic() {
-    const track = tracks[ui.musicTrack];
-    return appView('Music', `<div class="music-art">♫</div><div class="music-details"><h3>${track.title}</h3><span>${track.artist}</span></div><input class="music-progress" type="range" min="0" max="100" value="${ui.musicPosition}" data-field="music-position" aria-label="Track position"><div class="music-controls"><button data-action="music-prev" aria-label="Previous track">|◀</button><button data-action="music-play" aria-label="${ui.musicPlaying ? 'Pause' : 'Play'}">${ui.musicPlaying ? 'Ⅱ' : '▶'}</button><button data-action="music-next" aria-label="Next track">▶|</button></div><div class="notice">Sample player: tracks and playback are simulated.</div>`, 'dark');
+    return ICSMusic.render(ui.music,ui,key=>i18n.t(key));
+  }
+  function saveMusic() {
+    ui.musicTrack=ui.music.track;ui.musicPlaying=ui.music.playing;ui.musicPosition=ui.music.position;
+    data.music=clone(ui.music);delete data.music.playing;save();
+  }
+  function tickMusic() {
+    if(!ui.music.playing)return;
+    const previous=ui.music.track;ICSMusic.tick(ui.music);
+    ui.musicTrack=ui.music.track;ui.musicPlaying=ui.music.playing;
+    if(previous!==ui.music.track || !ui.music.playing){saveMusic();if(ui.view==='music'||ui.view==='home')render();}
+    else if(Math.floor(ui.music.position)%10===0)saveMusic();
+    const progress=viewport.querySelector('.music-progress');if(progress&&document.activeElement!==progress)progress.value=ui.music.position;
+    const elapsed=viewport.querySelector('.music-elapsed');if(elapsed)elapsed.textContent=ICSMusic.time(ui.music.position);
   }
   function renderEmail() {
     if (ui.sub === 'read') { const email = emailData.find(item => item.id === ui.emailId); return appView(email.subject, `<div class="email-body"><strong>${safe(email.from)}</strong><small style="display:block;color:#777">${safe(email.time)}</small><hr><p>${safe(email.body)}</p><button class="primary-button" data-action="email-reply">Reply</button></div>`); }
@@ -664,7 +677,7 @@
         if (id === 'brightness') data.settings.brightness = data.settings.brightness < 30 ? 55 : data.settings.brightness < 80 ? 100 : 20;
         else data.settings[id] = !data.settings[id];
         save(); render(); break;
-      case 'widget-music-play': ui.musicPlaying = !ui.musicPlaying; render(); break;
+      case 'widget-music-play': ui.music.playing=!ui.music.playing;if(ui.music.playing&&ui.music.position>=tracks[ui.music.track].duration)ui.music.position=0;saveMusic();render();break;
       case 'voice-search': toast('Voice search unavailable offline'); break;
       case 'lock-hint': screen.classList.add('lock-dragging'); setTimeout(() => { if (!pointerStart?.lockDrag) screen.classList.remove('lock-dragging'); }, 1000); break;
       case 'shade': ui.overlay = ui.overlay === 'shade' ? '' : 'shade'; renderOverlay(); break;
@@ -846,9 +859,21 @@
       case 'calc-panel': ui.overlay = ''; renderOverlay(); setCalculatorPanel(Number(id)); break;
       case 'calc-clear': data.calcHistory = []; ui.calcHistoryIndex = -1; save(); operateCalculator('C'); ui.overlay = ''; render(); break;
       case 'calc-key': operateCalculator(id); render(); break;
-      case 'music-play': ui.musicPlaying = !ui.musicPlaying; render(); break;
-      case 'music-prev': ui.musicTrack = (ui.musicTrack + tracks.length - 1) % tracks.length; ui.musicPosition = 0; render(); break;
-      case 'music-next': ui.musicTrack = (ui.musicTrack + 1) % tracks.length; ui.musicPosition = 0; render(); break;
+      case 'music-play': ui.music.playing=!ui.music.playing;if(ui.music.playing&&ui.music.position>=tracks[ui.music.track].duration)ui.music.position=0;saveMusic();render();break;
+      case 'music-prev': case 'music-next': ICSMusic.step(ui.music,action==='music-prev'?-1:1);saveMusic();render();break;
+      case 'music-tab': ui.musicTab=id;ui.sub='';render();break;
+      case 'music-library': ui.sub='';render();break;
+      case 'music-player': ui.sub='player';render();break;
+      case 'music-queue': ui.sub='queue';render();break;
+      case 'music-group': ui.musicGroup=id;ui.sub='music-group';render();break;
+      case 'music-select': ui.music.queue=[...ICSMusic.listing(ui.music,ui)];ui.music.track=Number(id);ui.music.position=0;ui.music.playing=true;saveMusic();ui.sub='player';render();break;
+      case 'music-shuffle': ui.music.shuffle=!ui.music.shuffle;saveMusic();render();break;
+      case 'music-repeat': ui.music.repeat={off:'all',all:'one',one:'off'}[ui.music.repeat];saveMusic();render();break;
+      case 'music-track-menu': ui.musicSelected=Number(id);ui.overlay='music-track-menu';renderOverlay();break;
+      case 'music-add-to-playlist': ui.overlay='music-playlist-choice';renderOverlay();break;
+      case 'music-new-playlist': ui.musicAddPending=id==='add';ui.overlay='music-new-playlist';renderOverlay();break;
+      case 'music-add-confirm': {const playlist=ui.music.playlists.find(p=>String(p.id)===id);if(playlist&&!playlist.tracks.includes(ui.musicSelected))playlist.tracks.push(ui.musicSelected);saveMusic();ui.overlay='';render();toast('Added to playlist');break;}
+      case 'music-remove-from-playlist': {const playlist=ui.music.playlists.find(p=>String(p.id)===ui.musicGroup);if(playlist)playlist.tracks=playlist.tracks.filter(track=>track!==ui.musicSelected);saveMusic();ui.overlay='';render();break;}
       case 'email-read': ui.emailId = Number(id); ui.sub = 'read'; render(); break;
       case 'email-compose': ui.emailTo = ''; ui.sub = 'compose'; render(); break;
       case 'email-sent': ui.sub = 'sent'; render(); break;
@@ -921,6 +946,7 @@
         save();ui.selectedDate=event.date;ui.selectedEvent=event.id;ui.eventDraft=null;ui.sub='event';render();toast('Event saved');break;
       }
       case 'calendar-search': ui.calendarSearch=String(values.get('query')||'').trim();render();break;
+      case 'music-playlist': {const name=String(values.get('name')||'').trim();if(!name)return;ui.music.playlists.push({id:Date.now(),name,tracks:ui.musicAddPending?[ui.musicSelected]:[]});saveMusic();ui.overlay='';render();break;}
       case 'alarm-time': ui.alarmDraft.time=String(values.get('hour')).padStart(2,'0')+':'+String(values.get('minute')).padStart(2,'0'); ui.overlay='';render();break;
       case 'alarm-days': ui.alarmDraft.days=values.getAll('days').map(Number);ui.overlay='';render();break;
       case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';render();break;
@@ -964,7 +990,7 @@
       const display = event.target.closest('.detail-pad')?.querySelector('p'); if (display) display.textContent = `${data.settings.brightness}%`;
       screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     }
-    if (event.target.dataset.field === 'music-position') ui.musicPosition = Number(event.target.value);
+    if(event.target.dataset.field==='music-position'){ui.music.position=Number(event.target.value);saveMusic();const elapsed=viewport.querySelector('.music-elapsed');if(elapsed)elapsed.textContent=ICSMusic.time(ui.music.position);}
   });
 
   let pointerStart = null, eggTimer = null, dragTimer = null, dragState = null;
@@ -1147,7 +1173,7 @@
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const scrollTarget = event.pointerType === 'mouse' && !ui.overlay && !event.target.closest('input, select, textarea, .wallpaper-choice')
-      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library,.desk-scroll,.gallery-scroll,.cal-scroll')) : null;
+      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library,.desk-scroll,.gallery-scroll,.cal-scroll,.music-library-scroll')) : null;
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; }, 550);
     const message = event.target.closest('.mms-message');
@@ -1337,7 +1363,7 @@
       node.querySelector('.clock-minute').style.transform = `rotate(${now.getMinutes() * 6}deg)`;
     });
     const lockTime = document.querySelector('.lock-time'); if (lockTime) lockTime.textContent = clock();
-    if (ui.musicPlaying) { ui.musicPosition = (ui.musicPosition + 1) % 101; const progress = document.querySelector('.music-progress'); if (progress) progress.value = ui.musicPosition; }
+    tickMusic();
   }, 1000);
 
   i18n.translateDOM(document.body);

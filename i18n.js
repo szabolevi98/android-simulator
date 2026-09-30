@@ -4,6 +4,23 @@
   const supported = ['en', 'hu', 'de', 'fr', 'es'];
   const locale = { en: 'en-US', hu: 'hu-HU', de: 'de-DE', fr: 'fr-FR', es: 'es-ES' };
   const rows = [
+    ['Song','Dal','Titel','Titre','Canción'],
+    ['Artists','Előadók','Interpreten','Artistes','Artistas'],
+    ['Songs','Dalok','Titel','Titres','Canciones'],
+    ['Playlists','Lejátszási listák','Wiedergabelisten','Listes de lecture','Listas de reproducción'],
+    ['Now playing','Most játszott','Aktuelle Wiedergabe','Lecture en cours','Reproduciendo'],
+    ['Music library','Zenetár','Musikbibliothek','Bibliothèque musicale','Biblioteca de música'],
+    ['Shuffle','Keverés','Zufallswiedergabe','Lecture aléatoire','Aleatorio'],
+    ['Repeat all','Összes ismétlése','Alle wiederholen','Tout répéter','Repetir todo'],
+    ['Repeat one','Egy dal ismétlése','Einen Titel wiederholen','Répéter un titre','Repetir una'],
+    ['New playlist','Új lejátszási lista','Neue Wiedergabeliste','Nouvelle liste','Nueva lista'],
+    ['Playlist name','Lista neve','Name der Wiedergabeliste','Nom de la liste','Nombre de la lista'],
+    ['Add to playlist','Hozzáadás a listához','Zur Wiedergabeliste hinzufügen','Ajouter à la liste','Añadir a la lista'],
+    ['Added to playlist','Hozzáadva a listához','Zur Wiedergabeliste hinzugefügt','Ajouté à la liste','Añadida a la lista'],
+    ['Remove from playlist','Eltávolítás a listából','Aus Wiedergabeliste entfernen','Retirer de la liste','Quitar de la lista'],
+    ['Track options','Dal beállításai','Titeloptionen','Options du titre','Opciones de canción'],
+    ['No songs','Nincsenek dalok','Keine Titel','Aucun titre','No hay canciones'],
+    ['Demo tracks — no audio','Demó dalok — hang nélkül','Demotitel — ohne Ton','Titres de démo — sans audio','Canciones de demo — sin audio'],
     ['Menu','Menü','Menü','Menu','Menú'],
     ['Edit','Szerkesztés','Bearbeiten','Modifier','Editar'],
     ['Day','Nap','Tag','Jour','Día'],

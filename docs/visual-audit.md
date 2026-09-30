@@ -196,3 +196,16 @@ Browser checks: create and reload an event, edit/discard without changing the sa
 Limits: no recurrence, reminders, attendees, multiple calendars, account sync or custom time zones. Date/time inputs use browser pickers. The month busy markers and timed overlap geometry approximate Android's custom canvas views. Previous/next footer controls and horizontal month swipes are simulator conveniences; original month scrolling and animation physics are not reproduced. Physical touch-device behavior remains untested.
 
 ![Calendar month, day and event editor](screenshots/ics-calendar.png)
+
+
+## AOSP Music — 2026-09-30
+
+Sources: [library](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-4.0.4_r2.1/res/layout/media_picker_activity.xml), [four tabs](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-4.0.4_r2.1/res/layout/buttonbar.xml), [player](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-4.0.4_r2.1/res/layout/audio_player.xml), [transport](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-4.0.4_r2.1/res/layout/audio_player_common.xml), [now playing strip](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-4.0.4_r2.1/res/layout/nowplaying.xml), and [manifest](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-4.0.4_r2.1/AndroidManifest.xml). This is the stock open-source Music app with its older, pre-Holo appearance, not Google's separate proprietary Play Music app.
+
+Replaced the generic music-note card with Artists/Albums/Songs/Playlists, original tabs/album placeholder/control images, a current queue, shuffle, repeat off/all/one, duration-based seeking and automatic track progression. Playlists support creation, adding and removing tracks. The home widget shares the same playback state. Track, position, queue, options and lists persist; reload resumes paused.
+
+Verified in the browser: create a playlist from a song, view its count, switch songs, pause, seek and reload with options intact. Player checks in all five languages at 390×650 found no page overflow, missing images or logged errors. Model tests cover end-of-queue stopping, repeat, previous-track restart, shuffle avoiding the current song, malformed stored playlist IDs and escaping.
+
+Limits: six fictional tracks and simulated elapsed time, without audio, file imports, cloud music or background media service. Queue reordering, playlist rename/delete and original long-press context menus remain absent. CSS approximates the legacy button backgrounds and seekbar; a visible library shortcut and per-song options buttons are simulator additions. Physical touch behavior was not tested.
+
+![Music library and player](screenshots/ics-music.png)

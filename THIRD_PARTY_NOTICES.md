@@ -69,3 +69,8 @@ Original PNG artwork is unchanged, with filename prefixes added. The same Apache
 ### Calendar controls
 
 `versions/4.0.4/assets/calendar-ic_menu_{today,done,cancel}_holo_light.png` are unmodified AOSP Calendar assets from [android-4.0.4_r2.1](https://github.com/aosp-mirror-neo/platform_packages_apps_calendar/tree/android-4.0.4_r2.1/res/drawable-hdpi). `btn_check_{off,on}_holo_light.png` and `ic_menu_moreoverflow_normal_holo_light.png` come from the [Android framework at the same tag](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-4.0.4_r2.1/core/res/res/drawable-hdpi). Copyright The Android Open Source Project; Apache License 2.0.
+
+
+### AOSP Music artwork
+
+The `music-*.png` tab, album placeholder, playlist, shuffle/repeat and metadata images are unmodified assets from [AOSP Music, android-4.0.4_r2.1](https://github.com/aosp-mirror/platform_packages_apps_music/tree/android-4.0.4_r2.1/res/drawable-hdpi). `music-ic_media_{play,pause,previous,next}.png` come from [frameworks/base at the same tag](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-4.0.4_r2.1/core/res/res/drawable-hdpi). Copyright The Android Open Source Project; Apache License 2.0. Demo track names and artists are fictional; no recordings are distributed.
