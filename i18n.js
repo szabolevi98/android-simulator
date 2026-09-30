@@ -4,6 +4,18 @@
   const supported = ['en', 'hu', 'de', 'fr', 'es'];
   const locale = { en: 'en-US', hu: 'hu-HU', de: 'de-DE', fr: 'fr-FR', es: 'es-ES' };
   const rows = [
+    ['Send message','Üzenet küldése','Nachricht senden','Envoyer un message','Enviar mensaje'],
+    ['Enter a valid phone number','Adj meg érvényes telefonszámot','Gültige Telefonnummer eingeben','Saisissez un numéro valide','Introduce un número válido'],
+    ["Speaker", "Kihangosítás", "Lautsprecher", "Haut-parleur", "Altavoz"],
+    ["Hold", "Tartás", "Halten", "Mettre en attente", "Retener"],
+    ["On hold", "Tartásban", "Gehalten", "En attente", "En espera"],
+    ["In call", "Hívásban", "Im Gespräch", "Appel en cours", "En llamada"],
+    ["Add call", "Hívás hozzáadása", "Anruf hinzufügen", "Ajouter un appel", "Añadir llamada"],
+    ["Call details", "Hívás részletei", "Anrufdetails", "Détails de l’appel", "Detalles de llamada"],
+    ["Outgoing call", "Kimenő hívás", "Ausgehender Anruf", "Appel sortant", "Llamada saliente"],
+    ["Duration", "Időtartam", "Dauer", "Durée", "Duración"],
+    ["Ongoing call", "Folyamatban lévő hívás", "Laufender Anruf", "Appel en cours", "Llamada en curso"],
+
     ['CALLS AND NOTIFICATIONS','HÍVÁSOK ÉS ÉRTESÍTÉSEK','ANRUFE UND BENACHRICHTIGUNGEN','APPELS ET NOTIFICATIONS','LLAMADAS Y NOTIFICACIONES'],
     ['Default notification','Alapértelmezett értesítés','Standardbenachrichtigung','Notification par défaut','Notificación predeterminada'],
     ['Vibrate and ring','Rezgés és csengés','Vibrieren und klingeln','Sonnerie et vibreur','Vibrar y sonar'],

@@ -235,3 +235,14 @@ Checked in the browser: touch-sound toggle, saved volume and ringtone, cache siz
 Limits: storage, traffic, power and process figures are illustrative, not measured. Data-limit/background restrictions are stored simulation choices; there is no real network metering. Tone, feedback and volume settings do not emit sound/vibration. Pulse-light preference is stored only. No app packages are installed or uninstalled. App data clearing restores bundled demo data rather than Android filesystem semantics. Idle locking is subject to browser timer throttling. Charts, tabs, sliders and radio controls still approximate native drawing.
 
 ![Volume settings, data usage and app info](screenshots/ics-settings-details.png)
+
+
+## Phone call screen and log — 2026-09-30
+
+The in-call layout follows AOSP Phone [incall_touch_ui.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_phone/android-4.0.4_r2.1/res/layout/incall_touch_ui.xml), [call_card.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_phone/android-4.0.4_r2.1/res/layout/call_card.xml) and [colors.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_phone/android-4.0.4_r2.1/res/values/colors.xml): full contact placeholder, translucent top banner, blue state strip, full-width End call and five bottom controls. Original Phone drawables replace the old text controls.
+
+A call simulates connection after 1.5 seconds, tracks elapsed time and keypad digits, and supports local speaker/mute/hold states. Home preserves the temporary call; an ongoing-call shade button returns to it. Hangup saves the outgoing record and duration; call details can redial or open the correct Messaging conversation. Favorites now use starred contacts in photo tiles above the full list. Reload retains call history but ends temporary calls.
+
+Verified locally in the browser: outgoing call, timer, keypad, hold, mute, Home/notification return, hangup, persisted history after reload and call-to-message routing. Call details had no horizontal overflow or broken images at 390×650 in all five languages. `phone-call.test.cjs` covers timing, early hangup, duration, keypad, escaped contact names and recipient mapping. Screenshot: [Phone](screenshots/ics-phone.png).
+
+Limits: no actual telephony/audio, incoming calls, conference call or Bluetooth audio routing. The ongoing notification is simplified. Photos use the original unknown-contact placeholder, and the call-details layout remains an approximation. Speaker/mute/hold are demo states only.

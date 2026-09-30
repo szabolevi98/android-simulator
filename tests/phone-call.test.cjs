@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const ctx={window:{}};vm.createContext(ctx);
+for(const module of ['phone-call','messaging'])vm.runInContext(fs.readFileSync(`versions/4.0.4/${module}.js`,'utf8'),ctx);
+const phone=ctx.window.ICSPhoneCall,messages=ctx.window.ICSMessaging;
+const call=phone.start('202-555-0148',10000);
+assert.equal(phone.elapsed(call,10500),0);assert.equal(phone.finish(call,10500).connected,false);
+assert.equal(phone.elapsed(call,75000),63);assert.equal(phone.finish(call,75000).duration,63);
+assert.equal(phone.duration(63),'1:03');
+assert.ok(phone.render(call,null,x=>x,11000).includes('Calling…'));
+call.hold=true;call.keypad=true;call.digits='123';
+const html=phone.render(call,{name:'<script>test</script>'},x=>x,75000);
+assert.ok(html.includes('On hold'));assert.ok(html.includes('&lt;script&gt;'));assert.ok(!html.includes('<script>'));
+assert.equal((html.match(/data-action="incall-digit"/g)||[]).length,12);
+assert.ok(phone.details(phone.finish(call,75000),null,x=>x,'en-US').includes('1:03'));
+assert.equal(messages.recipient(call.number,[{id:1,name:'Alex',phone:'202-555-0148'}]).key,'1');
+assert.equal(messages.recipient('2025550199',[]).key,'tel:2025550199');
+console.log('Phone checks passed: dialing/connected timing, early hangup, duration, keypad, escaped names and message recipient routing.');

@@ -79,3 +79,8 @@ The `music-*.png` tab, album placeholder, playlist, shuffle/repeat and metadata 
 ### Email controls
 
 The unmodified `email-*.png` images come from [AOSP Email, android-4.0.4_r2.1](https://github.com/aosp-mirror-neo/platform_packages_apps_email/tree/android-4.0.4_r2.1/res/drawable-hdpi). Copyright The Android Open Source Project; Apache License 2.0. The forward icon is darkened with CSS for the light toolbar.
+
+
+### In-call Phone artwork
+
+The unmodified `phone-*.png` images come from [AOSP Phone, android-4.0.4_r2.1](https://github.com/aosp-mirror/platform_packages_apps_phone/tree/android-4.0.4_r2.1/res/drawable-hdpi). Copyright The Android Open Source Project; Apache License 2.0.

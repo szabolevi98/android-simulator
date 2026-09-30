@@ -65,13 +65,14 @@ node tests/calendar.test.cjs
 node tests/music.test.cjs
 node tests/email.test.cjs
 node tests/settings-detail.test.cjs
+node tests/phone-call.test.cjs
 ```
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). For comparisons with the original Android interface and remaining visual differences, see [docs/visual-audit.md](docs/visual-audit.md).
 
 ### Phone and Calculator
 
-The Phone dialpad uses original ICS assets and includes contact search and a locally saved outgoing call log. The Calculator has the original basic/scientific key arrangements; drag horizontally or use its menu to switch panels. Functions use radians. Backspace deletes a character, Delete clears the display, and Up/Down recall saved expressions.
+The Phone dialpad uses original ICS assets and includes contact search, favorite tiles and a locally saved outgoing call log with duration and call/message actions. Its simulated call screen has the original contact placeholder and controls, a running timer, keypad, mute, speaker and hold states. Home keeps the call active; its notification returns to the call. Reload ends the temporary call. There is no telephony, audio, conference calling or incoming-call simulation. The Calculator has the original basic/scientific key arrangements; drag horizontally or use its menu to switch panels. Functions use radians. Backspace deletes a character, Delete clears the display, and Up/Down recall saved expressions.
 
 Run the expression checks with `node tests/calculator-engine.test.cjs`. Visual fidelity limits and browser verification are tracked in [the audit](docs/visual-audit.md).
 

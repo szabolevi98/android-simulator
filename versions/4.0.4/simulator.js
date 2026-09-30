@@ -275,6 +275,7 @@
   function back() {
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'lock') return;
+    if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
@@ -310,7 +311,7 @@
   }
   function renderOverlay() {
     if (ui.overlay === 'shade') {
-      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
+      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
@@ -477,20 +478,28 @@
     ui.play = {...ui.play,...next}; ui.overlay = ''; render();
   }
   function renderPhone() {
-    if (ui.sub === 'calling') return `<div class="app-view"><div class="call-view"><div class="avatar">☎</div><h2>${safe(contactByPhone(ui.callNumber)?.name || ui.callNumber)}</h2><p>Calling…</p><button data-action="hangup" aria-label="End call">☎</button></div></div>`;
+    if(ui.activeCall)return ICSPhoneCall.render(ui.activeCall,contactByPhone(ui.activeCall.number),key=>i18n.t(key));
+    if(ui.sub==='call-detail'){const call=(data.callHistory||[]).find(call=>call.time===ui.phoneCallId);if(call)return ICSPhoneCall.details(call,contactByPhone(call.number),key=>i18n.t(key),i18n.locale());}
     const tabs = [['dialpad','Dial pad','dialer'],['history','Call log','history'],['favorites','Favorites','favourites']];
     const header = `<div class="phone-tabs" role="tablist">${tabs.map(([id,title,icon]) => `<button role="tab" aria-selected="${ui.phoneTab === id}" aria-label="${title}" data-action="phone-tab" data-id="${id}"><img src="assets/ic_ab_${icon}_holo_dark.png" alt=""></button>`).join('')}</div>`;
     let body;
     if (ui.phoneTab === 'history') {
-      body = `<div class="phone-list">${(data.callHistory || []).length ? [...data.callHistory].reverse().map(call => `<button class="phone-history-row" data-action="phone-redial" data-id="${safe(call.number)}"><img class="phone-contact-image" src="assets/ic_contact_picture_holo_dark.png" alt=""><span>${safe(contactByPhone(call.number)?.name || call.number)}<small><img src="assets/ic_call_outgoing_holo_dark.png" alt="">${new Date(call.time).toLocaleString(i18n.locale(),{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</small></span><img class="phone-redial" src="assets/ic_dial_action_call.png" alt=""></button>`).join('') : '<p class="empty-note">Call log is empty</p>'}</div>`;
+      body = `<div class="phone-list">${(data.callHistory || []).length ? [...data.callHistory].reverse().map(call => `<div class="phone-log-row"><button class="phone-history-row" data-action="phone-log-detail" data-id="${call.time}"><img class="phone-contact-image" src="assets/ic_contact_picture_holo_dark.png" alt=""><span>${safe(contactByPhone(call.number)?.name || call.number)}<small><img src="assets/ic_call_outgoing_holo_dark.png" alt="">${new Date(call.time).toLocaleString(i18n.locale(),{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</small></span></button><button class="phone-log-redial" data-action="phone-redial" data-id="${safe(call.number)}" aria-label="${safe(i18n.t('Call'))}"><img class="phone-redial" src="assets/ic_dial_action_call.png" alt=""></button></div>`).join('') : '<p class="empty-note">Call log is empty</p>'}</div>`;
     } else if (ui.phoneTab === 'favorites') {
-      body = `<div class="phone-list">${ui.phoneSearch !== undefined ? `<form class="phone-search" data-form="phone-search"><input name="query" aria-label="Search contacts" placeholder="Search contacts" value="${safe(ui.phoneSearch)}"><button aria-label="Search" type="submit"><img src="assets/ic_dial_action_search.png" alt=""></button></form>` : ''}<div class="phone-section">All contacts</div>${data.contacts.filter(person => !ui.phoneSearch || `${person.name} ${person.phone}`.toLocaleLowerCase().includes(ui.phoneSearch.toLocaleLowerCase())).map(person => `<button class="phone-history-row" data-action="contact-call" data-id="${person.id}"><img class="phone-contact-image" src="assets/ic_contact_picture_holo_dark.png" alt=""><span>${safe(person.name)}<small>${safe(person.phone)}</small></span></button>`).join('')}</div>`;
+      const favorites=data.contacts.filter(person=>person.favorite && (!ui.phoneSearch || `${person.name} ${person.phone}`.toLocaleLowerCase().includes(ui.phoneSearch.toLocaleLowerCase())));
+      body = `<div class="phone-list">${ui.phoneSearch !== undefined ? `<form class="phone-search" data-form="phone-search"><input name="query" aria-label="Search contacts" placeholder="Search contacts" value="${safe(ui.phoneSearch)}"><button aria-label="Search" type="submit"><img src="assets/ic_dial_action_search.png" alt=""></button></form>` : ''}${favorites.length?`<div class="phone-section">Favorites</div><div class="phone-favorite-tiles">${favorites.map(person=>`<button data-action="contact-call" data-id="${person.id}"><img src="assets/phone-picture_unknown.png" alt=""><span>${safe(person.name)}</span></button>`).join('')}</div>`:''}<div class="phone-section">All contacts</div>${data.contacts.filter(person => !ui.phoneSearch || `${person.name} ${person.phone}`.toLocaleLowerCase().includes(ui.phoneSearch.toLocaleLowerCase())).map(person => `<button class="phone-history-row" data-action="contact-call" data-id="${person.id}"><img class="phone-contact-image" src="assets/ic_contact_picture_holo_dark.png" alt=""><span>${safe(person.name)}<small>${safe(person.phone)}</small></span></button>`).join('')}</div>`;
     } else {
       body = `<div class="ics-dialer"><div class="dial-digits"><output aria-label="Phone number">${safe(ui.dial)}</output><button data-action="dial-delete" aria-label="Delete"><img src="assets/ic_dial_action_delete.png" alt=""></button></div><div class="ics-dial-pad">${['1','2','3','4','5','6','7','8','9','*','0','#'].map(digit => `<button data-action="dial" data-id="${digit}" aria-label="${digit}"><img src="assets/dial_num_${digit === '*' ? 'star' : digit === '#' ? 'pound' : digit}_wht.png" alt=""></button>`).join('')}</div><div class="dial-actions"><button data-action="phone-search" aria-label="Search contacts"><img src="assets/ic_dial_action_search.png" alt=""></button><button class="dial-call" data-action="call" aria-label="Call"><img src="assets/ic_dial_action_call.png" alt=""></button><button data-action="phone-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div></div>`;
     }
     return `<div class="app-view phone-app">${header}${body}</div>`;
   }
   function contactByPhone(number) { const normalized = String(number).replace(/[^\d+]/g, ''); return data.contacts.find(item => item.phone.replace(/[^\d+]/g, '') === normalized); }
+  function startPhoneCall(number) {
+    if(!number)return;
+    if(!ui.activeCall)ui.activeCall=ICSPhoneCall.start(number);
+    captureRecentView();ui.recent=['phone',...ui.recent.filter(id=>id!=='phone')].slice(0,7);
+    ui.callNumber=ui.activeCall.number;ui.view='phone';ui.sub='calling';ui.overlay='';render();
+  }
   function renderPeople() { return ICSPeople.render(data,ui,key => i18n.t(key),i18n.locale()); }
   function editPerson(isNew = false) {
     const person = isNew ? {} : contact(ui.selectedContact);
@@ -622,7 +631,7 @@
   function resetSimulator() {
     data=clone(defaultData);data.settings={...ICSSettingsDetail.defaults,...data.settings};
     data.mailbox=ICSEmail.restore(null,emailData,[]);ui.music=ICSMusic.restore();ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;
-    ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
+    ui.activeCall=null;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
     ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
   }
   function clearAppData(id) {
@@ -635,7 +644,7 @@
     if(id==='messaging'){data.messages=clone(defaultData.messages);data.messageDrafts={};}
     if(id==='gallery'){data.photos=clone(defaultData.photos);}
     if(id==='camera')delete data.cameraSettings;
-    if(id==='phone')data.callHistory=[];
+    if(id==='phone'){data.callHistory=[];ui.activeCall=null;}
     if(id==='calculator'){ui.calc='';ui.calcHistoryIndex=-1;data.calcHistory=[];}
     if(id==='play-store')delete data.playRatings;
     ui.recent=ui.recent.filter(app=>app!==id);delete ui.recentState?.[id];delete ui.recentSnapshots[id];save();
@@ -721,7 +730,7 @@
       case 'sd-clear-cache': data.appCacheCleared=[...new Set([...(data.appCacheCleared||[]),ui.settingsApp])];save();render();break;
       case 'sd-clear-data': ui.overlay='sd-clear-data';renderOverlay();break;
       case 'sd-confirm-clear': clearAppData(ui.settingsApp);ui.overlay='';render();toast('App data cleared');break;
-      case 'sd-force-stop': if(ui.settingsApp==='music'){ui.music.playing=false;saveMusic();}ui.recent=ui.recent.filter(app=>app!==ui.settingsApp);delete ui.recentState?.[ui.settingsApp];delete ui.recentSnapshots[ui.settingsApp];toast('App stopped');break;
+      case 'sd-force-stop': if(ui.settingsApp==='phone')ui.activeCall=null;if(ui.settingsApp==='music'){ui.music.playing=false;saveMusic();}ui.recent=ui.recent.filter(app=>app!==ui.settingsApp);delete ui.recentState?.[ui.settingsApp];delete ui.recentSnapshots[ui.settingsApp];toast('App stopped');break;
       case 'connectivity-menu': ui.connectivityMenu = id; ui.overlay = 'connectivity-menu'; renderOverlay(); break;
       case 'wifi-scan': ui.overlay = ''; renderOverlay(); toast('Scanning…'); break;
       case 'wifi-add': ui.overlay = 'wifi-add'; renderOverlay(); break;
@@ -780,11 +789,16 @@
       case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
       case 'phone-menu': ui.overlay = 'phone-menu'; renderOverlay(); break;
       case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phone=ui.dial; render(); break;
-      case 'phone-redial': ui.dial = id; ui.phoneTab = 'dialpad'; render(); break;
+      case 'phone-redial': startPhoneCall(id); break;
       case 'dial': if (ui.dial.length < 30) ui.dial += id; render(); break;
       case 'dial-delete': ui.dial = ui.dial.slice(0, -1); render(); break;
-      case 'call': if (!ui.dial) { toast('Enter a phone number'); break; } ui.callNumber = ui.dial; ui.sub = 'calling'; render(); break;
-      case 'hangup': data.callHistory = [...(data.callHistory || []), {number:ui.callNumber,time:Date.now()}].slice(-50); save(); ui.sub = ''; ui.dial = ''; render(); toast('Call ended'); break;
+      case 'call': if(!ui.dial){toast('Enter a phone number');break;}startPhoneCall(ui.dial);break;
+      case 'hangup': if(ui.activeCall)data.callHistory=[...(data.callHistory||[]),ICSPhoneCall.finish(ui.activeCall)].slice(-50);ui.activeCall=null;save();ui.sub='';ui.dial='';render();toast('Call ended');break;
+      case 'incall-toggle': if(ui.activeCall)ui.activeCall[id]=!ui.activeCall[id];render();break;
+      case 'incall-digit': if(ui.activeCall)ui.activeCall.digits=(ui.activeCall.digits+id).slice(-24);render();break;
+      case 'phone-log-detail': ui.phoneCallId=Number(id);ui.sub='call-detail';render();break;
+      case 'phone-log-back': ui.sub='';ui.phoneTab='history';render();break;
+      case 'phone-log-message': { const recipient=ICSMessaging.recipient(id,data.contacts); if(recipient)openMessageThread(recipient.key);else toast('Enter a valid phone number');break; }
       case 'people-tab': ui.peopleTab=id; ui.sub=''; ui.peopleQuery=''; ui.peopleSearching=false; render(); break;
       case 'people-search': ui.peopleTab='all'; ui.peopleSearching=true; render(); viewport.querySelector('.people-search input')?.focus(); break;
       case 'people-edit': editPerson(); break;
@@ -797,14 +811,14 @@
       case 'people-edit-group': ui.peopleEditGroup=ui.peopleGroup; ui.overlay='people-group'; renderOverlay(); break;
       case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
       case 'new-contact': editPerson(true); break;
-      case 'contact-call': ui.callNumber = contact(id)?.phone || ''; ui.dial = ui.callNumber; ui.view = 'phone'; ui.sub = 'calling'; render(); break;
+      case 'contact-call': startPhoneCall(contact(id)?.phone||'');break;
       case 'contact-message': openMessageThread(id); break;
       case 'contact-email': {const recipient=contact(id)?.email||'';openApp('email');composeEmail(null,false,recipient);break;}
       case 'thread': openMessageThread(id); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
       case 'mms-menu': case 'mms-attach': case 'mms-smiley': ui.overlay = action; renderOverlay(); break;
       case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }
-      case 'mms-call': { const person = ICSMessaging.identity(ui.thread,data.contacts); openApp('phone'); ui.callNumber = person.phone; ui.dial = person.phone; ui.sub = 'calling'; render(); break; }
+      case 'mms-call': {const person=ICSMessaging.identity(ui.thread,data.contacts);startPhoneCall(person.phone);break;}
       case 'mms-photo': { const photo = data.photos.find(p => p.id === Number(id)); if (photo) { messageDraft().attachment = clone(photo); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); } break; }
       case 'mms-remove-attachment': delete messageDraft().attachment; save(); render(); scrollMessages(); break;
       case 'mms-insert-smiley': messageDraft().body = ((messageDraft().body || '') + ' ' + id).trim().slice(0,2000); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); break;
@@ -1407,7 +1421,13 @@
   setInterval(() => {
     document.querySelectorAll('.status-clock').forEach(node => { node.textContent = clock(); });
     const now = new Date();
-    if(!document.hidden && ui.view!=='lock' && !ui.overlay && !(ui.view==='phone'&&ui.sub==='calling') && !dragState && Date.now()-lastActivity>=data.settings.sleep*1000){captureRecentView();ui.view='lock';ui.overlay='';lastActivity=Date.now();render();}
+    if(!document.hidden && ui.view!=='lock' && !ui.overlay && !ui.activeCall && !dragState && Date.now()-lastActivity>=data.settings.sleep*1000){captureRecentView();ui.view='lock';ui.overlay='';lastActivity=Date.now();render();}
+    if(ui.activeCall){
+      const dialing=Date.now()<ui.activeCall.connected;
+      const elapsed=viewport.querySelector('.incall-elapsed'),state=viewport.querySelector('.incall-state');
+      if(elapsed)elapsed.textContent=dialing?'':ICSPhoneCall.duration(ICSPhoneCall.elapsed(ui.activeCall));
+      if(state)state.textContent=i18n.t(dialing?'Calling…':ui.activeCall.hold?'On hold':'In call');
+    }
     checkAlarms(now);
     if(ui.view==='gallery' && ui.sub==='photo' && ui.gallerySlideshow && !ui.overlay && Date.now()-ui.gallerySlideAt>=3000){ui.gallerySlideAt=Date.now();galleryStep(1);}
     const deskTime=document.querySelector('.desk-time');
