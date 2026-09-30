@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const ctx={window:{},console};vm.createContext(ctx);
+for(const name of ['settings-detail','music','email','browser-session'])vm.runInContext(fs.readFileSync(`versions/4.0.4/${name}.js`,'utf8'),ctx);
+Object.assign(ctx,ctx.window);
+const defaults={settings:{wifi:true},browserHistory:['www.google.com'],bookmarks:['www.google.com'],alarms:[{id:1,time:'07:00'}],events:[{id:1,title:'Sample'}],contacts:[{id:1,name:'Alex'}],contactGroups:[],messages:[{id:1,body:'Hello'}],photos:[{id:1,name:'Sample'}]};
+ctx.defaultData=defaults;ctx.emailData=[{id:1,from:'Android',subject:'Welcome',body:'Hello'}];ctx.clone=value=>JSON.parse(JSON.stringify(value));
+ctx.data={...ctx.clone(defaults),calcHistory:[{expression:'1+1'}],playRatings:{demo:5},messageDrafts:{new:{body:'Draft'}},callHistory:[{number:'123'}]};
+ctx.ui={recent:['calculator','play-store'],recentState:{},recentSnapshots:{},music:ctx.ICSMusic.restore(),musicPlaying:false};ctx.save=()=>{};ctx.syncBrowserState=()=>{};ctx.home=()=>{};ctx.saveMusic=()=>{ctx.data.music=ctx.clone(ctx.ui.music);};
+const source=fs.readFileSync('versions/4.0.4/simulator.js','utf8');
+vm.runInContext(source.slice(source.indexOf('  function resetSimulator()'),source.indexOf('  function operateCalculator(')),ctx);
+ctx.clearAppData('calculator');assert.equal(ctx.data.calcHistory.length,0);
+ctx.clearAppData('play-store');assert.equal(ctx.data.playRatings,undefined);
+ctx.clearAppData('messaging');assert.equal(Object.keys(ctx.data.messageDrafts).length,0);assert.equal(ctx.data.messages[0].body,'Hello');
+ctx.data.events=[];ctx.clearAppData('calendar');assert.equal(ctx.data.events[0].title,'Sample');
+ctx.ui.music.playing=true;ctx.resetSimulator();assert.equal(ctx.ui.music.playing,false);assert.equal(ctx.data.mailbox[0].folder,'Inbox');assert.equal(ctx.data.settings.sleep,30);assert.equal(ctx.ui.recent.length,0);
+const detail=ctx.ICSSettingsDetail;assert.equal(detail.sizes({appCacheCleared:['music']},'music').cache,0);assert.equal(detail.prefs({settings:{mediaVolume:15}}).mediaVolume,15);
+assert.ok(detail.render(ctx.data,{sub:'apps',settingsAppsTab:'Downloaded',recent:[]},[],x=>x).body.includes('No apps'));
+console.log('Settings checks passed: per-app clearing uses persisted keys, full reset initializes new modules, preference defaults, cache and empty downloaded list.');

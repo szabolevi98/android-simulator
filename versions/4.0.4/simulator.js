@@ -72,6 +72,7 @@
     } catch { return clone(defaultData); }
   }
   let data = load();
+  data.settings={...ICSSettingsDetail.defaults,...data.settings};
   function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
   const ui = {
     view: 'home', sub: '', page: 2, drawerTab: 'apps', drawerPage: 0, overlay: '',
@@ -277,6 +278,7 @@
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
+    if(ui.view==='settings' && ['app-info','data-app','battery-history','battery-detail','storage-misc'].includes(ui.sub)){ui.sub={'app-info':'apps','data-app':'data','battery-history':'battery','battery-detail':'battery','storage-misc':'storage'}[ui.sub];render();return;}
     if(ui.view==='music' && ui.sub==='queue'){ui.sub='player';render();return;}
     if (ui.view === 'play-store' && ui.playHistory.length) {
       ui.play = ui.playHistory.pop(); render();
@@ -321,6 +323,8 @@
       overlayRoot.innerHTML = ICSMusic.overlay(ui.music,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('email-')) {
       overlayRoot.innerHTML = ICSEmail.overlay(data.mailbox,ui,data.photos,key=>i18n.t(key));
+    } else if (ui.overlay.startsWith('sd-')) {
+      overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'browser-menu') {
@@ -370,6 +374,8 @@
 
   function renderSettings() {
     const s = ui.sub;
+    const detail=ICSSettingsDetail.render(data,ui,apps,key=>i18n.t(key));
+    if(detail)return appView(detail.title,detail.body,'sd-page');
     if (s === 'wifi') return renderWifiSettings();
     if (s === 'wifi-advanced') return appView('Advanced Wi-Fi', `${wirelessCheckRow('Network notification', 'Notify me when an open network is available', 'wifiNotify')}${row('Keep Wi-Fi on during sleep', 'Always', 'toast', 'Always', null)}`, 'wireless-more');
     if (s === 'bluetooth') return renderBluetoothSettings();
@@ -386,16 +392,7 @@
     if (s === 'tethering') return appView('Tethering & portable hotspot', `${wirelessCheckRow('Portable Wi-Fi hotspot', '', 'portableHotspot')}`, 'wireless-more');
     if (s === 'beam') return appView('Android Beam', `${wirelessCheckRow('Android Beam', 'Ready to transmit app content via NFC', 'androidBeam')}`, 'wireless-more');
     if (s === 'mobile-networks') return appView('Mobile networks', `${wirelessCheckRow('Data enabled', '', 'dataEnabled')}${wirelessCheckRow('Data roaming', '', 'dataRoaming')}`, 'wireless-more');
-    if (s === 'sound') return appView('Sound', `${toggleRow('Silent mode', 'Mute all sounds except media', 'silent', '♫')}${row('Volumes', 'Ringtone 70% · Media 60%', 'settings-sub', 'volumes', '◖')}${row('Phone ringtone', 'Orion', 'settings-sub', 'ringtone', '♫')}`);
-    if (s === 'display') return appView('Display', `${row('Brightness', `${data.settings.brightness}%`, 'settings-sub', 'brightness', '☼')}${row('Wallpaper', 'Choose your background', 'settings-sub', 'wallpaper', '▧')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${row('Sleep', 'After 30 seconds of inactivity', 'settings-sub', 'sleep', '◷')}`);
     if (s === 'brightness') return appView('Brightness', `<div class="detail-pad"><h3>Brightness</h3><input type="range" min="10" max="100" value="${data.settings.brightness}" data-field="brightness" aria-label="Brightness"><p>${data.settings.brightness}%</p></div>`);
-    if (s === 'data') return appView('Data usage', `<div class="detail-pad"><h3>Mobile data</h3><p>284 MB used this month</p><div style="height:100px;background:linear-gradient(160deg,transparent 49%,#45b6d2 50%,#45b6d2 52%,transparent 53%),linear-gradient(#d4edf4,#e7e7e7);border-bottom:1px solid #555"></div><p>Browser 124 MB · Email 48 MB · Other 112 MB</p></div>`);
-    if (s === 'storage') return appView('Storage', `<div class="detail-pad"><h3>Internal storage</h3><p>Used: 3.4 GB of 16 GB</p><div style="height:14px;background:linear-gradient(90deg,#42b5d2 22%,#ddd 22%);"></div><p>Apps 1.8 GB · Pictures 0.8 GB · Other 0.8 GB</p></div>`);
-    if (s === 'battery') {
-      const usage = [['Screen',21,'☼'],['Android System',11,'◉'],['Phone idle',10,'◷'],['Cell standby',9,'◢'],['Gmail',9,'✉'],['Android OS',9,'◉']];
-      return appView('Battery', `<div class="battery-page"><div class="battery-state">78% · <span>Discharging</span></div><div class="battery-chart"><span>2h 20m 14s on battery</span></div>${usage.map(([name,percent,icon]) => `<div class="battery-usage"><span class="battery-usage-icon">${icon}</span><div class="battery-usage-body"><div class="battery-usage-name">${name}<span>${percent}%</span></div><div class="battery-meter"><i style="width:${percent * 4}%"></i></div></div></div>`).join('')}</div>`);
-    }
-    if (s === 'apps') return appView('Apps', `${apps.map(a => row(a[1], 'Installed', 'open-app', a[0], a[2])).join('')}`);
     if (s === 'sync') return appView('Accounts & sync', `${toggleRow('Auto-sync', 'Sync app data automatically', 'autoSync', '↻')}${label('ACCOUNTS')}${row('Google', 'demo@android.local', 'settings-sub', 'sync-google', '◎')}${row('Add account', '', 'toast', 'Demo account already added', '+')}`);
     if (s === 'sync-google') return appView('Google', `<div class="detail-pad"><h3>demo@android.local</h3><p>Sample account data is stored only in this browser.</p></div>${row('Sync Gmail', 'Last synced today', 'noop', '', '✉')}${row('Sync Calendar', 'Last synced today', 'noop', '', '▦')}${row('Sync Contacts', 'Last synced today', 'noop', '', '◉')}`);
     if (s === 'location') return appView('Location services', `${toggleRow("Google's location service", 'Let apps use approximate location', 'networkLocation', '◎')}${toggleRow('GPS satellites', 'Let apps use precise location', 'gps', '◉')}`);
@@ -622,6 +619,27 @@
     const draft=ICSEmail.draft(source,forward);if(to)draft.to=to;
     data.mailbox.unshift(draft);ui.emailId=draft.id;ui.emailCc=false;ui.emailError='';ui.overlay='';ui.sub='compose';save();render();
   }
+  function resetSimulator() {
+    data=clone(defaultData);data.settings={...ICSSettingsDetail.defaults,...data.settings};
+    data.mailbox=ICSEmail.restore(null,emailData,[]);ui.music=ICSMusic.restore();ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;
+    ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
+    ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
+  }
+  function clearAppData(id) {
+    if(id==='browser'){delete data.browserSession;data.browserHistory=clone(defaultData.browserHistory);data.bookmarks=clone(defaultData.bookmarks||[]);data.savedPages=[];ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();}
+    if(id==='music'){ui.music=ICSMusic.restore();saveMusic();}
+    if(id==='email'){data.mailbox=ICSEmail.restore(null,emailData,[]);data.sentEmails=[];ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];}
+    if(id==='clock')data.alarms=clone(defaultData.alarms);
+    if(id==='calendar')data.events=clone(defaultData.events);
+    if(id==='people'){data.contacts=clone(defaultData.contacts);data.contactGroups=clone(defaultData.contactGroups);ui.peopleDraft=null;}
+    if(id==='messaging'){data.messages=clone(defaultData.messages);data.messageDrafts={};}
+    if(id==='gallery'){data.photos=clone(defaultData.photos);}
+    if(id==='camera')delete data.cameraSettings;
+    if(id==='phone')data.callHistory=[];
+    if(id==='calculator'){ui.calc='';ui.calcHistoryIndex=-1;data.calcHistory=[];}
+    if(id==='play-store')delete data.playRatings;
+    ui.recent=ui.recent.filter(app=>app!==id);delete ui.recentState?.[id];delete ui.recentSnapshots[id];save();
+  }
 
   function operateCalculator(key) {
     if (key === 'C') { ui.calc = ''; ui.calcFresh = false; return; }
@@ -693,6 +711,17 @@
       case 'unlock': ui.view = 'home'; render(); break;
       case 'unlock-camera': openApp('camera'); break;
       case 'settings-sub': ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
+      case 'sd-dialog': ui.settingsField=id;ui.overlay='sd-dialog';renderOverlay();break;
+      case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;
+      case 'sd-app-info': ui.settingsApp=id;ui.sub='app-info';render();break;
+      case 'sd-data-app': ui.settingsApp=id;ui.sub='data-app';render();break;
+      case 'sd-storage-open': if(id==='gallery'||id==='music')openApp(id);else{ui.sub=id;if(id==='apps')ui.settingsAppsTab='All';render();}break;
+      case 'sd-battery-history': ui.sub='battery-history';render();break;
+      case 'sd-battery-app': ui.batteryDetail=id;ui.sub='battery-detail';render();break;
+      case 'sd-clear-cache': data.appCacheCleared=[...new Set([...(data.appCacheCleared||[]),ui.settingsApp])];save();render();break;
+      case 'sd-clear-data': ui.overlay='sd-clear-data';renderOverlay();break;
+      case 'sd-confirm-clear': clearAppData(ui.settingsApp);ui.overlay='';render();toast('App data cleared');break;
+      case 'sd-force-stop': if(ui.settingsApp==='music'){ui.music.playing=false;saveMusic();}ui.recent=ui.recent.filter(app=>app!==ui.settingsApp);delete ui.recentState?.[ui.settingsApp];delete ui.recentSnapshots[ui.settingsApp];toast('App stopped');break;
       case 'connectivity-menu': ui.connectivityMenu = id; ui.overlay = 'connectivity-menu'; renderOverlay(); break;
       case 'wifi-scan': ui.overlay = ''; renderOverlay(); toast('Scanning…'); break;
       case 'wifi-add': ui.overlay = 'wifi-add'; renderOverlay(); break;
@@ -719,7 +748,7 @@
         save(); render(); const settingsView = viewport.querySelector('.settings-app'); if (settingsView) settingsView.scrollTop = previousScroll; break;
       }
       case 'wallpaper': data.wallpaper = Number(id); delete data.customWallpaper; delete data.customWallpaperPhoto; save(); if (ui.view === 'wallpaper-picker') home(false); else render(); toast('Wallpaper set'); break;
-      case 'factory-reset': if (confirm(i18n.t('Reset all local ICS simulator data?'))) { data = clone(defaultData); ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory); syncBrowserState(); ui.peopleDraft=null; ui.peopleQuery=''; ui.peopleTab='all'; save(); home(); } break;
+      case 'factory-reset': if (confirm(i18n.t('Reset all local ICS simulator data?'))) resetSimulator(); break;
       case 'about-tap':
         ui.aboutTapTimes = [...(ui.aboutTapTimes || []), performance.now()].slice(-3);
         if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { ui.sub = 'easter'; ui.easterNyan = false; ui.aboutTapTimes = []; render(); }
@@ -974,10 +1003,13 @@
       case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';render();break;
       case 'email': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(!item)break;for(const key of ['to','cc','bcc','subject','body'])if(values.has(key))item[key]=String(values.get(key)).trim();if(!ICSEmail.send(item)){ui.emailError='Enter valid email addresses';save();render();break;}save();ui.emailFolder='Sent';ui.emailQuery=undefined;ui.sub='read';ui.emailError='';render();toast('Demo email sent');break;}
       case 'email-search': ui.emailQuery=String(values.get('query')||'').trim();ui.emailSelected=[];render();break;
+      case 'sd-volumes': for(const key of ['mediaVolume','ringVolume','alarmVolume'])data.settings[key]=Math.max(0,Math.min(100,Number(values.get(key))));save();ui.overlay='';render();break;
+      case 'sd-choice': {const choice=String(values.get('choice'));if(ui.settingsField==='sleep')data.settings.sleep=Number(choice);else if(ui.settingsField==='font')data.settings.largeText=choice==='large';else if(ui.settingsField==='silent'){data.settings.silent=choice!=='off';data.settings.silentMode=choice;}else data.settings[ui.settingsField]=choice;save();ui.overlay='';render();break;}
       default: break;
     }
   });
   document.addEventListener('input', event => {
+    if(event.target.dataset.field==='data-cycle'){ui.dataCycle=event.target.value;render();return;}
     if(event.target.closest('.email-compose')&&event.target.name){const item=data.mailbox.find(item=>item.id===ui.emailId);if(item){item[event.target.name]=event.target.value;save();}return;}
     if(event.target.closest('.cal-editor') && event.target.name) {
       ui.eventDraft[event.target.name]=event.target.type==='checkbox'?event.target.checked:event.target.value;
@@ -1363,16 +1395,19 @@
 
   });
   document.querySelector('#power-button').addEventListener('click', () => { ui.view = ui.view === 'lock' ? 'home' : 'lock'; ui.overlay = ''; render(); });
+  let lastActivity=Date.now();
+  for(const name of ['pointerdown','keydown','input','wheel'])document.addEventListener(name,()=>{lastActivity=Date.now();},{passive:true});
   const languageSelect = document.querySelector('#language-select');
   languageSelect.value = i18n.language;
   languageSelect.addEventListener('change', event => { i18n.setLanguage(event.target.value); location.reload(); });
   document.querySelector('#reset-button').addEventListener('click', () => {
     if (!confirm(i18n.t('Reset all local ICS simulator data?'))) return;
-    data = clone(defaultData); data.mailbox=ICSEmail.restore(null,emailData,[]);ui.music=ICSMusic.restore();ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory); syncBrowserState(); ui.peopleDraft=null; ui.peopleQuery=''; ui.peopleTab='all'; save(); ui.view = 'home'; ui.sub = ''; ui.page = 2; ui.overlay = ''; render();
+    resetSimulator();
   });
   setInterval(() => {
     document.querySelectorAll('.status-clock').forEach(node => { node.textContent = clock(); });
     const now = new Date();
+    if(!document.hidden && ui.view!=='lock' && !ui.overlay && !(ui.view==='phone'&&ui.sub==='calling') && !dragState && Date.now()-lastActivity>=data.settings.sleep*1000){captureRecentView();ui.view='lock';ui.overlay='';lastActivity=Date.now();render();}
     checkAlarms(now);
     if(ui.view==='gallery' && ui.sub==='photo' && ui.gallerySlideshow && !ui.overlay && Date.now()-ui.gallerySlideAt>=3000){ui.gallerySlideAt=Date.now();galleryStep(1);}
     const deskTime=document.querySelector('.desk-time');

@@ -44,7 +44,7 @@ Every listed app was opened in the browser and checked for missing images, horiz
 | Calculator | Rebuilt basic and advanced portrait panels from original XML, including original key frames, DEL/CLR row and display proportions. Drag paging, menu switching, expression precedence, radians, powers, factorials, roots, keyboard deletion and persisted history work. Numeric precision uses JavaScript with 12 significant digits rather than the original Arity engine; history navigation uses keyboard Up/Down rather than the Android display gesture. |
 | Music | AOSP library, queue and player reconstructed; see Music follow-up. Widget artwork remains an approximation. |
 | Email | Light Email list/reader/composer reconstructed; see Email follow-up. Accounts, server sync and HTML mail remain absent. |
-| Settings detail pages | Data usage, battery chart, storage, installed-app management, volumes/ringtone/sleep and several security/accessibility options remain simplified. Some rows are informational placeholders. About-phone baseband/kernel values are illustrative and have not been verified against a specific factory image. |
+| Settings detail pages | Sound/display dialogs, usage/storage/battery drill-downs and app management added; see Settings detail follow-up. Security, accessibility, date/time, VPN and hotspot setup still have omissions. Baseband/kernel values remain illustrative. |
 
 The seven-tap Build-number Developer-options unlock is retained **at the owner's explicit request**. Stock ICS exposes Developer options by default; hiding it behind Build-number taps belongs to later Android releases.
 
@@ -222,3 +222,16 @@ Browser checks: star and reply; invalid Cc rejection; autosaved body, recipients
 Limits: one fictional account, plain text bodies, one Gallery picture attachment per message, and no real mail transport, account wizard, reply-all, server sync, arbitrary files or HTML mail. Row geometry, split toolbar placement and selection animations are approximations. Physical touch behavior was not tested.
 
 ![Email inbox, reader and composer](screenshots/ics-email.png)
+
+
+## Settings detail screens — 2026-09-30
+
+Primary references: AOSP Settings [sound preferences](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/xml/sound_settings.xml), [display preferences](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/xml/display_settings.xml), [volume dialog](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/layout/preference_dialog_ringervolume.xml), [app manager](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/layout/manage_applications.xml) and [app details](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/layout/installed_app_details.xml).
+
+Sound/display placeholder text now opens saved volume, tone, silent-mode, font and sleep selections. Source-order touch feedback preferences are included. Idle locking uses the selected timeout while the document is visible; dialogs, active calls and drags defer it. All templates use original Holo checkboxes. Data usage includes cycles, mobile-data/limit controls, illustrative charts and per-app foreground/background counters. Storage links to Apps, Gallery and Music. Battery has history and use-detail screens. App management has Downloaded/Running/All tabs and details with disabled uninstall for bundled apps, simulated cache clearing, force stop, and confirmed reset of the selected app's local content. Full reset now initializes all new modules consistently.
+
+Checked in the browser: touch-sound toggle, saved volume and ringtone, cache size changing to zero, app-clear confirmation/cancel, data cycle change, battery history, and automatic locking at 15 seconds (then restored to 30). Volume dialogs in EN/HU/DE/FR/ES at 390×650 have no document/dialog overflow, missing images or errors. All nine test files passed. Reset tests use synthetic data rather than clearing the browser's customized state.
+
+Limits: storage, traffic, power and process figures are illustrative, not measured. Data-limit/background restrictions are stored simulation choices; there is no real network metering. Tone, feedback and volume settings do not emit sound/vibration. Pulse-light preference is stored only. No app packages are installed or uninstalled. App data clearing restores bundled demo data rather than Android filesystem semantics. Idle locking is subject to browser timer throttling. Charts, tabs, sliders and radio controls still approximate native drawing.
+
+![Volume settings, data usage and app info](screenshots/ics-settings-details.png)
