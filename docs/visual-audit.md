@@ -34,12 +34,12 @@ Every listed app was opened in the browser and checked for missing images, horiz
 | App | Current mismatch / next required work |
 | --- | --- |
 | Phone | Dialpad now uses original key images, texture, tabs and bottom actions with the source 20/65/15 proportions. Search, add-to-contact handoff and persistent outgoing call log work. Favorites/contact list, log details and the in-call screen remain simplified; voicemail, pause/wait dialing and full call settings are not implemented. |
-| People | Replaced with source-informed lists, tabs and photo header; see the People and Browser section below. Favorites tiles, contact photos, multi-value fields and account synchronization remain incomplete. |
+| People | Replaced with source-informed lists, tabs and photo header; see the People and Browser section below. Favorites now use photo tiles; custom contact photos, multi-value fields and account synchronization remain incomplete. |
 | Messaging | Reconstructed from the Mms layouts; see the Messaging section below. Browser typography, menus and attachment selection remain approximations; no group messages, delivery reports or Android keyboard. |
-| Browser | Phone toolbar and tab/library controls reconstructed; see below. Tab previews remain simplified text cards, and the web content is intentionally fictional. |
+| Browser | Phone toolbar and tab/library controls reconstructed; see below. Tab previews now render inert scaled copies of the bundled page content; the web content remains fictional. |
 | Camera | Viewfinder and controls are generic placeholders. Match original Camera controls while keeping a local mock preview and capture result. |
 | Gallery | Uses a generic white grid of demo pictures rather than the original album/filmstrip/detail navigation. |
-| Clock | The digital screen, white alarm list, modern pill toggles and floating add button need the original DeskClock/alarm layouts. |
+| Clock | Reconstructed clock face, alarm list and preferences; see the DeskClock follow-up below. Sound/vibration playback, full alarm settings and background/closed-tab delivery remain unimplemented. |
 | Calendar | Localized month grid works, but the original action bar, day/week/month/agenda modes and event editor are incomplete. |
 | Calculator | Rebuilt basic and advanced portrait panels from original XML, including original key frames, DEL/CLR row and display proportions. Drag paging, menu switching, expression precedence, radians, powers, factorials, roots, keyboard deletion and persisted history work. Numeric precision uses JavaScript with 12 significant digits rather than the original Arity engine; history navigation uses keyboard Up/Down rather than the Android display gesture. |
 | Music | Generic artwork/control layout; library tabs, queue and original player view remain missing. The widget is also an approximation. |
@@ -148,3 +148,21 @@ Checks: contact creation, editing, favorites and persistence; group creation, me
 Remaining differences: People has a simplified favorites list, single phone/email fields, default photos and no Updates/account synchronization. Browser tab previews are text summaries rather than captured page thumbnails; menus expose a subset of the Android app. Font metrics, animation and browser rendering are approximations. Physical touch devices and their keyboards were not exercised.
 
 ![People and Browser](screenshots/ics-people-browser.png)
+
+## DeskClock, favorites and browser previews — 2026-09-30
+
+Sources were checked against `android-4.0.4_r2.1`, using the AOSP mirror when Gitiles was unavailable:
+
+- [DeskClock layout](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.0.4_r2.1/res/layout/desk_clock.xml), [time/date](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.0.4_r2.1/res/layout/desk_clock_time_date.xml), [dimensions](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.0.4_r2.1/res/values/dimens.xml) and [DeskClock.java](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.0.4_r2.1/src/com/android/deskclock/DeskClock.java): right-aligned time/date over dimmed wallpaper, next-alarm entry and dimming.
+- [Alarm list](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.0.4_r2.1/res/layout/alarm_clock.xml), [alarm row](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.0.4_r2.1/res/layout/alarm_time.xml), [editor](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.0.4_r2.1/res/layout/set_alarm.xml) and [preferences](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.0.4_r2.1/res/xml/alarm_prefs.xml): add row above the list, a separate left checkbox column, dark Holo preferences and bottom Cancel/Delete/OK actions.
+- [Contacts favorite tile](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-4.0.4_r2.1/res/layout/contact_tile_starred.xml): square photo and translucent bottom name strip.
+
+The previous combined clock/alarm screen, white list, pill switches and floating add action were replaced. Original AndroidClock font and DeskClock icons are included. Existing saved alarms remain compatible. The editor supports time, repeat days, label, ringtone choice and vibration preference, with draft cancellation and confirmed deletion. A local scheduler displays an in-page alert, suppresses duplicate delivery in the same minute, disables completed one-shot alarms and supports ten-minute snoozing. The clock shows the next enabled occurrence.
+
+People favorites now use photo tiles. Browser tab previews render the actual bundled page markup at reduced size; previews are inert and the outer card handles pointer/keyboard activation. These supersede the earlier simplified-favorites and text-preview limitations documented above.
+
+Verified: create/edit/save an alarm with repeat days, label and ringtone, persistence after reload, cancel without changing the saved alarm, time decrement wrap, in-page alarm delivery and ten-minute snooze, and disabling the test alarm. A null-draft exception found during the delivery test was fixed and covered by a regression check. Tests cover legacy defaults, invalid times, weekday normalization, next-day/week rollover, snooze timing, duplicate suppression and HTML escaping. At 390×650, the alarm editor and repeat dialog were checked in all five languages without document/dialog overflow or broken images. Favorites and scaled browser previews were visually inspected.
+
+Limits: ringtone/vibration are saved choices only; no sound or device vibration is emitted. Delivery runs only while this page is executing and is subject to browser timer throttling; it is not a real alarm service. The alert dialog and time spinner are browser approximations. Dock settings, a moving screensaver, volume/snooze-duration settings and Android's full alarm-notification behavior remain outside this implementation. Physical touch-device behavior was not tested.
+
+![DeskClock, alarms and alarm editor](screenshots/ics-desk-clock.png)

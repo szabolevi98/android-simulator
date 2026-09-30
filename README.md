@@ -26,7 +26,8 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 - Offline Browser with an ICS-style phone toolbar, tab overview, independent back/forward histories, persistent tabs, bookmarks, saved sample pages and find-on-page highlighting. Linked fictional articles expand the local demo web.
 - People with Groups, All contacts and Favorites tabs, alphabetic lists, search, contact details, creation/editing/deletion, group membership and simulated call/message/email actions. Contact removal preserves conversations under the phone number.
 - A 2012-inspired Play Store demo with eight sample listings, categories, search, charts, app details, previews, and locally saved star ratings. Open it from the app drawer, its Shop shortcut, or the Google folder. Existing simulator apps open directly; fictional games provide previews. Nothing is downloaded or installed.
-- Sample functionality for Phone, People, Messaging, Camera, Gallery, Calendar, Clock, Calculator, Music, and Email.
+- DeskClock with the original AndroidClock font, wallpaper-backed clock face, dim mode, dark alarm list and Holo checkboxes. Edit alarm time, weekdays, ringtone choice, vibration preference and label; save or cancel edits. In-page alerts support dismissal and a ten-minute snooze while the simulator is running. Ringtone and vibration choices are stored demo settings; there is no sound/vibration playback or closed-tab alarm service.
+- Sample functionality for Phone, People, Messaging, Camera, Gallery, Calendar, Calculator, Music, and Email.
 - Customization and sample data are saved in `localStorage`. The reset button in the upper-right corner clears the simulator's local state.
 - English, Hungarian, German, French, and Spanish UI. On first launch, the simulator uses the browser language when supported and falls back to English otherwise. Change the language in the header or under **Settings → Language & input**.
 
@@ -52,6 +53,7 @@ node --check versions/4.0.4/play-store.js
 node --check versions/4.0.4/messaging.js
 node tests/messaging.test.cjs
 node tests/people-browser.test.cjs
+node tests/desk-clock.test.cjs
 ```
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). For comparisons with the original Android interface and remaining visual differences, see [docs/visual-audit.md](docs/visual-audit.md).

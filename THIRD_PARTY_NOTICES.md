@@ -50,3 +50,10 @@ These resources retain the AOSP Apache-2.0 license described above. The JavaScri
 ## People and Browser resources
 
 The `people-*.png` resources are from [AOSP Contacts drawable-hdpi](https://android.googlesource.com/platform/packages/apps/Contacts/+/refs/tags/android-4.0.4_r2.1/res/drawable-hdpi/); `web-*.png` resources are from [AOSP Browser drawable-hdpi](https://android.googlesource.com/platform/packages/apps/Browser/+/refs/tags/android-4.0.4_r2.1/res/drawable-hdpi/). They retain their original artwork with a filename prefix added, under the same Apache-2.0 license. The additional offline articles are project-authored fictional demo content.
+
+## DeskClock resources
+
+- `AndroidClock.ttf`: [AOSP frameworks/base data/fonts](https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-4.0.4_r2.1/data/fonts/AndroidClock.ttf).
+- `clock-*.png`: [AOSP DeskClock drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_deskclock/tree/android-4.0.4_r2.1/res/drawable-hdpi), with a filename prefix added. Original images are unchanged.
+
+These resources use the same Android 4.0.4 tag and Apache-2.0 license noted above.

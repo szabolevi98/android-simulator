@@ -261,7 +261,7 @@
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
   function appScrollContainer(app) {
-    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
+    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) {
@@ -291,6 +291,7 @@
     if (ui.view === 'settings' && ['brightness','wallpaper','sleep'].includes(ui.sub)) { ui.sub = 'display'; render(); return; }
     if (ui.view === 'settings' && ['volumes','ringtone'].includes(ui.sub)) { ui.sub = 'sound'; render(); return; }
     if (ui.view === 'messaging' && ui.sub === 'thread') { ui.sub = ui.mmsListMode || ''; render(); return; }
+    if (ui.view === 'clock' && ui.sub === 'alarm-edit') { ui.alarmDraft=null; ui.sub='alarms'; render(); return; }
     if (ui.view === 'people' && ui.sub === 'edit') { ui.sub = 'detail'; render(); return; }
     if (ui.sub) { ui.sub = ''; render(); if (ui.view === 'settings') viewport.querySelector('.settings-app').scrollTop = ui.settingsRootScroll; return; }
     home(false);
@@ -306,6 +307,8 @@
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
+    } else if (ui.overlay.startsWith('clock-')) {
+      overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'browser-menu') {
@@ -438,7 +441,7 @@
   }
   function renderBrowser() {
     const header = title => `<header class="web-header"><button data-action="back" aria-label="Back">‹</button><h2>${safe(i18n.t(title))}</h2><button data-action="browser-new-tab" aria-label="New tab"><img src="assets/web-ic_new_window_holo_dark.png" alt=""></button></header>`;
-    if (ui.sub === 'tabs') return `<div class="app-view ics-browser">${header('Tabs')}<div class="web-tabs">${ui.browserTabs.map((url,i)=>`<article class="web-tab-card ${i===ui.browserTab?'current':''}"><div class="web-tab-title"><button data-action="browser-tab" data-id="${i}">${safe(browserTitle(url))}</button><button data-action="browser-close-tab" data-id="${i}" aria-label="Close tab"><img src="assets/web-ic_tab_close.png" alt=""></button></div><button class="web-tab-preview" data-action="browser-tab" data-id="${i}"><div><h2>${safe(browserTitle(url))}</h2><p>${safe(renderWebsite(url).replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').slice(0,650))}</p></div></button></article>`).join('')}</div></div>`;
+    if (ui.sub === 'tabs') return `<div class="app-view ics-browser">${header('Tabs')}<div class="web-tabs">${ui.browserTabs.map((url,i)=>`<article class="web-tab-card ${i===ui.browserTab?'current':''}"><div class="web-tab-title"><button data-action="browser-tab" data-id="${i}">${safe(browserTitle(url))}</button><button data-action="browser-close-tab" data-id="${i}" aria-label="Close tab"><img src="assets/web-ic_tab_close.png" alt=""></button></div><div class="web-tab-preview" role="button" tabindex="0" aria-label="${safe(browserTitle(url))}" data-action="browser-tab" data-id="${i}"><div class="browser-page" inert aria-hidden="true">${renderWebsite(url)}</div></div></article>`).join('')}</div></div>`;
     if (['bookmarks','history','saved'].includes(ui.sub)) {
       const urls = ui.sub==='history' ? [...data.browserHistory].reverse() : ui.sub==='saved' ? data.savedPages || [] : data.bookmarks;
       return `<div class="app-view ics-browser">${header('Bookmarks')}<nav class="web-library-tabs">${[['bookmarks','Bookmarks'],['history','History'],['saved','Saved pages']].map(([id,label])=>`<button class="${ui.sub===id?'active':''}" data-action="browser-${id}">${safe(i18n.t(label))}</button>`).join('')}</nav><div class="web-library">${urls.map(url=>`<div class="web-library-row"><button data-action="browser-bookmark" data-id="${safe(url)}">${safe(browserTitle(url))}<small>${safe(url)}</small></button>${ui.sub!=='history'?`<button data-action="browser-remove-saved" data-id="${safe(url)}" aria-label="Delete">×</button>`:''}</div>`).join('')||'<p class="empty-note">No saved pages</p>'}</div></div>`;
@@ -551,10 +554,21 @@
     const events = data.events.filter(event => event.date === ui.selectedDate);
     return appView('Calendar', `<div class="relative"><div class="calendar-head"><button data-action="calendar-prev" aria-label="Previous month">‹</button><strong>${monthTitle}</strong><button data-action="calendar-next" aria-label="Next month">›</button></div><div class="calendar-grid">${weekdays.map(day => `<span class="day-name">${safe(day)}</span>`).join('')}${cells}</div><div class="event-list"><h3>${safe(ui.selectedDate)}</h3>${events.length ? events.map(event => `<div class="event-row"><strong>${safe(event.time)}</strong> ${safe(event.title)} <button class="small-button" data-action="event-delete" data-id="${event.id}" aria-label="Delete event">×</button></div>`).join('') : '<p>No events</p>'}</div><button class="fab" data-action="event-new" aria-label="Add event">＋</button></div>`);
   }
-  function renderClock() {
-    if (ui.sub === 'new') return appView('New alarm', `<form class="form-stack" data-form="alarm"><label>Time<input type="time" name="time" value="07:00" required></label><button class="primary-button" type="submit">Set alarm</button></form>`);
-    return appView('Clock', `<div class="relative"><div class="clock-face"><div class="digital">${clock()}</div><div class="day">${fullDate()}</div></div>${label('Alarms')}${data.alarms.map(alarm => `<button class="alarm-row" style="width:100%;border-left:0;border-top:0;border-right:0;color:#222" data-action="alarm-toggle" data-id="${alarm.id}"><strong>${safe(alarm.time)}</strong><span class="switch ${alarm.enabled ? 'on' : ''}"></span></button>`).join('')}<button class="fab" data-action="alarm-new" aria-label="Add alarm">＋</button></div>`);
+  function renderClock() { return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale()); }
+  function editAlarm(id) {
+    ui.alarmDraft=ICSDeskClock.normalize(data.alarms.find(alarm=>alarm.id===Number(id)));
+    ui.sub='alarm-edit'; ui.overlay=''; render();
   }
+  function checkAlarms(now) {
+    if(ui.overlay==='clock-ringing')return;
+    const alarm=data.alarms.find(alarm=>ICSDeskClock.due(alarm,now));
+    if(!alarm)return;
+    alarm.lastFiredMinute=Math.floor(now.getTime()/60000);
+    delete alarm.snoozedUntil;
+    if(!ICSDeskClock.normalize(alarm).days.length)alarm.enabled=false;
+    ui.ringingAlarm=clone(alarm); save(); ui.overlay='clock-ringing'; renderOverlay();
+  }
+
   function renderCalculator() {
     const basic = ['7','8','9','÷','4','5','6','×','1','2','3','−','.','0','=','+'];
     const advanced = ['sin','cos','tan','ln','log','!','π','e','^','(',')','√'];
@@ -765,8 +779,32 @@
       case 'calendar-day': ui.selectedDate = id; render(); break;
       case 'event-new': ui.sub = 'new'; render(); break;
       case 'event-delete': data.events = data.events.filter(item => item.id !== Number(id)); save(); render(); break;
-      case 'alarm-new': ui.sub = 'new'; render(); break;
-      case 'alarm-toggle': { const alarm = data.alarms.find(item => item.id === Number(id)); if (alarm) alarm.enabled = !alarm.enabled; save(); render(); break; }
+      case 'clock-alarms': ui.sub='alarms'; render(); break;
+      case 'clock-dim': ui.clockDim=!ui.clockDim; render(); break;
+      case 'alarm-new': editAlarm(); break;
+      case 'alarm-edit': editAlarm(id); break;
+      case 'alarm-cancel': ui.alarmDraft=null; ui.sub='alarms'; render(); break;
+      case 'alarm-draft-toggle': ui.alarmDraft[id]=!ui.alarmDraft[id]; render(); break;
+      case 'alarm-field': ui.overlay='clock-'+id; renderOverlay(); break;
+      case 'alarm-time-step': {
+        const [field,step]=id.split(':'); const input=overlayRoot.querySelector(`[name="${field}"]`);
+        const count=field==='hour'?24:60; input.value=String(((Number(input.value)||0)+Number(step)+count)%count).padStart(2,'0'); break;
+      }
+      case 'alarm-save': {
+        const alarm=ICSDeskClock.normalize(ui.alarmDraft); delete alarm.snoozedUntil; delete alarm.lastFiredMinute;
+        const index=data.alarms.findIndex(item=>item.id===alarm.id);
+        if(index<0){alarm.id=Date.now();data.alarms.push(alarm);}else data.alarms[index]=alarm;
+        save(); ui.alarmDraft=null; ui.sub='alarms'; render(); toast('Alarm set'); break;
+      }
+      case 'alarm-delete': ui.overlay='clock-delete'; renderOverlay(); break;
+      case 'alarm-confirm-delete': data.alarms=data.alarms.filter(alarm=>alarm.id!==ui.alarmDraft.id); save(); ui.alarmDraft=null; ui.overlay=''; ui.sub='alarms'; render(); break;
+      case 'alarm-snooze': {
+        const alarm=data.alarms.find(item=>item.id===ui.ringingAlarm.id);
+        if(alarm){alarm.enabled=true;alarm.snoozedUntil=Date.now()+10*60000;save();}
+        ui.overlay='';render();toast('Snoozing for 10 minutes');break;
+      }
+      case 'alarm-dismiss': ui.overlay=''; render(); break;
+      case 'alarm-toggle': { const alarm = data.alarms.find(item => item.id === Number(id)); if (alarm) { alarm.enabled = !alarm.enabled; delete alarm.snoozedUntil; } save(); render(); break; }
       case 'calc-menu': ui.overlay = 'calc-menu'; renderOverlay(); break;
       case 'calc-panel': ui.overlay = ''; renderOverlay(); setCalculatorPanel(Number(id)); break;
       case 'calc-clear': data.calcHistory = []; ui.calcHistoryIndex = -1; save(); operateCalculator('C'); ui.overlay = ''; render(); break;
@@ -842,7 +880,10 @@
         if (!title || !date || !time) return;
         data.events.push({ id: Date.now(), title, date, time }); save(); ui.selectedDate = date; ui.calendarDate = new Date(`${date}T12:00:00`); ui.sub = ''; render(); toast('Event saved'); break;
       }
-      case 'alarm': data.alarms.push({ id: Date.now(), time: String(values.get('time')), enabled: true }); save(); ui.sub = ''; render(); toast('Alarm set'); break;
+      case 'alarm-time': ui.alarmDraft.time=String(values.get('hour')).padStart(2,'0')+':'+String(values.get('minute')).padStart(2,'0'); ui.overlay='';render();break;
+      case 'alarm-days': ui.alarmDraft.days=values.getAll('days').map(Number);ui.overlay='';render();break;
+      case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';render();break;
+      case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';render();break;
       case 'email': data.sentEmails.unshift({ id: Date.now(), to: String(values.get('to')).trim(), subject: String(values.get('subject')).trim(), body: String(values.get('body')).trim() }); save(); ui.sub = 'sent'; render(); toast('Demo email sent'); break;
       default: break;
     }
@@ -1056,7 +1097,7 @@
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const scrollTarget = event.pointerType === 'mouse' && !ui.overlay && !event.target.closest('input, select, textarea, .wallpaper-choice')
-      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library')) : null;
+      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library,.desk-scroll')) : null;
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; }, 550);
     const message = event.target.closest('.mms-message');
@@ -1194,7 +1235,7 @@
   });
   window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade') renderOverlay(); pointerStart = null; });
   document.addEventListener('keydown', event => {
-    if (event.target.matches('.recent-item') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
+    if (event.target.matches('.recent-item,.web-tab-preview') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
     if (ui.view === 'calculator' && !ui.overlay && ['ArrowUp','ArrowDown'].includes(event.key) && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) {
       event.preventDefault(); const history = data.calcHistory || []; if (!history.length) return;
       ui.calcHistoryIndex = event.key === 'ArrowUp' ? (ui.calcHistoryIndex < 0 ? history.length - 1 : Math.max(0,ui.calcHistoryIndex - 1)) : (ui.calcHistoryIndex < 0 ? history.length - 1 : Math.min(history.length - 1,ui.calcHistoryIndex + 1));
@@ -1218,6 +1259,12 @@
   setInterval(() => {
     document.querySelectorAll('.status-clock').forEach(node => { node.textContent = clock(); });
     const now = new Date();
+    checkAlarms(now);
+    const deskTime=document.querySelector('.desk-time');
+    if(deskTime) {
+      deskTime.textContent=now.toLocaleTimeString(i18n.locale(),{hour:'2-digit',minute:'2-digit',hour12:false});
+      document.querySelector('.desk-date').textContent=now.toLocaleDateString(i18n.locale(),{weekday:'long',month:'long',day:'numeric'});
+    }
     document.querySelectorAll('.analog-clock').forEach(node => {
       node.setAttribute('aria-label', clock());
       node.querySelector('.clock-hour').style.transform = `rotate(${now.getHours() % 12 * 30 + now.getMinutes() / 2}deg)`;
