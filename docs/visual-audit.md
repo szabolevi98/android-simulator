@@ -40,7 +40,7 @@ Every listed app was opened in the browser and checked for missing images, horiz
 | Camera | Original control artwork and full-screen layout now used, with local capture/settings; see Camera/Gallery follow-up. Preview is an illustration; video, panorama and hardware behavior remain absent. |
 | Gallery | Dark albums, grid, filmstrip and photo menus now implemented; see follow-up. Crop/editor, multi-selection, Picasa and exact OpenGL animations remain absent. |
 | Clock | Reconstructed clock face, alarm list and preferences; see the DeskClock follow-up below. Sound/vibration playback, full alarm settings and background/closed-tab delivery remain unimplemented. |
-| Calendar | Localized month grid works, but the original action bar, day/week/month/agenda modes and event editor are incomplete. |
+| Calendar | Reconstructed light action bar, four views, local event editor and details; see Calendar follow-up. Recurrence, reminder delivery and account sync remain absent. |
 | Calculator | Rebuilt basic and advanced portrait panels from original XML, including original key frames, DEL/CLR row and display proportions. Drag paging, menu switching, expression precedence, radians, powers, factorials, roots, keyboard deletion and persisted history work. Numeric precision uses JavaScript with 12 significant digits rather than the original Arity engine; history navigation uses keyboard Up/Down rather than the Android display gesture. |
 | Music | Generic artwork/control layout; library tabs, queue and original player view remain missing. The widget is also an approximation. |
 | Email | Letter avatars, floating compose action and generic message/list layout need original Email action bars and list/detail views. |
@@ -183,3 +183,16 @@ Checked in the browser: capture and review; front/back, white balance, exposure 
 Limits: no physical camera, video/panorama, real flash, image import/export, crop editor, multi-selection or cloud albums. Zoom and focus are simplified. Gallery layout, transitions, photo toolbar visibility and image gestures approximate Android's OpenGL rendering. Touch-device/pinch behavior was not directly tested.
 
 ![Camera, Gallery albums and photo viewer](screenshots/ics-camera-gallery.png)
+
+
+## Calendar — 2026-09-30
+
+References from AOSP Calendar `android-4.0.4_r2.1`: [styles](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.0.4_r2.1/res/values/styles.xml), [colors](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.0.4_r2.1/res/values/colors.xml), [action menu](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.0.4_r2.1/res/menu/all_in_one_title_bar.xml), [full month](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.0.4_r2.1/res/layout/full_month_by_week.xml), [editor action bar](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.0.4_r2.1/res/layout/edit_event_custom_actionbar.xml) and [event details](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.0.4_r2.1/res/layout/event_info.xml).
+
+The former generic month grid/floating add button is replaced by a Holo Light action bar, original Today/Discard/Save artwork, view selector, month busy indicators, 24-hour day/week timelines and an agenda. A local event editor supports location, notes, start/end dates and times, inclusive all-day ranges, validation, cancel and update. Search matches title, location and notes. Deletion requires confirmation. Existing date/time/title records remain compatible; the view preference persists.
+
+Browser checks: create and reload an event, edit/discard without changing the saved title, invalid end-time rejection with retained input, location search, all-day multi-day creation, day/week rendering and horizontal mouse-drag navigation. At 390×650, all five language editors have no document or internal horizontal overflow, broken images or logged JavaScript errors. Unit checks cover leap day, week starts, midnight/year rollover, exclusive midnight timed endings versus inclusive all-day dates, overlap lane allocation, validation and escaping.
+
+Limits: no recurrence, reminders, attendees, multiple calendars, account sync or custom time zones. Date/time inputs use browser pickers. The month busy markers and timed overlap geometry approximate Android's custom canvas views. Previous/next footer controls and horizontal month swipes are simulator conveniences; original month scrolling and animation physics are not reproduced. Physical touch-device behavior remains untested.
+
+![Calendar month, day and event editor](screenshots/ics-calendar.png)

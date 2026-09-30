@@ -78,7 +78,7 @@
     selectedContact: 1, thread: 1, selectedPhoto: 1,
     dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, easterNyan: false, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
-    calendarDate: new Date(), selectedDate: localDate(),
+    calendarMode: ['Day','Week','Month','Agenda'].includes(data.calendarMode)?data.calendarMode:'Month', selectedDate: localDate(),
     calc: '', calcFresh: false, calcPanel: 0, calcHistoryIndex: -1, phoneTab: 'dialpad',
     play: ICSPlayStore.initial(), playHistory: [],
     musicPlaying: false, musicTrack: 0, musicPosition: 0,
@@ -183,6 +183,7 @@
     renderOverlay();
     i18n.translateDOM(screen);
     if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
+    if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
   }
   function renderLock() {
     return `<div class="lock-view"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${fullDate()}</div></div><div class="lock-wave"><div class="lock-outer-ring"></div><button class="lock-target lock-target-unlock" data-action="unlock" aria-label="Unlock"><img src="assets/ic_lockscreen_unlock_normal.png" alt=""></button><button class="lock-target lock-target-camera" data-action="unlock-camera" aria-label="Camera"><img src="assets/ic_lockscreen_camera_normal.png" alt=""></button><button class="lock-handle" data-action="lock-hint" aria-label="Slide to unlock"><img src="assets/ic_lockscreen_handle_normal.png" alt=""></button></div><div class="lock-carrier">${carrierName()}</div></div>`;
@@ -261,7 +262,7 @@
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
   function appScrollContainer(app) {
-    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
+    return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) {
@@ -276,6 +277,7 @@
     if (ui.view === 'lock') return;
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
+    if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
     if (ui.view === 'play-store' && ui.playHistory.length) {
       ui.play = ui.playHistory.pop(); render();
       viewport.querySelector('.play-content').scrollTop = ui.play.scrollTop || 0;
@@ -313,6 +315,8 @@
       overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
     } else if (ui.overlay.startsWith('clock-')) {
       overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key));
+    } else if (ui.overlay.startsWith('calendar-')) {
+      overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'browser-menu') {
@@ -545,16 +549,22 @@
   }
 
   function renderCalendar() {
-    if (ui.sub === 'new') return appView('New event', `<form class="form-stack" data-form="event"><label>Title<input name="title" required maxlength="80"></label><label>Date<input name="date" type="date" value="${ui.selectedDate}" required></label><label>Time<input name="time" type="time" value="12:00" required></label><button class="primary-button" type="submit">Save event</button></form>`);
-    const year = ui.calendarDate.getFullYear(), month = ui.calendarDate.getMonth();
-    const weekStart = i18n.language === 'en' ? 0 : 1;
-    const first = (new Date(year, month, 1).getDay() - weekStart + 7) % 7;
-    const days = new Date(year, month + 1, 0).getDate();
-    const monthTitle = ui.calendarDate.toLocaleDateString(i18n.locale(), { month: 'long', year: 'numeric' });
-    const weekdays = Array.from({length:7}, (_, index) => new Date(2024, 0, 7 + weekStart + index).toLocaleDateString(i18n.locale(), {weekday:'narrow'}));
-    const cells = Array.from({length:first}, () => '<span></span>').join('') + Array.from({length:days}, (_, i) => { const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(i+1).padStart(2,'0')}`; return `<button data-action="calendar-day" data-id="${iso}" class="${iso === today() ? 'today' : ''} ${iso === ui.selectedDate ? 'selected' : ''}">${i+1}</button>`; }).join('');
-    const events = data.events.filter(event => event.date === ui.selectedDate);
-    return appView('Calendar', `<div class="relative"><div class="calendar-head"><button data-action="calendar-prev" aria-label="Previous month">‹</button><strong>${monthTitle}</strong><button data-action="calendar-next" aria-label="Next month">›</button></div><div class="calendar-grid">${weekdays.map(day => `<span class="day-name">${safe(day)}</span>`).join('')}${cells}</div><div class="event-list"><h3>${safe(ui.selectedDate)}</h3>${events.length ? events.map(event => `<div class="event-row"><strong>${safe(event.time)}</strong> ${safe(event.title)} <button class="small-button" data-action="event-delete" data-id="${event.id}" aria-label="Delete event">×</button></div>`).join('') : '<p>No events</p>'}</div><button class="fab" data-action="event-new" aria-label="Add event">＋</button></div>`);
+    return ICSCalendar.render(data,ui,key=>i18n.t(key),i18n.locale());
+  }
+  function calendarRender() {
+    render();
+    const timeline=viewport.querySelector('.cal-time-scroll');
+    if(timeline)timeline.scrollTop=8*48;
+  }
+  function calendarMove(direction) {
+    const mode=ui.calendarMode || 'Month';
+    if(mode==='Month') {const date=ICSCalendar.parse(ui.selectedDate);date.setDate(1);date.setMonth(date.getMonth()+direction);ui.selectedDate=ICSCalendar.iso(date);}
+    else ui.selectedDate=ICSCalendar.plus(ui.selectedDate,direction*(mode==='Week'?7:1));
+    calendarRender();
+  }
+  function calendarEdit(item) {
+    ui.eventDraft=ICSCalendar.normalize(item || {date:ui.selectedDate,time:'12:00',title:''});
+    ui.calendarError='';ui.overlay='';ui.sub='event-edit';render();
   }
   function renderClock() { return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale()); }
   function editAlarm(id) {
@@ -792,11 +802,20 @@
       case 'camera-options': case 'camera-balance': ui.overlay=action;renderOverlay();break;
       case 'camera-set-balance': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.balance=id;save();ui.overlay='';render();break;
       case 'camera-exposure': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.exposure=Number(id);save();ui.overlay='';render();break;
-      case 'calendar-prev': ui.calendarDate = new Date(ui.calendarDate.getFullYear(), ui.calendarDate.getMonth() - 1, 1); render(); break;
-      case 'calendar-next': ui.calendarDate = new Date(ui.calendarDate.getFullYear(), ui.calendarDate.getMonth() + 1, 1); render(); break;
-      case 'calendar-day': ui.selectedDate = id; render(); break;
-      case 'event-new': ui.sub = 'new'; render(); break;
-      case 'event-delete': data.events = data.events.filter(item => item.id !== Number(id)); save(); render(); break;
+      case 'calendar-prev': calendarMove(-1); break;
+      case 'calendar-next': calendarMove(1); break;
+      case 'calendar-day': ui.selectedDate=id;ui.calendarMode=data.calendarMode='Day';save();calendarRender();break;
+      case 'calendar-today': ui.selectedDate=today();calendarRender();break;
+      case 'calendar-views': case 'calendar-menu': ui.overlay=action;renderOverlay();break;
+      case 'calendar-mode': ui.calendarMode=data.calendarMode=id;save();ui.calendarSearch=undefined;ui.overlay='';calendarRender();break;
+      case 'calendar-search': ui.calendarMode='Agenda';ui.calendarSearch='';ui.overlay='';render();viewport.querySelector('.cal-search input').focus();break;
+      case 'calendar-slot': {const [date,time]=id.split('|');calendarEdit({date,time,title:''});break;}
+      case 'event-new': calendarEdit();break;
+      case 'event-open': ui.selectedEvent=Number(id);ui.sub='event';render();break;
+      case 'event-edit': calendarEdit(data.events.find(item=>item.id===ui.selectedEvent));break;
+      case 'event-cancel': ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();break;
+      case 'event-delete': ui.overlay='calendar-delete';renderOverlay();break;
+      case 'event-confirm-delete': data.events=data.events.filter(item=>item.id!==ui.selectedEvent);save();ui.overlay='';ui.sub='';calendarRender();break;
       case 'clock-alarms': ui.sub='alarms'; render(); break;
       case 'clock-dim': ui.clockDim=!ui.clockDim; render(); break;
       case 'alarm-new': editAlarm(); break;
@@ -894,10 +913,14 @@
         const id = Date.now(); data.contacts.push({ id, name, phone, email }); save(); ui.selectedContact = id; ui.sub = 'detail'; render(); toast('Contact saved'); break;
       }
       case 'event': {
-        const title = String(values.get('title')).trim(), date = String(values.get('date')), time = String(values.get('time'));
-        if (!title || !date || !time) return;
-        data.events.push({ id: Date.now(), title, date, time }); save(); ui.selectedDate = date; ui.calendarDate = new Date(`${date}T12:00:00`); ui.sub = ''; render(); toast('Event saved'); break;
+        const event={...ui.eventDraft,id:ui.eventDraft?.id || Date.now(),title:String(values.get('title')||'').trim(),date:String(values.get('date')),time:String(values.get('time')),endDate:String(values.get('endDate')),endTime:String(values.get('endTime')),allDay:values.has('allDay'),location:String(values.get('location')||'').trim(),description:String(values.get('description')||'').trim()};
+        ui.eventDraft=event;
+        if(!ICSCalendar.valid(event)){ui.calendarError='End must be after start';render();return;}
+        const existing=data.events.findIndex(item=>item.id===event.id);
+        if(existing<0)data.events.push(event);else data.events[existing]=event;
+        save();ui.selectedDate=event.date;ui.selectedEvent=event.id;ui.eventDraft=null;ui.sub='event';render();toast('Event saved');break;
       }
+      case 'calendar-search': ui.calendarSearch=String(values.get('query')||'').trim();render();break;
       case 'alarm-time': ui.alarmDraft.time=String(values.get('hour')).padStart(2,'0')+':'+String(values.get('minute')).padStart(2,'0'); ui.overlay='';render();break;
       case 'alarm-days': ui.alarmDraft.days=values.getAll('days').map(Number);ui.overlay='';render();break;
       case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';render();break;
@@ -907,6 +930,10 @@
     }
   });
   document.addEventListener('input', event => {
+    if(event.target.closest('.cal-editor') && event.target.name) {
+      ui.eventDraft[event.target.name]=event.target.type==='checkbox'?event.target.checked:event.target.value;
+      return;
+    }
     if(event.target.matches('.camera-zoom input')) {
       data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.zoom=Number(event.target.value);save();
       viewport.querySelector('.camera-focus-area .media-photo').src=ICSMedia.image(ICSMedia.scene(data));
@@ -1120,7 +1147,7 @@
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const scrollTarget = event.pointerType === 'mouse' && !ui.overlay && !event.target.closest('input, select, textarea, .wallpaper-choice')
-      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library,.desk-scroll,.gallery-scroll')) : null;
+      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library,.desk-scroll,.gallery-scroll,.cal-scroll')) : null;
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; }, 550);
     const message = event.target.closest('.mms-message');
@@ -1161,6 +1188,11 @@
       recentCard.style.transform = `translateX(${dx}px)`;
       recentCard.style.opacity = String(Math.max(.25, 1 - Math.abs(dx) / 240));
       return;
+    }
+    if(ui.view==='calendar' && !ui.sub && !ui.overlay && !pointerStart.scrolling && pointerStart.target.closest('[data-calendar-swipe]') && Math.abs(dx)>12 && Math.abs(dx)>Math.abs(dy)*1.2) {
+      pointerStart.calendarSwiping=true;suppressClickUntil=Date.now()+350;event.preventDefault();
+      try{screen.setPointerCapture(event.pointerId);}catch{}
+      const surface=viewport.querySelector('[data-calendar-swipe]');surface.style.transform=`translateX(${dx}px)`;return;
     }
     if (ui.view==='gallery' && ui.sub==='photo' && !ui.overlay && pointerStart.target.closest('[data-gallery-swipe]') && Math.abs(dx)>10 && Math.abs(dx)>Math.abs(dy)) {
       pointerStart.gallerySwiping=true;suppressClickUntil=Date.now()+350;event.preventDefault();
@@ -1206,6 +1238,7 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if(pointerStart.calendarSwiping){if(Math.abs(dx)>45)calendarMove(dx<0?1:-1);else viewport.querySelector('[data-calendar-swipe]').style.transform='';suppressClickUntil=Date.now()+350;pointerStart=null;return;}
     if (pointerStart.gallerySwiping) { if(Math.abs(dx)>45)galleryStep(dx<0?1:-1);else render();suppressClickUntil=Date.now()+350;pointerStart=null;return; }
     if (pointerStart.calculatorSwiping) { setCalculatorPanel(Math.abs(dx) > 50 ? (dx < 0 ? 1 : 0) : ui.calcPanel); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
     if (pointerStart.drawerSwiping) { finishDrawerPage(dx); pointerStart = null; return; }
@@ -1264,6 +1297,7 @@
   });
   window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade') renderOverlay(); pointerStart = null; });
   window.addEventListener('pointercancel',()=>{const photo=viewport.querySelector('.gallery-image');if(photo)photo.style.transform='';});
+  window.addEventListener('pointercancel',()=>{const surface=viewport.querySelector('[data-calendar-swipe]');if(surface)surface.style.transform='';});
   document.addEventListener('keydown', event => {
     if(ui.view==='gallery' && ui.sub==='photo' && !ui.overlay && ['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();galleryStep(event.key==='ArrowLeft'?-1:1);return;}
     if (event.target.matches('.recent-item,.web-tab-preview') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
