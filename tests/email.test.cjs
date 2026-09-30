@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const ctx={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.0.4/email.js','utf8'),ctx);const mail=ctx.window.ICSEmail;
+const messages=mail.restore(undefined,[{id:1,from:'Android Team',subject:'Welcome',body:'Hello'}],[{id:1,to:'alex@example.com',subject:'Old sent',body:'Saved'}]);
+assert.equal(messages.length,2);assert.notEqual(messages[0].id,messages[1].id);assert.equal(messages[1].folder,'Sent');
+const reply=mail.draft(messages[0],false,1);assert.equal(reply.to,'android@example.com');assert.equal(reply.subject,'Re: Welcome');
+const forward=mail.draft(messages[0],true,2);assert.equal(forward.to,'');assert.equal(forward.subject,'Fwd: Welcome');
+assert.equal(mail.validRecipients({to:'a@example.com; b@example.com',cc:'c@example.com'}),true);
+assert.equal(mail.validRecipients({to:'a@example.com',bcc:'invalid'}),false);
+messages[0].starred=true;mail.trash(messages,['inbox-1']);assert.equal(mail.list(messages,'Starred').length,0);assert.equal(mail.list(messages,'Trash').length,1);mail.untrash(messages[0]);assert.equal(messages[0].folder,'Inbox');
+reply.to='broken';assert.equal(mail.send(reply),false);assert.equal(reply.folder,'Drafts');reply.to='alex@example.com';assert.equal(mail.send(reply,5),true);assert.equal(reply.folder,'Sent');
+assert.equal(mail.restore(JSON.parse(JSON.stringify(messages))).length,2);
+assert.equal(mail.list(messages,'Sent','saved').length,1);
+messages[0].subject='<script>bad()</script>';assert.ok(!mail.render(messages,{},x=>x,'en-US').includes('<script>'));
+console.log('Email checks passed: migration IDs, reply/forward, recipient validation, recoverable trash, local sending, search and escaping.');

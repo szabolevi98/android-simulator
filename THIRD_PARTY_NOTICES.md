@@ -74,3 +74,8 @@ Original PNG artwork is unchanged, with filename prefixes added. The same Apache
 ### AOSP Music artwork
 
 The `music-*.png` tab, album placeholder, playlist, shuffle/repeat and metadata images are unmodified assets from [AOSP Music, android-4.0.4_r2.1](https://github.com/aosp-mirror/platform_packages_apps_music/tree/android-4.0.4_r2.1/res/drawable-hdpi). `music-ic_media_{play,pause,previous,next}.png` come from [frameworks/base at the same tag](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-4.0.4_r2.1/core/res/res/drawable-hdpi). Copyright The Android Open Source Project; Apache License 2.0. Demo track names and artists are fictional; no recordings are distributed.
+
+
+### Email controls
+
+The unmodified `email-*.png` images come from [AOSP Email, android-4.0.4_r2.1](https://github.com/aosp-mirror-neo/platform_packages_apps_email/tree/android-4.0.4_r2.1/res/drawable-hdpi). Copyright The Android Open Source Project; Apache License 2.0. The forward icon is darkened with CSS for the light toolbar.

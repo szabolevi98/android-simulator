@@ -42,8 +42,8 @@ Every listed app was opened in the browser and checked for missing images, horiz
 | Clock | Reconstructed clock face, alarm list and preferences; see the DeskClock follow-up below. Sound/vibration playback, full alarm settings and background/closed-tab delivery remain unimplemented. |
 | Calendar | Reconstructed light action bar, four views, local event editor and details; see Calendar follow-up. Recurrence, reminder delivery and account sync remain absent. |
 | Calculator | Rebuilt basic and advanced portrait panels from original XML, including original key frames, DEL/CLR row and display proportions. Drag paging, menu switching, expression precedence, radians, powers, factorials, roots, keyboard deletion and persisted history work. Numeric precision uses JavaScript with 12 significant digits rather than the original Arity engine; history navigation uses keyboard Up/Down rather than the Android display gesture. |
-| Music | Generic artwork/control layout; library tabs, queue and original player view remain missing. The widget is also an approximation. |
-| Email | Letter avatars, floating compose action and generic message/list layout need original Email action bars and list/detail views. |
+| Music | AOSP library, queue and player reconstructed; see Music follow-up. Widget artwork remains an approximation. |
+| Email | Light Email list/reader/composer reconstructed; see Email follow-up. Accounts, server sync and HTML mail remain absent. |
 | Settings detail pages | Data usage, battery chart, storage, installed-app management, volumes/ringtone/sleep and several security/accessibility options remain simplified. Some rows are informational placeholders. About-phone baseband/kernel values are illustrative and have not been verified against a specific factory image. |
 
 The seven-tap Build-number Developer-options unlock is retained **at the owner's explicit request**. Stock ICS exposes Developer options by default; hiding it behind Build-number taps belongs to later Android releases.
@@ -209,3 +209,16 @@ Verified in the browser: create a playlist from a song, view its count, switch s
 Limits: six fictional tracks and simulated elapsed time, without audio, file imports, cloud music or background media service. Queue reordering, playlist rename/delete and original long-press context menus remain absent. CSS approximates the legacy button backgrounds and seekbar; a visible library shortcut and per-song options buttons are simulator additions. Physical touch behavior was not tested.
 
 ![Music library and player](screenshots/ics-music.png)
+
+
+## Email — 2026-09-30
+
+References: [message row](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_email/android-4.0.4_r2.1/res/layout/message_list_item_normal.xml), [styles](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_email/android-4.0.4_r2.1/res/values/styles.xml), [reader menu](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_email/android-4.0.4_r2.1/res/menu/message_view_fragment_option.xml) and [composer menu](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_email/android-4.0.4_r2.1/res/menu/message_compose_option.xml), tag `android-4.0.4_r2.1`.
+
+Replaced letter avatars and the floating compose button with a light action bar, compact message rows, Holo checkboxes, original stars and toolbar artwork. Inbox/Starred/Drafts/Sent/Trash folders, selection, read/unread, search and recoverable trash use one persistent local mailbox. Old sent messages migrate without colliding with sample inbox IDs. Drafts autosave; reply uses the sample sender address. Forwarding preserves picture attachments. Cc/Bcc and comma/semicolon-separated recipient lists are validated. Sending is a local folder transition, with no network request. People email actions now use the same composer.
+
+Browser checks: star and reply; invalid Cc rejection; autosaved body, recipients and picture surviving reload; simulated send; moving that test message to Trash and restoring it to Sent; forwarding its attachment. Reader checks in all five languages at 390×650 found no page overflow, missing images or logged errors. Model tests cover migration IDs, reply/forward addressing, recipients, recoverable trash, sending, search and escaping.
+
+Limits: one fictional account, plain text bodies, one Gallery picture attachment per message, and no real mail transport, account wizard, reply-all, server sync, arbitrary files or HTML mail. Row geometry, split toolbar placement and selection animations are approximations. Physical touch behavior was not tested.
+
+![Email inbox, reader and composer](screenshots/ics-email.png)

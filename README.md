@@ -31,7 +31,8 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 - Dark Gallery albums, image grid, filmstrip, mouse/touch swiping, keyboard navigation, zoom, slideshow, persistent rotation, details, confirmed deletion, wallpaper selection and sharing into a local Messaging draft. Existing photos remain compatible.
 - Calendar with a light ICS action bar, Day/Week/Month/Agenda views, date navigation and mouse/touch swiping. Create, edit, search and delete local events, including all-day and multi-day entries, location and notes. Overlapping timed events use separate columns. Data and the chosen view persist.
 - AOSP Music library with Artists, Albums, Songs and Playlists, original artwork, a local queue, seeking, shuffle and repeat modes. Custom playlists and playback preferences persist. Sample tracks have no audio.
-- Sample functionality for Phone, People, Messaging, Calculator, and Email.
+- Email with an ICS light action bar, Inbox/Starred/Drafts/Sent/Trash folders, read/unread status, selection, stars and search. Drafts autosave; local reply/forward supports Cc/Bcc and Gallery pictures. Sending only moves the message into the local Sent folder. Trash is recoverable.
+- Sample functionality for Phone, People, Messaging and Calculator.
 - Customization and sample data are saved in `localStorage`. The reset button in the upper-right corner clears the simulator's local state.
 - English, Hungarian, German, French, and Spanish UI. On first launch, the simulator uses the browser language when supported and falls back to English otherwise. Change the language in the header or under **Settings → Language & input**.
 
@@ -61,6 +62,7 @@ node tests/desk-clock.test.cjs
 node tests/media.test.cjs
 node tests/calendar.test.cjs
 node tests/music.test.cjs
+node tests/email.test.cjs
 ```
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). For comparisons with the original Android interface and remaining visual differences, see [docs/visual-audit.md](docs/visual-audit.md).
