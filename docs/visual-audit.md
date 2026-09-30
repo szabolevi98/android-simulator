@@ -37,8 +37,8 @@ Every listed app was opened in the browser and checked for missing images, horiz
 | People | Replaced with source-informed lists, tabs and photo header; see the People and Browser section below. Favorites now use photo tiles; custom contact photos, multi-value fields and account synchronization remain incomplete. |
 | Messaging | Reconstructed from the Mms layouts; see the Messaging section below. Browser typography, menus and attachment selection remain approximations; no group messages, delivery reports or Android keyboard. |
 | Browser | Phone toolbar and tab/library controls reconstructed; see below. Tab previews now render inert scaled copies of the bundled page content; the web content remains fictional. |
-| Camera | Viewfinder and controls are generic placeholders. Match original Camera controls while keeping a local mock preview and capture result. |
-| Gallery | Uses a generic white grid of demo pictures rather than the original album/filmstrip/detail navigation. |
+| Camera | Original control artwork and full-screen layout now used, with local capture/settings; see Camera/Gallery follow-up. Preview is an illustration; video, panorama and hardware behavior remain absent. |
+| Gallery | Dark albums, grid, filmstrip and photo menus now implemented; see follow-up. Crop/editor, multi-selection, Picasa and exact OpenGL animations remain absent. |
 | Clock | Reconstructed clock face, alarm list and preferences; see the DeskClock follow-up below. Sound/vibration playback, full alarm settings and background/closed-tab delivery remain unimplemented. |
 | Calendar | Localized month grid works, but the original action bar, day/week/month/agenda modes and event editor are incomplete. |
 | Calculator | Rebuilt basic and advanced portrait panels from original XML, including original key frames, DEL/CLR row and display proportions. Drag paging, menu switching, expression precedence, radians, powers, factorials, roots, keyboard deletion and persisted history work. Numeric precision uses JavaScript with 12 significant digits rather than the original Arity engine; history navigation uses keyboard Up/Down rather than the Android display gesture. |
@@ -166,3 +166,20 @@ Verified: create/edit/save an alarm with repeat days, label and ringtone, persis
 Limits: ringtone/vibration are saved choices only; no sound or device vibration is emitted. Delivery runs only while this page is executing and is subject to browser timer throttling; it is not a real alarm service. The alert dialog and time spinner are browser approximations. Dock settings, a moving screensaver, volume/snooze-duration settings and Android's full alarm-notification behavior remain outside this implementation. Physical touch-device behavior was not tested.
 
 ![DeskClock, alarms and alarm editor](screenshots/ics-desk-clock.png)
+
+## Camera and Gallery — 2026-09-30
+
+Primary references at `android-4.0.4_r2.1`:
+
+- [Camera root](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-4.0.4_r2.1/res/layout/camera.xml), [control panel](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-4.0.4_r2.1/res/layout/camera_control.xml), [indicators](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-4.0.4_r2.1/res/layout/indicator_bar.xml), [dimensions](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-4.0.4_r2.1/res/values/dimens.xml) and [fullscreen theme](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-4.0.4_r2.1/res/values/styles.xml).
+- Gallery2 [album-set menu](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_gallery2/android-4.0.4_r2.1/res/menu/albumset.xml), [album menu](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_gallery2/android-4.0.4_r2.1/res/menu/album.xml), [photo menu](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_gallery2/android-4.0.4_r2.1/res/menu/photo.xml) and [PhotoPage filmstrip](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_gallery2/android-4.0.4_r2.1/src/com/android/gallery3d/app/PhotoPage.java).
+
+Camera now has the original blue shutter, textured 76dp control panel, review thumbnail and camera-setting icons. Its status bar is hidden as specified by ThemeCamera. Focus feedback, zoom, simulated front/back switching, exposure and white balance affect the illustrated capture; camera settings and captures persist. Flash cycles between auto/off/on as a stored simulation setting.
+
+Gallery replaces the white grid with dark albums, an album image grid, a photo view and thumbnail filmstrip. Photo navigation supports arrow buttons, keyboard arrows and direct mouse/touch dragging. Zoom, three-second slideshow, persistent 90-degree rotation, details, confirmed deletion, wallpaper selection and sharing to a local Messaging draft are included. The same picture renderer is used for camera review, Gallery, wallpaper and new MMS attachments. Legacy photos are grouped without rewriting their saved records. Camera frames and example pictures are project-authored vector illustrations.
+
+Checked in the browser: capture and review; front/back, white balance, exposure and zoom persistence; rotation/details; wallpaper selection; Messaging attachment handoff; mouse-drag photo navigation; automatic slideshow advancement and stopping; album/back navigation. At 390×650, Camera and Gallery were checked in EN/HU/DE/FR/ES: no document overflow, broken images or logged JavaScript errors. Tests cover legacy album grouping, scene/settings persistence, rotation, invalid-color filtering and escaping.
+
+Limits: no physical camera, video/panorama, real flash, image import/export, crop editor, multi-selection or cloud albums. Zoom and focus are simplified. Gallery layout, transitions, photo toolbar visibility and image gestures approximate Android's OpenGL rendering. Touch-device/pinch behavior was not directly tested.
+
+![Camera, Gallery albums and photo viewer](screenshots/ics-camera-gallery.png)

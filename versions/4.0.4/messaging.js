@@ -43,6 +43,7 @@
   const icon = (action, label, file) => `<button data-action="${action}" aria-label="${label}"><img src="assets/${file}" alt=""></button>`;
   const avatar = '<img class="mms-avatar" src="assets/mms-ic_contact_picture.png" alt="">';
   function photo(item) {
+    if(window.ICSMedia)return `<div class="mms-photo media-attachment">${ICSMedia.art(item)}<span>${escape(item.name)}</span></div>`;
     const colors = item.colors.filter(c=>/^#[\da-f]{6}$/i.test(c));
     return `<div class="mms-photo" style="background:linear-gradient(150deg,${colors.join(',') || '#555,#aaa'})"><span>${escape(item.name)}</span></div>`;
   }

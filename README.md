@@ -27,7 +27,9 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 - People with Groups, All contacts and Favorites tabs, alphabetic lists, search, contact details, creation/editing/deletion, group membership and simulated call/message/email actions. Contact removal preserves conversations under the phone number.
 - A 2012-inspired Play Store demo with eight sample listings, categories, search, charts, app details, previews, and locally saved star ratings. Open it from the app drawer, its Shop shortcut, or the Google folder. Existing simulator apps open directly; fictional games provide previews. Nothing is downloaded or installed.
 - DeskClock with the original AndroidClock font, wallpaper-backed clock face, dim mode, dark alarm list and Holo checkboxes. Edit alarm time, weekdays, ringtone choice, vibration preference and label; save or cancel edits. In-page alerts support dismissal and a ten-minute snooze while the simulator is running. Ringtone and vibration choices are stored demo settings; there is no sound/vibration playback or closed-tab alarm service.
-- Sample functionality for Phone, People, Messaging, Camera, Gallery, Calendar, Calculator, Music, and Email.
+- Camera with original ICS shutter/control artwork, full-screen preview, simulated front/back cameras, focus feedback, zoom, white balance and exposure. Captures are local vector illustrations; no camera permission or hardware access is used.
+- Dark Gallery albums, image grid, filmstrip, mouse/touch swiping, keyboard navigation, zoom, slideshow, persistent rotation, details, confirmed deletion, wallpaper selection and sharing into a local Messaging draft. Existing photos remain compatible.
+- Sample functionality for Phone, People, Messaging, Calendar, Calculator, Music, and Email.
 - Customization and sample data are saved in `localStorage`. The reset button in the upper-right corner clears the simulator's local state.
 - English, Hungarian, German, French, and Spanish UI. On first launch, the simulator uses the browser language when supported and falls back to English otherwise. Change the language in the header or under **Settings → Language & input**.
 
@@ -54,6 +56,7 @@ node --check versions/4.0.4/messaging.js
 node tests/messaging.test.cjs
 node tests/people-browser.test.cjs
 node tests/desk-clock.test.cjs
+node tests/media.test.cjs
 ```
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). For comparisons with the original Android interface and remaining visual differences, see [docs/visual-audit.md](docs/visual-audit.md).
