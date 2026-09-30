@@ -72,14 +72,14 @@
     } catch { return clone(defaultData); }
   }
   let data = load();
-  data.settings={...ICSSettingsDetail.defaults,...data.settings};
+  data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...data.settings};
   function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
   const ui = {
     view: 'home', sub: '', page: 2, drawerTab: 'apps', drawerPage: 0, overlay: '',
     selectedContact: 1, thread: 1, selectedPhoto: 1,
     dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, easterNyan: false, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
-    calendarMode: ['Day','Week','Month','Agenda'].includes(data.calendarMode)?data.calendarMode:'Month', selectedDate: localDate(),
+    calendarMode: ['Day','Week','Month','Agenda'].includes(data.calendarMode)?data.calendarMode:'Month', selectedDate: localDate(ICSSystemSettings.wallDate(data)),
     calc: '', calcFresh: false, calcPanel: 0, calcHistoryIndex: -1, phoneTab: 'dialpad',
     play: ICSPlayStore.initial(), playHistory: [],
     musicPlaying: false, musicTrack: 0, musicPosition: 0,
@@ -133,10 +133,11 @@
   const navRoot = document.querySelector('#nav-bar');
   const overlayRoot = document.querySelector('#overlay-root');
   const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
-  const today = () => localDate();
-  const clock = () => new Date().toLocaleTimeString(i18n.locale(), { hour: 'numeric', minute: '2-digit', hour12: false });
-  const fullDate = () => new Date().toLocaleDateString(i18n.locale(), { weekday: 'long', month: 'long', day: 'numeric' });
-  const shadeDate = () => new Date().toLocaleDateString(i18n.locale(), { weekday: 'short', month: 'short', day: 'numeric' });
+  const deviceDate = () => ICSSystemSettings.wallDate(data);
+  const today = () => localDate(deviceDate());
+  const clock = () => deviceDate().toLocaleTimeString(i18n.locale(), { hour: 'numeric', minute: '2-digit', hour12: !data.settings.hour24 });
+  const fullDate = () => deviceDate().toLocaleDateString(i18n.locale(), { weekday: 'long', month: 'long', day: 'numeric' });
+  const shadeDate = () => deviceDate().toLocaleDateString(i18n.locale(), { weekday: 'short', month: 'short', day: 'numeric' });
   const contact = id => data.contacts.find(item => item.id === Number(id));
   const appIcon = id => {
     if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg" alt=""></span>';
@@ -160,7 +161,7 @@
   const wirelessRow = (title, subtitle, id) => `<button class="settings-row wireless-row" data-action="settings-sub" data-id="${id}"><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span></button>`;
   const wirelessCheckRow = (title, subtitle, key) => `<button class="settings-row wireless-row" data-action="toggle-setting" data-id="${key}" role="checkbox" aria-checked="${data.settings[key]}"><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><img class="holo-checkbox" src="assets/btn_check_${data.settings[key] ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
   const label = text => `<div class="section-label">${safe(text)}</div>`;
-  const carrierName = () => data.settings.airplane ? i18n.t('No service.') : 'Telekom';
+  const carrierName = () => data.settings.airplane ? i18n.t('No service.') : safe(data.settings.networkOperator||'Telekom');
   const statusIndicators = () => `<span class="status-right">${data.settings.bluetooth ? '<img class="status-bluetooth" src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.wifi && data.settings.wifiNetwork ? '<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="">' : ''}<img src="assets/${data.settings.airplane ? 'stat_sys_signal_flightmode' : 'stat_sys_signal_4_fully'}.png" alt=""><img class="status-battery" src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
 
   function renderStatus() {
@@ -172,7 +173,7 @@
     navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/nav-back.png" alt=""></button><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/nav-home.png" alt=""></button><button class="nav-key nav-recent" data-action="recent" aria-label="Recent apps"><img src="assets/nav-recent.png" alt=""></button>`;
   }
   function render() {
-    screen.className = `screen wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}`;
+    screen.className = `screen wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}${ui.sleeping?' sleeping':''}`;
     screen.style.background = data.wallpaper === 11 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 11 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('assets/wallpaper_${wallpaperFiles[data.wallpaper] || 'chroma'}.jpg') center center / cover no-repeat`;
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav();
@@ -185,17 +186,18 @@
     if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
     if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
   }
+  function lockScreen(){captureRecentView();ui.sleeping=data.settings.screenLock==='none';ui.view=ui.sleeping?'home':'lock';ui.overlay='';render();}
   function renderLock() {
-    return `<div class="lock-view"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${fullDate()}</div></div><div class="lock-wave"><div class="lock-outer-ring"></div><button class="lock-target lock-target-unlock" data-action="unlock" aria-label="Unlock"><img src="assets/ic_lockscreen_unlock_normal.png" alt=""></button><button class="lock-target lock-target-camera" data-action="unlock-camera" aria-label="Camera"><img src="assets/ic_lockscreen_camera_normal.png" alt=""></button><button class="lock-handle" data-action="lock-hint" aria-label="Slide to unlock"><img src="assets/ic_lockscreen_handle_normal.png" alt=""></button></div><div class="lock-carrier">${carrierName()}</div></div>`;
+    return `<div class="lock-view"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${fullDate()}</div>${data.settings.showOwner?`<div class="lock-owner">${safe(data.settings.ownerInfo)}</div>`:''}</div><div class="lock-wave"><div class="lock-outer-ring"></div><button class="lock-target lock-target-unlock" data-action="unlock" aria-label="Unlock"><img src="assets/ic_lockscreen_unlock_normal.png" alt=""></button><button class="lock-target lock-target-camera" data-action="unlock-camera" aria-label="Camera"><img src="assets/ic_lockscreen_camera_normal.png" alt=""></button><button class="lock-handle" data-action="lock-hint" aria-label="Slide to unlock"><img src="assets/ic_lockscreen_handle_normal.png" alt=""></button></div><div class="lock-carrier">${carrierName()}</div></div>`;
   }
   function analogClock() {
-    const now = new Date();
+    const now = deviceDate();
     return `<div class="analog-clock" aria-label="${clock()}"><img class="clock-dial" src="assets/appwidget_clock_dial.png" alt=""><img class="clock-hour" src="assets/appwidget_clock_hour.png" alt="" style="transform:rotate(${(now.getHours() % 12) * 30 + now.getMinutes() / 2}deg)"><img class="clock-minute" src="assets/appwidget_clock_minute.png" alt="" style="transform:rotate(${now.getMinutes() * 6}deg)"></div>`;
   }
   function widgetArt(type) {
     if (type === 'analog') return analogClock();
     if (type === 'digital') return `<strong class="widget-time">${clock()}</strong><span>${fullDate()}</span>`;
-    if (type === 'calendar') return `<div class="agenda-widget"><header>${safe(new Date().toLocaleDateString(i18n.locale(), {weekday:'short', month:'short', day:'numeric'}))}</header>${data.events.filter(event => event.date >= today()).sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time)).slice(0,3).map(event => `<div><time>${safe(event.time)}</time><strong>${safe(event.title)}</strong><small>${safe(event.date)}</small></div>`).join('') || '<p>No events</p>'}</div>`;
+    if (type === 'calendar') return `<div class="agenda-widget"><header>${safe(deviceDate().toLocaleDateString(i18n.locale(), {weekday:'short', month:'short', day:'numeric'}))}</header>${data.events.filter(event => event.date >= today()).sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time)).slice(0,3).map(event => `<div><time>${safe(event.time)}</time><strong>${safe(event.title)}</strong><small>${safe(event.date)}</small></div>`).join('') || '<p>No events</p>'}</div>`;
     if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
     if (type === 'music') return `<div class="music-widget"><img src="assets/music.png" alt=""><span><strong>${safe(tracks[ui.musicTrack].title)}</strong><small>${safe(tracks[ui.musicTrack].artist)}</small></span><span class="widget-play">${ui.musicPlaying ? 'Ⅱ' : '▶'}</span></div>`;
     if (type === 'power') return `<div class="power-widget">${[['wifi','wifi'],['bluetooth','bluetooth'],['gps','gps'],['autoSync','sync'],['brightness','brightness']].map(([key,asset]) => `<span class="power-cell ${data.settings[key] ? 'enabled' : ''}"><img src="assets/power-${asset}-${key === 'brightness' ? data.settings.brightness > 70 ? 'full' : data.settings.brightness > 25 ? 'half' : 'off' : data.settings[key] ? 'on' : 'off'}.png" alt=""><i></i></span>`).join('')}</div>`;
@@ -279,6 +281,7 @@
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
+    if(ui.view==='settings' && ['apn','operators','tether-help','device-admin'].includes(ui.sub)){ui.sub={apn:'mobile-networks',operators:'mobile-networks','tether-help':'tethering','device-admin':'security'}[ui.sub];render();return;}
     if(ui.view==='settings' && ['app-info','data-app','battery-history','battery-detail','storage-misc'].includes(ui.sub)){ui.sub={'app-info':'apps','data-app':'data','battery-history':'battery','battery-detail':'battery','storage-misc':'storage'}[ui.sub];render();return;}
     if(ui.view==='music' && ui.sub==='queue'){ui.sub='player';render();return;}
     if (ui.view === 'play-store' && ui.playHistory.length) {
@@ -312,6 +315,8 @@
   function renderOverlay() {
     if (ui.overlay === 'shade') {
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
+    } else if(ui.overlay==='sx-dialog'){
+      overlayRoot.innerHTML=ICSSystemSettings.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
@@ -375,10 +380,11 @@
 
   function renderSettings() {
     const s = ui.sub;
+    const system=ICSSystemSettings.render(data,ui,key=>i18n.t(key),i18n.locale());
+    if(system)return appView(system.title,system.body,'sx-page',system.right);
     const detail=ICSSettingsDetail.render(data,ui,apps,key=>i18n.t(key));
     if(detail)return appView(detail.title,detail.body,'sd-page');
     if (s === 'wifi') return renderWifiSettings();
-    if (s === 'wifi-advanced') return appView('Advanced Wi-Fi', `${wirelessCheckRow('Network notification', 'Notify me when an open network is available', 'wifiNotify')}${row('Keep Wi-Fi on during sleep', 'Always', 'toast', 'Always', null)}`, 'wireless-more');
     if (s === 'bluetooth') return renderBluetoothSettings();
     if (s === 'wallpaper') {
       return appView('Wallpaper', wallpaperChoices());
@@ -389,21 +395,16 @@
     if (s === 'about-safety') return appView('Safety information', `<div class="detail-pad"><p>Galaxy Nexus safety information is not available in this offline simulation.</p></div>`, 'about-settings');
     if (s === 'easter') return `<div class="easter-view">${ui.easterNyan ? `<div class="nyan-sky" data-action="back" role="button" tabindex="0" aria-label="Close Nyandroid">${Array.from({length:20}, (_, i) => `<span class="nyan-star" style="--x:${(i * 47) % 97}%;--y:${(i * 31) % 93}%;--delay:-${(i * 7) % 12 / 10}s"></span>`).join('')}${Array.from({length:20}, (_, i) => `<span class="nyan-cat" style="--top:${(i * 37) % 89}%;--delay:-${(i * 13) % 91 / 10}s;--duration:${5 + i % 6}s;--size:${58 + i % 4 * 18}px"></span>`).join('')}</div>` : '<button class="easter-robot" data-action="egg-nyan" aria-label="Android easter egg"><img src="assets/platlogo.png" alt="Ice Cream Sandwich Android"></button>'}</div>`;
     if (s === 'wireless') return appView('Wireless & networks', `${wirelessCheckRow('Airplane mode', '', 'airplane')}${wirelessRow('VPN', '', 'vpn')}${wirelessRow('Tethering & portable hotspot', '', 'tethering')}${wirelessCheckRow('NFC', 'Allow data exchange when the phone touches another device', 'nfc')}${wirelessRow('Android Beam', 'Ready to transmit app content via NFC', 'beam')}${wirelessCheckRow('WiFi direct', '', 'wifiDirect')}${wirelessRow('Mobile networks', '', 'mobile-networks')}`, 'wireless-more');
-    if (s === 'vpn') return appView('VPN', `<div class="detail-pad"><p>No VPN networks configured</p></div>`);
-    if (s === 'tethering') return appView('Tethering & portable hotspot', `${wirelessCheckRow('Portable Wi-Fi hotspot', '', 'portableHotspot')}`, 'wireless-more');
     if (s === 'beam') return appView('Android Beam', `${wirelessCheckRow('Android Beam', 'Ready to transmit app content via NFC', 'androidBeam')}`, 'wireless-more');
-    if (s === 'mobile-networks') return appView('Mobile networks', `${wirelessCheckRow('Data enabled', '', 'dataEnabled')}${wirelessCheckRow('Data roaming', '', 'dataRoaming')}`, 'wireless-more');
     if (s === 'brightness') return appView('Brightness', `<div class="detail-pad"><h3>Brightness</h3><input type="range" min="10" max="100" value="${data.settings.brightness}" data-field="brightness" aria-label="Brightness"><p>${data.settings.brightness}%</p></div>`);
     if (s === 'sync') return appView('Accounts & sync', `${toggleRow('Auto-sync', 'Sync app data automatically', 'autoSync', '↻')}${label('ACCOUNTS')}${row('Google', 'demo@android.local', 'settings-sub', 'sync-google', '◎')}${row('Add account', '', 'toast', 'Demo account already added', '+')}`);
     if (s === 'sync-google') return appView('Google', `<div class="detail-pad"><h3>demo@android.local</h3><p>Sample account data is stored only in this browser.</p></div>${row('Sync Gmail', 'Last synced today', 'noop', '', '✉')}${row('Sync Calendar', 'Last synced today', 'noop', '', '▦')}${row('Sync Contacts', 'Last synced today', 'noop', '', '◉')}`);
     if (s === 'location') return appView('Location services', `${toggleRow("Google's location service", 'Let apps use approximate location', 'networkLocation', '◎')}${toggleRow('GPS satellites', 'Let apps use precise location', 'gps', '◉')}`);
-    if (s === 'security') return appView('Security', `${label('SCREEN SECURITY')}${row('Screen lock', 'Slide', 'toast', 'Slide lock is active', '◉')}${label('PASSWORDS')}${toggleRow('Make passwords visible', 'Show password characters as you type', 'visiblePasswords', '◉')}${label('DEVICE ADMINISTRATION')}${toggleRow('Unknown sources', 'Allow installation of non-Market apps', 'unknownSources', '◉')}`);
     if (s === 'backup') return appView('Backup & reset', `${label('BACKUP & RESTORE')}${toggleRow('Back up my data', 'Back up app data and settings', 'backup', '↻')}${toggleRow('Automatic restore', 'Restore settings when reinstalling apps', 'autoRestore', '↻')}${label('PERSONAL DATA')}${row('Factory data reset', 'Erase local simulator data', 'settings-sub', 'reset-info', '⚠')}`);
     if (s === 'reset-info') return appView('Factory data reset', `<div class="detail-pad"><h3>Erase local simulator data</h3><p>This clears the saved home screens, settings, and sample content for this version.</p><button class="small-button" data-action="factory-reset">Reset simulator</button></div>`);
     if (s === 'accessibility') return appView('Accessibility', `${label('SERVICES')}${row('No services installed', '', 'noop', '', '')}${label('SYSTEM')}${toggleRow('Large text', 'Use larger text in Settings', 'largeText', 'A')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${toggleRow('Speak passwords', 'Speak password characters as you type', 'speakPasswords', '◉')}`);
     if (s === 'development') return appView('Developer options', `${toggleRow('USB debugging', 'Debug mode when USB is connected', 'usbDebug', '⚙')}${toggleRow('Stay awake', 'Screen will never sleep while charging', 'stayAwake', '◷')}${toggleRow('Allow mock locations', 'Permit mock locations', 'mockLocations', '◎')}${label('USER INTERFACE')}${toggleRow('Show touches', 'Show visual feedback for touches', 'showTouches', '◉')}`);
     if (s === 'language') return appView('Language & input', `<div class="detail-pad"><h3>Language</h3><div class="language-options">${[['en','English'],['hu','Magyar'],['de','Deutsch'],['fr','Français'],['es','Español']].map(([code,name]) => `<button class="language-choice ${i18n.language === code ? 'selected' : ''}" data-action="set-language" data-id="${code}" aria-pressed="${i18n.language === code}">${name}<span>${i18n.language === code ? '✓' : ''}</span></button>`).join('')}</div></div>${row('Keyboard', 'Android keyboard', 'noop', '', '▦')}`);
-    if (s === 'date') return appView('Date & time', `${row('Automatic date & time', 'Use browser clock', 'noop', '', '◷')}${row('Date', fullDate(), 'noop', '', '▦')}${row('Time', clock(), 'noop', '', '◷')}`);
     if (s === 'volumes' || s === 'ringtone' || s === 'sleep') return appView(s === 'volumes' ? 'Volumes' : s === 'ringtone' ? 'Phone ringtone' : 'Sleep', `<div class="detail-pad"><p>${s === 'ringtone' ? 'Orion is selected.' : s === 'sleep' ? 'Screen turns off after 30 seconds.' : 'Ringtone 70% · Media 60% · Alarm 80%'}</p></div>`);
     return appView('Settings', `${label('WIRELESS & NETWORKS')}${connectivityRow('Wi-Fi', 'wifi')}${connectivityRow('Bluetooth', 'bluetooth')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', null)}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${label('PERSONAL')}${row('Accounts & sync', '', 'settings-sub', 'sync', '↻')}${row('Location services', '', 'settings-sub', 'location', '◎')}${row('Security', '', 'settings-sub', 'security', '◉')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Backup & reset', '', 'settings-sub', 'backup', '↻')}${label('SYSTEM')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${row('Accessibility', '', 'settings-sub', 'accessibility', '◉')}${data.settings.developerUnlocked ? row('Developer options', '', 'settings-sub', 'development', '⚙') : ''}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
   }
@@ -559,7 +560,7 @@
   }
 
   function renderCalendar() {
-    return ICSCalendar.render(data,ui,key=>i18n.t(key),i18n.locale());
+    return ICSCalendar.render(data,ui,key=>i18n.t(key),i18n.locale(),deviceDate());
   }
   function calendarRender() {
     render();
@@ -576,7 +577,7 @@
     ui.eventDraft=ICSCalendar.normalize(item || {date:ui.selectedDate,time:'12:00',title:''});
     ui.calendarError='';ui.overlay='';ui.sub='event-edit';render();
   }
-  function renderClock() { return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale()); }
+  function renderClock() { return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale(),deviceDate()); }
   function editAlarm(id) {
     ui.alarmDraft=ICSDeskClock.normalize(data.alarms.find(alarm=>alarm.id===Number(id)));
     ui.sub='alarm-edit'; ui.overlay=''; render();
@@ -629,9 +630,9 @@
     data.mailbox.unshift(draft);ui.emailId=draft.id;ui.emailCc=false;ui.emailError='';ui.overlay='';ui.sub='compose';save();render();
   }
   function resetSimulator() {
-    data=clone(defaultData);data.settings={...ICSSettingsDetail.defaults,...data.settings};
+    data=clone(defaultData);data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...data.settings};
     data.mailbox=ICSEmail.restore(null,emailData,[]);ui.music=ICSMusic.restore();ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;
-    ui.activeCall=null;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
+    ui.activeCall=null;ui.sleeping=false;ui.vpnConnected=null;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
     ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
   }
   function clearAppData(id) {
@@ -707,6 +708,8 @@
       case 'power-toggle':
         if (id === 'brightness') data.settings.brightness = data.settings.brightness < 30 ? 55 : data.settings.brightness < 80 ? 100 : 20;
         else data.settings[id] = !data.settings[id];
+        if(id==='wifi'&&data.settings.wifi)data.settings.portableHotspot=false;
+        if(id==='bluetooth'&&!data.settings.bluetooth)data.settings.bluetoothTether=false;
         save(); render(); break;
       case 'widget-music-play': ui.music.playing=!ui.music.playing;if(ui.music.playing&&ui.music.position>=tracks[ui.music.track].duration)ui.music.position=0;saveMusic();render();break;
       case 'voice-search': toast('Voice search unavailable offline'); break;
@@ -748,10 +751,28 @@
       case 'bluetooth-scan': ui.bluetoothScanned = true; ui.overlay = ''; render(); break;
       case 'bluetooth-pair': ui.bluetoothTarget = id; ui.overlay = 'bluetooth-pair'; renderOverlay(); break;
       case 'set-language': i18n.setLanguage(id); location.reload(); break;
+      case 'sx-dialog': ui.systemField=id;ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
+      case 'sx-vpn-new': ui.systemDraft={};ui.systemField='vpn-edit';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
+      case 'sx-vpn-open': ui.systemId=id;ui.systemField='vpn-connect';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
+      case 'sx-vpn-edit': ui.systemValues=null;ui.systemDraft=clone((data.vpnProfiles||[]).find(profile=>profile.id===ui.systemId)||{});ui.systemField='vpn-edit';renderOverlay();break;
+      case 'sx-profile-delete': ui.systemDeleteKind=id;ui.systemField='profile-delete';renderOverlay();break;
+      case 'sx-vpn-toggle': ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();break;
+      case 'sx-network-scan': ui.networkScanned=true;render();break;
+      case 'sx-network-auto': data.settings.networkAuto=true;data.settings.networkOperator='Telekom';save();render();break;
+      case 'sx-network-select': data.settings.networkAuto=false;data.settings.networkOperator=id;save();render();break;
+      case 'sx-apn-new': ui.systemDraft={};ui.systemField='apn-edit';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
+      case 'sx-apn-open': ui.systemDraft=clone((data.apnProfiles||[{id:'default',name:'Telekom',apn:'internet.telekom',mcc:'216',mnc:'30'}]).find(profile=>profile.id===id)||{});ui.systemField='apn-edit';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
+      case 'sx-apn-select': data.settings.apnId=id;save();render();break;
       case 'toggle-setting': {
         const previousScroll = viewport.querySelector('.settings-app')?.scrollTop || 0;
         data.settings[id] = !data.settings[id];
-        if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; data.settings.wifiDirect = false; data.settings.portableHotspot = false; }
+        if(id==='autoTime')data.settings.timeOffset=0;
+        if(id==='autoZone'&&!data.settings.autoZone)data.settings.timeZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; data.settings.wifiDirect = false; data.settings.portableHotspot = false;data.settings.bluetoothTether=false;ui.vpnConnected=null; }
+        if(id==='portableHotspot'&&data.settings.portableHotspot)data.settings.wifi=false;
+        if(id==='wifi'&&data.settings.wifi)data.settings.portableHotspot=false;
+        if(id==='bluetoothTether'&&data.settings.bluetoothTether)data.settings.bluetooth=true;
+        if(id==='bluetooth'&&!data.settings.bluetooth)data.settings.bluetoothTether=false;
         if (id === 'nfc' && !data.settings.nfc) data.settings.androidBeam = false;
         if (id === 'nfc' && data.settings.nfc) data.settings.androidBeam = true;
         save(); render(); const settingsView = viewport.querySelector('.settings-app'); if (settingsView) settingsView.scrollTop = previousScroll; break;
@@ -897,7 +918,7 @@
       case 'alarm-confirm-delete': data.alarms=data.alarms.filter(alarm=>alarm.id!==ui.alarmDraft.id); save(); ui.alarmDraft=null; ui.overlay=''; ui.sub='alarms'; render(); break;
       case 'alarm-snooze': {
         const alarm=data.alarms.find(item=>item.id===ui.ringingAlarm.id);
-        if(alarm){alarm.enabled=true;alarm.snoozedUntil=Date.now()+10*60000;save();}
+        if(alarm){alarm.enabled=true;alarm.snoozedUntil=deviceDate().getTime()+10*60000;save();}
         ui.overlay='';render();toast('Snoozing for 10 minutes');break;
       }
       case 'alarm-dismiss': ui.overlay=''; render(); break;
@@ -950,6 +971,9 @@
     const form = event.target.closest('[data-form]');
     if (!form || !screen.contains(form)) return;
     event.preventDefault(); const values = new FormData(form);
+    if(form.dataset.form==='sx-save'){ui.systemError=ICSSystemSettings.submit(data,ui,values);if(ui.systemError){ui.systemValues=Object.fromEntries(values);renderOverlay();return;}save();ui.overlay='';render();return;}
+    if(form.dataset.form==='sx-vpn-connect'){ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();return;}
+    if(form.dataset.form==='sx-profile-delete'){ICSSystemSettings.removeProfile(data,ui);save();ui.overlay='';render();return;}
     if (form.dataset.form === 'play-search') { ui.play.query = String(values.get('query') || '').trim(); render(); return; }
     if (form.dataset.form === 'phone-search') { ui.phoneSearch = String(values.get('query') || '').trim(); render(); return; }
     if (form.dataset.form === 'wifi-add') {
@@ -1408,7 +1432,8 @@
     else if (event.key === 'Home' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); if (ui.view !== 'lock') home(); }
 
   });
-  document.querySelector('#power-button').addEventListener('click', () => { ui.view = ui.view === 'lock' ? 'home' : 'lock'; ui.overlay = ''; render(); });
+  document.querySelector('#power-button').addEventListener('click', () => {if(ui.sleeping||ui.view==='lock'){ui.sleeping=false;home(false);}else lockScreen();});
+  screen.addEventListener('pointerdown',()=>{if(ui.sleeping){ui.sleeping=false;suppressClickUntil=Date.now()+350;home(false);}},true);
   let lastActivity=Date.now();
   for(const name of ['pointerdown','keydown','input','wheel'])document.addEventListener(name,()=>{lastActivity=Date.now();},{passive:true});
   const languageSelect = document.querySelector('#language-select');
@@ -1420,8 +1445,8 @@
   });
   setInterval(() => {
     document.querySelectorAll('.status-clock').forEach(node => { node.textContent = clock(); });
-    const now = new Date();
-    if(!document.hidden && ui.view!=='lock' && !ui.overlay && !ui.activeCall && !dragState && Date.now()-lastActivity>=data.settings.sleep*1000){captureRecentView();ui.view='lock';ui.overlay='';lastActivity=Date.now();render();}
+    const now = deviceDate();
+    if(!document.hidden && !ui.sleeping && ui.view!=='lock' && !ui.overlay && !ui.activeCall && !dragState && Date.now()-lastActivity>=data.settings.sleep*1000){captureRecentView();lockScreen();lastActivity=Date.now();}
     if(ui.activeCall){
       const dialing=Date.now()<ui.activeCall.connected;
       const elapsed=viewport.querySelector('.incall-elapsed'),state=viewport.querySelector('.incall-state');
@@ -1432,7 +1457,7 @@
     if(ui.view==='gallery' && ui.sub==='photo' && ui.gallerySlideshow && !ui.overlay && Date.now()-ui.gallerySlideAt>=3000){ui.gallerySlideAt=Date.now();galleryStep(1);}
     const deskTime=document.querySelector('.desk-time');
     if(deskTime) {
-      deskTime.textContent=now.toLocaleTimeString(i18n.locale(),{hour:'2-digit',minute:'2-digit',hour12:false});
+      deskTime.textContent=now.toLocaleTimeString(i18n.locale(),{hour:'2-digit',minute:'2-digit',hour12:!data.settings.hour24});
       document.querySelector('.desk-date').textContent=now.toLocaleDateString(i18n.locale(),{weekday:'long',month:'long',day:'numeric'});
     }
     document.querySelectorAll('.analog-clock').forEach(node => {

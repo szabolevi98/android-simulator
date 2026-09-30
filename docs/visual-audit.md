@@ -1,8 +1,8 @@
 # Android 4.0.4 visual and behavior audit
 
-Audit date: 2026-09-28. Target: stock **Android 4.0.4 / Galaxy Nexus**, using AOSP tag `android-4.0.4_r2.1` and the historical screenshots supplied by the project owner. Nexus 4 / Android 4.2 references are not the target.
+Initial audit: 2026-09-28. Latest follow-up: 2026-09-30. Target: stock **Android 4.0.4 / Galaxy Nexus**, using AOSP tag `android-4.0.4_r2.1` and the historical screenshots supplied by the project owner. Nexus 4 / Android 4.2 references are not the target.
 
-**Result: the simulator is not yet a complete, visually faithful ICS reproduction.** The system shell has received substantial source-based corrections. Most application interiors still need a dedicated reconstruction. Launching successfully is not evidence of visual fidelity.
+**Result: the simulator is not yet a complete, visually faithful ICS reproduction.** The system shell has received substantial source-based corrections. The app reconstructions and their remaining limits are recorded below. Launching successfully is not evidence of visual fidelity.
 
 ![Launcher, Settings and notification shade after the audit](screenshots/ics-shell-audit.png)
 
@@ -27,13 +27,13 @@ Audit date: 2026-09-28. Target: stock **Android 4.0.4 / Galaxy Nexus**, using AO
 
 Existing user-customized desktops are preserved. Only an exact match for the previous untouched demo layout is migrated to the corrected default. Legacy saved widgets retain their previous spans so the update does not silently enlarge them over shortcuts.
 
-## Application interiors: still requiring reconstruction
+## Application interiors: reconstruction status and remaining limits
 
 Every listed app was opened in the browser and checked for missing images, horizontal overflow and console errors. These checks passed. Visual inspection found the following gaps:
 
 | App | Current mismatch / next required work |
 | --- | --- |
-| Phone | Dialpad now uses original key images, texture, tabs and bottom actions with the source 20/65/15 proportions. Search, add-to-contact handoff and persistent outgoing call log work. Favorites/contact list, log details and the in-call screen remain simplified; voicemail, pause/wait dialing and full call settings are not implemented. |
+| Phone | Dialpad now uses original key images, texture, tabs and bottom actions with the source 20/65/15 proportions. Search, add-to-contact handoff and persistent outgoing call log work. Favorites tiles, log details and the in-call screen now have a source-based reconstruction (see Phone follow-up); voicemail, pause/wait dialing and full call settings are not implemented. |
 | People | Replaced with source-informed lists, tabs and photo header; see the People and Browser section below. Favorites now use photo tiles; custom contact photos, multi-value fields and account synchronization remain incomplete. |
 | Messaging | Reconstructed from the Mms layouts; see the Messaging section below. Browser typography, menus and attachment selection remain approximations; no group messages, delivery reports or Android keyboard. |
 | Browser | Phone toolbar and tab/library controls reconstructed; see below. Tab previews now render inert scaled copies of the bundled page content; the web content remains fictional. |
@@ -246,3 +246,18 @@ A call simulates connection after 1.5 seconds, tracks elapsed time and keypad di
 Verified locally in the browser: outgoing call, timer, keypad, hold, mute, Home/notification return, hangup, persisted history after reload and call-to-message routing. Call details had no horizontal overflow or broken images at 390×650 in all five languages. `phone-call.test.cjs` covers timing, early hangup, duration, keypad, escaped contact names and recipient mapping. Screenshot: [Phone](screenshots/ics-phone.png).
 
 Limits: no actual telephony/audio, incoming calls, conference call or Bluetooth audio routing. The ongoing notification is simplified. Photos use the original unknown-contact placeholder, and the call-details layout remains an approximation. Speaker/mute/hold are demo states only.
+
+
+## System settings follow-up — 2026-09-30
+
+Source references: AOSP Settings [date_time_prefs.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/xml/date_time_prefs.xml), [tether_prefs.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/xml/tether_prefs.xml), [security_settings_chooser.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/xml/security_settings_chooser.xml), [wifi_ap_dialog.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/layout/wifi_ap_dialog.xml) and [vpn_dialog.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.0.4_r2.1/res/layout/vpn_dialog.xml), all from `android-4.0.4_r2.1`.
+
+- Date/time now follows the original preference order: automatic time, automatic zone, date, time, zone, 24-hour format and date format. Manual controls disable while automatic mode is active. Stored time offsets keep ticking across reloads. IANA time zones support daylight-saving changes; nonexistent local times are rejected. The simulated wall clock feeds status/lock/widget clocks, DeskClock, alarm checks and Calendar's today marker.
+- Security adds saved owner text and None/Slide selection. None turns the simulated display black; tap or Power wakes it without a slide gesture. Slide retains the existing lock ring. Face, pattern, PIN, password and encryption are disabled, not fake implementations of secure storage.
+- Tethering has the original row sequence and a hotspot name/security/password dialog. Validation preserves entered values. Enabling the hotspot disables simulated Wi-Fi, and enabling Wi-Fi disables the hotspot. Bluetooth tethering enables Bluetooth; airplane mode clears tethering states. USB is disabled because the simulation has no USB connection.
+- VPN supports persistent named/type/server profiles, editing, confirmed deletion and a temporary connected/disconnected demo state. Username/password input is not stored and no request is sent. The editor intentionally exposes only basic profile fields.
+- Mobile networks adds APN list, selection and editing (name/APN/MCC/MNC), confirmed deletion, 2G preference and dummy operator search/registration. The selected carrier also appears in the shade and lock screen. Wi-Fi advanced has a saved sleep choice and illustrative MAC/IP values.
+
+Browser checks: manual clock and 12-hour display, time persistence, hotspot validation and persistence, local VPN connect, profile-delete cancellation, APN persistence/selection, owner text, None sleep/wake, Slide restoration, Wi-Fi sleep selection and no console errors. Hotspot dialogs showed no horizontal overflow or broken images at 390×650 in EN/HU/DE/FR/ES. All eleven Node test files passed, including time/DST, profile validation, profile deletion and existing app regressions. Screenshot: [system preferences](screenshots/ics-system-settings.png).
+
+Limits: browser-native date/time/select fields; only None/Slide locking; limited time-zone and network lists; no real networking, encryption, SIM provisioning or hardware management. VPN/APN editors omit many original advanced fields. Wi-Fi sleep/2G preferences are stored demo values. Existing messages and call-log timestamps retain their browser-clock timestamps. Row metrics, modal sizing and disabled-state behavior remain browser approximations.

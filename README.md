@@ -24,6 +24,8 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 - Lock screen with camera on the left and unlock on the right. The notification shade uses the AOSP black tracking color, a carrier label, and a bottom drag handle. Notifications and recent apps follow horizontal dismissal gestures. Recent apps resume their previous subpage.
 - Settings with simulated Wi-Fi network connection, addition and forgetting, Bluetooth discovery, pairing and device naming, switches, brightness, and wallpaper selection. Grab and drag the Settings list with a mouse to scroll it; a short click still opens a row. Tap **Settings → About phone → Android version** three times within half a second to open the easter egg, then hold the Android figure to start Nyandroid. Tap **Build number** seven times to reveal Developer options (a requested deviation from ICS, where these options were visible by default).
 - Additional Settings screens for saved volume/ringtone/silent-mode choices, touch feedback preferences, font size and sleep timeout. The visible simulator locks after the selected idle interval. Data usage, storage and battery pages display illustrative statistics and drill-downs. Apps has Downloaded/Running/All tabs, per-app information, simulated cache clearing, force stop and confirmed local data reset.
+- Date/time settings with automatic or manual time, time zone, 12/24-hour clock and date format. The simulated clock drives the status bar, lock screen, clock widgets, DeskClock and in-page alarms. Owner text and None/Slide lock selection are saved.
+- Hotspot configuration, Bluetooth tethering state, saved VPN demo profiles, APN editing/selection, network-operator selection and Wi-Fi sleep preference. No real connections are created and entered network passwords are discarded.
 - Offline Browser with an ICS-style phone toolbar, tab overview, independent back/forward histories, persistent tabs, bookmarks, saved sample pages and find-on-page highlighting. Linked fictional articles expand the local demo web.
 - People with Groups, All contacts and Favorites tabs, alphabetic lists, search, contact details, creation/editing/deletion, group membership and simulated call/message/email actions. Contact removal preserves conversations under the phone number.
 - A 2012-inspired Play Store demo with eight sample listings, categories, search, charts, app details, previews, and locally saved star ratings. Open it from the app drawer, its Shop shortcut, or the Google folder. Existing simulator apps open directly; fictional games provide previews. Nothing is downloaded or installed.
@@ -66,6 +68,7 @@ node tests/music.test.cjs
 node tests/email.test.cjs
 node tests/settings-detail.test.cjs
 node tests/phone-call.test.cjs
+node tests/settings-system.test.cjs
 ```
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). For comparisons with the original Android interface and remaining visual differences, see [docs/visual-audit.md](docs/visual-audit.md).

@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const ctx={window:{},console};vm.createContext(ctx);
-for(const name of ['settings-detail','music','email','browser-session'])vm.runInContext(fs.readFileSync(`versions/4.0.4/${name}.js`,'utf8'),ctx);
+for(const name of ['settings-detail','settings-system','music','email','browser-session'])vm.runInContext(fs.readFileSync(`versions/4.0.4/${name}.js`,'utf8'),ctx);
 Object.assign(ctx,ctx.window);
 const defaults={settings:{wifi:true},browserHistory:['www.google.com'],bookmarks:['www.google.com'],alarms:[{id:1,time:'07:00'}],events:[{id:1,title:'Sample'}],contacts:[{id:1,name:'Alex'}],contactGroups:[],messages:[{id:1,body:'Hello'}],photos:[{id:1,name:'Sample'}]};
 ctx.defaultData=defaults;ctx.emailData=[{id:1,from:'Android',subject:'Welcome',body:'Hello'}];ctx.clone=value=>JSON.parse(JSON.stringify(value));
