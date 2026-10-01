@@ -241,8 +241,6 @@
 .home-widget .widget-time{font-size:39px;font-weight:300;letter-spacing:-.05em}
 .home-widget .widget-date{font-size:59px;line-height:1;font-weight:300}
 .home-widget .widget-weather{font-size:31px;font-weight:300}
-.home-widget .widget-music{font-size:49px;font-weight:300;line-height:1}
-.home-widget .widget-photo{width:100%;height:90%;border:5px solid #ededed;box-shadow:0 3px 8px #0009}
 .dock{height:72px;margin:0 1px;padding:0;border-top:1px solid #b6b8b9;background:linear-gradient(#05060819,#08090d70)}
 .dock-slot{width:20%;min-height:0;height:100%}
 .home-search{background:transparent;box-shadow:inset 0 0 0 1px #31363a,0 1px 3px #0008}
@@ -267,8 +265,6 @@
 .drawer-widget-preview .widget-time{font-size:28px}
 .drawer-widget-preview .widget-date{font-size:38px}
 .drawer-widget-preview .widget-weather{font-size:26px}
-.drawer-widget-preview .widget-music{font-size:33px}
-.drawer-widget-preview .widget-photo{width:82%;height:75%;border:4px solid white}
 .drawer-widget-preview span,.drawer-widget-preview small{font-size:10px}
 .drawer-indicators{height:17px;min-height:17px;display:flex;justify-content:center;align-items:center;gap:7px}
 .drawer-indicators button{height:5px;width:5px;border:0;border-radius:50%;background:#5d666a;padding:0}
@@ -288,7 +284,6 @@
 .drag-ghost.widget-ghost .widget-time{font-size:29px}
 .drag-ghost.widget-ghost .widget-date{font-size:55px}
 .drag-ghost.widget-ghost .widget-weather{font-size:29px}
-.drag-ghost.widget-ghost .widget-photo{width:90%;height:90%;border:4px solid #fff}
 .touch-indicator{position:absolute;width:18px;height:18px;border:2px solid #33b5e5;border-radius:50%;transform:translate(-50%,-50%);background:#33b5e555;box-shadow:0 0 8px #33b5e5;z-index:40;pointer-events:none;animation:touch-fade .4s ease-out forwards}
 @keyframes touch-fade{to{opacity:0;transform:translate(-50%,-50%) scale(1.8)}}
 
@@ -352,21 +347,6 @@
 .drawer-widget-preview .power-widget{height:42px;padding:3px}
 .drawer-widget-preview .power-cell img{width:20px;height:20px}
 .drawer-widget-preview .power-cell i{height:2px;margin-top:3px}
-.agenda-widget{height:100%;width:100%;background:#202527e8;text-align:left;text-shadow:none;border:1px solid #596066}
-.agenda-widget header{background:#ddd;color:#333;font-size:12px;padding:8px 6px;border-bottom:2px solid #33b5e5}
-.agenda-widget>div{padding:8px 6px;border-bottom:1px solid #697177;box-shadow:inset 3px 0 #33b5e5}
-.agenda-widget strong,.agenda-widget small,.agenda-widget time{display:block;font-size:12px;font-weight:normal}
-.agenda-widget p{padding:8px;font-size:12px}
-.music-widget{width:100%;height:58px;display:flex;align-items:center;text-align:left;background:linear-gradient(#383838,#181818);border:1px solid #646464;box-shadow:0 2px 3px #0008;text-shadow:none;padding:5px;gap:8px}
-.music-widget>img{width:39px;height:39px;object-fit:contain}
-.music-widget>span:not(.widget-play){flex:1;min-width:0}
-.music-widget strong,.music-widget small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;font-weight:normal}
-.music-widget .widget-play{width:30px;font-size:22px}
-.home-widget>.music-widget-toggle{position:absolute;right:4px;top:calc(50% - 29px);width:38px;height:58px;z-index:2;background:none}
-.drawer-widget-preview .music-widget{gap:3px;padding:3px;height:48px}
-.drawer-widget-preview .music-widget>img{width:23px;height:23px}
-.drawer-widget-preview .music-widget strong,.drawer-widget-preview .music-widget small{font-size:9px}
-.drawer-widget-preview .music-widget .widget-play{width:15px;font-size:14px}
 @media(prefers-reduced-motion:reduce){.home-pages{transition:none}.notification-shade,.recent-panel,#viewport>.app-view,#viewport>.lock-view{animation:none}}
 .connectivity-overflow{flex:none;width:24px;height:36px;border:0;padding:0;background:none;display:grid;place-items:center}
 .connectivity-overflow img{width:24px;height:24px;object-fit:contain}

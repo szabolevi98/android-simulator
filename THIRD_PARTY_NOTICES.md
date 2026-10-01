@@ -92,3 +92,14 @@ The unmodified `launcher-portal_container_holo.9.png`, `launcher-portal_ring_inn
 ### Credential lock artwork
 
 The unmodified `lock-*.png` assets come from [AOSP frameworks/base, android-4.0.4_r2.1, drawable-hdpi](https://android.googlesource.com/platform/frameworks/base/+/android-4.0.4_r2.1/core/res/res/drawable-hdpi/): the default/touched pattern points, default/green/red point rings, emergency-call icon and keyboard OK icon. Copyright The Android Open Source Project; Apache License 2.0. The keyboard key backgrounds are CSS approximations.
+
+### Launcher widgets
+
+Unmodified AOSP resources at `android-4.0.4_r2.1`, Apache License 2.0:
+
+- `calwidget-header_bg_cal_widget_holo.png`, `calwidget-header_row_press_cal_widget_holo.png` and `calwidget-calendar_widget_preview.png`: [Calendar drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_calendar/tree/android-4.0.4_r2.1/res/drawable-hdpi).
+- `music-appwidget_bg.png`, `music-appwidget_inner_press_{l,c,r}.png` and `music-ic_appwidget_music_{play,pause,next}.png`: [Music drawable-hdpi](https://github.com/aosp-mirror/platform_packages_apps_music/tree/android-4.0.4_r2.1/res/drawable-hdpi).
+- `gallery-appwidget_photo_border.png`, `gallery-border_photo_frame_widget_holo.png`, `gallery-border_photo_frame_widget_pressed_holo.png` and `gallery-widget_preview.png` (`preview.png`): [Gallery2 drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_gallery2/tree/android-4.0.4_r2.1/res/drawable-hdpi).
+- `btn_radio_{on,off}_holo_dark.png`: framework `core/res/res/drawable-hdpi`.
+
+Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-patch metadata border was removed; CSS border images reproduce the stretch regions. Flat nine-patches (event rows, list background and color chips) are drawn as CSS colors.
