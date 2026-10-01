@@ -245,6 +245,9 @@
       const elapsed = performance.now() - activeTransition.start;
       ICSTransitions.play(viewport.firstElementChild, activeTransition.spec.enter, activeTransition.factor).forEach(animation => { animation.currentTime = elapsed; activeTransition.animations.push(animation); });
     }
+    if (ui.jbgal && !viewport.querySelector('[data-jbgal]')?.isSameNode(ui.jbgal.root)) { ui.jbgal.destroy(); ui.jbgal = null; }
+    const galRoot = viewport.querySelector('[data-jbgal]');
+    if (galRoot && !ui.jbgal) ui.jbgal = {...JBGallery.attach(galRoot, {data, ui, t: key => i18n.t(key), media: ICSMedia, locale: i18n.locale(), save, render, toast, openCamera: () => { ui.galleryFromCamera = false; openApp('camera'); }, setWallpaper: galleryWallpaper, reduced: !!reducedMotion?.matches}), root: galRoot};
     if (ui.jbcam && !viewport.querySelector('[data-jbcam]')?.isSameNode(ui.jbcam.root)) { ui.jbcam.destroy(); ui.jbcam = null; }
     const camRoot = viewport.querySelector('[data-jbcam]');
     if (camRoot && !ui.jbcam) ui.jbcam = {...JBCamera.attach(camRoot, {data, ui, t: key => i18n.t(key), media: ICSMedia, save, render, shoot: cameraShoot, gallery: cameraGallery, toast, reduced: !!reducedMotion?.matches}), root: camRoot};
@@ -523,7 +526,7 @@
     if (ui.view === 'lock') return;
     if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
-    if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
+    if (ui.view === 'gallery') { ui.galleryZoom = false; const handled = JBGallery.back(ui, data); if (handled === 'camera') { ui.galleryFromCamera = false; openApp('camera'); return; } if (handled) { render(); return; } }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
     if(ui.view==='settings' && ['apn','operators','tether-help','device-admin'].includes(ui.sub)){ui.sub={apn:'mobile-networks',operators:'mobile-networks','tether-help':'tethering','device-admin':'security'}[ui.sub];render();return;}
     if(ui.view==='settings' && ['app-info','data-app','battery-history','battery-detail','storage-misc'].includes(ui.sub)){ui.sub={'app-info':'apps','data-app':'data','battery-history':'battery','battery-detail':'battery','storage-misc':'storage'}[ui.sub];render();return;}
@@ -554,7 +557,8 @@
   function platLogoToast() {
     document.querySelector('.toast, .jb-toast')?.remove();
     const element = document.createElement('div'); element.className = 'jb-toast'; element.innerHTML = '<span>Android 4.3</span><strong>JELLY BEAN</strong>';
-    screen.append(element); setTimeout(() => element.remove(), 3500);
+    // Toast.LENGTH_LONG (3.5 s), then the toast_exit fade (config_longAnimTime, accelerate_quad); toasts outlive the activity.
+    screen.append(element); setTimeout(() => { element.animate?.([{opacity: 1}, {opacity: 0}], {duration: 500, easing: 'cubic-bezier(.55,.085,.68,.53)', fill: 'forwards'}); setTimeout(() => element.remove(), 500); }, 3500);
   }
   function toast(message) {
     document.querySelector('.toast')?.remove();
@@ -847,7 +851,9 @@
     return '';
   }
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
-  function renderGallery() { return ICSMedia.gallery(data,ui,key=>i18n.t(key)); }
+  function renderGallery() { return JBGallery.render(data, ui, key => i18n.t(key), ICSMedia, i18n.locale()); }
+  const galleryItems = () => JBGallery.items(data, ui, i18n.locale());
+  function galleryWallpaper(photo) { data.wallpaper = 11; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); render(); toast('Wallpaper set'); }
   function renderCamera() { return JBCamera.render(data, ui, key => i18n.t(key), ICSMedia); }
   // JB Camera callbacks: a capture adds a local illustration to the Camera album; the filmstrip opens Gallery.
   function cameraShoot() {
@@ -856,10 +862,10 @@
   }
   function cameraGallery(id) {
     const photo = data.photos.find(item => item.id === id) || ICSMedia.photos(data, 'camera')[0];
-    openApp('gallery'); if (photo) { ui.galleryAlbum = 'camera'; ui.selectedPhoto = photo.id; ui.sub = 'photo'; render(); }
+    openApp('gallery'); if (photo) { ui.galleryCluster = 'album'; ui.galleryAlbum = 'camera'; ui.selectedPhoto = photo.id; ui.sub = 'photo'; ui.galleryFilm = false; ui.galleryBars = true; ui.galleryFromCamera = true; render(); }
   }
   function galleryStep(direction) {
-    const items=ICSMedia.photos(data,ui.galleryAlbum); if(!items.length)return;
+    const items=galleryItems(); if(!items.length)return;
     const index=Math.max(0,items.findIndex(p=>p.id===ui.selectedPhoto));
     ui.selectedPhoto=items[(index+direction+items.length)%items.length].id;ui.galleryZoom=false;render();
   }
@@ -1052,6 +1058,7 @@
     event.preventDefault();
     if (Date.now() < suppressClickUntil) return;
     const { action, id, app, url } = button.dataset;
+    if (ui.view === 'gallery' && ui.galleryPopup && action !== 'gallery-menu') ui.galleryPopup = '';
     if(ui.locked){
       // KeyguardHostView: launching from a widget or adding one needs the bouncer first.
       const pending={'kg-add-widget':{type:'add'},'widget-calendar-open':{type:'calendar'},'widget-calendar-event':{type:'calendar',id,date:button.dataset.date}}[action];
@@ -1279,19 +1286,19 @@
       case 'new-message': ui.sub = 'new'; ui.overlay = ''; render(); viewport.querySelector('[name=recipient]')?.focus(); break;
       case 'gallery-camera': openApp('camera'); break;
       case 'gallery-album': ui.galleryAlbum=id; ui.sub='album';ui.gallerySlideshow=false;render();break;
-      case 'photo': ui.selectedPhoto=Number(id);ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});ui.sub='photo';ui.galleryZoom=false;render();break;
+      case 'photo': ui.selectedPhoto=Number(id);if(!galleryItems().some(p=>p.id===Number(id))){ui.galleryCluster='album';ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});}ui.sub='photo';ui.galleryZoom=false;ui.galleryFilm=false;ui.galleryBars=true;ui.galleryFromCamera=false;render();break;
       case 'gallery-step': galleryStep(Number(id));break;
       case 'gallery-photo-zoom': ui.galleryZoom=!ui.galleryZoom;render();break;
       case 'gallery-menu': case 'gallery-share': case 'gallery-details': ui.overlay=action;renderOverlay();break;
       case 'gallery-rotate': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(photo)photo.rotation=((photo.rotation||0)+Number(id)+360)%360;save();ui.overlay='';render();break;}
-      case 'gallery-slideshow': {const items=ICSMedia.photos(data,ui.galleryAlbum);if(!items.length)break;if(ui.sub!=='photo')ui.selectedPhoto=items[0].id;ui.sub='photo';ui.overlay='';ui.gallerySlideshow=true;ui.gallerySlideAt=Date.now();render();break;}
+      case 'gallery-slideshow': {const items=galleryItems();ui.galleryFilm=false;if(!items.length)break;if(ui.sub!=='photo')ui.selectedPhoto=items[0].id;ui.sub='photo';ui.overlay='';ui.gallerySlideshow=true;ui.gallerySlideAt=Date.now();render();break;}
       case 'gallery-stop': ui.gallerySlideshow=false;render();break;
       case 'gallery-share-message': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(!photo)break;openApp('messaging');ui.sub='new';messageDraft().attachment=clone(photo);save();render();break;}
       case 'photo-delete': ui.selectedPhoto=Number(id);ui.overlay='gallery-delete';renderOverlay();break;
       case 'gallery-confirm-delete': {
-        const items=ICSMedia.photos(data,ui.galleryAlbum);const index=items.findIndex(p=>p.id===ui.selectedPhoto);
+        const items=galleryItems();const index=items.findIndex(p=>p.id===ui.selectedPhoto);
         data.photos=data.photos.filter(p=>p.id!==ui.selectedPhoto);save();ui.overlay='';
-        const remaining=ICSMedia.photos(data,ui.galleryAlbum);if(remaining.length)ui.selectedPhoto=remaining[Math.min(index,remaining.length-1)].id;else ui.sub='album';
+        const remaining=galleryItems();if(remaining.length)ui.selectedPhoto=remaining[Math.min(index,remaining.length-1)].id;else ui.sub='album';
         render();toast('Photo deleted');break;
       }
       case 'photo-wallpaper': {const photo=data.photos.find(p=>p.id===Number(id));if(!photo)break;data.wallpaper=11;data.customWallpaper=photo.colors;data.customWallpaperPhoto=clone(photo);save();ui.overlay='';render();toast('Wallpaper set');break;}

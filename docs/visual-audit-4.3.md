@@ -223,3 +223,41 @@ Limits: the “Google” label in the search bar is still project text. The real
 ## Hotseat margins — 2026-10-01
 
 Reported by the owner: the dock had side margins and a dark gradient that are not in AOSP. Launcher2 `layout-port/launcher.xml`, `hotseat.xml` and `workspace_divider.xml` at `android-4.3_r1.1` give a full-width, transparent hotseat (`button_bar_width_left/right_padding` = 0dp). Above it sits the `dock_divider`, which uses `hotseat_track_holo.9.png`: a 2dp line of 50% white with a faint shadow, inset by `workspace_divider_padding_left/right` = 3dp. The dock now has no margin or background, and the divider is drawn from those values (2.7 px inset, 1.8 px line).
+
+## Gallery — 2026-10-01
+
+References (Gallery2 `android-4.3_r1.1`): `app/Config.java`, `values/dimensions.xml`, `values/colors.xml`, `ui/SlotView.java` (`WIDE = true`), `ui/AlbumLabelMaker.java`, `app/GalleryActionBar.java`, `menu/{albumset,album,photo}.xml`, `layout/photopage_bottom_controls.xml`, `ui/PositionController.java`, `ui/PhotoView.java`, `values/styles.xml` (`Holo.ActionBar` on `actionbar_translucent`), and FilterShow (`layout/filtershow_main_panel.xml`, `values/filtershow_color.xml`, `values/filtershow_strings.xml`, the `ffx_*` look names).
+
+- **Album set.**
+  - Action bar: the translucent bar (70% black) with the Gallery icon and the Holo spinner (`spinner_ab_*`), which groups by **Albums, Locations, Times, People, Tags**. Then Switch to Camera and the overflow menu.
+  - Grid: slots fill 3 rows and the grid scrolls sideways, as SlotView does on phones (7dp gap and padding, square slots, #333 placeholders on #1A1A1A).
+  - Labels: AlbumLabelMaker's 30dp #EE414143 strip, with the 25dp source icon (camera or folder), the 12sp #FBFBFB title and the 9sp #A9ABAD count in the last 20dp.
+  - Clusters: Times groups pictures by capture day; Locations has a single “No location”; People is empty (no faces); Tags is “Untagged”.
+- **Album.** Four rows of square thumbnails with 5dp gaps, also scrolling sideways. The two-line spinner shows the album name over **Grid view** and offers **Filmstrip view**. The overflow has Slideshow, Select item and Group by.
+- **Photo page.**
+  - Bars: the picture fills the screen. The action bar (album name, Share, overflow) and the bottom Edit button overlay it and hide after 3.5 s or on a tap; the status bar hides with them.
+  - Navigation: drag sideways between pictures (16dp IMAGE_GAP). Double-tap zooms. Pinch in (or Ctrl + wheel) for **film mode**: pictures fit in 70% × 48% of the screen with the neighbours beside them; a tap opens one, and an upward fling deletes with the **Deleted / UNDO** bar.
+  - From the Camera: swiping opens the newest picture with the camera preview as the card before it, and dragging back returns to the Camera.
+  - Overflow (`photo.xml`): Delete, Slideshow, Edit, Rotate left/right, Crop, Set picture as and Details.
+- **Photo Editor.**
+  - Layout: FilterShow's Save action, the picture on #101010, the 128dp category strip and the 48dp looks/borders/geometry/colours bar on #232323.
+  - Looks (Original, Punch, Vintage, B/W, Bleach, Instant, Latte, Blue, Litho, X Process) and Borders show thumbnails of the photo itself. Geometry rotates and mirrors. Colours has Autocolor, Exposure, Vignette, Contrast, Saturation and Hue sliders.
+  - Undo/redo/reset are available, and holding the picture compares with the original. Leaving with changes asks “Do you want to save before exiting?”.
+  - Save writes an `_edited` copy, like FilterShow, and opens it. The edits are part of the picture model, so thumbnails, wallpaper and sharing show them too.
+
+Checks:
+- `jb-gallery.test.cjs`: clusters, film and slot geometry, the back stack, markup, the editor and the SVG picture filters.
+- Headless Chrome (en 390 × 760, hu 320 × 568, de/fr/es 360 × 640) with real mouse input:
+  - cluster switch to Times, album, photo, swipe;
+  - Ctrl + wheel into film mode (70% width), fling-up delete and UNDO, tap back to the full view;
+  - photo menu, editor (Vintage, Film border, Vignette 0.8, undo, Save), back to the album;
+  - camera swipe into the photo page and the drag back to the Camera.
+
+  No JavaScript errors.
+
+Limits:
+- The grid is a scrolling HTML grid rather than the GL slot renderer, so there is no fling physics or edge glow.
+- Picasa and offline albums, selection mode, crop, straighten, curves, red-eye and Tiny Planet are not simulated; Crop opens the geometry panel.
+- Set picture as sets the wallpaper directly instead of offering a chooser.
+
+![Album set, cluster spinner, album, photo, film mode, undo bar, editor, saved copy](screenshots/jb-gallery.png)
