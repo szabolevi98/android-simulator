@@ -241,6 +241,9 @@
       const elapsed = performance.now() - activeTransition.start;
       ICSTransitions.play(viewport.firstElementChild, ICSTransitions.specs[activeTransition.name].enter, activeTransition.factor).forEach(animation => { animation.currentTime = elapsed; activeTransition.animations.push(animation); });
     }
+    if (ui.jbcam && !viewport.querySelector('[data-jbcam]')?.isSameNode(ui.jbcam.root)) { ui.jbcam.destroy(); ui.jbcam = null; }
+    const camRoot = viewport.querySelector('[data-jbcam]');
+    if (camRoot && !ui.jbcam) ui.jbcam = {...JBCamera.attach(camRoot, {data, ui, t: key => i18n.t(key), media: ICSMedia, save, render, shoot: cameraShoot, gallery: cameraGallery, toast, reduced: !!reducedMotion?.matches}), root: camRoot};
     if (ui.beanBag && !viewport.querySelector('[data-beanbag]')?.isSameNode(ui.beanBag.root)) { ui.beanBag.stop(); ui.beanBag = null; }
     const beanRoot = viewport.querySelector('[data-beanbag]');
     if (beanRoot && !ui.beanBag) requestAnimationFrame(() => { if (beanRoot.isConnected && !ui.beanBag) ui.beanBag = {...JBBeanBag.start(beanRoot), root: beanRoot}; });
@@ -839,7 +842,16 @@
   }
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
   function renderGallery() { return ICSMedia.gallery(data,ui,key=>i18n.t(key)); }
-  function renderCamera() { return ICSMedia.camera(data,ui,key=>i18n.t(key)); }
+  function renderCamera() { return JBCamera.render(data, ui, key => i18n.t(key), ICSMedia); }
+  // JB Camera callbacks: a capture adds a local illustration to the Camera album; the filmstrip opens Gallery.
+  function cameraShoot() {
+    const photo = {...ICSMedia.scene(data), id: Date.now(), name: `IMG_${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)}`, album: 'camera', created: Date.now()};
+    data.photos.unshift(photo); save(); return photo;
+  }
+  function cameraGallery(id) {
+    const photo = data.photos.find(item => item.id === id) || ICSMedia.photos(data, 'camera')[0];
+    openApp('gallery'); if (photo) { ui.galleryAlbum = 'camera'; ui.selectedPhoto = photo.id; ui.sub = 'photo'; render(); }
+  }
   function galleryStep(direction) {
     const items=ICSMedia.photos(data,ui.galleryAlbum); if(!items.length)return;
     const index=Math.max(0,items.findIndex(p=>p.id===ui.selectedPhoto));

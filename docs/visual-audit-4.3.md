@@ -134,3 +134,43 @@ Limits:
 
 - **BeanBag.** Beans could not be grabbed: the global `.screen img{pointer-events:none}` rule also applied to the bean images, so touches reached the board instead. Beans now take pointer events (and `touch-action:none`). As in BeanBag.java, a held bean follows the finger. Its velocity is smoothed (0.75 old + 0.25 new), it keeps flying after release, and it spins in proportion to the release speed. Headless Chrome confirmed this with both mouse and touch.
 - **Folder background and analog clock drag ghost.** The ICS fixes apply here too; see the ICS audit.
+
+## Camera — 2026-10-01
+
+References (Gallery2 `android-4.3_r1.1`, where the 4.3 camera lives): [layout-port/camera_controls.xml](https://github.com/aosp-mirror-neo/platform_packages_apps_gallery2/blob/android-4.3_r1.1/res/layout-port/camera_controls.xml), `switcher_popup.xml`, `menu_indicators.xml`, `count_down_to_capture.xml`, `values/dimens.xml`, `arrays.xml`, `strings.xml`, `xml/camera_preferences.xml`; [PieRenderer.java](https://github.com/aosp-mirror-neo/platform_packages_apps_gallery2/blob/android-4.3_r1.1/src/com/android/camera/ui/PieRenderer.java), `PieController.java`, `PhotoMenu.java`, `PreviewGestures.java`, `CameraSwitcher.java`, `OnScreenIndicators.java`, `ZoomRenderer.java`, `CaptureAnimManager.java`, `CameraSettings.java`, `CountDownTimerPreference.java`.
+
+- **Controls.** At the bottom, the 72dp CameraSwitcher sits on the left with its corner mark. The ShutterButton (`btn_shutter_default`, offset −22dp) is in the middle. On the right is the PieMenuButton over the six OnScreenIndicators ring segments (scene, timer, flash, exposure, location, white balance), which follow the settings.
+- **Pie menu.** Holding the preview for 200 ms opens the 4.3 arc pie at the finger; the menu button opens it in tap mode, 2.5 × 36dp above the bottom.
+  - Geometry: items lie on an arc (214dp radius, centred 166dp below the touch point) 2/3 of a 48dp ring further out and 0.23 rad apart, with the white 140-alpha arc stroke under them. The arc tilts by up to 24° inside the edge zones (36 + 92dp).
+  - Selection: the selected item gets the #33B5E5 annular slice, which slides between items in 80 ms, and its label appears above the arc. Hit testing uses the original slice wedges (0.14 rad around a centre 322dp below), with the 32dp touch offset while swiping. Pulling back towards the finger closes a submenu.
+  - Submenus: they open after hovering for 400 ms (or at once in tap mode) one ring higher, cross-fading in 200 ms. A leaf fades out over 600 ms before its action runs; the pie fades in over 200 ms from 0.9 scale.
+  - Items, left to right (PhotoMenu): Exposure (−3…+3, `EXPOSURE ±n`), More options, Flash mode (off/auto/on) and the camera switch, labelled with the camera it switches to. More options holds Location, Countdown timer, Picture size, White balance (incandescent, fluorescent, auto, daylight, cloudy) and Scene mode (action, night, none, sunset, party).
+- **Popups.** Countdown timer and Picture size use the #282828 setting popup with a holo-blue title and 2dp rule. The timer steps through 0, 1, 2, 3, 4, 5, 10, 15, 20, 30 and 60 s, with “Beep during countdown”; picture sizes are the Galaxy Nexus 5M…QVGA list.
+- **Focus.** A tap draws the PieRenderer focus ring at the touch point: a 72dp circle with a 3dp stroke, and an inner dial with two 45° arcs and four ticks. The dial turns from 67° by a random ±60° over 600 ms, snaps back in green in 100 ms, then hides after 200 ms.
+- **Zoom.** The mouse wheel or a pinch shows the ZoomRenderer: 48dp and maximum rings, a guide line, the current ring and “x.yx”.
+- **Capture.**
+  - With a timer, the 160sp countdown and “Counting down to take a photo” run first; pressing the shutter again cancels.
+  - CaptureAnimManager: a white flash (0.3 → 0 in 200 ms), hold to 400 ms, a decelerating slide to the 48dp thumbnail (16dp margins) by 800 ms, hold with border until 3.3 s, then a slide off to the right by 4.1 s. Tapping the thumbnail opens the photo in Gallery.
+  - Swiping left on the preview also opens Gallery, standing in for the filmstrip.
+- **Modules.** The switcher popup (#80000000, 0.3 → 1 scale in 200 ms) lists panorama, video and photo, with photo at the bottom.
+  - Video uses the video shutter states and a red recording timer.
+  - The scene-mode and fluorescent tints and the ±3 exposure range feed the illustrated preview and saved pictures.
+
+Checks:
+- `jb-camera.test.cjs`: pie tree and order, indicators, geometry symmetry, hit testing of every item in both modes, pull-to-centre, capture phases, timer values and markup.
+- Headless Chrome, en at 390 × 760, hu at 320 × 568, and de/fr/es at 360 × 640, all on real mouse input:
+  - tap focus;
+  - hold → pie → flash → FLASH ON (setting saved, indicator updated);
+  - menu button → More → Countdown timer → 3 s;
+  - shutter → countdown → capture animation and thumbnail;
+  - switcher → video recording;
+  - wheel zoom to 1.9x;
+  - swipe left to Gallery.
+
+  No JavaScript errors.
+
+Limits:
+- Video is not saved, and panorama capture is only a message. There is no HDR (Galaxy Nexus has none), face detection, Photo Sphere or real filmstrip.
+- Location and picture size are stored settings only. The countdown beep is silent.
+
+![Focus, pie selection, flash submenu, More options, countdown, thumbnail, switcher, zoom](screenshots/jb-camera.png)
