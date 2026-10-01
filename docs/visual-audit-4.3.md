@@ -293,3 +293,8 @@ Checks: `jb-recents.test.cjs`, and headless Chrome for the following. No JavaScr
 Limits: the Recents thumbnail cross-fade is reduced to the app scaling, and there is no landscape layout. The assist target uses the generic AOSP icon, because the Google logo variant comes from the Google Search app.
 
 ![Recents, popup menu, launch from thumbnail, search panel ring and activated target](screenshots/jb-recents-search.png)
+
+## Dialer and Calendar widget resources — 2026-10-01
+
+- **Dialer.** In 4.3 the dialer is its own `packages/apps/Dialer`, and the in-call screen stays in Phone. The Dialer's `dial_num_*_wht`, `dial_background_texture`, action and tab icons differ in bytes from the inherited ICS files, but side by side they render the same (blue digits, grey letters, underline), so the ICS copies are kept.
+- **Calendar widget.** `appwidget.xml` is unchanged apart from dropping the root's 6dip bottom padding, which the widget no longer adds. The header selector now uses `header_bg_cal_widget_normal_holo`, byte-identical to the ICS header, and `header_bg_cal_widget_pressed_holo`, a 60% holo-blue fill with the same nine-patch. The pressed header uses the 4.3 image instead of the ICS row highlight.
