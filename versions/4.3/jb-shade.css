@@ -53,5 +53,6 @@
 /* status_bar_close_on.9.png: dark bar whose middle column stretches into the holo-blue line. */
 .jb-shade .shade-handle{height:32px;min-height:32px;background:none;border:0 solid transparent;border-width:0 13px 0 14px;border-image:url('assets/jb-status_bar_close_on.png') 0 22 0 23 fill / 0 13px 0 14px stretch;margin-top:-3px}
 .jb-shade .shade-handle img{display:none}
-/* Only the visible page sizes the wrapped panel. */
-.jb-shade:not(.show-settings) .jb-qs,.jb-shade.show-settings .jb-shade-list{position:absolute;inset:0 0 auto;max-height:100%}
+/* PhoneStatusBar.flipToSettings leaves the notification list INVISIBLE (it keeps its space), while the settings
+   page is GONE in notification mode: the wrapped panel is as tall as the list, or as the larger of the two in settings. */
+.jb-shade:not(.show-settings) .jb-qs{position:absolute;inset:0 0 auto;max-height:100%}

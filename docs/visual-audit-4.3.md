@@ -261,3 +261,11 @@ Limits:
 - Set picture as sets the wallpaper directly instead of offering a chooser.
 
 ![Album set, cluster spinner, album, photo, film mode, undo bar, editor, saved copy](screenshots/jb-gallery.png)
+
+## Notification panel height — 2026-10-01
+
+The owner compared the simulator with a Nexus 4 walkthrough. In 4.3, `status_bar_expanded.xml` makes `NotificationPanelView` `wrap_content`, and `PanelView.onMeasure` lets it open only as far as its content. With no notifications it therefore stops below the header, carrier label and handle. ICS's `ExpandedView` is always full height, and the ICS simulator keeps that.
+
+`PhoneStatusBar.flipToSettings` leaves the notification scroll view `INVISIBLE` (not `GONE`), so after flipping to Quick Settings the panel stays as tall as the larger of the notification list and the tiles. With a long list it reaches the bottom of the screen, as in the video. The simulator had removed the hidden list from the layout; it now keeps its space.
+
+The JB easter-egg toast also gained the `toast_exit` fade (500 ms, accelerate_quad) after its `Toast.LENGTH_LONG` 3.5 s. Like any Android toast, it stays on screen for that time even after leaving the app.
