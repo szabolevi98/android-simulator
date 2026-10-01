@@ -122,3 +122,4 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 - `jb-status_bar_close_on.png`: SystemUI `status_bar_close_on.9.png` with the nine-patch border removed.
 - `calendar-ic_alarm_holo_dark.png`, `calendar-ic_map.png` and `calendar-ic_menu_email_holo_dark.png`: [AOSP Calendar](https://github.com/aosp-mirror-neo/platform_packages_apps_calendar/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`.
 - `jb-ic_lockscreen_glowdot.png`, `jb-ic_lock_idle_alarm.png`, `jb-ic_lockscreen_alarm.png`, `jb-kg_add_widget.png`, `jb-kg_add_widget_pressed.png` and `jb-kg_widget_bg_padded.png` (nine-patch border removed): framework `core/res/res/drawable-hdpi`.
+- `jb-widget_resize_frame_holo.png` (nine-patch border removed) and `jb-widget_resize_handle_{left,top,right,bottom}.png`: [Launcher2 drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_launcher2/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`.

@@ -44,3 +44,16 @@ Limits: pattern/PIN/password still use the ICS full-screen screens rather than S
 
 ![Jelly Bean keyguard: idle, grab, snap and a lock-screen widget](screenshots/jb-keyguard.png)
 
+## Launcher: reorder and resizable widgets — 2026-10-01
+
+References: Launcher2 4.3 [CellLayout.java](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_launcher2/android-4.3_r1.1/src/com/android/launcher2/CellLayout.java), [Workspace.java](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_launcher2/android-4.3_r1.1/src/com/android/launcher2/Workspace.java), [AppWidgetResizeFrame.java](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_launcher2/android-4.3_r1.1/src/com/android/launcher2/AppWidgetResizeFrame.java), [default_workspace.xml](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_launcher2/android-4.3_r1.1/res/xml/default_workspace.xml) (same layout as 4.0.4); provider metadata from Calendar and DeskClock 4.3 (`resizeMode`, `minResizeWidth/Height`).
+
+- **Reorder.** Hovering a dragged icon or widget over occupied cells for `REORDER_TIMEOUT` (250 ms) computes an arrangement: occupants move to the nearest free area, preferring the direction the drag came from, and slide there in `REORDER_ANIMATION_DURATION` (150 ms). The drag outline appears once a solution exists. Moving elsewhere undoes the slide; dropping commits it. A drop before the timeout is solved immediately, as CellLayout does on drop. Within 0.55 icon widths of an icon's centre the drop still creates or fills a folder, and only then does the folder ring appear.
+- **Resize frame.** Dropping a resizable widget shows the `widget_resize_frame_holo` frame with four handles. Edges snap in whole cells once a drag passes 66% of a cell (`RESIZE_THRESHOLD`), limited by the provider's minimum resize span and the grid. Shortcuts and widgets in the way move aside. Tapping elsewhere hides the frame. Resizable: Calendar (minimum 2 × 2) and the new DeskClock **Digital clock** widget (3 × 2, minimum 3 × 2); Music, Power control, Analog clock and Photo Gallery are fixed, as their 4.3 provider XML declares.
+
+Checks: `jb-launcher.test.cjs` (item spans, nearest-free placement, own-cell reuse, multi-item widget push, impossible cases, apply, resize thresholds, folder zone). Headless Chrome: an icon displaces Music and lands in its cell; the Calendar widget pushes two icons and gets the resize frame; the bottom handle grows it to 2 × 3, moving icons. Both touch suites pass on 4.3, including folder creation by dropping on an icon centre. No JavaScript errors.
+
+Limits: a simplified solver (Launcher's swap/push search and reorder-hint wobble are not reproduced), no cross-page reorder and no resize from keyboard.
+
+![Reorder, resize frame and a resized Calendar widget](screenshots/jb-launcher.png)
+

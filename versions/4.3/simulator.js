@@ -119,7 +119,8 @@
   const wallpaperFiles = ['chroma','architecture','bubblegum','canyon','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
   const widgetTypes = [
     { type: 'analog', name: 'Analog clock', app: 'clock', width: 2, height: 2 },
-    { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3 },
+    { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3, resize: {minWidth: 2, minHeight: 2} },
+    { type: 'digitalclock', name: 'Digital clock', app: 'clock', width: 3, height: 2, resize: {minWidth: 3, minHeight: 2} },
     { type: 'music', name: 'Music', app: 'music', width: 4, height: 1 },
     // Gallery2 asks for 180dp plus ICS default widget padding: 3 × 3 Launcher cells.
     { type: 'photo', name: 'Photo Gallery', app: 'gallery', width: 3, height: 3 },
@@ -333,6 +334,7 @@
   // Drawer and drag previews use the providers' original previewImage artwork where AOSP has one.
   function widgetArt(type) {
     if (type === 'analog') return analogClock();
+    if (type === 'digitalclock') return digitalClockWidget();
     if (type === 'digital') return `<strong class="widget-time">${clock()}</strong><span>${fullDate()}</span>`;
     if (type === 'calendar') return '<img class="widget-preview-image" src="assets/calwidget-calendar_widget_preview.png" alt="">';
     if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
@@ -346,12 +348,19 @@
     if (widget.type === 'calendar') return ICSWidgets.calendar(data, t, i18n.locale(), deviceDate(), !!data.settings.hour24);
     if (widget.type === 'music') return ICSWidgets.music(ui.music, tracks, musicActive(), t);
     if (widget.type === 'photo') return ICSWidgets.photo(data, widget, ui.photoStacks?.[widget.id] || 0, t);
+    if (widget.type === 'digitalclock') return digitalClockWidget();
     return null;
+  }
+  // DeskClock 4.2 digital_appwidget: AndroidClock time over the date and next alarm; opens Clock.
+  function digitalClockWidget() {
+    const now = deviceDate(), alarm = nextAlarmLabel();
+    return `<button class="jbw-digital" data-action="open-app" data-app="clock" aria-label="${safe(clock())}"><span class="jbw-digital-time">${safe(now.toLocaleTimeString(i18n.locale(), {hour: data.settings.hour24 ? '2-digit' : 'numeric', minute: '2-digit', hour12: !data.settings.hour24}).replace(/\s?[AaPp]\.?\s?[Mm]\.?$/, ''))}</span><span class="jbw-digital-date">${safe(now.toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'short', day: 'numeric'}).toLocaleUpperCase(i18n.locale()))}${alarm ? ` <img src="assets/jb-ic_lock_idle_alarm.png" alt="">${safe(alarm)}` : ''}</span></button>`;
   }
   const homeWidget = widget => {
     const spec = widgetSize(widget);
     const body = widgetBody(widget) ?? (widget.type === 'power' ? `<div class="power-widget">${[['wifi','Wi-Fi','wifi'],['bluetooth','Bluetooth','bluetooth'],['gps','GPS satellites','gps'],['autoSync','Auto-sync','sync'],['brightness','Brightness','brightness']].map(([key,title,asset]) => `<button class="power-cell ${data.settings[key] ? 'enabled' : ''}" data-action="power-toggle" data-id="${key}" aria-label="${title}" aria-pressed="${!!data.settings[key]}"><img src="assets/power-${asset}-${key === 'brightness' ? data.settings.brightness > 70 ? 'full' : data.settings.brightness > 25 ? 'half' : 'off' : data.settings[key] ? 'on' : 'off'}.png" alt=""><i></i></button>`).join('')}</div>` : `<button data-action="open-app" data-app="${spec.app || 'gallery'}" aria-label="${safe(spec.name || 'Widget')}">${widgetArt(widget.type)}</button>`);
-    return `<div class="home-widget widget-${widget.type}" data-widget-id="${safe(widget.id)}" style="grid-column:${widget.x + 1}/span ${spec.width};grid-row:${widget.y + 1}/span ${spec.height}">${body}</div>`;
+    const frame = ui.resizeWidget === widget.id && spec.resize ? `<div class="jb-resize-frame" data-resize-frame>${['left', 'top', 'right', 'bottom'].map(edge => `<button class="jb-resize-handle jb-resize-${edge}" data-resize-edge="${edge}" aria-label="${safe(i18n.t('Resize'))}"><img src="assets/jb-widget_resize_handle_${edge}.png" alt=""></button>`).join('')}</div>` : '';
+    return `<div class="home-widget widget-${widget.type}${frame ? ' resizing' : ''}" data-widget-id="${safe(widget.id)}" style="grid-column:${widget.x + 1}/span ${spec.width};grid-row:${widget.y + 1}/span ${spec.height}">${body}${frame}</div>`;
   };
   const wallpaperChoices = () => `<div class="wallpaper-grid">${wallpaperFiles.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}" aria-label="${safe(name)}"><span class="wallpaper-swatch" style="background-image:url('assets/wallpaper_${name}.jpg')"></span><strong>${safe(name[0].toUpperCase() + name.slice(1))}</strong></button>`).join('')}</div>`;
   function renderHome() {
@@ -1474,25 +1483,73 @@
   }
   /* CellLayout drag outlines: a holo-blue outline marks the cell where the item would land.
      Each outline fades in and out over config_dragOutlineFadeTime (900 ms) to 128/255 alpha, leaving a short trail. */
+  /* Jelly Bean reorder: after hovering an occupied area for REORDER_TIMEOUT the items there slide away
+     (REORDER_DURATION); the solution is committed on drop and undone when the drag moves on. */
+  const gridMetrics = () => { const grid = viewport.querySelector(`.home-grid[data-home-page="${ui.page}"]`); if (!grid) return null; const rect = grid.getBoundingClientRect(), k = rect.width / grid.offsetWidth || 1; return {grid, cellW: (rect.width - 12) / 4 / k, cellH: (rect.height - 5) / 4 / k}; };
+  function reorderElement(key) {
+    const grid = viewport.querySelector(`.home-grid[data-home-page="${ui.page}"]`);
+    return key[0] === 's' ? grid?.querySelector(`[data-home-slot="${key.slice(1)}"] .launcher-icon`) : grid?.querySelector(`.home-widget[data-widget-id="${CSS.escape(key.slice(1))}"]`);
+  }
+  function showReorder(solution) {
+    const metrics = gridMetrics();
+    viewport.querySelectorAll('.jb-displaced').forEach(node => { node.classList.remove('jb-displaced'); node.style.transform = ''; });
+    if (!solution || !metrics) return;
+    const list = JBLauncher.items(data.homePages[ui.page], data.homeWidgets[ui.page], widgetSize);
+    for (const [key, to] of Object.entries(solution.moves)) {
+      const item = list.find(entry => entry.key === key), node = reorderElement(key);
+      if (!item || !node) continue;
+      node.classList.add('jb-displaced');
+      node.style.transform = `translate(${(to.x - item.x) * metrics.cellW}px,${(to.y - item.y) * metrics.cellH}px)`;
+    }
+  }
+  function requestReorder(key, moving) {
+    const source = dragState;
+    if (source.wsReorder?.key === key) return source.wsReorder.solution;
+    if (source.wsPending === key) return null;
+    clearTimeout(source.wsReorderTimer); source.wsPending = key;
+    if (source.wsReorder) { source.wsReorder = null; showReorder(null); }
+    source.wsReorderTimer = setTimeout(() => {
+      if (dragState !== source || source.wsPending !== key) return;
+      const list = JBLauncher.items(data.homePages[ui.page], data.homeWidgets[ui.page], widgetSize);
+      const solution = JBLauncher.solve(list, moving, source.wsDirection || [0, 0]);
+      source.wsReorder = {key, solution, moving}; source.wsPending = '';
+      showReorder(solution);
+      if (source.lastPointer) updateDragOutline(...source.lastPointer);
+    }, JBLauncher.REORDER_TIMEOUT);
+    return null;
+  }
+  function clearReorder() { const source = dragState; if (!source) return; clearTimeout(source.wsReorderTimer); source.wsPending = ''; if (source.wsReorder) { source.wsReorder = null; showReorder(null); } }
   function dragOutlineTarget(x, y) {
     const source = dragState;
     if (!source || ui.overlay) return null;
+    source.wsCandidate = null;
+    if (source.lastPointer) source.wsDirection = [Math.sign(x - source.lastPointer[0]), Math.sign(y - source.lastPointer[1])];
+    source.lastPointer = [x, y];
     const target = document.elementFromPoint(x, y), grid = target?.closest('.home-grid:not([inert])');
     if (source.widgetType) {
       if (!grid) return null;
       const rect = grid.getBoundingClientRect(), oldWidget = source.type === 'widget' ? data.homeWidgets[source.page].find(widget => widget.id === source.id) : null;
       const column = Math.round((x - rect.left - 6 - source.grabOffset.x) / ((rect.width - 12) / 4)), row = Math.round((y - rect.top - 5 - source.grabOffset.y) / ((rect.height - 5) / 4));
-      if (!widgetFits(ui.page, column, row, oldWidget || source.widgetType, oldWidget?.id || '')) return null;
-      const size = widgetSize(oldWidget || source.widgetType);
-      return {key: `w:${ui.page}:${column}:${row}`, container: grid, style: `grid-column:${column + 1}/span ${size.width};grid-row:${row + 1}/span ${size.height}`};
+      const size = widgetSize(oldWidget || source.widgetType), outline = {key: `w:${ui.page}:${column}:${row}`, container: grid, style: `grid-column:${column + 1}/span ${size.width};grid-row:${row + 1}/span ${size.height}`};
+      if (widgetFits(ui.page, column, row, oldWidget || source.widgetType, oldWidget?.id || '')) { clearReorder(); return outline; }
+      const movingKey = oldWidget && source.page === ui.page ? `w${oldWidget.id}` : 'new';
+      source.wsCandidate = {key: outline.key, moving: {key: movingKey, x: column, y: row, w: size.width, h: size.height}};
+      return requestReorder(outline.key, source.wsCandidate.moving) ? outline : null;
     }
     const slot = target?.closest('[data-home-slot],[data-dock-slot]');
-    if (!slot || slot.querySelector('.launcher-icon:not(.drag-source-icon)')) return null;
-    if (slot.hasAttribute('data-home-slot')) {
-      const index = Number(slot.dataset.homeSlot);
-      if (data.homeWidgets[ui.page].some(widget => index % 4 >= widget.x && index % 4 < widget.x + widgetSize(widget).width && Math.floor(index / 4) >= widget.y && Math.floor(index / 4) < widget.y + widgetSize(widget).height)) return null;
-      return {key: `h:${ui.page}:${index}`, container: slot};
+    const occupant = slot?.querySelector('.launcher-icon:not(.drag-source-icon)');
+    if (slot?.hasAttribute('data-home-slot')) {
+      const index = Number(slot.dataset.homeSlot), outline = {key: `h:${ui.page}:${index}`, container: slot};
+      const covered = data.homeWidgets[ui.page].some(widget => index % 4 >= widget.x && index % 4 < widget.x + widgetSize(widget).width && Math.floor(index / 4) >= widget.y && Math.floor(index / 4) < widget.y + widgetSize(widget).height);
+      if (!occupant && !covered) { clearReorder(); return outline; }
+      // Near an icon's centre the drop makes or fills a folder; elsewhere the occupant moves aside.
+      if (occupant) { const box = occupant.querySelector('.app-icon')?.getBoundingClientRect(); if (box && JBLauncher.folderZone({x, y}, {x: box.left + box.width / 2, y: box.top + box.height / 2}, box.width)) { clearReorder(); return null; } }
+      if (ICSLauncherFolders.folder(data, source.id) && occupant?.dataset.folderId) return null;
+      const movingKey = source.type === 'home' && source.page === ui.page ? `s${source.slot}` : 'new';
+      source.wsCandidate = {key: outline.key, moving: {key: movingKey, x: index % 4, y: Math.floor(index / 4), w: 1, h: 1}};
+      return requestReorder(outline.key, source.wsCandidate.moving) ? outline : null;
     }
+    if (!slot || occupant) return null;
     return {key: `d:${slot.dataset.dockSlot}`, container: slot};
   }
   function updateDragOutline(x, y) {
@@ -1609,8 +1666,9 @@
     const sourceIsFolder=!!ICSLauncherFolders.folder(data,source.id);
     const sameSlot=slot&&(slot.hasAttribute('data-home-slot')?source.type==='home'&&source.page===ui.page&&source.slot===Number(slot.dataset.homeSlot):source.type==='dock'&&source.slot===Number(slot.dataset.dockSlot));
     const folderId=icon?.dataset.folderId;
-    if(icon&&!sameSlot&&!sourceIsFolder&&icon.dataset.action!=='drawer')icon.classList.add('folder-drop-target');
-    const hoverId=!sourceIsFolder&&!sameSlot?folderId:null;
+    const box=icon?.querySelector('.app-icon')?.getBoundingClientRect(),inZone=!!box&&JBLauncher.folderZone({x,y},{x:box.left+box.width/2,y:box.top+box.height/2},box.width);
+    if(icon&&inZone&&!sameSlot&&!sourceIsFolder&&icon.dataset.action!=='drawer')icon.classList.add('folder-drop-target');
+    const hoverId=!sourceIsFolder&&!sameSlot&&inZone?folderId:null;
     if(hoverId!==source.hoverFolder){
       clearTimeout(source.folderHoverTimer);source.hoverFolder=hoverId;
       if(hoverId)source.folderHoverTimer=setTimeout(()=>{if(dragState===source&&ICSLauncherFolders.folder(data,hoverId)?.items.length<ICSLauncherFolders.capacity){ui.folderId=hoverId;ui.overlay='folder';renderOverlay();}},700);
@@ -1623,6 +1681,7 @@
     if(ui.overlay==='folder'&&!target?.closest('.launcher-folder')){ui.overlay='';renderOverlay();target=document.elementFromPoint(x,y);}
     const folderSlot=target?.closest('[data-folder-slot]');
     let homeSlot = target?.closest('[data-home-slot]');
+    if (target?.closest('[data-resize-frame]')) homeSlot = target.closest('.home-grid')?.querySelector('[data-home-slot]');
     const grid = target?.closest('.home-grid');
     if (!homeSlot && grid) {
       const rect = grid.getBoundingClientRect();
@@ -1640,7 +1699,25 @@
       return true;
     }
     let destination = null;
-    if (source.widgetType) {
+    // Commit a reorder solution if the drop lands where it was computed.
+    let committed = null;
+    if (!ui.overlay && source.lastPointer) {
+      updateDragOutline(x, y);
+      const candidate = source.wsCandidate;
+      if (candidate) {
+        const solution = source.wsReorder?.key === candidate.key ? source.wsReorder.solution : JBLauncher.solve(JBLauncher.items(data.homePages[ui.page], data.homeWidgets[ui.page], widgetSize), candidate.moving, source.wsDirection || [0, 0]);
+        if (solution) committed = {key: candidate.key, solution, moving: candidate.moving};
+      }
+    }
+    if (committed) {
+      const page = data.homePages[ui.page], sameIcon = !source.widgetType && source.type === 'home' && source.page === ui.page;
+      if (sameIcon) page[source.slot] = null;
+      data.homePages[ui.page] = JBLauncher.apply(page, data.homeWidgets[ui.page], committed.solution.moves);
+      showReorder(null);
+      if (sameIcon) { const slot = committed.moving.y * 4 + committed.moving.x; data.homePages[ui.page][slot] = source.id; homeSlot = null; destination = {type: 'home', page: ui.page, slot}; source.reorderHandled = true; }
+    }
+    if (source.reorderHandled) { /* placed above */ }
+    else if (source.widgetType) {
       const oldWidget = source.type === 'widget' ? data.homeWidgets[source.page].find(widget => widget.id === source.id) : null;
       if (oldWidget) destination = {widget: oldWidget.id, page: source.page};
       if (remove && oldWidget) { data.homeWidgets[source.page] = data.homeWidgets[source.page].filter(widget => widget.id !== source.id); destination = {trash: true}; }
@@ -1654,8 +1731,10 @@
             oldWidget.x = column; oldWidget.y = row;
             data.homeWidgets[ui.page].push(oldWidget);
             destination = {widget: oldWidget.id, page: ui.page};
+            // Launcher2 shows the resize frame after dropping a resizable widget.
+            if (widgetSize(oldWidget).resize) ui.resizeWidget = oldWidget.id;
           }
-          else { const added = addWidget(source.widgetType, column, row); if (added) destination = {widget: added.id, page: ui.page}; }
+          else { const added = addWidget(source.widgetType, column, row); if (added) { destination = {widget: added.id, page: ui.page}; if (widgetSize(added).resize) ui.resizeWidget = added.id; } }
         } else toast('This home screen is full');
       }
     } else {
@@ -1683,7 +1762,7 @@
       else if(result?.ok&&attempt)destination=attempt;
       else if(['home','dock','folder'].includes(source.type))destination=source;
     }
-    clearTimeout(source.folderExitTimer);clearTimeout(source.folderHoverTimer);clearTimeout(source.reorderTimer);clearFolderDragFeedback();
+    clearTimeout(source.folderExitTimer);clearTimeout(source.folderHoverTimer);clearTimeout(source.reorderTimer);clearTimeout(source.wsReorderTimer);clearFolderDragFeedback();
     clearTimeout(source.edgeTimer); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'dragging-from-drawer');
     save(); render(); suppressClickUntil = Date.now() + 350;
     landGhost(source.ghost, destination, trashRect);
@@ -1787,6 +1866,51 @@
     window.addEventListener('pointerup', () => { suppressClickUntil = Date.now() + 350; }, {once: true, capture: true});
     window.addEventListener('pointercancel', () => { suppressClickUntil = Date.now() + 350; }, {once: true, capture: true});
   }
+  /* AppWidgetResizeFrame: handles grow or shrink the span in whole cells (66% threshold) between the provider's
+     minimum resize span and the grid; neighbours move aside with the reorder solver and the result persists. */
+  let resizeState = null;
+  screen.addEventListener('pointerdown', event => {
+    const handle = event.target.closest('[data-resize-edge]');
+    if (!handle) {
+      if (ui.resizeWidget && ui.view === 'home' && !event.target.closest('[data-resize-frame]')) { ui.resizeWidget = null; viewport.querySelectorAll('.home-widget.resizing').forEach(node => { node.classList.remove('resizing'); node.querySelector('[data-resize-frame]')?.remove(); }); }
+      return;
+    }
+    event.preventDefault(); event.stopPropagation();
+    const widget = data.homeWidgets[ui.page].find(item => item.id === ui.resizeWidget), metrics = gridMetrics();
+    if (!widget || !metrics) return;
+    const span = widgetSize(widget);
+    resizeState = {pointerId: event.pointerId, edge: handle.dataset.resizeEdge, x: event.clientX, y: event.clientY, widget, metrics, start: {x: widget.x, y: widget.y, w: span.width, h: span.height}, min: span.resize, rect: null, solution: null};
+    try { screen.setPointerCapture(event.pointerId); } catch {}
+  }, true);
+  window.addEventListener('pointermove', event => {
+    if (!resizeState || event.pointerId !== resizeState.pointerId) return;
+    event.preventDefault();
+    const r = resizeState, k = screen.getBoundingClientRect().width / screen.clientWidth || 1, dx = (event.clientX - r.x) / k, dy = (event.clientY - r.y) / k, start = r.start;
+    let {x, y, w, h} = start;
+    if (r.edge === 'right') w = JBLauncher.resizeSpan(start.w, dx, r.metrics.cellW, r.min.minWidth, 4 - start.x);
+    if (r.edge === 'left') { w = JBLauncher.resizeSpan(start.w, -dx, r.metrics.cellW, r.min.minWidth, start.x + start.w); x = start.x + start.w - w; }
+    if (r.edge === 'bottom') h = JBLauncher.resizeSpan(start.h, dy, r.metrics.cellH, r.min.minHeight, 4 - start.y);
+    if (r.edge === 'top') { h = JBLauncher.resizeSpan(start.h, -dy, r.metrics.cellH, r.min.minHeight, start.y + start.h); y = start.y + start.h - h; }
+    if (r.rect && r.rect.x === x && r.rect.y === y && r.rect.w === w && r.rect.h === h) return;
+    // Shortcut cells under the new area must be able to move away, as in CellLayout.createAreaForResize.
+    const list = JBLauncher.items(data.homePages[ui.page], data.homeWidgets[ui.page], widgetSize);
+    const solution = JBLauncher.solve(list, {key: `w${r.widget.id}`, x, y, w, h}, [Math.sign(dx), Math.sign(dy)]);
+    if (!solution) return;
+    r.rect = {x, y, w, h}; r.solution = solution;
+    const node = reorderElement(`w${r.widget.id}`);
+    if (node) node.style.gridArea = `${y + 1} / ${x + 1} / span ${h} / span ${w}`;
+    showReorder(solution);
+  });
+  const endResize = event => {
+    if (!resizeState || event.pointerId !== resizeState.pointerId) return;
+    const r = resizeState; resizeState = null;
+    if (r.rect && r.solution) {
+      data.homePages[ui.page] = JBLauncher.apply(data.homePages[ui.page], data.homeWidgets[ui.page], r.solution.moves);
+      Object.assign(r.widget, {x: r.rect.x, y: r.rect.y, width: r.rect.w, height: r.rect.h}); save();
+    }
+    suppressClickUntil = Date.now() + 350; render();
+  };
+  window.addEventListener('pointerup', endResize); window.addEventListener('pointercancel', endResize);
   const activeTouches = new Set();
   window.addEventListener('pointerdown', event => { if (event.pointerType === 'touch') activeTouches.add(event.pointerId); }, true);
   for (const type of ['pointerup', 'pointercancel']) window.addEventListener(type, event => activeTouches.delete(event.pointerId), true);

@@ -599,6 +599,7 @@
     ['Weather','Időjárás','Wetter','Météo','Tiempo'],
     ['Photo Gallery','Fotógaléria','Fotogalerie','Galerie photos','Galería de fotos'],
     ['Tomorrow','Holnap','Morgen','Demain','Mañana'],
+    ['Resize','Átméretezés','Größe ändern','Redimensionner','Cambiar tamaño'],
     ['Add widget','Modul hozzáadása','Widget hinzufügen','Ajouter un widget','Añadir widget'],
     ['Choose widget','Modul kiválasztása','Widget auswählen','Choisir un widget','Seleccionar widget'],
     ['Slide area.','Csúsztatási terület.','Schiebebereich','Zone de glissement','Área para deslizar'],
