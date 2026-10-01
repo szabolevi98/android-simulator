@@ -45,7 +45,7 @@
       if (item.type === 'camera') return `<div class="jbk-page jbk-camera" aria-label="${e(parts.t('Camera'))}"><img src="assets/ic_lockscreen_camera_normal.png" alt=""></div>`;
       return `<div class="jbk-page jbk-status"><div class="jbk-clock">${e(parts.clock)}${parts.ampm ? `<small>${e(parts.ampm)}</small>` : ''}</div><div class="jbk-status-line"><span>${e(parts.date)}</span>${parts.alarm ? `<span class="jbk-alarm"><img src="assets/jb-ic_lock_idle_alarm.png" alt="">${e(parts.alarm)}</span>` : ''}</div>${parts.owner ? `<div class="jbk-owner">${e(parts.owner)}</div>` : ''}</div>`;
     };
-    return `<div class="lock-view jb-keyguard"><div class="jbk-remove" aria-hidden="true">${e(parts.t('Remove'))}</div><div class="jbk-pager" data-kg-pager style="--kg-page:${current}"><div class="jbk-track">${list.map(page).join('')}</div></div><div class="jbk-challenge"><canvas class="jbk-points" aria-hidden="true"></canvas><div class="jbk-ring"></div><img class="jbk-target" src="assets/ic_lockscreen_unlock_normal.png" alt=""><img class="jbk-target-active" src="assets/ic_lockscreen_unlock_activated.png" alt=""><button class="jbk-handle" aria-label="${e(parts.t('Slide area.'))}"><img src="assets/ic_lockscreen_handle_normal.png" alt=""></button><div class="jbk-eca">${e(parts.carrier)}</div></div></div>`;
+    return `<div class="lock-view jb-keyguard"><div class="jbk-remove" aria-hidden="true">${e(parts.t('Remove'))}</div><div class="jbk-pager" data-kg-pager style="--kg-page:${current}"><div class="jbk-track">${list.map((item, index) => page(item).replace('<div class="jbk-page', `<div ${index === current ? '' : 'inert aria-hidden="true"'} class="jbk-page`)).join('')}</div></div><div class="jbk-challenge"><canvas class="jbk-points" aria-hidden="true"></canvas><div class="jbk-ring"></div><img class="jbk-target" src="assets/ic_lockscreen_unlock_normal.png" alt=""><img class="jbk-target-active" src="assets/ic_lockscreen_unlock_activated.png" alt=""><button class="jbk-handle" aria-label="${e(parts.t('Slide area.'))}"><img src="assets/ic_lockscreen_handle_normal.png" alt=""></button><div class="jbk-eca">${e(parts.carrier)}</div></div></div>`;
   }
 
   /* GlowPadView controller. Single unlock target with magnetic snapping: any drag past outer radius minus the
@@ -119,6 +119,8 @@
     const track = root.querySelector('.jbk-track'), view = root.closest('.jb-keyguard');
     let page = current, start = null;
     const width = () => root.clientWidth;
+    const pagesOf = () => [...track.children];
+    const mark = () => pagesOf().forEach((node, index) => { node.inert = index !== page; node.setAttribute('aria-hidden', String(index !== page)); });
     const place = (offset = 0, animate = false) => { track.style.transition = animate && !reduced ? 'transform .3s cubic-bezier(.22,.61,.36,1)' : 'none'; track.style.transform = `translateX(${-page * width() + offset}px)`; };
     place();
     root.addEventListener('pointerdown', event => {
@@ -149,7 +151,7 @@
       }
       if (start.dragging) {
         if (Math.abs(dx) > width() * .4 || Math.abs(velocity) > .5) page = Math.max(0, Math.min(count - 1, page + (dx < 0 ? 1 : -1)));
-        place(0, true);
+        place(0, true); mark();
         setTimeout(() => view.classList.remove('jbk-paging'), 300);
         onSettle(page);
         if (page === count - 1) setTimeout(onCamera, reduced ? 0 : 300);
@@ -157,7 +159,7 @@
       start = null;
     };
     root.addEventListener('pointerup', finish); root.addEventListener('pointercancel', finish);
-    return {go(index) { page = Math.max(0, Math.min(count - 1, index)); place(0, true); onSettle(page); if (page === count - 1) setTimeout(onCamera, reduced ? 0 : 300); }, page: () => page};
+    return {go(index) { page = Math.max(0, Math.min(count - 1, index)); place(0, true); mark(); onSettle(page); if (page === count - 1) setTimeout(onCamera, reduced ? 0 : 300); }, page: () => page};
   }
   window.JBKeyguard = {G, MAX_WIDGETS, pointCloud, pointAlpha, pages, defaultPage, render, glowPad, pager};
 })();

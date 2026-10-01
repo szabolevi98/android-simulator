@@ -85,3 +85,12 @@ Checks: headless Chrome walked the header order, the location switch (greying so
 
 Limits: dreams do not start automatically (no charging/dock state), Photo Table and Google dreams are absent, and the Colors dream approximates the GL renderer with a CSS gradient.
 
+
+## Five-language and mobile sweep — 2026-10-01
+
+Each JB-specific screen was checked in English, Hungarian, German, French and Spanish at 360×640 and 320×568 with touch emulation. The screens covered were the notification shade, quick settings flip, keyguard, clock tabs, timer keypad, stopwatch and Daydream settings. The existing app and settings sweep ran on 4.3 too. The checks were text overflow, untranslated strings, elements past the screen edge, and JavaScript errors. The earlier touch suites (long-press, drag, scroll, keyboard) also pass on 4.3.
+
+- Pages that are not on screen in the keyguard pager and the DeskClock pager are now `inert` and `aria-hidden`. Hidden widget, camera or timer pages can no longer take focus or keyboard input.
+- Known false positives:
+  - French Email shows “Agenda” as a sender name.
+  - At 320 px the GlowPad's invisible right-hand target box (108dp, opacity 0 at rest) sits 4 px past the edge. AOSP sizes the GlowPad in dp and crops it the same way on narrow screens.
