@@ -88,3 +88,7 @@ The unmodified `phone-*.png` images come from [AOSP Phone, android-4.0.4_r2.1](h
 ### Launcher folders
 
 The unmodified `launcher-portal_container_holo.9.png`, `launcher-portal_ring_inner_holo.png` and `launcher-portal_ring_outer_holo.png` images come from [AOSP Launcher2, android-4.0.4_r2.1](https://android.googlesource.com/platform/packages/apps/Launcher2/+/android-4.0.4_r2.1/res/drawable-hdpi/). Copyright The Android Open Source Project; Apache License 2.0. The browser approximates Android's nine-patch rendering with CSS border images.
+
+### Credential lock artwork
+
+The unmodified `lock-*.png` assets come from [AOSP frameworks/base, android-4.0.4_r2.1, drawable-hdpi](https://android.googlesource.com/platform/frameworks/base/+/android-4.0.4_r2.1/core/res/res/drawable-hdpi/): the default/touched pattern points, default/green/red point rings, emergency-call icon and keyboard OK icon. Copyright The Android Open Source Project; Apache License 2.0. The keyboard key backgrounds are CSS approximations.
