@@ -269,3 +269,27 @@ The owner compared the simulator with a Nexus 4 walkthrough. In 4.3, `status_bar
 `PhoneStatusBar.flipToSettings` leaves the notification scroll view `INVISIBLE` (not `GONE`), so after flipping to Quick Settings the panel stays as tall as the larger of the notification list and the tiles. With a long list it reaches the bottom of the screen, as in the video. The simulator had removed the hidden list from the layout; it now keeps its space.
 
 The JB easter-egg toast also gained the `toast_exit` fade (500 ms, accelerate_quad) after its `Toast.LENGTH_LONG` 3.5 s. Like any Android toast, it stays on screen for that time even after leaving the app.
+
+## Recents and the navigation bar search panel — 2026-10-01
+
+References (SystemUI `android-4.3_r1.1`): `layout/status_bar_recent_panel.xml`, `status_bar_recent_item.xml`, `status_bar_no_recent_apps.xml`, `drawable/status_bar_recents_background.xml`, `anim/recents_*`, `values/dimens.xml`, [RecentsPanelView.java](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.3_r1.1/packages/SystemUI/src/com/android/systemui/recent/RecentsPanelView.java), `menu/recent_popup_menu.xml`; `layout/status_bar_search_panel.xml`, `drawable/navbar_search_outerring.xml`, `values/arrays.xml` (`navbar_search_targets`), `SearchPanelView.java`; framework `AppTransition.createThumbnailAnimationLocked` and `ic_action_assist_generic`.
+
+- **Recents.** Since 4.1, Recents is an activity over the wallpaper rather than a panel over the app.
+  - Layout: the app behind is hidden, and `status_bar_recents_background` runs from #E0000000 at the bottom to #99000000. The item layout and dimensions match ICS (88dp label, 164 × 145dp thumbnail), as in 4.3. An empty list shows “No recent apps” in 20dp holo blue.
+  - Opening from an app: the app's window shrinks into the newest thumbnail and fades (thumbnail scale-down, decelerate_cubic, 250 ms) in a layer above Recents. From the launcher it fades out (`recents_launch_from_launcher_exit`).
+  - The newest task's label and icon then slide in by 35dp (250 ms, DecelerateInterpolator(1.5), 150 ms delay).
+  - Launching a task grows it from its thumbnail (`makeThumbnailScaleUpAnimation`).
+  - A long press opens the popup with **Remove from list** and **App info**. Leaving Recents fades it out while the launcher fades in (`recents_return_to_launcher_*`).
+- **Search panel.** Swiping up from the navigation bar by `navbar_search_up_threshhold` (40dp) shows the GlowPad:
+  - `navbar_search_outerring` (340dp, 2dp #40FFFFFF) centred on the home key, with the point cloud following the finger and the show ping;
+  - the single `ic_action_assist_generic` target at the top of the ring, which activates within the 40dp snap margin;
+  - releasing on it starts search. Google builds open the Google Search app; the simulator opens Browser on Google.
+- **Era text.** The Browser's offline android.com, Wikipedia and news pages, the welcome email and the App info version now describe Android 4.3 instead of 4.0.
+
+Checks: `jb-recents.test.cjs`, and headless Chrome for the following. No JavaScript errors.
+- Recents: empty list, opening from Messaging (the window mid-shrink at 90 ms), wallpaper behind, long press → popup → App info for Messaging, launching Settings from its thumbnail (scale-up with the computed pivot).
+- Search panel: a swipe up that is released early (it closes and Home is not triggered), then a swipe to the target that opens Browser on www.google.com.
+
+Limits: the Recents thumbnail cross-fade is reduced to the app scaling, and there is no landscape layout. The assist target uses the generic AOSP icon, because the Google logo variant comes from the Google Search app.
+
+![Recents, popup menu, launch from thumbnail, search panel ring and activated target](screenshots/jb-recents-search.png)

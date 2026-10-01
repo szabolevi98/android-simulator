@@ -953,6 +953,7 @@
     ['0 images/videos available.','0 kép/videó érhető el.','0 Bilder/Videos verfügbar.','0 image/vidéo disponible.','0 imágenes/vídeos disponibles.'],
     ['No albums available.','Nincsenek elérhető albumok.','Keine Alben verfügbar.','Aucun album disponible.','No hay álbumes disponibles.'],
     ['People​','Személyek','Personen','Personnes','Personas'],
+    ['Remove from list','Eltávolítás a listáról','Aus Liste entfernen','Supprimer de la liste','Eliminar de la lista'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;

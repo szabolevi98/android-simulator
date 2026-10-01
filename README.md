@@ -68,6 +68,8 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - Jelly Bean animations: apps grow out of the icon you tap (home screen, dock, folders and the drawer), switching apps slides the windows past each other as shrinking cards, and screens inside an app zoom in from 0.8, using the Android 4.3 animation values.
 
+- Jelly Bean Recents over the wallpaper: the app shrinks into its thumbnail, a long press offers Remove from list and App info, and tasks open by growing out of their thumbnails. Swipe up from the navigation bar for the search ring and release on the target to search.
+
 - The 4.2/4.3 **Gallery**: albums and pictures in sideways-scrolling grids, grouped by Albums, Locations, Times, People or Tags. In the photo view the bars fade away. Pinch (or Ctrl + scroll) into film mode, where a picture flung upwards is deleted (with UNDO). From the Camera, swipe into your newest shot and back. **Edit** opens the Photo Editor with ten looks, borders, rotate/mirror and colour sliders; saving keeps the original.
 
 - The 4.2/4.3 **Camera**: hold the preview to open the arc-shaped pie menu (or tap the menu button in the corner) and drag or tap through Exposure, More options, Flash and the camera switch; More options holds location, countdown timer, picture size, white balance and scene mode. Tap to focus, scroll or pinch to zoom, and swipe left for Gallery. After a capture the photo shrinks to a thumbnail in the corner. The mode switcher offers photo, video (simulated recording) and panorama.

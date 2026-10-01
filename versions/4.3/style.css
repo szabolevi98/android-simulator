@@ -489,3 +489,26 @@ html,body{overscroll-behavior-y:none}
    shadow) inset by workspace_divider_padding 3dp on each side. */
 .dock{margin:0;border-top:0;background:none;position:relative}
 .dock::before{content:'';position:absolute;left:2.7px;right:2.7px;top:0;height:1.8px;background:#ffffff80;box-shadow:0 0 1.2px .6px #0003;pointer-events:none}
+
+/* Android 4.3 Recents: RecentsActivity over the wallpaper, status_bar_recents_background #E0000000 (bottom) to #99000000. */
+.recent-panel.jb-recents{background:linear-gradient(to top,#000000e0,#00000099);animation:none}
+.screen:has(>#overlay-root>.jb-recents) #viewport{visibility:hidden}
+.jb-recents .recent-empty{font-size:18px;color:#33b5e5}
+.jb-recents-layer{position:absolute;z-index:40;pointer-events:none;overflow:visible}
+.jb-recents-window{position:absolute;inset:0;transform-origin:0 0;overflow:hidden;box-shadow:0 0 0 1px #0000}
+.jb-recents-window>*{width:100%;height:100%}
+.jb-recent-popup{position:absolute;z-index:3;min-width:180px;background:#282828;border:1px solid #ffffff1a;box-shadow:0 2px 10px #000c;display:flex;flex-direction:column}
+.jb-recent-popup button{min-height:43.2px;border:0;border-bottom:1px solid #ffffff12;background:none;color:#fff;font-size:15px;text-align:left;padding:0 14.4px}
+.jb-recent-popup button:active{background:#33b5e566}
+
+/* SearchPanelView: navbar_search_outerring (340dp, 2dp #40ffffff) centred on the home key; the assist target on top. */
+.jb-search{position:absolute;left:0;right:0;top:0;bottom:23.5px;z-index:30;touch-action:none;overflow:hidden}
+.jb-search-points{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.jb-search-ring{position:absolute;left:calc(var(--cx) - var(--ring));top:calc(100% - var(--ring));width:calc(2 * var(--ring));height:calc(2 * var(--ring));border:1.8px solid #ffffff40;border-radius:50%;box-sizing:border-box;opacity:0;transform:scale(.5);transition:opacity .2s cubic-bezier(.33,1,.68,1),transform .2s cubic-bezier(.33,1,.68,1);pointer-events:none}
+.jb-search-target,.jb-search-target-button{position:absolute;left:calc(var(--cx) - 48.6px);top:calc(100% - var(--ring) - 48.6px);width:97.2px;height:97.2px}
+.jb-search-target{opacity:0;transform:scale(.8);transition:opacity .2s cubic-bezier(.33,1,.68,1),transform .2s cubic-bezier(.33,1,.68,1);pointer-events:none}
+.jb-search-target-button{border:0;background:none;border-radius:50%;padding:0}
+.jb-search.showing .jb-search-ring,.jb-search.showing .jb-search-target:not(.active){opacity:1;transform:none}
+.jb-search.showing.snapped .jb-search-target:not(.active){opacity:0}
+.jb-search.showing.snapped .jb-search-target.active{opacity:1;transform:none}
+.jb-search.hiding .jb-search-ring,.jb-search.hiding .jb-search-target{opacity:0;transition-duration:.2s}
