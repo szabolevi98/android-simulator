@@ -189,10 +189,36 @@
     navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/nav-back.png" alt=""></button><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/nav-home.png" alt=""></button><button class="nav-key nav-recent" data-action="recent" aria-label="Recent apps"><img src="assets/nav-recent.png" alt=""></button>`;
     if(ui.locked)navRoot.querySelectorAll('.nav-home,.nav-recent').forEach(button=>{button.disabled=true;button.setAttribute('aria-hidden','true');});
   }
+  // Window transitions: the outgoing view is kept in a temporary layer while both animate.
+  let lastScene = null, pendingNav = '', activeTransition = null;
+  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const animationScale = name => { const value = Number(data.settings[name === 'unlock' ? 'windowScale' : 'transitionScale']); return name.startsWith('drawer-') ? 1 : Number.isFinite(value) ? value : 1; };
+  function endTransition() {
+    if (!activeTransition) return;
+    clearTimeout(activeTransition.timer);
+    activeTransition.layers.forEach(layer => layer.remove());
+    activeTransition.animations.forEach(animation => animation.cancel());
+    screen.classList.remove('transitioning');
+    activeTransition = null;
+  }
+  function startTransition(name, outgoing, incoming) {
+    endTransition();
+    const spec = ICSTransitions.specs[name], factor = animationScale(name);
+    if (!spec || !factor || reducedMotion?.matches || document.hidden) return;
+    const box = {top: viewport.offsetTop, left: viewport.offsetLeft, width: viewport.offsetWidth, height: viewport.offsetHeight};
+    const layer = (className, child) => { const node = document.createElement('div'); node.className = `transition-layer ${className}`; node.setAttribute('aria-hidden', 'true'); node.inert = true; Object.assign(node.style, {top: `${box.top}px`, left: `${box.left}px`, width: `${box.width}px`, height: `${box.height}px`}); if (child) node.append(child); screen.insertBefore(node, overlayRoot); return node; };
+    const layers = [];
+    if (spec.black) layers.push(layer('transition-backdrop'));
+    if (outgoing) layers.push(layer(spec.exit.top ? 'transition-over' : 'transition-under', outgoing));
+    screen.classList.add('transitioning');
+    const animations = [...ICSTransitions.play(outgoing, spec.exit, factor), ...ICSTransitions.play(incoming, spec.enter, factor)];
+    activeTransition = {name, factor, start: performance.now(), layers, animations, timer: setTimeout(endTransition, ICSTransitions.length(spec) * factor + 40)};
+  }
   function render() {
     viewport.querySelectorAll('.home-widget .calw-list').forEach(list => { (ui.widgetScroll ||= {})[list.closest('.home-widget').dataset.widgetId] = list.scrollTop; });
     if(ui.locked)ui.view='lock';
-    screen.className = `screen wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}${ui.sleeping?' sleeping':''}${ui.locked?' credential-locked':''}`;
+    const outgoing = viewport.firstElementChild;
+    screen.className = `screen${activeTransition ? ' transitioning' : ''} wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}${ui.sleeping?' sleeping':''}${ui.locked?' credential-locked':''}`;
     screen.style.background = data.wallpaper === 11 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 11 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('assets/wallpaper_${wallpaperFiles[data.wallpaper] || 'chroma'}.jpg') center center / cover no-repeat`;
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav();
@@ -202,6 +228,14 @@
     else viewport.innerHTML = renderApp();
     renderOverlay();
     i18n.translateDOM(screen);
+    const scene = {view: ui.view, sub: ui.sub}, transit = ui.sleeping ? '' : ICSTransitions.kind(lastScene, scene, pendingNav);
+    lastScene = scene;
+    if (transit) startTransition(transit, outgoing, viewport.firstElementChild);
+    else if (activeTransition) {
+      // A same-screen re-render during a transition continues the incoming animation.
+      const elapsed = performance.now() - activeTransition.start;
+      ICSTransitions.play(viewport.firstElementChild, ICSTransitions.specs[activeTransition.name].enter, activeTransition.factor).forEach(animation => { animation.currentTime = elapsed; activeTransition.animations.push(animation); });
+    }
     if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
     if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
   }
@@ -246,7 +280,7 @@
   };
   const wallpaperChoices = () => `<div class="wallpaper-grid">${wallpaperFiles.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}" aria-label="${safe(name)}"><span class="wallpaper-swatch" style="background-image:url('assets/wallpaper_${name}.jpg')"></span><strong>${safe(name[0].toUpperCase() + name.slice(1))}</strong></button>`).join('')}</div>`;
   function renderHome() {
-    return `<div class="home-view"><div class="home-search"><button data-action="browser-search" aria-label="Search"><span class="google-word">Google</span></button><button class="voice-search" data-action="voice-search" aria-label="Voice search"><img class="search-microphone" src="assets/ic_btn_speak_now.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" ${index !== ui.page ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${data.homeWidgets[index].map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: 5 }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}"></button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drag-remove" data-drop-remove="true">× Remove</div></div>`;
+    return `<div class="home-view"><div class="home-search"><button data-action="browser-search" aria-label="Search"><span class="google-word">Google</span></button><button class="voice-search" data-action="voice-search" aria-label="Voice search"><img class="search-microphone" src="assets/ic_btn_speak_now.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" ${index !== ui.page ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${data.homeWidgets[index].map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: 5 }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}"></button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/launcher-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/launcher-ic_launcher_clear_active_holo.png" alt=""><span>Remove</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/launcher-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/launcher-ic_launcher_info_active_holo.png" alt=""><span>App info</span></div></div></div>`;
   }
   function renderDrawer() {
     const isApps = ui.drawerTab === 'apps';
@@ -337,7 +371,8 @@
     }
   }
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; if (resetPage) ui.page = 2; render(); }
-  function back() {
+  function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
+  function navigateBack() {
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
@@ -377,7 +412,9 @@
     screen.append(element);
     clearTimeout(ui.toastTimer); ui.toastTimer = setTimeout(() => element.remove(), 2500);
   }
+  let openFolderId = '';
   function renderOverlay() {
+    const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.overlay === 'shade') {
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay.startsWith('widget-photo')) {
@@ -434,6 +471,16 @@
       positionFolder();
     } else overlayRoot.innerHTML = '';
     i18n.translateDOM(overlayRoot);
+    // Folder.animateOpen/animateClosed run only when the folder actually opens or closes, not on content updates.
+    const folderPanel = ui.overlay === 'folder' ? overlayRoot.querySelector('.launcher-folder') : null;
+    if (folderPanel && openFolderId !== ui.folderId) ICSTransitions.play(folderPanel, ICSTransitions.specs['folder-open'].enter).forEach(animation => animation.finished.then(() => animation.cancel(), () => {}));
+    else if (!folderPanel && closingFolder && openFolderId) {
+      closingFolder.inert = true; closingFolder.classList.add('launcher-folder-closing'); overlayRoot.append(closingFolder);
+      const animations = ICSTransitions.play(closingFolder, ICSTransitions.specs['folder-close'].exit);
+      Promise.all(animations.map(animation => animation.finished)).catch(() => {}).then(() => closingFolder.remove());
+      if (!animations.length) closingFolder.remove();
+    }
+    openFolderId = folderPanel ? ui.folderId : '';
   }
 
   function renderFolder() {
@@ -490,7 +537,7 @@
     if (s === 'backup') return appView('Backup & reset', `${label('BACKUP & RESTORE')}${toggleRow('Back up my data', 'Back up app data and settings', 'backup', '↻')}${toggleRow('Automatic restore', 'Restore settings when reinstalling apps', 'autoRestore', '↻')}${label('PERSONAL DATA')}${row('Factory data reset', 'Erase local simulator data', 'settings-sub', 'reset-info', '⚠')}`);
     if (s === 'reset-info') return appView('Factory data reset', `<div class="detail-pad"><h3>Erase local simulator data</h3><p>This clears the saved home screens, settings, and sample content for this version.</p><button class="small-button" data-action="factory-reset">Reset simulator</button></div>`);
     if (s === 'accessibility') return appView('Accessibility', `${label('SERVICES')}${row('No services installed', '', 'noop', '', '')}${label('SYSTEM')}${toggleRow('Large text', 'Use larger text in Settings', 'largeText', 'A')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${toggleRow('Speak passwords', 'Speak password characters as you type', 'speakPasswords', '◉')}`);
-    if (s === 'development') return appView('Developer options', `${toggleRow('USB debugging', 'Debug mode when USB is connected', 'usbDebug', '⚙')}${toggleRow('Stay awake', 'Screen will never sleep while charging', 'stayAwake', '◷')}${toggleRow('Allow mock locations', 'Permit mock locations', 'mockLocations', '◎')}${label('USER INTERFACE')}${toggleRow('Show touches', 'Show visual feedback for touches', 'showTouches', '◉')}`);
+    if (s === 'development') return appView('Developer options', `${toggleRow('USB debugging', 'Debug mode when USB is connected', 'usbDebug', '⚙')}${toggleRow('Stay awake', 'Screen will never sleep while charging', 'stayAwake', '◷')}${toggleRow('Allow mock locations', 'Permit mock locations', 'mockLocations', '◎')}${label('USER INTERFACE')}${toggleRow('Show touches', 'Show visual feedback for touches', 'showTouches', '◉')}${[['windowScale','Window animation scale'],['transitionScale','Transition animation scale']].map(([key, title]) => `<button class="settings-row" data-action="sd-dialog" data-id="${key}"><span class="row-copy">${safe(i18n.t(title))}<small>${safe(i18n.t(ICSSettingsDetail.animationScaleLabel(data.settings[key])))}</small></span></button>`).join('')}`);
     if (s === 'language') return appView('Language & input', `<div class="detail-pad"><h3>Language</h3><div class="language-options">${[['en','English'],['hu','Magyar'],['de','Deutsch'],['fr','Français'],['es','Español']].map(([code,name]) => `<button class="language-choice ${i18n.language === code ? 'selected' : ''}" data-action="set-language" data-id="${code}" aria-pressed="${i18n.language === code}">${name}<span>${i18n.language === code ? '✓' : ''}</span></button>`).join('')}</div></div>${row('Keyboard', 'Android keyboard', 'noop', '', '▦')}`);
     if (s === 'volumes' || s === 'ringtone' || s === 'sleep') return appView(s === 'volumes' ? 'Volumes' : s === 'ringtone' ? 'Phone ringtone' : 'Sleep', `<div class="detail-pad"><p>${s === 'ringtone' ? 'Orion is selected.' : s === 'sleep' ? 'Screen turns off after 30 seconds.' : 'Ringtone 70% · Media 60% · Alarm 80%'}</p></div>`);
     return appView('Settings', `${label('WIRELESS & NETWORKS')}${connectivityRow('Wi-Fi', 'wifi')}${connectivityRow('Bluetooth', 'bluetooth')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', null)}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${label('PERSONAL')}${row('Accounts & sync', '', 'settings-sub', 'sync', '↻')}${row('Location services', '', 'settings-sub', 'location', '◎')}${row('Security', '', 'settings-sub', 'security', '◉')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Backup & reset', '', 'settings-sub', 'backup', '↻')}${label('SYSTEM')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${row('Accessibility', '', 'settings-sub', 'accessibility', '◉')}${data.settings.developerUnlocked ? row('Developer options', '', 'settings-sub', 'development', '⚙') : ''}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
@@ -1141,7 +1188,7 @@
       case 'email': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(!item)break;for(const key of ['to','cc','bcc','subject','body'])if(values.has(key))item[key]=String(values.get(key)).trim();if(!ICSEmail.send(item)){ui.emailError='Enter valid email addresses';save();render();break;}save();ui.emailFolder='Sent';ui.emailQuery=undefined;ui.sub='read';ui.emailError='';render();toast('Demo email sent');break;}
       case 'email-search': ui.emailQuery=String(values.get('query')||'').trim();ui.emailSelected=[];render();break;
       case 'sd-volumes': for(const key of ['mediaVolume','ringVolume','alarmVolume'])data.settings[key]=Math.max(0,Math.min(100,Number(values.get(key))));save();ui.overlay='';render();break;
-      case 'sd-choice': {const choice=String(values.get('choice'));if(ui.settingsField==='sleep')data.settings.sleep=Number(choice);else if(ui.settingsField==='font')data.settings.largeText=choice==='large';else if(ui.settingsField==='silent'){data.settings.silent=choice!=='off';data.settings.silentMode=choice;}else data.settings[ui.settingsField]=choice;save();ui.overlay='';render();break;}
+      case 'sd-choice': {const choice=String(values.get('choice'));if(ui.settingsField==='sleep')data.settings.sleep=Number(choice);else if(['windowScale','transitionScale'].includes(ui.settingsField))data.settings[ui.settingsField]=Number(choice);else if(ui.settingsField==='font')data.settings.largeText=choice==='large';else if(ui.settingsField==='silent'){data.settings.silent=choice!=='off';data.settings.silentMode=choice;}else data.settings[ui.settingsField]=choice;save();ui.overlay='';render();break;}
       default: break;
     }
   });
@@ -1211,7 +1258,9 @@
     // Keep touch delivery on the stable screen when a drawer item replaces its view.
     try { screen.setPointerCapture(pointerStart.pointerId); } catch {}
     dragState = pointerStart.source;
+    // Workspace.startDrag hides the original view (GONE) while its DragView moves.
     pointerStart.target.closest('.launcher-icon')?.classList.add('drag-source-icon');
+    if (dragState.type === 'widget') pointerStart.target.closest('.home-widget')?.classList.add('drag-source-widget');
     if (dragState.type === 'widget') {
       const rect = pointerStart.target.closest('.home-widget').getBoundingClientRect();
       dragState.grabOffset = {x: pointerStart.x - rect.left, y: pointerStart.y - rect.top};
@@ -1232,8 +1281,10 @@
       if (source) { ghost.innerHTML = source.innerHTML; ghost.querySelectorAll('button,[tabindex]').forEach(node => node.setAttribute('tabindex', '-1')); }
     }
     dragState.ghost = ghost;
+    if (!dragState.widgetType && !reducedMotion?.matches) ICSTransitions.play(ghost, ICSTransitions.specs['drag-lift'].enter);
     moveGhost(x, y);
     screen.classList.add('dragging');
+    screen.classList.toggle('dragging-from-drawer', dragState.type === 'drawer');
     suppressClickUntil = Date.now() + 500;
   }
   function moveGhost(x, y) {
@@ -1243,6 +1294,12 @@
     dragState.ghost.style.left = `${x - rect.left - (grab ? grab.x : offset)}px`;
     dragState.ghost.style.top = `${y - rect.top - (grab ? grab.y : offset)}px`;
     updateFolderDrag(x,y);
+    updateDragOutline(x, y);
+    const dropTarget = document.elementFromPoint(x, y)?.closest('[data-drop-remove],[data-drop-info]');
+    const removeHover = !!dropTarget?.hasAttribute('data-drop-remove'), infoHover = !!dropTarget?.hasAttribute('data-drop-info') && dragState.type === 'drawer';
+    screen.querySelectorAll('.drop-target').forEach(node => node.classList.toggle('drop-hover', node === dropTarget && (removeHover || infoHover)));
+    dragState.ghost.classList.toggle('tint-delete', removeHover);
+    dragState.ghost.classList.toggle('tint-info', infoHover);
     const direction = ui.overlay ? 0 : x - rect.left < 18 ? -1 : rect.right - x < 18 ? 1 : 0;
     if (direction !== dragState.edgeDirection) {
       clearTimeout(dragState.edgeTimer);
@@ -1252,7 +1309,92 @@
       }, 550);
     }
   }
-  function clearFolderDragFeedback(){screen.querySelectorAll('.folder-drop-target,.folder-reorder-target,.drag-source-icon').forEach(node=>node.classList.remove('folder-drop-target','folder-reorder-target','drag-source-icon'));}
+  /* CellLayout drag outlines: a holo-blue outline marks the cell where the item would land.
+     Each outline fades in and out over config_dragOutlineFadeTime (900 ms) to 128/255 alpha, leaving a short trail. */
+  function dragOutlineTarget(x, y) {
+    const source = dragState;
+    if (!source || ui.overlay) return null;
+    const target = document.elementFromPoint(x, y), grid = target?.closest('.home-grid:not([inert])');
+    if (source.widgetType) {
+      if (!grid) return null;
+      const rect = grid.getBoundingClientRect(), oldWidget = source.type === 'widget' ? data.homeWidgets[source.page].find(widget => widget.id === source.id) : null;
+      const column = Math.round((x - rect.left - 6 - source.grabOffset.x) / ((rect.width - 12) / 4)), row = Math.round((y - rect.top - 5 - source.grabOffset.y) / ((rect.height - 5) / 4));
+      if (!widgetFits(ui.page, column, row, oldWidget || source.widgetType, oldWidget?.id || '')) return null;
+      const size = widgetSize(oldWidget || source.widgetType);
+      return {key: `w:${ui.page}:${column}:${row}`, container: grid, style: `grid-column:${column + 1}/span ${size.width};grid-row:${row + 1}/span ${size.height}`};
+    }
+    const slot = target?.closest('[data-home-slot],[data-dock-slot]');
+    if (!slot || slot.querySelector('.launcher-icon:not(.drag-source-icon)')) return null;
+    if (slot.hasAttribute('data-home-slot')) {
+      const index = Number(slot.dataset.homeSlot);
+      if (data.homeWidgets[ui.page].some(widget => index % 4 >= widget.x && index % 4 < widget.x + widgetSize(widget).width && Math.floor(index / 4) >= widget.y && Math.floor(index / 4) < widget.y + widgetSize(widget).height)) return null;
+      return {key: `h:${ui.page}:${index}`, container: slot};
+    }
+    return {key: `d:${slot.dataset.dockSlot}`, container: slot};
+  }
+  function updateDragOutline(x, y) {
+    const target = dragOutlineTarget(x, y), source = dragState;
+    if ((target?.key || '') === (source.outlineKey || '')) return;
+    source.outlineKey = target?.key || '';
+    screen.querySelectorAll('.drag-outline:not(.outline-fading)').forEach(node => { node.classList.add('outline-fading'); setTimeout(() => node.remove(), 900); });
+    if (!target) return;
+    const outline = document.createElement(source.widgetType ? 'div' : 'span');
+    outline.className = source.widgetType ? 'drag-outline widget-outline' : 'drag-outline icon-outline';
+    outline.setAttribute('aria-hidden', 'true');
+    if (source.widgetType) outline.style.cssText = target.style; else outline.innerHTML = `${appIcon(source.id)}<span class="outline-label">&nbsp;</span>`;
+    target.container.append(outline);
+    requestAnimationFrame(() => outline.classList.add('outline-visible'));
+  }
+  const clearDragOutlines = () => screen.querySelectorAll('.drag-outline').forEach(node => node.remove());
+  /* DragLayer.animateView: the drag view settles into its final cell (or back to its origin);
+     DeleteDropTarget shrinks it into Remove; FolderIcon draws it into the folder preview. */
+  function landGhost(ghost, destination, trashRect) {
+    const finish = () => ghost.remove();
+    if (!destination || reducedMotion?.matches || document.hidden) return finish();
+    const screenRect = screen.getBoundingClientRect(), k = screenRect.width / screen.clientWidth || 1;
+    const local = rect => ({left: (rect.left - screenRect.left) / k, top: (rect.top - screenRect.top) / k, width: rect.width / k, height: rect.height / k});
+    const from = local(ghost.getBoundingClientRect());
+    ghost.getAnimations().forEach(animation => animation.cancel());
+    Object.assign(ghost.style, {transform: 'none', translate: 'none', transformOrigin: '0 0'});
+    const base = local(ghost.getBoundingClientRect());
+    let target, options, hidden = null;
+    if (destination.trash) {
+      if (!trashRect) return finish();
+      const bin = local(trashRect), width = from.width * .1, height = from.height * .1;
+      target = {left: bin.left + bin.width / 2 - width / 2, top: bin.top + bin.height / 2 - height / 2, width, height};
+      options = {duration: 250, motion: 'decelerate2', fade: {to: .1, curve: 'decelerateCubic'}};
+    } else {
+      const element = dragDestination(destination);
+      if (!element) return finish();
+      const box = destination.widget ? element : element.querySelector('.app-icon') || element;
+      target = local(box.getBoundingClientRect());
+      if (!destination.widget && box.classList.contains('launcher-folder-icon') && !ghost.querySelector('.launcher-folder-icon')) {
+        const size = target.width * .63;
+        target = {left: target.left + target.width / 2 - size / 2, top: target.top + target.height / 2 - size / 2, width: size, height: size};
+        options = {duration: 400, motion: 'decelerate2', fade: {to: .5, curve: 'accelerate2'}};
+      } else {
+        options = {duration: ICSTransitions.dropDuration(Math.hypot(target.left - from.left, target.top - from.top))};
+        hidden = element; element.style.visibility = 'hidden';
+      }
+    }
+    const animation = ICSTransitions.fly(ghost, base, from, target, options);
+    if (!animation) { finish(); if (hidden) hidden.style.visibility = ''; return; }
+    animation.finished.catch(() => {}).then(() => { finish(); if (hidden) hidden.style.visibility = ''; });
+  }
+  function dragDestination(destination) {
+    const grid = page => page === ui.page ? viewport.querySelector(`.home-grid[data-home-page="${page}"]`) : null;
+    if (destination.widget) return grid(destination.page)?.querySelector(`.home-widget[data-widget-id="${CSS.escape(destination.widget)}"]`) || null;
+    if (destination.type === 'home') return grid(destination.page)?.querySelector(`[data-home-slot="${destination.slot}"] .launcher-icon`) || null;
+    if (destination.type === 'dock') return viewport.querySelector(`[data-dock-slot="${destination.slot}"] .launcher-icon`);
+    if (destination.type === 'folder') {
+      const panel = ui.overlay === 'folder' && ui.folderId === destination.folderId ? overlayRoot.querySelector('.launcher-folder') : null;
+      const count = ICSLauncherFolders.folder(data, destination.folderId)?.items.length || 0;
+      if (panel) return panel.querySelector(`[data-folder-slot="${Math.min(destination.slot, count - 1)}"] .launcher-icon`);
+      return [...viewport.querySelectorAll('[data-folder-id]')].find(button => button.dataset.folderId === destination.folderId && !button.closest('[inert]')) || null;
+    }
+    return null;
+  }
+  function clearFolderDragFeedback(){screen.querySelectorAll('.folder-drop-target,.folder-reorder-target,.drag-source-icon,.drag-source-widget').forEach(node=>node.classList.remove('folder-drop-target','folder-reorder-target','drag-source-icon','drag-source-widget'));}
   function updateFolderDrag(x,y) {
     const source=dragState;if(!source||source.widgetType)return;
     screen.querySelectorAll('.folder-drop-target,.folder-reorder-target').forEach(node=>node.classList.remove('folder-drop-target','folder-reorder-target'));
@@ -1291,9 +1433,17 @@
     const dockSlot = target?.closest('[data-dock-slot]');
     const pageButton = target?.closest('.page-indicators button');
     const remove = target?.closest('[data-drop-remove]');
+    const trashRect = remove?.getBoundingClientRect();
+    if (source.type === 'drawer' && target?.closest('[data-drop-info]')) {
+      clearTimeout(source.edgeTimer); clearDragOutlines(); source.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'dragging-from-drawer');
+      openApp('settings'); ui.settingsApp = source.id; ui.sub = 'app-info'; render(); suppressClickUntil = Date.now() + 350;
+      return true;
+    }
+    let destination = null;
     if (source.widgetType) {
       const oldWidget = source.type === 'widget' ? data.homeWidgets[source.page].find(widget => widget.id === source.id) : null;
-      if (remove && oldWidget) data.homeWidgets[source.page] = data.homeWidgets[source.page].filter(widget => widget.id !== source.id);
+      if (oldWidget) destination = {widget: oldWidget.id, page: source.page};
+      if (remove && oldWidget) { data.homeWidgets[source.page] = data.homeWidgets[source.page].filter(widget => widget.id !== source.id); destination = {trash: true}; }
       else if (homeSlot) {
         const rect = homeSlot.closest('.home-grid').getBoundingClientRect();
         const column = Math.round((x - rect.left - 6 - source.grabOffset.x) / ((rect.width - 12) / 4));
@@ -1303,32 +1453,39 @@
             data.homeWidgets[source.page] = data.homeWidgets[source.page].filter(widget => widget.id !== source.id);
             oldWidget.x = column; oldWidget.y = row;
             data.homeWidgets[ui.page].push(oldWidget);
+            destination = {widget: oldWidget.id, page: ui.page};
           }
-          else addWidget(source.widgetType, column, row);
+          else { const added = addWidget(source.widgetType, column, row); if (added) destination = {widget: added.id, page: ui.page}; }
         } else toast('This home screen is full');
       }
     } else {
-      let result=null;
+      let result=null,attempt=null;
+      const dropAt=location=>{attempt=location;return ICSLauncherFolders.drop(data,source,location);};
       if(remove)result={ok:ICSLauncherFolders.remove(data,source)};
-      else if(folderSlot)result=ICSLauncherFolders.drop(data,source,{type:'folder',folderId:ui.folderId,slot:Number(folderSlot.dataset.folderSlot)});
-      else if(target?.closest('.launcher-folder-grid'))result=ICSLauncherFolders.drop(data,source,{type:'folder',folderId:ui.folderId,slot:ICSLauncherFolders.folder(data,ui.folderId).items.length});
+      else if(folderSlot)result=dropAt({type:'folder',folderId:ui.folderId,slot:Number(folderSlot.dataset.folderSlot)});
+      else if(target?.closest('.launcher-folder-grid'))result=dropAt({type:'folder',folderId:ui.folderId,slot:ICSLauncherFolders.folder(data,ui.folderId).items.length});
       else if(homeSlot){
         const slot=Number(homeSlot.dataset.homeSlot);
         const covered=data.homeWidgets[ui.page].some(widget=>slot%4>=widget.x&&slot%4<widget.x+widgetSize(widget).width&&Math.floor(slot/4)>=widget.y&&Math.floor(slot/4)<widget.y+widgetSize(widget).height);
-        if(!covered)result=ICSLauncherFolders.drop(data,source,{type:'home',page:ui.page,slot});
-      }else if(dockSlot)result=ICSLauncherFolders.drop(data,source,{type:'dock',slot:Number(dockSlot.dataset.dockSlot)});
+        if(!covered)result=dropAt({type:'home',page:ui.page,slot});
+      }else if(dockSlot)result=dropAt({type:'dock',slot:Number(dockSlot.dataset.dockSlot)});
       else if(pageButton){
         const nextPage=Number(pageButton.dataset.id);
         const slot=data.homePages[nextPage].findIndex((id,index)=>id===null&&!data.homeWidgets[nextPage].some(widget=>index%4>=widget.x&&index%4<widget.x+widgetSize(widget).width&&Math.floor(index/4)>=widget.y&&Math.floor(index/4)<widget.y+widgetSize(widget).height));
-        if(slot>=0){result=ICSLauncherFolders.drop(data,source,{type:'home',page:nextPage,slot});if(result.ok)ui.page=nextPage;}
+        if(slot>=0){result=dropAt({type:'home',page:nextPage,slot});if(result.ok)ui.page=nextPage;}
         else result={ok:false,error:'This home screen is full'};
       }
       if(result?.error)toast(result.error);
       if(ui.overlay==='folder'&&!ICSLauncherFolders.folder(data,ui.folderId))ui.overlay='';
+      // A folder that received the item may now sit where the target icon was.
+      if(remove&&result?.ok)destination={trash:true};
+      else if(result?.ok&&attempt)destination=attempt;
+      else if(['home','dock','folder'].includes(source.type))destination=source;
     }
     clearTimeout(source.folderExitTimer);clearTimeout(source.folderHoverTimer);clearFolderDragFeedback();
-    clearTimeout(source.edgeTimer); source.ghost.remove(); dragState = null; screen.classList.remove('dragging');
+    clearTimeout(source.edgeTimer); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'dragging-from-drawer');
     save(); render(); suppressClickUntil = Date.now() + 350;
+    landGhost(source.ghost, destination, trashRect);
     return true;
   }
   function setHomePage(page) {
@@ -1565,7 +1722,7 @@
     if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });
   window.addEventListener('pointercancel',()=>{const photo=viewport.querySelector('.gallery-image');if(photo)photo.style.transform='';});
   window.addEventListener('pointercancel',()=>{const surface=viewport.querySelector('[data-calendar-swipe]');if(surface)surface.style.transform='';});
   document.addEventListener('keydown', event => {

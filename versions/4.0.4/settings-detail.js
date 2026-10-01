@@ -2,8 +2,11 @@
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const defaults={mediaVolume:60,ringVolume:70,alarmVolume:80,ringtone:'Orion',notificationTone:'Proxima',vibrateRing:false,dialTones:true,touchSounds:true,lockSounds:true,haptic:true,sleep:30,pulse:true,dataLimit:false,dataWarning:2};
+  const defaults={mediaVolume:60,ringVolume:70,alarmVolume:80,ringtone:'Orion',notificationTone:'Proxima',vibrateRing:false,dialTones:true,touchSounds:true,lockSounds:true,haptic:true,sleep:30,windowScale:1,transitionScale:1,pulse:true,dataLimit:false,dataWarning:2};
   const prefs=data=>({...defaults,...data.settings});
+  // Developer options lists from the ICS window_animation_scale arrays.
+  const scaleOptions=[[0,'Animation off'],[.5,'Animation scale .5x'],[1,'Animation scale 1x'],[1.5,'Animation scale 1.5x'],[2,'Animation scale 2x'],[5,'Animation scale 5x'],[10,'Animation scale 10x']];
+  const animationScaleLabel=value=>(scaleOptions.find(([scale])=>scale===Number(value??1))||scaleOptions[2])[1];
   const sleepOptions=[[15,'15 seconds'],[30,'30 seconds'],[60,'1 minute'],[120,'2 minutes'],[300,'5 minutes'],[600,'10 minutes'],[1800,'30 minutes']];
   const sizes=(data,id,index=0)=>({app:12+index*3,data:1.2,cache:data.appCacheCleared?.includes(id)?0:2.4});
   const label=text=>`<h3 class="section-label">${e(text)}</h3>`;
@@ -40,10 +43,11 @@
     if(field==='volumes')return shell('Volumes',`${[['mediaVolume','Music, video, games & other media'],['ringVolume','Ringtone & notifications'],['alarmVolume','Alarms']].map(([key,name])=>`<label><span>${e(t(name))}</span><input type="range" name="${key}" min="0" max="100" value="${p[key]}" aria-label="${e(t(name))}"></label>`).join('')}${actions}`,'sd-volumes');
     let title='',choices=[],value;
     if(field==='sleep'){title='Sleep';choices=sleepOptions;value=p.sleep;}
+    if(field==='windowScale'||field==='transitionScale'){title=field==='windowScale'?'Window animation scale':'Transition animation scale';choices=scaleOptions;value=p[field];}
     if(field==='font'){title='Font size';choices=[['normal','Normal'],['large','Large']];value=p.largeText?'large':'normal';}
     if(field==='silent'){title='Silent mode';choices=[['off','Off'],['vibrate','Vibrate'],['mute','Mute']];value=p.silent?(p.silentMode||'mute'):'off';}
     if(field==='ringtone'||field==='notificationTone'){title=field==='ringtone'?'Phone ringtone':'Default notification';choices=['Silent','Andromeda','Arcturus','Capella','Orion','Pegasus','Proxima','Sirius'].map(name=>[name,name]);value=p[field];}
     return shell(title,`<div class="sd-choice-list">${choices.map(([id,name])=>`<label><span>${e(t(name))}</span><input type="radio" name="choice" value="${id}" ${String(id)===String(value)?'checked':''}></label>`).join('')}</div>${actions}`,'sd-choice');
   }
-  window.ICSSettingsDetail={defaults,prefs,sizes,render,overlay};
+  window.ICSSettingsDetail={defaults,prefs,sizes,render,overlay,animationScaleLabel};
 })();

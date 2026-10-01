@@ -103,3 +103,7 @@ Unmodified AOSP resources at `android-4.0.4_r2.1`, Apache License 2.0:
 - `btn_radio_{on,off}_holo_dark.png`: framework `core/res/res/drawable-hdpi`.
 
 Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-patch metadata border was removed; CSS border images reproduce the stretch regions. Flat nine-patches (event rows, list background and color chips) are drawn as CSS colors.
+
+### Launcher drop targets
+
+`launcher-ic_launcher_clear_{normal,active}_holo.png` and `launcher-ic_launcher_info_{normal,active}_holo.png` are unmodified [AOSP Launcher2 drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_launcher2/tree/android-4.0.4_r2.1/res/drawable-hdpi) resources at `android-4.0.4_r2.1`, Apache License 2.0.
