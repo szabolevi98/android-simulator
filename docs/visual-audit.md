@@ -338,3 +338,16 @@ Method: headless Chrome with mobile metrics, Android user agent and touch emulat
 
 Limits: no physical iOS or Android device, and no real on-screen keyboard was used; browser-native pickers and the operating system's text selection were not covered. App sub-screens beyond those listed were not swept automatically.
 
+## Folder reordering and Calendar recurrence — 2026-10-01
+
+References at `android-4.0.4_r2.1`: Launcher2 [Folder.java](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_launcher2/android-4.0.4_r2.1/src/com/android/launcher2/Folder.java) (`realTimeReorder`, `onDragOver`); Calendar [strings.xml](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.0.4_r2.1/res/values/strings.xml) and [arrays.xml](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.0.4_r2.1/res/values/arrays.xml) (repetition, `reminder_minutes_labels`, `delete_repeating_labels`, series-edit choices).
+
+- **Folder reordering.** When a dragged icon rests over a folder cell for 150 ms, the icons between the empty cell and the target slide over in 230 ms, each starting 30 ms after the previous one (decaying by 0.9). The drop uses the opened gap. This replaces the earlier highlight-and-reorder-on-release behavior.
+- **Repetition.** The editor offers One-time event, Daily, Every weekday, Weekly, Monthly (every Nth weekday, with a fifth occurrence treated as the last) and Monthly (on day N), plus Yearly with the ICS wording. Monthly-by-date skips months without that day; yearly 29 February occurs only in leap years. Month, Day, Week, Agenda (series instances for 90 days) and the home widget show instances. Details show the opened instance and its repetition.
+- **Series changes.** Editing offers “Change only this event”, “Change this and all future events” and “Change all events in the series”. Deleting offers Only this event, This and future events, and All events. These are stored as exception dates, a series end date or a split series.
+- **Reminders.** None or the ICS reminder intervals. When due, an instance posts a Calendar notification with the original status-bar icon; tapping it opens that instance. Each instance fires once, and reminders more than ten minutes late are skipped. Delivery runs only while the page is open.
+
+Checks: `calendar-recurrence.test.cjs` covers every rule, last-weekday, leap years, exceptions, series end, multi-day instances, labels, reminder timing and widget rows. Headless Chrome: creating a weekly series with a reminder; its notification and status icon; month markers; opening a later instance; changing only that instance; deleting this and future occurrences; opening the event from the notification; Google-folder reordering with staggered offsets and the final order. Editor options were checked in English and Hungarian. All sixteen Node test files passed.
+
+Limits: no custom recurrence (interval, count or chosen weekdays), multiple reminders, e-mail reminders, snooze dialog or background delivery. Editing a whole series from a later instance shifts the series by the same number of days.
+

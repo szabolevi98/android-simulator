@@ -18,3 +18,11 @@
 .cal-menu{background:#fafafa;color:#666;box-shadow:0 3px 8px #0007}.cal-menu button{color:#666!important;border-bottom:1px solid #ddd!important}.cal-menu button[aria-pressed=true]{box-shadow:inset 3px 0 #33b5e5}.cal-search{display:flex;padding:8px;background:#fafafa}.cal-search input{width:0;flex:1;min-width:0;background:white;color:#333;border:0;border-bottom:2px solid #33b5e5;padding:6px;font:inherit}.cal-search button{padding:6px;font-size:13px}.cal-app button:active{background-color:#33b5e544}.cal-app button:focus-visible{outline:2px solid #33b5e5;outline-offset:-2px}
 
 .cal-app{color-scheme:light}.cal-busy{overflow:hidden}.cal-editor .cal-check input{appearance:none;width:32px;height:32px;padding:0;border:0;background:transparent url(assets/btn_check_off_holo_light.png) center/32px 32px no-repeat}.cal-editor .cal-check input:checked{background-image:url(assets/btn_check_on_holo_light.png)}
+/* Holo Light spinners for Repetition and Reminders (EditEventView), with the corner triangle. */
+.cal-editor select{appearance:none;-webkit-appearance:none;width:100%;min-width:0;background:white linear-gradient(135deg,transparent 50%,#9a9a9a 50%) no-repeat right 2px bottom 3px/8px 8px;color:#333;border:0;border-bottom:1px solid #bbb;border-radius:0;padding:7px 18px 7px 3px;font:16px Roboto,Arial,sans-serif;outline-color:#33b5e5;text-overflow:ellipsis}
+.cal-repeat{font-size:13px;opacity:.9}
+.cal-scope{padding:8px 0}
+.cal-scope h3{margin:4px 16px 8px}
+.cal-scope>button{display:block;width:100%;min-height:48px;border:0;border-bottom:1px solid #3a3a3a;background:none;color:#f2f2f2;text-align:left;padding:10px 16px;font-size:15px}
+.cal-scope>button:active{background:#0099cc99}
+.cal-scope .settings-dialog-actions{margin:8px 0 -8px}

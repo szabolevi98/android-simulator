@@ -181,7 +181,7 @@
   const statusIndicators = () => `<span class="status-right">${data.settings.bluetooth ? '<img class="status-bluetooth" src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.wifi && data.settings.wifiNetwork ? '<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="">' : ''}<img src="assets/${data.settings.airplane ? 'stat_sys_signal_flightmode' : 'stat_sys_signal_4_fully'}.png" alt=""><img class="status-battery" src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
 
   function renderStatus() {
-    const notificationIcons = data.notifications.length ? `${data.notifications.some(item => item.id === 2) ? '<img src="assets/stat_notify_sms.png" alt="">' : ''}${data.notifications.some(item => item.id !== 2) ? '<img src="assets/stat_notify_more.png" alt="">' : ''}` : '';
+    const notificationIcons = data.notifications.length ? `${data.notifications.some(item => item.id === 2) ? '<img src="assets/stat_notify_sms.png" alt="">' : ''}${data.notifications.some(item => item.kind === 'calendar') ? '<img src="assets/calendar-stat_notify_calendar.png" alt="">' : ''}${data.notifications.some(item => item.id !== 2 && item.kind !== 'calendar') ? '<img src="assets/stat_notify_more.png" alt="">' : ''}` : '';
     statusRoot.innerHTML = `<button class="status-button" data-action="shade" aria-label="Open notifications"><span class="status-left">${notificationIcons}</span>${statusIndicators()}</button>`;
     i18n.translateDOM(statusRoot);
   }
@@ -416,7 +416,7 @@
   function renderOverlay() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.overlay === 'shade') {
-      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
+      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : n.kind === 'calendar' ? 'calendar.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay.startsWith('widget-photo')) {
       overlayRoot.innerHTML = ICSWidgets.photoOverlay(data, ui, key => i18n.t(key));
     } else if(ui.overlay==='sx-dialog'){
@@ -707,6 +707,24 @@
     else ui.selectedDate=ICSCalendar.plus(ui.selectedDate,direction*(mode==='Week'?7:1));
     calendarRender();
   }
+  function deleteEventScope(scope) {
+    const series=data.events.find(item=>item.id===ui.selectedEvent);if(!series)return;
+    const item=ICSCalendar.instance(series,ui.selectedInstance);
+    if(scope==='this')series.exdates=[...new Set([...(series.exdates||[]),item.date])];
+    else if(scope==='future'&&item.date!==item.seriesStart)series.until=ICSCalendar.plus(item.date,-1);
+    else data.events=data.events.filter(event=>event.id!==series.id);
+    save();ui.overlay='';ui.sub='';calendarRender();
+  }
+  // Calendar AlertService: a status-bar notification at the reminder time while the page is running.
+  function checkReminders(now) {
+    data.calendarFired=Array.isArray(data.calendarFired)?data.calendarFired.slice(-60):[];
+    for(const {key,event} of ICSCalendar.dueReminders(data.events,now,data.calendarFired)) {
+      data.calendarFired.push(key);
+      const when=event.allDay?i18n.t('All day'):`${event.time} – ${event.endTime}`;
+      data.notifications.unshift({id:Date.now()+data.notifications.length,title:event.title,detail:[when,event.location].filter(Boolean).join(' · '),kind:'calendar',eventId:event.id,date:event.date});
+      save();renderStatus();if(ui.overlay==='shade')renderOverlay();
+    }
+  }
   function calendarEdit(item) {
     ui.eventDraft=ICSCalendar.normalize(item || {date:ui.selectedDate,time:'12:00',title:''});
     ui.calendarError='';ui.overlay='';ui.sub='event-edit';render();
@@ -828,7 +846,7 @@
       case 'drawer-page': ui.drawerPage = Number(id); render(); break;
       case 'add-widget': { const added = addWidget(button.dataset.widgetType); if (!added) { toast('This home screen is full'); break; } const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; home(false); ui.photoWidgetSetup = setup; if (added.type === 'photo') { ui.overlay = 'widget-photo-type'; renderOverlay(); } else toast('Widget added'); break; }
       case 'widget-calendar-open': ui.selectedDate = today(); openApp('calendar'); break;
-      case 'widget-calendar-event': { const event = data.events.find(item => String(item.id) === id); if (!event) break; ui.selectedDate = event.date < today() ? today() : event.date; openApp('calendar'); ui.selectedEvent = event.id; ui.sub = 'event'; render(); break; }
+      case 'widget-calendar-event': { const event = data.events.find(item => String(item.id) === id); if (!event) break; const date = button.dataset.date || event.date; ui.selectedDate = date < today() ? today() : date; openApp('calendar'); ui.selectedEvent = event.id; ui.selectedInstance = date; ui.sub = 'event'; render(); break; }
       case 'widget-music-open': { const active = musicActive(); openApp('music'); if (active) { ui.sub = 'player'; render(); } break; }
       case 'widget-music-next': ICSMusic.step(ui.music, 1); ui.musicActive = true; ui.musicTrack = ui.music.track; saveMusic(); render(); break;
       case 'widget-photo-open': { const photo = data.photos.find(item => item.id === Number(id)); if (!photo) break; openApp('gallery'); ui.selectedPhoto = photo.id; ui.galleryAlbum = ICSMedia.album(photo); ui.sub = 'photo'; ui.galleryZoom = false; render(); break; }
@@ -864,7 +882,8 @@
       case 'close-overlay': ui.overlay = ''; renderOverlay(); break;
       case 'remove-recent': event.stopPropagation(); ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
       case 'clear-notifications': data.notifications = []; ui.overlay = ''; save(); renderStatus(); renderOverlay(); break;
-      case 'notification-open': ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break;
+      case 'notification-open': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar') { data.notifications = data.notifications.filter(item => item !== note); save(); ui.overlay = ''; openApp('calendar'); ui.selectedEvent = note.eventId; ui.selectedInstance = note.date; ui.selectedDate = note.date; ui.sub = 'event'; render(); break; } }
+        ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break;
       case 'unlock': ui.view = 'home'; render(); break;
       case 'unlock-camera': openApp('camera'); break;
       case 'settings-sub': ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
@@ -1037,10 +1056,12 @@
       case 'calendar-search': ui.calendarMode='Agenda';ui.calendarSearch='';ui.overlay='';render();viewport.querySelector('.cal-search input').focus();break;
       case 'calendar-slot': {const [date,time]=id.split('|');calendarEdit({date,time,title:''});break;}
       case 'event-new': calendarEdit();break;
-      case 'event-open': ui.selectedEvent=Number(id);ui.sub='event';render();break;
-      case 'event-edit': calendarEdit(data.events.find(item=>item.id===ui.selectedEvent));break;
+      case 'event-open': ui.selectedEvent=Number(id);ui.selectedInstance=button.dataset.date||'';ui.sub='event';render();break;
+      case 'event-edit': { const series=data.events.find(item=>item.id===ui.selectedEvent); if(series&&ICSCalendar.normalize(series).repeat!=='none'){ui.overlay='calendar-edit-scope';renderOverlay();} else calendarEdit(series); break; }
+      case 'event-edit-scope': { const series=data.events.find(item=>item.id===ui.selectedEvent); if(!series)break; const item=ICSCalendar.instance(series,ui.selectedInstance); calendarEdit({...series,date:item.date,endDate:item.endDate,...(id==='this'?{repeat:'none'}:{})}); ui.eventDraft.scope=id; ui.eventDraft.instance=item.date; ui.eventDraft.seriesStart=item.seriesStart; render(); break; }
+      case 'event-delete-scope': deleteEventScope(id); break;
       case 'event-cancel': ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();break;
-      case 'event-delete': ui.overlay='calendar-delete';renderOverlay();break;
+      case 'event-delete': ui.overlay=ICSCalendar.normalize(data.events.find(item=>item.id===ui.selectedEvent)||{}).repeat!=='none'?'calendar-delete-scope':'calendar-delete';renderOverlay();break;
       case 'event-confirm-delete': data.events=data.events.filter(item=>item.id!==ui.selectedEvent);save();ui.overlay='';ui.sub='';calendarRender();break;
       case 'clock-alarms': ui.sub='alarms'; render(); break;
       case 'clock-dim': ui.clockDim=!ui.clockDim; render(); break;
@@ -1175,9 +1196,16 @@
         const event={...ui.eventDraft,id:ui.eventDraft?.id || Date.now(),title:String(values.get('title')||'').trim(),date:String(values.get('date')),time:String(values.get('time')),endDate:String(values.get('endDate')),endTime:String(values.get('endTime')),allDay:values.has('allDay'),location:String(values.get('location')||'').trim(),description:String(values.get('description')||'').trim()};
         ui.eventDraft=event;
         if(!ICSCalendar.valid(event)){ui.calendarError='End must be after start';render();return;}
+        event.repeat=String(values.get('repeat')||'none');event.reminder=Number(values.get('reminder')??-1);
+        const {scope,instance,seriesStart}=event;delete event.scope;delete event.instance;delete event.seriesStart;
         const existing=data.events.findIndex(item=>item.id===event.id);
-        if(existing<0)data.events.push(event);else data.events[existing]=event;
-        save();ui.selectedDate=event.date;ui.selectedEvent=event.id;ui.eventDraft=null;ui.sub='event';render();toast('Event saved');break;
+        if(scope&&existing>=0){
+          const series=data.events[existing];
+          if(scope==='this'){series.exdates=[...new Set([...(series.exdates||[]),instance])];event.id=Date.now();delete event.exdates;delete event.until;data.events.push(event);}
+          else if(scope==='future'&&instance!==seriesStart){series.until=ICSCalendar.plus(instance,-1);event.id=Date.now();delete event.exdates;delete event.until;data.events.push(event);}
+          else {const shift=Math.round((ICSCalendar.parse(event.date)-ICSCalendar.parse(instance))/864e5),span=Math.round((ICSCalendar.parse(event.endDate)-ICSCalendar.parse(event.date))/864e5);event.date=ICSCalendar.plus(seriesStart,shift);event.endDate=ICSCalendar.plus(event.date,span);data.events[existing]=event;}
+        } else if(existing<0)data.events.push(event);else data.events[existing]=event;
+        save();ui.selectedDate=event.date;ui.selectedEvent=event.id;ui.selectedInstance=scope&&scope!=='all'?event.date:instance||'';ui.eventDraft=null;ui.sub='event';render();toast('Event saved');break;
       }
       case 'calendar-search': ui.calendarSearch=String(values.get('query')||'').trim();render();break;
       case 'music-playlist': {const name=String(values.get('name')||'').trim();if(!name)return;ui.music.playlists.push({id:Date.now(),name,tracks:ui.musicAddPending?[ui.musicSelected]:[]});saveMusic();ui.overlay='';render();break;}
@@ -1394,6 +1422,43 @@
     }
     return null;
   }
+  /* Folder.realTimeReorder: after hovering a cell for 150 ms, icons between the empty cell and the
+     target slide over in 230 ms, each starting 30 ms later than the previous (decaying by 0.9). */
+  function folderReorder(x, y, panel) {
+    const source = dragState, folder = ICSLauncherFolders.folder(data, ui.folderId);
+    if (!folder) return;
+    const fromHere = source.type === 'folder' && source.folderId === ui.folderId;
+    if (!fromHere && folder.items.length >= ICSLauncherFolders.capacity) return;
+    const cells = [...panel.querySelectorAll('[data-folder-slot]')];
+    const count = Math.min(cells.length, fromHere ? folder.items.length : folder.items.length + 1);
+    if (source.reorderPanel !== panel) { source.reorderPanel = panel; source.folderGap = Math.min(fromHere ? source.slot : folder.items.length, count - 1); source.folderGapTarget = source.folderGap; }
+    let nearest = 0, distance = Infinity;
+    cells.slice(0, count).forEach((cell, index) => { const rect = cell.getBoundingClientRect(), d = Math.hypot(x - rect.left - rect.width / 2, y - rect.top - rect.height / 2); if (d < distance) { distance = d; nearest = index; } });
+    if (nearest === source.folderGapTarget) return;
+    source.folderGapTarget = nearest;
+    clearTimeout(source.reorderTimer);
+    source.reorderTimer = setTimeout(() => applyFolderGap(panel, nearest), 150);
+  }
+  function applyFolderGap(panel, gap) {
+    const source = dragState, folder = ICSLauncherFolders.folder(data, ui.folderId);
+    if (!source || !folder || source.reorderPanel !== panel || !panel.isConnected) return;
+    const fromHere = source.type === 'folder' && source.folderId === ui.folderId, previous = source.folderGap;
+    const cells = [...panel.querySelectorAll('[data-folder-slot]')], rects = cells.map(cell => cell.getBoundingClientRect());
+    const k = screen.getBoundingClientRect().width / screen.clientWidth || 1;
+    const remaining = folder.items.map((_, slot) => slot).filter(slot => !(fromHere && slot === source.slot));
+    const moves = remaining.map((slot, order) => ({slot, from: order >= previous ? order + 1 : order, to: order >= gap ? order + 1 : order})).filter(move => move.from !== move.to && rects[move.to]);
+    moves.sort((a, b) => Math.abs(a.from - previous) - Math.abs(b.from - previous));
+    let delay = 0, step = 30;
+    for (const move of moves) {
+      const icon = cells[move.slot]?.querySelector('.launcher-icon');
+      if (!icon) continue;
+      const dx = (rects[move.to].left - rects[move.slot].left) / k, dy = (rects[move.to].top - rects[move.slot].top) / k;
+      icon.style.transition = reducedMotion?.matches ? 'none' : `transform 230ms cubic-bezier(.37,0,.63,1) ${Math.round(delay)}ms`;
+      icon.style.transform = dx || dy ? `translate(${dx}px,${dy}px)` : '';
+      delay += step; step *= .9;
+    }
+    source.folderGap = gap;
+  }
   function clearFolderDragFeedback(){screen.querySelectorAll('.folder-drop-target,.folder-reorder-target,.drag-source-icon,.drag-source-widget').forEach(node=>node.classList.remove('folder-drop-target','folder-reorder-target','drag-source-icon','drag-source-widget'));}
   function updateFolderDrag(x,y) {
     const source=dragState;if(!source||source.widgetType)return;
@@ -1402,7 +1467,7 @@
     if(panel){
       const rect=panel.getBoundingClientRect(),inside=x>=rect.left&&x<=rect.right&&y>=rect.top&&y<=rect.bottom;
       if(!inside&&!source.folderExitTimer)source.folderExitTimer=setTimeout(()=>{if(dragState===source){ui.overlay='';renderOverlay();source.folderExitTimer=null;source.hoverFolder=null;}},800);
-      else if(inside){clearTimeout(source.folderExitTimer);source.folderExitTimer=null;target?.closest('[data-folder-slot]')?.classList.add('folder-reorder-target');}
+      else if(inside){clearTimeout(source.folderExitTimer);source.folderExitTimer=null;folderReorder(x,y,panel);}
       return;
     }
     const slot=target?.closest('[data-home-slot],[data-dock-slot]'),icon=slot?.querySelector('.launcher-icon');
@@ -1462,6 +1527,7 @@
       let result=null,attempt=null;
       const dropAt=location=>{attempt=location;return ICSLauncherFolders.drop(data,source,location);};
       if(remove)result={ok:ICSLauncherFolders.remove(data,source)};
+      else if((folderSlot||target?.closest('.launcher-folder-grid'))&&source.reorderPanel&&source.reorderPanel===overlayRoot.querySelector('.launcher-folder'))result=dropAt({type:'folder',folderId:ui.folderId,slot:source.folderGap});
       else if(folderSlot)result=dropAt({type:'folder',folderId:ui.folderId,slot:Number(folderSlot.dataset.folderSlot)});
       else if(target?.closest('.launcher-folder-grid'))result=dropAt({type:'folder',folderId:ui.folderId,slot:ICSLauncherFolders.folder(data,ui.folderId).items.length});
       else if(homeSlot){
@@ -1482,7 +1548,7 @@
       else if(result?.ok&&attempt)destination=attempt;
       else if(['home','dock','folder'].includes(source.type))destination=source;
     }
-    clearTimeout(source.folderExitTimer);clearTimeout(source.folderHoverTimer);clearFolderDragFeedback();
+    clearTimeout(source.folderExitTimer);clearTimeout(source.folderHoverTimer);clearTimeout(source.reorderTimer);clearFolderDragFeedback();
     clearTimeout(source.edgeTimer); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'dragging-from-drawer');
     save(); render(); suppressClickUntil = Date.now() + 350;
     landGhost(source.ghost, destination, trashRect);
@@ -1770,6 +1836,7 @@
       if(state)state.textContent=i18n.t(dialing?'Calling…':ui.activeCall.hold?'On hold':'In call');
     }
     checkAlarms(now);
+    checkReminders(now);
     if(ui.view==='gallery' && ui.sub==='photo' && ui.gallerySlideshow && !ui.overlay && Date.now()-ui.gallerySlideAt>=3000){ui.gallerySlideAt=Date.now();galleryStep(1);}
     const deskTime=document.querySelector('.desk-time');
     if(deskTime) {

@@ -14,7 +14,7 @@
   function calendarRows(events,now) {
     const C=cal(),today=C.iso(now),last=C.plus(today,MAX_DAYS-1),current=stamp(now);
     const buckets=Array.from({length:MAX_DAYS},()=>[]);
-    const items=(Array.isArray(events)?events:[]).filter(item=>item&&/^\d{4}-\d{2}-\d{2}$/.test(item.date||'')).map(C.normalize)
+    const items=C.expand((Array.isArray(events)?events:[]).filter(item=>item&&/^\d{4}-\d{2}-\d{2}$/.test(item.date||'')),today,last)
       .sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)||(a.endDate+a.endTime).localeCompare(b.endDate+b.endTime));
     for(const event of items) {
       const start=event.allDay?`${event.date}T00:00`:`${event.date}T${event.time}`;
@@ -51,8 +51,8 @@
         return `<div class="calw-day">${e(row.tomorrow?`${t('Tomorrow')}, ${label}`:label)}</div>`;
       }
       const event=row.event,title=event.title.trim()||t('(No title)');
-      if(event.allDay)return `<button class="calw-all-day" data-action="widget-calendar-event" data-id="${e(event.id)}" aria-label="${e(title)}"><strong>${e(title)}</strong></button>`;
-      return `<button class="calw-event${row.inProgress?' in-progress':''}" data-action="widget-calendar-event" data-id="${e(event.id)}" aria-label="${e(title)}"><i class="calw-chip"></i><span><strong>${e(title)}</strong><small>${e(when(event,locale,hour24,row.multiDay))}</small>${event.location?`<small>${e(event.location)}</small>`:''}</span></button>`;
+      if(event.allDay)return `<button class="calw-all-day" data-action="widget-calendar-event" data-id="${e(event.id)}" data-date="${e(event.date)}" aria-label="${e(title)}"><strong>${e(title)}</strong></button>`;
+      return `<button class="calw-event${row.inProgress?' in-progress':''}" data-action="widget-calendar-event" data-id="${e(event.id)}" data-date="${e(event.date)}" aria-label="${e(title)}"><i class="calw-chip"></i><span><strong>${e(title)}</strong><small>${e(when(event,locale,hour24,row.multiDay))}</small>${event.location?`<small>${e(event.location)}</small>`:''}</span></button>`;
     }).join('');
     const weekday=now.toLocaleDateString(locale,{weekday:'short'}),date=now.toLocaleDateString(locale,{month:'short',day:'numeric'});
     return `<div class="calw" data-no-translate><button class="calw-header" data-action="widget-calendar-open" aria-label="${e(t('Calendar'))}"><span class="calw-weekday">${e(weekday)}</span><span class="calw-date">${e(date)}</span></button><div class="calw-list" data-widget-scroll>${list||`<button class="calw-empty" data-action="widget-calendar-open">${e(t('No upcoming calendar events'))}</button>`}</div></div>`;

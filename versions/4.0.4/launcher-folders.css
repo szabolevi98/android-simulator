@@ -23,7 +23,7 @@
 .folder-drop-target .app-icon:after{content:'';position:absolute;inset:-9px;background:url(assets/launcher-portal_ring_outer_holo.png) center/contain no-repeat;pointer-events:none;animation:folder-target 100ms ease-in-out}
 .folder-drop-target .app-icon{position:relative}
 .folder-drop-target .folder-preview-item .app-icon:after{display:none}
-.folder-reorder-target{background:#33b5e522;box-shadow:inset 0 -2px #33b5e5}
+
 .drag-source-icon,.drag-source-widget{visibility:hidden}
 .screen.dragging .launcher-folder{animation:none}
 .screen.dragging .launcher-folder-scrim{background:transparent}
