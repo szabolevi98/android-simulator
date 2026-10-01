@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#080b10">
+  <meta name="description" content="Interaktív Android 4.3 Jelly Bean szimulátor Galaxy Nexus stílusban.">
+  <title>Android 4.3 · Android Time Machine</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="stylesheet" href="style.css?v=1">
+  <link rel="stylesheet" href="play-store.css?v=1">
+  <link rel="stylesheet" href="messaging.css?v=1">
+  <link rel="stylesheet" href="people.css?v=1">
+  <link rel="stylesheet" href="browser.css?v=1">
+  <link rel="stylesheet" href="desk-clock.css?v=1">
+  <link rel="stylesheet" href="media.css?v=1">
+  <link rel="stylesheet" href="calendar.css?v=1">
+  <link rel="stylesheet" href="music.css?v=1">
+  <link rel="stylesheet" href="email.css?v=1">
+  <link rel="stylesheet" href="settings-detail.css?v=1">
+  <link rel="stylesheet" href="phone-call.css?v=1">
+  <link rel="stylesheet" href="settings-system.css?v=1">
+  <link rel="stylesheet" href="launcher-folders.css?v=1">
+  <link rel="stylesheet" href="lockscreen.css?v=1">
+  <link rel="stylesheet" href="widgets.css?v=1">
+  <script defer src="../../i18n.js?v=25"></script>
+  <script defer src="calculator-engine.js?v=1"></script>
+  <script defer src="play-store.js?v=1"></script>
+  <script defer src="media.js?v=1"></script>
+  <script defer src="messaging.js?v=1"></script>
+  <script defer src="people.js?v=1"></script>
+  <script defer src="browser-session.js?v=1"></script>
+  <script defer src="desk-clock.js?v=1"></script>
+  <script defer src="calendar.js?v=1"></script>
+  <script defer src="music.js?v=1"></script>
+  <script defer src="email.js?v=1"></script>
+  <script defer src="settings-detail.js?v=1"></script>
+  <script defer src="phone-call.js?v=1"></script>
+  <script defer src="settings-system.js?v=1"></script>
+  <script defer src="launcher-folders.js?v=1"></script>
+  <script defer src="lockscreen.js?v=1"></script>
+  <script defer src="widgets.js?v=1"></script>
+  <script defer src="transitions.js?v=1"></script>
+  <script defer src="beanbag.js?v=1"></script>
+  <script defer src="simulator.js?v=1"></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a href="../../" class="back-link"><span aria-hidden="true">←</span> <span data-i18n="VERSIONS">VERSIONS</span></a>
+      <div class="site-title">ANDROID <span>TIME MACHINE</span></div>
+      <div class="header-actions"><select id="language-select" aria-label="Language"><option value="en">EN</option><option value="hu">HU</option><option value="de">DE</option><option value="fr">FR</option><option value="es">ES</option></select><button id="power-button" type="button" title="Lock screen" aria-label="Lock screen">⏻</button><button id="reset-button" type="button" title="Reset data" aria-label="Reset data">↻</button></div>
+    </header>
+
+    <main class="workspace">
+      <section class="intro-panel" aria-labelledby="sim-title">
+        <span class="eyebrow"><span class="pulse"></span> <span data-i18n="02 / ANDROID TIMELINE">02 / ANDROID TIMELINE</span></span>
+        <h1 id="sim-title">Jelly<br><strong>Bean</strong></h1>
+        <p class="version-number">ANDROID 4.3 <span>·</span> <span data-i18n="GALAXY NEXUS ERA">GALAXY NEXUS ERA</span></p>
+        <p class="description" data-i18n="The stock Android experience of 2013, back in your hands. Pull down notifications and quick settings, swipe between home screens, open apps or find the hidden jelly beans.">The stock Android experience of 2013, back in your hands. Pull down notifications and quick settings, swipe between home screens, open apps or find the hidden jelly beans.</p>
+        <div class="key-list"><div><span class="key-icon">↔</span><span data-i18n="Swipe between home screens">Swipe between home screens</span></div><div><span class="key-icon">⌄</span><span data-i18n="Pull down notifications">Pull down notifications</span></div><div><span class="key-icon">⌂</span><span data-i18n="Home · Back · Recent apps">Home · Back · Recent apps</span></div></div>
+        <p class="offline-note" data-i18n="Calls, messages and websites are simulated. Your changes are saved in this browser.">Calls, messages and websites are simulated. Your changes are saved in this browser.</p>
+      </section>
+
+      <section class="device-area" aria-label="Android 4.3 simulator">
+        <div class="device" id="device">
+          <div class="volume-rocker" aria-hidden="true"></div><div class="power-key" aria-hidden="true"></div>
+          <div class="proximity-sensor" aria-hidden="true"></div><div class="earpiece" aria-hidden="true"></div><div class="front-camera" aria-hidden="true"></div>
+          <div class="screen" id="screen">
+            <div id="status-bar"></div>
+            <div id="viewport"></div>
+            <div id="nav-bar"></div>
+            <div id="overlay-root"></div>
+            <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="ics-drag-outline" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="grown"/><feComposite in="grown" in2="SourceAlpha" operator="out" result="edge"/><feGaussianBlur in="edge" stdDeviation="1.2" result="glow"/><feFlood flood-color="#33b5e5"/><feComposite in2="glow" operator="in" result="blue"/><feMerge><feMergeNode in="blue"/><feMergeNode in="blue"/></feMerge></filter><filter id="ics-tint-delete" color-interpolation-filters="sRGB"><feFlood flood-color="#ff0000" flood-opacity=".855"/><feComposite in2="SourceGraphic" operator="atop"/></filter><filter id="ics-tint-info" color-interpolation-filters="sRGB"><feFlood flood-color="#0099cc" flood-opacity=".855"/><feComposite in2="SourceGraphic" operator="atop"/></filter></svg>
+          </div>
+          <div class="device-chin" aria-hidden="true"></div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><span data-i18n="Browser simulator inspired by AOSP Android 4.3">Browser simulator inspired by AOSP Android 4.3</span><span data-i18n="Android is a trademark of Google.">Android is a trademark of Google.</span></footer>
+  </div>
+</body>
+</html>

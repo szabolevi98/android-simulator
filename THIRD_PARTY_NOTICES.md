@@ -111,3 +111,10 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 `calendar-stat_notify_calendar.png` is the unmodified [AOSP Calendar](https://github.com/aosp-mirror-neo/platform_packages_apps_calendar/tree/android-4.0.4_r2.1/res/drawable-hdpi) `stat_notify_calendar.png` at `android-4.0.4_r2.1`, Apache License 2.0.
 
 `ic_lockscreen_chevron_right.png`, `ic_lockscreen_unlock_activated.png`, `ic_lockscreen_camera_activated.png` and `ic_lockscreen_handle_pressed.png` are unmodified [AOSP framework drawable-hdpi](https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-4.0.4_r2.1/core/res/res/drawable-hdpi/) resources at `android-4.0.4_r2.1`, Apache License 2.0.
+
+## Android 4.3 Jelly Bean
+
+`versions/4.3/` begins as a copy of the 4.0.4 directory; the resources above apply to it too. Added resources from tag `android-4.3_r1.1`, Apache License 2.0:
+
+- `jb-platlogo.png` and `jb-platlogo_alt.png`: framework `core/res/res/drawable-nodpi/platlogo.png` and `platlogo_alt.png`, renamed.
+- `redbean0.png`, `redbean1.png`, `redbean2.png`, `redbeandroid.png` and `jandycane.png`: SystemUI `res/drawable-nodpi`, unmodified.

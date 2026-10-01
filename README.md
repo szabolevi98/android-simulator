@@ -1,6 +1,6 @@
 # Android Simulator
 
-An interactive browser simulator inspired by classic Android releases. Choose a version on the landing page; **Android 4.0.4 Ice Cream Sandwich** is currently available. Planned versions are Gingerbread 2.3.7, Jelly Bean 4.3, KitKat 4.4.4, and Lollipop 5.1.1.
+An interactive browser simulator inspired by classic Android releases. Choose a version on the landing page. **Android 4.0.4 Ice Cream Sandwich** is available, and **Android 4.3 Jelly Bean** is in progress. Planned versions are Gingerbread 2.3.7, KitKat 4.4.4, and Lollipop 5.1.1.
 
 ## Getting started
 
@@ -45,6 +45,16 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 This is a browser simulation, not an Android runtime. It cannot run APKs. Calls, web pages, camera, music, and email use local demo content and do not connect to real services.
 
 The simulator is **not yet a complete visual reproduction**. The launcher and SystemUI have been compared against Android 4.0.4 sources; several app interiors still use demo layouts. The [visual audit](docs/visual-audit.md) lists the verified changes, remaining differences, and browser checks. The default simulated carrier is Telekom; airplane mode displays the localized “No service.” label. Wi-Fi passwords are not saved.
+
+## Jelly Bean 4.3 (in progress)
+
+`versions/4.3/` starts from the ICS simulator and is being converted to Android 4.3 (Galaxy Nexus build JWR66Y, AOSP tag `android-4.3_r1.1`). It keeps its own saved data, separate from ICS. Done so far:
+
+- About phone reports Android 4.3, JWR66Y and a 4.3-era baseband/kernel (illustrative values).
+- Developer options are hidden, as from Android 4.2. Tapping Build number counts down from the fourth tap (“You are now 3 steps away…”) and unlocks the menu on the seventh. Later taps reply “No need, you are already a developer.”
+- The 4.3 easter egg: tap Android version three times quickly. The jelly bean (`platlogo_alt`) appears over the wallpaper; a tap shows the “Android 4.3 / JELLY BEAN” toast and the bean gets a face. Long-press opens the SystemUI **BeanBag**, with 40 color-tinted beans (and a rare candy cane) that drift and spin and can be grabbed and flung.
+
+Planned next: Jelly Bean notification shade and quick settings, GlowPad lock screen with Google Now and lock-screen widgets, resizable and auto-arranging launcher widgets, the 4.2 Clock and Camera, and 4.3 Settings. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
 
 ## Adding a version
 

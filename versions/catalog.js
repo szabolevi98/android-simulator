@@ -10,8 +10,17 @@ window.ANDROID_VERSIONS = [
     url: 'versions/4.0.4/',
     status: 'available'
   },
+  {
+    id: '4.3',
+    name: 'Jelly Bean',
+    version: 'Android 4.3',
+    year: '2013',
+    device: 'Galaxy Nexus · AOSP',
+    description: 'Project Butter, expandable notifications, quick settings, lock-screen widgets and the BeanBag.',
+    url: 'versions/4.3/',
+    status: 'available'
+  },
   { id: '2.3.7', name: 'Gingerbread', version: 'Android 2.3.7', year: '2011', device: 'Korabeli Android', status: 'planned' },
-  { id: '4.3', name: 'Jelly Bean', version: 'Android 4.3', year: '2013', device: 'Korabeli Android', status: 'planned' },
   { id: '4.4.4', name: 'KitKat', version: 'Android 4.4.4', year: '2014', device: 'Korabeli Android', status: 'planned' },
   { id: '5.1.1', name: 'Lollipop', version: 'Android 5.1.1', year: '2015', device: 'Korabeli Android', status: 'planned' }
 ];
