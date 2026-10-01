@@ -215,7 +215,7 @@
 .screen.dragging .home-slot,.screen.dragging .dock-slot{outline:none}
 .home-slot .launcher-icon{width:100%;height:100%;justify-content:center}
 .home-widget{z-index:1;min-width:0;min-height:0;display:grid;place-items:center;touch-action:none}
-.home-widget>button{width:100%;height:100%;border:0;background:transparent;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;padding:4px;text-shadow:0 2px 4px #000b}
+.home-widget>button,.drag-ghost.widget-ghost>button{width:100%;height:100%;border:0;background:transparent;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;padding:4px;text-shadow:0 2px 4px #000b}
 .home-widget>button span{font-size:12px}
 .home-widget>button small{font-size:10px;color:#d8e6e8}
 .home-widget .widget-time{font-size:39px;font-weight:300;letter-spacing:-.05em}
@@ -483,5 +483,5 @@ html,body{overscroll-behavior-y:none}
 .jb-toast{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);z-index:30;display:flex;flex-direction:column;align-items:center;padding:7px;pointer-events:none;color:#fff;text-shadow:0 2px 4px #0006;animation:toast-in .2s ease-out}
 .jb-toast span{font:300 23px Roboto,RobotoICS,sans-serif;margin-bottom:-4px}
 .jb-toast strong{font:700 18px Roboto,RobotoICS,sans-serif}
-.jb-beanbag .bean{position:absolute;left:0;top:0;transform-origin:center;will-change:transform;user-select:none;-webkit-user-drag:none;cursor:grab}
+.jb-beanbag .bean{position:absolute;left:0;top:0;transform-origin:center;will-change:transform;user-select:none;-webkit-user-drag:none;cursor:grab;pointer-events:auto;touch-action:none}
 @keyframes toast-in{from{opacity:0}}

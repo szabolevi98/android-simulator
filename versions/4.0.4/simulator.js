@@ -236,6 +236,9 @@
       const elapsed = performance.now() - activeTransition.start;
       ICSTransitions.play(viewport.firstElementChild, ICSTransitions.specs[activeTransition.name].enter, activeTransition.factor).forEach(animation => { animation.currentTime = elapsed; activeTransition.animations.push(animation); });
     }
+    if (ui.nyandroid && !viewport.querySelector('[data-nyandroid]')?.isSameNode(ui.nyandroid.root)) { ui.nyandroid.stop(); ui.nyandroid = null; }
+    const nyanRoot = viewport.querySelector('[data-nyandroid]');
+    if (nyanRoot && !ui.nyandroid) requestAnimationFrame(() => { if (nyanRoot.isConnected && !ui.nyandroid) ui.nyandroid = {...ICSNyandroid.start(nyanRoot), root: nyanRoot}; });
     if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
     if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
   }
@@ -572,7 +575,7 @@
     if (s === 'about-status') return appView('Status', `${row('Battery status', 'Discharging', 'noop', '')}${row('Battery level', '78%', 'noop', '')}${row('Network', carrierName(), 'noop', '')}${row('Signal strength', data.settings.airplane ? '0 dBm  99 asu' : '-75 dBm  19 asu', 'noop', '')}${row('Phone number', 'Unknown', 'noop', '')}${row('Wi-Fi MAC address', '02:00:00:40:04:01', 'noop', '')}${row('Bluetooth address', data.settings.bluetooth ? '02:00:00:40:04:02' : 'Unavailable', 'noop', '')}`, 'about-settings');
     if (s === 'about-legal') return appView('Legal information', `${row('Open source licenses', 'Android Open Source Project', 'noop', '')}${row('Google legal', 'Offline demonstration', 'noop', '')}`, 'about-settings');
     if (s === 'about-safety') return appView('Safety information', `<div class="detail-pad"><p>Galaxy Nexus safety information is not available in this offline simulation.</p></div>`, 'about-settings');
-    if (s === 'easter') return `<div class="easter-view">${ui.easterNyan ? `<div class="nyan-sky" data-action="back" role="button" tabindex="0" aria-label="Close Nyandroid">${Array.from({length:20}, (_, i) => `<span class="nyan-star" style="--x:${(i * 47) % 97}%;--y:${(i * 31) % 93}%;--delay:-${(i * 7) % 12 / 10}s"></span>`).join('')}${Array.from({length:20}, (_, i) => `<span class="nyan-cat" style="--top:${(i * 37) % 89}%;--delay:-${(i * 13) % 91 / 10}s;--duration:${5 + i % 6}s;--size:${58 + i % 4 * 18}px"></span>`).join('')}</div>` : '<button class="easter-robot" data-action="egg-nyan" aria-label="Android easter egg"><img src="assets/platlogo.png" alt="Ice Cream Sandwich Android"></button>'}</div>`;
+    if (s === 'easter') return `<div class="easter-view">${ui.easterNyan ? `<div class="nyan-sky" data-action="back" data-nyandroid role="button" tabindex="0" aria-label="Close Nyandroid"></div>` : '<button class="easter-robot" data-action="egg-nyan" aria-label="Android easter egg"><img src="assets/platlogo.png" alt="Ice Cream Sandwich Android"></button>'}</div>`;
     if (s === 'wireless') return appView('Wireless & networks', `${wirelessCheckRow('Airplane mode', '', 'airplane')}${wirelessRow('VPN', '', 'vpn')}${wirelessRow('Tethering & portable hotspot', '', 'tethering')}${wirelessCheckRow('NFC', 'Allow data exchange when the phone touches another device', 'nfc')}${wirelessRow('Android Beam', 'Ready to transmit app content via NFC', 'beam')}${wirelessCheckRow('WiFi direct', '', 'wifiDirect')}${wirelessRow('Mobile networks', '', 'mobile-networks')}`, 'wireless-more');
     if (s === 'beam') return appView('Android Beam', `${wirelessCheckRow('Android Beam', 'Ready to transmit app content via NFC', 'androidBeam')}`, 'wireless-more');
     if (s === 'brightness') return appView('Brightness', `<div class="detail-pad"><h3>Brightness</h3><input type="range" min="10" max="100" value="${data.settings.brightness}" data-field="brightness" aria-label="Brightness"><p>${data.settings.brightness}%</p></div>`);
@@ -1688,7 +1691,12 @@
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, 550);
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     else if (ui.view === 'lock' && !ui.locked && event.target.closest('.lock-wave')) lockPing();
-    if (event.target.closest('.easter-robot')) eggTimer = setTimeout(() => { event.target.closest('.easter-robot')?.classList.add('expanding'); eggTimer = setTimeout(() => { ui.easterNyan = true; render(); }, 1100); }, 850);
+    // PlatLogoActivity: the logo jumps to 1.25x, 2x, 3.25x and 5x (no tweening), then Nyandroid starts.
+    if (event.target.closest('.easter-robot')) {
+      const robot = event.target.closest('.easter-robot'); let count = 0;
+      const zoom = () => { count++; if (data.settings.haptic !== false) navigator.vibrate?.(50 * count); robot.style.transform = `scale(${ICSNyandroid.zoomScale(count)})`; if (count <= 3) eggTimer = setTimeout(zoom, ICSNyandroid.LONG_PRESS); else requestAnimationFrame(() => { ui.easterNyan = true; render(); }); };
+      eggTimer = setTimeout(zoom, 2 * ICSNyandroid.LONG_PRESS);
+    }
     if (ui.view === 'calculator' && !ui.overlay && event.target.closest('.calc-pager')) pointerStart.calculatorSwipe = true;
     if (event.target.closest('.ics-calc-delete button')) calculatorClearTimer = setTimeout(() => { operateCalculator('C'); suppressClickUntil = Date.now() + 350; render(); }, 600);
     if (ui.view === 'home' && !ui.overlay) pointerStart.photoStack = event.target.closest('[data-photo-stack]')?.dataset.photoStack || '';

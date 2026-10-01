@@ -129,3 +129,8 @@ Limits:
 - On short screens the challenge is capped so the clock stays visible.
 
 ![PIN, wrong pattern, password with IME, challenge slid down, bouncer](screenshots/jb-keyguard-secure.png)
+
+## Owner-reported fixes — 2026-10-01
+
+- **BeanBag.** Beans could not be grabbed: the global `.screen img{pointer-events:none}` rule also applied to the bean images, so touches reached the board instead. Beans now take pointer events (and `touch-action:none`). As in BeanBag.java, a held bean follows the finger. Its velocity is smoothed (0.75 old + 0.25 new), it keeps flying after release, and it spins in proportion to the release speed. Headless Chrome confirmed this with both mouse and touch.
+- **Folder background and analog clock drag ghost.** The ICS fixes apply here too; see the ICS audit.

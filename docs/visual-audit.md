@@ -363,3 +363,18 @@ Checks: headless Chrome with real mouse input: chevron ping on show, free 2D tra
 
 Limits: no wave ripple (a Jelly Bean GlowPadView feature), no real vibration pattern control, no transport on pattern/PIN/password screens and no album artwork beyond the Music placeholder.
 
+
+## Owner-reported fixes — 2026-10-01
+
+- **Folder background.** `launcher-portal_container_holo.9.png` was drawn with one 18 px slice on every side, so the black top guide pixels of the nine-patch were stretched into a dark line above the folder. The guides are now stripped (`launcher-portal_container_holo.png`), and the border image uses the real stretch regions: 21 px top, 30 px bottom, 18 px left and right.
+- **Moving the analog clock.** The drag ghost reused the widget's button without the home-widget button rules. It fell back to the browser's grey button, about 8 px wide. The ghost button now fills the span outline.
+- **Easter egg.** References: [PlatLogoActivity.java](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.0.4_r2.1/core/java/com/android/internal/app/PlatLogoActivity.java) and [Nyandroid.java](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.0.4_r2.1/packages/SystemUI/src/com/android/systemui/Nyandroid.java).
+  - The logo is the nodpi `platlogo` at device size (100 × 120 CSS px). Holding it no longer zooms smoothly: after 1 s it jumps to 1.25×, then every 500 ms to 2×, 3.25× and 5× (1 + 0.25n²), vibrating 50·n ms each time. Nyandroid starts after the fourth step.
+  - Nyandroid is now driven like the TimeAnimator board. There are 20 cats at depth z = (i/20)², with scale 0.1–2× of the 320 px nodpi frame and speed 100–1000 px/s. They re-enter at the left edge at a random height. Twenty fixed stars at scale 0.1–1× use the 200 ms `star_anim` frames.
+  - Frames 1–5 of the stars had been saved as blank copies of frame 0 and are now the AOSP files.
+- **Play Store icon.** The project-drawn bag is wider and squatter, closer to the 2012 launcher icon (the original is a Google asset and is not redistributed).
+- **Checked and kept.**
+  - **Lock-screen clock.** It is right-aligned because ICS does it: `keyguard_screen_tab_unlock.xml` places the DigitalClock, date and status line with `layout_gravity="right"` and `keyguard_lockscreen_status_line_font_right_margin`.
+  - **No digital clock widget.** ICS has none: the 4.0.4 DeskClock manifest declares only `AnalogAppWidgetProvider`. `DigitalAppWidgetProvider` arrives in 4.2, which is why the 4.3 simulator has it.
+
+Checks: `nyandroid.test.cjs`; headless Chrome for the folder crop, an analog clock drag (lifted, over a new cell, dropped) on ICS and 4.3, the zoom steps at 1.1 s, 1.6 s and 2.1 s, and the Nyandroid board (20 cats, 20 stars, largest about 290 px). No JavaScript errors.

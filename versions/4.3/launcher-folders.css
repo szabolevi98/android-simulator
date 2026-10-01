@@ -10,7 +10,7 @@
 .dock .launcher-icon .folder-preview-item,.dock .launcher-icon .folder-preview-item .app-icon{display:block}
 .launcher-folder-scrim{position:absolute;inset:24px 0 47px;z-index:19;background:#0003}
 .launcher-folder{position:absolute;z-index:20;max-width:calc(100% - 16px);max-height:calc(100% - 94px);display:flex;flex-direction:column;padding:12px;isolation:isolate;transform-origin:var(--folder-origin,50% 80%);color:#fff}
-.launcher-folder:before{content:'';position:absolute;inset:0;z-index:-1;border:18px solid transparent;border-image:url(assets/launcher-portal_container_holo.9.png) 18 fill / 18px;clip-path:inset(1px);pointer-events:none}
+.launcher-folder:before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:21px 18px 30px;border-image:url(assets/launcher-portal_container_holo.png) 21 18 30 fill / 21px 18px 30px;pointer-events:none}
 .launcher-folder-grid{display:grid;grid-template-columns:repeat(var(--folder-columns),minmax(0,1fr));overflow-y:auto;min-height:0;overscroll-behavior:contain;scrollbar-width:none;touch-action:none}
 .launcher-folder-cell{height:82px;min-width:0;display:grid;place-items:center}
 .launcher-folder-cell>.launcher-icon{width:100%;height:100%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:5px 2px}

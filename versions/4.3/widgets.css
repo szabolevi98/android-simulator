@@ -83,3 +83,4 @@
 .drag-ghost.widget-span-ghost{display:grid;place-items:stretch;opacity:.85;text-shadow:none;transform:none}
 .drag-ghost.widget-span-ghost .widget-preview-image{width:100%;height:100%;object-fit:contain}
 .drag-ghost.widget-span-ghost.widget-music{place-items:center stretch}
+.drag-ghost.widget-span-ghost>button{position:absolute;inset:0;width:auto;height:auto}

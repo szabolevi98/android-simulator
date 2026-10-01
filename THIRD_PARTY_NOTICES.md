@@ -87,7 +87,7 @@ The unmodified `phone-*.png` images come from [AOSP Phone, android-4.0.4_r2.1](h
 
 ### Launcher folders
 
-The unmodified `launcher-portal_container_holo.9.png`, `launcher-portal_ring_inner_holo.png` and `launcher-portal_ring_outer_holo.png` images come from [AOSP Launcher2, android-4.0.4_r2.1](https://android.googlesource.com/platform/packages/apps/Launcher2/+/android-4.0.4_r2.1/res/drawable-hdpi/). Copyright The Android Open Source Project; Apache License 2.0. The browser approximates Android's nine-patch rendering with CSS border images.
+The `launcher-portal_container_holo.png` (nine-patch guide border removed), `launcher-portal_ring_inner_holo.png` and `launcher-portal_ring_outer_holo.png` images come from [AOSP Launcher2, android-4.0.4_r2.1](https://android.googlesource.com/platform/packages/apps/Launcher2/+/android-4.0.4_r2.1/res/drawable-hdpi/). Copyright The Android Open Source Project; Apache License 2.0. The browser approximates Android's nine-patch rendering with CSS border images.
 
 ### Credential lock artwork
 
