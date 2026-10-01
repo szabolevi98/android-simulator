@@ -215,15 +215,15 @@
 .lock-time{margin:0;font-size:71px;font-weight:300;letter-spacing:-.055em;line-height:1;color:#f3f5f5}
 .lock-date{margin-top:2px;font-size:15px;color:#e5e9ea}
 .lock-wave{position:absolute;left:0;right:0;bottom:20px;height:240px;touch-action:none}
-.lock-outer-ring{position:absolute;left:calc(50% - 135px);bottom:-47px;width:270px;height:270px;border:2px solid #ffffff1a;border-radius:50%;opacity:0;transition:opacity .2s}
+.lock-outer-ring{position:absolute;left:calc(50% - 112px);bottom:-24px;width:224px;height:224px;border:2px solid #ffffff1a;border-radius:50%;opacity:0;transition:opacity 1.2s linear .2s}
 .lock-target,.lock-handle{position:absolute;border:0;background:transparent;padding:0;width:108px;height:108px;display:grid;place-items:center;touch-action:none}
 .lock-target img,.lock-handle img{width:108px;height:108px;object-fit:contain;pointer-events:none}
-.lock-target{bottom:34px;opacity:0;pointer-events:none;transition:opacity .2s}
+.lock-target{bottom:34px;opacity:0;pointer-events:none;transition:opacity 1.2s linear .2s}
 .lock-target-unlock{left:calc(50% + 58px)}
 .lock-target-camera{left:calc(50% - 166px)}
-.lock-handle{left:calc(50% - 54px);bottom:34px;transform:translateX(var(--lock-x,0px));transition:transform .22s ease-out;cursor:grab}
+.lock-handle{left:calc(50% - 54px);bottom:34px;transform:translate(var(--lock-x,0px),var(--lock-y,0px));transition:none;cursor:grab;z-index:2}
 .screen.lock-dragging .lock-handle{transition:none;cursor:grabbing}
-.screen.lock-dragging .lock-outer-ring,.screen.lock-dragging .lock-target{opacity:1}
+.screen.lock-dragging .lock-outer-ring,.screen.lock-dragging .lock-target{opacity:1;transition:none}
 .lock-carrier{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#b9c1c2;font-size:13px}
 .screen.large-text .settings-app .settings-row{font-size:16px}
 .screen.large-text .settings-app .row-copy small{font-size:13px}
@@ -475,3 +475,24 @@ html,body{overscroll-behavior-y:none}
 .screen.dragging-from-drawer .info-drop-target{display:flex}
 .drag-ghost.tint-delete{filter:url(#ics-tint-delete) drop-shadow(0 9px 7px #0009)}
 .drag-ghost.tint-info{filter:url(#ics-tint-info) drop-shadow(0 9px 7px #0009)}
+/* MultiWaveView states: activated target/handle drawables, return-to-home and chevron feedback. */
+.lock-target,.lock-handle{isolation:isolate}
+.lock-target .lock-activated,.lock-handle .lock-activated{position:absolute;inset:0;opacity:0}
+.lock-target.active .lock-activated{opacity:1}
+.lock-target.active img:not(.lock-activated){opacity:0}
+.screen.lock-dragging .lock-handle .lock-activated{opacity:1}
+.lock-handle.over-target{opacity:0}
+.screen.lock-releasing .lock-handle{transition:transform .3s cubic-bezier(.165,.84,.44,1)}
+.lock-target.dismissed,.lock-outer-ring.dismissed{opacity:0!important;transition:none!important}
+.lock-chevron{position:absolute;left:50%;bottom:88px;width:12px;height:46px;margin:0 0 -23px -6px;opacity:0;pointer-events:none;transform-origin:center}
+/* keyguard_transport_control.xml: album art (centerCrop) with the track line and media keys at its bottom. */
+.lock-transport{position:absolute;top:0;left:0;right:0;height:196px;z-index:1;overflow:hidden}
+.lock-transport-art{position:absolute;inset:0;background:#000 url('assets/music-albumart_mp_unknown.png') center/cover no-repeat}
+.lock-transport-bar{position:absolute;left:0;right:0;bottom:0;padding-top:7px;background:linear-gradient(#0000,#000a 30%)}
+.lock-transport-bar p{margin:0 14px;color:#ffffff7f;font-size:16px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lock-transport-bar p span{color:#fff}
+.lock-transport-bar div{display:flex;margin-top:4px}
+.lock-transport-bar button{flex:1;border:0;background:none;padding:9px;display:grid;place-items:center}
+.lock-transport-bar button:active{background:#33b5e566}
+.lock-transport-bar img{width:29px;height:29px}
+.lock-view.with-transport .lock-clock{visibility:hidden}

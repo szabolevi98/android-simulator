@@ -109,3 +109,5 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 `launcher-ic_launcher_clear_{normal,active}_holo.png` and `launcher-ic_launcher_info_{normal,active}_holo.png` are unmodified [AOSP Launcher2 drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_launcher2/tree/android-4.0.4_r2.1/res/drawable-hdpi) resources at `android-4.0.4_r2.1`, Apache License 2.0.
 
 `calendar-stat_notify_calendar.png` is the unmodified [AOSP Calendar](https://github.com/aosp-mirror-neo/platform_packages_apps_calendar/tree/android-4.0.4_r2.1/res/drawable-hdpi) `stat_notify_calendar.png` at `android-4.0.4_r2.1`, Apache License 2.0.
+
+`ic_lockscreen_chevron_right.png`, `ic_lockscreen_unlock_activated.png`, `ic_lockscreen_camera_activated.png` and `ic_lockscreen_handle_pressed.png` are unmodified [AOSP framework drawable-hdpi](https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-4.0.4_r2.1/core/res/res/drawable-hdpi/) resources at `android-4.0.4_r2.1`, Apache License 2.0.

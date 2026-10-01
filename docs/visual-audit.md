@@ -351,3 +351,15 @@ Checks: `calendar-recurrence.test.cjs` covers every rule, last-weekday, leap yea
 
 Limits: no custom recurrence (interval, count or chosen weekdays), multiple reminders, e-mail reminders, snooze dialog or background delivery. Editing a whole series from a later instance shifts the series by the same number of days.
 
+## Lock screen MultiWaveView and music controls — 2026-10-01
+
+References at `android-4.0.4_r2.1`: [MultiWaveView.java](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.0.4_r2.1/core/java/com/android/internal/widget/multiwaveview/MultiWaveView.java), [keyguard_screen_tab_unlock.xml](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.0.4_r2.1/core/res/res/layout/keyguard_screen_tab_unlock.xml), [keyguard_transport_control.xml](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.0.4_r2.1/core/res/res/layout/keyguard_transport_control.xml) and [TransportControlView.java](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.0.4_r2.1/core/java/com/android/internal/widget/TransportControlView.java).
+
+- The handle now moves in two dimensions, limited to the ring. Targets sit on the ring (the ring uses the original 2dp `#1affffff` stroke). Within the 60dp hit radius the handle snaps to a target, the `ic_lockscreen_*_activated` artwork appears and the handle hides. A 20 ms vibration fires on supporting browsers when Haptic feedback is enabled. Releasing on a target hides the others and triggers it.
+- Releasing elsewhere returns the handle in 300 ms with Quart ease-out; targets fade after 200 ms over 1200 ms. Then three right chevrons (`ic_lockscreen_chevron_right`, 160 ms apart, 850 ms Quad ease-out, scale 0.5→2, fading) point to unlock. The same ping runs when the keyguard appears or a touch misses the handle; grabbing the handle stops it. The pressed handle uses `ic_lockscreen_handle_pressed`.
+- While Music is active (playing, or paused with a position), the transport control covers the clock rows. It shows the default album art, “title - artist - album” with the title in white and the rest at 50% white, and previous/play-pause/next. These keys control playback without unlocking, and the view follows track changes.
+
+Checks: headless Chrome with real mouse input: chevron ping on show, free 2D tracking, release-and-return, camera activation, crossing to the unlock target, unlocking, and transport display and keys while locked; the touch suite still passes. All sixteen Node test files passed.
+
+Limits: no wave ripple (a Jelly Bean GlowPadView feature), no real vibration pattern control, no transport on pattern/PIN/password screens and no album artwork beyond the Music placeholder.
+
