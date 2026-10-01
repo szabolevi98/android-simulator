@@ -94,3 +94,38 @@ Each JB-specific screen was checked in English, Hungarian, German, French and Sp
 - Known false positives:
   - French Email shows “Agenda” as a sender name.
   - At 320 px the GlowPad's invisible right-hand target box (108dp, opacity 0 at rest) sits 4 px past the edge. AOSP sizes the GlowPad in dp and crops it the same way on narrow screens.
+
+## Secure keyguard: pattern, PIN and password — 2026-10-01
+
+References (tag `android-4.3_r1.1`): framework [keyguard_host_view.xml (port)](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.3_r1.1/core/res/res/layout-port/keyguard_host_view.xml), [keyguard_pattern_view.xml](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.3_r1.1/core/res/res/layout/keyguard_pattern_view.xml), [keyguard_pin_view.xml](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.3_r1.1/core/res/res/layout/keyguard_pin_view.xml), [keyguard_password_view.xml](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.3_r1.1/core/res/res/layout/keyguard_password_view.xml), `keyguard_emergency_carrier_area.xml`, `keyguard_message_area.xml`, `values/dimens.xml`, `values/styles.xml`, `values/arrays.xml`; `policy/.../keyguard/` [SlidingChallengeLayout.java](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.3_r1.1/policy/src/com/android/internal/policy/impl/keyguard/SlidingChallengeLayout.java), `KeyguardViewStateManager.java`, `KeyguardSecurityViewHelper.java`, `KeyguardMessageArea.java`, `KeyguardPatternView.java`, `KeyguardWidgetPager.java`, `KeyguardWidgetFrame.java`, `KeyguardHostView.java`, `NumPadKey.java`; `core/java/.../LockPatternView.java`.
+
+- **Layout.** Pattern, PIN and password locks now use the 4.3 KeyguardHostView instead of the ICS screens. The widget pager (clock, user widgets, music transport, camera) stays on top, and the KeyguardSecurityContainer (320 × 400dp max, 8dp top margin) is pinned to the bottom. While it is up, the current widget shrinks to `kg_small_widget_height` (160dp).
+- **Sliding.** To slide the challenge down, drag across its top edge or start above it and pull down. The 64dp expand handle (`kg_security_lock`) then fades in (250 ms, quadratic). Tapping or dragging the handle brings the challenge back. Opacity follows (offset − 1)³ + 1, and settling uses the quintic ease-out. Duration is (distance ratio + 1) × 100 ms, or 4 × distance / velocity after a fling, capped at 600 ms.
+- **Paging.** With the challenge up, only swipes that start in the 24dp edge strips page the widgets, even over the challenge (`dispatchTouchEvent`). Paging fades the challenge out in 100 ms. It fades back in (160 ms) only if the page did not change; otherwise it stays down.
+- **Bouncer.** Tapping a widget (calendar), the **+** page or the camera page while locked shows the bouncer:
+  - a #99000000 scrim covers the pager;
+  - the current page zooms to 0.67 (250 ms, decelerate 1.5);
+  - the carrier/emergency area fades out;
+  - the `kg_bouncer_bg_white` corner frame fades in.
+
+  Tapping the scrim or pressing Back dismisses it. After a correct entry the pending action runs: Calendar or the event opens, the camera opens, or the widget picker appears and then the device locks again with the new widget.
+- **Message area.** As in KeyguardMessageArea, the instructions (“Draw your pattern”, “Enter PIN”) are not shown. The line shows the owner info, then “Wrong Pattern / Wrong PIN / Wrong Password” for 5 seconds, or “Try again in N seconds.” during the 30-second lockout. Owner info also moved out of the clock page into the selector's message area on the slide lock.
+- **Views.**
+  - **Pattern:** LockPatternView inside the bouncer frame, white path at alpha 128 and 5% of a cell wide; a wrong pattern clears after 2 s.
+  - **PIN:** NumPadKey rows with the “klondike” letters (ABC … WXYZ, 20dp condensed at 50% white), a password-dotted entry with `ic_input_delete`, a `#55FFFFFF` divider and `sym_keyboard_return_holo`.
+  - **Password:** a #70000000 strip with 36sp text between two spacers, with the simulator keyboard below as the IME.
+  - All three have the carrier line and the Emergency call button.
+- **Unchanged checks.** Hashing, attempt counting and lockout are the existing simulator logic; only the surface is new.
+
+Checks:
+- `jb-challenge.test.cjs`: alpha and settle timing, fling direction, message priorities, view markup, lockout disabling, and the controller skin with a wrong and then a correct PIN.
+- Headless Chrome, 390 × 760 and 320 × 568, in en/hu/de/fr/es, for all three lock types: wrong entry and message, drag down, handle visible and tap up, edge swipe to the calendar widget, tap → bouncer at 0.67 scale, then the correct code opens Calendar.
+- The slide-lock GlowPad suite still passes. No JavaScript errors.
+
+Limits:
+- The camera page asks for the bouncer instead of opening the 4.2 secure camera.
+- The widget frame does not track the challenge top pixel by pixel while dragging; it shows the outline and switches size when the challenge settles.
+- Face Unlock, SIM PIN/PUK and the account-unlock fallback after 20 failures are not simulated.
+- On short screens the challenge is capped so the clock stays visible.
+
+![PIN, wrong pattern, password with IME, challenge slid down, bouncer](screenshots/jb-keyguard-secure.png)

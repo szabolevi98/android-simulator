@@ -851,7 +851,17 @@
     ['Sent mail','Elküldött levelek','Gesendete E-Mails','Messages envoyés','Correo enviado'],
     ['No sent messages','Nincsenek elküldött levelek','Keine gesendeten Nachrichten','Aucun message envoyé','No hay mensajes enviados'],
     ['Demo email sent','Mintalevél elküldve','Demo-E-Mail gesendet','E-mail de démonstration envoyé','Correo de demostración enviado'],
-    ['Reset all local ICS simulator data?','Visszaállítod az ICS szimulátor összes helyi adatát?','Alle lokalen ICS-Simulatordaten zurücksetzen?','Réinitialiser toutes les données locales du simulateur ICS ?','¿Restablecer todos los datos locales del simulador ICS?']
+    ['Reset all local ICS simulator data?','Visszaállítod az ICS szimulátor összes helyi adatát?','Alle lokalen ICS-Simulatordaten zurücksetzen?','Réinitialiser toutes les données locales du simulateur ICS ?','¿Restablecer todos los datos locales del simulador ICS?'],
+    ['Wrong Pattern','Helytelen minta','Falsches Muster','Schéma incorrect','Patrón incorrecto'],
+    ['Wrong PIN','Helytelen PIN-kód','Falsche PIN','Code PIN incorrect','PIN incorrecto'],
+    ['Wrong Password','Helytelen jelszó','Falsches Passwort','Mot de passe incorrect','Contraseña incorrecta'],
+    ['Try again in %d seconds.','Próbáld újra %d másodperc múlva.','In %d Sekunden erneut versuchen.','Réessayez dans %d secondes.','Vuelve a intentarlo en %d segundos.'],
+    ['Expand unlock area.','Feloldási terület kibontása.','Entsperrbereich maximieren.','Développer la zone de déverrouillage.','Ampliar área de desbloqueo.'],
+    ['Pattern unlock.','Feloldás mintával.','Entsperrung mit Muster.','Déverrouillage par schéma.','Desbloqueo por patrón.'],
+    ['PIN unlock.','Feloldás PIN-kóddal.','Entsperrung mit PIN.','Déverrouillage par code PIN.','Desbloqueo por PIN.'],
+    ['Password unlock.','Feloldás jelszóval.','Entsperrung mit Passwort.','Déverrouillage par mot de passe.','Desbloqueo por contraseña.'],
+    ['Pattern area.','Mintaterület.','Bereich für Muster','Zone du schéma','Área de patrón'],
+    ['Enter','Enter','Eingabe','Entrée','Intro'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;

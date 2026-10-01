@@ -177,7 +177,9 @@
   const carrierName = () => data.settings.airplane ? i18n.t('No service.') : safe(data.settings.networkOperator||'Telekom');
   let lastActivity=Date.now();
   for(const name of ['pointerdown','keydown','input','wheel'])document.addEventListener(name,()=>{lastActivity=Date.now();},{passive:true,capture:true});
-  const lockControls=ICSLockscreen.controller({getData:()=>data,getUI:()=>ui,t:key=>i18n.t(key),save,render,clock,date:fullDate,carrier:()=>data.settings.airplane?i18n.t('No service.'):data.settings.networkOperator||'Telekom',toast,unlock:()=>{ui.locked=false;ui.sleeping=false;home(false);}});
+  const lockControls=ICSLockscreen.controller({getData:()=>data,getUI:()=>ui,t:key=>i18n.t(key),save,render,clock,date:fullDate,carrier:()=>data.settings.airplane?i18n.t('No service.'):data.settings.networkOperator||'Telekom',toast,unlock:()=>{ui.locked=false;ui.sleeping=false;const pending=ui.kgPending;ui.kgPending=null;ui.kgBouncing=false;ui.kgUp=true;home(false);if(pending)afterKeyguardDismiss(pending);},
+    // Android 4.3 security views (KeyguardPatternView/PINView/PasswordView) inside the SlidingChallengeLayout.
+    look:{wrong:kind=>JBKeyguard.WRONG[kind],clearMs:JBKeyguard.S.clear,message:({state,remaining})=>JBKeyguard.securityMessage({error:state.error,errorAt:state.errorAt,remaining,owner:data.settings.showOwner?data.settings.ownerInfo:''},key=>i18n.t(key)),renderLock:api=>renderSecureKeyguard(api)}});
   ui.locked=ICSLockscreen.secure(data);if(ui.locked)ui.view='lock';lockControls.lock();lockControls.bind(screen);
   const statusIndicators = () => `<span class="status-right">${data.settings.bluetooth ? '<img class="status-bluetooth" src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.wifi && data.settings.wifiNetwork ? '<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="">' : ''}<img src="assets/${data.settings.airplane ? 'stat_sys_signal_flightmode' : 'stat_sys_signal_4_fully'}.png" alt=""><img class="status-battery" src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
 
@@ -224,6 +226,7 @@
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav();
     if (ui.view !== 'lock' && ui.kgPad) { ui.kgPad.destroy(); ui.kgPad = null; }
+    if (ui.view !== 'lock' && ui.kgChallenge) { ui.kgChallenge.destroy(); ui.kgChallenge = null; }
     if (ui.view === 'lock') { viewport.innerHTML = renderLock(); attachKeyguard(); }
     else if (ui.view === 'home') { viewport.innerHTML = renderHome(); restoreWidgetScroll(); }
     else if (ui.view === 'drawer') viewport.innerHTML = renderDrawer();
@@ -252,7 +255,7 @@
       list.scrollTop = ui.widgetScroll[id] || 0;
     });
   }
-  function lockScreen(){captureRecentView();lockControls.lock();ui.locked=ICSLockscreen.secure(data);ui.sleeping=data.settings.screenLock==='none';ui.view=ui.sleeping?'home':'lock';ui.overlay='';render();}
+  function lockScreen(){captureRecentView();lockControls.lock();ui.kgUp=true;ui.kgBouncing=false;ui.kgPending=null;ui.kgRelock=false;ui.locked=ICSLockscreen.secure(data);ui.sleeping=data.settings.screenLock==='none';ui.view=ui.sleeping?'home':'lock';ui.overlay='';render();}
   /* MultiWaveView (keyguard_screen_tab_unlock): targets sit on the ring (radius 135dp), the handle follows the
      finger inside it and snaps to a target within the 60dp hit radius. Release elsewhere returns the handle in
      300 ms (Quart ease-out), fades the targets after 200 ms over 1200 ms, then pings the right chevrons
@@ -313,17 +316,25 @@
   }
   function renderLock() {
     if(ui.locked)return lockControls.renderLock();
+    const {list, parts} = keyguardParts();
+    return JBKeyguard.render(list, ui.kgPage, parts);
+  }
+  function renderSecureKeyguard(api) {
+    const {list, parts} = keyguardParts();
+    return JBKeyguard.renderSecure(list, ui.kgPage, {...parts, up: ui.kgUp !== false, bouncing: !!ui.kgBouncing, security: JBKeyguard.securityView(api, parts), ime: api.state.kind === 'password' ? api.keyboard() : ''});
+  }
+  function keyguardParts() {
     // TransportControlView covers the clock rows while the Music service is active.
     const track = tracks[ui.music.track], transport = musicActive() ? `<div class="lock-transport" data-no-translate><div class="lock-transport-art"></div><div class="lock-transport-bar"><p><span>${safe(track.title)}</span> - ${safe(track.artist)} - ${safe(track.album)}</p><div><button data-action="lock-media" data-id="previous" aria-label="${safe(i18n.t('Previous track'))}"><img src="assets/music-ic_media_previous.png" alt=""></button><button data-action="lock-media" data-id="play" aria-label="${safe(i18n.t(ui.music.playing ? 'Pause' : 'Play'))}"><img src="assets/music-ic_media_${ui.music.playing ? 'pause' : 'play'}.png" alt=""></button><button data-action="lock-media" data-id="next" aria-label="${safe(i18n.t('Next track'))}"><img src="assets/music-ic_media_next.png" alt=""></button></div></div></div>` : '';
     const kgPages = JBKeyguard.pages(data.keyguardWidgets || [], {music: musicActive()});
     if (!Number.isInteger(ui.kgPage) || ui.kgPage >= kgPages.length || kgPages[ui.kgPage]?.type === 'camera') ui.kgPage = JBKeyguard.defaultPage(kgPages);
     const now = deviceDate(), hour24 = !!data.settings.hour24;
-    return JBKeyguard.render(kgPages, ui.kgPage, {
-      t: key => i18n.t(key), carrier: carrierName(), owner: data.settings.showOwner ? data.settings.ownerInfo : '', alarm: nextAlarmLabel(),
+    return {list: kgPages, parts: {
+      t: key => i18n.t(key), carrier: data.settings.airplane ? i18n.t('No service.') : data.settings.networkOperator || 'Telekom', owner: data.settings.showOwner ? data.settings.ownerInfo : '', alarm: nextAlarmLabel(),
       clock: now.toLocaleTimeString(i18n.locale(), {hour: hour24 ? '2-digit' : 'numeric', minute: '2-digit', hour12: !hour24}).replace(/\s?[AaPp]\.?\s?[Mm]\.?$/, ''),
       ampm: hour24 ? '' : now.getHours() < 12 ? 'AM' : 'PM', date: now.toLocaleDateString(i18n.locale(), {weekday: 'long', month: 'long', day: 'numeric'}).toLocaleUpperCase(i18n.locale()),
       transport: transport.replace('class="lock-transport"', 'class="lock-transport jbk-transport-view"'), widget: keyguardWidget
-    });
+    }};
     return `<div class="lock-view${transport ? ' with-transport' : ''}">${transport}<div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${fullDate()}</div>${data.settings.showOwner?`<div class="lock-owner">${safe(data.settings.ownerInfo)}</div>`:''}</div><div class="lock-wave"><div class="lock-outer-ring"></div><button class="lock-target lock-target-unlock" data-action="unlock" aria-label="Unlock"><img src="assets/ic_lockscreen_unlock_normal.png" alt=""><img class="lock-activated" src="assets/ic_lockscreen_unlock_activated.png" alt=""></button><button class="lock-target lock-target-camera" data-action="unlock-camera" aria-label="Camera"><img src="assets/ic_lockscreen_camera_normal.png" alt=""><img class="lock-activated" src="assets/ic_lockscreen_camera_activated.png" alt=""></button>${[0,1,2].map(() => '<img class="lock-chevron" src="assets/ic_lockscreen_chevron_right.png" alt="">').join('')}<button class="lock-handle" data-action="lock-hint" aria-label="Slide to unlock"><img src="assets/ic_lockscreen_handle_normal.png" alt=""><img class="lock-activated" src="assets/ic_lockscreen_handle_pressed.png" alt=""></button></div><div class="lock-carrier">${carrierName()}</div></div>`;
   }
   // Keyguard-capable widgets: the Calendar list and the 4.2 DeskClock digital clock.
@@ -332,15 +343,38 @@
     const now = deviceDate();
     return `<div class="jbk-digital"><div class="jbk-digital-time">${safe(now.toLocaleTimeString(i18n.locale(), {hour: data.settings.hour24 ? '2-digit' : 'numeric', minute: '2-digit', hour12: !data.settings.hour24}))}</div><div class="jbk-digital-date">${safe(now.toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'short', day: 'numeric'}).toLocaleUpperCase(i18n.locale()))}${nextAlarmLabel() ? ` <img src="assets/jb-ic_lock_idle_alarm.png" alt="">${safe(nextAlarmLabel())}` : ''}</div></div>`;
   }
+  function requestBouncer(pending) {
+    ui.kgPending = pending;
+    if (ui.kgChallenge) ui.kgChallenge.showBouncer(); else { ui.kgBouncing = true; render(); }
+  }
+  // OnDismissAction: what the widget asked for once the security check passes.
+  function afterKeyguardDismiss(pending) {
+    if (pending.type === 'add') { ui.kgRelock = true; ui.overlay = 'kg-widget-picker'; renderOverlay(); return; }
+    if (pending.type === 'camera') { openApp('camera'); return; }
+    const event = pending.id && data.events.find(item => String(item.id) === pending.id);
+    if (!event) { ui.selectedDate = today(); openApp('calendar'); return; }
+    const date = pending.date || event.date; ui.selectedDate = date < today() ? today() : date; openApp('calendar'); ui.selectedEvent = event.id; ui.selectedInstance = date; ui.sub = 'event'; render();
+  }
   function attachKeyguard() {
-    ui.kgPad?.destroy(); ui.kgPad = null;
+    ui.kgPad?.destroy(); ui.kgPad = null; ui.kgChallenge?.destroy(); ui.kgChallenge = null;
     const root = viewport.querySelector('.jb-keyguard');
     if (!root) return;
-    const kgPages = JBKeyguard.pages(data.keyguardWidgets || [], {music: musicActive()});
-    ui.kgPad = JBKeyguard.glowPad(root.querySelector('.jbk-challenge'), {onUnlock: () => { suppressClickUntil = Date.now() + 350; home(); }, haptic: () => data.settings.haptic !== false, reduced: !!reducedMotion?.matches});
-    JBKeyguard.pager(root.querySelector('[data-kg-pager]'), {count: kgPages.length, current: ui.kgPage, reduced: !!reducedMotion?.matches,
-      onSettle: page => { ui.kgPage = page; },
-      onCamera: () => { if (ui.view === 'lock' && !ui.locked) { ui.kgPage = JBKeyguard.defaultPage(kgPages); openApp('camera'); } },
+    const kgPages = JBKeyguard.pages(data.keyguardWidgets || [], {music: musicActive()}), secure = root.matches('[data-kg-secure]'), reduced = !!reducedMotion?.matches;
+    if (secure) ui.kgChallenge = JBKeyguard.challenge(root, {up: ui.kgUp !== false, bouncing: !!ui.kgBouncing, reduced, onChange: up => { ui.kgUp = up; }, onBouncer: on => { ui.kgBouncing = on; if (!on) ui.kgPending = null; }});
+    else ui.kgPad = JBKeyguard.glowPad(root.querySelector('.jbk-challenge'), {onUnlock: () => { suppressClickUntil = Date.now() + 350; home(); }, haptic: () => data.settings.haptic !== false, reduced});
+    // With the challenge over the pager only swipes that start at the screen edges page (setOnlyAllowEdgeSwipes).
+    const edge = event => { const box = root.getBoundingClientRect(); return event.clientX - box.left < JBKeyguard.S.edge || box.right - event.clientX <= JBKeyguard.S.edge; };
+    ui.kgPager = JBKeyguard.pager(root.querySelector('[data-kg-pager]'), {count: kgPages.length, current: ui.kgPage, reduced,
+      // SlidingChallengeLayout.dispatchTouchEvent hands edge-swipe downs to the widgets even over the challenge.
+      surface: secure ? root.querySelector('.jbk-host') : undefined,
+      canStart: event => !secure || !ui.kgChallenge.bouncing() && (edge(event) || !ui.kgChallenge.edgeOnly() && !!event.target.closest('[data-kg-pager]')),
+      onBegin: () => { if (secure) ui.kgChallenge.pageBegin(); },
+      onSettle: (page, previous) => { ui.kgPage = page; if (secure) { ui.kgChallenge.pageEnd(page === previous); ui.kgChallenge.setInteractive(kgPages[page]?.type !== 'camera'); } },
+      onCamera: () => {
+        if (ui.view !== 'lock') return;
+        if (ui.locked) { requestBouncer({type: 'camera'}); ui.kgPager.go(JBKeyguard.defaultPage(kgPages)); return; }
+        ui.kgPage = JBKeyguard.defaultPage(kgPages); openApp('camera');
+      },
       onRemove: id => { data.keyguardWidgets = (data.keyguardWidgets || []).filter(widget => widget.id !== id); save(); render(); }});
   }
   function analogClock() {
@@ -476,6 +510,7 @@
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
+    if (ui.view === 'lock' && ui.kgChallenge?.bouncing()) { ui.kgChallenge.hideBouncer(); return; }
     if (ui.view === 'lock') return;
     if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
@@ -999,7 +1034,12 @@
     event.preventDefault();
     if (Date.now() < suppressClickUntil) return;
     const { action, id, app, url } = button.dataset;
-    if(ui.locked&&!['back','alarm-dismiss','alarm-snooze'].includes(action))return;
+    if(ui.locked){
+      // KeyguardHostView: launching from a widget or adding one needs the bouncer first.
+      const pending={'kg-add-widget':{type:'add'},'widget-calendar-open':{type:'calendar'},'widget-calendar-event':{type:'calendar',id,date:button.dataset.date}}[action];
+      if(pending&&ui.view==='lock'){requestBouncer(pending);return;}
+      if(!['back','alarm-dismiss','alarm-snooze','lock-media'].includes(action))return;
+    }
     switch (action) {
       case 'open-app': openApp(app || id, !!button.closest('.recent-item')); break;
       case 'home': if (ui.view !== 'lock') home(); break;
@@ -1061,7 +1101,7 @@
       case 'dream-start': ui.overlay = 'dream'; ui.dreamKey = ''; renderOverlay(); break;
       case 'dream-exit': ui.overlay = ''; renderOverlay(); break;
       case 'kg-add-widget': ui.overlay = 'kg-widget-picker'; renderOverlay(); break;
-      case 'kg-pick-widget': { const widgets = data.keyguardWidgets ||= []; if (widgets.length < JBKeyguard.MAX_WIDGETS) { widgets.push({id: `kg-${Date.now()}`, type: id}); save(); ui.kgPage = widgets.length; } ui.overlay = ''; render(); break; }
+      case 'kg-pick-widget': { const widgets = data.keyguardWidgets ||= []; if (widgets.length < JBKeyguard.MAX_WIDGETS) { widgets.push({id: `kg-${Date.now()}`, type: id}); save(); ui.kgPage = widgets.length; } ui.overlay = ''; if (ui.kgRelock) { ui.kgRelock = false; const page = ui.kgPage; lockScreen(); ui.kgPage = page; render(); } else render(); break; }
       case 'qs-user': ui.overlay = ''; openApp('people'); break;
       case 'qs-brightness': ui.overlay = 'qs-brightness'; renderOverlay(); break;
       case 'qs-settings': ui.overlay = ''; openApp('settings'); break;

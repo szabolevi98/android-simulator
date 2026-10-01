@@ -56,7 +56,9 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - Jelly Bean notification panel. The header has a large clock and date, Clear all (rows slide out one after another) and the settings button, which flips the panel to **Quick Settings** (also opened by pulling down with two fingers). Tiles: Me, Brightness (dialog with AUTO), Settings, Wi-Fi, mobile signal, battery, airplane mode, Bluetooth, plus Alarm and Location when relevant. Long-press Wi-Fi or Bluetooth to toggle them. Notifications expand and collapse with a two-finger swipe or a trackpad pinch. Calendar reminders offer **Snooze** (5 minutes).
 
-- Jelly Bean slide lock: the AndroidClock clock, uppercase date and next alarm sit in a swipeable widget pager. Swipe right to the **+** page to add a Calendar or Digital clock widget (long-press a widget and drag it up to Remove), and swipe left to the camera page to open Camera. The GlowPad dot cloud glows around your finger; drag the lock to the ring in any direction to unlock, and a wave ripples out after a miss. While Music is active its transport becomes a page. Pattern, PIN and password locks still use the ICS screens.
+- Jelly Bean slide lock: the AndroidClock clock, uppercase date and next alarm sit in a swipeable widget pager. Swipe right to the **+** page to add a Calendar or Digital clock widget (long-press a widget and drag it up to Remove), and swipe left to the camera page to open Camera. The GlowPad dot cloud glows around your finger; drag the lock to the ring in any direction to unlock, and a wave ripples out after a miss. While Music is active its transport becomes a page. Owner info appears in the message line above the ring.
+
+- Jelly Bean pattern, PIN and password locks: the security panel slides up over the widget pager. Drag it down to see the full widget and pull it back with the lock handle; with the panel up, swipe from the screen edge to change widgets. The PIN pad shows the ABC…WXYZ letters, and wrong entries show “Wrong PIN” (or Pattern/Password) for five seconds. Tapping a widget or **+** while locked dims the pager, shrinks the widget and asks for the code first; once it is entered, the widget's action runs.
 
 - Jelly Bean home screens. When you drag an icon or widget onto occupied cells, the items there slide aside after a quarter second. Dropping right on an icon's centre still makes a folder. Calendar and the new **Digital clock** widget (3 × 2) show the resize frame after being dropped; drag a handle to change the span in whole cells, and neighbours move out of the way. Spans are saved.
 
@@ -64,7 +66,7 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - 4.3 Settings: the 4.3 header order with **Location access** (master switch plus GPS and network sources) and an ACCOUNTS section. Display adds **Daydream** with Clock (a dimmed clock that moves each minute), Colors and Photo Frame, **Start now** and **When to daydream**. Security adds Verify apps and Notification access, and About phone shows the SELinux status.
 
-The new screens have been checked in all five languages at phone sizes. Still to come: the 4.2 Camera interface and Jelly Bean-style pattern/PIN/password bouncer screens. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
+The new screens have been checked in all five languages at phone sizes. Still to come: the 4.2 Camera interface. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
 
 ## Adding a version
 

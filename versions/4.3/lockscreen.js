@@ -25,7 +25,8 @@
   function failed(data,now=Date.now()){const state=data.lockAttempts||={count:0,until:0};state.count++;if(state.count>=5){state.count=0;state.until=now+30000;}}
   const remaining=(data,now=Date.now())=>Math.max(0,Math.ceil(((data.lockAttempts?.until||0)-now)/1000));
 
-  function controller({getData,getUI,t,save,render,unlock,clock,date,carrier,toast}){
+  /* look: optional skin for the lock screen (renderLock, message, wrong, clearMs); the checks stay the same. */
+  function controller({getData,getUI,t,save,render,unlock,clock,date,carrier,toast,look={}}){
     let state={stage:'unlock',kind:'slide',value:'',pattern:[]},drawing=null,busy=false,revision=0,clearTimer;
     const data=()=>getData(),ui=()=>getUI();
     const active=()=>ui().view==='lock'&&secure(data())||ui().view==='settings'&&ui().sub==='lock-setup';
@@ -42,6 +43,7 @@
     }
     function grid(){return `<div class="credential-pattern${state.error?' wrong':''}${data().settings.patternVisible===false&&state.stage==='unlock'?' stealth':''}" role="group" aria-label="${escape(t('Pattern'))}"><svg viewBox="0 0 300 300" aria-hidden="true"><polyline points="${state.pattern.map(n=>`${n%3*100+50},${Math.floor(n/3)*100+50}`).join(' ')}"></polyline></svg>${Array.from({length:9},(_,n)=>`<button type="button" data-lock-dot="${n}" class="${state.pattern.includes(n)?'selected':''}" aria-label="${escape(t('Dot'))} ${n+1}" aria-pressed="${state.pattern.includes(n)}"><i></i></button>`).join('')}</div>`;}
     function message(){
+      if(look.message&&state.stage==='unlock')return look.message({state,remaining:remaining(data()),data:data()});
       if(remaining(data())&&['unlock','verify'].includes(state.stage))return `${t('Try again in')} ${remaining(data())} ${t('seconds')}`;
       if(state.error)return t(state.error);
       if(state.stage==='verify')return t('Confirm your current screen lock');
@@ -58,7 +60,7 @@
       if(state.stage==='choose')return `<div class="app-view settings-app credential-setup">${header}<div class="credential-choices">${[['none','None'],['slide','Slide'],['face','Face Unlock'],['pattern','Pattern'],['pin','PIN'],['password','Password']].map(([id,name])=>`<button class="settings-row" data-lock-action="choose" data-lock-kind="${id}" ${id==='face'?'disabled':''}><span class="row-copy">${escape(t(name))}</span></button>`).join('')}<p class="credential-demo">${escape(t('Local simulator lock. Use a test code.'))}</p></div></div>`;
       return `<div class="app-view settings-app credential-setup">${header}<div class="credential-body">${surface()}<div class="credential-spacer"></div><div class="credential-buttons"><button data-lock-action="${state.kind==='pattern'&&state.pattern.length?'retry':'cancel'}">${escape(t(state.kind==='pattern'&&state.pattern.length?'Retry':'Cancel'))}</button><button data-lock-action="next" ${busy?'disabled':''}>${escape(t(state.stage==='confirm'?'Confirm':'Continue'))}</button></div>${state.kind!=='pattern'?keyboard():''}</div></div>`;
     }
-    function renderLock(){return `<div class="lock-view credential-lock"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${date()}</div>${data().settings.showOwner?`<div class="lock-owner">${escape(data().settings.ownerInfo)}</div>`:''}</div><div class="credential-lock-content">${surface()}${state.kind!=='pattern'?keyboard():`<button class="credential-keyboard-confirm" data-lock-action="next">${escape(t('Unlock'))}</button>`}</div><div class="credential-carrier">${escape(carrier())}</div><button class="credential-emergency" data-lock-action="emergency"><img src="assets/lock-ic_lockscreen_emergencycall_normal.png" alt="">${escape(t('Emergency call'))}</button></div>`;}
+    function renderLock(){if(look.renderLock)return look.renderLock({state,message,grid,keyboard,escape,remaining:remaining(data())});return `<div class="lock-view credential-lock"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${date()}</div>${data().settings.showOwner?`<div class="lock-owner">${escape(data().settings.ownerInfo)}</div>`:''}</div><div class="credential-lock-content">${surface()}${state.kind!=='pattern'?keyboard():`<button class="credential-keyboard-confirm" data-lock-action="next">${escape(t('Unlock'))}</button>`}</div><div class="credential-carrier">${escape(carrier())}</div><button class="credential-emergency" data-lock-action="emergency"><img src="assets/lock-ic_lockscreen_emergencycall_normal.png" alt="">${escape(t('Emergency call'))}</button></div>`;}
     async function next(){
       if(busy||!active()||remaining(data())&&['unlock','verify'].includes(state.stage))return;
       const value=state.kind==='pattern'?state.pattern.join(''):state.value,token=revision,model=data();
@@ -75,7 +77,7 @@
         }else{
           const record=data().screenCredential,ok=await matches(record,value);if(token!==revision||model!==data()||record!==data().screenCredential)return;
           if(ok){data().lockAttempts={count:0,until:0};save();if(state.stage==='verify'){fresh('choose',state.kind);render();}else{fresh('unlock',state.kind);unlock();}}
-          else{if(state.kind!=='pattern'||value.length>=4)failed(data());save();state.error='Wrong screen lock. Try again.';state.value='';busy=false;render();if(state.kind==='pattern')clearTimer=setTimeout(()=>{if(token===revision){state.pattern=[];render();}},900);}
+          else{if(state.kind!=='pattern'||value.length>=4)failed(data());save();state.error=look.wrong?.(state.kind)||'Wrong screen lock. Try again.';state.errorAt=Date.now();state.value='';busy=false;render();if(state.kind==='pattern')clearTimer=setTimeout(()=>{if(token===revision){state.pattern=[];render();}},look.clearMs||900);}
         }
       }catch{if(token===revision){state.error='Could not save screen lock';busy=false;render();}}
       finally{if(token===revision)busy=false;}

@@ -12,7 +12,7 @@
 .jbk-status-line{margin-right:14px;display:flex;gap:14px;align-items:center;font-size:13.5px;white-space:nowrap}
 .jbk-alarm{display:flex;align-items:center;gap:4px;font-size:12px}
 .jbk-alarm img{width:16px;height:16px}
-.jbk-owner{margin:6px 14px 0 0;font-size:12px;max-width:80%;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jbk-selector-message{position:absolute;left:0;right:0;top:0}
 .jbk-add{display:grid;place-items:center}
 .jbk-add-button{border:0;background:none;padding:22px;display:grid;place-items:center}
 .jbk-add-button img{width:69px;height:92px;object-fit:contain}
@@ -45,3 +45,61 @@
 .jbk-handle img{width:108px;height:108px;pointer-events:none}
 .jbk-grabbed .jbk-handle,.jbk-triggered .jbk-handle{opacity:0;transition:none;cursor:grabbing}
 .jbk-eca{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:12px;color:#bebebe}
+/* Secure keyguard: SlidingChallengeLayout with a 320 x 400dp KeyguardSecurityContainer pinned to the bottom. */
+.lock-view.jb-keyguard.jbk-secure{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:0}
+.jbk-secure .jbk-host{position:relative;flex:1;min-height:0;overflow:hidden}
+.jbk-secure .jbk-pager{bottom:57.6px}
+.jbk-secure .jbk-page{transform-origin:50% 0;transition:transform .25s cubic-bezier(.215,.61,.355,1)}
+/* KeyguardWidgetFrame.shrinkWidget: the current widget drops to kg_small_widget_height while the challenge is up. */
+.jbk-secure.jbk-up .jbk-user-widget>*,.jbk-secure.jbk-up .jbk-transport .jbk-transport-view{height:144px;min-height:0}
+.jbk-secure.jbk-up .jbk-user-widget{align-content:start}
+.jbk-secure.jbk-sliding .jbk-page:not([inert])::before{opacity:1}
+.jbk-scrim{position:absolute;inset:0;z-index:2;background:#00000099;opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
+.jbk-bouncing .jbk-scrim{opacity:1;visibility:visible;transition:opacity .25s}
+.jbk-bouncing .jbk-page:not([inert]){transform:scale(.67)}
+.jbk-security{position:absolute;z-index:3;left:50%;bottom:0;width:min(100%,288px);height:min(360px,calc(100% - 130px));margin-left:max(-50%,-144px);padding-top:7.2px;box-sizing:border-box;will-change:transform,opacity}
+.jbk-expand{position:absolute;z-index:1;left:0;right:0;bottom:0;height:57.6px;border:0;padding:0;background:none;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .25s cubic-bezier(.55,.085,.68,.53)}
+.jbk-expand img{width:36px;height:36px}
+.jbk-expand:active img{content:url('assets/jb-kg_security_lock_pressed.png')}
+.jbk-expand:focus-visible img{content:url('assets/jb-kg_security_lock_focused.png')}
+.jbk-expand:focus-visible{outline:0}
+.jbk-secure:not(.jbk-up):not(.jbk-sliding) .jbk-expand{opacity:1;pointer-events:auto}
+.jbk-ime{flex:none}
+.jbk-secure:not(.jbk-up) .jbk-ime{display:none}
+.jbc-view{height:100%;display:flex;flex-direction:column;color:#fff}
+/* KeyguardMessageArea: 13dp secondary text, single line. */
+.jbc-message{flex:none;margin:0;padding:2px 8px;min-height:1.45em;font-size:11.7px;line-height:1.45;color:#bebebe;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbc-bouncer{position:relative;min-height:0}
+/* kg_bouncer_bg_white: fades in with the bouncer (KeyguardSecurityViewHelper.showBouncer). */
+.jbc-bouncer::before{content:'';position:absolute;inset:0;border:10.8px solid transparent;border-image:url('assets/jb-kg_bouncer_bg_white.png') 18 fill / 10.8px stretch;opacity:0;transition:opacity .25s;pointer-events:none}
+.jbk-bouncing .jbc-bouncer::before{opacity:1}
+.jbc-frame{flex:1;container-type:size;display:grid;place-items:center}
+.jbc-frame .credential-pattern{width:min(calc(100cqw - 14.4px),calc(100cqh - 3.6px));height:auto;max-height:none;margin:0 7.2px 3.6px}
+.jbc-frame .credential-pattern polyline{stroke:#ffffff80;stroke-width:5}
+.jbc-frame .credential-pattern button i{width:75.6px;height:75.6px}
+.jbc-pad{flex:1;display:flex;flex-direction:column}
+.jbc-row{flex:1;min-height:0;display:flex}
+.jbc-entry .credential-entry{flex:1;min-width:0;margin:0 0 0 36px;border:0;display:flex}
+.jbc-entry .credential-entry input{height:100%;font:30.6px Roboto,RobotoICS,sans-serif;letter-spacing:2px;padding:0}
+.jbc-delete{flex:none;border:0;background:none;padding:7.2px 21.6px;display:grid;place-items:center}
+.jbc-delete img{width:32px;height:32px}
+.jbc-divider{flex:none;height:1px;background:#ffffff55}
+/* NumPadKey: digit plus the "klondike" letters, left|center_vertical with 20dp left and 10dp bottom padding. */
+.jbc-key{flex:1;min-width:0;border:0;background:none;color:#fff;padding:0 0 9px 18px;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;font:30.6px Roboto,RobotoICS,sans-serif}
+.jbc-key small{font:18px 'Roboto Condensed',Roboto,RobotoICS,sans-serif;color:#ffffff80}
+.jbc-enter{justify-content:center;padding:0 27px 0 18px}
+.jbc-enter img{width:38px;height:26px}
+.jbc-key:active,.jbc-delete:active{background:#33b5e566}
+.jbc-key:disabled,.jbc-delete:disabled{opacity:.5}
+.jbc-space{flex:1}
+.jbc-fill{flex:1}
+.jbc-strip{flex:none}
+.jbc-strip .credential-entry{margin:7.2px 0;border:0;background:#00000070;padding:0 0 0 36px}
+.jbc-strip .credential-entry input{font:32.4px Roboto,RobotoICS,sans-serif;height:auto;padding:4px 0}
+/* EmergencyCarrierArea: fades out while the bouncer is up. */
+.jbc-eca{flex:none;display:flex;flex-direction:column;align-items:center;transition:opacity .25s,visibility 0s}
+.jbk-bouncing .jbc-eca{opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
+.jbc-carrier{max-width:100%;font-size:11.7px;color:#bebebe;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-top:2px}
+.jbc-emergency{margin-top:-9px;min-height:43px;width:50%;border:0;background:none;color:#bebebe;font-size:11.7px;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap}
+.jbc-emergency img{width:28.8px;height:28.8px}
+.jbc-emergency:active{background:#33b5e566}
