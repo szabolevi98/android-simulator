@@ -127,6 +127,7 @@
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
+  ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
   const screen = document.querySelector('#screen');
   const viewport = document.querySelector('#viewport');
   const statusRoot = document.querySelector('#status-bar');
@@ -142,6 +143,8 @@
   const appIcon = id => {
     if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg" alt=""></span>';
     if (id === 'apps') return '<span class="app-icon"><img src="assets/apps.png" alt=""></span>';
+    const folder=ICSLauncherFolders.folder(data,id);
+    if(folder)return `<span class="app-icon launcher-folder-icon">${folder.items.slice(0,3).map(app=>`<span class="folder-preview-item">${appIcon(app)}</span>`).join('')}</span>`;
     if (id === 'google') return '<span class="app-icon google-folder-icon"><img src="assets/browser.png" alt=""><img src="assets/email.png" alt=""><img src="assets/calendar.png" alt=""><img src="assets/gallery.png" alt=""></span>';
     const item = apps.find(app => app[0] === id);
     if (!item) return '';
@@ -149,7 +152,10 @@
       ? `<span class="app-icon"><img src="assets/${id}.png" alt=""></span>`
       : `<span class="app-icon fallback" style="--icon-light:${item[3]};--icon-dark:${item[4]}">${item[2]}</span>`;
   };
-  const launcherIcon = id => `<button class="launcher-icon" data-action="${id === 'apps' ? 'drawer' : id === 'google' ? 'google-folder' : 'open-app'}" ${id === 'apps' ? '' : `data-app="${id}"`} aria-label="${safe(appNames[id] || 'Apps')}">${appIcon(id)}<span>${safe(appNames[id] || 'Apps')}</span></button>`;
+  const folderName=id=>ICSLauncherFolders.folder(data,id)?.name||i18n.t('Unnamed folder');
+  const launcherIcon = id => ICSLauncherFolders.folder(data,id)
+    ? `<button class="launcher-icon" data-action="folder-open" data-folder-id="${safe(id)}" aria-label="${safe(folderName(id))}" data-no-translate>${appIcon(id)}<span>${safe(folderName(id))}</span></button>`
+    : `<button class="launcher-icon" data-action="${id==='apps'?'drawer':'open-app'}" ${id==='apps'?'':`data-app="${id}"`} aria-label="${safe(appNames[id]||'Apps')}">${appIcon(id)}<span>${safe(appNames[id]||'Apps')}</span></button>`;
   const actionbar = (title, right = '') => `<div class="actionbar"><button class="up" data-action="${ui.view === 'settings' && !ui.sub ? 'noop' : 'back'}" aria-label="${ui.view === 'settings' && !ui.sub ? 'Settings' : 'Back'}">${ui.view === 'settings' ? `${ui.sub ? '<img class="up-chevron" src="assets/ic_ab_back_holo_dark.png" alt="">' : ''}<img class="settings-header-icon" src="assets/settings.png" alt="">` : '‹'}</button><h2>${safe(title)}</h2>${right}</div>`;
   const content = (inner, theme = '') => `<div class="app-content ${theme}">${inner}</div>`;
   const appView = (title, inner, theme = '', right = '') => `<div class="app-view ${ui.view === 'settings' ? `settings-app ${!ui.sub ? 'settings-main' : ''}` : ''}">${actionbar(title, right)}${content(inner, ui.view === 'settings' ? `settings-dark ${theme}` : theme)}</div>`;
@@ -362,11 +368,30 @@
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(ui.wifiTarget)}"><h3>${safe(ui.wifiTarget)}</h3><p>${safe(network?.security || 'WPA2')}</p>${connected ? '<p>Connected</p>' : network?.security !== 'Open' ? '<label>Password<input class="wifi-password" type="password" autocomplete="off"></label>' : ''}<div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button>${connected ? '<button data-action="wifi-forget">Forget</button>' : '<button data-action="wifi-connect">Connect</button>'}</div></div>`;
     } else if (ui.overlay === 'wallpaper-source') {
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="wallpaper-source" role="dialog" aria-label="Select wallpaper from"><h3>Select wallpaper from</h3><button data-action="open-wallpapers">Wallpapers</button><button data-action="gallery-wallpaper">Gallery</button></div>`;
-    } else if (ui.overlay === 'google-folder') {
-      overlayRoot.innerHTML = `<div class="folder-scrim" data-action="close-overlay"></div><div class="home-folder"><h3>Google</h3><div>${['play-store','browser','email','calendar','gallery'].map(id => launcherIcon(id)).join('')}</div></div>`;
+    } else if (ui.overlay === 'folder') {
+      overlayRoot.innerHTML = renderFolder();
+      positionFolder();
     } else overlayRoot.innerHTML = '';
     i18n.translateDOM(overlayRoot);
   }
+
+  function renderFolder() {
+    const folder=ICSLauncherFolders.folder(data,ui.folderId);if(!folder){ui.overlay='';return '';}
+    const {columns,rows}=ICSLauncherFolders.dimensions(folder.items.length);
+    return `<div class="launcher-folder-scrim" data-action="close-overlay"></div><div class="launcher-folder" role="dialog" aria-label="${safe(i18n.t('Folder'))}: ${safe(folderName(ui.folderId))}" style="width:${columns*74+24}px;--folder-columns:${columns}"><div class="launcher-folder-grid">${Array.from({length:columns*rows},(_,slot)=>`<div class="launcher-folder-cell" data-folder-slot="${slot}">${folder.items[slot]?launcherIcon(folder.items[slot]):''}</div>`).join('')}</div><form class="launcher-folder-name" data-form="folder-name"><input name="name" aria-label="Folder name" placeholder="Unnamed folder" maxlength="40" autocomplete="off" value="${safe(folder.name)}"></form></div>`;
+  }
+  function positionFolder() {
+    const panel=overlayRoot.querySelector('.launcher-folder');if(!panel)return;
+    const icon=[...viewport.querySelectorAll('[data-folder-id]')].find(button=>button.dataset.folderId===ui.folderId&&!button.closest('[inert]'));
+    const screenRect=screen.getBoundingClientRect(),rect=icon?.getBoundingClientRect();
+    const scale=screenRect.width/screen.clientWidth;
+    const x=rect?(rect.left+rect.width/2-screenRect.left)/scale:screen.clientWidth/2;
+    const y=rect?(rect.top+rect.height/2-screenRect.top)/scale:screen.clientHeight/2;
+    const left=Math.max(8,Math.min(screen.clientWidth-panel.offsetWidth-8,x-panel.offsetWidth/2));
+    const top=Math.max(30,Math.min(screen.clientHeight-55-panel.offsetHeight,y-panel.offsetHeight/2));
+    panel.style.left=left+'px';panel.style.top=top+'px';panel.style.setProperty('--folder-origin',`${x-left}px ${y-top}px`);
+  }
+  window.addEventListener('resize',()=>{if(ui.overlay==='folder')positionFolder();});
 
   const allWifiNetworks = () => [...wifiNetworks, ...(data.savedWifiNetworks || [])];
   const connectivityMenu = kind => `<button class="connectivity-overflow" data-action="connectivity-menu" data-id="${kind}" aria-label="More options"><img src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button>`;
@@ -633,6 +658,7 @@
     data=clone(defaultData);data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...data.settings};
     data.mailbox=ICSEmail.restore(null,emailData,[]);ui.music=ICSMusic.restore();ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;
     ui.activeCall=null;ui.sleeping=false;ui.vpnConnected=null;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
+    ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
     ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
   }
   function clearAppData(id) {
@@ -687,7 +713,7 @@
       case 'home': if (ui.view !== 'lock') home(); break;
       case 'back': back(); break;
       case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
-      case 'google-folder': ui.overlay = 'google-folder'; renderOverlay(); break;
+      case 'folder-open': ui.folderId=button.dataset.folderId;ui.overlay='folder';renderOverlay();break;
       case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = 0; render(); break;
       case 'drawer-page': ui.drawerPage = Number(id); render(); break;
       case 'add-widget': if (addWidget(button.dataset.widgetType)) { home(false); toast('Widget added'); } else toast('This home screen is full'); break;
@@ -971,6 +997,7 @@
     const form = event.target.closest('[data-form]');
     if (!form || !screen.contains(form)) return;
     event.preventDefault(); const values = new FormData(form);
+    if(form.dataset.form==='folder-name'){event.target.querySelector('input')?.blur();render();return;}
     if(form.dataset.form==='sx-save'){ui.systemError=ICSSystemSettings.submit(data,ui,values);if(ui.systemError){ui.systemValues=Object.fromEntries(values);renderOverlay();return;}save();ui.overlay='';render();return;}
     if(form.dataset.form==='sx-vpn-connect'){ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();return;}
     if(form.dataset.form==='sx-profile-delete'){ICSSystemSettings.removeProfile(data,ui);save();ui.overlay='';render();return;}
@@ -1047,6 +1074,7 @@
     }
   });
   document.addEventListener('input', event => {
+    if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}
     if(event.target.dataset.field==='data-cycle'){ui.dataCycle=event.target.value;render();return;}
     if(event.target.closest('.email-compose')&&event.target.name){const item=data.mailbox.find(item=>item.id===ui.emailId);if(item){item[event.target.name]=event.target.value;save();}return;}
     if(event.target.closest('.cal-editor') && event.target.name) {
@@ -1097,6 +1125,8 @@
     if (drawerWidget) return { type: 'drawer-widget', widgetType: drawerWidget.dataset.widgetType };
     const icon = target.closest('.launcher-icon');
     if (!icon) return null;
+    const folderSlot=icon.closest('[data-folder-slot]');
+    if(folderSlot&&ui.overlay==='folder')return {type:'folder',folderId:ui.folderId,slot:Number(folderSlot.dataset.folderSlot),id:icon.dataset.app};
     const homeSlot = icon.closest('[data-home-slot]');
     if (homeSlot) return { type: 'home', slot: Number(homeSlot.dataset.homeSlot), page: ui.page, id: data.homePages[ui.page][Number(homeSlot.dataset.homeSlot)] };
     const dockSlot = icon.closest('[data-dock-slot]');
@@ -1109,6 +1139,7 @@
     // Keep touch delivery on the stable screen when a drawer item replaces its view.
     try { screen.setPointerCapture(pointerStart.pointerId); } catch {}
     dragState = pointerStart.source;
+    pointerStart.target.closest('.launcher-icon')?.classList.add('drag-source-icon');
     if (dragState.type === 'widget') {
       const rect = pointerStart.target.closest('.home-widget').getBoundingClientRect();
       dragState.grabOffset = {x: pointerStart.x - rect.left, y: pointerStart.y - rect.top};
@@ -1131,7 +1162,8 @@
     const offset = dragState.widgetType ? 65 : 27;
     dragState.ghost.style.left = `${x - rect.left - offset}px`;
     dragState.ghost.style.top = `${y - rect.top - offset}px`;
-    const direction = x - rect.left < 18 ? -1 : rect.right - x < 18 ? 1 : 0;
+    updateFolderDrag(x,y);
+    const direction = ui.overlay ? 0 : x - rect.left < 18 ? -1 : rect.right - x < 18 ? 1 : 0;
     if (direction !== dragState.edgeDirection) {
       clearTimeout(dragState.edgeTimer);
       dragState.edgeDirection = direction;
@@ -1140,10 +1172,34 @@
       }, 550);
     }
   }
+  function clearFolderDragFeedback(){screen.querySelectorAll('.folder-drop-target,.folder-reorder-target,.drag-source-icon').forEach(node=>node.classList.remove('folder-drop-target','folder-reorder-target','drag-source-icon'));}
+  function updateFolderDrag(x,y) {
+    const source=dragState;if(!source||source.widgetType)return;
+    screen.querySelectorAll('.folder-drop-target,.folder-reorder-target').forEach(node=>node.classList.remove('folder-drop-target','folder-reorder-target'));
+    const target=document.elementFromPoint(x,y),panel=overlayRoot.querySelector('.launcher-folder');
+    if(panel){
+      const rect=panel.getBoundingClientRect(),inside=x>=rect.left&&x<=rect.right&&y>=rect.top&&y<=rect.bottom;
+      if(!inside&&!source.folderExitTimer)source.folderExitTimer=setTimeout(()=>{if(dragState===source){ui.overlay='';renderOverlay();source.folderExitTimer=null;source.hoverFolder=null;}},800);
+      else if(inside){clearTimeout(source.folderExitTimer);source.folderExitTimer=null;target?.closest('[data-folder-slot]')?.classList.add('folder-reorder-target');}
+      return;
+    }
+    const slot=target?.closest('[data-home-slot],[data-dock-slot]'),icon=slot?.querySelector('.launcher-icon');
+    const sourceIsFolder=!!ICSLauncherFolders.folder(data,source.id);
+    const sameSlot=slot&&(slot.hasAttribute('data-home-slot')?source.type==='home'&&source.page===ui.page&&source.slot===Number(slot.dataset.homeSlot):source.type==='dock'&&source.slot===Number(slot.dataset.dockSlot));
+    const folderId=icon?.dataset.folderId;
+    if(icon&&!sameSlot&&!sourceIsFolder&&icon.dataset.action!=='drawer')icon.classList.add('folder-drop-target');
+    const hoverId=!sourceIsFolder&&!sameSlot?folderId:null;
+    if(hoverId!==source.hoverFolder){
+      clearTimeout(source.folderHoverTimer);source.hoverFolder=hoverId;
+      if(hoverId)source.folderHoverTimer=setTimeout(()=>{if(dragState===source&&ICSLauncherFolders.folder(data,hoverId)?.items.length<ICSLauncherFolders.capacity){ui.folderId=hoverId;ui.overlay='folder';renderOverlay();}},700);
+    }
+  }
   function finishDrag(x, y) {
     if (!dragState) return false;
     const source = dragState;
-    const target = document.elementFromPoint(x, y);
+    let target = document.elementFromPoint(x, y);
+    if(ui.overlay==='folder'&&!target?.closest('.launcher-folder')){ui.overlay='';renderOverlay();target=document.elementFromPoint(x,y);}
+    const folderSlot=target?.closest('[data-folder-slot]');
     let homeSlot = target?.closest('[data-home-slot]');
     const grid = target?.closest('.home-grid');
     if (!homeSlot && grid) {
@@ -1172,29 +1228,25 @@
         } else toast('This home screen is full');
       }
     } else {
-      const sourceList = source.type === 'home' ? data.homePages[source.page] : source.type === 'dock' ? data.dock : null;
-      if (remove && sourceList) { sourceList[source.slot] = null; toast('Shortcut removed'); }
-      else if (homeSlot) {
-        const slot = Number(homeSlot.dataset.homeSlot);
-        const covered = data.homeWidgets[ui.page].some(widget => slot % 4 >= widget.x && slot % 4 < widget.x + widgetSize(widget).width && Math.floor(slot / 4) >= widget.y && Math.floor(slot / 4) < widget.y + widgetSize(widget).height);
-        if (!covered) {
-          const destination = data.homePages[ui.page], previous = destination[slot];
-          if (!previous || sourceList) {
-            destination[slot] = source.id;
-            if (sourceList) sourceList[source.slot] = previous;
-          } else toast('This space is occupied');
-        }
-      } else if (dockSlot && Number(dockSlot.dataset.dockSlot) !== 2) {
-        const slot = Number(dockSlot.dataset.dockSlot), previous = data.dock[slot];
-        if (!previous || sourceList) { data.dock[slot] = source.id; if (sourceList) sourceList[source.slot] = previous; }
-        else toast('This space is occupied');
-      } else if (pageButton) {
-        const nextPage = Number(pageButton.dataset.id);
-        const slot = data.homePages[nextPage].findIndex((id, index) => id === null && !data.homeWidgets[nextPage].some(widget => index % 4 >= widget.x && index % 4 < widget.x + widgetSize(widget).width && Math.floor(index / 4) >= widget.y && Math.floor(index / 4) < widget.y + widgetSize(widget).height));
-        if (slot >= 0) { data.homePages[nextPage][slot] = source.id; if (sourceList) sourceList[source.slot] = null; ui.page = nextPage; }
-        else toast('This home screen is full');
+      let result=null;
+      if(remove)result={ok:ICSLauncherFolders.remove(data,source)};
+      else if(folderSlot)result=ICSLauncherFolders.drop(data,source,{type:'folder',folderId:ui.folderId,slot:Number(folderSlot.dataset.folderSlot)});
+      else if(target?.closest('.launcher-folder-grid'))result=ICSLauncherFolders.drop(data,source,{type:'folder',folderId:ui.folderId,slot:ICSLauncherFolders.folder(data,ui.folderId).items.length});
+      else if(homeSlot){
+        const slot=Number(homeSlot.dataset.homeSlot);
+        const covered=data.homeWidgets[ui.page].some(widget=>slot%4>=widget.x&&slot%4<widget.x+widgetSize(widget).width&&Math.floor(slot/4)>=widget.y&&Math.floor(slot/4)<widget.y+widgetSize(widget).height);
+        if(!covered)result=ICSLauncherFolders.drop(data,source,{type:'home',page:ui.page,slot});
+      }else if(dockSlot)result=ICSLauncherFolders.drop(data,source,{type:'dock',slot:Number(dockSlot.dataset.dockSlot)});
+      else if(pageButton){
+        const nextPage=Number(pageButton.dataset.id);
+        const slot=data.homePages[nextPage].findIndex((id,index)=>id===null&&!data.homeWidgets[nextPage].some(widget=>index%4>=widget.x&&index%4<widget.x+widgetSize(widget).width&&Math.floor(index/4)>=widget.y&&Math.floor(index/4)<widget.y+widgetSize(widget).height));
+        if(slot>=0){result=ICSLauncherFolders.drop(data,source,{type:'home',page:nextPage,slot});if(result.ok)ui.page=nextPage;}
+        else result={ok:false,error:'This home screen is full'};
       }
+      if(result?.error)toast(result.error);
+      if(ui.overlay==='folder'&&!ICSLauncherFolders.folder(data,ui.folderId))ui.overlay='';
     }
+    clearTimeout(source.folderExitTimer);clearTimeout(source.folderHoverTimer);clearFolderDragFeedback();
     clearTimeout(source.edgeTimer); source.ghost.remove(); dragState = null; screen.classList.remove('dragging');
     save(); render(); suppressClickUntil = Date.now() + 350;
     return true;
@@ -1414,7 +1466,7 @@
     if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer); dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade') renderOverlay(); pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });
   window.addEventListener('pointercancel',()=>{const photo=viewport.querySelector('.gallery-image');if(photo)photo.style.transform='';});
   window.addEventListener('pointercancel',()=>{const surface=viewport.querySelector('[data-calendar-swipe]');if(surface)surface.style.transform='';});
   document.addEventListener('keydown', event => {

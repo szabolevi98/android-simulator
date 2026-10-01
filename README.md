@@ -20,6 +20,7 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 
 - Five home screens with mouse and touch swiping, a paged Apps/Widgets drawer, and a dock. Shortcuts and widgets share an invisible grid.
 - Drag to rearrange home screen and dock icons. Hold a dragged item at a screen edge to change pages, or drop it on Remove to delete its shortcut. Long-press an app drawer icon to add a home screen shortcut. The Home button returns to the center page; swiping and the mouse wheel change pages without a 3D transition.
+- Create folders by dragging one app shortcut onto another, on the home screen or in the dock. Tap a folder to open it, edit its name at the bottom, reorder its icons, or drag an icon outside to extract it. Folders hold up to 16 shortcuts; extracting the penultimate icon restores the remaining app as a standalone shortcut. Names, contents and positions persist. Existing Google folders migrate automatically.
 - Long-press an empty home-screen cell to choose from eleven original AOSP wallpapers or a Gallery image. The widget drawer includes the original analog clock artwork, a working 4 × 1 Power control widget, and simplified Calendar, Music, and Photo frame widgets. Widgets and shortcuts occupy the same 4 × 4 grid. Existing customized layouts are preserved when upgrading.
 - Lock screen with camera on the left and unlock on the right. The notification shade uses the AOSP black tracking color, a carrier label, and a bottom drag handle. Notifications and recent apps follow horizontal dismissal gestures. Recent apps resume their previous subpage.
 - Settings with simulated Wi-Fi network connection, addition and forgetting, Bluetooth discovery, pairing and device naming, switches, brightness, and wallpaper selection. Grab and drag the Settings list with a mouse to scroll it; a short click still opens a row. Tap **Settings → About phone → Android version** three times within half a second to open the easter egg, then hold the Android figure to start Nyandroid. Tap **Build number** seven times to reveal Developer options (a requested deviation from ICS, where these options were visible by default).
@@ -69,6 +70,7 @@ node tests/email.test.cjs
 node tests/settings-detail.test.cjs
 node tests/phone-call.test.cjs
 node tests/settings-system.test.cjs
+node tests/launcher-folders.test.cjs
 ```
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). For comparisons with the original Android interface and remaining visual differences, see [docs/visual-audit.md](docs/visual-audit.md).

@@ -1,8 +1,9 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const ctx={window:{},console};vm.createContext(ctx);
-for(const name of ['settings-detail','settings-system','music','email','browser-session'])vm.runInContext(fs.readFileSync(`versions/4.0.4/${name}.js`,'utf8'),ctx);
+for(const name of ['settings-detail','launcher-folders','settings-system','music','email','browser-session'])vm.runInContext(fs.readFileSync(`versions/4.0.4/${name}.js`,'utf8'),ctx);
 Object.assign(ctx,ctx.window);
-const defaults={settings:{wifi:true},browserHistory:['www.google.com'],bookmarks:['www.google.com'],alarms:[{id:1,time:'07:00'}],events:[{id:1,title:'Sample'}],contacts:[{id:1,name:'Alex'}],contactGroups:[],messages:[{id:1,body:'Hello'}],photos:[{id:1,name:'Sample'}]};
+ctx.apps=[['phone'],['browser'],['email'],['calendar'],['gallery'],['play-store']];
+const defaults={homePages:[Array(16).fill(null)],dock:['phone',null,'apps',null,null],settings:{wifi:true},browserHistory:['www.google.com'],bookmarks:['www.google.com'],alarms:[{id:1,time:'07:00'}],events:[{id:1,title:'Sample'}],contacts:[{id:1,name:'Alex'}],contactGroups:[],messages:[{id:1,body:'Hello'}],photos:[{id:1,name:'Sample'}]};
 ctx.defaultData=defaults;ctx.emailData=[{id:1,from:'Android',subject:'Welcome',body:'Hello'}];ctx.clone=value=>JSON.parse(JSON.stringify(value));
 ctx.data={...ctx.clone(defaults),calcHistory:[{expression:'1+1'}],playRatings:{demo:5},messageDrafts:{new:{body:'Draft'}},callHistory:[{number:'123'}]};
 ctx.ui={recent:['calculator','play-store'],recentState:{},recentSnapshots:{},music:ctx.ICSMusic.restore(),musicPlaying:false};ctx.save=()=>{};ctx.syncBrowserState=()=>{};ctx.home=()=>{};ctx.saveMusic=()=>{ctx.data.music=ctx.clone(ctx.ui.music);};

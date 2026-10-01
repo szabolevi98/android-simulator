@@ -84,3 +84,7 @@ The unmodified `email-*.png` images come from [AOSP Email, android-4.0.4_r2.1](h
 ### In-call Phone artwork
 
 The unmodified `phone-*.png` images come from [AOSP Phone, android-4.0.4_r2.1](https://github.com/aosp-mirror/platform_packages_apps_phone/tree/android-4.0.4_r2.1/res/drawable-hdpi). Copyright The Android Open Source Project; Apache License 2.0.
+
+### Launcher folders
+
+The unmodified `launcher-portal_container_holo.9.png`, `launcher-portal_ring_inner_holo.png` and `launcher-portal_ring_outer_holo.png` images come from [AOSP Launcher2, android-4.0.4_r2.1](https://android.googlesource.com/platform/packages/apps/Launcher2/+/android-4.0.4_r2.1/res/drawable-hdpi/). Copyright The Android Open Source Project; Apache License 2.0. The browser approximates Android's nine-patch rendering with CSS border images.

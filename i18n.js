@@ -4,6 +4,12 @@
   const supported = ['en', 'hu', 'de', 'fr', 'es'];
   const locale = { en: 'en-US', hu: 'hu-HU', de: 'de-DE', fr: 'fr-FR', es: 'es-ES' };
   const rows = [
+    ["Folder", "Mappa", "Ordner", "Dossier", "Carpeta"],
+    ["Unnamed folder", "Névtelen mappa", "Unbenannter Ordner", "Dossier sans nom", "Carpeta sin nombre"],
+    ["Folder name", "Mappa neve", "Ordnername", "Nom du dossier", "Nombre de carpeta"],
+    ["Folder is full", "A mappa megtelt", "Der Ordner ist voll", "Le dossier est plein", "La carpeta está llena"],
+    ["Folders cannot contain folders", "Mappába nem helyezhető másik mappa", "Ordner können keine Ordner enthalten", "Un dossier ne peut pas contenir un autre dossier", "Las carpetas no pueden contener carpetas"],
+
     ['Delete profile?','Törlöd a profilt?','Profil löschen?','Supprimer le profil ?','¿Eliminar perfil?'],
     ["Use network-provided time", "Hálózat által megadott idő", "Zeit aus dem Netzwerk beziehen", "Utiliser l’heure du réseau", "Usar hora de la red"],
     ["Automatic time zone", "Automatikus időzóna", "Automatische Zeitzone", "Fuseau horaire automatique", "Zona horaria automática"],
@@ -726,12 +732,14 @@
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     let node;
     while ((node = walker.nextNode())) {
+      if(node.parentElement?.closest('[data-no-translate]'))continue;
       if (['SCRIPT', 'STYLE', 'OPTION'].includes(node.parentElement?.tagName)) continue;
       const raw = node.nodeValue, trimmed = raw.trim();
       if (trimmed && t(trimmed) !== trimmed) node.nodeValue = raw.replace(trimmed, t(trimmed));
     }
     const elements = [root, ...root.querySelectorAll('*')];
     for (const element of elements) {
+      if(element.closest?.('[data-no-translate]'))continue;
       if (element.dataset?.i18n) element.textContent = t(element.dataset.i18n);
       for (const attr of ['aria-label', 'placeholder', 'title']) {
         const value = element.getAttribute?.(attr);
