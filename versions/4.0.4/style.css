@@ -493,3 +493,7 @@ html,body{overscroll-behavior-y:none}
 .lock-transport-bar button:active{background:#33b5e566}
 .lock-transport-bar img{width:29px;height:29px}
 .lock-view.with-transport .lock-clock{visibility:hidden}
+/* Launcher2 hotseat: full width and transparent; dock_divider = hotseat_track_holo (2dp 50%% white line with a soft
+   shadow) inset by workspace_divider_padding 3dp on each side. */
+.dock{margin:0;border-top:0;background:none;position:relative}
+.dock::before{content:'';position:absolute;left:2.7px;right:2.7px;top:0;height:1.8px;background:#ffffff80;box-shadow:0 0 1.2px .6px #0003;pointer-events:none}

@@ -219,3 +219,7 @@ Unchanged in 4.3 (kept): navigation bar keys, status bar icons, Settings header 
 Still to review with their apps: the Calendar widget header nine-patches (removed in 4.3), Contacts' `ic_contact_picture*`, `ic_menu_*` and the dialer graphics (moved to Phone), and the in-call `ic_end_call`. These belong to the People/Phone and Calendar passes. The ICS Camera images are no longer used now that the 4.3 Camera has its own `jbcam-` set.
 
 Limits: the “Google” label in the search bar is still project text. The real 4.3 builds draw the Google Search app's toolbar logo, which is not an AOSP asset.
+
+## Hotseat margins — 2026-10-01
+
+Reported by the owner: the dock had side margins and a dark gradient that are not in AOSP. Launcher2 `layout-port/launcher.xml`, `hotseat.xml` and `workspace_divider.xml` at `android-4.3_r1.1` give a full-width, transparent hotseat (`button_bar_width_left/right_padding` = 0dp). Above it sits the `dock_divider`, which uses `hotseat_track_holo.9.png`: a 2dp line of 50% white with a faint shadow, inset by `workspace_divider_padding_left/right` = 3dp. The dock now has no margin or background, and the divider is drawn from those values (2.7 px inset, 1.8 px line).

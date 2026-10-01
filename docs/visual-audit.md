@@ -378,3 +378,7 @@ Limits: no wave ripple (a Jelly Bean GlowPadView feature), no real vibration pat
   - **No digital clock widget.** ICS has none: the 4.0.4 DeskClock manifest declares only `AnalogAppWidgetProvider`. `DigitalAppWidgetProvider` arrives in 4.2, which is why the 4.3 simulator has it.
 
 Checks: `nyandroid.test.cjs`; headless Chrome for the folder crop, an analog clock drag (lifted, over a new cell, dropped) on ICS and 4.3, the zoom steps at 1.1 s, 1.6 s and 2.1 s, and the Nyandroid board (20 cats, 20 stars, largest about 290 px). No JavaScript errors.
+
+## Hotseat margins — 2026-10-01
+
+Reported by the owner: the dock had side margins and a dark gradient that are not in AOSP. Launcher2 `layout-port/launcher.xml`, `hotseat.xml` and `workspace_divider.xml` at `android-4.0.4_r2.1` give a full-width, transparent hotseat (`button_bar_width_left/right_padding` = 0dp). Above it sits the `dock_divider`, which uses `hotseat_track_holo.9.png`: a 2dp line of 50% white with a faint shadow, inset by `workspace_divider_padding_left/right` = 3dp. The dock now has no margin or background, and the divider is drawn from those values (2.7 px inset, 1.8 px line).

@@ -485,3 +485,7 @@ html,body{overscroll-behavior-y:none}
 .jb-toast strong{font:700 18px Roboto,RobotoICS,sans-serif}
 .jb-beanbag .bean{position:absolute;left:0;top:0;transform-origin:center;will-change:transform;user-select:none;-webkit-user-drag:none;cursor:grab;pointer-events:auto;touch-action:none}
 @keyframes toast-in{from{opacity:0}}
+/* Launcher2 hotseat: full width and transparent; dock_divider = hotseat_track_holo (2dp 50%% white line with a soft
+   shadow) inset by workspace_divider_padding 3dp on each side. */
+.dock{margin:0;border-top:0;background:none;position:relative}
+.dock::before{content:'';position:absolute;left:2.7px;right:2.7px;top:0;height:1.8px;background:#ffffff80;box-shadow:0 0 1.2px .6px #0003;pointer-events:none}
