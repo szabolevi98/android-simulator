@@ -174,3 +174,7 @@ Limits:
 - Location and picture size are stored settings only. The countdown beep is silent.
 
 ![Focus, pie selection, flash submenu, More options, countdown, thumbnail, switcher, zoom](screenshots/jb-camera.png)
+
+## Status bar icons — 2026-10-01
+
+The SystemUI `drawable-hdpi` status icons at `android-4.3_r1.1` were compared byte for byte with the ICS assets in use: `stat_sys_wifi_signal_4_fully`, `stat_sys_signal_4_fully`, `stat_sys_battery_71`, `stat_notify_more`, `stat_sys_data_bluetooth` and `stat_sys_signal_flightmode`. All six are identical, so the Jelly Bean status bar keeps them, and this roadmap item needs no new artwork.
