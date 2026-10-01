@@ -178,3 +178,21 @@ Limits:
 ## Status bar icons — 2026-10-01
 
 The SystemUI `drawable-hdpi` status icons at `android-4.3_r1.1` were compared byte for byte with the ICS assets in use: `stat_sys_wifi_signal_4_fully`, `stat_sys_signal_4_fully`, `stat_sys_battery_71`, `stat_notify_more`, `stat_sys_data_bluetooth` and `stat_sys_signal_flightmode`. All six are identical, so the Jelly Bean status bar keeps them, and this roadmap item needs no new artwork.
+
+## Window and launch animations — 2026-10-01
+
+References (`android-4.3_r1.1`): framework `core/res/res/anim/` (`activity_*`, `task_*`, `wallpaper_*`, `lock_screen_exit.xml`, `lock_screen_wallpaper_behind_enter.xml`), [AppTransition.java](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-4.3_r1.1/services/java/com/android/server/wm/AppTransition.java) (`createScaleUpAnimationLocked`, `computePivot`, thumbnail fade-out), and Launcher2 `startActivity` with `ActivityOptions.makeScaleUpAnimation`.
+
+- **Launching from the launcher.** Home-screen, dock, folder and drawer icons now start apps the 4.1+ way: the app grows from the tapped icon's rectangle. The pivot is −start / (scale − 1), so the first frame covers the icon exactly, and the scale uses decelerate_cubic over 250 ms (the wallpaper-transit duration). Opacity rises linearly over the first quarter and then holds, and the launcher stays in place underneath.
+- **Back to the launcher.** `wallpaper_open_exit`: the app fades out in 200 ms (accelerate/decelerate) while shrinking to 0.5 in 375 ms.
+- **Between tasks.** The 4.3 card animation (`task_open_*` / `task_close_*`), on black:
+  - The old task fades, shrinks to 0.5 towards its top and slides 120% up (300 ms, accelerating).
+  - After 300 ms the new one rises from 120% below, growing from 0.5 about its bottom edge (400 ms, decelerating).
+  - Closing a task mirrors the motion.
+- **Inside an app.** `activity_open_*`: the new screen fades in and grows from 0.8 over 300 ms (decelerate_cubic) while the old one fades out. `activity_close_*` reverses it.
+- **Unlocking.** The keyguard grows to 1.1 and fades in 200 ms, and the launcher fades in after 200 ms (`lock_screen_wallpaper_behind_enter`) instead of the ICS 0.95 zoom.
+- **Unchanged.** The app drawer, folders and drag animations keep their values, because Launcher2 4.3 `config.xml` has the same zoom, fade and stagger times as 4.0.4.
+
+Checks: `jb-transitions.test.cjs`, and headless Chrome sampling of the Messaging launch from the dock (first frame at the icon, about 0.54 × 0.48 scale with the computed pivot, about 0.69 opacity at 40 ms), Back to home, and a Settings subpage. No JavaScript errors.
+
+Limits: notification and widget launches use the plain wallpaper/task transits rather than their own scale-up rectangles. Recents still uses the task animation instead of the 4.1+ thumbnail scale-up; that change comes with the Recents rework.

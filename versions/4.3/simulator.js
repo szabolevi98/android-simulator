@@ -193,7 +193,7 @@
     if(ui.locked)navRoot.querySelectorAll('.nav-home,.nav-recent').forEach(button=>{button.disabled=true;button.setAttribute('aria-hidden','true');});
   }
   // Window transitions: the outgoing view is kept in a temporary layer while both animate.
-  let lastScene = null, pendingNav = '', activeTransition = null;
+  let lastScene = null, pendingNav = '', activeTransition = null, launchFrom = null;
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
   const animationScale = name => { const value = Number(data.settings[name === 'unlock' ? 'windowScale' : 'transitionScale']); return name.startsWith('drawer-') ? 1 : Number.isFinite(value) ? value : 1; };
   function endTransition() {
@@ -204,9 +204,9 @@
     screen.classList.remove('transitioning');
     activeTransition = null;
   }
-  function startTransition(name, outgoing, incoming) {
+  function startTransition(name, outgoing, incoming, override = null) {
     endTransition();
-    const spec = ICSTransitions.specs[name], factor = animationScale(name);
+    const spec = override || ICSTransitions.specs[name], factor = animationScale(name);
     if (!spec || !factor || reducedMotion?.matches || document.hidden) return;
     const box = {top: viewport.offsetTop, left: viewport.offsetLeft, width: viewport.offsetWidth, height: viewport.offsetHeight};
     const layer = (className, child) => { const node = document.createElement('div'); node.className = `transition-layer ${className}`; node.setAttribute('aria-hidden', 'true'); node.inert = true; Object.assign(node.style, {top: `${box.top}px`, left: `${box.left}px`, width: `${box.width}px`, height: `${box.height}px`}); if (child) node.append(child); screen.insertBefore(node, overlayRoot); return node; };
@@ -215,7 +215,7 @@
     if (outgoing) layers.push(layer(spec.exit.top ? 'transition-over' : 'transition-under', outgoing));
     screen.classList.add('transitioning');
     const animations = [...ICSTransitions.play(outgoing, spec.exit, factor), ...ICSTransitions.play(incoming, spec.enter, factor)];
-    activeTransition = {name, factor, start: performance.now(), layers, animations, timer: setTimeout(endTransition, ICSTransitions.length(spec) * factor + 40)};
+    activeTransition = {name, spec, factor, start: performance.now(), layers, animations, timer: setTimeout(endTransition, ICSTransitions.length(spec) * factor + 40)};
   }
   function render() {
     viewport.querySelectorAll('.home-widget .calw-list').forEach(list => { (ui.widgetScroll ||= {})[list.closest('.home-widget').dataset.widgetId] = list.scrollTop; });
@@ -235,11 +235,14 @@
     i18n.translateDOM(screen);
     const scene = {view: ui.view, sub: ui.sub}, transit = ui.sleeping ? '' : ICSTransitions.kind(lastScene, scene, pendingNav);
     lastScene = scene;
-    if (transit) startTransition(transit, outgoing, viewport.firstElementChild);
+    // Launcher icons, folders and the drawer start apps with a scale-up from the tapped icon.
+    const launch = transit === 'wallpaper-close' && launchFrom ? ICSTransitions.scaleUp(launchFrom, viewport.offsetWidth, viewport.offsetHeight) : null;
+    launchFrom = null;
+    if (transit) startTransition(transit, outgoing, viewport.firstElementChild, launch);
     else if (activeTransition) {
       // A same-screen re-render during a transition continues the incoming animation.
       const elapsed = performance.now() - activeTransition.start;
-      ICSTransitions.play(viewport.firstElementChild, ICSTransitions.specs[activeTransition.name].enter, activeTransition.factor).forEach(animation => { animation.currentTime = elapsed; activeTransition.animations.push(animation); });
+      ICSTransitions.play(viewport.firstElementChild, activeTransition.spec.enter, activeTransition.factor).forEach(animation => { animation.currentTime = elapsed; activeTransition.animations.push(animation); });
     }
     if (ui.jbcam && !viewport.querySelector('[data-jbcam]')?.isSameNode(ui.jbcam.root)) { ui.jbcam.destroy(); ui.jbcam = null; }
     const camRoot = viewport.querySelector('[data-jbcam]');
@@ -1053,7 +1056,11 @@
       if(!['back','alarm-dismiss','alarm-snooze','lock-media'].includes(action))return;
     }
     switch (action) {
-      case 'open-app': openApp(app || id, !!button.closest('.recent-item')); break;
+      case 'open-app': {
+        const icon = button.closest('.launcher-icon, .drawer-app, .dock-app') || button;
+        if (['home', 'drawer'].includes(ui.view) && !button.closest('.recent-item')) { const box = icon.getBoundingClientRect(), frame = viewport.getBoundingClientRect(), k = frame.width / viewport.offsetWidth || 1; launchFrom = {left: (box.left - frame.left) / k, top: (box.top - frame.top) / k, width: box.width / k, height: box.height / k}; }
+        openApp(app || id, !!button.closest('.recent-item')); break;
+      }
       case 'home': if (ui.view !== 'lock') home(); break;
       case 'back': back(); break;
       case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
