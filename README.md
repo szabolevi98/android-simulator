@@ -64,6 +64,8 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - The 4.2/4.3 **Clock** has Timer | Clock | Stopwatch tabs (tap or swipe). The Clock page shows bold hours with thin minutes, the date and the next alarm; the alarm button opens the existing alarm list. Timers are set on a keypad and counted down on the CircleTimerView (stop/start, +1 minute, delete, several timers); a finished timer posts “Time's up”. The stopwatch records laps and can share them to Messaging.
 
+- Jelly Bean artwork: the 4.3 launcher icons (new Clock, Camera, Gallery and People icons), the Jelly Bean wallpaper set with the bokeh default, the translucent 4.3 search bar, and the 4.2 analog and digital clock widgets (bold hours, thin minutes).
+
 - Jelly Bean animations: apps grow out of the icon you tap (home screen, dock, folders and the drawer), switching apps slides the windows past each other as shrinking cards, and screens inside an app zoom in from 0.8, using the Android 4.3 animation values.
 
 - The 4.2/4.3 **Camera**: hold the preview to open the arc-shaped pie menu (or tap the menu button in the corner) and drag or tap through Exposure, More options, Flash and the camera switch; More options holds location, countdown timer, picture size, white balance and scene mode. Tap to focus, scroll or pinch to zoom, and swipe left for Gallery. After a capture the photo shrinks to a thumbnail in the corner. The mode switcher offers photo, video (simulated recording) and panorama.

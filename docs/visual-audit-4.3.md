@@ -196,3 +196,26 @@ References (`android-4.3_r1.1`): framework `core/res/res/anim/` (`activity_*`, `
 Checks: `jb-transitions.test.cjs`, and headless Chrome sampling of the Messaging launch from the dock (first frame at the icon, about 0.54 × 0.48 scale with the computed pivot, about 0.69 opacity at 40 ms), Back to home, and a Settings subpage. No JavaScript errors.
 
 Limits: notification and widget launches use the plain wallpaper/task transits rather than their own scale-up rectangles. Recents still uses the task animation instead of the 4.1+ thumbnail scale-up; that change comes with the Recents rework.
+
+## Asset audit against 4.3 — 2026-10-01
+
+Every inherited ICS asset in `versions/4.3/assets` was matched byte for byte to its `android-4.0.4_r2.1` source file and then compared with the same resource at `android-4.3_r1.1`. Launcher icons moved into `mipmap-*` folders, and the Phone/People icons and dialer resources moved into the Phone app. Results: 129 identical, 22 changed, 28 moved or removed, and the rest renamed project copies, which were checked individually.
+
+Replaced with the 4.3 files:
+- **Launcher icons.** Browser, Calculator, Calendar, Clock (the new 4.2 face), Email, Messaging, Settings, People (stacked cards), Phone, and Camera and Gallery (the new Gallery2 camera and picture icons).
+- **Wallpapers.** The Launcher2 4.3 set `wallpaper_01…05, 08…12` (06 and 07 are tablet-only), with thumbnails from `*_small.jpg`. `wallpaper_01` is byte-identical to the framework `default_wallpaper` and is the default; the chooser shows thumbnails without names, as in 4.3.
+- **Search bar.** Launcher2's `search_bar` layout is unchanged, but `search_frame.9.png` is now a filled, rounded, translucent white bar instead of the ICS outlined box. The bar uses it (nine-patch border stripped, 9 px slices) and Launcher2's own `ic_home_voice_search_holo` microphone.
+- **Digital clock widget.** It was drawn in AndroidClock. It now follows DeskClock 4.3 `digital_widget_time`:
+  - bold sans-serif hours and thin minutes at `widget_big_font_size` 80dp, scaled down below `def_digital_widget_width` as in `WidgetUtils.getScaleRatio`;
+  - then the 14sp bold condensed uppercase date and the 50%-white next alarm with `ic_alarm_small`;
+  - the drawer uses the original `appwidget_digital_clock_preview`;
+  - it can shrink to 2 × 1 (`min_digital_widget_resize_*`);
+  - the keyguard page uses the same layout.
+- **Analog clock widget.** The 4.2 `appwidget_clock_dial/hour/minute` (thin ring and slim hands).
+- **Other images and fonts.** `Roboto-Regular.ttf` and `AndroidClock.ttf` from 4.3 `data/fonts`, Calendar `ic_menu_today_holo_light`, DeskClock `ic_menu_add`, and the Mms `msg_bubble_left/right` tails.
+
+Unchanged in 4.3 (kept): navigation bar keys, status bar icons, Settings header icons, Power widget icons and frame, holo check boxes, action bar back, overflow, the music icon and the all-apps button.
+
+Still to review with their apps: the Calendar widget header nine-patches (removed in 4.3), Contacts' `ic_contact_picture*`, `ic_menu_*` and the dialer graphics (moved to Phone), and the in-call `ic_end_call`. These belong to the People/Phone and Calendar passes. The ICS Camera images are no longer used now that the 4.3 Camera has its own `jbcam-` set.
+
+Limits: the “Google” label in the search bar is still project text. The real 4.3 builds draw the Google Search app's toolbar logo, which is not an AOSP asset.

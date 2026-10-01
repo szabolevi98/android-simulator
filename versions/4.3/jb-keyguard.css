@@ -24,10 +24,8 @@
 .jbk-user-widget{display:grid}
 .jbk-user-widget>*{min-height:0;transition:transform .15s}
 .jbk-user-widget .calw{height:100%}
-.jbk-digital{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-shadow:0 1px 4px #0008}
-.jbk-digital-time{font:60px/1 AndroidClock,RobotoICS,sans-serif}
-.jbk-digital-date{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:13px;color:#ddd}
-.jbk-digital-date img{width:16px;height:16px;margin-left:8px}
+.jbk-user-widget{container-type:inline-size}
+.jbk-user-widget .jbw-digital{justify-content:center}
 /* KeyguardWidgetPager delete target while a widget is lifted. */
 .jbk-remove{position:absolute;top:0;left:0;right:0;height:48px;z-index:3;display:grid;place-items:center;font-size:15px;color:#fff;background:#0009;opacity:0;transform:translateY(-100%);transition:opacity .2s,transform .2s,background .1s;pointer-events:none}
 .jb-keyguard.jbk-removing .jbk-remove{opacity:1;transform:none}
