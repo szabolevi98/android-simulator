@@ -512,3 +512,11 @@ html,body{overscroll-behavior-y:none}
 .jb-search.showing.snapped .jb-search-target:not(.active){opacity:0}
 .jb-search.showing.snapped .jb-search-target.active{opacity:1;transform:none}
 .jb-search.hiding .jb-search-ring,.jb-search.hiding .jb-search-target{opacity:0;transition-duration:.2s}
+
+/* Developer options overlays: debug.layout clip bounds, PointerLocationView bar, LoadAverageService. */
+.jb-dev-row:disabled{opacity:.4}
+.dev-layout-bounds #viewport *,.dev-layout-bounds #overlay-root *{outline:1px solid #ff000099;outline-offset:-1px}
+.dev-pointer-bar{position:absolute;top:0;left:0;right:0;height:24px;z-index:60;display:flex;align-items:center;padding:0 4px;background:#000000c0;color:#fff;font:8.5px/1 monospace;white-space:pre;overflow:hidden;pointer-events:none}
+.dev-cpu{position:absolute;top:26px;right:3px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:1px;font:8.5px/1.2 monospace;color:#fff;text-shadow:0 0 2px #000,0 0 2px #000;pointer-events:none}
+.dev-cpu span{display:flex;align-items:center;gap:3px}
+.dev-cpu i{display:inline-block;height:6px;background:#ff0000b0}

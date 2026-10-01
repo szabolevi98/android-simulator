@@ -298,3 +298,33 @@ Limits: the Recents thumbnail cross-fade is reduced to the app scaling, and ther
 
 - **Dialer.** In 4.3 the dialer is its own `packages/apps/Dialer`, and the in-call screen stays in Phone. The Dialer's `dial_num_*_wht`, `dial_background_texture`, action and tab icons differ in bytes from the inherited ICS files, but side by side they render the same (blue digits, grey letters, underline), so the ICS copies are kept.
 - **Calendar widget.** `appwidget.xml` is unchanged apart from dropping the root's 6dip bottom padding, which the widget no longer adds. The header selector now uses `header_bg_cal_widget_normal_holo`, byte-identical to the ICS header, and `header_bg_cal_widget_pressed_holo`, a 60% holo-blue fill with the same nine-patch. The pressed header uses the 4.3 image instead of the ICS row highlight.
+
+## Developer options — 2026-10-01
+
+Settings 4.3 `development_prefs.xml` replaces the short ICS list.
+- **Groups.** The top group (Desktop backup password, Stay awake, HDCP checking, Protect USB storage), then Debugging, Input, Drawing, Hardware accelerated rendering, Monitoring and Apps, 34 rows with the 4.3 titles and summaries.
+- **Master switch.** The DevelopmentSettings ON/OFF switch sits in the action bar; turning it off greys every row and removes the overlays. Wait for debugger stays disabled because no debug app is set, as on the device.
+- **Working rows.**
+  - Show touches (existing), Window/Transition animation scale (driving the 4.3 window animations) and the new Animator duration scale dialog.
+  - **Show layout bounds** outlines every view's bounds.
+  - **Pointer location** draws PointerLocationView's top bar with P / X / Y / Prs / Size in device pixels.
+  - **Show CPU usage** shows the LoadAverageService panel (load averages and per-process bars).
+- **Stored only.** The other check boxes are saved, and the list rows show their 4.3 summaries.
+
+## Full five-language mobile sweep — 2026-10-01
+
+Every app root and Settings sub-page (31 screens) was swept in en/hu/de/fr/es at 360 × 640 and 320 × 568, with 2× DPR mobile emulation. The JB-specific screens were swept the same way:
+- shade and Quick Settings, keyguard, Clock tabs, Daydream;
+- Camera: pie, More options, switcher;
+- Gallery: set, clusters, album, mode spinner, photo, menu, every editor panel, slider and the unsaved-changes dialog;
+- Recents with its popup, and the secure PIN keyguard.
+
+Checks covered text overflow, untranslated text and labels, elements past the screen edge, broken images and JavaScript errors.
+
+- Fixed: the Recents popup menu ran 17–19 px past the right edge on 320 px screens; it now shifts left to stay on screen, as PopupMenu does.
+- Known false positives:
+  - The Camera's on-screen indicator ring has `layout_marginRight="-5dip"` in AOSP and overhangs the edge by about 5 px.
+  - The GlowPad target box overhangs at 320 px (see the earlier sweep).
+  - The editor's category strip and the Gallery grids scroll sideways by design.
+  - French Email's “Agenda” is a sender name.
+- A first parallel run with 15 browsers also hit page-load timeouts in the scripts; rerunning at lower concurrency was clean.

@@ -43,7 +43,7 @@
     if(field==='volumes')return shell('Volumes',`${[['mediaVolume','Music, video, games & other media'],['ringVolume','Ringtone & notifications'],['alarmVolume','Alarms']].map(([key,name])=>`<label><span>${e(t(name))}</span><input type="range" name="${key}" min="0" max="100" value="${p[key]}" aria-label="${e(t(name))}"></label>`).join('')}${actions}`,'sd-volumes');
     let title='',choices=[],value;
     if(field==='sleep'){title='Sleep';choices=sleepOptions;value=p.sleep;}
-    if(field==='windowScale'||field==='transitionScale'){title=field==='windowScale'?'Window animation scale':'Transition animation scale';choices=scaleOptions;value=p[field];}
+    if(['windowScale','transitionScale','animatorScale'].includes(field)){title={windowScale:'Window animation scale',transitionScale:'Transition animation scale',animatorScale:'Animator duration scale'}[field];choices=scaleOptions;value=p[field]??1;}
     if(field==='font'){title='Font size';choices=[['normal','Normal'],['large','Large']];value=p.largeText?'large':'normal';}
     if(field==='silent'){title='Silent mode';choices=[['off','Off'],['vibrate','Vibrate'],['mute','Mute']];value=p.silent?(p.silentMode||'mute'):'off';}
     if(field==='ringtone'||field==='notificationTone'){title=field==='ringtone'?'Phone ringtone':'Default notification';choices=['Silent','Andromeda','Arcturus','Capella','Orion','Pegasus','Proxima','Sirius'].map(name=>[name,name]);value=p[field];}
