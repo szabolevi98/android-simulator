@@ -1010,6 +1010,7 @@
     ['Use Experimental WebView','Kísérleti WebView használata','Experimentelles WebView verwenden','Utiliser la WebView expérimentale','Usar WebView experimental'],
     ['Apps will use the newest (beta) WebView','Az alkalmazások a legújabb (béta) WebView-t használják','Apps verwenden das neueste (Beta-)WebView','Les applications utiliseront la WebView la plus récente (bêta)','Las aplicaciones usarán la última versión (beta) de WebView'],
     ['Not available in the simulator','A szimulátorban nem érhető el','Im Simulator nicht verfügbar','Non disponible dans le simulateur','No disponible en el simulador'],
+    ['Shift','Shift','Umschalt','Maj','Mayúsculas'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;

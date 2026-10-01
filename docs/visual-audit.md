@@ -382,3 +382,12 @@ Checks: `nyandroid.test.cjs`; headless Chrome for the folder crop, an analog clo
 ## Hotseat margins — 2026-10-01
 
 Reported by the owner: the dock had side margins and a dark gradient that are not in AOSP. Launcher2 `layout-port/launcher.xml`, `hotseat.xml` and `workspace_divider.xml` at `android-4.0.4_r2.1` give a full-width, transparent hotseat (`button_bar_width_left/right_padding` = 0dp). Above it sits the `dock_divider`, which uses `hotseat_track_holo.9.png`: a 2dp line of 50% white with a faint shadow, inset by `workspace_divider_padding_left/right` = 3dp. The dock now has no margin or background, and the divider is drawn from those values (2.7 px inset, 1.8 px line).
+
+## Password keyboard — 2026-10-01
+
+The letter keyboard of the password lock and the password setup now draws LatinIME's `KeyboardView.IceCreamSandwich` theme. Its holo resources are byte-identical in `android-4.0.4_r2.1` and `android-4.3_r1.1` ([LatinIME java/res](https://github.com/aosp-mirror-neo/platform_packages_inputmethods_latinime/tree/android-4.0.4_r2.1/java/res)).
+- **Keys.** `btn_keyboard_key_light_*_holo` letter keys and `btn_keyboard_key_dark_*_holo` functional keys (nine-patch borders removed), on the `keyboard_background_holo` gradient. The `sym_keyboard_{shift,shift_locked,delete,space,return}_holo` icons replace the text glyphs.
+- **Proportions.** `keyboardHeight` 205.6dp, top/bottom padding 2.335%/4.669%, horizontal gap 1.739% and bottom gap 6.127%. Letters are bold at 55% of the key height; ?123 uses the 34% label size.
+- **Layout.** The second row is inset by half a key. The bottom row is ?123, comma, space, period and Enter, with Shift and Delete at 1.5× width.
+
+The PIN pads keep their own framework (ICS) or Keyguard (4.3) keys, as on the device.
