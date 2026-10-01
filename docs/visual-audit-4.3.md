@@ -13,3 +13,20 @@ Target: stock **Android 4.3 on the Galaxy Nexus (JWR66Y)**, AOSP tag `android-4.
 Checks: `jb-beanbag.test.cjs` (depth, colors, drift, grab velocity, fling spin, respawn); headless Chrome: landing cards, separate storage, About values, the full Build-number toast sequence, platlogo tap/toast, long-press BeanBag with 40 beans, Back to About, and window transitions on the copy. No JavaScript errors were logged.
 
 ![Jelly Bean platlogo and BeanBag](screenshots/jb-easter-egg.png)
+
+## Notification panel and quick settings — 2026-10-01
+
+References: SystemUI [status_bar_expanded.xml](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/packages/SystemUI/res/layout/status_bar_expanded.xml), [status_bar_expanded_header.xml](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/packages/SystemUI/res/layout/status_bar_expanded_header.xml), [flip_settings.xml](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/packages/SystemUI/res/layout/flip_settings.xml), [QuickSettings.java](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/packages/SystemUI/src/com/android/systemui/statusbar/phone/QuickSettings.java), [QuickSettingsModel.java](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/packages/SystemUI/src/com/android/systemui/statusbar/phone/QuickSettingsModel.java), [PhoneStatusBar.java](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java), plus `dimens.xml`, `colors.xml`, `config.xml`; Calendar [AlertReceiver.java](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-4.3_r1.1/src/com/android/calendar/alerts/AlertReceiver.java).
+
+- **Panel.** It wraps its content over a `#B0000000` scrim, uses the `notification_panel_bg` color (`#0e0e0e` at 90%) and the 4.3 close handle (a dark bar with the stretched holo-blue line). The 48dp black header shows the 32dp Roboto Light clock, the uppercase date, Clear all and the settings/notifications flip button.
+- **Flip settings** (`config_hasFlipSettingsPanel`): the visible page squashes horizontally in 125 ms, then the other grows in 225 ms; the header buttons cross-fade. A two-finger pull opens Quick Settings directly.
+- **Quick Settings.** Three columns, 110dp cells, 4dp gaps, `#161616`/`#212121` tiles, original `ic_qs_*` artwork and labels. Me opens People; Brightness opens a slider with AUTO. Settings, Wi-Fi, mobile signal, battery, Bluetooth and Alarm open the matching screens; Airplane mode toggles. Wi-Fi and Bluetooth toggle on long press (`LONG_PRESS_TOGGLES`). Alarm (next alarm) and Location (when GPS is on) tiles appear only when relevant. There is no rotation tile on phones.
+- **Notifications.** The template has a 64dp large icon, 18dp title, 14dp text, time and small icon. The top notification with expanded content opens expanded; others expand with a two-finger swipe down or a trackpad pinch (Ctrl+wheel) and collapse with the opposite gesture. Calendar alerts expand to big text with **Snooze**, which re-posts after `SNOOZE_DELAY` (5 minutes).
+- **Clear all.** Rows slide right in 125 ms each, starting 140 ms apart with the gap shrinking by 10 ms (minimum 50 ms); then the panel collapses.
+
+Checks: `jb-shade.test.cjs` (clear-all timing, flip duration, tile order and states, expansion defaults, escaping). Headless Chrome: pull-down, expansion by pinch, flip and the mid-flip frame, all tiles, long-press Wi-Fi toggle, airplane mode, calendar Snooze, staggered Clear all; the touch suite passes on 4.3. No JavaScript errors.
+
+Limits: status-bar icons are still the ICS set; Map/Call/Email-guests actions, inbox-style messaging notifications, per-app notification priority and the brightness slider's live preview mechanics are simplified.
+
+![Jelly Bean notifications and Quick Settings](screenshots/jb-shade.png)
+

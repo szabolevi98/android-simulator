@@ -118,3 +118,6 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 
 - `jb-platlogo.png` and `jb-platlogo_alt.png`: framework `core/res/res/drawable-nodpi/platlogo.png` and `platlogo_alt.png`, renamed.
 - `redbean0.png`, `redbean1.png`, `redbean2.png`, `redbeandroid.png` and `jandycane.png`: SystemUI `res/drawable-nodpi`, unmodified.
+- `jb-ic_notify_*`, `jb-ic_notifications_normal.png` and `jb-ic_qs_*`: SystemUI `res/drawable-hdpi`, renamed with a `jb-` prefix.
+- `jb-status_bar_close_on.png`: SystemUI `status_bar_close_on.9.png` with the nine-patch border removed.
+- `calendar-ic_alarm_holo_dark.png`, `calendar-ic_map.png` and `calendar-ic_menu_email_holo_dark.png`: [AOSP Calendar](https://github.com/aosp-mirror-neo/platform_packages_apps_calendar/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`.

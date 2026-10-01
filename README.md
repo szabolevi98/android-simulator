@@ -54,7 +54,9 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 - Developer options are hidden, as from Android 4.2. Tapping Build number counts down from the fourth tap (“You are now 3 steps away…”) and unlocks the menu on the seventh. Later taps reply “No need, you are already a developer.”
 - The 4.3 easter egg: tap Android version three times quickly. The jelly bean (`platlogo_alt`) appears over the wallpaper; a tap shows the “Android 4.3 / JELLY BEAN” toast and the bean gets a face. Long-press opens the SystemUI **BeanBag**, with 40 color-tinted beans (and a rare candy cane) that drift and spin and can be grabbed and flung.
 
-Planned next: Jelly Bean notification shade and quick settings, GlowPad lock screen with Google Now and lock-screen widgets, resizable and auto-arranging launcher widgets, the 4.2 Clock and Camera, and 4.3 Settings. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
+- Jelly Bean notification panel. The header has a large clock and date, Clear all (rows slide out one after another) and the settings button, which flips the panel to **Quick Settings** (also opened by pulling down with two fingers). Tiles: Me, Brightness (dialog with AUTO), Settings, Wi-Fi, mobile signal, battery, airplane mode, Bluetooth, plus Alarm and Location when relevant. Long-press Wi-Fi or Bluetooth to toggle them. Notifications expand and collapse with a two-finger swipe or a trackpad pinch. Calendar reminders offer **Snooze** (5 minutes).
+
+Planned next: GlowPad lock screen with Google Now and lock-screen widgets, resizable and auto-arranging launcher widgets, the 4.2 Clock and Camera, and 4.3 Settings. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
 
 ## Adding a version
 

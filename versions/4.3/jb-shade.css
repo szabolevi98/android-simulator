@@ -1,0 +1,57 @@
+/* Android 4.3 phone notification panel: notification_panel_bg (#0e0e0e at 90%), 48dp black header, 3-column quick settings. */
+.notification-shade.jb-shade{top:24px;bottom:auto;max-height:calc(100% - 24px);background:none;display:flex;flex-direction:column;color:#fff;overflow:hidden;box-shadow:none;z-index:21}
+.jb-shade-scrim{position:absolute;inset:24px 0 0;z-index:20;background:#000000b0;transition:opacity .15s}
+.jb-shade .jb-shade-header{flex:none;height:43px;min-height:43px;padding:0;background:#000;display:flex;align-items:center;gap:0;touch-action:none}
+.jb-shade-datetime{flex:1;min-width:0;display:flex;align-items:baseline;gap:7px;padding:0 7px;white-space:nowrap;overflow:hidden}
+.jb-shade-clock{font:300 29px Roboto,RobotoICS,sans-serif;line-height:1;color:#fff}
+.jb-shade-date{font-size:11px;color:#ccc;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis}
+.jb-shade .jb-shade-header button{flex:none;width:45px;height:43px;border:0;background:none;display:grid;place-items:center;padding:0;margin-left:0}
+.jb-shade .jb-shade-header button:active{background:#33b5e566}
+.jb-shade .jb-shade-header button[hidden]{display:none}
+.jb-shade-header img{width:29px;height:29px;object-fit:contain}
+.jb-shade-flip{position:relative;margin-left:11px!important}
+.jb-shade-flip img{position:absolute;inset:7px 8px;transition:opacity .35s}
+.jb-shade-flip .jb-flip-notifications,.jb-shade.show-settings .jb-flip-settings{opacity:0}
+.jb-shade.show-settings .jb-flip-notifications{opacity:1}
+.jb-shade-pages{position:relative;flex:0 1 auto;min-height:0;display:grid;background:#0e0e0ee6}
+.jb-shade-pages>*{grid-area:1/1;min-height:0;overflow-y:auto;overscroll-behavior:contain;transform-origin:center}
+.jb-shade .jb-shade-list{padding:0;background:none}
+.jb-shade .jb-qs,.jb-shade.show-settings .jb-shade-list{visibility:hidden}
+.jb-shade.show-settings .jb-qs{visibility:visible}
+.jb-shade-carrier{flex:none;height:22px;line-height:22px;padding:0;text-align:center;font-size:13px;color:#999;background:#0e0e0ee6}
+.jb-shade .shade-handle{flex:none;background:#0e0e0ee6}
+/* Notification template (64dp large icon, 18dp title, 14dp text, 3dp dividers). */
+.notification.jb-note{margin:3px 0;padding:0;border:0;background:#111;font-size:inherit;display:block}
+.jb-note-main{width:100%;min-height:58px;border:0;background:none;color:inherit;display:flex;align-items:stretch;text-align:left;padding:0}
+.jb-note-main:active{background:#33b5e555}
+.jb-note-icon{flex:none;width:58px;min-height:58px;background:#3333b5e5;display:grid;place-items:center}
+.jb-note-icon img{width:58px;height:58px;object-fit:cover}
+.jb-note-body{position:relative;flex:1;min-width:0;padding:6px 8px 6px 9px;display:flex;flex-direction:column;justify-content:center}
+.jb-note-top{display:flex;align-items:baseline;gap:6px}
+.jb-note-top strong{flex:1;min-width:0;font:300 16px Roboto,RobotoICS,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jb-note-top time{flex:none;font-size:11px;color:#999}
+.jb-note-text{font-size:13px;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:18px}
+.jb-note.expanded .jb-note-text{white-space:pre-line;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical}
+.jb-note-small{position:absolute;right:7px;bottom:7px;width:14px;height:14px;object-fit:contain;opacity:.9}
+.jb-note-actions{display:flex;border-top:1px solid #ffffff1a;margin-left:58px}
+.jb-note-actions button{flex:1;min-height:43px;border:0;background:none;color:#fff;font-size:13px;display:flex;align-items:center;gap:7px;padding:0 10px;text-align:left}
+.jb-note-actions button:active{background:#33b5e555}
+.jb-note-actions img{width:29px;height:29px}
+/* QuickSettings: 3 columns, 110dp cells, 4dp gaps, #161616 tiles (#212121 pressed). */
+.jb-shade .jb-qs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:99px;gap:4px;padding:4px;align-content:start}
+.jb-qs-tile{border:0;background:#161616;color:#ccc;display:flex;flex-direction:column;align-items:center;padding:24px 0 0;min-width:0}
+.jb-qs-tile:active,.jb-qs-tile:focus-visible{background:#212121;outline:0}
+.jb-qs-icon{position:relative;width:29px;height:29px;margin-bottom:15px;flex:none}
+.jb-qs-icon img{width:29px;height:29px;object-fit:contain}
+.jb-qs-icon .jb-qs-overlay{position:absolute;inset:0}
+.jb-qs-label{font-size:11px;text-transform:uppercase;padding:0 5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jb-brightness-row{display:flex;align-items:center;gap:8px}
+.jb-brightness-row input[type=range]{flex:1;min-width:0;accent-color:#33b5e5}
+.jb-brightness-row img{width:29px;height:29px}
+.jb-brightness-row label{display:flex;flex-direction:column;align-items:center;margin:0;font-size:11px;color:#ccc}
+.jb-brightness-row label input{width:auto;margin:0;accent-color:#33b5e5}
+/* status_bar_close_on.9.png: dark bar whose middle column stretches into the holo-blue line. */
+.jb-shade .shade-handle{height:32px;min-height:32px;background:none;border:0 solid transparent;border-width:0 13px 0 14px;border-image:url('assets/jb-status_bar_close_on.png') 0 22 0 23 fill / 0 13px 0 14px stretch;margin-top:-3px}
+.jb-shade .shade-handle img{display:none}
+/* Only the visible page sizes the wrapped panel. */
+.jb-shade:not(.show-settings) .jb-qs,.jb-shade.show-settings .jb-shade-list{position:absolute;inset:0 0 auto;max-height:100%}
