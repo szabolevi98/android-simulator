@@ -1,0 +1,47 @@
+/* Android 4.3 keyguard (dp scaled by 0.9): widget pager with 25dp padding above the GlowPad challenge. */
+.lock-view.jb-keyguard{position:relative;width:100%;height:100%;display:block;overflow:hidden;background:transparent;text-align:left;touch-action:none}
+.jbk-pager{position:absolute;top:0;left:0;right:0;bottom:290px;overflow:hidden;touch-action:none}
+.jbk-track{display:flex;height:100%;will-change:transform}
+.jbk-page{position:relative;flex:0 0 100%;height:100%;padding:22px 22px 8px;box-sizing:border-box;color:#fff}
+/* KeyguardWidgetFrame outline (kg_widget_bg_padded) fades in while paging. */
+.jbk-page::before{content:'';position:absolute;inset:22px 22px 8px;border:12px solid transparent;border-image:url('assets/jb-kg_widget_bg_padded.png') 19 fill / 12px stretch;opacity:0;transition:opacity .3s;pointer-events:none}
+.jb-keyguard.jbk-paging .jbk-page::before,.jbk-page.jbk-lifted::before{opacity:1}
+.jbk-status{display:flex;flex-direction:column;align-items:flex-end;text-shadow:0 1px 4px #0008}
+.jbk-clock{margin:0 14px 0 0;font:67px/1 AndroidClock,RobotoICS,sans-serif;white-space:nowrap}
+.jbk-clock small{font:15px RobotoICS,sans-serif;margin-left:3px}
+.jbk-status-line{margin-right:14px;display:flex;gap:14px;align-items:center;font-size:13.5px;white-space:nowrap}
+.jbk-alarm{display:flex;align-items:center;gap:4px;font-size:12px}
+.jbk-alarm img{width:16px;height:16px}
+.jbk-owner{margin:6px 14px 0 0;font-size:12px;max-width:80%;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jbk-add{display:grid;place-items:center}
+.jbk-add-button{border:0;background:none;padding:22px;display:grid;place-items:center}
+.jbk-add-button img{width:69px;height:92px;object-fit:contain}
+.jbk-add-button:active img{filter:drop-shadow(0 0 6px #33b5e5)}
+.jbk-camera{display:grid;place-items:center}
+.jbk-camera::after{content:'';position:absolute;inset:22px 22px 8px;background:#000a;z-index:-1}
+.jbk-camera img{width:97px;height:97px;opacity:.8}
+.jbk-transport .jbk-transport-view{position:relative;inset:auto;height:100%;width:100%}
+.jbk-user-widget{display:grid}
+.jbk-user-widget>*{min-height:0;transition:transform .15s}
+.jbk-user-widget .calw{height:100%}
+.jbk-digital{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-shadow:0 1px 4px #0008}
+.jbk-digital-time{font:60px/1 AndroidClock,RobotoICS,sans-serif}
+.jbk-digital-date{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:13px;color:#ddd}
+.jbk-digital-date img{width:16px;height:16px;margin-left:8px}
+/* KeyguardWidgetPager delete target while a widget is lifted. */
+.jbk-remove{position:absolute;top:0;left:0;right:0;height:48px;z-index:3;display:grid;place-items:center;font-size:15px;color:#fff;background:#0009;opacity:0;transform:translateY(-100%);transition:opacity .2s,transform .2s,background .1s;pointer-events:none}
+.jb-keyguard.jbk-removing .jbk-remove{opacity:1;transform:none}
+.jb-keyguard.jbk-over-remove .jbk-remove{background:#cc0000cc}
+/* GlowPadView: 135dp target radius, ring 0.5 -> 1 and target 0.8 -> 1 in 200 ms (50 ms delay). */
+.jbk-challenge{position:absolute;left:0;right:0;bottom:0;height:290px;touch-action:none}
+.jbk-points{position:absolute;left:50%;top:135px;width:280px;height:280px;margin:-140px 0 0 -140px;pointer-events:none}
+.jbk-ring{position:absolute;left:50%;top:135px;width:243px;height:243px;margin:-121.5px 0 0 -121.5px;border:2px solid #ffffff1a;border-radius:50%;box-sizing:border-box;opacity:0;transform:scale(.5);transition:opacity .2s cubic-bezier(.33,1,.68,1),transform .2s cubic-bezier(.33,1,.68,1);pointer-events:none}
+.jbk-target,.jbk-target-active{position:absolute;left:calc(50% + 121px);top:135px;width:108px;height:108px;margin:-54px 0 0 -54px;opacity:0;transform:scale(.8);transition:opacity .2s cubic-bezier(.33,1,.68,1),transform .2s cubic-bezier(.33,1,.68,1);pointer-events:none}
+.jb-keyguard .jbk-grabbed .jbk-ring,.jb-keyguard .jbk-grabbed .jbk-target,.jbk-triggered .jbk-ring,.jbk-triggered .jbk-target{opacity:1;transform:none;transition-delay:.05s}
+.jbk-grabbed.jbk-snapped .jbk-target,.jbk-triggered .jbk-target{opacity:0}
+.jbk-grabbed.jbk-snapped .jbk-target-active,.jbk-triggered .jbk-target-active{opacity:1;transform:none;transition-delay:0s}
+.jbk-triggered .jbk-ring{opacity:0}
+.jbk-handle{position:absolute;left:50%;top:135px;width:108px;height:108px;margin:-54px 0 0 -54px;border:0;padding:0;background:none;display:grid;place-items:center;cursor:grab;touch-action:none;transition:opacity .2s}
+.jbk-handle img{width:108px;height:108px;pointer-events:none}
+.jbk-grabbed .jbk-handle,.jbk-triggered .jbk-handle{opacity:0;transition:none;cursor:grabbing}
+.jbk-eca{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:12px;color:#bebebe}

@@ -56,7 +56,9 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - Jelly Bean notification panel. The header has a large clock and date, Clear all (rows slide out one after another) and the settings button, which flips the panel to **Quick Settings** (also opened by pulling down with two fingers). Tiles: Me, Brightness (dialog with AUTO), Settings, Wi-Fi, mobile signal, battery, airplane mode, Bluetooth, plus Alarm and Location when relevant. Long-press Wi-Fi or Bluetooth to toggle them. Notifications expand and collapse with a two-finger swipe or a trackpad pinch. Calendar reminders offer **Snooze** (5 minutes).
 
-Planned next: GlowPad lock screen with Google Now and lock-screen widgets, resizable and auto-arranging launcher widgets, the 4.2 Clock and Camera, and 4.3 Settings. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
+- Jelly Bean slide lock: the AndroidClock clock, uppercase date and next alarm sit in a swipeable widget pager. Swipe right to the **+** page to add a Calendar or Digital clock widget (long-press a widget and drag it up to Remove), and swipe left to the camera page to open Camera. The GlowPad dot cloud glows around your finger; drag the lock to the ring in any direction to unlock, and a wave ripples out after a miss. While Music is active its transport becomes a page. Pattern, PIN and password locks still use the ICS screens.
+
+Planned next: resizable and auto-arranging launcher widgets, the 4.2 Clock and Camera, and 4.3 Settings. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
 
 ## Adding a version
 

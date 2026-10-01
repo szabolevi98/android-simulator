@@ -30,3 +30,17 @@ Limits: status-bar icons are still the ICS set; Map/Call/Email-guests actions, i
 
 ![Jelly Bean notifications and Quick Settings](screenshots/jb-shade.png)
 
+## Keyguard: widget pager and GlowPad — 2026-10-01
+
+References: framework [keyguard_host_view.xml (port)](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/core/res/res/layout-port/keyguard_host_view.xml), [keyguard_glow_pad_view.xml](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/core/res/res/layout/keyguard_glow_pad_view.xml), [keyguard_status_view.xml](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/core/res/res/layout/keyguard_status_view.xml), [GlowPadView.java](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/core/java/com/android/internal/widget/multiwaveview/GlowPadView.java), [PointCloud.java](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/core/java/com/android/internal/widget/multiwaveview/PointCloud.java), [KeyguardSelectorView.java](https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-4.3_r1.1/policy/src/com/android/internal/policy/impl/keyguard/KeyguardSelectorView.java), KeyguardStatusView/ClockView, and `dimens.xml`/`arrays.xml`.
+
+- **Status widget.** The clock uses AndroidClock at 75dp, right-aligned with a 16dp margin; AM/PM is separate. The date is the locale's best weekday-month-day pattern in upper case, followed by the next alarm with `ic_lock_idle_alarm` and owner info.
+- **Widget pager.** Pages follow KeyguardHostView order: the **+** slot (while fewer than five widgets), user widgets, the Music transport while Music is active, the status clock, then camera. The `kg_widget_bg_padded` frames fade in only while paging; edges resist. The add slot opens a picker with Calendar and the 4.2 DeskClock digital clock. Widgets are saved and can be removed by long-pressing and dragging to the top Remove target. Settling on the camera page opens Camera, as CameraWidgetFrame does.
+- **GlowPad.** The phone keyguard uses `lockscreen_targets_unlock_only`, so dragging past the target radius minus the 40dp snap margin in any direction snaps to the single unlock target (`ic_lockscreen_unlock_activated`) with a 20 ms vibration. The PointCloud is rebuilt with the same inner/outer radii and spacing; dots use `ic_lockscreen_glowdot` with the cos¹⁰ finger glow (75dp) and cos²⁰ wave edge. On grab, the handle hides and the ring (0.5→1) and target (0.8→1) show in 200 ms after a 50 ms delay. A miss fades the glow back in 200 ms (Quart) and pings a 1350 ms Quad wave out to twice the ring radius. Keyboard Enter/Space on the handle unlocks.
+
+Checks: `jb-keyguard.test.cjs` (cloud geometry, glow/wave alpha, page order, defaults, widget limit). Headless Chrome with mouse and with emulated touch: idle ping, grab glow, snapping, unlocking, paging to +, adding and storing a Digital clock widget, paging to camera opening Camera; the full touch suite passes on 4.3 and 4.0.4. No JavaScript errors.
+
+Limits: pattern/PIN/password still use the ICS full-screen screens rather than SlidingChallengeLayout's bouncer and widget area; no Google Now (AOSP has no assist activity), no widget reordering, user switcher or Face Unlock; the camera page shows an icon rather than a live preview.
+
+![Jelly Bean keyguard: idle, grab, snap and a lock-screen widget](screenshots/jb-keyguard.png)
+
