@@ -72,3 +72,16 @@ Limits: no world-clock city list, night mode, screensaver settings, timer labels
 
 ![Clock, timer setup, running timer and stopwatch](screenshots/jb-deskclock.png)
 
+## Settings and Daydream — 2026-10-01
+
+References: Settings 4.3 [settings_headers.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.3_r1.1/res/xml/settings_headers.xml), [location_settings.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.3_r1.1/res/xml/location_settings.xml), [display_settings.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.3_r1.1/res/xml/display_settings.xml), [device_info_settings.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.3_r1.1/res/xml/device_info_settings.xml), [security_settings_misc.xml](https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-4.3_r1.1/res/xml/security_settings_misc.xml) and `strings.xml`; DeskClock 4.3 `desk_clock_saver.xml`.
+
+- **Headers.** PERSONAL now starts with Location access; accounts move into their own ACCOUNTS section (Google, Add account). Users is omitted, as on single-user phones.
+- **Location access.** The “Access to my location” switch enables or disables (greys out) the GPS satellites and Wi-Fi & mobile network location sources, using the original 4.3 wording.
+- **Daydream.** Display has a Daydream entry after Sleep. The Daydream screen has the master switch, the off-state prompt, radio choices (Clock, Colors, Photo Frame), Start now and When to daydream (While docked / While charging / Either). Start now runs a full-screen dream that any tap ends: Clock is the dimmed DeskClock saver, which moves once a minute; Colors is a slow hue gradient; Photo Frame cross-fades Gallery pictures every six seconds.
+- **Security and About.** Unknown sources uses the 4.3 summary; Verify apps (on by default) and Notification access (no listeners) are added. About phone shows SELinux status: Permissive, as on Galaxy Nexus 4.3 builds.
+
+Checks: headless Chrome walked the header order, the location switch (greying sources and saving), Daydream off/on, dream choice, Start now with Clock and Colors, exit by tap, and About. No JavaScript errors.
+
+Limits: dreams do not start automatically (no charging/dock state), Photo Table and Google dreams are absent, and the Colors dream approximates the GL renderer with a CSS gradient.
+

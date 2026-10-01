@@ -1,0 +1,12 @@
+/* Android 4.3 Settings additions: Location access sources and Daydream (DreamSettings, DeskClock Screensaver, Colors). */
+.jb-disabled-group{opacity:.4}
+.jb-dream-row{display:flex;align-items:center;justify-content:space-between}
+.jb-dream-row .holo-radio{width:32px;height:32px;flex:none}
+.jb-dream{position:absolute;inset:0;z-index:60;background:#000;cursor:none;overflow:hidden}
+.jb-dream-saver{position:absolute;left:50%;top:var(--top,30%);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;color:#fff;opacity:.45;animation:dream-fade 1.5s ease-in-out}
+.jb-dream-saver[style*="--spot:1"]{--top:62%}.jb-dream-saver[style*="--spot:2"]{--top:42%}.jb-dream-saver[style*="--spot:3"]{--top:75%}
+@keyframes dream-fade{from{opacity:0}}
+.jb-dream-colors{background:linear-gradient(135deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);background-size:400% 400%;animation:dream-colors 30s linear infinite}
+@keyframes dream-colors{0%{background-position:0% 50%;filter:hue-rotate(0)}50%{background-position:100% 50%}100%{background-position:0% 50%;filter:hue-rotate(360deg)}}
+.jb-dream-photo img{width:100%;height:100%;object-fit:cover;animation:dream-fade 1.5s ease-in-out}
+.jb-dream-saver .jbclock-date img{width:14px;height:14px;opacity:.8}

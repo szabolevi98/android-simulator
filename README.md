@@ -62,7 +62,9 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - The 4.2/4.3 **Clock** has Timer | Clock | Stopwatch tabs (tap or swipe). The Clock page shows bold hours with thin minutes, the date and the next alarm; the alarm button opens the existing alarm list. Timers are set on a keypad and counted down on the CircleTimerView (stop/start, +1 minute, delete, several timers); a finished timer posts “Time's up”. The stopwatch records laps and can share them to Messaging.
 
-Planned next: and Camera, and 4.3 Settings. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
+- 4.3 Settings: the 4.3 header order with **Location access** (master switch plus GPS and network sources) and an ACCOUNTS section. Display adds **Daydream** with Clock (a dimmed clock that moves each minute), Colors and Photo Frame, **Start now** and **When to daydream**. Security adds Verify apps and Notification access, and About phone shows the SELinux status.
+
+Still to come: the 4.2 Camera interface, Jelly Bean-style pattern/PIN/password bouncer screens, and a full five-language and mobile sweep of 4.3. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
 
 ## Adding a version
 
