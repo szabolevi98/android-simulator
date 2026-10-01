@@ -60,7 +60,9 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - Jelly Bean home screens. When you drag an icon or widget onto occupied cells, the items there slide aside after a quarter second. Dropping right on an icon's centre still makes a folder. Calendar and the new **Digital clock** widget (3 × 2) show the resize frame after being dropped; drag a handle to change the span in whole cells, and neighbours move out of the way. Spans are saved.
 
-Planned next: the 4.2 Clock and Camera, and 4.3 Settings. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
+- The 4.2/4.3 **Clock** has Timer | Clock | Stopwatch tabs (tap or swipe). The Clock page shows bold hours with thin minutes, the date and the next alarm; the alarm button opens the existing alarm list. Timers are set on a keypad and counted down on the CircleTimerView (stop/start, +1 minute, delete, several timers); a finished timer posts “Time's up”. The stopwatch records laps and can share them to Messaging.
+
+Planned next: and Camera, and 4.3 Settings. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
 
 ## Adding a version
 

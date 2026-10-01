@@ -57,3 +57,18 @@ Limits: a simplified solver (Launcher's swap/push search and reorder-hint wobble
 
 ![Reorder, resize frame and a resized Calendar widget](screenshots/jb-launcher.png)
 
+## Clock (DeskClock 4.2/4.3) — 2026-10-01
+
+References at DeskClock `android-4.3_r1.1`: [DeskClock.java](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.3_r1.1/src/com/android/deskclock/DeskClock.java), [clock_fragment.xml](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.3_r1.1/res/layout/clock_fragment.xml), [timer_fragment.xml](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.3_r1.1/res/layout/timer_fragment.xml), [time_setup_view.xml](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.3_r1.1/res/layout/time_setup_view.xml), [stopwatch_fragment.xml](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.3_r1.1/res/layout/stopwatch_fragment.xml), [CircleTimerView.java](https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-4.3_r1.1/src/com/android/deskclock/CircleTimerView.java), plus `styles.xml`, `dimens.xml` and `colors.xml`.
+
+- **Tabs.** A ViewPager with icon tabs (timer, clock, stopwatch) opens on Clock; tap or swipe changes pages, with the holo-blue underline.
+- **Clock.** Bold hours and Roboto Thin minutes (`big_bold`/`big_thin`), the condensed uppercase date and the next alarm with `ic_alarm_small`. The footer has Alarms (opens the existing AlarmClock list and editor), Cities and the overflow menu (the last two only show a demo notice).
+- **Timer.** The TimerSetupView fills H MM SS from the right; the keypad and backspace match the layout, and Start stays disabled until a duration exists. Running timers show the CircleTimerView with its rules: a 4dp white ring, `clock_red` arc drawn counter-clockwise from 12 o'clock, and the red diamond. Each has delete, Stop/Start/Reset and +1 minute; Add Timer opens the keypad again. A finished timer turns red with “Time's up”, posts a notification and switches to the Timer page. Durations use real elapsed time.
+- **Stopwatch.** The counter shows hundredths in AndroidClockMono. After the first lap the red arc runs clockwise relative to that lap, with a 16dp marker at the previous lap. Lap/Reset, Start/Stop and Share are present, and Share writes the times into a new Messaging draft. The lap list is newest first.
+
+Checks: `jb-deskclock.test.cjs` (setup digits and limits, timer state changes, formats, laps and reset, rendering). Headless Chrome: tabs, keypad 1-0-5 → 0h 01m 05s, running countdown, a 2-second timer finishing with its notification, two laps, sharing to Messaging, and swiping from Timer to Clock. No JavaScript errors.
+
+Limits: no world-clock city list, night mode, screensaver settings, timer labels/sounds or stopwatch notification; alarms still use the ICS list and editor rather than the 4.2 time picker.
+
+![Clock, timer setup, running timer and stopwatch](screenshots/jb-deskclock.png)
+

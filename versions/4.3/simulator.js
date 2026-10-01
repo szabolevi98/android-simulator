@@ -241,6 +241,7 @@
     if (ui.beanBag && !viewport.querySelector('[data-beanbag]')?.isSameNode(ui.beanBag.root)) { ui.beanBag.stop(); ui.beanBag = null; }
     const beanRoot = viewport.querySelector('[data-beanbag]');
     if (beanRoot && !ui.beanBag) requestAnimationFrame(() => { if (beanRoot.isConnected && !ui.beanBag) ui.beanBag = {...JBBeanBag.start(beanRoot), root: beanRoot}; });
+    if (ui.view === 'clock' && viewport.querySelector('.jbclock-app')) clockTicker();
     if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
     if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
   }
@@ -828,7 +829,35 @@
     ui.eventDraft=ICSCalendar.normalize(item || {date:ui.selectedDate,time:'12:00',title:''});
     ui.calendarError='';ui.overlay='';ui.sub='event-edit';render();
   }
-  function renderClock() { return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale(),deviceDate()); }
+  // 4.2 DeskClock pages; the alarm list and editor keep the ICS AlarmClock/SetAlarm screens.
+  const jbClockState = () => { data.jbClock ||= {tab: 'clock', timers: [], stopwatch: {accumulated: 0, started: null, laps: []}}; return {...data.jbClock, timerDigits: ui.timerDigits || '', timerSetup: !!ui.timerSetup}; };
+  function renderClock() {
+    if (['alarms', 'alarm-edit'].includes(ui.sub)) return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale(),deviceDate());
+    return JBDeskClock.render(jbClockState(), key => i18n.t(key), {locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24, alarm: nextAlarmLabel(), date: deviceDate().toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'short', day: 'numeric'}).toLocaleUpperCase(i18n.locale())});
+  }
+  let clockFrame = 0;
+  function clockTicker() {
+    cancelAnimationFrame(clockFrame);
+    const step = () => {
+      const root = viewport.querySelector('.jbclock-app');
+      if (!root || ui.view !== 'clock') return;
+      JBDeskClock.tick(root, data.jbClock, Date.now(), key => i18n.t(key));
+      clockFrame = requestAnimationFrame(step);
+    };
+    clockFrame = requestAnimationFrame(step);
+  }
+  // TimerReceiver: a finished timer posts "Time's up" and shows its alert in the Timer page.
+  function checkTimers() {
+    const now = Date.now();
+    for (const timer of data.jbClock?.timers || []) {
+      if (timer.state !== 'running' || JBDeskClock.remaining(timer, now) > 0) continue;
+      Object.assign(timer, {state: 'done', left: 0, started: null});
+      data.notifications.unshift({id: now + data.notifications.length, title: i18n.t("Time's up"), detail: i18n.t('Timer'), kind: 'timer'}); save();
+      renderStatus(); if (ui.overlay === 'shade') renderOverlay();
+      if (ui.view === 'clock') { data.jbClock.tab = 'timer'; render(); }
+      toast("Time's up");
+    }
+  }
   function editAlarm(id) {
     ui.alarmDraft=ICSDeskClock.normalize(data.alarms.find(alarm=>alarm.id===Number(id)));
     ui.sub='alarm-edit'; ui.overlay=''; render();
@@ -1207,6 +1236,23 @@
       case 'event-delete': ui.overlay=ICSCalendar.normalize(data.events.find(item=>item.id===ui.selectedEvent)||{}).repeat!=='none'?'calendar-delete-scope':'calendar-delete';renderOverlay();break;
       case 'event-confirm-delete': data.events=data.events.filter(item=>item.id!==ui.selectedEvent);save();ui.overlay='';ui.sub='';calendarRender();break;
       case 'clock-alarms': ui.sub='alarms'; render(); break;
+      case 'jbclock-tab': jbClockState(); data.jbClock.tab = id; save(); render(); break;
+      case 'jbclock-key': ui.timerDigits = JBDeskClock.setupDigits(ui.timerDigits || '', id); render(); break;
+      case 'jbclock-setup-cancel': ui.timerSetup = false; ui.timerDigits = ''; render(); break;
+      case 'jbclock-setup-start': { const time = JBDeskClock.setupTime(ui.timerDigits || ''); if (!time.ms) break; jbClockState(); data.jbClock.timers.push({id: `t${Date.now()}`, length: time.ms, left: time.ms, started: Date.now(), state: 'running', label: ''}); ui.timerSetup = false; ui.timerDigits = ''; save(); render(); break; }
+      case 'jbclock-timer-add': ui.timerSetup = true; ui.timerDigits = ''; render(); break;
+      case 'jbclock-timer-toggle': case 'jbclock-timer-plus': { const timers = jbClockState() && data.jbClock.timers, index = timers.findIndex(timer => timer.id === id); if (index < 0) break; timers[index] = JBDeskClock.timerAction(timers[index], action === 'jbclock-timer-plus' ? 'plus' : 'toggle', Date.now()); save(); render(); break; }
+      case 'jbclock-timer-delete': jbClockState(); data.jbClock.timers = data.jbClock.timers.filter(timer => timer.id !== id); save(); render(); break;
+      case 'jbclock-sw': {
+        jbClockState();
+        if (id === 'share') {
+          const watch = data.jbClock.stopwatch, laps = watch.laps || [], total = JBDeskClock.elapsed(watch, Date.now());
+          const text = [`${i18n.t('Stopwatch')}: ${JBDeskClock.formatStopwatch(total)}`, ...laps.map((lap, i) => `# ${i + 1}  ${JBDeskClock.formatStopwatch(lap - (laps[i - 1] || 0))}`)].join('\n');
+          openApp('messaging'); ui.sub = 'new'; messageDraft().body = text; save(); render(); break;
+        }
+        data.jbClock.stopwatch = JBDeskClock.stopwatchAction(data.jbClock.stopwatch, id, Date.now()); save(); render(); break;
+      }
+      case 'jbclock-cities': case 'jbclock-menu': toast('Not available in this demo'); break;
       case 'clock-dim': ui.clockDim=!ui.clockDim; render(); break;
       case 'alarm-new': editAlarm(); break;
       case 'alarm-edit': editAlarm(id); break;
@@ -1965,6 +2011,12 @@
       recentCard.style.opacity = String(Math.max(.25, 1 - Math.abs(dx) / 240));
       return;
     }
+    if((pointerStart.clockSwiping || ui.view==='clock' && !ui.sub && !ui.overlay && pointerStart.target.closest('[data-jbclock-swipe]') && Math.abs(dx)>12 && Math.abs(dx)>Math.abs(dy)*1.2)) {
+      pointerStart.clockSwiping=true;suppressClickUntil=Date.now()+350;event.preventDefault();
+      try{screen.setPointerCapture(event.pointerId);}catch{}
+      const track=viewport.querySelector('.jbclock-track'),index=JBDeskClock.TABS.indexOf(data.jbClock?.tab||'clock');
+      if(track){track.style.transition='none';track.style.transform=`translateX(calc(${-index*100}% + ${dx}px))`;}return;
+    }
     if(ui.view==='calendar' && !ui.sub && !ui.overlay && !pointerStart.scrolling && pointerStart.target.closest('[data-calendar-swipe]') && Math.abs(dx)>12 && Math.abs(dx)>Math.abs(dy)*1.2) {
       pointerStart.calendarSwiping=true;suppressClickUntil=Date.now()+350;event.preventDefault();
       try{screen.setPointerCapture(event.pointerId);}catch{}
@@ -2025,6 +2077,7 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if(pointerStart.clockSwiping){const tabs=JBDeskClock.TABS,index=tabs.indexOf(data.jbClock?.tab||'clock'),next=Math.max(0,Math.min(2,index+(Math.abs(dx)>45?(dx<0?1:-1):0)));data.jbClock.tab=tabs[next];save();render();suppressClickUntil=Date.now()+350;pointerStart=null;return;}
     if(pointerStart.calendarSwiping){if(Math.abs(dx)>45)calendarMove(dx<0?1:-1);else viewport.querySelector('[data-calendar-swipe]').style.transform='';suppressClickUntil=Date.now()+350;pointerStart=null;return;}
     if (pointerStart.photoSwiping) { if (Math.abs(dy) > 30) stepPhotoStack(pointerStart.photoStack, dy > 0 ? 1 : -1); else render(); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
     if (pointerStart.gallerySwiping) { if(Math.abs(dx)>45)galleryStep(dx<0?1:-1);else render();suppressClickUntil=Date.now()+350;pointerStart=null;return; }
@@ -2124,6 +2177,7 @@
       if(state)state.textContent=i18n.t(dialing?'Calling…':ui.activeCall.hold?'On hold':'In call');
     }
     checkAlarms(now);
+    checkTimers();
     checkReminders(now);
     if(ui.view==='gallery' && ui.sub==='photo' && ui.gallerySlideshow && !ui.overlay && Date.now()-ui.gallerySlideAt>=3000){ui.gallerySlideAt=Date.now();galleryStep(1);}
     const deskTime=document.querySelector('.desk-time');
