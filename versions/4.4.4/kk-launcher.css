@@ -1,0 +1,109 @@
+/* KitKat Launcher3 (android-4.4.4_r1) on the Nexus 5: DynamicGrid profile "Nexus 5" (359 x 567 dp, 4 x 4, 60 dp icons,
+   13 sp labels, 5 hotseat cells, 56 dp hotseat icons) and DeviceProfile.layout(). The launcher draws under the
+   translucent system bars; workspace_bg darkens the top and bottom ~100 dp. 1 dp = 0.906 px.
+   Search bar: 12 dp in from the sides and below the status bar, 48 dp tall (search_frame, 4 dp padding).
+   Workspace: 60 dp from the top, 108 dp (hotseat 84 dp + page indicator 24 dp) from the bottom, 4 dp from the sides;
+   CellLayout splits that evenly (no gaps) into 88 x 99.75 dp cells and centres the 60 dp icon + 4 dp + label. */
+@font-face{font-family:RobotoCondensed;src:url('assets/RobotoCondensed-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:RobotoCondensed;src:url('assets/RobotoCondensed-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+.kk-home{position:relative;display:block!important;overflow:hidden!important;background:none!important;padding:0!important}
+.kk-home::before{content:'';position:absolute;inset:0;border-style:solid;border-color:transparent;border-width:89.4px 0 90px;border-image:url('assets/l3-workspace_bg.png') 296 0 298 0 fill / 89.4px 0 90px stretch;pointer-events:none}
+.kk-home .home-search{position:absolute;left:10.87px;right:10.87px;top:calc(var(--sb) + 10.87px);height:43.49px;margin:0;padding:3.62px;gap:0;border:5.44px solid transparent;border-image:url('assets/l3-search_frame.png') 18 fill / 5.44px stretch;background:none;box-shadow:none;border-radius:0;display:flex;align-items:stretch;z-index:2;transition:opacity .175s}
+.kk-home .home-search>button{border:0;background:none;padding:0;margin:0;height:100%;display:flex;align-items:center;min-width:0}
+.kk-home .home-search>button:first-child{flex:1;padding-left:7.25px;justify-content:flex-start}
+.kk-home .home-search .kk-qsb-logo{height:100%;width:auto;display:block}
+.kk-home .home-search .voice-search{flex:0 0 43.49px;padding-right:7.25px;justify-content:flex-end}
+.kk-home .home-search .search-microphone{height:100%;width:auto;display:block}
+.kk-home .home-search>button:active img{filter:drop-shadow(0 0 4px #33b5e5) brightness(1.2)}
+.kk-home .home-content{position:absolute;left:0;right:0;top:calc(var(--sb) + 54.36px);bottom:calc(var(--nb) + 97.85px);padding:0;overflow:visible;display:block;z-index:1}
+.kk-home .home-pages{height:100%}
+.kk-home .home-grid{padding:0 3.62px;grid-template-rows:repeat(4,minmax(0,1fr))}
+.kk-home .home-slot .launcher-icon{justify-content:center;gap:3.62px;padding:0}
+.kk-home .launcher-icon .app-icon,.kk-drawer .launcher-icon .app-icon{width:54.36px;height:54.36px;filter:none}
+.kk-home .launcher-icon>span:last-child,.kk-drawer .launcher-icon>span:last-child{font:400 11.78px/15.7px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#fff;text-shadow:0 0 2px #000000b0,0 0 2px #000000b0;max-width:calc(100% - 4px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kk-home .launcher-icon:active .app-icon,.kk-drawer .launcher-icon:active .app-icon{transform:none;filter:drop-shadow(0 0 3px #33b5e5) drop-shadow(0 0 2px #33b5e5)}
+.kk-home .launcher-icon:hover .app-icon{filter:none}
+/* Page indicator: 24 dp row above the hotseat; 16 dp markers, ic_pageindicator_default fades to the larger
+   ic_pageindicator_current, which grows from half size (PageIndicatorMarker, 175 ms). The extra empty screen shown
+   while dragging uses ic_pageindicator_add. */
+.kk-home .page-indicators{position:absolute;left:0;right:0;bottom:calc(var(--nb) + 76.1px);height:21.74px;min-height:0;padding:0;display:flex;justify-content:center;align-items:center;gap:0;z-index:2;transition:opacity .25s}
+.kk-home .page-indicators button{position:relative;flex:0 0 14.5px;width:14.5px;height:14.5px;padding:0;border:0;border-radius:0;background:none}
+.kk-home .page-indicators button::after{display:none}
+.kk-home .page-indicators img{position:absolute;left:50%;top:50%;transition:opacity .175s,transform .175s;pointer-events:none}
+.kk-home .page-indicators .kk-pi-off{width:7.85px;height:7.85px;margin:-3.93px 0 0 -3.93px}
+.kk-home .page-indicators .kk-pi-on{width:13.29px;height:13.59px;margin:-6.8px 0 0 -6.65px;opacity:0;transform:scale(.5)}
+.kk-home .page-indicators button.active .kk-pi-off{opacity:0}
+.kk-home .page-indicators button.active .kk-pi-on{opacity:1;transform:none}
+/* Hotseat: 84 dp, 12 dp side padding, five 67.2 dp cells; icons are scaled to 56 dp and drawn without labels. */
+.kk-home .dock{position:absolute;left:0;right:0;bottom:var(--nb);height:76.1px;min-height:0;margin:0;padding:0 10.87px;border:0;background:none;display:flex;align-items:stretch;z-index:2;transition:opacity .25s}
+.kk-home .dock::before{display:none}
+.kk-home .dock-slot{flex:1;width:auto;height:100%;min-height:0}
+.kk-home .dock .launcher-icon{height:100%;justify-content:center;padding:0}
+.kk-home .dock .launcher-icon .app-icon{width:50.74px;height:50.74px}
+.kk-home .dock .launcher-icon>span:last-child{display:none}
+/* Drop targets take the search bar's place while dragging (search_drop_target_bar). */
+.kk-home .drop-target-bar{top:calc(var(--sb) + 10.87px);left:10.87px;right:10.87px;height:43.49px}
+.kk-home .drop-target{font:400 14.5px RobotoICS,sans-serif;text-shadow:0 .9px 3.6px #000;gap:6.8px}
+.kk-home .drop-target img{width:29px;height:29px}
+.screen.dragging .kk-home .home-search{opacity:0}
+/* Workspace widgets keep the 8 dp AppWidgetHostView padding inside their cells. */
+.kk-home .home-widget{padding:0}
+/* Folder icon (FolderIcon.computePreviewItemDrawingParams): portal_ring_inner_holo at 72 dp (icon + 2 x 6 dp edge
+   margin, 6 dp above the icon), up to three previews scaled 0.81 / 0.67 / 0.53 and darkened 0 / 16 / 31 %. */
+.kk-home .app-icon.launcher-folder-icon,.kk-drawer .app-icon.launcher-folder-icon{position:relative;background:none;overflow:visible}
+.kk-home .app-icon.launcher-folder-icon::before{content:'';position:absolute;left:-5.44px;top:-5.44px;width:65.24px;height:65.24px;background:url('assets/l3-portal_ring_inner_holo.png') center/100% 100% no-repeat}
+.kk-home .launcher-folder-icon>.folder-preview-item{left:-1.81px;top:12px;width:44.21px;height:44.21px;transform:none;filter:none}
+.kk-home .launcher-folder-icon>.folder-preview-item:nth-child(2){left:9.91px;top:7.97px;width:36.48px;height:36.48px;transform:none;filter:brightness(.843)}
+.kk-home .launcher-folder-icon>.folder-preview-item:nth-child(3){left:21.63px;top:3.98px;width:28.74px;height:28.74px;transform:none;filter:brightness(.686)}
+.kk-home .dock .launcher-folder-icon{transform:scale(.933);transform-origin:50% 50%}
+.kk-home .dock .launcher-folder-icon>.folder-preview-item{left:-1.81px;top:12px;width:44.21px;height:44.21px}
+.kk-home .dock .launcher-folder-icon>.folder-preview-item:nth-child(2){left:9.91px;top:7.97px;width:36.48px;height:36.48px}
+.kk-home .dock .launcher-folder-icon>.folder-preview-item:nth-child(3){left:21.63px;top:3.98px;width:28.74px;height:28.74px}
+.kk-home .folder-drop-target .app-icon:after{inset:-14px;background-image:url('assets/l3-portal_ring_outer_holo.png')}
+/* Open folder: white portal_container_holo card, #333 labels without shadow, name hint #777 14 sp condensed. */
+.launcher-folder{color:#333}
+.launcher-folder:before{border-width:13.6px 10.87px 18.12px;border-image:url('assets/l3-portal_container_holo.png') 42 36 60 36 fill / 13.6px 10.87px 18.12px}
+.launcher-folder .launcher-folder-cell{height:auto;min-height:0;padding:4.5px 0}
+.launcher-folder .launcher-folder-cell .app-icon{width:54.36px;height:54.36px;filter:none}
+.launcher-folder .launcher-folder-cell .launcher-icon>span:last-child{font:400 11.78px/15.7px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#333;text-shadow:none}
+.launcher-folder .launcher-folder-name{border-top:0}
+.launcher-folder .launcher-folder-name input{padding:9.06px 4px;font:400 12.68px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#777}
+.launcher-folder .launcher-folder-name input::placeholder{color:#777}
+.launcher-folder .launcher-folder-name input:focus{box-shadow:none}
+.launcher-folder-scrim{inset:0;background:transparent}
+/* All apps (AppsCustomizeTabHost): the tab bar stays gone and the market button is disabled; 65 % black over the
+   wallpaper; apps pages of 4 x 5 cells then the widget pages, with one page indicator at the bottom. */
+#viewport>.drawer-view.kk-drawer{position:relative;display:block;overflow:hidden;background:#000000a6;padding:var(--sb) 0 var(--nb)}
+.kk-drawer .drawer-page{position:absolute;left:0;right:0;top:var(--sb);bottom:calc(var(--nb) + 7.97px);padding:0;display:grid}
+.kk-drawer .drawer-apps{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr));gap:0}
+.kk-drawer .drawer-apps .launcher-icon{justify-content:center;gap:3.62px;padding:0;min-width:0}
+.kk-drawer .drawer-apps .launcher-icon>span:last-child{font-size:11.78px;max-height:none;white-space:nowrap;text-shadow:0 0 4px #000,0 0 4px #000}
+.kk-drawer .drawer-widgets{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));padding:14.5px 7.25px 10px;gap:14.5px 7.25px}
+.kk-drawer .drawer-widget{align-items:center;gap:5.44px;color:#fff!important}
+.kk-drawer .drawer-widget-preview{order:0;border:0;background:none;flex:1;width:100%}
+.kk-drawer .drawer-widget-title{order:1;flex-direction:column;align-items:center;gap:0;font:400 12.68px/1.25 RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;text-transform:none;max-width:100%}
+.kk-drawer .drawer-widget-title small{font:400 11.78px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#ffffffb3}
+.kk-drawer .drawer-indicators{position:absolute;left:0;right:0;bottom:var(--nb);height:21.74px;display:flex;justify-content:center;align-items:center;gap:0}
+.kk-drawer .drawer-indicators button{position:relative;flex:0 0 14.5px;width:14.5px;height:14.5px;padding:0;border:0;border-radius:0;background:none}
+.kk-drawer .drawer-indicators img{position:absolute;left:50%;top:50%;transition:opacity .175s,transform .175s;pointer-events:none}
+.kk-drawer .drawer-indicators .kk-pi-off{width:7.85px;height:7.85px;margin:-3.93px 0 0 -3.93px}
+.kk-drawer .drawer-indicators .kk-pi-on{width:13.29px;height:13.59px;margin:-6.8px 0 0 -6.65px;opacity:0;transform:scale(.5)}
+.kk-drawer .drawer-indicators button.active .kk-pi-off{opacity:0}
+.kk-drawer .drawer-indicators button.active .kk-pi-on{opacity:1;transform:none}
+/* Overview mode (Workspace.State.OVERVIEW): the pages shrink to 80 % of the space above the button bar (20 % of the
+   height, 80-120 dp), the search bar, page indicator and hotseat fade, each page shows screenpanel; Wallpapers,
+   Widgets and Settings sit in the bar (12 sp condensed caps, 4 dp drawable padding). 250 ms. */
+.kk-home .home-content,.kk-home .home-grid{transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.kk-home.kk-overview .home-search,.kk-home.kk-overview .page-indicators,.kk-home.kk-overview .dock{opacity:0;pointer-events:none}
+.kk-home.kk-overview .home-content{transform:translateY(-29.6px)}
+/* PagedView.setLayoutScale(0.573): pages keep their 8 dp spacing at the smaller size, so the neighbours show. */
+.kk-home.kk-overview .home-grid{transform:translateX(calc(var(--rel,0) * (7.25px - 42.74%))) scale(.5726)}
+.kk-home .home-grid::after{content:'';position:absolute;inset:0;border-style:solid;border-color:transparent;border-width:.3px 7.85px 0 1.21px;border-image:url('assets/l3-screenpanel.png') 1 26 0 4 fill / .3px 7.85px 0 1.21px stretch;pointer-events:none;opacity:0;transition:opacity .25s}
+.kk-home.kk-overview .home-grid::after{opacity:1}
+.kk-home.kk-overview .home-grid>*{pointer-events:none}
+.kk-home.kk-overview .home-grid{cursor:pointer}
+.kk-home .kk-overview-panel{position:absolute;left:50%;width:148.58px;margin-left:-74.29px;bottom:var(--nb);height:102.74px;display:flex;justify-content:space-between;align-items:flex-start;gap:0;z-index:3;opacity:0;pointer-events:none;transition:opacity .25s}
+.kk-home.kk-overview .kk-overview-panel{opacity:1;pointer-events:auto}
+.kk-overview-panel button{flex:0 0 auto;min-width:43.49px;margin:0;white-space:nowrap;border:0;background:none;padding:0;color:#fff;display:flex;flex-direction:column;align-items:center;gap:3.62px;font:400 10.87px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;text-transform:uppercase}
+.kk-overview-panel button img{width:38.66px;height:38.66px;display:block}
+.kk-overview-panel button:active img{content:var(--pressed)}

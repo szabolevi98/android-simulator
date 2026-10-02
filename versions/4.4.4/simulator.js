@@ -8,15 +8,13 @@
     // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
     clings: LauncherClings.fresh(),
     wallpaper: 0,
-    layoutRevision: 2,
-    homePages: Array.from({length: 5}, (_, page) => Array.from({length: 16}, (_, slot) =>
-      page === 2 && slot === 12 ? 'camera' : page === 2 && slot === 15 ? 'google' :
-      page === 3 && slot === 13 ? 'gallery' : page === 3 && slot === 14 ? 'settings' : null)),
+    // Launcher3 default_workspace.xml: screens 1-3 load as pages 0-2; config_workspaceDefaultScreen is 0.
+    layoutRevision: 3,
+    homePages: Array.from({length: 3}, (_, page) => Array.from({length: 16}, (_, slot) =>
+      page === 1 && slot === 12 ? 'camera' : page === 2 && slot === 13 ? 'gallery' : page === 2 && slot === 14 ? 'settings' : null)),
     homeWidgets: [
-      [],
       [{ id: 'default-power', type: 'power', x: 0, y: 3 }],
       [{ id: 'default-analog', type: 'analog', x: 1, y: 0 }],
-      [],
       []
     ],
     dock: ['phone', 'people', 'apps', 'messaging', 'browser'],
@@ -70,6 +68,10 @@
         } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
         result.layoutRevision = 2;
       }
+      // The KitKat scaffold started from the Jelly Bean desktop; switch it to the Launcher3 one.
+      if ((saved.layoutRevision || 0) < 3) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.clings = clone(defaultData.clings); result.layoutRevision = 3; }
+      while (result.homeWidgets.length < result.homePages.length) result.homeWidgets.push([]);
+      result.homeWidgets.length = result.homePages.length;
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
       // A reload during Gallery widget configuration leaves no completed choice.
@@ -83,7 +85,7 @@
   ICSLockscreen.initialize(data);
   function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
   const ui = {
-    view: 'home', sub: '', page: 2, drawerTab: 'apps', drawerPage: 0, overlay: '',
+    view: 'home', sub: '', page: 0, drawerTab: 'apps', drawerPage: 0, overlay: '', overview: false,
     selectedContact: 1, thread: 1, selectedPhoto: 1,
     dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, easterNyan: false, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
@@ -121,6 +123,20 @@
   ];
   // Launcher2 4.3 wallpapers (drawable-nodpi; 06 and 07 are tablet-only). wallpaper_01 is also the framework default_wallpaper.
   const wallpaperFiles = ['01','02','03','04','05','08','09','10','11','12'];
+  // Index 0 is the framework default_wallpaper from the hammerhead overlay (2160 x 1920).
+  const wallpaperUrl = index => index === 0 || !wallpaperFiles[index] ? 'assets/kk-default_wallpaper.jpg' : `assets/jb-wallpaper_${wallpaperFiles[index]}.jpg`;
+  const homePageCount = () => data.homePages.length - (ui.extraScreen ? 1 : 0);
+  /* Workspace.wallpaperOffsetForCurrentScroll: a still wallpaper spans at least MIN_PARALLAX_PAGE_SPAN (3) page
+     gaps, a live one exactly the pages there are; the extra empty screen added while dragging does not count. */
+  function wallpaperOffset(page, live = !!liveWallpaper) {
+    const pages = homePageCount(), span = live ? pages - 1 : Math.max(3, pages - 1);
+    return span > 0 ? Math.max(0, Math.min(pages - 1, page)) / span : 0;
+  }
+  function setWallpaperPan(page, animate = true) {
+    if (data.wallpaper === 11) return;
+    screen.style.transition = animate ? 'background-position .35s cubic-bezier(.215,.61,.355,1)' : 'none';
+    screen.style.backgroundPosition = `${(wallpaperOffset(page, false) * 100).toFixed(3)}% center`;
+  }
   const widgetTypes = [
     { type: 'analog', name: 'Analog clock', app: 'clock', width: 2, height: 2 },
     { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3, resize: {minWidth: 2, minHeight: 2} },
@@ -156,7 +172,7 @@
   const contact = id => data.contacts.find(item => item.id === Number(id));
   const appIcon = id => {
     if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg?v=2" alt=""></span>';
-    if (id === 'apps') return '<span class="app-icon"><img src="assets/apps.png" alt=""></span>';
+    if (id === 'apps') return '<span class="app-icon"><img src="assets/l3-ic_allapps.png" alt=""></span>';
     const folder=ICSLauncherFolders.folder(data,id);
     if(folder)return `<span class="app-icon launcher-folder-icon">${folder.items.slice(0,3).map(app=>`<span class="folder-preview-item">${appIcon(app)}</span>`).join('')}</span>`;
     if (id === 'google') return '<span class="app-icon google-folder-icon"><img src="assets/browser.png" alt=""><img src="assets/email.png" alt=""><img src="assets/calendar.png" alt=""><img src="assets/gallery.png" alt=""></span>';
@@ -238,7 +254,8 @@
     if(ui.locked)ui.view='lock';
     const outgoing = viewport.firstElementChild;
     screen.className = `screen${activeTransition ? ' transitioning' : ''} wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}${ui.sleeping?' sleeping':''}${ui.locked?' credential-locked':''}`;
-    screen.style.background = data.wallpaper === 11 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 11 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('assets/jb-wallpaper_${wallpaperFiles[data.wallpaper] || '01'}.jpg') center center / cover no-repeat`;
+    screen.style.background = data.wallpaper === 11 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 11 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('${wallpaperUrl(data.wallpaper)}') ${(wallpaperOffset(['home', 'drawer'].includes(ui.view) ? ui.page : 0, false) * 100).toFixed(3)}% center / auto 100% no-repeat`;
+    screen.style.transition = 'none';
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav(); syncLiveWallpaper();
     document.querySelector('.notification-led')?.classList.toggle('on', !!ui.sleeping && !ui.power && data.settings.pulse !== false && data.notifications.length > 0);
@@ -480,17 +497,24 @@
     return `<div class="home-widget widget-${widget.type}${frame ? ' resizing' : ''}" data-widget-id="${safe(widget.id)}" style="grid-column:${widget.x + 1}/span ${spec.width};grid-row:${widget.y + 1}/span ${spec.height}">${body}${frame}</div>`;
   };
   const wallpaperChoices = () => `<div class="wallpaper-grid">${wallpaperFiles.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}" aria-label="${safe(i18n.t('Wallpaper'))} ${i + 1}"><span class="wallpaper-swatch" style="background-image:url('assets/jb-wallpaper_${name}_small.jpg')"></span></button>`).join('')}</div>`;
+  const pageMarker = (active, add = false) => `<img class="kk-pi-off" src="assets/l3-ic_pageindicator_${add ? 'add' : 'default'}.png" alt=""><img class="kk-pi-on" src="assets/l3-ic_pageindicator_current.png" alt="">`;
   function renderHome() {
-    return `<div class="home-view"><div class="home-search"><button data-action="browser-search" aria-label="Search"><span class="google-word">Google</span></button><button class="voice-search" data-action="voice-search" aria-label="Voice search"><img class="search-microphone" src="assets/launcher-ic_home_voice_search_holo.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" ${index !== ui.page ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${data.homeWidgets[index].map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: 5 }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}"></button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/launcher-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/launcher-ic_launcher_clear_active_holo.png" alt=""><span>Remove</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/launcher-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/launcher-ic_launcher_info_active_holo.png" alt=""><span>App info</span></div></div></div>`;
+    const pages = data.homePages.length;
+    return `<div class="home-view kk-home${ui.overview ? ' kk-overview' : ''}"><div class="home-search"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="kk-qsb-logo" src="assets/l3-ic_home_google_logo_normal_holo.png" alt="Google"></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice search'))}"><img class="search-microphone" src="assets/l3-ic_home_voice_search_holo.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" ${index !== ui.page && !ui.overview ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${(data.homeWidgets[index] || []).map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: pages }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}">${pageMarker(i === ui.page, ui.extraScreen && i === pages - 1)}</button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/l3-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_clear_active_holo.png" alt=""><span>${safe(i18n.t('Remove'))}</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/l3-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_info_active_holo.png" alt=""><span>${safe(i18n.t('App info'))}</span></div></div><div class="kk-overview-panel" ${ui.overview ? '' : 'inert'}><button data-action="open-wallpapers" style="--pressed:url('assets/l3-ic_wallpaper_pressed.png')"><img src="assets/l3-ic_wallpaper.png" alt="">${safe(i18n.t('Wallpapers'))}</button><button data-action="kk-overview-widgets" style="--pressed:url('assets/l3-ic_widget_pressed.png')"><img src="assets/l3-ic_widget.png" alt="">${safe(i18n.t('Widgets'))}</button></div></div>`;
   }
+  const drawerAppPages = () => Math.ceil(apps.length / 20);
+  const drawerPageCount = () => drawerAppPages() + Math.ceil(widgetTypes.length / 4);
   function renderDrawer() {
-    const isApps = ui.drawerTab === 'apps';
-    const pages = Math.ceil((isApps ? apps.length : widgetTypes.length) / (isApps ? 20 : 4));
-    const current = Math.min(ui.drawerPage, pages - 1);
+    const appPages = drawerAppPages(), pages = drawerPageCount();
+    const current = Math.max(0, Math.min(ui.drawerPage, pages - 1));
+    const isApps = current < appPages;
+    ui.drawerTab = isApps ? 'apps' : 'widgets';
     const sortedApps = [...apps].sort((a,b) => i18n.t(a[1]).localeCompare(i18n.t(b[1]), i18n.locale()));
-    const items = isApps ? sortedApps.slice(current * 20, current * 20 + 20).map(app => launcherIcon(app[0])).join('') : widgetTypes.slice(current * 4, current * 4 + 4).map(widget => `<button class="drawer-widget" data-action="add-widget" data-widget-type="${widget.type}" aria-label="${safe(widget.name)}"><span class="drawer-widget-title">${safe(widget.name)} <small>${widget.width} × ${widget.height}</small></span><span class="drawer-widget-preview widget-${widget.type}">${widgetArt(widget.type)}</span></button>`).join('');
-    return `<div class="drawer-view"><div class="drawer-tabs"><button class="${isApps ? 'active' : ''}" data-action="drawer-tab" data-id="apps">Apps</button><button class="${!isApps ? 'active' : ''}" data-action="drawer-tab" data-id="widgets">Widgets</button><button class="drawer-market" data-action="market" aria-label="Shop"><img src="assets/ic_launcher_market_holo.png" alt=""></button></div><div class="drawer-page ${isApps ? 'drawer-apps' : 'drawer-widgets'}">${items}</div><div class="drawer-indicators">${Array.from({length:pages},(_,i)=>`<button class="${i===current?'active':''}" data-action="drawer-page" data-id="${i}" aria-label="${safe(i18n.t('Page'))} ${i+1}"></button>`).join('')}</div></div>`;
+    const widgetPage = current - appPages;
+    const items = isApps ? sortedApps.slice(current * 20, current * 20 + 20).map(app => launcherIcon(app[0])).join('') : widgetTypes.slice(widgetPage * 4, widgetPage * 4 + 4).map(widget => `<button class="drawer-widget" data-action="add-widget" data-widget-type="${widget.type}" aria-label="${safe(widget.name)}"><span class="drawer-widget-title">${safe(widget.name)} <small>${widget.width} × ${widget.height}</small></span><span class="drawer-widget-preview widget-${widget.type}">${widgetArt(widget.type)}</span></button>`).join('');
+    return `<div class="drawer-view kk-drawer"><div class="drawer-page ${isApps ? 'drawer-apps' : 'drawer-widgets'}">${items}</div><div class="drawer-indicators">${Array.from({length:pages},(_,i)=>`<button class="${i===current?'active':''}" data-action="drawer-page" data-id="${i}" aria-label="${safe(i18n.t('Page'))} ${i+1}">${pageMarker(i === current)}</button>`).join('')}</div></div>`;
   }
+
   function widgetFits(page, x, y, type, ignoredId = '') {
     const {width, height} = widgetSize(type);
     if (x < 0 || y < 0 || x + width > 4 || y + height > 4) return false;
@@ -590,7 +614,7 @@
       ui.recentState[ui.view] = {sub: ui.sub, scrollTop: appScrollContainer(ui.view).scrollTop};
     }
   }
-  function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; if (resetPage) ui.page = 2; render(); }
+  function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; ui.overview = false; if (resetPage) ui.page = 0; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
   function navigateBack() {
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
@@ -609,6 +633,8 @@
     if (ui.view === 'play-store' && ui.marketSearching) { ui.marketSearching = false; render(); return; }
     if (ui.view === 'play-store' && ui.marketHistory?.length) { const prev = ui.marketHistory.pop(); ui.market = prev; render(); const list = viewport.querySelector('.jbp-scroll'); if (list) list.scrollTop = prev.scroll || 0; return; }
     if (ui.view === 'calculator' && ui.calcPanel) { setCalculatorPanel(0); return; }
+    if (ui.view === 'drawer' && ui.drawerPage >= drawerAppPages()) { home(false); ui.overview = true; render(); return; }
+    if (ui.view === 'home' && ui.overview) { ui.overview = false; render(); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
@@ -755,37 +781,32 @@
   // Created on first use: the first render runs before this point of the script.
   function clingLayerRoot() { let node = screen.querySelector('#cling-layer'); if (!node) { node = document.createElement('div'); node.id = 'cling-layer'; screen.append(node); } return node; }
   function clingTarget(kind) {
-    const base = clingLayerRoot().getBoundingClientRect(), centre = node => { if (!node) return null; const r = node.getBoundingClientRect(); return [r.left + r.width / 2 - base.left, r.top + r.height / 2 - base.top]; };
-    // Workspace: the all apps button, centred in the hotseat. All apps: the cell at clingFocusedX/Y = (1, 1).
-    if (kind === 'workspace') return {circle: centre(viewport.querySelector('.dock [data-action="drawer"]'))};
-    if (kind === 'allApps') return {circle: centre(viewport.querySelectorAll('.drawer-apps > *')[5])};
+    const base = clingLayerRoot().getBoundingClientRect();
+    // Cling.getWorkspaceCutOutBounds: the screen centre, 30 dp higher.
+    if (kind === 'workspace') return {circle: [base.width / 2, base.height / 2 - LauncherClings.RING.lift], radius: LauncherClings.RING.outer};
+    if (kind !== 'folder') return {};
     const folder = overlayRoot.querySelector('.launcher-folder')?.getBoundingClientRect();
     return folder ? {rect: {left: folder.left - base.left, top: folder.top - base.top, right: folder.right - base.left, bottom: folder.bottom - base.top}} : {};
   }
-  function placeCling(root, kind) {
-    const target = clingTarget(kind), point = target.circle;
-    LauncherClings.cut(root, target);
-    root.querySelectorAll('.cling-punch,.cling-hand').forEach(node => { node.hidden = !point; });
-    if (!point) return;
-    const punch = root.querySelector('.cling-punch'), hand = root.querySelector('.cling-hand');
-    if (punch) { punch.style.left = `${point[0]}px`; punch.style.top = `${point[1]}px`; }
-    if (hand) { hand.style.left = `${point[0] + LauncherClings.HAND_OFFSET}px`; hand.style.top = `${point[1] + LauncherClings.HAND_OFFSET}px`; }
-  }
+  function placeCling(root, kind) { LauncherClings.cut(root, clingTarget(kind)); }
   function syncClings() {
     let kind = ui.power || ui.locked || ui.sleeping ? '' : LauncherClings.wanted(ui, data.clings);
     if (kind === 'folder' && ui.folderSettled !== ui.folderId) kind = '';
-    const current = clingLayerRoot().querySelector('.cling:not([style*="pointer-events: none"])');
+    // initCling(..., dimNavBarVisibility): the launcher asks for SYSTEM_UI_FLAG_LOW_PROFILE while a cling shows.
+    screen.classList.toggle('kk-lights-out', !!kind);
+    const current = clingLayerRoot().querySelector('.cling:not(.cling-leaving)');
     if (current?.dataset.cling === kind) { placeCling(current, kind); return; }
     current?.remove();
     if (!kind) return;
-    clingLayerRoot().insertAdjacentHTML('beforeend', LauncherClings.markup(kind, key => i18n.t(key), [0, 0]));
+    clingLayerRoot().insertAdjacentHTML('beforeend', LauncherClings.markup(kind, key => i18n.t(key)));
     const root = clingLayerRoot().lastElementChild;
     placeCling(root, kind);
-    // initCling: all apps and folder clings fade in; the workspace one is there at once.
-    if (kind !== 'workspace') LauncherClings.show(root);
-    // Positions are read again once a launcher transition has settled.
+    // Cling.show: the first run cling appears at once, the workspace cling fades its content in, the folder one fades.
+    if (kind === 'folder') LauncherClings.show(root);
+    if (kind === 'workspace') { const content = root.querySelector('.kk-cling-content'); content?.animate?.([{opacity: 0}, {opacity: 1}], {duration: LauncherClings.SHOW}); }
     setTimeout(() => { if (root.isConnected) placeCling(root, kind); }, 450);
   }
+
   window.addEventListener('resize', () => syncClings());
 
   function renderFolder() {
@@ -1277,10 +1298,13 @@
       case 'ga-airplane': ui.overlay = ''; data.settings.airplane = !data.settings.airplane; if (data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; } save(); render(); break;
       case 'ga-ringer': GlobalActions.setRinger(data.settings, id); save(); renderStatus(); renderOverlay(); setTimeout(() => { if (ui.overlay === 'power-menu') { ui.overlay = ''; render(); } }, GlobalActions.DISMISS_DELAY); break;
       case 'ga-confirm': powerConfirm(id); break;
-      case 'drawer': if (data.clings && !data.clings.workspace) { data.clings.workspace = true; save(); } ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
-      case 'cling-dismiss': if (data.clings) { data.clings[id] = true; save(); } LauncherClings.dismiss(clingLayerRoot().querySelector(`[data-cling="${id}"]`)); break;
+      case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; ui.overview = false; if (ui.drawerPage >= drawerAppPages()) ui.drawerPage = 0; render(); break;
+      case 'cling-dismiss': if (data.clings) { data.clings[id] = true; save(); } LauncherClings.dismiss(clingLayerRoot().querySelector(`[data-cling="${id}"]`), () => syncClings()); break;
       case 'folder-open': ui.folderId=button.dataset.folderId;ui.overlay='folder';renderOverlay();break;
-      case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = 0; render(); break;
+      case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = id === 'widgets' ? drawerAppPages() : 0; render(); break;
+      // Overview mode: Widgets opens all apps on the first widget page; a tap on a page returns to it.
+      case 'kk-overview-widgets': ui.overview = false; ui.view = 'drawer'; ui.drawerPage = drawerAppPages(); render(); break;
+      case 'kk-overview-page': if (ui.overview) { ui.overview = false; ui.page = Number(id); render(); } break;
       case 'drawer-page': ui.drawerPage = Number(id); render(); break;
       case 'add-widget': { const added = addWidget(button.dataset.widgetType); if (!added) { toast('This home screen is full'); break; } const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; home(false); ui.photoWidgetSetup = setup; if (added.type === 'photo') { ui.overlay = 'widget-photo-type'; renderOverlay(); } else toast('Widget added'); break; }
       case 'widget-calendar-open': ui.selectedDate = today(); openApp('calendar'); break;
@@ -1292,7 +1316,7 @@
       case 'widget-photo-album': configurePhotoWidget({source: 'album', album: id}); break;
       case 'widget-photo-image': configurePhotoWidget({source: 'photo', photo: Number(id)}); break;
       case 'widget-photo-cancel': cancelPhotoWidget(); break;
-      case 'open-wallpapers': ui.overlay = ''; ui.view = 'wallpaper-picker'; render(); break;
+      case 'open-wallpapers': ui.overlay = ''; ui.overview = false; ui.view = 'wallpaper-picker'; render(); break;
       case 'open-live-wallpapers': ui.overlay = ''; ui.view = 'live-wallpapers'; ui.sub = ''; render(); break;
       case 'lw-preview': ui.sub = `preview:${id}`; render(); break;
       case 'lw-settings': ui.sub = `settings:${id}`; render(); break;
@@ -1861,8 +1885,30 @@
     moveGhost(x, y);
     screen.classList.add('dragging');
     screen.classList.toggle('dragging-from-drawer', dragState.type === 'drawer');
+    addExtraEmptyScreen();
     suppressClickUntil = Date.now() + 500;
   }
+  function addExtraEmptyScreen() {
+    if (ui.extraScreen) return;
+    ui.extraScreen = true;
+    data.homePages.push(Array(16).fill(null)); data.homeWidgets.push([]);
+    const index = data.homePages.length - 1;
+    viewport.querySelector('.home-pages')?.insertAdjacentHTML('beforeend', `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" inert>${Array.from({length: 16}, (_, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}"></div>`).join('')}</div>`);
+    viewport.querySelector('.page-indicators')?.insertAdjacentHTML('beforeend', `<button data-action="page" data-id="${index}" aria-label="${safe(i18n.t('Home screen'))} ${index + 1}">${pageMarker(false, true)}</button>`);
+  }
+  // Returns the new index of each old page.
+  function stripEmptyScreens() {
+    ui.extraScreen = false;
+    const empty = page => data.homePages[page].every(id => !id) && !(data.homeWidgets[page] || []).length;
+    const keep = data.homePages.map((_, page) => page).filter(page => !empty(page));
+    if (!keep.length) keep.push(0);
+    const map = new Map(keep.map((page, index) => [page, index]));
+    data.homePages = keep.map(page => data.homePages[page]); data.homeWidgets = keep.map(page => data.homeWidgets[page] || []);
+    const current = keep.findIndex(page => page >= ui.page);
+    ui.page = current < 0 ? keep.length - 1 : keep[current] === ui.page ? current : Math.max(0, current - 1);
+    return map;
+  }
+  function remapDestination(destination, map) { if (destination?.type === 'home' && map.has(destination.page)) destination.page = map.get(destination.page); return destination; }
   function moveGhost(x, y) {
     if (!dragState) return;
     const rect = screen.getBoundingClientRect();
@@ -2098,7 +2144,7 @@
     const remove = target?.closest('[data-drop-remove]');
     const trashRect = remove?.getBoundingClientRect();
     if (source.type === 'drawer' && target?.closest('[data-drop-info]')) {
-      clearTimeout(source.edgeTimer); clearDragOutlines(); source.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'dragging-from-drawer');
+      clearTimeout(source.edgeTimer); clearDragOutlines(); source.ghost.remove(); dragState = null; screen.classList.remove('dragging', 'dragging-from-drawer'); stripEmptyScreens(); save();
       openApp('settings'); ui.settingsApp = source.id; ui.sub = 'app-info'; render(); suppressClickUntil = Date.now() + 350;
       return true;
     }
@@ -2168,18 +2214,19 @@
     }
     clearTimeout(source.folderExitTimer);clearTimeout(source.folderHoverTimer);clearTimeout(source.reorderTimer);clearTimeout(source.wsReorderTimer);clearFolderDragFeedback();
     clearTimeout(source.edgeTimer); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'dragging-from-drawer');
+    const pageMap = stripEmptyScreens(); remapDestination(destination, pageMap);
     save(); render(); suppressClickUntil = Date.now() + 350;
     landGhost(source.ghost, destination, trashRect);
     return true;
   }
   function setHomePage(page) {
-    ui.page = Math.max(0, Math.min(4, page));
+    ui.page = Math.max(0, Math.min(data.homePages.length - 1, page));
     const track = viewport.querySelector('.home-pages');
     if (!track) return;
     track.style.transition = '';
     track.style.transform = `translateX(${-ui.page * 100}%)`;
-    tweenWallpaperOffset(ui.page / 4);
-    track.querySelectorAll('.home-grid').forEach((grid, index) => { grid.inert = index !== ui.page; });
+    tweenWallpaperOffset(wallpaperOffset(ui.page)); setWallpaperPan(ui.page);
+    track.querySelectorAll('.home-grid').forEach((grid, index) => { grid.inert = index !== ui.page && !ui.overview; grid.style.setProperty('--rel', index - ui.page); });
     viewport.querySelectorAll('.page-indicators button').forEach((button,index) => button.classList.toggle('active', index === ui.page));
     screen.classList.add('show-page-indicator');
     clearTimeout(ui.pageIndicatorTimer);
@@ -2194,11 +2241,11 @@
     const key = id ? `${id}:${preview}` : '';
     if (liveWallpaper && liveWallpaper.key !== key) { liveWallpaper.destroy(); liveWallpaper = null; }
     if (key && !liveWallpaper) {
-      liveWallpaper = LiveWallpapers.mount(liveLayer, id, {preview, prefs: () => data.lwPrefs?.[id] || {}, clock: deviceDate, offset: preview ? .5 : ui.page / 4, audio: () => !!ui.music?.playing, deviceWidth: 768});
+      liveWallpaper = LiveWallpapers.mount(liveLayer, id, {preview, prefs: () => data.lwPrefs?.[id] || {}, clock: deviceDate, offset: preview ? .5 : wallpaperOffset(ui.page, true), audio: () => !!ui.music?.playing, deviceWidth: 768});
       if (liveWallpaper) liveWallpaper.key = key;
     }
     liveLayer.hidden = !visible; liveWallpaper?.pause(!visible);
-    if (liveWallpaper && !preview && ui.view === 'home') liveWallpaper.setOffset(ui.page / 4);
+    if (liveWallpaper && !preview && ui.view === 'home') liveWallpaper.setOffset(wallpaperOffset(ui.page, true));
     screen.classList.toggle('live-wallpaper', !!data.liveWallpaper?.id || preview);
   }
   function tweenWallpaperOffset(target) {
@@ -2211,19 +2258,20 @@
   function moveHomePage(dx) {
     const content = viewport.querySelector('.home-pages');
     if (!content) return;
-    const distance = Math.max(-(4 - ui.page) * screen.clientWidth, Math.min(ui.page * screen.clientWidth, dx));
+    const distance = Math.max(-(data.homePages.length - 1 - ui.page) * screen.clientWidth, Math.min(ui.page * screen.clientWidth, dx));
     content.style.transition = 'none';
     content.style.transform = `translateX(calc(${-ui.page * 100}% + ${distance}px))`;
-    if (liveWallpaper) { const value = (ui.page - distance / screen.clientWidth) / 4; liveWallpaper.setOffset(value); liveWallpaper.offset = value; }
+    if (liveWallpaper) { const value = wallpaperOffset(ui.page - distance / screen.clientWidth, true); liveWallpaper.setOffset(value); liveWallpaper.offset = value; }
+    setWallpaperPan(ui.page - distance / screen.clientWidth, false);
   }
   function finishHomePage(dx) {
-    const nextPage = Math.max(0, Math.min(4, ui.page + (dx < 0 ? 1 : -1)));
+    const nextPage = Math.max(0, Math.min(data.homePages.length - 1, ui.page + (dx < 0 ? 1 : -1)));
     screen.classList.remove('page-swiping');
     suppressClickUntil = Date.now() + 350;
     setHomePage(Math.abs(dx) > 45 ? nextPage : ui.page);
   }
   function finishDrawerPage(dx) {
-    const pageCount = ui.drawerTab === 'apps' ? Math.ceil(apps.length / 20) : Math.ceil(widgetTypes.length / 4);
+    const pageCount = drawerPageCount();
     const nextPage = Math.max(0,Math.min(pageCount - 1,ui.drawerPage + (dx < 0 ? 1 : -1)));
     suppressClickUntil = Date.now() + 350;
     if (Math.abs(dx) > 45 && nextPage !== ui.drawerPage) {
@@ -2279,7 +2327,7 @@
     event.preventDefault();
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; renderOverlay(); }
-    if (!dragState && ui.view === 'home' && !ui.overlay && event.button === 2 && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { ui.overlay = 'wallpaper-source'; renderOverlay(); }
+    if (!dragState && ui.view === 'home' && !ui.overlay && !ui.overview && event.button === 2 && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { ui.overview = true; render(); }
   });
   // Older WebKit versions may still start page rubber-banding during a custom
   // gesture. Cancel only gestures owned by the simulator; lists scroll natively.
@@ -2352,7 +2400,8 @@
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     const qsToggle = ui.overlay === 'shade' ? event.target.closest('[data-qs-toggle]') : null;
     if (qsToggle) homeLongPressTimer = setTimeout(() => { const key = qsToggle.dataset.qsToggle; data.settings[key] = !data.settings[key]; if (data.settings[key]) data.settings.airplane = false; if (key === 'wifi' && data.settings.wifi) data.settings.portableHotspot = false; save(); renderStatus(); renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 500);
-    if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 550);
+    if (ui.view === 'home' && event.target.closest('.kk-cling-workspace .cling-shade')) homeLongPressTimer = setTimeout(() => { data.clings.workspace = true; save(); LauncherClings.dismiss(clingLayerRoot().querySelector('[data-cling="workspace"]'), () => { ui.overview = true; render(); }); pointerStart = null; suppressReleaseClick(); }, 550);
+    if (ui.view === 'home' && !ui.overlay && !ui.overview && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overview = true; render(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, 550);
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
@@ -2521,7 +2570,7 @@
     if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); if (ui.extraScreen) { stripEmptyScreens(); save(); if (ui.view === 'home') render(); } setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });
   window.addEventListener('pointercancel',()=>{const photo=viewport.querySelector('.gallery-image');if(photo)photo.style.transform='';});
   window.addEventListener('pointercancel',()=>{const surface=viewport.querySelector('[data-calendar-swipe]');if(surface)surface.style.transform='';});
   document.addEventListener('keydown', event => {

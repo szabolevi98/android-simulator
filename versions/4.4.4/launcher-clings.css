@@ -1,16 +1,27 @@
-/* Launcher2 clings over the launcher (the DragLayer, between the status and navigation bars). ClingTitleText is 23sp
-   #49C0EC and ClingText 15sp white, both with a 2px black shadow; ClingButton is bold with 10/35/15dp padding on
-   btn_cling_normal. */
-#cling-layer{position:absolute;left:0;right:0;top:var(--sb);bottom:var(--nb);z-index:30;pointer-events:none}
-.cling{position:absolute;inset:0;pointer-events:none;color:#fff;font-family:Roboto,RobotoICS,sans-serif}
-.cling-shade{position:absolute;inset:0;background:var(--cling-bg) 0 0/100% 100%;pointer-events:auto}
-.cling-punch{position:absolute;transform:translate(-50%,-50%);background:url('assets/cling-cling.png') center/100% 100%;pointer-events:none}
-.cling-hand{position:absolute;background:url('assets/cling-hand.png') 0 0/100% 100%;pointer-events:none}
-.cling-copy{position:absolute;left:18px;right:18px;top:81px;pointer-events:none}
-.cling-allApps .cling-copy{top:18px;right:auto;width:256.5px;max-width:calc(100% - 18px)}
-.cling-folder .cling-copy{top:18px;right:9px}
-.cling h3{margin:0 0 4.5px;font-size:20.7px;font-weight:400;color:#49c0ec;text-shadow:0 1px 1px #000}
-.cling p{margin:0;font-size:13.5px;line-height:1.29;text-shadow:0 1px 1px #000}
-.cling-bottom{position:absolute;left:18px;right:18px;bottom:117px;text-align:center}
-.cling-ok{position:absolute;right:9px;bottom:13.5px;pointer-events:auto;padding:9px 31.5px 13.5px;border:0;border-image:url('assets/cling-btn_cling_normal.png') 27 18 18 fill/16.2px 10.8px 10.8px;background:none;color:#fff;font:700 16.2px Roboto,RobotoICS,sans-serif;line-height:1}
-.cling-ok:active{border-image-source:url('assets/cling-btn_cling_pressed.png')}
+/* Launcher3 4.4 clings. The cling and its #cc000000 scrim cover the whole launcher window, under the translucent
+   system bars; content keeps to the insets. ClingAltTitleText 24 sp / ClingAltText 16 sp (first run, white title and
+   #80000000 text on the circle), ClingTitleText 20 sp white condensed / ClingText 14 sp #80000000 (bubbles on the
+   blue cling nine-patch, 20 dp padding), ClingHintText 14 sp #80ffffff condensed, ClingButton bold 16 sp with
+   15 / 50 dp padding on cling_button. */
+#cling-layer{position:absolute;inset:0;z-index:7;pointer-events:none}
+#cling-layer:has(.kk-cling-folder){z-index:30}
+.cling{position:absolute;inset:0;pointer-events:none;color:#fff;font-family:RobotoICS,Roboto,sans-serif}
+.cling-shade{position:absolute;inset:0;background:#000000cc;pointer-events:auto}
+.kk-cling-content{position:absolute;left:0;right:0;top:var(--sb);bottom:var(--nb);pointer-events:none}
+.kk-first-bubble{position:absolute;left:90.6px;right:90.6px;top:50%;transform:translateY(-50%);text-align:center}
+.kk-first-bubble::before{content:'';position:absolute;left:50%;top:50%;width:199.32px;height:199.32px;margin:-99.66px 0 0 -99.66px;border-radius:50%;background:#64b1ea;z-index:-1}
+.kk-first-bubble h3{margin:0 0 9.06px;font:400 21.74px/1.2 RobotoICS,Roboto,sans-serif;color:#fff}
+.kk-first-bubble p{margin:0;font:400 14.5px/1.25 RobotoICS,Roboto,sans-serif;color:#00000080}
+.kk-cling-hint{position:absolute;right:9.06px;bottom:77px;max-width:163px;margin:0;display:flex;align-items:center;gap:4.53px;font:400 12.68px/1.2 RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#ffffff80;text-align:center}
+.kk-cling-hint img{width:9.06px;height:18.12px;flex:none}
+.kk-cling-bubble{position:absolute;left:22.65px;right:22.65px;top:27.18px;display:flex;flex-direction:column;align-items:center}
+.kk-cling-folder .kk-cling-content{left:13.59px;right:13.59px;top:calc(var(--sb) + 9.06px);bottom:calc(var(--nb) + 9.06px)}
+.kk-cling-folder .kk-cling-bubble{left:0;right:0;top:0}
+.kk-cling-box{align-self:stretch;padding:18.12px;border:3.62px solid transparent;border-image:url('assets/l3-cling.png') 12 fill / 3.62px stretch;background:none}
+.kk-cling-box h3{margin:0 0 4.53px;font:400 18.12px/1.25 RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#fff}
+.kk-cling-box p{margin:0;font:400 12.68px/1.375 RobotoICS,Roboto,sans-serif;color:#00000080}
+.kk-cling-arrow{width:18.12px;height:9.06px;display:block}
+.kk-cling-ring{position:absolute;width:108.72px;height:108.72px;margin:-54.36px 0 0 -54.36px;border-radius:50%;background:radial-gradient(circle closest-side,transparent 82.9%,#00000066 83.4%,#00000066 99%,transparent 100%);pointer-events:none}
+.cling-ok{position:absolute;right:18.12px;bottom:calc(var(--nb) + 13.59px);pointer-events:auto;padding:13.59px 45.3px;border:0;border-image:url('assets/l3-cling_button.png') 54 36 36 fill / 18px 12px 12px stretch;background:none;color:#fff;font:700 14.5px RobotoICS,Roboto,sans-serif;line-height:1.2}
+.cling-ok:active{border-image-source:url('assets/l3-cling_button_pressed.png')}
+.screen:has(.kk-cling-workspace:not(.cling-leaving)) .kk-home .home-search{opacity:0}

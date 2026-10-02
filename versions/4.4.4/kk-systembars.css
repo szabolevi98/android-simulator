@@ -24,3 +24,11 @@
 .screen.kk-translucent #nav-bar{background:linear-gradient(transparent,#00000004 7%,#00000016 29%,#00000030 43%,#00000052 57%,#00000078 71%,#00000092 100%)}
 .screen.kk-translucent .status-right,.screen.kk-translucent .status-left{opacity:1}
 .screen.kk-translucent .nav-key img{opacity:1}
+/* SYSTEM_UI_FLAG_LOW_PROFILE (the launcher clings): notification and system icons fade out, battery and clock drop to
+   50 %, and the navigation keys give way to the lights-out dots. */
+.screen.kk-lights-out .status-left{opacity:0}
+.screen.kk-lights-out .status-right,.screen.kk-translucent.kk-lights-out .status-right{opacity:.5}
+.screen.kk-lights-out .status-right>:not(.kk-battery):not(.status-clock){opacity:0}
+.screen.kk-lights-out .nav-key img{opacity:0;transition:opacity .25s}
+.screen.kk-lights-out .nav-key{background:url('assets/kk-ic_sysbar_lights_out_dot_small.png') center/contain no-repeat}
+.screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/kk-ic_sysbar_lights_out_dot_large.png')}
