@@ -1,0 +1,24 @@
+/* Android 2.3.6 Calculator. hdpi px x 0.575, 1 dp = 0.8625px; ColorButton text sizes are scaled by
+   Calculator.adjustFontSize (480 / 320 = 1.5): 40 dp -> 51.75px, 30 dp -> 38.81px, 15 dp -> 19.41px. */
+#viewport>.app-view.gbcalc{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.gbcalc-display{flex:1 1 0;min-height:0;display:flex;align-items:center;justify-content:flex-end;padding:6.9px;overflow:hidden}
+.gbcalc-display output{font-size:34.5px;line-height:1.2;white-space:nowrap;overflow:hidden;direction:rtl;text-align:right;max-width:100%;unicode-bidi:plaintext}
+.gbcalc-caret{flex:none;width:1.5px;height:38px;margin-left:1px;background:#fff;animation:gbcalc-blink 1s steps(1) infinite}
+@keyframes gbcalc-blink{50%{opacity:0}}
+.gbcalc-pager{flex:4 1 0;min-height:0;overflow:hidden;position:relative}
+.gbcalc .calc-panels{transition:transform .4s ease-in-out}
+.gbcalc-pad{flex:1;min-width:0;height:100%;display:flex;flex-direction:column}
+.gbcalc-row{flex:3 1 0;min-height:0;display:flex}
+.gbcalc-advanced .gbcalc-row{flex:1 1 0}
+.gbcalc-row.gbcalc-top{flex:2 1 0}
+/* drawable/button (#000 -> #333 upwards) and blue_button (#071622 -> #253541), 1 dp left margins. */
+.gbcalc-blank{flex:3 1 0;background:linear-gradient(to top,#000,#333)}
+.screen .gbcalc-key{position:relative;flex:1 1 0;min-width:0;margin-left:.86px;padding:0;border:0;border-radius:0;background:linear-gradient(to top,#000,#333);color:#fff;font:400 51.75px/1 DroidSans,Arial,sans-serif;cursor:pointer;overflow:hidden}
+.screen .gbcalc-key.digit{background:linear-gradient(to top,#071622,#253541)}
+.screen .gbcalc-key.small{font-size:38.81px}
+.screen .gbcalc-del{font-size:19.41px}
+/* ColorButton.drawMagicFlame: a 2 px white outline 1 px inside the edges while pressed, fading over 350 ms. */
+.gbcalc-key::after{content:"";position:absolute;inset:1px;border:2px solid #fff;opacity:0;pointer-events:none}
+.gbcalc-key:active::after{opacity:1}
+.gbcalc-key.gbcalc-flame::after{animation:gbcalc-flame .35s linear}
+@keyframes gbcalc-flame{from{opacity:1}to{opacity:0}}

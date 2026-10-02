@@ -298,3 +298,19 @@ References: Mms 2.3.6 (`conversation_list_screen.xml`, `conversation_list_item.x
   - The delete confirmations use the "Delete" alert with the Mms messages.
 
 Checks: `gb-mms.test.cjs` covers the list rows, unread/read, counts, drafts, date formats, the compose title, message formatting with smileys, the counter, recipients and subject fields, all menus and dialogs, and the Hungarian smiley names. Headless Chrome covered opening Messaging, both menus, sending a message with a smiley, message options and details, Insert smiley, attaching a picture, the draft in the list, and the new-message recipient suggestions. No JavaScript errors.
+
+## Calculator — 2026-10-02
+
+References: Calculator 2.3.6 (`layout-port/main.xml`, `values/styles.xml`, `drawable/button.xml`, `drawable/blue_button.xml`, `ColorButton`, `Calculator.adjustFontSize`, `PanelSwitcher`, `CalculatorDisplay`, `EventListener`, `Logic.onDelete`). Strings come from `docs/gb-strings.py calculator`, and the menu icons are `gb-calc-*`.
+
+- **Layout.** Theme.Black.NoTitleBar. The display (weight 1) sits over the panel switcher (weight 4).
+  - The display shows 40 dp white text, right-aligned, with a blinking cursor and no field background (`setBackgroundDrawable(null)`).
+  - The simple pad starts with a blank gradient cell (weight 3) and **CLEAR** (localized, e.g. "MINDENT TÖRÖL").
+  - Below are the 7–9 / 4–6 / 1–3 / . 0 rows on `blue_button` (#071622 → #253541), and ÷ × − = + on `button` (#000 → #333). Columns have 1 dp left margins.
+- **Text sizes.** `adjustFontSize` scales by 480 / 320, so 40 dp keys render at 51.75 px, the advanced sin/cos/tan/ln/log keys (30 dp) at 38.8 px, and CLEAR (15 dp) at 19.4 px.
+- **Feedback.** ColorButton's "magic flame" is a 2 px white outline while pressed that fades over 350 ms after release.
+- **Behavior.** Tapping CLEAR deletes one character, or clears the display after a result or an error (`Logic.onDelete`). A long press clears everything.
+  - Swiping (or Menu → Advanced panel / Basic panel) slides between the pads in 400 ms. Back returns to the basic pad.
+  - Menu: Clear history, Advanced panel or Basic panel.
+
+Checks: headless Chrome covered 12×3+4 = 40, the menu items, switching to the advanced panel and back, and delete after a result. No JavaScript errors.

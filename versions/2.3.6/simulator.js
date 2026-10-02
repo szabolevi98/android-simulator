@@ -237,6 +237,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'calculator') { ui.gbMenuItems = [{action: 'calc-clear', title: calcText('clear_history'), icon: 'gb-calc-clear_history.png'}, ui.calcPanel ? {action: 'calc-panel', id: 0, title: calcText('basic'), icon: 'gb-calc-simple.png'} : {action: 'calc-panel', id: 1, title: calcText('advanced'), icon: 'gb-calc-advanced.png'}]; ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'messaging') { ui.gbMenuItems = GBMms.menu(gbMmsContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'settings' && GBSettings.has(ui.sub || 'main')) { const items = GBSettings.menu(ui.sub, gbSettingsContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     const button = [...viewport.querySelectorAll('[data-action$="-menu"]')].find(node => !node.disabled);
@@ -1108,11 +1109,18 @@
     ui.ringingAlarm=clone(alarm); save(); ui.overlay='clock-ringing'; renderOverlay();
   }
 
+  /* Calculator 2.3.6 (layout-port/main.xml, Theme.Black.NoTitleBar): the CalculatorDisplay (weight 1) over the
+     PanelSwitcher (weight 4). The simple pad has an empty gradient cell and CLEAR (tap deletes, long press clears), then
+     digit rows on blue_button and operators on button; the advanced pad has sin cos tan / ln log ! / pi e ^ / ( ) sqrt.
+     ColorButton draws white text and the "magic flame" outline. */
+  const calcText = key => { const entry = window.GBStrings?.calculator?.strings?.[key]; return entry ? entry[i18n.language] ?? entry.en : key; };
   function renderCalculator() {
-    const basic = ['7','8','9','÷','4','5','6','×','1','2','3','−','.','0','=','+'];
-    const advanced = ['sin','cos','tan','ln','log','!','π','e','^','(',')','√'];
-    const keys = (items, scientific = false) => items.map(key => `<button class="${!scientific && /^[0-9.]$/.test(key) ? 'digit' : 'function'}" data-action="calc-key" data-id="${key}">${key}</button>`).join('');
-    return `<div class="app-view"><div class="ics-calculator"><div class="ics-calc-display"><output aria-label="Calculator display">${safe(ui.calc)}</output><button data-action="calc-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div><div class="ics-calc-delete"><span></span><button data-action="calc-key" data-id="${ui.calcFresh ? 'C' : '⌫'}" aria-label="${ui.calcFresh ? 'Clear' : 'Delete'}">${ui.calcFresh ? 'CLR' : 'DELETE'}</button></div><div class="calc-pager"><div class="calc-panels" style="transform:translateX(-${ui.calcPanel * 50}%)"><div class="ics-calc-grid" aria-label="Basic panel" ${ui.calcPanel ? 'inert' : ''}>${keys(basic)}</div><div class="ics-calc-grid scientific" aria-label="Advanced panel" ${ui.calcPanel ? '' : 'inert'}>${keys(advanced,true)}</div></div></div></div></div>`;
+    const key = (id, cls = '') => `<button class="gbcalc-key${cls}" data-action="calc-key" data-id="${id}">${safe(id)}</button>`;
+    const row = keys => `<div class="gbcalc-row">${keys.map(([id, cls]) => key(id, cls)).join('')}</div>`;
+    const simple = `<div class="gbcalc-pad gbcalc-simple" aria-label="${safe(calcText('basic'))}" ${ui.calcPanel ? 'inert' : ''}><div class="gbcalc-row gbcalc-top"><span class="gbcalc-blank"></span><button class="gbcalc-key gbcalc-del" data-action="calc-key" data-id="⌫" aria-label="${safe(calcText('del'))}">${safe(calcText('clear'))}</button></div>${row([['7', ' digit'], ['8', ' digit'], ['9', ' digit'], ['÷']])}${row([['4', ' digit'], ['5', ' digit'], ['6', ' digit'], ['×']])}${row([['1', ' digit'], ['2', ' digit'], ['3', ' digit'], ['−']])}${row([['.', ' digit'], ['0', ' digit'], ['='], ['+']])}</div>`;
+    const advanced = `<div class="gbcalc-pad gbcalc-advanced" aria-label="${safe(calcText('advanced'))}" ${ui.calcPanel ? '' : 'inert'}>${row([['sin', ' small'], ['cos', ' small'], ['tan', ' small']])}${row([['ln', ' small'], ['log', ' small'], ['!']])}${row([['π'], ['e'], ['^']])}${row([['('], [')'], ['√']])}</div>`;
+    const shown = ui.calc === 'Error' ? calcText('error') : ui.calc;
+    return `<div class="app-view gbcalc" data-no-translate><div class="gbcalc-display"><output aria-label="${safe(calcText('app_name'))}">${safe(shown)}</output><i class="gbcalc-caret"></i></div><div class="calc-pager gbcalc-pager"><div class="calc-panels" style="transform:translateX(-${ui.calcPanel * 50}%)">${simple}${advanced}</div></div></div>`;
   }
   function setCalculatorPanel(index) {
     ui.calcPanel = index;
@@ -1120,7 +1128,7 @@
     if (!track) return;
     track.style.transition = '';
     track.style.transform = `translateX(-${index * 50}%)`;
-    track.querySelectorAll('.ics-calc-grid').forEach((panel, i) => { panel.inert = i !== index; });
+    track.querySelectorAll('.ics-calc-grid,.gbcalc-pad').forEach((panel, i) => { panel.inert = i !== index; });
   }
   function renderMusic() {
     return ICSMusic.render(ui.music,ui,key=>i18n.t(key));
@@ -1170,7 +1178,8 @@
 
   function operateCalculator(key) {
     if (key === 'C') { ui.calc = ''; ui.calcFresh = false; return; }
-    if (key === '⌫') { ui.calc = ui.calc === 'Error' ? '' : ui.calc.replace(/(?:sin|cos|tan|log|sqrt|√|ln)\($|.$/, ''); ui.calcFresh = false; return; }
+    // Logic.onDelete: on a result or an error DELETE clears the display.
+    if (key === '⌫') { ui.calc = ui.calc === 'Error' || ui.calcFresh ? '' : ui.calc.replace(/(?:sin|cos|tan|log|sqrt|√|ln)\($|.$/, ''); ui.calcFresh = false; return; }
     if (key === '=') {
       if (!ui.calc || ui.calc === 'Error') return;
       try { const expression = ui.calc; ui.calc = ICSCalculator.evaluate(expression); data.calcHistory = [...(data.calcHistory || []), {expression, result:ui.calc}].slice(-50); ui.calcHistoryIndex = -1; save(); } catch { ui.calc = 'Error'; }
@@ -1542,7 +1551,7 @@
       case 'calc-menu': ui.overlay = 'calc-menu'; renderOverlay(); break;
       case 'calc-panel': ui.overlay = ''; renderOverlay(); setCalculatorPanel(Number(id)); break;
       case 'calc-clear': data.calcHistory = []; ui.calcHistoryIndex = -1; save(); operateCalculator('C'); ui.overlay = ''; render(); break;
-      case 'calc-key': operateCalculator(id); render(); break;
+      case 'calc-key': operateCalculator(id); render(); viewport.querySelector(`.gbcalc-key[data-id="${CSS.escape(id)}"]`)?.classList.add('gbcalc-flame'); break;
       case 'music-play': ui.music.playing=!ui.music.playing;if(ui.music.playing&&ui.music.position>=tracks[ui.music.track].duration)ui.music.position=0;saveMusic();render();break;
       case 'music-prev': case 'music-next': ICSMusic.step(ui.music,action==='music-prev'?-1:1);saveMusic();render();break;
       case 'music-tab': ui.musicTab=id;ui.sub='';render();break;
@@ -2140,7 +2149,7 @@
       eggTimer = setTimeout(zoom, 2 * ICSNyandroid.LONG_PRESS);
     }
     if (ui.view === 'calculator' && !ui.overlay && event.target.closest('.calc-pager')) pointerStart.calculatorSwipe = true;
-    if (event.target.closest('.ics-calc-delete button')) calculatorClearTimer = setTimeout(() => { operateCalculator('C'); suppressClickUntil = Date.now() + 350; render(); }, 600);
+    if (event.target.closest('.ics-calc-delete button,.gbcalc-del')) calculatorClearTimer = setTimeout(() => { operateCalculator('C'); suppressClickUntil = Date.now() + 350; render(); }, 600);
     if (ui.view === 'home' && !ui.overlay) pointerStart.photoStack = event.target.closest('[data-photo-stack]')?.dataset.photoStack || '';
     if (pointerStart.source) dragTimer = setTimeout(() => startDrag(event.clientX, event.clientY), 440);
   });

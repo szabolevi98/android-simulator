@@ -33,6 +33,10 @@ attach_image attach_take_photo attach_video attach_record_video attach_sound att
 search_empty view replace_image remove inline_subject menu_unlock'''.split(),
         'arrays': ['default_smiley_names', 'default_smiley_texts'],
     },
+    'calculator': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_calculator/android-2.3.6_r1/res/values%s/strings.xml'],
+        'keys': 'app_name error del clear basic advanced clear_history'.split(),
+    },
 }
 
 
