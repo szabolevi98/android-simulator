@@ -546,7 +546,7 @@
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; }
     ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
     if (app === 'phone' && ui.activeCall && !resume) { ui.gbCallBackground = true; ui.gbAddCall = false; ui.phoneTab = 'dialpad'; }
-    ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 7);
+    ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 8);
     render();
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
@@ -720,7 +720,12 @@
     } else if(ui.overlay==='sx-dialog'){
       overlayRoot.innerHTML=ICSSystemSettings.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay === 'recent') {
-      overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
+      // RecentApplicationsDialog (recent_apps_dialog.xml): "Recent", up to eight 80 dip icon buttons in rows of four, newest first,
+      // or "No recent applications."; recent_dialog_background behind it, fading in and out.
+      const fw = key => window.GBStrings?.framework?.strings?.[key]?.[i18n.language] ?? window.GBStrings?.framework?.strings?.[key]?.en ?? key;
+      const items = ui.recent.filter(id => appNames[id]).slice(0, 8);
+      const rows = items.length ? [items.slice(0, 4), items.slice(4, 8)].filter(row => row.length).map(row => `<div class="gbrecent-row">${row.map(id => `<button class="gbrecent-item" data-action="open-app" data-app="${id}">${appIcon(id)}<span>${safe(appNames[id])}</span></button>`).join('')}</div>`).join('') : `<div class="gbrecent-empty">${safe(fw('no_recent_tasks'))}</div>`;
+      overlayRoot.innerHTML = `<div class="gbrecent-scrim" data-action="close-overlay"></div><div class="gbrecent" role="dialog" aria-label="${safe(fw('recent_tasks_title'))}"><div class="gbrecent-title">${safe(fw('recent_tasks_title'))}</div>${rows}<div class="gbrecent-spacer"></div></div>`;
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
       overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
     } else if (ui.overlay.startsWith('clock-') && GBDeskClock.dialog(ui.overlay.slice(6), gbClockContext())) {
@@ -1026,7 +1031,7 @@
     if(ui.activeCall&&ui.gbAddCall&&!ui.activeCall.endedAt){data.callHistory=[...(data.callHistory||[]),ICSPhoneCall.finish(ui.activeCall)].slice(-50);ui.activeCall=null;save();}
     if(!ui.activeCall)ui.activeCall=ICSPhoneCall.start(number);
     ui.gbCallBackground=false;ui.gbAddCall=false;
-    captureRecentView();ui.recent=['phone',...ui.recent.filter(id=>id!=='phone')].slice(0,7);
+    captureRecentView();ui.recent=['phone',...ui.recent.filter(id=>id!=='phone')].slice(0,8);
     ui.callNumber=ui.activeCall.number;ui.view='phone';ui.sub='calling';ui.overlay='';render();
   }
   // Dialtacts context: the Contacts launcher icon opens the same activity on its Contacts tab.
@@ -1529,7 +1534,7 @@
       case 'hangup': { const call=ui.activeCall; if(!call||call.endedAt)break; call.endedAt=Date.now(); call.keypad=false; render(); setTimeout(()=>{if(ui.activeCall===call&&ui.view==='phone')render();},GBPhone.HANGING_UP); setTimeout(()=>{if(ui.activeCall!==call)return; data.callHistory=[...(data.callHistory||[]),ICSPhoneCall.finish(call,call.endedAt)].slice(-50); ui.activeCall=null; ui.gbCallBackground=false; ui.gbAddCall=false; save(); if(ui.view==='phone'){ui.sub='';ui.dial='';render();} else renderStatus();},GBPhone.HANGING_UP+GBPhone.ENDED); break; }
       case 'gbp-add-call': if(!ui.activeCall)break; ui.gbCallBackground=true; ui.gbAddCall=true; ui.phoneTab='dialpad'; ui.view='phone'; ui.sub=''; ui.dial=''; render(); break;
       case 'gbp-dtmf': if(!ui.activeCall)break; ui.gbCallBackground=false; ui.gbAddCall=false; ui.activeCall.keypad=GBPhone.callState(ui.activeCall)==='active'; ui.view='phone'; render(); break;
-      case 'gbp-return-call': if(!ui.activeCall)break; ui.overlay=''; ui.gbCallBackground=false; ui.gbAddCall=false; captureRecentView(); ui.view='phone'; ui.sub='calling'; ui.recent=['phone',...ui.recent.filter(id=>id!=='phone')].slice(0,7); render(); break;
+      case 'gbp-return-call': if(!ui.activeCall)break; ui.overlay=''; ui.gbCallBackground=false; ui.gbAddCall=false; captureRecentView(); ui.view='phone'; ui.sub='calling'; ui.recent=['phone',...ui.recent.filter(id=>id!=='phone')].slice(0,8); render(); break;
       case 'incall-toggle': if(ui.activeCall&&!ui.activeCall.endedAt){ui.activeCall[id]=!ui.activeCall[id];if(id==='hold')ui.activeCall.keypad=false;}render();renderStatus();break;
       case 'incall-digit': if(ui.activeCall)ui.activeCall.digits=(ui.activeCall.digits+id).slice(-24);render();break;
       case 'phone-log-detail': ui.phoneCallId=Number(id);ui.sub='call-detail';render();break;

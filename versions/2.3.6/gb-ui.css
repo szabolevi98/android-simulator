@@ -68,3 +68,20 @@
 /* EditText inside dialogs (EditTextPreference, Bluetooth name, alarm label): the framework textfield 9-patch. */
 .gbdlg .gbdlg-s-message input:not([type]),.gbdlg .gbdlg-s-message input[type=text],.gbdlg-input{display:block;width:100%;box-sizing:border-box;min-height:41.4px;margin:4px 0;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
 .gbdlg .gbdlg-s-message input:not([type]):focus,.gbdlg .gbdlg-s-message input[type=text]:focus,.gbdlg-input:focus{border-image-source:url('assets/gb-textfield_selected.png')}
+
+/* RecentApplicationsDialog: Theme.Dialog.RecentApplications (no frame, no dim), recent_dialog_background stretched across
+   the screen and 180 px beyond the content, the 40 dip "Recent" title (small, bold, #80FFFFFF), 80 dip buttons with the
+   48 dip icon over a 13 dip label (two lines at most), a 40 dip space below; fade in and out. */
+.gbrecent-scrim{position:absolute;inset:0;z-index:30}
+.gbrecent{position:absolute;left:0;right:0;top:50%;z-index:31;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;padding:3.45px;pointer-events:none;animation:gbrecent-in .2s ease-out}
+.gbrecent::before{content:"";position:absolute;left:0;right:0;top:-103.5px;bottom:-103.5px;z-index:-1;background:url('assets/gb-recent_dialog_background.png') 0 0/100% 100%}
+@keyframes gbrecent-in{from{opacity:0}}
+.gbrecent-title{height:34.5px;line-height:34.5px;font-size:12.08px;font-weight:700;color:#ffffff80}
+.gbrecent-empty{display:grid;place-items:center;width:276px;max-width:100%;height:69px;font-size:12.08px;color:#bebebe}
+.gbrecent-row{display:flex;width:276px;max-width:100%}
+.screen .gbrecent-item{flex:0 0 25%;display:flex;flex-direction:column;align-items:center;margin:2.59px 0;padding:4.31px 2px 1.73px;border:0;background:none;color:#fff;font:400 11.21px/1.15 DroidSans,Arial,sans-serif;text-align:center;pointer-events:auto;cursor:pointer}
+.gbrecent-item .app-icon{width:41.4px;height:41.4px;margin:0 0 1px;filter:none}
+.gbrecent-item .app-icon img{width:100%;height:100%;object-fit:contain}
+.gbrecent-item span:last-child{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:100%}
+.screen .gbrecent-item:active .app-icon{filter:drop-shadow(0 0 3px #ff9a00) drop-shadow(0 0 3px #ffb300)}
+.gbrecent-spacer{height:34.5px}

@@ -98,6 +98,10 @@ pref_exposure_title zoom_control_title switch_to_camera_lable switch_to_video_la
                    'pref_camera_whitebalance_entries', 'pref_camera_coloreffect_entries', 'pref_camera_scenemode_entries', 'pref_video_quality_entries',
                    'pref_camera_video_flashmode_entries'],
     },
+    'framework': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'keys': 'recent_tasks_title no_recent_tasks'.split(),
+    },
     'calendar': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
         'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],

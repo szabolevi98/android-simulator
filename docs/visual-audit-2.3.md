@@ -457,3 +457,13 @@ References: Camera 2.3.6 (`camera.xml`, `camera_control.xml`, `CameraHeadUpDispl
 - **Menu:** Switch to video / camera, Gallery, Switch Camera.
 
 Checks: `gb-camera.test.cjs` covers the defaults and media.js compatibility, the labels in three languages, the indicator order, the popups and their anchors, focus, video recording, the thumbnail and the menu. Headless Chrome covered the white balance popup → Cloudy, Other settings, zoom, shutter (focusing → focused → thumbnail), video recording and the menu. No JavaScript errors.
+
+## Recent applications — 2026-10-02
+
+Reference: framework `recent_apps_dialog.xml`, `recent_apps_icon.xml`, `RecentApplicationsDialog.java`, Theme.Dialog.RecentApplications, Animation.RecentApplications, `recent_dialog_background.9.png`.
+
+- Holding Home opens the 2.3 RecentApplicationsDialog instead of the inherited ICS thumbnail list.
+- There is no frame and no dim. `recent_dialog_background` (a black band fading out over 180 px above and below the content) runs across the screen behind the content.
+- The 40 dip "Recent" title is small, bold and #80FFFFFF. Below it come up to eight (NUM_BUTTONS) 80 dip buttons in two rows of four, newest first, each with the 48 dip icon and a 13 dip label of at most two lines. A 40 dip space closes the dialog.
+- Pressed icons glow orange (IconUtilities). With no history it shows "No recent applications."; it fades in and out.
+- The strings come from the framework (`docs/gb-strings.py framework`).
