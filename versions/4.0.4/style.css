@@ -127,6 +127,10 @@
 .status-right img.status-battery{margin-left:4px}
 .status-right img.status-bluetooth{margin-right:4px}
 .status-right img.status-hidden{display:none}
+/* signal_battery_cluster (paddingStart 2dp) and signal_cluster_view: the wifi group's layout_marginEnd="-6dp" tucks the
+   mobile signal under the wifi fan, so wifi sits close to the signal and 2dp after the alarm / other status icons. */
+.status-cluster{display:flex;align-items:center;height:100%;padding-left:2px}
+.status-right img.status-wifi{margin-right:-6px}
 .status-clock{padding-left:6px;color:#33b5e5;font-size:12px}
 .header-actions select{height:34px;border:1px solid #63808a61;background:#122630;color:#a9dae3;border-radius:5px;padding:0 5px;font-size:11px;cursor:pointer}
 @media(max-width:500px){.header-actions{gap:6px}}

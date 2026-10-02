@@ -525,3 +525,7 @@ Checks: `tests/jb-play.test.cjs` covers the version, category order, clusters, t
 Owner's note: in period videos the 4.3 panel can be pulled all the way down even when it is empty. `PanelView.setExpandedHeightInternal` (android-4.3_r1) only clamps the height to the content (`fh`) when not `mRubberbandingEnabled && (mTracking || mRubberbanding)`. Rubberbanding is on by default, and PhoneStatusBar never turns it off. So while the finger is down, the panel follows it past its content to the bottom of the screen. The `notification_panel_bg`, the carrier label and the handle stretch with it. On release the panel springs back to its content height: for an empty panel, the header, the carrier label and the handle.
 
 The simulator used to stop the drag at the content height. It now lets the drag run to the screen bottom and animates back on release. `.jb-shade-pages` grows so the stretched panel has no gap.
+
+## Status bar signal cluster spacing — 2026-10-02
+
+Owner's note: the Wi-Fi icon sat closer to the alarm icon than to the signal bars. AOSP `status_bar.xml` gives `signal_battery_cluster` a 2 dp start padding. `signal_cluster_view.xml` gives the `wifi_combo` `layout_marginEnd="-6dp"`, so the mobile signal tucks under the right of the Wi-Fi fan: the fan is wide at the top, the bars at the bottom. The simulator had neither. The Wi-Fi, data type and signal icons now sit in a `.status-cluster` with 2 px start padding, and the Wi-Fi icon has a -6 px end margin (status icons are drawn at 1 dp = 1 px). This applies to both 4.0.4 and 4.3.
