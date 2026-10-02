@@ -68,6 +68,7 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - Jelly Bean animations: apps grow out of the icon you tap (home screen, dock, folders and the drawer), switching apps slides the windows past each other as shrinking cards, and screens inside an app zoom in from 0.8, using the Android 4.3 animation values.
 
+- The 4.3 **Dialer** smart dial: typing on the dialpad shows the three best matching contacts (by name on the letter keys or by number) above the keypad, and the call button spans the full width.
 - The 4.3 **Developer options** list with its ON/OFF switch. Show layout bounds, Pointer location and Show CPU usage draw their overlays; the animation scales drive the window animations.
 
 - Jelly Bean Recents over the wallpaper: the app shrinks into its thumbnail, a long press offers Remove from list and App info, and tasks open by growing out of their thumbnails. Swipe up from the navigation bar for the search ring and release on the target to search.

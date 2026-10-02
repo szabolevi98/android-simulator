@@ -520,3 +520,23 @@ html,body{overscroll-behavior-y:none}
 .dev-cpu{position:absolute;top:26px;right:3px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:1px;font:8.5px/1.2 monospace;color:#fff;text-shadow:0 0 2px #000,0 0 2px #000;pointer-events:none}
 .dev-cpu span{display:flex;align-items:center;gap:3px}
 .dev-cpu i{display:inline-block;height:6px;background:#ff0000b0}
+
+/* Dialer 4.3: 50sp smart dial row (three slots, best match in the middle), a full-width call button and the
+   search / overflow actions at the end of the tab bar. */
+.jb-phone-tabs{display:flex}
+.jb-phone-tabs>button{flex:1}
+.jb-phone-tab-actions{display:flex;flex:none}
+.jb-phone-tab-actions button{width:43px;border:0;background:none;display:grid;place-items:center;padding:0}
+.jb-phone-tab-actions img{width:28.8px;height:28.8px}
+.jb-smartdial{flex:none;height:45px;display:flex;background:#171717 url('assets/dial_background_texture.png') repeat;background-size:5px 5px}
+.jb-smartdial-item{flex:1;min-width:0;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 3.6px;color:inherit}
+.jb-smartdial-item+.jb-smartdial-item{box-shadow:inset 1px 0 #ffffff14}
+.jb-smartdial-item:active{background:#33b5e566}
+.jb-smartdial-name,.jb-smartdial-number{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jb-smartdial-name{font-size:14.4px;color:#0099cc}
+.jb-smartdial-name b{font-weight:400;color:#39c9ff}
+.jb-smartdial-number{font-size:11.7px;color:#bbb}
+.jb-smartdial-number b{font-weight:400;color:#fff}
+.jb-dial-actions{display:flex}
+.jb-dial-actions .dial-call{flex:1;width:auto}
+.jb-dial-actions .dial-call:active{background:url('assets/jb-btn_call_pressed.png') center/100% 100%}

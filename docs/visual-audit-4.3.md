@@ -349,3 +349,9 @@ Each sub-page was compared with the 4.3 preference XML (`sound_settings`, `displ
   - MOUSE/TRACKPAD: Pointer speed.
 - **Accessibility.** Magnification gestures, Large text, Power button ends call, Auto-rotate screen, Speak passwords, Accessibility shortcut, Text-to-speech output and Touch & hold delay, in 4.3 order and without the ICS summaries.
 - **Smaller fixes.** Date & time says **Choose date format**. Backup & reset gains **Backup account**. *More…* drops Wi-Fi Direct, which 4.3 moved into the Wi-Fi menu.
+
+## Dialer smart dial — 2026-10-02
+
+The 4.3 Dialer (`packages/apps/Dialer` at `android-4.3_r1.1`, `dialpad_fragment.xml`, `SmartDialNameMatcher`, `SmartDialAdapter`) differs from the ICS Contacts dialpad:
+- **Smart dial row.** Between the digits and the keypad, a 50sp row shows three contact suggestions. Names match when the typed digits spell the start of a word, possibly running on into the starts of the following words (so "26" finds **A**lex **M**organ). Accented letters are folded first, as `remapAccentedChar` does. Numbers match by prefix, with or without the country code. The best match sits in the middle slot, the second on the left and the third on the right; matched characters are highlighted. Tapping a suggestion calls it.
+- **Action bar.** Search and the overflow moved from the bottom row into the end of the tab bar (`dialtacts_options.xml`), so the bottom is a single full-width call button with the 4.3 `btn_call_pressed` state.

@@ -1031,6 +1031,7 @@
     ['Vibrate when ringing','Rezgés csörgéskor','Bei Anruf vibrieren','Vibrer lors des appels','Vibrar al sonar'],
     ['Default notification sound','Alapértelmezett értesítési hang','Standard-Benachrichtigungston','Son de notification par défaut','Sonido de notificación predeterminado'],
     ['Choose date format','Dátumformátum kiválasztása','Datumsformat auswählen','Format de date','Formato de fecha'],
+    ['Suggestions','Javaslatok','Vorschläge','Suggestions','Sugerencias'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;
