@@ -1,0 +1,96 @@
+"""Generates versions/2.3.6/gb-settings-strings.js from the AOSP 2.3.6 Settings (and framework) string resources.
+Usage: python gen_gb_settings_strings.py  (keys are listed below; arrays are resolved to their items)."""
+import re, json, urllib.request, html
+
+LANGS = ['', '-hu', '-de', '-fr', '-es']
+SETTINGS = 'https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/%s.xml'
+FRAMEWORK = 'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/%s.xml'
+
+KEYS = '''settings_label radio_controls_title call_settings_title sound_settings_title display_settings_title security_settings_title
+applications_settings sync_settings privacy_settings storage_settings language_settings voice_input_output_settings accessibility_settings
+date_and_time_settings_title about_settings
+airplane_mode airplane_mode_summary wifi_quick_toggle_title wifi_quick_toggle_summary wifi_settings wifi_settings_summary
+bluetooth_quick_toggle_title bluetooth_quick_toggle_summary bluetooth_settings bluetooth_settings_summary tether_settings_title_both
+tether_settings_summary_both vpn_settings_title vpn_settings_summary nfc_quick_toggle_title nfc_quick_toggle_summary network_settings_title
+network_settings_summary radio_controls_summary
+sound_settings sound_category_sound_title silent_mode_title silent_mode_summary vibrate_title vibrate_summary all_volume_title
+sound_category_calls_title ringtone_title sound_category_notification_title notification_sound_title notification_pulse_title
+notification_pulse_summary sound_category_feedback_title dtmf_tone_enable_title dtmf_tone_enable_summary_on sound_effects_enable_title
+sound_effects_enable_summary_on lock_sounds_enable_title lock_sounds_enable_summary_on haptic_feedback_enable_title
+haptic_feedback_enable_summary_on emergency_tone_title emergency_tone_summary
+display_settings brightness accelerometer_title animations_title screen_timeout screen_timeout_summary
+location_title location_network_based location_neighborhood_level location_networks_disabled location_gps location_street_level
+location_gps_disabled assisted_gps assisted_gps_enabled assisted_gps_disabled lock_settings_title unlock_set_unlock_launch_picker_title
+unlock_set_unlock_launch_picker_summary unlock_set_unlock_launch_picker_change_title unlock_set_unlock_launch_picker_change_summary
+lockpattern_settings_enable_visible_pattern_title lockpattern_settings_enable_tactile_feedback_title security_passwords_title show_password
+show_password_summary device_admin_title manage_device_admin manage_device_admin_summary credentials_category credentials_access
+credentials_access_summary credentials_install_certificates credentials_install_certificates_summary credentials_set_password
+credentials_set_password_summary credentials_reset credentials_reset_summary
+applications_settings_header applications_settings_summary install_applications install_unknown_applications app_install_location_title
+app_install_location_summary quick_launch_title quick_launch_summary manageapplications_settings_title manageapplications_settings_summary
+runningservices_settings_title runningservices_settings_summary storageuse_settings_title storageuse_settings_summary power_usage_summary_title
+power_usage_summary development_settings_title development_settings_summary
+sync_settings_summary
+backup_section_title backup_data_title backup_data_summary auto_restore_title auto_restore_summary personal_data_section_title
+master_clear_title master_clear_summary
+sd_memory memory_size memory_available sd_eject sd_eject_summary sd_format sd_format_summary internal_memory
+language_settings_category phone_language user_dict_settings_titlebar keyboard_settings_category builtin_keyboard_settings_title
+builtin_keyboard_settings_summary
+accessibility_service_no_apps_title accessibility_services_category accessibility_power_button_category
+accessibility_power_button_ends_call accessibility_power_button_ends_call_summary
+date_and_time date_time_auto date_time_auto_summaryOn date_time_set_date date_time_set_timezone date_time_set_time date_time_24hour
+date_time_date_format language_picker_title sd_card_storage
+system_update_settings_list_item_title device_status device_status_summary legal_information copyright_title license_title
+terms_title settings_safetylegal_title system_tutorial_list_item_title model_number firmware_version baseband_version kernel_version
+build_number device_info_default
+battery_status_title battery_level_title status_number status_operator status_signal_strength status_network_type status_service_state
+status_roaming status_data_state status_imei status_imei_sv status_wifi_mac_address status_bt_address status_up_time status_unavailable
+tether_settings_title_usb usb_tethering_button_text wifi_tether_checkbox_text wifi_tether_configure_ap_text wifi_tether_configure_subtext
+tethering_help_button_text
+voice_input_output_settings_title tts_settings_title tts_settings
+'''.split()
+ARRAYS = 'vibrate_entries animations_entries screen_timeout_entries emergency_tone_entries app_install_location_entries'.split()
+FW_KEYS = 'ok cancel yes no'.split()
+
+
+def fetch(url):
+    try:
+        return urllib.request.urlopen(url).read().decode('utf-8')
+    except Exception:
+        return ''
+
+
+def clean(value):
+    value = re.sub(r'<xliff:g[^>]*>(.*?)</xliff:g>', r'\1', value, flags=re.S)
+    value = re.sub(r'<[^>]+>', '', value).strip()
+    if value.startswith('"') and value.endswith('"'):
+        value = value[1:-1]
+    value = value.replace("\\'", "'").replace('\\"', '"').replace('\\n', '\n').replace('\\u2026', '…')
+    return html.unescape(value)
+
+
+out, arrays = {}, {}
+for lang in LANGS:
+    code = lang[1:] or 'en'
+    strings = fetch(SETTINGS % (lang, 'strings'))
+    arr = fetch(SETTINGS % (lang, 'arrays'))
+    fw = fetch(FRAMEWORK % (lang, 'strings'))
+    for key in KEYS:
+        m = re.search(r'<string name="%s"(?: product="default")?[^>]*>(.*?)</string>' % re.escape(key), strings, re.S)
+        if m:
+            out.setdefault(key, {})[code] = clean(m.group(1))
+    for key in FW_KEYS:
+        m = re.search(r'<string name="%s"[^>]*>(.*?)</string>' % key, fw, re.S)
+        if m:
+            out.setdefault('fw_' + key, {})[code] = clean(m.group(1))
+    for name in ARRAYS:
+        m = re.search(r'<string-array name="%s"[^>]*>(.*?)</string-array>' % name, arr, re.S)
+        if m:
+            arrays.setdefault(name, {})[code] = [clean(item) for item in re.findall(r'<item[^>]*>(.*?)</item>', m.group(1), re.S)]
+
+missing = [k for k in KEYS if k not in out]
+js = ('/* Generated by docs tooling from AOSP android-2.3.6_r1 packages/apps/Settings and frameworks/base strings\n'
+      '   (values, values-hu, -de, -fr, -es). Do not edit by hand. */\n'
+      'window.GBSettingsStrings = ' + json.dumps({'strings': out, 'arrays': arrays}, ensure_ascii=False, indent=0) + ';\n')
+open('D:/xampp/htdocs/android-simulator/versions/2.3.6/gb-settings-strings.js', 'w', encoding='utf-8').write(js)
+print('keys', len(out), 'arrays', len(arrays), 'missing', missing)

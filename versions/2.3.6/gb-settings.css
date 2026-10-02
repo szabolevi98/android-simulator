@@ -1,0 +1,24 @@
+/* Android 2.3.6 Settings (Theme default dark): activity_title_bar window title (25 dip, 14 sp bold white, #BB000000
+   shadow), dark_header list separators (25 dip, 14 sp bold #bebebe, 5 sp padding), preference.xml rows (64 dip,
+   15 dip left margin, 22 sp title, 14 sp #bebebe summary), divider_horizontal_dark between rows. */
+#viewport>.app-view.gbset{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.gb-titlebar{flex:none;height:21.56px;line-height:21.56px;padding:0 4.31px;border:0 solid transparent;border-image:url('assets/gb-activity_title_bar.png') 0 22 39 23 fill / 0 12.65px 22.43px 13.23px stretch;color:#fff;font-size:12.07px;font-weight:700;text-shadow:0 0 2.37px #000000bb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbset-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain}
+.gbset-list::-webkit-scrollbar{display:none}
+.gbset-cat{height:21.56px;line-height:21.56px;padding-left:4.31px;background:url('assets/gb-dark_header.png') 0 0/100% 100%;color:#bebebe;font-size:12.07px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gbset-row{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 5.18px 0 12.94px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbset-row:active:not(:disabled):not(.gbset-info){border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.screen .gbset-row:disabled,.screen .gbset-row[aria-disabled="true"]{cursor:default}
+.gbset-row:disabled .gbset-title,.gbset-row:disabled .gbset-sum{opacity:.5}
+.gbset-row.with-icon{padding-left:5.18px}
+.gbset-icon{width:41.4px;height:41.4px;margin-right:6.9px;flex:none}
+.gbset-text{flex:1;min-width:0;display:flex;flex-direction:column;padding:5.18px 5.18px 5.18px 0}
+.gbset-title{font-size:18.98px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbset-sum{font-size:12.07px;line-height:1.3;color:#bebebe;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}
+.gbset-info{cursor:default}
+.gbset-check{width:27.6px;height:27.6px;flex:none;margin-right:3.45px}
+/* BrightnessPreference dialog body. */
+.gbbright{display:flex;flex-direction:column;gap:10px;padding:8px 6px 12px;font-size:15.53px}
+.gbbright label{display:flex;align-items:center;gap:8px}
+.gbbright input[type=checkbox]{width:20px;height:20px;accent-color:#ffb400}
+.gbbright input[type=range]{width:100%;accent-color:#ffb400}

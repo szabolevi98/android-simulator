@@ -546,7 +546,8 @@
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; if (resetPage) ui.page = 2; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
   function navigateBack() {
-    if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
+    if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();if(ui.gbSettingsStack?.length)ui.gbSettingsStack.pop();return;}
+    if(ui.view==='settings'&&ui.sub&&ui.gbSettingsStack?.length&&!ui.overlay){ui.sub=ui.gbSettingsStack.pop();render();return;}
     if(ui.view==='lock'&&ui.gbPasswordEntry&&data.settings.screenLock!=='pattern'){ui.gbPasswordEntry=false;lockControls.lock();render();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay === 'shade') { closeShade(); return; }
@@ -620,6 +621,9 @@
       {action: 'gb-new-folder', id: 'all', title: t('All contacts'), icon: 'ic_launcher_folder_live_contacts'},
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
+    if (ui.overlay === 'gb-dialog-list') return GBSettings.listDialog(ui.gbListKey, gbSettingsContext()) || {title: '', items: []};
+    // BrightnessPreference (preference_dialog_brightness.xml): "Automatic brightness" above the seek bar; OK / Cancel.
+    if (ui.overlay === 'gb-dialog-brightness') return {title: GBSettings.text(i18n.language, 'brightness'), custom: `<div class="gbbright"><label><input type="checkbox" ${GBSettings.value(data.settings, 'autoBrightness') ? 'checked' : ''}> ${safe(t('Automatic brightness'))}</label><input type="range" min="10" max="100" value="${ui.brightnessDraft ?? data.settings.brightness}" aria-label="${safe(GBSettings.text(i18n.language, 'brightness'))}"></div>`, buttons: [{action: 'gbset-brightness-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
     if (ui.overlay === 'gb-dialog-rename') return {title: t('Rename folder'), custom: `<label class="gbdlg-field"><span>${safe(t('Folder name'))}</span><input maxlength="40" value="${safe(ICSLauncherFolders.folder(data, ui.folderId)?.name || t('Folder'))}"></label>`, buttons: [{action: 'gb-rename-folder', title: t('OK')}, {action: 'gb-rename-cancel', title: t('Cancel')}], cancel: 'gb-rename-cancel'};
     if (ui.overlay === 'gb-dialog-wallpaper') return {title: t('Select wallpaper from'), items: [
       {action: 'open-app', app: 'gallery', title: t('Gallery'), icon: 'gallery.png'},
@@ -834,9 +838,20 @@
     return appView('Bluetooth', `<div class="connectivity-page">${data.settings.bluetooth ? `<button class="settings-row network-row" data-action="toggle-setting" data-id="bluetoothVisible"><span class="network-signal"><img src="assets/ic_bt_cellphone.png" alt=""></span><span class="row-copy">${safe(data.settings.bluetoothName || 'Galaxy Nexus')}<small>${data.settings.bluetoothVisible ? i18n.t('Visible to nearby Bluetooth devices') : i18n.t('Not visible to other Bluetooth devices')}</small></span></button>${data.settings.pairedDevice ? `${label('PAIRED DEVICES')}${deviceRow(data.settings.pairedDevice, true)}` : ''}${label('AVAILABLE DEVICES')}${ui.bluetoothScanned ? ['Wireless Headset','Car Audio'].filter(name => name !== data.settings.pairedDevice).map(name => deviceRow(name, false)).join('') : '<p class="connectivity-empty small">Tap Scan to find nearby devices</p>'}` : '<p class="connectivity-empty">Turn on Bluetooth to see nearby devices</p>'}</div>`, '', connectivitySwitch('bluetooth', 'Bluetooth', true) + connectivityMenu('bluetooth'));
   }
 
+  function gbSettingsContext() {
+    const now = deviceDate(), lang = i18n.language;
+    const formats = [now.toLocaleDateString(i18n.locale()), `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`, `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`, `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`];
+    const up = Math.floor(performance.now() / 1000) + 9240;
+    return {settings: data.settings, lang, t: key => i18n.t(key), carrier: carrierName(), date: formats[GBSettings.value(data.settings, 'dateFormat')] || formats[0], time: gbClock() + (data.settings.hour24 ? '' : now.getHours() < 12 ? ' AM' : ' PM'), zone: 'GMT+01:00', dateFormats: [GBSettings.text(lang, 'Normal') === 'Normal' ? `${i18n.t('Normal')} (${formats[0]})` : formats[0], ...formats.slice(1)],
+      languageName: {en: 'English', hu: 'Magyar', de: 'Deutsch', fr: 'Français', es: 'Español'}[lang] || 'English',
+      uptime: `${Math.floor(up / 3600)}:${String(Math.floor(up / 60) % 60).padStart(2, '0')}:${String(up % 60).padStart(2, '0')}`,
+      about: {model: 'Nexus S', version: '2.3.6', baseband: 'I9020XXKD1', kernel: '2.6.35.7-gf5f63ef\nandroid-build@apa28 #1\nTue Aug 2 13:57:05 PDT 2011', build: 'GRK39F'}};
+  }
   function renderSettings() {
     const s = ui.sub;
     if(s==='lock-setup')return lockControls.renderSetup();
+    if (!s) ui.gbSettingsStack = [];
+    if (GBSettings.has(s || 'main')) return GBSettings.render(s || 'main', gbSettingsContext()).html;
     const system=ICSSystemSettings.render(data,ui,key=>i18n.t(key),i18n.locale());
     if(system)return appView(system.title,system.body,'sx-page',system.right);
     const detail=ICSSettingsDetail.render(data,ui,apps,key=>i18n.t(key));
@@ -1231,7 +1246,16 @@
       case 'gb-wallpaper': ui.overlay = 'gb-dialog-wallpaper'; renderOverlay(); break;
       case 'gb-notifications': ui.overlay = 'shade'; renderOverlay(); break;
       case 'gb-menu-more': ui.overlay = 'gb-menu-more'; renderOverlay(); break;
-      case 'settings-open': ui.overlay = ''; ui.view = 'settings'; ui.sub = id; render(); break;
+      case 'settings-open': ui.overlay = ''; ui.view = 'settings'; ui.sub = id; ui.gbSettingsStack = id ? [''] : []; render(); break;
+      case 'gbset-go': if (id === 'brightness') { ui.overlay = 'gb-dialog-brightness'; ui.brightnessDraft = data.settings.brightness; renderOverlay(); break; } (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = id; render(); break;
+      case 'gbset-check': { const current = data.settings[id] ?? GBSettings.DEFAULTS[id] ?? (id === 'patternVisible'); data.settings[id] = !current;
+        if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; data.settings.portableHotspot = false; }
+        if (id === 'silent') data.settings.silentMode = data.settings.silent ? (GBSettings.value(data.settings, 'vibrateMode') === 1 || GBSettings.value(data.settings, 'vibrateMode') === 3 ? 'mute' : 'vibrate') : 'off';
+        save(); render(); break; }
+      case 'gbset-list': ui.overlay = 'gb-dialog-list'; ui.gbListKey = id; renderOverlay(); break;
+      case 'gbset-list-pick': { const [key, index] = id.split(':'); data.settings[key] = Number(index); if (key === 'animationLevel') data.settings.transitionScale = [0, .5, 1][Number(index)]; ui.overlay = ''; save(); render(); break; }
+      case 'gbset-toast': toast(id); break;
+      case 'gbset-brightness-ok': { const input = overlayRoot.querySelector('.gbbright input[type=range]'); if (input) data.settings.brightness = Number(input.value); const auto = overlayRoot.querySelector('.gbbright input[type=checkbox]'); if (auto) data.settings.autoBrightness = auto.checked; ui.overlay = ''; save(); render(); break; }
       case 'gb-add-app': { ui.overlay = ''; const slot = data.homePages[ui.page].findIndex((item, index) => !item && widgetFits(ui.page, index % 4, Math.floor(index / 4), {type: 'x', width: 1, height: 1})); if (slot < 0) { renderOverlay(); toast('No more room on this Home screen.'); break; } data.homePages[ui.page][slot] = id; save(); render(); break; }
       case 'add-widget-gb': { ui.overlay = ''; const added = addWidget(id); if (!added) { renderOverlay(); toast('No more room on this Home screen.'); break; } if (ui.overlay) renderOverlay(); render(); break; }
       case 'gb-wp-pick': ui.wpChoice = Number(id); render(); viewport.querySelector('.gbwp-item.selected')?.scrollIntoView({inline: 'center', block: 'nearest', behavior: reducedMotion?.matches ? 'auto' : 'smooth'}); break;
@@ -1249,7 +1273,7 @@
         ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break;
       case 'unlock': ui.view = 'home'; render(); break;
       case 'unlock-camera': openApp('camera'); break;
-      case 'settings-sub': ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
+      case 'settings-sub': if (ui.view === 'settings') (ui.gbSettingsStack ||= []).push(ui.sub); ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
       case 'sd-dialog': ui.settingsField=id;ui.overlay='sd-dialog';renderOverlay();break;
       case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;
       case 'sd-app-info': ui.settingsApp=id;ui.sub='app-info';render();break;
