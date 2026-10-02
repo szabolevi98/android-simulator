@@ -537,3 +537,32 @@ A Gingerbread-specific sweep visited the home screen and its menu, the drawer, e
   - the French app name "Agenda", which is the same word as the English source.
 - An earlier crawl for ICS / holo class names found the Accounts & sync page, which is now replaced, and the Market, which remains the inherited store.
 - The landing card and the 2.3.6 page now describe the finished Gingerbread features instead of "work in progress", in five languages.
+
+## Market — 2026-10-02
+
+Android Market is closed source, so there are no AOSP layouts or drawables. The screens are rebuilt from period material, which was used as reference only and is not copied into the project:
+- the Android Developers Blog post "A New Android Market for Phones" (July 2011) with its home screenshot on a Gingerbread phone;
+- frames of Google's own video "A New Android Market for Phones", shot on a Nexus S (home, details, the price button);
+- Android Police's 480 × 800 Market 3.1.3 captures of the details and settings pages (August 2011);
+- a period hands-on video of the Apps section (tab strip and featured tiles).
+
+All artwork is drawn here, including the bag icon (`assets/play-store.svg`, 2.3.6 only) and the icons of the fictional apps. The catalog is the simulator's fictional one, plus public-domain books, fictional films and two paid fictional apps.
+
+- **Home:**
+  - The dark action bar holds the bag, "Market" and search.
+  - Below it is the promo banner (about 37 % of the screen).
+  - The left column has the Apps / Games / Books / Movies tiles. Each has its colour stripe (green, green, blue, red), a watermark and "see more ›".
+  - The right column has featured cards with a colour-coded edge, the art, title, developer, stars and price.
+- **Sections:** the ViewPager title strip shows the current tab centred and its neighbours at the edges (CATEGORIES, FEATURED, TOP PAID, TOP FREE, TOP GROSSING, TOP NEW PAID, TOP NEW FREE, TRENDING; books and movies have fewer). It is underlined in the section colour, and a sideways swipe moves between tabs.
+  - FEATURED is a banner and tile grid. CATEGORIES is the 2011 category list. The top lists are rows with icon, title, developer, stars and price or INSTALLED; free and paid are listed separately.
+- **Details:**
+  - The #3c3c3c header holds the icon, bold title, upper-case developer and the cyan price button. Installed apps get Open / Uninstall between 2.3 px #a2c447 rules; Uninstall is disabled for system apps.
+  - Then the screenshot strip on black and the light block: stars and votes, date, downloads, size, the +1 button with its count, and "Allow automatic updating" for installed apps.
+  - Last comes the green DESCRIPTION heading.
+- **Purchase flow:** FREE opens the permissions page ("This application has access to the following:" with `ic_bullet_key_permission`) and the cyan "Accept & download" button. Paid items show "not available".
+  - Downloading shows the yellow progress bar and Cancel, then Installing…, then Open / Uninstall. The status bar shows the `stat_sys_download` arrow, then "Successfully installed."
+- **Other screens:** My apps, the framework search dialog with the bag icon, catalog suggestions and recent searches (also from the Search key), and results. Settings has Notifications, Clear search history, User controls, Content filtering and Use PIN for purchases.
+  - Menu: My apps, Accounts, Settings, Help.
+- The labels come from a small five-language table in `gb-market.js`, since the Market's own translations are not public.
+
+Checks: `gb-market.test.cjs` covers the home tiles and colours, the section tab strip, the free and paid lists, the details states, download progress, permissions, My apps, search, settings, the menu and translations. Headless Chrome covered home → Games → TOP PAID / TOP FREE → details → Accept & download → Downloading → Open / Uninstall → My apps → search, plus Hungarian. The five-language sweep at 360 × 640 now includes the Market and is clean.

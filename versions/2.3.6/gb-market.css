@@ -1,0 +1,146 @@
+/* Android Market 3.x (autumn 2011) on the Nexus S. Proportions measured from period screenshots: the 480 x 800 Market 3.1.3
+   details and settings captures (x 0.575) and the 216 x 360 home screenshot of the Android Developers Blog (x 1.278). */
+.gbmk{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;position:relative;overflow:hidden}
+.gbmk button{font-family:inherit}
+.gbmk-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+/* Action bar: 62 px dark gradient, back chevron with the bag, the 20 dp title, share / search on the right. */
+.gbmk-bar{flex:none;display:flex;align-items:center;height:35.65px;padding:0 2px 0 0;background:linear-gradient(#404040,#262626 60%,#1b1b1b);border-bottom:1px solid #0b0b0b;box-shadow:inset 0 1px #555}
+.screen .gbmk-up{flex:none;display:flex;align-items:center;height:100%;padding:0 4px 0 2px;border:0;background:none;color:#8a8a8a;font-size:24px;line-height:1;cursor:pointer}
+.gbmk-up.root{padding-left:6px}
+.gbmk-up span{margin:-3px 1px 0 0}
+.gbmk-up img{width:27.6px;height:27.6px}
+.screen .gbmk-up:active:not(.root){background:#ffffff1f}
+.gbmk-bar>b{flex:1;min-width:0;margin-left:4px;font-size:20.7px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px #000}
+.screen .gbmk-search,.screen .gbmk-share{flex:none;width:34.5px;height:100%;padding:0;border:0;background:center/24px 24px no-repeat;cursor:pointer}
+.gbmk-search{background-image:url('assets/gb-ic_btn_search_go.png');filter:grayscale(1) brightness(2.2)}
+.screen .gbmk-search{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6.5' fill='none' stroke='%23e8e8e8' stroke-width='2.6'/%3E%3Cpath d='M15 15l6 6' stroke='%23e8e8e8' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E");filter:none}
+.screen .gbmk-share{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23e8e8e8'%3E%3Ccircle cx='18' cy='5' r='3'/%3E%3Ccircle cx='6' cy='12' r='3'/%3E%3Ccircle cx='18' cy='19' r='3'/%3E%3C/g%3E%3Cpath d='M18 5L6 12l12 7' fill='none' stroke='%23e8e8e8' stroke-width='1.8'/%3E%3C/svg%3E")}
+.screen .gbmk-search:active,.screen .gbmk-share:active{background-color:#ffffff1f}
+
+/* Home: the promo banner (102 / 360 of the screen), Apps / Games / Books / Movies tiles with their stripes, featured cards. */
+.screen .gbmk-promo{position:relative;display:flex;flex-direction:column;justify-content:flex-end;width:100%;height:130px;padding:0 12px 10px;border:0;background:radial-gradient(circle at 70% 30%,#fff3 0,transparent 30%),linear-gradient(160deg,var(--a),var(--b));color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.gbmk-promo-stars{position:absolute;inset:0;background:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 60% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 85% 60%,#fff,transparent),radial-gradient(1px 1px at 40% 70%,#fff,transparent),radial-gradient(2px 2px at 75% 40%,#ffe9a0,transparent)}
+.gbmk-promo b{position:relative;font-size:26px;letter-spacing:-.5px;text-shadow:0 2px 6px #000}
+.gbmk-promo small{position:relative;font-size:12px;opacity:.85}
+.gbmk-columns{display:flex;gap:4px;padding:4px 0 4px}
+.gbmk-tiles{flex:0 0 48%;display:flex;flex-direction:column;gap:3px}
+.gbmk-cards{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.screen .gbmk-tile{position:relative;height:66px;padding:5px 6px 4px 18px;border:0;border-left:10px solid var(--c);background:linear-gradient(90deg,#7c7c7c,#909090);color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.screen .gbmk-tile:active,.screen .gbmk-card:active,.screen .gbmk-row:active,.screen .gbmk-gridtile:active,.screen .gbmk-cat:active{background:#ff9c00}
+.gbmk-tile b{position:relative;z-index:1;display:block;font-size:16.5px;text-shadow:0 1px 1px #0008}
+.gbmk-tile small{position:absolute;right:6px;bottom:4px;z-index:1;font-size:11.5px;color:#e6e6e6}
+.gbmk-mark{position:absolute;left:8px;bottom:-4px;width:40px;height:40px;opacity:.16;background:center/contain no-repeat}
+.gbmk-mark.apps{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M9 17a11 10 0 0 1 22 0z'/%3E%3Crect x='9' y='18' width='22' height='15' rx='2'/%3E%3Crect x='3' y='18' width='4' height='11' rx='2'/%3E%3Crect x='33' y='18' width='4' height='11' rx='2'/%3E%3C/svg%3E")}
+.gbmk-mark.games{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M10 12h20a8 8 0 0 1 8 9l-1 7a4 4 0 0 1-7 2l-4-5H14l-4 5a4 4 0 0 1-7-2l-1-7a8 8 0 0 1 8-9z'/%3E%3C/svg%3E")}
+.gbmk-mark.books{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M4 8c6-2 11-1 15 2v24c-4-3-9-4-15-2zM36 8c-6-2-11-1-15 2v24c4-3 9-4 15-2z'/%3E%3C/svg%3E")}
+.gbmk-mark.movies{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Crect x='4' y='9' width='32' height='24' rx='2'/%3E%3C/svg%3E")}
+.screen .gbmk-card{display:flex;align-items:flex-start;gap:5px;height:66px;padding:4px 5px 3px 6px;border:0;border-left:3px solid var(--c);background:#555;color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.gbmk-card-art{flex:none;width:43px;height:43px}
+.gbmk-card>span{flex:1;min-width:0;display:flex;flex-direction:column;height:100%}
+.gbmk-card b{font-size:12.8px;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gbmk-card small{font-size:11px;color:#c8c8c8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbmk-card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
+.gbmk-card-foot{gap:3px}
+.gbmk-card-foot .gbmk-stars i{width:7.5px;height:7.5px}
+.gbmk-card-foot .gbmk-stars{flex:0 1 auto;min-width:0;overflow:hidden}
+.gbmk-card-foot em{flex:none;font-style:normal;font-size:10px;color:#e6e6e6;white-space:nowrap}
+
+/* Product art */
+.gbmk-icon,.gbmk-card-art,.gbmk-head-art,.gbmk-tile-art,.gbmk-banner-art,.gbmk-shot-art{object-fit:contain}
+.gbmk-svg{display:block}
+.gbmk-svg svg{display:block;width:100%;height:100%}
+.gbmk-cover{display:grid;font-style:normal;place-items:center;border-radius:2px;background:linear-gradient(150deg,var(--a),var(--b));box-shadow:inset 0 0 0 1px #ffffff26}
+.gbmk-cover b{font-size:1.1em;color:#fff;text-shadow:0 1px 2px #0009}
+.gbmk-cover.books{border-radius:1px 3px 3px 1px;box-shadow:inset 3px 0 #0003,inset 0 0 0 1px #ffffff26}
+.gbmk-cover.movies{border-radius:1px}
+.gbmk-cover.games,.gbmk-cover.apps{border-radius:8px}
+
+/* Stars */
+.gbmk-stars{display:inline-flex;gap:1px;vertical-align:middle}
+.gbmk-stars i{flex:none;width:9px;height:9px;background:#777;clip-path:polygon(50% 0,63% 35%,100% 38%,71% 61%,80% 100%,50% 78%,20% 100%,29% 61%,0 38%,37% 35%)}
+.gbmk-stars i.on{background:#d6d6d6}
+.gbmk-stars i.half{background:linear-gradient(90deg,#d6d6d6 50%,#777 50%)}
+
+/* Section: the ViewPager title strip with the current tab centred and underlined in the section colour. */
+.gbmk-tabs{flex:none;display:flex;align-items:stretch;height:25px;background:linear-gradient(#2e2e2e,#1c1c1c);border-bottom:2px solid var(--c);font-size:10.35px;letter-spacing:.3px}
+.gbmk-tabs b{flex:0 0 auto;display:grid;place-items:center;padding:0 10px;color:#fff;font-weight:700;white-space:nowrap}
+.screen .gbmk-tabs button{flex:1;min-width:0;padding:0 6px;border:0;background:none;color:#8a8a8a;font-size:10.35px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.gbmk-tabs button:first-child{text-align:left}
+.gbmk-tabs button:last-child{text-align:right}
+.gbmk-list{display:flex;flex-direction:column}
+.screen .gbmk-cat{width:100%;min-height:46px;padding:0 12px;border:0;border-bottom:1px solid #2a2a2a;background:none;color:#fff;font-size:15.5px;text-align:left;cursor:pointer}
+.screen .gbmk-row{display:flex;align-items:center;gap:8px;width:100%;min-height:55px;padding:5px 8px;border:0;border-bottom:1px solid #2a2a2a;background:#000;color:#fff;text-align:left;cursor:pointer}
+.gbmk-icon{flex:none;width:41.4px;height:41.4px}
+.gbmk-row-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.gbmk-row-copy b{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbmk-row-copy small{font-size:12px;color:#9a9a9a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbmk-row em{flex:none;font-style:normal;font-size:12px;color:#c0c0c0}
+.gbmk-row em.installed{color:#a4c639;font-weight:700;font-size:10.5px}
+.gbmk-empty{margin:24px 12px;color:#aaa;font-size:14px;text-align:center}
+.gbmk-featured{padding:4px}
+.screen .gbmk-banner{position:relative;display:flex;align-items:center;gap:10px;width:100%;height:96px;padding:0 12px;border:0;background:linear-gradient(120deg,var(--a),var(--b));color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.gbmk-banner-art{width:62px;height:62px;flex:none}
+.gbmk-banner b{font-size:21px;text-shadow:0 2px 4px #0008}
+.gbmk-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px}
+.screen .gbmk-gridtile{position:relative;display:flex;align-items:center;gap:6px;height:62px;padding:4px 6px;border:0;background:#3a3a3a;color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.gbmk-gridtile.pick{background:var(--c);display:block}
+.gbmk-gridtile.pick b{font-size:13px}
+.gbmk-gridtile.pick .gbmk-mark{opacity:.3;left:auto;right:6px}
+.gbmk-tile-art{flex:none;width:36px;height:36px}
+.gbmk-gridtile>span{min-width:0;display:flex;flex-direction:column;gap:2px}
+.gbmk-gridtile>span b{font-size:12px;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Details: #3c3c3c header (72 px icon, bold title, bold upper-case developer), green rules around the button row,
+   the 272 px screenshot strip on black, the light information block, +1, Allow automatic updating, DESCRIPTION. */
+.gbmk-detail .gbmk-scroll{background:#ececec}
+.gbmk-head{display:flex;align-items:center;gap:8px;min-height:56px;padding:6px 8px;background:#3c3c3c}
+.gbmk-head-art{flex:none;width:41.4px;height:41.4px}
+.gbmk-head>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.gbmk-head b{font-size:19px;line-height:1.15;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gbmk-head small{font-size:12.6px;font-weight:700;color:#a0a0a0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gbmk-price{flex:none;align-self:flex-end;min-width:58px;height:24px;padding:0 10px;border:0;border-radius:2px;background:linear-gradient(#3fc8d8,#1aa3b4);color:#fff;font-size:12px;font-weight:700;box-shadow:0 1px 2px #0008;cursor:pointer}
+.screen .gbmk-price:active{background:#ff9c00}
+.gbmk-rule{display:block;height:2.3px;background:#a2c447}
+.gbmk-actions{display:flex;gap:14px;justify-content:center;padding:8px 14px;background:#3c3c3c}
+.screen .gbmk-actions button{flex:1;max-width:116px;height:27.6px;border:0;border-radius:1px;background:#6f6f6f;color:#fff;font-size:15px;cursor:pointer}
+.screen .gbmk-actions button:active:not(:disabled){background:#ff9c00}
+.gbmk-actions button:disabled{color:#a9a9a9;cursor:default}
+.gbmk-actions.progress{align-items:center}
+.gbmk-actions.progress>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;font-size:12px;color:#ddd}
+.gbmk-progress{display:block;height:5px;border-radius:3px;background:#222}
+.gbmk-progress b{display:block;height:100%;border-radius:3px;background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00);transition:width .25s linear}
+.gbmk-actions.progress button{flex:0 0 auto;padding:0 12px}
+.gbmk-shots{display:flex;gap:6px;height:156px;padding:4px;background:#111;overflow-x:auto;scrollbar-width:none}
+.gbmk-shots::-webkit-scrollbar{display:none}
+.gbmk-shot{flex:none;display:grid;place-items:center;width:90px;height:100%;background:linear-gradient(170deg,var(--a),var(--b));box-shadow:0 0 0 1px #333}
+.gbmk-shot.n1{background:linear-gradient(20deg,var(--b),var(--a))}
+.gbmk-shot.n2{background:radial-gradient(circle at 40% 30%,var(--b),var(--a))}
+.gbmk-shot-art{width:46px;height:46px}
+.gbmk-info{color:#222;background:linear-gradient(#f5f5f5,#e6e6e6)}
+.gbmk-info-row{display:flex;justify-content:space-between;gap:8px;padding:4px 8px 0;font-size:13px}
+.gbmk-info-row small{color:#888;font-size:13px}
+.gbmk-info .gbmk-stars i{width:12px;height:12px;background:#bbb}
+.gbmk-info .gbmk-stars i.on{background:#666}
+.gbmk-info .gbmk-stars i.half{background:linear-gradient(90deg,#666 50%,#bbb 50%)}
+.gbmk-plus{display:flex;align-items:center;gap:8px;margin-top:6px;padding:7px 8px;border-top:1px solid #d0d0d0;font-size:13px}
+.screen .gbmk-plus button{width:34px;height:20px;padding:0;border:1px solid #b8b8b8;border-radius:2px;background:linear-gradient(#fff,#e6e6e6);color:#3366cc;font-size:12px;font-weight:700;cursor:pointer}
+.screen .gbmk-plus button.on{background:linear-gradient(#5c8fee,#3a6fd8);color:#fff;border-color:#2c5bbb}
+.gbmk-auto{display:flex;align-items:center;gap:8px;padding:6px 8px;border-top:1px solid #d0d0d0;font-size:14px;cursor:pointer}
+.gbmk-auto input{appearance:none;width:24px;height:24px;margin:0;background:url('assets/gb-btn_check_off.png') center/contain no-repeat;cursor:pointer}
+.gbmk-auto input:checked{background-image:url('assets/gb-btn_check_on.png')}
+.gbmk-desc{padding:6px 8px 12px;border-top:1px solid #d0d0d0;background:#f4f4f4}
+.gbmk-desc h4{margin:2px 0 4px;color:#8db03f;font-size:12px;letter-spacing:.3px}
+.gbmk-desc p{margin:0;color:#444;font-size:13px;line-height:1.35}
+
+/* Permissions and Accept & download */
+.gbmk-perms .gbmk-scroll{background:#000}
+.gbmk-perm-intro{margin:8px 10px 4px;font-size:13px;color:#ccc}
+.gbmk-perm{display:flex;gap:8px;padding:6px 10px}
+.gbmk-perm img{flex:none;width:18px;height:18px;margin-top:2px}
+.gbmk-perm span{display:flex;flex-direction:column}
+.gbmk-perm b{font-size:14px;color:#fff}
+.gbmk-perm small{font-size:12px;color:#aaa}
+.gbmk-accept{flex:none;padding:8px 14px;background:#3c3c3c;border-top:2.3px solid #a2c447}
+.screen .gbmk-accept button{width:100%;height:32px;border:0;border-radius:2px;background:linear-gradient(#3fc8d8,#1aa3b4);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.screen .gbmk-accept button:active{background:#ff9c00}
+.gbmk-settings{display:flex;flex-direction:column;height:100%;background:#000}
