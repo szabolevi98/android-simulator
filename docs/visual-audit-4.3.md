@@ -464,3 +464,13 @@ The tuna `device.mk` builds `LiveWallpapers`, `LiveWallpapersPicker` and `Visual
   - **Many** (vis5): six alternating wave and meter panels revolve at 0.3° per 35 ms, plus up to ±45° from the page offset, with a −20° tilt. They are mirrored below an album-art floor, which is drawn with the last meter's matrix still loaded, as in `many.rs`.
   - **Idle state.** As in `AudioCapture`, more than 3 s of silence returns no data, and the scripts run `makeIdleWave` with the fade-out (100 frames) and fade-in (15) between idle and live data.
   - **Audio source.** The simulator has no audio output, so while Music plays a synthetic 120 bpm mix (kick, saw bass, square lead, hi-hat, noise floor) stands in for the Visualizer capture: 8-bit PCM, and an FFT in getFft's byte layout.
+
+## Sweep of the new screens — 2026-10-02
+
+Headless Chrome at 360 × 640 and 320 × 568, in en, hu, de, fr and es, for 4.0.4 and 4.3. It covered:
+- the three clings;
+- the power menu and Power off confirmation (and Bug report in 4.3), and the volume panel;
+- in 4.3, the Wi-Fi page, overflow, WPS dialog, Wi-Fi Direct with its menu and rename dialog, Advanced Wi-Fi and the frequency-band list (4.0.4 has the Wi-Fi page and overflow only);
+- the live wallpaper list, the Polar clock preview, its settings and the palette list.
+
+Checks covered page overflow, elements past the screen edge, text overflow, broken images and untranslated text or labels. Nothing was found apart from the known French Calendar label "Agenda" (Calendar's name in French), which appears in the all-apps and folder clings.
