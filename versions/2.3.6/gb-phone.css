@@ -1,0 +1,53 @@
+/* Android 2.3.6 Dialtacts. hdpi px x 0.575, 1 dp = 0.8625px. */
+#viewport>.app-view.gbp{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+/* TabWidget with framework tab_indicator.xml: 64 dip tabs, -3 dip side margins, icon on top, 14 sp label at the bottom. */
+.gbp-tabs{flex:none;display:flex;height:55.2px;padding:0 2.59px;background:#000;border-bottom:1.73px solid #a3a3a3}
+.screen .gbp-tab{position:relative;flex:1;min-width:0;margin:0 -2.59px;border:0 solid transparent;border-image:url('assets/gb-tab_unselected.png') 46 5 49 5 fill / 26.45px 2.88px 28.18px 2.88px stretch;background:none;padding:0;color:#808080;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbp-tab.selected{border-image-source:url('assets/gb-tab_selected.png');color:#fff;z-index:1}
+.screen .gbp-tab:active{border-image-source:url('assets/gb-tab_press.png')}
+.gbp-tab img{position:absolute;left:50%;top:3px;width:27.6px;height:27.6px;margin-left:-13.8px}
+.gbp-tab span{position:absolute;left:0;right:0;bottom:4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbp-body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+/* TwelveKeyDialer. */
+.gbp-dialer{flex:1;display:flex;flex-direction:column;align-items:center;min-height:0}
+.gbp-digits{flex:none;align-self:stretch;height:57.79px;display:grid;place-items:center;border:0 solid transparent;border-image:url('assets/gb-c-btn_dial_textfield_normal.png') 12 26 12 26 fill / 6.9px 14.95px stretch;padding:0 14px;overflow:hidden}
+.gbp-digits output{font:400 28.46px/1 DroidSans,Arial,sans-serif;color:#fff;white-space:nowrap;direction:rtl;max-width:100%;overflow:hidden}
+.gbp-pad{flex:none;display:grid;grid-template-columns:repeat(3,75.9px);grid-auto-rows:43.13px;padding:5.18px 6.04px}
+.screen .gbp-key{border:0 solid transparent;border-image:url('assets/gb-c-btn_dial_normal.png') 52 17 32 17 fill / 29.9px 9.78px 18.4px 9.78px stretch;background:var(--wht) center/63.83px 35.65px no-repeat;cursor:pointer;padding:0}
+.screen .gbp-key:active{border-image-source:url('assets/gb-c-btn_dial_pressed.png');background-image:var(--blk)}
+.gbp-actions{flex:none;display:flex;margin-top:5.18px}
+.screen .gbp-actions button{height:43.13px;border:0 solid transparent;background:none;padding:0;display:grid;place-items:center;cursor:pointer}
+.gbp-actions img{width:auto;height:35.65px;max-width:100%}
+.screen .gbp-voicemail{width:75.04px;border-image:url('assets/gb-c-btn_dial_action_left_normal.png') 42 4 42 67 fill / 24.15px 2.3px 24.15px 38.53px stretch}
+.screen .gbp-voicemail:active{border-image-source:url('assets/gb-c-btn_dial_action_left_pressed.png')}
+.screen .gbp-dial{width:100.05px;border-image:url('assets/gb-c-btn_dial_action_middle_normal.png') 42 12 42 11 fill / 24.15px 6.9px 24.15px 6.33px stretch}
+.screen .gbp-dial:active{border-image-source:url('assets/gb-c-btn_dial_action_middle_pressed.png')}
+.screen .gbp-delete{width:75.04px;border-image:url('assets/gb-c-btn_dial_action_right_normal.png') 42 67 42 4 fill / 24.15px 38.53px 24.15px 2.3px stretch}
+.screen .gbp-delete:active{border-image-source:url('assets/gb-c-btn_dial_action_right_pressed.png')}
+/* Lists: call log, contacts and favorites (64 dip rows, 22 sp names, 14 sp details). */
+.gbp-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.gbp-list::-webkit-scrollbar{display:none}
+.gbp-empty{margin:24px 14px;color:#bebebe;font-size:15.53px;text-align:center;line-height:1.35}
+.gbp-log{display:flex;align-items:stretch;min-height:55.2px;border-bottom:1px solid #ffffff1f}
+.screen .gbp-log-main{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:4px 6px 4px 9.5px;border:0;background:none;color:#fff;text-align:left;cursor:pointer}
+.gbp-log-name{font-size:18.98px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbp-log-meta{display:flex;align-items:center;gap:4px;font-size:12.07px;color:#bebebe;white-space:nowrap}
+.gbp-log-meta img{width:auto;height:15px}
+.gbp-log-meta b{color:#bebebe}
+.gbp-divider{width:1px;margin:8px 0;background:#ffffff30}
+.screen .gbp-log-call{flex:none;width:55px;border:0;background:none;display:grid;place-items:center;cursor:pointer}
+.gbp-log-call img{width:25.88px;height:25.88px}
+.screen .gbp-log-main:active,.screen .gbp-log-call:active,.screen .gbp-contact:active,.screen .gbp-data:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbp-section{height:21.56px;line-height:21.56px;padding-left:8px;background:url('assets/gb-dark_header.png') 0 0/100% 100%;color:#bebebe;font-size:12.07px;font-weight:700}
+.screen .gbp-contact{display:flex;align-items:center;gap:8.63px;width:100%;min-height:55.2px;padding:0 8px 0 5.18px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font:400 18.98px DroidSans,Arial,sans-serif;cursor:pointer}
+.gbp-contact img{width:41.4px;height:41.4px;flex:none}
+.gbp-contact span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* ViewContactActivity. */
+.gbp-detail{flex:1;min-height:0;display:flex;flex-direction:column}
+.gbp-header{flex:none;display:flex;align-items:center;gap:8.63px;padding:6px 6px 6px 8px;background:linear-gradient(#3a3a3a,#1c1c1c);border-bottom:1px solid #000}
+.gbp-header>img{width:55.2px;height:55.2px}
+.gbp-header span{flex:1;min-width:0;font-size:18.98px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gbp-header button{border:0;background:none;padding:0}
+.gbp-header button img{width:41.4px;height:41.4px}
+.screen .gbp-data{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 6px 0 12.94px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;cursor:pointer}
+.gbp-data img{width:27.6px;height:27.6px;flex:none}
