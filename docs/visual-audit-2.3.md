@@ -182,3 +182,17 @@ References: Launcher2 2.3.6 `user_folder.xml`, `Folder.java`, `UserFolder.java`,
   - Each CellLayout is drawn without the wallpaper at the scale that fits five across, in `preview_background` frames, with the current screen in the pressed frame. Touching one goes to that screen.
 
 Checks: `gb-ui.test.cjs` was updated for the dialog section classes. Headless Chrome covered New folder and All contacts, dragging Browser from all apps into the folder, opening it, renaming it to "Web", the live folder list, Mountains via the chooser with the parallax at 50% and 75%, and the previews from the right arrow, jumping to screen 4. No JavaScript errors.
+
+## Power menu — 2026-10-02
+
+References: 2.3.6 `GlobalActions.java`, `global_actions_item.xml`, `ShutdownThread`, `progress_dialog.xml`, `progress_medium_white`.
+
+- **Phone options** (touch & hold power). An AlertDialog over a bright list (`setInverseBackgroundForced`) with three items.
+  - **Silent mode:** `ic_lock_silent_mode_off` and "Sound is ON", or the silent or vibrate icon and "Sound is OFF". It switches to vibrate unless "vibrate in silent" is off.
+  - **Airplane mode:** "Airplane mode is ON/OFF" with its icon.
+  - **Power off.**
+  - Each row is `global_actions_item.xml`: a 22 sp label with a 14 sp status line. There is no bug report or ringer-mode row; those are 4.x.
+- **Shutdown.**
+  - The confirmation is `ic_dialog_alert`, "Power off" and "Your phone will shut down." with OK / Cancel.
+  - Then the ProgressDialog shows `spinner_white_48` stepping 12 frames every 100 ms beside "Shutting down…".
+- **Strings.** Framework 2.3.6 translations.

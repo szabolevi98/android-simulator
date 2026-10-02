@@ -44,7 +44,7 @@
     };
     const row = (item, i) => {
       const check = choice ? `<img class="gbdlg-check" src="assets/gb-btn_${choice === 'multi' ? 'check' : 'radio'}_${(choice === 'multi' ? item.checked : i === selected) ? 'on' : 'off'}.png" alt="">` : '';
-      return `<button type="button" class="gbdlg-item${item.icon ? ' with-icon' : ''}" ${attrs(item)} ${choice ? `role="${choice === 'multi' ? 'menuitemcheckbox' : 'menuitemradio'}" aria-checked="${choice === 'multi' ? !!item.checked : i === selected}"` : ''}>${item.icon ? `<img class="gbdlg-icon" src="${e(src(item.icon))}" alt="">` : ''}<span>${e(item.title)}</span>${check}</button>`;
+      return `<button type="button" class="gbdlg-item${item.icon ? ' with-icon' : ''}" ${attrs(item)} ${choice ? `role="${choice === 'multi' ? 'menuitemcheckbox' : 'menuitemradio'}" aria-checked="${choice === 'multi' ? !!item.checked : i === selected}"` : ''}>${item.icon ? `<img class="gbdlg-icon" src="${e(src(item.icon))}" alt="">` : ''}${item.summary ? `<span class="gbdlg-text"><span>${e(item.title)}</span><small>${e(item.summary)}</small></span>` : `<span>${e(item.title)}</span>`}${check}</button>`;
     };
     const body = sections.map((s, i) => {
       const cls = `gbdlg-section gbdlg-s-${s.kind} gbdlg-bg-${background(i)}`;

@@ -722,11 +722,19 @@
       const current = data.lwPrefs?.polar?.palette || '';
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(i18n.t('Color palette'))}"><h3>${safe(i18n.t('Color palette'))}</h3>${LiveWallpapers.PALETTE_ORDER.map(id => `<button class="settings-row wireless-row" data-action="lw-palette-pick" data-id="${id}" role="radio" aria-checked="${current === id}"><span class="row-copy">${safe(i18n.t(LiveWallpapers.PALETTE_NAMES[id]))}</span><img class="holo-radio" src="assets/btn_radio_${current === id ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
     } else if (ui.overlay === 'power-menu') {
-      overlayRoot.innerHTML = GlobalActions.menu({airplane: data.settings.airplane, ringer: GlobalActions.ringerOf(data.settings), bugreport: data.settings.bugreportPower}, key => i18n.t(key), '4.0.4');
+      // GlobalActions (2.3.6): "Phone options" over a bright list - Silent mode and Airplane mode toggles with their status
+      // line (global_actions_item.xml), then Power off.
+      const t = key => i18n.t(key), silent = !!data.settings.silent, vibrate = data.settings.silentMode === 'vibrate';
+      overlayRoot.innerHTML = GBUI.dialog({t, title: t('Phone options'), items: [
+        {action: 'gb-ga-silent', title: t('Silent mode'), summary: t(silent ? 'Sound is OFF' : 'Sound is ON'), icon: silent ? (vibrate ? 'ic_lock_silent_mode_vibrate' : 'ic_lock_silent_mode') : 'ic_lock_silent_mode_off'},
+        {action: 'ga-airplane', title: t('Airplane mode'), summary: t(data.settings.airplane ? 'Airplane mode is ON' : 'Airplane mode is OFF'), icon: data.settings.airplane ? 'ic_lock_airplane_mode' : 'ic_lock_airplane_mode_off'},
+        {action: 'ga-power', title: t('Power off'), icon: 'ic_lock_power_off'}]});
     } else if (ui.overlay === 'power-confirm') {
-      overlayRoot.innerHTML = GlobalActions.confirm(ui.powerKind, key => i18n.t(key));
+      // ShutdownThread.shutdown(confirm): ic_dialog_alert, "Power off", shutdown_confirm, OK / Cancel.
+      overlayRoot.innerHTML = GBUI.dialog({t: key => i18n.t(key), title: i18n.t('Power off'), icon: 'ic_dialog_alert', message: i18n.t('Your phone will shut down.'), buttons: [{action: 'ga-confirm', id: 'shutdown', title: i18n.t('OK')}, {action: 'close-overlay', title: i18n.t('Cancel')}]});
     } else if (ui.overlay === 'power-progress') {
-      overlayRoot.innerHTML = GlobalActions.progress(key => i18n.t(key));
+      // ProgressDialog: spinner_white_48 (12 frames, 100 ms) beside "Shutting down…"; not cancelable.
+      overlayRoot.innerHTML = GBUI.dialog({t: key => i18n.t(key), title: i18n.t('Power off'), custom: `<div class="gbdlg-progress"><img src="assets/gb-spinner_white_48.png" alt=""><span>${safe(i18n.t('Shutting down…'))}</span></div>`, cancel: 'noop'});
     } else if (ui.overlay === 'folder') {
       overlayRoot.innerHTML = renderFolder();
       positionFolder();
@@ -1161,6 +1169,7 @@
       case 'back': back(); break;
       case 'menu-key': menuKey(); break;
       case 'search-key': searchKey(); break;
+      case 'gb-ga-silent': { const silent = !data.settings.silent; data.settings.silent = silent; data.settings.silentMode = silent ? (data.settings.vibrateSilent === false ? 'mute' : 'vibrate') : 'off'; ui.overlay = ''; save(); render(); break; }
       case 'ga-power': ui.overlay = 'power-confirm'; ui.powerKind = 'shutdown'; renderOverlay(); break;
       case 'ga-bugreport': ui.overlay = 'power-confirm'; ui.powerKind = 'bugreport'; renderOverlay(); break;
       case 'ga-airplane': ui.overlay = ''; data.settings.airplane = !data.settings.airplane; if (data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; } save(); render(); break;

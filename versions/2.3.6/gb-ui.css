@@ -58,3 +58,10 @@
    toast_enter / toast_exit 400 ms fades. */
 .screen .toast{left:50%;right:auto;bottom:55.2px;max-width:calc(100% - 24px);transform:translateX(-50%);width:max-content;border:0 solid transparent;border-image:url('assets/gb-toast_frame.png') 42 48 42 48 fill / 24.15px 27.6px stretch;border-radius:0;background:none;box-shadow:none;padding:13.23px 23.58px 17.83px;color:#fff;font:400 12.07px/1.35 DroidSans,Arial,sans-serif;text-shadow:0 0 2.37px #000000bb;text-align:center;animation:gbtoast-in .4s cubic-bezier(.25,.46,.45,.94)}
 @keyframes gbtoast-in{from{opacity:0}}
+.gbdlg-text{display:flex;flex-direction:column;min-width:0;flex:1}
+.gbdlg-text span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbdlg-text small{font-size:12.07px;color:#323232;margin-top:1px}
+.gbdlg-progress{display:flex;align-items:center;gap:12px;padding:8.63px 6.9px}
+.gbdlg-progress img{width:27.6px;height:27.6px;animation:gbspin 1.2s steps(12) infinite}
+.gbdlg-progress span{font-size:15.53px}
+@keyframes gbspin{to{transform:rotate(360deg)}}
