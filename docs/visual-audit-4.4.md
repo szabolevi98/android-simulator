@@ -115,3 +115,12 @@ The 4.4 InCallUI (`packages/apps/InCallUI`) changes the following:
 - **End button:** flat #f22121 (#ff4e4e when pressed), 60 dp, with `ic_in_call_phone_hangup`.
 - **Button row:** a 76 dp black row with the xxhdpi InCallUI icons.
 - **DTMF dialpad:** the white Dialer pad with light #3B77E7 digits.
+
+## People — 2026-10-03
+
+The 4.4 Contacts app (`PeopleTheme` on Holo Light) differs from 4.3 as follows:
+- **Bars:** the action bar, tab bar and split bar use the flat #e6e6e6 `action_bar_tab`. Text is #363636.
+- **Tabs:** icon tabs in the order Favorites, All, Groups. `ActionBarAdapter` shows icons on phones; the selected tab uses `ic_menu_*_dk` and the others `_lt`.
+- **Section headers:** #363636 with a #D0D0D0 underline.
+- **Avatars:** 64 dp `LetterTileDrawable` avatars (ContactPhotoManager `DEFAULT_AVATAR`) on the rows, the favourites and the detail header.
+- **Action icons:** dark `ic_search_dk` / `ic_add_person_dk` actions, the star from `ic_favorite_on/off_lt`, and `ic_menu_back` for Up.
