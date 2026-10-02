@@ -100,8 +100,9 @@
     return {
       interval: 45,
       resize(cw, ch) { state.k = cw / DEVICE_WIDTH; state.w = DEVICE_WIDTH; state.h = ch / state.k; state.pulses = Array.from({length: 20}, () => { const p = {}; init(p, false); return p; }); state.extras = Array.from({length: 40}, () => ({active: false, extra: true})); },
-      tap(x, y) {
-        let color = irand(4), count = 0; const scale = rand(.9, 1.9); x = Math.floor(x / state.k / PULSE) * PULSE; y = Math.floor(y / state.k / PULSE) * PULSE;
+      // NexusRS.onCommand: the tap moves with the scrolled background, x + xOffset * (960 - width) on the 2-screen texture.
+      tap(x, y, offset = .5) {
+        let color = irand(4), count = 0; const scale = rand(.9, 1.9); x = Math.floor((x / state.k + offset * state.w) / PULSE) * PULSE; y = Math.floor(y / state.k / PULSE) * PULSE;
         for (const p of state.extras) {
           if (p.active) continue;
           Object.assign(p, {originX: x / scale, originY: y / scale, scale, dx: [scale, -scale, 0, 0][count], dy: [0, 0, scale, -scale][count], active: true, color, start: now()});
@@ -617,7 +618,7 @@
     return {
       id, canvas,
       setOffset(value) { offset = Math.max(0, Math.min(1, value)); },
-      tap(x, y) { if (fit()) scene.tap?.(x, y); },
+      tap(x, y) { if (fit()) scene.tap?.(x, y, offset); },
       pause(value) { running = !value; },
       destroy() { cancelAnimationFrame(raf); canvas.remove(); scene = null; }
     };
