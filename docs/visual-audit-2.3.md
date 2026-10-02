@@ -579,3 +579,20 @@ References: DeskClock `analog_appwidget.xml` and `xml/analog_appwidget.xml`, Set
   - Brightness cycles low → default → full → automatic, like toggleBrightness.
 - **Picture frame** (2 × 2): adding it opens the Gallery in pick mode (the path bar says "Pick" and the camera button is hidden). The chosen picture is centre-cropped inside `photo_inner` on `appwidget_bg`. Back cancels the widget.
 - **Bookmarks** (4 × 4): previous / title / next above the page thumbnail. The arrows step through the bookmarks, and a tap opens the page in the Browser.
+
+## Live wallpapers — 2026-10-02
+
+References: android-2.3.6_r1 `packages/wallpapers/LivePicker` (`live_wallpaper_entry.xml`, `live_wallpaper_preview.xml`, `LiveWallpaperListActivity`, `LiveWallpaperPreview`), `Basic` (`nexus.rs`, `NexusRS`, `polar_clock_prefs.xml`, the AndroidManifest), `MusicVisualization` (`cube.xml`) and `MagicSmoke` (`clouds.rs`, `MagicSmokeRS`, `MagicSmokeSelector`, `selector.xml`).
+
+- **The list is the 2.3.6 set:** Galaxy, Grass, Magic Smoke, Many, Nexus, Polar clock, Spectrum, VU meter, Water and Waveform. See Through is commented out of the 2.3.6 Basic manifest, so it does not appear.
+- **List rows** (Theme.NoTitleBar): the 75 dip centre-cropped thumbnail, then the label and the description (up to three lines; the Water haiku keeps its line breaks), in all five languages from the packages' own strings.
+- **Preview:** two 160 dip `btn_default` buttons at the bottom, "Set wallpaper" and "Settings…". "Settings…" only appears for Polar clock and Magic Smoke.
+- **Nexus** now uses the 2.3.6 art and timing:
+  - the 2.3.6 `pyramid_background` (the dark pyramid grid, not the ICS haze);
+  - one 14 px cell size, with ±30 % speed variance;
+  - tap pulses at 1.5× speed.
+- **Magic Smoke** is new, a WebGL port of `clouds.rs`:
+  - The five noise layers are recoloured per preset exactly as `makeTexture` does it, then rotate and drift behind the normalized projection.
+  - The default is preset 4 (the green smoke from the thumbnail).
+  - Its selector shows the "Tap to change" bar and an OK button; each tap steps one preset back.
+- **Polar clock settings** use the GB preference look: the window title bar, two checkboxes, and "Color palette" as a list dialog with radio buttons and Cancel.

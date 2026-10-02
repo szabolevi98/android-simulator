@@ -132,6 +132,18 @@ sync_automatically_summary sync_menu_sync_now sync_menu_sync_cancel sync_one_tim
 header_general_sync_settings sync_enabled sync_disabled add_account_label header_data_and_synchronization remove_account_label header_add_an_account
 really_remove_account_title really_remove_account_message remove_account_failed sync_item_title ok cancel'''.split(),
     },
+    'wallpapers': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_livepicker/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_basic/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_musicvisualization/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_musicvisualization/android-2.3.6_r1/res/values%s/cube.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_magicsmoke/android-2.3.6_r1/res/values%s/strings.xml'],
+        'keys': '''live_wallpaper_picker_title live_wallpaper_preview_title configure_wallpaper wallpaper_instructions live_wallpaper_empty
+live_wallpaper_loading wallpaper_grass wallpaper_grass_desc wallpaper_galaxy wallpaper_galaxy_desc wallpaper_fall wallpaper_fall_desc wallpaper_clock
+wallpaper_clock_desc wallpaper_nexus wallpaper_nexus_desc clock_settings show_seconds variable_line_width palette palette_gray palette_violet
+palette_matrix palette_white_c palette_black_c palette_halloween palette_zenburn palette_oceanic author wallpaper_vis2 wallpaper_vis3 wallpaper_vis4
+wallpaper_vis5 vis2_desc vis3_desc vis4_desc vis5_desc wallpaper_magicsmoke magicsmoke_desc taptochange ok'''.split(),
+    },
     'calendar': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
         'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],

@@ -1,5 +1,6 @@
-/* AOSP live wallpapers of the Galaxy Nexus and Nexus 4 builds (packages/wallpapers/Basic and LivePicker, identical in 4.0.4 and
-   4.3), redrawn from their RenderScript and Canvas sources. Galaxy and Water use WebGL like the originals; Nexus, Grass
+/* AOSP live wallpapers of the Nexus S build (android-2.3.6_r1 packages/wallpapers/Basic, MusicVisualization and MagicSmoke),
+   redrawn from their RenderScript and Canvas sources. Nexus is the 2.3.6 nexus.rs: the pyramid grid background, one cell
+   size and SPEED_VARIANCE; Magic Smoke is clouds.rs with MagicSmokeRS's twenty presets. Galaxy and Water use WebGL like the originals; Nexus, Grass
    and Polar clock draw on a 2D canvas. Sizes written in device pixels are scaled from the panel width (480px Nexus S, 720px Galaxy Nexus, 768px Nexus 4). */
 (() => {
   'use strict';
@@ -92,9 +93,10 @@
     const state = {pulses: [], extras: [], w: 0, h: 0, k: 1};
     const now = () => performance.now();
     function init(p, extra) {
-      const {w, h} = state, scale = rand(.7, 1.7); p.scale = scale;
-      if (Math.random() > .5) { p.originX = irand(w * 2 / PULSE) * PULSE; p.dx = 0; if (Math.random() > .5) { p.originY = 0; p.dy = scale; } else { p.originY = h / scale; p.dy = -scale; } }
-      else { p.originY = irand(h / PULSE) * PULSE; p.dy = 0; if (Math.random() > .5) { p.originX = 0; p.dx = scale; } else { p.originX = w * 2 / scale; p.dx = -scale; } }
+      // nexus.rs (2.3.6): one cell size, SPEED_VARIANCE 0.3 on the speed.
+      const {w, h} = state, speed = rand(.7, 1.3); p.scale = 1;
+      if (Math.random() > .5) { p.originX = irand(w * 2 / PULSE) * PULSE; p.dx = 0; if (Math.random() > .5) { p.originY = 0; p.dy = speed; } else { p.originY = h; p.dy = -speed; } }
+      else { p.originY = irand(h / PULSE) * PULSE; p.dy = 0; if (Math.random() > .5) { p.originX = 0; p.dx = speed; } else { p.originX = w * 2; p.dx = -speed; } }
       p.start = now() + rand(MAX_DELAY); p.color = irand(4); p.active = !extra;
     }
     return {
@@ -102,10 +104,10 @@
       resize(cw, ch) { state.k = cw / DEVICE_WIDTH; state.w = DEVICE_WIDTH; state.h = ch / state.k; state.pulses = Array.from({length: 20}, () => { const p = {}; init(p, false); return p; }); state.extras = Array.from({length: 40}, () => ({active: false, extra: true})); },
       // NexusRS.onCommand: the tap moves with the scrolled background, x + xOffset * (960 - width) on the 2-screen texture.
       tap(x, y, offset = .5) {
-        let color = irand(4), count = 0; const scale = rand(.9, 1.9); x = Math.floor((x / state.k + offset * state.w) / PULSE) * PULSE; y = Math.floor(y / state.k / PULSE) * PULSE;
+        let color = irand(4), count = 0; const scale = 1, speed = 1.5; x = Math.floor((x / state.k + offset * state.w) / PULSE) * PULSE; y = Math.floor(y / state.k / PULSE) * PULSE;
         for (const p of state.extras) {
           if (p.active) continue;
-          Object.assign(p, {originX: x / scale, originY: y / scale, scale, dx: [scale, -scale, 0, 0][count], dy: [0, 0, scale, -scale][count], active: true, color, start: now()});
+          Object.assign(p, {originX: x / scale, originY: y / scale, scale, dx: [speed, -speed, 0, 0][count], dy: [0, 0, speed, -speed][count], active: true, color, start: now()});
           color = (color + 1) % 4; if (++count === 4) break;
         }
       },
@@ -567,17 +569,111 @@
     };
   }
 
+  /* ---------- Magic Smoke (MagicSmokeRS and clouds.rs): five 256 px noise layers recoloured by the preset, drifting and
+     turning at their own rates behind a perspective projection ---------- */
+  // MagicSmokeRS.mPreset: process mode, background, low colour, high colour, alpha multiplier, layer mask, rotate, blend,
+  // texture swap, premultiply. DEFAULT_PRESET is 4; MagicSmokeSelector steps backwards through them on each tap.
+  const SMOKE_PRESETS = [
+    [1, 0x000000, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, false, false],
+    [1, 0x0000ff, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, false, false],
+    [1, 0x00ff00, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, false, false],
+    [1, 0x00ff00, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, false, true],
+    [1, 0x00ff00, 0x00ff00, 0xffffff, 2.5, 0x1f, true, 0, true, true],
+    [1, 0x800000, 0xff0000, 0xffffff, 2.5, 0x1f, true, 0, true, false],
+    [0, 0x000000, 0x000000, 0xffffff, 0.0, 0x1f, true, 0, false, false],
+    [1, 0x0000ff, 0x00ff00, 0xffff00, 2.0, 0x1f, true, 0, true, false],
+    [1, 0x008000, 0x00ff00, 0xffffff, 2.5, 0x1f, true, 0, true, false],
+    [1, 0x800000, 0xff0000, 0xffffff, 2.5, 0x1f, true, 0, true, true],
+    [1, 0x808080, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, false, true],
+    [1, 0x0000ff, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, false, true],
+    [1, 0x0000ff, 0x00ff00, 0xffff00, 1.5, 0x1f, false, 0, false, true],
+    [1, 0x0000ff, 0x00ff00, 0xffff00, 2.0, 0x1f, true, 0, true, true],
+    [1, 0x0000ff, 0x00ff00, 0xffff00, 1.5, 0x1f, true, 0, true, true],
+    [1, 0x808080, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, false, false],
+    [1, 0x000000, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, true, false],
+    [2, 0x000000, 0x000070, 0xff2020, 2.5, 0x1f, true, 0, false, false],
+    [2, 0x6060ff, 0x000070, 0xffffff, 2.5, 0x1f, true, 0, false, false],
+    [3, 0x0000f0, 0x000000, 0xffffff, 2.0, 0x0f, true, 0, true, false]
+  ];
+  const SMOKE_DEFAULT = 4;
+  // noise1..5.png are grey; noise2..5 carry a constant alpha (128, 64, 64, 38) that only process mode 0 uses.
+  const SMOKE_ALPHA = [255, 128, 64, 64, 38], SMOKE_SCALE = [4, 3, 3.4, 3.8, 4.2], SMOKE_SHIFT = [.001, .00106, .00114, .00118, .00127], SMOKE_TURN = [.1, .102, .106, .114, .123];
+  function magicSmoke(canvas, assets, prefs) {
+    const G = gl3(canvas); if (!G) return null;
+    const {gl} = G, quad = quadDrawer(G);
+    const noise = [1, 2, 3, 4, 5].map(i => image(assets + 'lw-smoke-noise' + i + '.png'));
+    const xshift = [0, 0, 0, 0, 0], rotation = [0, 72, 144, 216, 0];
+    let w = 0, h = 0, last = performance.now(), current = -1, source = null, textures = null, back = [0, 0, 0];
+    const split = c => [c >> 16 & 255, c >> 8 & 255, c & 255];
+    // clouds.rs premul(): (c * a + 1 + ((c * a + 1) >> 8)) >> 8 per channel.
+    const premul = (c, a) => { const r = c * a + 1; return (r + (r >> 8)) >> 8; };
+    // clouds.rs makeTexture(): the blue channel picks the low or high colour and the alpha; alphafactor grows per layer.
+    function makeTexture(src, index, preset, factor) {
+      const [mode, , low, high, , , , , , pm] = preset, lo = split(low), hi = split(high), out = new Uint8Array(65536 * 4);
+      const scale = 255 / (255 - low);
+      for (let i = 0; i < 65536; i++) {
+        const o = i * 4;
+        let lum = src[i], col, a;
+        if (mode === 0) { a = SMOKE_ALPHA[index]; const c = premul(lum, a); out[o] = c; out[o + 1] = c; out[o + 2] = c; out[o + 3] = a; continue; }
+        if (mode === 2) { a = lum < low ? 0 : Math.trunc((lum - low) * scale); a = Math.trunc(a / factor); col = hi; }
+        else {
+          if (mode === 3) lum = lum < 128 ? lum * 2 : 255 - (lum - 128) * 2;
+          if (lum < 128) { col = lo; a = Math.trunc((255 - lum * 2) / factor); } else { col = hi; a = Math.trunc((lum - 128) * 2 / factor); }
+        }
+        out[o] = pm ? premul(col[0], a) : col[0]; out[o + 1] = pm ? premul(col[1], a) : col[1]; out[o + 2] = pm ? premul(col[2], a) : col[2]; out[o + 3] = a;
+      }
+      return out;
+    }
+    function upload(texture, pixels) {
+      gl.bindTexture(gl.TEXTURE_2D, texture); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 256, 256, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    }
+    return {
+      interval: 55,
+      resize(cw, ch) { w = cw; h = ch; },
+      draw(offset) {
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        if (!noise.every(ready)) { gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); return; }
+        source ||= noise.map(img => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); x.drawImage(img, 0, 0, 256, 256); const d = x.getImageData(0, 0, 256, 256).data, o = new Uint8Array(65536); for (let i = 0; i < 65536; i++) o[i] = d[i * 4 + 2]; return o; });
+        let index = Number((prefs?.() || {}).preset ?? SMOKE_DEFAULT); if (!(index >= 0 && index < SMOKE_PRESETS.length)) index = 0;
+        const preset = SMOKE_PRESETS[index], [mode, , , , mul, mask, rotate, blend, swap] = preset;
+        if (index !== current) {
+          current = index; back = split(preset[1]); textures ||= source.map(() => gl.createTexture());
+          let factor = 1; source.forEach((src, i) => { upload(textures[i], makeTexture(src, i, preset, factor)); if (mode !== 0) factor *= mul; });
+        }
+        const now = performance.now(); let td = (now - last) / 44; last = now; if (td > 3) td = 3;
+        gl.clearColor(back[0] / 255, back[1] / 255, back[2] / 255, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.enable(gl.BLEND); if (blend) gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); else gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        if (rotate) SMOKE_TURN.forEach((r, i) => { rotation[i] += r * td; });
+        const proj = M.projectionNormalized(w || 1, h || 1), tilt = 0;
+        const ident = M.multiply(M.multiply(M.translate(-offset, 0, 0), M.scale(.0041, .0041, .0041)), M.rotate(-tilt, 1, 0, 0));
+        for (let i = 0; i < 5; i++) {
+          if (!(mask & (1 << i))) continue;
+          xshift[i] += SMOKE_SHIFT[i] * td;
+          const s = i === 0 ? (swap ? .25 : 4) : SMOKE_SCALE[i], u = xshift[i], z = -8 * i;
+          const model = M.multiply(M.multiply(ident, M.translate(-offset * 8 * i, -tilt * i / 3, 0)), M.rotate(rotation[i], 0, 0, 1));
+          quad(i === 0 && swap ? textures[4] : textures[i], M.multiply(proj, model), [[-1200, -1200, z, u, 0], [1200, -1200, z, s + u, 0], [1200, 1200, z, s + u, s], [-1200, 1200, z, u, s]], [1, 1, 1, 1]);
+        }
+        for (let i = 0; i < 5; i++) { while (xshift[i] >= 1) xshift[i] -= 1; while (rotation[i] >= 360) rotation[i] -= 360; }
+      }
+    };
+  }
+
   /* ---------- Registry, in the order LiveWallpaperListAdapter sorts the labels ---------- */
+  // gb: the 2.3.6 label and description keys (gb-strings-wallpapers.js; the visualisation labels come from cube.xml).
   const LIST = [
-    {id: 'galaxy', label: 'Galaxy', thumb: 'lw-galaxy_thumb.jpg', make: (c, a, o) => galaxy(c, a, o.preview), gl: true},
-    {id: 'grass', label: 'Grass', thumb: 'lw-grass_thumb.jpg', make: (c, a, o) => grass(c.getContext('2d'), a, o.preview)},
-    {id: 'nexus', label: 'Nexus', thumb: 'lw-nexus_thumb.png', make: (c, a) => nexus(c.getContext('2d'), a)},
-    {id: 'polar', label: 'Polar clock', thumb: 'lw-polarclock_thumb.jpg', settings: true, make: (c, a, o) => polarClock(c.getContext('2d'), a, o.prefs)},
-    {id: 'water', label: 'Water', thumb: 'lw-water_thumb.jpg', make: (c, a) => water(c, a), gl: true},
-    {id: 'waveform', label: 'Waveform', thumb: 'lw-vis2.png', make: (c, a, o) => waveScene(c, a, o.audio || (() => false), false), gl: true},
-    {id: 'spectrum', label: 'Spectrum', thumb: 'lw-vis3.png', make: (c, a, o) => waveScene(c, a, o.audio || (() => false), true), gl: true},
-    {id: 'vu', label: 'VU meter', thumb: 'lw-vis4.png', make: (c, a, o) => vuScene(c, a, o.audio || (() => false)), gl: true},
-    {id: 'many', label: 'Many', thumb: 'lw-vis5.png', make: (c, a, o) => manyScene(c, a, o.audio || (() => false)), gl: true}
+    {id: 'galaxy', label: 'Galaxy', gb: ['wallpaper_galaxy', 'wallpaper_galaxy_desc'], thumb: 'lw-galaxy_thumb.jpg', make: (c, a, o) => galaxy(c, a, o.preview), gl: true},
+    {id: 'grass', label: 'Grass', gb: ['wallpaper_grass', 'wallpaper_grass_desc'], thumb: 'lw-grass_thumb.jpg', make: (c, a, o) => grass(c.getContext('2d'), a, o.preview)},
+    {id: 'magicsmoke', label: 'Magic Smoke', gb: ['wallpaper_magicsmoke', 'magicsmoke_desc'], thumb: 'lw-magicsmoke_thumb.png', settings: true, make: (c, a, o) => magicSmoke(c, a, o.prefs), gl: true},
+    {id: 'nexus', label: 'Nexus', gb: ['wallpaper_nexus', 'wallpaper_nexus_desc'], thumb: 'lw-nexus_thumb.png', make: (c, a) => nexus(c.getContext('2d'), a)},
+    {id: 'polar', label: 'Polar clock', gb: ['wallpaper_clock', 'wallpaper_clock_desc'], thumb: 'lw-polarclock_thumb.jpg', settings: true, make: (c, a, o) => polarClock(c.getContext('2d'), a, o.prefs)},
+    {id: 'water', label: 'Water', gb: ['wallpaper_fall', 'wallpaper_fall_desc'], thumb: 'lw-water_thumb.jpg', make: (c, a) => water(c, a), gl: true},
+    {id: 'waveform', label: 'Waveform', gb: ['wallpaper_vis2', 'vis2_desc'], thumb: 'lw-vis2.png', make: (c, a, o) => waveScene(c, a, o.audio || (() => false), false), gl: true},
+    {id: 'spectrum', label: 'Spectrum', gb: ['wallpaper_vis3', 'vis3_desc'], thumb: 'lw-vis3.png', make: (c, a, o) => waveScene(c, a, o.audio || (() => false), true), gl: true},
+    {id: 'vu', label: 'VU meter', gb: ['wallpaper_vis4', 'vis4_desc'], thumb: 'lw-vis4.png', make: (c, a, o) => vuScene(c, a, o.audio || (() => false)), gl: true},
+    {id: 'many', label: 'Many', gb: ['wallpaper_vis5', 'vis5_desc'], thumb: 'lw-vis5.png', make: (c, a, o) => manyScene(c, a, o.audio || (() => false)), gl: true}
   ];
   const find = id => LIST.find(item => item.id === id);
   function sorted(t, locale) { const collator = new Intl.Collator(locale); return [...LIST].sort((a, b) => collator.compare(t(a.label), t(b.label))); }
@@ -623,5 +719,5 @@
       destroy() { cancelAnimationFrame(raf); canvas.remove(); scene = null; }
     };
   }
-  window.LiveWallpapers = {LIST, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, mount, M, audioCapture, needleModel};
+  window.LiveWallpapers = {LIST, SMOKE_PRESETS, SMOKE_DEFAULT, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, mount, M, audioCapture, needleModel};
 })();

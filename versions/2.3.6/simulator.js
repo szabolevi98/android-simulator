@@ -503,19 +503,26 @@
     if (setup) data.homeWidgets[setup.page] = data.homeWidgets[setup.page].filter(widget => widget.id !== setup.id);
     ui.photoWidgetSetup = null; ui.overlay = ''; save(); render();
   }
-  // LivePicker: the list (LiveWallpaperActivity), the preview with its button bar, and Polar clock's settings.
+  /* LivePicker 2.3.6: LiveWallpaperListActivity (Theme.NoTitleBar; live_wallpaper_entry rows with the 75 dip thumbnail,
+     the label and the Html description), LiveWallpaperPreview (two 160 dip buttons at the bottom; Settings… only with a
+     settings activity), MagicSmokeSelector ("Tap to change", OK) and PolarClockSettings (Theme, two checkboxes and a list). */
+  const lwText = key => { const entry = window.GBStrings?.wallpapers?.strings?.[key]; return entry ? entry[i18n.language] ?? entry.en : key; };
+  const lwLabel = spec => lwText(spec.gb?.[0] || spec.label);
   function renderLiveWallpapers() {
-    const sub = String(ui.sub || '');
+    const sub = String(ui.sub || ''), T = lwText;
     if (sub.startsWith('preview:')) {
       const spec = LiveWallpapers.find(sub.slice(8));
-      return `<div class="app-view lw-preview"><div class="lw-preview-bar">${spec?.settings ? `<button data-action="lw-settings" data-id="${spec.id}">${safe(i18n.t('Settings…'))}</button>` : ''}<button data-action="lw-set" data-id="${safe(spec?.id || '')}">${safe(i18n.t('Set wallpaper'))}</button></div></div>`;
+      return `<div class="app-view lw-preview gblw-preview" data-no-translate><div class="gblw-buttons"><button class="gblw-btn" data-action="lw-set" data-id="${safe(spec?.id || '')}">${safe(T('wallpaper_instructions'))}</button>${spec?.settings ? `<button class="gblw-btn" data-action="lw-settings" data-id="${spec.id}">${safe(T('configure_wallpaper'))}</button>` : ''}</div></div>`;
     }
+    if (sub === 'settings:magicsmoke') return `<div class="app-view lw-preview gblw-smoke" data-action="lw-smoke-tap" data-no-translate><div class="gblw-smoke-hint">${safe(T('taptochange'))}</div><button class="gblw-btn" data-action="lw-smoke-ok">${safe(T('ok'))}</button></div>`;
     if (sub.startsWith('settings:')) {
-      const p = data.lwPrefs?.polar || {}, palette = p.palette || '';
-      const check = (key, title) => `<button class="settings-row wireless-row" data-action="lw-toggle" data-id="polar:${key}" role="checkbox" aria-checked="${p[key] !== false}"><span class="row-copy">${safe(i18n.t(title))}</span><img class="holo-checkbox" src="assets/btn_check_${p[key] !== false ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
-      return `<div class="app-view settings-app"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>${safe(i18n.t('Polar clock settings'))}</h2></div><div class="app-content dark lw-settings">${check('showSeconds', 'Show seconds')}${check('variableWidth', 'Vary ring widths')}<button class="settings-row wireless-row" data-action="lw-palette"><span class="row-copy">${safe(i18n.t('Color palette'))}${palette ? `<small>${safe(i18n.t(LiveWallpapers.PALETTE_NAMES[palette]))}</small>` : ''}</span></button></div></div>`;
+      const p = data.lwPrefs?.polar || {};
+      const check = (key, title) => `<button class="gbset-row" data-action="lw-toggle" data-id="polar:${key}" role="checkbox" aria-checked="${p[key] !== false}"><span class="gbset-text"><span class="gbset-title">${safe(T(title))}</span></span><img class="gbset-check" src="assets/gb-btn_check_${p[key] !== false ? 'on' : 'off'}.png" alt=""></button>`;
+      return `<div class="app-view gbset" data-no-translate><div class="gb-titlebar">${safe(T('clock_settings'))}</div><div class="gbset-list">${check('showSeconds', 'show_seconds')}${check('variableWidth', 'variable_line_width')}<button class="gbset-row" data-action="lw-palette"><span class="gbset-text"><span class="gbset-title">${safe(T('palette'))}</span></span></button></div></div>`;
     }
-    return `<div class="app-view lw-picker" data-no-translate>${LiveWallpapers.sorted(key => i18n.t(key), i18n.locale()).map(spec => `<button class="lw-entry" data-action="lw-preview" data-id="${spec.id}"><img src="assets/${spec.thumb}" alt=""><span>${safe(i18n.t(spec.label))}</span></button>`).join('')}</div>`;
+    const collator = new Intl.Collator(i18n.locale());
+    const list = [...LiveWallpapers.LIST].sort((a, b) => collator.compare(lwLabel(a), lwLabel(b)));
+    return `<div class="app-view lw-picker gblw" data-no-translate>${list.map(spec => `<button class="gblw-entry" data-action="lw-preview" data-id="${spec.id}"><img src="assets/${spec.thumb}" alt=""><span class="gblw-copy"><span class="gblw-title">${safe(lwLabel(spec))}</span><span class="gblw-desc">${safe(T(spec.gb[1])).replace(/\s*&lt;br&gt;\s*/g, '<br>')}</span></span></button>`).join('')}</div>`;
   }
   viewport.addEventListener('click', event => {
     if (ui.view !== 'home' || !liveWallpaper || event.target.closest('button,a,input,[data-action],.widget,.home-search,.dock')) return;
@@ -669,6 +676,7 @@
     }
     if (ui.overlay === 'gb-dialog-mms') return GBMms.dialog(ui.gbMmsDialog, gbMmsContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-set') return GBSettings.dialog(ui.gbSetDialog, gbSettingsContext()) || {title: '', items: []};
+    if (ui.overlay === 'gb-dialog-lw-palette') { const current = data.lwPrefs?.polar?.palette || ''; return {title: lwText('palette'), items: LiveWallpapers.PALETTE_ORDER.map(id => ({action: 'lw-palette-pick', id, title: lwText(id)})), choice: 'single', selected: LiveWallpapers.PALETTE_ORDER.indexOf(current), buttons: [{action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]}; }
     if (ui.overlay === 'gb-dialog-list') return GBSettings.listDialog(ui.gbListKey, gbSettingsContext()) || {title: '', items: []};
     // BrightnessPreference (preference_dialog_brightness.xml): "Automatic brightness" above the seek bar; OK / Cancel.
     if (ui.overlay === 'gb-dialog-brightness') return {title: GBSettings.text(i18n.language, 'brightness'), custom: `<div class="gbbright"><label><input type="checkbox" ${GBSettings.value(data.settings, 'autoBrightness') ? 'checked' : ''}> ${safe(t('Automatic brightness'))}</label><input type="range" min="10" max="100" value="${ui.brightnessDraft ?? data.settings.brightness}" aria-label="${safe(GBSettings.text(i18n.language, 'brightness'))}"></div>`, buttons: [{action: 'gbset-brightness-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
@@ -1398,7 +1406,10 @@
       // LiveWallpaperPreview.setLiveWallpaper: set it and return to the launcher.
       case 'lw-set': data.liveWallpaper = {id}; save(); ui.sub = ''; home(false); break;
       case 'lw-toggle': { const [wid, key] = String(id).split(':'); data.lwPrefs ||= {}; data.lwPrefs[wid] ||= {}; data.lwPrefs[wid][key] = data.lwPrefs[wid][key] === false; save(); render(); break; }
-      case 'lw-palette': ui.overlay = 'lw-palette'; renderOverlay(); break;
+      case 'lw-palette': ui.overlay = 'gb-dialog-lw-palette'; renderOverlay(); break;
+      // MagicSmokeSelector.onTouchEvent: every touch steps back one preset; OK finishes the selector.
+      case 'lw-smoke-tap': { data.lwPrefs ||= {}; data.lwPrefs.magicsmoke ||= {}; const n = LiveWallpapers.SMOKE_PRESETS.length, cur = Number(data.lwPrefs.magicsmoke.preset ?? LiveWallpapers.SMOKE_DEFAULT); data.lwPrefs.magicsmoke.preset = cur <= 0 || cur >= n ? n - 1 : cur - 1; save(); break; }
+      case 'lw-smoke-ok': ui.sub = 'preview:magicsmoke'; render(); break;
       case 'lw-palette-pick': data.lwPrefs ||= {}; data.lwPrefs.polar ||= {}; data.lwPrefs.polar.palette = id; save(); ui.overlay = ''; render(); break;
       case 'gallery-wallpaper': ui.overlay = ''; openApp('gallery'); break;
       case 'market': openApp('play-store'); break;
@@ -2350,8 +2361,9 @@
   /* WallpaperService visibility: the engine draws only while its window shows (home and keyguard, or the picker's
      preview), and the launcher feeds it the workspace scroll as an x offset across the five pages. */
   function syncLiveWallpaper() {
-    const preview = ui.view === 'live-wallpapers' && String(ui.sub || '').startsWith('preview:');
-    const id = preview ? ui.sub.slice(8) : data.liveWallpaper?.id || '';
+    const lwSub = ui.view === 'live-wallpapers' ? String(ui.sub || '') : '';
+    const preview = lwSub.startsWith('preview:') || lwSub === 'settings:magicsmoke';
+    const id = lwSub.startsWith('preview:') ? lwSub.slice(8) : preview ? 'magicsmoke' : data.liveWallpaper?.id || '';
     const visible = !!id && (preview || ['home', 'lock'].includes(ui.view) || ui.view === 'clock' && !ui.sub) && !ui.sleeping && !ui.power;
     const key = id ? `${id}:${preview}` : '';
     if (liveWallpaper && liveWallpaper.key !== key) { liveWallpaper.destroy(); liveWallpaper = null; }
