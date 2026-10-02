@@ -139,7 +139,7 @@
   const price = (item, ctx, word = false) => item.price === 'FREE' ? text(ctx.lang, word ? 'Free' : 'FREE') : item.price;
   // The action bar: back caret and bag (only the bag at the top level), the title, search and the Holo overflow button.
   function header(ctx, title, back = true) {
-    const up = back ? '<button class="icsp-up" data-action="back" aria-label="Back"><span>‹</span><img src="assets/play-store.svg?v=2" alt=""></button>' : '<span class="icsp-up root"><img src="assets/play-store.svg?v=2" alt=""></span>';
+    const up = back ? '<button class="icsp-up" data-action="back" aria-label="Back"><span>‹</span><img src="assets/play-store.svg?v=3" alt=""></button>' : '<span class="icsp-up root"><img src="assets/play-store.svg?v=3" alt=""></span>';
     if (ctx.searching) return `<form class="icsp-bar searching" data-form="icsp-search">${up}<input name="query" autocomplete="off" aria-label="${e(text(ctx.lang, 'Search Google Play'))}" placeholder="${e(text(ctx.lang, 'Search Google Play'))}" value="${e(ctx.editValue || '')}"><button class="icsp-search" type="submit" aria-label="${e(text(ctx.lang, 'Search Google Play'))}"></button></form>`;
     return `<div class="icsp-bar">${up}<b>${e(title)}</b>${ctx.noMenu ? '' : `<button class="icsp-search" data-action="icsp-search" aria-label="${e(text(ctx.lang, 'Search Google Play'))}"></button>`}${ctx.noMenu ? '' : '<button class="icsp-overflow" data-action="icsp-menu" aria-label="More options"></button>'}</div>`;
   }
