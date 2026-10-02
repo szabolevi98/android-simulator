@@ -6,8 +6,13 @@ import re, sys, json, html, urllib.request
 LANGS = ['', '-hu', '-de', '-fr', '-es']
 APPS = {
     'contacts': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-2.3.6_r1/res/values%s/strings.xml'],
-        'keys': '''dialerIconLabel recentCallsIconLabel contactsIconLabel contactsFavoritesLabel favoritesFrquentSeparator noContacts noContactsHelpText
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'keys': '''account_phone nameLabelsGroup name_given name_family name_prefix name_middle name_suffix phoneLabelsGroup emailLabelsGroup
+organizationLabelsGroup ghostData_company ghostData_title label_notes edit_secondary_collapse menu_done menu_doNotSave editContact_title_edit
+editContact_title_insert contactSavedToast deleteConfirmation deleteConfirmation_title selectLabel postalLabelsGroup phoneTypeMobile phoneTypeHome
+phoneTypeWork phoneTypeOther emailTypeHome emailTypeWork emailTypeOther emailTypeMobile
+dialerIconLabel recentCallsIconLabel contactsIconLabel contactsFavoritesLabel favoritesFrquentSeparator noContacts noContactsHelpText
 noFavoritesHelpText recentCalls_empty recentCalls_callNumber recentCalls_editNumberBeforeCall recentCalls_addToContact recentCalls_removeFromRecentList
 recentCalls_deleteAll clearCallLogConfirmation_title clearCallLogConfirmation type_incoming type_outgoing type_missed callBack callAgain returnCall
 callDetailTitle call_mobile call_home call_work call_other sms_mobile sms_home sms_work sms_other menu_search menu_newContact menu_displayGroup menu_accounts

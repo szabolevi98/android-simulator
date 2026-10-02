@@ -467,3 +467,20 @@ Reference: framework `recent_apps_dialog.xml`, `recent_apps_icon.xml`, `RecentAp
 - The 40 dip "Recent" title is small, bold and #80FFFFFF. Below it come up to eight (NUM_BUTTONS) 80 dip buttons in two rows of four, newest first, each with the 48 dip icon and a 13 dip label of at most two lines. A 40 dip space closes the dialog.
 - Pressed icons glow orange (IconUtilities). With no history it shows "No recent applications."; it fades in and out.
 - The strings come from the framework (`docs/gb-strings.py framework`).
+
+## Contact editor — 2026-10-02
+
+References: Contacts 2.3.6 (`act_edit.xml`, `item_contact_editor.xml`, `item_kind_section.xml`, `item_generic_editor.xml`, `item_photo_editor.xml`, `FallbackSource.java`, `styles.xml` Plus / Minus / More / Less buttons, `drawable-hdpi-finger`), framework phone and email type labels.
+
+- **ContactEditorActivity** for the phone-only account (FallbackSource):
+  - The "Edit contact" / "New contact" title, then the 64 dip header with the 4 dip #666666 bar, the account icon and "Phone-only, unsynced".
+  - The 76 dip photo button on `contact_picture_border` with `ic_menu_add_picture`.
+  - The structured name: Given name and Family name, with the `btn_circle` more / less expander for prefix, middle name and suffix.
+- **Kind sections** (14 dip indent, 18 sp titles, list divider):
+  - Phone and Email have a 100 dip label button that opens "Select label" (Home / Mobile / Work / Other), an EditText and the minus button.
+  - Organization has a Company row behind its plus button.
+  - The collapsible "More" section holds Notes.
+  - As with EntityModifier.ensureKindExists, a phone and an email row are always offered.
+- **Saving:** the ButtonBar has Done / Revert, and Back saves too (onBackPressed → doSaveAction). The name parts are joined into the display name, and the chosen labels are kept and shown on the contact ("Call work", "Email work"). It ends with the "Contact saved." toast.
+
+Checks: `gb-contact-editor.test.cjs` covers the name split and join, the editor rows, the expanded name, the secondary section, the removed and added rows, the label dialog and translations. Headless Chrome covered Edit contact → label → Work → Organization → expander → More → Back (saved, "Call work" on the details). No JavaScript errors.

@@ -102,3 +102,46 @@
 .gbic-pad{display:grid;grid-template-columns:repeat(3,75.9px);grid-auto-rows:50.03px;padding:5.18px 6.04px}
 .screen .gbic-key{border:0 solid transparent;border-image:url('assets/gb-p-btn_dial_normal_green.png') 52 17 32 17 fill / 29.9px 9.78px 18.4px 9.78px stretch;background:var(--wht) center/63.83px 35.65px no-repeat;cursor:pointer;padding:0}
 .screen .gbic-key:active{border-image-source:url('assets/gb-c-btn_dial_pressed.png');background-image:var(--blk)}
+
+/* ContactEditorActivity (dark theme): 64 dip header with the 4 dip #666666 bar and the 24 sp account type, 76 dip photo on
+   contact_picture_border, kind sections (14 dip indent, 18 sp titles) with btn_circle plus / minus / more / less, 100 dip
+   label buttons, EditTexts and the ButtonBar. */
+.gbce{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.gbce button{font-family:inherit}
+.gbce-scroll{flex:1;min-height:0;overflow:auto}
+.gbce-header{position:relative;display:flex;align-items:center;height:55.2px;padding-top:3.45px;box-sizing:border-box}
+.gbce-colorbar{position:absolute;left:0;right:0;top:0;height:3.45px;background:#666}
+.gbce-header img{width:34.5px;height:34.5px;margin:0 6.04px}
+.gbce-header b{font-size:17px;font-weight:400;line-height:1.15}
+.gbce-divider{display:block;height:1px;background:url('assets/gb-divider_horizontal_dark.png') 0 0/100% 100%}
+.gbce-photo-row{padding:8.63px 0 0 10.35px}
+.screen .gbce-photo{width:65.55px;height:65.55px;padding:0;border:0 solid transparent;border-image:url('assets/gb-ce-contact_picture_border_normal.png') 52 16 38 16 fill / 29.9px 9.2px 21.85px 9.2px stretch;background:none;position:relative;cursor:pointer}
+.gbce-photo::after{content:"";position:absolute;inset:0;background:url('assets/gb-ce-ic_menu_add_picture.png') center/41.4px 41.4px no-repeat}
+.screen .gbce-photo:active{border-image-source:url('assets/gb-ce-contact_picture_border_pressed.png')}
+.gbce-name{display:flex;align-items:flex-start;gap:2px;margin:5.18px 0 3.45px;padding:0 0 0 5.18px}
+.gbce-name-fields{flex:1;min-width:0}
+.gbce-field{display:block;width:100%;box-sizing:border-box;min-height:41.4px;margin:0 0 1px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.gbce-field:focus{border-image-source:url('assets/gb-textfield_selected.png')}
+.screen .gbce-round{flex:none;width:32.78px;height:41.4px;padding:0;border:0;background:url('assets/gb-ce-ic_btn_round_plus.png') 0 0/100% 100%,url('assets/gb-ce-btn_circle_normal.png') 0 0/100% 100%;cursor:pointer}
+.screen .gbce-round.minus{background-image:url('assets/gb-ce-ic_btn_round_minus.png'),url('assets/gb-ce-btn_circle_normal.png')}
+.screen .gbce-round.more{background-image:url('assets/gb-ce-ic_btn_round_more.png'),url('assets/gb-ce-btn_circle_normal.png')}
+.screen .gbce-round.less{background-image:url('assets/gb-ce-ic_btn_round_less.png'),url('assets/gb-ce-btn_circle_normal.png')}
+.screen .gbce-round.plus:active{background-image:url('assets/gb-ce-ic_btn_round_plus.png'),url('assets/gb-ce-btn_circle_pressed.png')}
+.screen .gbce-round.minus:active{background-image:url('assets/gb-ce-ic_btn_round_minus.png'),url('assets/gb-ce-btn_circle_pressed.png')}
+.screen .gbce-round.more:active{background-image:url('assets/gb-ce-ic_btn_round_more.png'),url('assets/gb-ce-btn_circle_pressed.png')}
+.screen .gbce-round.less:active{background-image:url('assets/gb-ce-ic_btn_round_less.png'),url('assets/gb-ce-btn_circle_pressed.png')}
+.gbce-kind{min-height:55.2px}
+.gbce-kind-head{display:flex;align-items:center;min-height:43px;margin:1.73px 3.45px 1.73px 12.08px;font-size:15.53px;color:#fff}
+.gbce-kind-head span{flex:1;min-width:0}
+.gbce-kind-rows{padding:0 0 5.18px}
+.gbce-row{display:flex;align-items:center;gap:3.45px;padding:0 3.45px 0 5.18px}
+.gbce-row .gbce-field{flex:1;min-width:0}
+.screen .gbce-label{flex:none;width:86.25px;min-height:41.4px;padding:5.75px 9.2px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 13.8px DroidSans,Arial,sans-serif;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.screen .gbce-label:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.screen .gbce-secondary{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 12.08px;border:0;background:none;color:#fff;font-size:15.53px;text-align:left;cursor:pointer}
+.gbce-secondary::after{content:"";margin-left:auto;width:20.7px;height:20.7px;background:url('assets/gb-expander_ic_minimized.png') center/contain no-repeat}
+.gbce-secondary.open::after{background-image:url('assets/gb-expander_ic_maximized.png')}
+.screen .gbce-secondary:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbce-buttonbar{flex:none;display:flex;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.screen .gbce-buttonbar button{flex:1;min-width:0;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbce-buttonbar button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}

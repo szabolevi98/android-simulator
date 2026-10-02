@@ -2,6 +2,167 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["contacts"] = {
 "strings": {
+"account_phone": {
+"en": "Phone-only, unsynced",
+"hu": "Csak a telefonon, nem szinkronizált",
+"de": "Nur Telefon, nicht synchronisiert",
+"fr": "Téléphone uniquement, sans synchronisation",
+"es": "Solo en el teléfono, no sincronizado"
+},
+"nameLabelsGroup": {
+"en": "Name",
+"hu": "Név",
+"de": "Name",
+"fr": "Nom",
+"es": "Nombre"
+},
+"name_given": {
+"en": "Given name",
+"hu": "Utónév",
+"de": "Vorname",
+"fr": "Prénom",
+"es": "Nombre"
+},
+"name_family": {
+"en": "Family name",
+"hu": "Vezetéknév",
+"de": "Nachname",
+"fr": "Nom de famille",
+"es": "Apellidos"
+},
+"name_prefix": {
+"en": "Name prefix",
+"hu": "Név előtagja",
+"de": "Namenpräfix",
+"fr": "Préfixe du nom",
+"es": "Prefijo del nombre"
+},
+"name_middle": {
+"en": "Middle name",
+"hu": "Második név",
+"de": "Zweiter Vorname",
+"fr": "2e prénom",
+"es": "Segundo nombre"
+},
+"name_suffix": {
+"en": "Name suffix",
+"hu": "Név utótagja",
+"de": "Namensuffix",
+"fr": "Suffixe du nom",
+"es": "Sufijo del nombre"
+},
+"phoneLabelsGroup": {
+"en": "Phone",
+"hu": "Telefon",
+"de": "Telefon",
+"fr": "Téléphone",
+"es": "Teléfono"
+},
+"emailLabelsGroup": {
+"en": "Email",
+"hu": "E-mail küldése",
+"de": "E-Mail",
+"fr": "E-mail",
+"es": "Email"
+},
+"organizationLabelsGroup": {
+"en": "Organization",
+"hu": "Szervezet",
+"de": "Firma/Organisation",
+"fr": "Organisation",
+"es": "Organización"
+},
+"ghostData_company": {
+"en": "Company",
+"hu": "Cég",
+"de": "Unternehmen",
+"fr": "Entreprise",
+"es": "Empresa"
+},
+"ghostData_title": {
+"en": "Title",
+"hu": "Beosztás",
+"de": "Titel",
+"fr": "Titre",
+"es": "Título"
+},
+"label_notes": {
+"en": "Notes",
+"hu": "Jegyzetek",
+"de": "Notizen",
+"fr": "Notes",
+"es": "Notas"
+},
+"edit_secondary_collapse": {
+"en": "More",
+"hu": "Egyebek",
+"de": "Mehr",
+"fr": "Plus",
+"es": "Más"
+},
+"menu_done": {
+"en": "Done",
+"hu": "Kész",
+"de": "Fertig",
+"fr": "OK",
+"es": "OK"
+},
+"menu_doNotSave": {
+"en": "Revert",
+"hu": "Visszavonás",
+"de": "Rückgängig",
+"fr": "Annuler",
+"es": "Volver"
+},
+"editContact_title_edit": {
+"en": "Edit contact",
+"hu": "Névjegy szerkesztése",
+"de": "Kontakt bearbeiten",
+"fr": "Modifier le contact",
+"es": "Editar contacto"
+},
+"editContact_title_insert": {
+"en": "New contact",
+"hu": "Új névjegy",
+"de": "Neuer Kontakt",
+"fr": "Nouveau contact",
+"es": "Contacto nuevo"
+},
+"contactSavedToast": {
+"en": "Contact saved.",
+"hu": "Névjegy mentve.",
+"de": "Kontakt gespeichert",
+"fr": "Contact enregistré.",
+"es": "El contacto se ha guardado."
+},
+"deleteConfirmation": {
+"en": "This contact will be deleted.",
+"hu": "A névjegy törlésre kerül.",
+"de": "Dieser Kontakt wird gelöscht.",
+"fr": "Ce contact sera supprimé.",
+"es": "El contacto se eliminará."
+},
+"deleteConfirmation_title": {
+"en": "Delete",
+"hu": "Törlés",
+"de": "Löschen",
+"fr": "Supprimer",
+"es": "Eliminar"
+},
+"selectLabel": {
+"en": "Select label",
+"hu": "Címke kiválasztása",
+"de": "Wählen Sie ein Label aus.",
+"fr": "Sélectionnez un libellé",
+"es": "Seleccionar etiqueta"
+},
+"postalLabelsGroup": {
+"en": "Postal address",
+"hu": "Postacím",
+"de": "Postanschrift",
+"fr": "Adresse postale",
+"es": "Dirección postal"
+},
 "dialerIconLabel": {
 "en": "Phone",
 "hu": "Telefon",
@@ -421,6 +582,62 @@ window.GBStrings["contacts"] = {
 "de": "E-Mail %s",
 "fr": "Envoyer un e-mail à %s",
 "es": "Enviar email a %s"
+},
+"phoneTypeMobile": {
+"en": "Mobile",
+"hu": "Mobil",
+"de": "Mobil",
+"fr": "Mobile",
+"es": "Móvil"
+},
+"phoneTypeHome": {
+"en": "Home",
+"hu": "Otthoni",
+"de": "Privat",
+"fr": "Domicile",
+"es": "Casa"
+},
+"phoneTypeWork": {
+"en": "Work",
+"hu": "Munkahelyi",
+"de": "Geschäftlich",
+"fr": "Bureau",
+"es": "Trabajo"
+},
+"phoneTypeOther": {
+"en": "Other",
+"hu": "Egyéb",
+"de": "Sonstige",
+"fr": "Autre",
+"es": "Otro"
+},
+"emailTypeHome": {
+"en": "Home",
+"hu": "Otthoni",
+"de": "Privat",
+"fr": "Domicile",
+"es": "Casa"
+},
+"emailTypeWork": {
+"en": "Work",
+"hu": "Munkahelyi",
+"de": "Geschäftlich",
+"fr": "Bureau",
+"es": "Trabajo"
+},
+"emailTypeOther": {
+"en": "Other",
+"hu": "Egyéb",
+"de": "Sonstige",
+"fr": "Autre",
+"es": "Otro"
+},
+"emailTypeMobile": {
+"en": "Mobile",
+"hu": "Mobil",
+"de": "Mobil",
+"fr": "Mobile",
+"es": "Móvil"
 }
 }
 };

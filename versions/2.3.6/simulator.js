@@ -574,6 +574,7 @@
     if (ui.view === 'lock') return;
     if(ui.view==='phone' && ui.activeCall && ui.gbAddCall){ui.gbAddCall=false;ui.gbCallBackground=false;render();return;}
     if(ui.view==='phone' && ui.activeCall && !ui.gbCallBackground){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
+    if (ui.view === 'people' && (ui.sub === 'edit' || ui.sub === 'new') && viewport.querySelector('.gbce')) { viewport.querySelector('.gbce').requestSubmit(); return; }
     if (ui.view === 'camera' && ui.gbcamPopup) { ui.gbcamPopup = ''; render(); return; }
     if (ui.view === 'camera' && ui.gbcamRec) { gbcamStopRecording(); render(); return; }
     if (ui.view === 'gallery' && ui.gbgPopup) { ui.gbgPopup = ''; render(); return; }
@@ -648,6 +649,7 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-ce') return GBContactEditor.dialog(ui.gbceDialog, gbceContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-camera') return {title: GBCamera.text(i18n.language, 'confirm_restore_title'), icon: 'ic_dialog_alert', message: GBCamera.text(i18n.language, 'confirm_restore_message'), buttons: [{action: 'gbcam-restore-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
     if (ui.overlay === 'gb-dialog-gallery') return GBGallery.details(gbGalleryContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-email') return GBEmail.dialog(ui.gbEmDialog, gbEmailContext()) || {title: '', items: []};
@@ -1039,11 +1041,18 @@
     const person = ui.view === 'people' && ui.sub === 'detail' ? contact(ui.selectedContact) : null;
     return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), now: Date.now(), tab: ui.view === 'people' ? 'contacts' : ui.phoneTab || 'dialpad', dial: ui.dial || '', callActive: !!ui.activeCall, addCall: !!ui.gbAddCall, calls: data.callHistory || [], contactOf: number => contactByPhone(number), people: data.contacts, detail: person};
   }
-  function renderPeople() { if (!ui.sub || ui.sub === 'detail' && contact(ui.selectedContact)) return GBPhone.render(gbPhoneContext()); return ICSPeople.render(data,ui,key => i18n.t(key),i18n.locale()); }
+  function gbceContext() { return {lang: i18n.language, draft: ui.peopleDraft, isNew: ui.sub === 'new', moreName: !!ui.gbceMoreName, secondary: !!ui.gbceSecondary, familyFirst: false}; }
+  // The editor's fields are kept on the draft whenever a button changes the form.
+  function gbceSync() {
+    const form = viewport.querySelector('.gbce'); if (!form || !ui.peopleDraft) return;
+    for (const key of ['given', 'family', 'prefix', 'middle', 'suffix', 'phone', 'email', 'company', 'notes']) if (form.elements[key]) ui.peopleDraft[key] = form.elements[key].value;
+  }
+  function renderPeople() { if (ui.sub === 'edit' || ui.sub === 'new') return GBContactEditor.render(gbceContext()); if (!ui.sub || ui.sub === 'detail' && contact(ui.selectedContact)) return GBPhone.render(gbPhoneContext()); return ICSPeople.render(data,ui,key => i18n.t(key),i18n.locale()); }
   function editPerson(isNew = false) {
     const person = isNew ? {} : contact(ui.selectedContact);
     if (!person) return;
-    ui.peopleDraft = {...person,groups:data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>g.id)};
+    // EntityModifier.ensureKindExists: the editor always offers a phone and an email row.
+    ui.peopleDraft = {...person,phone:person.phone??'',email:person.email??'',groups:data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>g.id)};
     ui.sub = isNew ? 'new' : 'edit'; ui.overlay = ''; render();
   }
   function peopleOverlay() {
@@ -1542,7 +1551,14 @@
       case 'phone-log-message': { const recipient=ICSMessaging.recipient(id,data.contacts); if(recipient)openMessageThread(recipient.key);else toast('Enter a valid phone number');break; }
       case 'people-tab': ui.peopleTab=id; ui.sub=''; ui.peopleQuery=''; ui.peopleSearching=false; render(); break;
       case 'people-search': ui.peopleTab='all'; ui.peopleSearching=true; render(); viewport.querySelector('.people-search input')?.focus(); break;
-      case 'people-edit': editPerson(); break;
+      case 'people-edit': ui.gbceMoreName = false; ui.gbceSecondary = false; editPerson(); break;
+      case 'gbce-type': gbceSync(); ui.gbceDialog = id; ui.overlay = 'gb-dialog-ce'; renderOverlay(); break;
+      case 'gbce-set-type': { const [kind, type] = id.split(':'); ui.peopleDraft[`${kind}Type`] = type; ui.overlay = ''; render(); break; }
+      case 'gbce-remove': gbceSync(); ui.peopleDraft[id] = null; render(); break;
+      case 'gbce-add': gbceSync(); ui.peopleDraft[id] = ''; render(); viewport.querySelector(`.gbce [name="${id}"]`)?.focus(); break;
+      case 'gbce-more-name': gbceSync(); ui.gbceMoreName = !ui.gbceMoreName; render(); break;
+      case 'gbce-secondary': gbceSync(); ui.gbceSecondary = !ui.gbceSecondary; render(); break;
+      case 'gbce-revert': ui.sub = ui.sub === 'edit' && contact(ui.selectedContact) ? 'detail' : ''; ui.peopleDraft = null; render(); break;
       case 'people-menu': ui.overlay='people-menu'; renderOverlay(); break;
       case 'people-star': { const person=contact(ui.selectedContact); if(person)person.favorite=!person.favorite; save(); render(); break; }
       case 'people-delete': ui.overlay='people-delete'; renderOverlay(); break;
@@ -1822,14 +1838,15 @@
       case 'browser-find': ui.browserFind=String(values.get('query')||'').trim(); render(); break;
       case 'people-search': ui.peopleQuery=String(values.get('query')||'').trim(); render(); break;
       case 'people-save': {
-        const name=String(values.get('name')||'').trim(); if(!name)return;
+        // ContactEditorActivity: the structured name is joined into the display name; an empty contact is not saved.
+        const name=values.has('given')?GBContactEditor.join([values.get('prefix'),values.get('given'),values.get('middle')].filter(Boolean).join(' '),[values.get('family'),values.get('suffix')].filter(Boolean).join(' ')):String(values.get('name')||'').trim(); if(!name){ui.sub=ui.sub==='edit'&&contact(ui.selectedContact)?'detail':'';ui.peopleDraft=null;render();break;}
         const id=ui.sub==='edit'?ui.selectedContact:Date.now();
         const person=contact(id)||{id};
-        for(const key of ['name','phone','email','company','notes'])person[key]=String(values.get(key)||'').trim();
+        person.name=name;for(const key of ['phone','email','company','notes'])person[key]=String(values.get(key)||'').trim();
+        if(ui.peopleDraft?.phoneType)person.phoneType=ui.peopleDraft.phoneType;if(ui.peopleDraft?.emailType)person.emailType=ui.peopleDraft.emailType;
         if(!contact(id))data.contacts.push(person);
-        const groups=values.getAll('groups');
-        data.contactGroups.forEach(g=>{g.members=g.members.filter(member=>member!==id);if(groups.includes(g.id))g.members.push(id);});
-        save();ui.selectedContact=id;ui.sub='detail';ui.peopleDraft=null;render();toast('Contact saved');break;
+        if(!values.has('given')){const groups=values.getAll('groups');data.contactGroups.forEach(g=>{g.members=g.members.filter(member=>member!==id);if(groups.includes(g.id))g.members.push(id);});}
+        save();ui.selectedContact=id;ui.sub='detail';ui.peopleDraft=null;render();toast(GBContactEditor.text(i18n.language,'contactSavedToast'));break;
       }
       case 'people-group': {
         const name=String(values.get('name')||'').trim();if(!name)return;
