@@ -484,3 +484,27 @@ References: Contacts 2.3.6 (`act_edit.xml`, `item_contact_editor.xml`, `item_kin
 - **Saving:** the ButtonBar has Done / Revert, and Back saves too (onBackPressed → doSaveAction). The name parts are joined into the display name, and the chosen labels are kept and shown on the contact ("Call work", "Email work"). It ends with the "Contact saved." toast.
 
 Checks: `gb-contact-editor.test.cjs` covers the name split and join, the editor rows, the expanded name, the secondary section, the removed and added rows, the label dialog and translations. Headless Chrome covered Edit contact → label → Work → Organization → expander → More → Back (saved, "Call work" on the details). No JavaScript errors.
+
+## Applications, battery, legal and reset pages — 2026-10-02
+
+References: Settings 2.3.6 (`manage_applications.xml`, `manage_applications_item.xml`, `LinearColorBar`, `installed_app_details.xml`, `running_processes_view.xml`, `running_processes_item.xml`, `preference_powergauge.xml`, `power_usage_details.xml`, `power_usage_summary.xml`, `master_clear_primary.xml`, `master_clear_final.xml`, the legal_information screen of `device_info_settings.xml`, `drawable-hdpi`). Strings come from `docs/gb-strings.py settings2`, using the Nexus S `product="nosdcard"` variants ("USB storage").
+
+- **Manage applications:**
+  - The framework tabs are Downloaded / USB storage / Running / All. The simulator's apps are part of the system image, so Downloaded and USB storage show "No applications.", and All lists them.
+  - Rows have the 48 dip icon, the bold 18 sp name and the size (Formatter units).
+  - The LinearColorBar at the bottom shows "Internal storage" with #a0a0a0 used, #a0c0a0 free, and the "… used" / "… free" texts.
+  - Menu: Sort by name / Sort by size.
+- **Running services:** process rows with "1 process and 1 service", RAM and uptime, plus the RAM bar.
+- **Application info:**
+  - The snippet with "version 2.3.6", then Force stop (only for a running app, with its confirmation) and Uninstall (disabled for system apps).
+  - Storage shows Total / Application / Data with `dotted_line_480px` leaders and Clear data (with the delete confirmation; it really clears that app's simulator data). Cache has Clear cache.
+  - Launch by default: "No defaults set." with Clear defaults. Then the permissions.
+- **Battery use:**
+  - "3h 12m 5s on battery", then the "Battery use since unplugged" category with preference_powergauge rows: Display, Cell standby, Phone idle, Wi-Fi, Android System, Android OS and the recent apps. Each row has the `app_gauge` bar on #80404040 (written #40404080 in CSS, since Android colours are AARRGGBB).
+  - The details page shows the use details, Force stop / Application info for apps, and the Display / Wi-Fi settings buttons.
+- **Legal information:** Open source licenses opens the NOTICE page. Google legal ships with the Google apps, not AOSP.
+- **Factory data reset:** the 18 sp master_clear_desc list, the "Erase USB storage" check box with its description, and "Reset phone". The final screen ("Erase everything") resets the simulator.
+- **Fixes found on the way:**
+  - The launcher label bubble used `#b2191919` (CSS RRGGBBAA) for Android's #B2191919 and showed a faint red. It is now `#191919b2`.
+  - `docs/gb-strings.py` now collapses raw XML whitespace like aapt does, so line breaks inside resource text no longer leak into the strings.
+- Accounts & sync stays the inherited page: in 2.3.6 it belongs to the Google account components, not to AOSP Settings.

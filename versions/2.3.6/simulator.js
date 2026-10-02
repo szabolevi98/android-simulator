@@ -237,6 +237,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'settings' && GBSettingsPages.has(ui.sub)) { const items = GBSettingsPages.menu(ui.sub, gbPagesContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'camera') { ui.gbcamPopup = ''; ui.gbMenuItems = GBCamera.menu(gbCameraContext()); ui.overlay = 'gb-menu-settings'; render(); renderOverlay(); return; }
     if (ui.view === 'email') { gbEmSync(); const items = GBEmail.menu(gbEmailContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'calendar') { gbCalSyncDraft(); const items = GBCalendar.menu(gbCalContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
@@ -649,6 +650,7 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-sp') return GBSettingsPages.dialog(ui.gbspDialog, gbPagesContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-ce') return GBContactEditor.dialog(ui.gbceDialog, gbceContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-camera') return {title: GBCamera.text(i18n.language, 'confirm_restore_title'), icon: 'ic_dialog_alert', message: GBCamera.text(i18n.language, 'confirm_restore_message'), buttons: [{action: 'gbcam-restore-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
     if (ui.overlay === 'gb-dialog-gallery') return GBGallery.details(gbGalleryContext()) || {title: '', items: []};
@@ -901,11 +903,30 @@
       uptime: `${Math.floor(up / 3600)}:${String(Math.floor(up / 60) % 60).padStart(2, '0')}:${String(up % 60).padStart(2, '0')}`,
       about: {model: 'Nexus S', version: '2.3.6', baseband: 'I9020XXKD1', kernel: '2.6.35.7-gf5f63ef\nandroid-build@apa28 #1\nTue Aug 2 13:57:05 PDT 2011', build: 'GRK39F'}};
   }
+  // Data for the 2.3.6 application, battery and reset pages; the simulator's apps are the system image.
+  function gbPagesContext() {
+    const list = apps.filter(app => app[0] !== 'play-store' || true).map(app => ({id: app[0], name: appNames[app[0]], icon: appIcon(app[0])}));
+    const named = id => list.find(a => a.id === id);
+    const running = [...new Set(['phone', 'messaging', ...ui.recent])].map(named).filter(Boolean).map((a, i) => ({...a, ram: 3200000 + i * 1450000, uptime: `${String(12 + i * 7).padStart(2, '0')}:${String(30 - i * 3).padStart(2, '0')}`}));
+    const sysIcon = name => `<span class="app-icon"><img src="assets/gb-st-${name}.png" alt=""></span>`;
+    const usage = [
+      {id: 'screen', name: GBSettingsPages.text(i18n.language, 'power_screen'), icon: sysIcon('ic_settings_display'), percent: 41, details: [['usage_type_on_time', '1h 2m 14s']], action: 'settings-sub', actionLabel: 'battery_action_display', actionId: 'display'},
+      {id: 'cell', name: GBSettingsPages.text(i18n.language, 'power_cell'), icon: sysIcon('ic_settings_cell_standby'), percent: 19, details: [['usage_type_on_time', '3h 12m 5s'], ['usage_type_no_coverage', '0%']]},
+      {id: 'idle', name: GBSettingsPages.text(i18n.language, 'power_idle'), icon: sysIcon('ic_settings_phone_idle'), percent: 12, details: [['usage_type_on_time', '2h 9m 51s']]},
+      {id: 'wifi', name: GBSettingsPages.text(i18n.language, 'power_wifi'), icon: sysIcon('ic_settings_wifi'), percent: 8, details: [['usage_type_on_time', '3h 12m 5s'], ['usage_type_cpu', '41s']], action: 'settings-sub', actionLabel: 'battery_action_wifi', actionId: 'wifi'},
+      {id: 'system', name: 'Android System', icon: appIcon('settings'), percent: 7, details: [['usage_type_cpu', '3m 2s'], ['usage_type_cpu_foreground', '1m 18s'], ['usage_type_wake_lock', '6m 40s']]},
+      {id: 'kernel', name: GBSettingsPages.text(i18n.language, 'process_kernel_label'), icon: appIcon('settings'), percent: 6, details: [['usage_type_cpu', '2m 37s']]},
+      ...running.slice(0, 3).map((a, i) => ({id: 'app:' + a.id, app: a.id, name: a.name, icon: a.icon, percent: 3 - i, details: [['usage_type_cpu', `${40 - i * 9}s`], ['usage_type_cpu_foreground', `${22 - i * 5}s`]]}))
+    ];
+    const permissions = {phone: [['Your personal information', 'read contact data, write contact data'], ['Services that cost you money', 'directly call phone numbers']], messaging: [['Your messages', 'read SMS or MMS, receive SMS'], ['Services that cost you money', 'send SMS messages']], browser: [['Network communication', 'full Internet access']], email: [['Network communication', 'full Internet access']], camera: [['Hardware controls', 'take pictures and videos']]};
+    return {lang: i18n.language, locale: i18n.locale(), tab: ui.gbAppsTab || 'downloaded', sortBySize: !!ui.gbAppsSize, apps: list, running, app: named(ui.settingsApp), isRunning: running.some(a => a.id === ui.settingsApp), cleared: (data.gbClearedApps || []).includes(ui.settingsApp), permissions: permissions[ui.settingsApp] || [], usage, item: ui.batteryDetail, onBattery: '3h 12m 5s', eraseExternal: !!ui.gbspErase, usedText: '312MB', freeText: '1.67GB'};
+  }
   function renderSettings() {
     const s = ui.sub;
     if(s==='lock-setup')return lockControls.renderSetup();
     if (!s) ui.gbSettingsStack = [];
     if (GBSettings.has(s || 'main')) return GBSettings.render(s || 'main', gbSettingsContext()).html;
+    if (GBSettingsPages.has(s)) { const page = GBSettingsPages.render(s, gbPagesContext()); if (page) return page; }
     const system=ICSSystemSettings.render(data,ui,key=>i18n.t(key),i18n.locale());
     if(system)return appView(system.title,system.body,'sx-page',system.right);
     const detail=ICSSettingsDetail.render(data,ui,apps,key=>i18n.t(key));
@@ -1430,6 +1451,17 @@
       case 'sd-dialog': ui.settingsField=id;ui.overlay='sd-dialog';renderOverlay();break;
       case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;
       case 'sd-app-info': ui.settingsApp=id;ui.sub='app-info';render();break;
+      case 'gbsp-tab': ui.gbAppsTab = id; render(); break;
+      case 'gbsp-sort': ui.gbAppsSize = id === 'size'; ui.overlay = ''; render(); break;
+      case 'gbsp-app': if (!apps.some(app => app[0] === id)) break; (ui.gbSettingsStack ||= []).push(ui.sub); ui.settingsApp = id; ui.sub = 'app-info'; ui.overlay = ''; render(); break;
+      case 'gbsp-battery-item': (ui.gbSettingsStack ||= []).push(ui.sub); ui.batteryDetail = id; ui.sub = 'battery-detail'; render(); break;
+      case 'gbsp-force-stop': ui.settingsApp = id; ui.gbspDialog = 'force-stop'; ui.overlay = 'gb-dialog-sp'; renderOverlay(); break;
+      case 'gbsp-force-stop-ok': ui.recent = ui.recent.filter(app => app !== ui.settingsApp); delete ui.recentState?.[ui.settingsApp]; ui.overlay = ''; render(); break;
+      case 'gbsp-clear-data': ui.gbspDialog = 'clear-data'; ui.overlay = 'gb-dialog-sp'; renderOverlay(); break;
+      case 'gbsp-clear-data-ok': clearAppData(ui.settingsApp); data.gbClearedApps = [...new Set([...(data.gbClearedApps || []), ui.settingsApp])]; save(); ui.overlay = ''; render(); break;
+      case 'gbsp-clear-cache': data.gbClearedApps = [...new Set([...(data.gbClearedApps || []), ui.settingsApp])]; save(); render(); break;
+      case 'gbsp-reset-initiate': (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = 'gb-reset-final'; render(); break;
+      case 'factory-reset-confirmed': ui.gbSettingsStack = []; resetSimulator(); break;
       case 'sd-data-app': ui.settingsApp=id;ui.sub='data-app';render();break;
       case 'sd-storage-open': if(id==='gallery'||id==='music')openApp(id);else{ui.sub=id;if(id==='apps')ui.settingsAppsTab='All';render();}break;
       case 'sd-battery-history': ui.sub='battery-history';render();break;
@@ -1914,6 +1946,7 @@
       else ui.peopleDraft[event.target.name]=event.target.value;
       return;
     }
+    if (event.target.matches('[data-gbsp-erase]')) { ui.gbspErase = event.target.checked; return; }
     if (event.target.matches('[data-gbcam-zoom]')) { gbcamSet({zoom: GBCamera.ZOOMS[Number(event.target.value)] || 1}); const out = event.target.nextElementSibling; if (out) out.textContent = GBCamera.zoomText(GBCamera.ZOOMS[Number(event.target.value)] || 1); const ind = viewport.querySelector('.gbcam-ind[data-id="zoom"] b'); if (ind) ind.textContent = out.textContent; viewport.querySelector('.gbcam-scene img')?.style.setProperty('transform', `scale(${GBCamera.ZOOMS[Number(event.target.value)] || 1})`); return; }
     if (event.target.closest('.gbcal-edit') && ui.eventDraft) { if (event.target.name === 'allDay') { gbCalSyncDraft(); ui.eventDraft.allDay = event.target.checked; render(); } else if (['title', 'location', 'description'].includes(event.target.name)) ui.eventDraft[event.target.name] = event.target.value; return; }
     if (event.target.closest('.gbbr-search')) { ui.gbBrEditValue = event.target.value; const box = viewport.querySelector('.gbbr-suggest'); if (box) box.innerHTML = GBBrowser.suggestions(gbBrowserContext()); return; }

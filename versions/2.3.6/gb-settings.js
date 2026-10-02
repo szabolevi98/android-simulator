@@ -99,7 +99,7 @@
         check('unknownSources', 'install_applications', 'install_unknown_applications'),
         list('installLocation', 'app_install_location_title', 'app_install_location_summary', 'app_install_location_entries'),
         go('manageapplications_settings_title', 'manageapplications_settings_summary', 'ics:apps'),
-        go('runningservices_settings_title', 'runningservices_settings_summary', 'ics:apps'),
+        go('runningservices_settings_title', 'runningservices_settings_summary', 'ics:running'),
         go('storageuse_settings_title', 'storageuse_settings_summary', 'storage'),
         go('power_usage_summary_title', 'power_usage_summary', 'ics:battery'),
         go('development_settings_title', 'development_settings_summary', 'development')]},

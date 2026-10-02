@@ -107,6 +107,23 @@ pref_exposure_title zoom_control_title switch_to_camera_lable switch_to_video_la
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
         'keys': 'recent_tasks_title no_recent_tasks'.split(),
     },
+    'settings2': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'keys': '''manageapplications_settings_title runningservices_settings_title filter_apps_all filter_apps_third_party filter_apps_running
+filter_apps_onsdcard no_applications sort_order_alpha sort_order_size internal_storage sd_card_storage service_background_processes
+service_foreground_processes no_running_services running_processes_item_description_s_s running_processes_item_description_s_p
+running_processes_item_description_p_s running_processes_item_description_p_p application_info_label storage_label total_size_label
+application_size_label data_size_label clear_user_data_text cache_header_label cache_size_label clear_cache_btn_text auto_launch_label
+auto_launch_disable_text clear_activities permissions_label security_settings_desc force_stop uninstall_text version_text computing_size
+force_stop_dlg_title force_stop_dlg_text clear_data_dlg_title clear_data_dlg_text dlg_ok dlg_cancel move_app_to_sdcard
+power_usage_summary_title battery_since_unplugged battery_stats_on_battery details_title details_subtitle controls_subtitle packages_subtitle
+power_screen power_wifi power_bluetooth power_cell power_phone power_idle usage_type_cpu usage_type_cpu_foreground usage_type_wake_lock
+usage_type_on_time usage_type_no_coverage battery_action_stop battery_action_app_details battery_action_display battery_action_wifi
+process_kernel_label legal_information settings_license_activity_title settings_license_activity_loading master_clear_title
+master_clear_desc erase_external_storage erase_external_storage_description master_clear_button_text master_clear_final_desc
+master_clear_final_button_text master_clear_gesture_explanation'''.split(),
+    },
     'calendar': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
         'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],
@@ -128,9 +145,11 @@ def clean(value):
     value = re.sub(r'<[^>]+>', '', value).strip()
     if value.startswith('"') and value.endswith('"'):
         value = value[1:-1]
+    # aapt collapses raw whitespace (line breaks and indentation in the XML) to single spaces; only escapes add breaks.
+    value = re.sub(r'[ \t\r\n]+', ' ', value)
     value = re.sub(r'\\u([0-9a-fA-F]{4})', lambda m: chr(int(m.group(1), 16)), value)
     value = value.replace("\\'", "'").replace('\\"', '"').replace('\\n', '\n').replace('\\\\', '\\')
-    return html.unescape(re.sub(r'[ \t]*\n[ \t]*', '\n', value))
+    return html.unescape(re.sub(r' *\n *', '\n', value))
 
 
 def build(name):

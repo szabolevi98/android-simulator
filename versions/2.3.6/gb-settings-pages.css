@@ -1,0 +1,66 @@
+/* Android 2.3.6 Settings application, battery and reset pages: framework tabs, 64 dip list rows with the 48 dip icon and
+   bold 18 sp name, the LinearColorBar (#a0a0a0 used, #a0c0a0 free) under the list, installed_app_details with dotted
+   leaders and 150 dip buttons, preference_powergauge rows on #80404040 with app_gauge, and the master clear info layout. */
+.gbsp{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.gbsp button{font-family:inherit}
+.gbsp-tabs .gbp-tab{display:grid;place-items:center}
+.gbsp-tabs .gbsp-tablabel{position:static;padding:0 2px;font-size:12.07px;line-height:1.1;white-space:normal;text-align:center}
+.gbsp-list,.gbsp-scroll{flex:1;min-height:0;overflow:auto}
+.gbsp-empty{display:grid;place-items:center;height:100%;margin:0;font-size:18.98px;color:#bebebe}
+.screen .gbsp-app{display:flex;align-items:center;width:100%;min-height:55.2px;padding:4.31px 5.18px;border:0;background:url('assets/gb-divider_horizontal_dark.png') 0 100%/100% 1px no-repeat;color:#fff;text-align:left;cursor:pointer}
+.screen .gbsp-app:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbsp-app .app-icon,.gbsp-snippet .app-icon,.gbsp-gauge .app-icon{flex:none;width:41.4px;height:41.4px;margin-right:9.49px;filter:none}
+.gbsp-app .app-icon img,.gbsp-snippet .app-icon img,.gbsp-gauge .app-icon img{width:100%;height:100%;object-fit:contain}
+.gbsp-app>span:last-child,.gbsp-snippet>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.gbsp-app b,.gbsp-snippet b{font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbsp-app small,.gbsp-snippet small{font-size:12.08px;color:#bebebe}
+.gbsp-line{display:flex;align-items:baseline;justify-content:space-between;gap:6px;min-width:0}
+.gbsp-line>b,.gbsp-line>span:first-child{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* LinearColorBar */
+.gbsp-storage{flex:none;position:relative;padding:20px 3.45px .86px;background:#000}
+.gbsp-storage-label{position:absolute;left:0;right:0;top:3px;text-align:center;font-size:12.08px;color:#ccc;text-shadow:0 0 4px #000}
+.gbsp-colorbar{position:relative;height:19px;background:#a0c0a0}
+.gbsp-colorbar i{position:absolute;left:0;top:0;bottom:0;background:#a0a0a0}
+.gbsp-storage-text{position:absolute;left:6.9px;right:6.9px;bottom:3px;display:flex;justify-content:space-between;font-size:12.08px;color:#000}
+/* InstalledAppDetails */
+.gbsp-snippet{display:flex;align-items:center;padding:4.31px 5.18px}
+.gbsp-buttons{display:flex;gap:2px;padding:0 5.18px 4.31px}
+.gbsp-buttons.center{justify-content:center}
+.screen .gbsp-btn{flex:1;min-width:0;min-height:41.4px;padding:5.75px 6px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.gbsp-buttons.center .gbsp-btn,.gbsp-info>.gbsp-btn{flex:none;width:129.38px}
+.screen .gbsp-btn:active:not(:disabled){border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.screen .gbsp-btn:disabled{border-image-source:url('assets/gb-btn_default_normal_disable.png');color:#808080;cursor:default}
+.gbsp-pairs{padding:0 5.18px 4px}
+.gbsp-pair{display:flex;align-items:flex-end;padding-top:5.18px;font-size:15.53px}
+.gbsp-pair i{flex:1;height:1px;margin:0 1px 3.45px;background:url('assets/gb-st-dotted_line_480px.png') 0 0/auto 1px repeat-x}
+.gbsp-small{margin:0;padding:5.18px;font-size:12.08px;color:#bebebe}
+.gbsp-perm{padding:2px 5.18px 4px 20px;font-size:12.08px}
+.gbsp-perm b{display:block;font-size:13.8px;color:#fff}
+.gbsp-perm small{color:#bebebe}
+/* PowerUsageSummary / PowerUsageDetail */
+.gbsp-onbattery{padding:8.63px 10.35px;font-size:15.53px}
+.screen .gbsp-gauge{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 10.35px;border:0;background:url('assets/gb-divider_horizontal_dark.png') 0 100%/100% 1px no-repeat;color:#fff;text-align:left;cursor:pointer}
+.screen .gbsp-gauge:active:not(.static){border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbsp-gauge.static{cursor:default}
+.gbsp-gauge-body{flex:1;min-width:0;display:flex;flex-direction:column;margin:1.73px 6.9px 5.18px 0;font-size:15.53px}
+.gbsp-gauge-body b{font-size:12.08px}
+.gbsp-bar{display:block;height:13.8px;margin-top:4.31px;background:#40404080}
+.gbsp-bar i{display:block;height:100%;border:0 solid transparent;border-image:url('assets/gb-st-app_gauge.png') 8 0 7 5 fill / 4.6px 0 4.03px 2.88px stretch}
+.gbsp-details{padding:0 5.18px}
+.gbsp-detail{display:flex;justify-content:space-between;margin:3.45px;font-size:15.53px}
+.gbsp-action{padding:4px 3.45px;font-size:15.53px}
+.gbsp-action .gbsp-btn{display:block;width:129.38px;margin:4px 0 0 auto}
+/* Legal: the NOTICE.html WebView */
+.gbsp-web{background:#fff;color:#000;padding:6.9px;font:12.08px/1.4 DroidSans,Arial,sans-serif}
+.gbsp-web h3{margin:0 0 8px;font-size:15.53px}
+/* MasterClear: style info_layout (padding 6 dip), 18 sp description, the check box with its two lines, the 150 dip button. */
+.gbsp-info{flex:1;min-height:0;display:flex;flex-direction:column;padding:5.18px}
+.gbsp-desc{margin:0;font-size:15.53px;line-height:1.3;white-space:pre-line}
+.gbsp-erase{display:flex;align-items:flex-start;gap:6.9px;margin-top:6px;cursor:pointer}
+.gbsp-check{appearance:none;flex:none;width:27.6px;height:27.6px;margin:8px 0 0;background:url('assets/gb-btn_check_off.png') center/contain no-repeat;cursor:pointer}
+.gbsp-check:checked{background-image:url('assets/gb-btn_check_on.png')}
+.gbsp-erase>span{display:flex;flex-direction:column;padding-top:10.35px;font-size:15.53px}
+.gbsp-erase small{padding-top:3px;font-size:12.08px;color:#bebebe}
+.gbsp-info>.gbsp-btn{align-self:center;margin-top:17.25px}
+.gbsp-final{margin:0;font-size:17.25px;line-height:1.3}
+.gbsp-final+.gbsp-btn{margin-top:34.5px}

@@ -206,18 +206,18 @@ window.GBStrings["contacts"] = {
 "es": "No hay ningún contacto."
 },
 "noContactsHelpText": {
-"en": "You don't have any contacts to display.\n\nTo add contacts, press Menu and touch:\n\n\nAccounts to add or configure an account with contacts you can sync to the phone\n\n\nNew contact to create a new contact from scratch\n\n\nImport/Export\n",
-"hu": "\"Nincsenek megjeleníthető névjegyei.\"\n\n\"Névjegy hozzáadásához nyomja meg a \"\"Menü\"\" gombot, majd érintse meg a(z):\"\n\" \"\n\"Fiókok\"\" lehetőséget a telefonjával szinkronizálható, névjegyekkel rendelkező fiók hozzáadásához vagy beállításához\"\n\" \"\n\"Új névjegy\"\"  lehetőséget teljesen új névjegy létrehozásához\"\n\" \"\n\"Importálás/exportálás\"\n",
+"en": "You don't have any contacts to display.\n\nTo add contacts, press Menu and touch:\n\nAccounts to add or configure an account with contacts you can sync to the phone\n\nNew contact to create a new contact from scratch\n\nImport/Export\n",
+"hu": "\"Nincsenek megjeleníthető névjegyei.\"\n\n\"Névjegy hozzáadásához nyomja meg a \"\"Menü\"\" gombot, majd érintse meg a(z):\"\n\" \"\n\"Fiókok\"\" lehetőséget a telefonjával szinkronizálható, névjegyekkel rendelkező fiók hozzáadásához vagy beállításához\"\n\" \"\n\"Új névjegy\"\" lehetőséget teljesen új névjegy létrehozásához\"\n\" \"\n\"Importálás/exportálás\"\n",
 "de": "\"Es sind keine Kontakte vorhanden.\"\n\n\"Drücken Sie zum Hinzufügen von Kontakten die \"\"Menütaste\"\" und berühren Sie anschließend \"\n\" \"\n\"Konten\"\", um ein Konto mit Kontakten, die Sie mit dem Telefon synchronisieren möchten, hinzuzufügen oder zu konfigurieren.\"\n\" \"\n\"Neuer Kontakt\"\", um einen neuen Kontakt von Grund auf zu erstellen.\"\n\n\"Importieren/Exportieren\"\n",
 "fr": "\"Vous n'avez aucun contact à afficher.\"\n\n\"Pour ajouter des contacts, appuyez sur \"\"Menu\"\" et sélectionnez :\"\n\" \"\n\"Comptes\"\" pour ajouter ou configurer un compte dont vous pourrez synchroniser les contacts sur le téléphone ;\"\n\" \"\n\"Nouveau contact\"\" pour créer un contact ;\"\n\" \"\n\"Importer/Exporter.\"\n",
 "es": "\"No tienes ningún contacto que mostrar.\"\n\n\"Para añadir contactos, pulsa la tecla de \"\"menú\"\" y toca en:\"\n\" \"\n\"Cuentas\"\" para añadir o configurar una cuenta con los contactos que puedes sincronizar en el teléfono,\"\n\" \"\n\"Contacto nuevo\"\" para crear un nuevo contacto,\"\n\" \"\n\"Importar/exportar.\"\n"
 },
 "noFavoritesHelpText": {
-"en": "You don't have any favorites.\n\nTo add a contact to your list of favorites:\n\nTouch the Contacts tab\n\n\nTouch the contact you want to add to your favorites\n\n\nTouch the star next to the contact's name\n",
-"hu": "\"Nincsenek kedvencei.\"\n\n\"Így adhat hozzá névjegyet a kedvencek listájához:\"\n\n\"        \"\"Érintse meg a \"\"Címtár\"\" lapot\"\n\" \"\n\"Érintse meg a kedvencekhez hozzáadni kívánt névjegyet\"\n\" \"\n\"Érintse meg az ismerős neve melletti csillagot\"\n",
+"en": "You don't have any favorites.\n\nTo add a contact to your list of favorites:\nTouch the Contacts tab\n\nTouch the contact you want to add to your favorites\n\nTouch the star next to the contact's name\n",
+"hu": "\"Nincsenek kedvencei.\"\n\n\"Így adhat hozzá névjegyet a kedvencek listájához:\"\n\n\" \"\"Érintse meg a \"\"Címtár\"\" lapot\"\n\" \"\n\"Érintse meg a kedvencekhez hozzáadni kívánt névjegyet\"\n\" \"\n\"Érintse meg az ismerős neve melletti csillagot\"\n",
 "de": "\"Es sind keine Favoriten vorhanden.\"\n\n\"So fügen Sie einen Kontakt zu Ihrer Favoritenliste hinzu:\"\n\n\" \"\"Berühren Sie den Tab \"\"Kontakte\"\".\"\n\" \"\n\"Berühren Sie den Kontakt, den Sie zu Ihren Favoriten hinzufügen möchten.\"\n\" \"\n\"Berühren Sie den Stern neben dem Kontaktnamen.\"\n",
-"fr": "\"Vous ne disposez d'aucun favoris.\"\n\n\"Pour ajouter un contact à la liste de favoris :\"\n\n\"        \"\"Appuyez sur l'onglet \"\"Contacts\"\".\"\n\" \"\n\"Appuyez sur le contact à ajouter à vos favoris.\"\n\" \"\n\"Appuyez sur l'étoile en regard du nom du contact.\"\n",
-"es": "\"No tienes favoritos.\"\n\n\"Para añadir un contacto a tu lista de favoritos, sigue estos pasos:\"\n\n\"        \"\"Toca en la pestaña \"\"Contactos\"\".\"\n\" \"\n\"Selecciona el contacto que quieras añadir a tus favoritos.\"\n\" \"\n\"Toca la estrella situada junto al nombre del contacto.\"\n"
+"fr": "\"Vous ne disposez d'aucun favoris.\"\n\n\"Pour ajouter un contact à la liste de favoris :\"\n\n\" \"\"Appuyez sur l'onglet \"\"Contacts\"\".\"\n\" \"\n\"Appuyez sur le contact à ajouter à vos favoris.\"\n\" \"\n\"Appuyez sur l'étoile en regard du nom du contact.\"\n",
+"es": "\"No tienes favoritos.\"\n\n\"Para añadir un contacto a tu lista de favoritos, sigue estos pasos:\"\n\n\" \"\"Toca en la pestaña \"\"Contactos\"\".\"\n\" \"\n\"Selecciona el contacto que quieras añadir a tus favoritos.\"\n\" \"\n\"Toca la estrella situada junto al nombre del contacto.\"\n"
 },
 "recentCalls_empty": {
 "en": "Call log is empty.",
