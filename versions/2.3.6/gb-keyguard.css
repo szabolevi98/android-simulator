@@ -1,0 +1,94 @@
+/* Android 2.3.6 keyguard screens. hdpi px x 0.575, 1 dp = 0.8625px; textAppearanceMedium 18 sp = 15.53px. */
+@font-face{font-family:Clockopia;src:url('fonts/Clockopia.ttf') format('truetype');font-display:swap}
+#viewport>.lock-view.gbkg{position:relative;width:100%;height:100%;display:block;overflow:hidden;text-align:left;background:#00000070;color:#fff;font:15.53px/1.25 DroidSans,Arial,sans-serif;touch-action:none}
+/* keyguard_screen_tab_unlock.xml */
+.gbkg-carrier{position:absolute;top:8.63px;right:6.9px;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.gbkg-tab-screen .gbkg-clock{position:absolute;left:17.25px;top:72.45px}
+.gbkg-clock{display:flex;align-items:baseline;white-space:nowrap;text-shadow:0 0 2.6px #000000c0}
+.gbkg-time{font:62.1px/1 Clockopia,DroidSans,sans-serif;margin-bottom:8.63px}
+.gbkg-ampm{margin-left:6.9px;font:700 18.98px/1 DroidSans,Arial,sans-serif}
+.gbkg-tab-screen .gbkg-date{position:absolute;left:20.7px;top:143.5px;white-space:nowrap}
+.gbkg-tab-screen .gbkg-status{position:absolute;left:20.7px;top:166px}
+.gbkg-status{display:flex;align-items:center;gap:3.45px;white-space:nowrap}
+.gbkg-status img{width:21.85px;height:21.85px}
+.gbkg-tab-screen .gbkg-locked{position:absolute;left:20.7px;top:201px;right:8px}
+.gbkg-toast{display:flex;align-items:center;gap:3.45px}
+.gbkg-toast img{width:21.85px;height:21.85px}
+/* SlidingTab: 162x140 tabs (jog_tab_*), the hint bar behind each tab, and the 24x138 targets at the 2/3 thresholds. */
+.gbkg-tabs{position:absolute;left:0;right:0;bottom:69px;height:80.5px;touch-action:none;user-select:none;-webkit-user-select:none}
+.gbkg-slider{position:absolute;inset:0;pointer-events:none}
+.gbkg-tab{position:absolute;top:0;width:93.15px;height:80.5px;border:0;padding:0;background:url('assets/gb-jog_tab_left_normal.png') 0 0/100% 100% no-repeat;display:grid;place-items:center;pointer-events:auto;cursor:grab;touch-action:none;will-change:transform}
+.gbkg-tab img{width:55.2px;height:55.2px;pointer-events:none}
+.gbkg-left .gbkg-tab{left:0}
+.gbkg-right .gbkg-tab{right:0;background-image:url('assets/gb-jog_tab_right_normal.png')}
+.gbkg-left.gbkg-pressed .gbkg-tab{background-image:url('assets/gb-jog_tab_left_pressed.png')}
+.gbkg-right.gbkg-pressed .gbkg-tab{background-image:url('assets/gb-jog_tab_right_pressed.png')}
+.gbkg-left.gbkg-active .gbkg-tab{background-image:url('assets/gb-jog_tab_left_confirm_green.png')}
+.gbkg-right.gbkg-active[data-confirm="gray"] .gbkg-tab{background-image:url('assets/gb-jog_tab_right_confirm_gray.png')}
+.gbkg-right.gbkg-active[data-confirm="yellow"] .gbkg-tab{background-image:url('assets/gb-jog_tab_right_confirm_yellow.png')}
+.gbkg-bar{position:absolute;top:0;width:100%;height:80.5px;box-sizing:border-box;border:0 solid transparent;display:flex;align-items:center;white-space:nowrap;overflow:hidden;font-size:24.15px;color:#808080;text-shadow:0 1px 0 #000;will-change:transform}
+.gbkg-left .gbkg-bar{right:100%;justify-content:flex-end;padding:23px 8.63px 21.85px 34.5px;border-image:url('assets/gb-jog_tab_bar_left_end_normal.png') 70 18 67 65 fill / 40.25px 10.35px 38.53px 37.38px stretch}
+.gbkg-right .gbkg-bar{left:100%;justify-content:flex-start;padding:23px 34.5px 21.85px 8.63px;border-image:url('assets/gb-jog_tab_bar_right_end_normal.png') 70 63 67 20 fill / 40.25px 36.23px 38.53px 11.5px stretch}
+.gbkg-left.gbkg-pressed .gbkg-bar{border-image-source:url('assets/gb-jog_tab_bar_left_end_pressed.png')}
+.gbkg-right.gbkg-pressed .gbkg-bar{border-image-source:url('assets/gb-jog_tab_bar_right_end_pressed.png')}
+.gbkg-left.gbkg-active .gbkg-bar{border-image-source:url('assets/gb-jog_tab_bar_left_end_confirm_green.png')}
+.gbkg-right.gbkg-active[data-confirm="gray"] .gbkg-bar{border-image-source:url('assets/gb-jog_tab_bar_right_end_confirm_gray.png')}
+.gbkg-right.gbkg-active[data-confirm="yellow"] .gbkg-bar{border-image-source:url('assets/gb-jog_tab_bar_right_end_confirm_yellow.png')}
+.gbkg-active .gbkg-bar{color:#000;text-shadow:none}
+.gbkg-target{position:absolute;top:.58px;width:13.8px;height:79.35px;opacity:0;visibility:hidden;transition:opacity .5s,visibility 0s .5s}
+.gbkg-left .gbkg-target{left:calc(66.667% - 13.8px + 46.58px)}
+.gbkg-right .gbkg-target{left:calc(33.333% - 46.58px)}
+.gbkg-show-target .gbkg-target{opacity:1;visibility:visible;transition:opacity .5s}
+.gbkg-hidden .gbkg-tab{pointer-events:none}
+
+/* keyguard_screen_unlock_portrait.xml (PatternUnlockScreen) */
+.gbkg-pattern-screen{display:flex!important;flex-direction:column;align-items:stretch!important}
+.gbkg-head{position:relative;flex:none;padding:12.94px 0 0 17.25px}
+.gbkg-head .gbkg-carrier{top:5.18px}
+.gbkg-pattern-screen .gbkg-time{font-size:48.3px;margin-bottom:5.18px}
+.gbkg-pattern-screen .gbkg-ampm{font-size:15.53px;margin-left:3.45px}
+.gbkg-head .gbkg-date{margin-left:3.45px}
+.gbkg-divider{flex:none;height:1px;margin:6.9px 0;background:url('assets/gb-divider_horizontal_dark.png') 0 0/100% 100%}
+.gbkg-status-row{flex:none;margin:0 0 0 10.35px;padding:0 0 0 25.3px;min-height:21.85px;line-height:21.85px;background:url('assets/gb-ic_lock_idle_lock.png') 0 50%/21.85px no-repeat;font-size:15.53px;color:#fff;text-align:left}
+.gbkg-pattern-screen .gbkg-pattern{flex:1 1 0;min-height:0;width:auto;max-width:100%;max-height:none;aspect-ratio:1;align-self:center;margin-top:1.73px;position:relative;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr)}
+.gbkg-pattern svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.gbkg-pattern polyline{stroke:#ffffff80;stroke-width:25;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.gbkg-pattern .gbkg-arrow-layer{z-index:1;pointer-events:none}
+.gbkg-pattern .gbkg-arrow-red,.gbkg-pattern.wrong .gbkg-arrow-green{display:none}
+.gbkg-pattern.wrong .gbkg-arrow-red{display:inline}
+.gbkg-pattern button{background:none;border:0;padding:0;display:grid;place-items:center;touch-action:none}
+.gbkg-pattern button i{width:80%;height:80%;max-width:none;max-height:none;background:url('assets/gb-btn_code_lock_default.png') center/contain no-repeat,url('assets/gb-indicator_code_lock_point_area_default.png') center/contain no-repeat;pointer-events:none}
+.gbkg-pattern.drawing button.selected i{background-image:url('assets/gb-btn_code_lock_touched.png'),url('assets/gb-indicator_code_lock_point_area_green.png')}
+.gbkg-pattern:not(.drawing) button.selected i{background-image:url('assets/gb-btn_code_lock_default.png'),url('assets/gb-indicator_code_lock_point_area_green.png')}
+.gbkg-pattern.wrong button.selected i{background-image:url('assets/gb-btn_code_lock_default.png'),url('assets/gb-indicator_code_lock_point_area_red.png')}
+.gbkg-pattern.stealth:not(.wrong) polyline,.gbkg-pattern.stealth:not(.wrong) .gbkg-arrow-layer{visibility:hidden}
+.gbkg-pattern.stealth:not(.wrong) button.selected i{background-image:url('assets/gb-btn_code_lock_default.png'),url('assets/gb-indicator_code_lock_point_area_default.png')}
+.gbkg-footer{flex:none;display:flex;justify-content:center;padding:3.45px 0}
+/* Widget.Button.Transparent with ic_emergency and 8 dp drawable padding. */
+.gbkg-emergency{flex:none;align-self:center;display:inline-flex;align-items:center;gap:6.9px;min-height:41.4px;padding:0 12px;border:0;border-radius:4px;background:none;color:#fff!important;font:15.53px DroidSans,Arial,sans-serif}
+.gbkg-emergency:active{background:#ffffff26}
+.gbkg-emergency img{width:18.4px;height:18.4px}
+
+/* keyguard_screen_password_portrait.xml (PasswordUnlockScreen) */
+.gbkg-password-screen{display:flex!important;flex-direction:column;align-items:stretch!important}
+.gbkg-label{flex:none;margin:8.63px 5.18px;text-align:center;font-size:18.98px;color:#fff}
+.gbkg-password-screen .gbkg-divider{margin:5.18px 0 0}
+.gbkg-field{flex:none;margin:12.94px 25.88px 0;border:0 solid transparent;border-image:url('assets/gb-password_field_default.png') 15 27 14 25 fill / 8.63px 15.53px 8.05px 14.38px stretch;padding:2.88px 9.78px 6.9px}
+.gbkg-field input{width:100%;height:33.4px;border:0;background:none;color:#fff;text-align:center;font:700 27.6px/1 DroidSans,Arial,sans-serif;outline:none;letter-spacing:2px}
+.gbkg-spacer{flex:1;min-height:4px}
+.gbkg-password-screen .gbkg-emergency{margin:12px 0}
+/* PasswordEntryKeyboardView: transparent background, btn_keyboard_key_fulltrans keys, 56 dp rows. */
+.gbkb{flex:none;background:none;padding:0;user-select:none;-webkit-user-select:none}
+.gbkb button{position:relative;height:48.3px;min-width:0;border:0 solid transparent;border-image:url('assets/gb-btn_keyboard_key_fulltrans_normal.png') 40 23 25 24 fill / 23px 13.23px 14.38px 13.8px stretch;background:none;color:#fff!important;font:400 18.98px DroidSans,Arial,sans-serif;text-shadow:0 0 2px #000;padding:0;display:grid;place-items:center}
+.gbkb button:active{border-image-source:url('assets/gb-btn_keyboard_key_fulltrans_pressed.png')}
+.gbkb button img{max-width:70%;max-height:30px;object-fit:contain;pointer-events:none}
+.gbkb-numeric{display:grid;grid-template-columns:repeat(3,1fr);column-gap:1.15px}
+.gbkb-qwerty{display:flex;flex-direction:column}
+.gbkb-qwerty>div{display:flex}
+.gbkb-qwerty>div>*{flex:10}
+.gbkb-qwerty .gbkb-inset{padding:0 5%}
+.gbkb-qwerty .gbkb-wide{flex:15}
+.gbkb-qwerty .gbkb-double{flex:20}
+.gbkb-qwerty .gbkb-fill{flex:70}
+.gbkb-qwerty button{font-size:18.98px}
+.gbkb-qwerty .gbkb-double:not(:has(img)){font-size:12.07px}

@@ -1,4 +1,5 @@
-/* ICS credential screens. This is a local simulation, not a browser security boundary. */
+/* Gingerbread credential screens (PatternUnlockScreen, PasswordUnlockScreen and the PasswordEntryKeyboardView keyboards).
+   This is a local simulation, not a browser security boundary. */
 (() => {
   'use strict';
   const kinds=['pattern','pin','password'];
@@ -25,7 +26,7 @@
   function failed(data,now=Date.now()){const state=data.lockAttempts||={count:0,until:0};state.count++;if(state.count>=5){state.count=0;state.until=now+30000;}}
   const remaining=(data,now=Date.now())=>Math.max(0,Math.ceil(((data.lockAttempts?.until||0)-now)/1000));
 
-  function controller({getData,getUI,t,save,render,unlock,clock,date,carrier,toast}){
+  function controller({getData,getUI,t,save,render,unlock,clock,date,carrier,toast,gb}){
     let state={stage:'unlock',kind:'slide',value:'',pattern:[]},drawing=null,busy=false,revision=0,clearTimer;
     const data=()=>getData(),ui=()=>getUI();
     const active=()=>ui().view==='lock'&&secure(data())||ui().view==='settings'&&ui().sub==='lock-setup';
@@ -35,16 +36,27 @@
     function cancel(){fresh('unlock',data().settings.screenLock);ui().sub='security';render();}
     function lock(){fresh('unlock',data().settings.screenLock);}
     const keyButton=(key,label=key,extra='')=>`<button type="button" data-lock-key="${escape(key)}" aria-label="${escape(t(label))}" ${extra}>${escape(label.length>2?t(label):label)}</button>`;
+    // password_kbd_numeric.xml: 33.33% keys with 2px gaps and the sym_keyboard_num icons; password_kbd_qwerty.xml: 10% keys,
+    // the second letter row inset by 5%, 15% shift and delete, and a symbols/space/OK row. Keys use btn_keyboard_key_fulltrans.
     function keyboard(){
-      if(state.kind==='pin')return `<div class="credential-keyboard numeric">${'123456789'.split('').map(k=>keyButton(k)).join('')}${keyButton('0','0','class="zero"')}<button type="button" data-lock-action="next" aria-label="${escape(t('Continue'))}"><img src="assets/lock-sym_keyboard_ok.png" alt=""></button></div>`;
-      const rows=state.symbols?['1234567890','@#$%&*()-','!"\':;/?']:['qwertyuiop','asdfghjkl','zxcvbnm'];
-      // LatinIME (KeyboardView.IceCreamSandwich): light letter keys, dark functional keys and the holo key icons.
-      const icon=(key,file,label,cls='fn')=>`<button type="button" class="${cls}" data-lock-key="${key}" aria-label="${escape(t(label))}"><img src="assets/ime-${file}.png" alt=""></button>`;
-      return `<div class="credential-keyboard alpha">${rows.map((row,i)=>`<div>${i===2?icon('shift',state.shift?'sym_keyboard_shift_locked_holo':'sym_keyboard_shift_holo','Shift'):''}${row.split('').map(k=>keyButton(state.shift?k.toUpperCase():k)).join('')}${i===2?icon('delete','sym_keyboard_delete_holo','Delete'):''}</div>`).join('')}<div>${keyButton('symbols',state.symbols?'ABC':'?123','class="fn"')}${keyButton(',')}${icon('space','sym_keyboard_space_holo','Space','space')}${keyButton('.')}${icon('next','sym_keyboard_return_holo','Enter')}</div></div>`;
+      const icon=(key,file,label,cls='')=>`<button type="button" class="${cls}" data-lock-key="${key}" aria-label="${escape(t(label))}"><img src="assets/gb-${file}.png" alt=""></button>`;
+      if(state.kind==='pin')return `<div class="credential-keyboard gbkb gbkb-numeric">${'123456789'.split('').map(k=>icon(k,`sym_keyboard_num${k}`,k)).join('')}${icon('next','sym_keyboard_ok','OK')}${icon('0','sym_keyboard_num0_no_plus','0')}${icon('delete','sym_keyboard_delete','Delete')}</div>`;
+      const rows=state.symbols?['1234567890','@#$%&*-=()','!"\':;/?','']:['1234567890','qwertyuiop','asdfghjkl','zxcvbnm'];
+      const letters=row=>row.split('').map(k=>keyButton(state.shift&&!state.symbols?k.toUpperCase():k)).join('');
+      return `<div class="credential-keyboard gbkb gbkb-qwerty">${rows.map((row,i)=>i<3?`<div class="${i===2&&!state.symbols?'gbkb-inset':''}">${letters(row)}</div>`:`<div>${icon('shift',state.shift?'sym_keyboard_shift_locked':'sym_keyboard_shift','Shift','gbkb-wide')}${letters(row)}${row?'':'<span class="gbkb-fill"></span>'}${icon('delete','sym_keyboard_delete','Delete','gbkb-wide')}</div>`).join('')}<div>${keyButton('symbols',state.symbols?'ABC':'?123','class="gbkb-double"')}${keyButton(',')}${keyButton('-')}${icon('space','sym_keyboard_space','Space','gbkb-double')}${keyButton('=')}${keyButton('.')}${icon('next','sym_keyboard_ok','OK','gbkb-double')}</div></div>`;
     }
-    function grid(){return `<div class="credential-pattern${state.error?' wrong':''}${data().settings.patternVisible===false&&state.stage==='unlock'?' stealth':''}" role="group" aria-label="${escape(t('Pattern'))}"><svg viewBox="0 0 300 300" aria-hidden="true"><polyline points="${state.pattern.map(n=>`${n%3*100+50},${Math.floor(n/3)*100+50}`).join(' ')}"></polyline></svg>${Array.from({length:9},(_,n)=>`<button type="button" data-lock-dot="${n}" class="${state.pattern.includes(n)?'selected':''}" aria-label="${escape(t('Dot'))} ${n+1}" aria-pressed="${state.pattern.includes(n)}"><i></i></button>`).join('')}</div>`;}
+    // LockPatternView: btn_code_lock_* inside indicator_code_lock_point_area_* rings, a white 50% path a quarter of a cell
+    // wide, and the drag-direction arrow at the top edge of each ring, turned towards the next dot.
+    const arrows=pattern=>pattern.slice(0,-1).map((n,i)=>{const m=pattern[i+1],angle=Math.atan2(Math.floor(m/3)-Math.floor(n/3),m%3-n%3)*180/Math.PI+90;return `<g transform="translate(${n%3*100+50} ${Math.floor(n/3)*100+50}) rotate(${angle})"><use href="#gbkg-arrow"/></g>`;}).join('');
+    function grid(){return `<div class="credential-pattern gbkg-pattern${state.error?' wrong':''}${data().settings.patternVisible===false&&state.stage==='unlock'?' stealth':''}" role="group" aria-label="${escape(t('Pattern'))}"><svg viewBox="0 0 300 300" aria-hidden="true"><defs><g id="gbkg-arrow"><image class="gbkg-arrow-green" href="assets/gb-indicator_code_lock_drag_direction_green_up.png" x="-10" y="-40" width="20" height="20"/><image class="gbkg-arrow-red" href="assets/gb-indicator_code_lock_drag_direction_red_up.png" x="-10" y="-40" width="20" height="20"/></g></defs><polyline points="${state.pattern.map(n=>`${n%3*100+50},${Math.floor(n/3)*100+50}`).join(' ')}"></polyline></svg>${Array.from({length:9},(_,n)=>`<button type="button" data-lock-dot="${n}" class="${state.pattern.includes(n)?'selected':''}" aria-label="${escape(t('Dot'))} ${n+1}" aria-pressed="${state.pattern.includes(n)}"><i></i></button>`).join('')}<svg class="gbkg-arrow-layer" viewBox="0 0 300 300" aria-hidden="true"><g class="gbkg-arrows">${arrows(state.pattern)}</g></svg></div>`;}
     function message(){
-      if(remaining(data())&&['unlock','verify'].includes(state.stage))return `${t('Try again in')} ${remaining(data())} ${t('seconds')}`;
+      const locking=['unlock','verify'].includes(state.stage);
+      if(remaining(data())&&locking)return t('Try again in %d seconds.').replace('%d',remaining(data()));
+      if(state.stage==='unlock'){
+        // PatternUnlockScreen shows "Sorry, try again" after a wrong pattern; PasswordUnlockScreen only clears the field.
+        if(state.kind==='pattern')return t(state.error?'Sorry, try again':'Draw pattern to unlock');
+        return t(state.kind==='pin'?'Enter PIN code':'Enter password to unlock');
+      }
       if(state.error)return t(state.error);
       if(state.stage==='verify')return t('Confirm your current screen lock');
       if(state.kind==='pattern')return t(state.stage==='confirm'?'Draw your pattern again':state.stage==='create'?'Draw an unlock pattern':'Draw pattern to unlock');
@@ -60,7 +72,12 @@
       if(state.stage==='choose')return `<div class="app-view settings-app credential-setup">${header}<div class="credential-choices">${[['none','None'],['slide','Slide'],['face','Face Unlock'],['pattern','Pattern'],['pin','PIN'],['password','Password']].map(([id,name])=>`<button class="settings-row" data-lock-action="choose" data-lock-kind="${id}" ${id==='face'?'disabled':''}><span class="row-copy">${escape(t(name))}</span></button>`).join('')}<p class="credential-demo">${escape(t('Local simulator lock. Use a test code.'))}</p></div></div>`;
       return `<div class="app-view settings-app credential-setup">${header}<div class="credential-body">${surface()}<div class="credential-spacer"></div><div class="credential-buttons"><button data-lock-action="${state.kind==='pattern'&&state.pattern.length?'retry':'cancel'}">${escape(t(state.kind==='pattern'&&state.pattern.length?'Retry':'Cancel'))}</button><button data-lock-action="next" ${busy?'disabled':''}>${escape(t(state.stage==='confirm'?'Confirm':'Continue'))}</button></div>${state.kind!=='pattern'?keyboard():''}</div></div>`;
     }
-    function renderLock(){return `<div class="lock-view credential-lock"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${date()}</div>${data().settings.showOwner?`<div class="lock-owner">${escape(data().settings.ownerInfo)}</div>`:''}</div><div class="credential-lock-content">${surface()}${state.kind!=='pattern'?keyboard():`<button class="credential-keyboard-confirm" data-lock-action="next">${escape(t('Unlock'))}</button>`}</div><div class="credential-carrier">${escape(carrier())}</div><button class="credential-emergency" data-lock-action="emergency"><img src="assets/lock-ic_lockscreen_emergencycall_normal.png" alt="">${escape(t('Emergency call'))}</button></div>`;}
+    const emergency=()=>`<button type="button" class="gbkg-emergency" data-lock-action="emergency"><img src="assets/gb-ic_emergency.png" alt="">${escape(t('Emergency call'))}</button>`;
+    function renderLock(){
+      const info=gb();
+      if(state.kind==='pattern')return `<div class="lock-view gbkg gbkg-pattern-screen"><div class="gbkg-head"><div class="gbkg-carrier">${escape(carrier())}</div>${GBKeyguard.clock(info)}<div class="gbkg-date">${escape(info.date)}</div></div><div class="gbkg-divider"></div><p class="credential-instruction gbkg-status-row" role="status">${escape(message())}</p>${grid()}<div class="gbkg-footer">${emergency()}</div></div>`;
+      return `<div class="lock-view gbkg gbkg-password-screen"><p class="credential-instruction gbkg-label" role="status">${escape(message())}</p><div class="gbkg-divider"></div><form class="credential-entry gbkg-field" data-lock-form><input aria-label="${escape(t(names[state.kind]))}" type="password" inputmode="none" autocomplete="off" maxlength="16" value="${escape(state.value)}"></form><div class="gbkg-spacer"></div>${keyboard()}${emergency()}</div>`;
+    }
     async function next(){
       if(busy||!active()||remaining(data())&&['unlock','verify'].includes(state.stage))return;
       const value=state.kind==='pattern'?state.pattern.join(''):state.value,token=revision,model=data();
@@ -91,7 +108,7 @@
     }
     function paint(point){
       const element=document.querySelector('.credential-pattern');if(!element)return;
-      element.classList.remove('wrong');element.querySelectorAll('[data-lock-dot]').forEach(node=>{const selected=state.pattern.includes(Number(node.dataset.lockDot));node.classList.toggle('selected',selected);node.setAttribute('aria-pressed',String(selected));});
+      element.classList.remove('wrong');element.classList.toggle('drawing',!!drawing);const arrowLayer=element.querySelector('.gbkg-arrows');if(arrowLayer)arrowLayer.innerHTML=arrows(state.pattern);element.querySelectorAll('[data-lock-dot]').forEach(node=>{const selected=state.pattern.includes(Number(node.dataset.lockDot));node.classList.toggle('selected',selected);node.setAttribute('aria-pressed',String(selected));});
       const points=state.pattern.map(n=>`${n%3*100+50},${Math.floor(n/3)*100+50}`);if(point&&points.length)points.push(point.join(','));element.querySelector('polyline').setAttribute('points',points.join(' '));
     }
     function hit(x,y){const n=Math.floor(y/100)*3+Math.floor(x/100);if(x<0||x>300||y<0||y>300)return;if(Math.abs(x-(n%3*100+50))<=30&&Math.abs(y-(Math.floor(n/3)*100+50))<=30)appendPattern(state.pattern,n);}
