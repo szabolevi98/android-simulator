@@ -38,6 +38,7 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 - AOSP Music library with Artists, Albums, Songs and Playlists, original artwork, a local queue, seeking, shuffle and repeat modes. Custom playlists and playback preferences persist. Sample tracks have no audio.
 - Email with an ICS light action bar, Inbox/Starred/Drafts/Sent/Trash folders, read/unread status, selection, stars and search. Drafts autosave; local reply/forward supports Cc/Bcc and Gallery pictures. Sending only moves the message into the local Sent folder. Trash is recoverable.
 - Sample functionality for Phone, People, Messaging and Calculator.
+- Hold the power button (the ⏻ key in the header or the side key on the phone) for the **power menu**: Power off, Airplane mode and the Ringer off / vibrate / on row. Powering off shows "Shutting down…", and pressing power again plays the AOSP ANDROID boot animation. The status bar shows the vibrate, silent and alarm icons.
 - Customization and sample data are saved in `localStorage`. The reset button in the upper-right corner clears the simulator's local state.
 - Opening and closing apps, moving within an app, switching tasks, opening the app drawer, unlocking and opening folders use the original Android 4.0.4 animation timings. **Settings → Developer options** has the ICS window and transition animation scales, including Animation off.
 - English, Hungarian, German, French, and Spanish UI. On first launch, the simulator uses the browser language when supported and falls back to English otherwise. Change the language in the header or under **Settings → Language & input**.
@@ -68,6 +69,7 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - Jelly Bean animations: apps grow out of the icon you tap (home screen, dock, folders and the drawer), switching apps slides the windows past each other as shrinking cards, and screens inside an app zoom in from 0.8, using the Android 4.3 animation values.
 
+- The 4.3 **power menu** adds the safe-mode reboot (hold Power off; the phone then boots with the *Safe mode* watermark) and, when Developer options → Power menu bug reports is on, a Bug report entry.
 - The 4.3 **Dialer** smart dial: typing on the dialpad shows the three best matching contacts (by name on the letter keys or by number) above the keypad, and the call button spans the full width.
 - The 4.3 **Developer options** list with its ON/OFF switch. Show layout bounds, Pointer location and Show CPU usage draw their overlays; the animation scales drive the window animations.
 

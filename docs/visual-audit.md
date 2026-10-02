@@ -391,3 +391,13 @@ The letter keyboard of the password lock and the password setup now draws LatinI
 - **Layout.** The second row is inset by half a key. The bottom row is ?123, comma, space, period and Enter, with Shift and Delete at 1.5× width.
 
 The PIN pads keep their own framework (ICS) or Keyguard (4.3) keys, as on the device.
+
+## Power menu, shutdown and boot — 2026-10-02
+
+The ICS 4.0.4 `GlobalActions` has three rows: Power off, Airplane mode and the Ringer off / vibrate / on row (`SilentModeAction` with `global_actions_silent_mode.xml`). It has no safe-mode long press and no bug report entry; those arrived in 4.1/4.2.
+- **Shutdown.** `ShutdownThread` asks "Your phone will shut down." (Cancel / OK), shows "Shutting down…", then turns the screen black.
+- **Boot.** Pressing power again plays the AOSP ANDROID boot animation.
+- **Assets.** The dialog uses the 4.0.4 `dialog_full_holo_dark` frame. The icons, the spinner and the boot images are byte-identical in 4.0.4 and 4.3.
+- **Status bar.** It now shows `stat_sys_ringer_{vibrate,silent}` and `stat_sys_alarm` after Bluetooth.
+
+The implementation is shared with 4.3; the details are in [visual-audit-4.3.md](visual-audit-4.3.md).

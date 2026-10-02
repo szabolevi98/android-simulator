@@ -133,6 +133,10 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 - `jb-widget_resize_frame_holo.png` (nine-patch border removed) and `jb-widget_resize_handle_{left,top,right,bottom}.png`: [Launcher2 drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_launcher2/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`.
 - `jbclock-*.png`: [DeskClock drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_deskclock/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`, renamed with a `jbclock-` prefix. `Roboto-Thin.ttf` and `AndroidClockMono-{Thin,Light,Bold}.ttf`: DeskClock `assets/fonts`, Apache License 2.0.
 
+### Power menu and boot animation
+
+`versions/{4.0.4,4.3}/assets/ga-*.png`: framework `core/res/res/drawable-hdpi` at [`android-4.0.4_r2.1`](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-4.0.4_r2.1/core/res/res/drawable-hdpi) and [`android-4.3_r1.1`](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-4.3_r1.1/core/res/res/drawable-hdpi): `ic_lock_power_off`, `ic_lock_airplane_mode{,_off}`, `ic_audio_vol{,_mute}`, `ic_audio_ring_notif_vibrate`, `spinner_48_{outer,inner}_holo`, `dialog_full_holo_dark` (nine-patch border removed) and, in 4.3 only, `stat_sys_adb`. All are renamed with a `ga-` prefix. `boot-android-logo-{mask,shine}.png`: framework `core/res/assets/images`. `stat_sys_ringer_{vibrate,silent}.png` and `stat_sys_alarm.png`: SystemUI `res/drawable-hdpi`. All Apache License 2.0.
+
 ### Keyboard
 
 `versions/{4.0.4,4.3}/assets/ime-*.png`: [AOSP LatinIME java/res/drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_inputmethods_latinime/tree/android-4.3_r1.1/java/res/drawable-hdpi) (`btn_keyboard_key_{light,dark}_{normal,pressed}_holo`, `keyboard_background_holo` with the nine-patch border removed, and `sym_keyboard_*_holo`), identical at `android-4.0.4_r2.1` and `android-4.3_r1.1`. Apache License 2.0.

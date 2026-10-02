@@ -355,3 +355,16 @@ Each sub-page was compared with the 4.3 preference XML (`sound_settings`, `displ
 The 4.3 Dialer (`packages/apps/Dialer` at `android-4.3_r1.1`, `dialpad_fragment.xml`, `SmartDialNameMatcher`, `SmartDialAdapter`) differs from the ICS Contacts dialpad:
 - **Smart dial row.** Between the digits and the keypad, a 50sp row shows three contact suggestions. Names match when the typed digits spell the start of a word, possibly running on into the starts of the following words (so "26" finds **A**lex **M**organ). Accented letters are folded first, as `remapAccentedChar` does. Numbers match by prefix, with or without the country code. The best match sits in the middle slot, the second on the left and the third on the right; matched characters are highlighted. Tapping a suggestion calls it.
 - **Action bar.** Search and the overflow moved from the bottom row into the end of the tab bar (`dialtacts_options.xml`), so the bottom is a single full-width call button with the 4.3 `btn_call_pressed` state.
+
+## Power menu, shutdown and boot — 2026-10-02
+
+Compared with `GlobalActions.java`, `ShutdownThread.java`, `global_actions_item.xml`, `global_actions_silent_mode.xml`, `alert_dialog_holo.xml`, `progress_dialog_holo.xml`, `safe_mode.xml` and `cmds/bootanimation/BootAnimation.cpp` at `android-4.3_r1.1`. The same `global-actions.js` serves 4.0.4 with the 4.1+ parts switched off.
+- **Opening.** Hold the power key for 500 ms (`getGlobalActionKeyTimeout`). With the screen off, the hold only wakes it, as in `PhoneWindowManager`.
+- **Rows.** Power off; Airplane mode with its ON/OFF status; Bug report (only when *Power menu bug reports* is on); and the three-cell ringer row.
+  - Row sizes: 64dp rows, 56dp icon box, 22sp and 14sp text.
+  - The ringer row has 64dp cells; the selected one carries the `tab_selected_holo` bar. A choice closes the menu after `DIALOG_DISMISS_DELAY` (300 ms).
+  - The ringer mode is the Sound settings' silent mode, now shown in the status bar as `stat_sys_ringer_{vibrate,silent}`. The status bar also gained `stat_sys_alarm`, placed after Bluetooth and the volume icon, as in `config_statusBarIcons`.
+- **Dialog.** `dialog_full_holo_dark` at 95% width with 8dp side insets. It is dimmed 0.6, but the status and navigation bars stay bright because they sit above the keyguard dialog layer.
+- **Power off.** Cancel / OK confirmation ("Your phone will shut down."), then the "Shutting down…" progress dialog with the 48dp holo spinner and a 500 ms vibration, then a black screen.
+- **Safe mode and bug report.** A long press on Power off asks to reboot to safe mode. After the reboot, the *Safe mode* watermark (`#80ffffff` on `#60000000`) sits at the bottom left over the navigation bar. Bug report asks to Take bug report and, a few seconds later, posts "Bug report captured".
+- **Boot.** Pressing power while off plays BootAnimation's `android()` loop: `android-logo-shine` scrolls 4 px per 16.667 ms behind `android-logo-mask`, redrawn at 12 fps and drawn at its pixel size. The phone then comes up at the lock screen with Recents cleared.
