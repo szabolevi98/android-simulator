@@ -4,7 +4,7 @@ const sys=context.window.ICSSystemSettings,t=k=>k;
 const data={settings:{wifi:true,wifiNetwork:'AndroidAP'}};
 const page=sys.render(data,{sub:'wifi-advanced'},t,'en-US');
 const titles=[...page.body.matchAll(/<span class="row-copy">([^<]+)/g)].map(m=>m[1]);
-// wifi_advanced_settings.xml order at android-4.3_r1.1 (dual band kept for the Galaxy Nexus).
+// wifi_advanced_settings.xml order at android-4.3_r1.1 (dual band kept: the Nexus 4 overlay sets config_wifi_dual_band_support).
 assert.deepEqual(titles,['Network notification','Keep Wi-Fi on during sleep','Scanning always available','Avoid poor connections','Wi-Fi frequency band','Install certificates','Wi-Fi optimization','MAC address','IP address']);
 assert.equal(sys.defaults.wifiOptimize,true);assert.equal(sys.defaults.wifiScanAlways,false);assert.equal(sys.defaults.wifiBand,'auto');
 const off=sys.render({settings:{wifi:false}},{sub:'wifi-advanced'},t,'en-US');

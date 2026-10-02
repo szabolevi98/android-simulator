@@ -1,9 +1,9 @@
-/* AOSP live wallpapers of the Galaxy Nexus build (packages/wallpapers/Basic and LivePicker, identical in 4.0.4 and
+/* AOSP live wallpapers of the Galaxy Nexus and Nexus 4 builds (packages/wallpapers/Basic and LivePicker, identical in 4.0.4 and
    4.3), redrawn from their RenderScript and Canvas sources. Galaxy and Water use WebGL like the originals; Nexus, Grass
-   and Polar clock draw on a 2D canvas. Sizes written in device pixels are scaled from the 720px-wide Galaxy Nexus. */
+   and Polar clock draw on a 2D canvas. Sizes written in device pixels are scaled from the panel width (720px Galaxy Nexus, 768px Nexus 4). */
 (() => {
   'use strict';
-  const DEVICE_WIDTH = 720;
+  let DEVICE_WIDTH = 720; // the panel width in device pixels: 720 on the Galaxy Nexus, 768 on the Nexus 4
   const rand = (a, b) => b === undefined ? Math.random() * a : a + Math.random() * (b - a);
   const irand = n => Math.floor(Math.random() * n);
   const mix = (a, b, t) => a + (b - a) * t;
@@ -582,6 +582,7 @@
      while hidden. */
   function mount(host, id, options = {}) {
     const spec = find(id); if (!spec) return null;
+    DEVICE_WIDTH = options.deviceWidth || 720;
     const assets = options.assets || 'assets/';
     const canvas = document.createElement('canvas'); canvas.className = 'lw-canvas'; host.append(canvas);
     let scene = spec.make(canvas, assets, options);

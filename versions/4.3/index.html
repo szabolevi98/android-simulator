@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" content="#080b10">
-  <meta name="description" content="Interaktív Android 4.3 Jelly Bean szimulátor Galaxy Nexus stílusban.">
+  <meta name="description" content="Android 4.3 Jelly Bean szimulátor a Nexus 4-en.">
   <title>Android 4.3 · Android Time Machine</title>
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
   <link rel="stylesheet" href="play-store.css?v=1">
   <link rel="stylesheet" href="messaging.css?v=2">
   <link rel="stylesheet" href="people.css?v=2">
@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="jb-settings.css?v=1">
   <link rel="stylesheet" href="jb-camera.css?v=1">
   <link rel="stylesheet" href="jb-gallery.css?v=1">
-  <script defer src="../../i18n.js?v=51"></script>
+  <script defer src="../../i18n.js?v=52"></script>
   <script defer src="calculator-engine.js?v=1"></script>
   <script defer src="play-store.js?v=1"></script>
   <script defer src="media.js?v=3"></script>
@@ -45,7 +45,7 @@
   <script defer src="calendar.js?v=3"></script>
   <script defer src="music.js?v=1"></script>
   <script defer src="email.js?v=1"></script>
-  <script defer src="settings-detail.js?v=5"></script>
+  <script defer src="settings-detail.js?v=6"></script>
   <script defer src="phone-call.js?v=1"></script>
   <script defer src="settings-system.js?v=4"></script>
   <script defer src="launcher-folders.js?v=1"></script>
@@ -53,11 +53,11 @@
   <script defer src="widgets.js?v=1"></script>
   <script defer src="transitions.js?v=2"></script>
   <script defer src="beanbag.js?v=1"></script>
-  <script defer src="jb-shade.js?v=1"></script>
+  <script defer src="jb-shade.js?v=2"></script>
   <script defer src="jb-keyguard.js?v=3"></script>
   <script defer src="jb-launcher.js?v=1"></script>
   <script defer src="jb-deskclock.js?v=2"></script>
-  <script defer src="jb-camera.js?v=1"></script>
+  <script defer src="jb-camera.js?v=2"></script>
   <script defer src="jb-gallery.js?v=2"></script>
   <script defer src="jb-recents.js?v=1"></script>
   <script defer src="jb-search.js?v=2"></script>
@@ -66,8 +66,8 @@
   <script defer src="global-actions.js?v=1"></script>
   <script defer src="volume-panel.js?v=1"></script>
   <script defer src="launcher-clings.js?v=1"></script>
-  <script defer src="live-wallpapers.js?v=2"></script>
-  <script defer src="simulator.js?v=28"></script>
+  <script defer src="live-wallpapers.js?v=3"></script>
+  <script defer src="simulator.js?v=29"></script>
 </head>
 <body>
   <div class="page-shell">
@@ -82,15 +82,15 @@
       <section class="intro-panel" aria-labelledby="sim-title">
         <span class="eyebrow"><span class="pulse"></span> <span data-i18n="AOSP IN THE BROWSER">AOSP IN THE BROWSER</span></span>
         <h1 id="sim-title">Jelly<br><strong>Bean</strong></h1>
-        <p class="version-number" data-no-translate>ANDROID 4.3 <span>·</span> GALAXY NEXUS <span>·</span> 2013</p>
-        <p class="description" data-i18n="Android 4.3 as it ran on the Galaxy Nexus in 2013. Pull down the notifications and Quick Settings, swipe between home screens, open the apps, or look for the jelly beans under Settings → About phone.">Android 4.3 as it ran on the Galaxy Nexus in 2013. Pull down the notifications and Quick Settings, swipe between home screens, open the apps, or look for the jelly beans under Settings → About phone.</p>
+        <p class="version-number" data-no-translate>ANDROID 4.3 <span>·</span> NEXUS 4 <span>·</span> 2013</p>
+        <p class="description" data-i18n="Android 4.3 as it ran on the Nexus 4 in 2013. Pull down the notifications and Quick Settings, swipe between home screens, open the apps, or look for the jelly beans under Settings → About phone.">Android 4.3 as it ran on the Nexus 4 in 2013. Pull down the notifications and Quick Settings, swipe between home screens, open the apps, or look for the jelly beans under Settings → About phone.</p>
         <div class="key-list"><div><span class="key-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4"/></svg></span><span data-i18n="Swipe between home screens">Swipe between home screens</span></div><div><span class="key-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></span><span data-i18n="Pull down notifications">Pull down notifications</span></div><div><span class="key-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5M6.5 10v9h11v-9"/></svg></span><span data-i18n="Home · Back · Recent apps">Home · Back · Recent apps</span></div></div>
         <p class="offline-note" data-i18n="Calls, messages and websites are simulated. Your changes are saved in this browser.">Calls, messages and websites are simulated. Your changes are saved in this browser.</p>
       </section>
 
       <section class="device-area" aria-label="Android 4.3 simulator">
         <div class="device" id="device">
-          <div class="volume-rocker" aria-hidden="true"></div><div class="power-key" aria-hidden="true"></div>
+          <div class="volume-rocker" aria-hidden="true"></div><div class="power-key" aria-hidden="true"></div><div class="notification-led" aria-hidden="true"></div>
           <div class="proximity-sensor" aria-hidden="true"></div><div class="earpiece" aria-hidden="true"></div><div class="front-camera" aria-hidden="true"></div>
           <div class="screen" id="screen">
             <div id="status-bar"></div>

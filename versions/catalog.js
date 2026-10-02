@@ -17,11 +17,11 @@ window.ANDROID_VERSIONS = [
     name: 'Jelly Bean',
     version: 'Android 4.3',
     year: '2013',
-    device: 'Galaxy Nexus · AOSP',
+    device: 'Nexus 4 · AOSP',
     description: 'Expandable notifications, Quick Settings, lock-screen widgets, Daydream and the BeanBag easter egg.',
     url: 'versions/4.3/',
     status: 'available',
-    art: {wallpaper: 'jb-wallpaper_01.jpg', search: 'jb'}
+    art: {wallpaper: 'jb-wallpaper_01.jpg', search: 'jb', phone: 'nexus4'}
   },
   { id: '2.3.7', name: 'Gingerbread', version: 'Android 2.3.7', year: '2011', device: 'Korabeli Android', status: 'planned' },
   { id: '4.4.4', name: 'KitKat', version: 'Android 4.4.4', year: '2014', device: 'Korabeli Android', status: 'planned' },

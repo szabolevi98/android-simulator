@@ -1,6 +1,6 @@
 # Android 4.3 Jelly Bean audit
 
-Target: stock **Android 4.3 on the Galaxy Nexus (JWR66Y)**, AOSP tag `android-4.3_r1.1`. The simulator starts from the [Android 4.0.4 reconstruction](visual-audit.md) and replaces ICS behavior with Jelly Bean behavior screen by screen. Anything not listed here still shows the ICS implementation.
+Target: stock **Android 4.3 on the Nexus 4 (JWR66Y)**; until 2026-10-02 the target device was the Galaxy Nexus, see the last section, AOSP tag `android-4.3_r1.1`. The simulator starts from the [Android 4.0.4 reconstruction](visual-audit.md) and replaces ICS behavior with Jelly Bean behavior screen by screen. Anything not listed here still shows the ICS implementation.
 
 ## Baseline — 2026-10-01
 
@@ -170,7 +170,7 @@ Checks:
   No JavaScript errors.
 
 Limits:
-- Video is not saved, and panorama capture is only a message. There is no HDR (Galaxy Nexus has none), face detection, Photo Sphere or real filmstrip.
+- Video is not saved, and panorama capture is only a message. There is no face detection, Photo Sphere or real filmstrip.
 - Location and picture size are stored settings only. The countdown beep is silent.
 
 ![Focus, pie selection, flash submenu, More options, countdown, thumbnail, switcher, zoom](screenshots/jb-camera.png)
@@ -474,3 +474,18 @@ Headless Chrome at 360 × 640 and 320 × 568, in en, hu, de, fr and es, for 4.0.
 - the live wallpaper list, the Polar clock preview, its settings and the palette list.
 
 Checks covered page overflow, elements past the screen edge, text overflow, broken images and untranslated text or labels. Nothing was found apart from the known French Calendar label "Agenda" (Calendar's name in French), which appears in the all-apps and folder clings.
+
+## Device: Nexus 4 — 2026-10-02
+
+The 4.3 version moved from the Galaxy Nexus to the **Nexus 4** (LG E960, `mako`), which shipped with 4.2 and received 4.3 as JWR66Y. With this change each version runs on its own Nexus: Nexus S for 2.3, Galaxy Nexus for 4.0, Nexus 4 for 4.3, Nexus 5 for 4.4 and Nexus 6 for 5.1. Compared with `device/lge/mako` at `android-4.3_r1.1` (`device.mk`, the framework, SystemUI and SettingsProvider overlays).
+- **Front.** A flat black glass slab (68.7 × 133.9 mm) with a 4.7" 768 × 1280 (5:3) panel, shown at 327 × 545 px instead of 306 × 545. It has a silver rim and the earpiece slot at the top centre, with the front camera to its right and the proximity/light sensor to its left ([iFixit teardown](https://www.ifixit.com/Teardown/Nexus+4+Teardown/11781)). Volume is on the left, power on the right.
+- **Notification LED** (`config_intrusiveNotificationLed`). It sits hidden under the glass below the display. With Pulse notification light on, pending notifications pulse it white (`config_defaultNotificationColor`) for 1000 ms every 10 s while the screen is off.
+- **Wireless display** (`config_enableWifiDisplay` is true on mako).
+  - Display settings gain Wireless display (Off / On / Disabled while Wi-Fi is off), after Pulse notification light as in `display_settings.xml`.
+  - `WifiDisplaySettings` has the action-bar switch, the "To see devices…" or "disabled because Wi-Fi is off" messages, and AVAILABLE DEVICES with its scanning spinner. No display is simulated, so the scan ends with "No nearby wireless displays were found."
+  - Quick Settings show the Wireless Display tile only while the feature is on (`setShowWhenEnabled`), opening those settings.
+- **Mobile data** (`config_hspa_data_distinguishable`): the status bar shows `stat_sys_data_fully_connected_h` when mobile data carries the connection, and the Quick Settings signal tile uses the H overlay.
+- **Camera HDR.** The mako camera supports the `hdr` scene mode, so `PhotoMenu` puts the HDR switch first in the pie (`ic_hdr` / `ic_hdr_off`). Turning it on resets the scene mode to auto, and a non-auto scene turns it off (`onSettingChanged`). The scene indicator shows `ic_indicator_sce_hdr`.
+- **About phone** (factory JWR66Y). Model number "Nexus 4", baseband `M9615A-CEFWMAZM-2.0.1700.84`, and kernel `3.4.0-perf-gf43c3d9`, built Mon Jun 17 16:55:05 PDT 2013 ([YobiWiki](https://wiki.yobi.be/index.php/Android_phones)). The default Bluetooth name is "Nexus 4".
+- **Unchanged.** The live wallpapers, dual-band Wi-Fi and the rest of the build list are the same as on tuna. The live wallpapers now scale their device-pixel sizes from the 768px panel.
+- **Checks.** The five-language desktop sweep at 1280 × 900 (327 × 545 screen) found only the known camera-indicator overhang and the French "Agenda". The new screens are untranslated-free in hu/de/fr/es.

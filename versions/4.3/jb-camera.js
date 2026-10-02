@@ -15,9 +15,10 @@
   const icon = name => `assets/jbcam-${name}.png`;
 
   function settings(media, data) {
-    return {scene: 'auto', timer: 0, beep: true, location: false, size: '5mp', ...media.settings(data), ...data.cameraSettings};
+    return {scene: 'auto', hdr: false, timer: 0, beep: true, location: false, size: '5mp', ...media.settings(data), ...data.cameraSettings};
   }
-  // PhotoMenu.initialize: exposure, more, flash and the camera switch, left to right; More holds the rest.
+  // PhotoMenu.initialize: HDR (the Nexus 4 camera supports the hdr scene mode), exposure, more, flash and the camera
+  // switch, left to right; More holds the rest.
   function tree(s, module = 'photo') {
     const list = (key, label, single, values) => ({key, label, icon: single || values.find(v => v[0] === s[key])?.[1] || values[0][1],
       children: values.map(([value, file, text, suffix = '']) => ({icon: file, label: text, suffix, set: {[key]: value}}))});
@@ -29,14 +30,15 @@
     const camera = {label: s.front ? 'BACK CAMERA' : 'FRONT CAMERA', icon: s.front ? 'ic_switch_front' : 'ic_switch_back', set: {front: !s.front}};
     const location = {label: 'LOCATION', icon: s.location ? 'ic_location' : 'ic_location_off', set: {location: !s.location}};
     const timer = {label: 'COUNTDOWN TIMER', icon: 'ic_timer', popup: 'timer'}, size = {label: 'PICTURE SIZE', icon: 'ic_imagesize', popup: 'size'};
+    const hdr = {label: 'HDR', icon: s.hdr ? 'ic_hdr' : 'ic_hdr_off', set: {hdr: !s.hdr}};
     const more = {label: 'MORE OPTIONS', icon: 'ic_settings_holo_light', children: module === 'photo' ? [location, timer, size, balance, scene] : [location, balance]};
-    return module === 'photo' ? [exposure, more, flash, camera] : [more, flash, camera];
+    return module === 'photo' ? [hdr, exposure, more, flash, camera] : [more, flash, camera];
   }
   // OnScreenIndicators behind the menu button.
   function indicators(s) {
     const wb = {auto: 'off', incandescent: 'tungsten', fluorescent: 'fluorescent', daylight: 'daylight', cloudy: 'cloudy'}[s.balance] || 'off';
     const ev = s.exposure < 0 ? `n${-s.exposure}` : s.exposure > 0 ? `p${s.exposure}` : '0';
-    return [['scene', `ic_indicator_sce_${s.scene === 'auto' ? 'off' : 'on'}`, 'left top'], ['timer', `ic_indicator_timer_${s.timer ? 'on' : 'off'}`, 'center top'], ['flash', `ic_indicator_flash_${s.flash}`, 'right top'],
+    return [['scene', `ic_indicator_sce_${s.hdr ? 'hdr' : s.scene === 'auto' ? 'off' : 'on'}`, 'left top'], ['timer', `ic_indicator_timer_${s.timer ? 'on' : 'off'}`, 'center top'], ['flash', `ic_indicator_flash_${s.flash}`, 'right top'],
       ['exposure', `ic_indicator_ev_${ev}`, 'left bottom'], ['location', `ic_indicator_loc_${s.location ? 'on' : 'off'}`, 'center bottom'], ['wb', `ic_indicator_wb_${wb}`, 'right bottom']];
   }
 
@@ -138,7 +140,7 @@
     const cancel = id => { clearTimeout(id); timers.delete(id); };
     const box = () => ({w: root.clientWidth, h: root.clientHeight});
     const local = event => { const r = root.getBoundingClientRect(), k = r.width / root.clientWidth || 1; return {x: (event.clientX - r.left) / k, y: (event.clientY - r.top) / k}; };
-    const update = patch => { data.cameraSettings = {...settings(media, data), ...patch}; s = settings(media, data); save(); };
+    const update = patch => { if (patch.hdr) patch = {...patch, scene: 'auto'}; else if (patch.scene && patch.scene !== 'auto') patch = {...patch, hdr: false}; data.cameraSettings = {...settings(media, data), ...patch}; s = settings(media, data); save(); };
     // Pie state.
     const pie = {open: false, tap: false, f: null, stack: [], current: -1, alpha: 1, sliceAngle: null, xfade: null, fading: null, subTimer: 0, opening: false, frame: 0};
     let focus = null, zoomShown = false, zoomTimer = 0;

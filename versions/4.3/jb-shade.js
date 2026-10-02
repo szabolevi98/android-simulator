@@ -19,13 +19,15 @@
       {id: 'brightness', icon: settings.autoBrightness ? 'ic_qs_brightness_auto_on' : 'ic_qs_brightness_auto_off', label: 'Brightness', action: 'qs-brightness'},
       {id: 'settings', icon: 'ic_qs_settings', label: 'Settings', action: 'qs-settings'},
       {id: 'wifi', icon: !settings.wifi || settings.airplane ? 'ic_qs_wifi_no_network' : wifiConnected ? 'ic_qs_wifi_full_4' : 'ic_qs_wifi_0', label: !settings.wifi || settings.airplane ? 'Wi-Fi Off' : wifiConnected ? settings.wifiNetwork : 'Wi-Fi', raw: !!wifiConnected, action: 'qs-wifi', toggle: 'wifi'},
-      {id: 'rssi', icon: settings.airplane ? 'ic_qs_signal_no_signal' : 'ic_qs_signal_full_4', overlay: settings.airplane || !settings.dataEnabled ? '' : 'ic_qs_signal_full_3g', label: settings.airplane ? 'No service.' : carrier, raw: !settings.airplane, action: 'qs-rssi'},
+      {id: 'rssi', icon: settings.airplane ? 'ic_qs_signal_no_signal' : 'ic_qs_signal_full_4', overlay: settings.airplane || !settings.dataEnabled ? '' : 'ic_qs_signal_full_h', label: settings.airplane ? 'No service.' : carrier, raw: !settings.airplane, action: 'qs-rssi'},
       {id: 'battery', icon: 'ic_qs_battery_71', label: `${battery}%`, raw: true, action: 'qs-battery'},
       {id: 'airplane', icon: settings.airplane ? 'ic_qs_airplane_on' : 'ic_qs_airplane_off', label: 'Airplane mode', action: 'qs-airplane', pressed: !!settings.airplane},
       {id: 'bluetooth', icon: !settings.bluetooth ? 'ic_qs_bluetooth_off' : settings.pairedDevice ? 'ic_qs_bluetooth_on' : 'ic_qs_bluetooth_not_connected', label: !settings.bluetooth ? 'Bluetooth Off' : settings.pairedDevice || 'Bluetooth', raw: !!(settings.bluetooth && settings.pairedDevice), action: 'qs-bluetooth', toggle: 'bluetooth'}
     ];
     if (alarm) list.push({id: 'alarm', icon: 'ic_qs_alarm_on', label: alarm, raw: true, action: 'qs-alarm'});
     if (settings.gps) list.push({id: 'location', icon: 'ic_qs_location', label: 'Location in use', action: 'qs-location'});
+    // Wifi Display tile: setShowWhenEnabled, so it appears only while wireless display is on (Nexus 4 enables the feature).
+    if (settings.wifiDisplay && settings.wifi && !settings.airplane) list.push({id: 'wifi-display', icon: 'ic_qs_remote_display', label: 'Wireless Display', action: 'qs-wifi-display'});
     return list;
   }
   function tileMarkup(tile, t) {

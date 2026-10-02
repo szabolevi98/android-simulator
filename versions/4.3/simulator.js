@@ -1,4 +1,4 @@
-/* Android 4.3 Jelly Bean browser simulation (Galaxy Nexus, JWR66Y). No network or Android runtime required. */
+/* Android 4.3 Jelly Bean browser simulation (Nexus 4, JWR66Y). No network or Android runtime required. */
 (() => {
   'use strict';
 
@@ -94,7 +94,7 @@
     emailId: 1, recent: [], recentSnapshots: {}, toastTimer: null, wifiTarget: '', bluetoothScanned: false
   };
   const emailData = [
-    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Galaxy Nexus is ready. Explore Android 4.3 Jelly Bean, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
+    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Nexus 4 is ready. Explore Android 4.3 Jelly Bean, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
     { id: 2, from: 'Alex Morgan', subject: 'Photos from the weekend', body: 'I added a few pictures to our album. Take a look when you have a moment!', time: 'Yesterday' },
     { id: 3, from: 'Calendar', subject: 'Coffee with Alex', body: 'Reminder: Coffee with Alex at 11:00.', time: 'Yesterday' }
   ];
@@ -190,7 +190,7 @@
     // Android 4.3 security views (KeyguardPatternView/PINView/PasswordView) inside the SlidingChallengeLayout.
     look:{wrong:kind=>JBKeyguard.WRONG[kind],clearMs:JBKeyguard.S.clear,message:({state,remaining})=>JBKeyguard.securityMessage({error:state.error,errorAt:state.errorAt,remaining,owner:data.settings.showOwner?data.settings.ownerInfo:''},key=>i18n.t(key)),renderLock:api=>renderSecureKeyguard(api)}});
   ui.locked=ICSLockscreen.secure(data);if(ui.locked)ui.view='lock';lockControls.lock();lockControls.bind(screen);
-  const statusIndicators = () => `<span class="status-right">${data.settings.bluetooth ? '<img class="status-bluetooth" src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.silent ? `<img src="assets/stat_sys_ringer_${data.settings.silentMode === 'vibrate' ? 'vibrate' : 'silent'}.png" alt="">` : ''}${data.alarms.some(alarm => alarm.enabled) ? '<img src="assets/stat_sys_alarm.png" alt="">' : ''}${data.settings.wifi && data.settings.wifiNetwork ? '<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="">' : ''}<img src="assets/${data.settings.airplane ? 'stat_sys_signal_flightmode' : 'stat_sys_signal_4_fully'}.png" alt=""><img class="status-battery" src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
+  const statusIndicators = () => `<span class="status-right">${data.settings.bluetooth ? '<img class="status-bluetooth" src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.silent ? `<img src="assets/stat_sys_ringer_${data.settings.silentMode === 'vibrate' ? 'vibrate' : 'silent'}.png" alt="">` : ''}${data.alarms.some(alarm => alarm.enabled) ? '<img src="assets/stat_sys_alarm.png" alt="">' : ''}${data.settings.wifi && data.settings.wifiNetwork ? '<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="">' : ''}${!data.settings.airplane && data.settings.dataEnabled !== false && !(data.settings.wifi && data.settings.wifiNetwork) ? '<img class="status-data-type" src="assets/jb-stat_sys_data_fully_connected_h.png" alt="">' : ''}<img src="assets/${data.settings.airplane ? 'stat_sys_signal_flightmode' : 'stat_sys_signal_4_fully'}.png" alt=""><img class="status-battery" src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
 
   function renderStatus() {
     const notificationIcons = data.notifications.length ? `${data.notifications.some(item => item.id === 2) ? '<img src="assets/stat_notify_sms.png" alt="">' : ''}${data.notifications.some(item => item.kind === 'calendar') ? '<img src="assets/calendar-stat_notify_calendar.png" alt="">' : ''}${data.notifications.some(item => item.id !== 2 && item.kind !== 'calendar') ? '<img src="assets/stat_notify_more.png" alt="">' : ''}` : '';
@@ -234,6 +234,7 @@
     screen.style.background = data.wallpaper === 11 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 11 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('assets/jb-wallpaper_${wallpaperFiles[data.wallpaper] || '01'}.jpg') center center / cover no-repeat`;
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav(); syncLiveWallpaper();
+    document.querySelector('.notification-led')?.classList.toggle('on', !!ui.sleeping && !ui.power && data.settings.pulse !== false && data.notifications.length > 0);
     JBDeveloperOptions.apply(screen, data.settings);
     if (ui.view !== 'lock' && ui.kgPad) { ui.kgPad.destroy(); ui.kgPad = null; }
     if (ui.view !== 'lock' && ui.kgChallenge) { ui.kgChallenge.destroy(); ui.kgChallenge = null; }
@@ -595,7 +596,7 @@
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery') { ui.galleryZoom = false; const handled = JBGallery.back(ui, data); if (handled === 'camera') { ui.galleryFromCamera = false; openApp('camera'); return; } if (handled) { render(); return; } }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
-    if(ui.view==='settings' && ['apn','operators','tether-help','device-admin','wifi-direct'].includes(ui.sub)){ui.sub={apn:'mobile-networks',operators:'mobile-networks','tether-help':'tethering','device-admin':'security','wifi-direct':'wifi'}[ui.sub];render();return;}
+    if(ui.view==='settings' && ['apn','operators','tether-help','device-admin','wifi-direct','wifi-display'].includes(ui.sub)){ui.sub={apn:'mobile-networks',operators:'mobile-networks','tether-help':'tethering','device-admin':'security','wifi-direct':'wifi','wifi-display':'display'}[ui.sub];render();return;}
     if(ui.view==='settings' && ['app-info','data-app','battery-history','battery-detail','storage-misc','language-pick'].includes(ui.sub)){ui.sub={'language-pick':'language','app-info':'apps','data-app':'data','battery-history':'battery','battery-detail':'battery','storage-misc':'storage'}[ui.sub];render();return;}
     if(ui.view==='music' && ui.sub==='queue'){ui.sub='player';render();return;}
     if (ui.view === 'play-store' && ui.playHistory.length) {
@@ -699,7 +700,7 @@
       const paired = data.settings.pairedDevice === ui.bluetoothTarget;
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="Bluetooth pairing request"><h3>${safe(ui.bluetoothTarget)}</h3>${paired ? '<p>Paired</p>' : '<p>Bluetooth pairing request</p><p>Passkey: 123456</p>'}<div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="bluetooth-confirm">${paired ? 'Unpair' : 'Pair'}</button></div></div>`;
     } else if (ui.overlay === 'bluetooth-rename') {
-      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog" data-form="bluetooth-rename" role="dialog" aria-label="Rename phone"><h3>Rename phone</h3><input name="name" aria-label="Device name" maxlength="40" required value="${safe(data.settings.bluetoothName || 'Galaxy Nexus')}"><div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Rename</button></div></form>`;
+      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog" data-form="bluetooth-rename" role="dialog" aria-label="Rename phone"><h3>Rename phone</h3><input name="name" aria-label="Device name" maxlength="40" required value="${safe(data.settings.bluetoothName || 'Nexus 4')}"><div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Rename</button></div></form>`;
     } else if (ui.overlay === 'bluetooth-files') {
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="Received files"><h3>Received files</h3><p>No received files</p><div class="settings-dialog-actions"><button data-action="close-overlay">OK</button></div></div>`;
     } else if (ui.overlay === 'wifi-dialog') {
@@ -815,12 +816,23 @@
     return appView('Wi-Fi Direct', `<div class="connectivity-page">${data.settings.wifi ? `<div class="settings-row network-row jb-p2p-device" aria-disabled="true"><span class="row-copy" data-no-translate>${safe(data.settings.p2pName || 'Android_4f3a')}</span></div>${label('PEER DEVICES')}` : ''}</div>`, '', right);
   }
   function startP2pSearch() { ui.p2pSearchUntil = Date.now() + 12000; clearTimeout(ui.p2pTimer); ui.p2pTimer = setTimeout(() => { if (ui.view === 'settings' && ui.sub === 'wifi-direct') render(); }, 12100); }
+  /* WifiDisplaySettings: the feature is DISABLED while Wi-Fi is off; when ON it scans, listing AVAILABLE DEVICES with a
+     progress spinner and, once the scan ends without results, "No nearby wireless displays were found." */
+  function startWfdScan() { ui.wfdScanUntil = Date.now() + 10000; clearTimeout(ui.wfdTimer); ui.wfdTimer = setTimeout(() => { if (ui.view === 'settings' && ui.sub === 'wifi-display') render(); }, 10100); }
+  function renderWifiDisplay() {
+    const disabled = !data.settings.wifi, on = !!data.settings.wifiDisplay && !disabled, scanning = on && ui.wfdScanUntil > Date.now();
+    const toggle = `<button class="holo-switch ${data.settings.wifiDisplay ? 'on' : ''} settings-action-switch" data-action="toggle-setting" data-id="wifiDisplay" role="switch" aria-label="${safe(i18n.t('Wireless display'))}" aria-checked="${!!data.settings.wifiDisplay}" ${disabled ? 'disabled' : ''}><span class="switch-label" aria-hidden="true">${data.settings.wifiDisplay ? 'ON' : 'OFF'}</span></button>`;
+    const menu = on ? `<button class="jb-ab-text" data-action="wfd-scan" ${scanning ? 'disabled' : ''}>${safe(i18n.t(scanning ? 'Searching…' : 'Search for displays'))}</button>` : '';
+    const body = on ? `<div class="section-label wfd-category"><span>${safe(i18n.t('AVAILABLE DEVICES'))}</span>${scanning ? '<i class="wfd-spinner" aria-hidden="true"></i>' : ''}</div>${scanning ? '' : `<div class="settings-row wireless-row" aria-disabled="true"><span class="row-copy">${safe(i18n.t('No nearby wireless displays were found.'))}</span></div>`}`
+      : `<p class="wfd-empty">${safe(i18n.t(disabled ? 'Wireless display is disabled because Wi-Fi is off.' : 'To see devices, turn wireless display on.'))}</p>`;
+    return appView('Wireless display', `<div class="connectivity-page">${body}</div>`, '', toggle + menu);
+  }
   function renderWifiSettings() {
     return appView('Wi-Fi', `<div class="connectivity-page">${data.settings.wifi ? allWifiNetworks().sort((a,b) => Number(b.name === data.settings.wifiNetwork) - Number(a.name === data.settings.wifiNetwork) || b.strength - a.strength || a.name.localeCompare(b.name, i18n.locale())).map(network => `<button class="settings-row network-row" data-action="wifi-network" data-id="${safe(network.name)}"><span class="row-copy">${safe(network.name)}<small>${data.settings.wifiNetwork === network.name ? i18n.t('Connected') : network.security === 'Open' ? i18n.t('Open network') : i18n.t('Secured with WPA2')}</small></span><span class="network-signal"><img src="assets/${network.security === 'Open' ? `ic_wifi_signal_${network.strength >= 3 ? 3 : 2}` : 'ic_wifi_lock_signal_4'}.png" alt=""></span></button>`).join('') : '<p class="connectivity-empty">Turn on Wi-Fi to see available networks</p>'}</div>`, '', connectivitySwitch('wifi', 'Wi-Fi', true) + `<button class="jb-ab-action" data-action="wifi-wps" data-id="pbc" aria-label="${safe(i18n.t('WPS Push Button'))}" ${data.settings.wifi ? '' : 'disabled'}><img src="assets/jb-ic_wps.png" alt=""></button><button class="jb-ab-action" data-action="wifi-add" aria-label="${safe(i18n.t('Add network'))}" ${data.settings.wifi ? '' : 'disabled'}><img src="assets/jb-ic_menu_add.png" alt=""></button>` + connectivityMenu('wifi'));
   }
   function renderBluetoothSettings() {
     const deviceRow = (name, paired) => `<button class="settings-row network-row" data-action="bluetooth-pair" data-id="${safe(name)}"><span class="network-signal"><img src="assets/${name === 'Car Audio' ? 'ic_bt_headphones_a2dp' : 'ic_bt_headset_hfp'}.png" alt=""></span><span class="row-copy">${safe(name)}${paired ? '<small>Paired</small>' : ''}</span>${paired ? '<img class="bt-config-icon" src="assets/ic_bt_config.png" alt="">' : ''}</button>`;
-    return appView('Bluetooth', `<div class="connectivity-page">${data.settings.bluetooth ? `<button class="settings-row network-row" data-action="toggle-setting" data-id="bluetoothVisible"><span class="network-signal"><img src="assets/ic_bt_cellphone.png" alt=""></span><span class="row-copy">${safe(data.settings.bluetoothName || 'Galaxy Nexus')}<small>${data.settings.bluetoothVisible ? i18n.t('Visible to nearby Bluetooth devices') : i18n.t('Not visible to other Bluetooth devices')}</small></span></button>${data.settings.pairedDevice ? `${label('PAIRED DEVICES')}${deviceRow(data.settings.pairedDevice, true)}` : ''}${label('AVAILABLE DEVICES')}${ui.bluetoothScanned ? ['Wireless Headset','Car Audio'].filter(name => name !== data.settings.pairedDevice).map(name => deviceRow(name, false)).join('') : '<p class="connectivity-empty small">Tap Scan to find nearby devices</p>'}` : '<p class="connectivity-empty">Turn on Bluetooth to see nearby devices</p>'}</div>`, '', connectivitySwitch('bluetooth', 'Bluetooth', true) + connectivityMenu('bluetooth'));
+    return appView('Bluetooth', `<div class="connectivity-page">${data.settings.bluetooth ? `<button class="settings-row network-row" data-action="toggle-setting" data-id="bluetoothVisible"><span class="network-signal"><img src="assets/ic_bt_cellphone.png" alt=""></span><span class="row-copy">${safe(data.settings.bluetoothName || 'Nexus 4')}<small>${data.settings.bluetoothVisible ? i18n.t('Visible to nearby Bluetooth devices') : i18n.t('Not visible to other Bluetooth devices')}</small></span></button>${data.settings.pairedDevice ? `${label('PAIRED DEVICES')}${deviceRow(data.settings.pairedDevice, true)}` : ''}${label('AVAILABLE DEVICES')}${ui.bluetoothScanned ? ['Wireless Headset','Car Audio'].filter(name => name !== data.settings.pairedDevice).map(name => deviceRow(name, false)).join('') : '<p class="connectivity-empty small">Tap Scan to find nearby devices</p>'}` : '<p class="connectivity-empty">Turn on Bluetooth to see nearby devices</p>'}</div>`, '', connectivitySwitch('bluetooth', 'Bluetooth', true) + connectivityMenu('bluetooth'));
   }
 
   function renderSettings() {
@@ -831,15 +843,16 @@
     const detail=ICSSettingsDetail.render(data,ui,apps,key=>i18n.t(key));
     if(detail)return appView(detail.title,detail.body,'sd-page');
     if (s === 'wifi') return renderWifiSettings();
+    if (s === 'wifi-display') { if (data.settings.wifiDisplay && data.settings.wifi && !ui.wfdScanUntil) startWfdScan(); return renderWifiDisplay(); }
     if (s === 'wifi-direct') { if (!ui.p2pSearchUntil) startP2pSearch(); return renderWifiDirect(); }
     if (s === 'bluetooth') return renderBluetoothSettings();
     if (s === 'wallpaper') {
       return appView('Wallpaper', wallpaperChoices());
     }
-    if (s === 'about') return appView('About phone', `${row('Status', 'Phone number, signal, etc.', 'settings-sub', 'about-status')}${row('Legal information', '', 'settings-sub', 'about-legal')}${row('Model number', 'Galaxy Nexus', 'noop', '')}${row('Android version', '4.3', 'about-tap', '')}${row('Baseband version', 'I9250XXLJ1', 'noop', '')}${row('Kernel version', '3.0.72-gfb3c9ac\nandroid-build@vpbs1.mtv.corp.google.com #1\nTue Jun 18 21:13:07 PDT 2013', 'noop', '')}${row('Build number', 'JWR66Y', 'developer-tap', '')}${row('SELinux status', i18n.t('Permissive'), 'noop', '')}`, 'about-settings');
+    if (s === 'about') return appView('About phone', `${row('Status', 'Phone number, signal, etc.', 'settings-sub', 'about-status')}${row('Legal information', '', 'settings-sub', 'about-legal')}${row('Model number', 'Nexus 4', 'noop', '')}${row('Android version', '4.3', 'about-tap', '')}${row('Baseband version', 'M9615A-CEFWMAZM-2.0.1700.84', 'noop', '')}${row('Kernel version', '3.4.0-perf-gf43c3d9\nandroid-build@vpbs1.mtv.corp.google.com #1\nMon Jun 17 16:55:05 PDT 2013', 'noop', '')}${row('Build number', 'JWR66Y', 'developer-tap', '')}${row('SELinux status', i18n.t('Permissive'), 'noop', '')}`, 'about-settings');
     if (s === 'about-status') return appView('Status', `${row('Battery status', 'Discharging', 'noop', '')}${row('Battery level', '78%', 'noop', '')}${row('Network', carrierName(), 'noop', '')}${row('Signal strength', data.settings.airplane ? '0 dBm  99 asu' : '-75 dBm  19 asu', 'noop', '')}${row('Phone number', 'Unknown', 'noop', '')}${row('Wi-Fi MAC address', '02:00:00:40:04:01', 'noop', '')}${row('Bluetooth address', data.settings.bluetooth ? '02:00:00:40:04:02' : 'Unavailable', 'noop', '')}`, 'about-settings');
     if (s === 'about-legal') return appView('Legal information', `${row('Open source licenses', 'Android Open Source Project', 'noop', '')}${row('Google legal', 'Offline demonstration', 'noop', '')}`, 'about-settings');
-    if (s === 'about-safety') return appView('Safety information', `<div class="detail-pad"><p>Galaxy Nexus safety information is not available in this offline simulation.</p></div>`, 'about-settings');
+    if (s === 'about-safety') return appView('Safety information', `<div class="detail-pad"><p>Nexus 4 safety information is not available in this offline simulation.</p></div>`, 'about-settings');
     if (s === 'easter') return `<div class="jb-platlogo-view"><button class="jb-platlogo" data-action="jb-platlogo" aria-label="Android Jelly Bean"><img src="assets/${ui.jbLogoTapped ? 'jb-platlogo' : 'jb-platlogo_alt'}.png" alt=""></button></div>`;
     if (s === 'beanbag') return `<div class="jb-beanbag" data-beanbag aria-label="BeanBag"></div>`;
     if (s === 'wireless') return appView('Wireless & networks', `${wirelessCheckRow('Airplane mode', '', 'airplane')}${wirelessRow('VPN', '', 'vpn')}${wirelessRow('Tethering & portable hotspot', '', 'tethering')}${wirelessCheckRow('NFC', 'Allow data exchange when the phone touches another device', 'nfc')}${wirelessRow('Android Beam', 'Ready to transmit app content via NFC', 'beam')}${wirelessRow('Mobile networks', '', 'mobile-networks')}`, 'wireless-more');
@@ -1347,6 +1360,8 @@
       case 'p2p-search': startP2pSearch(); render(); break;
       case 'p2p-menu': ui.overlay = 'p2p-menu'; renderOverlay(); break;
       case 'p2p-rename': ui.overlay = 'p2p-rename'; renderOverlay(); break;
+      case 'wfd-scan': startWfdScan(); render(); break;
+      case 'qs-wifi-display': ui.overlay = ''; ui.view = 'settings'; ui.sub = 'wifi-display'; render(); break;
       case 'connectivity-menu': ui.connectivityMenu = id; ui.overlay = 'connectivity-menu'; renderOverlay(); break;
       case 'wifi-scan': ui.overlay = ''; renderOverlay(); toast('Scanning…'); break;
       case 'wifi-add': ui.overlay = 'wifi-add'; renderOverlay(); break;
@@ -2126,7 +2141,7 @@
     const key = id ? `${id}:${preview}` : '';
     if (liveWallpaper && liveWallpaper.key !== key) { liveWallpaper.destroy(); liveWallpaper = null; }
     if (key && !liveWallpaper) {
-      liveWallpaper = LiveWallpapers.mount(liveLayer, id, {preview, prefs: () => data.lwPrefs?.[id] || {}, clock: deviceDate, offset: preview ? .5 : ui.page / 4, audio: () => !!ui.music?.playing});
+      liveWallpaper = LiveWallpapers.mount(liveLayer, id, {preview, prefs: () => data.lwPrefs?.[id] || {}, clock: deviceDate, offset: preview ? .5 : ui.page / 4, audio: () => !!ui.music?.playing, deviceWidth: 768});
       if (liveWallpaper) liveWallpaper.key = key;
     }
     liveLayer.hidden = !visible; liveWallpaper?.pause(!visible);

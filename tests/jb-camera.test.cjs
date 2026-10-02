@@ -3,13 +3,15 @@ const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.3/jb-ca
 const cam=context.window.JBCamera,plain=value=>JSON.parse(JSON.stringify(value));
 const base={flash:'auto',balance:'auto',exposure:0,zoom:1,front:false,scene:'auto',timer:0,beep:true,location:false,size:'5mp'};
 // PhotoMenu order (left to right) and the More submenu; video drops the photo-only settings.
-const root=cam.tree(base);
-assert.deepEqual(plain(root.map(item=>item.label)),['EXPOSURE','MORE OPTIONS','FLASH MODE','FRONT CAMERA']);
+const root=cam.tree(base).slice(1),hdr=cam.tree(base)[0];
+// Nexus 4: HDR comes first in the photo pie, then exposure, more, flash and the camera switch.
+assert.deepEqual(plain(cam.tree(base).map(item=>item.label)),['HDR','EXPOSURE','MORE OPTIONS','FLASH MODE','FRONT CAMERA']);
+assert.equal(hdr.icon,'ic_hdr_off');assert.equal(cam.tree({...base,hdr:true})[0].icon,'ic_hdr');assert.equal(hdr.set.hdr,true);
 assert.deepEqual(plain(root[1].children.map(item=>item.label)),['LOCATION','COUNTDOWN TIMER','PICTURE SIZE','WHITE BALANCE','SCENE MODE']);
 assert.equal(root[0].children.length,7,'exposure -3..+3');assert.equal(root[0].children[0].suffix,' -3');assert.equal(root[0].children[6].suffix,' +3');
 assert.deepEqual(plain(root[2].children.map(item=>item.set.flash)),['off','auto','on']);
-assert.equal(root[2].icon,'ic_flash_auto_holo_light');assert.equal(cam.tree({...base,flash:'on'})[2].icon,'ic_flash_on_holo_light');
-assert.equal(cam.tree({...base,front:true})[3].label,'BACK CAMERA','the switch names the camera it switches to');
+assert.equal(root[2].icon,'ic_flash_auto_holo_light');assert.equal(cam.tree({...base,flash:'on'})[3].icon,'ic_flash_on_holo_light');
+assert.equal(cam.tree({...base,front:true})[4].label,'BACK CAMERA','the switch names the camera it switches to');
 assert.deepEqual(plain(cam.tree(base,'video').map(item=>item.label)),['MORE OPTIONS','FLASH MODE','FRONT CAMERA']);
 // OnScreenIndicators.
 const ind=Object.fromEntries(cam.indicators({...base,exposure:-2,balance:'incandescent',timer:5,location:true,flash:'on',scene:'night'}).map(([key,file])=>[key,file]));

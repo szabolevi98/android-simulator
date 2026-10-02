@@ -16,7 +16,7 @@ for (const version of versions) {
     card.className = 'version-card';
     card.innerHTML = `
     <div class="version-art" aria-hidden="true">
-      <div class="mini-phone">
+      <div class="mini-phone${art.phone ? ` mini-phone-${art.phone}` : ''}">
         <span class="mini-earpiece"></span><span class="mini-camera"></span>
         <div class="mini-screen" style="background-image:url('${assets}${art.wallpaper}')">
           <div class="mini-status"><img src="${assets}stat_notify_sms.png" alt=""><span class="mini-status-right"><img src="${assets}stat_sys_wifi_signal_4_fully.png" alt=""><img src="${assets}stat_sys_signal_4_fully.png" alt=""><img src="${assets}stat_sys_battery_71.png" alt="">4:04</span></div>

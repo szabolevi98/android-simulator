@@ -38,7 +38,7 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 - AOSP Music library with Artists, Albums, Songs and Playlists, original artwork, a local queue, seeking, shuffle and repeat modes. Custom playlists and playback preferences persist. Sample tracks have no audio.
 - Email with an ICS light action bar, Inbox/Starred/Drafts/Sent/Trash folders, read/unread status, selection, stars and search. Drafts autosave; local reply/forward supports Cc/Bcc and Gallery pictures. Sending only moves the message into the local Sent folder. Trash is recoverable.
 - Sample functionality for Phone, People, Messaging and Calculator.
-- **Live wallpapers** from the Galaxy Nexus AOSP build: Galaxy, Grass, Nexus, Polar clock (with its settings and colour palettes), Water, and the music visualizations Waveform, Spectrum, VU meter and Many. The visualizations react while the Music app plays and show their idle animations otherwise. They are redrawn from their RenderScript sources: WebGL for Galaxy and Water, canvas for the others. Choose them under *Live Wallpapers* in the wallpaper chooser, preview them, and set them. They follow the home-screen scroll, and taps on Nexus and Water start pulses and ripples.
+- **Live wallpapers** from the Galaxy Nexus and Nexus 4 AOSP builds: Galaxy, Grass, Nexus, Polar clock (with its settings and colour palettes), Water, and the music visualizations Waveform, Spectrum, VU meter and Many. The visualizations react while the Music app plays and show their idle animations otherwise. They are redrawn from their RenderScript sources: WebGL for Galaxy and Water, canvas for the others. Choose them under *Live Wallpapers* in the wallpaper chooser, preview them, and set them. They follow the home-screen scroll, and taps on Nexus and Water start pulses and ripples.
 - On a first run (or after a reset) the launcher shows its original **clings**: "Make yourself at home" with the circle around the all apps button, "Choose some apps" with the hand in the drawer, and "Organize your apps with folders" in the first opened folder. Touches inside the circle or the folder still go through.
 - The full-screen button in the header shows only the phone; on mobile browsers it also hides the browser bars and keeps portrait where allowed. It is hidden where the browser does not support it, such as iPhone Safari.
 - Volume keys (the speaker buttons in the header or the side rocker on the phone) open the volume panel for the ringer, for music while it plays, or for the call. Drag its slider; lowering the ringer past the last step switches to vibrate.
@@ -53,7 +53,7 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 ## Jelly Bean 4.3 (in progress)
 
-`versions/4.3/` starts from the ICS simulator and is being converted to Android 4.3 (Galaxy Nexus build JWR66Y, AOSP tag `android-4.3_r1.1`). It keeps its own saved data, separate from ICS. Done so far:
+`versions/4.3/` starts from the ICS simulator and is being converted to Android 4.3 (Nexus 4 build JWR66Y, AOSP tag `android-4.3_r1.1`). It keeps its own saved data, separate from ICS. Done so far:
 
 - About phone reports Android 4.3, JWR66Y and a 4.3-era baseband/kernel (illustrative values).
 - Developer options are hidden, as from Android 4.2. Tapping Build number counts down from the fourth tap (“You are now 3 steps away…”) and unlocks the menu on the seventh. Later taps reply “No need, you are already a developer.”

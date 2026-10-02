@@ -9,7 +9,8 @@ assert.equal(shade.FLIP_OUT+shade.FLIP_IN,350);
 const base={wifi:true,wifiNetwork:'AndroidAP',bluetooth:false,airplane:false,dataEnabled:true,gps:false};
 let tiles=shade.tiles(base,{carrier:'Telekom'});
 assert.deepEqual(plain(tiles.map(tile=>tile.id)),['user','brightness','settings','wifi','rssi','battery','airplane','bluetooth']);
-assert.equal(tiles[3].label,'AndroidAP');assert.equal(tiles[3].icon,'ic_qs_wifi_full_4');assert.equal(tiles[4].overlay,'ic_qs_signal_full_3g');
+// mako: config_hspa_data_distinguishable shows H rather than 3G.
+assert.equal(tiles[3].label,'AndroidAP');assert.equal(tiles[3].icon,'ic_qs_wifi_full_4');assert.equal(tiles[4].overlay,'ic_qs_signal_full_h');
 tiles=shade.tiles({...base,airplane:true,wifi:false,bluetooth:true,pairedDevice:'Headset',gps:true},{carrier:'Telekom',alarm:'Fri 7:00 AM'});
 assert.equal(tiles.find(tile=>tile.id==='wifi').label,'Wi-Fi Off');assert.equal(tiles.find(tile=>tile.id==='rssi').icon,'ic_qs_signal_no_signal');
 assert.equal(tiles.find(tile=>tile.id==='airplane').pressed,true);assert.equal(tiles.find(tile=>tile.id==='bluetooth').label,'Headset');
