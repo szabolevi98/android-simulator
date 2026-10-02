@@ -489,3 +489,10 @@ The 4.3 version moved from the Galaxy Nexus to the **Nexus 4** (LG E960, `mako`)
 - **About phone** (factory JWR66Y). Model number "Nexus 4", baseband `M9615A-CEFWMAZM-2.0.1700.84`, and kernel `3.4.0-perf-gf43c3d9`, built Mon Jun 17 16:55:05 PDT 2013 ([YobiWiki](https://wiki.yobi.be/index.php/Android_phones)). The default Bluetooth name is "Nexus 4".
 - **Unchanged.** The live wallpapers, dual-band Wi-Fi and the rest of the build list are the same as on tuna. The live wallpapers now scale their device-pixel sizes from the 768px panel.
 - **Checks.** The five-language desktop sweep at 1280 × 900 (327 × 545 screen) found only the known camera-indicator overhang and the French "Agenda". The new screens are untranslated-free in hu/de/fr/es.
+
+## Device frames redrawn — 2026-10-02
+
+Both handsets are now SVG drawings (`versions/4.0.4/assets/device-galaxy-nexus.svg`, `versions/4.3/assets/device-nexus-4.svg`) instead of CSS shapes. Their outlines were traced from front renders on Wikimedia Commons ([Samsung Galaxy Nexus render](https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_Nexus_Render.png), [Nexus 4](https://commons.wikimedia.org/wiki/File:Nexus_4.png)). Only the outline is traced: the alpha mask, with the side keys cut off, smoothed into a path. The rim, glass, glare, grille, sensors, camera and keys are drawn by `docs/device-frames.py`, and no photo is used.
+- **Galaxy Nexus.** The Contour Display silhouette, with arched top and bottom edges and the curved chin, under a metallic rim. The grille sits at the top centre, with the two sensors and the camera to its right. Power is on the right and the volume rocker on the left, at their measured heights. The display window is 306 × 545, the 720 × 1280 panel at 0.425.
+- **Nexus 4.** Rounded corners and gently arched edges under a dark grey rim. The earpiece sits in its recess below the rim at the top centre, with the two sensors on the left and the camera on the right. The display window is 327 × 545, the 768 × 1280 panel at 0.426. The notification LED is still hidden below the display.
+- **Landing cards.** The miniatures use the same drawings.
