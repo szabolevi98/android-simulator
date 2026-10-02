@@ -60,3 +60,10 @@ h1{font-size:clamp(38px,4.6vw,60px)}
 .mini-phone .mini-screen{top:13.15%;bottom:11.44%;left:8.21%;right:8.67%;border-radius:0}
 .mini-phone-nexus4{aspect-ratio:374.77/722.2;border:0;border-radius:0;background-image:url('versions/4.3/assets/device-nexus-4.svg')}
 .mini-phone-nexus4 .mini-screen{top:11.86%;bottom:12.68%;left:6.37%;right:6.37%}
+
+/* Nexus S miniature: no navigation bar, the screen insets are the frame paddings in percent. */
+.mini-phone-nexuss{aspect-ratio:336/675.33;border:0;border-radius:0;background-image:url('versions/2.3.6/assets/device-nexus-s.svg')}
+.mini-phone-nexuss .mini-screen{top:15.89%;bottom:15.99%;left:8.93%;right:8.93%}
+.mini-phone-nexuss .mini-nav{display:none}
+.mini-phone-nexuss .mini-dock{bottom:2px}
+.mini-phone-nexuss .mini-shortcuts{bottom:36px}

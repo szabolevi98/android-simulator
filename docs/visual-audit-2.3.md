@@ -12,7 +12,7 @@ The Nexus S is an SVG drawing (`versions/2.3.6/assets/device-nexus-s.svg`) made 
 
 ## Version scaffold and touch keys — 2026-10-02
 
-`versions/2.3.6/` starts as a copy of the 4.0.4 directory, the way 4.3 did. It saves its state under `android-time-machine-gb-v1`. The catalogue keeps it as *planned* until the Gingerbread interface replaces the inherited ICS screens, so the landing page doesn't link to it yet. It can still be opened directly.
+`versions/2.3.6/` starts as a copy of the 4.0.4 directory, the way 4.3 did. It saves its state under `android-time-machine-gb-v1`. At the owner's request it is listed as available on the landing page from the start, first in the list, with a Nexus S miniature and a work-in-progress note, while the Gingerbread screens replace the inherited ICS ones step by step.
 
 - **No navigation bar.** The ICS on-screen bar is gone, and the display uses the full 460 px height.
 - **Keys.** The four Nexus S keys are buttons laid over the drawn glyphs on the glass: Back, Menu, Search and Home, at their centres 68 / 136 / 199.7 / 263.7 px across and 606.7 px down.
