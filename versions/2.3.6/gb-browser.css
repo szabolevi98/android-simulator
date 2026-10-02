@@ -1,0 +1,123 @@
+/* Android 2.3.6 Browser. title_bar.xml on search_plate_browser (8/12/2/1 dip padding), the 5 dip progress_horizontal,
+   title_bg on textfield_search_empty_default (textfield_search_default while loading) with the framed favicon and
+   18 sp black title, the bookmarks button on btn_search_dialog_voice and the stop button on btn_search_dialog;
+   the framework search_bar.xml, browser_find.xml on bottom_bar, CombinedBookmarkHistoryActivity (thumbnail grid
+   with 8/14 dip spacing, history_item rows with btn_star) and ActiveTabsPage tab_view rows.
+   hdpi px x 0.575, 1 dp = 0.8625 px; 9-patch slices measured from the 2.3.6 .9.png guides. */
+.gbbr{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;position:relative;overflow:hidden}
+.gbbr button{font-family:inherit}
+
+/* TitleBar */
+.gbbr-titlebar{flex:none;position:relative;z-index:2;padding:1.73px 10.35px .86px 6.9px;border:0 solid transparent;border-image:url('assets/gb-br-search_plate_browser.png') 1 12 1 12 fill / .58px 6.9px .58px 6.9px stretch}
+.gbbr-progress{height:4.31px;margin-left:.86px;border-radius:4.31px;overflow:hidden;background:linear-gradient(#9d9e9d,#5a5d5a 75%,#747674)}
+.gbbr-progress[hidden]{display:block;visibility:hidden}
+.gbbr-progress i{display:block;height:100%;border-radius:4.31px;width:100%;background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00);animation:gbbr-progress .8s cubic-bezier(.2,.6,.4,1) both}
+@keyframes gbbr-progress{from{width:10%}to{width:100%}}
+.gbbr-row{display:flex;align-items:stretch}
+.screen .gbbr-title{flex:1;min-width:0;display:flex;align-items:center;height:37.38px;margin:0 0 3.45px;padding:0 5.18px 0 6.9px;border:0 solid transparent;border-image:url('assets/gb-textfield_search_empty_default.png') 32 16 32 13 fill / 18.4px 9.2px 18.4px 7.48px stretch;background:none;color:#000;font-size:15.53px;text-align:left;cursor:text}
+.screen .gbbr-title:active{border-image-source:url('assets/gb-textfield_search_empty_pressed.png');border-image-slice:32 16 32 16;border-image-width:18.4px 9.2px 18.4px 9.2px}
+.gbbr-loading .gbbr-title{border-image-source:url('assets/gb-textfield_search_default.png');border-image-slice:29 13 35 13;border-image-width:16.68px 7.48px 20.13px 7.48px}
+.gbbr-title>span:last-child{flex:1;min-width:0;margin-left:2.59px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* TitleBar.setFavicon: black square, white layer inset 1 px, the icon inset 2 px (physical pixels). */
+.gbbr-title .gbbr-fav{flex:none;width:17.25px;height:17.25px;margin-left:2.59px;padding:.58px;background:#000}
+.gbbr-title .gbbr-fav img{display:block;width:100%;height:100%;padding:.58px;background:#fff;box-sizing:border-box}
+/* search_spinner: spinner_black_20, 12 frames of 100 ms, as the title's right compound drawable while loading. */
+.gbbr-loading .gbbr-title::after{content:"";flex:none;width:17.25px;height:17.25px;margin-left:.29px;background:url('assets/gb-spinner_black_20.png') 0 0/100% 100%;animation:gbbr-spin 1.2s steps(12) infinite}
+@keyframes gbbr-spin{to{transform:rotate(360deg)}}
+.screen .gbbr-rt{flex:none;width:46.58px;margin:-5.61px -4.31px -1.73px -1.73px;padding:0;border:0 solid transparent;border-image:url('assets/gb-btn_search_dialog_voice_default.png') 40 21 39 21 fill / 23px 12.08px 22.43px 12.08px stretch;background:none;cursor:pointer}
+.screen .gbbr-rt:active{border-image-source:url('assets/gb-btn_search_dialog_voice_pressed.png')}
+.screen .gbbr-stop{flex:none;width:37.38px;margin:0 0 3.45px;padding:0;border:0 solid transparent;border-image:url('assets/gb-btn_search_dialog_default.png') 30 14 31 12 fill / 17.25px 8.05px 17.83px 6.9px stretch;background:none;cursor:pointer}
+.screen .gbbr-stop:active{border-image-source:url('assets/gb-btn_search_dialog_pressed.png')}
+.gbbr-rt img,.gbbr-stop img{display:block;width:22.43px;height:25.88px;margin:auto}
+
+/* WebView */
+.gbbr .gbbr-page{flex:1;min-height:0;overflow:auto;background:#fff;color:#333;padding:15px}
+
+/* SearchDialog: search_plate_global (12/6/7/16 dip padding), the 36 dip app icon, textfield_search, go and voice buttons. */
+.gbbr-search-scrim{position:absolute;inset:0;z-index:5;background:#00000080}
+.gbbr-search{position:absolute;left:0;right:0;top:0;z-index:6;margin:0}
+.gbbr-search-row{display:flex;align-items:stretch;padding:6.04px 5.18px 13.8px 10.35px;border:0 solid transparent;border-image:url('assets/gb-search_plate_global.png') 1 12 15 12 fill / .58px 6.9px 8.63px 6.9px stretch}
+.gbbr-search-app{flex:none;align-self:center;width:31.05px;height:31.05px;margin-right:6.04px}
+.screen .gbbr-search input{flex:1;min-width:0;height:37.38px;padding:0 5.18px 0 6.9px;border:0 solid transparent;border-image:url('assets/gb-textfield_search_default.png') 29 13 35 13 fill / 16.68px 7.48px 20.13px 7.48px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.screen .gbbr-search input:focus{border-image-source:url('assets/gb-textfield_search_selected.png')}
+.screen .gbbr-go{flex:none;width:36.8px;padding:0;border:0 solid transparent;border-image:url('assets/gb-btn_search_dialog_default.png') 30 14 31 12 fill / 17.25px 8.05px 17.83px 6.9px stretch;background:none;cursor:pointer}
+.screen .gbbr-go:active{border-image-source:url('assets/gb-btn_search_dialog_pressed.png')}
+.gbbr-go img{display:block;width:21.85px;height:25.88px;margin:auto}
+/* updateVoiceButton: the microphone only while the query is empty. */
+.screen .gbbr-voice{flex:none;width:46px;margin:-5.61px -4.31px -6.04px 0;padding:0;border:0 solid transparent;border-image:url('assets/gb-btn_search_dialog_voice_default.png') 40 21 39 21 fill / 23px 12.08px 22.43px 12.08px stretch;background:none;cursor:pointer}
+.screen .gbbr-voice:active{border-image-source:url('assets/gb-btn_search_dialog_voice_pressed.png')}
+.gbbr-voice img{display:block;width:21.85px;height:25.88px;margin:auto}
+.gbbr-search input:not(:placeholder-shown)~.gbbr-voice{display:none}
+.gbbr-search input:placeholder-shown~.gbbr-go{opacity:.5;pointer-events:none}
+/* search_dropdown_item_icons_2line: white rows, 32 dip category icon, black title, green #7fa87f url. */
+.gbbr-suggest{margin-top:-7.76px;background:#fff}
+.gbbr-suggest:empty{display:none}
+.screen .gbbr-suggestion{display:flex;align-items:center;width:100%;min-height:50.03px;padding:0 6.9px;border:0;border-bottom:1px solid #d8d8d8;background:#fff;color:#000;text-align:left;cursor:pointer}
+.screen .gbbr-suggestion:active{background:#ffa600}
+.gbbr-suggestion img{flex:none;width:27.6px;height:27.6px;margin-right:6.9px}
+.gbbr-suggestion span{min-width:0;display:flex;flex-direction:column}
+.gbbr-suggestion b,.gbbr-suggestion small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbbr-suggestion b{font-weight:400;font-size:15.53px}
+.gbbr-suggestion small{font-size:12.08px;color:#7fa87f}
+
+/* browser_find.xml at the bottom of the window: bottom_bar, prev / next / done ImageButtons, the EditText. */
+.gbbr-find{flex:none;display:flex;align-items:center;gap:0;margin:0;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%;position:relative}
+.screen .gbbr-find button{flex:none;width:39.1px;height:41.4px;padding:0;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;cursor:pointer}
+.screen .gbbr-find button:active{border-image-source:url('assets/gb-btn_default_pressed.png')}
+.gbbr-find button img{display:block;width:22.43px;height:25.88px;margin:auto}
+.screen .gbbr-find input{flex:1;min-width:0;height:41.4px;margin:0 5.18px 0 0;padding:5.75px 9.2px 9.78px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.screen .gbbr-find input:focus{border-image-source:url('assets/gb-textfield_selected.png')}
+.gbbr-find .gbbr-matches{position:absolute;right:52px;bottom:1px;font-size:12.08px;color:#323232;pointer-events:none}
+.gbbr-find .gbbr-matches:empty{display:none}
+.browser-page mark.current{background:#ff9900}
+
+/* CombinedBookmarkHistoryActivity */
+.gbbr-library-body{flex:1;min-height:0;overflow:auto;background:#000}
+.gbbr-grid{display:grid;grid-template-columns:repeat(auto-fill,77.63px);justify-content:space-evenly;row-gap:12.08px;padding:12.08px 0}
+.screen .gbbr-bm{display:flex;flex-direction:column;width:77.63px;padding:0;border:0;background:none;color:#fff;cursor:pointer;text-align:left}
+.gbbr-thumb{position:relative;display:block;width:77.63px;height:69px;overflow:hidden;background:url('assets/gb-br-browser_thumbnail.png') 0 0/100% 100%}
+.screen .gbbr-bm:active .gbbr-thumb{outline:2.59px solid #ffa600}
+/* The page thumbnail: the page laid out at the screen width and scaled down to the thumbnail. */
+.gbbr-thumb-page{display:block;position:absolute;left:0;top:0;width:276px;height:245.4px;padding:15px;background:#fff;color:#333;transform:scale(.28127);transform-origin:0 0;pointer-events:none;overflow:hidden;font-size:16px}
+.gbbr-thumb-page *{pointer-events:none}
+.gbbr-holder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#00000099}
+.gbbr-holder img{width:27.6px;height:27.6px}
+.gbbr-holder b,.gbbr-label{font-size:12.08px;font-weight:700;color:#fff}
+.gbbr-label{display:block;padding:0 1.73px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbbr-list{display:flex;flex-direction:column}
+/* history_header: 64 dip, 35 dip left padding, with the ExpandableListView group indicator. */
+.gbbr-group{display:flex;align-items:center;min-height:55.2px;padding-left:30.19px;font-size:15.53px;color:#fff;background:url('assets/gb-expander_ic_maximized.png') 3.45px 50%/20.7px 20.7px no-repeat,url('assets/gb-divider_horizontal_dark.png') 0 100%/100% 1px no-repeat}
+.gbbr-item{display:flex;align-items:center;min-height:55.2px;padding:0 5.18px;background:url('assets/gb-divider_horizontal_dark.png') 0 100%/100% 1px no-repeat}
+.screen .gbbr-item:has(.gbbr-item-main:active){border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.screen .gbbr-item-main,.screen .gbbr-window-main{flex:1;min-width:0;display:flex;align-items:center;padding:4.31px 0;border:0;background:none;color:#fff;text-align:left;cursor:pointer}
+.gbbr-item-main .gbbr-fav,.gbbr-window-main .gbbr-fav{flex:none;width:17.25px;height:17.25px;margin:0 9.49px 0 4.31px;padding:1.73px;background:url('assets/gb-br-fav_icn_background.png') 0 0/100% 100%}
+.gbbr-window-main .gbbr-fav{margin:0 15.53px}
+.gbbr-fav img{display:block;width:100%;height:100%}
+.gbbr-item-main>span:last-child,.gbbr-window-main>span:last-child{min-width:0;display:flex;flex-direction:column}
+.gbbr-item b,.gbbr-item small,.gbbr-window b,.gbbr-window small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbbr-item b,.gbbr-window b{font-weight:400;font-size:15.53px;color:#fff}
+.gbbr-item small,.gbbr-window small{font-size:12.08px;color:#bebebe}
+.screen .gbbr-star{flex:none;width:27.6px;height:27.6px;padding:0;border:0;background:none;cursor:pointer}
+.gbbr-star img{display:block;width:100%;height:100%}
+.gbbr-empty{display:grid;place-items:center;height:100%;margin:0;font-weight:700;font-size:12.08px;color:#fff}
+
+/* ActiveTabsPage */
+.gbbr-windows .gb-titlebar{flex:none}
+.gbbr-wlist{flex:1;min-height:0;overflow:auto;background:#000}
+.screen .gbbr-wnew{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0;border:0;background:url('assets/gb-divider_horizontal_dark.png') 0 100%/100% 1px no-repeat;color:#fff;font-size:15.53px;text-align:left;cursor:pointer}
+.screen .gbbr-wnew:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbbr-wnew img{flex:none;width:34.5px;height:34.5px;margin:0 6.9px}
+.gbbr-window{display:flex;align-items:stretch;min-height:55.2px;background:url('assets/gb-divider_horizontal_dark.png') 0 100%/100% 1px no-repeat}
+.screen .gbbr-window-main:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbbr-wdiv{flex:none;width:.86px;margin:4.31px 0 4.31px 6.9px;background:#313431}
+.screen .gbbr-close{flex:none;padding:0 15.53px;border:0;background:#000;cursor:pointer}
+.screen .gbbr-close:active{background:#ffa600}
+.gbbr-close img{display:block;width:27.6px;height:27.6px}
+
+/* AddBookmarkPage / page info dialog bodies */
+.gbbr-field{display:block;margin:0 0 4.31px}
+.gbbr-field span{display:block;font-size:15.53px;color:#fff;margin-bottom:2px}
+.gbbr-field input{display:block;width:100%;box-sizing:border-box;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.gbbr-field input:focus{border-image-source:url('assets/gb-textfield_selected.png')}
+.gbbr-info{display:flex;flex-direction:column;gap:8.63px;font-size:12.08px;color:#fff;word-break:break-all}
+.gbbr-info b{font-size:12.08px}

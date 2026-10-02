@@ -348,3 +348,19 @@ References: Music 2.3.6 (`layout-finger/audio_player.xml`, `audio_player_common.
 - **Menus.** Browser tabs: Party shuffle / Party shuffle off, Shuffle all. Player: Library, Party shuffle, Add to playlist, Use as phone ringtone, Delete.
 
 Checks: headless Chrome covered both menus, the song context menu, Add to playlist → New → Save (playlist stored), and the player. No JavaScript errors.
+
+## Browser — 2026-10-02
+
+References: Browser 2.3.6 (`title_bar.xml`, `TitleBar.java`, `browser_find.xml`, `bookmark_thumbnail.xml`, `history_item.xml`, `history_header.xml`, `tab_view.xml`, `tab_view_add_tab.xml`, `active_tabs.xml`, `browser_add_bookmark.xml`, `page_info.xml`, `menu/browser.xml`, `BrowserBookmarksPage.java`), framework `search_bar.xml` and `progress_horizontal.xml`. Strings come from `docs/gb-strings.py browser`; 9-patch slices were read from the 2.3.6 `.9.png` guides.
+
+- **Title bar** on `search_plate_browser`: the 5 dip yellow progress bar (invisible but keeping its space when idle), the title field on `textfield_search_empty_default` with the black / white framed favicon and the 18 sp black title, and the bookmarks button on `btn_search_dialog_voice`.
+  - While a page loads (0.8 s), the field switches to `textfield_search_default` with the address and the `search_spinner`, and the stop button replaces the bookmarks button.
+- **Search dialog** (tap the title or the Search key): `search_plate_global`, the Browser icon, `textfield_search`, the go button and the microphone while empty, the dimmed page, and white suggestion rows from bookmarks and history with the green URL.
+- **Find on page** sits at the bottom on `bottom_bar`: previous / next, the field with the match count, and close.
+- **Bookmarks / Most visited / History** use the framework tabs. Bookmarks is a thumbnail grid (`browser_thumbnail` size, 8 / 14 dip spacing) with the "Add" holder over the current page first. Menu switches it to a list. History has the "Today" group and `btn_star` rows.
+  - A long press opens the bookmark or history context menu: Open, Open in new window, Copy link URL, Remove, Set as homepage, and Add bookmark from history.
+- **Windows** (ActiveTabsPage): the window title bar, New window (up to TabControl.MAX_TABS = 8), and rows with the framed favicon, the #313431 divider and the close button.
+- **Menu:** New window, Bookmarks, Windows, Refresh / Stop, Forward, and More (Add bookmark, Find on page, Select text, Page info, Share page, Downloads, Settings). Add bookmark opens the Name / Location dialog; Page info shows the title and address.
+- The demo pages were moved to 2011 and Android 2.3 / Nexus S.
+
+Checks: `gb-browser.test.cjs` covers the title bar states, suggestions, find bar, grid, list, history, Most visited, Windows and the tab limit, the menus, the dialogs and the translations. Headless Chrome covered loading, the search dialog with suggestions, the menu and More, find with highlighting, the bookmark grid, history and Windows. No JavaScript errors.

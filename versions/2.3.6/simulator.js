@@ -237,6 +237,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'browser') { if (ui.gbBrEdit) return; const items = GBBrowser.menu(gbBrowserContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'music') {
       const party = {action: 'music-party', title: musicText(ui.music.party ? 'party_shuffle_off' : 'party_shuffle'), icon: 'gb-mu-ic_menu_party_shuffle.png'};
       ui.gbMenuItems = ui.sub === 'player' ? [{action: 'music-library', title: musicText('goto_start'), icon: 'ic_menu_music_library'}, party, {action: 'music-track-menu-add', title: musicText('add_to_playlist'), icon: 'ic_menu_add'}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('ringtone_menu'), icon: 'ic_menu_set_as_ringtone'}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('delete_item'), icon: 'ic_menu_delete'}] : [party, {action: 'music-shuffle-all', title: musicText('shuffle_all'), icon: 'ic_menu_shuffle'}];
@@ -274,9 +275,11 @@
     ui.gbMenuItems = items;
     overlayRoot.innerHTML = GBUI.menu(items, key => i18n.t(key));
   }
+  // Browser.onSearchRequested: the search dialog with the current address; elsewhere it opens on an empty query.
   function searchKey() {
     if (ui.view === 'lock' || ui.locked) return;
-    openApp('browser');
+    if (ui.view !== 'browser') { openApp('browser'); ui.gbBrEdit = true; ui.gbBrEditValue = ''; render(); viewport.querySelector('.gbbr-search input')?.focus(); return; }
+    ui.sub = ''; document.querySelector('.gbbr-title')?.click();
   }
   // Window transitions: the outgoing view is kept in a temporary layer while both animate.
   let lastScene = null, pendingNav = '', activeTransition = null;
@@ -581,6 +584,7 @@
     }
     if (ui.view === 'calculator' && ui.calcPanel) { setCalculatorPanel(0); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
+    if (ui.view === 'browser' && ui.gbBrEdit) { ui.gbBrEdit = false; render(); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.easterNyan = false; render(); return; }
@@ -635,6 +639,7 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-br') return GBBrowser.dialog(ui.gbBrDialog, gbBrowserContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-music') {
       const track = ICSMusic.tracks[ui.musicSelected], inPlaylist = ui.musicTab === 'Playlists' && ui.sub === 'music-group';
       if (ui.gbMusicDialog === 'add') return {title: musicText('add_to_playlist'), items: [{action: 'music-add-queue', title: musicText('queue')}, {action: 'music-new-playlist', id: 'add', title: musicText('new_playlist')}, ...ui.music.playlists.map(p => ({action: 'music-add-confirm', id: p.id, title: p.name}))]};
@@ -929,36 +934,41 @@
     const normalized = normalizeAddress(url);
     ICSBrowserSession.navigate(ui.browserSession,normalized);
     data.browserHistory = [...data.browserHistory,normalized].slice(-50);
-    ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render();
+    ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; ui.gbBrEdit = false; browserLoading(); saveBrowserState(); render();
   }
-  function browserBack() { ICSBrowserSession.move(ui.browserSession,-1); saveBrowserState(); render(); }
-  function browserForward() { ICSBrowserSession.move(ui.browserSession,1); ui.overlay = ''; saveBrowserState(); render(); }
+  function browserBack() { ICSBrowserSession.move(ui.browserSession,-1); browserLoading(); saveBrowserState(); render(); }
+  function browserForward() { ICSBrowserSession.move(ui.browserSession,1); ui.overlay = ''; browserLoading(); saveBrowserState(); render(); }
   function browserLink(url, title, subtitle = '') { return `<div class="web-result"><a href="#" data-action="browser-link" data-url="${safe(url)}"><strong>${safe(title)}</strong></a><small>${safe(url)}</small><p>${safe(subtitle)}</p></div>`; }
   function renderWebsite(url) {
-    if (url === 'www.google.com') return `<div class="google-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div><form class="search-form" data-form="web-search"><input name="query" aria-label="Search the web" placeholder="Search the web" required><button type="submit">Search</button></form><div class="browser-tiles">${[['www.android.com','Android'],['en.wikipedia.org/wiki/Android','Wikipedia'],['news.example','News'],['retro.example','2012 Web']].map(item => `<button data-action="browser-link" data-url="${item[0]}">${item[1]}</button>`).join('')}</div><p style="font-size:11px;color:#888;margin-top:24px">Offline demo pages · 2012</p>`;
+    if (url === 'www.google.com') return `<div class="google-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div><form class="search-form" data-form="web-search"><input name="query" aria-label="Search the web" placeholder="Search the web" required><button type="submit">Search</button></form><div class="browser-tiles">${[['www.android.com','Android'],['en.wikipedia.org/wiki/Android','Wikipedia'],['news.example','News'],['retro.example','2011 Web']].map(item => `<button data-action="browser-link" data-url="${item[0]}">${item[1]}</button>`).join('')}</div><p style="font-size:11px;color:#888;margin-top:24px">Offline demo pages · 2011</p>`;
     if (url.startsWith('search:')) {
       const term = url.slice(7);
-      return `<h2>Search results</h2><p>Results for <strong>${safe(term)}</strong></p>${browserLink('www.android.com', 'Android – Discover the new Android 4.0', 'Ice Cream Sandwich brings a refined design and powerful new features.')}${browserLink('en.wikipedia.org/wiki/Android', 'Android (operating system) – Wikipedia', 'An overview of the Android mobile operating system.')}${browserLink('news.example', 'Tech News', `Stories related to ${term}.`)}`;
+      return `<h2>Search results</h2><p>Results for <strong>${safe(term)}</strong></p>${browserLink('www.android.com', 'Android – Discover Android 2.3', 'Gingerbread brings a faster, simpler interface, a new keyboard and NFC.')}${browserLink('en.wikipedia.org/wiki/Android', 'Android (operating system) – Wikipedia', 'An overview of the Android mobile operating system.')}${browserLink('news.example', 'Tech News', `Stories related to ${term}.`)}`;
     }
-    if (url.includes('android.com')) return `<h2 style="color:#79b93f">android</h2><h3>Meet Android 4.0</h3><p>A new, refined Android for phones and tablets. Share more, browse faster and personalize your home screen.</p><div style="background:#23343c;color:white;padding:25px;text-align:center;font-size:38px">🤖<br><small style="font-size:17px">Ice Cream Sandwich</small></div>${browserLink('en.wikipedia.org/wiki/Android','Learn about Android','The story of Android.')}`;
-    if (url.includes('wikipedia.org')) return `<h2>Android (operating system)</h2><p><small>From Wikipedia, the free encyclopedia</small></p><hr><p>Android is a mobile operating system based on a modified version of the Linux kernel. Android 4.0, known as Ice Cream Sandwich, introduced the Holo interface and virtual navigation buttons.</p><h3>Versions</h3><p>Gingerbread · Ice Cream Sandwich · Jelly Bean · KitKat</p>${browserLink('www.android.com','Official Android website')}`;
-    if (url === 'news.example/galaxy-nexus' || url === 'retro.example/holo') return `<article class="web-offline-article"><h2>${url.startsWith('news')?'A day with Galaxy Nexus':'A closer look at Holo'}</h2><time>June 15, 2012 · Demo archive</time><p>The phone has a large screen, three navigation buttons and a blue-accented interface. Open the app drawer to discover the classic Android experience.</p><h3>Everyday essentials</h3><p>Contacts, messages and the browser share a simple visual language. Swipe between home screens, arrange your favorite apps, and pull down the notification shade.</p><h3>Make it yours</h3><p>Choose a wallpaper, add an analog clock and keep your favorite contacts close. This small offline archive is a fictional snapshot of the early smartphone era.</p>${browserLink('news.example','Back to Tech News')}${browserLink('retro.example/holo','Explore the Holo interface')}</article>`;
-    if (url.includes('news.example')) return `<h2>Tech News</h2><p style="color:#777">Friday, June 15, 2012</p><hr><h3>The Galaxy Nexus experience</h3><p>Android 4.0 makes multitasking, notifications and home screen customization easier than ever.</p><h3>Apps in your pocket</h3><p>Explore the growing world of mobile apps and connected devices.</p>${browserLink('news.example/galaxy-nexus','Read the Galaxy Nexus story')}${browserLink('retro.example','Visit the 2012 Web')}`;
-    if (url.includes('retro.example')) return `<h2>Welcome to the 2012 Web</h2><p>A little time capsule from the early smartphone era.</p><ul><li>Share photos</li><li>Check your email</li><li>Customize your phone</li></ul>${browserLink('retro.example/holo','Explore the Holo interface')}${browserLink('maps.example','Open the sample map')}${browserLink('www.google.com','Back to Google')}`;
+    if (url.includes('android.com')) return `<h2 style="color:#79b93f">android</h2><h3>Meet Android 2.3</h3><p>The fastest version of Android yet: a simpler interface, a new keyboard, one-touch word selection and copy/paste, and Near Field Communication.</p><div style="background:#23343c;color:white;padding:25px;text-align:center;font-size:38px">🤖<br><small style="font-size:17px">Gingerbread</small></div>${browserLink('en.wikipedia.org/wiki/Android','Learn about Android','The story of Android.')}`;
+    if (url.includes('wikipedia.org')) return `<h2>Android (operating system)</h2><p><small>From Wikipedia, the free encyclopedia</small></p><hr><p>Android is a mobile operating system based on a modified version of the Linux kernel. Android 2.3, known as Gingerbread, refined the user interface and added support for NFC and internet calling.</p><h3>Versions</h3><p>Cupcake · Donut · Eclair · Froyo · Gingerbread · Honeycomb</p>${browserLink('www.android.com','Official Android website')}`;
+    if (url === 'news.example/galaxy-nexus' || url === 'retro.example/holo') return `<article class="web-offline-article"><h2>${url.startsWith('news')?'A day with Nexus S':'A closer look at Gingerbread'}</h2><time>September 2, 2011 · Demo archive</time><p>The phone has a curved glass screen, four touch keys and a green-accented interface. Open the app drawer to discover the classic Android experience.</p><h3>Everyday essentials</h3><p>Contacts, messages and the browser share a simple visual language. Swipe between home screens, arrange your favorite apps, and pull down the notification shade.</p><h3>Make it yours</h3><p>Choose a wallpaper, add an analog clock and keep your favorite contacts close. This small offline archive is a fictional snapshot of the early smartphone era.</p>${browserLink('news.example','Back to Tech News')}${browserLink('retro.example/holo','Explore the Gingerbread interface')}</article>`;
+    if (url.includes('news.example')) return `<h2>Tech News</h2><p style="color:#777">Friday, September 2, 2011</p><hr><h3>The Nexus S experience</h3><p>Android 2.3 makes typing, copy and paste and managing apps easier than ever.</p><h3>Apps in your pocket</h3><p>Explore the growing world of mobile apps and connected devices.</p>${browserLink('news.example/galaxy-nexus','Read the Nexus S story')}${browserLink('retro.example','Visit the 2011 Web')}`;
+    if (url.includes('retro.example')) return `<h2>Welcome to the 2011 Web</h2><p>A little time capsule from the early smartphone era.</p><ul><li>Share photos</li><li>Check your email</li><li>Customize your phone</li></ul>${browserLink('retro.example/holo','Explore the Gingerbread interface')}${browserLink('maps.example','Open the sample map')}${browserLink('www.google.com','Back to Google')}`;
     if (url.includes('maps.example')) return `<h2>Maps</h2><div style="height:230px;background:repeating-linear-gradient(35deg,#e2ead9,#e2ead9 18px,#c7dfd7 18px,#c7dfd7 24px);display:grid;place-items:center;color:#426a68">San Francisco · Demo map</div><p>Map data is a local illustration.</p>`;
     return `<h2>Webpage unavailable</h2><p>The simulator browses a small collection of offline example pages.</p>${browserLink('www.google.com','Go to Google')}`;
   }
   function browserTitle(url) {
     return url === 'www.google.com' ? 'Google' : url.startsWith('search:') ? url.slice(7) : url.replace(/^www\./,'');
   }
-  function renderBrowser() {
-    const header = title => `<header class="web-header"><button data-action="back" aria-label="Back">‹</button><h2>${safe(i18n.t(title))}</h2><button data-action="browser-new-tab" aria-label="New tab"><img src="assets/web-ic_new_window_holo_dark.png" alt=""></button></header>`;
-    if (ui.sub === 'tabs') return `<div class="app-view ics-browser">${header('Tabs')}<div class="web-tabs">${ui.browserTabs.map((url,i)=>`<article class="web-tab-card ${i===ui.browserTab?'current':''}"><div class="web-tab-title"><button data-action="browser-tab" data-id="${i}">${safe(browserTitle(url))}</button><button data-action="browser-close-tab" data-id="${i}" aria-label="Close tab"><img src="assets/web-ic_tab_close.png" alt=""></button></div><div class="web-tab-preview" role="button" tabindex="0" aria-label="${safe(browserTitle(url))}" data-action="browser-tab" data-id="${i}"><div class="browser-page" inert aria-hidden="true">${renderWebsite(url)}</div></div></article>`).join('')}</div></div>`;
-    if (['bookmarks','history','saved'].includes(ui.sub)) {
-      const urls = ui.sub==='history' ? [...data.browserHistory].reverse() : ui.sub==='saved' ? data.savedPages || [] : data.bookmarks;
-      return `<div class="app-view ics-browser">${header('Bookmarks')}<nav class="web-library-tabs">${[['bookmarks','Bookmarks'],['history','History'],['saved','Saved pages']].map(([id,label])=>`<button class="${ui.sub===id?'active':''}" data-action="browser-${id}">${safe(i18n.t(label))}</button>`).join('')}</nav><div class="web-library">${urls.map(url=>`<div class="web-library-row"><button data-action="browser-bookmark" data-id="${safe(url)}">${safe(browserTitle(url))}<small>${safe(url)}</small></button>${ui.sub!=='history'?`<button data-action="browser-remove-saved" data-id="${safe(url)}" aria-label="Delete">×</button>`:''}</div>`).join('')||'<p class="empty-note">No saved pages</p>'}</div></div>`;
-    }
-    return `<div class="app-view ics-browser"><div class="browser-toolbar"><form data-form="address"><img src="assets/browser.png" alt=""><input name="address" aria-label="Web address" value="${safe(ui.browserUrl.startsWith('search:')?ui.browserUrl.slice(7):ui.browserUrl)}"></form><button data-action="browser-tabs" aria-label="Tabs"><img src="assets/web-ic_windows_holo_dark.png" alt=""><span class="browser-tab-count">${ui.browserTabs.length}</span></button><button data-action="browser-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div>${ui.browserFind!==undefined?`<form class="web-find" data-form="browser-find"><input name="query" aria-label="Find on page" placeholder="Find on page" value="${safe(ui.browserFind)}"><button type="submit">Search</button><button type="button" data-action="browser-close-find" aria-label="Close">×</button></form><div class="web-find-count" aria-live="polite"></div>`:''}<div class="browser-page">${renderWebsite(ui.browserUrl)}</div></div>`;
+  // The page address as the 2.3 title bar shows it while loading (searches go to the Google results page).
+  const browserAddress = url => url.startsWith('search:') ? `www.google.com/search?q=${encodeURIComponent(url.slice(7))}` : url;
+  function gbBrowserContext() {
+    const t = key => i18n.t(key);
+    return {lang: i18n.language, t, sub: ui.sub === 'saved' ? 'bookmarks' : ui.sub, url: browserAddress(ui.browserUrl), title: gbBrowserTitle(ui.browserUrl), loading: Date.now() < (ui.gbBrLoadingUntil || 0), editing: !!ui.gbBrEdit, editValue: ui.gbBrEditValue ?? '', find: ui.browserFind, bookmarks: data.bookmarks, history: data.browserHistory, titleOf: gbBrowserTitle, thumbnail: url => renderWebsite(url), tabs: ui.browserTabs, active: ui.browserTab, canForward: ui.browserIndex < ui.browserHistory.length - 1, listView: !!ui.gbBrList, target: ui.gbBrTarget, ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel')};
+  }
+  const gbBrowserTitle = url => data.bookmarkTitles?.[url] || browserTitle(url);
+  function renderBrowser() { return GBBrowser.render(gbBrowserContext(), renderWebsite(ui.browserUrl)); }
+  // Tab.onPageStarted / onPageFinished: the progress bar and the stop button for a moment after each load.
+  function browserLoading() {
+    ui.gbBrLoadingUntil = Date.now() + 800;
+    clearTimeout(ui.gbBrLoadTimer);
+    ui.gbBrLoadTimer = setTimeout(() => { if (ui.view === 'browser' && !ui.sub && !ui.gbBrEdit) render(); }, 820);
   }
   function highlightBrowserText() {
     const root=viewport.querySelector('.browser-page'), query=ui.browserFind.toLocaleLowerCase();
@@ -1413,7 +1423,7 @@
       case 'browser-link': navigateBrowser(url); break;
       case 'browser-back': browserBack(); break;
       case 'browser-forward': browserForward(); break;
-      case 'browser-tabs': ui.sub = 'tabs'; render(); break;
+      case 'browser-tabs': ui.sub = 'tabs'; ui.overlay = ''; render(); break;
       case 'browser-menu': ui.overlay = 'browser-menu'; renderOverlay(); break;
       case 'browser-bookmarks': ui.sub = 'bookmarks'; ui.overlay = ''; render(); break;
       case 'browser-bookmark': navigateBrowser(id); break;
@@ -1421,12 +1431,28 @@
       case 'browser-save-page': data.savedPages ||= []; if(!data.savedPages.includes(ui.browserUrl))data.savedPages.push(ui.browserUrl); save(); ui.overlay=''; renderOverlay(); toast('Page saved'); break;
       case 'browser-remove-saved': if(ui.sub==='saved')data.savedPages=data.savedPages.filter(url=>url!==id); else data.bookmarks=data.bookmarks.filter(url=>url!==id); save(); render(); break;
       case 'browser-close-tab': ICSBrowserSession.close(ui.browserSession,Number(id)); saveBrowserState(); render(); break;
-      case 'browser-refresh': ui.overlay=''; render(); break;
-      case 'browser-find': ui.browserFind=''; ui.overlay=''; render(); viewport.querySelector('.web-find input')?.focus(); break;
+      case 'browser-refresh': ui.overlay=''; browserLoading(); render(); break;
+      case 'gbbr-stop': ui.gbBrLoadingUntil = 0; ui.overlay = ''; render(); break;
+      case 'gbbr-edit': ui.gbBrEdit = true; ui.gbBrEditValue = browserAddress(ui.browserUrl); ui.overlay = ''; render(); { const input = viewport.querySelector('.gbbr-search input'); input?.focus(); input?.select(); } break;
+      case 'gbbr-edit-cancel': ui.gbBrEdit = false; render(); break;
+      case 'gbbr-library': ui.sub = id; render(); break;
+      case 'gbbr-switch-view': ui.gbBrList = !ui.gbBrList; ui.overlay = ''; render(); break;
+      case 'gbbr-add-bookmark': ui.overlay = 'gb-dialog-br'; ui.gbBrDialog = 'add'; renderOverlay(); break;
+      case 'gbbr-add-bookmark-ok': { const name = overlayRoot.querySelector('[data-gbbr-name]')?.value.trim(), location = normalizeAddress(overlayRoot.querySelector('[data-gbbr-location]')?.value || ''); if (!name) { toast(GBBrowser.text(i18n.language, 'bookmark_needs_title')); break; } if (!location) break; if (!data.bookmarks.includes(location)) data.bookmarks.push(location); data.bookmarkTitles = {...(data.bookmarkTitles || {}), [location]: name}; ui.overlay = ''; save(); render(); toast(GBBrowser.text(i18n.language, 'added_to_bookmarks')); break; }
+      case 'gbbr-page-info': ui.overlay = 'gb-dialog-br'; ui.gbBrDialog = 'info'; renderOverlay(); break;
+      case 'gbbr-star': { const on = data.bookmarks.includes(id); data.bookmarks = on ? data.bookmarks.filter(url => url !== id) : [...data.bookmarks, id]; ui.overlay = ''; save(); render(); toast(GBBrowser.text(i18n.language, on ? 'removed_from_bookmarks' : 'added_to_bookmarks')); break; }
+      case 'gbbr-clear-history': data.browserHistory = []; ui.overlay = ''; save(); render(); break;
+      case 'gbbr-open-new': ui.overlay = ''; if (!ICSBrowserSession.add(ui.browserSession)) break; navigateBrowser(id); break;
+      case 'gbbr-copy-url': try { navigator.clipboard?.writeText(id); } catch {} ui.overlay = ''; renderOverlay(); break;
+      case 'gbbr-remove-bookmark': data.bookmarks = data.bookmarks.filter(url => url !== id); ui.overlay = ''; save(); render(); break;
+      case 'gbbr-remove-history': data.browserHistory = data.browserHistory.filter(url => url !== id); ui.overlay = ''; save(); render(); break;
+      case 'gbbr-homepage': data.browserHome = id; ui.overlay = ''; save(); renderOverlay(); break;
+      case 'gbbr-find-step': { const marks = [...viewport.querySelectorAll('.browser-page mark')]; if (!marks.length) break; ui.gbBrMark = ((ui.gbBrMark ?? -1) + Number(id) + marks.length) % marks.length; marks.forEach((m, k) => m.classList.toggle('current', k === ui.gbBrMark)); marks[ui.gbBrMark].scrollIntoView({block: 'nearest'}); break; }
+      case 'browser-find': ui.browserFind=''; ui.overlay=''; render(); viewport.querySelector('.gbbr-find input')?.focus(); break;
       case 'browser-close-find': ui.browserFind=undefined; render(); break;
       case 'browser-history': ui.sub = 'history'; render(); break;
       case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
-      case 'browser-new-tab': if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); break; } ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
+      case 'browser-new-tab': if (!ICSBrowserSession.add(ui.browserSession)) break; browserLoading(); ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       case 'browser-save': ui.overlay = ''; renderOverlay(); if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
       case 'phone-tab': ui.phoneTab = id; ui.phoneSearch = undefined; if (id === 'contacts') { ui.view = 'people'; ui.sub = ''; } else if (ui.view === 'people') { ui.view = 'phone'; ui.sub = ''; } render(); break;
       case 'gbp-contact': ui.selectedContact = Number(id); ui.view = 'people'; ui.sub = 'detail'; render(); break;
@@ -1733,6 +1759,8 @@
       else ui.peopleDraft[event.target.name]=event.target.value;
       return;
     }
+    if (event.target.closest('.gbbr-search')) { ui.gbBrEditValue = event.target.value; const box = viewport.querySelector('.gbbr-suggest'); if (box) box.innerHTML = GBBrowser.suggestions(gbBrowserContext()); return; }
+    if (event.target.closest('.gbbr-find')) { ui.browserFind = event.target.value; ui.gbBrMark = -1; const page = viewport.querySelector('.browser-page'); page.innerHTML = renderWebsite(ui.browserUrl); if (ui.browserFind) highlightBrowserText(); else viewport.querySelector('.web-find-count').textContent = ''; return; }
     if (event.target.closest('.mms-compose')) {
       const draft = messageDraft();
       if (event.target.name === 'body') draft.body = event.target.value;
@@ -2148,6 +2176,8 @@
     if (message && !ui.overlay) { ui.mmsMessage = message.dataset.id; gbMmsDialog('message'); }
     const thread = event.target.closest('.gbmms-thread[data-action="thread"]');
     if (thread && !ui.overlay) { ui.thread = thread.dataset.id; gbMmsDialog('thread'); }
+    const link = event.target.closest('[data-gbbr-item]');
+    if (link && !ui.overlay) { ui.gbBrTarget = link.dataset.id; ui.overlay = 'gb-dialog-br'; ui.gbBrDialog = link.dataset.gbbrItem; renderOverlay(); }
     const song = event.target.closest('.stock-music [data-action="music-select"]');
     if (song && !ui.overlay) { ui.musicSelected = Number(song.dataset.id); ui.overlay = 'gb-dialog-music'; ui.gbMusicDialog = 'track'; renderOverlay(); }
     const alarm = event.target.closest('.gbdc-alarm-body');
@@ -2178,6 +2208,8 @@
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; suppressReleaseClick(); gbMmsDialog('message'); }, 550);
+    const heldLink = event.target.closest('[data-gbbr-item]');
+    if (heldLink && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.gbBrTarget = heldLink.dataset.id; suppressReleaseClick(); ui.overlay = 'gb-dialog-br'; ui.gbBrDialog = heldLink.dataset.gbbrItem; renderOverlay(); }, 550);
     const heldSong = event.target.closest('.stock-music [data-action="music-select"]');
     if (heldSong && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.musicSelected = Number(heldSong.dataset.id); suppressReleaseClick(); ui.overlay = 'gb-dialog-music'; ui.gbMusicDialog = 'track'; renderOverlay(); }, 550);
     const heldAlarm = event.target.closest('.gbdc-alarm-body');

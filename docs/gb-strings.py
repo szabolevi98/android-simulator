@@ -55,6 +55,16 @@ playlists_title search_title no_tracks_title ringtone_menu play_selection add_to
 create_playlist_create_text remove_from_playlist shuffle_on_notif shuffle_off_notif repeat_all_notif
 repeat_current_notif repeat_off_notif emptyplaylist'''.split(),
     },
+    'browser': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_browser/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'keys': '''new_tab active_tabs tab_bookmarks tab_most_visited tab_history added_to_bookmarks removed_from_bookmarks title_bar_loading page_info
+page_info_address stop reload back forward location name save_to_bookmarks edit_bookmark open_bookmark remove_bookmark bookmark_needs_title
+delete_bookmark open_in_new_window goto_dot find_dot select_dot tab_picker_title tab_picker_remove_tab bookmarks history menu_view_download
+copy_page_url share_page menu_preferences clear_history empty_history add_bookmark_short search_hint
+bookmark_page switch_to_thumbnails switch_to_list set_as_homepage contextmenu_openlink contextmenu_openlink_newwindow contextmenu_sharelink
+contextmenu_copylink remove_history_item create_shortcut_bookmark'''.split(),
+    },
 }
 
 
