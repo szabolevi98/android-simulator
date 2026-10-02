@@ -708,6 +708,6 @@ The Nexus wallpaper used the AOSP `packages/wallpapers/Basic` resources: the gre
 
 The crespo `default_wallpaper.jpg` (green grass) is only the static ImageWallpaper fallback. `config.xml` makes the live Nexus wallpaper the default.
 
-`versions/2.3.6/assets/lw-pyramid_background.png` and `lw-nexus_thumb.png` are now the crespo files (cache key `?v=2`). `live-wallpapers.js` follows the crespo `initPulse` / `addTap` scaling. The landing thumbnail (`landing-home.jpg?v=3`) was recaptured. 4.0.4 and 4.3 keep their own wallpapers.
+`versions/2.3.6/assets/lw-pyramid_background.png` and `lw-nexus_thumb.png` are now the crespo files (cache key `?v=2`). `live-wallpapers.js` follows the crespo `initPulse` / `addTap` scaling. The landing thumbnail (`landing-home.jpg?v=4`) was recaptured. The shot is staged with two taps on the empty home area, so two four-colour `addTap` bursts cross the light waves. 4.0.4 and 4.3 keep their own wallpapers.
 
 Checks: headless Chrome showed the new background with mixed pulse widths, a tap burst and the new LivePicker thumbnail. No JavaScript errors.
