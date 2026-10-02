@@ -140,6 +140,16 @@ search_sources search_sources_summary clear_shortcuts clear_shortcuts_summary cl
 google_search_hint google_search_settings google_show_web_suggestions google_show_web_suggestions_summary_enabled
 google_show_web_suggestions_summary_disabled'''.split(),
     },
+    'downloads': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_providers_downloadprovider/android-2.3.6_r1/ui/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/donottranslate-cldr.xml'],
+        'keys': '''app_label download_title no_downloads missing_title download_menu_sort_by_size download_menu_sort_by_date download_queued
+download_running download_success download_error dialog_title_not_available dialog_failed_body dialog_title_queued_body dialog_queued_body
+dialog_file_missing_body download_no_application_title remove_download delete_download keep_queued_download cancel_running_download
+retry_download deselect_all today yesterday last_month older'''.split(),
+        'plurals': ['last_num_days'],
+    },
     'wallpapers': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_livepicker/android-2.3.6_r1/res/values%s/strings.xml',
                     'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_basic/android-2.3.6_r1/res/values%s/strings.xml',

@@ -1,0 +1,22 @@
+/* Android 2.3.6 Downloads (1 dp = 0.8625 px): the window title, list_group_header (64 dip, 18 sp, 43 dip left padding,
+   the expander_ic group indicator), download_list_item (8 dip paddings, btn_check, 48 dip icon, textAppearanceSmall lines
+   with a bold title and a 15 dp gap before the size) and the bottom_bar selection menu with two btn_default buttons. */
+#viewport>.app-view.gbdl{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.gbdl-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain}
+.gbdl-list::-webkit-scrollbar{display:none}
+.gbdl-empty{height:100%;display:grid;place-items:center;font-size:13.8px;font-weight:700}
+.screen .gbdl-group{position:relative;display:flex;align-items:center;width:100%;min-height:55.2px;margin:0;padding:0 8.63px 0 37.09px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font:15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbdl-group:active,.screen .gbdl-item:active:not(:has(.gbdl-check:active)){border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbdl-group img{position:absolute;left:2.59px;top:50%;width:25.88px;height:29.11px;object-fit:contain;transform:translateY(-50%)}
+.gbdl-item{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-rows:auto auto auto;align-items:center;padding:2.59px 8.63px 2.59px 0;border-bottom:1px solid #ffffff1f;color:#bebebe;font-size:12.07px;line-height:1.3;cursor:pointer}
+.screen .gbdl-check{grid-row:1/-1;display:grid;place-items:center;margin:0;padding:0 0 0 6.9px;border:0;background:none;cursor:pointer}
+.gbdl-check img{width:32.78px;height:41.4px}
+.gbdl-icon{grid-row:1/-1;width:34.5px;height:34.5px;margin-left:6.9px;object-fit:contain}
+.gbdl-title{grid-column:3/-1;padding-left:6.9px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbdl-domain{grid-column:3/-1;padding-left:6.9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbdl-status{grid-column:3;padding-left:6.9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbdl-size{padding-left:12.94px}
+.gbdl-date{grid-column:4;grid-row:3;white-space:nowrap}
+.gbdl-selbar{flex:none;display:flex;gap:0;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.screen .gbdl-btn{flex:1;min-width:0;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;padding:5.75px 9.78px 9.78px 9.2px;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gbdl-btn:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}

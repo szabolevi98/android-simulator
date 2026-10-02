@@ -624,3 +624,19 @@ References: android-2.3.6_r1 `packages/apps/QuickSearchBox` (`search_activity.xm
   - Web: Google search → Show web suggestions.
   - Phone: Searchable items (checkboxes with each corpus's description) and Clear shortcuts (with its confirmation dialog).
   - All strings come from QSB and the apps' own resources, in five languages.
+
+## Downloads — 2026-10-02
+
+References: android-2.3.6_r1 `packages/providers/DownloadProvider/ui` (`download_list.xml`, `download_list_item.xml`, `list_group_header.xml`, `download_menu.xml`, `DownloadList`, `DownloadAdapter`, `DateSortedExpandableListAdapter`), plus frameworks `DateSorter` and `Formatter.formatFileSize`.
+
+- **New "Downloads" app** in the drawer. The Browser's Menu → More → Downloads also opens it (it used to show a toast).
+- **Date-sorted list** under the window title. The DateSorter groups are Today, Yesterday, Last 7 days, Last month and Older, each with the expander indicator; the first group starts expanded.
+- **Rows:**
+  - a checkbox, the 48 dip file-type icon, the bold title and the domain;
+  - then the status (Complete / Failed / In progress / Queued), the size ("845KB", "2.13MB") and, on the right, the time for today or the short date otherwise.
+- **Selection:** checking a row brings up the `bottom_bar` with Delete (Remove for a queued download, Cancel for a running one) and Clear selection.
+- **Menu:** Sort by size or Sort by time, whichever is not active.
+- **Tapping a row:**
+  - A finished image or song opens Gallery or Music. Any other file type shows "Cannot open file".
+  - A failed download asks Retry / Delete (Retry runs it again until Complete).
+  - A queued download asks Keep / Remove.

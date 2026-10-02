@@ -87,7 +87,7 @@
       {action: 'gbset-toast', id: na, title: T('select_dot')},
       {action: 'gbbr-page-info', title: T('page_info')},
       {action: 'gbset-toast', id: na, title: T('share_page')},
-      {action: 'gbset-toast', id: na, title: T('menu_view_download')},
+      {action: 'open-app', id: 'downloads', title: T('menu_view_download')},
       {action: 'gbset-toast', id: na, title: T('menu_preferences')}
     ];
   }

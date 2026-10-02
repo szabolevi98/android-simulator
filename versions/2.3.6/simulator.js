@@ -114,7 +114,8 @@
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
-    ['play-store', 'Market', '▶', '#b5d26d', '#53732f'], ['search', 'Search', '⌕', '#9ad0f0', '#3a7fb0']
+    ['play-store', 'Market', '▶', '#b5d26d', '#53732f'], ['search', 'Search', '⌕', '#9ad0f0', '#3a7fb0'],
+    ['downloads', 'Downloads', '⇩', '#9fd36a', '#4f8a2a']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -130,7 +131,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -231,6 +232,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'downloads') { ui.gbMenuItems = GBDownloads.menu(gbDlContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'search') { const items = GBSearch.menu(gbSearchContext()); if (items.length) { ui.qsb.selecting = false; ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); render(); } return; }
     if (ui.view === 'play-store') { const items = GBMarket.menu(gbMarketContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'settings' && GBSettingsPages.has(ui.sub)) { const items = GBSettingsPages.menu(ui.sub, gbPagesContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
@@ -312,6 +314,12 @@
     else if (item.kind === 'contact') { openApp('people'); ui.selectedContact = Number(item.id); ui.sub = 'detail'; render(); }
     else if (item.kind === 'message') openMessageThread(Number(item.id));
     else if (item.kind === 'track') { openApp('music'); ui.music.queue = ICSMusic.tracks.map((_, i) => i); ui.music.track = Number(item.id); ui.music.position = 0; ui.music.playing = true; saveMusic(); ui.sub = 'player'; render(); }
+  }
+  // DownloadList: data.downloads (seeded on first use), the sort order and the selection live in ui.gbdl.
+  function gbDlContext() {
+    data.downloads ||= GBDownloads.seed(Date.now());
+    const d = ui.gbdl ||= {selected: [], bySize: false, expanded: null};
+    return {lang: i18n.language, locale: i18n.locale(), now: Date.now(), hour24: !!data.settings.hour24, downloads: data.downloads, selected: d.selected, bySize: d.bySize, expanded: d.expanded};
   }
   // Window transitions: the outgoing view is kept in a temporary layer while both animate.
   let lastScene = null, pendingNav = '', activeTransition = null;
@@ -564,6 +572,7 @@
     switch (ui.view) {
       case 'play-store': return GBMarket.render(gbMarketContext());
       case 'search': return GBSearch.render(gbSearchContext());
+      case 'downloads': return GBDownloads.render(gbDlContext());
       case 'live-wallpapers': return renderLiveWallpapers();
       case 'wallpaper-picker': { const selected = Number.isInteger(ui.wpChoice) ? ui.wpChoice : Math.max(0, data.wallpaper); return `<div class="app-view gbwp"><div class="gbwp-preview"><img src="assets/gb-wallpaper_${wallpaperFiles[selected]}.jpg" alt=""></div><div class="gbwp-gallery" role="listbox" aria-label="${safe(i18n.t('Wallpapers'))}">${wallpaperFiles.map((name, index) => `<button class="gbwp-item${index === selected ? ' selected' : ''}" role="option" aria-selected="${index === selected}" data-action="gb-wp-pick" data-id="${index}" aria-label="${safe(name.replace(/_/g, ' '))}"><img src="assets/gb-wallpaper_${name}_small.jpg" alt=""></button>`).join('')}</div><button class="gbwp-set" data-action="wallpaper" data-id="${selected}">${safe(i18n.t('Set wallpaper'))}</button></div>`; }
       case 'settings': return renderSettings();
@@ -695,6 +704,7 @@
       {action: 'gb-new-folder', id: 'all', title: t('All contacts'), icon: 'ic_launcher_folder_live_contacts'},
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
+    if (ui.overlay === 'gb-dialog-dl') return GBDownloads.dialog(data.downloads?.find(d => d.id === ui.gbdlDialog), i18n.language) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-qsb-clear') return GBSearch.clearDialog(i18n.language);
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
     if (ui.overlay === 'gb-dialog-sp') return GBSettingsPages.dialog(ui.gbspDialog, gbPagesContext()) || {title: '', items: []};
@@ -1619,6 +1629,19 @@
       case 'noop': break;
       case 'browser-search': openSearch(''); break;
       case 'gbqs-corpora': ui.qsb.selecting = !ui.qsb.selecting; render(); break;
+      // DownloadList.handleItemClick: open a finished file with its app, explain a failed or queued one.
+      case 'gbdl-open': { const d = data.downloads?.find(x => x.id === Number(id)); if (!d) break;
+        if (d.status === 'failed' || d.status === 'queued') { ui.gbdlDialog = d.id; ui.overlay = 'gb-dialog-dl'; renderOverlay(); break; }
+        if (d.status !== 'success') break;
+        const app = GBDownloads.KINDS[d.kind]?.app; if (app) openApp(app); else toast(GBDownloads.text(i18n.language, 'download_no_application_title')); break; }
+      case 'gbdl-select': { const sel = gbDlContext().selected, n = Number(id); ui.gbdl.selected = sel.includes(n) ? sel.filter(x => x !== n) : [...sel, n]; render(); break; }
+      case 'gbdl-deselect': ui.gbdl.selected = []; render(); break;
+      case 'gbdl-delete': data.downloads = data.downloads.filter(d => !ui.gbdl.selected.includes(d.id)); ui.gbdl.selected = []; save(); render(); break;
+      case 'gbdl-group': { const ctx = gbDlContext(), edges = GBDownloads.bins(ctx.now), present = [...new Set(ctx.downloads.map(d => GBDownloads.binOf(d.time, edges)))].sort(), open = ui.gbdl.expanded || present.slice(0, 1), bin = Number(id); ui.gbdl.expanded = open.includes(bin) ? open.filter(b => b !== bin) : [...open, bin]; render(); break; }
+      case 'gbdl-sort': ui.overlay = ''; ui.gbdl.bySize = id === 'size'; render(); break;
+      case 'gbdl-remove': data.downloads = data.downloads.filter(d => d.id !== Number(id)); ui.gbdl.selected = ui.gbdl.selected.filter(x => x !== Number(id)); save(); ui.overlay = ''; render(); break;
+      // Retry restarts the download: In progress, then Complete.
+      case 'gbdl-retry': { const d = data.downloads.find(x => x.id === Number(id)); ui.overlay = ''; if (d) { d.status = 'running'; d.time = Date.now(); save(); setTimeout(() => { d.status = 'success'; save(); if (ui.view === 'downloads') render(); }, 3000); } render(); break; }
       case 'gbqs-corpora-close': ui.qsb.selecting = false; render(); break;
       case 'gbqs-corpus': Object.assign(ui.qsb, {corpus: id || '', selecting: false}); render(); viewport.querySelector('.gbqs-field input')?.focus(); break;
       case 'gbqs-pick': gbSearchLaunch(ui.qsbItems?.[Number(id)]); break;
