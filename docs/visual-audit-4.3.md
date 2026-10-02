@@ -519,3 +519,9 @@ References: Android Police captures of 4.0.25 (9 April 2013), 4.1.6 (14 May 2013
 - **Icon:** the 2012–2014 Google Play bag (official file, see the notices).
 
 Checks: `tests/jb-play.test.cjs` covers the version, category order, clusters, the promo, Hungarian labels, the section bar colour and tabs, numbered lists, details states (install, price, open / uninstall, progress), the permissions, card and auto-update dialogs, My apps, the wishlist, Settings and the overflow menu. Headless Chrome covered home, Apps HOME / TOP FREE, the card popup, details, install → download → installed, My apps, Settings and the auto-update dialog. No JavaScript errors.
+
+## Notification panel overpull (rubberbanding) — 2026-10-02
+
+Owner's note: in period videos the 4.3 panel can be pulled all the way down even when it is empty. `PanelView.setExpandedHeightInternal` (android-4.3_r1) only clamps the height to the content (`fh`) when not `mRubberbandingEnabled && (mTracking || mRubberbanding)`. Rubberbanding is on by default, and PhoneStatusBar never turns it off. So while the finger is down, the panel follows it past its content to the bottom of the screen. The `notification_panel_bg`, the carrier label and the handle stretch with it. On release the panel springs back to its content height: for an empty panel, the header, the carrier label and the handle.
+
+The simulator used to stop the drag at the content height. It now lets the drag run to the screen bottom and animates back on release. `.jb-shade-pages` grows so the stretched panel has no gap.

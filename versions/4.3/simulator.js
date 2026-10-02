@@ -2411,8 +2411,10 @@
       if (shade) {
         shade.style.animation = 'none';
         shade.style.bottom = 'auto';
-        const full = shadeFullHeight(shade);
-        shade.style.height = `${Math.max(78, Math.min(full, pointerStart.shadeCloseEligible ? full + dy : dy))}px`;
+        // PanelView.setExpandedHeightInternal: while the finger is down (mTracking) rubberbanding lets the panel follow it past
+        // its content height down to the bottom of the screen; on release it springs back to the content (handled below).
+        const full = shadeFullHeight(shade), max = screen.clientHeight - 24;
+        shade.style.height = `${Math.max(78, Math.min(max, pointerStart.shadeCloseEligible ? full + dy : dy))}px`;
         overlayRoot.querySelector('.jb-shade-scrim')?.style.setProperty('opacity', String(Math.min(1, shade.offsetHeight / full)));
       }
       return;

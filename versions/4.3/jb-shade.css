@@ -13,7 +13,7 @@
 .jb-shade-flip img{position:absolute;inset:7px 8px;transition:opacity .35s}
 .jb-shade-flip .jb-flip-notifications,.jb-shade.show-settings .jb-flip-settings{opacity:0}
 .jb-shade.show-settings .jb-flip-notifications{opacity:1}
-.jb-shade-pages{position:relative;flex:0 1 auto;min-height:0;display:grid;background:#0e0e0ee6}
+.jb-shade-pages{position:relative;flex:1 1 auto;min-height:0;display:grid;background:#0e0e0ee6}
 .jb-shade-pages>*{grid-area:1/1;min-height:0;overflow-y:auto;overscroll-behavior:contain;transform-origin:center}
 .jb-shade .jb-shade-list{padding:0;background:none}
 .jb-shade .jb-qs,.jb-shade.show-settings .jb-shade-list{visibility:hidden}
