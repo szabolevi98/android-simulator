@@ -79,6 +79,12 @@ message_saved_toast notification_new_title okay_action cancel_action read_action
 account_settings_action'''.split(),
         'plurals': ['message_deleted_toast'],
     },
+    'gallery': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_gallery3d/android-2.3.6_r1/res/values%s/strings.xml'],
+        'keys': '''app_name camera delete confirm_delete cancel share more select_all deselect_all slideshow menu details album_selected item_selected
+albums_selected items_selected album location location_unknown title type taken_on added_on show_on_map rotate_left rotate_right crop set_as
+set_as_wallpaper item items date_unknown details_ok no_items wallpaper camera_setas_wallpaper'''.split(),
+    },
     'calendar': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
         'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],

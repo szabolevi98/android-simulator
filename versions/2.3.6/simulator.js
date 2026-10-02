@@ -573,6 +573,8 @@
     if (ui.view === 'lock') return;
     if(ui.view==='phone' && ui.activeCall && ui.gbAddCall){ui.gbAddCall=false;ui.gbCallBackground=false;render();return;}
     if(ui.view==='phone' && ui.activeCall && !ui.gbCallBackground){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
+    if (ui.view === 'gallery' && ui.gbgPopup) { ui.gbgPopup = ''; render(); return; }
+    if (ui.view === 'gallery' && ui.gbgSelect) { gbgEndSelection(); render(); return; }
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
     if (ui.view === 'email' && ui.sub === 'compose') { gbEmSync(); const item = data.mailbox.find(m => m.id === ui.emailId); if (item && [item.to, item.subject, item.body].some(v => String(v || '').trim())) { item.folder = 'Drafts'; gbEmLeaveCompose('message_saved_toast'); } else { data.mailbox = data.mailbox.filter(m => m.id !== ui.emailId); gbEmLeaveCompose(''); } return; }
@@ -643,6 +645,7 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-gallery') return GBGallery.details(gbGalleryContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-email') return GBEmail.dialog(ui.gbEmDialog, gbEmailContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-cal') return GBCalendar.dialog(ui.gbCalDialog, gbCalContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-br') return GBBrowser.dialog(ui.gbBrDialog, gbBrowserContext()) || {title: '', items: []};
@@ -1080,7 +1083,16 @@
     return '';
   }
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
-  function renderGallery() { return ICSMedia.gallery(data,ui,key=>i18n.t(key)); }
+  function renderGallery() { return GBGallery.render(gbGalleryContext()); }
+  function gbGalleryContext() {
+    return {lang: i18n.language, locale: i18n.locale(), now: deviceDate(), data, sub: ui.sub || '', album: ui.galleryAlbum || 'camera', photo: data.photos.find(p => p.id === ui.selectedPhoto), selecting: !!ui.gbgSelect, selected: ui.gbgSelected || [], popup: ui.gbgPopup || '', caption: !!ui.gbgCaption, zoom: !!ui.galleryZoom, slideshow: !!ui.gallerySlideshow, hudHidden: !!ui.gbgHudHidden, stackMode: !!ui.gbgStack, width: viewport.clientWidth || 276, height: viewport.clientHeight || 438, timebar: 48 * GBGallery.DP};
+  }
+  // The photos a selection stands for: whole albums on the album screen, single photos elsewhere.
+  function gbgSelectedPhotos() {
+    const ids = ui.gbgSelected || [];
+    return ui.sub ? data.photos.filter(p => ids.includes(String(p.id))) : data.photos.filter(p => ids.includes(ICSMedia.album(p)));
+  }
+  function gbgEndSelection() { ui.gbgSelect = false; ui.gbgSelected = []; ui.gbgPopup = ''; }
   function renderCamera() { return ICSMedia.camera(data,ui,key=>i18n.t(key)); }
   function galleryStep(direction) {
     const items=ICSMedia.photos(data,ui.galleryAlbum); if(!items.length)return;
@@ -1551,15 +1563,37 @@
       }
       case 'new-message': ui.sub = 'new'; ui.overlay = ''; render(); viewport.querySelector('[name=recipient]')?.focus(); break;
       case 'gallery-camera': openApp('camera'); break;
-      case 'gallery-album': ui.galleryAlbum=id; ui.sub='album';ui.gallerySlideshow=false;render();break;
+      case 'gallery-album': ui.galleryAlbum=id; ui.sub='album';ui.gallerySlideshow=false;ui.gbgStack=false;render();break;
+      case 'gbg-home': gbgEndSelection(); ui.sub = ''; ui.gallerySlideshow = false; render(); break;
+      case 'gbg-up': gbgEndSelection(); ui.sub = 'album'; ui.gallerySlideshow = false; render(); break;
+      case 'gbg-caption': ui.gbgCaption = !ui.gbgCaption; render(); break;
+      case 'gbg-mode': ui.gbgStack = !ui.gbgStack; render(); break;
+      case 'gbg-hud': if (ui.gallerySlideshow) { ui.gallerySlideshow = false; render(); break; } ui.gbgHudHidden = !ui.gbgHudHidden; render(); break;
+      case 'gbg-zoom': ui.galleryZoom = Number(id) > 0; render(); break;
+      case 'gbg-toggle': { const list = ui.gbgSelected || []; ui.gbgSelected = list.includes(id) ? list.filter(x => x !== id) : [...list, id]; ui.gbgPopup = ''; if (!ui.gbgSelected.length && ui.sub !== 'photo') gbgEndSelection(); render(); break; }
+      case 'gbg-select-all': ui.gbgSelected = ui.sub ? ICSMedia.photos(data, ui.galleryAlbum).map(p => String(p.id)) : GBGallery.ALBUMS.filter(key => ICSMedia.photos(data, key).length); ui.gbgPopup = ''; render(); break;
+      case 'gbg-deselect': gbgEndSelection(); render(); break;
+      case 'gbg-select-current': ui.gbgSelect = true; ui.gbgSelected = [String(ui.selectedPhoto)]; ui.gbgPopup = ''; render(); break;
+      case 'gbg-share': case 'gbg-delete': case 'gbg-more': { const kind = action.slice(4); if (!(ui.gbgSelected || []).length) break; ui.gbgPopup = ui.gbgPopup === kind ? '' : kind; render(); break; }
+      case 'gbg-popup-close': ui.gbgPopup = ''; render(); break;
+      case 'gbg-confirm-delete': {
+        const gone = gbgSelectedPhotos().map(p => p.id); data.photos = data.photos.filter(p => !gone.includes(p.id)); save(); gbgEndSelection();
+        if (ui.sub === 'photo') { const rest = ICSMedia.photos(data, ui.galleryAlbum); if (rest.length) ui.selectedPhoto = rest[0].id; else ui.sub = 'album'; }
+        if (ui.sub === 'album' && !ICSMedia.photos(data, ui.galleryAlbum).length) ui.sub = '';
+        render(); break;
+      }
+      case 'gbg-rotate': gbgSelectedPhotos().forEach(p => p.rotation = ((p.rotation || 0) + Number(id) + 360) % 360); save(); ui.gbgPopup = ''; if (ui.sub === 'photo') gbgEndSelection(); render(); break;
+      case 'gbg-wallpaper': { const photo = gbgSelectedPhotos()[0]; gbgEndSelection(); if (photo) { data.wallpaper = 99; delete data.liveWallpaper; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); toast('Wallpaper set'); } render(); break; }
+      case 'gbg-share-email': { const photo = gbgSelectedPhotos()[0]; gbgEndSelection(); if (!photo) break; openApp('email'); composeEmail(); const item = data.mailbox.find(m => m.id === ui.emailId); if (item) item.attachment = clone(photo); save(); render(); break; }
       case 'photo': ui.selectedPhoto=Number(id);ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});ui.sub='photo';ui.galleryZoom=false;render();break;
       case 'gallery-step': galleryStep(Number(id));break;
       case 'gallery-photo-zoom': ui.galleryZoom=!ui.galleryZoom;render();break;
-      case 'gallery-menu': case 'gallery-share': case 'gallery-details': ui.overlay=action;renderOverlay();break;
+      case 'gallery-details': { const photo = gbgSelectedPhotos()[0] || data.photos.find(p => p.id === ui.selectedPhoto); if (photo) ui.selectedPhoto = photo.id; ui.gbgPopup = ''; ui.overlay = 'gb-dialog-gallery'; render(); renderOverlay(); break; }
+      case 'gallery-menu': case 'gallery-share': ui.overlay=action;renderOverlay();break;
       case 'gallery-rotate': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(photo)photo.rotation=((photo.rotation||0)+Number(id)+360)%360;save();ui.overlay='';render();break;}
       case 'gallery-slideshow': {const items=ICSMedia.photos(data,ui.galleryAlbum);if(!items.length)break;if(ui.sub!=='photo')ui.selectedPhoto=items[0].id;ui.sub='photo';ui.overlay='';ui.gallerySlideshow=true;ui.gallerySlideAt=Date.now();render();break;}
       case 'gallery-stop': ui.gallerySlideshow=false;render();break;
-      case 'gallery-share-message': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(!photo)break;openApp('messaging');ui.sub='new';messageDraft().attachment=clone(photo);save();render();break;}
+      case 'gallery-share-message': {const photo=gbgSelectedPhotos()[0]||data.photos.find(p=>p.id===ui.selectedPhoto);gbgEndSelection();if(!photo)break;openApp('messaging');ui.sub='new';messageDraft().attachment=clone(photo);save();render();break;}
       case 'photo-delete': ui.selectedPhoto=Number(id);ui.overlay='gallery-delete';renderOverlay();break;
       case 'gallery-confirm-delete': {
         const items=ICSMedia.photos(data,ui.galleryAlbum);const index=items.findIndex(p=>p.id===ui.selectedPhoto);
@@ -2271,6 +2305,8 @@
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; suppressReleaseClick(); gbMmsDialog('message'); }, 550);
+    const heldGallery = event.target.closest('[data-gbg-hold]');
+    if (heldGallery && !ui.overlay && !ui.gbgSelect) messageHoldTimer = setTimeout(() => { ui.gbgSelect = true; ui.gbgSelected = [heldGallery.dataset.gbgHold]; ui.gbgPopup = ''; suppressReleaseClick(); render(); }, 550);
     const heldMail = event.target.closest('[data-gbem-item]');
     if (heldMail && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.gbEmTarget = heldMail.dataset.gbemItem; suppressReleaseClick(); gbEmDialog('context'); }, 550);
     const heldDay = event.target.closest('[data-gbcal-day]');

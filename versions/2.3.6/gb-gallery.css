@@ -1,0 +1,87 @@
+/* Android 2.3.6 Gallery (Gallery3D). Sizes in dip from HudLayer, PathBarLayer, MenuBar, TimeBar, GridLayer and Gallery
+   (96 x 72 dip items); res/drawable textures are density-scaled (x 0.8625), drawable-hdpi ones x 0.575. */
+.gbg{position:relative;height:100%;overflow:hidden;background:#000 url('assets/gb-g3-default_background.png') 0 0/100% 100%;color:#fff;font-family:DroidSans,Arial,sans-serif;user-select:none}
+.gbg button{font-family:inherit}
+/* BackgroundLayer: the focused cover, blurred and dimmed behind the grid. */
+.gbg-bg{position:absolute;inset:-24px;background:center/cover no-repeat;filter:blur(16px) brightness(.42) saturate(1.15)}
+.gbg-scroll{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior:contain;scrollbar-width:none}
+.gbg-scroll::-webkit-scrollbar{display:none}
+.gbg-canvas{position:relative;height:100%;min-width:100%}
+.gbg-empty{position:absolute;left:0;right:0;top:45%;margin:0;text-align:center;font-size:13.8px;color:#ddd}
+
+/* Stacks and grid cells */
+.screen .gbg-stack,.screen .gbg-cell{position:absolute;width:82.8px;height:62.1px;padding:0;border:0;background:none;cursor:pointer}
+.gbg-layer{position:absolute;inset:0;transition:transform .25s}
+.gbg-thumb{display:block;width:100%;height:100%;box-sizing:border-box;border:2.59px solid #f2f2f2;border-radius:1.73px;background:#222;box-shadow:0 1.73px 5px #000b;overflow:hidden}
+.gbg-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.gbg-cell .gbg-thumb{border-width:1.73px;border-color:#e6e6e6;border-radius:0}
+.screen .gbg-stack:active .gbg-thumb,.screen .gbg-cell:active .gbg-thumb,.gbg-stack.selected .gbg-thumb,.gbg-cell.selected .gbg-thumb{border-color:#ffb300;box-shadow:0 0 6px #ffb300aa,0 1.73px 5px #000b}
+.gbg-stack:active .gbg-layer:nth-last-child(2){transform:rotate(-9deg)!important}
+.gbg-source{position:absolute;left:-10.35px;bottom:-10.35px;width:25.88px;height:25.88px;z-index:6;filter:drop-shadow(0 1px 1px #000)}
+.gbg-check{position:absolute;right:-6.9px;top:-6.9px;width:27.6px;height:26.57px;z-index:7}
+.gbg-label{position:absolute;left:-30px;right:-30px;top:calc(100% + 11px);z-index:6;text-align:center;font-size:12.08px;font-weight:700;line-height:1.25;text-shadow:0 1px 2px #000,0 0 4px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* PathBarLayer: y -4 dip, 39 dip tall, 18 dip text; labels joined by pathbar_join and closed by pathbar_cap. */
+.gbg-path{position:absolute;left:0;top:-3.45px;z-index:10;display:flex;max-width:calc(100% - 103.5px);height:33.64px}
+.gbg-full .gbg-path{max-width:calc(100% - 27.6px)}
+.screen .gbg-crumb{position:relative;flex:0 1 auto;min-width:0;display:flex;align-items:center;gap:2.59px;height:100%;margin:0;padding:3.45px 18.11px 0 4.31px;border:0;background:url('assets/gb-g3-pathbar_bg.png') 0 0/100% 100% repeat-x;color:#fff;font-size:15.53px;font-weight:700;text-shadow:0 1px 1px #000;white-space:nowrap;cursor:pointer}
+.gbg-crumb+.gbg-crumb{margin-left:0}
+.gbg-crumb::after{content:"";position:absolute;right:0;top:0;width:18.11px;height:100%;background:url('assets/gb-g3-pathbar_join.png') 0 0/100% 100%}
+.gbg-crumb.last{padding-right:21.56px}
+.gbg-crumb.last::after{width:18.98px;background-image:url('assets/gb-g3-pathbar_cap.png')}
+.gbg-crumb img{flex:none;width:25.88px;height:25.88px;margin-top:-1.73px}
+.gbg-crumb span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.screen .gbg-crumb:active:not(.last){filter:brightness(1.35)}
+
+/* Top-right button: btn_camera (100 x 94 dip) on the albums, the grid / stack switch (100 x 47 dip) in an album. */
+.screen .gbg-camera{position:absolute;right:0;top:0;z-index:10;width:86.25px;height:81.08px;padding:0;border:0;background:url('assets/gb-g3-btn_camera.png') 100% 0/86.25px 86.25px no-repeat;cursor:pointer}
+.screen .gbg-camera:active{background-image:url('assets/gb-g3-btn_camera_pressed.png')}
+.screen .gbg-mode{position:absolute;right:0;top:0;z-index:10;width:86.25px;height:40.54px;padding:0;border:0;background:url('assets/gb-g3-mode_grid.png') 50% 0/86.25px 80.5px no-repeat;cursor:pointer}
+.screen .gbg-mode.stack{background-image:url('assets/gb-g3-mode_stack.png')}
+
+/* TimeBar (48 dip): the month and year in 17 dip text on the scroller knob. */
+.gbg-timebar{position:absolute;left:0;right:0;bottom:0;z-index:9;height:41.4px;background:linear-gradient(#0000,#000c)}
+.gbg-knob{position:absolute;left:6.9px;bottom:0;width:140.3px;height:41.4px;background:url('assets/gb-g3-scroller_new.png') 0 0/100% 100%}
+.gbg-month{position:absolute;left:6.9px;bottom:44px;padding:2px 8px;border-radius:3px;background:#000a;font-size:14.66px;font-weight:700;text-shadow:0 1px 1px #000}
+
+/* MenuBar (45 dip) on selection_menu_bg; 17 dip titles with icons, 15 dip text-only titles. */
+.gbg-menubar{position:absolute;left:0;right:0;z-index:12;display:flex;height:38.81px;background:url('assets/gb-g3-selection_menu_bg.png') 0 0/100% 100%}
+.gbg-menubar.top{top:0}
+.gbg-menubar.bottom{bottom:0}
+.gbg-menubar>i{flex:none;width:1px;margin:6px 0;background:#ffffff33;box-shadow:1px 0 #0006}
+.screen .gbg-menubar button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:4.31px;padding:0 4px;border:0;background:none;color:#fff;font-size:14.66px;text-shadow:0 1px 1px #000;white-space:nowrap;cursor:pointer}
+.gbg-menubar.top button{font-size:12.94px}
+.screen .gbg-menubar button:not([data-action=""]):active{background:url('assets/gb-g3-selection_menu_bg_pressed.png') 0 0/100% 100%}
+.gbg-menubar button[data-action=""]{cursor:default;color:#ddd}
+.gbg-menubar img{flex:none;width:25.88px;height:25.88px}
+.gbg-menubar span{overflow:hidden;text-overflow:ellipsis}
+
+/* PopupMenu: popup.9 (padding 15 / 15 / 9 / 22 px) with popup_triangle_bottom under the menu it belongs to. */
+.gbg-popup{position:absolute;bottom:38.81px;z-index:13;min-width:150px;max-width:calc(100% - 8px);padding:5.18px 8.63px 12.65px;border:0 solid transparent;border-image:url('assets/gb-g3-popup.png') 17 22 28 22 fill / 9.78px 12.65px 16.1px 12.65px stretch}
+.gbg-popup::after{content:"";position:absolute;bottom:-12px;width:34.5px;height:24.15px;background:url('assets/gb-g3-popup_triangle_bottom.png') 0 0/100% 100%}
+.gbg-popup.at-0{left:2px}.gbg-popup.at-0::after{left:22%}
+.gbg-popup.at-1{left:50%;transform:translateX(-50%)}.gbg-popup.at-1::after{left:calc(50% - 17px)}
+.gbg-popup.at-2{right:2px}.gbg-popup.at-2::after{right:12%}
+.screen .gbg-popup button{display:flex;align-items:center;gap:8.63px;width:100%;min-height:34.5px;padding:0 6.9px;border:0;border-radius:3px;background:none;color:#fff;font-size:13.8px;text-align:left;white-space:nowrap;cursor:pointer}
+.screen .gbg-popup button:active{background:url('assets/gb-g3-popup_option_selected.png') 0 0/100% 100%}
+.gbg-popup img{flex:none;width:23px;height:23px;object-fit:contain}
+
+/* Full screen */
+.gbg-black{position:absolute;inset:0;background:#000}
+.gbg-stage{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden}
+.screen .gbg-photo{width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer;overflow:hidden}
+.gbg-photo img{display:block;width:100%;height:100%;object-fit:contain;transition:transform .3s}
+.gbg-photo.zoomed img{transform:scale(2)}
+.gbg-zoom{position:absolute;right:0;bottom:38.81px;z-index:11;display:flex}
+.screen .gbg-zoom button{width:57.5px;height:36.23px;padding:0;border:0;background:url('assets/gb-g3-btn_hud_zoom_in_normal.png') center/37.38px 37.38px no-repeat;cursor:pointer}
+.screen .gbg-zoom button.out{background-image:url('assets/gb-g3-btn_hud_zoom_out_normal.png');background-size:37.38px 39.1px}
+.screen .gbg-zoom button.in:active{background-image:url('assets/gb-g3-btn_hud_zoom_in_pressed.png')}
+.screen .gbg-zoom button.out:active{background-image:url('assets/gb-g3-btn_hud_zoom_out_pressed.png')}
+.gbg-full .gbg-path,.gbg-full .gbg-zoom,.gbg-full .gbg-menubar{transition:opacity .4s}
+.gbg-full.hud-hidden .gbg-path,.gbg-full.hud-hidden .gbg-zoom,.gbg-full.hud-hidden .gbg-menubar.bottom:not(:has(+ .gbg-popup)),.gbg-slideshow .gbg-path,.gbg-slideshow .gbg-zoom,.gbg-slideshow .gbg-menubar{opacity:0;pointer-events:none}
+/* The Details AlertDialog lists one field per line. */
+.gbdlg-s-message p{white-space:pre-line}
+/* PathBarLayer.layout: every level but the last is drawn as its icon only (icon width + 5 dip). */
+.gbg-crumb:not(.last) span{display:none}
+.screen .gbg-crumb:not(.last){padding-left:3.45px;padding-right:17.25px}
+.gbg-menubar.top button:nth-child(3){flex:1.6}

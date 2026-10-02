@@ -418,3 +418,22 @@ References: Email 2.3.6 (`list_title.xml`, `message_list.xml`, `message_list_ite
 - The sample mail now talks about the Nexus S and Android 2.3.
 
 Checks: `gb-email.test.cjs` covers the list rows and organize bar, search, MailboxList, AccountFolderList, the message view, compose with quoting and Cc, the menus, the context menus and translations. Headless Chrome covered the list, menu, Folders, Accounts, selection, the message view arrows, Reply all → menu → Send, plus a Hungarian long-press menu → Forward → Back (saved as a draft) → Folders → Drafts. No JavaScript errors.
+
+## Gallery (Gallery3D) — 2026-10-02
+
+References: Gallery3D 2.3.6 (`com.cooliris.media`: `HudLayer`, `PathBarLayer`, `MenuBar`, `TimeBar`, `GridLayer` state layouts, `GridLayoutInterface`, `GridDrawables`, `BackgroundLayer`, `Gallery` with the 96 × 72 dip items, `MediaSet` titles, `res/drawable(-hdpi)`). Strings come from `docs/gb-strings.py gallery`. The Nexus S gallery is drawn in OpenGL, so the screens are rebuilt in HTML from these numbers.
+
+- **Background:** the focused cover, blurred and dimmed (BackgroundLayer's adaptive texture), over `default_background`.
+- **Path bar:** at y −4 dip and 39 dip tall. Each `pathbar_bg` level is followed by `pathbar_join`, and the last ends in `pathbar_cap`; every level except the last is drawn as its icon only (PathBarLayer.layout). The text is 18 dip bold.
+  - On the albums it shows Gallery; in an album, home › the album; in full screen, home › album › `ic_fs_details` with the "2/4" position. Tapping that swaps to the caption.
+- **Albums** (STATE_MEDIA_SETS): stacks in 3 rows (portrait numMaxRows − 1), 100 dip × spacing and 70 dip × yStretch, scrolling sideways. The first column is centred.
+  - Each stack holds up to four framed photos turned behind each other, the source icon (camera / folder) and "Pictures (4)".
+  - `btn_camera` (100 × 94 dip) sits in the top-right corner.
+- **Album** (STATE_GRID_VIEW): 4 rows, 10 dip spacing, column by column. The TimeBar holds the month label and the `scroller_new` knob. The `mode_grid` / `mode_stack` switch (100 × 47 dip) toggles a stack of the month's photos.
+- **Full screen:** a black stage with the photo fitted. The 45 dip MenuBar on `selection_menu_bg` holds Slideshow (`icon_play`) and Menu (`icon_more`), with the 66 × 42 dip zoom buttons above it. A tap hides the HUD; swipes move between photos.
+- **Selection** (long press, or Menu in full screen):
+  - The top MenuBar shows Select All / "1 item selected" / Deselect All. Albums use "album(s) selected".
+  - The bottom bar has Share / Delete / More. Their `popup.9` menus carry the bottom triangle: Messaging and Email; Confirm Delete / Cancel; and Details, Show on map, Rotate Left / Right, Set as wallpaper, Crop (single image options only for one photo).
+  - Details opens the AlertDialog with title, type, album, taken on and location.
+
+Checks: `gb-gallery.test.cjs` covers the stacks and their placement, the path bar levels, the grid and time bar, stack mode, the full-screen labels and bar, the selection bars, popups, details and translations. Headless Chrome covered albums → album → stack mode → photo → Menu → More → Details, and a long press → Delete. No JavaScript errors.
