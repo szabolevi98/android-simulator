@@ -107,3 +107,11 @@ The 4.4 Dialer (`packages/apps/Dialer`) replaces the dark 4.3 tabs with `Dialtac
 - **Dialpad:** a white panel with 36 sp light digits and 56 dp keys. Numbers are 40 sp light #3B77E7, letters are 13 sp #8b8b8b. Typing filters the list above.
 - **History:** a blue action bar with the light ALL / MISSED tab strip.
 - **Back order:** Back closes the dialpad, then the search, then the sub-screens.
+
+## In-call screen — 2026-10-03
+
+The 4.4 InCallUI (`packages/apps/InCallUI`) changes the following:
+- **Call banner:** 80 dp on #A0000000.
+- **End button:** flat #f22121 (#ff4e4e when pressed), 60 dp, with `ic_in_call_phone_hangup`.
+- **Button row:** a 76 dp black row with the xxhdpi InCallUI icons.
+- **DTMF dialpad:** the white Dialer pad with light #3B77E7 digits.
