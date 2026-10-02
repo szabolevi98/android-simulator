@@ -596,3 +596,8 @@ References: android-2.3.6_r1 `packages/wallpapers/LivePicker` (`live_wallpaper_e
   - The default is preset 4 (the green smoke from the thumbnail).
   - Its selector shows the "Tap to change" bar and an OK button; each tap steps one preset back.
 - **Polar clock settings** use the GB preference look: the window title bar, two checkboxes, and "Color palette" as a list dialog with radio buttons and Cancel.
+
+## Market icon and landing thumbnail — 2026-10-02
+
+- **Market icon redrawn** from the 2010–2011 Android Market logo (owner's reference): the green handle, the wide white bag with its lower shading band, and the big tilted green Android peeking in from the lower right, clipped by the bag. The earlier version was drawn from memory and used a small, centred robot.
+- **Landing thumbnail recaptured** with the 2.3.6 Nexus pyramid-grid wallpaper.
