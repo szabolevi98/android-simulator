@@ -164,3 +164,13 @@ Apache License 2.0.
 ### Keyboard
 
 `versions/{4.0.4,4.3}/assets/ime-*.png`: [AOSP LatinIME java/res/drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_inputmethods_latinime/tree/android-4.3_r1.1/java/res/drawable-hdpi) (`btn_keyboard_key_{light,dark}_{normal,pressed}_holo`, `keyboard_background_holo` with the nine-patch border removed, and `sym_keyboard_*_holo`), identical at `android-4.0.4_r2.1` and `android-4.3_r1.1`. Apache License 2.0.
+
+## Android 2.3.6 Gingerbread assets
+
+`versions/2.3.6/assets/gb-*` come from AOSP `android-2.3.6_r1`, using the hdpi drawables. The status bar and shade images are from [frameworks/base packages/SystemUI](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-2.3.6_r1/packages/SystemUI/res/drawable-hdpi) and [core/res](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-2.3.6_r1/core/res/res/drawable-hdpi). The notification icons come from:
+- [Mms](https://github.com/aosp-mirror/platform_packages_apps_mms/tree/android-2.3.6_r1/res/drawable-hdpi) (`gb-app-mms-*`),
+- [Calendar](https://github.com/aosp-mirror/platform_packages_apps_calendar/tree/android-2.3.6_r1/res/drawable-hdpi) (`gb-app-calendar-*`),
+- [DeskClock](https://github.com/aosp-mirror-neo/platform_packages_apps_deskclock/tree/android-2.3.6_r1/res/drawable-hdpi) (`gb-app-deskclock-*`),
+- [Email](https://github.com/aosp-mirror/platform_packages_apps_email/tree/android-2.3.6_r1/res/drawable-hdpi) (`gb-app-email-*`).
+
+The 1px guide border is removed from nine-patch images. `versions/2.3.6/fonts/DroidSans.ttf` and `DroidSans-Bold.ttf` come from [frameworks/base data/fonts](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-2.3.6_r1/data/fonts). Copyright The Android Open Source Project; Apache License 2.0.

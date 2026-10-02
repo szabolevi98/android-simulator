@@ -186,10 +186,24 @@
   ui.locked=ICSLockscreen.secure(data);if(ui.locked)ui.view='lock';lockControls.lock();lockControls.bind(screen);
   const statusIndicators = () => `<span class="status-right">${data.settings.bluetooth ? '<img class="status-bluetooth" src="assets/stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.silent ? `<img src="assets/stat_sys_ringer_${data.settings.silentMode === 'vibrate' ? 'vibrate' : 'silent'}.png" alt="">` : ''}${data.alarms.some(alarm => alarm.enabled) ? '<img src="assets/stat_sys_alarm.png" alt="">' : ''}${data.settings.wifi && data.settings.wifiNetwork ? '<img src="assets/stat_sys_wifi_signal_4_fully.png" alt="">' : ''}<img src="assets/${data.settings.airplane ? 'stat_sys_signal_flightmode' : 'stat_sys_signal_4_fully'}.png" alt=""><img class="status-battery" src="assets/stat_sys_battery_71.png" alt=""><span class="status-clock">${clock()}</span></span>`;
 
+  // Gingerbread status bar: one 25 dp icon per notification on the left, config_statusBarIcons on the right.
+  const noteIcon = n => n.id === 2 ? 'gb-app-mms-stat_notify_sms.png' : n.kind === 'calendar' ? 'gb-app-calendar-stat_notify_calendar.png' : n.kind === 'alarm' ? 'gb-app-deskclock-stat_notify_alarm.png' : 'gb-stat_sys_adb.png';
+  // Clock.java: twelve_hour_time_format h:mm a with AM_PM_STYLE_GONE, or H:mm.
+  const gbClock = () => { const now = deviceDate(), h = now.getHours(), m = String(now.getMinutes()).padStart(2, '0'); return `${data.settings.hour24 ? h : h % 12 || 12}:${m}`; };
+  let seenNotes = null, stopTicker = null;
   function renderStatus() {
-    const notificationIcons = data.notifications.length ? `${data.notifications.some(item => item.id === 2) ? '<img src="assets/stat_notify_sms.png" alt="">' : ''}${data.notifications.some(item => item.kind === 'calendar') ? '<img src="assets/calendar-stat_notify_calendar.png" alt="">' : ''}${data.notifications.some(item => item.id !== 2 && item.kind !== 'calendar') ? '<img src="assets/stat_notify_more.png" alt="">' : ''}` : '';
-    statusRoot.innerHTML = `<button class="status-button" data-action="shade" aria-label="Open notifications"><span class="status-left">${notificationIcons}</span>${statusIndicators()}</button>`;
-    i18n.translateDOM(statusRoot);
+    const icons = data.notifications.map(noteIcon);
+    if (ui.activeCall) icons.unshift('gb-stat_sys_phone_call.png');
+    GBStatusBar.bar(statusRoot, {
+      label: i18n.t('Open notifications'), notifications: icons, clock: gbClock(), expanded: ui.overlay === 'shade',
+      date: deviceDate().toLocaleDateString(i18n.locale(), {year: 'numeric', month: 'long', day: 'numeric'}),
+      state: {bluetooth: data.settings.bluetooth, ringer: data.settings.silent ? (data.settings.silentMode === 'vibrate' ? 'vibrate' : 'silent') : '', airplane: data.settings.airplane, wifi: data.settings.wifi && !!data.settings.wifiNetwork, data: data.settings.mobileData === false ? '' : '3g', battery: 78, alarm: data.alarms.some(alarm => alarm.enabled)}
+    });
+    // Ticker: newly posted notifications scroll through the bar once (tickerText = the notification title).
+    const ids = new Set(data.notifications.map(n => n.id));
+    const fresh = seenNotes ? data.notifications.filter(n => !seenNotes.has(n.id)) : [];
+    seenNotes = ids;
+    if (fresh.length && !ui.sleeping) { stopTicker?.(); stopTicker = GBStatusBar.ticker(statusRoot, fresh.reverse().map(n => ({icon: noteIcon(n), text: n.title})), () => { stopTicker = null; }); }
   }
   // Nexus S capacitive keys under the glass (Back, Menu, Search, Home). Long-pressing Home shows the recent apps.
   const touchGlyphs = {
@@ -473,6 +487,7 @@
   function navigateBack() {
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
+    if (ui.overlay === 'shade') { closeShade(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
     if (ui.view === 'lock') return;
@@ -511,11 +526,36 @@
     screen.append(element);
     clearTimeout(ui.toastTimer); ui.toastTimer = setTimeout(() => element.remove(), 2500);
   }
+  // Shade motion (StatusBarService): the panel's bottom edge follows the finger and flings with +-2000 px/s^2.
+  let shadeTracking = null, stopShade = null;
+  const shadeBottom = () => screen.clientHeight;
+  function shadeFling(from, velocity, expand) {
+    const panel = overlayRoot.querySelector('.gbsh-panel'); if (!panel) return;
+    stopShade?.();
+    stopShade = GBStatusBar.slide(panel, {from, velocity, accel: (expand ? 1 : -1) * GBStatusBar.ACCEL, top: statusRoot.offsetHeight, bottom: shadeBottom(), reduced: !!reducedMotion?.matches}, opened => {
+      stopShade = null;
+      if (!opened && ui.overlay === 'shade') { ui.overlay = ''; renderOverlay(); renderStatus(); }
+    });
+  }
+  function closeShade() {
+    const panel = overlayRoot.querySelector('.gbsh-panel');
+    if (!panel || ui.overlay !== 'shade') { ui.overlay = ''; renderOverlay(); renderStatus(); return; }
+    const y = new DOMMatrixReadOnly(getComputedStyle(panel).transform).m42 + shadeBottom();
+    shadeFling(Math.min(shadeBottom() - 1, y), -2000 * GBStatusBar.PX, false);
+  }
   let openFolderId = '';
   function renderOverlay() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.overlay === 'shade') {
-      overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : n.kind === 'calendar' ? 'calendar.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
+      const time = n => n.id > 1e12 ? new Date(n.id).toLocaleTimeString(i18n.locale(), {hour: 'numeric', minute: '2-digit', hour12: !data.settings.hour24}) : '';
+      const ongoing = ui.activeCall ? [{id: 'call', action: 'open-app', app: 'phone', icon: 'gb-stat_sys_phone_call.png', title: i18n.t('Ongoing call'), text: contactByPhone(ui.activeCall.number)?.name || ui.activeCall.number}] : [];
+      const latest = data.notifications.map(n => ({id: n.id, icon: noteIcon(n), title: n.title, text: n.detail, time: time(n)}));
+      const open = overlayRoot.querySelector('.gbsh');
+      overlayRoot.innerHTML = GBStatusBar.shade({t: key => i18n.t(key), carrier: carrierName(), ongoing, latest, clearable: latest.length > 0});
+      const panel = overlayRoot.querySelector('.gbsh-panel');
+      if (open || shadeTracking) GBStatusBar.place(panel, shadeTracking ? shadeTracking.y : screen.clientHeight, shadeBottom());
+      else shadeFling(statusRoot.offsetHeight, 2000 * GBStatusBar.PX, true);
+      renderStatus();
     } else if (ui.overlay.startsWith('widget-photo')) {
       overlayRoot.innerHTML = ICSWidgets.photoOverlay(data, ui, key => i18n.t(key));
     } else if(ui.overlay==='sx-dialog'){
@@ -1046,11 +1086,11 @@
       case 'voice-search': toast('Voice search unavailable offline'); break;
       case 'lock-media': if (id === 'play') { ui.music.playing = !ui.music.playing; if (ui.music.playing && ui.music.position >= tracks[ui.music.track].duration) ui.music.position = 0; } else ICSMusic.step(ui.music, id === 'previous' ? -1 : 1); ui.musicTrack = ui.music.track; saveMusic(); render(); break;
       case 'lock-hint': screen.classList.add('lock-dragging'); setTimeout(() => { if (!pointerStart?.lockDrag) lockRelease(null); }, 1000); break;
-      case 'shade': ui.overlay = ui.overlay === 'shade' ? '' : 'shade'; renderOverlay(); break;
+      case 'shade': if (ui.overlay === 'shade') { closeShade(); break; } if (ui.view === 'lock' || ui.locked) break; ui.overlay = 'shade'; renderOverlay(); break;
       case 'recent': if (ui.view === 'lock') break; if (ui.overlay !== 'recent') captureRecentView(); ui.overlay = ui.overlay === 'recent' ? '' : 'recent'; renderOverlay(); break;
-      case 'close-overlay': ui.overlay = ''; renderOverlay(); break;
+      case 'close-overlay': if (ui.overlay === 'shade') { closeShade(); break; } ui.overlay = ''; renderOverlay(); break;
       case 'remove-recent': event.stopPropagation(); ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
-      case 'clear-notifications': data.notifications = []; ui.overlay = ''; save(); renderStatus(); renderOverlay(); break;
+      case 'clear-notifications': data.notifications = []; save(); renderStatus(); renderOverlay(); closeShade(); break;
       case 'notification-open': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar') { data.notifications = data.notifications.filter(item => item !== note); save(); ui.overlay = ''; openApp('calendar'); ui.selectedEvent = note.eventId; ui.selectedInstance = note.date; ui.selectedDate = note.date; ui.sub = 'event'; render(); break; } }
         ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break;
       case 'unlock': ui.view = 'home'; render(); break;
@@ -1830,7 +1870,7 @@
     const widgetList = ui.view === 'home' && !ui.overlay ? event.target.closest('.calw-list') : null;
     const scrollTarget = widgetList || (event.pointerType === 'mouse' && !ui.overlay && !event.target.closest('input, select, textarea, .wallpaper-choice')
       ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library,.desk-scroll,.gallery-scroll,.cal-scroll,.music-library-scroll,.email-scroll')) : null);
-    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
+    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.gbsh-close'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, 550);
@@ -1889,15 +1929,20 @@
       const picture=viewport.querySelector('.gallery-image');if(picture)picture.style.transform=`translateX(${dx}px)`;return;
     }
     if (pointerStart.lockDrag) { event.preventDefault(); pointerStart.lockActive = lockMove(dx, dy); return; }
-    if (pointerStart.shadeDragging || pointerStart.shadeDragEligible && dy > 8 && dy > Math.abs(dx) || pointerStart.shadeCloseEligible && dy < -8 && -dy > Math.abs(dx)) {
-      if (!pointerStart.shadeDragging) { pointerStart.shadeDragging = true; ui.overlay = 'shade'; renderOverlay(); try { screen.setPointerCapture(event.pointerId); } catch {} }
-      event.preventDefault();
-      const shade = overlayRoot.querySelector('.notification-shade');
-      if (shade) {
-        shade.style.animation = 'none';
-        shade.style.bottom = 'auto';
-        shade.style.height = `${Math.max(78, Math.min(screen.clientHeight - 71, pointerStart.shadeCloseEligible ? screen.clientHeight - 71 + dy : dy))}px`;
+    if (pointerStart.shadeDragging || pointerStart.shadeDragEligible && dy > 8 && dy > Math.abs(dx) || pointerStart.shadeCloseEligible && Math.abs(dy) > 4) {
+      const rect = screen.getBoundingClientRect(), scale = screen.clientHeight / rect.height;
+      if (!pointerStart.shadeDragging) {
+        pointerStart.shadeDragging = true; stopShade?.(); stopShade = null;
+        const panel = overlayRoot.querySelector('.gbsh-panel');
+        const start = panel ? new DOMMatrixReadOnly(getComputedStyle(panel).transform).m42 + shadeBottom() : statusRoot.offsetHeight;
+        shadeTracking = {expanded: ui.overlay === 'shade', offset: pointerStart.shadeCloseEligible ? start - (pointerStart.y - rect.top) * scale : 0, y: start, samples: []};
+        if (ui.overlay !== 'shade') { ui.overlay = 'shade'; renderOverlay(); }
+        try { screen.setPointerCapture(event.pointerId); } catch {}
       }
+      event.preventDefault();
+      const y = Math.max(statusRoot.offsetHeight, Math.min(shadeBottom(), (event.clientY - rect.top) * scale + shadeTracking.offset));
+      shadeTracking.y = y; shadeTracking.samples.push([performance.now(), y]); if (shadeTracking.samples.length > 6) shadeTracking.samples.shift();
+      const panel = overlayRoot.querySelector('.gbsh-panel'); if (panel) GBStatusBar.place(panel, y, shadeBottom());
       return;
     }
     // StackView: a vertical fling on the front picture moves through the stack.
@@ -1968,12 +2013,12 @@
     }
     if (pointerStart.shadeDragging) {
       suppressClickUntil = Date.now() + 350;
-      const close = pointerStart.shadeCloseEligible ? dy < -55 : dy < 75;
-      if (close) { ui.overlay = ''; renderOverlay(); }
-      else {
-        const shade = overlayRoot.querySelector('.notification-shade');
-        if (shade) { const height = shade.clientHeight; shade.style.removeProperty('height'); shade.style.removeProperty('bottom'); shade.animate([{height:`${height}px`},{height:`${screen.clientHeight - 71}px`}], {duration:180,easing:'ease-out'}); }
-      }
+      const track = shadeTracking; shadeTracking = null;
+      const [first, last] = [track.samples[0], track.samples.at(-1)];
+      let velocity = first && last && last[0] > first[0] ? (last[1] - first[1]) / ((last[0] - first[0]) / 1000) : 0;
+      const expand = GBStatusBar.flingDirection(track.expanded, track.y, velocity, screen.clientHeight);
+      if (expand ? velocity < 0 : velocity > 0) velocity = 0;
+      shadeFling(track.y, velocity, expand);
       pointerStart = null; return;
     }
     if (pointerStart.lockDrag) {
@@ -1990,7 +2035,6 @@
     if (finishDrag(event.clientX, event.clientY)) { pointerStart = null; return; }
     if (!pointerStart) return;
     if (ui.overlay === 'shade' && pointerStart.target.closest('.notification') && Math.abs(dx) > 55) { const id = Number(pointerStart.target.closest('.notification').dataset.id); data.notifications = data.notifications.filter(n => n.id !== id); save(); renderStatus(); renderOverlay(); pointerStart = null; return; }
-    if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
   window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });

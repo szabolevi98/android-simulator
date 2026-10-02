@@ -1,0 +1,61 @@
+/* Android 2.3.6 status bar and shade (SystemUI status_bar.xml / status_bar_expanded.xml). hdpi px x 0.575, 1 dp = 0.8625px. */
+@font-face{font-family:DroidSans;src:url('fonts/DroidSans.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:DroidSans;src:url('fonts/DroidSans-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+.screen{font-family:DroidSans,Arial,sans-serif}
+/* 25 dp bar on the solid black statusbar_background. */
+#status-bar{height:21.85px;background:#000;overflow:hidden}
+#viewport{top:21.85px}
+.gbsb{position:relative;display:block;width:100%;height:21.85px;border:0;padding:0;margin:0;background:#000;color:#fff;font:700 12.07px/21.85px DroidSans,Arial,sans-serif;text-align:left;overflow:hidden;cursor:pointer}
+.gbsb-icons,.gbsb-ticker,.gbsb-date{position:absolute;inset:0;display:flex;align-items:center}
+.gbsb-notifications{flex:1;min-width:0;display:flex;align-items:center;padding-left:5.18px;overflow:hidden}
+.gbsb-status{display:flex;align-items:center;padding-right:5.18px}
+.gbsb-icon{width:21.56px;height:21.56px;flex:none;display:grid;place-items:center}
+.gbsb-icon img{max-width:100%;max-height:100%;object-fit:contain}
+.gbsb-clock{padding-right:5.18px;white-space:nowrap}
+/* Ticker: 25 dp icon with an 8 dp gap, then TextAppearance.StatusBar.Ticker (14 sp) 2 dp from the top. */
+.gbsb-ticker{padding-left:5.18px;visibility:hidden}
+.gbsb-ticker-segment{display:flex;align-items:center;min-width:0;width:100%}
+.gbsb-ticker-segment .gbsb-icon{margin-right:6.9px}
+.gbsb-ticker-text{flex:1;min-width:0;padding:1.73px 8.63px 0 0;font-weight:400;white-space:nowrap;overflow:hidden}
+.gbsb-ticking .gbsb-icons{animation:gbsb-push-up-out .5s forwards}
+.gbsb-ticking .gbsb-ticker{visibility:visible;animation:gbsb-push-up-in .5s}
+.gbsb-ticking .gbsb-next{animation:gbsb-push-up-in .5s}
+.gbsb-ticker-done .gbsb-icons{animation:gbsb-push-down-in .5s}
+.gbsb-ticker-done .gbsb-ticker{visibility:visible;animation:gbsb-push-down-out .5s forwards}
+@keyframes gbsb-push-up-in{from{transform:translateY(100%);opacity:0}}
+@keyframes gbsb-push-up-out{to{transform:translateY(-100%);opacity:0}}
+@keyframes gbsb-push-down-in{from{transform:translateY(-100%);opacity:0}}
+@keyframes gbsb-push-down-out{to{transform:translateY(100%);opacity:0}}
+/* DateView: replaces the icons while the shade is open (fade_in), 6 px side padding, long date format. */
+.gbsb-date{padding:0 3.45px;visibility:hidden;white-space:nowrap}
+.gbsb-expanded .gbsb-icons{visibility:hidden}
+.gbsb-expanded .gbsb-date{visibility:visible;animation:gbsb-fade .3s}
+.gbsb-expanded.gbsb-ticking .gbsb-date{visibility:hidden}
+@keyframes gbsb-fade{from{opacity:0}}
+
+/* Expanded shade: slides down under the status bar with its close handle. */
+.gbsh{position:absolute;top:21.85px;left:0;right:0;bottom:0;z-index:7;overflow:hidden;pointer-events:none}
+.gbsh-panel{position:absolute;inset:0;display:flex;flex-direction:column;background:#212121;transform:translateY(-100%);pointer-events:auto;touch-action:none;will-change:transform}
+/* Header: title_bar_portrait with the carrier label (textAppearanceLarge, #dfdfdf) and the Clear button. */
+.gbsh-header{flex:none;display:flex;align-items:center;padding:2.59px 2.59px 4.31px 0;background:url('assets/gb-title_bar_portrait.png') 0 0/100% 100%}
+.gbsh-carrier{flex:1;min-width:0;margin:.86px 0 0 4.31px;padding:0 0 .86px 3.45px;font-size:18.98px;line-height:1.2;color:#dfdfdf;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gbsh-clear{flex:none;margin:3.45px 0 .86px;height:31.05px;padding:3.45px 12.94px 7.48px;border:0 solid transparent;border-image:url('assets/gb-btn_default_small_normal.png') 22 15 31 14 fill / 12.65px 8.63px 17.83px 8.05px stretch;background:none;color:#000;font:400 12.07px/1 DroidSans,Arial,sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.gbsh-clear:active{border-image-source:url('assets/gb-btn_default_small_pressed.png')}
+.gbsh-clear[hidden]{visibility:hidden;display:flex}
+.gbsh-scroll{position:relative;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.gbsh-scroll::-webkit-scrollbar{display:none}
+.gbsh-shadow{position:sticky;top:0;display:block;height:5.18px;margin-bottom:-5.18px;background:url('assets/gb-title_bar_shadow.png') 0 0/100% 100%;pointer-events:none;order:-1}
+.gbsh-scroll{display:flex;flex-direction:column}
+/* Section titles: TextAppearance.StatusBar.Title (14 sp bold, #969696) on shade_bgcolor #282828. */
+.gbsh-section{padding:1.73px 0 1.73px 4.31px;background:#282828;color:#969696;font:700 12.07px/1.3 DroidSans,Arial,sans-serif}
+/* Rows: 64 sp on status_bar_item_background, a light divider, title 16 sp bold black, text and time 14 sp #6b6b6b. */
+.screen .gbsh-item{position:relative;display:flex;flex-direction:column;justify-content:flex-start;width:100%;height:56.35px;padding:6.04px 5.18px 0 4.31px;border:0;border-bottom:1.15px solid #e6e6e6;background:url('assets/gb-status_bar_item_background_normal.png') 0 0/100% 100%;color:#000;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.gbsh-item:active::after{content:"";position:absolute;inset:0;border:0 solid transparent;border-image:url('assets/gb-status_bar_item_background_pressed.png') 37 fill / 21.28px stretch;mix-blend-mode:multiply}
+.gbsh-row{display:flex;align-items:center;min-width:0;width:100%}
+.gbsh-row:first-child{padding-top:2.59px}
+.gbsh-icon{width:21.56px;height:21.56px;object-fit:contain;flex:none}
+.gbsh-title{flex:1;min-width:0;padding-left:3.45px;font-size:13.8px;font-weight:700;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbsh-text{flex:1;min-width:0;padding-left:3.45px;font-size:12.07px;color:#6b6b6b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbsh-time{flex:none;margin-left:3.45px;padding-right:4.31px;font-size:12.07px;color:#6b6b6b}
+/* status_bar_close_on: the 9-patch handle stretched across the bottom. */
+.gbsh-close{flex:none;height:25.3px;width:100%;border:0 solid transparent;padding:0;border-image:url('assets/gb-status_bar_close_on.png') 11 15 10 15 fill / 6.33px 8.63px 5.75px stretch;background:none;cursor:grab;touch-action:none}
