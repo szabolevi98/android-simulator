@@ -418,7 +418,7 @@ The Calculator's delete key showed "DEL". The `android-4.0.4_r2.1` string `del` 
 
 The Galaxy Nexus 4.0.4 build includes the same Basic live wallpapers and LivePicker as 4.3. Galaxy, Grass, Nexus, Polar clock and Water are now available from the wallpaper chooser in both versions, with the same renderer; details are in [visual-audit-4.3.md](visual-audit-4.3.md).
 
-## Google Play Store 3.5 — 2026-10-02
+## Google Play Store 3.5 — 2026-10-02 (updated to 3.8.17 below)
 
 The 4.0.4 store was a fictional "2012-inspired" storefront. It is now Google Play Store 3.5, the version the Galaxy Nexus ran from March to May 2012 (`ics-play.js`, `ics-play.css`).
 
@@ -446,3 +446,22 @@ What changed:
 - **Settings:** Holo rows under GENERAL (Notifications, Auto-update apps, Update over Wi-Fi only, Auto-add widgets, Clear search history), USER CONTROLS, OTHER (Google AdMob Ads) and ABOUT (Build version 3.5.16).
 - **Icon:** the launcher and action bar use the 2012–2014 Google Play bag: a white bag, grey handle and the four-colour play mark.
 - **Languages:** all labels are in the five languages.
+
+## Google Play Store 3.8.17 (August 2012) — 2026-10-02
+
+The owner wanted each version's store to show its own era: GB = Android Market 3.1–3.2 (autumn 2011), ICS = Play Store 3.8, JB = Play Store 4.2–4.3 (summer 2013). Android 4.0.4 reached the GSM Galaxy Nexus at the end of March 2012, and the GSM model got Jelly Bean on 11 July 2012. The Verizon Galaxy Nexus, however, stayed on 4.0.4 until 21 September 2012, so August 2012 is still a faithful 4.0.4 date. Play Store 3.8.15 / 3.8.17 was current then. 3.9 (wishlists) only arrived around the time the Galaxy Nexus left ICS.
+
+References: Android Police's 720 × 1280 captures of 3.8.15 (15 August 2012: home, My Apps INSTALLED / ALL, Settings) and 3.8.17 (17 August 2012: home, Settings). They show that 3.8 kept the 3.5 layout, so the 3.5 rebuild stays and gets these 3.8 changes:
+
+- **Home tiles:** Apps, Music, **Magazines** (purple; Google Play Magazines launched in the US in June 2012), **Movies & TV** (TV shows were added in July 2012) and Books.
+  - Each tile is shorter, with the faded section mark on the right and no "see more".
+  - The Games tile title is green.
+  - Promo banners carry their section's colour stripe on the left.
+- **Magazines section:** CATEGORIES / FEATURED / TOP SELLING, three fictional magazines with covers (no screenshot strip) and magazine categories.
+- **Settings:**
+  - USER CONTROLS begins with "Unlock settings", disabled until a PIN exists.
+  - Under Google AdMob Ads comes the "Choose whether to personalize ads from Google and AdMob…" note with its blue "Learn more".
+  - Build version 3.8.17.
+- **Demo web pages:** the 4.0.4 news and archive pages are now dated August 20, 2012 (they were June 15).
+
+Checks: `tests/ics-play.test.cjs` covers the version, tile order and labels without "see more", the stripes, Hungarian labels, the Magazines section, categories and details, Unlock settings, the AdMob note and the build number. Headless Chrome covered the home page, Settings, Magazines, a magazine's details and Movies & TV, all compared with the Android Police captures. No JavaScript errors.

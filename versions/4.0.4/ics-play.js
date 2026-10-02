@@ -1,12 +1,12 @@
-/* Google Play Store 3.5 as it ran on the Galaxy Nexus in spring 2012 (closed source; rebuilt from period material: the
-   Android Police captures of 3.5.15 (16 March 2012: the tabbed My apps, the review histogram and its Sort reviews /
-   Options dialogs), 3.5.16 and 3.5.19 (the Google Play home, My apps, Settings), and 3.8.15 on an ICS phone for the
-   Holo parts: the overflow button in the action bar, the Holo checkboxes and the upper-case preference headers).
-   Screens: the home page (dark action bar with the Play bag, the promo banner, the Apps / Music / Books / Movies tiles
-   with their colour stripes beside the Games tile and the featured column, further banners), the Apps, Games, Music,
-   Books and Movies sections with the swipeable tab strip, light list rows, the details page with REVIEWS, the
-   permissions page with "Accept & download", My apps (INSTALLED / ALL), search and Settings. The catalog is the
-   simulator's fictional one (play-store.js). 1 dp = 0.85 px on the 306 px wide Galaxy Nexus screen. */
+/* Google Play Store 3.8.17 as it ran on an Android 4.0.4 Galaxy Nexus in August 2012 (the Verizon Galaxy Nexus stayed on
+   4.0.4 until 21 September 2012). Closed source; rebuilt from period material: Android Police's captures of 3.8.15
+   (15 August 2012: the home tiles with Magazines and Movies & TV, the underlined tabs, My apps, Settings) and 3.8.17
+   (17 August 2012: the home page, Settings with Unlock settings and the AdMob note), plus 3.5.x captures for the parts
+   3.8 kept unchanged (the review histogram with its Sort reviews / Options dialogs, the details layout).
+   Screens: the home page (dark action bar with the Play bag, promo banners with their section stripe, the Apps / Music /
+   Magazines / Movies & TV / Books tiles and the green Games tile with the featured column), the sections with the
+   swipeable tab strip, light list rows, the details page with REVIEWS, the permissions page, downloads, My apps
+   INSTALLED / ALL, search with suggestions and the Holo settings. The catalog is the simulator's fictional one. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -18,6 +18,11 @@
     'Music': ['Music', 'Zene', 'Musik', 'Musique', 'Música'],
     'Books': ['Books', 'Könyvek', 'Bücher', 'Livres', 'Libros'],
     'Movies': ['Movies', 'Filmek', 'Filme', 'Films', 'Películas'],
+    'Movies & TV': ['Movies & TV', 'Filmek és TV', 'Filme & Serien', 'Films et séries', 'Películas y TV'],
+    'Magazines': ['Magazines', 'Magazinok', 'Zeitschriften', 'Magazines', 'Revistas'],
+    'Unlock settings': ['Unlock settings', 'Beállítások feloldása', 'Einstellungen entsperren', 'Déverrouiller les paramètres', 'Desbloquear ajustes'],
+    'AdMob info': ['Choose whether to personalize ads from Google and AdMob in mobile apps on this device.', 'Döntse el, hogy a Google és az AdMob személyre szabja-e a hirdetéseket az eszköz mobilalkalmazásaiban.', 'Legen Sie fest, ob Anzeigen von Google und AdMob in mobilen Apps auf diesem Gerät personalisiert werden.', 'Indiquez si les annonces Google et AdMob doivent être personnalisées dans les applications mobiles de cet appareil.', 'Elige si quieres personalizar los anuncios de Google y AdMob en las aplicaciones móviles de este dispositivo.'],
+    'Learn more': ['Learn more', 'További információ', 'Weitere Informationen', 'En savoir plus', 'Más información'],
     'see more': ['see more', 'továbbiak', 'mehr', 'plus', 'ver más'],
     'CATEGORIES': ['CATEGORIES', 'KATEGÓRIÁK', 'KATEGORIEN', 'CATÉGORIES', 'CATEGORÍAS'],
     'GENRES': ['GENRES', 'MŰFAJOK', 'GENRES', 'GENRES', 'GÉNEROS'],
@@ -98,15 +103,17 @@
   };
   const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
   const text = (lang, key) => (S[key] || [key])[Math.max(0, LANGS.indexOf(lang))] ?? key;
-  const VERSION = '3.5.16';
-  // Section colours of the 3.5 home tiles: green apps, orange music, blue books, red movies; Games has its own dark tile.
-  const SECTIONS = [['apps', 'Apps', '#9fc33b'], ['music', 'Music', '#ef8a2b'], ['books', 'Books', '#3d8fd6'], ['movies', 'Movies', '#d8473e'], ['games', 'Games', '#9fc33b']];
+  const VERSION = '3.8.17';
+  // Section colours and order of the 3.8.17 home tiles: green apps, orange music, purple magazines, red movies & TV, blue
+  // books; Games has its own dark tile with the green title.
+  const SECTIONS = [['apps', 'Apps', '#9fc33b'], ['music', 'Music', '#ef8a2b'], ['magazines', 'Magazines', '#8a64b4'], ['movies', 'Movies & TV', '#d8473e'], ['books', 'Books', '#3d8fd6'], ['games', 'Games', '#9fc33b']];
   const TABS = {
     apps: ['CATEGORIES', 'FEATURED', 'TOP PAID', 'TOP FREE', 'TOP GROSSING', 'TOP NEW PAID', 'TOP NEW FREE', 'TRENDING'],
     games: ['CATEGORIES', 'FEATURED', 'TOP PAID', 'TOP FREE', 'TOP GROSSING', 'TOP NEW PAID', 'TOP NEW FREE', 'TRENDING'],
     music: ['GENRES', 'FEATURED', 'TOP ALBUMS', 'TOP SONGS', 'NEW RELEASES'],
     books: ['CATEGORIES', 'FEATURED', 'TOP SELLING', 'NEW RELEASES', 'TOP FREE'],
-    movies: ['CATEGORIES', 'FEATURED', 'TOP SELLING', 'NEW RELEASES']
+    movies: ['CATEGORIES', 'FEATURED', 'TOP SELLING', 'NEW RELEASES'],
+    magazines: ['CATEGORIES', 'FEATURED', 'TOP SELLING']
   };
   // Paid apps, albums, books and films for the sections: public-domain classics, the simulator's own demo albums, fictional films.
   const EXTRA = [
@@ -119,11 +126,14 @@
     {id: 'book-holmes', kind: 'books', name: 'The Adventures of Sherlock Holmes', developer: 'Arthur Conan Doyle', rating: 4.7, price: 'FREE', colors: ['#28323c', '#a7b4bd']},
     {id: 'book-alice', kind: 'books', name: 'Alice\'s Adventures in Wonderland', developer: 'Lewis Carroll', rating: 4.5, price: 'FREE', colors: ['#3a5f8a', '#f0d48a']},
     {id: 'movie-orbit', kind: 'movies', name: 'Orbit Hopper: The Movie', developer: 'Animation', rating: 4.1, price: '$3.99', colors: ['#141c3a', '#8f7fff']},
-    {id: 'movie-quiet', kind: 'movies', name: 'A Quiet Afternoon', developer: 'Drama', rating: 3.9, price: '$2.99', colors: ['#3a2a1c', '#e0a868']}
+    {id: 'movie-quiet', kind: 'movies', name: 'A Quiet Afternoon', developer: 'Drama', rating: 3.9, price: '$2.99', colors: ['#3a2a1c', '#e0a868']},
+    {id: 'mag-pocket-tech', kind: 'magazines', name: 'Pocket Tech Monthly', developer: 'August 2012', rating: 4.2, price: '$2.99', colors: ['#1d2b45', '#5fb3e8'], description: 'Phones, tablets and the apps that matter. Single issue.'},
+    {id: 'mag-trail', kind: 'magazines', name: 'Trail & Summit', developer: 'September 2012', rating: 4.4, price: '$3.99', colors: ['#2d3a1f', '#c9a85a'], description: 'Hiking routes, gear and mountain stories.'},
+    {id: 'mag-kitchen', kind: 'magazines', name: 'Weekend Kitchen', developer: 'Summer 2012', rating: 4.0, price: '$1.99', colors: ['#5a2018', '#f2b35e'], description: 'Fifty easy recipes for long summer evenings.'}
   ];
   const DATES = ['March 21, 2012', 'March 2, 2012', 'February 14, 2012', 'January 30, 2012'];
   const catalog = () => (window.ICSPlayStore?.catalog || []).map((item, i) => ({...item, kind: item.category === 'Games' ? 'games' : 'apps', price: 'FREE', downloads: ['10,000,000+', '1,000,000+', '500,000+', '100,000+'][i % 4], votes: 12000 + i * 4173, updated: DATES[i % 4], plus: 120 + i * 37, size: String(item.size || '').replace(' ', '')}));
-  const all = () => [...catalog(), ...EXTRA.map(item => ({downloads: '50,000+', votes: 812, plus: 46, updated: 'February 1, 2012', size: item.kind === 'books' ? '1.2MB' : item.kind === 'music' ? '96MB' : item.kind === 'movies' ? '820MB' : item.size, description: item.kind === 'books' ? 'A classic, free from Google Play Books.' : item.kind === 'movies' ? 'Rent and watch within 30 days.' : '', ...item}))];
+  const all = () => [...catalog(), ...EXTRA.map(item => ({downloads: '50,000+', votes: 812, plus: 46, updated: item.kind === 'magazines' ? 'August 9, 2012' : 'February 1, 2012', size: item.kind === 'books' ? '1.2MB' : item.kind === 'magazines' ? '24MB' : item.kind === 'music' ? '96MB' : item.kind === 'movies' ? '820MB' : item.size, description: item.kind === 'books' ? 'A classic, free from Google Play Books.' : item.kind === 'movies' ? 'Rent and watch within 30 days.' : '', ...item}))];
   const find = id => all().find(item => item.id === id);
   const installedState = (item, ctx) => item.app ? 'installed' : ctx.installed.includes(item.id) ? 'installed' : ctx.downloading === item.id ? ctx.phase : '';
   const stars = rating => `<span class="icsp-stars" aria-label="${rating}">${[1, 2, 3, 4, 5].map(n => `<i class="${rating >= n - .25 ? 'on' : rating >= n - .75 ? 'half' : ''}"></i>`).join('')}</span>`;
@@ -154,11 +164,12 @@
 
   function home(ctx) {
     const T = key => text(ctx.lang, key), items = all(), promo = find('orbit') || items[0];
-    const tiles = SECTIONS.slice(0, 4).map(([id, label, color]) => `<button class="icsp-tile ${id}" style="--c:${color}" data-action="icsp-section" data-id="${id}"><b>${e(T(label))}</b><i class="icsp-mark ${id}"></i><small>${e(T('see more'))} ›</small></button>`).join('');
+    const tiles = SECTIONS.slice(0, 5).map(([id, label, color]) => `<button class="icsp-tile ${id}" style="--c:${color}" data-action="icsp-section" data-id="${id}"><b>${e(T(label))}</b><i class="icsp-mark ${id}"></i></button>`).join('');
+    const stripe = kind => (SECTIONS.find(s => s[0] === kind) || SECTIONS[0])[2];
     const feature = item => `<button class="icsp-feature" style="--a:${(item.colors || ['#222'])[0]};--b:${(item.colors || ['#222', '#555'])[1]}" data-action="icsp-detail" data-id="${e(item.id)}">${art(item, 'icsp-feature-art')}<span><b>${e(item.name)}</b><small>${e(item.developer)}</small></span><span class="icsp-feature-foot">${stars(item.rating)}<em>${e(price(item, ctx))}</em></span></button>`;
-    const banner = (item, title, line, cls) => `<button class="icsp-promo ${cls}" data-action="icsp-detail" data-id="${e(item.id)}">${art(item, 'icsp-promo-art')}<span><b>${e(title)}</b><small>${e(line)}</small></span></button>`;
+    const banner = (item, title, line, cls) => `<button class="icsp-promo ${cls}" style="--c:${stripe(item.kind)}" data-action="icsp-detail" data-id="${e(item.id)}">${art(item, 'icsp-promo-art')}<span><b>${e(title)}</b><small>${e(line)}</small></span></button>`;
     return view(ctx, 'icsp-home', header(ctx, T('Google Play'), false),
-      `${banner(promo, promo.name, promo.description || '', 'space')}<div class="icsp-columns"><div class="icsp-tiles">${tiles}</div><div class="icsp-right"><button class="icsp-games" data-action="icsp-section" data-id="games"><b>${e(T('Games'))}</b><i></i></button>${feature(find('album-first-light'))}${feature(find('book-holmes'))}</div></div>${banner(find('movie-quiet'), 'A Quiet Afternoon', '$2.99 · Movies', 'film')}${banner(find('book-alice'), 'Free classics', 'Alice\'s Adventures in Wonderland', 'classics')}`);
+      `${banner(promo, promo.name, promo.description || '', 'space')}<div class="icsp-columns"><div class="icsp-tiles">${tiles}</div><div class="icsp-right"><button class="icsp-games" data-action="icsp-section" data-id="games"><b>${e(T('Games'))}</b><i></i></button>${feature(find('album-first-light'))}${feature(find('mag-pocket-tech'))}</div></div>${banner(find('movie-quiet'), 'A Quiet Afternoon', '$2.99 · Movies & TV', 'film')}${banner(find('book-alice'), 'Free classics', 'Alice\'s Adventures in Wonderland', 'classics')}`);
   }
   // A section: the ViewPager title strip (the current tab centred in the section colour, its neighbours at the edges).
   function section(ctx) {
@@ -168,7 +179,7 @@
     const items = all().filter(item => item.kind === id);
     let body;
     if (tab === 'CATEGORIES' || tab === 'GENRES') {
-      const cats = {games: ['Arcade & Action', 'Brain & Puzzle', 'Cards & Casino', 'Casual', 'Live Wallpaper', 'Racing', 'Sports Games', 'Widgets'], apps: ['Books & Reference', 'Business', 'Comics', 'Communication', 'Education', 'Entertainment', 'Finance', 'Health & Fitness', 'Music & Audio', 'Photography', 'Productivity', 'Tools'], music: ['Alternative', 'Classical', 'Electronica', 'Pop', 'Rock', 'Soundtracks'], books: ['Fiction', 'Classics', 'Mystery', 'Children\'s'], movies: ['Action & Adventure', 'Animation', 'Comedy', 'Drama', 'Family']}[id];
+      const cats = {games: ['Arcade & Action', 'Brain & Puzzle', 'Cards & Casino', 'Casual', 'Live Wallpaper', 'Racing', 'Sports Games', 'Widgets'], apps: ['Books & Reference', 'Business', 'Comics', 'Communication', 'Education', 'Entertainment', 'Finance', 'Health & Fitness', 'Music & Audio', 'Photography', 'Productivity', 'Tools'], music: ['Alternative', 'Classical', 'Electronica', 'Pop', 'Rock', 'Soundtracks'], books: ['Fiction', 'Classics', 'Mystery', 'Children\'s'], movies: ['Action & Adventure', 'Animation', 'Comedy', 'Drama', 'Family'], magazines: ['Business & News', 'Entertainment', 'Food & Cooking', 'Sports & Outdoors', 'Technology']}[id];
       body = `<div class="icsp-list">${cats.map(c => `<button class="icsp-cat" data-action="icsp-tab" data-id="${e(tabs[2])}">${e(c)}</button>`).join('')}</div>`;
     } else if (tab === 'FEATURED') {
       const lead = items[0], rest = items.slice(1, 5);
@@ -205,7 +216,7 @@
     if (state === 'installed') actions = `<div class="icsp-actions"><button data-action="icsp-open" data-id="${e(item.id)}">${e(T('Open'))}</button><button data-action="icsp-uninstall" data-id="${e(item.id)}"${item.app ? ' disabled' : ''}>${e(T('Uninstall'))}</button></div>`;
     else if (state === 'downloading' || state === 'installing') actions = `<div class="icsp-actions progress"><div><span>${e(T(state === 'installing' ? 'Installing…' : 'Downloading…'))}</span><i class="icsp-progress"><b style="width:${state === 'installing' ? 100 : Math.round(ctx.progress * 100)}%"></b></i></div><button data-action="icsp-cancel">${e(T('Cancel'))}</button></div>`;
     const priceButton = state ? '' : `<button class="icsp-price" data-action="icsp-buy" data-id="${e(item.id)}">${e(price(item, ctx))}</button>`;
-    const shots = item.kind === 'music' || item.kind === 'books' || item.kind === 'movies' ? '' : `<div class="icsp-shots">${[0, 1, 2].map(n => `<span class="icsp-shot n${n}" style="--a:${(item.colors || ['#2a3a4a', '#9fc33b'])[0]};--b:${(item.colors || ['#2a3a4a', '#9fc33b'])[1]}">${art(item, 'icsp-shot-art')}</span>`).join('')}</div>`;
+    const shots = item.kind === 'music' || item.kind === 'books' || item.kind === 'movies' || item.kind === 'magazines' ? '' : `<div class="icsp-shots">${[0, 1, 2].map(n => `<span class="icsp-shot n${n}" style="--a:${(item.colors || ['#2a3a4a', '#9fc33b'])[0]};--b:${(item.colors || ['#2a3a4a', '#9fc33b'])[1]}">${art(item, 'icsp-shot-art')}</span>`).join('')}</div>`;
     return view(ctx, 'icsp-detail', header(ctx, item.name), `<div class="icsp-head">${art(item, 'icsp-head-art')}<span><b>${e(item.name)}</b><small>${e(item.developer.toUpperCase())}</small></span>${priceButton}</div>${actions ? `<i class="icsp-rule"></i>${actions}<i class="icsp-rule"></i>` : '<i class="icsp-rule"></i>'}${shots}
       <div class="icsp-info"><div class="icsp-info-row"><span>${stars(item.rating)} <small>${item.votes.toLocaleString(ctx.locale)}</small></span><span>${e(item.updated)}</span></div><div class="icsp-info-row"><span>${e(item.downloads)} ${e(T('downloads'))}</span><span>${e(T('Size'))}: ${e(item.size || '')}</span></div>
       <div class="icsp-plus"><button data-action="icsp-plus" data-id="${e(item.id)}" class="${ctx.plussed.includes(item.id) ? 'on' : ''}">+1</button><span>${item.plus + (ctx.plussed.includes(item.id) ? 1 : 0)} ${e(T('people +1\'d this'))}</span></div>
@@ -233,13 +244,13 @@
     const q = String(ctx.query || '').trim().toLocaleLowerCase(ctx.locale), items = q ? all().filter(item => `${item.name} ${item.developer}`.toLocaleLowerCase(ctx.locale).includes(q)) : [];
     return view(ctx, 'icsp-results', header(ctx, ctx.query || ''), items.length ? `<div class="icsp-list">${items.map(item => row(item, ctx)).join('')}</div>` : `<p class="icsp-empty">${e(text(ctx.lang, 'No results'))}</p>`);
   }
-  // Settings (3.4.4 / 3.5.16 captures; Holo rows and upper-case headers on ICS).
+  // Settings (3.8.15 / 3.8.17 captures; Holo rows and upper-case headers on ICS).
   function settings(ctx) {
     const T = key => text(ctx.lang, key), s = ctx.prefs;
     const cat = title => `<h3 class="icsp-pref-cat">${e(T(title))}</h3>`;
     const chk = (key, title, summary, disabled) => `<button class="icsp-pref" data-action="icsp-pref" data-id="${key}" role="checkbox" aria-checked="${!!s[key]}"${disabled ? ' disabled' : ''}><span><b>${e(T(title))}</b><small>${e(T(summary))}</small></span><img src="assets/btn_check_${s[key] ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
     const plain = (action, title, summary, raw) => `<button class="icsp-pref" data-action="${action}"><span><b>${e(T(title))}</b><small>${raw ? e(summary) : e(T(summary))}</small></span></button>`;
-    return `<div class="app-view icsp icsp-settings" data-no-translate>${header({...ctx, noMenu: true}, T('Settings'))}<div class="icsp-scroll">${cat('General')}${chk('notify', 'Notifications', 'Notifications summary')}${chk('autoUpdate', 'Auto-update apps', 'Auto-update summary')}${chk('wifiOnly', 'Update over Wi-Fi only', 'Wi-Fi summary')}${chk('widgets', 'Auto-add widgets', 'Widgets summary')}${plain('icsp-clear-history', 'Clear search history', 'Clear search history summary')}${cat('User controls')}${plain('icsp-unavailable', 'Content filtering', 'Content filtering summary')}${chk('pin', 'Use PIN for purchases', 'Use PIN summary', !s.pinSet)}${plain('icsp-unavailable', 'Set or change PIN', 'Set PIN summary')}${cat('Other')}${chk('admob', 'Google AdMob Ads', 'AdMob summary')}${cat('About')}${plain('icsp-unavailable', 'Open source licenses', 'Licenses summary')}<div class="icsp-pref info"><span><b>${e(T('Build version'))}</b><small>${e(T('Version').replace('%s', VERSION))}</small></span></div></div></div>`;
+    return `<div class="app-view icsp icsp-settings" data-no-translate>${header({...ctx, noMenu: true}, T('Settings'))}<div class="icsp-scroll">${cat('General')}${chk('notify', 'Notifications', 'Notifications summary')}${chk('autoUpdate', 'Auto-update apps', 'Auto-update summary')}${chk('wifiOnly', 'Update over Wi-Fi only', 'Wi-Fi summary')}${chk('widgets', 'Auto-add widgets', 'Widgets summary')}${plain('icsp-clear-history', 'Clear search history', 'Clear search history summary')}${cat('User controls')}<button class="icsp-pref" data-action="icsp-unavailable"${s.pinSet ? '' : ' disabled'}><span><b>${e(T('Unlock settings'))}</b></span></button>${plain('icsp-unavailable', 'Content filtering', 'Content filtering summary')}${chk('pin', 'Use PIN for purchases', 'Use PIN summary', !s.pinSet)}${plain('icsp-unavailable', 'Set or change PIN', 'Set PIN summary')}${cat('Other')}${chk('admob', 'Google AdMob Ads', 'AdMob summary')}<p class="icsp-pref-note">${e(T('AdMob info'))} <u>${e(T('Learn more'))}</u></p>${cat('About')}${plain('icsp-unavailable', 'Open source licenses', 'Licenses summary')}<div class="icsp-pref info"><span><b>${e(T('Build version'))}</b><small>${e(T('Version').replace('%s', VERSION))}</small></span></div></div></div>`;
   }
   function render(ctx) {
     if (ctx.page === 'section') return section(ctx);

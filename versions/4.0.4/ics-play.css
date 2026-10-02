@@ -28,7 +28,7 @@
 
 /* Home: the 230 / 480 promo banner, the 49 % tile column (four 88 / 480 tiles with 12 px stripes), the Games tile and the
    featured column, then further banners. */
-.screen .icsp-promo{position:relative;display:flex;align-items:center;gap:12px;width:100%;height:146.6px;padding:0 14px;border:0;border-bottom:2px solid #000;color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.screen .icsp-promo{position:relative;display:flex;align-items:center;gap:12px;width:100%;height:146.6px;padding:0 14px;border:0;border-left:3px solid var(--c,#9fc33b);border-bottom:2px solid #000;color:#fff;text-align:left;overflow:hidden;cursor:pointer}
 .icsp-promo.space{background:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 60% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 85% 70%,#fff,transparent),radial-gradient(circle at 75% 35%,#fff3 0,transparent 28%),linear-gradient(160deg,#0e1630,#4a64c8)}
 .icsp-promo.film{height:96px;background:linear-gradient(110deg,#1a120a,#3a2a1c 45%,#e0a868)}
 .icsp-promo.classics{height:96px;background:linear-gradient(110deg,#0f1e33,#3a5f8a 55%,#f0d48a)}
@@ -41,18 +41,18 @@
 .icsp-columns{display:flex;gap:4px;padding:3px 0;border-bottom:2px solid #000}
 .icsp-tiles{flex:0 0 49%;display:flex;flex-direction:column;gap:2px}
 .icsp-right{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-.screen .icsp-tile{position:relative;height:56.1px;padding:3px 6px 3px 10px;border:0;border-left:7.6px solid var(--c);background:linear-gradient(90deg,#8a8a8a,#a3a3a3);color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.screen .icsp-tile{position:relative;height:44.9px;padding:3px 6px 3px 10px;border:0;border-left:7.6px solid var(--c);background:linear-gradient(90deg,#8a8a8a,#a3a3a3);color:#fff;text-align:left;overflow:hidden;cursor:pointer}
 .screen .icsp-tile:active,.screen .icsp-games:active,.screen .icsp-feature:active,.screen .icsp-gridtile:active,.screen .icsp-cat:active,.screen .icsp-promo:active,.screen .icsp-banner:active{filter:brightness(1.25)}
-.icsp-tile b{position:relative;z-index:1;display:block;font-size:18.5px;font-weight:700;text-shadow:0 1px 2px #0009}
+.icsp-tile b{position:relative;z-index:1;display:block;font-size:16.2px;font-weight:700;text-shadow:0 1px 2px #0009}
 .icsp-tile small{position:absolute;right:6px;bottom:3px;z-index:1;font-size:11.5px;color:#f2f2f2}
-.icsp-mark{position:absolute;left:12px;bottom:-6px;width:42px;height:42px;opacity:.14;background:center/contain no-repeat}
+.icsp-mark{position:absolute;right:8px;bottom:-3px;width:32px;height:32px;opacity:.14;background:center/contain no-repeat}
 .icsp-mark.apps,.icsp-mark.games{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M9 17a11 10 0 0 1 22 0z'/%3E%3Crect x='9' y='18' width='22' height='15' rx='2'/%3E%3Crect x='3' y='18' width='4' height='11' rx='2'/%3E%3Crect x='33' y='18' width='4' height='11' rx='2'/%3E%3C/svg%3E")}
 .icsp-mark.music{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M20 4a15 15 0 0 0-15 15v10a4 4 0 0 0 4 4h3V20H8.2a11.8 11.8 0 0 1 23.6 0H28v13h3a4 4 0 0 0 4-4V19A15 15 0 0 0 20 4z'/%3E%3C/svg%3E")}
 .icsp-mark.books{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M4 8c6-2 11-1 15 2v24c-4-3-9-4-15-2zM36 8c-6-2-11-1-15 2v24c4-3 9-4 15-2z'/%3E%3C/svg%3E")}
 .icsp-mark.movies{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Crect x='4' y='9' width='32' height='24' rx='2'/%3E%3Cg fill='%23000' opacity='.5'%3E%3Crect x='7' y='12' width='3' height='3'/%3E%3Crect x='7' y='27' width='3' height='3'/%3E%3Crect x='30' y='12' width='3' height='3'/%3E%3Crect x='30' y='27' width='3' height='3'/%3E%3C/g%3E%3C/svg%3E")}
 /* Games: 120 / 480 high, black with the green game pad. */
 .screen .icsp-games{position:relative;height:76.5px;padding:6px 8px;border:0;background:linear-gradient(135deg,#050505,#2a2a2a);color:#fff;text-align:left;overflow:hidden;cursor:pointer}
-.icsp-games b{position:relative;z-index:1;font-size:18.5px;font-weight:700}
+.icsp-games b{position:relative;z-index:1;font-size:16.2px;font-weight:700;color:#9fc33b}
 .icsp-games i{position:absolute;right:-6px;bottom:-4px;width:70px;height:46px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 46'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23b6e35a'/%3E%3Cstop offset='1' stop-color='%236f9d1f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M18 6h34a16 16 0 0 1 16 17l-1 9a9 9 0 0 1-16 4l-5-7H24l-5 7a9 9 0 0 1-16-4l-1-9A16 16 0 0 1 18 6z' fill='url(%23g)'/%3E%3Ccircle cx='19' cy='21' r='9' fill='%23fff'/%3E%3Cpath d='M19 15v12M13 21h12' stroke='%236f9d1f' stroke-width='4'/%3E%3Ccircle cx='50' cy='17' r='3' fill='%23fff'/%3E%3Ccircle cx='56' cy='23' r='3' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
 .screen .icsp-feature{position:relative;display:flex;flex-direction:column;justify-content:space-between;height:75px;padding:5px 6px 4px 8px;border:0;border-left:3px solid #3d8fd6;background:linear-gradient(120deg,#151515,#3a3a3a);color:#fff;text-align:left;overflow:hidden;cursor:pointer}
 .icsp-feature-art{position:absolute;left:6px;top:6px;width:40px;height:52px}
@@ -213,3 +213,9 @@
 .icsp-dlg-row img{flex:none;width:27.2px;height:27.2px}
 .icsp-dialog .settings-dialog-actions{display:flex;border-top:1px solid #3a3a3a}
 .icsp-dialog .settings-dialog-actions button{flex:1;min-height:40.8px;border:0;background:none;color:#eee;font-size:14px;cursor:pointer}
+/* 3.8: the purple Magazines tile mark and magazine covers. */
+.icsp-mark.magazines{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M6 7h22v26H9a3 3 0 0 1-3-3z'/%3E%3Cpath d='M30 12h4v18a3 3 0 0 1-3 3h-1z'/%3E%3Cg fill='%23000' opacity='.5'%3E%3Crect x='9' y='10' width='16' height='5'/%3E%3Crect x='9' y='18' width='7' height='9'/%3E%3Crect x='18' y='18' width='7' height='2'/%3E%3Crect x='18' y='22' width='7' height='2'/%3E%3Crect x='18' y='26' width='7' height='2'/%3E%3C/g%3E%3C/svg%3E")}
+.icsp-cover.magazines{border-radius:1px;box-shadow:inset 0 0 0 1px #ffffff26,0 1px 2px #0006}
+/* Settings: the AdMob explanation under its check box, with the Learn more link. */
+.icsp-pref-note{margin:0;padding:6px 14px 10px 16px;border-bottom:1px solid #ffffff1a;font-size:12.3px;line-height:1.35;color:#bdbdbd}
+.icsp-pref-note u{color:#33b5e5}
