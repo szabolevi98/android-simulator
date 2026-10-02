@@ -10,8 +10,9 @@
     for (let i = 0; i < count; i++) { delays.push(total); current = Math.max(50, current - 10); total += current; }
     return delays;
   }
-  /* QuickSettings.setupQuickSettings for phones: user, brightness, settings, Wi-Fi, mobile signal, battery,
-     airplane mode, Bluetooth, then the temporary alarm and location tiles. No rotation tile on phones. */
+  /* QuickSettings (4.4) for phones: user, brightness, settings, Wi-Fi, mobile signal, battery (a BatteryMeterView),
+     airplane mode, Bluetooth and Location (on / off: Settings.ACTION_LOCATION_SOURCE_SETTINGS), then the temporary
+     alarm tile. No rotation tile on phones. */
   function tiles(settings, {carrier, alarm, battery = 71}) {
     const wifiConnected = settings.wifi && settings.wifiNetwork && !settings.airplane;
     const list = [
@@ -20,19 +21,22 @@
       {id: 'settings', icon: 'ic_qs_settings', label: 'Settings', action: 'qs-settings'},
       {id: 'wifi', icon: !settings.wifi || settings.airplane ? 'ic_qs_wifi_no_network' : wifiConnected ? 'ic_qs_wifi_full_4' : 'ic_qs_wifi_0', label: !settings.wifi || settings.airplane ? 'Wi-Fi Off' : wifiConnected ? settings.wifiNetwork : 'Wi-Fi', raw: !!wifiConnected, action: 'qs-wifi', toggle: 'wifi'},
       {id: 'rssi', icon: settings.airplane ? 'ic_qs_signal_no_signal' : 'ic_qs_signal_full_4', overlay: settings.airplane || !settings.dataEnabled ? '' : 'ic_qs_signal_full_h', label: settings.airplane ? 'No service.' : carrier, raw: !settings.airplane, action: 'qs-rssi'},
-      {id: 'battery', icon: 'ic_qs_battery_71', label: `${battery}%`, raw: true, action: 'qs-battery'},
+      {id: 'battery', meter: battery, label: `${battery}%`, raw: true, action: 'qs-battery'},
       {id: 'airplane', icon: settings.airplane ? 'ic_qs_airplane_on' : 'ic_qs_airplane_off', label: 'Airplane mode', action: 'qs-airplane', pressed: !!settings.airplane},
       {id: 'bluetooth', icon: !settings.bluetooth ? 'ic_qs_bluetooth_off' : settings.pairedDevice ? 'ic_qs_bluetooth_on' : 'ic_qs_bluetooth_not_connected', label: !settings.bluetooth ? 'Bluetooth Off' : settings.pairedDevice || 'Bluetooth', raw: !!(settings.bluetooth && settings.pairedDevice), action: 'qs-bluetooth', toggle: 'bluetooth'}
     ];
+    const location = !!(settings.gps || settings.networkLocation);
+    list.push({id: 'location', icon: location ? 'ic_qs_location_on' : 'ic_qs_location_off', label: location ? 'Location' : 'Location off', action: 'qs-location'});
     if (alarm) list.push({id: 'alarm', icon: 'ic_qs_alarm_on', label: alarm, raw: true, action: 'qs-alarm'});
-    if (settings.gps) list.push({id: 'location', icon: 'ic_qs_location', label: 'Location in use', action: 'qs-location'});
     // Wifi Display tile: setShowWhenEnabled, so it appears only while wireless display is on (Nexus 4 enables the feature).
     if (settings.wifiDisplay && settings.wifi && !settings.airplane) list.push({id: 'wifi-display', icon: 'ic_qs_remote_display', label: 'Wireless Display', action: 'qs-wifi-display'});
     return list;
   }
+  // quick_settings_tile_battery: a 22 x 32 dp BatteryMeterView with 3 dp padding (frame #66FFFFFF, white level).
+  const meter = level => `<svg class="kk-qs-battery" viewBox="0 0 16 26" aria-hidden="true"><path d="M4 0h8v2.6H4zM0 2.6h16V26H0z" fill="#fff" fill-opacity=".4"/><rect x="0" y="${(2.6 + 23.4 * (1 - level / 100)).toFixed(2)}" width="16" height="${(23.4 * level / 100).toFixed(2)}" fill="${level <= 15 ? '#ff3300' : '#fff'}"/></svg>`;
   function tileMarkup(tile, t) {
     const label = tile.raw ? tile.label : t(tile.label);
-    return `<button class="jb-qs-tile${tile.pressed ? ' on' : ''}" data-action="${tile.action}" data-qs="${tile.id}" ${tile.toggle ? `data-qs-toggle="${tile.toggle}"` : ''} aria-label="${e(label)}"><span class="jb-qs-icon"><img src="assets/jb-${tile.icon}.png" alt="">${tile.overlay ? `<img class="jb-qs-overlay" src="assets/jb-${tile.overlay}.png" alt="">` : ''}</span><span class="jb-qs-label" data-no-translate>${e(label)}</span></button>`;
+    return `<button class="jb-qs-tile${tile.pressed ? ' on' : ''}" data-action="${tile.action}" data-qs="${tile.id}" ${tile.toggle ? `data-qs-toggle="${tile.toggle}"` : ''} aria-label="${e(label)}"><span class="jb-qs-icon">${tile.meter !== undefined ? meter(tile.meter) : `<img src="assets/jb-${tile.icon}.png" alt="">`}${tile.overlay ? `<img class="jb-qs-overlay" src="assets/jb-${tile.overlay}.png" alt="">` : ''}</span><span class="jb-qs-label" data-no-translate>${e(label)}</span></button>`;
   }
   // Notification template: 64dp large icon, title, text, time and the small icon; the expanded form adds big text and actions.
   function row(note, t, locale, expanded) {
@@ -48,7 +52,7 @@
   }
   function render(data, ui, t, {locale, clock, date, carrier, alarm, extra = ''}) {
     const notes = data.notifications || [], qs = !!ui.shadeSettings;
-    return `<div class="notification-shade jb-shade${qs ? ' show-settings' : ''}"><div class="shade-top jb-shade-header"><div class="jb-shade-datetime"><span class="jb-shade-clock">${e(clock)}</span><span class="jb-shade-date">${e(date)}</span></div><button class="jb-shade-clear" data-action="clear-notifications" aria-label="${e(t('Clear all notifications.'))}" ${notes.length && !qs ? '' : 'hidden'}><img src="assets/jb-ic_notify_clear_normal.png" alt=""></button><button class="jb-shade-flip" data-action="shade-flip" aria-label="${e(t(qs ? 'Notifications.' : 'Quick settings.'))}"><img class="jb-flip-settings" src="assets/jb-ic_notify_settings_normal.png" alt=""><img class="jb-flip-notifications" src="assets/jb-ic_notifications_normal.png" alt=""></button></div><div class="jb-shade-pages"><div class="shade-list jb-shade-list">${extra}${notes.map((note, index) => row(note, t, locale, isExpanded(note, index, ui))).join('')}</div><div class="jb-qs" role="group" aria-label="${e(t('Quick settings.'))}">${tiles(data.settings, {carrier, alarm}).map(tile => tileMarkup(tile, t)).join('')}</div></div><div class="shade-carrier jb-shade-carrier">${e(carrier)}</div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
+    return `<div class="notification-shade jb-shade${qs ? ' show-settings' : ''}"><div class="shade-top jb-shade-header"><div class="jb-shade-datetime"><span class="jb-shade-clock">${e(clock)}</span><span class="jb-shade-date">${e(date)}</span></div><button class="jb-shade-clear" data-action="clear-notifications" aria-label="${e(t('Clear all notifications.'))}" ${notes.length && !qs ? '' : 'hidden'}><img src="assets/jb-ic_notify_clear_normal.png" alt=""></button><button class="jb-shade-flip" data-action="shade-flip" aria-label="${e(t(qs ? 'Notifications.' : 'Quick settings.'))}"><img class="jb-flip-settings" src="assets/kk-ic_notify_quicksettings_normal.png" alt=""><img class="jb-flip-notifications" src="assets/jb-ic_notifications_normal.png" alt=""></button></div><div class="jb-shade-pages"><div class="shade-list jb-shade-list">${extra}${notes.map((note, index) => row(note, t, locale, isExpanded(note, index, ui))).join('')}</div><div class="jb-qs" role="group" aria-label="${e(t('Quick settings.'))}">${tiles(data.settings, {carrier, alarm}).map(tile => tileMarkup(tile, t)).join('')}</div></div><div class="shade-carrier jb-shade-carrier">${e(carrier)}</div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
   }
   // Card flip between notifications and quick settings: the visible page squashes horizontally, then the other grows.
   function flip(shade, toSettings, reduced = false) {

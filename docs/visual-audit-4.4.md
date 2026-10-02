@@ -60,3 +60,13 @@ The 4.4 keyguard moved to `frameworks/base/packages/Keyguard`. Compared with 4.3
 - **Glow pad:** unchanged; it holds the unlock target only.
 - **Window:** the keyguard draws under the translucent bars, and its content stays inside them.
 - **Navigation bar:** `KeyguardViewMediator` disables Recents, and Back stays hidden until the bouncer opens, so only Home shows.
+
+## Notification panel and drawables — 2026-10-02
+
+4.3 shipped no xxhdpi SystemUI resources, so the framework, SystemUI and Keyguard drawables inherited from 4.3 were redrawn from the 4.4.4 xxhdpi files (scratchpad `kk_swap_assets.py`; assets keep their pixel size, and the quick settings icons are stored at full resolution).
+- **Accents:** white replaces holo blue in the quick settings icons and in the `status_bar_close_on` handle. The add-widget pressed state is grey.
+- **Header:** the flip button is `ic_notify_quicksettings`, and `ic_notify_open` returns to the notifications.
+- **Quick settings (`QuickSettings` 4.4):**
+  - The battery tile is a 22 × 32 dp BatteryMeterView.
+  - Location is a permanent tile after Bluetooth ("Location" / "Location off"), and it opens the location settings.
+  - The alarm tile is temporary.

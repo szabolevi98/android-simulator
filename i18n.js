@@ -590,6 +590,8 @@
     ['Weather','Időjárás','Wetter','Météo','Tiempo'],
     ['Photo Gallery','Fotógaléria','Fotogalerie','Galerie photos','Galería de fotos'],
     ['Tomorrow','Holnap','Morgen','Demain','Mañana'],
+    ["Welcome to Android 4.4","Üdvözöl az Android 4.4","Willkommen bei Android 4.4","Bienvenue sur Android 4.4","Bienvenido a Android 4.4"],
+    ["Location off","Hely kikapcsolva","Standort aus","Localisation désactivée","Ubicación desactivada"],
     ["Welcome","Üdvözöljük!","Willkommen","Bienvenue","Te damos la bienvenida"],
     ["Make yourself at home.","Varázsolja egyedivé készülékét.","Gerät personalisieren","Familiarisez-vous avec l\\'écran d\\'accueil.","Personaliza tu pantalla de inicio."],
     ["Create more screens for apps and folders","Hozzon létre további képernyőket az alkalmazásoknak és mappáknak","Mehr Bildschirme für Apps und Ordner erstellen","Créez des écrans personnalisés pour vos applis et dossiers","Crea más pantallas para aplicaciones y carpetas"],

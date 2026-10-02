@@ -32,3 +32,5 @@
 .screen.kk-lights-out .nav-key img{opacity:0;transition:opacity .25s}
 .screen.kk-lights-out .nav-key{background:url('assets/kk-ic_sysbar_lights_out_dot_small.png') center/contain no-repeat}
 .screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/kk-ic_sysbar_lights_out_dot_large.png')}
+/* Quick settings battery tile: BatteryMeterView at 16 x 26 dp inside the 32 dp icon box. */
+.jb-qs-icon .kk-qs-battery{position:absolute;left:50%;top:50%;width:14.5px;height:23.56px;margin:-11.78px 0 0 -7.25px}

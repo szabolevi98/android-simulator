@@ -43,7 +43,7 @@
     browserHistory: ['www.google.com'],
     sentEmails: [],
     notifications: [
-      { id: 1, title: 'Welcome to Android 4.3', detail: 'Your phone is ready to explore.' },
+      { id: 1, title: 'Welcome to Android 4.4', detail: 'Your phone is ready to explore.' },
       { id: 2, title: 'New message from Alex', detail: 'See you at 11!' }
     ]
   };
@@ -96,7 +96,7 @@
     emailId: 1, recent: [], recentSnapshots: {}, toastTimer: null, wifiTarget: '', bluetoothScanned: false
   };
   const emailData = [
-    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Nexus 4 is ready. Explore Android 4.3 Jelly Bean, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
+    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Nexus 5 is ready. Explore Android 4.4 KitKat, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
     { id: 2, from: 'Alex Morgan', subject: 'Photos from the weekend', body: 'I added a few pictures to our album. Take a look when you have a moment!', time: 'Yesterday' },
     { id: 3, from: 'Calendar', subject: 'Coffee with Alex', body: 'Reminder: Coffee with Alex at 11:00.', time: 'Yesterday' }
   ];
