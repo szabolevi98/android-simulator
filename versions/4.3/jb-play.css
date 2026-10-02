@@ -1,0 +1,201 @@
+/* Google Play Store 4.2.3 (July 2013) on the Nexus 4: 1 dp = 0.8516 px (327 px for 384 dp). Measured on Android Police's
+   4.0.25 / 4.1.6 / 4.2.3 captures. Roboto Light / Light Italic / Bold are the AOSP 4.3 fonts. */
+@font-face{font-family:RobotoLight;src:url('assets/Roboto-Light.ttf') format('truetype');font-display:swap}
+@font-face{font-family:RobotoLightItalic;src:url('assets/Roboto-LightItalic.ttf') format('truetype');font-display:swap}
+@font-face{font-family:RobotoBoldJB;src:url('assets/Roboto-Bold.ttf') format('truetype');font-display:swap}
+#viewport>.app-view.jbp{height:100%;display:flex;flex-direction:column;background:#e5e5e5;color:#333;font-family:RobotoICS,Roboto,Arial,sans-serif;overflow:hidden;position:relative}
+.jbp-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:6.8px}
+.jbp-scroll::-webkit-scrollbar{display:none}
+
+/* Action bar: 48 dp, #666 or the section colour, the up caret with the white Play glyph (the bag with the triangle cut
+   out), the 18 dp title, the white search, share and overflow icons. */
+.jbp-bar{flex:none;display:flex;align-items:center;height:40.88px;padding:0;background:var(--bar,#666);color:#fff;position:relative;z-index:3;box-shadow:0 1px 2px #0004}
+.screen .jbp-up{flex:none;display:flex;align-items:center;height:100%;padding:0 3.4px 0 0;border:0;background:none;color:#fff;cursor:pointer}
+.jbp-up.root{padding-left:6.8px}
+.jbp-up span{width:8px;margin:0 0 2px 1px;font-size:20px;line-height:1;opacity:.9}
+.jbp-glyph{display:block;width:27.25px;height:27.25px;background:#fff;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M11.2 9.5V7.6a4.8 4.8 0 0 1 9.6 0v1.9' fill='none' stroke='%23000' stroke-width='2.1'/%3E%3Cpath fill-rule='evenodd' d='M5.4 9.9h21.2l-1.3 17.6a1.6 1.6 0 0 1-1.6 1.5H8.3a1.6 1.6 0 0 1-1.6-1.5zM13.1 14.2v10.4l8.6-5.2z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M11.2 9.5V7.6a4.8 4.8 0 0 1 9.6 0v1.9' fill='none' stroke='%23000' stroke-width='2.1'/%3E%3Cpath fill-rule='evenodd' d='M5.4 9.9h21.2l-1.3 17.6a1.6 1.6 0 0 1-1.6 1.5H8.3a1.6 1.6 0 0 1-1.6-1.5zM13.1 14.2v10.4l8.6-5.2z'/%3E%3C/svg%3E") center/contain no-repeat}
+.jbp-bar b{flex:1;min-width:0;margin-left:6.8px;font-weight:400;font-size:16.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .jbp-search,.screen .jbp-share,.screen .jbp-overflow{flex:none;width:40.88px;height:100%;padding:0;border:0;background:center/23.84px 23.84px no-repeat;cursor:pointer}
+.screen .jbp-search{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M14.4 14.4l6 6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E")}
+.screen .jbp-share{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Ccircle cx='18' cy='5.5' r='2.8'/%3E%3Ccircle cx='6' cy='12' r='2.8'/%3E%3Ccircle cx='18' cy='18.5' r='2.8'/%3E%3Cpath d='M6 12l12-6.5M6 12l12 6.5' stroke='%23fff' stroke-width='1.8'/%3E%3C/svg%3E")}
+.screen .jbp-overflow{width:29px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Crect x='10' y='4' width='4' height='4'/%3E%3Crect x='10' y='10' width='4' height='4'/%3E%3Crect x='10' y='16' width='4' height='4'/%3E%3C/svg%3E")}
+.screen .jbp-up:active,.screen .jbp-search:active,.screen .jbp-share:active,.screen .jbp-overflow:active{background-color:#ffffff33}
+.jbp-bar.searching input{flex:1;min-width:0;height:28px;margin-left:6.8px;border:0;border-bottom:1px solid #fff;background:none;color:#fff;font:400 15.3px RobotoICS,Arial,sans-serif;outline:0}
+.jbp-bar.searching input::placeholder{color:#ffffffb0}
+.jbp-suggest{position:absolute;left:0;right:0;top:40.88px;z-index:4;background:#fff;box-shadow:0 2px 4px #0005}
+.screen .jbp-suggest button{display:flex;align-items:center;gap:10px;width:100%;min-height:40.88px;padding:0 13.6px;border:0;border-bottom:1px solid #e3e3e3;background:#fff;color:#333;text-align:left;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+.jbp-suggest i{width:16px;height:16px;flex:none;opacity:.55;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6' fill='none' stroke='%23333' stroke-width='2'/%3E%3Cpath d='M14.4 14.4l6 6' stroke='%23333' stroke-width='2.6'/%3E%3C/svg%3E")}
+.jbp-suggest i.recent{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8.5' fill='none' stroke='%23333' stroke-width='2'/%3E%3Cpath d='M12 7v5l3.5 2' fill='none' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E")}
+
+/* Home category buttons (4.1.6): 2 × 3, 40 dp tall with 8 dp gaps; the colour runs slightly lighter downwards and the
+   right-hand square is split by its diagonals into a light top, a lighter right, a darker bottom and the plain left. */
+.jbp-cats{display:grid;grid-template-columns:1fr 1fr;gap:6.81px;padding:6.81px}
+.screen .jbp-cat{position:relative;display:flex;align-items:center;gap:8.5px;height:34.06px;padding:0 0 0 6.81px;border:0;background:linear-gradient(var(--c),color-mix(in srgb,var(--c),#fff 7%));color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.jbp-cat::after{content:"";position:absolute;right:0;top:0;width:34.06px;height:100%;background:conic-gradient(from -45deg,#ffffff6b 0 90deg,#ffffff57 90deg 180deg,#0000000d 180deg 270deg,transparent 270deg)}
+.screen .jbp-cat:active{filter:brightness(1.12)}
+.jbp-cat b{position:relative;z-index:1;font-weight:400;font-size:12.3px;letter-spacing:.2px;text-transform:uppercase;white-space:nowrap}
+.jbp-cat-icon{flex:none;width:20.4px;height:20.4px;background:#fff;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.jbp-cat-icon.apps{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 10.5a7 6.2 0 0 1 14 0z'/%3E%3Cpath d='M7 5l1.5 2.2M17 5l-1.5 2.2' stroke='%23000' stroke-width='1.2'/%3E%3Crect x='5' y='11.5' width='14' height='9' rx='1.4'/%3E%3Crect x='1.6' y='11.5' width='2.6' height='7' rx='1.3'/%3E%3Crect x='19.8' y='11.5' width='2.6' height='7' rx='1.3'/%3E%3C/svg%3E")}
+.jbp-cat-icon.games{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M7 6.5h10a5.5 5.5 0 0 1 5.4 6.4l-.6 3.6a2.6 2.6 0 0 1-4.5 1.3L15 15.5H9l-2.3 2.3a2.6 2.6 0 0 1-4.5-1.3l-.6-3.6A5.5 5.5 0 0 1 7 6.5zM6 9.5v1.5H4.5v2H6v1.5h2V13h1.5v-2H8V9.5zM16.2 10a1.1 1.1 0 1 0 0 .01zM18.4 12.2a1.1 1.1 0 1 0 0 .01zM14 12.2a1.1 1.1 0 1 0 0 .01zM16.2 14.4a1.1 1.1 0 1 0 0 .01z'/%3E%3C/svg%3E")}
+.jbp-cat-icon.movies{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M3 3h18v18H3zM4.5 4.5v2h2v-2zm0 4v2h2v-2zm0 4v2h2v-2zm0 4v2h2v-2zm13-12v2h2v-2zm0 4v2h2v-2zm0 4v2h2v-2zm0 4v2h2v-2zM8 4.5v15h8v-15z'/%3E%3C/svg%3E")}
+.jbp-cat-icon.music{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3a9 9 0 0 0-9 9v6.5A2.5 2.5 0 0 0 5.5 21H8v-8H5v-1a7 7 0 0 1 14 0v1h-3v8h2.5a2.5 2.5 0 0 0 2.5-2.5V12a9 9 0 0 0-9-9z'/%3E%3C/svg%3E")}
+.jbp-cat-icon.books{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 4.5c4-1.5 7-1 9.2 1v15c-2.2-2-5.2-2.5-9.2-1zM22 4.5c-4-1.5-7-1-9.2 1v15c2.2-2 5.2-2.5 9.2-1z'/%3E%3C/svg%3E")}
+.jbp-cat-icon.magazines{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M6 2.5h14v19H6zm2.5 3v3h9v-3zm0 5v1.5h9V10.5zm0 3.5v1.5h9V14zm0 3.5V19h6v-1.5z'/%3E%3Cpath d='M3 5h2v15.5H4.4A1.4 1.4 0 0 1 3 19.1z'/%3E%3C/svg%3E")}
+
+/* Clusters: the Light Italic title with its grey subtitle, the SEE MORE button in the section colour, three cards. */
+.jbp-cluster{padding:5px 6.81px 3.4px}
+.jbp-cluster header{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;padding:8.5px 1.7px 6.81px}
+.jbp-cluster header span{min-width:0}
+.jbp-cluster h3{margin:0;font:400 19.6px/1.1 RobotoLightItalic,RobotoICS,Arial,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbp-cluster small{display:block;margin-top:1px;font:400 12.8px RobotoLight,RobotoICS,Arial,sans-serif;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .jbp-more{flex:none;margin-bottom:5px;padding:2.6px 6.81px;border:0;color:#fff;font:400 11.9px RobotoICS,Arial,sans-serif;text-transform:uppercase;cursor:pointer}
+.jbp-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:6.81px}
+.jbp-cards.wrap{padding:6.81px}
+.jbp-card{position:relative;min-width:0;background:#fff;box-shadow:0 1px 1.5px #0003}
+.screen .jbp-card-main{display:flex;flex-direction:column;width:100%;padding:0;border:0;background:none;color:#333;text-align:left;cursor:pointer}
+.screen .jbp-card-main:active{background:#e7f3fb}
+.jbp-card-art{display:block;width:100%;aspect-ratio:1;font-size:26px}
+.jbp-card.apps .jbp-card-art,.jbp-card.games .jbp-card-art{width:calc(100% - 13.6px);margin:6.81px 6.81px 0}
+.jbp-card-copy{display:flex;flex-direction:column;min-width:0;padding:4.26px 13px 5.1px 6.81px}
+.jbp-card-copy b{font:400 12.8px/1.2 RobotoLight,RobotoICS,Arial,sans-serif;color:#333;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:30px}
+.jbp-card-copy small{font:400 11.1px RobotoLight,RobotoICS,Arial,sans-serif;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbp-card-foot{display:flex;align-items:center;justify-content:space-between;gap:2px;margin-top:2.6px}
+.jbp-card-foot em{font-style:normal;font-size:11.1px;white-space:nowrap}
+em.ok{color:#96aa39!important;font-size:10.2px}
+em.check::before{content:"✔ ";color:#96aa39}
+.screen .jbp-dots{position:absolute;right:0;width:16px;height:30px;padding:0;border:0;background:center/3.4px 15px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 18' fill='%23999'%3E%3Crect width='4' height='4'/%3E%3Crect y='7' width='4' height='4'/%3E%3Crect y='14' width='4' height='4'/%3E%3C/svg%3E");cursor:pointer}
+.jbp-card .jbp-dots{bottom:22px}
+.screen .jbp-dots:active{background-color:#0001}
+.jbp-cover{display:grid;place-items:center;font-style:normal;background:linear-gradient(150deg,var(--a),var(--b))}
+.jbp-cover b{font-size:1.1em;color:#fff;text-shadow:0 1px 2px #0009}
+.jbp-cover.books{box-shadow:inset 3px 0 #0003}
+.jbp-svg svg{width:100%;height:100%;display:block}
+img.jbp-card-art,img.jbp-row-art,img.jbp-head-art,img.jbp-dlg-art,img.jbp-shot-art{object-fit:contain}
+/* The All Access promo: covers on the left, the pink block with the Light Italic call to action. */
+.screen .jbp-banner{display:flex;width:100%;height:102px;margin:8.5px 0 3.4px;padding:0;border:0;background:#ff4e6f;color:#fff;text-align:left;cursor:pointer;overflow:hidden}
+.jbp-banner-art{flex:0 0 44%;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:34px}
+.jbp-banner-tile{width:100%;height:100%;font-size:12px}
+.jbp-banner-copy{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 8.5px}
+.jbp-banner-copy b{font:400 22px/1.05 RobotoLightItalic,Arial,sans-serif}
+.jbp-banner-copy small{margin-top:5px;font:400 12.8px RobotoLight,Arial,sans-serif}
+
+/* Section tabs: 48 dp light strip, uppercase Bold 12 dp labels, the current one underlined 4 dp in the section colour. */
+.jbp-tabs{flex:none;display:flex;height:40.88px;background:#f2f2f2;border-bottom:1px solid #d6d6d6;overflow-x:auto;scrollbar-width:none;position:relative;z-index:2}
+.jbp-tabs::-webkit-scrollbar{display:none}
+.screen .jbp-tabs button{flex:none;position:relative;padding:0 13.6px;border:0;border-right:1px solid #e0e0e0;background:none;color:#555;font:400 10.9px RobotoBoldJB,Arial,sans-serif;text-transform:uppercase;white-space:nowrap;cursor:pointer}
+.jbp-tabs.few button{flex:1}
+.screen .jbp-tabs button.on{color:#333}
+.jbp-tabs button.on::after{content:"";position:absolute;left:8.5px;right:8.5px;bottom:0;height:3.4px;background:var(--c)}
+.jbp-catlist{margin:6.81px;background:#fff;box-shadow:0 1px 1.5px #0003}
+.screen .jbp-catlist button{display:block;width:100%;min-height:40.88px;padding:0 13.6px;border:0;border-bottom:1px solid #e3e3e3;background:#fff;color:#333;text-align:left;font:400 15.3px RobotoLight,RobotoICS,Arial,sans-serif;cursor:pointer}
+.screen .jbp-catlist button:active{background:#e7f3fb}
+
+/* List rows: white cards 4 dp apart, a 64 dp icon, "n. Title" in Light 16 dp, creator, stars, the price or status. */
+.jbp-list{padding:3.4px 6.81px}
+.jbp-row{position:relative;margin:3.4px 0;background:#fff;box-shadow:0 1px 1.5px #0003}
+.screen .jbp-row-main{display:flex;align-items:flex-start;gap:8.5px;width:100%;min-height:77px;padding:6.81px 6.81px 5.1px;border:0;background:none;color:#333;text-align:left;cursor:pointer}
+.screen .jbp-row-main:active{background:#e7f3fb}
+.jbp-row-art{flex:none;width:54.5px;height:54.5px;font-size:22px}
+.jbp-row-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;padding-right:10px}
+.jbp-row-copy b{font:400 14.5px/1.2 RobotoLight,RobotoICS,Arial,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbp-row-copy small{font:400 12.3px RobotoLight,RobotoICS,Arial,sans-serif;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbp-row-main>em{position:absolute;right:6.81px;bottom:5.1px;font-style:normal;font-size:11.1px}
+.jbp-row .jbp-dots{top:4px}
+.jbp-group{display:flex;justify-content:space-between;align-items:baseline;padding:10.2px 8.5px 3.4px;font:400 17.9px RobotoLightItalic,Arial,sans-serif;color:#555}
+.jbp-group b{font:inherit}
+.jbp-empty{margin:28px 16px;color:#888;text-align:center;font:400 14.5px RobotoLight,Arial,sans-serif}
+
+/* Stars: dark grey filled, light grey empty. */
+.jbp-stars{display:inline-flex;gap:.5px;line-height:1}
+.jbp-stars i{font-style:normal;font-size:10.2px;color:#c9c9c9}
+.jbp-stars i::before{content:"★"}
+.jbp-stars i.on{color:#6c6c6c}
+.jbp-stars i.half{background:linear-gradient(90deg,#6c6c6c 50%,#c9c9c9 50%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Details (4.0 / 4.1.6): the white header, OPEN / UNINSTALL or the coloured INSTALL / price, the screenshots, facts,
+   +1, Rate & review with the empty stars, What's new, Description, Reviews. */
+.jbp-head{display:flex;gap:10.2px;padding:8.5px 8.5px 10.2px;background:#fff;border-bottom:1px solid #ddd}
+.jbp-head-art{flex:none;width:81.75px;height:81.75px;font-size:32px}
+.jbp-head-copy{flex:1;min-width:0;display:flex;flex-direction:column}
+.jbp-head-copy b{font:400 19.6px/1.15 RobotoLight,RobotoICS,Arial,sans-serif;color:#333}
+.jbp-head-copy>small{margin-top:2px;font:400 11.9px RobotoICS,Arial,sans-serif;color:#999;letter-spacing:.3px}
+.jbp-btns{display:flex;flex-direction:column;align-items:flex-end;gap:5px;margin-top:auto;padding-top:8px}
+.screen .jbp-btn{width:119px;height:28px;border:1px solid #c8c8c8;background:#f4f4f4;color:#444;font:400 12.8px RobotoICS,Arial,sans-serif;text-transform:uppercase;cursor:pointer}
+.screen .jbp-btn:active:not(:disabled){background:#dcdcdc}
+.screen .jbp-btn:disabled{opacity:.45;cursor:default}
+.screen .jbp-btn.buy{border-color:transparent;background:var(--c);color:#fff}
+.jbp-dl{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:10px}
+.jbp-dl small{flex:none;font-size:11.1px;color:#777}
+.jbp-progress{flex:1;height:5px;background:#ddd}
+.jbp-progress b{display:block;height:100%}
+.screen .jbp-dl-cancel{flex:none;width:24px;height:24px;padding:0;border:0;background:center/12px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 1l10 10M11 1L1 11' stroke='%23777' stroke-width='1.8'/%3E%3C/svg%3E");cursor:pointer}
+.jbp-shots{display:flex;gap:5px;padding:8.5px;background:#f0f0f0;overflow-x:auto;scrollbar-width:none}
+.jbp-shot{flex:none;display:grid;place-items:center;width:88px;height:152px;background:linear-gradient(170deg,var(--a),var(--b))}
+.jbp-shot-art{width:44px;height:44px}
+.jbp-shot.n1{background:linear-gradient(10deg,var(--a),var(--b))}
+.jbp-shot.n2{background:linear-gradient(120deg,var(--b),var(--a))}
+.jbp-facts{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:8.5px;background:#fff;color:#999;font:400 12.3px RobotoLight,RobotoICS,Arial,sans-serif;border-bottom:1px solid #ddd}
+.jbp-facts span{display:flex;align-items:center;gap:4px}
+.jbp-plus{display:flex;align-items:center;gap:8px;padding:6.81px 8.5px;background:#fff;color:#555;font-size:12.3px;border-bottom:1px solid #ddd}
+.screen .jbp-plus button{flex:none;height:20px;padding:0 6px;border:1px solid #ccc;background:#f4f4f4;color:#c33;font:700 11.1px Arial,sans-serif;cursor:pointer}
+.screen .jbp-plus button.on{background:#c33;color:#fff;border-color:#c33}
+.jbp-rate{display:flex;align-items:center;justify-content:space-between;padding:8.5px;background:#fff;border-bottom:1px solid #ddd}
+.jbp-rate h4,.jbp-text h4,.jbp-reviews h4{margin:0;font:400 17.9px RobotoLightItalic,Arial,sans-serif;color:#555}
+.jbp-rate-stars{display:flex;gap:2px}
+.screen .jbp-rate-stars button{width:22px;height:22px;padding:0;border:0;background:none;color:#ccc;font-size:21px;line-height:1;cursor:pointer}
+.jbp-rate-stars button::before{content:"★"}
+.screen .jbp-rate-stars button.on{color:#33b5e5}
+.jbp-auto{display:flex;align-items:center;gap:8px;padding:8.5px;background:#fff;border-bottom:1px solid #ddd;font-size:13.6px;color:#333}
+.jbp-text{padding:8.5px;background:#fff;border-bottom:1px solid #ddd}
+.jbp-text p{margin:4px 0 0;font:400 13.6px/1.35 RobotoLight,RobotoICS,Arial,sans-serif;color:#555}
+.jbp-reviews{padding:8.5px;background:#fff}
+.jbp-hist{display:flex;gap:10px;margin:8px 0}
+.jbp-avg{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:76px}
+.jbp-avg b{font:400 34px/1 RobotoLight,Arial,sans-serif;color:#333}
+.jbp-avg small{font-size:10.2px;color:#999}
+.jbp-bars{flex:1;display:flex;flex-direction:column;gap:3px}
+.jbp-bars span{display:flex;align-items:center;gap:5px;font-size:10.2px;color:#777}
+.jbp-bars small{width:8px}
+.jbp-bars i{display:block;height:10px}
+.jbp-bars em{font-style:normal}
+.jbp-review{padding:6.81px 0;border-top:1px solid #eee}
+.jbp-review span{display:flex;align-items:center;gap:6px;font-size:11.9px;color:#999}
+.jbp-review strong{color:#333;font-weight:400}
+.jbp-review p{margin:3px 0 0;font:400 13.6px/1.35 RobotoLight,RobotoICS,Arial,sans-serif;color:#555}
+
+/* Settings (Holo Light, 4.1.6 / 4.2.3). */
+.jbp-pref-cat{margin:0;padding:13.6px 13.6px 3.4px;border-bottom:1.5px solid #c3c3c3;color:#777;font:400 11.9px RobotoBoldJB,Arial,sans-serif;text-transform:uppercase}
+.screen .jbp-pref{display:flex;align-items:center;gap:8px;width:100%;min-height:54.5px;padding:6.81px 13.6px;border:0;border-bottom:1px solid #d5d5d5;background:none;color:#222;text-align:left;cursor:pointer}
+.screen .jbp-pref:active{background:#cbe8f6}
+.jbp-pref span{flex:1;min-width:0;display:flex;flex-direction:column}
+.jbp-pref b{font:400 15.3px RobotoICS,Arial,sans-serif}
+.jbp-pref small{margin-top:1px;font:400 11.9px RobotoICS,Arial,sans-serif;color:#666}
+.jbp-pref img{flex:none;width:27.25px;height:27.25px}
+.jbp-pref.info{display:flex;padding:6.81px 13.6px}
+
+/* Holo Light popups and dialogs: the card overflow, the permissions dialog with the green ACCEPT, the auto-update list. */
+.jbp-pop-scrim,.jbp-dlg-scrim{position:absolute;inset:0;z-index:25}
+.jbp-dlg-scrim{background:#0009}
+.jbp-pop{position:absolute;right:8px;z-index:26;min-width:150px;background:#fff;box-shadow:0 2px 8px #0006}
+.screen .jbp-pop button,.screen .jbp-menu button{display:block;width:100%;padding:11px 14px;border:0;border-bottom:1px solid #e3e3e3;background:#fff;color:#333;text-align:left;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+.screen .jbp-pop button:last-child,.screen .jbp-menu button:last-child{border-bottom:0}
+.screen .jbp-pop button:active,.screen .jbp-menu button:active{background:#cbe8f6}
+.jbp-menu{position:absolute;top:44px;right:4px;z-index:26;min-width:160px;background:#fff;box-shadow:0 2px 8px #0006}
+.jbp-dlg{position:absolute;left:6%;right:6%;top:50%;z-index:26;transform:translateY(-50%);background:#fff;color:#333;box-shadow:0 6px 24px #000a}
+.jbp-dlg h3{margin:0;padding:13.6px 13.6px 10px;border-bottom:1.7px solid #33b5e5;color:#33b5e5;font:400 18.7px RobotoICS,Arial,sans-serif}
+.jbp-dlg-head{display:flex;align-items:center;gap:10px;padding:13.6px;border-bottom:1px solid #e3e3e3}
+.jbp-dlg-art{width:40.9px;height:40.9px;font-size:18px;flex:none}
+.jbp-dlg-head b{display:block;font:400 17px RobotoLight,RobotoICS,Arial,sans-serif}
+.jbp-dlg-head small{color:#888;font-size:12.3px}
+.jbp-perm-list{max-height:220px;overflow:auto;padding:5px 13.6px}
+.jbp-perm{display:flex;gap:10px;padding:7px 0}
+.jbp-perm i{flex:none;width:16px;height:16px;margin-top:2px;background:#9aa;border-radius:2px}
+.jbp-perm b{display:block;font:400 13.6px RobotoICS,Arial,sans-serif}
+.jbp-perm small{color:#888;font-size:11.9px}
+.screen .jbp-accept{display:block;width:calc(100% - 27px);margin:6.81px 13.6px 13.6px;height:34px;border:0;background:#96aa39;color:#fff;font:400 13.6px RobotoICS,Arial,sans-serif;cursor:pointer}
+.screen .jbp-dlg-row{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;padding:6px 13.6px;border:0;border-bottom:1px solid #e3e3e3;background:none;color:#333;text-align:left;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+.jbp-dlg-row span{flex:1}
+.jbp-dlg-row i{flex:none;width:18px;height:18px;border:2px solid #999;border-radius:50%}
+.jbp-dlg-row i.on{border-color:#33b5e5;background:radial-gradient(circle,#33b5e5 0 4px,transparent 4.5px)}
+.jbp-dlg-actions{display:flex;border-top:1px solid #e3e3e3}
+.screen .jbp-dlg-actions button{flex:1;height:40px;border:0;background:none;color:#333;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}

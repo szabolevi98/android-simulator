@@ -496,3 +496,26 @@ Both handsets are now SVG drawings (`versions/4.0.4/assets/device-galaxy-nexus.s
 - **Galaxy Nexus.** The Contour Display silhouette, with arched top and bottom edges and the curved chin, under a metallic rim. The grille sits at the top centre, with the two sensors and the camera to its right. Power is on the right and the volume rocker on the left, at their measured heights. The display window is 306 × 545, the 720 × 1280 panel at 0.425.
 - **Nexus 4.** Rounded corners and gently arched edges under a dark grey rim. The earpiece sits in its recess below the rim at the top centre, with the two sensors on the left and the camera on the right. The display window is 327 × 545, the 768 × 1280 panel at 0.426. The notification LED is still hidden below the display.
 - **Landing cards.** The miniatures use the same drawings.
+
+## Google Play Store 4.2.3 (July 2013) — 2026-10-02
+
+The 4.3 store was the shared fictional 2012-style storefront (`play-store.js`). It is now Google Play Store 4.2.3, the version in the Android 4.3 system image that reached the Nexus 4 in July 2013 (`jb-play.js`, `jb-play.css`). 4.2.9 rolled out the same week with only widget changes. The navigation drawer only came with 4.4 in the autumn, so the action bar overflow leads to My apps, My wishlist, Redeem, Settings and Help.
+
+References: Android Police captures of 4.0.25 (9 April 2013), 4.1.6 (14 May 2013) and 4.2.3 (18 July 2013); the owner's 4.2.3 home and Settings capture. Colours and sizes were sampled from the captures, using 1 dp = 0.8516 px.
+
+- **Action bar:** 48 dp; #666 at the top level and in Settings, the section colour inside sections. It has the up caret, the white Play glyph (the bag with the triangle cut out), search, share on details, and the overflow.
+- **Home:**
+  - The six category buttons (Apps / Games / Movies & TV / Music / Books / Magazines) are 40 dp tall in a 2 × 3 grid, each with its white icon. The right-hand square of each button is split by its diagonals into a light top, a lighter right and a slightly darker bottom.
+  - Card clusters have Roboto Light Italic titles, grey subtitles and the SEE MORE button in the section colour.
+  - Below them are the pink "Get Unlimited Music / Try All Access for Free" promo, Recommended for You and Free classics.
+- **Cards:** white with a 1 dp shadow, the art (app icons inset), title (two lines), creator, stars and the price in the section colour (or INSTALLED), and the overflow dots. The overflow popup offers Add to wishlist (Remove from wishlist) and Buy $x / Install.
+- **Sections:** the light tab strip (Bold 12 dp uppercase, the current tab underlined 4 dp in the section colour; it scrolls and can be swiped) with CATEGORIES, HOME (clusters) and numbered top lists ("1. Title", creator, stars, price / INSTALLED / ✔ PURCHASED).
+- **Details:** the white header with the big icon, Light title, upper-case creator, and either INSTALL / the price in the section colour or OPEN + UNINSTALL in grey.
+  - Below come the screenshots, the facts (rating, date, downloads, size), +1, Rate & review with five stars (a rating is stored), What's new, Description, and Reviews with the coloured histogram.
+  - Install opens the 4.0 permissions dialog with the green ACCEPT, then the inline download bar with its cancel X.
+- **My apps:** INSTALLED / ALL tabs and the italic "Up to date" group with the count. **My wishlist:** a card grid, or "Your wishlist is empty."
+- **Settings (Holo Light):** GENERAL (Notifications, Auto-update apps, Auto-add widgets, Clear search history), USER CONTROLS (Content filtering, Password) and ABOUT (Open source licenses, Build version 4.2.3).
+  - Auto-update apps is the 4.x list preference: Do not auto-update / at any time / over Wi-Fi only.
+- **Icon:** the 2012–2014 Google Play bag (official file, see the notices).
+
+Checks: `tests/jb-play.test.cjs` covers the version, category order, clusters, the promo, Hungarian labels, the section bar colour and tabs, numbered lists, details states (install, price, open / uninstall, progress), the permissions, card and auto-update dialogs, My apps, the wishlist, Settings and the overflow menu. Headless Chrome covered home, Apps HOME / TOP FREE, the card popup, details, install → download → installed, My apps, Settings and the auto-update dialog. No JavaScript errors.
