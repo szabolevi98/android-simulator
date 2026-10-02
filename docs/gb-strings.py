@@ -8,7 +8,7 @@ APPS = {
     'contacts': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-2.3.6_r1/res/values%s/strings.xml',
                     'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
-        'keys': '''account_phone nameLabelsGroup name_given name_family name_prefix name_middle name_suffix phoneLabelsGroup emailLabelsGroup
+        'keys': '''contactsList search_settings_description account_phone nameLabelsGroup name_given name_family name_prefix name_middle name_suffix phoneLabelsGroup emailLabelsGroup
 organizationLabelsGroup ghostData_company ghostData_title label_notes edit_secondary_collapse menu_done menu_doNotSave editContact_title_edit
 editContact_title_insert contactSavedToast deleteConfirmation deleteConfirmation_title selectLabel postalLabelsGroup phoneTypeMobile phoneTypeHome
 phoneTypeWork phoneTypeOther emailTypeHome emailTypeWork emailTypeOther emailTypeMobile
@@ -29,7 +29,7 @@ onscreenUnholdText unknown onHold notification_on_hold notification_ongoing_call
     'mms': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_mms/android-2.3.6_r1/res/values%s/strings.xml'],
         'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_mms/android-2.3.6_r1/res/values%s/arrays.xml'],
-        'keys': '''app_label new_message create_new_message has_draft messagelist_sender_self sent_on type_to_compose_text_enter_to_send to_hint
+        'keys': '''search_label search_hint search_setting_description app_label new_message create_new_message has_draft messagelist_sender_self sent_on type_to_compose_text_enter_to_send to_hint
 send sending_message menu_compose_new menu_delete_all menu_preferences menu_call menu_view_contact add_subject add_attachment menu_insert_smiley
 delete_thread discard all_threads menu_add_to_contacts message_options menu_forward copy_message_text view_message_details delete_message menu_lock
 delete confirm_dialog_title confirm_delete_conversation confirm_delete_all_conversations confirm_delete_message no subject_hint menu_view menu_delete
@@ -55,7 +55,7 @@ silent_alarm_summary date_time_set'''.split(),
     },
     'music': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-2.3.6_r1/res/values%s/strings.xml'],
-        'keys': '''goto_start party_shuffle party_shuffle_off delete_item shuffle_all nowplaying_title artists_title albums_title tracks_title
+        'keys': '''musicbrowserlabel search_hint search_settings_description goto_start party_shuffle party_shuffle_off delete_item shuffle_all nowplaying_title artists_title albums_title tracks_title
 playlists_title search_title no_tracks_title ringtone_menu play_selection add_to_playlist queue new_playlist new_playlist_name_template
 create_playlist_create_text remove_from_playlist shuffle_on_notif shuffle_off_notif repeat_all_notif
 repeat_current_notif repeat_off_notif emptyplaylist'''.split(),
@@ -131,6 +131,14 @@ master_clear_final_button_text master_clear_gesture_explanation'''.split(),
 sync_automatically_summary sync_menu_sync_now sync_menu_sync_cancel sync_one_time_sync sync_calendar sync_contacts header_manage_accounts
 header_general_sync_settings sync_enabled sync_disabled add_account_label header_data_and_synchronization remove_account_label header_add_an_account
 really_remove_account_title really_remove_account_message remove_account_failed sync_item_title ok cancel'''.split(),
+    },
+    'search': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_quicksearchbox/android-2.3.6_r1/res/values%s/strings.xml'],
+        'keys': '''app_name corpus_selection_heading corpus_selection_edit_items corpus_label_global corpus_label_web corpus_description_web
+corpus_label_apps corpus_description_apps corpus_hint_apps menu_settings search_settings web_search_category_title system_search_category_title
+search_sources search_sources_summary clear_shortcuts clear_shortcuts_summary clear_shortcuts_prompt agree disagree google_search_label
+google_search_hint google_search_settings google_show_web_suggestions google_show_web_suggestions_summary_enabled
+google_show_web_suggestions_summary_disabled'''.split(),
     },
     'wallpapers': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_livepicker/android-2.3.6_r1/res/values%s/strings.xml',

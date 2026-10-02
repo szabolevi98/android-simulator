@@ -2,6 +2,20 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["contacts"] = {
 "strings": {
+"contactsList": {
+"en": "Contacts",
+"hu": "Címtár",
+"de": "Kontakte",
+"fr": "Contacts",
+"es": "Contactos"
+},
+"search_settings_description": {
+"en": "Names of your contacts",
+"hu": "Ismerősök nevei",
+"de": "Namen meiner Kontakte",
+"fr": "Noms de vos contacts",
+"es": "Nombres de tus contactos"
+},
 "account_phone": {
 "en": "Phone-only, unsynced",
 "hu": "Csak a telefonon, nem szinkronizált",

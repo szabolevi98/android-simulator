@@ -184,6 +184,7 @@ App drawables carry a prefix for their source package at `android-2.3.6_r1`:
 - `gb-g3-*`: [Gallery3D](https://github.com/aosp-mirror-neo/platform_packages_apps_gallery3d/tree/android-2.3.6_r1/res);
 - `gb-cam-*`: [Camera](https://github.com/aosp-mirror/platform_packages_apps_camera/tree/android-2.3.6_r1/res). The `*-p.png` files are rotated 90° for the upright phone.
 - `gb-ce-*`: [Contacts](https://github.com/aosp-mirror/platform_packages_apps_contacts/tree/android-2.3.6_r1/res);
-- `gb-st-*`: [Settings](https://github.com/aosp-mirror/platform_packages_apps_settings/tree/android-2.3.6_r1/res).
+- `gb-st-*`: [Settings](https://github.com/aosp-mirror/platform_packages_apps_settings/tree/android-2.3.6_r1/res);
+- `gb-qsb-*` and `search.png` (the launcher icon): [QuickSearchBox](https://github.com/aosp-mirror-neo/platform_packages_apps_quicksearchbox/tree/android-2.3.6_r1/res).
 
 `gb-recent_dialog_background.png` and `gb-platlogo.jpg` (the PlatLogoActivity image, "Zombie art by Jack Larson") come from frameworks/base core/res. Copyright The Android Open Source Project; Apache License 2.0.

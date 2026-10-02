@@ -2,6 +2,27 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["mms"] = {
 "strings": {
+"search_label": {
+"en": "Messaging",
+"hu": "Üzenetek",
+"de": "SMS/MMS",
+"fr": "SMS/MMS",
+"es": "Mensajes"
+},
+"search_hint": {
+"en": "Search Messaging",
+"hu": "Keresés az üzenetekben",
+"de": "SMS/MMS durchsuchen",
+"fr": "Rechercher dans les SMS/MMS",
+"es": "Buscar mensajes"
+},
+"search_setting_description": {
+"en": "Text in your messages",
+"hu": "Üzenetek szövegében",
+"de": "Text in meinen Nachrichten",
+"fr": "Texte de vos messages",
+"es": "Texto de los mensajes"
+},
 "app_label": {
 "en": "Messaging",
 "hu": "Üzenetek",
@@ -316,13 +337,6 @@ window.GBStrings["mms"] = {
 "de": "Empfangen: ",
 "fr": "Date de réception : ",
 "es": "Recibido: "
-},
-"search_hint": {
-"en": "Search Messaging",
-"hu": "Keresés az üzenetekben",
-"de": "SMS/MMS durchsuchen",
-"fr": "Rechercher dans les SMS/MMS",
-"es": "Buscar mensajes"
 },
 "attach_image": {
 "en": "Pictures",

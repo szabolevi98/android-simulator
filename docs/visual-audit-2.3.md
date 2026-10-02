@@ -601,3 +601,26 @@ References: android-2.3.6_r1 `packages/wallpapers/LivePicker` (`live_wallpaper_e
 
 - **Market icon redrawn** from the 2010–2011 Android Market logo (owner's reference): the green handle, the wide white bag with its lower shading band, and the big tilted green Android peeking in from the lower right, clipped by the bag. The earlier version was drawn from memory and used a small, centred robot.
 - **Landing thumbnail recaptured** with the 2.3.6 Nexus pyramid-grid wallpaper.
+
+## Quick Search Box — 2026-10-02
+
+References: android-2.3.6_r1 `packages/apps/QuickSearchBox` (`search_activity.xml`, `suggestion.xml`, `contact_suggestion.xml`, `corpus_selection_dialog.xml`, `corpus_grid_item.xml`, `preferences.xml`, `config.xml` default_corpora, styles and the hdpi drawables), plus the searchable labels of Contacts, Mms and Music.
+
+- **The Search key and the home Search widget now open SearchActivity** (Theme.Light.NoTitleBar), not the Browser's search dialog.
+  - Browser and Market keep their own search.
+  - Contacts, Messaging and Music start in their own corpus, with the hint "Search contacts", "Search Messaging" and so on.
+- **"Search" appears in the app drawer** with QSB's launcher icon.
+- **Search plate** (`search_plate_global`):
+  - the corpus indicator with its drop-down arrow;
+  - the field on `textfield_search_empty_selected` with the Google hint image, or on `textfield_search_selected` once you type;
+  - the voice button while the field is empty, the go button otherwise.
+- **Suggestions** (56 dip rows on white):
+  - shortcuts to earlier picks come first (they are all shown for an empty query);
+  - then web suggestions (magnifying glass; the typed part normal, the completion bold) and URL / history entries (globe);
+  - then apps, contacts (badge, name and number), and, when enabled, messages and music tracks.
+  - Picking a suggestion opens it and saves it as a shortcut. Go runs a web search in the Browser.
+- **Corpus selector:** the arrow and `corpus_selector_bg` panel with the "Search" heading and the Add / Remove icon. A four-column grid lists All, Web, Apps and Contacts (the 2.3.6 defaults); the current corpus is highlighted.
+- **Menu → Search settings:**
+  - Web: Google search → Show web suggestions.
+  - Phone: Searchable items (checkboxes with each corpus's description) and Clear shortcuts (with its confirmation dialog).
+  - All strings come from QSB and the apps' own resources, in five languages.

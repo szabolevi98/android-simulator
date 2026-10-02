@@ -2,6 +2,27 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["music"] = {
 "strings": {
+"musicbrowserlabel": {
+"en": "Music",
+"hu": "Zene",
+"de": "Musik",
+"fr": "Musique",
+"es": "Música"
+},
+"search_hint": {
+"en": "Search Music",
+"hu": "Zene keresése",
+"de": "Musik durchsuchen",
+"fr": "Rechercher de la musique",
+"es": "Buscar música"
+},
+"search_settings_description": {
+"en": "Artists, albums, and tracks",
+"hu": "Előadók, albumok és számok",
+"de": "Interpreten, Alben und Tracks",
+"fr": "Artistes, albums et morceaux",
+"es": "Artistas, álbumes y pistas"
+},
 "goto_start": {
 "en": "Library",
 "hu": "Könyvtár",

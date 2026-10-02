@@ -114,7 +114,7 @@
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
-    ['play-store', 'Market', '▶', '#b5d26d', '#53732f']
+    ['play-store', 'Market', '▶', '#b5d26d', '#53732f'], ['search', 'Search', '⌕', '#9ad0f0', '#3a7fb0']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -130,7 +130,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -231,6 +231,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'search') { const items = GBSearch.menu(gbSearchContext()); if (items.length) { ui.qsb.selecting = false; ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); render(); } return; }
     if (ui.view === 'play-store') { const items = GBMarket.menu(gbMarketContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'settings' && GBSettingsPages.has(ui.sub)) { const items = GBSettingsPages.menu(ui.sub, gbPagesContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'camera') { ui.gbcamPopup = ''; ui.gbMenuItems = GBCamera.menu(gbCameraContext()); ui.overlay = 'gb-menu-settings'; render(); renderOverlay(); return; }
@@ -278,8 +279,39 @@
   function searchKey() {
     if (ui.view === 'lock' || ui.locked) return;
     if (ui.view === 'play-store') { ui.marketSearching = true; ui.marketEdit = ''; render(); viewport.querySelector('.gbbr-search input')?.focus(); return; }
-    if (ui.view !== 'browser') { openApp('browser'); ui.gbBrEdit = true; ui.gbBrEditValue = ''; render(); viewport.querySelector('.gbbr-search input')?.focus(); return; }
+    if (ui.view === 'search') { viewport.querySelector('.gbqs-field input')?.focus(); return; }
+    if (ui.view !== 'browser') { openSearch({people: 'contacts', messaging: 'messaging', music: 'music'}[ui.view] || ''); return; }
     ui.sub = ''; document.querySelector('.gbbr-title')?.click();
+  }
+  /* QuickSearchBox SearchActivity: ui.qsb holds the corpus, the query, the selector and the settings page; picked
+     suggestions become shortcuts (data.qsbShortcuts) shown for an empty query. */
+  function openSearch(corpus = '') {
+    openApp('search'); ui.qsb = {corpus, query: '', selecting: false, page: ''}; render();
+    viewport.querySelector('.gbqs-field input')?.focus();
+  }
+  function gbSearchContext() {
+    const q = ui.qsb ||= {corpus: '', query: '', selecting: false, page: ''};
+    const ctx = {lang: i18n.language, corpus: q.corpus, query: q.query, selecting: q.selecting, page: q.page, corpora: data.qsbCorpora, webSuggest: data.qsbWebSuggest, shortcuts: data.qsbShortcuts || [],
+      apps: apps.map(app => [app[0], i18n.t(app[1])]), contacts: data.contacts, tracks: ICSMusic.tracks, history: data.browserHistory || [], titleOf: gbBrowserTitle,
+      messages: data.messages.map(m => ({...m, from: contact(m.contact)?.name || ''}))};
+    ctx.items = ui.qsbItems = GBSearch.suggest(ctx);
+    return ctx;
+  }
+  function gbSearchRefresh() {
+    const ctx = gbSearchContext(), list = viewport.querySelector('.gbqs-list'), form = viewport.querySelector('.gbqs-plate');
+    if (list) list.innerHTML = GBSearch.list(ctx.items);
+    form?.classList.toggle('empty', !ctx.query);
+  }
+  function gbSearchLaunch(item) {
+    if (!item) return;
+    if (!item.shortcut) data.qsbShortcuts = [{kind: item.kind, corpus: item.corpus, id: item.id, text1: item.text1, text2: item.text2 || '', icon: item.icon}, ...(data.qsbShortcuts || []).filter(s => !(s.kind === item.kind && s.id === item.id))].slice(0, 12);
+    save(); ui.qsb = null;
+    if (item.kind === 'web') { openApp('browser'); navigateBrowser('search:' + item.id); }
+    else if (item.kind === 'url') { openApp('browser'); navigateBrowser(item.id); }
+    else if (item.kind === 'app') openApp(item.id);
+    else if (item.kind === 'contact') { openApp('people'); ui.selectedContact = Number(item.id); ui.sub = 'detail'; render(); }
+    else if (item.kind === 'message') openMessageThread(Number(item.id));
+    else if (item.kind === 'track') { openApp('music'); ui.music.queue = ICSMusic.tracks.map((_, i) => i); ui.music.track = Number(item.id); ui.music.position = 0; ui.music.playing = true; saveMusic(); ui.sub = 'player'; render(); }
   }
   // Window transitions: the outgoing view is kept in a temporary layer while both animate.
   let lastScene = null, pendingNav = '', activeTransition = null;
@@ -531,6 +563,7 @@
   function renderApp() {
     switch (ui.view) {
       case 'play-store': return GBMarket.render(gbMarketContext());
+      case 'search': return GBSearch.render(gbSearchContext());
       case 'live-wallpapers': return renderLiveWallpapers();
       case 'wallpaper-picker': { const selected = Number.isInteger(ui.wpChoice) ? ui.wpChoice : Math.max(0, data.wallpaper); return `<div class="app-view gbwp"><div class="gbwp-preview"><img src="assets/gb-wallpaper_${wallpaperFiles[selected]}.jpg" alt=""></div><div class="gbwp-gallery" role="listbox" aria-label="${safe(i18n.t('Wallpapers'))}">${wallpaperFiles.map((name, index) => `<button class="gbwp-item${index === selected ? ' selected' : ''}" role="option" aria-selected="${index === selected}" data-action="gb-wp-pick" data-id="${index}" aria-label="${safe(name.replace(/_/g, ' '))}"><img src="assets/gb-wallpaper_${name}_small.jpg" alt=""></button>`).join('')}</div><button class="gbwp-set" data-action="wallpaper" data-id="${selected}">${safe(i18n.t('Set wallpaper'))}</button></div>`; }
       case 'settings': return renderSettings();
@@ -577,6 +610,8 @@
     if(ui.view==='settings'&&ui.sub&&ui.gbSettingsStack?.length&&!ui.overlay){ui.sub=ui.gbSettingsStack.pop();render();return;}
     if(ui.view==='lock'&&ui.gbPasswordEntry&&data.settings.screenLock!=='pattern'){ui.gbPasswordEntry=false;lockControls.lock();render();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
+    if (ui.view === 'search' && !ui.overlay && ui.qsb?.selecting) { ui.qsb.selecting = false; render(); return; }
+    if (ui.view === 'search' && !ui.overlay && ui.qsb?.page) { ui.qsb.page = ui.qsb.page === 'settings' ? '' : 'settings'; render(); return; }
     if (ui.overlay === 'shade') { closeShade(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
@@ -660,6 +695,7 @@
       {action: 'gb-new-folder', id: 'all', title: t('All contacts'), icon: 'ic_launcher_folder_live_contacts'},
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
+    if (ui.overlay === 'gb-dialog-qsb-clear') return GBSearch.clearDialog(i18n.language);
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
     if (ui.overlay === 'gb-dialog-sp') return GBSettingsPages.dialog(ui.gbspDialog, gbPagesContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-ce') return GBContactEditor.dialog(ui.gbceDialog, gbceContext()) || {title: '', items: []};
@@ -787,9 +823,6 @@
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(ui.wifiTarget)}"><h3>${safe(ui.wifiTarget)}</h3><p>${safe(network?.security || 'WPA2')}</p>${connected ? '<p>Connected</p>' : network?.security !== 'Open' ? '<label>Password<input class="wifi-password" type="password" autocomplete="off"></label>' : ''}<div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button>${connected ? '<button data-action="wifi-forget">Forget</button>' : '<button data-action="wifi-connect">Connect</button>'}</div></div>`;
     } else if (ui.overlay === 'wallpaper-source') {
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="wallpaper-source" role="dialog" aria-label="Select wallpaper from"><h3>Select wallpaper from</h3>${[['gallery-wallpaper', 'Gallery'], ['open-live-wallpapers', 'Live Wallpapers'], ['open-wallpapers', 'Wallpapers']].sort((a, b) => new Intl.Collator(i18n.locale()).compare(i18n.t(a[1]), i18n.t(b[1]))).map(([action, label]) => `<button data-action="${action}" data-no-translate>${safe(i18n.t(label))}</button>`).join('')}</div>`;
-    } else if (ui.overlay === 'lw-palette') {
-      const current = data.lwPrefs?.polar?.palette || '';
-      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(i18n.t('Color palette'))}"><h3>${safe(i18n.t('Color palette'))}</h3>${LiveWallpapers.PALETTE_ORDER.map(id => `<button class="settings-row wireless-row" data-action="lw-palette-pick" data-id="${id}" role="radio" aria-checked="${current === id}"><span class="row-copy">${safe(i18n.t(LiveWallpapers.PALETTE_NAMES[id]))}</span><img class="holo-radio" src="assets/btn_radio_${current === id ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
     } else if (ui.overlay === 'power-menu') {
       // GlobalActions (2.3.6): "Phone options" over a bright list - Silent mode and Airplane mode toggles with their status
       // line (global_actions_item.xml), then Power off.
@@ -1584,7 +1617,17 @@
       case 'gb-platlogo': toast('Zombie art by Jack Larson'); break;
       case 'toast': toast(id); break;
       case 'noop': break;
-      case 'browser-search': openApp('browser'); document.querySelector('.browser-toolbar input')?.focus(); break;
+      case 'browser-search': openSearch(''); break;
+      case 'gbqs-corpora': ui.qsb.selecting = !ui.qsb.selecting; render(); break;
+      case 'gbqs-corpora-close': ui.qsb.selecting = false; render(); break;
+      case 'gbqs-corpus': Object.assign(ui.qsb, {corpus: id || '', selecting: false}); render(); viewport.querySelector('.gbqs-field input')?.focus(); break;
+      case 'gbqs-pick': gbSearchLaunch(ui.qsbItems?.[Number(id)]); break;
+      // SearchSettings: id '' is the main page; Searchable items and Google search are its sub-pages.
+      case 'gbqs-settings': ui.overlay = ''; Object.assign(ui.qsb ||= {corpus: '', query: ''}, {selecting: false, page: id || 'settings'}); render(); break;
+      case 'gbqs-toggle-corpus': { const on = GBSearch.enabled(data.qsbCorpora); data.qsbCorpora = on.includes(id) ? on.filter(c => c !== id) : [...on, id]; if (ui.qsb?.corpus === id) ui.qsb.corpus = ''; save(); render(); break; }
+      case 'gbqs-toggle-web': data.qsbWebSuggest = data.qsbWebSuggest === false; save(); render(); break;
+      case 'gbqs-clear': ui.overlay = 'gb-dialog-qsb-clear'; renderOverlay(); break;
+      case 'gbqs-clear-ok': data.qsbShortcuts = []; save(); ui.overlay = ''; render(); break;
       case 'browser-link': navigateBrowser(url); break;
       case 'browser-back': browserBack(); break;
       case 'browser-forward': browserForward(); break;
@@ -1951,6 +1994,7 @@
         save();ui.peopleGroup=group.id;ui.peopleTab='groups';ui.sub='group';ui.overlay='';render();break;
       }
       case 'address': navigateBrowser(values.get('address')); break;
+      case 'gbqs-search': { const q = String(values.get('q') || '').trim(); if (!q) break; ui.qsb.query = q; const ctx = gbSearchContext(); if (!ui.qsb.corpus || ui.qsb.corpus === 'web') gbSearchLaunch({kind: !normalizeAddress(q).startsWith('search:') ? 'url' : 'web', corpus: 'web', id: q, text1: q, icon: !normalizeAddress(q).startsWith('search:') ? 'gb-qsb-globe.png' : 'gb-qsb-magnifying_glass.png'}); else gbSearchLaunch(ctx.items.find(item => !item.shortcut) || ctx.items[0]); break; }
       case 'gbmk-search': { const q = String(values.get('query') || '').trim(); if (!q) break; data.marketSearches = [q, ...(data.marketSearches || []).filter(x => x !== q)].slice(0, 10); save(); gbMarketGo({page: 'search', query: q}); break; }
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
@@ -1993,6 +2037,7 @@
     }
   });
   document.addEventListener('input', event => {
+    if (event.target.closest('.gbqs-field') && ui.qsb) { ui.qsb.query = event.target.value; gbSearchRefresh(); return; }
     if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}
     if(event.target.dataset.field==='data-cycle'){ui.dataCycle=event.target.value;render();return;}
     if(event.target.closest('.email-compose')&&event.target.name){const item=data.mailbox.find(item=>item.id===ui.emailId);if(item){item[event.target.name]=event.target.value;save();}return;}
