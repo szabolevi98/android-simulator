@@ -2111,7 +2111,7 @@
     const key = id ? `${id}:${preview}` : '';
     if (liveWallpaper && liveWallpaper.key !== key) { liveWallpaper.destroy(); liveWallpaper = null; }
     if (key && !liveWallpaper) {
-      liveWallpaper = LiveWallpapers.mount(liveLayer, id, {preview, prefs: () => data.lwPrefs?.[id] || {}, clock: deviceDate, offset: preview ? .5 : ui.page / 4, audio: () => !!ui.music?.playing});
+      liveWallpaper = LiveWallpapers.mount(liveLayer, id, {preview, prefs: () => data.lwPrefs?.[id] || {}, clock: deviceDate, offset: preview ? .5 : ui.page / 4, audio: () => !!ui.music?.playing, deviceWidth: 480});
       if (liveWallpaper) liveWallpaper.key = key;
     }
     liveLayer.hidden = !visible; liveWallpaper?.pause(!visible);

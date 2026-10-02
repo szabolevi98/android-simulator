@@ -364,3 +364,9 @@ References: Browser 2.3.6 (`title_bar.xml`, `TitleBar.java`, `browser_find.xml`,
 - The demo pages were moved to 2011 and Android 2.3 / Nexus S.
 
 Checks: `gb-browser.test.cjs` covers the title bar states, suggestions, find bar, grid, list, history, Most visited, Windows and the tab limit, the menus, the dialogs and the translations. Headless Chrome covered loading, the search dialog with suggestions, the menu and More, find with highlighting, the bookmark grid, history and Windows. No JavaScript errors.
+
+## Owner feedback: dock panels and Nexus pulses — 2026-10-02
+
+- **Hotseat:** the phone, all apps and browser buttons sit on `hotseat_bg_left` / `hotseat_bg_center` / `hotseat_bg_right` (HotseatButton, 12 dip padding, 4 dip outer margins). The panels never showed, because a more specific `.screen button{border:…}` rule reset `border-image`. The selectors now carry `.screen .gbl-cluster`.
+- **Nexus live wallpaper:** `nexus.rs` works in device pixels (14 px cells, 40-cell trails, 64 px glow). The canvas port drew those numbers in CSS pixels, so the pulses were 480 / 276 ≈ 1.74× too wide on the Nexus S, and 2.35× on the Galaxy Nexus. The scene now runs in panel pixels (480 on 2.3.6) and is scaled to the canvas; taps are converted the same way. The fix is in the shared `live-wallpapers.js`, so 4.0.4 and 4.3 get it too.
+- **Status bar icons** were checked against `packages/SystemUI/res/drawable-hdpi` at android-2.3.6_r1: the files are byte-identical, and StatusBarService adds each one in a 25 × 25 dip box (`new LinearLayout.LayoutParams(mIconSize, mIconSize)`), which is where the gaps around the narrow battery come from.

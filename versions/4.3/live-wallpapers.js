@@ -1,9 +1,9 @@
 /* AOSP live wallpapers of the Galaxy Nexus and Nexus 4 builds (packages/wallpapers/Basic and LivePicker, identical in 4.0.4 and
    4.3), redrawn from their RenderScript and Canvas sources. Galaxy and Water use WebGL like the originals; Nexus, Grass
-   and Polar clock draw on a 2D canvas. Sizes written in device pixels are scaled from the panel width (720px Galaxy Nexus, 768px Nexus 4). */
+   and Polar clock draw on a 2D canvas. Sizes written in device pixels are scaled from the panel width (480px Nexus S, 720px Galaxy Nexus, 768px Nexus 4). */
 (() => {
   'use strict';
-  let DEVICE_WIDTH = 720; // the panel width in device pixels: 720 on the Galaxy Nexus, 768 on the Nexus 4
+  let DEVICE_WIDTH = 720; // the panel width in device pixels: 480 on the Nexus S, 720 on the Galaxy Nexus, 768 on the Nexus 4
   const rand = (a, b) => b === undefined ? Math.random() * a : a + Math.random() * (b - a);
   const irand = n => Math.floor(Math.random() * n);
   const mix = (a, b, t) => a + (b - a) * t;
@@ -76,7 +76,8 @@
     };
   }
 
-  /* ---------- Nexus (nexus.rs): coloured pulses with glowing heads running along a 14px grid ---------- */
+  /* ---------- Nexus (nexus.rs): coloured pulses with glowing heads running along a 14px grid ----------
+     The script works in device pixels (14 px cells, 64 px glow), so the scene runs in panel pixels and is scaled to the canvas. */
   function nexus(ctx, assets) {
     const COLORS = [[1, 0, 0], [0, .8, 0], [0, .4, .9], [1, .8, 0]], SPEED = 0.2, PULSE = 14, GLOW = 64, TRAIL = 40, MAX_DELAY = 2000;
     const bg = image(assets + 'lw-pyramid_background.png'), pulseImg = image(assets + 'lw-pulse.png'), glowImg = image(assets + 'lw-glow.png');
@@ -88,7 +89,7 @@
       for (let i = 0; i < d.data.length; i += 4) { d.data[i] *= r; d.data[i + 1] *= g; d.data[i + 2] *= b; d.data[i + 3] = (keepAlpha ? d.data[i + 3] : 255) * .8; }
       x.putImageData(d, 0, 0); return c;
     };
-    const state = {pulses: [], extras: [], w: 0, h: 0};
+    const state = {pulses: [], extras: [], w: 0, h: 0, k: 1};
     const now = () => performance.now();
     function init(p, extra) {
       const {w, h} = state, scale = rand(.7, 1.7); p.scale = scale;
@@ -98,9 +99,9 @@
     }
     return {
       interval: 45,
-      resize(w, h) { state.w = w; state.h = h; state.pulses = Array.from({length: 20}, () => { const p = {}; init(p, false); return p; }); state.extras = Array.from({length: 40}, () => ({active: false, extra: true})); },
+      resize(cw, ch) { state.k = cw / DEVICE_WIDTH; state.w = DEVICE_WIDTH; state.h = ch / state.k; state.pulses = Array.from({length: 20}, () => { const p = {}; init(p, false); return p; }); state.extras = Array.from({length: 40}, () => ({active: false, extra: true})); },
       tap(x, y) {
-        let color = irand(4), count = 0; const scale = rand(.9, 1.9); x = Math.floor(x / PULSE) * PULSE; y = Math.floor(y / PULSE) * PULSE;
+        let color = irand(4), count = 0; const scale = rand(.9, 1.9); x = Math.floor(x / state.k / PULSE) * PULSE; y = Math.floor(y / state.k / PULSE) * PULSE;
         for (const p of state.extras) {
           if (p.active) continue;
           Object.assign(p, {originX: x / scale, originY: y / scale, scale, dx: [scale, -scale, 0, 0][count], dy: [0, 0, scale, -scale][count], active: true, color, start: now()});
@@ -108,10 +109,11 @@
         }
       },
       draw(offset) {
-        const {w, h} = state;
+        const {w, h, k} = state;
+        ctx.save(); ctx.scale(k, k);
         ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
         if (ready(bg)) ctx.drawImage(bg, -offset * w, 0, w * 2, h);
-        if (!ready(pulseImg) || !ready(glowImg)) return;
+        if (!ready(pulseImg) || !ready(glowImg)) { ctx.restore(); return; }
         tinted ||= COLORS.map(c => [tint(pulseImg, c, true), tint(glowImg, c, false)]);
         ctx.globalCompositeOperation = 'lighter';
         const t = now();
@@ -129,6 +131,7 @@
           if (done) { if (p.extra) p.active = false; else init(p, false); }
         }
         ctx.globalCompositeOperation = 'source-over';
+        ctx.restore();
       }
     };
   }

@@ -52,9 +52,9 @@
    the all apps button on hotseat_bg_center. */
 .gbl-cluster{position:absolute;left:0;right:0;bottom:0;height:48.3px;padding-top:1.73px;display:flex;justify-content:center;z-index:2;pointer-events:none}
 .gbl-cluster button{pointer-events:auto;height:100%;border:0 solid transparent;padding:0 10.35px;background:none;display:grid;place-items:center;cursor:pointer;box-sizing:border-box}
-.gbl-hotseat-left{margin-left:3.45px;border-image:url('assets/gb-l2-hotseat_bg_left.png') 4 0 7 2 fill / 2.3px 0 4px 1.15px stretch}
-.gbl-hotseat-right{margin-right:3.45px;border-image:url('assets/gb-l2-hotseat_bg_right.png') 4 2 7 0 fill / 2.3px 1.15px 4px 0 stretch}
-.gbl-allapps{border-image:url('assets/gb-l2-hotseat_bg_center.png') 4 0 7 0 fill / 2.3px 0 4px 0 stretch}
+.screen .gbl-cluster .gbl-hotseat-left{margin-left:3.45px;border-image:url('assets/gb-l2-hotseat_bg_left.png') 4 0 7 2 fill / 2.3px 0 4px 1.15px stretch}
+.screen .gbl-cluster .gbl-hotseat-right{margin-right:3.45px;border-image:url('assets/gb-l2-hotseat_bg_right.png') 4 2 7 0 fill / 2.3px 1.15px 4px 0 stretch}
+.screen .gbl-cluster .gbl-allapps{border-image:url('assets/gb-l2-hotseat_bg_center.png') 4 0 7 0 fill / 2.3px 0 4px 0 stretch}
 .gbl-cluster span{display:block;width:34.5px;height:34.5px;background:center/contain no-repeat}
 .gbl-cluster .gbl-hotseat-phone{background-image:url('assets/gb-l2-hotseat_phone_normal.png')}
 .gbl-cluster .gbl-hotseat-left:active .gbl-hotseat-phone{background-image:url('assets/gb-l2-hotseat_phone_pressed.png')}
