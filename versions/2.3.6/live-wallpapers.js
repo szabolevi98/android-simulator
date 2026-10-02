@@ -1,6 +1,7 @@
 /* AOSP live wallpapers of the Nexus S build (android-2.3.6_r1 packages/wallpapers/Basic, MusicVisualization and MagicSmoke),
-   redrawn from their RenderScript and Canvas sources. Nexus is the 2.3.6 nexus.rs: the pyramid grid background, one cell
-   size and SPEED_VARIANCE; Magic Smoke is clouds.rs with MagicSmokeRS's twenty presets. Galaxy and Water use WebGL like the originals; Nexus, Grass
+   redrawn from their RenderScript and Canvas sources. Nexus is the Nexus S version from the crespo
+   overlay (device/samsung/crespo overlay/packages/wallpapers/Basic): its dark light-wave background and nexus.rs with a
+   random scale per pulse; Magic Smoke is clouds.rs with MagicSmokeRS's twenty presets. Galaxy and Water use WebGL like the originals; Nexus, Grass
    and Polar clock draw on a 2D canvas. Sizes written in device pixels are scaled from the panel width (480px Nexus S, 720px Galaxy Nexus, 768px Nexus 4). */
 (() => {
   'use strict';
@@ -81,7 +82,7 @@
      The script works in device pixels (14 px cells, 64 px glow), so the scene runs in panel pixels and is scaled to the canvas. */
   function nexus(ctx, assets) {
     const COLORS = [[1, 0, 0], [0, .8, 0], [0, .4, .9], [1, .8, 0]], SPEED = 0.2, PULSE = 14, GLOW = 64, TRAIL = 40, MAX_DELAY = 2000;
-    const bg = image(assets + 'lw-pyramid_background.png'), pulseImg = image(assets + 'lw-pulse.png'), glowImg = image(assets + 'lw-glow.png');
+    const bg = image(assets + 'lw-pyramid_background.png?v=2'), pulseImg = image(assets + 'lw-pulse.png'), glowImg = image(assets + 'lw-glow.png');
     let tinted = null;
     // Modulate by the constant colour (alpha 0.8); 'lighter' then adds them as BlendSrcFunc.SRC_ALPHA / ONE does.
     const tint = (img, [r, g, b], keepAlpha) => {
@@ -93,10 +94,11 @@
     const state = {pulses: [], extras: [], w: 0, h: 0, k: 1};
     const now = () => performance.now();
     function init(p, extra) {
-      // nexus.rs (2.3.6): one cell size, SPEED_VARIANCE 0.3 on the speed.
-      const {w, h} = state, speed = rand(.7, 1.3); p.scale = 1;
-      if (Math.random() > .5) { p.originX = irand(w * 2 / PULSE) * PULSE; p.dx = 0; if (Math.random() > .5) { p.originY = 0; p.dy = speed; } else { p.originY = h; p.dy = -speed; } }
-      else { p.originY = irand(h / PULSE) * PULSE; p.dy = 0; if (Math.random() > .5) { p.originX = 0; p.dx = speed; } else { p.originX = w * 2; p.dx = -speed; } }
+      // crespo nexus.rs: every pulse gets a random scale (0.7-1.7) that sets both its size and its speed, so the
+      // pulses look as if they ran at different depths; origins on the far edges are divided by the scale.
+      const {w, h} = state, scale = rand(.7, 1.7); p.scale = scale;
+      if (Math.random() > .5) { p.originX = irand(w * 2 / PULSE) * PULSE; p.dx = 0; if (Math.random() > .5) { p.originY = 0; p.dy = scale; } else { p.originY = h / scale; p.dy = -scale; } }
+      else { p.originY = irand(h / PULSE) * PULSE; p.dy = 0; if (Math.random() > .5) { p.originX = 0; p.dx = scale; } else { p.originX = w * 2 / scale; p.dx = -scale; } }
       p.start = now() + rand(MAX_DELAY); p.color = irand(4); p.active = !extra;
     }
     return {
@@ -104,7 +106,8 @@
       resize(cw, ch) { state.k = cw / DEVICE_WIDTH; state.w = DEVICE_WIDTH; state.h = ch / state.k; state.pulses = Array.from({length: 20}, () => { const p = {}; init(p, false); return p; }); state.extras = Array.from({length: 40}, () => ({active: false, extra: true})); },
       // NexusRS.onCommand: the tap moves with the scrolled background, x + xOffset * (960 - width) on the 2-screen texture.
       tap(x, y, offset = .5) {
-        let color = irand(4), count = 0; const scale = 1, speed = 1.5; x = Math.floor((x / state.k + offset * state.w) / PULSE) * PULSE; y = Math.floor(y / state.k / PULSE) * PULSE;
+        // crespo nexus.rs addTap: the four pulses share a random scale (0.9-1.9), which is also their speed.
+        let color = irand(4), count = 0; const scale = rand(.9, 1.9), speed = scale; x = Math.floor((x / state.k + offset * state.w) / PULSE) * PULSE; y = Math.floor(y / state.k / PULSE) * PULSE;
         for (const p of state.extras) {
           if (p.active) continue;
           Object.assign(p, {originX: x / scale, originY: y / scale, scale, dx: [speed, -speed, 0, 0][count], dy: [0, 0, speed, -speed][count], active: true, color, start: now()});
@@ -667,7 +670,7 @@
     {id: 'galaxy', label: 'Galaxy', gb: ['wallpaper_galaxy', 'wallpaper_galaxy_desc'], thumb: 'lw-galaxy_thumb.jpg', make: (c, a, o) => galaxy(c, a, o.preview), gl: true},
     {id: 'grass', label: 'Grass', gb: ['wallpaper_grass', 'wallpaper_grass_desc'], thumb: 'lw-grass_thumb.jpg', make: (c, a, o) => grass(c.getContext('2d'), a, o.preview)},
     {id: 'magicsmoke', label: 'Magic Smoke', gb: ['wallpaper_magicsmoke', 'magicsmoke_desc'], thumb: 'lw-magicsmoke_thumb.png', settings: true, make: (c, a, o) => magicSmoke(c, a, o.prefs), gl: true},
-    {id: 'nexus', label: 'Nexus', gb: ['wallpaper_nexus', 'wallpaper_nexus_desc'], thumb: 'lw-nexus_thumb.png', make: (c, a) => nexus(c.getContext('2d'), a)},
+    {id: 'nexus', label: 'Nexus', gb: ['wallpaper_nexus', 'wallpaper_nexus_desc'], thumb: 'lw-nexus_thumb.png?v=2', make: (c, a) => nexus(c.getContext('2d'), a)},
     {id: 'polar', label: 'Polar clock', gb: ['wallpaper_clock', 'wallpaper_clock_desc'], thumb: 'lw-polarclock_thumb.jpg', settings: true, make: (c, a, o) => polarClock(c.getContext('2d'), a, o.prefs)},
     {id: 'water', label: 'Water', gb: ['wallpaper_fall', 'wallpaper_fall_desc'], thumb: 'lw-water_thumb.jpg', make: (c, a) => water(c, a), gl: true},
     {id: 'waveform', label: 'Waveform', gb: ['wallpaper_vis2', 'vis2_desc'], thumb: 'lw-vis2.png', make: (c, a, o) => waveScene(c, a, o.audio || (() => false), false), gl: true},

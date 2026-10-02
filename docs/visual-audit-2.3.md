@@ -100,7 +100,7 @@ The code is in `versions/2.3.6/gb-launcher.js` / `.css`, and the window animatio
 
 - **Default home** (Launcher2 `default_workspace.xml`).
   - The middle screen has the Google search widget and the "Home screen tips" widget. The right screen has the Music widget. The Google-only Genie and Market widgets are left out.
-  - The wallpaper is the Nexus live wallpaper, the crespo default (`default_wallpaper_component = .nexus.NexusWallpaper`). The overlay's random 0.7–1.7 pulse scale and its pyramid background already match the shared live-wallpaper module.
+  - The wallpaper is the Nexus live wallpaper, the crespo default (`default_wallpaper_component = .nexus.NexusWallpaper`). The crespo overlay replaces its background and script (see "Nexus S live wallpaper" below).
 - **Workspace.**
   - 4 × 4 cells of 80 × 100 dp, 8 dp above and 78 dp below, with the rest of the height spread as the row gap.
   - BubbleTextView icons: 48 dp icon, 5 dp gap, 13 dip white label with a 2 px shadow on the #B2191919 bubble (8 dp corners). There are no first-run clings.
@@ -588,7 +588,7 @@ References: android-2.3.6_r1 `packages/wallpapers/LivePicker` (`live_wallpaper_e
 - **List rows** (Theme.NoTitleBar): the 75 dip centre-cropped thumbnail, then the label and the description (up to three lines; the Water haiku keeps its line breaks), in all five languages from the packages' own strings.
 - **Preview:** two 160 dip `btn_default` buttons at the bottom, "Set wallpaper" and "Settings…". "Settings…" only appears for Polar clock and Magic Smoke.
 - **Nexus** now uses the 2.3.6 art and timing:
-  - the 2.3.6 `pyramid_background` (the dark pyramid grid, not the ICS haze);
+  - the 2.3.6 `pyramid_background` (corrected later: the Nexus S overlay replaces it, see "Nexus S live wallpaper");
   - one 14 px cell size, with ±30 % speed variance;
   - tap pulses at 1.5× speed.
 - **Magic Smoke** is new, a WebGL port of `clouds.rs`:
@@ -693,3 +693,21 @@ References: android-2.3.6_r1 Email `account_setup_basics.xml`, `AccountSetupBasi
 - **Next shows "Checking incoming server settings…"** and then, because the simulator is offline, "Setup could not finish / Cannot connect to server." with Edit details, which returns to the form.
   - The password is never stored.
   - Manual setup is not available.
+
+## Nexus S live wallpaper (crespo overlay) — 2026-10-02
+
+The Nexus wallpaper used the AOSP `packages/wallpapers/Basic` resources: the grey pyramid-grid `pyramid_background` that had shipped since the Nexus One. However, `device/samsung/crespo` (`android-2.3.6_r1`) has `overlay/packages/wallpapers/Basic`, which the Nexus S build applies on top of them:
+
+- **`res/drawable-hdpi/pyramid_background.png`** (960 × 800): a dark background with soft blue-violet light waves across the middle, the image on the Nexus S box. It replaces the pyramid grid.
+- **`res/drawable-hdpi/nexus_thumb.png`**: coloured light bars on black, now used in the LivePicker.
+- **`res/raw/nexus.rs`:**
+  - `initPulse` gives every pulse a random scale of 0.7–1.7. The scale sets both the pulse's size (the model matrix is scaled) and its speed (`dx` / `dy = ±scale`), and the far-edge origins are divided by the scale. Thin, slow and thick, fast pulses mix, as if at different depths.
+  - `addTap` uses one random scale of 0.9–1.9 for its four pulses.
+  - The 14 px cells, 40-cell trails, 64 px glow, colours, 45 ms frame and the 2 × width background scrolling are unchanged.
+- **`res/values/surfacemode.xml`**: `use_32bit = true`. Only the surface format changes; nothing to draw.
+
+The crespo `default_wallpaper.jpg` (green grass) is only the static ImageWallpaper fallback. `config.xml` makes the live Nexus wallpaper the default.
+
+`versions/2.3.6/assets/lw-pyramid_background.png` and `lw-nexus_thumb.png` are now the crespo files (cache key `?v=2`). `live-wallpapers.js` follows the crespo `initPulse` / `addTap` scaling. The landing thumbnail (`landing-home.jpg?v=3`) was recaptured. 4.0.4 and 4.3 keep their own wallpapers.
+
+Checks: headless Chrome showed the new background with mixed pulse widths, a tap burst and the new LivePicker thumbnail. No JavaScript errors.
