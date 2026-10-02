@@ -409,3 +409,7 @@ The volume keys open the ICS `VolumePanel`: one full-width holo slider 80dp from
 ## Launcher clings — 2026-10-02
 
 The ICS 4.0.4 Launcher2 first-run clings (workspace, all apps and folder) are now shown, with the original `bg_cling*`, `cling`, `hand` and `btn_cling_*` artwork. ICS takes its reveal radius from `app_icon_size` (48dp); otherwise the behaviour matches 4.3, described in [visual-audit-4.3.md](visual-audit-4.3.md).
+
+## Calculator delete label — 2026-10-02
+
+The Calculator's delete key showed "DEL". The `android-4.0.4_r2.1` string `del` is "DELETE" (Hungarian "TÖRLÉS", German "Löschen", French "SUPPRIMER", Spanish "BORRAR"), and the key now uses it.

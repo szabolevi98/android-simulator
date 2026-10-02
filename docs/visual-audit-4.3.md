@@ -414,3 +414,11 @@ Compared with `WifiSettings.java`, `AdvancedWifiSettings.java`, `wifi_advanced_s
   - **Wi-Fi frequency band**: Auto / 5 GHz only / 2.4 GHz only, with the choice shown as the summary.
   - **Install certificates** and **Wi-Fi optimization** (on).
   - MAC address and IP address.
+
+## People and Calculator against 4.3 — 2026-10-02
+
+The Contacts trees at `android-4.0.4_r2.1` and `android-4.3_r1.1`, and ContactsCommon 4.3, were compared through their git blob hashes.
+- **Contact pictures.** `ic_contact_picture*` moved to ContactsCommon unchanged (identical blobs), so the inherited files stay.
+- **Detail header.** `detail_header_contact_without_updates` keeps ProportionalLayout's 2:1 photo; the simulator's fixed 200px header now follows the ratio. Below the photo it adds the 10dp `windowContentOverlay` shadow (`ab_solid_shadow_holo`).
+- **Groups list.** `group_browse_list_fragment` pads the list by 16dp on each side.
+- **Calculator.** `main.xml` now lets CLR/DELETE wrap its text with an 89dip minimum, instead of a quarter of the row. The button's text is AOSP's `del` string "DELETE"; it had shown "DEL", also in 4.0.4.

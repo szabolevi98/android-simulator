@@ -1084,6 +1084,8 @@
     ['Install certificates','Tanúsítványok telepítése','Zertifikate installieren','Installer les certificats','Instalar certificados'],
     ['Wi-Fi optimization','Wi-Fi optimalizálása','WLAN-Optimierung','Optimisation du Wi-Fi','Optimización de Wi‑Fi'],
     ['Minimize battery usage when Wi-Fi is on','Az akkumulátorhasználat minimalizálása, ha a Wi-Fi be van kapcsolva','Akkuverbrauch bei aktiviertem WLAN minimieren','Minimiser la consommation de la batterie lorsque le Wi-Fi est activé','Minimizar uso de batería con Wi-Fi activado'],
+    ['DELETE','TÖRLÉS','Löschen','SUPPRIMER','BORRAR'],
+    ['CLR','Törlés','Löschen','EFF.','BORRAR'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;

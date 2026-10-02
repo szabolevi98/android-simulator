@@ -557,3 +557,6 @@ html,body{overscroll-behavior-y:none}
 .jb-holo-button{align-self:center;min-width:57.6px;min-height:43.2px;margin:7.2px 0 0;padding:0 10.8px;border:0;border-image:url('assets/jb-btn_default_normal_holo_dark.png') 24 18 21 18 fill/14.4px 10.8px 12.6px 10.8px;background:none;color:#f3f3f3;font:16.2px Roboto,RobotoICS,sans-serif}
 .jb-holo-button:active{border-image-source:url('assets/jb-btn_default_pressed_holo_dark.png')}
 .jb-p2p-device{cursor:default}
+
+/* Calculator 4.3 main.xml: CLR/DELETE wraps its text with a 89dip minimum instead of taking a quarter of the row. */
+.ics-calc-delete{grid-template-columns:1fr minmax(80.1px,max-content)}
