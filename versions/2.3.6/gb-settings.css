@@ -33,3 +33,18 @@
 .gbwifi{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin:6px 6px 8px;font-size:12.07px}
 .gbwifi dt{color:#bebebe}.gbwifi dd{margin:0;color:#fff}
 .gbvol[hidden]{display:none}
+/* ChooseLockPattern: black, header, code_lock_top (2 dip) / code_lock_bottom (8 dip) around the pattern, footer, ButtonBar. */
+#viewport>.app-view.gbchoose{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.gbchoose-header{flex:1 1 0;min-height:30px;display:grid;place-items:center;margin:0;padding:0 8px;text-align:center;font-size:15.53px;line-height:1.3}
+.gbchoose-top{flex:none;display:block;height:1.73px;background:url('assets/gb-code_lock_top.png') 0 0/100% 100%}
+.gbchoose-bottom{flex:none;display:block;height:6.9px;background:url('assets/gb-code_lock_bottom.png') 0 0/100% 100%}
+.gbchoose .gbkg-pattern{flex:none;width:min(100%,calc(100% - 0px));aspect-ratio:1;max-height:62%;align-self:center;position:relative;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);margin:0}
+.gbchoose .gbkg-pattern svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.gbchoose-footer{flex:1 1 0;min-height:18px;display:grid;place-items:center;margin:0;font-size:12.07px;color:#bebebe;text-align:center}
+.gbchoose-buttons,.gbchoose-bottombar{flex:none;display:flex;gap:0;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.gbchoose-buttons>span{flex:.2}
+.screen .gbchoose-buttons button,.screen .gbchoose-bottombar button{flex:1;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;padding:5.75px 9.78px 9.78px 9.2px;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbchoose-buttons button:active:not(:disabled),.screen .gbchoose-bottombar button:active:not(:disabled){border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.screen .gbchoose-buttons button:disabled,.screen .gbchoose-bottombar button:disabled{color:#00000066;cursor:default}
+.gbchoose-bottombar{gap:6px}
+.gbset .credential-demo{color:#888;font-size:11px;padding:8px 12px}

@@ -85,7 +85,7 @@
         check('gps', 'location_gps', s.gps ? 'location_street_level' : 'location_gps_disabled'),
         check('assistedGps', 'assisted_gps', value(s, 'assistedGps') ? 'assisted_gps_enabled' : 'assisted_gps_disabled', {disabled: !s.gps}),
         cat('lock_settings_title'),
-        lockSecure ? go('unlock_set_unlock_launch_picker_change_title', 'unlock_set_unlock_launch_picker_change_summary', 'ics:lock-setup') : go('unlock_set_unlock_launch_picker_title', 'unlock_set_unlock_launch_picker_summary', 'ics:lock-setup'),
+        lockSecure ? go('unlock_set_unlock_launch_picker_change_title', 'unlock_set_unlock_launch_picker_change_summary', 'lock:open') : go('unlock_set_unlock_launch_picker_title', 'unlock_set_unlock_launch_picker_summary', 'lock:open'),
         ...(s.screenLock === 'pattern' ? [check('patternVisible', 'lockpattern_settings_enable_visible_pattern_title', '', {fallback: true})] : []),
         ...(lockSecure ? [check('tactileFeedback', 'lockpattern_settings_enable_tactile_feedback_title', '')] : []),
         cat('security_passwords_title'), check('visiblePasswords', 'show_password', 'show_password_summary'),
@@ -226,6 +226,8 @@
     const target = item.target || '';
     action = item.action ? target : target.startsWith('ics:') ? 'settings-sub' : target.startsWith('toast:') ? 'gbset-toast' : target.startsWith('dialog:') ? 'gbset-dialog' : target ? 'gbset-go' : 'noop';
     id = item.action ? '' : target.replace(/^(ics|toast|dialog):/, '');
+    // The screen-lock rows hand over to the credential controller (ChooseLockGeneric).
+    if (target === 'lock:open') return `<button class="gbset-row" data-lock-action="open"${disabled}><span class="gbset-text"><span class="gbset-title">${e(label)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span></button>`;
     return `<button class="gbset-row${icon ? ' with-icon' : ''}" data-action="${action}" data-id="${e(id)}"${disabled}>${icon}<span class="gbset-text"><span class="gbset-title">${e(label)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span></button>`;
   }
   function render(id, ctx) {

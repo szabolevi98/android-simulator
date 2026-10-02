@@ -58,7 +58,7 @@
         return t(state.kind==='pin'?'Enter PIN code':'Enter password to unlock');
       }
       if(state.error)return t(state.error);
-      if(state.stage==='verify')return t('Confirm your current screen lock');
+      if(state.stage==='verify')return setupHeader();
       if(state.kind==='pattern')return t(state.stage==='confirm'?'Draw your pattern again':state.stage==='create'?'Draw an unlock pattern':'Draw pattern to unlock');
       if(state.stage==='confirm')return t(state.kind==='pin'?'Confirm your PIN':'Confirm your password');
       return t(state.kind==='pin'?'Enter PIN':'Enter password');
@@ -66,11 +66,36 @@
     function surface(){
       return `<p class="credential-instruction" role="status">${escape(message())}</p>${state.kind==='pattern'?grid():`<form class="credential-entry" data-lock-form><input aria-label="${escape(t(names[state.kind]))}" type="password" inputmode="none" autocomplete="off" maxlength="16" value="${escape(state.value)}"><button type="button" data-lock-key="delete" aria-label="${escape(t('Delete'))}">⌫</button></form>`}`;
     }
+    /* Settings 2.3.6: ChooseLockGeneric (security_settings_picker.xml), ChooseLockPattern (choose_lock_pattern.xml with
+       its header, code_lock_top / code_lock_bottom rules, footer and ButtonBar) and ChooseLockPassword (header, divider,
+       field, keyboard and bottom_bar). Stage texts follow ChooseLockPattern.Stage and ChooseLockPassword. */
+    const G=key=>window.GBSettings?GBSettings.text(window.AndroidI18n?.language||'en',key):key;
+    function setupHeader(){
+      if(state.kind==='pattern'){
+        if(state.stage==='verify')return G(state.error?'lockpattern_need_to_unlock_wrong':'lockpattern_need_to_unlock');
+        if(state.stage==='create')return state.error?G('lockpattern_recording_incorrect_too_short').replace('%d','4'):drawing?G('lockpattern_recording_inprogress'):state.pattern.length?G('lockpattern_pattern_entered_header'):G('lockpattern_recording_intro_header');
+        return state.error?G('lockpattern_need_to_unlock_wrong'):drawing?G('lockpattern_recording_inprogress'):state.pattern.length?G('lockpattern_pattern_confirmed_header'):G('lockpattern_need_to_confirm');
+      }
+      const pin=state.kind==='pin';
+      if(state.stage==='verify')return state.error?t(state.error):G(pin?'lockpassword_confirm_your_pin_header':'lockpassword_confirm_your_password_header');
+      if(state.error==='Does not match. Try again.')return G(pin?'lockpassword_confirm_pins_dont_match':'lockpassword_confirm_passwords_dont_match');
+      if(state.error)return G(pin?'lockpassword_pin_too_short':'lockpassword_password_too_short').replace('%d','4');
+      return G(state.stage==='confirm'?(pin?'lockpassword_confirm_your_pin_header':'lockpassword_confirm_your_password_header'):(pin?'lockpassword_choose_your_pin_header':'lockpassword_choose_your_password_header'));
+    }
     function renderSetup(){
-      const title=state.stage==='choose'?'Choose screen lock':state.stage==='verify'?'Confirm screen lock':state.kind==='pattern'?'Choose your pattern':state.kind==='pin'?'Choose your PIN':'Choose your password';
-      const header=`<div class="actionbar"><button class="up" data-lock-action="cancel" aria-label="${escape(t('Back'))}"><img class="settings-header-icon" src="assets/settings.png" alt=""></button><h2>${escape(t(title))}</h2></div>`;
-      if(state.stage==='choose')return `<div class="app-view settings-app credential-setup">${header}<div class="credential-choices">${[['none','None'],['slide','Slide'],['face','Face Unlock'],['pattern','Pattern'],['pin','PIN'],['password','Password']].map(([id,name])=>`<button class="settings-row" data-lock-action="choose" data-lock-kind="${id}" ${id==='face'?'disabled':''}><span class="row-copy">${escape(t(name))}</span></button>`).join('')}<p class="credential-demo">${escape(t('Local simulator lock. Use a test code.'))}</p></div></div>`;
-      return `<div class="app-view settings-app credential-setup">${header}<div class="credential-body">${surface()}<div class="credential-spacer"></div><div class="credential-buttons"><button data-lock-action="${state.kind==='pattern'&&state.pattern.length?'retry':'cancel'}">${escape(t(state.kind==='pattern'&&state.pattern.length?'Retry':'Cancel'))}</button><button data-lock-action="next" ${busy?'disabled':''}>${escape(t(state.stage==='confirm'?'Confirm':'Continue'))}</button></div>${state.kind!=='pattern'?keyboard():''}</div></div>`;
+      const titlebar=`<div class="gb-titlebar">${escape(G('lock_settings_picker_title'))}</div>`;
+      if(state.stage==='choose'){
+        const choice=(kind,key,id=kind)=>`<button class="gbset-row" data-lock-action="choose" data-lock-kind="${id}"><span class="gbset-text"><span class="gbset-title">${escape(G(`unlock_set_unlock_${key}_title`))}</span><span class="gbset-sum">${escape(G(`unlock_set_unlock_${key}_summary`))}</span></span></button>`;
+        return `<div class="app-view gbset credential-setup" data-no-translate>${titlebar}<div class="gbset-list"><div class="gbset-cat">${escape(G('lock_settings_picker_title'))}</div>${choice('slide','none')}${choice('pattern','pattern')}${choice('pin','pin')}${choice('password','password')}<p class="credential-demo">${escape(t('Local simulator lock. Use a test code.'))}</p></div></div>`;
+      }
+      if(state.kind==='pattern'){
+        const valid=state.pattern.length>=4&&!state.error&&!drawing;
+        const left=state.stage==='create'&&state.pattern.length&&!drawing?['retry',G('lockpattern_retry_button_text')]:['cancel',G('lockpassword_cancel_label')];
+        const right=state.stage==='verify'?null:[state.stage==='create'?G('lockpattern_continue_button_text'):G('lockpattern_confirm_button_text'),valid];
+        const footer=state.stage==='create'&&!state.pattern.length&&!state.error?G('lockpattern_recording_intro_footer'):'';
+        return `<div class="app-view gbchoose gbchoose-pattern" data-no-translate>${titlebar}<p class="credential-instruction gbchoose-header" role="status">${escape(setupHeader())}</p><i class="gbchoose-top"></i>${grid()}<i class="gbchoose-bottom"></i><p class="gbchoose-footer">${escape(footer)}</p><div class="gbchoose-buttons"><button type="button" data-lock-action="${left[0]}">${escape(left[1])}</button><span></span>${right?`<button type="button" data-lock-action="next" ${right[1]&&!busy?'':'disabled'}>${escape(right[0])}</button>`:'<span></span>'}</div></div>`;
+      }
+      return `<div class="app-view gbchoose gbkg-password-screen" data-no-translate>${titlebar}<p class="credential-instruction gbkg-label" role="status">${escape(setupHeader())}</p><div class="gbkg-divider"></div><form class="credential-entry gbkg-field" data-lock-form><input aria-label="${escape(t(names[state.kind]))}" type="password" inputmode="none" autocomplete="off" maxlength="16" value="${escape(state.value)}"></form><div class="gbkg-spacer"></div>${keyboard()}<div class="gbchoose-bottombar"><button type="button" data-lock-action="cancel">${escape(G('lockpassword_cancel_label'))}</button><button type="button" data-lock-action="next" ${busy?'disabled':''}>${escape(G(state.stage==='create'?'lockpassword_continue_label':'lockpassword_ok_label'))}</button></div></div>`;
     }
     const emergency=()=>`<button type="button" class="gbkg-emergency" data-lock-action="emergency"><img src="assets/gb-ic_emergency.png" alt="">${escape(t('Emergency call'))}</button>`;
     function renderLock(){
@@ -134,12 +159,12 @@
       screen.addEventListener('input',event=>{if(event.target.matches('.credential-entry input')){updateInput(event.target.value);event.stopImmediatePropagation();}},true);
       screen.addEventListener('pointerdown',event=>{
         const pattern=event.target.closest('.credential-pattern');if(!pattern||busy||remaining(data())&&['unlock','verify'].includes(state.stage))return;
-        event.preventDefault();event.stopImmediatePropagation();clearTimeout(clearTimer);state.pattern=[];state.error='';const r=pattern.getBoundingClientRect();drawing={id:event.pointerId,element:pattern,rect:r,last:[(event.clientX-r.left)/r.width*300,(event.clientY-r.top)/r.height*300]};pattern.setPointerCapture(event.pointerId);hit(...drawing.last);paint(drawing.last);
+        event.preventDefault();event.stopImmediatePropagation();clearTimeout(clearTimer);state.pattern=[];state.error='';const header=document.querySelector('.gbchoose-header');if(header)header.textContent=G('lockpattern_recording_inprogress');const r=pattern.getBoundingClientRect();drawing={id:event.pointerId,element:pattern,rect:r,last:[(event.clientX-r.left)/r.width*300,(event.clientY-r.top)/r.height*300]};pattern.setPointerCapture(event.pointerId);hit(...drawing.last);paint(drawing.last);
       },true);
       window.addEventListener('pointermove',event=>{
         if(!drawing||event.pointerId!==drawing.id)return;event.preventDefault();event.stopImmediatePropagation();const r=drawing.rect,point=[(event.clientX-r.left)/r.width*300,(event.clientY-r.top)/r.height*300],old=drawing.last,steps=Math.max(1,Math.ceil(Math.hypot(point[0]-old[0],point[1]-old[1])/8));for(let i=1;i<=steps;i++)hit(old[0]+(point[0]-old[0])*i/steps,old[1]+(point[1]-old[1])*i/steps);drawing.last=point;paint(point);
       },true);
-      window.addEventListener('pointerup',event=>{if(!drawing||event.pointerId!==drawing.id)return;event.preventDefault();event.stopImmediatePropagation();drawing=null;paint();if(['verify','unlock'].includes(state.stage))next();else{state.error=state.stage==='create'?validate('pattern',state.pattern.join('')):'';render();}},true);
+      window.addEventListener('pointerup',event=>{if(!drawing||event.pointerId!==drawing.id)return;event.preventDefault();event.stopImmediatePropagation();drawing=null;paint();if(['verify','unlock'].includes(state.stage))next();else{state.error=state.stage==='create'?validate('pattern',state.pattern.join('')):state.pattern.length>=4&&state.pattern.join('')!==state.first?'Does not match. Try again.':'';render();}},true);
       window.addEventListener('pointercancel',()=>{if(drawing){drawing=null;state.pattern=[];paint();}},true);
       document.addEventListener('keydown',event=>{if(!active())return;if(event.key==='Escape'&&setup()){event.preventDefault();event.stopImmediatePropagation();cancel();return;}if(event.target.matches('input,textarea,select')||state.kind==='pattern'||event.target.matches('button')&&['Enter',' '].includes(event.key))return;if(event.key==='Enter'||event.key==='Backspace'||event.key.length===1&&!event.ctrlKey&&!event.metaKey){event.preventDefault();event.stopImmediatePropagation();key(event.key==='Enter'?'next':event.key==='Backspace'?'delete':event.key);}},true);
     }

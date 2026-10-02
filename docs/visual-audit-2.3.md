@@ -235,3 +235,9 @@ Checks: `gb-settings.test.cjs` covers the main list order and icons, translation
   - **Volume** (RingerVolumePreference): Ringtone, "Use incoming call volume for notifications" (which shows the Notification slider when cleared), Media and Alarm.
   - **Phone and notification ringtone pickers:** Silent plus the `OriginalAudio.mk` sounds the full crespo build ships. The default notification is On The Hunt (`core.mk`), and there is no default ringtone.
   - **Select language:** a locale list that switches the simulator language.
+- **Update 2026-10-02 (screen lock setup).**
+  - "Set up / Change screen lock" opens ChooseLockGeneric: the "Screen unlock security" list with None, Pattern, PIN and Password and their summaries. "None" is the plain slide lock, as in 2.3.
+  - **ChooseLockPattern** (`choose_lock_pattern.xml`): on black, the header steps through "Draw an unlock pattern" (footer "Press Menu for help."), "Release finger when done.", "Connect at least 4 dots. Try again:", "Pattern recorded!", "Draw pattern again to confirm:" and "Your new unlock pattern:". The pattern sits between `code_lock_top` and `code_lock_bottom`.
+    - The ButtonBar switches between Cancel / Retry and Continue / Confirm, enabled only for a valid pattern.
+    - ConfirmLockPattern shows "Confirm saved pattern" or "Sorry, try again:".
+  - **ChooseLockPassword**: "Choose your PIN / password", then "Confirm your …", with "PINs don't match" or "PIN must be at least 4 characters" on errors. The field and the PasswordEntryKeyboardView sit above the `bottom_bar` with Cancel and Continue / OK.

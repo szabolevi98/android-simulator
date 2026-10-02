@@ -1737,6 +1737,237 @@ window.GBSettingsStrings = {
 "fr": "Utilisation de la batterie depuis le débranchement",
 "es": "Uso de la batería desde que se cargó"
 },
+"lock_settings_picker_title": {
+"en": "Screen unlock security",
+"hu": "Képernyőfeloldás módja",
+"de": "Display-Entsperrung",
+"fr": "Sécurité du verrouillage de l'écran",
+"es": "Bloqueo de la pantalla"
+},
+"unlock_set_unlock_none_title": {
+"en": "None",
+"hu": "Nincs",
+"de": "Keine",
+"fr": "Aucune",
+"es": "Ninguno"
+},
+"unlock_set_unlock_none_summary": {
+"en": "Disable screen unlock security",
+"hu": "A képernyőzár-feloldási védelem kikapcsolása",
+"de": "Display-Entsperrung deaktivieren",
+"fr": "Désactiver la sécurité du verrouillage de l'écran",
+"es": "Inhabilitar desbloqueo pantalla"
+},
+"unlock_set_unlock_pattern_title": {
+"en": "Pattern",
+"hu": "Minta",
+"de": "Muster",
+"fr": "Schéma",
+"es": "Patrón"
+},
+"unlock_set_unlock_pattern_summary": {
+"en": "Draw pattern to unlock screen",
+"hu": "Rajzolja le a mintát a képernyőzár feloldásához",
+"de": "Muster zum Entsperren des Displays zeichnen",
+"fr": "Dessiner un schéma pour déverrouiller l'écran",
+"es": "Patrón para desbloqueo de pantalla"
+},
+"unlock_set_unlock_pin_title": {
+"en": "PIN",
+"hu": "PIN-kód",
+"de": "PIN",
+"fr": "Code PIN",
+"es": "PIN"
+},
+"unlock_set_unlock_pin_summary": {
+"en": "Enter a numeric PIN to unlock screen",
+"hu": "Adjon meg egy számokból álló PIN-kódot a képernyőzár feloldásához",
+"de": "Numerische PIN zum Entsperren des Displays eingeben",
+"fr": "Entrer un code PIN numérique pour déverrouiller l'écran",
+"es": "PIN numérico para desbloquear pantalla"
+},
+"unlock_set_unlock_password_title": {
+"en": "Password",
+"hu": "Jelszó",
+"de": "Passwort",
+"fr": "Mot de passe",
+"es": "Contraseña"
+},
+"unlock_set_unlock_password_summary": {
+"en": "Enter a password to unlock screen",
+"hu": "Adjon meg egy jelszót a képernyőzár feloldásához",
+"de": "Passwort zum Entsperren des Displays eingeben",
+"fr": "Entrer un mot de passe pour déverrouiller l'écran",
+"es": "Contraseña para desbloquear pantalla"
+},
+"lockpassword_password_too_short": {
+"en": "Password must be at least %d characters",
+"hu": "A jelszónak legalább %d karakter hosszúnak kell lennie",
+"de": "Das Passwort muss mindestens %d Zeichen enthalten.",
+"fr": "Le mot de passe doit comporter au moins %d caractères.",
+"es": "La contraseña debe contener al menos %d caracteres."
+},
+"lockpassword_pin_too_short": {
+"en": "PIN must be at least %d characters",
+"hu": "A PIN-kódnak legalább %d karakter hosszúnak kell lennie",
+"de": "Die PIN muss mindestens %d Zeichen enthalten.",
+"fr": "Le code PIN doit comporter au moins %d caractères.",
+"es": "El PIN debe contener al menos %d caracteres."
+},
+"lockpassword_continue_label": {
+"en": "Continue",
+"hu": "Folytatás",
+"de": "Weiter",
+"fr": "Continuer",
+"es": "Continuar"
+},
+"lockpassword_ok_label": {
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"lockpassword_cancel_label": {
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbruch",
+"fr": "Annuler",
+"es": "Cancelar"
+},
+"lockpassword_choose_your_password_header": {
+"en": "Choose your password",
+"hu": "Adjon meg egy jelszót",
+"de": "Passwort auswählen",
+"fr": "Choisir votre mot de passe",
+"es": "Selecciona tu contraseña"
+},
+"lockpassword_choose_your_pin_header": {
+"en": "Choose your PIN",
+"hu": "Adja meg PIN-kódját",
+"de": "PIN auswählen",
+"fr": "Choisir votre code PIN",
+"es": "Selecciona tu PIN"
+},
+"lockpassword_confirm_your_password_header": {
+"en": "Confirm your password",
+"hu": "Jelszó megerősítése",
+"de": "Passwort bestätigen",
+"fr": "Confirmer le mot de passe",
+"es": "Confirma tu contraseña"
+},
+"lockpassword_confirm_your_pin_header": {
+"en": "Confirm your PIN",
+"hu": "PIN-kód megerősítése",
+"de": "PIN bestätigen",
+"fr": "Confirmer votre code PIN",
+"es": "Confirma el número PIN"
+},
+"lockpassword_confirm_passwords_dont_match": {
+"en": "Passwords don't match",
+"hu": "A jelszavak nem egyeznek",
+"de": "Die Passwörter stimmen nicht überein.",
+"fr": "Les mots de passe ne correspondent pas.",
+"es": "Las contraseñas no coinciden"
+},
+"lockpassword_confirm_pins_dont_match": {
+"en": "PINs don't match",
+"hu": "A PIN-kódok nem egyeznek",
+"de": "Die PINs stimmen nicht überein.",
+"fr": "Les codes PIN ne correspondent pas.",
+"es": "Los números PIN no coinciden"
+},
+"lockpattern_need_to_unlock": {
+"en": "Confirm saved pattern",
+"hu": "Erősítse meg az elmentett mintát",
+"de": "Gespeichertes Muster bestätigen",
+"fr": "Confirmer le schéma enregistré",
+"es": "Confirmar patrón guardado"
+},
+"lockpattern_need_to_unlock_wrong": {
+"en": "Sorry, try again:",
+"hu": "Sajnáljuk, próbálja újra:",
+"de": "Versuchen Sie es bitte erneut:",
+"fr": "Désolé. Merci de réessayer :",
+"es": "Inténtalo de nuevo:"
+},
+"lockpattern_recording_intro_header": {
+"en": "Draw an unlock pattern",
+"hu": "Rajzoljon egy feloldási mintát",
+"de": "Zeichnen Sie ein Entsperrungsmuster.",
+"fr": "Dessinez un schéma de déverrouillage :",
+"es": "Crear un patrón de desbloqueo"
+},
+"lockpattern_recording_intro_footer": {
+"en": "Press Menu for help.",
+"hu": "Nyomja meg a Menü gombot, ha segítségre van szüksége.",
+"de": "Menütaste drücken, um die Hilfe aufzurufen",
+"fr": "Appuyez sur Menu pour obtenir de l'aide.",
+"es": "Pulsa la tecla de menú para obtener ayuda."
+},
+"lockpattern_recording_inprogress": {
+"en": "Release finger when done.",
+"hu": "Emelje fel az ujját, ha kész.",
+"de": "Lassen Sie die Tasten los, wenn Sie fertig sind.",
+"fr": "Ôtez le doigt lorsque vous avez terminé.",
+"es": "Levanta el dedo cuando termines."
+},
+"lockpattern_recording_incorrect_too_short": {
+"en": "Connect at least %d dots. Try again:",
+"hu": "Kapcsoljon össze legalább %d pontot. Próbálkozzon újra:",
+"de": "Verbinden Sie mindestens %d Punkte. Versuchen Sie es erneut:",
+"fr": "Reliez au moins %d points. Veuillez réessayer :",
+"es": "Une al menos %d puntos. Inténtalo de nuevo:"
+},
+"lockpattern_pattern_entered_header": {
+"en": "Pattern recorded!",
+"hu": "A minta rögzítve!",
+"de": "Muster wurde aufgezeichnet!",
+"fr": "Schéma enregistré !",
+"es": "Patrón grabado"
+},
+"lockpattern_need_to_confirm": {
+"en": "Draw pattern again to confirm:",
+"hu": "Rajzolja újra a mintát a megerősítéshez:",
+"de": "Zeichnen Sie das Muster zur Bestätigung erneut:",
+"fr": "Redessinez le schéma pour confirmer :",
+"es": "Vuelve a dibujar el patrón para confirmarlo:"
+},
+"lockpattern_pattern_confirmed_header": {
+"en": "Your new unlock pattern:",
+"hu": "Az új feloldási minta:",
+"de": "Ihr neues Entsperrungsmuster:",
+"fr": "Votre nouveau schéma de déverrouillage :",
+"es": "Tu patrón de desbloqueo nuevo:"
+},
+"lockpattern_confirm_button_text": {
+"en": "Confirm",
+"hu": "Megerősítés",
+"de": "Bestätigen",
+"fr": "Confirmer",
+"es": "Confirmar"
+},
+"lockpattern_restart_button_text": {
+"en": "Redraw",
+"hu": "Újrarajzolás",
+"de": "Neu aufzeichnen",
+"fr": "Redessiner",
+"es": "Crear un patrón nuevo"
+},
+"lockpattern_retry_button_text": {
+"en": "Retry",
+"hu": "Újra",
+"de": "Erneut versuchen",
+"fr": "Réessayer",
+"es": "Reintentar"
+},
+"lockpattern_continue_button_text": {
+"en": "Continue",
+"hu": "Folytatás",
+"de": "Weiter",
+"fr": "Continuer",
+"es": "Seguir"
+},
 "fw_ok": {
 "en": "OK",
 "hu": "OK",
