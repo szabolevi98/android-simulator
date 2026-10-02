@@ -75,7 +75,7 @@
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
       // A reload during Gallery widget configuration leaves no completed choice.
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
-      if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 99;
       return result;
     } catch { return clone(defaultData); }
   }
@@ -120,7 +120,8 @@
     { name: 'Home Network', security: 'WPA2', strength: 4 },
     { name: 'Library Wi-Fi', security: 'Open', strength: 2 }
   ];
-  const wallpaperFiles = ['chroma','architecture','bubblegum','canyon','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
+  // crespo overlay packages/apps/Launcher2 res/values-hdpi/wallpapers.xml, in its order; 960 x 800 images span two screens.
+  const wallpaperFiles = ['street_lights','stream','phasebeam','pulse','nexusrain','stars','canyon','grass','zanzibar','cloud','monumentvalley','mountains','sunset','goldengate','shuttle'];
   const widgetTypes = [
     { type: 'search', name: 'Search', app: 'browser', width: 4, height: 1 },
     { type: 'protips', name: 'Home screen tips', app: 'settings', width: 4, height: 1 },
@@ -159,7 +160,8 @@
     if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg" alt=""></span>';
     if (id === 'apps') return '<span class="app-icon"><img src="assets/apps.png" alt=""></span>';
     const folder=ICSLauncherFolders.folder(data,id);
-    if(folder)return `<span class="app-icon launcher-folder-icon">${folder.items.slice(0,3).map(app=>`<span class="folder-preview-item">${appIcon(app)}</span>`).join('')}</span>`;
+    // FolderIcon: ic_launcher_folder, or ic_launcher_folder_open while the folder is open; live folders use the provider's icon.
+    if(folder)return `<span class="app-icon"><img src="assets/gb-${folder.live?`ic_launcher_folder_live_contacts${folder.live==='all'?'':folder.live==='phone'?'_phone':'_starred'}`:`l2-ic_launcher_folder${ui.overlay==='folder'&&ui.folderId===id?'_open':''}`}.png" alt=""></span>`;
     if (id === 'google') return '<span class="app-icon google-folder-icon"><img src="assets/browser.png" alt=""><img src="assets/email.png" alt=""><img src="assets/calendar.png" alt=""><img src="assets/gallery.png" alt=""></span>';
     const item = apps.find(app => app[0] === id);
     if (!item) return '';
@@ -167,7 +169,8 @@
       ? `<span class="app-icon"><img src="assets/${id}.png" alt=""></span>`
       : `<span class="app-icon fallback" style="--icon-light:${item[3]};--icon-dark:${item[4]}">${item[2]}</span>`;
   };
-  const folderName=id=>ICSLauncherFolders.folder(data,id)?.name||i18n.t('Unnamed folder');
+  const liveNames={all:'All contacts',starred:'Starred contacts',phone:'Contacts with phone numbers'};
+  const folderName=id=>{const folder=ICSLauncherFolders.folder(data,id);return folder?.name||i18n.t(folder?.live?liveNames[folder.live]:'Folder');};
   const launcherIcon = id => ICSLauncherFolders.folder(data,id)
     ? `<button class="launcher-icon" data-action="folder-open" data-folder-id="${safe(id)}" aria-label="${safe(folderName(id))}" data-no-translate>${appIcon(id)}<span>${safe(folderName(id))}</span></button>`
     : `<button class="launcher-icon" data-action="${id==='apps'?'drawer':'open-app'}" ${id==='apps'?'':`data-app="${id}"`} aria-label="${safe(appNames[id]||'Apps')}">${appIcon(id)}<span>${safe(appNames[id]||'Apps')}</span></button>`;
@@ -295,7 +298,7 @@
     if(ui.locked)ui.view='lock';
     const outgoing = viewport.firstElementChild;
     screen.className = `screen${activeTransition ? ' transitioning' : ''} wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}${ui.sleeping?' sleeping':''}${ui.locked?' credential-locked':''}`;
-    screen.style.background = data.wallpaper === 11 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 11 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('assets/wallpaper_${wallpaperFiles[data.wallpaper] || 'chroma'}.jpg') center center / cover no-repeat`;
+    screen.style.background = data.wallpaper === 99 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 99 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#000 url('assets/gb-wallpaper_${wallpaperFiles[data.wallpaper] || 'street_lights'}.jpg') ${ui.page * 25}% center / auto 100% no-repeat`;
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav(); syncLiveWallpaper();
     if (ui.view === 'lock') { viewport.innerHTML = renderLock(); attachGBLock(); }
@@ -504,7 +507,7 @@
     switch (ui.view) {
       case 'play-store': return ICSPlayStore.render(ui.play, data.playRatings || {}, key => i18n.t(key));
       case 'live-wallpapers': return renderLiveWallpapers();
-      case 'wallpaper-picker': return `<div class="app-view wallpaper-picker"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>Wallpapers</h2></div><div class="app-content dark">${wallpaperChoices()}</div></div>`;
+      case 'wallpaper-picker': { const selected = Number.isInteger(ui.wpChoice) ? ui.wpChoice : Math.max(0, data.wallpaper); return `<div class="app-view gbwp"><div class="gbwp-preview"><img src="assets/gb-wallpaper_${wallpaperFiles[selected]}.jpg" alt=""></div><div class="gbwp-gallery" role="listbox" aria-label="${safe(i18n.t('Wallpapers'))}">${wallpaperFiles.map((name, index) => `<button class="gbwp-item${index === selected ? ' selected' : ''}" role="option" aria-selected="${index === selected}" data-action="gb-wp-pick" data-id="${index}" aria-label="${safe(name.replace(/_/g, ' '))}"><img src="assets/gb-wallpaper_${name}_small.jpg" alt=""></button>`).join('')}</div><button class="gbwp-set" data-action="wallpaper" data-id="${selected}">${safe(i18n.t('Set wallpaper'))}</button></div>`; }
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
       case 'phone': return renderPhone();
@@ -612,17 +615,44 @@
       {action: 'gb-wallpaper', title: t('Wallpapers'), icon: 'l2-ic_launcher_wallpaper'}]};
     if (ui.overlay === 'gb-dialog-shortcuts') return {title: t('Select shortcut'), items: [...apps].sort((a, b) => t(a[1]).localeCompare(t(b[1]), i18n.locale())).map(app => ({action: 'gb-add-app', id: app[0], title: t(app[1]), icon: `${app[0]}.png`}))};
     if (ui.overlay === 'gb-dialog-widgets') return {title: t('Choose widget'), items: widgetTypes.map(widget => ({action: 'add-widget-gb', id: widget.type, title: t(widget.name), icon: `${widget.app || 'settings'}.png`}))};
+    if (ui.overlay === 'gb-dialog-folders') return {title: t('Select folder'), items: [
+      {action: 'gb-new-folder', title: t('New folder'), icon: 'l2-ic_launcher_folder'},
+      {action: 'gb-new-folder', id: 'all', title: t('All contacts'), icon: 'ic_launcher_folder_live_contacts'},
+      {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
+      {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
+    if (ui.overlay === 'gb-dialog-rename') return {title: t('Rename folder'), custom: `<label class="gbdlg-field"><span>${safe(t('Folder name'))}</span><input maxlength="40" value="${safe(ICSLauncherFolders.folder(data, ui.folderId)?.name || t('Folder'))}"></label>`, buttons: [{action: 'gb-rename-folder', title: t('OK')}, {action: 'gb-rename-cancel', title: t('Cancel')}], cancel: 'gb-rename-cancel'};
     if (ui.overlay === 'gb-dialog-wallpaper') return {title: t('Select wallpaper from'), items: [
       {action: 'open-app', app: 'gallery', title: t('Gallery'), icon: 'gallery.png'},
       {action: 'open-live-wallpapers', title: t('Live wallpapers'), icon: 'gb-l2-ic_launcher_wallpaper.png'},
       {action: 'open-wallpapers', title: t('Wallpapers'), icon: 'l2-ic_launcher_wallpaper'}]};
     return {title: '', items: []};
   }
+  /* Launcher.showPreviews: each CellLayout is drawn at the scale that fits all five screens across the CellLayout width
+     (minus the preview_background padding), without the wallpaper, in a PopupWindow next to the anchor. */
+  function fillPreviews() {
+    const popup = overlayRoot.querySelector('.gbprev'); if (!popup) return;
+    const grids = [...viewport.querySelectorAll('.home-grid')];
+    const width = screen.clientWidth, cellsHeight = viewport.clientHeight - 6.9 - 67.28, thumbWidth = (width - 5 * 5.75) / 5, scale = thumbWidth / width;
+    popup.querySelectorAll('.gbprev-thumb').forEach((thumb, index) => {
+      thumb.style.width = `${thumbWidth}px`; thumb.style.height = `${cellsHeight * scale}px`;
+      const clone = grids[index]?.cloneNode(true); if (!clone) return;
+      clone.removeAttribute('inert'); clone.inert = true; clone.classList.add('gbprev-grid');
+      Object.assign(clone.style, {width: `${width}px`, height: `${viewport.clientHeight}px`, transform: `scale(${scale}) translateY(-6.9px)`});
+      thumb.append(clone);
+    });
+    const anchor = viewport.querySelector(ui.gbPreviewAnchor === 'next' ? '.gbl-arrow-right' : ui.gbPreviewAnchor === 'apps' ? '.gbl-allapps' : '.gbl-arrow-left');
+    const screenRect = screen.getBoundingClientRect(), ratio = screen.clientWidth / screenRect.width, rect = anchor?.getBoundingClientRect();
+    const left = rect ? Math.max(0, Math.min(width - popup.offsetWidth, (rect.left - screenRect.left) * ratio)) : 0;
+    popup.style.left = `${left}px`;
+  }
   let openFolderId = '';
   function renderOverlay() { renderOverlayBase(); gingerbreadMenu(); }
   function renderOverlayBase() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
-    if (ui.overlay === 'gb-menu-home') {
+    if (ui.overlay === 'gb-previews') {
+      overlayRoot.innerHTML = `<div class="gbprev-scrim" data-action="close-overlay"></div><div class="gbprev" role="listbox" aria-label="${safe(i18n.t('Home screen'))}">${data.homePages.map((_, index) => `<button class="gbprev-item${index === ui.page ? ' current' : ''}" role="option" aria-selected="${index === ui.page}" data-action="gb-preview-go" data-id="${index}" aria-label="${safe(i18n.t('Home screen'))} ${index + 1}"><span class="gbprev-thumb"></span></button>`).join('')}</div>`;
+      fillPreviews();
+    } else if (ui.overlay === 'gb-menu-home') {
       ui.gbMenuItems = launcherMenu();
       overlayRoot.innerHTML = GBUI.menu(ui.gbMenuItems, key => i18n.t(key));
     } else if (ui.overlay === 'gb-menu-more') {
@@ -700,6 +730,7 @@
     } else if (ui.overlay === 'folder') {
       overlayRoot.innerHTML = renderFolder();
       positionFolder();
+      syncFolderIcons();
     } else overlayRoot.innerHTML = '';
     i18n.translateDOM(overlayRoot);
     // Folder.animateOpen/animateClosed run only when the folder actually opens or closes, not on content updates.
@@ -718,6 +749,7 @@
       Promise.all(animations.map(animation => animation.finished)).catch(() => {}).then(() => closingFolder.remove());
       if (!animations.length) closingFolder.remove();
     }
+    if (!folderPanel && openFolderId) syncFolderIcons();
     openFolderId = folderPanel ? ui.folderId : '';
     if (!folderPanel) ui.folderSettled = '';
     syncClings();
@@ -758,13 +790,21 @@
   }
   window.addEventListener('resize', () => syncClings());
 
+  /* UserFolder (user_folder.xml): Launcher.openFolder adds it over the whole CellLayout - a box_launcher_top title button
+     (14 sp bold #404040; touch closes, touch & hold renames) above box_launcher_bottom with a 4-column grid of
+     application_boxed items. Live folders list their contacts (live_folder_list). */
+  function syncFolderIcons() {
+    viewport.querySelectorAll('[data-folder-id]').forEach(button => { const icon = button.querySelector('.app-icon'); if (icon) icon.outerHTML = appIcon(button.dataset.folderId); });
+  }
   function renderFolder() {
     const folder=ICSLauncherFolders.folder(data,ui.folderId);if(!folder){ui.overlay='';return '';}
-    const {columns,rows}=ICSLauncherFolders.dimensions(folder.items.length);
-    return `<div class="launcher-folder-scrim" data-action="close-overlay"></div><div class="launcher-folder" role="dialog" aria-label="${safe(i18n.t('Folder'))}: ${safe(folderName(ui.folderId))}" style="width:${columns*74+24}px;--folder-columns:${columns}"><div class="launcher-folder-grid">${Array.from({length:columns*rows},(_,slot)=>`<div class="launcher-folder-cell" data-folder-slot="${slot}">${folder.items[slot]?launcherIcon(folder.items[slot]):''}</div>`).join('')}</div><form class="launcher-folder-name" data-form="folder-name"><input name="name" aria-label="Folder name" placeholder="Unnamed folder" maxlength="40" autocomplete="off" value="${safe(folder.name)}"></form></div>`;
+    const people=folder.live?data.contacts.filter(person=>folder.live==='all'||folder.live==='phone'&&person.phone||folder.live==='starred'&&person.favorite).sort((a,b)=>a.name.localeCompare(b.name,i18n.locale())):null;
+    const grid=people?`<div class="gbfolder-live">${people.map(person=>`<button class="gbfolder-person" data-action="gb-live-contact" data-id="${person.id}"><span class="avatar">${safe(person.name[0])}</span><span>${safe(person.name)}</span></button>`).join('')||`<p class="gbfolder-empty">${safe(i18n.t('No contacts.'))}</p>`}</div>`
+      :`<div class="launcher-folder-grid gbfolder-grid">${Array.from({length:folder.items.length+1},(_,slot)=>`<div class="launcher-folder-cell" data-folder-slot="${slot}">${folder.items[slot]?launcherIcon(folder.items[slot]):''}</div>`).join('')}</div>`;
+    return `<div class="launcher-folder gbfolder${folder.live?' gbfolder-livebox':''}" role="dialog" aria-label="${safe(i18n.t('Folder'))}: ${safe(folderName(ui.folderId))}"><button class="gbfolder-title" data-action="close-overlay" data-gb-folder-title>${safe(folderName(ui.folderId))}</button><div class="gbfolder-body">${grid}</div></div>`;
   }
   function positionFolder() {
-    const panel=overlayRoot.querySelector('.launcher-folder');if(!panel)return;
+    const panel=overlayRoot.querySelector('.launcher-folder');if(!panel||panel.classList.contains('gbfolder'))return;
     const icon=[...viewport.querySelectorAll('[data-folder-id]')].find(button=>button.dataset.folderId===ui.folderId&&!button.closest('[inert]'));
     const screenRect=screen.getBoundingClientRect(),rect=icon?.getBoundingClientRect();
     const scale=screenRect.width/screen.clientWidth;
@@ -1141,7 +1181,7 @@
       case 'widget-photo-album': configurePhotoWidget({source: 'album', album: id}); break;
       case 'widget-photo-image': configurePhotoWidget({source: 'photo', photo: Number(id)}); break;
       case 'widget-photo-cancel': cancelPhotoWidget(); break;
-      case 'open-wallpapers': ui.overlay = ''; ui.view = 'wallpaper-picker'; render(); break;
+      case 'open-wallpapers': ui.overlay = ''; ui.wpChoice = null; ui.view = 'wallpaper-picker'; render(); viewport.querySelector('.gbwp-item.selected')?.scrollIntoView({inline: 'center', block: 'nearest'}); break;
       case 'open-live-wallpapers': ui.overlay = ''; ui.view = 'live-wallpapers'; ui.sub = ''; render(); break;
       case 'lw-preview': ui.sub = `preview:${id}`; render(); break;
       case 'lw-settings': ui.sub = `settings:${id}`; render(); break;
@@ -1174,13 +1214,19 @@
       case 'gb-add': ui.overlay = 'gb-dialog-add'; renderOverlay(); break;
       case 'gb-add-shortcuts': ui.overlay = 'gb-dialog-shortcuts'; renderOverlay(); break;
       case 'gb-add-widgets': ui.overlay = 'gb-dialog-widgets'; renderOverlay(); break;
-      case 'gb-add-folders': ui.overlay = ''; renderOverlay(); toast('Folders arrive with the Gingerbread folder update'); break;
+      case 'gb-add-folders': ui.overlay = 'gb-dialog-folders'; renderOverlay(); break;
+      case 'gb-new-folder': { ui.overlay = ''; const slot = data.homePages[ui.page].findIndex((item, index) => item === null && widgetFits(ui.page, index % 4, Math.floor(index / 4), {type: 'x', width: 1, height: 1})); if (slot < 0) { renderOverlay(); toast('No more room on this Home screen.'); break; } ICSLauncherFolders.create(data, ui.page, slot, id ? {live: id} : {}); save(); render(); break; }
+      case 'gb-live-contact': ui.overlay = ''; openApp('people'); ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
+      case 'gb-rename-folder': { const input = overlayRoot.querySelector('.gbdlg input'); const folder = ICSLauncherFolders.folder(data, ui.folderId); if (folder && input) { folder.name = input.value.trim().slice(0, 40); save(); } ui.overlay = 'folder'; render(); renderOverlay(); break; }
+      case 'gb-rename-cancel': ui.overlay = 'folder'; renderOverlay(); break;
       case 'gb-wallpaper': ui.overlay = 'gb-dialog-wallpaper'; renderOverlay(); break;
       case 'gb-notifications': ui.overlay = 'shade'; renderOverlay(); break;
       case 'gb-menu-more': ui.overlay = 'gb-menu-more'; renderOverlay(); break;
       case 'settings-open': ui.overlay = ''; ui.view = 'settings'; ui.sub = id; render(); break;
       case 'gb-add-app': { ui.overlay = ''; const slot = data.homePages[ui.page].findIndex((item, index) => !item && widgetFits(ui.page, index % 4, Math.floor(index / 4), {type: 'x', width: 1, height: 1})); if (slot < 0) { renderOverlay(); toast('No more room on this Home screen.'); break; } data.homePages[ui.page][slot] = id; save(); render(); break; }
       case 'add-widget-gb': { ui.overlay = ''; const added = addWidget(id); if (!added) { renderOverlay(); toast('No more room on this Home screen.'); break; } if (ui.overlay) renderOverlay(); render(); break; }
+      case 'gb-wp-pick': ui.wpChoice = Number(id); render(); viewport.querySelector('.gbwp-item.selected')?.scrollIntoView({inline: 'center', block: 'nearest', behavior: reducedMotion?.matches ? 'auto' : 'smooth'}); break;
+      case 'gb-preview-go': ui.overlay = ''; renderOverlay(); setHomePage(Number(id)); break;
       case 'gb-tip-next': data.protips = {...(data.protips || {set: 0}), index: ((data.protips?.index ?? -1) + 1) % GBLauncher.tips(i18n.language, data.protips?.set).length}; save(); render(); break;
       case 'gb-tip-poke': blinkTips(1); break;
       case 'lock-media': if (id === 'play') { ui.music.playing = !ui.music.playing; if (ui.music.playing && ui.music.position >= tracks[ui.music.track].duration) ui.music.position = 0; } else ICSMusic.step(ui.music, id === 'previous' ? -1 : 1); ui.musicTrack = ui.music.track; saveMusic(); render(); break;
@@ -1343,7 +1389,7 @@
         const remaining=ICSMedia.photos(data,ui.galleryAlbum);if(remaining.length)ui.selectedPhoto=remaining[Math.min(index,remaining.length-1)].id;else ui.sub='album';
         render();toast('Photo deleted');break;
       }
-      case 'photo-wallpaper': {const photo=data.photos.find(p=>p.id===Number(id));if(!photo)break;data.wallpaper=11;delete data.liveWallpaper;data.customWallpaper=photo.colors;data.customWallpaperPhoto=clone(photo);save();ui.overlay='';render();toast('Wallpaper set');break;}
+      case 'photo-wallpaper': {const photo=data.photos.find(p=>p.id===Number(id));if(!photo)break;data.wallpaper=99;delete data.liveWallpaper;data.customWallpaper=photo.colors;data.customWallpaperPhoto=clone(photo);save();ui.overlay='';render();toast('Wallpaper set');break;}
       case 'shoot': {
         const photo={...ICSMedia.scene(data),id:Date.now(),name:`IMG_${new Date().toISOString().replace(/[-:T]/g,'').slice(0,14)}`,album:'camera',created:Date.now()};
         data.photos.unshift(photo);save();render();screen.animate([{opacity:1},{opacity:.4},{opacity:1}],{duration:240});toast('Photo saved to Gallery');break;
@@ -1841,7 +1887,15 @@
       else if(homeSlot){
         const slot=Number(homeSlot.dataset.homeSlot);
         const covered=data.homeWidgets[ui.page].some(widget=>slot%4>=widget.x&&slot%4<widget.x+widgetSize(widget).width&&Math.floor(slot/4)>=widget.y&&Math.floor(slot/4)<widget.y+widgetSize(widget).height);
-        if(!covered)result=dropAt({type:'home',page:ui.page,slot});
+        const occupant=data.homePages[ui.page][slot],folderTarget=occupant&&ICSLauncherFolders.folder(data,occupant);
+        const own=source.type==='home'&&source.page===ui.page&&source.slot===slot;
+        if(folderTarget&&!own)result=dropAt({type:'folder',folderId:occupant,slot:folderTarget.items.length});
+        else if(!covered&&(!occupant||own))result=dropAt({type:'home',page:ui.page,slot});
+        else{
+          const vacant=index=>(data.homePages[ui.page][index]===null||source.type==='home'&&source.page===ui.page&&source.slot===index)&&!data.homeWidgets[ui.page].some(widget=>index%4>=widget.x&&index%4<widget.x+widgetSize(widget).width&&Math.floor(index/4)>=widget.y&&Math.floor(index/4)<widget.y+widgetSize(widget).height);
+          const nearest=Array.from({length:16},(_,index)=>index).filter(vacant).sort((a,b)=>Math.hypot(a%4-slot%4,Math.floor(a/4)-Math.floor(slot/4))-Math.hypot(b%4-slot%4,Math.floor(b/4)-Math.floor(slot/4)))[0];
+          result=nearest===undefined?{ok:false,error:'No more room on this Home screen.'}:dropAt({type:'home',page:ui.page,slot:nearest});
+        }
       }else if(dockSlot)result=dropAt({type:'dock',slot:Number(dockSlot.dataset.dockSlot)});
       else if(pageButton){
         const nextPage=Number(pageButton.dataset.id);
@@ -1869,6 +1923,7 @@
     track.style.transition = '';
     track.style.transform = `translateX(${-ui.page * 100}%)`;
     tweenWallpaperOffset(ui.page / 4);
+    if (data.wallpaper !== 99) { screen.style.transition = 'background-position .35s cubic-bezier(.16,1,.3,1)'; screen.style.backgroundPositionX = `${ui.page * 25}%`; }
     track.querySelectorAll('.home-grid').forEach((grid, index) => { grid.inert = index !== ui.page; });
     // Launcher.updateArrows: the previous/next buttons show one dot per screen on that side.
     const home = viewport.querySelector('.home-view.gbl');
@@ -2164,6 +2219,31 @@
   // Touch keys: any touch on the device lights them; holding Home for the 500 ms long-press timeout opens the recent apps.
   document.querySelector('#device').addEventListener('pointerdown', pokeKeylight, true);
   document.addEventListener('keydown', pokeKeylight, true);
+  let previewHold = 0;
+  viewport.addEventListener('pointerdown', event => {
+    const anchor = event.target.closest('.gbl-arrow,.gbl-allapps'); if (!anchor || event.button || ui.view !== 'home') return;
+    clearTimeout(previewHold);
+    previewHold = setTimeout(() => {
+      const swallow = click => { click.stopPropagation(); click.preventDefault(); window.removeEventListener('click', swallow, true); };
+      window.addEventListener('click', swallow, true); setTimeout(() => window.removeEventListener('click', swallow, true), 600);
+      if (data.settings.haptic !== false) navigator.vibrate?.(30);
+      ui.gbPreviewAnchor = anchor.classList.contains('gbl-allapps') ? 'apps' : anchor.classList.contains('gbl-arrow-right') ? 'next' : 'previous';
+      ui.overlay = 'gb-previews'; renderOverlay();
+    }, 500);
+  });
+  for (const type of ['pointerup', 'pointercancel', 'pointerleave']) viewport.addEventListener(type, () => clearTimeout(previewHold));
+  let folderTitleHold = 0;
+  overlayRoot.addEventListener('pointerdown', event => {
+    if (!event.target.closest('[data-gb-folder-title]') || event.button) return;
+    clearTimeout(folderTitleHold);
+    folderTitleHold = setTimeout(() => {
+      const swallow = click => { click.stopPropagation(); click.preventDefault(); window.removeEventListener('click', swallow, true); };
+      window.addEventListener('click', swallow, true); setTimeout(() => window.removeEventListener('click', swallow, true), 600);
+      if (ICSLauncherFolders.folder(data, ui.folderId)?.live) return;
+      ui.overlay = 'gb-dialog-rename'; renderOverlay(); overlayRoot.querySelector('.gbdlg input')?.select();
+    }, 500);
+  });
+  for (const type of ['pointerup', 'pointercancel', 'pointerleave']) overlayRoot.addEventListener(type, () => clearTimeout(folderTitleHold));
   let homeHold = 0;
   navRoot.addEventListener('pointerdown', event => {
     const key = event.target.closest('.touch-home'); if (!key || key.disabled || event.button) return;

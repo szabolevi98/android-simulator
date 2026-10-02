@@ -95,3 +95,40 @@
 .gbmusic-next:active{border-image:url('assets/gb-music-appwidget_inner_press_r.png') 10 10 10 3 fill / 5.75px 5.75px 5.75px 1.73px stretch}
 /* Gingerbread's CellLayout draws no holo drop outline; the dragged view itself is the only feedback. */
 .gbl .drag-outline,.gbl .icon-outline,.gbl .widget-outline{display:none!important}
+/* UserFolder over the CellLayout area: box_launcher_top title (14 sp bold #404040) and box_launcher_bottom grid. */
+.launcher-folder.gbfolder{position:absolute;left:0;right:0;top:28.75px;bottom:67.28px;width:auto!important;height:auto;z-index:19;display:flex;flex-direction:column;background:none;border:0;padding:0;box-shadow:none;transform:none!important;border-radius:0}
+.screen .gbfolder-title{flex:none;min-height:36.23px;border:0 solid transparent;border-image:url('assets/gb-l2-box_launcher_top_normal.png') 16 74 46 71 fill / 9.2px 42.55px 26.45px 40.83px stretch;padding:8.63px 39.68px .58px 17.83px;background:none;color:#404040;font:700 12.07px DroidSans,Arial,sans-serif;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.screen .gbfolder-title:active{border-image-source:url('assets/gb-l2-box_launcher_top_pressed.png')}
+.gbfolder-body{flex:1;min-height:0;border:0 solid transparent;border-image:url('assets/gb-l2-box_launcher_bottom.png') 0 73 107 73 fill / 0 41.98px 61.53px 41.98px stretch;padding:0 12.08px 12.65px;overflow:hidden}
+.gbfolder-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:75.9px;row-gap:8.63px;align-content:start;height:100%;overflow-y:auto;scrollbar-width:none;padding:4px 0 0;margin:0;background:none;width:auto!important}
+.gbfolder-grid .launcher-folder-cell{min-width:0}
+.gbfolder-grid .launcher-icon{width:100%;height:100%;padding:4.31px 1.73px 1.73px;gap:0;display:flex;flex-direction:column;align-items:center;border:0;background:none;text-shadow:none}
+.gbfolder-grid .launcher-icon .app-icon{width:41.4px;height:41.4px;filter:none}
+.gbfolder-grid .launcher-icon span:last-child{color:#fff;font:400 11.2px/1.2 DroidSans,Arial,sans-serif;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-align:center;background:none;padding:0;max-width:100%}
+.gbfolder-grid .launcher-icon:active{background:#ff9d00aa;border-radius:4px}
+.gbfolder-live{height:100%;overflow-y:auto;padding-top:2px}
+.screen .gbfolder-person{display:flex;align-items:center;gap:8.63px;width:100%;min-height:48px;border:0;border-bottom:1px solid #ffffff1c;background:none;color:#fff;font:400 15.53px DroidSans,Arial,sans-serif;text-align:left;padding:0 6px;cursor:pointer}
+.gbfolder-person .avatar{width:34px;height:34px;border-radius:2px;font-size:16px}
+.gbfolder-empty{color:#bbb;text-align:center;font-size:13px;margin-top:20px}
+/* Rename folder: the dialog's custom panel with an EditText. */
+.gbdlg-field{display:flex;flex-direction:column;gap:4px;padding:6px 6px 12px;color:#fff;font:400 12.07px DroidSans,Arial,sans-serif}
+.gbdlg-field input{height:38px;border:1px solid #888;border-radius:4px;background:#fff;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;padding:0 8px;outline:none;box-shadow:inset 0 1px 3px #0005}
+.gbdlg-field input:focus{border-color:#ff9d00;box-shadow:0 0 0 2px #ffb400aa,inset 0 1px 3px #0005}
+/* WallpaperChooser (Theme default dark): fitCenter preview, Gallery of *_small thumbnails, the "Set wallpaper" button. */
+#viewport>.app-view.gbwp{display:flex;flex-direction:column;height:100%;background:#000;overflow:hidden}
+.gbwp-preview{flex:1;min-height:0;display:grid;place-items:center;background:#000}
+.gbwp-preview img{max-width:100%;max-height:100%;object-fit:contain}
+.gbwp-gallery{flex:none;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:6px 40%;scroll-snap-type:x mandatory}
+.gbwp-gallery::-webkit-scrollbar{display:none}
+.screen .gbwp-item{flex:none;width:76px;height:63px;padding:2px;border:0;background:#2a2a2a;opacity:.5;scroll-snap-align:center;cursor:pointer;transition:opacity .2s}
+.screen .gbwp-item.selected{opacity:1;background:#ffb400}
+.gbwp-item img{width:100%;height:100%;object-fit:cover;display:block}
+.screen .gbwp-set{flex:none;align-self:center;margin:4px 0 6px;min-width:120px;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;padding:5.75px 14px 9.78px;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbwp-set:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+/* Screen previews: preview_background frames (pressed: preview_bg_press) in a PopupWindow above the anchor; AnimationPreview fades. */
+.gbprev-scrim{position:absolute;inset:0;z-index:29}
+.gbprev{position:absolute;bottom:48.3px;z-index:30;display:flex;animation:gbsb-fade .1s}
+.screen .gbprev-item{flex:none;border:0 solid transparent;border-image:url('assets/gb-l2-preview_bg.png') 10 11 12 11 fill / 5.75px 6.33px 6.9px 6.33px stretch;padding:1.73px 2.88px 2.88px;background:none;cursor:pointer}
+.screen .gbprev-item:active,.screen .gbprev-item.current{border-image-source:url('assets/gb-l2-preview_bg_press.png')}
+.gbprev-thumb{display:block;position:relative;overflow:hidden}
+.gbprev-thumb .gbprev-grid{position:absolute;left:0;top:0;transform-origin:0 0;pointer-events:none}

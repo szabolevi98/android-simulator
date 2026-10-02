@@ -159,3 +159,26 @@ The shared code is in `versions/2.3.6/gb-ui.js` / `.css`.
 Checks: headless Chrome covered the home menu (two rows of three), Add → Widgets → Analog clock, Add → Shortcuts → Calculator, the Browser menu conversion and closing with the Menu key. No JavaScript errors.
 
 Next: Gingerbread folders (New folder, the UserFolder panel, rename), the wallpaper chooser and the home screen previews.
+
+## Folders, wallpapers, toasts and screen previews — 2026-10-02
+
+References: Launcher2 2.3.6 `user_folder.xml`, `Folder.java`, `UserFolder.java`, `Workspace.acceptDrop`, `AddAdapter`, `WallpaperChooser` (`wallpaper_chooser.xml`), `Launcher.showPreviews`; crespo `wallpapers.xml`; Contacts live folders; framework `transient_notification.xml`, `toast_frame`, `toast_enter/exit`.
+
+- **Folders.**
+  - Folders come from Add → Folders ("Select folder"): New folder, or the Contacts live folders All contacts, Contacts with phone numbers and Starred contacts.
+  - Dropping one icon on another never makes a folder. As in `Workspace.acceptDrop`, the item goes to the nearest vacant cell, or "No more room on this Home screen." if there is none.
+  - Dropping onto a folder icon adds the item. Folders keep their place even when empty.
+  - The icon is `ic_launcher_folder`, and `ic_launcher_folder_open` while open; live folders use the Contacts icons.
+  - The open UserFolder covers the CellLayout area: a `box_launcher_top` title (14 sp bold #404040) and a 4-column `application_boxed` grid on `box_launcher_bottom`.
+  - Touching the title closes the folder. Touching and holding it opens "Rename folder" (an AlertDialog with a "Folder name" field, OK and Cancel).
+  - Live folders list the matching contacts and open them in Contacts.
+- **Wallpapers.**
+  - The 15 Nexus S wallpapers in the crespo order, as 960 × 800 images (re-encoded at quality 82): Street lights, Stream, Phase beam, Pulse, Nexus rain, Stars, Canyon, Grass, Zanzibar, Cloud, Monument valley, Mountains, Sunset, Golden gate, Shuttle.
+  - A static wallpaper spans two screens and moves a quarter of its spare width per home screen.
+  - The WallpaperChooser shows a fitCenter preview, a Gallery of the `_small` thumbnails, and "Set wallpaper".
+- **Toasts.** `toast_frame`, 14 sp white text with the #BB000000 shadow, 64 dip above the bottom, and a 400 ms fade.
+- **Screen previews.**
+  - Touching and holding the previous/next arrows or the all apps button opens the PopupWindow of all five screens.
+  - Each CellLayout is drawn without the wallpaper at the scale that fits five across, in `preview_background` frames, with the current screen in the pressed frame. Touching one goes to that screen.
+
+Checks: `gb-ui.test.cjs` was updated for the dialog section classes. Headless Chrome covered New folder and All contacts, dragging Browser from all apps into the folder, opening it, renaming it to "Web", the live folder list, Mountains via the chooser with the parallax at 50% and 75%, and the previews from the right arrow, jumping to screen 4. No JavaScript errors.

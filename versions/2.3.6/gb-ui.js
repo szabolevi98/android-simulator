@@ -47,7 +47,7 @@
       return `<button type="button" class="gbdlg-item${item.icon ? ' with-icon' : ''}" ${attrs(item)} ${choice ? `role="${choice === 'multi' ? 'menuitemcheckbox' : 'menuitemradio'}" aria-checked="${choice === 'multi' ? !!item.checked : i === selected}"` : ''}>${item.icon ? `<img class="gbdlg-icon" src="${e(src(item.icon))}" alt="">` : ''}<span>${e(item.title)}</span>${check}</button>`;
     };
     const body = sections.map((s, i) => {
-      const cls = `gbdlg-section gbdlg-${s.kind} gbdlg-bg-${background(i)}`;
+      const cls = `gbdlg-section gbdlg-s-${s.kind} gbdlg-bg-${background(i)}`;
       if (s.kind === 'title') return `<div class="${cls}"><div class="gbdlg-title">${icon ? `<img src="${e(src(icon))}" alt="">` : ''}<h3>${e(title)}</h3></div><i class="gbdlg-divider"></i></div>`;
       if (s.kind === 'message') return `<div class="${cls}">${custom || `<p>${e(message)}</p>`}</div>`;
       if (s.kind === 'list') return `<div class="${cls}"><div class="gbdlg-list" role="${choice ? 'radiogroup' : 'menu'}">${items.map(row).join('')}</div></div>`;

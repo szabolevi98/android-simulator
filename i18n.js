@@ -590,6 +590,8 @@
     ['Weather','Időjárás','Wetter','Météo','Tiempo'],
     ['Photo Gallery','Fotógaléria','Fotogalerie','Galerie photos','Galería de fotos'],
     ['Tomorrow','Holnap','Morgen','Demain','Mañana'],
+    ["Starred contacts","Csillagozott névjegyek","Markierte Kontakte","Contacts suivis","Contactos destacados"],
+    ["Contacts with phone numbers","Névjegyek telefonszámmal","Kontakte mit Telefonnummern","Contacts avec numéro de téléphone","Contactos con números de teléfono"],
     ["Live wallpapers","Élő háttérképek","Live-Hintergründe","Fonds d'écran animés","Fondos de pantalla animados"],
     ["Select folder","Mappa kiválasztása","Ordner auswählen","Sélectionner le dossier","Seleccionar carpeta"],
     ["New folder","Új mappa","Neuer Ordner","Nouveau dossier","Nueva carpeta"],
