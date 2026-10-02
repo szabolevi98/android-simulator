@@ -1,0 +1,20 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// KitKat Dialer: LetterTileDrawable colours follow Java's String.hashCode; speed dial = starred, then frequently called.
+const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/jb-dialer.js','utf8')+fs.readFileSync('versions/4.4.4/kk-dialer.js','utf8'),context);
+const d=context.window.KKDialer,t=k=>k;
+assert.equal(d.javaHash('Mom'),77547);
+assert.equal(d.javaHash('Alex Morgan'),'Alex Morgan'.split('').reduce((h,c)=>(Math.imul(31,h)+c.charCodeAt(0))|0,0));
+assert.equal(d.tileColor(''),'#cccccc');
+assert.ok(d.COLORS.includes(d.tileColor('Mom')));
+const contacts=[{id:1,name:'Alex',phone:'1',favorite:true},{id:2,name:'Bea',phone:'2'},{id:3,name:'Cy',phone:'3'}];
+const byPhone=n=>contacts.find(c=>c.phone===n);
+const data={contacts,callHistory:[{number:'3',time:1},{number:'3',time:2},{number:'2',time:3}]};
+assert.equal(JSON.stringify(d.speedDial(data,byPhone).map(c=>c.id)),"[1,3,2]");
+const html=d.render({data,ui:{sub:'',dial:''},t,locale:'en-US',byPhone});
+assert.ok(html.includes('Speed Dial')&&html.includes('kkd-bar')&&html.includes('kk-dialer-pad')&&!html.includes('kkd-dialpad'));
+const pad=d.render({data,ui:{sub:'',dial:'2',kkDialpad:true},t,locale:'en-US',byPhone});
+assert.ok(pad.includes('kkd-dialpad')&&pad.includes('kkd-dial-button')&&!pad.includes('data-action="kk-dialer-pad"'));
+const log=d.render({data,ui:{sub:'kk-history',kkLogTab:'missed'},t,locale:'en-US',byPhone});
+assert.ok(log.includes('Call log is empty.'));
+for(const f of ['kd-ic_menu_history_lt','kd-ic_menu_dialpad_lt','kd-ic_menu_overflow_lt','kd-ic_dial_action_call','kd-search_bg','kd-shadow_contact_photo','kd-no_favorites_banner'])assert.ok(fs.existsSync(`versions/4.4.4/assets/${f}.png`),f);
+console.log('kk-dialer ok');

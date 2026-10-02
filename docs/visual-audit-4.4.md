@@ -91,3 +91,19 @@ The 4.4 keyguard moved to `frameworks/base/packages/Keyguard`. Compared with 4.3
   - Immersive 48 dp tiles, each a random hue with a white mask: the image's red channel becomes the alpha.
   - The desserts come in rarity tiers, and tiles span 1–4 cells and turn in quarter turns.
   - Tiles juggle every 2 s; an edge swipe shows the bars.
+
+## Dialer — 2026-10-03
+
+The 4.4 Dialer (`packages/apps/Dialer`) replaces the dark 4.3 tabs with `DialtactsTheme` on Holo Light:
+- **Main screen:**
+  - A #eee background.
+  - A white `search_bg` box, 41 dp, with "Type a name or phone number" and voice search.
+  - The most recent call as a card.
+  - The "Speed Dial" row with the grey ALL CONTACTS button.
+- **Tiles:**
+  - Starred contacts come first, then frequently called ones, in two columns at 67 % height.
+  - Each tile shows the photo or a `LetterTileDrawable` (8 colours chosen by `abs(String.hashCode) % 8`, a white light letter at 67 %), the name over `shadow_contact_photo`, and the overflow thumbnail.
+- **Bottom bar:** a 60 dp #3B77E7 fake action bar with history, dialpad and overflow. The dial button replaces the dialpad button while the pad is up.
+- **Dialpad:** a white panel with 36 sp light digits and 56 dp keys. Numbers are 40 sp light #3B77E7, letters are 13 sp #8b8b8b. Typing filters the list above.
+- **History:** a blue action bar with the light ALL / MISSED tab strip.
+- **Back order:** Back closes the dialpad, then the search, then the sub-screens.
