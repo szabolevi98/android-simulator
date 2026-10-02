@@ -337,3 +337,15 @@ The letter keyboard of the password lock and the password setup now draws LatinI
 - **Layout.** The second row is inset by half a key. The bottom row is ?123, comma, space, period and Enter, with Shift and Delete at 1.5× width.
 
 The PIN pads keep their own framework (ICS) or Keyguard (4.3) keys, as on the device.
+
+## Settings sub-pages against 4.3 XML — 2026-10-01
+
+Each sub-page was compared with the 4.3 preference XML (`sound_settings`, `display_settings`, `language_settings`, `accessibility_settings`, `date_time_prefs`, `privacy_settings`, `wireless_settings`), skipping rows the Galaxy Nexus hides (Dock, Wireless display, 4G, Emergency tone).
+- **Sound.** No Silent mode row (since 4.1 it lives on the volume keys and in the power menu). Music effects is added, the category is CALL RINGTONE & VIBRATE with **Vibrate when ringing**, and the SYSTEM group starts with **Default notification sound**.
+- **Language & input.**
+  - Language opens its own radio list (it switches the simulator language) and Spell checker follows.
+  - KEYBOARD & INPUT METHODS: Default and Android keyboard (AOSP).
+  - SPEECH: Voice search and Text-to-speech output.
+  - MOUSE/TRACKPAD: Pointer speed.
+- **Accessibility.** Magnification gestures, Large text, Power button ends call, Auto-rotate screen, Speak passwords, Accessibility shortcut, Text-to-speech output and Touch & hold delay, in 4.3 order and without the ICS summaries.
+- **Smaller fixes.** Date & time says **Choose date format**. Backup & reset gains **Backup account**. *More…* drops Wi-Fi Direct, which 4.3 moved into the Wi-Fi menu.
