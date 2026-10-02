@@ -433,3 +433,8 @@ The trees at `android-4.0.4_r2.1` and `android-4.3_r1.1` were compared by blob h
   - The editor divider is 1dp `#eeeeee`.
   - The send button switches to `ic_send_disabled_holo_light` while there is nothing to send (`send_button_selector`).
   - Dates use `text_hairline` `#cccccc`, as in 4.0.4, where the simulator also had them darker. In 4.0.4 a disabled send button no longer fades, since ICS has no disabled image.
+- **Browser.** The phone title bar (`title_bar_nav`) changes only in RTL attributes; `tab_bar` is tablet-only, and the Quick Controls lab radii and colours do not apply.
+- **Calendar** (4.2 redesign, the parts the simulator draws).
+  - The action bar's Today button is the blank `ic_menu_today_holo_light` with a `DayOfMonthDrawable` on top: today's date in 14sp bold `#777`, centred, baseline at (height + text height + 1) / 2.
+  - Event details use `EventInfoFragment` in `FULL_WINDOW_STYLE` on phones, so the headline's Edit/Delete buttons are gone. Edit (`ic_menu_compose_holo_light`) and Delete (`ic_menu_trash_holo_light`) sit in the action bar (`event_info_title_bar`).
+  - The coloured `event_info_headline` follows its 8/16/16dp padding, with a 24sp bold title, one 14sp when-line (`Utils.getDisplayedDatetime`: the date, then ", start – end"), the repeat line at 70% white, and the location.

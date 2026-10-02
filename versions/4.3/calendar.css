@@ -26,3 +26,16 @@
 .cal-scope>button{display:block;width:100%;min-height:48px;border:0;border-bottom:1px solid #3a3a3a;background:none;color:#f2f2f2;text-align:left;padding:10px 16px;font-size:15px}
 .cal-scope>button:active{background:#0099cc99}
 .cal-scope .settings-dialog-actions{margin:8px 0 -8px}
+
+/* Calendar 4.2+ today_icon: the blank ic_menu_today_holo_light under a DayOfMonthDrawable, today's date in 14sp
+   bold #777 centred horizontally, with its baseline at (height + text height + 1) / 2. */
+.cal-today-icon{position:relative;display:block;width:32px;height:32px}
+.cal-today-icon>span{position:absolute;left:0;right:0;top:11.6px;font:700 12.6px/10px Roboto,RobotoICS,sans-serif;color:#777;text-align:center;pointer-events:none}
+
+/* event_info_headline.xml: 8/16/16dp padding, the title in 24sp bold, then 14sp when (4dp above), repeat (#B3FFFFFF,
+   3dp closer) and where (4dp above), all white on the event colour. */
+.cal-bar>strong{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cal-event-head{padding:7.2px 14.4px 14.4px}
+.cal-event-head h2{font-size:21.6px;font-weight:700;margin:0}
+.cal-event-head p{font-size:12.6px;margin:3.6px 0 0}
+.cal-event-head p.cal-repeat{margin-top:-2.7px;color:#ffffffb3}

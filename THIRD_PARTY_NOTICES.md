@@ -146,6 +146,7 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 ### Wi-Fi settings (4.3)
 
 - `versions/4.3/assets/jb-ic_wps.png` and `jb-ic_menu_add.png`: [AOSP Settings drawable-hdpi](https://github.com/aosp-mirror/platform_packages_apps_settings/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`.
+- `calendar-ic_menu_compose_holo_light.png` and `calendar-ic_menu_trash_holo_light.png`: [AOSP Calendar drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_calendar/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`.
 - `mms-ic_send_disabled_holo_light.png`: [AOSP Mms drawable-hdpi](https://github.com/aosp-mirror/platform_packages_apps_mms/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`.
 - `jb-ab_solid_shadow_holo.png` (nine-patch border removed): framework `core/res/res/drawable-hdpi` at `android-4.3_r1.1`, used under the People contact photo.
 - `jb-btn_default_{normal,pressed}_holo_dark.png` and `jb-progress_{bg,primary}_holo_dark.png` (nine-patch borders removed): framework `core/res/res/drawable-hdpi` at `android-4.3_r1.1`.
