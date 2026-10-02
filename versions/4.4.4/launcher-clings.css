@@ -1,7 +1,7 @@
 /* Launcher2 clings over the launcher (the DragLayer, between the status and navigation bars). ClingTitleText is 23sp
    #49C0EC and ClingText 15sp white, both with a 2px black shadow; ClingButton is bold with 10/35/15dp padding on
    btn_cling_normal. */
-#cling-layer{position:absolute;left:0;right:0;top:24px;bottom:47px;z-index:30;pointer-events:none}
+#cling-layer{position:absolute;left:0;right:0;top:var(--sb);bottom:var(--nb);z-index:30;pointer-events:none}
 .cling{position:absolute;inset:0;pointer-events:none;color:#fff;font-family:Roboto,RobotoICS,sans-serif}
 .cling-shade{position:absolute;inset:0;background:var(--cling-bg) 0 0/100% 100%;pointer-events:auto}
 .cling-punch{position:absolute;transform:translate(-50%,-50%);background:url('assets/cling-cling.png') center/100% 100%;pointer-events:none}

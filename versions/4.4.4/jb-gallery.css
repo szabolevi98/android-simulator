@@ -41,7 +41,7 @@
 /* PhotoPage: full screen, the bars overlay the picture and hide after 3.5 s or on tap. */
 .screen:has(>#viewport>.jbgal-photo) #viewport{top:0}
 .screen:has(>#viewport>.jbgal-photo:not(.bars)) #status-bar{opacity:0;pointer-events:none}
-.jbgal-photo .jbgal-bar{position:absolute;top:24px;left:0;right:0;transition:opacity .2s}
+.jbgal-photo .jbgal-bar{position:absolute;top:var(--sb);left:0;right:0;transition:opacity .2s}
 .jbgal-photo:not(.bars) .jbgal-bar,.jbgal-photo:not(.bars) .jbgal-bottom{opacity:0;pointer-events:none}
 .jbgal-photo.slideshow .jbgal-bar,.jbgal-photo.slideshow .jbgal-bottom{display:none}
 .jbgal-stage{position:absolute;inset:0;overflow:hidden;touch-action:none}

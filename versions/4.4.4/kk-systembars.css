@@ -1,0 +1,26 @@
+/* KitKat 4.4.4 system bars (SystemUI BarTransitions, PhoneStatusBarTransitions, NavigationBarTransitions):
+   25 dp status bar and 48 dp navigation bar. Apps get opaque black bars with the status icons at 75 % alpha
+   (status_bar_icon_drawing_alpha); the launcher and keyguard are translucent: the content runs under the bars, which
+   draw status_background / nav_background (black gradients) with the icons at full alpha. White xxhdpi icons, the
+   16 dp white clock and the BatteryMeterView (40 % white frame, white level, #FF3300 at 15 % and below). */
+.screen{--sb:22.65px;--nb:43.49px}
+.status-button,.screen .status-button{background:#000;color:#fff!important;padding:0 5.44px 0 5.44px;transition:background-color .2s}
+.status-right,.status-left{opacity:.75;transition:opacity .2s}
+.status-left img{height:16.31px;max-width:22px;margin-right:2.7px}
+.status-right img{height:16.31px}
+.status-right img.status-bluetooth{margin-right:0}
+.status-right img.status-battery{display:none}
+.status-cluster{padding-left:1.81px}
+.status-right img.status-wifi{margin-right:-5.44px}
+.status-data-type{height:16.31px!important}
+.kk-battery{flex:none;width:9.51px;height:14.5px;margin:0 0 .3px 3.62px;display:block}
+.status-clock{padding-left:5.44px;color:#fff;font:400 14.5px RobotoICS,Roboto,Arial,sans-serif}
+#nav-bar{background:#000;transition:background-color .2s}
+.nav-key img{width:72.5px;height:43.49px;opacity:.7}
+.nav-key:active img{opacity:1}
+/* Translucent mode (Launcher3 / keyguard: windowTranslucentStatus + windowTranslucentNavigation). */
+.screen.kk-translucent #viewport{top:0;bottom:0}
+.screen.kk-translucent .status-button{background:linear-gradient(#0000009d,#0000008e 8%,#0000006a 33%,#00000045 50%,#00000025 67%,#0000000d 83%,#00000003 96%,transparent)}
+.screen.kk-translucent #nav-bar{background:linear-gradient(transparent,#00000004 7%,#00000016 29%,#00000030 43%,#00000052 57%,#00000078 71%,#00000092 100%)}
+.screen.kk-translucent .status-right,.screen.kk-translucent .status-left{opacity:1}
+.screen.kk-translucent .nav-key img{opacity:1}

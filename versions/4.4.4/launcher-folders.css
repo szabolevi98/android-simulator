@@ -8,7 +8,7 @@
 .dock .launcher-folder-icon>.folder-preview-item:nth-child(2){left:12px;top:8px}
 .dock .launcher-folder-icon>.folder-preview-item:nth-child(3){left:18px;top:4px}
 .dock .launcher-icon .folder-preview-item,.dock .launcher-icon .folder-preview-item .app-icon{display:block}
-.launcher-folder-scrim{position:absolute;inset:24px 0 47px;z-index:19;background:#0003}
+.launcher-folder-scrim{position:absolute;inset:var(--sb) 0 var(--nb);z-index:19;background:#0003}
 .launcher-folder{position:absolute;z-index:20;max-width:calc(100% - 16px);max-height:calc(100% - 94px);display:flex;flex-direction:column;padding:12px;isolation:isolate;transform-origin:var(--folder-origin,50% 80%);color:#fff}
 .launcher-folder:before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:21px 18px 30px;border-image:url(assets/launcher-portal_container_holo.png) 21 18 30 fill / 21px 18px 30px;pointer-events:none}
 .launcher-folder-grid{display:grid;grid-template-columns:repeat(var(--folder-columns),minmax(0,1fr));overflow-y:auto;min-height:0;overscroll-behavior:contain;scrollbar-width:none;touch-action:none}

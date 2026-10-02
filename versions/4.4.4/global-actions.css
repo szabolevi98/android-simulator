@@ -1,7 +1,7 @@
 /* GlobalActions, ShutdownThread and the boot animation (dp scaled by 0.9; hdpi px by 0.6). The dialog window is
    Theme.Holo.Dialog.Alert: 95% of the portrait width, dialog_full_holo_dark with 8dp of shadow padding, dimmed 0.6
    behind it (the status and navigation bars sit above the keyguard dialog layer and stay undimmed). */
-.ga-scrim{position:absolute;left:0;right:0;top:var(--ga-top,24px);bottom:var(--ga-bottom,47px);z-index:40;background:#00000099}
+.ga-scrim{position:absolute;left:0;right:0;top:var(--ga-top,var(--sb));bottom:var(--ga-bottom,var(--nb));z-index:40;background:#00000099}
 .ga-dialog{position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:95%;max-height:calc(100% - 90px);overflow:hidden;border:7.2px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 15 fill/9px stretch;color:#f3f3f3;font-family:Roboto,RobotoICS,sans-serif}
 .ga-list{padding:0 7.2px;display:flex;flex-direction:column;min-height:57.6px}
 .ga-list>*+*{box-shadow:inset 0 1px #ffffff26}
