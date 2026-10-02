@@ -39,3 +39,15 @@ for (const version of versions) {
   list.append(card);
 }
 i18n.translateDOM(document.body);
+
+// Header orbit: cycles through the available releases (major.minor), or shows the newest with reduced motion.
+const orbitCore = document.querySelector('.orbit-core');
+const releases = versions.filter(version => version.status === 'available').map(version => version.id.split('.').slice(0, 2).join('.'));
+if (orbitCore && releases.length) {
+  let index = releases.length - 1;
+  orbitCore.textContent = releases[index];
+  if (releases.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
+    orbitCore.classList.add('switching');
+    setTimeout(() => { index = (index + 1) % releases.length; orbitCore.textContent = releases[index]; orbitCore.classList.remove('switching'); }, 350);
+  }, 3500);
+}
