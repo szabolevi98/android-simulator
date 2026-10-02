@@ -1,0 +1,16 @@
+/* Launcher2 clings over the launcher (the DragLayer, between the status and navigation bars). ClingTitleText is 23sp
+   #49C0EC and ClingText 15sp white, both with a 2px black shadow; ClingButton is bold with 10/35/15dp padding on
+   btn_cling_normal. */
+#cling-layer{position:absolute;left:0;right:0;top:24px;bottom:47px;z-index:30;pointer-events:none}
+.cling{position:absolute;inset:0;pointer-events:none;color:#fff;font-family:Roboto,RobotoICS,sans-serif}
+.cling-shade{position:absolute;inset:0;background:var(--cling-bg) 0 0/100% 100%;pointer-events:auto}
+.cling-punch{position:absolute;transform:translate(-50%,-50%);background:url('assets/cling-cling.png') center/100% 100%;pointer-events:none}
+.cling-hand{position:absolute;background:url('assets/cling-hand.png') 0 0/100% 100%;pointer-events:none}
+.cling-copy{position:absolute;left:18px;right:18px;top:81px;pointer-events:none}
+.cling-allApps .cling-copy{top:18px;right:auto;width:256.5px;max-width:calc(100% - 18px)}
+.cling-folder .cling-copy{top:18px;right:9px}
+.cling h3{margin:0 0 4.5px;font-size:20.7px;font-weight:400;color:#49c0ec;text-shadow:0 1px 1px #000}
+.cling p{margin:0;font-size:13.5px;line-height:1.29;text-shadow:0 1px 1px #000}
+.cling-bottom{position:absolute;left:18px;right:18px;bottom:117px;text-align:center}
+.cling-ok{position:absolute;right:9px;bottom:13.5px;pointer-events:auto;padding:9px 31.5px 13.5px;border:0;border-image:url('assets/cling-btn_cling_normal.png') 27 18 18 fill/16.2px 10.8px 10.8px;background:none;color:#fff;font:700 16.2px Roboto,RobotoICS,sans-serif;line-height:1}
+.cling-ok:active{border-image-source:url('assets/cling-btn_cling_pressed.png')}

@@ -385,3 +385,16 @@ Compared with `VolumePanel.java`, `volume_adjust.xml` and `volume_adjust_item.xm
   - With the screen off, the keys change only music that is playing, without showing the panel.
   - The volume buttons sit in the header next to power; on the desktop frame, the side rocker works too.
 - **Assets.** 4.0.4 and 4.3 each use their own scrubber artwork; the 4.3 thumb and track differ from ICS.
+
+## Launcher clings — 2026-10-02
+
+Compared with Launcher2 `Cling.java`, `Launcher.java` (`initCling`, `dismissCling`, `showFirstRun*Cling`), `AppsCustomizePagedView.showAllAppsCling`, `Folder.animateOpen`, and the `workspace_cling`, `all_apps_cling` and `folder_cling` layouts at `android-4.3_r1.1`. They are identical in 4.0.4 apart from where the reveal radius comes from; both are 48dp.
+- **Workspace.** On a first run, `bg_cling1` covers the launcher at once.
+  - It has a 48dp hole at the all apps button, with `cling.png` scaled by 48/94 (`clingPunchThroughGraphicCenterRadius`) around it.
+  - Text: "Make yourself at home" 90dp from the top, "To see all your apps, touch the circle." 130dp above the bottom, and OK at the bottom end.
+  - Touches inside the hole reach the button. Opening all apps dismisses this cling.
+- **All apps.** Opening the drawer fades in `bg_cling2` over 550 ms (accelerate). Its hole is on the app in cell (1, 1) (`apps_customize_cling_focused_x/y`), and `hand.png` sits `app_icon_size / 4` below and right of the hole's centre.
+- **Folder.** `bg_cling3` fades in once the folder's open animation ends. Touches inside the folder pass through, and closing the folder dismisses it (`Launcher.closeFolder`).
+- **Common rules.** OK fades a cling out over 250 ms and records it, as the shared preferences do.
+  - Desktops saved before this change count as already dismissed; Reset brings the clings back, like a fresh install.
+  - Text styles follow `ClingTitleText` (23sp `#49C0EC`) and `ClingText` (15sp white, 2px shadow). `ClingButton` is bold on `btn_cling_normal`.

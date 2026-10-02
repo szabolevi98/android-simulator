@@ -405,3 +405,7 @@ The implementation is shared with 4.3; the details are in [visual-audit-4.3.md](
 ## Volume panel — 2026-10-02
 
 The volume keys open the ICS `VolumePanel`: one full-width holo slider 80dp from the top, for the call, playing music or the ringer. The ICS `checkForRingerModeChange` with `VIBRATE_IN_SILENT` enters vibrate below the last step, and a fresh lower reaches silent. The panel has a 3 s timeout and closes on a touch outside. It uses the 4.0.4 `scrubber_*_holo` artwork. Details are shared with 4.3 in [visual-audit-4.3.md](visual-audit-4.3.md).
+
+## Launcher clings — 2026-10-02
+
+The ICS 4.0.4 Launcher2 first-run clings (workspace, all apps and folder) are now shown, with the original `bg_cling*`, `cling`, `hand` and `btn_cling_*` artwork. ICS takes its reveal radius from `app_icon_size` (48dp); otherwise the behaviour matches 4.3, described in [visual-audit-4.3.md](visual-audit-4.3.md).

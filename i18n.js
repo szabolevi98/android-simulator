@@ -1055,6 +1055,13 @@
     ['Ringtone volume','Csengőhang hangereje','Klingeltonlautstärke','Volume de la sonnerie','Volumen del tono'],
     ['Call volume','Hívás hangereje','Anruflautstärke','Volume d’appel','Volumen de llamada'],
     ['Media volume','Média hangereje','Medienlautstärke','Volume','Volumen multimedia'],
+    ['Make yourself at home','Érezze magát otthon','Fühlen Sie sich wie zu Hause','Faites comme chez vous','Personaliza tu escritorio'],
+    ['You can put your favorite apps here.','Ide rakhatja kedvenc alkalmazásait.','Hier können Sie Ihre Lieblings-Apps ablegen.','Vous pouvez placer vos applications préférées ici.','Aquí puedes poner tus aplicaciones favoritas.'],
+    ['To see all your apps, touch the circle.','Az összes saját alkalmazás megtekintéséhez érintse meg a kört.','Berühren Sie den Kreis für eine Übersicht aller Apps.','Pour voir toutes vos applications, appuyez sur le cercle.','Para ver todas las aplicaciones, toca el círculo.'],
+    ['Choose some apps','Válasszon ki néhány alkalmazást','Apps auswählen','Sélectionner des applications','Selecciona algunas aplicaciones'],
+    ['To add an app to your Home screen, touch & hold it.','Ha egy alkalmazást el szeretne helyezni a kezdőképernyőn, érintse meg, és tartsa lenyomva.','Berühren und halten Sie eine App, um sie zum Startbildschirm hinzuzufügen.','Pour ajouter une application à votre écran d’accueil, appuyez dessus de manière prolongée.','Para añadir una aplicación a tu pantalla de inicio, solo tienes que mantenerla pulsada.'],
+    ['Organize your apps with folders','Rendezze alkalmazásait mappákba','Apps mit Ordnern organisieren','Organisez vos applications en dossiers','Organiza tus aplicaciones en carpetas'],
+    ['To make a new folder on your Home screen, stack one app on top of another.','Ha egy új mappát szeretne létrehozni a kezdőképernyőn, helyezzen egymásra két alkalmazást.','Stapeln Sie Apps übereinander, um einen neuen Ordner auf Ihrem Startbildschirm zu erstellen.','Pour créer un dossier sur votre écran d’accueil, superposez les applications les unes sur les autres.','Para crear una carpeta nueva en la pantalla de inicio, coloca una aplicación encima de otra.'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;
