@@ -51,3 +51,12 @@ From Launcher3 `DynamicGrid`, `DeviceProfile`, `CellLayout`, `Workspace`, `PageI
   - The folder cling.
   - While a cling shows, the launcher sets `SYSTEM_UI_FLAG_LOW_PROFILE`: the nav keys turn into the lights-out dots, and the battery and clock drop to 50 %.
 - **Icons:** the 4.4.4 `mipmap-xxhdpi` launcher icons. Gallery ships only xhdpi and Music only hdpi.
+
+## Keyguard — 2026-10-02
+
+The 4.4 keyguard moved to `frameworks/base/packages/Keyguard`. Compared with 4.3:
+- **Status view:** one centred `TextClock` in `widget_big_thin` (80 dp sans-serif-thin), in `h:mm` / `kk:mm` with no AM/PM.
+- **Status area:** the date and the next alarm, centred, in `widget_label` (14 dp bold condensed caps). The alarm is #80ffffff with `ic_alarm_small`.
+- **Glow pad:** unchanged; it holds the unlock target only.
+- **Window:** the keyguard draws under the translucent bars, and its content stays inside them.
+- **Navigation bar:** `KeyguardViewMediator` disables Recents, and Back stays hidden until the bouncer opens, so only Home shows.

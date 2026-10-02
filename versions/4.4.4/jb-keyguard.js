@@ -43,7 +43,7 @@
       if (item.type === 'widget') return `<div class="jbk-page jbk-user-widget" data-kg-widget="${e(item.widget.id)}">${parts.widget(item.widget)}</div>`;
       if (item.type === 'transport') return `<div class="jbk-page jbk-transport">${parts.transport}</div>`;
       if (item.type === 'camera') return `<div class="jbk-page jbk-camera" aria-label="${e(parts.t('Camera'))}"><img src="assets/ic_lockscreen_camera_normal.png" alt=""></div>`;
-      return `<div class="jbk-page jbk-status"><div class="jbk-clock">${e(parts.clock)}${parts.ampm ? `<small>${e(parts.ampm)}</small>` : ''}</div><div class="jbk-status-line"><span>${e(parts.date)}</span>${parts.alarm ? `<span class="jbk-alarm"><img src="assets/jb-ic_lock_idle_alarm.png" alt="">${e(parts.alarm)}</span>` : ''}</div></div>`;
+      return `<div class="jbk-page jbk-status"><div class="jbk-clock">${e(parts.clock)}${parts.ampm ? `<small>${e(parts.ampm)}</small>` : ''}</div><div class="jbk-status-line"><span>${e(parts.date)}</span>${parts.alarm ? `<span class="jbk-alarm"><img src="assets/kk-ic_alarm_small.png" alt="">${e(parts.alarm)}</span>` : ''}</div></div>`;
     };
     return `<div class="jbk-remove" aria-hidden="true">${e(parts.t('Remove'))}</div><div class="jbk-pager" data-kg-pager style="--kg-page:${current}"><div class="jbk-track">${list.map((item, index) => page(item).replace('<div class="jbk-page', `<div ${index === current ? '' : 'inert aria-hidden="true"'} class="jbk-page`)).join('')}</div></div>`;
   }
