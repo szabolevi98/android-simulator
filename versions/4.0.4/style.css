@@ -523,3 +523,6 @@ html,body{overscroll-behavior-y:none}
   .is-fullscreen.header-peek #header-handle{display:none}
 }
 @media(max-width:500px){.is-fullscreen .device-area{padding:0}}
+
+/* Key hints: drawn icons, centred in their boxes (the ⌄ glyph sat on the font's baseline). */
+.key-icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
