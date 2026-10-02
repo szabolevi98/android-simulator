@@ -44,6 +44,5 @@
 
 /* The logo mark is drawn, so it sits exactly in the middle of its ring. */
 .brand-mark svg{display:block;width:24px;height:24px}
-/* Headline sized to stay on two lines next to the orbit; the intro keeps its spacing even when the text wraps. */
+/* A calmer headline size; it stays on two lines in every language. */
 h1{font-size:clamp(38px,4.6vw,60px)}
-.intro{padding:40px 0 34px}
