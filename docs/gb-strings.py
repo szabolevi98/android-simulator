@@ -37,6 +37,17 @@ search_empty view replace_image remove inline_subject menu_unlock'''.split(),
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_calculator/android-2.3.6_r1/res/values%s/strings.xml'],
         'keys': 'app_name error del clear basic advanced clear_history'.split(),
     },
+    'deskclock': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-2.3.6_r1/res/values%s/strings.xml'],
+        'keys': '''app_label alarm_list_title add_alarm menu_desk_clock menu_edit_alarm delete_alarm enable_alarm disable_alarm delete_alarm_confirm
+label default_label set_alarm alarm_vibrate alarm_repeat alert time alarm_alert_dismiss_text alarm_alert_snooze_text alarm_alert_snooze_set day days
+hour hours minute minutes every_day never day_concat settings done revert delete alarm_button_description gallery_button_description
+music_button_description nightmode_button_description home_button_description desk_clock_button_description menu_item_dock_settings
+silent_alarm_summary date_time_set'''.split(),
+        'arrays': ['alarm_set'],
+    },
 }
 
 

@@ -65,3 +65,6 @@
 .gbdlg-progress img{width:27.6px;height:27.6px;animation:gbspin 1.2s steps(12) infinite}
 .gbdlg-progress span{font-size:15.53px}
 @keyframes gbspin{to{transform:rotate(360deg)}}
+/* EditText inside dialogs (EditTextPreference, Bluetooth name, alarm label): the framework textfield 9-patch. */
+.gbdlg .gbdlg-s-message input:not([type]),.gbdlg .gbdlg-s-message input[type=text],.gbdlg-input{display:block;width:100%;box-sizing:border-box;min-height:41.4px;margin:4px 0;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.gbdlg .gbdlg-s-message input:not([type]):focus,.gbdlg .gbdlg-s-message input[type=text]:focus,.gbdlg-input:focus{border-image-source:url('assets/gb-textfield_selected.png')}

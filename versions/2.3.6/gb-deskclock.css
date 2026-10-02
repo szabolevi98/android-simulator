@@ -1,0 +1,69 @@
+/* Android 2.3.6 DeskClock. hdpi px x 0.575, 1 dp = 0.8625px; Clockopia is the DigitalClock face (assets/fonts). */
+@font-face{font-family:Clockopia;src:url('fonts/Clockopia.ttf') format('truetype')}
+/* DeskClock: Theme.Wallpaper.NoTitleBar with FLAG_DIM_BEHIND 0.4 (0.8 and the #CC000000 window tint when dimmed). */
+#viewport>.app-view.gbdc-face{position:relative;height:100%;display:flex;flex-direction:column;padding-top:21.56px;background:rgba(0,0,0,.4);color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden;text-shadow:0 0 2.6px rgba(0,0,0,.75)}
+#viewport>.app-view.gbdc-face.dim{background:rgba(0,0,0,.8)}
+.gbdc-main{flex:1;min-height:0;display:flex;flex-direction:column;margin:15.53px 15.53px 12.08px 18.98px}
+.gbdc-top{display:flex;align-items:center;margin:0 0 5.18px 3.45px;min-height:43.13px}
+.gbdc-next{flex:1;display:flex;align-items:center;gap:5.18px;font-size:15.53px}
+.gbdc-next[hidden]{visibility:hidden;display:flex}
+.gbdc-next img{width:21.85px;height:21.85px}
+.screen .gbdc-round{flex:none;width:43.13px;height:43.13px;padding:0;border:0;background:url('assets/gb-dc-btn_in_call_round_normal.png') 0 0/100% 100%;cursor:pointer}
+.screen .gbdc-round:active{background-image:url('assets/gb-dc-btn_in_call_round_pressed.png')}
+.gbdc-round img{width:100%;height:100%;display:block}
+.gbdc-timedate{flex:1;display:flex;flex-direction:column;justify-content:center}
+.gbdc-time{display:flex;align-items:flex-end;margin-bottom:6.9px}
+.gbdc-time span{font:400 91.42px/1 Clockopia,DroidSans,sans-serif;padding-bottom:2.59px}
+.gbdc-time b{margin-left:3.45px;padding-bottom:10px;font-size:15.53px;font-weight:700}
+.gbdc-date{margin-left:3.45px;font-size:15.53px}
+/* ButtonStripLeft / Middle / Right: btn_strip_trans_* 9-patches with the 48 dip ic_clock_strip_* icons. */
+.gbdc-strip,.gbdc-bottom{flex:none;display:flex}
+.screen .gbdc-strip-btn{flex:1 1 0;min-width:0;min-height:69px;display:flex;align-items:center;justify-content:center;padding:14.38px 13.8px 13.23px;border:0 solid transparent;border-image:url('assets/gb-dc-btn_strip_trans_middle_normal.png') 64 27 55 28 fill / 36.8px 15.53px 31.63px 16.1px stretch;background:none;color:#fff;cursor:pointer}
+.screen .gbdc-strip-btn.left{border-image-source:url('assets/gb-dc-btn_strip_trans_left_normal.png')}
+.screen .gbdc-strip-btn.right{border-image-source:url('assets/gb-dc-btn_strip_trans_right_normal.png')}
+.screen .gbdc-strip-btn:active{border-image-source:url('assets/gb-dc-btn_strip_trans_middle_pressed.png')}
+.screen .gbdc-strip-btn.left:active{border-image-source:url('assets/gb-dc-btn_strip_trans_left_pressed.png')}
+.screen .gbdc-strip-btn.right:active{border-image-source:url('assets/gb-dc-btn_strip_trans_right_pressed.png')}
+.gbdc-strip-btn img{width:41.4px;height:41.4px}
+.screen .gbdc-tint{position:absolute;inset:0;z-index:2;padding:0;border:0;background:rgba(0,0,0,.8);animation:gbdc-dim .4s ease-out;cursor:pointer}
+@keyframes gbdc-dim{from{opacity:0}}
+/* AlarmClock: "Add alarm" (68 dip left column), the alarm_time rows and the bottom strip with the 48 sp clock. */
+#viewport>.app-view.gbdc-list{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.screen .gbdc-add{flex:none;display:flex;align-items:center;width:100%;min-height:58.65px;padding:0;border:0;background:none;color:#fff;text-align:left;font:400 18.98px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbdc-add:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbdc-add-icon{flex:none;width:58.65px;height:58.65px;background:url('assets/gb-dc-ic_clock_add_alarm.png') center/27.6px no-repeat}
+.gbdc-add:active .gbdc-add-icon{background-image:url('assets/gb-dc-ic_clock_add_alarm_selected.png')}
+.gbdc-hdiv{flex:none;height:1px;background:url('assets/gb-divider_horizontal_dark.png') 0 0/100% 100%}
+.gbdc-alarms{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.gbdc-alarm{display:flex;min-height:58.65px;border-bottom:1px solid #ffffff1f}
+.screen .gbdc-indicator{flex:none;width:58.65px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;border:0;background:#000;cursor:pointer}
+.screen .gbdc-indicator:active{border-image:url('assets/gb-dc-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbdc-indicator img{width:27.6px;height:27.6px}
+.gbdc-indicator .gbdc-bar{width:36.23px;height:6.33px;padding-top:3.45px;box-sizing:content-box}
+.gbdc-vdiv{flex:none;width:1px;margin:3.45px 0;background:#ffffff40}
+.screen .gbdc-alarm-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:0 13.8px;border:0;background:none;color:#fff;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbdc-alarm-body:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbdc-alarm-line{display:flex;align-items:baseline}
+.gbdc-alarm-time{padding-right:5.18px;font:400 24.15px/1 Clockopia,DroidSans,sans-serif}
+.gbdc-alarm-line b{font-size:12.07px;font-weight:700}
+.gbdc-alarm-line em{flex:1;min-width:0;padding-left:6.9px;font-style:normal;font-weight:700;font-size:12.07px;color:#808080;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbdc-days{font-size:12.07px;color:#bebebe;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gbdc-bottom .gbdc-strip-btn.left{flex:none;width:auto}
+.screen .gbdc-bottom-clock{flex:1;justify-content:flex-start;align-items:baseline;gap:5.18px;cursor:default}
+.gbdc-bottom-clock span{font:400 41.4px/1 Clockopia,DroidSans,sans-serif}
+.gbdc-bottom-clock b{font-size:12.07px;font-weight:700}
+.gbdc-set .gbset-list{flex:1}
+/* Framework TimePicker: two 70 dip NumberPickers (timepicker_up / input / down 9-patches, 30 sp digits) and AM/PM. */
+.gbtp{display:flex;justify-content:center;align-items:flex-start;gap:4.31px;padding:4.31px}
+.gbtp-picker{display:flex;flex-direction:column;width:60.38px}
+.screen .gbtp-up,.screen .gbtp-down{height:34.5px;padding:0;border:0 solid transparent;border-image:url('assets/gb-dc-timepicker_up_normal.png') 16 25 10 24 fill / 9.2px 14.38px 5.75px 13.8px stretch;background:none;cursor:pointer}
+.screen .gbtp-up:active{border-image-source:url('assets/gb-dc-timepicker_up_pressed.png')}
+.screen .gbtp-down{border-image:url('assets/gb-dc-timepicker_down_normal.png') 19 25 22 24 fill / 10.93px 14.38px 12.65px 13.8px stretch}
+.screen .gbtp-down:active{border-image-source:url('assets/gb-dc-timepicker_down_pressed.png')}
+.gbtp-input{display:block;height:33.93px;line-height:33.93px;border:0 solid transparent;border-image:url('assets/gb-dc-timepicker_input_normal.png') 29 58 29 58 fill / 16.68px 33.35px 16.68px 33.35px stretch;color:#000;font-size:25.88px;text-align:center}
+.screen .gbtp-ampm{margin-top:37.09px;min-height:41.4px;padding:5.75px 17.25px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 18.98px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbtp-ampm:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+/* AlarmAlert: 64 sp time with the bold AM/PM, 30 dip above and below. */
+.gbdc-alert{display:flex;justify-content:center;align-items:baseline;gap:4px;padding:25.88px 0}
+.gbdc-alert span{font:400 55.2px/1 Clockopia,DroidSans,sans-serif}
+.gbdc-alert b{font-size:15.53px}

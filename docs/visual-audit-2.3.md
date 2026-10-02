@@ -314,3 +314,24 @@ References: Calculator 2.3.6 (`layout-port/main.xml`, `values/styles.xml`, `draw
   - Menu: Clear history, Advanced panel or Basic panel.
 
 Checks: headless Chrome covered 12×3+4 = 40, the menu items, switching to the advanced panel and back, and delete after a result. No JavaScript errors.
+
+## Clock (DeskClock) — 2026-10-02
+
+References: DeskClock 2.3.6 from aosp-mirror-neo (`desk_clock.xml`, `desk_clock_time_date.xml`, `desk_clock_buttons.xml`, `alarm_clock.xml`, `alarm_time.xml`, `xml/alarm_prefs.xml`, `set_alarm.xml`, `alarm_alert.xml`, `DeskClock.doDim`, `DigitalClock` with `assets/fonts/Clockopia.ttf`, `Alarms.formatToast`, `menu/*.xml`), framework `time_picker.xml` / `number_picker.xml` with the `timepicker_*` 9-patches. Strings and the `alarm_set` array come from `docs/gb-strings.py deskclock` (plus the framework "Set"). Assets: `gb-dc-*`, `fonts/Clockopia.ttf`.
+
+- **Desk clock.** Theme.Wallpaper.NoTitleBar: the (live) wallpaper shows through FLAG_DIM_BEHIND 0.4.
+  - The next alarm sits top left ("Sat 7:00 AM" with `ic_lock_idle_alarm`), with the round night-mode button at the right.
+  - The time is 106 sp Clockopia with a bold AM/PM, above the "Friday, October 2" date. Everything has the #C0000000 shadow.
+  - The `btn_strip_trans` strip at the bottom holds Alarms, Gallery, Music and Home.
+  - Night mode fades in the #CC000000 tint over a 0.8 dim; a tap restores it.
+  - Menu: Alarms, Add alarm, Dock settings.
+- **Alarms.** "Add alarm" in the 68 dip left column, then the rows: the clock icon with the green or gray indicator bar (tapping it toggles the alarm), a divider, the 28 sp Clockopia time with AM/PM, the label right-aligned in tertiary bold, and the days ("Mon, Wed", "every day").
+  - The bottom strip has the desk clock button and a 48 sp Clockopia clock.
+  - A long press opens Turn alarm on/off, Edit alarm, Delete alarm.
+  - Menu: Desk clock, Add alarm, Settings.
+- **Set alarm.** The preference list: Turn alarm on, Time, Repeat (Never / days), Ringtone (the OriginalAudio alarms, Alarm Classic by default on crespo, or Silent), Vibrate, Label. The Done / Revert / Delete ButtonBar follows.
+  - A new alarm opens the TimePickerDialog right away. Its title is the picked time, with two NumberPickers (+ / 30 sp field / −), the AM/PM button, and Set / Cancel.
+  - Saving an enabled alarm shows the "This alarm is set for 2 days, 18 hours, and 45 minutes from now." toast. Back saves too.
+- **Alert.** The alarm dialog shows the label (or "Alarm"), the 64 sp Clockopia time, and Snooze ("Snoozing for 10 minutes.") / Dismiss.
+
+Checks: `gb-deskclock.test.cjs` covers the time and day formats, all toast variants, the face, list and SetAlarm markup, the menus and every dialog. Headless Chrome covered the face on the live wallpaper, night mode, the alarm list, a new alarm through the time picker, Repeat and Label, saving with the toast, and the updated list. No JavaScript errors.
