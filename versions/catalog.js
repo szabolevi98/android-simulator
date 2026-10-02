@@ -8,7 +8,9 @@ window.ANDROID_VERSIONS = [
     device: 'Galaxy Nexus · AOSP',
     description: 'Holo interface, software navigation, app drawer and the legendary Nyandroid.',
     url: 'versions/4.0.4/',
-    status: 'available'
+    status: 'available',
+    // Landing-card miniature: the version's default wallpaper and search bar style.
+    art: {wallpaper: 'wallpaper_chroma.jpg', search: 'ics'}
   },
   {
     id: '4.3',
@@ -18,7 +20,8 @@ window.ANDROID_VERSIONS = [
     device: 'Galaxy Nexus · AOSP',
     description: 'Project Butter, expandable notifications, quick settings, lock-screen widgets and the BeanBag.',
     url: 'versions/4.3/',
-    status: 'available'
+    status: 'available',
+    art: {wallpaper: 'jb-wallpaper_01.jpg', search: 'jb'}
   },
   { id: '2.3.7', name: 'Gingerbread', version: 'Android 2.3.7', year: '2011', device: 'Korabeli Android', status: 'planned' },
   { id: '4.4.4', name: 'KitKat', version: 'Android 4.4.4', year: '2014', device: 'Korabeli Android', status: 'planned' },
