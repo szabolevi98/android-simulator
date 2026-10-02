@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{}};
-for(const f of ['gb-strings-settings2.js','gb-settings-pages.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),context);
+for(const f of ['gb-strings-settings2.js','gb-strings-accounts.js','gb-settings-pages.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),context);
 const G=context.window.GBSettingsPages;
 const icon='<span class="app-icon"></span>';
 const apps=[{id:'phone',name:'Phone',icon},{id:'browser',name:'Browser',icon},{id:'calculator',name:'Calculator',icon}];
@@ -32,4 +32,11 @@ assert.match(G.render('gb-reset-final',ctx()),/factory-reset-confirmed">Erase ev
 // Dialogs and translations.
 assert.equal(G.dialog('force-stop',ctx()).title,'Force stop');assert.equal(G.dialog('clear-data',ctx()).buttons[0].action,'gbsp-clear-data-ok');
 assert.equal(G.text('hu','filter_apps_all'),'Összes');
+// Accounts & sync: general settings, the account row, the account screen with its sync items, menu and dialogs.
+const sx=(o={})=>ctx({settings:{backgroundData:true,autoSync:true},account:'demo@example.com',accountRemoved:false,syncing:false,lastSync:'10/2/2026, 3:00 PM',...o});
+html=G.render('sync',sx());assert.match(html,/Accounts &amp; sync settings/);assert.match(html,/General sync settings/);assert.match(html,/Background data/);assert.match(html,/Auto-sync/);assert.match(html,/Sync is ON/);assert.match(html,/ic_sync_green/);assert.match(html,/Add account/);
+assert.match(G.render('sync',sx({settings:{autoSync:false}})),/Sync is OFF/);assert.doesNotMatch(G.render('sync',sx({accountRemoved:true})),/gbacc-account/);
+html=G.render('sync-account',sx());assert.match(html,/Data &amp; synchronization/);assert.match(html,/Sync Contacts/);assert.match(html,/Sync Calendar/);assert.match(html,/Sync Email/);assert.match(html,/10\/2\/2026, 3:00 PM/);assert.match(html,/Remove account/);
+assert.match(G.render('sync-account',sx({syncing:true})),/Touch to sync now/);assert.equal(G.menu('sync-account',sx()).at(0).title,'Sync now');assert.equal(G.menu('sync-account',sx({syncing:true})).at(0).title,'Cancel sync');
+assert.equal(G.dialog('background',sx()).title,'Attention');assert.equal(G.dialog('remove',sx()).buttons[0].action,'gbacc-remove-ok');
 console.log('gb-settings-pages ok');

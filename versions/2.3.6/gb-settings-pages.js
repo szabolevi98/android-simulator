@@ -8,7 +8,7 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const text = (lang, key) => { const entry = window.GBStrings?.settings2?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
-  const PAGES = new Set(['apps', 'running', 'app-info', 'battery', 'battery-detail', 'about-legal', 'gb-licenses', 'reset-info', 'gb-reset-final']);
+  const PAGES = new Set(['sync', 'sync-account', 'apps', 'running', 'app-info', 'battery', 'battery-detail', 'about-legal', 'gb-licenses', 'reset-info', 'gb-reset-final']);
   // Formatter.formatFileSize: KB / MB / GB with two significant decimals.
   function size(bytes) {
     const units = ['B', 'KB', 'MB', 'GB'];
@@ -93,7 +93,28 @@
     const T = key => text(ctx.lang, key);
     return `<div class="app-view gbset gbsp" data-no-translate>${titleBar(T('master_clear_title'))}<div class="gbsp-info"><p class="gbsp-final">${e(T('master_clear_final_desc'))}</p>${button('factory-reset-confirmed', T('master_clear_final_button_text'))}</div></div>`;
   }
+  /* AccountsAndSyncSettings (packages/apps/AccountsAndSyncSettings): ManageAccountsSettings with General sync settings and
+     Manage accounts above the bottom_bar "Add account" button; AccountSyncSettings with the title_bar header (48 dip provider
+     icon, bold account, provider), "Data & synchronization" SyncStateCheckBoxPreferences and "Remove account". */
+  const acc = (lang, key) => { const entry = window.GBStrings?.accounts?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const checkRow = (key, title, summary, on, action = 'gbset-check') => `<button class="gbset-row" data-action="${action}" data-id="${e(key)}" role="checkbox" aria-checked="${on}"><span class="gbset-text"><span class="gbset-title">${e(title)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span><img class="gbset-check" src="assets/gb-btn_check_${on ? 'on' : 'off'}.png" alt=""></button>`;
+  function syncPage(ctx) {
+    const A = key => acc(ctx.lang, key), s = ctx.settings, on = s.backgroundData !== false && s.autoSync !== false;
+    const account = ctx.accountRemoved ? '' : `<button class="gbset-row gbacc-account" data-action="gbset-go" data-id="sync-account"><img class="gbacc-provider" src="assets/email.png" alt=""><span class="gbset-text"><span class="gbset-title">${e(ctx.account)}</span><span class="gbset-sum">${e(A(on ? 'sync_enabled' : 'sync_disabled'))}</span></span><img class="gbacc-status" src="assets/gb-acc-ic_sync_${on ? 'green' : 'grey'}.png" alt=""></button>`;
+    return `<div class="app-view gbset gbsp" data-no-translate>${titleBar(A('sync_settings'))}<div class="gbsp-scroll">${separator(A('header_general_sync_settings'))}${checkRow('backgroundData', A('background_data'), A('background_data_summary'), s.backgroundData !== false, 'gbacc-background')}${checkRow('autoSync', A('sync_automatically'), A('sync_automatically_summary'), s.autoSync !== false)}${separator(A('header_manage_accounts'))}${account}</div><div class="gbacc-bar"><button class="gbsp-btn" data-action="gbset-toast" data-id="Unavailable in this simulator">${e(A('add_account_label'))}</button></div></div>`;
+  }
+  function syncAccount(ctx) {
+    const A = key => acc(ctx.lang, key), s = ctx.settings, auto = s.backgroundData !== false && s.autoSync !== false;
+    const items = [['syncContacts', 'sync_contacts'], ['syncCalendar', 'sync_calendar'], ['syncEmail', null]].map(([key, label]) => {
+      const name = label ? A(label) : 'Email', on = s[key] !== false;
+      const summary = ctx.syncing ? A('sync_one_time_sync').split('\n')[0] : ctx.lastSync;
+      return `<button class="gbset-row gbacc-item" data-action="gbset-check" data-id="${key}" role="checkbox" aria-checked="${on}"><span class="gbset-text"><span class="gbset-title">${e(A('sync_item_title').replace('%s', name))}</span><span class="gbset-sum">${e(summary)}</span></span>${ctx.syncing && on ? '<img class="gbacc-anim" src="assets/gb-acc-ic_list_sync_anim0.png" alt="">' : ''}<img class="gbset-check" src="assets/gb-btn_check_${on ? 'on' : 'off'}${auto ? '' : '_disable'}.png" alt=""></button>`;
+    }).join('');
+    return `<div class="app-view gbset gbsp" data-no-translate><div class="gbacc-title"><img src="assets/email.png" alt=""><span><b>${e(ctx.account)}</b><small>Email</small></span></div><div class="gbsp-scroll">${separator(A('header_data_and_synchronization'))}${items}</div><div class="gbacc-bar"><button class="gbsp-btn" data-action="gbacc-remove">${e(A('remove_account_label'))}</button></div></div>`;
+  }
   function render(page, ctx) {
+    if (page === 'sync') return syncPage(ctx);
+    if (page === 'sync-account') return ctx.accountRemoved ? syncPage(ctx) : syncAccount(ctx);
     if (page === 'apps') return appsPage(ctx);
     if (page === 'running') return appsPage({...ctx, tab: 'running'});
     if (page === 'app-info') return appInfo(ctx);
@@ -108,11 +129,15 @@
   // ManageApplications menu: Sort by name / Sort by size (not on Running).
   function menu(page, ctx) {
     const T = key => text(ctx.lang, key);
+    // AccountSyncSettings.onCreateOptionsMenu: Sync now / Cancel sync.
+    if (page === 'sync-account') return [ctx.syncing ? {action: 'gbacc-cancel', title: acc(ctx.lang, 'sync_menu_sync_cancel'), icon: 'ic_menu_close_clear_cancel'} : {action: 'gbacc-sync', title: acc(ctx.lang, 'sync_menu_sync_now'), icon: 'ic_menu_refresh'}];
     if (page === 'apps' && (ctx.tab || 'downloaded') !== 'running') return [{action: 'gbsp-sort', id: ctx.sortBySize ? 'name' : 'size', title: T(ctx.sortBySize ? 'sort_order_alpha' : 'sort_order_size'), icon: ctx.sortBySize ? 'ic_menu_sort_alphabetically' : 'ic_menu_sort_by_size'}];
     return [];
   }
   function dialog(kind, ctx) {
     const T = key => text(ctx.lang, key);
+    if (kind === 'background') return {title: acc(ctx.lang, 'background_data_dialog_title'), icon: 'ic_dialog_alert', message: acc(ctx.lang, 'background_data_dialog_message'), buttons: [{action: 'gbacc-background-off', title: acc(ctx.lang, 'ok')}, {action: 'close-overlay', title: acc(ctx.lang, 'cancel')}]};
+    if (kind === 'remove') return {title: acc(ctx.lang, 'really_remove_account_title'), icon: 'ic_dialog_alert', message: acc(ctx.lang, 'really_remove_account_message'), buttons: [{action: 'gbacc-remove-ok', title: acc(ctx.lang, 'remove_account_label')}, {action: 'close-overlay', title: acc(ctx.lang, 'cancel')}]};
     if (kind === 'force-stop') return {title: T('force_stop_dlg_title'), icon: 'ic_dialog_alert', message: T('force_stop_dlg_text'), buttons: [{action: 'gbsp-force-stop-ok', title: T('dlg_ok')}, {action: 'close-overlay', title: T('dlg_cancel')}]};
     if (kind === 'clear-data') return {title: T('clear_data_dlg_title'), icon: 'ic_dialog_alert', message: T('clear_data_dlg_text'), buttons: [{action: 'gbsp-clear-data-ok', title: T('dlg_ok')}, {action: 'close-overlay', title: T('dlg_cancel')}]};
     return null;

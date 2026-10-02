@@ -124,6 +124,14 @@ process_kernel_label legal_information settings_license_activity_title settings_
 master_clear_desc erase_external_storage erase_external_storage_description master_clear_button_text master_clear_final_desc
 master_clear_final_button_text master_clear_gesture_explanation'''.split(),
     },
+    'accounts': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_accountsandsyncsettings/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'keys': '''sync_settings background_data background_data_summary background_data_dialog_title background_data_dialog_message sync_automatically
+sync_automatically_summary sync_menu_sync_now sync_menu_sync_cancel sync_one_time_sync sync_calendar sync_contacts header_manage_accounts
+header_general_sync_settings sync_enabled sync_disabled add_account_label header_data_and_synchronization remove_account_label header_add_an_account
+really_remove_account_title really_remove_account_message remove_account_failed sync_item_title ok cancel'''.split(),
+    },
     'calendar': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
         'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],

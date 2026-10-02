@@ -11,7 +11,7 @@
   const entries = (lang, name) => { const entry = table().arrays[name]; return entry ? entry[lang] || entry.en : []; };
 
   // SettingsProvider defaults.xml and the 2.3.6 AudioService / PackageManager defaults.
-  const DEFAULTS = {vibrateMode: 2, screenTimeout: 2, animationLevel: 2, emergencyTone: 0, installLocation: 2, notificationPulse: true, dtmfTone: true, soundEffects: false, lockSounds: false, autoBrightness: true, haptic: true, assistedGps: true, tactileFeedback: true, autoTime: true, powerButtonEndsCall: false, accessibility: false, dateFormat: 0};
+  const DEFAULTS = {backgroundData: true, autoSync: true, syncContacts: true, syncCalendar: true, syncEmail: true, vibrateMode: 2, screenTimeout: 2, animationLevel: 2, emergencyTone: 0, installLocation: 2, notificationPulse: true, dtmfTone: true, soundEffects: false, lockSounds: false, autoBrightness: true, haptic: true, assistedGps: true, tactileFeedback: true, autoTime: true, powerButtonEndsCall: false, accessibility: false, dateFormat: 0};
   const value = (settings, key) => settings[key] ?? DEFAULTS[key];
 
   const cat = title => ({kind: 'category', title});
@@ -41,7 +41,7 @@
         go('radio_controls_title', '', 'wireless', {icon: 'wireless'}), go('call_settings_title', '', 'call', {icon: 'call'}),
         go('sound_settings_title', '', 'sound', {icon: 'sound'}), go('display_settings_title', '', 'display', {icon: 'display'}),
         go('security_settings_title', '', 'security', {icon: 'security'}), go('applications_settings', '', 'applications', {icon: 'applications'}),
-        go('sync_settings', '', 'ics:sync', {icon: 'sync'}), go('privacy_settings', '', 'privacy', {icon: 'privacy'}),
+        go('sync_settings', '', 'sync', {icon: 'sync'}), go('privacy_settings', '', 'privacy', {icon: 'privacy'}),
         go('storage_settings', '', 'storage', {icon: 'storage'}), go('language_settings', '', 'language', {icon: 'language'}),
         go('voice_input_output_settings', '', 'voice', {icon: 'speech'}), go('accessibility_settings', '', 'accessibility', {icon: 'accessibility'}),
         go('date_and_time_settings_title', '', 'date', {icon: 'date_time'}), go('about_settings', '', 'about', {icon: 'about'})]},

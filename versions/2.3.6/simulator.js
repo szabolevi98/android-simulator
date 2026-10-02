@@ -919,7 +919,8 @@
       ...running.slice(0, 3).map((a, i) => ({id: 'app:' + a.id, app: a.id, name: a.name, icon: a.icon, percent: 3 - i, details: [['usage_type_cpu', `${40 - i * 9}s`], ['usage_type_cpu_foreground', `${22 - i * 5}s`]]}))
     ];
     const permissions = {phone: [['Your personal information', 'read contact data, write contact data'], ['Services that cost you money', 'directly call phone numbers']], messaging: [['Your messages', 'read SMS or MMS, receive SMS'], ['Services that cost you money', 'send SMS messages']], browser: [['Network communication', 'full Internet access']], email: [['Network communication', 'full Internet access']], camera: [['Hardware controls', 'take pictures and videos']]};
-    return {lang: i18n.language, locale: i18n.locale(), tab: ui.gbAppsTab || 'downloaded', sortBySize: !!ui.gbAppsSize, apps: list, running, app: named(ui.settingsApp), isRunning: running.some(a => a.id === ui.settingsApp), cleared: (data.gbClearedApps || []).includes(ui.settingsApp), permissions: permissions[ui.settingsApp] || [], usage, item: ui.batteryDetail, onBattery: '3h 12m 5s', eraseExternal: !!ui.gbspErase, usedText: '312MB', freeText: '1.67GB'};
+    const lastSync = new Date(data.gbLastSync || Date.now() - 3600000).toLocaleString(i18n.locale(), {month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: !data.settings.hour24});
+    return {settings: {...GBSettings.DEFAULTS, ...data.settings}, account: ICSEmail.account, accountRemoved: !!data.gbAccountRemoved, syncing: !!ui.gbSyncing, lastSync, lang: i18n.language, locale: i18n.locale(), tab: ui.gbAppsTab || 'downloaded', sortBySize: !!ui.gbAppsSize, apps: list, running, app: named(ui.settingsApp), isRunning: running.some(a => a.id === ui.settingsApp), cleared: (data.gbClearedApps || []).includes(ui.settingsApp), permissions: permissions[ui.settingsApp] || [], usage, item: ui.batteryDetail, onBattery: '3h 12m 5s', eraseExternal: !!ui.gbspErase, usedText: '312MB', freeText: '1.67GB'};
   }
   function renderSettings() {
     const s = ui.sub;
@@ -1453,6 +1454,12 @@
       case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;
       case 'sd-app-info': ui.settingsApp=id;ui.sub='app-info';render();break;
       case 'gbsp-tab': ui.gbAppsTab = id; render(); break;
+      case 'gbacc-background': if ((data.settings.backgroundData ?? true)) { ui.gbspDialog = 'background'; ui.overlay = 'gb-dialog-sp'; renderOverlay(); } else { data.settings.backgroundData = true; save(); render(); } break;
+      case 'gbacc-background-off': data.settings.backgroundData = false; save(); ui.overlay = ''; render(); break;
+      case 'gbacc-remove': ui.gbspDialog = 'remove'; ui.overlay = 'gb-dialog-sp'; renderOverlay(); break;
+      case 'gbacc-remove-ok': data.gbAccountRemoved = true; save(); ui.overlay = ''; ui.sub = 'sync'; ui.gbSettingsStack = (ui.gbSettingsStack || []).filter(page => page !== 'sync'); render(); break;
+      case 'gbacc-sync': ui.overlay = ''; ui.gbSyncing = true; render(); clearTimeout(ui.gbSyncTimer); ui.gbSyncTimer = setTimeout(() => { ui.gbSyncing = false; data.gbLastSync = Date.now(); save(); if (ui.view === 'settings') render(); }, 2500); break;
+      case 'gbacc-cancel': ui.overlay = ''; ui.gbSyncing = false; clearTimeout(ui.gbSyncTimer); render(); break;
       case 'gbsp-sort': ui.gbAppsSize = id === 'size'; ui.overlay = ''; render(); break;
       case 'gbsp-app': if (!apps.some(app => app[0] === id)) break; (ui.gbSettingsStack ||= []).push(ui.sub); ui.settingsApp = id; ui.sub = 'app-info'; ui.overlay = ''; render(); break;
       case 'gbsp-battery-item': (ui.gbSettingsStack ||= []).push(ui.sub); ui.batteryDetail = id; ui.sub = 'battery-detail'; render(); break;

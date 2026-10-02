@@ -64,3 +64,18 @@
 .gbsp-info>.gbsp-btn{align-self:center;margin-top:17.25px}
 .gbsp-final{margin:0;font-size:17.25px;line-height:1.3}
 .gbsp-final+.gbsp-btn{margin-top:34.5px}
+
+/* AccountsAndSyncSettings: account_preference rows (16 dip padding, provider icon, sync status icon), the title_bar header
+   with the 48 dip provider icon, and the bottom_bar with the centred button (weights 1 / 2 / 1). */
+.gbacc-account{padding-left:13.8px}
+.gbacc-provider{flex:none;width:34.5px;height:34.5px;margin-right:4.31px}
+.gbacc-status{flex:none;width:27.6px;height:27.6px;margin:0 6.04px 0 4.31px}
+.gbacc-anim{flex:none;width:27.6px;height:27.6px;animation:gbacc-spin 1s steps(4) infinite}
+@keyframes gbacc-spin{to{transform:rotate(360deg)}}
+.gbacc-title{flex:none;display:flex;align-items:center;min-height:56.35px;background:url('assets/gb-acc-title_bar.png') 0 0/100% 100%}
+.gbacc-title img{width:41.4px;height:41.4px;margin:4.31px}
+.gbacc-title span{min-width:0;display:flex;flex-direction:column;padding:4.31px 0}
+.gbacc-title b{font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbacc-title small{font-size:12.08px;color:#bebebe}
+.gbacc-bar{flex:none;display:flex;justify-content:center;padding:4.31px 0 .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.gbacc-bar .gbsp-btn{flex:0 0 50%}

@@ -513,3 +513,15 @@ References: Settings 2.3.6 (`manage_applications.xml`, `manage_applications_item
 
 - Three taps on Android version within 500 ms (DeviceInfoSettings mHits) open PlatLogoActivity, not ICS's Nyandroid. It runs under Theme.NoTitleBar.Fullscreen, so the status bar is hidden.
 - `platlogo.jpg`, the Gingerbread zombie art, is shown FIT_CENTER on black. Every touch shows the "Zombie art by Jack Larson" toast. Back returns to About phone.
+
+## Accounts & sync — 2026-10-02
+
+References: AccountsAndSyncSettings 2.3.6 (a separate AOSP package: `manage_accounts_screen.xml`, `manage_accounts_settings.xml`, `account_preference.xml`, `account_sync_screen.xml`, `account_sync_settings.xml`, `title.xml`, `preference_widget_sync_toggle.xml`, `AccountSyncSettings.java`, `drawable-hdpi`). Strings come from `docs/gb-strings.py accounts`.
+
+- **Accounts & sync settings:**
+  - The "General sync settings" category has Background data (turning it off asks the "Attention" question) and Auto-sync.
+  - The "Manage accounts" category holds the demo@example.com Email account with "Sync is ON / OFF" and the `ic_sync_green` / `ic_sync_grey` status icon.
+  - The `bottom_bar` holds the centred "Add account" button.
+- **Account sync screen:** the `title_bar` header with the 48 dip provider icon, the bold account name and "Email". Under "Data & synchronization" are Sync Contacts / Sync Calendar / Sync Email, each with the last sync time and a check box (shown disabled while background data or auto-sync is off). "Remove account" asks first.
+  - Menu: Sync now runs the `ic_list_sync_anim` state with "Touch to sync now" for a moment. Cancel sync stops it.
+- This replaces the last inherited ICS settings page.
