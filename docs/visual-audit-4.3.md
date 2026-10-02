@@ -457,4 +457,10 @@ The tuna `device.mk` builds `LiveWallpapers`, `LiveWallpapersPicker` and `Visual
     - Distances follow a Gaussian; colours, point sizes and speeds are as in `createParticle`. The shader twists them by `dist × 5.5` into a 0.892 ellipse.
     - The normalized-projection matrix, `calcMatrix` tilt and turn by the page offset (`angle` 50°, 0° in the preview), additive flares and the `light1` core are all replicated.
   - **Water** (`fall.rs`, WebGL): a 48-column mesh samples `pond.jpg` through ten ripple drops, using the vertex shader's `addDrop`. 14 leaves drift and spin from the 8-sprite `leaves.png`, with shadows while they fall in. Leaves and taps start ripples.
-- **Not included yet.** The MusicVisualization wallpapers (Waveform, Spectrum, VU meter, Many).
+- **Music visualizations** (`VisualizationWallpapers`; vis1 is commented out in its manifest).
+  - **Waveform** (vis2): 1024 PCM samples as a `fire.png` band, a triangle strip of ±amplitude. It turns 180° per page of offset, scaled by `0.004165 × (1 + 2|sin|)`.
+  - **Spectrum** (vis3): `ice.png`, 360° per page. The FFT power is weighted by `i / 16 + 1`, falls by at most 800 per update, wraps as a short and is spread across 720 columns.
+  - **VU meter** (vis4): the meter images (blended ONE / ONE_MINUS_SRC_ALPHA). The needle follows the rectified signal through `Visualization4RS`'s coil, spring and friction model (mass 10, spring 200) and lights the peak lamp past 33333.
+  - **Many** (vis5): six alternating wave and meter panels revolve at 0.3° per 35 ms, plus up to ±45° from the page offset, with a −20° tilt. They are mirrored below an album-art floor, which is drawn with the last meter's matrix still loaded, as in `many.rs`.
+  - **Idle state.** As in `AudioCapture`, more than 3 s of silence returns no data, and the scripts run `makeIdleWave` with the fade-out (100 frames) and fade-in (15) between idle and live data.
+  - **Audio source.** The simulator has no audio output, so while Music plays a synthetic 120 bpm mix (kick, saw bass, square lead, hi-hat, noise floor) stands in for the Visualizer capture: 8-bit PCM, and an FFT in getFft's byte layout.

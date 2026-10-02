@@ -1105,6 +1105,10 @@
     ['Midnight','Éjfél','Mitternacht','Minuit','Medianoche'],
     ['Blue Laser','Kék lézer','Blauer Laser','Laser bleu','Láser azul'],
     ['Alien Fruit Salad','Idegen gyümölcssaláta','Exotischer Obstsalat','Salade de fruits martienne','Ensalada de frutas alienígena'],
+['Waveform','Hullám','Wellenförmig','Onde','Forma de ola'],
+    ['Spectrum','Spektrum','Spektrum','Spectre','Espectro de frecuencia'],
+    ['VU meter','Kivezérlésjelző','Aussteuerungsmesser','Vu-mètre','Indicador de volumen'],
+    ['Many','Sok','Viele','Multitude','Varios'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;

@@ -155,7 +155,7 @@ Apache License 2.0.
 
 ### Live wallpapers
 
-`versions/{4.0.4,4.3}/assets/lw-*`: [packages/wallpapers/Basic drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_basic/tree/android-4.3_r1.1/res/drawable-hdpi) (the Nexus pyramid background, pulse and glow; the Grass skies; the Galaxy space, flares and light; the Water pond and leaves; and the thumbnails) and [LivePicker](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_LivePicker/tree/android-4.3_r1.1/res/drawable-hdpi) `livewallpaper_placeholder`. All are prefixed `lw-`. The renderers in `live-wallpapers.js` are JavaScript/WebGL ports of the same packages' RenderScript and Java sources. Apache License 2.0.
+`versions/{4.0.4,4.3}/assets/lw-*`: [packages/wallpapers/Basic drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_basic/tree/android-4.3_r1.1/res/drawable-hdpi) (the Nexus pyramid background, pulse and glow; the Grass skies; the Galaxy space, flares and light; the Water pond and leaves; and the thumbnails) and [LivePicker](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_LivePicker/tree/android-4.3_r1.1/res/drawable-hdpi) `livewallpaper_placeholder`. All are prefixed `lw-`. `lw-vis-*` and `lw-vis2`–`5`: [packages/wallpapers/MusicVisualization](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_MusicVisualization/tree/android-4.3_r1.1/res) (the meter background, frame, needle and peak lamps, album art, the fire/ice line gradients and the thumbnails). The renderers in `live-wallpapers.js` are JavaScript/WebGL ports of the same packages' RenderScript and Java sources. Apache License 2.0.
 
 ### Keyboard
 

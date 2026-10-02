@@ -44,8 +44,9 @@
       for (const [type, src] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); gl.attachShader(p, s); }
       gl.linkProgram(p); return p;
     };
-    const texture = (img, repeat = false) => {
+    const texture = (img, repeat = false, premultiply = false) => {
       const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, premultiply);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
       const pot = n => (n & (n - 1)) === 0, mip = pot(img.width) && pot(img.height);
       if (mip) gl.generateMipmap(gl.TEXTURE_2D);
@@ -345,13 +346,234 @@
     };
   }
 
+  /* ---------- Music visualization (packages/wallpapers/MusicVisualization) ---------- */
+  /* AudioCapture stand-in. The simulator plays no real audio, so while Music is playing a synthetic 120 bpm mix feeds Visualizer-style 8-bit PCM and FFT captures. After more than
+     MAX_IDLE_TIME_MS (3 s) of silence the capture returns no data, which switches the scenes to their idle animations. */
+  function audioCapture(playing) {
+    let lastValid = performance.now();
+    const BASS = [55, 55, 73.42, 65.41, 49, 49, 65.41, 61.74], LEAD = [329.6, 392, 440, 493.9, 523.3, 493.9, 440, 392];
+    const saw = x => 2 * (x - Math.floor(x + .5)), square = x => (x - Math.floor(x)) < .5 ? 1 : -1;
+    // A kick, saw bass, square lead, off-beat hi-hat and a quiet noise floor, so every FFT band carries some energy.
+    function sample(t) {
+      const beat = t * 2, i = Math.floor(beat), ph = beat - i, bass = BASS[i % BASS.length], lead = LEAD[Math.floor(beat * 2) % LEAD.length];
+      let v = Math.sin(2 * Math.PI * (50 + 70 * Math.exp(-ph * 30)) * ph / 2) * 48 * Math.exp(-ph * 6);
+      v += saw(bass * t) * 22 * (.5 + .5 * Math.exp(-ph * 3));
+      v += square(lead * t) * 12 * Math.exp(-((beat * 2) % 1) * 2);
+      if (ph > .5) v += (Math.random() * 2 - 1) * 28 * Math.exp(-(ph - .5) * 18);
+      v += (Math.random() * 2 - 1) * 4;
+      return Math.max(-128, Math.min(127, Math.round(v)));
+    }
+    const pcm = n => { const t = performance.now() / 1000, out = new Array(n); for (let k = 0; k < n; k++) out[k] = sample(t + k / 44100); return out; };
+    function fft(n) {
+      const re = pcm(n), im = new Array(n).fill(0);
+      for (let i = 1, j = 0; i < n; i++) { let bit = n >> 1; for (; j & bit; bit >>= 1) j ^= bit; j ^= bit; if (i < j) [re[i], re[j]] = [re[j], re[i]]; }
+      for (let len = 2; len <= n; len <<= 1) {
+        const ang = -2 * Math.PI / len;
+        for (let i = 0; i < n; i += len) for (let k = 0; k < len / 2; k++) {
+          const wr = Math.cos(ang * k), wi = Math.sin(ang * k), a = i + k, b = a + len / 2, xr = re[b] * wr - im[b] * wi, xi = re[b] * wi + im[b] * wr;
+          re[b] = re[a] - xr; im[b] = im[a] - xi; re[a] += xr; im[a] += xi;
+        }
+      }
+      // Visualizer.getFft layout: Rf0, Rf(n/2), then (Rk, Ik) pairs, as signed bytes.
+      // Visualizer's fixed-point FFT keeps more gain than a 1/(N/2) normalisation; loud bands clip at ±127 as on devices.
+      const out = new Array(n), clamp = v => Math.max(-128, Math.min(127, Math.round(v / (n / 32))));
+      out[0] = clamp(re[0]); out[1] = clamp(re[n / 2]);
+      for (let k = 1; k < n / 2; k++) { out[k * 2] = clamp(re[k]); out[k * 2 + 1] = clamp(im[k]); }
+      return out;
+    }
+    const silent = size => performance.now() - lastValid > 3000 ? [] : new Array(size).fill(0);
+    return {
+      // getFormattedData(num, den): PCM is centred (-128..127); both kinds are scaled by num / den.
+      pcm(size, num = 1, den = 1) { if (!playing()) return silent(size); lastValid = performance.now(); return pcm(size).map(v => Math.trunc(v * num / den)); },
+      fft(size) { if (!playing()) return silent(size); lastValid = performance.now(); return fft(size); }
+    };
+  }
+  /* The idle wave and the fade between idle and live data (waveform.rs makeIdleWave / root; many.rs uses 256 points,
+     every fourth sample and a 1024× amplitude without the absolute value). */
+  function idleWave(count, step, ampScale) {
+    const st = {w1p: 0, w1a: 0, w2p: 0, w2a: 0, w3p: 0, w3a: 0, w4p: 0, w4a: 0, fadeout: 0, fadein: 0, counter: 0};
+    const make = points => {
+      const a1 = Math.sin(.007 * st.w1a) * 120 * ampScale, a2 = Math.sin(.023 * st.w2a) * 80 * ampScale, a3 = Math.sin(.011 * st.w3a) * 40 * ampScale, a4 = Math.sin(.031 * st.w4a) * 20 * ampScale;
+      for (let i = 0; i < count; i++) {
+        let val = Math.sin(.013 * (st.w1p + i * step)) * a1 + Math.sin(.029 * (st.w2p + i * step)) * a2;
+        if (ampScale === 1) val = Math.abs(val);
+        const off = Math.sin(.005 * (st.w3p + i * step)) * a3 + Math.sin(.017 * (st.w4p + i * step)) * a4;
+        if (val < 2 && val > -2) val = 2;
+        points[i * 2] = val + off; points[i * 2 + 1] = -val + off;
+      }
+    };
+    const advance = () => { st.w1p++; st.w1a++; st.w2p--; st.w2a++; st.w3p++; st.w3a++; st.w4p++; st.w4a++; };
+    const idle = new Float32Array(count * 2);
+    return {
+      advance,
+      frame(points, isIdle, waveCounter, advanceInMake) {
+        if (isIdle) {
+          if (st.fadeout > 0) {
+            for (let i = 0; i < count; i++) { let v = Math.abs(points[i * 2]) * .95; if (v < 2) v = 2; points[i * 2] = v; points[i * 2 + 1] = -v; }
+            if (--st.fadeout === 0) st.w1a = st.w2a = st.w3a = st.w4a = 0;
+          } else { make(points); if (advanceInMake) advance(); }
+          st.fadein = 15;
+        } else if (st.fadein > 0 && st.fadeout === 0) {
+          make(idle); if (advanceInMake) advance();
+          if (st.counter !== waveCounter) {
+            st.counter = waveCounter;
+            for (let i = 0; i < count; i++) { const v = Math.abs(points[i * 2]); points[i * 2] = (v * (15 - st.fadein) + idle[i * 2] * st.fadein) / 15; points[i * 2 + 1] = (-v * (15 - st.fadein) + idle[i * 2 + 1] * st.fadein) / 15; }
+          }
+          if (--st.fadein === 0) st.fadeout = 100;
+        } else st.fadeout = 100;
+      }
+    };
+  }
+  const WAVE_VS = 'attribute vec2 aPos;attribute vec2 aTex;uniform mat4 uMVP;varying vec2 vTex;void main(){vTex=aTex;gl_Position=uMVP*vec4(aPos,0.0,1.0);}';
+  const WAVE_FS = 'precision mediump float;uniform sampler2D uTex;varying vec2 vTex;void main(){gl_FragColor=texture2D(uTex,vTex);}';
+  // A TRIANGLE_STRIP of (x, +amp) / (x, -amp) pairs; the line texture's 64px gradient runs across the band.
+  function waveDrawer(G, count) {
+    const {gl} = G, prog = G.program(WAVE_VS, WAVE_FS), buf = gl.createBuffer(), data = new Float32Array(count * 8);
+    for (let i = 0; i < count; i++) data.set([i - count / 2, 0, 0, 0, i - count / 2, 0, 1, 0], i * 8);
+    const loc = {pos: gl.getAttribLocation(prog, 'aPos'), tex: gl.getAttribLocation(prog, 'aTex'), mvp: gl.getUniformLocation(prog, 'uMVP'), sampler: gl.getUniformLocation(prog, 'uTex')};
+    return (points, texture, mvp) => {
+      for (let i = 0; i < count; i++) { data[i * 8 + 1] = points[i * 2]; data[i * 8 + 5] = points[i * 2 + 1]; }
+      gl.useProgram(prog); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW);
+      gl.enableVertexAttribArray(loc.pos); gl.vertexAttribPointer(loc.pos, 2, gl.FLOAT, false, 16, 0);
+      gl.enableVertexAttribArray(loc.tex); gl.vertexAttribPointer(loc.tex, 2, gl.FLOAT, false, 16, 8);
+      gl.uniformMatrix4fv(loc.mvp, false, new Float32Array(mvp));
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(loc.sampler, 0);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, count * 2);
+    };
+  }
+  // GenericWaveRS + waveform.rs: Waveform (PCM, fire.png, 180° of turn per page) and Spectrum (FFT, ice.png, 360°).
+  function waveScene(canvas, assets, audio, spectrum) {
+    const G = gl3(canvas); if (!G) return null;
+    const {gl} = G, draw = waveDrawer(G, 1024), lineImg = image(assets + (spectrum ? 'lw-vis-ice.png' : 'lw-vis-fire.png'));
+    const capture = audioCapture(audio), points = new Float32Array(2048), wave = idleWave(1024, 1, 1), analyzer = new Int16Array(512);
+    let tex = null, w = 0, h = 0, idle = 0, counter = 0, lastUpdate = 0;
+    function update() {
+      if (!spectrum) {
+        const data = capture.pcm(1024); if (!data.length) { idle = 1; return; }
+        idle = 0; counter++; for (let i = 0; i < 1024; i++) { points[i * 2] = data[i]; points[i * 2 + 1] = -data[i]; }
+        return;
+      }
+      // Visualization3RS.update: power per bin, weighted up the range, falling by at most 800 per update.
+      const data = capture.fft(512); let len = data.length / 2; if (!len) { idle = 1; return; }
+      len /= 2; idle = 0; counter++;
+      for (let i = 1; i < len - 1; i++) { const v1 = data[i * 2], v2 = data[i * 2 + 1]; let nv = ((v1 * v1 + v2 * v2) * (Math.floor(i / 16) + 1)) << 16 >> 16; const old = analyzer[i]; if (nv < old - 800) nv = (old - 800) << 16 >> 16; analyzer[i] = nv; }
+      const width = Math.min(DEVICE_WIDTH, 1024), skip = Math.floor((1024 - width) / 2); let src = 0, cnt = 0;
+      for (let i = 0; i < width; i++) { let v = Math.trunc(analyzer[src] / 8); if (v < 1 && v > -1) v = 1; points[(i + skip) * 2] = v; points[(i + skip) * 2 + 1] = -v; cnt += len; if (cnt > width) { src++; cnt -= width; } }
+    }
+    return {
+      interval: 16,
+      resize(cw, ch) { w = cw; h = ch; },
+      draw(offset) {
+        const t = performance.now(); if (t - lastUpdate >= 20) { lastUpdate = t; update(); }
+        wave.frame(points, idle, counter, true);
+        gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); gl.disable(gl.BLEND);
+        if (!ready(lineImg)) return; tex ||= G.texture(lineImg, true);
+        const yrot = offset * 4 * (spectrum ? 360 : 180), scale = .004165 * (1 + 2 * Math.abs(Math.sin(yrot * Math.PI / 180)));
+        draw(points, tex, M.multiply(M.projectionNormalized(w, h), M.multiply(M.rotate(yrot, 0, 0, 1), M.scale(scale, scale, scale))));
+      }
+    };
+  }
+  // Visualization4RS: the needle follows the rectified signal through a coil, spring and friction model.
+  function needleModel() {
+    let pos = 0, speed = 0, peak = 0;
+    return {
+      get angle() { return 131 - pos / 410; }, get peak() { return peak; },
+      step(data) {
+        let volt = 0; if (data.length) { for (const v of data) volt += Math.abs(v); volt = Math.trunc(volt / data.length); }
+        const net = volt - speed * 3 - (pos + 200); speed += Math.trunc(net / 10); pos += speed;
+        if (pos < 0) { pos = 0; speed = 0; } else if (pos > 32767) { if (pos > 33333) peak = 10; pos = 32767; speed = 0; }
+        if (peak > 0) peak--;
+      }
+    };
+  }
+  const VU_IMAGES = ['background', 'frame', 'needle', 'peak_on', 'peak_off', 'black', 'albumart', 'fire'];
+  function vuParts(G, assets) {
+    const imgs = Object.fromEntries(VU_IMAGES.map(n => [n, image(assets + `lw-vis-${n}.png`)])), tex = {};
+    // Blending is ONE / ONE_MINUS_SRC_ALPHA, so the meter images are uploaded premultiplied.
+    return {tex, ready: () => VU_IMAGES.every(n => ready(imgs[n])), load() { for (const n of VU_IMAGES) tex[n] ||= G.texture(imgs[n], n === 'fire', n !== 'fire'); }};
+  }
+  // vu.rs: background, peak lamp, needle (rotated about its pivot), the black cover and the frame, in that order.
+  function vuDraw(quad, tex, base, needle, z = 0) {
+    const s = .0041, q = (t, m, x1, y1, x2, y2) => quad(t, m, [[x1, y1, z, 0, 1], [x2, y1, z, 1, 1], [x2, y2, z, 1, 0], [x1, y2, z, 0, 0]]);
+    const m1 = M.multiply(base.background, M.scale(s, s, s));
+    q(tex.background, m1, -208, -33, 208, 200);
+    q(needle.peak > 0 ? tex.peak_on : tex.peak_off, m1, 140, 70, 196, 128);
+    q(tex.needle, M.multiply(base.needle, M.multiply(M.rotate(needle.angle - 90, 0, 0, 1), M.scale(s, s, s))), -44, -102 + 57, 44, 160 + 57);
+    q(tex.black, m1, -100, -105, 100, -55);
+    q(tex.frame, m1, -236, -60, 236, 230);
+    return m1;
+  }
+  function vuScene(canvas, assets, audio) {
+    const G = gl3(canvas); if (!G) return null;
+    const {gl} = G, quad = quadDrawer(G), parts = vuParts(G, assets), capture = audioCapture(audio), needle = needleModel();
+    let w = 0, h = 0, last = 0;
+    return {
+      interval: 16,
+      resize(cw, ch) { w = cw; h = ch; },
+      draw() {
+        const t = performance.now(); if (t - last >= 20) { last = t; needle.step(capture.pcm(1024, 512, 1)); }
+        gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        if (!parts.ready()) return; parts.load();
+        gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+        const P = M.projectionNormalized(w, h), s = .0041;
+        vuDraw(quad, parts.tex, {background: M.multiply(P, M.translate(0, -90 * s, 0)), needle: M.multiply(P, M.translate(0, -147 * s, 0))}, needle);
+      }
+    };
+  }
+  // Visualization5RS + many.rs: six panels (waves and meters) revolving above a mirrored album-art floor.
+  function manyScene(canvas, assets, audio) {
+    const G = gl3(canvas); if (!G) return null;
+    const {gl} = G, quad = quadDrawer(G), parts = vuParts(G, assets), draw = waveDrawer(G, 256), capture = audioCapture(audio), needle = needleModel();
+    const points = new Float32Array(512), wave = idleWave(256, 4, 1024), TILT = -20;
+    let w = 0, h = 0, lastUpdate = 0, lastFrame = performance.now(), autorotation = 0, idle = 0, counter = 0;
+    function update() {
+      const data = capture.pcm(1024, 512, 1); needle.step(data);
+      if (!data.length) { idle = 1; return; }
+      idle = 0; counter++;
+      for (let i = 0; i < 256; i++) { const amp = data[i * 4] + data[i * 4 + 1] + data[i * 4 + 2] + data[i * 4 + 3]; points[i * 2] = amp; points[i * 2 + 1] = -amp; }
+    }
+    function layer(ident) {
+      let last = null;
+      for (let i = 0; i < 6; i++) {
+        if (i & 1) last = vuDraw(quad, parts.tex, {background: ident, needle: M.multiply(ident, M.translate(0, -57 * .0041, 0))}, needle, 600);
+        else draw(points, parts.tex.fire, M.multiply(ident, M.multiply(M.scale(.008, .008 / 2048, .008), M.translate(0, 81920, 350))));
+        ident = M.multiply(ident, M.rotate(60, 0, 1, 0));
+      }
+      return {ident, last};
+    }
+    return {
+      interval: 16,
+      resize(cw, ch) { w = cw; h = ch; },
+      draw(offset) {
+        const t = performance.now(); if (t - lastUpdate >= 20) { lastUpdate = t; update(); }
+        wave.frame(points, idle, counter, false);
+        gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        if (!parts.ready()) return; parts.load();
+        gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+        const delta = Math.min(80, t - lastFrame); lastFrame = t; autorotation = (autorotation + .3 * delta / 35) % 360;
+        const P = M.projectionNormalized(w, h);
+        let ident = M.multiply(P, M.multiply(M.rotate(TILT, 1, 0, 0), M.multiply(M.rotate(autorotation + (offset - .5) * 90, 0, 1, 0), M.multiply(M.translate(0, -1, 0), M.scale(1, -1, 1)))));
+        const first = layer(ident);
+        // The floor is drawn while the last meter's model matrix is still loaded, as the script does.
+        quad(parts.tex.albumart, first.last, [[-1500, -60, 1500, 0, 1], [1500, -60, 1500, 1, 1], [1500, -60, -1500, 1, 0], [-1500, -60, -1500, 0, 0]]);
+        ident = M.multiply(M.multiply(first.ident, M.scale(1, -1, 1)), M.translate(0, 1, 0));
+        layer(ident);
+        wave.advance();
+      }
+    };
+  }
+
   /* ---------- Registry, in the order LiveWallpaperListAdapter sorts the labels ---------- */
   const LIST = [
     {id: 'galaxy', label: 'Galaxy', thumb: 'lw-galaxy_thumb.jpg', make: (c, a, o) => galaxy(c, a, o.preview), gl: true},
     {id: 'grass', label: 'Grass', thumb: 'lw-grass_thumb.jpg', make: (c, a, o) => grass(c.getContext('2d'), a, o.preview)},
     {id: 'nexus', label: 'Nexus', thumb: 'lw-nexus_thumb.png', make: (c, a) => nexus(c.getContext('2d'), a)},
     {id: 'polar', label: 'Polar clock', thumb: 'lw-polarclock_thumb.jpg', settings: true, make: (c, a, o) => polarClock(c.getContext('2d'), a, o.prefs)},
-    {id: 'water', label: 'Water', thumb: 'lw-water_thumb.jpg', make: (c, a) => water(c, a), gl: true}
+    {id: 'water', label: 'Water', thumb: 'lw-water_thumb.jpg', make: (c, a) => water(c, a), gl: true},
+    {id: 'waveform', label: 'Waveform', thumb: 'lw-vis2.png', make: (c, a, o) => waveScene(c, a, o.audio || (() => false), false), gl: true},
+    {id: 'spectrum', label: 'Spectrum', thumb: 'lw-vis3.png', make: (c, a, o) => waveScene(c, a, o.audio || (() => false), true), gl: true},
+    {id: 'vu', label: 'VU meter', thumb: 'lw-vis4.png', make: (c, a, o) => vuScene(c, a, o.audio || (() => false)), gl: true},
+    {id: 'many', label: 'Many', thumb: 'lw-vis5.png', make: (c, a, o) => manyScene(c, a, o.audio || (() => false)), gl: true}
   ];
   const find = id => LIST.find(item => item.id === id);
   function sorted(t, locale) { const collator = new Intl.Collator(locale); return [...LIST].sort((a, b) => collator.compare(t(a.label), t(b.label))); }
@@ -396,5 +618,5 @@
       destroy() { cancelAnimationFrame(raf); canvas.remove(); scene = null; }
     };
   }
-  window.LiveWallpapers = {LIST, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, mount, M};
+  window.LiveWallpapers = {LIST, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, mount, M, audioCapture, needleModel};
 })();
