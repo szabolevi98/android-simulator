@@ -18,13 +18,13 @@ for (const version of versions) {
     <div class="version-art" aria-hidden="true">
       <div class="mini-phone${art.phone ? ` mini-phone-${art.phone}` : ''}">
         <span class="mini-earpiece"></span><span class="mini-camera"></span>
-        <div class="mini-screen" style="background-image:url('${assets}${art.wallpaper}')">
+        <div class="mini-screen${art.shot ? ' mini-shot' : ''}" style="background-image:url('${assets}${art.shot || art.wallpaper}')">${art.shot ? '' : `
           <div class="mini-status"><img src="${assets}stat_notify_sms.png" alt=""><span class="mini-status-right"><img src="${assets}stat_sys_wifi_signal_4_fully.png" alt=""><img src="${assets}stat_sys_signal_4_fully.png" alt=""><img src="${assets}stat_sys_battery_71.png" alt="">4:04</span></div>
           <div class="mini-search mini-search-${art.search}"><span>Google</span><img src="${assets}${art.search === 'jb' ? 'launcher-ic_home_voice_search_holo.png' : 'ic_btn_speak_now.png'}" alt=""></div>
           <div class="mini-clock"><img src="${assets}appwidget_clock_dial.png" alt=""><img src="${assets}appwidget_clock_hour.png" style="transform:rotate(122deg)" alt=""><img src="${assets}appwidget_clock_minute.png" style="transform:rotate(24deg)" alt=""></div>
           <div class="mini-shortcuts"><img src="${assets}camera.png" alt=""><span class="mini-google"><img src="${assets}browser.png" alt=""><img src="${assets}email.png" alt=""><img src="${assets}calendar.png" alt=""><img src="${assets}gallery.png" alt=""></span></div>
           <div class="mini-dock"><img src="${assets}phone.png" alt=""><img src="${assets}people.png" alt=""><img src="${assets}apps.png" alt=""><img src="${assets}messaging.png" alt=""><img src="${assets}browser.png" alt=""></div>
-          <div class="mini-nav"><img src="${assets}nav-back.png" alt=""><img src="${assets}nav-home.png" alt=""><img src="${assets}nav-recent.png" alt=""></div>
+          <div class="mini-nav"><img src="${assets}nav-back.png" alt=""><img src="${assets}nav-home.png" alt=""><img src="${assets}nav-recent.png" alt=""></div>`}
         </div>
       </div>
     </div>

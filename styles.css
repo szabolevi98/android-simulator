@@ -67,3 +67,6 @@ h1{font-size:clamp(38px,4.6vw,60px)}
 .mini-phone-nexuss .mini-nav{display:none}
 .mini-phone-nexuss .mini-dock{bottom:2px}
 .mini-phone-nexuss .mini-shortcuts{bottom:36px}
+
+/* A miniature can show a capture of the simulator's own home screen instead of the drawn layers. */
+.mini-screen.mini-shot{background-size:100% 100%;background-position:0 0}

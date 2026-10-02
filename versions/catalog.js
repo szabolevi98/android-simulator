@@ -9,7 +9,7 @@ window.ANDROID_VERSIONS = [
     description: 'The Nexus S with its four touch keys under the glass. Work in progress: the Gingerbread screens are being added step by step.',
     url: 'versions/2.3.6/',
     status: 'available',
-    art: {wallpaper: 'aosp-wallpaper.jpg', search: 'ics', phone: 'nexuss'}
+    art: {shot: 'landing-home.jpg', phone: 'nexuss'}
   },
   {
     id: '4.0.4',

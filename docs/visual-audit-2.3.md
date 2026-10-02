@@ -392,3 +392,7 @@ References: Calendar 2.3.6 (`month_activity.xml`, `MonthView.java`, `CalendarVie
 - **Delete:** "This event will be deleted." with OK / Cancel; repeating events get the three-item delete_repeating_labels list. The edit scopes are Change only this event / all events in the series / this and all future events.
 
 Checks: `gb-calendar.test.cjs` covers the month cells and busy bits, Day and Week geometry, the 12 / 24 hour labels, the agenda, the event info, the editor states, menus, dialogs, picker steps and translations. Headless Chrome covered month → menu → New event → time and date pickers → Repetition → Done, then Day, Week, Agenda, View event and the delete dialog. It also covered a fling to the next month, the long-press context menu and the Hungarian week view. No JavaScript errors.
+
+## Landing thumbnail — 2026-10-02
+
+The 2.3.6 card on the landing page showed the drawn ICS-style layers (ICS wallpaper and search bar, navigation bar). The catalogue entry now uses `art.shot`: a 414 × 690 capture of the simulator's own home screen (`versions/2.3.6/assets/landing-home.jpg`: the Nexus live wallpaper, the search widget, Protips and the hotseat cluster), shown full-size inside the Nexus S frame. Retake it with headless Chrome whenever the home screen changes.
