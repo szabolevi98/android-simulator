@@ -70,3 +70,24 @@ The 4.4 keyguard moved to `frameworks/base/packages/Keyguard`. Compared with 4.3
   - The battery tile is a 22 × 32 dp BatteryMeterView.
   - Location is a permanent tile after Bluetooth ("Location" / "Location off"), and it opens the location settings.
   - The alarm tile is temporary.
+
+## Settings, About phone and the easter egg — 2026-10-02
+
+- **Headers:** `settings_headers.xml` 4.4 adds Tap & pay after Apps (NFC), renames Location, and adds Printing after Accessibility. Home appears only with a second launcher.
+- **Icons:** the Settings icons are xhdpi except About, Location and Tap & pay, which are xxhdpi. Printing uses the framework `ic_print`.
+- **Location:**
+  - The master switch is in the action bar.
+  - Mode: High accuracy, Battery saving or Device only.
+  - Recent location requests shows "No apps have requested location recently".
+  - The location services category is removed when it is empty, as it is in AOSP.
+- **Tap & pay / Printing:** the empty states of `PaymentSettings` and `PrintSettingsFragment`.
+- **More…:** Default SMS app (Messaging) sits after Airplane mode, in the 4.4 `wireless_settings.xml` order.
+- **About phone:** Nexus 5, 4.4.4, baseband M8974A-2.0.50.1.16, kernel 3.4.0-gd59db4e (Mar 17 2014), KTU84P, SELinux Enforcing.
+- **PlatLogoActivity:**
+  - A fullscreen window with the white "K" (Build.ID), which spins on tap.
+  - After six taps or a long press, the #ed1d24 panel and the KitKat platlogo appear with "ANDROID 4.4.4".
+  - A long press on the logo opens the Dessert Case.
+- **DessertCaseView:**
+  - Immersive 48 dp tiles, each a random hue with a white mask: the image's red channel becomes the alpha.
+  - The desserts come in rarity tiers, and tiles span 1–4 cells and turn in quarter turns.
+  - Tiles juggle every 2 s; an edge swipe shows the bars.
