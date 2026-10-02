@@ -422,3 +422,14 @@ The Contacts trees at `android-4.0.4_r2.1` and `android-4.3_r1.1`, and ContactsC
 - **Detail header.** `detail_header_contact_without_updates` keeps ProportionalLayout's 2:1 photo; the simulator's fixed 200px header now follows the ratio. Below the photo it adds the 10dp `windowContentOverlay` shadow (`ab_solid_shadow_holo`).
 - **Groups list.** `group_browse_list_fragment` pads the list by 16dp on each side.
 - **Calculator.** `main.xml` now lets CLR/DELETE wrap its text with an 89dip minimum, instead of a quarter of the row. The button's text is AOSP's `del` string "DELETE"; it had shown "DEL", also in 4.0.4.
+
+## Messaging, Browser, Email, Calendar and Music resources — 2026-10-02
+
+The trees at `android-4.0.4_r2.1` and `android-4.3_r1.1` were compared by blob hash, and every `mms-`, `browser-`, `calendar-`, `email-` and `music-` asset in `versions/4.3/assets` was hashed against the 4.3 files.
+- **Assets and unchanged apps.** All prefixed assets are the 4.3 files; the music widget nine-patches are the expected border-stripped copies. Music is unchanged between the two releases. Email's changes are in tablet and setup layouts.
+- **Messaging** (`message_list_item_recv/send`, `compose_message_activity`).
+  - Message blocks draw `hairline_left` or `hairline_right`: white, with a 1px `#eeeeee` line along the bottom and the outer edge.
+  - The thread background is the theme's `background_holo_light` instead of `list_background` `#f1f1f1`.
+  - The editor divider is 1dp `#eeeeee`.
+  - The send button switches to `ic_send_disabled_holo_light` while there is nothing to send (`send_button_selector`).
+  - Dates use `text_hairline` `#cccccc`, as in 4.0.4, where the simulator also had them darker. In 4.0.4 a disabled send button no longer fades, since ICS has no disabled image.

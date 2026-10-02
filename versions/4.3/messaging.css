@@ -27,3 +27,14 @@
 .mms-dialog{background:#f5f5f5;color:#222;max-height:85%;overflow:auto}.mms-dialog button{color:#222!important}.mms-dialog-list{display:grid}.mms-dialog-list>button{background:none;border:0;border-bottom:1px solid #ddd;text-align:left;padding:15px;font-size:16px}.mms-dialog p{white-space:pre-wrap;overflow-wrap:anywhere}.mms-dialog .mms-photo{height:80px}.mms-app button:active{background-color:#c0e8f6}.mms-header button:active,.mms-actions button:active{background:#ffffff25}
 
 .mms-menu-root{top:auto;bottom:48px}
+
+/* Mms 4.3: message blocks draw hairline_left / hairline_right (white with a 1px #eeeeee bottom and outer edge) on the
+   theme's background_holo_light instead of list_background #f1f1f1; the divider above the editor is 1dp #eeeeee and the
+   send button shows ic_send_disabled_holo_light while there is nothing to send. Dates use text_hairline #cccccc. */
+.mms-compose{background:#f3f3f3}
+.mms-message-copy{box-shadow:inset -1px -1px #eee}
+.mms-message.sent .mms-message-copy{box-shadow:inset 1px -1px #eee}
+.mms-compose-bar{border-top-color:#eee}
+.mms-send:disabled img{content:url('assets/mms-ic_send_disabled_holo_light.png')}
+.mms-message time{color:#ccc}
+.mms-send:disabled{opacity:1}

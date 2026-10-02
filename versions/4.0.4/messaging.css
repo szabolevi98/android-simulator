@@ -27,3 +27,8 @@
 .mms-dialog{background:#f5f5f5;color:#222;max-height:85%;overflow:auto}.mms-dialog button{color:#222!important}.mms-dialog-list{display:grid}.mms-dialog-list>button{background:none;border:0;border-bottom:1px solid #ddd;text-align:left;padding:15px;font-size:16px}.mms-dialog p{white-space:pre-wrap;overflow-wrap:anywhere}.mms-dialog .mms-photo{height:80px}.mms-app button:active{background-color:#c0e8f6}.mms-header button:active,.mms-actions button:active{background:#ffffff25}
 
 .mms-menu-root{top:auto;bottom:48px}
+
+/* Mms 4.0.4 message_list_item_*: the date line uses text_hairline #cccccc. */
+.mms-message time{color:#ccc}
+/* ComposeMessageActivity.updateSendButtonState only disables the button; ic_send_holo_light has no disabled state, so it stays opaque. */
+.mms-send:disabled{opacity:1}
