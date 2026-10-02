@@ -143,6 +143,13 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 
 `versions/{4.0.4,4.3}/assets/cling-*.png`: [Launcher2 drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_apps_launcher2/tree/android-4.3_r1.1/res/drawable-hdpi) (`bg_cling1`–`3`, `cling`, `hand`, and `btn_cling_{normal,pressed}` with the nine-patch border removed), byte-identical at `android-4.0.4_r2.1` and `android-4.3_r1.1`. Apache License 2.0.
 
+### Wi-Fi settings (4.3)
+
+- `versions/4.3/assets/jb-ic_wps.png` and `jb-ic_menu_add.png`: [AOSP Settings drawable-hdpi](https://github.com/aosp-mirror/platform_packages_apps_settings/tree/android-4.3_r1.1/res/drawable-hdpi) at `android-4.3_r1.1`.
+- `jb-btn_default_{normal,pressed}_holo_dark.png` and `jb-progress_{bg,primary}_holo_dark.png` (nine-patch borders removed): framework `core/res/res/drawable-hdpi` at `android-4.3_r1.1`.
+
+Apache License 2.0.
+
 ### Keyboard
 
 `versions/{4.0.4,4.3}/assets/ime-*.png`: [AOSP LatinIME java/res/drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_inputmethods_latinime/tree/android-4.3_r1.1/java/res/drawable-hdpi) (`btn_keyboard_key_{light,dark}_{normal,pressed}_holo`, `keyboard_background_holo` with the nine-patch border removed, and `sym_keyboard_*_holo`), identical at `android-4.0.4_r2.1` and `android-4.3_r1.1`. Apache License 2.0.

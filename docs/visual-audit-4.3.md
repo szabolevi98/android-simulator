@@ -398,3 +398,19 @@ Compared with Launcher2 `Cling.java`, `Launcher.java` (`initCling`, `dismissClin
 - **Common rules.** OK fades a cling out over 250 ms and records it, as the shared preferences do.
   - Desktops saved before this change count as already dismissed; Reset brings the clings back, like a fresh install.
   - Text styles follow `ClingTitleText` (23sp `#49C0EC`) and `ClingText` (15sp white, 2px shadow). `ClingButton` is bold on `btn_cling_normal`.
+
+## Wi-Fi settings — 2026-10-02
+
+Compared with `WifiSettings.java`, `AdvancedWifiSettings.java`, `wifi_advanced_settings.xml`, `WpsDialog.java`, `wifi_wps_dialog.xml` and `WifiP2pSettings.java` at `android-4.3_r1.1`, and the tuna overlay (`config_wifi_dual_band_support` is true).
+- **Action bar.** After the switch come WPS Push Button (`ic_wps`) and Add network (`ic_menu_add`), both `SHOW_AS_ACTION_IF_ROOM`. The overflow holds Scan, WPS Pin Entry, Wi-Fi Direct and Advanced. All but Advanced are disabled while Wi-Fi is off.
+- **WPS dialog.**
+  - It opens on "Starting WPS…", then shows the push-button or PIN text (8-digit PIN), with the `ic_wps` symbol.
+  - The holo horizontal timeout bar advances once a second to `WPS_TIMEOUT_S` (120). After that, the generic failure message remains and the button reads OK.
+  - The button is a centred holo default button.
+- **Wi-Fi Direct.** Wi-Fi Direct moved from *More…* into this menu in 4.2. Its page lists this device (`Android_4f3a`, renamable through Rename device) above PEER DEVICES. Search for devices shows "Searching…" for a while when the page opens and whenever it is pressed. With no peers simulated, the category stays empty.
+- **Advanced Wi-Fi rows.**
+  - Network notification (disabled while Wi-Fi is off) and Keep Wi-Fi on during sleep.
+  - **Scanning always available** (new in 4.3, off) and **Avoid poor connections** (off).
+  - **Wi-Fi frequency band**: Auto / 5 GHz only / 2.4 GHz only, with the choice shown as the summary.
+  - **Install certificates** and **Wi-Fi optimization** (on).
+  - MAC address and IP address.

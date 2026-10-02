@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const defaults={autoTime:true,autoZone:true,timeOffset:0,timeZone:'Europe/Budapest',hour24:true,dateFormat:'locale',screenLock:'slide',ownerInfo:'',showOwner:false,hotspotName:'AndroidAP',hotspotSecurity:'WPA2',bluetoothTether:false,wifiSleep:'always',networkOperator:'Telekom',networkAuto:true,only2g:false};
+  const defaults={autoTime:true,autoZone:true,timeOffset:0,timeZone:'Europe/Budapest',hour24:true,dateFormat:'locale',screenLock:'slide',ownerInfo:'',showOwner:false,hotspotName:'AndroidAP',hotspotSecurity:'WPA2',bluetoothTether:false,wifiSleep:'always',wifiScanAlways:false,wifiPoorAvoid:false,wifiBand:'auto',wifiOptimize:true,networkOperator:'Telekom',networkAuto:true,only2g:false};
   const prefs=data=>({...defaults,...data.settings});
   const zones=['Europe/Budapest','Europe/London','Europe/Berlin','Europe/Paris','Europe/Madrid','America/New_York','America/Los_Angeles','Asia/Tokyo','UTC'];
   const zone=data=>prefs(data).autoZone?Intl.DateTimeFormat().resolvedOptions().timeZone:prefs(data).timeZone;
@@ -29,6 +29,7 @@
   const check=(title,key,on,subtitle='',disabled=false)=>`<button class="settings-row" data-action="toggle-setting" data-id="${key}" role="checkbox" aria-checked="${!!on}" ${disabled?'disabled':''}><span class="row-copy">${e(title)}${subtitle?`<small>${e(subtitle)}</small>`:''}</span><img class="holo-checkbox" src="assets/btn_check_${on?'on':'off'}_holo_dark.png" alt=""></button>`;
   const section=title=>`<h3 class="section-label">${e(title)}</h3>`;
   const sleepNames={always:'Always',charging:'Only when plugged in',never:'Never'};
+  const bandNames={auto:'Auto','5':'5 GHz only','2.4':'2.4 GHz only'};
   function render(data,ui,t,locale) {
     const p=prefs(data),page=(title,body,right='')=>({title,body,right}),now=wallDate(data);
     if(ui.sub==='date')return page('Date & time',`${check('Automatic date & time','autoTime',p.autoTime,'Use network-provided time')}${check('Automatic time zone','autoZone',p.autoZone,'Use network-provided time zone')}${row('Set date',dateText(data,locale),'sx-dialog','date',p.autoTime)}${row('Set time',now.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit',hour12:!p.hour24}),'sx-dialog','time',p.autoTime)}${row('Select time zone',zone(data),'sx-dialog','zone',p.autoZone)}${check('Use 24-hour format','hour24',p.hour24,p.hour24?'13:00':'1:00 PM')}${row('Choose date format',dateText(data,locale),'sx-dialog','date-format')}`);
@@ -36,7 +37,8 @@
     if(ui.sub==='device-admin')return page('Device administrators','<p class="empty-note">No device administrators</p>');
     if(ui.sub==='tethering')return page('Tethering & portable hotspot',`${check('USB tethering','usbTether',false,'USB not connected',true)}${check('Portable Wi-Fi hotspot','portableHotspot',p.portableHotspot,p.portableHotspot?p.hotspotName:'')}${row('Configure Wi-Fi hotspot',`${p.hotspotName} · ${p.hotspotSecurity}`,'sx-dialog','hotspot')}${check('Bluetooth tethering','bluetoothTether',p.bluetoothTether)}${row('Help','','settings-sub','tether-help')}`);
     if(ui.sub==='tether-help')return page('Tethering & portable hotspot','<div class="detail-pad"><p>Portable Wi-Fi hotspot shares the phone’s data connection with nearby devices.</p><p>This simulator stores demo settings only. It does not share your connection.</p></div>');
-    if(ui.sub==='wifi-advanced')return page('Advanced Wi-Fi',`${check('Network notification','wifiNotify',p.wifiNotify,'Notify me when an open network is available')}${row('Keep Wi-Fi on during sleep',t(sleepNames[p.wifiSleep]||'Always'),'sx-dialog','wifi-sleep')}${row('MAC address','02:00:00:40:04:01','noop')}${row('IP address',p.wifi&&p.wifiNetwork?'192.0.2.4':t('Unavailable'),'noop')}`);
+    // 4.3 wifi_advanced_settings.xml: scanning always available, poor-connection avoidance, the dual-band list, certificates and Wi-Fi optimization.
+    if(ui.sub==='wifi-advanced')return page('Advanced Wi-Fi',`${check('Network notification','wifiNotify',p.wifiNotify,'Notify me when an open network is available',!p.wifi)}${row('Keep Wi-Fi on during sleep',t(sleepNames[p.wifiSleep]||'Always'),'sx-dialog','wifi-sleep')}${check('Scanning always available','wifiScanAlways',p.wifiScanAlways,'Let Google’s location service and other apps scan for networks, even when Wi-Fi is off')}${check('Avoid poor connections','wifiPoorAvoid',p.wifiPoorAvoid,'Don’t use a Wi-Fi network unless it has a good Internet connection')}${row('Wi-Fi frequency band',t(bandNames[p.wifiBand]||'Auto'),'sx-dialog','wifi-band')}${row('Install certificates','','dev-info','Install certificates')}${check('Wi-Fi optimization','wifiOptimize',p.wifiOptimize,'Minimize battery usage when Wi-Fi is on')}${row('MAC address','02:00:00:40:04:01','noop')}${row('IP address',p.wifi&&p.wifiNetwork?'192.0.2.4':t('Unavailable'),'noop')}`);
     if(ui.sub==='vpn')return page('VPN',`${(data.vpnProfiles||[]).map(profile=>row(profile.name,ui.vpnConnected===profile.id?t('Connected'):profile.type,'sx-vpn-open',profile.id)).join('')||'<p class="empty-note">No VPN networks configured</p>'}`,`<button class="sx-add" data-action="sx-vpn-new" aria-label="${e(t('Add VPN network'))}">+</button>`);
     if(ui.sub==='mobile-networks')return page('Mobile networks',`${check('Data enabled','dataEnabled',p.dataEnabled)}${check('Data roaming','dataRoaming',p.dataRoaming)}${row('Access Point Names','','settings-sub','apn')}${check('Use only 2G networks','only2g',p.only2g,'Saves battery')}${row('Network operators',p.networkOperator,'settings-sub','operators')}`);
     if(ui.sub==='operators')return page('Available networks',`${row('Search networks','','sx-network-scan')}${row('Select automatically',p.networkAuto?t('Selected'):'','sx-network-auto')}${ui.networkScanned?['Telekom','Demo Mobile'].map(name=>row(name,p.networkOperator===name?t('Registered on network'):'','sx-network-select',name)).join(''):''}`);
@@ -56,6 +58,7 @@
     if(field==='zone')return shell('Select time zone',choice('Time zone','zone',[...new Set([...zones,p.timeZone])].map(zone=>[zone,zone]),p.timeZone));
     if(field==='date-format')return radios('Choose date format',[['locale','Regional (default)'],['mdy','MM/DD/YYYY'],['dmy','DD/MM/YYYY'],['ymd','YYYY/MM/DD']],p.dateFormat);
     if(field==='wifi-sleep')return radios('Keep Wi-Fi on during sleep',Object.entries(sleepNames),p.wifiSleep);
+    if(field==='wifi-band')return radios('Wi-Fi frequency band',Object.entries(bandNames),p.wifiBand);
     if(field==='hotspot')return shell('Configure Wi-Fi hotspot',`${input('Network SSID','ssid',p.hotspotName,'text',true,32)}${choice('Security','security',[['Open','None'],['WPA2','WPA2 PSK']],p.hotspotSecurity)}${input('Password','password','android404','password',false,63)}<p class="sx-note">${e(t('Demo settings only; no network connection is created.'))}</p>`);
     if(field==='vpn-edit'){const profile=ui.systemDraft||{};return shell('Edit VPN network',`${input('Name','name',profile.name,'text',true,50)}${choice('Type','type',[['PPTP','PPTP'],['L2TP/IPSec PSK','L2TP/IPSec PSK']],profile.type||'PPTP')}${input('Server address','server',profile.server||'vpn.example.test','text',true)}<p class="sx-note">${e(t('Demo settings only; no network connection is created.'))}</p>`,'sx-save',profile.id?'<button type="button" data-action="sx-profile-delete" data-id="vpn">Delete</button>':'');}
     if(field==='vpn-connect'){const profile=(data.vpnProfiles||[]).find(profile=>profile.id===ui.systemId);return shell(profile?.name||'VPN',`${input('Username','username','demo')}${input('Password','password','','password')}<p>${e(t(ui.vpnConnected===ui.systemId?'Connected':'Disconnected'))}</p>`,'sx-vpn-connect','<button type="button" data-action="sx-vpn-edit">Edit</button>',ui.vpnConnected===ui.systemId?'Disconnect':'Connect');}
@@ -68,6 +71,7 @@
     if(field==='zone'&&zones.includes(value('zone')))p.timeZone=value('zone');
     if(field==='date-format'&&['locale','mdy','dmy','ymd'].includes(value('choice')))p.dateFormat=value('choice');
     if(field==='wifi-sleep'&&sleepNames[value('choice')])p.wifiSleep=value('choice');
+    if(field==='wifi-band'&&bandNames[value('choice')])p.wifiBand=value('choice');
     if(field==='screen-lock'&&['none','slide'].includes(value('choice')))p.screenLock=value('choice');
     if(field==='owner'){p.ownerInfo=value('owner').slice(0,100);p.showOwner=values.has('show');}
     if(field==='hotspot'){

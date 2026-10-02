@@ -540,3 +540,20 @@ html,body{overscroll-behavior-y:none}
 .jb-dial-actions{display:flex}
 .jb-dial-actions .dial-call{flex:1;width:auto}
 .jb-dial-actions .dial-call:active{background:url('assets/jb-btn_call_pressed.png') center/100% 100%}
+
+/* Settings 4.3 Wi-Fi: 56dp action buttons with 32dp icons, text actions in all caps, the WPS dialog with the holo
+   horizontal progress bar (16dp) and a holo default button (48dp minimum height, 18sp). */
+.jb-ab-action{flex:none;width:43.2px;height:100%;border:0;padding:0;background:none;display:grid;place-items:center}
+.jb-ab-action img{width:28.8px;height:28.8px}
+.jb-ab-action:disabled img{opacity:.3}
+.jb-ab-action:active{background:#33b5e566}
+.jb-ab-text{flex:none;height:100%;border:0;background:none;padding:0 10.8px;color:#fff!important;font:700 12.6px Roboto,RobotoICS,sans-serif;text-transform:uppercase;white-space:nowrap}
+.jb-ab-text:disabled{color:#ffffff4d!important}
+.jb-wps-body{padding:7.2px;display:flex;flex-direction:column}
+.jb-wps-body p{margin:7.2px 0 0;font-size:12.6px;line-height:1.35;color:#bebebe}
+.jb-wps-body img{align-self:center;width:28.8px;height:28.8px;margin-top:7.2px}
+.jb-progress-h{display:block;position:relative;height:14.4px;margin-top:18px;background:url('assets/jb-progress_bg_holo_dark.png') 0 0/100% 100%}
+.jb-progress-h i{position:absolute;left:0;top:0;bottom:0;background:url('assets/jb-progress_primary_holo_dark.png') 0 0/100% 100%;transition:width .3s linear}
+.jb-holo-button{align-self:center;min-width:57.6px;min-height:43.2px;margin:7.2px 0 0;padding:0 10.8px;border:0;border-image:url('assets/jb-btn_default_normal_holo_dark.png') 24 18 21 18 fill/14.4px 10.8px 12.6px 10.8px;background:none;color:#f3f3f3;font:16.2px Roboto,RobotoICS,sans-serif}
+.jb-holo-button:active{border-image-source:url('assets/jb-btn_default_pressed_holo_dark.png')}
+.jb-p2p-device{cursor:default}

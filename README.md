@@ -71,6 +71,7 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 
 - Jelly Bean animations: apps grow out of the icon you tap (home screen, dock, folders and the drawer), switching apps slides the windows past each other as shrinking cards, and screens inside an app zoom in from 0.8, using the Android 4.3 animation values.
 
+- 4.3 **Wi-Fi** settings: WPS and Add network in the action bar, and WPS Pin Entry and **Wi-Fi Direct** in the overflow. The WPS dialog has its two-minute timeout bar. Advanced Wi-Fi adds Scanning always available, Avoid poor connections, the frequency band, Install certificates and Wi-Fi optimization.
 - The 4.3 **power menu** adds the safe-mode reboot (hold Power off; the phone then boots with the *Safe mode* watermark) and, when Developer options → Power menu bug reports is on, a Bug report entry.
 - The 4.3 **Dialer** smart dial: typing on the dialpad shows the three best matching contacts (by name on the letter keys or by number) above the keypad, and the call button spans the full width.
 - The 4.3 **Developer options** list with its ON/OFF switch. Show layout bounds, Pointer location and Show CPU usage draw their overlays; the animation scales drive the window animations.
