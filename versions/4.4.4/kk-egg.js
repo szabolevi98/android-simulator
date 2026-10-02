@@ -124,6 +124,7 @@
       }
     }
     const juggle = () => {
+      if (!root.isConnected) { stop(); return; }
       const tiles = [...grid.children];
       const node = tiles[Math.floor(random() * tiles.length)];
       const tile = cells.find(item => item?.node === node);

@@ -590,6 +590,7 @@
     ['Weather','Időjárás','Wetter','Météo','Tiempo'],
     ['Photo Gallery','Fotógaléria','Fotogalerie','Galerie photos','Galería de fotos'],
     ['Tomorrow','Holnap','Morgen','Demain','Mañana'],
+    ["Dessert Case","Dessert Case","Dessert Case","Dessert Case","Dessert Case"],
     ["Enforcing","Kényszerítve","Strikt","Application","Obligatorio"],
     ["Mode","Mód","Modus","Mode","Modo"],
     ["High accuracy","Nagyon pontos","Hohe Genauigkeit","Haute précision","Alta precisión"],
