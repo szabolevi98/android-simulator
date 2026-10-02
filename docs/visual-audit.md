@@ -463,6 +463,7 @@ References: Android Police's 720 × 1280 captures of 3.8.15 (15 August 2012: hom
   - Under Google AdMob Ads comes the "Choose whether to personalize ads from Google and AdMob…" note with its blue "Learn more".
   - Build version 3.8.17.
 - **Demo web pages:** the 4.0.4 news and archive pages are now dated August 20, 2012 (they were June 15).
+- **Action bar** (owner's note): 3.8 draws it as #121212 with 1 px #393939 diagonals running down to the right, 6 device px apart (2.55 CSS px), and a lighter bottom rule, not the earlier grey gradient. The search glass is the grey outlined one from the captures.
 
 Checks: `tests/ics-play.test.cjs` covers the version, tile order and labels without "see more", the stripes, Hungarian labels, the Magazines section, categories and details, Unlock settings, the AdMob note and the build number. Headless Chrome covered the home page, Settings, Magazines, a magazine's details and Movies & TV, all compared with the Android Police captures. No JavaScript errors.
 

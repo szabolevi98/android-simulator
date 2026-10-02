@@ -5,7 +5,9 @@
 .icsp-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none}
 .icsp-scroll::-webkit-scrollbar{display:none}
 /* Action bar: 48 dp dark gradient, back caret with the Play bag, the title, search and the Holo overflow button. */
-.icsp-bar{flex:none;display:flex;align-items:center;height:40.8px;margin:0;padding:0;background:linear-gradient(#3a3a3a,#262626 55%,#1a1a1a);border-bottom:1px solid #0b0b0b;box-shadow:0 1px 2px #0008;position:relative;z-index:3}
+/* Play Store 3.8 action bar: #121212 with 1 px #393939 diagonals running down to the right, 6 device px apart on the
+   720 px screen (2.55 CSS px), and a lighter rule along the bottom. */
+.icsp-bar{flex:none;display:flex;align-items:center;height:40.8px;margin:0;padding:0;background:#121212 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Cpath d='M-1 -1L7 7M-1 5L1 7M5 -1L7 1' stroke='%23393939' stroke-width='1.2'/%3E%3C/svg%3E") 0 0/2.55px 2.55px;border-bottom:1px solid #303030;box-shadow:0 1px 2px #0008;position:relative;z-index:3}
 .screen .icsp-up{flex:none;display:flex;align-items:center;height:100%;padding:0 5px 0 2px;border:0;background:none;color:#8a8a8a;font-size:24px;line-height:1;cursor:pointer}
 .icsp-up.root{padding-left:7px}
 .icsp-up span{margin:-3px 1px 0 0}
@@ -13,7 +15,8 @@
 .screen .icsp-up:active:not(.root){background:#33b5e566}
 .icsp-bar>b{flex:1;min-width:0;margin-left:3px;font-size:17px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .screen .icsp-search,.screen .icsp-overflow{flex:none;width:40.8px;height:100%;padding:0;border:0;background:center/27.2px 27.2px no-repeat;cursor:pointer}
-.screen .icsp-search{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6.2' fill='none' stroke='%23e8e8e8' stroke-width='2.4'/%3E%3Cpath d='M14.6 14.6l6 6' stroke='%23e8e8e8' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")}
+/* 3.8: the grey outlined search glass of the period action bar. */
+.screen .icsp-search{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6.4' fill='none' stroke='%238e8e8e' stroke-width='1.9'/%3E%3Cpath d='M14.7 14.7l5.8 5.8' stroke='%238e8e8e' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E")}
 .screen .icsp-overflow{width:32px;background-image:url('assets/ic_menu_moreoverflow_normal_holo_dark.png')}
 .screen .icsp-search:active,.screen .icsp-overflow:active{background-color:#33b5e566}
 /* SearchView expanded in the action bar, with the Holo suggestion dropdown. */
