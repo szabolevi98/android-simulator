@@ -153,6 +153,10 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 
 Apache License 2.0.
 
+### Live wallpapers
+
+`versions/{4.0.4,4.3}/assets/lw-*`: [packages/wallpapers/Basic drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_basic/tree/android-4.3_r1.1/res/drawable-hdpi) (the Nexus pyramid background, pulse and glow; the Grass skies; the Galaxy space, flares and light; the Water pond and leaves; and the thumbnails) and [LivePicker](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_LivePicker/tree/android-4.3_r1.1/res/drawable-hdpi) `livewallpaper_placeholder`. All are prefixed `lw-`. The renderers in `live-wallpapers.js` are JavaScript/WebGL ports of the same packages' RenderScript and Java sources. Apache License 2.0.
+
 ### Keyboard
 
 `versions/{4.0.4,4.3}/assets/ime-*.png`: [AOSP LatinIME java/res/drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_inputmethods_latinime/tree/android-4.3_r1.1/java/res/drawable-hdpi) (`btn_keyboard_key_{light,dark}_{normal,pressed}_holo`, `keyboard_background_holo` with the nine-patch border removed, and `sym_keyboard_*_holo`), identical at `android-4.0.4_r2.1` and `android-4.3_r1.1`. Apache License 2.0.

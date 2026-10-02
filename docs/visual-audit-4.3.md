@@ -438,3 +438,23 @@ The trees at `android-4.0.4_r2.1` and `android-4.3_r1.1` were compared by blob h
   - The action bar's Today button is the blank `ic_menu_today_holo_light` with a `DayOfMonthDrawable` on top: today's date in 14sp bold `#777`, centred, baseline at (height + text height + 1) / 2.
   - Event details use `EventInfoFragment` in `FULL_WINDOW_STYLE` on phones, so the headline's Edit/Delete buttons are gone. Edit (`ic_menu_compose_holo_light`) and Delete (`ic_menu_trash_holo_light`) sit in the action bar (`event_info_title_bar`).
   - The coloured `event_info_headline` follows its 8/16/16dp padding, with a 24sp bold title, one 14sp when-line (`Utils.getDisplayedDatetime`: the date, then ", start – end"), the repeat line at 70% white, and the location.
+
+## Live wallpapers — 2026-10-02
+
+The tuna `device.mk` builds `LiveWallpapers`, `LiveWallpapersPicker` and `VisualizationWallpapers`. `packages/wallpapers/Basic` (Nexus, Grass, Galaxy, Water, Polar clock) and LivePicker are identical at `android-4.0.4_r2.1` and `android-4.3_r1.1`, so both versions share `live-wallpapers.js`.
+- **Picker.** "Live Wallpapers" joins Gallery and Wallpapers in the chooser, sorted by label.
+  - `LiveWallpaperActivity` uses Theme.Holo without a title. Its list rows (`live_wallpaper_entry`) have a 75dp centre-cropped thumbnail and an 18sp title, sorted with a Collator in the current language.
+  - `LiveWallpaperPreview` shows the running wallpaper above a `#88000000` bar with Settings… (only where a settings activity exists) and Set wallpaper.
+  - Polar clock's settings page has Show seconds, Vary ring widths and the eight colour palettes.
+- **Engines.** Each runs only while visible (home, keyguard or preview), at its script's frame delay (Nexus and Galaxy 45 ms, Grass and Water 50 ms, Polar clock 40 ms with seconds, otherwise 2 s). Each takes the workspace scroll as its x offset.
+  - **Nexus** (`nexus.rs`): 20 pulses plus 40 tap pulses on a 14px grid, at 0.2 px/ms × a 0.7–1.7 speed scale. Trails are 40 cells long with a 64px glow head, coloured red, green, blue or yellow at 0.8 alpha and added (SRC_ALPHA, ONE) over `pyramid_background` stretched across two screens. A tap sends four pulses out of its cell.
+  - **Polar clock**: round-capped arcs for seconds, minutes, hours, day and month. Ring widths are 8, 16, 32, 16 and 32px with 14px and 38px gaps, starting at 12 o'clock. The centre moves with the offset (`lerp(s, -s, offset)`). Palettes come from `polar_clock_palettes.xml`; the default is the dynamic white one.
+  - **Grass** (`grass.rs`): 200 tessellated blades over twice the screen width.
+    - Perlin turbulence (`turbulencef2`, four octaves) bends them up to 0.09.
+    - The sky is night, sunrise, noon or sunset: dawn at 6:00 with two hours of sunrise, dusk at 18:00 with two hours of sunset. Blades are HSB greens dimmed to black at night.
+    - The preview runs a whole day every 30 seconds. The night sky keeps drawNight's vertical mirror.
+  - **Galaxy** (`galaxy.rs`, WebGL): 12000 point sprites.
+    - Distances follow a Gaussian; colours, point sizes and speeds are as in `createParticle`. The shader twists them by `dist × 5.5` into a 0.892 ellipse.
+    - The normalized-projection matrix, `calcMatrix` tilt and turn by the page offset (`angle` 50°, 0° in the preview), additive flares and the `light1` core are all replicated.
+  - **Water** (`fall.rs`, WebGL): a 48-column mesh samples `pond.jpg` through ten ripple drops, using the vertex shader's `addDrop`. 14 leaves drift and spin from the 8-sprite `leaves.png`, with shadows while they fall in. Leaves and taps start ripples.
+- **Not included yet.** The MusicVisualization wallpapers (Waveform, Spectrum, VU meter, Many).

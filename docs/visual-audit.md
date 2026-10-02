@@ -413,3 +413,7 @@ The ICS 4.0.4 Launcher2 first-run clings (workspace, all apps and folder) are no
 ## Calculator delete label — 2026-10-02
 
 The Calculator's delete key showed "DEL". The `android-4.0.4_r2.1` string `del` is "DELETE" (Hungarian "TÖRLÉS", German "Löschen", French "SUPPRIMER", Spanish "BORRAR"), and the key now uses it.
+
+## Live wallpapers — 2026-10-02
+
+The Galaxy Nexus 4.0.4 build includes the same Basic live wallpapers and LivePicker as 4.3. Galaxy, Grass, Nexus, Polar clock and Water are now available from the wallpaper chooser in both versions, with the same renderer; details are in [visual-audit-4.3.md](visual-audit-4.3.md).
