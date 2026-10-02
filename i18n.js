@@ -1099,7 +1099,6 @@
     ['Many','Sok','Viele','Multitude','Varios'],
     ['Full screen','Teljes képernyő','Vollbild','Plein écran','Pantalla completa'],
     ['Exit full screen','Kilépés a teljes képernyőből','Vollbild beenden','Quitter le plein écran','Salir de pantalla completa'],
-    ['Unofficial fan project','Nem hivatalos rajongói projekt','Inoffizielles Fanprojekt','Projet de fan non officiel','Proyecto de fans no oficial'],
     ['AOSP IN THE BROWSER','AOSP A BÖNGÉSZŐBEN','AOSP IM BROWSER','AOSP DANS LE NAVIGATEUR','AOSP EN EL NAVEGADOR'],
     ['Old Androids,','Régi Androidok,','Alte Androids,','Les anciens Android,','Androids antiguos,'],
     ['in the browser.','a böngészőben.','im Browser.','dans le navigateur.','en el navegador.'],

@@ -55,3 +55,8 @@ if (orbitCore && releases.length) {
     setTimeout(() => { index = (index + 1) % releases.length; show(); orbitCore.classList.remove('switching'); }, 350);
   }, 3500);
 }
+
+// Header: the span of releases in the catalogue; footer: the current year.
+const sortedIds = [...versions].map(version => version.id).sort((a, b) => numeric(a) - numeric(b)).map(id => id.split('.').slice(0, 2).join('.'));
+if (sortedIds.length) document.querySelector('#edition-range').textContent = `Android ${sortedIds[0]} – ${sortedIds[sortedIds.length - 1]}`;
+document.querySelector('#copyright-year').textContent = new Date().getFullYear();
