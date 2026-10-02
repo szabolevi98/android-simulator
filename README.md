@@ -1,6 +1,6 @@
 # Android Simulator
 
-An interactive browser simulator inspired by classic Android releases. Choose a version on the landing page. **Android 4.0.4 Ice Cream Sandwich** (Galaxy Nexus) and **Android 4.3 Jelly Bean** (Nexus 4) are available. **Android 2.3.6 Gingerbread** on the Nexus S is available as a work in progress (see [docs/visual-audit-2.3.md](docs/visual-audit-2.3.md)). KitKat 4.4.4 and Lollipop 5.1.1 are planned.
+An interactive browser simulator of classic Android releases, each on its own Nexus phone and rebuilt from AOSP sources and period screenshots. Choose a version on the landing page: **Android 2.3.6 Gingerbread** (Nexus S), **Android 4.0.4 Ice Cream Sandwich** (Galaxy Nexus) and **Android 4.3 Jelly Bean** (Nexus 4) are available, each with the store of its era (Android Market 3, Google Play Store 3.8 and 4.2). **Android 4.4.4 KitKat** on the Nexus 5 is in progress (see [docs/visual-audit-4.4.md](docs/visual-audit-4.4.md)); Lollipop 5.1.1 is planned.
 
 ## Getting started
 
