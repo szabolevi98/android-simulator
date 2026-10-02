@@ -2541,6 +2541,12 @@
     fullscreenButton.title = label; fullscreenButton.setAttribute('aria-label', label);
   };
   document.addEventListener('fullscreenchange', syncFullscreen); document.addEventListener('webkitfullscreenchange', syncFullscreen);
+  // The handle slides the header in; it hides again 4 s after the last touch on it.
+  let peekTimer = 0;
+  const peek = () => { document.documentElement.classList.add('header-peek'); clearTimeout(peekTimer); peekTimer = setTimeout(() => document.documentElement.classList.remove('header-peek'), 4000); };
+  document.querySelector('#header-handle').addEventListener('click', peek);
+  document.querySelector('.site-header').addEventListener('pointerdown', () => { if (document.documentElement.classList.contains('header-peek')) peek(); });
+  document.addEventListener('fullscreenchange', () => { if (!fullscreenElement()) { clearTimeout(peekTimer); document.documentElement.classList.remove('header-peek'); } });
   const languageSelect = document.querySelector('#language-select');
   languageSelect.value = i18n.language;
   languageSelect.addEventListener('change', event => { i18n.setLanguage(event.target.value); location.reload(); });

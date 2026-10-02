@@ -510,3 +510,16 @@ html,body{overscroll-behavior-y:none}
 .is-fullscreen .workspace{grid-template-columns:1fr;min-height:0}
 .is-fullscreen .page-shell{min-height:100vh}
 .is-fullscreen .device-area{padding:6px 0}
+
+/* Phones in full screen: the phone fills the display and the header slides away; a small handle at the top brings it
+   back for a few seconds (volume, power, exit). */
+#header-handle{display:none}
+@media(max-width:500px){
+  .is-fullscreen .site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:#080d13f0;box-shadow:0 2px 12px #000a;transform:translateY(-100%);transition:transform .25s ease}
+  .is-fullscreen.header-peek .site-header{transform:none}
+  .is-fullscreen .device{height:100dvh}
+  .is-fullscreen #header-handle{display:block;position:fixed;top:0;left:50%;z-index:101;width:64px;height:18px;margin-left:-32px;border:0;padding:0;background:none;cursor:pointer}
+  .is-fullscreen #header-handle::before{content:"";position:absolute;left:14px;right:14px;top:5px;height:4px;border-radius:2px;background:#ffffff59;box-shadow:0 0 0 1px #0006}
+  .is-fullscreen.header-peek #header-handle{display:none}
+}
+@media(max-width:500px){.is-fullscreen .device-area{padding:0}}
