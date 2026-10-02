@@ -1,7 +1,7 @@
 """Device frames as original SVG drawings. Only the outline geometry is measured from reference renders (alpha mask);
 all shading is drawn here. Output coordinates are CSS px, scaled so the display matches the simulator screen."""
 from PIL import Image
-import math, json
+import math, json, os
 
 def outline(path, body_x, body_y, scale, origin, cut_side_buttons=True, thr=110):
     im = Image.open(path).convert('RGBA'); W, H = im.size; px = im.load()
@@ -53,6 +53,14 @@ def hull_filter(pts, cx, cy):
     step = max(1, len(out) // 180)
     return out[::step]
 
+# Nexus S capacitive key glyphs in a 24-unit box: Back, Menu, Search, Home (left to right on the glass).
+TOUCHKEYS = {
+    'back': '<path d="M8.5 5.5 5 9l3.5 3.5M5.5 9H15a4.5 4.5 0 0 1 0 9H8"/>',
+    'menu': '<path d="M9 6h11M4 10h16M4 14h16M4 18h16"/>',
+    'search': '<circle cx="10" cy="10" r="5.5"/><path d="m14 14 5.5 5.5"/>',
+    'home': '<path d="M2.5 12.5 12 4.5l9.5 8M6 10.5V19h12v-8.5"/>',
+}
+
 def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110):
     sx0, sy0, sx1, sy1 = screen
     scale = css_screen[0] / (sx1 - sx0)
@@ -81,6 +89,9 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
         elif kind == 'lens':
             _, cx, cy, r = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m
             feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{S(r):.2f}" fill="url(#lens)" stroke="#2c3236" stroke-width=".8"/>')
+        elif kind == 'touchkey':
+            _, glyph, cx, cy, size = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m; k = S(size) / 24
+            feat.append(f'<g transform="translate({x - 12 * k:.2f} {y - 12 * k:.2f}) scale({k:.4f})" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">{TOUCHKEYS[glyph]}</g>')
         elif kind == 'sensor':
             _, cx, cy, rx, ry = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m
             feat.append(f'<ellipse cx="{x:.2f}" cy="{y:.2f}" rx="{S(rx):.2f}" ry="{S(ry):.2f}" fill="#16191b" stroke="#25292c" stroke-width=".5"/>')
@@ -90,6 +101,9 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
         x = m - o if side == 'left' else m + w - .5
         btn.append(f'<rect x="{x:.2f}" y="{yy0:.2f}" width="{o + .5:.2f}" height="{yy1 - yy0:.2f}" rx="1.2" fill="url(#key)"/>')
     p = palette
+    # Optional glass panel edge (Nexus S): the curved glass sits inside the plastic bezel and catches a thin highlight.
+    gi = p.get('glassInset', 0)
+    glass = f'<path d="{d}" transform="translate({m + gi} {m + gi}) scale({(w - 2 * gi) / w:.4f} {(h - 2 * gi) / h:.4f})" fill="none" stroke="url(#glassEdge)" stroke-width="1.1"/>' if gi else ''
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W:.2f} {H:.2f}" width="{W:.2f}" height="{H:.2f}">
 <defs>
 <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{p['body'][0]}"/><stop offset=".45" stop-color="{p['body'][1]}"/><stop offset="1" stop-color="{p['body'][2]}"/></linearGradient>
@@ -99,26 +113,38 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
 <linearGradient id="grille" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020303"/><stop offset=".55" stop-color="#15181a"/><stop offset="1" stop-color="#050606"/></linearGradient>
 <radialGradient id="lens" cx=".42" cy=".38" r=".6"><stop offset="0" stop-color="#25384a"/><stop offset=".45" stop-color="#0b1219"/><stop offset="1" stop-color="#040608"/></radialGradient>
 <linearGradient id="key" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
+<linearGradient id="glassEdge" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".45" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#fff" stop-opacity=".22"/></linearGradient>
 <clipPath id="clip"><path d="{d}" transform="translate({m} {m})"/></clipPath>
 </defs>
 {''.join(btn)}
 <path d="{d}" transform="translate({m} {m})" fill="url(#body)" stroke="url(#rim)" stroke-width="{p['rimWidth']}"/>
 <g clip-path="url(#clip)"><path d="{d}" transform="translate({m} {m}) scale({(w - 3) / w:.4f} {(h - 3) / h:.4f}) translate(1.5 1.5)" fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width="1.2"/>
-<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#glare)"/><rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#chin)"/></g>
+{glass}<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#glare)"/><rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#chin)"/></g>
 {''.join(feat)}
 </svg>'''
     return svg, {'width': round(W, 2), 'height': round(H, 2), 'margin': m, 'pad': {k: round(v + m, 2) for k, v in pad.items()}, 'scale': scale,
                  'buttons': [{'side': s, 'top': round(S(a - origin[1]) + m, 1), 'height': round(S(b - a), 1)} for s, a, b, o in buttons]}
 
 out = {}
-svg, info = frame('galaxy-nexus', 'gn-render.png', (23, 861), (22, 1691), (80, 231, 800, 1511), (306, 545),
+if os.path.exists('gn-render.png'):
+  svg, info = frame('galaxy-nexus', 'gn-render.png', (23, 861), (22, 1691), (80, 231, 800, 1511), (306, 545),
     [('slot', 442, 105, 195, 17), ('sensor', 572, 105, 15, 9), ('sensor', 616, 105, 10, 10), ('lens', 708, 112, 14)],
     [('right', 395, 522, 5), ('left', 552, 815, 8)],
     {'body': ['#191b1d', '#050606', '#0c0d0e'], 'rim': ['#c3c8cb', '#6c7073', '#b2b7ba'], 'rimWidth': 4.6, 'chin': .16})
-open('device-galaxy-nexus.svg', 'w').write(svg); out['gn'] = info
-svg, info = frame('nexus-4', 'n4-ref.png', (47, 899), (38, 1706), (89, 225, 857, 1505), (327, 545),
+  open('device-galaxy-nexus.svg', 'w').write(svg); out['gn'] = info
+if os.path.exists('n4-ref.png'):
+  svg, info = frame('nexus-4', 'n4-ref.png', (47, 899), (38, 1706), (89, 225, 857, 1505), (327, 545),
     [('notch', 473, 58, 190, 160, 20), ('sensor', 145, 112, 9, 9), ('sensor', 172, 112, 9, 9), ('lens', 778, 116, 13)],
     [('right', 300, 400, 5), ('left', 330, 560, 5)],
     {'body': ['#18191b', '#060707', '#0d0e0f'], 'rim': ['#8e9396', '#3f4346', '#83888b'], 'rimWidth': 3.0, 'chin': .05}, thr=235)
-open('device-nexus-4.svg', 'w').write(svg); out['n4'] = info
+  open('device-nexus-4.svg', 'w').write(svg); out['n4'] = info
+# Nexus S (Samsung GT-I9020, crespo): glossy black Contour Display, no metal rim, four capacitive keys under the glass.
+# The display window is 480 x 800 at 0.575 (276 x 460), sized to the 4.0" panel next to the 4.65" Galaxy Nexus.
+if os.path.exists('ns-render.png'):
+  svg, info = frame('nexus-s', 'ns-render.png', (40, 1012), (26, 2016), (112, 330, 940, 1710), (276, 460),
+    [('slot', 521, 165, 238, 30), ('lens', 740, 155, 19),
+     ('touchkey', 'back', 226, 1828, 84), ('touchkey', 'menu', 430, 1828, 84), ('touchkey', 'search', 621, 1828, 84), ('touchkey', 'home', 813, 1828, 84)],
+    [('right', 396, 563, 7), ('left', 571, 873, 7)],
+    {'body': ['#121314', '#020203', '#09090a'], 'rim': ['#3c4043', '#0a0b0c', '#34383b'], 'rimWidth': 2.2, 'chin': .1, 'glassInset': 4.5})
+  open('device-nexus-s.svg', 'w').write(svg); out['ns'] = info
 print(json.dumps(out, indent=1))

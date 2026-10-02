@@ -23,7 +23,7 @@ window.ANDROID_VERSIONS = [
     status: 'available',
     art: {wallpaper: 'jb-wallpaper_01.jpg', search: 'jb', phone: 'nexus4'}
   },
-  { id: '2.3.7', name: 'Gingerbread', version: 'Android 2.3.7', year: '2011', device: 'Korabeli Android', status: 'planned' },
+  { id: '2.3.6', name: 'Gingerbread', version: 'Android 2.3.6', year: '2011', device: 'Nexus S · AOSP', status: 'planned' },
   { id: '4.4.4', name: 'KitKat', version: 'Android 4.4.4', year: '2014', device: 'Korabeli Android', status: 'planned' },
   { id: '5.1.1', name: 'Lollipop', version: 'Android 5.1.1', year: '2015', device: 'Korabeli Android', status: 'planned' }
 ];
