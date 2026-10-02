@@ -159,12 +159,13 @@ if os.path.exists('ns-render.png'):
   open('device-nexus-s.svg', 'w').write(svg); out['ns'] = info
 # Nexus 5 (LG-D821, hammerhead): matte black body with a thin grey rim, front camera left, the round earpiece grille in the
 # middle, proximity / light sensors right. Traced from Google's front render (Wikimedia Commons "Nexus 5 Front View.png",
-# CC BY 2.5, Google Android), whose display is exactly 1080 x 1920 at (304, 436). The 4.95" panel next to the 4.65" Galaxy
+# CC BY 2.5, Google Android), whose display is exactly 1080 x 1920 at (304, 436). The render has a soft drop shadow under the
+# bottom edge, so the alpha threshold is 235 (as for the Nexus 4) to keep it out of the outline. The 4.95" panel next to the 4.65" Galaxy
 # Nexus (545 px tall) is 580 px tall, so the window is 326.25 x 580 (1 dp = 0.906 px).
 if os.path.exists('n5-render.png'):
-  svg, info = frame('nexus-5', 'n5-render.png', (251, 1438), (243, 2626), (304, 436, 1384, 2356), (326.25, 580),
+  svg, info = frame('nexus-5', 'n5-render.png', (251, 1438), (243, 2614), (304, 436, 1384, 2356), (326.25, 580),
     [('lens', 447, 362, 14), ('roundgrille', 843, 358, 28), ('sensor', 1220, 357, 10, 10), ('sensor', 1262, 357, 6, 6)],
     [('right', 548, 696, 9), ('left', 704, 1076, 9)],
-    {'body': ['#1d1d1e', '#0d0d0e', '#151516'], 'rim': ['#6a6b6d', '#2e2f30', '#5c5d5f'], 'rimWidth': 3.2, 'chin': .06})
+    {'body': ['#1d1d1e', '#0d0d0e', '#151516'], 'rim': ['#6a6b6d', '#2e2f30', '#5c5d5f'], 'rimWidth': 3.2, 'chin': .06}, thr=235)
   open('device-nexus-5.svg', 'w').write(svg); out['n5'] = info
 print(json.dumps(out, indent=1))

@@ -621,11 +621,11 @@ html,body{overscroll-behavior-y:none}
 .wfd-category .wfd-spinner{width:18px;height:18px;border:2px solid #33b5e5;border-top-color:transparent;border-radius:50%;animation:wfd-spin .9s linear infinite;margin-right:14px}
 @keyframes wfd-spin{to{transform:rotate(360deg)}}
 
-/* Nexus 5 front as an SVG drawing (assets/device-nexus-5.svg, docs/device-frames.py): the outline is measured from
+/* Nexus 5 front as an SVG drawing (assets/device-nexus-5.svg?v=2, docs/device-frames.py): the outline is measured from
    Google's front render, the shading is drawn; the 326.25 x 580 window is the 4.95" 1080 x 1920 panel (1 dp = 0.906 px). */
 @media(min-width:501px){
-  .device{width:370.57px;height:731.86px;padding:64.3px 22.31px 87.56px 22.01px;border:0;border-radius:0;background:none;box-shadow:none}
-  .device::before{content:"";position:absolute;inset:0;border:0;border-radius:0;box-shadow:none;background:url('assets/device-nexus-5.svg') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);z-index:0;pointer-events:none}
+  .device{width:370.57px;height:728.24px;padding:64.3px 22.31px 83.94px 22.01px;border:0;border-radius:0;background:none;box-shadow:none}
+  .device::before{content:"";position:absolute;inset:0;border:0;border-radius:0;box-shadow:none;background:url('assets/device-nexus-5.svg?v=2') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);z-index:0;pointer-events:none}
   .device::after{display:none}
   .device .screen{border-radius:0;box-shadow:none}
   .earpiece,.front-camera,.proximity-sensor,.device-chin{display:none}
