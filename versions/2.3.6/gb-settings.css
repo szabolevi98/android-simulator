@@ -48,3 +48,7 @@
 .screen .gbchoose-buttons button:disabled,.screen .gbchoose-bottombar button:disabled{color:#00000066;cursor:default}
 .gbchoose-bottombar{gap:6px}
 .gbset .credential-demo{color:#888;font-size:11px;padding:8px 12px}
+
+/* PlatLogoActivity: the Gingerbread zombie art fitted on black, full screen. */
+.screen .gb-platlogo{display:block;width:100%;height:100%;padding:0;border:0;background:#000;cursor:pointer}
+.gb-platlogo img{display:block;width:100%;height:100%;object-fit:contain}

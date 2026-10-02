@@ -174,3 +174,14 @@ Apache License 2.0.
 - [Email](https://github.com/aosp-mirror/platform_packages_apps_email/tree/android-2.3.6_r1/res/drawable-hdpi) (`gb-app-email-*`).
 
 The 1px guide border is removed from nine-patch images. `versions/2.3.6/fonts/DroidSans.ttf` and `DroidSans-Bold.ttf` come from [frameworks/base data/fonts](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-2.3.6_r1/data/fonts). Copyright The Android Open Source Project; Apache License 2.0.
+
+App drawables carry a prefix for their source package at `android-2.3.6_r1`:
+- `gb-br-*`: [Browser](https://github.com/aosp-mirror/platform_packages_apps_browser/tree/android-2.3.6_r1/res);
+- `gb-cal-*`: [Calendar](https://github.com/aosp-mirror-neo/platform_packages_apps_calendar/tree/android-2.3.6_r1/res);
+- `gb-em-*`: [Email](https://github.com/aosp-mirror/platform_packages_apps_email/tree/android-2.3.6_r1/res);
+- `gb-g3-*`: [Gallery3D](https://github.com/aosp-mirror-neo/platform_packages_apps_gallery3d/tree/android-2.3.6_r1/res);
+- `gb-cam-*`: [Camera](https://github.com/aosp-mirror/platform_packages_apps_camera/tree/android-2.3.6_r1/res). The `*-p.png` files are rotated 90° for the upright phone.
+- `gb-ce-*`: [Contacts](https://github.com/aosp-mirror/platform_packages_apps_contacts/tree/android-2.3.6_r1/res);
+- `gb-st-*`: [Settings](https://github.com/aosp-mirror/platform_packages_apps_settings/tree/android-2.3.6_r1/res).
+
+`gb-recent_dialog_background.png` and `gb-platlogo.jpg` (the PlatLogoActivity image, "Zombie art by Jack Larson") come from frameworks/base core/res. Copyright The Android Open Source Project; Apache License 2.0.

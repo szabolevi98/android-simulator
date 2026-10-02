@@ -508,3 +508,8 @@ References: Settings 2.3.6 (`manage_applications.xml`, `manage_applications_item
   - The launcher label bubble used `#b2191919` (CSS RRGGBBAA) for Android's #B2191919 and showed a faint red. It is now `#191919b2`.
   - `docs/gb-strings.py` now collapses raw XML whitespace like aapt does, so line breaks inside resource text no longer leak into the strings.
 - Accounts & sync stays the inherited page: in 2.3.6 it belongs to the Google account components, not to AOSP Settings.
+
+## Easter egg — 2026-10-02
+
+- Three taps on Android version within 500 ms (DeviceInfoSettings mHits) open PlatLogoActivity, not ICS's Nyandroid. It runs under Theme.NoTitleBar.Fullscreen, so the status bar is hidden.
+- `platlogo.jpg`, the Gingerbread zombie art, is shown FIT_CENTER on black. Every touch shows the "Zombie art by Jack Larson" toast. Back returns to About phone.
