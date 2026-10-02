@@ -566,3 +566,16 @@ All artwork is drawn here, including the bag icon (`assets/play-store.svg`, 2.3.
 - The labels come from a small five-language table in `gb-market.js`, since the Market's own translations are not public.
 
 Checks: `gb-market.test.cjs` covers the home tiles and colours, the section tab strip, the free and paid lists, the details states, download progress, permissions, My apps, search, settings, the menu and translations. Headless Chrome covered home → Games → TOP PAID / TOP FREE → details → Accept & download → Downloading → Open / Uninstall → My apps → search, plus Hungarian. The five-language sweep at 360 × 640 now includes the Market and is clean.
+
+## Widgets — 2026-10-02
+
+References: DeskClock `analog_appwidget.xml` and `xml/analog_appwidget.xml`, Settings `widget.xml` / `appwidget_info.xml` / `SettingsAppWidgetProvider`, Gallery3D `photo_frame.xml` / `appwidget_info.xml` / `PhotoAppWidgetConfigure`, Browser `bookmarkwidget.xml` / `xml/bookmarkwidget.xml`, and their `drawable-hdpi` art (`gb-w-*`).
+
+- **The widget list now matches the 2.3.6 build:** Analog clock, Bookmarks, Home screen tips, Music, Picture frame, Power control and Search, sorted by label like AppWidgetPickActivity.
+  - The inherited ICS widgets are gone: the Calendar widget (2.3.6 Calendar has no app widget) and the Gallery2 photo stack. Saved Calendar widgets are dropped when the data loads.
+- **Analog clock** (2 × 2): the dark DeskClock dial with the green hands.
+- **Power control** (4 × 1, 294 × 72 dip):
+  - The five buttons (Wi-Fi, Bluetooth, GPS, Sync, Brightness) sit on `appwidget_bg`, separated by `appwidget_settings_divider`. Each shows the `ic_appwidget_settings_*_on/off` icon over the green / grey / yellow `appwidget_settings_ind_*_l/c/r` bar and the `appwidget_inner_press` highlight.
+  - Brightness cycles low → default → full → automatic, like toggleBrightness.
+- **Picture frame** (2 × 2): adding it opens the Gallery in pick mode (the path bar says "Pick" and the camera button is hidden). The chosen picture is centre-cropped inside `photo_inner` on `appwidget_bg`. Back cancels the widget.
+- **Bookmarks** (4 × 4): previous / title / next above the page thumbnail. The arrows step through the bookmarks, and a tap opens the page in the Browser.

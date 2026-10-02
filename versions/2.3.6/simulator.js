@@ -73,6 +73,8 @@
       }
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
+      // 2.3.6 has no Calendar widget; Picture frames hold one picture.
+      result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget?.type !== 'calendar').map(widget => widget?.type === 'photo' ? {...widget, width: 2, height: 2} : widget) : page);
       // A reload during Gallery widget configuration leaves no completed choice.
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
       if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 99;
@@ -122,16 +124,8 @@
   ];
   // crespo overlay packages/apps/Launcher2 res/values-hdpi/wallpapers.xml, in its order; 960 x 800 images span two screens.
   const wallpaperFiles = ['street_lights','stream','phasebeam','pulse','nexusrain','stars','canyon','grass','zanzibar','cloud','monumentvalley','mountains','sunset','goldengate','shuttle'];
-  const widgetTypes = [
-    { type: 'search', name: 'Search', app: 'browser', width: 4, height: 1 },
-    { type: 'protips', name: 'Home screen tips', app: 'settings', width: 4, height: 1 },
-    { type: 'analog', name: 'Analog clock', app: 'clock', width: 2, height: 2 },
-    { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3 },
-    { type: 'music', name: 'Music', app: 'music', width: 4, height: 1 },
-    // Gallery2 asks for 180dp plus ICS default widget padding: 3 × 3 Launcher cells.
-    { type: 'photo', name: 'Photo Gallery', app: 'gallery', width: 3, height: 3 },
-    { type: 'power', name: 'Power control', app: 'settings', width: 4, height: 1 }
-  ];
+  // The 2.3.6 widget providers (AppWidgetPickActivity, sorted by label); 2.3.6 Calendar has no app widget.
+  const widgetTypes = GBWidgets.PROVIDERS.map(p => ({type: p.type, name: p.label, app: p.app, width: p.width, height: p.height}));
   const widgetSize = value => {
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
@@ -430,12 +424,15 @@
   }
   // Drawer and drag previews use the providers' original previewImage artwork where AOSP has one.
   function widgetArt(type) {
-    if (type === 'analog') return analogClock();
+    if (type === 'analog') return GBWidgets.analog(deviceDate());
+    if (type === 'photo') return GBWidgets.pictureFrame(data.photos[0], ICSMedia.image);
+    if (type === 'bookmarks') return GBWidgets.bookmarks(data.bookmarks || [], 0, gbBrowserTitle, renderWebsite);
     if (type === 'digital') return `<strong class="widget-time">${clock()}</strong><span>${fullDate()}</span>`;
     if (type === 'calendar') return '<img class="widget-preview-image" src="assets/calwidget-calendar_widget_preview.png" alt="">';
     if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
     if (type === 'music') return ICSWidgets.music(ui.music, tracks, false, key => i18n.t(key), true);
-    if (type === 'power') return `<div class="power-widget">${[['wifi','wifi'],['bluetooth','bluetooth'],['gps','gps'],['autoSync','sync'],['brightness','brightness']].map(([key,asset]) => `<span class="power-cell ${data.settings[key] ? 'enabled' : ''}"><img src="assets/power-${asset}-${key === 'brightness' ? data.settings.brightness > 70 ? 'full' : data.settings.brightness > 25 ? 'half' : 'off' : data.settings[key] ? 'on' : 'off'}.png" alt=""><i></i></span>`).join('')}</div>`;
+    if (type === 'power') return GBWidgets.power({...GBSettings.DEFAULTS, ...data.settings});
+    if (type === 'power-ics') return `<div class="power-widget">${[['wifi','wifi'],['bluetooth','bluetooth'],['gps','gps'],['autoSync','sync'],['brightness','brightness']].map(([key,asset]) => `<span class="power-cell ${data.settings[key] ? 'enabled' : ''}"><img src="assets/power-${asset}-${key === 'brightness' ? data.settings.brightness > 70 ? 'full' : data.settings.brightness > 25 ? 'half' : 'off' : data.settings[key] ? 'on' : 'off'}.png" alt=""><i></i></span>`).join('')}</div>`;
     return '<img class="widget-preview-image" src="assets/gallery-widget_preview.png" alt="">';
   }
   const musicActive = () => ui.music.playing || ui.music.position > 0 || !!ui.musicActive;
@@ -443,9 +440,11 @@
     const t = key => i18n.t(key);
     if (widget.type === 'search') return GBLauncher.search(t);
     if (widget.type === 'protips') return GBLauncher.protips({...(data.protips || {index: 0, set: 0}), icon: ui.tipsIcon}, i18n.language);
-    if (widget.type === 'calendar') return ICSWidgets.calendar(data, t, i18n.locale(), deviceDate(), !!data.settings.hour24);
+    if (widget.type === 'analog') return GBWidgets.analog(deviceDate());
+    if (widget.type === 'power') return GBWidgets.power({...GBSettings.DEFAULTS, ...data.settings}, t);
+    if (widget.type === 'bookmarks') return GBWidgets.bookmarks(data.bookmarks || [], ui.bookmarkWidget?.[widget.id] || 0, gbBrowserTitle, renderWebsite);
     if (widget.type === 'music') return GBLauncher.music(ui.music, tracks[ui.music.track], musicActive(), t);
-    if (widget.type === 'photo') return ICSWidgets.photo(data, widget, ui.photoStacks?.[widget.id] || 0, t);
+    if (widget.type === 'photo') { const photo = data.photos.find(p => p.id === widget.photo) || (widget.source === 'album' ? ICSMedia.photos(data, widget.album)[0] : widget.source === 'shuffle' ? data.photos[0] : null); return GBWidgets.pictureFrame(photo, ICSMedia.image); }
     return null;
   }
   const homeWidget = widget => {
@@ -477,7 +476,7 @@
     if (!spot) return false;
     const widget = {id:`widget-${Date.now()}`,type,x:spot[0],y:spot[1]};
     // Gallery2 declares a configure activity; the widget stays empty until it finishes.
-    if (type === 'photo') { widget.source = null; ui.photoWidgetSetup = {page: ui.page, id: widget.id}; ui.overlay = 'widget-photo-type'; }
+    if (type === 'photo') { widget.source = null; ui.photoWidgetSetup = {page: ui.page, id: widget.id}; ui.gbgPickPending = true; }
     data.homeWidgets[ui.page].push(widget);
     save(); return widget;
   }
@@ -580,6 +579,7 @@
     if (ui.view === 'people' && (ui.sub === 'edit' || ui.sub === 'new') && viewport.querySelector('.gbce')) { viewport.querySelector('.gbce').requestSubmit(); return; }
     if (ui.view === 'camera' && ui.gbcamPopup) { ui.gbcamPopup = ''; render(); return; }
     if (ui.view === 'camera' && ui.gbcamRec) { gbcamStopRecording(); render(); return; }
+    if (ui.view === 'gallery' && ui.gbgPick && !ui.sub) { ui.gbgPick = false; cancelPhotoWidget(); home(false); return; }
     if (ui.view === 'gallery' && ui.gbgPopup) { ui.gbgPopup = ''; render(); return; }
     if (ui.view === 'gallery' && ui.gbgSelect) { gbgEndSelection(); render(); return; }
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
@@ -647,7 +647,7 @@
       {action: 'gb-add-folders', title: t('Folders'), icon: 'l2-ic_launcher_folder'},
       {action: 'gb-wallpaper', title: t('Wallpapers'), icon: 'l2-ic_launcher_wallpaper'}]};
     if (ui.overlay === 'gb-dialog-shortcuts') return {title: t('Select shortcut'), items: [...apps].sort((a, b) => t(a[1]).localeCompare(t(b[1]), i18n.locale())).map(app => ({action: 'gb-add-app', id: app[0], title: t(app[1]), icon: `${app[0]}.png`}))};
-    if (ui.overlay === 'gb-dialog-widgets') return {title: t('Choose widget'), items: widgetTypes.map(widget => ({action: 'add-widget-gb', id: widget.type, title: t(widget.name), icon: `${widget.app || 'settings'}.png`}))};
+    if (ui.overlay === 'gb-dialog-widgets') return {title: t('Choose widget'), items: [...widgetTypes].sort((a, b) => t(a.name).localeCompare(t(b.name), i18n.locale())).map(widget => ({action: 'add-widget-gb', id: widget.type, title: t(widget.name), icon: `${widget.app || 'settings'}.png`}))};
     if (ui.overlay === 'gb-dialog-folders') return {title: t('Select folder'), items: [
       {action: 'gb-new-folder', title: t('New folder'), icon: 'l2-ic_launcher_folder'},
       {action: 'gb-new-folder', id: 'all', title: t('All contacts'), icon: 'ic_launcher_folder_live_contacts'},
@@ -1149,7 +1149,7 @@
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
   function renderGallery() { return GBGallery.render(gbGalleryContext()); }
   function gbGalleryContext() {
-    return {lang: i18n.language, locale: i18n.locale(), now: deviceDate(), data, sub: ui.sub || '', album: ui.galleryAlbum || 'camera', photo: data.photos.find(p => p.id === ui.selectedPhoto), selecting: !!ui.gbgSelect, selected: ui.gbgSelected || [], popup: ui.gbgPopup || '', caption: !!ui.gbgCaption, zoom: !!ui.galleryZoom, slideshow: !!ui.gallerySlideshow, hudHidden: !!ui.gbgHudHidden, stackMode: !!ui.gbgStack, width: viewport.clientWidth || 276, height: viewport.clientHeight || 438, timebar: 48 * GBGallery.DP};
+    return {pick: !!ui.gbgPick, lang: i18n.language, locale: i18n.locale(), now: deviceDate(), data, sub: ui.sub || '', album: ui.galleryAlbum || 'camera', photo: data.photos.find(p => p.id === ui.selectedPhoto), selecting: !!ui.gbgSelect, selected: ui.gbgSelected || [], popup: ui.gbgPopup || '', caption: !!ui.gbgCaption, zoom: !!ui.galleryZoom, slideshow: !!ui.gallerySlideshow, hudHidden: !!ui.gbgHudHidden, stackMode: !!ui.gbgStack, width: viewport.clientWidth || 276, height: viewport.clientHeight || 438, timebar: 48 * GBGallery.DP};
   }
   // The photos a selection stands for: whole albums on the album screen, single photos elsewhere.
   function gbgSelectedPhotos() {
@@ -1430,7 +1430,7 @@
       case 'play-rate': { const top = viewport.querySelector('.play-content').scrollTop; data.playRatings ||= {}; data.playRatings[ui.play.selected] = Number(id); save(); render(); viewport.querySelector('.play-content').scrollTop = top; break; }
       case 'page': setHomePage(Number(id)); break;
       case 'power-toggle':
-        if (id === 'brightness') data.settings.brightness = data.settings.brightness < 30 ? 55 : data.settings.brightness < 80 ? 100 : 20;
+        if (id === 'brightness') { const auto = data.settings.autoBrightness ?? GBSettings.DEFAULTS.autoBrightness; if (auto) { data.settings.autoBrightness = false; data.settings.brightness = 20; } else if ((data.settings.brightness ?? 60) < 30) data.settings.brightness = 55; else if (data.settings.brightness < 80) data.settings.brightness = 100; else data.settings.autoBrightness = true; }
         else data.settings[id] = !data.settings[id];
         if(id==='wifi'&&data.settings.wifi)data.settings.portableHotspot=false;
         if(id==='bluetooth'&&!data.settings.bluetooth)data.settings.bluetoothTether=false;
@@ -1472,7 +1472,9 @@
       case 'gbset-adb-ok': data.settings.usbDebug = true; ui.overlay = ''; save(); render(); break;
       case 'gbset-brightness-ok': { const input = overlayRoot.querySelector('.gbbright input[type=range]'); if (input) data.settings.brightness = Number(input.value); const auto = overlayRoot.querySelector('.gbbright input[type=checkbox]'); if (auto) data.settings.autoBrightness = auto.checked; ui.overlay = ''; save(); render(); break; }
       case 'gb-add-app': { ui.overlay = ''; const slot = data.homePages[ui.page].findIndex((item, index) => !item && widgetFits(ui.page, index % 4, Math.floor(index / 4), {type: 'x', width: 1, height: 1})); if (slot < 0) { renderOverlay(); toast('No more room on this Home screen.'); break; } data.homePages[ui.page][slot] = id; save(); render(); break; }
-      case 'add-widget-gb': { ui.overlay = ''; const added = addWidget(id); if (!added) { renderOverlay(); toast('No more room on this Home screen.'); break; } if (ui.overlay) renderOverlay(); render(); break; }
+      case 'add-widget-gb': { ui.overlay = ''; const added = addWidget(id); if (!added) { renderOverlay(); toast('No more room on this Home screen.'); break; } if (ui.gbgPickPending) { ui.gbgPickPending = false; save(); const setup = ui.photoWidgetSetup; openApp('gallery'); ui.photoWidgetSetup = setup; ui.gbgPick = true; ui.sub = ''; render(); break; } if (ui.overlay) renderOverlay(); render(); break; }
+      case 'widget-bookmark-step': { const host = button.closest('.home-widget'); if (!host) break; (ui.bookmarkWidget ||= {})[host.dataset.widgetId] = (ui.bookmarkWidget[host.dataset.widgetId] || 0) + Number(id); render(); break; }
+      case 'widget-bookmark-open': openApp('browser'); navigateBrowser(id); break;
       case 'gb-wp-pick': ui.wpChoice = Number(id); render(); viewport.querySelector('.gbwp-item.selected')?.scrollIntoView({inline: 'center', block: 'nearest', behavior: reducedMotion?.matches ? 'auto' : 'smooth'}); break;
       case 'gb-preview-go': ui.overlay = ''; renderOverlay(); setHomePage(Number(id)); break;
       case 'gb-tip-next': data.protips = {...(data.protips || {set: 0}), index: ((data.protips?.index ?? -1) + 1) % GBLauncher.tips(i18n.language, data.protips?.set).length}; save(); render(); break;
@@ -1706,7 +1708,9 @@
       case 'gbg-rotate': gbgSelectedPhotos().forEach(p => p.rotation = ((p.rotation || 0) + Number(id) + 360) % 360); save(); ui.gbgPopup = ''; if (ui.sub === 'photo') gbgEndSelection(); render(); break;
       case 'gbg-wallpaper': { const photo = gbgSelectedPhotos()[0]; gbgEndSelection(); if (photo) { data.wallpaper = 99; delete data.liveWallpaper; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); toast('Wallpaper set'); } render(); break; }
       case 'gbg-share-email': { const photo = gbgSelectedPhotos()[0]; gbgEndSelection(); if (!photo) break; openApp('email'); composeEmail(); const item = data.mailbox.find(m => m.id === ui.emailId); if (item) item.attachment = clone(photo); save(); render(); break; }
-      case 'photo': ui.selectedPhoto=Number(id);ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});ui.sub='photo';ui.galleryZoom=false;render();break;
+      case 'photo': if (ui.view === 'gallery' && ui.gbgPick) { ui.gbgPick = false; const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; const widget = setup && data.homeWidgets[setup.page]?.find(w => w.id === setup.id); if (widget) Object.assign(widget, {source: 'photo', photo: Number(id)}); save(); ui.page = setup?.page ?? ui.page; ui.view = 'home'; ui.sub = ''; render(); break; }
+        if (ui.view === 'home') { openApp('gallery'); }
+        ui.selectedPhoto=Number(id);ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});ui.sub='photo';ui.galleryZoom=false;render();break;
       case 'gallery-step': galleryStep(Number(id));break;
       case 'gallery-photo-zoom': ui.galleryZoom=!ui.galleryZoom;render();break;
       case 'gallery-details': { const photo = gbgSelectedPhotos()[0] || data.photos.find(p => p.id === ui.selectedPhoto); if (photo) ui.selectedPhoto = photo.id; ui.gbgPopup = ''; ui.overlay = 'gb-dialog-gallery'; render(); renderOverlay(); break; }

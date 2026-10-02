@@ -1,0 +1,37 @@
+/* Android 2.3.6 widgets. appwidget_bg (101 px, stretch 24..78, 14 px padding), the DeskClock dial (240 px), the Power control
+   indicator bars (13 / 11 / 13 x 15 px nine-patches) and photo_inner; hdpi px x 0.575, 1 dp = 0.8625 px. */
+.home-widget.widget-analog,.home-widget.widget-power,.home-widget.widget-photo,.home-widget.widget-bookmarks{display:flex;align-items:center;justify-content:center;padding:2px;box-sizing:border-box}
+.screen .gbw-analog{position:relative;width:min(138px,100%);aspect-ratio:1;padding:0;border:0;background:none;cursor:pointer}
+.gbw-analog img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.gbw-analog img.hand{transform-origin:50% 50%}
+/* Power control: 72 dip tall on appwidget_bg, buttons with appwidget_inner_press_l / c / r when pressed. */
+.gbw-power{display:flex;align-items:stretch;width:100%;height:62.1px;padding:8.05px;box-sizing:border-box;border:0 solid transparent;border-image:url('assets/gb-w-appwidget_bg.png') 24 22 22 24 fill / 13.8px 12.65px 12.65px 13.8px stretch}
+.gbw-power .gbw-div{flex:none;width:.86px;background:url('assets/gb-w-st-appwidget_settings_divider.png') 0 0/100% 100%}
+.screen .gbw-pbtn{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;padding:0;border:0;background:none;cursor:pointer}
+.screen .gbw-pbtn.l:active{border-image:url('assets/gb-w-st-appwidget_inner_press_l.png') 10 3 10 10 fill / 5.75px 1.73px 5.75px 5.75px stretch}
+.screen .gbw-pbtn.c:active{border-image:url('assets/gb-w-st-appwidget_inner_press_c.png') 10 3 10 3 fill / 5.75px 1.73px stretch}
+.screen .gbw-pbtn.r:active{border-image:url('assets/gb-w-st-appwidget_inner_press_r.png') 10 10 10 3 fill / 5.75px 5.75px 5.75px 1.73px stretch}
+.gbw-pbtn img{flex:1;min-height:0;width:27.6px;object-fit:contain}
+.gbw-ind{flex:none;align-self:stretch;height:8.63px;border:0 solid transparent}
+.gbw-ind.l{border-image:url('assets/gb-w-st-appwidget_settings_ind_off_l.png') 9 5 5 7 fill / 5.18px 2.88px 2.88px 4.03px stretch}
+.gbw-ind.c{border-image:url('assets/gb-w-st-appwidget_settings_ind_off_c.png') 9 5 5 5 fill / 5.18px 2.88px stretch}
+.gbw-ind.r{border-image:url('assets/gb-w-st-appwidget_settings_ind_off_r.png') 9 6 5 6 fill / 5.18px 3.45px 2.88px stretch}
+.gbw-ind.l.on{border-image-source:url('assets/gb-w-st-appwidget_settings_ind_on_l.png')}
+.gbw-ind.c.on{border-image-source:url('assets/gb-w-st-appwidget_settings_ind_on_c.png')}
+.gbw-ind.r.on{border-image-source:url('assets/gb-w-st-appwidget_settings_ind_on_r.png')}
+.gbw-ind.c.mid{border-image-source:url('assets/gb-w-st-appwidget_settings_ind_mid_c.png')}
+.gbw-ind.r.mid{border-image-source:url('assets/gb-w-st-appwidget_settings_ind_mid_r.png')}
+/* Picture frame: appwidget_bg, 3 dip padding, 1 px inset with the photo_inner foreground. */
+.screen .gbw-frame{width:100%;height:100%;max-width:125.9px;max-height:125.9px;padding:calc(8.05px + 2.59px);box-sizing:border-box;border:0 solid transparent;border-image:url('assets/gb-w-appwidget_bg.png') 24 22 22 24 fill / 13.8px 12.65px 12.65px 13.8px stretch;background:none;cursor:pointer}
+.gbw-frame-inner{position:relative;display:block;width:100%;height:100%;padding:1px;box-sizing:border-box;background:#111}
+.gbw-frame-inner::after{content:"";position:absolute;inset:0;border:0 solid transparent;border-image:url('assets/gb-g3-photo_inner.png') 7 7 7 7 fill / 4.03px stretch;pointer-events:none}
+.gbw-frame-inner img{display:block;width:100%;height:100%;object-fit:cover}
+/* Bookmarks: 8 dip padding on appwidget_bg; the 10 dip padded find arrows around the 18 sp title; the thumbnail below. */
+.gbw-bookmarks{display:flex;flex-direction:column;width:100%;height:100%;padding:6.9px;box-sizing:border-box;border:0 solid transparent;border-image:url('assets/gb-w-appwidget_bg.png') 24 22 22 24 fill / 13.8px 12.65px 12.65px 13.8px stretch}
+.gbw-bm-head{flex:none;display:flex;align-items:center}
+.screen .gbw-bm-step{flex:none;width:39.65px;height:43.13px;padding:0;border:0;background:url('assets/gb-br-ic_btn_find_prev.png') center/22.43px 25.88px no-repeat;cursor:pointer}
+.screen .gbw-bm-step.next{background-image:url('assets/gb-br-ic_btn_find_next.png')}
+.screen .gbw-bm-step:active{background-color:#ffffff22}
+.gbw-bm-title{flex:1;min-width:0;text-align:center;font-size:15.53px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gbw-bm-image{position:relative;flex:1;min-height:0;margin:4.31px;padding:0;border:0;background:#fff;overflow:hidden;cursor:pointer}
+.gbw-bm-page{position:absolute;left:0;top:0;width:276px;padding:15px;box-sizing:border-box;background:#fff;color:#333;transform:scale(.82);transform-origin:0 0;pointer-events:none;text-align:left}

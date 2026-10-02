@@ -20,7 +20,7 @@
   function pathBar(parts) {
     return `<div class="gbg-path">${parts.map(([icon, label, action], i) => `<button class="gbg-crumb${i === parts.length - 1 ? ' last' : ''}"${action ? ` data-action="${action}"` : ''}>${icon ? `<img src="assets/${icon}" alt="">` : ''}${label ? `<span>${e(label)}</span>` : ''}</button>`).join('')}</div>`;
   }
-  const home = ctx => ['gb-g3-icon_home_small.png', text(ctx.lang, 'app_name'), ctx.sub ? 'gbg-home' : ''];
+  const home = ctx => ctx.pick ? ['gb-g3-icon_folder_small.png', text(ctx.lang, 'pick'), ctx.sub ? 'gbg-home' : ''] : ['gb-g3-icon_home_small.png', text(ctx.lang, 'app_name'), ctx.sub ? 'gbg-home' : ''];
   const background = cover => `<div class="gbg-bg"${cover ? ` style="background-image:url('${cover}')"` : ''}></div>`;
   // MenuBar: selection_menu_bg with dividers; each item is an icon and a label.
   const menuBar = (items, cls) => `<div class="gbg-menubar ${cls}">${items.map(([action, label, icon]) => `<button data-action="${action}">${icon ? `<img src="assets/${icon}" alt="">` : ''}<span>${e(label)}</span></button>`).join('<i></i>')}</div>`;
@@ -39,7 +39,7 @@
     const stacks = sets.map(([key, photos], i) => stack(photos, key, ctx.width / 2 - ITEM_W / 2 + Math.floor(i / 3) * sx, (i % 3) * sy - sy - ITEM_H / 2, ctx, ctx.selected.includes(key))).join('');
     const cover = sets[0]?.[1][0];
     const width = ctx.width + Math.max(0, Math.ceil(sets.length / 3) - 1) * sx;
-    return `<div class="app-view gbg gbg-sets" data-no-translate>${background(cover && M().image(cover))}<div class="gbg-scroll"><div class="gbg-canvas" style="width:${width.toFixed(1)}px">${stacks || `<p class="gbg-empty">${e(text(ctx.lang, 'no_items'))}</p>`}</div></div>${hud(ctx, [home(ctx)], `<button class="gbg-camera" data-action="gallery-camera" aria-label="${e(text(ctx.lang, 'camera'))}"></button>`)}</div>`;
+    return `<div class="app-view gbg gbg-sets" data-no-translate>${background(cover && M().image(cover))}<div class="gbg-scroll"><div class="gbg-canvas" style="width:${width.toFixed(1)}px">${stacks || `<p class="gbg-empty">${e(text(ctx.lang, 'no_items'))}</p>`}</div></div>${hud(ctx, [home(ctx)], ctx.pick ? '' : `<button class="gbg-camera" data-action="gallery-camera" aria-label="${e(text(ctx.lang, 'camera'))}"></button>`)}</div>`;
   }
   // STATE_GRID_VIEW: 4 rows, 10 dip spacing, column by column; the TimeBar along the bottom.
   function album(ctx) {

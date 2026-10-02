@@ -88,7 +88,7 @@ account_settings_action'''.split(),
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_gallery3d/android-2.3.6_r1/res/values%s/strings.xml'],
         'keys': '''app_name camera delete confirm_delete cancel share more select_all deselect_all slideshow menu details album_selected item_selected
 albums_selected items_selected album location location_unknown title type taken_on added_on show_on_map rotate_left rotate_right crop set_as
-set_as_wallpaper item items date_unknown details_ok no_items wallpaper camera_setas_wallpaper'''.split(),
+set_as_wallpaper item items date_unknown details_ok no_items wallpaper camera_setas_wallpaper pick pick_prompt'''.split(),
     },
     'camera': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-2.3.6_r1/res/values%s/strings.xml'],

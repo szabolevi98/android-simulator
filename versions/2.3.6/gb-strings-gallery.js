@@ -253,6 +253,20 @@ window.GBStrings["gallery"] = {
 "de": "Hintergrund",
 "fr": "Fond d'écran",
 "es": "Fondo de pantalla"
+},
+"pick": {
+"en": "Pick",
+"hu": "Kiválasztás",
+"de": "Auswählen",
+"fr": "Choisir",
+"es": "Seleccionar"
+},
+"pick_prompt": {
+"en": "Pick an item from your collection",
+"hu": "Válassza ki gyűjteménye egyik elemét",
+"de": "Ein Element aus Ihrer Sammlung auswählen",
+"fr": "Choisissez un élément dans votre collection.",
+"es": "Selecciona un elemento de tu colección."
 }
 }
 };
