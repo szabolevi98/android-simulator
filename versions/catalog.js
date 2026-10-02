@@ -6,7 +6,7 @@ window.ANDROID_VERSIONS = [
     version: 'Android 2.3.6',
     year: '2011',
     device: 'Nexus S · AOSP',
-    description: 'The Nexus S with its four touch keys under the glass. Work in progress: the Gingerbread screens are being added step by step.',
+    description: 'Touch keys under the glass, the SlidingTab lock screen, option panels behind the Menu key, green status icons and the zombie Gingerbread easter egg.',
     url: 'versions/2.3.6/',
     status: 'available',
     art: {shot: 'landing-home.jpg', phone: 'nexuss'}

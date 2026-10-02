@@ -525,3 +525,15 @@ References: AccountsAndSyncSettings 2.3.6 (a separate AOSP package: `manage_acco
 - **Account sync screen:** the `title_bar` header with the 48 dip provider icon, the bold account name and "Email". Under "Data & synchronization" are Sync Contacts / Sync Calendar / Sync Email, each with the last sync time and a check box (shown disabled while background data or auto-sync is off). "Remove account" asks first.
   - Menu: Sync now runs the `ic_list_sync_anim` state with "Touch to sync now" for a moment. Cancel sync stops it.
 - This replaces the last inherited ICS settings page.
+
+## Sweep — 2026-10-02
+
+A Gingerbread-specific sweep visited the home screen and its menu, the drawer, every app with its Menu panel, and every Settings screen. The Settings screens were found breadth-first from the main list (51–56 screens per run).
+
+- It ran in all five languages at 1280 × 900 (frame) and 360 × 640, plus German and Hungarian at 320 × 568.
+- It checked for text overflow, off-screen elements, broken images and untranslated strings. Every run came back clean.
+- Two flags are known false positives:
+  - the Protips text while its fade animation is running;
+  - the French app name "Agenda", which is the same word as the English source.
+- An earlier crawl for ICS / holo class names found the Accounts & sync page, which is now replaced, and the Market, which remains the inherited store.
+- The landing card and the 2.3.6 page now describe the finished Gingerbread features instead of "work in progress", in five languages.
