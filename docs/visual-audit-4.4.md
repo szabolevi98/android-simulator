@@ -136,3 +136,11 @@ The 4.4 Contacts app (`PeopleTheme` on Holo Light) differs from 4.3 as follows:
 - **Time picker:** `AlarmUtils` opens the dark RadialTimePicker. It has a #363636 header, a #404040 dial and the #ff3333 selection. In 24 h mode 00 and 13–23 sit outside and 1–12 inside. The picker moves on to minutes after an hour is picked.
 - **Clock footer:** the round Cities (`ic_globe`) button and the overflow.
 - **Messaging:** 4.4 Mms only adds `banner_sms_promo`, which shows when Messaging is not the default SMS app, so the 4.3 screens stay.
+
+## Downloads — 2026-10-03
+
+In 4.4 the Downloads launcher entry (`DownloadList.onCreate`) trampolines into DocumentsUI with `ACTION_MANAGE_ROOT` for the Downloads root (Theme.Holo.Light).
+- **Action bar:** `ic_root_download` with "Downloads", plus Search and Sort by (By name / By date modified / By size).
+- **Overflow:** Grid view / List view.
+- **Rows:** `item_doc_list` rows.
+- **Empty state:** "No items".
