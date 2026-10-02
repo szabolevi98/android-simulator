@@ -88,7 +88,9 @@ contextmenu_copylink remove_history_item create_shortcut_bookmark'''.split(),
     },
     'email': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_email/android-2.3.6_r1/res/values%s/strings.xml'],
-        'keys': '''exchange_name account_settings_title_fmt account_settings_description_label account_settings_name_label account_settings_signature_label
+        'keys': '''accounts_welcome account_setup_basics_title account_setup_basics_email_hint account_setup_basics_password_hint
+account_setup_basics_default_label account_setup_basics_manual_setup_action next_action account_setup_check_settings_check_incoming_msg
+account_setup_failed_dlg_title account_setup_failed_dlg_server_message account_setup_failed_dlg_edit_details_action exchange_name account_settings_title_fmt account_settings_description_label account_settings_name_label account_settings_signature_label
 account_settings_signature_hint account_settings_mail_check_frequency_label account_settings_default_label account_settings_default_summary
 account_settings_notifications account_settings_notify_label account_settings_notify_summary account_settings_ringtone
 account_settings_vibrate_when_label account_settings_vibrate_when_summary account_settings_vibrate_when_dlg_title account_settings_servers

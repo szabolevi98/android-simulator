@@ -84,3 +84,20 @@
 .screen .gbem-quoted-bar button:active,.screen .gbem-att button:active{background-image:url('assets/gb-btn_dialog_pressed.png')}
 .gbem-quoted{padding:6.9px;color:#000;font:13.8px/1.4 DroidSans,Arial,sans-serif;word-break:break-word}
 .gbem-error{padding:4px 6.9px;color:#c00;font-size:12.08px}
+/* AccountSetupBasics: 10 dip / 20 sp welcome text, the fields and CheckBox between flexible gaps, the 54 dip bottom_bar with
+   100 sp minimum-width buttons (Next carries button_indicator_next on its right). */
+#viewport>.app-view.gbem-setup{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;margin:0}
+.gbem-setup-body{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto}
+.gbem-setup-body p{margin:8.63px 0 0;padding:0 4.31px;font-size:17.25px;line-height:1.25}
+.gbem-setup-body i{flex:1}
+.gbem-setup-body .gbem-field{margin:0}
+.gbem-setup-default{display:flex;align-items:center;gap:4.31px;min-height:41.4px;padding:0 4.31px;font-size:15.53px;cursor:pointer}
+.gbem-setup-default input{position:absolute;opacity:0;pointer-events:none}
+.gbem-setup-default span{flex:none;width:32.78px;height:41.4px;background:url('assets/gb-btn_check_off.png') center/contain no-repeat}
+.gbem-setup-default input:checked+span{background-image:url('assets/gb-btn_check_on.png')}
+.gbem-setup-bar{flex:none;display:flex;justify-content:space-between;align-items:center;height:46.58px;padding:0 3.45px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.screen .gbem-setup-bar button{display:flex;align-items:center;justify-content:center;gap:4.31px;min-width:74.4px;min-height:41.4px;padding:5.75px 9.78px 9.78px 9.2px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbem-setup-bar button:active:not(:disabled){border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.screen .gbem-setup-bar button:disabled{color:#00000066;cursor:default}
+.gbem-setup-bar button:disabled img{opacity:.5}
+.gbem-setup-bar img{width:20.7px;height:20.7px}

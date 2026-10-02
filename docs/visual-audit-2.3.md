@@ -679,3 +679,17 @@ References: android-2.3.6_r1 Contacts `EditContactActivity` (createPickPhotoDial
   - With a photo set, the choices are Use this photo, Remove icon and Change icon.
   - Select / Change opens the Gallery in pick mode. A picture goes back to the editor; Back returns without one. Take photo is not available in the simulator.
 - **A saved photo replaces the default picture** in the contact list, the contact details header, the in-call card, the Messaging badges (threads and received messages) and the Quick Search Box contact suggestions.
+
+## Email account setup — 2026-10-02
+
+References: android-2.3.6_r1 Email `account_setup_basics.xml`, `AccountSetupBasics.validateFields`, and `AccountSetupCheckSettings`.
+
+- **Email → Accounts → Menu → Add account** opens "Set up email":
+  - the 20 sp welcome text;
+  - the Email address and Password fields;
+  - "Send email from this account by default.";
+  - the bottom_bar with Manual setup and Next (with `button_indicator_next`).
+- **Both buttons stay disabled** until the address is valid and a password is typed.
+- **Next shows "Checking incoming server settings…"** and then, because the simulator is offline, "Setup could not finish / Cannot connect to server." with Edit details, which returns to the form.
+  - The password is never stored.
+  - Manual setup is not available.

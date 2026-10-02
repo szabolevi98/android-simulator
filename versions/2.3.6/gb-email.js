@@ -88,7 +88,7 @@
     if (ctx.sub === 'compose') return [{action: 'email-cc', title: T('add_cc_bcc_action'), icon: 'ic_menu_cc'}, {action: 'gbem-send', title: T('send_action'), icon: 'ic_menu_send'}, {action: 'gbem-save-draft', title: T('save_draft_action'), icon: 'gb-em-ic_menu_save_draft.png'}, {action: 'gbem-discard', title: T('discard_action'), icon: 'ic_menu_close_clear_cancel'}, {action: 'email-attach', title: T('add_attachment_action'), icon: 'ic_menu_attachment'}];
     if (ctx.sub === 'read') return [{action: ctx.item?.folder === 'Trash' ? 'email-restore' : 'email-trash', title: T('delete_action'), icon: 'ic_menu_delete'}, {action: 'email-forward', title: T('forward_action'), icon: 'gb-em-ic_menu_forward_mail.png'}, {action: 'email-reply', title: T('reply_action'), icon: 'gb-em-ic_menu_reply.png'}, {action: 'gbem-reply-all', title: T('reply_all_action'), icon: 'gb-em-ic_menu_reply_all.png'}, {action: 'email-unread', title: T('mark_as_unread_action'), icon: 'ic_menu_mark'}];
     const na = 'Unavailable in this simulator';
-    if (ctx.sub === 'accounts') return [{action: 'email-refresh', title: T('refresh_action'), icon: 'ic_menu_refresh'}, {action: 'email-compose', title: T('compose_action'), icon: 'ic_menu_compose'}, {action: 'gbset-toast', id: na, title: T('add_account_action'), icon: 'ic_menu_add'}];
+    if (ctx.sub === 'accounts') return [{action: 'email-refresh', title: T('refresh_action'), icon: 'ic_menu_refresh'}, {action: 'email-compose', title: T('compose_action'), icon: 'ic_menu_compose'}, {action: 'gbem-add-account', title: T('add_account_action'), icon: 'ic_menu_add'}];
     if (ctx.sub === 'mailboxes') return [{action: 'email-refresh', title: T('refresh_action'), icon: 'ic_menu_refresh'}, {action: 'email-compose', title: T('compose_action'), icon: 'ic_menu_compose'}, {action: 'gbem-accounts', title: T('accounts_action'), icon: 'ic_menu_account_list'}, {action: 'gbpref-open', id: 'email', title: T('account_settings_action'), icon: 'ic_menu_preferences'}];
     return [{action: 'email-refresh', title: T('refresh_action'), icon: 'ic_menu_refresh'}, {action: 'email-compose', title: T('compose_action'), icon: 'ic_menu_compose'}, ...(ctx.selected.length ? [{action: 'email-clear-selection', title: T('deselect_all_action'), icon: 'gb-em-ic_menu_email_deselect_mail.png'}] : []), {action: 'gbem-mailboxes', title: T('folders_action'), icon: 'gb-em-ic_menu_folder.png'}, {action: 'gbem-accounts', title: T('accounts_action'), icon: 'ic_menu_account_list'}, {action: 'gbpref-open', id: 'email', title: T('account_settings_action'), icon: 'ic_menu_preferences'}];
   }
@@ -108,5 +108,17 @@
     if (forward) return `\n\n-------- Original Message --------\nSubject: ${source.subject}\nFrom: ${source.from || source.address}\nTo: ${source.to || ACCOUNT}\n\n${source.body}`;
     return text(lang, 'message_compose_reply_header_fmt').replace('%s', source.from || source.address).replace(/^\n+/, '') + source.body;
   }
-  window.GBEmail = {ACCOUNT, MAILBOXES, text, folderName, stamp, render, menu, dialog, quote};
+  /* AccountSetupBasics (account_setup_basics.xml): the 20 sp welcome, the email and password fields and the default-account
+     checkbox between flexible gaps, then the 54 dip bottom_bar with Manual setup on the left and Next (button_indicator_next)
+     on the right; both are enabled only for a valid address and a password. */
+  const validAddress = value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || '').trim());
+  function setup(ctx) {
+    const T = key => text(ctx.lang, key), ok = validAddress(ctx.email) && !!ctx.password;
+    return `<form class="app-view gbem gbem-setup" data-form="gbem-setup" data-no-translate><div class="gb-titlebar">${e(T('account_setup_basics_title'))}</div><div class="gbem-setup-body"><p>${e(T('accounts_welcome'))}</p><i></i><input class="gbem-field" name="email" type="email" autocomplete="off" spellcheck="false" placeholder="${e(T('account_setup_basics_email_hint'))}" value="${e(ctx.email || '')}"><input class="gbem-field" name="password" type="password" autocomplete="new-password" placeholder="${e(T('account_setup_basics_password_hint'))}"><label class="gbem-setup-default"><input type="checkbox" name="def"${ctx.def ? ' checked' : ''}><span></span>${e(T('account_setup_basics_default_label'))}</label><i></i></div><div class="gbem-setup-bar"><button type="button" data-action="gbem-setup-manual"${ok ? '' : ' disabled'}>${e(T('account_setup_basics_manual_setup_action'))}</button><button type="submit" class="next"${ok ? '' : ' disabled'}>${e(T('next_action'))}<img src="assets/gb-em-button_indicator_next.png" alt=""></button></div></form>`;
+  }
+  // AccountSetupCheckSettings: the progress dialog, then (offline) the "Cannot connect to server." failure with Edit details.
+  const setupDialog = (kind, lang) => kind === 'checking'
+    ? {title: '', custom: `<div class="gbdlg-progress"><img src="assets/gb-spinner_white_48.png" alt=""><span>${e(text(lang, 'account_setup_check_settings_check_incoming_msg'))}</span></div>`, cancel: 'gbem-setup-cancel', buttons: []}
+    : {title: text(lang, 'account_setup_failed_dlg_title'), icon: 'ic_dialog_alert', message: text(lang, 'account_setup_failed_dlg_server_message'), buttons: [{action: 'close-overlay', title: text(lang, 'account_setup_failed_dlg_edit_details_action')}]};
+  window.GBEmail = {ACCOUNT, MAILBOXES, text, folderName, stamp, render, menu, dialog, quote, setup, setupDialog, validAddress};
 })();

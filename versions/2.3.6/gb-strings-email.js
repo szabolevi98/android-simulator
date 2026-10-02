@@ -2,6 +2,83 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["email"] = {
 "strings": {
+"accounts_welcome": {
+"en": "You can configure Email for most accounts in just a few steps.",
+"hu": "Néhány lépésben beállíthatja e-mailjeit a legtöbb fiókhoz.",
+"de": "Bei den meisten Konten können Sie die E-Mail-Adresse in nur wenigen Schritten konfigurieren.",
+"fr": "Configurez des e-mails pour la plupart des comptes en à peine quelques minutes.",
+"es": "Puedes configurar el correo electrónico para la mayoría de las cuentas en pocos pasos."
+},
+"account_setup_basics_title": {
+"en": "Set up email",
+"hu": "E-mail beállítása",
+"de": "E-Mail einrichten",
+"fr": "Configuration de votre messagerie",
+"es": "Configurar correo electrónico"
+},
+"account_setup_basics_email_hint": {
+"en": "Email address",
+"hu": "E-mail cím",
+"de": "E-Mail-Adresse",
+"fr": "Adresse e-mail",
+"es": "Dirección de correo electrónico"
+},
+"account_setup_basics_password_hint": {
+"en": "Password",
+"hu": "Jelszó",
+"de": "Passwort",
+"fr": "Mot de passe",
+"es": "Contraseña"
+},
+"account_setup_basics_default_label": {
+"en": "Send email from this account by default.",
+"hu": "E-mailek küldése ebből a fiókból alapértelmezés szerint.",
+"de": "E-Mails standardmäßig von diesem Konto senden",
+"fr": "Par défaut, envoyer les e-mails avec ce compte",
+"es": "Enviar correo electrónico desde esta cuenta de forma predeterminada"
+},
+"account_setup_basics_manual_setup_action": {
+"en": "Manual setup",
+"hu": "Manuális beállítás",
+"de": "Manuelle Einrichtung",
+"fr": "Configuration manuelle",
+"es": "Configuración manual"
+},
+"next_action": {
+"en": "Next",
+"hu": "Tovább",
+"de": "Weiter",
+"fr": "Suivant",
+"es": "Siguiente"
+},
+"account_setup_check_settings_check_incoming_msg": {
+"en": "Checking incoming server settings…",
+"hu": "Bejövő üzeneteket kezelő szerver beállításainak ellenőrzése...",
+"de": "Einstellungen des Eingangsservers werden überprüft...",
+"fr": "Vérification des paramètres de serveur entrant…",
+"es": "Comprobando la configuración del servidor de entrada..."
+},
+"account_setup_failed_dlg_title": {
+"en": "Setup could not finish",
+"hu": "A telepítés nem fejeződött be.",
+"de": "Einrichtung konnte nicht abgeschlossen werden",
+"fr": "Échec de la configuration",
+"es": "No se ha podido completar la configuración."
+},
+"account_setup_failed_dlg_server_message": {
+"en": "Cannot connect to server.",
+"hu": "Nem lehet kapcsolatot létesíteni a szerverrel.",
+"de": "Keine Verbindung zu Server möglich",
+"fr": "Impossible d'établir une connexion avec le serveur.",
+"es": "No se puede establecer una conexión con el servidor."
+},
+"account_setup_failed_dlg_edit_details_action": {
+"en": "Edit details",
+"hu": "Részletek szerkesztése",
+"de": "Details bearbeiten",
+"fr": "Modifier les infos",
+"es": "Editar detalles"
+},
 "exchange_name": {
 "en": "Corporate",
 "hu": "Vállalati",

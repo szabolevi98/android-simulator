@@ -232,7 +232,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
-    if (ui.gbPrefs && ui.gbPrefs.app === ui.view || ui.view === 'calendar' && ui.gbCalSel) return;
+    if (ui.gbPrefs && ui.gbPrefs.app === ui.view || ui.view === 'calendar' && ui.gbCalSel || ui.view === 'email' && ui.gbEmSetup) return;
     if (ui.view === 'downloads') { ui.gbMenuItems = GBDownloads.menu(gbDlContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'search') { const items = GBSearch.menu(gbSearchContext()); if (items.length) { ui.qsb.selecting = false; ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); render(); } return; }
     if (ui.view === 'play-store') { const items = GBMarket.menu(gbMarketContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
@@ -579,6 +579,7 @@
   });
   function renderApp() {
     if (ui.gbPrefs && ui.gbPrefs.app === ui.view) return GBPrefs.render(gbPrefsContext());
+    if (ui.view === 'email' && ui.gbEmSetup) return GBEmail.setup({lang: i18n.language, ...ui.gbEmSetup});
     if (ui.view === 'calendar' && ui.gbCalSel) return GBCalendar.selectCalendars({lang: i18n.language, account: ICSEmail.account, accountType: GBEmail.text ? GBEmail.text(i18n.language, 'exchange_name') : 'Corporate', ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), ...ui.gbCalSel});
     switch (ui.view) {
       case 'play-store': return GBMarket.render(gbMarketContext());
@@ -606,7 +607,7 @@
     if (!appNames[app]) return;
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
-    ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; if (!resume) { ui.gbPrefs = null; ui.gbCalSel = null; } ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
+    ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; if (!resume) { ui.gbPrefs = null; ui.gbCalSel = null; ui.gbEmSetup = null; } ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
     if (app === 'phone' && ui.activeCall && !resume) { ui.gbCallBackground = true; ui.gbAddCall = false; ui.phoneTab = 'dialpad'; }
     ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 8);
     render();
@@ -632,6 +633,7 @@
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.gbPrefs && ui.gbPrefs.app === ui.view && !ui.overlay) { ui.gbPrefs = null; render(); return; }
     if (ui.view === 'calendar' && ui.gbCalSel && !ui.overlay) { ui.gbCalSel = null; render(); return; }
+    if (ui.view === 'email' && ui.gbEmSetup && !ui.overlay) { ui.gbEmSetup = null; render(); return; }
     if (ui.view === 'search' && !ui.overlay && ui.qsb?.selecting) { ui.qsb.selecting = false; render(); return; }
     if (ui.view === 'search' && !ui.overlay && ui.qsb?.page) { ui.qsb.page = ui.qsb.page === 'settings' ? '' : 'settings'; render(); return; }
     if (ui.overlay === 'shade') { closeShade(); return; }
@@ -720,6 +722,7 @@
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     // Browser.sharePage: Intent.createChooser(ACTION_SEND text/plain, "Share via"); the AOSP build offers Email and Messaging.
     if (ui.overlay === 'gb-dialog-share') return {title: GBBrowser.text(i18n.language, 'choosertitle_sharevia'), items: [['email', 'Email'], ['messaging', 'Messaging']].map(([id, name]) => ({action: 'gbbr-share-to', id, title: i18n.t(name), icon: `${id}.png`}))};
+    if (ui.overlay === 'gb-dialog-emsetup') return GBEmail.setupDialog(ui.gbEmSetupDialog, i18n.language);
     if (ui.overlay === 'gb-dialog-pref') return GBPrefs.dialog(gbPrefsContext(), ui.gbPrefDialog) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-dl') return GBDownloads.dialog(data.downloads?.find(d => d.id === ui.gbdlDialog), i18n.language) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-qsb-clear') return GBSearch.clearDialog(i18n.language);
@@ -1648,6 +1651,9 @@
       case 'browser-search': openSearch(''); break;
       case 'gbqs-corpora': ui.qsb.selecting = !ui.qsb.selecting; render(); break;
       case 'gbpref-open': ui.overlay = ''; ui.gbPrefs = {app: id}; render(); break;
+      case 'gbem-add-account': ui.overlay = ''; ui.gbEmSetup = {email: '', def: false}; render(); viewport.querySelector('.gbem-setup [name=email]')?.focus(); break;
+      case 'gbem-setup-manual': toast('Unavailable in this simulator'); break;
+      case 'gbem-setup-cancel': clearTimeout(ui.gbEmSetupTimer); ui.overlay = ''; renderOverlay(); break;
       case 'gbce-photo': gbceSync(); ui.gbceDialog = ui.peopleDraft?.photo ? 'photo-edit' : 'photo'; ui.overlay = 'gb-dialog-ce'; renderOverlay(); break;
       case 'gbce-photo-take': ui.overlay = ''; renderOverlay(); toast('Unavailable in this simulator'); break;
       // Gallery's GET_CONTENT pick returns to the editor with the picture (Back returns without one).
@@ -2065,6 +2071,9 @@
         save();ui.peopleGroup=group.id;ui.peopleTab='groups';ui.sub='group';ui.overlay='';render();break;
       }
       case 'address': navigateBrowser(values.get('address')); break;
+      // AccountSetupCheckSettings: the simulator is offline, so the incoming server check fails like a phone without a connection.
+      case 'gbem-setup': { if (!GBEmail.validAddress(values.get('email')) || !values.get('password')) break; ui.gbEmSetup = {email: String(values.get('email')).trim(), def: values.has('def')}; ui.gbEmSetupDialog = 'checking'; ui.overlay = 'gb-dialog-emsetup'; renderOverlay();
+        clearTimeout(ui.gbEmSetupTimer); ui.gbEmSetupTimer = setTimeout(() => { if (ui.overlay !== 'gb-dialog-emsetup') return; ui.gbEmSetupDialog = 'failed'; renderOverlay(); }, 2500); break; }
       case 'gbqs-search': { const q = String(values.get('q') || '').trim(); if (!q) break; ui.qsb.query = q; const ctx = gbSearchContext(); if (!ui.qsb.corpus || ui.qsb.corpus === 'web') gbSearchLaunch({kind: !normalizeAddress(q).startsWith('search:') ? 'url' : 'web', corpus: 'web', id: q, text1: q, icon: !normalizeAddress(q).startsWith('search:') ? 'gb-qsb-globe.png' : 'gb-qsb-magnifying_glass.png'}); else gbSearchLaunch(ctx.items.find(item => !item.shortcut) || ctx.items[0]); break; }
       case 'gbmk-search': { const q = String(values.get('query') || '').trim(); if (!q) break; data.marketSearches = [q, ...(data.marketSearches || []).filter(x => x !== q)].slice(0, 10); save(); gbMarketGo({page: 'search', query: q}); break; }
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
@@ -2109,6 +2118,8 @@
   });
   document.addEventListener('input', event => {
     if (event.target.closest('.gbqs-field') && ui.qsb) { ui.qsb.query = event.target.value; gbSearchRefresh(); return; }
+    // AccountSetupBasics.validateFields: Next and Manual setup follow the address and password (the password is never stored).
+    if (event.target.closest('.gbem-setup') && ui.gbEmSetup) { const form = event.target.closest('form'), ok = GBEmail.validAddress(form.elements.email.value) && !!form.elements.password.value; ui.gbEmSetup.email = form.elements.email.value; ui.gbEmSetup.def = form.elements.def.checked; form.querySelectorAll('.gbem-setup-bar button').forEach(b => { b.disabled = !ok; }); return; }
     if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}
     if(event.target.dataset.field==='data-cycle'){ui.dataCycle=event.target.value;render();return;}
     if(event.target.closest('.email-compose')&&event.target.name){const item=data.mailbox.find(item=>item.id===ui.emailId);if(item){item[event.target.name]=event.target.value;save();}return;}
