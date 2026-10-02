@@ -21,7 +21,7 @@ window.ANDROID_VERSIONS = [
     url: 'versions/4.0.4/',
     status: 'available',
     // Landing-card miniature: the version's default wallpaper and search bar style.
-    art: {wallpaper: 'wallpaper_chroma.jpg', search: 'ics'}
+    art: {shot: 'landing-home.jpg?v=1'}
   },
   {
     id: '4.3',
@@ -32,7 +32,7 @@ window.ANDROID_VERSIONS = [
     description: 'Expandable notifications, Quick Settings, lock-screen widgets, Daydream and the BeanBag easter egg.',
     url: 'versions/4.3/',
     status: 'available',
-    art: {wallpaper: 'jb-wallpaper_01.jpg', search: 'jb', phone: 'nexus4'}
+    art: {shot: 'landing-home.jpg?v=1', phone: 'nexus4'}
   },
   { id: '4.4.4', name: 'KitKat', version: 'Android 4.4.4', year: '2014', device: 'Korabeli Android', status: 'planned' },
   { id: '5.1.1', name: 'Lollipop', version: 'Android 5.1.1', year: '2015', device: 'Korabeli Android', status: 'planned' }

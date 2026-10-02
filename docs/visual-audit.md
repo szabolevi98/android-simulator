@@ -465,3 +465,7 @@ References: Android Police's 720 × 1280 captures of 3.8.15 (15 August 2012: hom
 - **Demo web pages:** the 4.0.4 news and archive pages are now dated August 20, 2012 (they were June 15).
 
 Checks: `tests/ics-play.test.cjs` covers the version, tile order and labels without "see more", the stripes, Hungarian labels, the Magazines section, categories and details, Unlock settings, the AdMob note and the build number. Headless Chrome covered the home page, Settings, Magazines, a magazine's details and Movies & TV, all compared with the Android Police captures. No JavaScript errors.
+
+## Landing cards — 2026-10-02
+
+The 4.0.4 and 4.3 cards on the landing page drew a hand-made mock-up (wallpaper, search bar, clock, a generic folder and dock icons) that no longer matched the simulators. Like the 2.3.6 card, they now show real captures of each simulator's home screen (`versions/{4.0.4,4.3}/assets/landing-home.jpg`, 1.5× the screen with clings dismissed; catalog `art.shot`).
