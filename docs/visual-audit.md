@@ -401,3 +401,7 @@ The ICS 4.0.4 `GlobalActions` has three rows: Power off, Airplane mode and the R
 - **Status bar.** It now shows `stat_sys_ringer_{vibrate,silent}` and `stat_sys_alarm` after Bluetooth.
 
 The implementation is shared with 4.3; the details are in [visual-audit-4.3.md](visual-audit-4.3.md).
+
+## Volume panel — 2026-10-02
+
+The volume keys open the ICS `VolumePanel`: one full-width holo slider 80dp from the top, for the call, playing music or the ringer. The ICS `checkForRingerModeChange` with `VIBRATE_IN_SILENT` enters vibrate below the last step, and a fresh lower reaches silent. The panel has a 3 s timeout and closes on a touch outside. It uses the 4.0.4 `scrubber_*_holo` artwork. Details are shared with 4.3 in [visual-audit-4.3.md](visual-audit-4.3.md).

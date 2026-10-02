@@ -137,6 +137,8 @@ Resources that are `.9.png` files in AOSP were renamed and their one-pixel nine-
 
 `versions/{4.0.4,4.3}/assets/ga-*.png`: framework `core/res/res/drawable-hdpi` at [`android-4.0.4_r2.1`](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-4.0.4_r2.1/core/res/res/drawable-hdpi) and [`android-4.3_r1.1`](https://github.com/aosp-mirror/platform_frameworks_base/tree/android-4.3_r1.1/core/res/res/drawable-hdpi): `ic_lock_power_off`, `ic_lock_airplane_mode{,_off}`, `ic_audio_vol{,_mute}`, `ic_audio_ring_notif_vibrate`, `spinner_48_{outer,inner}_holo`, `dialog_full_holo_dark` (nine-patch border removed) and, in 4.3 only, `stat_sys_adb`. All are renamed with a `ga-` prefix. `boot-android-logo-{mask,shine}.png`: framework `core/res/assets/images`. `stat_sys_ringer_{vibrate,silent}.png` and `stat_sys_alarm.png`: SystemUI `res/drawable-hdpi`. All Apache License 2.0.
 
+`versions/{4.0.4,4.3}/assets/vol-scrubber_*.png`: each version's framework `drawable-hdpi` holo SeekBar (`scrubber_track_holo_dark` and `scrubber_primary_holo` with the nine-patch border removed, `scrubber_control_{normal,pressed,disabled}_holo`). `ga-ic_audio_ring_notif{,_mute}.png` and `ga-ic_audio_phone.png` come from the same framework directories. All Apache License 2.0.
+
 ### Keyboard
 
 `versions/{4.0.4,4.3}/assets/ime-*.png`: [AOSP LatinIME java/res/drawable-hdpi](https://github.com/aosp-mirror-neo/platform_packages_inputmethods_latinime/tree/android-4.3_r1.1/java/res/drawable-hdpi) (`btn_keyboard_key_{light,dark}_{normal,pressed}_holo`, `keyboard_background_holo` with the nine-patch border removed, and `sym_keyboard_*_holo`), identical at `android-4.0.4_r2.1` and `android-4.3_r1.1`. Apache License 2.0.

@@ -368,3 +368,20 @@ Compared with `GlobalActions.java`, `ShutdownThread.java`, `global_actions_item.
 - **Power off.** Cancel / OK confirmation ("Your phone will shut down."), then the "Shutting down…" progress dialog with the 48dp holo spinner and a 500 ms vibration, then a black screen.
 - **Safe mode and bug report.** A long press on Power off asks to reboot to safe mode. After the reboot, the *Safe mode* watermark (`#80ffffff` on `#60000000`) sits at the bottom left over the navigation bar. Bug report asks to Take bug report and, a few seconds later, posts "Bug report captured".
 - **Boot.** Pressing power while off plays BootAnimation's `android()` loop: `android-logo-shine` scrolls 4 px per 16.667 ms behind `android-logo-mask`, redrawn at 12 fps and drawn at its pixel size. The phone then comes up at the lock screen with Recents cleared.
+
+## Volume panel — 2026-10-02
+
+Compared with `VolumePanel.java`, `volume_adjust.xml` and `volume_adjust_item.xml`, and the volume rules in `AudioService.java`, at `android-4.3_r1.1` (4.0.4 behaves the same on a phone).
+- **Size.** Both layouts are inflated with a null root, so the 480dp width and the 80dp item height are dropped. The panel spans the portrait width, 80dp from the top (`volume_panel_top`), in `dialog_full_holo_dark`. Its one row is wrap_content: the 32dp stream icon with 16dp padding, then the holo SeekBar with 16dp padding and a 16dp end margin, 64dp in all.
+- **Single slider.** A voice-capable phone has no expand button (`mShowCombinedVolumes` is false). The slider is for the active stream (`getActiveStreamType`): the call, otherwise music while it plays, otherwise the ringer. The maximums are 5, 15 and 7 steps (`MAX_STREAM_VOLUME`).
+- **Ringer mode** (`checkForRingerModeChange`, device with a vibrator).
+  - Lowering from the last audible step enters vibrate, with the 300 ms vibration after the 300 ms `VIBRATE_DELAY`.
+  - Another lower reaches silent only if the previous key was not a lower, so repeated presses stop at vibrate.
+  - Raising goes silent → vibrate → normal.
+  - While muted, the slider is disabled at 0, the track is drawn at the 0.5 disabled alpha, and the icon shows `ic_audio_ring_notif_vibrate` or `_mute`.
+- **Timing.** The panel has no enter animation and fades out over 400 ms. It closes 3 s after the last change (`TIMEOUT_DELAY`) or on a touch outside (`FLAG_WATCH_OUTSIDE_TOUCH`), which still reaches the window underneath.
+- **Keys.**
+  - Held keys repeat after 500 ms, every 50 ms.
+  - With the screen off, the keys change only music that is playing, without showing the panel.
+  - The volume buttons sit in the header next to power; on the desktop frame, the side rocker works too.
+- **Assets.** 4.0.4 and 4.3 each use their own scrubber artwork; the 4.3 thumb and track differ from ICS.

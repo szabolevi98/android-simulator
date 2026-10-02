@@ -1050,6 +1050,11 @@
     ['Safe mode','Biztonsági üzemmód','Abgesicherter Modus','Mode sécurisé','Modo seguro'],
     ['Bug report captured','A hibajelentés elkészült','Fehlerbericht erstellt','Rapport de bug enregistré','Informe de error capturado'],
     ['Touch to share your bug report','Érintse meg a hibajelentés megosztásához','Tippen, um den Fehlerbericht zu teilen','Appuyez pour partager le rapport de bug','Toca para compartir el informe de error'],
+    ['Volume down','Hangerő le','Leiser','Volume -','Bajar volumen'],
+    ['Volume up','Hangerő fel','Lauter','Volume +','Subir volumen'],
+    ['Ringtone volume','Csengőhang hangereje','Klingeltonlautstärke','Volume de la sonnerie','Volumen del tono'],
+    ['Call volume','Hívás hangereje','Anruflautstärke','Volume d’appel','Volumen de llamada'],
+    ['Media volume','Média hangereje','Medienlautstärke','Volume','Volumen multimedia'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;
