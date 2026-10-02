@@ -1,4 +1,4 @@
-/* AOSP 4.0.4 window transitions and Launcher2 state animations, sampled for the Web Animations API. */
+/* AOSP 2.3.6 window transitions and Launcher2 state animations, sampled for the Web Animations API. */
 (() => {
   'use strict';
   // android.view.animation interpolators; factor 1 uses the faster quadratic path, as Android does.
@@ -15,31 +15,33 @@
     zoomIn:t=>decelerate(3)(1-z(.35)(1-t))
   };
   const alpha=(from,to,duration,delay,curve)=>({kind:'alpha',from,to,duration,delay,curve});
-  const scale=(from,to,duration,delay,curve)=>({kind:'scale',from:[].concat(from,from).slice(0,2),to:[].concat(to,to).slice(0,2),duration,delay,curve});
-  /* Values copied from core/res/res/anim/*.xml (config_shortAnimTime = 200) and Launcher2 config.xml.
-     "top" means the window is drawn above the other one (zAdjustment="top"). */
+  const scale=(from,to,duration,delay,curve,origin='50% 50%')=>({kind:'scale',from:[].concat(from,from).slice(0,2),to:[].concat(to,to).slice(0,2),duration,delay,curve,origin});
+  // fromXDelta/toXDelta as a percentage of the window's own width.
+  const slide=(from,to,duration,delay,curve)=>({kind:'translate',unit:'%',from:[from,0],to:[to,0],duration,delay,curve});
+  /* Values copied from the 2.3.6 core/res/res/anim/*.xml (config_shortAnimTime 150, config_mediumAnimTime 300,
+     config_longAnimTime 400; @anim/decelerate_interpolator is factor 1). "top" means zAdjustment="top". */
   const specs={
-    // Launcher -> app: wallpaper_close_enter / wallpaper_close_exit.
-    'wallpaper-close':{enter:{top:true,tracks:[scale([1.2,.8],1,240,300,'decelerateQuint'),alpha(0,1,300,300,'decelerateQuad')]},exit:{tracks:[alpha(1,0,200,0,'decelerateCubic'),scale(1,.95,300,0,'decelerateQuint')]}},
-    // App -> launcher: wallpaper_open_enter / wallpaper_open_exit.
-    'wallpaper-open':{enter:{tracks:[scale(.95,1,300,200,'decelerateQuint'),alpha(0,1,300,200,'decelerateCubic')]},exit:{top:true,tracks:[alpha(1,0,200,0,'accelerateCubic'),scale(1,[1.2,.8],200,0,'accelerateQuint')]}},
-    // Another task in front: task_open_* (also used for Recents); its window background is black.
-    'task-open':{black:true,enter:{top:true,tracks:[scale([1.2,.8],1,240,300,'decelerateQuint'),alpha(0,1,300,300,'decelerateQuad')]},exit:{tracks:[alpha(1,0,200,0,'decelerateCubic'),scale(1,.95,300,0,'decelerateQuint')]}},
-    'task-close':{black:true,enter:{tracks:[scale(.95,1,300,200,'decelerateQuint'),alpha(0,1,300,200,'decelerateCubic')]},exit:{top:true,tracks:[alpha(1,0,200,0,'accelerateCubic'),scale(1,[1.2,.8],200,0,'accelerateQuint')]}},
-    // Within one app: activity_open_* / activity_close_*.
-    'activity-open':{enter:{top:true,tracks:[alpha(0,1,200,0,'decelerateCubic'),scale(1.1,1,200,0,'decelerateQuint')]},exit:{tracks:[scale(1,.95,200,0,'decelerateQuint')]}},
-    'activity-close':{enter:{tracks:[scale(.95,1,200,0,'accelerateQuint')]},exit:{top:true,tracks:[alpha(1,0,200,0,'decelerateCubic'),scale(1,1.1,200,0,'decelerateQuint')]}},
-    // Keyguard: lock_screen_exit above lock_screen_behind_enter.
-    'unlock':{enter:{tracks:[scale(.95,1,200,200,'decelerateCubic'),alpha(0,1,200,200,'decelerateQuad')]},exit:{top:true,tracks:[scale(1,1.15,200,0,'accelerateQuint'),alpha(1,0,200,0,'accelerateQuad')]}},
-    // Launcher.showAppsCustomizeHelper: zoom factor 7, 350 ms zoom, 250 ms fade after the 100 ms stagger; the current workspace page stays opaque and shrinks to 0.7 in 300 ms.
-    'drawer-open':{enter:{top:true,tracks:[scale(7,1,350,0,'zoomOut'),alpha(0,1,250,100,'decelerateCubic')]},exit:{tracks:[scale(1,.7,300,0,'accelerateDecelerate')]}},
-    // Launcher.hideAppsCustomizeHelper: 600 ms zoom back to 7, 200 ms fade; workspace unshrinks with ZoomInInterpolator.
-    // Launcher2 Folder PARTIAL_GROW: config_folderAnimDuration = 120 ms, ObjectAnimator's default accelerate/decelerate.
-    'folder-open':{enter:{tracks:[scale(.8,1,120,0,'accelerateDecelerate'),alpha(0,1,120,0,'accelerateDecelerate')]}},
-    'folder-close':{exit:{tracks:[scale(1,.9,120,0,'accelerateDecelerate'),alpha(1,0,120,0,'accelerateDecelerate')]}},
+    // Launcher -> app: wallpaper_close_enter (scale .5 -> 1, alpha with accelerate_decelerate) above wallpaper_close_exit
+    // (scale 1 -> 2; detachWallpaper keeps the wallpaper still).
+    'wallpaper-close':{enter:{top:true,tracks:[scale(.5,1,300,0,'decelerateQuad'),alpha(0,1,300,0,'accelerateDecelerate')]},exit:{tracks:[scale(1,2,300,0,'decelerateQuad')]}},
+    // App -> launcher: wallpaper_open_enter (scale 2 -> 1) under wallpaper_open_exit (scale 1 -> .5, fade out).
+    'wallpaper-open':{enter:{tracks:[scale(2,1,300,0,'decelerateQuad')]},exit:{top:true,tracks:[scale(1,.5,300,0,'decelerateQuad'),alpha(1,0,300,0,'accelerateDecelerate')]}},
+    // task_open_enter slides in from 33%; task_open_exit (on top) grows to 2x about its right edge while sliding off left.
+    'task-open':{black:true,enter:{tracks:[slide(33,0,150,0,'decelerateQuad')]},exit:{top:true,tracks:[scale(1,2,150,0,'decelerateQuad','100% 50%'),slide(0,-100,150,0,'decelerateQuad')]}},
+    'task-close':{black:true,enter:{top:true,tracks:[scale(2,1,150,0,'decelerateQuad','100% 50%'),slide(-100,0,150,0,'decelerateQuad')]},exit:{tracks:[slide(0,33,150,0,'decelerateQuad')]}},
+    // activity_open_*: the new screen slides in from 33% while the old one (on top) slides off to the left.
+    'activity-open':{black:true,enter:{tracks:[slide(33,0,150,0,'decelerateQuad')]},exit:{top:true,tracks:[slide(0,-100,150,0,'decelerateQuad')]}},
+    'activity-close':{black:true,enter:{top:true,tracks:[slide(-100,0,150,0,'decelerateQuad')]},exit:{tracks:[slide(0,33,150,0,'decelerateQuad')]}},
+    // Keyguard: lock_screen_exit fades out above lock_screen_behind_enter, both 400 ms accelerate.
+    'unlock':{enter:{tracks:[alpha(0,1,400,0,'accelerateQuad')]},exit:{top:true,tracks:[alpha(1,0,400,0,'accelerateQuad')]}},
+    // AllApps2D.zoom: all_apps_2d_fade_in / _fade_out, config_allAppsFadeInTime / FadeOutTime = 700 ms.
+    'drawer-open':{enter:{top:true,tracks:[alpha(0,1,700,0,'decelerateQuad')]},exit:{tracks:[]}},
+    'drawer-close':{enter:{tracks:[]},exit:{top:true,tracks:[alpha(1,0,700,0,'accelerateQuad')]}},
+    // UserFolder: no open animation in 2.3; kept as instant.
+    'folder-open':{enter:{tracks:[]},exit:{tracks:[]}},
+    'folder-close':{enter:{tracks:[]},exit:{tracks:[]}},
     // DragView: 110 ms DecelerateInterpolator(2.5) lift by dragViewOffsetY (-8dp).
-    'drag-lift':{enter:{tracks:[{kind:'translate',from:[0,0],to:[0,-8],duration:110,delay:0,curve:'decelerateQuint'}]}},
-    'drawer-close':{enter:{tracks:[scale(.7,1,300,0,'zoomIn')]},exit:{top:true,tracks:[scale(1,7,600,0,'zoomIn'),alpha(1,0,200,0,'accelerateDecelerate')]}}
+    'drag-lift':{enter:{tracks:[{kind:'translate',from:[0,0],to:[0,-8],duration:110,delay:0,curve:'decelerateQuint'}]},exit:{tracks:[]}}
   };
   const launcher=view=>view==='home'||view==='drawer';
   // Chooses the WindowManager transit for a view change; nav is 'back' when Back initiated it.
@@ -59,9 +61,10 @@
     return Array.from({length:steps+1},(_,i)=>{
       const p=curve(i/steps),offset=i/steps;
       if(track.kind==='alpha')return {offset,opacity:track.from+(track.to-track.from)*p};
-      if(track.kind==='translate')return {offset,translate:`${track.from[0]+(track.to[0]-track.from[0])*p}px ${track.from[1]+(track.to[1]-track.from[1])*p}px`};
+      const unit=track.unit||'px';
+      if(track.kind==='translate')return {offset,translate:`${track.from[0]+(track.to[0]-track.from[0])*p}${unit} ${track.from[1]+(track.to[1]-track.from[1])*p}${unit}`};
       const [x,y]=[0,1].map(n=>track.from[n]+(track.to[n]-track.from[n])*p);
-      return {offset,transform:`scale(${x},${y})`};
+      return {offset,transform:`scale(${x},${y})`,transformOrigin:track.origin||'50% 50%'};
     });
   }
   const length=spec=>Math.max(0,...['enter','exit'].flatMap(side=>(spec[side]?.tracks||[]).map(track=>track.delay+track.duration)));

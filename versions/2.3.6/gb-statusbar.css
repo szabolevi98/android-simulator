@@ -17,11 +17,11 @@
 .gbsb-ticker-segment{display:flex;align-items:center;min-width:0;width:100%}
 .gbsb-ticker-segment .gbsb-icon{margin-right:6.9px}
 .gbsb-ticker-text{flex:1;min-width:0;padding:1.73px 8.63px 0 0;font-weight:400;white-space:nowrap;overflow:hidden}
-.gbsb-ticking .gbsb-icons{animation:gbsb-push-up-out .5s forwards}
-.gbsb-ticking .gbsb-ticker{visibility:visible;animation:gbsb-push-up-in .5s}
-.gbsb-ticking .gbsb-next{animation:gbsb-push-up-in .5s}
-.gbsb-ticker-done .gbsb-icons{animation:gbsb-push-down-in .5s}
-.gbsb-ticker-done .gbsb-ticker{visibility:visible;animation:gbsb-push-down-out .5s forwards}
+.gbsb-ticking .gbsb-icons{animation:gbsb-push-up-out .4s forwards}
+.gbsb-ticking .gbsb-ticker{visibility:visible;animation:gbsb-push-up-in .4s}
+.gbsb-ticking .gbsb-next{animation:gbsb-push-up-in .4s}
+.gbsb-ticker-done .gbsb-icons{animation:gbsb-push-down-in .4s}
+.gbsb-ticker-done .gbsb-ticker{visibility:visible;animation:gbsb-push-down-out .4s forwards}
 @keyframes gbsb-push-up-in{from{transform:translateY(100%);opacity:0}}
 @keyframes gbsb-push-up-out{to{transform:translateY(-100%);opacity:0}}
 @keyframes gbsb-push-down-in{from{transform:translateY(-100%);opacity:0}}

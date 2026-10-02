@@ -1,0 +1,97 @@
+/* Android 2.3.6 Launcher2 (portrait). hdpi px x 0.575, 1 dp = 0.8625px. */
+/* Workspace: CellLayout 4 x 4 cells of 80 x 100 dp, 8 dp above and 78 dp below; the remaining height becomes the
+   row gap. The button cluster and the arrows float over the bottom padding. */
+#viewport>.home-view.gbl{position:relative;display:block;height:100%;overflow:hidden;background:none}
+.gbl .home-content{position:absolute;inset:0;padding:0;display:block}
+.gbl .home-pages{display:flex;height:100%;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.gbl .home-grid{flex:0 0 100%;height:100%;display:grid;grid-template-columns:repeat(4,69px);grid-template-rows:repeat(4,86.25px);row-gap:calc((100% - 6.9px - 67.28px - 345px) / 3);padding:6.9px 0 67.28px;justify-content:center;box-sizing:border-box;position:relative}
+.gbl .home-slot{min-width:0;min-height:0}
+/* BubbleTextView (WorkspaceIcon.Portrait): 48 dp icon, 5 dp drawable padding, 13 dip white label with a 2 px shadow
+   on a #B2191919 bubble (8 dp corners, 5 x 1 dp padding). */
+.gbl .launcher-icon,.gbl-allapps-grid .launcher-icon{width:100%;height:100%;padding:3.45px 2.59px 0;margin:0;display:flex;flex-direction:column;align-items:center;gap:4.31px;border:0;background:none;text-shadow:0 0 1.73px #000}
+.gbl .home-slot>.launcher-icon{height:calc(100% - 17.25px);margin-top:11.2px}
+.gbl .launcher-icon .app-icon,.gbl-allapps-grid .launcher-icon .app-icon{width:41.4px;height:41.4px;filter:none}
+.gbl .launcher-icon span:last-child{max-width:100%;padding:.86px 4.31px;border-radius:6.9px;background:#b2191919;color:#fff;font:400 11.2px/1.25 DroidSans,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbl .launcher-icon:active .app-icon{transform:none;filter:drop-shadow(0 0 4px #ffb400)}
+/* Widgets fill their cells with no ICS widget padding. */
+.gbl .home-widget{padding:0;margin:0;min-width:0;min-height:0;display:flex;align-items:center}
+.gbl .home-widget>*{width:100%}
+
+/* QuickSearchBox search_widget.xml on search_floater (14 px padding, 14 dp extra on the right). */
+.gbqsb{display:flex;align-items:stretch;height:auto;box-sizing:border-box;border:0 solid transparent;border-image:url('assets/gb-qsb-search_floater.png') 24 fill / 13.8px stretch;padding:8.05px 12.08px 8.05px 8.05px}
+.gbqsb button{border:0;padding:0;margin:0;background:none;display:grid;place-items:center;cursor:pointer}
+.gbqsb-corpus{width:41.4px;flex:none;border:0 solid transparent!important;border-image:url('assets/gb-qsb-corpus_indicator_bg_normal.png') 37 24 40 24 fill / 21.28px 13.8px 23px 13.8px stretch!important}
+.gbqsb-corpus:active{border-image-source:url('assets/gb-qsb-corpus_indicator_bg_normal.png')!important;filter:brightness(1.15)}
+.gbqsb-corpus img{width:31px;height:31px}
+.gbqsb-field{flex:1;min-width:0;height:36.23px;margin:5.18px 0!important;padding:0 8.63px!important;justify-items:start!important;border:0 solid transparent!important;border-image:url('assets/gb-qsb-textfield_search_empty_default.png') 32 16 32 13 fill / 18.4px 9.2px 18.4px 7.48px stretch!important}
+.gbqsb-field:active{border-image-source:url('assets/gb-qsb-textfield_search_empty_default.png')!important;filter:brightness(.95)}
+.gbqsb-field img{height:21.85px;width:auto;margin-left:-1px}
+.gbqsb-voice{width:22.4px;margin-right:-3.45px!important;flex:none;border:0 solid transparent!important;border-image:url('assets/gb-qsb-btn_search_dialog_voice_default.png') 40 18 39 18 fill / 23px 10.35px 22.4px 10.35px stretch!important;padding:0 10.35px!important;box-sizing:content-box}
+.gbqsb-voice img{width:21.85px;height:25.9px}
+
+/* Protips widget.xml: the bugdroid on the right and the droid_widget speech bubble (13 sp white text, 10 sp #AAA
+   footer) pointing at it. */
+.gbtips{position:relative;display:flex;align-items:center;justify-content:flex-end;padding:4.31px;height:100%;box-sizing:border-box}
+.gbtips-droid{flex:none;border:0;background:none;padding:0;display:grid;place-items:center;cursor:pointer}
+.gbtips-droid img{width:46px;height:56.9px}
+.gbtips-bubble{position:relative;flex:1;min-width:0;margin-right:1.73px;min-height:66.7px;box-sizing:border-box;border:0 solid transparent;border-image:url('assets/gb-tips-droid_widget_normal.png') 17 34 21 21 fill / 9.78px 19.55px 12.08px 12.08px stretch;padding:6.9px 17.25px 9.2px 9.78px;background:none;display:flex;align-items:flex-start;gap:2px;text-align:left;color:#fff;font:400 11.2px/1.25 DroidSans,Arial,sans-serif;cursor:pointer}
+.gbtips-bubble:active{border-image-source:url('assets/gb-tips-droid_widget_pressed.png')}
+.gbtips-text{flex:1;min-width:0;margin-left:2.59px}
+.gbtips-text strong{display:block;font-weight:700}
+.gbtips-text span{display:block;margin-top:.86px}
+.gbtips-callout{flex:none;width:30.5px;height:30.5px;padding:3.45px;align-self:center}
+.gbtips-footer{position:absolute;right:18.1px;bottom:6.9px;font:700 8.63px DroidSans,Arial,sans-serif;color:#aaa}
+
+/* Previous/next screen buttons: 93 x 56 dp, 6 dp from the edges; home_arrows level-list dots. */
+.gbl-arrow{position:absolute;bottom:0;width:80.2px;height:48.3px;border:0;padding:0;background:var(--dots) center/60.4px 34.5px no-repeat;z-index:3;cursor:pointer}
+.gbl-arrow:active{background-image:var(--dots-press)}
+.gbl-arrow[hidden]{display:block;visibility:hidden}
+.gbl-arrow-left{left:5.18px}
+.gbl-arrow-right{right:5.18px}
+/* all_apps_button_cluster: 56 dp, 2 dp top padding; phone and browser on hotseat_bg_left/right with 12 dp padding,
+   the all apps button on hotseat_bg_center. */
+.gbl-cluster{position:absolute;left:0;right:0;bottom:0;height:48.3px;padding-top:1.73px;display:flex;justify-content:center;z-index:2;pointer-events:none}
+.gbl-cluster button{pointer-events:auto;height:100%;border:0 solid transparent;padding:0 10.35px;background:none;display:grid;place-items:center;cursor:pointer;box-sizing:border-box}
+.gbl-hotseat-left{margin-left:3.45px;border-image:url('assets/gb-l2-hotseat_bg_left.png') 4 0 7 2 fill / 2.3px 0 4px 1.15px stretch}
+.gbl-hotseat-right{margin-right:3.45px;border-image:url('assets/gb-l2-hotseat_bg_right.png') 4 2 7 0 fill / 2.3px 1.15px 4px 0 stretch}
+.gbl-allapps{border-image:url('assets/gb-l2-hotseat_bg_center.png') 4 0 7 0 fill / 2.3px 0 4px 0 stretch}
+.gbl-cluster span{display:block;width:34.5px;height:34.5px;background:center/contain no-repeat}
+.gbl-cluster .gbl-hotseat-phone{background-image:url('assets/gb-l2-hotseat_phone_normal.png')}
+.gbl-cluster .gbl-hotseat-left:active .gbl-hotseat-phone{background-image:url('assets/gb-l2-hotseat_phone_pressed.png')}
+.gbl-cluster .gbl-hotseat-browser{background-image:url('assets/gb-l2-hotseat_browser_normal.png')}
+.gbl-cluster .gbl-hotseat-right:active .gbl-hotseat-browser{background-image:url('assets/gb-l2-hotseat_browser_pressed.png')}
+.gbl-allapps span{background-image:url('assets/gb-l2-all_apps_button_normal.png')}
+.gbl-allapps:active span{background-image:url('assets/gb-l2-all_apps_button_pressed.png')}
+/* DeleteZone: 70 dp trash can (14 dp top padding) over the cluster while dragging; it turns red when hovered. */
+.gbl .drop-target-bar.gbl-delete{position:absolute;left:50%;right:auto;top:auto;bottom:0;width:60.4px;height:60.4px;margin-left:-30.2px;padding:12.08px 0 0;background:none;display:none;justify-content:center;z-index:4;border:0}
+.screen.dragging .gbl .drop-target-bar.gbl-delete{display:flex}
+.screen.dragging .gbl-cluster,.screen.dragging .gbl-arrow{visibility:hidden}
+.gbl-delete .drop-target{display:block;position:relative;width:34.5px;height:34.5px;padding:0;background:none;border:0}
+.gbl-delete .drop-target img{position:absolute;inset:0;width:100%;height:100%}
+.gbl-delete .drop-target .drop-target-active{opacity:0}
+.gbl-delete .drop-target.hover .drop-target-active,.gbl-delete .drop-target.active .drop-target-active{opacity:1}
+
+/* AllApps2D: black, 2 dp padding, 4 columns with 10 dp row spacing, 8 dp from the top and the 56 dp home button below.
+   application_boxed: 88 dp items, 5 dp top padding, 13 dip text on up to two lines. */
+#viewport>.drawer-view.gbl-allapps-view{position:relative;height:100%;background:#000;padding:1.73px;box-sizing:border-box;display:block}
+.gbl-allapps-grid{position:absolute;left:1.73px;right:1.73px;top:8.63px;bottom:48.3px;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:75.9px;row-gap:8.63px;align-content:start;overflow-y:auto;scrollbar-width:none;padding:0;margin:0;-webkit-mask-image:linear-gradient(transparent,#000 6px,#000 calc(100% - 20px),transparent)}
+.gbl-allapps-grid::-webkit-scrollbar{display:none}
+.gbl-allapps-grid .launcher-icon{padding:4.31px 1.73px 1.73px;gap:0;text-shadow:none}
+.gbl-allapps-grid .launcher-icon span:last-child{margin-top:0;max-width:100%;color:#fff;font:400 11.2px/1.2 DroidSans,Arial,sans-serif;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-align:center;background:none;padding:0}
+.gbl-allapps-grid .launcher-icon:active{background:#ff9d00aa;border-radius:4px}
+.gbl-allapps-home{position:absolute;left:50%;bottom:0;width:73.6px;height:48.3px;margin-left:-36.8px;border:0;background:#000 url('assets/gb-l2-home_button_normal.png') center/36.8px no-repeat;cursor:pointer}
+.gbl-allapps-home:active{background-image:url('assets/gb-l2-home_button_pressed.png')}
+/* Music album_appwidget: appwidget_bg (14 px padding), 18 dp left padding on the text, inner_press highlights. */
+.gbmusic{display:flex;align-items:stretch;height:70px;box-sizing:border-box;border:0 solid transparent;border-image:url('assets/gb-music-appwidget_bg.png') 24 fill / 13.8px stretch;padding:8.05px}
+.gbmusic button{border:0 solid transparent;background:none;padding:0;min-width:0;display:grid;place-items:center;cursor:pointer;color:#fff}
+.gbmusic-info{flex:3!important;display:flex!important;flex-direction:column;justify-content:center;align-items:flex-start!important;padding:0 6.9px 0 15.53px!important;text-align:left;font:400 12.07px/1.25 DroidSans,Arial,sans-serif;white-space:nowrap;overflow:hidden}
+.gbmusic-info strong{font-size:15.53px;font-weight:700;max-width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+.gbmusic-info span{max-width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+.gbmusic-play,.gbmusic-next{flex:1}
+.gbmusic img{width:27.6px;height:27.6px}
+.gbmusic>i{width:.86px;flex:none;background:url('assets/gb-music-appwidget_divider.png') 0 0/100% 100%}
+.gbmusic-info:active{border-image:url('assets/gb-music-appwidget_inner_press_l.png') 10 3 10 10 fill / 5.75px 1.73px 5.75px 5.75px stretch}
+.gbmusic-play:active{border-image:url('assets/gb-music-appwidget_inner_press_c.png') 10 3 10 3 fill / 5.75px 1.73px stretch}
+.gbmusic-next:active{border-image:url('assets/gb-music-appwidget_inner_press_r.png') 10 10 10 3 fill / 5.75px 5.75px 5.75px 1.73px stretch}
+/* Gingerbread's CellLayout draws no holo drop outline; the dragged view itself is the only feedback. */
+.gbl .drag-outline,.gbl .icon-outline,.gbl .widget-outline{display:none!important}

@@ -6,19 +6,20 @@
   const localDate = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const defaultData = {
     // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
-    clings: LauncherClings.fresh(),
+    // Gingerbread's Launcher2 has no first-run clings.
+    clings: LauncherClings.dismissedAll(),
     wallpaper: 0,
     layoutRevision: 2,
-    homePages: Array.from({length: 5}, (_, page) => Array.from({length: 16}, (_, slot) =>
-      page === 2 && slot === 12 ? 'camera' : page === 2 && slot === 15 ? 'google' :
-      page === 3 && slot === 13 ? 'gallery' : page === 3 && slot === 14 ? 'settings' : null)),
+    homePages: Array.from({length: 5}, () => Array(16).fill(null)),
     homeWidgets: [
       [],
-      [{ id: 'default-power', type: 'power', x: 0, y: 3 }],
-      [{ id: 'default-analog', type: 'analog', x: 1, y: 0 }],
       [],
+      [{ id: 'default-search', type: 'search', x: 0, y: 0 }, { id: 'default-protips', type: 'protips', x: 0, y: 1 }],
+      [{ id: 'default-music', type: 'music', x: 0, y: 0 }],
       []
     ],
+    liveWallpaper: { id: 'nexus' },
+    protips: { index: 0, set: 0 },
     dock: ['phone', 'people', 'apps', 'messaging', 'browser'],
     settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
     contacts: [
@@ -105,13 +106,13 @@
   ui.browserSession = ICSBrowserSession.restore(data.browserSession,data.browserHistory);
   syncBrowserState();
   const apps = [
-    ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'People', '◉', '#efa96f', '#a45142'],
+    ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'Contacts', '◉', '#efa96f', '#a45142'],
     ['messaging', 'Messaging', '✉', '#84cf62', '#428c43'], ['browser', 'Browser', '◎', '#65aee2', '#246ba8'],
     ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
-    ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f']
+    ['play-store', 'Market', '▶', '#b5d26d', '#53732f']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -121,6 +122,8 @@
   ];
   const wallpaperFiles = ['chroma','architecture','bubblegum','canyon','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
   const widgetTypes = [
+    { type: 'search', name: 'Search', app: 'browser', width: 4, height: 1 },
+    { type: 'protips', name: 'Home screen tips', app: 'settings', width: 4, height: 1 },
     { type: 'analog', name: 'Analog clock', app: 'clock', width: 2, height: 2 },
     { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3 },
     { type: 'music', name: 'Music', app: 'music', width: 4, height: 1 },
@@ -388,8 +391,10 @@
   const musicActive = () => ui.music.playing || ui.music.position > 0 || !!ui.musicActive;
   function widgetBody(widget) {
     const t = key => i18n.t(key);
+    if (widget.type === 'search') return GBLauncher.search(t);
+    if (widget.type === 'protips') return GBLauncher.protips({...(data.protips || {index: 0, set: 0}), icon: ui.tipsIcon}, i18n.language);
     if (widget.type === 'calendar') return ICSWidgets.calendar(data, t, i18n.locale(), deviceDate(), !!data.settings.hour24);
-    if (widget.type === 'music') return ICSWidgets.music(ui.music, tracks, musicActive(), t);
+    if (widget.type === 'music') return GBLauncher.music(ui.music, tracks[ui.music.track], musicActive(), t);
     if (widget.type === 'photo') return ICSWidgets.photo(data, widget, ui.photoStacks?.[widget.id] || 0, t);
     return null;
   }
@@ -400,15 +405,13 @@
   };
   const wallpaperChoices = () => `<div class="wallpaper-grid">${wallpaperFiles.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}" aria-label="${safe(name)}"><span class="wallpaper-swatch" style="background-image:url('assets/wallpaper_${name}.jpg')"></span><strong>${safe(name[0].toUpperCase() + name.slice(1))}</strong></button>`).join('')}</div>`;
   function renderHome() {
-    return `<div class="home-view"><div class="home-search"><button data-action="browser-search" aria-label="Search"><span class="google-word">Google</span></button><button class="voice-search" data-action="voice-search" aria-label="Voice search"><img class="search-microphone" src="assets/ic_btn_speak_now.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" ${index !== ui.page ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${data.homeWidgets[index].map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: 5 }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}"></button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/launcher-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/launcher-ic_launcher_clear_active_holo.png" alt=""><span>Remove</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/launcher-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/launcher-ic_launcher_info_active_holo.png" alt=""><span>App info</span></div></div></div>`;
+    const t = key => i18n.t(key);
+    return `<div class="home-view gbl"><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" ${index !== ui.page ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${data.homeWidgets[index].map(homeWidget).join('')}</div>`).join('')}</div></div>${GBLauncher.arrows(ui.page, 5, t)}${GBLauncher.dock(t)}<div class="drop-target-bar gbl-delete"><div class="drop-target" data-drop-remove="true" aria-label="${safe(t('Remove'))}"><img src="assets/gb-l2-trashcan.png" alt=""><img class="drop-target-active" src="assets/gb-l2-trashcan_hover.png" alt=""></div></div></div>`;
   }
+  // AllApps2D: a black 4-column GridView of application_boxed items (alphabetical) above the home button.
   function renderDrawer() {
-    const isApps = ui.drawerTab === 'apps';
-    const pages = Math.ceil((isApps ? apps.length : widgetTypes.length) / (isApps ? 20 : 4));
-    const current = Math.min(ui.drawerPage, pages - 1);
-    const sortedApps = [...apps].sort((a,b) => i18n.t(a[1]).localeCompare(i18n.t(b[1]), i18n.locale()));
-    const items = isApps ? sortedApps.slice(current * 20, current * 20 + 20).map(app => launcherIcon(app[0])).join('') : widgetTypes.slice(current * 4, current * 4 + 4).map(widget => `<button class="drawer-widget" data-action="add-widget" data-widget-type="${widget.type}" aria-label="${safe(widget.name)}"><span class="drawer-widget-title">${safe(widget.name)} <small>${widget.width} × ${widget.height}</small></span><span class="drawer-widget-preview widget-${widget.type}">${widgetArt(widget.type)}</span></button>`).join('');
-    return `<div class="drawer-view"><div class="drawer-tabs"><button class="${isApps ? 'active' : ''}" data-action="drawer-tab" data-id="apps">Apps</button><button class="${!isApps ? 'active' : ''}" data-action="drawer-tab" data-id="widgets">Widgets</button><button class="drawer-market" data-action="market" aria-label="Shop"><img src="assets/ic_launcher_market_holo.png" alt=""></button></div><div class="drawer-page ${isApps ? 'drawer-apps' : 'drawer-widgets'}">${items}</div><div class="drawer-indicators">${Array.from({length:pages},(_,i)=>`<button class="${i===current?'active':''}" data-action="drawer-page" data-id="${i}" aria-label="${safe(i18n.t('Page'))} ${i+1}"></button>`).join('')}</div></div>`;
+    const sortedApps = [...apps].sort((a, b) => i18n.t(a[1]).localeCompare(i18n.t(b[1]), i18n.locale()));
+    return `<div class="drawer-view gbl-allapps-view"><div class="drawer-page drawer-apps gbl-allapps-grid">${sortedApps.map(app => launcherIcon(app[0])).join('')}</div><button class="gbl-allapps-home" data-action="home" aria-label="${safe(i18n.t('Home'))}"></button></div>`;
   }
   function widgetFits(page, x, y, type, ignoredId = '') {
     const {width, height} = widgetSize(type);
@@ -1040,6 +1043,10 @@
     if (operator && key !== '!' && /[÷×−+^]$/.test(ui.calc) && key !== '−') ui.calc = ui.calc.slice(0,-1);
     ui.calc += token;
   }
+  function blinkTips(times) {
+    let delay = 0;
+    for (const [icon, wait] of GBLauncher.blinkFrames(times)) { setTimeout(() => { ui.tipsIcon = icon; if (ui.view === 'home') { const img = viewport.querySelector('.gbtips-droid img'); if (img) img.src = `assets/gb-tips-${icon}.png`; } }, delay); delay += wait; }
+  }
   function addNotification(title, detail) { data.notifications.unshift({ id: Date.now(), title, detail }); save(); renderStatus(); }
   function sendMessage(id, body, attachment) {
     if (!body && !attachment) return;
@@ -1112,6 +1119,8 @@
         save(); render(); break;
       case 'widget-music-play': ui.musicActive=true;ui.music.playing=!ui.music.playing;if(ui.music.playing&&ui.music.position>=tracks[ui.music.track].duration)ui.music.position=0;saveMusic();render();break;
       case 'voice-search': toast('Voice search unavailable offline'); break;
+      case 'gb-tip-next': data.protips = {...(data.protips || {set: 0}), index: ((data.protips?.index ?? -1) + 1) % GBLauncher.tips(i18n.language, data.protips?.set).length}; save(); render(); break;
+      case 'gb-tip-poke': blinkTips(1); break;
       case 'lock-media': if (id === 'play') { ui.music.playing = !ui.music.playing; if (ui.music.playing && ui.music.position >= tracks[ui.music.track].duration) ui.music.position = 0; } else ICSMusic.step(ui.music, id === 'previous' ? -1 : 1); ui.musicTrack = ui.music.track; saveMusic(); render(); break;
       case 'lock-hint': screen.classList.add('lock-dragging'); setTimeout(() => { if (!pointerStart?.lockDrag) lockRelease(null); }, 1000); break;
       case 'shade': if (ui.overlay === 'shade') { closeShade(); break; } if (ui.locked) break; ui.overlay = 'shade'; renderOverlay(); break;
@@ -1212,7 +1221,7 @@
       case 'phone-menu': ui.overlay = 'phone-menu'; renderOverlay(); break;
       case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phone=ui.dial; render(); break;
       case 'phone-redial': startPhoneCall(id); break;
-      case 'dial': if (ui.dial.length < 30) ui.dial += id; render(); break;
+      case 'dial': if (ui.dial.length < 30) ui.dial += id; if (ui.dial.endsWith('*#*#8477#*#*')) { ui.dial = ''; data.protips = {index: 0, set: 1 - (data.protips?.set || 0)}; save(); home(false); setTimeout(() => blinkTips(3), 300); break; } render(); break;
       case 'dial-delete': ui.dial = ui.dial.slice(0, -1); render(); break;
       case 'call': if(!ui.dial){toast('Enter a phone number');break;}startPhoneCall(ui.dial);break;
       case 'hangup': if(ui.activeCall)data.callHistory=[...(data.callHistory||[]),ICSPhoneCall.finish(ui.activeCall)].slice(-50);ui.activeCall=null;save();ui.sub='';ui.dial='';render();toast('Call ended');break;
@@ -1799,7 +1808,9 @@
     track.style.transform = `translateX(${-ui.page * 100}%)`;
     tweenWallpaperOffset(ui.page / 4);
     track.querySelectorAll('.home-grid').forEach((grid, index) => { grid.inert = index !== ui.page; });
-    viewport.querySelectorAll('.page-indicators button').forEach((button,index) => button.classList.toggle('active', index === ui.page));
+    // Launcher.updateArrows: the previous/next buttons show one dot per screen on that side.
+    const home = viewport.querySelector('.home-view.gbl');
+    if (home) { home.querySelectorAll('.gbl-arrow').forEach(node => node.remove()); home.querySelector('.gbl-cluster')?.insertAdjacentHTML('beforebegin', GBLauncher.arrows(ui.page, 5, key => i18n.t(key))); }
     screen.classList.add('show-page-indicator');
     clearTimeout(ui.pageIndicatorTimer);
     ui.pageIndicatorTimer = setTimeout(() => screen.classList.remove('show-page-indicator'), 800);
