@@ -26,7 +26,7 @@
 .gbsp-snippet{display:flex;align-items:center;padding:4.31px 5.18px}
 .gbsp-buttons{display:flex;gap:2px;padding:0 5.18px 4.31px}
 .gbsp-buttons.center{justify-content:center}
-.screen .gbsp-btn{flex:1;min-width:0;min-height:41.4px;padding:5.75px 6px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbsp-btn{flex:1;min-width:0;min-height:41.4px;padding:5.75px 6px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
 .gbsp-buttons.center .gbsp-btn,.gbsp-info>.gbsp-btn{flex:none;width:129.38px}
 .screen .gbsp-btn:active:not(:disabled){border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
 .screen .gbsp-btn:disabled{border-image-source:url('assets/gb-btn_default_normal_disable.png');color:#808080;cursor:default}

@@ -80,7 +80,7 @@ pref_extras_reset_default_summary pref_extras_reset_default_dlg pref_extras_rese
 new_tab active_tabs tab_bookmarks tab_most_visited tab_history added_to_bookmarks removed_from_bookmarks title_bar_loading page_info
 page_info_address stop reload back forward location name save_to_bookmarks edit_bookmark open_bookmark remove_bookmark bookmark_needs_title
 delete_bookmark open_in_new_window goto_dot find_dot select_dot tab_picker_title tab_picker_remove_tab bookmarks history menu_view_download
-copy_page_url share_page menu_preferences clear_history empty_history add_bookmark_short search_hint
+copy_page_url share_page choosertitle_sharevia menu_preferences clear_history empty_history add_bookmark_short search_hint
 bookmark_page switch_to_thumbnails switch_to_list set_as_homepage contextmenu_openlink contextmenu_openlink_newwindow contextmenu_sharelink
 contextmenu_copylink remove_history_item create_shortcut_bookmark'''.split(),
         'arrays': ['pref_text_size_choices', 'pref_default_zoom_choices', 'pref_default_text_encoding_choices', 'pref_content_plugins_choices'],
@@ -88,7 +88,7 @@ contextmenu_copylink remove_history_item create_shortcut_bookmark'''.split(),
     },
     'email': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_email/android-2.3.6_r1/res/values%s/strings.xml'],
-        'keys': '''account_settings_title_fmt account_settings_description_label account_settings_name_label account_settings_signature_label
+        'keys': '''exchange_name account_settings_title_fmt account_settings_description_label account_settings_name_label account_settings_signature_label
 account_settings_signature_hint account_settings_mail_check_frequency_label account_settings_default_label account_settings_default_summary
 account_settings_notifications account_settings_notify_label account_settings_notify_summary account_settings_ringtone
 account_settings_vibrate_when_label account_settings_vibrate_when_summary account_settings_vibrate_when_dlg_title account_settings_servers
@@ -189,7 +189,7 @@ wallpaper_vis5 vis2_desc vis3_desc vis4_desc vis5_desc wallpaper_magicsmoke magi
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
         'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml',
                           'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],
-        'keys': '''preferences_general_title preferences_hide_declined_title preferences_use_home_tz_title preferences_use_home_tz_descrip
+        'keys': '''calendars_title synced_visible synced_not_visible not_synced_not_visible preferences_general_title preferences_hide_declined_title preferences_use_home_tz_title preferences_use_home_tz_descrip
 preferences_home_tz_title preferences_alerts_title preferences_alerts_type_title preferences_alerts_type_dialog preferences_alerts_ringtone_title
 preferences_alerts_vibrateWhen_title preferences_alerts_vibrateWhen_summary prefDialogTitle_vibrateWhen preferences_default_reminder_title
 preferences_default_reminder_dialog preferences_about_title preferences_build_version

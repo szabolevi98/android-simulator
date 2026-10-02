@@ -661,3 +661,12 @@ References: android-2.3.6_r1 Browser `browser_preferences.xml` / `BrowserPrefere
   - Account name, your name and signature (edit dialogs; summaries show the values), inbox check frequency, and default account.
   - Notifications, ringtone and vibrate, which depend on Email notifications.
   - Incoming / outgoing server entries.
+
+## Calendars list, Share page and button text — 2026-10-02
+
+- **Calendar → Menu → More → Calendars** (SelectCalendarsActivity):
+  - The account group (the account and "Corporate") is expanded and holds the calendar row: the colour bar, the name, the status, and the MultiStateButton (`widget_show` / `widget_sync` / `widget_off`).
+  - Tapping cycles synced & visible → synced, not visible → not synced.
+  - OK applies the change and Cancel / Back discards it. While the calendar is not visible, its events are hidden from the views.
+- **Browser → Menu → More → Share page:** the framework "Share via" chooser with Email and Messaging. It opens a new email (subject = page title, body = address) or a new message with the address.
+- **Button text size:** GB `Widget.Button` uses textAppearanceSmallInverse (14 sp). The default buttons in the Calendar editor, Email compose ("Save as draft" no longer truncates), the contact editor and the Settings two-button panels now use 14 sp. The Calendar date / time buttons stay at their textAppearanceMediumInverse 18 sp.

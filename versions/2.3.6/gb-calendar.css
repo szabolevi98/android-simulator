@@ -102,7 +102,22 @@
 .screen .gbcal-round.plus:active{background-image:url('assets/gb-cal-ic_btn_round_plus.png'),url('assets/gb-cal-btn_circle_pressed.png')}
 .screen .gbcal-round.minus:active{background-image:url('assets/gb-cal-ic_btn_round_minus.png'),url('assets/gb-cal-btn_circle_pressed.png')}
 .gbcal-bottombar{flex:none;display:flex;padding:4.31px 0 .86px 3.45px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
-.screen .gbcal-bottombar button{flex:1;min-width:0;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbcal-bottombar button{flex:1;min-width:0;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
 .screen .gbcal-bottombar button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
 /* DatePicker: month / day / year NumberPickers. */
 .gbcal-dp{justify-content:center;gap:.86px}
+/* SelectCalendarsActivity: account_item (64 dip minimum, 22 sp account, the expander in the 40 dip indent) and calendar_item
+   (6 dip margins, 10 x 58 dip colour bar, 22 sp name, 14 sp status, the 85 x 49 MultiStateButton 14 dip from the edge). */
+#viewport>.app-view.gbcal-sel{height:100%;display:flex;flex-direction:column;background:#000;color:#fff}
+.gbcal-sel-list{flex:1;min-height:0;overflow-y:auto}
+.screen .gbcal-sel-acct{position:relative;display:flex;align-items:center;width:100%;min-height:55.2px;margin:0;padding:0 8.63px 0 34.5px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.gbcal-sel-acct img{position:absolute;left:2.59px;top:50%;width:25.88px;height:29.11px;object-fit:contain;transform:translateY(-50%)}
+.gbcal-sel-acct span{display:flex;flex-direction:column;min-width:0;padding-top:5.18px}
+.gbcal-sel-acct b{font-weight:400;font-size:18.98px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbcal-sel-acct small{font-size:12.07px;color:#bebebe}
+.screen .gbcal-sel-cal{display:grid;grid-template-columns:8.63px minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:3.45px;width:100%;min-height:55.2px;margin:0;padding:5.18px 5.18px 5.18px 0;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbcal-sel-acct:active,.screen .gbcal-sel-cal:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbcal-sel-cal i{grid-row:1/-1;width:8.63px;height:50.03px}
+.gbcal-sel-name{font-size:18.98px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbcal-sel-status{grid-column:2;font-size:12.07px;color:#bebebe}
+.gbcal-sel-cal img{grid-column:3;grid-row:1/-1;width:48.88px;height:28.18px;margin:0 12.08px 0 3.45px}

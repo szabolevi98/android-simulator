@@ -674,6 +674,13 @@ window.GBStrings["browser"] = {
 "fr": "Partager la page",
 "es": "Compartir página"
 },
+"choosertitle_sharevia": {
+"en": "Share via",
+"hu": "Megosztás itt:",
+"de": "Weitergeben über",
+"fr": "Partager via",
+"es": "Compartir a través de"
+},
 "menu_preferences": {
 "en": "Settings",
 "hu": "Beállítások",

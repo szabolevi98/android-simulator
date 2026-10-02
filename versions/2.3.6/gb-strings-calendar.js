@@ -2,6 +2,34 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["calendar"] = {
 "strings": {
+"calendars_title": {
+"en": "Calendars",
+"hu": "Naptárak",
+"de": "Kalender",
+"fr": "Agendas",
+"es": "Calendarios"
+},
+"synced_visible": {
+"en": "synced, visible",
+"hu": "szinkronizálva, látható",
+"de": "synchronisiert, sichtbar",
+"fr": "synchronisé, visible",
+"es": "sincronizado y visible"
+},
+"synced_not_visible": {
+"en": "synced, not visible",
+"hu": "szinkronizálva, nem látható",
+"de": "synchronisiert, nicht sichtbar",
+"fr": "synchronisé, non visible",
+"es": "sincronizado, pero no visible"
+},
+"not_synced_not_visible": {
+"en": "not synced, not visible",
+"hu": "nincs szinkronizálva, nem látható",
+"de": "nicht synchronisiert, nicht sichtbar",
+"fr": "non synchronisé, non visible",
+"es": "no sincronizado o no visible"
+},
 "preferences_general_title": {
 "en": "Calendar view setting",
 "hu": "A naptár megjelenésének beállítása",
@@ -253,13 +281,6 @@ window.GBStrings["calendar"] = {
 "de": "Einstellungen",
 "fr": "Paramètres",
 "es": "Ajustes"
-},
-"calendars_title": {
-"en": "Calendars",
-"hu": "Naptárak",
-"de": "Kalender",
-"fr": "Agendas",
-"es": "Calendarios"
 },
 "event_edit_title": {
 "en": "Event details",
@@ -582,13 +603,6 @@ window.GBStrings["calendar"] = {
 "de": "Einstellungen",
 "fr": "Paramètres",
 "es": "Ajustes"
-},
-"synced_visible": {
-"en": "synced, visible",
-"hu": "szinkronizálva, látható",
-"de": "synchronisiert, sichtbar",
-"fr": "synchronisé, visible",
-"es": "sincronizado y visible"
 },
 "alert_title": {
 "en": "Calendar notifications",

@@ -232,7 +232,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
-    if (ui.gbPrefs && ui.gbPrefs.app === ui.view) return;
+    if (ui.gbPrefs && ui.gbPrefs.app === ui.view || ui.view === 'calendar' && ui.gbCalSel) return;
     if (ui.view === 'downloads') { ui.gbMenuItems = GBDownloads.menu(gbDlContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'search') { const items = GBSearch.menu(gbSearchContext()); if (items.length) { ui.qsb.selecting = false; ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); render(); } return; }
     if (ui.view === 'play-store') { const items = GBMarket.menu(gbMarketContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
@@ -579,6 +579,7 @@
   });
   function renderApp() {
     if (ui.gbPrefs && ui.gbPrefs.app === ui.view) return GBPrefs.render(gbPrefsContext());
+    if (ui.view === 'calendar' && ui.gbCalSel) return GBCalendar.selectCalendars({lang: i18n.language, account: ICSEmail.account, accountType: GBEmail.text ? GBEmail.text(i18n.language, 'exchange_name') : 'Corporate', ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), ...ui.gbCalSel});
     switch (ui.view) {
       case 'play-store': return GBMarket.render(gbMarketContext());
       case 'search': return GBSearch.render(gbSearchContext());
@@ -605,7 +606,7 @@
     if (!appNames[app]) return;
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
-    ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; if (!resume) ui.gbPrefs = null; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
+    ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; if (!resume) { ui.gbPrefs = null; ui.gbCalSel = null; } ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
     if (app === 'phone' && ui.activeCall && !resume) { ui.gbCallBackground = true; ui.gbAddCall = false; ui.phoneTab = 'dialpad'; }
     ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 8);
     render();
@@ -630,6 +631,7 @@
     if(ui.view==='lock'&&ui.gbPasswordEntry&&data.settings.screenLock!=='pattern'){ui.gbPasswordEntry=false;lockControls.lock();render();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.gbPrefs && ui.gbPrefs.app === ui.view && !ui.overlay) { ui.gbPrefs = null; render(); return; }
+    if (ui.view === 'calendar' && ui.gbCalSel && !ui.overlay) { ui.gbCalSel = null; render(); return; }
     if (ui.view === 'search' && !ui.overlay && ui.qsb?.selecting) { ui.qsb.selecting = false; render(); return; }
     if (ui.view === 'search' && !ui.overlay && ui.qsb?.page) { ui.qsb.page = ui.qsb.page === 'settings' ? '' : 'settings'; render(); return; }
     if (ui.overlay === 'shade') { closeShade(); return; }
@@ -715,6 +717,8 @@
       {action: 'gb-new-folder', id: 'all', title: t('All contacts'), icon: 'ic_launcher_folder_live_contacts'},
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
+    // Browser.sharePage: Intent.createChooser(ACTION_SEND text/plain, "Share via"); the AOSP build offers Email and Messaging.
+    if (ui.overlay === 'gb-dialog-share') return {title: GBBrowser.text(i18n.language, 'choosertitle_sharevia'), items: [['email', 'Email'], ['messaging', 'Messaging']].map(([id, name]) => ({action: 'gbbr-share-to', id, title: i18n.t(name), icon: `${id}.png`}))};
     if (ui.overlay === 'gb-dialog-pref') return GBPrefs.dialog(gbPrefsContext(), ui.gbPrefDialog) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-dl') return GBDownloads.dialog(data.downloads?.find(d => d.id === ui.gbdlDialog), i18n.language) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-qsb-clear') return GBSearch.clearDialog(i18n.language);
@@ -1246,7 +1250,7 @@
   function renderCalendar() { return GBCalendar.render(gbCalContext()); }
   function gbCalContext() {
     const event = data.events.find(item => item.id === ui.selectedEvent);
-    return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), now: deviceDate(), hour24: !!data.settings.hour24, sub: ui.sub, mode: ui.calendarMode || 'Month', selected: ui.selectedDate, first: i18n.locale() === 'en-US' ? 0 : 1, events: data.events, event, instance: ui.selectedInstance, draft: ui.eventDraft, temp: ui.gbCalTemp, extra: !!ui.gbCalExtra, error: ui.calendarError ? i18n.t(ui.calendarError) : '', account: 'demo@example.com', target: ui.gbCalTarget, ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), setLabel: GBDeskClock.text(i18n.language, 'date_time_set')};
+    return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), now: deviceDate(), hour24: !!data.settings.hour24, sub: ui.sub, mode: ui.calendarMode || 'Month', selected: ui.selectedDate, first: i18n.locale() === 'en-US' ? 0 : 1, events: data.calendarState ? [] : data.events, event, instance: ui.selectedInstance, draft: ui.eventDraft, temp: ui.gbCalTemp, extra: !!ui.gbCalExtra, error: ui.calendarError ? i18n.t(ui.calendarError) : '', account: 'demo@example.com', target: ui.gbCalTarget, ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), setLabel: GBDeskClock.text(i18n.language, 'date_time_set')};
   }
   function gbCalDialog(kind) { ui.gbCalDialog = kind; ui.overlay = 'gb-dialog-cal'; renderOverlay(); }
   // The edit form's text fields live in the draft so the pickers and spinners can re-render it.
@@ -1642,6 +1646,17 @@
       case 'browser-search': openSearch(''); break;
       case 'gbqs-corpora': ui.qsb.selecting = !ui.qsb.selecting; render(); break;
       case 'gbpref-open': ui.overlay = ''; ui.gbPrefs = {app: id}; render(); break;
+      case 'gbbr-share': ui.overlay = 'gb-dialog-share'; renderOverlay(); break;
+      // EXTRA_TEXT carries the address and EXTRA_SUBJECT the page title.
+      case 'gbbr-share-to': { const url = ICSBrowserSession.url(ui.browserSession) || '', address = browserAddress(String(url)), title = gbBrowserTitle(url); ui.overlay = '';
+        if (id === 'email') { openApp('email'); composeEmail(); const draft = data.mailbox.find(m => m.id === ui.emailId); if (draft) { draft.subject = title; draft.body = 'http://' + address; save(); render(); } }
+        else { openApp('messaging'); ui.sub = 'new'; data.messageDrafts ||= {}; data.messageDrafts.new = {...(data.messageDrafts.new || {}), body: 'http://' + address, updated: Date.now()}; save(); render(); }
+        break; }
+      // SelectCalendarsActivity edits a draft; OK writes it back (a calendar that is not visible hides its events).
+      case 'gbcal-select': ui.overlay = ''; ui.gbCalSel = {state: data.calendarState || 0, expanded: true}; render(); break;
+      case 'gbcal-select-cycle': ui.gbCalSel.state = (ui.gbCalSel.state + 1) % 3; render(); break;
+      case 'gbcal-select-group': ui.gbCalSel.expanded = !ui.gbCalSel.expanded; render(); break;
+      case 'gbcal-select-ok': data.calendarState = ui.gbCalSel.state; ui.gbCalSel = null; save(); render(); break;
       case 'gbpref-check': { const [app, key] = String(id).split(':'), ctx = gbPrefsContext(app), item = GBPrefs.find(ctx, key); if (item) gbPrefSet(key, !GBPrefs.get(item, ctx.values)); gbPrefRender(); break; }
       case 'gbpref-list': case 'gbpref-action': { const [app, key] = String(id).split(':'), item = GBPrefs.find(gbPrefsContext(app), key); if (!item) break;
         if (item.toast) { toast('Unavailable in this simulator'); break; }

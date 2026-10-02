@@ -2,6 +2,13 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["email"] = {
 "strings": {
+"exchange_name": {
+"en": "Corporate",
+"hu": "Vállalati",
+"de": "Geschäftlich",
+"fr": "Entreprise",
+"es": "Cuenta de trabajo"
+},
 "account_settings_title_fmt": {
 "en": "General settings",
 "hu": "Általános beállítások",

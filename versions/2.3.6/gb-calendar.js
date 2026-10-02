@@ -155,7 +155,7 @@
       {action: 'calendar-mode', id: 'Agenda', title: T('agenda_view'), icon: 'ic_menu_agenda', disabled: ctx.mode === 'Agenda'},
       {action: 'calendar-today', title: T('goto_today'), icon: 'ic_menu_today'},
       {action: 'event-new', title: T('event_create'), icon: 'ic_menu_add'},
-      {action: 'gbset-toast', id: na, title: T('menu_select_calendars'), icon: 'ic_menu_manage'},
+      {action: 'gbcal-select', title: T('menu_select_calendars'), icon: 'ic_menu_manage'},
       {action: 'gbpref-open', id: 'calendar', title: T('menu_preferences'), icon: 'ic_menu_preferences'}
     ];
   }
@@ -202,5 +202,15 @@
     return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
   }
 
-  window.GBCalendar = {COLOR, text, array, repeatText, reminderText, whenText, render, menu, dialog, step};
+  /* SelectCalendarsActivity (calendars_activity.xml): the ExpandableListView of accounts (account_item: textAppearanceLarge
+     account, small account type) with calendar_item children (10 x 58 dip colour bar, the name, the status and the
+     MultiStateButton - widget_show / widget_sync / widget_off), then the ButtonBar with OK and Cancel. A click cycles
+     synced & visible -> synced, not visible -> not synced -> synced & visible. */
+  const SELECT_STATES = [['synced_visible', 'widget_show'], ['synced_not_visible', 'widget_sync'], ['not_synced_not_visible', 'widget_off']];
+  function selectCalendars(ctx) {
+    const T = key => text(ctx.lang, key), [status, icon] = SELECT_STATES[ctx.state] || SELECT_STATES[0];
+    const child = ctx.expanded ? `<button type="button" class="gbcal-sel-cal" data-action="gbcal-select-cycle"><i style="background:${COLOR}"></i><span class="gbcal-sel-name">${e(ctx.account)}</span><span class="gbcal-sel-status">${e(T(status))}</span><img src="assets/gb-cal-${icon}.png" alt=""></button>` : '';
+    return `<div class="app-view gbcal gbcal-sel" data-no-translate><div class="gb-titlebar">${e(T('calendars_title'))}</div><div class="gbcal-sel-list"><button type="button" class="gbcal-sel-acct" data-action="gbcal-select-group" aria-expanded="${ctx.expanded}"><img src="assets/gb-expander_ic_${ctx.expanded ? 'maximized' : 'minimized'}.png" alt=""><span><b>${e(ctx.account)}</b><small>${e(ctx.accountType)}</small></span></button>${child}</div><div class="gbcal-bottombar"><button type="button" data-action="gbcal-select-ok">${e(ctx.ok)}</button><button type="button" data-action="back">${e(ctx.cancel)}</button></div></div>`;
+  }
+  window.GBCalendar = {COLOR, text, array, repeatText, reminderText, whenText, render, menu, dialog, step, selectCalendars};
 })();
