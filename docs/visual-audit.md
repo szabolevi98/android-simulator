@@ -417,3 +417,32 @@ The Calculator's delete key showed "DEL". The `android-4.0.4_r2.1` string `del` 
 ## Live wallpapers — 2026-10-02
 
 The Galaxy Nexus 4.0.4 build includes the same Basic live wallpapers and LivePicker as 4.3. Galaxy, Grass, Nexus, Polar clock and Water are now available from the wallpaper chooser in both versions, with the same renderer; details are in [visual-audit-4.3.md](visual-audit-4.3.md).
+
+## Google Play Store 3.5 — 2026-10-02
+
+The 4.0.4 store was a fictional "2012-inspired" storefront. It is now Google Play Store 3.5, the version the Galaxy Nexus ran from March to May 2012 (`ics-play.js`, `ics-play.css`).
+
+The store is closed source. The rebuild follows period captures:
+- Android Police 3.5.15 (16 March 2012): the tabbed My apps, the review histogram, and the Sort reviews / Options dialogs;
+- 3.5.16 (5 April) and 3.5.19 (11 May): the Google Play home, My apps and Settings;
+- Market 3.4.4 (December 2011): the full Settings list;
+- 3.8.15 on an ICS phone: the Holo parts, namely the overflow button in the action bar, Holo checkboxes and the upper-case preference headers.
+
+What changed:
+- **Action bar:** a dark gradient with the Google Play bag (and the back caret on sub-pages), the title, search and the Holo ⋮ overflow menu (My apps, Accounts, Settings, Help). Search expands into the action bar with a suggestion dropdown.
+- **Home:**
+  - the promo banner at the top;
+  - the Apps (green), Music (orange), Books (blue) and Movies (red) tiles with colour stripes and "see more ›";
+  - the black Games tile with the green game pad and a featured album and book beside them;
+  - further banners below.
+- **Sections:** Apps, Games, Music (new, with the simulator's own Demo Tapes / Paper Satellites albums), Books and Movies. Each has the swipeable ViewPager title strip in its colour (for example CATEGORIES / FEATURED / TOP PAID / TOP FREE / TOP GROSSING / TOP NEW / TRENDING, or GENRES / FEATURED / TOP ALBUMS / TOP SONGS / NEW RELEASES for Music).
+- **List rows are light, as in 3.5:** dark text on #ececec, grey stars, and a green "Free" / "Installed".
+- **Details:**
+  - the dark header with the price button, green rules round Open / Uninstall or the download progress;
+  - the screenshot strip, the light info block, +1 and Allow automatic updating;
+  - DESCRIPTION, then the new 3.5.15 REVIEWS block: the average with the blue bar histogram, the "Most helpful first" and "Options" spinners, and reviews showing the reviewer's phone. Sort reviews is a Holo radio dialog; Options is a Holo checkbox dialog ("Latest version only", "From this type of phone only").
+- **Install flow:** the permissions page with "Accept & download", the download notification, and "Successfully installed."
+- **My apps:** the INSTALLED / ALL pages (swipeable). INSTALLED groups the apps under the grey "Up to date N" header; ALL also lists apps that were installed earlier.
+- **Settings:** Holo rows under GENERAL (Notifications, Auto-update apps, Update over Wi-Fi only, Auto-add widgets, Clear search history), USER CONTROLS, OTHER (Google AdMob Ads) and ABOUT (Build version 3.5.16).
+- **Icon:** the launcher and action bar use the 2012–2014 Google Play bag: a white bag, grey handle and the four-colour play mark.
+- **Languages:** all labels are in the five languages.

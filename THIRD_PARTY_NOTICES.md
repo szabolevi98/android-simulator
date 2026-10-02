@@ -41,7 +41,7 @@ These resources retain the AOSP Apache-2.0 license described above. The JavaScri
 
 ## Play Store demo
 
-`assets/play-store.svg` is a project-authored recreation of a shopping bag with the Play mark. Storefront illustrations are project CSS, apart from the existing AOSP canyon wallpaper and application icons listed above. No Google Play APK, proprietary storefront assets, or historical screenshot is redistributed. Google Play is a trademark of Google LLC; this offline sample catalog is unofficial and is not connected to Google services.
+`assets/play-store.svg` is a project-authored recreation of a shopping bag with the Play mark. In 4.0.4 it follows the 2012–2014 Google Play bag; `versions/4.0.4/ics-play.js` / `.css` (Play Store 3.5) and `versions/2.3.6/gb-market.js` (Market 3) are project code drawn from period screenshots, and their artwork is CSS / inline SVG. Storefront illustrations are project CSS, apart from the existing AOSP canyon wallpaper and application icons listed above. No Google Play APK, proprietary storefront assets, or historical screenshot is redistributed. Google Play is a trademark of Google LLC; this offline sample catalog is unofficial and is not connected to Google services.
 
 ## Messaging reconstruction
 

@@ -1,0 +1,215 @@
+/* Google Play Store 3.5 (spring 2012) on the Galaxy Nexus: 306 px wide screen, 1 dp = 0.85 px. Proportions measured from
+   the 480 x 800 Android Police captures of 3.5.15 / 3.5.16 / 3.5.19 and the 720 x 1280 3.8.15 captures (Holo parts). */
+.icsp{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:Roboto,RobotoICS,sans-serif;position:relative;overflow:hidden}
+.icsp button,.icsp input{font-family:inherit}
+.icsp-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none}
+.icsp-scroll::-webkit-scrollbar{display:none}
+/* Action bar: 48 dp dark gradient, back caret with the Play bag, the title, search and the Holo overflow button. */
+.icsp-bar{flex:none;display:flex;align-items:center;height:40.8px;margin:0;padding:0;background:linear-gradient(#3a3a3a,#262626 55%,#1a1a1a);border-bottom:1px solid #0b0b0b;box-shadow:0 1px 2px #0008;position:relative;z-index:3}
+.screen .icsp-up{flex:none;display:flex;align-items:center;height:100%;padding:0 5px 0 2px;border:0;background:none;color:#8a8a8a;font-size:24px;line-height:1;cursor:pointer}
+.icsp-up.root{padding-left:7px}
+.icsp-up span{margin:-3px 1px 0 0}
+.icsp-up img{width:27.2px;height:27.2px}
+.screen .icsp-up:active:not(.root){background:#33b5e566}
+.icsp-bar>b{flex:1;min-width:0;margin-left:3px;font-size:17px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .icsp-search,.screen .icsp-overflow{flex:none;width:40.8px;height:100%;padding:0;border:0;background:center/27.2px 27.2px no-repeat;cursor:pointer}
+.screen .icsp-search{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6.2' fill='none' stroke='%23e8e8e8' stroke-width='2.4'/%3E%3Cpath d='M14.6 14.6l6 6' stroke='%23e8e8e8' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")}
+.screen .icsp-overflow{width:32px;background-image:url('assets/ic_menu_moreoverflow_normal_holo_dark.png')}
+.screen .icsp-search:active,.screen .icsp-overflow:active{background-color:#33b5e566}
+/* SearchView expanded in the action bar, with the Holo suggestion dropdown. */
+.icsp-bar.searching input{flex:1;min-width:0;height:28px;margin:0 2px;padding:0 4px;border:0;border-bottom:2px solid #33b5e5;background:none;color:#fff;font-size:15px;outline:0}
+.icsp-bar.searching input::placeholder{color:#888}
+.icsp-suggest{position:absolute;left:4px;right:4px;top:40.8px;z-index:4;background:#282828;border:1px solid #444;box-shadow:0 4px 10px #000b}
+.screen .icsp-suggest button{display:flex;align-items:center;gap:10px;width:100%;min-height:40.8px;padding:0 10px;border:0;border-bottom:1px solid #3a3a3a;background:none;color:#eee;font-size:14px;text-align:left;cursor:pointer}
+.screen .icsp-suggest button:active{background:#33b5e566}
+.icsp-suggest i{flex:none;width:18px;height:18px;opacity:.6;background:center/contain no-repeat}
+.icsp-suggest i.item{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3Cpath d='M14.5 14.5l6 6' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E")}
+.icsp-suggest i.recent{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8.5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M12 7v5l3.5 2.5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E")}
+
+/* Home: the 230 / 480 promo banner, the 49 % tile column (four 88 / 480 tiles with 12 px stripes), the Games tile and the
+   featured column, then further banners. */
+.screen .icsp-promo{position:relative;display:flex;align-items:center;gap:12px;width:100%;height:146.6px;padding:0 14px;border:0;border-bottom:2px solid #000;color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.icsp-promo.space{background:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 60% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 85% 70%,#fff,transparent),radial-gradient(circle at 75% 35%,#fff3 0,transparent 28%),linear-gradient(160deg,#0e1630,#4a64c8)}
+.icsp-promo.film{height:96px;background:linear-gradient(110deg,#1a120a,#3a2a1c 45%,#e0a868)}
+.icsp-promo.classics{height:96px;background:linear-gradient(110deg,#0f1e33,#3a5f8a 55%,#f0d48a)}
+.icsp-promo-art{flex:none;width:64px;height:64px}
+.icsp-promo.film .icsp-promo-art,.icsp-promo.classics .icsp-promo-art{width:46px;height:62px}
+.icsp-promo span{min-width:0;display:flex;flex-direction:column;gap:4px}
+.icsp-promo b{font-size:23px;font-weight:700;line-height:1.05;color:#ff9a3d;text-transform:uppercase;text-shadow:0 2px 4px #000a}
+.icsp-promo.space b{color:#ffd27a}
+.icsp-promo small{font-size:13px;color:#eee}
+.icsp-columns{display:flex;gap:4px;padding:3px 0;border-bottom:2px solid #000}
+.icsp-tiles{flex:0 0 49%;display:flex;flex-direction:column;gap:2px}
+.icsp-right{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.screen .icsp-tile{position:relative;height:56.1px;padding:3px 6px 3px 10px;border:0;border-left:7.6px solid var(--c);background:linear-gradient(90deg,#8a8a8a,#a3a3a3);color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.screen .icsp-tile:active,.screen .icsp-games:active,.screen .icsp-feature:active,.screen .icsp-gridtile:active,.screen .icsp-cat:active,.screen .icsp-promo:active,.screen .icsp-banner:active{filter:brightness(1.25)}
+.icsp-tile b{position:relative;z-index:1;display:block;font-size:18.5px;font-weight:700;text-shadow:0 1px 2px #0009}
+.icsp-tile small{position:absolute;right:6px;bottom:3px;z-index:1;font-size:11.5px;color:#f2f2f2}
+.icsp-mark{position:absolute;left:12px;bottom:-6px;width:42px;height:42px;opacity:.14;background:center/contain no-repeat}
+.icsp-mark.apps,.icsp-mark.games{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M9 17a11 10 0 0 1 22 0z'/%3E%3Crect x='9' y='18' width='22' height='15' rx='2'/%3E%3Crect x='3' y='18' width='4' height='11' rx='2'/%3E%3Crect x='33' y='18' width='4' height='11' rx='2'/%3E%3C/svg%3E")}
+.icsp-mark.music{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M20 4a15 15 0 0 0-15 15v10a4 4 0 0 0 4 4h3V20H8.2a11.8 11.8 0 0 1 23.6 0H28v13h3a4 4 0 0 0 4-4V19A15 15 0 0 0 20 4z'/%3E%3C/svg%3E")}
+.icsp-mark.books{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Cpath d='M4 8c6-2 11-1 15 2v24c-4-3-9-4-15-2zM36 8c-6-2-11-1-15 2v24c4-3 9-4 15-2z'/%3E%3C/svg%3E")}
+.icsp-mark.movies{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='%23fff'%3E%3Crect x='4' y='9' width='32' height='24' rx='2'/%3E%3Cg fill='%23000' opacity='.5'%3E%3Crect x='7' y='12' width='3' height='3'/%3E%3Crect x='7' y='27' width='3' height='3'/%3E%3Crect x='30' y='12' width='3' height='3'/%3E%3Crect x='30' y='27' width='3' height='3'/%3E%3C/g%3E%3C/svg%3E")}
+/* Games: 120 / 480 high, black with the green game pad. */
+.screen .icsp-games{position:relative;height:76.5px;padding:6px 8px;border:0;background:linear-gradient(135deg,#050505,#2a2a2a);color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.icsp-games b{position:relative;z-index:1;font-size:18.5px;font-weight:700}
+.icsp-games i{position:absolute;right:-6px;bottom:-4px;width:70px;height:46px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 46'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23b6e35a'/%3E%3Cstop offset='1' stop-color='%236f9d1f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M18 6h34a16 16 0 0 1 16 17l-1 9a9 9 0 0 1-16 4l-5-7H24l-5 7a9 9 0 0 1-16-4l-1-9A16 16 0 0 1 18 6z' fill='url(%23g)'/%3E%3Ccircle cx='19' cy='21' r='9' fill='%23fff'/%3E%3Cpath d='M19 15v12M13 21h12' stroke='%236f9d1f' stroke-width='4'/%3E%3Ccircle cx='50' cy='17' r='3' fill='%23fff'/%3E%3Ccircle cx='56' cy='23' r='3' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
+.screen .icsp-feature{position:relative;display:flex;flex-direction:column;justify-content:space-between;height:75px;padding:5px 6px 4px 8px;border:0;border-left:3px solid #3d8fd6;background:linear-gradient(120deg,#151515,#3a3a3a);color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.icsp-feature-art{position:absolute;left:6px;top:6px;width:40px;height:52px}
+.icsp-feature>span:first-of-type{padding-left:46px;min-width:0;display:flex;flex-direction:column}
+.icsp-feature b{font-size:13px;line-height:1.15;color:#ff9a3d;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.icsp-feature small{font-size:10.5px;color:#ddd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icsp-feature-foot{display:flex;align-items:center;justify-content:space-between;padding-left:46px}
+.icsp-feature-foot em{font-style:normal;font-size:10.5px;color:#eee}
+.icsp-feature-foot .icsp-stars i{width:7.5px;height:7.5px}
+
+/* Product art */
+.icsp-icon,.icsp-head-art,.icsp-tile-art,.icsp-banner-art,.icsp-shot-art{object-fit:contain}
+.icsp-svg{display:block}
+.icsp-svg svg{display:block;width:100%;height:100%}
+.icsp-cover{display:grid;font-style:normal;place-items:center;border-radius:2px;background:linear-gradient(150deg,var(--a),var(--b));box-shadow:inset 0 0 0 1px #ffffff26,0 1px 2px #0006}
+.icsp-cover b{font-size:1.1em;color:#fff;text-shadow:0 1px 2px #0009}
+.icsp-cover.books{border-radius:1px 3px 3px 1px;box-shadow:inset 3px 0 #0003,inset 0 0 0 1px #ffffff26}
+.icsp-cover.music{border-radius:0}
+.icsp-cover.movies{border-radius:1px}
+.icsp-cover.games,.icsp-cover.apps{border-radius:8px}
+
+/* Stars: light on dark, dark grey on the light lists. */
+.icsp-stars{display:inline-flex;gap:1px;vertical-align:middle}
+.icsp-stars i{flex:none;width:9px;height:9px;background:#777;clip-path:polygon(50% 0,63% 35%,100% 38%,71% 61%,80% 100%,50% 78%,20% 100%,29% 61%,0 38%,37% 35%)}
+.icsp-stars i.on{background:#d6d6d6}
+.icsp-stars i.half{background:linear-gradient(90deg,#d6d6d6 50%,#777 50%)}
+
+/* The ViewPager title strip: the current tab centred in the section colour, the neighbours dim at the edges. */
+.icsp-tabs{flex:none;display:flex;align-items:stretch;height:28.9px;background:linear-gradient(#3c3c3c,#2c2c2c);box-shadow:0 1px 3px #000a;font-size:11px;letter-spacing:.2px;position:relative;z-index:2}
+.icsp-tabs b{flex:0 0 auto;display:grid;place-items:center;padding:0 10px;color:var(--c);font-weight:400;white-space:nowrap}
+.screen .icsp-tabs button{flex:1;min-width:0;padding:0 6px;border:0;background:none;color:#8a8a8a;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.icsp-tabs button:first-child{text-align:left}
+.icsp-tabs button:last-child{text-align:right}
+/* Light lists (3.5): #ececec rows with #d0d0d0 rules, 48 dp icons, black title, grey developer, green Free / Installed. */
+.icsp-section .icsp-scroll,.icsp-myapps .icsp-scroll,.icsp-results .icsp-scroll{background:#ececec}
+.icsp-list{display:flex;flex-direction:column}
+.screen .icsp-cat{width:100%;min-height:44px;padding:0 12px;border:0;border-bottom:1px solid #d0d0d0;background:#f4f4f4;color:#222;font-size:15px;text-align:left;cursor:pointer}
+.screen .icsp-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:8px;width:100%;min-height:61.2px;padding:5px 6px 5px 5px;border:0;border-bottom:1px solid #cfcfcf;background:#ececec;color:#222;text-align:left;cursor:pointer}
+.screen .icsp-row:active{background:#33b5e5}
+.icsp-icon{flex:none;width:40.8px;height:40.8px}
+.icsp-row-copy{min-width:0;display:flex;flex-direction:column;gap:1px}
+.icsp-row-copy b{font-size:14px;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icsp-row-copy small{font-size:12px;color:#8a8a8a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icsp-row .icsp-stars i{width:10px;height:10px;background:#c4c4c4}
+.icsp-row .icsp-stars i.on{background:#5a5a5a}
+.icsp-row .icsp-stars i.half{background:linear-gradient(90deg,#5a5a5a 50%,#c4c4c4 50%)}
+.icsp-row em{align-self:end;font-style:normal;font-size:12px;font-weight:700;color:#5a5a5a}
+.icsp-row em.green{color:#8db03f}
+.icsp-group{display:flex;align-items:center;justify-content:space-between;height:43.4px;padding:0 10px;background:#a6a6a6;color:#fff;font-size:17px}
+.icsp-group b{font-weight:400}
+.icsp-empty{margin:24px 12px;color:#777;font-size:14px;text-align:center}
+.icsp-featured{padding:4px}
+.screen .icsp-banner{position:relative;display:flex;align-items:center;gap:10px;width:100%;height:96px;padding:0 12px;border:0;background:linear-gradient(120deg,var(--a),var(--b));color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.icsp-banner-art{width:62px;height:62px;flex:none}
+.icsp-banner b{font-size:21px;text-shadow:0 2px 4px #0008}
+.icsp-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px}
+.screen .icsp-gridtile{position:relative;display:flex;align-items:center;gap:6px;height:62px;padding:4px 6px;border:0;background:#fff;color:#222;text-align:left;overflow:hidden;cursor:pointer;box-shadow:0 1px 1px #0002}
+.icsp-gridtile.pick{background:var(--c);color:#fff;display:block}
+.icsp-gridtile.pick b{font-size:13px}
+.icsp-gridtile.pick .icsp-mark{opacity:.3;left:auto;right:6px}
+.icsp-tile-art{flex:none;width:36px;height:36px}
+.icsp-gridtile>span{min-width:0;display:flex;flex-direction:column;gap:2px}
+.icsp-gridtile>span b{font-size:12px;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.icsp-gridtile .icsp-stars i{background:#c4c4c4}
+.icsp-gridtile .icsp-stars i.on{background:#5a5a5a}
+
+/* Details: the dark header, green rules round the buttons, the screenshot strip, the light info block, DESCRIPTION, REVIEWS. */
+.icsp-detail .icsp-scroll{background:#ececec}
+.icsp-head{display:flex;align-items:center;gap:8px;min-height:56px;padding:6px 8px;background:#3c3c3c}
+.icsp-head-art{flex:none;width:40.8px;height:40.8px}
+.icsp-head>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.icsp-head b{font-size:18px;line-height:1.15;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.icsp-head small{font-size:12px;font-weight:700;color:#a0a0a0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .icsp-price{flex:none;align-self:flex-end;min-width:58px;height:24px;padding:0 10px;border:0;border-radius:2px;background:linear-gradient(#3fc8d8,#1aa3b4);color:#fff;font-size:12px;font-weight:700;box-shadow:0 1px 2px #0008;cursor:pointer}
+.screen .icsp-price:active{background:#33b5e5}
+.icsp-rule{display:block;height:2.3px;background:#a2c447}
+.icsp-actions{display:flex;gap:14px;justify-content:center;padding:8px 14px;background:#3c3c3c}
+.screen .icsp-actions button{flex:1;max-width:120px;height:28px;border:0;border-radius:1px;background:#6f6f6f;color:#fff;font-size:14.5px;cursor:pointer}
+.screen .icsp-actions button:active:not(:disabled){background:#33b5e5}
+.icsp-actions button:disabled{color:#a9a9a9;cursor:default}
+.icsp-actions.progress{align-items:center}
+.icsp-actions.progress>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;font-size:12px;color:#ddd}
+.icsp-progress{display:block;height:5px;border-radius:3px;background:#222}
+.icsp-progress b{display:block;height:100%;border-radius:3px;background:#33b5e5;transition:width .25s linear}
+.icsp-actions.progress button{flex:0 0 auto;padding:0 12px}
+.icsp-shots{display:flex;gap:6px;height:156px;padding:4px;background:#111;overflow-x:auto;scrollbar-width:none}
+.icsp-shots::-webkit-scrollbar{display:none}
+.icsp-shot{flex:none;display:grid;place-items:center;width:90px;height:100%;background:linear-gradient(170deg,var(--a),var(--b));box-shadow:0 0 0 1px #333}
+.icsp-shot.n1{background:linear-gradient(20deg,var(--b),var(--a))}
+.icsp-shot.n2{background:radial-gradient(circle at 40% 30%,var(--b),var(--a))}
+.icsp-shot-art{width:46px;height:46px}
+.icsp-info{color:#222;background:linear-gradient(#f5f5f5,#e6e6e6)}
+.icsp-info-row{display:flex;justify-content:space-between;gap:8px;padding:4px 8px 0;font-size:13px}
+.icsp-info-row small{color:#888;font-size:13px}
+.icsp-info .icsp-stars i{width:12px;height:12px;background:#bbb}
+.icsp-info .icsp-stars i.on{background:#666}
+.icsp-info .icsp-stars i.half{background:linear-gradient(90deg,#666 50%,#bbb 50%)}
+.icsp-plus{display:flex;align-items:center;gap:8px;margin-top:6px;padding:7px 8px;border-top:1px solid #d0d0d0;font-size:13px}
+.screen .icsp-plus button{width:34px;height:20px;padding:0;border:1px solid #b8b8b8;border-radius:2px;background:linear-gradient(#fff,#e6e6e6);color:#3366cc;font-size:12px;font-weight:700;cursor:pointer}
+.screen .icsp-plus button.on{background:linear-gradient(#5c8fee,#3a6fd8);color:#fff;border-color:#2c5bbb}
+.icsp-auto{display:flex;align-items:center;gap:8px;padding:6px 8px;border-top:1px solid #d0d0d0;font-size:14px;cursor:pointer}
+.icsp-auto input{appearance:none;width:27.2px;height:27.2px;margin:0;background:url('assets/btn_check_off_holo_light.png') center/contain no-repeat;cursor:pointer}
+.icsp-auto input:checked{background-image:url('assets/btn_check_on_holo_light.png')}
+.icsp-desc{padding:6px 8px 12px;border-top:1px solid #d0d0d0;background:#f4f4f4}
+.icsp-desc h4,.icsp-reviews h4{margin:2px 0 4px;color:#8db03f;font-size:12px;font-weight:700;letter-spacing:.3px}
+.icsp-desc p{margin:0;color:#444;font-size:13px;line-height:1.35}
+.icsp-reviews{padding:6px 8px 10px;border-top:1px solid #d0d0d0;background:#fff;color:#222}
+.icsp-hist{display:flex;gap:6px}
+.icsp-avg{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:78px;padding:4px;border:1px solid #d0d0d0;background:linear-gradient(#fafafa,#e8e8e8)}
+.icsp-avg small{font-size:11px;color:#555}
+.icsp-avg b{font-size:24px;font-weight:400;line-height:1.1}
+.icsp-avg .icsp-stars i{width:10px;height:10px;background:#c4c4c4}
+.icsp-avg .icsp-stars i.on{background:#5a5a5a}
+.icsp-bars{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:2px}
+.icsp-bars span{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;gap:4px;font-size:10.5px;color:#555}
+.icsp-bars i{display:block;height:9px;background:#33b5e5}
+.icsp-bars em{font-style:normal;text-align:right;color:#777}
+.icsp-review-tools{display:flex;justify-content:space-between;margin:8px -8px 4px;padding:0 8px;background:#e8e8e8;border-top:1px solid #d0d0d0;border-bottom:1px solid #d0d0d0}
+.screen .icsp-review-tools button{position:relative;height:32px;padding:0 14px 0 2px;border:0;background:none;color:#555;font-size:13px;cursor:pointer}
+.icsp-review-tools button::after{content:"";position:absolute;right:2px;bottom:8px;border:4px solid transparent;border-right-color:#777;border-bottom-color:#777}
+.screen .icsp-review-tools button:active{background:#33b5e566}
+.icsp-review{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-bottom:1px solid #e0e0e0;font-family:'Droid Serif',Georgia,serif}
+.icsp-review>b{font-size:14px}
+.icsp-review>span{font-size:12.5px;color:#444}
+.icsp-review>span strong{font-weight:700}
+.icsp-review>small{font-size:11.5px;color:#888;font-family:Roboto,RobotoICS,sans-serif}
+.icsp-review p{margin:2px 0 0;font-size:13px;line-height:1.35;color:#333}
+.icsp-review .icsp-stars i{width:10px;height:10px;background:#c4c4c4}
+.icsp-review .icsp-stars i.on{background:#5a5a5a}
+
+/* Permissions and Accept & download */
+.icsp-perms .icsp-scroll{background:#000}
+.icsp-perm-intro{margin:8px 10px 4px;font-size:13px;color:#ccc}
+.icsp-perm{display:flex;gap:8px;padding:6px 10px}
+.icsp-perm i{flex:none;width:14px;height:14px;margin-top:3px;border-radius:50%;background:#33b5e5;box-shadow:inset 0 0 0 3px #000,0 0 0 1px #33b5e5}
+.icsp-perm span{display:flex;flex-direction:column}
+.icsp-perm b{font-size:14px;color:#fff}
+.icsp-perm small{font-size:12px;color:#aaa}
+.icsp-accept{flex:none;padding:8px 14px;background:#3c3c3c;border-top:2.3px solid #a2c447}
+.screen .icsp-accept button{width:100%;height:34px;border:0;border-radius:2px;background:linear-gradient(#3fc8d8,#1aa3b4);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.screen .icsp-accept button:active{background:#33b5e5}
+
+/* Settings on ICS: Holo preference rows and the upper-case list separators of 3.8.15. */
+.icsp-settings .icsp-scroll{background:#101010}
+.icsp-pref-cat{margin:0;padding:12px 8px 4px;border-bottom:1.7px solid #3a3a3a;color:#bdbdbd;font-size:11.9px;font-weight:700;text-transform:uppercase}
+.screen .icsp-pref{display:flex;align-items:center;gap:8px;width:100%;min-height:61.2px;padding:6px 8px;border:0;border-bottom:1px solid #262626;background:none;color:#fff;text-align:left;cursor:pointer}
+.screen .icsp-pref:active:not(:disabled):not(.info){background:#33b5e566}
+.icsp-pref:disabled{opacity:.4;cursor:default}
+.icsp-pref span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.icsp-pref b{font-size:15.3px;font-weight:400}
+.icsp-pref small{font-size:11.9px;color:#9a9a9a;line-height:1.25}
+.icsp-pref img{flex:none;width:27.2px;height:27.2px}
+/* Holo dialog rows for Sort reviews / Options. */
+.icsp-dialog{padding:0;background:#282828}
+.icsp-dialog h3{margin:0;padding:14px 16px;border-bottom:1.7px solid #33b5e5;color:#33b5e5;font-size:17px;font-weight:400}
+.screen .icsp-dlg-row{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:48px;padding:0 12px 0 16px;border:0;border-bottom:1px solid #3a3a3a;background:none;color:#eee;font-size:15px;text-align:left;cursor:pointer}
+.screen .icsp-dlg-row:active{background:#33b5e566}
+.icsp-dlg-row img{flex:none;width:27.2px;height:27.2px}
+.icsp-dialog .settings-dialog-actions{display:flex;border-top:1px solid #3a3a3a}
+.icsp-dialog .settings-dialog-actions button{flex:1;min-height:40.8px;border:0;background:none;color:#eee;font-size:14px;cursor:pointer}
