@@ -199,7 +199,7 @@
   let seenNotes = null, stopTicker = null;
   function renderStatus() {
     const icons = data.notifications.map(noteIcon);
-    if (ui.activeCall) icons.unshift('gb-stat_sys_phone_call.png');
+    if (ui.activeCall) icons.unshift(ui.activeCall.hold ? 'gb-stat_sys_phone_call_on_hold.png' : ui.activeCall.bluetooth ? 'gb-stat_sys_phone_call_bluetooth.png' : 'gb-stat_sys_phone_call.png');
     GBStatusBar.bar(statusRoot, {
       label: i18n.t('Open notifications'), notifications: icons, clock: gbClock(), expanded: ui.overlay === 'shade',
       date: deviceDate().toLocaleDateString(i18n.locale(), {year: 'numeric', month: 'long', day: 'numeric'}),
@@ -236,7 +236,7 @@
     if (ui.overlay === 'shade') return;
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
-    if ((ui.view === 'phone' && !ui.activeCall && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'settings' && GBSettings.has(ui.sub || 'main')) { const items = GBSettings.menu(ui.sub, gbSettingsContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     const button = [...viewport.querySelectorAll('[data-action$="-menu"]')].find(node => !node.disabled);
     button?.click();
@@ -531,6 +531,7 @@
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; }
     ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
+    if (app === 'phone' && ui.activeCall && !resume) { ui.gbCallBackground = true; ui.gbAddCall = false; ui.phoneTab = 'dialpad'; }
     ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 7);
     render();
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
@@ -557,7 +558,8 @@
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
     if (ui.view === 'lock') return;
-    if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
+    if(ui.view==='phone' && ui.activeCall && ui.gbAddCall){ui.gbAddCall=false;ui.gbCallBackground=false;render();return;}
+    if(ui.view==='phone' && ui.activeCall && !ui.gbCallBackground){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
@@ -672,7 +674,7 @@
       overlayRoot.innerHTML = GBUI.dialog({...gbDialogSpec(), t: key => i18n.t(key)});
     } else if (ui.overlay === 'shade') {
       const time = n => n.id > 1e12 ? new Date(n.id).toLocaleTimeString(i18n.locale(), {hour: 'numeric', minute: '2-digit', hour12: !data.settings.hour24}) : '';
-      const ongoing = ui.activeCall ? [{id: 'call', action: 'open-app', app: 'phone', icon: 'gb-stat_sys_phone_call.png', title: i18n.t('Ongoing call'), text: contactByPhone(ui.activeCall.number)?.name || ui.activeCall.number}] : [];
+      const ongoing = ui.activeCall ? [{id: 'call', action: 'gbp-return-call', icon: ui.activeCall.hold ? 'gb-stat_sys_phone_call_on_hold.png' : ui.activeCall.bluetooth ? 'gb-stat_sys_phone_call_bluetooth.png' : 'gb-stat_sys_phone_call.png', title: ui.activeCall.hold ? GBPhone.phoneText(i18n.language, 'notification_on_hold') : GBPhone.phoneText(i18n.language, 'notification_ongoing_call_format').replace('%s', GBPhone.elapsedText(ui.activeCall)), text: contactByPhone(ui.activeCall.number)?.name || ui.activeCall.number}] : [];
       const latest = data.notifications.map(n => ({id: n.id, icon: noteIcon(n), title: n.title, text: n.detail, time: time(n)}));
       const open = overlayRoot.querySelector('.gbsh');
       overlayRoot.innerHTML = GBStatusBar.shade({t: key => i18n.t(key), carrier: carrierName(), ongoing, latest, clearable: latest.length > 0});
@@ -961,7 +963,7 @@
     ui.play = {...ui.play,...next}; ui.overlay = ''; render();
   }
   function renderPhone() {
-    if(ui.activeCall)return ICSPhoneCall.render(ui.activeCall,contactByPhone(ui.activeCall.number),key=>i18n.t(key));
+    if(ui.activeCall&&!ui.gbCallBackground)return GBPhone.inCall(ui.activeCall,{lang:i18n.language,t:key=>i18n.t(key),person:contactByPhone(ui.activeCall.number),bluetoothAvailable:!!(data.settings.bluetooth&&data.settings.pairedDevice)});
     if(ui.sub==='call-detail'){const call=(data.callHistory||[]).find(call=>call.time===ui.phoneCallId);if(call)return ICSPhoneCall.details(call,contactByPhone(call.number),key=>i18n.t(key),i18n.locale());}
     return GBPhone.render(gbPhoneContext());
     const tabs = [['dialpad','Dial pad','dialer'],['history','Call log','history'],['favorites','Favorites','favourites']];
@@ -980,14 +982,17 @@
   function contactByPhone(number) { const normalized = String(number).replace(/[^\d+]/g, ''); return data.contacts.find(item => item.phone.replace(/[^\d+]/g, '') === normalized); }
   function startPhoneCall(number) {
     if(!number)return;
+    // Add call: the simulator keeps one line, so the call in progress ends and the new one is dialed.
+    if(ui.activeCall&&ui.gbAddCall&&!ui.activeCall.endedAt){data.callHistory=[...(data.callHistory||[]),ICSPhoneCall.finish(ui.activeCall)].slice(-50);ui.activeCall=null;save();}
     if(!ui.activeCall)ui.activeCall=ICSPhoneCall.start(number);
+    ui.gbCallBackground=false;ui.gbAddCall=false;
     captureRecentView();ui.recent=['phone',...ui.recent.filter(id=>id!=='phone')].slice(0,7);
     ui.callNumber=ui.activeCall.number;ui.view='phone';ui.sub='calling';ui.overlay='';render();
   }
   // Dialtacts context: the Contacts launcher icon opens the same activity on its Contacts tab.
   function gbPhoneContext() {
     const person = ui.view === 'people' && ui.sub === 'detail' ? contact(ui.selectedContact) : null;
-    return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), now: Date.now(), tab: ui.view === 'people' ? 'contacts' : ui.phoneTab || 'dialpad', dial: ui.dial || '', calls: data.callHistory || [], contactOf: number => contactByPhone(number), people: data.contacts, detail: person};
+    return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), now: Date.now(), tab: ui.view === 'people' ? 'contacts' : ui.phoneTab || 'dialpad', dial: ui.dial || '', callActive: !!ui.activeCall, addCall: !!ui.gbAddCall, calls: data.callHistory || [], contactOf: number => contactByPhone(number), people: data.contacts, detail: person};
   }
   function renderPeople() { if (!ui.sub || ui.sub === 'detail' && contact(ui.selectedContact)) return GBPhone.render(gbPhoneContext()); return ICSPeople.render(data,ui,key => i18n.t(key),i18n.locale()); }
   function editPerson(isNew = false) {
@@ -1400,8 +1405,11 @@
       case 'dial': if (ui.dial.length < 30) ui.dial += id; if (ui.dial.endsWith('*#*#8477#*#*')) { ui.dial = ''; data.protips = {index: 0, set: 1 - (data.protips?.set || 0)}; save(); home(false); setTimeout(() => blinkTips(3), 300); break; } render(); break;
       case 'dial-delete': ui.dial = ui.dial.slice(0, -1); render(); break;
       case 'call': if(!ui.dial){toast('Enter a phone number');break;}startPhoneCall(ui.dial);break;
-      case 'hangup': if(ui.activeCall)data.callHistory=[...(data.callHistory||[]),ICSPhoneCall.finish(ui.activeCall)].slice(-50);ui.activeCall=null;save();ui.sub='';ui.dial='';render();toast('Call ended');break;
-      case 'incall-toggle': if(ui.activeCall)ui.activeCall[id]=!ui.activeCall[id];render();break;
+      case 'hangup': { const call=ui.activeCall; if(!call||call.endedAt)break; call.endedAt=Date.now(); call.keypad=false; render(); setTimeout(()=>{if(ui.activeCall===call&&ui.view==='phone')render();},GBPhone.HANGING_UP); setTimeout(()=>{if(ui.activeCall!==call)return; data.callHistory=[...(data.callHistory||[]),ICSPhoneCall.finish(call,call.endedAt)].slice(-50); ui.activeCall=null; ui.gbCallBackground=false; ui.gbAddCall=false; save(); if(ui.view==='phone'){ui.sub='';ui.dial='';render();} else renderStatus();},GBPhone.HANGING_UP+GBPhone.ENDED); break; }
+      case 'gbp-add-call': if(!ui.activeCall)break; ui.gbCallBackground=true; ui.gbAddCall=true; ui.phoneTab='dialpad'; ui.view='phone'; ui.sub=''; ui.dial=''; render(); break;
+      case 'gbp-dtmf': if(!ui.activeCall)break; ui.gbCallBackground=false; ui.gbAddCall=false; ui.activeCall.keypad=GBPhone.callState(ui.activeCall)==='active'; ui.view='phone'; render(); break;
+      case 'gbp-return-call': if(!ui.activeCall)break; ui.overlay=''; ui.gbCallBackground=false; ui.gbAddCall=false; captureRecentView(); ui.view='phone'; ui.sub='calling'; ui.recent=['phone',...ui.recent.filter(id=>id!=='phone')].slice(0,7); render(); break;
+      case 'incall-toggle': if(ui.activeCall&&!ui.activeCall.endedAt){ui.activeCall[id]=!ui.activeCall[id];if(id==='hold')ui.activeCall.keypad=false;}render();renderStatus();break;
       case 'incall-digit': if(ui.activeCall)ui.activeCall.digits=(ui.activeCall.digits+id).slice(-24);render();break;
       case 'phone-log-detail': ui.phoneCallId=Number(id);ui.sub='call-detail';render();break;
       case 'phone-log-back': ui.sub='';ui.phoneTab='history';render();break;
@@ -2417,10 +2425,9 @@
     const now = deviceDate();
     if(!document.hidden && !ui.sleeping && ui.view!=='lock' && !ui.overlay && !ui.activeCall && !dragState && Date.now()-lastActivity>=data.settings.sleep*1000){captureRecentView();lockScreen();lastActivity=Date.now();}
     if(ui.activeCall){
-      const dialing=Date.now()<ui.activeCall.connected;
-      const elapsed=viewport.querySelector('.incall-elapsed'),state=viewport.querySelector('.incall-state');
-      if(elapsed)elapsed.textContent=dialing?'':ICSPhoneCall.duration(ICSPhoneCall.elapsed(ui.activeCall));
-      if(state)state.textContent=i18n.t(dialing?'Calling…':ui.activeCall.hold?'On hold':'In call');
+      const screen=viewport.querySelector('.gbic'),state=GBPhone.callState(ui.activeCall);
+      if(screen&&screen.dataset.state!==state)render();
+      else if(screen&&state==='active'){const elapsed=screen.querySelector('.gbic-elapsed');if(elapsed)elapsed.textContent=GBPhone.elapsedText(ui.activeCall);}
     }
     checkAlarms(now);
     checkReminders(now);

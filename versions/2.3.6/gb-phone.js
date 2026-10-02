@@ -5,7 +5,8 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.contacts?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const text = (lang, key, app = 'contacts') => { const entry = window.GBStrings?.[app]?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const phoneText = (lang, key) => text(lang, key, 'phone');
   const TABS = [['dialpad', 'dialerIconLabel', 'dialer'], ['history', 'recentCallsIconLabel', 'recent'], ['contacts', 'contactsIconLabel', 'contacts'], ['favorites', 'contactsFavoritesLabel', 'starred']];
   const KEYS = [['1', 'dial_num_1_no_vm'], ['2', 'dial_num_2'], ['3', 'dial_num_3'], ['4', 'dial_num_4'], ['5', 'dial_num_5'], ['6', 'dial_num_6'], ['7', 'dial_num_7'], ['8', 'dial_num_8'], ['9', 'dial_num_9'], ['*', 'dial_num_star'], ['0', 'dial_num_0'], ['#', 'dial_num_pound']];
 
@@ -51,10 +52,57 @@
     return `<div class="gbp-detail"><div class="gbp-header"><img src="assets/gb-c-ic_contact_picture.png" alt=""><span>${e(person.name)}</span><button data-action="people-star" data-id="${person.id}" aria-label="${e(T(person.favorite ? 'menu_removeStar' : 'menu_addStar'))}"><img src="assets/gb-btn_star_big_${person.favorite ? 'on' : 'off'}.png" alt=""></button></div><div class="gbp-list">${person.phone ? row('phone-redial', person.phone, 'badge_action_call', T('call_mobile'), person.phone) + row('phone-log-message', person.phone, 'sym_action_sms', T('sms_mobile'), person.phone) : ''}${person.email ? `<div class="gbset-cat">${e(ctx.t('Email'))}</div>` + row('gbp-email', person.email, 'sym_action_add', T('email_home'), person.email) : ''}</div></div>`;
   }
 
+  // TwelveKeyDialer.showDialpadChooser: while a call is in progress the dialpad is replaced by a ListView of
+  // dialpad_chooser_list_item rows (64 dp icon, textAppearanceMedium).
+  function chooser(lang) {
+    const rows = [['gbp-dtmf', 'dialer_useDtmfDialpad', 'tt_keypad'], ['gbp-return-call', 'dialer_returnToInCallScreen', 'current_call'], ['gbp-add-call', 'dialer_addAnotherCall', 'add_call']];
+    return `<div class="gbp-list gbp-chooser">${rows.map(([action, key, icon]) => `<button class="gbp-choice" data-action="${action}"><img src="assets/gb-c-ic_dialer_fork_${icon}.png" alt=""><span>${e(text(lang, key))}</span></button>`).join('')}</div>`;
+  }
+
+  /* InCallScreen (Phone 2.3.6): incall_screen.xml mainFrame with the state gradient (updateInCallBackground), CallCard
+     (call_card.xml, call_card_person_info.xml) and InCallTouchUi (incall_touch_ui.xml): the round Hold button, the
+     non_drawer_dialpad and the bottom cluster - Add call / End / Dialpad, then Bluetooth / Mute / Speaker toggles.
+     A local hang-up shows DISCONNECTING ("Hanging up") and then DISCONNECTED ("Call ended") before the screen closes. */
+  const HANGING_UP = 600, ENDED = 400;
+  function callState(call, now = Date.now()) {
+    if (call.endedAt) return now < call.endedAt + HANGING_UP ? 'hanging' : 'ended';
+    if (now < call.connected) return 'dialing';
+    return call.hold ? 'holding' : 'active';
+  }
+  const elapsedText = (call, now = Date.now()) => { const seconds = Math.max(0, Math.floor(((call.endedAt || now) - call.connected) / 1000)); return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`; };
+  function background(call, state) {
+    if (state === 'ended') return 'ended';
+    if (state === 'holding') return 'on_hold';
+    if (call.bluetooth) return 'bluetooth';
+    return state === 'dialing' || call.endedAt < call.connected ? 'unidentified' : 'connected';
+  }
+  // CallCard.updateCardTitleWidgets: the upper title for DIALING and DISCONNECTING/DISCONNECTED, the elapsed time
+  // in green (blue with Bluetooth) while ACTIVE, red after the call ended and "On hold" in orange while HOLDING.
+  function card(call, state, ctx) {
+    const P = key => phoneText(ctx.lang, key), person = ctx.person;
+    const title = {dialing: P('card_title_dialing'), hanging: P('card_title_hanging_up'), ended: P('card_title_call_ended')}[state] || '';
+    const elapsed = state === 'holding' ? P('card_title_on_hold') : state === 'dialing' || call.endedAt < call.connected ? '' : elapsedText(call, ctx.now);
+    return `<div class="gbic-card"><div class="gbic-title">${e(title)}</div><div class="gbic-photo-row"><img class="gbic-photo" src="assets/gb-p-picture_unknown.png" alt="${e(P('contactPhoto'))}"><span class="gbic-elapsed">${e(elapsed)}</span></div><div class="gbic-name">${e(person?.name || call.number)}</div>${person ? `<div class="gbic-number"><span>${e(ctx.t('Mobile'))}</span><span>${e(call.number)}</span></div>` : ''}</div>`;
+  }
+  function inCall(call, ctx) {
+    const P = key => phoneText(ctx.lang, key), now = ctx.now ?? Date.now(), state = callState(call, now);
+    const connected = state === 'active' || state === 'holding', live = state !== 'ended';
+    const keypad = !!call.keypad && state === 'active';
+    const button = (action, id, label, icon, enabled, cls = '') => `<button class="gbic-btn${cls}" data-action="${action}"${id ? ` data-id="${id}"` : ''}${enabled ? '' : ' disabled'}><img src="assets/gb-p-${icon}.png" alt=""><span>${e(label)}</span></button>`;
+    const toggle = (id, label, enabled) => `<button class="gbic-toggle" data-action="incall-toggle" data-id="${id}" aria-pressed="${!!call[id] && enabled}"${enabled ? '' : ' disabled'}><span>${e(label)}</span></button>`;
+    const holdLabel = P(call.hold ? 'onscreenUnholdText' : 'onscreenHoldText');
+    const hold = connected && !keypad ? `<div class="gbic-hold"><button data-action="incall-toggle" data-id="hold" aria-label="${e(holdLabel)}"><img src="assets/gb-p-ic_in_call_touch_round_${call.hold ? 'unhold' : 'hold'}.png" alt=""></button><span>${e(holdLabel)}</span></div>` : '';
+    const pad = keypad ? `<div class="gbic-dtmf"><output>${e(call.digits)}</output><div class="gbic-pad">${KEYS.map(([key, art]) => `<button class="gbic-key" data-action="incall-digit" data-id="${e(key)}" aria-label="${e(key)}" style="--wht:url('assets/gb-c-${art}_wht.png');--blk:url('assets/gb-c-${art}_blk.png')"></button>`).join('')}</div></div>` : '';
+    const row1 = button('gbp-add-call', '', P('onscreenAddCallText'), 'ic_in_call_touch_add_call', connected) + button('hangup', '', P('onscreenEndCallText'), 'ic_in_call_touch_end', state !== 'hanging', ' gbic-end') + button('incall-toggle', 'keypad', P(keypad ? 'onscreenHideDialpadText' : 'onscreenShowDialpadText'), keypad ? 'ic_in_call_touch_dialpad_close' : 'ic_in_call_touch_dialpad', state === 'active');
+    const row2 = toggle('bluetooth', P('onscreenBluetoothText'), !!ctx.bluetoothAvailable) + toggle('mute', P('onscreenMuteText'), state !== 'holding') + toggle('speaker', P('onscreenSpeakerText'), true);
+    const controls = live ? `<div class="gbic-touch">${hold}${pad}<div class="gbic-bottom"><div class="gbic-row">${row1}</div><div class="gbic-row">${row2}</div></div></div>` : '';
+    return `<div class="app-view gbic gbic-${background(call, state)}" data-no-translate data-state="${state}">${keypad ? '' : card(call, state, {...ctx, now})}${controls}</div>`;
+  }
+
   function render(ctx) {
     const tab = ctx.tab || 'dialpad';
     if (ctx.detail) return `<div class="app-view gbp" data-no-translate><div class="gb-titlebar">${e(text(ctx.lang, 'viewContactTitle'))}</div>${detail(ctx.detail, ctx)}</div>`;
-    const body = tab === 'history' ? callLog(ctx.calls, ctx.contactOf, ctx) : tab === 'contacts' ? contacts(ctx.people, ctx) : tab === 'favorites' ? contacts(ctx.people.filter(person => person.favorite), ctx, true) : dialer(ctx.dial);
+    const body = tab === 'history' ? callLog(ctx.calls, ctx.contactOf, ctx) : tab === 'contacts' ? contacts(ctx.people, ctx) : tab === 'favorites' ? contacts(ctx.people.filter(person => person.favorite), ctx, true) : ctx.callActive && !ctx.addCall ? chooser(ctx.lang) : dialer(ctx.dial);
     return `<div class="app-view gbp" data-no-translate>${tabs(tab, ctx.lang)}<div class="gbp-body">${body}</div></div>`;
   }
   // Options menus: TwelveKeyDialer (Add to contacts, Add 2-sec pause, Add wait), RecentCalls (Clear call log),
@@ -67,5 +115,5 @@
     return [{action: 'people-search', title: T('menu_search'), icon: 'ic_menu_search'}, {action: 'gbp-new-contact', title: T('menu_newContact'), icon: 'ic_menu_add'}, {action: 'gbset-toast', id: 'Display options', title: T('menu_displayGroup'), icon: 'ic_menu_view'}, {action: 'gbset-toast', id: 'Accounts', title: T('menu_accounts'), icon: 'ic_menu_account_list'}, {action: 'gbset-toast', id: 'Import/Export', title: T('menu_import_export'), icon: 'c-ic_menu_import_export'}];
   }
 
-  window.GBPhone = {TABS, KEYS, text, relative, render, menu};
+  window.GBPhone = {TABS, KEYS, HANGING_UP, ENDED, text, phoneText, relative, render, menu, callState, elapsedText, inCall};
 })();

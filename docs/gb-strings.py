@@ -15,6 +15,12 @@ menu_import_export menu_addStar menu_removeStar menu_editContact menu_deleteCont
 add_wait searchHint viewContactTitle starredList frequentList dialer_addAnotherCall dialer_useDtmfDialpad dialer_returnToInCallScreen
 callDetailsDurationFormat menu_viewContact email_home email_work email_other email email_custom'''.split(),
     },
+    'phone': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_phone/android-2.3.6_r1/res/values%s/strings.xml'],
+        'keys': '''card_title_dialing card_title_in_progress card_title_call_ended card_title_on_hold card_title_hanging_up onscreenAddCallText
+onscreenEndCallText onscreenShowDialpadText onscreenHideDialpadText onscreenMuteText onscreenSpeakerText onscreenBluetoothText onscreenHoldText
+onscreenUnholdText unknown onHold notification_on_hold notification_ongoing_call_format contactPhoto'''.split(),
+    },
 }
 
 

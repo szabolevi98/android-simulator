@@ -51,3 +51,54 @@
 .gbp-header button img{width:41.4px;height:41.4px}
 .screen .gbp-data{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 6px 0 12.94px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;cursor:pointer}
 .gbp-data img{width:27.6px;height:27.6px;flex:none}
+/* TwelveKeyDialer dialpad chooser while a call is in progress (dialpad_chooser_list_item.xml: 64 dp icon, 18 sp text). */
+.screen .gbp-choice{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 8px 0 0;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbp-choice:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbp-choice img{flex:none;width:27.6px;height:27.6px;margin:0 13.8px}
+/* InCallScreen: mainFrame (10 dip top, 6 dip side padding) with bg_in_call_gradient_* (210 px gradient, then the
+   stretched last row), CallCard and the full-width InCallTouchUi. */
+#viewport>.app-view.gbic{position:relative;height:100%;overflow:hidden;color:#fff;font-family:DroidSans,Arial,sans-serif;background:#000;border:0 solid transparent;border-image:url('assets/gb-p-bg_in_call_gradient_unidentified.png') 210 0 0 0 fill / 120.75px 0 0 0 stretch}
+#viewport>.gbic-connected{border-image-source:url('assets/gb-p-bg_in_call_gradient_connected.png')}
+#viewport>.gbic-ended{border-image-source:url('assets/gb-p-bg_in_call_gradient_ended.png')}
+#viewport>.gbic-on_hold{border-image-source:url('assets/gb-p-bg_in_call_gradient_on_hold.png')}
+#viewport>.gbic-bluetooth{border-image-source:url('assets/gb-p-bg_in_call_gradient_bluetooth.png')}
+.gbic-card{position:absolute;left:5.18px;right:5.18px;top:8.63px;padding-top:15.53px;display:flex;flex-direction:column;align-items:center}
+.gbic-title{min-height:31.9px;margin-bottom:8.63px;font-size:24.15px;line-height:31.9px;text-align:center}
+.gbic-ended .gbic-title{color:#ff6072}
+.gbic-photo-row{position:relative;align-self:stretch;height:148.35px}
+.gbic-photo{position:absolute;left:50%;top:0;width:148.35px;height:143.18px;margin-left:-74.18px;box-sizing:border-box;padding:17.25px 19.55px 16.1px;object-fit:contain;border:0 solid transparent;border-image:url('assets/gb-p-incall_photo_border_lg.png') 78 82 76 82 fill / 44.85px 47.15px 43.7px 47.15px stretch}
+.gbic-elapsed{position:absolute;left:calc(50% + 62.11px);bottom:16.39px;font-size:12.94px;font-weight:700;white-space:nowrap;color:#99ce3f}
+.gbic-bluetooth .gbic-elapsed{color:#54c1ff}
+.gbic-ended .gbic-elapsed{color:#ff6072}
+.gbic-on_hold .gbic-elapsed{color:#ff9524}
+.gbic-name{max-width:100%;margin-top:-18.98px;padding:0 3.45px 3.45px;font-size:24.15px;line-height:31.9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbic-number{display:flex;margin-top:-5.18px;color:#bebebe;font-size:15.53px;white-space:nowrap}
+.gbic-number span:first-child{padding-right:5.18px}
+.gbic-touch{position:absolute;inset:0}
+/* Round Hold / Unhold button (incall_round_button) with its 14 sp label, 10 dip from the upper left corner. */
+.gbic-hold{position:absolute;left:8.63px;top:8.63px;display:flex;align-items:center}
+.screen .gbic-hold button{width:43.13px;height:43.7px;padding:0;border:0;background:url('assets/gb-p-btn_in_call_round_normal.png') 0 0/100% 100% no-repeat;cursor:pointer}
+.screen .gbic-hold button:active{background-image:url('assets/gb-p-btn_in_call_round_pressed.png')}
+.gbic-hold img{width:43.13px;height:43.13px;display:block}
+.gbic-hold span{margin:0 4.31px;font-size:12.07px}
+.gbic-bottom{position:absolute;left:0;right:0;bottom:0;padding:0 3.45px 3.45px}
+.gbic-row{display:flex}
+/* InCallTouchButton: incall_button 9-patch, 8 dip margins, compound icon on top, textAppearanceSmall label. */
+.screen .gbic-btn{flex:1;min-width:0;min-height:77.05px;margin:6.9px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.88px 5.75px 4.03px;border:0 solid transparent;border-image:url('assets/gb-p-btn_in_call_main_normal.png') 4 4 6 3 fill / 2.3px 2.3px 3.45px 1.73px stretch;background:none;color:#fff;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbic-btn:active:not(:disabled){border-image:url('assets/gb-p-btn_in_call_main_pressed.png') 83 13 50 13 fill / 47.73px 7.48px 28.75px 7.48px stretch}
+.screen .gbic-btn:disabled{border-image:url('assets/gb-p-btn_in_call_main_disable.png') 4 13 6 13 fill / 2.3px 7.48px 3.45px 7.48px stretch;color:#ffffff80;cursor:default}
+.gbic-btn img{width:63.83px;height:51.75px;flex:none}
+.gbic-btn span,.gbic-toggle span{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gbic-end{color:#ff6072}
+/* InCallTouchToggleButton: incall_toggle_button with the green indicator light under the label. */
+.screen .gbic-toggle{flex:1;min-width:0;min-height:43.13px;margin:6.9px;display:flex;align-items:center;justify-content:center;padding:2.88px 5.75px 13.23px;border:0 solid transparent;border-image:url('assets/gb-p-btn_in_call_switch_off_normal.png') 47 17 27 17 fill / 27.03px 9.78px 15.53px 9.78px stretch;background:none;color:#fff;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbic-toggle:active:not(:disabled){border-image-source:url('assets/gb-p-btn_in_call_switch_off_pressed.png')}
+.screen .gbic-toggle[aria-pressed="true"]{border-image-source:url('assets/gb-p-btn_in_call_switch_on_normal.png')}
+.screen .gbic-toggle[aria-pressed="true"]:active{border-image-source:url('assets/gb-p-btn_in_call_switch_on_pressed.png')}
+.screen .gbic-toggle:disabled{border-image-source:url('assets/gb-p-btn_in_call_switch_off_disable.png');color:#ffffff80;cursor:default}
+/* non_drawer_dialpad (layout-long-finger): 32 dp DTMF field (24 sp), then 88 x 58 dp keys on btn_dial_green. */
+.gbic-dtmf{position:absolute;left:0;right:0;top:.86px;display:flex;flex-direction:column;align-items:center}
+.gbic-dtmf output{align-self:stretch;height:27.6px;margin:8.63px 27.6px 4.31px;padding:0 13.8px;font-size:20.7px;line-height:27.6px;text-align:center;white-space:nowrap;overflow:hidden;direction:rtl}
+.gbic-pad{display:grid;grid-template-columns:repeat(3,75.9px);grid-auto-rows:50.03px;padding:5.18px 6.04px}
+.screen .gbic-key{border:0 solid transparent;border-image:url('assets/gb-p-btn_dial_normal_green.png') 52 17 32 17 fill / 29.9px 9.78px 18.4px 9.78px stretch;background:var(--wht) center/63.83px 35.65px no-repeat;cursor:pointer;padding:0}
+.screen .gbic-key:active{border-image-source:url('assets/gb-c-btn_dial_pressed.png');background-image:var(--blk)}
