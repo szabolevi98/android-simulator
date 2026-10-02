@@ -95,7 +95,7 @@
     emailId: 1, recent: [], recentSnapshots: {}, toastTimer: null, wifiTarget: '', bluetoothScanned: false
   };
   const emailData = [
-    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Galaxy Nexus is ready. Explore the new look of Android 4.0, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
+    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Nexus S is ready. Explore Android 2.3, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
     { id: 2, from: 'Alex Morgan', subject: 'Photos from the weekend', body: 'I added a few pictures to our album. Take a look when you have a moment!', time: 'Yesterday' },
     { id: 3, from: 'Calendar', subject: 'Coffee with Alex', body: 'Reminder: Coffee with Alex at 11:00.', time: 'Yesterday' }
   ];
@@ -237,6 +237,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'email') { gbEmSync(); const items = GBEmail.menu(gbEmailContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'calendar') { gbCalSyncDraft(); const items = GBCalendar.menu(gbCalContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'browser') { if (ui.gbBrEdit) return; const items = GBBrowser.menu(gbBrowserContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'music') {
@@ -574,6 +575,7 @@
     if(ui.view==='phone' && ui.activeCall && !ui.gbCallBackground){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
+    if (ui.view === 'email' && ui.sub === 'compose') { gbEmSync(); const item = data.mailbox.find(m => m.id === ui.emailId); if (item && [item.to, item.subject, item.body].some(v => String(v || '').trim())) { item.folder = 'Drafts'; gbEmLeaveCompose('message_saved_toast'); } else { data.mailbox = data.mailbox.filter(m => m.id !== ui.emailId); gbEmLeaveCompose(''); } return; }
     if (ui.view === 'calendar' && !ui.sub && ui.gbCalBack) { ui.calendarMode = ui.gbCalBack; ui.gbCalBack = ''; calendarRender(); return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
     if(ui.view==='settings' && ['apn','operators','tether-help','device-admin'].includes(ui.sub)){ui.sub={apn:'mobile-networks',operators:'mobile-networks','tether-help':'tethering','device-admin':'security'}[ui.sub];render();return;}
@@ -641,6 +643,7 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-email') return GBEmail.dialog(ui.gbEmDialog, gbEmailContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-cal') return GBCalendar.dialog(ui.gbCalDialog, gbCalContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-br') return GBBrowser.dialog(ui.gbBrDialog, gbBrowserContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-music') {
@@ -1189,11 +1192,22 @@
     const progress=viewport.querySelector('.music-progress');if(progress&&document.activeElement!==progress)progress.value=ui.music.position;
     const elapsed=viewport.querySelector('.music-elapsed');if(elapsed)elapsed.textContent=ICSMusic.time(ui.music.position);
   }
-  function renderEmail() {
-    return ICSEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale());
+  function renderEmail() { return GBEmail.render(gbEmailContext()); }
+  function gbEmailContext() {
+    return {lang: i18n.language, locale: i18n.locale(), hour24: !!data.settings.hour24, now: deviceDate(), sub: ui.sub, folder: ui.emailFolder || 'Inbox', mail: data.mailbox, item: data.mailbox.find(item => item.id === ui.emailId), selected: ui.emailSelected || [], query: ui.emailQuery, cc: !!ui.emailCc, error: '', photos: data.photos, target: data.mailbox.find(item => item.id === ui.gbEmTarget)};
   }
-  function composeEmail(source=null,forward=false,to='') {
+  const emailText = key => GBEmail.text(i18n.language, key);
+  function gbEmDialog(kind) { ui.gbEmDialog = kind; ui.overlay = 'gb-dialog-email'; renderOverlay(); }
+  // The compose form's fields are kept on the draft before menus, attachments or leaving the screen.
+  function gbEmSync() {
+    const form = viewport.querySelector('.gbem-compose'), item = data.mailbox.find(m => m.id === ui.emailId); if (!form || !item) return;
+    for (const key of ['to', 'cc', 'bcc', 'subject', 'body']) if (form.elements[key]) item[key] = String(form.elements[key].value);
+  }
+  function gbEmLeaveCompose(message) { ui.sub = ''; ui.overlay = ''; ui.emailCc = false; save(); render(); if (message) toast(emailText(message)); }
+  function composeEmail(source=null,forward=false,to='',all=false) {
     const draft=ICSEmail.draft(source,forward);if(to)draft.to=to;
+    // MessageCompose keeps the original below the "Quoted text" bar; reply all adds the other recipients as Cc.
+    if(source){draft.quoted=GBEmail.quote(source,forward,i18n.language);draft.body='';if(all&&!forward)draft.cc=ICSEmail.recipients([source.to,source.cc].join(',')).filter(address=>address!==ICSEmail.account&&address!==draft.to).join(', ');}
     data.mailbox.unshift(draft);ui.emailId=draft.id;ui.emailCc=false;ui.emailError='';ui.overlay='';ui.sub='compose';save();render();
   }
   function resetSimulator() {
@@ -1668,6 +1682,17 @@
       case 'music-remove-from-playlist': {const playlist=ui.music.playlists.find(p=>String(p.id)===ui.musicGroup);if(playlist)playlist.tracks=playlist.tracks.filter(track=>track!==ui.musicSelected);saveMusic();ui.overlay='';render();break;}
       case 'email-read': {const item=data.mailbox.find(item=>item.id===id);if(!item)break;ui.emailId=id;item.read=true;ui.sub=item.folder==='Drafts'?'compose':'read';ui.emailError='';save();render();break;}
       case 'email-compose': composeEmail();break;
+      case 'gbem-mailboxes': ui.sub = 'mailboxes'; ui.overlay = ''; render(); break;
+      case 'gbem-accounts': ui.sub = 'accounts'; ui.overlay = ''; render(); break;
+      case 'gbem-reply-all': composeEmail(data.mailbox.find(item => item.id === ui.emailId), false, '', true); break;
+      case 'gbem-selected-star': { const items = data.mailbox.filter(item => (ui.emailSelected || []).includes(item.id)), on = !items.every(item => item.starred); items.forEach(item => item.starred = on); save(); render(); break; }
+      case 'gbem-save-draft': { gbEmSync(); const item = data.mailbox.find(m => m.id === ui.emailId); if (item) item.folder = 'Drafts'; gbEmLeaveCompose('message_saved_toast'); break; }
+      case 'gbem-discard': data.mailbox = data.mailbox.filter(item => item.id !== ui.emailId); gbEmLeaveCompose('message_discarded_toast'); break;
+      case 'gbem-send': ui.overlay = ''; renderOverlay(); viewport.querySelector('.gbem-compose')?.requestSubmit(); break;
+      case 'gbem-drop-quoted': { gbEmSync(); const item = data.mailbox.find(m => m.id === ui.emailId); if (item) delete item.quoted; render(); break; }
+      case 'gbem-context-delete': { const item = data.mailbox.find(m => m.id === id); if (!item) break; if (item.folder === 'Drafts' || item.folder === 'Trash') data.mailbox = data.mailbox.filter(m => m.id !== id); else ICSEmail.trash(data.mailbox, [id]); ui.overlay = ''; save(); render(); toast(emailText(item.folder === 'Drafts' ? 'message_discarded_toast' : 'message_deleted_toast_one')); break; }
+      case 'gbem-context-reply': case 'gbem-context-reply-all': case 'gbem-context-forward': ui.overlay = ''; composeEmail(data.mailbox.find(m => m.id === id), action === 'gbem-context-forward', '', action === 'gbem-context-reply-all'); break;
+      case 'gbem-context-read': { const item = data.mailbox.find(m => m.id === id); if (item) item.read = !item.read; ui.overlay = ''; save(); render(); break; }
       case 'email-reply': case 'email-forward': composeEmail(data.mailbox.find(item=>item.id===ui.emailId),action==='email-forward');break;
       case 'email-list': ui.sub='';ui.overlay='';ui.emailSelected=[];render();break;
       case 'email-folders': case 'email-menu': ui.overlay=action;renderOverlay();break;
@@ -1675,14 +1700,14 @@
       case 'email-star': {const item=data.mailbox.find(item=>item.id===id);if(item)item.starred=!item.starred;save();render();break;}
       case 'email-select': ui.emailSelected ||= [];ui.emailSelected=ui.emailSelected.includes(id)?ui.emailSelected.filter(key=>key!==id):[...ui.emailSelected,id];render();break;
       case 'email-clear-selection': ui.emailSelected=[];render();break;
-      case 'email-trash': case 'email-selected-trash': ICSEmail.trash(data.mailbox,action==='email-trash'?[ui.emailId]:ui.emailSelected||[]);ui.sub='';ui.emailSelected=[];save();render();break;
+      case 'email-trash': case 'email-selected-trash': {const ids=action==='email-trash'?[ui.emailId]:ui.emailSelected||[];ICSEmail.trash(data.mailbox,ids);ui.sub='';ui.overlay='';ui.emailSelected=[];save();render();toast(emailText(ids.length>1?'message_deleted_toast_other':'message_deleted_toast_one'));break;}
       case 'email-restore': case 'email-selected-restore': {const ids=action==='email-restore'?[ui.emailId]:ui.emailSelected||[];data.mailbox.filter(item=>ids.includes(item.id)).forEach(ICSEmail.untrash);ui.sub='';ui.emailSelected=[];save();render();break;}
       case 'email-selected-read': data.mailbox.filter(item=>(ui.emailSelected||[]).includes(item.id)).forEach(item=>item.read=true);ui.emailSelected=[];save();render();break;
       case 'email-unread': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(item)item.read=false;ui.sub='';ui.overlay='';save();render();break;}
       case 'email-search': ui.emailQuery='';render();viewport.querySelector('.email-search input').focus();break;
       case 'email-refresh': toast('Local mailbox is up to date');break;
-      case 'email-cc': ui.emailCc=true;ui.overlay='';render();break;
-      case 'email-attach': ui.overlay='email-attach';renderOverlay();break;
+      case 'email-cc': gbEmSync();ui.emailCc=true;ui.overlay='';render();break;
+      case 'email-attach': gbEmSync();gbEmDialog('attach');break;
       case 'email-attach-photo': {const item=data.mailbox.find(item=>item.id===ui.emailId),photo=data.photos.find(photo=>photo.id===Number(id));if(item&&photo)item.attachment=clone(photo);ui.overlay='';save();render();break;}
       case 'email-remove-attachment': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(item)delete item.attachment;save();render();break;}
       case 'email-discard': ui.overlay='email-discard';renderOverlay();break;
@@ -1771,7 +1796,7 @@
       case 'alarm-days': ui.alarmDraft.days=values.getAll('days').map(Number);ui.overlay='';render();break;
       case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';render();break;
       case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';render();break;
-      case 'email': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(!item)break;for(const key of ['to','cc','bcc','subject','body'])if(values.has(key))item[key]=String(values.get(key)).trim();if(!ICSEmail.send(item)){ui.emailError='Enter valid email addresses';save();render();break;}save();ui.emailFolder='Sent';ui.emailQuery=undefined;ui.sub='read';ui.emailError='';render();toast('Demo email sent');break;}
+      case 'email': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(!item)break;for(const key of ['to','cc','bcc','subject','body'])if(values.has(key))item[key]=String(values.get(key)).trim();if(!ICSEmail.recipients(item.to).length){save();toast(emailText('message_compose_error_no_recipients'));break;}if(item.quoted){item.body=[item.body,item.quoted].filter(Boolean).join('\n\n');delete item.quoted;}if(!ICSEmail.send(item)){save();toast(emailText('message_compose_error_invalid_email'));break;}ui.emailCc=false;ui.sub='';ui.emailError='';save();render();break;}
       case 'email-search': ui.emailQuery=String(values.get('query')||'').trim();ui.emailSelected=[];render();break;
       case 'sd-volumes': for(const key of ['mediaVolume','ringVolume','alarmVolume'])data.settings[key]=Math.max(0,Math.min(100,Number(values.get(key))));save();ui.overlay='';render();break;
       case 'sd-choice': {const choice=String(values.get('choice'));if(ui.settingsField==='sleep')data.settings.sleep=Number(choice);else if(['windowScale','transitionScale'].includes(ui.settingsField))data.settings[ui.settingsField]=Number(choice);else if(ui.settingsField==='font')data.settings.largeText=choice==='large';else if(ui.settingsField==='silent'){data.settings.silent=choice!=='off';data.settings.silentMode=choice;}else data.settings[ui.settingsField]=choice;save();ui.overlay='';render();break;}
@@ -2246,6 +2271,8 @@
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; suppressReleaseClick(); gbMmsDialog('message'); }, 550);
+    const heldMail = event.target.closest('[data-gbem-item]');
+    if (heldMail && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.gbEmTarget = heldMail.dataset.gbemItem; suppressReleaseClick(); gbEmDialog('context'); }, 550);
     const heldDay = event.target.closest('[data-gbcal-day]');
     if (heldDay && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.gbCalTarget = heldDay.dataset.gbcalDay; suppressReleaseClick(); gbCalDialog('day-context'); }, 550);
     const heldLink = event.target.closest('[data-gbbr-item]');

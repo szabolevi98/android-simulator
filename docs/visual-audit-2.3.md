@@ -396,3 +396,25 @@ Checks: `gb-calendar.test.cjs` covers the month cells and busy bits, Day and Wee
 ## Landing thumbnail — 2026-10-02
 
 The 2.3.6 card on the landing page showed the drawn ICS-style layers (ICS wallpaper and search bar, navigation bar). The catalogue entry now uses `art.shot`: a 414 × 690 capture of the simulator's own home screen (`versions/2.3.6/assets/landing-home.jpg`: the Nexus live wallpaper, the search widget, Protips and the hotseat cluster), shown full-size inside the Nexus S frame. Retake it with headless Chrome whenever the home screen changes.
+
+## Email — 2026-10-02
+
+References: Email 2.3.6 (`list_title.xml`, `message_list.xml`, `message_list_item.xml`, `MessageList.java` binding, `mailbox_list_item.xml`, `account_folder_list_item.xml`, `message_view.xml`, `message_view_header.xml`, `message_compose.xml`, the option and context menus, `colors.xml`, `styles.xml`, `drawable-hdpi`), framework `star_off` / `star_on`, `btn_dialog`, `bottom_bar`. Strings and the "Message(s) deleted." plurals come from `docs/gb-strings.py email`, which now reads `<plurals>` too.
+
+- **MessageList** (dark): the title bar shows the mailbox on the left and demo@example.com on the right.
+  - Rows are 64 dip, on #404040 when unread and #000000 when read. Each has the 4 dip account chip, the buttonless check box, the 18 sp sender (bold and white when unread, #bebebe when read), the 14 sp subject with the attachment icon, the date (the time for today, otherwise the short numeric date) and the star.
+  - Checking messages shows the `bottom_bar` with Mark read / Mark unread, Add star / Remove star and Delete.
+  - A long press opens the context menu: Open, Delete, Forward, Reply all, Reply, Mark as read / unread. Trash has Open / Delete; Drafts has Open / Discard.
+  - Menu: Refresh, Compose, Deselect all (while selecting), Folders, Accounts, Account settings.
+- **Folders** (MailboxList): Inbox, Drafts, Outbox, Sent and Trash, with the `ic_list_*` icons and the `ind_unread` / `ind_sum` counts.
+- **Accounts** (AccountFolderList): Combined Inbox and the non-empty Starred / Drafts / Outbox, the "Accounts" separator, and the account row with the default indicator, the #303030 separator and `btn_folder`.
+- **MessageView** (white): the #101010 bar holds the newer / older arrows on `bg_arrow`. `header_card` holds the presence icon, the bold sender, the date, "To:", the time, the bold subject and the big star.
+  - The message follows, then the Reply / Reply all / Delete bar.
+  - Menu: Delete, Forward, Reply, Reply all, Mark as unread. Deleting shows "Message deleted."
+- **Compose:** the "Compose" title, the #ededed block with To (and Cc / Bcc after Add Cc/Bcc) and Subject, and `divider_horizontal_email`.
+  - Below are the "Compose Mail" body and, for replies and forwards, the "Quoted text" bar with `btn_dialog` above the original ("Android Team wrote:" or the Original Message header). Reply all puts the other recipients in Cc.
+  - The bottom bar has Send / Save as draft / Discard. Menu: Add Cc/Bcc, Send, Save as draft, Discard, Add attachment.
+  - Back or Save as draft keeps a non-empty draft ("Message saved as draft."); Discard removes it ("Message discarded."). Sending without a recipient or with an invalid address shows the 2.3.6 error toasts and keeps the screen; a sent message returns to the list.
+- The sample mail now talks about the Nexus S and Android 2.3.
+
+Checks: `gb-email.test.cjs` covers the list rows and organize bar, search, MailboxList, AccountFolderList, the message view, compose with quoting and Cc, the menus, the context menus and translations. Headless Chrome covered the list, menu, Folders, Accounts, selection, the message view arrows, Reply all → menu → Send, plus a Hungarian long-press menu → Forward → Back (saved as a draft) → Folders → Drafts. No JavaScript errors.

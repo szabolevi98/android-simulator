@@ -1,0 +1,86 @@
+/* Android 2.3.6 Email. message_list_item: 64 dip rows, 4 dip account chip, check box, 18 sp from (bold, white when unread),
+   14 sp subject and date, star; #404040 / #000000 backgrounds. MessageView on white with header_card; MessageCompose with the
+   #ededed address block. 9-patch slices from the 2.3.6 guides; hdpi px x 0.575, 1 dp = 0.8625 px. */
+.gbem{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.gbem button{font-family:inherit}
+.gbem-title{display:flex;align-items:center;gap:6px}
+.gbem-title span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.gbem-title small{flex:none;max-width:55%;overflow:hidden;text-overflow:ellipsis;font-size:12.07px;font-weight:400;text-shadow:0 .86px .1px #000}
+.gbem-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.gbem-chip{flex:none;width:3.45px;align-self:stretch;background:url('assets/gb-em-appointment_indicator_leftside_1.png') 0 0/100% 100%}
+.gbem-search{flex:none;padding:3.45px;background:#2a2a2a}
+.gbem-search input{display:block;width:100%;box-sizing:border-box;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+
+/* MessageList */
+.gbem-item{position:relative;display:flex;height:55.2px;padding-right:8.63px;background:#000 url('assets/gb-divider_horizontal_dark.png') 0 100%/100% 1px no-repeat}
+.gbem-item.unread{background-color:#404040}
+.gbem-item:has(.gbem-open:active){border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.screen .gbem-select{flex:none;align-self:flex-start;width:23.58px;height:28.76px;margin:0;padding:8.63px 0 0 3.45px;border:0;background:url('assets/gb-em-btn_check_buttonless_dark_off.png') 3.45px 8.63px/20.13px 20.13px no-repeat;box-sizing:content-box;cursor:pointer}
+.gbem-item.checked .gbem-select{background-image:url('assets/gb-em-btn_check_buttonless_dark_on.png')}
+.screen .gbem-open{flex:1;min-width:0;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;align-content:start;column-gap:5.18px;padding:10.35px 0 0 8.63px;border:0;background:none;color:#bebebe;text-align:left;cursor:pointer}
+.gbem-from{grid-column:1/3;font-size:15.53px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbem-subject{display:flex;align-items:center;gap:3.45px;min-width:0;font-size:12.08px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbem-subject img{flex:none;width:18.98px;height:18.98px;margin:-3px 0}
+.gbem-date{font-size:12.08px;line-height:1.35;white-space:nowrap}
+.gbem-item.unread .gbem-from{color:#fff;font-weight:700}
+.gbem-item.unread .gbem-subject{font-weight:700}
+.screen .gbem-fav{flex:none;align-self:flex-start;width:23.58px;height:23.58px;margin:8.63px 0 0;padding:0;border:0;background:url('assets/gb-star_off.png') 0 0/100% 100%;cursor:pointer}
+.screen .gbem-fav.on{background-image:url('assets/gb-star_on.png')}
+.gbem-bottombar{flex:none;display:flex;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.screen .gbem-bottombar button{flex:1;min-width:0;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.screen .gbem-bottombar button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+
+/* MailboxList / AccountFolderList */
+.screen .gbem-folder,.screen .gbem-account-main{display:flex;align-items:center;gap:3.45px;width:100%;min-height:55.2px;padding:0 6.9px 0 0;border:0;background:url('assets/gb-divider_horizontal_dark.png') 0 100%/100% 1px no-repeat;color:#fff;text-align:left;cursor:pointer}
+.gbem-accounts .gbem-folder{padding-left:3.45px}
+.screen .gbem-folder:active,.screen .gbem-account-main:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbem-folder img,.gbem-account-main>img:not(.gbem-default){flex:none;width:25.88px;height:25.88px;margin:0 3.45px 0 1.73px}
+.gbem-name{flex:1;min-width:0;display:flex;flex-direction:column;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbem-name small{font-size:12.08px;color:#808080}
+.gbem-count{flex:none;min-width:17.25px;max-width:41.4px;padding:0 2.59px .86px;box-sizing:border-box;border:0 solid transparent;border-image:url('assets/gb-em-ind_unread.png') 13 13 13 13 fill / 7.48px stretch;color:#000;font-size:12.08px;font-weight:400;text-align:center;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbem-count.sum{border-image-source:url('assets/gb-em-ind_sum.png')}
+.gbem-separator{padding:1.73px 6.9px;background:#2b2b2b;color:#bebebe;font-size:12.08px;font-weight:700}
+.gbem-account{display:flex;align-items:center}
+.gbem-account .gbem-account-main{flex:1;min-width:0}
+.gbem-default{flex:none;width:10.35px;height:10.35px;margin:4.31px}
+.gbem-vsep{flex:none;width:.86px;height:34.5px;margin-left:4.31px;background:#303030}
+.screen .gbem-folder-btn{flex:none;width:34.5px;height:34.5px;margin-right:3.45px;padding:0;border:0;background:url('assets/gb-em-btn_folder.png') 4.31px 4.31px/27.6px 27.6px no-repeat;cursor:pointer}
+.screen .gbem-folder-btn:active{background-color:#ffa600}
+
+/* MessageView */
+.gbem-view .gbem-scroll{background:#fff}
+.gbem-arrows{display:flex;height:31.91px;padding-top:1.73px;background:#101010}
+.screen .gbem-arrows button{flex:1;height:30.19px;padding:0;border:0;background:url('assets/gb-em-ic_btn_arrow_left_unselected.png') 5.18px 50%/10.35px 20.7px no-repeat,url('assets/gb-em-bg_arrow_unselected.png') 0 0/100% 100%;cursor:pointer}
+.screen .gbem-arrows button.right{background:url('assets/gb-em-ic_btn_arrow_right_unselected.png') calc(100% - 7.76px) 50%/10.35px 20.7px no-repeat,url('assets/gb-em-bg_arrow_unselected.png') 0 0/100% 100%}
+.screen .gbem-arrows button.left:active:not(:disabled){background:url('assets/gb-em-ic_btn_arrow_left_unselected.png') 5.18px 50%/10.35px 20.7px no-repeat,url('assets/gb-em-bg_arrow_press.png') 0 0/100% 100%}
+.screen .gbem-arrows button.right:active:not(:disabled){background:url('assets/gb-em-ic_btn_arrow_right_unselected.png') calc(100% - 7.76px) 50%/10.35px 20.7px no-repeat,url('assets/gb-em-bg_arrow_press.png') 0 0/100% 100%}
+.screen .gbem-arrows button:disabled{background:url('assets/gb-em-bg_arrow_unselected.png') 0 0/100% 100%;cursor:default}
+.gbem-header{padding:2.59px 5.18px 2.59px 2.59px;border:0 solid transparent;border-image:url('assets/gb-em-header_card.png') 15 15 0 15 fill / 8.63px 8.63px 0 8.63px stretch;color:#000}
+.gbem-row{display:flex;align-items:center;gap:3.45px;min-width:0}
+.gbem-row.small{font-size:12.08px;color:#323232}
+.gbem-presence{flex:none;width:15.53px;height:15.53px;padding:.29px;background:url('assets/gb-em-quickcontact_presence_bg.png') 0 0/100% 100%;margin-right:.86px}
+.gbem-hfrom{flex:1;min-width:0;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbem-row>span{font-size:12.08px;white-space:nowrap}
+.gbem-row .grow{flex:1;min-width:0;white-space:normal;word-break:break-word}
+.gbem-row .primary{color:#000}
+.gbem-clip{flex:none;width:18.98px;height:18.98px}
+.screen .gbem-bigstar{flex:none;width:20.13px;height:20.13px;padding:0;border:0;background:url('assets/gb-em-btn_star_big_buttonless_off.png') 0 0/100% 100%;cursor:pointer}
+.screen .gbem-bigstar.on{background-image:url('assets/gb-em-btn_star_big_buttonless_on.png')}
+.gbem-body{padding:6.9px;color:#000;font:13.8px/1.4 DroidSans,Arial,sans-serif;word-break:break-word}
+.gbem-attachment{display:flex;align-items:center;gap:6px;margin-top:10px;padding:3.45px;border:1px solid #ccc;font-size:12.08px}
+.gbem-thumb{width:41.4px;height:41.4px;border-radius:2px}
+
+/* MessageCompose */
+.gbem-compose .gbem-scroll{display:flex;flex-direction:column;background:#fff}
+.gbem-addresses{flex:none;display:flex;flex-direction:column;padding:2px 5.18px 0;background:#ededed}
+.gbem-field{display:block;width:100%;box-sizing:border-box;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#323232;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.gbem-field:focus{border-image-source:url('assets/gb-textfield_selected.png')}
+.gbem-emaildiv{display:block;height:1px;margin:2px -5.18px 0;background:url('assets/gb-em-divider_horizontal_email.png') 0 0/100% 100%}
+.gbem-bodyfield{flex:1;min-height:80px;margin:2px 0 0;resize:none;line-height:1.3}
+.gbem-att{display:flex;align-items:center;justify-content:space-between;padding:2px 4px;font-size:12.08px;color:#323232}
+.screen .gbem-att button{width:27.6px;height:27.6px;padding:0;border:0;background:url('assets/gb-btn_dialog_normal.png') 0 0/100% 100%;cursor:pointer}
+.gbem-quoted-bar{flex:none;display:flex;align-items:center;justify-content:space-between;height:38.81px;padding:0 10.93px;border:0 solid transparent;border-image:url('assets/gb-em-email_quoted_bar.png') 5 19 5 19 fill / 2.88px 10.93px 2.88px 10.93px stretch;color:#323232;font-size:15.53px}
+.screen .gbem-quoted-bar button{width:27.6px;height:27.6px;padding:0;border:0;background:url('assets/gb-btn_dialog_normal.png') 0 0/100% 100%;cursor:pointer}
+.screen .gbem-quoted-bar button:active,.screen .gbem-att button:active{background-image:url('assets/gb-btn_dialog_pressed.png')}
+.gbem-quoted{padding:6.9px;color:#000;font:13.8px/1.4 DroidSans,Arial,sans-serif;word-break:break-word}
+.gbem-error{padding:4px 6.9px;color:#c00;font-size:12.08px}
