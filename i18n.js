@@ -1109,6 +1109,8 @@
     ['Spectrum','Spektrum','Spektrum','Spectre','Espectro de frecuencia'],
     ['VU meter','Kivezérlésjelző','Aussteuerungsmesser','Vu-mètre','Indicador de volumen'],
     ['Many','Sok','Viele','Multitude','Varios'],
+    ['Full screen','Teljes képernyő','Vollbild','Plein écran','Pantalla completa'],
+    ['Exit full screen','Kilépés a teljes képernyőből','Vollbild beenden','Quitter le plein écran','Salir de pantalla completa'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;

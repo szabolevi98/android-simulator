@@ -2043,6 +2043,20 @@
   const powerLayer = document.createElement('div'); powerLayer.id = 'power-layer'; screen.append(powerLayer);
   function renderPower() { powerLayer.innerHTML = ui.power === 'off' ? '<div class="ga-off"></div>' : ui.power === 'boot' ? GlobalActions.boot() : ui.safeMode ? GlobalActions.safeMode(key => i18n.t(key)) : ''; }
   screen.addEventListener('pointerdown',()=>{if(ui.sleeping){ui.sleeping=false;suppressClickUntil=Date.now()+350;if(ui.locked)render();else home(false);}},true);
+  // Full screen (Fullscreen API): hides the browser chrome on phones and keeps portrait where the browser allows it.
+  const fullscreenButton = document.querySelector('#fullscreen-button');
+  const fullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement;
+  if (!(document.fullscreenEnabled || document.webkitFullscreenEnabled)) fullscreenButton.hidden = true;
+  fullscreenButton.addEventListener('click', () => {
+    if (fullscreenElement()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else { const root = document.documentElement, request = root.requestFullscreen || root.webkitRequestFullscreen; Promise.resolve(request.call(root, {navigationUI: 'hide'})).then(() => screen.orientation?.lock?.('portrait')).catch(() => {}); }
+  });
+  const syncFullscreen = () => {
+    const active = !!fullscreenElement(), label = i18n.t(active ? 'Exit full screen' : 'Full screen');
+    document.documentElement.classList.toggle('is-fullscreen', active);
+    fullscreenButton.title = label; fullscreenButton.setAttribute('aria-label', label);
+  };
+  document.addEventListener('fullscreenchange', syncFullscreen); document.addEventListener('webkitfullscreenchange', syncFullscreen);
   const languageSelect = document.querySelector('#language-select');
   languageSelect.value = i18n.language;
   languageSelect.addEventListener('change', event => { i18n.setLanguage(event.target.value); location.reload(); });
