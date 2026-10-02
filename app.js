@@ -40,14 +40,18 @@ for (const version of versions) {
 }
 i18n.translateDOM(document.body);
 
-// Header orbit: cycles through the available releases (major.minor), or shows the newest with reduced motion.
+// Header orbit: every release in the catalogue, oldest first (planned ones dimmed); the newest available is shown first,
+// and with reduced motion it stays.
 const orbitCore = document.querySelector('.orbit-core');
-const releases = versions.filter(version => version.status === 'available').map(version => version.id.split('.').slice(0, 2).join('.'));
+const numeric = id => id.split('.').map(Number).reduce((sum, part, i) => sum + part / 100 ** i, 0);
+const releases = [...versions].sort((a, b) => numeric(a.id) - numeric(b.id)).map(version => ({label: version.id.split('.').slice(0, 2).join('.'), planned: version.status !== 'available'}));
 if (orbitCore && releases.length) {
-  let index = releases.length - 1;
-  orbitCore.textContent = releases[index];
+  const available = releases.filter(release => !release.planned);
+  let index = releases.indexOf(available[available.length - 1] || releases[releases.length - 1]);
+  const show = () => { orbitCore.textContent = releases[index].label; orbitCore.classList.toggle('planned', releases[index].planned); };
+  show();
   if (releases.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
     orbitCore.classList.add('switching');
-    setTimeout(() => { index = (index + 1) % releases.length; orbitCore.textContent = releases[index]; orbitCore.classList.remove('switching'); }, 350);
+    setTimeout(() => { index = (index + 1) % releases.length; show(); orbitCore.classList.remove('switching'); }, 350);
   }, 3500);
 }
