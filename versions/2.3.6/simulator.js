@@ -237,6 +237,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'calendar') { gbCalSyncDraft(); const items = GBCalendar.menu(gbCalContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'browser') { if (ui.gbBrEdit) return; const items = GBBrowser.menu(gbBrowserContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'music') {
       const party = {action: 'music-party', title: musicText(ui.music.party ? 'party_shuffle_off' : 'party_shuffle'), icon: 'gb-mu-ic_menu_party_shuffle.png'};
@@ -332,7 +333,7 @@
     const nyanRoot = viewport.querySelector('[data-nyandroid]');
     if (nyanRoot && !ui.nyandroid) requestAnimationFrame(() => { if (nyanRoot.isConnected && !ui.nyandroid) ui.nyandroid = {...ICSNyandroid.start(nyanRoot), root: nyanRoot}; });
     if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
-    if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
+    if(ui.view==='calendar' && viewport.querySelector('.gbcal-scroll')){const box=viewport.querySelector('.gbcal-scroll');box.scrollTop=box.clientHeight*.8;}
   }
   function restoreWidgetScroll() {
     ui.widgetScroll = ui.widgetScroll || {};
@@ -573,6 +574,7 @@
     if(ui.view==='phone' && ui.activeCall && !ui.gbCallBackground){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
+    if (ui.view === 'calendar' && !ui.sub && ui.gbCalBack) { ui.calendarMode = ui.gbCalBack; ui.gbCalBack = ''; calendarRender(); return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
     if(ui.view==='settings' && ['apn','operators','tether-help','device-admin'].includes(ui.sub)){ui.sub={apn:'mobile-networks',operators:'mobile-networks','tether-help':'tethering','device-admin':'security'}[ui.sub];render();return;}
     if(ui.view==='settings' && ['app-info','data-app','battery-history','battery-detail','storage-misc'].includes(ui.sub)){ui.sub={'app-info':'apps','data-app':'data','battery-history':'battery','battery-detail':'battery','storage-misc':'storage'}[ui.sub];render();return;}
@@ -639,6 +641,7 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-cal') return GBCalendar.dialog(ui.gbCalDialog, gbCalContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-br') return GBBrowser.dialog(ui.gbBrDialog, gbBrowserContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-music') {
       const track = ICSMusic.tracks[ui.musicSelected], inPlaylist = ui.musicTab === 'Playlists' && ui.sub === 'music-group';
@@ -1082,13 +1085,21 @@
     ui.selectedPhoto=items[(index+direction+items.length)%items.length].id;ui.galleryZoom=false;render();
   }
 
-  function renderCalendar() {
-    return ICSCalendar.render(data,ui,key=>i18n.t(key),i18n.locale(),deviceDate());
+  function renderCalendar() { return GBCalendar.render(gbCalContext()); }
+  function gbCalContext() {
+    const event = data.events.find(item => item.id === ui.selectedEvent);
+    return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), now: deviceDate(), hour24: !!data.settings.hour24, sub: ui.sub, mode: ui.calendarMode || 'Month', selected: ui.selectedDate, first: i18n.locale() === 'en-US' ? 0 : 1, events: data.events, event, instance: ui.selectedInstance, draft: ui.eventDraft, temp: ui.gbCalTemp, extra: !!ui.gbCalExtra, error: ui.calendarError ? i18n.t(ui.calendarError) : '', account: 'demo@example.com', target: ui.gbCalTarget, ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), setLabel: GBDeskClock.text(i18n.language, 'date_time_set')};
+  }
+  function gbCalDialog(kind) { ui.gbCalDialog = kind; ui.overlay = 'gb-dialog-cal'; renderOverlay(); }
+  // The edit form's text fields live in the draft so the pickers and spinners can re-render it.
+  function gbCalSyncDraft() {
+    const form = viewport.querySelector('.gbcal-edit'); if (!form || !ui.eventDraft) return;
+    for (const name of ['title', 'location', 'description']) ui.eventDraft[name] = form.elements[name]?.value ?? ui.eventDraft[name];
   }
   function calendarRender() {
     render();
-    const timeline=viewport.querySelector('.cal-time-scroll');
-    if(timeline)timeline.scrollTop=8*48;
+    const timeline=viewport.querySelector('.gbcal-scroll');
+    if(timeline)timeline.scrollTop=timeline.clientHeight*.8;
   }
   function calendarMove(direction) {
     const mode=ui.calendarMode || 'Month';
@@ -1115,7 +1126,8 @@
     }
   }
   function calendarEdit(item) {
-    ui.eventDraft=ICSCalendar.normalize(item || {date:ui.selectedDate,time:'12:00',title:''});
+    // A new event gets preferences_default_reminder_default (10 minutes), as EditEvent adds it.
+    ui.eventDraft=ICSCalendar.normalize(item || {date:ui.selectedDate,time:'12:00',title:'',reminder:10});ui.gbCalExtra=false;
     ui.calendarError='';ui.overlay='';ui.sub='event-edit';render();
   }
   function renderClock() { return GBDeskClock.render(gbClockContext()); }
@@ -1555,19 +1567,44 @@
       case 'camera-exposure': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.exposure=Number(id);save();ui.overlay='';render();break;
       case 'calendar-prev': calendarMove(-1); break;
       case 'calendar-next': calendarMove(1); break;
-      case 'calendar-day': ui.selectedDate=id;ui.calendarMode=data.calendarMode='Day';save();calendarRender();break;
-      case 'calendar-today': ui.selectedDate=today();calendarRender();break;
+      case 'calendar-day': if ((ui.calendarMode || 'Month') !== 'Day') ui.gbCalBack = ui.calendarMode || 'Month'; ui.selectedDate=id;ui.calendarMode='Day';ui.overlay='';calendarRender();break;
+      case 'calendar-today': ui.selectedDate=today();ui.overlay='';calendarRender();break;
       case 'calendar-views': case 'calendar-menu': ui.overlay=action;renderOverlay();break;
-      case 'calendar-mode': ui.calendarMode=data.calendarMode=id;save();ui.calendarSearch=undefined;ui.overlay='';calendarRender();break;
+      case 'calendar-mode': ui.gbCalBack='';ui.calendarMode=data.calendarMode=id;save();ui.calendarSearch=undefined;ui.overlay='';calendarRender();break;
       case 'calendar-search': ui.calendarMode='Agenda';ui.calendarSearch='';ui.overlay='';render();viewport.querySelector('.cal-search input').focus();break;
       case 'calendar-slot': {const [date,time]=id.split('|');calendarEdit({date,time,title:''});break;}
       case 'event-new': calendarEdit();break;
+      case 'gbcal-new-on': ui.selectedDate = id; calendarEdit(); break;
+      case 'gbcal-agenda-from': ui.selectedDate = id; ui.gbCalBack = ui.calendarMode || 'Month'; ui.calendarMode = 'Agenda'; ui.overlay = ''; calendarRender(); break;
+      case 'gbcal-agenda-step': ui.selectedDate = ICSCalendar.plus(ui.selectedDate, Number(id) * 30); render(); break;
+      case 'gbcal-extra': gbCalSyncDraft(); ui.gbCalExtra = !ui.gbCalExtra; ui.overlay = ''; render(); break;
+      case 'gbcal-dialog': gbCalSyncDraft(); ui.gbCalTemp = {field: id, value: ['date', 'endDate', 'time', 'endTime'].includes(id) ? ui.eventDraft?.[id] : ''}; gbCalDialog(id); break;
+      case 'gbcal-date-step': { const [field, delta] = id.split(':'); ui.gbCalTemp.value = GBCalendar.step('date', ui.gbCalTemp.value, field, Number(delta)); renderOverlay(); break; }
+      case 'gbcal-time-step': { const [field, delta] = id.split(':'); ui.gbCalTemp.value = GBCalendar.step('time', ui.gbCalTemp.value, field, Number(delta)); renderOverlay(); break; }
+      case 'gbcal-ampm': ui.gbCalTemp.value = GBCalendar.step('time', ui.gbCalTemp.value, 'ampm', 0); renderOverlay(); break;
+      case 'gbcal-picker-set': {
+        // EditEvent: moving the start keeps the duration; an end before the start is pulled up to it.
+        const d = ui.eventDraft, field = ui.gbCalTemp.field, value = ui.gbCalTemp.value, stamp = (date, time) => new Date(`${date}T${time}:00`).getTime();
+        const span = stamp(d.endDate, d.endTime) - stamp(d.date, d.time);
+        d[field] = value;
+        if (field === 'date' || field === 'time') { const end = new Date(stamp(d.date, d.time) + span); d.endDate = ICSCalendar.iso(end); d.endTime = `${String(end.getHours()).padStart(2, '0')}:${String(end.getMinutes()).padStart(2, '0')}`; }
+        else if (stamp(d.endDate, d.endTime) < stamp(d.date, d.time)) { d.endDate = d.date; d.endTime = d.time; }
+        ui.calendarError = ''; ui.overlay = ''; render(); break;
+      }
+      case 'gbcal-choose': {
+        const [field, value] = id.split(':');
+        if (field === 'info-reminder') { const series = data.events.find(item => item.id === ui.selectedEvent); if (series) { series.reminder = Number(value); save(); } }
+        else if (ui.eventDraft) ui.eventDraft[field] = field === 'repeat' ? value : Number(value);
+        ui.overlay = ''; render(); break;
+      }
+      case 'gbcal-reminder': gbCalSyncDraft(); ui.eventDraft.reminder = Number(id) > 0 ? 10 : -1; render(); break;
+      case 'gbcal-info-reminder': { const series = data.events.find(item => item.id === ui.selectedEvent); if (series) { series.reminder = Number(id) > 0 ? 10 : -1; save(); } render(); break; }
       case 'event-open': ui.selectedEvent=Number(id);ui.selectedInstance=button.dataset.date||'';ui.sub='event';render();break;
-      case 'event-edit': { const series=data.events.find(item=>item.id===ui.selectedEvent); if(series&&ICSCalendar.normalize(series).repeat!=='none'){ui.overlay='calendar-edit-scope';renderOverlay();} else calendarEdit(series); break; }
+      case 'event-edit': { const series=data.events.find(item=>item.id===ui.selectedEvent); if(series&&ICSCalendar.normalize(series).repeat!=='none')gbCalDialog('edit-scope'); else calendarEdit(series); break; }
       case 'event-edit-scope': { const series=data.events.find(item=>item.id===ui.selectedEvent); if(!series)break; const item=ICSCalendar.instance(series,ui.selectedInstance); calendarEdit({...series,date:item.date,endDate:item.endDate,...(id==='this'?{repeat:'none'}:{})}); ui.eventDraft.scope=id; ui.eventDraft.instance=item.date; ui.eventDraft.seriesStart=item.seriesStart; render(); break; }
       case 'event-delete-scope': deleteEventScope(id); break;
       case 'event-cancel': ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();break;
-      case 'event-delete': ui.overlay=ICSCalendar.normalize(data.events.find(item=>item.id===ui.selectedEvent)||{}).repeat!=='none'?'calendar-delete-scope':'calendar-delete';renderOverlay();break;
+      case 'event-delete': if(ui.sub==='event-edit'&&!ui.eventDraft?.id)break;gbCalDialog(ICSCalendar.normalize(data.events.find(item=>item.id===ui.selectedEvent)||{}).repeat!=='none'?'delete-scope':'delete');break;
       case 'event-confirm-delete': data.events=data.events.filter(item=>item.id!==ui.selectedEvent);save();ui.overlay='';ui.sub='';calendarRender();break;
       case 'clock-alarms': ui.sub='alarms'; render(); break;
       case 'clock-dim': ui.clockDim=!ui.clockDim; render(); break;
@@ -1726,7 +1763,7 @@
           else if(scope==='future'&&instance!==seriesStart){series.until=ICSCalendar.plus(instance,-1);event.id=Date.now();delete event.exdates;delete event.until;data.events.push(event);}
           else {const shift=Math.round((ICSCalendar.parse(event.date)-ICSCalendar.parse(instance))/864e5),span=Math.round((ICSCalendar.parse(event.endDate)-ICSCalendar.parse(event.date))/864e5);event.date=ICSCalendar.plus(seriesStart,shift);event.endDate=ICSCalendar.plus(event.date,span);data.events[existing]=event;}
         } else if(existing<0)data.events.push(event);else data.events[existing]=event;
-        save();ui.selectedDate=event.date;ui.selectedEvent=event.id;ui.selectedInstance=scope&&scope!=='all'?event.date:instance||'';ui.eventDraft=null;ui.sub='event';render();toast('Event saved');break;
+        const edited=existing>=0;save();ui.selectedDate=event.date;ui.selectedEvent=event.id;ui.selectedInstance=scope&&scope!=='all'?event.date:instance||'';ui.eventDraft=null;ui.sub=edited?'event':'';render();toast(GBCalendar.text(i18n.language,edited?'saving_event':'creating_event'));break;
       }
       case 'calendar-search': ui.calendarSearch=String(values.get('query')||'').trim();render();break;
       case 'music-playlist': {const name=String(values.get('name')||'').trim();if(!name)return;ui.music.playlists.push({id:Date.now(),name,tracks:ui.musicAddPending?[ui.musicSelected]:[]});saveMusic();ui.overlay='';render();break;}
@@ -1759,6 +1796,7 @@
       else ui.peopleDraft[event.target.name]=event.target.value;
       return;
     }
+    if (event.target.closest('.gbcal-edit') && ui.eventDraft) { if (event.target.name === 'allDay') { gbCalSyncDraft(); ui.eventDraft.allDay = event.target.checked; render(); } else if (['title', 'location', 'description'].includes(event.target.name)) ui.eventDraft[event.target.name] = event.target.value; return; }
     if (event.target.closest('.gbbr-search')) { ui.gbBrEditValue = event.target.value; const box = viewport.querySelector('.gbbr-suggest'); if (box) box.innerHTML = GBBrowser.suggestions(gbBrowserContext()); return; }
     if (event.target.closest('.gbbr-find')) { ui.browserFind = event.target.value; ui.gbBrMark = -1; const page = viewport.querySelector('.browser-page'); page.innerHTML = renderWebsite(ui.browserUrl); if (ui.browserFind) highlightBrowserText(); else viewport.querySelector('.web-find-count').textContent = ''; return; }
     if (event.target.closest('.mms-compose')) {
@@ -2208,6 +2246,8 @@
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; suppressReleaseClick(); gbMmsDialog('message'); }, 550);
+    const heldDay = event.target.closest('[data-gbcal-day]');
+    if (heldDay && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.gbCalTarget = heldDay.dataset.gbcalDay; suppressReleaseClick(); gbCalDialog('day-context'); }, 550);
     const heldLink = event.target.closest('[data-gbbr-item]');
     if (heldLink && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.gbBrTarget = heldLink.dataset.id; suppressReleaseClick(); ui.overlay = 'gb-dialog-br'; ui.gbBrDialog = heldLink.dataset.gbbrItem; renderOverlay(); }, 550);
     const heldSong = event.target.closest('.stock-music [data-action="music-select"]');
@@ -2259,6 +2299,11 @@
       recentCard.style.transform = `translateX(${dx}px)`;
       recentCard.style.opacity = String(Math.max(.25, 1 - Math.abs(dx) / 240));
       return;
+    }
+    if(ui.view==='calendar' && !ui.sub && !ui.overlay && pointerStart.target.closest('[data-gbcal-swipe]') && Math.abs(dy)>12 && Math.abs(dy)>Math.abs(dx)) {
+      pointerStart.gbCalSwiping=true;clearTimeout(messageHoldTimer);suppressClickUntil=Date.now()+350;event.preventDefault();
+      try{screen.setPointerCapture(event.pointerId);}catch{}
+      viewport.querySelector('[data-gbcal-swipe]').style.transform=`translateY(${dy}px)`;return;
     }
     if(ui.view==='calendar' && !ui.sub && !ui.overlay && !pointerStart.scrolling && pointerStart.target.closest('[data-calendar-swipe]') && Math.abs(dx)>12 && Math.abs(dx)>Math.abs(dy)*1.2) {
       pointerStart.calendarSwiping=true;suppressClickUntil=Date.now()+350;event.preventDefault();
@@ -2323,6 +2368,7 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
+    if(pointerStart.gbCalSwiping){if(Math.abs(dy)>50)calendarMove(dy<0?1:-1);else viewport.querySelector('[data-gbcal-swipe]').style.transform='';suppressClickUntil=Date.now()+350;pointerStart=null;return;}
     if(pointerStart.calendarSwiping){if(Math.abs(dx)>45)calendarMove(dx<0?1:-1);else viewport.querySelector('[data-calendar-swipe]').style.transform='';suppressClickUntil=Date.now()+350;pointerStart=null;return;}
     if (pointerStart.photoSwiping) { if (Math.abs(dy) > 30) stepPhotoStack(pointerStart.photoStack, dy > 0 ? 1 : -1); else render(); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
     if (pointerStart.gallerySwiping) { if(Math.abs(dx)>45)galleryStep(dx<0?1:-1);else render();suppressClickUntil=Date.now()+350;pointerStart=null;return; }

@@ -65,6 +65,19 @@ copy_page_url share_page menu_preferences clear_history empty_history add_bookma
 bookmark_page switch_to_thumbnails switch_to_list set_as_homepage contextmenu_openlink contextmenu_openlink_newwindow contextmenu_sharelink
 contextmenu_copylink remove_history_item create_shortcut_bookmark'''.split(),
     },
+    'calendar': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
+        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],
+        'keys': '''app_label what_label where_label timezone_label attendees_label repeats_label no_title_label show_agenda_view show_day_view agenda_view
+day_view week_view month_view event_view event_create event_edit event_delete goto_today menu_select_calendars menu_preferences calendars_title
+event_edit_title hint_what hint_where hint_description hint_attendees creating_event saving_event event_info_title add_new_reminder
+edit_event_to_label edit_event_from_label edit_event_all_day_label edit_event_calendar_label edit_event_show_extra_options edit_event_hide_extra_options
+description_label presence_label privacy_label reminders_label view_event_calendar_label view_event_organizer_label view_event_timezone_label
+view_event_response_label agenda_today loading show_older_events show_newer_events delete_label delete_event_label save_label discard_label
+does_not_repeat daily every_weekday weekly monthly_on_day_count monthly yearly_plain monthly_on_day yearly modify_event modify_all
+modify_all_following delete_this_event_title delete_title preferences_title synced_visible alert_title'''.split(),
+        'arrays': ['reminder_minutes_labels', 'reminder_minutes_values', 'availability', 'visibility', 'ordinal_labels', 'delete_repeating_labels'],
+    },
 }
 
 

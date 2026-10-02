@@ -372,3 +372,23 @@ Checks: `gb-browser.test.cjs` covers the title bar states, suggestions, find bar
 - **Status bar icons** were checked against `packages/SystemUI/res/drawable-hdpi` at android-2.3.6_r1: the files are byte-identical, and StatusBarService adds each one in a 25 × 25 dip box (`new LinearLayout.LayoutParams(mIconSize, mIconSize)`), which is where the gaps around the narrow battery come from.
   - The owner pointed out that the icons did not fit. `max-width:100%` resolved inside the grid cell but `max-height:100%` did not, so each icon was drawn at a different scale: the battery and the alarm clock at almost their full 38 px, overflowing the 25 dip bar. Now every icon uses FIT_CENTER in the 21.56 px square (absolute max-width / max-height), so the 38 px tall hdpi icons all scale by the same 0.567.
 - **Nexus taps:** NexusRS.onCommand adds `xOffset * (960 − width)` to the tap x before nexus.rs uses it, because the scene scrolls with the home screens. The port skipped this, so on the middle screen the burst appeared half a screen to the left. It now starts under the finger on every page.
+
+## Calendar — 2026-10-02
+
+References: Calendar 2.3.6 (`month_activity.xml`, `MonthView.java`, `CalendarView.java`, `agenda_day.xml`, `agenda_item.xml`, `agenda_header_footer.xml`, `AgendaItemView.java`, `event_info_activity.xml`, `edit_event.xml`, `MenuHelper.java`, `colors.xml`, `styles.xml`, the activity themes in `AndroidManifest.xml`), framework `date_picker.xml`, `btn_dropdown`, `btn_check`, `bottom_bar`. Strings and arrays come from `docs/gb-strings.py calendar`.
+
+- **Month** (MonthView): the centred window title ("October 2026"), the 23 dip #dedede day-name row (14 sp bold) and title_bar_shadow. The 6 × 7 grid has 1 dip #dedede lines, 20 dip numbers in #404040, today on #888888 in white, and other months on #ececec with #b7b7b7. Days with events are bold. The 6 dip busy-bit column (#dedede, events in #6090f0 by time of day) starts at the top of the number.
+  - A tap opens Day, a long press opens Show day / Show agenda / New event, and a vertical fling changes the month (as MonthView.onFling does).
+- **Day / Week** (CalendarView): the title is the long date or the week range. The #dedede hour column has bold 12 sp hours (am / pm under 12), ten hours per screen, and the view opens at 8 AM.
+  - Events are rounded boxes in the calendar colour with a darker border and 12 sp white text, in lanes when they overlap. The all-day row and the red current-time line are there too.
+  - Week uses the two-letter day headers ("Su 04"), as drawDayHeaderLoop does when the medium names do not fit. A horizontal swipe moves by a day or a week. Back from a Day opened from the month returns to the month.
+- **Agenda** (Theme.Light): "Showing events since … Tap to look for more." at the top and "… until …" at the bottom; each one moves the range by 30 days. The #c8c8c8 day bars are bold, including "Today, Friday, October 2". Rows have the 5 px calendar colour strip, a bold title, a bold time and the location.
+- **View event:** the calendar colour around `bg_cal_card`, holding the bold title, "Calendar: demo@example.com", a divider, the bold when line, the repeat line with `ic_repeat_dark`, the location and the description. Below are Reminders, with a spinner and `btn_circle` minus, or Add reminder with plus. Menu: Edit event, Delete event.
+- **Event details** (EditEvent):
+  - What, From / To with the date (7) and time (4) buttons, All day (which hides the times), Where, Description, the Calendar spinner, Repetition, and Reminders (10 minutes by default for a new event).
+  - The `bottom_bar` holds Done / Revert / Delete. Menu → Show extra options adds Show me as and Privacy.
+  - The buttons open the DatePickerDialog (80 / 80 / 95 dip month / day / year NumberPickers in locale order) and the TimePickerDialog. Moving the start keeps the duration.
+  - Saving shows "Event created" or "Event saved". A new event returns to the view it came from; an edited one returns to its info.
+- **Delete:** "This event will be deleted." with OK / Cancel; repeating events get the three-item delete_repeating_labels list. The edit scopes are Change only this event / all events in the series / this and all future events.
+
+Checks: `gb-calendar.test.cjs` covers the month cells and busy bits, Day and Week geometry, the 12 / 24 hour labels, the agenda, the event info, the editor states, menus, dialogs, picker steps and translations. Headless Chrome covered month → menu → New event → time and date pickers → Repetition → Done, then Day, Week, Agenda, View event and the delete dialog. It also covered a fling to the next month, the long-press context menu and the Hungarian week view. No JavaScript errors.
