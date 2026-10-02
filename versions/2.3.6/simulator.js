@@ -237,6 +237,11 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'music') {
+      const party = {action: 'music-party', title: musicText(ui.music.party ? 'party_shuffle_off' : 'party_shuffle'), icon: 'gb-mu-ic_menu_party_shuffle.png'};
+      ui.gbMenuItems = ui.sub === 'player' ? [{action: 'music-library', title: musicText('goto_start'), icon: 'ic_menu_music_library'}, party, {action: 'music-track-menu-add', title: musicText('add_to_playlist'), icon: 'ic_menu_add'}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('ringtone_menu'), icon: 'ic_menu_set_as_ringtone'}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('delete_item'), icon: 'ic_menu_delete'}] : [party, {action: 'music-shuffle-all', title: musicText('shuffle_all'), icon: 'ic_menu_shuffle'}];
+      ui.overlay = 'gb-menu-settings'; renderOverlay(); return;
+    }
     if (ui.view === 'clock') { const items = GBDeskClock.menu(gbClockContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'calculator') { ui.gbMenuItems = [{action: 'calc-clear', title: calcText('clear_history'), icon: 'gb-calc-clear_history.png'}, ui.calcPanel ? {action: 'calc-panel', id: 0, title: calcText('basic'), icon: 'gb-calc-simple.png'} : {action: 'calc-panel', id: 1, title: calcText('advanced'), icon: 'gb-calc-advanced.png'}]; ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'messaging') { ui.gbMenuItems = GBMms.menu(gbMmsContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
@@ -630,6 +635,12 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-music') {
+      const track = ICSMusic.tracks[ui.musicSelected], inPlaylist = ui.musicTab === 'Playlists' && ui.sub === 'music-group';
+      if (ui.gbMusicDialog === 'add') return {title: musicText('add_to_playlist'), items: [{action: 'music-add-queue', title: musicText('queue')}, {action: 'music-new-playlist', id: 'add', title: musicText('new_playlist')}, ...ui.music.playlists.map(p => ({action: 'music-add-confirm', id: p.id, title: p.name}))]};
+      if (ui.gbMusicDialog === 'new') return {title: musicText('new_playlist'), custom: `<form data-form="music-playlist"><input name="name" maxlength="60" required aria-label="${safe(i18n.t('Playlist name'))}" value="${safe(musicText('new_playlist_name_template').replace('%d', String(ui.music.playlists.length + 1)))}"></form>`, buttons: [{action: 'music-playlist-save', title: musicText('create_playlist_create_text')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+      return {title: track?.title || '', items: [{action: 'music-play-selected', title: musicText('play_selection')}, {action: 'music-add-to-playlist', title: musicText('add_to_playlist')}, ...(inPlaylist ? [{action: 'music-remove-from-playlist', title: musicText('remove_from_playlist')}] : []), {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('ringtone_menu')}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('delete_item')}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('search_title')}]};
+    }
     if (ui.overlay === 'gb-dialog-mms') return GBMms.dialog(ui.gbMmsDialog, gbMmsContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-set') return GBSettings.dialog(ui.gbSetDialog, gbSettingsContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-list') return GBSettings.listDialog(ui.gbListKey, gbSettingsContext()) || {title: '', items: []};
@@ -1139,6 +1150,7 @@
     track.style.transform = `translateX(-${index * 50}%)`;
     track.querySelectorAll('.ics-calc-grid,.gbcalc-pad').forEach((panel, i) => { panel.inert = i !== index; });
   }
+  const musicText = key => { const entry = window.GBStrings?.music?.strings?.[key]; return entry ? entry[i18n.language] ?? entry.en : key; };
   function renderMusic() {
     return ICSMusic.render(ui.music,ui,key=>i18n.t(key));
   }
@@ -1578,11 +1590,17 @@
       case 'music-queue': ui.sub='queue';render();break;
       case 'music-group': ui.musicGroup=id;ui.sub='music-group';render();break;
       case 'music-select': ui.music.queue=[...ICSMusic.listing(ui.music,ui)];ui.music.track=Number(id);ui.music.position=0;ui.music.playing=true;saveMusic();ui.sub='player';render();break;
-      case 'music-shuffle': ui.music.shuffle=!ui.music.shuffle;saveMusic();render();break;
-      case 'music-repeat': ui.music.repeat={off:'all',all:'one',one:'off'}[ui.music.repeat];saveMusic();render();break;
-      case 'music-track-menu': ui.musicSelected=Number(id);ui.overlay='music-track-menu';renderOverlay();break;
-      case 'music-add-to-playlist': ui.overlay='music-playlist-choice';renderOverlay();break;
-      case 'music-new-playlist': ui.musicAddPending=id==='add';ui.overlay='music-new-playlist';renderOverlay();break;
+      case 'music-shuffle': ui.music.shuffle=!ui.music.shuffle;if(!ui.music.shuffle)ui.music.party=false;saveMusic();render();toast(musicText(ui.music.shuffle?'shuffle_on_notif':'shuffle_off_notif'));break;
+      case 'music-repeat': ui.music.repeat={off:'all',all:'one',one:'off'}[ui.music.repeat];saveMusic();render();toast(musicText({all:'repeat_all_notif',one:'repeat_current_notif',off:'repeat_off_notif'}[ui.music.repeat]));break;
+      case 'music-track-menu': ui.musicSelected=Number(id);ui.overlay='gb-dialog-music';ui.gbMusicDialog='track';renderOverlay();break;
+      case 'music-track-menu-add': ui.musicSelected=ui.music.track;ui.overlay='gb-dialog-music';ui.gbMusicDialog='add';renderOverlay();break;
+      case 'music-party': ui.music.party=!ui.music.party;ui.music.shuffle=ui.music.party;if(ui.music.party)ui.music.playing=true;ui.overlay='';saveMusic();render();break;
+      case 'music-shuffle-all': ui.music.queue=ICSMusic.tracks.map((_,i)=>i);ui.music.shuffle=true;ui.music.track=Math.floor(Math.random()*ICSMusic.tracks.length);ui.music.position=0;ui.music.playing=true;ui.overlay='';saveMusic();ui.sub='player';render();break;
+      case 'music-play-selected': ui.overlay='';{const button=document.createElement('button');button.dataset.action='music-select';button.dataset.id=String(ui.musicSelected);viewport.append(button);button.click();button.remove();}break;
+      case 'music-playlist-save': overlayRoot.querySelector('form[data-form="music-playlist"]')?.requestSubmit();break;
+      case 'music-add-to-playlist': ui.overlay='gb-dialog-music';ui.gbMusicDialog='add';renderOverlay();break;
+      case 'music-add-queue': if(!ui.music.queue.includes(ui.musicSelected))ui.music.queue.push(ui.musicSelected);saveMusic();ui.overlay='';render();break;
+      case 'music-new-playlist': ui.musicAddPending=id==='add';ui.overlay='gb-dialog-music';ui.gbMusicDialog='new';renderOverlay();overlayRoot.querySelector('[name=name]')?.focus();break;
       case 'music-add-confirm': {const playlist=ui.music.playlists.find(p=>String(p.id)===id);if(playlist&&!playlist.tracks.includes(ui.musicSelected))playlist.tracks.push(ui.musicSelected);saveMusic();ui.overlay='';render();toast('Added to playlist');break;}
       case 'music-remove-from-playlist': {const playlist=ui.music.playlists.find(p=>String(p.id)===ui.musicGroup);if(playlist)playlist.tracks=playlist.tracks.filter(track=>track!==ui.musicSelected);saveMusic();ui.overlay='';render();break;}
       case 'email-read': {const item=data.mailbox.find(item=>item.id===id);if(!item)break;ui.emailId=id;item.read=true;ui.sub=item.folder==='Drafts'?'compose':'read';ui.emailError='';save();render();break;}
@@ -2130,6 +2148,10 @@
     if (message && !ui.overlay) { ui.mmsMessage = message.dataset.id; gbMmsDialog('message'); }
     const thread = event.target.closest('.gbmms-thread[data-action="thread"]');
     if (thread && !ui.overlay) { ui.thread = thread.dataset.id; gbMmsDialog('thread'); }
+    const song = event.target.closest('.stock-music [data-action="music-select"]');
+    if (song && !ui.overlay) { ui.musicSelected = Number(song.dataset.id); ui.overlay = 'gb-dialog-music'; ui.gbMusicDialog = 'track'; renderOverlay(); }
+    const alarm = event.target.closest('.gbdc-alarm-body');
+    if (alarm && !ui.overlay) { ui.dcContext = Number(alarm.dataset.id); ui.overlay = 'clock-context'; renderOverlay(); }
     if (!dragState && ui.view === 'home' && !ui.overlay && event.button === 2 && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { ui.overlay = 'wallpaper-source'; renderOverlay(); }
   });
   // Older WebKit versions may still start page rubber-banding during a custom
@@ -2156,6 +2178,8 @@
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; suppressReleaseClick(); gbMmsDialog('message'); }, 550);
+    const heldSong = event.target.closest('.stock-music [data-action="music-select"]');
+    if (heldSong && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.musicSelected = Number(heldSong.dataset.id); suppressReleaseClick(); ui.overlay = 'gb-dialog-music'; ui.gbMusicDialog = 'track'; renderOverlay(); }, 550);
     const heldAlarm = event.target.closest('.gbdc-alarm-body');
     if (heldAlarm && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.dcContext = Number(heldAlarm.dataset.id); suppressReleaseClick(); ui.overlay = 'clock-context'; renderOverlay(); }, 550);
     const heldThread = event.target.closest('.gbmms-thread[data-action="thread"]');

@@ -335,3 +335,16 @@ References: DeskClock 2.3.6 from aosp-mirror-neo (`desk_clock.xml`, `desk_clock_
 - **Alert.** The alarm dialog shows the label (or "Alarm"), the 64 sp Clockopia time, and Snooze ("Snoozing for 10 minutes.") / Dismiss.
 
 Checks: `gb-deskclock.test.cjs` covers the time and day formats, all toast variants, the face, list and SetAlarm markup, the menus and every dialog. Headless Chrome covered the face on the live wallpaper, night mode, the alarm list, a new alarm through the time picker, Repeat and Label, saving with the toast, and the updated list. No JavaScript errors.
+
+## Music — 2026-10-02
+
+References: Music 2.3.6 (`layout-finger/audio_player.xml`, `audio_player_common.xml`, `track_list_item_common.xml`, `MediaPlaybackActivity` / `TrackBrowserActivity` / `ArtistAlbumBrowserActivity` menus and context menus, `drawable-hdpi(-finger)`), framework `MediaButton` and the `ic_media_*` icons. Strings come from `docs/gb-strings.py music`.
+
+- The inherited library and player already used the pre-Holo Music app. The ICS and GB `music-*` drawables are identical, so only the framework media button icons were replaced with the 2.3.6 versions.
+- **Song rows** (track_list_item) show the duration (12 sp, textColorTertiary) at the top right. They have no overflow button: a long press (or right click) opens the context menu titled with the song: Play, Add to playlist, Remove from playlist (inside a playlist), Use as phone ringtone, Delete, Search.
+  - **Add to playlist** lists Current playlist, New and the saved playlists. New asks for the name, prefilled with "New playlist 1", with Save / Cancel.
+- **Player:** the audio_player layout ends with the seek bar on #5a5a5a. The simulator's "Demo tracks" note and the library button are gone; Menu → Library returns to the browser.
+  - Shuffle and repeat show the Music toasts ("Shuffle is on.", "Repeating all songs.", ...).
+- **Menus.** Browser tabs: Party shuffle / Party shuffle off, Shuffle all. Player: Library, Party shuffle, Add to playlist, Use as phone ringtone, Delete.
+
+Checks: headless Chrome covered both menus, the song context menu, Add to playlist → New → Save (playlist stored), and the player. No JavaScript errors.

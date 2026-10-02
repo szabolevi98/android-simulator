@@ -48,6 +48,13 @@ music_button_description nightmode_button_description home_button_description de
 silent_alarm_summary date_time_set'''.split(),
         'arrays': ['alarm_set'],
     },
+    'music': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-2.3.6_r1/res/values%s/strings.xml'],
+        'keys': '''goto_start party_shuffle party_shuffle_off delete_item shuffle_all nowplaying_title artists_title albums_title tracks_title
+playlists_title search_title no_tracks_title ringtone_menu play_selection add_to_playlist queue new_playlist new_playlist_name_template
+create_playlist_create_text remove_from_playlist shuffle_on_notif shuffle_off_notif repeat_all_notif
+repeat_current_notif repeat_off_notif emptyplaylist'''.split(),
+    },
 }
 
 
