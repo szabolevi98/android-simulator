@@ -6,7 +6,7 @@ window.ANDROID_VERSIONS = [
     version: 'Android 4.0.4',
     year: '2012',
     device: 'Galaxy Nexus · AOSP',
-    description: 'Holo interface, software navigation, app drawer and the legendary Nyandroid.',
+    description: 'Holo design, on-screen navigation keys, folders, the lock-screen camera and the Nyandroid easter egg.',
     url: 'versions/4.0.4/',
     status: 'available',
     // Landing-card miniature: the version's default wallpaper and search bar style.
@@ -18,7 +18,7 @@ window.ANDROID_VERSIONS = [
     version: 'Android 4.3',
     year: '2013',
     device: 'Galaxy Nexus · AOSP',
-    description: 'Project Butter, expandable notifications, quick settings, lock-screen widgets and the BeanBag.',
+    description: 'Expandable notifications, Quick Settings, lock-screen widgets, Daydream and the BeanBag easter egg.',
     url: 'versions/4.3/',
     status: 'available',
     art: {wallpaper: 'jb-wallpaper_01.jpg', search: 'jb'}
