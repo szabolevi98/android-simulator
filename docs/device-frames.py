@@ -92,6 +92,16 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
         elif kind == 'touchkey':
             _, glyph, cx, cy, size = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m; k = S(size) / 24
             feat.append(f'<g transform="translate({x - 12 * k:.2f} {y - 12 * k:.2f}) scale({k:.4f})" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">{TOUCHKEYS[glyph]}</g>')
+        elif kind == 'roundgrille':
+            # Nexus 5 earpiece: a round grille of small holes in a dark ring.
+            _, cx, cy, r = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m; rr = S(r)
+            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{rr:.2f}" fill="#0b0c0d" stroke="#3a3d40" stroke-width=".6"/>')
+            holes = []
+            for ring, count in ((0, 1), (.33, 6), (.62, 12)):
+                for i in range(count):
+                    a = 2 * math.pi * i / count
+                    holes.append(f'<circle cx="{x + math.cos(a) * rr * ring:.2f}" cy="{y + math.sin(a) * rr * ring:.2f}" r="{rr * .1:.2f}" fill="#262a2d"/>')
+            feat.append(''.join(holes))
         elif kind == 'sensor':
             _, cx, cy, rx, ry = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m
             feat.append(f'<ellipse cx="{x:.2f}" cy="{y:.2f}" rx="{S(rx):.2f}" ry="{S(ry):.2f}" fill="#16191b" stroke="#25292c" stroke-width=".5"/>')
@@ -147,4 +157,14 @@ if os.path.exists('ns-render.png'):
     [('right', 396, 563, 7), ('left', 571, 873, 7)],
     {'body': ['#121314', '#020203', '#09090a'], 'rim': ['#3c4043', '#0a0b0c', '#34383b'], 'rimWidth': 2.2, 'chin': .1, 'glassInset': 4.5})
   open('device-nexus-s.svg', 'w').write(svg); out['ns'] = info
+# Nexus 5 (LG-D821, hammerhead): matte black body with a thin grey rim, front camera left, the round earpiece grille in the
+# middle, proximity / light sensors right. Traced from Google's front render (Wikimedia Commons "Nexus 5 Front View.png",
+# CC BY 2.5, Google Android), whose display is exactly 1080 x 1920 at (304, 436). The 4.95" panel next to the 4.65" Galaxy
+# Nexus (545 px tall) is 580 px tall, so the window is 326.25 x 580 (1 dp = 0.906 px).
+if os.path.exists('n5-render.png'):
+  svg, info = frame('nexus-5', 'n5-render.png', (251, 1438), (243, 2626), (304, 436, 1384, 2356), (326.25, 580),
+    [('lens', 447, 362, 14), ('roundgrille', 843, 358, 28), ('sensor', 1220, 357, 10, 10), ('sensor', 1262, 357, 6, 6)],
+    [('right', 548, 696, 9), ('left', 704, 1076, 9)],
+    {'body': ['#1d1d1e', '#0d0d0e', '#151516'], 'rim': ['#6a6b6d', '#2e2f30', '#5c5d5f'], 'rimWidth': 3.2, 'chin': .06})
+  open('device-nexus-5.svg', 'w').write(svg); out['n5'] = info
 print(json.dumps(out, indent=1))

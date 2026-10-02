@@ -1,0 +1,61 @@
+/* Android 4.2/4.3 DeskClock (dark, Roboto Thin clock, AndroidClockMono counters, CircleTimerView). */
+@font-face{font-family:RobotoThin;src:url('assets/Roboto-Thin.ttf') format('truetype')}
+@font-face{font-family:AndroidClockMonoThin;src:url('assets/AndroidClockMono-Thin.ttf') format('truetype')}
+@font-face{font-family:AndroidClockMonoLight;src:url('assets/AndroidClockMono-Light.ttf') format('truetype')}
+@font-face{font-family:AndroidClockMonoBold;src:url('assets/AndroidClockMono-Bold.ttf') format('truetype')}
+.jbclock-app{background:#000;color:#fff;display:flex;flex-direction:column;overflow:hidden}
+.jbclock-tabs{flex:none;height:43px;display:flex;background:#000;border-bottom:1px solid #ffffff1a}
+.jbclock-tabs button{flex:1;border:0;background:none;display:grid;place-items:center;position:relative}
+.jbclock-tabs button img{width:29px;height:29px}
+.jbclock-tabs button.active::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:#33b5e5}
+.jbclock-tabs button:active{background:#33b5e544}
+.jbclock-pager{flex:1;min-height:0;overflow:hidden;touch-action:pan-y}
+.jbclock-track{display:flex;height:100%;transition:transform .25s cubic-bezier(.22,.61,.36,1)}
+.jbclock-page{flex:0 0 100%;min-width:0;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.jbclock-page>*{flex:1;min-height:0;display:flex;flex-direction:column}
+.jbclock-footer{flex:none;height:43px;display:flex;border-top:1px solid #ffffff28;margin-top:auto}
+.jbclock-footer button{flex:1;border:0;background:none;color:#fff;font:700 14px RobotoICS,sans-serif;text-transform:uppercase;display:grid;place-items:center}
+.jbclock-footer button+button{border-left:1px solid #ffffff28}
+.jbclock-footer button:disabled{color:#ffffff4d}
+.jbclock-footer button:active:not(:disabled){background:#33b5e544}
+.jbclock-footer button img{width:29px;height:29px}
+.jbclock-footer.clock-buttons button{flex:0 0 58px}.jbclock-footer.clock-buttons button:nth-child(2){margin:0 auto}.jbclock-footer.clock-buttons button+button{border-left:0}
+/* Clock page: bold hours with thin minutes (big_bold / big_thin, 120dp). */
+.jbclock-clock{align-items:center}
+.jbclock-time{margin-top:auto;display:flex;align-items:baseline;line-height:1;white-space:nowrap}
+.jbclock-hours{font:700 96px/1 RobotoICS,Roboto,sans-serif;letter-spacing:-2px}
+.jbclock-minutes{font:96px/1 RobotoThin,RobotoICS,sans-serif;letter-spacing:-2px}
+.jbclock-time small{font:700 14px RobotoICS,sans-serif;margin-left:4px;text-transform:uppercase}
+.jbclock-date{margin:6px 0 auto;display:flex;align-items:center;gap:8px;font:700 13px 'Roboto Condensed',RobotoICS,sans-serif;text-transform:uppercase;letter-spacing:.3px}
+.jbclock-next{display:flex;align-items:center;gap:2px;color:#ffffff80}
+.jbclock-next img{width:14px;height:14px}
+/* Timer setup (TimerSetupView): H MM SS filled from the right, a 3 x 4 keypad, Cancel | Start. */
+.jbclock-setup-display{flex:none;display:flex;align-items:baseline;justify-content:center;gap:1px;padding:22px 8px 8px;font:300 52px/1 AndroidClockMonoLight,RobotoICS,sans-serif;color:#ffffff4d;border-bottom:1px solid #ffffff28;margin:0 14px}
+.jbclock-setup-display span.on{color:#fff}
+.jbclock-setup-display small{font:700 13px RobotoICS,sans-serif;margin:0 6px 0 2px;text-transform:uppercase;color:inherit}
+.jbclock-backspace{align-self:center;margin-left:4px;border:0;background:none;padding:6px}
+.jbclock-backspace img{width:29px;height:29px}
+.jbclock-keypad{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;padding:6px 14px}
+.jbclock-keypad button{border:0;background:none;color:#fff;font:300 32px RobotoICS,sans-serif}
+.jbclock-keypad button:active{background:#33b5e544}
+/* CircleTimerView frame with 32dp margins and corner buttons. */
+.jbclock-timers{overflow-y:auto}
+.jbclock-timer{flex:none;padding:0 29px}
+.jbclock-circle-frame{position:relative;width:100%;aspect-ratio:1;max-height:62vh;margin:8px auto 0;display:grid;place-items:center}
+.jbclock-circle{position:absolute;inset:0;width:100%;height:100%}
+.jbclock-count{font:300 46px/1 AndroidClockMonoThin,RobotoICS,sans-serif;white-space:nowrap}
+.jbclock-count.stopwatch{font-size:40px}
+.jbclock-timer.done .jbclock-count{font:700 26px RobotoICS,sans-serif;color:#ff4444;text-transform:uppercase}
+.jbclock-label{position:absolute;top:62%;display:flex;align-items:center;gap:4px;font-size:13px;color:#ffffff80}
+.jbclock-label img{width:16px;height:16px;opacity:.7}
+.jbclock-corner{position:absolute;bottom:0;width:50px;height:50px;border:0;background:none;display:grid;place-items:center}
+.jbclock-corner.left{left:0}.jbclock-corner.right{right:0}
+.jbclock-corner img{width:29px;height:29px}
+.jbclock-center{position:absolute;bottom:0;left:50%;transform:translateX(-50%);border:0;background:none;color:#fff;font:700 15px RobotoICS,sans-serif;text-transform:uppercase;padding:9px 12px}
+.jbclock-corner:active,.jbclock-center:active{background:#33b5e544}
+.jbclock-stopwatch .jbclock-circle-frame{width:calc(100% - 58px)}
+.jbclock-laps{flex:1;min-height:0;overflow-y:auto;margin:6px 0 0;padding:0 14px;list-style:none;border-top:1px solid #ffffff1a}
+.jbclock-laps li{display:grid;grid-template-columns:1fr 1.3fr 1.3fr;padding:6px 4px;font:15px AndroidClockMonoLight,RobotoICS,sans-serif;border-bottom:1px solid #ffffff12}
+.jbclock-laps li span:first-child{color:#ffffff80;font-family:RobotoICS,sans-serif}
+.jbclock-laps li span:last-child{text-align:right;color:#ffffff80}
+.jbclock-clock>.jbclock-footer{align-self:stretch}

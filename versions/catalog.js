@@ -34,6 +34,16 @@ window.ANDROID_VERSIONS = [
     status: 'available',
     art: {shot: 'landing-home.jpg?v=2', phone: 'nexus4'}
   },
-  { id: '4.4.4', name: 'KitKat', version: 'Android 4.4.4', year: '2014', device: 'Korabeli Android', status: 'planned' },
+  {
+    id: '4.4.4',
+    name: 'KitKat',
+    version: 'Android 4.4.4',
+    year: '2014',
+    device: 'Nexus 5 · AOSP',
+    description: 'Work in progress: the Nexus 5 with translucent system bars, white status icons and the KitKat easter egg.',
+    url: 'versions/4.4.4/',
+    status: 'available',
+    art: {shot: 'landing-home.jpg?v=1', phone: 'nexus5'}
+  },
   { id: '5.1.1', name: 'Lollipop', version: 'Android 5.1.1', year: '2015', device: 'Korabeli Android', status: 'planned' }
 ];
