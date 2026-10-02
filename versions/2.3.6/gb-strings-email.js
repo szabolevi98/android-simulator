@@ -2,6 +2,153 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["email"] = {
 "strings": {
+"account_settings_title_fmt": {
+"en": "General settings",
+"hu": "Általános beállítások",
+"de": "Allgemeine Einstellungen",
+"fr": "Paramètres généraux",
+"es": "Ajustes generales"
+},
+"account_settings_description_label": {
+"en": "Account name",
+"hu": "Fióknév",
+"de": "Kontoname",
+"fr": "Nom du compte",
+"es": "Nombre de cuenta"
+},
+"account_settings_name_label": {
+"en": "Your name",
+"hu": "Az Ön neve",
+"de": "Ihr Name",
+"fr": "Votre nom",
+"es": "Tu nombre"
+},
+"account_settings_signature_label": {
+"en": "Signature",
+"hu": "Aláírás",
+"de": "Signatur",
+"fr": "Signature",
+"es": "Firma"
+},
+"account_settings_signature_hint": {
+"en": "Append text to messages you send",
+"hu": "Szöveg hozzáfűzése az elküldendő üzenetekhez",
+"de": "Text an ausgehende Nachrichten anhängen",
+"fr": "Ajouter un texte aux messages envoyés",
+"es": "Añadir texto a los mensajes que envíes"
+},
+"account_settings_mail_check_frequency_label": {
+"en": "Inbox check frequency",
+"hu": "Beérkező levelek ellenőrzésének gyakorisága",
+"de": "Häufigkeit des E-Mail-Abrufs",
+"fr": "Fréquence de consultation de la boîte de réception",
+"es": "Frecuencia comprobación de inbox"
+},
+"account_settings_default_label": {
+"en": "Default account",
+"hu": "Alapértelmezett fiók",
+"de": "Standardkonto",
+"fr": "Compte par défaut",
+"es": "Cuenta predeterminada"
+},
+"account_settings_default_summary": {
+"en": "Send email from this account by default",
+"hu": "E-mail küldése ebből a fiókból alapértelmezés szerint",
+"de": "E-Mails standardmäßig von diesem Konto senden",
+"fr": "Par défaut, envoyer les e-mails avec ce compte",
+"es": "Enviar correo electrónico desde esta cuenta de forma predeterminada"
+},
+"account_settings_notifications": {
+"en": "Notification settings",
+"hu": "Értesítési beállítások",
+"de": "Benachrichtigungseinstellungen",
+"fr": "Paramètres de notification",
+"es": "Ajustes de notificaciones"
+},
+"account_settings_notify_label": {
+"en": "Email notifications",
+"hu": "E-mail értesítések",
+"de": "E-Mail-Benachrichtigung",
+"fr": "Notifications",
+"es": "Notificaciones de correo"
+},
+"account_settings_notify_summary": {
+"en": "Notify in status bar when email arrives",
+"hu": "Értesítés megjelenítése az állapotjelzőn e-mailek érkezése esetén",
+"de": "Bei E-Mail-Eingang Benachrichtigung in der Statusleiste",
+"fr": "Afficher notification dans barre d'état lors de la réception d'un e-mail",
+"es": "Notificar en la barra de estado cuando llegue un mensaje"
+},
+"account_settings_ringtone": {
+"en": "Select ringtone",
+"hu": "Csengőhang kiválasztása",
+"de": "Klingelton auswählen",
+"fr": "Sélectionner la sonnerie",
+"es": "Seleccionar tono"
+},
+"account_settings_vibrate_when_label": {
+"en": "Vibrate",
+"hu": "Rezgés",
+"de": "Vibration",
+"fr": "Vibreur",
+"es": "Vibrar"
+},
+"account_settings_vibrate_when_summary": {
+"en": "Also vibrate when email arrives",
+"hu": "Rezgés e-mail érkezésekor is",
+"de": "Bei E-Mail-Eingang zusätzlich vibrieren",
+"fr": "Vibrer à la réception d'un e-mail",
+"es": "Vibrar también cuando llegue un mensaje"
+},
+"account_settings_vibrate_when_dlg_title": {
+"en": "Vibrate",
+"hu": "Rezgés",
+"de": "Vibration",
+"fr": "Vibreur",
+"es": "Vibración"
+},
+"account_settings_servers": {
+"en": "Server settings",
+"hu": "Szerverbeállítások",
+"de": "Servereinstellungen",
+"fr": "Paramètres du serveur",
+"es": "Ajustes del servidor"
+},
+"account_settings_incoming_label": {
+"en": "Incoming settings",
+"hu": "Bejövő üzenetek beállításai",
+"de": "Eingehende Nachrichten",
+"fr": "Paramètres de réception",
+"es": "Configuración entrante"
+},
+"account_settings_outgoing_label": {
+"en": "Outgoing settings",
+"hu": "Kimenő üzenetek beállításai",
+"de": "Ausgehende Nachrichten",
+"fr": "Paramètres d'envoi",
+"es": "Configuración saliente"
+},
+"account_settings_action": {
+"en": "Account settings",
+"hu": "Fiókbeállítások",
+"de": "Kontoeinstellungen",
+"fr": "Paramètres du compte",
+"es": "Ajustes de la cuenta"
+},
+"okay_action": {
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"cancel_action": {
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
 "app_name": {
 "en": "Email",
 "hu": "E-mail",
@@ -359,20 +506,6 @@ window.GBStrings["email"] = {
 "fr": "Nouvel e-mail",
 "es": "Nuevo mensaje"
 },
-"okay_action": {
-"en": "OK",
-"hu": "OK",
-"de": "OK",
-"fr": "OK",
-"es": "Aceptar"
-},
-"cancel_action": {
-"en": "Cancel",
-"hu": "Mégse",
-"de": "Abbrechen",
-"fr": "Annuler",
-"es": "Cancelar"
-},
 "read_action": {
 "en": "Mark read",
 "hu": "Megjelölés olvasottként",
@@ -394,13 +527,6 @@ window.GBStrings["email"] = {
 "fr": "Erreur de connexion",
 "es": "Error de conexión"
 },
-"account_settings_action": {
-"en": "Account settings",
-"hu": "Fiókbeállítások",
-"de": "Kontoeinstellungen",
-"fr": "Paramètres du compte",
-"es": "Ajustes de la cuenta"
-},
 "message_deleted_toast_one": {
 "en": "Message deleted.",
 "hu": "Üzenet törölve.",
@@ -414,6 +540,77 @@ window.GBStrings["email"] = {
 "de": "Nachrichten gelöscht",
 "fr": "Messages supprimés",
 "es": "Mensajes eliminados"
+}
+},
+"arrays": {
+"account_settings_check_frequency_entries": {
+"en": [
+"Never",
+"Every 5 minutes",
+"Every 10 minutes",
+"Every 15 minutes",
+"Every 30 minutes",
+"Every hour"
+],
+"hu": [
+"Soha",
+"5 percenként",
+"10 percenként",
+"15 percenként",
+"30 percenként",
+"Óránként"
+],
+"de": [
+"Nie",
+"Alle 5 Minuten",
+"Alle 10 Minuten",
+"Alle 15 Minuten",
+"Alle 30 Minuten",
+"Stündlich"
+],
+"fr": [
+"Jamais",
+"Toutes les 5 minutes",
+"Toutes les 10 minutes",
+"Toutes les 15 minutes",
+"Toutes les 30 minutes",
+"Toutes les heures"
+],
+"es": [
+"Nunca",
+"Cada 5 minutos",
+"Cada 10 minutos",
+"Cada 15 minutos",
+"Cada 30 minutos",
+"Cada hora"
+]
+},
+"account_settings_vibrate_when_entries": {
+"en": [
+"Always",
+"Only when silent",
+"Never"
+],
+"hu": [
+"Mindig",
+"Csak néma üzemmódban",
+"Soha"
+],
+"de": [
+"Immer",
+"Nur im Lautlosmodus",
+"Nie"
+],
+"fr": [
+"Toujours",
+"En mode silencieux",
+"Jamais"
+],
+"es": [
+"Siempre",
+"Solo en modo silencio",
+"Nunca"
+]
 }
 }
 };

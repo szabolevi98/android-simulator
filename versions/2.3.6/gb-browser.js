@@ -88,7 +88,7 @@
       {action: 'gbbr-page-info', title: T('page_info')},
       {action: 'gbset-toast', id: na, title: T('share_page')},
       {action: 'open-app', id: 'downloads', title: T('menu_view_download')},
-      {action: 'gbset-toast', id: na, title: T('menu_preferences')}
+      {action: 'gbpref-open', id: 'browser', title: T('menu_preferences')}
     ];
   }
   // AddBookmarkPage, the page info dialog and the bookmark / history context menus.

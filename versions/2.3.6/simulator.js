@@ -232,6 +232,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.gbPrefs && ui.gbPrefs.app === ui.view) return;
     if (ui.view === 'downloads') { ui.gbMenuItems = GBDownloads.menu(gbDlContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'search') { const items = GBSearch.menu(gbSearchContext()); if (items.length) { ui.qsb.selecting = false; ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); render(); } return; }
     if (ui.view === 'play-store') { const items = GBMarket.menu(gbMarketContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
@@ -315,6 +316,14 @@
     else if (item.kind === 'message') openMessageThread(Number(item.id));
     else if (item.kind === 'track') { openApp('music'); ui.music.queue = ICSMusic.tracks.map((_, i) => i); ui.music.track = Number(item.id); ui.music.position = 0; ui.music.playing = true; saveMusic(); ui.sub = 'player'; render(); }
   }
+  // Application preference screens (GBPrefs): Browser, Calendar and Email settings, stored in data.appPrefs.
+  function gbPrefsContext(app = ui.gbPrefs?.app) {
+    data.appPrefs ||= {}; data.appPrefs[app] ||= {};
+    return {app, lang: i18n.language, values: data.appPrefs[app], homepage: 'http://www.google.com/', account: ICSEmail.account, name: 'Nexus S'};
+  }
+  function gbPrefSet(key, value) { const ctx = gbPrefsContext(); ctx.values[key] = value; save(); }
+  // PreferenceActivity keeps its list position while a preference changes.
+  function gbPrefRender() { const y = viewport.querySelector('.gbset-list')?.scrollTop || 0; render(); const list = viewport.querySelector('.gbset-list'); if (list) list.scrollTop = y; }
   // DownloadList: data.downloads (seeded on first use), the sort order and the selection live in ui.gbdl.
   function gbDlContext() {
     data.downloads ||= GBDownloads.seed(Date.now());
@@ -569,6 +578,7 @@
     const r = screen.getBoundingClientRect(); liveWallpaper.tap(event.clientX - r.left, event.clientY - r.top);
   });
   function renderApp() {
+    if (ui.gbPrefs && ui.gbPrefs.app === ui.view) return GBPrefs.render(gbPrefsContext());
     switch (ui.view) {
       case 'play-store': return GBMarket.render(gbMarketContext());
       case 'search': return GBSearch.render(gbSearchContext());
@@ -595,7 +605,7 @@
     if (!appNames[app]) return;
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
-    ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
+    ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; if (!resume) ui.gbPrefs = null; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
     if (app === 'phone' && ui.activeCall && !resume) { ui.gbCallBackground = true; ui.gbAddCall = false; ui.phoneTab = 'dialpad'; }
     ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 8);
     render();
@@ -619,6 +629,7 @@
     if(ui.view==='settings'&&ui.sub&&ui.gbSettingsStack?.length&&!ui.overlay){ui.sub=ui.gbSettingsStack.pop();render();return;}
     if(ui.view==='lock'&&ui.gbPasswordEntry&&data.settings.screenLock!=='pattern'){ui.gbPasswordEntry=false;lockControls.lock();render();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
+    if (ui.gbPrefs && ui.gbPrefs.app === ui.view && !ui.overlay) { ui.gbPrefs = null; render(); return; }
     if (ui.view === 'search' && !ui.overlay && ui.qsb?.selecting) { ui.qsb.selecting = false; render(); return; }
     if (ui.view === 'search' && !ui.overlay && ui.qsb?.page) { ui.qsb.page = ui.qsb.page === 'settings' ? '' : 'settings'; render(); return; }
     if (ui.overlay === 'shade') { closeShade(); return; }
@@ -704,6 +715,7 @@
       {action: 'gb-new-folder', id: 'all', title: t('All contacts'), icon: 'ic_launcher_folder_live_contacts'},
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
+    if (ui.overlay === 'gb-dialog-pref') return GBPrefs.dialog(gbPrefsContext(), ui.gbPrefDialog) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-dl') return GBDownloads.dialog(data.downloads?.find(d => d.id === ui.gbdlDialog), i18n.language) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-qsb-clear') return GBSearch.clearDialog(i18n.language);
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
@@ -1629,6 +1641,18 @@
       case 'noop': break;
       case 'browser-search': openSearch(''); break;
       case 'gbqs-corpora': ui.qsb.selecting = !ui.qsb.selecting; render(); break;
+      case 'gbpref-open': ui.overlay = ''; ui.gbPrefs = {app: id}; render(); break;
+      case 'gbpref-check': { const [app, key] = String(id).split(':'), ctx = gbPrefsContext(app), item = GBPrefs.find(ctx, key); if (item) gbPrefSet(key, !GBPrefs.get(item, ctx.values)); gbPrefRender(); break; }
+      case 'gbpref-list': case 'gbpref-action': { const [app, key] = String(id).split(':'), item = GBPrefs.find(gbPrefsContext(app), key); if (!item) break;
+        if (item.toast) { toast('Unavailable in this simulator'); break; }
+        ui.gbPrefDialog = key; ui.overlay = 'gb-dialog-pref'; renderOverlay(); break; }
+      case 'gbpref-pick': { const [app, key, ...rest] = String(id).split(':'), item = GBPrefs.find(gbPrefsContext(app), key), value = rest.join(':'); if (item) gbPrefSet(key, item.kind === 'list' ? Number(value) : value); ui.overlay = ''; gbPrefRender(); break; }
+      case 'gbpref-edit-ok': { const [, key] = String(id).split(':'), input = overlayRoot.querySelector('[data-pref-edit]'); if (input) gbPrefSet(key, input.value.trim()); ui.overlay = ''; gbPrefRender(); break; }
+      // BrowserYesNoPreference: the clears act on the simulated data; Reset to default drops the stored Browser settings.
+      case 'gbpref-confirm': { const [app, key] = String(id).split(':');
+        if (key === 'privacy_clear_history') { data.browserHistory = []; data.qsbShortcuts = (data.qsbShortcuts || []).filter(s => s.kind !== 'url'); }
+        if (key === 'reset_default_preferences') data.appPrefs[app] = {};
+        save(); ui.overlay = ''; gbPrefRender(); break; }
       // DownloadList.handleItemClick: open a finished file with its app, explain a failed or queued one.
       case 'gbdl-open': { const d = data.downloads?.find(x => x.id === Number(id)); if (!d) break;
         if (d.status === 'failed' || d.status === 'queued') { ui.gbdlDialog = d.id; ui.overlay = 'gb-dialog-dl'; renderOverlay(); break; }

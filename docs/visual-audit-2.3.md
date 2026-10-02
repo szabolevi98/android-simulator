@@ -640,3 +640,24 @@ References: android-2.3.6_r1 `packages/providers/DownloadProvider/ui` (`download
   - A finished image or song opens Gallery or Music. Any other file type shows "Cannot open file".
   - A failed download asks Retry / Delete (Retry runs it again until Complete).
   - A queued download asks Keep / Remove.
+
+## Browser, Calendar and Email settings — 2026-10-02
+
+References: android-2.3.6_r1 Browser `browser_preferences.xml` / `BrowserPreferencesPage`, Calendar `preferences.xml` / `CalendarPreferenceActivity`, and Email `account_settings_preferences.xml` / `AccountSettings`.
+
+- **New shared preference engine:** `gb-prefs.js` renders these screens on the GB preference rows. It supports categories, checkboxes, `dependency` greying, ListPreference single-choice dialogs, DialogPreference yes/no confirmations, EditTextPreference dialogs and the RingtonePreference picker. Values are kept in `data.appPrefs`, and the list keeps its scroll position.
+- **Browser → Menu → More → Settings** has the full 2.3.6 list:
+  - Page content: text size, zoom, overview, encoding, pop-ups, images, auto-fit, landscape, JavaScript, plug-ins, background windows and home page.
+  - Privacy: the clears, cookies, form data and location.
+  - Security: passwords and warnings.
+  - Advanced: search engine, Website settings (disabled while no site has data, as in BrowserPreferencesPage) and Reset to default.
+  - Text size, zoom, encoding and home page show their values. Clear history really clears the history.
+- **Calendar → Menu → More → Settings:**
+  - Hide declined events.
+  - Use home time zone, with Home time zone (greyed until enabled, Pacific Time by default).
+  - Alerts: alert type, ringtone, vibrate and the default reminder.
+  - Build version.
+- **Email → Menu → Account settings:**
+  - Account name, your name and signature (edit dialogs; summaries show the values), inbox check frequency, and default account.
+  - Notifications, ringtone and vibrate, which depend on Email notifications.
+  - Incoming / outgoing server entries.

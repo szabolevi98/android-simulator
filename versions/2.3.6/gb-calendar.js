@@ -156,7 +156,7 @@
       {action: 'calendar-today', title: T('goto_today'), icon: 'ic_menu_today'},
       {action: 'event-new', title: T('event_create'), icon: 'ic_menu_add'},
       {action: 'gbset-toast', id: na, title: T('menu_select_calendars'), icon: 'ic_menu_manage'},
-      {action: 'gbset-toast', id: na, title: T('menu_preferences'), icon: 'ic_menu_preferences'}
+      {action: 'gbpref-open', id: 'calendar', title: T('menu_preferences'), icon: 'ic_menu_preferences'}
     ];
   }
 

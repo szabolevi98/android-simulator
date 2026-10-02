@@ -15,6 +15,55 @@ window.GBStrings["framework"] = {
 "de": "Keine zuletzt verwendeten Anwendungen",
 "fr": "Aucune application récente",
 "es": "No hay aplicaciones recientes"
+},
+"ringtone_default": {
+"en": "Default ringtone",
+"hu": "Alapértelmezett csengőhang",
+"de": "Standard-Klingelton",
+"fr": "Sonnerie par défaut",
+"es": "Tono predeterminado"
+},
+"ringtone_silent": {
+"en": "Silent",
+"hu": "Néma",
+"de": "Lautlos",
+"fr": "Silencieux",
+"es": "Silencio"
+},
+"ringtone_picker_title": {
+"en": "Ringtones",
+"hu": "Csengőhangok",
+"de": "Klingeltöne",
+"fr": "Sonneries",
+"es": "Tonos"
+},
+"ok": {
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"cancel": {
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
+"yes": {
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"no": {
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
 }
 }
 };

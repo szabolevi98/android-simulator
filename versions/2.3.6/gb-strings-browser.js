@@ -2,6 +2,447 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["browser"] = {
 "strings": {
+"pref_content_title": {
+"en": "Page content settings",
+"hu": "Oldaltartalom-beállítások",
+"de": "Einstellungen für Seiteninhalt",
+"fr": "Paramètres du contenu de la page",
+"es": "Ajustes de contenido de la página"
+},
+"pref_text_size": {
+"en": "Text size",
+"hu": "Szöveg mérete",
+"de": "Textgröße",
+"fr": "Taille de la police",
+"es": "Tamaño de texto"
+},
+"pref_text_size_dialogtitle": {
+"en": "Text size",
+"hu": "Szöveg mérete",
+"de": "Textgröße",
+"fr": "Taille de la police",
+"es": "Tamaño de texto"
+},
+"pref_default_zoom": {
+"en": "Default zoom",
+"hu": "Alapértelmezett nagyítás",
+"de": "Standard-Zoom",
+"fr": "Zoom par défaut",
+"es": "Zoom predeterminado"
+},
+"pref_default_zoom_dialogtitle": {
+"en": "Default zoom",
+"hu": "Alapértelmezett nagyítás",
+"de": "Standard-Zoom",
+"fr": "Zoom par défaut",
+"es": "Zoom predeterminado"
+},
+"pref_content_load_page": {
+"en": "Open pages in overview",
+"hu": "Oldalak megnyitása áttekintő nézetben",
+"de": "Seitenübersicht",
+"fr": "Aperçu des pages",
+"es": "Abrir en visión general"
+},
+"pref_content_load_page_summary": {
+"en": "Show overview of newly opened pages",
+"hu": "Áttekintést ad az újonnan megnyitott oldalakról",
+"de": "Neue Seiten in der Übersicht anzeigen",
+"fr": "Afficher un aperçu des pages ouvertes récemment",
+"es": "Mostrar información general de las páginas abiertas recientemente"
+},
+"pref_default_text_encoding": {
+"en": "Text encoding",
+"hu": "Szöveg kódolása",
+"de": "Textcodierung",
+"fr": "Codage du texte",
+"es": "Codificación de texto"
+},
+"pref_default_text_encoding_dialogtitle": {
+"en": "Text encoding",
+"hu": "Szöveg kódolása",
+"de": "Textcodierung",
+"fr": "Codage du texte",
+"es": "Codificación de texto"
+},
+"pref_content_block_popups": {
+"en": "Block pop-up windows",
+"hu": "Előugró ablakok letiltása",
+"de": "Pop-ups blockieren",
+"fr": "Bloquer les pop-up",
+"es": "Bloquear pop-ups"
+},
+"pref_content_load_images": {
+"en": "Load images",
+"hu": "Képek betöltése",
+"de": "Bilder laden",
+"fr": "Charger les images",
+"es": "Cargar imágenes"
+},
+"pref_content_load_images_summary": {
+"en": "Display images on web pages",
+"hu": "Képek megjelenítése a weboldalakon",
+"de": "Bilder auf Webseiten anzeigen",
+"fr": "Afficher les images des pages Web",
+"es": "Mostrar imágenes en páginas web"
+},
+"pref_content_autofit": {
+"en": "Auto-fit pages",
+"hu": "Oldalak automatikus igazítása",
+"de": "Autom. Anpassung",
+"fr": "Ajustement auto des pages",
+"es": "Ajustar páginas automát."
+},
+"pref_content_autofit_summary": {
+"en": "Format web pages to fit the screen",
+"hu": "A képernyőhöz igazítja a weboldalakat",
+"de": "Webseiten an den Bildschirm anpassen",
+"fr": "Configurer les pages Web pour qu'elles s'ajustent à l'écran",
+"es": "Configurar las páginas web para ajustarlas a la pantalla"
+},
+"pref_content_landscape_only": {
+"en": "Landscape-only display",
+"hu": "Megjelenítés csak fekvő tájolással",
+"de": "Anzeige nur im Querformat",
+"fr": "Mode Paysage",
+"es": "Vista solo horizontal"
+},
+"pref_content_landscape_only_summary": {
+"en": "Display pages only in the wider, landscape screen orientation",
+"hu": "Csak a szélesebb, fekvő helyzetben jeleníti meg az oldalakat",
+"de": "Seiten nur im Querformat anzeigen",
+"fr": "Toujours afficher les pages dans le sens de la largeur (orientation paysage)",
+"es": "Mostrar solo las páginas con la orientación de pantalla horizontal"
+},
+"pref_content_javascript": {
+"en": "Enable JavaScript",
+"hu": "JavaScript engedélyezése",
+"de": "JavaScript aktivieren",
+"fr": "Activer JavaScript",
+"es": "Habilitar JavaScript"
+},
+"pref_content_plugins": {
+"en": "Enable plug-ins",
+"hu": "Plug-inek engedélyezése",
+"de": "Plug-ins aktivieren",
+"fr": "Activer les plug-ins",
+"es": "Habilitar complementos"
+},
+"pref_content_open_in_background": {
+"en": "Open in background",
+"hu": "Megnyitás a háttérben",
+"de": "Im Hintergrund öffnen",
+"fr": "Ouvrir en arrière-plan",
+"es": "Abrir en segundo plano"
+},
+"pref_content_open_in_background_summary": {
+"en": "Open new windows behind the current one",
+"hu": "Új ablakok megnyitása a jelenlegi mögött",
+"de": "Neues Fenster hinter dem aktuellen Fenster öffnen",
+"fr": "Ouvrir les nouvelles fenêtres derrière la fenêtre actuelle",
+"es": "Abrir nuevas ventanas detrás de la actual"
+},
+"pref_content_homepage": {
+"en": "Set home page",
+"hu": "Főoldal beállítása",
+"de": "Startseite festlegen",
+"fr": "Page d'accueil",
+"es": "Escritorio"
+},
+"pref_privacy_title": {
+"en": "Privacy settings",
+"hu": "Adatvédelmi beállítások",
+"de": "Datenschutzeinstellungen",
+"fr": "Paramètres de confidentialité",
+"es": "Ajustes de privacidad"
+},
+"pref_privacy_clear_cache": {
+"en": "Clear cache",
+"hu": "A gyorsítótár törlése",
+"de": "Cache löschen",
+"fr": "Vider le cache",
+"es": "Borrar caché"
+},
+"pref_privacy_clear_cache_summary": {
+"en": "Clear locally cached content and databases",
+"hu": "A helyileg gyorsítótárazott tartalmak és adatbázisok törlése",
+"de": "Content und Datenbanken aus dem lokalen Cache löschen",
+"fr": "Supprimer les bases de données et le contenu localement en cache",
+"es": "Borrar bases de datos y contenido de la memoria caché local"
+},
+"pref_privacy_clear_cache_dlg": {
+"en": "Locally cached content and databases will be deleted.",
+"hu": "A helyileg gyorsítótárazott tartalmak és adatbázisok törlésre kerülnek.",
+"de": "Content und Datenbanken werden aus dem lokalen Cache gelöscht.",
+"fr": "Les bases de données et le contenu mis localement en cache vont être supprimés.",
+"es": "Las bases de datos y el contenido se eliminarán de la memoria caché local."
+},
+"pref_privacy_clear_history": {
+"en": "Clear history",
+"hu": "Előzmények törlése",
+"de": "Verlauf löschen",
+"fr": "Effacer l'historique",
+"es": "Borrar historial"
+},
+"pref_privacy_clear_history_summary": {
+"en": "Clear the browser navigation history",
+"hu": "A böngésző navigációs előzményeinek törlése",
+"de": "Navigationsverlauf des Browsers löschen",
+"fr": "Effacer l'historique du navigateur",
+"es": "Borrar el historial de exploración del navegador"
+},
+"pref_privacy_clear_history_dlg": {
+"en": "The browser navigation history will be deleted.",
+"hu": "A böngésző navigációs előzményei törlésre kerülnek.",
+"de": "Der Navigationsverlauf des Browsers wird gelöscht.",
+"fr": "L'historique du navigateur sera supprimé.",
+"es": "Se eliminará el historial de exploración del navegador."
+},
+"pref_security_accept_cookies": {
+"en": "Accept cookies",
+"hu": "Cookie-k fogadása",
+"de": "Cookies akzeptieren",
+"fr": "Accepter les cookies",
+"es": "Aceptar cookies"
+},
+"pref_security_accept_cookies_summary": {
+"en": "Allow sites to save and read \"cookie\" data",
+"hu": "A webhelyek elmenthetnek és beolvashatnak \"cookie\"-adatokat",
+"de": "Speichern und Lesen von Cookie-Daten zulassen",
+"fr": "Autoriser les sites à enregistrer et lire les données des cookies",
+"es": "Permitir que los sitios guarden y lean datos de cookies"
+},
+"pref_privacy_clear_cookies": {
+"en": "Clear all cookie data",
+"hu": "Az összes cookie törlése",
+"de": "Cookie-Daten löschen",
+"fr": "Effacer tous les cookies",
+"es": "Borrar datos de cookies"
+},
+"pref_privacy_clear_cookies_summary": {
+"en": "Clear all browser cookies",
+"hu": "A böngésző összes cookie-jának törlése",
+"de": "Alle Browser-Cookies löschen",
+"fr": "Effacer tous les cookies du navigateur",
+"es": "Borrar todas las cookies del navegador"
+},
+"pref_privacy_clear_cookies_dlg": {
+"en": "All cookies will be deleted.",
+"hu": "Minden cookie törlésre kerül.",
+"de": "Alle Cookies werden gelöscht.",
+"fr": "Tous les cookies vont être supprimés.",
+"es": "Se eliminarán todas las cookies."
+},
+"pref_security_save_form_data": {
+"en": "Remember form data",
+"hu": "Űrlapadatok megjegyzése",
+"de": "Formulardaten merken",
+"fr": "Données de formulaires",
+"es": "Recordar formularios"
+},
+"pref_security_save_form_data_summary": {
+"en": "Remember data I type in forms for later use",
+"hu": "Későbbi felhasználás céljából emlékezzen az űrlapokba beírt adatokra",
+"de": "Daten in Formularen zur späteren Verwendung merken",
+"fr": "Mémoriser les données saisies dans les formulaires pour les réutiliser",
+"es": "Recordar datos introducidos en formularios"
+},
+"pref_privacy_clear_form_data": {
+"en": "Clear form data",
+"hu": "Űrlapadatok törlése",
+"de": "Formulardaten löschen",
+"fr": "Eff. données formulaires",
+"es": "Borrar datos formulario"
+},
+"pref_privacy_clear_form_data_summary": {
+"en": "Clear all the saved form data",
+"hu": "Minden mentett űrlapadat törlése",
+"de": "Alle gespeicherten Formulardaten löschen",
+"fr": "Effacer toutes les données de formulaire enregistrées",
+"es": "Borrar todos los datos de formulario guardados"
+},
+"pref_privacy_clear_form_data_dlg": {
+"en": "All saved form data will be deleted.",
+"hu": "Az összes mentett űrlapadat törlésre kerül.",
+"de": "Alle gespeicherten Formulardaten werden gelöscht.",
+"fr": "Toutes les données de formulaire enregistrées seront supprimées.",
+"es": "Se eliminarán todos los datos de formulario guardados."
+},
+"pref_privacy_enable_geolocation": {
+"en": "Enable location",
+"hu": "Helyadatok engedélyezése",
+"de": "Standort aktivieren",
+"fr": "Activer la localisation",
+"es": "Habilitar ubicación"
+},
+"pref_privacy_enable_geolocation_summary": {
+"en": "Allow sites to request access to your location",
+"hu": "A webhelyek hozzáférést kérhetnek a tartózkodási helyéhez",
+"de": "Standortzugriff für Websites zulassen",
+"fr": "Autoriser les sites à demander l'accès à vos données de localisation",
+"es": "Permitir que los sitios soliciten acceso a tu ubicación"
+},
+"pref_privacy_clear_geolocation_access": {
+"en": "Clear location access",
+"hu": "Helyhozzáférés letiltása",
+"de": "Standortzugriff löschen",
+"fr": "Supprimer l'accès",
+"es": "Deshabilitar ubicación"
+},
+"pref_privacy_clear_geolocation_access_summary": {
+"en": "Clear location access for all websites",
+"hu": "Helyhozzáférés letiltása minden webhelynél",
+"de": "Standortzugriff für alle Websites löschen",
+"fr": "Supprimer l'accès aux données de localisation pour tous les sites Web",
+"es": "Deshabilitar acceso a la ubicación para todos los sitios web"
+},
+"pref_privacy_clear_geolocation_access_dlg": {
+"en": "Clear location access for all websites",
+"hu": "Helyhozzáférés letiltása minden webhelynél",
+"de": "Standortzugriff für alle Websites löschen",
+"fr": "Supprimer l'accès aux données de localisation pour tous les sites Web",
+"es": "Deshabilitar acceso a la ubicación para todos los sitios web"
+},
+"pref_security_title": {
+"en": "Security settings",
+"hu": "Biztonsági beállítások",
+"de": "Sicherheitseinstellungen",
+"fr": "Paramètres de sécurité",
+"es": "Ajustes de seguridad"
+},
+"pref_security_remember_passwords": {
+"en": "Remember passwords",
+"hu": "Jelszavak megjegyzése",
+"de": "Passwörter merken",
+"fr": "Mém. mots de passe",
+"es": "Recordar contraseñas"
+},
+"pref_security_remember_passwords_summary": {
+"en": "Save usernames and passwords for websites",
+"hu": "Menti a webhelyekhez tartozó felhasználóneveket és jelszavakat",
+"de": "Nutzernamen und Passwörter für Websites speichern",
+"fr": "Enregistrer les noms d'utilisateur et les mots de passe pour les sites Web",
+"es": "Guardar nombres de usuario y contraseñas de sitios web"
+},
+"pref_privacy_clear_passwords": {
+"en": "Clear passwords",
+"hu": "Jelszavak törlése",
+"de": "Passwörter löschen",
+"fr": "Eff. les mots de passe",
+"es": "Borrar contraseñas"
+},
+"pref_privacy_clear_passwords_summary": {
+"en": "Clear all saved passwords",
+"hu": "Az összes mentett jelszó törlése",
+"de": "Alle gespeicherten Passwörter löschen",
+"fr": "Effacer tous les mots de passe enregistrés",
+"es": "Borrar todas las contraseñas guardadas"
+},
+"pref_privacy_clear_passwords_dlg": {
+"en": "All saved passwords will be deleted.",
+"hu": "Az összes mentett jelszó törlésre kerül.",
+"de": "Alle gespeicherten Passwörter werden gelöscht.",
+"fr": "Tous les mots de passe enregistrés seront effacés.",
+"es": "Se eliminarán todas las contraseñas guardadas."
+},
+"pref_security_show_security_warning": {
+"en": "Show security warnings",
+"hu": "Biztonsági figyelmeztetések megjelenítése",
+"de": "Sicherheitswarnungen",
+"fr": "Avertiss. de sécurité",
+"es": "Mostrar advertencias"
+},
+"pref_security_show_security_warning_summary": {
+"en": "Show warning if there is a problem with a site's security",
+"hu": "Figyelmeztetés megjelenítése, ha gond van a webhely biztonságával",
+"de": "Warnung anzeigen, wenn bei einer Website Sicherheitsprobleme auftreten",
+"fr": "Afficher un avertissement en cas de problème de sécurité d'un site",
+"es": "Mostrar advertencia si hay algún problema con la seguridad del sitio"
+},
+"pref_extras_title": {
+"en": "Advanced settings",
+"hu": "Speciális beállítások",
+"de": "Erweiterte Einstellungen",
+"fr": "Paramètres avancés",
+"es": "Ajustes avanzados"
+},
+"pref_content_search_engine": {
+"en": "Set search engine",
+"hu": "Keresőmotor beállítása",
+"de": "Suchmaschine festlegen",
+"fr": "Définir le moteur de recherche",
+"es": "Establecer motor de búsqueda"
+},
+"pref_content_search_engine_summary": {
+"en": "Select a search engine",
+"hu": "Válasszon ki egy keresőmotort",
+"de": "Suchmaschine auswählen",
+"fr": "Sélectionner un moteur de recherche",
+"es": "Seleccionar un motor de búsqueda"
+},
+"pref_extras_website_settings": {
+"en": "Website settings",
+"hu": "Webhelyek beállításai",
+"de": "Website-Einstellungen",
+"fr": "Paramètres du site Web",
+"es": "Ajustes del sitio web"
+},
+"pref_extras_website_settings_summary": {
+"en": "Advanced settings for individual websites",
+"hu": "Speciális beállítások az egyes webhelyekhez",
+"de": "Erweiterte Einstellungen für einzelne Websites",
+"fr": "Paramètres avancés de sites Web individuels",
+"es": "Ajustes avanzados de sitios web individuales"
+},
+"pref_extras_reset_default": {
+"en": "Reset to default",
+"hu": "Visszaállítás alaphelyzetbe",
+"de": "Zurück auf Standard",
+"fr": "Valeurs par défaut",
+"es": "Restablecer valores predeterminados"
+},
+"pref_extras_reset_default_summary": {
+"en": "Restore default settings",
+"hu": "Alapértelmezett beállítások visszaállítása",
+"de": "Standardeinstellungen wiederherstellen",
+"fr": "Rétablir les paramètres par défaut",
+"es": "Restaurar ajustes predeterminados"
+},
+"pref_extras_reset_default_dlg": {
+"en": "Settings will revert to default values.",
+"hu": "A beállítások visszaállnak az alapértelmezett értékekre.",
+"de": "Die Einstellungen werden auf die Standardeinstellung zurückgesetzt.",
+"fr": "Les paramètres par défaut seront rétablis.",
+"es": "Se restablecerán los ajustes predeterminados."
+},
+"pref_extras_reset_default_dlg_title": {
+"en": "Reset to default",
+"hu": "Visszaállítás alaphelyzetbe",
+"de": "Auf Standardeinstellung zurücksetzen",
+"fr": "Rétablir les valeurs par défaut",
+"es": "Restablecer valores predeterminados"
+},
+"clear": {
+"en": "Clear",
+"hu": "Törlés",
+"de": "Löschen",
+"fr": "Effacer",
+"es": "Borrar"
+},
+"ok": {
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"cancel": {
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
 "new_tab": {
 "en": "New window",
 "hu": "Új ablak",
@@ -337,6 +778,146 @@ window.GBStrings["browser"] = {
 "de": "Verknüpfung auf dem Startbildschirm erstellen",
 "fr": "Raccourci (page d'accueil)",
 "es": "Añadir acceso directo al escritorio"
+}
+},
+"arrays": {
+"pref_text_size_choices": {
+"en": [
+"Tiny",
+"Small",
+"Normal",
+"Large",
+"Huge"
+],
+"hu": [
+"Apró",
+"Kicsi",
+"Normál",
+"Nagy",
+"Óriási"
+],
+"de": [
+"Sehr klein",
+"Klein",
+"Normal",
+"Groß",
+"Sehr groß"
+],
+"fr": [
+"Très petite",
+"Petite",
+"Normale",
+"Grande",
+"Très grande"
+],
+"es": [
+"Muy pequeño",
+"Pequeño",
+"Normal",
+"Grande",
+"Enorme"
+]
+},
+"pref_default_zoom_choices": {
+"en": [
+"Far",
+"Medium",
+"Close"
+],
+"hu": [
+"Távoli",
+"Közepes",
+"Közeli"
+],
+"de": [
+"Entfernt",
+"Mittel",
+"Nah"
+],
+"fr": [
+"Éloigné",
+"Moyen",
+"Proche"
+],
+"es": [
+"Lejos",
+"Media distancia",
+"Cerca"
+]
+},
+"pref_default_text_encoding_choices": {
+"en": [
+"Latin-1 (ISO-8859-1)",
+"Unicode (UTF-8)",
+"Chinese (GBK)",
+"Chinese (Big5)",
+"Japanese (ISO-2022-JP)",
+"Japanese (SHIFT_JIS)",
+"Japanese (EUC-JP)"
+],
+"hu": [
+"Latin-1 (ISO-8859-1)",
+"Unicode (UTF-8)",
+"Kínai (GBK)",
+"Kínai (Big5)",
+"Japán (ISO-2022-JP)",
+"Japán (SHIFT_JIS)",
+"Japán (EUC-JP)"
+],
+"de": [
+"Latin-1 (ISO-8859-1)",
+"Unicode (UTF-8)",
+"Chinesisch (GBK)",
+"Chinesisch (Big5)",
+"Japanisch (ISO-2022-JP)",
+"Japanisch (SHIFT_JIS)",
+"Japanisch (EUC-JP)"
+],
+"fr": [
+"Latin-1 (ISO-8859-1)",
+"Unicode (UTF-8)",
+"Chinois (GBK)",
+"Chinois (Big5)",
+"Japonais (ISO-2022-JP)",
+"Japonais (SHIFT_JIS)",
+"Japonais (EUC-JP)"
+],
+"es": [
+"Latín-1 (ISO-8859-1)",
+"Unicode (UTF-8)",
+"Chino (GBK)",
+"Chino (Big5)",
+"Japonés (ISO-2022-JP)",
+"Japonés (SHIFT_JIS)",
+"Japonés (EUC-JP)"
+]
+},
+"pref_content_plugins_choices": {
+"en": [
+"Always on",
+"On demand",
+"Off"
+],
+"hu": [
+"Mindig bekapcsolva",
+"Igény szerint",
+"Ki"
+],
+"de": [
+"Immer an",
+"Nach Bedarf",
+"Aus"
+],
+"fr": [
+"Toujours activé",
+"À la demande",
+"Désactivé"
+],
+"es": [
+"Siempre activado",
+"A petición",
+"Desactivado"
+]
 }
 }
 };

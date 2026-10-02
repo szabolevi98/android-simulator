@@ -63,16 +63,37 @@ repeat_current_notif repeat_off_notif emptyplaylist'''.split(),
     'browser': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_browser/android-2.3.6_r1/res/values%s/strings.xml',
                     'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
-        'keys': '''new_tab active_tabs tab_bookmarks tab_most_visited tab_history added_to_bookmarks removed_from_bookmarks title_bar_loading page_info
+        'keys': '''pref_content_title pref_text_size pref_text_size_dialogtitle pref_default_zoom pref_default_zoom_dialogtitle pref_content_load_page
+pref_content_load_page_summary pref_default_text_encoding pref_default_text_encoding_dialogtitle pref_content_block_popups pref_content_load_images
+pref_content_load_images_summary pref_content_autofit pref_content_autofit_summary pref_content_landscape_only pref_content_landscape_only_summary
+pref_content_javascript pref_content_plugins pref_content_open_in_background pref_content_open_in_background_summary pref_content_homepage
+pref_privacy_title pref_privacy_clear_cache pref_privacy_clear_cache_summary pref_privacy_clear_cache_dlg pref_privacy_clear_history
+pref_privacy_clear_history_summary pref_privacy_clear_history_dlg pref_security_accept_cookies pref_security_accept_cookies_summary
+pref_privacy_clear_cookies pref_privacy_clear_cookies_summary pref_privacy_clear_cookies_dlg pref_security_save_form_data
+pref_security_save_form_data_summary pref_privacy_clear_form_data pref_privacy_clear_form_data_summary pref_privacy_clear_form_data_dlg
+pref_privacy_enable_geolocation pref_privacy_enable_geolocation_summary pref_privacy_clear_geolocation_access
+pref_privacy_clear_geolocation_access_summary pref_privacy_clear_geolocation_access_dlg pref_security_title pref_security_remember_passwords
+pref_security_remember_passwords_summary pref_privacy_clear_passwords pref_privacy_clear_passwords_summary pref_privacy_clear_passwords_dlg
+pref_security_show_security_warning pref_security_show_security_warning_summary pref_extras_title pref_content_search_engine
+pref_content_search_engine_summary pref_extras_website_settings pref_extras_website_settings_summary pref_extras_reset_default
+pref_extras_reset_default_summary pref_extras_reset_default_dlg pref_extras_reset_default_dlg_title clear ok cancel
+new_tab active_tabs tab_bookmarks tab_most_visited tab_history added_to_bookmarks removed_from_bookmarks title_bar_loading page_info
 page_info_address stop reload back forward location name save_to_bookmarks edit_bookmark open_bookmark remove_bookmark bookmark_needs_title
 delete_bookmark open_in_new_window goto_dot find_dot select_dot tab_picker_title tab_picker_remove_tab bookmarks history menu_view_download
 copy_page_url share_page menu_preferences clear_history empty_history add_bookmark_short search_hint
 bookmark_page switch_to_thumbnails switch_to_list set_as_homepage contextmenu_openlink contextmenu_openlink_newwindow contextmenu_sharelink
 contextmenu_copylink remove_history_item create_shortcut_bookmark'''.split(),
+        'arrays': ['pref_text_size_choices', 'pref_default_zoom_choices', 'pref_default_text_encoding_choices', 'pref_content_plugins_choices'],
+        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_browser/android-2.3.6_r1/res/values%s/strings.xml'],
     },
     'email': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_email/android-2.3.6_r1/res/values%s/strings.xml'],
-        'keys': '''app_name compose_title send_action reply_action reply_all_action delete_action forward_action discard_action save_draft_action
+        'keys': '''account_settings_title_fmt account_settings_description_label account_settings_name_label account_settings_signature_label
+account_settings_signature_hint account_settings_mail_check_frequency_label account_settings_default_label account_settings_default_summary
+account_settings_notifications account_settings_notify_label account_settings_notify_summary account_settings_ringtone
+account_settings_vibrate_when_label account_settings_vibrate_when_summary account_settings_vibrate_when_dlg_title account_settings_servers
+account_settings_incoming_label account_settings_outgoing_label account_settings_action okay_action cancel_action
+app_name compose_title send_action reply_action reply_all_action delete_action forward_action discard_action save_draft_action
 read_unread_action favorite_action set_star_action remove_star_action refresh_action add_account_action deselect_all_action compose_action
 search_action open_action folders_action accounts_action mark_as_read_action mark_as_unread_action add_cc_bcc_action add_attachment_action
 choose_attachment_dialog_title mailbox_name_display_inbox mailbox_name_display_outbox mailbox_name_display_drafts mailbox_name_display_trash
@@ -83,6 +104,8 @@ message_compose_error_no_recipients message_compose_error_invalid_email message_
 message_saved_toast notification_new_title okay_action cancel_action read_action unread_action status_network_error
 account_settings_action'''.split(),
         'plurals': ['message_deleted_toast'],
+        'arrays': ['account_settings_check_frequency_entries', 'account_settings_vibrate_when_entries'],
+        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_email/android-2.3.6_r1/res/values%s/arrays.xml', 'https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_email/android-2.3.6_r1/res/values%s/strings.xml'],
     },
     'gallery': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_gallery3d/android-2.3.6_r1/res/values%s/strings.xml'],
@@ -105,7 +128,7 @@ pref_exposure_title zoom_control_title switch_to_camera_lable switch_to_video_la
     },
     'framework': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
-        'keys': 'recent_tasks_title no_recent_tasks'.split(),
+        'keys': 'recent_tasks_title no_recent_tasks ringtone_default ringtone_silent ringtone_picker_title ok cancel yes no'.split(),
     },
     'settings2': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/strings.xml',
@@ -164,8 +187,13 @@ wallpaper_vis5 vis2_desc vis3_desc vis4_desc vis5_desc wallpaper_magicsmoke magi
     },
     'calendar': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
-        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],
-        'keys': '''app_label what_label where_label timezone_label attendees_label repeats_label no_title_label show_agenda_view show_day_view agenda_view
+        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml',
+                          'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],
+        'keys': '''preferences_general_title preferences_hide_declined_title preferences_use_home_tz_title preferences_use_home_tz_descrip
+preferences_home_tz_title preferences_alerts_title preferences_alerts_type_title preferences_alerts_type_dialog preferences_alerts_ringtone_title
+preferences_alerts_vibrateWhen_title preferences_alerts_vibrateWhen_summary prefDialogTitle_vibrateWhen preferences_default_reminder_title
+preferences_default_reminder_dialog preferences_about_title preferences_build_version
+app_label what_label where_label timezone_label attendees_label repeats_label no_title_label show_agenda_view show_day_view agenda_view
 day_view week_view month_view event_view event_create event_edit event_delete goto_today menu_select_calendars menu_preferences calendars_title
 event_edit_title hint_what hint_where hint_description hint_attendees creating_event saving_event event_info_title add_new_reminder
 edit_event_to_label edit_event_from_label edit_event_all_day_label edit_event_calendar_label edit_event_show_extra_options edit_event_hide_extra_options
@@ -173,7 +201,7 @@ description_label presence_label privacy_label reminders_label view_event_calend
 view_event_response_label agenda_today loading show_older_events show_newer_events delete_label delete_event_label save_label discard_label
 does_not_repeat daily every_weekday weekly monthly_on_day_count monthly yearly_plain monthly_on_day yearly modify_event modify_all
 modify_all_following delete_this_event_title delete_title preferences_title synced_visible alert_title'''.split(),
-        'arrays': ['reminder_minutes_labels', 'reminder_minutes_values', 'availability', 'visibility', 'ordinal_labels', 'delete_repeating_labels'],
+        'arrays': ['preferences_alert_type_labels', 'prefEntries_alerts_vibrateWhen', 'preferences_default_reminder_labels', 'timezone_labels', 'timezone_values', 'reminder_minutes_labels', 'reminder_minutes_values', 'availability', 'visibility', 'ordinal_labels', 'delete_repeating_labels'],
     },
 }
 
