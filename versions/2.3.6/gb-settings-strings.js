@@ -1331,6 +1331,412 @@ window.GBSettingsStrings = {
 "fr": "Paramètres de la synthèse vocale",
 "es": "Configuración síntesis voz"
 },
+"wifi_settings_category": {
+"en": "Wi-Fi settings",
+"hu": "Wi-Fi beállítások",
+"de": "WLAN-Einstellungen",
+"fr": "Paramètres Wi-Fi",
+"es": "Ajustes de Wi-Fi"
+},
+"wifi_notify_open_networks": {
+"en": "Network notification",
+"hu": "Hálózati értesítés",
+"de": "Netzwerkhinweis",
+"fr": "Notification de réseau",
+"es": "Notificación de red"
+},
+"wifi_notify_open_networks_summary": {
+"en": "Notify me when an open network is available",
+"hu": "Értesítést kérek az elérhető nyitott hálózatokról",
+"de": "Benachrichtigen, wenn ein offenes Netzwerk verfügbar ist",
+"fr": "Me notifier lorsqu'un réseau ouvert est disponible",
+"es": "Informarme cuando haya una red abierta disponible"
+},
+"wifi_access_points": {
+"en": "Wi-Fi networks",
+"hu": "Wi-Fi hálózatok",
+"de": "WLAN-Netzwerke",
+"fr": "Réseaux Wi-Fi",
+"es": "Redes Wi-Fi"
+},
+"wifi_add_network": {
+"en": "Add Wi-Fi network",
+"hu": "Wi-Fi hálózat hozzáadása",
+"de": "WLAN-Netzwerk hinzufügen",
+"fr": "Ajouter un réseau Wi-Fi",
+"es": "Añadir red Wi-Fi"
+},
+"wifi_remembered": {
+"en": "Remembered",
+"hu": "Megjegyezve",
+"de": "Gespeichert",
+"fr": "Réseaux enregistrés",
+"es": "Recordada"
+},
+"wifi_not_in_range": {
+"en": "Not in range",
+"hu": "Hatókörön kívül",
+"de": "Nicht in Reichweite",
+"fr": "Hors de portée",
+"es": "Fuera de rango"
+},
+"wifi_secured": {
+"en": "Secured with %1$s",
+"hu": "%1$s biztosítással",
+"de": "Gesichert mit %1$s",
+"fr": "Sécurisé par %1$s",
+"es": "Protegida con %1$s"
+},
+"wifi_menu_scan": {
+"en": "Scan",
+"hu": "Keresés",
+"de": "Scan",
+"fr": "Rechercher",
+"es": "Buscar"
+},
+"wifi_menu_advanced": {
+"en": "Advanced",
+"hu": "Speciális",
+"de": "Erweitert",
+"fr": "Options avancées",
+"es": "Avanzado"
+},
+"wifi_connect": {
+"en": "Connect",
+"hu": "Kapcsolódás",
+"de": "Verbinden",
+"fr": "Se connecter",
+"es": "Establecer conexión"
+},
+"wifi_forget": {
+"en": "Forget",
+"hu": "Elfelejt",
+"de": "Entfernen",
+"fr": "Retirer",
+"es": "Borrar"
+},
+"wifi_cancel": {
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
+"wifi_password": {
+"en": "Password",
+"hu": "Jelszó",
+"de": "Passwort",
+"fr": "Mot de passe",
+"es": "Contraseña"
+},
+"wifi_security": {
+"en": "Security",
+"hu": "Biztonság",
+"de": "Sicherheit",
+"fr": "Sécurité",
+"es": "Seguridad"
+},
+"wifi_signal": {
+"en": "Signal strength",
+"hu": "Jelerősség",
+"de": "Signalstärke",
+"fr": "Intensité du signal",
+"es": "Intensidad de la señal"
+},
+"wifi_status": {
+"en": "Status",
+"hu": "Állapot",
+"de": "Status",
+"fr": "État",
+"es": "Estado"
+},
+"wifi_speed": {
+"en": "Link speed",
+"hu": "Vonalsebesség",
+"de": "Verbindungsgeschwindigkeit",
+"fr": "Vitesse de connexion",
+"es": "Velocidad de enlace"
+},
+"wifi_ip_address": {
+"en": "IP address",
+"hu": "IP-cím",
+"de": "IP-Adresse",
+"fr": "Adresse IP",
+"es": "Dirección IP"
+},
+"wifi_advanced_titlebar": {
+"en": "Advanced",
+"hu": "Speciális",
+"de": "Erweitert",
+"fr": "Options avancées",
+"es": "Avanzado"
+},
+"wifi_setting_sleep_policy_title": {
+"en": "Wi-Fi sleep policy",
+"hu": "Wi-Fi alvás irányelve",
+"de": "WLAN Standby-Richtlinie",
+"fr": "Politique de veille Wi-Fi",
+"es": "Política de suspensión de Wi-Fi"
+},
+"wifi_setting_sleep_policy_summary": {
+"en": "Specify when to switch from Wi-Fi to mobile data",
+"hu": "Adja meg, mikor legyen váltás Wi-Fi-ről mobil adatokra",
+"de": "Festlegen, wann von WLAN auf mobile Daten umgeschaltet werden soll",
+"fr": "Indiquer quand basculer du Wi-Fi sur le réseau de données mobile",
+"es": "Especificar cuándo cambiar de Wi-Fi a datos móviles"
+},
+"wifi_advanced_mac_address_title": {
+"en": "MAC address",
+"hu": "MAC-cím",
+"de": "MAC-Adresse",
+"fr": "Adresse MAC",
+"es": "Dirección MAC"
+},
+"wifi_advanced_ip_address_title": {
+"en": "IP address",
+"hu": "IP-cím",
+"de": "IP-Adresse",
+"fr": "Adresse IP",
+"es": "Dirección IP"
+},
+"wifi_tether_enabled_subtext": {
+"en": "Portable hotspot %1$s active",
+"hu": "A(z) %1$s hordozható hotspot aktív",
+"de": "Mobiler Hotspot %1$s aktiv",
+"fr": "Point d'accès Wi-Fi mobile %1$s actif",
+"es": "%1$s de zona Wi-Fi portátil activa"
+},
+"wifi_ssid": {
+"en": "Network SSID",
+"hu": "Hálózati SSID",
+"de": "Netzwerk-SSID",
+"fr": "SSID du réseau",
+"es": "SSID de red"
+},
+"wifi_show_password": {
+"en": "Show password.",
+"hu": "Jelszó megjelenítése.",
+"de": "Passwort anzeigen",
+"fr": "Afficher le mot de passe",
+"es": "Mostrar contraseña"
+},
+"wifi_save": {
+"en": "Save",
+"hu": "Mentés",
+"de": "Speichern",
+"fr": "Enregistrer",
+"es": "Guardar"
+},
+"wifi_in_airplane_mode": {
+"en": "In airplane mode",
+"hu": "Repülőgép üzemmódban",
+"de": "Im Flugmodus",
+"fr": "En mode avion",
+"es": "Modo avión"
+},
+"bluetooth": {
+"en": "Bluetooth",
+"hu": "Bluetooth",
+"de": "Bluetooth",
+"fr": "Bluetooth",
+"es": "Ajustes de Bluetooth"
+},
+"bluetooth_device_name": {
+"en": "Device name",
+"hu": "Eszköz neve",
+"de": "Gerätename",
+"fr": "Nom de l'appareil",
+"es": "Nombre del dispositivo"
+},
+"bluetooth_visibility": {
+"en": "Discoverable",
+"hu": "Felderíthető",
+"de": "Sichtbar",
+"fr": "Identifiable",
+"es": "Visible"
+},
+"bluetooth_is_discoverable": {
+"en": "Discoverable for %1$s seconds…",
+"hu": "%1$s másodpercig felderíthető...",
+"de": "Für %1$s Sekunden sichtbar...",
+"fr": "Identifiable pendant %1$s secondes...",
+"es": "Visible durante %1$s segundos..."
+},
+"bluetooth_not_discoverable": {
+"en": "Make device discoverable",
+"hu": "Az eszköz legyen felderíthető",
+"de": "Gerät sichtbar machen",
+"fr": "Permettre l'identification de l'appareil",
+"es": "Hacer visible el dispositivo"
+},
+"bluetooth_visibility_timeout": {
+"en": "Discoverable timeout",
+"hu": "Felfedezhetőségi időtartam",
+"de": "Timeout für Sichtbarkeit",
+"fr": "Délai au-delà duquel l'appareil n'est plus identifiable",
+"es": "Tiempo de espera de visibilidad del dispositivo"
+},
+"bluetooth_visibility_timeout_summary": {
+"en": "Set how long device will be discoverable",
+"hu": "Állítsa be, milyen hosszan legyen felfedezhető az eszköz",
+"de": "Stellen Sie ein, wie lang das Gerät sichtbar sein soll.",
+"fr": "Définir la durée pendant laquelle l'appareil est identifiable",
+"es": "Definir cuánto tiempo estará visible el dispositivo"
+},
+"bluetooth_preference_scan_title": {
+"en": "Scan for devices",
+"hu": "Eszközök keresése",
+"de": "Scan nach Geräten",
+"fr": "Rechercher des appareils",
+"es": "Buscar dispositivos"
+},
+"bluetooth_devices": {
+"en": "Bluetooth devices",
+"hu": "Bluetooth eszközök",
+"de": "Bluetooth-Geräte",
+"fr": "Appareils Bluetooth",
+"es": "Dispositivos Bluetooth"
+},
+"bluetooth_connected": {
+"en": "Connected",
+"hu": "Csatlakozva",
+"de": "Verbunden",
+"fr": "Connecté",
+"es": "Conectado"
+},
+"bluetooth_paired": {
+"en": "Paired but not connected",
+"hu": "Párosítva van, de nincs csatlakoztatva",
+"de": "Pairing aktiv, aber nicht verbunden",
+"fr": "Relié, mais pas connecté",
+"es": "Sincronizado, pero sin conexión"
+},
+"bluetooth_not_connected": {
+"en": "Pair with this device",
+"hu": "Párosítás ezzel az eszközzel",
+"de": "Pairing mit diesem Gerät",
+"fr": "Associer à cet appareil",
+"es": "Sincronizar con este dispositivo"
+},
+"enable_adb": {
+"en": "USB debugging",
+"hu": "USB hibakeresés",
+"de": "USB-Debugging",
+"fr": "Débogage USB",
+"es": "Depuración USB"
+},
+"enable_adb_summary": {
+"en": "Debug mode when USB is connected",
+"hu": "Hibakeresés mód USB csatlakoztatásakor",
+"de": "Debugmodus bei Anschluss über USB",
+"fr": "Mode débogage lorsqu'un câble USB est connecté",
+"es": "Modo de depuración cuando está conectado el dispositivo USB"
+},
+"keep_screen_on": {
+"en": "Stay awake",
+"hu": "Nem kapcsolódik ki",
+"de": "Aktiv lassen",
+"fr": "Rester activé",
+"es": "Pantalla activa"
+},
+"keep_screen_on_summary": {
+"en": "Screen will never sleep while charging",
+"hu": "A képernyő soha nem kapcsol ki töltés során",
+"de": "Display wird beim Laden nie in den Ruhezustand versetzt",
+"fr": "L'écran ne se met jamais en veille lors du chargement",
+"es": "La pantalla nunca entra en modo de suspensión durante la carga"
+},
+"allow_mock_location": {
+"en": "Allow mock locations",
+"hu": "Helyutánzatok engedélyezése",
+"de": "Falsche Standorte",
+"fr": "Positions fictives",
+"es": "Ubicaciones simuladas"
+},
+"allow_mock_location_summary": {
+"en": "Allow mock locations",
+"hu": "Helyutánzatok engedélyezése",
+"de": "Falsche Standorte zulassen",
+"fr": "Autoriser les positions fictives",
+"es": "Permitir ubicaciones simuladas"
+},
+"adb_warning_title": {
+"en": "Allow USB debugging?",
+"hu": "Engedélyezi az USB hibakeresést?",
+"de": "USB-Debugging zulassen?",
+"fr": "Autoriser le débogage USB ?",
+"es": "¿Permitir depuración USB?"
+},
+"incoming_call_volume_title": {
+"en": "Ringtone",
+"hu": "Csengőhang",
+"de": "Klingelton",
+"fr": "Sonnerie",
+"es": "Tono"
+},
+"notification_volume_title": {
+"en": "Notification",
+"hu": "Értesítés",
+"de": "Benachrichtigung",
+"fr": "Notification",
+"es": "Notificación"
+},
+"checkbox_notification_same_as_incoming_call": {
+"en": "Use incoming call volume for notifications",
+"hu": "Bejövő hívások hangerejének használata az értesítéseknél",
+"de": "Lautstärke für eingehende Anrufe für Benachrichtigungen verwenden",
+"fr": "Utiliser le volume des appels entrants pour les notifications",
+"es": "Utilizar volumen de llamada entrante para notificaciones"
+},
+"media_volume_title": {
+"en": "Media",
+"hu": "Média",
+"de": "Medien",
+"fr": "Multimédia",
+"es": "Multimedia"
+},
+"alarm_volume_title": {
+"en": "Alarm",
+"hu": "Ébresztő",
+"de": "Wecker",
+"fr": "Alarme",
+"es": "Alarma"
+},
+"filter_apps_all": {
+"en": "All",
+"hu": "Összes",
+"de": "Alle",
+"fr": "Toutes",
+"es": "Todas"
+},
+"filter_apps_third_party": {
+"en": "Downloaded",
+"hu": "Letöltött",
+"de": "Heruntergeladene",
+"fr": "Téléchargées",
+"es": "Descargadas"
+},
+"filter_apps_running": {
+"en": "Running",
+"hu": "Futó",
+"de": "Ausgeführte",
+"fr": "En cours",
+"es": "En ejecución"
+},
+"filter_apps_onsdcard": {
+"en": "USB storage",
+"hu": "USB-tár",
+"de": "USB-Speicher",
+"fr": "Stockage USB",
+"es": "Almacenamiento USB"
+},
+"battery_since_unplugged": {
+"en": "Battery use since unplugged",
+"hu": "Akkumulátorhasználat a legutolsó töltés óta",
+"de": "Akkuverbrauch seit dem Ausstecken",
+"fr": "Utilisation de la batterie depuis le débranchement",
+"es": "Uso de la batería desde que se cargó"
+},
 "fw_ok": {
 "en": "OK",
 "hu": "OK",
@@ -1514,6 +1920,189 @@ window.GBSettingsStrings = {
 "Almacenamiento de dispositivo interno",
 "Tarjeta SD extraíble",
 "Selección del sistema"
+]
+},
+"wifi_status": {
+"en": [
+"",
+"Scanning…",
+"Connecting…",
+"Authenticating…",
+"Obtaining IP address…",
+"Connected",
+"Suspended",
+"Disconnecting…",
+"Disconnected",
+"Unsuccessful"
+],
+"hu": [
+"",
+"Keresés...",
+"Kapcsolódás…",
+"Hitelesítés...",
+"IP-cím lekérése...",
+"Csatlakozva",
+"Felfüggesztve",
+"Kapcsolat bontása...",
+"Nincs kapcsolat",
+"Sikertelen"
+],
+"de": [
+"",
+"Scan…",
+"Verbindung wird hergestellt...",
+"Authentifizierung...",
+"IP-Adresse wird abgerufen...",
+"Verbunden",
+"Angehalten",
+"Verbindung wird getrennt...",
+"Nicht verbunden",
+"Nicht erfolgreich"
+],
+"fr": [
+"",
+"Recherche…",
+"Connexion…",
+"Authentification...",
+"Récupération de l'adresse IP…",
+"Connecté",
+"Interrompu",
+"Déconnexion…",
+"Déconnecté",
+"Échec"
+],
+"es": [
+"",
+"Buscando...",
+"Estableciendo conexión...",
+"Autenticando...",
+"Obteniendo dirección IP…",
+"Conectada",
+"Suspendida",
+"Desconectando...",
+"Desconectada",
+"Con error"
+]
+},
+"wifi_status_with_ssid": {
+"en": [
+"",
+"Scanning…",
+"Connecting to %1$s…",
+"Authenticating with %1$s…",
+"Obtaining IP address from %1$s…",
+"Connected to %1$s",
+"Suspended",
+"Disconnecting from %1$s…",
+"Disconnected",
+"Unsuccessful"
+],
+"hu": [
+"",
+"Keresés...",
+"Csatlakozás a(z) %1$s hálózathoz...",
+"Hitelesítés a(z) %1$s hálózaton...",
+"IP-cím lekérése a(z) %1$s hálózattól...",
+"Kapcsolódva a(z) %1$s hálózathoz",
+"Felfüggesztve",
+"Kapcsolat bontása %1$s hálózattal...",
+"Nincs kapcsolat",
+"Sikertelen"
+],
+"de": [
+"",
+"Scan…",
+"Verbindung mit %1$s wird hergestellt...",
+"Authentifizierung mit %1$s...",
+"IP-Adresse wird von %1$s abgerufen...",
+"Verbunden mit %1$s",
+"Angehalten",
+"Verbindung mit %1$s wird getrennt...",
+"Nicht verbunden",
+"Nicht erfolgreich"
+],
+"fr": [
+"",
+"Recherche…",
+"Connexion à %1$s…",
+"Authentification avec %1$s…",
+"Récupération de l'adresse IP à partir de %1$s…",
+"Connecté à %1$s",
+"Interrompu",
+"Déconnexion de %1$s…",
+"Déconnecté",
+"Échec"
+],
+"es": [
+"",
+"Buscando...",
+"Estableciendo conexión con %1$s...",
+"Autenticando con %1$s…",
+"Obteniendo dirección IP de %1$s...",
+"Conectada a %1$s",
+"Suspendida",
+"Desconectando de %1$s...",
+"Desconectada",
+"Con error"
+]
+},
+"wifi_sleep_policy_entries": {
+"en": [
+"When screen turns off",
+"Never when plugged in",
+"Never"
+],
+"hu": [
+"Amikor a képernyő kikapcsol",
+"Soha, ha töltőn van",
+"Soha"
+],
+"de": [
+"Wenn Bildschirm sich abschaltet",
+"Nie, wenn im Netzbetrieb",
+"Nie"
+],
+"fr": [
+"Lorsque l'écran s'éteint",
+"Jamais si branché",
+"Jamais"
+],
+"es": [
+"Cuando la pantalla se apague",
+"Nunca si se está cargando la batería",
+"Nunca"
+]
+},
+"bluetooth_visibility_timeout_entries": {
+"en": [
+"2 Minutes",
+"5 Minutes",
+"1 Hour",
+"Never"
+],
+"hu": [
+"2 perc",
+"5 perc",
+"1 óra",
+"Soha"
+],
+"de": [
+"2 Minuten",
+"5 Minuten",
+"1 Stunde",
+"Nie"
+],
+"fr": [
+"2 minutes",
+"5 minutes",
+"1 heure",
+"Jamais"
+],
+"es": [
+"2 minutos",
+"5 minutos",
+"Una hora",
+"Nunca"
 ]
 }
 }

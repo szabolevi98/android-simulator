@@ -20,7 +20,20 @@
   const list = (key, title, summary, array, extra = {}) => ({kind: 'list', key, title, summary, array, ...extra});
   const info = (title, valueText) => ({kind: 'info', title, value: valueText});
 
-  /* Screens; "ics:x" targets reuse the version's existing page (Wi-Fi networks, Bluetooth, lock setup, language). */
+  // Settings arrays wifi_status (index 5: Connected) and wifi_status_with_ssid ("Connected to %1$s").
+  function wifiSummary(ctx) {
+    const s = ctx.settings;
+    if (s.airplane) return 'wifi_in_airplane_mode';
+    if (s.wifi && s.wifiNetwork) return {raw: (entries(ctx.lang, 'wifi_status_with_ssid')[5] || 'Connected to %1$s').replace('%1$s', s.wifiNetwork)};
+    return 'wifi_quick_toggle_summary';
+  }
+  /* frameworks/base data/sounds/OriginalAudio.mk (the full crespo build): titles come from the file names; core.mk sets
+     ro.config.notification_sound=OnTheHunt.ogg and no default ringtone. */
+  const RINGTONES = 'BeatPlucker BentleyDubs BirdLoop CaribbeanIce CrazyDream CurveBall DreamTheme EtherShake FriendlyGhost GameOverGuitar Growl InsertCoin LoopyLounge LoveFlute MidEvilJaunt MildlyAlarming NewPlayer Noises1 Noises2 Noises3 OrganDub Ring_Classic_02 Ring_Digital_02 Ring_Synth_02 Ring_Synth_04 RomancingTheTone SitarVsSitar SpringyJalopy Terminated TwirlAway VeryAlarmed World'.split(' ');
+  const NOTIFICATIONS = 'Beat_Box_Android CaffeineSnake DearDeer DontPanic F1_MissedCall F1_New_MMS F1_New_SMS Heaven Highwire KzurbSonar OnTheHunt TaDa Tinkerbell Voila'.split(' ');
+  const soundTitle = name => name ? name.replace(/_/g, ' ').replace(/([a-z])([A-Z0-9])/g, '$1 $2').replace(/\s+/g, ' ').trim() : '';
+  const LOCALES = [['en', 'English'], ['hu', 'Magyar'], ['de', 'Deutsch'], ['fr', 'Français'], ['es', 'Español']];
+  /* Screens; "ics:x" targets reuse the version's existing page (lock setup, accounts, applications, battery). */
   function screens(ctx) {
     const s = ctx.settings, lockSecure = ['pattern', 'pin', 'password'].includes(s.screenLock);
     return {
@@ -34,26 +47,26 @@
         go('date_and_time_settings_title', '', 'date', {icon: 'date_time'}), go('about_settings', '', 'about', {icon: 'about'})]},
       wireless: {title: 'radio_controls_title', items: [
         check('airplane', 'airplane_mode', 'airplane_mode_summary'),
-        check('wifi', 'wifi_quick_toggle_title', s.wifi && s.wifiNetwork ? {raw: ctx.t('Connected to %1$s').replace('%1$s', s.wifiNetwork)} : 'wifi_quick_toggle_summary', {disabled: s.airplane}),
-        go('wifi_settings', 'wifi_settings_summary', 'ics:wifi'),
+        check('wifi', 'wifi_quick_toggle_title', wifiSummary(ctx), {disabled: s.airplane}),
+        go('wifi_settings', 'wifi_settings_summary', 'wifi'),
         check('bluetooth', 'bluetooth_quick_toggle_title', 'bluetooth_quick_toggle_summary', {disabled: s.airplane}),
-        go('bluetooth_settings', 'bluetooth_settings_summary', 'ics:bluetooth'),
+        go('bluetooth_settings', 'bluetooth_settings_summary', 'bluetooth'),
         go('tether_settings_title_both', 'tether_settings_summary_both', 'tether'),
         go('vpn_settings_title', 'vpn_settings_summary', 'vpn'),
         check('nfc', 'nfc_quick_toggle_title', 'nfc_quick_toggle_summary'),
         go('network_settings_title', 'network_settings_summary', 'mobile', {disabled: s.airplane})]},
       tether: {title: 'tether_settings_title_both', items: [
         check('usbTether', 'usb_tethering_button_text', {raw: ctx.t('USB not connected')}, {disabled: true}),
-        check('portableHotspot', 'wifi_tether_checkbox_text', {raw: s.portableHotspot ? ctx.t('Portable hotspot AndroidAP active') : ''}, {disabled: s.airplane}),
+        check('portableHotspot', 'wifi_tether_checkbox_text', {raw: s.portableHotspot ? text(ctx.lang, 'wifi_tether_enabled_subtext').replace('%1$s', 'AndroidAP') : ''}, {disabled: s.airplane}),
         go('wifi_tether_configure_ap_text', 'wifi_tether_configure_subtext', 'toast:Hotspot name: AndroidAP'),
         go('tethering_help_button_text', '', 'toast:Help is not available offline')]},
       sound: {title: 'sound_settings', items: [
         cat('sound_category_sound_title'),
         check('silent', 'silent_mode_title', 'silent_mode_summary'),
         list('vibrateMode', 'vibrate_title', 'vibrate_summary', 'vibrate_entries'),
-        go('all_volume_title', '', 'ics:volumes', {disabled: !!s.silent}),
-        cat('sound_category_calls_title'), go('ringtone_title', {raw: 'Ring Ring'}, 'ics:ringtone'),
-        cat('sound_category_notification_title'), go('notification_sound_title', {raw: 'Tejat'}, 'toast:Tejat'),
+        go('all_volume_title', '', 'dialog:volume', {disabled: !!s.silent}),
+        cat('sound_category_calls_title'), go('ringtone_title', {raw: soundTitle(s.ringtone ?? '')}, 'dialog:ringtone'),
+        cat('sound_category_notification_title'), go('notification_sound_title', {raw: soundTitle(s.notificationSound ?? 'OnTheHunt')}, 'dialog:notificationSound'),
         check('notificationPulse', 'notification_pulse_title', 'notification_pulse_summary'),
         cat('sound_category_feedback_title'),
         check('dtmfTone', 'dtmf_tone_enable_title', 'dtmf_tone_enable_summary_on'),
@@ -89,7 +102,7 @@
         go('runningservices_settings_title', 'runningservices_settings_summary', 'ics:apps'),
         go('storageuse_settings_title', 'storageuse_settings_summary', 'storage'),
         go('power_usage_summary_title', 'power_usage_summary', 'ics:battery'),
-        go('development_settings_title', 'development_settings_summary', 'ics:development')]},
+        go('development_settings_title', 'development_settings_summary', 'development')]},
       privacy: {title: 'privacy_settings', items: [
         cat('backup_section_title'),
         check('backup', 'backup_data_title', 'backup_data_summary'),
@@ -101,7 +114,7 @@
         go('sd_eject', 'sd_eject_summary', 'toast:SD card will be unmounted'), go('sd_format', 'sd_format_summary', 'toast:Erasing the SD card is disabled in the simulator'),
         cat('internal_memory'), info('memory_available', '869MB')]},
       language: {title: 'language_settings', items: [
-        cat('language_settings_category'), go('phone_language', {raw: ctx.languageName}, 'ics:language'),
+        cat('language_settings_category'), go('phone_language', {raw: ctx.languageName}, 'locale'),
         go('user_dict_settings_titlebar', '', 'toast:No words in user dictionary'),
         cat('keyboard_settings_category'), go('Android keyboard', {raw: ctx.t('Android keyboard settings')}, 'toast:Android keyboard')]},
       voice: {title: 'voice_input_output_settings', items: [
@@ -146,6 +159,33 @@
         check('dataRoaming', 'Data roaming', {raw: ctx.t(s.dataRoaming ? 'Connect to data services when roaming' : 'You have lost data connectivity because you left your home network with data roaming turned off.')}),
         go('Access Point Names', '', 'toast:Internet'), check('only2g', 'Use only 2G networks', {raw: ctx.t('Saves battery')}),
         go('Network operators', {raw: ctx.t('Select a network operator')}, 'toast:Telekom')]},
+      // WifiSettings (wifi_settings.xml): the toggle, network notification, the access points and "Add Wi-Fi network".
+      wifi: {title: 'wifi_settings_category', menu: [{action: 'gbset-wifi-scan', title: 'wifi_menu_scan', icon: 'ic_menu_refresh'}, {action: 'gbset-go', id: 'wifi-advanced', title: 'wifi_menu_advanced', icon: 'ic_menu_manage'}], items: [
+        check('wifi', 'wifi_quick_toggle_title', wifiSummary(ctx), {disabled: s.airplane}),
+        check('wifiNotify', 'wifi_notify_open_networks', 'wifi_notify_open_networks_summary', {disabled: !s.wifi}),
+        cat('wifi_access_points'),
+        ...(s.wifi ? (ctx.networks || []).map(network => ({kind: 'ap', network})) : []),
+        go('wifi_add_network', '', 'dialog:wifi-add', {disabled: !s.wifi})]},
+      'wifi-advanced': {title: 'wifi_advanced_titlebar', items: [
+        list('wifiSleepPolicy', 'wifi_setting_sleep_policy_title', 'wifi_setting_sleep_policy_summary', 'wifi_sleep_policy_entries'),
+        info('wifi_advanced_mac_address_title', '38:AA:3C:A1:5E:42'),
+        info('wifi_advanced_ip_address_title', s.wifi && s.wifiNetwork ? '192.168.1.104' : 'status_unavailable')]},
+      // BluetoothSettings (bluetooth_settings.xml).
+      bluetooth: {title: 'bluetooth_settings', items: [
+        check('bluetooth', 'bluetooth', 'bluetooth_quick_toggle_summary', {disabled: s.airplane}),
+        go('bluetooth_device_name', {raw: s.bluetoothName || 'Nexus S'}, 'dialog:bt-name', {disabled: !s.bluetooth}),
+        check('bluetoothVisible', 'bluetooth_visibility', {raw: s.bluetoothVisible ? text(ctx.lang, 'bluetooth_is_discoverable').replace('%1$s', '120') : text(ctx.lang, 'bluetooth_not_discoverable')}, {disabled: !s.bluetooth}),
+        list('btTimeout', 'bluetooth_visibility_timeout', 'bluetooth_visibility_timeout_summary', 'bluetooth_visibility_timeout_entries', {disabled: !s.bluetooth}),
+        go('bluetooth_preference_scan_title', '', 'gbset-bt-scan', {disabled: !s.bluetooth, action: true}),
+        cat('bluetooth_devices'),
+        ...(s.bluetooth ? (ctx.btDevices || []).map(device => ({kind: 'bt', device})) : [])]},
+      // DevelopmentSettings (development_prefs.xml).
+      development: {title: 'development_settings_title', items: [
+        check('usbDebug', 'enable_adb', 'enable_adb_summary'),
+        check('stayAwake', 'keep_screen_on', 'keep_screen_on_summary'),
+        check('mockLocations', 'allow_mock_location', 'allow_mock_location_summary')]},
+      // LocalePicker: the supported locales as a plain list.
+      locale: {title: 'phone_language', items: LOCALES.map(([code, name]) => ({kind: 'locale', code, name}))},
       brightness: null
     };
   }
@@ -167,14 +207,25 @@
       if (item.summary === null) summary = options[value(ctx.settings, item.key)] ?? '';
       return `<button class="gbset-row" data-action="gbset-list" data-id="${e(item.key)}"${disabled}><span class="gbset-text"><span class="gbset-title">${e(label)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span></button>`;
     }
+    if (item.kind === 'ap') {
+      // AccessPoint: SSID, "Connected" or "Secured with WPA2" / "Remembered", and the (lock) signal icon.
+      const n = item.network, connected = ctx.settings.wifiNetwork === n.name, secured = n.security !== 'Open';
+      const status = connected ? entries(ctx.lang, 'wifi_status')[5] : secured ? text(ctx.lang, 'wifi_secured').replace('%1$s', n.security) : '';
+      return `<button class="gbset-row" data-action="gbset-ap" data-id="${e(n.name)}"><span class="gbset-text"><span class="gbset-title">${e(n.name)}</span>${status ? `<span class="gbset-sum">${e(status)}</span>` : ''}</span><img class="gbset-signal" src="assets/gb-set-ic_wifi_${secured ? 'lock_' : ''}signal_${Math.max(1, Math.min(4, n.strength))}.png" alt=""></button>`;
+    }
+    if (item.kind === 'bt') {
+      const d = item.device;
+      return `<button class="gbset-row with-icon" data-action="gbset-bt-device" data-id="${e(d.name)}"><img class="gbset-icon gbset-bt-icon" src="assets/gb-set-ic_bt_${d.kind || 'headset_hfp'}.png" alt=""><span class="gbset-text"><span class="gbset-title">${e(d.name)}</span><span class="gbset-sum">${e(text(ctx.lang, d.paired ? (d.connected ? 'bluetooth_connected' : 'bluetooth_paired') : 'bluetooth_not_connected'))}</span></span></button>`;
+    }
+    if (item.kind === 'locale') return `<button class="gbset-row gbset-locale" data-action="gbset-locale" data-id="${e(item.code)}"><span class="gbset-text"><span class="gbset-title">${e(item.name)}</span></span></button>`;
     if (item.kind === 'info') {
       const shown = table().strings[item.value] ? text(ctx.lang, item.value) : item.value;
       return `<div class="gbset-row gbset-info"${item.action ? ` data-action="${e(item.action)}" role="button" tabindex="0"` : ''}><span class="gbset-text"><span class="gbset-title">${e(label)}</span>${shown ? `<span class="gbset-sum">${e(shown).replace(/\n/g, '<br>')}</span>` : ''}</span></div>`;
     }
     const icon = item.icon ? `<img class="gbset-icon" src="assets/gb-ic_settings_${item.icon}.png" alt="">` : '';
     const target = item.target || '';
-    action = target.startsWith('ics:') ? 'settings-sub' : target.startsWith('toast:') ? 'gbset-toast' : target ? 'gbset-go' : 'noop';
-    id = target.replace(/^(ics|toast):/, '');
+    action = item.action ? target : target.startsWith('ics:') ? 'settings-sub' : target.startsWith('toast:') ? 'gbset-toast' : target.startsWith('dialog:') ? 'gbset-dialog' : target ? 'gbset-go' : 'noop';
+    id = item.action ? '' : target.replace(/^(ics|toast|dialog):/, '');
     return `<button class="gbset-row${icon ? ' with-icon' : ''}" data-action="${action}" data-id="${e(id)}"${disabled}>${icon}<span class="gbset-text"><span class="gbset-title">${e(label)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span></button>`;
   }
   function render(id, ctx) {
@@ -190,6 +241,35 @@
     return {title: resolve(ctx.lang, ctx.t, items.title), items: options.map((label, index) => ({action: 'gbset-list-pick', id: `${key}:${index}`, title: label})), choice: 'single', selected: value(ctx.settings, key), buttons: [{action: 'close-overlay', title: text(ctx.lang, 'fw_cancel')}]};
   }
   const has = id => !!screens({settings: {}, t: k => k, about: {}, lang: 'en'})[id || 'main'];
+  const menu = (id, ctx) => (screens(ctx)[id || 'main']?.menu || []).map(item => ({...item, title: text(ctx.lang, item.title)}));
+  /* Dialogs: RingerVolumePreference (ringtone, media, alarm sliders and the notification checkbox/slider),
+     RingtonePickerActivity (Silent + the sounds, OK / Cancel), the WifiDialog and the Bluetooth name EditTextPreference. */
+  function dialog(kind, ctx) {
+    const s = ctx.settings, T = key => text(ctx.lang, key), ok = T('fw_ok'), cancel = T('fw_cancel');
+    const slider = (key, label, fallback) => `<label class="gbvol"><span>${e(label)}</span><input type="range" min="0" max="100" data-vol="${key}" value="${Number(s[key] ?? fallback)}"></label>`;
+    if (kind === 'volume') {
+      const same = s.notificationSameAsRing !== false;
+      return {title: T('all_volume_title'), custom: `<div class="gbvols">${slider('ringVolume', T('incoming_call_volume_title'), 70)}<label class="gbvol-check"><input type="checkbox" data-vol-same ${same ? 'checked' : ''}> ${e(T('checkbox_notification_same_as_incoming_call'))}</label>${slider('notificationVolume', T('notification_volume_title'), 70).replace('<label class="gbvol"', `<label class="gbvol" data-vol-notification${same ? ' hidden' : ''}`)}${slider('mediaVolume', T('media_volume_title'), 60)}${slider('alarmVolume', T('alarm_volume_title'), 80)}</div>`, buttons: [{action: 'gbset-volume-ok', title: ok}, {action: 'close-overlay', title: cancel}]};
+    }
+    if (kind === 'ringtone' || kind === 'notificationSound') {
+      const names = kind === 'ringtone' ? RINGTONES : NOTIFICATIONS, current = s[kind] ?? (kind === 'ringtone' ? '' : 'OnTheHunt');
+      const options = ['', ...names];
+      return {title: T(kind === 'ringtone' ? 'ringtone_title' : 'notification_sound_title'), items: options.map(name => ({action: 'gbset-sound-pick', id: `${kind}:${name}`, title: name ? soundTitle(name) : ctx.t('Silent')})), choice: 'single', selected: Math.max(0, options.indexOf(current)), buttons: [{action: 'close-overlay', title: ok}, {action: 'close-overlay', title: cancel}]};
+    }
+    if (kind === 'bt-name') return {title: T('bluetooth_device_name'), custom: `<label class="gbdlg-field"><input data-bt-name maxlength="40" value="${e(s.bluetoothName || 'Nexus S')}"></label>`, buttons: [{action: 'gbset-bt-name-ok', title: ok}, {action: 'close-overlay', title: cancel}]};
+    if (kind.startsWith('ap:')) {
+      const n = (ctx.networks || []).find(item => item.name === kind.slice(3)); if (!n) return null;
+      const connected = s.wifiNetwork === n.name, secured = n.security !== 'Open';
+      const signal = ctx.t(['Poor', 'Poor', 'Fair', 'Good', 'Excellent'][n.strength] || 'Good');
+      const rows = connected ? [[T('wifi_status'), entries(ctx.lang, 'wifi_status')[5]], [T('wifi_signal'), signal], [T('wifi_speed'), '54Mbps'], [T('wifi_security'), secured ? n.security : ctx.t('None')], [T('wifi_ip_address'), '192.168.1.104']]
+        : [[T('wifi_security'), secured ? n.security : ctx.t('None')], [T('wifi_signal'), signal]];
+      const body = `<dl class="gbwifi">${rows.map(([k, v]) => `<dt>${e(k)}</dt><dd>${e(v)}</dd>`).join('')}</dl>${!connected && secured ? `<label class="gbdlg-field"><span>${e(T('wifi_password'))}</span><input type="password" data-wifi-password maxlength="63"></label><label class="gbvol-check"><input type="checkbox" data-wifi-show> ${e(T('wifi_show_password'))}</label>` : ''}`;
+      return {title: n.name, custom: body, buttons: connected ? [{action: 'gbset-wifi-forget', id: n.name, title: T('wifi_forget')}, {action: 'close-overlay', title: T('wifi_cancel')}] : [{action: 'gbset-wifi-connect', id: n.name, title: T('wifi_connect')}, {action: 'close-overlay', title: T('wifi_cancel')}]};
+    }
+    if (kind === 'wifi-add') return {title: T('wifi_add_network'), custom: `<label class="gbdlg-field"><span>${e(T('wifi_ssid'))}</span><input data-wifi-ssid maxlength="32"></label>`, buttons: [{action: 'gbset-wifi-save', title: T('wifi_save')}, {action: 'close-overlay', title: T('wifi_cancel')}]};
+    if (kind === 'adb') return {title: T('adb_warning_title'), icon: 'ic_dialog_alert', message: ctx.t('USB debugging is intended for development purposes only. It can be used to copy data between your computer and your device, install applications on your device without notification, and read log data.'), buttons: [{action: 'gbset-adb-ok', title: T('fw_yes')}, {action: 'close-overlay', title: T('fw_no')}]};
+    return null;
+  }
 
-  window.GBSettings = {DEFAULTS, value, text, entries, screens, render, listDialog, has};
+  window.GBSettings = {DEFAULTS, value, text, entries, screens, render, listDialog, has, menu, dialog, soundTitle, RINGTONES, NOTIFICATIONS};
 })();

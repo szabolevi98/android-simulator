@@ -236,6 +236,7 @@
     if (ui.overlay === 'shade') return;
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
+    if (ui.view === 'settings' && GBSettings.has(ui.sub || 'main')) { const items = GBSettings.menu(ui.sub, gbSettingsContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     const button = [...viewport.querySelectorAll('[data-action$="-menu"]')].find(node => !node.disabled);
     button?.click();
   }
@@ -621,6 +622,7 @@
       {action: 'gb-new-folder', id: 'all', title: t('All contacts'), icon: 'ic_launcher_folder_live_contacts'},
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
+    if (ui.overlay === 'gb-dialog-set') return GBSettings.dialog(ui.gbSetDialog, gbSettingsContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-list') return GBSettings.listDialog(ui.gbListKey, gbSettingsContext()) || {title: '', items: []};
     // BrightnessPreference (preference_dialog_brightness.xml): "Automatic brightness" above the seek bar; OK / Cancel.
     if (ui.overlay === 'gb-dialog-brightness') return {title: GBSettings.text(i18n.language, 'brightness'), custom: `<div class="gbbright"><label><input type="checkbox" ${GBSettings.value(data.settings, 'autoBrightness') ? 'checked' : ''}> ${safe(t('Automatic brightness'))}</label><input type="range" min="10" max="100" value="${ui.brightnessDraft ?? data.settings.brightness}" aria-label="${safe(GBSettings.text(i18n.language, 'brightness'))}"></div>`, buttons: [{action: 'gbset-brightness-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
@@ -659,6 +661,8 @@
     } else if (ui.overlay === 'gb-menu-home') {
       ui.gbMenuItems = launcherMenu();
       overlayRoot.innerHTML = GBUI.menu(ui.gbMenuItems, key => i18n.t(key));
+    } else if (ui.overlay === 'gb-menu-settings') {
+      overlayRoot.innerHTML = GBUI.menu(ui.gbMenuItems || [], key => i18n.t(key));
     } else if (ui.overlay === 'gb-menu-more') {
       overlayRoot.innerHTML = GBUI.expanded(ui.gbMenuItems || [], key => i18n.t(key));
     } else if (ui.overlay.startsWith('gb-dialog')) {
@@ -844,6 +848,9 @@
     const up = Math.floor(performance.now() / 1000) + 9240;
     return {settings: data.settings, lang, t: key => i18n.t(key), carrier: carrierName(), date: formats[GBSettings.value(data.settings, 'dateFormat')] || formats[0], time: gbClock() + (data.settings.hour24 ? '' : now.getHours() < 12 ? ' AM' : ' PM'), zone: 'GMT+01:00', dateFormats: [GBSettings.text(lang, 'Normal') === 'Normal' ? `${i18n.t('Normal')} (${formats[0]})` : formats[0], ...formats.slice(1)],
       languageName: {en: 'English', hu: 'Magyar', de: 'Deutsch', fr: 'Français', es: 'Español'}[lang] || 'English',
+      // WifiSettings sorts the connected network first, then by signal; the paired device and the last scan's results.
+      networks: allWifiNetworks().slice().sort((a, b) => Number(b.name === data.settings.wifiNetwork) - Number(a.name === data.settings.wifiNetwork) || b.strength - a.strength || a.name.localeCompare(b.name)),
+      btDevices: [...(data.settings.pairedDevice ? [{name: data.settings.pairedDevice, paired: true, connected: true, kind: 'headset_hfp'}] : []), ...(ui.btFound || []).filter(device => device.name !== data.settings.pairedDevice)],
       uptime: `${Math.floor(up / 3600)}:${String(Math.floor(up / 60) % 60).padStart(2, '0')}:${String(up % 60).padStart(2, '0')}`,
       about: {model: 'Nexus S', version: '2.3.6', baseband: 'I9020XXKD1', kernel: '2.6.35.7-gf5f63ef\nandroid-build@apa28 #1\nTue Aug 2 13:57:05 PDT 2011', build: 'GRK39F'}};
   }
@@ -1248,13 +1255,26 @@
       case 'gb-menu-more': ui.overlay = 'gb-menu-more'; renderOverlay(); break;
       case 'settings-open': ui.overlay = ''; ui.view = 'settings'; ui.sub = id; ui.gbSettingsStack = id ? [''] : []; render(); break;
       case 'gbset-go': if (id === 'brightness') { ui.overlay = 'gb-dialog-brightness'; ui.brightnessDraft = data.settings.brightness; renderOverlay(); break; } (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = id; render(); break;
-      case 'gbset-check': { const current = data.settings[id] ?? GBSettings.DEFAULTS[id] ?? (id === 'patternVisible'); data.settings[id] = !current;
+      case 'gbset-check': if (id === 'usbDebug' && !data.settings.usbDebug) { ui.overlay = 'gb-dialog-set'; ui.gbSetDialog = 'adb'; renderOverlay(); break; } { const current = data.settings[id] ?? GBSettings.DEFAULTS[id] ?? (id === 'patternVisible'); data.settings[id] = !current;
         if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; data.settings.portableHotspot = false; }
         if (id === 'silent') data.settings.silentMode = data.settings.silent ? (GBSettings.value(data.settings, 'vibrateMode') === 1 || GBSettings.value(data.settings, 'vibrateMode') === 3 ? 'mute' : 'vibrate') : 'off';
         save(); render(); break; }
       case 'gbset-list': ui.overlay = 'gb-dialog-list'; ui.gbListKey = id; renderOverlay(); break;
       case 'gbset-list-pick': { const [key, index] = id.split(':'); data.settings[key] = Number(index); if (key === 'animationLevel') data.settings.transitionScale = [0, .5, 1][Number(index)]; ui.overlay = ''; save(); render(); break; }
       case 'gbset-toast': toast(id); break;
+      case 'gbset-dialog': ui.overlay = 'gb-dialog-set'; ui.gbSetDialog = id; renderOverlay(); break;
+      case 'gbset-ap': ui.overlay = 'gb-dialog-set'; ui.gbSetDialog = `ap:${id}`; renderOverlay(); break;
+      case 'gbset-wifi-connect': { const network = allWifiNetworks().find(item => item.name === id), password = overlayRoot.querySelector('[data-wifi-password]')?.value || ''; if (network && network.security !== 'Open' && password.length < 8) { toast('Password must have at least 8 characters'); break; } data.settings.wifiNetwork = id; ui.overlay = ''; save(); render(); break; }
+      case 'gbset-wifi-forget': data.settings.wifiNetwork = ''; ui.overlay = ''; save(); render(); break;
+      case 'gbset-wifi-save': { const ssid = overlayRoot.querySelector('[data-wifi-ssid]')?.value.trim(); if (ssid && !allWifiNetworks().some(item => item.name === ssid)) data.savedWifiNetworks = [...(data.savedWifiNetworks || []), {name: ssid.slice(0, 32), security: 'Open', strength: 2}]; ui.overlay = ''; save(); render(); break; }
+      case 'gbset-wifi-scan': ui.overlay = ''; render(); toast('Scanning…'); break;
+      case 'gbset-bt-scan': ui.btScanning = true; render(); setTimeout(() => { ui.btScanning = false; ui.btFound = [{name: 'Headset', kind: 'headset_hfp'}, {name: 'Car kit', kind: 'headphones_a2dp'}, {name: "Sam's laptop", kind: 'laptop'}]; if (ui.view === 'settings') render(); }, 1500); break;
+      case 'gbset-bt-device': if (data.settings.pairedDevice === id) { toast('Connected'); break; } data.settings.pairedDevice = id; save(); render(); break;
+      case 'gbset-bt-name-ok': { const name = overlayRoot.querySelector('[data-bt-name]')?.value.trim(); if (name) data.settings.bluetoothName = name.slice(0, 40); ui.overlay = ''; save(); render(); break; }
+      case 'gbset-volume-ok': overlayRoot.querySelectorAll('[data-vol]').forEach(input => { data.settings[input.dataset.vol] = Number(input.value); }); { const same = overlayRoot.querySelector('[data-vol-same]'); if (same) data.settings.notificationSameAsRing = same.checked; } ui.overlay = ''; save(); render(); break;
+      case 'gbset-sound-pick': { const [kind, name] = id.split(':'); data.settings[kind] = name; save(); renderOverlay(); render(); break; }
+      case 'gbset-locale': i18n.setLanguage(id); location.reload(); break;
+      case 'gbset-adb-ok': data.settings.usbDebug = true; ui.overlay = ''; save(); render(); break;
       case 'gbset-brightness-ok': { const input = overlayRoot.querySelector('.gbbright input[type=range]'); if (input) data.settings.brightness = Number(input.value); const auto = overlayRoot.querySelector('.gbbright input[type=checkbox]'); if (auto) data.settings.autoBrightness = auto.checked; ui.overlay = ''; save(); render(); break; }
       case 'gb-add-app': { ui.overlay = ''; const slot = data.homePages[ui.page].findIndex((item, index) => !item && widgetFits(ui.page, index % 4, Math.floor(index / 4), {type: 'x', width: 1, height: 1})); if (slot < 0) { renderOverlay(); toast('No more room on this Home screen.'); break; } data.homePages[ui.page][slot] = id; save(); render(); break; }
       case 'add-widget-gb': { ui.overlay = ''; const added = addWidget(id); if (!added) { renderOverlay(); toast('No more room on this Home screen.'); break; } if (ui.overlay) renderOverlay(); render(); break; }
@@ -2252,6 +2272,11 @@
   // Touch keys: any touch on the device lights them; holding Home for the 500 ms long-press timeout opens the recent apps.
   document.querySelector('#device').addEventListener('pointerdown', pokeKeylight, true);
   document.addEventListener('keydown', pokeKeylight, true);
+  // Live dialog controls: "Show password." and "Use incoming call volume for notifications".
+  overlayRoot.addEventListener('change', event => {
+    if (event.target.matches('[data-wifi-show]')) { const input = overlayRoot.querySelector('[data-wifi-password]'); if (input) input.type = event.target.checked ? 'text' : 'password'; }
+    if (event.target.matches('[data-vol-same]')) overlayRoot.querySelector('[data-vol-notification]')?.toggleAttribute('hidden', event.target.checked);
+  });
   let previewHold = 0;
   viewport.addEventListener('pointerdown', event => {
     const anchor = event.target.closest('.gbl-arrow,.gbl-allapps'); if (!anchor || event.button || ui.view !== 'home') return;

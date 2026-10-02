@@ -23,4 +23,16 @@ assert.equal(S.entries('en','screen_timeout_entries')[S.value({},'screenTimeout'
 assert.match(S.render('security',ctx({screenLock:'pattern'})).html,/Use visible pattern/);assert.doesNotMatch(S.render('security',ctx({screenLock:'slide'})).html,/Use visible pattern/);
 // About phone values and unknown screens.
 assert.match(S.render('about',ctx()).html,/GRK39F/);assert.equal(S.render('nope',ctx()),null);assert.equal(S.has('status'),true);
+// Wi-Fi: wifi_status_with_ssid summary, access points with lock icons, the Scan/Advanced menu and the WifiDialog.
+const nets=[{name:'AndroidAP',security:'WPA2',strength:4},{name:'CoffeeShop',security:'Open',strength:3}];
+html=S.render('wifi',{...ctx({wifi:true,wifiNetwork:'AndroidAP'}),networks:nets}).html;
+assert.match(html,/Connected to AndroidAP/);assert.match(html,/ic_wifi_lock_signal_4/);assert.match(html,/ic_wifi_signal_3/);
+assert.deepEqual(JSON.parse(JSON.stringify(S.menu('wifi',ctx()).map(i=>i.title))),['Scan','Advanced']);
+assert.equal(S.dialog('ap:AndroidAP',{...ctx({wifiNetwork:'AndroidAP'}),networks:nets}).buttons[0].action,'gbset-wifi-forget');
+assert.match(S.dialog('ap:CoffeeShop',{...ctx({}),networks:nets}).custom,/^(?!.*data-wifi-password)/s);
+// Ringtones: OriginalAudio titles, Silent first, OnTheHunt as the default notification.
+assert.equal(S.soundTitle('Ring_Synth_04'),'Ring Synth 04');assert.equal(S.soundTitle('OnTheHunt'),'On The Hunt');
+const ring=S.dialog('notificationSound',ctx({}));assert.equal(ring.items[0].title,'Silent');assert.equal(ring.items[ring.selected].title,'On The Hunt');
+// Volume dialog hides the notification slider while it follows the ringer.
+assert.match(S.dialog('volume',ctx({})).custom,/data-vol-notification hidden/);
 console.log('gb-settings ok');

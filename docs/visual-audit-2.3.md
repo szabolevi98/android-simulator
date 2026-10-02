@@ -225,3 +225,13 @@ The code is in `versions/2.3.6/gb-settings.js` / `.css`. `gb-settings-strings.js
 - **Navigation.** Back walks the order the screens were opened in, including the inherited pages that have no 2.3 definition yet: the Wi-Fi network list, Bluetooth, Accounts & sync, Manage applications, Battery use, Development, Volume, Phone ringtone, Legal information, Factory data reset and the language picker.
 
 Checks: `gb-settings.test.cjs` covers the main list order and icons, translations, check boxes with the airplane dependency, the ListPreference summary and dialog, the lock-dependent security rows, About phone and unknown screens. Headless Chrome covered English and Hungarian: the main list, Wireless (Bluetooth toggle), Sound, the Vibrate dialog, Brightness, Location & security, About and Status, and back navigation. No JavaScript errors.
+- **Update 2026-10-02 (inherited pages replaced).**
+  - **Wi-Fi settings** (`wifi_settings.xml`): the toggle with the `wifi_status_with_ssid` summary ("Connected to …"), Network notification, the Wi-Fi networks category and "Add Wi-Fi network".
+    - Access points show the `ic_wifi_(lock_)signal_*` icons and "Connected" / "Secured with WPA2", with the connected network first and then by signal.
+    - The Menu key gives Scan / Advanced (sleep policy, MAC and IP).
+    - The WifiDialog shows status, signal, speed, security and IP with Forget / Cancel, or Security, Signal, Password and "Show password." with Connect / Cancel. WPA networks need 8 characters.
+  - **Bluetooth settings** (`bluetooth_settings.xml`): the toggle, Device name (EditText dialog), Discoverable ("Discoverable for 120 seconds…"), Discoverable timeout, and "Scan for devices", which finds a headset, a car kit and a laptop with the `ic_bt_*` icons. Touching a device pairs and connects it.
+  - **Development** (`development_prefs.xml`): USB debugging asks "Allow USB debugging?" first; Stay awake; Allow mock locations.
+  - **Volume** (RingerVolumePreference): Ringtone, "Use incoming call volume for notifications" (which shows the Notification slider when cleared), Media and Alarm.
+  - **Phone and notification ringtone pickers:** Silent plus the `OriginalAudio.mk` sounds the full crespo build ships. The default notification is On The Hunt (`core.mk`), and there is no default ringtone.
+  - **Select language:** a locale list that switches the simulator language.

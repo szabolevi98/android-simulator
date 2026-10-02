@@ -22,3 +22,14 @@
 .gbbright label{display:flex;align-items:center;gap:8px}
 .gbbright input[type=checkbox]{width:20px;height:20px;accent-color:#ffb400}
 .gbbright input[type=range]{width:100%;accent-color:#ffb400}
+.gbset-signal{width:27.6px;height:27.6px;flex:none;margin-right:3.45px}
+.gbset-bt-icon{width:27.6px;height:27.6px;margin:0 8.63px 0 6.9px}
+/* RingerVolumePreference and the WifiDialog bodies. */
+.gbvols{display:flex;flex-direction:column;gap:8px;padding:6px 6px 10px}
+.gbvol{display:flex;flex-direction:column;gap:2px;font-size:13.8px}
+.gbvol input{width:100%;accent-color:#ffb400}
+.gbvol-check{display:flex;align-items:center;gap:8px;font-size:12.07px;color:#fff;padding:2px 6px}
+.gbvol-check input{width:18px;height:18px;accent-color:#ffb400;flex:none}
+.gbwifi{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin:6px 6px 8px;font-size:12.07px}
+.gbwifi dt{color:#bebebe}.gbwifi dd{margin:0;color:#fff}
+.gbvol[hidden]{display:none}
