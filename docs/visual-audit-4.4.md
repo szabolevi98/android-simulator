@@ -124,3 +124,15 @@ The 4.4 Contacts app (`PeopleTheme` on Holo Light) differs from 4.3 as follows:
 - **Section headers:** #363636 with a #D0D0D0 underline.
 - **Avatars:** 64 dp `LetterTileDrawable` avatars (ContactPhotoManager `DEFAULT_AVATAR`) on the rows, the favourites and the detail header.
 - **Action icons:** dark `ic_search_dk` / `ic_add_person_dk` actions, the star from `ic_favorite_on/off_lt`, and `ic_menu_back` for Up.
+
+## Clock and Messaging — 2026-10-03
+
+- **DeskClock tabs:** Alarm, Clock, Timer, Stopwatch (`ALARM_TAB_INDEX` 0). The tabs are icons without an underline.
+- **Alarm cards (`alarm_time.xml`):**
+  - 48 sp light time and an on/off switch.
+  - Collapsed: an expand strip with the label and days.
+  - Expanded: Label, red Repeat checkbox, Sunday-first day toggles with the 2 dp `toggle_underline`, ringtone, Vibrate, and the trash can.
+  - The footer has the 56 dp #606060 round add button.
+- **Time picker:** `AlarmUtils` opens the dark RadialTimePicker. It has a #363636 header, a #404040 dial and the #ff3333 selection. In 24 h mode 00 and 13–23 sit outside and 1–12 inside. The picker moves on to minutes after an hour is picked.
+- **Clock footer:** the round Cities (`ic_globe`) button and the overflow.
+- **Messaging:** 4.4 Mms only adds `banner_sms_promo`, which shows when Messaging is not the default SMS app, so the 4.3 screens stay.
