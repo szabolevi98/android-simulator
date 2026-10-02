@@ -2,6 +2,48 @@
 window.GBStrings = window.GBStrings || {};
 window.GBStrings["contacts"] = {
 "strings": {
+"attachToContact": {
+"en": "Contact icon",
+"hu": "Névjegyikon",
+"de": "Kontaktsymbol",
+"fr": "Icône de contact",
+"es": "Icono de contacto"
+},
+"take_photo": {
+"en": "Take photo",
+"hu": "Fotó készítése",
+"de": "Foto machen",
+"fr": "Prendre une photo",
+"es": "Hacer una foto"
+},
+"pick_photo": {
+"en": "Select photo from Gallery",
+"hu": "Fotó kiválasztása a Galériából",
+"de": "Foto aus Galerie auswählen",
+"fr": "Sélectionner une photo dans la galerie",
+"es": "Seleccionar foto de la galería"
+},
+"use_photo_as_primary": {
+"en": "Use this photo",
+"hu": "Fotó felhasználása",
+"de": "Dieses Foto verwenden",
+"fr": "Utiliser cette photo",
+"es": "Utilizar esta foto"
+},
+"removePicture": {
+"en": "Remove icon",
+"hu": "Ikon eltávolítása",
+"de": "Symbol entfernen",
+"fr": "Supprimer l'icône",
+"es": "Eliminar icono"
+},
+"changePicture": {
+"en": "Change icon",
+"hu": "Ikon megváltoztatása",
+"de": "Symbol ändern",
+"fr": "Changer d'icône",
+"es": "Cambiar icono"
+},
 "contactsList": {
 "en": "Contacts",
 "hu": "Címtár",

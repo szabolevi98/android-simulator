@@ -42,14 +42,14 @@
     return `<div class="gbp-list">${sorted.map(person => {
       const initial = favorites ? '' : person.name[0].toLocaleUpperCase(ctx.locale);
       const header = initial && initial !== letter ? `<div class="gbp-section">${e(letter = initial)}</div>` : '';
-      return `${header}<button class="gbp-contact" data-action="gbp-contact" data-id="${person.id}"><img src="assets/gb-c-ic_contact_list_picture.png" alt=""><span>${e(person.name)}</span>${favorites ? '' : ''}</button>`;
+      return `${header}<button class="gbp-contact" data-action="gbp-contact" data-id="${person.id}"><img src="${window.GBContactPhoto?.(person) || 'assets/gb-c-ic_contact_list_picture.png'}" alt=""><span>${e(person.name)}</span>${favorites ? '' : ''}</button>`;
     }).join('')}</div>`;
   }
   // ViewContactActivity: the contact header (photo, name, star) and the data rows - call, text and email.
   function detail(person, ctx) {
     const T = key => text(ctx.lang, key);
     const row = (action, id, icon, title, value) => `<button class="gbp-data" data-action="${action}" data-id="${e(id)}"><span class="gbset-text"><span class="gbset-title">${e(title)}</span><span class="gbset-sum">${e(value)}</span></span><img src="assets/gb-c-${icon}.png" alt=""></button>`;
-    return `<div class="gbp-detail"><div class="gbp-header"><img src="assets/gb-c-ic_contact_picture.png" alt=""><span>${e(person.name)}</span><button data-action="people-star" data-id="${person.id}" aria-label="${e(T(person.favorite ? 'menu_removeStar' : 'menu_addStar'))}"><img src="assets/gb-btn_star_big_${person.favorite ? 'on' : 'off'}.png" alt=""></button></div><div class="gbp-list">${person.phone ? row('phone-redial', person.phone, 'badge_action_call', T(`call_${person.phoneType || 'mobile'}`), person.phone) + row('phone-log-message', person.phone, 'sym_action_sms', T(`sms_${person.phoneType || 'mobile'}`), person.phone) : ''}${person.email ? `<div class="gbset-cat">${e(ctx.t('Email'))}</div>` + row('gbp-email', person.email, 'sym_action_add', T(`email_${person.emailType === 'mobile' ? 'other' : person.emailType || 'home'}`), person.email) : ''}</div></div>`;
+    return `<div class="gbp-detail"><div class="gbp-header"><img src="${window.GBContactPhoto?.(person) || 'assets/gb-c-ic_contact_picture.png'}" alt=""><span>${e(person.name)}</span><button data-action="people-star" data-id="${person.id}" aria-label="${e(T(person.favorite ? 'menu_removeStar' : 'menu_addStar'))}"><img src="assets/gb-btn_star_big_${person.favorite ? 'on' : 'off'}.png" alt=""></button></div><div class="gbp-list">${person.phone ? row('phone-redial', person.phone, 'badge_action_call', T(`call_${person.phoneType || 'mobile'}`), person.phone) + row('phone-log-message', person.phone, 'sym_action_sms', T(`sms_${person.phoneType || 'mobile'}`), person.phone) : ''}${person.email ? `<div class="gbset-cat">${e(ctx.t('Email'))}</div>` + row('gbp-email', person.email, 'sym_action_add', T(`email_${person.emailType === 'mobile' ? 'other' : person.emailType || 'home'}`), person.email) : ''}</div></div>`;
   }
 
   // TwelveKeyDialer.showDialpadChooser: while a call is in progress the dialpad is replaced by a ListView of
@@ -82,7 +82,7 @@
     const P = key => phoneText(ctx.lang, key), person = ctx.person;
     const title = {dialing: P('card_title_dialing'), hanging: P('card_title_hanging_up'), ended: P('card_title_call_ended')}[state] || '';
     const elapsed = state === 'holding' ? P('card_title_on_hold') : state === 'dialing' || call.endedAt < call.connected ? '' : elapsedText(call, ctx.now);
-    return `<div class="gbic-card"><div class="gbic-title">${e(title)}</div><div class="gbic-photo-row"><img class="gbic-photo" src="assets/gb-p-picture_unknown.png" alt="${e(P('contactPhoto'))}"><span class="gbic-elapsed">${e(elapsed)}</span></div><div class="gbic-name">${e(person?.name || call.number)}</div>${person ? `<div class="gbic-number"><span>${e(ctx.t('Mobile'))}</span><span>${e(call.number)}</span></div>` : ''}</div>`;
+    return `<div class="gbic-card"><div class="gbic-title">${e(title)}</div><div class="gbic-photo-row"><img class="gbic-photo" src="${window.GBContactPhoto?.(person) || 'assets/gb-p-picture_unknown.png'}" alt="${e(P('contactPhoto'))}"><span class="gbic-elapsed">${e(elapsed)}</span></div><div class="gbic-name">${e(person?.name || call.number)}</div>${person ? `<div class="gbic-number"><span>${e(ctx.t('Mobile'))}</span><span>${e(call.number)}</span></div>` : ''}</div>`;
   }
   function inCall(call, ctx) {
     const P = key => phoneText(ctx.lang, key), now = ctx.now ?? Date.now(), state = callState(call, now);

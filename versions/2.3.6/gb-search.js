@@ -42,7 +42,7 @@
     }
     const want = id => corpus ? corpus === id : on.includes(id);
     if (want('apps')) ctx.apps.filter(([, name]) => matches(name, q)).forEach(([id, name]) => push({kind: 'app', corpus: 'apps', id, text1: name, icon: id === 'play-store' ? 'play-store.svg?v=3' : id + '.png'}));
-    if (want('contacts')) ctx.contacts.filter(c => matches(c.name, q) || norm(c.phone).replace(/\D/g, '').includes(q.replace(/\D/g, '') || '\u0000')).forEach(c => push({kind: 'contact', corpus: 'contacts', id: String(c.id), text1: c.name, text2: c.phone || c.email || '', icon: 'gb-c-ic_contact_list_picture.png'}));
+    if (want('contacts')) ctx.contacts.filter(c => matches(c.name, q) || norm(c.phone).replace(/\D/g, '').includes(q.replace(/\D/g, '') || '\u0000')).forEach(c => push({kind: 'contact', corpus: 'contacts', id: String(c.id), text1: c.name, text2: c.phone || c.email || '', icon: 'gb-c-ic_contact_list_picture.png', src: window.GBContactPhoto?.(c) || ''}));
     if (want('messaging')) ctx.messages.filter(m => norm(m.body).includes(q)).slice(0, 4).forEach(m => push({kind: 'message', corpus: 'messaging', id: String(m.contact), text1: m.body, text2: m.from, icon: 'messaging.png'}));
     if (want('music')) ctx.tracks.forEach((t, i) => { if (matches(t.title, q) || matches(t.artist, q) || matches(t.album, q)) push({kind: 'track', corpus: 'music', id: String(i), text1: t.title, text2: t.artist, icon: 'music.png'}); });
     return list;
@@ -51,7 +51,7 @@
   function row(item, i) {
     let t1 = e(item.text1);
     if (item.kind === 'web' && item.query && norm(item.text1).startsWith(norm(item.query))) t1 = `${e(item.text1.slice(0, item.query.length))}<b>${e(item.text1.slice(item.query.length))}</b>`;
-    return `<button type="button" class="gbqs-row${item.text2 ? ' two' : ''}${item.kind === 'contact' ? ' contact' : ''}" data-action="gbqs-pick" data-id="${i}"><img src="assets/${e(item.icon)}" alt=""><span class="gbqs-t1">${t1}</span>${item.text2 ? `<span class="gbqs-t2${item.kind === 'url' ? ' url' : ''}">${e(item.text2)}</span>` : ''}</button>`;
+    return `<button type="button" class="gbqs-row${item.text2 ? ' two' : ''}${item.kind === 'contact' ? ' contact' : ''}" data-action="gbqs-pick" data-id="${i}"><img src="${item.src ? e(item.src) : 'assets/' + e(item.icon)}" alt=""><span class="gbqs-t1">${t1}</span>${item.text2 ? `<span class="gbqs-t2${item.kind === 'url' ? ' url' : ''}">${e(item.text2)}</span>` : ''}</button>`;
   }
   const list = items => items.map(row).join('');
   function plate(ctx) {

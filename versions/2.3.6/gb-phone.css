@@ -117,6 +117,8 @@
 .gbce-photo-row{padding:8.63px 0 0 10.35px}
 .screen .gbce-photo{width:65.55px;height:65.55px;padding:0;border:0 solid transparent;border-image:url('assets/gb-ce-contact_picture_border_normal.png') 52 16 38 16 fill / 29.9px 9.2px 21.85px 9.2px stretch;background:none;position:relative;cursor:pointer}
 .gbce-photo::after{content:"";position:absolute;inset:0;background:url('assets/gb-ce-ic_menu_add_picture.png') center/41.4px 41.4px no-repeat}
+.gbce-photo.has-photo::after{display:none}
+.gbce-photo img{position:absolute;inset:5.18px 5.18px 9.49px;width:calc(100% - 10.35px);height:calc(100% - 14.67px);object-fit:cover}
 .screen .gbce-photo:active{border-image-source:url('assets/gb-ce-contact_picture_border_pressed.png')}
 .gbce-name{display:flex;align-items:flex-start;gap:2px;margin:5.18px 0 3.45px;padding:0 0 0 5.18px}
 .gbce-name-fields{flex:1;min-width:0}

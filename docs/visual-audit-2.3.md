@@ -670,3 +670,12 @@ References: android-2.3.6_r1 Browser `browser_preferences.xml` / `BrowserPrefere
   - OK applies the change and Cancel / Back discards it. While the calendar is not visible, its events are hidden from the views.
 - **Browser → Menu → More → Share page:** the framework "Share via" chooser with Email and Messaging. It opens a new email (subject = page title, body = address) or a new message with the address.
 - **Button text size:** GB `Widget.Button` uses textAppearanceSmallInverse (14 sp). The default buttons in the Calendar editor, Email compose ("Save as draft" no longer truncates), the contact editor and the Settings two-button panels now use 14 sp. The Calendar date / time buttons stay at their textAppearanceMediumInverse 18 sp.
+
+## Contact photos — 2026-10-02
+
+References: android-2.3.6_r1 Contacts `EditContactActivity` (createPickPhotoDialog, the PhotoEditorView dialog) and `PhotoEditorView`.
+
+- **Tapping the photo in the contact editor** opens "Contact icon" with Take photo and Select photo from Gallery.
+  - With a photo set, the choices are Use this photo, Remove icon and Change icon.
+  - Select / Change opens the Gallery in pick mode. A picture goes back to the editor; Back returns without one. Take photo is not available in the simulator.
+- **A saved photo replaces the default picture** in the contact list, the contact details header, the in-call card, the Messaging badges (threads and received messages) and the Quick Search Box contact suggestions.

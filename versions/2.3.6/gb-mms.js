@@ -34,7 +34,7 @@
   }
   // Contact.formatNameAndNumber: "Name <number>" for saved contacts, the number alone otherwise.
   const nameAndNumber = person => person.name && person.name !== person.phone ? `${person.name} <${person.phone}>` : person.phone;
-  const badge = '<span class="gbmms-badge"><img src="assets/gb-m-ic_contact_picture.png" alt=""></span>';
+  const badge = person => `<span class="gbmms-badge"><img src="${window.GBContactPhoto?.(person) || 'assets/gb-m-ic_contact_picture.png'}" alt=""></span>`;
 
   // ConversationListItem: 64 dip rows, white when unread (bold "from"), #eeeeee when read; the header row is
   // "New message / Compose new message" without a badge.
@@ -47,7 +47,7 @@
       const draft = thread.draft?.body || thread.draft?.attachment;
       const subject = draft ? thread.draft.body : thread.last?.body || '';
       const attachment = thread.last?.attachment || thread.draft?.attachment;
-      return `<button class="gbmms-thread${unread ? ' unread' : ''}" data-action="thread" data-id="${e(thread.key)}">${badge}<span class="gbmms-from">${e(thread.person.name)}${count > 1 ? ` (${count}) ` : ''}${draft ? `<em> ${e(T('has_draft'))}</em>` : ''}</span><span class="gbmms-subject">${e(subject)}</span><span class="gbmms-date${attachment ? ' clip' : ''}">${e(stamp(draft ? {timestamp: thread.draft.updated} : thread.last, ctx))}</span></button>`;
+      return `<button class="gbmms-thread${unread ? ' unread' : ''}" data-action="thread" data-id="${e(thread.key)}">${badge(thread.person)}<span class="gbmms-from">${e(thread.person.name)}${count > 1 ? ` (${count}) ` : ''}${draft ? `<em> ${e(T('has_draft'))}</em>` : ''}</span><span class="gbmms-subject">${e(subject)}</span><span class="gbmms-date${attachment ? ' clip' : ''}">${e(stamp(draft ? {timestamp: thread.draft.updated} : thread.last, ctx))}</span></button>`;
     }).join('');
     const search = searching ? `<form class="gbmms-search" data-form="mms-search"><input name="query" type="search" aria-label="${e(T('search_hint'))}" placeholder="${e(T('search_hint'))}" maxlength="100" value="${e(ctx.query || '')}"></form>` : '';
     const empty = searching && ctx.query && !threads.length ? `<p class="gbmms-empty">${e(T('search_empty'))}</p>` : '';
@@ -60,7 +60,7 @@
     const T = key => text(ctx.lang, key), name = m.mine ? T('messagelist_sender_self') : person.name;
     const subject = m.subject ? e(T('inline_subject').replace('%s', m.subject)) + (m.body ? ' - ' : '') : '';
     const time = m.sending ? T('sending_message') : T('sent_on').replace('%s', stamp(m, ctx));
-    return `<button type="button" class="mms-message gbmms-msg${m.mine ? ' sent' : ' received'}" data-action="mms-message" data-id="${e(m.id)}">${m.attachment ? `<span class="gbmms-mms">${window.ICSMessaging.photo(m.attachment)}</span>` : ''}<span class="gbmms-text">${badge}<b>${e(name)}</b>: ${subject}${smileys(m.body || '', ctx.lang)}<br><small>${e(time)}</small></span>${m.locked ? '<img class="gbmms-lock" src="assets/gb-m-ic_lock_message_sms.png" alt="">' : ''}</button>`;
+    return `<button type="button" class="mms-message gbmms-msg${m.mine ? ' sent' : ' received'}" data-action="mms-message" data-id="${e(m.id)}">${m.attachment ? `<span class="gbmms-mms">${window.ICSMessaging.photo(m.attachment)}</span>` : ''}<span class="gbmms-text">${badge(m.mine ? null : person)}<b>${e(name)}</b>: ${subject}${smileys(m.body || '', ctx.lang)}<br><small>${e(time)}</small></span>${m.locked ? '<img class="gbmms-lock" src="assets/gb-m-ic_lock_message_sms.png" alt="">' : ''}</button>`;
   }
   function compose(ctx) {
     const T = key => text(ctx.lang, key), M = window.ICSMessaging, detail = ctx.sub === 'thread';

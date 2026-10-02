@@ -31,7 +31,7 @@
     const secondary = ctx.secondary ? section(T('label_notes'), d.notes === undefined || d.notes === null ? round('gbce-add', 'plus', T('label_notes'), 'notes') : '', d.notes !== undefined && d.notes !== null ? `<div class="gbce-row">${field('notes', T('label_notes'), d.notes)}${round('gbce-remove', 'minus', 'Remove', 'notes')}</div>` : '') : '';
     return `<form class="app-view gbce" data-form="people-save" data-no-translate><div class="gb-titlebar">${e(T(isNew ? 'editContact_title_insert' : 'editContact_title_edit'))}</div><div class="gbce-scroll">
       <div class="gbce-header"><i class="gbce-colorbar"></i><img src="assets/people.png" alt=""><div><b>${e(T('account_phone'))}</b></div></div><i class="gbce-divider"></i>
-      <div class="gbce-photo-row"><button type="button" class="gbce-photo" data-action="gbset-toast" data-id="Unavailable in this simulator" aria-label="Photo"></button></div>
+      <div class="gbce-photo-row"><button type="button" class="gbce-photo${d.photo ? ' has-photo' : ''}" data-action="gbce-photo" aria-label="${e(T('attachToContact'))}">${d.photo && window.GBContactPhoto?.(d) ? `<img src="${window.GBContactPhoto(d)}" alt="">` : ''}</button></div>
       <div class="gbce-name"><div class="gbce-name-fields">${ctx.familyFirst ? field('family', T('name_family'), family) + field('given', T('name_given'), given) : field('given', T('name_given'), given) + field('family', T('name_family'), family)}${more}</div>${round('gbce-more-name', ctx.moreName ? 'less' : 'more', 'More')}</div>
       ${section(T('phoneLabelsGroup'), phoneRow ? '' : round('gbce-add', 'plus', T('phoneLabelsGroup'), 'phone'), phoneRow)}
       ${section(T('emailLabelsGroup'), emailRow ? '' : round('gbce-add', 'plus', T('emailLabelsGroup'), 'email'), emailRow)}
@@ -42,6 +42,9 @@
   }
   function dialog(kind, ctx) {
     const d = ctx.draft || {};
+    // EditContactActivity.createPickPhotoDialog / PhotoEditorView: Take photo or pick one; with a photo, use, remove or change it.
+    if (kind === 'photo') return {title: text(ctx.lang, 'attachToContact'), items: [{action: 'gbce-photo-take', title: text(ctx.lang, 'take_photo')}, {action: 'gbce-photo-pick', title: text(ctx.lang, 'pick_photo')}]};
+    if (kind === 'photo-edit') return {title: text(ctx.lang, 'attachToContact'), items: [{action: 'close-overlay', title: text(ctx.lang, 'use_photo_as_primary')}, {action: 'gbce-photo-remove', title: text(ctx.lang, 'removePicture')}, {action: 'gbce-photo-pick', title: text(ctx.lang, 'changePicture')}]};
     if (kind === 'phone' || kind === 'email') {
       const types = kind === 'phone' ? PHONE_TYPES : EMAIL_TYPES, current = d[`${kind}Type`] || (kind === 'phone' ? 'mobile' : 'home');
       return {title: text(ctx.lang, 'selectLabel'), items: types.map(type => ({action: 'gbce-set-type', id: `${kind}:${type}`, title: typeLabel(kind, type, ctx.lang)})), selected: types.indexOf(current)};
