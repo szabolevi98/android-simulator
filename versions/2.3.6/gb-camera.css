@@ -1,0 +1,52 @@
+/* Android 2.3.6 Camera held upright (landscape layout turned clockwise, icons kept upright). camera_control.xml: 76 dp bar,
+   52 dp thumbnail, 70 dp Switcher, btn_shutter; border_view_finder; IndicatorBar 10 dp from the edge with 42 px icons;
+   menu_popup lists (GLOptionHeader 12 dip #979797 on #2b2b2b, GLOptionItem 18 dip, 32 dip rows). hdpi px x 0.575, 1 dp = 0.8625 px. */
+.screen.gb-fullscreen #status-bar{display:none}
+.screen.gb-fullscreen #viewport{top:0}
+.gbcam{position:relative;height:100%;overflow:hidden;background:#000 url('assets/gb-cam-bg_camera_pattern.png') 0 0/110.4px 110.4px repeat;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.gbcam button{font-family:inherit}
+.gbcam-frame{position:absolute;left:0;right:0;top:1.73px;bottom:65.55px;display:grid;place-items:center}
+.screen .gbcam-preview{position:relative;width:100%;max-height:100%;aspect-ratio:3/4;box-sizing:border-box;padding:2.88px;border:0 solid transparent;border-image:url('assets/gb-cam-border_view_finder.png') 40 39 39 40 fill / 23px 22.43px 22.43px 23px stretch;overflow:hidden;cursor:pointer}
+.gbcam-scene{position:absolute;inset:2.88px;overflow:hidden;background:#111}
+.gbcam-scene img{display:block;width:100%;height:100%;object-fit:cover}
+.gbcam-focus{position:absolute;left:50%;top:50%;width:89.7px;height:89.7px;margin:-44.85px 0 0 -44.85px;background:url('assets/gb-cam-focus_focusing.png') 0 0/100% 100%;pointer-events:none}
+.gbcam-focus.focused{background-image:url('assets/gb-cam-focus_focused.png')}
+.gbcam-focus.failed{background-image:url('assets/gb-cam-focus_focus_failed.png')}
+.gbcam-rec{position:absolute;right:8.63px;top:8.63px;display:flex;align-items:center;gap:4px;font-size:15.53px;text-shadow:0 0 2px #000;pointer-events:none}
+.gbcam-rec img{width:17.25px;height:17.25px;animation:gbcam-blink 1s steps(2) infinite}
+@keyframes gbcam-blink{50%{opacity:0}}
+/* IndicatorBar: ic_viewfinder_iconbar (turned), highlight #9A2B2B2B, the zoom ratio "#.#x" in 18 dip #A8FFFFFF. */
+.gbcam-iconbar{position:absolute;left:0;right:0;bottom:8.63px;z-index:3;display:flex;height:34.5px;padding:2.88px 0;box-sizing:border-box;background:url('assets/gb-cam-ic_viewfinder_iconbar-p.png') 0 0/100% 100%}
+.screen .gbcam-ind{flex:1;min-width:0;display:grid;place-items:center;padding:0;border:0;background:none;color:#ffffffa8;cursor:pointer}
+.screen .gbcam-ind.active,.screen .gbcam-ind:active{background:#2b2b2b9a}
+.gbcam-ind img{width:24.15px;height:24.15px}
+.gbcam-ind b{font-size:15.53px;font-weight:400}
+/* Control bar */
+.gbcam-control{position:absolute;left:0;right:0;bottom:0;height:65.55px;display:flex;align-items:center;justify-content:space-between;padding:0 11.21px 0 8.63px}
+.screen .gbcam-shutter{flex:none;width:60.38px;height:60.38px;padding:0;border:0;background:url('assets/gb-cam-btn_ic_camera_shutter.png') 0 0/100% 100%,url('assets/gb-cam-btn_shutter_normal.png') 0 0/100% 100%;cursor:pointer}
+.screen .gbcam-shutter:active{background-image:url('assets/gb-cam-btn_ic_camera_shutter.png'),url('assets/gb-cam-btn_shutter_pressed.png')}
+.screen .gbcam.video .gbcam-shutter{background-image:url('assets/gb-cam-btn_ic_video_record.png'),url('assets/gb-cam-btn_shutter_normal.png')}
+.screen .gbcam.video .gbcam-shutter.stop{background-image:url('assets/gb-cam-btn_ic_video_record_stop.png'),url('assets/gb-cam-btn_shutter_normal.png')}
+.gbcam-switch-set{display:flex;align-items:center}
+.gbcam-switch-set img{width:27.6px;height:27.6px}
+.screen .gbcam-switch{position:relative;width:60.38px;height:33.35px;padding:0;border:0;background:url('assets/gb-cam-btn_mode_switch_bg-p.png') 0 0/100% 100%;cursor:pointer}
+.gbcam-switch i{position:absolute;left:.29px;top:.29px;width:32.78px;height:32.78px;background:url('assets/gb-cam-btn_mode_switch_knob_normal.png') 0 0/100% 100%;transition:left .2s}
+.gbcam-switch.video i{left:calc(100% - 33.07px)}
+.screen .gbcam-switch:active i{background-image:url('assets/gb-cam-btn_mode_switch_knob_pressed.png')}
+.screen .gbcam-thumb{flex:none;width:44.85px;height:44.85px;padding:2.88px;border:0 solid transparent;border-image:url('assets/gb-cam-border_last_picture_normal.png') 37 36 36 37 fill / 21.28px 20.7px 20.7px 21.28px stretch;background:none;overflow:hidden;cursor:pointer}
+.screen .gbcam-thumb:active:not(:disabled){border-image-source:url('assets/gb-cam-border_last_picture_pressed.png')}
+.gbcam-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+/* Popups */
+.gbcam-scrim{position:absolute;inset:0;z-index:4}
+.gbcam-popup{position:absolute;z-index:5;bottom:calc(65.55px + 8.63px + 34.5px + 14px);left:clamp(4px,calc(var(--ax) - var(--w) / 2),calc(100% - var(--w) - 4px));width:var(--w);box-sizing:border-box;padding:5.18px 9.2px 13.8px;border:0 solid transparent;border-image:url('assets/gb-cam-menu_popup-p.png') 12 18 27 19 fill / 6.9px 10.35px 15.53px 10.93px stretch}
+.gbcam-triangle{position:absolute;z-index:6;left:calc(var(--ax) - 17.25px);bottom:calc(65.55px + 8.63px + 34.5px - 4px);width:34.5px;height:24.15px;background:url('assets/gb-cam-menu_popup_triangle-p.png') 0 0/100% 100%;pointer-events:none}
+.gbcam-popup-list{max-height:300px;overflow-y:auto;scrollbar-width:thin}
+.gbcam-head{padding:1.73px 3.45px;background:#2b2b2b;color:#979797;font-size:10.35px}
+.screen .gbcam-opt{display:flex;align-items:center;gap:5.18px;width:100%;min-height:27.6px;padding:1.73px 3.45px;border:0;background:none;color:#fff;font-size:15.53px;text-align:left;cursor:pointer}
+.screen .gbcam-opt:active{background:#181818}
+.gbcam-opt>img:first-child,.gbcam-opt>i{flex:none;width:20.7px;height:20.7px}
+.gbcam-opt span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbcam-tick{flex:none;width:16.1px;height:16.1px}
+.gbcam-zoom{display:flex;align-items:center;gap:6px;padding:8px 4px}
+.gbcam-zoom input{flex:1;accent-color:#9fc742}
+.gbcam-zoom span{font-size:15.53px;color:#ffffffa8;min-width:38px;text-align:right}

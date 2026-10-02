@@ -85,6 +85,19 @@ account_settings_action'''.split(),
 albums_selected items_selected album location location_unknown title type taken_on added_on show_on_map rotate_left rotate_right crop set_as
 set_as_wallpaper item items date_unknown details_ok no_items wallpaper camera_setas_wallpaper'''.split(),
     },
+    'camera': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-2.3.6_r1/res/values%s/strings.xml'],
+        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-2.3.6_r1/res/values%s/arrays.xml'],
+        'keys': '''camera_label video_camera_label confirm_restore_title confirm_restore_message switch_camera_id pref_camera_id_title
+pref_camera_id_entry_back pref_camera_id_entry_front pref_camera_recordlocation_title pref_camera_recordlocation_entry_off
+pref_camera_recordlocation_entry_on pref_video_quality_title pref_camera_settings_category pref_camcorder_settings_category
+pref_camera_picturesize_title pref_camera_jpegquality_title pref_camera_focusmode_title pref_camera_flashmode_title
+pref_camera_whitebalance_title pref_camera_coloreffect_title pref_camera_scenemode_title pref_restore_title pref_restore_detail
+pref_exposure_title zoom_control_title switch_to_camera_lable switch_to_video_lable camera_gallery_photos_text'''.split(),
+        'arrays': ['pref_camera_picturesize_entries', 'pref_camera_jpegquality_entries', 'pref_camera_focusmode_entries', 'pref_camera_flashmode_entries',
+                   'pref_camera_whitebalance_entries', 'pref_camera_coloreffect_entries', 'pref_camera_scenemode_entries', 'pref_video_quality_entries',
+                   'pref_camera_video_flashmode_entries'],
+    },
     'calendar': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
         'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],
@@ -124,18 +137,39 @@ def build(name):
                 m = re.search(r'<string name="%s"(?: product="default")?[^>]*>(.*?)</string>' % re.escape(key), text, re.S)
                 if m and code not in out.get(key, {}):
                     out.setdefault(key, {})[code] = clean(m.group(1))
-    arrays = {}
+    arrays, string_cache = {}, {}
     for lang in LANGS:
         code = lang[1:] or 'en'
         for source in app.get('array_sources', []):
+            # Untranslated arrays.xml (entries that are @string references) only exist in values/; resolve them per language.
             try:
                 text = urllib.request.urlopen(source % lang).read().decode('utf-8')
             except Exception:
-                continue
+                try:
+                    text = urllib.request.urlopen(source % '').read().decode('utf-8')
+                except Exception:
+                    continue
+                if '@string/' not in text:
+                    continue
+            # Items may point at strings (@string/key): resolve them in the same language, falling back to English.
+            def resolve(item, code=code):
+                if not item.startswith('@string/'):
+                    return item
+                ref = item[8:]
+                for src in app['sources']:
+                    for variant in ([lang, ''] if lang else ['']):
+                        try:
+                            body = string_cache.setdefault(src % variant, urllib.request.urlopen(src % variant).read().decode('utf-8'))
+                        except Exception:
+                            continue
+                        m2 = re.search(r'<string name="%s"[^>]*>(.*?)</string>' % re.escape(ref), body, re.S)
+                        if m2:
+                            return clean(m2.group(1))
+                return item
             for key in app.get('arrays', []):
                 m = re.search(r'<string-array name="%s"[^>]*>(.*?)</string-array>' % re.escape(key), text, re.S)
                 if m:
-                    arrays.setdefault(key, {})[code] = [clean(item) for item in re.findall(r'<item[^>]*>(.*?)</item>', m.group(1), re.S)]
+                    arrays.setdefault(key, {})[code] = [resolve(clean(item)) for item in re.findall(r'<item[^>]*>(.*?)</item>', m.group(1), re.S)]
     for lang in LANGS:
         code = lang[1:] or 'en'
         for source in app['sources'] if app.get('plurals') else []:

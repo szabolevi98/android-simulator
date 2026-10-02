@@ -437,3 +437,23 @@ References: Gallery3D 2.3.6 (`com.cooliris.media`: `HudLayer`, `PathBarLayer`, `
   - Details opens the AlertDialog with title, type, album, taken on and location.
 
 Checks: `gb-gallery.test.cjs` covers the stacks and their placement, the path bar levels, the grid and time bar, stack mode, the full-screen labels and bar, the selection bars, popups, details and translations. Headless Chrome covered albums → album → stack mode → photo → Menu → More → Details, and a long press → Delete. No JavaScript errors.
+
+## Camera — 2026-10-02
+
+References: Camera 2.3.6 (`camera.xml`, `camera_control.xml`, `CameraHeadUpDisplay`, `HeadUpDisplay`, `IndicatorBar`, `GLOptionItem` / `GLOptionHeader`, `OtherSettingsIndicator`, `ZoomIndicator`, `camera_preferences.xml`, `Camera.addBaseMenuItems`, the manifest's landscape Theme.Black.NoTitleBar.Fullscreen, `drawable-hdpi`). Strings and the preference entry arrays come from `docs/gb-strings.py camera`. The generator now resolves `@string/` items in untranslated `arrays.xml` per language.
+
+- **Orientation:** the activity is landscape-only and full screen (the status bar is hidden). Held upright, the layout appears turned 90° clockwise while RotateImageView / RotatePane keep the icons and popups upright. So:
+  - the 76 dp control bar runs along the bottom, with the shutter on the left, the camera / video Switcher in the middle and the 52 dp review thumbnail on the right;
+  - the IndicatorBar crosses the bottom of the preview, 10 dp from its edge;
+  - the popups open above it, with the triangle pointing down.
+  - The turned 9-patches (iconbar, switch track, menu_popup, triangle) are stored pre-rotated as `gb-cam-*-p.png`.
+- **Preview:** a 4:3 frame (3:4 upright) in `border_view_finder` on the `bg_camera_pattern` tile. A tap runs the FocusRectangle: focusing, then focused in green.
+- **IndicatorBar** (CameraHeadUpDisplay order, shown right to left): Other settings, Store location (GPS), White balance, Flash mode, the zoom ratio ("1x" … "4x", 18 dip #A8FFFFFF) and Select camera (back / front). The active indicator gets the #9A2B2B2B highlight.
+  - The popups are `menu_popup` lists: GLOptionHeader (12 dip #979797 on #2b2b2b), then GLOptionItem rows (18 dip, `ic_menuselect_*` icons, `ic_menuselect_on/off`).
+  - Other settings lists Focus mode, Exposure, Scene mode, Picture size, Picture quality, Color effect and "Restore defaults" (with the confirm dialog). Zoom has a slider.
+  - The colour effects tint the preview.
+- **Capture:** the shutter focuses, captures (`IMG_yyyyMMdd_HHmmss`), and the picture drops into the review thumbnail, which opens it in the Gallery.
+  - The Switcher moves to video: the record button appears, then the stop button with the blinking `ic_recording_indicator` and the elapsed time. Stopping saves `VID_…`, which the Gallery shows with `videooverlay`.
+- **Menu:** Switch to video / camera, Gallery, Switch Camera.
+
+Checks: `gb-camera.test.cjs` covers the defaults and media.js compatibility, the labels in three languages, the indicator order, the popups and their anchors, focus, video recording, the thumbnail and the menu. Headless Chrome covered the white balance popup → Cloudy, Other settings, zoom, shutter (focusing → focused → thumbnail), video recording and the menu. No JavaScript errors.

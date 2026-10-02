@@ -237,6 +237,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'camera') { ui.gbcamPopup = ''; ui.gbMenuItems = GBCamera.menu(gbCameraContext()); ui.overlay = 'gb-menu-settings'; render(); renderOverlay(); return; }
     if (ui.view === 'email') { gbEmSync(); const items = GBEmail.menu(gbEmailContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'calendar') { gbCalSyncDraft(); const items = GBCalendar.menu(gbCalContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'browser') { if (ui.gbBrEdit) return; const items = GBBrowser.menu(gbBrowserContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
@@ -312,7 +313,7 @@
     viewport.querySelectorAll('.home-widget .calw-list').forEach(list => { (ui.widgetScroll ||= {})[list.closest('.home-widget').dataset.widgetId] = list.scrollTop; });
     if(ui.locked)ui.view='lock';
     const outgoing = viewport.firstElementChild;
-    screen.className = `screen${activeTransition ? ' transitioning' : ''} wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}${ui.sleeping?' sleeping':''}${ui.locked?' credential-locked':''}`;
+    screen.className = `screen${activeTransition ? ' transitioning' : ''} wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}${ui.sleeping?' sleeping':''}${ui.locked?' credential-locked':''}${ui.view==='camera'&&!ui.locked?' gb-fullscreen':''}`;
     screen.style.background = data.wallpaper === 99 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 99 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#000 url('assets/gb-wallpaper_${wallpaperFiles[data.wallpaper] || 'street_lights'}.jpg') ${ui.page * 25}% center / auto 100% no-repeat`;
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav(); syncLiveWallpaper();
@@ -573,6 +574,8 @@
     if (ui.view === 'lock') return;
     if(ui.view==='phone' && ui.activeCall && ui.gbAddCall){ui.gbAddCall=false;ui.gbCallBackground=false;render();return;}
     if(ui.view==='phone' && ui.activeCall && !ui.gbCallBackground){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
+    if (ui.view === 'camera' && ui.gbcamPopup) { ui.gbcamPopup = ''; render(); return; }
+    if (ui.view === 'camera' && ui.gbcamRec) { gbcamStopRecording(); render(); return; }
     if (ui.view === 'gallery' && ui.gbgPopup) { ui.gbgPopup = ''; render(); return; }
     if (ui.view === 'gallery' && ui.gbgSelect) { gbgEndSelection(); render(); return; }
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
@@ -645,6 +648,7 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-camera') return {title: GBCamera.text(i18n.language, 'confirm_restore_title'), icon: 'ic_dialog_alert', message: GBCamera.text(i18n.language, 'confirm_restore_message'), buttons: [{action: 'gbcam-restore-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
     if (ui.overlay === 'gb-dialog-gallery') return GBGallery.details(gbGalleryContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-email') return GBEmail.dialog(ui.gbEmDialog, gbEmailContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-cal') return GBCalendar.dialog(ui.gbCalDialog, gbCalContext()) || {title: '', items: []};
@@ -1093,7 +1097,23 @@
     return ui.sub ? data.photos.filter(p => ids.includes(String(p.id))) : data.photos.filter(p => ids.includes(ICSMedia.album(p)));
   }
   function gbgEndSelection() { ui.gbgSelect = false; ui.gbgSelected = []; ui.gbgPopup = ''; }
-  function renderCamera() { return ICSMedia.camera(data,ui,key=>i18n.t(key)); }
+  function renderCamera() { return GBCamera.render(gbCameraContext()); }
+  function gbCameraContext() {
+    const saved = data.cameraSettings || {}, s = GBCamera.settings(saved);
+    return {lang: i18n.language, saved: {...saved, ...s}, mode: ui.gbcamMode || 'photo', popup: ui.gbcamPopup || '', focus: ui.gbcamFocus || '', recording: !!ui.gbcamRec, recordTime: gbcamClock(), last: ICSMedia.photos(data, 'camera')[0], effectFilter: GBCamera.EFFECTS[s.effect] || 'none'};
+  }
+  const gbcamClock = () => { if (!ui.gbcamRec) return '00:00'; const t = Math.floor((Date.now() - ui.gbcamRec) / 1000); return `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`; };
+  function gbcamSet(changes) { const s = {...GBCamera.settings(data.cameraSettings || {}), ...changes}; data.cameraSettings = {...s, front: s.facing === 'front', exposure: Number(s.exposure)}; save(); }
+  // FocusRectangle: focusing, then focused (or failed), cleared after a moment.
+  function gbcamFocus(done) {
+    clearTimeout(ui.gbcamFocusTimer); ui.gbcamFocus = 'focusing'; render();
+    ui.gbcamFocusTimer = setTimeout(() => { if (ui.view !== 'camera') return; ui.gbcamFocus = 'focused'; render(); done?.(); ui.gbcamFocusTimer = setTimeout(() => { ui.gbcamFocus = ''; if (ui.view === 'camera') render(); }, 1200); }, 600);
+  }
+  function gbcamStopRecording(keep = true) {
+    if (!ui.gbcamRec) return;
+    clearInterval(ui.gbcamRecTimer); const started = ui.gbcamRec; ui.gbcamRec = 0;
+    if (keep) { const stamp = new Date(started).toISOString().replace(/[-:T]/g, '').slice(0, 14); data.photos.unshift({...ICSMedia.scene(data), id: Date.now(), name: `VID_${stamp.slice(0, 8)}_${stamp.slice(8)}`, album: 'camera', created: Date.now(), video: true, duration: Math.round((Date.now() - started) / 1000)}); save(); }
+  }
   function galleryStep(direction) {
     const items=ICSMedia.photos(data,ui.galleryAlbum); if(!items.length)return;
     const index=Math.max(0,items.findIndex(p=>p.id===ui.selectedPhoto));
@@ -1606,7 +1626,24 @@
         const photo={...ICSMedia.scene(data),id:Date.now(),name:`IMG_${new Date().toISOString().replace(/[-:T]/g,'').slice(0,14)}`,album:'camera',created:Date.now()};
         data.photos.unshift(photo);save();render();screen.animate([{opacity:1},{opacity:.4},{opacity:1}],{duration:240});toast('Photo saved to Gallery');break;
       }
-      case 'camera-review': {const photo=ICSMedia.photos(data,'camera')[0];openApp('gallery');if(photo){ui.galleryAlbum='camera';ui.selectedPhoto=photo.id;ui.sub='photo';render();}break;}
+      case 'gbcam-popup': ui.gbcamPopup = ui.gbcamPopup === id ? '' : id; render(); break;
+      case 'gbcam-popup-close': ui.gbcamPopup = ''; render(); break;
+      case 'gbcam-set': { const [key, value] = id.split(':'); gbcamSet({[key]: value}); if (ui.gbcamPopup !== 'settings') ui.gbcamPopup = ''; render(); break; }
+      case 'gbcam-restore': ui.gbcamPopup = ''; ui.overlay = 'gb-dialog-camera'; render(); renderOverlay(); break;
+      case 'gbcam-restore-ok': data.cameraSettings = {...GBCamera.DEFAULTS, front: false, exposure: 0}; save(); ui.overlay = ''; render(); break;
+      case 'gbcam-focus': if (ui.gbcamPopup) { ui.gbcamPopup = ''; render(); break; } gbcamFocus(); break;
+      case 'gbcam-switch-camera': gbcamSet({facing: GBCamera.settings(data.cameraSettings || {}).facing === 'front' ? 'back' : 'front'}); ui.overlay = ''; render(); break;
+      case 'gbcam-mode': gbcamStopRecording(); ui.gbcamMode = ui.gbcamMode === 'video' ? 'photo' : 'video'; ui.gbcamPopup = ''; ui.overlay = ''; render(); break;
+      case 'gbcam-shutter':
+        ui.gbcamPopup = '';
+        if (ui.gbcamMode === 'video') {
+          if (ui.gbcamRec) { gbcamStopRecording(); render(); break; }
+          ui.gbcamRec = Date.now(); render(); ui.gbcamRecTimer = setInterval(() => { const label = viewport.querySelector('.gbcam-rec span'); if (label) label.textContent = gbcamClock(); else clearInterval(ui.gbcamRecTimer); }, 500); break;
+        }
+        // ShutterButton: autofocus, then the capture; the new picture slides into the review thumbnail.
+        gbcamFocus(() => { const photo = {...ICSMedia.scene(data), id: Date.now(), name: `IMG_${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 8)}_${new Date().toISOString().replace(/[-:T]/g, '').slice(8, 14)}`, album: 'camera', created: Date.now()}; data.photos.unshift(photo); save(); render(); viewport.querySelector('.gbcam-preview')?.animate([{opacity: 1}, {opacity: .15}, {opacity: 1}], {duration: 260}); viewport.querySelector('.gbcam-thumb img')?.animate([{transform: 'scale(1.6)', opacity: .3}, {transform: 'none', opacity: 1}], {duration: 380}); });
+        break;
+      case 'camera-review': {gbcamStopRecording();const photo=ICSMedia.photos(data,'camera')[0];openApp('gallery');if(photo){ui.galleryAlbum='camera';ui.selectedPhoto=photo.id;ui.sub='photo';render();}break;}
       case 'camera-focus': {const preview=viewport.querySelector('.camera-focus-area');preview.classList.remove('focusing');void preview.offsetWidth;preview.classList.add('focusing');break;}
       case 'camera-flip': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.front=!data.cameraSettings.front;save();render();break;
       case 'camera-flash': {data.cameraSettings=ICSMedia.settings(data);const choices=['auto','off','on'];data.cameraSettings.flash=choices[(choices.indexOf(data.cameraSettings.flash)+1)%3];save();render();toast(i18n.t('Flash')+': '+i18n.t(data.cameraSettings.flash==='auto'?'Auto':data.cameraSettings.flash==='on'?'On':'Off'));break;}
@@ -1855,6 +1892,7 @@
       else ui.peopleDraft[event.target.name]=event.target.value;
       return;
     }
+    if (event.target.matches('[data-gbcam-zoom]')) { gbcamSet({zoom: GBCamera.ZOOMS[Number(event.target.value)] || 1}); const out = event.target.nextElementSibling; if (out) out.textContent = GBCamera.zoomText(GBCamera.ZOOMS[Number(event.target.value)] || 1); const ind = viewport.querySelector('.gbcam-ind[data-id="zoom"] b'); if (ind) ind.textContent = out.textContent; viewport.querySelector('.gbcam-scene img')?.style.setProperty('transform', `scale(${GBCamera.ZOOMS[Number(event.target.value)] || 1})`); return; }
     if (event.target.closest('.gbcal-edit') && ui.eventDraft) { if (event.target.name === 'allDay') { gbCalSyncDraft(); ui.eventDraft.allDay = event.target.checked; render(); } else if (['title', 'location', 'description'].includes(event.target.name)) ui.eventDraft[event.target.name] = event.target.value; return; }
     if (event.target.closest('.gbbr-search')) { ui.gbBrEditValue = event.target.value; const box = viewport.querySelector('.gbbr-suggest'); if (box) box.innerHTML = GBBrowser.suggestions(gbBrowserContext()); return; }
     if (event.target.closest('.gbbr-find')) { ui.browserFind = event.target.value; ui.gbBrMark = -1; const page = viewport.querySelector('.browser-page'); page.innerHTML = renderWebsite(ui.browserUrl); if (ui.browserFind) highlightBrowserText(); else viewport.querySelector('.web-find-count').textContent = ''; return; }

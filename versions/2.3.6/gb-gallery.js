@@ -14,7 +14,8 @@
   const ALBUMS = ['camera', 'pictures'];
   const albumName = (key, lang) => key === 'camera' ? text(lang, 'camera') : 'Pictures';
   const albumIcon = key => key === 'camera' ? 'gb-g3-icon_camera_small.png' : 'gb-g3-icon_folder_small.png';
-  const thumb = (photo, cls = '') => `<span class="gbg-thumb${cls}"><img src="${M().image(photo)}" alt=""></span>`;
+  // GridDrawables.TEXTURE_VIDEO: videos carry the play overlay.
+  const thumb = (photo, cls = '') => `<span class="gbg-thumb${cls}"><img src="${M().image(photo)}" alt="">${photo.video ? '<img class="gbg-video" src="assets/gb-g3-videooverlay.png" alt="">' : ''}</span>`;
   // PathBarLayer: each label after the first is joined by pathbar_join; the last one ends with pathbar_cap.
   function pathBar(parts) {
     return `<div class="gbg-path">${parts.map(([icon, label, action], i) => `<button class="gbg-crumb${i === parts.length - 1 ? ' last' : ''}"${action ? ` data-action="${action}"` : ''}>${icon ? `<img src="assets/${icon}" alt="">` : ''}${label ? `<span>${e(label)}</span>` : ''}</button>`).join('')}</div>`;

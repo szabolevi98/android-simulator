@@ -85,3 +85,5 @@
 .gbg-crumb:not(.last) span{display:none}
 .screen .gbg-crumb:not(.last){padding-left:3.45px;padding-right:17.25px}
 .gbg-menubar.top button:nth-child(3){flex:1.6}
+.gbg-thumb{position:relative}
+.gbg-thumb img.gbg-video{position:absolute;left:50%;top:50%;width:34.5px;height:33.2px;margin:-16.6px 0 0 -17.25px;object-fit:contain}
