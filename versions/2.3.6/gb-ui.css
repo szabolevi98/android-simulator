@@ -1,0 +1,56 @@
+/* Android 2.3.6 options IconMenu and AlertDialog. hdpi px x 0.575, 1 dp = 0.8625px. */
+/* Options panel: menu_background_fill_parent_width (90% black under a gray top edge), 66 dip rows, divider_*_dark
+   lines, highlight_pressed on touch; options_panel_enter/exit slide 25% / 50% with a 150 ms fade. */
+.gbmenu-scrim{position:absolute;inset:21.85px 0 0;z-index:24}
+.gbmenu{position:absolute;left:0;right:0;bottom:0;z-index:25;box-sizing:border-box;border:0 solid transparent;border-image:url('assets/gb-menu_background_fill_parent_width.png') 26 14 0 14 fill / 14.95px 8.05px 0 8.05px stretch;padding:10.35px 1.73px 0;display:flex;flex-direction:column;animation:gbmenu-in .15s cubic-bezier(.25,.46,.45,.94)}
+.gbmenu.closing{animation:gbmenu-out .15s cubic-bezier(.55,.085,.68,.53) forwards}
+@keyframes gbmenu-in{from{transform:translateY(25%);opacity:0}}
+@keyframes gbmenu-out{to{transform:translateY(50%);opacity:0}}
+.gbmenu-row{display:flex;height:56.93px}
+.screen .gbmenu-item{flex:1;min-width:0;border:0 solid transparent;background:none;padding:0 2.59px .86px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;color:#fff;font:400 12.07px/1.2 DroidSans,Arial,sans-serif;cursor:pointer}
+.gbmenu-item img{width:41.4px;height:41.4px;margin-bottom:-4px}
+.gbmenu-item span{max-width:100%;white-space:nowrap;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.gbmenu-item:not(:has(img)) span{font-size:12.07px}
+.gbmenu-item:active{border-image:url('assets/gb-highlight_pressed.png') 37 fill / 21.28px stretch}
+.gbmenu-item:disabled{opacity:.5;cursor:default}
+.gbmenu-vdiv{flex:none;width:1.15px;background:url('assets/gb-divider_vertical_dark.png') 0 0/100% 100%}
+.gbmenu-hdiv{flex:none;height:1.15px;background:url('assets/gb-divider_horizontal_dark.png') 0 0/100% 100%}
+
+/* AlertDialog: dimmed by 0.6, dialog_enter / dialog_exit (scale 0.9 + fade, 150 ms). */
+.gbdlg-scrim{position:absolute;inset:0;z-index:40;background:#00000099;animation:gbdlg-fade .15s}
+.gbdlg{position:absolute;left:0;right:0;top:50%;z-index:41;max-height:calc(100% - 30px);transform:translateY(-50%);display:flex;flex-direction:column;padding:0 1.73px;color:#fff;font-family:DroidSans,Arial,sans-serif;animation:gbdlg-in .15s cubic-bezier(.25,.46,.45,.94)}
+.gbdlg.closing{animation:gbdlg-out .15s cubic-bezier(.55,.085,.68,.53) forwards}
+@keyframes gbdlg-in{from{transform:translateY(-50%) scale(.9);opacity:0}}
+@keyframes gbdlg-out{to{transform:translateY(-50%) scale(.9);opacity:0}}
+@keyframes gbdlg-fade{from{opacity:0}}
+.gbdlg-section{border:0 solid transparent;flex:none}
+.gbdlg-bg-top-dark{border-image:url('assets/gb-popup_top_dark.png') 15 21 0 21 fill / 8.63px 12.08px 0 12.08px stretch;padding:8.63px 10.93px 0}
+.gbdlg-bg-center-dark{border-image:url('assets/gb-popup_center_dark.png') 0 21 0 21 fill / 0 12.08px stretch;padding:0 10.93px}
+.gbdlg-bg-bottom-dark{border-image:url('assets/gb-popup_bottom_dark.png') 0 21 23 21 fill / 0 12.08px 13.23px stretch;padding:0 10.93px 13.23px}
+.gbdlg-bg-full-dark{border-image:url('assets/gb-popup_full_dark.png') 16 20 24 20 fill / 9.2px 11.5px 13.8px stretch;padding:8.63px 10.93px 13.23px}
+.gbdlg-bg-center-bright{border-image:url('assets/gb-popup_center_bright.png') 0 35 0 35 fill / 0 20.13px stretch;padding:0 10.93px}
+.gbdlg-bg-bottom-bright{border-image:url('assets/gb-popup_bottom_bright.png') 0 36 23 36 fill / 0 20.7px 13.23px stretch;padding:0 10.93px 13.23px}
+.gbdlg-bg-bottom-medium{border-image:url('assets/gb-popup_bottom_medium.png') 0 21 23 21 fill / 0 12.08px 13.23px stretch;padding:0 10.93px 13.23px}
+.gbdlg-bg-full-bright{border-image:url('assets/gb-popup_full_bright.png') 16 20 24 20 fill / 9.2px 11.5px 13.8px stretch;padding:8.63px 10.93px 13.23px}
+/* Title: 54 dip panel, 6 / 9 dip margins, 10 dip sides, textAppearanceLarge (22 sp), 1 dip divider. */
+.gbdlg-title{display:flex;align-items:flex-start;gap:8.63px;margin:5.18px 8.63px 7.76px;min-height:31px}
+.gbdlg-title img{width:27.6px;height:27.6px;margin-top:5.18px;flex:none}
+.gbdlg-title h3{margin:0;font:400 18.98px/1.3 DroidSans,Arial,sans-serif;color:#fff;align-self:center}
+.gbdlg-divider{display:block;height:1px;background:url('assets/gb-divider_horizontal_dark.png') 0 0/100% 100%}
+.gbdlg-message{overflow-y:auto}
+.gbdlg-message p{margin:0;padding:1.73px 8.63px 10.35px 12.08px;font-size:15.53px;line-height:1.3;color:#fff}
+.gbdlg-message p::before{content:"";display:block;height:4.31px}
+/* Lists: 64 dip rows of 22 sp black text (select_dialog_item / add_list_item), 14 dip icon gap, radio or check. */
+.gbdlg-list{max-height:min(330px,60vh);overflow-y:auto;scrollbar-width:none}
+.screen .gbdlg-item{width:100%;min-height:55.2px;display:flex;align-items:center;gap:12.08px;padding:0 12.94px 0 12.08px;border:0;border-bottom:1px solid #00000020;background:none;color:#000;text-align:left;font:400 18.98px DroidSans,Arial,sans-serif;cursor:pointer}
+.gbdlg-item:last-child{border-bottom:0}
+.gbdlg-item span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbdlg-item:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbdlg-icon{width:41.4px;height:41.4px;flex:none}
+.gbdlg-check{width:27.6px;height:27.6px;flex:none}
+.screen .gbdlg-item:disabled{color:#00000080}
+/* Buttons: btn_default (14 sp black) on popup_bottom_medium, weights 0.25 / 1 / 1 / 0.25 for a single button. */
+.gbdlg-buttons{display:flex;gap:0;padding:3.45px 1.73px 0;min-height:46.58px;align-items:center}
+.gbdlg-buttons.single{padding:3.45px 25%}
+.screen .gbdlg-button{flex:1;min-width:0;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;padding:5.75px 9.78px 9.78px 9.2px;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
+.gbdlg-button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}

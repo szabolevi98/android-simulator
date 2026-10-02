@@ -227,11 +227,39 @@
     navRoot.classList.add('lit'); clearTimeout(keylightTimer);
     keylightTimer = setTimeout(() => navRoot.classList.remove('lit'), 6000);
   }
-  // The Menu key opens the current screen's options; apps without a menu ignore it.
+  // The Menu key toggles the current screen's options panel; screens without a menu ignore it.
   function menuKey() {
-    if (ui.overlay === 'menu') { ui.overlay = ''; renderOverlay(); return; }
-    const button = [...viewport.querySelectorAll('[data-action$="-menu"]')].find(node => node.offsetParent && !node.disabled);
+    if (ui.overlay.startsWith('gb-menu') || overlayRoot.querySelector('.gbmenu')) { closeGBMenu(); return; }
+    if (ui.overlay === 'shade') return;
+    if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
+    if (ui.view === 'drawer') return;
+    const button = [...viewport.querySelectorAll('[data-action$="-menu"]')].find(node => !node.disabled);
     button?.click();
+  }
+  function closeGBMenu() {
+    const panel = overlayRoot.querySelector('.gbmenu');
+    if (!panel || reducedMotion?.matches) { ui.overlay = ''; renderOverlay(); return; }
+    panel.classList.add('closing');
+    setTimeout(() => { if (overlayRoot.contains(panel)) { ui.overlay = ''; renderOverlay(); } }, 150);
+  }
+  // Launcher.onCreateOptionsMenu: Add, Manage apps, Wallpaper / Search, Notifications, Settings.
+  const launcherMenu = () => [
+    {action: 'gb-add', title: i18n.t('Add'), icon: 'ic_menu_add'},
+    {action: 'settings-open', id: 'apps', title: i18n.t('Manage apps'), icon: 'ic_menu_manage'},
+    {action: 'gb-wallpaper', title: i18n.t('Wallpaper'), icon: 'ic_menu_gallery'},
+    {action: 'browser-search', title: i18n.t('Search'), icon: 'ic_search_category_default'},
+    {action: 'gb-notifications', title: i18n.t('Notifications'), icon: 'ic_menu_notifications'},
+    {action: 'open-app', app: 'settings', title: i18n.t('Settings'), icon: 'ic_menu_preferences'}
+  ];
+  // Holo options menus inherited from ICS become Gingerbread icon menus; known commands get their 2.3 menu icons.
+  const menuIcons = {Refresh: 'ic_menu_refresh', Forward: 'ic_menu_forward', 'New tab': 'ic_menu_new_window', 'New window': 'ic_menu_new_window', Bookmark: 'ic_menu_add_bookmark', Bookmarks: 'ic_menu_bookmarks', Windows: 'ic_menu_windows', Settings: 'ic_menu_preferences', Share: 'ic_menu_share', Delete: 'ic_menu_delete', Search: 'ic_menu_search', Help: 'ic_menu_help', Edit: 'ic_menu_edit', 'Find on page': 'ic_menu_search', 'Saved pages': 'ic_menu_archive', 'Save for offline reading': 'ic_menu_save', 'New message': 'ic_menu_compose', Compose: 'ic_menu_compose', 'Add contact': 'ic_menu_add', 'New contact': 'ic_menu_add', 'Clear': 'ic_menu_close_clear_cancel', 'Add alarm': 'ic_menu_add', 'Advanced panel': 'ic_menu_more', 'Clear history': 'ic_menu_close_clear_cancel', Accounts: 'ic_menu_account_list', Import: 'ic_menu_upload', Export: 'ic_menu_save', 'Display options': 'ic_menu_view', Groups: 'ic_menu_allfriends', Today: 'ic_menu_today', 'New event': 'ic_menu_add', 'Day': 'ic_menu_day', 'Week': 'ic_menu_week', 'Month': 'ic_menu_month', 'Agenda': 'ic_menu_agenda', Refresh2: 'ic_menu_refresh', 'Party shuffle': 'ic_menu_shuffle', 'Shuffle all': 'ic_menu_shuffle', Library: 'ic_menu_music_library', 'Add to playlist': 'ic_menu_add', 'Set as ringtone': 'ic_menu_set_as_ringtone', 'Slideshow': 'ic_menu_slideshow', Rotate: 'ic_menu_rotate', Crop: 'ic_menu_crop', Details: 'ic_menu_info_details', 'Show on map': 'ic_menu_mapmode', 'Call log': 'ic_menu_recent_history', Contacts: 'ic_menu_allfriends'};
+  function gingerbreadMenu() {
+    const holo = overlayRoot.querySelector('.holo-menu:not(.gb-keep)');
+    if (!holo) return;
+    const items = [...holo.querySelectorAll('button')].map(button => ({action: button.dataset.action, id: button.dataset.id, app: button.dataset.app, title: button.textContent.trim(), icon: menuIcons[button.textContent.trim()], disabled: button.disabled}));
+    if (!items.length) return;
+    ui.gbMenuItems = items;
+    overlayRoot.innerHTML = GBUI.menu(items, key => i18n.t(key));
   }
   function searchKey() {
     if (ui.view === 'lock' || ui.locked) return;
@@ -574,10 +602,34 @@
     const y = new DOMMatrixReadOnly(getComputedStyle(panel).transform).m42 + shadeBottom();
     shadeFling(Math.min(shadeBottom() - 1, y), -2000 * GBStatusBar.PX, false);
   }
+  // Launcher AddAdapter ("Add to Home screen"), the shortcut and widget pickers and "Select wallpaper from".
+  function gbDialogSpec() {
+    const t = key => i18n.t(key);
+    if (ui.overlay === 'gb-dialog-add') return {title: t('Add to Home screen'), items: [
+      {action: 'gb-add-shortcuts', title: t('Shortcuts'), icon: 'l2-ic_launcher_shortcut'},
+      {action: 'gb-add-widgets', title: t('Widgets'), icon: 'l2-ic_launcher_appwidget'},
+      {action: 'gb-add-folders', title: t('Folders'), icon: 'l2-ic_launcher_folder'},
+      {action: 'gb-wallpaper', title: t('Wallpapers'), icon: 'l2-ic_launcher_wallpaper'}]};
+    if (ui.overlay === 'gb-dialog-shortcuts') return {title: t('Select shortcut'), items: [...apps].sort((a, b) => t(a[1]).localeCompare(t(b[1]), i18n.locale())).map(app => ({action: 'gb-add-app', id: app[0], title: t(app[1]), icon: `${app[0]}.png`}))};
+    if (ui.overlay === 'gb-dialog-widgets') return {title: t('Choose widget'), items: widgetTypes.map(widget => ({action: 'add-widget-gb', id: widget.type, title: t(widget.name), icon: `${widget.app || 'settings'}.png`}))};
+    if (ui.overlay === 'gb-dialog-wallpaper') return {title: t('Select wallpaper from'), items: [
+      {action: 'open-app', app: 'gallery', title: t('Gallery'), icon: 'gallery.png'},
+      {action: 'open-live-wallpapers', title: t('Live wallpapers'), icon: 'gb-l2-ic_launcher_wallpaper.png'},
+      {action: 'open-wallpapers', title: t('Wallpapers'), icon: 'l2-ic_launcher_wallpaper'}]};
+    return {title: '', items: []};
+  }
   let openFolderId = '';
-  function renderOverlay() {
+  function renderOverlay() { renderOverlayBase(); gingerbreadMenu(); }
+  function renderOverlayBase() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
-    if (ui.overlay === 'shade') {
+    if (ui.overlay === 'gb-menu-home') {
+      ui.gbMenuItems = launcherMenu();
+      overlayRoot.innerHTML = GBUI.menu(ui.gbMenuItems, key => i18n.t(key));
+    } else if (ui.overlay === 'gb-menu-more') {
+      overlayRoot.innerHTML = GBUI.expanded(ui.gbMenuItems || [], key => i18n.t(key));
+    } else if (ui.overlay.startsWith('gb-dialog')) {
+      overlayRoot.innerHTML = GBUI.dialog({...gbDialogSpec(), t: key => i18n.t(key)});
+    } else if (ui.overlay === 'shade') {
       const time = n => n.id > 1e12 ? new Date(n.id).toLocaleTimeString(i18n.locale(), {hour: 'numeric', minute: '2-digit', hour12: !data.settings.hour24}) : '';
       const ongoing = ui.activeCall ? [{id: 'call', action: 'open-app', app: 'phone', icon: 'gb-stat_sys_phone_call.png', title: i18n.t('Ongoing call'), text: contactByPhone(ui.activeCall.number)?.name || ui.activeCall.number}] : [];
       const latest = data.notifications.map(n => ({id: n.id, icon: noteIcon(n), title: n.title, text: n.detail, time: time(n)}));
@@ -1119,6 +1171,16 @@
         save(); render(); break;
       case 'widget-music-play': ui.musicActive=true;ui.music.playing=!ui.music.playing;if(ui.music.playing&&ui.music.position>=tracks[ui.music.track].duration)ui.music.position=0;saveMusic();render();break;
       case 'voice-search': toast('Voice search unavailable offline'); break;
+      case 'gb-add': ui.overlay = 'gb-dialog-add'; renderOverlay(); break;
+      case 'gb-add-shortcuts': ui.overlay = 'gb-dialog-shortcuts'; renderOverlay(); break;
+      case 'gb-add-widgets': ui.overlay = 'gb-dialog-widgets'; renderOverlay(); break;
+      case 'gb-add-folders': ui.overlay = ''; renderOverlay(); toast('Folders arrive with the Gingerbread folder update'); break;
+      case 'gb-wallpaper': ui.overlay = 'gb-dialog-wallpaper'; renderOverlay(); break;
+      case 'gb-notifications': ui.overlay = 'shade'; renderOverlay(); break;
+      case 'gb-menu-more': ui.overlay = 'gb-menu-more'; renderOverlay(); break;
+      case 'settings-open': ui.overlay = ''; ui.view = 'settings'; ui.sub = id; render(); break;
+      case 'gb-add-app': { ui.overlay = ''; const slot = data.homePages[ui.page].findIndex((item, index) => !item && widgetFits(ui.page, index % 4, Math.floor(index / 4), {type: 'x', width: 1, height: 1})); if (slot < 0) { renderOverlay(); toast('No more room on this Home screen.'); break; } data.homePages[ui.page][slot] = id; save(); render(); break; }
+      case 'add-widget-gb': { ui.overlay = ''; const added = addWidget(id); if (!added) { renderOverlay(); toast('No more room on this Home screen.'); break; } if (ui.overlay) renderOverlay(); render(); break; }
       case 'gb-tip-next': data.protips = {...(data.protips || {set: 0}), index: ((data.protips?.index ?? -1) + 1) % GBLauncher.tips(i18n.language, data.protips?.set).length}; save(); render(); break;
       case 'gb-tip-poke': blinkTips(1); break;
       case 'lock-media': if (id === 'play') { ui.music.playing = !ui.music.playing; if (ui.music.playing && ui.music.position >= tracks[ui.music.track].duration) ui.music.position = 0; } else ICSMusic.step(ui.music, id === 'previous' ? -1 : 1); ui.musicTrack = ui.music.track; saveMusic(); render(); break;

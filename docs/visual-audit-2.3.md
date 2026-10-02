@@ -129,3 +129,33 @@ The code is in `versions/2.3.6/gb-launcher.js` / `.css`, and the window animatio
 Checks: `gb-launcher.test.cjs` covers the tips per language and the haiku set, the footer, blink frames, arrow dots, cluster, search and music widget markup. Headless Chrome covered the middle and right screens, the all apps grid, a tip tap, dragging Browser from all apps onto the workspace, and dragging it to the trash. No JavaScript errors.
 
 Not yet: the Menu-key icon menu (Add, Wallpaper, Search, Notifications, Settings), the "Add to Home screen" dialog, the wallpaper chooser, folders and screen previews.
+
+## Options menu and dialogs — 2026-10-02
+
+References:
+- Framework 2.3.6: `icon_menu_layout.xml` (port), `IconMenuView.java`, `Theme.IconMenu`, `options_panel_enter/exit`, `alert_dialog.xml`, `AlertController.setBackground`, `select_dialog_item`, `dialog_enter/exit`, `Widget.Button`.
+- Launcher2: `Launcher.onCreateOptionsMenu`, `AddAdapter`, `add_list_item.xml`.
+
+The shared code is in `versions/2.3.6/gb-ui.js` / `.css`.
+
+- **Icon menu (Menu key).**
+  - A full-width panel on `menu_background_fill_parent_width`: 90% black under a gray top edge. Rows are 66 dip, with up to three items per row and six in total.
+  - Over six items, the first five show plus "More" (`ic_menu_more`), which opens the expanded list. `layoutItemsUsingGravity` gives the leftover items to the bottom rows.
+  - Each item has a 48 dp icon over a 14 sp label. Dark dividers sit between items, and `highlight_pressed` shows on touch.
+  - It slides up 25% with a 150 ms fade, and slides down 50% when closed. The Menu key toggles it.
+- **Launcher menu:** Add, Manage apps, Wallpaper / Search, Notifications, Settings, with their 2.3 icons.
+- **Inherited menus.** The ICS holo overflow menus that the apps still use are converted into icon menus on the fly. Known commands get their 2.3 menu icons (framework, Browser and Music art), for example Browser's Forward, Refresh, New window, Bookmark, Bookmarks and More.
+- **AlertDialog.**
+  - A dark title (`popup_top_dark`, 22 sp, 1 dip divider) over either a dark message (18 sp) or a bright list (22 sp black text, 64 dip rows), then the buttons on `popup_bottom_medium`. The pieces use `AlertController.setBackground`'s top / center / bottom / full rule.
+  - Buttons use `btn_default` with 14 sp black text, and a single button gets the 0.25 / 1 / 0.25 spacing.
+  - Radio and check variants use `btn_radio` / `btn_check`.
+  - The window dims what is behind it by 0.6 and opens with `dialog_enter` (scale 0.9 + fade, 150 ms).
+- **Add to Home screen** (AddAdapter): Shortcuts, Widgets, Folders, Wallpapers.
+  - Shortcuts lists the apps ("Select shortcut") and puts the chosen one in the first free cell, or reports "No more room on this Home screen."
+  - Widgets ("Choose widget") lists the widget types and adds the chosen one.
+  - Wallpapers opens "Select wallpaper from": Gallery, Live wallpapers, Wallpapers.
+- **Translations.** Launcher2, framework, Settings and LivePicker 2.3.6 strings.
+
+Checks: headless Chrome covered the home menu (two rows of three), Add → Widgets → Analog clock, Add → Shortcuts → Calculator, the Browser menu conversion and closing with the Menu key. No JavaScript errors.
+
+Next: Gingerbread folders (New folder, the UserFolder panel, rename), the wallpaper chooser and the home screen previews.
