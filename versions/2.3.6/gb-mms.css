@@ -1,0 +1,75 @@
+/* Android 2.3.6 Messaging. hdpi px x 0.575, 1 dp = 0.8625px. */
+#viewport>.app-view.gbmms{height:100%;display:flex;flex-direction:column;background:#fff;color:#000;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.gbmms-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;background:#fff}
+.gbmms-list::-webkit-scrollbar,.gbmms-history::-webkit-scrollbar{display:none}
+/* ConversationListItem: listPreferredItemHeight (64 dip), QuickContactBadge 47.33 x 56 dip 7 dip from the left,
+   "from" in TextAppearance.Medium.Inverse, subject and date in Small.Inverse (#323232), the divider_horizontal_bright_opaque. */
+.screen .gbmms-thread{display:grid;grid-template-columns:52.9px minmax(0,1fr) auto;grid-template-rows:1fr auto;width:100%;height:55.2px;padding:0 8.63px 0 0;border:0;border-bottom:1px solid rgba(184,184,184,.35);background:#eee;color:#000;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbmms-thread.unread,.screen .gbmms-thread.gbmms-header{background:#fff}
+.screen .gbmms-thread:active{background:transparent;border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbmms-header{grid-template-columns:6.04px minmax(0,1fr) auto}
+.gbmms-thread .gbmms-badge{grid-row:1/3;grid-column:1;align-self:center;margin-left:6.04px}
+.gbmms-badge{display:block;width:40.82px;height:48.3px;flex:none;box-sizing:border-box;padding:0 1.15px 8.63px 0;border:0 solid transparent;border-image:url('assets/gb-quickcontact_badge_unpressed.png') 0 7 15 24 fill / 0 4.03px 8.63px 13.8px stretch}
+.gbmms-badge img{display:block;width:100%;height:100%;object-fit:contain}
+.gbmms-from{grid-column:2/4;grid-row:1;align-self:start;margin:5.18px 4.31px 0 6.04px;font-size:15.53px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbmms-thread.unread .gbmms-from{font-weight:700}
+.gbmms-from em{font-style:normal;font-size:12.07px;color:red}
+.gbmms-subject{grid-column:2;grid-row:2;margin:0 0 8.63px 6.04px;font-size:12.07px;color:#323232;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbmms-header .gbmms-subject{grid-column:2/4}
+.gbmms-date{grid-column:3;grid-row:2;margin:0 0 8.63px 4.31px;font-size:12.07px;color:#323232;white-space:nowrap}
+.gbmms-date.clip{padding-left:17.25px;background:url('assets/gb-m-ic_attachment_universal_small.png') 0 50%/15.53px no-repeat}
+.gbmms-empty{margin:18px 12px;color:#323232;font-size:15.53px;text-align:center}
+.gbmms .gbmms-search{display:block;flex:none;padding:4.31px;background:#000}
+.gbmms .gbmms-search input{width:100%;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_search_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+/* ComposeMessageActivity: white background, recipients editor, the history (stackFromBottom) and the bottom_panel. */
+.gbmms-form{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff}
+.gbmms-recipients{flex:none;position:relative;display:flex;flex-direction:column;gap:2px;padding:4.31px}
+.gbmms .gbmms-field{display:block;width:100%;box-sizing:border-box;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px/1.25 DroidSans,Arial,sans-serif;outline:0;resize:none}
+.gbmms .gbmms-field:focus{border-image-source:url('assets/gb-textfield_selected.png')}
+.gbmms-field::placeholder{color:#808080}
+.gbmms .mms-recipient{position:relative;padding:0;background:none}
+.gbmms-suggestions{position:absolute;left:0;right:0;top:100%;z-index:3;background:#fff;box-shadow:0 2px 6px #0008}
+.gbmms-suggestions:empty{display:none}
+.screen .gbmms-suggestions button{display:flex;flex-direction:column;width:100%;padding:5px 8.63px;border:0;border-bottom:1px solid rgba(184,184,184,.35);background:#fff;color:#000;text-align:left;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.gbmms-suggestions button small{font-size:12.07px;color:#323232}
+.screen .gbmms-suggestions button:active{background:#ff9d00}
+.gbmms .gbmms-history{padding:0;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;margin-bottom:.86px}
+.gbmms-history>:first-child{margin-top:auto}
+/* MessageListItem: 5 dip left padding, 18 sp black text with the badge in its leading margin, the timestamp in
+   TextAppearance.Small at #bf000000 with 10 px extra ascent; inbox rows on light blue (#ecfbff). */
+.screen .gbmms-msg{flex:none;display:block;position:relative;width:100%;padding:0 0 0 4.31px;border:0;border-bottom:1px solid rgba(184,184,184,.35);background:#fff;color:#000;text-align:left;font:400 15.53px/1.3 DroidSans,Arial,sans-serif;cursor:pointer;overflow:hidden}
+.screen .gbmms-msg.received{background:#ecfbff}
+.screen .gbmms-msg:active{background:transparent;border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbmms-text{display:block;padding:5.18px 4.31px 2.59px 0;overflow-wrap:anywhere}
+.gbmms-text .gbmms-badge{float:left;margin:-.86px 4.31px 4.31px 0}
+.gbmms-text small{display:inline-block;padding-top:5.75px;font-size:12.07px;color:rgba(0,0,0,.75)}
+.gbmms-emo{width:17.25px;height:17.25px;vertical-align:-3px}
+.gbmms-mms{display:block;padding-top:5.18px;width:60%}
+.gbmms-mms .mms-photo{position:relative;display:block;width:100%;aspect-ratio:4/3;border-radius:0;overflow:hidden}
+.gbmms-lock{position:absolute;right:3px;bottom:7px;width:17.25px;height:17.25px}
+/* Image attachment (image_attachment_view_portrait.xml): the picture with View / Replace picture / Remove. */
+.gbmms-attachment{flex:none;display:flex;gap:6px;padding:4.31px;border-top:1px solid rgba(184,184,184,.6);background:#fff}
+.gbmms-attachment-image{width:45%}
+.gbmms-attachment-image .mms-photo{position:relative;display:block;width:100%;aspect-ratio:4/3;overflow:hidden}
+.gbmms-attachment-buttons{flex:1;display:flex;flex-direction:column;gap:2px}
+.screen .gbmms-attachment-buttons button,.screen .gbmms-send{min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;padding:5.75px 9.78px 9.78px 9.2px;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbmms-attachment-buttons button:active,.screen .gbmms-send:active:not(:disabled){border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.screen .gbmms-send:disabled{border-image-source:url('assets/gb-btn_default_normal_disable.png');color:rgba(0,0,0,.5);cursor:default}
+/* bottom_panel: bottombar_landscape_565 behind the edit_text field and the Send button with the counter under it. */
+.gbmms-bottom{flex:none;display:flex;align-items:stretch;padding:4.31px;background:url('assets/gb-m-bottombar_landscape_565.png') 0 0/100% 100%}
+.gbmms-bottom textarea{flex:1;min-width:0;height:41.4px;max-height:81px}
+.gbmms-send-col{display:flex;flex-direction:column;margin-left:4.31px;min-width:55.2px}
+.screen .gbmms-send{flex:1;min-width:55.2px}
+.gbmms-counter{padding:0 2.59px 4.31px;color:#fff;font-size:9.49px;font-weight:700;text-align:center}
+.gbmms-counter:empty{display:none}
+/* Dialog contents: Insert smiley (smiley_menu_item.xml: 20 dip icon, Large name and text) and the picture picker. */
+.gbmms-smileys{max-height:300px;overflow-y:auto;background:#fff}
+.screen .gbmms-smileys button{display:flex;align-items:center;gap:8.63px;width:100%;min-height:55.2px;padding:0 12.94px;border:0;border-bottom:1px solid rgba(184,184,184,.35);background:none;color:#000;text-align:left;font:400 18.98px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbmms-smileys button:active{background:#ff9d00}
+.gbmms-smileys img{width:17.25px;height:17.25px}
+.gbmms-smileys span:first-of-type{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbmms-pictures{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px}
+.screen .gbmms-pictures button{padding:0;border:0;background:none;cursor:pointer}
+.gbmms-pictures .mms-photo{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;font-size:11px;color:#fff}
+.screen .gbmms-msg::before,.screen .gbmms-msg::after{content:none;display:none}
+.gbmms-history::before{content:none;display:none}

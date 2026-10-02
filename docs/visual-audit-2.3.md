@@ -275,3 +275,26 @@ References: Phone 2.3.6 (`incall_screen.xml`, `call_card.xml`, `call_card_person
 - **Dialtacts during a call.** The launcher icon opens Dialtacts. The Phone tab shows the dialpad chooser: Use touch tone keypad, Return to call in progress, Add call (`ic_dialer_fork_*`). Add call shows the normal dial pad, and Back returns to the call. The simulator has one line, so dialing from Add call ends the first call and dials the new number.
 
 Checks: `gb-incall.test.cjs` covers the state machine, elapsed time, backgrounds, titles, enabled/disabled controls, the DTMF pad, hang-up states, Hungarian strings and the chooser. Headless Chrome covered calling a contact, dialing → connected, speaker/mute, hold/unhold, DTMF digits, the shade notification and returning from it, the chooser, Add call with Back, a second call via Add call, and hang-up into the call log. No JavaScript errors.
+
+## Messaging (Mms) — 2026-10-02
+
+References: Mms 2.3.6 (`conversation_list_screen.xml`, `conversation_list_item.xml`, `ConversationListItem.formatMessage`, `compose_message_activity.xml`, `message_list_item.xml`, `MessageListItem.formatMessage`, `MessageItem`, `MessageUtils.formatTimeStampString` / `getTextMessageDetails`, `SmileyParser`, `AttachmentTypeSelectorAdapter`, the `onPrepareOptionsMenu` methods), framework `Widget.QuickContactBadge`, `Widget.ListView.White`, `textfield_*`, `btn_default`. Strings and the smiley arrays come from `docs/gb-strings.py mms` (the generator now also reads `<string-array>`s and decodes `\uXXXX`). Assets: `gb-m-*`, `gb-quickcontact_badge_*`. Code: `versions/2.3.6/gb-mms.js` / `.css`.
+
+- **Conversation list.** A white list under the "Messaging" title bar.
+  - The first row is "New message / Compose new message".
+  - Each conversation row is 64 dip with the QuickContactBadge (the "…" strip under the picture), the 18 sp name with " (n) " and a red "Draft", and the snippet and date in 14 sp #323232 (time today, "Jan 5" earlier, with the year when older).
+  - Unread conversations are bold on white; read ones sit on #eeeeee.
+  - Menu: Compose, Delete threads, Search, Settings. A long press opens View thread / View contact (or Add to Contacts) / Delete thread.
+- **Conversation.** The title bar shows "Name <number>". The history is stacked from the bottom on white.
+  - Each message is "**Name**: body" (sent ones say "Me") at 18 sp, with the badge in the leading margin and "Sent: time" in 14 sp at #bf000000. Received rows are light blue (#ecfbff) and sent rows white.
+  - SmileyParser replaces the 17 default smiley texts with the `emo_im_*` art.
+  - The bottom panel has the `bottombar_landscape_565` background, the "Type to compose" edit text and the Send button (disabled while empty). The white bold 11 sp counter appears from 10 remaining characters or with more than one part, and reads "MMS" with an attachment.
+  - New messages get the "To" recipients editor with contact suggestions. Add subject shows the Subject field, and a sent subject displays as "<Subject: …> - body".
+- **Menus and dialogs.**
+  - Conversation menu: Call, View contact, Add subject, Attach, Send, Insert smiley, Delete thread or Discard, All threads, Add to Contacts (as applicable; more than six go to More).
+  - **Attach** lists Pictures, Capture picture, Videos, Capture video, Audio, Record audio and Slideshow. Pictures picks from the simulator photos and shows the attachment with View / Replace picture / Remove. The rest say they are unavailable.
+  - **Insert smiley** lists the icon, translated name and text.
+  - **Message options** (tap or long press): Forward, Copy message text, View message details ("Type / From or To / Received or Sent"), Delete message, Lock/Unlock message (lock icon).
+  - The delete confirmations use the "Delete" alert with the Mms messages.
+
+Checks: `gb-mms.test.cjs` covers the list rows, unread/read, counts, drafts, date formats, the compose title, message formatting with smileys, the counter, recipients and subject fields, all menus and dialogs, and the Hungarian smiley names. Headless Chrome covered opening Messaging, both menus, sending a message with a smiley, message options and details, Insert smiley, attaching a picture, the draft in the list, and the new-message recipient suggestions. No JavaScript errors.

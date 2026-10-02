@@ -237,6 +237,7 @@
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
+    if (ui.view === 'messaging') { ui.gbMenuItems = GBMms.menu(gbMmsContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'settings' && GBSettings.has(ui.sub || 'main')) { const items = GBSettings.menu(ui.sub, gbSettingsContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     const button = [...viewport.querySelectorAll('[data-action$="-menu"]')].find(node => !node.disabled);
     button?.click();
@@ -627,6 +628,7 @@
       {action: 'gb-new-folder', id: 'phone', title: t('Contacts with phone numbers'), icon: 'ic_launcher_folder_live_contacts_phone'},
       {action: 'gb-new-folder', id: 'starred', title: t('Starred contacts'), icon: 'ic_launcher_folder_live_contacts_starred'}]};
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    if (ui.overlay === 'gb-dialog-mms') return GBMms.dialog(ui.gbMmsDialog, gbMmsContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-set') return GBSettings.dialog(ui.gbSetDialog, gbSettingsContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-list') return GBSettings.listDialog(ui.gbListKey, gbSettingsContext()) || {title: '', items: []};
     // BrightnessPreference (preference_dialog_brightness.xml): "Automatic brightness" above the seek bar; OK / Cancel.
@@ -1007,9 +1009,12 @@
     const group = data.contactGroups.find(g=>g.id===ui.peopleEditGroup);
     return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog mms-dialog people-editor" role="dialog" aria-label="${group?'Edit group':'New group'}" data-form="people-group"><h3>${group?'Edit group':'New group'}</h3><label>Group name<input name="name" required maxlength="50" value="${safe(group?.name||'')}"></label>${data.contacts.map(p=>`<label class="people-membership"><input type="checkbox" name="members" value="${p.id}" ${group?.members.includes(p.id)?'checked':''}>${safe(p.name)}</label>`).join('')}<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Save</button></div></form>`;
   }
-  function renderMessaging() {
-    return ICSMessaging.render(data, ui, key => i18n.t(key), i18n.locale());
+  function renderMessaging() { return GBMms.render(gbMmsContext()); }
+  function gbMmsContext() {
+    const composing = ui.sub === 'thread' || ui.sub === 'new';
+    return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), hour24: data.settings.hour24, now: Date.now(), sub: ui.sub, thread: ui.thread, query: ui.mmsSearch, data, draft: composing ? data.messageDrafts?.[ICSMessaging.draftKey(ui)] : null, subjectVisible: composing && !!ui.gbMmsSubject, message: data.messages.find(m => String(m.id) === String(ui.mmsMessage)), ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel')};
   }
+  function gbMmsDialog(kind) { ui.gbMmsDialog = kind; ui.overlay = 'gb-dialog-mms'; renderOverlay(); }
   function messageDraft() {
     data.messageDrafts ||= {};
     const key = ICSMessaging.draftKey(ui);
@@ -1186,7 +1191,9 @@
   function addNotification(title, detail) { data.notifications.unshift({ id: Date.now(), title, detail }); save(); renderStatus(); }
   function sendMessage(id, body, attachment) {
     if (!body && !attachment) return;
-    data.messages.push({ id: Date.now(), contact: id, body, mine: true, time: clock(), timestamp:Date.now(), read:true, ...(attachment ? {attachment:clone(attachment)} : {}) });
+    const subject = String(data.messageDrafts?.[ICSMessaging.draftKey(ui)]?.subject || '').trim();
+    data.messages.push({ id: Date.now(), contact: id, body, mine: true, time: clock(), timestamp:Date.now(), read:true, ...(attachment ? {attachment:clone(attachment)} : {}), ...(subject ? {subject} : {}) });
+    ui.gbMmsSubject = false;
     delete data.messageDrafts?.[ICSMessaging.draftKey(ui)];
     openMessageThread(id);
   }
@@ -1431,17 +1438,30 @@
       case 'contact-email': {const recipient=contact(id)?.email||'';openApp('email');composeEmail(null,false,recipient);break;}
       case 'thread': openMessageThread(id); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
-      case 'mms-menu': case 'mms-attach': case 'mms-smiley': ui.overlay = action; renderOverlay(); break;
+      case 'mms-menu': ui.gbMenuItems = GBMms.menu(gbMmsContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); break;
+      case 'mms-attach': gbMmsDialog('attach'); break;
+      case 'mms-smiley': gbMmsDialog('smiley'); break;
+      case 'gbmms-pictures': gbMmsDialog('pictures'); break;
+      case 'gbmms-delete-all': gbMmsDialog('delete-all'); break;
+      case 'gbmms-delete-all-ok': data.messages = []; data.messageDrafts = data.messageDrafts?.new ? {new: data.messageDrafts.new} : {}; data.notifications = data.notifications.filter(n => n.id !== 2); ui.overlay = ''; save(); render(); break;
+      case 'gbmms-view-contact': ui.overlay = ''; openApp('people'); ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
+      case 'gbmms-add-contact': { const target = ui.sub === 'new' ? ICSMessaging.recipient(messageDraft().recipient || '', data.contacts) : ICSMessaging.identity(ui.thread, data.contacts); ui.overlay = ''; openApp('people'); editPerson(true); ui.peopleDraft.phone = target?.phone || ''; render(); break; }
+      case 'gbmms-subject': ui.gbMmsSubject = true; ui.overlay = ''; render(); viewport.querySelector('[name=subject]')?.focus(); break;
+      case 'gbmms-send': ui.overlay = ''; renderOverlay(); viewport.querySelector('.mms-compose')?.requestSubmit(); break;
+      case 'gbmms-all-threads': ui.overlay = ''; ui.sub = ''; ui.gbMmsSubject = false; render(); break;
+      case 'gbmms-copy': { const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage)); try { navigator.clipboard?.writeText(message?.body || ''); } catch {} ui.overlay = ''; renderOverlay(); break; }
+      case 'gbmms-lock': { const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage)); if (message) message.locked = !message.locked; ui.overlay = ''; save(); render(); break; }
+      case 'gbmms-thread-menu': ui.thread = id; gbMmsDialog('thread'); break;
       case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }
       case 'mms-call': {const person=ICSMessaging.identity(ui.thread,data.contacts);startPhoneCall(person.phone);break;}
       case 'mms-photo': { const photo = data.photos.find(p => p.id === Number(id)); if (photo) { messageDraft().attachment = clone(photo); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); } break; }
       case 'mms-remove-attachment': delete messageDraft().attachment; save(); render(); scrollMessages(); break;
       case 'mms-insert-smiley': messageDraft().body = ((messageDraft().body || '') + ' ' + id).trim().slice(0,2000); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); break;
-      case 'mms-discard': delete data.messageDrafts?.[ICSMessaging.draftKey(ui)]; save(); ui.overlay = ''; render(); scrollMessages(); break;
-      case 'mms-message': ui.mmsMessage = id; ui.overlay = 'mms-message'; renderOverlay(); break;
-      case 'mms-details': ui.overlay = 'mms-details'; renderOverlay(); break;
+      case 'mms-discard': delete data.messageDrafts?.[ICSMessaging.draftKey(ui)]; ui.gbMmsSubject = false; save(); ui.overlay = ''; if (ui.sub === 'new') ui.sub = ''; render(); scrollMessages(); break;
+      case 'mms-message': ui.mmsMessage = id; gbMmsDialog('message'); break;
+      case 'mms-details': gbMmsDialog('details'); break;
       case 'mms-forward': { const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage)); if (!message) break; ui.sub = 'new'; Object.assign(messageDraft(),{body:message.body,recipient:'',attachment:message.attachment ? clone(message.attachment) : null,updated:Date.now()}); save(); ui.overlay = ''; render(); break; }
-      case 'mms-delete-thread': case 'mms-delete-message': ui.mmsDelete = action === 'mms-delete-thread' ? 'thread' : 'message'; ui.overlay = 'mms-delete-confirm'; renderOverlay(); break;
+      case 'mms-delete-thread': case 'mms-delete-message': ui.mmsDelete = action === 'mms-delete-thread' ? 'thread' : 'message'; gbMmsDialog(`delete-${ui.mmsDelete}`); break;
       case 'mms-confirm-delete': {
         data.messages = data.messages.filter(m => ui.mmsDelete === 'thread' ? String(m.contact) !== String(ui.thread) : String(m.id) !== String(ui.mmsMessage));
         if (ui.mmsDelete === 'thread') { delete data.messageDrafts?.[String(ui.thread)]; ui.sub = ''; }
@@ -1671,6 +1691,7 @@
     if (event.target.closest('.mms-compose')) {
       const draft = messageDraft();
       if (event.target.name === 'body') draft.body = event.target.value;
+      if (event.target.name === 'subject') draft.subject = event.target.value;
       if (event.target.name === 'recipient') {
         draft.recipient = event.target.value;
         const query = draft.recipient.trim().toLocaleLowerCase();
@@ -1678,9 +1699,9 @@
       }
       draft.updated = Date.now(); save();
       const count = ICSMessaging.counter(draft.body || '');
-      viewport.querySelector('.mms-counter').textContent = draft.attachment ? 'MMS' : count.count > 1 || count.remaining < 10 ? `${count.remaining} / ${count.count}` : '';
+      viewport.querySelector('.mms-counter').textContent = draft.attachment ? 'MMS' : count.count > 1 || count.remaining <= 10 ? `${count.remaining} / ${count.count}` : '';
       viewport.querySelector('.mms-send').disabled = !(draft.body || '').trim() && !draft.attachment;
-      if (event.target.name === 'body') { event.target.style.height = '44px'; event.target.style.height = `${Math.min(88,event.target.scrollHeight)}px`; }
+      if (event.target.name === 'body') { event.target.style.height = '41.4px'; event.target.style.height = `${Math.min(81,event.target.scrollHeight)}px`; }
       return;
     }
     if (event.target.dataset.field === 'brightness') {
@@ -2079,7 +2100,9 @@
     if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
     event.preventDefault();
     const message = event.target.closest('.mms-message');
-    if (message && !ui.overlay) { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; renderOverlay(); }
+    if (message && !ui.overlay) { ui.mmsMessage = message.dataset.id; gbMmsDialog('message'); }
+    const thread = event.target.closest('.gbmms-thread[data-action="thread"]');
+    if (thread && !ui.overlay) { ui.thread = thread.dataset.id; gbMmsDialog('thread'); }
     if (!dragState && ui.view === 'home' && !ui.overlay && event.button === 2 && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { ui.overlay = 'wallpaper-source'; renderOverlay(); }
   });
   // Older WebKit versions may still start page rubber-banding during a custom
@@ -2105,7 +2128,9 @@
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !ui.locked && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.gbsh-close'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     if (ui.view === 'home' && !ui.overlay && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overlay = 'wallpaper-source'; renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
-    if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, 550);
+    if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; suppressReleaseClick(); gbMmsDialog('message'); }, 550);
+    const heldThread = event.target.closest('.gbmms-thread[data-action="thread"]');
+    if (heldThread && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.thread = heldThread.dataset.id; suppressReleaseClick(); gbMmsDialog('thread'); }, 550);
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     else if (ui.view === 'lock' && !ui.locked && event.target.closest('.lock-wave')) lockPing();
     // PlatLogoActivity: the logo jumps to 1.25x, 2x, 3.25x and 5x (no tweening), then Nyandroid starts.
