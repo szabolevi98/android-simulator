@@ -153,7 +153,7 @@
   const shadeDate = () => deviceDate().toLocaleDateString(i18n.locale(), { weekday: 'short', month: 'short', day: 'numeric' });
   const contact = id => data.contacts.find(item => item.id === Number(id));
   const appIcon = id => {
-    if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg" alt=""></span>';
+    if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg?v=2" alt=""></span>';
     if (id === 'apps') return '<span class="app-icon"><img src="assets/apps.png" alt=""></span>';
     const folder=ICSLauncherFolders.folder(data,id);
     if(folder)return `<span class="app-icon launcher-folder-icon">${folder.items.slice(0,3).map(app=>`<span class="folder-preview-item">${appIcon(app)}</span>`).join('')}</span>`;
