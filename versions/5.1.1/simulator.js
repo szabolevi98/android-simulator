@@ -270,6 +270,8 @@
     screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || '#000');
     // QuickContactActivity tints the status bar with the darker shade of the contact's colour.
     if (ui.view === 'people' && ui.sub === 'detail') { const person = contact(ui.selectedContact); if (person) screen.style.setProperty('--lp-sb', LPDialer.tileColorDark(person.name)); }
+    // DeskClock's translucent status bar (#26000000) over the hour colour.
+    if (ui.view === 'clock') screen.style.setProperty('--lp-sb', `color-mix(in srgb, ${JBDeskClock.SPECTRUM[deviceDate().getHours()]}, #000 15%)`);
     // Messenger colours a conversation's bars with the participant's tile colour.
     if (ui.view === 'messaging' && ui.sub === 'thread') screen.style.setProperty('--lp-sb', LPDialer.tileColorDark(ICSMessaging.identity(ui.thread, data.contacts).name));
     // PlatLogoActivity is fullscreen; the Dessert Case hides both bars (immersive sticky).

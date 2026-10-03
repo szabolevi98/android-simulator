@@ -78,11 +78,14 @@
   }
 
   // now is the simulated wall clock for the Clock page; timers and the stopwatch run on real elapsed time.
+  // Utils.BACKGROUND_SPECTRUM: the app's background follows the hour of the day.
+  const SPECTRUM = ['#212121', '#27232e', '#2d253a', '#332847', '#382a53', '#3e2c5f', '#442e6c', '#393a7a', '#2e4687', '#235395', '#185fa2', '#0d6baf', '#0277bd', '#0d6cb1', '#1861a6', '#23569b', '#2d4a8f', '#383f84', '#433478', '#3d3169', '#382e5b', '#322b4d', '#2c273e', '#272430'];
   function render(state, t, {locale, now, hour24, alarm, date}) {
     const tab = TABS.includes(state.tab) ? state.tab : 'clock', index = TABS.indexOf(tab);
     const btn = (action, label, body, extra = '') => `<button type="button" data-action="${action}" aria-label="${e(t(label))}" ${extra}>${body}</button>`;
     const icon = name => `<img src="assets/jbclock-${name}.png" alt="">`;
-    const tabs = `<header class="jbclock-tabs" role="tablist">${TABS.map(name => `<button role="tab" data-action="jbclock-tab" data-id="${name}" aria-selected="${name === tab}" aria-label="${e(t(name === 'alarm' ? 'Alarm' : name === 'timer' ? 'Timer' : name === 'clock' ? 'Clock' : 'Stopwatch'))}" class="${name === tab ? 'active' : ''}"><img src="assets/${name === 'alarm' ? `kdc-ic_alarm${name === tab ? '' : '_normal'}` : `kdc-ic_tab_${name}_${name === tab ? 'activated' : 'normal'}`}.png" alt=""></button>`).join('')}</header>`;
+    // DeskClock 5.1: the ic_tab_* icons in the action bar over the hour colour, the overflow at its end.
+    const tabs = `<header class="jbclock-tabs" role="tablist">${TABS.map(name => `<button role="tab" data-action="jbclock-tab" data-id="${name}" aria-selected="${name === tab}" aria-label="${e(t(name === 'alarm' ? 'Alarm' : name === 'timer' ? 'Timer' : name === 'clock' ? 'Clock' : 'Stopwatch'))}" class="${name === tab ? 'active' : ''}"><img src="assets/dc5-ic_tab_${name}_${name === tab ? 'activated' : 'normal'}.png" alt=""></button>`).join('')}<button class="lpdc-overflow" data-action="jbclock-menu" aria-label="${e(t('More options'))}"><img src="assets/dc5-ic_overflow.png" alt=""></button></header>`;
     // Timer page: setup keypad when there are no timers or a new one is being added.
     const timers = state.timers || [];
     let timerPage;
@@ -99,7 +102,16 @@
     const watch = state.stopwatch || {}, laps = watch.laps || [], running = watch.started != null, total = elapsed(watch, Date.now());
     const lapRows = laps.map((lapTotal, i) => ({n: i + 1, lap: lapTotal - (laps[i - 1] || 0), total: lapTotal})).reverse();
     const watchPage = `<div class="jbclock-stopwatch"><div class="jbclock-circle-frame"><canvas class="jbclock-circle" data-circle="stopwatch"></canvas><div class="jbclock-count stopwatch" data-count="stopwatch">${e(formatStopwatch(total))}</div>${running ? btn('jbclock-sw', 'Lap', icon('ic_lap_normal'), 'data-id="lap" class="jbclock-corner left"') : total ? btn('jbclock-sw', 'Reset', icon('ic_reset_normal'), 'data-id="reset" class="jbclock-corner left"') : ''}${btn('jbclock-sw', running ? 'Stop' : 'Start', e(t(running ? 'Stop' : 'Start')), 'data-id="toggle" class="jbclock-center"')}${total ? btn('jbclock-sw', 'Share', icon('ic_share_normal'), 'data-id="share" class="jbclock-corner right"') : ''}</div><ol class="jbclock-laps">${lapRows.map(row => `<li><span># ${row.n}</span><span>${e(formatStopwatch(row.lap))}</span><span>${e(formatStopwatch(row.total))}</span></li>`).join('')}</ol></div>`;
-    return `<div class="app-view jbclock-app">${tabs}<div class="jbclock-pager" data-jbclock-swipe><div class="jbclock-track" style="transform:translateX(${-index * 100}%)"><section class="jbclock-page" aria-hidden="${tab !== 'alarm'}" ${tab !== 'alarm' ? 'inert' : ''}>${state.alarmPage || ''}</section><section class="jbclock-page" aria-hidden="${tab !== 'clock'}" ${tab !== 'clock' ? 'inert' : ''}>${clockPage}</section><section class="jbclock-page" aria-hidden="${tab !== 'timer'}" ${tab !== 'timer' ? 'inert' : ''}>${timerPage}</section><section class="jbclock-page" aria-hidden="${tab !== 'stopwatch'}" ${tab !== 'stopwatch' ? 'inert' : ''}>${watchPage}</section></div></div></div>`;
+    // The DeskClock 5.1 footer: the 56 dp hot pink (#FF4081) FAB in the middle with the page's action, borderless
+    // buttons on either side (timer: delete and add; stopwatch: reset and lap or share).
+    const fab = (action, label, name, id = '', disabled = false) => `<button class="lpdc-fab" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(t(label))}"${disabled ? ' disabled' : ''}><img src="assets/dc5-ic_fab_${name}.png" alt=""></button>`;
+    const side = (action, label, img, id = '') => `<button class="lpdc-side" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(t(label))}"><img src="assets/dc5-${img}.png" alt=""></button>`;
+    const firstTimer = timers[0], setupMode = !timers.length || state.timerSetup;
+    const footer = tab === 'alarm' ? ['', fab('kdc-add', 'Add alarm', 'plus'), '']
+      : tab === 'clock' ? ['', `<button class="lpdc-fab" data-action="jbclock-cities" aria-label="${e(t('Cities'))}"><img src="assets/dc5-ic_globe.png" alt=""></button>`, '']
+      : tab === 'timer' ? (setupMode ? [timers.length ? side('jbclock-setup-cancel', 'Cancel', 'ic_delete') : '', fab('jbclock-setup-start', 'Start', 'play', '', !setupTime(state.timerDigits || '').ms), ''] : [side('jbclock-timer-delete', 'Delete', 'ic_delete', firstTimer.id), fab('jbclock-timer-toggle', firstTimer.state === 'running' ? 'Stop' : firstTimer.state === 'done' ? 'Stop' : 'Start', firstTimer.state === 'running' ? 'pause' : firstTimer.state === 'done' ? 'stop' : 'play', firstTimer.id), side('jbclock-timer-add', 'Add Timer', 'ic_add_timer')])
+      : [!running && total ? side('jbclock-sw', 'Reset', 'ic_reset', 'reset') : '', fab('jbclock-sw', running ? 'Stop' : 'Start', running ? 'pause' : 'play', 'toggle'), running ? side('jbclock-sw', 'Lap', 'ic_lap', 'lap') : total ? side('jbclock-sw', 'Share', 'ic_share', 'share') : ''];
+    return `<div class="app-view jbclock-app lpdc" style="--dc:${SPECTRUM[now.getHours()]}">${tabs}<div class="jbclock-pager" data-jbclock-swipe><div class="jbclock-track" style="transform:translateX(${-index * 100}%)"><section class="jbclock-page" aria-hidden="${tab !== 'alarm'}" ${tab !== 'alarm' ? 'inert' : ''}>${state.alarmPage || ''}</section><section class="jbclock-page" aria-hidden="${tab !== 'clock'}" ${tab !== 'clock' ? 'inert' : ''}>${clockPage}</section><section class="jbclock-page" aria-hidden="${tab !== 'timer'}" ${tab !== 'timer' ? 'inert' : ''}>${timerPage}</section><section class="jbclock-page" aria-hidden="${tab !== 'stopwatch'}" ${tab !== 'stopwatch' ? 'inert' : ''}>${watchPage}</section></div></div><footer class="lpdc-footer"><span>${footer[0]}</span><span>${footer[1]}</span><span>${footer[2]}</span></footer></div>`;
   }
   // Called every frame while the app is visible: updates counters and circles without re-rendering.
   function tick(root, state, now, t) {
@@ -114,5 +126,5 @@
     const canvas = root.querySelector('[data-circle="stopwatch"]');
     if (canvas) { const first = laps[0] || 0, last = laps.at(-1) || 0; drawCircle(canvas, {mode: 'stopwatch', interval: first, current: laps.length ? total - last : 0, marker: laps.length > 1 ? laps.at(-1) - laps.at(-2) : -1, running: watch.started != null}); }
   }
-  window.JBDeskClock = {TABS, setupDigits, setupTime, remaining, timerAction, formatTimer, formatStopwatch, elapsed, stopwatchAction, drawCircle, render, tick};
+  window.JBDeskClock = {SPECTRUM, TABS, setupDigits, setupTime, remaining, timerAction, formatTimer, formatStopwatch, elapsed, stopwatchAction, drawCircle, render, tick};
 })();
