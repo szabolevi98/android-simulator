@@ -120,7 +120,21 @@
     ['fit', 'Fit', '♥', '#db4437', '#c53929'], ['newsstand', 'Play Newsstand', '▥', '#3f51b5', '#303f9f'], ['wallet', 'Wallet', '▣', '#4285f4', '#3367d6']
   ];
   /* colorPrimaryDark of each app's Material theme, painted behind the status bar (Window.setStatusBarColor). */
-  const LP_STATUS_COLORS = {};
+  const LP_STATUS_COLORS = {
+    settings: '#21272b', phone: '#0277bd', people: '#0277bd', messaging: '#026da7', chrome: '#757575', gmail: '#b93221', email: '#d06d0c',
+    hangouts: '#0b8043', calendar: '#3367d6', 'play-store': '#558b2f', 'play-music': '#e65100', 'play-movies': '#c62828', 'play-books': '#0277bd',
+    'play-games': '#2e7d32', keep: '#e59900', youtube: '#b31217', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#455a64', calculator: '#00838f',
+    clock: '#0277bd', camera: '#000', gallery: '#000', browser: '#000', music: '#000', maps: '#9e9e9e', 'google-search': '#3367d6', 'voice-search': '#3367d6',
+    'google-plus': '#c53929', earth: '#000', 'news-weather': '#3367d6', 'google-settings': '#21272b'
+  };
+  // colorPrimary of the same themes: the Overview card headers (TaskViewHeader takes the task's primary color).
+  const LP_PRIMARY = {
+    settings: '#263238', phone: '#0288d1', people: '#0288d1', messaging: '#0288d1', chrome: '#f2f2f2', gmail: '#da4336', email: '#e7790d',
+    hangouts: '#0f9d58', calendar: '#4285f4', 'play-store': '#689f38', 'play-music': '#ef6c00', 'play-movies': '#ed3b3b', 'play-books': '#039be5',
+    'play-games': '#4caf50', keep: '#ffcc3f', youtube: '#e62117', drive: '#e0e0e0', photos: '#f5f5f5', downloads: '#607d8b', calculator: '#00bcd4',
+    clock: '#0288d1', camera: '#212121', gallery: '#212121', browser: '#e6e6e6', music: '#212121', maps: '#f5f5f5', 'google-search': '#4285f4', 'voice-search': '#4285f4',
+    'google-plus': '#db4437', earth: '#212121', 'news-weather': '#4285f4', 'google-settings': '#263238'
+  };
   const GEL_ALIASES = {};
   // Folder and grid size of the Large Phone profile.
   const GRID = 5;
@@ -229,6 +243,8 @@
   function updateBarMode() {
     screen.classList.toggle('kk-translucent', ['home', 'lock', 'drawer'].includes(ui.view) && !ui.sleeping);
     screen.classList.toggle('lp-on-keyguard', ui.view === 'lock' && !ui.sleeping);
+    // RecentsTheme: transparent system bars over the wallpaper.
+    screen.classList.toggle('lp-recents-open', ui.overlay === 'recent');
     // Window.setStatusBarColor: the app's colorPrimaryDark (LP_STATUS_COLORS), black where the theme sets none.
     screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || '#000');
     // PlatLogoActivity is fullscreen; the Dessert Case hides both bars (immersive sticky).
@@ -344,9 +360,13 @@
     });
   }
   // recents_return_to_launcher: Recents fades out while the launcher fades back in (250 ms).
+  // Leaving Overview for home: the stack drops away (recents_task_exit_to_home_duration, 225 ms) as the launcher returns.
   function closeRecents() {
-    const panel = overlayRoot.querySelector('.recent-panel'); ui.recentPopup = null;
-    JBRecents.close(panel, () => { ui.overlay = ''; renderOverlay(); if (!reducedMotion?.matches) viewport.firstElementChild?.animate([{opacity: 0}, {opacity: 1}], {duration: JBRecents.R.window, easing: 'cubic-bezier(.215,.61,.355,1)'}); }, !!reducedMotion?.matches);
+    const panel = overlayRoot.querySelector('.recent-panel'); ui.recentPopup = null; ui.recentsScroll = undefined;
+    const done = () => { ui.overlay = ''; ui.lpRecents?.destroy(); ui.lpRecents = null; renderOverlay(); updateBarMode(); };
+    const stack = panel?.querySelector('.lp-recents-stack');
+    if (!stack?.animate || reducedMotion?.matches) { done(); return; }
+    stack.animate([{transform: 'none', opacity: 1}, {transform: `translateY(${Math.round(screen.clientHeight * .4)}px)`, opacity: 0}], {duration: 225, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}).finished.then(done, done);
   }
   /* SearchPanelView: an upward swipe of navbar_search_up_threshhold (40dp) from the navigation bar shows the ring;
      releasing on the assist target starts search (the Google Search app on Google builds, Browser here). */
@@ -781,10 +801,12 @@
     } else if (ui.overlay === 'search') {
       if (!overlayRoot.querySelector('[data-jb-search]')) overlayRoot.innerHTML = JBSearchPanel.markup(key => i18n.t(key));
     } else if (ui.overlay === 'recent') {
-      overlayRoot.innerHTML = JBRecents.render(ui.recent, {names: appNames, icon: appIcon, snapshots: ui.recentSnapshots, popup: ui.recentPopup, t: key => i18n.t(key)});
-      // PopupMenu keeps itself on screen: shift it left when the anchor is near the right edge.
-      const popup = overlayRoot.querySelector('.jb-recent-popup'); if (popup) popup.style.left = `${Math.max(4, Math.min(parseFloat(popup.style.left), popup.parentElement.clientWidth - popup.offsetWidth - 4))}px`;
-      JBRecents.bindLongPress(overlayRoot.querySelector('.recent-panel'), popup => { ui.recentPopup = popup; suppressClickUntil = Infinity; window.addEventListener('pointerup', () => { suppressClickUntil = Date.now() + 50; }, {once: true, capture: true}); renderOverlay(); });
+      ui.lpRecents?.destroy();
+      const searchCard = `<div class="lp-qsb-card"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="lp-qsb-logo" src="assets/gnl-ic_searchbox_google.png" alt="Google"></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice Search'))}"><img class="lp-qsb-mic" src="assets/gnl-ic_mic_none.png" alt=""></button></div>`;
+      overlayRoot.innerHTML = LPRecents.render(ui.recent, {names: appNames, icon: appIcon, snapshots: ui.recentSnapshots, colors: LP_PRIMARY, statusColors: LP_STATUS_COLORS, t: key => i18n.t(key), search: searchCard});
+      const panel = overlayRoot.querySelector('.lp-recents');
+      ui.lpRecents = LPRecents.attach(panel, {scroll: ui.recentsScroll, reduced: !!reducedMotion?.matches, onScroll: (value, end) => { ui.recentsScroll = value; if (end) suppressClickUntil = Date.now() + 300; }});
+      if (ui.recentsScroll === undefined) ui.recentsScroll = LPRecents.layout(panel);
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
       overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
     } else if (ui.overlay.startsWith('clock-')) {
@@ -1704,14 +1726,8 @@
       case 'recent': {
         if (ui.view === 'lock') break;
         if (ui.overlay === 'recent') { closeRecents(); break; }
-        captureRecentView(); ui.recentPopup = null;
-        const fromApp = !!appNames[ui.view], outgoing = viewport.firstElementChild?.cloneNode(true);
-        ui.overlay = 'recent'; renderOverlay();
-        // The outgoing window animates in a layer above Recents (makeThumbnailScaleDownAnimation is ZORDER_TOP).
-        const layer = document.createElement('div'); layer.className = 'jb-recents-layer';
-        Object.assign(layer.style, {top: `${viewport.offsetTop}px`, left: `${viewport.offsetLeft}px`, width: `${viewport.offsetWidth}px`, height: `${viewport.offsetHeight}px`});
-        screen.append(layer); setTimeout(() => layer.remove(), JBRecents.R.window + 80);
-        JBRecents.open(overlayRoot.querySelector('.recent-panel'), outgoing, {fromApp, reduced: !!reducedMotion?.matches, layer});
+        captureRecentView(); ui.recentPopup = null; ui.recentsScroll = undefined;
+        ui.overlay = 'recent'; renderOverlay(); updateBarMode();
         break;
       }
       case 'recent-app-info': ui.overlay = ''; ui.recentPopup = null; openApp('settings'); ui.settingsApp = id; ui.sub = 'app-info'; render(); break;
