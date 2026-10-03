@@ -1447,5 +1447,7 @@
       }
     }
   }
-  window.AndroidI18n = { get language() { return language; }, locale: () => locale[language], t, setLanguage, translateDOM, supported };
+  // A version page can lay its own strings over the shared table (Lollipop: lp-strings.js, taken from the release's APKs).
+  function extend(extra) { for (const [en, hu, de, fr, es] of extra) translations[en] = { hu, de, fr, es }; }
+  window.AndroidI18n = { get language() { return language; }, locale: () => locale[language], t, setLanguage, translateDOM, supported, extend };
 })();

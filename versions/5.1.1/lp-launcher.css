@@ -1,0 +1,89 @@
+/* Google Now Launcher 1.1 (Google app 4.1.29, Launcher3 5.x) on the Nexus 6, laid out by DeviceProfile for the
+   "Large Phone" profile (406 x 694 dp): the 386 x 658 dp minimum size snaps to 5 x 5 cells with 5 hotseat cells, and
+   the interpolated sizes are 63.7 dp icons, 14.3 sp labels and 56 dp hotseat icons. 1 dp = 0.906 px.
+   Search bar: 12 dp below the status bar, 56 dp tall, 4 dp in from the sides (dynamic_grid_search_bar_height,
+   desiredWorkspaceLeftRightMargin - default widget padding), holding the white search_bg card with the grey
+   ic_searchbox_google wordmark and the #616161 ic_mic_none (search_widget.xml).
+   Workspace: 68 dp from the top, 107.7 dp (hotseat 87.7 dp + page indicator 20 dp) from the bottom, 4 dp from the
+   sides; CellLayout.calculateCellWidth/Height split it evenly into 80.7 x 96.5 dp cells. Labels: sans-serif-condensed
+   white with a 2 px #B0000000 shadow (WorkspaceIcon). The Lollipop launcher draws no scrim under the bars. */
+.lp-home.kk-home::before{display:none}
+.lp-home .home-search{left:3.62px;right:3.62px;top:calc(var(--sb) + 3.62px);height:57.98px;padding:7.25px;border:0;border-image:none;background:none;align-items:stretch}
+.lp-home .home-search::before{content:'';position:absolute;inset:0;border:19.03px solid transparent;border-image:url('assets/gnl-search_bg.png') 84 fill / 19.03px stretch;pointer-events:none}
+.lp-home .home-search>button{position:relative;z-index:1}
+.lp-home .home-search>button:first-child{padding-left:14.5px}
+.lp-home .home-search .lp-qsb-logo{height:20.84px;width:auto;margin-top:2.7px;opacity:.54}
+.lp-home .home-search .voice-search{flex:0 0 auto;padding:0 14.5px 0 3.62px}
+.lp-home .home-search .lp-qsb-mic{width:21.74px;height:21.74px;display:block;filter:brightness(0) invert(.38)}
+.lp-home .home-search>button:active img{filter:none}
+.lp-home .home-search .voice-search:active .lp-qsb-mic{filter:brightness(0) invert(.38)}
+.lp-home .home-search>button::after{content:'';position:absolute;inset:0;background:#0000001a;opacity:0;transition:opacity .15s;pointer-events:none}
+.lp-home .home-search>button:active::after{opacity:1}
+.lp-home .home-content{top:calc(var(--sb) + 61.61px);bottom:calc(var(--nb) + 97.59px)}
+.lp-home .home-grid{padding:0 3.62px;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr))}
+.lp-home .launcher-icon .app-icon,.lp-drawer .launcher-icon .app-icon,.screen .launcher-folder .launcher-folder-cell .app-icon{width:57.72px;height:57.72px;filter:none}
+.lp-home .launcher-icon>span:last-child{font:400 12.94px/17.4px RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#fff;text-shadow:0 0 1.8px #000000b0,0 0 1.8px #000000b0}
+.lp-home .launcher-icon:active .app-icon,.lp-drawer .launcher-icon:active .app-icon,.screen .launcher-folder .launcher-icon:active .app-icon{filter:brightness(.8)}
+/* Page indicator: 20 dp above the hotseat; 16 dp PageIndicatorMarker cells with GNL's white 12 dp markers. */
+.lp-home .page-indicators{bottom:calc(var(--nb) + 79.47px);height:18.12px}
+.lp-home .page-indicators .kk-pi-off,.lp-drawer .drawer-indicators .kk-pi-off{width:10.87px;height:10.87px;margin:-5.44px 0 0 -5.44px}
+.lp-home .page-indicators .kk-pi-on,.lp-drawer .drawer-indicators .kk-pi-on{width:10.87px;height:10.87px;margin:-5.44px 0 0 -5.44px}
+/* Hotseat: 87.7 dp (icon + 4 x 6 dp edge margin), 12 dp side padding, five cells; icons at 56 dp, no labels. */
+.lp-home .dock{height:79.47px;padding:0 10.87px}
+.lp-home .dock .launcher-icon .app-icon{width:50.74px;height:50.74px}
+/* Drop targets (search_drop_target_bar): Remove and App info in the search bar's place, 7.5 dp drawable padding. */
+.lp-home .drop-target-bar{top:calc(var(--sb) + 10.87px);left:3.62px;right:3.62px;height:50.74px}
+.lp-home .drop-target{font:400 14.5px Roboto,sans-serif;text-shadow:0 .9px 3.6px #000;gap:6.8px}
+.lp-home .drop-target img{width:29px;height:29px}
+/* Folder icon: portal_ring_inner_holo behind up to three previews (FolderIcon, as on KitKat), scaled to the 63.7 dp
+   icon plus the 6 dp edge margin on each side. */
+.lp-home .app-icon.launcher-folder-icon::before{left:-5.44px;top:-5.44px;width:68.6px;height:70.4px;background-image:url('assets/gnl-portal_ring_inner_holo.png')}
+.lp-home .launcher-folder-icon>.folder-preview-item{left:-1.9px;top:12.7px;width:46.94px;height:46.94px}
+.lp-home .launcher-folder-icon>.folder-preview-item:nth-child(2){left:10.52px;top:8.46px;width:38.73px;height:38.73px}
+.lp-home .launcher-folder-icon>.folder-preview-item:nth-child(3){left:22.96px;top:4.23px;width:30.51px;height:30.51px}
+.lp-home .dock .launcher-folder-icon{transform:scale(.879)}
+/* Open folder (user_folder.xml): the white quantum_panel, #666 labels without shadow (WorkspaceIcon.Folder), and the
+   14 sp condensed #777 name field with 10 dp padding ("Unnamed Folder" hint #808080). */
+.screen .lp-folder.launcher-folder{color:#666}
+.screen .lp-folder.launcher-folder:before{border-width:9.97px 11.78px 13.29px 11.48px;border-image:url('assets/gnl-quantum_panel.png') 33 39 44 38 fill / 9.97px 11.78px 13.29px 11.48px}
+.screen .lp-folder .launcher-folder-cell .launcher-icon>span:last-child{font:400 12.94px/17.4px RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#666;text-shadow:none}
+.screen .lp-folder .launcher-folder-name input{padding:9.06px 4px;font:400 12.68px RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#777}
+.screen .lp-folder .launcher-folder-name input::placeholder{color:#808080}
+/* All apps (AppsCustomizePagedView): each page is a white quantum_panel card over the wallpaper, 5 x 6 cells
+   (allAppsNumCols/Rows from the 82 dp cell height plus 18 dp cell padding), #666 labels; the page indicator sits in
+   its own 20 dp row below. Widgets use quantum_panel_dark pages of 2 x 3 previews over a #374248 name strip. */
+#viewport>.drawer-view.lp-drawer{background:none;padding:0}
+.lp-drawer .lp-drawer-panel{position:absolute;left:0;right:0;top:var(--sb);bottom:calc(var(--nb) + 25.64px);border-style:solid;border-color:transparent;border-width:9.97px 11.78px 13.29px 11.48px;border-image:url('assets/gnl-quantum_panel.png') 33 39 44 38 fill / 9.97px 11.78px 13.29px 11.48px}
+.lp-drawer.drawer-widgets-open .lp-drawer-panel{border-width:5.44px 7.25px 8.76px 6.95px;border-image:url('assets/gnl-quantum_panel_dark.png') 18 24 29 23 fill / 5.44px 7.25px 8.76px 6.95px}
+.lp-drawer .drawer-page{top:calc(var(--sb) + 9.97px);bottom:calc(var(--nb) + 38.93px);left:11.48px;right:11.78px}
+.lp-drawer .drawer-apps{grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(6,minmax(0,1fr))}
+.lp-drawer .drawer-apps .launcher-icon>span:last-child{font:400 12.94px/17.4px RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#666;text-shadow:none;max-width:calc(100% - 4px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lp-drawer .drawer-widgets{top:calc(var(--sb) + 5.44px);bottom:calc(var(--nb) + 34.4px);left:6.95px;right:7.25px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));padding:0;gap:0}
+.lp-drawer .drawer-widget{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;border:0;background:none;min-height:0}
+.lp-drawer .drawer-widget-preview{flex:1;min-height:0;display:grid;place-items:center;padding:28.99px 14.5px 0;border-left:.906px solid #374248;border-right:.906px solid #374248;overflow:hidden}
+.lp-drawer .drawer-widget-preview .widget-preview-image{max-width:100%;max-height:100%;object-fit:contain}
+.lp-drawer .drawer-widget-title{order:2;display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:7.25px;background:#374248;font:400 10.87px RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#fff;text-shadow:0 0 1.8px #000000b0;text-transform:none;white-space:nowrap}
+.lp-drawer .drawer-widget-title small{font:400 10.87px RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#fff}
+.lp-drawer .drawer-indicators{bottom:var(--nb);height:18.12px}
+/* The reveal (Launcher.showAppsCustomizeHelper, material): the panel starts centred on the all apps button and
+   clips in a circle from the button's visual size to the panel's corners while it drifts into place
+   (config_appsCustomizeRevealTime 220 ms, LogDecelerateInterpolator); the icons follow 60 ms later. */
+.lp-drawer.lp-revealing .lp-drawer-panel{animation:lp-reveal .22s cubic-bezier(.05,.7,.1,1) both}
+.lp-drawer.lp-revealing .drawer-page{animation:lp-reveal-items .22s cubic-bezier(.05,.7,.1,1) .06s both}
+.lp-drawer.lp-revealing .drawer-indicators{animation:lp-fade .22s both}
+@keyframes lp-reveal{from{clip-path:circle(var(--r0,23.5px) at 50% 50%);transform:translate(var(--dx,0),var(--dy,0))}to{clip-path:circle(75% at 50% 50%);transform:none}}
+@keyframes lp-reveal-items{from{opacity:0;transform:translateY(var(--dy,0))}to{opacity:1;transform:none}}
+@keyframes lp-fade{from{opacity:0}to{opacity:1}}
+/* Overview mode: Wallpapers / Widgets / Settings with GNL's white icons, 12 sp condensed caps, 4 dp drawable padding,
+   80 dp items with 20 dp spacers (dynamic_grid_overview_bar_item_width / _spacer_width). */
+.lp-home .kk-overview-panel{width:253.68px;margin-left:-126.84px}
+.lp-home .kk-overview-panel button{width:72.48px;font:400 10.87px RobotoCondensed,'Roboto Condensed',Roboto,sans-serif}
+.lp-home .kk-overview-panel button img{width:38.66px;height:38.66px}
+@media(prefers-reduced-motion:reduce){.lp-drawer.lp-revealing .lp-drawer-panel,.lp-drawer.lp-revealing .drawer-page,.lp-drawer.lp-revealing .drawer-indicators{animation:none}}
+/* Folder.animateOpen (material): a circular reveal from the folder icon's centre (--folder-origin) to the farthest
+   corner in 200 ms (LogDecelerateInterpolator(100, 0)); the icons and the name fade in after a 60 ms stagger with
+   AccelerateInterpolator(1.5) while the panel drifts the last 7.5 % towards its place. */
+.screen .lp-folder.lp-folder-opening{animation:lp-folder-reveal .2s cubic-bezier(.05,.7,.1,1) both}
+.screen .lp-folder.lp-folder-opening .launcher-folder-grid,.screen .lp-folder.lp-folder-opening .launcher-folder-name{animation:lp-folder-items .2s cubic-bezier(.55,0,1,.45) .06s both}
+@keyframes lp-folder-reveal{from{clip-path:circle(0 at var(--folder-origin,50% 50%))}to{clip-path:circle(150% at var(--folder-origin,50% 50%))}}
+@keyframes lp-folder-items{from{opacity:0}to{opacity:1}}

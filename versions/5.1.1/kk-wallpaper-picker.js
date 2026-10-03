@@ -27,11 +27,11 @@
     const nameless = list.filter(tile => tile.kind !== 'live');
     const last = data.photos[data.photos.length - 1];
     const sel = list.find(tile => tile.key === wp.selected);
-    const preview = !sel ? '' : sel.kind === 'default' ? "url('assets/kk-default_wallpaper.jpg')" : sel.kind === 'photo' ? `url('${ctx.image(sel.photo)}')` : '';
+    const preview = !sel ? '' : sel.kind === 'default' ? "url('assets/lp-default_wallpaper.jpg')" : sel.kind === 'photo' ? `url('${ctx.image(sel.photo)}')` : '';
     const tile = item => {
       const cls = `kwp-tile ${item.kind}${item.key === wp.selected && !checked.length ? ' selected' : ''}${checked.includes(item.key) ? ' checked' : ''}`;
       const label = item.kind === 'live' ? t(item.spec.label) : t('Wallpaper %1$d of %2$d').replace('%1$d', nameless.indexOf(item) + 1).replace('%2$d', nameless.length);
-      const img = item.kind === 'default' ? 'assets/kk-default_wallpaper.jpg' : item.kind === 'photo' ? ctx.image(item.photo) : `assets/${item.spec.thumb}`;
+      const img = item.kind === 'default' ? 'assets/lp-default_wallpaper.jpg' : item.kind === 'photo' ? ctx.image(item.photo) : `assets/${item.spec.thumb}`;
       return `<button class="${cls}" data-action="kwp-tile" data-id="${e(item.key)}"${item.deletable ? ' data-kwp-long="1"' : ''} aria-label="${e(label)}" aria-pressed="${item.key === wp.selected}"><img src="${e(img)}" alt="">${item.kind === 'live' ? `<span class="kwp-label">${e(t(item.spec.label))}</span>` : ''}</button>`;
     };
     const pick = `<button class="kwp-tile pick" data-action="kwp-pick"><img src="${last ? e(ctx.image(last)) : ''}" alt=""><span class="kwp-pick-label"><img src="assets/kwp-ic_images.png" alt="">${e(t('Pick image'))}</span></button>`;

@@ -1,22 +1,28 @@
-/* Android 4.3 Jelly Bean browser simulation (Nexus 4, JWR66Y). No network or Android runtime required. */
+/* Android 5.1.1 Lollipop browser simulation (Nexus 6, LMY48Y). No network or Android runtime required. */
 (() => {
   'use strict';
 
   const STORE = 'android-time-machine-lp-v1';
   const localDate = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const defaultData = {
-    // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
+    // The Google Now Launcher shows its long-press cling on the first run.
     clings: LauncherClings.fresh(),
     wallpaper: 0,
-    // Stock Nexus 5 (Google Now Launcher): one home pane right of Google Now with the Google folder and Play Store on
-    // the bottom row; the dock holds Phone, Hangouts, all apps, Chrome and Camera. Revision 5 adds the DeskClock
-    // digital clock across the top two rows (owner request: a clock on the home screen by default).
-    layoutRevision: 6,
-    homePages: [Array.from({length: 16}, (_, slot) => slot === 12 ? 'folder-google' : slot === 15 ? 'play-store' : null)],
-    homeWidgets: [[{id: 'default-digital', type: 'digitalclock', x: 0, y: 0, width: 4, height: 2}]],
-    folders: {'folder-google': {name: 'Google', items: ['gmail', 'google-plus', 'photos', 'maps', 'people', 'calendar', 'keep', 'drive', 'youtube', 'play-music', 'play-games']}},
+    /* Stock Nexus 6 (Google Now Launcher 1.1, the Large Phone profile's 5 x 5 grid): default_workspace_5x5 puts the
+       Google folder, the Create folder and the Play folder on the bottom row with Play Store in the corner
+       (dw_phone_google_folder, dw_create_folder, dw_phone_play_folder); the hotseat (dw_phone_hotseat) holds Phone,
+       Messenger (the default SMS app), all apps, Chrome and Camera. The DeskClock digital clock across the top
+       stays from the KitKat page (owner request: a clock on the home screen by default). */
+    layoutRevision: 1,
+    homePages: [Array.from({length: 25}, (_, slot) => ({20: 'folder-google', 21: 'folder-create', 23: 'folder-play', 24: 'play-store'})[slot] || null)],
+    homeWidgets: [[{id: 'default-digital', type: 'digitalclock', x: 0, y: 0, width: 5, height: 2}]],
+    folders: {
+      'folder-google': {name: 'Google', nameKey: true, items: ['google-search', 'maps', 'gmail', 'google-plus', 'calendar', 'photos', 'youtube', 'news-weather', 'hangouts']},
+      'folder-create': {name: 'Create', nameKey: true, items: ['docs', 'sheets', 'slides', 'drive', 'keep']},
+      'folder-play': {name: 'Play', nameKey: true, items: ['play-music', 'play-movies', 'play-games', 'play-books', 'newsstand']}
+    },
     keepNotes: StockApps.DEFAULT_NOTES.map(note => ({...note})),
-    dock: ['phone', 'hangouts', 'apps', 'chrome', 'camera'],
+    dock: ['phone', 'messaging', 'apps', 'chrome', 'camera'],
     settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
     contacts: [
       { id: 1, name: 'Alex Morgan', phone: '202-555-0148', email: 'alex@example.com' },
@@ -54,38 +60,9 @@
       if (!saved) return clone(defaultData);
       const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
       if (!saved.clings) result.clings = LauncherClings.dismissedAll();
-      if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
-      result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
       if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
-      // Replace only the untouched old demo layout; preserve customized desktops.
-      if (!saved.layoutRevision) {
-        const oldShortcuts = [['calendar','music',null,null],['camera','gallery','email',null],['camera',null,null,'google'],['email','camera','clock',null],['calculator','settings',null,null]].map(items => [...Array(12).fill(null), ...items]);
-        const oldWidgets = ['digital','weather','analog','music','calendar'].map((type, i) => [{id: ['default-clock','default-weather','default-analog','default-music','default-calendar'][i], type, x: 1, y: 0}]);
-        if (JSON.stringify(result.homePages) === JSON.stringify(oldShortcuts) && JSON.stringify(result.homeWidgets) === JSON.stringify(oldWidgets)) {
-          result.homePages = clone(defaultData.homePages);
-          result.homeWidgets = clone(defaultData.homeWidgets);
-        } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
-        result.layoutRevision = 2;
-      }
-      // The KitKat scaffold started from the Jelly Bean desktop; switch it to the Launcher3 one.
-      if ((saved.layoutRevision || 0) < 3) { result.clings = clone(defaultData.clings); }
-      // Revision 4 moves the desktop from the AOSP Launcher3 layout to the stock Nexus 5 one.
-      if ((saved.layoutRevision || 0) < 4) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = clone(defaultData.folders); result.layoutRevision = 4; }
       while (result.homeWidgets.length < result.homePages.length) result.homeWidgets.push([]);
       result.homeWidgets.length = result.homePages.length;
-      // Revision 5: the default clock goes on the first page only where its two rows are still empty.
-      if ((saved.layoutRevision || 0) < 5) {
-        const page = result.homePages[0] || [], widgets = result.homeWidgets[0] || [];
-        const free = page.slice(0, 8).every(slot => !slot) && !widgets.some(widget => (widget.y || 0) < 2);
-        if (free && !widgets.some(widget => widget.type === 'digitalclock')) widgets.push(clone(defaultData.homeWidgets[0][0]));
-        result.homeWidgets[0] = widgets; result.layoutRevision = 5;
-      }
-      // Revision 6: the Google folder gets GSMArena's launch contents unless it was edited.
-      if ((saved.layoutRevision || 0) < 6) {
-        const folder = result.folders?.['folder-google'];
-        if (folder && JSON.stringify(folder.items) === JSON.stringify(['gmail', 'play-movies', 'play-music', 'play-books', 'play-games', 'photos'])) folder.items = clone(defaultData.folders['folder-google'].items);
-        result.layoutRevision = 6;
-      }
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
       // A reload during Gallery widget configuration leaves no completed choice.
@@ -123,26 +100,31 @@
   // Chrome and the AOSP Browser keep separate tabs; ui.browserSession is the one of the browser in front.
   ui.browserOwner = 'browser'; ui.browserSessions = {};
   syncBrowserState();
+  /* The Nexus 6 LMY48Y app drawer (every launcher activity of the factory image that is enabled after setup), plus
+     the AOSP Browser, Gallery and Music kept from the KitKat page. Labels are the launcher labels. */
   const apps = [
-    ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'People', '◉', '#efa96f', '#a45142'],
-    ['messaging', 'Messaging', '✉', '#84cf62', '#428c43'], ['browser', 'Browser', '◎', '#65aee2', '#246ba8'],
+    ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'Contacts', '◉', '#efa96f', '#a45142'],
+    ['messaging', 'Messenger', '✉', '#84cf62', '#428c43'], ['browser', 'Browser', '◎', '#65aee2', '#246ba8'],
     ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
     ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f'], ['downloads', 'Downloads', '⬇', '#8bc34a', '#33691e'],
-    // Google apps of the stock Nexus 5 (Google Now Launcher build). Hangouts, Chrome, Gmail and Photos open the
-    // simulated AOSP equivalents for now; the Play media apps and Google Settings are not simulated.
     ['hangouts', 'Hangouts', '❝', '#8bc34a', '#33691e'], ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'], ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'],
     ['photos', 'Photos', '✿', '#fbbc05', '#34a853'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-games', 'Play Games', '✚', '#8bc34a', '#558b2f'],
     ['play-movies', 'Play Movies & TV', '▶', '#e53935', '#b71c1c'], ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['google-settings', 'Google Settings', 'g', '#757575', '#424242'],
-    // The rest of the stock Nexus 5 drawer (stock-apps.js), with icons drawn after their 2013 looks.
     ['google-plus', 'Google+', 'g+', '#dd4b39', '#b03a2e'], ['maps', 'Maps', '⌖', '#cfe6b8', '#4285f4'], ['keep', 'Keep', '✎', '#f7c600', '#d9a800'],
     ['drive', 'Drive', '△', '#0da960', '#4688f4'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'], ['earth', 'Earth', '◍', '#1f6fd1', '#0b2f73'],
-    ['google-search', 'Google', 'g', '#4285f4', '#3367d6'], ['news-weather', 'News & Weather', '☼', '#4285f4', '#9e9e9e'], ['voice-search', 'Voice Search', '🎤', '#eeeeee', '#5f6368']
+    ['google-search', 'Google', 'g', '#4285f4', '#3367d6'], ['news-weather', 'News & Weather', '☼', '#4285f4', '#9e9e9e'], ['voice-search', 'Voice Search', '🎤', '#eeeeee', '#5f6368'],
+    ['docs', 'Docs', '▤', '#4285f4', '#3367d6'], ['sheets', 'Sheets', '▦', '#0f9d58', '#0b8043'], ['slides', 'Slides', '▭', '#f4b400', '#f09300'],
+    ['fit', 'Fit', '♥', '#db4437', '#c53929'], ['newsstand', 'Play Newsstand', '▥', '#3f51b5', '#303f9f'], ['wallet', 'Wallet', '▣', '#4285f4', '#3367d6']
   ];
+  /* colorPrimaryDark of each app's Material theme, painted behind the status bar (Window.setStatusBarColor). */
+  const LP_STATUS_COLORS = {};
   const GEL_ALIASES = {};
-  const GEL_UNSIMULATED = [];
+  // Folder and grid size of the Large Phone profile.
+  const GRID = 5;
+  const GEL_UNSIMULATED = ['docs', 'sheets', 'slides', 'fit', 'newsstand', 'wallet'];
   // Play Music, Movies & TV, Books and Games (play-apps.js).
   const PLAY_APPS = ['play-music', 'play-movies', 'play-books', 'play-games'];
   const wifiNetworks = [
@@ -154,7 +136,7 @@
   // Launcher2 4.3 wallpapers (drawable-nodpi; 06 and 07 are tablet-only). wallpaper_01 is also the framework default_wallpaper.
   const wallpaperFiles = ['01','02','03','04','05','08','09','10','11','12'];
   // Index 0 is the framework default_wallpaper from the hammerhead overlay (2160 x 1920).
-  const wallpaperUrl = index => index === 0 || !wallpaperFiles[index] ? 'assets/kk-default_wallpaper.jpg' : `assets/jb-wallpaper_${wallpaperFiles[index]}.jpg`;
+  const wallpaperUrl = index => index === 0 || !wallpaperFiles[index] ? 'assets/lp-default_wallpaper.jpg' : `assets/jb-wallpaper_${wallpaperFiles[index]}.jpg`;
   const homePageCount = () => data.homePages.length - (ui.extraScreen ? 1 : 0);
   /* Workspace.wallpaperOffsetForCurrentScroll: a still wallpaper spans at least MIN_PARALLAX_PAGE_SPAN (3) page
      gaps, a live one exactly the pages there are; the extra empty screen added while dragging does not count. */
@@ -180,7 +162,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings', 'google-plus', 'maps', 'earth', 'google-search', 'keep', 'drive', 'youtube', 'news-weather', 'voice-search']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'play-store', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings', 'google-plus', 'maps', 'earth', 'google-search', 'keep', 'drive', 'youtube', 'news-weather', 'voice-search', 'docs', 'sheets', 'slides', 'fit', 'newsstand', 'wallet']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -201,8 +183,7 @@
   const shadeDate = () => deviceDate().toLocaleDateString(i18n.locale(), { weekday: 'short', month: 'short', day: 'numeric' });
   const contact = id => data.contacts.find(item => item.id === Number(id));
   const appIcon = id => {
-    if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg?v=2" alt=""></span>';
-    if (id === 'apps') return '<span class="app-icon"><img src="assets/l3-ic_allapps.png" alt=""></span>';
+    if (id === 'apps') return '<span class="app-icon"><img src="assets/gnl-ic_allapps.png" alt=""></span>';
     const folder=ICSLauncherFolders.folder(data,id);
     if(folder)return `<span class="app-icon launcher-folder-icon">${folder.items.slice(0,3).map(app=>`<span class="folder-preview-item">${appIcon(app)}</span>`).join('')}</span>`;
     if (id === 'google') return '<span class="app-icon google-folder-icon"><img src="assets/browser.png" alt=""><img src="assets/email.png" alt=""><img src="assets/calendar.png" alt=""><img src="assets/gallery.png" alt=""></span>';
@@ -212,7 +193,8 @@
       ? `<span class="app-icon"><img src="assets/${id}.png" alt=""></span>`
       : `<span class="app-icon fallback" style="--icon-light:${item[3]};--icon-dark:${item[4]}">${item[2]}</span>`;
   };
-  const folderName=id=>ICSLauncherFolders.folder(data,id)?.name||i18n.t('Unnamed folder');
+  // The default folders keep their name as a string key until renamed, so they follow the language (google_folder_name…).
+  const folderName=id=>{const folder=ICSLauncherFolders.folder(data,id);return folder?.name?(folder.nameKey?i18n.t(folder.name):folder.name):i18n.t('Unnamed folder');};
   const launcherIcon = id => ICSLauncherFolders.folder(data,id)
     ? `<button class="launcher-icon" data-action="folder-open" data-folder-id="${safe(id)}" aria-label="${safe(folderName(id))}" data-no-translate>${appIcon(id)}<span>${safe(folderName(id))}</span></button>`
     : `<button class="launcher-icon" data-action="${id==='apps'?'drawer':'open-app'}" ${id==='apps'?'':`data-app="${id}"`} aria-label="${safe(appNames[id]||'Apps')}">${appIcon(id)}<span>${safe(appNames[id]||'Apps')}</span></button>`;
@@ -238,12 +220,15 @@
     // Android 4.3 security views (KeyguardPatternView/PINView/PasswordView) inside the SlidingChallengeLayout.
     look:{wrong:kind=>JBKeyguard.WRONG[kind],clearMs:JBKeyguard.S.clear,message:({state,remaining})=>JBKeyguard.securityMessage({error:state.error,errorAt:state.errorAt,remaining,owner:data.settings.showOwner?data.settings.ownerInfo:''},key=>i18n.t(key)),renderLock:api=>renderSecureKeyguard(api)}});
   ui.locked=ICSLockscreen.secure(data);if(ui.locked)ui.view='lock';lockControls.lock();lockControls.bind(screen);
-  // BatteryMeterView (4.4): the button is 25 %-75 % wide and 12 % tall; frame #66FFFFFF, level white, red at 15 % or less.
-  const kkBattery = level => `<svg class="kk-battery" viewBox="0 0 10.5 16" aria-label="Battery ${level}%"><path d="M2.75 .4h5v1.6h-5zM.4 2.32h9.7v13.28H.4z" fill="#fff" fill-opacity=".4"/><rect x=".4" y="${(2.32 + 13.28 * (1 - level / 100)).toFixed(2)}" width="9.7" height="${(13.28 * level / 100).toFixed(2)}" fill="${level <= 15 ? '#ff3300' : '#fff'}"/></svg>`;
+  // BatteryMeterView (5.1): 9.5 x 14.5 dp; the button is 25 %-75 % wide and 12 % tall; frame #66FFFFFF, level white,
+  // battery_saver_mode_color (#F4511E) at 15 % or less.
+  const kkBattery = level => `<svg class="kk-battery" viewBox="0 0 9.5 14.5" aria-label="Battery ${level}%"><path d="M2.375 0h4.75v1.74h-4.75zM0 1.74h9.5V14.5H0z" fill="#fff" fill-opacity=".4"/><rect x="0" y="${(1.74 + 12.76 * (1 - level / 100)).toFixed(2)}" width="9.5" height="${(12.76 * level / 100).toFixed(2)}" fill="${level <= 15 ? '#f4511e' : '#fff'}"/></svg>`;
   const statusBarHeight = () => statusRoot.offsetHeight || 22.65;
   // Launcher3 and the keyguard draw under translucent system bars; apps get opaque ones.
   function updateBarMode() {
     screen.classList.toggle('kk-translucent', ['home', 'lock', 'drawer'].includes(ui.view) && !ui.sleeping);
+    // Window.setStatusBarColor: the app's colorPrimaryDark (LP_STATUS_COLORS), black where the theme sets none.
+    screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || '#000');
     // PlatLogoActivity is fullscreen; the Dessert Case hides both bars (immersive sticky).
     const egg = ui.view === 'settings' && ['easter', 'dessert'].includes(ui.sub);
     // Theme.WallpaperPicker is fullscreen as well.
@@ -251,7 +236,14 @@
     screen.classList.toggle('kk-immersive', egg && ui.sub === 'dessert');
     if (!egg) screen.classList.remove('kk-bars-peek');
   }
-  const statusIndicators = () => `<span class="status-right">${data.settings.bluetooth ? '<img class="status-bluetooth" src="assets/kk-stat_sys_data_bluetooth.png" alt="">' : ''}${data.settings.silent ? `<img src="assets/kk-stat_sys_ringer_${data.settings.silentMode === 'vibrate' ? 'vibrate' : 'silent'}.png" alt="">` : ''}${data.alarms.some(alarm => alarm.enabled) ? '<img src="assets/kk-stat_sys_alarm.png" alt="">' : ''}<span class="status-cluster">${data.settings.wifi && data.settings.wifiNetwork ? '<img class="status-wifi" src="assets/kk-stat_sys_wifi_signal_4_fully.png" alt="">' : ''}${!data.settings.airplane && data.settings.dataEnabled !== false && !(data.settings.wifi && data.settings.wifiNetwork) ? '<img class="status-data-type" src="assets/kk-stat_sys_data_fully_connected_h.png" alt="">' : ''}<img src="assets/kk-${data.settings.airplane ? 'stat_sys_signal_flightmode' : 'stat_sys_signal_4_fully'}.png" alt=""></span>${kkBattery(71)}<span class="status-clock">${clock()}</span></span>`;
+  /* PhoneStatusBarPolicy icons (Bluetooth, the 5.0 interruptions/vibrate icon, alarm), then SignalClusterView (Wi-Fi,
+     the mobile signal with its data type in the corner, or the airplane), BatteryMeterView and the clock. */
+  const sysui = name => `assets/lp-sysui-${name}.svg`;
+  const statusIndicators = () => {
+    const wifi = data.settings.wifi && data.settings.wifiNetwork, zen = data.settings.zenMode && data.settings.zenMode !== 'all';
+    const mobile = data.settings.airplane ? `<img src="${sysui('stat_sys_airplane_mode')}" alt="">` : `<span class="lp-mobile"><img src="${sysui('stat_sys_signal_4_fully')}" alt="">${!wifi && data.settings.dataEnabled !== false ? `<img class="lp-mobile-type" src="${sysui('stat_sys_data_fully_connected_lte')}" alt="">` : ''}</span>`;
+    return `<span class="status-right">${data.settings.bluetooth ? `<img class="status-bluetooth" src="${sysui('stat_sys_data_bluetooth')}" alt="">` : ''}${zen ? `<img src="${sysui(data.settings.zenMode === 'none' ? 'stat_sys_zen_none' : 'stat_sys_zen_important')}" alt="">` : ''}${data.settings.silent && data.settings.silentMode === 'vibrate' ? `<img src="${sysui('stat_sys_ringer_vibrate')}" alt="">` : ''}${data.alarms.some(alarm => alarm.enabled) ? `<img src="${sysui('stat_sys_alarm')}" alt="">` : ''}<span class="status-cluster">${wifi ? `<img class="status-wifi" src="${sysui('stat_sys_wifi_signal_4_fully')}" alt="">` : ''}${mobile}</span>${kkBattery(71)}<span class="status-clock">${clock()}</span></span>`;
+  };
 
   function renderStatus() {
     updateBarMode();
@@ -260,7 +252,8 @@
     i18n.translateDOM(statusRoot);
   }
   function renderNav() {
-    navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/kk-ic_sysbar_back.png" alt=""></button><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/kk-ic_sysbar_home.png" alt=""></button><button class="nav-key nav-recent" data-action="recent" aria-label="Recent apps"><img src="assets/kk-ic_sysbar_recent.png" alt=""></button>`;
+    // navigation_bar.xml: 36 dp side padding, the 70 dp keys spread by weighted spacers; Back turns down for the IME.
+    navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/lp-ic_sysbar_back${ui.imeShown ? '_ime' : ''}.png" alt=""></button><span class="nav-spacer"></span><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/lp-ic_sysbar_home.png" alt=""></button><span class="nav-spacer"></span><button class="nav-key nav-recent" data-action="recent" aria-label="Overview"><img src="assets/lp-ic_sysbar_recent.png" alt=""></button>`;
     if(ui.locked)navRoot.querySelectorAll('.nav-home,.nav-recent').forEach(button=>{button.disabled=true;button.setAttribute('aria-hidden','true');});
   }
   // Window transitions: the outgoing view is kept in a temporary layer while both animate.
@@ -547,14 +540,17 @@
     return `<div class="home-widget widget-${widget.type}${frame ? ' resizing' : ''}" data-widget-id="${safe(widget.id)}" style="grid-column:${widget.x + 1}/span ${spec.width};grid-row:${widget.y + 1}/span ${spec.height}">${body}${frame}</div>`;
   };
   const wallpaperChoices = () => `<div class="wallpaper-grid">${wallpaperFiles.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}" aria-label="${safe(i18n.t('Wallpaper'))} ${i + 1}"><span class="wallpaper-swatch" style="background-image:url('assets/jb-wallpaper_${name}_small.jpg')"></span></button>`).join('')}</div>`;
-  const pageMarker = (active, add = false) => `<img class="kk-pi-off" src="assets/l3-ic_pageindicator_${add ? 'add' : 'default'}.png" alt=""><img class="kk-pi-on" src="assets/l3-ic_pageindicator_current.png" alt="">`;
+  const pageMarker = (active, add = false) => `<img class="kk-pi-off" src="assets/gnl-ic_pageindicator_${add ? 'add' : 'default'}.png" alt=""><img class="kk-pi-on" src="assets/gnl-ic_pageindicator_current.png" alt="">`;
+  const homeGrid = (page, index) => `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" ${index !== ui.page && !ui.overview ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % GRID + 1};grid-row:${Math.floor(slot / GRID) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${(data.homeWidgets[index] || []).map(homeWidget).join('')}</div>`;
   function renderHome() {
     const pages = data.homePages.length;
     const nowPane = `<div class="gel-now-layer" ${ui.page === -1 ? '' : 'inert aria-hidden="true"'}>${GELNow.render({data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()})}</div>`;
-    return `<div class="home-view kk-home gel-home${ui.overview ? ' kk-overview' : ''}${ui.page === -1 ? ' gel-now-open' : ''}" style="--gnow:${ui.page === -1 ? 1 : 0}">${nowPane}<div class="home-search"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="kk-qsb-logo" src="assets/l3-ic_home_google_logo_normal_holo.png" alt="Google"><span class="gel-hint">${safe(i18n.t('Say “Ok Google”'))}</span></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice search'))}"><img class="search-microphone" src="assets/l3-ic_home_voice_search_holo.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" ${index !== ui.page && !ui.overview ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${(data.homeWidgets[index] || []).map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators"><button class="gel-now-marker ${ui.page === -1 ? 'active' : ''}" data-action="page" data-id="-1" aria-label="Google Now">${pageMarker(ui.page === -1)}</button>${Array.from({ length: pages }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}">${pageMarker(i === ui.page, ui.extraScreen && i === pages - 1)}</button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/l3-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_clear_active_holo.png" alt=""><span>${safe(i18n.t('Remove'))}</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/l3-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_info_active_holo.png" alt=""><span>${safe(i18n.t('App info'))}</span></div></div><div class="kk-overview-panel" ${ui.overview ? '' : 'inert'}><button data-action="open-wallpapers" style="--pressed:url('assets/l3-ic_wallpaper_pressed.png')"><img src="assets/l3-ic_wallpaper.png" alt="">${safe(i18n.t('Wallpapers'))}</button><button data-action="kk-overview-widgets" style="--pressed:url('assets/l3-ic_widget_pressed.png')"><img src="assets/l3-ic_widget.png" alt="">${safe(i18n.t('Widgets'))}</button><button data-action="gel-overview-settings" style="--pressed:url('assets/l3-ic_setting_pressed.png')"><img src="assets/l3-ic_setting.png" alt="">${safe(i18n.t('Settings'))}</button></div></div>`;
+    return `<div class="home-view kk-home gel-home lp-home${ui.overview ? ' kk-overview' : ''}${ui.page === -1 ? ' gel-now-open' : ''}" style="--gnow:${ui.page === -1 ? 1 : 0}">${nowPane}<div class="home-search"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="lp-qsb-logo" src="assets/gnl-ic_searchbox_google.png" alt="Google"></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice Search'))}"><img class="lp-qsb-mic" src="assets/gnl-ic_mic_none.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map(homeGrid).join('')}</div></div><div class="page-indicators"><button class="gel-now-marker ${ui.page === -1 ? 'active' : ''}" data-action="page" data-id="-1" aria-label="Google Now">${pageMarker(ui.page === -1)}</button>${Array.from({ length: pages }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}">${pageMarker(i === ui.page, ui.extraScreen && i === pages - 1)}</button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/gnl-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/gnl-ic_launcher_clear_active_holo.png" alt=""><span>${safe(i18n.t('Remove'))}</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/gnl-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/gnl-ic_launcher_info_active_holo.png" alt=""><span>${safe(i18n.t('App info'))}</span></div></div><div class="kk-overview-panel" ${ui.overview ? '' : 'inert'}><button data-action="open-wallpapers" style="--pressed:url('assets/gnl-ic_wallpaper_pressed.png')"><img src="assets/gnl-ic_wallpaper.png" alt="">${safe(i18n.t('Wallpapers'))}</button><button data-action="kk-overview-widgets" style="--pressed:url('assets/gnl-ic_widget_pressed.png')"><img src="assets/gnl-ic_widget.png" alt="">${safe(i18n.t('Widgets'))}</button><button data-action="gel-overview-settings" style="--pressed:url('assets/gnl-ic_setting_pressed.png')"><img src="assets/gnl-ic_setting.png" alt="">${safe(i18n.t('Settings'))}</button></div></div>`;
   }
-  const drawerAppPages = () => Math.ceil(apps.length / 20);
-  const drawerPageCount = () => drawerAppPages() + Math.ceil(widgetTypes.length / 4);
+  // All apps: 5 x 6 apps per quantum_panel page, then the widget pages of 2 x 3 previews.
+  const DRAWER_APPS = 30, DRAWER_WIDGETS = 6;
+  const drawerAppPages = () => Math.ceil(apps.length / DRAWER_APPS);
+  const drawerPageCount = () => drawerAppPages() + Math.ceil(widgetTypes.length / DRAWER_WIDGETS);
   const drawerRange = () => ui.drawerWidgets ? [drawerAppPages(), drawerPageCount() - 1] : [0, drawerAppPages() - 1];
   function renderDrawer() {
     const appPages = drawerAppPages(), pages = drawerPageCount();
@@ -564,20 +560,20 @@
     ui.drawerTab = isApps ? 'apps' : 'widgets';
     const sortedApps = [...apps].sort((a,b) => i18n.t(a[1]).localeCompare(i18n.t(b[1]), i18n.locale()));
     const widgetPage = current - appPages;
-    const items = isApps ? sortedApps.slice(current * 20, current * 20 + 20).map(app => launcherIcon(app[0])).join('') : widgetTypes.slice(widgetPage * 4, widgetPage * 4 + 4).map(widget => `<button class="drawer-widget" data-action="add-widget" data-widget-type="${widget.type}" aria-label="${safe(widget.name)}"><span class="drawer-widget-title">${safe(widget.name)} <small>${widget.width} × ${widget.height}</small></span><span class="drawer-widget-preview widget-${widget.type}">${widgetArt(widget.type)}</span></button>`).join('');
-    return `<div class="drawer-view kk-drawer"><div class="drawer-page ${isApps ? 'drawer-apps' : 'drawer-widgets'}">${items}</div><div class="drawer-indicators">${Array.from({length:pages},(_,i)=>i < first || i > last ? '' : `<button class="${i===current?'active':''}" data-action="drawer-page" data-id="${i}" aria-label="${safe(i18n.t('Page'))} ${i+1}">${pageMarker(i === current)}</button>`).join('')}</div></div>`;
+    const items = isApps ? sortedApps.slice(current * DRAWER_APPS, current * DRAWER_APPS + DRAWER_APPS).map(app => launcherIcon(app[0])).join('') : widgetTypes.slice(widgetPage * DRAWER_WIDGETS, widgetPage * DRAWER_WIDGETS + DRAWER_WIDGETS).map(widget => `<button class="drawer-widget" data-action="add-widget" data-widget-type="${widget.type}" aria-label="${safe(i18n.t(widget.name))}"><span class="drawer-widget-preview widget-${widget.type}">${widgetArt(widget.type)}</span><span class="drawer-widget-title"><span>${safe(i18n.t(widget.name))}</span><small>${widget.width} × ${widget.height}</small></span></button>`).join('');
+    return `<div class="drawer-view kk-drawer lp-drawer${isApps ? '' : ' drawer-widgets-open'}${ui.drawerReveal ? ' lp-revealing' : ''}"${ui.drawerReveal ? ` style="--dx:${ui.drawerReveal.dx}px;--dy:${ui.drawerReveal.dy}px"` : ''}><div class="lp-drawer-panel"></div><div class="drawer-page ${isApps ? 'drawer-apps' : 'drawer-widgets'}">${items}</div><div class="drawer-indicators">${Array.from({length:pages},(_,i)=>i < first || i > last ? '' : `<button class="${i===current?'active':''}" data-action="drawer-page" data-id="${i}" aria-label="${safe(i18n.t('Page'))} ${i+1}">${pageMarker(i === current)}</button>`).join('')}</div></div>`;
   }
 
   function widgetFits(page, x, y, type, ignoredId = '') {
     const {width, height} = widgetSize(type);
-    if (x < 0 || y < 0 || x + width > 4 || y + height > 4) return false;
+    if (x < 0 || y < 0 || x + width > GRID || y + height > GRID) return false;
     for (let row = y; row < y + height; row++) for (let column = x; column < x + width; column++) {
-      if (data.homePages[page][row * 4 + column]) return false;
+      if (data.homePages[page][row * GRID + column]) return false;
     }
     return !data.homeWidgets[page].some(widget => widget.id !== ignoredId && x < widget.x + widgetSize(widget).width && x + width > widget.x && y < widget.y + widgetSize(widget).height && y + height > widget.y);
   }
   function addWidget(type, x = null, y = null) {
-    const spots = x === null ? Array.from({length:16}, (_, i) => [i % 4, Math.floor(i / 4)]) : [[x,y]];
+    const spots = x === null ? Array.from({length: GRID * GRID}, (_, i) => [i % GRID, Math.floor(i / GRID)]) : [[x,y]];
     const spot = spots.find(([column,row]) => widgetFits(ui.page, column, row, type));
     if (!spot) return false;
     const widget = {id:`widget-${Date.now()}`,type,x:spot[0],y:spot[1]};
@@ -857,6 +853,7 @@
     const folderPanel = ui.overlay === 'folder' ? overlayRoot.querySelector('.launcher-folder') : null;
     if (folderPanel && openFolderId !== ui.folderId) {
       ui.folderSettled = '';
+      if (!reducedMotion?.matches) folderPanel.classList.add('lp-folder-opening');
       const animations = ICSTransitions.play(folderPanel, ICSTransitions.specs['folder-open'].enter);
       animations.forEach(animation => animation.finished.then(() => animation.cancel(), () => {}));
       const folderId = ui.folderId;
@@ -887,8 +884,6 @@
   function syncClings() {
     let kind = ui.power || ui.locked || ui.sleeping ? '' : LauncherClings.wanted(ui, data.clings);
     if (kind === 'folder' && ui.folderSettled !== ui.folderId) kind = '';
-    // initCling(..., dimNavBarVisibility): the launcher asks for SYSTEM_UI_FLAG_LOW_PROFILE while a cling shows.
-    screen.classList.toggle('kk-lights-out', !!kind);
     const current = clingLayerRoot().querySelector('.cling:not(.cling-leaving)');
     if (current?.dataset.cling === kind) { placeCling(current, kind); return; }
     current?.remove();
@@ -896,9 +891,7 @@
     clingLayerRoot().insertAdjacentHTML('beforeend', LauncherClings.markup(kind, key => i18n.t(key)));
     const root = clingLayerRoot().lastElementChild;
     placeCling(root, kind);
-    // Cling.show: the first run cling appears at once, the workspace cling fades its content in, the folder one fades.
-    if (kind === 'folder') LauncherClings.show(root);
-    if (kind === 'workspace') { const content = root.querySelector('.kk-cling-content'); content?.animate?.([{opacity: 0}, {opacity: 1}], {duration: LauncherClings.SHOW}); }
+    // showLongPressCling(true): the first cling, with the welcome title, is not animated in.
     setTimeout(() => { if (root.isConnected) placeCling(root, kind); }, 450);
   }
 
@@ -907,7 +900,7 @@
   function renderFolder() {
     const folder=ICSLauncherFolders.folder(data,ui.folderId);if(!folder){ui.overlay='';return '';}
     const {columns,rows}=ICSLauncherFolders.dimensions(folder.items.length);
-    return `<div class="launcher-folder-scrim" data-action="close-overlay"></div><div class="launcher-folder" role="dialog" aria-label="${safe(i18n.t('Folder'))}: ${safe(folderName(ui.folderId))}" style="width:${columns*74+24}px;--folder-columns:${columns}"><div class="launcher-folder-grid">${Array.from({length:columns*rows},(_,slot)=>`<div class="launcher-folder-cell" data-folder-slot="${slot}">${folder.items[slot]?launcherIcon(folder.items[slot]):''}</div>`).join('')}</div><form class="launcher-folder-name" data-form="folder-name"><input name="name" aria-label="Folder name" placeholder="Unnamed folder" maxlength="40" autocomplete="off" value="${safe(folder.name)}"></form></div>`;
+    return `<div class="launcher-folder-scrim" data-action="close-overlay"></div><div class="launcher-folder lp-folder" role="dialog" aria-label="${safe(i18n.t('Folder'))}: ${safe(folderName(ui.folderId))}" style="width:${columns*74+24}px;--folder-columns:${columns}"><div class="launcher-folder-grid">${Array.from({length:columns*rows},(_,slot)=>`<div class="launcher-folder-cell" data-folder-slot="${slot}">${folder.items[slot]?launcherIcon(folder.items[slot]):''}</div>`).join('')}</div><form class="launcher-folder-name" data-form="folder-name"><input name="name" aria-label="Folder name" placeholder="${safe(i18n.t('Unnamed Folder'))}" maxlength="40" autocomplete="off" value="${safe(folder.name)}"></form></div>`;
   }
   function positionFolder() {
     const panel=overlayRoot.querySelector('.launcher-folder');if(!panel)return;
@@ -1519,7 +1512,14 @@
       case 'ga-airplane': ui.overlay = ''; data.settings.airplane = !data.settings.airplane; if (data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; } save(); render(); break;
       case 'ga-ringer': GlobalActions.setRinger(data.settings, id); save(); renderStatus(); renderOverlay(); setTimeout(() => { if (ui.overlay === 'power-menu') { ui.overlay = ''; render(); } }, GlobalActions.DISMISS_DELAY); break;
       case 'ga-confirm': powerConfirm(id); break;
-      case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; ui.overview = false; ui.drawerWidgets = false; if (ui.drawerPage >= drawerAppPages()) ui.drawerPage = 0; render(); break;
+      case 'drawer': {
+        // The reveal starts on the all apps button: its centre's offset from the panel centre, in screen px.
+        const box = button.getBoundingClientRect(), frame = screen.getBoundingClientRect(), k = frame.width / screen.clientWidth;
+        const panelCenterY = (statusBarHeight() + (screen.clientHeight - navRoot.offsetHeight - 23.2)) / 2;
+        ui.drawerReveal = reducedMotion?.matches ? null : {dx: Math.round((box.left + box.width / 2 - frame.left) / k - screen.clientWidth / 2), dy: Math.round((box.top + box.height / 2 - frame.top) / k - panelCenterY)};
+        ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; ui.overview = false; ui.drawerWidgets = false; if (ui.drawerPage >= drawerAppPages()) ui.drawerPage = 0; render();
+        ui.drawerReveal = null; setTimeout(() => viewport.querySelector('.lp-drawer')?.classList.remove('lp-revealing'), 320); break;
+      }
       case 'cling-dismiss': if (data.clings) { data.clings[id] = true; save(); } LauncherClings.dismiss(clingLayerRoot().querySelector(`[data-cling="${id}"]`), () => syncClings()); break;
       case 'folder-open': ui.folderId=button.dataset.folderId;ui.overlay='folder';renderOverlay();break;
       case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = id === 'widgets' ? drawerAppPages() : 0; render(); break;
@@ -2169,7 +2169,7 @@
       if (list) { const fresh = document.createElement('div'); fresh.innerHTML = KKDialer.render({data, ui, t: key => i18n.t(key), locale: i18n.locale(), byPhone: contactByPhone}); list.innerHTML = fresh.querySelector('[data-kk-dialer-list]').innerHTML; i18n.translateDOM?.(list); }
       return;
     }
-    if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}
+    if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);delete folder.nameKey;save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}
     if(event.target.dataset.field==='data-cycle'){ui.dataCycle=event.target.value;render();return;}
     if(event.target.closest('.email-compose')&&event.target.name){const item=mailbox().find(item=>item.id===ui.emailId);if(item){item[event.target.name]=event.target.value;save();}return;}
     if(event.target.closest('.cal-editor') && event.target.name) {
@@ -2278,9 +2278,9 @@
   function addExtraEmptyScreen() {
     if (ui.extraScreen) return;
     ui.extraScreen = true;
-    data.homePages.push(Array(16).fill(null)); data.homeWidgets.push([]);
+    data.homePages.push(Array(GRID * GRID).fill(null)); data.homeWidgets.push([]);
     const index = data.homePages.length - 1;
-    viewport.querySelector('.home-pages')?.insertAdjacentHTML('beforeend', `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" inert>${Array.from({length: 16}, (_, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}"></div>`).join('')}</div>`);
+    viewport.querySelector('.home-pages')?.insertAdjacentHTML('beforeend', `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" inert>${Array.from({length: GRID * GRID}, (_, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % GRID + 1};grid-row:${Math.floor(slot / GRID) + 1}"></div>`).join('')}</div>`);
     viewport.querySelector('.page-indicators')?.insertAdjacentHTML('beforeend', `<button data-action="page" data-id="${index}" aria-label="${safe(i18n.t('Home screen'))} ${index + 1}">${pageMarker(false, true)}</button>`);
   }
   // Returns the new index of each old page.
@@ -2366,7 +2366,7 @@
     if (source.widgetType) {
       if (!grid) return null;
       const rect = grid.getBoundingClientRect(), oldWidget = source.type === 'widget' ? data.homeWidgets[source.page].find(widget => widget.id === source.id) : null;
-      const column = Math.round((x - rect.left - 6 - source.grabOffset.x) / ((rect.width - 12) / 4)), row = Math.round((y - rect.top - 5 - source.grabOffset.y) / ((rect.height - 5) / 4));
+      const column = Math.round((x - rect.left - source.grabOffset.x) / (rect.width / GRID)), row = Math.round((y - rect.top - source.grabOffset.y) / (rect.height / GRID));
       const size = widgetSize(oldWidget || source.widgetType), outline = {key: `w:${ui.page}:${column}:${row}`, container: grid, style: `grid-column:${column + 1}/span ${size.width};grid-row:${row + 1}/span ${size.height}`};
       if (widgetFits(ui.page, column, row, oldWidget || source.widgetType, oldWidget?.id || '')) { clearReorder(); return outline; }
       const movingKey = oldWidget && source.page === ui.page ? `w${oldWidget.id}` : 'new';
@@ -2377,13 +2377,13 @@
     const occupant = slot?.querySelector('.launcher-icon:not(.drag-source-icon)');
     if (slot?.hasAttribute('data-home-slot')) {
       const index = Number(slot.dataset.homeSlot), outline = {key: `h:${ui.page}:${index}`, container: slot};
-      const covered = data.homeWidgets[ui.page].some(widget => index % 4 >= widget.x && index % 4 < widget.x + widgetSize(widget).width && Math.floor(index / 4) >= widget.y && Math.floor(index / 4) < widget.y + widgetSize(widget).height);
+      const covered = data.homeWidgets[ui.page].some(widget => index % GRID >= widget.x && index % GRID < widget.x + widgetSize(widget).width && Math.floor(index / GRID) >= widget.y && Math.floor(index / GRID) < widget.y + widgetSize(widget).height);
       if (!occupant && !covered) { clearReorder(); return outline; }
       // Near an icon's centre the drop makes or fills a folder; elsewhere the occupant moves aside.
       if (occupant) { const box = occupant.querySelector('.app-icon')?.getBoundingClientRect(); if (box && JBLauncher.folderZone({x, y}, {x: box.left + box.width / 2, y: box.top + box.height / 2}, box.width)) { clearReorder(); return null; } }
       if (ICSLauncherFolders.folder(data, source.id) && occupant?.dataset.folderId) return null;
       const movingKey = source.type === 'home' && source.page === ui.page ? `s${source.slot}` : 'new';
-      source.wsCandidate = {key: outline.key, moving: {key: movingKey, x: index % 4, y: Math.floor(index / 4), w: 1, h: 1}};
+      source.wsCandidate = {key: outline.key, moving: {key: movingKey, x: index % GRID, y: Math.floor(index / GRID), w: 1, h: 1}};
       return requestReorder(outline.key, source.wsCandidate.moving) ? outline : null;
     }
     if (!slot || occupant) return null;
@@ -2522,9 +2522,9 @@
     const grid = target?.closest('.home-grid');
     if (!homeSlot && grid) {
       const rect = grid.getBoundingClientRect();
-      const column = Math.min(3, Math.max(0, Math.floor((x - rect.left) / rect.width * 4)));
-      const row = Math.min(3, Math.max(0, Math.floor((y - rect.top) / rect.height * 4)));
-      homeSlot = grid.querySelector(`[data-home-slot="${row * 4 + column}"]`);
+      const column = Math.min(GRID - 1, Math.max(0, Math.floor((x - rect.left) / rect.width * GRID)));
+      const row = Math.min(GRID - 1, Math.max(0, Math.floor((y - rect.top) / rect.height * GRID)));
+      homeSlot = grid.querySelector(`[data-home-slot="${row * GRID + column}"]`);
     }
     const dockSlot = target?.closest('[data-dock-slot]');
     const pageButton = target?.closest('.page-indicators button');
@@ -2551,7 +2551,7 @@
       if (sameIcon) page[source.slot] = null;
       data.homePages[ui.page] = JBLauncher.apply(page, data.homeWidgets[ui.page], committed.solution.moves);
       showReorder(null);
-      if (sameIcon) { const slot = committed.moving.y * 4 + committed.moving.x; data.homePages[ui.page][slot] = source.id; homeSlot = null; destination = {type: 'home', page: ui.page, slot}; source.reorderHandled = true; }
+      if (sameIcon) { const slot = committed.moving.y * GRID + committed.moving.x; data.homePages[ui.page][slot] = source.id; homeSlot = null; destination = {type: 'home', page: ui.page, slot}; source.reorderHandled = true; }
     }
     if (source.reorderHandled) { /* placed above */ }
     else if (source.widgetType) {
@@ -2560,8 +2560,8 @@
       if (remove && oldWidget) { data.homeWidgets[source.page] = data.homeWidgets[source.page].filter(widget => widget.id !== source.id); destination = {trash: true}; }
       else if (homeSlot) {
         const rect = homeSlot.closest('.home-grid').getBoundingClientRect();
-        const column = Math.round((x - rect.left - 6 - source.grabOffset.x) / ((rect.width - 12) / 4));
-        const row = Math.round((y - rect.top - 5 - source.grabOffset.y) / ((rect.height - 5) / 4));
+        const column = Math.round((x - rect.left - source.grabOffset.x) / (rect.width / GRID));
+        const row = Math.round((y - rect.top - source.grabOffset.y) / (rect.height / GRID));
         if (widgetFits(ui.page, column, row, oldWidget || source.widgetType, oldWidget?.id || '')) {
           if (oldWidget) {
             data.homeWidgets[source.page] = data.homeWidgets[source.page].filter(widget => widget.id !== source.id);
@@ -2583,12 +2583,12 @@
       else if(target?.closest('.launcher-folder-grid'))result=dropAt({type:'folder',folderId:ui.folderId,slot:ICSLauncherFolders.folder(data,ui.folderId).items.length});
       else if(homeSlot){
         const slot=Number(homeSlot.dataset.homeSlot);
-        const covered=data.homeWidgets[ui.page].some(widget=>slot%4>=widget.x&&slot%4<widget.x+widgetSize(widget).width&&Math.floor(slot/4)>=widget.y&&Math.floor(slot/4)<widget.y+widgetSize(widget).height);
+        const covered=data.homeWidgets[ui.page].some(widget=>slot%GRID>=widget.x&&slot%GRID<widget.x+widgetSize(widget).width&&Math.floor(slot/GRID)>=widget.y&&Math.floor(slot/GRID)<widget.y+widgetSize(widget).height);
         if(!covered)result=dropAt({type:'home',page:ui.page,slot});
       }else if(dockSlot)result=dropAt({type:'dock',slot:Number(dockSlot.dataset.dockSlot)});
       else if(pageButton){
         const nextPage=Number(pageButton.dataset.id);
-        const slot=data.homePages[nextPage].findIndex((id,index)=>id===null&&!data.homeWidgets[nextPage].some(widget=>index%4>=widget.x&&index%4<widget.x+widgetSize(widget).width&&Math.floor(index/4)>=widget.y&&Math.floor(index/4)<widget.y+widgetSize(widget).height));
+        const slot=data.homePages[nextPage].findIndex((id,index)=>id===null&&!data.homeWidgets[nextPage].some(widget=>index%GRID>=widget.x&&index%GRID<widget.x+widgetSize(widget).width&&Math.floor(index/GRID)>=widget.y&&Math.floor(index/GRID)<widget.y+widgetSize(widget).height));
         if(slot>=0){result=dropAt({type:'home',page:nextPage,slot});if(result.ok)ui.page=nextPage;}
         else result={ok:false,error:'This home screen is full'};
       }
@@ -2809,7 +2809,7 @@
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     const qsToggle = ui.overlay === 'shade' ? event.target.closest('[data-qs-toggle]') : null;
     if (qsToggle) homeLongPressTimer = setTimeout(() => { const key = qsToggle.dataset.qsToggle; data.settings[key] = !data.settings[key]; if (data.settings[key]) data.settings.airplane = false; if (key === 'wifi' && data.settings.wifi) data.settings.portableHotspot = false; save(); renderStatus(); renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 500);
-    if (ui.view === 'home' && event.target.closest('.kk-cling-workspace .cling-shade')) homeLongPressTimer = setTimeout(() => { data.clings.workspace = true; save(); LauncherClings.dismiss(clingLayerRoot().querySelector('[data-cling="workspace"]'), () => { ui.overview = true; render(); }); pointerStart = null; suppressReleaseClick(); }, 550);
+    if (ui.view === 'home' && event.target.closest('.lp-cling .cling-shade')) homeLongPressTimer = setTimeout(() => { data.clings.workspace = true; save(); LauncherClings.dismiss(clingLayerRoot().querySelector('[data-cling="workspace"]'), () => { ui.overview = true; render(); }); pointerStart = null; suppressReleaseClick(); }, 550);
     if (ui.view === 'home' && !ui.overlay && !ui.overview && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overview = true; render(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
     const kwpScroll = ui.view === 'wallpaper-picker' ? event.target.closest('.kwp-scroll') : null;

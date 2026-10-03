@@ -1,0 +1,42 @@
+/* Lollipop 5.1.1 system bars (SystemUI PhoneStatusBarView, SignalClusterView, BatteryMeterView, NavigationBarView):
+   the 25 dp status bar and the 48 dp navigation bar. An app's status bar takes its theme's colorPrimaryDark (--lp-sb,
+   black by default) and the navigation bar stays black; the launcher (setupTransparentSystemBarsForLmp) and the keyguard
+   draw under fully transparent bars. Icons are SystemUI's vector drawables drawn 17 dp tall
+   (status_bar_icon_drawing_size), the clock is 14 sp sans-serif-medium, and the navigation keys are the Material
+   triangle, circle and square (ic_sysbar_*, #E5FFFFFF) in 70 dp slots, 36 dp in from both edges. */
+.screen{--sb:22.65px;--nb:43.49px;--lp-sb:#000}
+.status-button,.screen .status-button{background:var(--lp-sb);color:#fff!important;padding:0 7.25px 0 5.44px;transition:background-color .2s}
+.status-left{display:flex;align-items:center;height:100%}
+.status-left img{width:15.4px;height:15.4px;margin:0 3.4px 0 3.4px;opacity:.9;object-fit:contain}
+.status-right{display:flex;align-items:center;height:100%}
+.status-right>img,.status-cluster>img{height:15.4px;width:auto;display:block}
+.status-right>img{margin-right:2.27px}
+.status-cluster{display:flex;align-items:center;padding-left:2.27px;padding-right:6.34px}
+.status-cluster .status-wifi{margin-right:2.27px}
+.lp-mobile{position:relative;display:block;height:15.4px}
+.lp-mobile img{height:15.4px;width:auto;display:block}
+.lp-mobile .lp-mobile-type{position:absolute;left:0;top:0}
+.kk-battery{flex:none;width:8.61px;height:13.14px;margin:0;display:block}
+.status-clock{padding-left:6.34px;color:#fff;font:500 12.7px Roboto,RobotoICS,Arial,sans-serif;letter-spacing:.01em}
+#nav-bar{background:#000;transition:background-color .2s;justify-content:flex-start;padding:0 32.6px}
+#nav-bar .nav-key{position:relative;flex:none;width:63.42px;height:43.49px;display:grid;place-items:center;border:0;background:none;padding:0;overflow:visible}
+#nav-bar .nav-spacer{flex:1}
+.nav-key img{width:auto;height:auto;opacity:.9}
+.nav-key.nav-back img{width:16.9px}
+.nav-key.nav-home img{width:17.5px}
+.nav-key.nav-recent img{width:16.3px}
+/* KeyButtonRipple: a white ellipse that fades in under the finger and out on release. */
+.nav-key::after{content:"";position:absolute;left:50%;top:50%;width:41.7px;height:41.7px;margin:-20.85px 0 0 -20.85px;border-radius:50%;background:#ffffff33;opacity:0;transform:scale(.6);transition:opacity .35s,transform .35s;pointer-events:none}
+.nav-key:active::after{opacity:1;transform:scale(1);transition:opacity .08s,transform .2s cubic-bezier(.4,0,.2,1)}
+/* Transparent mode (launcher, keyguard): the content runs under both bars. */
+.screen.kk-translucent #viewport{top:0;bottom:0}
+.screen.kk-translucent .status-button{background:transparent}
+.screen.kk-translucent #nav-bar{background:transparent}
+/* SYSTEM_UI_FLAG_LOW_PROFILE: notification and system icons fade out, battery and clock drop to 50 %, and the
+   navigation keys give way to the lights-out dots. */
+.screen.kk-lights-out .status-left{opacity:0}
+.screen.kk-lights-out .status-right{opacity:.5}
+.screen.kk-lights-out .status-right>:not(.kk-battery):not(.status-clock){opacity:0}
+.screen.kk-lights-out .nav-key img{opacity:0;transition:opacity .25s}
+.screen.kk-lights-out .nav-key{background:url('assets/lp-ic_sysbar_lights_out_dot_small.png') center/7.25px no-repeat}
+.screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/lp-ic_sysbar_lights_out_dot_large.png');background-size:10.87px}

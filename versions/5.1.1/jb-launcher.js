@@ -1,7 +1,7 @@
 /* Jelly Bean Launcher2 workspace behavior: items move out of the way (CellLayout reorder) and widgets resize. */
 (() => {
   'use strict';
-  const COLS = 4, ROWS = 4;
+  const COLS = 5, ROWS = 5;
   // Workspace.REORDER_TIMEOUT, CellLayout.REORDER_ANIMATION_DURATION, AppWidgetResizeFrame.RESIZE_THRESHOLD.
   const REORDER_TIMEOUT = 250, REORDER_DURATION = 150, RESIZE_THRESHOLD = .66, FOLDER_RADIUS = .55;
   const overlaps = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;

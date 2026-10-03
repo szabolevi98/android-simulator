@@ -1,0 +1,13 @@
+/* Lollipop base: Roboto 2.001047 (2014) from the LMY48Y /system/fonts, as the sans-serif family with its 5.0 weights
+   (sans-serif-thin, -light, regular, -medium, bold, -black) and Roboto Condensed. */
+@font-face{font-family:Roboto;src:url('assets/Roboto-Thin.ttf') format('truetype');font-weight:100;font-display:swap}
+@font-face{font-family:Roboto;src:url('assets/Roboto-Light.ttf') format('truetype');font-weight:300;font-display:swap}
+@font-face{font-family:Roboto;src:url('assets/Roboto-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:Roboto;src:url('assets/Roboto-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:Roboto;src:url('assets/Roboto-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+@font-face{font-family:Roboto;src:url('assets/Roboto-Black.ttf') format('truetype');font-weight:900;font-display:swap}
+@font-face{font-family:Roboto;src:url('assets/Roboto-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:Roboto;src:url('assets/Roboto-LightItalic.ttf') format('truetype');font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:Roboto;src:url('assets/Roboto-MediumItalic.ttf') format('truetype');font-weight:500;font-style:italic;font-display:swap}
+@font-face{font-family:RobotoCondensed;src:url('assets/RobotoCondensed-Light.ttf') format('truetype');font-weight:300;font-display:swap}
+.screen{font-family:Roboto,RobotoICS,Arial,sans-serif}

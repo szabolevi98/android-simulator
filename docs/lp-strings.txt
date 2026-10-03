@@ -1,0 +1,10 @@
+# apk resource-name (see docs/lp-strings.py)
+Velvet first_run_cling_title
+Velvet workspace_cling_longpress_title
+Velvet workspace_cling_longpress_description
+Velvet workspace_cling_longpress_dismiss
+Velvet wallpaper_button_text
+Velvet widget_button_text
+Velvet settings_button_text
+Velvet create_folder_name
+Velvet play_folder_name

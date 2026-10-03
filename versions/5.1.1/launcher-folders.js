@@ -1,7 +1,8 @@
-/* Launcher2 folder operations, independent of pointer events and DOM rendering. */
+/* Launcher3 folder operations, independent of pointer events and DOM rendering. A Lollipop folder holds up to
+   numColumns x numRows items (5 x 5 on the Nexus 6). */
 (() => {
   'use strict';
-  const capacity=16;
+  const MAX=5,capacity=MAX*MAX;
   const folder=(data,id)=>Object.hasOwn(data.folders||{},id)?data.folders[id]:null;
   const list=(data,location)=>location.type==='home'?data.homePages[location.page]:location.type==='dock'?data.dock:location.type==='folder'?folder(data,location.folderId)?.items:null;
   const item=(data,location)=>location.type==='drawer'?location.id:list(data,location)?.[location.slot];
@@ -68,7 +69,7 @@
   }
   function dimensions(count) {
     let columns=0,rows=0;
-    while(columns*rows<count){if(columns<=rows&&columns<4)columns++;else rows++;if(!rows)rows=1;}
+    while(columns*rows<count){if((columns<=rows||rows===MAX)&&columns<MAX)columns++;else if(rows<MAX)rows++;else break;if(!rows)rows=1;}
     return {columns:Math.max(1,columns),rows:Math.max(1,rows)};
   }
   window.ICSLauncherFolders={capacity,folder,item,initialize,drop,remove,dimensions};
