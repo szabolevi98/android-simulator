@@ -530,8 +530,8 @@ html,body{overscroll-behavior-y:none}
 /* Nexus S front as an SVG drawing (assets/device-nexus-s.svg, docs/device-frames.py): the outline is measured from a front
    render, the shading is drawn; the 276x460 display window is the 480x800 panel at 0.575. */
 @media(min-width:501px){
-  .device{width:336px;height:675.33px;padding:107.33px 30px 108px 30px;border:0;border-radius:0;background:none;box-shadow:none}
-  .device::before{content:"";position:absolute;inset:0;border:0;border-radius:0;box-shadow:none;background:url('assets/device-nexus-s.svg?v=3') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);z-index:0;pointer-events:none}
+  .device{width:349.3px;height:675.33px;padding:107.33px 36.65px 108px 36.65px;border:0;border-radius:0;background:none;box-shadow:none}
+  .device::before{content:"";position:absolute;inset:0;border:0;border-radius:0;box-shadow:none;background:url('assets/device-nexus-s.svg?v=4') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);z-index:0;pointer-events:none}
   .device::after{display:none}
   .device .screen{border-radius:0;box-shadow:none}
   .earpiece,.front-camera,.proximity-sensor,.device-chin{display:none}
@@ -546,12 +546,12 @@ html,body{overscroll-behavior-y:none}
 .screen .recent-panel,.screen .menu-scrim,.screen .launcher-folder-scrim,#cling-layer{bottom:0}
 .screen{--ga-bottom:0px}
 .screen .toast{bottom:28px}
-/* Key centres follow the frame drawing (Back 68, Menu 136, Search 199.7, Home 263.7; 606.7 from the top). The backlight is
+/* Key centres follow the frame drawing (Back 74.7, Menu 142.7, Search 206.3, Home 270.3; 606.7 from the top). The backlight is
    white LEDs behind the glyphs: off by default, lit while the phone is in use. */
 #nav-bar.touch-keys{position:absolute;left:0;right:0;top:584.67px;height:44px;bottom:auto;z-index:2;background:none;display:block}
 .touch-key{position:absolute;top:0;width:56px;height:44px;margin-left:-28px;border:0;padding:0;background:none;display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .touch-key svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .25s,filter .25s}
-.touch-back{left:68px}.touch-menu{left:136px}.touch-search{left:199.67px}.touch-home{left:263.67px}
+.touch-back{left:74.65px}.touch-menu{left:142.65px}.touch-search{left:206.32px}.touch-home{left:270.32px}
 .touch-keys.lit .touch-key svg{opacity:.92;filter:drop-shadow(0 0 2px #fff8)}
 .touch-key:disabled{cursor:default}
 .touch-keys.lit .touch-key:disabled svg{opacity:.92}

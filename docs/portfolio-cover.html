@@ -29,16 +29,20 @@ h1 strong{display:block;font-weight:400;color:#75d3e3}
 <div class="phones" id="phones"></div>
 <script>
 const mm = 2.75;
+// [version, frame, SVG width / height, real height in mm, screen insets %, body top and bottom in SVG units, picture]
+// The SVGs have a margin round the body (side keys, shadow), so the body, not the whole drawing, is scaled to the real height.
 const phones = [
-  ['2.3.6', 'device-nexus-s.svg', 336 / 675.33, 123.9, [15.89, 15.99, 8.93, 8.93], 'landing-home.jpg'],
-  ['4.0.4', 'device-galaxy-nexus.svg', 368.15 / 721.32, 135.5, [13.15, 11.44, 8.21, 8.67], 'landing-home.jpg'],
-  ['4.3', 'device-nexus-4.svg', 374.77 / 722.2, 133.9, [11.86, 12.68, 6.37, 6.37], 'landing-home.jpg'],
-  ['4.4.4', 'device-nexus-5.svg', 370.57 / 728.24, 137.84, [8.83, 11.53, 5.94, 6.02], 'landing-home.jpg']
+  ['2.3.6', 'device-nexus-s.svg', 349.3 / 675.33, 123.9, [15.89, 15.99, 10.49, 10.49], [5.9, 669.3], 'landing-home.jpg'],
+  ['4.0.4', 'device-galaxy-nexus.svg', 368.15 / 721.32, 135.5, [13.15, 11.44, 8.21, 8.67], [5.9, 715.5], 'landing-home.jpg'],
+  ['4.3', 'device-nexus-4.svg', 374.77 / 722.2, 133.9, [11.86, 12.68, 6.37, 6.37], [6.8, 711.6], 'landing-home.jpg'],
+  ['4.4.4', 'device-nexus-5.svg', 370.57 / 728.24, 137.84, [8.83, 11.53, 5.94, 6.02], [6.2, 722.2], 'landing-home.jpg']
 ];
 const root = document.getElementById('phones');
-phones.forEach(([v, frame, ratio, height, [t, b, l, r], shot], i) => {
-  const h = height * mm, w = h * ratio, el = document.createElement('div');
-  el.className = 'phone'; el.style.cssText = `width:${w}px;height:${h}px;z-index:${10 + i}`;
+phones.forEach(([v, frame, ratio, height, [t, b, l, r], [top, bottom], shot], i) => {
+  const svgH = {'device-nexus-s.svg': 675.33, 'device-galaxy-nexus.svg': 721.32, 'device-nexus-4.svg': 722.2, 'device-nexus-5.svg': 728.24}[frame];
+  const h = height * mm * svgH / (bottom - top), w = h * ratio, el = document.createElement('div');
+  // The bodies, not the drawings, stand on one line.
+  el.className = 'phone'; el.style.cssText = `width:${w}px;height:${h}px;margin-bottom:${-(svgH - bottom) / svgH * h}px;z-index:${10 + i}`;
   el.innerHTML = `<div class="shot" style="top:${t}%;bottom:${b}%;left:${l}%;right:${r}%;background-image:url('../versions/${v}/assets/${shot}')"></div><img class="frame" src="../versions/${v}/assets/${frame}" alt="">`;
   root.append(el);
 });

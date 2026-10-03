@@ -69,15 +69,21 @@ TOUCHKEYS = {
     'home': '<path d="M2.5 12.5 12 4.5l9.5 8M6 10.5V19h12v-8.5"/>',
 }
 
-def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False):
+def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False, widen=1.0):
     sx0, sy0, sx1, sy1 = screen
     scale = css_screen[0] / (sx1 - sx0)
     origin = (body_x[0], body_y[0])
     pts = outline(ref, body_x, body_y, scale, origin, thr=thr, mirror=mirror)
     w = (body_x[1] - body_x[0]) * scale; h = (body_y[1] - body_y[0]) * scale
+    # widen: a render narrower than the real phone (Nexus S) is stretched about its centre line to the real width;
+    # the display window and the features keep their size and move with the centre (dx).
+    dx = w * (widen - 1) / 2
+    if widen != 1.0:
+        pts = [((x - w / 2) * widen + w * widen / 2, y) for x, y in pts]
+        w *= widen
     pts = hull_filter(pts, w / 2, h / 2)
     d = smooth_path(pts)
-    pad = {'left': (sx0 - body_x[0]) * scale, 'top': (sy0 - body_y[0]) * scale, 'right': (body_x[1] - sx1) * scale, 'bottom': (body_y[1] - sy1) * scale}
+    pad = {'left': (sx0 - body_x[0]) * scale + dx, 'top': (sy0 - body_y[0]) * scale, 'right': (body_x[1] - sx1) * scale + dx, 'bottom': (body_y[1] - sy1) * scale}
     m = 6  # margin for side buttons and the rim stroke
     W, H = w + 2 * m, h + 2 * m
     S = lambda v: v * scale
@@ -85,24 +91,24 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
     for f in features:
         kind = f[0]
         if kind == 'slot':
-            _, cx, cy, fw, fh = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m; ww, hh = S(fw), S(fh)
+            _, cx, cy, fw, fh = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m; ww, hh = S(fw), S(fh)
             feat.append(f'<rect x="{x - ww / 2:.2f}" y="{y - hh / 2:.2f}" width="{ww:.2f}" height="{hh:.2f}" rx="{hh / 2:.2f}" fill="url(#grille)" stroke="#3b3f42" stroke-width=".7"/>')
             dots = int(ww / 2.1)
             feat.append(''.join(f'<circle cx="{x - ww / 2 + hh / 2 + i * (ww - hh) / max(1, dots - 1):.2f}" cy="{y:.2f}" r=".45" fill="#2a2e31"/>' for i in range(dots)))
         elif kind == 'notch':
-            _, cx, y0, w0, w1, depth = f; x = S(cx - origin[0]) + m; top = S(y0 - origin[1]) + m
+            _, cx, y0, w0, w1, depth = f; x = S(cx - origin[0]) + m + dx; top = S(y0 - origin[1]) + m
             a, b, dd = S(w0) / 2, S(w1) / 2, S(depth)
             feat.append(f'<path d="M{x - a:.2f} {top:.2f}L{x - b:.2f} {top + dd:.2f}H{x + b:.2f}L{x + a:.2f} {top:.2f}Z" fill="#060707" stroke="#30353a" stroke-width=".5"/>')
             feat.append(f'<rect x="{x - b + 1:.2f}" y="{top + dd - 1.8:.2f}" width="{2 * b - 2:.2f}" height="1.2" rx=".6" fill="url(#grille)"/>')
         elif kind == 'lens':
-            _, cx, cy, r = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m
+            _, cx, cy, r = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m
             feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{S(r):.2f}" fill="url(#lens)" stroke="#2c3236" stroke-width=".8"/>')
         elif kind == 'touchkey':
-            _, glyph, cx, cy, size = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m; k = S(size) / 24
+            _, glyph, cx, cy, size = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m; k = S(size) / 24
             feat.append(f'<g transform="translate({x - 12 * k:.2f} {y - 12 * k:.2f}) scale({k:.4f})" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">{TOUCHKEYS[glyph]}</g>')
         elif kind == 'roundgrille':
             # Nexus 5 earpiece: a round grille of small holes in a dark ring.
-            _, cx, cy, r = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m; rr = S(r)
+            _, cx, cy, r = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m; rr = S(r)
             feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{rr:.2f}" fill="#0b0c0d" stroke="#3a3d40" stroke-width=".6"/>')
             holes = []
             for ring, count in ((0, 1), (.33, 6), (.62, 12)):
@@ -111,7 +117,7 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
                     holes.append(f'<circle cx="{x + math.cos(a) * rr * ring:.2f}" cy="{y + math.sin(a) * rr * ring:.2f}" r="{rr * .1:.2f}" fill="#262a2d"/>')
             feat.append(''.join(holes))
         elif kind == 'sensor':
-            _, cx, cy, rx, ry = f; x, y = S(cx - origin[0]) + m, S(cy - origin[1]) + m
+            _, cx, cy, rx, ry = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m
             feat.append(f'<ellipse cx="{x:.2f}" cy="{y:.2f}" rx="{S(rx):.2f}" ry="{S(ry):.2f}" fill="#16191b" stroke="#25292c" stroke-width=".5"/>')
     btn = []
     for side, y0, y1, out in buttons:
@@ -163,7 +169,7 @@ if os.path.exists('ns-render.png'):
     [('slot', 521, 165, 238, 30), ('lens', 740, 155, 19),
      ('touchkey', 'back', 226, 1828, 84), ('touchkey', 'menu', 430, 1828, 84), ('touchkey', 'search', 621, 1828, 84), ('touchkey', 'home', 813, 1828, 84)],
     [('right', 396, 563, 7), ('left', 571, 873, 7)],
-    {'body': ['#121314', '#020203', '#09090a'], 'rim': ['#3c4043', '#0a0b0c', '#34383b'], 'rimWidth': 2.2, 'chin': .1, 'glassInset': 4.5}, mirror=True)
+    {'body': ['#121314', '#020203', '#09090a'], 'rim': ['#3c4043', '#0a0b0c', '#34383b'], 'rimWidth': 2.2, 'chin': .1, 'glassInset': 4.5}, mirror=True, widen=0.5085 / (972 / 1990))
   open('device-nexus-s.svg', 'w').write(svg); out['ns'] = info
 # Nexus 5 (LG-D821, hammerhead): matte black body with a thin grey rim, front camera left, the round earpiece grille in the
 # middle, proximity / light sensors right. Traced from Google's front render (Wikimedia Commons "Nexus 5 Front View.png",
