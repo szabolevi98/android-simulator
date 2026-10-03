@@ -68,10 +68,10 @@
 .lp-empty-state img{width:72.48px;height:auto;margin-bottom:21.74px}
 .lp-bt-footer,.lp-bt-off{margin:0;padding:14.5px;font:400 12.68px/1.4 Roboto,sans-serif;color:#0000008a}
 /* Overflow menu: the Material popup (white, 2 dp corners, 8 dp elevation), 48 dp items, 16 sp. */
-.lp-popup-menu{position:absolute;top:calc(var(--sb) + 3.62px);right:3.62px;min-width:181.2px;padding:7.25px 0;background:#fff;border-radius:1.8px;box-shadow:0 3.6px 12.68px #00000059;z-index:40;animation:lp-menu-in .15s cubic-bezier(0,0,.2,1) both;transform-origin:100% 0}
+.lp-popup-menu{position:absolute;top:calc(var(--sb) + 3.62px);right:3.62px;min-width:181.2px;padding:7.25px 0;background:#fff;border-radius:1.8px;box-shadow:0 3.6px 12.68px #00000059;z-index:40;animation:none;transform-origin:100% 0}
 .lp-popup-menu button{display:block;width:100%;height:43.49px;border:0;background:none;padding:0 14.5px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#000000de;cursor:pointer}
 .lp-popup-menu button:disabled{color:#00000042}
-@keyframes lp-menu-in{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+@keyframes lp-menu-in{from{opacity:0}to{opacity:1}}
 /* Material light AlertDialog: white, 2 dp corners, 24 dp padding, 20 sp medium title, 16 sp message, accent buttons. */
 .screen .settings-dialog-scrim{background:#00000080}
 .screen .settings-dialog{background:#fff;color:#000000de;border:0;border-radius:1.8px;box-shadow:0 10.87px 27px #00000066;padding:21.74px 0 7.25px;width:min(253.68px,calc(100% - 50px))}
@@ -115,3 +115,9 @@
 .screen .lp-settings .sd-battery-state{color:#0000008a;font:400 14.5px Roboto,sans-serif;padding:14.5px 14.5px 0}
 .screen .lp-settings .sd-history-button{color:#0000008a}
 .screen .lp-settings .sd-storage-bar{background:#0000001f}
+/* Native single-choice rows (settings-detail / settings-system dialogs) as select_dialog_singlechoice_material: the
+   Material radio on the left of the label, 2 dp #8A000000 ring, the teal ring and dot when checked. */
+.screen .settings-dialog .sd-choice-list label,.screen .settings-dialog label.sx-radio{display:flex;align-items:center;flex-direction:row-reverse;justify-content:flex-end;gap:21.74px;min-height:43.49px;padding:0 21.74px;font:400 14.5px Roboto,sans-serif;color:#000000de}
+.screen .settings-dialog input[type=radio]{-webkit-appearance:none;appearance:none;flex:none;width:18.12px;height:18.12px;margin:0;border:1.81px solid #0000008a;border-radius:50%;background:none;transition:border-color .15s}
+.screen .settings-dialog input[type=radio]:checked{border-color:#009688;background:radial-gradient(circle,#009688 0 4.53px,transparent 5px)}
+.screen .settings-dialog input[type=radio]:disabled{opacity:.38}

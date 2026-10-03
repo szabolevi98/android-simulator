@@ -792,8 +792,24 @@
     clearTimeout(ui.toastTimer); ui.toastTimer = setTimeout(() => element.remove(), 2500);
   }
   let openFolderId = '';
-  let closingVelocity = 0;
+  let closingVelocity = 0, shownOverlay = '';
+  // Animation.Material.Dialog / .Popup (popup_enter_material, popup_exit_material): dialogs, menus and their dim fade in
+  // and out with decelerate_cubic in config_activityShortDur (150 ms), without the Holo zoom.
+  const FADING = '.settings-dialog, .settings-dialog-scrim, .holo-menu, .menu-scrim, .lp-popup-menu';
+  function fadeOverlay(previous) {
+    if (previous === ui.overlay || reducedMotion?.matches) return;
+    const leaving = previous ? [...overlayRoot.querySelectorAll(FADING)].filter(node => !node.classList.contains('lp-fading')) : [];
+    leaving.forEach(node => node.remove());
+    queueMicrotask(() => {
+      if (ui.overlay) overlayRoot.querySelectorAll(FADING).forEach(node => { if (!node.classList.contains('lp-fading')) node.animate([{opacity: 0}, {opacity: 1}], {duration: 150, easing: 'cubic-bezier(.215,.61,.355,1)', fill: 'backwards'}); });
+      for (const node of leaving) {
+        node.classList.add('lp-fading'); node.removeAttribute('data-action'); node.style.pointerEvents = 'none'; node.inert = true; overlayRoot.append(node);
+        node.animate([{opacity: getComputedStyle(node).opacity}, {opacity: 0}], {duration: 150, easing: 'cubic-bezier(.215,.61,.355,1)', fill: 'forwards'}).finished.then(() => node.remove(), () => node.remove());
+      }
+    });
+  }
   function renderOverlay() {
+    fadeOverlay(shownOverlay); shownOverlay = ui.overlay;
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     // NotificationPanelView.collapse: the open panel folds up into the status bar and the scrim fades, whatever closed it
     // (Back, Home, the scrim, a swipe up or an action); the old nodes are put back after this render for the animation.
