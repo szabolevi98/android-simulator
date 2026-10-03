@@ -8,16 +8,13 @@
     // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
     clings: LauncherClings.fresh(),
     wallpaper: 0,
-    // Launcher3 default_workspace.xml: screens 1-3 load as pages 0-2; config_workspaceDefaultScreen is 0.
-    layoutRevision: 3,
-    homePages: Array.from({length: 3}, (_, page) => Array.from({length: 16}, (_, slot) =>
-      page === 1 && slot === 12 ? 'camera' : page === 2 && slot === 13 ? 'gallery' : page === 2 && slot === 14 ? 'settings' : null)),
-    homeWidgets: [
-      [{ id: 'default-power', type: 'power', x: 0, y: 3 }],
-      [{ id: 'default-analog', type: 'analog', x: 1, y: 0 }],
-      []
-    ],
-    dock: ['phone', 'people', 'apps', 'messaging', 'browser'],
+    // Stock Nexus 5 (Google Now Launcher): one home pane right of Google Now with the Google folder and Play Store on
+    // the bottom row; the dock holds Phone, Hangouts, all apps, Chrome and Camera.
+    layoutRevision: 4,
+    homePages: [Array.from({length: 16}, (_, slot) => slot === 12 ? 'folder-google' : slot === 15 ? 'play-store' : null)],
+    homeWidgets: [[]],
+    folders: {'folder-google': {name: 'Google', items: ['gmail', 'play-movies', 'play-music', 'play-books', 'play-games', 'photos']}},
+    dock: ['phone', 'hangouts', 'apps', 'chrome', 'camera'],
     settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
     contacts: [
       { id: 1, name: 'Alex Morgan', phone: '202-555-0148', email: 'alex@example.com' },
@@ -69,7 +66,9 @@
         result.layoutRevision = 2;
       }
       // The KitKat scaffold started from the Jelly Bean desktop; switch it to the Launcher3 one.
-      if ((saved.layoutRevision || 0) < 3) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.clings = clone(defaultData.clings); result.layoutRevision = 3; }
+      if ((saved.layoutRevision || 0) < 3) { result.clings = clone(defaultData.clings); }
+      // Revision 4 moves the desktop from the AOSP Launcher3 layout to the stock Nexus 5 one.
+      if ((saved.layoutRevision || 0) < 4) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = clone(defaultData.folders); result.layoutRevision = 4; }
       while (result.homeWidgets.length < result.homePages.length) result.homeWidgets.push([]);
       result.homeWidgets.length = result.homePages.length;
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
@@ -113,8 +112,15 @@
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
-    ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f'], ['downloads', 'Downloads', '⬇', '#8bc34a', '#33691e']
+    ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f'], ['downloads', 'Downloads', '⬇', '#8bc34a', '#33691e'],
+    // Google apps of the stock Nexus 5 (Google Now Launcher build). Hangouts, Chrome, Gmail and Photos open the
+    // simulated AOSP equivalents for now; the Play media apps and Google Settings are not simulated.
+    ['hangouts', 'Hangouts', '❝', '#8bc34a', '#33691e'], ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'], ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'],
+    ['photos', 'Photos', '✿', '#fbbc05', '#34a853'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-games', 'Play Games', '✚', '#8bc34a', '#558b2f'],
+    ['play-movies', 'Play Movies & TV', '▶', '#e53935', '#b71c1c'], ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['google-settings', 'Google Settings', 'g', '#757575', '#424242']
   ];
+  const GEL_ALIASES = {hangouts: 'messaging', chrome: 'browser', gmail: 'email', photos: 'gallery'};
+  const GEL_UNSIMULATED = ['play-books', 'play-games', 'play-movies', 'play-music', 'google-settings'];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
     { name: 'CoffeeShop', security: 'Open', strength: 3 },
@@ -150,7 +156,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'downloads']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -519,7 +525,7 @@
   const pageMarker = (active, add = false) => `<img class="kk-pi-off" src="assets/l3-ic_pageindicator_${add ? 'add' : 'default'}.png" alt=""><img class="kk-pi-on" src="assets/l3-ic_pageindicator_current.png" alt="">`;
   function renderHome() {
     const pages = data.homePages.length;
-    return `<div class="home-view kk-home${ui.overview ? ' kk-overview' : ''}"><div class="home-search"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="kk-qsb-logo" src="assets/l3-ic_home_google_logo_normal_holo.png" alt="Google"></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice search'))}"><img class="search-microphone" src="assets/l3-ic_home_voice_search_holo.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" ${index !== ui.page && !ui.overview ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${(data.homeWidgets[index] || []).map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: pages }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}">${pageMarker(i === ui.page, ui.extraScreen && i === pages - 1)}</button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/l3-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_clear_active_holo.png" alt=""><span>${safe(i18n.t('Remove'))}</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/l3-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_info_active_holo.png" alt=""><span>${safe(i18n.t('App info'))}</span></div></div><div class="kk-overview-panel" ${ui.overview ? '' : 'inert'}><button data-action="open-wallpapers" style="--pressed:url('assets/l3-ic_wallpaper_pressed.png')"><img src="assets/l3-ic_wallpaper.png" alt="">${safe(i18n.t('Wallpapers'))}</button><button data-action="kk-overview-widgets" style="--pressed:url('assets/l3-ic_widget_pressed.png')"><img src="assets/l3-ic_widget.png" alt="">${safe(i18n.t('Widgets'))}</button></div></div>`;
+    return `<div class="home-view kk-home gel-home${ui.overview ? ' kk-overview' : ''}"><div class="home-search"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="kk-qsb-logo" src="assets/l3-ic_home_google_logo_normal_holo.png" alt="Google"><span class="gel-hint">${safe(i18n.t('Say “Ok Google”'))}</span></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice search'))}"><img class="search-microphone" src="assets/l3-ic_home_voice_search_holo.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" ${index !== ui.page && !ui.overview ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${(data.homeWidgets[index] || []).map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: pages }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}">${pageMarker(i === ui.page, ui.extraScreen && i === pages - 1)}</button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/l3-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_clear_active_holo.png" alt=""><span>${safe(i18n.t('Remove'))}</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/l3-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_info_active_holo.png" alt=""><span>${safe(i18n.t('App info'))}</span></div></div><div class="kk-overview-panel" ${ui.overview ? '' : 'inert'}><button data-action="open-wallpapers" style="--pressed:url('assets/l3-ic_wallpaper_pressed.png')"><img src="assets/l3-ic_wallpaper.png" alt="">${safe(i18n.t('Wallpapers'))}</button><button data-action="kk-overview-widgets" style="--pressed:url('assets/l3-ic_widget_pressed.png')"><img src="assets/l3-ic_widget.png" alt="">${safe(i18n.t('Widgets'))}</button></div></div>`;
   }
   const drawerAppPages = () => Math.ceil(apps.length / 20);
   const drawerPageCount = () => drawerAppPages() + Math.ceil(widgetTypes.length / 4);
@@ -617,6 +623,7 @@
   }
   function openApp(app, resume = false) {
     if(ui.locked)return;
+    if (GEL_ALIASES[app]) app = GEL_ALIASES[app];
     if (!appNames[app]) return;
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
@@ -1345,7 +1352,7 @@
       if(!['back','alarm-dismiss','alarm-snooze','lock-media'].includes(action))return;
     }
     switch (action) {
-      case 'open-app': {
+      case 'open-app': if (GEL_UNSIMULATED.includes(app)) { toast(i18n.t('This app is not part of the simulator.')); break; } {
         const icon = button.closest('.launcher-icon, .drawer-app, .dock-app') || button;
         // Launcher icons start apps with makeScaleUpAnimation; Recents uses makeThumbnailScaleUpAnimation from the thumbnail.
         const source = button.closest('.recent-item') ? button.closest('.recent-item').querySelector('.recent-thumbnail') : ['home', 'drawer'].includes(ui.view) ? icon : null;

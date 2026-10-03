@@ -1,0 +1,9 @@
+/* Stock Nexus 5 (Google Now Launcher, 4.4.2 screenshot on Wikimedia): the Google search bar sits 8 dp under the
+   status bar, 10 dp in from the sides and 48 dp tall, with a 72 dp Google logo, the "Say “Ok Google”" hint in white
+   condensed 16 sp and a smaller microphone. */
+.kk-home.gel-home .home-search{top:calc(var(--sb) + 7.25px);left:9.06px;right:9.06px}
+.kk-home.gel-home .home-search>button:first-child{padding-left:4.53px;gap:0}
+.kk-home.gel-home .home-search .kk-qsb-logo{height:30.8px;flex:none}
+.kk-home.gel-home .gel-hint{margin-left:auto;font:400 14.5px/1 RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#fff;white-space:nowrap}
+.kk-home.gel-home .home-search .voice-search{flex:0 0 35.33px;padding-right:9.06px}
+.kk-home.gel-home .home-search .search-microphone{height:28.08px}

@@ -190,3 +190,11 @@ App drawables carry a prefix for their source package at `android-2.3.6_r1`:
 - `gb-dl-*` and `downloads.png` (the launcher icon): [DownloadProvider ui](https://github.com/aosp-mirror/platform_packages_providers_downloadprovider/tree/android-2.3.6_r1/ui/res).
 
 `gb-recent_dialog_background.png` and `gb-platlogo.jpg` (the PlatLogoActivity image, "Zombie art by Jack Larson") come from frameworks/base core/res. Copyright The Android Open Source Project; Apache License 2.0.
+
+## Android 4.4.4 stock Nexus 5 launcher icons
+
+`versions/4.4.4` shows the stock Nexus 5 (Google Now Launcher) desktop. Two sources provide the Google app icons:
+- **Google's "Android Quick Start Guide" for Android 4.4** (Copyright 2013 Google Inc.). The images embedded in the guide supply `phone.png` (Google Phone), `hangouts.png`, `gmail.png`, `photos.png`, `play-books.png`, `play-games.png`, `play-movies.png`, `play-music.png`, `calendar.png` (Google Calendar) and `google-settings.png`.
+- **[Wikimedia Commons "Nexus 5 (Android 4.4.2) Screenshot.jpg"](https://commons.wikimedia.org/wiki/File:Nexus_5_(Android_4.4.2)_Screenshot.jpg)**, labelled Apache License 2.0. `chrome.png` was cut out of it, with the default wallpaper removed.
+
+These names and logos are trademarks of Google LLC. They are used only to show what the 2014 device looked like, in this non-commercial simulator. The AOSP launcher icons they replace are kept as `aosp-phone.png` and `aosp-calendar.png`.

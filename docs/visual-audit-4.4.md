@@ -207,3 +207,17 @@ The 4.3 camera screens therefore stay.
 - **Browser demo pages:** moved to 2014 and KitKat ("Android 4.4.4 arrives on the Nexus 5", the 2014 Web). The Nexus 5 safety text and the KitKat reset prompt are updated too.
 - **Settings action bar:** `Theme.Settings` 4.4 sets `Widget.Holo.ActionBar.Solid`. The bar is `ab_solid_dark_holo`: a #393939 top edge, #222 body and #1b1b1b foot, with no holo blue underline.
 - **Switches:** they are drawn with the real 4.4 Holo nine-patches (`switch_bg_holo_dark` track, `switch_thumb(_activated/_pressed/_disabled)_holo_dark` thumb). They are about 106 dp wide and 28 dp high, with 14 sp ON / OFF in #bebebe; the old slanted CSS imitation is replaced.
+
+## Stock Nexus 5 (Google Now Launcher) — 2026-10-03
+
+The owner chose the stock Nexus 5 experience over pure AOSP.
+
+**Step 1: desktop**
+- **Layout:** one home pane with the Google folder (slot 12) and Play Store (slot 15), sourced from the Wikimedia Nexus 5 4.4.2 screenshot. GSMArena confirms two panes by default: Google Now and one home pane.
+- **Dock:** Phone, Hangouts, all apps, Chrome, Camera.
+- **Search bar:** the Google logo, the white condensed "Say “Ok Google”" hint and the microphone.
+- **Icons:** Google icons from the Android 4.4 Quick Start Guide and the screenshot (see THIRD_PARTY_NOTICES).
+- **Behaviour:**
+  - Hangouts, Chrome, Gmail and Photos open the simulated Messaging, Browser, Email and Gallery for now.
+  - The Play media apps and Google Settings show "This app is not part of the simulator."
+- **Unverified:** the Google folder contents (Gmail, Play Movies & TV, Play Music, Play Books, Play Games, Photos). The screenshot only shows Gmail on top of a red icon.

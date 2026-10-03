@@ -13,12 +13,11 @@ assert.equal(c.wanted({view:'drawer',overlay:''},none),'','Launcher3 has no all 
 assert.equal(c.wanted({view:'home',overlay:''},c.dismissedAll()),'');
 assert.ok(c.markup('firstRun',t).includes('Create more screens for apps and folders'));
 assert.ok(c.markup('workspace',t).includes('kk-cling-ring')&&c.markup('workspace',t).includes('data-id="workspace"'));
-// Launcher3 default_workspace.xml: three pages starting on the power control page, no Google folder.
+// Stock Nexus 5 (Google Now Launcher): one home pane with the Google folder and Play Store, Phone/Hangouts/Chrome dock.
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8').replace(/\r\n/g,'\n');
-assert.ok(sim.includes("page === 1 && slot === 12 ? 'camera' : page === 2 && slot === 13 ? 'gallery' : page === 2 && slot === 14 ? 'settings' : null"));
-assert.ok(sim.includes("[{ id: 'default-power', type: 'power', x: 0, y: 3 }],\n      [{ id: 'default-analog', type: 'analog', x: 1, y: 0 }],\n      []"));
-assert.ok(sim.includes("view: 'home', sub: '', page: 0,"),'config_workspaceDefaultScreen is 0');
-assert.ok(!/homePages: Array\.from[^\n]*\n[^\n]*'google'/.test(sim),'no Google folder');
+assert.ok(sim.includes("homePages: [Array.from({length: 16}, (_, slot) => slot === 12 ? 'folder-google' : slot === 15 ? 'play-store' : null)]"));
+assert.ok(sim.includes("dock: ['phone', 'hangouts', 'apps', 'chrome', 'camera']"));
+assert.ok(sim.includes("view: 'home', sub: '', page: 0,"),'the home pane right of Google Now is the default');
 for(const f of ['l3-ic_allapps','l3-ic_home_google_logo_normal_holo','l3-ic_home_voice_search_holo','l3-search_frame','l3-workspace_bg','l3-portal_container_holo','l3-portal_ring_inner_holo','l3-ic_pageindicator_current','l3-ic_pageindicator_default','l3-ic_pageindicator_add','l3-cling','l3-cling_button','l3-screenpanel','kk-ic_sysbar_lights_out_dot_small','kk-ic_sysbar_lights_out_dot_large'])assert.ok(fs.existsSync(`versions/4.4.4/assets/${f}.png`),f);
 assert.ok(fs.existsSync('versions/4.4.4/assets/kk-default_wallpaper.jpg')&&fs.existsSync('versions/4.4.4/assets/RobotoCondensed-Regular.ttf'));
 console.log('kk-launcher ok');
