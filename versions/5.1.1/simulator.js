@@ -260,10 +260,11 @@
     // Window.setStatusBarColor: the app's colorPrimaryDark (LP_STATUS_COLORS), black where the theme sets none.
     screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || '#000');
     // PlatLogoActivity is fullscreen; the Dessert Case hides both bars (immersive sticky).
-    const egg = ui.view === 'settings' && ['easter', 'dessert'].includes(ui.sub);
+    const egg = ui.view === 'settings' && ui.sub === 'easter';
+    if (ui.view === 'settings' && ui.sub === 'lland') screen.style.setProperty('--lp-sb', '#757575');
     // Theme.WallpaperPicker is fullscreen as well.
     screen.classList.toggle('kk-hide-status', egg || ui.view === 'wallpaper-picker');
-    screen.classList.toggle('kk-immersive', egg && ui.sub === 'dessert');
+    screen.classList.toggle('kk-immersive', false);
     if (!egg) screen.classList.remove('kk-bars-peek');
   }
   /* PhoneStatusBarPolicy icons (Bluetooth, the 5.0 interruptions/vibrate icon, alarm), then SignalClusterView (Wi-Fi,
@@ -350,15 +351,13 @@
     if (ui.jbcam && !viewport.querySelector('[data-jbcam]')?.isSameNode(ui.jbcam.root)) { ui.jbcam.destroy(); ui.jbcam = null; }
     const camRoot = viewport.querySelector('[data-jbcam]');
     if (camRoot && !ui.jbcam) ui.jbcam = {...JBCamera.attach(camRoot, {data, ui, t: key => i18n.t(key), media: ICSMedia, save, render, shoot: cameraShoot, gallery: cameraGallery, toast, reduced: !!reducedMotion?.matches}), root: camRoot};
-    if (ui.kkEgg && !viewport.querySelector('[data-kk-platlogo]')?.isSameNode(ui.kkEgg.root)) { ui.kkEgg.destroy(); ui.kkEgg = null; }
-    const eggRoot = viewport.querySelector('[data-kk-platlogo]');
-    if (eggRoot && !ui.kkEgg) ui.kkEgg = KKEgg.platLogo(eggRoot, {reduced: !!reducedMotion?.matches, onDessert: () => { data.settings.dessertCaseUnlocked = data.settings.dessertCaseUnlocked || Date.now(); save(); ui.sub = 'dessert'; render(); }});
-    if (ui.dessert && !viewport.querySelector('[data-kk-dessert]')?.isSameNode(ui.dessert.root)) { ui.dessert.stop(); ui.dessert = null; }
-    const dessertRoot = viewport.querySelector('[data-kk-dessert]');
-    if (dessertRoot && !ui.dessert) requestAnimationFrame(() => { if (dessertRoot.isConnected && !ui.dessert) ui.dessert = KKEgg.dessertCase(dessertRoot, {reduced: !!reducedMotion?.matches}); });
-    if (ui.beanBag && !viewport.querySelector('[data-beanbag]')?.isSameNode(ui.beanBag.root)) { ui.beanBag.stop(); ui.beanBag = null; }
-    const beanRoot = viewport.querySelector('[data-beanbag]');
-    if (beanRoot && !ui.beanBag) requestAnimationFrame(() => { if (beanRoot.isConnected && !ui.beanBag) ui.beanBag = {...JBBeanBag.start(beanRoot), root: beanRoot}; });
+    // PlatLogoActivity; after five taps a long press records Settings.System.EGG_MODE and starts LLand.
+    if (ui.lpEgg && !viewport.querySelector('[data-lp-platlogo]')?.isSameNode(ui.lpEgg.root)) { ui.lpEgg.destroy(); ui.lpEgg = null; }
+    const eggRoot = viewport.querySelector('[data-lp-platlogo]');
+    if (eggRoot && !ui.lpEgg) ui.lpEgg = LPEgg.platLogo(eggRoot, {reduced: !!reducedMotion?.matches, onLand: () => { data.settings.eggMode = data.settings.eggMode || Date.now(); save(); suppressReleaseClick(); ui.sub = 'lland'; render(); }});
+    if (ui.lland && !viewport.querySelector('[data-lp-lland]')?.isSameNode(ui.lland.root)) { ui.lland.stop(); ui.lland = null; }
+    const landRoot = viewport.querySelector('[data-lp-lland]');
+    if (landRoot && !ui.lland) requestAnimationFrame(() => { if (landRoot.isConnected && !ui.lland) { ui.lland = LPEgg.land(landRoot, {vibrate: ms => navigator.vibrate?.(ms)}); landRoot.focus({preventScroll: true}); } });
     if (ui.view === 'clock' && viewport.querySelector('.jbclock-app')) clockTicker();
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind) highlightBrowserText();
     if (ui.view === 'photos' && ui.sub === 'photo') attachPhotosSwipe();
@@ -460,15 +459,13 @@
   function renderDaydreamSettings() {
     const on = !!data.settings.daydream, current = data.settings.daydreamType || 'clock', when = data.settings.daydreamWhen || 'charging';
     const whenLabel = {charging: 'While charging', docked: 'While docked', either: 'Either'}[when];
-    // DessertCaseDream is enabled once the Dessert Case has been opened from the easter egg.
-    const list = data.settings.dessertCaseUnlocked ? [...dreams, ['dessert', 'Dessert Case']].sort((a, b) => a[1].localeCompare(b[1])) : dreams;
+    const list = dreams;
     return appView('Daydream', `${toggleRow('Daydream', on ? whenLabel : 'Off', 'daydream')}${on ? `${list.map(([id, name]) => `<button class="settings-row jb-dream-row" data-action="dream-pick" data-id="${id}" role="radio" aria-checked="${current === id}"><span class="row-copy">${safe(i18n.t(name))}</span><img class="holo-radio" src="assets/btn_radio_${current === id ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}${label('')}${row('Start now', '', 'dream-start', '')}${row('When to daydream', i18n.t(whenLabel), 'dream-when', '')}` : `<div class="detail-pad"><p>${safe(i18n.t('To control what happens when the phone is docked and/or sleeping, turn Daydream on.'))}</p></div>`}`);
   }
   // Dreams: DeskClock Screensaver (dimmed clock that moves every minute), SystemUI Colors and a photo slideshow.
   function renderDream() {
     const type = data.settings.daydreamType || 'clock', now = deviceDate();
     if (type === 'colors') return '<div class="jb-dream jb-dream-colors" data-action="dream-exit" role="button" tabindex="0" aria-label="Daydream"></div>';
-    if (type === 'dessert' && data.settings.dessertCaseUnlocked) return '<div class="jb-dream kk-dessert" data-kk-dream-dessert data-action="dream-exit" role="button" tabindex="0" aria-label="Daydream"></div>';
     if (type === 'photoframe') { const photo = data.photos[Math.floor(Date.now() / 6000) % Math.max(1, data.photos.length)]; return `<div class="jb-dream jb-dream-photo" data-action="dream-exit" role="button" tabindex="0" aria-label="Daydream">${photo ? `<img src="${ICSMedia.image(photo)}" alt="">` : ''}</div>`; }
     const time = now.toLocaleTimeString(i18n.locale(), {hour: data.settings.hour24 ? '2-digit' : 'numeric', minute: '2-digit', hour12: !data.settings.hour24}), [hours, rest = ''] = time.split(/[:.]/);
     const spot = Math.floor(Date.now() / 60000) % 4;
@@ -748,7 +745,7 @@
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
-    if (ui.view === 'settings' && ['easter', 'dessert', 'beanbag', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.jbLogoTapped = false; render(); return; }
+    if (ui.view === 'settings' && ['easter', 'lland', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; render(); return; }
     if (ui.view === 'settings' && ['vpn', 'tethering', 'beam', 'mobile-networks'].includes(ui.sub)) { ui.sub = 'wireless'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'wifi-advanced') { ui.sub = 'wifi'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'sync-google') { ui.sub = 'sync'; render(); return; }
@@ -788,8 +785,6 @@
       ui.shadeAnimated = true;
     } else if (ui.overlay === 'dream') {
       overlayRoot.innerHTML = renderDream();
-      const dessertDream = overlayRoot.querySelector('[data-kk-dream-dessert]');
-      if (dessertDream) requestAnimationFrame(() => { if (dessertDream.isConnected) KKEgg.dessertCase(dessertDream, {reduced: !!reducedMotion?.matches}); });
     } else if (ui.overlay === 'kdc-picker' && ui.kdcPicker) {
       overlayRoot.innerHTML = KKDeskClock.picker(ui.kdcPicker, {t: key => i18n.t(key), hour24: !!data.settings.hour24});
     } else if (ui.overlay === 'kk-cast-menu') {
@@ -1034,10 +1029,8 @@
     if (s === 'about-status') return appView('Status', `${row('Battery status', 'Discharging', 'noop', '')}${row('Battery level', '78%', 'noop', '')}${row('Network', carrierName(), 'noop', '')}${row('Signal strength', data.settings.airplane ? '0 dBm  99 asu' : '-75 dBm  19 asu', 'noop', '')}${row('Phone number', 'Unknown', 'noop', '')}${row('Wi-Fi MAC address', '02:00:00:40:04:01', 'noop', '')}${row('Bluetooth address', data.settings.bluetooth ? '02:00:00:40:04:02' : 'Unavailable', 'noop', '')}`, 'about-settings');
     if (s === 'about-legal') return appView('Legal information', `${row('Open source licenses', 'Android Open Source Project', 'noop', '')}${row('Google legal', 'Offline demonstration', 'noop', '')}`, 'about-settings');
     if (s === 'about-safety') return appView('Safety information', `<div class="detail-pad"><p>Nexus 5 safety information is not available in this offline simulation.</p></div>`, 'about-settings');
-    if (s === 'easter') return `<div class="kk-platlogo" data-kk-platlogo aria-label="Android KitKat"></div>`;
-    if (s === 'dessert') return `<div class="kk-dessert" data-kk-dessert aria-label="Dessert Case"></div>`;
-    if (s === 'jb-easter') return `<div class="jb-platlogo-view"><button class="jb-platlogo" data-action="jb-platlogo" aria-label="Android Jelly Bean"><img src="assets/${ui.jbLogoTapped ? 'jb-platlogo' : 'jb-platlogo_alt'}.png" alt=""></button></div>`;
-    if (s === 'beanbag') return `<div class="jb-beanbag" data-beanbag aria-label="BeanBag"></div>`;
+    if (s === 'easter') return `<div class="lp-platlogo" data-lp-platlogo aria-label="Android Lollipop"></div>`;
+    if (s === 'lland') return `<div class="lp-lland" data-lp-lland role="application" aria-label="${safe(i18n.t('Android Lollipop'))}"></div>`;
     if (s === 'wireless') return appView('Wireless & networks', `${wirelessCheckRow('Airplane mode', '', 'airplane')}<button class="settings-row wireless-row" data-action="kk-sms-app"><span class="row-copy">Default SMS app<small>Messaging</small></span></button>${wirelessCheckRow('NFC', 'Allow data exchange when the phone touches another device', 'nfc')}${wirelessRow('Android Beam', 'Ready to transmit app content via NFC', 'beam')}${wirelessRow('Tethering & portable hotspot', '', 'tethering')}${wirelessRow('VPN', '', 'vpn')}${wirelessRow('Mobile networks', '', 'mobile-networks')}`, 'wireless-more');
     if (s === 'beam') return appView('Android Beam', `${wirelessCheckRow('Android Beam', 'Ready to transmit app content via NFC', 'androidBeam')}`, 'wireless-more');
     if (s === 'brightness') return appView('Brightness', `<div class="detail-pad"><h3>Brightness</h3><input type="range" min="10" max="100" value="${data.settings.brightness}" data-field="brightness" aria-label="Brightness"><p>${data.settings.brightness}%</p></div>`);
@@ -1898,7 +1891,7 @@
       case 'factory-reset': if (confirm(i18n.t('Reset all local KitKat simulator data?'))) resetSimulator(); break;
       case 'about-tap':
         ui.aboutTapTimes = [...(ui.aboutTapTimes || []), performance.now()].slice(-3);
-        if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { ui.sub = 'easter'; ui.easterNyan = false; ui.aboutTapTimes = []; render(); }
+        if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { ui.sub = 'easter'; ui.aboutTapTimes = []; render(); }
         break;
       case 'developer-tap': {
         if (data.settings.developerUnlocked) { toast('No need, you are already a developer.'); break; }
@@ -1907,7 +1900,6 @@
         else if (remaining < 5) toast(i18n.t(remaining === 1 ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.').replace('%d', remaining));
         break;
       }
-      case 'jb-platlogo': ui.jbLogoTapped = true; render(); platLogoToast(); break;
       case 'toast': toast(id); break;
       case 'noop': break;
       case 'browser-search': openApp('chrome'); document.querySelector('.chr-omnibox input')?.focus(); break;
@@ -2975,7 +2967,6 @@
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, 550);
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     else if (ui.view === 'lock' && !ui.locked && event.target.closest('.lock-wave')) lockPing();
-    if (event.target.closest('.jb-platlogo')) eggTimer = setTimeout(() => { suppressReleaseClick(); document.querySelector('.jb-toast')?.remove(); ui.sub = 'beanbag'; ui.jbLogoTapped = false; render(); }, 500);
     if (ui.view === 'calculator' && !ui.overlay && event.target.closest('.calc-pager')) pointerStart.calculatorSwipe = true;
     if (event.target.closest('.ics-calc-delete button')) calculatorClearTimer = setTimeout(() => { operateCalculator('C'); suppressClickUntil = Date.now() + 350; render(); }, 600);
     if (ui.view === 'home' && !ui.overlay) pointerStart.photoStack = event.target.closest('[data-photo-stack]')?.dataset.photoStack || '';

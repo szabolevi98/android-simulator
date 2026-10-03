@@ -41,3 +41,11 @@
 .screen.kk-lights-out .nav-key{background:url('assets/lp-ic_sysbar_lights_out_dot_small.png') center/7.25px no-repeat}
 .screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/lp-ic_sysbar_lights_out_dot_large.png');background-size:10.87px}
 .nav-key.nav-hidden{visibility:hidden}
+/* Fullscreen windows (PlatLogoActivity, the wallpaper picker) hide the status bar; immersive-sticky windows hide both
+   bars until a swipe from an edge brings them back translucent for three seconds. */
+.screen.kk-hide-status #status-bar{opacity:0;pointer-events:none}
+.screen.kk-hide-status #viewport{top:0}
+.screen.kk-immersive #nav-bar{opacity:0;pointer-events:none;transition:opacity .2s}
+.screen.kk-immersive #viewport{bottom:0}
+.screen.kk-immersive.kk-bars-peek #status-bar,.screen.kk-immersive.kk-bars-peek #nav-bar{opacity:1;pointer-events:auto}
+.screen.kk-immersive.kk-bars-peek .status-button,.screen.kk-immersive.kk-bars-peek #nav-bar{background:#00000066}
