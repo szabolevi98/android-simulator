@@ -25,6 +25,19 @@ for apk_key, name in ENTRIES:
     if apk_key not in cache:
         a = APK(apk_path(apk_key)); r = a.get_android_resources(); cache[apk_key] = (r, r.get_packages_names()[0])
     r, pkg = cache[apk_key]
+    if name.startswith('array:'):
+        # A string-array: one row per item, each resolved in every language.
+        rid = r.get_res_id_by_key(pkg, 'array', name[6:])
+        if rid is None: print('missing', apk_key, name, file=sys.stderr); continue
+        per = {}
+        for cfg, entry in r.get_res_configs(rid):
+            q = cfg.get_qualifier() or 'en'
+            if q not in ['en'] + LANGS: continue
+            per[q] = [clean(r.get_resolved_res_configs(item.data, cfg)[0][1] if item.is_reference() else r.stringpool_main.getString(item.data)) for _, item in entry.item.items]
+        for i, en in enumerate(per.get('en', [])):
+            if en in seen: continue
+            seen.add(en); rows.append([en] + [per.get(q, per['en'])[i] for q in LANGS])
+        continue
     rid = r.get_res_id_by_key(pkg, 'string', name)
     if rid is None: print('missing', apk_key, name, file=sys.stderr); continue
     vals = {}

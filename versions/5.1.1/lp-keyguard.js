@@ -1,21 +1,21 @@
 /* Android 5.1 keyguard (SystemUI NotificationPanelView in the KEYGUARD state, KeyguardStatusView, KeyguardBottomAreaView,
    KeyguardAffordanceHelper, KeyguardBouncer) on the Nexus 6. The lock screen is the notification panel itself: the
-   KeyguardStatusBarView (40 dp: carrier, system icons, avatar), the 88 dp sans-serif-thin clock and the 16 sp date with
+   KeyguardStatusBarView (40 dp: carrier, system icons, avatar), the sans-serif-thin clock (widget_big_font_size: 112 dp in values-h650dp, which the Nexus 6 uses) and the 16 sp date with
    the next alarm, the notifications as dimmed cards (at most keyguard_max_notification_count, then a +N overflow card),
    and the bottom area with the phone and camera affordances around the lock icon. KeyguardClockPositionAlgorithm places
    the clock's centre at 32.5 % of the height without notifications and moves it up to 18.5 % with them (values-h650dp),
-   keeping 36 / 24 dp to the cards. Swiping up by keyguard_min_swipe_amount (110 dp) unlocks or brings the bouncer; the
+   keeping 36 / 32 dp (keyguard_clock_notifications_margin_max / _min, values-h650dp) to the cards. Swiping up by keyguard_min_swipe_amount (110 dp) unlocks or brings the bouncer; the
    affordances open Phone or Camera when dragged away from their corner. Tapping shows the hint in the indication line
    (65 dp from the bottom) and the panel bounces. Sizes are dp x 0.906. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const DP = 0.906, MAX_NOTES = 4, STATUS_HEIGHT = 112, MIN_SWIPE = 110 * DP, AFFORDANCE_SWIPE = 120 * DP;
+  const DP = 0.906, MAX_NOTES = 4, STATUS_HEIGHT = 140, MIN_SWIPE = 110 * DP, AFFORDANCE_SWIPE = 120 * DP;
   const KLONDIKE = {2: 'ABC', 3: 'DEF', 4: 'GHI', 5: 'JKL', 6: 'MNO', 7: 'PQRS', 8: 'TUV', 9: 'WXYZ', 0: '+'};
   // KeyguardClockPositionAlgorithm: t = notifications / (max + summary card share), clock y fraction 32.5 % -> 18.5 %.
   function clockLayout(count, height) {
     const t = Math.min(1, count / (MAX_NOTES + 44 / 64));
-    const fraction = .325 * (1 - t) + .185 * t, margin = 24 * t + 36 * (1 - t);
+    const fraction = .325 * (1 - t) + .185 * t, margin = 32 * t + 36 * (1 - t);
     const top = fraction * height - STATUS_HEIGHT * DP / 2;
     return {top, notesTop: top + STATUS_HEIGHT * DP + margin * DP};
   }

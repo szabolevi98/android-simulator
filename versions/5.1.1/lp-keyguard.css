@@ -1,5 +1,5 @@
 /* Lollipop keyguard (see lp-keyguard.js). The wallpaper shows through; the system status bar gives way to the
-   KeyguardStatusBarView. Clock: 88 dp sans-serif-thin white, -10 dp to the 16 sp date; alarm and owner info in
+   KeyguardStatusBarView. Clock: 112 dp (values-h650dp) sans-serif-thin white, -10 dp to the 16 sp date; alarm and owner info in
    #99FFFFFF. Bottom area: 56 dp affordances in the corners, the lock icon in the middle, the indication 65 dp up. */
 .screen.lp-on-keyguard #status-bar{visibility:hidden}
 #viewport>.lock-view.lp-keyguard{position:absolute;inset:0;text-align:left;width:auto;height:auto;background:#0000001f;color:#fff;overflow:hidden;font-family:Roboto,sans-serif;user-select:none;touch-action:none}
@@ -12,7 +12,7 @@
 .lp-kg-avatar img{width:19.93px;height:19.93px}
 .lp-kg-panel{position:absolute;inset:0;will-change:transform}
 .lp-kg-status{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center}
-.lp-kg-clock{font:100 79.73px/1.15 Roboto,sans-serif;letter-spacing:-.01em;color:#fff;margin-bottom:-9.06px;white-space:nowrap}
+.lp-kg-clock{font:100 101.47px/1.15 Roboto,sans-serif;letter-spacing:-.01em;color:#fff;margin-bottom:-9.06px;white-space:nowrap}
 .lp-kg-date{display:flex;align-items:center;gap:5.44px;font:400 14.5px/1.4 Roboto,sans-serif;color:#fff;white-space:nowrap}
 .lp-kg-alarm{display:flex;align-items:center;gap:3.62px;color:#ffffff99}
 .lp-kg-alarm img{width:14.5px;height:14.5px;opacity:.6}
@@ -32,10 +32,10 @@
 .lp-kg-lock{left:50%;margin-left:-25.37px}
 .lp-kg-circle{position:absolute;left:50%;top:50%;width:43.49px;height:43.49px;margin:-21.74px 0 0 -21.74px;border-radius:50%;background:#ffffff33;transform:scale(0);pointer-events:none}
 .lp-kg-affordance:active .lp-kg-circle{transform:scale(1);transition:transform .15s}
-/* KeyguardBouncer: the in-front scrim (75 % black) and the security view, 320 dp wide, centred. */
+/* KeyguardBouncer: the in-front scrim (75 % black) and the security view, keyguard_security_width (340 dp in values-sw380dp) wide, centred. */
 .lp-kg-scrim{position:absolute;inset:0;background:#000000bf;z-index:3;animation:lp-fade .2s both}
 .lp-keyguard.bouncing .lp-kg-panel,.lp-keyguard.bouncing .lp-kg-bottom{opacity:0;transform:translateY(-60px);transition:opacity .2s,transform .3s}
-.lp-kg-bouncer{position:absolute;left:50%;top:var(--sb);bottom:var(--nb);width:min(289.92px,100%);margin-left:max(-144.96px,-50%);z-index:4;display:flex;flex-direction:column;align-items:stretch;animation:lp-kg-bouncer-in .3s cubic-bezier(0,0,.2,1) both}
+.lp-kg-bouncer{position:absolute;left:50%;top:var(--sb);bottom:var(--nb);width:min(308.04px,100%);margin-left:max(-154.02px,-50%);z-index:4;display:flex;flex-direction:column;align-items:stretch;animation:lp-kg-bouncer-in .3s cubic-bezier(0,0,.2,1) both}
 @keyframes lp-kg-bouncer-in{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
 .lp-kg-message{margin:21.74px 0 7.25px;min-height:18px;text-align:center;font:400 14.5px Roboto,sans-serif;color:#ffffffb3}
 .lp-kg-pin{flex:1;display:flex;flex-direction:column;min-height:0}

@@ -943,7 +943,17 @@
     } else if (ui.overlay === 'wifi-dialog') {
       const network = allWifiNetworks().find(item => item.name === ui.wifiTarget);
       const connected = data.settings.wifiNetwork === ui.wifiTarget;
-      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(ui.wifiTarget)}"><h3>${safe(ui.wifiTarget)}</h3><p>${safe(network?.security || 'WPA2')}</p>${connected ? '<p>Connected</p>' : network?.security !== 'Open' ? '<label>Password<input class="wifi-password" type="password" autocomplete="off"></label>' : ''}<div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button>${connected ? '<button data-action="wifi-forget">Forget</button>' : '<button data-action="wifi-connect">Connect</button>'}</div></div>`;
+      /* WifiDialog / WifiConfigController (wifi_dialog.xml): the network as the title, its info rows (status, signal
+         strength from the wifi_signal array, link speed and frequency when connected, security), then for a secured
+         network the password field with Show password and the Advanced options checkbox; CANCEL and CONNECT, or
+         CANCEL and FORGET for the connected one. */
+      const T = key => safe(i18n.t(key)), signal = ['Poor', 'Fair', 'Good', 'Excellent'][Math.max(0, Math.min(3, (network?.strength || 4) - 1))];
+      const security = !network || network.security === 'Open' ? 'None' : `${network.security} PSK`;
+      const info = (label, value) => `<div class="lp-wifi-row"><span>${T(label)}</span><b data-no-translate>${safe(value)}</b></div>`;
+      const rows = (connected ? info('Status', i18n.t('Connected')) : '') + info('Signal strength', i18n.t(signal)) + (connected ? info('Link speed', '65 Mbps') + info('Frequency', '2.4 GHz') : '') + info('Security', i18n.t(security));
+      const secret = !connected && network?.security !== 'Open' ? `<label class="lp-wifi-password"><span>${T('Password')}</span><input class="wifi-password" type="password" autocomplete="off"></label><label class="lp-wifi-check"><input type="checkbox" data-wifi-show-password>${T('Show password')}</label><label class="lp-wifi-check"><input type="checkbox">${T('Advanced options')}</label>` : '';
+      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog lp-wifi-dialog" role="dialog" aria-label="${safe(ui.wifiTarget)}"><h3 data-no-translate>${safe(ui.wifiTarget)}</h3><div class="lp-wifi-info">${rows}</div>${secret}<div class="settings-dialog-actions"><button data-action="close-overlay">${T('Cancel')}</button>${connected ? `<button data-action="wifi-forget">${T('Forget')}</button>` : `<button data-action="wifi-connect">${T('Connect')}</button>`}</div></div>`;
+      overlayRoot.querySelector('[data-wifi-show-password]')?.addEventListener('change', event => { const field = overlayRoot.querySelector('.wifi-password'); if (field) field.type = event.target.checked ? 'text' : 'password'; });
     } else if (ui.overlay === 'wallpaper-source') {
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="wallpaper-source" role="dialog" aria-label="Select wallpaper from"><h3>Select wallpaper from</h3>${[['gallery-wallpaper', 'Gallery'], ['open-live-wallpapers', 'Live Wallpapers'], ['open-wallpapers', 'Wallpapers']].sort((a, b) => new Intl.Collator(i18n.locale()).compare(i18n.t(a[1]), i18n.t(b[1]))).map(([action, label]) => `<button data-action="${action}" data-no-translate>${safe(i18n.t(label))}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'lw-palette') {

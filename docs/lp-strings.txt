@@ -218,3 +218,16 @@ Settings settings_label_launcher
 CalendarGooglePrebuilt app_label
 DeskClockGoogle app_label
 Calculator app_name
+# Wi-Fi network dialog (WifiDialog / WifiConfigController)
+Settings wifi_connect
+Settings wifi_cancel
+Settings wifi_forget
+Settings wifi_signal
+Settings wifi_security
+Settings wifi_password
+Settings wifi_show_password
+Settings wifi_show_advanced
+Settings wifi_status
+Settings wifi_speed
+Settings wifi_frequency
+Settings array:wifi_signal

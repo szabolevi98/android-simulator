@@ -121,3 +121,17 @@
 .screen .settings-dialog input[type=radio]{-webkit-appearance:none;appearance:none;flex:none;width:18.12px;height:18.12px;margin:0;border:1.81px solid #0000008a;border-radius:50%;background:none;transition:border-color .15s}
 .screen .settings-dialog input[type=radio]:checked{border-color:#009688;background:radial-gradient(circle,#009688 0 4.53px,transparent 5px)}
 .screen .settings-dialog input[type=radio]:disabled{opacity:.38}
+/* Material AlertDialog buttons: borderless, colorAccent, right-aligned on the 48 dp button bar (the KitKat rule above
+   made them grey and full-width). The Wi-Fi network dialog rows follow wifi_dialog_row.xml. */
+.screen .settings-dialog .settings-dialog-actions{margin:7.25px 0 0;padding:0 7.25px;border:0;gap:3.62px;justify-content:flex-end;min-height:43.49px;align-items:center}
+.screen .settings-dialog .settings-dialog-actions button{flex:none;border:0!important;color:#009688!important;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;padding:0 7.25px;min-width:57.98px;height:32.62px}
+.screen .lp-wifi-dialog{width:min(289.92px,calc(100% - 32px))}
+.screen .settings-dialog.lp-wifi-dialog h3{padding:0;margin:0 21.74px 14.5px;font:500 18.12px Roboto,sans-serif;color:#000000de}
+.lp-wifi-info{padding:0 21.74px}
+.lp-wifi-row{display:flex;justify-content:space-between;gap:14.5px;padding:3.62px 0;font:400 14.5px Roboto,sans-serif;color:#0000008a}
+.lp-wifi-row b{font-weight:400;color:#000000de;text-align:right}
+.screen .settings-dialog.lp-wifi-dialog label.lp-wifi-password{display:block;padding:0;margin:10.87px 21.74px 0;font:400 12.68px Roboto,sans-serif;color:#0000008a}
+.screen .settings-dialog.lp-wifi-dialog .lp-wifi-password input{display:block;width:100%;margin:3.62px 0 0;padding:3.62px 0;border:0;border-bottom:1.81px solid #009688;background:none;color:#000000de;font:400 14.5px Roboto,sans-serif;outline:none}
+.screen .settings-dialog.lp-wifi-dialog label.lp-wifi-check{display:flex;flex-direction:row;align-items:center;gap:14.5px;padding:0;margin:10.87px 21.74px 0;font:400 14.5px Roboto,sans-serif;color:#000000de}
+.screen .settings-dialog.lp-wifi-dialog .lp-wifi-check input{-webkit-appearance:none;appearance:none;flex:none;width:16.31px;height:16.31px;margin:0;border:1.81px solid #0000008a;border-radius:1.81px;background:none}
+.screen .settings-dialog.lp-wifi-dialog .lp-wifi-check input:checked{border-color:#009688;background:#009688 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z' fill='%23fff'/%3E%3C/svg%3E") center/100% no-repeat}
