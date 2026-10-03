@@ -39,7 +39,7 @@ window.ANDROID_VERSIONS = [
     name: 'KitKat',
     version: 'Android 4.4.4',
     year: '2014',
-    device: 'Nexus 5',
+    device: 'Nexus 5 · Google',
     description: 'The stock Nexus 5: the Google Now Launcher with Google Now, Hangouts for SMS, Chrome, translucent system bars, the new Dialer, Email and Play Store drawer, and the Dessert Case easter egg.',
     url: 'versions/4.4.4/',
     status: 'available',

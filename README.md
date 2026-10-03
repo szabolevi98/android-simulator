@@ -7,7 +7,7 @@ An interactive browser simulator of classic Android releases, each on its own Ne
 | Android 2.3.6 Gingerbread | Nexus S | Android Market 3 |
 | Android 4.0.4 Ice Cream Sandwich | Galaxy Nexus | Google Play Store 3.8 |
 | Android 4.3 Jelly Bean | Nexus 4 | Google Play Store 4.2 |
-| Android 4.4.4 KitKat | Nexus 5 | Google Play Store 4.8 |
+| Android 4.4.4 KitKat | Nexus 5 (Google apps) | Google Play Store 4.8 |
 
 Lollipop 5.1.1 is planned.
 
