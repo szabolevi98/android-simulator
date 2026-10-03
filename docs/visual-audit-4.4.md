@@ -144,3 +144,13 @@ In 4.4 the Downloads launcher entry (`DownloadList.onCreate`) trampolines into D
 - **Overflow:** Grid view / List view.
 - **Rows:** `item_doc_list` rows.
 - **Empty state:** "No items".
+
+## Play Store — 2026-10-03
+
+The Play Store is closed source. The 4.4.4 simulator shows Play Store 4.8.22, the version on Nexus 5 phones in July 2014, before 4.9 brought the Material details pages. It is rebuilt from Android Police captures of 4.4.21 (October 2013), 4.6.16 (March 2014) and 4.8.19 / 4.8.22 (July 2014).
+- **Navigation:** the slide-out drawer replaces the 4.3 overflow menu. It sits under the action bar and holds the account header, Store home / My apps / My wishlist (the current one in bold), then small-caps Redeem, Settings and Help. It opens from the drawer indicator or a swipe from the left edge.
+- **Store home:** "Play Store" on the #666 bar and the six striped tiles. Magazines became Newsstand. Below them sit the green "We've simplified app permissions." note, then the clusters with MORE buttons and Roboto Light titles (no italics): New + Updated Games, See What's Trending (one wide card), Recommended, Albums and Free classics. Installed items show a green round check.
+- **Details:** share sits left of search. INSTALL is in the section colour, OPEN / UNINSTALL are white. 4.8 also has bigger buttons, the centred "Rate this app" row and the new Additional information block with Permission details.
+- **Permissions:** the 4.8 grouped dialog ("needs access to", group rows with chevrons, the Google play wordmark, ACCEPT). The full network access row is gone. Permission texts use the AOSP 4.4.4 `permlab_*` strings.
+- **My apps:** the drawer-indicator bar, INSTALLED / ALL, and the "Recently updated" and "Installed" groups.
+- **Settings:** Notifications, Auto-update apps, Add icon to Home screen, Clear search history, Content filtering, "Require password for purchases" (For all purchases… / Every 30 minutes / Never), and Version: 4.8.22.
