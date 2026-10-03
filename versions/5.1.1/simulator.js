@@ -838,7 +838,7 @@
     } else if (ui.overlay.startsWith('music-')) {
       overlayRoot.innerHTML = ICSMusic.overlay(ui.music,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('email-')) {
-      overlayRoot.innerHTML = KKEmail.overlay(mailbox(),ui,data.photos,key=>i18n.t(key),i18n.language,ui.view==='gmail'?gmailOptions():{});
+      overlayRoot.innerHTML = LPEmail.overlay(mailbox(),ui,data.photos,key=>i18n.t(key),i18n.language,ui.view==='gmail'?gmailOptions():{app:'email'});
     } else if (ui.overlay.startsWith('sd-')) {
       overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
@@ -1469,11 +1469,11 @@
   }
   setInterval(tickPlayVideo, 1000);
   function renderEmail() {
-    return KKEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale(),i18n.language,{teaserDismissed:!!data.emailTeaserDismissed});
+    return LPEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale(),i18n.language,{app:'email',accountName:'Nexus 6'});
   }
   const mailbox = () => ui.view === 'gmail' ? data.gmailbox : data.mailbox;
   const gmailOptions = () => GmailApp.options(data, ui, i18n.language, key => KKEmail.tr(i18n.language, key));
-  function renderGmail() { return KKEmail.render(data.gmailbox, ui, key => i18n.t(key), i18n.locale(), i18n.language, gmailOptions()); }
+  function renderGmail() { return LPEmail.render(data.gmailbox, ui, key => i18n.t(key), i18n.locale(), i18n.language, gmailOptions()); }
   // Each mail app keeps its own folder, conversation and selection.
   function useMailApp(app) {
     if (ui.mailApp === app) return;

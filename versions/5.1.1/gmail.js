@@ -10,7 +10,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const account = 'kitkat.demo@gmail.com';
+  const account = 'nexus6.demo@gmail.com';
   const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
   // Gmail's own label names in the five simulator languages.
   const S = {
@@ -39,14 +39,14 @@
   const CATEGORY = {Primary: 'primary', Social: 'social', Promotions: 'promotions'};
   // A 2013 inbox: personal mail in Primary, Google+ in Social, Google Play offers in Promotions.
   const SAMPLES = [
-    ['Google Nexus', 'nexus-noreply@google.com', 'Welcome to the new Nexus 5 powered by Android 4.4, KitKat', 'Discover what your new smartphone has to offer. Now that you own the new Google Nexus 5, discover how you can tailor it to fit — and enhance — your life.', 'primary', true, 'only', 0],
-    ['Alex Morgan', 'alex@example.com', 'Hike on Saturday?', 'Are you up for the ridge trail this weekend? I can pick you up at 8. Bring the new phone, the camera is supposed to be good.', 'primary', true, 'only', 1],
+    ['Google', 'android-noreply@google.com', 'Get started with your Nexus 6', 'Welcome to Android 5.1 Lollipop. Learn how to set up your phone, move your stuff over and get the most out of the new Material design.', 'primary', true, 'only', 0],
+    ['Alex Morgan', 'alex@example.com', 'Hike on Saturday?', 'Are you up for the ridge trail this weekend? I can pick you up at 8. Bring the Nexus 6, the camera is supposed to be great.', 'primary', true, 'only', 1],
     ['Google Calendar', 'calendar-notification@google.com', 'Reminder: Coffee with Alex @ 11am', 'Coffee with Alex. When: 11am – 12pm. Calendar: ' + account, 'primary', false, 'only', 2],
-    ['Mom', 'mom@example.com', 'Sunday lunch', 'Don’t forget Sunday lunch at ours. Bring dessert if you can — KitKat is fine!', 'primary', false, 'only', 30],
+    ['Mom', 'mom@example.com', 'Sunday lunch', 'Don’t forget Sunday lunch at ours. Bring dessert if you can — lollipops are fine!', 'primary', false, 'only', 30],
     ['Taylor Lee', 'taylor@example.com', 'Slides for Monday', 'Here are the slides from the meetup. Let me know what you think.', 'primary', false, 'list', 50],
     ['Google+', 'noreply-plus@google.com', 'Sam Rivera added you on Google+', 'Follow and share with Sam Rivera. Add Sam to your circles.', 'social', false, 'only', 3],
-    ['Google+', 'noreply-plus@google.com', 'Taylor Lee shared a photo with you', 'Taylor Lee shared an album: Meetup 2013. View photos on Google+.', 'social', false, 'only', 26],
-    ['Google Play', 'googleplay-noreply@google.com', 'New on Google Play: sweet deals for KitKat', 'Apps, games, movies and books picked for your new Nexus 5 — this week only.', 'promotions', false, 'list', 6]
+    ['Google+', 'noreply-plus@google.com', 'Taylor Lee shared a photo with you', 'Taylor Lee shared an album: Meetup 2015. View photos on Google+.', 'social', false, 'only', 26],
+    ['Google Play', 'googleplay-noreply@google.com', 'New on Google Play: apps made for Lollipop', 'Material design apps, games and movies picked for your new Nexus 6 — this week only.', 'promotions', false, 'list', 6]
   ];
   function restore(saved, now = Date.now()) {
     if (Array.isArray(saved)) return saved.map(item => ({...item, id: String(item.id), body: String(item.body || ''), subject: String(item.subject || ''), to: String(item.to || ''), cc: String(item.cc || ''), bcc: String(item.bcc || ''), read: !!item.read, starred: !!item.starred}));
@@ -72,47 +72,36 @@
     promotions: '<svg viewBox="0 0 24 24"><path d="M3 3h8.5L21 12.5 12.5 21 3 11.5zm4 2.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" fill="#16a765" fill-rule="evenodd"/><path d="m8 13 3 3 5-5" fill="none" stroke="#fff" stroke-width="1.8"/></svg>',
     inbox: '<svg viewBox="0 0 24 24"><path d="M3 4h18v16H3zm2 2v7h4l1 2h4l1-2h4V6z" fill="currentColor" fill-rule="evenodd"/></svg>'
   };
-  // The top of Primary: the categories teaser (welcome text until a conversation has been opened) and the photo tip.
-  function top(mail, folder, lang, data) {
+  // The top of Primary in Gmail 5: the Social and Promotions folder teasers (the 40 dp category icon on #EEEEEE,
+  // the 16 sp #212121 name, the senders in #757575 and the "%d new" count in the category colour).
+  function top(mail, folder, lang) {
     if (folder !== 'Primary') return '';
     const T = key => tr(lang, key);
     const row = name => {
       const items = list(mail, name), n = items.filter(item => !item.read).length;
       if (!items.length) return '';
       const senders = [...new Set(items.map(item => item.from))].slice(0, 3).join(', ');
-      return `<button class="gm-category" data-action="email-folder" data-id="${name}"><span class="gm-cat-icon">${icons[CATEGORY[name]]}</span><span class="gm-cat-copy"><b>${e(T(name))}</b><small>${e(senders)}</small></span>${n ? `<em class="gm-${CATEGORY[name]}">${e(T('%d New').replace('%d', n))}</em>` : ''}</button>`;
+      return `<button class="gm-category" data-action="email-folder" data-id="${name}"><span class="gm-cat-icon gm-${CATEGORY[name]}" style="-webkit-mask-image:url(assets/gm5-ic_drawer_${CATEGORY[name]}_24dp.png);mask-image:url(assets/gm5-ic_drawer_${CATEGORY[name]}_24dp.png)"></span><span class="gm-cat-copy"><b>${e(T(name))}</b><small>${e(senders)}</small></span>${n ? `<em class="gm-${CATEGORY[name]}">${e(T('%d new').replace('%d', n))}</em>` : ''}</button>`;
     };
-    const welcome = !data.gmailWelcomeSeen;
-    return `${welcome ? `<div class="gm-welcome"><h3>${e(T('Welcome to your new Inbox'))}</h3><p>${e(T('Mail categories group messages of the same type for reading all at once.'))}</p><button data-action="gmail-unavailable">${e(T('Learn more'))}</button></div>` : ''}<div class="gm-categories">${row('Social')}${row('Promotions')}</div>${welcome ? `<div class="gm-welcome gm-change"><p>${e(T('You can enable and disable categories in settings.'))}</p><button data-action="gmail-unavailable">${e(T('Change categories'))}</button></div>` : ''}`;
+    return `<div class="gm-categories">${row('Social')}${row('Promotions')}</div>`;
   }
   function marker(item) {
     if (!item.personal || item.folder === 'Sent' || item.folder === 'Drafts') return '';
     const file = `ic_email_caret_${item.personal === 'only' ? 'double' : 'single'}${item.important ? '_important_unread' : ''}`;
-    return `<img class="gm-caret" src="assets/kem-${file}.png" alt="">`;
+    return `<img class="gm-caret" src="assets/gm5-${file}.png" alt="">`;
   }
-  function drawer(mail, ui, lang, emailT) {
-    const T = key => S[key] ? tr(lang, key) : emailT(key), folder = ui.emailFolder || 'Primary';
-    const total = unread(mail, 'Primary');
-    const row = name => {
-      const n = ['Drafts', 'Outbox'].includes(name) ? list(mail, name).length : name === 'Spam' || name === 'Trash' || name === 'All mail' || name === 'Starred' ? list(mail, name).length : unread(mail, name);
-      const badge = n && (name === 'Social' || name === 'Promotions') ? `<em class="gm-badge gm-${CATEGORY[name]}">${n}</em>` : n ? `<em>${n}</em>` : '';
-      const icon = name === 'Primary' ? icons.inbox : CATEGORY[name] && name !== 'Primary' ? icons[CATEGORY[name]] : '';
-      return `<button class="kem-folder gm-folder${name === folder ? ' on' : ''}${icon ? ' with-icon' : ''}" data-action="email-folder" data-id="${name}">${icon ? `<i class="gm-folder-icon">${icon}</i>` : ''}<span>${e(T(name))}</span>${badge}</button>`;
-    };
-    return `<div class="kem-drawer-scrim" data-action="close-overlay"></div><nav class="kem-drawer gm-drawer" aria-label="Gmail"><button class="kem-account" data-action="close-overlay"><img src="assets/kem-ic_radiobutton_selected.png" alt=""><span>${e(account)}</span>${total ? `<em>${total}</em>` : ''}</button><h4>${e(T('INBOX'))}</h4>${INBOX.map(row).join('')}<h4>${e(T('ALL LABELS'))}</h4>${LABELS.map(row).join('')}</nav>`;
-  }
-  // Options for KKEmail.render / overlay.
+  // Options for LPEmail.render / overlay.
   function options(data, ui, lang, emailT) {
     const mail = data.gmailbox;
     const name = folder => S[folder] ? tr(lang, folder) : emailT(folder);
     return {
-      icon: 'gmail.png', account, archive: true, teaserDismissed: !!data.gmailTeaserDismissed,
+      app: 'gmail', account, accountName: 'Nexus 6', archive: true,
+      folders: [['', ['Primary', 'Social', 'Promotions']], ['All labels', ['Starred', 'Important', 'Sent', 'Outbox', 'Drafts', 'All mail', 'Spam', 'Trash']]],
       list, folderName: name,
       subtitle: folder => { const n = unread(mail, folder); return n && folder !== 'Sent' && folder !== 'Drafts' ? tr(lang, '%d unread').replace('%d', n) : account; },
-      top: folder => top(mail, folder, lang, data),
+      top: folder => top(mail, folder, lang),
       marker,
-      chip: item => item.folder === 'Inbox' ? `<span class="gm-chip">${e(emailT('Inbox'))}</span>` : '',
-      drawer: () => drawer(mail, ui, lang, emailT)
+      chip: item => item.folder === 'Inbox' ? `<span class="gm-chip">${e(emailT('Inbox'))}</span>` : ''
     };
   }
   window.GmailApp = {account, FOLDERS, S, tr, restore, list, unread, options};
