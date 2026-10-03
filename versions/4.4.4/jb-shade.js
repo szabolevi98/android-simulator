@@ -29,7 +29,7 @@
     list.push({id: 'location', icon: location ? 'ic_qs_location_on' : 'ic_qs_location_off', label: location ? 'Location' : 'Location off', action: 'qs-location'});
     if (alarm) list.push({id: 'alarm', icon: 'ic_qs_alarm_on', label: alarm, raw: true, action: 'qs-alarm'});
     // Wifi Display tile: setShowWhenEnabled, so it appears only while wireless display is on (Nexus 4 enables the feature).
-    if (settings.wifiDisplay && settings.wifi && !settings.airplane) list.push({id: 'wifi-display', icon: 'ic_qs_remote_display', label: 'Wireless Display', action: 'qs-wifi-display'});
+    if (settings.wifiDisplay && settings.wifi && !settings.airplane) list.push({id: 'wifi-display', icon: 'ic_qs_remote_display', label: 'Cast Screen', action: 'qs-wifi-display'});
     return list;
   }
   // quick_settings_tile_battery: a 22 x 32 dp BatteryMeterView with 3 dp padding (frame #66FFFFFF, white level).

@@ -195,3 +195,13 @@ The 4.3 camera screens therefore stay.
 - **Fixes:** the remaining gaps were the switch labels and the Hungarian / Spanish Daydream title. They now use the AOSP `capital_on/off` (Be/Ki, AN/AUS, OUI/NON, SÍ/NO) and `screensaver_settings_title` (Álmodozás, Salvapantallas) strings.
 - **Intentionally English:** sample content (names, mail, catalog titles), product names, and words that read the same in the target language (Bluetooth, Display, Apps, Widgets, Normal).
 - **Release:** the catalog entry drops "Work in progress", and the landing thumbnail was refreshed.
+
+## Review fixes — 2026-10-03
+
+- **Settings scale:** the screens were still at the Nexus 4 size. `kk-settings.css` sets the Nexus 5 dp values:
+  - Header rows: 48 dp high, a 28 dp icon column with 32 dp icons, titles at 18 sp, summaries at 14 sp in #bebebe, and 16 dp side margins.
+  - Category headers: 14 sp bold #bebebe on the 2 dp `list_section_divider_holo_dark` line.
+  - Action bar: 48 dp.
+- **Add account:** uses `ic_menu_add_dark`.
+- **Cast screen:** the 4.4 `WifiDisplaySettings` page with "No nearby devices were found." The wireless display switch moved to the checkable "Enable wireless display" overflow item. The quick settings tile reads "Cast Screen".
+- **Browser demo pages:** moved to 2014 and KitKat ("Android 4.4.4 arrives on the Nexus 5", the 2014 Web). The Nexus 5 safety text and the KitKat reset prompt are updated too.

@@ -20,3 +20,5 @@
 .kk-link{border:0;background:none;color:#33b5e5;font-size:14.5px;padding:7.25px}
 .kk-empty-text{margin:0;padding:21.74px 14.5px;text-align:center;color:#ffffff80;font-size:16.31px}
 .kk-ab-text{font:700 12.68px RobotoICS,sans-serif;text-transform:uppercase;color:#fff;padding:0 10.87px;width:auto}
+.holo-menu .kk-check-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.holo-menu .kk-check-item img{width:28.99px;height:28.99px}
