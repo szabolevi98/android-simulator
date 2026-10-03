@@ -287,3 +287,17 @@ GSMArena: "The Nexus 5 comes with Google Chrome as its solitary preinstalled bro
 **Step 5: catalog**
 
 The landing page calls the version "Nexus 5" (no "· AOSP"), with a new description and a landing shot of the Google Now Launcher home.
+
+**Step 6: Gmail**
+
+Gmail 4.7 (November 2013) is built on the same UnifiedEmail code as the AOSP Email. `kk-email.js` therefore takes options, and `gmail.js` / `gmail.css` add Gmail's parts, measured from the GSMArena screenshots:
+- **Primary:**
+  - The action bar shows "Primary" over the unread count.
+  - The "Welcome to your new Inbox" and "You can enable and disable categories in settings" teasers show until a conversation is opened.
+  - The Social and Promotions rows carry blue (#4880d7) and green (#13a864) "N New" badges.
+- **Drawer:** the account, INBOX (Primary, Social, Promotions, Priority Inbox) and ALL LABELS (Starred, Important, Chats, Sent, Outbox, Drafts, All mail, Spam, Trash). The selected row is #33b5e5, and the category badges are coloured.
+- **Personal level markers:** UnifiedEmail `ic_email_caret_*`. » means sent only to me, › means sent to me and others; yellow means important.
+- **Archive:** in the conversation and selection bars. Archived mail stays in All mail.
+- **Conversation:** the grey "Inbox" chip sits under the subject.
+- **Separate account:** Gmail has its own offline mailbox (`data.gmailbox`, kitkat.demo@gmail.com) and keeps its own folder and conversation.
+- **Photo tip:** the UnifiedEmail ConversationPhotoTeaserView ("Touch a sender image to select that conversation.", with AOSP translations and `ic_arrow` / `ic_cancel_holo_light`) now shows in both Gmail and Email until it is dismissed. The GSMArena Email screenshot shows it too.

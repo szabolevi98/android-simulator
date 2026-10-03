@@ -1,0 +1,26 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// Stock Nexus 5: Gmail 4.7 on the UnifiedEmail screens (categories, drawer labels, carets, Archive, label chip).
+const w={};w.window=w;
+for(const f of ['email.js','kk-email.js','gmail.js'])vm.runInNewContext(fs.readFileSync(`versions/4.4.4/${f}`,'utf8'),w);
+const {GmailApp:G,KKEmail:K}=w;
+const mail=G.restore(null,Date.UTC(2014,5,20,12));
+assert.equal(G.list(mail,'Primary').length,5);assert.equal(G.list(mail,'Social').length,2);assert.equal(G.list(mail,'Promotions').length,1);
+assert.equal(G.list(mail,'Priority Inbox').length,2);assert.equal(G.list(mail,'Starred').length,1);assert.equal(G.list(mail,'Chats').length,0);
+const data={gmailbox:mail},ui={emailFolder:'Primary'},t=k=>k,emailT=k=>K.tr('en',k);
+const list=K.render(mail,ui,t,'en','en',G.options(data,ui,'en',emailT));
+assert.ok(list.includes('assets/gmail.png')&&list.includes('3 unread')&&list.includes('Welcome to your new Inbox')&&list.includes('2 New')&&list.includes('1 New'));
+assert.ok(list.includes('kem-ic_email_caret_double_important_unread')&&list.includes('kem-ic_email_caret_single.png')&&list.includes('Touch a sender image to select that conversation.'));
+data.gmailWelcomeSeen=true;data.gmailTeaserDismissed=true;
+const seen=K.render(mail,ui,t,'en','en',G.options(data,ui,'en',emailT));
+assert.ok(!seen.includes('Welcome to your new Inbox')&&seen.includes('gm-category')&&!seen.includes('kem-teaser'));
+const read=K.render(mail,{...ui,sub:'read',emailId:'gm-1'},t,'en','en',G.options(data,ui,'en',emailT));
+assert.ok(read.includes('data-action="email-archive"')&&read.includes('gm-chip'));
+const drawer=K.overlay(mail,{...ui,overlay:'email-drawer'},[],t,'en',G.options(data,ui,'en',emailT));
+for(const label of ['INBOX','Primary','Social','Promotions','Priority Inbox','ALL LABELS','Important','All mail','Spam'])assert.ok(drawer.includes(`>${label}<`),label);
+assert.ok(drawer.includes('gm-badge gm-social'));
+assert.equal(G.tr('hu','Primary'),'Elsődleges');
+const email=K.render([],{emailFolder:'Inbox'},t,'en','en');
+assert.ok(email.includes('assets/email.png')&&!email.includes('kem-teaser'),'AOSP Email unchanged when empty');
+const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
+assert.ok(sim.includes("case 'gmail': return renderGmail();")&&sim.includes("const GEL_ALIASES = {};")&&!sim.includes('data.mailbox.find'));
+console.log('kk-gmail ok');

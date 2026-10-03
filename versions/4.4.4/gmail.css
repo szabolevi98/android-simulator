@@ -1,0 +1,37 @@
+/* Gmail 4.7 additions on the UnifiedEmail screens (GSMArena Nexus 5 screenshots, 1 dp = 0.906 px): the unread count
+   under "Primary" in dark bold, the Primary teasers on #ededed with light 22 sp headings and Holo blue links, the
+   Social / Promotions rows with #4880d7 and #13a864 badges, the personal level carets, the drawer sections and the
+   selected label in #33b5e5, and the grey "Inbox" chip under the subject. */
+.gm-list .kem-title small{font-weight:700;color:#333}
+.gm-welcome{padding:10.87px 14.5px 9.06px;background:#ededed;border-bottom:1px solid #d6d6d6}
+.gm-welcome h3{margin:0 0 3.62px;font:300 19.93px/1.25 RobotoLight,RobotoICS,sans-serif;color:#474747}
+.gm-welcome p{margin:0;font:300 14.5px/1.3 RobotoLight,RobotoICS,sans-serif;color:#474747}
+.gm-welcome button{padding:4px 0 2px;border:0;background:none;font:300 14.5px RobotoLight,RobotoICS,sans-serif;color:#29b2e8!important}
+.gm-change{padding-top:12.68px}
+.gm-categories{background:#fff;border-bottom:1px solid #d6d6d6}
+.gm-categories:empty{display:none}
+.gm-category{display:flex;align-items:center;gap:12.68px;width:100%;height:39.86px;padding:0 14.5px;border:0;background:none;text-align:left}
+.gm-category:first-child{margin-top:5.44px}.gm-category:last-child{margin-bottom:5.44px}
+.gm-cat-icon{flex:none;display:grid;place-items:center;width:43.49px;height:30.8px;background:#eee}
+.gm-cat-icon svg{width:19.93px;height:19.93px}
+.gm-cat-copy{flex:1;min-width:0;display:flex;flex-direction:column}
+.gm-cat-copy b{font:700 14.5px RobotoICS,sans-serif;color:#444}
+.gm-cat-copy small{font:400 11.78px RobotoICS,sans-serif;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-category em{flex:none;min-width:81.54px;padding:2.72px 6px;font:400 14.5px RobotoICS,sans-serif;font-style:normal;color:#fff;text-align:center}
+.gm-social{background:#4880d7}.gm-promotions{background:#13a864}
+.gm-category:active{background:#0000000f}
+.gm-caret{flex:none;width:14.5px;height:14.5px;align-self:center;margin-right:-1px}
+.gm-chip{display:inline-block;margin:6px 0 0;padding:1px 6px;background:#ddd;font:400 11.78px RobotoICS,sans-serif;color:#666}
+.kem-subject:has(.gm-chip){flex-wrap:wrap}
+.kem-subject:has(.gm-chip) h2{flex:1 1 calc(100% - 50px)}
+.kem-subject:has(.gm-chip) .kem-conv-star{order:2}
+.gm-chip{order:3;margin-left:auto!important}
+.gm-drawer h4{margin:10.87px 14.5px 0;padding-bottom:4.53px;border-bottom:1.81px solid #ddd;font:700 12.68px RobotoICS,sans-serif;color:#58585b}
+.screen .gm-folder{border-bottom:0}
+.screen .gm-folder.with-icon{padding-left:12.68px}
+.gm-folder-icon{flex:none;display:grid;place-items:center;width:21.74px;height:21.74px;color:#777}
+.gm-folder-icon svg{width:21.74px;height:21.74px}
+.screen .gm-drawer .gm-folder.on{background:#33b5e5;color:#fff}
+.screen .gm-drawer .gm-folder.on em{color:#fff}
+.screen .gm-drawer .gm-folder.on .gm-folder-icon{color:#fff}
+.gm-folder em.gm-badge{min-width:30px;padding:1px 6px;color:#fff;text-align:center}

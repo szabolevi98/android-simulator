@@ -91,3 +91,12 @@
 .kem-dialog{position:absolute;left:8%;right:8%;top:50%;z-index:26;transform:translateY(-50%);background:#fff;color:#333;box-shadow:0 6px 24px #000a}
 .kem-dialog h3{margin:0;padding:14.5px;border-bottom:1.81px solid #33b5e5;color:#33b5e5;font:400 18px RobotoICS,Arial,sans-serif}
 .screen .kem-dialog button{display:block;width:100%;min-height:43.49px;padding:0 14.5px;border:0;border-bottom:1px solid #e3e3e3;background:none;color:#333;text-align:left;font:400 16.31px RobotoICS,Arial,sans-serif;cursor:pointer}
+/* ConversationPhotoTeaserView: conversation_read_selector #eeeeee, a 48 dp arrow (16 dp left, 12 dp right margins),
+   the light 16 sp #58585b tip, a 1 dp separator with 16 dp vertical margins, and the ic_cancel_holo_light button. */
+.kem-teaser{display:flex;align-items:center;background:#eee;border-bottom:1px solid #cbcbcb}
+.kem-teaser-arrow{flex:none;width:43.49px;margin:0 10.87px 10.87px 14.5px;align-self:flex-end}
+.kem-teaser span{flex:1;min-width:0;margin:10.87px 0;font:300 14.5px/1.3 RobotoLight,RobotoICS,sans-serif;color:#58585b}
+.kem-teaser i{flex:none;align-self:stretch;width:.906px;margin:14.5px 0 14.5px 14.5px;background:#58585b}
+.kem-teaser button{flex:none;align-self:stretch;width:50.74px;border:0;background:none;display:grid;place-items:center}
+.kem-teaser button img{width:28.99px;height:28.99px}
+.kem-teaser button:active{background:#0000001a}

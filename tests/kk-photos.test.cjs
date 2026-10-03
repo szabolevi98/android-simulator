@@ -16,5 +16,5 @@ const viewer=P.render(ctx({sub:'photo',photosList:'folder',photosFolder:'picture
 assert.ok(viewer.includes('ph-viewer')&&viewer.includes('img-2')&&viewer.includes('gallery-share-message'));
 assert.ok(P.menu({t,ui:{sub:'photo'}}).includes('Set as wallpaper'));
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
-assert.ok(sim.includes("case 'photos': return PhotosApp.render(photosContext());")&&sim.includes("const GEL_ALIASES = {gmail: 'email'};"));
+assert.ok(sim.includes("case 'photos': return PhotosApp.render(photosContext());")&&!/GEL_ALIASES = {[^}]*photos/.test(sim));
 console.log('kk-photos ok');
