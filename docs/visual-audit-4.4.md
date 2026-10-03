@@ -336,3 +336,19 @@ Sources and content per app:
 **Default clock (owner request)**
 
 The home screen starts with the DeskClock digital widget, 4 × 2 across the top two rows (layout revision 5). A saved desktop gets it only when those rows are still empty. The widget had shown a 12 px time, because the generic `.home-widget > button span` rule overrode it. It now uses DeskClock 4.4's sizes: `widget_big_font_size` 80 dp, scaled only below `min_digital_widget_width` 206 dp, and `widget_label_font_size` 14 sp for the date and next alarm.
+
+**Step 8: the rest of the stock drawer (owner request)**
+
+- **Google folder:** GSMArena's launch screenshot shows 11 apps: Gmail, Google+, Photos, Maps, People, Calendar, Keep, Drive, YouTube, Play Music, Play Games. Layout revision 6 switches an unedited folder to these.
+- **New apps:** the owner's frame from a November 2013 unboxing video shows the drawer with Drive, Earth, Google, Google Settings, Google+, Keep, Maps and News & Weather. These, plus YouTube and Voice Search, now have icons drawn after their 2013 looks (`assets/*.svg`) and simple screens (`stock-apps.js`, `stock-apps.css`):
+  - Google opens Google Now. The launcher overview's Settings button and Google Settings → Search & Now open the Google search settings (Google Now switch; Phone search, Voice, Accounts & privacy, Notifications, Help & feedback).
+  - Voice Search shows "Speak now", then "Didn't catch that".
+  - Maps (Maps 7) has a drawn map, the floating search card with a result card, and My location.
+  - Drive shows My Drive with document previews.
+  - Keep has the quick note bar and coloured cards. Notes can be added, edited and deleted.
+  - YouTube has What to Watch, a player, likes and suggestions.
+  - Google+ has the Home stream with +1.
+  - Earth shows a turning globe in space.
+  - News & Weather is Holo dark, with Weather, Top Stories, Technology and Sports.
+  - Google Settings lists its services.
+- **Content:** all of it is made up and offline.

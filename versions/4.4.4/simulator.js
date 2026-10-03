@@ -11,10 +11,11 @@
     // Stock Nexus 5 (Google Now Launcher): one home pane right of Google Now with the Google folder and Play Store on
     // the bottom row; the dock holds Phone, Hangouts, all apps, Chrome and Camera. Revision 5 adds the DeskClock
     // digital clock across the top two rows (owner request: a clock on the home screen by default).
-    layoutRevision: 5,
+    layoutRevision: 6,
     homePages: [Array.from({length: 16}, (_, slot) => slot === 12 ? 'folder-google' : slot === 15 ? 'play-store' : null)],
     homeWidgets: [[{id: 'default-digital', type: 'digitalclock', x: 0, y: 0, width: 4, height: 2}]],
-    folders: {'folder-google': {name: 'Google', items: ['gmail', 'play-movies', 'play-music', 'play-books', 'play-games', 'photos']}},
+    folders: {'folder-google': {name: 'Google', items: ['gmail', 'google-plus', 'photos', 'maps', 'people', 'calendar', 'keep', 'drive', 'youtube', 'play-music', 'play-games']}},
+    keepNotes: StockApps.DEFAULT_NOTES.map(note => ({...note})),
     dock: ['phone', 'hangouts', 'apps', 'chrome', 'camera'],
     settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
     contacts: [
@@ -79,6 +80,12 @@
         if (free && !widgets.some(widget => widget.type === 'digitalclock')) widgets.push(clone(defaultData.homeWidgets[0][0]));
         result.homeWidgets[0] = widgets; result.layoutRevision = 5;
       }
+      // Revision 6: the Google folder gets GSMArena's launch contents unless it was edited.
+      if ((saved.layoutRevision || 0) < 6) {
+        const folder = result.folders?.['folder-google'];
+        if (folder && JSON.stringify(folder.items) === JSON.stringify(['gmail', 'play-movies', 'play-music', 'play-books', 'play-games', 'photos'])) folder.items = clone(defaultData.folders['folder-google'].items);
+        result.layoutRevision = 6;
+      }
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
       // A reload during Gallery widget configuration leaves no completed choice.
@@ -128,10 +135,15 @@
     // simulated AOSP equivalents for now; the Play media apps and Google Settings are not simulated.
     ['hangouts', 'Hangouts', '❝', '#8bc34a', '#33691e'], ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'], ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'],
     ['photos', 'Photos', '✿', '#fbbc05', '#34a853'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-games', 'Play Games', '✚', '#8bc34a', '#558b2f'],
-    ['play-movies', 'Play Movies & TV', '▶', '#e53935', '#b71c1c'], ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['google-settings', 'Google Settings', 'g', '#757575', '#424242']
+    ['play-movies', 'Play Movies & TV', '▶', '#e53935', '#b71c1c'], ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['google-settings', 'Google Settings', 'g', '#757575', '#424242'],
+    // The rest of the stock Nexus 5 drawer (stock-apps.js), with icons drawn after their 2013 looks.
+    ['google-plus', 'Google+', 'g+', '#dd4b39', '#b03a2e'], ['maps', 'Maps', '⌖', '#cfe6b8', '#4285f4'], ['keep', 'Keep', '✎', '#f7c600', '#d9a800'],
+    ['drive', 'Drive', '△', '#0da960', '#4688f4'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'], ['earth', 'Earth', '◍', '#1f6fd1', '#0b2f73'],
+    ['google-search', 'Google', 'g', '#4285f4', '#3367d6'], ['news-weather', 'News & Weather', '☼', '#4285f4', '#9e9e9e'], ['voice-search', 'Voice Search', '🎤', '#eeeeee', '#5f6368']
   ];
+  const SVG_ICONS = new Set(['google-plus', 'maps', 'keep', 'drive', 'youtube', 'earth', 'news-weather', 'voice-search']);
   const GEL_ALIASES = {};
-  const GEL_UNSIMULATED = ['google-settings'];
+  const GEL_UNSIMULATED = [];
   // Play Music, Movies & TV, Books and Games (play-apps.js).
   const PLAY_APPS = ['play-music', 'play-movies', 'play-books', 'play-games'];
   const wifiNetworks = [
@@ -190,6 +202,7 @@
   const shadeDate = () => deviceDate().toLocaleDateString(i18n.locale(), { weekday: 'short', month: 'short', day: 'numeric' });
   const contact = id => data.contacts.find(item => item.id === Number(id));
   const appIcon = id => {
+    if (SVG_ICONS.has(id) || id === 'google-search') return `<span class="app-icon"><img src="assets/${id === 'google-search' ? 'google' : id}.svg" alt=""></span>`;
     if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg?v=2" alt=""></span>';
     if (id === 'apps') return '<span class="app-icon"><img src="assets/l3-ic_allapps.png" alt=""></span>';
     const folder=ICSLauncherFolders.folder(data,id);
@@ -628,6 +641,7 @@
       case 'photos': return PhotosApp.render(photosContext());
       case 'gmail': return renderGmail();
       case 'play-music': case 'play-movies': case 'play-books': case 'play-games': return PlayApps.render(playContext(ui.view));
+      case 'google-search': case 'voice-search': case 'maps': case 'drive': case 'keep': case 'youtube': case 'google-plus': case 'earth': case 'news-weather': case 'google-settings': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()});
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
       case 'messaging': return renderMessaging();
@@ -649,6 +663,8 @@
     if (!appNames[app]) return;
     if (app === 'browser' || app === 'chrome') useBrowserSession(app);
     if (app === 'email' || app === 'gmail') useMailApp(app);
+    if (app === 'voice-search') setTimeout(listenVoice);
+    if (app === 'keep' && !Array.isArray(data.keepNotes)) data.keepNotes = clone(defaultData.keepNotes);
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
     ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
@@ -657,7 +673,7 @@
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
   function appScrollContainer(app) {
-    return viewport.querySelector(app === 'play-store' ? '.jbp-scroll' : ['messaging', 'hangouts'].includes(app) ? '.mms-scroll' : ['email', 'gmail'].includes(app) ? '.email-scroll' : app === 'music' ? '.music-library-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : app === 'chrome' ? '.chr-ntp-scroll,.chr-history,.chr-stack,.browser-page' : app === 'photos' ? '.ph-scroll' : PLAY_APPS.includes(app) ? '.pa-scroll,.pm-queue' : '.app-view') || viewport.firstElementChild;
+    return viewport.querySelector(app === 'play-store' ? '.jbp-scroll' : ['messaging', 'hangouts'].includes(app) ? '.mms-scroll' : ['email', 'gmail'].includes(app) ? '.email-scroll' : app === 'music' ? '.music-library-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : app === 'chrome' ? '.chr-ntp-scroll,.chr-history,.chr-stack,.browser-page' : app === 'photos' ? '.ph-scroll' : StockApps.APPS.includes(app) ? '.sa-scroll,.gnow-scroll' : PLAY_APPS.includes(app) ? '.pa-scroll,.pm-queue' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) {
@@ -681,6 +697,7 @@
     if(ui.view==='phone' && !ui.activeCall && ui.sub==='call-detail'){ui.sub=ui.kkLogFrom||'';render();return;}
     if(ui.view==='phone' && !ui.activeCall && (ui.phoneSearch||'').trim()){ui.phoneSearch='';render();return;}
     if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
+    if (StockApps.APPS.includes(ui.view) && ui.sub) { if (ui.view === 'keep') saveKeepNote(); ui.sub = ''; render(); return; }
     if (PLAY_APPS.includes(ui.view) && ui.sub) { ui.sub = ui.sub === 'queue' ? 'player' : ui.sub === 'player' ? ui.paReturn || '' : ''; ui.paBars = true; render(); return; }
     if (ui.view === 'photos' && ui.sub) { ui.sub = ui.sub === 'photo' ? ui.photosReturn || '' : ui.sub === 'folder' ? 'folders' : ''; ui.photosChrome = true; render(); return; }
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
@@ -1365,6 +1382,17 @@
     const progress=viewport.querySelector('.music-progress');if(progress&&document.activeElement!==progress){progress.value=ui.music.position;progress.style.setProperty('--p',`${(ui.music.position/tracks[ui.music.track].duration*100).toFixed(2)}%`);}
     const elapsed=viewport.querySelector('.music-elapsed');if(elapsed)elapsed.textContent=ICSMusic.time(ui.music.position);
   }
+  // Voice Search listens for three seconds, then asks to try again.
+  let voiceTimer = null;
+  function listenVoice() {
+    clearTimeout(voiceTimer); ui.voiceState = 'listening'; if (ui.view === 'voice-search') render();
+    voiceTimer = setTimeout(() => { ui.voiceState = 'retry'; if (ui.view === 'voice-search') render(); }, 3000);
+  }
+  function saveKeepNote() {
+    const area = viewport.querySelector('.keep-text'), note = (data.keepNotes || []).find(item => item.id === ui.keepNote);
+    if (!area || !note) return;
+    note.text = area.value; if (!note.text.trim()) data.keepNotes = data.keepNotes.filter(item => item !== note); save();
+  }
   const playContext = app => ({app, ui, data, t: key => i18n.t(key), music: ui.music, tracks, time: ICSMusic.time});
   // The Play Movies player counts seconds without re-rendering (the picture keeps panning).
   function tickPlayVideo() {
@@ -1499,7 +1527,7 @@
       // Overview mode: Widgets opens all apps on the first widget page; a tap on a page returns to it.
       case 'kk-overview-widgets': ui.overview = false; ui.view = 'drawer'; ui.drawerWidgets = true; ui.drawerPage = drawerAppPages(); render(); break;
       // The Google Now Launcher's third overview button opens the Google Search settings (not simulated).
-      case 'gel-overview-settings': toast(i18n.t('This app is not part of the simulator.')); break;
+      case 'gel-overview-settings': openApp('google-search'); ui.sub = 'settings'; render(); break;
       case 'kk-overview-page': if (ui.overview) { ui.overview = false; ui.page = Number(id); render(); } break;
       case 'drawer-page': ui.drawerPage = Number(id); render(); break;
       case 'add-widget': { const added = addWidget(button.dataset.widgetType); if (!added) { toast('This home screen is full'); break; } const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; home(false); ui.photoWidgetSetup = setup; if (added.type === 'photo') { ui.overlay = 'widget-photo-type'; renderOverlay(); } else toast('Widget added'); break; }
@@ -1746,6 +1774,19 @@
       case 'browser-history': ui.sub = 'history'; render(); break;
       // Chrome menu and New Tab page
       case 'chrome-incognito': chromeNewTab(true); break;
+      // Google, Voice Search, Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google Settings
+      case 'sa-unsupported': toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'voice-listen': listenVoice(); break;
+      case 'google-now-toggle': data.googleNowOn = data.googleNowOn === false; save(); render(); break;
+      case 'maps-locate': ui.mapsQuery = ''; render(); break;
+      case 'drive-open': ui.driveFile = id; ui.sub = 'file'; render(); break;
+      case 'keep-open': ui.keepNote = id; ui.sub = 'note'; render(); viewport.querySelector('.keep-text')?.focus(); break;
+      case 'keep-delete': data.keepNotes = (data.keepNotes || []).filter(note => note.id !== ui.keepNote); ui.sub = ''; save(); render(); break;
+      case 'yt-video': ui.ytVideo = id; ui.ytPaused = false; ui.sub = 'video'; render(); break;
+      case 'yt-toggle': ui.ytPaused = !ui.ytPaused; render(); break;
+      case 'yt-like': { const likes = data.ytLikes || []; data.ytLikes = likes.includes(id) ? likes.filter(x => x !== id) : [...likes, id]; save(); render(); break; }
+      case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }
+      case 'news-tab': ui.newsTab = id; render(); break;
       // Play Music, Movies & TV, Books and Games
       case 'pa-drawer': ui.overlay = 'pa-drawer'; renderOverlay(); break;
       case 'pa-page': ui.paPage ||= {}; ui.paPage[ui.view] = id; ui.sub = ''; ui.overlay = ''; renderOverlay(); render(); break;
@@ -2078,6 +2119,9 @@
       }
       case 'address': navigateBrowser(values.get('address')); break;
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
+      case 'maps-search': ui.mapsQuery = String(values.get('query') || '').trim().slice(0, 60); render(); break;
+      case 'keep-add': { const text = String(values.get('text') || '').trim(); if (!text) return; data.keepNotes = [{id: 'k' + Date.now(), text, color: (data.keepNotes || []).length % 5}, ...(data.keepNotes || [])]; save(); render(); break; }
+      case 'earth-search': toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'chrome-history-search': ui.chromeHistoryQuery = String(values.get('query') || '').trim(); render(); break;
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
       case 'hg-new': { const target = ICSMessaging.recipient(values.get('recipient'), data.contacts); if (!target) { toast('Enter a contact name or valid phone number'); return; } pickHangout(target.key); break; }
@@ -2145,6 +2189,7 @@
     }
     if (event.target.closest('.jbp-bar.searching')) { ui.marketEdit = event.target.value; const view = viewport.querySelector('.jbp'); view?.querySelector('.jbp-suggest')?.remove(); const tmp = document.createElement('div'); tmp.innerHTML = JBPlay.render(jbPlayContext()); const sug = tmp.querySelector('.jbp-suggest'); if (sug && view) view.append(sug); return; }
     if (event.target.matches('[data-jbp-auto]')) { const id = event.target.dataset.jbpAuto, list = data.marketAuto || []; data.marketAuto = event.target.checked ? [...new Set([...list, id])] : list.filter(x => x !== id); save(); return; }
+    if (event.target.matches('.keep-text')) { const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { note.text = event.target.value; save(); } return; }
     if (event.target.closest('.hg-new')) {
       const query = event.target.value.trim().toLocaleLowerCase();
       (data.messageDrafts ||= {}).new ||= {body: '', recipient: ''};

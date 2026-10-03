@@ -24,5 +24,5 @@ const drawer=P.drawer(ctx('play-games'));
 for(const label of ['Play Now','My Games','My Activity','Players','Recommended Games','Shop'])assert.ok(drawer.includes(`>${label}<`),label);
 assert.ok(P.drawer(ctx('play-movies')).includes('class="on" data-action="pa-page" data-id="movies"'));
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
-assert.ok(sim.includes("const GEL_UNSIMULATED = ['google-settings'];")&&sim.includes("return PlayApps.render(playContext(ui.view));"));
+assert.ok(sim.includes("const GEL_UNSIMULATED = [];")&&sim.includes("return PlayApps.render(playContext(ui.view));"));
 console.log('kk-play-apps ok');

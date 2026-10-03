@@ -136,6 +136,7 @@ The new screens have been checked in all five languages at phone sizes. The stat
 - **Hangouts 2.0:** the SMS app, with the conversation list, the New Hangout picker and SMS conversations of white cards. Notifications and shares open it.
 - **Gmail 4.7:** Primary with the Social / Promotions category rows, the label drawer, personal level markers, Archive and a separate offline account.
 - **Play Music, Play Movies & TV, Play Books, Play Games (late 2013):** coloured action bars, drawers and cards. Music plays the simulator's tracks with Now playing and the queue, Movies has a player, Books has a reader with public-domain openings, and Games has achievements.
+- **The rest of the stock drawer:** Google (Now), Voice Search, Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather and Google Settings, each with a simple 2013-style screen. The Google folder holds GSMArena's launch set of 11 apps.
 - **Google+ Photos:** CAMERA / HIGHLIGHTS tabs, the Folders view and a black viewer with share, delete and set-as-wallpaper.
 - **Chrome 31:** the omnibox toolbar, the menu with Back / Forward / Bookmark, the stacked tab switcher, the New Tab page (Most visited, Bookmarks, Other devices), incognito tabs and history. Its tabs are kept separate from the AOSP Browser.
 - Camera (the arc quick settings that the Nexus 5 shipped with), Gallery, Calendar and the AOSP Browser match their 4.3 versions, as in AOSP. All screens have been checked in English, Hungarian, German, French and Spanish.
