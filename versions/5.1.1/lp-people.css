@@ -1,0 +1,70 @@
+/* Google Contacts 5.1 (see people.js); dp x 0.906. Shares the dialer's tabs, tiles, letter photos and FAB. */
+.lpp-app{position:relative;display:flex;flex-direction:column;height:100%;overflow:hidden;background:#fff;color:#202020;font-family:Roboto,sans-serif}
+.lpp-app button{cursor:pointer;font-family:inherit}
+.lpp-toolbar{position:relative;z-index:3;flex:none;display:flex;align-items:center;height:50.74px;background:#0288d1;color:#fff}
+.lpp-app:not(.lpp-editor) .lpp-toolbar:not(.lpp-searchbar){box-shadow:none}
+.lpp-toolbar>button{flex:none;width:43.49px;height:43.49px;margin:0 1.81px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
+.lpp-toolbar>button:first-child{margin-left:3.62px}
+.lpp-toolbar>button:active{background:#ffffff33}
+.lpp-toolbar img{width:21.74px;height:21.74px}
+.lpp-white img{filter:brightness(0) invert(1)}
+.lpp-toolbar h2{flex:1;min-width:0;margin:0 0 0 10.87px;font:500 18.12px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lpp-toolbar .lpp-title{margin-left:14.5px}
+.lpp-search{flex:1;min-width:0;margin:0 14.5px 0 7.25px}
+.lpp-search input{width:100%;border:0;background:none;outline:0;color:#fff;font:400 16.31px Roboto,sans-serif;caret-color:#fff}
+.lpp-search input::placeholder{color:#ffffffa6}
+.lpp-search input::-webkit-search-cancel-button{filter:invert(1)}
+.lpp-tabs{position:relative}
+.lpp-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.lpp-scroll::-webkit-scrollbar{display:none}
+.lpp-list{padding-bottom:79.73px}
+.lpp-me{position:relative;border-bottom:.906px solid #0000001f;margin-bottom:7.25px;padding-top:7.25px}
+.lpp-me-label{position:absolute;left:7.25px;top:18px;width:43.49px;text-align:center;font:500 10.87px Roboto,sans-serif;color:#888;text-transform:uppercase}
+.lpp-row{display:flex;align-items:center;width:100%;min-height:50.74px;border:0;background:none;padding:0 14.5px 0 0;text-align:left;color:#202020}
+.lpp-row:active{background:#0000001a}
+.lpp-letter-col{flex:none;width:43.49px;margin-left:7.25px;text-align:center;font:400 16.31px Roboto,sans-serif;color:#888}
+.lpp-name{margin-left:14.5px;font:400 14.5px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lpp-me-photo{background:#0000001f!important}
+.lpp-me-photo img{width:36.24px;height:36.24px;opacity:.4}
+.lpp-empty{margin:0;padding:43.49px 14.5px;text-align:center;font:400 14.5px Roboto,sans-serif;color:#b2b2b2}
+.lpp-fab img{width:21.74px;height:21.74px}
+/* QuickContactActivity */
+.lpp-quick{background:#eee}
+.lpp-header{position:relative;height:223.78px;overflow:hidden}
+.lpp-silhouette{position:absolute;left:50%;top:50%;width:135.9px;height:135.9px;margin:-67.95px 0 0 -67.95px;opacity:.9}
+.lpp-header-bar{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;height:50.74px;background:linear-gradient(#00000033,transparent)}
+.lpp-header-bar span{flex:1}
+.lpp-header-bar button{flex:none;width:43.49px;height:43.49px;margin:0 1.81px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
+.lpp-header-bar button:first-child{margin-left:3.62px}
+.lpp-header-bar button:active{background:#ffffff33}
+.lpp-header-bar img{width:21.74px;height:21.74px}
+.lpp-header h2{position:absolute;left:14.5px;right:14.5px;bottom:12.68px;margin:0;font:400 32.62px/1.15 Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lpp-cards{padding:10.87px 7.25px 14.5px}
+.lpp-card{background:#fff;border-radius:1.81px;box-shadow:0 .9px 1.8px #00000033;margin-bottom:10.87px;overflow:hidden}
+.lpp-entry{display:flex;align-items:stretch}
+.lpp-entry-main{flex:1;min-width:0;display:flex;align-items:flex-start;border:0;background:none;padding:16.31px 18.12px 14.5px;text-align:left}
+.lpp-entry-main:active,.lpp-entry-alt:active{background:#0000001a}
+.lpp-entry-icon{flex:none;display:block;width:21.74px;height:21.74px;margin-top:6.34px;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.lpp-entry-text{display:flex;flex-direction:column;min-width:0;margin-left:24.46px}
+.lpp-entry-plain .lpp-entry-text{padding:16.31px 18.12px 14.5px 64.32px;margin:0}
+.lpp-entry-text strong{font:400 14.5px/1.5 Roboto,sans-serif;color:#202020;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lpp-entry-text small{font:400 12.68px Roboto,sans-serif;color:#737373}
+.lpp-entry-alt{flex:none;width:57.98px;border:0;border-left:.906px solid #0000001a;margin:12.68px 0;background:none;display:grid;place-items:center;padding:0}
+.lpp-entry-alt .lpp-entry-icon{margin:0}
+.lpp-entry+.lpp-entry{border-top:.906px solid #0000001a}
+/* Editor */
+.lpp-editor{background:#fff}
+.lpp-editor .lpp-toolbar{box-shadow:0 1.8px 3.6px #0000003d}
+.lpp-done{flex:none;width:43.49px;height:43.49px;margin-right:3.62px;border:0;border-radius:50%;background:none;display:grid;place-items:center}
+.lpp-done:active{background:#ffffff33}
+.lpp-done img{width:21.74px;height:21.74px}
+.lpp-form{padding:0 14.5px 29px}
+.lpp-account{padding:14.5px 0 7.25px;font:500 12.68px Roboto,sans-serif;color:#737373}
+.lpp-photo-pick{width:86.98px;height:86.98px;margin:7.25px auto 14.5px;border-radius:50%;background:#e0e0e0;display:grid;place-items:center}
+.lpp-photo-pick img{width:32.62px;height:32.62px;opacity:.38}
+.lpp-field{display:block;margin-bottom:10.87px}
+.lpp-field span{display:block;font:500 10.87px Roboto,sans-serif;color:#0288d1;opacity:0;height:12px}
+.lpp-field:focus-within span{opacity:1}
+.lpp-field input{width:100%;border:0;border-bottom:.906px solid #0000004d;background:none;outline:0;padding:6px 0 7px;font:400 14.5px Roboto,sans-serif;color:#202020;border-radius:0}
+.lpp-field input:focus{border-bottom:1.81px solid #0288d1;padding-bottom:6px}
+.lpp-field input::placeholder{color:#00000061}

@@ -28,7 +28,13 @@
       { id: 1, name: 'Alex Morgan', phone: '202-555-0148', email: 'alex@example.com' },
       { id: 2, name: 'Sam Rivera', phone: '202-555-0192', email: 'sam@example.com' },
       { id: 3, name: 'Taylor Lee', phone: '202-555-0116', email: 'taylor@example.com' },
-      { id: 4, name: 'Mom', phone: '202-555-0107', email: 'mom@example.com' }
+      { id: 4, name: 'Mom', phone: '202-555-0107', email: 'mom@example.com', favorite: true }
+    ],
+    // A used phone's call log: yesterday's call with Mom, then a missed call from Alex and the call back.
+    callHistory: [
+      { number: '202-555-0107', time: Date.now() - 26 * 3600000, duration: 754, connected: true, type: 'incoming' },
+      { number: '202-555-0148', time: Date.now() - 3 * 3600000, duration: 0, connected: false, type: 'missed' },
+      { number: '202-555-0148', time: Date.now() - 2.6 * 3600000, duration: 132, connected: true, type: 'outgoing' }
     ],
     contactGroups: [{id:'friends',name:'Friends',members:[1,2,3]},{id:'family',name:'Family',members:[4]}],
     messages: [
@@ -259,6 +265,8 @@
     screen.classList.toggle('lp-recents-open', ui.overlay === 'recent');
     // Window.setStatusBarColor: the app's colorPrimaryDark (LP_STATUS_COLORS), black where the theme sets none.
     screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || '#000');
+    // QuickContactActivity tints the status bar with the darker shade of the contact's colour.
+    if (ui.view === 'people' && ui.sub === 'detail') { const person = contact(ui.selectedContact); if (person) screen.style.setProperty('--lp-sb', LPDialer.tileColorDark(person.name)); }
     // PlatLogoActivity is fullscreen; the Dessert Case hides both bars (immersive sticky).
     const egg = ui.view === 'settings' && ui.sub === 'easter';
     if (ui.view === 'settings' && ui.sub === 'lland') screen.style.setProperty('--lp-sb', '#757575');
@@ -724,7 +732,7 @@
     if(ui.view==='phone' && !ui.activeCall && ui.kkDialpad){ui.kkDialpad=false;ui.dial='';render();return;}
     if(ui.view==='phone' && !ui.activeCall && ['kk-history','kk-all'].includes(ui.sub)){ui.sub='';render();return;}
     if(ui.view==='phone' && !ui.activeCall && ui.sub==='call-detail'){ui.sub=ui.kkLogFrom||'';render();return;}
-    if(ui.view==='phone' && !ui.activeCall && (ui.phoneSearch||'').trim()){ui.phoneSearch='';render();return;}
+    if(ui.view==='phone' && !ui.activeCall && (ui.lpSearchOpen || (ui.phoneSearch||'').trim())){ui.phoneSearch='';ui.lpSearchOpen=false;render();return;}
     if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
     if (StockApps.APPS.includes(ui.view) && ui.sub) { if (ui.view === 'keep') saveKeepNote(); ui.sub = ''; render(); return; }
     if (PLAY_APPS.includes(ui.view) && ui.sub) { ui.sub = ui.sub === 'queue' ? 'player' : ui.sub === 'player' ? ui.paReturn || '' : ''; ui.paBars = true; render(); return; }
@@ -755,6 +763,8 @@
     if (['messaging', 'hangouts'].includes(ui.view) && ui.sub === 'thread') { ui.sub = ui.mmsListMode || ''; render(); return; }
     if (ui.view === 'clock' && ui.sub === 'alarm-edit') { ui.alarmDraft=null; ui.sub='alarms'; render(); return; }
     if (ui.view === 'people' && ui.sub === 'edit') { ui.sub = 'detail'; render(); return; }
+    if (ui.view === 'people' && ui.sub === 'detail' && ui.quickContactReturn) { const back = ui.quickContactReturn; ui.quickContactReturn = null; ui.view = back.view; ui.sub = back.sub; render(); return; }
+    if (ui.view === 'people' && ui.peopleSearching) { ui.peopleSearching = false; ui.peopleQuery = ''; render(); return; }
     if (ui.sub) { ui.sub = ''; render(); if (ui.view === 'settings') viewport.querySelector('.settings-app').scrollTop = ui.settingsRootScroll; return; }
     home(false);
   }
@@ -848,7 +858,9 @@
     } else if (ui.overlay === 'calc-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">Clear history</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${ui.calcPanel ? 'Basic panel' : 'Advanced panel'}</button></div>`;
     } else if (ui.overlay === 'phone-menu') {
-      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu phone-overflow"><button data-action="phone-add-contact">Add to contacts</button></div>`;
+      // DialtactsActivity's overflow (History, Settings, Help & feedback); the dialpad's adds the pause and wait.
+      const items = ui.phoneMenu === 'dialpad' ? [['dial-pause', 'Add 2-sec pause'], ['dial-wait', 'Add wait']] : [['kk-dialer-history', 'Call History'], ['toast:Call settings are not part of this simulation.', 'Settings'], ['toast:Help is not available offline.', 'Help & feedback']];
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu lpd-menu${ui.phoneMenu === 'dialpad' ? ' lpd-menu-pad' : ''}" role="menu">${items.map(([action, title]) => { const [act, arg] = action.split(/:(.*)/); return `<button role="menuitem" data-action="${act}"${arg ? ` data-id="${safe(arg)}"` : ''}>${safe(i18n.t(title))}</button>`; }).join('')}</div>`;
     } else if (ui.overlay === 'lp-settings-menu') {
       const items = ui.lpMenu === 'wifi' ? [['wifi-add', 'Add network'], ['settings-sub:wifi-saved', 'Saved networks'], ['wifi-scan', 'Refresh'], ['settings-sub:wifi-advanced', 'Advanced']] : [['bluetooth-scan', 'Refresh'], ['bluetooth-rename', 'Rename this device'], ['bluetooth-files', 'Show received files']];
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu">${items.map(([action, title]) => { const [act, sub] = action.split(':'); return `<button role="menuitem" data-action="${act}"${sub ? ` data-id="${sub}"` : ''}>${safe(i18n.t(title))}</button>`; }).join('')}</div>`;
@@ -1187,21 +1199,8 @@
   function renderPhone() {
     if(ui.activeCall)return ICSPhoneCall.render(ui.activeCall,contactByPhone(ui.activeCall.number),key=>i18n.t(key));
     if(ui.sub==='call-detail'){const call=(data.callHistory||[]).find(call=>call.time===ui.phoneCallId);if(call)return ICSPhoneCall.details(call,contactByPhone(call.number),key=>i18n.t(key),i18n.locale());}
-    // Android 4.4 Dialer (kk-dialer.js): speed dial, search, sliding dialpad and the History screen.
-    return KKDialer.render({data, ui, t: key => i18n.t(key), locale: i18n.locale(), byPhone: contactByPhone});
-    const tabs = [['dialpad','Dial pad','dialer'],['history','Call log','history'],['favorites','Favorites','favourites']];
-    // Dialer 4.3 (dialtacts_options.xml): search and the overflow sit at the end of the tab bar.
-    const header = `<div class="phone-tabs jb-phone-tabs" role="tablist">${tabs.map(([id,title,icon]) => `<button role="tab" aria-selected="${ui.phoneTab === id}" aria-label="${title}" data-action="phone-tab" data-id="${id}"><img src="assets/ic_ab_${icon}_holo_dark.png" alt=""></button>`).join('')}<span class="jb-phone-tab-actions"><button data-action="phone-search" aria-label="Search contacts"><img src="assets/ic_dial_action_search.png" alt=""></button><button data-action="phone-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></span></div>`;
-    let body;
-    if (ui.phoneTab === 'history') {
-      body = `<div class="phone-list">${(data.callHistory || []).length ? [...data.callHistory].reverse().map(call => `<div class="phone-log-row"><button class="phone-history-row" data-action="phone-log-detail" data-id="${call.time}"><img class="phone-contact-image" src="assets/ic_contact_picture_holo_dark.png" alt=""><span>${safe(contactByPhone(call.number)?.name || call.number)}<small><img src="assets/ic_call_outgoing_holo_dark.png" alt="">${new Date(call.time).toLocaleString(i18n.locale(),{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</small></span></button><button class="phone-log-redial" data-action="phone-redial" data-id="${safe(call.number)}" aria-label="${safe(i18n.t('Call'))}"><img class="phone-redial" src="assets/ic_dial_action_call.png" alt=""></button></div>`).join('') : '<p class="empty-note">Call log is empty</p>'}</div>`;
-    } else if (ui.phoneTab === 'favorites') {
-      const favorites=data.contacts.filter(person=>person.favorite && (!ui.phoneSearch || `${person.name} ${person.phone}`.toLocaleLowerCase().includes(ui.phoneSearch.toLocaleLowerCase())));
-      body = `<div class="phone-list">${ui.phoneSearch !== undefined ? `<form class="phone-search" data-form="phone-search"><input name="query" aria-label="Search contacts" placeholder="Search contacts" value="${safe(ui.phoneSearch)}"><button aria-label="Search" type="submit"><img src="assets/ic_dial_action_search.png" alt=""></button></form>` : ''}${favorites.length?`<div class="phone-section">Favorites</div><div class="phone-favorite-tiles">${favorites.map(person=>`<button data-action="contact-call" data-id="${person.id}"><img src="assets/phone-picture_unknown.png" alt=""><span>${safe(person.name)}</span></button>`).join('')}</div>`:''}<div class="phone-section">All contacts</div>${data.contacts.filter(person => !ui.phoneSearch || `${person.name} ${person.phone}`.toLocaleLowerCase().includes(ui.phoneSearch.toLocaleLowerCase())).map(person => `<button class="phone-history-row" data-action="contact-call" data-id="${person.id}"><img class="phone-contact-image" src="assets/ic_contact_picture_holo_dark.png" alt=""><span>${safe(person.name)}<small>${safe(person.phone)}</small></span></button>`).join('')}</div>`;
-    } else {
-      body = `<div class="ics-dialer"><div class="dial-digits"><output aria-label="Phone number">${safe(ui.dial)}</output><button data-action="dial-delete" aria-label="Delete"><img src="assets/ic_dial_action_delete.png" alt=""></button></div>${JBDialer.render(data.contacts, ui.dial, key => i18n.t(key))}<div class="ics-dial-pad">${['1','2','3','4','5','6','7','8','9','*','0','#'].map(digit => `<button data-action="dial" data-id="${digit}" aria-label="${digit}"><img src="assets/dial_num_${digit === '*' ? 'star' : digit === '#' ? 'pound' : digit}_wht.png" alt=""></button>`).join('')}</div><div class="dial-actions jb-dial-actions"><button class="dial-call" data-action="call" aria-label="Call"><img src="assets/ic_dial_action_call.png" alt=""></button></div></div>`;
-    }
-    return `<div class="app-view phone-app">${header}${body}</div>`;
+    // Google Dialer 5.1 (lp-dialer.js): speed dial, recents and contacts tabs, search, the sliding dialpad, History.
+    return LPDialer.render({data, ui, t: key => i18n.t(key), locale: i18n.locale(), byPhone: contactByPhone});
   }
   function contactByPhone(number) { const normalized = String(number).replace(/[^\d+]/g, ''); return data.contacts.find(item => item.phone.replace(/[^\d+]/g, '') === normalized); }
   function startPhoneCall(number) {
@@ -1218,7 +1217,7 @@
     ui.sub = isNew ? 'new' : 'edit'; ui.overlay = ''; render();
   }
   function peopleOverlay() {
-    if (ui.overlay === 'people-menu') return '<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="people-edit">Edit contact</button><button data-action="people-delete">Delete contact</button></div>';
+    if (ui.overlay === 'people-menu') { const items = ui.sub === 'detail' ? [['people-delete', 'Delete'], ['toast:Sharing is not available offline.', 'Share'], ['toast:Shortcut added to Home screen.', 'Place on Home screen']] : [['toast:Showing all contacts.', 'Contacts to display'], ['toast:Import/export is not available offline.', 'Import/export'], ['open-settings-sync', 'Accounts'], ['toast:No contact settings to change.', 'Settings'], ['toast:Help is not available offline.', 'Help']]; return `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu">${items.map(([action, title]) => { const [act, arg] = action.split(/:(.*)/); return `<button role="menuitem" data-action="${act}"${arg ? ` data-id="${safe(arg)}"` : ''}>${safe(i18n.t(title))}</button>`; }).join('')}</div>`; }
     if (ui.overlay === 'people-delete') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="Delete contact"><h3>Delete contact</h3><p>${safe(contact(ui.selectedContact)?.name || '')}</p><p>Messages will be kept under the phone number.</p><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="people-confirm-delete">Delete</button></div></div>`;
     const group = data.contactGroups.find(g=>g.id===ui.peopleEditGroup);
     return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog mms-dialog people-editor" role="dialog" aria-label="${group?'Edit group':'New group'}" data-form="people-group"><h3>${group?'Edit group':'New group'}</h3><label>Group name<input name="name" required maxlength="50" value="${safe(group?.name||'')}"></label>${data.contacts.map(p=>`<label class="people-membership"><input type="checkbox" name="members" value="${p.id}" ${group?.members.includes(p.id)?'checked':''}>${safe(p.name)}</label>`).join('')}<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Save</button></div></form>`;
@@ -1994,7 +1993,8 @@
       case 'browser-save': ui.overlay = ''; renderOverlay(); if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
       case 'phone-tab': ui.phoneTab = id; ui.phoneSearch = undefined; render(); break;
       case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
-      case 'phone-menu': ui.overlay = 'phone-menu'; renderOverlay(); break;
+      case 'phone-menu': ui.phoneMenu = id || ''; ui.overlay = 'phone-menu'; renderOverlay(); break;
+      case 'dial-pause': case 'dial-wait': ui.dial = (ui.dial + (action === 'dial-pause' ? ',' : ';')).slice(0, 30); ui.overlay = ''; render(); break;
       case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phone=ui.dial; render(); break;
       case 'phone-redial': startPhoneCall(id); break;
       case 'dial': if (ui.dial.length < 30) ui.dial += id; render(); break;
@@ -2010,11 +2010,16 @@
       case 'kk-dialer-history': ui.sub = 'kk-history'; ui.kkDialpad = false; ui.overlay = ''; render(); break;
       case 'kk-dialer-back': ui.sub = ''; render(); break;
       case 'kk-dialer-log-tab': ui.kkLogTab = id; render(); break;
-      case 'kk-dialer-pad': ui.kkDialpad = true; render(); break;
+      case 'kk-dialer-pad': ui.kkDialpad = true; ui.lpSearchOpen = false; ui.phoneSearch = ''; render(); break;
+      case 'lpd-tab': ui.lpDialTab = id; ui.lpLogExpanded = null; render(); viewport.querySelector('.lpd-pane')?.scrollTo(0, 0); break;
+      case 'lpd-search-open': ui.lpSearchOpen = true; render(); viewport.querySelector('[data-kk-dialer-search]')?.focus(); break;
+      case 'lpd-search-close': ui.lpSearchOpen = false; ui.phoneSearch = ''; render(); break;
+      case 'lpd-log-expand': ui.lpLogExpanded = ui.lpLogExpanded === Number(id) ? null : Number(id); render(); break;
+      case 'lpd-dismiss-card': ui.kkRecentDismissed = [...(ui.kkRecentDismissed || []), Number(id)]; render(); break;
       case 'kk-dialer-clear': ui.phoneSearch = ''; render(); viewport.querySelector('[data-kk-dialer-search]')?.focus(); break;
       case 'phone-log-message': { const recipient=ICSMessaging.recipient(id,data.contacts); if(recipient)openMessageThread(recipient.key);else toast('Enter a valid phone number');break; }
       case 'people-tab': ui.peopleTab=id; ui.sub=''; ui.peopleQuery=''; ui.peopleSearching=false; render(); break;
-      case 'people-search': ui.peopleTab='all'; ui.peopleSearching=true; render(); viewport.querySelector('.people-search input')?.focus(); break;
+      case 'people-search': ui.peopleTab='all'; ui.peopleSearching=true; render(); viewport.querySelector('[data-people-search]')?.focus(); break;
       case 'people-edit': editPerson(); break;
       case 'people-menu': ui.overlay='people-menu'; renderOverlay(); break;
       case 'people-star': { const person=contact(ui.selectedContact); if(person)person.favorite=!person.favorite; save(); render(); break; }
@@ -2023,7 +2028,13 @@
       case 'people-group': ui.peopleGroup=id; ui.sub='group'; ui.peopleQuery=''; render(); break;
       case 'people-new-group': ui.peopleEditGroup=''; ui.overlay='people-group'; renderOverlay(); break;
       case 'people-edit-group': ui.peopleEditGroup=ui.peopleGroup; ui.overlay='people-group'; renderOverlay(); break;
-      case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
+      case 'contact': {
+        // From the dialer (or any other app) a contact opens Contacts' QuickContactActivity; back returns there.
+        if (ui.view !== 'people') { ui.quickContactReturn = {view: ui.view, sub: ui.sub}; captureRecentView(); ui.view = 'people'; }
+        ui.selectedContact = Number(id); ui.sub = 'detail'; ui.overlay = ''; render(); break;
+      }
+      case 'people-search-close': ui.peopleSearching = false; ui.peopleQuery = ''; render(); break;
+      case 'open-settings-sync': ui.overlay = ''; openApp('settings'); ui.sub = 'sync'; render(); break;
       case 'new-contact': editPerson(true); break;
       case 'contact-call': startPhoneCall(contact(id)?.phone||'');break;
       case 'contact-message': openMessageThread(id); break;
@@ -2310,10 +2321,16 @@
     }
   });
   document.addEventListener('input', event => {
+    if (event.target.matches?.('[data-people-search]')) {
+      ui.peopleQuery = event.target.value;
+      const list = viewport.querySelector('.lpp-list');
+      if (list) { const fresh = document.createElement('div'); fresh.innerHTML = renderPeople(); list.innerHTML = fresh.querySelector('.lpp-list').innerHTML; i18n.translateDOM?.(list); }
+      return;
+    }
     if (event.target.matches?.('[data-kk-dialer-search]')) {
       ui.phoneSearch = event.target.value;
       const list = viewport.querySelector('[data-kk-dialer-list]');
-      if (list) { const fresh = document.createElement('div'); fresh.innerHTML = KKDialer.render({data, ui, t: key => i18n.t(key), locale: i18n.locale(), byPhone: contactByPhone}); list.innerHTML = fresh.querySelector('[data-kk-dialer-list]').innerHTML; i18n.translateDOM?.(list); }
+      if (list) { const fresh = document.createElement('div'); fresh.innerHTML = LPDialer.render({data, ui, t: key => i18n.t(key), locale: i18n.locale(), byPhone: contactByPhone}); list.innerHTML = fresh.querySelector('[data-kk-dialer-list]').innerHTML; i18n.translateDOM?.(list); }
       return;
     }
     if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);delete folder.nameKey;save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}
@@ -3256,7 +3273,7 @@
       const dialing=Date.now()<ui.activeCall.connected;
       const elapsed=viewport.querySelector('.incall-elapsed'),state=viewport.querySelector('.incall-state');
       if(elapsed)elapsed.textContent=dialing?'':ICSPhoneCall.duration(ICSPhoneCall.elapsed(ui.activeCall));
-      if(state)state.textContent=i18n.t(dialing?'Calling…':ui.activeCall.hold?'On hold':'In call');
+      if(state)state.textContent=i18n.t(ICSPhoneCall.stateLabel(ui.activeCall))||'';
     }
     checkAlarms(now);
     checkTimers();

@@ -1,4 +1,4 @@
-/* Offline People presentation inspired by the AOSP ICS Contacts layouts. */
+/* Contacts: the local address book and its Material screens. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -18,30 +18,50 @@
     data.contacts = data.contacts.filter(p=>p.id!==id);
     data.contactGroups.forEach(g=>{g.members=g.members.filter(member=>member!==id);});
   }
-  const tile = (p,cls) => window.KKDialer ? KKDialer.letterTile(p,cls) : '';
-  const button = (action,label,file,id='') => `<button type="button" data-action="${action}" data-id="${e(id)}" aria-label="${label}"><img src="assets/${file}" alt=""></button>`;
+  /* Google Contacts 5.1 (com.android.contacts, LMY48Y). PeopleActivity: the 56 dp #0288D1 toolbar ("Contacts",
+     search, overflow) over the FAVORITES / ALL CONTACTS ViewPagerTabs; All contacts lists 40 dp round photos with the
+     16 sp name beside the 48 dp letter column, under the ME row; Favorites are the square tiles. The 56 dp blue FAB
+     adds a contact. QuickContactActivity: the header in the contact's letter-tile colour (0.6 x the width, the white
+     person_white_540dp silhouette) with back, star, edit and overflow over it and the 36 dp name at the bottom; under
+     it the white expanding entry cards on #EEEEEE: phone (icon in the header colour, 16 sp #202020 number, 14 sp
+     #737373 "Mobile", message on the right) and email. The editor: a toolbar with the check and Material fields. */
+  const tile = (p,cls) => window.LPDialer ? LPDialer.letterTile(p,cls) : '';
+  const color = p => window.LPDialer ? LPDialer.tileColor(p?.name||'') : '#0288d1';
+  const icon = (file,cls='') => `<img class="${cls}" src="assets/${file}" alt="">`;
+  const tool = (action,label,file,id='',extra='') => `<button type="button" data-action="${action}" data-id="${e(id)}" aria-label="${e(label)}"${extra}>${icon(file)}</button>`;
   function render(data,ui,t,locale) {
     const person=data.contacts.find(p=>p.id===ui.selectedContact);
     const editing=['new','edit'].includes(ui.sub), detail=ui.sub==='detail';
-    const group=data.contactGroups.find(g=>g.id===ui.peopleGroup);
-    const title=editing ? t(ui.sub==='new'?'New contact':'Edit contact') : detail ? t('People') : ui.sub==='group' ? group?.name || t('Groups') : t('People');
-    const header=`<header class="people-header">${ui.sub?button('back','Back','pc-ic_menu_back.png'):''}${button(ui.sub?'back':'home','Back','people.png')}<h2>${e(title)}</h2>${detail&&person?`<button data-action="people-star" aria-label="Favorites" aria-pressed="${!!person.favorite}" class="people-star"><img src="assets/pc-ic_favorite_${person.favorite?'on':'off'}_lt.png" alt=""></button>${button('people-menu','More options','pc-ic_overflow_menu.png')}`:''}${editing?'<button type="submit" form="people-editor" class="people-done">Done</button>':''}</header>`;
     if(editing) {
       const draft=ui.peopleDraft||{};
-      return `<div class="app-view people-app">${header}<form id="people-editor" class="people-scroll people-editor" data-form="people-save"><div class="people-account"><img src="assets/people-ic_contact_picture_holo_light.png" alt=""><span>${e(t('Phone contact'))}</span></div>${[['name','Name','text',50],['phone','Phone','tel',30],['email','Email','email',80],['company','Company','text',80],['notes','Notes','text',500]].map(([key,label,type,max])=>`<label>${e(t(label))}<input name="${key}" type="${type}" maxlength="${max}" ${key==='name'?'required':''} value="${e(draft[key]||'')}"></label>`).join('')}<fieldset><legend>${e(t('Groups'))}</legend>${data.contactGroups.map(g=>`<label class="people-membership"><input type="checkbox" name="groups" value="${e(g.id)}" ${draft.groups?.includes(g.id)?'checked':''}>${e(t(g.name))}</label>`).join('')}</fieldset><button type="button" data-action="back" class="people-cancel">Cancel</button></form></div>`;
+      const fields=[['name','Name','text',50],['phone','Phone','tel',30],['email','Email','email',80],['company','Company','text',80],['notes','Notes','text',500]];
+      return `<div class="app-view lpp-app lpp-editor"><header class="lpp-toolbar">${tool('back',t('Navigate up'),'gc-ic_arrow_back_24dp.png')}<h2>${e(t(ui.sub==='new'?'Add new contact':'Edit contact'))}</h2><button type="submit" form="people-editor" class="lpp-done" aria-label="${e(t('Done'))}">${icon('gc-ic_done_wht_24dp.png')}</button></header><form id="people-editor" class="lpp-scroll lpp-form" data-form="people-save"><div class="lpp-account"><span>${e(t('Phone-only, unsynced contact'))}</span></div><div class="lpp-photo-pick">${icon('gc-ic_camera_alt_black_24dp.png')}</div>${fields.map(([key,label,type,max])=>`<label class="lpp-field"><span>${e(t(label))}</span><input name="${key}" type="${type}" maxlength="${max}" ${key==='name'?'required':''} value="${e(draft[key]||'')}" placeholder="${e(t(label))}"></label>`).join('')}<input type="hidden" name="groups" value=""></form></div>`;
     }
     if(detail) {
-      if(!person) return `<div class="app-view people-app">${header}<p class="empty-note">Contact not found</p></div>`;
-      return `<div class="app-view people-app">${header}<div class="people-scroll"><div class="people-portrait">${tile(person,'people-portrait-tile')}<h3>${e(person.name)}</h3></div><h4 class="people-section">${e(t('Contact details'))}</h4>${person.phone?`<div class="people-detail-row"><button data-action="contact-call" data-id="${person.id}">${e(person.phone)}<small>${e(t('Mobile'))}</small></button>${button('contact-message','Message','stat_notify_sms.png',person.id)}</div>`:''}${person.email?`<div class="people-detail-row"><button data-action="contact-email" data-id="${person.id}">${e(person.email)}<small>${e(t('Email'))}</small></button></div>`:''}${['company','notes'].filter(k=>person[k]).map(k=>`<div class="people-note"><small>${e(t(k==='company'?'Company':'Notes'))}</small><p>${e(person[k])}</p></div>`).join('')}<div class="people-note"><small>${e(t('Groups'))}</small><p>${data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>e(t(g.name))).join(', ') || e(t('None'))}</p></div><button class="people-delete" data-action="people-delete">Delete contact</button></div></div>`;
+      if(!person) return `<div class="app-view lpp-app"><header class="lpp-toolbar">${tool('back',t('Navigate up'),'gc-ic_arrow_back_24dp.png')}</header><p class="empty-note">Contact not found</p></div>`;
+      const c=color(person);
+      const entry=(img,head,sub,action,alt='') => `<div class="lpp-entry"><button class="lpp-entry-main" data-action="${action}" data-id="${person.id}"><span class="lpp-entry-icon" style="background:${c};-webkit-mask-image:url(assets/${img});mask-image:url(assets/${img})"></span><span class="lpp-entry-text"><strong>${e(head)}</strong><small>${e(sub)}</small></span></button>${alt}</div>`;
+      const phone=person.phone?entry('gc-ic_phone_24dp.png',person.phone,t('Mobile'),'contact-call',`<button class="lpp-entry-alt" data-action="contact-message" data-id="${person.id}" aria-label="${e(t('Message'))}"><span class="lpp-entry-icon" style="background:${c};-webkit-mask-image:url(assets/gc-ic_message_24dp.png);mask-image:url(assets/gc-ic_message_24dp.png)"></span></button>`):'';
+      const email=person.email?entry('gc-ic_email_24dp.png',person.email,t('Home'),'contact-email'):'';
+      const about=['company','notes'].filter(k=>person[k]).map(k=>`<div class="lpp-entry lpp-entry-plain"><span class="lpp-entry-text"><strong>${e(person[k])}</strong><small>${e(t(k==='company'?'Company':'Notes'))}</small></span></div>`).join('');
+      return `<div class="app-view lpp-app lpp-quick" style="--qc:${c}"><div class="lpp-scroll"><div class="lpp-header" style="background:${c}">${icon('gc-person_white_540dp.png','lpp-silhouette')}<div class="lpp-header-bar">${tool('back',t('Navigate up'),'gc-ic_arrow_back_24dp.png')}<span></span><button type="button" data-action="people-star" aria-pressed="${!!person.favorite}" aria-label="${e(t('Favorites'))}">${icon(person.favorite?'gc-ic_star_24dp.png':'gc-ic_star_outline_24dp.png')}</button>${tool('people-edit',t('Edit'),'gc-ic_create_24dp.png')}${tool('people-menu',t('More options'),'gd-ic_overflow_menu.png','','class="lpp-white"')}</div><h2>${e(person.name)}</h2></div><div class="lpp-cards"><div class="lpp-card">${phone}${email||(!person.phone?entry('gc-ic_email_24dp.png',t('Add email'),'','people-edit'):'')}</div>${about?`<div class="lpp-card">${about}</div>`:''}</div></div></div>`;
     }
-    const tab=ui.peopleTab||'all';
-    const tabs=ui.sub==='group'?'':`<nav class="people-tabs">${[['favorites','Favorites','star'],['all','All contacts','person'],['groups','Groups','group']].map(([key,label,icon])=>`<button role="tab" aria-selected="${tab===key}" data-action="people-tab" data-id="${key}" aria-label="${e(t(label))}"><img src="assets/pc-ic_menu_${icon}_${tab===key?'dk':'lt'}.png" alt=""></button>`).join('')}</nav>`;
-    const toolbar=`<footer class="people-actions">${button('people-search','Search contacts','pc-ic_search_dk.png')}${button(tab==='groups'?'people-new-group':'new-contact',tab==='groups'?'New group':'Add contact',tab==='groups'?'pc-ic_menu_group_dk.png':'pc-ic_add_person_dk.png')}${ui.sub==='group'?'<button data-action="people-edit-group">Edit group</button>':''}</footer>`;
-    if(tab==='groups' && ui.sub!=='group') return `<div class="app-view people-app">${header}${tabs}<div class="people-scroll">${data.contactGroups.map(g=>`<button class="people-group" data-action="people-group" data-id="${e(g.id)}"><strong>${e(t(g.name))}</strong><small>${g.members.filter(id=>data.contacts.some(p=>p.id===id)).length} ${e(t('contacts'))}</small></button>`).join('')||'<p class="empty-note">No groups</p>'}</div>${toolbar}</div>`;
-    const items=list(data,tab,ui.peopleQuery||'',ui.sub==='group'?ui.peopleGroup:'',locale);
-    let initial='';
-    const rows=tab==='favorites' ? items.map(p=>`<button class="people-favorite-tile" data-action="contact" data-id="${p.id}">${tile(p,'people-fav-letter')}<span>${e(p.name)}</span></button>`).join('') : items.map(p=>{const first=p.name.slice(0,1).toLocaleUpperCase();const separator=first!==initial?`<h4 class="people-section">${e(first)}</h4>`:'';initial=first;return `${separator}<button class="people-row" data-action="contact" data-id="${p.id}"><span>${e(p.name)}</span>${tile(p,'people-row-letter')}</button>`;}).join('');
-    return `<div class="app-view people-app">${header}${tabs}${ui.peopleSearching?`<form class="people-search" data-form="people-search"><input name="query" type="search" aria-label="Search contacts" placeholder="Search contacts" value="${e(ui.peopleQuery||'')}"><button type="submit">Search</button></form>`:''}<div class="people-scroll ${tab==='favorites'?'people-favorites':''}">${rows||`<p class="empty-note">${e(t(tab==='favorites'?'No favorites yet':'No contacts found'))}</p>`}</div>${toolbar}</div>`;
+    const tab=ui.peopleTab==='favorites'?'favorites':'all';
+    const items=list(data,tab,ui.peopleQuery||'','',locale);
+    const searching=!!ui.peopleSearching;
+    const bar=searching
+      ? `<header class="lpp-toolbar lpp-searchbar">${tool('people-search-close',t('Navigate up'),'gc-ic_arrow_back_24dp.png')}<form data-form="people-search" class="lpp-search"><input name="query" type="search" data-people-search aria-label="${e(t('Find contacts'))}" placeholder="${e(t('Find contacts'))}" value="${e(ui.peopleQuery||'')}" autocomplete="off"></form></header>`
+      : `<header class="lpp-toolbar"><h2 class="lpp-title">${e(t('Contacts'))}</h2>${tool('people-search',t('Search'),'gc-ic_ab_search.png')}${tool('people-menu',t('More options'),'gd-ic_overflow_menu.png','list','class="lpp-white"')}</header>`;
+    const tabs=searching?'':`<nav class="lpd-tabs lpp-tabs" role="tablist">${[['favorites','Favorites'],['all','All contacts']].map(([key,label])=>`<button role="tab" aria-selected="${tab===key}" data-action="people-tab" data-id="${key}">${e(t(label))}</button>`).join('')}</nav>`;
+    let initial='', body;
+    if(tab==='favorites'&&!searching) {
+      body=items.length?`<div class="lpd-tiles lpp-tiles">${items.map(p=>`<div class="lpd-tile"><button class="lpd-tile-main" data-action="contact" data-id="${p.id}" aria-label="${e(p.name)}">${tile(p,'lpd-tile-photo')}<span class="lpd-tile-shadow"></span><span class="lpd-tile-text"><span class="lpd-tile-name">${e(p.name)}</span></span></button></div>`).join('')}</div>`:`<p class="lpp-empty">${e(t('No favorites.'))}</p>`;
+    } else {
+      const me=searching?'':`<div class="lpp-me"><span class="lpp-me-label">${e(t('Me'))}</span><button class="lpp-row" data-action="toast" data-id="${e(t('Set up my profile'))}"><span class="lpp-letter-col"></span><span class="lpd-letter lpd-photo lpp-me-photo">${icon('gc-ic_account_circle_black_24dp.png')}</span><span class="lpp-name">${e(t('Set up my profile'))}</span></button></div>`;
+      const rows=items.map(p=>{const first=(p.name.match(/^\p{L}/u)?.[0]||'#').toLocaleUpperCase();const shown=first!==initial;initial=first;return `<button class="lpp-row" data-action="contact" data-id="${p.id}"><span class="lpp-letter-col">${shown?e(first):''}</span>${tile(p,'lpd-photo')}<span class="lpp-name">${e(p.name)}</span></button>`;}).join('');
+      body=`${me}${rows||`<p class="lpp-empty">${e(t(searching?'No contacts.':'No contacts.'))}</p>`}`;
+    }
+    return `<div class="app-view lpp-app">${bar}${tabs}<div class="lpp-scroll lpp-list">${body}</div>${searching?'':`<button class="lpd-fab end lpp-fab" data-action="new-contact" aria-label="${e(t('Add new contact'))}">${icon('gc-ic_person_add_24dp.png')}</button>`}</div>`;
   }
   window.ICSPeople={render,list,remove};
 })();
