@@ -23,3 +23,15 @@
 /* Theme.Settings 4.4 sets android:actionBarStyle to Widget.Holo.ActionBar.Solid: ab_solid_dark_holo, a #393939 top
    edge over #222 with a 2 dp #1b1b1b foot and no holo blue underline (4.3 kept the transparent bar with the line). */
 .screen .settings-app .actionbar{background:linear-gradient(#393939 0 .906px,#222 .906px calc(100% - 1.81px),#1b1b1b calc(100% - 1.81px))!important;border-bottom:0!important}
+/* Holo Switch (Widget.Holo.CompoundButton.Switch, android-4.4.4_r1): switch_bg_holo_dark track and
+   switch_thumb(_activated)_holo_dark thumb nine-patches, switchMinWidth 96 dp grown to fit two labels plus
+   4 x 12 dp thumbTextPadding (about 106 dp), a 28 dp track, and capital ON / OFF in TextAppearance.Holo.Small
+   (14 sp, secondary_text_holo_dark). The thumb slides 150 ms between the ends. */
+.screen .holo-switch{width:96.04px!important;min-width:96.04px!important;height:25.37px;padding:0;overflow:visible;background:none;border-style:solid;border-color:transparent;border-width:10.87px 9.06px 12.68px 7.25px;border-image:url('assets/kk-switch_bg_holo_dark.png') 36 30 42 24 fill / 10.87px 9.06px 12.68px 7.25px stretch;text-shadow:none;font:400 12.68px RobotoICS,sans-serif;box-sizing:border-box}
+.screen .holo-switch::before{display:none}
+.screen .holo-switch .switch-label,.screen .settings-app .actionbar .holo-switch .switch-label{position:absolute;z-index:1;top:-10.87px;bottom:-12.68px;left:-17.21px;width:71.57px;height:auto;display:grid;place-items:center;color:#bebebe;border-style:solid;border-color:transparent;border-width:1.81px 21.74px;border-image:url('assets/kk-switch_thumb_holo_dark.png') 6 72 fill / 1.81px 21.74px stretch;transform:none;transition:left .15s ease-out;box-sizing:border-box;line-height:1}
+.screen .holo-switch.on .switch-label,.screen .settings-app .actionbar .holo-switch.on .switch-label{left:28.99px;transform:none;border-image-source:url('assets/kk-switch_thumb_activated_holo_dark.png')}
+.screen .holo-switch:active .switch-label{border-image-source:url('assets/kk-switch_thumb_pressed_holo_dark.png')}
+.screen .holo-switch:disabled{border-image-source:url('assets/kk-switch_bg_disabled_holo_dark.png')}
+.screen .holo-switch:disabled .switch-label{border-image-source:url('assets/kk-switch_thumb_disabled_holo_dark.png');color:#bebebe80}
+.screen .holo-switch.settings-action-switch{margin:0 7.25px 0 auto}
