@@ -1,5 +1,9 @@
 # Android Simulator
 
+![Android Time Machine: the Nexus S, Galaxy Nexus, Nexus 4 and Nexus 5, each running its own Android version](assets/og-cover.jpg)
+
+**Live demo:** [android.levente.net](https://android.levente.net/)
+
 An interactive browser simulator of classic Android releases, each on its own Nexus phone and rebuilt from AOSP sources and period screenshots. Choose a version on the landing page:
 
 | Version | Phone | Store |
@@ -13,7 +17,7 @@ Lollipop 5.1.1 on the Nexus 6 is in progress: its card opens a preview page with
 
 ## Getting started
 
-**Live demo:** [Android Simulator on GitHub Pages](https://szabolevi98.github.io/android-simulator/).
+**Live demo:** [android.levente.net](https://android.levente.net/), served as a static site from a checkout of `main`. A mirror runs on [GitHub Pages](https://szabolevi98.github.io/android-simulator/).
 
 GitHub Pages publishes the repository root from the `main` branch automatically after each push. The `.nojekyll` file keeps this plain static site out of Jekyll processing. Deployment progress is available in the repository's **Actions** tab, and the publishing source is configured under **Settings → Pages**.
 
