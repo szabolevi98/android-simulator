@@ -11,7 +11,10 @@
     zoomMin: 48 * DP, arcStroke: 10 / 2 * DP};
   const SIZES = [['5mp', '5M pixels'], ['3mp', '3M pixels'], ['2mp', '2M pixels'], ['1_3mp', '1.3M pixels'], ['1mp', '1M pixels'], ['vga', 'VGA'], ['qvga', 'QVGA']];
   const DURATIONS = [0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60];
-  const MODULES = [['photo', 'ic_switch_camera', 'Switch to photo'], ['video', 'ic_switch_video', 'Switch to video'], ['panorama', 'ic_switch_pan', 'Switch to panorama']];
+  // ModuleSwitcher 4.4.4: photo, video, wide-angle panorama and, as GoogleCamera has LightCycle, Photo Sphere (the GCam
+  // index is never listed; HDR+ is the pie's switch).
+  const MODULES = [['photo', 'ic_switch_camera', 'Switch to photo'], ['video', 'ic_switch_video', 'Switch to video'], ['panorama', 'ic_switch_pan', 'Switch to panorama'], ['photosphere', 'ic_switch_photosphere', 'Switch to Photo Sphere']];
+  const sweeping = module => module === 'panorama' || module === 'photosphere';
   const icon = name => `assets/jbcam-${name}.png`;
 
   function settings(media, data) {
@@ -122,7 +125,7 @@
       <div class="jbcam-hint" data-jbcam-hint hidden></div>
       <div class="jbcam-controls"><div class="jbcam-blocker"></div>
         ${module === 'photo' ? `<div class="jbcam-indicators" aria-hidden="true">${indicators(s).map(([key, file, pos]) => `<img class="jbcam-ind ${pos}" data-ind="${key}" src="${icon(file)}" alt="">`).join('')}</div>` : ''}
-        ${module === 'panorama' ? '' : `<button type="button" class="jbcam-menu" data-jbcam-menu aria-label="${e(t('Menu button'))}"></button>`}
+        ${sweeping(module) ? '' : `<button type="button" class="jbcam-menu" data-jbcam-menu aria-label="${e(t('Menu button'))}"></button>`}
         <button type="button" class="jbcam-switcher" data-jbcam-switcher aria-label="${e(t('Camera, video, or panorama selector'))}" aria-expanded="false"><img src="${icon(current[1])}" alt=""><img class="jbcam-switcher-mark" src="${icon('ic_switcher_menu_indicator')}" alt=""></button>
         <button type="button" class="jbcam-shutter" data-jbcam-shutter aria-label="${e(t('Shutter button'))}"><img src="${icon(shutter)}" alt=""></button>
       </div>
@@ -266,7 +269,7 @@
         else { ui.jbcamRecording = Date.now(); rerender(); }
         return;
       }
-      if (module === 'panorama') { toast(t('Panorama capture is not simulated')); return; }
+      if (sweeping(module)) { toast(t(module === 'panorama' ? 'Panorama capture is not simulated' : 'Photo Sphere capture is not simulated')); return; }
       if (countdown) { cancel(countdown.timer); countdown = null; root.querySelector('[data-jbcam-countdown]').hidden = true; return; }
       if (s.timer) {
         const node = root.querySelector('[data-jbcam-countdown]'), number = node.querySelector('.jbcam-count-n');
@@ -317,7 +320,7 @@
       if (pie.open) hidePie();
       event.preventDefault();
       down = {id: event.pointerId, x: p.x, y: p.y, time: performance.now(), pie: false, moved: false};
-      if (module !== 'panorama' && p.x >= P.dead && p.x <= box().w - P.dead) down.timer = later(() => { if (down && !down.moved) { down.pie = true; showPie(down.x, down.y, false); } }, P.holdPie);
+      if (!sweeping(module) && p.x >= P.dead && p.x <= box().w - P.dead) down.timer = later(() => { if (down && !down.moved) { down.pie = true; showPie(down.x, down.y, false); } }, P.holdPie);
       try { root.setPointerCapture(event.pointerId); } catch {}
     });
     root.addEventListener('pointermove', event => {
@@ -352,10 +355,10 @@
       }
       if (was.pie) { release(); return; }
       if (was.swipe) { gallery(); return; }
-      if (!was.moved && module !== 'panorama') startFocus(was.x, was.y), draw();
+      if (!was.moved && !sweeping(module)) startFocus(was.x, was.y), draw();
     };
     root.addEventListener('pointerup', up); root.addEventListener('pointercancel', up);
-    root.addEventListener('wheel', event => { if (destroyed || module === 'panorama') return; event.preventDefault(); showZoom(s.zoom + (event.deltaY < 0 ? .1 : -.1)); }, {passive: false});
+    root.addEventListener('wheel', event => { if (destroyed || sweeping(module)) return; event.preventDefault(); showZoom(s.zoom + (event.deltaY < 0 ? .1 : -.1)); }, {passive: false});
     // Two-finger pinch on touch screens.
     const touches = new Map(); let pinch = null;
     root.addEventListener('pointerdown', event => { if (event.pointerType !== 'touch') return; touches.set(event.pointerId, local(event)); if (touches.size === 2) { const [a, b] = [...touches.values()]; pinch = {d: Math.hypot(a.x - b.x, a.y - b.y), zoom: s.zoom}; if (down) { cancel(down.timer); down = null; } if (pie.open) hidePie(); } }, true);

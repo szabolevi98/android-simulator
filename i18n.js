@@ -1169,6 +1169,8 @@
     ['FRONT CAMERA','ELŐLAPI KAMERA','FRONTKAMERA','CAMÉRA AVANT','CÁMARA FRONTAL'],
     ['HDR+ ON','HDR+ BEKAPCSOLVA','HDR+ an','HDR+ ACTIVÉ','HDR+ ACTIVADO'],
     ['HDR+ OFF','HDR+ KIKAPCSOLVA','HDR+ aus','HDR+ DÉSACTIVÉ','HDR+ DESACTIVADO'],
+    ['Switch to Photo Sphere','Váltás körpanorámakép módra','Zu Photo Sphere wechseln','Passer en mode Photo Sphere','Cambiar a fotografía esférica'],
+    ['Photo Sphere capture is not simulated','A körpanorámakép készítése nincs szimulálva','Photo-Sphere-Aufnahmen werden nicht simuliert','La capture Photo Sphere n’est pas simulée','La captura de fotografía esférica no está simulada'],
     ['BACK CAMERA','HÁTLAPI KAMERA','RÜCKKAMERA','CAMÉRA ARRIÈRE','CÁMARA TRASERA'],
     ['LOCATION','HELY','STANDORT','POSITION','UBICACIÓN'],
     ['COUNTDOWN TIMER','VISSZASZÁMLÁLÁS','COUNTDOWN-TIMER','COMPTE À REBOURS','TEMPORIZADOR'],
