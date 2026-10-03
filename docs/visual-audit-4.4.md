@@ -366,3 +366,7 @@ These four launcher icons are now the originals instead of drawings, sized like 
 **All stock app icons original (owner request)**
 
 The remaining drawn icons were replaced with the launcher icons from late-2013 APKs: Keep 2.0.35, YouTube 5.2.27, News & Weather 1.3.11, Google Search 3.1.8 (Voice Search, and Google, replacing the Commons rasterization) and Drive 1.2.403.9. Only Earth and Google+ come from Wikimedia Commons. The Google folder now matches GSMArena's launch screenshot icon for icon.
+
+**Chrome icon (owner feedback)**
+
+The Chrome icon cut from the Wikimedia screenshot kept wallpaper on its edges. It is now the 144 px launcher icon of the Chrome 32.0.1700.99 APK (January 2014). Chrome 31, the Nexus 5's launch version, is not on APKMirror as a stable release. The icon did not change between the two.
