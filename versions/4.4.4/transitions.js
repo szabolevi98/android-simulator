@@ -1,4 +1,5 @@
-/* AOSP 4.3 window transitions (core/res/res/anim, AppTransition) and Launcher2 state animations, sampled for the Web Animations API. */
+/* AOSP 4.3 window transitions (core/res/res/anim, AppTransition) and the launcher's state animations (Launcher3 4.4.4 for
+   all apps), sampled for the Web Animations API. */
 (() => {
   'use strict';
   // android.view.animation interpolators; factor 1 uses the faster quadratic path, as Android does.
@@ -36,15 +37,21 @@
     'activity-close':{enter:{tracks:[alpha(1,1,300,0,'linear')]},exit:{top:true,tracks:[alpha(1,0,300,0,'decelerateCubic'),scale(1,.8,300,0,'decelerateCubic')]}},
     // Keyguard: lock_screen_exit (1 -> 1.1) above lock_screen_wallpaper_behind_enter (fade in after 200 ms).
     'unlock':{enter:{tracks:[alpha(0,1,200,200,'decelerateQuad')]},exit:{top:true,tracks:[scale(1,1.1,200,0,'accelerateQuint'),alpha(1,0,200,0,'accelerateQuad')]}},
-    // Launcher.showAppsCustomizeHelper: zoom factor 7, 350 ms zoom, 250 ms fade after the 100 ms stagger; the current workspace page stays opaque and shrinks to 0.7 in 300 ms.
-    'drawer-open':{enter:{top:true,tracks:[scale(7,1,350,0,'zoomOut'),alpha(0,1,250,100,'decelerateCubic')]},exit:{tracks:[scale(1,.7,300,0,'accelerateDecelerate')]}},
-    // Launcher.hideAppsCustomizeHelper: 600 ms zoom back to 7, 200 ms fade; workspace unshrinks with ZoomInInterpolator.
+    /* Launcher3 4.4.4 showAppsCustomizeHelper: after config_workspaceAppsCustomizeAnimationStagger (100 ms) all apps zooms
+       from config_appsCustomizeZoomScaleFactor (7) in 350 ms (ZoomOutInterpolator) and fades in over 250 ms
+       (DecelerateInterpolator(1.5)). Workspace.getChangeStateAnimation(SMALL) meanwhile shrinks the workspace to
+       overview scale - 0.3 (0.8 - 0.3) and fades its shortcuts, hotseat and page indicator out in
+       config_workspaceUnshrinkTime (300 ms) with ZoomInInterpolator. */
+    'drawer-open':{enter:{top:true,tracks:[scale(7,1,350,100,'zoomOut'),alpha(0,1,250,100,'decelerateCubic')]},exit:{tracks:[scale(1,.5,300,0,'zoomIn'),alpha(1,0,300,0,'zoomIn')]}},
+    /* Launcher.hideAppsCustomizeHelper: all apps zooms back to 7 in 600 ms (ZoomInInterpolator) and fades out in 200 ms;
+       the workspace returns from 0.5 and fades its page back in over config_appsCustomizeWorkspaceShrinkTime (300 ms)
+       after config_appsCustomizeWorkspaceAnimationStagger (40 ms), ZoomInInterpolator. */
     // Launcher2 Folder PARTIAL_GROW: config_folderAnimDuration = 120 ms, ObjectAnimator's default accelerate/decelerate.
     'folder-open':{enter:{tracks:[scale(.8,1,120,0,'accelerateDecelerate'),alpha(0,1,120,0,'accelerateDecelerate')]}},
     'folder-close':{exit:{tracks:[scale(1,.9,120,0,'accelerateDecelerate'),alpha(1,0,120,0,'accelerateDecelerate')]}},
     // DragView: 110 ms DecelerateInterpolator(2.5) lift by dragViewOffsetY (-8dp).
     'drag-lift':{enter:{tracks:[{kind:'translate',from:[0,0],to:[0,-8],duration:110,delay:0,curve:'decelerateQuint'}]}},
-    'drawer-close':{enter:{tracks:[scale(.7,1,300,0,'zoomIn')]},exit:{top:true,tracks:[scale(1,7,600,0,'zoomIn'),alpha(1,0,200,0,'accelerateDecelerate')]}}
+    'drawer-close':{enter:{tracks:[scale(.5,1,300,40,'zoomIn'),alpha(0,1,300,40,'zoomIn')]},exit:{top:true,tracks:[scale(1,7,600,0,'zoomIn'),alpha(1,0,200,0,'accelerateDecelerate')]}}
   };
   const launcher=view=>view==='home'||view==='drawer';
   // Chooses the WindowManager transit for a view change; nav is 'back' when Back initiated it.

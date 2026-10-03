@@ -44,4 +44,11 @@ assert.equal(alphaFrames[0].opacity,0);assert.equal(alphaFrames.at(-1).opacity,1
 
 // DragLayer drop duration: 500 ms at 800 device px or more, cubic ease-out below.
 assert.equal(motion.dropDuration(0),0);near(motion.dropDuration(200),500*(1-Math.pow(.5,3)));assert.equal(motion.dropDuration(500),500);
+// KitKat (Launcher3 4.4.4): all apps zooms in after the 100 ms stagger while the workspace fades out and shrinks to 0.5.
+{const kk={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/transitions.js','utf8'),kk);const K=kk.window.ICSTransitions;
+const open=K.specs['drawer-open'],close=K.specs['drawer-close'];
+assert.equal(K.length(open),450);assert.equal(K.length(close),600);
+assert.deepEqual(open.enter.tracks.map(t=>[t.kind,t.delay,t.duration,t.curve]).join('|'),'scale,100,350,zoomOut|alpha,100,250,decelerateCubic');
+assert.deepEqual(open.exit.tracks.map(t=>[t.kind,t.to,t.duration,t.curve].join()).join('|'),'scale,0.5,0.5,300,zoomIn|alpha,0,300,zoomIn');
+assert.deepEqual(close.enter.tracks.map(t=>[t.kind,t.delay,t.duration].join()).join('|'),'scale,40,300|alpha,40,300');}
 console.log('Transition checks passed: transit selection, interpolators, AOSP durations, keyframe endpoints and drop timing.');
