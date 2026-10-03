@@ -911,8 +911,10 @@
     if (s === 'wifi-display') { if (data.settings.wifiDisplay && data.settings.wifi && !ui.wfdScanUntil) startWfdScan(); return renderWifiDisplay(); }
     if (s === 'wifi-direct') { if (!ui.p2pSearchUntil) startP2pSearch(); return renderWifiDirect(); }
     if (s === 'bluetooth') return renderBluetoothSettings();
+    // 4.4 WallpaperTypeSettings: "Choose wallpaper from" lists every ACTION_SET_WALLPAPER activity with its icon.
     if (s === 'wallpaper') {
-      return appView('Wallpaper', wallpaperChoices());
+      const sources = [['gallery-wallpaper', 'Gallery', 'gallery.png'], ['open-live-wallpapers', 'Live Wallpapers', 'kwp-ic_launcher_live_wallpaper.png'], ['open-wallpapers', 'Wallpapers', 'kwp-ic_launcher_wallpaper.png']].sort((a, b) => new Intl.Collator(i18n.locale()).compare(i18n.t(a[1]), i18n.t(b[1])));
+      return appView('Choose wallpaper from', sources.map(([action, label, icon]) => `<button class="settings-row kk-wallpaper-type" data-action="${action}"><img class="kk-wallpaper-type-icon" src="assets/${icon}" alt=""><span class="row-copy">${safe(i18n.t(label))}</span></button>`).join(''));
     }
     if (s === 'about') return appView('About phone', `${row('Status', 'Phone number, signal, etc.', 'settings-sub', 'about-status')}${row('Legal information', '', 'settings-sub', 'about-legal')}${row('Model number', 'Nexus 5', 'noop', '')}${row('Android version', '4.4.4', 'about-tap', '')}${row('Baseband version', 'M8974A-2.0.50.1.16', 'noop', '')}${row('Kernel version', '3.4.0-gd59db4e\nandroid-build@vpbs1.mtv.corp.google.com #1\nMon Mar 17 15:16:36 PDT 2014', 'noop', '')}${row('Build number', 'KTU84P', 'developer-tap', '')}${row('SELinux status', i18n.t('Enforcing'), 'noop', '')}`, 'about-settings');
     if (s === 'about-status') return appView('Status', `${row('Battery status', 'Discharging', 'noop', '')}${row('Battery level', '78%', 'noop', '')}${row('Network', carrierName(), 'noop', '')}${row('Signal strength', data.settings.airplane ? '0 dBm  99 asu' : '-75 dBm  19 asu', 'noop', '')}${row('Phone number', 'Unknown', 'noop', '')}${row('Wi-Fi MAC address', '02:00:00:40:04:01', 'noop', '')}${row('Bluetooth address', data.settings.bluetooth ? '02:00:00:40:04:02' : 'Unavailable', 'noop', '')}`, 'about-settings');

@@ -39,3 +39,7 @@
 .kwp-doc .kdu-icon{overflow:hidden}
 .screen .kdu-grid .kwp-doc .kdu-icon img.kwp-doc-thumb{width:100%;height:100%;object-fit:cover}
 .screen .kdu-grid .kwp-doc .kdu-copy{flex:none;padding-top:0}
+
+/* Settings > Display > Wallpaper (WallpaperTypeSettings): preference rows with the 48 dp app icons. */
+.screen .kk-wallpaper-type{gap:14.5px;min-height:65.2px}
+.screen .kk-wallpaper-type img.kk-wallpaper-type-icon{flex:none;width:43.49px;height:43.49px}

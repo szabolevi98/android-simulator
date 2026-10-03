@@ -590,6 +590,7 @@
     ['Weather','Időjárás','Wetter','Météo','Tiempo'],
     ['Photo Gallery','Fotógaléria','Fotogalerie','Galerie photos','Galería de fotos'],
     ['Tomorrow','Holnap','Morgen','Demain','Mañana'],
+    ["Choose wallpaper from","Válasszon tapétát innen:","Hintergrund auswählen","Sélectionner fond d’écran dans","Selecciona una categoría"],
     ["Wallpaper %1$d of %2$d","%1$d/%2$d. háttérkép","Hintergrund %1$d von %2$d","Fond d’écran %1$d sur %2$d","Fondo de pantalla %1$d de %2$d"],
     ["%1$d selected","%1$d kiválasztva","%1$d ausgewählt","%1$d éléments sélectionnés","Seleccionados: %1$d"],
     ["Pick image","Kép kiválasztása","Bild auswählen","Sélectionner une image","Seleccionar imagen"],
