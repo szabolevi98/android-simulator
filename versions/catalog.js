@@ -40,7 +40,7 @@ window.ANDROID_VERSIONS = [
     version: 'Android 4.4.4',
     year: '2014',
     device: 'Nexus 5 · Google',
-    description: 'The stock Nexus 5: the Google Now Launcher with Google Now, Hangouts for SMS, Chrome, translucent system bars, the new Dialer, Email and Play Store drawer, and the Dessert Case easter egg.',
+    description: 'Google Now Launcher, Google Now, Hangouts, Chrome, translucent system bars and the Dessert Case easter egg.',
     url: 'versions/4.4.4/',
     status: 'available',
     art: {shot: 'landing-home.jpg?v=5', phone: 'nexus5'}
