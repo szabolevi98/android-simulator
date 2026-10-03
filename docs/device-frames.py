@@ -182,4 +182,20 @@ if os.path.exists('n5-render.png'):
     [('right', 548, 696, 9), ('left', 704, 1076, 9)],
     {'body': ['#1d1d1e', '#0d0d0e', '#151516'], 'rim': ['#6a6b6d', '#2e2f30', '#5c5d5f'], 'rimWidth': 3.2, 'chin': .06}, thr=235)
   open('device-nexus-5.svg', 'w').write(svg); out['n5'] = info
+# Nexus 6 (Motorola XT1100, shamu): dark body with a thin brushed-metal rim, curved top and bottom, the pill-shaped earpiece
+# and loudspeaker grilles centred above and below the display, the front camera right of the earpiece, the power key above
+# the volume rocker on the right. Traced from Google's device art (Wikimedia Commons "Nexus 6.png", CC BY 2.5, from the
+# Android Device Art Generator), whose 16:9 display is 1306 x 2320 at (296, 378). The 5.96" panel at 1 dp = 0.906 px is
+# 372.75 x 662.68 (411.43 x 731.43 dp). The render has a soft drop shadow under the bottom edge, so the threshold is 235.
+# The keys bulge the right edge of the render, so the outline is traced from a horizontally flipped copy with mirror=True:
+# both sides then follow the clean left edge (the body box is symmetric in the 1896 px wide image).
+if os.path.exists('n6-render.png'):
+  if not os.path.exists('n6-render-flipped.png'):
+    from PIL import Image, ImageOps
+    ImageOps.mirror(Image.open('n6-render.png').convert('RGBA')).save('n6-render-flipped.png')
+  svg, info = frame('nexus-6', 'n6-render-flipped.png', (228, 1668), (163, 2900), (296, 378, 1602, 2698), (372.75, 662.68),
+    [('slot', 949, 242, 413, 45), ('lens', 1338, 248, 22), ('slot', 949, 2785, 413, 45)],
+    [('right', 1080, 1220, 8), ('right', 1320, 1620, 7)],
+    {'body': ['#262728', '#0b0b0c', '#18191a'], 'rim': ['#a3a5a7', '#3d3f41', '#86888a'], 'rimWidth': 3.0, 'chin': .06, 'glassInset': 7}, thr=235, mirror=True)
+  open('device-nexus-6.svg', 'w').write(svg); out['n6'] = info
 print(json.dumps(out, indent=1))

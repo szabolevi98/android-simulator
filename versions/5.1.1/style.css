@@ -621,18 +621,19 @@ html,body{overscroll-behavior-y:none}
 .wfd-category .wfd-spinner{width:18px;height:18px;border:2px solid #33b5e5;border-top-color:transparent;border-radius:50%;animation:wfd-spin .9s linear infinite;margin-right:14px}
 @keyframes wfd-spin{to{transform:rotate(360deg)}}
 
-/* Nexus 6 front as an SVG drawing (assets/device-nexus-6.svg, docs/nexus6-frame.py): the real 82.98 x 159.26 mm body
-   around the 5.96" 1440 x 2560 panel, whose 411.43 x 731.43 dp window is 372.75 x 662.67 px (1 dp = 0.906 px, as on
-   the Nexus 5 page). Front speakers above and below the display; power above the volume rocker on the right side. */
+/* Nexus 6 front as an SVG drawing (assets/device-nexus-6.svg, docs/device-frames.py): the outline is traced from
+   Google's device art, around the 5.96" 1440 x 2560 panel whose 411.43 x 731.43 dp window is 372.75 x 662.68 px
+   (1 dp = 0.906 px, as on the Nexus 5 page). Front speakers above and below the display; power above the volume rocker
+   on the right side, drawn in the SVG (the key elements are only their touch areas). */
 @media(min-width:501px){
-  .device{width:416.75px;height:799.85px;padding:68.59px 22px;border:0;border-radius:0;background:none;box-shadow:none}
-  .device::before{content:"";position:absolute;inset:0;border:0;border-radius:0;box-shadow:none;background:url('assets/device-nexus-6.svg?v=2') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);z-index:0;pointer-events:none}
+  .device{width:423px;height:793.18px;padding:67.36px 24.84px 63.14px 25.41px;border:0;border-radius:0;background:none;box-shadow:none}
+  .device::before{content:"";position:absolute;inset:0;border:0;border-radius:0;box-shadow:none;background:url('assets/device-nexus-6.svg?v=3') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);z-index:0;pointer-events:none}
   .device::after{display:none}
   .device .screen{border-radius:0;box-shadow:none}
   .earpiece,.front-camera,.proximity-sensor,.device-chin{display:none}
-  .volume-rocker,.power-key{width:5px;background:linear-gradient(90deg,#2e3742,#8c98a6 45%,#3a4450);box-shadow:1px 0 2px #000a;border-radius:0 3px 3px 0}
-  .power-key{top:291px;height:55px;left:auto;right:-4px}
-  .volume-rocker{top:381px;height:100px;left:auto;right:-4px}
+  .volume-rocker,.power-key{width:10px;background:none;box-shadow:none;border-radius:0}
+  .power-key{top:267.7px;height:40px;left:auto;right:-4px}
+  .volume-rocker{top:336.2px;height:85.6px;left:auto;right:-4px}
 }
 /* The Nexus 6 notification LED sits behind the top speaker grille. */
-.notification-led{top:32.3px;bottom:auto;left:50%}
+.notification-led{top:25.5px;bottom:auto;left:50%}
