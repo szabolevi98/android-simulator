@@ -99,17 +99,18 @@ The new screens have been checked in all five languages at phone sizes. The stat
 
 ## KitKat 4.4.4
 
-`versions/4.4.4/` is Android 4.4.4 (build KTU84P, AOSP tag `android-4.4.4_r1`) on the Nexus 5, with its own saved data. References and measurements are in [docs/visual-audit-4.4.md](docs/visual-audit-4.4.md).
+`versions/4.4.4/` is Android 4.4.4 (build KTU84P, AOSP tag `android-4.4.4_r1`) on the Nexus 5, with its own saved data. It shows the stock Nexus 5: the Google Now Launcher, Google Now, Hangouts and Chrome, which are not in AOSP and were rebuilt from 2013–2014 screenshots and Google's Android 4.4 Quick Start Guide. The AOSP Messaging and Browser apps stay in the drawer. References and measurements are in [docs/visual-audit-4.4.md](docs/visual-audit-4.4.md).
 
 - **Nexus 5 and system bars:**
   - The frame is traced from Google's render.
   - The bars are translucent with gradients on the launcher and keyguard, and opaque in apps.
   - White status icons, the BatteryMeterView and the KitKat navigation keys.
-- **Launcher3:** the 4 × 4 Nexus 5 grid with the Google search bar, five hotseat cells and page markers.
+- **Google Now Launcher (Launcher3):** the 4 × 4 Nexus 5 grid, the "Say “Ok Google”" search bar, the Google folder and Play Store, and the Phone / Hangouts / apps / Chrome / Camera dock.
+  - Google Now is the leftmost screen, with weather, the next calendar event and the "Ok Google" tip card.
   - Dynamic pages: an empty page appears while you drag and is removed afterwards.
   - The two-screen default wallpaper pans with the pages.
-  - All apps has no tabs. Folders are white.
-  - Long-press opens the overview with Wallpapers and Widgets. The Launcher3 clings show on first run.
+  - All apps has no tabs and no widget pages. Folders are white.
+  - Long-press opens the overview with Wallpapers, Widgets and Settings. Widgets open from there. The Launcher3 clings show on first run.
 - **Wallpaper picker:**
   - It is fullscreen with the *Set wallpaper* bar.
   - The strip offers Pick image (through DocumentsUI "Open from"), the default wallpaper, saved images and the live wallpapers.
@@ -132,7 +133,9 @@ The new screens have been checked in all five languages at phone sizes. The stat
   - The navigation drawer (Store home, My apps, My wishlist, Redeem, Settings, Help), opened by its button or a swipe from the left edge.
   - The six striped tiles with Newsstand, and the "simplified permissions" note.
   - Clusters with MORE, the grouped permissions dialog, Additional information, and *Require password for purchases*.
-- Camera, Gallery, Calendar and Browser match their 4.3 versions, as in AOSP. All screens have been checked in English, Hungarian, German, French and Spanish.
+- **Hangouts 2.0:** the SMS app, with the conversation list, the New Hangout picker and SMS conversations of white cards. Notifications and shares open it.
+- **Chrome 31:** the omnibox toolbar, the menu with Back / Forward / Bookmark, the stacked tab switcher, the New Tab page (Most visited, Bookmarks, Other devices), incognito tabs and history. Its tabs are kept separate from the AOSP Browser.
+- Camera (the arc quick settings that the Nexus 5 shipped with), Gallery, Calendar and the AOSP Browser match their 4.3 versions, as in AOSP. All screens have been checked in English, Hungarian, German, French and Spanish.
 
 ## Adding a version
 
