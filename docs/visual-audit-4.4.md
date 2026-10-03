@@ -301,3 +301,7 @@ Gmail 4.7 (November 2013) is built on the same UnifiedEmail code as the AOSP Ema
 - **Conversation:** the grey "Inbox" chip sits under the subject.
 - **Separate account:** Gmail has its own offline mailbox (`data.gmailbox`, kitkat.demo@gmail.com) and keeps its own folder and conversation.
 - **Photo tip:** the UnifiedEmail ConversationPhotoTeaserView ("Touch a sender image to select that conversation.", with AOSP translations and `ic_arrow` / `ic_cancel_holo_light`) now shows in both Gmail and Email until it is dismissed. The GSMArena Email screenshot shows it too.
+
+**All apps top padding (owner feedback)**
+
+A frame of a November 2013 Nexus 5 unboxing video shows the first drawer row about 28 dp under the status bar. Its icons sit at the top of their cells, because Launcher3's PagedViewCellLayout puts the free space between rows. The drawer page now starts 28 dp lower and aligns icons to the top of the cell.

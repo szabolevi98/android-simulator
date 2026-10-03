@@ -45,3 +45,8 @@
 .gnow-bar button:active,.gnow-action:active,.gnow-search:active{background:#0000000f}
 /* Overview mode in the Google Now Launcher keeps all three buttons (Launcher.hasSettings): 3 x 48 dp + 2 x 68 dp. */
 .kk-home.gel-home .kk-overview-panel{width:254.59px;margin-left:-127.3px}
+/* All apps on the stock Nexus 5 (video frame of a Nexus 5 unboxing, November 2013): the first row starts about 28 dp
+   under the status bar and the rows sit at the top of their cells (PagedViewCellLayout puts the gaps between rows),
+   so the last labels end just above the page indicator. */
+.kk-drawer .drawer-page.drawer-apps{top:calc(var(--sb) + 25.37px);bottom:calc(var(--nb) + 27.18px)}
+.kk-drawer .drawer-apps .launcher-icon{justify-content:flex-start}
