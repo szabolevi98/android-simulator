@@ -792,8 +792,23 @@
     clearTimeout(ui.toastTimer); ui.toastTimer = setTimeout(() => element.remove(), 2500);
   }
   let openFolderId = '';
+  let closingVelocity = 0;
   function renderOverlay() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
+    // NotificationPanelView.collapse: the open panel folds up into the status bar and the scrim fades, whatever closed it
+    // (Back, Home, the scrim, a swipe up or an action); the old nodes are put back after this render for the animation.
+    const closingShade = ui.overlay !== 'shade' && overlayRoot.querySelector('.lp-shade:not(.lp-closing)');
+    if (closingShade?._lpAnim) cancelAnimationFrame(closingShade._lpAnim);
+    if (closingShade) {
+      const scrim = overlayRoot.querySelector('.lp-shade-scrim'), height = closingShade.offsetHeight, opacity = scrim ? getComputedStyle(scrim).opacity : '1';
+      closingShade.remove(); scrim?.remove();
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) queueMicrotask(() => {
+        for (const node of [scrim, closingShade]) if (node) { node.classList.add('lp-closing'); node.style.pointerEvents = 'none'; node.style.animation = 'none'; node.removeAttribute('data-action'); overlayRoot.append(node); }
+        if (scrim) scrim.style.opacity = opacity;
+        LPShade.animate(closingShade, Math.min(height, LPShade.maxHeight(closingShade)), 0, {velocity: closingVelocity, scrim, done: () => { closingShade.remove(); scrim?.remove(); }});
+        closingVelocity = 0;
+      });
+    }
     // Collapsing the panel also collapses Quick Settings and closes a tile detail.
     if (ui.overlay !== 'shade') { ui.shadeAnimated = false; ui.shadeSettings = false; ui.qsDetail = ''; }
     if (ui.overlay === 'shade') {
@@ -801,8 +816,13 @@
       const scroll = overlayRoot.querySelector('.lp-shade-scroll')?.scrollTop || 0;
       overlayRoot.innerHTML = '<div class="lp-shade-scrim" data-action="close-overlay"></div>' + LPShade.render({...data, notifications: data.notifications.map(decorateNotification)}, ui, key => i18n.t(key), {locale: i18n.locale(), clock: clock(), date: fullDate(), shortDate: shadeDate(), carrier: carrierName(), alarm: nextAlarmLabel(), statusIcons: statusIndicators(), networks: allWifiNetworks(), extra: call});
       const body = overlayRoot.querySelector('.lp-shade-scroll'); if (body) body.scrollTop = scroll;
-      if (ui.shadeAnimated) overlayRoot.querySelectorAll('.lp-shade,.lp-shade-scrim').forEach(node => { node.style.animation = 'none'; });
+      const opening = !ui.shadeAnimated;
+      overlayRoot.querySelectorAll('.lp-shade,.lp-shade-scrim').forEach(node => { node.style.animation = 'none'; });
       ui.shadeAnimated = true;
+      if (opening && !pointerStart?.shadeDragging && !reducedMotion?.matches) {
+        const shade = overlayRoot.querySelector('.lp-shade'), scrim = overlayRoot.querySelector('.lp-shade-scrim');
+        LPShade.animate(shade, 0, LPShade.maxHeight(shade), {scrim, done: () => LPShade.settle(shade, scrim)});
+      }
     } else if (ui.overlay === 'dream') {
       overlayRoot.innerHTML = renderDream();
     } else if (ui.overlay === 'kdc-picker' && ui.kdcPicker) {
@@ -1549,13 +1569,6 @@
     const token = key === '√' ? '√(' : /^(sin|cos|tan|ln|log)$/.test(key) ? `${key}(` : key;
     if (operator && key !== '!' && /[÷×−+^]$/.test(ui.calc) && key !== '−') ui.calc = ui.calc.slice(0,-1);
     ui.calc += token;
-  }
-  // NotificationPanelView wraps its content (header, list, carrier label and handle); the rest is scrim.
-  function shadeFullHeight(shade) {
-    // Measure the open panel: its CSS top and bottom, not the drag's explicit height or bottom:auto.
-    const previous = shade.style.height, previousBottom = shade.style.bottom; shade.style.height = ''; shade.style.bottom = '';
-    const full = Math.min(shade.offsetHeight, screen.clientHeight - shade.offsetTop - navRoot.offsetHeight);
-    shade.style.height = previous; shade.style.bottom = previousBottom; return full;
   }
   // QS tile clicks (QSTile.handleClick): Wi-Fi, Bluetooth, airplane, rotation, flashlight, location, invert and hotspot
   // toggle in place; Cellular opens data usage and Cast its settings, as their details point there.
@@ -3087,12 +3100,13 @@
       event.preventDefault();
       const shade = overlayRoot.querySelector('.notification-shade');
       if (shade) {
-        shade.style.animation = 'none';
-        shade.style.bottom = 'auto';
-        // The panel follows the finger; released, it opens fully to the navigation bar (handled below).
-        const full = shadeFullHeight(shade), max = screen.clientHeight - shade.offsetTop - navRoot.offsetHeight;
-        shade.style.height = `${Math.max(54.36, Math.min(max, pointerStart.shadeCloseEligible ? full + dy : dy))}px`;
-        overlayRoot.querySelector('.lp-shade-scrim')?.style.setProperty('opacity', String(Math.min(1, shade.offsetHeight / full)));
+        // PanelView.setExpandedHeight follows the finger (an open panel starts from its full height); the fling on
+        // release is handled below.
+        const now = performance.now(), max = screen.clientHeight - shade.offsetTop - navRoot.offsetHeight;
+        if (pointerStart.shadeLast) { const dt = now - pointerStart.shadeLast.t; if (dt > 0) pointerStart.shadeVelocity = (event.clientY - pointerStart.shadeLast.y) / dt * 1000; }
+        pointerStart.shadeLast = {t: now, y: event.clientY};
+        if (pointerStart.shadeFrom === undefined) pointerStart.shadeFrom = pointerStart.shadeCloseEligible ? shade.offsetHeight && LPShade.maxHeight(shade) : 0;
+        LPShade.expand(shade, Math.max(0, Math.min(max, pointerStart.shadeFrom + dy)), overlayRoot.querySelector('.lp-shade-scrim'));
       }
       return;
     }
@@ -3173,12 +3187,12 @@
     if (pointerStart.qsPulled) { pointerStart = null; return; }
     if (pointerStart.shadeDragging) {
       suppressClickUntil = Date.now() + 350;
-      const close = pointerStart.shadeCloseEligible ? dy < -55 : dy < 75;
-      if (close) { ui.overlay = ''; renderOverlay(); }
-      else {
-        const shade = overlayRoot.querySelector('.notification-shade');
-        if (shade) { const height = shade.clientHeight, full = shadeFullHeight(shade); shade.style.removeProperty('height'); shade.style.removeProperty('bottom'); overlayRoot.querySelector('.lp-shade-scrim')?.style.removeProperty('opacity'); shade.animate([{height:`${height}px`},{height:`${full}px`}], {duration:180,easing:'ease-out'}); }
-      }
+      // PanelView.onTrackingStopped: a fling decides by its direction, a slow release by the half-way point.
+      const shade = overlayRoot.querySelector('.notification-shade'), scrim = overlayRoot.querySelector('.lp-shade-scrim');
+      const velocity = pointerStart.shadeVelocity || 0, height = shade ? shade.offsetHeight : 0, full = shade ? LPShade.maxHeight(shade) : 0;
+      const close = Math.abs(velocity) > 400 * LPShade.DP ? velocity < 0 : height < full / 2;
+      if (close) { closingVelocity = Math.abs(velocity); ui.overlay = ''; renderOverlay(); }
+      else if (shade) LPShade.animate(shade, height, full, {velocity: Math.max(0, velocity), scrim, done: () => LPShade.settle(shade, scrim)});
       pointerStart = null; return;
     }
     if (pointerStart.lockDrag) {
@@ -3205,7 +3219,7 @@
     const focusedStack = ui.view === 'home' && !ui.overlay && document.activeElement?.closest?.('[data-photo-stack]');
     if (focusedStack && ['ArrowUp','ArrowDown'].includes(event.key)) { event.preventDefault(); const id = focusedStack.dataset.photoStack; stepPhotoStack(id, event.key === 'ArrowDown' ? 1 : -1); viewport.querySelector(`[data-photo-stack="${CSS.escape(id)}"] .phw-front`)?.focus(); return; }
     if(ui.view==='gallery' && ui.sub==='photo' && !ui.overlay && ['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();galleryStep(event.key==='ArrowLeft'?-1:1);return;}
-    if (event.target.matches('.recent-item,.web-tab-preview') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
+    if (event.target.matches?.('.recent-item,.web-tab-preview') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); return; }
     if (ui.view === 'calculator' && !ui.overlay && ['ArrowUp','ArrowDown'].includes(event.key) && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) {
       event.preventDefault(); const history = data.calcHistory || []; if (!history.length) return;
       ui.calcHistoryIndex = event.key === 'ArrowUp' ? (ui.calcHistoryIndex < 0 ? history.length - 1 : Math.max(0,ui.calcHistoryIndex - 1)) : (ui.calcHistoryIndex < 0 ? history.length - 1 : Math.min(history.length - 1,ui.calcHistoryIndex + 1));

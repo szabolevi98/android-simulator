@@ -112,5 +112,126 @@
     const dismiss = notes.some(note => !note.ongoing) ? `<div class="lp-dismiss"><button class="jb-shade-clear" data-action="clear-notifications" aria-label="${e(t('Clear all notifications.'))}"><i></i><i></i><i></i></button></div>` : '';
     return `<div class="notification-shade lp-shade${qs ? ' show-settings qs-open' : ''}" role="dialog" aria-label="${e(t(qs ? 'Quick settings.' : 'Notification shade.'))}">${header}<div class="lp-shade-scroll">${qsPanel}${extra}<div class="lp-notes">${rows}${dismiss}</div></div></div>`;
   }
-  window.LPShade = {DP, CELL, clearDelays, tiles, layout, row, isExpanded, detail, render};
+  /* Panel expansion, after NotificationPanelView / NotificationStackScrollLayout.setStackHeight / StackScrollAlgorithm at
+     android-5.1.1_r26. While the panel is shorter than the stack's padding plus its minimum height (64 dp card + 12 dp
+     bottom peek + 8 dp second-card padding), the whole stack is pulled up with a small parallax and the header follows at
+     1 / 2.05 of that offset, so both slide in from above. The cards that do not fit gather in the bottom stack: one
+     transitioning card, then up to three 12 dp peeking edges (PiecewiseLinearIndentationFunctor, half linear), the rest
+     hidden behind them; the first card always shows and is cut to the space above the peek. */
+  const STACK = {collapsed: 64 * DP, peek: 12 * DP, slowDown: 12 * DP, secondCard: 8 * DP, maxBottom: 3, headerRubber: 2.05};
+  function indentation(items, distance, peek) {
+    const base = [0, 4 / 5, 1]; // initBaseValues for three items: cumulative squares 4 and 1 over 5
+    if (items < 0) return 0;
+    if (items >= STACK.maxBottom) return distance + peek;
+    const below = Math.floor(items), part = items - below;
+    if (below === 0) return distance * part;
+    const progress = base[below - 1] * (1 - part) + base[below] * part;
+    return distance + (progress * .5 + (items - 1) / (STACK.maxBottom - 1) * .5) * peek;
+  }
+  // Natural layout of the open panel, measured once per panel with every transform cleared.
+  function measure(shade) {
+    if (shade._lpLayout) return shade._lpLayout;
+    const header = shade.querySelector('.lp-header'), scroll = shade.querySelector('.lp-shade-scroll');
+    const children = [...shade.querySelectorAll('.lp-notes > .lp-note, .lp-notes > .lp-dismiss')];
+    for (const node of [header, ...children]) if (node) { node.style.transform = ''; node.style.clipPath = ''; node.style.opacity = ''; }
+    const previous = [shade.style.height, shade.style.bottom]; shade.style.height = ''; shade.style.bottom = '';
+    const top = shade.getBoundingClientRect().top;
+    const items = children.map(node => { const r = node.getBoundingClientRect(); return {node, top: r.top - top, height: r.height}; });
+    const first = items[0], gap = items.length > 1 ? Math.max(0, items[1].top - first.top - first.height) : 2 * DP;
+    const padding = first ? first.top : (header?.offsetHeight || 0);
+    const end = items.length ? items[items.length - 1].top + items[items.length - 1].height + 7.25 : padding;
+    const max = Math.min(shade.clientHeight, Math.max(end, header?.offsetHeight || 0));
+    [shade.style.height, shade.style.bottom] = previous;
+    return (shade._lpLayout = {header, scroll, items, gap, padding, max, qs: shade.classList.contains('qs-open')});
+  }
+  function maxHeight(shade) { return measure(shade).max; }
+  // NotificationPanelView.setExpandedHeight for the shade (not Quick Settings): clip, stack, header and the scrim.
+  function expand(shade, height, scrim) {
+    const L = measure(shade), E = Math.max(0, height);
+    shade.style.bottom = 'auto'; shade.style.height = `${E.toFixed(2)}px`;
+    if (scrim) {
+      // ScrimController.updateScrimNormal: starts 20 % down, eased by 1 - (1 - cos(pi (1 - f)^2)) / 2, up to 62 %.
+      const f = Math.min(1, L.max ? E / L.max : 1) * 1.2 - .2;
+      scrim.style.opacity = f <= 0 ? '0' : (1 - .5 * (1 - Math.cos(Math.PI * Math.pow(1 - f, 2)))).toFixed(3);
+    }
+    if (L.qs || !L.items.length) { if (L.header) L.header.style.transform = ''; return; }
+    const minStack = STACK.collapsed + STACK.peek + STACK.secondCard;
+    let translation = 0, stackHeight = E;
+    if (E - L.padding < minStack) {
+      const partially = Math.max(0, (E - L.padding) / minStack);
+      translation = E - minStack + (1 - partially) * (STACK.peek + STACK.secondCard) - L.padding;
+      stackHeight = E - translation;
+    }
+    if (L.header) L.header.style.transform = translation < 0 ? `translateY(${(translation / STACK.headerRubber).toFixed(2)}px)` : '';
+    const inner = stackHeight - L.padding, g = L.gap, scrollTop = L.scroll?.scrollTop || 0;
+    const bottomPeekStart = inner - STACK.peek, bottomStackStart = bottomPeekStart - (STACK.slowDown + g);
+    let current = 0, inBottom = 0, partial = 0;
+    L.items.forEach((item, i) => {
+      const h = item.height;
+      let top, cut = h, alpha = 1;
+      if (i === 0) current = Math.min(0, bottomStackStart);
+      const next = current + h + g;
+      if (next >= bottomStackStart) {
+        if (current >= bottomStackStart) {
+          inBottom += 1;
+          if (inBottom < STACK.maxBottom) top = bottomStackStart + indentation(inBottom, STACK.slowDown + g, STACK.peek) - g - h;
+          else { top = inner - h; alpha = inBottom > STACK.maxBottom + 2 ? 0 : inBottom > STACK.maxBottom + 1 ? 1 - partial : 1; }
+        } else {
+          partial = 1 - (bottomStackStart - current) / (h + g);
+          inBottom += partial;
+          top = bottomStackStart + indentation(partial, STACK.slowDown + g, STACK.peek) - h - g;
+        }
+        top = Math.max(top, STACK.collapsed - h);
+      } else top = Math.min(current, inner - STACK.peek - STACK.secondCard - h);
+      if (i === 0) {
+        top = 0;
+        if (h > bottomPeekStart - STACK.secondCard) cut = Math.max(bottomPeekStart - STACK.secondCard, Math.min(h, STACK.collapsed));
+      }
+      current = top + h + g;
+      const shift = L.padding + translation + top - (item.top - scrollTop);
+      item.node.style.transform = Math.abs(shift) > .01 ? `translateY(${shift.toFixed(2)}px)` : '';
+      item.node.style.clipPath = cut < h - .01 ? `inset(0 0 ${(h - cut).toFixed(2)}px 0 round 1.8px)` : '';
+      item.node.style.opacity = alpha < 1 ? alpha.toFixed(3) : '';
+      // updateZValuesForState: cards deeper in the bottom stack sit lower, under the first card.
+      item.node.style.zIndex = String(L.items.length - i);
+    });
+  }
+  // FlingAnimationUtils (NotificationPanelView: 0.4 s at most, scaled by the square root of distance / panel height).
+  const ease = (x1, y1, x2, y2) => x => { const at = (a, b, t) => 3 * a * (1 - t) * (1 - t) * t + 3 * b * (1 - t) * t * t + t * t * t; let lo = 0, hi = 1; for (let i = 0; i < 24; i++) { const mid = (lo + hi) / 2; if (at(x1, x2, mid) < x) lo = mid; else hi = mid; } return at(y1, y2, (lo + hi) / 2); };
+  const CURVES = {linearOutSlowIn: ease(0, 0, .35, 1), fastOutSlowIn: ease(.4, 0, .2, 1), fastOutLinearIn: ease(.4, 0, 1, 1)};
+  function flingTiming(from, to, velocity, panel) {
+    const diff = Math.abs(to - from), v = Math.abs(velocity || 0), minV = 250 * DP, maxLen = .4 * Math.sqrt(diff / Math.max(1, panel));
+    if (to > from) {
+      const d = v ? diff / v / .35 : Infinity;
+      if (d <= maxLen) return {duration: d * 1000, curve: CURVES.linearOutSlowIn};
+      return {duration: maxLen * 1000, curve: v >= minV ? CURVES.linearOutSlowIn : CURVES.fastOutSlowIn};
+    }
+    // applyDismissing: linear-out-faster-in whose y2 grows from 0.4 to 0.5 with the velocity.
+    const y2 = Math.min(.5, Math.max(.4, .4 + (v - minV) / (3000 * DP - minV) * .1)), d = v ? (y2 / .5) * diff / v : Infinity;
+    if (d <= maxLen) return {duration: d * 1000, curve: ease(0, 0, .5, y2)};
+    // A canned collapse (no finger velocity) runs at 0.6 of the length (getCannedFlingDurationFactor).
+    return {duration: maxLen * 1000 * (v ? 1 : .6), curve: v >= minV ? CURVES.linearOutSlowIn : CURVES.fastOutLinearIn};
+  }
+  function animate(shade, from, to, {velocity = 0, scrim = null, done} = {}) {
+    if (shade._lpAnim) cancelAnimationFrame(shade._lpAnim);
+    const {duration, curve} = flingTiming(from, to, velocity, shade.closest('.screen')?.clientHeight || 1);
+    const start = performance.now();
+    const step = now => {
+      const t = Math.min(1, (now - start) / Math.max(1, duration));
+      expand(shade, from + (to - from) * curve(t), scrim);
+      if (t < 1) shade._lpAnim = requestAnimationFrame(step); else { shade._lpAnim = 0; done?.(); }
+    };
+    expand(shade, from, scrim);
+    shade._lpAnim = requestAnimationFrame(step);
+  }
+  // Back to the panel's own layout once it is fully open.
+  function settle(shade, scrim) {
+    if (shade._lpAnim) cancelAnimationFrame(shade._lpAnim);
+    shade._lpAnim = 0;
+    shade.style.removeProperty('height'); shade.style.removeProperty('bottom'); scrim?.style.removeProperty('opacity');
+    const L = shade._lpLayout; if (!L) return;
+    for (const node of [L.header, ...L.items.map(item => item.node)]) if (node) { node.style.transform = ''; node.style.clipPath = ''; node.style.opacity = ''; node.style.zIndex = ''; }
+    shade._lpLayout = null;
+  }
+  window.LPShade = {DP, CELL, clearDelays, tiles, layout, row, isExpanded, detail, render, expand, animate, settle, maxHeight};
 })();
