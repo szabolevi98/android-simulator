@@ -63,6 +63,7 @@
     let drag = null;
     const reset = animate => {
       for (const node of [panel, bottom]) { node.style.transition = animate ? 'transform .3s cubic-bezier(.4,0,.2,1),opacity .3s' : ''; node.style.transform = ''; node.style.opacity = ''; }
+      root.querySelectorAll('.lp-kg-affordance img, .lp-kg-lock img').forEach(img => { img.style.transition = animate ? 'opacity .3s, transform .3s cubic-bezier(.4,0,.2,1)' : ''; img.style.opacity = ''; img.style.transform = ''; });
       root.querySelectorAll('.lp-kg-affordance').forEach(node => { node.style.transition = animate ? 'transform .3s cubic-bezier(.4,0,.2,1)' : ''; node.style.transform = ''; node.querySelector('.lp-kg-circle').style.transform = ''; });
     };
     const down = event => {
@@ -81,6 +82,11 @@
         const node = root.querySelector(`.lp-kg-${drag.affordance}`);
         node.style.transform = `translateX(${sign * travel}px)`;
         node.querySelector('.lp-kg-circle').style.transform = `scale(${1 + travel / 40})`;
+        // KeyguardAffordanceHelper.setTranslation: the dragged icon goes from the resting 0.5 alpha to 1, the others fade
+        // to 0; each icon is scaled 0.8 + 0.2 x alpha / 0.5 (at most 1.5).
+        const progress = Math.min(1, travel / AFFORDANCE_SWIPE), rest = Math.max(0, .5 * (1 - progress));
+        const icon = (el, alpha) => { const img = el?.querySelector('img'); if (img) { img.style.opacity = String(Math.min(1, alpha)); img.style.transform = `scale(${Math.min(1.5, alpha / .5 * .2 + .8)})`; } };
+        root.querySelectorAll('.lp-kg-affordance, .lp-kg-lock').forEach(el => icon(el, el === node ? rest + progress : rest));
         return;
       }
       const up = Math.min(0, dy);

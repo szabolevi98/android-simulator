@@ -787,11 +787,16 @@
     // Toast.LENGTH_LONG (3.5 s), then the toast_exit fade (config_longAnimTime, accelerate_quad); toasts outlive the activity.
     screen.append(element); setTimeout(() => { element.animate?.([{opacity: 1}, {opacity: 0}], {duration: 500, easing: 'cubic-bezier(.55,.085,.68,.53)', fill: 'forwards'}); setTimeout(() => element.remove(), 500); }, 3500);
   }
+  // Toast.LENGTH_SHORT (NotificationManagerService.SHORT_DELAY, 2 s) inside Animation.Toast: toast_enter fades in and
+  // toast_exit fades out over config_longAnimTime (500 ms) with decelerate_quad / accelerate_quad.
   function toast(message) {
     document.querySelector('.toast')?.remove();
     const element = document.createElement('div'); element.className = 'toast'; element.textContent = i18n.t(message);
     screen.append(element);
-    clearTimeout(ui.toastTimer); ui.toastTimer = setTimeout(() => element.remove(), 2500);
+    const still = reducedMotion?.matches;
+    if (!still) element.animate([{opacity: 0}, {opacity: 1}], {duration: 500, easing: 'cubic-bezier(.25,.46,.45,.94)'});
+    clearTimeout(ui.toastTimer);
+    ui.toastTimer = setTimeout(() => { if (still) { element.remove(); return; } element.animate([{opacity: 1}, {opacity: 0}], {duration: 500, easing: 'cubic-bezier(.55,.085,.68,.53)', fill: 'forwards'}).finished.then(() => element.remove(), () => element.remove()); }, 2500);
   }
   let openFolderId = '';
   let closingVelocity = 0, shownOverlay = '';

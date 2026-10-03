@@ -26,7 +26,10 @@
 .lp-kg-indication{position:absolute;left:14.5px;right:14.5px;bottom:58.89px;margin:0;text-align:center;font:400 12.68px Roboto,sans-serif;color:#fff;opacity:0;transition:opacity .2s}
 .lp-kg-indication.visible{opacity:1}
 .lp-kg-affordance,.lp-kg-lock{position:absolute;bottom:0;width:50.74px;height:50.74px;border:0;background:none;padding:0;display:grid;place-items:center;cursor:pointer;touch-action:none}
-.lp-kg-affordance img,.lp-kg-lock img{position:relative;width:21.74px;height:21.74px;pointer-events:none}
+/* keyguard_bottom_area.xml tints the phone and camera icons #ffffffff; KeyguardAffordanceHelper rests all three icons at
+   SWIPE_RESTING_ALPHA_AMOUNT (0.5) and scale 0.8 + 0.2 x alpha / 0.5 = 1. */
+.lp-kg-affordance img,.lp-kg-lock img{position:relative;width:21.74px;height:21.74px;pointer-events:none;opacity:.5}
+.lp-kg-affordance img{filter:brightness(0) invert(1)}
 .lp-kg-phone{left:0}
 .lp-kg-camera{right:0}
 .lp-kg-lock{left:50%;margin-left:-25.37px}

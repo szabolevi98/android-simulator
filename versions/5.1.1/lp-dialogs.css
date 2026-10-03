@@ -40,5 +40,9 @@
 .screen .ga-spinner img{display:none}
 @keyframes lp-spin{to{transform:rotate(360deg)}}
 /* Toast (Theme.Material: the #323232-ish translucent pill, 2 dp radius, 14 sp white). */
-.screen .toast{left:50%;right:auto;transform:translateX(-50%);max-width:calc(100% - 58px);bottom:calc(var(--nb) + 57.98px);padding:10.87px 14.5px;border-radius:21.74px;background:#323232eb;box-shadow:none;font:400 13.59px Roboto,sans-serif;color:#fff;text-align:center}
+/* Toast (transient_notification.xml on Theme.Material's toastFrameBackground): framework-res toast_frame.9.png is a
+   #555555 ellipse at 90 % whose 9-patch corners are 25 x 21 dp and whose padding is 25 dp across and 11 dp down;
+   TextAppearance.Toast is 16 sp sans-serif-condensed in bright_foreground_dark with a #BB000000 shadow of 2.75;
+   Toast's gravity is bottom-centre, toast_y_offset (64 dp) above the navigation bar. The Holo border image is off. */
+.screen .toast{left:50%;right:auto;transform:translateX(-50%);max-width:calc(100% - 58px);bottom:calc(var(--nb) + 57.98px);padding:9.97px 22.65px;border:0;border-image:none;border-radius:22.65px / 19.03px;background:#555555e6;box-shadow:none;font:400 14.5px/1.3 RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#fff;text-shadow:0 0 2.75px #000000bb;text-align:center}
 .screen .ga-dialog{width:min(289.92px,85%)}
