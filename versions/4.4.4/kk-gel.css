@@ -50,3 +50,10 @@
    so the last labels end just above the page indicator. */
 .kk-drawer .drawer-page.drawer-apps{top:calc(var(--sb) + 25.37px);bottom:calc(var(--nb) + 27.18px)}
 .kk-drawer .drawer-apps .launcher-icon{justify-content:flex-start}
+/* DeskClock 4.4 digital widget (digital_widget_time, DigitalAppWidgetProvider): an 80 dp clock, bold hours and thin
+   minutes, scaled down only when the widget is narrower than min_digital_widget_width (206 dp), over the 14 sp date and
+   next alarm. The generic ".home-widget > button span" 12 px rule must not shrink it. */
+.home-widget .jbw-digital .jbw-digital-time{font-size:min(72.48px,calc(72.48px * 100cqw / 186.64px));line-height:1;margin-top:3.62px}
+.home-widget .jbw-digital .jbw-digital-time b,.home-widget .jbw-digital .jbw-digital-time i{font-size:1em}
+.home-widget .jbw-digital .jbw-digital-date,.home-widget .jbw-digital .jbw-digital-date span{font-size:12.68px}
+.home-widget .jbw-digital .jbw-digital-alarm img{width:14.5px;height:14.5px}

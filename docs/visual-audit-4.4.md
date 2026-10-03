@@ -332,3 +332,7 @@ Sources and content per app:
   - The striped "Welcome!" card, "My games" and "Players" with SEE MORE, and the FEATURED / POPULAR / POPULAR MULTIPLAYER list with FREE / PURCHASED.
   - A game page with achievements.
 - **Art:** covers, posters and game icons are drawn by the simulator. Movies, shows and games are fictional.
+
+**Default clock (owner request)**
+
+The home screen starts with the DeskClock digital widget, 4 × 2 across the top two rows (layout revision 5). A saved desktop gets it only when those rows are still empty. The widget had shown a 12 px time, because the generic `.home-widget > button span` rule overrode it. It now uses DeskClock 4.4's sizes: `widget_big_font_size` 80 dp, scaled only below `min_digital_widget_width` 206 dp, and `widget_label_font_size` 14 sp for the date and next alarm.

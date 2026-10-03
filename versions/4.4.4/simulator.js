@@ -9,10 +9,11 @@
     clings: LauncherClings.fresh(),
     wallpaper: 0,
     // Stock Nexus 5 (Google Now Launcher): one home pane right of Google Now with the Google folder and Play Store on
-    // the bottom row; the dock holds Phone, Hangouts, all apps, Chrome and Camera.
-    layoutRevision: 4,
+    // the bottom row; the dock holds Phone, Hangouts, all apps, Chrome and Camera. Revision 5 adds the DeskClock
+    // digital clock across the top two rows (owner request: a clock on the home screen by default).
+    layoutRevision: 5,
     homePages: [Array.from({length: 16}, (_, slot) => slot === 12 ? 'folder-google' : slot === 15 ? 'play-store' : null)],
-    homeWidgets: [[]],
+    homeWidgets: [[{id: 'default-digital', type: 'digitalclock', x: 0, y: 0, width: 4, height: 2}]],
     folders: {'folder-google': {name: 'Google', items: ['gmail', 'play-movies', 'play-music', 'play-books', 'play-games', 'photos']}},
     dock: ['phone', 'hangouts', 'apps', 'chrome', 'camera'],
     settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
@@ -71,6 +72,13 @@
       if ((saved.layoutRevision || 0) < 4) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = clone(defaultData.folders); result.layoutRevision = 4; }
       while (result.homeWidgets.length < result.homePages.length) result.homeWidgets.push([]);
       result.homeWidgets.length = result.homePages.length;
+      // Revision 5: the default clock goes on the first page only where its two rows are still empty.
+      if ((saved.layoutRevision || 0) < 5) {
+        const page = result.homePages[0] || [], widgets = result.homeWidgets[0] || [];
+        const free = page.slice(0, 8).every(slot => !slot) && !widgets.some(widget => (widget.y || 0) < 2);
+        if (free && !widgets.some(widget => widget.type === 'digitalclock')) widgets.push(clone(defaultData.homeWidgets[0][0]));
+        result.homeWidgets[0] = widgets; result.layoutRevision = 5;
+      }
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
       // A reload during Gallery widget configuration leaves no completed choice.
