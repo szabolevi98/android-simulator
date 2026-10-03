@@ -141,6 +141,14 @@ The new screens have been checked in all five languages at phone sizes. The stat
 - **Chrome 31:** the omnibox toolbar, the menu with Back / Forward / Bookmark, the stacked tab switcher, the New Tab page (Most visited, Bookmarks, Other devices), incognito tabs and history. Its tabs are kept separate from the AOSP Browser.
 - Camera (the arc quick settings that the Nexus 5 shipped with), Gallery, Calendar and the AOSP Browser match their 4.3 versions, as in AOSP. All screens have been checked in English, Hungarian, German, French and Spanish.
 
+## Social preview image
+
+`assets/og-cover.jpg` (1200 × 630) is the `og:image` of every page. Its source is `docs/og-cover.html`, which lays out the phones from each version's frame and `landing-home.jpg`. To redraw it after a change, for example when a new version gets a landing shot, run the command below. It needs only Node and a local Chrome, or set `CHROME` to point at one. Then bump the `?v=` of `og-cover.jpg` in the `og:image` tags.
+
+```bash
+node docs/make-og-cover.mjs
+```
+
 ## Adding a version
 
 1. Create a `versions/<version>/` directory with its own `index.html`, CSS, JavaScript, and assets.
