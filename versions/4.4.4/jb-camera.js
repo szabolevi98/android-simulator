@@ -17,7 +17,7 @@
   function settings(media, data) {
     return {scene: 'auto', hdr: false, timer: 0, beep: true, location: false, size: '5mp', ...media.settings(data), ...data.cameraSettings};
   }
-  // PhotoMenu.initialize: HDR (the Nexus 4 camera supports the hdr scene mode), exposure, more, flash and the camera
+  // PhotoMenu.initialize (4.4.4): HDR+ (see below), exposure, more, flash and the camera
   // switch, left to right; More holds the rest.
   function tree(s, module = 'photo') {
     const list = (key, label, single, values) => ({key, label, icon: single || values.find(v => v[0] === s[key])?.[1] || values[0][1],
@@ -30,7 +30,9 @@
     const camera = {label: s.front ? 'BACK CAMERA' : 'FRONT CAMERA', icon: s.front ? 'ic_switch_front' : 'ic_switch_back', set: {front: !s.front}};
     const location = {label: 'LOCATION', icon: s.location ? 'ic_location' : 'ic_location_off', set: {location: !s.location}};
     const timer = {label: 'COUNTDOWN TIMER', icon: 'ic_timer', popup: 'timer'}, size = {label: 'PICTURE SIZE', icon: 'ic_imagesize', popup: 'size'};
-    const hdr = {label: 'HDR', icon: s.hdr ? 'ic_hdr' : 'ic_hdr_off', set: {hdr: !s.hdr}};
+    // GoogleCamera 2.0.002 on the Nexus 5 (KTU84P): PhotoMenu shows HDR+ (pref_camera_hdr_plus_key) and drops HDR, as the
+    // msm8974 camera HAL never lists the hdr scene mode. Its labels name the state it switches to (pref_camera_hdr_plus_labels).
+    const hdr = {label: s.hdr ? 'HDR+ OFF' : 'HDR+ ON', icon: s.hdr ? 'ic_hdr_plus_normal' : 'ic_hdr_plus_disabled', set: {hdr: !s.hdr}};
     const more = {label: 'MORE OPTIONS', icon: 'ic_settings_holo_light', children: module === 'photo' ? [location, timer, size, balance, scene] : [location, balance]};
     return module === 'photo' ? [hdr, exposure, more, flash, camera] : [more, flash, camera];
   }
@@ -38,7 +40,7 @@
   function indicators(s) {
     const wb = {auto: 'off', incandescent: 'tungsten', fluorescent: 'fluorescent', daylight: 'daylight', cloudy: 'cloudy'}[s.balance] || 'off';
     const ev = s.exposure < 0 ? `n${-s.exposure}` : s.exposure > 0 ? `p${s.exposure}` : '0';
-    return [['scene', `ic_indicator_sce_${s.hdr ? 'hdr' : s.scene === 'auto' ? 'off' : 'on'}`, 'left top'], ['timer', `ic_indicator_timer_${s.timer ? 'on' : 'off'}`, 'center top'], ['flash', `ic_indicator_flash_${s.flash}`, 'right top'],
+    return [['scene', s.hdr ? 'ic_indicator_hdr_plus_on' : `ic_indicator_sce_${s.scene === 'auto' ? 'off' : 'on'}`, 'left top'], ['timer', `ic_indicator_timer_${s.timer ? 'on' : 'off'}`, 'center top'], ['flash', `ic_indicator_flash_${s.flash}`, 'right top'],
       ['exposure', `ic_indicator_ev_${ev}`, 'left bottom'], ['location', `ic_indicator_loc_${s.location ? 'on' : 'off'}`, 'center bottom'], ['wb', `ic_indicator_wb_${wb}`, 'right bottom']];
   }
 
