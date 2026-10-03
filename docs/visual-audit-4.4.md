@@ -205,3 +205,4 @@ The 4.3 camera screens therefore stay.
 - **Add account:** uses `ic_menu_add_dark`.
 - **Cast screen:** the 4.4 `WifiDisplaySettings` page with "No nearby devices were found." The wireless display switch moved to the checkable "Enable wireless display" overflow item. The quick settings tile reads "Cast Screen".
 - **Browser demo pages:** moved to 2014 and KitKat ("Android 4.4.4 arrives on the Nexus 5", the 2014 Web). The Nexus 5 safety text and the KitKat reset prompt are updated too.
+- **Settings action bar:** `Theme.Settings` 4.4 sets `Widget.Holo.ActionBar.Solid`. The bar is `ab_solid_dark_holo`: a #393939 top edge, #222 body and #1b1b1b foot, with no holo blue underline.

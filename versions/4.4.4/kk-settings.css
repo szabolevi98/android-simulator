@@ -20,3 +20,6 @@
 .screen .settings-main .connectivity-row .connectivity-open{display:flex;align-items:center;flex:1;min-width:0;min-height:43.49px;padding:5.44px 0;gap:0;border:0;background:none;color:#fff;font:inherit;text-align:left}
 .screen .settings-main .settings-row .row-copy{text-align:left;align-items:flex-start}
 .screen .settings-main .row-icon{font-size:18px;color:#fff}
+/* Theme.Settings 4.4 sets android:actionBarStyle to Widget.Holo.ActionBar.Solid: ab_solid_dark_holo, a #393939 top
+   edge over #222 with a 2 dp #1b1b1b foot and no holo blue underline (4.3 kept the transparent bar with the line). */
+.screen .settings-app .actionbar{background:linear-gradient(#393939 0 .906px,#222 .906px calc(100% - 1.81px),#1b1b1b calc(100% - 1.81px))!important;border-bottom:0!important}
