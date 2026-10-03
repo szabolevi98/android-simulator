@@ -1,0 +1,5 @@
+/* Launcher3 5.1 WallpaperPickerActivity as shipped in the Google Now Launcher: the selected or checked tile shows the 48dp
+   white ic_tick in its middle (wallpaper_tile_fg, a #66FFFFFF ripple) instead of the KitKat frame. */
+.kwp-tile.selected::after,.kwp-tile.checked::after{background:url('assets/gnl-ic_tick.svg') center/43.49px no-repeat;box-shadow:none}
+.screen .kwp-tile:active::after{background-color:#ffffff66}
+.kwp-set{font-family:Roboto,sans-serif}

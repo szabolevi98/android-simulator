@@ -87,3 +87,37 @@
 .screen .lp-folder.lp-folder-opening .launcher-folder-grid,.screen .lp-folder.lp-folder-opening .launcher-folder-name{animation:lp-folder-items .2s cubic-bezier(.55,0,1,.45) .06s both}
 @keyframes lp-folder-reveal{from{clip-path:circle(0 at var(--folder-origin,50% 50%))}to{clip-path:circle(150% at var(--folder-origin,50% 50%))}}
 @keyframes lp-folder-items{from{opacity:0}to{opacity:1}}
+/* Overview mode (Launcher3 5.1 DeviceProfile.getOverviewModeScale): 80 % (config_dynamic_grid_overview_scale_percentage)
+   of the page space left above the 120 dp button bar (20 % of the height, clamped to 80..120 dp): 0.611 on the
+   Nexus 6; the page centres between the status bar and the bar, neighbours 8 dp apart. */
+.lp-home.kk-overview .home-content{transform:translateY(-25px)}
+.lp-home.kk-overview .home-grid{transform:translateX(calc(var(--rel,0) * (7.25px - 38.9%))) scale(.611)}
+.lp-home .kk-overview-panel{height:108.72px}
+/* DeskClock 5.1 digital clock widget: one sans-serif-thin 75sp line, then the 14sp date and the #B3FFFFFF alarm. */
+.screen .lpw-digital{justify-content:center;font-family:Roboto,sans-serif}
+.lpw-digital:active{background:#ffffff1f}
+.lpw-digital .jbw-digital-time,.home-widget .lpw-digital .jbw-digital-time{display:block;font:100 min(67.95px,calc(67.95px * 100cqw / 186.64px))/1 Roboto,sans-serif;letter-spacing:0;margin:0 0 -7.25px}
+.lpw-digital .jbw-digital-date,.home-widget .lpw-digital .jbw-digital-date,.home-widget .lpw-digital .jbw-digital-date span{gap:7.25px;font:400 12.68px Roboto,sans-serif;text-transform:none;margin-top:7.25px}
+.lpw-digital .jbw-digital-alarm,.home-widget .lpw-digital .jbw-digital-alarm{gap:1.81px;color:#ffffffb3;margin:0}
+.lpw-digital .jbw-digital-alarm img,.home-widget .lpw-digital .jbw-digital-alarm img{width:16.31px;height:16.31px;opacity:1}
+/* Google Calendar 5.0 widget (ICSWidgets.calendarLP) */
+.calw.lpcw{display:flex;flex-direction:column;height:100%;border-radius:1.81px;overflow:hidden;background:#fafafa;box-shadow:0 1.81px 3.62px #0000003d;font-family:Roboto,sans-serif}
+.screen .lpcw-header{flex:none;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;height:47.11px;border:0;border-radius:1.81px 1.81px 0 0;padding:1.81px 7.25px 1.81px 7.25px;background:#4285f4;color:#fff;text-align:left}
+.screen .lpcw-header:active{background:#325bdc}
+.lpcw-header small{font:400 10.87px/1.2 Roboto,sans-serif}
+.lpcw-header b{font:400 19.93px/1.15 Roboto,sans-serif}
+.lpcw-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;background:#fafafa}
+.screen .lpcw-row{display:flex;align-items:stretch;width:100%;border:0;background:none;padding:0;text-align:left;color:#fff}
+.lpcw-day{flex:none;width:41.68px;height:36.24px;display:flex;flex-direction:column;justify-content:space-between;padding:1.81px 0 1.81px 7.25px;color:#333}
+.lpcw-day b{font:400 19.93px/1 Roboto,sans-serif}
+.lpcw-day small{font:400 10.87px/1 Roboto,sans-serif;color:#757575}
+.lpcw-day.today b,.lpcw-day.today small{color:#4285f4}
+.lpcw-chip{flex:1;min-width:0;height:32.62px;margin:3.62px 7.25px 0 0;border-radius:1.81px;padding:0 7.25px;display:flex;flex-direction:column;justify-content:center}
+.lpcw-chip.two{height:50.74px}
+.lpcw-row:first-child .lpcw-chip{margin-top:3.62px}
+.lpcw-row:active .lpcw-chip{filter:brightness(.9)}
+.lpcw-chip strong,.lpcw-chip small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:700 10.87px/1.35 Roboto,sans-serif}
+.lpcw-chip small{font-weight:400}
+.lpcw-none{flex:1;padding:9.97px 7.25px 3.62px;font:400 10.87px Roboto,sans-serif;color:#777}
+.lpcw-gap{height:9.06px}
+.lpcw-footer{height:3.62px}

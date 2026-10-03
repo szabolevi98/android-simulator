@@ -91,3 +91,6 @@
 .screen .kdc-dial-ampm{background:#0000000d;color:#000000de;font-family:Roboto,sans-serif}
 .screen .kdc-dial-ampm.sel{background:#ff4081;color:#fff}
 .screen .kdc-picker-header .kdc-picker-ampm,.screen .kdc-picker footer{font-family:Roboto,sans-serif}
+/* DeskClock 5.1 screensaver (Daydream): the same thin main_clock_frame as the Clock tab. */
+.jb-dream-saver .jbclock-time,.jb-dream-saver .jbclock-hours,.jb-dream-saver .jbclock-minutes{font-family:Roboto,sans-serif;font-weight:100}
+.jb-dream-saver .jbclock-date{font:400 13.59px Roboto,sans-serif;letter-spacing:.06em}

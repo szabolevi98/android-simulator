@@ -107,5 +107,21 @@
     if(ui.overlay==='widget-photo-image')return `${scrim}<div class="settings-dialog phw-dialog" role="dialog" aria-label="${e(t('Choose an image'))}"><h3>${e(t('Choose an image'))}</h3><div class="phw-picker">${(data.photos||[]).map(item=>`<button data-action="widget-photo-image" data-id="${item.id}" aria-label="${e(item.name)}"><img src="${media.image(item)}" alt=""></button>`).join('')||`<p>${e(t('No photos.'))}</p>`}</div>${cancel}</div>`;
     return '';
   }
-  window.ICSWidgets={MAX_DAYS,EVENT_MIN_COUNT,calendarRows,when,calendar,music,photoItems,photo,photoOverlay,wrap};
+  /* Google Calendar 5.0 widget (widget_initial + widget_chip_*_normal): the #4285F4 header with the 12sp weekday over the
+     22sp date, then on #FAFAFA one row per event, the 46dp day column (22sp day of month, 12sp weekday; the first day in
+     #4285F4) beside a 2dp-round chip in the calendar colour, 36sp for a title alone and 60sp with the time under it. */
+  function calendarLP(data,t,locale,now,hour24,color='#4285f4') {
+    const C=cal(),today=C.iso(now);let day=today,first=true;
+    const column=date=>{const d=C.parse(date);return `<span class="lpcw-day${date===today?' today':''}"><b>${d.getDate()}</b><small>${e(d.toLocaleDateString(locale,{weekday:'short'}))}</small></span>`;};
+    const rows=calendarRows(data.events,now);
+    let list=rows.length&&rows[0].type==='event'?'':`<div class="lpcw-row">${column(today)}<span class="lpcw-none">${e(t('No events today.'))}</span></div>`;
+    rows.forEach(row=>{
+      if(row.type==='day'){day=row.date;first=true;list+='<div class="lpcw-gap"></div>';return;}
+      const event=row.event,title=event.title.trim()||t('(No title)'),sub=event.allDay?'':`${when(event,locale,hour24,row.multiDay)}${event.location?` ${t('at')} ${event.location}`:''}`;
+      list+=`<button class="lpcw-row" data-action="widget-calendar-event" data-id="${e(event.id)}" data-date="${e(event.date)}" aria-label="${e(title)}">${first?column(day):'<span class="lpcw-day"></span>'}<span class="lpcw-chip${sub?' two':''}" style="background:${color}"><strong>${e(title)}</strong>${sub?`<small>${e(sub)}</small>`:''}</span></button>`;
+      first=false;
+    });
+    return `<div class="calw lpcw" data-no-translate><button class="lpcw-header" data-action="widget-calendar-open" aria-label="${e(t('Calendar'))}"><small>${e(now.toLocaleDateString(locale,{weekday:'short'}))}</small><b>${e(now.toLocaleDateString(locale,{month:'long',day:'numeric'}))}</b></button><div class="lpcw-list" data-widget-scroll>${list}<div class="lpcw-footer"></div></div></div>`;
+  }
+  window.ICSWidgets={MAX_DAYS,EVENT_MIN_COUNT,calendarRows,when,calendar,calendarLP,music,photoItems,photo,photoOverlay,wrap};
 })();

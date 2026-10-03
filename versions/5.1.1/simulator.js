@@ -484,7 +484,7 @@
     if (type === 'photoframe') { const photo = data.photos[Math.floor(Date.now() / 6000) % Math.max(1, data.photos.length)]; return `<div class="jb-dream jb-dream-photo" data-action="dream-exit" role="button" tabindex="0" aria-label="Daydream">${photo ? `<img src="${ICSMedia.image(photo)}" alt="">` : ''}</div>`; }
     const time = now.toLocaleTimeString(i18n.locale(), {hour: data.settings.hour24 ? '2-digit' : 'numeric', minute: '2-digit', hour12: !data.settings.hour24}), [hours, rest = ''] = time.split(/[:.]/);
     const spot = Math.floor(Date.now() / 60000) % 4;
-    return `<div class="jb-dream jb-dream-clock" data-action="dream-exit" role="button" tabindex="0" aria-label="Daydream"><div class="jb-dream-saver" style="--spot:${spot}"><div class="jbclock-time"><span class="jbclock-hours">${safe(hours)}</span><span class="jbclock-minutes">:${safe(rest.replace(/\s?[^\d].*$/, ''))}</span></div><div class="jbclock-date">${safe(now.toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'short', day: 'numeric'}).toLocaleUpperCase(i18n.locale()))}${nextAlarmLabel() ? ` <img src="assets/jbclock-ic_alarm_small.png" alt="">${safe(nextAlarmLabel())}` : ''}</div></div></div>`;
+    return `<div class="jb-dream jb-dream-clock" data-action="dream-exit" role="button" tabindex="0" aria-label="Daydream"><div class="jb-dream-saver" style="--spot:${spot}"><div class="jbclock-time"><span class="jbclock-hours">${safe(hours)}</span><span class="jbclock-minutes">:${safe(rest.replace(/\s?[^\d].*$/, ''))}</span></div><div class="jbclock-date">${safe(now.toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'short', day: 'numeric'}).toLocaleUpperCase(i18n.locale()))}${nextAlarmLabel() ? ` <img src="assets/dc5-ic_alarm_small.png" alt="">${safe(nextAlarmLabel())}` : ''}</div></div></div>`;
   }
   function renderLock() {
     if(ui.locked)return lockControls.renderLock();
@@ -556,11 +556,11 @@
     return `<div class="analog-clock" aria-label="${clock()}"><img class="clock-dial" src="assets/appwidget_clock_dial.png" alt=""><img class="clock-hour" src="assets/appwidget_clock_hour.png" alt="" style="transform:rotate(${(now.getHours() % 12) * 30 + now.getMinutes() / 2}deg)"><img class="clock-minute" src="assets/appwidget_clock_minute.png" alt="" style="transform:rotate(${now.getMinutes() * 6}deg)"></div>`;
   }
   // Drawer and drag previews use the providers' original previewImage artwork where AOSP has one.
-  function widgetArt(type) {
-    if (type === 'analog') return analogClock();
-    if (type === 'digitalclock') return '<img class="widget-preview-image" src="assets/jbclock-appwidget_digital_clock_preview.png" alt="">';
+  function widgetArt(type, preview = false) {
+    if (type === 'analog') return preview ? '<img class="widget-preview-image" src="assets/dc5-appwidget_analog_clock_preview.png" alt="">' : analogClock();
+    if (type === 'digitalclock') return '<img class="widget-preview-image" src="assets/dc5-appwidget_digital_clock_preview.png" alt="">';
     if (type === 'digital') return `<strong class="widget-time">${clock()}</strong><span>${fullDate()}</span>`;
-    if (type === 'calendar') return '<img class="widget-preview-image" src="assets/calwidget-calendar_widget_preview.png" alt="">';
+    if (type === 'calendar') return '<img class="widget-preview-image" src="assets/gc5-calendar_widget_preview.png" alt="">';
     if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
     if (type === 'music') return ICSWidgets.music(ui.music, tracks, false, key => i18n.t(key), true);
     if (type === 'power') return `<div class="power-widget">${[['wifi','wifi'],['bluetooth','bluetooth'],['gps','gps'],['autoSync','sync'],['brightness','brightness']].map(([key,asset]) => `<span class="power-cell ${data.settings[key] ? 'enabled' : ''}"><img src="assets/power-${asset}-${key === 'brightness' ? data.settings.brightness > 70 ? 'full' : data.settings.brightness > 25 ? 'half' : 'off' : data.settings[key] ? 'on' : 'off'}.png" alt=""><i></i></span>`).join('')}</div>`;
@@ -569,19 +569,20 @@
   const musicActive = () => ui.music.playing || ui.music.position > 0 || !!ui.musicActive;
   function widgetBody(widget) {
     const t = key => i18n.t(key);
-    if (widget.type === 'calendar') return ICSWidgets.calendar(data, t, i18n.locale(), deviceDate(), !!data.settings.hour24);
+    if (widget.type === 'calendar') return ICSWidgets.calendarLP(data, t, i18n.locale(), deviceDate(), !!data.settings.hour24);
     if (widget.type === 'music') return ICSWidgets.music(ui.music, tracks, musicActive(), t);
     if (widget.type === 'photo') return ICSWidgets.photo(data, widget, ui.photoStacks?.[widget.id] || 0, t);
     if (widget.type === 'digitalclock') return digitalClockWidget();
     return null;
   }
-  /* DeskClock 4.3 digital_appwidget / digital_widget_time: bold sans-serif hours and thin minutes (widget_big_font_size
-     80dp, scaled down when the widget is narrower than 160dp), then the condensed bold date and the grey next alarm. */
+  /* DeskClock 5.1 digital_appwidget / digital_widget_time: the whole time in widget_big_thin (sans-serif-thin 75sp,
+     "h:mm" or "kk:mm", bottom_text_spacing_digital -8dp), then the 14sp date (EEEMMMMd, "Sat, October 3") and the next
+     alarm in #B3FFFFFF with ic_alarm_small, 8dp after the date. */
   function digitalClockWidget(tag = 'button') {
     const now = deviceDate(), alarm = nextAlarmLabel(), hour24 = !!data.settings.hour24;
-    const hours = hour24 ? String(now.getHours()).padStart(2, '0') : String(now.getHours() % 12 || 12), minutes = `:${String(now.getMinutes()).padStart(2, '0')}`;
+    const time = `${hour24 ? String(now.getHours()).padStart(2, '0') : now.getHours() % 12 || 12}:${String(now.getMinutes()).padStart(2, '0')}`;
     const attrs = tag === 'button' ? ' data-action="open-app" data-app="clock"' : '';
-    return `<${tag} class="jbw-digital"${attrs} aria-label="${safe(clock())}"><span class="jbw-digital-time" aria-hidden="true"><b>${safe(hours)}</b><i>${safe(minutes)}</i></span><span class="jbw-digital-date"><span>${safe(now.toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'short', day: 'numeric'}))}</span>${alarm ? `<span class="jbw-digital-alarm"><img src="assets/jbclock-ic_alarm_small.png" alt="">${safe(alarm)}</span>` : ''}</span></${tag}>`;
+    return `<${tag} class="jbw-digital lpw-digital"${attrs} aria-label="${safe(clock())}"><span class="jbw-digital-time" aria-hidden="true">${safe(time)}</span><span class="jbw-digital-date"><span>${safe(now.toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'long', day: 'numeric'}))}</span>${alarm ? `<span class="jbw-digital-alarm"><img src="assets/dc5-ic_alarm_small.png" alt="">${safe(alarm)}</span>` : ''}</span></${tag}>`;
   }
   const homeWidget = widget => {
     const spec = widgetSize(widget);
@@ -610,7 +611,7 @@
     ui.drawerTab = isApps ? 'apps' : 'widgets';
     const sortedApps = [...apps].sort((a,b) => i18n.t(a[1]).localeCompare(i18n.t(b[1]), i18n.locale()));
     const widgetPage = current - appPages;
-    const items = isApps ? sortedApps.slice(current * DRAWER_APPS, current * DRAWER_APPS + DRAWER_APPS).map(app => launcherIcon(app[0])).join('') : widgetTypes.slice(widgetPage * DRAWER_WIDGETS, widgetPage * DRAWER_WIDGETS + DRAWER_WIDGETS).map(widget => `<button class="drawer-widget" data-action="add-widget" data-widget-type="${widget.type}" aria-label="${safe(i18n.t(widget.name))}"><span class="drawer-widget-preview widget-${widget.type}">${widgetArt(widget.type)}</span><span class="drawer-widget-title"><span>${safe(i18n.t(widget.name))}</span><small>${widget.width} × ${widget.height}</small></span></button>`).join('');
+    const items = isApps ? sortedApps.slice(current * DRAWER_APPS, current * DRAWER_APPS + DRAWER_APPS).map(app => launcherIcon(app[0])).join('') : widgetTypes.slice(widgetPage * DRAWER_WIDGETS, widgetPage * DRAWER_WIDGETS + DRAWER_WIDGETS).map(widget => `<button class="drawer-widget" data-action="add-widget" data-widget-type="${widget.type}" aria-label="${safe(i18n.t(widget.name))}"><span class="drawer-widget-preview widget-${widget.type}">${widgetArt(widget.type, true)}</span><span class="drawer-widget-title"><span>${safe(i18n.t(widget.name))}</span><small>${widget.width} × ${widget.height}</small></span></button>`).join('');
     return `<div class="drawer-view kk-drawer lp-drawer${isApps ? '' : ' drawer-widgets-open'}${ui.drawerReveal ? ' lp-revealing' : ''}"${ui.drawerReveal ? ` style="--dx:${ui.drawerReveal.dx}px;--dy:${ui.drawerReveal.dy}px"` : ''}><div class="lp-drawer-panel"></div><div class="drawer-page ${isApps ? 'drawer-apps' : 'drawer-widgets'}">${items}</div><div class="drawer-indicators">${Array.from({length:pages},(_,i)=>i < first || i > last ? '' : `<button class="${i===current?'active':''}" data-action="drawer-page" data-id="${i}" aria-label="${safe(i18n.t('Page'))} ${i+1}">${pageMarker(i === current)}</button>`).join('')}</div></div>`;
   }
 
