@@ -3,10 +3,8 @@
   'use strict';
   const catalog = [
     {id:'camera',name:'Camera',developer:'Android Demo',category:'Photography',rating:4.6,size:'2.4 MB',description:'Capture a little piece of your day.',app:'camera',art:'photo'},
-    {id:'orbit',name:'Orbit Hopper',developer:'Moonlight Studio',category:'Games',rating:4.8,size:'12 MB',description:'A small adventure among the stars.',art:'orbit'},
-    {id:'browser',name:'Browser',developer:'Android Demo',category:'Communication',rating:4.3,size:'3.1 MB',description:'Explore a small world of offline sample pages.',app:'browser',art:'web'},
-    {id:'blocks',name:'Pixel Blocks',developer:'Pocket Pixels',category:'Games',rating:4.5,size:'8.6 MB',description:'Bright blocks, simple shapes, endless possibilities.',art:'blocks'},
-    {id:'music',name:'Music',developer:'Android Demo',category:'Music & audio',rating:4.4,size:'4.2 MB',description:'Your soundtrack for a quiet afternoon.',app:'music',art:'music'},
+    {id:'orbit',name:'Orbit Hopper',developer:'Moonlight Studio',category:'Games',rating:4.8,size:'12 MB',description:'A small adventure among the stars.',art:'orbit'},
+    {id:'blocks',name:'Pixel Blocks',developer:'Pocket Pixels',category:'Games',rating:4.5,size:'8.6 MB',description:'Bright blocks, simple shapes, endless possibilities.',art:'blocks'},
     {id:'calendar',name:'Calendar',developer:'Android Demo',category:'Productivity',rating:4.2,size:'1.8 MB',description:'Make room for the things that matter.',app:'calendar',art:'calendar'},
     {id:'clock',name:'Clock',developer:'Android Demo',category:'Tools',rating:4.1,size:'1.2 MB',description:'A familiar clock and alarms for your day.',app:'clock',art:'clock'},
     {id:'calculator',name:'Calculator',developer:'Android Demo',category:'Tools',rating:4.7,size:'0.8 MB',description:'Everyday sums and scientific discoveries.',app:'calculator',art:'calculator'}

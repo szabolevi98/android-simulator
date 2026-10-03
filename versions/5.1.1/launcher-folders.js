@@ -25,7 +25,7 @@
   function initialize(data,validApps) {
     data.folders=data.folders&&typeof data.folders==='object'&&!Array.isArray(data.folders)?data.folders:{};
     if([...data.homePages.flat(),...data.dock].includes('google')) {
-      data.folders['folder-google']||={name:'Google',items:['play-store','browser','email','calendar','gallery']};
+      data.folders['folder-google']||={name:'Google',items:['play-store','chrome','email','calendar','photos']};
       for(const entries of [...data.homePages,data.dock])for(let i=0;i<entries.length;i++)if(entries[i]==='google')entries[i]='folder-google';
     }
     for(const [id,value] of Object.entries(data.folders)) {

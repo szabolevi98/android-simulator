@@ -236,3 +236,5 @@ LiveWallpapersPicker live_wallpaper_picker_label
 LiveWallpapersPicker live_wallpaper_empty
 PlusOne photos_setas_wallpaper
 Velvet pick_wallpaper
+# Play Music widget label (MediaAppWidgetProvider takes the app label).
+Music2 app_name

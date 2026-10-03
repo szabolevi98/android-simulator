@@ -77,6 +77,12 @@
       // A reload during Gallery widget configuration leaves no completed choice.
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
       if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      // The AOSP Browser, Gallery and Music (and Gallery's photo widget) left the drawer: drop their shortcuts and widgets.
+      const gone = ['browser', 'gallery', 'music'], keep = id => !gone.includes(id);
+      result.homePages = result.homePages.map(page => page.map(id => keep(id) ? id : null));
+      result.dock = (result.dock || []).map(id => keep(id) ? id : null);
+      Object.values(result.folders || {}).forEach(folder => { if (Array.isArray(folder.items)) folder.items = folder.items.filter(keep); });
+      result.homeWidgets = result.homeWidgets.map(page => page.filter(widget => widget?.type !== 'photo'));
       // Live wallpapers were offered before the picker followed the LMY48Y image, which has none.
       delete result.liveWallpaper; delete result.lwPrefs;
       return result;
@@ -111,15 +117,15 @@
   // Chrome and the AOSP Browser keep separate tabs; ui.browserSession is the one of the browser in front.
   ui.browserOwner = 'browser'; ui.browserSessions = {};
   syncBrowserState();
-  /* The Nexus 6 LMY48Y app drawer (every launcher activity of the factory image that is enabled after setup), plus
-     the AOSP Browser, Gallery and Music kept from the earlier versions (still Holo in AOSP 5.1). Labels are the launcher labels. */
+  /* The Nexus 6 LMY48Y app drawer: every launcher activity of the factory image that is enabled after setup (no AOSP
+     Browser, Gallery or Music: Chrome, Photos and Play Music stand in; Cloud Print's launcher alias is enabled by
+     @bool/launcher_enabled, false from v19 on). Labels are the launcher labels. */
   const apps = [
     ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'Contacts', '◉', '#efa96f', '#a45142'],
-    ['messaging', 'Messenger', '✉', '#84cf62', '#428c43'], ['browser', 'Browser', '◎', '#65aee2', '#246ba8'],
-    ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
+    ['messaging', 'Messenger', '✉', '#84cf62', '#428c43'], ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
-    ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
+    ['email', 'Email', '✉', '#75b7df', '#326b9e'],
     ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f'], ['downloads', 'Downloads', '⬇', '#8bc34a', '#33691e'],
     ['hangouts', 'Hangouts', '❝', '#8bc34a', '#33691e'], ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'], ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'],
     ['photos', 'Photos', '✿', '#fbbc05', '#34a853'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-games', 'Play Games', '✚', '#8bc34a', '#558b2f'],
@@ -178,16 +184,15 @@
     { type: 'analog', name: 'Analog clock', app: 'clock', width: 2, height: 2 },
     { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3, resize: {minWidth: 2, minHeight: 2} },
     { type: 'digitalclock', name: 'Digital clock', app: 'clock', width: 3, height: 2, resize: {minWidth: 2, minHeight: 1} },
-    { type: 'music', name: 'Music', app: 'music', width: 4, height: 1 },
-    // Gallery2 asks for 180dp plus ICS default widget padding: 3 × 3 Launcher cells.
-    { type: 'photo', name: 'Photo Gallery', app: 'gallery', width: 3, height: 3 },
+    // LMY48Y has no Gallery (so no Photo Gallery widget); the music widget is Play Music's.
+    { type: 'music', name: 'Google Play Music', app: 'play-music', width: 4, height: 1 },
     { type: 'power', name: 'Power control', app: 'settings', width: 4, height: 1 }
   ];
   const widgetSize = value => {
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'play-store', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings', 'google-plus', 'maps', 'earth', 'google-search', 'keep', 'drive', 'youtube', 'news-weather', 'voice-search', 'docs', 'sheets', 'slides', 'fit', 'newsstand', 'wallet']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'camera', 'settings', 'clock', 'calendar', 'calculator', 'email', 'play-store', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings', 'google-plus', 'maps', 'earth', 'google-search', 'keep', 'drive', 'youtube', 'news-weather', 'voice-search', 'docs', 'sheets', 'slides', 'fit', 'newsstand', 'wallet']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -703,7 +708,6 @@
       case 'wallpaper-picker': return KKWallpaperPicker.render(wallpaperPickerContext());
       case 'kk-doc-picker': return KKWallpaperPicker.openFrom(wallpaperPickerContext());
       case 'settings': return renderSettings();
-      case 'browser': return renderBrowser();
       case 'chrome': return renderChrome();
       case 'photos': return PhotosApp.render(photosContext());
       case 'gmail': return renderGmail();
@@ -713,12 +717,10 @@
       case 'people': return renderPeople();
       case 'messaging': return renderMessaging();
       case 'hangouts': return Hangouts.render(data, ui, key => i18n.t(key), i18n.locale(), deviceDate().getTime());
-      case 'gallery': return renderGallery();
       case 'camera': return renderCamera();
       case 'calendar': return renderCalendar();
       case 'clock': return renderClock();
       case 'calculator': return renderCalculator();
-      case 'music': return renderMusic();
       case 'email': return renderEmail();
       case 'docs': case 'sheets': case 'slides': case 'fit': case 'newsstand': case 'wallet': return LPExtraApps.render(ui.view, {files: StockApps.FILES, ui, t: key => i18n.t(key), locale: i18n.locale()});
       case 'downloads': return KKDownloads.render(data.downloads || [], ui, key => i18n.t(key), i18n.locale());
@@ -729,7 +731,7 @@
     if(ui.locked)return;
     if (GEL_ALIASES[app]) app = GEL_ALIASES[app];
     if (!appNames[app]) return;
-    if (app === 'browser' || app === 'chrome') useBrowserSession(app);
+    if (app === 'chrome') useBrowserSession(app);
     if (app === 'email' || app === 'gmail') useMailApp(app);
     if (app === 'voice-search') setTimeout(listenVoice);
     if (app === 'keep' && !Array.isArray(data.keepNotes)) data.keepNotes = clone(defaultData.keepNotes);
@@ -1234,15 +1236,6 @@
   function browserTitle(url) {
     return url === 'www.google.com' ? 'Google' : url.startsWith('search:') ? url.slice(7) : url.replace(/^www\./,'');
   }
-  function renderBrowser() {
-    const header = title => `<header class="web-header"><button data-action="back" aria-label="Back">‹</button><h2>${safe(i18n.t(title))}</h2><button data-action="browser-new-tab" aria-label="New tab"><img src="assets/web-ic_new_window_holo_dark.png" alt=""></button></header>`;
-    if (ui.sub === 'tabs') return `<div class="app-view ics-browser">${header('Tabs')}<div class="web-tabs">${ui.browserTabs.map((url,i)=>`<article class="web-tab-card ${i===ui.browserTab?'current':''}"><div class="web-tab-title"><button data-action="browser-tab" data-id="${i}">${safe(browserTitle(url))}</button><button data-action="browser-close-tab" data-id="${i}" aria-label="Close tab"><img src="assets/web-ic_tab_close.png" alt=""></button></div><div class="web-tab-preview" role="button" tabindex="0" aria-label="${safe(browserTitle(url))}" data-action="browser-tab" data-id="${i}"><div class="browser-page" inert aria-hidden="true">${renderWebsite(url)}</div></div></article>`).join('')}</div></div>`;
-    if (['bookmarks','history','saved'].includes(ui.sub)) {
-      const urls = ui.sub==='history' ? [...data.browserHistory].reverse() : ui.sub==='saved' ? data.savedPages || [] : data.bookmarks;
-      return `<div class="app-view ics-browser">${header('Bookmarks')}<nav class="web-library-tabs">${[['bookmarks','Bookmarks'],['history','History'],['saved','Saved pages']].map(([id,label])=>`<button class="${ui.sub===id?'active':''}" data-action="browser-${id}">${safe(i18n.t(label))}</button>`).join('')}</nav><div class="web-library">${urls.map(url=>`<div class="web-library-row"><button data-action="browser-bookmark" data-id="${safe(url)}">${safe(browserTitle(url))}<small>${safe(url)}</small></button>${ui.sub!=='history'?`<button data-action="browser-remove-saved" data-id="${safe(url)}" aria-label="Delete">×</button>`:''}</div>`).join('')||'<p class="empty-note">No saved pages</p>'}</div></div>`;
-    }
-    return `<div class="app-view ics-browser"><div class="browser-toolbar"><form data-form="address"><img src="assets/browser.png" alt=""><input name="address" aria-label="Web address" value="${safe(ui.browserUrl.startsWith('search:')?ui.browserUrl.slice(7):ui.browserUrl)}"></form><button data-action="browser-tabs" aria-label="Tabs"><img src="assets/web-ic_windows_holo_dark.png" alt=""><span class="browser-tab-count">${ui.browserTabs.length}</span></button><button data-action="browser-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div>${ui.browserFind!==undefined?`<form class="web-find" data-form="browser-find"><input name="query" aria-label="Find on page" placeholder="Find on page" value="${safe(ui.browserFind)}"><button type="submit">Search</button><button type="button" data-action="browser-close-find" aria-label="Close">×</button></form><div class="web-find-count" aria-live="polite"></div>`:''}<div class="browser-page">${renderWebsite(ui.browserUrl)}</div></div>`;
-  }
   function highlightBrowserText() {
     const root=viewport.querySelector('.browser-page'), query=ui.browserFind.toLocaleLowerCase();
     const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT), nodes=[]; let node;
@@ -1386,7 +1379,6 @@
     });
   }
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
-  function renderGallery() { return JBGallery.render(data, ui, key => i18n.t(key), ICSMedia, i18n.locale()); }
   const galleryItems = () => JBGallery.items(data, ui, i18n.locale());
   function galleryWallpaper(photo, quiet) { data.wallpaper = 11; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); if (quiet) return; render(); toast('Wallpaper set'); }
   const wallpaperPickerContext = () => ({data, ui, t: key => i18n.t(key), image: photo => ICSMedia.image(photo), bundled: wallpaperFiles.slice(1)});
@@ -1398,9 +1390,12 @@
     const photo = {...ICSMedia.scene(data), id: Date.now(), name: `IMG_${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)}`, album: 'camera', created: Date.now()};
     data.photos.unshift(photo); save(); return photo;
   }
+  // Camera review: LMY48Y has no Gallery, so the picture opens in the Photos viewer.
   function cameraGallery(id) {
     const photo = data.photos.find(item => item.id === id) || ICSMedia.photos(data, 'camera')[0];
-    openApp('gallery'); if (photo) { ui.galleryCluster = 'album'; ui.galleryAlbum = 'camera'; ui.selectedPhoto = photo.id; ui.sub = 'photo'; ui.galleryFilm = false; ui.galleryBars = true; ui.galleryFromCamera = true; render(); }
+    openApp('photos'); if (!photo) return;
+    const index = PhotosApp.list(photosContext()).findIndex(item => item.id === photo.id);
+    if (index >= 0) { ui.photosIndex = index; ui.sub = 'photo'; render(); }
   }
   function galleryStep(direction) {
     const items=galleryItems(); if(!items.length)return;
@@ -1528,9 +1523,6 @@
     const main = track.querySelector('.lpcalc-main'), grid = track.querySelector('.lpcalc-advanced-grid'), adv = track.querySelector('.lpcalc-advanced');
     if (main) main.inert = !!index; if (grid) grid.inert = !index;
     if (adv) { if (index) { delete adv.dataset.action; delete adv.dataset.id; } else { adv.dataset.action = 'calc-panel'; adv.dataset.id = '1'; } }
-  }
-  function renderMusic() {
-    return ICSMusic.render(ui.music,ui,key=>i18n.t(key));
   }
   function saveMusic() {
     ui.musicTrack=ui.music.track;ui.musicPlaying=ui.music.playing;ui.musicPosition=ui.music.position;
@@ -1787,9 +1779,8 @@
       case 'add-widget': { const added = addWidget(button.dataset.widgetType); if (!added) { toast('This home screen is full'); break; } const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; home(false); ui.photoWidgetSetup = setup; if (added.type === 'photo') { ui.overlay = 'widget-photo-type'; renderOverlay(); } else toast('Widget added'); break; }
       case 'widget-calendar-open': ui.selectedDate = today(); openApp('calendar'); break;
       case 'widget-calendar-event': { const event = data.events.find(item => String(item.id) === id); if (!event) break; const date = button.dataset.date || event.date; ui.selectedDate = date < today() ? today() : date; openApp('calendar'); ui.selectedEvent = event.id; ui.selectedInstance = date; ui.sub = 'event'; render(); break; }
-      case 'widget-music-open': { const active = musicActive(); openApp('music'); if (active) { ui.sub = 'player'; render(); } break; }
+      case 'widget-music-open': openApp('play-music'); break;
       case 'widget-music-next': ICSMusic.step(ui.music, 1); ui.musicActive = true; ui.musicTrack = ui.music.track; saveMusic(); render(); break;
-      case 'widget-photo-open': { const photo = data.photos.find(item => item.id === Number(id)); if (!photo) break; openApp('gallery'); ui.selectedPhoto = photo.id; ui.galleryAlbum = ICSMedia.album(photo); ui.sub = 'photo'; ui.galleryZoom = false; render(); break; }
       case 'widget-photo-type': if (id === 'shuffle') configurePhotoWidget({source: 'shuffle'}); else { ui.overlay = id === 'album' ? 'widget-photo-album' : 'widget-photo-image'; renderOverlay(); } break;
       case 'widget-photo-album': configurePhotoWidget({source: 'album', album: id}); break;
       case 'widget-photo-image': configurePhotoWidget({source: 'photo', photo: Number(id)}); break;
@@ -1946,7 +1937,7 @@
       case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;
       case 'sd-app-info': ui.settingsApp=id;ui.sub='app-info';render();break;
       case 'sd-data-app': ui.settingsApp=id;ui.sub='data-app';render();break;
-      case 'sd-storage-open': if(id==='gallery'||id==='music')openApp(id);else{ui.sub=id;if(id==='apps')ui.settingsAppsTab='All';render();}break;
+      case 'sd-storage-open': if(id==='gallery'||id==='music')openApp(id==='gallery'?'photos':'play-music');else{ui.sub=id;if(id==='apps')ui.settingsAppsTab='All';render();}break;
       case 'sd-battery-history': ui.sub='battery-history';render();break;
       case 'sd-battery-app': ui.batteryDetail=id;ui.sub='battery-detail';render();break;
       case 'sd-clear-cache': data.appCacheCleared=[...new Set([...(data.appCacheCleared||[]),ui.settingsApp])];save();render();break;
@@ -2161,7 +2152,7 @@
         ui.selectedContact = Number(id); ui.sub = 'detail'; ui.overlay = ''; render(); break;
       }
       case 'lpx-open': ui.sub = id; render(); break;
-      case 'lpx-unavailable': case 'lpx-menu': toast(i18n.t('Not available in this simulation.')); break;
+      case 'lpx-unavailable': case 'lpx-menu': toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'vol-zen': data.settings.zenMode = id; save(); renderStatus(); showVolume(volumeStream()); break;
       case 'vol-settings': hideVolume(); openApp('settings'); ui.sub = 'sound'; render(); break;
       case 'people-search-close': ui.peopleSearching = false; ui.peopleQuery = ''; render(); break;
@@ -2215,7 +2206,7 @@
         const photo={...ICSMedia.scene(data),id:Date.now(),name:`IMG_${new Date().toISOString().replace(/[-:T]/g,'').slice(0,14)}`,album:'camera',created:Date.now()};
         data.photos.unshift(photo);save();render();screen.animate([{opacity:1},{opacity:.4},{opacity:1}],{duration:240});toast('Photo saved to Gallery');break;
       }
-      case 'camera-review': {const photo=ICSMedia.photos(data,'camera')[0];openApp('gallery');if(photo){ui.galleryAlbum='camera';ui.selectedPhoto=photo.id;ui.sub='photo';render();}break;}
+      case 'camera-review': cameraGallery(ICSMedia.photos(data,'camera')[0]?.id); break;
       case 'camera-focus': {const preview=viewport.querySelector('.camera-focus-area');preview.classList.remove('focusing');void preview.offsetWidth;preview.classList.add('focusing');break;}
       case 'camera-flip': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.front=!data.cameraSettings.front;save();render();break;
       case 'camera-flash': {data.cameraSettings=ICSMedia.settings(data);const choices=['auto','off','on'];data.cameraSettings.flash=choices[(choices.indexOf(data.cameraSettings.flash)+1)%3];save();render();toast(i18n.t('Flash')+': '+i18n.t(data.cameraSettings.flash==='auto'?'Auto':data.cameraSettings.flash==='on'?'On':'Off'));break;}

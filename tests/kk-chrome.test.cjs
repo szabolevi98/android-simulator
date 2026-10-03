@@ -18,5 +18,5 @@ const menu=C.menu({ui:{browserIndex:1,browserHistory:['a','b']},data,t,url:'www.
 for(const label of ['New tab','New incognito tab','Bookmarks','Other devices','History','Share…','Print…','Find in page…','Request desktop site','Settings','Help &amp; feedback'])assert.ok(menu.includes(`>${label}`),label);
 assert.ok(menu.includes('data-action="browser-back-menu" aria-label="Back" >')&&menu.includes('data-action="browser-forward" aria-label="Forward" disabled'));
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
-assert.ok(sim.includes("case 'chrome': return renderChrome();")&&sim.includes("if (app === 'browser' || app === 'chrome') useBrowserSession(app);")&&!/GEL_ALIASES = {[^}]*chrome/.test(sim));
+assert.ok(sim.includes("case 'chrome': return renderChrome();")&&sim.includes("if (app === 'chrome') useBrowserSession(app);")&&!sim.includes("['browser', 'Browser'")&&!/GEL_ALIASES = {[^}]*chrome/.test(sim));
 console.log('kk-chrome ok');

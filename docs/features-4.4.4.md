@@ -2,7 +2,7 @@
 
 [← Back to the README](../README.md)
 
-`versions/4.4.4/` is Android 4.4.4 (build KTU84P, AOSP tag `android-4.4.4_r1`) on the Nexus 5, with its own saved data. It shows the stock Nexus 5: the Google Now Launcher, Google Now, Hangouts, Chrome, Gmail and Google+ Photos, which are not in AOSP and were rebuilt from 2013–2014 screenshots and Google's Android 4.4 Quick Start Guide. The AOSP Messaging, Browser and Gallery apps stay in the drawer. References and measurements are in [docs/visual-audit-4.4.md](visual-audit-4.4.md).
+`versions/4.4.4/` is Android 4.4.4 (build KTU84P, AOSP tag `android-4.4.4_r1`) on the Nexus 5, with its own saved data. It shows the stock Nexus 5: the Google Now Launcher, Google Now, Hangouts, Chrome, Gmail and Google+ Photos, which are not in AOSP and were rebuilt from 2013–2014 screenshots and Google's Android 4.4 Quick Start Guide. The drawer holds what the KTU84P factory image's launcher shows after setup: there is no AOSP Browser, Messaging or Music (Chrome, Hangouts with SMS and Play Music stand in), and Cloud Print stays hidden as on the phone. References and measurements are in [docs/visual-audit-4.4.md](visual-audit-4.4.md).
 
 - **Nexus 5 and system bars:**
   - The frame is traced from Google's render.
@@ -42,4 +42,4 @@
 - **The rest of the stock drawer:** Google (Now), Voice Search, Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather and Google Settings, each with a simple 2013-style screen. The Google folder holds GSMArena's launch set of 11 apps.
 - **Google+ Photos:** CAMERA / HIGHLIGHTS tabs, the Folders view and a black viewer with share, delete and set-as-wallpaper.
 - **Chrome 31:** the omnibox toolbar, the menu with Back / Forward / Bookmark, the stacked tab switcher, the New Tab page (Most visited, Bookmarks, Other devices), incognito tabs and history. Its tabs are kept separate from the AOSP Browser.
-- Camera (the arc quick settings that the Nexus 5 shipped with), Gallery, Calendar and the AOSP Browser match their 4.3 versions, as in AOSP. All screens have been checked in English, Hungarian, German, French and Spanish.
+- Camera (the arc quick settings that the Nexus 5 shipped with), Gallery and Calendar match their 4.3 versions, as in AOSP. Play Newsstand 3.0.1, Quickoffice 6.3.1 and Wallet 2.0 open simple screens with their own icons and labels. All screens have been checked in English, Hungarian, German, French and Spanish.

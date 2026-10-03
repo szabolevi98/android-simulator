@@ -27,7 +27,7 @@ The stock Nexus 6 as the factory image `shamu-lmy48y` (build LMY48Y, August 2015
 - **Clock, Calculator and Camera:** the 5.1 DeskClock with the hour-coloured background, Calculator 5.1 with the live result and the advanced pad, and Google Camera 2.4.
 - **Chrome 40** with the Material toolbar, the Google New Tab page and the tab switcher; **Photos** (Google+ 4.9) and **Play Store 5.2** with the Play media apps.
 - **Settings:** the Material dashboard and the 5.1 preference screens, including Sound & notification, Interruptions, data usage, battery, accounts and the Google Keyboard.
-- Docs, Sheets, Slides, Fit, Newsstand and Wallet open simple screens of their own.
+- Docs, Sheets, Slides, Fit, Newsstand and Wallet open simple screens of their own. The drawer is the LMY48Y launcher's: no AOSP Browser, Gallery or Music (Chrome, Photos and Play Music stand in; the camera's last picture opens in Photos), and no Cloud Print, which hides its icon from Android 4.4 on.
 
 ## Languages
 

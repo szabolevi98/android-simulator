@@ -91,6 +91,11 @@
       // A reload during Gallery widget configuration leaves no completed choice.
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
       if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      // The AOSP Browser, Messaging and Music left the drawer: drop their shortcuts.
+      const gone = ['browser', 'messaging', 'music'], keep = id => !gone.includes(id);
+      result.homePages = result.homePages.map(page => page.map(id => keep(id) ? id : null));
+      result.dock = (result.dock || []).map(id => keep(id) ? id : null);
+      Object.values(result.folders || {}).forEach(folder => { if (Array.isArray(folder.items)) folder.items = folder.items.filter(keep); });
       // Only Sun Beam is left of the live wallpapers offered before the picker followed the KTU84P image.
       if (result.liveWallpaper && result.liveWallpaper.id !== 'sunbeam') delete result.liveWallpaper; delete result.lwPrefs;
       return result;
@@ -125,23 +130,26 @@
   // Chrome and the AOSP Browser keep separate tabs; ui.browserSession is the one of the browser in front.
   ui.browserOwner = 'browser'; ui.browserSessions = {};
   syncBrowserState();
+  /* The Nexus 5 KTU84P app drawer: every launcher activity of the factory image that is enabled after setup. There is
+     no AOSP Browser, Messaging or Music (Chrome, Hangouts with SMS and Play Music stand in), and Cloud Print's launcher
+     alias is enabled by @bool/launcher_enabled, false from v19 on. */
   const apps = [
     ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'People', '◉', '#efa96f', '#a45142'],
-    ['messaging', 'Messaging', '✉', '#84cf62', '#428c43'], ['browser', 'Browser', '◎', '#65aee2', '#246ba8'],
     ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
-    ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
+    ['email', 'Email', '✉', '#75b7df', '#326b9e'],
     ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f'], ['downloads', 'Downloads', '⬇', '#8bc34a', '#33691e'],
-    // Google apps of the stock Nexus 5 (Google Now Launcher build). Hangouts, Chrome, Gmail and Photos open the
-    // simulated AOSP equivalents for now; the Play media apps and Google Settings are not simulated.
+    // Google apps of the stock Nexus 5 (Google Now Launcher build).
     ['hangouts', 'Hangouts', '❝', '#8bc34a', '#33691e'], ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'], ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'],
     ['photos', 'Photos', '✿', '#fbbc05', '#34a853'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-games', 'Play Games', '✚', '#8bc34a', '#558b2f'],
     ['play-movies', 'Play Movies & TV', '▶', '#e53935', '#b71c1c'], ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['google-settings', 'Google Settings', 'g', '#757575', '#424242'],
     // The rest of the stock Nexus 5 drawer (stock-apps.js), with icons drawn after their 2013 looks.
     ['google-plus', 'Google+', 'g+', '#dd4b39', '#b03a2e'], ['maps', 'Maps', '⌖', '#cfe6b8', '#4285f4'], ['keep', 'Keep', '✎', '#f7c600', '#d9a800'],
     ['drive', 'Drive', '△', '#0da960', '#4688f4'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'], ['earth', 'Earth', '◍', '#1f6fd1', '#0b2f73'],
-    ['google-search', 'Google', 'g', '#4285f4', '#3367d6'], ['news-weather', 'News & Weather', '☼', '#4285f4', '#9e9e9e'], ['voice-search', 'Voice Search', '🎤', '#eeeeee', '#5f6368']
+    ['google-search', 'Google', 'g', '#4285f4', '#3367d6'], ['news-weather', 'News & Weather', '☼', '#4285f4', '#9e9e9e'], ['voice-search', 'Voice Search', '🎤', '#eeeeee', '#5f6368'],
+    // kk-extra-apps.js: Play Newsstand 3.0.1, Quickoffice 6.3.1 and Wallet 2.0 as simple screens.
+    ['newsstand', 'Play Newsstand', '▥', '#15a0c8', '#0f708c'], ['quickoffice', 'Quickoffice', '▤', '#ef851c', '#a75d14'], ['wallet', 'Wallet', '▣', '#33b5e5', '#0099cc']
   ];
   const GEL_ALIASES = {};
   const GEL_UNSIMULATED = [];
@@ -174,7 +182,8 @@
     { type: 'analog', name: 'Analog clock', app: 'clock', width: 2, height: 2 },
     { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3, resize: {minWidth: 2, minHeight: 2} },
     { type: 'digitalclock', name: 'Digital clock', app: 'clock', width: 3, height: 2, resize: {minWidth: 2, minHeight: 1} },
-    { type: 'music', name: 'Music', app: 'music', width: 4, height: 1 },
+    // KTU84P has no AOSP Music; the music widget is Play Music's.
+    { type: 'music', name: 'Google Play Music', app: 'play-music', width: 4, height: 1 },
     // Gallery2 asks for 180dp plus ICS default widget padding: 3 × 3 Launcher cells.
     { type: 'photo', name: 'Photo Gallery', app: 'gallery', width: 3, height: 3 },
     { type: 'power', name: 'Power control', app: 'settings', width: 4, height: 1 }
@@ -183,7 +192,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings', 'google-plus', 'maps', 'earth', 'google-search', 'keep', 'drive', 'youtube', 'news-weather', 'voice-search']);
+  const iconAssets = new Set(['phone', 'people', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'email', 'apps', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings', 'google-plus', 'maps', 'earth', 'google-search', 'keep', 'drive', 'youtube', 'news-weather', 'voice-search', 'newsstand', 'quickoffice', 'wallet']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -631,7 +640,6 @@
       case 'wallpaper-picker': return KKWallpaperPicker.render(wallpaperPickerContext());
       case 'kk-doc-picker': return KKWallpaperPicker.openFrom(wallpaperPickerContext());
       case 'settings': return renderSettings();
-      case 'browser': return renderBrowser();
       case 'chrome': return renderChrome();
       case 'photos': return PhotosApp.render(photosContext());
       case 'gmail': return renderGmail();
@@ -639,15 +647,14 @@
       case 'google-search': case 'voice-search': case 'maps': case 'drive': case 'keep': case 'youtube': case 'google-plus': case 'earth': case 'news-weather': case 'google-settings': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()});
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
-      case 'messaging': return renderMessaging();
       case 'hangouts': return Hangouts.render(data, ui, key => i18n.t(key), i18n.locale(), deviceDate().getTime());
       case 'gallery': return renderGallery();
       case 'camera': return renderCamera();
       case 'calendar': return renderCalendar();
       case 'clock': return renderClock();
       case 'calculator': return renderCalculator();
-      case 'music': return renderMusic();
       case 'email': return renderEmail();
+      case 'newsstand': case 'quickoffice': case 'wallet': return KKExtraApps.render(ui.view, {files: StockApps.FILES, ui, t: key => i18n.t(key)});
       case 'downloads': return KKDownloads.render(data.downloads || [], ui, key => i18n.t(key), i18n.locale());
       default: return renderHome();
     }
@@ -656,7 +663,7 @@
     if(ui.locked)return;
     if (GEL_ALIASES[app]) app = GEL_ALIASES[app];
     if (!appNames[app]) return;
-    if (app === 'browser' || app === 'chrome') useBrowserSession(app);
+    if (app === 'chrome') useBrowserSession(app);
     if (app === 'email' || app === 'gmail') useMailApp(app);
     if (app === 'voice-search') setTimeout(listenVoice);
     if (app === 'keep' && !Array.isArray(data.keepNotes)) data.keepNotes = clone(defaultData.keepNotes);
@@ -1073,15 +1080,6 @@
   function browserTitle(url) {
     return url === 'www.google.com' ? 'Google' : url.startsWith('search:') ? url.slice(7) : url.replace(/^www\./,'');
   }
-  function renderBrowser() {
-    const header = title => `<header class="web-header"><button data-action="back" aria-label="Back">‹</button><h2>${safe(i18n.t(title))}</h2><button data-action="browser-new-tab" aria-label="New tab"><img src="assets/web-ic_new_window_holo_dark.png" alt=""></button></header>`;
-    if (ui.sub === 'tabs') return `<div class="app-view ics-browser">${header('Tabs')}<div class="web-tabs">${ui.browserTabs.map((url,i)=>`<article class="web-tab-card ${i===ui.browserTab?'current':''}"><div class="web-tab-title"><button data-action="browser-tab" data-id="${i}">${safe(browserTitle(url))}</button><button data-action="browser-close-tab" data-id="${i}" aria-label="Close tab"><img src="assets/web-ic_tab_close.png" alt=""></button></div><div class="web-tab-preview" role="button" tabindex="0" aria-label="${safe(browserTitle(url))}" data-action="browser-tab" data-id="${i}"><div class="browser-page" inert aria-hidden="true">${renderWebsite(url)}</div></div></article>`).join('')}</div></div>`;
-    if (['bookmarks','history','saved'].includes(ui.sub)) {
-      const urls = ui.sub==='history' ? [...data.browserHistory].reverse() : ui.sub==='saved' ? data.savedPages || [] : data.bookmarks;
-      return `<div class="app-view ics-browser">${header('Bookmarks')}<nav class="web-library-tabs">${[['bookmarks','Bookmarks'],['history','History'],['saved','Saved pages']].map(([id,label])=>`<button class="${ui.sub===id?'active':''}" data-action="browser-${id}">${safe(i18n.t(label))}</button>`).join('')}</nav><div class="web-library">${urls.map(url=>`<div class="web-library-row"><button data-action="browser-bookmark" data-id="${safe(url)}">${safe(browserTitle(url))}<small>${safe(url)}</small></button>${ui.sub!=='history'?`<button data-action="browser-remove-saved" data-id="${safe(url)}" aria-label="Delete">×</button>`:''}</div>`).join('')||'<p class="empty-note">No saved pages</p>'}</div></div>`;
-    }
-    return `<div class="app-view ics-browser"><div class="browser-toolbar"><form data-form="address"><img src="assets/browser.png" alt=""><input name="address" aria-label="Web address" value="${safe(ui.browserUrl.startsWith('search:')?ui.browserUrl.slice(7):ui.browserUrl)}"></form><button data-action="browser-tabs" aria-label="Tabs"><img src="assets/web-ic_windows_holo_dark.png" alt=""><span class="browser-tab-count">${ui.browserTabs.length}</span></button><button data-action="browser-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div>${ui.browserFind!==undefined?`<form class="web-find" data-form="browser-find"><input name="query" aria-label="Find on page" placeholder="Find on page" value="${safe(ui.browserFind)}"><button type="submit">Search</button><button type="button" data-action="browser-close-find" aria-label="Close">×</button></form><div class="web-find-count" aria-live="polite"></div>`:''}<div class="browser-page">${renderWebsite(ui.browserUrl)}</div></div>`;
-  }
   function highlightBrowserText() {
     const root=viewport.querySelector('.browser-page'), query=ui.browserFind.toLocaleLowerCase();
     const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT), nodes=[]; let node;
@@ -1160,9 +1158,6 @@
     if (ui.overlay === 'people-delete') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="Delete contact"><h3>Delete contact</h3><p>${safe(contact(ui.selectedContact)?.name || '')}</p><p>Messages will be kept under the phone number.</p><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="people-confirm-delete">Delete</button></div></div>`;
     const group = data.contactGroups.find(g=>g.id===ui.peopleEditGroup);
     return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog mms-dialog people-editor" role="dialog" aria-label="${group?'Edit group':'New group'}" data-form="people-group"><h3>${group?'Edit group':'New group'}</h3><label>Group name<input name="name" required maxlength="50" value="${safe(group?.name||'')}"></label>${data.contacts.map(p=>`<label class="people-membership"><input type="checkbox" name="members" value="${p.id}" ${group?.members.includes(p.id)?'checked':''}>${safe(p.name)}</label>`).join('')}<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Save</button></div></form>`;
-  }
-  function renderMessaging() {
-    return ICSMessaging.render(data, ui, key => i18n.t(key), i18n.locale());
   }
   function messageDraft() {
     data.messageDrafts ||= {};
@@ -1358,9 +1353,6 @@
     track.style.transform = `translateX(-${index * 50}%)`;
     track.querySelectorAll('.ics-calc-grid').forEach((panel, i) => { panel.inert = i !== index; });
   }
-  function renderMusic() {
-    return ICSMusic.render(ui.music,ui,key=>i18n.t(key));
-  }
   function saveMusic() {
     ui.musicTrack=ui.music.track;ui.musicPlaying=ui.music.playing;ui.musicPosition=ui.music.position;
     data.music=clone(ui.music);delete data.music.playing;save();
@@ -1526,7 +1518,7 @@
       case 'add-widget': { const added = addWidget(button.dataset.widgetType); if (!added) { toast('This home screen is full'); break; } const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; home(false); ui.photoWidgetSetup = setup; if (added.type === 'photo') { ui.overlay = 'widget-photo-type'; renderOverlay(); } else toast('Widget added'); break; }
       case 'widget-calendar-open': ui.selectedDate = today(); openApp('calendar'); break;
       case 'widget-calendar-event': { const event = data.events.find(item => String(item.id) === id); if (!event) break; const date = button.dataset.date || event.date; ui.selectedDate = date < today() ? today() : date; openApp('calendar'); ui.selectedEvent = event.id; ui.selectedInstance = date; ui.sub = 'event'; render(); break; }
-      case 'widget-music-open': { const active = musicActive(); openApp('music'); if (active) { ui.sub = 'player'; render(); } break; }
+      case 'widget-music-open': openApp('play-music'); break;
       case 'widget-music-next': ICSMusic.step(ui.music, 1); ui.musicActive = true; ui.musicTrack = ui.music.track; saveMusic(); render(); break;
       case 'widget-photo-open': { const photo = data.photos.find(item => item.id === Number(id)); if (!photo) break; openApp('gallery'); ui.selectedPhoto = photo.id; ui.galleryAlbum = ICSMedia.album(photo); ui.sub = 'photo'; ui.galleryZoom = false; render(); break; }
       case 'widget-photo-type': if (id === 'shuffle') configurePhotoWidget({source: 'shuffle'}); else { ui.overlay = id === 'album' ? 'widget-photo-album' : 'widget-photo-image'; renderOverlay(); } break;
@@ -1558,6 +1550,8 @@
       // LiveWallpaperPreview.setLiveWallpaper: set it and return to the launcher.
       case 'lw-set': data.liveWallpaper = {id}; save(); ui.sub = ''; ui.lwFromPicker = false; home(false); break;
       case 'gallery-wallpaper': ui.overlay = ''; openApp('gallery'); break;
+      case 'kkx-open': ui.sub = id; render(); break;
+      case 'kkx-unavailable': toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'photos-set-wallpaper': ui.overlay = ''; openApp('photos'); break;
       case 'market': openApp('play-store'); break;
       case 'play-menu': case 'jbp-menu': ui.overlay = 'play-menu'; renderOverlay(); break;
@@ -1673,7 +1667,7 @@
       case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;
       case 'sd-app-info': ui.settingsApp=id;ui.sub='app-info';render();break;
       case 'sd-data-app': ui.settingsApp=id;ui.sub='data-app';render();break;
-      case 'sd-storage-open': if(id==='gallery'||id==='music')openApp(id);else{ui.sub=id;if(id==='apps')ui.settingsAppsTab='All';render();}break;
+      case 'sd-storage-open': if(id==='gallery'||id==='music')openApp(id==='music'?'play-music':id);else{ui.sub=id;if(id==='apps')ui.settingsAppsTab='All';render();}break;
       case 'sd-battery-history': ui.sub='battery-history';render();break;
       case 'sd-battery-app': ui.batteryDetail=id;ui.sub='battery-detail';render();break;
       case 'sd-clear-cache': data.appCacheCleared=[...new Set([...(data.appCacheCleared||[]),ui.settingsApp])];save();render();break;
