@@ -45,5 +45,15 @@ window.ANDROID_VERSIONS = [
     status: 'available',
     art: {shot: 'landing-home.jpg?v=5', phone: 'nexus5'}
   },
-  { id: '5.1.1', name: 'Lollipop', version: 'Android 5.1.1', year: '2015', device: 'Korabeli Android', status: 'planned' }
+  {
+    id: '5.1.1',
+    name: 'Lollipop',
+    version: 'Android 5.1.1',
+    year: '2015',
+    device: 'Nexus 6',
+    description: 'Material Design on the Nexus 6: the new notification shade, heads-up notifications, Overview cards and Smart Lock.',
+    url: 'versions/5.1.1/',
+    status: 'preview',
+    art: {shot: 'landing-home.jpg?v=1', phone: 'nexus6'}
+  }
 ];

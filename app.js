@@ -29,11 +29,11 @@ for (const version of versions) {
       </div>
     </div>
     <div class="version-details">
-      <div class="version-meta"><span class="badge">${i18n.t('AVAILABLE')}</span><span>${version.year}</span></div>
+      <div class="version-meta"><span class="badge${version.status === 'preview' ? ' badge-preview' : ''}">${i18n.t(version.status === 'preview' ? 'IN PROGRESS' : 'AVAILABLE')}</span><span>${version.year}</span></div>
       <h3>${version.version}</h3>
       <h4>${version.name}</h4>
       <p>${version.description}</p>
-      <div class="version-bottom"><span>${version.device}</span><a class="launch" href="${version.url}">${i18n.t('Launch simulator')} <span aria-hidden="true">↗</span></a></div>
+      <div class="version-bottom"><span>${version.device}</span><a class="launch" href="${version.url}">${i18n.t(version.status === 'preview' ? 'Preview' : 'Launch simulator')} <span aria-hidden="true">↗</span></a></div>
     </div>`;
   }
   list.append(card);

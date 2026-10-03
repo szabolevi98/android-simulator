@@ -9,7 +9,7 @@ An interactive browser simulator of classic Android releases, each on its own Ne
 | Android 4.3 Jelly Bean | Nexus 4 | Google Play Store 4.2 |
 | Android 4.4.4 KitKat | Nexus 5 (Google apps) | Google Play Store 4.8 |
 
-Lollipop 5.1.1 is planned.
+Lollipop 5.1.1 on the Nexus 6 is in progress: its card opens a preview page with the phone installing a system update (`versions/5.1.1/`).
 
 ## Getting started
 

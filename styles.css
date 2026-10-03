@@ -72,3 +72,8 @@ h1{font-size:clamp(38px,4.6vw,60px)}
 
 /* A miniature can show a capture of the simulator's own home screen instead of the drawn layers. */
 .mini-screen.mini-shot{background-size:100% 100%;background-position:0 0}
+/* Work in progress versions: an amber badge, and the Nexus 6 in recovery as the picture. */
+.badge.badge-preview{border-color:#f0b35a73;color:#f5c27a}
+.mini-phone-nexus6{aspect-ratio:332/637.2;border:0;border-radius:0;background-image:url('versions/5.1.1/assets/device-nexus-6.svg')}
+.mini-phone-nexus6 .mini-screen{top:8.6%;bottom:8.6%;left:5.3%;right:5.3%}
+.mini-phone-nexus6 .mini-earpiece,.mini-phone-nexus6 .mini-camera{display:none}

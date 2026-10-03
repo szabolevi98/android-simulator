@@ -212,3 +212,8 @@ The Hangouts 2.0 screens (`hangouts.js`, `hangouts.css`) were rebuilt from measu
   - `google-plus.png`: ["Google Plus icon (2013-2015).png"](https://commons.wikimedia.org/wiki/File:Google_Plus_icon_(2013-2015).png).
 
 Commons marks both Commons files as public domain. The APK icons belong to Google. Their screens (`stock-apps.js`, `stock-apps.css`) show made-up offline content. The names are trademarks of Google LLC.
+
+## Android 5.1.1 preview (Nexus 6)
+
+- `versions/5.1.1/assets/device-nexus-6.svg` is drawn by the simulator from the Nexus 6's published dimensions (83 × 159.3 mm, 5.96-inch display).
+- The recovery picture on `versions/5.1.1/` (the Android robot with an open hatch and a turning icosahedron) is the simulator's own drawing. The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.
