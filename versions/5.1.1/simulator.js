@@ -23,7 +23,7 @@
     },
     keepNotes: StockApps.DEFAULT_NOTES.map(note => ({...note})),
     dock: ['phone', 'messaging', 'apps', 'chrome', 'camera'],
-    settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false },
+    settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false, locationAccess: true, pulse: true, doze: true, dialTones: true, screenLockSounds: true, touchSounds: true, haptic: true, vibrateRing: false, zenMode: 'all', zenEvents: true, zenCalls: true, zenMessages: true, patternVisible: true, autoBrightness: false },
     contacts: [
       { id: 1, name: 'Alex Morgan', phone: '202-555-0148', email: 'alex@example.com' },
       { id: 2, name: 'Sam Rivera', phone: '202-555-0192', email: 'sam@example.com' },
@@ -212,9 +212,21 @@
   const launcherIcon = id => ICSLauncherFolders.folder(data,id)
     ? `<button class="launcher-icon" data-action="folder-open" data-folder-id="${safe(id)}" aria-label="${safe(folderName(id))}" data-no-translate>${appIcon(id)}<span>${safe(folderName(id))}</span></button>`
     : `<button class="launcher-icon" data-action="${id==='apps'?'drawer':'open-app'}" ${id==='apps'?'':`data-app="${id}"`} aria-label="${safe(appNames[id]||'Apps')}">${appIcon(id)}<span>${safe(appNames[id]||'Apps')}</span></button>`;
-  const actionbar = (title, right = '') => `<div class="actionbar"><button class="up" data-action="${ui.view === 'settings' && !ui.sub ? 'noop' : 'back'}" aria-label="${ui.view === 'settings' && !ui.sub ? 'Settings' : 'Back'}">${ui.view === 'settings' ? `${ui.sub ? '<img class="up-chevron" src="assets/ic_ab_back_holo_dark.png" alt="">' : ''}<img class="settings-header-icon" src="assets/settings.png" alt="">` : '‹'}</button><h2>${safe(title)}</h2>${right}</div>`;
+  /* Settings 5.1 toolbar (Widget.Material.Light.ActionBar.Solid on colorPrimary #263238): the up arrow
+     (ic_ab_back_material) on sub-screens, the 20 sp title 16 dp in (72 dp after the arrow). */
+  const actionbar = (title, right = '') => ui.view === 'settings'
+    ? `<div class="actionbar lp-toolbar">${ui.sub ? `<button class="up" data-action="back" aria-label="${safe(i18n.t('Navigate up'))}"><img src="assets/lp-fw-ic_ab_back_material.svg" alt=""></button>` : ''}<h2>${safe(title)}</h2>${right}</div>`
+    : `<div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>${safe(title)}</h2>${right}</div>`;
+  // Material controls in place of the Holo checkbox and radio images, for every Settings screen and dialog.
+  const materialControls = html => html.replace(/class="holo-switch/g, 'class="lp-mswitch').replace(/<img class="holo-checkbox" src="assets\/btn_check_(on|off)_holo_dark\.png" alt="">/g, (_, on) => `<span class="lp-check${on === 'on' ? ' on' : ''}" aria-hidden="true"></span>`).replace(/<img class="holo-radio" src="assets\/btn_radio_(on|off)_holo_dark\.png" alt="">/g, (_, on) => `<span class="lp-radio${on === 'on' ? ' on' : ''}" aria-hidden="true"></span>`);
   const content = (inner, theme = '') => `<div class="app-content ${theme}">${inner}</div>`;
-  const appView = (title, inner, theme = '', right = '') => `<div class="app-view ${ui.view === 'settings' ? `settings-app ${!ui.sub ? 'settings-main' : ''}` : ''}">${actionbar(title, right)}${content(inner, ui.view === 'settings' ? `settings-dark ${theme}` : theme)}</div>`;
+  const appView = (title, inner, theme = '', right = '') => ui.view === 'settings'
+    ? materialControls(`<div class="app-view settings-app lp-settings ${!ui.sub ? 'settings-main' : ''}">${actionbar(title, right)}${content(inner, `settings-light ${theme}`)}</div>`)
+    : `<div class="app-view">${actionbar(title, right)}${content(inner, theme)}</div>`;
+  /* SwitchBar (Settings 5.1): the "On" / "Off" bar under the toolbar of Wi-Fi, Bluetooth and the other master
+     switches, #37474F with the white 20 sp label and a Material switch. */
+  const switchBar = (key, on = !!data.settings[key]) => `<div class="lp-switchbar"><span>${safe(i18n.t(on ? 'On' : 'Off'))}</span>${connectivitySwitch(key, i18n.t(on ? 'On' : 'Off'))}</div>`;
+  const overflowButton = id => `<button class="lp-ab-overflow" data-action="lp-settings-menu" data-id="${id}" aria-label="${safe(i18n.t('More options'))}"><img src="assets/lp-fw-ic_menu_moreoverflow_material.svg" alt=""></button>`;
   const settingIcon = (id, fallback) => ui.view === 'settings' && ['wireless','bluetooth','data','sound','display','storage','battery','apps','language','date','about','sync','location','security','backup','accessibility','development','nfc-payment','print'].includes(id) ? `<img src="assets/setting-${id}.png${id === 'bluetooth' ? '?v=2' : ''}" alt="">` : fallback;
   const row = (title, subtitle, action, id, icon = '') => `<button class="settings-row" data-action="${action}" data-id="${safe(id)}"><span class="row-icon">${icon === null ? '' : settingIcon(id, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="chevron">›</span></button>`;
   const toggleRow = (title, subtitle, key) => wirelessCheckRow(title, subtitle, key);
@@ -842,6 +854,9 @@
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">Clear history</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${ui.calcPanel ? 'Basic panel' : 'Advanced panel'}</button></div>`;
     } else if (ui.overlay === 'phone-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu phone-overflow"><button data-action="phone-add-contact">Add to contacts</button></div>`;
+    } else if (ui.overlay === 'lp-settings-menu') {
+      const items = ui.lpMenu === 'wifi' ? [['wifi-add', 'Add network'], ['settings-sub:wifi-saved', 'Saved networks'], ['wifi-scan', 'Refresh'], ['settings-sub:wifi-advanced', 'Advanced']] : [['bluetooth-scan', 'Refresh'], ['bluetooth-rename', 'Rename this device'], ['bluetooth-files', 'Show received files']];
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu">${items.map(([action, title]) => { const [act, sub] = action.split(':'); return `<button role="menuitem" data-action="${act}"${sub ? ` data-id="${sub}"` : ''}>${safe(i18n.t(title))}</button>`; }).join('')}</div>`;
     } else if (ui.overlay === 'connectivity-menu') {
       const wifi = ui.connectivityMenu === 'wifi';
       const enabled = data.settings[wifi ? 'wifi' : 'bluetooth'];
@@ -975,17 +990,33 @@
     return appView('Cast screen', `<div class="connectivity-page"><p class="wfd-empty">${safe(i18n.t('No nearby devices were found.'))}</p></div>`, '', menu);
   }
 
+  /* WifiSettings 5.1: the switch bar, then the access points (connected first, then by signal) with the teal
+     wifi_signal icons (lock overlay when secured); off, the ic_wifi_emptystate hint. Overflow: Add network, Saved
+     networks, Refresh, Advanced. */
   function renderWifiSettings() {
-    return appView('Wi-Fi', `<div class="connectivity-page">${data.settings.wifi ? allWifiNetworks().sort((a,b) => Number(b.name === data.settings.wifiNetwork) - Number(a.name === data.settings.wifiNetwork) || b.strength - a.strength || a.name.localeCompare(b.name, i18n.locale())).map(network => `<button class="settings-row network-row" data-action="wifi-network" data-id="${safe(network.name)}"><span class="row-copy">${safe(network.name)}<small>${data.settings.wifiNetwork === network.name ? i18n.t('Connected') : network.security === 'Open' ? i18n.t('Open network') : i18n.t('Secured with WPA2')}</small></span><span class="network-signal"><img src="assets/${network.security === 'Open' ? `ic_wifi_signal_${network.strength >= 3 ? 3 : 2}` : 'ic_wifi_lock_signal_4'}.png" alt=""></span></button>`).join('') : '<p class="connectivity-empty">Turn on Wi-Fi to see available networks</p>'}</div>`, '', connectivitySwitch('wifi', 'Wi-Fi', true) + `<button class="jb-ab-action" data-action="wifi-wps" data-id="pbc" aria-label="${safe(i18n.t('WPS Push Button'))}" ${data.settings.wifi ? '' : 'disabled'}><img src="assets/jb-ic_wps.png" alt=""></button><button class="jb-ab-action" data-action="wifi-add" aria-label="${safe(i18n.t('Add network'))}" ${data.settings.wifi ? '' : 'disabled'}><img src="assets/jb-ic_menu_add.png" alt=""></button>` + connectivityMenu('wifi'));
+    const on = !!data.settings.wifi && !data.settings.airplane;
+    const list = allWifiNetworks().sort((a,b) => Number(b.name === data.settings.wifiNetwork) - Number(a.name === data.settings.wifiNetwork) || b.strength - a.strength || a.name.localeCompare(b.name, i18n.locale()));
+    const level = n => Math.max(2, Math.min(4, n.strength || 4));
+    const body = on ? list.map(network => `<button class="settings-row network-row" data-action="wifi-network" data-id="${safe(network.name)}"><span class="row-copy">${safe(network.name)}<small>${data.settings.wifiNetwork === network.name ? i18n.t('Connected') : (data.savedWifiNetworks || []).some(item => item.name === network.name) ? i18n.t('Saved') : network.security === 'Open' ? '' : i18n.t('Secured with WPA2')}</small></span><span class="network-signal"><img src="assets/lps-ic_wifi_${network.security === 'Open' ? '' : 'lock_'}signal_${level(network)}_teal.png" alt=""></span></button>`).join('')
+      : `<div class="lp-empty-state"><img src="assets/lps-ic_wifi_emptystate.png" alt=""><p>${safe(i18n.t('To see available networks, turn Wi‑Fi on.'))}</p></div>`;
+    return appView('Wi‑Fi', `${switchBar('wifi', on)}<div class="connectivity-page">${body}</div>`, '', overflowButton('wifi'));
   }
+  /* BluetoothSettings 5.1: the switch bar, Paired devices and Available devices, and the footer saying the phone is
+     visible while the screen is open; off, the explanation. Overflow: Refresh, Rename this device, Show received files. */
   function renderBluetoothSettings() {
-    const deviceRow = (name, paired) => `<button class="settings-row network-row" data-action="bluetooth-pair" data-id="${safe(name)}"><span class="network-signal"><img src="assets/${name === 'Car Audio' ? 'ic_bt_headphones_a2dp' : 'ic_bt_headset_hfp'}.png" alt=""></span><span class="row-copy">${safe(name)}${paired ? '<small>Paired</small>' : ''}</span>${paired ? '<img class="bt-config-icon" src="assets/ic_bt_config.png" alt="">' : ''}</button>`;
-    return appView('Bluetooth', `<div class="connectivity-page">${data.settings.bluetooth ? `<button class="settings-row network-row" data-action="toggle-setting" data-id="bluetoothVisible"><span class="network-signal"><img src="assets/ic_bt_cellphone.png" alt=""></span><span class="row-copy">${safe(data.settings.bluetoothName || 'Nexus 4')}<small>${data.settings.bluetoothVisible ? i18n.t('Visible to nearby Bluetooth devices') : i18n.t('Not visible to other Bluetooth devices')}</small></span></button>${data.settings.pairedDevice ? `${label('PAIRED DEVICES')}${deviceRow(data.settings.pairedDevice, true)}` : ''}${label('AVAILABLE DEVICES')}${ui.bluetoothScanned ? ['Wireless Headset','Car Audio'].filter(name => name !== data.settings.pairedDevice).map(name => deviceRow(name, false)).join('') : '<p class="connectivity-empty small">Tap Scan to find nearby devices</p>'}` : '<p class="connectivity-empty">Turn on Bluetooth to see nearby devices</p>'}</div>`, '', connectivitySwitch('bluetooth', 'Bluetooth', true) + connectivityMenu('bluetooth'));
+    const deviceRow = (name, paired) => `<button class="settings-row network-row" data-action="bluetooth-pair" data-id="${safe(name)}"><span class="network-signal"><img src="assets/${name === 'Car Audio' ? 'ic_bt_headphones_a2dp' : 'ic_bt_headset_hfp'}.png" alt=""></span><span class="row-copy">${safe(name)}</span>${paired ? '<img class="bt-config-icon" src="assets/ic_bt_config.png" alt="">' : ''}</button>`;
+    const on = !!data.settings.bluetooth, name = data.settings.bluetoothName || 'Nexus 6';
+    if (on && !ui.bluetoothScanned) { ui.bluetoothScanned = true; }
+    const body = on ? `${data.settings.pairedDevice ? `${label(i18n.t('Paired devices'))}${deviceRow(data.settings.pairedDevice, true)}` : ''}${label(i18n.t('Available devices'))}${['Wireless Headset','Car Audio'].filter(device => device !== data.settings.pairedDevice).map(device => deviceRow(device, false)).join('')}<p class="lp-bt-footer">${safe(i18n.t('%1$s is visible to nearby devices while Bluetooth settings is open.').replace('%1$s', name))}</p>`
+      : `<p class="lp-bt-off">${safe(i18n.t('When Bluetooth is turned on, your device can communicate with other nearby Bluetooth devices.'))}</p>`;
+    return appView('Bluetooth', `${switchBar('bluetooth', on)}<div class="connectivity-page">${body}</div>`, '', overflowButton('bluetooth'));
   }
 
   function renderSettings() {
     const s = ui.sub;
     if(s==='lock-setup')return lockControls.renderSetup();
+    const lp=LPSettingsPages.render(s,{data,t:key=>i18n.t(key),locale:i18n.locale()});
+    if(lp)return appView(lp.title,(lp.switchKey?switchBar(lp.switchKey,lp.switchOn):'')+lp.body,'','');
     const system=ICSSystemSettings.render(data,ui,key=>i18n.t(key),i18n.locale());
     if(system)return appView(system.title,system.body,'sx-page',system.right);
     const detail=ICSSettingsDetail.render(data,ui,apps,key=>i18n.t(key));
@@ -1030,8 +1061,13 @@
     const languageNames = {en: 'English', hu: 'Magyar', de: 'Deutsch', fr: 'Français', es: 'Español'};
     if (s === 'language') return appView('Language & input', `${prefRow('Language', languageNames[i18n.language], 'settings-sub', 'language-pick')}${wirelessCheckRow('Spell checker', '', 'spellChecker')}${label('KEYBOARD & INPUT METHODS')}${prefRow('Default', 'Android keyboard (AOSP)')}${wirelessCheckRow('Android keyboard (AOSP)', languageNames[i18n.language], 'imeLatin')}${label('SPEECH')}${prefRow('Voice search', '')}${prefRow('Text-to-speech output', '')}${label('MOUSE/TRACKPAD')}${prefRow('Pointer speed', '')}`);
     if (s === 'language-pick') return appView('Language', Object.entries(languageNames).map(([code, name]) => `<button class="settings-row wireless-row" data-action="set-language" data-id="${code}" role="radio" aria-checked="${i18n.language === code}" data-no-translate><span class="row-copy">${name}</span><img class="holo-radio" src="assets/btn_radio_${i18n.language === code ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join(''));
-    if (s === 'volumes' || s === 'ringtone' || s === 'sleep') return appView(s === 'volumes' ? 'Volumes' : s === 'ringtone' ? 'Phone ringtone' : 'Sleep', `<div class="detail-pad"><p>${s === 'ringtone' ? 'Orion is selected.' : s === 'sleep' ? 'Screen turns off after 30 seconds.' : 'Ringtone 70% · Media 60% · Alarm 80%'}</p></div>`);
-    return appView('Settings', `${label('WIRELESS & NETWORKS')}${connectivityRow('Wi-Fi', 'wifi')}${connectivityRow('Bluetooth', 'bluetooth')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', null)}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${row('Tap & pay', '', 'settings-sub', 'nfc-payment', '◎')}${label('PERSONAL')}${row('Location', '', 'settings-sub', 'location', '◎')}${row('Security', '', 'settings-sub', 'security', '◉')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Backup & reset', '', 'settings-sub', 'backup', '↻')}${label('ACCOUNTS')}${row('Google', '', 'settings-sub', 'sync-google', '◎')}${row('Add account', '', 'toast', 'Demo account already added', '<img src="assets/setting-add-account.png" alt="">')}${label('SYSTEM')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${row('Accessibility', '', 'settings-sub', 'accessibility', '◉')}${row('Printing', '', 'settings-sub', 'print', '▤')}${data.settings.developerUnlocked ? row('Developer options', '', 'settings-sub', 'development', '⚙') : ''}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
+    if (s === 'volumes' || s === 'ringtone' || s === 'sleep') return appView(s === 'volumes' ? 'Volumes' : s === 'ringtone' ? 'Phone ringtone' : 'Sleep', `<div class="detail-pad"><p>${s === 'ringtone' ? 'Titania is selected.' : s === 'sleep' ? 'Screen turns off after 30 seconds.' : 'Ringtone 70% · Media 60% · Alarm 80%'}</p></div>`);
+    /* Settings 5.1 dashboard (dashboard_categories.xml) as the Nexus 6 shows it: no SIM cards (one slot), no Home
+       (one launcher), Developer options once unlocked. Each category is a white card with its teal 14 sp bold title;
+       tiles are 72 dp with the teal 24 dp icon, 16 dp in and 32 dp before the 18 sp title. */
+    const tile = (id, icon, title) => `<button class="lp-tile" data-action="settings-sub" data-id="${id}"><img src="assets/lps-${icon}.png" alt=""><span>${safe(i18n.t(title))}</span></button>`;
+    const category = (title, tiles) => `<section class="lp-dash-category"><h3>${safe(i18n.t(title))}</h3>${tiles.join('')}</section>`;
+    return appView('Settings', `<div class="lp-dashboard">${category('Wireless & networks', [tile('wifi', 'ic_settings_wireless', 'Wi‑Fi'), tile('bluetooth', 'ic_settings_bluetooth2', 'Bluetooth'), tile('data', 'ic_settings_data_usage', 'Data usage'), tile('wireless', 'ic_settings_more', 'More')])}${category('Device', [tile('display', 'ic_settings_display_am', 'Display'), tile('sound', 'ic_settings_notifications', 'Sound & notification'), tile('storage', 'ic_settings_storage', 'Storage'), tile('battery', 'ic_settings_battery', 'Battery'), tile('apps', 'ic_settings_applications', 'Apps'), tile('users', 'ic_settings_multiuser', 'Users'), tile('nfc-payment', 'ic_settings_nfc_payment_am', 'Tap & pay')])}${category('Personal', [tile('location', 'ic_settings_location', 'Location'), tile('security', 'ic_settings_security', 'Security'), tile('sync', 'ic_settings_accounts', 'Accounts'), tile('language', 'ic_settings_language', 'Language & input'), tile('backup', 'ic_settings_backup', 'Backup & reset')])}${category('System', [tile('date', 'ic_settings_date_time', 'Date & time'), tile('accessibility', 'ic_settings_accessibility', 'Accessibility'), tile('print', 'ic_settings_print', 'Printing'), ...(data.settings.developerUnlocked ? [tile('development', 'ic_settings_development', 'Developer options')] : []), tile('about', 'ic_settings_about', 'About phone')])}</div>`, 'lp-dash-page', `<button class="lp-ab-action" data-action="toast" data-id="Search is not available offline" aria-label="${safe(i18n.t('Search'))}"><img src="assets/lp-fw-ic_search_api_material.svg" alt=""></button>`);
   }
 
   function normalizeAddress(raw) {
@@ -1805,6 +1841,7 @@
       case 'wfd-scan': startWfdScan(); render(); break;
       case 'qs-wifi-display': ui.overlay = ''; ui.view = 'settings'; ui.sub = 'wifi-display'; render(); break;
       case 'connectivity-menu': ui.connectivityMenu = id; ui.overlay = 'connectivity-menu'; renderOverlay(); break;
+      case 'lp-settings-menu': ui.lpMenu = id; ui.overlay = 'lp-settings-menu'; renderOverlay(); break;
       case 'wifi-scan': ui.overlay = ''; renderOverlay(); toast('Scanning…'); break;
       case 'wifi-add': ui.overlay = 'wifi-add'; renderOverlay(); break;
       case 'bluetooth-rename': ui.overlay = 'bluetooth-rename'; renderOverlay(); break;
@@ -1834,6 +1871,15 @@
       case 'sx-apn-open': ui.systemDraft=clone((data.apnProfiles||[{id:'default',name:'Telekom',apn:'internet.telekom',mcc:'216',mnc:'30'}]).find(profile=>profile.id===id)||{});ui.systemField='apn-edit';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
       case 'sx-apn-select': data.settings.apnId=id;save();render();break;
       case 'dev-info': toast(i18n.t('Not available in the simulator')); break;
+      case 'lp-zen': data.settings.zenMode = id; save(); render(); break;
+      case 'lp-lock-notif': { const order = ['show', 'hide', 'none']; data.settings.lockNotifications = order[(order.indexOf(data.settings.lockNotifications || 'show') + 1) % 3]; save(); render(); break; }
+      case 'build-tap': {
+        if (data.settings.developerUnlocked) { toast('No need, you are already a developer.'); break; }
+        const remaining = 7 - ++ui.buildTaps;
+        if (remaining <= 0) { data.settings.developerUnlocked = true; ui.buildTaps = 0; save(); toast('You are now a developer!'); }
+        else if (remaining < 5) toast(i18n.t(remaining === 1 ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.').replace('%d', remaining));
+        break;
+      }
       case 'toggle-setting': {
         const previousScroll = viewport.querySelector('.settings-app')?.scrollTop || 0;
         data.settings[id] = !data.settings[id];
@@ -2320,6 +2366,7 @@
       if (event.target.name === 'body') { event.target.style.height = '44px'; event.target.style.height = `${Math.min(88,event.target.scrollHeight)}px`; }
       return;
     }
+    if (event.target.dataset.field === 'lp-volume') { data.settings[event.target.dataset.key] = Number(event.target.value); event.target.style.setProperty('--v', `${event.target.value}%`); save(); return; }
     if (event.target.dataset.field === 'auto-brightness') { data.settings.autoBrightness = event.target.checked; save(); const slider = event.target.closest('.jb-brightness')?.querySelector('[data-field="brightness"]'); if (slider) slider.disabled = data.settings.autoBrightness; return; }
     if (event.target.dataset.field === 'brightness') {
       data.settings.brightness = Number(event.target.value); save();
