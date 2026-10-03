@@ -7,7 +7,7 @@
   const defaultData = {
     // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
     clings: LauncherClings.fresh(),
-    wallpaper: 0,
+    wallpaper: 0, wallpaperRevision: 1,
     layoutRevision: 2,
     homePages: Array.from({length: 5}, (_, page) => Array.from({length: 16}, (_, slot) =>
       page === 2 && slot === 12 ? 'camera' : page === 2 && slot === 15 ? 'google' :
@@ -75,6 +75,13 @@
       // A reload during Gallery widget configuration leaves no completed choice.
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
       if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      // The Nexus 4 offers all fourteen wallpapers (wallpapers array, xhdpi); the custom one moved off index 11.
+      if (!saved.wallpaperRevision) {
+        const old = ['01','02','03','04','05','08','09','10','11','12'];
+        if (result.wallpaper === 11 && (result.customWallpaper || result.customWallpaperPhoto)) result.wallpaper = 'custom';
+        else if (typeof result.wallpaper === 'number') result.wallpaper = Math.max(0, ['01','02','03','04','05','06','07','08','09','10','11','12','13','14'].indexOf(old[result.wallpaper] || '01'));
+        result.wallpaperRevision = 1;
+      }
       return result;
     } catch { return clone(defaultData); }
   }
@@ -119,8 +126,9 @@
     { name: 'Home Network', security: 'WPA2', strength: 4 },
     { name: 'Library Wi-Fi', security: 'Open', strength: 2 }
   ];
-  // Launcher2 4.3 wallpapers (drawable-nodpi; 06 and 07 are tablet-only). wallpaper_01 is also the framework default_wallpaper.
-  const wallpaperFiles = ['01','02','03','04','05','08','09','10','11','12'];
+  // The Nexus 4's Launcher2 (JWR66Y): its xhdpi wallpapers array lists 01 to 14 (the AOSP phone list drops 06, 07, 13
+  // and 14). wallpaper_01 is also the framework default_wallpaper.
+  const wallpaperFiles = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14'];
   const widgetTypes = [
     { type: 'analog', name: 'Analog clock', app: 'clock', width: 2, height: 2 },
     { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3, resize: {minWidth: 2, minHeight: 2} },
@@ -231,7 +239,7 @@
     if(ui.locked)ui.view='lock';
     const outgoing = viewport.firstElementChild;
     screen.className = `screen${activeTransition ? ' transitioning' : ''} wallpaper-${data.wallpaper}${data.settings.largeText ? ' large-text' : ''}${ui.sleeping?' sleeping':''}${ui.locked?' credential-locked':''}`;
-    screen.style.background = data.wallpaper === 11 && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 11 && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('assets/jb-wallpaper_${wallpaperFiles[data.wallpaper] || '01'}.jpg') center center / cover no-repeat`;
+    screen.style.background = data.wallpaper === 'custom' && data.customWallpaperPhoto ? `#080d14 url('${ICSMedia.image(data.customWallpaperPhoto)}') center / cover no-repeat` : data.wallpaper === 'custom' && data.customWallpaper ? `linear-gradient(160deg, ${data.customWallpaper[0]}, ${data.customWallpaper[1]} 53%, ${data.customWallpaper[2]})` : `#080d14 url('assets/jb-wallpaper_${wallpaperFiles[data.wallpaper] || '01'}.jpg') center center / cover no-repeat`;
     screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     renderStatus(); renderNav(); syncLiveWallpaper();
     document.querySelector('.notification-led')?.classList.toggle('on', !!ui.sleeping && !ui.power && data.settings.pulse !== false && data.notifications.length > 0);
@@ -1041,7 +1049,7 @@
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
   function renderGallery() { return JBGallery.render(data, ui, key => i18n.t(key), ICSMedia, i18n.locale()); }
   const galleryItems = () => JBGallery.items(data, ui, i18n.locale());
-  function galleryWallpaper(photo) { data.wallpaper = 11; delete data.liveWallpaper; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); render(); toast('Wallpaper set'); }
+  function galleryWallpaper(photo) { data.wallpaper = 'custom'; delete data.liveWallpaper; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); render(); toast('Wallpaper set'); }
   function renderCamera() { return JBCamera.render(data, ui, key => i18n.t(key), ICSMedia); }
   // JB Camera callbacks: a capture adds a local illustration to the Camera album; the filmstrip opens Gallery.
   function cameraShoot() {
@@ -1551,7 +1559,7 @@
         const remaining=galleryItems();if(remaining.length)ui.selectedPhoto=remaining[Math.min(index,remaining.length-1)].id;else ui.sub='album';
         render();toast('Photo deleted');break;
       }
-      case 'photo-wallpaper': {const photo=data.photos.find(p=>p.id===Number(id));if(!photo)break;data.wallpaper=11;delete data.liveWallpaper;data.customWallpaper=photo.colors;data.customWallpaperPhoto=clone(photo);save();ui.overlay='';render();toast('Wallpaper set');break;}
+      case 'photo-wallpaper': {const photo=data.photos.find(p=>p.id===Number(id));if(!photo)break;data.wallpaper='custom';delete data.liveWallpaper;data.customWallpaper=photo.colors;data.customWallpaperPhoto=clone(photo);save();ui.overlay='';render();toast('Wallpaper set');break;}
       case 'shoot': {
         const photo={...ICSMedia.scene(data),id:Date.now(),name:`IMG_${new Date().toISOString().replace(/[-:T]/g,'').slice(0,14)}`,album:'camera',created:Date.now()};
         data.photos.unshift(photo);save();render();screen.animate([{opacity:1},{opacity:.4},{opacity:1}],{duration:240});toast('Photo saved to Gallery');break;
