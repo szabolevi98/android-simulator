@@ -167,6 +167,12 @@
     return (shade._lpLayout = {header, scroll, items, gap, padding, max, qs: shade.classList.contains('qs-open')});
   }
   function maxHeight(shade) { return measure(shade).max; }
+  // PanelView.runPeekAnimation: a tap on the status bar opens the panel to NotificationStackScrollLayout.getPeekHeight
+  // (the stack's padding, a 64 dp card, the 12 dp bottom peek and 8 dp) in 250 ms with linear_out_slow_in.
+  function peek(shade, scrim, done) {
+    const L = measure(shade), height = Math.min(L.max, L.padding + STACK.collapsed + STACK.peek + STACK.secondCard);
+    animate(shade, 0, height, {scrim, done, timing: {duration: 250, curve: CURVES.linearOutSlowIn}});
+  }
   // NotificationPanelView.setExpandedHeight for the shade (not Quick Settings): clip, stack, header and the scrim.
   function expand(shade, height, scrim) {
     const L = measure(shade), E = Math.max(0, height);
@@ -234,9 +240,9 @@
     // A canned collapse (no finger velocity) runs at 0.6 of the length (getCannedFlingDurationFactor).
     return {duration: maxLen * 1000 * (v ? 1 : .6), curve: v >= minV ? CURVES.linearOutSlowIn : CURVES.fastOutLinearIn};
   }
-  function animate(shade, from, to, {velocity = 0, scrim = null, done} = {}) {
+  function animate(shade, from, to, {velocity = 0, scrim = null, done, timing} = {}) {
     if (shade._lpAnim) cancelAnimationFrame(shade._lpAnim);
-    const {duration, curve} = flingTiming(from, to, velocity, shade.closest('.screen')?.clientHeight || 1);
+    const {duration, curve} = timing || flingTiming(from, to, velocity, shade.closest('.screen')?.clientHeight || 1);
     const start = performance.now();
     const step = now => {
       const t = Math.min(1, (now - start) / Math.max(1, duration));
@@ -255,5 +261,5 @@
     for (const node of [L.header, ...L.items.map(item => item.node)]) if (node) { node.style.transform = ''; node.style.clipPath = ''; node.style.opacity = ''; node.style.zIndex = ''; }
     shade._lpLayout = null;
   }
-  window.LPShade = {DP, CELL, clearDelays, tiles, layout, row, isExpanded, detail, render, expand, animate, settle, maxHeight, playIcons};
+  window.LPShade = {DP, CELL, clearDelays, tiles, layout, row, isExpanded, detail, render, expand, animate, settle, maxHeight, playIcons, peek};
 })();

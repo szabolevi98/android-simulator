@@ -18,8 +18,9 @@
 .lp-mobile .lp-mobile-type{position:absolute;left:0;top:0}
 .kk-battery{flex:none;width:8.61px;height:13.14px;margin:0;display:block}
 .status-clock{padding-left:6.34px;color:#fff;font:500 12.7px Roboto,RobotoICS,Arial,sans-serif;letter-spacing:.01em}
-#nav-bar{background:#000;transition:background-color .2s;justify-content:flex-start;padding:0 32.6px}
-#nav-bar .nav-key{position:relative;flex:none;width:63.42px;height:43.49px;display:grid;place-items:center;border:0;background:none;padding:0;overflow:visible}
+/* navigation_bar.xml with the Nexus 6's values-sw400dp: 50 dp side padding, 80 dp keys (LMY48Y SystemUI.apk). */
+#nav-bar{background:#000;transition:background-color .2s;justify-content:flex-start;padding:0 45.3px}
+#nav-bar .nav-key{position:relative;flex:none;width:72.48px;height:43.49px;display:grid;place-items:center;border:0;background:none;padding:0;overflow:visible}
 #nav-bar .nav-spacer{flex:1}
 .nav-key img{width:auto;height:auto;opacity:.9}
 .nav-key.nav-back img{width:16.9px}

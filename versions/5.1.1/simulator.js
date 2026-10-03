@@ -192,6 +192,8 @@
   ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
   const screen = document.querySelector('#screen');
   LPRipple.attach(screen);
+  // EdgeEffect takes the theme's colorEdgeEffect, which Theme.Material sets to colorPrimary.
+  LPScroll.attach(screen, {color: () => LP_PRIMARY[ui.view] || '#666666'});
   const viewport = document.querySelector('#viewport');
   const statusRoot = document.querySelector('#status-bar');
   const navRoot = document.querySelector('#nav-bar');
@@ -299,7 +301,7 @@
     i18n.translateDOM(statusRoot);
   }
   function renderNav() {
-    // navigation_bar.xml: 36 dp side padding, the 70 dp keys spread by weighted spacers; Back turns down for the IME.
+    // navigation_bar.xml: the side padding and the keys (values-sw400dp: 50 dp, 80 dp) spread by weighted spacers; Back turns down for the IME.
     navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/lp-ic_sysbar_back${ui.imeShown ? '_ime' : ''}.png" alt=""></button><span class="nav-spacer"></span><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/lp-ic_sysbar_home.png" alt=""></button><span class="nav-spacer"></span><button class="nav-key nav-recent" data-action="recent" aria-label="Overview"><img src="assets/lp-ic_sysbar_recent.png" alt=""></button>`;
     // Over the keyguard the navigation bar is empty (StatusBarManager.DISABLE_HOME | _RECENT | _BACK); the bouncer brings Back.
     if(ui.view==='lock'&&!ui.sleeping)navRoot.querySelectorAll(ui.kgBouncing?'.nav-home,.nav-recent':'.nav-key').forEach(button=>{button.disabled=true;button.setAttribute('aria-hidden','true');button.classList.add('nav-hidden');});
@@ -793,6 +795,14 @@
   }
   let openFolderId = '';
   let closingVelocity = 0, shownOverlay = '';
+  function startPeek() {
+    if (ui.overlay || ui.locked || ui.view === 'lock') return;
+    ui.shadePeek = true; ui.peekDone = false; ui.peekCollapse = false; ui.overlay = 'shade'; renderOverlay();
+    const shade = overlayRoot.querySelector('.notification-shade'), scrim = overlayRoot.querySelector('.lp-shade-scrim');
+    if (!shade) return;
+    LPShade.peek(shade, scrim, () => { ui.peekDone = true; if (ui.peekCollapse) closePeek(); });
+  }
+  function closePeek() { if (!ui.shadePeek) return; ui.shadePeek = false; ui.peekCollapse = false; if (ui.overlay === 'shade') { ui.overlay = ''; renderOverlay(); } }
   // Animation.Material.Dialog / .Popup (popup_enter_material, popup_exit_material): dialogs, menus and their dim fade in
   // and out with decelerate_cubic in config_activityShortDur (150 ms), without the Holo zoom.
   const FADING = '.settings-dialog, .settings-dialog-scrim, .holo-menu, .menu-scrim, .lp-popup-menu';
@@ -836,7 +846,7 @@
       const opening = !ui.shadeAnimated;
       overlayRoot.querySelectorAll('.lp-shade,.lp-shade-scrim').forEach(node => { node.style.animation = 'none'; });
       ui.shadeAnimated = true;
-      if (opening && !pointerStart?.shadeDragging && !reducedMotion?.matches) {
+      if (opening && !pointerStart?.shadeDragging && !ui.shadePeek && !reducedMotion?.matches) {
         const shade = overlayRoot.querySelector('.lp-shade'), scrim = overlayRoot.querySelector('.lp-shade-scrim');
         LPShade.animate(shade, 0, LPShade.maxHeight(shade), {scrim, done: () => LPShade.settle(shade, scrim)});
       }
@@ -1689,6 +1699,13 @@
   }
 
   let suppressClickUntil = 0;
+  // PanelView.onEmptySpaceClick: in the shade, a tap on the panel where no card, header or tile is collapses it.
+  overlayRoot.addEventListener('click', event => {
+    if (ui.overlay !== 'shade' || Date.now() < suppressClickUntil) return;
+    const shade = event.target.closest('.lp-shade');
+    if (!shade || event.target.closest('.lp-note, .lp-header, .lp-qs, .lp-dismiss button, button, input, a, [data-action], .phone-resume-call')) return;
+    event.stopPropagation(); ui.overlay = ''; renderOverlay();
+  });
   document.addEventListener('click', event => {
     const button = event.target.closest('[data-action]');
     if (!button || !screen.contains(button)) return;
@@ -3052,9 +3069,11 @@
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }
     const widgetList = ui.view === 'home' && !ui.overlay ? event.target.closest('.calw-list') : null;
-    const scrollTarget = widgetList || (event.pointerType === 'mouse' && !ui.overlay && !event.target.closest('input, select, textarea, .wallpaper-choice')
-      ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.jbp-scroll,.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library,.desk-scroll,.gallery-scroll,.cal-scroll,.music-library-scroll,.email-scroll')) : null);
+    // Lists scroll by mouse drag in lp-scroll.js (OverScroller fling, EdgeEffect); only the widget picker keeps this one.
+    const scrollTarget = widgetList || null;
     pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), qsPullEligible: ui.overlay === 'shade' && !ui.shadeSettings && !!event.target.closest('.lp-shade') && !event.target.closest('.lp-note,input') && !(overlayRoot.querySelector('.lp-shade-scroll')?.scrollTop > 0), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
+    // PanelView.schedulePeek: a finger resting on the status bar for ViewConfiguration.TAP_TIMEOUT (100 ms) peeks the panel.
+    if (pointerStart.shadeDragEligible && !reducedMotion?.matches) pointerStart.peekTimer = setTimeout(() => startPeek(), 100);
     const qsToggle = ui.overlay === 'shade' ? event.target.closest('[data-qs-toggle]') : null;
     if (qsToggle) homeLongPressTimer = setTimeout(() => { const key = qsToggle.dataset.qsToggle; data.settings[key] = !data.settings[key]; if (data.settings[key]) data.settings.airplane = false; if (key === 'wifi' && data.settings.wifi) data.settings.portableHotspot = false; save(); renderStatus(); renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 500);
     if (ui.view === 'home' && event.target.closest('.lp-cling .cling-shade')) homeLongPressTimer = setTimeout(() => { data.clings.workspace = true; save(); LauncherClings.dismiss(clingLayerRoot().querySelector('[data-cling="workspace"]'), () => { ui.overview = true; render(); }); pointerStart = null; suppressReleaseClick(); }, 550);
@@ -3126,7 +3145,15 @@
     if (pointerStart.qsPullEligible && !ui.shadeSettings && dy > 36 && dy > Math.abs(dx)) { ui.shadeSettings = true; ui.qsDetail = ''; renderOverlay(); suppressClickUntil = Date.now() + 350; pointerStart.qsPullEligible = false; pointerStart.qsPulled = true; return; }
     if (pointerStart.qsPulled) return;
     if (pointerStart.shadeDragging || pointerStart.shadeDragEligible && dy > 8 && dy > Math.abs(dx) || pointerStart.shadeCloseEligible && dy < -8 && -dy > Math.abs(dx)) {
-      if (!pointerStart.shadeDragging) { pointerStart.shadeDragging = true; if (ui.overlay !== 'shade') ui.shadeSettings = activeTouches.size >= 2; ui.overlay = 'shade'; renderOverlay(); try { screen.setPointerCapture(event.pointerId); } catch {} }
+      if (!pointerStart.shadeDragging) {
+        clearTimeout(pointerStart.peekTimer); pointerStart.shadeDragging = true;
+        if (ui.shadePeek) {
+          // The finger moved during the peek: tracking continues from the height the peek reached.
+          const peeking = overlayRoot.querySelector('.notification-shade'); ui.shadePeek = false; ui.peekCollapse = false;
+          if (peeking) { if (peeking._lpAnim) cancelAnimationFrame(peeking._lpAnim); pointerStart.shadeFrom = peeking.offsetHeight - dy; }
+        } else { if (ui.overlay !== 'shade') ui.shadeSettings = activeTouches.size >= 2; ui.overlay = 'shade'; renderOverlay(); }
+        try { screen.setPointerCapture(event.pointerId); } catch {}
+      }
       event.preventDefault();
       const shade = overlayRoot.querySelector('.notification-shade');
       if (shade) {
@@ -3174,6 +3201,13 @@
   });
   window.addEventListener('pointerup', event => {
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
+    clearTimeout(pointerStart.peekTimer);
+    // A tap on the status bar (PanelView.collapse during a peek): the panel peeks, then collapses (mCollapseAfterPeek).
+    if (pointerStart.shadeDragEligible && !pointerStart.shadeDragging && !reducedMotion?.matches) {
+      if (!ui.shadePeek) startPeek();
+      if (ui.shadePeek) { ui.peekCollapse = true; if (ui.peekDone) closePeek(); }
+      suppressClickUntil = Date.now() + 350; pointerStart = null; return;
+    }
     clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
     if(pointerStart.clockSwiping){const tabs=JBDeskClock.TABS,index=tabs.indexOf(data.jbClock?.tab||'clock'),next=Math.max(0,Math.min(tabs.length-1,index+(Math.abs(dx)>45?(dx<0?1:-1):0)));data.jbClock.tab=tabs[next];save();render();suppressClickUntil=Date.now()+350;pointerStart=null;return;}
