@@ -8,6 +8,8 @@
     // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
     clings: LauncherClings.fresh(),
     wallpaper: 0,
+    // config default_wallpaper_component: com.android.phasebeam/.PhaseBeamWallpaper (IMM76I and JWR66Y frameworks).
+    liveWallpaper: { id: 'phasebeam' },
     layoutRevision: 2,
     homePages: Array.from({length: 5}, (_, page) => Array.from({length: 16}, (_, slot) =>
       page === 2 && slot === 12 ? 'camera' : page === 2 && slot === 15 ? 'google' :
@@ -56,6 +58,8 @@
       const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
       if (!saved) return clone(defaultData);
       const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
+      // A saved desktop without a live wallpaper keeps its picture: the Phase Beam default is for a first boot only.
+      if (!('liveWallpaper' in saved)) delete result.liveWallpaper;
       if (!saved.clings) result.clings = LauncherClings.dismissedAll();
       if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
       result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
@@ -397,7 +401,7 @@
       const check = (key, title) => `<button class="settings-row wireless-row" data-action="lw-toggle" data-id="polar:${key}" role="checkbox" aria-checked="${p[key] !== false}"><span class="row-copy">${safe(i18n.t(title))}</span><img class="holo-checkbox" src="assets/btn_check_${p[key] !== false ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
       return `<div class="app-view settings-app"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>${safe(i18n.t('Polar clock settings'))}</h2></div><div class="app-content dark lw-settings">${check('showSeconds', 'Show seconds')}${check('variableWidth', 'Vary ring widths')}<button class="settings-row wireless-row" data-action="lw-palette"><span class="row-copy">${safe(i18n.t('Color palette'))}${palette ? `<small>${safe(i18n.t(LiveWallpapers.PALETTE_NAMES[palette]))}</small>` : ''}</span></button></div></div>`;
     }
-    return `<div class="app-view lw-picker" data-no-translate>${LiveWallpapers.sorted(key => i18n.t(key), i18n.locale()).map(spec => `<button class="lw-entry" data-action="lw-preview" data-id="${spec.id}"><img src="assets/${spec.thumb}" alt=""><span>${safe(i18n.t(spec.label))}</span></button>`).join('')}</div>`;
+    return `<div class="app-view lw-picker" data-no-translate>${LiveWallpapers.sorted(key => i18n.t(key), i18n.locale()).map(spec => `<button class="lw-entry" data-action="lw-preview" data-id="${spec.id}"><img src="assets/${spec.thumb}" alt=""><span>${safe(LiveWallpapers.labelOf(spec, key => i18n.t(key)))}</span></button>`).join('')}</div>`;
   }
   viewport.addEventListener('click', event => {
     if (ui.view !== 'home' || !liveWallpaper || event.target.closest('button,a,input,[data-action],.widget,.home-search,.dock')) return;

@@ -567,11 +567,80 @@
     };
   }
 
+  /* ---------- Phase Beam (packages/wallpapers/PhaseBeam: phasebeam.rs, PhaseBeamRS.java, res/raw shaders) ----------
+     The Galaxy Nexus and Nexus 4 default (config default_wallpaper_component = com.android.phasebeam/.PhaseBeamWallpaper).
+     bgmesh.csv's vertex-coloured triangles shift by offsetX / 3.5 (offsetX = -xOffset / 2, set when the page offset
+     changes); 28 beams and 28 dots are point sprites in clip space, gl_PointSize = z x 7 x densityDpi / 240 device
+     pixels with alpha 0.5 - z x 7 / 1000, added with SRC_ALPHA / ONE. root() runs every 66 ms: while the offset is
+     still, beams rise 0.00016 z and dots 0.00022 z per frame and wrap, and every frame both drift right; the dot step
+     reads the next beam's z, as the script's pointer walk does. */
+  function phaseBeam(canvas, assets) {
+    const G = gl3(canvas); if (!G) return null;
+    const {gl} = G, MESH = new Float32Array([-0.75,1,0,0.643,1.1,-1.25,1,0,0.776,1.035,-1,0.6,0,0.643,1.1,0,1,0,0.6,1.1,-0.75,1,0,0.643,1.1,-0.5,0.6,0,0.643,1.1,0.625,1,0.194,0.423,0.569,0,1,0,0.6,1.1,0.375,0.6,0.207,0.207,0.487,1.25,1,0.009,0.09,0.166,0.625,1,0.194,0.423,0.569,0.875,0.4,0.104,0.091,0.259,-1,0.6,0,0.643,1.1,-1.25,1,0,0.776,1.035,-1.25,0.2,0.362,0.315,0.66,-0.75,0.4,0.056,0.6,1.018,-1,0.6,0,0.643,1.1,-1.25,0.2,0.362,0.315,0.66,-0.5,0.6,0,0.643,1.1,-0.75,1,0,0.643,1.1,-1,0.6,0,0.643,1.1,-0.5,0.6,0,0.643,1.1,-1,0.6,0,0.643,1.1,-0.75,0.4,0.056,0.6,1.018,0,0.3,0.138,0.155,0.522,0,1,0,0.6,1.1,-0.5,0.6,0,0.643,1.1,0,0.3,0.138,0.155,0.522,0.375,0.6,0.207,0.207,0.487,0,1,0,0.6,1.1,0.875,0.4,0.104,0.091,0.259,0.625,1,0.194,0.423,0.569,0.375,0.6,0.207,0.207,0.487,1.25,0.1,0.16,0,0.25,1.25,1,0.009,0.09,0.166,0.875,0.4,0.104,0.091,0.259,0.375,-0,0.104,0.022,0.198,0.375,0.6,0.207,0.207,0.487,0,0.3,0.138,0.155,0.522,-0.375,-0,0.207,0.207,0.487,-0.5,0.6,0,0.643,1.1,-0.75,0.4,0.056,0.6,1.018,0,0.3,0.138,0.155,0.522,-0.5,0.6,0,0.643,1.1,-0.375,-0,0.207,0.207,0.487,-0.75,-0.1,0.393,0.189,0.725,-0.75,0.4,0.056,0.6,1.018,-1.25,0.2,0.362,0.315,0.66,-0.75,-0.1,0.393,0.189,0.725,-1.25,0.2,0.362,0.315,0.66,-1.25,-0.64,0.143,0.121,0.574,-0.375,-0,0.207,0.207,0.487,-0.75,0.4,0.056,0.6,1.018,-0.75,-0.1,0.393,0.189,0.725,0.375,-0,0.104,0.022,0.198,0,0.3,0.138,0.155,0.522,-0.375,-0,0.207,0.207,0.487,0.875,0.4,0.104,0.091,0.259,0.375,0.6,0.207,0.207,0.487,0.375,-0,0.104,0.022,0.198,1.25,0.1,0.16,0,0.25,0.875,0.4,0.104,0.091,0.259,0.375,-0,0.104,0.022,0.198,-0.375,-0.5,0.086,0.017,0.315,-0.75,-0.1,0.393,0.189,0.725,-1.25,-0.64,0.143,0.121,0.574,-0.375,-0.5,0.086,0.017,0.315,-0.375,-0,0.207,0.207,0.487,-0.75,-0.1,0.393,0.189,0.725,0.125,-0.5,0.035,0.004,0.181,-0.375,-0,0.207,0.207,0.487,-0.375,-0.5,0.086,0.017,0.315,0.125,-0.5,0.035,0.004,0.181,0.375,-0,0.104,0.022,0.198,-0.375,-0,0.207,0.207,0.487,0.625,-0.4,0.022,0.009,0.095,0.375,-0,0.104,0.022,0.198,0.125,-0.5,0.035,0.004,0.181,0.625,-0.4,0.022,0.009,0.095,1.25,0.1,0.16,0,0.25,0.375,-0,0.104,0.022,0.198,1.25,-1,0,0.129,0.259,1.25,0.1,0.16,0,0.25,0.625,-0.4,0.022,0.009,0.095,1.25,-1,0,0.129,0.259,0.625,-0.4,0.022,0.009,0.095,0.375,-1,0,0,0,0.375,-1,0,0,0,0.625,-0.4,0.022,0.009,0.095,0.125,-0.5,0.035,0.004,0.181,0.375,-1,0,0,0,0.125,-0.5,0.035,0.004,0.181,-0.5,-1,0.017,0.004,0.078,-0.5,-1,0.017,0.004,0.078,0.125,-0.5,0.035,0.004,0.181,-0.375,-0.5,0.086,0.017,0.315,-0.5,-1,0.017,0.004,0.078,-0.375,-0.5,0.086,0.017,0.315,-1.25,-1,0.16,0.008,0.008,-1.25,-0.64,0.143,0.121,0.574,-1.25,-1,0.16,0.008,0.008,-0.375,-0.5,0.086,0.017,0.315]), COUNT = 102, N = 28;
+    const dotImg = image(assets + 'lw-phasebeam_dot.png'), beamImg = image(assets + 'lw-phasebeam_beam.png');
+    const BG_VS = 'attribute vec2 aPos;attribute vec3 aColor;uniform float uOffsetX;varying vec4 vColor;void main(){vColor=vec4(aColor,1.0);gl_Position=vec4(aPos.x+uOffsetX/3.5,aPos.y,0.0,1.0);}';
+    const BG_FS = 'precision mediump float;varying vec4 vColor;void main(){gl_FragColor=vColor;}';
+    const DOT_VS = 'attribute vec3 aPos;uniform float uOffsetX;uniform float uScale;varying float vSize;void main(){float s=aPos.z*7.0;vSize=0.5-s/1000.0;gl_Position=vec4(aPos.x-uOffsetX*s/100.0,aPos.y,0.0,1.0);gl_PointSize=s*uScale;}';
+    const DOT_FS = 'precision mediump float;uniform sampler2D uTex;varying float vSize;void main(){gl_FragColor=vec4(texture2D(uTex,gl_PointCoord).rgb,vSize);}';
+    const bg = G.program(BG_VS, BG_FS), dots = G.program(DOT_VS, DOT_FS);
+    const bgLoc = {pos: gl.getAttribLocation(bg, 'aPos'), color: gl.getAttribLocation(bg, 'aColor'), offset: gl.getUniformLocation(bg, 'uOffsetX')};
+    const dotLoc = {pos: gl.getAttribLocation(dots, 'aPos'), offset: gl.getUniformLocation(dots, 'uOffsetX'), scale: gl.getUniformLocation(dots, 'uScale'), tex: gl.getUniformLocation(dots, 'uTex')};
+    const bgBuf = G.buffer(MESH), pointBuf = gl.createBuffer();
+    // positionParticles(): depth bands as written (the i < 4 branch can never run).
+    const dotList = Array.from({length: N}, (_, i) => {
+      const p = {x: rand(0, 3), y: rand(-1.25, 1.25), z: 0};
+      p.z = i < 3 ? 14 : i < 7 ? 25 : i === 10 ? (p.x = 1, 24) : rand(6, 14);
+      return p;
+    });
+    const beamList = Array.from({length: N}, (_, i) => ({x: rand(-1.25, 1.25), y: rand(-1.05, 1.205), z: (i < 20 ? rand(4, 10) : rand(4, 35)) / 2}));
+    let tex = null, newOffset = .5, oldOffset = .5, bgOffsetX = 0, density = 320;
+    const points = list => new Float32Array(list.flatMap(p => [p.x, p.y, p.z]));
+    return {
+      interval: 66,
+      resize() { gl.viewport(0, 0, canvas.width, canvas.height); density = DEVICE_WIDTH === 480 ? 240 : 320; },
+      draw(offset) {
+        if (!tex) { if (!ready(dotImg) || !ready(beamImg)) return; tex = {dot: G.texture(dotImg), beam: G.texture(beamImg)}; }
+        newOffset = offset * 2;
+        if (newOffset !== oldOffset) bgOffsetX = -offset / 2;
+        for (let i = 0; i < N; i++) {
+          const beam = beamList[i], dot = dotList[i];
+          if (newOffset === oldOffset) {
+            if (beam.x / beam.z > .5) beam.x = -1;
+            if (dot.x / dot.z > .5) dot.x = -1;
+            if (beam.y > 1.05) { beam.y = -1.05; beam.x = rand(-1.25, 1.25); } else beam.y += .000160 * beam.z;
+            if (dot.y > 1.25) { dot.y = -1.25; dot.x = rand(0, 3); } else dot.y += .00022 * dot.z;
+          }
+          beam.x += .0001 * beam.z;
+          dot.x += .0001560 * (beamList[i + 1]?.z ?? 0);
+        }
+        gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+        gl.useProgram(bg); gl.bindBuffer(gl.ARRAY_BUFFER, bgBuf);
+        gl.enableVertexAttribArray(bgLoc.pos); gl.vertexAttribPointer(bgLoc.pos, 2, gl.FLOAT, false, 20, 0);
+        gl.enableVertexAttribArray(bgLoc.color); gl.vertexAttribPointer(bgLoc.color, 3, gl.FLOAT, false, 20, 8);
+        gl.uniform1f(bgLoc.offset, bgOffsetX);
+        gl.drawArrays(gl.TRIANGLES, 0, COUNT);
+        gl.disableVertexAttribArray(bgLoc.color);
+        gl.useProgram(dots);
+        gl.uniform1f(dotLoc.offset, newOffset); gl.uniform1f(dotLoc.scale, density / 240 * canvas.width / DEVICE_WIDTH); gl.uniform1i(dotLoc.tex, 0);
+        gl.activeTexture(gl.TEXTURE0);
+        for (const [list, texture] of [[beamList, tex.beam], [dotList, tex.dot]]) {
+          gl.bindTexture(gl.TEXTURE_2D, texture);
+          gl.bindBuffer(gl.ARRAY_BUFFER, pointBuf); gl.bufferData(gl.ARRAY_BUFFER, points(list), gl.DYNAMIC_DRAW);
+          gl.enableVertexAttribArray(dotLoc.pos); gl.vertexAttribPointer(dotLoc.pos, 3, gl.FLOAT, false, 12, 0);
+          gl.drawArrays(gl.POINTS, 0, N);
+        }
+        oldOffset = newOffset;
+      }
+    };
+  }
+
   /* ---------- Registry, in the order LiveWallpaperListAdapter sorts the labels ---------- */
   const LIST = [
     {id: 'galaxy', label: 'Galaxy', thumb: 'lw-galaxy_thumb.jpg', make: (c, a, o) => galaxy(c, a, o.preview), gl: true},
     {id: 'grass', label: 'Grass', thumb: 'lw-grass_thumb.jpg', make: (c, a, o) => grass(c.getContext('2d'), a, o.preview)},
     {id: 'nexus', label: 'Nexus', thumb: 'lw-nexus_thumb.png', make: (c, a) => nexus(c.getContext('2d'), a)},
+    {id: 'phasebeam', label: 'Phase Beam', thumb: 'lw-phasebeam_thumb.png', make: (c, a) => phaseBeam(c, a), gl: true, raw: true},
     {id: 'polar', label: 'Polar clock', thumb: 'lw-polarclock_thumb.jpg', settings: true, make: (c, a, o) => polarClock(c.getContext('2d'), a, o.prefs)},
     {id: 'water', label: 'Water', thumb: 'lw-water_thumb.jpg', make: (c, a) => water(c, a), gl: true},
     {id: 'waveform', label: 'Waveform', thumb: 'lw-vis2.png', make: (c, a, o) => waveScene(c, a, o.audio || (() => false), false), gl: true},
@@ -580,7 +649,8 @@
     {id: 'many', label: 'Many', thumb: 'lw-vis5.png', make: (c, a, o) => manyScene(c, a, o.audio || (() => false)), gl: true}
   ];
   const find = id => LIST.find(item => item.id === id);
-  function sorted(t, locale) { const collator = new Intl.Collator(locale); return [...LIST].sort((a, b) => collator.compare(t(a.label), t(b.label))); }
+  const labelOf = (spec, t) => spec.raw ? spec.label : t(spec.label);
+  function sorted(t, locale) { const collator = new Intl.Collator(locale); return [...LIST].sort((a, b) => collator.compare(labelOf(a, t), labelOf(b, t))); }
 
   /* A running wallpaper on its own canvas: resizes with its host, throttles to the original frame delay, and pauses
      while hidden. */
@@ -623,5 +693,5 @@
       destroy() { cancelAnimationFrame(raf); canvas.remove(); scene = null; }
     };
   }
-  window.LiveWallpapers = {LIST, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, mount, M, audioCapture, needleModel};
+  window.LiveWallpapers = {LIST, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, labelOf, mount, M, audioCapture, needleModel};
 })();

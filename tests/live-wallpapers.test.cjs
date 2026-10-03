@@ -2,9 +2,14 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const context={window:{devicePixelRatio:1},Intl,performance,document:{},Image:class{},requestAnimationFrame:()=>0,cancelAnimationFrame:()=>{}};
 vm.runInNewContext(fs.readFileSync('versions/4.3/live-wallpapers.js','utf8'),context);
 const lw=context.window.LiveWallpapers,plain=v=>JSON.parse(JSON.stringify(v));
-assert.equal(fs.readFileSync('versions/4.0.4/live-wallpapers.js','utf8'),fs.readFileSync('versions/4.3/live-wallpapers.js','utf8'),'both versions share the file');
+// The two copies differ only in Phase Beam's label: IMM76I's PhaseBeam.apk has no translations (raw), JWR66Y's has.
+assert.equal(fs.readFileSync('versions/4.0.4/live-wallpapers.js','utf8').replace(', gl: true, raw: true}',', gl: true}'),fs.readFileSync('versions/4.3/live-wallpapers.js','utf8'),'both versions share the file');
 // packages/wallpapers/Basic services, sorted by label as LiveWallpaperListAdapter does with a Collator.
-assert.deepEqual(plain(lw.sorted(k=>k,'en').map(s=>s.label)),['Galaxy','Grass','Many','Nexus','Polar clock','Spectrum','VU meter','Water','Waveform']);
+assert.deepEqual(plain(lw.sorted(k=>k,'en').map(s=>s.label)),['Galaxy','Grass','Many','Nexus','Phase Beam','Polar clock','Spectrum','VU meter','Water','Waveform']);
+// Phase Beam, the Galaxy Nexus and Nexus 4 default (default_wallpaper_component), with its image's mesh and textures.
+const pb=fs.readFileSync('versions/4.3/live-wallpapers.js','utf8');assert.ok(pb.includes('interval: 66')&&pb.includes('gl.blendFunc(gl.SRC_ALPHA, gl.ONE)'));
+for(const v of ['4.0.4','4.3']){for(const f of ['dot','beam','thumb'])assert.ok(fs.existsSync(`versions/${v}/assets/lw-phasebeam_${f}.png`),v+f);assert.ok(fs.readFileSync(`versions/${v}/simulator.js`,'utf8').includes("liveWallpaper: { id: 'phasebeam' }"),v);}
+assert.equal(lw.labelOf(lw.find('phasebeam'),k=>k==='Phase Beam'?'Elmosódott cseppek':k),'Elmosódott cseppek');
 // AudioCapture: silence returns zero samples, then nothing after MAX_IDLE_TIME_MS; music yields centred 8-bit PCM.
 let playing=false;const cap=lw.audioCapture(()=>playing);
 assert.equal(cap.pcm(16).length,16);assert.ok(cap.pcm(16).every(v=>v===0));
@@ -12,8 +17,8 @@ playing=true;const pcm=cap.pcm(1024);assert.equal(pcm.length,1024);assert.ok(pcm
 assert.equal(cap.fft(512).length,512);
 // Visualization4RS needle: at rest it parks at 131°, a loud signal swings it toward the peak.
 const needle=lw.needleModel();needle.step([]);assert.equal(needle.angle,131);for(let i=0;i<40;i++)needle.step(new Array(64).fill(50000));assert.ok(needle.angle<131);
-const hu={Galaxy:'Galaxis',Grass:'Fű','Polar clock':'Íves óra',Water:'Víz',Nexus:'Nexus',Waveform:'Hullám',Spectrum:'Spektrum','VU meter':'Kivezérlésjelző',Many:'Sok'};
-assert.deepEqual(plain(lw.sorted(k=>hu[k]||k,'hu').map(s=>hu[s.label])),['Fű','Galaxis','Hullám','Íves óra','Kivezérlésjelző','Nexus','Sok','Spektrum','Víz']);
+const hu={Galaxy:'Galaxis',Grass:'Fű','Polar clock':'Íves óra',Water:'Víz',Nexus:'Nexus',Waveform:'Hullám',Spectrum:'Spektrum','VU meter':'Kivezérlésjelző',Many:'Sok','Phase Beam':'Elmosódott cseppek'};
+assert.deepEqual(plain(lw.sorted(k=>hu[k]||k,'hu').map(s=>hu[s.label])),['Elmosódott cseppek','Fű','Galaxis','Hullám','Íves óra','Kivezérlésjelző','Nexus','Sok','Spektrum','Víz']);
 assert.deepEqual(plain(lw.LIST.filter(s=>s.settings).map(s=>s.id)),['polar'],'only Polar clock has a settings activity');
 assert.deepEqual(plain(lw.PALETTE_ORDER),['palette_gray','palette_white_c','palette_black_c','palette_matrix','palette_halloween','palette_violet','palette_oceanic','palette_zenburn']);
 assert.equal(lw.PALETTES.palette_violet.minute,'#603050');
