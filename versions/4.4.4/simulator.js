@@ -736,7 +736,7 @@
     } else if (ui.overlay.startsWith('music-')) {
       overlayRoot.innerHTML = ICSMusic.overlay(ui.music,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('email-')) {
-      overlayRoot.innerHTML = ICSEmail.overlay(data.mailbox,ui,data.photos,key=>i18n.t(key));
+      overlayRoot.innerHTML = KKEmail.overlay(data.mailbox,ui,data.photos,key=>i18n.t(key),i18n.language);
     } else if (ui.overlay.startsWith('sd-')) {
       overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
@@ -1259,7 +1259,7 @@
     const elapsed=viewport.querySelector('.music-elapsed');if(elapsed)elapsed.textContent=ICSMusic.time(ui.music.position);
   }
   function renderEmail() {
-    return ICSEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale());
+    return KKEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale(),i18n.language);
   }
   function composeEmail(source=null,forward=false,to='') {
     const draft=ICSEmail.draft(source,forward);if(to)draft.to=to;
@@ -1794,7 +1794,13 @@
       case 'email-compose': composeEmail();break;
       case 'email-reply': case 'email-forward': composeEmail(data.mailbox.find(item=>item.id===ui.emailId),action==='email-forward');break;
       case 'email-list': ui.sub='';ui.overlay='';ui.emailSelected=[];render();break;
-      case 'email-folders': case 'email-menu': ui.overlay=action;renderOverlay();break;
+      case 'email-folders': case 'email-menu': ui.emailMenu=id||'list';ui.overlay=action;renderOverlay();break;
+      // 4.4 Email (UnifiedEmail): the folder drawer, Save draft, Reply all, Move to and the menu entries without a screen.
+      case 'email-drawer': ui.overlay='email-drawer';renderOverlay();break;
+      case 'email-save': ui.sub='';ui.overlay='';ui.emailSelected=[];render();toast(KKEmail.tr(i18n.language,'Message saved as draft.'));break;
+      case 'email-reply-all': ui.overlay='';composeEmail(data.mailbox.find(item=>item.id===ui.emailId),false);break;
+      case 'email-move': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(item){if(id==='Trash')ICSEmail.trash(data.mailbox,[item.id]);else{item.folder=id;delete item.previousFolder;}}ui.overlay='';ui.sub='';save();render();break;}
+      case 'email-unavailable': ui.overlay='';renderOverlay();toast('Not available in this simulator');break;
       case 'email-folder': ui.emailFolder=id;ui.sub='';ui.emailQuery=undefined;ui.emailSelected=[];ui.overlay='';render();break;
       case 'email-star': {const item=data.mailbox.find(item=>item.id===id);if(item)item.starred=!item.starred;save();render();break;}
       case 'email-select': ui.emailSelected ||= [];ui.emailSelected=ui.emailSelected.includes(id)?ui.emailSelected.filter(key=>key!==id):[...ui.emailSelected,id];render();break;

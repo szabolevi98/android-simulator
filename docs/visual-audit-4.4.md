@@ -170,3 +170,21 @@ The "Wallpapers" button in the overview opens Launcher3's 4.4 `WallpaperPickerAc
 - **Delete CAB:** a long press on a picked or saved image starts the CAB ("%d selected", Delete).
 - **Pick image:** sends `ACTION_GET_CONTENT image/*`. 4.4 answers it with DocumentsUI "Open from" on the Recent root: grid cards with the images. A picked image becomes a selected tile, and setting it saves it into the strip.
 - **Live tiles:** tapping one opens the live wallpaper preview. Back from the preview returns to the picker.
+
+## Email, Camera, Gallery, Calendar, Browser — 2026-10-03
+
+**Email.** 4.4 is the first AOSP Email built on UnifiedEmail (`Email/Android.mk` pulls in `../UnifiedEmail`). The theme is `UnifiedEmailTheme` (Theme.Holo.Light). Changes from the 4.3 screens:
+- **Action bar:** `MailActionBarView` shows the drawer indicator and the folder name over the account. Compose and Search are actions. Refresh, Sync options, Settings and Help sit in the overflow.
+- **Drawer:** `FolderListFragment` (flat). The account row with its radio button and unread count comes first, then Inbox, Starred, Drafts, Outbox, Sent and Trash.
+- **List rows:** `ConversationItemView` rows with 48 dp `LetterTileProvider` tiles (first letter, eight colours picked by the address hash). Each row has the 18 sp sender, the 12 sp date, the two-line 13 sp "subject — snippet" and the star. Unread rows are white `list_unread_holo`, read rows #eeeeee `list_read_holo`.
+- **Selection:** touching a tile selects the conversation (`ic_avatar_check`) and opens the CAB.
+- **Conversation:** Delete and Mark unread are promoted to the action bar. The subject header carries its star. The message header has the tile, the sender, "To: me", the date, Reply and an overflow with Reply all and Forward.
+- **Compose:** From, To, optional Cc / Bcc, Subject and the "Compose email" body. Send is in the bar; Attach picture, Add Cc/Bcc, Save draft, Discard, Settings and Help are in the overflow.
+
+**Camera.** 4.4 moves the camera into its own app (`packages/apps/Camera2`). Compared with 4.3 (Gallery2):
+- `camera_controls.xml` changes only the class name (`ModuleSwitcher`) and the `preview_thumb` view.
+- `PhotoMenu` and `VideoMenu` build the same pie. The only addition, HDR+, appears only with Google's GCam module.
+
+The 4.3 camera screens therefore stay.
+
+**Gallery, Calendar, Browser.** Their `res/values/strings.xml` differ from 4.3 by at most three strings (Gallery: "Switch to Refocus"; Calendar: the RSVP "Responded yes/maybe/no"; Browser: none). These apps stay as they are.
