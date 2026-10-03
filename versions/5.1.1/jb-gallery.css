@@ -1,0 +1,83 @@
+/* Android 4.3 Gallery (Gallery2 android-4.3_r1.1, dp scaled by 0.9). Backgrounds #1A1A1A, placeholders #333. */
+.jbgal{position:relative;display:flex;flex-direction:column;height:100%;background:#1a1a1a;color:#fff;overflow:hidden;user-select:none;-webkit-user-select:none}
+/* Holo.ActionBar on actionbar_translucent (70% black). */
+.jbgal-bar{position:relative;z-index:3;flex:none;height:43.2px;display:flex;align-items:center;background:#000000b3}
+.jbgal-bar-fill{flex:1;min-width:0}
+.jbgal-bar h2{margin:0 0 0 2px;font:400 16.2px RobotoICS,Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.jbgal-up{flex:none;height:100%;display:flex;align-items:center;gap:0;border:0;padding:0 4px 0 0;background:none}
+.jbgal-up-caret{width:14.4px;height:28.8px;object-fit:contain;margin-left:-2px}
+.jbgal-app{width:28.8px;height:28.8px;object-fit:contain}
+.jbgal-up:active,.jbgal-icon:active,.jbgal-spinner:active{background:#33b5e566}
+.jbgal-icon{flex:none;width:50.4px;height:100%;border:0;padding:0;background:none;display:grid;place-items:center}
+.jbgal-icon img{width:28.8px;height:28.8px}
+/* spinner_ab_default_holo_dark: the triangle in the bottom-right corner. */
+.jbgal-spinner{flex:none;max-width:60%;height:100%;border:0;border-style:solid;border-color:transparent;border-width:3.6px 14.4px 5.4px 3.6px;border-image:url('assets/jbgal-spinner_ab_default_holo_dark.png') 6 24 9 6 fill / 3.6px 14.4px 5.4px 3.6px stretch;background:none;color:#fff;font:400 16.2px RobotoICS,Roboto,sans-serif;text-align:left;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbgal-spinner:active{border-image-source:url('assets/jbgal-spinner_ab_pressed_holo_dark.png')}
+.jbgal-two-line{display:flex;flex-direction:column;justify-content:center;line-height:1.1}
+.jbgal-two-line strong{font-weight:400;font-size:16.2px;overflow:hidden;text-overflow:ellipsis}
+.jbgal-two-line small{font-size:12.6px;color:#bbb}
+/* SlotView with WIDE = true: rows fill the height and the grid scrolls sideways. */
+.jbgal-scroll{flex:1;min-height:0;overflow-x:auto;overflow-y:hidden;container-type:size;scrollbar-width:none;overscroll-behavior:contain;touch-action:pan-x}
+.jbgal-scroll::-webkit-scrollbar{display:none}
+.jbgal-grid{display:grid;grid-auto-flow:column;height:100%;box-sizing:border-box;width:max-content;min-width:100%;align-content:start}
+.jbgal-set-grid{--gap:6.3px;padding:6.3px;gap:var(--gap);grid-template-rows:repeat(3,calc((100cqh - 12.6px - 2 * var(--gap)) / 3));grid-auto-columns:calc((100cqh - 12.6px - 2 * var(--gap)) / 3)}
+.jbgal-album-grid{--gap:4.5px;padding:0;gap:var(--gap);grid-template-rows:repeat(4,calc((100cqh - 3 * var(--gap)) / 4));grid-auto-columns:calc((100cqh - 3 * var(--gap)) / 4)}
+.jbgal-slot{position:relative;border:0;padding:0;background:#333;overflow:hidden;display:block}
+.jbgal-slot>img{width:100%;height:100%;object-fit:cover;display:block}
+.jbgal-slot:active::after{content:'';position:absolute;inset:0;background:#33b5e566}
+/* AlbumLabelMaker: 30dp #EE414143 strip, 25dp source icon, 12sp title, 9sp count in the last 20dp. */
+.jbgal-label{position:absolute;left:0;right:0;bottom:0;height:27px;display:flex;align-items:center;background:#414143ee;padding-left:1.8px;text-align:left}
+.jbgal-label img{width:22.5px;height:22.5px;flex:none}
+.jbgal-label strong{flex:1;min-width:0;font:400 10.8px RobotoICS,Roboto,sans-serif;color:#fbfbfb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:2px}
+.jbgal-label small{flex:none;width:18px;font-size:8.1px;color:#a9abad;white-space:nowrap}
+.jbgal-empty{margin:auto;padding:24px;color:#bbb;text-align:center;font-size:15px}
+/* Holo popups: spinner dropdown under the title, overflow menu at the top right. */
+.jbgal-popup-scrim{position:absolute;inset:0;z-index:6}
+.jbgal-dropdown,.jbgal-menu{position:absolute;z-index:7;top:40px;min-width:170px;background:#282828;box-shadow:0 2px 10px #000c;border:1px solid #ffffff1a;display:flex;flex-direction:column}
+.jbgal-dropdown{left:36px}.jbgal-menu{right:2px;min-width:190px}
+.jbgal-dropdown button,.jbgal-menu button{min-height:43.2px;border:0;border-bottom:1px solid #ffffff12;background:none;color:#fff;font:400 15px RobotoICS,Roboto,sans-serif;text-align:left;padding:0 14.4px}
+.jbgal-dropdown button[aria-checked=true]{background:#33b5e533}
+.jbgal-dropdown button:active,.jbgal-menu button:active{background:#33b5e566}
+/* PhotoPage: full screen, the bars overlay the picture and hide after 3.5 s or on tap. */
+.screen:has(>#viewport>.jbgal-photo) #viewport{top:0}
+.screen:has(>#viewport>.jbgal-photo:not(.bars)) #status-bar{opacity:0;pointer-events:none}
+.jbgal-photo .jbgal-bar{position:absolute;top:var(--sb);left:0;right:0;transition:opacity .2s}
+.jbgal-photo:not(.bars) .jbgal-bar,.jbgal-photo:not(.bars) .jbgal-bottom{opacity:0;pointer-events:none}
+.jbgal-photo.slideshow .jbgal-bar,.jbgal-photo.slideshow .jbgal-bottom{display:none}
+.jbgal-stage{position:absolute;inset:0;overflow:hidden;touch-action:none}
+.jbgal-picture{position:absolute;left:0;top:0;border:0;padding:0;background:none;transform-origin:center;will-change:transform}
+.jbgal-picture>img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+.jbgal-photo.film .jbgal-picture>img{box-shadow:0 2px 8px #000a}
+.jbgal-camera-card{background:#000;overflow:hidden}
+.jbgal-camera-card>img{object-fit:cover}
+.jbgal-bottom{position:absolute;left:0;bottom:0;z-index:3;padding:9px;transition:opacity .2s}
+.jbgal-bottom .jbgal-icon{width:43.2px;height:43.2px;border-radius:2px}
+.jbgal-photo.film .jbgal-bottom{display:none}
+.jbgal-undo{position:absolute;left:0;right:0;bottom:0;z-index:4;height:43.2px;display:flex;align-items:center;justify-content:space-between;padding-left:16px;background:#000000d9;font-size:15px}
+.jbgal-undo button{height:100%;border:0;border-left:1px solid #ffffff33;background:none;color:#fff;font:700 13px RobotoICS,Roboto,sans-serif;padding:0 18px}
+.jbgal .gallery-stop{position:absolute;z-index:4;left:50%;bottom:12px;transform:translateX(-50%)}
+/* FilterShowActivity: #101010 picture area, 128dp category strip and 48dp button bar on #232323. */
+.jbgal-editor{background:#101010}
+.jbgal-editor-bar{background:#000}
+.jbgal-save{height:100%;display:flex;align-items:center;gap:6px;border:0;border-right:1px solid #ffffff1f;background:none;color:#fff;font:400 12.6px RobotoICS,Roboto,sans-serif;text-transform:uppercase;padding:0 14px 0 8px}
+.jbgal-save img{width:28.8px;height:28.8px}
+.jbgal-save:active{background:#33b5e566}
+.jbgal-editor-image{flex:1;min-height:0;display:grid;place-items:center;padding:10px;touch-action:none}
+.jbgal-editor-image img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.jbgal-slider{flex:none;display:flex;align-items:center;gap:10px;padding:6px 12px;background:#232323;font-size:13px}
+.jbgal-slider span{min-width:72px;color:#ccc}
+.jbgal-slider input{flex:1;accent-color:#33b5e5}
+.jbgal-slider output{min-width:40px;text-align:right}
+.jbgal-categories{flex:none;height:115.2px;display:flex;gap:2px;overflow-x:auto;background:#232323;scrollbar-width:none;padding:6px 4px;touch-action:pan-x}
+.jbgal-categories::-webkit-scrollbar{display:none}
+.jbgal-cat{flex:none;width:76px;border:0;padding:0;background:#1a1a1a;color:#a7a7a7;display:flex;flex-direction:column;align-items:stretch;outline:2px solid transparent;outline-offset:-2px}
+.jbgal-cat span{flex:1;min-height:0;overflow:hidden;display:grid;place-items:center}
+.jbgal-cat span img{width:100%;height:100%;object-fit:cover}
+.jbgal-cat small{flex:none;font-size:11px;padding:4px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbgal-cat.selected{outline-color:#fff;color:#fff}
+.jbgal-cat-text span{font-size:12px;padding:6px;text-align:center;line-height:1.25}
+.jbgal-editor-buttons{flex:none;height:43.2px;display:flex;background:#232323;border-top:1px solid #333}
+.jbgal-editor-buttons button{flex:1;border:0;background:none;display:grid;place-items:center}
+.jbgal-editor-buttons button.selected{background:#ffffff14;box-shadow:inset 0 -3px #33b5e5}
+.jbgal-editor-buttons img{width:28.8px;height:28.8px}
+.jbgal-editor-buttons button:active{background:#33b5e566}

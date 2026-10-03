@@ -1,0 +1,24 @@
+/* Android 4.4 People (Contacts android-4.4.4_r1): PeopleTheme on Theme.Holo.Light with the #e6e6e6 action_bar_tab
+   bars, #363636 text, icon tabs (Favorites, All, Groups; ic_menu_*_dk when selected, _lt otherwise), #D0D0D0
+   section underlines and 64 dp LetterTileDrawable avatars on the right of each row. */
+.screen .people-app{background:#f5f5f5;color:#363636}
+.screen .people-header{background:#e6e6e6;color:#363636;min-height:43.49px;border-bottom:0}
+.screen .people-header h2{color:#363636;font-size:16.31px}
+.screen .people-header button{height:43.49px;min-width:36px;padding:5px}
+.screen .people-header img{width:28.99px;height:28.99px}
+.screen .people-header .people-star img{width:28.99px;height:28.99px}
+.screen .people-header .people-done{color:#363636;border-left-color:#0000001f}
+.screen .people-tabs{background:#e6e6e6;min-height:43.49px;border-bottom:1px solid #d0d0d0}
+.screen .people-tabs button{border-bottom:0;padding:0;display:grid;place-items:center}
+.screen .people-tabs button img{width:28.99px;height:28.99px}
+.screen .people-section{margin:0 14.5px 0 7.25px;padding:6px 0 3px 7.25px;border-bottom:.9px solid #d0d0d0;color:#363636;font-size:12.68px;font-weight:700}
+.screen .people-row{height:72.48px;padding:0 0 0 14.5px;border-bottom:1px solid #e3e3e3;color:#363636;font-size:16.31px}
+.screen .people-row .people-row-letter{width:57.98px;height:57.98px;flex:none;margin-right:0}
+.screen .people-actions{background:#e6e6e6;border-top:1px solid #d0d0d0;min-height:43.49px}
+.screen .people-actions img{width:28.99px;height:28.99px}
+.screen .people-actions button:first-child img{filter:none}
+.screen .people-portrait{height:auto;aspect-ratio:1/.67}
+.screen .people-portrait .people-portrait-tile{position:absolute;inset:0;width:100%;height:100%}
+.screen .people-detail-row small{color:#888}
+.screen .people-favorite-tile .people-fav-letter{width:100%;aspect-ratio:1;height:auto}
+.screen .people-search input{border-bottom-color:#363636}

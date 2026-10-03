@@ -1,0 +1,51 @@
+/* Google+ Photos on the Nexus 5 (GSMArena review screenshots, 1 dp = 0.906 px): a 48 dp #dddddd action bar with
+   the drawer mark, the pinwheel and an 18 sp #282828 title, #888888 action icons; #f5f5f5 tabs with 14 sp bold
+   #434343 labels and a 3 dp #33b5e5 indicator; square thumbnails three on a line with 2 dp gaps; Folders on #e5e5e5. */
+.ph-app{background:#f5f5f5;color:#282828;color-scheme:light;font-family:RobotoICS,Roboto,sans-serif}
+.ph-bar{flex:none;display:flex;align-items:center;height:43.49px;background:#dddddd;z-index:2}
+.ph-up{flex:none;position:relative;display:flex;align-items:center;height:100%;padding:0 6.34px 0 9.06px;border:0;background:none}
+.ph-up i{position:absolute;left:0;top:50%;width:6.34px;height:1.81px;margin-top:-4.53px;background:#888;box-shadow:0 3.62px #888,0 7.25px #888}
+.ph-up span{position:absolute;left:0;font:300 21.74px/1 RobotoICS,sans-serif;color:#888}
+.ph-up img{width:28.99px;height:28.99px}
+.ph-bar h2{flex:1;min-width:0;margin:0 0 0 3.62px;font:400 16.31px RobotoICS,sans-serif;color:#282828;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph-btn{flex:none;width:43.49px;height:43.49px;padding:0;border:0;background:none;display:grid;place-items:center;color:#888!important}
+.ph-btn svg{width:21.74px;height:21.74px}
+.ph-app button:active{background-color:#0000001a}
+.ph-tabs{flex:none;display:flex;height:43.49px;background:#f5f5f5;border-bottom:.906px solid #e0e0e0}
+.ph-tabs button{position:relative;flex:1;border:0;background:none;font:700 12.68px RobotoICS,sans-serif;color:#434343!important;text-transform:uppercase}
+.ph-tabs button+button::before{content:"";position:absolute;left:0;top:10.87px;bottom:10.87px;width:.906px;background:#d6d6d6}
+.ph-tabs button.active{box-shadow:inset 0 -2.72px #33b5e5}
+.ph-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none}
+.ph-scroll::-webkit-scrollbar{display:none}
+.ph-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.81px}
+.ph-thumb{position:relative;display:block;aspect-ratio:1;padding:0;border:0;background:#ccc;overflow:hidden}
+.ph-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ph-folders img{filter:brightness(.45)}
+.ph-folders span{position:absolute;left:7.25px;bottom:9.06px;display:flex;align-items:center;gap:4.53px;font:400 14.5px RobotoICS,sans-serif;color:#fff}
+.ph-folders svg{width:19.93px;height:19.93px;color:#fff}
+.ph-day h3{display:flex;align-items:center;justify-content:space-between;height:43.49px;margin:0;padding-left:10.87px;font:400 16.31px RobotoICS,sans-serif;color:#333}
+.ph-day h3 .ph-btn{color:#666!important}
+.ph-mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:1.81px}
+.ph-mosaic .big{grid-column:span 2;grid-row:span 2}
+.ph-empty{padding:40px 16px;text-align:center;font-size:14.5px;color:#888}
+.ph-folders-list{padding:0 0 9.06px;background:#e5e5e5;min-height:100%}
+.ph-folder{display:block;width:100%;padding:0;border:0;background:none;text-align:left}
+.ph-folder-name{display:block;padding:12.68px 10.87px 7.25px;font:400 16.31px RobotoICS,sans-serif;color:#333}
+.ph-folder-strip{position:relative;display:grid;grid-template-columns:2fr 1fr 1fr;gap:1.81px;height:90px;background:#e5e5e5}
+.ph-folder-strip img{width:100%;height:90px;object-fit:cover;display:block}
+.ph-chevron{position:absolute;right:0;top:0;bottom:0;width:36px;display:grid;place-items:center;background:linear-gradient(90deg,#0000,#0000008c);color:#fff}
+.ph-chevron svg{width:25px;height:25px}
+/* Viewer: the picture on black with a translucent bar; a tap hides the bars. */
+.ph-viewer-view{background:#000;position:relative}
+.ph-viewer{position:absolute;inset:0;display:grid;place-items:center;touch-action:pan-y}
+.ph-viewer img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.ph-viewer-bar{position:absolute;left:0;right:0;top:0;background:#000000a6;transition:opacity .2s}
+.ph-viewer-bar .ph-up span{color:#ccc}
+.ph-viewer-bar .ph-btn{color:#fff!important}
+.ph-bare .ph-viewer-bar{opacity:0;pointer-events:none}
+.ph-menu{position:absolute;z-index:31;top:calc(var(--sb) + 3.62px);right:3.62px;min-width:168px;background:#fafafa;box-shadow:0 2px 6px #0000004d}
+.ph-menu.dark{background:#282828}
+.ph-menu button{display:block;width:100%;height:43.49px;padding:0 14.5px;border:0;border-top:.906px solid #e3e3e3;background:none;text-align:left;font:400 14.5px RobotoICS,sans-serif;color:#222!important;white-space:nowrap}
+.ph-menu.dark button{border-top-color:#3a3a3a;color:#eee!important}
+.ph-menu button:first-child{border-top:0}
+.ph-menu button:active{background:#0000001a}

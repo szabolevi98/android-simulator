@@ -1,0 +1,67 @@
+/* Android 4.3 Camera (Gallery2 android-4.3_r1.1, dp scaled by 0.9): camera_controls (layout-port), PieRenderer, switcher popup. */
+.jbcam{position:relative;height:100%;background:#000;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;color:#fff}
+.jbcam-preview{position:absolute;left:0;right:0;top:50%;aspect-ratio:3/4;transform:translateY(-50%);overflow:hidden;pointer-events:none}
+.jbcam-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.jbcam-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.jbcam-zoom text{font:28px Roboto,RobotoICS,sans-serif}
+.jbcam-icons{position:absolute;inset:0;pointer-events:none}
+.jbcam-icons img{position:absolute;width:32.4px;height:32.4px}
+/* TextDrawable label with drop shadow above the arc. */
+.jbcam-label{position:absolute;transform:translate(-50%,-50%);font:16px Roboto,RobotoICS,sans-serif;white-space:nowrap;text-shadow:0 0 3px #000,0 1px 2px #000;pointer-events:none}
+.jbcam-controls{position:absolute;left:0;right:0;bottom:0;height:64.8px}
+.jbcam-blocker{position:absolute;inset:0}
+.jbcam-switcher,.jbcam-menu{position:absolute;bottom:1.8px;width:64.8px;height:64.8px;border:0;padding:0;background:transparent;transition:background-color .2s,opacity .2s}
+.jbcam-switcher{left:0}.jbcam-menu{right:0}
+.jbcam-switcher:active,.jbcam-menu:active{background:#33b5e566;transition:none}
+.jbcam-switcher img{position:absolute;left:50%;top:50%;width:43.2px;height:43.2px;transform:translate(-50%,-50%)}
+.jbcam-switching .jbcam-switcher{opacity:0}
+/* OnScreenIndicators: six ring segments in a 64dp frame behind the menu button. */
+.jbcam-indicators{position:absolute;right:-4.5px;bottom:5.4px;width:57.6px;height:57.6px;pointer-events:none}
+.jbcam-ind{position:absolute;width:19.8px;height:28.8px}
+.jbcam-ind.right{right:0}.jbcam-ind.left{left:0}.jbcam-ind.center{left:50%;margin-left:-9.9px}.jbcam-ind.top{top:0}.jbcam-ind.bottom{bottom:0}
+.jbcam-ind[data-ind=location],.jbcam-ind[data-ind=timer]{width:18px;margin-left:-9px}
+/* ShutterButton: bottom|center_horizontal with shutter_offset -22dp. */
+.jbcam-shutter{position:absolute;left:50%;bottom:-19.8px;width:108px;height:108px;margin-left:-54px;border:0;padding:0;background:none;border-radius:50%}
+.jbcam-shutter img{width:108px;height:108px;display:block}
+.jbcam[data-module=photo] .jbcam-shutter:active img,.jbcam[data-module=panorama] .jbcam-shutter:active img{content:url('assets/jbcam-btn_shutter_pressed.png')}
+.jbcam[data-module=video] .jbcam-shutter:active img{content:url('assets/jbcam-btn_shutter_video_pressed.png')}
+.jbcam-shutter:focus-visible,.jbcam-switcher:focus-visible,.jbcam-menu:focus-visible{outline:2px solid #33b5e5;outline-offset:-4px}
+/* switcher_popup: #80000000, 8dp margin, 16/8dp padding, scaling up from the button in 200 ms. */
+.jbcam-switcher-popup{position:absolute;left:7.2px;bottom:7.2px;padding:7.2px 14.4px;background:#00000080;display:flex;flex-direction:column;transform-origin:0 100%;animation:jbcam-pop .2s ease-out}
+.jbcam-switcher-popup[hidden]{display:none}
+.jbcam-switcher-popup button{width:64.8px;height:64.8px;border:0;padding:0;background:none;display:grid;place-items:center}
+.jbcam-switcher-popup button:active{background:#33b5e566}
+.jbcam-switcher-popup img{width:43.2px;height:43.2px}
+@keyframes jbcam-pop{from{opacity:0;transform:scale(.3)}}
+/* CaptureAnimManager review image and thumbnail. */
+.jbcam-thumb{position:absolute;z-index:2;border:0;padding:0;background:#000;overflow:hidden;pointer-events:none}
+.jbcam-thumb[hidden]{display:none}
+.jbcam-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.jbcam-thumb::after{content:'';position:absolute;inset:0;background:#fff;opacity:var(--flash,0)}
+.jbcam-thumb-border{box-shadow:0 0 0 1.5px #fff,0 0 7px 2px #000b}
+.jbcam-thumb-live{pointer-events:auto;cursor:pointer}
+/* CountDownView: 160sp remaining seconds and the 20sp title. */
+.jbcam-countdown{position:absolute;inset:0;pointer-events:none}
+.jbcam-countdown[hidden]{display:none}
+.jbcam-count-title{position:absolute;left:9px;top:18px;font-size:18px;text-shadow:0 1px 3px #000}
+.jbcam-count-n{position:absolute;inset:0;display:grid;place-items:center;font:144px Roboto,RobotoICS,sans-serif;text-shadow:0 2px 8px #0008}
+.jbcam-rec{position:absolute;left:50%;top:12px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;font:18px Roboto,RobotoICS,sans-serif;text-shadow:0 1px 3px #000;pointer-events:none}
+.jbcam-rec[hidden]{display:none}
+.jbcam-rec img{width:23.4px;height:23.4px}
+/* Setting popups: popup_background #282828, holo blue title with a 2dp rule. */
+.jbcam-dialog-scrim{position:absolute;inset:0;z-index:5;background:#0007}
+.jbcam-dialog{position:absolute;z-index:6;left:50%;top:50%;transform:translate(-50%,-50%);width:min(280px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;background:#282828;color:#fff;box-shadow:0 4px 18px #000a}
+.jbcam-dialog h3{margin:0;min-height:44px;display:flex;align-items:center;justify-content:center;padding:0 12px;font:400 19.8px Roboto,RobotoICS,sans-serif;color:#33b5e5;border-bottom:1.8px solid #33b5e5;text-align:center}
+.jbcam-dialog-sub{text-align:center;padding:10px 12px 4px;font-size:16px}
+.jbcam-picker{display:flex;align-items:center;justify-content:center;gap:18px;padding:8px}
+.jbcam-picker button{width:44px;height:44px;border:0;background:none;color:#33b5e5;font-size:28px}
+.jbcam-picker button:active{background:#33b5e566}
+.jbcam-picker output{min-width:72px;text-align:center;font-size:28px;padding:6px 0;border-top:1.8px solid #33b5e5;border-bottom:1.8px solid #33b5e5}
+.jbcam-check{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:0 14px;border-top:1px solid #ffffff40;font-size:15px}
+.jbcam-check input{width:22px;height:22px;accent-color:#33b5e5}
+.jbcam-dialog-actions{display:flex;border-top:1px solid #ffffff40}
+.jbcam-dialog-actions button{flex:1;min-height:44px;border:0;background:none;color:#fff;font-size:15px}
+.jbcam-dialog-actions button:active,.jbcam-radio:active{background:#33b5e566}
+.jbcam-radio{width:100%;min-height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 16px;border:0;border-bottom:1px solid #ffffff1a;background:none;color:#fff;font-size:16px;text-align:left}
+.jbcam-radio img{width:32px;height:32px}
+@media(prefers-reduced-motion:reduce){.jbcam-switcher-popup{animation:none}}
