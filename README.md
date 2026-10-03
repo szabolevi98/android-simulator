@@ -42,6 +42,8 @@ What each version does, screen by screen:
 
 `assets/og-cover.jpg` (1200 × 630) is the `og:image` of every page. Its source is `docs/og-cover.html`, which lays out the phones from each version's frame and `landing-home.jpg`. To redraw it after a change, for example when a new version gets a landing shot, run the command below. It needs only Node and a local Chrome, or set `CHROME` to point at one. Then bump the `?v=` of `og-cover.jpg` in the `og:image` tags.
 
+The portfolio card on levente.net uses a 1600 × 960 variant with an English headline, from `docs/portfolio-cover.html` (render it at 1200 × 720 with a 4/3 device pixel ratio).
+
 ```bash
 node docs/make-og-cover.mjs
 ```
