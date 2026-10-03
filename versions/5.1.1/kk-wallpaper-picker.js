@@ -1,16 +1,19 @@
-/* Android 4.4 Launcher3 WallpaperPickerActivity (packages/apps/Launcher3/WallpaperPicker, android-4.4.4_r1).
-   Theme.WallpaperPicker is fullscreen with the wallpaper showing through, and its action bar is a #88000000 overlay with
-   one custom button: ic_actionbar_accept and "Set wallpaper". At the bottom sits the wallpaper strip: 2 dp tile shadows
-   around a HorizontalScrollView of 106.5 × 94.5 dp tiles. The order is Pick image (the last photo under #66000000 with
-   ic_images), then the images picked in this session, the default wallpaper (KitKat: getBuiltInDrawable), the saved
-   images, and the live wallpapers with their translucent label bar. AOSP's wallpapers array is empty, so nothing is
-   bundled. Selecting a tile previews it full screen; until something is picked the current wallpaper shows. Tapping the
-   preview hides or shows the strip. A long press on a picked or saved image starts the "%d selected" CAB with Delete.
-   Pick image sends ACTION_GET_CONTENT image/*, which 4.4 answers with DocumentsUI "Open from" on Recent. */
+/* Launcher3 5.1 WallpaperPickerActivity as the Google Now Launcher ships it on the Nexus 6 (LMY48Y), on the 4.4 strip
+   UI it inherits: Theme.WallpaperPicker is fullscreen with the wallpaper showing through, and its action bar is a
+   #88000000 overlay with one custom button: ic_actionbar_accept and "Set wallpaper". At the bottom sits the wallpaper
+   strip: 2 dp tile shadows around a HorizontalScrollView of 106.5 x 94.5 dp tiles. init() fills it in this order: Pick
+   image (the last photo under #66000000 with ic_images) added at index 0, then wallpaper_list, where images picked in
+   this session go first, findBundledWallpapers() puts the default wallpaper and the launcher's R.array.wallpapers
+   (GoogleHome.apk: wp_paper_001, wp_arc_*, wp_geo_*, with their _small thumbnails), and the saved images follow; the
+   live wallpaper list stays empty because the image declares no WallpaperService, and no third-party picker remains
+   after ThirdPartyWallpaperPickerListAdapter drops the live picker and image pickers. Selecting a tile previews it full
+   screen; until something is picked the current wallpaper shows. Tapping the preview hides or shows the strip. A long
+   press on a picked or saved image starts the "%d selected" CAB with Delete. Pick image sends ACTION_GET_CONTENT
+   image/*, answered here by DocumentsUI "Open from" on Recent. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  // The strip in order; keys are 'default', 'photo:<id>' and 'live:<id>'.
+  // The strip in order; keys are 'default', 'wp:<index>' (bundled, index into the simulator's wallpaper list) and 'photo:<id>'.
   function tiles(ctx) {
     const {data, ui} = ctx, wp = ui.wp || {};
     const photo = id => data.photos.find(p => p.id === id);
@@ -18,21 +21,20 @@
     return [
       ...temp.map(id => ({key: `photo:${id}`, kind: 'photo', photo: photo(id), deletable: true})),
       {key: 'default', kind: 'default'},
-      ...saved.map(id => ({key: `photo:${id}`, kind: 'photo', photo: photo(id), deletable: true})),
-      ...ctx.live.map(spec => ({key: `live:${spec.id}`, kind: 'live', spec}))
+      ...ctx.bundled.map((name, i) => ({key: `wp:${i + 1}`, kind: 'bundled', name})),
+      ...saved.map(id => ({key: `photo:${id}`, kind: 'photo', photo: photo(id), deletable: true}))
     ];
   }
   function render(ctx) {
     const {data, ui, t} = ctx, wp = ui.wp || {}, list = tiles(ctx), checked = wp.checked || [];
-    const nameless = list.filter(tile => tile.kind !== 'live');
     const last = data.photos[data.photos.length - 1];
     const sel = list.find(tile => tile.key === wp.selected);
-    const preview = !sel ? '' : sel.kind === 'default' ? "url('assets/lp-default_wallpaper.jpg')" : sel.kind === 'photo' ? `url('${ctx.image(sel.photo)}')` : '';
+    const preview = !sel ? '' : sel.kind === 'default' ? "url('assets/lp-default_wallpaper.jpg')" : sel.kind === 'bundled' ? `url('assets/gh-${sel.name}.jpg')` : `url('${ctx.image(sel.photo)}')`;
     const tile = item => {
       const cls = `kwp-tile ${item.kind}${item.key === wp.selected && !checked.length ? ' selected' : ''}${checked.includes(item.key) ? ' checked' : ''}`;
-      const label = item.kind === 'live' ? t(item.spec.label) : t('Wallpaper %1$d of %2$d').replace('%1$d', nameless.indexOf(item) + 1).replace('%2$d', nameless.length);
-      const img = item.kind === 'default' ? 'assets/lp-default_wallpaper.jpg' : item.kind === 'photo' ? ctx.image(item.photo) : `assets/${item.spec.thumb}`;
-      return `<button class="${cls}" data-action="kwp-tile" data-id="${e(item.key)}"${item.deletable ? ' data-kwp-long="1"' : ''} aria-label="${e(label)}" aria-pressed="${item.key === wp.selected}"><img src="${e(img)}" alt="">${item.kind === 'live' ? `<span class="kwp-label">${e(t(item.spec.label))}</span>` : ''}</button>`;
+      const label = t('Wallpaper %1$d of %2$d').replace('%1$d', list.indexOf(item) + 1).replace('%2$d', list.length);
+      const img = item.kind === 'default' ? 'assets/lp-default_wallpaper.jpg' : item.kind === 'bundled' ? `assets/gh-${item.name}_small.jpg` : ctx.image(item.photo);
+      return `<button class="${cls}" data-action="kwp-tile" data-id="${e(item.key)}"${item.deletable ? ' data-kwp-long="1"' : ''} aria-label="${e(label)}" aria-pressed="${item.key === wp.selected}"><img src="${e(img)}" alt=""></button>`;
     };
     const pick = `<button class="kwp-tile pick" data-action="kwp-pick"><img src="${last ? e(ctx.image(last)) : ''}" alt=""><span class="kwp-pick-label"><img src="assets/kwp-ic_images.png" alt="">${e(t('Pick image'))}</span></button>`;
     const bar = checked.length

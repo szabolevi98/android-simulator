@@ -231,3 +231,8 @@ Settings wifi_status
 Settings wifi_speed
 Settings wifi_frequency
 Settings array:wifi_signal
+# Wallpaper sources (WallpaperTypeSettings) and the empty LivePicker list: the Nexus 6 image has no live wallpapers.
+LiveWallpapersPicker live_wallpaper_picker_label
+LiveWallpapersPicker live_wallpaper_empty
+PlusOne photos_setas_wallpaper
+Velvet pick_wallpaper

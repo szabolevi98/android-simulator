@@ -214,6 +214,9 @@ window.AndroidI18n?.extend([
   ["Fair", "Közepes", "Gut", "Satisfaisante", "Aceptable"],
   ["Good", "Jó", "OK", "Bonne", "Buena"],
   ["Excellent", "Kiváló", "Ausgezeichnet", "Excellente", "Excelente"],
+  ["Live Wallpapers", "Élő háttérképek", "Live-Hintergründe", "Fonds d'écran animés", "Fondos animados"],
+  ["No live wallpapers.", "Nincsenek élő háttérképek.", "Keine Live-Hintergründe", "Sans fond d'écran animé", "No hay ningún fondo de pantalla animado."],
+  ["Wallpaper", "Háttérkép", "Hintergrund", "Fond d'écran", "Fondo de pantalla"],
   ["Welcome to Android 5.1", "Üdvözli az Android 5.1", "Willkommen bei Android 5.1", "Bienvenue dans Android 5.1", "Te damos la bienvenida a Android 5.1"],
   ["Your Nexus 6 is ready to explore.", "A Nexus 6 készen áll a felfedezésre.", "Ihr Nexus 6 ist bereit.", "Votre Nexus 6 est prêt à être exploré.", "Tu Nexus 6 está listo para explorar."],
   ["Only the owner can be signed in on this simulator.", "Ebben a szimulátorban csak a tulajdonos jelentkezhet be.", "In diesem Simulator kann nur der Eigentümer angemeldet sein.", "Seul le propriétaire peut être connecté sur ce simulateur.", "En este simulador solo puede iniciar sesión el propietario."]

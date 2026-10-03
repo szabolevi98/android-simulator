@@ -3,3 +3,7 @@
 .kwp-tile.selected::after,.kwp-tile.checked::after{background:url('assets/gnl-ic_tick.svg') center/43.49px no-repeat;box-shadow:none}
 .screen .kwp-tile:active::after{background-color:#ffffff66}
 .kwp-set{font-family:Roboto,sans-serif}
+/* LivePicker's empty list (live_wallpaper_list.xml @android:id/empty): Theme.Holo's black window, the text centred in
+   textAppearanceMedium (18 sp, primary_text_holo_dark). */
+.lp-lw-empty{display:flex;align-items:center;justify-content:center;padding:0 14.5px;background:#000;color:#fff;font:400 16.31px Roboto,sans-serif;text-align:center}
+.lp-lw-empty p{margin:0}

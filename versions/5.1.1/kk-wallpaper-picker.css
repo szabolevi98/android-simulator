@@ -31,7 +31,6 @@
 .kwp-tile.pick>img{filter:brightness(.6)}
 .kwp-pick-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3.62px;color:#fff;font:400 12.68px RobotoICS,Arial,sans-serif}
 .screen .kwp-pick-label img{width:28.99px;height:28.99px;object-fit:contain}
-.kwp-label{position:absolute;left:0;right:0;bottom:0;padding:3.62px;background:#66000000;color:#fff;font:400 12.68px RobotoICS,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* DocumentsUI "Open from" for image/*: the drawer glyph next to the Recent icon, image cards in the grid. */
 .screen .kdu-ab .kwp-roots{display:flex;align-items:center;gap:0}
