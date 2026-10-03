@@ -1417,19 +1417,37 @@
     ui.ringingAlarm=clone(alarm); save(); ui.overlay='clock-ringing'; renderOverlay();
   }
 
+  /* Calculator 5.1 (packages/apps/Calculator android-5.1.1_r26, activity_calculator_port): the white display (4 dp
+     elevation) with the formula (sans-serif-light, #8A000000, 64 sp shrinking in 8 sp steps to 36 sp; 48 dp above,
+     24 dp below, 16 dp sides) and the live result (36 sp #6C000000); below, the #434343 numeric pad (12 dp in, 32 sp
+     white keys: 7 8 9 / 4 5 6 / 1 2 3 / . 0 =) beside the #636363 operator column (DEL or CLR in 15 sp caps, ÷ × − +
+     in 23 sp), and the #1DE9B6 advanced pad peeking 24 dp at the right edge (sin cos tan / ln log ! / π e ^ / ( ) √,
+     20 sp #91000000), swiped or tapped in. The status bar is the #00BCD4 accent; clearing reveals it over the display. */
+  const LP_CALC_PEEK = 21.74;
+  function calcPreview(expression) {
+    if (!expression || expression === 'Error' || !/[÷×−+^!√(]|sin|cos|tan|ln|log|π|e/.test(expression.replace(/^−/, ''))) return '';
+    try { const value = ICSCalculator.evaluate(expression); return value === expression ? '' : value; } catch { return ''; }
+  }
   function renderCalculator() {
-    const basic = ['7','8','9','÷','4','5','6','×','1','2','3','−','.','0','=','+'];
+    const numeric = ['7','8','9','4','5','6','1','2','3','.','0','='];
+    const operators = ['÷','×','−','+'];
     const advanced = ['sin','cos','tan','ln','log','!','π','e','^','(',')','√'];
-    const keys = (items, scientific = false) => items.map(key => `<button class="${!scientific && /^[0-9.]$/.test(key) ? 'digit' : 'function'}" data-action="calc-key" data-id="${key}">${key}</button>`).join('');
-    return `<div class="app-view"><div class="ics-calculator"><div class="ics-calc-display"><output aria-label="Calculator display">${safe(ui.calc)}</output><button data-action="calc-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div><div class="ics-calc-delete"><span></span><button data-action="calc-key" data-id="${ui.calcFresh ? 'C' : '⌫'}" aria-label="${ui.calcFresh ? 'Clear' : 'Delete'}">${ui.calcFresh ? 'CLR' : 'DELETE'}</button></div><div class="calc-pager"><div class="calc-panels" style="transform:translateX(-${ui.calcPanel * 50}%)"><div class="ics-calc-grid" aria-label="Basic panel" ${ui.calcPanel ? 'inert' : ''}>${keys(basic)}</div><div class="ics-calc-grid scientific" aria-label="Advanced panel" ${ui.calcPanel ? '' : 'inert'}>${keys(advanced,true)}</div></div></div></div></div>`;
+    const key = (k, cls = '') => `<button class="lpcalc-key ${cls}" data-action="calc-key" data-id="${k}">${k}</button>`;
+    const error = ui.calc === 'Error', formula = error ? '' : ui.calc, result = error ? i18n.t('Error') : ui.calcFresh ? '' : calcPreview(ui.calc);
+    const width = 343 / .906, len = Math.max(1, [...formula].length);
+    const size = [64, 56, 48, 40, 36].find(sp => len * .55 * sp <= width) || 36;
+    const reveal = ui.calcReveal && Date.now() - ui.calcReveal < 600 ? `<span class="lpcalc-reveal${ui.calcRevealError ? ' error' : ''}"></span>` : '';
+    return `<div class="app-view lpcalc"><div class="lpcalc-display">${reveal}<output class="lpcalc-formula" aria-label="${safe(i18n.t('Calculator display'))}" style="font-size:${(size * .906).toFixed(2)}px">${safe(formula)}</output><output class="lpcalc-result${error ? ' error' : ''}">${safe(result)}</output></div><div class="calc-pager lpcalc-pager"><div class="calc-panels lpcalc-track" style="transform:translateX(${ui.calcPanel ? `calc(-100% + ${LP_CALC_PEEK}px)` : '0'})"><div class="lpcalc-main" ${ui.calcPanel ? 'inert' : ''}><div class="lpcalc-numeric">${numeric.map(k => key(k, k === '=' ? 'eq' : 'digit')).join('')}</div><div class="lpcalc-operators">${ui.calcFresh || error ? `<button class="lpcalc-key text" data-action="calc-key" data-id="C">${safe(i18n.t('clr').toUpperCase())}</button>` : `<button class="lpcalc-key text" data-action="calc-key" data-id="⌫">${safe(i18n.t('del').toUpperCase())}</button>`}${operators.map(k => key(k, 'op')).join('')}</div></div><div class="lpcalc-advanced"${ui.calcPanel ? '' : ` data-action="calc-panel" data-id="1"`}><div class="lpcalc-advanced-grid" ${ui.calcPanel ? '' : 'inert'}>${advanced.map(k => key(k, 'adv')).join('')}</div></div></div></div></div>`;
   }
   function setCalculatorPanel(index) {
     ui.calcPanel = index;
     const track = viewport.querySelector('.calc-panels');
     if (!track) return;
     track.style.transition = '';
-    track.style.transform = `translateX(-${index * 50}%)`;
-    track.querySelectorAll('.ics-calc-grid').forEach((panel, i) => { panel.inert = i !== index; });
+    track.style.transform = index ? `translateX(calc(-100% + ${LP_CALC_PEEK}px))` : 'translateX(0)';
+    const main = track.querySelector('.lpcalc-main'), grid = track.querySelector('.lpcalc-advanced-grid'), adv = track.querySelector('.lpcalc-advanced');
+    if (main) main.inert = !!index; if (grid) grid.inert = !index;
+    if (adv) { if (index) { delete adv.dataset.action; delete adv.dataset.id; } else { adv.dataset.action = 'calc-panel'; adv.dataset.id = '1'; } }
   }
   function renderMusic() {
     return ICSMusic.render(ui.music,ui,key=>i18n.t(key));
@@ -1515,7 +1533,7 @@
   }
 
   function operateCalculator(key) {
-    if (key === 'C') { ui.calc = ''; ui.calcFresh = false; return; }
+    if (key === 'C') { ui.calcRevealError = ui.calc === 'Error'; ui.calcReveal = Date.now(); ui.calc = ''; ui.calcFresh = false; return; }
     if (key === '⌫') { ui.calc = ui.calc === 'Error' ? '' : ui.calc.replace(/(?:sin|cos|tan|log|sqrt|√|ln)\($|.$/, ''); ui.calcFresh = false; return; }
     if (key === '=') {
       if (!ui.calc || ui.calc === 'Error') return;
@@ -3016,7 +3034,7 @@
       pointerStart.calculatorSwiping = true; suppressClickUntil = Date.now() + 350; event.preventDefault();
       try { screen.setPointerCapture(event.pointerId); } catch {}
       const track = viewport.querySelector('.calc-panels');
-      if (track) { track.style.transition = 'none'; track.style.transform = `translateX(${Math.max(-screen.clientWidth, Math.min(0, -ui.calcPanel * screen.clientWidth + dx))}px)`; }
+      if (track) { track.style.transition = 'none'; track.style.transform = `translateX(${Math.max(-(screen.clientWidth - LP_CALC_PEEK), Math.min(0, -ui.calcPanel * (screen.clientWidth - LP_CALC_PEEK) + dx))}px)`; }
       return;
     }
     if (pointerStart.drawerSwipeEligible && (pointerStart.drawerSwiping || Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.1 && performance.now() - pointerStart.downTime < 260)) {
