@@ -16,7 +16,13 @@
 .status-right>img,.status-cluster>img{height:15.4px;width:auto;display:block}
 .screen .status-right>img{width:21.74px;object-fit:contain;margin:0}
 .status-cluster{display:flex;align-items:center;margin-left:2.27px;padding-left:0;padding-right:6.34px}
-.screen .status-right .status-cluster img.status-wifi{margin:0 3.62px 0 0}
+/* SignalClusterView.apply(): wifi_signal_spacer (4 dp) is only VISIBLE when a mobile data type icon is shown, and
+   MobileSignalController shows one only while mobile data is connected, i.e. never next to a connected Wi-Fi, so the
+   signal box follows the Wi-Fi box directly; wifi_airplane_spacer (4 dp) does separate Wi-Fi from the airplane icon.
+   LTE is a wide type icon (TelephonyIcons.LTE), so the signal gets wide_type_icon_start_padding (2 dp) beside it. */
+.screen .status-right .status-cluster img.status-wifi{margin:0}
+.screen .status-right .status-cluster.lp-wifi-airplane img.status-wifi{margin:0 3.62px 0 0}
+.lp-mobile-wide>img:first-child{margin-left:1.81px}
 .lp-mobile{position:relative;display:block;height:15.4px}
 .lp-mobile img{height:15.4px;width:auto;display:block}
 .lp-mobile .lp-mobile-type{position:absolute;left:0;top:0}
