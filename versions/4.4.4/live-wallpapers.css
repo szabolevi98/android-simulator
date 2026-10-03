@@ -15,4 +15,3 @@
 .lw-preview-bar button{flex:1;min-height:43.2px;border:0;background:none;color:#f3f3f3!important;font:12.6px Roboto,RobotoICS,sans-serif}
 .lw-preview-bar button+button{box-shadow:inset 1px 0 #ffffff26}
 .lw-preview-bar button:active{background:#33b5e599}
-.lw-settings{background:#000;min-height:100%}

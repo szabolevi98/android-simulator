@@ -91,6 +91,8 @@
       // A reload during Gallery widget configuration leaves no completed choice.
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
       if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      // Only Sun Beam is left of the live wallpapers offered before the picker followed the KTU84P image.
+      if (result.liveWallpaper && result.liveWallpaper.id !== 'sunbeam') delete result.liveWallpaper; delete result.lwPrefs;
       return result;
     } catch { return clone(defaultData); }
   }
@@ -151,10 +153,11 @@
     { name: 'Home Network', security: 'WPA2', strength: 4 },
     { name: 'Library Wi-Fi', security: 'Open', strength: 2 }
   ];
-  // Launcher2 4.3 wallpapers (drawable-nodpi; 06 and 07 are tablet-only). wallpaper_01 is also the framework default_wallpaper.
-  const wallpaperFiles = ['01','02','03','04','05','08','09','10','11','12'];
-  // Index 0 is the framework default_wallpaper from the hammerhead overlay (2160 x 1920).
-  const wallpaperUrl = index => index === 0 || !wallpaperFiles[index] ? 'assets/kk-default_wallpaper.jpg' : `assets/jb-wallpaper_${wallpaperFiles[index]}.jpg`;
+  /* Index 0 is the framework default_wallpaper from the hammerhead overlay (2160 x 1920); 1-8 are the Google Now
+     Launcher's bundled wallpapers in the order of GoogleHome.apk's R.array.wallpapers (KTU84P, stored 1280 px tall);
+     11 is a picked photo. */
+  const wallpaperFiles = ['', 'wallpaper_15', 'wallpaper_16', 'wallpaper_17', 'wallpaper_19', 'wallpaper_20', 'wallpaper_22', 'wallpaper_50', 'wallpaper_51'];
+  const wallpaperUrl = index => index === 0 || !wallpaperFiles[index] ? 'assets/kk-default_wallpaper.jpg' : `assets/gh-${wallpaperFiles[index]}.jpg`;
   const homePageCount = () => data.homePages.length - (ui.extraScreen ? 1 : 0);
   /* Workspace.wallpaperOffsetForCurrentScroll: a still wallpaper spans at least MIN_PARALLAX_PAGE_SPAN (3) page
      gaps, a live one exactly the pages there are; the extra empty screen added while dragging does not count. */
@@ -546,7 +549,6 @@
     const frame = ui.resizeWidget === widget.id && spec.resize ? `<div class="jb-resize-frame" data-resize-frame>${['left', 'top', 'right', 'bottom'].map(edge => `<button class="jb-resize-handle jb-resize-${edge}" data-resize-edge="${edge}" aria-label="${safe(i18n.t('Resize'))}"><img src="assets/jb-widget_resize_handle_${edge}.png" alt=""></button>`).join('')}</div>` : '';
     return `<div class="home-widget widget-${widget.type}${frame ? ' resizing' : ''}" data-widget-id="${safe(widget.id)}" style="grid-column:${widget.x + 1}/span ${spec.width};grid-row:${widget.y + 1}/span ${spec.height}">${body}${frame}</div>`;
   };
-  const wallpaperChoices = () => `<div class="wallpaper-grid">${wallpaperFiles.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}" aria-label="${safe(i18n.t('Wallpaper'))} ${i + 1}"><span class="wallpaper-swatch" style="background-image:url('assets/jb-wallpaper_${name}_small.jpg')"></span></button>`).join('')}</div>`;
   const pageMarker = (active, add = false) => `<img class="kk-pi-off" src="assets/l3-ic_pageindicator_${add ? 'add' : 'default'}.png" alt=""><img class="kk-pi-on" src="assets/l3-ic_pageindicator_current.png" alt="">`;
   function renderHome() {
     const pages = data.homePages.length;
@@ -609,17 +611,12 @@
     if (setup) data.homeWidgets[setup.page] = data.homeWidgets[setup.page].filter(widget => widget.id !== setup.id);
     ui.photoWidgetSetup = null; ui.overlay = ''; save(); render();
   }
-  // LivePicker: the list (LiveWallpaperActivity), the preview with its button bar, and Polar clock's settings.
+  // LivePicker: the list (LiveWallpaperActivity) and the preview with its button bar.
   function renderLiveWallpapers() {
     const sub = String(ui.sub || '');
     if (sub.startsWith('preview:')) {
       const spec = LiveWallpapers.find(sub.slice(8));
-      return `<div class="app-view lw-preview"><div class="lw-preview-bar">${spec?.settings ? `<button data-action="lw-settings" data-id="${spec.id}">${safe(i18n.t('Settings…'))}</button>` : ''}<button data-action="lw-set" data-id="${safe(spec?.id || '')}">${safe(i18n.t('Set wallpaper'))}</button></div></div>`;
-    }
-    if (sub.startsWith('settings:')) {
-      const p = data.lwPrefs?.polar || {}, palette = p.palette || '';
-      const check = (key, title) => `<button class="settings-row wireless-row" data-action="lw-toggle" data-id="polar:${key}" role="checkbox" aria-checked="${p[key] !== false}"><span class="row-copy">${safe(i18n.t(title))}</span><img class="holo-checkbox" src="assets/btn_check_${p[key] !== false ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
-      return `<div class="app-view settings-app"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>${safe(i18n.t('Polar clock settings'))}</h2></div><div class="app-content dark lw-settings">${check('showSeconds', 'Show seconds')}${check('variableWidth', 'Vary ring widths')}<button class="settings-row wireless-row" data-action="lw-palette"><span class="row-copy">${safe(i18n.t('Color palette'))}${palette ? `<small>${safe(i18n.t(LiveWallpapers.PALETTE_NAMES[palette]))}</small>` : ''}</span></button></div></div>`;
+      return `<div class="app-view lw-preview"><div class="lw-preview-bar"><button data-action="lw-set" data-id="${safe(spec?.id || '')}">${safe(i18n.t('Set wallpaper'))}</button></div></div>`;
     }
     return `<div class="app-view lw-picker" data-no-translate>${LiveWallpapers.sorted(key => i18n.t(key), i18n.locale()).map(spec => `<button class="lw-entry" data-action="lw-preview" data-id="${spec.id}"><img src="assets/${spec.thumb}" alt=""><span>${safe(i18n.t(spec.label))}</span></button>`).join('')}</div>`;
   }
@@ -687,7 +684,7 @@
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'live-wallpapers' && ui.lwFromPicker && String(ui.sub || '').startsWith('preview:')) { ui.lwFromPicker = false; ui.view = 'wallpaper-picker'; ui.sub = ''; render(); return; }
-    if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
+    if (ui.view === 'live-wallpapers') { if (ui.sub) ui.sub = ''; else { home(false); return; } render(); return; }
     if (ui.view === 'lock' && ui.kgChallenge?.bouncing()) { ui.kgChallenge.hideBouncer(); return; }
     if (ui.view === 'lock') return;
     if(ui.view==='phone' && !ui.activeCall && ui.kkDialpad){ui.kkDialpad=false;ui.dial='';render();return;}
@@ -835,11 +832,6 @@
       const network = allWifiNetworks().find(item => item.name === ui.wifiTarget);
       const connected = data.settings.wifiNetwork === ui.wifiTarget;
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(ui.wifiTarget)}"><h3>${safe(ui.wifiTarget)}</h3><p>${safe(network?.security || 'WPA2')}</p>${connected ? '<p>Connected</p>' : network?.security !== 'Open' ? '<label>Password<input class="wifi-password" type="password" autocomplete="off"></label>' : ''}<div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button>${connected ? '<button data-action="wifi-forget">Forget</button>' : '<button data-action="wifi-connect">Connect</button>'}</div></div>`;
-    } else if (ui.overlay === 'wallpaper-source') {
-      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="wallpaper-source" role="dialog" aria-label="Select wallpaper from"><h3>Select wallpaper from</h3>${[['gallery-wallpaper', 'Gallery'], ['open-live-wallpapers', 'Live Wallpapers'], ['open-wallpapers', 'Wallpapers']].sort((a, b) => new Intl.Collator(i18n.locale()).compare(i18n.t(a[1]), i18n.t(b[1]))).map(([action, label]) => `<button data-action="${action}" data-no-translate>${safe(i18n.t(label))}</button>`).join('')}</div>`;
-    } else if (ui.overlay === 'lw-palette') {
-      const current = data.lwPrefs?.polar?.palette || '';
-      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(i18n.t('Color palette'))}"><h3>${safe(i18n.t('Color palette'))}</h3>${LiveWallpapers.PALETTE_ORDER.map(id => `<button class="settings-row wireless-row" data-action="lw-palette-pick" data-id="${id}" role="radio" aria-checked="${current === id}"><span class="row-copy">${safe(i18n.t(LiveWallpapers.PALETTE_NAMES[id]))}</span><img class="holo-radio" src="assets/btn_radio_${current === id ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
     } else if (ui.overlay === 'power-menu') {
       overlayRoot.innerHTML = GlobalActions.menu({airplane: data.settings.airplane, ringer: GlobalActions.ringerOf(data.settings), bugreport: data.settings.bugreportPower}, key => i18n.t(key), '4.3');
       // 4.1+: a long press on Power off offers the safe-mode reboot.
@@ -967,9 +959,11 @@
     if (s === 'wifi-display') { if (data.settings.wifiDisplay && data.settings.wifi && !ui.wfdScanUntil) startWfdScan(); return renderWifiDisplay(); }
     if (s === 'wifi-direct') { if (!ui.p2pSearchUntil) startP2pSearch(); return renderWifiDirect(); }
     if (s === 'bluetooth') return renderBluetoothSettings();
-    // 4.4 WallpaperTypeSettings: "Choose wallpaper from" lists every ACTION_SET_WALLPAPER activity with its icon.
+    /* 4.4 WallpaperTypeSettings: "Choose wallpaper from" lists every ACTION_SET_WALLPAPER activity with its label and
+       icon. On KTU84P those are Gallery's Wallpaper activity, LivePicker, Photos' SetWallpaperActivity and the Google
+       Now Launcher's GelWallpaperPickerActivity ("Wallpapers", ic_launcher_wallpaper). */
     if (s === 'wallpaper') {
-      const sources = [['gallery-wallpaper', 'Gallery', 'gallery.png'], ['open-live-wallpapers', 'Live Wallpapers', 'kwp-ic_launcher_live_wallpaper.png'], ['open-wallpapers', 'Wallpapers', 'kwp-ic_launcher_wallpaper.png']].sort((a, b) => new Intl.Collator(i18n.locale()).compare(i18n.t(a[1]), i18n.t(b[1])));
+      const sources = [['gallery-wallpaper', 'Gallery', 'gallery.png'], ['open-live-wallpapers', 'Live Wallpapers', 'kk-lwp-ic_launcher_live_wallpaper.png'], ['photos-set-wallpaper', 'Photos', 'photos.png'], ['open-wallpapers', 'Wallpapers', 'kk-gel-ic_launcher_wallpaper.png']].sort((a, b) => new Intl.Collator(i18n.locale()).compare(i18n.t(a[1]), i18n.t(b[1])));
       return appView('Choose wallpaper from', sources.map(([action, label, icon]) => `<button class="settings-row kk-wallpaper-type" data-action="${action}"><img class="kk-wallpaper-type-icon" src="assets/${icon}" alt=""><span class="row-copy">${safe(i18n.t(label))}</span></button>`).join(''));
     }
     if (s === 'about') return appView('About phone', `${row('Status', 'Phone number, signal, etc.', 'settings-sub', 'about-status')}${row('Legal information', '', 'settings-sub', 'about-legal')}${row('Model number', 'Nexus 5', 'noop', '')}${row('Android version', '4.4.4', 'about-tap', '')}${row('Baseband version', 'M8974A-2.0.50.1.16', 'noop', '')}${row('Kernel version', '3.4.0-gd59db4e\nandroid-build@vpbs1.mtv.corp.google.com #1\nMon Mar 17 15:16:36 PDT 2014', 'noop', '')}${row('Build number', 'KTU84P', 'developer-tap', '')}${row('SELinux status', i18n.t('Enforcing'), 'noop', '')}`, 'about-settings');
@@ -1242,7 +1236,7 @@
   function renderGallery() { return JBGallery.render(data, ui, key => i18n.t(key), ICSMedia, i18n.locale()); }
   const galleryItems = () => JBGallery.items(data, ui, i18n.locale());
   function galleryWallpaper(photo, quiet) { data.wallpaper = 11; delete data.liveWallpaper; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); if (quiet) return; render(); toast('Wallpaper set'); }
-  const wallpaperPickerContext = () => ({data, ui, t: key => i18n.t(key), image: photo => ICSMedia.image(photo), live: LiveWallpapers.sorted(key => i18n.t(key), i18n.locale())});
+  const wallpaperPickerContext = () => ({data, ui, t: key => i18n.t(key), image: photo => ICSMedia.image(photo), bundled: wallpaperFiles.slice(1), live: LiveWallpapers.sorted(key => i18n.t(key), i18n.locale())});
   // Re-render the picker but keep the strip where it was scrolled.
   function wallpaperPickerRender() { const left = viewport.querySelector('.kwp-scroll')?.scrollLeft || 0; render(); const strip = viewport.querySelector('.kwp-scroll'); if (strip) strip.scrollLeft = left; }
   function renderCamera() { return JBCamera.render(data, ui, key => i18n.t(key), ICSMedia); }
@@ -1555,19 +1549,16 @@
       case 'kwp-delete': { const wp = ui.wp, gone = new Set((wp?.checked || []).map(k => Number(k.slice(6)))); if (!wp) break; data.kkSavedWallpapers = (data.kkSavedWallpapers || []).filter(x => !gone.has(x)); wp.temp = (wp.temp || []).filter(x => !gone.has(x)); if (wp.checked.includes(wp.selected)) wp.selected = ''; wp.checked = []; save(); wallpaperPickerRender(); break; }
       case 'kwp-set': {
         const key = ui.wp?.selected || '';
-        if (key === 'default') { data.wallpaper = 0; delete data.liveWallpaper; delete data.customWallpaper; delete data.customWallpaperPhoto; save(); }
+        if (key === 'default' || key.startsWith('wp:')) { data.wallpaper = key === 'default' ? 0 : Number(key.slice(3)); delete data.liveWallpaper; delete data.customWallpaper; delete data.customWallpaperPhoto; save(); }
         else if (key.startsWith('photo:')) { const photo = data.photos.find(p => p.id === Number(key.slice(6))); if (photo) { data.kkSavedWallpapers = [photo.id, ...(data.kkSavedWallpapers || []).filter(x => x !== photo.id)]; galleryWallpaper(photo, true); } }
         ui.wp = null; home(false); break;
       }
       case 'open-live-wallpapers': ui.overlay = ''; ui.view = 'live-wallpapers'; ui.sub = ''; render(); break;
       case 'lw-preview': ui.sub = `preview:${id}`; render(); break;
-      case 'lw-settings': ui.sub = `settings:${id}`; render(); break;
       // LiveWallpaperPreview.setLiveWallpaper: set it and return to the launcher.
       case 'lw-set': data.liveWallpaper = {id}; save(); ui.sub = ''; ui.lwFromPicker = false; home(false); break;
-      case 'lw-toggle': { const [wid, key] = String(id).split(':'); data.lwPrefs ||= {}; data.lwPrefs[wid] ||= {}; data.lwPrefs[wid][key] = data.lwPrefs[wid][key] === false; save(); render(); break; }
-      case 'lw-palette': ui.overlay = 'lw-palette'; renderOverlay(); break;
-      case 'lw-palette-pick': data.lwPrefs ||= {}; data.lwPrefs.polar ||= {}; data.lwPrefs.polar.palette = id; save(); ui.overlay = ''; render(); break;
       case 'gallery-wallpaper': ui.overlay = ''; openApp('gallery'); break;
+      case 'photos-set-wallpaper': ui.overlay = ''; openApp('photos'); break;
       case 'market': openApp('play-store'); break;
       case 'play-menu': case 'jbp-menu': ui.overlay = 'play-menu'; renderOverlay(); break;
       case 'jbp-section': jbPlayGo({page: 'section', section: id, tab: button.dataset.tab || 'HOME'}); break;
@@ -2630,7 +2621,7 @@
     const key = id ? `${id}:${preview}` : '';
     if (liveWallpaper && liveWallpaper.key !== key) { liveWallpaper.destroy(); liveWallpaper = null; }
     if (key && !liveWallpaper) {
-      liveWallpaper = LiveWallpapers.mount(liveLayer, id, {preview, prefs: () => data.lwPrefs?.[id] || {}, clock: deviceDate, offset: preview ? .5 : wallpaperOffset(ui.page, true), audio: () => !!ui.music?.playing, deviceWidth: 768});
+      liveWallpaper = LiveWallpapers.mount(liveLayer, id, {preview, offset: preview ? .5 : wallpaperOffset(ui.page, true), deviceWidth: 1080});
       if (liveWallpaper) liveWallpaper.key = key;
     }
     liveLayer.hidden = !visible; liveWallpaper?.pause(!visible);

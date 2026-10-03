@@ -1376,6 +1376,8 @@
 ['Live Wallpapers','Élő háttérképek','Live-Hintergründe','Fonds d’écran animés','Fondos animados'],
     ['Settings…','Beállítások…','Einstellungen…','Paramètres…','Ajustes…'],
     ['Galaxy','Galaxis','Galaxie','Galaxie','Galaxia'],
+    // Nexus 5 SunBeam.apk wallpaper_label: only the English text was changed from Phase Beam.
+    ['Sun Beam','Elmosódott cseppek','Phase Beam','Phase Beam','Phase Beam'],
     ['Grass','Fű','Gras','Herbe','Hierba'],
     ['Nexus','Nexus','Nexus','Nexus','Nexus'],
     ['Polar clock','Íves óra','Polaruhr','Horloge polaire','Reloj polar'],

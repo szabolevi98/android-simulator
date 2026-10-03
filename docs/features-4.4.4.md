@@ -16,9 +16,9 @@
   - Long-press opens the overview with Wallpapers, Widgets and Settings. Widgets open from there. The Launcher3 clings show on first run.
 - **Wallpaper picker:**
   - It is fullscreen with the *Set wallpaper* bar.
-  - The strip offers Pick image (through DocumentsUI "Open from"), the default wallpaper, saved images and the live wallpapers.
+  - The strip offers Pick image (through DocumentsUI "Open from"), the default wallpaper, the Google Now Launcher's eight bundled wallpapers, saved images and Sun Beam, the Nexus 5's only live wallpaper (Phase Beam in orange, redrawn in WebGL from its RenderScript and the APK's shaders).
   - Long-press a saved image to delete it.
-  - Settings → Display → Wallpaper lists Gallery, Live Wallpapers and Wallpapers.
+  - Settings → Display → Wallpaper lists Gallery, Live Wallpapers, Photos and Wallpapers, as the KTU84P image registers them.
 - **Keyguard:** the thin centred clock, the date and alarm row, and the Home-only navigation bar.
 - **Notification panel:** 4.4 artwork, white Quick Settings icons, the battery tile and the Location tile.
 - **Settings:** Tap & pay, Location modes, Printing, the default SMS app and Nexus 5 About phone. Tap Android version for the KitKat K and logo; long-press it for the immersive Dessert Case, which then becomes a daydream.
