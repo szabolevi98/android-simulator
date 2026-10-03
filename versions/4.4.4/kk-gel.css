@@ -43,3 +43,5 @@
 .gnow-bar button{width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center}
 .gnow-bar img{max-width:24px;max-height:24px}
 .gnow-bar button:active,.gnow-action:active,.gnow-search:active{background:#0000000f}
+/* Overview mode in the Google Now Launcher keeps all three buttons (Launcher.hasSettings): 3 x 48 dp + 2 x 68 dp. */
+.kk-home.gel-home .kk-overview-panel{width:254.59px;margin-left:-127.3px}

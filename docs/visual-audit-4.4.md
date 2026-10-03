@@ -231,3 +231,10 @@ The Quick Start Guide says "On Nexus 5, you can also swipe to the leftmost Home 
   - The white search box with the grey Google logo and microphone.
   - Cards in the guide's style (white, light titles with the key figure in red, grey summaries, blue actions): weather, the next calendar event and the "Ok Google" tip.
   - "More", then the Reminders / Customize / Menu icons taken from the guide.
+
+**Step 1c: drawer and overview**
+
+GSMArena notes the Google Now Launcher drawer has "no tabs and no widgets":
+- **Drawer:** the All Apps drawer pages through apps only, and its indicator counts only app pages.
+- **Widgets:** open only from the overview Widgets button. Back from there returns to the overview.
+- **Overview:** keeps the launcher's third button, Settings (`Launcher.hasSettings`). It opens Google Search settings, which is not simulated, so it shows a toast.
