@@ -1465,9 +1465,10 @@
   }
   // NotificationPanelView wraps its content (header, list, carrier label and handle); the rest is scrim.
   function shadeFullHeight(shade) {
-    const previous = shade.style.height; shade.style.height = '';
+    // Measure the open panel: its CSS top and bottom, not the drag's explicit height or bottom:auto.
+    const previous = shade.style.height, previousBottom = shade.style.bottom; shade.style.height = ''; shade.style.bottom = '';
     const full = Math.min(shade.offsetHeight, screen.clientHeight - shade.offsetTop - navRoot.offsetHeight);
-    shade.style.height = previous; return full;
+    shade.style.height = previous; shade.style.bottom = previousBottom; return full;
   }
   function decorateNotification(note) {
     if (note.id === 2) return {...note, icon: 'mms-ic_contact_picture.png', smallIcon: 'stat_notify_hangouts.png', big: 'Hey! Are we still on for coffee tomorrow?\nSee you at 11!'};
