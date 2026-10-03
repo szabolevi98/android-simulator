@@ -48,7 +48,7 @@
     browserHistory: ['www.google.com'],
     sentEmails: [],
     notifications: [
-      { id: 1, title: 'Welcome to Android 4.4', detail: 'Your phone is ready to explore.' },
+      { id: 1, title: 'Welcome to Android 5.1', detail: 'Your Nexus 6 is ready to explore.' },
       { id: 2, title: 'New message from Alex', detail: 'See you at 11!' }
     ]
   };
@@ -87,7 +87,7 @@
     emailId: 1, recent: [], recentSnapshots: {}, toastTimer: null, wifiTarget: '', bluetoothScanned: false
   };
   const emailData = [
-    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Nexus 5 is ready. Explore Android 4.4 KitKat, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
+    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Nexus 6 is ready. Explore Android 5.1 Lollipop, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
     { id: 2, from: 'Alex Morgan', subject: 'Photos from the weekend', body: 'I added a few pictures to our album. Take a look when you have a moment!', time: 'Yesterday' },
     { id: 3, from: 'Calendar', subject: 'Coffee with Alex', body: 'Reminder: Coffee with Alex at 11:00.', time: 'Yesterday' }
   ];
@@ -739,9 +739,15 @@
   let openFolderId = '';
   function renderOverlay() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
+    // Collapsing the panel also collapses Quick Settings and closes a tile detail.
+    if (ui.overlay !== 'shade') { ui.shadeAnimated = false; ui.shadeSettings = false; ui.qsDetail = ''; }
     if (ui.overlay === 'shade') {
       const call = ui.activeCall ? `<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>` : '';
-      overlayRoot.innerHTML = '<div class="jb-shade-scrim" data-action="close-overlay"></div>' + JBShade.render({...data, notifications: data.notifications.map(decorateNotification)}, ui, key => i18n.t(key), {locale: i18n.locale(), clock: clock(), date: fullDate(), carrier: data.settings.airplane ? i18n.t('No service.') : (data.settings.networkOperator || 'Telekom'), alarm: nextAlarmLabel(), extra: call});
+      const scroll = overlayRoot.querySelector('.lp-shade-scroll')?.scrollTop || 0;
+      overlayRoot.innerHTML = '<div class="lp-shade-scrim" data-action="close-overlay"></div>' + LPShade.render({...data, notifications: data.notifications.map(decorateNotification)}, ui, key => i18n.t(key), {locale: i18n.locale(), clock: clock(), date: fullDate(), shortDate: shadeDate(), carrier: carrierName(), alarm: nextAlarmLabel(), statusIcons: statusIndicators(), networks: allWifiNetworks(), extra: call});
+      const body = overlayRoot.querySelector('.lp-shade-scroll'); if (body) body.scrollTop = scroll;
+      if (ui.shadeAnimated) overlayRoot.querySelectorAll('.lp-shade,.lp-shade-scrim').forEach(node => { node.style.animation = 'none'; });
+      ui.shadeAnimated = true;
     } else if (ui.overlay === 'dream') {
       overlayRoot.innerHTML = renderDream();
       const dessertDream = overlayRoot.querySelector('[data-kk-dream-dessert]');
@@ -1285,7 +1291,7 @@
       data.calendarFired.push(key);
       const when=event.allDay?i18n.t('All day'):`${event.time} – ${event.endTime}`;
       data.notifications.unshift({id:Date.now()+data.notifications.length,title:event.title,detail:[when,event.location].filter(Boolean).join(' · '),kind:'calendar',eventId:event.id,date:event.date});
-      save();renderStatus();if(ui.overlay==='shade')renderOverlay();
+      save();renderStatus();if(ui.overlay==='shade')renderOverlay();headsUp(data.notifications[0]);
     }
   }
   function calendarEdit(item) {
@@ -1463,10 +1469,32 @@
     const full = Math.min(shade.offsetHeight, screen.clientHeight - shade.offsetTop - navRoot.offsetHeight);
     shade.style.height = previous; shade.style.bottom = previousBottom; return full;
   }
+  // QS tile clicks (QSTile.handleClick): Wi-Fi, Bluetooth, airplane, rotation, flashlight, location, invert and hotspot
+  // toggle in place; Cellular opens data usage and Cast its settings, as their details point there.
+  function lpQsToggle(id) {
+    const s = data.settings;
+    if (id === 'wifi') { s.wifi = !s.wifi; if (s.wifi) { s.airplane = false; s.portableHotspot = false; } }
+    else if (id === 'bluetooth') s.bluetooth = !s.bluetooth;
+    else if (id === 'airplane') { s.airplane = !s.airplane; if (s.airplane) { s.wifi = false; s.bluetooth = false; } }
+    else if (id === 'rotation') s.rotate = s.rotate === false;
+    else if (id === 'flashlight') s.flashlight = !s.flashlight;
+    else if (id === 'location') s.locationAccess = !(s.locationAccess !== false && (s.gps || s.networkLocation)) ? true : false, s.locationAccess && !s.gps && !s.networkLocation && (s.networkLocation = true);
+    else if (id === 'inversion') s.inversion = !s.inversion;
+    else if (id === 'hotspot') { s.portableHotspot = !s.portableHotspot; if (s.portableHotspot) s.wifi = false; }
+    else if (id === 'cell') { ui.overlay = ''; openApp('settings'); ui.sub = 'data'; render(); return; }
+    else if (id === 'cast') { ui.overlay = ''; openApp('settings'); ui.sub = 'wifi-display'; render(); return; }
+    save(); renderStatus(); renderOverlay(); JBDeveloperOptions.apply(screen, data.settings);
+  }
+  /* Each notification's Material look: the app's small icon on its accent colour (Notification.color) in the 40 dp
+     circle, or the large icon (a contact photo) with the small icon badged on the colour. */
   function decorateNotification(note) {
-    if (note.id === 2) return {...note, icon: 'mms-ic_contact_picture.png', smallIcon: 'stat_notify_hangouts.png', big: 'Hey! Are we still on for coffee tomorrow?\nSee you at 11!'};
-    if (note.kind === 'calendar') return {...note, icon: 'calendar.png', smallIcon: 'calendar-stat_notify_calendar.png', big: note.detail, actions: [{id: 'snooze', label: 'Snooze', icon: 'calendar-ic_alarm_holo_dark.png'}]};
-    return {...note, icon: 'settings.png', smallIcon: 'stat_notify_more.png'};
+    if (note.id === 2) return {...note, largeIcon: 'mms-ic_contact_picture.png', smallIcon: 'lpn-messenger.png', color: '#0277bd', big: 'Hey! Are we still on for coffee tomorrow?\nSee you at 11!', actions: [{id: 'reply', label: 'Reply'}]};
+    if (note.kind === 'message') return {...note, largeIcon: 'mms-ic_contact_picture.png', smallIcon: 'lpn-messenger.png', color: '#0277bd', big: note.detail, actions: [{id: 'reply', label: 'Reply'}]};
+    if (note.kind === 'calendar') return {...note, smallIcon: 'lpn-calendar.png', color: '#4285f4', big: note.detail, actions: [{id: 'snooze', label: 'Snooze'}]};
+    if (note.kind === 'timer') return {...note, smallIcon: 'lpn-timer.png', color: '#00796b'};
+    if (note.kind === 'market-dl') return {...note, smallIcon: 'lpn-download.png', color: '#607d8b'};
+    if (note.kind === 'market-done') return {...note, smallIcon: 'lpn-play-installed.png', color: '#607d8b'};
+    return {...note, smallIcon: 'lp-sysui-android.svg', color: '#9e9e9e'};
   }
   // Settings.System.NEXT_ALARM_FORMATTED, shown by the temporary alarm tile.
   function nextAlarmLabel() {
@@ -1479,6 +1507,51 @@
     data.messages.push({ id: Date.now(), contact: id, body, mine: true, time: clock(), timestamp:Date.now(), read:true, ...(attachment ? {attachment:clone(attachment)} : {}) });
     delete data.messageDrafts?.[ICSMessaging.draftKey(ui)];
     openMessageThread(id);
+    scheduleReply(id);
+  }
+  /* A simulated answer shows Lollipop's heads-up notification: a few seconds after a text to one of the demo contacts
+     they write back once (per contact and session). */
+  const REPLIES = {1: 'Sounds good, see you then!', 2: 'Got it, thanks!', 3: 'Haha, nice 😄', 4: 'Love you! Talk soon ♥'};
+  function scheduleReply(id) {
+    const key = Number(id);
+    if (!REPLIES[key] || (ui.repliedTo ||= new Set()).has(key)) return;
+    ui.repliedTo.add(key);
+    setTimeout(() => {
+      const who = contact(key); if (!who) return;
+      data.messages.push({id: Date.now(), contact: key, body: i18n.t(REPLIES[key]), mine: false, time: clock(), timestamp: Date.now(), read: ui.view === 'messaging' && ui.sub === 'thread' && Number(ui.thread) === key});
+      if (!(ui.view === 'messaging' && ui.sub === 'thread' && Number(ui.thread) === key)) {
+        const note = {id: Date.now(), title: who.name, detail: i18n.t(REPLIES[key]), kind: 'message', contact: key, time: deviceDate().getTime()};
+        data.notifications.unshift(note); save(); renderStatus(); headsUp(note);
+      } else { save(); render(); }
+      if (ui.overlay === 'shade') renderOverlay();
+    }, 4500);
+  }
+  /* HeadsUpNotificationView (5.1): a high-priority notification drops in at the top over the running app, 8 dp in from
+     the sides, and leaves after heads_up_notification_decay (10 s) or when swiped away; tapping it opens it. */
+  let headsUpTimer = 0;
+  function headsUp(note) {
+    if (ui.locked || ui.view === 'lock' || ui.sleeping || ui.overlay === 'shade') return;
+    let layer = screen.querySelector('#lp-headsup');
+    if (!layer) { layer = document.createElement('div'); layer.id = 'lp-headsup'; screen.insertBefore(layer, overlayRoot); }
+    layer.innerHTML = LPShade.row(decorateNotification(note), key => i18n.t(key), i18n.locale(), true).replace('class="notification jb-note lp-note', 'class="notification lp-note lp-headsup-card');
+    i18n.translateDOM(layer);
+    const card = layer.firstElementChild;
+    // Swiping the heads-up card up or sideways dismisses it into the shade (HeadsUpNotificationView.EdgeSwipeHelper).
+    card.addEventListener('pointerdown', down => {
+      const start = {x: down.clientX, y: down.clientY};
+      const move = event => { const dx = event.clientX - start.x, dy = event.clientY - start.y; card.style.transform = Math.abs(dx) > Math.abs(dy) ? `translateX(${dx}px)` : `translateY(${Math.min(0, dy)}px)`; card.style.opacity = String(1 - Math.min(.7, Math.abs(dx) / 400)); };
+      const up = event => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); const dx = event.clientX - start.x, dy = event.clientY - start.y; if (dy < -24 || Math.abs(dx) > 90) { suppressClickUntil = Date.now() + 300; card.style.transform = ''; card.style.opacity = ''; releaseHeadsUp(dy < -24 && Math.abs(dy) > Math.abs(dx) ? 'up' : dx < 0 ? 'left' : 'right'); } else { card.style.transform = ''; card.style.opacity = ''; } };
+      window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+    });
+    if (!reducedMotion?.matches) card.animate([{transform: 'translateY(-110%)'}, {transform: 'none'}], {duration: 300, easing: 'cubic-bezier(0,0,.2,1)'});
+    clearTimeout(headsUpTimer); headsUpTimer = setTimeout(() => releaseHeadsUp(), 10000);
+  }
+  function releaseHeadsUp(direction = 'up') {
+    clearTimeout(headsUpTimer);
+    const card = screen.querySelector('#lp-headsup .lp-headsup-card'); if (!card) return;
+    const done = () => card.remove();
+    if (reducedMotion?.matches || !card.animate) { done(); return; }
+    card.animate([{transform: 'none', opacity: 1}, {transform: direction === 'up' ? 'translateY(-110%)' : `translateX(${direction === 'left' ? '-' : ''}110%)`, opacity: direction === 'up' ? 1 : 0}], {duration: 220, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}).finished.then(done, done);
   }
 
   let suppressClickUntil = 0;
@@ -1639,14 +1712,13 @@
       case 'close-overlay': if (ui.overlay === 'recent') { closeRecents(); break; } ui.overlay = ''; renderOverlay(); break;
       case 'remove-recent': event.stopPropagation(); ui.recentPopup = null; ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
       case 'clear-notifications': {
-        const rows = [...overlayRoot.querySelectorAll('.jb-note')], delays = JBShade.clearDelays(rows.length);
+        const rows = [...overlayRoot.querySelectorAll('.jb-note')], delays = LPShade.clearDelays(rows.length);
         if (reducedMotion?.matches || !rows.length) { data.notifications = []; ui.overlay = ''; save(); renderStatus(); renderOverlay(); break; }
         overlayRoot.querySelector('.jb-shade-clear')?.setAttribute('hidden', '');
         rows.forEach((row, index) => row.animate([{transform: 'translateX(0)', opacity: 1}, {transform: `translateX(${row.offsetWidth}px)`, opacity: 0}], {duration: 125, delay: delays[index], easing: 'linear', fill: 'forwards'}));
         setTimeout(() => { data.notifications = []; save(); renderStatus(); if (ui.overlay === 'shade') { ui.overlay = ''; renderOverlay(); } }, (delays.at(-1) || 0) + 125 + 225);
         break;
       }
-      case 'shade-flip': ui.shadeSettings = !ui.shadeSettings; JBShade.flip(overlayRoot.querySelector('.jb-shade'), ui.shadeSettings, reducedMotion?.matches); { const button = overlayRoot.querySelector('.jb-shade-flip'); button?.setAttribute('aria-label', i18n.t(ui.shadeSettings ? 'Notifications.' : 'Quick settings.')); overlayRoot.querySelector('.jb-shade-clear')?.toggleAttribute('hidden', ui.shadeSettings || !data.notifications.length); } break;
       case 'dream-pick': data.settings.daydreamType = id; save(); render(); break;
       case 'dream-when': ui.overlay = 'dream-when'; renderOverlay(); break;
       case 'dream-when-pick': data.settings.daydreamWhen = id; save(); ui.overlay = ''; render(); break;
@@ -1655,6 +1727,16 @@
       case 'kg-add-widget': ui.overlay = 'kg-widget-picker'; renderOverlay(); break;
       case 'kg-pick-widget': { const widgets = data.keyguardWidgets ||= []; if (widgets.length < JBKeyguard.MAX_WIDGETS) { widgets.push({id: `kg-${Date.now()}`, type: id}); save(); ui.kgPage = widgets.length; } ui.overlay = ''; if (ui.kgRelock) { ui.kgRelock = false; const page = ui.kgPage; lockScreen(); ui.kgPage = page; render(); } else render(); break; }
       case 'qs-user': ui.overlay = ''; openApp('people'); break;
+      // Lollipop Quick Settings: the icon toggles, the dual label opens the tile's detail.
+      case 'lp-qs-expand': ui.shadeSettings = !ui.shadeSettings; ui.qsDetail = ''; renderOverlay(); break;
+      case 'lp-qs-user': toast('Only the owner can be signed in on this simulator.'); break;
+      case 'lp-qs-toggle': lpQsToggle(id); break;
+      case 'lp-qs-detail': ui.qsDetail = id; renderOverlay(); break;
+      case 'lp-qsd-done': ui.qsDetail = ''; renderOverlay(); break;
+      case 'lp-qsd-more': ui.qsDetail = ''; ui.overlay = ''; openApp('settings'); ui.sub = id === 'wifi' ? 'wifi' : 'bluetooth'; render(); break;
+      case 'lp-qsd-switch': lpQsToggle(id); break;
+      case 'lp-qsd-item': if (id === 'wifi') { data.settings.wifiNetwork = button.dataset.key; save(); renderStatus(); renderOverlay(); } break;
+      case 'lp-qsd-disconnect': if (id === 'wifi') data.settings.wifiNetwork = ''; else data.settings.pairedDevice = ''; save(); renderStatus(); renderOverlay(); break;
       case 'qs-brightness': ui.overlay = 'qs-brightness'; renderOverlay(); break;
       case 'qs-settings': ui.overlay = ''; openApp('settings'); break;
       case 'qs-wifi': ui.overlay = ''; openApp('settings'); ui.sub = 'wifi'; render(); break;
@@ -1664,9 +1746,11 @@
       case 'qs-bluetooth': ui.overlay = ''; openApp('settings'); ui.sub = 'bluetooth'; render(); break;
       case 'qs-alarm': ui.overlay = ''; openApp('clock'); break;
       case 'qs-location': ui.overlay = ''; openApp('settings'); ui.sub = 'location'; render(); break;
-      case 'notification-action': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar' && button.dataset.noteAction === 'snooze') { data.notifications = data.notifications.filter(item => item !== note); (data.calendarSnoozes ||= []).push({eventId: note.eventId, date: note.date, title: note.title, detail: note.detail, at: deviceDate().getTime() + 5 * 60000}); save(); renderStatus(); if (!data.notifications.length) ui.overlay = ''; renderOverlay(); toast('Snoozed'); } break; }
-      case 'notification-open': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar') { data.notifications = data.notifications.filter(item => item !== note); save(); ui.overlay = ''; openApp('calendar'); ui.selectedEvent = note.eventId; ui.selectedInstance = note.date; ui.selectedDate = note.date; ui.sub = 'event'; render(); break; } }
-        ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break;
+      case 'notification-action': if (button.dataset.noteAction === 'reply') { const note = data.notifications.find(item => String(item.id) === id); releaseHeadsUp(); data.notifications = data.notifications.filter(item => item !== note); save(); renderStatus(); ui.overlay = ''; openApp('messaging'); openMessageThread(note?.contact || 1); break; } { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar' && button.dataset.noteAction === 'snooze') { data.notifications = data.notifications.filter(item => item !== note); (data.calendarSnoozes ||= []).push({eventId: note.eventId, date: note.date, title: note.title, detail: note.detail, at: deviceDate().getTime() + 5 * 60000}); save(); renderStatus(); if (!data.notifications.length) ui.overlay = ''; renderOverlay(); toast('Snoozed'); } break; }
+      case 'notification-open': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar') { data.notifications = data.notifications.filter(item => item !== note); save(); ui.overlay = ''; openApp('calendar'); ui.selectedEvent = note.eventId; ui.selectedInstance = note.date; ui.selectedDate = note.date; ui.sub = 'event'; render(); break; }
+        releaseHeadsUp();
+        if (note?.kind === 'message') { data.notifications = data.notifications.filter(item => item !== note); save(); renderStatus(); ui.overlay = ''; openApp('messaging'); openMessageThread(note.contact); break; }
+        ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break; }
       case 'unlock': ui.view = 'home'; render(); break;
       case 'unlock-camera': openApp('camera'); break;
       case 'kk-location-mode': data.settings.gps = id !== 'battery'; data.settings.networkLocation = id !== 'device'; save(); render(); break;
@@ -2806,7 +2890,7 @@
     const widgetList = ui.view === 'home' && !ui.overlay ? event.target.closest('.calw-list') : null;
     const scrollTarget = widgetList || (event.pointerType === 'mouse' && !ui.overlay && !event.target.closest('input, select, textarea, .wallpaper-choice')
       ? (ui.view === 'settings' && event.target.closest('.settings-app .app-content') ? event.target.closest('.settings-app') : event.target.closest('.jbp-scroll,.play-content,.mms-scroll,.people-scroll,.browser-page,.web-tabs,.web-library,.desk-scroll,.gallery-scroll,.cal-scroll,.music-library-scroll,.email-scroll')) : null);
-    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
+    pointerStart = { x: event.clientX, y: event.clientY, target: event.target, source: dragSource(event.target), pointerType: event.pointerType, pointerId: event.pointerId, downTime: performance.now(), scrollTarget, scrollTop: scrollTarget?.scrollTop || 0, lockDrag: ui.view === 'lock' && !!event.target.closest('.lock-handle'), qsPullEligible: ui.overlay === 'shade' && !ui.shadeSettings && !!event.target.closest('.lp-shade') && !event.target.closest('.lp-note,input') && !(overlayRoot.querySelector('.lp-shade-scroll')?.scrollTop > 0), shadeDragEligible: !ui.overlay && !!event.target.closest('#status-bar'), shadeCloseEligible: ui.overlay === 'shade' && !!event.target.closest('.shade-handle,.shade-top'), pageSwipeEligible: ui.view === 'home' && !ui.overlay && !!event.target.closest('.home-view') && !event.target.closest('.dock, .page-indicators, .home-search'), drawerSwipeEligible: ui.view === 'drawer' && !!event.target.closest('.drawer-page') };
     const qsToggle = ui.overlay === 'shade' ? event.target.closest('[data-qs-toggle]') : null;
     if (qsToggle) homeLongPressTimer = setTimeout(() => { const key = qsToggle.dataset.qsToggle; data.settings[key] = !data.settings[key]; if (data.settings[key]) data.settings.airplane = false; if (key === 'wifi' && data.settings.wifi) data.settings.portableHotspot = false; save(); renderStatus(); renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 500);
     if (ui.view === 'home' && event.target.closest('.lp-cling .cling-shade')) homeLongPressTimer = setTimeout(() => { data.clings.workspace = true; save(); LauncherClings.dismiss(clingLayerRoot().querySelector('[data-cling="workspace"]'), () => { ui.overview = true; render(); }); pointerStart = null; suppressReleaseClick(); }, 550);
@@ -2875,6 +2959,9 @@
       const picture=viewport.querySelector('.gallery-image');if(picture)picture.style.transform=`translateX(${dx}px)`;return;
     }
     if (pointerStart.lockDrag) { event.preventDefault(); pointerStart.lockActive = lockMove(dx, dy); return; }
+    // NotificationPanelView: pulling down again on the open panel expands Quick Settings.
+    if (pointerStart.qsPullEligible && !ui.shadeSettings && dy > 36 && dy > Math.abs(dx)) { ui.shadeSettings = true; ui.qsDetail = ''; renderOverlay(); suppressClickUntil = Date.now() + 350; pointerStart.qsPullEligible = false; pointerStart.qsPulled = true; return; }
+    if (pointerStart.qsPulled) return;
     if (pointerStart.shadeDragging || pointerStart.shadeDragEligible && dy > 8 && dy > Math.abs(dx) || pointerStart.shadeCloseEligible && dy < -8 && -dy > Math.abs(dx)) {
       if (!pointerStart.shadeDragging) { pointerStart.shadeDragging = true; if (ui.overlay !== 'shade') ui.shadeSettings = activeTouches.size >= 2; ui.overlay = 'shade'; renderOverlay(); try { screen.setPointerCapture(event.pointerId); } catch {} }
       event.preventDefault();
@@ -2884,8 +2971,8 @@
         shade.style.bottom = 'auto';
         // The panel follows the finger; released, it opens fully to the navigation bar (handled below).
         const full = shadeFullHeight(shade), max = screen.clientHeight - shade.offsetTop - navRoot.offsetHeight;
-        shade.style.height = `${Math.max(78, Math.min(max, pointerStart.shadeCloseEligible ? full + dy : dy))}px`;
-        overlayRoot.querySelector('.jb-shade-scrim')?.style.setProperty('opacity', String(Math.min(1, shade.offsetHeight / full)));
+        shade.style.height = `${Math.max(54.36, Math.min(max, pointerStart.shadeCloseEligible ? full + dy : dy))}px`;
+        overlayRoot.querySelector('.lp-shade-scrim')?.style.setProperty('opacity', String(Math.min(1, shade.offsetHeight / full)));
       }
       return;
     }
@@ -2963,13 +3050,14 @@
       suppressClickUntil = Date.now() + 350;
       pointerStart = null; return;
     }
+    if (pointerStart.qsPulled) { pointerStart = null; return; }
     if (pointerStart.shadeDragging) {
       suppressClickUntil = Date.now() + 350;
       const close = pointerStart.shadeCloseEligible ? dy < -55 : dy < 75;
       if (close) { ui.overlay = ''; renderOverlay(); }
       else {
         const shade = overlayRoot.querySelector('.notification-shade');
-        if (shade) { const height = shade.clientHeight, full = shadeFullHeight(shade); shade.style.removeProperty('height'); shade.style.removeProperty('bottom'); overlayRoot.querySelector('.jb-shade-scrim')?.style.removeProperty('opacity'); shade.animate([{height:`${height}px`},{height:`${full}px`}], {duration:180,easing:'ease-out'}); }
+        if (shade) { const height = shade.clientHeight, full = shadeFullHeight(shade); shade.style.removeProperty('height'); shade.style.removeProperty('bottom'); overlayRoot.querySelector('.lp-shade-scrim')?.style.removeProperty('opacity'); shade.animate([{height:`${height}px`},{height:`${full}px`}], {duration:180,easing:'ease-out'}); }
       }
       pointerStart = null; return;
     }

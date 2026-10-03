@@ -1,0 +1,118 @@
+/* Lollipop notification panel (see lp-shade.js). ScrimController draws #000 at 62 % behind the panel; the header is
+   system_secondary_color (#384248) with a 4 dp elevation, Quick Settings sit on system_primary_color (#263238) with
+   2 dp corners inside 8 dp side margins, and the notification cards are #FAFAFA. 1 dp = 0.906 px. */
+.lp-shade-scrim{position:absolute;inset:0;background:#0000009e;z-index:19;animation:lp-fade .22s both}
+.notification-shade.lp-shade{position:absolute;left:0;right:0;top:0;bottom:var(--nb);height:auto;max-height:none;z-index:20;display:flex;flex-direction:column;background:none;box-shadow:none;border:0;padding:0;overflow:hidden;color:#fff;animation:lp-shade-in .3s cubic-bezier(.4,0,.2,1) both;font-family:Roboto,sans-serif}
+@keyframes lp-shade-in{from{transform:translateY(-35%);opacity:0}to{transform:none;opacity:1}}
+/* StatusBarHeaderView: 60 dp collapsed / 116 dp expanded, 8 dp side padding. The clock (20 sp medium, scaled to 14 sp
+   while collapsed) sits 16 dp in, above the date (14 sp, #B2FFFFFF) whose bottom margin is 10 / 20 dp; system icons,
+   the battery level (12 sp, expanded only), settings (48 dp, rotated in) and the 24 dp avatar (22 dp collapsed) on
+   the right. */
+.lp-header{position:relative;flex:none;height:54.36px;background:#384248;box-shadow:0 1.8px 3.6px #0000004d;z-index:3;transition:height .3s cubic-bezier(.4,0,.2,1)}
+.lp-header.expanded{height:105.1px}
+.lp-header button{border:0;background:none;color:inherit;padding:0;cursor:pointer}
+.lp-header-clock{position:absolute;left:21.74px;bottom:26.27px;transform-origin:0 100%;transform:scale(.7);transition:transform .3s cubic-bezier(.4,0,.2,1),bottom .3s cubic-bezier(.4,0,.2,1)}
+.lp-header.expanded .lp-header-clock{transform:none;bottom:35.33px}
+.lp-header-time{font:500 18.12px/1.15 Roboto,sans-serif;color:#fff;white-space:nowrap}
+.lp-header-date{position:absolute;left:21.74px;bottom:9.06px;display:flex;align-items:center;gap:0;font:400 12.68px/1.35 Roboto,sans-serif;color:#ffffffb2;white-space:nowrap;transition:bottom .3s cubic-bezier(.4,0,.2,1)}
+.lp-header.expanded .lp-header-date{bottom:18.12px}
+.lp-header-alarm{display:flex!important;flex-direction:row!important;align-items:center;gap:3.62px;margin-left:5.44px;padding:0 5.44px!important;font:400 12.68px Roboto,sans-serif;color:#ffffffb2!important}
+.lp-header-alarm img{width:14.5px;height:14.5px}
+.lp-header-icons{position:absolute;right:41.67px;top:0;height:54.36px;display:flex;align-items:center;transition:right .3s cubic-bezier(.4,0,.2,1)}
+.lp-header.expanded .lp-header-icons{right:51.6px;height:43.49px}
+.lp-header-icons .status-right{opacity:1;height:22.65px}
+.lp-header-icons .status-clock{display:none}
+.lp-battery-level{display:none;margin-left:5.44px;padding-right:1.81px;font:400 10.87px Roboto,sans-serif;color:#fff}
+.lp-header.expanded .lp-battery-level{display:block}
+.lp-header-settings{position:absolute;right:13.59px;top:0;width:43.49px;height:43.49px;display:grid;place-items:center;opacity:0;transform:rotate(90deg);pointer-events:none;transition:opacity .3s,transform .3s cubic-bezier(.4,0,.2,1)}
+.lp-header.expanded .lp-header-settings{opacity:1;transform:none;pointer-events:auto}
+.lp-header-settings img{width:21.74px;height:21.74px}
+.lp-header-user{position:absolute;right:7.25px;top:0;width:30.8px;height:54.36px;display:grid;place-items:center;transition:top .3s,right .3s}
+.lp-header.expanded .lp-header-user{opacity:0;pointer-events:none}
+.lp-header-user img{width:19.93px;height:19.93px}
+.lp-header.detail .lp-header-clock,.lp-header.detail .lp-header-date{opacity:0;pointer-events:none}
+.lp-qsd-header{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;padding:14.5px;font:500 18.12px Roboto,sans-serif;color:#fff}
+/* The scrolling body: Quick Settings (when expanded) above the notification stack. */
+.lp-shade-scroll{position:relative;flex:1;min-height:0;overflow-x:hidden;overflow-y:auto;scrollbar-width:none;padding:0 7.25px}
+.lp-shade-scroll::-webkit-scrollbar{display:none}
+.lp-qs{position:relative;height:0;margin:0;background:#263238;border-radius:0 0 1.8px 1.8px;overflow:hidden;opacity:0;transition:height .3s cubic-bezier(.4,0,.2,1),opacity .2s}
+.lp-shade.qs-open .lp-qs{height:var(--qs-h);opacity:1;padding-top:7.25px;box-sizing:content-box;padding-bottom:7.25px}
+.lp-qs-brightness{position:absolute;left:0;right:0;top:5.44px;height:54.36px;padding:0 18.12px;display:flex;align-items:center}
+.lp-qs-brightness input{width:100%;height:25.37px;margin:0;-webkit-appearance:none;appearance:none;background:linear-gradient(#80cbc4,#80cbc4) 0 50%/var(--v,50%) 1.81px no-repeat,linear-gradient(#ffffff4d,#ffffff4d) 0 50%/100% 1.81px no-repeat;cursor:pointer}
+.lp-qs-brightness input::-webkit-slider-thumb{-webkit-appearance:none;width:25.37px;height:25.37px;border:0;border-radius:50%;background:url('assets/lp-sysui-ic_brightness_thumb.svg') center/100% 100%}
+.lp-qs-brightness input::-moz-range-thumb{width:25.37px;height:25.37px;border:0;border-radius:50%;background:url('assets/lp-sysui-ic_brightness_thumb.svg') center/100% 100%}
+.lp-qs-brightness input::-moz-range-track{background:none}
+/* QSTileView: 4 dp spacing, 14 dp top padding, the 28 dp icon, 12 dp below it, then the 12 sp condensed #B3FFFFFF
+   label (two lines); dual tiles add the 16 % white divider and a label button with the caret, 8 dp padded. */
+.lp-qs-tile{position:absolute;display:flex;flex-direction:column;align-items:stretch;padding-top:3.62px;transform:translateY(7.25px)}
+.lp-qs-tile button{border:0;background:none;color:inherit;padding:0;cursor:pointer;position:relative}
+.lp-qs-top{display:flex;flex-direction:column;align-items:center;padding-top:12.68px!important}
+.lp-qs-icon{position:relative;width:25.37px;height:25.37px;margin-bottom:10.87px}
+.lp-qs-icon img{width:100%;height:100%;display:block}
+.lp-qs-icon .lp-qs-overlay{position:absolute;left:-1px;top:-1px;width:9px;height:9px}
+.lp-qs-top::before{content:'';position:absolute;left:50%;top:12.68px;width:50.74px;height:50.74px;margin:-12.68px 0 0 -25.37px;border-radius:50%;background:#ffffff26;opacity:0;transform:scale(.5);transition:opacity .3s,transform .3s;pointer-events:none}
+.lp-qs-top:active::before{opacity:1;transform:none;transition:opacity .1s,transform .25s cubic-bezier(.4,0,.2,1)}
+.lp-qs-label{display:block;min-height:31px;padding:0 3.62px;font:400 10.87px/1.3 RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#ffffffb3;text-align:center;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.lp-qs-divider{display:block;height:.906px;margin:0 14.5px;background:#ffffff29}
+.lp-qs-dual-label{display:flex!important;align-items:center;justify-content:center;gap:3.62px;padding:7.25px 3.62px!important;font:400 10.87px/1.3 RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#ffffffb3;white-space:nowrap}
+.lp-qs-dual-label span{overflow:hidden;text-overflow:ellipsis;max-width:100px}
+.lp-qs-dual-label img{width:8.6px;height:8.6px;flex:none}
+.lp-qs-dual-label:active{background:#ffffff1a}
+/* QSDetail: replaces the tiles; items 16 dp in, the 24 dp icon, 16 sp title and accent summary, the X, and the
+   MORE SETTINGS / DONE buttons (14 sp medium caps, #80CBC4). */
+.lp-qs-detail{position:absolute;inset:0;background:#263238;display:flex;flex-direction:column;z-index:2;animation:lp-fade .2s both}
+.lp-qsd-items{flex:1;overflow:auto;padding:14.5px 14.5px 0}
+.lp-qsd-item{display:flex;align-items:center;min-height:43.49px}
+.lp-qsd-item-main{flex:1;display:flex;align-items:center;gap:21.74px;border:0;background:none;color:#fff;text-align:left;padding:0;min-height:43.49px;cursor:pointer}
+.lp-qsd-item-main img{width:21.74px;height:21.74px}
+.lp-qsd-item-main b{display:block;font:400 14.5px Roboto,sans-serif}
+.lp-qsd-item-main small{display:block;margin-top:1.8px;font:400 12.68px Roboto,sans-serif;color:#80cbc4}
+.lp-qsd-x{width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center;cursor:pointer}
+.lp-qsd-x img{width:21.74px;height:21.74px}
+.lp-qsd-empty{display:flex;flex-direction:column;align-items:center;padding-top:14.5px;gap:18.12px;font:400 14.5px Roboto,sans-serif;color:#ffffff99}
+.lp-qsd-empty img{width:50.74px;height:50.74px}
+.lp-qsd-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:0 14.5px 14.5px}
+.lp-qsd-buttons button{border:0;background:none;color:#80cbc4;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;padding:9.06px 7.25px;cursor:pointer}
+/* Material switch (switch_track_material / switch_thumb_material): 34 x 14 dp track, 20 dp thumb; teal when on. */
+.lp-switch{position:relative;width:43.49px;height:43.49px;border:0;background:none;cursor:pointer;flex:none}
+.lp-switch::before{content:'';position:absolute;left:5.44px;right:5.44px;top:50%;height:12.68px;margin-top:-6.34px;border-radius:6.34px;background:#ffffff4d;transition:background .2s}
+.lp-switch i{position:absolute;left:1.8px;top:50%;width:18.12px;height:18.12px;margin-top:-9.06px;border-radius:50%;background:#bdbdbd;box-shadow:0 .9px 1.8px #0006;transition:transform .2s cubic-bezier(.4,0,.2,1),background .2s}
+.lp-switch.on::before{background:#80cbc480}
+.lp-switch.on i{transform:translateX(21.74px);background:#80cbc4}
+/* Notification stack: 8 dp top padding, cards 2 dp apart (notification_padding 4 dp shared), #FAFAFA with 2 dp corners
+   and a 2 dp elevation. */
+.lp-notes{display:flex;flex-direction:column;gap:1.81px;padding:7.25px 0 7.25px}
+.lp-note{position:relative;background:#fafafa;border-radius:1.8px;box-shadow:0 .9px 1.8px #0000004d;color:#000000de;overflow:hidden;flex:none}
+.lp-note .jb-note-main{display:flex;align-items:center;width:100%;min-height:57.98px;border:0;background:none;color:inherit;padding:0 7.25px 0 0;text-align:left;cursor:pointer;position:relative}
+.lp-note .jb-note-main:active{background:#00000028}
+.lp-note-icon{flex:none;position:relative;width:36.24px;height:36.24px;margin:10.87px;border-radius:50%;display:grid;place-items:center;align-self:flex-start;overflow:hidden}
+.lp-note-icon img{width:21.74px;height:21.74px;object-fit:contain}
+.lp-note-icon.large img{width:100%;height:100%;object-fit:cover}
+.lp-note-badge{position:absolute;left:35.33px;top:34.43px;width:14.5px;height:14.5px;border-radius:50%;display:grid;place-items:center}
+.lp-note-badge img{width:9.06px;height:9.06px}
+.lp-note-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:9.06px 0}
+.lp-note-top{display:flex;align-items:baseline;gap:7.25px}
+.lp-note-top strong{flex:1;min-width:0;font:400 14.5px/1.3 Roboto,sans-serif;color:#000000de;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lp-note-top time{flex:none;font:400 10.87px Roboto,sans-serif;color:#0000008a}
+.lp-note-text{font:400 12.68px/1.35 Roboto,sans-serif;color:#0000008a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lp-note.expanded .lp-note-text{white-space:pre-line}
+.lp-note-actions{display:flex;border-top:.906px solid #0000001f;margin-left:57.98px}
+.lp-note-actions button{flex:1;display:flex;align-items:center;gap:7.25px;height:43.49px;padding:0 7.25px;border:0;background:none;color:#0000008a;font:500 12.68px Roboto,sans-serif;text-align:left;cursor:pointer}
+.lp-note-actions button img{width:16.31px;height:16.31px;filter:brightness(0) opacity(.54)}
+/* DismissView: the 48 dp clear-all button at the end, three white bars (dismiss_all_shape). */
+.lp-dismiss{display:flex;justify-content:flex-end;padding-top:3.62px}
+.lp-dismiss .jb-shade-clear{position:relative;width:43.49px;height:43.49px;border:0;border-radius:50%;background:none;cursor:pointer}
+.lp-dismiss .jb-shade-clear i{position:absolute;left:12.68px;width:18.12px;height:4.53px;background:#fff;border-radius:.5px}
+.lp-dismiss .jb-shade-clear i:nth-child(1){top:12.68px;left:16.31px}
+.lp-dismiss .jb-shade-clear i:nth-child(2){top:19.03px;left:14.5px}
+.lp-dismiss .jb-shade-clear i:nth-child(3){top:25.37px}
+.lp-dismiss .jb-shade-clear:active{background:#ffffff26}
+@keyframes lp-fade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.notification-shade.lp-shade,.lp-shade-scrim,.lp-qs-detail{animation:none}.lp-header,.lp-qs,.lp-header *{transition:none!important}}
+/* The shared .notification rule (ICS rows) does not apply to the Material cards. */
+.screen .lp-note.notification{display:block;width:auto;height:auto;min-height:0;gap:0;border:0;background:#fafafa}
+.screen .lp-note.notification:hover,.screen .lp-note.notification:focus-visible{background:#fafafa}
+.screen .lp-note strong{font-weight:400}
+/* Heads-up notification: the expanded card at the top of the screen, 8 dp from the sides and 8 dp down. */
+#lp-headsup{position:absolute;left:0;right:0;top:0;z-index:18;pointer-events:none}
+#lp-headsup .lp-headsup-card{position:absolute;left:7.25px;right:7.25px;top:7.25px;pointer-events:auto;box-shadow:0 1.8px 7.25px #00000066;touch-action:none}
