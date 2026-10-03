@@ -711,3 +711,7 @@ The crespo `default_wallpaper.jpg` (green grass) is only the static ImageWallpap
 `versions/2.3.6/assets/lw-pyramid_background.png` and `lw-nexus_thumb.png` are now the crespo files (cache key `?v=2`). `live-wallpapers.js` follows the crespo `initPulse` / `addTap` scaling. The landing thumbnail (`landing-home.jpg?v=4`) was recaptured. The shot is staged with two taps on the empty home area, so two four-colour `addTap` bursts cross the light waves. 4.0.4 and 4.3 keep their own wallpapers.
 
 Checks: headless Chrome showed the new background with mixed pulse widths, a tap burst and the new LivePicker thumbnail. No JavaScript errors.
+
+## Straight left edge on the frame — 2026-10-03
+
+The Nexus S outline came out wavy on the left (owner feedback). The render it is traced from is slightly skewed, and its shading and the volume keys made the left edge jump by 0–3 px from row to row, which the curve smoothing turned into waves. The right edge was already straight, because it is clamped to the body width. The Nexus S front is symmetric, so `docs/device-frames.py` now mirrors the right edge for the left one (`mirror=True`).

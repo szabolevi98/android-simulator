@@ -3,7 +3,7 @@ all shading is drawn here. Output coordinates are CSS px, scaled so the display 
 from PIL import Image
 import math, json, os
 
-def outline(path, body_x, body_y, scale, origin, cut_side_buttons=True, thr=110):
+def outline(path, body_x, body_y, scale, origin, cut_side_buttons=True, thr=110, mirror=False):
     im = Image.open(path).convert('RGBA'); W, H = im.size; px = im.load()
     x0, x1 = body_x; y0, y1 = body_y
     left, right = {}, {}
@@ -13,6 +13,10 @@ def outline(path, body_x, body_y, scale, origin, cut_side_buttons=True, thr=110)
         l, r = xs[0], xs[-1]
         if cut_side_buttons: l, r = max(l, x0), min(r, x1)
         left[y], right[y] = l, r
+    # A symmetric front whose render is slightly skewed (Nexus S): take the left edge as the mirror of the right one,
+    # so the side buttons and the render's shading cannot make it wavy.
+    if mirror:
+        for y in right: left[y] = x0 + x1 - right[y]
     # top / bottom profile per column for the curved edges
     top, bot = {}, {}
     for x in range(x0, x1 + 1):
@@ -61,11 +65,11 @@ TOUCHKEYS = {
     'home': '<path d="M2.5 12.5 12 4.5l9.5 8M6 10.5V19h12v-8.5"/>',
 }
 
-def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110):
+def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False):
     sx0, sy0, sx1, sy1 = screen
     scale = css_screen[0] / (sx1 - sx0)
     origin = (body_x[0], body_y[0])
-    pts = outline(ref, body_x, body_y, scale, origin, thr=thr)
+    pts = outline(ref, body_x, body_y, scale, origin, thr=thr, mirror=mirror)
     w = (body_x[1] - body_x[0]) * scale; h = (body_y[1] - body_y[0]) * scale
     pts = hull_filter(pts, w / 2, h / 2)
     d = smooth_path(pts)
@@ -155,7 +159,7 @@ if os.path.exists('ns-render.png'):
     [('slot', 521, 165, 238, 30), ('lens', 740, 155, 19),
      ('touchkey', 'back', 226, 1828, 84), ('touchkey', 'menu', 430, 1828, 84), ('touchkey', 'search', 621, 1828, 84), ('touchkey', 'home', 813, 1828, 84)],
     [('right', 396, 563, 7), ('left', 571, 873, 7)],
-    {'body': ['#121314', '#020203', '#09090a'], 'rim': ['#3c4043', '#0a0b0c', '#34383b'], 'rimWidth': 2.2, 'chin': .1, 'glassInset': 4.5})
+    {'body': ['#121314', '#020203', '#09090a'], 'rim': ['#3c4043', '#0a0b0c', '#34383b'], 'rimWidth': 2.2, 'chin': .1, 'glassInset': 4.5}, mirror=True)
   open('device-nexus-s.svg', 'w').write(svg); out['ns'] = info
 # Nexus 5 (LG-D821, hammerhead): matte black body with a thin grey rim, front camera left, the round earpiece grille in the
 # middle, proximity / light sensors right. Traced from Google's front render (Wikimedia Commons "Nexus 5 Front View.png",
