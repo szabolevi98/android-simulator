@@ -221,3 +221,13 @@ The owner chose the stock Nexus 5 experience over pure AOSP.
   - Hangouts, Chrome, Gmail and Photos open the simulated Messaging, Browser, Email and Gallery for now.
   - The Play media apps and Google Settings show "This app is not part of the simulator."
 - **Unverified:** the Google folder contents (Gmail, Play Movies & TV, Play Music, Play Books, Play Games, Photos). The screenshot only shows Gmail on top of a red icon.
+
+**Step 1b: Google Now pane**
+
+The Quick Start Guide says "On Nexus 5, you can also swipe to the leftmost Home screen". The pane follows `Workspace.updateStateForCustomContent`:
+- **Movement:** a layer slides in with the finger while the workspace, hotseat, page indicator and search bar slide away. The Now marker leads the page indicator.
+- **Content:**
+  - A day/night header picture.
+  - The white search box with the grey Google logo and microphone.
+  - Cards in the guide's style (white, light titles with the key figure in red, grey summaries, blue actions): weather, the next calendar event and the "Ok Google" tip.
+  - "More", then the Reminders / Customize / Menu icons taken from the guide.

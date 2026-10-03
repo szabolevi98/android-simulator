@@ -525,7 +525,8 @@
   const pageMarker = (active, add = false) => `<img class="kk-pi-off" src="assets/l3-ic_pageindicator_${add ? 'add' : 'default'}.png" alt=""><img class="kk-pi-on" src="assets/l3-ic_pageindicator_current.png" alt="">`;
   function renderHome() {
     const pages = data.homePages.length;
-    return `<div class="home-view kk-home gel-home${ui.overview ? ' kk-overview' : ''}"><div class="home-search"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="kk-qsb-logo" src="assets/l3-ic_home_google_logo_normal_holo.png" alt="Google"><span class="gel-hint">${safe(i18n.t('Say “Ok Google”'))}</span></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice search'))}"><img class="search-microphone" src="assets/l3-ic_home_voice_search_holo.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" ${index !== ui.page && !ui.overview ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${(data.homeWidgets[index] || []).map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators">${Array.from({ length: pages }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}">${pageMarker(i === ui.page, ui.extraScreen && i === pages - 1)}</button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/l3-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_clear_active_holo.png" alt=""><span>${safe(i18n.t('Remove'))}</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/l3-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_info_active_holo.png" alt=""><span>${safe(i18n.t('App info'))}</span></div></div><div class="kk-overview-panel" ${ui.overview ? '' : 'inert'}><button data-action="open-wallpapers" style="--pressed:url('assets/l3-ic_wallpaper_pressed.png')"><img src="assets/l3-ic_wallpaper.png" alt="">${safe(i18n.t('Wallpapers'))}</button><button data-action="kk-overview-widgets" style="--pressed:url('assets/l3-ic_widget_pressed.png')"><img src="assets/l3-ic_widget.png" alt="">${safe(i18n.t('Widgets'))}</button></div></div>`;
+    const nowPane = `<div class="gel-now-layer" ${ui.page === -1 ? '' : 'inert aria-hidden="true"'}>${GELNow.render({data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()})}</div>`;
+    return `<div class="home-view kk-home gel-home${ui.overview ? ' kk-overview' : ''}${ui.page === -1 ? ' gel-now-open' : ''}" style="--gnow:${ui.page === -1 ? 1 : 0}">${nowPane}<div class="home-search"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="kk-qsb-logo" src="assets/l3-ic_home_google_logo_normal_holo.png" alt="Google"><span class="gel-hint">${safe(i18n.t('Say “Ok Google”'))}</span></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice search'))}"><img class="search-microphone" src="assets/l3-ic_home_voice_search_holo.png" alt=""></button></div><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" data-action="kk-overview-page" data-id="${index}" style="--rel:${index - ui.page}" ${index !== ui.page && !ui.overview ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${(data.homeWidgets[index] || []).map(homeWidget).join('')}</div>`).join('')}</div></div><div class="page-indicators"><button class="gel-now-marker ${ui.page === -1 ? 'active' : ''}" data-action="page" data-id="-1" aria-label="Google Now">${pageMarker(ui.page === -1)}</button>${Array.from({ length: pages }, (_, i) => `<button class="${i === ui.page ? 'active' : ''}" data-action="page" data-id="${i}" aria-label="${safe(i18n.t('Home screen'))} ${i + 1}">${pageMarker(i === ui.page, ui.extraScreen && i === pages - 1)}</button>`).join('')}</div><div class="dock">${data.dock.map((id, slot) => `<div class="dock-slot" data-dock-slot="${slot}">${id ? launcherIcon(id) : ''}</div>`).join('')}</div><div class="drop-target-bar"><div class="drop-target" data-drop-remove="true"><img src="assets/l3-ic_launcher_clear_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_clear_active_holo.png" alt=""><span>${safe(i18n.t('Remove'))}</span></div><div class="drop-target info-drop-target" data-drop-info="true"><img src="assets/l3-ic_launcher_info_normal_holo.png" alt=""><img class="drop-target-active" src="assets/l3-ic_launcher_info_active_holo.png" alt=""><span>${safe(i18n.t('App info'))}</span></div></div><div class="kk-overview-panel" ${ui.overview ? '' : 'inert'}><button data-action="open-wallpapers" style="--pressed:url('assets/l3-ic_wallpaper_pressed.png')"><img src="assets/l3-ic_wallpaper.png" alt="">${safe(i18n.t('Wallpapers'))}</button><button data-action="kk-overview-widgets" style="--pressed:url('assets/l3-ic_widget_pressed.png')"><img src="assets/l3-ic_widget.png" alt="">${safe(i18n.t('Widgets'))}</button></div></div>`;
   }
   const drawerAppPages = () => Math.ceil(apps.length / 20);
   const drawerPageCount = () => drawerAppPages() + Math.ceil(widgetTypes.length / 4);
@@ -2360,14 +2361,16 @@
     return true;
   }
   function setHomePage(page) {
-    ui.page = Math.max(0, Math.min(data.homePages.length - 1, page));
+    ui.page = Math.max(dragState || ui.overview ? 0 : -1, Math.min(data.homePages.length - 1, page));
     const track = viewport.querySelector('.home-pages');
     if (!track) return;
+    const home = viewport.querySelector('.kk-home');
+    if (home) { home.style.removeProperty('--gnow-instant'); home.style.setProperty('--gnow', ui.page === -1 ? 1 : 0); home.classList.toggle('gel-now-open', ui.page === -1); home.querySelector('.gel-now-layer').inert = ui.page !== -1; }
     track.style.transition = '';
-    track.style.transform = `translateX(${-ui.page * 100}%)`;
+    track.style.transform = `translateX(${-Math.max(0, ui.page) * 100}%)`;
     tweenWallpaperOffset(wallpaperOffset(ui.page)); setWallpaperPan(ui.page);
     track.querySelectorAll('.home-grid').forEach((grid, index) => { grid.inert = index !== ui.page && !ui.overview; grid.style.setProperty('--rel', index - ui.page); });
-    viewport.querySelectorAll('.page-indicators button').forEach((button,index) => button.classList.toggle('active', index === ui.page));
+    viewport.querySelectorAll('.page-indicators button').forEach(button => button.classList.toggle('active', Number(button.dataset.id) === ui.page));
     screen.classList.add('show-page-indicator');
     clearTimeout(ui.pageIndicatorTimer);
     ui.pageIndicatorTimer = setTimeout(() => screen.classList.remove('show-page-indicator'), 800);
@@ -2398,6 +2401,13 @@
   function moveHomePage(dx) {
     const content = viewport.querySelector('.home-pages');
     if (!content) return;
+    const home = viewport.querySelector('.kk-home'), width = screen.clientWidth;
+    // Scrolling into Google Now: the pane follows the finger and the workspace, dock and indicator slide away.
+    if (home && (ui.page === -1 || (ui.page === 0 && dx > 0)) && !ui.overview) {
+      const progress = ui.page === -1 ? Math.max(0, Math.min(1, 1 + dx / width)) : Math.max(0, Math.min(1, dx / width));
+      home.style.setProperty('--gnow-instant', '1'); home.style.setProperty('--gnow', progress.toFixed(4));
+      return;
+    }
     const distance = Math.max(-(data.homePages.length - 1 - ui.page) * screen.clientWidth, Math.min(ui.page * screen.clientWidth, dx));
     content.style.transition = 'none';
     content.style.transform = `translateX(calc(${-ui.page * 100}% + ${distance}px))`;
@@ -2405,7 +2415,7 @@
     setWallpaperPan(ui.page - distance / screen.clientWidth, false);
   }
   function finishHomePage(dx) {
-    const nextPage = Math.max(0, Math.min(data.homePages.length - 1, ui.page + (dx < 0 ? 1 : -1)));
+    const nextPage = Math.max(ui.overview ? 0 : -1, Math.min(data.homePages.length - 1, ui.page + (dx < 0 ? 1 : -1)));
     screen.classList.remove('page-swiping');
     suppressClickUntil = Date.now() + 350;
     setHomePage(Math.abs(dx) > 45 ? nextPage : ui.page);
