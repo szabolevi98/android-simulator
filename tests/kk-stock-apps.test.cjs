@@ -10,7 +10,8 @@ assert.ok(A.render('drive',ctx({sub:'file',driveFile:'f1'})).includes('Lisbon'))
 assert.ok(A.render('youtube',ctx({sub:'video',ytVideo:'v2'})).includes('sa-yt-player'));
 assert.ok(A.render('news-weather',ctx({newsTab:'Weather'})).includes('sa-forecast'));
 assert.ok(A.render('voice-search',ctx({voiceState:'retry'})).includes('Didn’t catch that.'));
-for(const f of ['google-plus','maps','keep','drive','youtube','earth','google','news-weather','voice-search'])assert.ok(fs.existsSync(`versions/4.4.4/assets/${f}.svg`),f);
+for(const f of ['keep','drive','youtube','news-weather','voice-search'])assert.ok(fs.existsSync(`versions/4.4.4/assets/${f}.svg`),f);
+for(const f of ['google-plus','maps','earth','google-search'])assert.ok(fs.existsSync(`versions/4.4.4/assets/${f}.png`),f);
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
 assert.ok(sim.includes("items: ['gmail', 'google-plus', 'photos', 'maps', 'people', 'calendar', 'keep', 'drive', 'youtube', 'play-music', 'play-games']"));
 assert.ok(sim.includes("const GEL_UNSIMULATED = [];")&&sim.includes("case 'gel-overview-settings': openApp('google-search');"));

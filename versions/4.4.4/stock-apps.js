@@ -42,7 +42,7 @@
   // Google Search settings (the overview "Settings" button) and the Google Settings app.
   function searchSettings(ctx) {
     const row = (icon, label) => `<button class="sa-row" data-action="sa-unsupported"><i>${ICON[icon] || ''}</i><span>${e(ctx.t(label))}</span></button>`;
-    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Settings'), up: true, icon: 'google.svg'})}<div class="sa-scroll"><div class="sa-switch-row"><span>${e(ctx.t('Google Now'))}</span><button class="sa-switch${ctx.data.googleNowOn === false ? '' : ' on'}" data-action="google-now-toggle">${e(ctx.t(ctx.data.googleNowOn === false ? 'OFF' : 'ON'))}</button></div><h4>${e(ctx.t('SEARCH & NOW CARDS'))}</h4>${row('search', 'Phone search')}${row('mic', 'Voice')}${row('locate', 'Accounts & privacy')}${row('list', 'Notifications')}${row('', 'Help & feedback')}</div></div>`;
+    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Settings'), up: true, icon: 'google-search.png'})}<div class="sa-scroll"><div class="sa-switch-row"><span>${e(ctx.t('Google Now'))}</span><button class="sa-switch${ctx.data.googleNowOn === false ? '' : ' on'}" data-action="google-now-toggle">${e(ctx.t(ctx.data.googleNowOn === false ? 'OFF' : 'ON'))}</button></div><h4>${e(ctx.t('SEARCH & NOW CARDS'))}</h4>${row('search', 'Phone search')}${row('mic', 'Voice')}${row('locate', 'Accounts & privacy')}${row('list', 'Notifications')}${row('', 'Help & feedback')}</div></div>`;
   }
   function googleSettings(ctx) {
     const rows = [['Ads', ''], ['Android Device Manager', ''], ['Location', ''], ['Search & Now', 'search'], ['Google+', ''], ['Google Fit', '']].slice(0, 5);
@@ -56,7 +56,7 @@
   }
   function maps(ctx) {
     const q = ctx.ui.mapsQuery || '';
-    return `<div class="app-view sa-app sa-maps">${mapSvg(ctx)}<form class="sa-maps-search" data-form="maps-search"><img src="assets/maps.svg" alt=""><input name="query" autocomplete="off" placeholder="${e(ctx.t('Search'))}" aria-label="${e(ctx.t('Search'))}" value="${e(q)}">${btn('sa-unsupported', ctx.t('Directions'), 'directions')}</form><button class="sa-maps-locate" data-action="maps-locate" aria-label="${e(ctx.t('My location'))}">${ICON.locate}</button>${q ? `<div class="sa-maps-card"><b>${e(q)}</b><small>${e(ctx.t('0.8 mi · 4 min drive'))}</small>${btn('sa-unsupported', ctx.t('Directions'), 'directions')}</div>` : ''}</div>`;
+    return `<div class="app-view sa-app sa-maps">${mapSvg(ctx)}<form class="sa-maps-search" data-form="maps-search"><img src="assets/maps.png" alt=""><input name="query" autocomplete="off" placeholder="${e(ctx.t('Search'))}" aria-label="${e(ctx.t('Search'))}" value="${e(q)}">${btn('sa-unsupported', ctx.t('Directions'), 'directions')}</form><button class="sa-maps-locate" data-action="maps-locate" aria-label="${e(ctx.t('My location'))}">${ICON.locate}</button>${q ? `<div class="sa-maps-card"><b>${e(q)}</b><small>${e(ctx.t('0.8 mi · 4 min drive'))}</small>${btn('sa-unsupported', ctx.t('Directions'), 'directions')}</div>` : ''}</div>`;
   }
 
   // ---- Drive (2013): My Drive ----
@@ -109,7 +109,7 @@
   ];
   function gplus(ctx) {
     const plused = ctx.data.gplusPlus || [];
-    return `<div class="app-view sa-app sa-gplus">${bar(ctx, {title: ctx.t('Home'), subtitle: ctx.t('All'), icon: 'google-plus.svg', actions: btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-stream">${POSTS.map((p, i) => `<article class="sa-post">${avatar(p.name, i)}<div class="sa-post-head"><b>${e(p.name)}</b><small>${e(ctx.t(p.time))}</small></div><p>${e(p.text)}</p>${p.photo !== null ? `<div class="sa-post-photo">${thumb(p.photo)}</div>` : ''}<footer><button class="sa-plus${plused.includes(p.id) ? ' on' : ''}" data-action="gplus-plus" data-id="${p.id}">+1 <span>${p.plus + (plused.includes(p.id) ? 1 : 0)}</span></button><button data-action="sa-unsupported">${ICON.share}</button></footer></article>`).join('')}</div></div>`;
+    return `<div class="app-view sa-app sa-gplus">${bar(ctx, {title: ctx.t('Home'), subtitle: ctx.t('All'), icon: 'google-plus.png', actions: btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-stream">${POSTS.map((p, i) => `<article class="sa-post">${avatar(p.name, i)}<div class="sa-post-head"><b>${e(p.name)}</b><small>${e(ctx.t(p.time))}</small></div><p>${e(p.text)}</p>${p.photo !== null ? `<div class="sa-post-photo">${thumb(p.photo)}</div>` : ''}<footer><button class="sa-plus${plused.includes(p.id) ? ' on' : ''}" data-action="gplus-plus" data-id="${p.id}">+1 <span>${p.plus + (plused.includes(p.id) ? 1 : 0)}</span></button><button data-action="sa-unsupported">${ICON.share}</button></footer></article>`).join('')}</div></div>`;
   }
 
   // ---- Earth (2013): the globe in space under a translucent search bar ----

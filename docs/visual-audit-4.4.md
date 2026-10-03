@@ -356,3 +356,9 @@ The home screen starts with the DeskClock digital widget, 4 × 2 across the top 
 **Notification panel over the status bar (owner feedback)**
 
 GSMArena's Nexus 5 shade screenshot shows the expanded panel's black header (clock, date, Quick Settings button) at the very top of the screen. The status bar is covered, not left translucent above the panel. The KitKat panel and its scrim now start at the top edge.
+
+**Original icons for Google, Earth, Google+ and Maps (owner request)**
+
+These four launcher icons are now the originals instead of drawings, sized like the other stock icons:
+- Google, Earth and Google+ come from Wikimedia Commons: Google app icon 2013–2014, Google Earth logo 2013, and the Google+ icon 2013–2015, which matches GSMArena's launch Google folder.
+- Maps is the 144 px xxhdpi launcher icon of the Google Maps 7.4.0 APK (November 2013).

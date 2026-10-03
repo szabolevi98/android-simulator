@@ -141,7 +141,8 @@
     ['drive', 'Drive', '△', '#0da960', '#4688f4'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'], ['earth', 'Earth', '◍', '#1f6fd1', '#0b2f73'],
     ['google-search', 'Google', 'g', '#4285f4', '#3367d6'], ['news-weather', 'News & Weather', '☼', '#4285f4', '#9e9e9e'], ['voice-search', 'Voice Search', '🎤', '#eeeeee', '#5f6368']
   ];
-  const SVG_ICONS = new Set(['google-plus', 'maps', 'keep', 'drive', 'youtube', 'earth', 'news-weather', 'voice-search']);
+  // Google+, Maps, Earth and Google are the original icons (Wikimedia Commons, the Maps 7.4.0 APK); the rest are drawn.
+  const SVG_ICONS = new Set(['keep', 'drive', 'youtube', 'news-weather', 'voice-search']);
   const GEL_ALIASES = {};
   const GEL_UNSIMULATED = [];
   // Play Music, Movies & TV, Books and Games (play-apps.js).
@@ -181,7 +182,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'downloads', 'hangouts', 'chrome', 'gmail', 'photos', 'play-books', 'play-games', 'play-movies', 'play-music', 'google-settings', 'google-plus', 'maps', 'earth', 'google-search']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -202,7 +203,7 @@
   const shadeDate = () => deviceDate().toLocaleDateString(i18n.locale(), { weekday: 'short', month: 'short', day: 'numeric' });
   const contact = id => data.contacts.find(item => item.id === Number(id));
   const appIcon = id => {
-    if (SVG_ICONS.has(id) || id === 'google-search') return `<span class="app-icon"><img src="assets/${id === 'google-search' ? 'google' : id}.svg" alt=""></span>`;
+    if (SVG_ICONS.has(id)) return `<span class="app-icon"><img src="assets/${id}.svg" alt=""></span>`;
     if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg?v=2" alt=""></span>';
     if (id === 'apps') return '<span class="app-icon"><img src="assets/l3-ic_allapps.png" alt=""></span>';
     const folder=ICSLauncherFolders.folder(data,id);
