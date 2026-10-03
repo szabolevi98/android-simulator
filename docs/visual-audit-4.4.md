@@ -154,3 +154,19 @@ The Play Store is closed source. The 4.4.4 simulator shows Play Store 4.8.22, th
 - **Permissions:** the 4.8 grouped dialog ("needs access to", group rows with chevrons, the Google play wordmark, ACCEPT). The full network access row is gone. Permission texts use the AOSP 4.4.4 `permlab_*` strings.
 - **My apps:** the drawer-indicator bar, INSTALLED / ALL, and the "Recently updated" and "Installed" groups.
 - **Settings:** Notifications, Auto-update apps, Add icon to Home screen, Clear search history, Content filtering, "Require password for purchases" (For all purchases… / Every 30 minutes / Never), and Version: 4.8.22.
+
+## Wallpaper picker — 2026-10-03
+
+The "Wallpapers" button in the overview opens Launcher3's 4.4 `WallpaperPickerActivity` (WallpaperPicker/, `Theme.WallpaperPicker`).
+- **Window:** fullscreen with the wallpaper showing through. The `#88000000` overlay action bar holds a single custom button: `ic_actionbar_accept` and "Set wallpaper".
+- **Strip:** 106.5 × 94.5 dp tiles between 2 dp `tile_shadow_top/bottom`, in source order:
+  - Pick image: the latest photo under `#66000000` with `ic_images`.
+  - Images picked in this session.
+  - The KitKat default wallpaper tile (`getBuiltInDrawable`).
+  - Saved images.
+  - Live wallpapers, sorted by label, with the translucent label bar.
+- **No bundled wallpapers:** the AOSP `wallpapers` array is empty, so the 4.3 Launcher2 wallpapers are no longer offered.
+- **Selection:** `wallpaper_tile_fg` gives a 2 dp white frame over a #4dffffff wash. A selected tile previews full screen; tapping the preview hides or shows the strip. With nothing selected, Set wallpaper just closes the picker.
+- **Delete CAB:** a long press on a picked or saved image starts the CAB ("%d selected", Delete).
+- **Pick image:** sends `ACTION_GET_CONTENT image/*`. 4.4 answers it with DocumentsUI "Open from" on the Recent root: grid cards with the images. A picked image becomes a selected tile, and setting it saves it into the strip.
+- **Live tiles:** tapping one opens the live wallpaper preview. Back from the preview returns to the picker.

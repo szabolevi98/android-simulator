@@ -216,7 +216,8 @@
     screen.classList.toggle('kk-translucent', ['home', 'lock', 'drawer'].includes(ui.view) && !ui.sleeping);
     // PlatLogoActivity is fullscreen; the Dessert Case hides both bars (immersive sticky).
     const egg = ui.view === 'settings' && ['easter', 'dessert'].includes(ui.sub);
-    screen.classList.toggle('kk-hide-status', egg);
+    // Theme.WallpaperPicker is fullscreen as well.
+    screen.classList.toggle('kk-hide-status', egg || ui.view === 'wallpaper-picker');
     screen.classList.toggle('kk-immersive', egg && ui.sub === 'dessert');
     if (!egg) screen.classList.remove('kk-bars-peek');
   }
@@ -596,7 +597,8 @@
     switch (ui.view) {
       case 'play-store': return JBPlay.render(jbPlayContext());
       case 'live-wallpapers': return renderLiveWallpapers();
-      case 'wallpaper-picker': return `<div class="app-view wallpaper-picker"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>Wallpapers</h2></div><div class="app-content dark">${wallpaperChoices()}</div></div>`;
+      case 'wallpaper-picker': return KKWallpaperPicker.render(wallpaperPickerContext());
+      case 'kk-doc-picker': return KKWallpaperPicker.openFrom(wallpaperPickerContext());
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
       case 'phone': return renderPhone();
@@ -639,6 +641,7 @@
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
+    if (ui.view === 'live-wallpapers' && ui.lwFromPicker && String(ui.sub || '').startsWith('preview:')) { ui.lwFromPicker = false; ui.view = 'wallpaper-picker'; ui.sub = ''; render(); return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
     if (ui.view === 'lock' && ui.kgChallenge?.bouncing()) { ui.kgChallenge.hideBouncer(); return; }
     if (ui.view === 'lock') return;
@@ -658,6 +661,8 @@
     if (ui.view === 'calculator' && ui.calcPanel) { setCalculatorPanel(0); return; }
     if (ui.view === 'drawer' && ui.drawerPage >= drawerAppPages()) { home(false); ui.overview = true; render(); return; }
     if (ui.view === 'home' && ui.overview) { ui.overview = false; render(); return; }
+    if (ui.view === 'wallpaper-picker' && ui.wp?.checked?.length) { ui.wp.checked = []; wallpaperPickerRender(); return; }
+    if (ui.view === 'kk-doc-picker') { ui.view = 'wallpaper-picker'; render(); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
@@ -1112,7 +1117,10 @@
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
   function renderGallery() { return JBGallery.render(data, ui, key => i18n.t(key), ICSMedia, i18n.locale()); }
   const galleryItems = () => JBGallery.items(data, ui, i18n.locale());
-  function galleryWallpaper(photo) { data.wallpaper = 11; delete data.liveWallpaper; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); render(); toast('Wallpaper set'); }
+  function galleryWallpaper(photo, quiet) { data.wallpaper = 11; delete data.liveWallpaper; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); if (quiet) return; render(); toast('Wallpaper set'); }
+  const wallpaperPickerContext = () => ({data, ui, t: key => i18n.t(key), image: photo => ICSMedia.image(photo), live: LiveWallpapers.sorted(key => i18n.t(key), i18n.locale())});
+  // Re-render the picker but keep the strip where it was scrolled.
+  function wallpaperPickerRender() { const left = viewport.querySelector('.kwp-scroll')?.scrollLeft || 0; render(); const strip = viewport.querySelector('.kwp-scroll'); if (strip) strip.scrollLeft = left; }
   function renderCamera() { return JBCamera.render(data, ui, key => i18n.t(key), ICSMedia); }
   // JB Camera callbacks: a capture adds a local illustration to the Camera album; the filmstrip opens Gallery.
   function cameraShoot() {
@@ -1367,12 +1375,31 @@
       case 'widget-photo-album': configurePhotoWidget({source: 'album', album: id}); break;
       case 'widget-photo-image': configurePhotoWidget({source: 'photo', photo: Number(id)}); break;
       case 'widget-photo-cancel': cancelPhotoWidget(); break;
-      case 'open-wallpapers': ui.overlay = ''; ui.overview = false; ui.view = 'wallpaper-picker'; render(); break;
+      case 'open-wallpapers': ui.overlay = ''; ui.overview = false; ui.wp = {selected: '', temp: [], checked: [], stripHidden: false}; ui.view = 'wallpaper-picker'; render(); break;
+      // Launcher3 WallpaperPickerActivity: tiles preview, the action bar sets, a long press on a picked or saved image
+      // starts the delete CAB, Pick image goes through DocumentsUI.
+      case 'kwp-tile': {
+        const wp = ui.wp ||= {selected: '', temp: [], checked: []};
+        if (wp.checked?.length) { if (button.dataset.kwpLong) { wp.checked = wp.checked.includes(id) ? wp.checked.filter(k => k !== id) : [...wp.checked, id]; wallpaperPickerRender(); } break; }
+        if (id.startsWith('live:')) { ui.lwFromPicker = true; ui.view = 'live-wallpapers'; ui.sub = `preview:${id.slice(5)}`; render(); break; }
+        wp.selected = id; wp.stripHidden = false; wallpaperPickerRender(); break;
+      }
+      case 'kwp-tap': if (ui.wp) { ui.wp.stripHidden = !ui.wp.stripHidden; viewport.querySelector('.kwp-strip')?.classList.toggle('hidden', ui.wp.stripHidden); } break;
+      case 'kwp-pick': ui.view = 'kk-doc-picker'; render(); break;
+      case 'kwp-picked': { const wp = ui.wp ||= {selected: '', temp: [], checked: []}, pid = Number(id); wp.temp = [pid, ...(wp.temp || []).filter(x => x !== pid)]; wp.selected = `photo:${pid}`; ui.view = 'wallpaper-picker'; render(); break; }
+      case 'kwp-cab-done': if (ui.wp) { ui.wp.checked = []; wallpaperPickerRender(); } break;
+      case 'kwp-delete': { const wp = ui.wp, gone = new Set((wp?.checked || []).map(k => Number(k.slice(6)))); if (!wp) break; data.kkSavedWallpapers = (data.kkSavedWallpapers || []).filter(x => !gone.has(x)); wp.temp = (wp.temp || []).filter(x => !gone.has(x)); if (wp.checked.includes(wp.selected)) wp.selected = ''; wp.checked = []; save(); wallpaperPickerRender(); break; }
+      case 'kwp-set': {
+        const key = ui.wp?.selected || '';
+        if (key === 'default') { data.wallpaper = 0; delete data.liveWallpaper; delete data.customWallpaper; delete data.customWallpaperPhoto; save(); }
+        else if (key.startsWith('photo:')) { const photo = data.photos.find(p => p.id === Number(key.slice(6))); if (photo) { data.kkSavedWallpapers = [photo.id, ...(data.kkSavedWallpapers || []).filter(x => x !== photo.id)]; galleryWallpaper(photo, true); } }
+        ui.wp = null; home(false); break;
+      }
       case 'open-live-wallpapers': ui.overlay = ''; ui.view = 'live-wallpapers'; ui.sub = ''; render(); break;
       case 'lw-preview': ui.sub = `preview:${id}`; render(); break;
       case 'lw-settings': ui.sub = `settings:${id}`; render(); break;
       // LiveWallpaperPreview.setLiveWallpaper: set it and return to the launcher.
-      case 'lw-set': data.liveWallpaper = {id}; save(); ui.sub = ''; home(false); break;
+      case 'lw-set': data.liveWallpaper = {id}; save(); ui.sub = ''; ui.lwFromPicker = false; home(false); break;
       case 'lw-toggle': { const [wid, key] = String(id).split(':'); data.lwPrefs ||= {}; data.lwPrefs[wid] ||= {}; data.lwPrefs[wid][key] = data.lwPrefs[wid][key] === false; save(); render(); break; }
       case 'lw-palette': ui.overlay = 'lw-palette'; renderOverlay(); break;
       case 'lw-palette-pick': data.lwPrefs ||= {}; data.lwPrefs.polar ||= {}; data.lwPrefs.polar.palette = id; save(); ui.overlay = ''; render(); break;
@@ -2512,6 +2539,10 @@
     if (ui.view === 'home' && event.target.closest('.kk-cling-workspace .cling-shade')) homeLongPressTimer = setTimeout(() => { data.clings.workspace = true; save(); LauncherClings.dismiss(clingLayerRoot().querySelector('[data-cling="workspace"]'), () => { ui.overview = true; render(); }); pointerStart = null; suppressReleaseClick(); }, 550);
     if (ui.view === 'home' && !ui.overlay && !ui.overview && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overview = true; render(); pointerStart = null; suppressReleaseClick(); }, 550);
     const message = event.target.closest('.mms-message');
+    const kwpScroll = ui.view === 'wallpaper-picker' ? event.target.closest('.kwp-scroll') : null;
+    if (kwpScroll) { pointerStart.kwpScroll = kwpScroll; pointerStart.kwpLeft = kwpScroll.scrollLeft; }
+    const kwpLong = ui.view === 'wallpaper-picker' && !ui.wp?.checked?.length ? event.target.closest('[data-kwp-long]') : null;
+    if (kwpLong) homeLongPressTimer = setTimeout(() => { ui.wp.checked = [kwpLong.dataset.id]; pointerStart = null; suppressReleaseClick(); wallpaperPickerRender(); }, 550);
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, 550);
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     else if (ui.view === 'lock' && !ui.locked && event.target.closest('.lock-wave')) lockPing();
@@ -2526,6 +2557,8 @@
     if (dragState) { moveGhost(event.clientX, event.clientY); return; }
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
     if (Math.hypot(dx,dy) > 8) { clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); }
+    // The wallpaper strip scrolls sideways under a mouse drag as it would under a finger.
+    if (pointerStart.kwpScroll && event.pointerType === 'mouse' && (pointerStart.kwpDragging || Math.abs(dx) > 8)) { pointerStart.kwpDragging = true; const k = screen.getBoundingClientRect().width / screen.offsetWidth || 1; pointerStart.kwpScroll.scrollLeft = pointerStart.kwpLeft - dx / k; suppressClickUntil = Date.now() + 350; event.preventDefault(); return; }
     if (pointerStart.calculatorSwipe && (pointerStart.calculatorSwiping || Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy))) {
       pointerStart.calculatorSwiping = true; suppressClickUntil = Date.now() + 350; event.preventDefault();
       try { screen.setPointerCapture(event.pointerId); } catch {}
