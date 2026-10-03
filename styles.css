@@ -64,7 +64,7 @@ h1{font-size:clamp(38px,4.6vw,60px)}
 /* Nexus S miniature: no navigation bar, the screen insets are the frame paddings in percent. */
 .mini-phone-nexus5{aspect-ratio:370.57/728.24;border:0;border-radius:0;background-image:url('versions/4.4.4/assets/device-nexus-5.svg?v=2')}
 .mini-phone-nexus5 .mini-screen{top:8.83%;bottom:11.53%;left:5.94%;right:6.02%}
-.mini-phone-nexuss{aspect-ratio:336/675.33;border:0;border-radius:0;background-image:url('versions/2.3.6/assets/device-nexus-s.svg?v=2')}
+.mini-phone-nexuss{aspect-ratio:336/675.33;border:0;border-radius:0;background-image:url('versions/2.3.6/assets/device-nexus-s.svg?v=3')}
 .mini-phone-nexuss .mini-screen{top:15.89%;bottom:15.99%;left:8.93%;right:8.93%}
 .mini-phone-nexuss .mini-nav{display:none}
 .mini-phone-nexuss .mini-dock{bottom:2px}

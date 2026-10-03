@@ -14,7 +14,7 @@ def outline(path, body_x, body_y, scale, origin, cut_side_buttons=True, thr=110,
         if cut_side_buttons: l, r = max(l, x0), min(r, x1)
         left[y], right[y] = l, r
     # A symmetric front whose render is slightly skewed (Nexus S): take the left edge as the mirror of the right one,
-    # so the side buttons and the render's shading cannot make it wavy.
+    # so the side buttons and the render's shading cannot make it wavy...
     if mirror:
         for y in right: left[y] = x0 + x1 - right[y]
     # top / bottom profile per column for the curved edges
@@ -22,6 +22,10 @@ def outline(path, body_x, body_y, scale, origin, cut_side_buttons=True, thr=110,
     for x in range(x0, x1 + 1):
         ys = [y for y in range(y0, y1 + 1) if px[x, y][3] > thr]
         if ys: top[x], bot[x] = ys[0], ys[-1]
+    if mirror:
+        # ...and the left half of the top and bottom edges (the rounded corners) as the mirror of the right half.
+        for x in list(top):
+            if x < (x0 + x1) / 2 and (x0 + x1 - x) in top: top[x], bot[x] = top[x0 + x1 - x], bot[x0 + x1 - x]
     ox, oy = origin
     pts = []
     # walk: top edge left->right, right side top->bottom, bottom edge right->left, left side bottom->top
