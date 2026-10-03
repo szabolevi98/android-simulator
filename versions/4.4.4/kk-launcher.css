@@ -61,16 +61,16 @@
 .kk-home .dock .launcher-folder-icon>.folder-preview-item:nth-child(3){left:21.63px;top:3.98px;width:28.74px;height:28.74px}
 .kk-home .folder-drop-target .app-icon:after{inset:-14px;background-image:url('assets/l3-portal_ring_outer_holo.png')}
 /* Open folder: white portal_container_holo card, #333 labels without shadow, name hint #777 14 sp condensed. */
-.launcher-folder{color:#333}
-.launcher-folder:before{border-width:13.6px 10.87px 18.12px;border-image:url('assets/l3-portal_container_holo.png') 42 36 60 36 fill / 13.6px 10.87px 18.12px}
-.launcher-folder .launcher-folder-cell{height:auto;min-height:0;padding:4.5px 0}
-.launcher-folder .launcher-folder-cell .app-icon{width:54.36px;height:54.36px;filter:none}
-.launcher-folder .launcher-folder-cell .launcher-icon>span:last-child{font:400 11.78px/15.7px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#333;text-shadow:none}
-.launcher-folder .launcher-folder-name{border-top:0}
-.launcher-folder .launcher-folder-name input{padding:9.06px 4px;font:400 12.68px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#777}
-.launcher-folder .launcher-folder-name input::placeholder{color:#777}
-.launcher-folder .launcher-folder-name input:focus{box-shadow:none}
-.launcher-folder-scrim{inset:0;background:transparent}
+.screen .launcher-folder{color:#333}
+.screen .launcher-folder:before{border-width:13.6px 10.87px 18.12px;border-image:url('assets/l3-portal_container_holo.png') 42 36 60 36 fill / 13.6px 10.87px 18.12px}
+.screen .launcher-folder .launcher-folder-cell{height:auto;min-height:0;padding:4.5px 0}
+.screen .launcher-folder .launcher-folder-cell .app-icon{width:54.36px;height:54.36px;filter:none}
+.screen .launcher-folder .launcher-folder-cell .launcher-icon>span:last-child{font:400 11.78px/15.7px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#333;text-shadow:none}
+.screen .launcher-folder .launcher-folder-name{border-top:0}
+.screen .launcher-folder .launcher-folder-name input{padding:9.06px 4px;font:400 12.68px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#777}
+.screen .launcher-folder .launcher-folder-name input::placeholder{color:#777}
+.screen .launcher-folder .launcher-folder-name input:focus{box-shadow:none}
+.screen .launcher-folder-scrim{inset:0;background:transparent}
 /* All apps (AppsCustomizeTabHost): the tab bar stays gone and the market button is disabled; 65 % black over the
    wallpaper; apps pages of 4 x 5 cells then the widget pages, with one page indicator at the bottom. */
 #viewport>.drawer-view.kk-drawer{position:relative;display:block;overflow:hidden;background:#000000a6;padding:var(--sb) 0 var(--nb)}

@@ -374,3 +374,7 @@ The Chrome icon cut from the Wikimedia screenshot kept wallpaper on its edges. I
 **Notification panel opens fully (owner feedback)**
 
 The owner's video frames (Nexus 4 on 4.2, Nexus 5 on 4.4) show the expanded panel reaching the navigation bar even with few notifications, with the carrier label and the handle at the bottom. Released, it stays fully open. The panel now runs from the top of the screen to the navigation bar in 4.4.4 and 4.3. The status bar is covered in 4.3 too, as in the Nexus 4 frame.
+
+**Open folders white again (owner feedback)**
+
+The shared `launcher-folders.css`, loaded after `kk-launcher.css`, replaced the KitKat white `portal_container_holo` with the ICS/JB black one. That left #333 labels on black. The KitKat folder rules now take precedence, and the open Google folder is the white card with dark labels from GSMArena's Nexus 5 screenshot.
