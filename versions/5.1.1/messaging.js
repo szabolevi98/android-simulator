@@ -14,7 +14,9 @@
     const person = contacts.find(p => String(p.id) === String(key));
     return person || {name:String(key).replace(/^tel:/,''),phone:String(key).replace(/^tel:/,'')};
   }
-  const draftKey = ui => ui.sub === 'new' ? 'new' : String(ui.thread);
+  // Hangouts keeps its chats and drafts apart from Messenger's SMS (channel 'hangouts', drafts under 'hg:').
+  const channelOf = message => message.channel || 'sms';
+  const draftKey = ui => (ui.view === 'hangouts' ? 'hg:' : '') + (ui.sub === 'new' ? 'new' : String(ui.thread));
   function counter(body) {
     const basic = '@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ !"#¤%&\'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà';
     const extended = '^{}\\[~]|€\f';
@@ -29,13 +31,14 @@
     const count = length <= single ? 1 : Math.ceil(length / segment);
     return {remaining:(count === 1 ? single : count * segment) - length, count};
   }
-  function threads(data, query = '') {
-    const keys = new Set(data.messages.map(m=>String(m.contact)));
-    for (const [key,draft] of Object.entries(data.messageDrafts || {})) if (key !== 'new' && (draft.body || draft.attachment)) keys.add(key);
+  function threads(data, query = '', channel = 'sms') {
+    const pool = data.messages.filter(m => channelOf(m) === channel), prefix = channel === 'hangouts' ? 'hg:' : '';
+    const keys = new Set(pool.map(m=>String(m.contact)));
+    for (const [key,draft] of Object.entries(data.messageDrafts || {})) if (key.startsWith(prefix) && (prefix || !key.startsWith('hg:')) && key !== prefix + 'new' && (draft.body || draft.attachment)) keys.add(key.slice(prefix.length));
     const q = query.trim().toLocaleLowerCase();
     return [...keys].map(key => {
-      const messages = data.messages.filter(m=>String(m.contact)===key);
-      const last = messages.at(-1), draft = data.messageDrafts?.[key];
+      const messages = pool.filter(m=>String(m.contact)===key);
+      const last = messages.at(-1), draft = data.messageDrafts?.[prefix + key];
       return {key,person:identity(key,data.contacts),messages,last,draft,order:Math.max(last?.timestamp || last?.id || 0,draft?.updated || 0)};
     }).filter(thread=>!q || [thread.person.name,thread.person.phone,...thread.messages.map(m=>m.body),thread.draft?.body].join(' ').toLocaleLowerCase().includes(q))
       .sort((a,b)=>b.order-a.order);
@@ -82,7 +85,7 @@
       }).join('');
       return `<div class="app-view mms-app lpm-app">${bar}<div class="mms-scroll mms-threads lpm-list">${rows || `<p class="lpm-empty">${escape(t(ui.mmsSearch ? 'No messages found' : 'Once you start a new conversation, you’ll see it listed here'))}</p>`}</div>${searching ? '' : `<button class="lpm-fab" data-action="new-message" aria-label="${escape(t('Start new conversation'))}"><img src="assets/bg-ic_add_white.png" alt=""></button>`}</div>`;
     }
-    const messages = detail ? data.messages.filter(m=>String(m.contact)===String(ui.thread)) : [];
+    const messages = detail ? data.messages.filter(m=>String(m.contact)===String(ui.thread) && channelOf(m) === 'sms') : [];
     const c = detail ? color(person) : '#0288d1';
     const can = !!(draft.body || '').trim() || !!draft.attachment;
     const count = counter(draft.body || '');
@@ -97,5 +100,5 @@
     const picker = !detail ? `<div class="mms-recipient lpm-to"><span>${escape(t('To'))}</span><input name="recipient" aria-label="${escape(t('To'))}" placeholder="${escape(t('Type name or phone number'))}" autocomplete="off" maxlength="60" value="${escape(draft.recipient || '')}"><div class="mms-suggestions"></div></div><div class="lpm-picker"><nav class="lpm-picker-tabs"><span class="on">${escape(t('ALL CONTACTS'))}</span></nav>${[...data.contacts].sort((a, b) => a.name.localeCompare(b.name, locale)).map(p => `<button type="button" class="lpm-pick" data-action="mms-recipient" data-id="${p.id}">${tile(p, 'lpm-avatar')}<span><strong>${escape(p.name)}</strong><small>${escape(p.phone)} ${escape(t('Mobile'))}</small></span></button>`).join('')}</div>` : '';
     return `<div class="app-view mms-app lpm-app lpm-conversation" style="--lpm-c:${c}">${head}<form class="mms-compose lpm-compose" data-form="mms-send">${picker}<div class="mms-scroll mms-history lpm-history"${detail ? '' : ' hidden'}>${bubbles}</div>${draft.attachment ? `<div class="mms-attachment lpm-attachment">${photo(draft.attachment)}<button type="button" data-action="mms-remove-attachment" aria-label="${escape(t('Remove'))}">×</button></div>` : ''}<div class="mms-compose-bar lpm-compose-bar">${tool('mms-attach', t('Add attachment'), 'bg-ic_attachment_dark.png', 'lpm-attach')}<span class="lpm-field"><textarea name="body" rows="1" maxlength="2000" aria-label="${escape(t('Send message'))}" placeholder="${escape(t('Send message'))}">${escape(draft.body || '')}</textarea><small class="mms-counter">${draft.attachment ? 'MMS' : count.count > 1 || count.remaining < 10 ? `${count.remaining} / ${count.count}` : ''}</small></span><button class="mms-send lpm-send" type="submit" aria-label="${escape(t('Send'))}" ${can ? '' : 'disabled'}><img src="assets/bg-ic_send_light.png" alt=""></button></div></form></div>`;
   }
-  window.ICSMessaging = {render,recipient,identity,draftKey,counter,threads,photo,escape,stamp};
+  window.ICSMessaging = {render,recipient,identity,draftKey,counter,threads,photo,escape,stamp,channelOf};
 })();

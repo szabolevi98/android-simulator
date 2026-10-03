@@ -40,7 +40,10 @@
     messages: [
       { id: 1, contact: 1, body: 'Hey! Are we still on for coffee tomorrow?', mine: false, time: '10:42' },
       { id: 2, contact: 1, body: 'Absolutely. See you at 11!', mine: true, time: '10:45' },
-      { id: 3, contact: 4, body: 'Don’t forget to call this weekend ☺', mine: false, time: 'Yesterday' }
+      { id: 3, contact: 4, body: 'Don’t forget to call this weekend ☺', mine: false, time: 'Yesterday' },
+      // Hangouts chats (channel 'hangouts'); SMS stays in Messenger.
+      { id: 4, contact: 2, body: 'The photos from the hike are up!', mine: false, time: 'Yesterday', channel: 'hangouts' },
+      { id: 5, contact: 2, body: 'They look amazing 😀', mine: true, time: 'Yesterday', channel: 'hangouts' }
     ],
     photos: [
       { id: 1, name: 'Mountain afternoon', colors: ['#96c8d0', '#e8ad7a', '#364e59'] },
@@ -1233,7 +1236,7 @@
     return data.messageDrafts[key] ||= {body:'',recipient:''};
   }
   function openMessageThread(key) {
-    if (!['messaging', 'hangouts'].includes(ui.view)) openApp('hangouts');
+    if (!['messaging', 'hangouts'].includes(ui.view)) openApp('messaging');
     if (ui.sub !== 'thread') ui.mmsListMode = ui.sub === 'search' ? 'search' : '';
     ui.thread = key; ui.sub = 'thread'; ui.overlay = '';
     data.messages.filter(m => String(m.contact) === String(key)).forEach(m => { m.read = true; });
@@ -1241,14 +1244,14 @@
     save(); render(); scrollMessages();
   }
   function pickHangout(key) {
-    const pending = data.messageDrafts?.new;
+    const pending = data.messageDrafts?.['hg:new'];
     if (pending && (pending.body || pending.attachment)) {
-      const target = data.messageDrafts[String(key)] ||= {body: '', recipient: ''};
+      const target = data.messageDrafts['hg:' + String(key)] ||= {body: '', recipient: ''};
       target.body = [target.body, pending.body].filter(Boolean).join(' ').slice(0, 2000);
       if (pending.attachment) target.attachment = pending.attachment;
       target.updated = Date.now();
     }
-    if (data.messageDrafts) delete data.messageDrafts.new;
+    if (data.messageDrafts) delete data.messageDrafts['hg:new'];
     ui.mmsListMode = '';
     openMessageThread(key);
   }
@@ -1283,7 +1286,7 @@
   // Google+ Photos (stock Nexus 5) over the simulator's pictures.
   const photosContext = () => ({data, ui, t: key => i18n.t(key), locale: i18n.locale(), media: ICSMedia, groups: JBGallery.groups(data, 'album', i18n.locale())});
   function photosCurrent() { const list = PhotosApp.list(photosContext()); return list[ui.photosIndex] || null; }
-  function photosShare(photo) { if (!photo) return; ui.overlay = ''; renderOverlay(); openApp('hangouts'); ui.sub = 'new'; messageDraft().attachment = clone(photo); save(); render(); }
+  function photosShare(photo) { if (!photo) return; ui.overlay = ''; renderOverlay(); openApp('messaging'); ui.sub = 'new'; messageDraft().attachment = clone(photo); save(); render(); }
   // Swipe between pictures in the viewer; a tap shows or hides the bars.
   function attachPhotosSwipe() {
     const pane = viewport.querySelector('.ph-viewer');
@@ -1552,6 +1555,7 @@
      circle, or the large icon (a contact photo) with the small icon badged on the colour. */
   function decorateNotification(note) {
     if (note.id === 2) return {...note, largeIcon: 'mms-ic_contact_picture.png', smallIcon: 'lpn-messenger.png', color: '#0277bd', big: 'Hey! Are we still on for coffee tomorrow?\nSee you at 11!', actions: [{id: 'reply', label: 'Reply'}]};
+    if (note.kind === 'message' && note.channel === 'hangouts') return {...note, largeIcon: 'mms-ic_contact_picture.png', smallIcon: 'lpn-hangouts.png', color: '#0f9d58', big: note.detail, actions: [{id: 'reply', label: 'Reply'}]};
     if (note.kind === 'message') return {...note, largeIcon: 'mms-ic_contact_picture.png', smallIcon: 'lpn-messenger.png', color: '#0277bd', big: note.detail, actions: [{id: 'reply', label: 'Reply'}]};
     if (note.kind === 'calendar') return {...note, smallIcon: 'lpn-calendar.png', color: '#4285f4', big: note.detail, actions: [{id: 'snooze', label: 'Snooze'}]};
     if (note.kind === 'timer') return {...note, smallIcon: 'lpn-timer.png', color: '#00796b'};
@@ -1567,23 +1571,25 @@
   function addNotification(title, detail) { data.notifications.unshift({ id: Date.now(), title, detail }); save(); renderStatus(); }
   function sendMessage(id, body, attachment) {
     if (!body && !attachment) return;
-    data.messages.push({ id: Date.now(), contact: id, body, mine: true, time: clock(), timestamp:Date.now(), read:true, ...(attachment ? {attachment:clone(attachment)} : {}) });
+    // Messenger carries SMS; Hangouts keeps its own chats (channel 'hangouts').
+    data.messages.push({ id: Date.now(), contact: id, body, mine: true, time: clock(), timestamp:Date.now(), read:true, ...(ui.view === 'hangouts' ? {channel: 'hangouts'} : {}), ...(attachment ? {attachment:clone(attachment)} : {}) });
     delete data.messageDrafts?.[ICSMessaging.draftKey(ui)];
     openMessageThread(id);
-    scheduleReply(id);
+    scheduleReply(id, ui.view === 'hangouts' ? 'hangouts' : 'sms');
   }
   /* A simulated answer shows Lollipop's heads-up notification: a few seconds after a text to one of the demo contacts
      they write back once (per contact and session). */
   const REPLIES = {1: 'Sounds good, see you then!', 2: 'Got it, thanks!', 3: 'Haha, nice 😄', 4: 'Love you! Talk soon ♥'};
-  function scheduleReply(id) {
-    const key = Number(id);
-    if (!REPLIES[key] || (ui.repliedTo ||= new Set()).has(key)) return;
-    ui.repliedTo.add(key);
+  function scheduleReply(id, channel = 'sms') {
+    const key = Number(id), app = channel === 'hangouts' ? 'hangouts' : 'messaging';
+    if (!REPLIES[key] || (ui.repliedTo ||= new Set()).has(`${channel}:${key}`)) return;
+    ui.repliedTo.add(`${channel}:${key}`);
     setTimeout(() => {
       const who = contact(key); if (!who) return;
-      data.messages.push({id: Date.now(), contact: key, body: i18n.t(REPLIES[key]), mine: false, time: clock(), timestamp: Date.now(), read: ui.view === 'messaging' && ui.sub === 'thread' && Number(ui.thread) === key});
-      if (!(ui.view === 'messaging' && ui.sub === 'thread' && Number(ui.thread) === key)) {
-        const note = {id: Date.now(), title: who.name, detail: i18n.t(REPLIES[key]), kind: 'message', contact: key, time: deviceDate().getTime()};
+      const open = ui.view === app && ui.sub === 'thread' && Number(ui.thread) === key;
+      data.messages.push({id: Date.now(), contact: key, body: i18n.t(REPLIES[key]), mine: false, time: clock(), timestamp: Date.now(), read: open, ...(channel === 'hangouts' ? {channel} : {})});
+      if (!open) {
+        const note = {id: Date.now(), title: who.name, detail: i18n.t(REPLIES[key]), kind: 'message', contact: key, time: deviceDate().getTime(), ...(channel === 'hangouts' ? {channel} : {})};
         data.notifications.unshift(note); save(); renderStatus(); headsUp(note);
       } else { save(); render(); }
       if (ui.overlay === 'shade') renderOverlay();
@@ -1803,10 +1809,10 @@
       case 'qs-bluetooth': ui.overlay = ''; openApp('settings'); ui.sub = 'bluetooth'; render(); break;
       case 'qs-alarm': ui.overlay = ''; openApp('clock'); break;
       case 'qs-location': ui.overlay = ''; openApp('settings'); ui.sub = 'location'; render(); break;
-      case 'notification-action': if (button.dataset.noteAction === 'reply') { const note = data.notifications.find(item => String(item.id) === id); releaseHeadsUp(); data.notifications = data.notifications.filter(item => item !== note); save(); renderStatus(); ui.overlay = ''; openApp('messaging'); openMessageThread(note?.contact || 1); break; } { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar' && button.dataset.noteAction === 'snooze') { data.notifications = data.notifications.filter(item => item !== note); (data.calendarSnoozes ||= []).push({eventId: note.eventId, date: note.date, title: note.title, detail: note.detail, at: deviceDate().getTime() + 5 * 60000}); save(); renderStatus(); if (!data.notifications.length) ui.overlay = ''; renderOverlay(); toast('Snoozed'); } break; }
+      case 'notification-action': if (button.dataset.noteAction === 'reply') { const note = data.notifications.find(item => String(item.id) === id); releaseHeadsUp(); data.notifications = data.notifications.filter(item => item !== note); save(); renderStatus(); ui.overlay = ''; openApp(note?.channel === 'hangouts' ? 'hangouts' : 'messaging'); openMessageThread(note?.contact || 1); break; } { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar' && button.dataset.noteAction === 'snooze') { data.notifications = data.notifications.filter(item => item !== note); (data.calendarSnoozes ||= []).push({eventId: note.eventId, date: note.date, title: note.title, detail: note.detail, at: deviceDate().getTime() + 5 * 60000}); save(); renderStatus(); if (!data.notifications.length) ui.overlay = ''; renderOverlay(); toast('Snoozed'); } break; }
       case 'notification-open': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar') { data.notifications = data.notifications.filter(item => item !== note); save(); ui.overlay = ''; openApp('calendar'); ui.selectedEvent = note.eventId; ui.selectedInstance = note.date; ui.selectedDate = note.date; ui.sub = 'event'; render(); break; }
         releaseHeadsUp();
-        if (note?.kind === 'message') { data.notifications = data.notifications.filter(item => item !== note); save(); renderStatus(); ui.overlay = ''; openApp('messaging'); openMessageThread(note.contact); break; }
+        if (note?.kind === 'message') { data.notifications = data.notifications.filter(item => item !== note); save(); renderStatus(); ui.overlay = ''; openApp(note.channel === 'hangouts' ? 'hangouts' : 'messaging'); openMessageThread(note.contact); break; }
         ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break; }
       case 'unlock': ui.view = 'home'; render(); break;
       // ActivatableNotificationView: the first touch activates the card ("Touch again to open"), the second opens it.
@@ -1991,7 +1997,7 @@
       case 'chrome-bookmarks': chromeSection('bookmarks'); break;
       case 'chrome-devices': chromeSection('devices'); break;
       case 'chrome-history': ui.chromeHistoryQuery = ''; navigateBrowser(ChromeApp.HISTORY); break;
-      case 'chrome-share': { const link = ui.browserUrl; ui.overlay = ''; renderOverlay(); if (ChromeApp.internal(link)) break; openApp('hangouts'); ui.sub = 'new'; messageDraft().body = link.startsWith('search:') ? link.slice(7) : `http://${link}`; save(); render(); break; }
+      case 'chrome-share': { const link = ui.browserUrl; ui.overlay = ''; renderOverlay(); if (ChromeApp.internal(link)) break; openApp('messaging'); ui.sub = 'new'; messageDraft().body = link.startsWith('search:') ? link.slice(7) : `http://${link}`; save(); render(); break; }
       case 'chrome-desktop': ui.chromeDesktop = !ui.chromeDesktop; ui.overlay = ''; renderOverlay(); render(); break;
       case 'chrome-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'browser-back-menu': ui.overlay = ''; renderOverlay(); browserBack(); break;
@@ -2078,7 +2084,7 @@
       case 'gallery-rotate': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(photo)photo.rotation=((photo.rotation||0)+Number(id)+360)%360;save();ui.overlay='';render();break;}
       case 'gallery-slideshow': {const items=galleryItems();ui.galleryFilm=false;if(!items.length)break;if(ui.sub!=='photo')ui.selectedPhoto=items[0].id;ui.sub='photo';ui.overlay='';ui.gallerySlideshow=true;ui.gallerySlideAt=Date.now();render();break;}
       case 'gallery-stop': ui.gallerySlideshow=false;render();break;
-      case 'gallery-share-message': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(!photo)break;openApp('hangouts');ui.sub='new';messageDraft().attachment=clone(photo);save();render();break;}
+      case 'gallery-share-message': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(!photo)break;openApp('messaging');ui.sub='new';messageDraft().attachment=clone(photo);save();render();break;}
       case 'photo-delete': ui.selectedPhoto=Number(id);ui.overlay='gallery-delete';renderOverlay();break;
       case 'gallery-confirm-delete': {
         const items=galleryItems();const index=items.findIndex(p=>p.id===ui.selectedPhoto);
@@ -2145,7 +2151,7 @@
         if (id === 'share') {
           const watch = data.jbClock.stopwatch, laps = watch.laps || [], total = JBDeskClock.elapsed(watch, Date.now());
           const text = [`${i18n.t('Stopwatch')}: ${JBDeskClock.formatStopwatch(total)}`, ...laps.map((lap, i) => `# ${i + 1}  ${JBDeskClock.formatStopwatch(lap - (laps[i - 1] || 0))}`)].join('\n');
-          openApp('hangouts'); ui.sub = 'new'; messageDraft().body = text; save(); render(); break;
+          openApp('messaging'); ui.sub = 'new'; messageDraft().body = text; save(); render(); break;
         }
         data.jbClock.stopwatch = JBDeskClock.stopwatchAction(data.jbClock.stopwatch, id, Date.now()); save(); render(); break;
       }

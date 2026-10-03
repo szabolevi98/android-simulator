@@ -1,0 +1,65 @@
+/* Hangouts 2.5 (see hangouts.js); dp x 0.906. */
+.app-view.hgl-app{position:relative;display:flex;flex-direction:column;height:100%;overflow:hidden;background:#fff;color:#333;font-family:Roboto,sans-serif;padding:0}
+.hgl-app button{cursor:pointer;font-family:inherit}
+.hgl-bar{position:relative;z-index:3;flex:none;display:flex;align-items:center;height:50.74px;padding:0 3.62px;background:#0f9d58;color:#fff;box-shadow:0 1.8px 3.6px #0000003d}
+.hgl-bar h2{flex:1;min-width:0;margin:0 0 0 10.87px;font:500 18.12px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hgl-bar>h2:first-child{margin-left:12.68px}
+.hgl-btn{flex:none;width:43.49px;height:43.49px;margin:0 1.81px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0;color:#fff}
+.hgl-btn:active{background:#ffffff33}
+.hgl-btn img{width:21.74px;height:21.74px}
+.hgl-white img{filter:brightness(0) invert(1)}
+.hgl-list{flex:1;min-height:0;overflow-y:auto;padding:3.62px 0 79.73px;scrollbar-width:none}
+.hgl-row{display:flex;align-items:stretch}
+.screen .hgl-thread{flex:1;min-width:0;display:flex;align-items:center;gap:14.5px;border:0;background:none;padding:10.87px 14.5px;text-align:left;color:#000000dd}
+.hgl-thread:active,.hgl-video:active{background:#0000001a}
+.hgl-avatar{flex:none;width:36.24px;height:36.24px;border-radius:50%}
+.hgl-avatar span{font:300 21px/1 Roboto,sans-serif}
+.hgl-copy{flex:1;min-width:0;display:flex;flex-direction:column}
+.hgl-copy strong{font:400 16.31px Roboto,sans-serif;color:#000000dd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 0 1.81px}
+.hgl-snippet{font:400 12.68px Roboto,sans-serif;color:#00000089;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hgl-snippet b{font-weight:400;color:#db4437}
+.hgl-copy time{font:400 11.78px Roboto,sans-serif;color:#00000066;margin-top:1.81px}
+.hgl-row.unread strong,.hgl-row.unread .hgl-snippet{font-weight:700;color:#000000dd}
+.hgl-divider{flex:none;width:.906px;margin:14.5px 0;background:#00000026}
+.hgl-video{flex:none;width:57.98px;border:0;background:none;display:grid;place-items:center;padding:0}
+.hgl-video img{width:21.74px;height:21.74px;opacity:.54}
+.hgl-empty{margin:43.49px 28.99px;text-align:center;font:400 14.5px/1.6 Roboto,sans-serif;color:#00000089}
+.hgl-fab{position:absolute;right:14.5px;bottom:14.5px;z-index:4;width:50.74px;height:50.74px;border:0;border-radius:50%;padding:0;background:#0f9d58;display:grid;place-items:center;box-shadow:0 1.8px 4.5px #00000059}
+.hgl-fab:active{box-shadow:0 5.4px 10.8px #00000059}
+.hgl-fab img{width:21.74px;height:21.74px}
+/* New Hangout */
+.hgl-new{flex:none;margin:0;padding:0 14.5px;background:#fff;border-bottom:.906px solid #0000001f}
+.hgl-new input{width:100%;height:48.92px;border:0;background:none;outline:0;font:400 14.5px Roboto,sans-serif;color:#000000dd}
+.hgl-people{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.screen .hgl-person{display:flex;align-items:center;gap:14.5px;width:100%;border:0;background:none;padding:7.25px 14.5px;text-align:left;color:#000000dd}
+.hgl-person:active{background:#0000001a}
+.hgl-person span{display:flex;flex-direction:column;min-width:0}
+.hgl-person strong{font:400 14.5px Roboto,sans-serif}
+.hgl-person small{font:400 12.68px Roboto,sans-serif;color:#00000089}
+/* Conversation */
+.hgl-conversation{background:#eee}
+.hgl-compose{flex:1;min-height:0;display:flex;flex-direction:column;margin:0;padding:0;background:#eee}
+.hgl-history{flex:1;min-height:0;overflow-y:auto;padding:7.25px 0;scrollbar-width:none;display:flex;flex-direction:column}
+.hgl-history::before{content:'';flex:1}
+.screen .hgl-message{display:flex;align-items:flex-start;width:100%;margin:10.87px 0 0;border:0;background:none;padding:0 54.36px 0 7.25px;text-align:left;color:#333;min-height:0}
+.screen .hgl-message.same{margin-top:1.81px}
+.screen .hgl-message.sent{flex-direction:row;justify-content:flex-end;padding:0 7.25px 0 54.36px;text-align:left}
+.screen .hgl-message::after{display:none}
+.hgl-msg-avatar{flex:none;width:28.99px;height:28.99px;margin-right:1.81px}
+.hgl-avatar-small{width:28.99px;height:28.99px;border-radius:50%}
+.hgl-avatar-small span{font:300 17px/1 Roboto,sans-serif}
+/* msg_bubble_left / msg_bubble_hangout_right nine-patches (93 x 105 px at xxhdpi). */
+.hgl-bubble{display:flex;flex-direction:column;min-width:0;max-width:100%;border-style:solid;border-width:12.68px 8.15px 17.21px 16.31px;border-image:url(assets/hg-msg_bubble_left.png) 42 27 57 54 fill / 12.68px 8.15px 17.21px 16.31px stretch;padding:0 3.62px 0 0;margin:-3.62px 0 -9.06px}
+.hgl-message.sent .hgl-bubble{border-width:10.87px 16.31px 17.21px 8.15px;border-image:url(assets/hg-msg_bubble_hangout_right.png) 36 54 57 27 fill / 10.87px 16.31px 17.21px 8.15px stretch;padding:0 0 0 3.62px}
+.hgl-body{font:400 14.5px/1.35 Roboto,sans-serif;color:#333;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:-3.62px}
+.screen .hgl-bubble time{display:block;margin:2.72px 0 0;font:400 10.87px Roboto,sans-serif;color:#00000066}
+.hgl-bubble .mms-photo{margin-top:5.44px;width:181px;max-width:100%;border-radius:2px;overflow:hidden}
+.hgl-editor{flex:none;display:flex;align-items:flex-end;gap:0;min-height:43.49px;margin:0;padding:0 3.62px;background:#fff;border:0;box-shadow:0 -.9px 1.8px #0000001f}
+.hgl-editor .hgl-btn{color:#0000008a}
+.hgl-editor .hgl-btn svg{width:21.74px;height:21.74px}
+.hgl-emoji img{opacity:.8}
+.hgl-editor textarea{flex:1;min-width:0;height:43.49px;max-height:88px;border:0;background:none;outline:0;resize:none;padding:13px 4px 9px;font:400 14.5px/1.3 Roboto,sans-serif;color:#000000dd}
+.hgl-editor textarea::placeholder{color:#00000061}
+.hgl-send{flex:none;width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center;padding:0;color:#0f9d58}
+.hgl-send:disabled{color:#00000042;cursor:default}
+.hgl-send svg{width:21.74px;height:21.74px}
