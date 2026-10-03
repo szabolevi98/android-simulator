@@ -1,0 +1,38 @@
+# Android 4.3 Jelly Bean (Nexus 4) – features
+
+[← Back to the README](../README.md)
+
+`versions/4.3/` starts from the ICS simulator and is being converted to Android 4.3 (Nexus 4 build JWR66Y, AOSP tag `android-4.3_r1.1`). It keeps its own saved data, separate from ICS. Done so far:
+
+- About phone reports Android 4.3, JWR66Y and a 4.3-era baseband/kernel (illustrative values).
+- Developer options are hidden, as from Android 4.2. Tapping Build number counts down from the fourth tap (“You are now 3 steps away…”) and unlocks the menu on the seventh. Later taps reply “No need, you are already a developer.”
+- The 4.3 easter egg: tap Android version three times quickly. The jelly bean (`platlogo_alt`) appears over the wallpaper; a tap shows the “Android 4.3 / JELLY BEAN” toast and the bean gets a face. Long-press opens the SystemUI **BeanBag**, with 40 color-tinted beans (and a rare candy cane) that drift and spin and can be grabbed and flung.
+
+- Jelly Bean notification panel. The header has a large clock and date, Clear all (rows slide out one after another) and the settings button, which flips the panel to **Quick Settings** (also opened by pulling down with two fingers). Tiles: Me, Brightness (dialog with AUTO), Settings, Wi-Fi, mobile signal, battery, airplane mode, Bluetooth, plus Alarm and Location when relevant. Long-press Wi-Fi or Bluetooth to toggle them. Notifications expand and collapse with a two-finger swipe or a trackpad pinch. Calendar reminders offer **Snooze** (5 minutes).
+
+- Jelly Bean slide lock: the AndroidClock clock, uppercase date and next alarm sit in a swipeable widget pager. Swipe right to the **+** page to add a Calendar or Digital clock widget (long-press a widget and drag it up to Remove), and swipe left to the camera page to open Camera. The GlowPad dot cloud glows around your finger; drag the lock to the ring in any direction to unlock, and a wave ripples out after a miss. While Music is active its transport becomes a page. Owner info appears in the message line above the ring.
+
+- Jelly Bean pattern, PIN and password locks: the security panel slides up over the widget pager. Drag it down to see the full widget and pull it back with the lock handle; with the panel up, swipe from the screen edge to change widgets. The PIN pad shows the ABC…WXYZ letters, and wrong entries show “Wrong PIN” (or Pattern/Password) for five seconds. Tapping a widget or **+** while locked dims the pager, shrinks the widget and asks for the code first; once it is entered, the widget's action runs.
+
+- Jelly Bean home screens. When you drag an icon or widget onto occupied cells, the items there slide aside after a quarter second. Dropping right on an icon's centre still makes a folder. Calendar and the new **Digital clock** widget (3 × 2) show the resize frame after being dropped; drag a handle to change the span in whole cells, and neighbours move out of the way. Spans are saved.
+
+- The 4.2/4.3 **Clock** has Timer | Clock | Stopwatch tabs (tap or swipe). The Clock page shows bold hours with thin minutes, the date and the next alarm; the alarm button opens the existing alarm list. Timers are set on a keypad and counted down on the CircleTimerView (stop/start, +1 minute, delete, several timers); a finished timer posts “Time's up”. The stopwatch records laps and can share them to Messaging.
+
+- Jelly Bean artwork: the 4.3 launcher icons (new Clock, Camera, Gallery and People icons), the Jelly Bean wallpaper set with the bokeh default, the translucent 4.3 search bar, and the 4.2 analog and digital clock widgets (bold hours, thin minutes).
+
+- Jelly Bean animations: apps grow out of the icon you tap (home screen, dock, folders and the drawer), switching apps slides the windows past each other as shrinking cards, and screens inside an app zoom in from 0.8, using the Android 4.3 animation values.
+
+- 4.3 **Wi-Fi** settings: WPS and Add network in the action bar, and WPS Pin Entry and **Wi-Fi Direct** in the overflow. The WPS dialog has its two-minute timeout bar. Advanced Wi-Fi adds Scanning always available, Avoid poor connections, the frequency band, Install certificates and Wi-Fi optimization.
+- The 4.3 **power menu** adds the safe-mode reboot (hold Power off; the phone then boots with the *Safe mode* watermark) and, when Developer options → Power menu bug reports is on, a Bug report entry.
+- The 4.3 **Dialer** smart dial: typing on the dialpad shows the three best matching contacts (by name on the letter keys or by number) above the keypad, and the call button spans the full width.
+- The 4.3 **Developer options** list with its ON/OFF switch. Show layout bounds, Pointer location and Show CPU usage draw their overlays; the animation scales drive the window animations.
+
+- Jelly Bean Recents over the wallpaper: the app shrinks into its thumbnail, a long press offers Remove from list and App info, and tasks open by growing out of their thumbnails. Swipe up from the navigation bar for the search ring and release on the target to search.
+
+- The 4.2/4.3 **Gallery**: albums and pictures in sideways-scrolling grids, grouped by Albums, Locations, Times, People or Tags. In the photo view the bars fade away. Pinch (or Ctrl + scroll) into film mode, where a picture flung upwards is deleted (with UNDO). From the Camera, swipe into your newest shot and back. **Edit** opens the Photo Editor with ten looks, borders, rotate/mirror and colour sliders; saving keeps the original.
+
+- The 4.2/4.3 **Camera**: hold the preview to open the arc-shaped pie menu (or tap the menu button in the corner) and drag or tap through Exposure, More options, Flash and the camera switch; More options holds location, countdown timer, picture size, white balance and scene mode. Tap to focus, scroll or pinch to zoom, and swipe left for Gallery. After a capture the photo shrinks to a thumbnail in the corner. The mode switcher offers photo, video (simulated recording) and panorama.
+
+- 4.3 Settings: the 4.3 header order with **Location access** (master switch plus GPS and network sources) and an ACCOUNTS section. Display adds **Daydream** with Clock (a dimmed clock that moves each minute), Colors and Photo Frame, **Start now** and **When to daydream**. Security adds Verify apps and Notification access, and About phone shows the SELinux status.
+
+The new screens have been checked in all five languages at phone sizes. The status bar icons were compared with SystemUI 4.3 and are byte-identical to the ICS ones, so they are kept. Progress and references are in [docs/visual-audit-4.3.md](visual-audit-4.3.md).
