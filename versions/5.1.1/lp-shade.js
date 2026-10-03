@@ -81,7 +81,8 @@
     const label = tile.raw ? tile.label : t(tile.label);
     const style = `left:${px(tile.left)};top:${px(tile.top)};width:${px(tile.width)};height:${px(tile.height)}`;
     const avd = tile.avd && window.LPQSIcons?.[tile.avd];
-    const art = avd ? avd.svg.replace(/(id="|url\(#)([^"\)]+)/g, `$1$2-${++avdSerial}`).replace('<svg ', `<svg data-avd="${tile.avd}" `) : `<img src="${sysui(tile.icon)}" alt="">`;
+    const serial = avd ? ++avdSerial : 0;
+    const art = avd ? avd.svg.replace(/(id="|url\(#)([^"\)]+)/g, `$1$2-${serial}`).replace('<svg ', `<svg data-avd="${tile.avd}" `) : `<img src="${sysui(tile.icon)}" alt="">`;
     const icon = `<span class="lp-qs-icon">${art}${tile.overlay ? `<img class="lp-qs-overlay" src="${sysui(tile.overlay)}" alt="">` : ''}</span>`;
     if (tile.dual) return `<div class="lp-qs-tile dual${tile.on ? ' on' : ''}" data-qs="${tile.id}" style="${style}"><button class="lp-qs-top" data-action="lp-qs-toggle" data-id="${tile.id}" aria-label="${e(label)}" aria-pressed="${!!tile.on}">${icon}</button><span class="lp-qs-divider"></span><button class="lp-qs-dual-label" data-action="lp-qs-detail" data-id="${tile.id}" data-no-translate><span>${e(label)}</span><img src="${sysui('qs_dual_tile_caret')}" alt=""></button></div>`;
     return `<div class="lp-qs-tile${tile.on ? ' on' : ''}" data-qs="${tile.id}" style="${style}"><button class="lp-qs-top" data-action="lp-qs-toggle" data-id="${tile.id}" aria-label="${e(label)}" aria-pressed="${!!tile.on}">${icon}<span class="lp-qs-label" data-no-translate>${e(label)}</span></button></div>`;

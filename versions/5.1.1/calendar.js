@@ -104,14 +104,15 @@
     finish();return items;
   }
   // Google Calendar 5.0's views; the Agenda list is its Schedule.
-  const modes=['Agenda','Day','3 day','Week','Month'];
+  // Google Calendar 5.0.1-1689541 (the LMY48Y build) offers Schedule, Day, Week and Month; the 3 day view came later.
+  const modes=['Agenda','Day','Week','Month'];
   const modeLabel=mode=>mode==='Agenda'?'Schedule':mode;
   const icon=name=>`<img src="assets/calendar-${name}_holo_light.png" alt="">`;
   const dateLabel=(date,locale,options={weekday:'long',month:'long',day:'numeric',year:'numeric'})=>parse(date).toLocaleDateString(locale,options);
   /* Google Calendar 5.0.1 (LMY48Y). A white toolbar (#333333 title: the month with its dropdown arrow; today, search and
      overflow in #777777) under the #3367D6 status bar. Schedule: each month opens on its illustration (bkg_01_jan …
      bkg_12_dec) with the month name, weeks carry a #757575 "Oct 4 – 10" header, a day shows its weekday and number
-     in the 56 dp column (today in #4285F4) beside rounded event chips in the event colour with white text. Day, 3 day
+     in the 56 dp column (today in #4285F4) beside rounded event chips in the event colour with white text. Day
      and Week lay coloured blocks over the hour grid; Month marks each day's events. The red #DB4437 FAB creates an
      event; the drawer switches the view. Event details open on a header in the event colour with the white title,
      then icon rows (time, place, repeat, reminder, calendar, notes); the editor puts the title on the same header. */

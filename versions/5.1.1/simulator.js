@@ -89,7 +89,7 @@
     selectedContact: 1, thread: 1, selectedPhoto: 1,
     dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, easterNyan: false, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
-    calendarMode: ['Agenda','Day','3 day','Week','Month'].includes(data.calendarMode)?data.calendarMode:'Agenda', selectedDate: localDate(ICSSystemSettings.wallDate(data)),
+    calendarMode: ['Agenda','Day','Week','Month'].includes(data.calendarMode)?data.calendarMode:'Agenda', selectedDate: localDate(ICSSystemSettings.wallDate(data)),
     calc: '', calcFresh: false, calcPanel: 0, calcHistoryIndex: -1, phoneTab: 'dialpad',
     play: ICSPlayStore.initial(), playHistory: [],
     musicPlaying: false, musicTrack: 0, musicPosition: 0,

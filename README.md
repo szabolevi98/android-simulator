@@ -12,8 +12,7 @@ An interactive browser simulator of classic Android releases, each on its own Ne
 | [Android 4.0.4 Ice Cream Sandwich](docs/features-4.0.4.md) | Galaxy Nexus | Google Play Store 3.8 |
 | [Android 4.3 Jelly Bean](docs/features-4.3.md) | Nexus 4 | Google Play Store 4.2 |
 | [Android 4.4.4 KitKat](docs/features-4.4.4.md) | Nexus 5 (Google apps) | Google Play Store 4.8 |
-
-Lollipop 5.1.1 on the Nexus 6 is in progress: its card opens a preview page with the phone installing a system update (`versions/5.1.1/`).
+| [Android 5.1.1 Lollipop](docs/features-5.1.1.md) | Nexus 6 (Google apps) | Google Play Store 5.2 |
 
 ## Getting started
 
@@ -37,6 +36,7 @@ What each version does, screen by screen:
 - [Android 4.0.4 Ice Cream Sandwich](docs/features-4.0.4.md) on the Galaxy Nexus
 - [Android 4.3 Jelly Bean](docs/features-4.3.md) on the Nexus 4
 - [Android 4.4.4 KitKat](docs/features-4.4.4.md) on the Nexus 5, with the stock Google apps
+- [Android 5.1.1 Lollipop](docs/features-5.1.1.md) on the Nexus 6, as its LMY48Y factory image ships it
 
 ## Social preview image
 
