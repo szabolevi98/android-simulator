@@ -35,7 +35,9 @@
 /* The scrolling body: Quick Settings (when expanded) above the notification stack. */
 .lp-shade-scroll{position:relative;flex:1;min-height:0;overflow-x:hidden;overflow-y:auto;scrollbar-width:none;padding:0 7.25px}
 .lp-shade-scroll::-webkit-scrollbar{display:none}
-.lp-qs{position:relative;height:0;margin:0;background:#263238;border-radius:0 0 1.8px 1.8px;overflow:hidden;opacity:0;transition:height .3s cubic-bezier(.4,0,.2,1),opacity .2s}
+/* qs_panel: the notification_side_padding (8 dp) inset comes from .lp-shade-scroll; qs_background_primary has 2 dp corners
+   and reaches 2 dp up under the header (insetTop -2 dp), so only the bottom ones show; QSContainer elevation 2 dp. */
+.lp-qs{position:relative;height:0;margin:0;background:#263238;border-radius:0 0 1.8px 1.8px;box-shadow:0 .9px 1.8px #0000004d;overflow:hidden;opacity:0;transition:height .3s cubic-bezier(.4,0,.2,1),opacity .2s}
 .lp-shade.qs-open .lp-qs{height:var(--qs-h);opacity:1;padding-top:7.25px;box-sizing:content-box;padding-bottom:7.25px}
 .lp-qs-brightness{position:absolute;left:0;right:0;top:5.44px;height:54.36px;padding:0 18.12px;display:flex;align-items:center}
 .lp-qs-brightness input{width:100%;height:25.37px;margin:0;-webkit-appearance:none;appearance:none;background:linear-gradient(#80cbc4,#80cbc4) 0 50%/var(--v,50%) 1.81px no-repeat,linear-gradient(#ffffff4d,#ffffff4d) 0 50%/100% 1.81px no-repeat;cursor:pointer}
