@@ -15,3 +15,8 @@
 .screen .jbp .jbp-btn{border-radius:1.81px;font:500 13.59px Roboto,sans-serif;text-transform:uppercase;box-shadow:0 .9px 1.8px #00000033}
 .screen .jbp .jbp-tabs{height:43.49px;box-shadow:0 1.8px 3.6px #0000003d}
 .screen .jbp .jbp-tabs button{font:500 12.68px Roboto,sans-serif}
+/* The Play media apps on LMY48Y (Play Music 5.8, Play Movies & TV, Play Books, Play Games) take their APKs'
+   colorPrimary: Music #EF6C00, Movies #ED3B3B, Books #039BE5, Games #4CAF50, on Material Roboto type. */
+.screen .pa-app{font-family:Roboto,sans-serif;background:#eee}
+.screen .pa-music{--pa:#ef6c00}.screen .pa-movies{--pa:#ed3b3b;background:#eee}.screen .pa-books{--pa:#039be5}.screen .pa-games{--pa:#4caf50}
+.screen .pa-app h2,.screen .pa-app h3{font-style:normal;font-family:Roboto,sans-serif}

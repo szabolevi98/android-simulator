@@ -1,12 +1,6 @@
-/* Gmail 4.7 on the stock Nexus 5 (GSMArena Nexus 5 review screenshots, November 2013). Gmail is built on the same
-   UnifiedEmail code as the AOSP Email (kk-email.js renders the screens); this file adds what Gmail has on top:
-   - the inbox categories: "Primary" with its unread count under the title, the "Welcome to your new Inbox" teaser,
-     the Social and Promotions rows with their blue "53 New" and green "1 New" badges, and "Change categories";
-   - the drawer: the account, INBOX (Primary, Social, Promotions, Priority Inbox) and ALL LABELS (Starred, Important,
-     Chats, Sent, Outbox, Drafts, All mail, Spam, Trash) with the selected row in #33b5e5;
-   - the personal level markers (UnifiedEmail ic_email_caret_*: » only to me, › to me and others, yellow if
-     important), Archive in the conversation and selection bars, and the "Inbox" label chip under the subject.
-   The mailbox is a separate offline Gmail account; nothing is sent. */
+/* Gmail 5.0.2 on the Nexus 6 (LMY48Y): a separate offline Gmail account with the inbox categories (Primary, Social,
+   Promotions), Gmail's labels and personal-level carets, rendered by the Material UnifiedEmail in lp-email.js. Nothing
+   is sent. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -37,7 +31,7 @@
   const LABELS = ['Starred', 'Important', 'Chats', 'Sent', 'Outbox', 'Drafts', 'All mail', 'Spam', 'Trash'];
   const FOLDERS = [...INBOX, ...LABELS];
   const CATEGORY = {Primary: 'primary', Social: 'social', Promotions: 'promotions'};
-  // A 2013 inbox: personal mail in Primary, Google+ in Social, Google Play offers in Promotions.
+  // A 2015 inbox: personal mail in Primary, Google+ in Social, Google Play offers in Promotions.
   const SAMPLES = [
     ['Google', 'android-noreply@google.com', 'Get started with your Nexus 6', 'Welcome to Android 5.1 Lollipop. Learn how to set up your phone, move your stuff over and get the most out of the new Material design.', 'primary', true, 'only', 0],
     ['Alex Morgan', 'alex@example.com', 'Hike on Saturday?', 'Are you up for the ridge trail this weekend? I can pick you up at 8. Bring the Nexus 6, the camera is supposed to be great.', 'primary', true, 'only', 1],

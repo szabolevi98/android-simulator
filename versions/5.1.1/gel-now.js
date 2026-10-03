@@ -1,5 +1,5 @@
-/* Google Now as the Google Now Launcher's left-most pane on the stock Nexus 5 (Android Quick Start Guide 4.4: "On
-   Nexus 5, you can also swipe to the leftmost Home screen"; "To dismiss a card on Nexus 5, swipe from left to right").
+/* Google Now as the Google Now Launcher's left-most pane (swipe to the leftmost Home screen; swipe a card from left
+   to right to dismiss it).
    A day/night header picture under the translucent status bar, the white Google search box (grey Google logo and
    microphone), cards in the guide's style (white, light 22 sp titles with the key figure in red, grey summaries,
    blue actions) on #e5e5e5, and the Reminders, Customize and Menu icons at the bottom. */

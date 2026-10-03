@@ -181,13 +181,13 @@
     {id: 'book-alice', kind: 'books', name: 'Alice\'s Adventures in Wonderland', developer: 'Lewis Carroll', rating: 4.5, price: 'FREE', colors: ['#3a5f8a', '#f0d48a']},
     {id: 'movie-orbit', kind: 'movies', name: 'Orbit Hopper: The Movie', developer: 'Animation', rating: 4.1, price: '$3.99', colors: ['#141c3a', '#8f7fff']},
     {id: 'movie-quiet', kind: 'movies', name: 'A Quiet Afternoon', developer: 'Drama', rating: 3.9, price: '$2.99', colors: ['#3a2a1c', '#e0a868']},
-    {id: 'mag-pocket-tech', kind: 'magazines', name: 'Pocket Tech Monthly', developer: 'July 2014', rating: 4.2, price: '$2.99', colors: ['#1d2b45', '#5fb3e8'], description: 'Phones, tablets and the apps that matter. Single issue.'},
-    {id: 'mag-trail', kind: 'magazines', name: 'Trail & Summit', developer: 'August 2014', rating: 4.4, price: '$3.99', colors: ['#2d3a1f', '#c9a85a'], description: 'Hiking routes, gear and mountain stories.'},
-    {id: 'mag-kitchen', kind: 'magazines', name: 'Weekend Kitchen', developer: 'Summer 2014', rating: 4.0, price: '$1.99', colors: ['#5a2018', '#f2b35e'], description: 'Fifty easy recipes for long summer evenings.'}
+    {id: 'mag-pocket-tech', kind: 'magazines', name: 'Pocket Tech Monthly', developer: 'October 2015', rating: 4.2, price: '$2.99', colors: ['#1d2b45', '#5fb3e8'], description: 'Phones, tablets and the apps that matter. Single issue.'},
+    {id: 'mag-trail', kind: 'magazines', name: 'Trail & Summit', developer: 'September 2015', rating: 4.4, price: '$3.99', colors: ['#2d3a1f', '#c9a85a'], description: 'Hiking routes, gear and mountain stories.'},
+    {id: 'mag-kitchen', kind: 'magazines', name: 'Weekend Kitchen', developer: 'Autumn 2015', rating: 4.0, price: '$1.99', colors: ['#5a2018', '#f2b35e'], description: 'Fifty easy recipes for long summer evenings.'}
   ];
-  const DATES = ['July 18, 2014', 'July 2, 2014', 'June 14, 2014', 'May 30, 2014'];
+  const DATES = ['October 8, 2015', 'September 24, 2015', 'September 2, 2015', 'August 19, 2015'];
   const catalog = () => (window.ICSPlayStore?.catalog || []).map((item, i) => ({...item, kind: item.category === 'Games' ? 'games' : 'apps', price: 'FREE', downloads: ['10,000,000+', '1,000,000+', '500,000+', '100,000+'][i % 4], votes: 12000 + i * 4173, updated: DATES[i % 4], plus: 120 + i * 37, size: String(item.size || '').replace(' ', ''), whatsnew: 'Bug fixes and performance improvements.'}));
-  const all = () => [...catalog(), ...EXTRA.map(item => ({downloads: '50,000+', votes: 812, plus: 46, updated: item.kind === 'magazines' ? 'July 9, 2014' : 'June 3, 2014', size: item.kind === 'books' ? '1.2MB' : item.kind === 'magazines' ? '24MB' : item.kind === 'music' ? '96MB' : item.kind === 'movies' ? '820MB' : item.size, description: item.kind === 'books' ? 'A classic, free from Google Play Books.' : item.kind === 'movies' ? 'Rent and watch within 30 days.' : '', ...item}))];
+  const all = () => [...catalog(), ...EXTRA.map(item => ({downloads: '50,000+', votes: 812, plus: 46, updated: item.kind === 'magazines' ? 'October 1, 2015' : 'June 3, 2014', size: item.kind === 'books' ? '1.2MB' : item.kind === 'magazines' ? '24MB' : item.kind === 'music' ? '96MB' : item.kind === 'movies' ? '820MB' : item.size, description: item.kind === 'books' ? 'A classic, free from Google Play Books.' : item.kind === 'movies' ? 'Rent and watch within 30 days.' : '', ...item}))];
   const find = id => all().find(item => item.id === id);
   const isApp = item => item.kind === 'apps' || item.kind === 'games';
   const installedState = (item, ctx) => item.app ? 'installed' : ctx.installed.includes(item.id) ? 'installed' : ctx.downloading === item.id ? ctx.phase : '';
@@ -277,9 +277,9 @@
     return `<div class="jbp-row"><button class="jbp-row-main" data-action="jbp-detail" data-id="${e(item.id)}">${art(item, 'jbp-row-art')}<span class="jbp-row-copy"><b>${n ? `${n}. ` : ''}${e(item.name)}</b><small>${e(item.developer)}</small>${stars(item.rating)}</span>${status}</button><button class="jbp-dots" data-action="jbp-card-menu" data-id="${e(item.id)}" aria-label="More options"></button></div>`;
   }
   const REVIEWS = [
-    {author: 'Joseph', date: 'July 21, 2014', stars: 5, text: 'Exactly what I was looking for. Works great on my Nexus 5.'},
-    {author: 'James', date: 'July 12, 2014', stars: 4, text: 'Faster than the last version. Love the new widget.'},
-    {author: 'Maria', date: 'June 30, 2014', stars: 4, text: 'Simple and pretty. Does what it says.'}
+    {author: 'Joseph', date: 'October 12, 2015', stars: 5, text: 'Exactly what I was looking for. Works great on my Nexus 6.'},
+    {author: 'James', date: 'October 3, 2015', stars: 4, text: 'Faster than the last version. Love the new widget.'},
+    {author: 'Maria', date: 'September 21, 2015', stars: 4, text: 'Simple and pretty. Does what it says.'}
   ];
   function reviews(item, ctx) {
     const T = key => text(ctx.lang, key), total = item.votes, shares = [.62, .2, .09, .04, .05].map((s, i) => Math.round(total * (s + (item.rating - 4.4) * (i ? -.04 : .16))));
