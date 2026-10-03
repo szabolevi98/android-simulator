@@ -89,11 +89,37 @@
     return value;
   }
   // Vertical drags and the wheel scroll the stack (in curve progress; one screen height is about 1).
-  function attach(panel, {scroll, onScroll, reduced}) {
+  /* Enter and exit (TaskView.prepareEnterRecentsAnimation / startEnterRecentsAnimation / startExitToHomeAnimation,
+     RecentsConfiguration at 5.1.1): from Home every card rises from offscreenY (the task's top below the stack view's bottom) after recents_enter_from_home_transition_duration (100 ms), the front card first and each card behind it
+     12 ms later and 12 ms longer than 225 ms, with decelerate_quint; from an app the front task's window shrinks into its
+     card (the thumbnail aspect-scale-down transition, 325 ms); back Home the cards fall to offscreenY in 225 ms with
+     fast_out_linear_in. */
+  const quintOut = 'cubic-bezier(.13,.84,.24,1)', fastOutLinearIn = 'cubic-bezier(.4,0,1,1)', fastOutSlowIn = 'cubic-bezier(.4,0,.2,1)';
+  // offscreenY is in the stack view's own coordinates (viewRect.top = 0), so a card starts at the view's bottom edge.
+  const offscreen = () => visible.bottom;
+  const shown = panel => [...panel.querySelectorAll('.lp-task')].filter(card => !card.hidden);
+  // elapsed: time since Overview was asked for, so a re-render picks the animation up where it was.
+  function enter(panel, from, elapsed = 0) {
+    const cards = shown(panel), start = `translateY(${(offscreen() * DP).toFixed(2)}px) scale(1)`;
+    if (from === 'home') cards.forEach((card, i) => {
+      const front = cards.length - i - 1;
+      card.animate([{transform: start}, {transform: card.style.transform}], {duration: 225 + front * 12, delay: 100 + front * 12, easing: quintOut, fill: 'backwards'}).currentTime = elapsed;
+    });
+    else if (from === 'app' && cards.length) {
+      const card = cards[cards.length - 1], full = W / size;
+      card.animate([{transform: `translateY(${((STATUS - BAR * full) * DP).toFixed(2)}px) scale(${full.toFixed(4)})`, boxShadow: 'none'}, {transform: card.style.transform}], {duration: 325, easing: fastOutSlowIn, fill: 'backwards'}).currentTime = elapsed;
+    }
+  }
+  function exit(panel) {
+    const end = `translateY(${(offscreen() * DP).toFixed(2)}px) scale(1)`;
+    const runs = shown(panel).map(card => card.animate([{transform: card.style.transform}, {transform: end}], {duration: 225, easing: fastOutLinearIn, fill: 'forwards'}).finished);
+    return Promise.all(runs);
+  }
+  function attach(panel, {scroll, onScroll, reduced, from, elapsed}) {
     let value = layout(panel, scroll), drag = null;
     const stackEl = panel.querySelector('.lp-recents-stack');
     if (!stackEl) return {destroy() {}};
-    if (!reduced && scroll === undefined) stackEl.animate([{transform: `translateY(${(60 * DP).toFixed(1)}px)`, opacity: .4}, {transform: 'none', opacity: 1}], {duration: 225, easing: 'cubic-bezier(0,0,.2,1)'});
+    if (!reduced && from && elapsed < 600) enter(panel, from, elapsed);
     const per = 1 / (visible.height * DP);
     const down = event => { if (event.target.closest('.lp-task-dismiss')) return; drag = {y: event.clientY, x: event.clientX, start: value, active: false, id: event.pointerId}; };
     const move = event => {
@@ -112,5 +138,5 @@
     stackEl.addEventListener('wheel', wheel, {passive: false});
     return {destroy() { window.removeEventListener('pointermove', move, true); window.removeEventListener('pointerup', up, true); }};
   }
-  window.LPRecents = {DP, metrics, transform, render, layout, attach, toScreenY, toProgress};
+  window.LPRecents = {DP, metrics, transform, render, layout, attach, exit, toScreenY, toProgress};
 })();

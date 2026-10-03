@@ -391,9 +391,8 @@
   function closeRecents() {
     const panel = overlayRoot.querySelector('.recent-panel'); ui.recentPopup = null; ui.recentsScroll = undefined;
     const done = () => { ui.overlay = ''; ui.lpRecents?.destroy(); ui.lpRecents = null; renderOverlay(); updateBarMode(); };
-    const stack = panel?.querySelector('.lp-recents-stack');
-    if (!stack?.animate || reducedMotion?.matches) { done(); return; }
-    stack.animate([{transform: 'none', opacity: 1}, {transform: `translateY(${Math.round(screen.clientHeight * .4)}px)`, opacity: 0}], {duration: 225, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}).finished.then(done, done);
+    if (!panel?.animate || reducedMotion?.matches) { done(); return; }
+    LPRecents.exit(panel).then(done, done);
   }
   /* SearchPanelView: an upward swipe of navbar_search_up_threshhold (40dp) from the navigation bar shows the ring;
      releasing on the assist target starts search (the Google Search app on Google builds, Browser here). */
@@ -853,7 +852,7 @@
       const searchCard = `<div class="lp-qsb-card"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="lp-qsb-logo" src="assets/gnl-ic_searchbox_google.png" alt="Google"></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice Search'))}"><img class="lp-qsb-mic" src="assets/gnl-ic_mic_none.png" alt=""></button></div>`;
       overlayRoot.innerHTML = LPRecents.render(ui.recent, {names: appNames, icon: appIcon, snapshots: ui.recentSnapshots, colors: LP_PRIMARY, statusColors: LP_STATUS_COLORS, t: key => i18n.t(key), search: searchCard});
       const panel = overlayRoot.querySelector('.lp-recents');
-      ui.lpRecents = LPRecents.attach(panel, {scroll: ui.recentsScroll, reduced: !!reducedMotion?.matches, onScroll: (value, end) => { ui.recentsScroll = value; if (end) suppressClickUntil = Date.now() + 300; }});
+      ui.lpRecents = LPRecents.attach(panel, {scroll: ui.recentsScroll, reduced: !!reducedMotion?.matches, from: ui.recentsFrom, elapsed: performance.now() - (ui.recentsAt || 0), onScroll: (value, end) => { ui.recentsScroll = value; if (end) suppressClickUntil = Date.now() + 300; }});
       if (ui.recentsScroll === undefined) ui.recentsScroll = LPRecents.layout(panel);
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
       overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
@@ -1634,6 +1633,14 @@
   /* HeadsUpNotificationView (5.1): a high-priority notification drops in at the top over the running app, 8 dp in from
      the sides, and leaves after heads_up_notification_decay (10 s) or when swiped away; tapping it opens it. */
   let headsUpTimer = 0;
+  // OvershootInterpolator (tension 2), DecelerateInterpolator / AccelerateInterpolator (factor 1), sampled.
+  function headsUpFrames(enter) {
+    const overshoot = t => { t -= 1; return t * t * (3 * t + 2) + 1; };
+    return Array.from({length: 13}, (_, i) => {
+      const t = i / 12, y = enter ? -50 * (1 - overshoot(t)) : -50 * overshoot(t), alpha = enter ? 1 - (1 - t) * (1 - t) : 1 - t * t;
+      return {offset: t, transform: `translateY(${y.toFixed(2)}%)`, opacity: alpha.toFixed(3)};
+    });
+  }
   function headsUp(note) {
     if (ui.locked || ui.view === 'lock' || ui.sleeping || ui.overlay === 'shade') return;
     let layer = screen.querySelector('#lp-headsup');
@@ -1648,7 +1655,9 @@
       const up = event => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); const dx = event.clientX - start.x, dy = event.clientY - start.y; if (dy < -24 || Math.abs(dx) > 90) { suppressClickUntil = Date.now() + 300; card.style.transform = ''; card.style.opacity = ''; releaseHeadsUp(dy < -24 && Math.abs(dy) > Math.abs(dx) ? 'up' : dx < 0 ? 'left' : 'right'); } else { card.style.transform = ''; card.style.opacity = ''; } };
       window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
     });
-    if (!reducedMotion?.matches) card.animate([{transform: 'translateY(-110%)'}, {transform: 'none'}], {duration: 300, easing: 'cubic-bezier(0,0,.2,1)'});
+    // Animation.StatusBar.HeadsUp (heads_up_enter): from -50 % with the overshoot interpolator, fading in with
+    // decelerate_quad, config_shortAnimTime (200 ms).
+    if (!reducedMotion?.matches) card.animate(headsUpFrames(true), {duration: 200, fill: 'backwards'});
     clearTimeout(headsUpTimer); headsUpTimer = setTimeout(() => releaseHeadsUp(), 10000);
   }
   function releaseHeadsUp(direction = 'up') {
@@ -1656,7 +1665,9 @@
     const card = screen.querySelector('#lp-headsup .lp-headsup-card'); if (!card) return;
     const done = () => card.remove();
     if (reducedMotion?.matches || !card.animate) { done(); return; }
-    card.animate([{transform: 'none', opacity: 1}, {transform: direction === 'up' ? 'translateY(-110%)' : `translateX(${direction === 'left' ? '-' : ''}110%)`, opacity: direction === 'up' ? 1 : 0}], {duration: 220, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}).finished.then(done, done);
+    // heads_up_exit: up to -50 % (overshoot) fading with accelerate_quad in 200 ms; a sideways swipe flies out.
+    if (direction === 'up') { card.animate(headsUpFrames(false), {duration: 200, fill: 'forwards'}).finished.then(done, done); return; }
+    card.animate([{transform: 'none', opacity: 1}, {transform: `translateX(${direction === 'left' ? '-' : ''}110%)`, opacity: 0}], {duration: 220, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}).finished.then(done, done);
   }
 
   let suppressClickUntil = 0;
@@ -1804,7 +1815,7 @@
         if (ui.view === 'lock') break;
         if (ui.overlay === 'recent') { closeRecents(); break; }
         captureRecentView(); ui.recentPopup = null; ui.recentsScroll = undefined;
-        ui.overlay = 'recent'; renderOverlay(); updateBarMode();
+        ui.recentsFrom = ui.view === 'home' ? 'home' : 'app'; ui.recentsAt = performance.now(); ui.overlay = 'recent'; renderOverlay(); updateBarMode();
         break;
       }
       case 'recent-app-info': ui.overlay = ''; ui.recentPopup = null; openApp('settings'); ui.settingsApp = id; ui.sub = 'app-info'; render(); break;
