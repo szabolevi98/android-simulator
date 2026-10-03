@@ -305,3 +305,30 @@ Gmail 4.7 (November 2013) is built on the same UnifiedEmail code as the AOSP Ema
 **All apps top padding (owner feedback)**
 
 A frame of a November 2013 Nexus 5 unboxing video shows the first drawer row about 28 dp under the status bar. Its icons sit at the top of their cells, because Launcher3's PagedViewCellLayout puts the free space between rows. The drawer page now starts 28 dp lower and aligns icons to the top of the cell.
+
+**Step 7: Play Music, Play Movies & TV, Play Books, Play Games (owner request)**
+
+The four Google Play media apps of late 2013 are rebuilt in `play-apps.js` / `play-apps.css`. They share the period's look:
+- a coloured 48 dp action bar with the drawer mark and a white glyph;
+- a white drawer;
+- #e5e5e5 pages with light italic section titles and coloured chips;
+- white cards with a title, a grey subtitle and overflow dots.
+
+Sources and content per app:
+- **Play Music 5 (GSMArena screenshots, #f4842e):**
+  - Listen Now cards ("Recently played"), with a drawer of Listen Now / My Library / Playlists.
+  - My Library tabs: GENRES / ARTISTS / ALBUMS / SONGS.
+  - Album pages, a mini player, and Now playing with thumbs up / down, the orange seek bar, repeat / previous / play / next / shuffle and the queue.
+  - It plays the simulator's own tracks through the shared music engine.
+- **Play Movies & TV (Android Police, June 2013, #c74b46):**
+  - Watch Now / My Movies / My TV Shows; poster cards with year and length and the pin button; "Recommended for You" with the red SHOP chip.
+  - A black player that pans the poster, with the time bar.
+- **Play Books 3 (Android Police, October 2013, #3f9fe0):**
+  - Read Now with "Recent" and SEE ALL, pinned covers, and My Library.
+  - A reader with the title bar, Aa and the page slider. Tap the sides to turn pages and the middle to hide the bars.
+  - Books are public-domain openings: Carroll, Austen, Dumas and Doyle.
+- **Play Games 1 (Droid Life, July 2013, #96aa39):**
+  - The Play Now / My Games / My Activity / Players / Recommended Games / Shop drawer.
+  - The striped "Welcome!" card, "My games" and "Players" with SEE MORE, and the FEATURED / POPULAR / POPULAR MULTIPLAYER list with FREE / PURCHASED.
+  - A game page with achievements.
+- **Art:** covers, posters and game icons are drawn by the simulator. Movies, shows and games are fictional.

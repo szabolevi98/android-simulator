@@ -1,0 +1,28 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// Stock Nexus 5: Play Music, Play Movies & TV, Play Books and Play Games (late 2013 looks, own art and sample content).
+const w={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/play-apps.js','utf8'),w);
+const P=w.window.PlayApps,t=k=>k,tracks=[{title:'A',artist:'X',album:'One',duration:100},{title:'B',artist:'X',album:'One',duration:90},{title:'C',artist:'Y',album:'Two',duration:80}];
+const music={queue:[0,1,2],track:0,position:10,playing:true,shuffle:false,repeat:'off',playlists:[]};
+const ctx=(app,ui={})=>({app,ui,data:{},t,music,tracks,time:s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`});
+const listen=P.render(ctx('play-music'));
+assert.ok(listen.includes('Listen Now')&&listen.includes('ALL MUSIC')&&(listen.match(/data-action="pa-album"/g)||[]).length===2&&listen.includes('pm-mini'));
+const np=P.render(ctx('play-music',{sub:'player'}));
+assert.ok(np.includes('data-field="music-position"')&&np.includes('data-action="music-play"')&&np.includes('pa-thumb')&&np.includes('0:10'));
+assert.ok(P.render(ctx('play-music',{sub:'queue'})).includes('QUEUE'));
+assert.ok(P.render(ctx('play-music',{paPage:{'play-music':'library'},paMusicTab:'songs'})).includes('data-queue="all"'));
+const movies=P.render(ctx('play-movies'));
+assert.ok(movies.includes('My Movies')&&movies.includes('Recommended for You')&&movies.includes('SHOP')&&(movies.match(/data-action="pa-movie"/g)||[]).length===P.MOVIES.length);
+assert.ok(P.render(ctx('play-movies',{sub:'movie',paItem:'m1'})).includes('pm-video-bottom'));
+const books=P.render(ctx('play-books'));
+assert.ok(books.includes('Read Now')&&books.includes('SEE ALL')&&(books.match(/data-action="pa-book"/g)||[]).length===P.BOOKS.length);
+const reader=P.render(ctx('play-books',{sub:'reader',paItem:'b2'}));
+assert.ok(reader.includes('Pride and Prejudice')&&reader.includes('pa-reader-tap')&&reader.includes('1 / 4'));
+const games=P.render(ctx('play-games'));
+assert.ok(games.includes('Welcome!')&&games.includes('My games')&&games.includes('SEE MORE'));
+assert.ok(P.render(ctx('play-games',{paPage:{'play-games':'recommended'}})).includes('POPULAR MULTIPLAYER'));
+const drawer=P.drawer(ctx('play-games'));
+for(const label of ['Play Now','My Games','My Activity','Players','Recommended Games','Shop'])assert.ok(drawer.includes(`>${label}<`),label);
+assert.ok(P.drawer(ctx('play-movies')).includes('class="on" data-action="pa-page" data-id="movies"'));
+const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
+assert.ok(sim.includes("const GEL_UNSIMULATED = ['google-settings'];")&&sim.includes("return PlayApps.render(playContext(ui.view));"));
+console.log('kk-play-apps ok');
