@@ -147,7 +147,7 @@
   const GEL_ALIASES = {};
   // Folder and grid size of the Large Phone profile.
   const GRID = 5;
-  const GEL_UNSIMULATED = ['docs', 'sheets', 'slides', 'fit', 'newsstand', 'wallet'];
+  const GEL_UNSIMULATED = [];
   // Play Music, Movies & TV, Books and Games (play-apps.js).
   const PLAY_APPS = ['play-music', 'play-movies', 'play-books', 'play-games'];
   const wifiNetworks = [
@@ -267,7 +267,7 @@
     // RecentsTheme: transparent system bars over the wallpaper.
     screen.classList.toggle('lp-recents-open', ui.overlay === 'recent');
     // Window.setStatusBarColor: the app's colorPrimaryDark (LP_STATUS_COLORS), black where the theme sets none.
-    screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || '#000');
+    screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || LPExtraApps.COLORS[ui.view]?.[1] || '#000');
     // QuickContactActivity tints the status bar with the darker shade of the contact's colour.
     if (ui.view === 'people' && ui.sub === 'detail') { const person = contact(ui.selectedContact); if (person) screen.style.setProperty('--lp-sb', LPDialer.tileColorDark(person.name)); }
     // DeskClock's translucent status bar (#26000000) over the hour colour.
@@ -697,6 +697,7 @@
       case 'calculator': return renderCalculator();
       case 'music': return renderMusic();
       case 'email': return renderEmail();
+      case 'docs': case 'sheets': case 'slides': case 'fit': case 'newsstand': case 'wallet': return LPExtraApps.render(ui.view, {files: StockApps.FILES, ui, t: key => i18n.t(key), locale: i18n.locale()});
       case 'downloads': return KKDownloads.render(data.downloads || [], ui, key => i18n.t(key), i18n.locale());
       default: return renderHome();
     }
@@ -2066,6 +2067,8 @@
         if (ui.view !== 'people') { ui.quickContactReturn = {view: ui.view, sub: ui.sub}; captureRecentView(); ui.view = 'people'; }
         ui.selectedContact = Number(id); ui.sub = 'detail'; ui.overlay = ''; render(); break;
       }
+      case 'lpx-open': ui.sub = id; render(); break;
+      case 'lpx-unavailable': case 'lpx-menu': toast(i18n.t('Not available in this simulation.')); break;
       case 'people-search-close': ui.peopleSearching = false; ui.peopleQuery = ''; render(); break;
       case 'open-settings-sync': ui.overlay = ''; openApp('settings'); ui.sub = 'sync'; render(); break;
       case 'new-contact': editPerson(true); break;
