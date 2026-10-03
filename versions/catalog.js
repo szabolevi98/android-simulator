@@ -50,7 +50,7 @@ window.ANDROID_VERSIONS = [
     name: 'Lollipop',
     version: 'Android 5.1.1',
     year: '2015',
-    device: 'Nexus 6',
+    device: 'Nexus 6 · Google',
     description: 'Material Design on the Nexus 6: the new notification shade, heads-up notifications, Overview cards and Smart Lock.',
     url: 'versions/5.1.1/',
     status: 'preview',
