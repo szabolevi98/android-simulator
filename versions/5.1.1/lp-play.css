@@ -1,0 +1,17 @@
+/* Play Store 5.2 (see kk-play.js); dp x 0.906. */
+.screen .jbp.kkp{font-family:Roboto,sans-serif;background:#eee}
+.screen .jbp .jbp-bar{height:50.74px;box-shadow:0 1.8px 3.6px #0000003d}
+.screen .jbp .jbp-bar b{font:500 18.12px Roboto,sans-serif;margin-left:7.25px}
+.screen .jbp .jbp-glyph{display:none}
+.screen .jbp .jbp-up{width:50.74px;height:50.74px;display:grid;place-items:center;padding:0}
+.screen .jbp .jbp-up:not(.kkp-nav) span{font-size:0;width:21.74px;height:21.74px;background:#fff;-webkit-mask:url(assets/lp-fw-ic_ab_back_material.svg) center/contain no-repeat;mask:url(assets/lp-fw-ic_ab_back_material.svg) center/contain no-repeat}
+.screen .jbp .kkp-ind{width:18.12px;height:12.68px;background:linear-gradient(#fff 0 1.81px,transparent 0 5.44px,#fff 0 7.25px,transparent 0 10.87px,#fff 0) ;margin:0}
+.screen .jbp .jbp-cat{border-radius:1.81px;background:var(--c);box-shadow:0 .9px 1.8px #00000033}
+.screen .jbp .jbp-cat::after{display:none}
+.screen .jbp .jbp-cat b{font:500 12.68px Roboto,sans-serif}
+.screen .jbp .jbp-card{border-radius:1.81px;box-shadow:0 .9px 1.8px #00000033;background:#fafafa}
+.screen .jbp .jbp-more{border-radius:1.81px;font:500 12.68px Roboto,sans-serif;box-shadow:0 .9px 1.8px #00000033}
+.screen .jbp .jbp-cluster h3,.screen .jbp .jbp-cluster b{font-family:Roboto,sans-serif}
+.screen .jbp .jbp-btn{border-radius:1.81px;font:500 13.59px Roboto,sans-serif;text-transform:uppercase;box-shadow:0 .9px 1.8px #00000033}
+.screen .jbp .jbp-tabs{height:43.49px;box-shadow:0 1.8px 3.6px #0000003d}
+.screen .jbp .jbp-tabs button{font:500 12.68px Roboto,sans-serif}

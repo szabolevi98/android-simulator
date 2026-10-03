@@ -1,7 +1,6 @@
-/* Google+ Photos, the "Photos" app of the stock Nexus 5 (GSMArena Nexus 5 review, "Gallery, video and music
-   players": "Upon opening the app you'll see two tabs - Camera and Highlights ... three on a line. The very first
-   thumb is marked as Folders"). A #dddddd action bar with the pinwheel, the Auto Awesome movie and search buttons,
-   CAMERA / HIGHLIGHTS tabs, the Folders view of albums, and a black photo viewer. Pictures are the simulator's own. */
+/* Photos on the Nexus 6 (LMY48Y): com.google.android.apps.photos 1.0.2 is a trampoline into the Google+ 4.9 Photos
+   ("Please enable the Google+ application to use Photos"): CAMERA / HIGHLIGHTS tabs, the Folders view of albums and
+   the black photo viewer under the white photo action bar (lp-photos.css). Pictures are the simulator's own. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

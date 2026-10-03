@@ -1,10 +1,8 @@
-/* Google Play Store 4.8.22 as it ran on the Nexus 5 with Android 4.4.4 in July 2014 (closed source; rebuilt from
-   Android Police captures: 4.4.21 (21 October 2013, the slide-out navigation drawer replaces the overflow menu), 4.6.16
-   (13 March 2014: Settings and Help move into the drawer, "Require password for purchases", "Add icon to Home screen")
-   and 4.8.19 / 4.8.22 (15 July 2014: the grouped "needs access to" permissions dialog, the "We've simplified app
-   permissions" banner, bigger buttons, search at the far right of the details bar, Redeem styled like Settings and
-   Help, "Version: 4.8.22"). The home page keeps the six striped category tiles, the cluster titles lose the italics
-   and gain a MORE button. The catalog is the simulator's fictional one; 1 dp = 0.906 CSS px on the Nexus 5 screen. */
+/* Google Play Store 5.2 on the Nexus 6 (LMY48Y): the Material storefront over the 4.8 structure (navigation drawer,
+   section tabs, clusters with MORE, details, the grouped permissions dialog). The toolbar takes the corpus colour
+   (play_apps_primary #689F38, movies #ED3B3B, music #EF6C00, books #039BE5, newsstand #536DFE; the multi-corpus
+   home is apps green), the category tiles are flat blocks of those colours, cards sit on #EEEEEE. The catalog is the
+   simulator's fictional one; 1 dp = 0.906 CSS px (lp-play.css). */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -162,7 +160,8 @@
   const VERSION = '4.8.22';
   // The 4.x section colours (sampled from the 4.8.22 captures): the home tiles, and the section action bars a shade darker.
   // Magazines became Newsstand in November 2013.
-  const SECTIONS = [['apps', 'Apps', '#b8cf49', '#96aa39'], ['games', 'Games', '#b8cf49', '#96aa39'], ['movies', 'Movies & TV', '#cb5955', '#b33d39'], ['music', 'Music', '#f58e3d', '#e5762a'], ['books', 'Books', '#4ea7e2', '#2f8fcf'], ['magazines', 'Newsstand', '#4e69b0', '#3f5797']];
+  // Play Store 5.2 corpus colours (play_*_primary / _secondary).
+  const SECTIONS = [['apps', 'Apps', '#689f38', '#558b2f'], ['games', 'Games', '#689f38', '#558b2f'], ['movies', 'Movies & TV', '#ed3b3b', '#d23f31'], ['music', 'Music', '#ef6c00', '#e65100'], ['books', 'Books', '#039be5', '#0277bd'], ['magazines', 'Newsstand', '#536dfe', '#3f51b5']];
   const TABS = {
     apps: ['CATEGORIES', 'HOME', 'TOP PAID', 'TOP FREE', 'TOP GROSSING', 'TOP NEW PAID', 'TOP NEW FREE', 'TRENDING'],
     games: ['CATEGORIES', 'HOME', 'TOP PAID', 'TOP FREE', 'TOP GROSSING', 'TOP NEW PAID', 'TOP NEW FREE', 'TRENDING'],
@@ -209,7 +208,7 @@
   // home, My apps, My wishlist) show the drawer indicator next to the white Play glyph; the others the up caret. Since
   // 4.6 there is no overflow menu; on the details page share sits left of the search, which 4.8 moved to the far right.
   function header(ctx, title, opts = {}) {
-    const color = opts.color || '#666666';
+    const color = opts.color || '#689f38';
     const glyph = '<i class="jbp-glyph" aria-hidden="true"></i>';
     const up = opts.drawer ? `<button class="jbp-up kkp-nav" data-action="kkp-drawer" aria-label="${e(text(ctx.lang, 'Store home'))}"><span class="kkp-ind" aria-hidden="true"></span>${glyph}</button>` : `<button class="jbp-up" data-action="back" aria-label="Back"><span>‹</span>${glyph}</button>`;
     if (ctx.searching) return `<form class="jbp-bar searching" style="--bar:${color}" data-form="jbp-search">${up}<input name="query" autocomplete="off" aria-label="${e(text(ctx.lang, 'Search Google Play'))}" placeholder="${e(text(ctx.lang, 'Search Google Play'))}" value="${e(ctx.editValue || '')}"><button class="jbp-search" type="submit" aria-label="${e(text(ctx.lang, 'Search Google Play'))}"></button></form>`;
