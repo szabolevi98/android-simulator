@@ -38,7 +38,7 @@ const phones = [
 const root = document.getElementById('phones');
 phones.forEach(([v, frame, ratio, height, [t, b, l, r], shot], i) => {
   const h = height * mm, w = h * ratio, el = document.createElement('div');
-  el.className = 'phone'; el.style.cssText = `width:${w}px;height:${h}px;z-index:${10 + i};margin-bottom:${(3 - i) * 6}px`;
+  el.className = 'phone'; el.style.cssText = `width:${w}px;height:${h}px;z-index:${10 + i}`;
   el.innerHTML = `<div class="shot" style="top:${t}%;bottom:${b}%;left:${l}%;right:${r}%;background-image:url('../versions/${v}/assets/${shot}')"></div><img class="frame" src="../versions/${v}/assets/${frame}" alt="">`;
   root.append(el);
 });
