@@ -1,0 +1,48 @@
+/* Lollipop system dialogs; dp x 0.906.
+   The volume dialog (SystemUI 5.1): 8 dp in from the sides under the status bar, #263238 with 2 dp corners and 3 dp
+   elevation; the #384248 slider panel, the Material seekbar in the #80CBC4 accent, the None / Priority / All row. */
+#volume-layer{top:var(--sb);padding:0 7.25px}
+.screen .vol-panel.lp-vol{border:0;border-image:none;background:#263238;border-radius:1.81px;box-shadow:0 2.7px 7.2px #00000059;overflow:hidden;font-family:Roboto,sans-serif;animation:lp-vol-in .2s cubic-bezier(0,0,.2,1) both}
+@keyframes lp-vol-in{from{transform:translateY(-12px);opacity:0}to{transform:none;opacity:1}}
+.lp-vol .vol-sliders{background:#384248;padding:7.25px 7.25px 0}
+.lp-vol .vol-item{display:flex;align-items:center;height:43.49px;padding:0;margin:0}
+.lp-vol .vol-icon{flex:none;width:43.49px;height:43.49px;display:grid;place-items:center;margin:0}
+.lp-vol .vol-icon img{width:21.74px;height:21.74px}
+.lp-vol .vol-am{filter:brightness(0) invert(1)}
+.lp-vol .vol-seek{flex:1;min-width:0;height:43.49px;padding:0 14.5px 0 7.25px;display:flex;align-items:center;margin:0;cursor:pointer;touch-action:none}
+.lp-vol .vol-track{position:relative;display:block;width:100%;height:1.81px;background:#ffffff4d;border:0;border-radius:0}
+.lp-vol .vol-progress{position:absolute;left:0;top:0;bottom:0;background:#80cbc4;height:auto}
+.lp-vol .vol-thumb{position:absolute;top:50%;width:10.87px;height:10.87px;margin:-5.44px 0 0 -5.44px;border-radius:50%;background:#80cbc4;border:0;box-shadow:none;transition:transform .1s}
+.lp-vol .vol-seek.pressed .vol-thumb{transform:scale(1.67)}
+.lp-vol .vol-seek.disabled .vol-progress,.lp-vol .vol-seek.disabled .vol-thumb{background:#ffffff4d}
+.lp-vol .vol-divider{flex:none;width:.906px;height:28.99px;margin:0 7.25px;background:#ffffff1f}
+.lp-vol .vol-settings{flex:none;width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center;padding:0;cursor:pointer;border-radius:50%}
+.lp-vol .vol-settings:active{background:#ffffff26}
+.lp-vol .vol-settings img{width:21.74px;height:21.74px;opacity:.7}
+.lp-vol .vol-zen-row{display:flex;padding:0 7.25px 7.25px;background:#384248;box-shadow:0 3.6px 3.6px -1.8px #00000033}
+.lp-vol .vol-zen{flex:1;height:43.49px;border:0;background:none;color:#ffffffb3;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;cursor:pointer}
+.lp-vol .vol-zen.on{color:#fff;box-shadow:inset 0 -1.81px #80cbc4}
+.lp-vol .vol-zen:active{background:#ffffff1a}
+.lp-vol .vol-subhead{display:flex;align-items:center;gap:3.62px;height:56.17px;padding:0 14.5px;color:#fff;font:400 14.5px Roboto,sans-serif}
+.lp-vol .vol-subhead img{width:21.74px;height:21.74px;opacity:.7}
+/* GlobalActions and ShutdownThread in Theme.DeviceDefault.Light.Dialog: white, 2 dp corners, Material type. */
+.screen .ga-dialog{border:0;border-image:none;background:#fff;color:#000000de;border-radius:1.81px;box-shadow:0 10.87px 27px #00000066;font-family:Roboto,sans-serif}
+.screen .ga-dialog.ga-list{padding:7.25px 0;min-width:217.44px}
+.screen .ga-item{display:flex;align-items:center;gap:21.74px;width:100%;min-height:57.98px;border:0;background:none;padding:0 21.74px;color:#000000de;text-align:left}
+.screen .ga-item:active{background:#0000001a}
+.screen .ga-icon img{width:21.74px;height:21.74px;filter:brightness(0);opacity:.54}
+.screen .ga-message{font:400 14.5px Roboto,sans-serif;color:#000000de}
+.screen .ga-status{color:#0000008a}
+.screen .ga-scrim{background:#00000080}
+.screen .ga-title{margin:0;padding:21.74px 21.74px 14.5px;font:500 18.12px Roboto,sans-serif;color:#000000de;border:0;background:none}
+.screen .ga-body{margin:0;padding:0 21.74px 21.74px;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008a;border:0}
+.screen .ga-buttons{display:flex;justify-content:flex-end;gap:3.62px;padding:0 7.25px 7.25px;border:0;background:none}
+.screen .ga-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;color:#009688;font:500 12.68px Roboto,sans-serif;text-transform:uppercase}
+.screen .ga-buttons button:active{background:#0000001a}
+.screen .ga-progress{display:flex;align-items:center;gap:21.74px;padding:0 21.74px 21.74px;font:400 14.5px Roboto,sans-serif;color:#0000008a}
+.screen .ga-spinner{width:43.49px;height:43.49px;border-radius:50%;border:3.62px solid #00968833;border-top-color:#009688;animation:lp-spin 1s linear infinite}
+.screen .ga-spinner img{display:none}
+@keyframes lp-spin{to{transform:rotate(360deg)}}
+/* Toast (Theme.Material: the #323232-ish translucent pill, 2 dp radius, 14 sp white). */
+.screen .toast{left:50%;right:auto;transform:translateX(-50%);max-width:calc(100% - 58px);bottom:calc(var(--nb) + 57.98px);padding:10.87px 14.5px;border-radius:21.74px;background:#323232eb;box-shadow:none;font:400 13.59px Roboto,sans-serif;color:#fff;text-align:center}
+.screen .ga-dialog{width:min(289.92px,85%)}

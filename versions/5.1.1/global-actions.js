@@ -1,6 +1,5 @@
-/* Power key menu, shutdown and boot (frameworks/base policy GlobalActions, ShutdownThread and cmds/bootanimation).
-   The same file serves 4.0.4 and 4.3; `version` switches on the 4.1+ additions (safe-mode reboot on a long press of
-   Power off, and the optional Bug report row). */
+/* Power key menu, shutdown and boot (frameworks/base policy GlobalActions, ShutdownThread and cmds/bootanimation),
+   as Android 5.1 shows them: the Material light dialog with Power off (and Take bug report when enabled). */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -15,12 +14,12 @@
     settings.silent = mode !== 'normal';
     settings.silentMode = mode === 'vibrate' ? 'vibrate' : mode === 'silent' ? 'mute' : 'off';
   }
-  // Items in createDialog() order: power off, airplane mode, bug report (4.2+, when enabled), silent mode.
+  // Lollipop's config_globalActionsList is power, bugreport and users: on a single-user phone without the developer
+  // option that leaves Power off alone (the Nexus 6 adds nothing); airplane mode and the ringer moved to Quick Settings
+  // and the volume dialog.
   function items(state, version) {
-    const list = [{id: 'power', icon: 'ga-ic_lock_power_off', message: 'Power off'},
-      {id: 'airplane', icon: state.airplane ? 'ga-ic_lock_airplane_mode' : 'ga-ic_lock_airplane_mode_off', message: 'Airplane mode', status: state.airplane ? 'Airplane mode is ON' : 'Airplane mode is OFF'}];
-    if (version !== '4.0.4' && state.bugreport) list.push({id: 'bugreport', icon: 'ga-stat_sys_adb', message: 'Bug report'});
-    list.push({id: 'ringer'});
+    const list = [{id: 'power', icon: 'lp-fw-ic_lock_power_off', message: 'Power off'}];
+    if (state.bugreport) list.push({id: 'bugreport', icon: 'ga-stat_sys_adb', message: 'Take bug report'});
     return list;
   }
   function menu(state, t, version) {

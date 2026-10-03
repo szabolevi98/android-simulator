@@ -1,14 +1,17 @@
-/* Volume keys and the volume panel (frameworks/base VolumePanel, volume_adjust.xml and AudioService), shared by
-   4.0.4 and 4.3. A phone (config_voice_capable) shows only the active stream's slider, without the expand button. */
+/* Volume keys and the Lollipop volume dialog (SystemUI 5.1 VolumePanel: volume_dialog.xml, volume_panel_item.xml,
+   zen_mode_panel.xml; AudioService). A phone shows the active stream: the #263238 dialog 8 dp in from the sides under
+   the status bar, the #384248 slider panel (48 dp stream icon, the Material seekbar in #80CBC4, a divider and the
+   settings gear) and the interruption buttons None / Priority / All; outside All the subhead reads "Until you turn
+   this off". */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const TIMEOUT = 3000, VIBRATE_DELAY = 300, VIBRATE_DURATION = 300; // VolumePanel constants
   // AudioService.MAX_STREAM_VOLUME and the simulator settings that keep each stream's level (in percent).
   const STREAMS = {
-    call: {max: 5, key: 'callVolume', fallback: 80, icon: 'ga-ic_audio_phone', label: 'Call volume'},
-    ring: {max: 7, key: 'ringVolume', fallback: 70, icon: 'ga-ic_audio_ring_notif', mute: 'ga-ic_audio_ring_notif_mute', vibrate: 'ga-ic_audio_ring_notif_vibrate', label: 'Ringtone volume'},
-    music: {max: 15, key: 'mediaVolume', fallback: 60, icon: 'ga-ic_audio_vol', label: 'Media volume'}
+    call: {max: 5, key: 'callVolume', fallback: 80, icon: 'ic_audio_phone', label: 'Call volume'},
+    ring: {max: 7, key: 'ringVolume', fallback: 70, icon: 'ic_ringer_audible', mute: 'ic_ringer_mute', vibrate: 'ic_ringer_vibrate', label: 'Ringtone volume'},
+    music: {max: 15, key: 'mediaVolume', fallback: 60, icon: 'ic_audio_vol', mute: 'ic_audio_vol_mute', label: 'Media volume'}
   };
   const ringerOf = settings => !settings.silent ? 'normal' : settings.silentMode === 'vibrate' ? 'vibrate' : 'silent';
   function setRinger(settings, mode) { settings.silent = mode !== 'normal'; settings.silentMode = mode === 'vibrate' ? 'vibrate' : mode === 'silent' ? 'mute' : 'off'; }
@@ -41,9 +44,10 @@
   function render(settings, stream, t) {
     const spec = STREAMS[stream], mode = ringerOf(settings);
     const muted = stream === 'ring' && mode !== 'normal', value = muted ? 0 : index(settings, stream);
-    const icon = stream === 'ring' && mode === 'vibrate' ? spec.vibrate : muted ? spec.mute : spec.icon;
-    const pct = value / spec.max * 100;
-    return `<div class="vol-panel" data-stream="${stream}"><div class="vol-item"><span class="vol-icon"><img src="assets/${icon}.png" alt=""></span><div class="vol-seek${muted ? ' disabled' : ''}" role="slider" tabindex="0" aria-label="${e(t(spec.label))}" aria-valuemin="0" aria-valuemax="${spec.max}" aria-valuenow="${value}"${muted ? ' aria-disabled="true"' : ''}><span class="vol-track"><span class="vol-progress" style="width:${pct}%"></span><span class="vol-thumb" style="left:${pct}%"></span></span></div></div></div>`;
+    const icon = stream === 'ring' && mode === 'vibrate' ? spec.vibrate : muted || (!value && spec.mute) ? spec.mute : spec.icon;
+    const pct = value / spec.max * 100, zen = settings.zenMode || 'all';
+    const zenButtons = [['none', 'None'], ['priority', 'Priority'], ['all', 'All']].map(([id, label]) => `<button type="button" class="vol-zen${zen === id ? ' on' : ''}" data-action="vol-zen" data-id="${id}" aria-pressed="${zen === id}">${e(t(label))}</button>`).join('');
+    return `<div class="vol-panel lp-vol" data-stream="${stream}"><div class="vol-sliders"><div class="vol-item"><span class="vol-icon">${stream === 'call' ? '<img class="vol-am" src="assets/lp-fw-ic_audio_phone.png" alt="">' : `<img src="assets/lp-sysui-${icon}.svg" alt="">`}</span><div class="vol-seek${muted ? ' disabled' : ''}" role="slider" tabindex="0" aria-label="${e(t(spec.label))}" aria-valuemin="0" aria-valuemax="${spec.max}" aria-valuenow="${value}"${muted ? ' aria-disabled="true"' : ''}><span class="vol-track"><span class="vol-progress" style="width:${pct}%"></span><span class="vol-thumb" style="left:${pct}%"></span></span></div><i class="vol-divider"></i><button type="button" class="vol-settings" data-action="vol-settings" aria-label="${e(t('Settings'))}"><img src="assets/lp-sysui-ic_settings.svg" alt=""></button></div></div><div class="vol-zen-row">${zenButtons}</div>${zen !== 'all' ? `<div class="vol-subhead"><span>${e(t('Until you turn this off'))}</span><img src="assets/lp-sysui-qs_subhead_caret.svg" alt=""></div>` : ''}</div>`;
   }
   // While dragging only the bar moves, so the pointer capture survives.
   function update(root, settings, stream) {

@@ -2069,6 +2069,8 @@
       }
       case 'lpx-open': ui.sub = id; render(); break;
       case 'lpx-unavailable': case 'lpx-menu': toast(i18n.t('Not available in this simulation.')); break;
+      case 'vol-zen': data.settings.zenMode = id; save(); renderStatus(); showVolume(volumeStream()); break;
+      case 'vol-settings': hideVolume(); openApp('settings'); ui.sub = 'sound'; render(); break;
       case 'people-search-close': ui.peopleSearching = false; ui.peopleQuery = ''; render(); break;
       case 'open-settings-sync': ui.overlay = ''; openApp('settings'); ui.sub = 'sync'; render(); break;
       case 'new-contact': editPerson(true); break;
