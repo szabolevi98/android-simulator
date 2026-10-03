@@ -362,3 +362,7 @@ GSMArena's Nexus 5 shade screenshot shows the expanded panel's black header (clo
 These four launcher icons are now the originals instead of drawings, sized like the other stock icons:
 - Google, Earth and Google+ come from Wikimedia Commons: Google app icon 2013–2014, Google Earth logo 2013, and the Google+ icon 2013–2015, which matches GSMArena's launch Google folder.
 - Maps is the 144 px xxhdpi launcher icon of the Google Maps 7.4.0 APK (November 2013).
+
+**All stock app icons original (owner request)**
+
+The remaining drawn icons were replaced with the launcher icons from late-2013 APKs: Keep 2.0.35, YouTube 5.2.27, News & Weather 1.3.11, Google Search 3.1.8 (Voice Search, and Google, replacing the Commons rasterization) and Drive 1.2.403.9. Only Earth and Google+ come from Wikimedia Commons. The Google folder now matches GSMArena's launch screenshot icon for icon.
