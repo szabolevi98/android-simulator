@@ -2126,7 +2126,7 @@
       case 'hg-location': case 'hg-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
       case 'mms-menu': case 'mms-attach': case 'mms-smiley': ui.overlay = action; renderOverlay(); break;
-      case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }
+      case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea')?.focus(); } break; }
       case 'mms-call': {const person=ICSMessaging.identity(ui.thread,data.contacts);startPhoneCall(person.phone);break;}
       case 'mms-photo': { const photo = data.photos.find(p => p.id === Number(id)); if (photo) { messageDraft().attachment = clone(photo); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); } break; }
       case 'mms-remove-attachment': delete messageDraft().attachment; save(); render(); scrollMessages(); break;
@@ -2178,7 +2178,7 @@
       case 'calendar-views': case 'calendar-menu': ui.overlay=action;renderOverlay();break;
       case 'calendar-refresh': ui.overlay='';renderOverlay();toast(i18n.t('Calendar synced'));break;
       case 'calendar-mode': ui.calendarMode=data.calendarMode=id;save();ui.calendarSearch=undefined;ui.overlay='';calendarRender();break;
-      case 'calendar-search': ui.calendarMode='Agenda';ui.calendarSearch='';ui.overlay='';render();viewport.querySelector('.cal-search input').focus();break;
+      case 'calendar-search': ui.calendarMode='Agenda';ui.calendarSearch='';ui.overlay='';render();viewport.querySelector('.cal-search input')?.focus();break;
       case 'calendar-slot': {const [date,time]=id.split('|');calendarEdit({date,time,title:''});break;}
       case 'event-new': calendarEdit();break;
       case 'event-open': ui.selectedEvent=Number(id);ui.selectedInstance=button.dataset.date||'';ui.sub='event';render();break;
@@ -2287,7 +2287,7 @@
       case 'email-restore': case 'email-selected-restore': {const ids=action==='email-restore'?[ui.emailId]:ui.emailSelected||[];mailbox().filter(item=>ids.includes(item.id)).forEach(ICSEmail.untrash);ui.sub='';ui.emailSelected=[];save();render();break;}
       case 'email-selected-read': mailbox().filter(item=>(ui.emailSelected||[]).includes(item.id)).forEach(item=>item.read=true);ui.emailSelected=[];save();render();break;
       case 'email-unread': {const item=mailbox().find(item=>item.id===ui.emailId);if(item)item.read=false;ui.sub='';ui.overlay='';save();render();break;}
-      case 'email-search': ui.emailQuery='';render();viewport.querySelector('.email-search input').focus();break;
+      case 'email-search': ui.emailQuery='';render();viewport.querySelector('[data-form="email-search"] input')?.focus();break;
       case 'email-refresh': toast('Local mailbox is up to date');break;
       case 'email-cc': ui.emailCc=true;ui.overlay='';render();break;
       case 'email-attach': ui.overlay='email-attach';renderOverlay();break;
