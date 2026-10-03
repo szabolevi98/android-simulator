@@ -51,9 +51,9 @@ window.ANDROID_VERSIONS = [
     version: 'Android 5.1.1',
     year: '2015',
     device: 'Nexus 6 · Google',
-    description: 'Material Design on the Nexus 6: the new notification shade, heads-up notifications, Overview cards and Smart Lock.',
+    description: 'Material Design with the Google Now Launcher, the new notification shade, heads-up notifications, Overview cards, Smart Lock and the Lollipop Land easter egg.',
     url: 'versions/5.1.1/',
-    status: 'preview',
-    art: {shot: 'landing-home.jpg?v=1', phone: 'nexus6'}
+    status: 'available',
+    art: {shot: 'landing-home.jpg?v=2', phone: 'nexus6'}
   }
 ];
