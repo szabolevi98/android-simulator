@@ -191,6 +191,7 @@
   appNames.google = 'Google';
   ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
   const screen = document.querySelector('#screen');
+  LPRipple.attach(screen);
   const viewport = document.querySelector('#viewport');
   const statusRoot = document.querySelector('#status-bar');
   const navRoot = document.querySelector('#nav-bar');

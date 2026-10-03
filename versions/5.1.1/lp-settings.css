@@ -12,7 +12,6 @@
 .screen .lp-settings .lp-toolbar .up{flex:none;width:50.74px;height:50.74px;margin:0;padding:0;display:grid;place-items:center;border:0;background:none;border-radius:50%}
 .screen .lp-settings .lp-toolbar .up+h2{margin-left:7.25px}
 .screen .lp-settings .lp-toolbar .up img{width:21.74px;height:21.74px}
-.screen .lp-settings .lp-toolbar .up:active,.lp-ab-action:active,.lp-ab-overflow:active{background:#ffffff33}
 .lp-ab-action,.lp-ab-overflow{flex:none;width:43.49px;height:43.49px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0;cursor:pointer}
 .lp-ab-action img,.lp-ab-overflow img{width:21.74px;height:21.74px}
 /* Dashboard */
@@ -23,10 +22,8 @@
 .lp-tile img{flex:none;width:21.74px;height:21.74px;margin:0 28.99px 0 14.5px;object-fit:contain}
 .lp-tile span{flex:1;font:400 16.31px Roboto,sans-serif}
 .lp-tile+.lp-tile::before{content:'';position:absolute;left:65.23px;right:0;top:0;height:.906px;background:#0000001f}
-.lp-tile:active{background:#0000001a}
 /* Preference rows on sub-screens */
 .screen .lp-settings .settings-row,.screen .lp-settings .list-row{min-height:43.49px;margin:0;width:100%;padding:0 14.5px;gap:0;border:0;border-bottom:.906px solid #0000001f;background:none;color:#000000de;font:400 14.5px/1.3 Roboto,sans-serif;text-align:left;display:flex;align-items:center}
-.screen .lp-settings .settings-row:active{background:#0000001a}
 .screen .lp-settings .row-copy{flex:1;min-width:0;padding:14.5px 0;display:flex;flex-direction:column;align-items:flex-start;gap:0;font:400 14.5px/1.3 Roboto,sans-serif;color:#000000de}
 .screen .lp-settings .row-copy small{display:block;margin-top:1px;font:400 12.68px/1.35 Roboto,sans-serif;color:#0000008a}
 .screen .lp-settings .row-icon{flex:none;width:50.74px;min-width:50.74px;margin:0 0 0 -3.62px;color:#0000008a;font-size:18px;display:flex;align-items:center}
@@ -73,7 +70,6 @@
 /* Overflow menu: the Material popup (white, 2 dp corners, 8 dp elevation), 48 dp items, 16 sp. */
 .lp-popup-menu{position:absolute;top:calc(var(--sb) + 3.62px);right:3.62px;min-width:181.2px;padding:7.25px 0;background:#fff;border-radius:1.8px;box-shadow:0 3.6px 12.68px #00000059;z-index:40;animation:lp-menu-in .15s cubic-bezier(0,0,.2,1) both;transform-origin:100% 0}
 .lp-popup-menu button{display:block;width:100%;height:43.49px;border:0;background:none;padding:0 14.5px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#000000de;cursor:pointer}
-.lp-popup-menu button:active{background:#0000001a}
 .lp-popup-menu button:disabled{color:#00000042}
 @keyframes lp-menu-in{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
 /* Material light AlertDialog: white, 2 dp corners, 24 dp padding, 20 sp medium title, 16 sp message, accent buttons. */
@@ -87,7 +83,6 @@
 .screen .settings-dialog .settings-row .lp-radio,.screen .settings-dialog .settings-row .lp-check{order:-1;margin:0 21.74px 0 0}
 .screen .settings-dialog-actions{display:flex;justify-content:flex-end;gap:3.62px;padding:7.25px 7.25px 0;border:0;background:none}
 .screen .settings-dialog-actions button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.8px;background:none;color:#009688;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;cursor:pointer}
-.screen .settings-dialog-actions button:active{background:#0000001a}
 /* VolumeSeekBarPreference: the stream icon at 16 dp, the Material seekbar (2 dp track, 12 dp thumb, teal). */
 .screen .lp-settings .lp-volume-row .row-copy{padding-bottom:7.25px}
 .lp-volume{display:flex;align-items:center;width:100%;margin-top:5.44px}
@@ -112,7 +107,6 @@
 .screen .lp-settings .sd-chart text{fill:#0000008a}
 .screen .lp-settings .sd-usage-summary{color:#009688}
 .screen .lp-settings .sd-usage-row{width:100%;margin:0;padding:7.25px 14.5px;gap:14.5px;color:#000000de;border-bottom:.906px solid #0000001f;font:400 14.5px Roboto,sans-serif}
-.screen .lp-settings .sd-usage-row:active{background:#0000001a}
 .screen .lp-settings .sd-usage-row>img{width:36.24px;height:36.24px}
 .screen .lp-settings .sd-usage-row>span{font-size:14.5px;color:#000000de}
 .screen .lp-settings .sd-usage-row small{color:#0000008a}

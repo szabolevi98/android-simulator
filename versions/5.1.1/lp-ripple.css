@@ -1,0 +1,9 @@
+/* Material ripples (lp-ripple.js): one layer over the screen; each pressed control gets a host at its bounds. */
+.lp-ripples{position:absolute;inset:0;z-index:60;pointer-events:none;overflow:hidden}
+.lp-ripple-host{position:absolute;overflow:hidden;pointer-events:none;--ripple:#0000001f}
+.lp-ripple-host.dark{--ripple:#ffffff33}
+.lp-ripple-host.borderless{overflow:visible}
+.lp-ripple-host>b{position:absolute;inset:0;background:var(--ripple);opacity:0}
+.lp-ripple-host>i{position:absolute;border-radius:50%;background:var(--ripple);transform:scale(0)}
+.lp-ripple-host.nav{overflow:visible}
+.lp-ripple-host.nav>i{position:absolute;top:0;bottom:0;border-radius:999px;background:#fff;opacity:.2;transform:scaleX(0)}

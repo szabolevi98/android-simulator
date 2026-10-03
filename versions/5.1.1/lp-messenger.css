@@ -5,7 +5,6 @@
 .lpm-toolbar h2{flex:1;min-width:0;margin:0 0 0 10.87px;font:500 18.12px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lpm-toolbar>h2:first-child{margin-left:12.68px}
 .lpm-tool{flex:none;width:43.49px;height:43.49px;margin:0 1.81px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
-.lpm-tool:active{background:#ffffff33}
 .lpm-tool img{width:21.74px;height:21.74px}
 .lpm-white img{filter:brightness(0) invert(1)}
 .lpm-search{flex:1;min-width:0;margin:0 10.87px 0 7.25px;padding:0;background:none;border:0;display:block}
@@ -14,7 +13,6 @@
 /* Conversation list */
 .lpm-list{flex:1;min-height:0;overflow-y:auto;background:#fff;padding:7.25px 0 79.73px;scrollbar-width:none}
 .screen .lpm-thread{display:flex;align-items:flex-start;width:100%;margin:0;border:0;background:#fff;padding:14.5px;gap:14.5px;text-align:left;color:#636363;min-height:0}
-.lpm-thread:active{background:#0000001a}
 .lpm-avatar{flex:none;width:43.49px;height:43.49px;border-radius:50%}
 .lpm-avatar span{font:300 26px/1 Roboto,sans-serif}
 .lpm-avatar img{width:100%;height:100%}
@@ -73,7 +71,6 @@
 .lpm-picker-tabs{display:flex;height:38.96px;background:#0288d1;box-shadow:0 1.8px 3.6px #0000003d}
 .lpm-picker-tabs span{flex:1;display:grid;place-items:center;font:500 12.68px Roboto,sans-serif;color:#fff;border-bottom:1.81px solid #fff}
 .lpm-pick{display:flex;align-items:center;gap:14.5px;width:100%;border:0;background:none;padding:7.25px 14.5px;text-align:left;color:#4d4d4d}
-.lpm-pick:active{background:#0000001a}
 .lpm-pick span{display:flex;flex-direction:column;min-width:0}
 .lpm-pick strong{font:400 14.5px Roboto,sans-serif;color:#4d4d4d}
 .lpm-pick small{font:400 12.68px Roboto,sans-serif;color:#999}

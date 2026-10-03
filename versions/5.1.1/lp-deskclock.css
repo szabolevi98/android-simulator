@@ -4,7 +4,6 @@
 .lpdc .jbclock-tabs button[role=tab]{flex:1;position:relative;border:0;background:none;display:grid;place-items:center;padding:0;box-shadow:none}
 .lpdc .jbclock-tabs button[role=tab] img{width:21.74px;height:21.74px;opacity:1}
 .lpdc .jbclock-tabs button[role=tab].active::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.81px;background:#fff}
-.lpdc .jbclock-tabs button[role=tab]:active{background:#ffffff1a}
 .lpdc-overflow{flex:none;width:43.49px;border:0;background:none;display:grid;place-items:center;padding:0;border-radius:50%}
 .lpdc-overflow img{width:21.74px;height:21.74px}
 .lpdc .jbclock-pager{flex:1;min-height:0}
@@ -17,7 +16,6 @@
 .lpdc-fab:disabled{opacity:0;transform:scale(.6);pointer-events:none}
 .lpdc-fab img{width:21.74px;height:21.74px}
 .lpdc-side{width:43.49px;height:43.49px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
-.lpdc-side:active{background:#ffffff26}
 .lpdc-side img{width:21.74px;height:21.74px}
 .lpdc .jbclock-footer,.lpdc .kdc-footer,.lpdc .jbclock-center,.lpdc .jbclock-corner{display:none!important}
 /* Clock */
@@ -69,7 +67,6 @@
 .lpdc .jbclock-setup-display{color:#ffffff4d;border-bottom:.906px solid #ffffff28}
 .lpdc .jbclock-setup-display .on{color:#fff}
 .lpdc .jbclock-keypad button{color:#fff;font:300 32.62px Roboto,sans-serif;background:none;border:0}
-.lpdc .jbclock-keypad button:active{background:#ffffff1a}
 .lpdc .jbclock-setup .jbclock-keypad{padding-bottom:79.73px}
 .lpdc .jbclock-timers,.lpdc .jbclock-stopwatch{background:none;padding-bottom:79.73px}
 .lpdc .jbclock-count{color:#fff;font-weight:100}

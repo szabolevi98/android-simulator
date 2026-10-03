@@ -9,7 +9,6 @@
 .screen .chr40-omnibox input::placeholder{color:#969696}
 .screen .chr40-toolbar.incognito .chr40-omnibox input{color:#fff}
 .screen .chr40-toolbar .chr-btn{width:43.49px;height:43.49px;border-radius:50%}
-.screen .chr40-toolbar .chr-btn:active{background:#0000001a}
 .screen .chr40-toolbar .chr-tabs-btn span{border:1.81px solid #5a5a5a;border-radius:2.72px;color:#5a5a5a;font:700 10.87px Roboto,sans-serif;min-width:18px;height:18px;display:grid;place-items:center}
 .screen .chr40-toolbar.incognito .chr-tabs-btn span{border-color:#fff;color:#fff}
 /* New Tab page */
@@ -37,5 +36,4 @@
 .screen .chr40-menu-icons button:disabled{opacity:.3}
 .chr40-menu-icons img{width:21.74px;height:21.74px;opacity:.7}
 .screen .chr-menu>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:43.49px;border:0;background:none;padding:0 14.5px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#333}
-.screen .chr-menu>button:active{background:#0000001a}
 .chr-menu .lp-check{margin-right:0}

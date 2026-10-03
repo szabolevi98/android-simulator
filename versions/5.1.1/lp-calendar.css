@@ -3,7 +3,6 @@
 .gc-app button{cursor:pointer;font-family:inherit}
 .gc-bar{position:relative;z-index:3;flex:none;display:flex;align-items:center;height:50.74px;padding:0 3.62px;background:#fff;color:#333;border-bottom:.906px solid #d6d6d6}
 .gc-btn{flex:none;width:43.49px;height:43.49px;margin:0 1.81px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
-.gc-btn:active{background:#0000001a}
 .gc-btn img{width:21.74px;height:auto;max-height:21.74px}
 .gc-nav img{filter:brightness(0);opacity:.53}
 .gc-title{flex:1;min-width:0;display:flex;align-items:center;gap:3.62px;height:100%;border:0;background:none;padding:0 0 0 10.87px;font:400 18.12px Roboto,sans-serif;color:#333;text-align:left}
@@ -67,7 +66,6 @@
 .gc-detail-head{flex:none;position:relative;color:#fff;padding:0 0 14.5px;min-height:126.84px;display:flex;flex-direction:column}
 .gc-detail-bar{display:flex;align-items:center;height:50.74px;padding:0 3.62px}
 .gc-detail-bar span{flex:1}
-.gc-detail-bar .gc-btn:active{background:#ffffff33}
 .gc-detail-head h2{margin:auto 0 0;padding:0 14.5px 0 65.23px;font:400 21.74px/1.3 Roboto,sans-serif}
 .gc-save{border:0;background:none;color:#fff;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;padding:0 14.5px;height:43.49px}
 .gc-title-input{margin:auto 14.5px 0 65.23px;border:0;border-bottom:1.81px solid #ffffff99;background:none;outline:0;color:#fff;font:400 21.74px Roboto,sans-serif;padding:3px 0}

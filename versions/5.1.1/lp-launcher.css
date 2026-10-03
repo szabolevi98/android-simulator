@@ -95,7 +95,6 @@
 .lp-home .kk-overview-panel{height:108.72px}
 /* DeskClock 5.1 digital clock widget: one sans-serif-thin 75sp line, then the 14sp date and the #B3FFFFFF alarm. */
 .screen .lpw-digital{justify-content:center;font-family:Roboto,sans-serif}
-.lpw-digital:active{background:#ffffff1f}
 .lpw-digital .jbw-digital-time,.home-widget .lpw-digital .jbw-digital-time{display:block;font:100 min(67.95px,calc(67.95px * 100cqw / 186.64px))/1 Roboto,sans-serif;letter-spacing:0;margin:0 0 -7.25px}
 .lpw-digital .jbw-digital-date,.home-widget .lpw-digital .jbw-digital-date,.home-widget .lpw-digital .jbw-digital-date span{gap:7.25px;font:400 12.68px Roboto,sans-serif;text-transform:none;margin-top:7.25px}
 .lpw-digital .jbw-digital-alarm,.home-widget .lpw-digital .jbw-digital-alarm{gap:1.81px;color:#ffffffb3;margin:0}

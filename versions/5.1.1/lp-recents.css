@@ -23,7 +23,6 @@
 .lp-task-label{flex:1;min-width:0;margin-left:7.25px;font:500 14.5px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lp-task-dismiss{flex:none;width:43.49px;height:43.49px;margin-right:3.62px;border:0;border-radius:50%;background:none;padding:10.87px;cursor:pointer}
 .lp-task-dismiss img{width:100%;height:100%;display:block}
-.lp-task-dismiss:active{background:#ffffff33}
 .lp-recents-empty{position:absolute;inset:0;display:grid;place-items:center;background:#00000080;color:#fff;font:400 14.5px Roboto,sans-serif;text-align:center;padding:0 29px}
 @media(prefers-reduced-motion:reduce){.recent-panel.lp-recents{animation:none}}
 .recent-panel.lp-recents{z-index:7}

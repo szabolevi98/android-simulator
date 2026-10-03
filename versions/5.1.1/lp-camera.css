@@ -18,7 +18,6 @@
 .gcam-options{position:absolute;right:7.25px;top:calc(var(--sb) + 7.25px);display:flex;align-items:center;border-radius:21.74px;transition:background .2s}
 .gcam-options.open{background:#0000004c;padding-left:3.62px}
 .gcam-options button{width:43.49px;height:43.49px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
-.gcam-options button:active{background:#ffffff26}
 .gcam-options button img{width:21.74px;height:21.74px}
 .gcam-options-toggle{display:flex!important;flex-direction:column;justify-content:center;align-items:center;gap:3px}
 .gcam-options-toggle i{width:3.62px;height:3.62px;border-radius:50%;background:#fff;box-shadow:0 0 2px #00000080}

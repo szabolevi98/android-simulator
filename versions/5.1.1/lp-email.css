@@ -6,7 +6,6 @@
 .lem-bar h2{flex:1;min-width:0;margin:0 0 0 10.87px;font:500 18.12px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lem-spacer{flex:1}
 .lem-act{flex:none;width:43.49px;height:43.49px;margin:0 1.81px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
-.lem-act:active{background:#ffffff33}
 .lem-act img{width:21.74px;height:21.74px}
 .lem-bar .lem-act[data-action=email-menu] img,.lem-bar .lem-act[data-action=email-search] img{filter:brightness(0) invert(1)}
 .lem-searchbar input{flex:1;min-width:0;margin:0 14.5px 0 7.25px;border:0;background:none;outline:0;color:#fff;font:400 16.31px Roboto,sans-serif}
@@ -21,7 +20,6 @@
 .lem-tile img{width:100%;height:100%}
 .lem-tile.checked{background:#9e9e9e;font-size:16px}
 .screen .lem-row-main{flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;border:0;background:none;padding:10.87px 0 11.78px 14.5px;text-align:left;color:#212121}
-.lem-row-main:active{background:#0000000d}
 .lem-line1{display:flex;align-items:baseline;gap:3.62px;min-width:0}
 .lem-senders{flex:1;min-width:0;font:400 16.31px Roboto,sans-serif;color:#212121;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lem-draft{color:#dd4b39}
@@ -44,7 +42,6 @@
 .gm-categories:empty{display:none}
 .gm-categories{border-bottom:.906px solid #0000001f}
 .screen .gm-category{display:flex;align-items:center;gap:14.5px;width:100%;min-height:57.98px;border:0;background:#fff;padding:7.25px 14.5px;text-align:left;color:#212121}
-.gm-category:active{background:#0000000d}
 .gm-cat-icon{flex:none;width:36.24px;height:36.24px;border-radius:50%;background:#eee;position:relative;-webkit-mask:none;mask:none}
 .gm-cat-icon{background-color:transparent;-webkit-mask-size:21.74px;mask-size:21.74px;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 .gm-cat-icon.gm-social{background-color:#4285f4}
@@ -66,7 +63,6 @@
 .lem-drawer h4{margin:0;padding:12.68px 14.5px 7.25px;font:500 12.68px Roboto,sans-serif;color:#757575}
 .lem-drawer hr{border:0;height:.906px;background:#0000001f;margin:7.25px 0}
 .screen .lem-folder{display:flex;align-items:center;width:100%;height:43.49px;border:0;background:none;padding:0 14.5px;text-align:left;color:#212121}
-.lem-folder:active{background:#0000000d}
 .lem-folder.on{background:#00000012}
 .lem-folder-icon{flex:none;width:21.74px;height:21.74px;margin-right:28.99px;background:#757575;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 .lem-folder.on .lem-folder-icon{background:var(--lem)}
@@ -87,12 +83,10 @@
 .lem-msg-who small{font:400 12.68px Roboto,sans-serif;color:#757575}
 .lem-msg-act{flex:none;width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center;border-radius:50%;padding:0}
 .lem-msg-act.narrow{width:32.62px}
-.lem-msg-act:active{background:#0000001a}
 .lem-msg-act img{width:21.74px;height:21.74px;opacity:.54}
 .lem-msg-body{padding:0 14.5px 14.5px;font:400 14.5px/1.5 Roboto,sans-serif;color:#212121}
 .lem-msg-footer{display:flex;border-top:.906px solid #0000001f;margin:0 7.25px}
 .lem-msg-footer button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3.62px;border:0;background:none;padding:10.87px 0;font:400 11.78px Roboto,sans-serif;color:#757575}
-.lem-msg-footer button:active{background:#0000000d}
 .lem-msg-footer img{width:21.74px;height:21.74px;opacity:.54}
 .lem-attachment{position:relative;margin:7.25px 14.5px;display:flex;align-items:center;gap:10px;border:.906px solid #0000001f;border-radius:2px;padding:6px}
 .lem-attachment>:first-child{width:64px;height:48px;flex:none;overflow:hidden}

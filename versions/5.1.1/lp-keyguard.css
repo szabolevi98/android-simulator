@@ -50,7 +50,6 @@
 .lp-kg-key{border:0;background:none;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer;border-radius:50%}
 .lp-kg-key span{font:300 32.62px/1 Roboto,sans-serif}
 .lp-kg-key small{font:400 10.87px Roboto,sans-serif;color:#ffffff80;margin-top:2px}
-.lp-kg-key:active{background:#ffffff1f}
 .lp-kg-ok img{width:21.74px;height:21.74px}
 .lp-kg-pattern{flex:1;display:grid;place-items:center}
 .lp-kg-pattern .credential-pattern{width:260px;height:260px}
