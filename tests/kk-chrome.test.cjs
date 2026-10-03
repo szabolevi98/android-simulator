@@ -1,0 +1,22 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// Stock Nexus 5: Chrome (toolbar, New Tab page, incognito, history, tab switcher, menu) over the offline demo web.
+const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/chrome.js','utf8'),context);
+const C=context.window.ChromeApp,t=k=>k;
+const data={browserHistory:['www.google.com','news.example','chrome://history','search:kitkat','en.wikipedia.org/wiki/android'],bookmarks:['www.google.com','en.wikipedia.org/wiki/Android']};
+const base={data,t,locale:'en',page:url=>`<p>${url}</p>`,title:url=>url,tabs:[{url:'chrome://newtab'}],active:0};
+const ntp=C.render({...base,ui:{},url:C.NTP});
+assert.ok(ntp.includes('chr-toolbar')&&ntp.includes('placeholder="Search or type URL"')&&ntp.includes('data-action="chrome-ntp" data-id="devices"'));
+assert.equal((ntp.match(/class="chr-tile"/g)||[]).length,3,'most visited skips chrome:// and searches, case-insensitively unique');
+const inc=C.render({...base,ui:{},url:C.NTP,incognito:true});
+assert.ok(inc.includes('chr-toolbar incognito')&&inc.includes('You’ve gone incognito.')&&!inc.includes('data-id="devices"'));
+assert.ok(C.render({...base,ui:{chromeNtp:'bookmarks'},url:C.NTP}).includes('Mobile bookmarks'));
+const hist=C.render({...base,ui:{chromeHistoryQuery:'news'},url:C.HISTORY});
+assert.ok(hist.includes('data-form="chrome-history-search"')&&(hist.match(/chr-history-row/g)||[]).length===1);
+const tabs=C.render({...base,ui:{sub:'tabs'},url:'news.example',tabs:[{url:'news.example'},{url:'chrome://newtab',incognito:true}],active:1});
+assert.ok(tabs.includes('chr-switcher-bar')&&(tabs.match(/<article class="chr-card/g)||[]).length===2&&tabs.includes('chr-card current incognito'));
+const menu=C.menu({ui:{browserIndex:1,browserHistory:['a','b']},data,t,url:'www.google.com'});
+for(const label of ['New tab','New incognito tab','Bookmarks','Other devices','History','Share…','Print…','Find in page…','Request desktop site','Settings','Help &amp; feedback'])assert.ok(menu.includes(`>${label}`),label);
+assert.ok(menu.includes('data-action="browser-back-menu" aria-label="Back" >')&&menu.includes('data-action="browser-forward" aria-label="Forward" disabled'));
+const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
+assert.ok(sim.includes("case 'chrome': return renderChrome();")&&sim.includes("if (app === 'browser' || app === 'chrome') useBrowserSession(app);")&&sim.includes("const GEL_ALIASES = {gmail: 'email', photos: 'gallery'};"));
+console.log('kk-chrome ok');

@@ -104,6 +104,8 @@
   ui.music=ICSMusic.restore(data.music);
   ui.musicTrack=ui.music.track;
   ui.browserSession = ICSBrowserSession.restore(data.browserSession,data.browserHistory);
+  // Chrome and the AOSP Browser keep separate tabs; ui.browserSession is the one of the browser in front.
+  ui.browserOwner = 'browser'; ui.browserSessions = {};
   syncBrowserState();
   const apps = [
     ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'People', '◉', '#efa96f', '#a45142'],
@@ -119,7 +121,7 @@
     ['photos', 'Photos', '✿', '#fbbc05', '#34a853'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-games', 'Play Games', '✚', '#8bc34a', '#558b2f'],
     ['play-movies', 'Play Movies & TV', '▶', '#e53935', '#b71c1c'], ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['google-settings', 'Google Settings', 'g', '#757575', '#424242']
   ];
-  const GEL_ALIASES = {chrome: 'browser', gmail: 'email', photos: 'gallery'};
+  const GEL_ALIASES = {gmail: 'email', photos: 'gallery'};
   const GEL_UNSIMULATED = ['play-books', 'play-games', 'play-movies', 'play-music', 'google-settings'];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -312,7 +314,7 @@
     const beanRoot = viewport.querySelector('[data-beanbag]');
     if (beanRoot && !ui.beanBag) requestAnimationFrame(() => { if (beanRoot.isConnected && !ui.beanBag) ui.beanBag = {...JBBeanBag.start(beanRoot), root: beanRoot}; });
     if (ui.view === 'clock' && viewport.querySelector('.jbclock-app')) clockTicker();
-    if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
+    if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind) highlightBrowserText();
     if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
   }
   function restoreWidgetScroll() {
@@ -344,7 +346,7 @@
       const home = navRoot.querySelector('.nav-home').getBoundingClientRect();
       ui.overlay = 'search'; overlayRoot.innerHTML = ''; renderOverlay();
       searchSwipe.panel = JBSearchPanel.attach(overlayRoot.querySelector('[data-jb-search]'), {homeX: (home.left + home.width / 2 - box.left) / k, haptic: () => data.settings.haptic !== false, reduced: !!reducedMotion?.matches,
-        onLaunch: () => { ui.overlay = ''; renderOverlay(); openApp('browser'); ICSBrowserSession.navigate(ui.browserSession, 'www.google.com'); render(); },
+        onLaunch: () => { ui.overlay = ''; renderOverlay(); openApp('chrome'); ICSBrowserSession.navigate(ui.browserSession, 'www.google.com'); saveBrowserState(); render(); },
         onClose: () => { if (ui.overlay === 'search') { ui.overlay = ''; renderOverlay(); } }});
       suppressClickUntil = Infinity;
     }
@@ -610,6 +612,7 @@
       case 'kk-doc-picker': return KKWallpaperPicker.openFrom(wallpaperPickerContext());
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
+      case 'chrome': return renderChrome();
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
       case 'messaging': return renderMessaging();
@@ -629,6 +632,7 @@
     if(ui.locked)return;
     if (GEL_ALIASES[app]) app = GEL_ALIASES[app];
     if (!appNames[app]) return;
+    if (app === 'browser' || app === 'chrome') useBrowserSession(app);
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
     ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
@@ -637,7 +641,7 @@
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
   function appScrollContainer(app) {
-    return viewport.querySelector(app === 'play-store' ? '.jbp-scroll' : ['messaging', 'hangouts'].includes(app) ? '.mms-scroll' : app === 'email' ? '.email-scroll' : app === 'music' ? '.music-library-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
+    return viewport.querySelector(app === 'play-store' ? '.jbp-scroll' : ['messaging', 'hangouts'].includes(app) ? '.mms-scroll' : app === 'email' ? '.email-scroll' : app === 'music' ? '.music-library-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : app === 'chrome' ? '.chr-ntp-scroll,.chr-history,.chr-stack,.browser-page' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) {
@@ -675,8 +679,8 @@
     if (ui.view === 'wallpaper-picker' && ui.wp?.checked?.length) { ui.wp.checked = []; wallpaperPickerRender(); return; }
     if (ui.view === 'kk-doc-picker') { ui.view = 'wallpaper-picker'; render(); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
-    if (ui.view === 'browser' && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
-    if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
+    if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
+    if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'dessert', 'beanbag', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.jbLogoTapped = false; render(); return; }
     if (ui.view === 'settings' && ['vpn', 'tethering', 'beam', 'mobile-networks'].includes(ui.sub)) { ui.sub = 'wireless'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'wifi-advanced') { ui.sub = 'wifi'; render(); return; }
@@ -754,6 +758,8 @@
       overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
+    } else if (ui.overlay === 'browser-menu' && ui.view === 'chrome') {
+      overlayRoot.innerHTML = ChromeApp.menu({ui, data, t: key => i18n.t(key), url: ui.browserUrl});
     } else if (ui.overlay === 'browser-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu web-menu"><button data-action="browser-forward" ${ui.browserIndex >= ui.browserHistory.length-1?'disabled':''}>Forward</button><button data-action="browser-refresh">Refresh</button><button data-action="browser-new-tab">New tab</button><button data-action="browser-save">Bookmark</button><button data-action="browser-bookmarks">Bookmarks</button><button data-action="browser-saved">Saved pages</button><button data-action="browser-save-page">Save for offline reading</button><button data-action="browser-find">Find on page</button></div>`;
     } else if (ui.overlay.startsWith('mms-')) {
@@ -965,7 +971,7 @@
   function normalizeAddress(raw) {
     const value = raw.trim().replace(/^https?:\/\//i, '').replace(/\/$/, '');
     if (!value) return 'www.google.com';
-    if (value.startsWith('search:')) return value;
+    if (value.startsWith('search:') || value.startsWith('chrome://')) return value;
     if (value.includes(' ') || !value.includes('.')) return `search:${value}`;
     return value.toLowerCase();
   }
@@ -976,11 +982,42 @@
     ui.browserTab = ui.browserSession.active;
     ui.browserTabs = ui.browserSession.tabs.map(tab => tab.history[tab.index]);
   }
-  function saveBrowserState() { syncBrowserState(); data.browserSession = clone(ui.browserSession); save(); }
+  function saveBrowserState() {
+    syncBrowserState();
+    if (ui.browserOwner === 'chrome') {
+      // Incognito tabs are not stored.
+      const tabs = ui.browserSession.tabs.filter(tab => !tab.incognito), current = ICSBrowserSession.current(ui.browserSession);
+      data.chromeSession = clone({tabs: tabs.length ? tabs : [{history: [ChromeApp.NTP], index: 0}], active: Math.max(0, tabs.indexOf(current))});
+    } else data.browserSession = clone(ui.browserSession);
+    save();
+  }
+  const restoreChrome = () => ICSBrowserSession.restore(data.chromeSession, [ChromeApp.NTP]);
+  function useBrowserSession(owner) {
+    if (ui.browserOwner === owner) return;
+    ui.browserSessions[ui.browserOwner] = ui.browserSession;
+    ui.browserSession = ui.browserSessions[owner] || (owner === 'chrome' ? restoreChrome() : ICSBrowserSession.restore(data.browserSession, data.browserHistory));
+    ui.browserOwner = owner; ui.browserFind = undefined; syncBrowserState();
+  }
+  function chromeTitle(url) { return url === ChromeApp.NTP ? i18n.t('New tab') : url === ChromeApp.HISTORY ? i18n.t('History') : browserTitle(url); }
+  function renderChrome() {
+    const session = ui.browserSession, tab = ICSBrowserSession.current(session);
+    return ChromeApp.render({ui, data, t: key => i18n.t(key), locale: i18n.locale(), page: renderWebsite, title: chromeTitle, url: ui.browserUrl, incognito: !!tab.incognito, tabs: session.tabs.map(item => ({url: item.history[item.index], incognito: !!item.incognito})), active: session.active});
+  }
+  function chromeNewTab(incognito) {
+    if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); return; }
+    const tab = ICSBrowserSession.current(ui.browserSession);
+    tab.history = [ChromeApp.NTP]; tab.index = 0; if (incognito) tab.incognito = true;
+    ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; renderOverlay(); saveBrowserState(); render();
+  }
+  function chromeSection(id) {
+    const incognito = !!ICSBrowserSession.current(ui.browserSession).incognito;
+    ui[incognito ? 'chromeNtpIncognito' : 'chromeNtp'] = id; ui.overlay = ''; renderOverlay();
+    if (ui.browserUrl !== ChromeApp.NTP) navigateBrowser(ChromeApp.NTP); else render();
+  }
   function navigateBrowser(url) {
     const normalized = normalizeAddress(url);
     ICSBrowserSession.navigate(ui.browserSession,normalized);
-    data.browserHistory = [...data.browserHistory,normalized].slice(-50);
+    if (!normalized.startsWith('chrome://') && !(ui.browserOwner === 'chrome' && ICSBrowserSession.current(ui.browserSession).incognito)) data.browserHistory = [...data.browserHistory,normalized].slice(-50);
     ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render();
   }
   function browserBack() { ICSBrowserSession.move(ui.browserSession,-1); saveBrowserState(); render(); }
@@ -1296,9 +1333,10 @@
     data.mailbox=ICSEmail.restore(null,emailData,[]);ui.music=ICSMusic.restore();ui.musicActive=false;ui.photoStacks={};ui.photoWidgetSetup=null;ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;
     ui.activeCall=null;ui.sleeping=false;ui.locked=false;ui.vpnConnected=null;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
     ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
-    ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
+    ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);ui.browserOwner='browser';ui.browserSessions={};syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
   }
   function clearAppData(id) {
+    if(id==='chrome'){delete data.chromeSession;delete ui.browserSessions.chrome;if(ui.browserOwner==='chrome'){ui.browserSession=restoreChrome();syncBrowserState();}save();}
     if(id==='browser'){delete data.browserSession;data.browserHistory=clone(defaultData.browserHistory);data.bookmarks=clone(defaultData.bookmarks||[]);data.savedPages=[];ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();}
     if(id==='music'){ui.music=ICSMusic.restore();saveMusic();}
     if(id==='email'){data.mailbox=ICSEmail.restore(null,emailData,[]);data.sentEmails=[];ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];}
@@ -1621,7 +1659,7 @@
       case 'jb-platlogo': ui.jbLogoTapped = true; render(); platLogoToast(); break;
       case 'toast': toast(id); break;
       case 'noop': break;
-      case 'browser-search': openApp('browser'); document.querySelector('.browser-toolbar input')?.focus(); break;
+      case 'browser-search': openApp('chrome'); document.querySelector('.chr-omnibox input')?.focus(); break;
       case 'browser-link': navigateBrowser(url); break;
       case 'browser-back': browserBack(); break;
       case 'browser-forward': browserForward(); break;
@@ -1632,13 +1670,24 @@
       case 'browser-saved': ui.sub='saved'; ui.overlay=''; render(); break;
       case 'browser-save-page': data.savedPages ||= []; if(!data.savedPages.includes(ui.browserUrl))data.savedPages.push(ui.browserUrl); save(); ui.overlay=''; renderOverlay(); toast('Page saved'); break;
       case 'browser-remove-saved': if(ui.sub==='saved')data.savedPages=data.savedPages.filter(url=>url!==id); else data.bookmarks=data.bookmarks.filter(url=>url!==id); save(); render(); break;
-      case 'browser-close-tab': ICSBrowserSession.close(ui.browserSession,Number(id)); saveBrowserState(); render(); break;
+      case 'browser-close-tab': { const last = ui.browserSession.tabs.length === 1; ICSBrowserSession.close(ui.browserSession,Number(id)); if (last && ui.browserOwner === 'chrome') ui.browserSession.tabs[0].history = [ChromeApp.NTP]; saveBrowserState(); render(); break; }
       case 'browser-refresh': ui.overlay=''; render(); break;
       case 'browser-find': ui.browserFind=''; ui.overlay=''; render(); viewport.querySelector('.web-find input')?.focus(); break;
       case 'browser-close-find': ui.browserFind=undefined; render(); break;
       case 'browser-history': ui.sub = 'history'; render(); break;
+      // Chrome menu and New Tab page
+      case 'chrome-incognito': chromeNewTab(true); break;
+      case 'chrome-close-all': ui.browserSession = {tabs: [{history: [ChromeApp.NTP], index: 0}], active: 0}; ui.sub = ''; ui.overlay = ''; renderOverlay(); saveBrowserState(); render(); break;
+      case 'chrome-ntp': chromeSection(id); break;
+      case 'chrome-bookmarks': chromeSection('bookmarks'); break;
+      case 'chrome-devices': chromeSection('devices'); break;
+      case 'chrome-history': ui.chromeHistoryQuery = ''; navigateBrowser(ChromeApp.HISTORY); break;
+      case 'chrome-share': { const link = ui.browserUrl; ui.overlay = ''; renderOverlay(); if (ChromeApp.internal(link)) break; openApp('hangouts'); ui.sub = 'new'; messageDraft().body = link.startsWith('search:') ? link.slice(7) : `http://${link}`; save(); render(); break; }
+      case 'chrome-desktop': ui.chromeDesktop = !ui.chromeDesktop; ui.overlay = ''; renderOverlay(); render(); break;
+      case 'chrome-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'browser-back-menu': ui.overlay = ''; renderOverlay(); browserBack(); break;
       case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
-      case 'browser-new-tab': if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); break; } ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
+      case 'browser-new-tab': if (ui.view === 'chrome') { chromeNewTab(false); break; } if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); break; } ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       case 'browser-save': ui.overlay = ''; renderOverlay(); if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
       case 'phone-tab': ui.phoneTab = id; ui.phoneSearch = undefined; render(); break;
       case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
@@ -1909,6 +1958,7 @@
       }
       case 'address': navigateBrowser(values.get('address')); break;
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
+      case 'chrome-history-search': ui.chromeHistoryQuery = String(values.get('query') || '').trim(); render(); break;
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
       case 'hg-new': { const target = ICSMessaging.recipient(values.get('recipient'), data.contacts); if (!target) { toast('Enter a contact name or valid phone number'); return; } pickHangout(target.key); break; }
       case 'mms-send': {

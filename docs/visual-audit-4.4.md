@@ -255,3 +255,19 @@ Sources: the Quick Start Guide ("Hangouts & SMS") and the GSMArena Nexus 5 revie
   - Hangouts is its own app over the shared SMS data. Notifications, Gallery share and Browser share open it, since it is the default SMS app.
   - AOSP Messaging stays in the drawer with its own screens, as promised when the stock look was chosen.
   - The status bar shows a white Hangouts notification glyph drawn for the simulator.
+
+**Step 3: Chrome**
+
+GSMArena: "The Nexus 5 comes with Google Chrome as its solitary preinstalled browser." The build follows the review's Chrome 31 screenshots (`chrome.js`, `chrome.css`):
+- **Toolbar:** 48 dp, #e1e1e1. A white 32 dp omnibox ("Search or type URL") holds the URL and the reload button, followed by the tab-count square and the overflow. Incognito tabs tint the toolbar #4f566c.
+- **Menu:** Back / Forward / Bookmark icons on top, then New tab, New incognito tab, Bookmarks, Other devices, History, Share…, Print…, Find in page…, Request desktop site (check box), Settings and Help & feedback.
+  - Print, Settings and Help show the simulator toast.
+  - Share sends the link to Hangouts.
+- **Tab switcher:** black, with "+ New tab". Tabs are stacked cards with a tab label (globe, title, ×) at the top right.
+- **New Tab page:**
+  - The bottom bar switches between Most visited (chrome logo), Bookmarks (star) and Other devices. In an incognito tab it switches between Most visited, Incognito and Bookmarks.
+  - Most visited shows the last six pages as thumbnails.
+  - The incognito page shows the "You’ve gone incognito." card.
+- **History:** `chrome://history` has a search field, "Clear browsing data…" and the day's pages.
+- **Separate tabs:** Chrome keeps its own tabs (`data.chromeSession`, incognito tabs are not stored). The AOSP Browser stays in the drawer with its own tabs. Both browse the same offline demo pages, and normal Chrome tabs share the history.
+- **Defaults:** the Google search bar and the search panel open Chrome.
