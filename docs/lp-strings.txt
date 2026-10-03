@@ -32,3 +32,17 @@ SystemUI quick_settings_bluetooth_detail_empty_text
 SystemUI quick_settings_connected
 Velvet accessibility_voice_button
 Velvet folder_hint_text
+SystemUI kg_pin_instructions
+SystemUI kg_pattern_instructions
+SystemUI kg_password_instructions
+SystemUI kg_wrong_pin
+SystemUI kg_wrong_pattern
+SystemUI kg_wrong_password
+SystemUI kg_too_many_failed_attempts_countdown
+SystemUI kg_emergency_call_label
+SystemUI keyguard_unlock
+SystemUI camera_hint
+SystemUI phone_hint
+SystemUI notification_tap_again
+SystemUI recents_empty_message
+SystemUI accessibility_recents_item_will_be_dismissed

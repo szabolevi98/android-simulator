@@ -218,7 +218,8 @@
   for(const name of ['pointerdown','keydown','input','wheel'])document.addEventListener(name,()=>{lastActivity=Date.now();},{passive:true,capture:true});
   const lockControls=ICSLockscreen.controller({getData:()=>data,getUI:()=>ui,t:key=>i18n.t(key),save,render,clock,date:fullDate,carrier:()=>data.settings.airplane?i18n.t('No service.'):data.settings.networkOperator||'Telekom',toast,unlock:()=>{ui.locked=false;ui.sleeping=false;const pending=ui.kgPending;ui.kgPending=null;ui.kgBouncing=false;ui.kgUp=true;home(false);if(pending)afterKeyguardDismiss(pending);},
     // Android 4.3 security views (KeyguardPatternView/PINView/PasswordView) inside the SlidingChallengeLayout.
-    look:{wrong:kind=>JBKeyguard.WRONG[kind],clearMs:JBKeyguard.S.clear,message:({state,remaining})=>JBKeyguard.securityMessage({error:state.error,errorAt:state.errorAt,remaining,owner:data.settings.showOwner?data.settings.ownerInfo:''},key=>i18n.t(key)),renderLock:api=>renderSecureKeyguard(api)}});
+    // Lollipop security views: the kg_* instructions, the kg_wrong_* errors and the countdown.
+    look:{wrong:kind=>({pattern:'Wrong Pattern',pin:'Wrong PIN',password:'Wrong Password'})[kind],clearMs:2000,message:({state,remaining})=>remaining?i18n.t('Try again in %d seconds.').replace('%d',remaining):state.error&&Date.now()-state.errorAt<5000?i18n.t(state.error):i18n.t({pattern:'Draw your pattern',pin:'Enter PIN',password:'Enter Password'}[state.kind]||''),renderLock:api=>renderSecureKeyguard(api)}});
   ui.locked=ICSLockscreen.secure(data);if(ui.locked)ui.view='lock';lockControls.lock();lockControls.bind(screen);
   // BatteryMeterView (5.1): 9.5 x 14.5 dp; the button is 25 %-75 % wide and 12 % tall; frame #66FFFFFF, level white,
   // battery_saver_mode_color (#F4511E) at 15 % or less.
@@ -227,6 +228,7 @@
   // Launcher3 and the keyguard draw under translucent system bars; apps get opaque ones.
   function updateBarMode() {
     screen.classList.toggle('kk-translucent', ['home', 'lock', 'drawer'].includes(ui.view) && !ui.sleeping);
+    screen.classList.toggle('lp-on-keyguard', ui.view === 'lock' && !ui.sleeping);
     // Window.setStatusBarColor: the app's colorPrimaryDark (LP_STATUS_COLORS), black where the theme sets none.
     screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || '#000');
     // PlatLogoActivity is fullscreen; the Dessert Case hides both bars (immersive sticky).
@@ -254,7 +256,8 @@
   function renderNav() {
     // navigation_bar.xml: 36 dp side padding, the 70 dp keys spread by weighted spacers; Back turns down for the IME.
     navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/lp-ic_sysbar_back${ui.imeShown ? '_ime' : ''}.png" alt=""></button><span class="nav-spacer"></span><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/lp-ic_sysbar_home.png" alt=""></button><span class="nav-spacer"></span><button class="nav-key nav-recent" data-action="recent" aria-label="Overview"><img src="assets/lp-ic_sysbar_recent.png" alt=""></button>`;
-    if(ui.locked)navRoot.querySelectorAll('.nav-home,.nav-recent').forEach(button=>{button.disabled=true;button.setAttribute('aria-hidden','true');});
+    // Over the keyguard the navigation bar is empty (StatusBarManager.DISABLE_HOME | _RECENT | _BACK); the bouncer brings Back.
+    if(ui.view==='lock'&&!ui.sleeping)navRoot.querySelectorAll(ui.kgBouncing?'.nav-home,.nav-recent':'.nav-key').forEach(button=>{button.disabled=true;button.setAttribute('aria-hidden','true');button.classList.add('nav-hidden');});
   }
   // Window transitions: the outgoing view is kept in a temporary layer while both animate.
   let lastScene = null, pendingNav = '', activeTransition = null, launchFrom = null;
@@ -441,12 +444,26 @@
   }
   function renderLock() {
     if(ui.locked)return lockControls.renderLock();
-    const {list, parts} = keyguardParts();
-    return JBKeyguard.render(list, ui.kgPage, parts);
+    return LPKeyguard.render(lpKeyguardParts(false));
   }
   function renderSecureKeyguard(api) {
-    const {list, parts} = keyguardParts();
-    return JBKeyguard.renderSecure(list, ui.kgPage, {...parts, up: ui.kgUp !== false, bouncing: !!ui.kgBouncing, security: JBKeyguard.securityView(api, parts), ime: api.state.kind === 'password' ? api.keyboard() : ''});
+    const parts = lpKeyguardParts(true);
+    return LPKeyguard.render({...parts, bouncer: ui.kgBouncing ? LPKeyguard.bouncer(api, parts) : ''});
+  }
+  // What the Lollipop lock screen shows: clock, date and alarm, owner info, the notification cards and the hint.
+  function lpKeyguardParts(secure) {
+    const now = deviceDate(), hour24 = !!data.settings.hour24;
+    return {t: key => i18n.t(key), locale: i18n.locale(), secure, height: screen.clientHeight || 662.67,
+      clock: now.toLocaleTimeString(i18n.locale(), {hour: hour24 ? '2-digit' : 'numeric', minute: '2-digit', hour12: !hour24}).replace(/\s?[AaPp]\.?\s?[Mm]\.?$/, ''),
+      date: now.toLocaleDateString(i18n.locale(), {weekday: 'long', month: 'long', day: 'numeric'}), shortDate: shadeDate(), alarm: nextAlarmLabel(),
+      owner: data.settings.showOwner ? data.settings.ownerInfo : '', carrier: carrierName(), statusIcons: statusIndicators(),
+      notifications: data.notifications.map(decorateNotification), activated: ui.kgActivated || '', hint: ui.kgHint || ''};
+  }
+  function kgHint(text) {
+    ui.kgHint = i18n.t(text); clearTimeout(ui.kgHintTimer);
+    const line = viewport.querySelector('.lp-kg-indication'); if (line) { line.textContent = ui.kgHint; line.classList.add('visible'); }
+    LPKeyguard.bounce(viewport.querySelector('[data-lp-kg]'), !!reducedMotion?.matches);
+    ui.kgHintTimer = setTimeout(() => { ui.kgHint = ''; ui.kgActivated = ''; viewport.querySelector('.lp-kg-indication')?.classList.remove('visible'); viewport.querySelectorAll('.lp-kg-note.activated').forEach(node => node.classList.remove('activated')); }, 3500);
   }
   function keyguardParts() {
     // TransportControlView covers the clock rows while the Music service is active.
@@ -468,38 +485,27 @@
     return digitalClockWidget('div');
   }
   function requestBouncer(pending) {
-    ui.kgPending = pending;
-    if (ui.kgChallenge) ui.kgChallenge.showBouncer(); else { ui.kgBouncing = true; render(); }
+    ui.kgPending = pending; ui.kgBouncing = true; ui.kgHint = ''; render();
   }
   // OnDismissAction: what the widget asked for once the security check passes.
   function afterKeyguardDismiss(pending) {
     if (pending.type === 'add') { ui.kgRelock = true; ui.overlay = 'kg-widget-picker'; renderOverlay(); return; }
-    if (pending.type === 'camera') { openApp('camera'); return; }
+    if (pending.type === 'camera' || pending.type === 'phone') { openApp(pending.type); return; }
+    if (pending.type === 'note') { const button = document.createElement('button'); button.dataset.action = 'notification-open'; button.dataset.id = pending.id; screen.append(button); button.click(); button.remove(); return; }
     const event = pending.id && data.events.find(item => String(item.id) === pending.id);
     if (!event) { ui.selectedDate = today(); openApp('calendar'); return; }
     const date = pending.date || event.date; ui.selectedDate = date < today() ? today() : date; openApp('calendar'); ui.selectedEvent = event.id; ui.selectedInstance = date; ui.sub = 'event'; render();
   }
   function attachKeyguard() {
     ui.kgPad?.destroy(); ui.kgPad = null; ui.kgChallenge?.destroy(); ui.kgChallenge = null;
-    const root = viewport.querySelector('.jb-keyguard');
+    const root = viewport.querySelector('[data-lp-kg]');
     if (!root) return;
-    const kgPages = JBKeyguard.pages(data.keyguardWidgets || [], {music: musicActive()}), secure = root.matches('[data-kg-secure]'), reduced = !!reducedMotion?.matches;
-    if (secure) ui.kgChallenge = JBKeyguard.challenge(root, {up: ui.kgUp !== false, bouncing: !!ui.kgBouncing, reduced, onChange: up => { ui.kgUp = up; }, onBouncer: on => { ui.kgBouncing = on; if (!on) ui.kgPending = null; }});
-    else ui.kgPad = JBKeyguard.glowPad(root.querySelector('.jbk-challenge'), {onUnlock: () => { suppressClickUntil = Date.now() + 350; home(); }, haptic: () => data.settings.haptic !== false, reduced});
-    // With the challenge over the pager only swipes that start at the screen edges page (setOnlyAllowEdgeSwipes).
-    const edge = event => { const box = root.getBoundingClientRect(); return event.clientX - box.left < JBKeyguard.S.edge || box.right - event.clientX <= JBKeyguard.S.edge; };
-    ui.kgPager = JBKeyguard.pager(root.querySelector('[data-kg-pager]'), {count: kgPages.length, current: ui.kgPage, reduced,
-      // SlidingChallengeLayout.dispatchTouchEvent hands edge-swipe downs to the widgets even over the challenge.
-      surface: secure ? root.querySelector('.jbk-host') : undefined,
-      canStart: event => !secure || !ui.kgChallenge.bouncing() && (edge(event) || !ui.kgChallenge.edgeOnly() && !!event.target.closest('[data-kg-pager]')),
-      onBegin: () => { if (secure) ui.kgChallenge.pageBegin(); },
-      onSettle: (page, previous) => { ui.kgPage = page; if (secure) { ui.kgChallenge.pageEnd(page === previous); ui.kgChallenge.setInteractive(kgPages[page]?.type !== 'camera'); } },
-      onCamera: () => {
-        if (ui.view !== 'lock') return;
-        if (ui.locked) { requestBouncer({type: 'camera'}); ui.kgPager.go(JBKeyguard.defaultPage(kgPages)); return; }
-        ui.kgPage = JBKeyguard.defaultPage(kgPages); openApp('camera');
-      },
-      onRemove: id => { data.keyguardWidgets = (data.keyguardWidgets || []).filter(widget => widget.id !== id); save(); render(); }});
+    ui.kgPad = LPKeyguard.attach(root, {
+      suppressClick: () => { suppressClickUntil = Date.now() + 350; },
+      onTap: kind => kgHint(kind === 'camera' ? 'Swipe left for camera' : kind === 'phone' ? 'Swipe right for phone' : 'Swipe up to unlock'),
+      onUnlock: () => { if (ui.locked) requestBouncer(null); else { suppressClickUntil = Date.now() + 350; home(); } },
+      onAffordance: kind => { if (ui.locked) requestBouncer({type: kind}); else { ui.kgHint = ''; openApp(kind); } }
+    });
   }
   function analogClock() {
     const now = deviceDate();
@@ -684,7 +690,7 @@
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'live-wallpapers' && ui.lwFromPicker && String(ui.sub || '').startsWith('preview:')) { ui.lwFromPicker = false; ui.view = 'wallpaper-picker'; ui.sub = ''; render(); return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
-    if (ui.view === 'lock' && ui.kgChallenge?.bouncing()) { ui.kgChallenge.hideBouncer(); return; }
+    if (ui.view === 'lock' && ui.kgBouncing) { ui.kgBouncing = false; ui.kgPending = null; lockControls.lock(); render(); return; }
     if (ui.view === 'lock') return;
     if(ui.view==='phone' && !ui.activeCall && ui.kkDialpad){ui.kkDialpad=false;ui.dial='';render();return;}
     if(ui.view==='phone' && !ui.activeCall && ['kk-history','kk-all'].includes(ui.sub)){ui.sub='';render();return;}
@@ -1752,6 +1758,9 @@
         if (note?.kind === 'message') { data.notifications = data.notifications.filter(item => item !== note); save(); renderStatus(); ui.overlay = ''; openApp('messaging'); openMessageThread(note.contact); break; }
         ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break; }
       case 'unlock': ui.view = 'home'; render(); break;
+      // ActivatableNotificationView: the first touch activates the card ("Touch again to open"), the second opens it.
+      case 'lp-kg-note': if (ui.kgActivated !== id) { ui.kgActivated = id; viewport.querySelectorAll('.lp-kg-note').forEach(node => node.classList.toggle('activated', node.dataset.id === id)); kgHint('Touch again to open'); break; }
+        ui.kgActivated = ''; if (ui.locked) { requestBouncer({type: 'note', id}); break; } { const opener = document.createElement('button'); opener.dataset.action = 'notification-open'; opener.dataset.id = id; screen.append(opener); home(false); opener.click(); opener.remove(); } break;
       case 'unlock-camera': openApp('camera'); break;
       case 'kk-location-mode': data.settings.gps = id !== 'battery'; data.settings.networkLocation = id !== 'device'; save(); render(); break;
       case 'kk-sms-app': ui.overlay = 'kk-sms-app'; renderOverlay(); break;

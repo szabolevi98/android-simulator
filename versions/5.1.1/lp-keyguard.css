@@ -1,0 +1,76 @@
+/* Lollipop keyguard (see lp-keyguard.js). The wallpaper shows through; the system status bar gives way to the
+   KeyguardStatusBarView. Clock: 88 dp sans-serif-thin white, -10 dp to the 16 sp date; alarm and owner info in
+   #99FFFFFF. Bottom area: 56 dp affordances in the corners, the lock icon in the middle, the indication 65 dp up. */
+.screen.lp-on-keyguard #status-bar{visibility:hidden}
+#viewport>.lock-view.lp-keyguard{position:absolute;inset:0;text-align:left;width:auto;height:auto;background:#0000001f;color:#fff;overflow:hidden;font-family:Roboto,sans-serif;user-select:none;touch-action:none}
+.lp-kg-statusbar{position:absolute;left:0;right:0;top:0;height:36.24px;display:flex;align-items:center;padding-left:14.5px;z-index:2}
+.lp-kg-carrier{flex:1;min-width:0;text-align:left;font:400 12.68px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lp-kg-icons{display:flex;align-items:center;padding-right:3.62px}
+.lp-kg-icons .status-clock{display:none}
+.lp-kg-icons .status-right{height:22.65px}
+.lp-kg-avatar{width:36.24px;height:36.24px;display:grid;place-items:center;margin-right:3.62px}
+.lp-kg-avatar img{width:19.93px;height:19.93px}
+.lp-kg-panel{position:absolute;inset:0;will-change:transform}
+.lp-kg-status{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.lp-kg-clock{font:100 79.73px/1.15 Roboto,sans-serif;letter-spacing:-.01em;color:#fff;margin-bottom:-9.06px;white-space:nowrap}
+.lp-kg-date{display:flex;align-items:center;gap:5.44px;font:400 14.5px/1.4 Roboto,sans-serif;color:#fff;white-space:nowrap}
+.lp-kg-alarm{display:flex;align-items:center;gap:3.62px;color:#ffffff99}
+.lp-kg-alarm img{width:14.5px;height:14.5px;opacity:.6}
+.lp-kg-owner{margin:5.44px 14.5px 0;font:400 14.5px Roboto,sans-serif;color:#ffffff99;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 29px)}
+/* Keyguard notifications: the same cards at notification_material_background_dimmed_color (#D4FFFFFF) until touched. */
+.lp-kg-notes{position:absolute;left:7.25px;right:7.25px;display:flex;flex-direction:column;gap:1.81px}
+.screen .lp-kg-note.notification{display:flex;align-items:center;width:100%;min-height:57.98px;padding:0 7.25px 0 0;border:0;border-radius:1.8px;background:#ffffffd4;color:#000000de;text-align:left;cursor:pointer;box-shadow:0 .9px 1.8px #0000004d;transition:background .22s,transform .22s}
+.screen .lp-kg-note.notification.activated{background:#fafafa;transform:scale(1.02)}
+.lp-kg-more{align-self:center;margin-top:3.62px;padding:5.44px 14.5px;border-radius:14px;background:#ffffffd4;color:#000000de;font:500 12.68px Roboto,sans-serif}
+.lp-kg-bottom{position:absolute;left:0;right:0;bottom:var(--nb);height:130px;z-index:1}
+.lp-kg-indication{position:absolute;left:14.5px;right:14.5px;bottom:58.89px;margin:0;text-align:center;font:400 12.68px Roboto,sans-serif;color:#fff;opacity:0;transition:opacity .2s}
+.lp-kg-indication.visible{opacity:1}
+.lp-kg-affordance,.lp-kg-lock{position:absolute;bottom:0;width:50.74px;height:50.74px;border:0;background:none;padding:0;display:grid;place-items:center;cursor:pointer;touch-action:none}
+.lp-kg-affordance img,.lp-kg-lock img{position:relative;width:21.74px;height:21.74px;pointer-events:none}
+.lp-kg-phone{left:0}
+.lp-kg-camera{right:0}
+.lp-kg-lock{left:50%;margin-left:-25.37px}
+.lp-kg-circle{position:absolute;left:50%;top:50%;width:43.49px;height:43.49px;margin:-21.74px 0 0 -21.74px;border-radius:50%;background:#ffffff33;transform:scale(0);pointer-events:none}
+.lp-kg-affordance:active .lp-kg-circle{transform:scale(1);transition:transform .15s}
+/* KeyguardBouncer: the in-front scrim (75 % black) and the security view, 320 dp wide, centred. */
+.lp-kg-scrim{position:absolute;inset:0;background:#000000bf;z-index:3;animation:lp-fade .2s both}
+.lp-keyguard.bouncing .lp-kg-panel,.lp-keyguard.bouncing .lp-kg-bottom{opacity:0;transform:translateY(-60px);transition:opacity .2s,transform .3s}
+.lp-kg-bouncer{position:absolute;left:50%;top:var(--sb);bottom:var(--nb);width:min(289.92px,100%);margin-left:max(-144.96px,-50%);z-index:4;display:flex;flex-direction:column;align-items:stretch;animation:lp-kg-bouncer-in .3s cubic-bezier(0,0,.2,1) both}
+@keyframes lp-kg-bouncer-in{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.lp-kg-message{margin:21.74px 0 7.25px;min-height:18px;text-align:center;font:400 14.5px Roboto,sans-serif;color:#ffffffb3}
+.lp-kg-pin{flex:1;display:flex;flex-direction:column;min-height:0}
+.lp-kg-pin-row{flex:1;display:flex;align-items:center;padding-bottom:14.5px;position:relative}
+.lp-kg-entry{flex:1;margin:0 65.23px 0 0}
+.lp-kg-entry input{width:100%;border:0;background:none;color:#fff;text-align:center;font:400 28px Roboto,sans-serif;letter-spacing:.3em;outline:0}
+.lp-kg-delete{position:absolute;right:0;top:0;bottom:14.5px;width:50.74px;border:0;background:none;cursor:pointer}
+.lp-kg-delete img{width:21.74px;height:21.74px}
+.lp-kg-divider{height:.906px;background:#ffffff28}
+.lp-kg-keys{flex:1;display:flex}
+.lp-kg-keys>*{flex:1}
+.lp-kg-key{border:0;background:none;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer;border-radius:50%}
+.lp-kg-key span{font:300 32.62px/1 Roboto,sans-serif}
+.lp-kg-key small{font:400 10.87px Roboto,sans-serif;color:#ffffff80;margin-top:2px}
+.lp-kg-key:active{background:#ffffff1f}
+.lp-kg-ok img{width:21.74px;height:21.74px}
+.lp-kg-pattern{flex:1;display:grid;place-items:center}
+.lp-kg-pattern .credential-pattern{width:260px;height:260px}
+.lp-kg-pattern .credential-pattern button i{background:#fff;opacity:.6}
+.lp-kg-pattern .credential-pattern button.selected i{opacity:1}
+.lp-kg-pattern .credential-pattern polyline{stroke:#ffffff80}
+.lp-kg-pattern .credential-pattern.wrong polyline{stroke:#f4511e}
+.lp-kg-password{padding:29px 14.5px 0}
+.lp-kg-password input{width:100%;border:0;border-bottom:1.8px solid #80cbc4;background:none;color:#fff;font:400 18px Roboto,sans-serif;padding:6px 2px;outline:0;text-align:center}
+.lp-kg-ime{margin-top:auto}
+.lp-kg-emergency{flex:none;align-self:center;margin:7.25px 0 14.5px;border:0;background:none;color:#fff;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;padding:10.87px 14.5px;cursor:pointer}
+@media(prefers-reduced-motion:reduce){.lp-kg-scrim,.lp-kg-bouncer{animation:none}}
+/* The keyguard window covers the whole display under the transparent bars. */
+.screen.kk-translucent #viewport>.lock-view.lp-keyguard{top:0;bottom:0;left:0;right:0}
+.lp-kg-entry input,.lp-kg-entry input:focus{border:0!important;box-shadow:none!important;padding:0}
+/* LockPatternView (5.1): small white dots that grow while selected, white trails at 50 %. */
+.lp-kg-pattern .credential-pattern{position:relative;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr)}
+.lp-kg-pattern .credential-pattern svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.lp-kg-pattern .credential-pattern polyline{fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.lp-kg-pattern .credential-pattern button{position:relative;border:0;background:none;padding:0;display:grid;place-items:center;cursor:pointer}
+.lp-kg-pattern .credential-pattern button i{display:block;width:10.87px;height:10.87px;border-radius:50%;transition:transform .1s}
+.lp-kg-pattern .credential-pattern button.selected i{transform:scale(1.6)}
+.lp-kg-pattern .credential-pattern.wrong button.selected i{background:#f4511e}

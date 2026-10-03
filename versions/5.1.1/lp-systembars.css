@@ -40,3 +40,4 @@
 .screen.kk-lights-out .nav-key img{opacity:0;transition:opacity .25s}
 .screen.kk-lights-out .nav-key{background:url('assets/lp-ic_sysbar_lights_out_dot_small.png') center/7.25px no-repeat}
 .screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/lp-ic_sysbar_lights_out_dot_large.png');background-size:10.87px}
+.nav-key.nav-hidden{visibility:hidden}
