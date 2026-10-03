@@ -197,4 +197,6 @@ App drawables carry a prefix for their source package at `android-2.3.6_r1`:
 - **Google's "Android Quick Start Guide" for Android 4.4** (Copyright 2013 Google Inc.). The images embedded in the guide supply `phone.png` (Google Phone), `hangouts.png`, `gmail.png`, `photos.png`, `play-books.png`, `play-games.png`, `play-movies.png`, `play-music.png`, `calendar.png` (Google Calendar) and `google-settings.png`.
 - **[Wikimedia Commons "Nexus 5 (Android 4.4.2) Screenshot.jpg"](https://commons.wikimedia.org/wiki/File:Nexus_5_(Android_4.4.2)_Screenshot.jpg)**, labelled Apache License 2.0. `chrome.png` was cut out of it, with the default wallpaper removed.
 
-These names and logos are trademarks of Google LLC. They are used only to show what the 2014 device looked like, in this non-commercial simulator. The AOSP launcher icons they replace are kept as `aosp-phone.png` and `aosp-calendar.png`.
+These names and logos are trademarks of Google LLC. They are used only to show what the 2014 device looked like, in this non-commercial simulator. The AOSP launcher icons they replace are kept as `aosp-phone.png`, `aosp-calendar.png` and `aosp-messaging.png` (`messaging.png` now holds the Hangouts icon).
+
+The Hangouts 2.0 screens (`hangouts.js`, `hangouts.css`) were rebuilt from measurements of the GSMArena Nexus 5 review screenshots. No Google image was copied: the action bar, editor and attach icons are simple vector shapes, and `stat_notify_hangouts.png` is a white Hangouts glyph drawn for the simulator.

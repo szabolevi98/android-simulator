@@ -238,3 +238,17 @@ GSMArena notes the Google Now Launcher drawer has "no tabs and no widgets":
 - **Drawer:** the All Apps drawer pages through apps only, and its indicator counts only app pages.
 - **Widgets:** open only from the overview Widgets button. Back from there returns to the overview.
 - **Overview:** keeps the launcher's third button, Settings (`Launcher.hasSettings`). It opens Google Search settings, which is not simulated, so it shows a toast.
+
+**Step 2: Hangouts as the SMS app**
+
+Sources: the Quick Start Guide ("Hangouts & SMS") and the GSMArena Nexus 5 review ("Phonebook, telephony, messaging"). The review notes that Google retired the old Messages app for Hangouts. Colours and sizes are measured from its screenshots.
+- **Action bar:** light, #e5e5e5 with a 1 dp #d1d1d1 edge. It holds the green Hangouts icon and an 18 sp #505050 title.
+  - Conversation list: + (New Hangout) and the overflow menu (Set mood…, Invites, Snooze notifications, Archived Hangouts, Settings, Send feedback, Help).
+  - Conversation: the call button and the overflow menu. The title shows the contact name, an "SMS" subtitle and a spinner corner.
+- **Conversation list:** #f9f9f9 background, 72 dp rows, 56 dp square avatars tagged "SMS", "You:" before your own last message, and the time on the right.
+- **New Hangout:** the "Type a name, email, number, or circle" field filters the contact list (rows show the number and "Mobile"). A picked contact or a typed number opens its conversation. A draft shared from Gallery or Browser moves into it.
+- **Conversation:**
+  - White cards on #e5e5e5, with 48 dp avatars on the outer side.
+  - A 48 dp white editor showing "Send an SMS message", with Location and Camera buttons. Send replaces them once there is text.
+  - The camera button opens Take photo / Take video / Attach photo / Google+ albums. Only Attach photo is simulated.
+- **System:** the AOSP Messaging app is hidden from the drawer and Settings > Apps. The messaging view uses the Hangouts icon and label, the original icon is kept as aosp-messaging.png, and the status bar shows a white Hangouts notification glyph drawn for the simulator.
