@@ -15,6 +15,8 @@ assert.ok(Hangouts.overlay(data,{overlay:'mms-menu',sub:''},t).includes('Archive
 assert.ok(Hangouts.overlay(data,{overlay:'mms-attach',sub:'thread'},t).includes('Google+ albums'));
 assert.equal(Hangouts.overlay(data,{overlay:'mms-details',sub:'thread'},t),null);
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
-assert.ok(sim.includes("['messaging', 'Hangouts',")&&sim.includes("const GEL_HIDDEN = ['messaging'];"));
-assert.ok(fs.existsSync('versions/4.4.4/assets/stat_notify_hangouts.png')&&fs.existsSync('versions/4.4.4/assets/aosp-messaging.png'));
+// Hangouts is its own app; AOSP Messaging stays in the drawer. Notifications and shares open Hangouts.
+assert.ok(sim.includes("case 'hangouts': return Hangouts.render(")&&sim.includes("case 'messaging': return renderMessaging();")&&sim.includes("openApp('hangouts')"));
+assert.ok(!/GEL_ALIASES = \{[^}]*hangouts/.test(sim));
+assert.ok(fs.existsSync('versions/4.4.4/assets/stat_notify_hangouts.png'));
 console.log('kk-hangouts ok');

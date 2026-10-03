@@ -251,4 +251,7 @@ Sources: the Quick Start Guide ("Hangouts & SMS") and the GSMArena Nexus 5 revie
   - White cards on #e5e5e5, with 48 dp avatars on the outer side.
   - A 48 dp white editor showing "Send an SMS message", with Location and Camera buttons. Send replaces them once there is text.
   - The camera button opens Take photo / Take video / Attach photo / Google+ albums. Only Attach photo is simulated.
-- **System:** the AOSP Messaging app is hidden from the drawer and Settings > Apps. The messaging view uses the Hangouts icon and label, the original icon is kept as aosp-messaging.png, and the status bar shows a white Hangouts notification glyph drawn for the simulator.
+- **System:**
+  - Hangouts is its own app over the shared SMS data. Notifications, Gallery share and Browser share open it, since it is the default SMS app.
+  - AOSP Messaging stays in the drawer with its own screens, as promised when the stock look was chosen.
+  - The status bar shows a white Hangouts notification glyph drawn for the simulator.
