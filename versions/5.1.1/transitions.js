@@ -54,7 +54,12 @@
     'folder-close':{exit:{tracks:[scale(1,.8,150,0,'fastOutSlowIn'),alpha(1,0,150,0,'accelerateQuad')]}},
     // DragView: 110 ms DecelerateInterpolator(2.5) lift by dragViewOffsetY (-8dp).
     'drag-lift':{enter:{tracks:[{kind:'translate',from:[0,0],to:[0,-8],duration:110,delay:0,curve:'decelerateQuint'}]}},
-    'drawer-close':{enter:{tracks:[alpha(0,1,250,0,'decelerateCubic')]},exit:{top:true,tracks:[scale(1,.85,250,0,'fastOutLinearIn'),alpha(1,0,250,0,'accelerateQuad')]}}
+    // Launcher.hideAppsCustomizeHelper (material) with the GNL 1.1 integers in Velvet: the page's icons fade in 100 ms,
+    // the white panel conceals in a circle from half its diagonal to the all-apps button (allAppsButtonVisualSize / 2)
+    // over config_appsCustomizeConcealTime (250 ms) after config_appsCustomizeItemsAlphaStagger (60 ms), drifting to
+    // the button, all with LogDecelerateInterpolator(100, 0) (conceal() below). The workspace's items, hotseat, page
+    // indicator and search bar come back over config_appsCustomizeWorkspaceShrinkTime (300 ms), ZoomInInterpolator.
+    'drawer-close':{enter:{tracks:[alpha(0,1,300,0,'zoomIn')]},exit:{top:true,tracks:[alpha(1,1,326,0,'linear')]},custom:(outgoing,incoming,factor)=>conceal(outgoing,incoming,factor)}
   };
   const launcher=view=>view==='home'||view==='drawer';
   // Chooses the WindowManager transit for a view change; nav is 'back' when Back initiated it.
@@ -109,5 +114,21 @@
     const sx=rect.width/width,sy=rect.height/height,pivot=(start,k)=>Math.abs(k-1)<.0001?start:-start/(k-1);
     return {enter:{top:true,tracks:[scale([sx,sy],1,duration,0,'decelerateCubic',`${pivot(rect.left,sx)}px ${pivot(rect.top,sy)}px`),alpha(0,1,duration,0,'thumbnailFade')]},exit:{tracks:[alpha(1,1,duration,0,'linear')]}};
   }
-  window.ICSTransitions={dropDuration,fly,curves,specs,kind,frames,length,play,scaleUp};
+  // LogDecelerateInterpolator(base 100, drift 0): (1 - 100^-t) / (1 - 1 / 100).
+  const logDecelerate=t=>(1-Math.pow(100,-t))/(1-.01);
+  function conceal(outgoing,incoming,factor=1) {
+    const panel=outgoing?.querySelector('.lp-drawer-panel'),page=outgoing?.querySelector('.drawer-page'),dots=outgoing?.querySelector('.drawer-indicators');
+    const button=incoming?.querySelector('[data-action="drawer"]');
+    if(!panel)return [];
+    const zoom=panel.getBoundingClientRect().width/(panel.offsetWidth||1)||1,p=panel.getBoundingClientRect(),b=button?.getBoundingClientRect();
+    const dx=b?(b.left+b.width/2-(p.left+p.width/2))/zoom:0,dy=b?(b.top+b.height/2-(p.top+p.height/2))/zoom:p.height/zoom/2;
+    const r0=Math.hypot(panel.offsetWidth,panel.offsetHeight)/2,r1=b?Math.min(b.width,b.height)/zoom/2:0;
+    const steps=Array.from({length:17},(_,i)=>i/16),run=(node,frames,duration,delay)=>node.animate(frames,{duration:duration*factor,delay:delay*factor,fill:'both',easing:'linear'});
+    const drift=k=>`translate(${(dx*k).toFixed(1)}px,${(dy*k).toFixed(1)}px)`;
+    const out=[run(panel,steps.map(t=>({offset:t,clipPath:`circle(${(r0+(r1-r0)*logDecelerate(t)).toFixed(1)}px at 50% 50%)`,transform:drift(logDecelerate(t))})),250,60)];
+    if(page)out.push(run(page,steps.map(t=>({offset:t,opacity:1-logDecelerate(Math.min(1,t*250/100))})),250,0),run(page,steps.map(t=>({offset:t,transform:drift(logDecelerate(t))})),234,76));
+    if(dots)out.push(dots.animate([{opacity:1},{opacity:0}],{duration:250*factor,easing:'cubic-bezier(0,0,.3,1)',fill:'both'}));
+    return out;
+  }
+  window.ICSTransitions={dropDuration,fly,curves,specs,kind,frames,length,play,scaleUp,conceal};
 })();

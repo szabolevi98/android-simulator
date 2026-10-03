@@ -52,7 +52,7 @@
 /* All apps (AppsCustomizePagedView): each page is a white quantum_panel card over the wallpaper, 5 x 6 cells
    (allAppsNumCols/Rows from the 82 dp cell height plus 18 dp cell padding), #666 labels; the page indicator sits in
    its own 20 dp row below. Widgets use quantum_panel_dark pages of 2 x 3 previews over a #374248 name strip. */
-#viewport>.drawer-view.lp-drawer{background:none;padding:0}
+#viewport>.drawer-view.lp-drawer,.transition-layer>.drawer-view.lp-drawer{background:none;padding:0}
 .lp-drawer .lp-drawer-panel{position:absolute;left:0;right:0;top:var(--sb);bottom:calc(var(--nb) + 25.64px);border-style:solid;border-color:transparent;border-width:9.97px 11.78px 13.29px 11.48px;border-image:url('assets/gnl-quantum_panel.png') 33 39 44 38 fill / 9.97px 11.78px 13.29px 11.48px}
 .lp-drawer.drawer-widgets-open .lp-drawer-panel{border-width:5.44px 7.25px 8.76px 6.95px;border-image:url('assets/gnl-quantum_panel_dark.png') 18 24 29 23 fill / 5.44px 7.25px 8.76px 6.95px}
 .lp-drawer .drawer-page{top:calc(var(--sb) + 9.97px);bottom:calc(var(--nb) + 38.93px);left:11.48px;right:11.78px}

@@ -1,0 +1,7 @@
+# The pages name their scripts and styles with ?v= cache keys, so the HTML itself must always be revalidated
+# (the VPS vhost sets the same header). Without mod_headers this file does nothing.
+<IfModule mod_headers.c>
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

@@ -328,7 +328,7 @@
     if (spec.black) layers.push(layer('transition-backdrop'));
     if (outgoing) layers.push(layer(spec.exit.top ? 'transition-over' : 'transition-under', outgoing));
     screen.classList.add('transitioning');
-    const animations = [...ICSTransitions.play(outgoing, spec.exit, factor), ...ICSTransitions.play(incoming, spec.enter, factor)];
+    const animations = [...ICSTransitions.play(outgoing, spec.exit, factor), ...ICSTransitions.play(incoming, spec.enter, factor), ...(spec.custom ? spec.custom(outgoing, incoming, factor) : [])];
     activeTransition = {name, spec, factor, start: performance.now(), layers, animations, timer: setTimeout(endTransition, ICSTransitions.length(spec) * factor + 40)};
   }
   function render() {
