@@ -1,0 +1,41 @@
+/* Chrome 40 (see chrome.js); dp x 0.906. Overrides chrome.css. */
+.screen .chr-app{font-family:Roboto,sans-serif}
+.screen .chr40-toolbar{height:50.74px;padding:0 0 0 7.25px;background:#f2f2f2;box-shadow:0 .9px 1.8px #0000002e}
+.screen .chr40-toolbar.incognito{background:#505050}
+.screen .chr40-omnibox{flex:1;min-width:0;display:flex;align-items:center;height:36.24px;margin:0 3.62px 0 0;padding:0 7.25px 0 5.44px;background:#fff;border:0;border-radius:1.81px;box-shadow:0 .9px 1.8px #00000026}
+.screen .chr40-toolbar.incognito .chr40-omnibox{background:#6e6e6e}
+.chr40-lead{flex:none;width:21.74px;height:21.74px;opacity:.6;margin-right:7.25px}
+.screen .chr40-omnibox input{flex:1;min-width:0;height:100%;border:0;background:none;outline:0;padding:0;font:400 14.5px Roboto,sans-serif;color:#333}
+.screen .chr40-omnibox input::placeholder{color:#969696}
+.screen .chr40-toolbar.incognito .chr40-omnibox input{color:#fff}
+.screen .chr40-toolbar .chr-btn{width:43.49px;height:43.49px;border-radius:50%}
+.screen .chr40-toolbar .chr-btn:active{background:#0000001a}
+.screen .chr40-toolbar .chr-tabs-btn span{border:1.81px solid #5a5a5a;border-radius:2.72px;color:#5a5a5a;font:700 10.87px Roboto,sans-serif;min-width:18px;height:18px;display:grid;place-items:center}
+.screen .chr40-toolbar.incognito .chr-tabs-btn span{border-color:#fff;color:#fff}
+/* New Tab page */
+.screen .chr40-ntp{background:#fff}
+.chr40-logo{display:grid;place-items:center;padding:43.49px 0 21.74px}
+.chr40-logo img{width:126.84px;height:auto}
+.chr40-fakebox{display:flex;align-items:center;margin:0 14.5px 21.74px;height:43.49px;padding:0 3.62px 0 14.5px;background:#fff;border-radius:1.81px;box-shadow:0 .9px 3.6px #00000040}
+.chr40-fakebox input{flex:1;min-width:0;border:0;background:none;outline:0;font:400 14.5px Roboto,sans-serif;color:#333}
+.chr40-fakebox input::placeholder{color:#969696}
+.chr40-fakebox button{width:36.24px;height:36.24px;border:0;background:none;display:grid;place-items:center;padding:0}
+.chr40-fakebox img{width:21.74px;height:21.74px;opacity:.6}
+.screen .chr40-most{display:grid;grid-template-columns:1fr 1fr;gap:14.5px 10.87px;padding:0 14.5px 14.5px}
+.screen .chr40-most .chr-tile{background:#f2f2f2;border-radius:1.81px;overflow:hidden;box-shadow:none;border:0}
+.screen .chr40-most .chr-tile-title{display:block;padding:7.25px;font:400 12.68px Roboto,sans-serif;color:#333;background:#f2f2f2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .chr40-ntp-bar{display:flex;height:48.92px;background:#fff;border-top:.906px solid #0000001f}
+.screen .chr40-ntp-bar button{flex:1;display:flex;align-items:center;justify-content:center;gap:7.25px;border:0;background:none;color:#333;font:400 12.68px Roboto,sans-serif}
+.screen .chr40-ntp-bar button.active{color:#4285f4}
+.chr40-ntp-bar img{width:21.74px;height:21.74px;opacity:.6}
+.chr40-ntp.incognito{background:#222}
+.chr40-incognito{display:block;width:72px;margin:28px auto 14px}
+/* Menu: the Material popup with the icon row */
+.screen .chr-menu{top:calc(var(--sb) + 3.62px);right:3.62px;min-width:200px;background:#fff;border-radius:1.81px;box-shadow:0 3.6px 12.68px #00000059;padding:0 0 7.25px;font-family:Roboto,sans-serif}
+.screen .chr40-menu-icons{display:flex;justify-content:space-around;border-bottom:.906px solid #0000001f;padding:0}
+.screen .chr40-menu-icons button{flex:1;height:43.49px;border:0;background:none;display:grid;place-items:center}
+.screen .chr40-menu-icons button:disabled{opacity:.3}
+.chr40-menu-icons img{width:21.74px;height:21.74px;opacity:.7}
+.screen .chr-menu>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:43.49px;border:0;background:none;padding:0 14.5px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#333}
+.screen .chr-menu>button:active{background:#0000001a}
+.chr-menu .lp-check{margin-right:0}

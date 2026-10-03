@@ -1,8 +1,8 @@
-/* Chrome for Android as the stock Nexus 5 browser (Chrome 31-35, 2013-2014; GSMArena Nexus 5 review, "Connectivity,
-   web browser"): a light #e1e1e1 toolbar with a white omnibox holding the reload button, the tab switcher with the
-   tab count and the overflow; a menu with Back/Forward/Bookmark icons on top; the black stacked tab switcher with
-   "New tab"; the New Tab page with Most visited, Bookmarks and Other devices at the bottom; and incognito tabs on a
-   slate toolbar. Pages come from the simulator's offline demo web shared with the AOSP Browser. */
+/* Chrome 40 for Android on the Nexus 6 (LMY48Y): the Material #F2F2F2 toolbar (#505050 incognito) with the white
+   omnibox (magnifier or page icon, "Search or type URL"), the tab switcher with the count and the menu; the menu
+   opens with Forward, Bookmark, Page info and Reload on top; the New Tab page shows the Google logo, the search box
+   with the microphone and Most visited tiles (#F2F2F2), with Bookmarks and Recent tabs at the bottom. Pages come
+   from the simulator's offline demo web shared with the AOSP Browser. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -27,7 +27,8 @@
   const display = url => internal(url) ? '' : url.startsWith('search:') ? url.slice(7) : url;
   function toolbar(ctx) {
     const {url, t, tabs, incognito} = ctx;
-    return `<div class="chr-toolbar${incognito ? ' incognito' : ''}"><form class="chr-omnibox" data-form="address"><input name="address" autocomplete="off" spellcheck="false" aria-label="${e(t('Search or type URL'))}" placeholder="${e(t('Search or type URL'))}" value="${e(display(url))}"><button type="button" class="chr-reload" data-action="browser-refresh" aria-label="${e(t('Reload'))}">${icon.reload}</button></form>${tabsButton(tabs.length)}${menuButton}</div>`;
+    const lead = url === NTP || internal(url) ? 'ic_omnibox_magnifier' : 'ic_omnibox_page';
+    return `<div class="chr-toolbar chr40-toolbar${incognito ? ' incognito' : ''}"><form class="chr-omnibox chr40-omnibox" data-form="address"><img class="chr40-lead" src="assets/chr40-${lead}.png" alt=""><input name="address" autocomplete="off" spellcheck="false" aria-label="${e(t('Search or type URL'))}" placeholder="${e(t('Search or type URL'))}" value="${e(url === NTP ? '' : display(url))}"></form>${tabsButton(tabs.length)}${menuButton}</div>`;
   }
   function thumb(ctx, url) {
     return `<div class="browser-page" inert aria-hidden="true">${ctx.page(url)}</div>`;
@@ -39,15 +40,15 @@
   }
   function newTabPage(ctx) {
     const {t, ui, incognito} = ctx;
-    const section = incognito ? ui.chromeNtpIncognito || 'incognito' : ui.chromeNtp || 'most';
+    if (incognito) return `<div class="chr-ntp chr40-ntp incognito"><div class="chr-ntp-scroll"><div class="chr-incognito-card"><img class="chr40-incognito" src="assets/chr40-incognito_splash.png" alt=""><h3>${e(t('You’ve gone incognito.'))}</h3><p>${e(t('Pages you view in this tab won’t appear in your browser history or search history, and they won’t leave other traces, like cookies, on your device after you close all incognito tabs. Any files you download or bookmarks you create will be preserved, however.'))}</p><p><b>${e(t('Going incognito doesn’t affect the behavior of other people, servers, or software.'))}</b> ${e(t('Be wary of surveillance by secret agents or people standing behind you.'))}</p></div></div></div>`;
+    const section = ui.chromeNtp || 'most';
     let body;
-    if (section === 'incognito') body = `<div class="chr-incognito-card"><div class="chr-incognito-icon">${icon.incognito}</div><h3>${e(t('You’ve gone incognito.'))}</h3><p>${e(t('Pages you view in this tab won’t appear in your browser history or search history, and they won’t leave other traces, like cookies, on your device after you close all incognito tabs. Any files you download or bookmarks you create will be preserved, however.'))}</p><p><b>${e(t('Going incognito doesn’t affect the behavior of other people, servers, or software.'))}</b> ${e(t('Be wary of surveillance by secret agents or people standing behind you.'))}</p></div>`;
-    else if (section === 'bookmarks') body = `<h3 class="chr-ntp-title">${e(t('Mobile bookmarks'))}</h3><div class="chr-bookmarks">${(ctx.data.bookmarks || []).map(url => `<button class="chr-bookmark" data-action="browser-bookmark" data-id="${e(url)}"><span class="chr-favicon">${e(ctx.title(url).slice(0, 1).toUpperCase())}</span><span>${e(ctx.title(url))}</span></button>`).join('') || `<p class="chr-empty">${e(t('No bookmarks'))}</p>`}</div>`;
+    if (section === 'bookmarks') body = `<h3 class="chr-ntp-title">${e(t('Mobile bookmarks'))}</h3><div class="chr-bookmarks">${(ctx.data.bookmarks || []).map(url => `<button class="chr-bookmark" data-action="browser-bookmark" data-id="${e(url)}"><span class="chr-favicon">${e(ctx.title(url).slice(0, 1).toUpperCase())}</span><span>${e(ctx.title(url))}</span></button>`).join('') || `<p class="chr-empty">${e(t('No bookmarks'))}</p>`}</div>`;
     else if (section === 'devices') body = `<div class="chr-devices">${icon.devices}<p>${e(t('Tabs that you have open in Chrome on your other devices will appear here.'))}</p><p>${e(t('Sign in to Chrome to see them.'))}</p></div>`;
-    else body = `<div class="chr-most">${mostVisited(ctx).map(url => `<div class="chr-tile" role="button" tabindex="0" data-action="browser-link" data-url="${e(url)}" aria-label="${e(ctx.title(url))}"><div class="chr-tile-thumb">${thumb(ctx, url)}</div><span class="chr-tile-title">${e(ctx.title(url))}</span></div>`).join('')}</div>`;
-    const tab = (id, label, glyph) => `<button class="${section === id ? 'active' : ''}" data-action="chrome-ntp" data-id="${id}" aria-label="${e(t(label))}">${glyph}</button>`;
-    const bar = `<nav class="chr-ntp-bar">${tab('most', 'Most visited', '<img src="assets/chrome.png" alt=""><span>chrome</span>')}${incognito ? tab('incognito', 'Incognito', icon.incognito) : ''}${tab('bookmarks', 'Bookmarks', icon.starSolid)}${incognito ? '' : tab('devices', 'Other devices', icon.devices)}</nav>`;
-    return `<div class="chr-ntp chr-ntp-${section}"><div class="chr-ntp-scroll">${body}</div>${bar}</div>`;
+    else body = `<div class="chr40-logo"><img src="assets/chr40-google_logo.png" alt="Google"></div><form class="chr40-fakebox" data-form="address"><input name="address" autocomplete="off" aria-label="${e(t('Search or type URL'))}" placeholder="${e(t('Search or type URL'))}"><button type="button" data-action="voice-search" aria-label="${e(t('Voice search'))}"><img src="assets/chr40-btn_omnibox_mic_normal.png" alt=""></button></form><div class="chr-most chr40-most">${mostVisited(ctx).map(url => `<div class="chr-tile" role="button" tabindex="0" data-action="browser-link" data-url="${e(url)}" aria-label="${e(ctx.title(url))}"><div class="chr-tile-thumb">${thumb(ctx, url)}</div><span class="chr-tile-title">${e(ctx.title(url))}</span></div>`).join('')}</div>`;
+    const tab = (id, label, img) => `<button class="${section === id ? 'active' : ''}" data-action="chrome-ntp" data-id="${section === id && id !== 'most' ? 'most' : id}"><img src="assets/chr40-${img}.png" alt=""><span>${e(t(label))}</span></button>`;
+    const bar = `<nav class="chr-ntp-bar chr40-ntp-bar">${tab('bookmarks', 'Bookmarks', 'eb_star')}${tab('devices', 'Recent tabs', 'btn_recents')}</nav>`;
+    return `<div class="chr-ntp chr40-ntp chr-ntp-${section}"><div class="chr-ntp-scroll">${body}</div>${bar}</div>`;
   }
   function historyPage(ctx) {
     const {t, data, locale} = ctx;
@@ -75,10 +76,10 @@
     const bookmarked = (data.bookmarks || []).includes(ctx.url);
     const tabs = ui.sub === 'tabs';
     const item = (action, label, extra = '') => `<button data-action="${action}" role="menuitem">${e(t(label))}${extra}</button>`;
-    const top = tabs ? '' : `<div class="chr-menu-icons"><button data-action="browser-back-menu" aria-label="${e(t('Back'))}" ${ui.browserIndex > 0 ? '' : 'disabled'}>${icon.back}</button><button data-action="browser-forward" aria-label="${e(t('Forward'))}" ${ui.browserIndex < ui.browserHistory.length - 1 ? '' : 'disabled'}>${icon.forward}</button><button data-action="browser-save" aria-label="${e(t('Bookmark'))}" ${internal(ctx.url) ? 'disabled' : ''}>${bookmarked ? icon.starOn : icon.star}</button></div>`;
+    const top = tabs ? '' : `<div class="chr-menu-icons chr40-menu-icons"><button data-action="browser-forward" aria-label="${e(t('Forward'))}" ${ui.browserIndex < ui.browserHistory.length - 1 ? '' : 'disabled'}><img src="assets/chr40-btn_forward.png" alt=""></button><button data-action="browser-save" aria-label="${e(t('Bookmark'))}" ${internal(ctx.url) ? 'disabled' : ''}><img src="assets/chr40-${bookmarked ? 'btn_star_filled' : 'btn_star'}.png" alt=""></button><button data-action="chrome-unsupported" aria-label="${e(t('Page info'))}" ${internal(ctx.url) ? 'disabled' : ''}><img src="assets/chr40-pageinfo_info.png" alt=""></button><button data-action="browser-refresh" aria-label="${e(t('Reload'))}"><img src="assets/chr40-btn_toolbar_reload.png" alt=""></button></div>`;
     const items = tabs
       ? [item('browser-new-tab', 'New tab'), item('chrome-incognito', 'New incognito tab'), item('chrome-close-all', 'Close all tabs'), item('chrome-unsupported', 'Settings'), item('chrome-unsupported', 'Help & feedback')]
-      : [item('browser-new-tab', 'New tab'), item('chrome-incognito', 'New incognito tab'), item('chrome-bookmarks', 'Bookmarks'), item('chrome-devices', 'Other devices'), item('chrome-history', 'History'), item('chrome-share', 'Share…'), item('chrome-unsupported', 'Print…'), item('browser-find', 'Find in page…'), item('chrome-desktop', 'Request desktop site', `<img class="chr-check" src="assets/btn_check_${ui.chromeDesktop ? 'on' : 'off'}_holo_light.png" alt="">`), item('chrome-unsupported', 'Settings'), item('chrome-unsupported', 'Help & feedback')];
+      : [item('browser-new-tab', 'New tab'), item('chrome-incognito', 'New incognito tab'), item('chrome-bookmarks', 'Bookmarks'), item('chrome-devices', 'Recent tabs'), item('chrome-history', 'History'), item('chrome-share', 'Share…'), item('chrome-unsupported', 'Print…'), item('browser-find', 'Find in page'), item('chrome-unsupported', 'Add to homescreen'), item('chrome-desktop', 'Request desktop site', `<span class="lp-check${ui.chromeDesktop ? ' on' : ''}" aria-hidden="true"></span>`), item('chrome-unsupported', 'Settings'), item('chrome-unsupported', 'Help & feedback')];
     return `<div class="menu-scrim" data-action="close-overlay"></div><div class="chr-menu" role="menu">${top}${items.join('')}</div>`;
   }
   window.ChromeApp = {render, menu, NTP, HISTORY, internal};
