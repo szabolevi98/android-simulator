@@ -832,6 +832,7 @@
       const scroll = overlayRoot.querySelector('.lp-shade-scroll')?.scrollTop || 0;
       overlayRoot.innerHTML = '<div class="lp-shade-scrim" data-action="close-overlay"></div>' + LPShade.render({...data, notifications: data.notifications.map(decorateNotification)}, ui, key => i18n.t(key), {locale: i18n.locale(), clock: clock(), date: fullDate(), shortDate: shadeDate(), carrier: carrierName(), alarm: nextAlarmLabel(), statusIcons: statusIndicators(), networks: allWifiNetworks(), extra: call});
       const body = overlayRoot.querySelector('.lp-shade-scroll'); if (body) body.scrollTop = scroll;
+      LPShade.playIcons(overlayRoot, reducedMotion?.matches ? null : ui.qsIconAnim);
       const opening = !ui.shadeAnimated;
       overlayRoot.querySelectorAll('.lp-shade,.lp-shade-scrim').forEach(node => { node.style.animation = 'none'; });
       ui.shadeAnimated = true;
@@ -1600,6 +1601,7 @@
     else if (id === 'hotspot') { s.portableHotspot = !s.portableHotspot; if (s.portableHotspot) s.wifi = false; }
     else if (id === 'cell') { ui.overlay = ''; openApp('settings'); ui.sub = 'data'; render(); return; }
     else if (id === 'cast') { ui.overlay = ''; openApp('settings'); ui.sub = 'wifi-display'; render(); return; }
+    if (['airplane', 'rotation', 'flashlight', 'location', 'inversion', 'hotspot'].includes(id)) ui.qsIconAnim = {...ui.qsIconAnim, [id]: performance.now()};
     save(); renderStatus(); renderOverlay(); JBDeveloperOptions.apply(screen, data.settings);
   }
   /* Each notification's Material look: the app's small icon on its accent colour (Notification.color) in the 40 dp

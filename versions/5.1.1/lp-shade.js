@@ -36,6 +36,14 @@
     ];
     if (settings.inversionUsed) list.splice(2, 0, {id: 'inversion', on: !!settings.inversion, icon: settings.inversion ? 'ic_invert_colors_disable' : 'ic_invert_colors_enable', label: 'Invert colors'});
     if (settings.hotspotUsed) list.push({id: 'hotspot', on: !!settings.portableHotspot, icon: settings.portableHotspot ? 'ic_hotspot_disable' : 'ic_hotspot_enable', label: 'Hotspot'});
+    // QSTile.AnimationIcon: each state shows its own AnimatedVectorDrawable, at its end frame unless the user just
+    // toggled it (AirplaneModeTile, FlashlightTile, LocationTile, ColorInversionTile, HotspotTile: *_enable_animation
+    // when on, *_disable_animation when off; RotationLockTile: portrait_to_auto when unlocked, portrait_from_auto when locked).
+    const AVD = {airplane: 'ic_signal_airplane', flashlight: 'ic_signal_flashlight', location: 'ic_signal_location', inversion: 'ic_invert_colors', hotspot: 'ic_hotspot'};
+    for (const tile of list) {
+      if (AVD[tile.id]) tile.avd = `${AVD[tile.id]}_${tile.on ? 'enable' : 'disable'}_animation`;
+      if (tile.id === 'rotation') tile.avd = tile.on ? 'ic_portrait_to_auto_rotate_animation' : 'ic_portrait_from_auto_rotate_animation';
+    }
     return list;
   }
   // QSPanel.onMeasure/onLayout: rows never mix dual and single tiles; columns get equal gaps around them.
@@ -58,10 +66,23 @@
     return CELL.brightness + CELL.brightnessTop + CELL.dualH - CELL.underlap + (rows - 1) * CELL.h + 8;
   }
   const px = dp => `${(dp * DP).toFixed(2)}px`;
+  let avdSerial = 0;
+  // Starts the animated icon of a tile the user just toggled where it is (a re-render picks it up), and parks every
+  // other one on its end frame.
+  // started: {tile id: performance.now() of its toggle}
+  function playIcons(root, started) {
+    for (const svg of root.querySelectorAll('svg[data-avd]')) {
+      const total = (window.LPQSIcons?.[svg.dataset.avd]?.duration || 0) / 1000, tile = svg.closest('[data-qs]')?.dataset.qs;
+      const elapsed = started?.[tile] !== undefined ? (performance.now() - started[tile]) / 1000 : Infinity;
+      try { if (elapsed < total) { svg.setCurrentTime(elapsed); svg.unpauseAnimations(); } else { svg.pauseAnimations(); svg.setCurrentTime(total + 1); } } catch {}
+    }
+  }
   function tileMarkup(tile, t) {
     const label = tile.raw ? tile.label : t(tile.label);
     const style = `left:${px(tile.left)};top:${px(tile.top)};width:${px(tile.width)};height:${px(tile.height)}`;
-    const icon = `<span class="lp-qs-icon"><img src="${sysui(tile.icon)}" alt="">${tile.overlay ? `<img class="lp-qs-overlay" src="${sysui(tile.overlay)}" alt="">` : ''}</span>`;
+    const avd = tile.avd && window.LPQSIcons?.[tile.avd];
+    const art = avd ? avd.svg.replace(/(id="|url\(#)([^"\)]+)/g, `$1$2-${++avdSerial}`).replace('<svg ', `<svg data-avd="${tile.avd}" `) : `<img src="${sysui(tile.icon)}" alt="">`;
+    const icon = `<span class="lp-qs-icon">${art}${tile.overlay ? `<img class="lp-qs-overlay" src="${sysui(tile.overlay)}" alt="">` : ''}</span>`;
     if (tile.dual) return `<div class="lp-qs-tile dual${tile.on ? ' on' : ''}" data-qs="${tile.id}" style="${style}"><button class="lp-qs-top" data-action="lp-qs-toggle" data-id="${tile.id}" aria-label="${e(label)}" aria-pressed="${!!tile.on}">${icon}</button><span class="lp-qs-divider"></span><button class="lp-qs-dual-label" data-action="lp-qs-detail" data-id="${tile.id}" data-no-translate><span>${e(label)}</span><img src="${sysui('qs_dual_tile_caret')}" alt=""></button></div>`;
     return `<div class="lp-qs-tile${tile.on ? ' on' : ''}" data-qs="${tile.id}" style="${style}"><button class="lp-qs-top" data-action="lp-qs-toggle" data-id="${tile.id}" aria-label="${e(label)}" aria-pressed="${!!tile.on}">${icon}<span class="lp-qs-label" data-no-translate>${e(label)}</span></button></div>`;
   }
@@ -233,5 +254,5 @@
     for (const node of [L.header, ...L.items.map(item => item.node)]) if (node) { node.style.transform = ''; node.style.clipPath = ''; node.style.opacity = ''; node.style.zIndex = ''; }
     shade._lpLayout = null;
   }
-  window.LPShade = {DP, CELL, clearDelays, tiles, layout, row, isExpanded, detail, render, expand, animate, settle, maxHeight};
+  window.LPShade = {DP, CELL, clearDelays, tiles, layout, row, isExpanded, detail, render, expand, animate, settle, maxHeight, playIcons};
 })();
