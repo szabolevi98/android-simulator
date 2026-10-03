@@ -9,10 +9,14 @@
 .status-left{display:flex;align-items:center;height:100%}
 .status-left img{width:15.4px;height:15.4px;margin:0 3.4px 0 3.4px;opacity:.9;object-fit:contain}
 .status-right{display:flex;align-items:center;height:100%}
+/* system_icons.xml / signal_cluster_view.xml: each status icon (alarm, Bluetooth, ...) is a 24 dp box
+   (status_bar_icon_size, padding 0) around its 17 dp drawing; the signal cluster follows 2.5 dp after them, Wi-Fi
+   (18.41 x 17 dp), the 4 dp wifi_signal_spacer and the 17 dp mobile signal, then signal_cluster_battery_padding (7 dp)
+   before the 9.5 dp battery and the clock's 7 dp paddingStart. */
 .status-right>img,.status-cluster>img{height:15.4px;width:auto;display:block}
-.status-right>img{margin-right:2.27px}
-.status-cluster{display:flex;align-items:center;padding-left:2.27px;padding-right:6.34px}
-.status-cluster .status-wifi{margin-right:2.27px}
+.screen .status-right>img{width:21.74px;object-fit:contain;margin:0}
+.status-cluster{display:flex;align-items:center;margin-left:2.27px;padding-left:0;padding-right:6.34px}
+.screen .status-right .status-cluster img.status-wifi{margin:0 3.62px 0 0}
 .lp-mobile{position:relative;display:block;height:15.4px}
 .lp-mobile img{height:15.4px;width:auto;display:block}
 .lp-mobile .lp-mobile-type{position:absolute;left:0;top:0}
