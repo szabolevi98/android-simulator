@@ -34,3 +34,7 @@
 .screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/kk-ic_sysbar_lights_out_dot_large.png')}
 /* Quick settings battery tile: BatteryMeterView at 16 x 26 dp inside the 32 dp icon box. */
 .jb-qs-icon .kk-qs-battery{position:absolute;left:50%;top:50%;width:14.5px;height:23.56px;margin:-11.78px 0 0 -7.25px}
+/* The expanded notification panel covers the status bar on the Nexus 5 (GSMArena's KitKat shade screenshot: the
+   black header with the clock, date and Quick Settings button starts at the top of the screen). */
+.screen .notification-shade.jb-shade{top:0;max-height:100%}
+.screen .jb-shade-scrim{inset:0}

@@ -352,3 +352,7 @@ The home screen starts with the DeskClock digital widget, 4 × 2 across the top 
   - News & Weather is Holo dark, with Weather, Top Stories, Technology and Sports.
   - Google Settings lists its services.
 - **Content:** all of it is made up and offline.
+
+**Notification panel over the status bar (owner feedback)**
+
+GSMArena's Nexus 5 shade screenshot shows the expanded panel's black header (clock, date, Quick Settings button) at the very top of the screen. The status bar is covered, not left translucent above the panel. The KitKat panel and its scrim now start at the top edge.
