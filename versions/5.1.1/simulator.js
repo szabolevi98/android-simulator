@@ -387,6 +387,41 @@
       list.scrollTop = ui.widgetScroll[id] || 0;
     });
   }
+  const mixVelocity = (old, value, k) => old === undefined ? value : old + (value - old) * k;
+  /* TaskStackView.onStackTaskRemoved: the front-most remaining task keeps its place (the stack scroll moves by as much
+     as it would fall back) and the other cards glide to their new transforms in 200 ms
+     (requestSynchronizeStackViewsWithModel(200), fast_out_slow_in). With no task left, onAllTaskViewsDismissed runs
+     mFinishLaunchHomeRunnable: Home starts with recents_to_launcher_enter (150 ms linear fade in) under
+     recents_to_launcher_exit (Recents fades out in 150 ms, linear_out_slow_in). */
+  function removeRecentTask(id) {
+    if (ui.overlay !== 'recent') return;
+    const panel = overlayRoot.querySelector('.lp-recents'), tasks = [...ui.recent].reverse(), index = tasks.indexOf(id);
+    if (index < 0) return;
+    ui.recent = ui.recent.filter(item => item !== id);
+    if (!ui.recent.length) {
+      ui.lpRecents?.destroy(); ui.lpRecents = null; ui.recentsScroll = undefined;
+      home(false); updateBarMode();
+      if (panel?.animate && !reducedMotion?.matches) {
+        panel.style.pointerEvents = 'none'; overlayRoot.append(panel);
+        panel.animate([{opacity: 1}, {opacity: 0}], {duration: 150, easing: 'cubic-bezier(0,0,.2,1)', fill: 'forwards'}).finished.then(() => panel.remove(), () => panel.remove());
+        viewport.animate([{opacity: 0}, {opacity: 1}], {duration: 150, easing: 'linear'});
+      }
+      return;
+    }
+    const old = new Map([...(panel?.querySelectorAll('.lp-task') || [])].filter(card => !card.hidden).map(card => [card.dataset.app, card.style.transform]));
+    const m = LPRecents.metrics(tasks.length), between = tasks.length > 1 ? m.progress[1] - m.progress[0] : 0;
+    if (ui.recentsScroll !== undefined && index !== tasks.length - 1) ui.recentsScroll -= between;
+    ui.recentsFrom = null;
+    renderOverlay();
+    const next = overlayRoot.querySelector('.lp-recents');
+    if (!next) return;
+    ui.recentsScroll = LPRecents.layout(next, ui.recentsScroll);
+    if (reducedMotion?.matches) return;
+    next.querySelectorAll('.lp-task').forEach(card => {
+      const from = old.get(card.dataset.app);
+      if (from && !card.hidden && from !== card.style.transform) card.animate([{transform: from}, {transform: card.style.transform}], {duration: 200, easing: 'cubic-bezier(.4,0,.2,1)'});
+    });
+  }
   // recents_return_to_launcher: Recents fades out while the launcher fades back in (250 ms).
   // Leaving Overview for home: the stack drops away (recents_task_exit_to_home_duration, 225 ms) as the launcher returns.
   function closeRecents() {
@@ -1843,7 +1878,16 @@
       }
       case 'recent-app-info': ui.overlay = ''; ui.recentPopup = null; openApp('settings'); ui.settingsApp = id; ui.sub = 'app-info'; render(); break;
       case 'close-overlay': if (ui.overlay === 'recent') { closeRecents(); break; } ui.overlay = ''; renderOverlay(); break;
-      case 'remove-recent': event.stopPropagation(); ui.recentPopup = null; ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
+      case 'remove-recent': {
+        // TaskView.startDeleteTaskAnimation: translationX to recents_task_view_remove_anim_translation_x (100 dp) and alpha
+        // 0 over recents_animate_task_view_remove_duration (250 ms) with fast_out_slow_in, then the task goes.
+        event.stopPropagation(); ui.recentPopup = null;
+        const card = button.closest('.lp-task');
+        if (!card || reducedMotion?.matches) { removeRecentTask(id); break; }
+        card.style.transition = 'translate .25s cubic-bezier(.4,0,.2,1), opacity .25s cubic-bezier(.4,0,.2,1)';
+        card.style.translate = `${(100 * LPRecents.DP).toFixed(2)}px 0`; card.style.opacity = '0';
+        setTimeout(() => removeRecentTask(id), 250); break;
+      }
       case 'clear-notifications': {
         const rows = [...overlayRoot.querySelectorAll('.jb-note')], delays = LPShade.clearDelays(rows.length);
         if (reducedMotion?.matches || !rows.length) { data.notifications = []; ui.overlay = ''; save(); renderStatus(); renderOverlay(); break; }
@@ -3084,6 +3128,16 @@
       suppressClickUntil = Date.now() + 350;
       event.preventDefault();
       try { screen.setPointerCapture(event.pointerId); } catch {}
+      if (recentCard.classList.contains('lp-task')) {
+        /* Recents' SwipeHelper (TaskStackViewTouchHandler): only translationX follows the finger, on top of the card's
+           stack transform, and setMinAlpha(1f) keeps the card opaque. The velocity feeds the fling test on release. */
+        const now = performance.now(), last = pointerStart.swipe;
+        if (last && now > last.t) { const k = Math.min(1, (now - last.t) / 50); pointerStart.swipeV = mixVelocity(pointerStart.swipeV, (dx - last.dx) / (now - last.t) * 1000, k); pointerStart.swipeVy = mixVelocity(pointerStart.swipeVy, (dy - last.dy) / (now - last.t) * 1000, k); }
+        pointerStart.swipe = {dx, dy, t: now};
+        recentCard.style.transition = 'none';
+        recentCard.style.translate = `${dx}px 0`;
+        return;
+      }
       recentCard.style.transform = `translateX(${dx}px)`;
       recentCard.style.opacity = String(Math.max(.25, 1 - Math.abs(dx) / 240));
       return;
@@ -3189,6 +3243,25 @@
     if (pointerStart.drawerSwiping) { finishDrawerPage(dx); pointerStart = null; return; }
     if (pointerStart.recentSwiping) {
       const card = pointerStart.target.closest('.recent-item, .notification');
+      if (card?.classList.contains('lp-task')) {
+        /* SwipeHelper.endSwipe: dismiss when dragged past 0.6 of the display width or flung faster than 100 dp/s along the
+           drag; dismissChild flies linearly to the display width (75 ms, or the fling's time up to 150 ms), snapChild
+           returns in 250 ms with linear_out_slow_in. */
+        const width = screen.clientWidth, recent = pointerStart.swipe && performance.now() - pointerStart.swipe.t < 100;
+        const v = recent ? pointerStart.swipeV || 0 : 0, vy = recent ? pointerStart.swipeVy || 0 : 0;
+        const fast = Math.abs(v) > 100 * LPRecents.DP && Math.abs(v) > Math.abs(vy) && (v > 0) === (dx > 0), far = Math.abs(dx) > .6 * width;
+        if (fast || far) {
+          const velocity = fast ? v : 0, target = velocity < 0 || (!velocity && dx < 0) ? -width : width;
+          const duration = velocity ? Math.min(150, Math.abs(target - dx) * 1000 / Math.abs(velocity)) : 75;
+          card.style.transition = `translate ${duration.toFixed(0)}ms linear`; card.style.translate = `${target}px 0`;
+          const id = card.dataset.app;
+          setTimeout(() => removeRecentTask(id), duration);
+        } else {
+          card.style.transition = 'translate .25s cubic-bezier(0,0,.2,1)'; card.style.translate = '';
+        }
+        suppressClickUntil = Date.now() + 350;
+        pointerStart = null; return;
+      }
       if (card) {
         card.style.transition = 'transform .16s ease-out, opacity .16s ease-out';
         if (Math.abs(dx) > 55) {
