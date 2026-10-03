@@ -370,3 +370,7 @@ The remaining drawn icons were replaced with the launcher icons from late-2013 A
 **Chrome icon (owner feedback)**
 
 The Chrome icon cut from the Wikimedia screenshot kept wallpaper on its edges. It is now the 144 px launcher icon of the Chrome 32.0.1700.99 APK (January 2014). Chrome 31, the Nexus 5's launch version, is not on APKMirror as a stable release. The icon did not change between the two.
+
+**Notification panel opens fully (owner feedback)**
+
+The owner's video frames (Nexus 4 on 4.2, Nexus 5 on 4.4) show the expanded panel reaching the navigation bar even with few notifications, with the carrier label and the handle at the bottom. Released, it stays fully open. The panel now runs from the top of the screen to the navigation bar in 4.4.4 and 4.3. The status bar is covered in 4.3 too, as in the Nexus 4 frame.

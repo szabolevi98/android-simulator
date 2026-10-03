@@ -1218,7 +1218,7 @@
   // NotificationPanelView wraps its content (header, list, carrier label and handle); the rest is scrim.
   function shadeFullHeight(shade) {
     const previous = shade.style.height; shade.style.height = '';
-    const full = Math.min(shade.offsetHeight, screen.clientHeight - 24);
+    const full = Math.min(shade.offsetHeight, screen.clientHeight - shade.offsetTop - navRoot.offsetHeight);
     shade.style.height = previous; return full;
   }
   function decorateNotification(note) {
@@ -2411,9 +2411,8 @@
       if (shade) {
         shade.style.animation = 'none';
         shade.style.bottom = 'auto';
-        // PanelView.setExpandedHeightInternal: while the finger is down (mTracking) rubberbanding lets the panel follow it past
-        // its content height down to the bottom of the screen; on release it springs back to the content (handled below).
-        const full = shadeFullHeight(shade), max = screen.clientHeight - 24;
+        // The panel follows the finger; released, it opens fully to the navigation bar (handled below).
+        const full = shadeFullHeight(shade), max = screen.clientHeight - shade.offsetTop - navRoot.offsetHeight;
         shade.style.height = `${Math.max(78, Math.min(max, pointerStart.shadeCloseEligible ? full + dy : dy))}px`;
         overlayRoot.querySelector('.jb-shade-scrim')?.style.setProperty('opacity', String(Math.min(1, shade.offsetHeight / full)));
       }

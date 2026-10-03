@@ -529,3 +529,9 @@ The simulator used to stop the drag at the content height. It now lets the drag 
 ## Status bar signal cluster spacing — 2026-10-02
 
 Owner's note: the Wi-Fi icon sat closer to the alarm icon than to the signal bars. AOSP `status_bar.xml` gives `signal_battery_cluster` a 2 dp start padding. `signal_cluster_view.xml` gives the `wifi_combo` `layout_marginEnd="-6dp"`, so the mobile signal tucks under the right of the Wi-Fi fan: the fan is wide at the top, the bars at the bottom. The simulator had neither. The Wi-Fi, data type and signal icons now sit in a `.status-cluster` with 2 px start padding, and the Wi-Fi icon has a -6 px end margin (status icons are drawn at 1 dp = 1 px). This applies to both 4.0.4 and 4.3.
+
+## Notification panel height (owner feedback)
+
+A Nexus 4 review frame (Android 4.2 Quick Settings) shows the expanded panel at the top of the screen over the status bar, reaching down to the navigation bar. The panel now opens that far and stays open when released. The carrier label and the handle sit at its bottom.
+
+The browser demo pages are now dated to 2013 ("2013 Web", a Nexus 4 / Jelly Bean article from July 24, 2013), and KitKat (announced September 2013) is gone from the Wikipedia version list.
