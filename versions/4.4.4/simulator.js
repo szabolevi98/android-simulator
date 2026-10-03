@@ -121,7 +121,7 @@
     ['photos', 'Photos', '✿', '#fbbc05', '#34a853'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-games', 'Play Games', '✚', '#8bc34a', '#558b2f'],
     ['play-movies', 'Play Movies & TV', '▶', '#e53935', '#b71c1c'], ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['google-settings', 'Google Settings', 'g', '#757575', '#424242']
   ];
-  const GEL_ALIASES = {gmail: 'email', photos: 'gallery'};
+  const GEL_ALIASES = {gmail: 'email'};
   const GEL_UNSIMULATED = ['play-books', 'play-games', 'play-movies', 'play-music', 'google-settings'];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -315,6 +315,7 @@
     if (beanRoot && !ui.beanBag) requestAnimationFrame(() => { if (beanRoot.isConnected && !ui.beanBag) ui.beanBag = {...JBBeanBag.start(beanRoot), root: beanRoot}; });
     if (ui.view === 'clock' && viewport.querySelector('.jbclock-app')) clockTicker();
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind) highlightBrowserText();
+    if (ui.view === 'photos' && ui.sub === 'photo') attachPhotosSwipe();
     if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
   }
   function restoreWidgetScroll() {
@@ -613,6 +614,7 @@
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
       case 'chrome': return renderChrome();
+      case 'photos': return PhotosApp.render(photosContext());
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
       case 'messaging': return renderMessaging();
@@ -641,7 +643,7 @@
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
   function appScrollContainer(app) {
-    return viewport.querySelector(app === 'play-store' ? '.jbp-scroll' : ['messaging', 'hangouts'].includes(app) ? '.mms-scroll' : app === 'email' ? '.email-scroll' : app === 'music' ? '.music-library-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : app === 'chrome' ? '.chr-ntp-scroll,.chr-history,.chr-stack,.browser-page' : '.app-view') || viewport.firstElementChild;
+    return viewport.querySelector(app === 'play-store' ? '.jbp-scroll' : ['messaging', 'hangouts'].includes(app) ? '.mms-scroll' : app === 'email' ? '.email-scroll' : app === 'music' ? '.music-library-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : app === 'chrome' ? '.chr-ntp-scroll,.chr-history,.chr-stack,.browser-page' : app === 'photos' ? '.ph-scroll' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
     if (appNames[ui.view] && viewport.firstElementChild) {
@@ -665,6 +667,7 @@
     if(ui.view==='phone' && !ui.activeCall && ui.sub==='call-detail'){ui.sub=ui.kkLogFrom||'';render();return;}
     if(ui.view==='phone' && !ui.activeCall && (ui.phoneSearch||'').trim()){ui.phoneSearch='';render();return;}
     if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
+    if (ui.view === 'photos' && ui.sub) { ui.sub = ui.sub === 'photo' ? ui.photosReturn || '' : ui.sub === 'folder' ? 'folders' : ''; ui.photosChrome = true; render(); return; }
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery') { ui.galleryZoom = false; const handled = JBGallery.back(ui, data); if (handled === 'camera') { ui.galleryFromCamera = false; openApp('camera'); return; } if (handled) { render(); return; } }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
@@ -758,6 +761,10 @@
       overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
+    } else if (ui.overlay === 'photos-menu') {
+      overlayRoot.innerHTML = PhotosApp.menu({ui, t: key => i18n.t(key)});
+    } else if (ui.overlay === 'photos-delete') {
+      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="${safe(i18n.t('Delete'))}"><h3>${safe(i18n.t('Delete'))}</h3><p>${safe(i18n.t('Delete this photo?'))}</p><div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button><button data-action="photos-confirm-delete">${safe(i18n.t('Delete'))}</button></div></div>`;
     } else if (ui.overlay === 'browser-menu' && ui.view === 'chrome') {
       overlayRoot.innerHTML = ChromeApp.menu({ui, data, t: key => i18n.t(key), url: ui.browserUrl});
     } else if (ui.overlay === 'browser-menu') {
@@ -1178,6 +1185,26 @@
     if (ui.overlay === 'mms-message') return dialog('Message options', `<div class="mms-dialog-list">${option('mms-forward','Forward message')}${option('mms-details','View message details')}${option('mms-delete-message','Delete message')}</div>`);
     if (ui.overlay === 'mms-details') return dialog('Message details', `<p>${message.attachment ? 'MMS' : 'SMS'} · ${safe(i18n.t(message.mine ? 'Sent' : 'Received'))}</p><p>${safe(ICSMessaging.identity(message.contact,data.contacts).phone)}</p><p>${safe(message.timestamp ? new Date(message.timestamp).toLocaleString(i18n.locale()) : i18n.t(message.time))}</p><p>${safe(message.body)}</p><div class="settings-dialog-actions">${option('close-overlay','OK')}</div>`);
     return '';
+  }
+  // Google+ Photos (stock Nexus 5) over the simulator's pictures.
+  const photosContext = () => ({data, ui, t: key => i18n.t(key), locale: i18n.locale(), media: ICSMedia, groups: JBGallery.groups(data, 'album', i18n.locale())});
+  function photosCurrent() { const list = PhotosApp.list(photosContext()); return list[ui.photosIndex] || null; }
+  function photosShare(photo) { if (!photo) return; ui.overlay = ''; renderOverlay(); openApp('hangouts'); ui.sub = 'new'; messageDraft().attachment = clone(photo); save(); render(); }
+  // Swipe between pictures in the viewer; a tap shows or hides the bars.
+  function attachPhotosSwipe() {
+    const pane = viewport.querySelector('.ph-viewer');
+    if (!pane || pane.dataset.swipe) return;
+    pane.dataset.swipe = '1';
+    let start = null;
+    pane.addEventListener('pointerdown', event => { start = {x: event.clientX, y: event.clientY}; });
+    pane.addEventListener('pointerup', event => {
+      if (!start) return;
+      const dx = event.clientX - start.x, dy = event.clientY - start.y; start = null;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+      const list = PhotosApp.list(photosContext()), next = ui.photosIndex + (dx < 0 ? 1 : -1);
+      if (next < 0 || next >= list.length) return;
+      ui.photosIndex = next; ui.selectedPhoto = list[next].id; suppressReleaseClick(); render();
+    });
   }
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
   function renderGallery() { return JBGallery.render(data, ui, key => i18n.t(key), ICSMedia, i18n.locale()); }
@@ -1677,6 +1704,19 @@
       case 'browser-history': ui.sub = 'history'; render(); break;
       // Chrome menu and New Tab page
       case 'chrome-incognito': chromeNewTab(true); break;
+      // Google+ Photos
+      case 'photos-tab': ui.photosTab = id; render(); break;
+      case 'photos-folders': ui.sub = 'folders'; render(); break;
+      case 'photos-folder': ui.sub = 'folder'; ui.photosFolder = id; render(); break;
+      case 'photos-open': { ui.photosList = button.dataset.list === 'folder' ? 'folder' : 'all'; ui.photosReturn = ui.sub; const list = PhotosApp.list(photosContext()); ui.photosIndex = Math.max(0, list.findIndex(photo => String(photo.id) === id)); ui.selectedPhoto = list[ui.photosIndex]?.id; ui.sub = 'photo'; ui.photosChrome = true; render(); break; }
+      case 'photos-toggle-bars': ui.photosChrome = ui.photosChrome === false; viewport.querySelector('.ph-viewer-view')?.classList.toggle('ph-bare', ui.photosChrome === false); break;
+      case 'photos-menu': ui.overlay = 'photos-menu'; renderOverlay(); break;
+      case 'photos-share-day': photosShare(data.photos.find(photo => String(photo.id) === id)); break;
+      case 'photos-wallpaper': { const photo = photosCurrent(); ui.overlay = ''; renderOverlay(); if (photo) galleryWallpaper(photo); break; }
+      case 'photos-details': { const photo = photosCurrent(); ui.overlay = ''; renderOverlay(); if (photo) toast(`${photo.name}${photo.created ? ' · ' + new Date(photo.created).toLocaleString(i18n.locale()) : ''}`); break; }
+      case 'photos-delete': ui.overlay = 'photos-delete'; renderOverlay(); break;
+      case 'photos-confirm-delete': { const photo = photosCurrent(); ui.overlay = ''; renderOverlay(); if (!photo) break; data.photos = data.photos.filter(item => item.id !== photo.id); save(); const list = PhotosApp.list(photosContext()); if (!list.length) ui.sub = ui.photosReturn || ''; else ui.photosIndex = Math.min(ui.photosIndex, list.length - 1); render(); break; }
+      case 'photos-edit': case 'photos-drawer': case 'photos-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'chrome-close-all': ui.browserSession = {tabs: [{history: [ChromeApp.NTP], index: 0}], active: 0}; ui.sub = ''; ui.overlay = ''; renderOverlay(); saveBrowserState(); render(); break;
       case 'chrome-ntp': chromeSection(id); break;
       case 'chrome-bookmarks': chromeSection('bookmarks'); break;

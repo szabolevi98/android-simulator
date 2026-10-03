@@ -271,3 +271,19 @@ GSMArena: "The Nexus 5 comes with Google Chrome as its solitary preinstalled bro
 - **History:** `chrome://history` has a search field, "Clear browsing data…" and the day's pages.
 - **Separate tabs:** Chrome keeps its own tabs (`data.chromeSession`, incognito tabs are not stored). The AOSP Browser stays in the drawer with its own tabs. Both browse the same offline demo pages, and normal Chrome tabs share the history.
 - **Defaults:** the Google search bar and the search panel open Chrome.
+
+**Step 4: Camera and Photos**
+
+- **Camera:** stays as it is. GSMArena: "The camera app looks exactly the same as what we saw premiered on the Google Play Edition Samsung Galaxy S4 and HTC One in Android Jelly Bean 4.3", the arc quick settings that the simulator already has. Google Camera (April 2014) came later as a Play Store download.
+- **Photos:** Google+ Photos, from the review's Gallery page (`photos.js`, `photos.css`):
+  - Action bar: #dddddd, with the drawer mark, the pinwheel, "Photos", and the Auto Awesome movie, search and overflow buttons.
+  - Tabs: CAMERA / HIGHLIGHTS with the blue indicator.
+  - Camera tab: the camera roll three on a line, after the dimmed "Folders" tile.
+  - Highlights tab: day headers with a share button over a mosaic with a large first picture.
+  - Folders: albums with a thumbnail strip and a chevron.
+  - Viewer: black, with share (to Hangouts), edit and Delete / Set as wallpaper / Details. Swipe between pictures; a tap hides the bar.
+  - The AOSP Gallery stays in the drawer, which GSMArena confirms: "The old gallery ... is also on board".
+
+**Step 5: catalog**
+
+The landing page calls the version "Nexus 5" (no "· AOSP"), with a new description and a landing shot of the Google Now Launcher home.

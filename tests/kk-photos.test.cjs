@@ -1,0 +1,20 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// Stock Nexus 5: Google+ Photos with Camera / Highlights tabs, the Folders tile and view, and the photo viewer.
+const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/photos.js','utf8'),context);
+const P=context.window.PhotosApp,t=k=>k,media={image:p=>`img-${p.id}`};
+const data={photos:[{id:1,name:'A'},{id:2,name:'B',created:Date.UTC(2014,5,20)},{id:5,name:'C',created:Date.UTC(2014,5,21),album:'camera'}]};
+const groups=[{key:'camera',name:'Camera',translate:true,items:[data.photos[2]]},{key:'pictures',name:'Pictures',translate:true,items:data.photos.slice(0,2)}];
+const ctx=ui=>({data,ui,t,locale:'en',media,groups});
+const cam=P.render(ctx({}));
+assert.ok(cam.includes('ph-tabs')&&cam.includes('data-action="photos-folders"')&&(cam.match(/data-action="photos-open"/g)||[]).length===3);
+assert.ok(cam.indexOf('data-id="5"')<cam.indexOf('data-id="2"'),'newest first');
+const hl=P.render(ctx({photosTab:'highlights'}));
+assert.ok((hl.match(/class="ph-day"/g)||[]).length===3&&hl.includes('photos-share-day'));
+assert.ok(P.render(ctx({sub:'folders'})).includes('data-action="photos-folder" data-id="pictures"'));
+assert.ok((P.render(ctx({sub:'folder',photosFolder:'pictures'})).match(/data-list="folder"/g)||[]).length===2);
+const viewer=P.render(ctx({sub:'photo',photosList:'folder',photosFolder:'pictures',photosIndex:1}));
+assert.ok(viewer.includes('ph-viewer')&&viewer.includes('img-2')&&viewer.includes('gallery-share-message'));
+assert.ok(P.menu({t,ui:{sub:'photo'}}).includes('Set as wallpaper'));
+const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
+assert.ok(sim.includes("case 'photos': return PhotosApp.render(photosContext());")&&sim.includes("const GEL_ALIASES = {gmail: 'email'};"));
+console.log('kk-photos ok');
