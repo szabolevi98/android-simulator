@@ -1,0 +1,87 @@
+/* Google Calendar 5.0 (see calendar.js); dp x 0.906. Overrides the Holo calendar.css grid. */
+.app-view.gc-app{position:relative;display:flex;flex-direction:column;height:100%;overflow:hidden;background:#fff;color:#333;font-family:Roboto,sans-serif;padding:0}
+.gc-app button{cursor:pointer;font-family:inherit}
+.gc-bar{position:relative;z-index:3;flex:none;display:flex;align-items:center;height:50.74px;padding:0 3.62px;background:#fff;color:#333;border-bottom:.906px solid #d6d6d6}
+.gc-btn{flex:none;width:43.49px;height:43.49px;margin:0 1.81px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
+.gc-btn:active{background:#0000001a}
+.gc-btn img{width:21.74px;height:auto;max-height:21.74px}
+.gc-nav img{filter:brightness(0);opacity:.53}
+.gc-title{flex:1;min-width:0;display:flex;align-items:center;gap:3.62px;height:100%;border:0;background:none;padding:0 0 0 10.87px;font:400 18.12px Roboto,sans-serif;color:#333;text-align:left}
+.gc-title span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc-title img{width:14.5px;height:14.5px;opacity:.8}
+.gc-today{position:relative;display:grid;place-items:center}
+.gc-today b{position:absolute;left:0;right:0;top:7.5px;text-align:center;font:700 8.15px Roboto,sans-serif;color:#777}
+.screen .gc-fab{position:absolute;right:14.5px;bottom:14.5px;z-index:4;width:50.74px;height:50.74px;border:0;border-radius:50%;padding:0;background:#db4437;display:grid;place-items:center;box-shadow:0 3.6px 9px #0000004d}
+.screen .gc-fab:active{background:#c53929}
+.gc-fab img{width:21.74px;height:21.74px}
+/* Schedule */
+.gc-schedule{flex:1;min-height:0;overflow-y:auto;background:#fff;padding-bottom:79.73px;scrollbar-width:none}
+.gc-banner{position:relative;height:126.84px;background:#ccc center/cover;margin-top:7.25px}
+.gc-banner:first-child{margin-top:0}
+.screen .gc-banner h3{background:none;border:0;padding:0;text-transform:none;position:absolute;left:65.23px;top:14.5px;margin:0;font:500 18.12px Roboto,sans-serif;color:#fff;text-shadow:0 1px 3px #0000004d}
+.screen .gc-week{background:none;border:0;text-transform:none;margin:0;padding:14.5px 0 3.62px 65.23px;font:400 12.68px Roboto,sans-serif;color:#757575}
+.gc-day{display:flex;align-items:flex-start;padding:3.62px 7.25px 3.62px 0}
+.gc-day-label{flex:none;width:65.23px;display:flex;flex-direction:column;align-items:center;padding-top:3.62px;color:#757575}
+.gc-day-label small{font:400 10.87px Roboto,sans-serif;text-transform:uppercase}
+.gc-day-label b{font:400 21.74px/1.1 Roboto,sans-serif;color:#333}
+.gc-day.today .gc-day-label,.gc-day.today .gc-day-label b{color:#4285f4}
+.gc-day-events{flex:1;min-width:0;display:flex;flex-direction:column;gap:3.62px}
+.screen .gc-chip{display:flex;flex-direction:column;align-items:flex-start;width:100%;border:0;border-radius:1.81px;padding:7.25px 9.06px;text-align:left;color:#fff}
+.gc-chip:active{filter:brightness(.92)}
+.gc-chip strong{font:500 12.68px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.gc-chip small{font:400 11.78px Roboto,sans-serif;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.screen .gc-nothing{width:100%;border:0;background:none;padding:12px 0;text-align:left;font:400 12.68px Roboto,sans-serif;color:#757575}
+.gc-empty{margin:43px 14.5px;text-align:center;font:400 14.5px Roboto,sans-serif;color:#757575}
+.gc-search{flex:none;margin:0;padding:0 14.5px;background:#eee;border:0;display:block}
+.gc-search input{width:100%;height:43.49px;border:0;background:none;outline:0;font:400 14.5px Roboto,sans-serif;color:#333}
+/* Month */
+.gc-weekdays{background:#fff;color:#757575;font:500 10.87px Roboto,sans-serif;border-bottom:.906px solid #e0e0e0}
+.gc-month{background:#e0e0e0;gap:.906px;padding-bottom:0}
+.screen .gc-month>button{border:0;background:#fff;align-items:stretch;padding:3.62px 2px;color:#333;font:400 12.68px Roboto,sans-serif;gap:1.81px;overflow:hidden}
+.gc-month>button>span{align-self:center}
+.gc-month .cal-other{background:#fbfbfb;color:#bdbdbd}
+.screen .gc-month .cal-today{box-shadow:none}
+.gc-month .cal-today>span{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#4285f4;color:#fff}
+.gc-month i{display:block;border-radius:1.81px;padding:0 2px;font:500 8.15px/1.5 Roboto,sans-serif;font-style:normal;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:clip}
+/* Day, 3 day, Week */
+.gc-day-labels,.gc-all-day{background:#fff}
+.screen .gc-day-labels button{border-left:0;color:#757575;font:400 10.87px Roboto,sans-serif;text-transform:uppercase}
+.gc-day-labels strong{font:400 19.93px Roboto,sans-serif;color:#333}
+.screen .gc-day-labels .cal-today{box-shadow:none;color:#4285f4}
+.gc-day-labels .cal-today strong{color:#4285f4}
+.gc-all-day{border-block:.906px solid #e0e0e0}
+.gc-all-day>div{border-left:0}
+.screen .gc-all-day button{border-radius:1.81px;margin:1px 0}
+.gc-hours{background:#fff}
+.gc-hours .cal-hour-labels{background:#fff}
+.gc-hours .cal-hour-labels span{font:400 10.87px Roboto,sans-serif;color:#757575;transform:translateY(-6px)}
+.gc-hours .cal-day-column{border-left:.906px solid #e0e0e0}
+.screen .gc-hours .cal-hour-cell{border-top:.906px solid #e0e0e0!important;background:none}
+.screen .gc-block{background:#4285f4!important;border:1px solid #fff!important;border-radius:1.81px;padding:3.62px!important;font:400 10.87px Roboto,sans-serif!important}
+.gc-block strong{font-weight:500}
+.gc-mode-Agenda .cal-scroll{flex:1}
+/* Drawer extras */
+.gc-cal-row{display:flex;align-items:center;gap:14.5px;height:36.24px;padding:0 14.5px;font:400 13.59px Roboto,sans-serif;color:#212121}
+.gc-cal-row i{width:14.5px;height:14.5px;border-radius:2px}
+/* Event details and editor */
+.gc-detail-head{flex:none;position:relative;color:#fff;padding:0 0 14.5px;min-height:126.84px;display:flex;flex-direction:column}
+.gc-detail-bar{display:flex;align-items:center;height:50.74px;padding:0 3.62px}
+.gc-detail-bar span{flex:1}
+.gc-detail-bar .gc-btn:active{background:#ffffff33}
+.gc-detail-head h2{margin:auto 0 0;padding:0 14.5px 0 65.23px;font:400 21.74px/1.3 Roboto,sans-serif}
+.gc-save{border:0;background:none;color:#fff;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;padding:0 14.5px;height:43.49px}
+.gc-title-input{margin:auto 14.5px 0 65.23px;border:0;border-bottom:1.81px solid #ffffff99;background:none;outline:0;color:#fff;font:400 21.74px Roboto,sans-serif;padding:3px 0}
+.gc-title-input::placeholder{color:#ffffffb3}
+.gc-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.gc-detail-row,.gc-edit-row{display:flex;align-items:flex-start;padding:14.5px 14.5px 14.5px 0;border-bottom:.906px solid #0000000f}
+.gc-detail-row>img,.gc-edit-row>img,.gc-noicon{flex:none;width:21.74px;height:21.74px;margin:0 21.74px 0 21.74px}
+.gc-detail-row>div{display:flex;flex-direction:column;font:400 14.5px/1.4 Roboto,sans-serif;color:#212121}
+.gc-detail-row small,.gc-account small{font:400 12.68px Roboto,sans-serif;color:#757575}
+.gc-edit-body{flex:1;min-width:0;font:400 14.5px Roboto,sans-serif;color:#212121}
+.gc-account{display:flex;flex-direction:column}
+.gc-allday{display:flex;justify-content:space-between;align-items:center}
+.gc-when{display:flex;gap:10px;margin-bottom:6px}
+.gc-input,.gc-edit-body select,.gc-edit-body textarea{width:100%;border:0;border-bottom:.906px solid #0000001f;background:none;outline:0;font:400 14.5px Roboto,sans-serif;color:#212121;padding:4px 0}
+.gc-edit-body textarea{min-height:60px;resize:vertical}
+.gc-input[type=date]{flex:1.4}
+.gc-input[type=time]{flex:1}

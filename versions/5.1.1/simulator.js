@@ -89,7 +89,7 @@
     selectedContact: 1, thread: 1, selectedPhoto: 1,
     dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, easterNyan: false, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
-    calendarMode: ['Day','Week','Month','Agenda'].includes(data.calendarMode)?data.calendarMode:'Month', selectedDate: localDate(ICSSystemSettings.wallDate(data)),
+    calendarMode: ['Agenda','Day','3 day','Week','Month'].includes(data.calendarMode)?data.calendarMode:'Agenda', selectedDate: localDate(ICSSystemSettings.wallDate(data)),
     calc: '', calcFresh: false, calcPanel: 0, calcHistoryIndex: -1, phoneTab: 'dialpad',
     play: ICSPlayStore.initial(), playHistory: [],
     musicPlaying: false, musicTrack: 0, musicPosition: 0,
@@ -1335,9 +1335,9 @@
     if(timeline)timeline.scrollTop=8*48;
   }
   function calendarMove(direction) {
-    const mode=ui.calendarMode || 'Month';
-    if(mode==='Month') {const date=ICSCalendar.parse(ui.selectedDate);date.setDate(1);date.setMonth(date.getMonth()+direction);ui.selectedDate=ICSCalendar.iso(date);}
-    else ui.selectedDate=ICSCalendar.plus(ui.selectedDate,direction*(mode==='Week'?7:1));
+    const mode=ui.calendarMode || 'Agenda';
+    if(mode==='Month'||mode==='Agenda') {const date=ICSCalendar.parse(ui.selectedDate);date.setDate(1);date.setMonth(date.getMonth()+direction);ui.selectedDate=ICSCalendar.iso(date);}
+    else ui.selectedDate=ICSCalendar.plus(ui.selectedDate,direction*(mode==='Week'?7:mode==='3 day'?3:1));
     calendarRender();
   }
   function deleteEventScope(scope) {
@@ -1490,7 +1490,7 @@
   function resetSimulator() {
     data=clone(defaultData);data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...data.settings};
     data.mailbox=ICSEmail.restore(null,emailData,[]);data.gmailbox=GmailApp.restore(null);ui.mailApp='';ui.mailStates={};ui.music=ICSMusic.restore();ui.musicActive=false;ui.photoStacks={};ui.photoWidgetSetup=null;ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;
-    ui.activeCall=null;ui.sleeping=false;ui.locked=false;ui.vpnConnected=null;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
+    ui.activeCall=null;ui.sleeping=false;ui.locked=false;ui.vpnConnected=null;ui.calendarMode='Agenda';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
     ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
     ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);ui.browserOwner='browser';ui.browserSessions={};syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
   }
@@ -2109,6 +2109,7 @@
       case 'calendar-day': ui.selectedDate=id;ui.calendarMode=data.calendarMode='Day';save();calendarRender();break;
       case 'calendar-today': ui.selectedDate=today();calendarRender();break;
       case 'calendar-views': case 'calendar-menu': ui.overlay=action;renderOverlay();break;
+      case 'calendar-refresh': ui.overlay='';renderOverlay();toast(i18n.t('Calendar synced'));break;
       case 'calendar-mode': ui.calendarMode=data.calendarMode=id;save();ui.calendarSearch=undefined;ui.overlay='';calendarRender();break;
       case 'calendar-search': ui.calendarMode='Agenda';ui.calendarSearch='';ui.overlay='';render();viewport.querySelector('.cal-search input').focus();break;
       case 'calendar-slot': {const [date,time]=id.split('|');calendarEdit({date,time,title:''});break;}
