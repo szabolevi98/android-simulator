@@ -188,3 +188,10 @@ The "Wallpapers" button in the overview opens Launcher3's 4.4 `WallpaperPickerAc
 The 4.3 camera screens therefore stay.
 
 **Gallery, Calendar, Browser.** Their `res/values/strings.xml` differ from 4.3 by at most three strings (Gallery: "Switch to Refocus"; Calendar: the RSVP "Responded yes/maybe/no"; Browser: none). These apps stay as they are.
+
+## Five-language sweep and release — 2026-10-03
+
+- **Sweep method:** every app, its overflow menu, every Settings page, the drawer and the notification panel were captured headlessly in English and in Hungarian, German, French and Spanish, and every line left unchanged was reviewed.
+- **Fixes:** the remaining gaps were the switch labels and the Hungarian / Spanish Daydream title. They now use the AOSP `capital_on/off` (Be/Ki, AN/AUS, OUI/NON, SÍ/NO) and `screensaver_settings_title` (Álmodozás, Salvapantallas) strings.
+- **Intentionally English:** sample content (names, mail, catalog titles), product names, and words that read the same in the target language (Bluetooth, Display, Apps, Widgets, Normal).
+- **Release:** the catalog entry drops "Work in progress", and the landing thumbnail was refreshed.

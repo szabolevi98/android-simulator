@@ -1,6 +1,15 @@
 # Android Simulator
 
-An interactive browser simulator of classic Android releases, each on its own Nexus phone and rebuilt from AOSP sources and period screenshots. Choose a version on the landing page: **Android 2.3.6 Gingerbread** (Nexus S), **Android 4.0.4 Ice Cream Sandwich** (Galaxy Nexus) and **Android 4.3 Jelly Bean** (Nexus 4) are available, each with the store of its era (Android Market 3, Google Play Store 3.8 and 4.2). **Android 4.4.4 KitKat** on the Nexus 5 is in progress (see [docs/visual-audit-4.4.md](docs/visual-audit-4.4.md)); Lollipop 5.1.1 is planned.
+An interactive browser simulator of classic Android releases, each on its own Nexus phone and rebuilt from AOSP sources and period screenshots. Choose a version on the landing page:
+
+| Version | Phone | Store |
+| --- | --- | --- |
+| Android 2.3.6 Gingerbread | Nexus S | Android Market 3 |
+| Android 4.0.4 Ice Cream Sandwich | Galaxy Nexus | Google Play Store 3.8 |
+| Android 4.3 Jelly Bean | Nexus 4 | Google Play Store 4.2 |
+| Android 4.4.4 KitKat | Nexus 5 | Google Play Store 4.8 |
+
+Lollipop 5.1.1 is planned.
 
 ## Getting started
 
@@ -87,6 +96,43 @@ The simulator is **not yet a complete visual reproduction**. The launcher and Sy
 - 4.3 Settings: the 4.3 header order with **Location access** (master switch plus GPS and network sources) and an ACCOUNTS section. Display adds **Daydream** with Clock (a dimmed clock that moves each minute), Colors and Photo Frame, **Start now** and **When to daydream**. Security adds Verify apps and Notification access, and About phone shows the SELinux status.
 
 The new screens have been checked in all five languages at phone sizes. The status bar icons were compared with SystemUI 4.3 and are byte-identical to the ICS ones, so they are kept. Progress and references are in [docs/visual-audit-4.3.md](docs/visual-audit-4.3.md).
+
+## KitKat 4.4.4
+
+`versions/4.4.4/` is Android 4.4.4 (build KTU84P, AOSP tag `android-4.4.4_r1`) on the Nexus 5, with its own saved data. References and measurements are in [docs/visual-audit-4.4.md](docs/visual-audit-4.4.md).
+
+- **Nexus 5 and system bars:**
+  - The frame is traced from Google's render.
+  - The bars are translucent with gradients on the launcher and keyguard, and opaque in apps.
+  - White status icons, the BatteryMeterView and the KitKat navigation keys.
+- **Launcher3:** the 4 × 4 Nexus 5 grid with the Google search bar, five hotseat cells and page markers.
+  - Dynamic pages: an empty page appears while you drag and is removed afterwards.
+  - The two-screen default wallpaper pans with the pages.
+  - All apps has no tabs. Folders are white.
+  - Long-press opens the overview with Wallpapers and Widgets. The Launcher3 clings show on first run.
+- **Wallpaper picker:**
+  - It is fullscreen with the *Set wallpaper* bar.
+  - The strip offers Pick image (through DocumentsUI "Open from"), the default wallpaper, saved images and the live wallpapers.
+  - Long-press a saved image to delete it.
+  - Settings → Display → Wallpaper lists Gallery, Live Wallpapers and Wallpapers.
+- **Keyguard:** the thin centred clock, the date and alarm row, and the Home-only navigation bar.
+- **Notification panel:** 4.4 artwork, white Quick Settings icons, the battery tile and the Location tile.
+- **Settings:** Tap & pay, Location modes, Printing, the default SMS app and Nexus 5 About phone. Tap Android version for the KitKat K and logo; long-press it for the immersive Dessert Case, which then becomes a daydream.
+- **Phone and People:**
+  - The 4.4 Dialer has speed-dial tiles with letter tiles, the search box, the recent call card and the white dialpad, plus History with All / Missed.
+  - The in-call screen has the flat red end button.
+  - People uses light bars, icon tabs and letter tiles.
+- **Clock:** expandable alarm cards with day toggles and the dark radial time picker. Timers have the round add button.
+- **Downloads:** the DocumentsUI view of the Downloads root.
+- **Email:** the 4.4 Email, now built on UnifiedEmail.
+  - A folder drawer, letter-tile conversation rows and selection through the sender image.
+  - The conversation view with Reply / Reply all / Forward.
+  - Compose with Cc/Bcc and attachments.
+- **Google Play Store 4.8.22 (July 2014):**
+  - The navigation drawer (Store home, My apps, My wishlist, Redeem, Settings, Help), opened by its button or a swipe from the left edge.
+  - The six striped tiles with Newsstand, and the "simplified permissions" note.
+  - Clusters with MORE, the grouped permissions dialog, Additional information, and *Require password for purchases*.
+- Camera, Gallery, Calendar and Browser match their 4.3 versions, as in AOSP. All screens have been checked in English, Hungarian, German, French and Spanish.
 
 ## Adding a version
 

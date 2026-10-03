@@ -40,10 +40,10 @@ window.ANDROID_VERSIONS = [
     version: 'Android 4.4.4',
     year: '2014',
     device: 'Nexus 5 · AOSP',
-    description: 'Work in progress: the Nexus 5 with translucent system bars, white status icons and the KitKat easter egg.',
+    description: 'Translucent system bars, Launcher3 with dynamic pages and the wallpaper picker, the new Dialer, Email and Play Store drawer, and the Dessert Case easter egg.',
     url: 'versions/4.4.4/',
     status: 'available',
-    art: {shot: 'landing-home.jpg?v=2', phone: 'nexus5'}
+    art: {shot: 'landing-home.jpg?v=3', phone: 'nexus5'}
   },
   { id: '5.1.1', name: 'Lollipop', version: 'Android 5.1.1', year: '2015', device: 'Korabeli Android', status: 'planned' }
 ];
