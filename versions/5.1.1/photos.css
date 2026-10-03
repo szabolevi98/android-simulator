@@ -8,11 +8,11 @@
 .ph-up span{position:absolute;left:0;font:300 21.74px/1 RobotoICS,sans-serif;color:#888}
 .ph-up img{width:28.99px;height:28.99px}
 .ph-bar h2{flex:1;min-width:0;margin:0 0 0 3.62px;font:400 16.31px RobotoICS,sans-serif;color:#282828;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ph-btn{flex:none;width:43.49px;height:43.49px;padding:0;border:0;background:none;display:grid;place-items:center;color:#888!important}
+.ph-btn{flex:none;width:43.49px;height:43.49px;padding:0;border:0;background:none;display:grid;place-items:center;color:#888}
 .ph-btn svg{width:21.74px;height:21.74px}
 .ph-app button:active{background-color:#0000001a}
 .ph-tabs{flex:none;display:flex;height:43.49px;background:#f5f5f5;border-bottom:.906px solid #e0e0e0}
-.ph-tabs button{position:relative;flex:1;border:0;background:none;font:700 12.68px RobotoICS,sans-serif;color:#434343!important;text-transform:uppercase}
+.ph-tabs button{position:relative;flex:1;border:0;background:none;font:700 12.68px RobotoICS,sans-serif;color:#434343;text-transform:uppercase}
 .ph-tabs button+button::before{content:"";position:absolute;left:0;top:10.87px;bottom:10.87px;width:.906px;background:#d6d6d6}
 .ph-tabs button.active{box-shadow:inset 0 -2.72px #33b5e5}
 .ph-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none}
@@ -45,7 +45,7 @@
 .ph-bare .ph-viewer-bar{opacity:0;pointer-events:none}
 .ph-menu{position:absolute;z-index:31;top:calc(var(--sb) + 3.62px);right:3.62px;min-width:168px;background:#fafafa;box-shadow:0 2px 6px #0000004d}
 .ph-menu.dark{background:#282828}
-.ph-menu button{display:block;width:100%;height:43.49px;padding:0 14.5px;border:0;border-top:.906px solid #e3e3e3;background:none;text-align:left;font:400 14.5px RobotoICS,sans-serif;color:#222!important;white-space:nowrap}
+.ph-menu button{display:block;width:100%;height:43.49px;padding:0 14.5px;border:0;border-top:.906px solid #e3e3e3;background:none;text-align:left;font:400 14.5px RobotoICS,sans-serif;color:#222;white-space:nowrap}
 .ph-menu.dark button{border-top-color:#3a3a3a;color:#eee!important}
 .ph-menu button:first-child{border-top:0}
 .ph-menu button:active{background:#0000001a}

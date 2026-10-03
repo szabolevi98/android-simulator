@@ -16,7 +16,7 @@
 .lp-header-time{font:500 18.12px/1.15 Roboto,sans-serif;color:#fff;white-space:nowrap}
 .lp-header-date{position:absolute;left:21.74px;bottom:9.06px;display:flex;align-items:center;gap:0;font:400 12.68px/1.35 Roboto,sans-serif;color:#ffffffb2;white-space:nowrap;transition:bottom .3s cubic-bezier(.4,0,.2,1)}
 .lp-header.expanded .lp-header-date{bottom:18.12px}
-.lp-header-alarm{display:flex!important;flex-direction:row!important;align-items:center;gap:3.62px;margin-left:5.44px;padding:0 5.44px!important;font:400 12.68px Roboto,sans-serif;color:#ffffffb2!important}
+.lp-header .lp-header-alarm{display:flex;flex-direction:row;align-items:center;gap:3.62px;margin-left:5.44px;padding:0 5.44px;font:400 12.68px Roboto,sans-serif;color:#ffffffb2}
 .lp-header-alarm img{width:14.5px;height:14.5px}
 .lp-header-icons{position:absolute;right:41.67px;top:0;height:54.36px;display:flex;align-items:center;transition:right .3s cubic-bezier(.4,0,.2,1)}
 .lp-header.expanded .lp-header-icons{right:51.6px;height:43.49px}

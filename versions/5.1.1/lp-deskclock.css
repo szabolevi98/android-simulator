@@ -4,8 +4,8 @@
 .lpdc .jbclock-tabs button[role=tab]{flex:1;position:relative;border:0;background:none;display:grid;place-items:center;padding:0;box-shadow:none}
 .lpdc .jbclock-tabs button[role=tab] img{width:21.74px;height:21.74px;opacity:1}
 .lpdc .jbclock-tabs button[role=tab].active::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.81px;background:#fff}
-.lpdc-overflow{flex:none;width:43.49px;border:0;background:none;display:grid;place-items:center;padding:0;border-radius:50%}
-.lpdc-overflow img{width:21.74px;height:21.74px}
+.jbclock-tabs .lpdc-overflow{flex:none;width:43.49px;border:0;background:none;display:grid;place-items:center;padding:0;border-radius:50%}
+.jbclock-tabs .lpdc-overflow img{width:21.74px;height:21.74px}
 .lpdc .jbclock-pager{flex:1;min-height:0}
 /* The footer: FAB in the middle, borderless side buttons */
 .lpdc-footer{position:absolute;left:0;right:0;bottom:0;z-index:4;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;padding:14.5px 0;pointer-events:none}
@@ -81,7 +81,9 @@
 .screen .kdc-dial{background:#eceff1;border-radius:50%;margin:14.5px auto}
 .screen .kdc-num{color:#000000de}
 .screen .kdc-num.sel{color:#fff}
-.screen .kdc-picker .settings-dialog-actions button,.screen .kdc-picker button.kdc-done,.screen .kdc-picker footer button{color:#ff4081;background:none}
+/* TimePickerFragment opens the framework TimePickerDialog: CANCEL and OK (TimePickerDialog.java) in the pink accent. */
+.screen .kdc-picker .settings-dialog-actions{min-height:43.49px;align-items:center;padding:0 7.25px;border:0}
+.screen .kdc-picker .settings-dialog-actions button{flex:none;width:auto;border:0;color:#ff4081;background:none}
 .screen .kdc-dial::before{background:#eceff1}
 .screen .kdc-num{font-family:Roboto,sans-serif}
 .screen .kdc-num.inner{color:#0000008a}

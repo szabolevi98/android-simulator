@@ -135,3 +135,21 @@
 .screen .settings-dialog.lp-wifi-dialog label.lp-wifi-check{display:flex;flex-direction:row;align-items:center;gap:14.5px;padding:0;margin:10.87px 21.74px 0;font:400 14.5px Roboto,sans-serif;color:#000000de}
 .screen .settings-dialog.lp-wifi-dialog .lp-wifi-check input{-webkit-appearance:none;appearance:none;flex:none;width:16.31px;height:16.31px;margin:0;border:1.81px solid #0000008a;border-radius:1.81px;background:none}
 .screen .settings-dialog.lp-wifi-dialog .lp-wifi-check input:checked{border-color:#009688;background:#009688 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z' fill='%23fff'/%3E%3C/svg%3E") center/100% no-repeat}
+/* Accessibility > Large text: AccessibilitySettings.LARGE_FONT_SCALE (1.3) on the 16 sp titles and 14 sp summaries. */
+.screen.large-text .lp-settings .settings-row,.screen.large-text .lp-settings .list-row{font-size:18.85px}
+.screen.large-text .lp-settings .row-copy small{font-size:16.49px}
+/* Accounts: the authenticator's own icon (GoogleLoginService authenticator.xml, ic_google_selected, xhdpi), shown
+   unfiltered by preference_material's icon_frame (minWidth 60 dp, marginStart -4 dp, paddingEnd 12 dp, at most 48 dp). */
+.screen .lp-settings .row-icon:has(.lp-account-icon){width:auto;min-width:50.74px;padding:3.62px 10.87px 3.62px 0}
+.screen .lp-settings .row-icon img.lp-account-icon{width:43.49px;height:43.49px;filter:none}
+/* Action bar add buttons: VPN's menu/vpn.xml ic_menu_add_white (24 dp), APNs' android.R.drawable.ic_menu_add (the 32 dp
+   framework icon). Tap & pay's nfc_payment.xml "Learn more": 20 sp italic in holo_blue_light, centred. */
+.screen .lp-toolbar .sx-add{flex:none;width:43.49px;min-width:43.49px;height:100%;padding:0;font-size:0;display:grid;place-items:center}
+.screen .lp-toolbar .sx-add img{width:21.74px;height:21.74px}
+.screen .lp-toolbar .sx-add img.lp-fw-menu-icon{width:28.99px;height:28.99px}
+/* The rest of nfc_payment.xml's empty state: nfc_payment_empty_state (xxxhdpi) over the 24 sp no-apps text, 16 dp apart. */
+.screen .lp-settings .app-content.kk-empty{display:flex;flex-direction:column}
+.screen .lp-settings .kk-empty-page{flex:1;justify-content:center;gap:0;min-height:0;padding:0;color:#000000de;font-size:21.74px}
+.screen .lp-settings .kk-empty-page img{width:102.5px;height:132.5px;opacity:1}
+.screen .lp-settings .kk-empty-page p{padding-top:14.5px}
+.screen .lp-settings .kk-link{padding:14.5px 0 0;font-size:18.12px;font-style:italic}

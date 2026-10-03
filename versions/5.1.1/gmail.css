@@ -25,7 +25,7 @@
 .kem-subject:has(.gm-chip){flex-wrap:wrap}
 .kem-subject:has(.gm-chip) h2{flex:1 1 calc(100% - 50px)}
 .kem-subject:has(.gm-chip) .kem-conv-star{order:2}
-.gm-chip{order:3;margin-left:auto!important}
+.gm-chip{order:3;margin-left:auto}
 .gm-drawer h4{margin:10.87px 14.5px 0;padding-bottom:4.53px;border-bottom:1.81px solid #ddd;font:700 12.68px RobotoICS,sans-serif;color:#58585b}
 .screen .gm-folder{border-bottom:0}
 .screen .gm-folder.with-icon{padding-left:12.68px}

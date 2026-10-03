@@ -1,5 +1,5 @@
 .app-view.cal-app{display:flex;flex-direction:column;height:100%;overflow:hidden;background:#eee;color:#333;padding:0}
-.cal-app button{color:inherit;background:transparent;border:0;border-radius:0;cursor:pointer;font:inherit;min-width:0}
+.cal-app :where(button){color:inherit;background:transparent;border:0;border-radius:0;cursor:pointer;font:inherit;min-width:0}
 .cal-bar{display:flex;align-items:center;flex:none;height:48px;background:linear-gradient(#f8f8f8,#e5e5e5);border-bottom:2px solid #b5b5b5;box-shadow:0 1px 2px #0002;z-index:1}
 .cal-bar>button{height:46px;min-width:44px;padding:6px;font-size:25px}.cal-bar>strong{font-size:19px;font-weight:400}.cal-bar img{height:32px;width:32px;object-fit:contain}
 .cal-bar .cal-view-picker{flex:1;min-width:0;text-align:left;font-size:18px;line-height:20px;padding-left:14px}.cal-view-picker small{display:block;color:#888;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

@@ -3,7 +3,7 @@
 @font-face{font-family:RobotoLight;src:url('assets/Roboto-Light.ttf') format('truetype');font-display:swap}
 @font-face{font-family:RobotoLightItalic;src:url('assets/Roboto-LightItalic.ttf') format('truetype');font-display:swap}
 @font-face{font-family:RobotoBoldJB;src:url('assets/Roboto-Bold.ttf') format('truetype');font-display:swap}
-#viewport>.app-view.jbp{height:100%;display:flex;flex-direction:column;background:#e5e5e5;color:#333;font-family:RobotoICS,Roboto,Arial,sans-serif;overflow:hidden;position:relative}
+#viewport>.app-view.jbp{height:100%;display:flex;flex-direction:column;color:#333;overflow:hidden;position:relative}
 .jbp-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:6.8px}
 .jbp-scroll::-webkit-scrollbar{display:none}
 

@@ -1,11 +1,8 @@
-/* Stock Nexus 5 (Google Now Launcher, 4.4.2 screenshot on Wikimedia): the Google search bar sits 8 dp under the
-   status bar, 10 dp in from the sides and 48 dp tall, with a 72 dp Google logo, the "Say “Ok Google”" hint in white
-   condensed 16 sp and a smaller microphone. */
-.kk-home.gel-home .home-search{top:calc(var(--sb) + 7.25px);left:9.06px;right:9.06px}
-.kk-home.gel-home .home-search>button:first-child{padding-left:4.53px;gap:0}
+/* Google Now Launcher pieces the Lollipop launcher reuses (the KitKat copy's search bar, overview panel and
+   drawer geometry are gone: lp-launcher.css sets those from GNL 1.1 / Launcher3 5.1). */
+.kk-home.gel-home .home-search>button:first-child{gap:0}
 .kk-home.gel-home .home-search .kk-qsb-logo{height:30.8px;flex:none}
 .kk-home.gel-home .gel-hint{margin-left:auto;font:400 14.5px/1 RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#fff;white-space:nowrap}
-.kk-home.gel-home .home-search .voice-search{flex:0 0 35.33px;padding-right:9.06px}
 .kk-home.gel-home .home-search .search-microphone{height:28.08px}
 /* Google Now pane (Workspace custom content, CUSTOM_CONTENT_SCREEN_ID): it slides in from the left while the
    workspace, hotseat, page indicator and search bar slide right (updateStateForCustomContent). */
@@ -43,12 +40,9 @@
 .gnow-bar button{width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center}
 .gnow-bar img{max-width:24px;max-height:24px}
 .gnow-bar button:active,.gnow-action:active,.gnow-search:active{background:#0000000f}
-/* Overview mode in the Google Now Launcher keeps all three buttons (Launcher.hasSettings): 3 x 48 dp + 2 x 68 dp. */
-.kk-home.gel-home .kk-overview-panel{width:254.59px;margin-left:-127.3px}
 /* All apps on the stock Nexus 5 (video frame of a Nexus 5 unboxing, November 2013): the first row starts about 28 dp
    under the status bar and the rows sit at the top of their cells (PagedViewCellLayout puts the gaps between rows),
    so the last labels end just above the page indicator. */
-.kk-drawer .drawer-page.drawer-apps{top:calc(var(--sb) + 25.37px);bottom:calc(var(--nb) + 27.18px)}
 .kk-drawer .drawer-apps .launcher-icon{justify-content:flex-start}
 /* DeskClock 4.4 digital widget (digital_widget_time, DigitalAppWidgetProvider): an 80 dp clock, bold hours and thin
    minutes, scaled down only when the widget is narrower than min_digital_widget_width (206 dp), over the 14 sp date and

@@ -10,7 +10,7 @@
 .screen .settings-app .actionbar .up img.settings-header-icon{width:28.99px;height:28.99px}
 .screen .settings-app .actionbar .up img.up-chevron{width:10.87px;height:21.74px;margin-right:-1px}
 .screen .settings-app .section-label{margin:0 14.5px;padding:9.06px 0 2.72px 7.25px;border-bottom:1.81px solid #ffffff33;font:700 12.68px/1.3 RobotoICS,sans-serif;color:#bebebe;letter-spacing:0;text-transform:uppercase}
-.screen .settings-app .settings-row,.screen .settings-app .list-row{min-height:43.49px;margin:0 14.5px;width:calc(100% - 29px);padding:5.44px 0;gap:0;border-bottom:.9px solid #ffffff26;font:400 16.31px RobotoICS,sans-serif;color:#fff!important}
+.screen .settings-app .settings-row,.screen .settings-app .list-row{min-height:43.49px;margin:0 14.5px;width:calc(100% - 29px);padding:5.44px 0;gap:0;border-bottom:.9px solid #ffffff26;font:400 16.31px RobotoICS,sans-serif;color:#fff}
 .screen .settings-app .row-copy{line-height:1.3;gap:0}
 .screen .settings-app .row-copy small{font-size:12.68px;color:#bebebe;line-height:1.35}
 .screen .settings-main .row-icon{width:25.37px;height:28.99px;margin:0 5.44px 0 5.44px;flex:none;overflow:visible}
