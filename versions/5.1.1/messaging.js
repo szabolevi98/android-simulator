@@ -1,4 +1,4 @@
-/* SMS/MMS demo presentation, based on AOSP Mms android-4.0.4_r2.1. */
+/* SMS/MMS: the local conversations and their Google Messenger screens. */
 (() => {
   'use strict';
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -40,26 +40,62 @@
     }).filter(thread=>!q || [thread.person.name,thread.person.phone,...thread.messages.map(m=>m.body),thread.draft?.body].join(' ').toLocaleLowerCase().includes(q))
       .sort((a,b)=>b.order-a.order);
   }
-  const icon = (action, label, file) => `<button data-action="${action}" aria-label="${label}"><img src="assets/${file}" alt=""></button>`;
-  const avatar = '<img class="mms-avatar" src="assets/mms-ic_contact_picture.png" alt="">';
   function photo(item) {
     if(window.ICSMedia)return `<div class="mms-photo media-attachment">${ICSMedia.art(item)}<span>${escape(item.name)}</span></div>`;
     const colors = item.colors.filter(c=>/^#[\da-f]{6}$/i.test(c));
     return `<div class="mms-photo" style="background:linear-gradient(150deg,${colors.join(',') || '#555,#aaa'})"><span>${escape(item.name)}</span></div>`;
   }
-  function render(data, ui, t, locale) {
+  /* Google Messenger 1.1 (com.google.android.apps.messaging, PrebuiltBugle on LMY48Y). ConversationListActivity: the
+     #0288D1 toolbar ("Messenger", search, overflow), rows padded 16 dp with the round contact icon, the 16 sp name
+     (#323232 and bold when unread, #636363 when read), the 14 sp snippet and the timestamp under it ("Now", "5 mins",
+     the time, the weekday, the date); the blue 56 dp FAB with + sits 14 dp in and 12 dp up.
+     ConversationActivity: the toolbar and status bar take the conversation's letter-tile colour; messages on
+     #EEEEEE in msg_bubble nine-patches with the tail at the top, incoming in that colour with white 16 sp text and
+     the 42 dp contact icon, outgoing white with #323232 text; 18 dp between authors, 2 dp within a run. The compose
+     row: attach, the white "Send message" field and the round send button in the conversation colour. */
+  const color = person => window.LPDialer ? LPDialer.tileColor(person?.name || '') : '#547dbe';
+  const tile = (person, cls) => window.LPDialer ? LPDialer.letterTile(person, cls) : '';
+  function stamp(message, t, locale, now = Date.now()) {
+    if (!message) return '';
+    if (!message.timestamp) return t(message.time || '');
+    const diff = now - message.timestamp, minutes = Math.floor(diff / 60000);
+    if (minutes < 1) return t('Now');
+    if (minutes < 60) return t(minutes === 1 ? '%d min' : '%d mins').replace('%d', minutes);
+    const date = new Date(message.timestamp), today = new Date(now);
+    if (date.toDateString() === today.toDateString()) return date.toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'});
+    if (diff < 6 * 86400000) return date.toLocaleDateString(locale, {weekday: 'short'});
+    return date.toLocaleDateString(locale, {month: 'short', day: 'numeric'});
+  }
+  const tool = (action, label, file, cls = '') => `<button type="button" class="lpm-tool ${cls}" data-action="${action}" aria-label="${escape(label)}"><img src="assets/${file}" alt=""></button>`;
+  function render(data, ui, t, locale, now = Date.now()) {
     const detail = ui.sub === 'thread', compose = detail || ui.sub === 'new';
     const person = identity(ui.thread,data.contacts), draft = data.messageDrafts?.[draftKey(ui)] || {};
-    const title = detail ? person.name : ui.sub === 'new' ? t('New message') : t('Messaging');
-    const time = message => message?.timestamp ? new Date(message.timestamp).toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'}) : t(message?.time || '');
-    const header = `<header class="mms-header"><button class="mms-up" data-action="${ui.sub ? 'back' : 'home'}" aria-label="Back">${ui.sub ? '<span>‹</span>' : ''}<img src="assets/messaging.png" alt=""></button><div class="mms-title"><h2>${escape(title)}</h2>${detail ? `<small>${escape(person.phone)}</small>` : ''}</div>${compose ? `${detail ? icon('mms-call','Call','mms-ic_menu_call.png') : ''}${icon('mms-attach','Add attachment','mms-ic_menu_attachment.png')}${icon('mms-menu','More options','ic_menu_overflow.png')}` : ''}</header>`;
     if (!compose) {
-      const list = threads(data,ui.sub === 'search' ? ui.mmsSearch || '' : '');
-      return `<div class="app-view mms-app">${header}${ui.sub === 'search' ? `<form class="mms-search" data-form="mms-search"><input name="query" type="search" aria-label="Search messages" placeholder="Search messages" maxlength="100" value="${escape(ui.mmsSearch || '')}"><button type="submit" aria-label="Search">⌕</button></form>` : ''}<div class="mms-scroll mms-threads">${data.messageDrafts?.new?.body || data.messageDrafts?.new?.attachment ? `<button class="mms-new-draft" data-action="new-message">${escape(t('Draft'))}: ${escape(data.messageDrafts.new.body || t('Picture'))}</button>` : ''}${list.map(thread=>`<button class="mms-thread ${thread.messages.some(m=>m.read===false) ? 'unread' : ''}" data-action="thread" data-id="${escape(thread.key)}">${avatar}<span class="mms-thread-copy"><strong>${escape(thread.person.name)} <em>(${thread.messages.length})</em></strong><span>${thread.draft?.body || thread.draft?.attachment ? `<b>${escape(t('Draft'))}:</b> ${escape(thread.draft.body || t('Picture'))}` : escape(thread.last?.body || t('Picture'))}</span></span><time>${escape(time(thread.last))}</time></button>`).join('') || `<p class="mms-empty">${escape(t(ui.mmsSearch ? 'No messages found' : 'No conversations'))}</p>`}</div><footer class="mms-actions">${icon('new-message','New message','mms-ic_menu_msg_compose_holo_dark.png')}${icon('mms-search','Search','mms-ic_menu_search_holo_dark.png')}${icon('mms-menu','More options','ic_menu_overflow.png')}</footer></div>`;
+      const searching = ui.sub === 'search', list = threads(data, searching ? ui.mmsSearch || '' : '');
+      const bar = searching
+        ? `<header class="lpm-toolbar">${tool('back', t('Navigate up'), 'bg-ic_arrow_back_light.png')}<form class="lpm-search mms-search" data-form="mms-search"><input name="query" type="search" aria-label="${escape(t('Search'))}" placeholder="${escape(t('Search'))}" maxlength="100" value="${escape(ui.mmsSearch || '')}"></form></header>`
+        : `<header class="lpm-toolbar"><h2>${escape(t('Messenger'))}</h2>${tool('mms-search', t('Search'), 'bg-ic_search_light.png')}${tool('mms-menu', t('More options'), 'gd-ic_overflow_menu.png', 'lpm-white')}</header>`;
+      const rows = list.map(thread => {
+        const unread = thread.messages.some(m => m.read === false), last = thread.last;
+        const snippet = thread.draft?.body || thread.draft?.attachment ? `<b>${escape(t('Draft'))}</b> ${escape(thread.draft.body || t('Picture'))}` : `${last?.mine ? escape(t('You: ')) : ''}${escape(last?.body || t('Picture'))}`;
+        return `<button class="mms-thread lpm-thread${unread ? ' unread' : ''}" data-action="thread" data-id="${escape(thread.key)}">${tile(thread.person, 'lpm-avatar')}<span class="lpm-thread-copy"><strong>${escape(thread.person.name)}</strong><span class="lpm-snippet">${snippet}</span><time>${escape(stamp(last, t, locale, now))}</time></span></button>`;
+      }).join('');
+      return `<div class="app-view mms-app lpm-app">${bar}<div class="mms-scroll mms-threads lpm-list">${rows || `<p class="lpm-empty">${escape(t(ui.mmsSearch ? 'No messages found' : 'Once you start a new conversation, you’ll see it listed here'))}</p>`}</div>${searching ? '' : `<button class="lpm-fab" data-action="new-message" aria-label="${escape(t('Start new conversation'))}"><img src="assets/bg-ic_add_white.png" alt=""></button>`}</div>`;
     }
     const messages = detail ? data.messages.filter(m=>String(m.contact)===String(ui.thread)) : [];
+    const c = detail ? color(person) : '#0288d1';
+    const can = !!(draft.body || '').trim() || !!draft.attachment;
     const count = counter(draft.body || '');
-    return `<div class="app-view mms-app">${header}<form class="mms-compose" data-form="mms-send">${!detail ? `<div class="mms-recipient"><input name="recipient" aria-label="To" placeholder="To" autocomplete="off" maxlength="60" value="${escape(draft.recipient || '')}"><div class="mms-suggestions"></div></div>` : ''}<div class="mms-scroll mms-history">${messages.map(message=>`<button type="button" class="mms-message ${message.mine ? 'sent' : 'received'}" data-action="mms-message" data-id="${message.id}">${avatar}<span class="mms-message-copy"><span>${escape(message.body)}</span>${message.attachment ? photo(message.attachment) : ''}<time>${escape(time(message))}</time></span></button>`).join('')}</div>${draft.attachment ? `<div class="mms-attachment">${photo(draft.attachment)}<button type="button" data-action="mms-remove-attachment" aria-label="Remove attachment">×</button></div>` : ''}<div class="mms-compose-bar"><textarea name="body" aria-label="Type message" placeholder="Type message" rows="1" maxlength="2000">${escape(draft.body || '')}</textarea><div><small class="mms-counter">${draft.attachment ? 'MMS' : count.count > 1 || count.remaining < 10 ? `${count.remaining} / ${count.count}` : ''}</small><button class="mms-send" type="submit" aria-label="Send" ${!(draft.body || '').trim() && !draft.attachment ? 'disabled' : ''}><img src="assets/mms-ic_send_holo_light.png" alt=""></button></div></div></form></div>`;
+    const head = detail
+      ? `<header class="lpm-toolbar lpm-conv-bar" style="background:${c}">${tool('back', t('Navigate up'), 'bg-ic_arrow_back_light.png')}<h2>${escape(person.name)}</h2>${tool('mms-call', t('Make a call'), 'bg-ic_phone_small_light.png')}${tool('mms-menu', t('More options'), 'gd-ic_overflow_menu.png', 'lpm-white')}</header>`
+      : `<header class="lpm-toolbar">${tool('back', t('Navigate up'), 'bg-ic_arrow_back_light.png')}<h2>${escape(t('New message'))}</h2></header>`;
+    let previous = null;
+    const bubbles = messages.map(message => {
+      const same = previous && previous.mine === message.mine; previous = message;
+      return `<button type="button" class="mms-message lpm-message ${message.mine ? 'sent' : 'received'}${same ? ' same' : ''}" data-action="mms-message" data-id="${message.id}">${message.mine ? '' : `<span class="lpm-message-icon">${same ? '' : tile(person, 'lpm-avatar-small')}</span>`}<span class="lpm-bubble"${message.mine ? '' : ` style="background:${c}"`}><span class="lpm-text">${escape(message.body)}</span>${message.attachment ? photo(message.attachment) : ''}<time>${escape(stamp(message, t, locale, now))}</time></span></button>`;
+    }).join('');
+    const picker = !detail ? `<div class="mms-recipient lpm-to"><span>${escape(t('To'))}</span><input name="recipient" aria-label="${escape(t('To'))}" placeholder="${escape(t('Type name or phone number'))}" autocomplete="off" maxlength="60" value="${escape(draft.recipient || '')}"><div class="mms-suggestions"></div></div><div class="lpm-picker"><nav class="lpm-picker-tabs"><span class="on">${escape(t('ALL CONTACTS'))}</span></nav>${[...data.contacts].sort((a, b) => a.name.localeCompare(b.name, locale)).map(p => `<button type="button" class="lpm-pick" data-action="mms-recipient" data-id="${p.id}">${tile(p, 'lpm-avatar')}<span><strong>${escape(p.name)}</strong><small>${escape(p.phone)} ${escape(t('Mobile'))}</small></span></button>`).join('')}</div>` : '';
+    return `<div class="app-view mms-app lpm-app lpm-conversation" style="--lpm-c:${c}">${head}<form class="mms-compose lpm-compose" data-form="mms-send">${picker}<div class="mms-scroll mms-history lpm-history"${detail ? '' : ' hidden'}>${bubbles}</div>${draft.attachment ? `<div class="mms-attachment lpm-attachment">${photo(draft.attachment)}<button type="button" data-action="mms-remove-attachment" aria-label="${escape(t('Remove'))}">×</button></div>` : ''}<div class="mms-compose-bar lpm-compose-bar">${tool('mms-attach', t('Add attachment'), 'bg-ic_attachment_dark.png', 'lpm-attach')}<span class="lpm-field"><textarea name="body" rows="1" maxlength="2000" aria-label="${escape(t('Send message'))}" placeholder="${escape(t('Send message'))}">${escape(draft.body || '')}</textarea><small class="mms-counter">${draft.attachment ? 'MMS' : count.count > 1 || count.remaining < 10 ? `${count.remaining} / ${count.count}` : ''}</small></span><button class="mms-send lpm-send" type="submit" aria-label="${escape(t('Send'))}" ${can ? '' : 'disabled'}><img src="assets/bg-ic_send_light.png" alt=""></button></div></form></div>`;
   }
-  window.ICSMessaging = {render,recipient,identity,draftKey,counter,threads,photo,escape};
+  window.ICSMessaging = {render,recipient,identity,draftKey,counter,threads,photo,escape,stamp};
 })();

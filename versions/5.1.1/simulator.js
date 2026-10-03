@@ -267,6 +267,8 @@
     screen.style.setProperty('--lp-sb', LP_STATUS_COLORS[ui.view] || '#000');
     // QuickContactActivity tints the status bar with the darker shade of the contact's colour.
     if (ui.view === 'people' && ui.sub === 'detail') { const person = contact(ui.selectedContact); if (person) screen.style.setProperty('--lp-sb', LPDialer.tileColorDark(person.name)); }
+    // Messenger colours a conversation's bars with the participant's tile colour.
+    if (ui.view === 'messaging' && ui.sub === 'thread') screen.style.setProperty('--lp-sb', LPDialer.tileColorDark(ICSMessaging.identity(ui.thread, data.contacts).name));
     // PlatLogoActivity is fullscreen; the Dessert Case hides both bars (immersive sticky).
     const egg = ui.view === 'settings' && ui.sub === 'easter';
     if (ui.view === 'settings' && ui.sub === 'lland') screen.style.setProperty('--lp-sb', '#757575');
@@ -1223,7 +1225,7 @@
     return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog mms-dialog people-editor" role="dialog" aria-label="${group?'Edit group':'New group'}" data-form="people-group"><h3>${group?'Edit group':'New group'}</h3><label>Group name<input name="name" required maxlength="50" value="${safe(group?.name||'')}"></label>${data.contacts.map(p=>`<label class="people-membership"><input type="checkbox" name="members" value="${p.id}" ${group?.members.includes(p.id)?'checked':''}>${safe(p.name)}</label>`).join('')}<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Save</button></div></form>`;
   }
   function renderMessaging() {
-    return ICSMessaging.render(data, ui, key => i18n.t(key), i18n.locale());
+    return ICSMessaging.render(data, ui, key => i18n.t(key), i18n.locale(), deviceDate().getTime());
   }
   function messageDraft() {
     data.messageDrafts ||= {};
@@ -1260,6 +1262,11 @@
     const hangouts = ui.view === 'hangouts' ? Hangouts.overlay(data, ui, key => i18n.t(key)) : null;
     if (hangouts !== null) return hangouts;
     if (ui.overlay === 'mms-attach-photos') return dialog('Attach photo', `<div class="mms-dialog-list">${data.photos.map(p => `<button data-action="mms-photo" data-id="${p.id}">${ICSMessaging.photo(p)}</button>`).join('') || '<p>No photos</p>'}</div>`);
+    if (ui.overlay === 'mms-menu' && ui.view === 'messaging') {
+      // Messenger's overflow: the conversation list (Archived, Settings, Help & feedback) or a conversation.
+      const items = ui.sub === 'thread' ? [['mms-smiley', 'Insert smiley'], ['toast:Notifications for this conversation stay on.', 'People & options'], ['mms-delete-thread', 'Delete'], ['mms-discard', 'Discard draft']] : ui.sub === 'new' ? [['mms-smiley', 'Insert smiley'], ['mms-discard', 'Discard draft']] : [['toast:No archived conversations', 'Archived'], ['toast:Messenger settings are not part of this simulation.', 'Settings'], ['toast:Help is not available offline.', 'Help & feedback']];
+      return `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu">${items.map(([action, title]) => { const [act, arg] = action.split(/:(.*)/); return `<button role="menuitem" data-action="${act}"${arg ? ` data-id="${safe(arg)}"` : ''}>${safe(i18n.t(title))}</button>`; }).join('')}</div>`;
+    }
     if (ui.overlay === 'mms-menu') {
       const composing = ['thread','new'].includes(ui.sub);
       return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu ${composing ? '' : 'mms-menu-root'}">${composing ? option('mms-smiley','Insert smiley') + option('mms-discard','Discard draft') + (ui.sub === 'thread' ? option('mms-delete-thread','Delete thread') : '') : option('new-message','New message') + option('mms-search','Search messages')}</div>`;
