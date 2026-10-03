@@ -43,7 +43,7 @@ window.ANDROID_VERSIONS = [
     description: 'The stock Nexus 5: the Google Now Launcher with Google Now, Hangouts for SMS, Chrome, translucent system bars, the new Dialer, Email and Play Store drawer, and the Dessert Case easter egg.',
     url: 'versions/4.4.4/',
     status: 'available',
-    art: {shot: 'landing-home.jpg?v=4', phone: 'nexus5'}
+    art: {shot: 'landing-home.jpg?v=5', phone: 'nexus5'}
   },
   { id: '5.1.1', name: 'Lollipop', version: 'Android 5.1.1', year: '2015', device: 'Korabeli Android', status: 'planned' }
 ];
