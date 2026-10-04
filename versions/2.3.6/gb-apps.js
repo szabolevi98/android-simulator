@@ -13,6 +13,14 @@
     return lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key;
   };
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  // The launcher labels as the Nexus S image has them (_aosp/crespo/launcher.txt and the apps' own label strings): Maps 5.4,
+  // Voice Search and Car Home had no Hungarian, and Google Voice's label is "Voice" everywhere. These override the shared
+  // rows (which follow later images) on 2.3.6 only.
+  window.AndroidI18n?.extend([
+    ['Maps', 'Maps', 'Maps', 'Maps', 'Maps'], ['Places', 'Places', 'Places', 'Adresses', 'Sitios'], ['Latitude', 'Latitude', 'Latitude', 'Latitude', 'Latitude'],
+    ['Voice Search', 'Voice Search', 'Sprachsuche', 'Recherche vocale', 'Búsqueda por voz'], ['Voice', 'Voice', 'Voice', 'Voice', 'Voice'],
+    ['Car Home', 'Car Home', 'Automodus', 'Mode Voiture', 'Car Home']
+  ]);
   window.GBApps = {
     register(id, module) { apps.set(id, module); },
     has: id => apps.has(id),

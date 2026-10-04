@@ -512,9 +512,6 @@
     if (view === 'voice-dialer') ui.vdState = 'starting';
     if (view === 'car-home') ui.chScreen = 0;
   }
-  // Launcher labels as the image has them (launcher.txt: Google Voice's app_icon_name is "Voice" in every language;
-  // CarHomeGoogle's app_name has no Hungarian), over the shared rows that translate "Voice" as a noun.
-  window.AndroidI18n?.extend([['Voice', 'Voice', 'Voice', 'Voice', 'Voice'], ['Car Home', 'Car Home', 'Automodus', 'Mode Voiture', 'Car Home']]);
   const module = {render, mounted, menu, dialog, handle, submit, back, open};
   for (const id of ['car-home', 'google-voice', 'tags', 'voice-dialer']) GBApps.register(id, module);
   window.GBExtraApps = {T, CAR, GV_LABELS};
