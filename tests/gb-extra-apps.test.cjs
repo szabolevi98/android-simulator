@@ -1,0 +1,20 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// Nexus S: Car Home, Google Voice, Tags and Voice Dialer (gb-extra-apps.js) on GBApps.
+const w={setTimeout,clearTimeout};w.window=w;w.document={querySelector:()=>null};
+for(const f of ['gb-apps.js','gb-extra-apps.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),w);
+const {GBApps,GBExtraApps:X}=w;
+for(const id of ['car-home','google-voice','tags','voice-dialer'])assert.ok(GBApps.has(id),id);
+const m=GBApps.get('car-home'),ui={},data={settings:{nfc:true}},opened=[],toasts=[];
+const ctx={ui,data,view:'car-home',lang:'en',now:new Date(2011,6,20,12),t:k=>k,appName:k=>k,contacts:[{id:1,name:'Alex Morgan',phone:'202-555-0148'}],save(){},render(){},renderOverlay(){},toast:t=>toasts.push(t),dialog(k){ui.dlg=k;},focus(){},openApp(a){opened.push(a);},browse(u){opened.push(u);},call(n){opened.push('call:'+n);},home(){opened.push('home');}};
+let html=m.render(ctx);for(const label of ['Navigate','Phone','Voice Search','Contacts','Music','Exit car mode'])assert.ok(html.includes(`<span>${label}</span>`),label);
+m.handle('ch-open','navigate',ctx,{dataset:{app:'navigation'}});assert.equal(opened.at(-1),'navigation');
+m.handle('ch-screen','1',ctx);html=m.render(ctx);assert.ok(html.includes('Day/Night mode')&&html.includes('Add shortcut'));
+m.handle('ch-add','1:2',ctx);m.handle('ch-add-pick','talk',ctx);assert.equal(data.carHome['1:2'],'talk');
+assert.equal(X.T('de','Car Home'),'Automodus');assert.equal(X.T('hu','Tags'),'Címkék');
+ctx.view='google-voice';m.open(ctx,false);html=m.render(ctx);assert.ok(html.includes('Google Voice - Inbox')&&html.includes('gv-voicemail_with_border')&&html.includes('Alex Morgan'));
+m.handle('gv-open','v2',ctx);assert.ok(m.submit('gv-sms',new Map([['text','On my way']]),ctx));assert.equal(data.gvoice.find(c=>c.id==='v2').items.at(-1).text,'On my way');
+ctx.view='tags';m.open(ctx,false);html=m.render(ctx);assert.ok(html.includes('Riverside Park')&&html.includes('tg-ic_tab_selected_all_tags'));
+m.handle('tg-open','t1',ctx);m.handle('tg-record','t1',ctx);assert.equal(opened.at(-1),'http://www.example.com/concerts');
+m.handle('tg-delete','t1',ctx);assert.equal(data.tags23.tags.length,2);
+ctx.view='voice-dialer';m.open(ctx,false);assert.ok(m.render(ctx).includes('Starting up.'));ui.vdState='failed';assert.ok(m.render(ctx).includes('No results, try again.')&&m.render(ctx).includes('Did you know'));
+console.log('gb-extra-apps ok');

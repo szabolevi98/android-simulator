@@ -848,3 +848,29 @@ These four apps are in `gb-google-apps.js` and `gb-google-apps.css`. The texts c
 - After five seconds without speech: "No speech heard" with Speak again.
 - Help ("Try saying...") lists the Voice Actions with the image's own per-language examples (`en_US_hint_*`, `de_DE_hint_*`, …). Tapping an example runs it: Messaging, Navigation, Phone, Gmail, Maps, Music, Browser, Clock or Google Search.
 - Voice Search had no Hungarian, so it shows English there.
+
+## Car Home, Google Voice, Tags and Voice Dialer — 2026-10-04
+
+These four apps are in `gb-extra-apps.js` and `gb-extra-apps.css`. The app drawer now lists exactly the image's 30 launcher entries.
+
+**Car Home 2.2.1.2.** The screens follow `res/xml/default_carhome.xml`:
+- screen 1: Navigate, Phone, Voice Search, Contacts, Music, Exit car mode;
+- screen 2: Maps, Places, Add shortcut, Settings, Day/Night mode.
+
+The cells are 160 × 133.3 dip on the `container` 9-patch, shown over the home wallpaper, with the screen arrows. Empty cells take car apps through Add shortcut, and Day/Night mode dims and tints the screen.
+
+**Google Voice 0.4.2.30.** Theme.Light, English only, as the service was.
+- `conversation_item.xml` rows: the picture with the voicemail, text or call badge, the name, count and time, the star and the message.
+- The labels.
+- Voicemail playback with the transcript.
+- Text threads with replies, and Compose.
+
+**Tags 1.1.**
+- The Tags, Starred and My tag tabs, with made-up scanned tags.
+- `tag_viewer.xml`: the URL opens the Browser and a contact calls, with Done and Delete.
+- About Tags.
+- "NFC turned off" when NFC is off in Settings.
+
+**Voice Dialer.** "Starting up.", "Listening…", then "No results, try again." with the examples and the "Did you know…" tip.
+
+Google Voice's launcher label stays "Voice" and Car Home stays untranslated in Hungarian, as on the image. `AndroidI18n.extend` sets this for 2.3.6 only.

@@ -119,7 +119,8 @@
     // The Nexus S image's Google apps (gb-apps.js registers their screens).
     ['gmail', 'Gmail', '✉', '#e8e8e8', '#c33'], ['maps', 'Maps', '⌖', '#cde5b4', '#4a77a8'], ['navigation', 'Navigation', '▲', '#4a77a8', '#1c3f9a'],
     ['places', 'Places', '⌖', '#db4437', '#a32'], ['latitude', 'Latitude', '☺', '#4a77a8', '#1c3f9a'], ['talk', 'Talk', '✆', '#5b9bd5', '#2f6ea8'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'],
-    ['news-weather', 'News & Weather', '☀', '#f5b041', '#2a6fdb'], ['books', 'Books', '▤', '#4285f4', '#1a73e8'], ['earth', 'Earth', '◍', '#1c5fb8', '#05173d'], ['voice-search', 'Voice Search', '🎤', '#eee', '#999']
+    ['news-weather', 'News & Weather', '☀', '#f5b041', '#2a6fdb'], ['books', 'Books', '▤', '#4285f4', '#1a73e8'], ['earth', 'Earth', '◍', '#1c5fb8', '#05173d'], ['voice-search', 'Voice Search', '🎤', '#eee', '#999'],
+    ['car-home', 'Car Home', '◉', '#333', '#000'], ['google-voice', 'Voice', '✆', '#3c78d8', '#1c4587'], ['tags', 'Tags', '▭', '#ddd', '#888'], ['voice-dialer', 'Voice Dialer', '🎤', '#3dc484', '#217258']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -135,7 +136,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['gmail', 'maps', 'navigation', 'places', 'latitude', 'talk', 'youtube', 'news-weather', 'books', 'earth', 'voice-search', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
+  const iconAssets = new Set(['car-home', 'google-voice', 'tags', 'voice-dialer', 'gmail', 'maps', 'navigation', 'places', 'latitude', 'talk', 'youtube', 'news-weather', 'books', 'earth', 'voice-search', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -1377,7 +1378,7 @@
   function renderEmail() { return GBEmail.render(gbEmailContext()); }
   // What the image's Google apps (gb-apps.js) render and act with.
   function gappContext() {
-    return {data, ui, view: ui.view, root: viewport, account: window.GBGmail?.ACCOUNT || '', lang: i18n.language, locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24,
+    return {data, ui, view: ui.view, root: viewport, account: window.GBGmail?.ACCOUNT || '', appName: id => appNames[id] || id, lang: i18n.language, locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24,
       ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), t: key => i18n.t(key),
       save, render, renderOverlay, toast, openApp, home: () => home(false), photos: data.photos, contacts: data.contacts,
       dialog(kind) { ui.gappDialog = kind; ui.overlay = 'gb-dialog-gapp'; renderOverlay(); },

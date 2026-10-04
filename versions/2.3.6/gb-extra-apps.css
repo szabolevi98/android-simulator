@@ -1,0 +1,122 @@
+/* Car Home, Google Voice, Tags and Voice Dialer (gb-extra-apps.js): the APKs' dip / sp (1 dp = 0.8625 px), hdpi bitmaps
+   and 9-patches x 0.575. */
+
+/* ---------- Car Home 2.2.1.2: 160 x 133.3 dip cells on container over the home wallpaper ---------- */
+.ch{position:relative;display:flex;flex-direction:column;height:100%;background:#00000059;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.ch.night{background:#000000d9}
+.ch.night .ch-cell img{filter:sepia(1) saturate(6) hue-rotate(-50deg) brightness(.8)}
+.ch.night .ch-cell span{color:#c33}
+.ch-grid{flex:1;display:grid;grid-template-columns:repeat(2,138px);grid-auto-rows:115px;justify-content:center;align-content:center;gap:0}
+.screen .ch-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.86px;padding:17.25px 0 0;border:0 solid transparent;border-image:url('assets/ch-container_normal.png') 154 108 23 109 fill / 88.55px 62.1px 13.22px 62.67px stretch;background:none;color:#fff;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .ch-cell:active{border-image-source:url('assets/ch-container_pressed.png')}
+.ch-cell img{width:41.4px;height:41.4px}
+.ch-cell.add img{opacity:.8}
+.ch-cell span{max-width:120px;text-align:center;line-height:1.15}
+.ch-arrows{flex:none;display:flex;align-items:flex-end;justify-content:space-between;height:46px;padding:0 4.31px 4.31px}
+.screen .ch-arrows button{width:112.13px;height:45.97px;padding:0 0 7.16px 7.16px;border:0;background:none;text-align:left;cursor:pointer}
+.screen .ch-arrows .ch-next{padding:0 7.16px 7.16px 0;text-align:right}
+.ch-arrows img{width:17.25px;height:46px;object-fit:contain}
+.ch-dots{display:flex;gap:6px;align-self:center;margin-bottom:6px}
+.ch-dots i{width:7px;height:7px;border-radius:50%;background:#ffffff55}
+.ch-dots i.on{background:#fff}
+
+/* ---------- Google Voice 0.4.2 (Theme.Light): conversation_item.xml ---------- */
+.gv{display:flex;flex-direction:column;height:100%;background:#fff;color:#000;font-family:DroidSans,Arial,sans-serif;overflow:hidden;color-scheme:light}
+.gv button{font-family:inherit}
+.gv-scroll{flex:1;min-height:0;overflow:auto}
+.gv-item{position:relative;display:flex;align-items:flex-start;border-bottom:1px solid #d6d6d6}
+.screen .gv-open{flex:1;min-width:0;display:flex;align-items:flex-start;padding:1.73px 6.04px 4.31px 0;border:0;background:none;color:#000;text-align:left;cursor:pointer}
+.screen .gv-open:active{background:linear-gradient(#ffcd3a,#ff9c00)}
+.gv-photo{position:relative;flex:none;width:46.58px;height:46.58px}
+.gv-photo img:first-child{width:46.58px;height:46.58px}
+.gv-badge{position:absolute;left:0;bottom:-2px;width:24.15px;height:24.15px}
+.gv-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.gv-top{display:flex;align-items:baseline;gap:3px}
+.gv-top b{margin:0 2.59px;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gv-top i{flex:1;font-style:normal;font-size:12.07px}
+.gv-top small{padding-right:8.63px;font-size:12.07px;color:#555;white-space:nowrap}
+.gv-text{margin:0 2.59px 1.73px;font-size:12.07px;color:#333;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gv-item.unread .gv-text,.gv-item.unread .gv-top b{font-weight:700;color:#000}
+.gv-item:not(.unread) .gv-top b{font-weight:400}
+.screen .gv-star{flex:none;width:30.19px;height:30.19px;margin:2px 2px 0 0;padding:0;border:0;background:url('assets/gv-star_off.png') center/20.13px no-repeat;cursor:pointer}
+.screen .gv-star.on{background-image:url('assets/gv-star_on.png')}
+.gv-empty{padding:16px;color:#888;text-align:center}
+.screen .gv-label{display:flex;align-items:center;gap:9.49px;width:100%;padding:13.8px 9.49px;border:0;border-bottom:1px solid #d6d6d6;background:#fff;color:#000;font-size:18.98px;text-align:left;cursor:pointer}
+.gv-label img{width:21.28px;height:21.28px}
+.gv-head{display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid #ddd}
+.gv-head img{width:46.58px;height:46.58px}
+.gv-head span{display:flex;flex-direction:column}
+.gv-head b{font-size:15.53px}
+.gv-head small{color:#666;font-size:12.07px}
+.gv-vm{padding:8px}
+.screen .gv-play{width:32px;height:32px;padding:0;border:0;background:url('assets/gv-play.png') center/19.55px 21.85px no-repeat;cursor:pointer;vertical-align:middle}
+.screen .gv-play.on{background-image:url('assets/gv-pause.png');background-size:16.68px 21.28px}
+.gv-bar{display:inline-block;width:calc(100% - 44px);height:12px;margin-left:6px;border:0 solid transparent;border-width:5.75px 6.9px 5.75px 8.05px;border-image:url('assets/gv-playback_bar.png') 10 12 10 14 fill / 5.75px 6.9px 5.75px 8.05px stretch;box-sizing:border-box;vertical-align:middle}
+.gv-bar i{display:block;height:100%;background:#7cb342;transition:width 6s linear}
+.gv-transcript{margin:8px 0 0;padding:8px;border:1px solid #c8c8c8;border-radius:4px;background:#f6f6f6;font-size:15.53px;line-height:1.35}
+.gv-sms{padding:4px 8px;font-size:15.53px;line-height:1.35}
+.gv-sms b{color:#3c78d8}
+.gv-sms.me b{color:#555}
+.gv-call{padding:12px 8px;color:#555;font-size:15.53px}
+.gv-compose{flex:none;display:flex;gap:4px;padding:4px;background:#e2e2e2}
+.gv-compose input{flex:1;min-width:0;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.screen .gv-compose button{padding:0 10px 5px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font-size:12.07px;cursor:pointer}
+
+/* ---------- Tags 1.1 (dark Theme): the tab widget, tag_list_item.xml, tag_viewer.xml, intro_to_nfc.xml ---------- */
+.tg{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.tg button{font-family:inherit}
+.tg-scroll{flex:1;min-height:0;overflow:auto}
+.tg-tabs{flex:none;display:flex;gap:1px;padding-top:2px;background:#000}
+.screen .tg-tab{flex:1;display:flex;flex-direction:column;align-items:center;height:55.2px;padding-top:4px;border:0;border-radius:4px 4px 0 0;background:linear-gradient(#5a5a5a,#3a3a3a);color:#aaa;font-size:12.07px;cursor:pointer}
+.screen .tg-tab.on{background:linear-gradient(#f1f1f1,#cfcfcf);color:#000}
+.tg-tab img{width:20.7px;height:20.7px}
+.screen .tg-item{display:flex;flex-direction:column;width:100%;padding:3.45px;border:0;border-bottom:1px solid #333;background:none;color:#fff;text-align:left;cursor:pointer}
+.screen .tg-item:active{background:linear-gradient(#ffcd3a,#ff9c00);color:#000}
+.tg-item b{padding:3.45px;font-weight:400;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg-item small{padding:0 3.45px 3.45px;color:#aaa;font-size:12.07px}
+.tg-empty{display:flex;flex-direction:column;align-items:center;padding-top:40%;text-align:center}
+.tg-empty p{margin:0 12px;font-size:15.53px}
+.screen .tg-empty button,.screen .tg-buttons button,.screen .tg-form button{min-height:41.4px;margin-top:13.8px;padding:0 14px 5px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font-size:12.07px;cursor:pointer}
+.tg-title{position:relative;flex:none;display:flex;align-items:center;gap:3.45px;height:56.06px;padding:0 4px;border:0 solid transparent;border-image:url('assets/tg-title_bar_medium.png') 9 0 9 25 fill / 5.17px 0 5.17px 14.37px stretch}
+.tg-title img{width:27.6px;height:27.6px}
+.tg-title span{flex:1;min-width:0;display:flex;flex-direction:column}
+.tg-title b{font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg-title small{color:#ccc;font-size:12.07px}
+.screen .tg-star{width:32px;height:32px;padding:0;border:0;background:url('assets/gb-btn_star_big_off.png') center/27.6px no-repeat;cursor:pointer}
+.screen .tg-star.on{background-image:url('assets/gb-btn_star_big_on.png')}
+.screen .tg-record{display:flex;flex-direction:column;width:100%;padding:8px;border:0;border-bottom:1px solid #333;background:none;color:#fff;text-align:left;cursor:pointer}
+.tg-record small{color:#aaa;font-size:12.07px}
+.tg-record b{font-weight:400;font-size:15.53px;color:#6cf;word-break:break-all}
+.tg-buttons{flex:none;display:flex;gap:2px;padding:3.45px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.screen .tg-buttons button{flex:1;margin-top:0}
+.tg-intro{display:flex;flex-direction:column;height:100%}
+.tg-intro h3{margin:0;padding:3.45px;font-weight:400;font-size:15.53px;text-align:center}
+.tg-page{flex:1;min-height:0;overflow:auto;padding:0 12px}
+.tg-page p{font-size:15.53px;line-height:1.35}
+.tg-page img{display:block;width:138px;height:161px;margin:0 auto}
+.tg-my{padding:8px}
+.tg-switch{display:flex;align-items:center;gap:8px;padding:6px 0 10px;border-bottom:1px solid #333}
+.tg-switch span{flex:1;display:flex;flex-direction:column}
+.tg-switch b{font-weight:400;font-size:15.53px}
+.tg-switch small{color:#aaa;font-size:12.07px}
+.tg-switch input{appearance:none;width:27.6px;height:27.6px;margin:0;background:url('assets/gb-btn_check_off.png') 0 0/100% 100%}
+.tg-switch input:checked{background-image:url('assets/gb-btn_check_on.png')}
+.tg-form{display:flex;flex-direction:column;gap:4px;padding-top:8px}
+.tg-form input{min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.screen .tg-form button{align-self:flex-end;margin-top:4px}
+
+/* ---------- Voice Dialer: voice_dialing.xml (8 dip padding, 12 pt state) and tool_tip.xml ---------- */
+.vd{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;height:100%;background:#000000b0;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.vd-box{width:calc(100% - 24px);padding:6.9px;border:1px solid #666;border-radius:4px;background:#202020}
+.vd-state{font-size:13.8px}
+.vd-sub{min-height:14px;color:#ccc;font-size:12.07px}
+.vd-row{display:flex;align-items:center;gap:6px}
+.screen .vd-mic{flex:none;padding:0;border:0;background:none;cursor:pointer}
+.vd-mic img{width:72.45px;height:79.35px}
+.vd-ex{display:flex;flex-direction:column;gap:2px;font-size:12.07px;color:#ddd}
+.vd-ex b{color:#fff}
+.vd-tip{width:calc(100% - 24px);padding:12.94px;border:1px solid #555;border-radius:4px;background:#1a1a1a}
+.vd-tip b{display:block;font-weight:400;font-size:13.8px}
+.vd-tip i{display:block;height:1px;margin:6px 0;background:#555}
+.vd-tip p{display:flex;align-items:center;gap:6px;margin:0;font-weight:700;font-size:12.07px}
+.vd-tip img{width:27.6px;height:27.6px}
