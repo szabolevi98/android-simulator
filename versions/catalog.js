@@ -9,7 +9,7 @@ window.ANDROID_VERSIONS = [
     description: 'Touch keys under the glass, the SlidingTab lock screen, option panels behind the Menu key, green status icons and the zombie Gingerbread easter egg.',
     url: 'versions/2.3.6/',
     status: 'available',
-    art: {shot: 'landing-home.jpg?v=4', phone: 'nexuss'}
+    art: {shot: 'landing-home.jpg?v=5', phone: 'nexuss'}
   },
   {
     id: '4.0.4',
@@ -21,7 +21,7 @@ window.ANDROID_VERSIONS = [
     url: 'versions/4.0.4/',
     status: 'available',
     // Landing-card miniature: the version's default wallpaper and search bar style.
-    art: {shot: 'landing-home.jpg?v=2'}
+    art: {shot: 'landing-home.jpg?v=3'}
   },
   {
     id: '4.3',
@@ -32,7 +32,7 @@ window.ANDROID_VERSIONS = [
     description: 'Expandable notifications, Quick Settings, lock-screen widgets, Daydream and the BeanBag easter egg.',
     url: 'versions/4.3/',
     status: 'available',
-    art: {shot: 'landing-home.jpg?v=2', phone: 'nexus4'}
+    art: {shot: 'landing-home.jpg?v=3', phone: 'nexus4'}
   },
   {
     id: '4.4.4',
