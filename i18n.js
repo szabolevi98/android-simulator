@@ -1464,6 +1464,18 @@
     ['%d min ago','%d perce','vor %d Min.','il y a %d min','hace %d min'],
     ['%d hours ago','%d órája','vor %d Std.','il y a %d h','hace %d h'],
     ['No starred places','Nincsenek csillagozott helyek','Keine markierten Orte','Aucun lieu suivi','No hay sitios destacados'],
+    ['World','Világ','Welt','Monde','Internacional'],
+    ['Business','Üzlet','Wirtschaft','Économie','Economía'],
+    ['Entertainment','Szórakozás','Unterhaltung','Divertissement','Entretenimiento'],
+    ['Health','Egészség','Gesundheit','Santé','Salud'],
+    ['Partly Cloudy','Részben felhős','Teils bewölkt','Partiellement nuageux','Parcialmente nublado'],
+    ['Sunny','Napos','Sonnig','Ensoleillé','Soleado'],
+    ['Chance of Rain','Eső várható','Regen möglich','Risque de pluie','Probabilidad de lluvia'],
+    ['Businesses','Vállalkozások','Unternehmen','Entreprises','Empresas'],
+    ['Panoramio Photos','Panoramio-fotók','Panoramio-Fotos','Photos Panoramio','Fotos de Panoramio'],
+    ['Wikipedia','Wikipédia','Wikipedia','Wikipédia','Wikipedia'],
+    ['3D Buildings','3D épületek','3D-Gebäude','Bâtiments 3D','Edificios en 3D'],
+    ['Books','Könyvek','Google Bücher','Livres','Google Libros'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;

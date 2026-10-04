@@ -1,0 +1,120 @@
+/* News & Weather, Books, Earth and Voice Search (gb-google-apps.js). Layout values from the APKs in dip / sp
+   (1 dp = 0.8625 px); hdpi bitmaps x 0.575, mdpi ones (res/drawable) x 0.8625. */
+
+/* ---------- News & Weather 1.3.04 ---------- */
+.nw{display:flex;flex-direction:column;height:100%;background:#1a1a1a;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.nw button{font-family:inherit}
+.nw-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.nw-tabs{flex:none;height:35.36px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;background:#000}
+.nw-tabrow{display:flex;height:100%;width:max-content}
+.screen .nw-tab{flex:none;height:100%;padding:0 12.94px;border:0;background:url('assets/nw-tab_weather_unselected.png') 0 0/100% 100%;color:#9a9a9a;font-size:15.53px;white-space:nowrap;cursor:pointer}
+.screen .nw-tab.on{background-image:url('assets/nw-tab_weather_selected.png');color:#fff}
+.nw-weather{min-height:100%;padding:6.9px;box-sizing:border-box;background:url('assets/nw-weather_background_grey.png') 0 0/100% 100%}
+.nw-panel{border:0 solid transparent;border-width:12.94px;border-image:url('assets/nw-bg_weather_panel_app.png') 15 fill / 12.94px stretch;margin:-6px}
+.nw-city{display:flex;align-items:center;height:43.13px;padding:0 8.63px 0 17.25px}
+.nw-city span{flex:1;min-width:0;font-size:25.88px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nw-city img{width:25.88px;height:25.88px}
+.nw-div{display:block;height:1px;background:#ffffff40}
+.nw-now{position:relative;display:flex;align-items:center}
+.nw-cond{width:77.63px;height:77.63px;margin-top:8.63px}
+.nw-temp{font-size:77.63px;line-height:1;font-weight:400}
+.nw-twc{position:absolute;right:0;top:4.31px;width:34.5px;height:34.5px}
+.nw-detail{display:grid;grid-template-columns:auto 1fr;column-gap:8.63px;padding:0 0 17.25px 81.94px}
+.nw-detail b{font-weight:400;font-size:18.11px}
+.nw-detail b.lo{color:#bfbfbf}
+.nw-detail span,.nw-detail small{grid-column:1/-1}
+.nw-detail span{font-size:13.8px}
+.nw-detail small{color:#bfbfbf;font-size:10.35px}
+.nw-days{display:flex;justify-content:space-around;padding:17.25px 0 21.56px}
+.nw-days span{display:flex;flex-direction:column;align-items:center;font-size:12.94px}
+.nw-days b{font-weight:400}
+.nw-days img{width:25.88px;height:25.88px}
+.nw-days i{font-style:normal}
+.nw-days i.lo{color:#bfbfbf}
+.nw-list{background:#1a1a1a}
+.screen .nw-item{display:flex;align-items:center;gap:4.31px;width:100%;min-height:69px;padding:12.94px;border:0;border-bottom:1px solid #333;background:none;color:#fff;text-align:left;cursor:pointer}
+.screen .nw-item:active{background:linear-gradient(#ffcd3a,#ff9c00)}
+.nw-item span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.nw-item b{font-size:13.8px}
+.nw-item small{color:#a0a0a0;font-size:12.07px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nw-pic{flex:none;width:60.38px;height:60.38px;background:linear-gradient(140deg,hsl(var(--h) 45% 55%),hsl(calc(var(--h) + 60) 40% 25%))}
+.nw-article{background:#fff;color:#000}
+.nw-article .nw-scroll{padding:3.45px 8.63px}
+.nw-article h2{margin:6px 0 2px;font-size:17.25px}
+.nw-article small{color:#666;font-size:11.2px}
+.nw-article p{font-size:13.8px;line-height:1.4}
+
+/* ---------- Books 1.2.2 ---------- */
+.bk{display:flex;flex-direction:column;height:100%;background:#eaf0fb;color:#000;font-family:DroidSans,Arial,sans-serif;overflow:hidden;color-scheme:light}
+.bk button{font-family:inherit}
+.bk-scroll{flex:1;min-height:0;overflow:auto}
+.bk-bar{flex:none;display:flex;align-items:center;height:38.81px;border:0 solid transparent;border-image:url('assets/bk-home_actionbar.png') 35 11 36 11 fill / 20.12px 6.32px 20.7px stretch}
+.bk-logo{flex:1;padding-left:8.63px;color:#fff;font-size:15.53px;text-shadow:0 1px 1px #0005}
+.screen .bk-get{flex:none;width:96.03px;height:100%;padding:0;border:0;background:url('assets/bk-btn_getbooks_default.png') center/96.03px 41.4px no-repeat;color:transparent;cursor:pointer}
+.bk-get span{position:absolute;left:-9999px}
+.screen .bk-search{flex:none;width:41.4px;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.bk-search img{width:41.98px;height:40.25px}
+.bk-grid{display:grid;grid-template-columns:repeat(3,1fr);padding:4px 0}
+.screen .bk-vol{display:flex;flex-direction:column;align-items:center;min-width:0;padding:8.63px 4px;border:0;background:none;color:#000;cursor:pointer}
+.screen .bk-vol:active{background:#ffcd3a80}
+.bk-vol>b{max-width:100%;margin-top:4.31px;font-weight:400;font-size:12.07px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk-vol>small{max-width:100%;color:#888;font-size:9.49px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk-cover{position:relative;display:flex;flex-direction:column;justify-content:space-between;width:62.1px;height:86.25px;padding:6px 4px 6px 8px;box-sizing:border-box;background:linear-gradient(160deg,var(--a),color-mix(in srgb,var(--a) 70%,#000));box-shadow:1px 2px 3px #0006;color:var(--b);text-align:left;overflow:hidden}
+.bk-cover::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:url('assets/bk-spine.png') 0 0/100% 100%;opacity:.7}
+.bk-cover b{font:700 8.5px/1.15 Georgia,serif}
+.bk-cover small{font:italic 7px Georgia,serif}
+.bk-reader{background:#fff}
+.bk-reader.night{background:#111;color:#ddd}
+.bk-rbar{flex:none;display:flex;align-items:center;height:51.75px;padding:0 1.73px;border:0 solid transparent;border-image:url('assets/bk-ab_material_reader_day.png') 34 3 33 3 fill / 19.55px 1.72px 18.97px stretch;color:#000}
+.screen .bk-rbar button{flex:none;width:41.4px;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.bk-rbar button img{width:27.6px;height:27.6px}
+.bk-rtitle{flex:1;min-width:0;display:flex;flex-direction:column;padding-left:4.31px}
+.bk-rtitle b{font-weight:400;font-size:14.66px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk-rtitle small{color:#555;font-size:12.94px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk-page{position:relative;flex:1;min-height:0;overflow:auto}
+.bk-text{padding:17px 20px;font:400 15px/1.55 'Droid Serif',Georgia,serif;white-space:normal}
+.screen .bk-turn{position:absolute;top:0;bottom:0;width:28%;z-index:1;padding:0;border:0;background:none;cursor:pointer}
+.bk-turn.prev{left:0}.bk-turn.next{right:0}
+.bk-scrub{position:relative;flex:none;height:39px;background:url('assets/bk-scrubber_bg_day.png') 0 0/100% 100%}
+.bk-scrub i{position:absolute;left:calc(12px + var(--p) * (100% - 38px));top:6px;width:13.8px;height:12.65px;background:url('assets/bk-knob_default_day.png') 0 0/100% 100%}
+.bk-scrub span{position:absolute;left:0;right:0;bottom:3px;text-align:center;color:#555;font-size:10.35px}
+.bk-reader.night .bk-scrub span{color:#ccc}
+
+/* ---------- Earth 2.0.1 ---------- */
+.ea{position:relative;height:100%;overflow:hidden;background:#000 radial-gradient(1px 1px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 15%,#fff,transparent),radial-gradient(1.5px 1.5px at 85% 60%,#cfe,transparent),radial-gradient(1px 1px at 35% 80%,#fff,transparent),radial-gradient(1px 1px at 55% 45%,#fff8,transparent),radial-gradient(1px 1px at 10% 65%,#fff9,transparent),#000;color:#fff;font-family:DroidSans,Arial,sans-serif;touch-action:none}
+.ea-splash img{display:block;width:100%;height:100%;object-fit:cover}
+.ea-globe{position:absolute;inset:0;width:100%;height:100%;cursor:grab}
+.ea-brand{position:absolute;left:50%;top:25.3px;width:117.88px;height:26.45px;translate:-50% 0;pointer-events:none}
+.screen .ea-north{position:absolute;right:9.2px;top:9.2px;width:36.8px;height:36.8px;padding:0;border:0;background:none;cursor:pointer}
+.ea-north img{width:100%;height:100%}
+.ea-label{position:absolute;left:50%;top:44%;padding:3px 8px;translate:-50% 0;border-radius:3px;background:#000a;font-size:12.94px;pointer-events:none}
+.ea-search{position:absolute;left:0;right:0;top:0;padding:4.31px;background:#000c}
+.ea-search input{display:block;width:100%;box-sizing:border-box;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+
+/* ---------- Voice Search 2.1.3 ---------- */
+.vs{display:flex;flex-direction:column;align-items:center;height:100%;padding-top:34.5px;box-sizing:border-box;background:#000000a6;font-family:DroidSans,Arial,sans-serif;color:#fff}
+.vs button{font-family:inherit}
+.vs-dialog{display:flex;flex-direction:column;width:275.14px;height:228.56px;max-width:100%;padding:1.73px 8.63px 8.63px;box-sizing:border-box;border:0 solid transparent;border-width:13.8px;border-image:url('assets/vs-vs_dialog_red.png') 24 fill / 13.8px stretch}
+.vs-title{margin-top:8.63px;font-size:24.15px;text-align:center;white-space:nowrap}
+.vs-center{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.vs-mic{position:relative;width:55.2px;height:77.63px}
+.vs-mic img{position:absolute;inset:0;width:100%;height:100%}
+.vs-level{clip-path:inset(100% 0 0 0)}
+.vs-mic.on .vs-level{animation:vs-level 1.4s steps(9) infinite}
+@keyframes vs-level{0%{clip-path:inset(85% 0 0 0)}20%{clip-path:inset(55% 0 0 0)}35%{clip-path:inset(75% 0 0 0)}55%{clip-path:inset(40% 0 0 0)}70%{clip-path:inset(70% 0 0 0)}100%{clip-path:inset(88% 0 0 0)}}
+.vs-alert{width:55.2px;height:63.76px}
+.vs-logo{align-self:center;width:54.05px;height:18.98px}
+.vs-buttons{display:flex;margin:8.63px -8.63px -8.63px;border-top:1px solid #ffffff30}
+.screen .vs-buttons button{flex:1;height:46.58px;padding:0;border:0;border-right:1px solid #ffffff30;background:none;color:#fff;font-size:17.25px;cursor:pointer}
+.screen .vs-buttons button:last-child{border-right:0}
+.screen .vs-buttons button:active{background:#ff9c00a0}
+.screen .vs-hint{margin-top:6px;width:275.14px;max-width:100%;padding:12.94px 7.4px 4.96px;border:0 solid transparent;border-image:url('assets/vs-vs_dialog_hintbubble_default.png') 27 25 10 22 fill / 15.52px 14.37px 5.75px 12.65px stretch;background:none;color:#fff;font-size:12.07px;cursor:pointer}
+.vs-helpview{padding-top:8px}
+.vs-helpbox{width:calc(100% - 12px);flex:1;min-height:0;overflow:auto;padding:4px 0;background:#1d1d1d;color:#fff;border:1px solid #555;border-radius:4px}
+.vs-helpbox h3{margin:6px 10px;font-size:15.53px}
+.screen .vs-act{display:flex;align-items:center;gap:8px;width:100%;padding:4.31px 8.63px;border:0;border-top:1px solid #333;background:none;color:#fff;text-align:left;cursor:pointer}
+.screen .vs-act:active{background:linear-gradient(#ffcd3a,#ff9c00)}
+.vs-act img{flex:none;width:36.8px;height:36.8px}
+.vs-act span{display:flex;flex-direction:column}
+.vs-act b{font-size:13.8px}
+.vs-act small{color:#aaa;font-size:12.07px}

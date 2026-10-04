@@ -821,3 +821,30 @@ Maps 5.4 loaded most of its interface text (Directions, Labs, Check in…) from 
 - **Watch screen.** The player plays in real time, with the paused overlay, scrubber and time. Below it are the like, dislike, favorite, share and flag toolbar, and the Info, Related videos and Comments tabs (`tab_drawable`). Comments can be posted.
 - **Menu.** Home, Browse, My Channel, Upload, Search and Settings.
 - **Language.** YouTube 2.1.6 has no Hungarian, so it shows English there, as on the phone.
+
+## News & Weather, Books, Earth and Voice Search — 2026-10-04
+
+These four apps are in `gb-google-apps.js` and `gb-google-apps.css`. The texts come from each APK through `docs/apk-strings.py`.
+
+**News & Weather 1.3.04 (GenieWidget.apk)**
+- The 41 dip tab row, with 18 sp tabs on the `tab_weather_*` 9-patches.
+- `weather_current_view.xml`: the 30 sp city, the 90 dp picture with the 90 sp temperature, high and low, humidity and wind, and the four-day forecast. Units are °F in English and metric elsewhere.
+- `news_item_layout.xml` rows on #1a1a1a, and white story pages.
+- The topic names come from Google's server, so they use the simulator's own translations. The news is made up.
+
+**Books 1.2.2 (BooksPhone.apk)**
+- The 45 dip `home_actionbar` with Get eBooks and search.
+- The library grid on #eaf0fb, with sort by Recently read, Title or Author.
+- The reader: the 60 dip `ab_material_reader_day` bar, contents, day / night, tap-to-turn pages and the page scrubber.
+- The books are the same public-domain openings as on 4.3.
+
+**Earth 2.0.1 (GoogleEarth.apk)**
+- The APK's splash, then a drawn globe that turns and can be spun by dragging.
+- Brand, north button, Search (Fly to a few cities), Layers and My Location.
+- Earth 2.0.1 is English-only.
+
+**Voice Search 2.1.3 (VoiceSearch.apk)**
+- `recognition_dialog.xml` on `vs_dialog_red`: "Speak now", the microphone level meter, the Google watermark, Help and Cancel, and the hint bubble.
+- After five seconds without speech: "No speech heard" with Speak again.
+- Help ("Try saying...") lists the Voice Actions with the image's own per-language examples (`en_US_hint_*`, `de_DE_hint_*`, …). Tapping an example runs it: Messaging, Navigation, Phone, Gmail, Maps, Music, Browser, Clock or Google Search.
+- Voice Search had no Hungarian, so it shows English there.

@@ -118,7 +118,8 @@
     ['downloads', 'Downloads', '⇩', '#9fd36a', '#4f8a2a'],
     // The Nexus S image's Google apps (gb-apps.js registers their screens).
     ['gmail', 'Gmail', '✉', '#e8e8e8', '#c33'], ['maps', 'Maps', '⌖', '#cde5b4', '#4a77a8'], ['navigation', 'Navigation', '▲', '#4a77a8', '#1c3f9a'],
-    ['places', 'Places', '⌖', '#db4437', '#a32'], ['latitude', 'Latitude', '☺', '#4a77a8', '#1c3f9a'], ['talk', 'Talk', '✆', '#5b9bd5', '#2f6ea8'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217']
+    ['places', 'Places', '⌖', '#db4437', '#a32'], ['latitude', 'Latitude', '☺', '#4a77a8', '#1c3f9a'], ['talk', 'Talk', '✆', '#5b9bd5', '#2f6ea8'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'],
+    ['news-weather', 'News & Weather', '☀', '#f5b041', '#2a6fdb'], ['books', 'Books', '▤', '#4285f4', '#1a73e8'], ['earth', 'Earth', '◍', '#1c5fb8', '#05173d'], ['voice-search', 'Voice Search', '🎤', '#eee', '#999']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -134,7 +135,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['gmail', 'maps', 'navigation', 'places', 'latitude', 'talk', 'youtube', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
+  const iconAssets = new Set(['gmail', 'maps', 'navigation', 'places', 'latitude', 'talk', 'youtube', 'news-weather', 'books', 'earth', 'voice-search', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
