@@ -145,6 +145,10 @@
     ['google-search', 'Google', 'g', '#4285f4', '#3367d6'], ['voice-search', 'Voice Search', '🎤', '#eeeeee', '#5f6368'], ['maps', 'Maps', '⌖', '#cfe6b8', '#4285f4'],
     ['keep', 'Keep', '✎', '#f7c600', '#d9a800'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'], ['google-plus', 'Google+', 'g+', '#dd4b39', '#b03a2e'],
     ['earth', 'Earth', '◍', '#1f6fd1', '#0b2f73'], ['news-weather', 'News & Weather', '☼', '#4285f4', '#9e9e9e'], ['google-settings', 'Google Settings', 'g', '#757575', '#424242'],
+    // The rest of the image's launcher (jb-extra-apps.js); Google Keyboard opens Language & input like its SetupActivity.
+    ['messenger', 'Messenger', '✉', '#dd4b39', '#b03a2e'], ['navigation', 'Navigation', '➤', '#4285f4', '#1a73e8'], ['local', 'Local', '⌖', '#db4437', '#a52714'],
+    ['currents', 'Currents', '◐', '#00a1e4', '#0277bd'], ['play-magazines', 'Play Magazines', '▤', '#e53935', '#b71c1c'], ['wallet', 'Wallet', '▭', '#0f9d58', '#0b8043'],
+    ['movie-studio', 'Movie Studio', '▶', '#607d8b', '#37474f'], ['google-keyboard', 'Google Keyboard', '⌨', '#9e9e9e', '#616161'],
     ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['play-movies', 'Google Play Movies', '▶', '#e53935', '#b71c1c'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'],
     ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
@@ -175,7 +179,7 @@
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
   const PLAY_APPS = ['play-music', 'play-movies', 'play-books'];
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'chrome', 'gmail', 'hangouts', 'google-search', 'voice-search', 'maps', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['messenger', 'navigation', 'local', 'currents', 'play-magazines', 'wallet', 'movie-studio', 'google-keyboard', 'phone', 'people', 'messaging', 'browser', 'chrome', 'gmail', 'hangouts', 'google-search', 'voice-search', 'maps', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -594,6 +598,7 @@
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
       case 'chrome': return renderChrome();
+      case 'messenger': case 'navigation': case 'local': case 'currents': case 'play-magazines': case 'wallet': case 'movie-studio': return JBExtraApps.render(ui.view, {ui, t: key => i18n.t(key), contacts: data.contacts});
       case 'google-search': case 'voice-search': case 'maps': case 'keep': case 'youtube': case 'google-plus': case 'earth': case 'news-weather': case 'google-settings': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()});
       case 'hangouts': return hangoutsScope(() => Hangouts.render(data, ui, key => i18n.t(key), i18n.locale(), deviceDate().getTime()));
       case 'gmail': return renderGmail();
@@ -613,6 +618,7 @@
   }
   function openApp(app, resume = false) {
     if(ui.locked)return;
+    if (app === 'google-keyboard') { openApp('settings'); ui.sub = 'language'; render(); return; }
     if (app === 'voice-search') setTimeout(listenVoice);
     if (app === 'keep' && !Array.isArray(data.keepNotes)) data.keepNotes = clone(defaultData.keepNotes);
     if (app === 'email' || app === 'gmail') useMailApp(app);
@@ -1699,6 +1705,8 @@
       case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }
       case 'news-tab': ui.newsTab = id; render(); break;
       case 'maps-search-open': ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); break;
+      case 'kkx-unavailable': toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'jbx-tab': ui.jbxMagazines = id; render(); break;
       // Play Music, Play Movies and Play Books
       case 'pa-drawer': ui.overlay = 'pa-drawer'; renderOverlay(); break;
       case 'pa-page': ui.paPage ||= {}; ui.paPage[ui.view] = id; ui.sub = ''; ui.overlay = ''; renderOverlay(); render(); break;
