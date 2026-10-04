@@ -7,7 +7,7 @@ function load(version,language){
   vm.runInNewContext(fs.readFileSync(`versions/${version}/image-strings.js`,'utf8'),context);
   const i18n=context.window.AndroidI18n;i18n.setLanguage(language);return i18n;
 }
-for(const version of ['2.3.6','4.0.4','4.3']){
+for(const version of ['2.3.6','4.0.4','4.3','4.4.4','5.1.1']){
   const hu=load(version,'hu');
   // Android 4.x Hungarian addresses the user formally (Settings lockpassword_confirm_your_pin_header).
   assert.equal(hu.t('Confirm your PIN'),'PIN-kód megerősítése',version);

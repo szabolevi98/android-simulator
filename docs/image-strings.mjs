@@ -37,11 +37,33 @@ const FILES = {
   // Screens with no counterpart in the image: AOSP Music (the 4.x images have Play Music).
   'music.js': [], 'browser-session.js': [], 'transitions.js': [], 'calculator-engine.js': [],
 };
+const STOCK = {
+  'kk-dialer.js': ['GoogleDialer', 'TeleService', 'Contacts', 'framework'], 'jb-dialer.js': ['GoogleDialer', 'TeleService', 'Contacts', 'framework'],
+  'phone-call.js': ['GoogleDialer', 'TeleService', 'framework'], 'people.js': ['Contacts', 'framework'],
+  'kk-deskclock.js': ['DeskClockGoogle', 'framework'], 'kk-downloads.js': ['DownloadProviderUi', 'DocumentsUI'], 'kk-email.js': ['EmailGoogle', 'framework'],
+  'kk-egg.js': ['SystemUI'], 'kk-play.js': ['Phonesky'], 'kk-wallpaper-picker.js': ['GoogleHome', 'WallpaperCropper'], 'gel-now.js': ['Velvet'],
+  'jb-launcher.js': ['GoogleHome', 'framework'], 'launcher-clings.js': ['GoogleHome'], 'launcher-folders.js': ['GoogleHome'],
+  'widgets.js': ['GoogleHome', 'CalendarGoogle', 'DeskClockGoogle'], 'jb-camera.js': ['GoogleCamera'], 'gmail.js': ['Gmail2'], 'hangouts.js': ['Hangouts'],
+  'chrome.js': ['Chrome'], 'photos.js': ['PlusOne'], 'play-apps.js': ['Music2', 'Videos', 'Books', 'PlayGames'],
+  // Simulated stock apps with texts of their own, and the AOSP Messaging kept in the drawer (the image has none).
+  'kk-extra-apps.js': [], 'stock-apps.js': [], 'messaging.js': [], 'media.js': ['GalleryGoogle', 'framework'],
+};
 const VERSIONS = {
   // simulator.js also draws the Browser; the Nexus 4 image has Chrome instead, so 4.3 keeps the Browser rows.
   '2.3.6': {device: 'crespo', build: 'Nexus S GRK39F', general: ['Browser', 'Contacts', 'Mms', 'MusicGoogle', 'AccountAndSyncSettings']},
   '4.0.4': {device: 'maguro', build: 'Galaxy Nexus IMM76I', general: ['BrowserGoogle']},
   '4.3': {device: 'mako', build: 'Nexus 4 JWR66Y', general: []},
+  // KitKat and Lollipop draw the stock Nexus 5 / Nexus 6 (Google apps); their own files map to those APKs here.
+  '4.4.4': {device: 'hammerhead', build: 'Nexus 5 KTU84P', general: ['GoogleHome', 'Velvet', 'TeleService', 'Keyguard'], files: {...STOCK,
+    'jb-keyguard.js': ['Keyguard', 'framework', 'Settings'], 'lockscreen.js': ['Keyguard', 'framework', 'Settings']}},
+  '5.1.1': {device: 'shamu', build: 'Nexus 6 LMY48Y', general: ['GoogleHome', 'Velvet', 'TeleService', 'Telecom'], files: {...STOCK,
+    'calendar.js': ['CalendarGooglePrebuilt', 'framework'], 'email.js': ['PrebuiltEmailGoogle', 'framework'], 'kk-email.js': ['PrebuiltEmailGoogle', 'framework'],
+    'lp-email.js': ['PrebuiltEmailGoogle', 'framework'], 'gmail.js': ['PrebuiltGmail'], 'people.js': ['GoogleContacts', 'framework'], 'photos.js': ['Photos', 'PlusOne'],
+    'lp-camera.js': ['GoogleCamera'], 'lp-dialer.js': ['GoogleDialer', 'TeleService', 'Telecom', 'framework'], 'lp-egg.js': ['SystemUI'],
+    'lp-keyguard.js': ['SystemUI', 'framework', 'Settings'], 'jb-keyguard.js': ['SystemUI', 'framework', 'Settings'], 'lockscreen.js': ['SystemUI', 'framework', 'Settings'],
+    'lp-recents.js': ['SystemUI'], 'lp-shade.js': ['SystemUI', 'framework'], 'lp-qs-icons.js': ['SystemUI'], 'lp-settings-pages.js': ['Settings', 'framework'],
+    'lp-extra-apps.js': [], 'lp-ripple.js': [], 'lp-scroll.js': [], 'messaging.js': ['PrebuiltBugle']},
+    keep: {'Forward': "Chrome's toolbar shares it with Email; only Email's text is in the image"}},
 };
 // English text -> 'apk:resource' when the screens' APKs disagree.
 const PIN = {
@@ -63,11 +85,13 @@ const PIN = {
 };
 // Rows kept as i18n.js has them: English text -> why.
 const KEEP = {
+  'Lock screen': "the simulator header's power button (an action), not Android's lock-screen noun",
+  'Keep': 'the Google Keep app name; the image only has the Downloads button of that name',
   'Mute': "Settings' silent-mode choice; the in-call button gets the Phone text through CONTEXT below",
 };
 // Texts one APK translates apart from the rest: written as '<context>|<English>' rows that i18n.t(text, context) reads.
 const CONTEXT = {
-  'Mute': ['Phone', 'Phone:onscreenMuteText'],  // the in-call button ('Lezárás' in Hungarian), not Settings' silent mode
+  'Mute': ['Phone', 'Phone:onscreenMuteText', 'GoogleDialer:onscreenMuteText'],  // the in-call button ('Lezárás' in Hungarian), not Settings' silent mode
 };
 
 const version = process.argv[2], config = VERSIONS[version];
@@ -75,18 +99,18 @@ if (!config) { console.error('usage: node docs/image-strings.mjs <' + Object.key
 const rows = eval(fs.readFileSync('i18n.js', 'utf8').match(/const rows = (\[[\s\S]*?\n  \]);/)[1]);
 const index = JSON.parse(fs.readFileSync(`_aosp/${config.device}/strings-index.json`, 'utf8'));
 const dir = `versions/${version}/`;
-const sources = fs.readdirSync(dir).filter(name => /\.(js|html)$/.test(name) && !/^(image-strings|gb-strings-.*|gb-settings-strings)\.js$/.test(name)).map(name => [name, fs.readFileSync(dir + name, 'utf8')]);
+const sources = fs.readdirSync(dir).filter(name => /\.(js|html)$/.test(name) && !/^(image-strings|gb-strings-.*|gb-settings-strings|lp-strings)\.js$/.test(name)).map(name => [name, fs.readFileSync(dir + name, 'utf8')]);
 const LANGS = ['hu', 'de', 'fr', 'es'];
 const quoted = text => [`'${text.replaceAll("'", "\\'")}'`, `"${text.replaceAll('"', '\\"')}"`, '`' + text + '`', `>${text}<`];
 const out = [], report = [], seen = new Set();
 for (const row of rows) {
   const en = row[0];
-  if (seen.has(en) || KEEP[en] || /%|<\/?[a-z]/i.test(en)) continue;
+  if (seen.has(en) || KEEP[en] || config.keep?.[en] || /%|<\/?[a-z]/i.test(en)) continue;
   seen.add(en);
   const all = (index[en] || []).filter(hit => LANGS.every(lang => hit[2][lang]));
   if (!all.length) continue;
   const users = sources.filter(([, text]) => quoted(en).some(q => text.includes(q))).map(([name]) => name);
-  const apps = new Set(users.flatMap(name => FILES[name] ?? [...GENERAL, ...config.general]));
+  const apps = new Set(users.flatMap(name => (config.files || {})[name] ?? FILES[name] ?? [...GENERAL, ...config.general]));
   let hits = all.filter(hit => apps.has(hit[0]));
   if (PIN[en]) hits = all.filter(hit => `${hit[0]}:${hit[1]}` === PIN[en]);
   if (!hits.length) continue;
@@ -101,8 +125,8 @@ for (const row of rows) {
   out.push(next);
   report.push(`${apk}:${name}\t${en}\t${LANGS.map((lang, i) => row[i + 1] === next[i + 1] ? '=' : `${row[i + 1]} -> ${next[i + 1]}`).join(' | ')}\t[${users.join(' ')}]`);
 }
-for (const [en, [context, resource]] of Object.entries(CONTEXT)) {
-  const hit = (index[en] || []).find(hit => `${hit[0]}:${hit[1]}` === resource && LANGS.every(lang => hit[2][lang]));
+for (const [en, [context, ...resources]] of Object.entries(CONTEXT)) {
+  const hit = (index[en] || []).find(hit => resources.includes(`${hit[0]}:${hit[1]}`) && LANGS.every(lang => hit[2][lang])), resource = hit && `${hit[0]}:${hit[1]}`;
   if (hit) { out.push([`${context}|${en}`, ...LANGS.map(lang => hit[2][lang])]); report.push(`${resource}	${context}|${en}	${LANGS.map(lang => hit[2][lang]).join(' | ')}`); }
 }
 const head = `/* Generated by docs/image-strings.mjs from the ${config.build} factory image (values, -hu, -de, -fr, -es). Do not edit. */\n`;

@@ -378,3 +378,7 @@ The owner's video frames (Nexus 4 on 4.2, Nexus 5 on 4.4) show the expanded pane
 **Open folders white again (owner feedback)**
 
 The shared `launcher-folders.css`, loaded after `kk-launcher.css`, replaced the KitKat white `portal_container_holo` with the ICS/JB black one. That left #333 labels on black. The KitKat folder rules now take precedence, and the open Google folder is the white card with dark labels from GSMArena's Nexus 5 screenshot.
+
+## Interface strings from the factory image — 2026-10-04
+
+`docs/image-strings.mjs 4.4.4` writes `versions/4.4.4/image-strings.js` (389 rows) from the Nexus 5 KTU84P image. It uses the same rules as 4.0.4 and 4.3, with the stock apps mapped to their APKs: GoogleDialer, Hangouts, Chrome, Gmail2, Play Music / Movies / Books / Games, Velvet and GoogleHome. The Hungarian text is now the formal one the phone used, and the other languages follow the image. The report is in `docs/image-strings-4.4.4.tsv`.
