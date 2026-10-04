@@ -722,4 +722,4 @@ The Gingerbread screens read their text from `gb-strings-*.js`, which are genera
 
 The screens Gingerbread inherits use the shared `i18n.js` rows. `docs/image-strings.mjs 2.3.6` now overrides those rows with the image's own text: `versions/2.3.6/image-strings.js`, 156 rows, with the same rules as 4.0.4 and 4.3. The changes are listed in `docs/image-strings-2.3.6.tsv`.
 
-Nine French rows in `i18n.js` showed a backslash ("Transfert d\'appel"); they are fixed.
+Seven French rows in `i18n.js` showed a backslash ("Transfert d\'appel"); they are fixed.

@@ -7,7 +7,7 @@
   const RINGTONES=["Andromeda", "Aquila", "Argo Navis", "Atria", "Centaurus", "Girtab", "Hydra", "Kuma", "Machina", "Orion", "Pegasus", "Pyxis", "Rasalas", "Robots for Everyone", "Scarabaeus", "Sceptrum", "Solarium", "Spagnola Orchestration", "Themos", "Zeta"],NOTIFICATIONS=["Adara", "Alya", "Arcturus", "Capella", "Ceti Alpha", "Hojus", "Mira", "Pollux", "Procyon", "Shaula", "Spica", "Syrma", "Talitha", "Tejat", "Vega"];
   // A saved sound the image does not have (from the earlier mixed list) shows and plays as the image's default.
   const soundOf=(p,field)=>{const value=p[field],list=field==='ringtone'?RINGTONES:NOTIFICATIONS;return value==='Silent'||list.includes(value)?value:defaults[field];};
-  const defaults={mediaVolume:60,ringVolume:70,alarmVolume:80,ringtone:'Themos',notificationTone:'Tejat',vibrateRing:false,dialTones:true,touchSounds:true,lockSounds:true,haptic:true,sleep:30,windowScale:1,transitionScale:1,locationAccess:true,daydream:false,daydreamType:'clock',daydreamWhen:'charging',verifyApps:true,pulse:true,dataLimit:false,dataWarning:2};
+  const defaults={mediaVolume:60,ringVolume:70,alarmVolume:80,ringtone:'Themos',notificationTone:'Tejat',vibrateRing:false,dialTones:true,touchSounds:true,lockSounds:true,haptic:true,sleep:30,windowScale:1,transitionScale:1,locationAccess:true,daydream:true,daydreamType:'clock',daydreamWhen:'docked',verifyApps:true,pulse:true,dataLimit:false,dataWarning:2};
   const prefs=data=>({...defaults,...data.settings});
   // Developer options lists from the ICS window_animation_scale arrays.
   const scaleOptions=[[0,'Animation off'],[.5,'Animation scale .5x'],[1,'Animation scale 1x'],[1.5,'Animation scale 1.5x'],[2,'Animation scale 2x'],[5,'Animation scale 5x'],[10,'Animation scale 10x']];

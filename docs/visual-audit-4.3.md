@@ -541,3 +541,12 @@ The browser demo pages are now dated to 2013 ("2013 Web", a Nexus 4 / Jelly Bean
 The shared `i18n.js` rows are hand-written and address the user informally in Hungarian ("Rajzold le…"). The Nexus 4 JWR66Y image addresses the user formally ("Rajzolja le a mintát a feloldáshoz"), and it often words the German, French and Spanish texts differently too. `docs/image-strings.mjs 4.3` writes `versions/4.3/image-strings.js` (372 rows), which overrides the shared rows with the image's own text. The text comes from the image's `strings-index.json`, built by `docs/image-index.py`.
 
 A row is only taken from the APKs whose screens quote it. The calendar view, for example, only reads CalendarGoogle and the framework. When those APKs translate the text in more than one way, the row stays as it was unless `PIN` names the resource. `docs/image-strings-4.3.tsv` lists every change and every skip. Settings header rows are upper-cased, like the list separators (`textAllCaps`). 'Mute' stays as it was: the in-call button's text would also rename the Settings silent-mode choice.
+
+## First-boot defaults from the image — 2026-10-04
+
+The Nexus 4 image's SettingsProvider (`defaults.xml` as compiled) was read, together with the framework config:
+
+- Screen timeout 30 s, touch / screen-lock / dial-pad sounds on, vibrate on touch on, notification light on: these already matched.
+- Automatic brightness: on (`def_screen_brightness_automatic_mode`). It was off in the simulator.
+- Daydream: on (`config_dreamsEnabledByDefault`). It starts while docked (`config_dreamsActivatedOnDockByDefault` true, `…OnSleepByDefault` false), and the Clock is the default dream (`config_dreamsDefaultComponent` = DeskClock Screensaver). The simulator had Daydream off and set to "While charging".
+- The image's default brightness (87 of 255) is not applied: the simulator's brightness only dims the page.
