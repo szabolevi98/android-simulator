@@ -302,6 +302,69 @@ window.GBStrings["wallpapers"] = {
 "de": "Life under the microscope.",
 "fr": "Life under the microscope.",
 "es": "Life under the microscope."
+},
+"wallpaper_maps": {
+"en": "Maps",
+"hu": "Maps",
+"de": "Maps",
+"fr": "Maps",
+"es": "Maps"
+},
+"maps_mode_normal": {
+"en": "Normal",
+"hu": "Normal",
+"de": "Normal",
+"fr": "Standard",
+"es": "Normal"
+},
+"maps_mode_satellite": {
+"en": "Satellite",
+"hu": "Satellite",
+"de": "Satellit",
+"fr": "Satellite",
+"es": "Satélite"
+},
+"wallpaper_maps_desc": {
+"en": "Maps live wallpaper",
+"hu": "Maps live wallpaper",
+"de": "Live-Hintergrund von Google Maps",
+"fr": "Fond d'écran animé Google Maps",
+"es": "Fondo de pantalla animado de Google Maps"
+},
+"maps_map_mode": {
+"en": "Map mode",
+"hu": "Map mode",
+"de": "Kartenmodus",
+"fr": "Mode d'affichage",
+"es": "Modo de mapa"
+},
+"maps_map_mode_summary": {
+"en": "The mode of the map e.g. Satellite",
+"hu": "The mode of the map e.g. Satellite",
+"de": "Der Kartenmodus (z. B. Satellit)",
+"fr": "Mode d'affichage (Satellite, par exemple)",
+"es": "Modo del mapa (p. ej., Satélite)"
+},
+"maps_mode_terrain": {
+"en": "Terrain",
+"hu": "Terrain",
+"de": "Gelände",
+"fr": "Relief",
+"es": "Relieve"
+},
+"maps_settings": {
+"en": "Maps live wallpaper settings",
+"hu": "Maps live wallpaper settings",
+"de": "Einstellungen für Maps-Live-Hintergrund",
+"fr": "Paramètres du fond d'écran animé Google Maps",
+"es": "Configuración del fondo de pantalla animado de Google Maps"
+},
+"maps_show_traffic": {
+"en": "Show traffic",
+"hu": "Show traffic",
+"de": "Verkehr anzeigen",
+"fr": "Afficher les infos trafic",
+"es": "Mostrar tráfico"
 }
 }
 };

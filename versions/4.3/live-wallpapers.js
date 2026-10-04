@@ -793,12 +793,110 @@
     };
   }
 
+  /* ---------- Maps (Google Maps' MapWallpaper, com.google.googlenav.wallpaper; in the Nexus S, Galaxy Nexus and Nexus 4 images)
+     The original draws Google's map tiles around the phone's location, with the blue my-location dot, and scrolls with
+     the home screen. Those tiles cannot ship here, so the map is drawn: a made-up riverside city in the style of the
+     simulator's Maps app, two screens wide. MapWallpaperSettingsActivity's wallpaper_prefs.xml gives the options:
+     "Map mode" (Normal, Satellite or Terrain; map_mode_satellite by default) and, on the Nexus S build (Maps 5.4.0),
+     "Show traffic" (off by default). */
+  function mapsWallpaper(ctx, prefs) {
+    let w = 0, h = 0, sheet = null, key = '';
+    // A small seeded generator: the same city every time.
+    const seeded = seed => () => { seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    const STYLE = {
+      normal: {land: '#f1eee8', block: '#e9e5dc', water: '#a5bfdd', park: '#c8dfae', street: '#ffffff', casing: '#d9d4c8', avenue: '#fdf3a5', avenueCase: '#e6cf6b', highway: '#fbc679', highwayCase: '#d99a45', label: '#5b7b4a'},
+      terrain: {land: '#ebe6d9', block: '#e4ded0', water: '#a5bfdd', park: '#bfd9a2', street: '#fdfcf8', casing: '#d5cfc0', avenue: '#fbf0a0', avenueCase: '#dcc56a', highway: '#f8c07a', highwayCase: '#d0944a', label: '#5b7b4a'},
+      satellite: {land: '#4b5a3c', block: '#5f6355', water: '#22384a', park: '#34512a', street: '#8f8d84', casing: null, avenue: '#a8a396', avenueCase: null, highway: '#b7b0a0', highwayCase: null, label: null}
+    };
+    function build(mode, traffic) {
+      const W = w * 2, H = h, r = Math.min(2, window.devicePixelRatio || 1), c = document.createElement('canvas');
+      c.width = Math.round(W * r); c.height = Math.round(H * r);
+      const g = c.getContext('2d'), S = STYLE[mode] || STYLE.satellite, rnd = seeded(1958), u = w / 360;
+      g.scale(r, r);
+      g.fillStyle = S.land; g.fillRect(0, 0, W, H);
+      if (mode === 'satellite') {
+        // Rooftops, yards and trees as a speckle of greys, ochres and greens.
+        const tones = ['#5d6152', '#6b6a5e', '#56603f', '#475536', '#7a7362', '#3f4a33', '#686d61'];
+        for (let i = 0; i < W * H / (14 * u * 14 * u) * 3; i++) { g.fillStyle = tones[Math.floor(rnd() * tones.length)]; g.fillRect(rnd() * W, rnd() * H, (4 + rnd() * 10) * u, (4 + rnd() * 10) * u); }
+      }
+      if (mode === 'terrain') {
+        // Hill shading: soft light and dark lobes over the land.
+        for (let i = 0; i < 26; i++) {
+          const x = rnd() * W, y = rnd() * H, rad = (60 + rnd() * 140) * u, light = rnd() < .5, grad = g.createRadialGradient(x - rad * .2, y - rad * .2, 0, x, y, rad);
+          grad.addColorStop(0, light ? '#ffffff80' : '#7f8a5a66'); grad.addColorStop(1, '#ffffff00');
+          g.fillStyle = grad; g.fillRect(x - rad, y - rad, rad * 2, rad * 2);
+        }
+      }
+      // Parks.
+      const parks = [[.12, .18, .16, .12], [.3, .62, .1, .16], [.78, .22, .12, .1], [.86, .7, .1, .14], [.5, .08, .08, .07]];
+      g.fillStyle = S.park;
+      for (const [x, y, pw, ph] of parks) { g.beginPath(); g.roundRect(x * W, y * H, pw * W, ph * H, 10 * u); g.fill(); }
+      if (mode === 'satellite') {
+        g.fillStyle = '#2a4321';
+        for (const [x, y, pw, ph] of parks) for (let i = 0; i < 40; i++) { g.beginPath(); g.arc((x + rnd() * pw) * W, (y + rnd() * ph) * H, (2 + rnd() * 4) * u, 0, Math.PI * 2); g.fill(); }
+      }
+      // Streets: two grids at slightly different angles, either side of the river.
+      const riverX = y => W * .56 + Math.sin(y / H * Math.PI * 1.4 + .6) * W * .05;
+      const line = (pts, width, color) => { if (!color) return; g.strokeStyle = color; g.lineWidth = width; g.lineCap = 'round'; g.lineJoin = 'round'; g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke(); };
+      const grid = (x0, x1, angle, step) => {
+        const ca = Math.cos(angle), sa = Math.sin(angle), cx = (x0 + x1) / 2, cy = H / 2, span = Math.hypot(x1 - x0, H);
+        const lines = [];
+        for (let d = -span; d <= span; d += step) {
+          lines.push([[cx + ca * d - sa * span, cy + sa * d + ca * span], [cx + ca * d + sa * span, cy + sa * d - ca * span]]);
+          lines.push([[cx - sa * d - ca * span, cy + ca * d - sa * span], [cx - sa * d + ca * span, cy + ca * d + sa * span]]);
+        }
+        return lines;
+      };
+      const west = grid(0, W * .56, -.2, 34 * u), east = grid(W * .56, W, .12, 30 * u);
+      for (const [lines, x0, x1] of [[west, 0, W * .56], [east, W * .56, W]]) {
+        g.save(); g.beginPath(); g.rect(x0, 0, x1 - x0, H); g.clip();
+        if (S.casing) for (const l of lines) line(l, 5 * u, S.casing);
+        for (const l of lines) line(l, (mode === 'satellite' ? 1.6 : 3.2) * u, S.street);
+        g.restore();
+      }
+      // The river with its embankments.
+      const bank = [];
+      for (let y = -10; y <= H + 10; y += 8) bank.push([riverX(y), y]);
+      line(bank, 48 * u, S.water);
+      // Avenues, the bridges and a ring road.
+      const avenues = [[[0, H * .3], [W * .3, H * .27], [riverX(H * .26), H * .26], [W, H * .2]], [[0, H * .74], [W * .4, H * .7], [riverX(H * .68), H * .68], [W, H * .62]], [[W * .2, 0], [W * .24, H * .5], [W * .18, H]], [[W * .8, 0], [W * .76, H * .45], [W * .82, H]]];
+      const ring = [];
+      for (let a = 0; a <= Math.PI * 2 + .01; a += .1) ring.push([W * .5 + Math.cos(a) * W * .38, H * .5 + Math.sin(a) * H * .42]);
+      for (const a of avenues) { line(a, 9 * u, S.avenueCase); line(a, 6.4 * u, S.avenue); }
+      line(ring, 12 * u, S.highwayCase); line(ring, 8.6 * u, S.highway);
+      if (traffic) {
+        // Traffic on the arterials: mostly green, a few slow (yellow) and jammed (red) stretches.
+        const paint = pts => { for (let i = 1; i < pts.length; i++) { const t = rnd(); line([pts[i - 1], pts[i]], 3.4 * u, t < .7 ? '#4fb34a' : t < .9 ? '#f4c430' : '#d93a2b'); } };
+        for (const a of avenues) { const pts = []; for (let i = 1; i < a.length; i++) for (let s = 0; s < 6; s++) { const f = s / 6; pts.push([a[i - 1][0] + (a[i][0] - a[i - 1][0]) * f, a[i - 1][1] + (a[i][1] - a[i - 1][1]) * f]); } pts.push(a[a.length - 1]); paint(pts); }
+        paint(ring.filter((_, i) => i % 2 === 0));
+      }
+      return c;
+    }
+    return {
+      interval: 40,
+      resize(cw, ch) { w = cw; h = ch; key = ''; },
+      draw(offset) {
+        const p = prefs?.() || {}, mode = p.mode || 'satellite', traffic = p.traffic === true, next = `${w}x${h}:${mode}:${traffic}`;
+        if (next !== key) { sheet = build(mode, traffic); key = next; }
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(sheet, -offset * w, 0, w * 2, h);
+        // My location, at the middle of the two screens: the blue dot with its accuracy circle.
+        const x = w - offset * w, y = h * .52, s = w / 360;
+        ctx.fillStyle = '#4a90e238'; ctx.strokeStyle = '#4a90e2aa'; ctx.lineWidth = 1.2 * s;
+        ctx.beginPath(); ctx.arc(x, y, 34 * s, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(x, y, 8.5 * s, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#2f80ed'; ctx.beginPath(); ctx.arc(x, y, 6 * s, 0, Math.PI * 2); ctx.fill();
+      }
+    };
+  }
+
   /* ---------- Registry, in the order LiveWallpaperListAdapter sorts the labels ---------- */
   const LIST = [
     {id: 'bubbles', label: 'Bubbles', thumb: 'lw-noisefield_thumb.png', make: (c, a) => noiseField(c, a), gl: true},
     {id: 'galaxy', label: 'Galaxy', thumb: 'lw-galaxy_thumb.jpg', make: (c, a, o) => galaxy(c, a, o.preview), gl: true},
     {id: 'grass', label: 'Grass', thumb: 'lw-grass_thumb.jpg', make: (c, a, o) => grass(c.getContext('2d'), a, o.preview)},
     {id: 'holospiral', label: 'Holo Spiral', thumb: 'lw-holospiral_thumb.png', make: (c, a) => holoSpiral(c, a), gl: true},
+    {id: 'maps', label: 'Maps', thumb: 'lw-maps_thumb.png', settings: true, make: (c, a, o) => mapsWallpaper(c.getContext('2d'), o.prefs)},
     {id: 'nexus', label: 'Nexus', thumb: 'lw-nexus_thumb.png', make: (c, a) => nexus(c.getContext('2d'), a)},
     {id: 'phasebeam', label: 'Phase Beam', thumb: 'lw-phasebeam_thumb.png', make: (c, a) => phaseBeam(c, a), gl: true},
     {id: 'polar', label: 'Polar clock', thumb: 'lw-polarclock_thumb.jpg', settings: true, make: (c, a, o) => polarClock(c.getContext('2d'), a, o.prefs)},

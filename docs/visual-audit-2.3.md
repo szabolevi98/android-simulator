@@ -744,3 +744,13 @@ The four GLSL programs (microbe, food, dead shell, background blob) are plain st
 - drawing with additive blending on black.
 
 The Galaxy Nexus copy (4.0.4) has the same shaders and constants. The world is Launcher2's desired wallpaper size: twice the screen width by the screen height. The picker shows the image's untranslated "Microbes" and "Life under the microscope.". The thumbnail is our own capture, not Google's JPEG.
+
+## Maps live wallpaper — 2026-10-04
+
+Maps 5.4.0 on the Nexus S image registers `com.google.googlenav.wallpaper.MapWallpaper`. It draws Google's map tiles around the phone's location and scrolls them with the home screen. Those tiles cannot ship here. As the owner proposed, the wallpaper draws a map in the style of the simulator's Maps app instead: a made-up riverside city two screens wide, with the blue my-location dot.
+
+The settings follow the image's `wallpaper_prefs.xml`:
+- "Show traffic", off by default. When on, the arterials are drawn green, yellow and red.
+- "Map mode": Normal, Satellite or Terrain, with Satellite (`map_mode_satellite`) as the default.
+
+The labels are the image's own; Maps 5.4.0 has no Hungarian, so the Hungarian interface shows them in English. The Galaxy Nexus (Maps 6.4.0) and Nexus 4 (Maps 6.14.4) builds dropped "Show traffic", so 4.0.4 and 4.3 offer only Map mode, translated as their images have it. The thumbnail is a capture of our own drawing.

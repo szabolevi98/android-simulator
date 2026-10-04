@@ -4,11 +4,11 @@ vm.runInNewContext(fs.readFileSync('versions/4.3/live-wallpapers.js','utf8'),con
 const lw=context.window.LiveWallpapers,plain=v=>JSON.parse(JSON.stringify(v));
 // The two copies differ in Phase Beam's label (IMM76I's PhaseBeam.apk has no translations: raw, JWR66Y's has) and in
 // Microbes, which only the Galaxy Nexus image ships.
-const lf=f=>fs.readFileSync(f,'utf8').replace(/\r\n/g,'\n'),ics=lf('versions/4.0.4/live-wallpapers.js'),microbes=/\n  \/\* ---------- Microbes [\s\S]*?\n  }\n(?=\n  \/\* ---------- Registry)/;
+const lf=f=>fs.readFileSync(f,'utf8').replace(/\r\n/g,'\n'),ics=lf('versions/4.0.4/live-wallpapers.js'),microbes=/\n  \/\* ---------- Microbes [\s\S]*?\n  }\n(?=\n  \/\* ---------- )/;
 assert.ok(microbes.test(ics),'Microbes scene in 4.0.4');
 assert.equal(ics.replace(microbes,'').replace(/    \{id: 'microbes'.*\n/,'').replaceAll(', gl: true, raw: true}',', gl: true}'),lf('versions/4.3/live-wallpapers.js'),'both versions share the rest of the file');
 // packages/wallpapers/Basic services, sorted by label as LiveWallpaperListAdapter does with a Collator.
-assert.deepEqual(plain(lw.sorted(k=>k,'en').map(s=>s.label)),['Bubbles','Galaxy','Grass','Holo Spiral','Many','Nexus','Phase Beam','Polar clock','Spectrum','VU meter','Water','Waveform']);
+assert.deepEqual(plain(lw.sorted(k=>k,'en').map(s=>s.label)),['Bubbles','Galaxy','Grass','Holo Spiral','Many','Maps','Nexus','Phase Beam','Polar clock','Spectrum','VU meter','Water','Waveform']);
 // Phase Beam, the Galaxy Nexus and Nexus 4 default (default_wallpaper_component), with its image's mesh and textures.
 const pb=fs.readFileSync('versions/4.3/live-wallpapers.js','utf8');assert.ok(pb.includes('interval: 66')&&pb.includes('gl.blendFunc(gl.SRC_ALPHA, gl.ONE)'));
 for(const v of ['4.0.4','4.3']){for(const f of ['dot','beam','thumb'])assert.ok(fs.existsSync(`versions/${v}/assets/lw-phasebeam_${f}.png`),v+f);assert.ok(fs.readFileSync(`versions/${v}/simulator.js`,'utf8').includes("liveWallpaper: { id: 'phasebeam' }"),v);}
@@ -20,9 +20,9 @@ playing=true;const pcm=cap.pcm(1024);assert.equal(pcm.length,1024);assert.ok(pcm
 assert.equal(cap.fft(512).length,512);
 // Visualization4RS needle: at rest it parks at 131°, a loud signal swings it toward the peak.
 const needle=lw.needleModel();needle.step([]);assert.equal(needle.angle,131);for(let i=0;i<40;i++)needle.step(new Array(64).fill(50000));assert.ok(needle.angle<131);
-const hu={Galaxy:'Galaxis',Grass:'Fű','Polar clock':'Íves óra',Water:'Víz',Nexus:'Nexus',Waveform:'Hullám',Spectrum:'Spektrum','VU meter':'Kivezérlésjelző',Many:'Sok','Phase Beam':'Elmosódott cseppek','Holo Spiral':'Holografikus spirál',Bubbles:'Buborékok'};
-assert.deepEqual(plain(lw.sorted(k=>hu[k]||k,'hu').map(s=>hu[s.label])),['Buborékok','Elmosódott cseppek','Fű','Galaxis','Holografikus spirál','Hullám','Íves óra','Kivezérlésjelző','Nexus','Sok','Spektrum','Víz']);
-assert.deepEqual(plain(lw.LIST.filter(s=>s.settings).map(s=>s.id)),['polar'],'only Polar clock has a settings activity');
+const hu={Galaxy:'Galaxis',Grass:'Fű','Polar clock':'Íves óra',Water:'Víz',Nexus:'Nexus',Waveform:'Hullám',Spectrum:'Spektrum','VU meter':'Kivezérlésjelző',Many:'Sok','Phase Beam':'Elmosódott cseppek','Holo Spiral':'Holografikus spirál',Bubbles:'Buborékok',Maps:'Térkép'};
+assert.deepEqual(plain(lw.sorted(k=>hu[k]||k,'hu').map(s=>hu[s.label])),['Buborékok','Elmosódott cseppek','Fű','Galaxis','Holografikus spirál','Hullám','Íves óra','Kivezérlésjelző','Nexus','Sok','Spektrum','Térkép','Víz']);
+assert.deepEqual(plain(lw.LIST.filter(s=>s.settings).map(s=>s.id)),['maps','polar'],'Maps and Polar clock have settings activities');
 assert.deepEqual(plain(lw.PALETTE_ORDER),['palette_gray','palette_white_c','palette_black_c','palette_matrix','palette_halloween','palette_violet','palette_oceanic','palette_zenburn']);
 assert.equal(lw.PALETTES.palette_violet.minute,'#603050');
 for(const id of lw.PALETTE_ORDER)assert.ok(lw.PALETTE_NAMES[id],id);
@@ -42,3 +42,13 @@ for(const v of ['2.3.6','4.0.4']){
 }
 assert.ok(!lw.find('microbes'),'the Nexus 4 image has no Microbes');
 console.log('Microbes checks passed: registered on 2.3.6 and 4.0.4 with the library shaders.');
+// Maps (Google Maps' MapWallpaper, in all three images): drawn here, with wallpaper_prefs.xml's options and translations.
+for(const v of ['2.3.6','4.0.4','4.3']){
+  const c={window:{devicePixelRatio:1},Intl,performance,document:{},Image:class{},requestAnimationFrame:()=>0,cancelAnimationFrame:()=>{}};
+  vm.runInNewContext(fs.readFileSync(`versions/${v}/live-wallpapers.js`,'utf8'),c);
+  const spec=c.window.LiveWallpapers.find('maps');assert.ok(spec&&spec.settings,v);assert.ok(fs.existsSync(`versions/${v}/assets/lw-maps_thumb.png`),v);
+  const sim=fs.readFileSync(`versions/${v}/simulator.js`,'utf8');assert.ok(sim.includes("sub === 'settings:maps'")&&sim.includes("case 'lw-mapmode-pick'"),v);
+  assert.equal(sim.includes("data-id=\"maps:traffic\""),v==='2.3.6','Show traffic only in Maps 5.4.0 (Nexus S)');
+}
+assert.ok(fs.readFileSync('i18n.js','utf8').includes('["Maps|Normal", "Normál", "Normal", "Standard", "Normal"]')||fs.readFileSync('i18n.js','utf8').includes('["Maps|Normal","Normál","Normal","Standard","Normal"]'));
+console.log('Maps wallpaper checks passed: registered with settings on 2.3.6, 4.0.4 and 4.3.');
