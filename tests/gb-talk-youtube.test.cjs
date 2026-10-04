@@ -1,0 +1,24 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// Nexus S: Google Talk 1.3 (gb-talk.js) and YouTube 2.1.6 (gb-youtube.js) on GBApps.
+const w={setTimeout,clearTimeout,setInterval,clearInterval};w.window=w;w.document={querySelector:()=>null,addEventListener(){}};
+for(const f of ['gb-apps.js','gb-talk.js','gb-youtube.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),w);
+const {GBApps,GBTalk,GBYouTube}=w,talk=GBApps.get('talk'),yt=GBApps.get('youtube');
+const contacts=[{id:1,name:'Alex Morgan'},{id:2,name:'Sam Rivera'},{id:3,name:'Taylor Lee'},{id:4,name:'Mom'}];
+const ui={},data={},toasts=[],ctx={ui,data,contacts,lang:'en',account:'gingerbread.demo@gmail.com',ok:'OK',cancel:'Cancel',t:k=>k,root:{querySelector:()=>null},save(){},render(){},renderOverlay(){},toast:m=>toasts.push(m),dialog(k){ui.dlg=k;},focus(){},openApp(a){ui.opened=a;}};
+let html=talk.render(ctx);
+assert.ok(html.includes('Friends list')&&html.includes('gingerbread.demo@gmail.com')&&html.includes('tk-buddy')&&html.includes('On the trail with my Nexus S'));
+assert.ok(html.indexOf('Alex Morgan')<html.indexOf('Sam Rivera'),'available friends first');
+talk.handle('tk-chat','1',ctx);assert.equal(ui.tkChat,'1');
+assert.ok(talk.submit('tk-send',new Map([['body','Hi :-)']]),ctx));assert.equal(data.talk23.chats['1'][0].body,'Hi :-)');
+html=talk.render(ctx);assert.ok(html.includes('tk-emo_im_happy')&&html.includes('Type to compose'));
+assert.equal(JSON.stringify(talk.menu(ctx).slice(0,5).map(i=>i.title)),JSON.stringify(['Friends list','Switch chats','Chat off record','Add to chat','End chat']));
+talk.handle('tk-presence','busy',ctx);assert.equal(data.talk23.presence,'busy');
+assert.ok(talk.back(ctx));assert.equal(ui.tkChat,'');
+assert.equal(GBTalk.T('hu','Friends list'),'Ismerőslista');
+html=yt.render(ctx);assert.ok(html.includes('yt-logo')&&html.includes('Most viewed')&&html.includes('9,871,442 views'));
+yt.handle('yt-watch','y3',ctx);html=yt.render(ctx);assert.ok(html.includes('yt-player')&&html.includes('Related videos')&&html.includes('Pets &amp; Animals'));
+yt.handle('yt-fav',null,ctx);assert.ok(data.youtube23.favorites.includes('y3'));assert.ok(toasts.includes('Video added to favorites'));
+assert.ok(yt.submit('yt-search',new Map([['q','nexus']]),ctx));assert.equal(ui.ytPage,'results');assert.ok(yt.render(ctx).includes('Results for &quot;nexus&quot;'));
+assert.equal(JSON.stringify(yt.menu(ctx).map(i=>i.title)),JSON.stringify(['Home','Browse','My Channel','Upload','Search','Settings']));
+assert.equal(GBYouTube.T('de','Browse'),'Durchsuchen');assert.equal(GBYouTube.T('hu','Browse'),'Browse','YouTube 2.1.6 has no Hungarian');
+console.log('gb-talk-youtube ok');

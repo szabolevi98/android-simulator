@@ -1,0 +1,63 @@
+/* YouTube 2.1.6 (gb-youtube.js) on the dark framework Theme: YouTube.apk's dimens (dp; 1 dp = 0.8625 px), hdpi bitmaps and
+   9-patches x 0.575. grey_text #cccccc, white_text #ffffff, tab_text #888888 / #ffffff. */
+.yt{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif;overflow:hidden;color-scheme:dark}
+.yt button{font-family:inherit}
+.yt-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+/* header.xml: 51 dip on header.9 (1 dip margins), the logo, then the upload and search buttons split by header_divider. */
+.yt-header{flex:none;display:flex;align-items:center;height:43.99px;margin:.86px 0;border:0 solid transparent;border-image:url('assets/yt-header.png') 11 8 11 8 fill / 6.32px 4.6px stretch}
+.screen .yt-logo{flex:none;height:100%;padding:0 0 0 4.31px;border:0;background:none;cursor:pointer}
+.yt-logo img{display:block;width:60.95px;height:27.6px}
+.yt-hbtns{flex:1;display:flex;justify-content:flex-end;align-items:center;height:100%}
+.yt-hdiv{width:1.15px;height:24.15px}
+.screen .yt-hbtns button{width:43.99px;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.screen .yt-hbtns button:active{background:#ffffff22}
+.yt-hbtns button img{width:34.5px;height:34.5px}
+.yt-title{flex:none;padding:4.31px;color:#fff;font-weight:700;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.yt-search{flex:none;padding:3.45px;background:#212121}
+.yt-search input{display:block;width:100%;box-sizing:border-box;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+/* video_item.xml: 7 dip top padding, the 80 x 60 dip thumbnail in video_frame, the duration on black, 13 / 12 dp texts. */
+.screen .yt-item{display:flex;align-items:flex-start;width:100%;padding:6.04px 0 6.04px 0;border:0;background:none;color:#fff;text-align:left;cursor:pointer}
+.screen .yt-item:active{background:linear-gradient(#ffcd3a,#ff9c00)}
+.yt-frame{position:relative;flex:none;margin-left:.86px;padding:.58px;border:1px solid #444;background:#111}
+.yt-thumb{position:relative;display:block;width:69px;height:51.75px;overflow:hidden;background:linear-gradient(135deg,var(--a),var(--b))}
+.yt-thumb em{position:absolute;left:4px;right:4px;bottom:3px;color:#fff;font:italic 700 8px Georgia,serif;line-height:1.1;text-shadow:0 1px 2px #000}
+.yt-dur{position:absolute;right:2.88px;bottom:2.88px;padding:0 .86px;background:#000;color:#ccc;font-style:normal;font-size:10.35px}
+.yt-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:1.73px;margin-left:4.31px;padding-right:4.31px}
+.yt-meta b{font-size:11.21px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.yt-meta small{color:#ccc;font-size:10.35px}
+.screen .yt-item:active .yt-meta small{color:#212121}
+.yt-new{color:#d00;font-style:normal;margin-left:4.31px}
+.yt-empty{padding:12px;color:#ccc;font-size:12.94px;text-align:center}
+/* category_item.xml: 18 dp white, 5 dip left padding. */
+.screen .yt-cat{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 4.31px;border:0;border-bottom:1px solid #333;background:none;color:#fff;font-size:15.53px;text-align:left;cursor:pointer}
+.screen .yt-cat:active{background:linear-gradient(#ffcd3a,#ff9c00);color:#000}
+/* watch_activity.xml: the player, the toolbar, the tab row (tab_drawable, 16 dp) and the workspace. */
+.yt-player{position:relative;flex:none;aspect-ratio:16/9;max-height:42%;margin-bottom:.86px;background:#000}
+.screen .yt-screen{position:absolute;inset:0;width:100%;padding:0;border:0;background:linear-gradient(135deg,var(--a),var(--b));cursor:pointer;overflow:hidden}
+.yt-player.playing .yt-screen{animation:yt-pan 18s ease-in-out infinite alternate}
+@keyframes yt-pan{to{background-position:100% 0;filter:hue-rotate(25deg) brightness(1.1)}}
+.yt-screen em{position:absolute;left:8%;right:8%;bottom:22%;color:#fff;font:italic 700 15px Georgia,serif;text-align:left;text-shadow:0 1px 3px #000}
+.yt-paused{position:absolute;left:50%;top:45%;width:37.38px;height:41.98px;translate:-50% -50%}
+.yt-paused[src*="replay"]{width:56.35px;height:56.35px}
+.yt-bar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:6px;height:22px;padding:0 6px;background:#000000b0;font-size:10.35px;color:#fff}
+.yt-track{position:relative;flex:1;height:3.45px;background:#555}
+.yt-track i{position:absolute;left:0;top:0;bottom:0;background:#d00}
+.yt-tools{flex:none;display:flex;background:#212121}
+.screen .yt-tool{flex:1;height:34.5px;padding:0;border:0;border-left:1px solid #000;background:none;cursor:pointer}
+.screen .yt-tool.on{background:#3a3a3a}
+.yt-tool img{width:27.6px;height:27.6px}
+.yt-tabs{flex:none;display:flex;background:#000}
+.screen .yt-tab{flex:1;min-width:0;min-height:31px;padding:4.97px 5.62px;border:0 solid transparent;border-image:url('assets/yt-btn_tab_default.png') 0 3 1 3 fill / 0 1.72px .57px stretch;background:none;color:#888;font-size:13.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.screen .yt-tab.on{border-image:url('assets/yt-btn_tab_selected.png') 39 21 5 21 fill / 22.42px 12.07px 2.88px stretch;color:#fff}
+.yt-info{padding:4.31px}
+.yt-info h3{margin:0;padding:1.73px 0;font-size:15.53px}
+.yt-info p{margin:0;font-size:11.21px;line-height:1.35}
+.yt-info b{display:block;margin-top:8.63px;font-size:11.21px}
+.yt-info .grey{color:#888}
+.screen .yt-channel{margin-top:8.63px;min-height:34px;padding:4px 12px 7px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font-weight:700;font-size:12.07px;cursor:pointer}
+.yt-comment{display:flex;gap:4px;padding:4.31px}
+.yt-comment input{flex:1;min-width:0;min-height:38px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5px 9px 9px;background:none;color:#000;font:400 12.94px DroidSans,Arial,sans-serif;outline:0}
+.screen .yt-comment button{padding:0 10px 5px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font-size:12.07px;cursor:pointer}
+.yt-c{display:flex;flex-direction:column;min-height:55.2px;padding:4.31px;border-bottom:1px solid #333;font-size:11.21px}
+.yt-c span,.yt-c small{color:#ccc}
+.yt-c small{padding-bottom:5.18px}

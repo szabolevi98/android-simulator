@@ -805,3 +805,19 @@ Period reference: Liliputing and Habr screenshots of Gmail 2.3.2 compose (Decemb
 The map is the Maps live wallpaper's drawn city, now shared as `LiveWallpapers.mapSheet`. The places, friends and routes are made up.
 
 Maps 5.4 loaded most of its interface text (Directions, Labs, Check in…) from a downloaded language pack that is not in the image. Those texts use the simulator's own rows: new `i18n.js` rows were taken from the Galaxy Nexus and Nexus 4 images where those have them (Directions, Bicycling, Check in, Now), and written by hand otherwise.
+
+## Google Talk 1.3 and YouTube 2.1.6 — 2026-10-04
+
+**Talk.** `gb-talk.js` and `gb-talk.css`, built from Talk2.apk.
+- **Friends list.** `roster_list.xml` on #e3e3e3 has your own row and 65 dip friend rows. Each row has the picture, the bold name and the status, then the separator and the 62 dip presence column. Voice and video friends get the microphone presence icons. Offline friends are on #cccccc. Tapping your row opens Set status (Available, Busy, Invisible and a status message).
+- **Chat.** `title_message_bar.xml` on `header_chat` holds the name, the status, the presence and the voice and video buttons. Received lines are on #effbff, with names in chat_from #7785e0 and chat_me #3492c5. The compose bar on `bottombar_landscape_565` has "Type to compose" and Send. Emoticons render as in the app, and Insert smiley adds them. Friends answer with made-up replies.
+- **Menus and texts.** Both screens have their Menu-key menus, and the texts are Talk2.apk's.
+
+**YouTube.** `gb-youtube.js` and `gb-youtube.css`, built from YouTube.apk on the dark framework Theme.
+- **Header.** `header.xml`: 51 dip, with the logo and the upload and search buttons.
+- **Video rows.** `video_item.xml`: an 80 × 60 dip thumbnail frame with the duration on black, the 13 dp title, and the 12 dp author and views.
+- **Browse.** The Browse categories, with the time filter.
+- **Search.**
+- **Watch screen.** The player plays in real time, with the paused overlay, scrubber and time. Below it are the like, dislike, favorite, share and flag toolbar, and the Info, Related videos and Comments tabs (`tab_drawable`). Comments can be posted.
+- **Menu.** Home, Browse, My Channel, Upload, Search and Settings.
+- **Language.** YouTube 2.1.6 has no Hungarian, so it shows English there, as on the phone.

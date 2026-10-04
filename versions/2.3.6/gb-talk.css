@@ -1,0 +1,49 @@
+/* Google Talk 1.3 (gb-talk.js): Talk2.apk's layouts in dip (1 dp = 0.8625 px), hdpi bitmaps and 9-patches x 0.575. */
+.tk{display:flex;flex-direction:column;height:100%;background:#e3e3e3;color:#000;font-family:DroidSans,Arial,sans-serif;overflow:hidden;color-scheme:light}
+.tk button{font-family:inherit}
+.tk-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+
+/* roster_list_item.xml: 65 dip, the picture, 18 sp bold name and 14 sp status, the separator, the 62 dip presence column. */
+.screen .tk-buddy,.screen .tk-self{position:relative;display:flex;align-items:stretch;width:100%;height:56.06px;margin:0;padding:0 0 .86px;border:0;background:#e3e3e3;box-shadow:inset 0 -1px #c9c9c9;color:#000;text-align:left;cursor:pointer}
+.screen .tk-self{height:55.2px;background:#a8a8a8;color:#fff}
+.screen .tk-buddy.off{background:#ccc;color:#666}
+.screen .tk-buddy:active,.screen .tk-self:active{background:linear-gradient(#ffcd3a,#ff9c00)}
+.tk-avatar{flex:none;align-self:center;width:41.4px;height:41.4px;margin:0 1.73px;border:0 solid transparent;border-width:2.64px;border-image:url('assets/tk-im_avatar_picture_border_normal.png') 31 fill / 17.82px stretch;box-sizing:border-box;background:#fff}
+.tk-self .tk-avatar{width:45.71px;height:45.71px}
+.tk-avatar img{display:block;width:100%;height:100%}
+.tk-text{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding-left:6.9px}
+.tk-text b{font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-text small{font-size:12.07px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-self .tk-text small{color:#fff}
+.tk-buddy.off .tk-text small{color:#666}
+.tk-kind{position:absolute;right:2px;bottom:3px;width:14.38px;height:10.35px}
+.tk-active{align-self:center;width:13.8px;height:13.8px;margin-right:4px}
+.tk-sep{flex:none;width:1.73px;background:url('assets/tk-seperator_vertical_light.png') 0 0/100% 100%}
+.tk-presence{flex:none;display:flex;align-items:center;justify-content:center;width:53.48px}
+.tk-presence img{width:20.7px;height:20.7px}
+
+/* The chat: title_message_bar.xml on header_chat (64 dip buttons), chat_screen_item.xml rows, the compose bar. */
+.tk-chatview{background:#fff}
+.tk-bar{flex:none;display:flex;align-items:center;height:55.2px;border:0 solid transparent;border-image:url('assets/tk-header_chat.png') 15 14 14 15 fill / 8.62px 8.05px 8.05px 8.62px stretch;color:#fff}
+.tk-who{flex:1;min-width:0;display:flex;flex-direction:column;padding:0 6.9px}
+.tk-who b{font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-who small{font-size:12.07px;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-pres{flex:none;width:20.7px;height:20.7px;margin:0 6.9px}
+.tk-msep{flex:none;align-self:stretch;width:1.73px;background:url('assets/tk-seperator_vertical_light.png') 0 0/100% 100%;opacity:.5}
+.screen .tk-bar button{flex:none;width:44.85px;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.screen .tk-bar button:active{background:#ff9c0080}
+.tk-bar button img{width:27.6px;height:27.6px}
+.tk-history{background:#fff}
+.tk-msg{display:flex;align-items:flex-start;background:#effbff}
+.tk-msg.me{background:#fff}
+.tk-badge{flex:none;width:33.6px;height:33.6px;margin:4.31px 1.73px 4.31px 4.31px}
+.tk-msg p{flex:1;min-width:0;margin:0;padding:5.18px 6.04px 2.59px 4.31px;font-size:15.53px;line-height:1.3;word-wrap:break-word}
+.tk-msg b{color:#7785e0}
+.tk-msg.me b{color:#3492c5}
+.tk-emo{width:17.25px;height:17.25px;vertical-align:-3px}
+.tk-note{margin:0;padding:4px 8px;background:#ffffe0;color:#555;font-size:12.07px;text-align:center}
+.tk-compose{flex:none;display:flex;align-items:stretch;gap:3.45px;padding:3.45px 4.31px 0;background:url('assets/tk-bottombar_landscape_565.png') 0 0/100% 100%}
+.tk-compose input{flex:1;min-width:0;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.tk-compose input:focus{border-image-source:url('assets/gb-textfield_selected.png')}
+.screen .tk-compose button{flex:none;min-width:60px;padding:0 9px 5px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font-size:12.07px;cursor:pointer}
+.screen .tk-compose button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
