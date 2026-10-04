@@ -2,7 +2,10 @@
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const defaults={mediaVolume:60,ringVolume:70,alarmVolume:80,ringtone:'Orion',notificationTone:'Proxima',vibrateRing:false,dialTones:true,touchSounds:true,lockSounds:true,haptic:true,sleep:30,windowScale:1,transitionScale:1,locationAccess:true,daydream:false,daydreamType:'clock',daydreamWhen:'charging',verifyApps:true,pulse:true,dataLimit:false,dataWarning:2};
+  /* The JWR66Y factory image's /system/media/audio (titles from the files' Vorbis TITLE, in MediaStore's title order);
+     defaults from build.prop ro.config.ringtone / ro.config.notification_sound. */
+  const RINGTONES=["Andromeda", "Aquila", "Argo Navis", "Atria", "Centaurus", "Girtab", "Hydra", "Kuma", "Machina", "Orion", "Pegasus", "Pyxis", "Rasalas", "Robots for Everyone", "Scarabaeus", "Sceptrum", "Solarium", "Spagnola Orchestration", "Themos", "Zeta"],NOTIFICATIONS=["Adara", "Alya", "Arcturus", "Capella", "Ceti Alpha", "Hojus", "Mira", "Pollux", "Procyon", "Shaula", "Spica", "Syrma", "Talitha", "Tejat", "Vega"];
+  const defaults={mediaVolume:60,ringVolume:70,alarmVolume:80,ringtone:'Themos',notificationTone:'Tejat',vibrateRing:false,dialTones:true,touchSounds:true,lockSounds:true,haptic:true,sleep:30,windowScale:1,transitionScale:1,locationAccess:true,daydream:false,daydreamType:'clock',daydreamWhen:'charging',verifyApps:true,pulse:true,dataLimit:false,dataWarning:2};
   const prefs=data=>({...defaults,...data.settings});
   // Developer options lists from the ICS window_animation_scale arrays.
   const scaleOptions=[[0,'Animation off'],[.5,'Animation scale .5x'],[1,'Animation scale 1x'],[1.5,'Animation scale 1.5x'],[2,'Animation scale 2x'],[5,'Animation scale 5x'],[10,'Animation scale 10x']];
@@ -47,7 +50,7 @@
     if(['windowScale','transitionScale','animatorScale'].includes(field)){title={windowScale:'Window animation scale',transitionScale:'Transition animation scale',animatorScale:'Animator duration scale'}[field];choices=scaleOptions;value=p[field]??1;}
     if(field==='font'){title='Font size';choices=[['normal','Normal'],['large','Large']];value=p.largeText?'large':'normal';}
     if(field==='silent'){title='Silent mode';choices=[['off','Off'],['vibrate','Vibrate'],['mute','Mute']];value=p.silent?(p.silentMode||'mute'):'off';}
-    if(field==='ringtone'||field==='notificationTone'){title=field==='ringtone'?'Phone ringtone':'Default notification';choices=['Silent','Andromeda','Arcturus','Capella','Orion','Pegasus','Proxima','Sirius'].map(name=>[name,name]);value=p[field];}
+    if(field==='ringtone'||field==='notificationTone'){title=field==='ringtone'?'Phone ringtone':'Default notification';const list=field==='ringtone'?RINGTONES:NOTIFICATIONS;choices=['Silent',...list].map(name=>[name,name]);value=list.includes(p[field])||p[field]==='Silent'?p[field]:defaults[field];}
     return shell(title,`<div class="sd-choice-list">${choices.map(([id,name])=>`<label><span>${e(t(name))}</span><input type="radio" name="choice" value="${id}" ${String(id)===String(value)?'checked':''}></label>`).join('')}</div>${actions}`,'sd-choice');
   }
   window.ICSSettingsDetail={defaults,prefs,sizes,render,overlay,animationScaleLabel};

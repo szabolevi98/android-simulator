@@ -4,7 +4,8 @@
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pad = value => String(value).padStart(2,'0');
   const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  const tones = ['Cesium','Fermium','Hassium','Plutonium','Silent'];
+  // The IMM76I image's alarm sounds (Vorbis titles); ro.config.alarm_alert is Cesium.ogg.
+  const tones = ['Cesium','Fermium','Hassium','Neptunium','Nobelium','Plutonium','Silent'];
   function normalize(alarm = {}) {
     alarm ||= {};
     return {...alarm, time:/^([01]\d|2[0-3]):[0-5]\d$/.test(alarm.time) ? alarm.time : '07:00', enabled:alarm.enabled !== false,
