@@ -37,3 +37,4 @@
 - 4.3 Settings: the 4.3 header order with **Location access** (master switch plus GPS and network sources) and an ACCOUNTS section. Display adds **Daydream** with Clock (a dimmed clock that moves each minute), Colors and Photo Frame, **Start now** and **When to daydream**. Security adds Verify apps and Notification access, and About phone shows the SELinux status.
 
 The new screens have been checked in all five languages at phone sizes. The status bar icons were compared with SystemUI 4.3 and are byte-identical to the ICS ones, so they are kept. Progress and references are in [docs/visual-audit-4.3.md](visual-audit-4.3.md).
+- Chrome 27, the Nexus 4's own browser (the factory image has no AOSP Browser), beside the AOSP Browser, which stays at the owner's request. It has its own tabs, incognito tabs, the New Tab page and Chrome's menu, the same 2013 design as on the KitKat simulator at the Nexus 4's scale; Share sends the link by SMS in Messaging.

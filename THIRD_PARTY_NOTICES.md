@@ -166,6 +166,10 @@ The Microbes scene in `versions/{2.3.6,4.0.4}/live-wallpapers.js` re-creates Goo
 
 `versions/2.3.6/assets/lw-*`: the same packages at [android-2.3.6_r1](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_basic/tree/android-2.3.6_r1/res/drawable-hdpi) (with the 2.3.6 Nexus `pyramid_background` and thumbnail), plus `lw-magicsmoke_thumb` and `lw-smoke-noise1`–`5` from [packages/wallpapers/MagicSmoke](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_magicsmoke/tree/android-2.3.6_r1/res) (the noise textures are stored as grey PNGs). The Magic Smoke renderer is a WebGL port of `clouds.rs` and `MagicSmokeRS.java`. Apache License 2.0.
 
+### Google apps of the Nexus 4 image (4.3)
+
+`versions/4.3/assets/chrome.png` and the other launcher icons of Google's apps that the 4.3 simulator adds are copied from the APKs in the Nexus 4 JWR66Y factory image (for example `Chrome.apk` `res/mipmap-xhdpi/app_icon.png`) by `docs/image-icons.py`. They are Google's artwork and trademarks, used only to show what the 2013 phone looked like, in this non-commercial simulator. The apps themselves are project code; Chrome's screens are the KitKat simulator's, scaled to the Nexus 4.
+
 ### Nexus 4 additions (4.3)
 
 `versions/4.3/assets/jb-stat_sys_data_fully_connected_h.png`, `jb-ic_qs_signal_full_h.png` and `jb-ic_qs_remote_display.png`: SystemUI `res/drawable-hdpi` at `android-4.3_r1.1`. `jbcam-ic_hdr.png`, `jbcam-ic_hdr_off.png` and `jbcam-ic_indicator_sce_hdr.png`: Gallery2 camera `res/drawable-hdpi` at `android-4.3_r1.1`. Apache License 2.0.

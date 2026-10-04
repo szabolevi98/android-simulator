@@ -117,10 +117,14 @@
   ui.music=ICSMusic.restore(data.music);
   ui.musicTrack=ui.music.track;
   ui.browserSession = ICSBrowserSession.restore(data.browserSession,data.browserHistory);
+  // Chrome and the AOSP Browser keep separate tabs; ui.browserSession is the one of the browser in front.
+  ui.browserOwner = 'browser'; ui.browserSessions = {};
   syncBrowserState();
   const apps = [
     ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'People', '◉', '#efa96f', '#a45142'],
     ['messaging', 'Messaging', '✉', '#84cf62', '#428c43'], ['browser', 'Browser', '◎', '#65aee2', '#246ba8'],
+    // Chrome, the Nexus 4's own browser (the JWR66Y image has no AOSP Browser; the owner keeps both).
+    ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'],
     ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
@@ -149,7 +153,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'chrome', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -281,7 +285,7 @@
     const beanRoot = viewport.querySelector('[data-beanbag]');
     if (beanRoot && !ui.beanBag) requestAnimationFrame(() => { if (beanRoot.isConnected && !ui.beanBag) ui.beanBag = {...JBBeanBag.start(beanRoot), root: beanRoot}; });
     if (ui.view === 'clock' && viewport.querySelector('.jbclock-app')) clockTicker();
-    if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
+    if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind) highlightBrowserText();
     if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
   }
   function restoreWidgetScroll() {
@@ -567,6 +571,7 @@
       case 'wallpaper-picker': return `<div class="app-view wallpaper-picker"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>Wallpapers</h2></div><div class="app-content dark">${wallpaperChoices()}</div></div>`;
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
+      case 'chrome': return renderChrome();
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
       case 'messaging': return renderMessaging();
@@ -582,6 +587,7 @@
   }
   function openApp(app, resume = false) {
     if(ui.locked)return;
+    if (app === 'chrome' || app === 'browser') useBrowserSession(app);
     if (!appNames[app]) return;
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
@@ -620,8 +626,8 @@
     if (ui.view === 'play-store' && ui.marketHistory?.length) { const prev = ui.marketHistory.pop(); ui.market = prev; render(); const list = viewport.querySelector('.jbp-scroll'); if (list) list.scrollTop = prev.scroll || 0; return; }
     if (ui.view === 'calculator' && ui.calcPanel) { setCalculatorPanel(0); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
-    if (ui.view === 'browser' && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
-    if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
+    if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
+    if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'beanbag', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.jbLogoTapped = false; render(); return; }
     if (ui.view === 'settings' && ['vpn', 'tethering', 'beam', 'mobile-networks'].includes(ui.sub)) { ui.sub = 'wireless'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'wifi-advanced') { ui.sub = 'wifi'; render(); return; }
@@ -688,6 +694,8 @@
       overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
+    } else if (ui.overlay === 'browser-menu' && ui.view === 'chrome') {
+      overlayRoot.innerHTML = ChromeApp.menu({ui, data, t: key => i18n.t(key), url: ui.browserUrl});
     } else if (ui.overlay === 'browser-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu web-menu"><button data-action="browser-forward" ${ui.browserIndex >= ui.browserHistory.length-1?'disabled':''}>Forward</button><button data-action="browser-refresh">Refresh</button><button data-action="browser-new-tab">New tab</button><button data-action="browser-save">Bookmark</button><button data-action="browser-bookmarks">Bookmarks</button><button data-action="browser-saved">Saved pages</button><button data-action="browser-save-page">Save for offline reading</button><button data-action="browser-find">Find on page</button></div>`;
     } else if (ui.overlay.startsWith('mms-')) {
@@ -898,7 +906,7 @@
   function normalizeAddress(raw) {
     const value = raw.trim().replace(/^https?:\/\//i, '').replace(/\/$/, '');
     if (!value) return 'www.google.com';
-    if (value.startsWith('search:')) return value;
+    if (value.startsWith('search:') || value.startsWith('chrome://')) return value;
     if (value.includes(' ') || !value.includes('.')) return `search:${value}`;
     return value.toLowerCase();
   }
@@ -909,11 +917,42 @@
     ui.browserTab = ui.browserSession.active;
     ui.browserTabs = ui.browserSession.tabs.map(tab => tab.history[tab.index]);
   }
-  function saveBrowserState() { syncBrowserState(); data.browserSession = clone(ui.browserSession); save(); }
+  function saveBrowserState() {
+    syncBrowserState();
+    if (ui.browserOwner === 'chrome') {
+      // Incognito tabs are not stored.
+      const tabs = ui.browserSession.tabs.filter(tab => !tab.incognito), current = ICSBrowserSession.current(ui.browserSession);
+      data.chromeSession = clone({tabs: tabs.length ? tabs : [{history: [ChromeApp.NTP], index: 0}], active: Math.max(0, tabs.indexOf(current))});
+    } else data.browserSession = clone(ui.browserSession);
+    save();
+  }
+  const restoreChrome = () => ICSBrowserSession.restore(data.chromeSession, [ChromeApp.NTP]);
+  function useBrowserSession(owner) {
+    if (ui.browserOwner === owner) return;
+    ui.browserSessions[ui.browserOwner] = ui.browserSession;
+    ui.browserSession = ui.browserSessions[owner] || (owner === 'chrome' ? restoreChrome() : ICSBrowserSession.restore(data.browserSession, data.browserHistory));
+    ui.browserOwner = owner; ui.browserFind = undefined; syncBrowserState();
+  }
+  function chromeTitle(url) { return url === ChromeApp.NTP ? i18n.t('New tab') : url === ChromeApp.HISTORY ? i18n.t('History') : browserTitle(url); }
+  function renderChrome() {
+    const session = ui.browserSession, tab = ICSBrowserSession.current(session);
+    return ChromeApp.render({ui, data, t: key => i18n.t(key), locale: i18n.locale(), page: renderWebsite, title: chromeTitle, url: ui.browserUrl, incognito: !!tab.incognito, tabs: session.tabs.map(item => ({url: item.history[item.index], incognito: !!item.incognito})), active: session.active});
+  }
+  function chromeNewTab(incognito) {
+    if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); return; }
+    const tab = ICSBrowserSession.current(ui.browserSession);
+    tab.history = [ChromeApp.NTP]; tab.index = 0; if (incognito) tab.incognito = true;
+    ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; renderOverlay(); saveBrowserState(); render();
+  }
+  function chromeSection(id) {
+    const incognito = !!ICSBrowserSession.current(ui.browserSession).incognito;
+    ui[incognito ? 'chromeNtpIncognito' : 'chromeNtp'] = id; ui.overlay = ''; renderOverlay();
+    if (ui.browserUrl !== ChromeApp.NTP) navigateBrowser(ChromeApp.NTP); else render();
+  }
   function navigateBrowser(url) {
     const normalized = normalizeAddress(url);
     ICSBrowserSession.navigate(ui.browserSession,normalized);
-    data.browserHistory = [...data.browserHistory,normalized].slice(-50);
+    if (!normalized.startsWith('chrome://') && !(ui.browserOwner === 'chrome' && ICSBrowserSession.current(ui.browserSession).incognito)) data.browserHistory = [...data.browserHistory,normalized].slice(-50);
     ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render();
   }
   function browserBack() { ICSBrowserSession.move(ui.browserSession,-1); saveBrowserState(); render(); }
@@ -1201,9 +1240,10 @@
     data.mailbox=ICSEmail.restore(null,emailData,[]);ui.music=ICSMusic.restore();ui.musicActive=false;ui.photoStacks={};ui.photoWidgetSetup=null;ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;
     ui.activeCall=null;ui.sleeping=false;ui.locked=false;ui.vpnConnected=null;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
     ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
-    ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
+    ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);ui.browserOwner='browser';ui.browserSessions={};syncBrowserState();ui.peopleDraft=null;ui.peopleQuery='';ui.peopleTab='all';save();home();
   }
   function clearAppData(id) {
+    if(id==='chrome'){delete data.chromeSession;delete ui.browserSessions.chrome;if(ui.browserOwner==='chrome'){ui.browserSession=restoreChrome();syncBrowserState();}save();}
     if(id==='browser'){delete data.browserSession;data.browserHistory=clone(defaultData.browserHistory);data.bookmarks=clone(defaultData.bookmarks||[]);data.savedPages=[];ui.browserSession=ICSBrowserSession.restore(null,data.browserHistory);syncBrowserState();}
     if(id==='music'){ui.music=ICSMusic.restore();saveMusic();}
     if(id==='email'){data.mailbox=ICSEmail.restore(null,emailData,[]);data.sentEmails=[];ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];}
@@ -1499,13 +1539,25 @@
       case 'browser-saved': ui.sub='saved'; ui.overlay=''; render(); break;
       case 'browser-save-page': data.savedPages ||= []; if(!data.savedPages.includes(ui.browserUrl))data.savedPages.push(ui.browserUrl); save(); ui.overlay=''; renderOverlay(); toast('Page saved'); break;
       case 'browser-remove-saved': if(ui.sub==='saved')data.savedPages=data.savedPages.filter(url=>url!==id); else data.bookmarks=data.bookmarks.filter(url=>url!==id); save(); render(); break;
-      case 'browser-close-tab': ICSBrowserSession.close(ui.browserSession,Number(id)); saveBrowserState(); render(); break;
+      case 'browser-close-tab': { const last = ui.browserSession.tabs.length === 1; ICSBrowserSession.close(ui.browserSession,Number(id)); if (last && ui.browserOwner === 'chrome') ui.browserSession.tabs[0].history = [ChromeApp.NTP]; saveBrowserState(); render(); break; }
       case 'browser-refresh': ui.overlay=''; render(); break;
       case 'browser-find': ui.browserFind=''; ui.overlay=''; render(); viewport.querySelector('.web-find input')?.focus(); break;
       case 'browser-close-find': ui.browserFind=undefined; render(); break;
       case 'browser-history': ui.sub = 'history'; render(); break;
       case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
-      case 'browser-new-tab': if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); break; } ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
+      // Chrome menu and New Tab page
+      case 'chrome-incognito': chromeNewTab(true); break;
+      case 'chrome-close-all': ui.browserSession = {tabs: [{history: [ChromeApp.NTP], index: 0}], active: 0}; ui.sub = ''; ui.overlay = ''; renderOverlay(); saveBrowserState(); render(); break;
+      case 'chrome-ntp': chromeSection(id); break;
+      case 'chrome-bookmarks': chromeSection('bookmarks'); break;
+      case 'chrome-devices': chromeSection('devices'); break;
+      case 'chrome-history': ui.chromeHistoryQuery = ''; navigateBrowser(ChromeApp.HISTORY); break;
+      // Share: the Nexus 4 shares a link by SMS in Messaging (Hangouts took over SMS only on KitKat).
+      case 'chrome-share': { const link = ui.browserUrl; ui.overlay = ''; renderOverlay(); if (ChromeApp.internal(link)) break; openApp('messaging'); ui.sub = 'new'; messageDraft().body = link.startsWith('search:') ? link.slice(7) : `http://${link}`; save(); render(); break; }
+      case 'chrome-desktop': ui.chromeDesktop = !ui.chromeDesktop; ui.overlay = ''; renderOverlay(); render(); break;
+      case 'chrome-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'browser-back-menu': ui.overlay = ''; renderOverlay(); browserBack(); break;
+      case 'browser-new-tab': if (ui.view === 'chrome') { chromeNewTab(false); break; } if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); break; } ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       case 'browser-save': ui.overlay = ''; renderOverlay(); if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
       case 'phone-tab': ui.phoneTab = id; ui.phoneSearch = undefined; render(); break;
       case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
@@ -1742,6 +1794,7 @@
       }
       case 'address': navigateBrowser(values.get('address')); break;
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
+      case 'chrome-history-search': ui.chromeHistoryQuery = String(values.get('query') || '').trim(); render(); break;
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
       case 'mms-send': {
         const target = ui.sub === 'thread' ? {key:ui.thread} : ICSMessaging.recipient(values.get('recipient'),data.contacts);
