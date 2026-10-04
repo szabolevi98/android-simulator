@@ -174,6 +174,7 @@ window.AndroidI18n?.extend([
   ["Notify me when an open network is available","Értesítést kérek az elérhető nyitott hálózatokról","Benachrichtigen, wenn ein offenes Netzwerk verfügbar ist","Me notifier lorsqu'un réseau ouvert est disponible","Informarme cuando haya una red abierta disponible"],
   ["Keep Wi-Fi on during sleep","Tartsa bekapcsolva a Wi-Fit alvás közben","WLAN im Standby-Modus aktiviert lassen","Wi-Fi actif en veille","Usar Wi-Fi en suspensión"],
   ["Airplane mode","Repülőgép üzemmód","Flugmodus","Mode Avion","Modo avión"],
+  ["Google Play Movies","Google Play Filmek","Google Play Movies","Google Play Movies","Google Play Films"],
   ["Repetition","Ismétlés","Wiederholung","Fréquence","Repetición"],
   ["One-time event","Egyszeri esemény","Einmaliger Termin","Événement ponctuel","Evento único"],
   ["Daily","Naponta","Täglich","Quotidien","Cada día"],

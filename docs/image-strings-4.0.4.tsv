@@ -194,6 +194,7 @@ Settings:wifi_notify_open_networks	Network notification	= | Netzwerkbenachrichti
 Settings:wifi_notify_open_networks_summary	Notify me when an open network is available	Értesítés, ha nyílt hálózat érhető el -> Értesítést kérek az elérhető nyitott hálózatokról | Bei verfügbaren offenen Netzwerken benachrichtigen -> Benachrichtigen, wenn ein offenes Netzwerk verfügbar ist | M’avertir lorsqu’un réseau ouvert est disponible -> Me notifier lorsqu'un réseau ouvert est disponible | Avisarme cuando haya una red abierta disponible -> Informarme cuando haya una red abierta disponible	[settings-system.js]
 Settings:wifi_setting_sleep_policy_title	Keep Wi-Fi on during sleep	Wi-Fi bekapcsolva tartása alvás közben -> Tartsa bekapcsolva a Wi-Fit alvás közben | WLAN im Ruhemodus aktiviert lassen -> WLAN im Standby-Modus aktiviert lassen | Garder le Wi-Fi activé en veille -> Wi-Fi actif en veille | Mantener Wi-Fi durante la suspensión -> Usar Wi-Fi en suspensión	[settings-system.js]
 Bluetooth:airplane_error_title	Airplane mode	= | = | Mode avion -> Mode Avion | =	[global-actions.js simulator.js]
+Videos:long_app_name	Google Play Movies	= | = | Google Play Films -> Google Play Movies | Google Play Movies -> Google Play Films	[]
 CalendarGoogle:repeats_label	Repetition	Ismétlődés -> Ismétlés | = | Répétition -> Fréquence | =	[calendar.js]
 CalendarGoogle:does_not_repeat	One-time event	= | = | Événement unique -> Événement ponctuel | =	[calendar.js]
 CalendarGoogle:daily	Daily	= | = | = | Diario -> Cada día	[calendar.js]

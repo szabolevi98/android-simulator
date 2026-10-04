@@ -195,6 +195,7 @@ window.AndroidI18n?.extend([
   ["Play Games","Play Játékok","Play Games","Play Jeux","Play Games"],
   ["Play Movies & TV","Play Filmek és TV","Play Movies & TV","Play Films et TV","Play Movies"],
   ["Play Music","Play Zene","Play Music","Play Musique","Play Music"],
+  ["Google Play Movies","Google Play Filmek","Google Play Movies","Google Play Films","Google Play Movies"],
   ["Cast Screen","Képernyő tartalmának átküldése","Bildschirm übertragen","Caster l'écran","Pantalla de Cast"],
   ["Choose wallpaper from","Válasszon tapétát innen:","Hintergrund auswählen","Sélectionner fond d'écran dans","Selecciona una categoría"],
   ["View contact","Névjegy megtekintése","Kontakt anzeigen","Afficher le contact","Ver contacto"],

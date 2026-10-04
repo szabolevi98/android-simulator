@@ -38,3 +38,4 @@
 
 The new screens have been checked in all five languages at phone sizes. The status bar icons were compared with SystemUI 4.3 and are byte-identical to the ICS ones, so they are kept. Progress and references are in [docs/visual-audit-4.3.md](visual-audit-4.3.md).
 - Chrome 27, the Nexus 4's own browser (the factory image has no AOSP Browser), beside the AOSP Browser, which stays at the owner's request. It has its own tabs, incognito tabs, the New Tab page and Chrome's menu, the same 2013 design as on the KitKat simulator at the Nexus 4's scale; Share sends the link by SMS in Messaging.
+- Play Music, Google Play Movies and Play Books of the Nexus 4 image (the KitKat simulator's 2013 Play apps at the Nexus 4's scale, with the image's icons and labels), beside the AOSP Music app, which stays at the owner's request. Play Music plays the same demo library as Music.

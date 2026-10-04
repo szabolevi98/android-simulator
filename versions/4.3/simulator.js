@@ -125,6 +125,8 @@
     ['messaging', 'Messaging', '✉', '#84cf62', '#428c43'], ['browser', 'Browser', '◎', '#65aee2', '#246ba8'],
     // Chrome, the Nexus 4's own browser (the JWR66Y image has no AOSP Browser; the owner keeps both).
     ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'],
+    // Google's Play media apps of the JWR66Y image (labels as its launcher shows them); AOSP Music stays beside Play Music.
+    ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['play-movies', 'Google Play Movies', '▶', '#e53935', '#b71c1c'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'],
     ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
@@ -153,7 +155,8 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'chrome', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const PLAY_APPS = ['play-music', 'play-movies', 'play-books'];
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'chrome', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -572,6 +575,7 @@
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
       case 'chrome': return renderChrome();
+      case 'play-music': case 'play-movies': case 'play-books': return PlayApps.render(playContext(ui.view));
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
       case 'messaging': return renderMessaging();
@@ -626,6 +630,7 @@
     if (ui.view === 'play-store' && ui.marketHistory?.length) { const prev = ui.marketHistory.pop(); ui.market = prev; render(); const list = viewport.querySelector('.jbp-scroll'); if (list) list.scrollTop = prev.scroll || 0; return; }
     if (ui.view === 'calculator' && ui.calcPanel) { setCalculatorPanel(0); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
+    if (PLAY_APPS.includes(ui.view) && ui.sub) { ui.sub = ui.sub === 'queue' ? 'player' : ui.sub === 'player' ? ui.paReturn || '' : ''; ui.paBars = true; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'beanbag', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.jbLogoTapped = false; render(); return; }
@@ -694,6 +699,8 @@
       overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
+    } else if (ui.overlay === 'pa-drawer') {
+      overlayRoot.innerHTML = PlayApps.drawer(playContext(ui.view));
     } else if (ui.overlay === 'browser-menu' && ui.view === 'chrome') {
       overlayRoot.innerHTML = ChromeApp.menu({ui, data, t: key => i18n.t(key), url: ui.browserUrl});
     } else if (ui.overlay === 'browser-menu') {
@@ -1223,11 +1230,23 @@
     if(!ui.music.playing)return;
     const previous=ui.music.track;ICSMusic.tick(ui.music);
     ui.musicTrack=ui.music.track;ui.musicPlaying=ui.music.playing;
-    if(previous!==ui.music.track || !ui.music.playing){saveMusic();if(ui.view==='music'||ui.view==='home'||ui.view==='lock'&&!pointerStart)render();}
+    if(previous!==ui.music.track || !ui.music.playing){saveMusic();if(ui.view==='music'||ui.view==='play-music'||ui.view==='home'||ui.view==='lock'&&!pointerStart)render();}
     else if(Math.floor(ui.music.position)%10===0)saveMusic();
     const progress=viewport.querySelector('.music-progress');if(progress&&document.activeElement!==progress)progress.value=ui.music.position;
     const elapsed=viewport.querySelector('.music-elapsed');if(elapsed)elapsed.textContent=ICSMusic.time(ui.music.position);
   }
+  const playContext = app => ({app, ui, data, t: key => i18n.t(key), music: ui.music, tracks, time: ICSMusic.time});
+  // The Play Movies player counts seconds without re-rendering (the picture keeps panning).
+  function tickPlayVideo() {
+    if (ui.view !== 'play-movies' || ui.sub !== 'movie' || ui.paPlaying === false || ui.locked) return;
+    ui.paSeconds = (ui.paSeconds || 0) + 1;
+    const item = [...PlayApps.MOVIES, ...PlayApps.SHOWS].find(entry => entry.id === ui.paItem); if (!item) return;
+    const total = (item.mins || 24) * 60, pos = Math.min(total, Math.floor(total * (item.progress || 0)) + ui.paSeconds);
+    const clock = value => `${Math.floor(value / 3600)}:${String(Math.floor(value / 60) % 60).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}`;
+    const footer = viewport.querySelector('.pm-video-bottom'); if (!footer) return;
+    footer.querySelector('span').textContent = clock(pos); footer.querySelector('i').style.setProperty('--p', `${(pos / total * 100).toFixed(1)}%`);
+  }
+  setInterval(tickPlayVideo, 1000);
   function renderEmail() {
     return ICSEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale());
   }
@@ -1545,6 +1564,38 @@
       case 'browser-close-find': ui.browserFind=undefined; render(); break;
       case 'browser-history': ui.sub = 'history'; render(); break;
       case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
+      // Play Music, Play Movies and Play Books
+      case 'pa-drawer': ui.overlay = 'pa-drawer'; renderOverlay(); break;
+      case 'pa-page': ui.paPage ||= {}; ui.paPage[ui.view] = id; ui.sub = ''; ui.overlay = ''; renderOverlay(); render(); break;
+      case 'pa-unsupported': case 'pa-game-play': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'pa-album': ui.paAlbum = id; ui.sub = 'album'; render(); break;
+      case 'pa-song': {
+        const track = Number(id), queue = button.dataset.queue;
+        if (queue === 'all') ui.music.queue = tracks.map((_, i) => i);
+        else if (queue && queue !== 'keep') ui.music.queue = tracks.map((item, i) => item.album === queue ? i : -1).filter(i => i >= 0);
+        if (!ui.music.queue.includes(track)) ui.music.queue = [...ui.music.queue, track];
+        ui.music.track = track; ui.music.position = 0; ui.music.playing = true; saveMusic();
+        if (ui.sub !== 'player' && ui.sub !== 'queue') ui.paReturn = ui.sub;
+        ui.sub = 'player'; render(); break;
+      }
+      case 'pa-player': ui.paReturn = ui.sub; ui.sub = 'player'; render(); break;
+      case 'pa-queue': ui.sub = ui.sub === 'queue' ? 'player' : 'queue'; render(); break;
+      case 'pa-thumb': { data.playMusicThumbs ||= {}; const value = Number(id); if (data.playMusicThumbs[ui.music.track] === value) delete data.playMusicThumbs[ui.music.track]; else data.playMusicThumbs[ui.music.track] = value; save(); render(); break; }
+      case 'pa-libtab': ui.paMusicTab = id; render(); break;
+      case 'pa-libtab-songs': ui.paPage ||= {}; ui.paPage['play-music'] = 'library'; ui.paMusicTab = 'songs'; render(); break;
+      case 'pa-movie': ui.paItem = id; ui.sub = 'movie'; ui.paPlaying = true; ui.paSeconds = 0; ui.paBars = true; render(); break;
+      case 'pa-video-bars': ui.paBars = ui.paBars === false; viewport.querySelector('.pm-video')?.classList.toggle('bare', ui.paBars === false); break;
+      case 'pa-video-toggle': ui.paPlaying = ui.paPlaying === false; render(); break;
+      case 'pa-shop': openApp('play-store'); break;
+      case 'pa-book': ui.paItem = id; ui.sub = 'reader'; ui.paBars = true; render(); break;
+      case 'pa-reader-tap': {
+        const box = button.getBoundingClientRect(), x = (event.clientX - box.left) / box.width;
+        if (x > .3 && x < .7) { ui.paBars = ui.paBars === false; viewport.querySelector('.pb-reader')?.classList.toggle('bare', ui.paBars === false); break; }
+        data.playBooks ||= {}; const pages = PlayApps.bookPages(ui.paItem), now = data.playBooks[ui.paItem] || 0;
+        data.playBooks[ui.paItem] = Math.max(0, Math.min(pages - 1, now + (x >= .7 ? 1 : -1))); save(); render(); break;
+      }
+      case 'pa-see-all': ui.paPage ||= {}; ui.paPage['play-books'] = 'library'; render(); break;
+      case 'pa-game': ui.paItem = id; ui.sub = 'game'; render(); break;
       // Chrome menu and New Tab page
       case 'chrome-incognito': chromeNewTab(true); break;
       case 'chrome-close-all': ui.browserSession = {tabs: [{history: [ChromeApp.NTP], index: 0}], active: 0}; ui.sub = ''; ui.overlay = ''; renderOverlay(); saveBrowserState(); render(); break;

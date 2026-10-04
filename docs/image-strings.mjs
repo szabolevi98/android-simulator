@@ -82,6 +82,8 @@ const PIN = {
   'Search for devices': 'Settings:bluetooth_search_for_devices', 'Repetition': 'CalendarGoogle:repeats_label', 'Label': 'DeskClockGoogle:label',
   'Auto-rotate screen': 'Settings:accelerometer_title', 'Advanced': 'Settings:wifi_menu_advanced', 'Forget': 'Settings:wifi_forget',
   'Connect': 'Settings:wifi_connect', 'Search contacts': 'Contacts:searchHint',
+  // App names as the images' launchers show them.
+  'Play Music': 'Music2:launcher_name', 'Play Books': 'Books:main_activity_name', 'Google Play Movies': 'Videos:long_app_name',
 };
 // Rows kept as i18n.js has them: English text -> why.
 const KEEP = {
