@@ -19,7 +19,7 @@ for spec in sys.argv[4:]:
     icon = x.find('application').get(NS + 'icon')
     for tag in ('activity', 'activity-alias'):
         for act in x.iter(tag):
-            if activity and act.get(NS + 'name', '').endswith(activity) and act.get(NS + 'icon'): icon = act.get(NS + 'icon')
+            if activity and act.get(NS + 'name', '').split('.')[-1] == activity and act.get(NS + 'icon'): icon = act.get(NS + 'icon')
     rid = int(icon[1:], 16)
     files = {}
     for cfg, entry in r.get_res_configs(rid):
