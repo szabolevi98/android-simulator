@@ -84,3 +84,16 @@
 .drag-ghost.widget-span-ghost .widget-preview-image{width:100%;height:100%;object-fit:contain}
 .drag-ghost.widget-span-ghost.widget-music{place-items:center stretch}
 .drag-ghost.widget-span-ghost>button{position:absolute;inset:0;width:auto;height:auto}
+/* Play Store 3.4.7 widget: the promo framed by phonesky_widget_top, the dark phonesky_widget_bottom panel (32 dp logo,
+   15 sp grey title, 13 sp creator), cross-fading every 7 s. */
+.psw{position:relative;width:100%;height:100%}
+.psw-item{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:4px;border:0;background:none;opacity:0;animation:psw-flip calc(var(--n) * 7s) infinite;animation-delay:calc(var(--i) * 7s)}
+.psw-item:first-child{opacity:1}
+@keyframes psw-flip{0%{opacity:0}3%{opacity:1}33%{opacity:1}36%{opacity:0}100%{opacity:0}}
+.psw-promo{position:relative;flex:none;aspect-ratio:2/1;margin:0 12px;border:3px solid #111;border-bottom:0;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:inset 0 0 0 1px #ffffff22;overflow:hidden}
+.psw-promo em{position:absolute;left:8px;bottom:6px;color:#fff;font:italic 700 12px Georgia,serif;text-shadow:0 1px 2px #000}
+.psw-panel{flex:none;display:flex;align-items:center;gap:5px;height:38px;padding:3px 6px 6px;border-image:url(assets/psw-bottom.png) 8 8 8 8 fill / 6px stretch;text-align:left}
+.psw-panel img{width:27px;height:27px}
+.psw-panel span{display:flex;flex-direction:column;min-width:0}
+.screen .psw-panel b{color:#bdbdbd;font:400 12.8px RobotoICS,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .psw-panel small{color:#8a8a8a;font:400 11px RobotoICS,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

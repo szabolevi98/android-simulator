@@ -11,17 +11,20 @@
     wallpaper: 3, wallpaperRevision: 1,
     // config default_wallpaper_component: com.android.phasebeam/.PhaseBeamWallpaper (IMM76I and JWR66Y frameworks).
     liveWallpaper: { id: 'phasebeam' },
-    layoutRevision: 2,
+    // IMM76I's Launcher2 default_workspace.xml: Power control; the analog clock, Camera and the Google folder; Play Store's
+    // widget, Gallery and Settings. Revision 3 fills the Google folder with the image's apps.
+    layoutRevision: 3,
     homePages: Array.from({length: 5}, (_, page) => Array.from({length: 16}, (_, slot) =>
-      page === 2 && slot === 12 ? 'camera' : page === 2 && slot === 15 ? 'google' :
+      page === 2 && slot === 12 ? 'camera' : page === 2 && slot === 15 ? 'folder-google' :
       page === 3 && slot === 13 ? 'gallery' : page === 3 && slot === 14 ? 'settings' : null)),
     homeWidgets: [
       [],
       [{ id: 'default-power', type: 'power', x: 0, y: 3 }],
       [{ id: 'default-analog', type: 'analog', x: 1, y: 0 }],
-      [],
+      [{ id: 'default-play', type: 'play-store', x: 1, y: 1 }],
       []
     ],
+    folders: {'folder-google': {name: 'Google', items: ['maps', 'gmail', 'google-plus', 'play-store', 'play-music', 'youtube', 'talk', 'calendar', 'navigation', 'messenger']}},
     dock: ['phone', 'people', 'apps', 'messaging', 'browser'],
     settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false,
       // IMM76I SettingsProvider: def_screen_brightness_automatic_mode is true (the Galaxy Nexus has a light sensor).
@@ -77,6 +80,7 @@
         } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
         result.layoutRevision = 2;
       }
+      if ((saved.layoutRevision || 0) < 3) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = {...(result.folders || {}), ...clone(defaultData.folders)}; result.layoutRevision = 3; }
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
       // A reload during Gallery widget configuration leaves no completed choice.
@@ -149,7 +153,9 @@
     { type: 'music', name: 'Music', app: 'music', width: 4, height: 1 },
     // Gallery2 asks for 180dp plus ICS default widget padding: 3 × 3 Launcher cells.
     { type: 'photo', name: 'Photo Gallery', app: 'gallery', width: 3, height: 3 },
-    { type: 'power', name: 'Power control', app: 'settings', width: 4, height: 1 }
+    { type: 'power', name: 'Power control', app: 'settings', width: 4, height: 1 },
+    // Play Store 3.4.7's MarketWidgetProvider (minWidth / minHeight 110 dp: 2 × 2).
+    { type: 'play-store', name: 'Play Store', app: 'play-store', width: 2, height: 2 }
   ];
   const widgetSize = value => {
     const widget = typeof value === 'string' ? {type: value} : value;
@@ -343,11 +349,17 @@
     return '<img class="widget-preview-image" src="assets/gallery-widget_preview.png" alt="">';
   }
   const musicActive = () => ui.music.playing || ui.music.position > 0 || !!ui.musicActive;
+  // Play Store's widget: three featured items cross-fade (ViewFlipper, 7 s each); a tap opens the item.
+  function playStoreWidget() {
+    const items = ICSPlay.all().filter(item => ['apps', 'games', 'books', 'movies'].includes(item.kind) && item.developer !== 'Android Demo').slice(0, 3);
+    return `<div class="psw">${items.map((item, i) => `<button class="psw-item" style="--i:${i};--n:${items.length};--a:${(item.colors || ['#2c3e57'])[0]};--b:${(item.colors || ['#2c3e57', '#f1b45d'])[1] || '#f1b45d'}" data-action="widget-play-item" data-id="${safe(item.id)}"><span class="psw-promo"><em>${safe(item.name)}</em></span><span class="psw-panel"><img src="assets/play-store.svg?v=2" alt=""><span><b>${safe(item.name)}</b><small>${safe(item.developer)}</small></span></span></button>`).join('')}</div>`;
+  }
   function widgetBody(widget) {
     const t = key => i18n.t(key);
     if (widget.type === 'calendar') return ICSWidgets.calendar(data, t, i18n.locale(), deviceDate(), !!data.settings.hour24);
     if (widget.type === 'music') return ICSWidgets.music(ui.music, tracks, musicActive(), t);
     if (widget.type === 'photo') return ICSWidgets.photo(data, widget, ui.photoStacks?.[widget.id] || 0, t);
+    if (widget.type === 'play-store') return playStoreWidget();
     return null;
   }
   const homeWidget = widget => {
@@ -1095,6 +1107,7 @@
       case 'icsp-section': icsPlayGo({page: 'section', section: id, tab: 'FEATURED'}); break;
       case 'icsp-tab': if (id) { ui.market.tab = id; render(); } break;
       case 'icsp-detail': icsPlayGo({page: 'detail', selected: id}); break;
+      case 'widget-play-item': openApp('play-store'); icsPlayGo({page: 'detail', selected: id}); break;
       case 'icsp-buy': { const item = ICSPlay.find(id); if (item && item.price !== 'FREE') { toast(ICSPlay.text(i18n.language, 'Unavailable')); break; } icsPlayGo({page: 'permissions', selected: id}); break; }
       case 'icsp-accept': ui.market = ui.marketHistory.pop() || {page: 'detail', selected: id}; icsPlayDownload(id); break;
       case 'icsp-cancel': clearInterval(ui.marketTimer); ui.marketDownload = null; data.notifications = data.notifications.filter(n => n.kind !== 'market-dl'); save(); renderStatus(); render(); break;
