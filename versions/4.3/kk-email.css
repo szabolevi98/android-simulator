@@ -1,0 +1,101 @@
+/* UnifiedEmail screens for Gmail 4.5.1 on the Nexus 4: the KitKat simulator's kk-email.css (1 dp = 0.906 px) scaled to
+   the Nexus 4's 1 dp = 0.8516 px. */
+#viewport>.app-view.kem{display:flex;flex-direction:column;height:100%;overflow:hidden;background:#eeeeee;color:#58585b;font-family:RobotoICS,Roboto,Arial,sans-serif}
+.kem-bar{flex:none;position:relative;z-index:3;display:flex;align-items:center;height:40.88px;background:#f3f3f3;border-bottom:1.7px solid #c6c6c6;color:#000}
+.screen .kem-up{flex:none;display:flex;align-items:center;height:100%;padding:0 6.81px 0 0;border:0;background:none;cursor:pointer}
+.screen .kem-up img{width:27.25px;height:27.25px}
+.screen .kem-up img:first-child{width:13.63px;height:13.63px;margin-right:1px}
+.screen .kem-up:active,.screen .kem-act:active,.screen .kem-cab-done:active{background:#0000001a}
+.kem-title{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;margin-left:6.81px}
+.kem-title b{font:400 15.33px RobotoICS,Arial,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kem-title small{font:400 11.92px RobotoICS,Arial,sans-serif;color:#808080;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .kem-act{flex:none;display:grid;place-items:center;width:40.88px;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.kem-act img,.kem-cab-done img{width:27.25px;height:27.25px}
+.kem-bar.cab{background:#f3f3f3;border-bottom-color:#33b5e5}
+.screen .kem-cab-done{flex:none;display:grid;place-items:center;width:47.66px;height:100%;padding:0;border:0;border-right:1px solid #0000001f;background:none;cursor:pointer}
+.kem-searchbar input{flex:1;min-width:0;height:27.26px;margin-left:4.7px;border:0;border-bottom:1.7px solid #33b5e5;background:none;color:#000;font:400 15.33px RobotoICS,Arial,sans-serif;outline:0}
+.kem-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.kem-scroll::-webkit-scrollbar{display:none}
+.kem-empty{margin:0;padding:40.42px 15.04px;text-align:center;color:#777;font:400 15.33px RobotoICS,Arial,sans-serif}
+
+/* ConversationItemView rows. */
+.kem-row{position:relative;display:flex;padding:0 13.63px;background:#eeeeee;border-bottom:1px solid #cbcbcb}
+.kem-row.unread{background:#fff;border-bottom-color:#d9d9d9}
+.kem-row.selected{background:#cfe9f5}
+.screen .kem-photo{flex:none;width:40.88px;height:40.88px;margin:10.22px 10.22px 10.22px 0;padding:0;border:0;background:none;cursor:pointer}
+.kem-tile{display:grid;place-items:center;width:100%;height:100%;color:#fff;font:300 28.1px/1 RobotoLight,Roboto,Arial,sans-serif;overflow:hidden}
+.kem-tile.generic,.kem-tile.checked{background:#d66161}
+.kem-tile.checked{background:#9e9e9e}
+.screen .kem-tile img{width:100%;height:100%;object-fit:cover}
+.screen .kem-row-main{flex:1;min-width:0;display:flex;flex-direction:column;padding:10.22px 16.92px 10.22px 0;border:0;background:none;color:inherit;text-align:left;cursor:pointer}
+.kem-line1{display:flex;align-items:baseline;gap:3.76px}
+.kem-senders{flex:1;min-width:0;font:400 15.33px RobotoICS,Arial,sans-serif;color:#58585b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kem-row.unread .kem-senders{font-family:RobotoBoldJB,Arial,sans-serif;font-weight:700}
+.kem-draft{color:#990000}
+.kem-clip img{width:13.63px;height:13.63px;opacity:.7}
+.kem-date{flex:none;padding-left:6.81px;font:400 10.22px RobotoICS,Arial,sans-serif;color:#58585b}
+.kem-row.unread .kem-date{font-weight:700}
+.kem-line2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2.82px;font:400 11.07px/1.3 RobotoICS,Arial,sans-serif;color:#777}
+.kem-subj{color:#58585b}
+.kem-row.unread .kem-subj{font-weight:700}
+.screen .kem-star{position:absolute;right:1.88px;bottom:5.64px;width:30.08px;height:30.08px;padding:0;border:0;background:none;cursor:pointer}
+.kem-star img{width:27.25px;height:27.25px}
+
+/* The folder drawer: 300 dp under the action bar, the account row, then the folders. */
+.kem-drawer-scrim{position:absolute;inset:calc(var(--sb) + 40.88px) 0 var(--nb);z-index:25;background:#0009;animation:kem-fade .2s ease-out}
+.kem-drawer{position:absolute;top:calc(var(--sb) + 40.88px);bottom:var(--nb);left:0;z-index:26;width:min(255.48px,85%);background:#fff;box-shadow:1.88px 0 4.7px #0004;overflow-y:auto;scrollbar-width:none;animation:kem-slide .22s cubic-bezier(.2,.8,.3,1)}
+@keyframes kem-slide{from{transform:translateX(-100%)}}
+@keyframes kem-fade{from{opacity:0}}
+.screen .kem-account,.screen .kem-folder{display:flex;align-items:center;gap:11.94px;width:100%;min-height:40.88px;padding:0 6.81px 0 11.94px;border:0;border-bottom:1px solid #e5e5e5;background:none;color:#333;text-align:left;font:400 15.33px RobotoICS,Arial,sans-serif;cursor:pointer}
+.screen .kem-account{color:#33b5e5}
+.kem-account img{flex:none;width:18.8px;height:18.8px}
+.kem-account span,.kem-folder span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kem-folder{padding-left:13.63px}
+.kem-account em,.kem-folder em{flex:none;font:400 11.92px RobotoICS,Arial,sans-serif;font-style:normal;color:#777}
+.screen .kem-folder.on{background:#cfe9f5}
+.screen .kem-account:active,.screen .kem-folder:active{background:#b5ddf0}
+
+/* The conversation: subject header, the white message card. */
+.kem-conversation .kem-scroll{background:#eeeeee}
+.kem-subject{display:flex;align-items:flex-start;gap:7.52px;padding:13.63px 7.52px 10.22px 15.32px;background:#fff}
+.kem-subject h2{flex:1;margin:0;font:400 15.33px/1.3 RobotoICS,Arial,sans-serif;color:#58585b}
+.screen .kem-conv-star{flex:none;width:30.08px;height:30.08px;padding:0;border:0;background:none;cursor:pointer}
+.kem-conv-star img{width:27.25px;height:27.25px}
+.kem-message{margin:0 6.81px 6.81px;background:#fff;box-shadow:0 1px 1px #0002}
+.kem-msg-head{display:flex;align-items:center;gap:8.46px;padding:6.81px 0 6.81px 6.81px;border-top:1px solid #ebebeb}
+.kem-msg-head .kem-tile{flex:none;width:40.88px;height:40.88px}
+.kem-msg-who{flex:1;min-width:0;display:flex;flex-direction:column}
+.kem-msg-who b{font:700 13.63px RobotoBoldJB,Arial,sans-serif;color:#58585b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kem-msg-who small,.kem-msg-date{font:400 11.07px RobotoICS,Arial,sans-serif;color:#a6a8ab;white-space:nowrap}
+.screen .kem-msg-act{flex:none;width:33.84px;height:40.88px;padding:0;border:0;background:none;cursor:pointer}
+.kem-msg-act img{width:27.25px;height:27.25px}
+.kem-msg-body{padding:6.81px 8.46px 13.63px;font:400 13.63px/1.45 RobotoICS,Arial,sans-serif;color:#333;overflow-wrap:anywhere}
+.kem-attachment{display:flex;align-items:center;gap:7.52px;margin:0 8.46px 8.46px;padding:4.7px;background:#dddddd;font-size:11.94px;color:#333}
+.kem-attachment .media-photo,.kem-attachment>:first-child{width:45.12px;height:45.12px;object-fit:cover}
+.kem-attachment span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen .kem-attachment button{border:0;background:none;font-size:18.8px;color:#555;cursor:pointer}
+
+/* Compose: white, hairline fields with #aaa hints. */
+.kem-compose .kem-scroll{background:#fff}
+.kem-from{padding:11.94px 13.63px;border-bottom:1px solid #e0e0e0;font:400 13.63px RobotoICS,Arial,sans-serif;color:#58585b}
+.kem-field{display:block;border-bottom:1px solid #e0e0e0}
+.kem-field input{width:100%;height:40.88px;padding:0 13.63px;border:0;background:none;color:#333;font:400 13.63px RobotoICS,Arial,sans-serif;outline:0}
+.kem-field input::placeholder,.kem-body textarea::placeholder{color:#aaaaaa}
+.kem-body{display:block}
+.kem-body textarea{width:100%;min-height:169.19px;padding:11.94px 13.63px;border:0;background:none;color:#333;font:400 13.63px/1.4 RobotoICS,Arial,sans-serif;resize:none;outline:0}
+.kem-error{margin:5.64px 13.63px;color:#cc0000;font-size:11.94px}
+.kem-menu{top:calc(var(--sb) + 40.88px)!important;background:#fff!important;border:1px solid #0000001a!important;box-shadow:0 1.88px 7.52px #0006!important}
+.screen .kem-menu button{color:#000!important;background:#fff;border-bottom:1px solid #e3e3e3}
+.screen .kem-menu button:active{background:#cbe8f6}
+.kem-dialog{position:absolute;left:8%;right:8%;top:50%;z-index:26;transform:translateY(-50%);background:#fff;color:#333;box-shadow:0 5.64px 22.56px #000a}
+.kem-dialog h3{margin:0;padding:13.63px;border-bottom:1.7px solid #33b5e5;color:#33b5e5;font:400 16.92px RobotoICS,Arial,sans-serif}
+.screen .kem-dialog button{display:block;width:100%;min-height:40.88px;padding:0 13.63px;border:0;border-bottom:1px solid #e3e3e3;background:none;color:#333;text-align:left;font:400 15.33px RobotoICS,Arial,sans-serif;cursor:pointer}
+/* ConversationPhotoTeaserView: conversation_read_selector #eeeeee, a 48 dp arrow (16 dp left, 12 dp right margins),
+   the light 16 sp #58585b tip, a 1 dp separator with 16 dp vertical margins, and the ic_cancel_holo_light button. */
+.kem-teaser{display:flex;align-items:center;background:#eee;border-bottom:1px solid #cbcbcb}
+.kem-teaser-arrow{flex:none;width:40.88px;margin:0 10.22px 10.22px 13.63px;align-self:flex-end}
+.kem-teaser span{flex:1;min-width:0;margin:10.22px 0;font:300 13.63px/1.3 RobotoLight,RobotoICS,sans-serif;color:#58585b}
+.kem-teaser i{flex:none;align-self:stretch;width:.851.6px;margin:13.63px 0 13.63px 13.63px;background:#58585b}
+.kem-teaser button{flex:none;align-self:stretch;width:47.69px;border:0;background:none;display:grid;place-items:center}
+.kem-teaser button img{width:27.25px;height:27.25px}
+.kem-teaser button:active{background:#0000001a}

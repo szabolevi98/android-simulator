@@ -117,6 +117,8 @@
   ui.music=ICSMusic.restore(data.music);
   ui.musicTrack=ui.music.track;
   ui.browserSession = ICSBrowserSession.restore(data.browserSession,data.browserHistory);
+  // Gmail's own offline account (UnifiedEmail screens from kk-email.js); the AOSP Email keeps data.mailbox.
+  data.gmailbox=GmailApp.restore(data.gmailbox);
   // Chrome and the AOSP Browser keep separate tabs; ui.browserSession is the one of the browser in front.
   ui.browserOwner = 'browser'; ui.browserSessions = {};
   syncBrowserState();
@@ -126,6 +128,7 @@
     // Chrome, the Nexus 4's own browser (the JWR66Y image has no AOSP Browser; the owner keeps both).
     ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'],
     // Google's Play media apps of the JWR66Y image (labels as its launcher shows them); AOSP Music stays beside Play Music.
+    ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'],
     ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['play-movies', 'Google Play Movies', '▶', '#e53935', '#b71c1c'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'],
     ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
@@ -156,7 +159,7 @@
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
   const PLAY_APPS = ['play-music', 'play-movies', 'play-books'];
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'chrome', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'chrome', 'gmail', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -575,6 +578,7 @@
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
       case 'chrome': return renderChrome();
+      case 'gmail': return renderGmail();
       case 'play-music': case 'play-movies': case 'play-books': return PlayApps.render(playContext(ui.view));
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
@@ -591,6 +595,7 @@
   }
   function openApp(app, resume = false) {
     if(ui.locked)return;
+    if (app === 'email' || app === 'gmail') useMailApp(app);
     if (app === 'chrome' || app === 'browser') useBrowserSession(app);
     if (!appNames[app]) return;
     captureRecentView();
@@ -693,6 +698,8 @@
       overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('music-')) {
       overlayRoot.innerHTML = ICSMusic.overlay(ui.music,ui,key=>i18n.t(key));
+    } else if (ui.overlay.startsWith('email-') && ui.view === 'gmail') {
+      overlayRoot.innerHTML = KKEmail.overlay(data.gmailbox,ui,data.photos,key=>i18n.t(key),i18n.language,gmailOptions());
     } else if (ui.overlay.startsWith('email-')) {
       overlayRoot.innerHTML = ICSEmail.overlay(data.mailbox,ui,data.photos,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('sd-')) {
@@ -1247,6 +1254,66 @@
     footer.querySelector('span').textContent = clock(pos); footer.querySelector('i').style.setProperty('--p', `${(pos / total * 100).toFixed(1)}%`);
   }
   setInterval(tickPlayVideo, 1000);
+  // Gmail 4.5.1: KitKat's UnifiedEmail screens on its own mailbox, folder, conversation and selection.
+  const gmailOptions = () => GmailApp.options(data, ui, i18n.language, key => KKEmail.tr(i18n.language, key));
+  function renderGmail() { return KKEmail.render(data.gmailbox, ui, key => i18n.t(key), i18n.locale(), i18n.language, gmailOptions()); }
+  function useMailApp(app) {
+    if (ui.mailApp === app) return;
+    ui.mailStates ||= {};
+    if (ui.mailApp) ui.mailStates[ui.mailApp] = {folder: ui.emailFolder, id: ui.emailId, sub: ui.sub};
+    const state = ui.mailStates[app] || {folder: app === 'gmail' ? 'Primary' : 'Inbox', id: null};
+    ui.emailFolder = state.folder; ui.emailId = state.id; ui.emailSelected = []; ui.emailQuery = undefined; ui.mailApp = app;
+  }
+  function composeGmail(source=null,forward=false,to='') {
+    const draft=ICSEmail.draft(source,forward);if(to)draft.to=to;draft.from=draft.address=GmailApp.account;
+    data.gmailbox.unshift(draft);ui.emailId=draft.id;ui.emailCc=false;ui.emailError='';ui.overlay='';ui.sub='compose';save();render();
+  }
+  // Gmail's taps (the KitKat simulator's UnifiedEmail handlers on data.gmailbox); false lets the shared handler run.
+  function gmailAction(action, id, button) {
+    switch (action) {
+      case 'email-read': {const item=data.gmailbox.find(item=>item.id===id);if(!item)break;if(ui.view==='gmail')data.gmailWelcomeSeen=true;ui.emailId=id;item.read=true;ui.sub=item.folder==='Drafts'?'compose':'read';ui.emailError='';save();render();break;}
+      case 'email-compose': composeGmail();break;
+      case 'email-reply': case 'email-forward': composeGmail(data.gmailbox.find(item=>item.id===ui.emailId),action==='email-forward');break;
+      case 'email-list': ui.sub='';ui.overlay='';ui.emailSelected=[];render();break;
+      case 'email-folders': case 'email-menu': ui.emailMenu=id||'list';ui.overlay=action;renderOverlay();break;
+      // 4.4 Email (UnifiedEmail): the folder drawer, Save draft, Reply all, Move to and the menu entries without a screen.
+      case 'email-drawer': ui.overlay='email-drawer';renderOverlay();break;
+      case 'email-save': ui.sub='';ui.overlay='';ui.emailSelected=[];render();toast(KKEmail.tr(i18n.language,'Message saved as draft.'));break;
+      case 'email-reply-all': ui.overlay='';composeGmail(data.gmailbox.find(item=>item.id===ui.emailId),false);break;
+      case 'email-move': {const item=data.gmailbox.find(item=>item.id===ui.emailId);if(item){if(id==='Trash')ICSEmail.trash(data.gmailbox,[item.id]);else{item.folder=id;delete item.previousFolder;}}ui.overlay='';ui.sub='';save();render();break;}
+      case 'email-unavailable': ui.overlay='';renderOverlay();toast('Not available in this simulator');break;
+      case 'email-folder': ui.emailFolder=id;ui.sub='';ui.emailQuery=undefined;ui.emailSelected=[];ui.overlay='';render();break;
+      case 'email-star': {const item=data.gmailbox.find(item=>item.id===id);if(item)item.starred=!item.starred;save();render();break;}
+      case 'email-select': ui.emailSelected ||= [];ui.emailSelected=ui.emailSelected.includes(id)?ui.emailSelected.filter(key=>key!==id):[...ui.emailSelected,id];render();break;
+      case 'email-clear-selection': ui.emailSelected=[];render();break;
+      case 'email-trash': case 'email-selected-trash': ICSEmail.trash(data.gmailbox,action==='email-trash'?[ui.emailId]:ui.emailSelected||[]);ui.sub='';ui.emailSelected=[];save();render();break;
+      case 'email-restore': case 'email-selected-restore': {const ids=action==='email-restore'?[ui.emailId]:ui.emailSelected||[];data.gmailbox.filter(item=>ids.includes(item.id)).forEach(ICSEmail.untrash);ui.sub='';ui.emailSelected=[];save();render();break;}
+      case 'email-selected-read': data.gmailbox.filter(item=>(ui.emailSelected||[]).includes(item.id)).forEach(item=>item.read=true);ui.emailSelected=[];save();render();break;
+      case 'email-unread': {const item=data.gmailbox.find(item=>item.id===ui.emailId);if(item)item.read=false;ui.sub='';ui.overlay='';save();render();break;}
+      case 'email-search': ui.emailQuery='';render();viewport.querySelector('.email-search input').focus();break;
+      case 'email-refresh': toast('Local mailbox is up to date');break;
+      case 'email-cc': ui.emailCc=true;ui.overlay='';render();break;
+      case 'email-attach': ui.overlay='email-attach';renderOverlay();break;
+      case 'email-attach-photo': {const item=data.gmailbox.find(item=>item.id===ui.emailId),photo=data.photos.find(photo=>photo.id===Number(id));if(item&&photo)item.attachment=clone(photo);ui.overlay='';save();render();break;}
+      case 'email-remove-attachment': {const item=data.gmailbox.find(item=>item.id===ui.emailId);if(item)delete item.attachment;save();render();break;}
+      case 'email-discard': ui.overlay='email-discard';renderOverlay();break;
+      case 'email-confirm-discard': ICSEmail.trash(data.gmailbox,[ui.emailId]);ui.sub='';ui.overlay='';save();render();break;
+      // Gmail: Archive leaves the inbox (the conversation stays in All mail); tips and teaser links.
+      case 'email-archive': case 'email-selected-archive': {const ids=action==='email-archive'?[ui.emailId]:ui.emailSelected||[];data.gmailbox.filter(item=>ids.includes(item.id)&&item.folder==='Inbox').forEach(item=>{item.folder='Archive';});ui.sub='';ui.emailSelected=[];save();render();break;}
+      case 'email-dismiss-teaser': if(ui.view==='gmail')data.gmailTeaserDismissed=true;else data.emailTeaserDismissed=true;save();render();break;
+      case 'gmail-unavailable': toast(i18n.t('This feature is not part of the simulator.'));break;
+      default: return false;
+    }
+    return true;
+  }
+  function gmailForm(form, values) {
+    switch (form) {
+      case 'email': {const item=data.gmailbox.find(item=>item.id===ui.emailId);if(!item)break;for(const key of ['to','cc','bcc','subject','body'])if(values.has(key))item[key]=String(values.get(key)).trim();if(!ICSEmail.send(item)){ui.emailError='Enter valid email addresses';save();render();break;}save();ui.emailFolder='Sent';ui.emailQuery=undefined;ui.sub='read';ui.emailError='';render();toast('Demo email sent');break;}
+      case 'email-search': ui.emailQuery=String(values.get('query')||'').trim();ui.emailSelected=[];render();break;
+      default: return false;
+    }
+    return true;
+  }
   function renderEmail() {
     return ICSEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale());
   }
@@ -1335,6 +1402,7 @@
       if(pending&&ui.view==='lock'){requestBouncer(pending);return;}
       if(!['back','alarm-dismiss','alarm-snooze','lock-media'].includes(action))return;
     }
+    if (ui.view === 'gmail' && gmailAction(action, id, button)) return;
     switch (action) {
       case 'open-app': {
         const icon = button.closest('.launcher-icon, .drawer-app, .dock-app') || button;
@@ -1795,6 +1863,7 @@
     const form = event.target.closest('[data-form]');
     if (!form || !screen.contains(form)) return;
     event.preventDefault(); const values = new FormData(form);
+    if (ui.view === 'gmail' && gmailForm(form.dataset.form, values)) return;
     if(form.dataset.form==='folder-name'){event.target.querySelector('input')?.blur();render();return;}
     if(form.dataset.form==='sx-save'){ui.systemError=ICSSystemSettings.submit(data,ui,values);if(ui.systemError){ui.systemValues=Object.fromEntries(values);renderOverlay();return;}save();ui.overlay='';render();return;}
     if(form.dataset.form==='sx-vpn-connect'){ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();return;}
