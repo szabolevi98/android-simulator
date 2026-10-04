@@ -131,7 +131,10 @@
     ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'], ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'],
     ['maps', 'Maps', '⌖', '#cfe6b8', '#4285f4'], ['navigation', 'Navigation', '➤', '#4285f4', '#1a73e8'], ['local', 'Places', '⌖', '#db4437', '#a52714'],
     ['earth', 'Earth', '◍', '#1f6fd1', '#0b2f73'], ['news-weather', 'News & Weather', '☼', '#4285f4', '#9e9e9e'], ['messenger', 'Messenger', '✉', '#dd4b39', '#b03a2e'],
-    ['movie-studio', 'Movie Studio', '▶', '#607d8b', '#37474f']
+    ['movie-studio', 'Movie Studio', '▶', '#607d8b', '#37474f'],
+    ['google-plus', 'Google+', 'g+', '#dd4b39', '#b03a2e'], ['talk', 'Talk', '✆', '#5b9bd5', '#2f6ea8'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'],
+    ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-movies', 'Play Movies', '▶', '#e53935', '#b71c1c'], ['search', 'Search', '⌕', '#9ad0f0', '#3a7fb0'],
+    ['voice-dialer', 'Voice Dialer', '🎤', '#3dc484', '#217258'], ['latitude', 'Latitude', '⌖', '#4285f4', '#1a73e8']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -152,7 +155,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio', 'play-music', 'gmail', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['google-plus', 'talk', 'youtube', 'play-books', 'play-movies', 'search', 'voice-dialer', 'latitude', 'maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio', 'play-music', 'gmail', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -434,6 +437,7 @@
       case 'browser': return renderBrowser();
       case 'gmail': return ICSGmail.render(gmailContext());
       case 'play-music': return ICSPlayMusic.render(playMusicContext());
+      case 'google-plus': case 'talk': case 'youtube': case 'play-books': case 'play-movies': case 'search': case 'voice-dialer': case 'latitude': return ICSGoogleApps.render(ui.view, googleAppsContext());
       case 'maps': case 'earth': case 'news-weather': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()});
       case 'messenger': case 'navigation': case 'local': case 'movie-studio': return JBExtraApps.render(ui.view, {ui, t: key => i18n.t(key), contacts: data.contacts});
       case 'phone': return renderPhone();
@@ -450,6 +454,7 @@
     }
   }
   function openApp(app, resume = false) {
+    if (ICSGoogleApps.APPS.includes(app) && !resume) { ui.gaSub = ''; if (app === 'voice-dialer') setTimeout(() => googleAppsContext().listen()); }
     if(ui.locked)return;
     if (!appNames[app]) return;
     captureRecentView();
@@ -476,6 +481,13 @@
     return {tracks, music: ui.music, ui, lang: i18n.language, time: ICSMusic.time, save, render, renderOverlay, toast,
       play(ids, track) { ui.music.queue = [...ids]; ui.music.track = track; ui.music.position = 0; ui.music.playing = true; ui.musicActive = true; ui.musicTrack = track; ui.musicPlaying = true; saveMusic(); }};
   }
+  // Google+, Talk, YouTube, Play Books / Movies, Search, Voice Dialer and Latitude (ics-google-apps.js).
+  let voiceDialTimer = null;
+  function googleAppsContext() {
+    return {data, ui, lang: i18n.language, account: ICSGmail.account, save, render, toast, openApp,
+      browse(query) { openApp('browser'); navigateBrowser(`search:${query}`); },
+      listen() { clearTimeout(voiceDialTimer); ui.gaVoice = 'listening'; render(); voiceDialTimer = setTimeout(() => { ui.gaVoice = 'failed'; if (ui.view === 'voice-dialer') render(); }, 3000); }};
+  }
   // The context Gmail's module renders and acts with.
   function gmailContext() {
     return {data, ui, lang: i18n.language, locale: i18n.locale(), now: deviceDate().getTime(), save, render, renderOverlay, toast,
@@ -483,6 +495,7 @@
       keep: () => ICSGmail.keepDraft(data, ui, viewport.querySelector('.g4-form'))};
   }
   function navigateBack() {
+    if (ICSGoogleApps.APPS.includes(ui.view) && ui.gaSub) { ui.gaSub = ''; render(); return; }
     if (ui.view === 'gmail') {
       if (ui.overlay) { ui.overlay = ''; renderOverlay(); return; }
       if (ui.sub === 'compose') { ICSGmail.keepDraft(data, ui, viewport.querySelector('.g4-form')); save(); }
@@ -1039,6 +1052,7 @@
       if (action === 'maps-search-open') { ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); return; }
       if (action === 'news-tab') { ui.newsTab = id; render(); return; }
     }
+    if (ICSGoogleApps.APPS.includes(ui.view) && action.startsWith('ga-') && ICSGoogleApps.handle(action, id, googleAppsContext())) return;
     if (ui.view === 'play-music' && action.startsWith('pm4-') && ICSPlayMusic.handle(action, id, playMusicContext(), button)) return;
     switch (action) {
       case 'open-app': openApp(app || id, !!button.closest('.recent-item')); break;
@@ -1379,6 +1393,7 @@
     if (!form || !screen.contains(form)) return;
     event.preventDefault(); const values = new FormData(form);
     if (ui.view === 'gmail' && ICSGmail.submit(form.dataset.form, values, gmailContext())) return;
+    if (ICSGoogleApps.APPS.includes(ui.view) && ICSGoogleApps.submit(form.dataset.form, values, googleAppsContext())) return;
     if (form.dataset.form === 'maps-search') { ui.mapsQuery = String(values.get('query') || '').trim().slice(0, 60); render(); return; }
     if (form.dataset.form === 'earth-search') { toast(i18n.t('This feature is not part of the simulator.')); return; }
     if(form.dataset.form==='folder-name'){event.target.querySelector('input')?.blur();render();return;}

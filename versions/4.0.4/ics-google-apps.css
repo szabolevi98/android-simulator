@@ -1,0 +1,130 @@
+/* The Galaxy Nexus's other Google apps (ics-google-apps.js), 1 dp = 0.85 px, in the APKs' colours. */
+.ga-app{display:flex;flex-direction:column;background:#fff;color:#333;font-family:RobotoICS,Roboto,sans-serif;color-scheme:light}
+.screen .ga-app button{color:inherit;font-family:inherit}
+.ga-bar{flex:none;display:flex;align-items:center;height:40.8px;padding-right:3.4px}
+.ga-bar h2{flex:1;min-width:0;margin:0;padding-left:5px;font-weight:400;font-size:15.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ga-home{display:flex;align-items:center;height:100%;padding:0 3px 0 6px;border:0;background:none}
+.ga-home img{width:27.2px;height:27.2px}
+.ga-back{margin-right:2px;opacity:.6;font-size:17px}
+.ga-icon{width:40.8px;height:40.8px;border:0;background:none;font-size:18px}
+.ga-scroll{flex:1;min-height:0;overflow-y:auto}
+.ga-empty{margin:40px 0;text-align:center;color:#888}
+.ga-tabs{flex:none;display:flex;overflow-x:auto;scrollbar-width:none}
+.ga-tabs button{flex:1;min-width:90px;height:36px;border:0;background:none;font-size:11.9px;text-transform:uppercase}
+.ga-art{position:relative;display:block;overflow:hidden;background:linear-gradient(140deg,var(--c),#111 150%);color:#fff}
+.ga-art em{position:absolute;left:8%;right:8%;bottom:8%;font:italic 700 11px Georgia,serif;line-height:1.15;text-shadow:0 1px 3px #000a}
+.ga-art.thumb{flex:none;width:102px;height:57px}
+.ga-art.thumb em{display:none}
+.ga-art.wide{width:100%;aspect-ratio:16/9}
+.ga-art.wide em{font-size:16px}
+.ga-art.cover{width:100%;aspect-ratio:2/3}
+.ga-art.poster{flex:none;width:68px;aspect-ratio:2/3}
+.ga-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px}
+.ga-person{display:flex;align-items:center;gap:9px;padding:7px 10px;border-bottom:1px solid #e3e3e3}
+.ga-person img{width:40.8px;height:40.8px;background:#ddd}
+.ga-person span{display:flex;flex-direction:column}
+.ga-person b{font-weight:400;font-size:14.5px}
+.ga-person small{color:#888;font-size:11px}
+.ga-suggest{display:flex;align-items:center;gap:10px;width:100%;min-height:40.8px;padding:0 12px;border:0;border-bottom:1px solid #e3e3e3;background:none;font-size:14.5px;text-align:left}
+/* Google+ 2.4.1: title_background #292929, tab_background_color #3c3c3c, stream_tab_line_color #dd4b39. */
+.ga-gplus{background:#fff}
+.ga-gp-bar{background:#292929;color:#fff}
+.ga-gplus .ga-tabs{background:#3c3c3c;color:#fff}
+.ga-gplus .ga-tabs button.on{box-shadow:inset 0 -3.4px #dd4b39}
+.ga-gp-home{background:#e5e5e5}
+.ga-gp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:auto 0;padding:10px}
+.ga-gp-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:110px;border:0;background:#fff!important;color:#333!important}
+.ga-gp-tile span{font-size:32px;color:#dd4b39}
+.ga-gp-tile b{font-weight:400;font-size:13.6px}
+.ga-gp-stream{background:#e5e5e5;padding:6px}
+.ga-post{margin-bottom:6px;padding:10px;background:#fff;box-shadow:0 1px 2px #0002}
+.ga-post header{display:flex;align-items:center;gap:8px}
+.ga-post header img{width:34px;height:34px;background:#ddd}
+.ga-post header span{display:flex;flex-direction:column}
+.ga-post header b{color:#333;font-size:13.6px}
+.ga-post header small{color:#999;font-size:10.2px}
+.ga-post p{margin:8px 0;color:#333;font-size:13.6px;line-height:1.35}
+.ga-post footer{display:flex;align-items:center;gap:14px;color:#999;font-size:11.9px}
+.ga-plus{padding:2px 8px;border:1px solid #ccc!important;border-radius:2px;background:#f5f5f5!important;color:#555!important;font-size:11.9px}
+.ga-plus.on{background:#dd4b39!important;border-color:#dd4b39!important;color:#fff!important}
+.ga-gp-photos h3{margin:10px 10px 0;color:#6f8fc7;font-size:11.9px;text-transform:uppercase}
+.ga-photo{position:relative;aspect-ratio:1;display:block}
+.ga-photo em{position:absolute;left:6px;bottom:6px;color:#fff;font-style:normal;font-size:11px;text-shadow:0 1px 2px #000}
+/* Google Talk: roster #edeff7 / #dfe2f5, chats on #eeeeee, chat_from #7785e0, chat_me #3492c5. */
+.ga-talk-bar{background:#f3f3f3;border-bottom:1.7px solid #d9d9d9}
+.ga-talk-self{display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;border:0;background:#5b5c5c!important;color:#fff!important;text-align:left}
+.ga-talk-self img{width:40.8px;height:40.8px;background:#ddd}
+.ga-talk-self span{display:flex;flex-direction:column}
+.ga-talk-self small{display:flex;align-items:center;gap:5px;font-size:11px}
+.ga-buddy{display:flex;align-items:center;gap:9px;width:100%;padding:6px 10px;border:0;border-bottom:1px solid #d4d7e8;background:#edeff7!important;text-align:left}
+.ga-buddy.off{background:#dfe2f5!important;color:#494b48!important}
+.ga-buddy img{width:37px;height:37px;background:#ddd}
+.ga-buddy span{flex:1;display:flex;flex-direction:column}
+.ga-buddy b{font-weight:400;font-size:14.5px;color:#333}
+.ga-buddy small{font-size:11px;color:#777}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#aaa}
+.dot.available{background:#3ab83a}.dot.away{background:#f2b51b}.dot.busy{background:#d33}.dot.invisible,.dot.offline{background:#aaa}
+.ga-talk-chat{background:#eeeeee;padding:8px 10px}
+.ga-talk-chat p{margin:0 0 6px;font-size:13.6px;line-height:1.35}
+.ga-talk-chat p.from b{color:#7785e0}.ga-talk-chat p.me b{color:#3492c5}
+.ga-talk-compose{flex:none;display:flex;padding:6px;background:#e8e8e8;border-top:1px solid #d9d9d9}
+.ga-talk-compose input{flex:1;min-width:0;height:34px;padding:0 8px;border:1px solid #bbb;background:#fff;font:400 13.6px RobotoICS,sans-serif}
+.ga-talk-compose button{width:40px;border:0;background:none;color:#3492c5!important;font-size:16px}
+/* YouTube 3.5.5: dark, ics_dark_grey #3d3d3d tabs, ics_red #cc0000. */
+.ga-yt{background:#212121;color:#fff;color-scheme:dark}
+.ga-yt-bar{background:#000}
+.ga-yt .ga-tabs{background:#3d3d3d}
+.ga-yt .ga-tabs button.on{box-shadow:inset 0 -3.4px #cc0000}
+.ga-yt-head{margin:10px 10px 4px;color:#aaa;font-size:11.9px;text-transform:uppercase}
+.ga-yt-row{display:flex;gap:9px;width:100%;padding:7px 8px;border:0;border-bottom:1px solid #333;background:none;text-align:left}
+.ga-yt-row span{display:flex;flex-direction:column;min-width:0}
+.ga-yt-row b{font-weight:400;font-size:13.6px;line-height:1.25}
+.ga-yt-row small{color:#aaa;font-size:10.2px}
+.ga-yt-video{position:relative;flex:none;padding:0;border:0;background:#000}
+.ga-yt-video i{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-style:normal;font-size:28px;opacity:0;transition:opacity .2s}
+.ga-yt-video.paused i,.ga-yt-video:hover i{opacity:.9}
+.ga-yt-info{padding:10px}
+.ga-yt-info h3{margin:0 0 4px;font-weight:400;font-size:15.3px}
+.ga-yt-info small{color:#aaa}
+.ga-yt-actions{display:flex;gap:6px;margin-top:10px}
+.ga-yt-actions button{flex:1;height:34px;border:1px solid #444!important;background:#2b2b2b!important;color:#ddd!important;font-size:11.9px}
+.ga-yt-actions button.on{color:#33b5e5!important}
+/* Play Books 2.3 and Play Movies 1.4. */
+.ga-books-bar{background:#f3f3f3;border-bottom:1.7px solid #4da6e2}
+.ga-book-grid button{display:flex;flex-direction:column;gap:3px;padding:0;border:0;background:none;text-align:left}
+.ga-book-grid b{font-weight:400;font-size:12.8px}
+.ga-book-grid small{color:#888;font-size:10.2px}
+.ga-page{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:24px 22px 12px;border:0;background:#fbf8f0!important;color:#222!important;font:400 16px Georgia,serif;text-align:left;line-height:1.5}
+.ga-page small{align-self:center;color:#999;font:400 11px RobotoICS,sans-serif}
+.ga-movies{background:#111;color:#fff;color-scheme:dark}
+.ga-movies-bar{background:#000}
+.ga-movies .ga-tabs{background:#262626}
+.ga-movies .ga-tabs button.on{box-shadow:inset 0 -3.4px #ca5550}
+.ga-movie{display:flex;gap:10px;padding:10px;border-bottom:1px solid #2a2a2a}
+.ga-movie span{display:flex;flex-direction:column;gap:3px}
+.ga-movie b{font-weight:400;font-size:15.3px}
+.ga-movie small{color:#aaa}
+.ga-movie button{align-self:flex-start;margin-top:6px;padding:5px 14px;border:0;background:#ca5550!important;color:#fff!important;font-size:11.9px;text-transform:uppercase}
+.ga-movie-player{justify-content:center;background:#000}
+.ga-movie-player h3{margin:10px;font-weight:400;font-size:15.3px}
+/* Google Search 1.4.1 (the Quick Search Box app). */
+.ga-search{background:#fff}
+.ga-qsb{flex:none;display:flex;align-items:center;gap:6px;height:46px;padding:0 6px;background:#e6e6e6;border-bottom:1px solid #bbb}
+.ga-qsb img{width:30px;height:30px}
+.ga-qsb input{flex:1;min-width:0;height:34px;padding:0 8px;border:1px solid #aaa;background:#fff;font:400 15.3px RobotoICS,sans-serif}
+.ga-qsb button{width:36px;height:34px;border:0;background:none;font-size:18px}
+.ga-suggest span{color:#999}
+.ga-sources{color:#33b5e5!important}
+/* Voice Dialer (AOSP): the dark listening screen. */
+.ga-voice{align-items:center;justify-content:center;gap:14px;background:#111;color:#fff;text-align:center}
+.ga-voice h2{margin:0;font-weight:400;font-size:17px}
+.ga-voice-mic{width:96px;height:96px;border:2px solid #33b5e5!important;border-radius:50%;background:#1c2a33!important;font-size:40px}
+.ga-voice-mic.on{animation:ga-pulse 1.2s infinite}
+@keyframes ga-pulse{50%{box-shadow:0 0 0 12px #33b5e533}}
+.ga-voice p{margin:0;color:#bbb}
+.ga-voice-tip{display:flex;flex-direction:column;gap:4px;max-width:80%;margin-top:20px;color:#999;font-size:11.9px}
+.ga-voice-tip b{color:#ddd}
+/* Latitude (Maps 6.4). */
+.ga-lat-bar{background:#f3f3f3;border-bottom:1.7px solid #d9d9d9}
+.ga-lat-map{flex:none;height:45%}
+.ga-lat-map svg{width:100%;height:100%;display:block}
