@@ -160,6 +160,8 @@ Apache License 2.0.
 
 `versions/{4.0.4,4.3}/assets/lw-phasebeam_*` (dot, beam, thumbnail) and the mesh in `live-wallpapers.js` come from PhaseBeam.apk in the Galaxy Nexus IMM76I and Nexus 4 JWR66Y factory images (`res/drawable-nodpi`, `res/raw/bgmesh.csv`), built from [packages/wallpapers/PhaseBeam](https://android.googlesource.com/platform/packages/wallpapers/PhaseBeam/+/refs/tags/android-4.3_r1), Apache License 2.0. `versions/4.3/assets/jb-wallpaper_{06,07,13,14}*` are the Nexus 4 Launcher2's wallpapers from the same JWR66Y image, scaled to the other wallpapers' size.
 
+`versions/{4.0.4,4.3}/assets/lw-holospiral_*` and `lw-noisefield_*` (point and dot textures, thumbnails) and the Bubbles mesh in `live-wallpapers.js` come from HoloSpiralWallpaper.apk and NoiseField.apk in the same images, built from [packages/wallpapers/HoloSpiral](https://android.googlesource.com/platform/packages/wallpapers/HoloSpiral/+/refs/tags/android-4.3_r1) and [packages/wallpapers/NoiseField](https://android.googlesource.com/platform/packages/wallpapers/NoiseField/+/refs/tags/android-4.3_r1), Apache License 2.0.
+
 `versions/2.3.6/assets/lw-*`: the same packages at [android-2.3.6_r1](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_basic/tree/android-2.3.6_r1/res/drawable-hdpi) (with the 2.3.6 Nexus `pyramid_background` and thumbnail), plus `lw-magicsmoke_thumb` and `lw-smoke-noise1`–`5` from [packages/wallpapers/MagicSmoke](https://github.com/aosp-mirror-neo/platform_packages_wallpapers_magicsmoke/tree/android-2.3.6_r1/res) (the noise textures are stored as grey PNGs). The Magic Smoke renderer is a WebGL port of `clouds.rs` and `MagicSmokeRS.java`. Apache License 2.0.
 
 ### Nexus 4 additions (4.3)
