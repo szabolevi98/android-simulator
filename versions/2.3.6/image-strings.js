@@ -155,5 +155,6 @@ window.AndroidI18n?.extend([
   ["Your phone will shut down.","A telefon le fog állni.","Telefon wird heruntergefahren.","Votre téléphone va s'éteindre.","El teléfono se apagará."],
   ["Report","Jelentés","Bericht","Rapport","Informe"],
   ["Nexus","Nexus","Nexus","Nexus","Conexión"],
-  ["Spectrum","Spektrum","Spektrum","Spectre","Espectro"]
+  ["Spectrum","Spektrum","Spektrum","Spectre","Espectro"],
+  ["Phone|Mute","Lezárás","Ton aus","Silencieux","Silenciar"]
 ]);

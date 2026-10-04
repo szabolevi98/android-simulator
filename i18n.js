@@ -1428,7 +1428,8 @@
   let saved;
   try { saved = localStorage.getItem('android-time-machine-language'); } catch {}
   let language = supported.includes(saved) ? saved : supported.includes((navigator.language || '').slice(0, 2).toLowerCase()) ? navigator.language.slice(0, 2).toLowerCase() : 'en';
-  function t(key) { return language === 'en' ? key : translations[key]?.[language] || key; }
+  // A context ('Phone') picks a row keyed 'Phone|<English>' first: the same English text that one APK translates differently.
+  function t(key, context) { return language === 'en' ? key : (context && translations[`${context}|${key}`]?.[language]) || translations[key]?.[language] || key; }
   function setLanguage(next) {
     if (!supported.includes(next)) next = 'en';
     language = next;

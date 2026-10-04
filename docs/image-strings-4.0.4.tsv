@@ -138,7 +138,7 @@ Settings:status_unavailable	Unavailable	= | = | Indisponible -> Non disponible |
 framework:lockscreen_carrier_default	No service.	= | Kein Netz. -> Kein Dienst | Aucun service. -> Aucun service | Sin servicio. -> Sin servicio	[simulator.js]
 Settings:gadget_title	Power control	= | = | Contrôle de l’alimentation -> Contrôle de l'alimentation | =	[simulator.js]
 BrowserGoogle:add_to_homescreen_menu_option	Home screen	= | = | Écran d’accueil -> Écran d'accueil | Pantalla de inicio -> Escritorio	[simulator.js]
-SKIP	Phone	Telefon	Settings:usage_type_phone=Telefon / Contacts:dialerIconLabel=Telefon	[people.js simulator.js]
+SKIP	Phone	Telefon	Settings:usage_type_phone=Telefon / Contacts:dialerIconLabel=Telefon	[people.js phone-call.js simulator.js]
 Contacts:people	People	Névjegyek -> Személyek | = | = | =	[people.js simulator.js]
 Mms:app_label	Messaging	= | Nachrichten -> SMS/MMS | Messages -> SMS/MMS | =	[media.js messaging.js simulator.js]
 SKIP	Settings	Beállítások	SystemUI:status_bar_settings_settings_button=Beállítások / Settings:input_method_settings=Beállítások	[ics-play.js simulator.js]
@@ -265,3 +265,4 @@ Calculator:del	DELETE	= | Löschen -> Entfernen | = | =	[simulator.js]
 Calculator:clear	CLR	= | Löschen -> Entfernen | = | =	[simulator.js]
 LiveWallpapersPicker:live_wallpaper_picker_label	Live Wallpapers	= | = | Fonds d’écran animés -> Fonds d'écran animés | Fondos animados -> Fondos de pantalla animados	[simulator.js]
 LiveWallpapers:wallpaper_nexus	Nexus	= | = | = | Nexus -> Conexión	[live-wallpapers.js]
+Phone:onscreenMuteText	Phone|Mute	Lezárás | Ton aus | Silencieux | Silenciar

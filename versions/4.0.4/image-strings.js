@@ -238,5 +238,6 @@ window.AndroidI18n?.extend([
   ["DELETE","TÖRLÉS","Entfernen","SUPPRIMER","BORRAR"],
   ["CLR","Törlés","Entfernen","EFF.","BORRAR"],
   ["Live Wallpapers","Élő háttérképek","Live-Hintergründe","Fonds d'écran animés","Fondos de pantalla animados"],
-  ["Nexus","Nexus","Nexus","Nexus","Conexión"]
+  ["Nexus","Nexus","Nexus","Nexus","Conexión"],
+  ["Phone|Mute","Lezárás","Ton aus","Silencieux","Silenciar"]
 ]);

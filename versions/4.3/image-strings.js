@@ -371,5 +371,6 @@ window.AndroidI18n?.extend([
   ["Search for devices","Eszközök keresése","Nach Geräten suchen","Rechercher appareils","Buscar dispositivos"],
   ["Rename device","Eszköz átnevezése","Gerät umbenennen","Renommer l'appareil","Cambiar nombre del dispositivo"],
   ["Live Wallpapers","Élő háttérképek","Live-Hintergründe","Fonds d'écran animés","Fondos animados"],
-  ["To see devices, turn wireless display on.","Az eszközök megtekintéséhez kapcsolja be a vezeték nélküli kijelzőt.","Um Geräte zu sehen, aktivieren Sie die kabellose Übertragung.","Pour voir les appareils, activez l'affichage sans fil.","Para ver los dispositivos, activa la pantalla inalámbrica."]
+  ["To see devices, turn wireless display on.","Az eszközök megtekintéséhez kapcsolja be a vezeték nélküli kijelzőt.","Um Geräte zu sehen, aktivieren Sie die kabellose Übertragung.","Pour voir les appareils, activez l'affichage sans fil.","Para ver los dispositivos, activa la pantalla inalámbrica."],
+  ["Phone|Mute","Lezárás","Ton aus","Silencieux","Silenciar"]
 ]);

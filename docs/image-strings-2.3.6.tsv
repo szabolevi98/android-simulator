@@ -185,3 +185,4 @@ framework:shutdown_confirm	Your phone will shut down.	= | = | Votre téléphone 
 framework:report	Report	= | = | = | Informar -> Informe	[global-actions.js]
 LiveWallpapers:wallpaper_nexus	Nexus	= | = | = | Nexus -> Conexión	[live-wallpapers.js]
 VisualizationWallpapers:wallpaper_vis3	Spectrum	= | = | = | Espectro de frecuencia -> Espectro	[live-wallpapers.js]
+Phone:onscreenMuteText	Phone|Mute	Lezárás | Ton aus | Silencieux | Silenciar

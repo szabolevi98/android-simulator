@@ -130,7 +130,7 @@ Settings:status_unavailable	Unavailable	= | = | Indisponible -> Non disponible |
 framework:lockscreen_carrier_default	No service.	= | Kein Netz. -> Kein Dienst | Aucun service. -> Aucun service | Sin servicio. -> Sin servicio	[jb-shade.js simulator.js]
 Settings:gadget_title	Power control	= | = | Contrôle de l’alimentation -> Contrôle de l'alimentation | =	[simulator.js]
 framework:permgrouplab_screenlock	Lock screen	Képernyő zárolása -> Lezárási képernyő | = | Verrouiller l’écran -> Écran de verrouillage | Bloquear pantalla -> Pantalla de bloqueo	[index.html]
-SKIP	Phone	Telefon	Contacts:phoneLabelsGroup=Telefonszám / framework:default_audio_route_name=Telefon	[people.js simulator.js]
+SKIP	Phone	Telefon	Dialer:phoneLabelsGroup=Telefonszám / framework:default_audio_route_name=Telefon / Dialer:dialerIconLabel=Telefon	[people.js phone-call.js simulator.js]
 SKIP	People	Névjegyek	Contacts:people=Személyek / GalleryGoogle:people=Személyek	[jb-gallery.js people.js simulator.js]
 Mms:app_label	Messaging	= | Nachrichten -> SMS/MMS | Messages -> SMS/MMS | =	[media.js messaging.js simulator.js]
 SKIP	Camera	Kamera	framework:description_target_camera=Kamera / GalleryGoogle:menu_camera=Kamera / framework:permgrouplab_camera=Fényképezőgép / framework:keyguard_accessibility_camera=Kamera	[jb-gallery.js jb-keyguard.js media.js play-store.js simulator.js widgets.js]
@@ -414,3 +414,4 @@ Settings:wifi_p2p_menu_rename	Rename device	= | = | Renommer l’appareil -> Ren
 LiveWallpapersPicker:live_wallpaper_picker_label	Live Wallpapers	= | = | Fonds d’écran animés -> Fonds d'écran animés | =	[simulator.js]
 Settings:wifi_display_settings_empty_list_wifi_display_off	To see devices, turn wireless display on.	= | = | Pour voir les appareils, activez l’affichage sans fil. -> Pour voir les appareils, activez l'affichage sans fil. | =	[simulator.js]
 SKIP	Disabled	Letiltva	Settings:selinux_status_disabled=Letiltva / Phone:sum_cfnrc_disabled=Kikapcsolva / Settings:wifi_display_summary_disabled=Letiltva / Settings:filter_apps_disabled=Nincs engedélyezve / Settings:disabled=Letiltva	[settings-detail.js]
+Phone:onscreenMuteText	Phone|Mute	Lezárás | Ton aus | Silencieux | Silenciar
