@@ -874,3 +874,19 @@ The cells are 160 × 133.3 dip on the `container` 9-patch, shown over the home w
 **Voice Dialer.** "Starting up.", "Listening…", then "No results, try again." with the examples and the "Did you know…" tip.
 
 Google Voice's launcher label stays "Voice" and Car Home stays untranslated in Hungarian, as on the image. `AndroidI18n.extend` sets this for 2.3.6 only.
+
+## Home screen of the factory image — 2026-10-04
+
+The default desktop now follows the image's Launcher2 `res/xml/default_workspace.xml` (layout revision 3, which resets older saved desktops once):
+- screen 1: News & Weather 4 × 1;
+- screen 2: YouTube 4 × 1;
+- screen 3: the search bar and the home screen tips at the bottom row;
+- screen 4: Market 2 × 2;
+- screen 5: Power control.
+
+New widgets in `gb-widgets.js`:
+- **News & Weather** (`miniwidget.xml`): the weather column and the flipping stories.
+- **YouTube** (`widget_layout.xml` / `widget_teaser.xml`): the logo, the flipping videos, and the camera and search buttons.
+- **Market** (`widget.xml` / `widget_app.xml`): the header and the flipping featured apps on `green_gradient`.
+
+Taps open the story, the video, YouTube search or the app's Market page. The widget picker lists the image's providers, sorted by label, with the search widget as "Google Search".

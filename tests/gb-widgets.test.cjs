@@ -3,7 +3,7 @@ const context={window:{}};
 vm.runInNewContext(fs.readFileSync('versions/2.3.6/gb-widgets.js','utf8'),context);
 const G=context.window.GBWidgets;
 // The 2.3.6 providers: no Calendar widget, Picture frame 2 x 2, Bookmarks 4 x 4, Power control 4 x 1.
-assert.deepEqual([...G.PROVIDERS.map(p=>p.label)],['Analog clock','Bookmarks','Home screen tips','Music','Picture frame','Power control','Search']);
+assert.deepEqual([...G.PROVIDERS.map(p=>p.label)],['Analog clock','Bookmarks','Google Search','Home screen tips','Market','Music','News & Weather','Picture frame','Power control','YouTube']);
 assert.equal(G.PROVIDERS.find(p=>p.type==='photo').width,2);assert.equal(G.PROVIDERS.find(p=>p.type==='bookmarks').height,4);
 // Analog clock hands.
 const html=G.analog(new Date(2026,9,2,3,30));assert.match(html,/appwidget_clock_dial/);assert.match(html,/rotate\(105deg\)/);assert.match(html,/rotate\(180deg\)/);

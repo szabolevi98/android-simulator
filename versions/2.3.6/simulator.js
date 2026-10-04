@@ -9,14 +9,16 @@
     // Gingerbread's Launcher2 has no first-run clings.
     clings: LauncherClings.dismissedAll(),
     wallpaper: 0,
-    layoutRevision: 2,
+    // The Nexus S image's Launcher2 res/xml/default_workspace.xml (GRK39F): News & Weather; YouTube; the search bar and
+    // the home screen tips; Market; Power control. Revision 3 moves older saved desktops onto it once.
+    layoutRevision: 3,
     homePages: Array.from({length: 5}, () => Array(16).fill(null)),
     homeWidgets: [
-      [],
-      [],
-      [{ id: 'default-search', type: 'search', x: 0, y: 0 }, { id: 'default-protips', type: 'protips', x: 0, y: 1 }],
-      [{ id: 'default-music', type: 'music', x: 0, y: 0 }],
-      []
+      [{ id: 'default-news', type: 'news-weather', x: 0, y: 0 }],
+      [{ id: 'default-youtube', type: 'youtube', x: 0, y: 0 }],
+      [{ id: 'default-search', type: 'search', x: 0, y: 0 }, { id: 'default-protips', type: 'protips', x: 0, y: 3 }],
+      [{ id: 'default-market', type: 'market', x: 1, y: 1 }],
+      [{ id: 'default-power', type: 'power', x: 0, y: 0 }]
     ],
     liveWallpaper: { id: 'nexus' },
     protips: { index: 0, set: 0 },
@@ -71,6 +73,7 @@
         } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
         result.layoutRevision = 2;
       }
+      if ((saved.layoutRevision || 0) < 3) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.layoutRevision = 3; }
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
       // 2.3.6 has no Calendar widget; Picture frames hold one picture.
@@ -489,6 +492,9 @@
     if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
     if (type === 'music') return ICSWidgets.music(ui.music, tracks, false, key => i18n.t(key), true);
     if (type === 'power') return GBWidgets.power({...GBSettings.DEFAULTS, ...data.settings});
+    if (type === 'news-weather') return GBWidgets.newsWeather(i18n.language);
+    if (type === 'youtube') return GBWidgets.youtube(i18n.language);
+    if (type === 'market') return GBWidgets.market(GBMarket.all().filter(item => !item.app).slice(0, 4));
     if (type === 'power-ics') return `<div class="power-widget">${[['wifi','wifi'],['bluetooth','bluetooth'],['gps','gps'],['autoSync','sync'],['brightness','brightness']].map(([key,asset]) => `<span class="power-cell ${data.settings[key] ? 'enabled' : ''}"><img src="assets/power-${asset}-${key === 'brightness' ? data.settings.brightness > 70 ? 'full' : data.settings.brightness > 25 ? 'half' : 'off' : data.settings[key] ? 'on' : 'off'}.png" alt=""><i></i></span>`).join('')}</div>`;
     return '<img class="widget-preview-image" src="assets/gallery-widget_preview.png" alt="">';
   }
@@ -501,6 +507,9 @@
     if (widget.type === 'power') return GBWidgets.power({...GBSettings.DEFAULTS, ...data.settings}, t);
     if (widget.type === 'bookmarks') return GBWidgets.bookmarks(data.bookmarks || [], ui.bookmarkWidget?.[widget.id] || 0, gbBrowserTitle, renderWebsite);
     if (widget.type === 'music') return GBLauncher.music(ui.music, tracks[ui.music.track], musicActive(), t);
+    if (widget.type === 'news-weather') return GBWidgets.newsWeather(i18n.language);
+    if (widget.type === 'youtube') return GBWidgets.youtube(i18n.language);
+    if (widget.type === 'market') return GBWidgets.market(GBMarket.all().filter(item => !item.app && ['apps', 'games'].includes(item.kind || 'apps')).slice(0, 4));
     if (widget.type === 'photo') { const photo = data.photos.find(p => p.id === widget.photo) || (widget.source === 'album' ? ICSMedia.photos(data, widget.album)[0] : widget.source === 'shuffle' ? data.photos[0] : null); return GBWidgets.pictureFrame(photo, ICSMedia.image); }
     return null;
   }
@@ -1514,6 +1523,11 @@
       case 'gbmk-section': gbMarketGo({page: 'section', section: id, tab: 'FEATURED'}); break;
       case 'gbmk-tab': if (id) { ui.market.tab = id; render(); } break;
       case 'gbmk-detail': gbMarketGo({page: 'detail', selected: id}); break;
+      // The Google apps' home screen widgets open their story, video or app.
+      case 'gbw-news': openApp('news-weather'); if (id !== 'weather') { ui.nwTab = 'Top Stories'; ui.nwStory = id; } render(); break;
+      case 'gbw-youtube': openApp('youtube'); Object.assign(ui, {ytWatch: id, ytTab: 'info', ytPos: 0, ytPlaying: true}); render(); break;
+      case 'gbw-youtube-search': openApp('youtube'); ui.ytSearching = true; render(); viewport.querySelector('.yt-search input')?.focus(); break;
+      case 'gbw-market': openApp('play-store'); gbMarketGo({page: 'detail', selected: id}); break;
       case 'gbmk-buy': { const item = GBMarket.find(id); if (item && item.price !== 'FREE') { toast(GBMarket.text(i18n.language, 'Unavailable')); break; } gbMarketGo({page: 'permissions', selected: id}); break; }
       case 'gbmk-accept': ui.market = ui.marketHistory.pop() || {page: 'detail', selected: id}; gbMarketDownload(id); break;
       case 'gbmk-cancel': clearInterval(ui.marketTimer); ui.marketDownload = null; data.notifications = data.notifications.filter(n => n.kind !== 'market-dl'); save(); render(); renderStatus(); break;
