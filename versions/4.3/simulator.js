@@ -33,6 +33,12 @@
       { id: 4, name: 'Mom', phone: '202-555-0107', email: 'mom@example.com' }
     ],
     contactGroups: [{id:'friends',name:'Friends',members:[1,2,3]},{id:'family',name:'Family',members:[4]}],
+    // Hangouts' own chats (Google Talk history), kept apart from the SMS in Messaging.
+    hangoutChats: [
+      { id: 1, contact: 2, body: 'Did you try the new Hangouts? Group video calls work great.', mine: false, time: '9:12' },
+      { id: 2, contact: 2, body: 'Just installed it. Talk is gone and all our chats are here!', mine: true, time: '9:20' },
+      { id: 3, contact: 3, body: 'Photos from the meetup are up on Google+ 📷', mine: false, time: 'Yesterday' }
+    ],
     messages: [
       { id: 1, contact: 1, body: 'Hey! Are we still on for coffee tomorrow?', mine: false, time: '10:42' },
       { id: 2, contact: 1, body: 'Absolutely. See you at 11!', mine: true, time: '10:45' },
@@ -95,7 +101,12 @@
   let data = load();
   data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...JBDeveloperOptions.DEFAULTS,spellChecker:true,imeLatin:true,...data.settings};
   ICSLockscreen.initialize(data);
-  function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
+  // While Hangouts is in front data.messages holds its chats (hangoutsScope); the saved copy keeps each store in place.
+  let hangoutsSwap = null;
+  function save() {
+    const stored = hangoutsSwap ? {...data, messages: hangoutsSwap.messages, messageDrafts: hangoutsSwap.messageDrafts, hangoutChats: data.messages, hangoutDrafts: data.messageDrafts, messagesOwner: undefined} : data;
+    try { localStorage.setItem(STORE, JSON.stringify(stored)); } catch {}
+  }
   const ui = {
     view: 'home', sub: '', page: 2, drawerTab: 'apps', drawerPage: 0, overlay: '',
     selectedContact: 1, thread: 1, selectedPhoto: 1,
@@ -128,7 +139,7 @@
     // Chrome, the Nexus 4's own browser (the JWR66Y image has no AOSP Browser; the owner keeps both).
     ['chrome', 'Chrome', '◎', '#4285f4', '#db4437'],
     // Google's Play media apps of the JWR66Y image (labels as its launcher shows them); AOSP Music stays beside Play Music.
-    ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'],
+    ['gmail', 'Gmail', '✉', '#ffffff', '#db4437'], ['hangouts', 'Hangouts', '❝', '#8bc34a', '#33691e'],
     ['play-music', 'Play Music', '♫', '#ff9800', '#e65100'], ['play-movies', 'Google Play Movies', '▶', '#e53935', '#b71c1c'], ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'],
     ['camera', 'Camera', '▣', '#c8cbd0', '#6b7a87'], ['gallery', 'Gallery', '▧', '#e9b674', '#8d673c'],
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
@@ -159,7 +170,7 @@
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
   const PLAY_APPS = ['play-music', 'play-movies', 'play-books'];
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'chrome', 'gmail', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'chrome', 'gmail', 'hangouts', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -578,6 +589,7 @@
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
       case 'chrome': return renderChrome();
+      case 'hangouts': return hangoutsScope(() => Hangouts.render(data, ui, key => i18n.t(key), i18n.locale(), deviceDate().getTime()));
       case 'gmail': return renderGmail();
       case 'play-music': case 'play-movies': case 'play-books': return PlayApps.render(playContext(ui.view));
       case 'phone': return renderPhone();
@@ -713,7 +725,7 @@
     } else if (ui.overlay === 'browser-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu web-menu"><button data-action="browser-forward" ${ui.browserIndex >= ui.browserHistory.length-1?'disabled':''}>Forward</button><button data-action="browser-refresh">Refresh</button><button data-action="browser-new-tab">New tab</button><button data-action="browser-save">Bookmark</button><button data-action="browser-bookmarks">Bookmarks</button><button data-action="browser-saved">Saved pages</button><button data-action="browser-save-page">Save for offline reading</button><button data-action="browser-find">Find on page</button></div>`;
     } else if (ui.overlay.startsWith('mms-')) {
-      overlayRoot.innerHTML = renderMessageOverlay();
+      overlayRoot.innerHTML = hangoutsScope(renderMessageOverlay);
     } else if (ui.overlay === 'play-menu') {
       // The action bar overflow: a Holo Light popup below the overflow button.
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="jbp-menu" role="menu">${JBPlay.menu(jbPlayContext()).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
@@ -1083,8 +1095,28 @@
     const key = ICSMessaging.draftKey(ui);
     return data.messageDrafts[key] ||= {body:'',recipient:''};
   }
+  // While Hangouts is in front the Messaging code works on its chat store (data.hangoutChats / hangoutDrafts).
+  function hangoutsScope(fn) {
+    if (ui.view !== 'hangouts' || hangoutsSwap) return fn();
+    hangoutsSwap = {messages: data.messages, messageDrafts: data.messageDrafts};
+    data.messages = data.hangoutChats ||= clone(defaultData.hangoutChats); data.messageDrafts = data.hangoutDrafts ||= {};
+    let left = false;
+    try { const result = fn(); left = ui.view !== 'hangouts'; return result; }
+    finally { data.hangoutChats = data.messages; data.hangoutDrafts = data.messageDrafts; data.messages = hangoutsSwap.messages; data.messageDrafts = hangoutsSwap.messageDrafts; hangoutsSwap = null; if (left) { save(); render(); } }
+  }
+  // KitKat's New Hangout picker: a pending draft moves to the chosen conversation.
+  function pickHangout(key) {
+    const pending = data.messageDrafts?.new;
+    if (pending && (pending.body || pending.attachment)) {
+      const target = data.messageDrafts[String(key)] ||= {body: '', recipient: ''};
+      target.body = [target.body, pending.body].filter(Boolean).join(' ').slice(0, 2000);
+      if (pending.attachment) target.attachment = pending.attachment;
+      target.updated = Date.now(); delete data.messageDrafts.new;
+    }
+    openMessageThread(String(key)); save(); render();
+  }
   function openMessageThread(key) {
-    if (ui.view !== 'messaging') openApp('messaging');
+    if (!['messaging', 'hangouts'].includes(ui.view)) openApp('messaging');
     if (ui.sub !== 'thread') ui.mmsListMode = ui.sub === 'search' ? 'search' : '';
     ui.thread = key; ui.sub = 'thread'; ui.overlay = '';
     data.messages.filter(m => String(m.contact) === String(key)).forEach(m => { m.read = true; });
@@ -1098,6 +1130,8 @@
   function renderMessageOverlay() {
     const dialog = (title, content) => `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="${safe(i18n.t(title))}"><h3>${safe(i18n.t(title))}</h3>${content}</div>`;
     const option = (action, text, id = '') => `<button data-action="${action}" data-id="${safe(id)}">${safe(i18n.t(text))}</button>`;
+    const hangouts = ui.view === 'hangouts' ? Hangouts.overlay(data, ui, key => i18n.t(key)) : null;
+    if (hangouts !== null) return hangouts;
     if (ui.overlay === 'mms-menu') {
       const composing = ['thread','new'].includes(ui.sub);
       return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu ${composing ? '' : 'mms-menu-root'}">${composing ? option('mms-smiley','Insert smiley') + option('mms-discard','Discard draft') + (ui.sub === 'thread' ? option('mms-delete-thread','Delete thread') : '') : option('new-message','New message') + option('mms-search','Search messages')}</div>`;
@@ -1387,7 +1421,7 @@
   }
 
   let suppressClickUntil = 0;
-  document.addEventListener('click', event => {
+  function handleClick(event) {
     const button = event.target.closest('[data-action]');
     if (!button || !screen.contains(button)) return;
     event.preventDefault();
@@ -1709,6 +1743,9 @@
       case 'contact-message': openMessageThread(id); break;
       case 'contact-email': {const recipient=contact(id)?.email||'';openApp('email');composeEmail(null,false,recipient);break;}
       case 'thread': openMessageThread(id); break;
+      case 'hg-pick': pickHangout(id); break;
+      case 'hg-attach-photo': ui.overlay = 'mms-attach-photos'; renderOverlay(); break;
+      case 'hg-location': case 'hg-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
       case 'mms-menu': case 'mms-attach': case 'mms-smiley': ui.overlay = action; renderOverlay(); break;
       case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }
@@ -1857,9 +1894,10 @@
       case 'email-confirm-discard': ICSEmail.trash(data.mailbox,[ui.emailId]);ui.sub='';ui.overlay='';save();render();break;
       default: break;
     }
-  });
+  }
+  document.addEventListener('click', event => hangoutsScope(() => handleClick(event)));
 
-  document.addEventListener('submit', event => {
+  function handleSubmit(event) {
     const form = event.target.closest('[data-form]');
     if (!form || !screen.contains(form)) return;
     event.preventDefault(); const values = new FormData(form);
@@ -1916,6 +1954,7 @@
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
       case 'chrome-history-search': ui.chromeHistoryQuery = String(values.get('query') || '').trim(); render(); break;
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
+      case 'hg-new': { const target = ICSMessaging.recipient(values.get('recipient'), data.contacts); if (!target) { toast('Enter a contact name or valid phone number'); return; } pickHangout(target.key); break; }
       case 'mms-send': {
         const target = ui.sub === 'thread' ? {key:ui.thread} : ICSMessaging.recipient(values.get('recipient'),data.contacts);
         if (!target) { toast('Enter a contact name or valid phone number'); return; }
@@ -1953,8 +1992,10 @@
       case 'sd-choice': {const choice=String(values.get('choice'));if(ui.settingsField==='sleep')data.settings.sleep=Number(choice);else if(['windowScale','transitionScale','animatorScale'].includes(ui.settingsField))data.settings[ui.settingsField]=Number(choice);else if(ui.settingsField==='font')data.settings.largeText=choice==='large';else if(ui.settingsField==='silent'){data.settings.silent=choice!=='off';data.settings.silentMode=choice;}else data.settings[ui.settingsField]=choice;save();ui.overlay='';render();break;}
       default: break;
     }
-  });
-  document.addEventListener('input', event => {
+  }
+  document.addEventListener('submit', event => hangoutsScope(() => handleSubmit(event)));
+  document.addEventListener('input', event => hangoutsScope(() => handleInput(event)));
+  function handleInput(event) {
     if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}
     if(event.target.dataset.field==='data-cycle'){ui.dataCycle=event.target.value;render();return;}
     if(event.target.closest('.email-compose')&&event.target.name){const item=data.mailbox.find(item=>item.id===ui.emailId);if(item){item[event.target.name]=event.target.value;save();}return;}
@@ -1996,7 +2037,7 @@
       screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`;
     }
     if(event.target.dataset.field==='music-position'){ui.music.position=Number(event.target.value);saveMusic();const elapsed=viewport.querySelector('.music-elapsed');if(elapsed)elapsed.textContent=ICSMusic.time(ui.music.position);}
-  });
+  }
 
   let pointerStart = null, eggTimer = null, dragTimer = null, dragState = null;
   function dragSource(target) {

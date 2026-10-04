@@ -757,6 +757,7 @@
     ["Play Games","Play Játékok","Play Spiele","Play Jeux","Play Juegos"],
     ["Play Movies & TV","Play Filmek","Play Filme","Play Films","Play Películas"],
     ["Play Music","Play Zene","Play Musik","Play Musique","Play Música"],
+    ["Send a message", "Üzenet küldése", "Nachricht senden", "Envoyer un message", "Enviar un mensaje"],
     ["Google Play Movies","Google Play Filmek","Google Play Movies","Google Play Films","Google Play Movies"],
     ["Google Settings","Google Beállítások","Google Einstellungen","Paramètres Google","Ajustes de Google"],
     ["Cast Screen","Képernyő átküldése","Bildschirm übertragen","Caster l'écran","Enviar pantalla"],
