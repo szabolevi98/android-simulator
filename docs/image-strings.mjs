@@ -25,11 +25,21 @@ const FILES = {
   'jb-launcher.js': ['Launcher2', 'framework'], 'launcher-clings.js': ['Launcher2'], 'launcher-folders.js': ['Launcher2'],
   'widgets.js': ['Launcher2', 'CalendarGoogle', 'GalleryGoogle', 'DeskClockGoogle'],
   'media.js': ['GalleryGoogle', 'CameraGoogle', 'framework'], 'ics-play.js': ['Phonesky'], 'nyandroid.js': ['SystemUI'],
-  // Screens with no counterpart in the image: AOSP Music (the images have Play Music).
+  // Gingerbread screens (versions/2.3.6).
+  'gb-browser.js': ['Browser', 'framework'], 'gb-calendar.js': ['CalendarGoogle', 'framework'], 'gb-camera.js': ['CameraGoogle'],
+  'gb-contact-editor.js': ['Contacts', 'framework'], 'gb-deskclock.js': ['DeskClockGoogle', 'framework'], 'gb-downloads.js': ['DownloadProviderUi'],
+  'gb-email.js': ['EmailGoogle', 'framework'], 'gb-gallery.js': ['Gallery3DGoogle'], 'gb-keyguard.js': ['framework'], 'gb-launcher.js': ['Launcher2', 'framework'],
+  'gb-mms.js': ['Mms', 'framework'], 'gb-phone.js': ['Phone', 'Contacts', 'framework'], 'gb-search.js': ['GoogleQuickSearchBox'],
+  'gb-settings.js': ['Settings', 'framework'], 'gb-settings-pages.js': ['Settings', 'framework'], 'gb-statusbar.js': ['framework'], 'gb-ui.js': ['framework'],
+  'gb-widgets.js': ['Launcher2', 'CalendarGoogle', 'Gallery3DGoogle', 'MusicGoogle'],
+  // Market 3.x is rebuilt from period material; the image's Vending is an older Market.
+  'gb-market.js': [],
+  // Screens with no counterpart in the image: AOSP Music (the 4.x images have Play Music).
   'music.js': [], 'browser-session.js': [], 'transitions.js': [], 'calculator-engine.js': [],
 };
 const VERSIONS = {
   // simulator.js also draws the Browser; the Nexus 4 image has Chrome instead, so 4.3 keeps the Browser rows.
+  '2.3.6': {device: 'crespo', build: 'Nexus S GRK39F', general: ['Browser', 'Contacts', 'Mms', 'MusicGoogle', 'AccountAndSyncSettings']},
   '4.0.4': {device: 'maguro', build: 'Galaxy Nexus IMM76I', general: ['BrowserGoogle']},
   '4.3': {device: 'mako', build: 'Nexus 4 JWR66Y', general: []},
 };
@@ -61,7 +71,7 @@ if (!config) { console.error('usage: node docs/image-strings.mjs <' + Object.key
 const rows = eval(fs.readFileSync('i18n.js', 'utf8').match(/const rows = (\[[\s\S]*?\n  \]);/)[1]);
 const index = JSON.parse(fs.readFileSync(`_aosp/${config.device}/strings-index.json`, 'utf8'));
 const dir = `versions/${version}/`;
-const sources = fs.readdirSync(dir).filter(name => /\.(js|html)$/.test(name) && name !== 'image-strings.js').map(name => [name, fs.readFileSync(dir + name, 'utf8')]);
+const sources = fs.readdirSync(dir).filter(name => /\.(js|html)$/.test(name) && !/^(image-strings|gb-strings-.*|gb-settings-strings)\.js$/.test(name)).map(name => [name, fs.readFileSync(dir + name, 'utf8')]);
 const LANGS = ['hu', 'de', 'fr', 'es'];
 const quoted = text => [`'${text.replaceAll("'", "\\'")}'`, `"${text.replaceAll('"', '\\"')}"`, '`' + text + '`', `>${text}<`];
 const out = [], report = [], seen = new Set();

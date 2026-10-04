@@ -715,3 +715,11 @@ Checks: headless Chrome showed the new background with mixed pulse widths, a tap
 ## Straight left edge on the frame — 2026-10-03
 
 The Nexus S outline came out wavy on the left (owner feedback). The render it is traced from is slightly skewed, and its shading and the volume keys made the left edge jump by 0–3 px from row to row, which the curve smoothing turned into waves. The right edge was already straight, because it is clamped to the body width. The Nexus S front is symmetric, so `docs/device-frames.py` now mirrors the right edge for the left one (`mirror=True`). The rounded top-left and bottom-left corners were still uneven, so the left half of the top and bottom edges is mirrored too. The whole left half of the outline is now the mirror image of the right half.
+
+## Interface strings from the factory image — 2026-10-04
+
+The Gingerbread screens read their text from `gb-strings-*.js`, which are generated from the AOSP `android-2.3.6_r1` sources. These were compared with the Nexus S GRK39F image's resources: 784 strings are the same and none differ in substance. The only real difference is the Google Quick Search Box: the image ships GoogleQuickSearchBox, whose German, French and Spanish texts for agree, disagree and the settings title are worded differently. `docs/gb-strings.py` now applies those three from the image (`image` in the `search` entry).
+
+The screens Gingerbread inherits use the shared `i18n.js` rows. `docs/image-strings.mjs 2.3.6` now overrides those rows with the image's own text: `versions/2.3.6/image-strings.js`, 156 rows, with the same rules as 4.0.4 and 4.3. The changes are listed in `docs/image-strings-2.3.6.tsv`.
+
+Nine French rows in `i18n.js` showed a backslash ("Transfert d\'appel"); they are fixed.

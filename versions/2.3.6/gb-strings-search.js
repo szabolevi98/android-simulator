@@ -131,16 +131,16 @@ window.GBStrings["search"] = {
 "agree": {
 "en": "OK",
 "hu": "OK",
-"de": "OK",
-"fr": "OK",
-"es": "Aceptar"
+"de": "Zustimmen",
+"fr": "Accepter",
+"es": "Acepto"
 },
 "disagree": {
 "en": "Cancel",
 "hu": "Mégse",
-"de": "Abbrechen",
-"fr": "Annuler",
-"es": "Cancelar"
+"de": "Ablehnen",
+"fr": "Refuser",
+"es": "No acepto"
 },
 "google_search_label": {
 "en": "Google",
@@ -159,9 +159,9 @@ window.GBStrings["search"] = {
 "google_search_settings": {
 "en": "Google search",
 "hu": "Google-keresés",
-"de": "Google-Suche",
-"fr": "Recherche Google",
-"es": "Búsqueda de Google"
+"de": "Einstellungen der Google-Suche",
+"fr": "Paramètres de recherche Google",
+"es": "Configuración de búsqueda de Google"
 },
 "google_show_web_suggestions": {
 "en": "Show web suggestions",
