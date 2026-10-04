@@ -1685,7 +1685,7 @@
         save(); render(); const settingsView = viewport.querySelector('.settings-app'); if (settingsView) settingsView.scrollTop = previousScroll; break;
       }
       case 'wallpaper': data.wallpaper = Number(id); delete data.liveWallpaper; delete data.customWallpaper; delete data.customWallpaperPhoto; save(); if (ui.view === 'wallpaper-picker') home(false); else render(); toast('Wallpaper set'); break;
-      case 'factory-reset': if (confirm(i18n.t('Reset all local ICS simulator data?'))) resetSimulator(); break;
+      case 'factory-reset': if (confirm(i18n.t('Reset all local Gingerbread simulator data?'))) resetSimulator(); break;
       case 'about-tap':
         ui.aboutTapTimes = [...(ui.aboutTapTimes || []), performance.now()].slice(-3);
         if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = 'easter'; ui.easterNyan = false; ui.aboutTapTimes = []; render(); }
@@ -2970,7 +2970,7 @@
   languageSelect.value = i18n.language;
   languageSelect.addEventListener('change', event => { i18n.setLanguage(event.target.value); location.reload(); });
   document.querySelector('#reset-button').addEventListener('click', () => {
-    if (!confirm(i18n.t('Reset all local ICS simulator data?'))) return;
+    if (!confirm(i18n.t('Reset all local Gingerbread simulator data?'))) return;
     resetSimulator();
   });
   let lastWidgetMinute = '';

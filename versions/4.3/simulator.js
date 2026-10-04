@@ -157,7 +157,9 @@
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
-    ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f']
+    ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f'],
+    // DownloadProviderUi of the image (holo-downloads).
+    ['downloads', 'Downloads', '⬇', '#8bc34a', '#33691e']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -184,7 +186,7 @@
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
   const PLAY_APPS = ['play-music', 'play-movies', 'play-books'];
-  const iconAssets = new Set(['messenger', 'navigation', 'local', 'currents', 'play-magazines', 'wallet', 'movie-studio', 'google-keyboard', 'phone', 'people', 'messaging', 'browser', 'chrome', 'gmail', 'hangouts', 'google-search', 'voice-search', 'maps', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['downloads', 'messenger', 'navigation', 'local', 'currents', 'play-magazines', 'wallet', 'movie-studio', 'google-keyboard', 'phone', 'people', 'messaging', 'browser', 'chrome', 'gmail', 'hangouts', 'google-search', 'voice-search', 'maps', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings', 'play-music', 'play-movies', 'play-books', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -614,6 +616,7 @@
       case 'messenger': case 'navigation': case 'local': case 'currents': case 'play-magazines': case 'wallet': case 'movie-studio': return JBExtraApps.render(ui.view, {ui, t: key => i18n.t(key), contacts: data.contacts});
       case 'google-search': case 'voice-search': case 'maps': case 'keep': case 'youtube': case 'google-plus': case 'earth': case 'news-weather': case 'google-settings': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()});
       case 'hangouts': return hangoutsScope(() => Hangouts.render(data, ui, key => i18n.t(key), i18n.locale(), deviceDate().getTime()));
+      case 'downloads': return HoloDownloads.render(dlContext());
       case 'gmail': return renderGmail();
       case 'play-music': case 'play-movies': case 'play-books': return PlayApps.render(playContext(ui.view));
       case 'phone': return renderPhone();
@@ -656,7 +659,13 @@
   }
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; if (resetPage) ui.page = 2; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
+  // Downloads: data.downloads (seeded on first use); the sort order and the selection live in ui.hdl.
+  function dlContext() {
+    return {data, ui, lang: i18n.language, locale: i18n.locale(), now: deviceDate().getTime(), hour24: !!data.settings.hour24, t: key => i18n.t(key),
+      save, render, renderOverlay, toast, openApp};
+  }
   function navigateBack() {
+    if (ui.view === 'downloads' && HoloDownloads.back(dlContext())) return;
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
@@ -706,6 +715,7 @@
   }
   let openFolderId = '';
   function renderOverlay() {
+    if (ui.view === 'downloads' && ui.overlay.startsWith('hdl-')) { overlayRoot.innerHTML = HoloDownloads.overlay(dlContext()) || ''; return; }
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.overlay === 'shade') {
       const call = ui.activeCall ? `<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>` : '';
@@ -1476,6 +1486,7 @@
       if(!['back','alarm-dismiss','alarm-snooze','lock-media'].includes(action))return;
     }
     if (ui.view === 'gmail' && gmailAction(action, id, button)) return;
+    if (ui.view === 'downloads' && action.startsWith('hdl-') && HoloDownloads.handle(action, id, dlContext())) return;
     switch (action) {
       case 'open-app': {
         const icon = button.closest('.launcher-icon, .drawer-app, .dock-app') || button;

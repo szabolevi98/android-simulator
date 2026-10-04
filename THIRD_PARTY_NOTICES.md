@@ -237,3 +237,7 @@ The 5.1.1 build follows the Nexus 6 factory image `shamu-lmy48y` (build LMY48Y, 
 - `versions/5.1.1/assets/device-nexus-6.svg` is the simulator's own drawing. Its outline and the positions of the speakers, camera and keys are traced by `docs/device-frames.py` from Google's Nexus 6 device art ([Wikimedia Commons "Nexus 6.png"](https://commons.wikimedia.org/wiki/File:Nexus_6.png), from the Android Device Art Generator, CC BY 2.5). The art itself is not redistributed.
 - The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.
 - Google, Android, Nexus, Gmail, Chrome, Hangouts and the other app names are trademarks of Google LLC. This simulator is unofficial and is not connected to Google services.
+
+### Downloads (4.0.4, 4.3)
+
+`versions/{4.0.4,4.3}/assets/dl-*` (Holo check boxes, expanders, action-mode and menu icons) come from `framework-res.apk` of the Galaxy Nexus IMM76I and Nexus 4 JWR66Y images, `dl-ic_download_misc_file_type.png` and the `downloads.png` launcher icon from their `DownloadProviderUi.apk`. Copyright The Android Open Source Project; Apache License 2.0.

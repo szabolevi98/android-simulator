@@ -138,7 +138,9 @@
     ['movie-studio', 'Movie Studio', '▶', '#607d8b', '#37474f'],
     ['google-plus', 'Google+', 'g+', '#dd4b39', '#b03a2e'], ['talk', 'Talk', '✆', '#5b9bd5', '#2f6ea8'], ['youtube', 'YouTube', '▶', '#e62117', '#b31217'],
     ['play-books', 'Play Books', '▤', '#4285f4', '#1a73e8'], ['play-movies', 'Play Movies', '▶', '#e53935', '#b71c1c'], ['search', 'Search', '⌕', '#9ad0f0', '#3a7fb0'],
-    ['voice-dialer', 'Voice Dialer', '🎤', '#3dc484', '#217258'], ['latitude', 'Latitude', '⌖', '#4285f4', '#1a73e8']
+    ['voice-dialer', 'Voice Dialer', '🎤', '#3dc484', '#217258'], ['latitude', 'Latitude', '⌖', '#4285f4', '#1a73e8'],
+    // DownloadProviderUi of the image (holo-downloads).
+    ['downloads', 'Downloads', '⬇', '#8bc34a', '#33691e']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -161,7 +163,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['google-plus', 'talk', 'youtube', 'play-books', 'play-movies', 'search', 'voice-dialer', 'latitude', 'maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio', 'play-music', 'gmail', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['downloads', 'google-plus', 'talk', 'youtube', 'play-books', 'play-movies', 'search', 'voice-dialer', 'latitude', 'maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio', 'play-music', 'gmail', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -447,6 +449,7 @@
       case 'wallpaper-picker': return `<div class="app-view wallpaper-picker"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>Wallpapers</h2></div><div class="app-content dark">${wallpaperChoices()}</div></div>`;
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
+      case 'downloads': return HoloDownloads.render(dlContext());
       case 'gmail': return ICSGmail.render(gmailContext());
       case 'play-music': return ICSPlayMusic.render(playMusicContext());
       case 'google-plus': case 'talk': case 'youtube': case 'play-books': case 'play-movies': case 'search': case 'voice-dialer': case 'latitude': return ICSGoogleApps.render(ui.view, googleAppsContext());
@@ -506,7 +509,13 @@
       focus: selector => viewport.querySelector(selector)?.focus(), submit: selector => viewport.querySelector(selector)?.requestSubmit(),
       keep: () => ICSGmail.keepDraft(data, ui, viewport.querySelector('.g4-form'))};
   }
+  // Downloads: data.downloads (seeded on first use); the sort order and the selection live in ui.hdl.
+  function dlContext() {
+    return {data, ui, lang: i18n.language, locale: i18n.locale(), now: deviceDate().getTime(), hour24: !!data.settings.hour24, t: key => i18n.t(key),
+      save, render, renderOverlay, toast, openApp};
+  }
   function navigateBack() {
+    if (ui.view === 'downloads' && HoloDownloads.back(dlContext())) return;
     if (ICSGoogleApps.APPS.includes(ui.view) && ui.gaSub) { ui.gaSub = ''; render(); return; }
     if (ui.view === 'gmail') {
       if (ui.overlay) { ui.overlay = ''; renderOverlay(); return; }
@@ -553,6 +562,7 @@
   }
   let openFolderId = '';
   function renderOverlay() {
+    if (ui.view === 'downloads' && ui.overlay.startsWith('hdl-')) { overlayRoot.innerHTML = HoloDownloads.overlay(dlContext()) || ''; return; }
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.view === 'play-music' && ui.overlay.startsWith('pm4-')) { overlayRoot.innerHTML = ICSPlayMusic.overlay(playMusicContext()) || ''; return; }
     if (ui.view === 'gmail' && ui.overlay.startsWith('g4-')) { overlayRoot.innerHTML = ICSGmail.overlay(gmailContext()) || ''; return; }
@@ -1056,6 +1066,7 @@
     if (Date.now() < suppressClickUntil) return;
     const { action, id, app, url } = button.dataset;
     if(ui.locked&&!['back','alarm-dismiss','alarm-snooze'].includes(action))return;
+    if (ui.view === 'downloads' && action.startsWith('hdl-') && HoloDownloads.handle(action, id, dlContext())) return;
     if (ui.view === 'gmail' && action.startsWith('g4-') && ICSGmail.handle(action, id, gmailContext())) return;
     // Maps, Earth, News & Weather and the simple extras.
     if (['maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio'].includes(ui.view)) {

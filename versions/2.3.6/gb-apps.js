@@ -9,7 +9,7 @@
   // T(STRINGS)(lang, key): the APK's own translation, else the shared i18n row, else the English key.
   const texts = strings => (lang, key) => {
     const i = LANGS.indexOf(lang);
-    if (strings[key]) return i >= 0 && strings[key][i] ? strings[key][i] : key;
+    if (strings[key]) return (i >= 0 ? strings[key][i] : strings[key][4]) || key;
     return lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key;
   };
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

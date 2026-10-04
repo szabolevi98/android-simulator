@@ -1476,6 +1476,7 @@
     ['Wikipedia','Wikipédia','Wikipedia','Wikipédia','Wikipedia'],
     ['3D Buildings','3D épületek','3D-Gebäude','Bâtiments 3D','Edificios en 3D'],
     ['Books','Könyvek','Google Bücher','Livres','Google Libros'],
+    ['Reset all local Gingerbread simulator data?','Visszaállítod a Gingerbread szimulátor összes helyi adatát?','Alle lokalen Gingerbread-Simulatordaten zurücksetzen?','Réinitialiser toutes les données locales du simulateur Gingerbread ?','¿Restablecer todos los datos locales del simulador Gingerbread?'],
   ];
   const translations = Object.fromEntries(rows.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]));
   let saved;

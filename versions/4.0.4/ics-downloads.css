@@ -1,0 +1,32 @@
+/* Downloads (Galaxy Nexus 4.0.4; holo-downloads): DownloadProviderUi's layouts on Theme.Holo, 1 dp = .85px. */
+.hdl{--d:.85px;display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:RobotoICS,Roboto,sans-serif;overflow:hidden;color-scheme:dark}
+.hdl button{font-family:inherit}
+.hdl-ab,.hdl-cab{flex:none;display:flex;align-items:center;height:calc(48 * var(--d));background:#000;box-shadow:inset 0 -2px #ffffff26}
+.hdl-cab{background:#202020;box-shadow:inset 0 calc(-2 * var(--d)) #33b5e5}
+.screen .hdl-ab button,.screen .hdl-cab button{flex:none;display:flex;align-items:center;justify-content:center;height:100%;min-width:calc(48 * var(--d));padding:0 calc(4 * var(--d));border:0;background:none;cursor:pointer}
+.screen .hdl-ab button:active,.screen .hdl-cab button:active{background:#33b5e566}
+.hdl-ab img,.hdl-cab img{width:calc(32 * var(--d));height:calc(32 * var(--d))}
+.hdl-cab i{flex:none;width:1px;height:60%;background:#ffffff40}
+.hdl-ab h2,.hdl-cab h2{flex:1;min-width:0;margin:0;padding-left:calc(8 * var(--d));font-weight:400;font-size:calc(18 * var(--d));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdl-cab h2{font-size:calc(16 * var(--d))}
+.hdl-list{flex:1;min-height:0;overflow:auto;padding:0 calc(16 * var(--d)) calc(16 * var(--d))}
+.hdl-empty{margin:0;padding-top:40%;text-align:center;font-weight:700;font-size:calc(18 * var(--d))}
+.screen .hdl-group{display:flex;align-items:center;width:100%;min-height:calc(64 * var(--d));padding:0;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;font-size:calc(18 * var(--d));text-align:left;cursor:pointer}
+.hdl-group img{width:calc(32 * var(--d));height:calc(32 * var(--d));margin:0 calc(3 * var(--d)) 0 calc(4 * var(--d))}
+.hdl-group span{padding-left:calc(4 * var(--d))}
+.hdl-item{display:flex;align-items:center;min-height:calc(64 * var(--d));padding:calc(0 * var(--d)) 0;border-bottom:1px solid #ffffff1f;cursor:pointer}
+.hdl-item:active,.hdl-item.on{background:#33b5e540}
+.screen .hdl-check{flex:none;padding:0 0 0 calc(8 * var(--d));border:0;background:none;cursor:pointer}
+.hdl-check img{display:block;width:calc(32 * var(--d));height:calc(32 * var(--d))}
+.hdl-icon{flex:none;width:calc(48 * var(--d));height:calc(48 * var(--d));margin-left:calc(8 * var(--d))}
+.hdl-text{flex:1;min-width:0;display:flex;flex-direction:column;padding:0 calc(8 * var(--d))}
+.hdl-text b{font-size:calc(14 * var(--d));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdl-text small{color:#bebebe;font-size:calc(14 * var(--d));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdl-line{display:flex;align-items:baseline}
+.hdl-size{padding-left:calc(15 * var(--d))}
+.hdl-date{margin-left:auto;padding-left:calc(8 * var(--d))}
+.hdl-sortbar{flex:none;display:flex;border-top:1px solid #ffffff33}
+.screen .hdl-sortbar button{flex:1;height:calc(48 * var(--d));padding:0;border:0;background:none;color:#fff;font-size:calc(14 * var(--d));cursor:pointer}
+.screen .hdl-sortbar button:active{background:#33b5e566}
+.hdl-dialog p{margin:0 0 12px;line-height:1.35}
+.hdl-dialog .row-icon img{width:28px;height:28px}
