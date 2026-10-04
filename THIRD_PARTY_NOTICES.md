@@ -201,6 +201,10 @@ App drawables carry a prefix for their source package at `android-2.3.6_r1`:
 
 `gb-recent_dialog_background.png` and `gb-platlogo.jpg` (the PlatLogoActivity image, "Zombie art by Jack Larson") come from frameworks/base core/res. Copyright The Android Open Source Project; Apache License 2.0.
 
+### Google apps of the Nexus S image (2.3.6)
+
+The Nexus S simulator follows the factory image `soju-grk39f` (GRK39F). The launcher icons of its Google apps (`gmail.png`, `maps.png`, `google-search.png`, ...) are copied from the APKs in that image by `docs/image-icons.py`. The Gmail 2.3.5.1 drawables `gm-*` (check boxes, stars, importance carets, message cards, action-strip and compose icons, the logo) come from the image's `Gmail.apk` (`res/drawable-hdpi*`), and `gb-btn_dropdown_normal.png` from its `framework-res.apk`. These are Google's artwork and trademarks, used only to show what the 2011 phone looked like, in this non-commercial simulator; they are not covered by this project's license. The apps' code is the project's own, and the mail is made up.
+
 ## Android 4.4.4 stock Nexus 5 launcher icons
 
 `versions/4.4.4` shows the stock Nexus 5 (Google Now Launcher) desktop. Two sources provide the Google app icons:

@@ -1,0 +1,31 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// Nexus S: Gmail 2.3.5.1 (gb-gmail.js) registered on GBApps — list rows, Priority Inbox, archive with undo, reply into the thread.
+const w={};w.window=w;
+for(const f of ['gb-apps.js','gb-gmail.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),w);
+const {GBApps,GBGmail:G}=w,gm=GBApps.get('gmail');
+const now=Date.UTC(2011,6,20,12),mail=G.restore(null,now);
+assert.equal(G.list(mail,'Inbox').length,6);assert.equal(G.list(mail,'Priority Inbox').length,3);assert.equal(G.list(mail,'Starred').length,1);
+assert.equal(G.list(mail,'Travel').length,1);assert.equal(G.unread(mail,'Inbox'),2);assert.equal(G.list(mail,'',"ridge").length,1);
+const toasts=[],ctx={data:{gmail23:mail},ui:{},lang:'en',locale:'en-US',now:new Date(now),hour24:false,ok:'OK',cancel:'Cancel',
+  save(){},render(){},renderOverlay(){},toast:m=>toasts.push(m),dialog(k){ctx.ui.gappDialog=k;},focus(){},submit(){}};
+let html=gm.render(ctx);
+assert.ok(html.includes('Inbox (2)')&&html.includes('gingerbread.demo@gmail.com')&&html.includes('<b>Alex</b>, me (3)')&&html.includes('gm-ic_email_caret_double_important_unread'));
+assert.ok(html.includes('class="gm-chip" style="color:#206cff;background:#e0ecff'),'user label in Gmail colours');
+assert.equal(JSON.stringify(gm.menu(ctx).slice(0,5).map(i=>i.title)),JSON.stringify(['Refresh','Compose','Accounts','Go to labels','Search']));
+assert.ok(gm.handle('gm-select','gm-2',ctx));
+assert.equal(JSON.stringify(gm.menu(ctx).map(i=>i.title).slice(0,6)),JSON.stringify(['Star','Read/unread','Mark important','Report spam','Mute','Deselect all']));
+gm.handle('gm-archive',null,ctx);
+assert.ok(!G.list(mail,'Inbox').some(c=>c.id==='gm-2')&&ctx.ui.gmUndo.text==='Archiving 1 conversation.');
+gm.handle('gm-undo',null,ctx);assert.ok(G.list(mail,'Inbox').some(c=>c.id==='gm-2'));
+gm.handle('gm-open','gm-2',ctx);html=gm.render(ctx);
+assert.ok(html.includes('gm-conv')&&html.includes('Hike on Saturday?')&&html.includes('gm-message_header')===false&&html.includes('data-action="gm-reply-all"'));
+gm.handle('gm-reply','gm-2-2',ctx);assert.equal(ctx.ui.gmView,'compose');assert.equal(ctx.ui.gmDraft.subject,'Re: Hike on Saturday?');assert.equal(ctx.ui.gmDraft.to,'alex@example.com');
+const form=new Map([['to','alex@example.com'],['subject','Re: Hike on Saturday?'],['body','Count me in!']]);
+assert.ok(gm.submit('gm-compose',form,ctx));
+assert.equal(mail.find(c=>c.id==='gm-2').messages.length,4);assert.ok(toasts.includes('Sending message…'));
+gm.handle('gm-compose',null,ctx);assert.ok(gm.submit('gm-compose',new Map([['to',''],['body','x']]),ctx));assert.ok(toasts.includes('Please add at least one recipient.'));
+assert.ok(gm.back(ctx));assert.equal(G.list(mail,'Drafts').length,1,'Back keeps a draft');
+ctx.lang='hu';ctx.ui.gmView='';html=gm.render(ctx);assert.ok(html.includes('Beérkezett üzenetek (1)'));
+const sim=fs.readFileSync('versions/2.3.6/simulator.js','utf8');
+assert.ok(sim.includes("if (GBApps.has(ui.view)) return GBApps.get(ui.view).render(gappContext());")&&sim.includes("['gmail', 'Gmail',"));
+console.log('gb-gmail ok');

@@ -114,8 +114,10 @@
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
-    ['play-store', 'Market', '▶', '#b5d26d', '#53732f'], ['search', 'Search', '⌕', '#9ad0f0', '#3a7fb0'],
-    ['downloads', 'Downloads', '⇩', '#9fd36a', '#4f8a2a']
+    ['play-store', 'Market', '▶', '#b5d26d', '#53732f'], ['search', 'Google Search', '⌕', '#9ad0f0', '#3a7fb0'],
+    ['downloads', 'Downloads', '⇩', '#9fd36a', '#4f8a2a'],
+    // The Nexus S image's Google apps (gb-apps.js registers their screens).
+    ['gmail', 'Gmail', '✉', '#e8e8e8', '#c33']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -131,7 +133,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
+  const iconAssets = new Set(['gmail', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -154,6 +156,7 @@
   const appIcon = id => {
     if (id === 'play-store') return '<span class="app-icon"><img src="assets/play-store.svg?v=3" alt=""></span>';
     if (id === 'apps') return '<span class="app-icon"><img src="assets/apps.png" alt=""></span>';
+    if (id === 'search') return '<span class="app-icon"><img src="assets/google-search.png" alt=""></span>';
     const folder=ICSLauncherFolders.folder(data,id);
     // FolderIcon: ic_launcher_folder, or ic_launcher_folder_open while the folder is open; live folders use the provider's icon.
     if(folder)return `<span class="app-icon"><img src="assets/gb-${folder.live?`ic_launcher_folder_live_contacts${folder.live==='all'?'':folder.live==='phone'?'_phone':'_starred'}`:`l2-ic_launcher_folder${ui.overlay==='folder'&&ui.folderId===id?'_open':''}`}.png" alt=""></span>`;
@@ -231,6 +234,7 @@
     if (ui.overlay === 'shade') return;
     if (ui.view === 'home' && !ui.overlay) { ui.overlay = 'gb-menu-home'; renderOverlay(); return; }
     if (ui.view === 'drawer') return;
+    if (GBApps.has(ui.view)) { GBApps.get(ui.view).keep?.(gappContext()); const items = GBApps.get(ui.view).menu?.(gappContext()) || []; if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if ((ui.view === 'phone' && (!ui.activeCall || ui.gbCallBackground) && ui.sub !== 'call-detail') || (ui.view === 'people' && (!ui.sub || ui.sub === 'detail'))) { const items = GBPhone.menu(gbPhoneContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.gbPrefs && ui.gbPrefs.app === ui.view || ui.view === 'calendar' && ui.gbCalSel || ui.view === 'email' && ui.gbEmSetup) return;
     if (ui.view === 'downloads') { ui.gbMenuItems = GBDownloads.menu(gbDlContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
@@ -586,6 +590,7 @@
     if (ui.gbPrefs && ui.gbPrefs.app === ui.view) return GBPrefs.render(gbPrefsContext());
     if (ui.view === 'email' && ui.gbEmSetup) return GBEmail.setup({lang: i18n.language, ...ui.gbEmSetup});
     if (ui.view === 'calendar' && ui.gbCalSel) return GBCalendar.selectCalendars({lang: i18n.language, account: ICSEmail.account, accountType: GBEmail.text ? GBEmail.text(i18n.language, 'exchange_name') : 'Corporate', ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), ...ui.gbCalSel});
+    if (GBApps.has(ui.view)) return GBApps.get(ui.view).render(gappContext());
     switch (ui.view) {
       case 'play-store': return GBMarket.render(gbMarketContext());
       case 'search': return GBSearch.render(gbSearchContext());
@@ -613,12 +618,14 @@
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
     ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; if (!resume) { ui.gbPrefs = null; ui.gbCalSel = null; ui.gbEmSetup = null; } ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
+    if (GBApps.has(app)) GBApps.get(app).open?.(gappContext(), resume);
     if (app === 'phone' && ui.activeCall && !resume) { ui.gbCallBackground = true; ui.gbAddCall = false; ui.phoneTab = 'dialpad'; }
     ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 8);
     render();
     if (resume && viewport.firstElementChild) appScrollContainer(app).scrollTop = ui.recentState?.[app]?.scrollTop || 0;
   }
   function appScrollContainer(app) {
+    if (GBApps.has(app)) return viewport.querySelector(GBApps.get(app).scroll || '[class*="-scroll"]') || viewport;
     return viewport.querySelector(app === 'play-store' ? '.play-content' : app === 'messaging' ? '.mms-scroll' : app === 'email' ? '.email-scroll' : app === 'music' ? '.music-library-scroll' : app === 'calendar' ? '.cal-scroll' : app === 'gallery' ? '.gallery-scroll' : app === 'clock' ? '.desk-scroll' : app === 'people' ? '.people-scroll' : app === 'browser' ? '.browser-page,.web-tabs,.web-library' : '.app-view') || viewport.firstElementChild;
   }
   function captureRecentView() {
@@ -641,6 +648,7 @@
     if (ui.view === 'email' && ui.gbEmSetup && !ui.overlay) { ui.gbEmSetup = null; render(); return; }
     if (ui.view === 'search' && !ui.overlay && ui.qsb?.selecting) { ui.qsb.selecting = false; render(); return; }
     if (ui.view === 'search' && !ui.overlay && ui.qsb?.page) { ui.qsb.page = ui.qsb.page === 'settings' ? '' : 'settings'; render(); return; }
+    if (GBApps.has(ui.view) && !ui.overlay && GBApps.get(ui.view).back?.(gappContext())) return;
     if (ui.overlay === 'shade') { closeShade(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
@@ -737,6 +745,7 @@
     if (ui.overlay === 'gb-dialog-camera') return {title: GBCamera.text(i18n.language, 'confirm_restore_title'), icon: 'ic_dialog_alert', message: GBCamera.text(i18n.language, 'confirm_restore_message'), buttons: [{action: 'gbcam-restore-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
     if (ui.overlay === 'gb-dialog-gallery') return GBGallery.details(gbGalleryContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-email') return GBEmail.dialog(ui.gbEmDialog, gbEmailContext()) || {title: '', items: []};
+    if (ui.overlay === 'gb-dialog-gapp') return GBApps.get(ui.view)?.dialog?.(ui.gappDialog, gappContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-cal') return GBCalendar.dialog(ui.gbCalDialog, gbCalContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-br') return GBBrowser.dialog(ui.gbBrDialog, gbBrowserContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-music') {
@@ -1363,6 +1372,16 @@
     const elapsed=viewport.querySelector('.music-elapsed');if(elapsed)elapsed.textContent=ICSMusic.time(ui.music.position);
   }
   function renderEmail() { return GBEmail.render(gbEmailContext()); }
+  // What the image's Google apps (gb-apps.js) render and act with.
+  function gappContext() {
+    return {data, ui, root: viewport, lang: i18n.language, locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24,
+      ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), t: key => i18n.t(key),
+      save, render, renderOverlay, toast, openApp, home: () => home(false), photos: data.photos, contacts: data.contacts,
+      dialog(kind) { ui.gappDialog = kind; ui.overlay = 'gb-dialog-gapp'; renderOverlay(); },
+      focus(selector) { requestAnimationFrame(() => viewport.querySelector(selector)?.focus()); },
+      submit(selector) { viewport.querySelector(selector)?.requestSubmit(); },
+      browse(url) { openApp('browser'); navigateBrowser(url); }};
+  }
   function gbEmailContext() {
     return {lang: i18n.language, locale: i18n.locale(), hour24: !!data.settings.hour24, now: deviceDate(), sub: ui.sub, folder: ui.emailFolder || 'Inbox', mail: data.mailbox, item: data.mailbox.find(item => item.id === ui.emailId), selected: ui.emailSelected || [], query: ui.emailQuery, cc: !!ui.emailCc, error: '', photos: data.photos, target: data.mailbox.find(item => item.id === ui.gbEmTarget)};
   }
@@ -1442,6 +1461,7 @@
     if (Date.now() < suppressClickUntil) return;
     const { action, id, app, url } = button.dataset;
     if(ui.locked&&!['back','alarm-dismiss','alarm-snooze'].includes(action))return;
+    if (GBApps.has(ui.view) && !['back', 'home', 'menu-key', 'search-key', 'open-app'].includes(action) && GBApps.get(ui.view).handle?.(action, id, gappContext(), button)) return;
     switch (action) {
       case 'open-app': openApp(app || id, !!button.closest('.recent-item')); break;
       case 'home': if (ui.view !== 'lock') home(); break;
@@ -2035,6 +2055,7 @@
     const form = event.target.closest('[data-form]');
     if (!form || !screen.contains(form)) return;
     event.preventDefault(); const values = new FormData(form);
+    if (GBApps.has(ui.view) && GBApps.get(ui.view).submit?.(form.dataset.form, values, gappContext())) return;
     if(form.dataset.form==='folder-name'){event.target.querySelector('input')?.blur();render();return;}
     if(form.dataset.form==='sx-save'){ui.systemError=ICSSystemSettings.submit(data,ui,values);if(ui.systemError){ui.systemValues=Object.fromEntries(values);renderOverlay();return;}save();ui.overlay='';render();return;}
     if(form.dataset.form==='sx-vpn-connect'){ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();return;}

@@ -1,0 +1,131 @@
+/* Gmail 2.3.5.1 (gb-gmail.js). Dimensions from Gmail.apk: dimens.xml and CanvasConversationHeaderView in dip (1 dp =
+   0.8625 px), hdpi bitmaps and 9-patches x 0.575, and the conversation WebView's res/raw-hdpi/styles.css in device px
+   x 0.575. */
+.gm{display:flex;flex-direction:column;height:100%;background:#fff;color:#000;font-family:DroidSans,Arial,sans-serif;overflow:hidden;color-scheme:light}
+.gm button{font-family:inherit}
+.gm-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+
+/* custom_title.xml on the window title bar: two transparent Buttons, title_bar_text_color #f6f6f6, 1 px black shadow. */
+.gm-title{flex:none;display:flex;align-items:center;height:21.56px;padding:0 4.31px;border:0 solid transparent;border-image:url('assets/gb-activity_title_bar.png') 0 22 39 23 fill / 0 12.65px 22.43px 13.23px stretch}
+.screen .gm-title button{min-width:0;height:100%;padding:0 4.31px;border:0;background:none;color:#f6f6f6;font-size:12.07px;text-shadow:0 .86px .09px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.screen .gm-title button:first-child{flex:1 1 auto;text-align:left;font-weight:700}
+.screen .gm-title button:last-child{flex:0 1 auto;margin-left:auto;text-align:right}
+.gm-wtitle{flex:none}
+
+/* The search box (SearchDialog) above the list. */
+.gm-search{flex:none;padding:3.45px;background:#e2e2e2}
+.gm-search input{display:block;width:100%;box-sizing:border-box;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+
+/* CanvasConversationHeaderView: 60 dip rows, read rows on #e7e3e7, divider_horizontal_bright. */
+.gm-row{position:relative;height:51.75px;background:#fff;box-shadow:inset 0 -1px rgba(184,184,184,.35)}
+.gm-row.read{background:#e7e3e7}
+.gm-row:has(.gm-open:active){background:#ffb800 linear-gradient(#ffcd3a,#ff9c00)}
+.screen .gm-check{position:absolute;left:0;top:0;width:34.5px;height:100%;margin:0;padding:0;border:0;background:url('assets/gm-btn_check_buttonless_off.png') 2.59px 6.9px/20.13px 20.13px no-repeat;cursor:pointer}
+.gm-row.checked .gm-check{background-image:url('assets/gm-btn_check_buttonless_on.png')}
+.screen .gm-open{position:absolute;left:34.5px;right:0;top:0;bottom:0;padding:0;border:0;background:none;color:#000;text-align:left;cursor:pointer}
+.gm-line1{position:absolute;left:4.31px;right:34.5px;top:10.7px;display:flex;font-size:15.53px;line-height:15.53px;white-space:nowrap;overflow:hidden}
+.gm-subject{flex:none;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.gm-row:not(.read) .gm-subject{font-weight:700}
+.gm-snippet{flex:1;min-width:0;padding-left:4.31px;color:#777;overflow:hidden;text-overflow:ellipsis}
+.gm-line2{position:absolute;left:4.31px;right:6.04px;top:34.6px;display:flex;align-items:center;gap:3.45px;font-size:12.08px;line-height:12.08px;white-space:nowrap}
+.gm-caret{flex:none;width:11.5px;height:9.2px;margin-right:-.86px}
+.gm-senders{flex:1;min-width:0;color:#424242;overflow:hidden;text-overflow:ellipsis}
+.gm-senders b{color:#000}
+.gmd{color:#c00;font-style:normal}
+.gm-date{flex:none;margin-left:auto;color:#424242}
+/* ConversationHeaderLabelDisplayer: 12 sp label names on rounded (3 dip) rectangles in the label's colours. */
+.gm-chip{flex:none;display:inline-block;max-width:110.4px;padding:0 2.59px;border:1px solid;border-radius:2.59px;font-style:normal;font-size:10.35px;line-height:12.94px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen .gm-star{position:absolute;right:0;top:0;width:34.5px;height:27px;margin:0;padding:0;border:0;background:url('assets/gm-btn_star_big_buttonless_off.png') right 6.04px top 4.31px/16.1px 16.1px no-repeat;cursor:pointer}
+.screen .gm-star.on{background-image:url('assets/gm-btn_star_big_buttonless_on.png')}
+.gm-empty{margin:0;padding:17.25px;color:#424242;font-size:15.53px;text-align:center}
+/* undo_view: 31 dip on #A4C639, bold white description and the Undo text. */
+.gm-undo{display:flex;align-items:center;min-height:26.74px;background:#a4c639;color:#fff;font-weight:700;font-size:12.07px}
+.gm-undo span{flex:2;min-width:0;padding-left:4.31px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen .gm-undo button{flex:none;height:26.74px;padding:0 4.31px;border:0;background:none;color:#fff;font-weight:700;font-size:12.07px;cursor:pointer}
+
+/* footer_organize and the conversation's bottom bar: framework bottom_bar (4 / 5 / 4 / 1 dip padding) and buttons. */
+.gm-bottombar{flex:none;display:flex;gap:0;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.screen .gm-bottombar button{flex:1;min-width:0;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.screen .gm-bottombar button:active:not(:disabled){border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.screen .gm-bottombar .gm-arrow{position:relative}
+.gm-arrow::before{content:"";position:absolute;inset:0;background:url('assets/gm-left_arrow_normal.png') center calc(50% - 1.73px)/12.65px 18.98px no-repeat}
+.gm-arrow.right::before{background-image:url('assets/gm-right_arrow_normal.png')}
+.gm-arrow.left:disabled::before{background-image:url('assets/gm-left_arrow_disabled.png')}
+.gm-arrow.right:disabled::before{background-image:url('assets/gm-right_arrow_disabled.png')}
+
+/* The conversation WebView (styles.css, hdpi device px x 0.575; the header and bodies are zoomed 1.5). */
+.gm-web{background:#fff;font-size:10.35px}
+.gm-subjecthead{position:relative;padding:4.03px 6.9px;font-weight:700;font-size:13.8px}
+.gm-subjecttext{padding:0 20px 4.03px 0;line-height:1.25;word-wrap:break-word}
+.screen .gm-bigstar{position:absolute;right:4.31px;top:4.03px;width:16.1px;height:16.1px;padding:0;border:0;background:url('assets/gm-btn_star_big_buttonless_off.png') 0 0/100% 100%;cursor:pointer}
+.screen .gm-bigstar.on{background-image:url('assets/gm-btn_star_big_buttonless_on.png')}
+.gm-labels{display:flex;flex-wrap:wrap}
+.gm-labels .gm-chip{margin:0 2.3px 2.3px 0;padding:1.73px;border-radius:2.3px;font-weight:400;font-size:10.35px;line-height:1.1;max-width:none}
+.gm-msg{position:relative}
+.gm-head{position:relative;margin-bottom:-8.63px;border:0 solid transparent;border-width:12.65px 6.9px 4.03px;border-image:url('assets/gm-message_header.png') 22 12 7 12 fill / 12.65px 6.9px 4.03px stretch}
+.gm-msg.open .gm-head{margin-bottom:0}
+.gm-top{position:relative;min-height:33px}
+.screen .gm-toggle{position:absolute;inset:-12.65px -6.9px -4.03px;z-index:1;padding:0;border:0;background:none;cursor:pointer}
+.gm-contact{float:left;width:28.75px;height:28.75px;margin-right:4.6px;border:0 solid transparent;border-width:2.3px 2.3px 5.18px;border-image:url('assets/gm-contact_offline.png') 4 4 9 4 fill / 2.3px 2.3px 5.18px stretch}
+.gm-contact img{display:block;width:100%;height:100%}
+.gm-when{float:right;display:flex;flex-direction:column;align-items:flex-end;min-width:46px;text-align:right}
+.gm-when b{padding-top:3.45px;font-weight:400;font-size:13.8px}
+.gm-when small{color:#666;font-size:10.35px}
+.gm-msg.open .gm-bottom .gm-when{margin-top:-2.3px}
+.gm-msg.open .gm-bottom .gm-when b{font-size:12.07px}
+.gm-icons{float:right;margin-top:1.73px}
+.gm-presence{display:block;width:20.13px;height:17.25px;background:url('assets/gm-presence_offline.png') center/15.53px no-repeat}
+.gm-sender{display:block;padding-top:2.88px;font-size:13.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-email{display:block;margin-right:5.18px;color:#666;font-size:10.35px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-sep{display:block;clear:both;height:1.73px}
+.gm-msnippet{display:block;padding:2.3px 0;font-size:12.07px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* The action strip: v9_overrides.css (#a8a8a8 border, 2 px radius, #e9e9e9 to #d2d2d2), 61 px tall buttons. */
+.gm-strip{position:relative;z-index:2;float:right;display:flex;border:1px solid #a8a8a8;border-radius:1.15px;background:linear-gradient(#e9e9e9,#d2d2d2)}
+.gm-strip.wide{position:absolute;right:-1.15px;top:0;width:224.25px}
+.screen .gm-act,.screen .gm-more{display:flex;flex-direction:column;align-items:center;justify-content:center;height:35.08px;padding:0 4.6px;border:0;border-left:1px solid #888;background:none;color:#000;font-size:10.35px;cursor:pointer}
+.gm-strip .gm-act:first-child{border-left:0}
+.gm-strip.wide .gm-act{flex:1}
+.gm-act img{width:27.6px;height:19.55px}
+.gm-more{width:16.1px;padding:0}
+.gm-more img{width:27.6px;height:19.55px;max-width:none}
+.gm-bottom{position:relative;z-index:2;font-size:12.07px}
+.screen .gm-details{padding:0;border:0;background:none;color:#000;font-weight:700;font-size:10.35px;cursor:pointer}
+.gm-recipients{border-collapse:collapse;font-size:12.07px}
+.gm-recipients td{padding:0 4.03px 2.3px 0;vertical-align:top}
+.gm-recipients td:first-child{min-width:29.9px;padding:0 4.03px 2.3px}
+.gm-body{padding:4.03px 6.9px 17.25px;font-size:12.07px;line-height:1.35;word-wrap:break-word}
+
+/* ComposeActivity: the 54 dip compose_custom_title over compose_area_layout on #ededed. */
+.gm-compose{background:#ededed}
+.gm-ctitle{flex:none;display:flex;align-items:center;height:46.58px;border:0 solid transparent;border-image:url('assets/gb-activity_title_bar.png') 0 22 39 23 fill / 0 12.65px 22.43px 13.23px stretch}
+.gm-heading{flex:1;padding:0 6.9px 0 9.49px;color:#fff;font-size:15.53px;white-space:nowrap}
+.screen .gm-picker{flex:1;min-width:0;height:37.09px;margin:1.73px 0 0 3.45px;padding:5.45px 38.18px 8.43px 7.94px;border:0 solid transparent;border-image:url('assets/gb-btn_dropdown_normal.png') 8 46 14 11 fill / 4.6px 26.45px 8.05px 6.32px stretch;background:none;color:#000;font-size:15.53px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.gm-vdiv{flex:none;width:1.73px;align-self:stretch;margin-left:3.45px;background:linear-gradient(90deg,#00000066 50%,#ffffff22 50%)}
+.screen .gm-send,.screen .gm-save{flex:none;width:59.17px;height:100%;padding:0;border:0;background:url('assets/gm-ic_send_enabled.png') center/27.6px 24.73px no-repeat;cursor:pointer}
+.screen .gm-save{margin-left:0;background-image:url('assets/gm-ic_save_draft_enabled.png');background-size:27.6px 27.6px}
+.gm-carea{padding:6.9px 5.18px 0}
+.gm-from{display:flex;gap:5.18px;padding:8.63px;font-size:12.07px;white-space:nowrap}
+.gm-from span{color:#808080}
+.gm-from b{min-width:0;font-weight:400;overflow:hidden;text-overflow:ellipsis}
+.gm-field{display:block;width:100%;box-sizing:border-box;min-height:41.4px;margin:0 0 5.18px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.gm-hdiv{display:block;height:1px;margin:0 0 5.18px;background:#c4c4c4}
+textarea.gm-bodyfield{min-height:86px;padding-top:4.31px;resize:none}
+.gm-quoted-bar{display:flex;align-items:center;gap:6px;margin-top:6px;padding:3.45px 5.18px;background:#d5d5d5;font-size:12.07px}
+.gm-quoted-bar label{flex:1;display:flex;align-items:center;gap:4px;color:#000}
+.gm-quoted-bar input{appearance:none;width:27.6px;height:27.6px;margin:0;background:url('assets/gb-btn_check_off.png') 0 0/100% 100%}
+.gm-quoted-bar input:checked{background-image:url('assets/gb-btn_check_on.png')}
+.screen .gm-quoted-bar button{min-height:31px;padding:4px 9px 7px;border:0 solid transparent;border-image:url('assets/gb-btn_default_small_normal.png') 22 15 31 14 fill / 12.65px 8.63px 17.83px 8.05px stretch;background:none;color:#000;font-size:10.35px;cursor:pointer}
+.gm-quoted{margin-bottom:8px;padding:5.18px;background:#fff;color:purple;font-size:12.07px;line-height:1.35;word-wrap:break-word}
+.gm-quoted.off{opacity:.45}
+
+/* LabelsActivity (Theme.Light): label_item.xml, 22 sp names, the unread count in #bbffffff bold on the label colour. */
+.gm-labelsview{background:#fff}
+.screen .gm-label{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 1.73px 0 4.31px;border:0;background:#fff;box-shadow:inset 0 -1px rgba(184,184,184,.35);color:#000;font-size:18.98px;text-align:left;cursor:pointer}
+.screen .gm-label:active{background:#ff9c00 linear-gradient(#ffcd3a,#ff9c00)}
+.gm-label span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gm-label b{flex:none;align-self:stretch;display:flex;align-items:center;margin:6.9px 1.73px 6.9px 0;padding:0 8.63px;color:#ffffffbb;font-size:18.98px}
+
+/* AboutActivity (InfoDialog): the logo, the version and the copyright. */
+.gm-about{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;color:#fff;font-size:13.8px}
+.gm-about img{width:123.6px;height:51.2px}
+.gm-about p{margin:0}

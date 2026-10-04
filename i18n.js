@@ -497,6 +497,7 @@
     ['Phone idle','Telefon készenlétben','Telefon-Standby','Téléphone inactif','Teléfono inactivo'],
     ['Cell standby','Cella készenlétben','Mobilfunk-Standby','Veille cellulaire','Red móvil en espera'],
     ['Gmail','Gmail','Gmail','Gmail','Gmail'],
+    ['Google Search','Google-keresés','Google-Suche','Recherche Google','Búsqueda de Google'],
     ['Android OS','Android OS','Android-Betriebssystem','Système Android','SO Android'],
     ['Language & input','Nyelv és bevitel','Sprache & Eingabe','Langue et saisie','Idioma e introducción'],
     ['Date & time','Dátum és idő','Datum & Uhrzeit','Date et heure','Fecha y hora'],

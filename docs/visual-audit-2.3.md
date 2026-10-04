@@ -754,3 +754,24 @@ The settings follow the image's `wallpaper_prefs.xml`:
 - "Map mode": Normal, Satellite or Terrain, with Satellite (`map_mode_satellite`) as the default.
 
 The labels are the image's own; Maps 5.4.0 has no Hungarian, so the Hungarian interface shows them in English. The Galaxy Nexus (Maps 6.4.0) and Nexus 4 (Maps 6.14.4) builds dropped "Show traffic", so 4.0.4 and 4.3 offer only Map mode, translated as their images have it. The thumbnail is a capture of our own drawing.
+
+## Gmail 2.3.5.1 — 2026-10-04
+
+The Nexus S image ships Gmail 2.3.5.1 instead of only AOSP Email, so it is added as a working app (`gb-gmail.js`, `gb-gmail.css`, strings from `docs/gb-gmail.template.js` via `docs/apk-strings.py`). Email stays. The image's Google apps register through `gb-apps.js`, which the simulator wires once (render, Menu key, dialogs, taps, forms, Back, open).
+
+Sources in `Gmail.apk` and its odex (GRK39F):
+- **Conversation list.** `custom_title.xml` puts the label and unread count on the left and the account on the right. The rows are `CanvasConversationHeaderView`, read from the odex:
+  - 60 dip rows; the check box at 3 / 8 dip;
+  - the subject in 18 sp, bold while unread, then the snippet in #777777;
+  - below them the importance caret, the senders in 14 sp, the labels and the date; the star at 5 dip;
+  - read rows on #e7e3e7.
+- **Selection.** `footer_organize` shows Archive, Delete and Labels. The #A4C639 undo bar uses the `conversation_*ing` plurals.
+- **Conversation.** `res/raw-hdpi/styles.css` draws the WebView: message cards on `message_header.9`, the contact frame, the action strip with Reply / Reply all / Forward, and recipient details. The bottom bar holds Archive, Delete, Newer and Older.
+- **Compose.** `compose_custom_title.xml` holds Compose or the Reply / Reply all / Forward picker, then Send and Save draft. Below it are `compose_area_layout.xml` on #ededed and `quoted_text.xml` with "Include text" and "Respond inline".
+- **Labels and menus.** "Go to labels" uses `label_item.xml`. The Menu key opens `conversation_list_menu`, `_organize_mode`, `conversation_menu` and `compose_menu`.
+
+The label colours are Gmail's palette from the dex.
+
+Period reference: Liliputing and Habr screenshots of Gmail 2.3.2 compose (December 2010).
+
+`docs/apk-strings.py` now also reads plurals (`@plurals/name:one`) through the Android SDK's aapt2. The launcher's Search entry is now "Google Search" with the image's icon: the image ships Google's build of the Quick Search Box.
