@@ -4,7 +4,7 @@
 
 **Live demo:** [android.levente.net](https://android.levente.net/)
 
-An interactive browser simulator of classic Android releases, each on its own Nexus phone and rebuilt from AOSP sources and period screenshots. Choose a version on the landing page:
+An interactive browser simulator of classic Android releases, each on its own Nexus phone and rebuilt from AOSP sources, the phones' factory images and period screenshots. Choose a version on the landing page:
 
 | Version | Phone | Store |
 | --- | --- | --- |
