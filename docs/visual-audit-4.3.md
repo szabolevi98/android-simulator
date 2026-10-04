@@ -540,7 +540,7 @@ The browser demo pages are now dated to 2013 ("2013 Web", a Nexus 4 / Jelly Bean
 
 The shared `i18n.js` rows are hand-written and address the user informally in Hungarian ("Rajzold le…"). The Nexus 4 JWR66Y image addresses the user formally ("Rajzolja le a mintát a feloldáshoz"), and it often words the German, French and Spanish texts differently too. `docs/image-strings.mjs 4.3` writes `versions/4.3/image-strings.js` (372 rows), which overrides the shared rows with the image's own text. The text comes from the image's `strings-index.json`, built by `docs/image-index.py`.
 
-A row is only taken from the APKs whose screens quote it. The calendar view, for example, only reads CalendarGoogle and the framework. When those APKs translate the text in more than one way, the row stays as it was unless `PIN` names the resource. `docs/image-strings-4.3.tsv` lists every change and every skip. Settings header rows are upper-cased, like the list separators (`textAllCaps`). 'Mute' stays as it was: the in-call button's text would also rename the Settings silent-mode choice.
+A row is only taken from the APKs whose screens quote it. The calendar view, for example, only reads CalendarGoogle and the framework. When those APKs translate the text in more than one way, the row stays as it was unless `PIN` names the resource. `docs/image-strings-4.3.tsv` lists every change and every skip. Settings header rows are upper-cased, like the list separators (`textAllCaps`). The in-call Mute button reads Phone's `onscreenMuteText` ("Lezárás" in Hungarian, as in the image) through a context row: `i18n.t(text, 'Phone')`. Settings' silent-mode choice keeps the shared "Némítás".
 
 ## First-boot defaults from the image — 2026-10-04
 

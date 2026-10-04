@@ -479,7 +479,7 @@ Owner's note: the Wi-Fi icon sat closer to the alarm icon than to the signal bar
 
 The shared `i18n.js` rows are hand-written and address the user informally in Hungarian ("Rajzold le…"). The Galaxy Nexus IMM76I image addresses the user formally ("Rajzolja le a mintát a feloldáshoz"), and it often words the German, French and Spanish texts differently too. `docs/image-strings.mjs 4.0.4` writes `versions/4.0.4/image-strings.js` (239 rows), which overrides the shared rows with the image's own text. The text comes from the image's `strings-index.json`, built by `docs/image-index.py`.
 
-A row is only taken from the APKs whose screens quote it. The calendar view, for example, only reads CalendarGoogle and the framework. When those APKs translate the text in more than one way, the row stays as it was unless `PIN` names the resource. `docs/image-strings-4.0.4.tsv` lists every change and every skip. Settings header rows are upper-cased, like the list separators (`textAllCaps`). 'Mute' stays as it was: the in-call button's text would also rename the Settings silent-mode choice.
+A row is only taken from the APKs whose screens quote it. The calendar view, for example, only reads CalendarGoogle and the framework. When those APKs translate the text in more than one way, the row stays as it was unless `PIN` names the resource. `docs/image-strings-4.0.4.tsv` lists every change and every skip. Settings header rows are upper-cased, like the list separators (`textAllCaps`). The in-call Mute button reads Phone's `onscreenMuteText` ("Lezárás" in Hungarian, as in the image) through a context row: `i18n.t(text, 'Phone')`. Settings' silent-mode choice keeps the shared "Némítás".
 
 ## Display > Brightness dialog — 2026-10-04
 
