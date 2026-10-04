@@ -535,3 +535,9 @@ Owner's note: the Wi-Fi icon sat closer to the alarm icon than to the signal bar
 A Nexus 4 review frame (Android 4.2 Quick Settings) shows the expanded panel at the top of the screen over the status bar, reaching down to the navigation bar. The panel now opens that far and stays open when released. The carrier label and the handle sit at its bottom.
 
 The browser demo pages are now dated to 2013 ("2013 Web", a Nexus 4 / Jelly Bean article from July 24, 2013), and KitKat (announced September 2013) is gone from the Wikipedia version list.
+
+## Interface strings from the factory image — 2026-10-04
+
+The shared `i18n.js` rows are hand-written and address the user informally in Hungarian ("Rajzold le…"). The Nexus 4 JWR66Y image addresses the user formally ("Rajzolja le a mintát a feloldáshoz"), and it often words the German, French and Spanish texts differently too. `docs/image-strings.mjs 4.3` writes `versions/4.3/image-strings.js` (372 rows), which overrides the shared rows with the image's own text. The text comes from the image's `strings-index.json`, built by `docs/image-index.py`.
+
+A row is only taken from the APKs whose screens quote it. The calendar view, for example, only reads CalendarGoogle and the framework. When those APKs translate the text in more than one way, the row stays as it was unless `PIN` names the resource. `docs/image-strings-4.3.tsv` lists every change and every skip. Settings header rows are upper-cased, like the list separators (`textAllCaps`). 'Mute' stays as it was: the in-call button's text would also rename the Settings silent-mode choice.

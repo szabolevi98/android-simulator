@@ -19,7 +19,7 @@ ENTRIES = [l.split() for l in open(os.path.join(os.path.dirname(__file__), 'lp-s
 LANGS = ['hu', 'de', 'fr', 'es']
 def clean(v):
     v = re.sub(r'\\(["\'])', r'\1', v).replace('\\n', '\n')
-    return v.strip('"')
+    return v  # androguard escapes quotes but does not wrap the text in them
 cache, rows, seen = {}, [], set()
 for apk_key, name in ENTRIES:
     if apk_key not in cache:
