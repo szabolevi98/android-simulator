@@ -635,10 +635,170 @@
     };
   }
 
+  /* ---------- Holo Spiral (packages/wallpapers/HoloSpiral: holo_spiral.rs, HoloSpiralRS.java, res/raw shaders) ----------
+     Two spirals of point sprites: 100 inner points (radius 5, 50 deep, blue #B30000FF to purple #D2A633FF by sin(angle / 2))
+     and 50 outer ones (radius 10, 30 deep, aqua #DC267894), 23 degrees apart. The model view is translate(-3, -5, -18),
+     rotate 20 about y and -10 about x, then the page offset turns it by -15 x xOffset about y; the outer spiral rotates
+     backwards 0.5 and the inner forwards 1.5 degrees a second. rsMatrixLoadPerspective(60, w / h, 1, 55); the point size
+     is 75 device pixels x (55 - |clip z|) / 55, whose depth also fades the colour and mixes the texture's red and green
+     channels. Over a #08001A to #1A1A53 gradient, blended SRC_ALPHA / ONE_MINUS_SRC_ALPHA, every 70 ms. */
+  function holoSpiral(canvas, assets) {
+    const G = gl3(canvas); if (!G) return null;
+    const {gl} = G, NEAR = 1, FAR = 55, MAX_POINT = 75;
+    const pointImg = image(assets + 'lw-holospiral_points.png');
+    const BG_VS = 'attribute vec2 aPos;attribute vec4 aColor;varying vec4 vColor;void main(){vColor=aColor;gl_Position=vec4(aPos,0.0,1.0);}';
+    const BG_FS = 'precision mediump float;varying vec4 vColor;void main(){gl_FragColor=vColor;}';
+    const VS = 'attribute vec3 aPos;attribute vec4 aColor;uniform mat4 uMVP;uniform float uMax;uniform float uFar;uniform float uScale;varying vec4 vColor;varying float vF1;varying float vF2;void main(){gl_Position=uMVP*vec4(aPos,1.0);float f2=(uFar-abs(gl_Position.z))/uFar;gl_PointSize=f2*uMax*uScale;vColor=aColor;vColor.a=vColor.a*f2;f2=abs((f2*2.0)-1.0);vF2=f2;vF1=(1.0-f2)*0.2;}';
+    const FS = 'precision mediump float;uniform sampler2D uTex;varying vec4 vColor;varying float vF1;varying float vF2;void main(){vec4 t=texture2D(uTex,gl_PointCoord);gl_FragColor=vec4(vColor.rgb,vColor.a*(t.r*vF1+t.g*vF2));}';
+    const bg = G.program(BG_VS, BG_FS), prog = G.program(VS, FS);
+    const bgLoc = {pos: gl.getAttribLocation(bg, 'aPos'), color: gl.getAttribLocation(bg, 'aColor')};
+    const loc = {pos: gl.getAttribLocation(prog, 'aPos'), color: gl.getAttribLocation(prog, 'aColor'), mvp: gl.getUniformLocation(prog, 'uMVP'), max: gl.getUniformLocation(prog, 'uMax'), far: gl.getUniformLocation(prog, 'uFar'), scale: gl.getUniformLocation(prog, 'uScale'), tex: gl.getUniformLocation(prog, 'uTex')};
+    const rgba = (a, r, g, b) => [r / 255, g / 255, b / 255, a / 255];
+    const BLUE = rgba(255, 8, 0, 26), BLACK = rgba(255, 26, 26, 83);
+    // createBackgroundMesh: a triangle strip, top corners BG_COLOR_BLUE, bottom corners BG_COLOR_BLACK.
+    const bgBuf = G.buffer(new Float32Array([-1, 1, ...BLUE, -1, -1, ...BLACK, 1, 1, ...BLUE, 1, -1, ...BLACK]));
+    function spiral(n, depth, radius, sepDeg, primary, secondary) {
+      const sep = sepDeg / 360 * 2 * Math.PI, out = []; let rad = 0;
+      for (let i = 0; i < n; i++) {
+        const r = Math.sin(rad / 2);
+        out.push(radius * Math.cos(rad), radius * Math.sin(rad), i / n * depth - depth / 2, ...primary.map((p, k) => p + (secondary[k] - p) * r));
+        rad += sep; rad -= Math.trunc(rad / (2 * Math.PI)) * 2 * Math.PI;
+      }
+      return G.buffer(new Float32Array(out));
+    }
+    const inner = spiral(100, 50, 5, 23, rgba(179, 0, 0, 255), rgba(210, 166, 51, 255)), outer = spiral(50, 30, 10, 23, rgba(220, 38, 120, 148), rgba(220, 38, 120, 148));
+    // init(): translate, then rotate about y and x (rsMatrix calls multiply on the right).
+    const base = M.multiply(M.multiply(M.translate(-3, -5, -18), M.rotate(20, 0, 1, 0)), M.rotate(-10, 1, 0, 0));
+    let tex = null, proj = M.identity(), innerAngle = 0, outerAngle = 0, last = performance.now();
+    const perspective = (fovy, aspect, near, far) => { const top = near * Math.tan(fovy * Math.PI / 360); return M.frustum(-top * aspect, top * aspect, -top, top, near, far); };
+    function points(buf, n, mvp) {
+      gl.uniformMatrix4fv(loc.mvp, false, new Float32Array(mvp));
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.enableVertexAttribArray(loc.pos); gl.vertexAttribPointer(loc.pos, 3, gl.FLOAT, false, 28, 0);
+      gl.enableVertexAttribArray(loc.color); gl.vertexAttribPointer(loc.color, 4, gl.FLOAT, false, 28, 12);
+      gl.drawArrays(gl.POINTS, 0, n);
+    }
+    return {
+      interval: 70,
+      resize(w, h) { gl.viewport(0, 0, canvas.width, canvas.height); proj = perspective(60, w / h, NEAR, FAR); },
+      draw(offset) {
+        if (!tex) { if (!ready(pointImg)) return; tex = G.texture(pointImg); }
+        const now = performance.now(), dt = (now - last) * .001; last = now;
+        gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.disable(gl.BLEND);
+        gl.useProgram(bg); gl.bindBuffer(gl.ARRAY_BUFFER, bgBuf);
+        gl.enableVertexAttribArray(bgLoc.pos); gl.vertexAttribPointer(bgLoc.pos, 2, gl.FLOAT, false, 24, 0);
+        gl.enableVertexAttribArray(bgLoc.color); gl.vertexAttribPointer(bgLoc.color, 4, gl.FLOAT, false, 24, 8);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.useProgram(prog);
+        gl.uniform1f(loc.max, MAX_POINT); gl.uniform1f(loc.far, FAR); gl.uniform1f(loc.scale, canvas.width / DEVICE_WIDTH); gl.uniform1i(loc.tex, 0);
+        gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex);
+        const view = M.multiply(base, M.rotate(offset * -15, 0, 1, 0));
+        points(outer, 50, M.multiply(proj, M.multiply(view, M.rotate(-outerAngle, 0, 0, 1))));
+        outerAngle = (outerAngle + dt * .5) % 360;
+        points(inner, 100, M.multiply(proj, M.multiply(view, M.rotate(innerAngle, 0, 0, 1))));
+        innerAngle = (innerAngle + dt * 1.5) % 360;
+      }
+    };
+  }
+
+  /* ---------- Bubbles (packages/wallpapers/NoiseField: noisefield.rs, NoiseFieldRS.java, res/raw shaders) ----------
+     83 dots wander through 2D Perlin noise (the script's own permutation and gradients), each living 300 to 800 frames,
+     fading in over its first 100 frames and out over its last 100 and dimming towards the edges; a touch pulls them
+     towards the finger with an influence that decays by 0.01 a frame. Point size 1 + speed x densityDpi / 240 x 2500
+     device pixels with the dot's alpha, then bgmesh.csv on top, all added with SRC_ALPHA / ONE, every 35 ms. The
+     portrait projection is the script's loadFrustum(-0.5, 1, -h / w, h / w, 1, 100), rotated 180 about y, mirrored on
+     x and pushed 1 along z. */
+  function noiseField(canvas, assets) {
+    const G = gl3(canvas); if (!G) return null;
+    const {gl} = G, MESH = new Float32Array([-1.5,1,0.08,0.335,0.406,-1.5,-0.2,0.137,0.176,0.225,-1.05,0.3,0,0.088,0.135,-1.5,1,0.08,0.335,0.406,-1.05,0.3,0,0.088,0.135,-0.6,0.4,0,0.184,0.233,-1.5,1,0.08,0.335,0.406,-0.6,0.4,0,0.184,0.233,0,1,0.133,0.404,0.478,0,1,0.133,0.404,0.478,-0.6,0.4,0,0.184,0.233,0.3,0.4,0,0.124,0.178,0,1,0.133,0.404,0.478,0.3,0.4,0,0.124,0.178,1.5,1,0.002,0.173,0.231,1.5,1,0.002,0.173,0.231,0.3,0.4,0,0.124,0.178,1.5,-1,0,0.088,0.135,0.3,0.4,0,0.124,0.178,-0.6,0.4,0,0.184,0.233,0,0.2,0,0.088,0.135,0.3,0.4,0,0.124,0.178,0,0.2,0,0.088,0.135,1.5,-1,0,0.088,0.135,0,0.2,0,0.088,0.135,-0.6,0.4,0,0.184,0.233,-0.6,0.1,0.002,0.196,0.233,-0.6,0.1,0.002,0.196,0.233,-0.6,0.4,0,0.184,0.233,-1.05,0.3,0,0.088,0.135,-1.05,0.3,0,0.088,0.135,-1.5,-0.2,0.137,0.176,0.225,-0.6,0.1,0.002,0.196,0.233,-0.45,-0.3,0.002,0.059,0.09,-0.6,0.1,0.002,0.196,0.233,-1.5,-0.2,0.137,0.176,0.225,-0.45,-0.3,0.002,0.059,0.09,-1.5,-0.2,0.137,0.176,0.225,-1.5,-1,0.204,0.212,0.218,1.5,-1,0,0.088,0.135,-0.45,-0.3,0.002,0.059,0.09,-1.5,-1,0.204,0.212,0.218,0,0.2,0,0.088,0.135,-0.6,0.1,0.002,0.196,0.233,-0.45,-0.3,0.002,0.059,0.09,1.5,-1,0,0.088,0.135,0,0.2,0,0.088,0.135,-0.45,-0.3,0.002,0.059,0.09]), COUNT = 48, N = 83, B = 0x100, BM = 0xff, NN = 0x1000;
+    const dotImg = image(assets + 'lw-noisefield_dot.png');
+    const BG_VS = 'attribute vec2 aPos;attribute vec3 aColor;varying vec4 vColor;void main(){vColor=vec4(aColor,1.0);gl_Position=vec4(aPos,0.0,1.0);}';
+    const BG_FS = 'precision mediump float;varying vec4 vColor;void main(){gl_FragColor=vColor;}';
+    const VS = 'attribute vec2 aPos;attribute float aSpeed;attribute float aAlpha;uniform mat4 uMVP;uniform float uScale;uniform float uPx;varying float vAlpha;void main(){gl_Position=uMVP*vec4(aPos,0.0,1.0);gl_PointSize=(1.0+aSpeed*uScale*2500.0)*uPx;vAlpha=aAlpha;}';
+    const FS = 'precision mediump float;uniform sampler2D uTex;varying float vAlpha;void main(){vec4 t=texture2D(uTex,gl_PointCoord);t.a=t.a*vAlpha;gl_FragColor=t;}';
+    const bg = G.program(BG_VS, BG_FS), prog = G.program(VS, FS);
+    const bgLoc = {pos: gl.getAttribLocation(bg, 'aPos'), color: gl.getAttribLocation(bg, 'aColor')};
+    const loc = {pos: gl.getAttribLocation(prog, 'aPos'), speed: gl.getAttribLocation(prog, 'aSpeed'), alpha: gl.getAttribLocation(prog, 'aAlpha'), mvp: gl.getUniformLocation(prog, 'uMVP'), scale: gl.getUniformLocation(prog, 'uScale'), px: gl.getUniformLocation(prog, 'uPx'), tex: gl.getUniformLocation(prog, 'uTex')};
+    const bgBuf = G.buffer(MESH), dotBuf = gl.createBuffer();
+    // init(): Perlin's tables, rsRand(B * 2) - B over B, normalised; then the permutation shuffle and the wrap copies.
+    const p = new Int32Array(B + B + 2), g2 = Array.from({length: B + B + 2}, () => [0, 0]);
+    for (let i = 0; i < B; i++) { p[i] = i; const v = [(irand(B * 2) - B) / B, (irand(B * 2) - B) / B], s = Math.hypot(v[0], v[1]) || 1; g2[i] = [v[0] / s, v[1] / s]; }
+    for (let i = B - 1; i >= 0; i--) { const k = p[i], j = irand(B); p[i] = p[j]; p[j] = k; }
+    for (let i = 0; i < B + 2; i++) { p[B + i] = p[i]; g2[B + i] = [...g2[i]]; }
+    const sCurve = t => t * t * (3 - 2 * t);
+    function noise2(x, y) {
+      let t = x + NN; const bx0 = Math.trunc(t) & BM, bx1 = (bx0 + 1) & BM, rx0 = t - Math.trunc(t), rx1 = rx0 - 1;
+      t = y + NN; const by0 = Math.trunc(t) & BM, by1 = (by0 + 1) & BM, ry0 = t - Math.trunc(t), ry1 = ry0 - 1;
+      const i = p[bx0], j = p[bx1], b00 = p[i + by0], b10 = p[j + by0], b01 = p[i + by1], b11 = p[j + by1];
+      const sx = sCurve(rx0), sy = sCurve(ry0);
+      const a = mix(rx0 * g2[b00][0] + ry0 * g2[b00][1], rx1 * g2[b10][0] + ry0 * g2[b10][1], sx);
+      const b = mix(rx0 * g2[b01][0] + ry1 * g2[b01][1], rx1 * g2[b11][0] + ry1 * g2[b11][1], sx);
+      return 1.5 * mix(a, b, sy);
+    }
+    const spawn = d => Object.assign(d, {x: rand(-1, 1), y: rand(-1, 1), speed: rand(.0002, .02), wander: rand(.5, 1.5), death: 0, life: Math.trunc(rand(300, 800)), alphaStart: rand(.01, 1)}, {alpha: 0});
+    const dots = Array.from({length: N}, () => { const d = spawn({}); d.alpha = d.alphaStart; return d; });
+    let tex = null, mvp = M.identity(), w = 1, h = 1, touchInfluence = 0, touchX = 0, touchY = 0;
+    return {
+      interval: 35,
+      resize(width, height) {
+        w = width; h = height; gl.viewport(0, 0, canvas.width, canvas.height);
+        let m = w > h ? M.frustum(-w / h, w / h, -1, 1, 1, 100) : M.frustum(-.5, 1, -h / w, h / w, 1, 100);
+        m = M.multiply(m, M.rotate(180, 0, 1, 0)); m = M.multiply(m, M.scale(-1, 1, 1)); mvp = M.multiply(m, M.translate(0, 0, 1));
+      },
+      // touch(): the finger in the script's units (the narrow axis spans -1..1).
+      tap(x, y) {
+        const landscape = w > h, wr = landscape ? w / h : 1, hr = landscape ? 1 : h / w;
+        touchInfluence = 1; touchX = x / w * wr * 2 - wr; touchY = -(y / h * hr * 2 - hr);
+      },
+      draw() {
+        if (!tex) { if (!ready(dotImg)) return; tex = G.texture(dotImg); }
+        gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+        gl.useProgram(prog);
+        gl.uniformMatrix4fv(loc.mvp, false, new Float32Array(mvp)); gl.uniform1f(loc.scale, (DEVICE_WIDTH === 480 ? 240 : 320) / 240); gl.uniform1f(loc.px, canvas.width / DEVICE_WIDTH); gl.uniform1i(loc.tex, 0);
+        gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.bindBuffer(gl.ARRAY_BUFFER, dotBuf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(dots.flatMap(d => [d.x, d.y, d.speed, d.alpha])), gl.DYNAMIC_DRAW);
+        gl.enableVertexAttribArray(loc.pos); gl.vertexAttribPointer(loc.pos, 2, gl.FLOAT, false, 16, 0);
+        gl.enableVertexAttribArray(loc.speed); gl.vertexAttribPointer(loc.speed, 1, gl.FLOAT, false, 16, 8);
+        gl.enableVertexAttribArray(loc.alpha); gl.vertexAttribPointer(loc.alpha, 1, gl.FLOAT, false, 16, 12);
+        gl.drawArrays(gl.POINTS, 0, N);
+        gl.disableVertexAttribArray(loc.speed); gl.disableVertexAttribArray(loc.alpha);
+        gl.useProgram(bg); gl.bindBuffer(gl.ARRAY_BUFFER, bgBuf);
+        gl.enableVertexAttribArray(bgLoc.pos); gl.vertexAttribPointer(bgLoc.pos, 2, gl.FLOAT, false, 20, 0);
+        gl.enableVertexAttribArray(bgLoc.color); gl.vertexAttribPointer(bgLoc.color, 3, gl.FLOAT, false, 20, 8);
+        gl.drawArrays(gl.TRIANGLES, 0, COUNT);
+        gl.disableVertexAttribArray(bgLoc.color);
+        for (const d of dots) {
+          if (d.life < 0 || d.x < -1.2 || d.x > 1.2 || d.y < -1.7 || d.y > 1.7) { spawn(d); d.alpha = d.alphaStart; }
+          const touchDist = Math.hypot(touchX - d.x, touchY - d.y), nv = noise2(d.x, d.y);
+          if (touchInfluence > 0) {
+            const rads = Math.atan2(touchX - d.x + nv, touchY - d.y + nv);
+            const speed = touchDist !== 0 ? (.25 + (nv * d.speed + .01)) / touchDist * .3 * touchInfluence : .3;
+            d.x += Math.cos(rads) * speed * .2; d.y += Math.sin(rads) * speed * .2;
+          }
+          const rads = 360 * nv * d.wander * Math.PI / 180, speed = nv * d.speed + .01;
+          d.x += Math.cos(rads) * speed * .33; d.y += Math.sin(rads) * speed * .33;
+          d.life--; d.death++;
+          let dist = Math.hypot(d.x, d.y);
+          if (dist < .95) { dist = 0; d.alphaStart *= 1 - dist; }
+          else { dist -= .95; if (d.alphaStart < 1) { d.alphaStart += .01; d.alphaStart *= 1 - dist; } }
+          if (d.death < 101) d.alpha = d.alphaStart * d.death / 100;
+          else if (d.life < 101) d.alpha = d.alpha * d.life / 100;
+          else d.alpha = d.alphaStart;
+        }
+        if (touchInfluence > 0) touchInfluence -= .01;
+      }
+    };
+  }
+
   /* ---------- Registry, in the order LiveWallpaperListAdapter sorts the labels ---------- */
   const LIST = [
+    {id: 'bubbles', label: 'Bubbles', thumb: 'lw-noisefield_thumb.png', make: (c, a) => noiseField(c, a), gl: true},
     {id: 'galaxy', label: 'Galaxy', thumb: 'lw-galaxy_thumb.jpg', make: (c, a, o) => galaxy(c, a, o.preview), gl: true},
     {id: 'grass', label: 'Grass', thumb: 'lw-grass_thumb.jpg', make: (c, a, o) => grass(c.getContext('2d'), a, o.preview)},
+    {id: 'holospiral', label: 'Holo Spiral', thumb: 'lw-holospiral_thumb.png', make: (c, a) => holoSpiral(c, a), gl: true},
     {id: 'nexus', label: 'Nexus', thumb: 'lw-nexus_thumb.png', make: (c, a) => nexus(c.getContext('2d'), a)},
     {id: 'phasebeam', label: 'Phase Beam', thumb: 'lw-phasebeam_thumb.png', make: (c, a) => phaseBeam(c, a), gl: true},
     {id: 'polar', label: 'Polar clock', thumb: 'lw-polarclock_thumb.jpg', settings: true, make: (c, a, o) => polarClock(c.getContext('2d'), a, o.prefs)},

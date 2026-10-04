@@ -1172,6 +1172,8 @@
     ['Switch to Photo Sphere','Váltás körpanorámakép módra','Zu Photo Sphere wechseln','Passer en mode Photo Sphere','Cambiar a fotografía esférica'],
     ['Photo Sphere capture is not simulated','A körpanorámakép készítése nincs szimulálva','Photo-Sphere-Aufnahmen werden nicht simuliert','La capture Photo Sphere n’est pas simulée','La captura de fotografía esférica no está simulada'],
     ['Phase Beam','Elmosódott cseppek','Phase Beam','Phase Beam','Phase Beam'],
+    ['Holo Spiral','Holografikus spirál','Holo Spiral','Holo Spiral','Espiral de galaxia'],
+    ['Bubbles','Buborékok','Blasen','Bulles','Burbujas'],
     ['BACK CAMERA','HÁTLAPI KAMERA','RÜCKKAMERA','CAMÉRA ARRIÈRE','CÁMARA TRASERA'],
     ['LOCATION','HELY','STANDORT','POSITION','UBICACIÓN'],
     ['COUNTDOWN TIMER','VISSZASZÁMLÁLÁS','COUNTDOWN-TIMER','COMPTE À REBOURS','TEMPORIZADOR'],
