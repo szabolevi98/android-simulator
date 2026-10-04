@@ -2,7 +2,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync('versions/2.3.6/gb-widgets.js','utf8'),context);
 const G=context.window.GBWidgets;
-// The 2.3.6 providers: no Calendar widget, Picture frame 2 x 2, Bookmarks 4 x 4, Power control 4 x 1.
+// The 2.3.6 AOSP and Market providers: Picture frame 2 x 2, Bookmarks 4 x 4, Power control 4 x 1.
 assert.deepEqual([...G.PROVIDERS.map(p=>p.label)],['Analog clock','Bookmarks','Google Search','Home screen tips','Market','Music','News & Weather','Picture frame','Power control','YouTube']);
 assert.equal(G.PROVIDERS.find(p=>p.type==='photo').width,2);assert.equal(G.PROVIDERS.find(p=>p.type==='bookmarks').height,4);
 // Analog clock hands.
@@ -16,3 +16,18 @@ assert.match(G.power({brightness:55}),/gbw-ind r mid/);
 assert.match(G.pictureFrame({id:3,name:'Sea'},()=>'x.svg'),/data-action="photo" data-id="3"/);assert.match(G.pictureFrame(null,()=>''),/data-action="noop"/);
 const b=G.bookmarks(['a.com','b.com'],3,u=>u.toUpperCase(),u=>`<p>${u}</p>`);assert.match(b,/B\.COM/);assert.match(b,/widget-bookmark-open" data-id="b\.com"/);
 console.log('gb-widgets ok');
+// The Google apps' widgets (gb-google-widgets.js): Latitude, Traffic, the two Google Voice ones and CalendarProvider's agenda.
+const gctx={window:{}};vm.runInNewContext(fs.readFileSync('versions/2.3.6/gb-google-widgets.js','utf8'),gctx);
+const W=gctx.window.GBGoogleWidgets;
+assert.deepEqual([...W.PROVIDERS.map(p=>`${p.label} ${p.width}x${p.height}`)],['Calendar 2x2','Google Voice Inbox 3x1','Google Voice Settings 3x1','Latitude 4x2','Traffic 1x1']);
+assert.equal(W.T('hu','No upcoming calendar events'),'Nincsenek közelgő események a naptárban');assert.equal(W.T('de','Last Updated: {0}'),'Letzte Aktualisierung: {0}');
+const now=new Date(2026,9,5,9,0).getTime(),base={lang:'en',locale:'en-US',now,hour24:false,ui:{},account:'demo@example.com',t:k=>k};
+assert.match(W.calendar({...base,data:{},events:[]}),/No upcoming calendar events/);
+const cal=W.calendar({...base,data:{},events:[{id:1,date:'2026-10-05',time:'07:00',title:'Gone'},{id:2,date:'2026-10-05',time:'11:00',title:'Coffee',location:'Café'},{id:3,date:'2026-10-05',time:'11:00',title:'Call'},{id:4,date:'2026-10-07',time:'10:00',title:'Later'}]});
+assert.match(cal,/MONDAY/);assert.match(cal,/class="dom">5</);assert.match(cal,/11:00 AM/);assert.match(cal,/Coffee|Call/);assert.match(cal,/1 more event/);assert.doesNotMatch(cal,/Gone/);
+const gv={...base,data:{gvoice:[{id:'a',name:'Sam',kind:'sms',read:false,label:'inbox',items:[{text:'Hi'}]},{id:'b',name:'Taylor',kind:'missed',read:true,label:'inbox',items:[]}]}};
+assert.match(W.voiceInbox(gv),/Google Voice \(1 unread\)/);assert.match(W.voiceInbox(gv),/Sam: Hi/);assert.match(W.voiceInbox({...gv,ui:{gbwVoice:-1}}),/Missed call from Taylor/);
+assert.match(W.voiceSettings({...base,data:{gvoiceDnd:true}}),/do_not_disturb_on/);assert.match(W.traffic(base),/gbw-traffic-light (green|yellow)">\d+</);
+gctx.window.GBMaps={FRIENDS:[{id:'f1',name:'Alex',place:'Park',fx:.3,fy:.6}],distance:(l,k)=>k.toFixed(1)+' km',km:()=>1.2};
+const lat=W.latitude({...base,data:{}});assert.match(lat,/Alex/);assert.match(lat,/1\.2 km/);assert.match(lat,/demo@example\.com/);assert.match(lat,/Last Updated: /);
+console.log('gb-google-widgets ok');

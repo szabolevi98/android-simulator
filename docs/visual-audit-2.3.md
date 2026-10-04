@@ -890,3 +890,19 @@ New widgets in `gb-widgets.js`:
 - **Market** (`widget.xml` / `widget_app.xml`): the header and the flipping featured apps on `green_gradient`.
 
 Taps open the story, the video, YouTube search or the app's Market page. The widget picker lists the image's providers, sorted by label, with the search widget as "Google Search".
+
+## More widgets of the Google apps — 2026-10-05
+
+`gb-google-widgets.js` (built from `docs/gb-google-widgets.template.js` by `docs/apk-strings.py`) adds the image's other providers to the widget picker:
+- **Calendar** 2 × 2 (`CalendarProvider.apk` `agenda_appwidget.xml`):
+  - the next event that has not ended, under the blue top with the day (17 sp) and the date (30 sp);
+  - the time in 14 sp #666, the title in 14 sp bold, the place in 11 sp;
+  - "1 more event" for events starting at the same time;
+  - "No upcoming calendar events" when the week ahead is empty.
+- **Google Voice Inbox** 3 × 1 (`widget_inbox_layout.xml`): the title with the unread count, the arrows and the message preview. Missed calls show as "Missed call from …".
+- **Google Voice Settings** 3 × 1 (`widget_settings_layout.xml`, 80 dip): Inbox, Compose, Call settings and Do not disturb, over the balance and call setting bar. Do not disturb toggles with the app's toast.
+- **Latitude** 4 × 2 (`Maps.apk` `layout-port/friends_appwidget.xml`): the header with your location, Check in and Refresh; two friends with their distance and place over the watermark; the account and "Last Updated" in the footer.
+- **Traffic** 1 × 1 (`traffic_appwidget.xml`): the 41 dip traffic light with the minutes home, slower in the rush hours.
+
+Taps open Latitude, Maps, Google Voice (the previewed conversation or Compose) or Calendar. The texts come from the APKs: Google Voice is English only, and Maps has no Hungarian. The migration no longer drops `calendar` widgets, because the inherited ICS calendar widgets went with the revision 3 reset.
+

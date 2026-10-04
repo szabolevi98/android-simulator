@@ -207,5 +207,5 @@
   }
   const module = {render, mounted, menu, dialog, handle, submit, back, open};
   for (const id of ['car-home', 'google-voice', 'tags', 'voice-dialer']) GBApps.register(id, module);
-  window.GBExtraApps = {T, CAR, GV_LABELS};
+  window.GBExtraApps = {T, CAR, GV_LABELS, gvStore};
 })();

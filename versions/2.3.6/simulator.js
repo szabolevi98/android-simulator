@@ -76,8 +76,9 @@
       if ((saved.layoutRevision || 0) < 3) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.layoutRevision = 3; }
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
-      // 2.3.6 has no Calendar widget; Picture frames hold one picture.
-      result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget?.type !== 'calendar').map(widget => widget?.type === 'photo' ? {...widget, width: 2, height: 2} : widget) : page);
+      // Picture frames hold one picture. (The inherited ICS calendar widgets went with the revision 3 reset; 'calendar' is
+      // now CalendarProvider's agenda widget.)
+      result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.map(widget => widget?.type === 'photo' ? {...widget, width: 2, height: 2} : widget) : page);
       // A reload during Gallery widget configuration leaves no completed choice.
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
       if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 99;
@@ -133,8 +134,9 @@
   ];
   // crespo overlay packages/apps/Launcher2 res/values-hdpi/wallpapers.xml, in its order; 960 x 800 images span two screens.
   const wallpaperFiles = ['street_lights','stream','phasebeam','pulse','nexusrain','stars','canyon','grass','zanzibar','cloud','monumentvalley','mountains','sunset','goldengate','shuttle'];
-  // The 2.3.6 widget providers (AppWidgetPickActivity, sorted by label); 2.3.6 Calendar has no app widget.
-  const widgetTypes = GBWidgets.PROVIDERS.map(p => ({type: p.type, name: p.label, app: p.app, width: p.width, height: p.height}));
+  // The 2.3.6 widget providers (AppWidgetPickActivity, sorted by label): the AOSP and Market ones, then the Google apps'
+  // (Calendar's comes from CalendarProvider, Latitude and Traffic from Maps, the two Voice ones from Google Voice).
+  const widgetTypes = [...GBWidgets.PROVIDERS, ...GBGoogleWidgets.PROVIDERS].sort((a, b) => a.label.localeCompare(b.label, 'en')).map(p => ({type: p.type, name: p.label, app: p.app, width: p.width, height: p.height}));
   const widgetSize = value => {
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
@@ -483,12 +485,18 @@
     return `<div class="analog-clock" aria-label="${clock()}"><img class="clock-dial" src="assets/appwidget_clock_dial.png" alt=""><img class="clock-hour" src="assets/appwidget_clock_hour.png" alt="" style="transform:rotate(${(now.getHours() % 12) * 30 + now.getMinutes() / 2}deg)"><img class="clock-minute" src="assets/appwidget_clock_minute.png" alt="" style="transform:rotate(${now.getMinutes() * 6}deg)"></div>`;
   }
   // Drawer and drag previews use the providers' original previewImage artwork where AOSP has one.
+  // Calendar, Latitude, Traffic and the Google Voice widgets render the same live content in the picker and on the home screen.
+  function googleWidget(type) {
+    const ctx = {...gappContext(), events: data.calendarState ? [] : data.events};
+    return {calendar: GBGoogleWidgets.calendar, latitude: GBGoogleWidgets.latitude, traffic: GBGoogleWidgets.traffic, 'gvoice-inbox': GBGoogleWidgets.voiceInbox, 'gvoice-settings': GBGoogleWidgets.voiceSettings}[type]?.(ctx) ?? null;
+  }
   function widgetArt(type) {
+    const google = googleWidget(type);
+    if (google) return google;
     if (type === 'analog') return GBWidgets.analog(deviceDate());
     if (type === 'photo') return GBWidgets.pictureFrame(data.photos[0], ICSMedia.image);
     if (type === 'bookmarks') return GBWidgets.bookmarks(data.bookmarks || [], 0, gbBrowserTitle, renderWebsite);
     if (type === 'digital') return `<strong class="widget-time">${clock()}</strong><span>${fullDate()}</span>`;
-    if (type === 'calendar') return '<img class="widget-preview-image" src="assets/calwidget-calendar_widget_preview.png" alt="">';
     if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
     if (type === 'music') return ICSWidgets.music(ui.music, tracks, false, key => i18n.t(key), true);
     if (type === 'power') return GBWidgets.power({...GBSettings.DEFAULTS, ...data.settings});
@@ -509,6 +517,8 @@
     if (widget.type === 'music') return GBLauncher.music(ui.music, tracks[ui.music.track], musicActive(), t);
     if (widget.type === 'news-weather') return GBWidgets.newsWeather(i18n.language);
     if (widget.type === 'youtube') return GBWidgets.youtube(i18n.language);
+    const google = googleWidget(widget.type);
+    if (google) return google;
     if (widget.type === 'market') return GBWidgets.market(GBMarket.all().filter(item => !item.app && ['apps', 'games'].includes(item.kind || 'apps')).slice(0, 4));
     if (widget.type === 'photo') { const photo = data.photos.find(p => p.id === widget.photo) || (widget.source === 'album' ? ICSMedia.photos(data, widget.album)[0] : widget.source === 'shuffle' ? data.photos[0] : null); return GBWidgets.pictureFrame(photo, ICSMedia.image); }
     return null;
@@ -1528,6 +1538,16 @@
       case 'gbw-youtube': openApp('youtube'); Object.assign(ui, {ytWatch: id, ytTab: 'info', ytPos: 0, ytPlaying: true}); render(); break;
       case 'gbw-youtube-search': openApp('youtube'); ui.ytSearching = true; render(); viewport.querySelector('.yt-search input')?.focus(); break;
       case 'gbw-market': openApp('play-store'); gbMarketGo({page: 'detail', selected: id}); break;
+      case 'gbw-latitude':
+        if (id === 'checkin') { data.latitudeCheckin = 'Riverside Park'; save(); toast(`${i18n.t('Check in')}: Riverside Park`); render(); }
+        else if (id === 'refresh') { data.latitudeUpdated = deviceDate().getTime(); save(); render(); }
+        else openApp('latitude');
+        break;
+      case 'gbw-traffic': openApp('maps'); break;
+      case 'gbw-voice-step': ui.gbwVoice = (ui.gbwVoice || 0) + Number(id); render(); break;
+      case 'gbw-voice-open': openApp('google-voice'); if (id) { const c = GBExtraApps.gvStore(data).find(x => x.id === id); if (c) { c.read = true; ui.gvOpen = id; save(); } } render(); break;
+      case 'gbw-voice-compose': openApp('google-voice'); render(); gappContext().dialog('gv-compose'); break;
+      case 'gbw-voice-dnd': data.gvoiceDnd = !data.gvoiceDnd; save(); toast(GBGoogleWidgets.T(i18n.language, data.gvoiceDnd ? 'Do not disturb on' : 'Do not disturb off')); render(); break;
       case 'gbmk-buy': { const item = GBMarket.find(id); if (item && item.price !== 'FREE') { toast(GBMarket.text(i18n.language, 'Unavailable')); break; } gbMarketGo({page: 'permissions', selected: id}); break; }
       case 'gbmk-accept': ui.market = ui.marketHistory.pop() || {page: 'detail', selected: id}; gbMarketDownload(id); break;
       case 'gbmk-cancel': clearInterval(ui.marketTimer); ui.marketDownload = null; data.notifications = data.notifications.filter(n => n.kind !== 'market-dl'); save(); render(); renderStatus(); break;

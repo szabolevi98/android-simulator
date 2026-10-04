@@ -74,3 +74,73 @@
 .gbw-mk-pic img{width:38px;height:38px}
 .gbw-mk-pic i{display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;font-style:normal;font-weight:700;font-size:20px}
 .gbw-mk-name{padding:4px 3px;font-size:10.35px;text-align:center;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* gb-google-widgets.js: Latitude (Maps friends_appwidget, 6 dp padding; header friends_appwidget_top_bg, content
+   friends_appwidget_content_bg under the stretched watermark), Traffic (41 dip light, title on #b2191919), Google Voice Inbox
+   (widget_inbox_background, 20 dip title, 22 dip arrows) and Settings (80 dip widget_settings_background, the button
+   selectors' default nine-patches, 20 dip info bar), Calendar (CalendarProvider agenda_appwidget on appwidget_bg). */
+.home-widget.widget-latitude,.home-widget.widget-traffic,.home-widget.widget-gvoice-inbox,.home-widget.widget-gvoice-settings,.home-widget.widget-calendar{display:flex;align-items:stretch;justify-content:center;text-shadow:none}
+.gbw-lat,.gbw-gvi,.gbw-gvs,.gbw-cal,.gbw-lat *,.gbw-gvi *,.gbw-gvs *,.gbw-cal *{text-shadow:none;text-align:left}
+.gbw-gvi-title,.screen .gbw-cal.empty,.screen .gbw-cal.empty span{text-align:center}
+.gbw-lat{display:flex;flex-direction:column;width:100%;height:100%;padding:5.18px;box-sizing:border-box;font-family:DroidSans,Arial,sans-serif}
+.gbw-lat button{font-family:inherit;cursor:pointer}
+.gbw-lat-head{flex:none;display:flex;align-items:stretch;height:31px;box-sizing:border-box;border:0 solid transparent;border-width:4.6px 4.6px 1.15px;border-image:url('assets/mp-friends_appwidget_top_bg.png') 8 8 2 8 fill / 4.6px 4.6px 1.15px stretch}
+.gbw-lat-head>i{flex:none;width:.86px;background:url('assets/mp-friends_appwidget_dividingline.png') 0 0/100% 100%;margin:-4.6px 0 -1.15px}
+.screen .gbw-lat-head button{flex:none;display:flex;align-items:center;justify-content:center;margin:-4.6px 0 -1.15px;padding:0 7.76px;border:0;background:none}
+.screen .gbw-lat-head .gbw-lat-me{flex:1;min-width:0;justify-content:flex-start;gap:2px;margin-left:-4.6px;padding:0 2.59px 0 2px;color:#fff}
+.screen .gbw-lat-head button:active{background:#ff9a00b0}
+.gbw-lat-me img{flex:none;width:27px;height:27px}
+.gbw-lat-me b{min-width:0;font-size:12.08px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-lat-head button:not(.gbw-lat-me) img{width:17.25px;height:17.25px}
+.gbw-lat-body{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:.86px 0 2.59px;border:0 solid transparent;border-width:.58px 4.6px 5.17px;border-image:url('assets/mp-friends_appwidget_content_bg.png') 1 8 9 8 fill / .58px 4.6px 5.17px stretch}
+.gbw-lat-body::before{content:"";position:absolute;inset:-.58px -4.6px -5.17px;background:url('assets/mp-friends_appwidget_watermark.png') 0 0/100% 100%;pointer-events:none}
+.screen .gbw-lat-row{position:relative;flex:1 1 39.68px;min-height:0;display:flex;align-items:center;margin:0 -4.6px;padding:2.59px 5.18px;border:0;background:none;color:#000;text-align:left}
+.screen .gbw-lat-row:active{background:#ff9a00b0}
+.gbw-lat-row>img{flex:none;width:34.5px;height:34.5px;margin-right:5.18px;object-fit:cover}
+.gbw-lat-row>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.gbw-lat-top{display:flex;align-items:baseline;min-width:0}
+.gbw-lat-top b{color:#3c5a98;font-size:12.08px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-lat-top small{flex:none;padding-left:5.18px;color:#7e7d7d;font-size:9.49px}
+.gbw-lat-loc{font-size:12.08px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-lat-foot{position:relative;display:flex;margin:0 -4.6px;color:#7e7d7d;font-size:8.63px}
+.gbw-lat-foot span{padding:3.45px 7.76px 0 5.18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-lat .gbw-lat-foot span+span{flex:1;padding-left:0;text-align:right}
+.screen .gbw-traffic{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;box-sizing:border-box;margin:0;padding:19.84px 0 .86px;border:0;background:none;cursor:pointer;font-family:DroidSans,Arial,sans-serif}
+.gbw-traffic-light{flex:none;display:flex;align-items:center;justify-content:center;width:35.36px;height:35.36px;border-radius:8.63px;color:#000;font-size:15px}
+.gbw-traffic-light.green{background:#339900}
+.gbw-traffic-light.yellow{background:#ffcc00}
+.gbw-traffic-light.red{background:#cc0000}
+.screen .gbw-traffic:active .gbw-traffic-light{filter:brightness(1.2)}
+.gbw-traffic-title{max-width:100%;box-sizing:border-box;margin-top:4.31px;padding:0 4.31px;border-radius:6.9px;background:#191919b2;color:#fff;font-size:11.21px;text-shadow:0 0 2px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-gvi{display:flex;flex-direction:column;width:100%;height:100%;box-sizing:border-box;border:0 solid transparent;border-width:8.05px;border-image:url('assets/gv-widget_inbox_background.png') 55 54 26 54 fill / 31.62px 31.05px 14.95px 31.05px stretch;font-family:DroidSans,Arial,sans-serif}
+.gbw-gvi-title{flex:none;height:17.25px;display:flex;align-items:center;justify-content:center;padding:0 4.31px 0 1.73px;color:#000;font-size:9.49px;white-space:nowrap;overflow:hidden}
+.gbw-gvi-row{flex:1;min-height:0;display:flex;align-items:stretch}
+.screen .gbw-gvi-arrow{flex:none;width:18.98px;display:flex;align-items:center;justify-content:center;padding:1.73px;border:0;background:none;cursor:pointer}
+.gbw-gvi-arrow img{width:8.05px;height:17.8px}
+.screen .gbw-gvi-arrow:active{background:#ff9a0066}
+.screen .gbw-gvi-preview{flex:1;min-width:0;display:flex;align-items:flex-start;padding:1.73px;border:0;background:none;color:#000;text-align:left;cursor:pointer;font-family:inherit}
+.screen .gbw-gvi-preview:active{background:#ff9a0066}
+.gbw-gvi-preview img{flex:none;width:30px;height:30px;margin:.86px;padding:1px;background:#858585}
+.gbw-gvi-preview span{flex:1;min-width:0;margin:0 .86px 0 1.73px;font-size:10.35px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.gbw-gvs{display:flex;flex-direction:column;width:100%;height:69px;box-sizing:border-box;border:0 solid transparent;border-width:8.05px;border-image:url('assets/gv-widget_settings_background.png') 24 24 44 24 fill / 13.8px 13.8px 25.3px 13.8px stretch;font-family:DroidSans,Arial,sans-serif}
+.gbw-gvs-row{flex:1;min-height:0;display:flex}
+.screen .gbw-gvs-btn{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:0;border:0 solid transparent;background:none;cursor:pointer}
+.screen .gbw-gvs-btn.l{border-width:5.75px 1.72px 5.75px 5.75px;border-image:url('assets/gv-widget_settings_button_default_left.png') 10 3 10 10 fill / 5.75px 1.72px 5.75px 5.75px stretch}
+.screen .gbw-gvs-btn.c{border-width:5.75px 1.72px;border-image:url('assets/gv-widget_settings_button_default_centre.png') 10 3 fill / 5.75px 1.72px stretch}
+.screen .gbw-gvs-btn.r{border-width:5.75px 5.75px 5.75px 1.72px;border-image:url('assets/gv-widget_settings_button_default_right.png') 10 10 10 3 fill / 5.75px 5.75px 5.75px 1.72px stretch}
+.screen .gbw-gvs-btn:active{filter:sepia(1) saturate(5) hue-rotate(-15deg)}
+.gbw-gvs-btn img{width:28px;height:28px;object-fit:contain}
+.gbw-gvs-bar{flex:none;height:17.25px;display:flex;align-items:center;padding:1.73px 0 0 4.31px;box-sizing:border-box;color:#000;font-size:9.49px;white-space:nowrap;overflow:hidden}
+.gbw-gvs-bar img{flex:none;width:10.35px;height:9.78px}
+.gbw-gvs-bar span{padding:0 4.31px 0 1.73px}
+.gbw-gvs-bar span:last-child{font-size:10.35px}
+.screen .gbw-cal{position:relative;display:flex;flex-direction:column;align-items:stretch;width:100%;height:100%;box-sizing:border-box;padding:0;border:0 solid transparent;border-width:8.05px;border-image:url('assets/cp-appwidget_bg.png') 24 fill / 13.8px stretch;background:none;color:#000;text-align:left;cursor:pointer;font-family:DroidSans,Arial,sans-serif;overflow:hidden}
+.screen .gbw-cal:active{filter:brightness(.92)}
+.gbw-cal-top{flex:none;display:flex;align-items:flex-end;justify-content:flex-end;height:43.7px;box-sizing:border-box;border:0 solid transparent;border-width:5.75px 5.75px 1.15px;border-image:url('assets/cp-appwidget_calendar_bgtop_blue.png') 10 10 2 10 fill / 5.75px 5.75px 1.15px stretch}
+.gbw-cal-top .dow{min-width:0;margin-left:8.63px;padding-bottom:5px;font-size:14.66px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-cal-top .dom{flex:none;align-self:flex-start;margin:1.15px 2.88px 0 4px;font-size:25.88px;line-height:1.2}
+.gbw-cal-when{margin:5.18px 8.63px 0;color:#666;font-weight:700;font-size:12.08px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gbw-cal-title{margin:2.59px 8.63px 3.45px;font-weight:700;font-size:12.08px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.gbw-cal-more{margin:auto 8.63px 3.45px;color:#666;font-size:9.49px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-cal-where{margin:0 8.63px 5.18px;color:#666;font-size:9.49px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gbw-cal-title+.gbw-cal-where{margin-top:auto}
+.screen .gbw-cal.empty{align-items:center;justify-content:center;padding:8.63px;color:#000000bb;font-weight:700;font-size:12.08px;text-align:center}
