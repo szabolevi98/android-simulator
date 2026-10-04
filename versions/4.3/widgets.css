@@ -85,3 +85,12 @@
 .drag-ghost.widget-span-ghost .widget-preview-image{width:100%;height:100%;object-fit:contain}
 .drag-ghost.widget-span-ghost.widget-music{place-items:center stretch}
 .drag-ghost.widget-span-ghost>button{position:absolute;inset:0;width:auto;height:auto}
+/* Play Recommendations: two white cards (2 dp apart) with the corpus strip on top, the art on the left and two lines of text. */
+.jbw-play{display:flex;gap:3.4px;width:100%;height:100%;padding:3.4px;box-sizing:border-box}
+.jbw-play-card{flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;padding:0;border:0;border-top:2.6px solid var(--corpus);background:#fff;color:#333;text-align:left;font:400 11.9px RobotoICS,Roboto,sans-serif;box-shadow:0 1px 2px #0004}
+.jbw-play-art{flex:1;min-height:0;display:grid;place-items:center;background:#f2f2f2}
+.jbw-play-art img,.jbw-play-art .jbw-play-icon{width:56px;height:56px;object-fit:contain}
+.jbw-play-copy{display:flex;flex-direction:column;padding:4px 6px 5px}
+.screen .jbw-play-card{text-shadow:none}
+.screen .jbw-play-copy b{color:#333;font-weight:400;font-size:12.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .jbw-play-copy small{color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

@@ -318,5 +318,5 @@
     }
     return '';
   }
-  window.JBPlay = {SECTIONS, TABS, EXTRA, VERSION, text, all, find, installedState, render, menu, dialog};
+  window.JBPlay = {SECTIONS, TABS, EXTRA, VERSION, text, all, find, installedState, render, menu, dialog, art};
 })();

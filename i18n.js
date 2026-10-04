@@ -765,6 +765,7 @@
     ["Play Magazines", "Play Magazinok", "Play Magazines", "Play Magazines", "Play Magazines"],
     ["Movie Studio", "Movie Studio", "Video Studio", "Movie Studio", "Movie Studio"],
     ["Google Keyboard", "Google-billentyűzet", "Google-Tastatur", "Clavier Google", "Teclado de Google"],
+    ["Play Recommendations", "Google Play -- ajánlások", "Play-Empfehlungen", "Lire les recommandations", "Recomendaciones"],
     ["Google Play Movies","Google Play Filmek","Google Play Movies","Google Play Films","Google Play Movies"],
     ["Google Settings","Google Beállítások","Google Einstellungen","Paramètres Google","Ajustes de Google"],
     ["Cast Screen","Képernyő átküldése","Bildschirm übertragen","Caster l'écran","Enviar pantalla"],

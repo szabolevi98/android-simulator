@@ -10,18 +10,20 @@
     wallpaper: 0, wallpaperRevision: 1,
     // config default_wallpaper_component: com.android.phasebeam/.PhaseBeamWallpaper (IMM76I and JWR66Y frameworks).
     liveWallpaper: { id: 'phasebeam' },
-    layoutRevision: 2,
+    // JWR66Y's Launcher2 default_workspace.xml: the analog clock, the Google folder and Play Store on the middle screen,
+    // Play Recommendations right of it; the dock holds Camera, Chrome, all apps, Messaging and Phone. Revision 3.
+    layoutRevision: 3,
     homePages: Array.from({length: 5}, (_, page) => Array.from({length: 16}, (_, slot) =>
-      page === 2 && slot === 12 ? 'camera' : page === 2 && slot === 15 ? 'google' :
-      page === 3 && slot === 13 ? 'gallery' : page === 3 && slot === 14 ? 'settings' : null)),
+      page === 2 && slot === 12 ? 'folder-google' : page === 2 && slot === 15 ? 'play-store' : null)),
     homeWidgets: [
       [],
-      [{ id: 'default-power', type: 'power', x: 0, y: 3 }],
-      [{ id: 'default-analog', type: 'analog', x: 1, y: 0 }],
       [],
+      [{ id: 'default-analog', type: 'analog', x: 1, y: 0 }],
+      [{ id: 'default-play', type: 'play-recommended', x: 0, y: 0 }],
       []
     ],
-    dock: ['phone', 'people', 'apps', 'messaging', 'browser'],
+    folders: {'folder-google': {name: 'Google', items: ['gmail', 'google-plus', 'maps', 'play-store', 'play-music', 'play-movies', 'play-books', 'play-magazines', 'youtube', 'hangouts', 'calendar', 'people']}},
+    dock: ['camera', 'chrome', 'apps', 'messaging', 'phone'],
     settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false,
       // SettingsProvider / framework defaults of JWR66Y: automatic brightness on (def_screen_brightness_automatic_mode); Daydream on,
       // started while docked (config_dreamsEnabledByDefault, config_dreamsActivatedOnDockByDefault; not on sleep).
@@ -84,6 +86,7 @@
         } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
         result.layoutRevision = 2;
       }
+      if ((saved.layoutRevision || 0) < 3) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = {...(result.folders || {}), ...clone(defaultData.folders)}; result.layoutRevision = 3; }
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
       result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
       // A reload during Gallery widget configuration leaves no completed choice.
@@ -172,7 +175,9 @@
     { type: 'music', name: 'Music', app: 'music', width: 4, height: 1 },
     // Gallery2 asks for 180dp plus ICS default widget padding: 3 × 3 Launcher cells.
     { type: 'photo', name: 'Photo Gallery', app: 'gallery', width: 3, height: 3 },
-    { type: 'power', name: 'Power control', app: 'settings', width: 4, height: 1 }
+    { type: 'power', name: 'Power control', app: 'settings', width: 4, height: 1 },
+    // Play Store 4.2.3's RecommendedWidgetProvider (minWidth 500 dp, minHeight 110 dp: 4 × 2).
+    { type: 'play-recommended', name: 'Play Recommendations', app: 'play-store', width: 4, height: 2 }
   ];
   const widgetSize = value => {
     const widget = typeof value === 'string' ? {type: value} : value;
@@ -495,12 +500,20 @@
     return '<img class="widget-preview-image" src="assets/gallery-widget_preview.png" alt="">';
   }
   const musicActive = () => ui.music.playing || ui.music.position > 0 || !!ui.musicActive;
+  /* Play Recommendations (rec_widget_base / rec_widget_double): two cards side by side, each under its corpus's 3 dp
+     colour strip, with the item's art, title and creator; a tap opens the item in Play Store. */
+  function playRecommendations() {
+    const items = JBPlay.all().filter(item => ['apps', 'games'].includes(item.kind) && item.developer !== 'Android Demo').slice(0, 2);
+    const color = kind => (JBPlay.SECTIONS.find(section => section[0] === kind) || [])[3] || '#96aa39';
+    return `<div class="jbw-play">${items.map(item => `<button class="jbw-play-card" data-action="widget-play-item" data-id="${safe(item.id)}" style="--corpus:${color(item.kind)}"><span class="jbw-play-art">${JBPlay.art(item, 'jbw-play-icon')}</span><span class="jbw-play-copy"><b>${safe(item.name)}</b><small>${safe(item.developer)}</small></span></button>`).join('')}</div>`;
+  }
   function widgetBody(widget) {
     const t = key => i18n.t(key);
     if (widget.type === 'calendar') return ICSWidgets.calendar(data, t, i18n.locale(), deviceDate(), !!data.settings.hour24);
     if (widget.type === 'music') return ICSWidgets.music(ui.music, tracks, musicActive(), t);
     if (widget.type === 'photo') return ICSWidgets.photo(data, widget, ui.photoStacks?.[widget.id] || 0, t);
     if (widget.type === 'digitalclock') return digitalClockWidget();
+    if (widget.type === 'play-recommended') return playRecommendations();
     return null;
   }
   /* DeskClock 4.3 digital_appwidget / digital_widget_time: bold sans-serif hours and thin minutes (widget_big_font_size
@@ -1484,6 +1497,7 @@
       case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = 0; render(); break;
       case 'drawer-page': ui.drawerPage = Number(id); render(); break;
       case 'add-widget': { const added = addWidget(button.dataset.widgetType); if (!added) { toast('This home screen is full'); break; } const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; home(false); ui.photoWidgetSetup = setup; if (added.type === 'photo') { ui.overlay = 'widget-photo-type'; renderOverlay(); } else toast('Widget added'); break; }
+      case 'widget-play-item': openApp('play-store'); jbPlayGo({page: 'detail', selected: id}); break;
       case 'widget-calendar-open': ui.selectedDate = today(); openApp('calendar'); break;
       case 'widget-calendar-event': { const event = data.events.find(item => String(item.id) === id); if (!event) break; const date = button.dataset.date || event.date; ui.selectedDate = date < today() ? today() : date; openApp('calendar'); ui.selectedEvent = event.id; ui.selectedInstance = date; ui.sub = 'event'; render(); break; }
       case 'widget-music-open': { const active = musicActive(); openApp('music'); if (active) { ui.sub = 'player'; render(); } break; }
