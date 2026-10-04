@@ -723,3 +723,11 @@ The Gingerbread screens read their text from `gb-strings-*.js`, which are genera
 The screens Gingerbread inherits use the shared `i18n.js` rows. `docs/image-strings.mjs 2.3.6` now overrides those rows with the image's own text: `versions/2.3.6/image-strings.js`, 156 rows, with the same rules as 4.0.4 and 4.3. The changes are listed in `docs/image-strings-2.3.6.tsv`.
 
 Seven French rows in `i18n.js` showed a backslash ("Transfert d\'appel"); they are fixed.
+
+## Sounds from the Nexus S image — 2026-10-04
+
+The ringtone, notification and alarm pickers used to list the AOSP `OriginalAudio.mk` set of the generic crespo build (BeatPlucker, OnTheHunt, Alarm_Rooster_02). They now list the GRK39F image's `/system/media/audio`, with each file's Vorbis TITLE in MediaStore title order: 28 ringtones, 20 notifications and 5 alarms ("Ringing Alarm", "Piezo Alarm" and so on).
+
+The defaults come from `build.prop`: Sceptrum, Castor, and Alarm_Classic ("Ringing Alarm"). `build.prop` also has a later `ro.config.notification_sound=OnTheHunt.ogg` line, but it cannot override a read-only property that is already set, and the image has no such file.
+
+A saved sound that the image does not have shows as the default.

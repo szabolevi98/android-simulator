@@ -4,8 +4,8 @@
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pad = value => String(value).padStart(2,'0');
   const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  // OriginalAudio.mk alarm sounds (Gingerbread); crespo's default is Alarm_Classic.
-  const tones = ['Alarm_Beep_01','Alarm_Beep_02','Alarm_Beep_03','Alarm_Buzzer','Alarm_Classic','Alarm_Rooster_02','Silent'];
+  // The Nexus S image's alarm sounds (no Alarm_Rooster_02 there); crespo's default is Alarm_Classic.
+  const tones = ['Alarm_Beep_01','Alarm_Beep_02','Alarm_Beep_03','Alarm_Buzzer','Alarm_Classic','Silent'];
   function normalize(alarm = {}) {
     alarm ||= {};
     return {...alarm, time:/^([01]\d|2[0-3]):[0-5]\d$/.test(alarm.time) ? alarm.time : '07:00', enabled:alarm.enabled !== false,

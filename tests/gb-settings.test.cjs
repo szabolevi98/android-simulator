@@ -30,9 +30,12 @@ assert.match(html,/Connected to AndroidAP/);assert.match(html,/ic_wifi_lock_sign
 assert.deepEqual(JSON.parse(JSON.stringify(S.menu('wifi',ctx()).map(i=>i.title))),['Scan','Advanced']);
 assert.equal(S.dialog('ap:AndroidAP',{...ctx({wifiNetwork:'AndroidAP'}),networks:nets}).buttons[0].action,'gbset-wifi-forget');
 assert.match(S.dialog('ap:CoffeeShop',{...ctx({}),networks:nets}).custom,/^(?!.*data-wifi-password)/s);
-// Ringtones: OriginalAudio titles, Silent first, OnTheHunt as the default notification.
-assert.equal(S.soundTitle('Ring_Synth_04'),'Ring Synth 04');assert.equal(S.soundTitle('OnTheHunt'),'On The Hunt');
-const ring=S.dialog('notificationSound',ctx({}));assert.equal(ring.items[0].title,'Silent');assert.equal(ring.items[ring.selected].title,'On The Hunt');
+// Sounds: the Nexus S image's titles in title order, Silent first, Sceptrum / Castor by default (build.prop).
+assert.equal(S.soundTitle('BOOTES'),'Boötes');assert.equal(S.soundTitle('Radiation'),'Radiation by Spagnola');assert.equal(S.RINGTONES.length,28);assert.equal(S.NOTIFICATIONS.length,20);
+const ring=S.dialog('notificationSound',ctx({}));assert.equal(ring.items[0].title,'Silent');assert.equal(ring.items[1].title,'Aldebaran');assert.equal(ring.items[ring.selected].title,'Castor');
+const tone=S.dialog('ringtone',ctx({}));assert.equal(tone.items[tone.selected].title,'Sceptrum');
+// A saved AOSP OriginalAudio name the image lacks reads as the default; Silent stays silent.
+assert.equal(S.soundOf({notificationSound:'OnTheHunt'},'notificationSound'),'Castor');assert.equal(S.soundOf({ringtone:''},'ringtone'),'');
 // Volume dialog hides the notification slider while it follows the ringer.
 assert.match(S.dialog('volume',ctx({})).custom,/data-vol-notification hidden/);
 console.log('gb-settings ok');

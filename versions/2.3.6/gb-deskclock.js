@@ -7,9 +7,10 @@
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const text = (lang, key) => { const entry = window.GBStrings?.deskclock?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
   const array = (lang, key) => { const entry = window.GBStrings?.deskclock?.arrays?.[key]; return entry ? entry[lang] || entry.en : []; };
-  // OriginalAudio.mk alarm sounds; crespo sets ro.config.alarm_alert=Alarm_Classic.ogg.
-  const TONES = ['Alarm_Beep_01', 'Alarm_Beep_02', 'Alarm_Beep_03', 'Alarm_Buzzer', 'Alarm_Classic', 'Alarm_Rooster_02'];
-  const toneTitle = (tone, lang) => tone === 'Silent' ? text(lang, 'silent_alarm_summary') : String(TONES.includes(tone) ? tone : 'Alarm_Classic').replace(/_/g, ' ');
+  // The Nexus S image's /system/media/audio/alarms (file, Vorbis TITLE) in title order; ro.config.alarm_alert=Alarm_Classic.ogg.
+  const TONE_TITLES = [['Alarm_Beep_02', 'BeeBeep Alarm'], ['Alarm_Beep_03', 'Beep-Beep-Beep Alarm'], ['Alarm_Buzzer', 'Buzzer Alarm'], ['Alarm_Beep_01', 'Piezo Alarm'], ['Alarm_Classic', 'Ringing Alarm']];
+  const TONES = TONE_TITLES.map(([file]) => file);
+  const toneTitle = (tone, lang) => tone === 'Silent' ? text(lang, 'silent_alarm_summary') : Object.fromEntries(TONE_TITLES)[TONES.includes(tone) ? tone : 'Alarm_Classic'];
   // Alarms.formatTime: h:mm with a separate AM/PM, or k:mm in 24-hour mode.
   function clock(hours, minutes, ctx) {
     const pad = String(minutes).padStart(2, '0');

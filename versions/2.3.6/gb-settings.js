@@ -27,11 +27,17 @@
     if (s.wifi && s.wifiNetwork) return {raw: (entries(ctx.lang, 'wifi_status_with_ssid')[5] || 'Connected to %1$s').replace('%1$s', s.wifiNetwork)};
     return 'wifi_quick_toggle_summary';
   }
-  /* frameworks/base data/sounds/OriginalAudio.mk (the full crespo build): titles come from the file names; core.mk sets
-     ro.config.notification_sound=OnTheHunt.ogg and no default ringtone. */
-  const RINGTONES = 'BeatPlucker BentleyDubs BirdLoop CaribbeanIce CrazyDream CurveBall DreamTheme EtherShake FriendlyGhost GameOverGuitar Growl InsertCoin LoopyLounge LoveFlute MidEvilJaunt MildlyAlarming NewPlayer Noises1 Noises2 Noises3 OrganDub Ring_Classic_02 Ring_Digital_02 Ring_Synth_02 Ring_Synth_04 RomancingTheTone SitarVsSitar SpringyJalopy Terminated TwirlAway VeryAlarmed World'.split(' ');
-  const NOTIFICATIONS = 'Beat_Box_Android CaffeineSnake DearDeer DontPanic F1_MissedCall F1_New_MMS F1_New_SMS Heaven Highwire KzurbSonar OnTheHunt TaDa Tinkerbell Voila'.split(' ');
-  const soundTitle = name => name ? name.replace(/_/g, ' ').replace(/([a-z])([A-Z0-9])/g, '$1 $2').replace(/\s+/g, ' ').trim() : '';
+  /* The Nexus S GRK39F image's /system/media/audio: file name and Vorbis TITLE, in MediaStore title order. build.prop sets
+     ro.config.ringtone=Sceptrum.ogg and ro.config.notification_sound=Castor.ogg (a later OnTheHunt.ogg line cannot override a
+     ro. property, and the image has no such file). Settings keep the file name. */
+  const RINGTONE_TITLES = [['ANDROMEDA', 'Andromeda'], ['Aquila', 'Aquila'], ['ArgoNavis', 'Argo Navis'], ['BOOTES', 'Boötes'], ['CANISMAJOR', 'Canis Major'], ['Carina', 'Carina'], ['CASSIOPEIA', 'Cassiopeia'], ['Centaurus', 'Centaurus'], ['Cygnus', 'Cygnus'], ['Draco', 'Draco'], ['Eridani', 'Eridani'], ['hydra', 'Hydra'], ['Lyra', 'Lyra'], ['Machina', 'Machina'], ['Orion', 'Orion'], ['Pegasus', 'Pegasus'], ['PERSEUS', 'Perseus'], ['Pyxis', 'Pyxis'], ['Radiation', 'Radiation by Spagnola'], ['RadiationOrchestration', 'Radiation Orchestration'], ['Rigel', 'Rigel'], ['RobotsforEveryone', 'Robots for Everyone'], ['Scarabaeus', 'Scarabaeus'], ['Sceptrum', 'Sceptrum'], ['Solarium', 'Solarium'], ['Testudo', 'Testudo'], ['URSAMINOR', 'Ursa Minor'], ['Vespa', 'Vespa']];
+  const NOTIFICATION_TITLES = [['Aldebaran', 'Aldebaran'], ['Altair', 'Altair'], ['Antares', 'Antares'], ['arcturus', 'Arcturus'], ['Betelgeuse', 'Betelgeuse'], ['Canopus', 'Canopus'], ['Capella', 'Capella'], ['Castor', 'Castor'], ['CetiAlpha', 'Ceti Alpha'], ['Deneb', 'Deneb'], ['Electra', 'Electra'], ['Fomalhaut', 'Fomalhaut'], ['Merope', 'Merope'], ['Polaris', 'Polaris'], ['Pollux', 'Pollux'], ['Procyon', 'Procyon'], ['regulus', 'Regulus'], ['sirius', 'Sirius'], ['Sirrah', 'Sirrah'], ['vega', 'Vega']];
+  const TITLES = Object.fromEntries([...RINGTONE_TITLES, ...NOTIFICATION_TITLES]);
+  const RINGTONES = RINGTONE_TITLES.map(([file]) => file), NOTIFICATIONS = NOTIFICATION_TITLES.map(([file]) => file);
+  const SOUND_DEFAULTS = {ringtone: 'Sceptrum', notificationSound: 'Castor'};
+  // A saved sound the image lacks (the earlier AOSP OriginalAudio set) reads as the image's default.
+  const soundOf = (s, kind) => { const name = s[kind] ?? SOUND_DEFAULTS[kind]; return name === '' || (kind === 'ringtone' ? RINGTONES : NOTIFICATIONS).includes(name) ? name : SOUND_DEFAULTS[kind]; };
+  const soundTitle = name => name ? TITLES[name] || name.replace(/_/g, ' ').replace(/([a-z])([A-Z0-9])/g, '$1 $2').replace(/\s+/g, ' ').trim() : '';
   const LOCALES = [['en', 'English'], ['hu', 'Magyar'], ['de', 'Deutsch'], ['fr', 'Français'], ['es', 'Español']];
   /* Screens; "ics:x" targets reuse the version's existing page (lock setup, accounts, applications, battery). */
   function screens(ctx) {
@@ -65,8 +71,8 @@
         check('silent', 'silent_mode_title', 'silent_mode_summary'),
         list('vibrateMode', 'vibrate_title', 'vibrate_summary', 'vibrate_entries'),
         go('all_volume_title', '', 'dialog:volume', {disabled: !!s.silent}),
-        cat('sound_category_calls_title'), go('ringtone_title', {raw: soundTitle(s.ringtone ?? '')}, 'dialog:ringtone'),
-        cat('sound_category_notification_title'), go('notification_sound_title', {raw: soundTitle(s.notificationSound ?? 'OnTheHunt')}, 'dialog:notificationSound'),
+        cat('sound_category_calls_title'), go('ringtone_title', {raw: soundTitle(soundOf(s, 'ringtone'))}, 'dialog:ringtone'),
+        cat('sound_category_notification_title'), go('notification_sound_title', {raw: soundTitle(soundOf(s, 'notificationSound'))}, 'dialog:notificationSound'),
         check('notificationPulse', 'notification_pulse_title', 'notification_pulse_summary'),
         cat('sound_category_feedback_title'),
         check('dtmfTone', 'dtmf_tone_enable_title', 'dtmf_tone_enable_summary_on'),
@@ -254,7 +260,7 @@
       return {title: T('all_volume_title'), custom: `<div class="gbvols">${slider('ringVolume', T('incoming_call_volume_title'), 70)}<label class="gbvol-check"><input type="checkbox" data-vol-same ${same ? 'checked' : ''}> ${e(T('checkbox_notification_same_as_incoming_call'))}</label>${slider('notificationVolume', T('notification_volume_title'), 70).replace('<label class="gbvol"', `<label class="gbvol" data-vol-notification${same ? ' hidden' : ''}`)}${slider('mediaVolume', T('media_volume_title'), 60)}${slider('alarmVolume', T('alarm_volume_title'), 80)}</div>`, buttons: [{action: 'gbset-volume-ok', title: ok}, {action: 'close-overlay', title: cancel}]};
     }
     if (kind === 'ringtone' || kind === 'notificationSound') {
-      const names = kind === 'ringtone' ? RINGTONES : NOTIFICATIONS, current = s[kind] ?? (kind === 'ringtone' ? '' : 'OnTheHunt');
+      const names = kind === 'ringtone' ? RINGTONES : NOTIFICATIONS, current = soundOf(s, kind);
       const options = ['', ...names];
       return {title: T(kind === 'ringtone' ? 'ringtone_title' : 'notification_sound_title'), items: options.map(name => ({action: 'gbset-sound-pick', id: `${kind}:${name}`, title: name ? soundTitle(name) : ctx.t('Silent')})), choice: 'single', selected: Math.max(0, options.indexOf(current)), buttons: [{action: 'close-overlay', title: ok}, {action: 'close-overlay', title: cancel}]};
     }
@@ -273,5 +279,5 @@
     return null;
   }
 
-  window.GBSettings = {DEFAULTS, value, text, entries, screens, render, listDialog, has, menu, dialog, soundTitle, RINGTONES, NOTIFICATIONS};
+  window.GBSettings = {DEFAULTS, value, text, entries, screens, render, listDialog, has, menu, dialog, soundTitle, soundOf, RINGTONES, NOTIFICATIONS};
 })();

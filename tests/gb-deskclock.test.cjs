@@ -18,13 +18,13 @@ assert.match(G.render(ctx({dim:true})),/gbdc-tint/);
 html=G.render(ctx({sub:'alarms'}));assert.match(html,/Add alarm/);assert.match(html,/ic_clock_alarm_on/);assert.match(html,/ic_indicator_off/);assert.match(html,/<em>Gym<\/em>/);assert.match(html,/Mon, Wed/);
 html=G.render(ctx({sub:'alarm-edit',draft:N.normalize({id:2,time:'08:30',days:[],label:''})}));
 assert.deepEqual([...html.matchAll(/gbset-title">([^<]+)/g)].map(m=>m[1]),['Turn alarm on','Time','Repeat','Ringtone','Vibrate','Label']);
-assert.match(html,/Never/);assert.match(html,/Alarm Classic/);assert.match(html,/>Done<.*>Revert<.*>Delete</);
+assert.match(html,/Never/);assert.match(html,/Ringing Alarm/);assert.match(html,/>Done<.*>Revert<.*>Delete</);
 // Menus and dialogs.
 assert.deepEqual([...G.menu(ctx()).map(i=>i.title)],['Alarms','Add alarm','Dock settings']);
 assert.deepEqual([...G.menu(ctx({sub:'alarms'})).map(i=>i.title)],['Desk clock','Add alarm','Settings']);
 let d=G.dialog('time',ctx({temp:{time:'19:05'}}));assert.equal(d.title,'7:05 PM');assert.match(d.custom,/>7<\/output>.*>05<\/output>.*gbtp-ampm/);assert.equal(d.buttons[0].title,'Set');
 d=G.dialog('days',ctx({temp:{days:[1]}}));assert.equal(d.items[0].title,'Monday');assert.equal(d.items[1].checked,true);
-d=G.dialog('tone',ctx({temp:{tone:'Alarm_Buzzer'}}));assert.equal(d.items[0].title,'Silent');assert.equal(d.selected,4);
+d=G.dialog('tone',ctx({temp:{tone:'Alarm_Buzzer'}}));assert.equal(d.items[0].title,'Silent');assert.equal(d.selected,3);assert.equal(d.items[3].title,'Buzzer Alarm');assert.equal(d.items[1].title,'BeeBeep Alarm');
 assert.equal(G.dialog('delete',ctx()).message,'This alarm will be deleted.');
 d=G.dialog('ringing',ctx({ringing:N.normalize({id:3,time:'06:45'})}));assert.equal(d.title,'Alarm');assert.deepEqual([...d.buttons.map(b=>b.title)],['Snooze','Dismiss']);
 console.log('gb-deskclock ok');
