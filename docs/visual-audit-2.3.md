@@ -775,3 +775,33 @@ The label colours are Gmail's palette from the dex.
 Period reference: Liliputing and Habr screenshots of Gmail 2.3.2 compose (December 2010).
 
 `docs/apk-strings.py` now also reads plurals (`@plurals/name:one`) through the Android SDK's aapt2. The launcher's Search entry is now "Google Search" with the image's icon: the image ships Google's build of the Quick Search Box.
+
+## Maps 5.4.0, Places, Latitude and Navigation — 2026-10-04
+
+`gb-maps.js` and `gb-maps.css` render the image's Maps.apk launcher entries. The text tables come from `docs/gb-maps.template.js`.
+
+**Maps.** The 45 dip header follows `header_bar.xml`: the "Search Maps" field, then Places, Layers and My Location. Below it:
+- the map with the blue dot;
+- `btn_zoom_down` / `btn_zoom_up` while the map is touched;
+- lettered search markers with the `popup_pointer_button` bubble;
+- place pages;
+- the directions panel (`directions_input_dialog.xml` with the `mode_*` toggles and Go), which draws the route and a summary ribbon with Navigation;
+- the Layers list (Traffic, Satellite and Terrain change the drawing; Latitude shows friends on the map);
+- the Menu-key menu (Search, Directions, Starred Places, Clear Map, Latitude, More).
+
+**Places.** The category grid, with `icon_restaurants` … `icon_gas` and `icon_add`, and the result rows.
+
+**Latitude.** `list_header_friends_list.xml` and `friends_list_item.xml`.
+
+**Navigation.**
+- The destination picker: `da_destination_activity.xml`, Theme.Light.
+- The guidance screen (`da_navigation.xml`):
+  - the 84 dip `da_top_panel_green` step bar with the turn square;
+  - the tilted map, with the `dav_chevron` driving the route in 40 s;
+  - the `da_bottom_panel_gray` status bar.
+- Back asks "Exit navigation?".
+- The `da_*` texts are translated as in the image.
+
+The map is the Maps live wallpaper's drawn city, now shared as `LiveWallpapers.mapSheet`. The places, friends and routes are made up.
+
+Maps 5.4 loaded most of its interface text (Directions, Labs, Check in…) from a downloaded language pack that is not in the image. Those texts use the simulator's own rows: new `i18n.js` rows were taken from the Galaxy Nexus and Nexus 4 images where those have them (Directions, Bicycling, Check in, Now), and written by hand otherwise.

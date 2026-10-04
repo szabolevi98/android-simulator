@@ -117,7 +117,8 @@
     ['play-store', 'Market', '▶', '#b5d26d', '#53732f'], ['search', 'Google Search', '⌕', '#9ad0f0', '#3a7fb0'],
     ['downloads', 'Downloads', '⇩', '#9fd36a', '#4f8a2a'],
     // The Nexus S image's Google apps (gb-apps.js registers their screens).
-    ['gmail', 'Gmail', '✉', '#e8e8e8', '#c33']
+    ['gmail', 'Gmail', '✉', '#e8e8e8', '#c33'], ['maps', 'Maps', '⌖', '#cde5b4', '#4a77a8'], ['navigation', 'Navigation', '▲', '#4a77a8', '#1c3f9a'],
+    ['places', 'Places', '⌖', '#db4437', '#a32'], ['latitude', 'Latitude', '☺', '#4a77a8', '#1c3f9a']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -133,7 +134,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['gmail', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
+  const iconAssets = new Set(['gmail', 'maps', 'navigation', 'places', 'latitude', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps', 'search', 'downloads']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -371,6 +372,7 @@
     else if (ui.view === 'home') { viewport.innerHTML = renderHome(); restoreWidgetScroll(); }
     else if (ui.view === 'drawer') viewport.innerHTML = renderDrawer();
     else viewport.innerHTML = renderApp();
+    if (GBApps.has(ui.view)) GBApps.get(ui.view).mounted?.(gappContext());
     renderOverlay();
     i18n.translateDOM(screen);
     const scene = {view: ui.view, sub: ui.sub}, transit = ui.sleeping ? '' : ICSTransitions.kind(lastScene, scene, pendingNav);
@@ -1374,13 +1376,13 @@
   function renderEmail() { return GBEmail.render(gbEmailContext()); }
   // What the image's Google apps (gb-apps.js) render and act with.
   function gappContext() {
-    return {data, ui, root: viewport, lang: i18n.language, locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24,
+    return {data, ui, view: ui.view, root: viewport, lang: i18n.language, locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24,
       ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), t: key => i18n.t(key),
       save, render, renderOverlay, toast, openApp, home: () => home(false), photos: data.photos, contacts: data.contacts,
       dialog(kind) { ui.gappDialog = kind; ui.overlay = 'gb-dialog-gapp'; renderOverlay(); },
       focus(selector) { requestAnimationFrame(() => viewport.querySelector(selector)?.focus()); },
       submit(selector) { viewport.querySelector(selector)?.requestSubmit(); },
-      browse(url) { openApp('browser'); navigateBrowser(url); }};
+      browse(url) { openApp('browser'); navigateBrowser(url); }, call(number) { startPhoneCall(number); }};
   }
   function gbEmailContext() {
     return {lang: i18n.language, locale: i18n.locale(), hour24: !!data.settings.hour24, now: deviceDate(), sub: ui.sub, folder: ui.emailFolder || 'Inbox', mail: data.mailbox, item: data.mailbox.find(item => item.id === ui.emailId), selected: ui.emailSelected || [], query: ui.emailQuery, cc: !!ui.emailCc, error: '', photos: data.photos, target: data.mailbox.find(item => item.id === ui.gbEmTarget)};

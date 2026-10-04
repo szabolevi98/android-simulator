@@ -1,0 +1,24 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+// Nexus S: Maps 5.4 with Places, Latitude and Navigation (gb-maps.js) on GBApps.
+const w={setTimeout,clearTimeout,requestAnimationFrame:f=>0};w.window=w;w.document={addEventListener(){}};
+for(const f of ['gb-apps.js','gb-maps.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),w);
+const {GBApps,GBMaps:M}=w;
+for(const id of ['maps','places','latitude','navigation'])assert.ok(GBApps.has(id),id);
+assert.equal(M.search('coffee').length,2);assert.equal(M.search('Museum')[0],'p10');assert.equal(M.search('xyzzy').length,0);
+const r=M.route(M.POIS.find(p=>p.id==='p10'));assert.equal(r.path.length,3);assert.ok(r.min>=1);
+assert.equal(M.distance('en',1),'0.6 mi');assert.equal(M.distance('hu',1),'1.0 km');assert.equal(M.distance('hu',.25),'250 m');
+assert.equal(M.T('hu','Layers'),'Rétegek');assert.equal(M.T('hu','Turn right onto %1$s'),'Forduljon jobbra erre: %1$s');
+const toasts=[],ui={},ctx={ui,data:{},view:'maps',lang:'en',t:k=>k,contacts:[],root:{querySelector:()=>null},save(){},render(){},renderOverlay(){},toast:m=>toasts.push(m),dialog(k){ui.dlg=k;},focus(){},openApp(a){ctx.view=a;}};
+const maps=GBApps.get('maps');
+let html=maps.render(ctx);assert.ok(html.includes('mp-btn_show_places')&&html.includes('placeholder="Search Maps"')&&html.includes('mp-zoomin'));
+assert.ok(maps.submit('mp-search',new Map([['q','coffee']]),ctx));assert.equal(ui.mp.results.length,2);html=maps.render(ctx);
+assert.ok(html.includes('mp-bubble')&&html.includes('Bean There Café'));
+maps.handle('mp-page','p4',ctx);assert.ok(maps.render(ctx).includes('mp-directions'));
+maps.handle('mp-directions','p4',ctx);assert.ok(ui.mp.dirOpen);assert.ok(maps.submit('mp-dir',new Map([['to','Bean There Café']]),ctx));assert.equal(ui.mp.route.to.id,'p4');
+assert.equal(JSON.stringify(maps.menu(ctx).slice(0,5).map(i=>i.title)),JSON.stringify(['Search','Directions','Starred Places','Clear Map','Latitude']));
+maps.handle('mp-navigate','p4',ctx);assert.equal(ctx.view,'navigation');assert.ok(ui.mpNav&&ui.mpNav.to==='p4');
+assert.ok(GBApps.get('navigation').render(ctx).includes('mp-step'));assert.ok(GBApps.get('navigation').back(ctx));assert.equal(ui.dlg,'exit');
+maps.handle('mp-exit-ok',null,ctx);assert.equal(ui.mpNav,null);
+ctx.view='places';assert.ok(GBApps.get('places').render(ctx).includes('mp-icon_coffee'));
+ctx.view='latitude';assert.ok(GBApps.get('latitude').render(ctx).includes('Alex Morgan'));
+console.log('gb-maps ok');

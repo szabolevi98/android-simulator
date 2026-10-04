@@ -833,8 +833,8 @@
      simulator's Maps app, two screens wide. MapWallpaperSettingsActivity's wallpaper_prefs.xml gives the options:
      "Map mode" (Normal, Satellite or Terrain; map_mode_satellite by default) and, on the Nexus S build (Maps 5.4.0),
      "Show traffic" (off by default). */
-  function mapsWallpaper(ctx, prefs) {
-    let w = 0, h = 0, sheet = null, key = '';
+  // The drawn city, two screens (2 w x h) wide: shared by the Maps wallpaper and the Maps app (gb-maps.js).
+  function mapSheet(w, h, mode, traffic) {
     // A small seeded generator: the same city every time.
     const seeded = seed => () => { seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
     const STYLE = {
@@ -906,12 +906,16 @@
       }
       return c;
     }
+    return build(mode, traffic);
+  }
+  function mapsWallpaper(ctx, prefs) {
+    let w = 0, h = 0, sheet = null, key = '';
     return {
       interval: 40,
       resize(cw, ch) { w = cw; h = ch; key = ''; },
       draw(offset) {
         const p = prefs?.() || {}, mode = p.mode || 'satellite', traffic = p.traffic === true, next = `${w}x${h}:${mode}:${traffic}`;
-        if (next !== key) { sheet = build(mode, traffic); key = next; }
+        if (next !== key) { sheet = mapSheet(w, h, mode, traffic); key = next; }
         ctx.clearRect(0, 0, w, h);
         ctx.drawImage(sheet, -offset * w, 0, w * 2, h);
         // My location, at the middle of the two screens: the blue dot with its accuracy circle.
@@ -984,5 +988,5 @@
       destroy() { cancelAnimationFrame(raf); canvas.remove(); scene = null; }
     };
   }
-  window.LiveWallpapers = {LIST, SMOKE_PRESETS, SMOKE_DEFAULT, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, mount, M, audioCapture, needleModel};
+  window.LiveWallpapers = {mapSheet, LIST, SMOKE_PRESETS, SMOKE_DEFAULT, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, mount, M, audioCapture, needleModel};
 })();

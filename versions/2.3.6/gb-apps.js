@@ -1,6 +1,6 @@
 /* The Nexus S image's Google apps (Gmail, Maps, Talk, YouTube, ...) register here, so the simulator wires them once:
-   GBApps.register(id, {render(ctx), menu(ctx), dialog(kind, ctx), handle(action, id, ctx, button), submit(form, values, ctx),
-   input(event, ctx), back(ctx), open(ctx, resume)}); every hook but render is optional. A module's texts come from its
+   GBApps.register(id, {render(ctx), mounted(ctx), menu(ctx), dialog(kind, ctx), handle(action, id, ctx, button), submit(form, values, ctx),
+   back(ctx), open(ctx, resume)}); every hook but render is optional. A module's texts come from its
    APK in the image (docs/apk-strings.py), falling back to the shared interface rows. */
 (() => {
   'use strict';

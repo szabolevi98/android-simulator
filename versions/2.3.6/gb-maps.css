@@ -1,0 +1,125 @@
+/* Maps 5.4.0 with Places, Latitude and Navigation (gb-maps.js). Layout dimensions from Maps.apk in dip (1 dp = 0.8625 px),
+   its 240 dpi / hdpi bitmaps and 9-patches x 0.575, nodpi images at device px x 0.575. */
+.mp{display:flex;flex-direction:column;height:100%;background:#fff;color:#000;font-family:DroidSans,Arial,sans-serif;overflow:hidden;color-scheme:light}
+.mp button{font-family:inherit}
+.mp-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+
+/* header_bar.xml: 45 dip on header_bar_background, the search field, then 44 dip buttons split by 2 px lines. */
+.mp-header{position:relative;z-index:3;flex:none;display:flex;align-items:center;height:38.81px;border:0 solid transparent;border-image:url('assets/mp-header_bar_background.png') 0 13 0 4 fill / 0 7.47px 0 2.3px stretch}
+.mp-search{flex:1;min-width:0;display:flex;align-items:center;height:34.5px;margin:0 2.59px;padding:0 5px 3px 2.59px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch}
+.mp-search img{flex:none;width:16.1px;height:18.4px;padding:2.16px 4.31px 0 2.59px}
+.mp-search input{flex:1;min-width:0;border:0;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.mp-search input::placeholder{color:#8a8a8a}
+.mp-hdiv{flex:none;align-self:stretch;width:1.15px;background:url('assets/mp-header_divider_line.png') 0 0/100% 100%}
+.screen .mp-hbtn{flex:none;width:37.95px;height:38.81px;padding:0;border:0;background:none;cursor:pointer}
+.screen .mp-hbtn:active{background:#ff9c00a0}
+.mp-hbtn img{display:block;width:28.75px;height:28.75px;margin:auto}
+.mp-ptitle span{flex:1;min-width:0;padding-left:8.63px;color:#000;font-weight:700;font-size:13.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* The map: the drawn city with the blue dot, markers and the bubble. */
+.mp-map{position:relative;flex:1;min-height:0;overflow:hidden;background:#e9e5dc;touch-action:none}
+.mp-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+.mp-layer{position:absolute;inset:0;pointer-events:none}
+.mp-layer>*{position:absolute;left:0;top:0;pointer-events:auto}
+.screen .mp-marker{width:0;height:0;padding:0;border:0;background:none;cursor:pointer}
+.mp-marker::before{content:"";position:absolute;left:-9.78px;top:-35.08px;width:19.55px;height:35.08px;background:url('assets/mp-search_markers.png') 0 0/156.4px 35.08px no-repeat}
+.mp-marker i{position:absolute;left:-3.45px;top:-29.9px;width:6.9px;height:8.63px;background:url('assets/mp-letters.png') 0 0/69px 8.63px no-repeat}
+.mp-dest img{position:absolute;left:-12.65px;top:-49.5px;width:25.3px;height:51.75px}
+.screen .mp-friend{width:0;height:0;padding:0;border:0;background:none;cursor:pointer}
+.mp-friend img{position:absolute;left:-14.4px;top:-34px;width:28.75px;height:28.75px;border:0 solid transparent;border-width:2.3px;border-image:url('assets/mp-latitude_photo_frame.png') 12 fill / 6.9px stretch;background:#fff}
+/* popup_pointer_button: 8 / 12 / 30 / 12 px slices, the pointer at the bottom; template_text_parent and the arrow. */
+.screen .mp-bubble{display:flex;align-items:center;gap:4px;max-width:224px;min-width:120px;margin:0;padding:4.6px 5.75px 17.25px;border:0 solid transparent;border-image:url('assets/mp-popup_pointer_button_normal.png') 8 12 30 12 fill / 4.6px 6.9px 17.25px stretch;background:none;color:#000;text-align:left;translate:-50% calc(-100% - 33px);cursor:pointer}
+.screen .mp-bubble:active{border-image-source:url('assets/mp-popup_pointer_button_selected.png')}
+.mp-bubble span{flex:1;min-width:0;display:flex;flex-direction:column;padding:0 2px}
+.mp-bubble b{font-size:13.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-bubble small{color:#555;font-size:11.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-bubble img{flex:none;width:13.2px;height:6.3px;transform:rotate(-90deg)}
+/* btn_zoom_down (58 dip) and btn_zoom_up (65 dip), 40 dip tall, at the bottom while the map is touched. */
+.mp-zoom{position:absolute;left:50%;bottom:4.31px;display:flex;translate:-50% 0;opacity:0;pointer-events:none;transition:opacity .4s}
+.mp-map.zoom .mp-zoom{opacity:1;pointer-events:auto;transition:opacity .1s}
+.screen .mp-zoom button{height:34.5px;padding:0;border:0;background:url('assets/mp-btn_zoom_down_normal.png') 0 0/100% 100%;cursor:pointer}
+.screen .mp-zoom .mp-zoomout{width:50.03px}
+.screen .mp-zoom .mp-zoomin{width:56.35px;background-image:url('assets/mp-btn_zoom_up_normal.png')}
+.screen .mp-zoom .mp-zoomout:active{background-image:url('assets/mp-btn_zoom_down_pressed.png')}
+.screen .mp-zoom .mp-zoomin:active{background-image:url('assets/mp-btn_zoom_up_pressed.png')}
+.mp-zoom button:disabled{opacity:.5}
+/* The route summary over the map. */
+.mp-ribbon{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;gap:6px;padding:3px 0 3px 6px;background:#000000b8;color:#fff}
+.mp-ribbon>img{width:17.25px;height:17.25px}
+.mp-ribbon span{flex:1;min-width:0;display:flex;flex-direction:column}
+.mp-ribbon b{font-size:13.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-ribbon small{color:#ddd;font-size:11.2px}
+.screen .mp-ribbon button{width:37.95px;height:34.5px;padding:0;border:0;background:none;cursor:pointer}
+.mp-ribbon button img{width:28.75px;height:28.75px}
+/* directions_input_dialog.xml on bottombar_portrait_565: two 18 sp fields, the mode toggles and Go (90 dip). */
+.mp-dir{flex:none;display:flex;flex-direction:column;gap:1.73px;padding:7.76px 3.45px 7.76px 5.18px;background:url('assets/mp-bottombar_portrait_565.png') 0 0/100% 100%}
+.mp-dirfield{display:block;width:100%;box-sizing:border-box;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-textfield_default.png') 32 16 39 16 fill / 18.4px 9.2px 22.43px 9.2px stretch;padding:5.75px 9.2px 9.78px;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;outline:0}
+.mp-dirrow{display:flex;align-items:stretch;height:41.4px}
+.mp-dirrow i{flex:1}
+.screen .mp-mode{width:36.23px;padding:0;border:0 solid transparent;border-image:var(--off) 13 11 7 11 fill / 7.47px 6.32px 4.02px stretch;background:none;cursor:pointer}
+.screen .mp-mode.on{border-image-source:var(--on)}
+.mp-mode img{width:17.25px;height:17.25px}
+.screen .mp-go{flex:2;max-width:77.63px;padding:0 4px 4px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font-size:15.53px;cursor:pointer}
+
+/* Place pages and result rows (list_item_search_result, 64 dip minimum). */
+.mp-title{position:relative;display:flex;flex-direction:column;gap:2px;padding:8.63px 40px 8.63px 8.63px;border-bottom:1px solid #d0d0d0}
+.mp-title b{font-size:18.98px}
+.mp-title small{color:#555;font-size:12.07px}
+.mp-stars{display:flex;gap:1px}
+.mp-stars img{width:7.76px;height:6.9px}
+.screen .mp-star{position:absolute;right:6px;top:8px;width:27.6px;height:27.6px;padding:0;border:0;background:url('assets/gb-btn_star_big_off.png') center/100% no-repeat;cursor:pointer}
+.screen .mp-star.on{background-image:url('assets/gb-btn_star_big_on.png')}
+.screen .mp-row,.screen .mp-result,.screen .mp-pick{display:flex;align-items:center;gap:8px;width:100%;min-height:55.2px;padding:2.59px 8.63px;border:0;border-bottom:1px solid #d6d6d6;background:#fff;color:#000;text-align:left;cursor:pointer}
+.screen .mp-row:active,.screen .mp-result:active,.screen .mp-pick:active,.screen .mp-fitem:active{background:linear-gradient(#ffcd3a,#ff9c00)}
+.mp-row img{width:27.6px;height:27.6px}
+.mp-row span,.mp-result>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.mp-row b{font-weight:400;font-size:15.53px}
+.mp-row small,.mp-result small{color:#666;font-size:12.07px}
+.mp-letter{flex:none;width:13.8px;height:17.25px;background:url('assets/mp-letters.png') 0 3px/138px 17.25px no-repeat}
+.mp-rtop{display:flex;gap:6px;align-items:baseline}
+.mp-rtop b{flex:1;min-width:0;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Places: the GmmGridView (grid_item.xml: 3 dip padding, the icon and its caption). */
+.mp-grid{display:grid;grid-template-columns:repeat(3,1fr);align-content:start;gap:6px 0;padding:8.63px 2.59px;background:#fff}
+.screen .mp-tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:2.59px;border:0;background:none;color:#000;font-size:12.07px;cursor:pointer}
+.screen .mp-tile:active{background:#ff9c0060}
+.mp-tile img{width:69px;height:57.5px}
+
+/* Latitude: friends_list_item.xml (60 dip picture, 18 sp name, 12 sp time, 14 sp location). */
+.screen .mp-fitem{display:flex;align-items:flex-start;gap:4.31px;width:100%;padding:6.9px 6.04px 3.45px 1.73px;border:0;border-bottom:1px solid #d6d6d6;background:#fff;color:#000;text-align:left;cursor:pointer}
+.mp-fitem>img{flex:none;width:51.75px;height:51.75px;border:0 solid transparent;border-width:3.45px;border-image:url('assets/mp-latitude_photo_frame.png') 12 fill / 6.9px stretch;box-sizing:border-box;background:#fff}
+.mp-fitem>span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding-top:4px}
+.mp-frow{display:flex;align-items:baseline;gap:4px}
+.mp-frow b{flex:1;min-width:0;font-weight:400;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-frow small{color:#888;font-size:10.35px}
+.mp-fitem>span>small{color:#555;font-size:12.07px}
+
+/* Navigation's destination picker (da_DestinationPickerTheme, Theme.Light): the 52 dip action bar and 64 dip rows. */
+.mp-dabar{flex:none;display:flex;align-items:stretch;height:44.85px;border:.58px solid transparent;border-image:url('assets/mp-da_action_bar_background.png') 1 fill / .58px stretch}
+.mp-dabar>i{flex:1}
+.mp-dabar .mp-dasep{width:1.15px;height:auto;align-self:stretch}
+.screen .mp-dabar button{display:flex;align-items:center;gap:2px;padding:0 3.45px;border:0;background:none;color:#000;cursor:pointer}
+.screen .mp-dabar button:active{background:#ff9c0080}
+.mp-dabar img{width:28.75px;height:28.75px}
+.mp-dabar b{padding-right:5.18px;font-size:13.8px}
+.mp-pick img{flex:none;width:25.88px;height:25.88px;object-fit:contain}
+.mp-pick span{display:flex;flex-direction:column;font-size:15.53px}
+.mp-pick small{color:#666;font-size:12.07px}
+.mp-sep{padding:2px 8.63px;background:#e3e3e3;color:#444;font-weight:700;font-size:12.07px}
+
+/* da_navigation.xml: the 84 dip green step bar, the tilted map, the 50 dip grey status bar. */
+.mp-nav{background:#000;color:#fff}
+.mp-step{position:relative;z-index:2;flex:none;display:flex;height:72.45px;border:0 solid transparent;border-image:url('assets/mp-da_top_panel_green_normal.png') 0 39 0 24 fill / 0 22.42px 0 13.8px stretch}
+.mp-turn{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:72.45px;border:0 solid transparent;border-image:url('assets/mp-da_turn_square_green_bg_normal.png') 0 82 13 43 fill / 0 47.15px 7.47px 24.72px stretch}
+.mp-turn img{width:41.4px;height:41.4px}
+.mp-turn b{margin-top:-3px;font-size:15.53px}
+.mp-vsep{flex:none;width:1.15px;height:100%}
+.mp-road{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:6.04px;text-align:center}
+.mp-road b{font-size:17.25px;line-height:1.15}
+.mp-navmap{position:relative;flex:1;min-height:0;overflow:hidden;background:linear-gradient(#9fb3c6,#dfe5e8 38%,#d6d2c6 60%);perspective:340px}
+.mp-navmap .mp-canvas{left:-60%;top:auto;bottom:0;width:220%;height:260%;transform:rotateX(52deg);transform-origin:50% 100%}
+
+.mp-status{position:relative;z-index:2;flex:none;display:flex;align-items:center;gap:4px;height:43.13px;padding-top:6px;border:0 solid transparent;border-image:url('assets/mp-da_bottom_panel_gray.png') 16 0 0 0 fill / 9.2px 0 0 stretch}
+.mp-status>img:first-child{width:24.15px;height:24.15px;margin-left:2.59px}
+.mp-status b{font-weight:400;font-size:20.1px;white-space:nowrap}
+.mp-status span{flex:1;min-width:0;padding-left:8px;text-align:right;padding-right:6px;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
