@@ -163,6 +163,7 @@ window.AndroidI18n?.extend([
   ["Play Games","Play Játékok","Play Spiele","Play Jeux","Play Juegos"],
   ["Play Movies & TV","Play Filmek és TV","Play Filme & TV","Play Films et TV","Play Películas"],
   ["Play Music","Play Zene","Play Musik","Play Musique","Play Música"],
+  ["Play Movies","Play-filmek","Play Filme","Play Films","Play Películas"],
   ["Google Play Movies","Google Play Filmek","Google Play Filme","Google Play Films","Google Play Películas"],
   ["Choose wallpaper from","Válasszon tapétát innen:","Hintergrund auswählen","Sélectionner fond d'écran dans","Selecciona una categoría"],
   ["No items","Nincsenek elemek","Keine Dokumente","Aucun élément","Sin elementos"],

@@ -84,6 +84,8 @@ const PIN = {
   'Connect': 'Settings:wifi_connect', 'Search contacts': 'Contacts:searchHint',
   // App names as the images' launchers show them.
   'Play Music': 'Music2:launcher_name', 'Play Books': 'Books:main_activity_name', 'Google Play Movies': 'Videos:long_app_name',
+  'Messenger': 'PlusOne:realtimechat_launcher_title', 'Places': 'Maps:PLACES_APP_NAME', 'Local': 'Maps:PLACES_APP_NAME', 'Latitude': 'Maps:LATITUDE_APP_NAME',
+  'Talk': 'Talk:app_label', 'Play Movies': 'Videos:application_name', 'Voice Dialer': 'VoiceDialer:voiceDialer', 'Navigation': 'Maps:da_navigation',
 };
 // Rows kept as i18n.js has them: English text -> why.
 const KEEP = {

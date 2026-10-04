@@ -242,6 +242,7 @@ Books:main_activity_name	Play Books	= | Play Bücher -> Play Books | Play Livres
 PlayGames:games_app_launcher_name	Play Games	= | Play Spiele -> Play Games | Play Jeux -> Play Jeux | Play Juegos -> Play Games	[play-apps.js simulator.js]
 Videos:application_name_with_tv	Play Movies & TV	Play Filmek -> Play Filmek és TV | Play Filme -> Play Movies & TV | Play Films -> Play Films et TV | Play Películas -> Play Movies	[play-apps.js simulator.js]
 Music2:launcher_name	Play Music	= | Play Musik -> Play Music | Play Musique -> Play Musique | Play Música -> Play Music	[play-apps.js simulator.js]
+Videos:application_name	Play Movies	Play Filmek -> Play-filmek | = | = | Play Films -> Play Movies	[]
 Videos:long_app_name	Google Play Movies	= | = | Google Play Films -> Google Play Films | =	[]
 SystemUI:quick_settings_remote_display_no_connection_label	Cast Screen	Képernyő átküldése -> Képernyő tartalmának átküldése | = | = | Enviar pantalla -> Pantalla de Cast	[jb-shade.js]
 Settings:wallpaper_settings_fragment_title	Choose wallpaper from	= | = | Sélectionner fond d’écran dans -> Sélectionner fond d'écran dans | =	[simulator.js]
