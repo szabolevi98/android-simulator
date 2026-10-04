@@ -116,6 +116,8 @@
   ui.music=ICSMusic.restore(data.music);
   ui.musicTrack=ui.music.track;
   ui.browserSession = ICSBrowserSession.restore(data.browserSession,data.browserHistory);
+  // Gmail 4.0.4's own offline account (ics-gmail.js).
+  data.gmail40 = ICSGmail.restore(data.gmail40);
   syncBrowserState();
   const apps = [
     ['phone', 'Phone', '☎', '#3dc484', '#217258'], ['people', 'People', '◉', '#efa96f', '#a45142'],
@@ -124,7 +126,9 @@
     ['settings', 'Settings', '⚙', '#b7c5ce', '#53606f'], ['clock', 'Clock', '◷', '#71b7dc', '#3d6e8d'],
     ['calendar', 'Calendar', '31', '#7ec7e7', '#397c9e'], ['calculator', 'Calculator', '＋', '#7cb4bd', '#32727f'],
     ['music', 'Music', '♫', '#fd9e70', '#c25360'], ['email', 'Email', '✉', '#75b7df', '#326b9e'],
-    ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f']
+    ['play-store', 'Play Store', '▶', '#b5d26d', '#53732f'],
+    // Google's apps of the IMM76I image.
+    ['gmail', 'Gmail', '✉', '#ffffff', '#db4437']
   ];
   const wifiNetworks = [
     { name: 'AndroidAP', security: 'WPA2', strength: 4 },
@@ -145,7 +149,7 @@
     const widget = typeof value === 'string' ? {type: value} : value;
     return {...(widgetTypes.find(item => item.type === widget.type) || {width: 2, height: 2}), ...widget};
   };
-  const iconAssets = new Set(['phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
+  const iconAssets = new Set(['gmail', 'phone', 'people', 'messaging', 'browser', 'camera', 'gallery', 'settings', 'clock', 'calendar', 'calculator', 'music', 'email', 'apps']);
   const i18n = window.AndroidI18n;
   const appNames = Object.fromEntries(apps.map(app => [app[0], app[1]]));
   appNames.google = 'Google';
@@ -425,6 +429,7 @@
       case 'wallpaper-picker': return `<div class="app-view wallpaper-picker"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>Wallpapers</h2></div><div class="app-content dark">${wallpaperChoices()}</div></div>`;
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
+      case 'gmail': return ICSGmail.render(gmailContext());
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
       case 'messaging': return renderMessaging();
@@ -460,7 +465,19 @@
   }
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; if (resetPage) ui.page = 2; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
+  // The context Gmail's module renders and acts with.
+  function gmailContext() {
+    return {data, ui, lang: i18n.language, locale: i18n.locale(), now: deviceDate().getTime(), save, render, renderOverlay, toast,
+      focus: selector => viewport.querySelector(selector)?.focus(), submit: selector => viewport.querySelector(selector)?.requestSubmit(),
+      keep: () => ICSGmail.keepDraft(data, ui, viewport.querySelector('.g4-form'))};
+  }
   function navigateBack() {
+    if (ui.view === 'gmail') {
+      if (ui.overlay) { ui.overlay = ''; renderOverlay(); return; }
+      if (ui.sub === 'compose') { ICSGmail.keepDraft(data, ui, viewport.querySelector('.g4-form')); save(); }
+      if (!ui.sub && (ui.g4Selected || []).length) { ui.g4Selected = []; render(); return; }
+      if (!ui.sub && ui.g4Query !== undefined) { ui.g4Query = undefined; render(); return; }
+    }
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
@@ -501,6 +518,7 @@
   let openFolderId = '';
   function renderOverlay() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
+    if (ui.view === 'gmail' && ui.overlay.startsWith('g4-')) { overlayRoot.innerHTML = ICSGmail.overlay(gmailContext()) || ''; return; }
     if (ui.overlay === 'shade') {
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : n.kind === 'calendar' ? 'calendar.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay.startsWith('widget-photo')) {
@@ -1001,6 +1019,7 @@
     if (Date.now() < suppressClickUntil) return;
     const { action, id, app, url } = button.dataset;
     if(ui.locked&&!['back','alarm-dismiss','alarm-snooze'].includes(action))return;
+    if (ui.view === 'gmail' && action.startsWith('g4-') && ICSGmail.handle(action, id, gmailContext())) return;
     switch (action) {
       case 'open-app': openApp(app || id, !!button.closest('.recent-item')); break;
       case 'home': if (ui.view !== 'lock') home(); break;
@@ -1339,6 +1358,7 @@
     const form = event.target.closest('[data-form]');
     if (!form || !screen.contains(form)) return;
     event.preventDefault(); const values = new FormData(form);
+    if (ui.view === 'gmail' && ICSGmail.submit(form.dataset.form, values, gmailContext())) return;
     if(form.dataset.form==='folder-name'){event.target.querySelector('input')?.blur();render();return;}
     if(form.dataset.form==='sx-save'){ui.systemError=ICSSystemSettings.submit(data,ui,values);if(ui.systemError){ui.systemValues=Object.fromEntries(values);renderOverlay();return;}save();ui.overlay='';render();return;}
     if(form.dataset.form==='sx-vpn-connect'){ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();return;}

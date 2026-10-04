@@ -1,0 +1,70 @@
+/* Gmail 4.0.4 on the Galaxy Nexus (1 dp = 0.85 px): Theme.Holo.Light with a 48 dp top bar (the label name in 18 sp over
+   the account in 12 sp) and the 48 dp split action bar at the bottom, 32 dp Holo light icons, two-line conversation rows
+   with 16 sp senders, read rows on grey, Holo check boxes, the conversation header and the open compose screen. */
+.g4-app{display:flex;flex-direction:column;background:#fff;color:#222;font-family:RobotoICS,Roboto,sans-serif;color-scheme:light}
+.screen .g4-app button{color:inherit;font-family:inherit}
+.g4-top{flex:none;display:flex;align-items:center;height:40.8px;padding-right:3.4px;background:#f3f3f3;border-bottom:1.7px solid #d9d9d9}
+.g4-home{display:flex;align-items:center;height:100%;padding:0 5.1px 0 3.4px;border:0;background:none}
+.g4-home img{width:27.2px;height:27.2px}
+.g4-caret{margin-right:2px;color:#777;font-size:17px}
+.g4-title{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;height:100%;padding:0 6.8px;border:0;background:none;text-align:left}
+.g4-title b{font-weight:400;font-size:15.3px;line-height:1.15;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.g4-title small{font-size:10.2px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.g4-spinner b::after{content:'';display:inline-block;margin-left:4px;border:4px solid transparent;border-right-color:#888;border-bottom-color:#888;vertical-align:-2px}
+.g4-btn{display:grid;place-items:center;width:40.8px;height:40.8px;padding:0;border:0;background:none}
+.g4-btn img{width:27.2px;height:27.2px}
+.g4-bottom{flex:none;display:flex;justify-content:space-around;height:40.8px;background:#f3f3f3;border-top:1px solid #d0d0d0}
+.g4-bottom .g4-btn{flex:1;width:auto}
+.g4-cab{background:#e9e9e9}
+.g4-done{display:flex;align-items:center;gap:5px;height:100%;padding:0 10px;border:0;border-right:1px solid #ccc;background:none;font-size:12px;text-transform:uppercase}
+.g4-done img{width:27.2px;height:27.2px}
+.g4-count{margin-left:auto;padding:0 12px;font-size:15.3px;color:#33b5e5}
+.g4-scroll{flex:1;min-height:0;overflow-y:auto}
+.g4-empty{margin:40px 0;text-align:center;color:#888;font-size:13.6px}
+.g4-row{display:flex;align-items:stretch;min-height:61.2px;border-bottom:1px solid #dcdcdc;background:#fff}
+.g4-row.read{background:#ececec}
+.g4-row.checked{background:#b5e5f8}
+.g4-check{flex:none;width:40.8px;border:0;background:url(assets/btn_check_off_holo_light.png) center/27.2px no-repeat}
+.g4-check[aria-checked=true]{background-image:url(assets/btn_check_on_holo_light.png)}
+.g4-row-main{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:6px 0;border:0;background:none;text-align:left}
+.g4-row-top{display:flex;align-items:baseline;gap:8px}
+.g4-row-top b{flex:1;min-width:0;font-size:13.6px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g4-row.read .g4-row-top b,.g4-row.read .g4-row-text strong{font-weight:400}
+.g4-row-top time{flex:none;font-size:10.2px;color:#33b5e5}
+.g4-row.read .g4-row-top time{color:#777}
+.g4-chevron{margin-right:3px;color:#f4b400;font-style:normal;font-weight:700}
+.g4-row-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11.9px;color:#777;line-height:1.3}
+.g4-row-text strong{color:#222}
+.g4-star{flex:none;width:34px;border:0;background:none}
+.g4-star img{width:27.2px;height:27.2px}
+.g4-search{flex:1;display:flex;height:100%;padding:6px 6px 6px 0}
+.g4-search input{flex:1;min-width:0;border:0;border-bottom:1.7px solid #33b5e5;background:none;font:400 15.3px RobotoICS,sans-serif;color:#222;outline:none}
+.g4-subject{position:sticky;top:0;z-index:1;padding:8.5px 10.2px;background:#fff;border-bottom:1px solid #dcdcdc}
+.g4-subject h2{margin:0 0 4px;font-weight:400;font-size:18.7px;line-height:1.2}
+.g4-chip{display:inline-block;margin:0 4px 0 0;padding:1px 5px;border-radius:2px;background:#ddd;color:#555;font-size:10.2px}
+.g4-message{border-bottom:1px solid #dcdcdc}
+.g4-message header{display:flex;align-items:center;gap:8px;padding:8.5px 0 8.5px 10.2px}
+.g4-photo{width:40.8px;height:40.8px;background:#ddd}
+.g4-message header span{flex:1;min-width:0;display:flex;flex-direction:column}
+.g4-message header b{font-size:13.6px;font-weight:700}
+.g4-message header small,.g4-message header time{font-size:10.2px;color:#777}
+.g4-reply{width:40.8px;height:40.8px;border:0;border-left:1px solid #e0e0e0;background:none}
+.g4-reply img{width:27.2px;height:27.2px}
+.g4-body{padding:0 10.2px 12px;font-size:13.6px;line-height:1.4}
+.g4-respond{display:flex;border-top:1px solid #e6e6e6}
+.g4-respond button{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;height:40.8px;border:0;border-right:1px solid #e6e6e6;background:none;font-size:11.9px;color:#555}
+.g4-respond img{width:23.8px;height:23.8px}
+.g4-form{flex:1;min-height:0;display:flex;flex-direction:column;padding:0 6.8px}
+.g4-field{display:flex;border-bottom:1px solid #d0d0d0}
+.g4-field input{flex:1;min-width:0;height:40.8px;border:0;background:none;font:400 15.3px RobotoICS,sans-serif;color:#222;outline:none}
+.g4-form textarea{flex:1;min-height:120px;padding:8px 0;border:0;background:none;font:400 15.3px RobotoICS,sans-serif;color:#222;resize:none;outline:none}
+.g4-labels{background:#fff}
+.g4-label{display:flex;align-items:center;width:100%;min-height:40.8px;padding:0 13.6px;border:0;border-bottom:1px solid #e3e3e3;background:none;font-size:15.3px;text-align:left}
+.g4-label.on{background:#e5f4fb}
+.g4-label span{flex:1}
+.g4-label em{font-style:normal;font-size:11.9px;color:#777}
+.g4-menu{position:absolute;z-index:40;min-width:180px;background:#fff;color:#222;box-shadow:0 2px 8px #0006}
+.g4-recent{top:calc(var(--status-height, 21px) + 40.8px);left:34px}
+.g4-overflow{top:calc(var(--status-height, 21px) + 40.8px);right:0}
+.g4-menu h4{margin:0;padding:8px 13.6px 4px;color:#33b5e5;font-weight:700;font-size:11.9px;text-transform:uppercase;border-bottom:1.7px solid #33b5e5}
+.g4-menu button{display:block;width:100%;min-height:40.8px;padding:0 13.6px;border:0;border-bottom:1px solid #e5e5e5;background:none;color:#222;font:400 15.3px RobotoICS,sans-serif;text-align:left}
