@@ -664,12 +664,176 @@
     };
   }
 
+  /* ---------- Microbes (Google's MicrobesWallpaper, com.android.livewallpaper.microbesgl; Nexus S GRK39F and Galaxy Nexus IMM76I)
+     Closed source: rebuilt from the images. The four GLSL programs are the strings in libmicrobes_jni.so (the same in both
+     builds; only a uPx factor is added, since the originals size points in device pixels). The simulation follows the
+     library's ARM code: up to 300 microbes, 600 food specks, 80 dead shells and 60 background blobs in a world as large as
+     the wallpaper (Launcher2's desired size: twice the screen width by the screen height, y up), drawn additively on
+     black (SRC_ALPHA, ONE) as blobs, shells, food and microbes. Each step a microbe swims at 20 px/s along its heading with
+     a slow wobble, is pushed back inside a 90 px margin, keeps clear of up to four neighbours closer than 30 px, steers to
+     up to four food specks within 80 px (eats one closer than 10 px and pulses), flees a fresh touch, and is capped at
+     80 px/s. Energy drains (faster above .75, while the microbe grows); at scale 1.2 it splits into two of .7, at no
+     energy it dies and leaves a shell that sinks off the bottom. Food appears every .2 s; a tap drops five specks
+     around the finger (Native.touch on a tap that stays within 30 px, after Native.motion's touch ring). A random
+     off-screen microbe changes colour now and then. MicrobesWallpaper renders continuously; Native.step gets the frame
+     time, capped at .1 s. */
+  function microbes(canvas) {
+    const G = gl3(canvas); if (!G) return null;
+    const {gl} = G;
+    const MICROBE_VS = 'precision mediump float;uniform vec4 uTrans;uniform float time;uniform float uPx;attribute vec3 aPosition;attribute vec3 miscInfo;attribute vec3 aColor;varying vec3 vColor;varying vec2 vTransform;varying float vWidthScale;void main(){float scale=miscInfo.x;float energy=miscInfo.y;float pulseProgress=(time-miscInfo.z);float pulse=clamp(min(pulseProgress*2.,-(pulseProgress-1.)*.5),0.,1.);gl_Position=vec4(aPosition.xy*uTrans.xy+uTrans.zw,0,1);gl_PointSize=30.*scale*uPx;vTransform=vec2(cos(aPosition.z),sin(aPosition.z));vWidthScale=1./mix(.5,.9,energy);vColor=aColor*1.1+pulse;}';
+    const MICROBE_FS = 'precision mediump float;varying vec3 vColor;varying vec2 vTransform;varying float vWidthScale;void main(){vec2 given=vec2(gl_PointCoord.xy-.5);vec2 rotated=vec2(given.x*vTransform.x-given.y*vTransform.y,given.x*vTransform.y+given.y*vTransform.x);vec2 scaled=rotated*vec2(1,vWidthScale);float h=length(scaled)*2.;gl_FragColor.rgb=vColor.xyz;float hyperb=-pow(h-.4,2.);gl_FragColor.a=clamp(hyperb*30.+.5,0.,.5)+clamp(-length(rotated*vec2(1.,(vWidthScale-1.)*.2+1.)*2.)+1.,0.,.5);}';
+    const FOOD_VS = 'precision mediump float;uniform vec4 uTrans;uniform float time;uniform float uPx;attribute vec3 aPosition;void main(){gl_Position=vec4(aPosition.xy*uTrans.xy+uTrans.zw,0,1);float scale=cos(time*2.+aPosition.z*10.)*.2+.7;gl_PointSize=20.*scale*uPx;}';
+    const FOOD_FS = 'precision mediump float;void main(){vec2 given=vec2(gl_PointCoord.xy-.5);float h=length(given)*2.;gl_FragColor.rgb=vec3(1,1,1);gl_FragColor.a=pow(2.81,-pow(h*2.,2.));}';
+    const DEAD_VS = 'precision mediump float;uniform vec4 uTrans;uniform float time;uniform float uPx;attribute vec4 aPosition;varying vec2 vTransform;varying float vWidthScale;const float energy=3.;void main(){float angle=aPosition.z;float size=aPosition.w;gl_Position=vec4(aPosition.xy*uTrans.xy+uTrans.zw,0,1);gl_PointSize=30.*size*uPx;vTransform=vec2(cos(angle),sin(angle));vWidthScale=7./energy;}';
+    const DEAD_FS = 'precision mediump float;varying vec2 vTransform;varying float vWidthScale;void main(){vec2 given=vec2(gl_PointCoord.xy-.5);vec2 rotated=vec2(given.x*vTransform.x-given.y*vTransform.y,given.x*vTransform.y+given.y*vTransform.x);vec2 scaled=rotated*vec2(1.,vWidthScale);float h=length(scaled)*2.;gl_FragColor.rgb=vec3(1.,1.,1.);float hyperb=-pow(h-.4,2.);gl_FragColor.a=clamp(hyperb*30.+.5,0.,.5);}';
+    const DECO_VS = 'precision mediump float;uniform vec4 uTrans;uniform float time;uniform float uPx;attribute vec4 pos;varying vec4 vColor;void main(){vec2 offset=vec2(sin((time+pos.x)*.1),cos((time+pos.y)*.1))*mix(50.,200.,pos.z);gl_Position.xy=((pos.xy+offset)*uTrans.xy+uTrans.zw)*mix(.1,.9,pos.z);gl_Position.zw=vec2(0,1);gl_PointSize=200.*mix(.5,1.,pos.z)*uPx;vColor=vec4(.6,.6,1,mix(.03,.08,pos.z));}';
+    const DECO_FS = 'precision mediump float;varying vec4 vColor;void main(){vec2 given=vec2(gl_PointCoord.xy-.5);float h=length(given)*2.;gl_FragColor.rgb=vColor.rgb;gl_FragColor.a=vColor.a*clamp((1.-h)*2.,0.,2.);}';
+    const layer = (vs, fs, attributes, count, stride) => {
+      const prog = G.program(vs, fs), data = new Float32Array(count * stride), buf = G.buffer(data);
+      return {prog, data, buf, count, stride, attrs: attributes.map(([name, size, at]) => [gl.getAttribLocation(prog, name), size, at]),
+        trans: gl.getUniformLocation(prog, 'uTrans'), time: gl.getUniformLocation(prog, 'time'), px: gl.getUniformLocation(prog, 'uPx')};
+    };
+    const microbeLayer = layer(MICROBE_VS, MICROBE_FS, [['aPosition', 3, 0], ['miscInfo', 3, 3], ['aColor', 3, 6]], 300, 9);
+    const foodLayer = layer(FOOD_VS, FOOD_FS, [['aPosition', 3, 0]], 600, 3);
+    const deadLayer = layer(DEAD_VS, DEAD_FS, [['aPosition', 4, 0]], 80, 4);
+    const decoLayer = layer(DECO_VS, DECO_FS, [['pos', 3, 0]], 60, 3);
+    // The four colours setColor() picks from.
+    const COLORS = [[.199219, .410156, .90625], [.832031, .195312, .144531], [.929688, .695312, .0664062], [.0507812, .597652, .222656]];
+    const OFF = -10000, FREE = -9000;
+    let W = 0, H = 0, DH = 0, k = 1, time = 0, nextFood = 0, last = 0, xPixels = 0, scene = null;
+    const trans = [0, 0, 0, -1];
+    const color = m => { [m.r, m.g, m.b] = COLORS[Math.trunc(rand(0, 4))]; };
+    function create() {
+      const ms = Array.from({length: 300}, () => ({x: OFF, y: 0, a: 0, scale: rand(.9, 1.1), energy: rand(.5, .8), pulse: 0, r: 0, g: 0, b: 0, vx: 0, vy: 0, phase: Math.random(), period: rand(4, 5)}));
+      const food = Array.from({length: 600}, () => ({x: OFF, y: 0, phase: Math.random()}));
+      const dead = Array.from({length: 80}, () => ({x: 0, y: OFF, a: 0, scale: 0}));
+      const deco = Array.from({length: 60}, () => { const z = Math.random(), s = 1 - .8 * z; return {x: s * W * (1 + rand(-1, 1)), y: s * H * (1 + rand(-1, 1)), z}; });
+      const ripples = Array.from({length: 15}, () => ({x: 0, y: 0, end: 0}));
+      ms.forEach(color);
+      for (const m of ms.slice(0, 30)) { m.x = rand(0, W); m.y = rand(0, H); }
+      for (const f of food.slice(0, 50)) { f.x = rand(0, W); f.y = rand(0, H); }
+      return {ms, food, dead, deco, ripples};
+    }
+    // Native.motion: a touch ring the microbes flee for half a second.
+    function ring(x, y) { const r = scene.ripples.find(item => !(item.end > time)) || scene.ripples[0]; Object.assign(r, {x, y, end: time + .5}); }
+    function step(dt) {
+      const {ms, food, dead, ripples} = scene, live = m => m.x > FREE;
+      for (const m of ms) {
+        if (!live(m)) continue;
+        // Bounds {0, H, W, 0}: a push back from a 90 px margin, then the heading with its wobble.
+        m.vx = (Math.max(0, 90 - m.x) + Math.min(0, W - 90 - m.x)) * .1;
+        m.vy = (Math.max(0, 90 - m.y) + Math.min(0, H - 90 - m.y)) * .1;
+        const p = m.phase * 30, dir = m.a + .01 * Math.cos(p + time * .3) + .03 * Math.cos(time + p);
+        m.vx += Math.cos(dir) * 20; m.vy += Math.sin(dir) * 20;
+      }
+      const repel = (a, b) => { const d = Math.hypot(b.x - a.x, b.y - a.y), f = (30 - d) * .2; a.vx -= (b.x - a.x) / d * f; a.vy -= (b.y - a.y) / d * f; };
+      for (let i = 0; i < ms.length; i++) {
+        const m = ms[i]; if (!live(m)) continue;
+        for (let j = i + 1, n = 0; j < ms.length; j++) {
+          const o = ms[j]; if (!live(o) || (m.x - o.x) ** 2 + (m.y - o.y) ** 2 >= 900) continue;
+          repel(m, o); n++; repel(o, m); if (n === 4) break;
+        }
+        for (let j = 0, n = 0; j < food.length; j++) {
+          const f = food[j]; if ((m.x - f.x) ** 2 + (m.y - f.y) ** 2 >= 6400) continue;
+          n++;
+          if (!(m.energy > 1) && f.x > FREE) {
+            const d = Math.hypot(f.x - m.x, f.y - m.y);
+            if (d < 10) { m.energy += m.energy > .25 ? .125 : .375; f.x = OFF; m.pulse = time; }
+            else { const pull = d < 20 && m.energy < .8 ? 40 : d < 40 ? 10 : 3; m.vx += (f.x - m.x) / d * pull; m.vy += (f.y - m.y) / d * pull; }
+          }
+          if (n === 4) break;
+        }
+        for (const r of ripples) {
+          if (!(r.end > time) || (m.x - r.x) ** 2 + (m.y - r.y) ** 2 >= 6400) continue;
+          const d = Math.hypot(m.x - r.x, m.y - r.y), push = (d < 20 ? 100 : d < 40 ? 40 : 20) / d;
+          m.vx += (m.x - r.x) * push; m.vy += (m.y - r.y) * push;
+        }
+      }
+      for (const m of ms) {
+        if (!live(m)) continue;
+        const speed = Math.hypot(m.vx, m.vy); if (speed > 80) { m.vx *= 80 / speed; m.vy *= 80 / speed; }
+        m.x += m.vx * dt; m.y += m.vy * dt; m.a = Math.atan2(m.vy, m.vx);
+        m.energy -= dt * .0125;
+        if (m.energy > .75) { m.energy -= dt * .025; m.scale += dt * .02; }
+        if (time - m.pulse > m.period) m.pulse = time;
+      }
+      for (const f of food) {
+        if (!live(f)) continue;
+        // The library adds the left / bottom push whole and a tenth of the right / top one.
+        const t = time + f.phase * 1000, angle = Math.sin(t * .1) + t * (f.phase - .5) + Math.sin(f.phase + t * .01);
+        f.x += (Math.max(0, 90 - f.x) + Math.min(0, W - 90 - f.x) * .1 + Math.cos(angle) * 3) * dt;
+        f.y += (Math.max(0, 90 - f.y) + Math.min(0, H - 90 - f.y) * .1 + Math.sin(angle) * 3) * dt;
+      }
+      for (const s of dead) if (s.y > -10) s.y -= dt * 10;
+      if (time > nextFood) { nextFood = time + .2; const f = food.find(item => !live(item)); if (f) { f.x = rand(0, W); f.y = rand(0, H); } }
+      for (const m of ms) {
+        if (!live(m)) continue;
+        if (m.scale >= 1.2) {
+          const child = ms.find(item => !live(item));
+          if (child) {
+            const cx = Math.cos(m.a) * 2, cy = Math.sin(m.a) * 2;
+            Object.assign(child, {x: m.x - cx, y: m.y - cy, a: m.a + Math.PI, scale: .7, energy: rand(.5, .8), r: m.r, g: m.g, b: m.b});
+            m.scale = .7; m.x += cx; m.y += cy;
+          } else m.scale = 1.2;
+        }
+        if (m.energy < 0) {
+          const s = dead.find(item => !(item.y > -10)) || dead[0];
+          Object.assign(s, {x: m.x, y: m.y, a: m.a, scale: m.scale}); m.x = OFF;
+        }
+      }
+      const pick = Math.floor(rand(0, 3000));
+      if (pick < 300) {
+        const m = ms[pick], cx = m.x * trans[0] + trans[2], cy = m.y * trans[1] + trans[3];
+        if (cx < -1 || cx > 1 || cy < -1 || cy > 1) color(m);
+      }
+    }
+    function drawLayer(L, fill) {
+      fill(L.data);
+      gl.useProgram(L.prog);
+      gl.uniform4f(L.trans, ...trans); gl.uniform1f(L.time, time); gl.uniform1f(L.px, k);
+      gl.bindBuffer(gl.ARRAY_BUFFER, L.buf); gl.bufferData(gl.ARRAY_BUFFER, L.data, gl.DYNAMIC_DRAW);
+      for (const [loc, size, at] of L.attrs) { gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, size, gl.FLOAT, false, L.stride * 4, at * 4); }
+      gl.drawArrays(gl.POINTS, 0, L.count);
+      for (const [loc] of L.attrs) gl.disableVertexAttribArray(loc);
+    }
+    return {
+      interval: 16,
+      resize(cw, ch) {
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        k = canvas.width / DEVICE_WIDTH; DH = ch / (cw / DEVICE_WIDTH);
+        W = DEVICE_WIDTH * 2; H = DH;
+        if (!scene) scene = create();
+      },
+      draw(offset) {
+        const now = performance.now(), dt = last ? Math.min((now - last) / 1000, .1) : 0; last = now;
+        xPixels = -offset * (W - DEVICE_WIDTH);
+        trans[0] = 2 / DEVICE_WIDTH; trans[1] = 2 / DH; trans[2] = 2 * xPixels / DEVICE_WIDTH - 1;
+        time += dt; step(dt);
+        gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+        drawLayer(decoLayer, d => scene.deco.forEach((s, i) => d.set([s.x, s.y, s.z], i * 3)));
+        drawLayer(deadLayer, d => scene.dead.forEach((s, i) => d.set([s.x, s.y, s.a, s.scale], i * 4)));
+        drawLayer(foodLayer, d => scene.food.forEach((f, i) => d.set([f.x, f.y, f.phase], i * 3)));
+        drawLayer(microbeLayer, d => scene.ms.forEach((m, i) => d.set([m.x, m.y, m.a, m.scale, m.energy, m.pulse, m.r, m.g, m.b], i * 9)));
+      },
+      // A tap: Native.motion on the way down, then Native.touch (it stayed within 30 px): five specks within 35 px.
+      tap(x, y, offset) {
+        if (!scene) return;
+        const kc = canvas.clientWidth / DEVICE_WIDTH || 1, wx = x / kc + offset * (W - DEVICE_WIDTH), wy = DH - y / kc;
+        ring(wx, wy);
+        for (let i = 0; i < 5; i++) { const f = scene.food.find(item => !(item.x > FREE)) || scene.food[0]; f.x = wx + rand(-1, 1) * 35; f.y = wy + rand(-1, 1) * 35; }
+        ring(wx, wy);
+      }
+    };
+  }
+
   /* ---------- Registry, in the order LiveWallpaperListAdapter sorts the labels ---------- */
   // gb: the 2.3.6 label and description keys (gb-strings-wallpapers.js; the visualisation labels come from cube.xml).
   const LIST = [
     {id: 'galaxy', label: 'Galaxy', gb: ['wallpaper_galaxy', 'wallpaper_galaxy_desc'], thumb: 'lw-galaxy_thumb.jpg', make: (c, a, o) => galaxy(c, a, o.preview), gl: true},
     {id: 'grass', label: 'Grass', gb: ['wallpaper_grass', 'wallpaper_grass_desc'], thumb: 'lw-grass_thumb.jpg', make: (c, a, o) => grass(c.getContext('2d'), a, o.preview)},
     {id: 'magicsmoke', label: 'Magic Smoke', gb: ['wallpaper_magicsmoke', 'magicsmoke_desc'], thumb: 'lw-magicsmoke_thumb.png', settings: true, make: (c, a, o) => magicSmoke(c, a, o.prefs), gl: true},
+    {id: 'microbes', label: 'Microbes', gb: ['wallpaper_microbes', 'wallpaper_microbes_desc'], thumb: 'lw-microbes_thumb.png', make: c => microbes(c), gl: true},
     {id: 'nexus', label: 'Nexus', gb: ['wallpaper_nexus', 'wallpaper_nexus_desc'], thumb: 'lw-nexus_thumb.png?v=2', make: (c, a) => nexus(c.getContext('2d'), a)},
     {id: 'polar', label: 'Polar clock', gb: ['wallpaper_clock', 'wallpaper_clock_desc'], thumb: 'lw-polarclock_thumb.jpg', settings: true, make: (c, a, o) => polarClock(c.getContext('2d'), a, o.prefs)},
     {id: 'water', label: 'Water', gb: ['wallpaper_fall', 'wallpaper_fall_desc'], thumb: 'lw-water_thumb.jpg', make: (c, a) => water(c, a), gl: true},

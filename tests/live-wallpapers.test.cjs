@@ -2,8 +2,11 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const context={window:{devicePixelRatio:1},Intl,performance,document:{},Image:class{},requestAnimationFrame:()=>0,cancelAnimationFrame:()=>{}};
 vm.runInNewContext(fs.readFileSync('versions/4.3/live-wallpapers.js','utf8'),context);
 const lw=context.window.LiveWallpapers,plain=v=>JSON.parse(JSON.stringify(v));
-// The two copies differ only in Phase Beam's label: IMM76I's PhaseBeam.apk has no translations (raw), JWR66Y's has.
-assert.equal(fs.readFileSync('versions/4.0.4/live-wallpapers.js','utf8').replaceAll(', gl: true, raw: true}',', gl: true}'),fs.readFileSync('versions/4.3/live-wallpapers.js','utf8'),'both versions share the file');
+// The two copies differ in Phase Beam's label (IMM76I's PhaseBeam.apk has no translations: raw, JWR66Y's has) and in
+// Microbes, which only the Galaxy Nexus image ships.
+const lf=f=>fs.readFileSync(f,'utf8').replace(/\r\n/g,'\n'),ics=lf('versions/4.0.4/live-wallpapers.js'),microbes=/\n  \/\* ---------- Microbes [\s\S]*?\n  }\n(?=\n  \/\* ---------- Registry)/;
+assert.ok(microbes.test(ics),'Microbes scene in 4.0.4');
+assert.equal(ics.replace(microbes,'').replace(/    \{id: 'microbes'.*\n/,'').replaceAll(', gl: true, raw: true}',', gl: true}'),lf('versions/4.3/live-wallpapers.js'),'both versions share the rest of the file');
 // packages/wallpapers/Basic services, sorted by label as LiveWallpaperListAdapter does with a Collator.
 assert.deepEqual(plain(lw.sorted(k=>k,'en').map(s=>s.label)),['Bubbles','Galaxy','Grass','Holo Spiral','Many','Nexus','Phase Beam','Polar clock','Spectrum','VU meter','Water','Waveform']);
 // Phase Beam, the Galaxy Nexus and Nexus 4 default (default_wallpaper_component), with its image's mesh and textures.
@@ -29,3 +32,13 @@ const [nx]=apply(P,[1,0,0]),[,ny]=apply(P,[0,1280/720,0]);
 assert.ok(Math.abs(nx-1)<1e-6&&Math.abs(ny-1)<1e-6,`normalized projection ${nx} ${ny}`);
 for(const v of ['4.0.4','4.3'])for(const f of ['lw-pyramid_background.png','lw-pulse.png','lw-glow.png','lw-space.jpg','lw-flares.png','lw-light1.jpg','lw-pond.jpg','lw-leaves.png','lw-night.jpg','lw-sky.jpg','lw-sunrise.jpg','lw-sunset.jpg','lw-galaxy_thumb.jpg','lw-polarclock_thumb.jpg','lw-vis-fire.png','lw-vis-ice.png','lw-vis-needle.png','lw-vis-albumart.png','lw-vis5.png'])assert.ok(fs.existsSync(`versions/${v}/assets/${f}`),`${v} ${f}`);
 console.log('Live wallpaper checks passed: list order per locale, settings, palettes, projection and assets.');
+// Microbes: only the Nexus S and Galaxy Nexus images ship Google's Microbes.apk; the four shaders come from libmicrobes_jni.so.
+for(const v of ['2.3.6','4.0.4']){
+  const c={window:{devicePixelRatio:1},Intl,performance,document:{},Image:class{},requestAnimationFrame:()=>0,cancelAnimationFrame:()=>{}};
+  vm.runInNewContext(fs.readFileSync(`versions/${v}/live-wallpapers.js`,'utf8'),c);
+  assert.ok(c.window.LiveWallpapers.find('microbes'),v);assert.ok(fs.existsSync(`versions/${v}/assets/lw-microbes_thumb.png`),v);
+  const src=fs.readFileSync(`versions/${v}/live-wallpapers.js`,'utf8');
+  for(const s of ['vWidthScale=1./mix(.5,.9,energy)','pow(2.81,-pow(h*2.,2.))','vWidthScale=7./energy','mix(.03,.08,pos.z)'])assert.ok(src.includes(s),v+s);
+}
+assert.ok(!lw.find('microbes'),'the Nexus 4 image has no Microbes');
+console.log('Microbes checks passed: registered on 2.3.6 and 4.0.4 with the library shaders.');

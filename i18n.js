@@ -1174,6 +1174,7 @@
     ['Phase Beam','Elmosódott cseppek','Phase Beam','Phase Beam','Phase Beam'],
     ['Holo Spiral','Holografikus spirál','Holo Spiral','Holo Spiral','Espiral de galaxia'],
     ['Bubbles','Buborékok','Blasen','Bulles','Burbujas'],
+    ['Microbes','Mikrobák','Mikroben','Microbes','Microbios'],
     ['BACK CAMERA','HÁTLAPI KAMERA','RÜCKKAMERA','CAMÉRA ARRIÈRE','CÁMARA TRASERA'],
     ['LOCATION','HELY','STANDORT','POSITION','UBICACIÓN'],
     ['COUNTDOWN TIMER','VISSZASZÁMLÁLÁS','COUNTDOWN-TIMER','COMPTE À REBOURS','TEMPORIZADOR'],

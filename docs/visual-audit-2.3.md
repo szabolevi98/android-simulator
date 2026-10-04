@@ -731,3 +731,16 @@ The ringtone, notification and alarm pickers used to list the AOSP `OriginalAudi
 The defaults come from `build.prop`: Sceptrum, Castor, and Alarm_Classic ("Ringing Alarm"). `build.prop` also has a later `ro.config.notification_sound=OnTheHunt.ogg` line, but it cannot override a read-only property that is already set, and the image has no such file.
 
 A saved sound that the image does not have shows as the default.
+
+## Microbes live wallpaper — 2026-10-04
+
+The Nexus S image ships Google's Microbes wallpaper (Microbes.apk 2.3.6, odexed, with the native `/system/lib/libmicrobes_jni.so`). The Java side was read from the odex: taps go to `Native.motion` on the way down and `Native.touch` on release (if the finger stayed within 30 px), the scroll goes to `Native.setScrollInfo(desiredWidth, desiredHeight, width, height, xPixels)`, and `step(min(frame time, .1 s))` runs every frame.
+
+The four GLSL programs (microbe, food, dead shell, background blob) are plain strings in the library. The simulation comes from its ARM code (disassembled with Capstone):
+- the counts: 300 microbes, 600 food specks, 80 shells, 60 blobs, 15 touch rings;
+- the 30 microbes and 50 food specks at start;
+- wander, margin push, neighbour repulsion, feeding, fleeing a touch, the speed cap, energy, growth, division, death and sinking shells;
+- food every 0.2 s, and the colour change off screen;
+- drawing with additive blending on black.
+
+The Galaxy Nexus copy (4.0.4) has the same shaders and constants. The world is Launcher2's desired wallpaper size: twice the screen width by the screen height. The picker shows the image's untranslated "Microbes" and "Life under the microscope.". The thumbnail is our own capture, not Google's JPEG.

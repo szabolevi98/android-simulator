@@ -189,6 +189,9 @@ live_wallpaper_loading wallpaper_grass wallpaper_grass_desc wallpaper_galaxy wal
 wallpaper_clock_desc wallpaper_nexus wallpaper_nexus_desc clock_settings show_seconds variable_line_width palette palette_gray palette_violet
 palette_matrix palette_white_c palette_black_c palette_halloween palette_zenburn palette_oceanic author wallpaper_vis2 wallpaper_vis3 wallpaper_vis4
 wallpaper_vis5 vis2_desc vis3_desc vis4_desc vis5_desc wallpaper_magicsmoke magicsmoke_desc taptochange ok'''.split(),
+        # Google's Microbes.apk on the Nexus S image (not in AOSP), untranslated there: the same text in every language.
+        'image': {key: dict.fromkeys(['en', 'hu', 'de', 'fr', 'es'], text) for key, text in
+                  [('wallpaper_microbes', 'Microbes'), ('wallpaper_microbes_desc', 'Life under the microscope.')]},
     },
     'calendar': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],

@@ -288,6 +288,20 @@ window.GBStrings["wallpapers"] = {
 "de": "OK",
 "fr": "OK",
 "es": "Aceptar"
+},
+"wallpaper_microbes": {
+"en": "Microbes",
+"hu": "Microbes",
+"de": "Microbes",
+"fr": "Microbes",
+"es": "Microbes"
+},
+"wallpaper_microbes_desc": {
+"en": "Life under the microscope.",
+"hu": "Life under the microscope.",
+"de": "Life under the microscope.",
+"fr": "Life under the microscope.",
+"es": "Life under the microscope."
 }
 }
 };
