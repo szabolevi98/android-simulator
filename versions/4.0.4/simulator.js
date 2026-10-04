@@ -7,7 +7,8 @@
   const defaultData = {
     // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
     clings: LauncherClings.fresh(),
-    wallpaper: 0,
+    // The framework's default_wallpaper is Chroma; Launcher2's wallpapers array lists the set alphabetically (IMM76I).
+    wallpaper: 3, wallpaperRevision: 1,
     // config default_wallpaper_component: com.android.phasebeam/.PhaseBeamWallpaper (IMM76I and JWR66Y frameworks).
     liveWallpaper: { id: 'phasebeam' },
     layoutRevision: 2,
@@ -79,6 +80,12 @@
       // A reload during Gallery widget configuration leaves no completed choice.
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
       if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      // Saved choices from the Chroma-first list follow their picture into the image's order once.
+      if (!saved.wallpaperRevision) {
+        const old = ['chroma','architecture','bubblegum','canyon','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
+        if (typeof result.wallpaper === 'number' && result.wallpaper < old.length) result.wallpaper = ['architecture','bubblegum','canyon','chroma','escape','fidelity','flora','kepler','leaf','noir','outofthebox'].indexOf(old[result.wallpaper]);
+        result.wallpaperRevision = 1;
+      }
       return result;
     } catch { return clone(defaultData); }
   }
@@ -123,7 +130,7 @@
     { name: 'Home Network', security: 'WPA2', strength: 4 },
     { name: 'Library Wi-Fi', security: 'Open', strength: 2 }
   ];
-  const wallpaperFiles = ['chroma','architecture','bubblegum','canyon','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
+  const wallpaperFiles = ['architecture','bubblegum','canyon','chroma','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
   const widgetTypes = [
     { type: 'analog', name: 'Analog clock', app: 'clock', width: 2, height: 2 },
     { type: 'calendar', name: 'Calendar', app: 'calendar', width: 2, height: 3 },
