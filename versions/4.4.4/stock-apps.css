@@ -31,17 +31,10 @@
 /* Maps */
 .sa-maps{background:#ece8df}
 .sa-map{position:absolute;inset:0;width:100%;height:100%}
-.sa-maps-search{position:absolute;left:7.25px;right:7.25px;top:calc(var(--sb) + 7.25px);display:flex;align-items:center;height:43.49px;padding-left:9px;background:#fff;box-shadow:0 1px 3px #0000004d;z-index:2}
-.sa-maps-search img{width:25.37px;height:25.37px}
-.sa-maps-search input{flex:1;min-width:0;height:100%;padding:0 9px;border:0;background:none;font:400 16.31px RobotoICS,sans-serif;color:#222;outline:none}
-.sa-maps-search .sa-btn{color:#4285f4!important}
-.sa-maps-locate{position:absolute;right:12px;bottom:calc(var(--nb) + 14px);width:43.49px;height:43.49px;border:0;border-radius:2px;background:#fffffff0;box-shadow:0 1px 3px #0000004d;color:#666!important;display:grid;place-items:center;z-index:2}
-.sa-maps-locate svg{width:22px;height:22px}
 .sa-maps-card{position:absolute;left:0;right:0;bottom:var(--nb);display:flex;flex-direction:column;padding:12px 60px 12px 14px;background:#fff;box-shadow:0 -1px 4px #0003;z-index:3}
 .sa-maps-card b{font:400 18.12px RobotoICS,sans-serif}
 .sa-maps-card small{color:#777}
 .sa-maps-card .sa-btn{position:absolute;right:8px;top:8px;color:#4285f4!important}
-.sa-maps:has(.sa-maps-card) .sa-maps-locate{bottom:calc(var(--nb) + 80px)}
 /* Drive */
 .sa-files{background:#fff}
 .sa-file{display:flex;align-items:center;gap:14px;width:100%;min-height:57.98px;padding:0 14.5px;border:0;border-bottom:.906px solid #eee;background:none;text-align:left;color:#333!important}
@@ -199,3 +192,34 @@
 .screen .vs-mic{position:absolute;right:7.25px;top:0;width:61.61px;height:61.61px;padding:3.62px;border:0;background:none;cursor:pointer}
 .vs-mic img{width:100%;height:100%;display:block}
 .vs-speech p{position:absolute;left:28.99px;right:28.99px;bottom:28.99px;margin:0;font:300 18.12px/1.3 'Roboto Light',Roboto,sans-serif;color:#777}
+
+/* Maps 7.5 (audit step 4): base_main_internal.xml at the Nexus 5 scale (xhdpi drawables x.453). The omnibox 9-patch's
+   padding holds its edge and shadow, so it sits 10 dp from the sides and top; the button 9-patch is the my-location button's 52 dp backing. */
+.sa-maps7 .mp7-map{position:absolute;inset:0;overflow:hidden}
+.mp7-omnibox{position:absolute;left:9.06px;right:9.06px;top:9.06px;display:flex;align-items:center;height:65.23px;box-sizing:border-box;border-style:solid;border-width:11.78px 12.23px 13.59px 13.14px;border-image:url('assets/mp7-omnibox.png') 26 27 30 29 fill/11.78px 12.23px 13.59px 13.14px}
+.mp7-omnibox input{flex:1;min-width:0;height:100%;padding:0 9.06px;border:0;background:none;font:300 15.4px 'Roboto Light',Roboto,sans-serif;color:#222;outline:none}
+.mp7-omnibox i{width:.91px;height:21.74px;background:#dedede}
+.screen .mp7-omnibox button{height:100%;padding:0 13.59px;border:0;background:none}
+.mp7-omnibox button img{width:21.74px;height:21.74px;display:block}
+.mp7-watermark{position:absolute;left:8.15px;bottom:8.15px;width:50.74px;height:19.03px}
+.screen .mp7-locate{position:absolute;right:0;bottom:0;width:47.11px;height:47.11px;padding:0;border:0;background:url('assets/mp7-button.png') center/100% 100% no-repeat;display:grid;place-items:center}
+.mp7-locate img{width:28.99px;height:28.99px}
+.screen .mp7-tab{position:absolute;right:0;bottom:54.36px;padding:0;border:0;background:none}
+.mp7-tab img{width:19.03px;height:47.11px;display:block}
+.screen .mp7-scrim{position:absolute;inset:0;border:0;background:transparent}
+.mp7-panel{position:absolute;right:0;top:0;bottom:0;width:min(271.8px,100%);overflow-y:auto;background:url('assets/mp7-layers_background.png') 0 0/36.24px 54.36px repeat;color:#dedede}
+.mp7-spacer{display:block;height:8.15px}
+.screen .mp7-panel button{display:flex;align-items:center;width:calc(100% - 27.18px);margin:0 13.59px;border:0;background:none;text-align:left;color:#dedede;cursor:pointer}
+.screen .mp7-panel .mp7-layer{height:40.77px;margin-bottom:7.25px;gap:7.25px;font:400 14.5px Roboto,sans-serif}
+.screen .mp7-panel .mp7-layer.on{border-style:solid;border-width:8.61px 8.15px 7.7px;border-image:url('assets/mp7-layers_selected_background.png') 19 18 17 fill/8.61px 8.15px 7.7px;padding:0;color:#fff;margin-left:5.44px;width:calc(100% - 19.03px);box-sizing:border-box}
+.mp7-layer img{width:24.46px;height:24.46px}
+.mp7-layer .mp7-shortcut{margin-left:13.59px}
+.screen .mp7-panel .mp7-earth{margin-bottom:8.15px}
+.mp7-panel hr{height:.68px;margin:0 13.59px;border:0;border-top:.68px solid #000;border-bottom:.68px solid #66696c}
+.screen .mp7-panel .mp7-menu{height:50.74px;padding-left:13.59px;font:700 16.31px Roboto,sans-serif}
+.screen .mp7-panel button:active{color:#fff}
+.mp7-map.layer-traffic .sa-map g[stroke="#fff"]{stroke:#4caf50}
+.mp7-map.layer-transit .sa-map g[stroke="#fff"]{stroke:#7e57c2;stroke-dasharray:10 6}
+.mp7-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}
+.mp7-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
+.sa-maps7 .sa-maps-card{z-index:1}

@@ -171,6 +171,20 @@
    "Tap to speak": "Velvet:ime_hint_tap_to_speak",
    "Speak now": "Velvet:speak_now",
    "Didn't catch that. Try speaking again.": "Velvet:no_match"
+  },
+  "maps": {
+   "Search": "Maps:SEARCH",
+   "Directions": "Maps:NAVIGATION",
+   "Traffic": "Maps:LAYER_TRAFFIC",
+   "Public transit": "Maps:LAYER_PUBLIC_TRANSIT",
+   "Bicycling": "Maps:LAYER_BICYCLING",
+   "Satellite": "Maps:LAYER_SATELLITE",
+   "Google Earth": "Maps:LAYER_GOOGLE_EARTH",
+   "Settings": "Maps:SETTINGS",
+   "Help": "Maps:HELP",
+   "Send feedback": "Maps:SEND_FEEDBACK",
+   "Move to my location": "Maps:ACCESSIBILITY_MOVE_TO_MY_LOCATION",
+   "Menu": "Maps:ACCESSIBILITY_MENU"
   }
  }
 }

@@ -19,4 +19,7 @@ for(const part of ['vn3-context_header_bg_daylight.jpg','vn3-ic_google_small_dar
 assert.ok(!now.includes('gnow-tip')&&gel.includes("vn3-search_bg.png")&&gel.includes("vn3-card_background.png")&&gel.includes('.gnow-page{--gn-top:var(--sb)'));
 // Voice Search: the search plate's voice mode with Velvet 3.3's recognizer and texts.
 assert.ok(A.render('voice-search',ctx()).includes('vn3-vs_micbtn_rec.png')&&A.render('voice-search',ctx({voiceState:'retry'},'hu')).includes('Nem sikerült értelmezni. Mondja ki újra.'));
+// Maps 7.5: the omnibox, the side tab and the layers menu from the right with the APK's toggles and buttons.
+const mp=A.render('maps',ctx({mapsPanel:true},'de'),);assert.ok(mp.includes('mp7-omnibox')&&mp.includes('mp7-views_entry_point_flipped.png')&&mp.includes('mp7-ic_location.png')&&mp.includes('Google Earth'));
+assert.ok(!A.render('maps',ctx()).includes('mp7-panel')&&A.render('maps',{...ctx({mapsPanel:true}),data:{mapsLayer:'traffic'}}).includes('mp7-ic_layers_traffic_selected.png'));
 console.log('kk stock google ok');

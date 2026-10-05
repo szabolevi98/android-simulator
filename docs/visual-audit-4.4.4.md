@@ -23,3 +23,7 @@
   - The screen was a centred red circle on white. It is now the search plate's voice mode: the #eeeeee shield, a `search_bg` panel 260 dp tall with `ic_google_medium_dark`, the 68 dp mic 8 dp from the right, and "Speak now" in 20 sp sans-serif-light.
   - The mic shows `vs_micbtn_rec` while listening and `vs_micbtn_on` after a timeout, with Velvet's `no_match` text.
   - `SoundLevels` (#dbdbdb, 34 to 100 dp, a 1 dp guide) is drawn in CSS, as the APK draws it in code.
+- **Maps 7.5.0:**
+  - `base_main_internal.xml`: the floating omnibox (`omnibox.9`, 44 dp, 10 dp in) with "Search" in 17 sp sans-serif-light and the directions button after a #dedede divider; the "Google" watermark at the bottom left; the my-location button (`ic_location` on the `button` 9-patch) at the bottom right; the side tab `views_entry_point_flipped` on the right edge.
+  - The tab opens `layers_menu_content.xml` from the right (`LayersContent`: gravity right, 300 dp, `layers_background` tiled): the Traffic, Public transit, Bicycling and Satellite toggles (selected: `layers_selected_background` and the `_selected` icon), Google Earth (opens Earth), then Settings, Help and Send feedback.
+  - Placement is set in code. The tab's height on the right edge is my choice; one July 2013 report (MobileSyrup) puts the menu at the bottom left, but 7.5's resources (gravity right, the flipped tab) open it from the right.

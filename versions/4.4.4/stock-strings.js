@@ -279,5 +279,79 @@ window.StockStrings = {
    "Je n'ai pas compris. Veuillez répéter.",
    "No lo he entendido. Prueba a decirlo otra vez."
   ]
+ },
+ "maps": {
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Directions": [
+   "Útvonalterv",
+   "Route",
+   "Itinéraire",
+   "Indicaciones"
+  ],
+  "Traffic": [
+   "Forgalom",
+   "Verkehrslage",
+   "Trafic",
+   "Tráfico"
+  ],
+  "Public transit": [
+   "Tömegközlekedés",
+   "Öffentliche Verkehrsmittel",
+   "Transports en commun",
+   "Transporte público"
+  ],
+  "Bicycling": [
+   "Kerékpárral",
+   "Fahrrad",
+   "Vélo",
+   "Rutas en bicicleta"
+  ],
+  "Satellite": [
+   "Műhold",
+   "Satellit",
+   "Satellite",
+   "Satélite"
+  ],
+  "Google Earth": [
+   "Google Earth",
+   "Google Earth",
+   "Google Earth",
+   "Google Earth"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Configuración"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer des commentaires",
+   "Enviar comentarios"
+  ],
+  "Move to my location": [
+   "Ugrás a saját pozíciómra",
+   "Zu meinem Standort wechseln",
+   "Centrer sur ma position",
+   "Mover a mi ubicación"
+  ],
+  "Menu": [
+   "Menü",
+   "Menü",
+   "Menu",
+   "Menú"
+  ]
  }
 };
