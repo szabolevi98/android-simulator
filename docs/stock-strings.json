@@ -259,6 +259,17 @@
    "Earlier this Week": "Drive:time_range_this_week",
    "Earlier this Month": "Drive:time_range_this_month",
    "Older": "Drive:time_range_older"
+  },
+  "gplus": {
+   "Home": "PlusOne:home_stream_label",
+   "Photo": "PlusOne:compose_photo",
+   "Location": "PlusOne:compose_location",
+   "Write": "PlusOne:compose_post",
+   "Refresh": "PlusOne:menu_refresh",
+   "Send feedback": "PlusOne:home_menu_feedback",
+   "Settings": "PlusOne:home_menu_settings",
+   "Help": "PlusOne:menu_home_help",
+   "Sign out": "PlusOne:menu_home_sign_out"
   }
  }
 }

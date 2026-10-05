@@ -42,3 +42,7 @@
   - `menu_doclist_activity.xml` under ActionMenuPresenter's three slots: Search and View as Grid in the bar; Add new, Refresh, Filter by, Sort by, Settings and Product Tour in the overflow.
   - The navigation panel (`navigation_sliding_panel.xml`, #eeeeee) lists the account, then the `iM` enum's entries in the dex: My Drive, Shared with me, Starred, Recent, Offline, Uploads.
   - Files are `doc_entry_row.xml` rows (60 dp, the `ic_type_*` icon on #f0f0f0, "Modified: …", the info button) under Drive's own time range titles (Today, Yesterday, Earlier this Week, Earlier this Month, Older).
+- **Google+ 4.2.3:**
+  - `host_action_bar.xml` has the bell notifications button (`ic_notifications_20` with the #dd4b39 count badge) instead of 4.0's count box.
+  - The overflow holds only what the dex enables on the stream: Refresh (the stream fragments), Send feedback, Settings, Help and Sign out (the host).
+  - `compose_bar.xml` shows Photo, Location and Write; Hangout and Mood start hidden.

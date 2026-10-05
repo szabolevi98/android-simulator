@@ -768,5 +768,61 @@ window.StockStrings = {
    "Plus anciens",
    "Más antiguos"
   ]
+ },
+ "gplus": {
+  "Home": [
+   "Kezdőlap",
+   "Übersicht",
+   "Accueil",
+   "Inicio"
+  ],
+  "Photo": [
+   "Fotó",
+   "Foto",
+   "Photo",
+   "Foto"
+  ],
+  "Location": [
+   "Hely",
+   "Standort",
+   "Position",
+   "Ubicación"
+  ],
+  "Write": [
+   "Írás",
+   "Schreiben",
+   "Rédiger",
+   "Escribir"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer un commentaire",
+   "Danos tu opinión"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Sign out": [
+   "Kijelentkezés",
+   "Abmelden",
+   "Déconnexion",
+   "Cerrar sesión"
+  ]
  }
 };

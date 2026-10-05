@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépésben vagyok: minden 4.3-as StockApps kész; 4.4.4-en News & Weather, Earth, Google Settings, Google Now, Voice Search, Maps, Keep, YouTube és Drive kész, következik a 4.4.4 Google+, aztán az 5.1.1 StockApps.
+**Állapot:** a 4. lépésben vagyok: a 4.3-as és a 4.4.4-es StockApps kész; következik az 5.1.1 StockApps (Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings).
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -32,7 +32,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 
 - [ ] A StockApps, Play- és extra appok megmaradt „‹” vissza-jeleinek cseréje (az 1. lépésből ide került)
 - [x] `stock-apps.js` – 4.3 (JWR66Y): Google/Now, Voice Search, Maps 6.14, Keep 1.0, YouTube 4.5, Google+ 4.0, Earth, News & Weather, Google Settings (71d403f)
-- [ ] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival
+- [x] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival (ez a commit)
 - [ ] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings
 - [ ] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games
 - [ ] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games
@@ -127,3 +127,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.4.4 Keep 2.0 (fiók, átfedő sáv, menük) | 1e5d0d2 |
 | 2026-10-05 | 4. lépés: 4.4.4 YouTube 5.2 (logós sáv, Guide a dex sorrendjében, kártyák, nézőoldal) | a831eae |
 | 2026-10-05 | 4. lépés: 4.4.4 Drive 1.2 (sáv, menü, navigációs panel, dokumentumsorok időcsoportokkal) | 392811a |
+| 2026-10-05 | 4. lépés: 4.4.4 Google+ 4.2 (csengő, menü a dex szerint, compose sáv) – a 4.4.4 StockApps kész | (ez a commit) |

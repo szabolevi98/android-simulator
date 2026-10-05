@@ -34,4 +34,7 @@ const watch=A.render('youtube',ctx({sub:'video',ytVideo:'v2'}));assert.ok(watch.
 const dr=A.render('drive',ctx({driveNav:true}));assert.ok(dr.includes('dr-ic_drawer.png')&&dr.includes('dr-ic_grid_toggle.png')&&dr.includes('Today')&&dr.includes('Modified: '));
 assert.ok(/My Drive.*Shared with me.*Starred.*Recent.*Offline.*Uploads/s.test(dr.slice(dr.indexOf('dr-nav'))));
 assert.equal(JSON.stringify(A.menu('drive',ctx()).map(i=>i.title)),JSON.stringify(['Add new','Refresh','Filter by','Sort by','Settings','Product Tour']));
+// Google+ 4.2: the bell button, the visible compose buttons and the menu items the dex enables for the stream.
+const gp=A.render('google-plus',ctx());assert.ok(gp.includes('gp42-ic_notifications_20.png')&&gp.includes('Location')&&!gp.includes('Mood')&&!gp.includes('Check in'));
+assert.equal(JSON.stringify(A.menu('google-plus',ctx()).map(i=>i.title)),JSON.stringify(['Refresh','Send feedback','Settings','Help','Sign out']));
 console.log('kk stock google ok');

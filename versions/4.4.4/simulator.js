@@ -1798,6 +1798,7 @@
       case 'earth-search-open': ui.earthSearching = true; render(); viewport.querySelector('.sa-earth-field input')?.focus(); break;
       case 'earth-search-close': ui.earthSearching = false; render(); break;
       case 'earth-clear': ui.overlay = ''; renderOverlay(); ui.earthQuery = ''; render(); break;
+      case 'gplus-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'sa-menu': ui.overlay = 'sa-menu'; renderOverlay(); break;
       case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       // Play Music, Movies & TV, Books and Games

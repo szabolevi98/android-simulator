@@ -302,3 +302,20 @@
 .screen .dr-nav button{display:flex;align-items:center;width:calc(100% - 21.74px);height:44.39px;margin-left:21.74px;padding:0;border:0;border-top:.91px solid #c6c6c6;box-shadow:inset 0 .91px #fff;background:none;font:400 14.5px Roboto,sans-serif;color:#333;text-align:left;cursor:pointer}
 .dr-nav button img{width:19.93px;height:19.93px;margin:0 14.5px 0 14.5px}
 .screen .dr-nav button.on{background:#0000000f}
+
+/* Google+ 4.2 (4.0's bar and compose bar, KitKat scale) (audit step 4): the light host action bar with ic_gplus_red_32, the notification count (36 dp, #dd4b39,
+   1 dp #dddddd border, 3 sp corners, 18 sp bold white), compose_bar.xml (11 sp bold labels under 30 dp icons on black,
+   a 1 dp #393939 divider above). */
+.sa-gplus .sa-bar{background:#f2f2f2}
+.screen .sa-gp-notify{flex:none;display:flex;align-items:center;justify-content:center;width:50.74px;height:100%;padding:0;border:0;background:none}
+.sa-gp-notify b{display:flex;align-items:center;justify-content:center;width:32.62px;height:32.62px;border:.9px solid #ddd;border-radius:2.71px;background:#dd4b39;color:#fff;font:700 16.31px Roboto,sans-serif}
+.sa-gplus{display:flex;flex-direction:column}
+.sa-gp-compose{flex:none;display:flex;background:#000;border-top:.9px solid #393939}
+.screen .sa-gp-compose button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1.81px;padding:5.44px 0 4.53px;border:0;background:none;font:700 9.97px Roboto,sans-serif;text-transform:uppercase;cursor:pointer}
+.sa-gp-compose img{width:27.18px;height:27.18px}
+.screen .sa-gp-compose button:active{background:#33b5e566}
+.sa-post footer button img{width:14.5px;height:14.5px}
+/* Google+ 4.2's bell: 56 dp, the 20 dp icon in 32 dp, the 18 dp count badge at its top right. */
+.screen .sa-gp-bell{position:relative;flex:none;display:grid;place-items:center;width:50.74px;height:100%;padding:0;border:0;background:none}
+.sa-gp-bell img{width:18.12px;height:18.12px;padding:3.62px;box-sizing:content-box}
+.sa-gp-bell b{position:absolute;left:28.99px;top:7.25px;min-width:16.31px;height:16.31px;padding:0 2.72px;box-sizing:border-box;border:.91px solid #ddd;border-radius:2.72px;background:#dd4b39;font:400 9.97px/14.5px Roboto,sans-serif;color:#fff;text-align:center}
