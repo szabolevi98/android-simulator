@@ -708,5 +708,122 @@ window.StockStrings = {
    "Achats",
    "Compras"
   ]
+ },
+ "movies": {
+  "Google Play": [
+   "Google Play",
+   "Google Play",
+   "Google Play",
+   "Google Play"
+  ],
+  "Movies": [
+   "Filmek",
+   "Filme",
+   "Films",
+   "Películas"
+  ],
+  "TV shows": [
+   "tévéműsorok",
+   "TV-Shows",
+   "Émissions TV",
+   "Series de TV"
+  ],
+  "Personal videos": [
+   "Személyes videók",
+   "Persönliche Videos",
+   "Vidéos personnelles",
+   "Vídeos personales"
+  ],
+  "My movies": [
+   "Saját filmek",
+   "Meine Filme",
+   "Mes films",
+   "Mis películas"
+  ],
+  "My shows": [
+   "Saját műsorok",
+   "Meine Sendungen",
+   "Mes émissions",
+   "Mis programas"
+  ],
+  "Suggestions": [
+   "Javaslatok",
+   "Vorschläge",
+   "Suggestions",
+   "Sugerencias"
+  ],
+  "See more from Google Play": [
+   "Továbbiak a Google Playen",
+   "Mehr von Google Play",
+   "Plus de locations Google Play",
+   "Más en Google Play"
+  ],
+  "%1$s mins.": [
+   "%1$s perc",
+   "%1$s Min.",
+   "%1$s min",
+   "%1$s minutos"
+  ],
+  "Season %1$s": [
+   "%1$s. évad",
+   "Staffel %1$s",
+   "Saison %1$s",
+   "Temporada %1$s"
+  ],
+  "NO VIDEOS FOUND": [
+   "NINCS VIDEÓ\n\n.USB-kábellel másolhatsz videókat.",
+   "Keine Videos gefunden\n\nÜber ein USB-Kabel können Sie Videos von Ihrem Computer kopieren.",
+   "AUCUNE VIDÉO.\n\nCopiez des vidéos depuis votre ordinateur avec un câble USB.",
+   "NO SE HAN ENCONTRADO VÍDEOS.\n\nPuedes copiar vídeos de tu ordenador por USB.",
+   "NO VIDEOS FOUND\n\nYou can copy videos from your computer using a USB cable."
+  ],
+  "Shop": [
+   "Vásárlás",
+   "Einkaufen",
+   "Play Store",
+   "Comprar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Contact us": [
+   "Kapcsolatfelvétel",
+   "Kontakt",
+   "Nous contacter",
+   "Contacto"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer des commentaires",
+   "Danos tu opinión"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Accounts": [
+   "Fiókok",
+   "Accounts",
+   "Comptes",
+   "Cuentas"
+  ],
+  "Download": [
+   "Letöltés",
+   "Herunterladen",
+   "Télécharger",
+   "Descargar"
+  ]
  }
 };

@@ -19,4 +19,14 @@ assert.equal(JSON.stringify(P.menu(ctx('play-books',{paPage:{'play-books':'libra
 assert.equal(P.menu(ctx('play-books',{},'hu'))[0].title,w.window.StockStrings.books.Refresh[0]);
 const reader=P.render(ctx('play-books',{sub:'reader',paItem:'b2'}));
 assert.ok(reader.includes('bk28-ic_ab_back_holo_light.png')&&reader.includes('Pride and Prejudice')&&!reader.includes('‹'));
+// Play Movies 2.5.4: "Google Play", the three verticals as tabs, My movies + Suggestions, the menus in insertion order.
+const movies=P.render(ctx('play-movies'));
+assert.ok(movies.includes('mv25-ic_launcher_videos.png')&&movies.includes('>Google Play<')&&movies.includes('>My movies<')&&movies.includes('>Suggestions<')&&movies.includes('See more from Google Play'));
+assert.deepEqual([...movies.matchAll(/data-action="pa-page" data-id="(\w+)"/g)].map(m=>m[1]).join(),'movies,shows,personal');
+assert.equal((movies.match(/data-action="pa-movie"/g)||[]).length,P.MOVIES.length);
+assert.ok(movies.includes('2012, 104 mins.')&&movies.includes('mv25-ic_menu_shop_holo_dark.png'));
+const personal=P.render(ctx('play-movies',{paPage:{'play-movies':'personal'}}));
+assert.ok(personal.includes('NO VIDEOS FOUND')&&!personal.includes('mv25-ic_menu_search.png'));
+assert.equal(JSON.stringify(P.menu(ctx('play-movies')).map(i=>i.title)),JSON.stringify(['Settings','Help','Contact us','Send feedback','Refresh','Accounts']));
+assert.ok(!P.render(ctx('play-movies',{sub:'movie',paItem:'m1'})).includes('‹'));
 console.log('jb-play-apps ok');

@@ -131,6 +131,27 @@
    "Recent": "Books:library_header_recent",
    "All books": "Books:action_bar_title_all_books",
    "Purchases": "Books:action_bar_title_free_and_purchased"
+  },
+  "movies": {
+   "Google Play": "Videos:google_play",
+   "Movies": "Videos:tab_movies",
+   "TV shows": "Videos:tab_shows",
+   "Personal videos": "Videos:tab_personal_videos",
+   "My movies": "Videos:section_est",
+   "My shows": "Videos:section_shows",
+   "Suggestions": "Videos:suggestions_title",
+   "See more from Google Play": "Videos:see_more_rentals",
+   "%1$s mins.": "Videos:movie_duration",
+   "Season %1$s": "Videos:season_number",
+   "NO VIDEOS FOUND": "Videos:no_local_videos_found",
+   "Shop": "Videos:menu_shop",
+   "Settings": "Videos:menu_settings",
+   "Help": "Videos:menu_help",
+   "Contact us": "Videos:menu_contact",
+   "Send feedback": "Videos:menu_feedback",
+   "Refresh": "Videos:menu_refresh",
+   "Accounts": "Videos:logout",
+   "Download": "Videos:download"
   }
  },
  "4.4.4": {

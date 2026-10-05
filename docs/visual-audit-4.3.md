@@ -649,3 +649,9 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - My Library is `my_library_header`'s filter spinner (`LibraryFilter`: All books and Purchases; Uploads and Samples stay hidden while empty) over `my_library_divider` (2 dp #3f9fe0).
   - The reader's bar is ReadingActivityDay's `ab_solid_light_holo` with `ic_ab_back_holo_light` and `ic_corpora_books_color` instead of the "‹" caret.
   - Test: `tests/jb-play-apps.test.cjs`.
+- **Play Movies 2.5.4 (Videos.apk):**
+  - The app had the white-card look of Play Movies 3 with a drawer. 2.5.4 is a Holo dark app on `striped_background_red` (a 16 dp tile) without a drawer.
+  - `HomeActivityCompat$V11`: the black ActionBar (`actionbar_background`) with the app icon and "Google Play"; on a phone in portrait the verticals are action bar tabs on #4d1d1d (`actionbar_background_stacked`; `actionbar_tab_background`'s 6 dp #c74b46 under the selected tab, white and #989898 text): Movies, TV shows, Personal videos.
+  - The menus in the order `HomeActivity.onCreateOptionsMenu` adds them: `common_menu` (Settings, Help, Contact us, Send feedback; GoogleFeedback is on the image), `home_menu` (Refresh, Accounts), then Search (always) and Shop (ifRoom) only on the store verticals. The overflow is a dark Holo popup.
+  - Movies is `MoviesOutlineHelper`'s outline: panel headings (`Panel_Header`, 21 dp sans-serif-light), `PurchasedMovieItemView` rows (a 120 dp poster at 0.694 for a 368 dp row, `video_item_style_widths`; the 21 dp title, "year, %1$s mins." from `item_joiner` in #cccccc; the download pin), Suggestions and `suggestions_footer` (`ic_menu_shop_holo_dark`, "See more from Google Play", `ic_chevron_right`). TV shows lists My shows; Personal videos shows `no_local_videos_found`.
+  - The player's "‹" is `ic_ab_back_holo_dark` with the app icon.

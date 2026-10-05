@@ -143,22 +143,33 @@
   }
 
   // ---- Play Movies & TV ----
+  // Play Movies 2.5.4 (JWR66Y, Videos.apk), a Holo dark app on striped_background_red. HomeActivityCompat$V11 shows
+  // "Google Play" in the black ActionBar (the app icon as the home icon) and, on a phone in portrait, the ViewPager's
+  // verticals as action bar tabs on #4d1d1d (actionbar_tab_background, 6 dp #c74b46 under the selected one; white and
+  // #989898 text): Movies, TV shows, Personal videos. Menus as HomeActivity.onCreateOptionsMenu adds them: common_menu
+  // (Settings, Help, Contact us, Send feedback), home_menu (Refresh, Accounts), then Search (always) and Shop (ifRoom)
+  // on the store verticals. Movies is MoviesOutlineHelper's outline: panel headings (21 dp sans-serif-light white) over
+  // PurchasedMovieItemView rows (a 120 dp poster at 0.694 for a 368 dp wide row, the 21 dp title, "year, %1$s mins." in
+  // #cccccc, the download pin on #331313b2), then Suggestions and suggestions_footer.
+  const MOVIE_TABS = [['movies', 'Movies'], ['shows', 'TV shows'], ['personal', 'Personal videos']];
   function movies(ctx) {
-    const {ui, t} = ctx, page = ui.paPage?.['play-movies'] || 'movies';
+    const {ui, t} = ctx, page = MOVIE_TABS.some(([id]) => id === ui.paPage?.['play-movies']) ? ui.paPage['play-movies'] : 'movies', v = key => S(ctx, 'movies', key);
     if (ui.sub === 'movie') {
       const movie = MOVIES.find(m => m.id === ui.paItem) || SHOWS.find(s => s.id === ui.paItem) || MOVIES[0];
       const playing = ui.paPlaying !== false, total = (movie.mins || 24) * 60, pos = Math.floor(total * (movie.progress || 0)) + (ui.paSeconds || 0);
       const clock = s => `${Math.floor(s / 3600)}:${String(Math.floor(s / 60) % 60).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
-      return `<div class="app-view pa-app pm-video${ui.paBars === false ? ' bare' : ''}" data-action="pa-video-bars"><div class="pm-video-frame${playing ? ' playing' : ''}">${art('poster', seedOf(movie.id), movie.title)}</div><header class="pm-video-top"><button data-action="back" aria-label="${e(t('Back'))}">‹</button><b>${e(movie.title)}</b>${btn('pa-unsupported', t('Cast screen'), 'cast')}</header><button class="pm-video-play" data-action="pa-video-toggle" aria-label="${e(t(playing ? 'Pause' : 'Play'))}">${playing ? glyph.pause : glyph.play}</button><footer class="pm-video-bottom"><span>${clock(pos)}</span><i style="--p:${Math.min(100, pos / total * 100).toFixed(1)}%"></i><span>${clock(total)}</span></footer></div>`;
+      return `<div class="app-view pa-app pm-video${ui.paBars === false ? ' bare' : ''}" data-action="pa-video-bars"><div class="pm-video-frame${playing ? ' playing' : ''}">${art('poster', seedOf(movie.id), movie.title)}</div><header class="pm-video-top"><button class="mv25-up" data-action="back" aria-label="${e(t('Back'))}"><img src="assets/ic_ab_back_holo_dark.png" alt=""><img src="assets/mv25-ic_launcher_videos.png" alt=""></button><b>${e(movie.title)}</b>${btn('pa-unsupported', t('Cast screen'), 'cast')}</header><button class="pm-video-play" data-action="pa-video-toggle" aria-label="${e(t(playing ? 'Pause' : 'Play'))}">${playing ? glyph.pause : glyph.play}</button><footer class="pm-video-bottom"><span>${clock(pos)}</span><i style="--p:${Math.min(100, pos / total * 100).toFixed(1)}%"></i><span>${clock(total)}</span></footer></div>`;
     }
-    const actions = btn('pa-unsupported', t('Search'), 'search') + btn('pa-unsupported', t('Cast screen'), 'cast') + btn('pa-unsupported', t('More options'), 'overflow');
-    const movieCard = m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year}, ${t('%d mins.').replace('%d', m.mins)}`, pin: true});
+    const pin = `<span class="mv25-pin"><button data-action="pa-unsupported" aria-label="${e(v('Download'))}"><img src="assets/mv25-ic_download_background.png" alt=""><img src="assets/mv25-ic_download.png" alt=""></button></span>`;
+    const row = (action, id, title, line) => `<div class="mv25-item" role="button" tabindex="0" data-action="${action}" data-id="${e(id)}" aria-label="${e(title)}"><span class="mv25-poster">${art('poster', seedOf(id), title)}</span><span class="mv25-details"><b>${e(title)}</b><small>${e(line)}</small>${action === 'pa-movie' ? pin : ''}</span></div>`;
+    const heading = key => `<h3 class="mv25-heading">${e(v(key))}</h3>`;
+    const yearDuration = m => `${m.year}, ${v('%1$s mins.').replace('%1$s', m.mins)}`;
     let body;
-    if (page === 'watch') body = `${section(t('Continue watching'))}<div class="pa-grid">${MOVIES.filter(m => m.progress).map(m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title) + `<i class="pm-progress-strip" style="--p:${m.progress * 100}%"></i>`, title: m.title, sub: t('%d% watched').replace('%d', Math.round(m.progress * 100))})).join('')}</div>${section(t('Recommended for You'), t('SHOP'), 'pa-shop')}<div class="pa-grid">${RECOMMENDED.map(m => card({action: 'pa-shop', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year} · ${m.price}`})).join('')}</div>`;
-    else if (page === 'shows') body = `${section(t('My TV Shows'))}<div class="pa-grid">${SHOWS.map(s => card({action: 'pa-movie', id: s.id, artHtml: art('poster', seedOf(s.id), s.title), title: s.title, sub: t('%d episodes').replace('%d', s.episodes), pin: true})).join('')}</div>`;
-    else body = `${section(t('My Movies'))}<div class="pa-grid">${MOVIES.map(movieCard).join('')}</div>${section(t('Recommended for You'), t('SHOP'), 'pa-shop')}<div class="pa-grid">${RECOMMENDED.map(m => card({action: 'pa-shop', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year} · ${m.price}`})).join('')}</div>`;
-    const title = t(APPS['play-movies'].pages.find(p => p[0] === page)[1]);
-    return `<div class="app-view pa-app pa-movies">${bar(ctx, {title, actions})}<div class="pa-scroll">${body}</div></div>`;
+    if (page === 'movies') body = heading('My movies') + MOVIES.map(m => row('pa-movie', m.id, m.title, yearDuration(m))).join('') + heading('Suggestions') + RECOMMENDED.map(m => row('pa-shop', m.id, m.title, String(m.year))).join('') + `<button class="mv25-footer" data-action="pa-shop"><img src="assets/mv25-ic_menu_shop_holo_dark.png" alt=""><span>${e(v('See more from Google Play'))}</span><img src="assets/mv25-ic_chevron_right.png" alt=""></button>`;
+    else if (page === 'shows') body = heading('My shows') + SHOWS.map(show => row('pa-movie', show.id, show.title, v('Season %1$s').replace('%1$s', show.seasons))).join('');
+    else body = `<p class="mv25-status">${e(v('NO VIDEOS FOUND'))}</p>`;
+    const store = page !== 'personal' ? `<button class="pa-btn" data-action="pa-unsupported" aria-label="${e(t('Search'))}"><img class="mv25-icon" src="assets/mv25-ic_menu_search.png" alt=""></button><button class="pa-btn" data-action="pa-shop" aria-label="${e(v('Shop'))}"><img class="mv25-icon" src="assets/mv25-ic_menu_shop_holo_dark.png" alt=""></button>` : '';
+    return `<div class="app-view pa-app mv25"><header class="mv25-bar"><img class="mv25-logo" src="assets/mv25-ic_launcher_videos.png" alt=""><b>${e(v('Google Play'))}</b>${store}<button class="pa-btn" data-action="pa-menu" aria-label="${e(t('More options'))}"><img class="mv25-icon" src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button></header><nav class="mv25-tabs">${MOVIE_TABS.map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(v(key))}</button>`).join('')}</nav><div class="mv25-list">${body}</div></div>`;
   }
 
   // ---- Play Books ----
@@ -185,6 +196,7 @@
   }
   // The overflow of menu/home.xml (Search is the action button; Sort only shows in My Library).
   function menu(ctx) {
+    if (ctx.app === 'play-movies') { const v = key => S(ctx, 'movies', key); return ['Settings', 'Help', 'Contact us', 'Send feedback', 'Refresh', 'Accounts'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: v(key)})); }
     if (ctx.app !== 'play-books') return [];
     const b = key => S(ctx, 'books', key), page = ctx.ui.paPage?.['play-books'] || 'read';
     return [...(page === 'library' ? ['Sort'] : []), 'Refresh', 'Settings', 'Help'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: b(key)}));
