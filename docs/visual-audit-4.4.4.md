@@ -62,3 +62,9 @@
   - The drawer is `HomeFragment.createSideDrawerItems`: Read Now, My Library, Shop (`home_drawer_list_item`: 64 dp, 21 sp sans-serif-light #505050 on #fafafa, the current one bold), `home_drawer_divider`, then Settings and Help & feedback as `home_drawer_list_menu_item` (13 sp caps #666666 with `ic_gear_40` / `ic_help_40`). The drawer had only the two pages.
   - `menu/fragment_home.xml`: Search (always, `ic_menu_search_dark`), then Sort (My Library only) and Refresh in the overflow.
   - Texts come from the APK (Recent, SEE ALL, All books); the cards use `card_bg_play`; the reader's "‹" is `ic_ab_back_holo_light` with `ic_corpora_books_color`.
+- **Play Games 1.1.04 (PlayGames.apk):**
+  - `ActionBar.Dest`: `actionbar_dest_bg` (#96aa39 over a 2 dp #819231 line) with `ic_drawer_white` and `ic_ab_play_games` instead of the drawn glyph.
+  - The drawer (`NavigationDrawerUtils.getDrawerItems`: Play Now, My Games, My Activity, Players, Recommended Games, Shop) uses `side_menu_list_item` on #fafafa with the current page on #25000000; Shop opens the Play Store.
+  - The overflow is `games_destination_main_menu`: Accounts, Settings, Help.
+  - All texts are the APK's. "Most recently played" is not in the APK and was removed; My Activity rows show `games_achievement_list_header_unlocked_format` ("3/18 unlocked") instead of a made-up "Achievement unlocked".
+  - The four 4.4.4 Play apps are now from their APKs; the shared plumbing is `S()`, `PlayApps.menu()` and the `pa-menu` Holo.Light popup.

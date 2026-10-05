@@ -385,6 +385,31 @@
    "Recent": "Books:library_header_recent",
    "SEE ALL": "Books:library_header_see_all_books",
    "All books": "Books:action_bar_title_all_books"
+  },
+  "games": {
+   "Play Games": "PlayGames:games_app_launcher_name",
+   "Open navigation drawer": "PlayGames:games_dest_nav_drawer_open",
+   "Play Now": "PlayGames:games_dest_nav_drawer_home",
+   "My Games": "PlayGames:games_dest_nav_drawer_my_games",
+   "My Activity": "PlayGames:games_dest_nav_drawer_my_profile",
+   "Players": "PlayGames:games_dest_nav_drawer_players",
+   "Recommended Games": "PlayGames:games_dest_nav_drawer_recommended_games",
+   "Shop": "PlayGames:games_dest_nav_drawer_play_store",
+   "Accounts": "PlayGames:games_dest_menu_accounts",
+   "Settings": "PlayGames:games_menu_settings",
+   "Help": "PlayGames:games_menu_help",
+   "Welcome!": "PlayGames:games_warm_welcome_title",
+   "Discover new games by seeing what your friends are playing on Google Play Games.": "PlayGames:games_warm_welcome_text",
+   "My games": "PlayGames:games_dest_main_games_recently_played_title",
+   "SEE MORE": "PlayGames:games_common_header_see_more",
+   "FEATURED": "PlayGames:games_dest_game_list_featured_tab",
+   "POPULAR": "PlayGames:games_dest_game_list_popular_tab",
+   "POPULAR MULTIPLAYER": "PlayGames:games_dest_game_list_popular_multiplayer_tab",
+   "PURCHASED": "PlayGames:games_wide_tile_shopping_game_owned",
+   "FREE": "PlayGames:games_dest_game_detail_banner_install_button",
+   "Achievements": "PlayGames:games_achievement_list_title",
+   "PLAY": "PlayGames:games_play",
+   "%1$d/%2$d unlocked": "PlayGames:games_achievement_list_header_unlocked_format"
   }
  },
  "5.1.1": {

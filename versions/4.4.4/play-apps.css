@@ -221,3 +221,6 @@
 .screen .pb-top>.bk3-reader-up{display:flex;align-items:center;padding:0 7.25px 0 0;border:0;background:none}
 .bk3-reader-up img:first-child{width:14.5px;height:14.5px}
 .bk3-reader-up img+img{width:28.99px;height:28.99px;margin-left:2.72px}
+
+/* Play Games 1.1 (audit step 4): the green ActionBar.Dest bar. */
+.pm5-bar.pg1-bar{background:#96aa39;border-bottom-color:#819231}

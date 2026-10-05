@@ -38,4 +38,9 @@ for(const label of ['Play Now','My Games','My Activity','Players','Recommended G
 assert.ok(P.drawer(ctx('play-movies')).includes('class="on" data-action="pa-page" data-id="movies"'));
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
 assert.ok(sim.includes("const GEL_UNSIMULATED = [];")&&sim.includes("return PlayApps.render(playContext(ui.view));"));
+// Play Games 1.1 (audit step 4): getDrawerItems and games_destination_main_menu.
+assert.equal([...P.drawer(ctx('play-games')).matchAll(/<button[^>]*>([^<]*)</g)].map(m=>m[1]).join(),'Play Now,My Games,My Activity,Players,Recommended Games,Shop');
+assert.equal(P.menu(ctx('play-games')).map(i=>i.title).join(),'Accounts,Settings,Help');
+assert.ok(P.render(ctx('play-games')).includes('pg1-ic_ab_play_games.png')&&!P.render(ctx('play-games',{sub:'game',paItem:'g1'})).includes('‹'));
+assert.ok(P.render(ctx('play-games',{paPage:{'play-games':'activity'}})).includes('3/18 unlocked'));
 console.log('kk-play-apps ok');

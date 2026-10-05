@@ -1,5 +1,6 @@
 /* The Google Play media apps of the stock Nexus 5 (KTU84P). Audit step 4 rebuilds each from its APK: Play Music
-   5.2.1301L (Music2.apk) Play Movies & TV 3.0.27 (Videos.apk) and Play Books 3.1.33 (Books.apk) so far. The rest still follows the late 2013 sources: Play Movies & TV
+   5.2.1301L (Music2.apk) Play Movies & TV 3.0.27 (Videos.apk), Play Books 3.1.33 (Books.apk) and Play Games 1.1.04
+   (PlayGames.apk). The rest still follows the late 2013 sources: Play Movies & TV
    (Android Police, June 2013), Play Books 3 (Android Police, October 2013) and Play Games 1 (Droid Life, July 2013).
    They share one look: a coloured action bar (Music #f4842e, Movies #c74b46, Books #3f9fe0, Games #96aa39) with the
    drawer mark and a white glyph, a white navigation drawer, #e5e5e5 pages with light italic section titles and
@@ -95,6 +96,9 @@
     // vertical's title (VideosDrawerHelper.updateActionBar).
     // Play Books 3.1's FlatBlue bar (StyleUtils.configureFlatBlueActionBar): action_bar_bg_books (#3f9fe0 over a 2 dp
     // #3689c0 line), ic_drawer_white and ic_corpora_books, the view's title.
+    // Play Games 1.1's ActionBar.Dest: actionbar_dest_bg (#96aa39 over a 2 dp #819231 line), ic_drawer_white and
+    // ic_ab_play_games, the page's title.
+    if (ctx.app === 'play-games') return `<header class="pm5-bar pg1-bar"><button class="pm5-home" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : S(ctx, 'games', 'Open navigation drawer'))}"><img class="pm5-toggle" src="assets/${up ? 'ic_ab_back_holo_dark' : 'pm52-ic_drawer_white'}.png" alt=""><img class="pm5-logo" src="assets/pg1-ic_ab_play_games.png" alt=""></button><span class="pm5-title"><b>${e(title)}</b></span>${actions}</header>`;
     if (ctx.app === 'play-books') return `<header class="pm5-bar bk3-bar"><button class="pm5-home" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : S(ctx, 'books', 'Play Books'))}"><img class="pm5-toggle" src="assets/${up ? 'ic_ab_back_holo_dark' : 'pm52-ic_drawer_white'}.png" alt=""><img class="pm5-logo" src="assets/bk3-ic_corpora_books.png" alt=""></button><span class="pm5-title"><b>${e(title)}</b></span>${actions}</header>`;
     if (ctx.app === 'play-movies') return `<header class="pm5-bar mv3-bar"><button class="pm5-home" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : S(ctx, 'movies', 'Open navigation drawer'))}"><img class="pm5-toggle" src="assets/${up ? 'ic_ab_back_holo_dark' : 'pm52-ic_drawer_white'}.png" alt=""><img class="pm5-logo" src="assets/mv3-ic_movie.png" alt=""></button><span class="pm5-title"><b>${e(title)}</b></span>${actions}</header>`;
     if (ctx.app === 'play-music') return `<header class="pm5-bar"><button class="pm5-home" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : ctx.t(app.title))}"><img class="pm5-toggle" src="assets/${up ? 'ic_ab_back_holo_dark' : 'pm52-ic_drawer_white'}.png" alt=""><img class="pm5-logo" src="assets/pm52-ic_corpora_music_white.png" alt=""></button><span class="pm5-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
@@ -200,25 +204,27 @@
 
   // ---- Play Games ----
   function games(ctx) {
-    const {ui, t} = ctx, page = ui.paPage?.['play-games'] || 'now';
+    const {ui, t} = ctx, page = ui.paPage?.['play-games'] || 'now', p = key => S(ctx, 'games', key);
+    // games_destination_main_menu: Accounts, Settings, Help in the overflow.
+    const overflow = `<button class="pa-btn" data-action="pa-menu" aria-label="${e(t('More options'))}"><img class="pm5-icon" src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button>`;
     const icon = g => art('icon', seedOf(g.id), g.title);
     const gameCard = g => card({action: 'pa-game', id: g.id, artHtml: icon(g), title: g.title, sub: g.dev, note: `${g.got} / ${g.achievements}`, cls: ' pg-game'});
-    const listRow = g => `<div class="pg-row" role="button" tabindex="0" data-action="pa-game" data-id="${g.id}"><span class="pg-icon">${icon(g)}</span><span class="pg-copy"><b>${e(g.title)}</b><small>${e(g.dev)}</small></span><button class="pa-dots" data-action="pa-unsupported" aria-label="More options">${glyph.overflow}</button><em>${e(t(g.state))}</em></div>`;
+    const listRow = g => `<div class="pg-row" role="button" tabindex="0" data-action="pa-game" data-id="${g.id}"><span class="pg-icon">${icon(g)}</span><span class="pg-copy"><b>${e(g.title)}</b><small>${e(g.dev)}</small></span><button class="pa-dots" data-action="pa-unsupported" aria-label="More options">${glyph.overflow}</button><em>${e(p(g.state))}</em></div>`;
     if (ui.sub === 'game') {
       const g = GAMES.find(item => item.id === ui.paItem) || GAMES[0];
-      return `<div class="app-view pa-app pa-games">${bar(ctx, {title: g.title, up: true, actions: btn('pa-unsupported', t('More options'), 'overflow')})}<div class="pa-scroll"><div class="pg-hero">${art('poster', seedOf(g.id) + 1, '')}<span class="pg-hero-icon">${icon(g)}</span></div><div class="pg-detail"><b>${e(g.title)}</b><small>${e(g.dev)}</small><button class="pa-chip big" data-action="pa-game-play">${e(t('PLAY'))}</button></div>${section(t('Achievements'))}<div class="pg-achievements">${Array.from({length: Math.min(6, g.achievements)}, (_, i) => `<div class="pg-ach${i < g.got ? ' got' : ''}"><span>${glyph.trophy}</span><b>${e(t('Achievement %d').replace('%d', i + 1))}</b><small>${e(t(i < g.got ? 'Unlocked' : 'Locked'))}</small></div>`).join('')}</div></div></div>`;
+      return `<div class="app-view pa-app pa-games">${bar(ctx, {title: g.title, up: true, actions: overflow})}<div class="pa-scroll"><div class="pg-hero">${art('poster', seedOf(g.id) + 1, '')}<span class="pg-hero-icon">${icon(g)}</span></div><div class="pg-detail"><b>${e(g.title)}</b><small>${e(g.dev)}</small><button class="pa-chip big" data-action="pa-game-play">${e(p('PLAY'))}</button></div>${section(p('Achievements'))}<div class="pg-achievements">${Array.from({length: Math.min(6, g.achievements)}, (_, i) => `<div class="pg-ach${i < g.got ? ' got' : ''}"><span>${glyph.trophy}</span><b>${e(t('Achievement %d').replace('%d', i + 1))}</b><small>${e(t(i < g.got ? 'Unlocked' : 'Locked'))}</small></div>`).join('')}</div></div></div>`;
     }
     let body;
-    if (page === 'now') body = `<div class="pg-welcome"><div><h2>${e(t('Welcome!'))}</h2><p>${e(t('Discover new games by seeing what your friends are playing on Google Play Games.'))}</p></div></div>${section(t('My games'), t('SEE MORE'), 'pa-games-mine')}<div class="pa-grid">${GAMES.slice(0, 2).map(gameCard).join('')}</div>${section(t('Players'), t('SEE MORE'), 'pa-games-players')}<p class="pa-note">${e(t('Most recently played'))}</p><div class="pa-grid">${PLAYERS.map((p, i) => card({action: 'pa-unsupported', id: p.name, artHtml: art('icon', i + 4, p.name), title: p.name, sub: p.game})).join('')}</div>`;
-    else if (page === 'mine') body = `${section(t('My Games'))}<div class="pa-grid">${GAMES.map(gameCard).join('')}</div>`;
-    else if (page === 'players') body = `${section(t('Players'))}<div class="pa-grid">${PLAYERS.map((p, i) => card({action: 'pa-unsupported', id: p.name, artHtml: art('icon', i + 4, p.name), title: p.name, sub: p.game})).join('')}</div>`;
-    else if (page === 'activity') body = `${section(t('My Activity'))}<div class="pg-list">${GAMES.filter(g => g.got).map(g => `<div class="pg-row" role="button" tabindex="0" data-action="pa-game" data-id="${g.id}"><span class="pg-icon">${icon(g)}</span><span class="pg-copy"><b>${e(t('Achievement unlocked'))}</b><small>${e(g.title)}</small></span></div>`).join('')}</div>`;
+    if (page === 'now') body = `<div class="pg-welcome"><div><h2>${e(p('Welcome!'))}</h2><p>${e(p('Discover new games by seeing what your friends are playing on Google Play Games.'))}</p></div></div>${section(p('My games'), p('SEE MORE'), 'pa-games-mine')}<div class="pa-grid">${GAMES.slice(0, 2).map(gameCard).join('')}</div>${section(p('Players'), p('SEE MORE'), 'pa-games-players')}<div class="pa-grid">${PLAYERS.map((p, i) => card({action: 'pa-unsupported', id: p.name, artHtml: art('icon', i + 4, p.name), title: p.name, sub: p.game})).join('')}</div>`;
+    else if (page === 'mine') body = `${section(p('My Games'))}<div class="pa-grid">${GAMES.map(gameCard).join('')}</div>`;
+    else if (page === 'players') body = `${section(p('Players'))}<div class="pa-grid">${PLAYERS.map((p, i) => card({action: 'pa-unsupported', id: p.name, artHtml: art('icon', i + 4, p.name), title: p.name, sub: p.game})).join('')}</div>`;
+    else if (page === 'activity') body = `${section(p('My Activity'))}<div class="pg-list">${GAMES.filter(g => g.got).map(g => `<div class="pg-row" role="button" tabindex="0" data-action="pa-game" data-id="${g.id}"><span class="pg-icon">${icon(g)}</span><span class="pg-copy"><b>${e(g.title)}</b><small>${e(p('%1$d/%2$d unlocked').replace('%1$d', g.got).replace('%2$d', g.achievements))}</small></span></div>`).join('')}</div>`;
     else {
       const tab = ui.paGamesTab || 'popular';
-      body = `<nav class="pa-tabs">${[['featured', 'FEATURED'], ['popular', 'POPULAR'], ['multiplayer', 'POPULAR MULTIPLAYER']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="pa-gtab" data-id="${id}">${e(t(label))}</button>`).join('')}</nav><div class="pg-list">${(tab === 'featured' ? GAMES.slice(1) : tab === 'multiplayer' ? GAMES.slice(2) : GAMES).map(listRow).join('')}</div>`;
+      body = `<nav class="pa-tabs">${[['featured', 'FEATURED'], ['popular', 'POPULAR'], ['multiplayer', 'POPULAR MULTIPLAYER']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="pa-gtab" data-id="${id}">${e(p(label))}</button>`).join('')}</nav><div class="pg-list">${(tab === 'featured' ? GAMES.slice(1) : tab === 'multiplayer' ? GAMES.slice(2) : GAMES).map(listRow).join('')}</div>`;
     }
-    const title = t(APPS['play-games'].pages.find(p => p[0] === page)[1]);
-    return `<div class="app-view pa-app pa-games">${bar(ctx, {title: page === 'now' ? t('Play Games') : title, actions: btn('pa-unsupported', t('More options'), 'overflow')})}<div class="pa-scroll">${body}</div></div>`;
+    const title = p(APPS['play-games'].pages.find(item => item[0] === page)[1]);
+    return `<div class="app-view pa-app pa-games">${bar(ctx, {title: page === 'now' ? p('Play Games') : title, actions: overflow})}<div class="pa-scroll">${body}</div></div>`;
   }
 
   function render(ctx) {
@@ -237,6 +243,9 @@
     // Books: HomeFragment.createSideDrawerItems: Read Now, My Library, Shop in home_drawer_list_item rows (64 dp, 21 sp
     // sans-serif-light #505050 on #fafafa, the current one bold sans-serif), home_drawer_divider (1 dp #e5e5e5), then
     // Settings and Help & feedback as home_drawer_list_menu_item (46 dp, 13 sp caps #666666, ic_gear_40 / ic_help_40).
+    // Games: NavigationDrawerUtils.getDrawerItems (Play Now, My Games, My Activity, Players, Recommended Games, Shop) in
+    // side_menu_list_item rows on #fafafa, the current one on #25000000.
+    if (ctx.app === 'play-games') { const p = key => S(ctx, 'games', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pm5-drawer" aria-label="${e(p('Play Games'))}">${app.pages.map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="${id === 'shop' ? 'pa-shop' : 'pa-page'}" data-id="${id}">${e(p(key))}</button>`).join('')}</nav>`; }
     if (ctx.app === 'play-books') { const b = key => S(ctx, 'books', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pm5-drawer bk3-drawer" aria-label="${e(b('Play Books'))}">${[['read', 'Read Now'], ['library', 'My Library']].map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(b(key))}</button>`).join('')}<button data-action="pa-shop">${e(b('Shop'))}</button><hr>${[['Settings', 'ic_gear_40'], ['Help & feedback', 'ic_help_40']].map(([key, icon]) => `<button class="bk3-menu-item" data-action="pa-unsupported"><img src="assets/bk3-${icon}.png" alt="">${e(b(key))}</button>`).join('')}</nav>`; }
     if (ctx.app === 'play-movies') { const v = key => S(ctx, 'movies', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pm5-drawer mv3-drawer" aria-label="${e(v('Google Play'))}">${app.pages.map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(v(key))}</button>`).join('')}<button data-action="pa-shop">${e(v('Shop'))}</button></nav>`; }
     if (ctx.app === 'play-music') { const m = key => S(ctx, 'music', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pm5-drawer" aria-label="${e(m('Play Music'))}">${[['listen', 'Listen Now'], ['library', 'My Library'], ['playlists', 'Playlists'], ['mixes', 'Instant Mixes']].map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(m(key))}</button>`).join('')}<button data-action="pa-shop">${e(m('Shop'))}</button></nav>`; }
@@ -245,6 +254,7 @@
   // Action bar overflow menus (the pa-menu overlay).
   function menu(ctx) {
     if (ctx.app === 'play-music') { const m = key => S(ctx, 'music', key); return ['Refresh', 'Settings', 'Help', 'Send feedback'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: m(key)})); }
+    if (ctx.app === 'play-games') { const p = key => S(ctx, 'games', key); return ['Accounts', 'Settings', 'Help'].map(key => ({action: 'pa-unsupported', title: p(key)})); }
     if (ctx.app === 'play-books') { const b = key => S(ctx, 'books', key); return [...((ctx.ui.paPage?.['play-books'] || 'read') === 'library' ? ['Sort'] : []), 'Refresh'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: b(key)})); }
     // VideosApplication's common_menu, then home_menu.
     if (ctx.app === 'play-movies') { const v = key => S(ctx, 'movies', key); return ['Settings', 'Help', 'Contact us', 'Send feedback', 'Refresh', 'Personal videos'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: v(key)})); }

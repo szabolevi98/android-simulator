@@ -1137,5 +1137,145 @@ window.StockStrings = {
    "Tous les livres",
    "Todos los libros"
   ]
+ },
+ "games": {
+  "Play Games": [
+   "Play Játékok",
+   "Play Games",
+   "Play Jeux",
+   "Play Games"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók kinyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir control de navegación"
+  ],
+  "Play Now": [
+   "Játék indítása",
+   "Jetzt spielen",
+   "Jouer",
+   "Reproducir ahora"
+  ],
+  "My Games": [
+   "Saját játékok",
+   "Meine Spiele",
+   "Mes jeux",
+   "Mis juegos"
+  ],
+  "My Activity": [
+   "Saját tevékenység",
+   "Meine Aktivitäten",
+   "Mon activité",
+   "Mi actividad"
+  ],
+  "Players": [
+   "Játékosok",
+   "Spieler",
+   "Joueurs",
+   "Jugadores"
+  ],
+  "Recommended Games": [
+   "Ajánlott játékok",
+   "Empfohlene Spiele",
+   "Jeux recommandés",
+   "Juegos recomendados"
+  ],
+  "Shop": [
+   "Áruház",
+   "Einkaufen",
+   "Boutique",
+   "Tienda"
+  ],
+  "Accounts": [
+   "Fiókok",
+   "Konten",
+   "Comptes",
+   "Cuentas"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Welcome!": [
+   "Üdvözöljük!",
+   "Willkommen!",
+   "Bienvenue !",
+   "Te damos la bienvenida"
+  ],
+  "Discover new games by seeing what your friends are playing on Google Play Games.": [
+   "Fedezzen fel új játékokat azáltal, hogy megnézi, mivel játszanak ismerősei a Google Play Játékokban.",
+   "Entdecken Sie neue Spiele, indem Sie sich ansehen, welche Spiele Ihre Freunde bei Google Play spielen.",
+   "Découvrez de nouveaux jeux en voyant ceux auxquels jouent vos amis sur Google Play Jeux.",
+   "Observa a qué juegan tus amigos en Google Play Games para descubrir nuevos juegos."
+  ],
+  "My games": [
+   "Saját játékok",
+   "Meine Spiele",
+   "Mes jeux",
+   "Mis juegos"
+  ],
+  "SEE MORE": [
+   "TOVÁBBIAK",
+   "Mehr",
+   "PLUS",
+   "VER MÁS"
+  ],
+  "FEATURED": [
+   "KIEMELT",
+   "Angesagt",
+   "SÉLECTION",
+   "DESTACADOS"
+  ],
+  "POPULAR": [
+   "NÉPSZERŰ",
+   "Beliebt",
+   "POPULAIRES",
+   "POPULARES"
+  ],
+  "POPULAR MULTIPLAYER": [
+   "NÉPSZERŰ TÖBBSZEREPLŐS",
+   "Beliebte Multiplayer",
+   "JEUX MULTIJOUEURS POPULAIRES",
+   "MULTIJUGADOR POPULARES"
+  ],
+  "PURCHASED": [
+   "MEGVÁSÁROLVA",
+   "Gekauft",
+   "ACHETÉ",
+   "COMPRADO"
+  ],
+  "FREE": [
+   "INGYENES",
+   "Kostenlos",
+   "GRATUIT",
+   "GRATIS"
+  ],
+  "Achievements": [
+   "Megszerezhető jutalmak",
+   "Erfolge",
+   "Réussites",
+   "Logros"
+  ],
+  "PLAY": [
+   "JÁTÉK",
+   "Spielen",
+   "DÉMARRER",
+   "JUGAR"
+  ],
+  "%1$d/%2$d unlocked": [
+   "%2$d/%1$d megszerezve",
+   "%1$d/%2$d erreicht",
+   "%1$d/%2$d réussites déverrouillées",
+   "%1$d/%2$d desbloqueados"
+  ]
  }
 };
