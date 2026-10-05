@@ -326,6 +326,35 @@
    "Add and remove sections…": "PrebuiltNewsWeather:drawer_link_add_remove_sections",
    "Help & feedback": "PrebuiltNewsWeather:drawer_link_help",
    "Open navigation drawer": "PrebuiltNewsWeather:drawer_open"
+  },
+  "keep": {
+   "Keep": "PrebuiltKeep:app_name",
+   "Add quick note": "PrebuiltKeep:add_quick_note_hint",
+   "New note": "PrebuiltKeep:menu_new_note",
+   "New list": "PrebuiltKeep:menu_new_list",
+   "New recording": "PrebuiltKeep:menu_new_recording",
+   "New photo note": "PrebuiltKeep:menu_new_picture",
+   "Notes": "PrebuiltKeep:drawer_landing_page_active_notes",
+   "Reminders": "PrebuiltKeep:drawer_landing_page_all_reminders",
+   "Archive": "PrebuiltKeep:drawer_landing_page_archive",
+   "Trash": "PrebuiltKeep:drawer_landing_page_trash",
+   "Help & feedback": "PrebuiltKeep:drawer_link_page_help_feedback",
+   "Open navigation drawer": "PrebuiltKeep:drawer_open",
+   "Search": "PrebuiltKeep:menu_search",
+   "Single-column view": "PrebuiltKeep:menu_switch_to_list_view",
+   "Multi-column view": "PrebuiltKeep:menu_switch_to_grid_view",
+   "Refresh": "PrebuiltKeep:menu_sync",
+   "Share": "PrebuiltKeep:sharing_action_bar_content_description",
+   "Change color": "PrebuiltKeep:color_picker_content_description",
+   "Add picture": "PrebuiltKeep:menu_add_picture",
+   "Unarchive": "PrebuiltKeep:menu_unarchive",
+   "Delete note": "PrebuiltKeep:menu_delete_note",
+   "Make a copy": "PrebuiltKeep:menu_clone",
+   "Send": "PrebuiltKeep:menu_send",
+   "Show checkboxes": "PrebuiltKeep:menu_show_checkboxes",
+   "Notes with upcoming reminders appear here": "PrebuiltKeep:empty_view_no_reminders",
+   "Your archived notes appear here": "PrebuiltKeep:empty_view_no_archived_notes",
+   "No notes in Trash": "PrebuiltKeep:empty_view_no_trashed_notes"
   }
  }
 }

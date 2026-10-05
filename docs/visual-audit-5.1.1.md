@@ -18,3 +18,8 @@
   - Sections are cards on `card_background_single_light`: `item_section_header.xml` and `item_story_collapsed.xml` rows with 80 dp photos, then the "More stories from …" footer.
   - Headlines opens with `item_weather.xml`: the condition picture is web-loaded, so a stand-in is used; then the temperature and the Temp. / Precip. / Wind / Humidity chart tabs.
   - The drawer lists the sections, "Add and remove sections…" and "Help & feedback".
+- **Keep 3.0.03 (PrebuiltKeep):**
+  - KeepAppTheme: #ffcc3f toolbar, #e59900 status bar, #e6e6e6 window. The Toolbar has the drawer toggle and Search (always); the column switch and Refresh are in the overflow.
+  - `quick_edit.xml` is a floating toolbar under the bar ("Add quick note" and the four new-note buttons). Notes sit on `note_shadow`.
+  - DrawerFragment adds, per the dex, Notes, Reminders, Archive and Trash, then the Help & feedback link.
+  - The editor has Share, Change color, Add picture and Archive in the bar (all "always"), and Delete note, Make a copy, Send and Show checkboxes in the overflow.

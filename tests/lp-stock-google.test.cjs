@@ -12,4 +12,8 @@ const ea2=A.render('earth',ctx({earthQuery:'Pizza'}));assert.ok(ea2.includes('ea
 // News & Weather 2.2: the light Toolbar with Search and Add section, Headlines' weather card and section card, the drawer.
 const nw=A.render('news-weather',ctx({newsDrawer:true},'hu'));assert.ok(nw.includes('nw2-bar')&&nw.includes('Címsorok')&&nw.includes('nw2-ic_add_white_24dp.png')&&nw.includes('nw2-weather')&&nw.includes('Súgó és visszajelzés'));
 assert.ok(fs.readFileSync('versions/5.1.1/simulator.js','utf8').includes("'news-weather': '#9e9e9e'"));
+// Keep 3.0: the yellow Toolbar with Search, the floating quick-edit bar, DrawerFragment's items in the dex's order.
+const kp=A.render('keep',{...ctx({keepDrawer:true}),data:{keepNotes:[{id:'k1',text:'Milk'}]}});assert.ok(kp.includes('kp3-bar')&&kp.includes('kp3-ic_material_search_light.png')&&kp.includes('kp3-quick'));
+assert.equal([...kp.matchAll(/data-action="keep-landing" data-id="(\w+)"/g)].map(m=>m[1]).join(),'notes,reminders,archive,trash');
+assert.ok(css.includes('.kp3-bar{')&&css.includes('#ffcc3f'));
 console.log('lp stock google ok');

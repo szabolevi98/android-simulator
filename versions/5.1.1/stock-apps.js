@@ -95,14 +95,31 @@
 
   // ---- Keep: the quick note bar and coloured cards; notes are kept in data.keepNotes ----
   const KEEP_COLORS = ['#fff', '#f7f0a3', '#c6e5f5', '#c9f0b9', '#f8c8c0'];
+  // Keep 3.0.03 (LMY48Y). KeepAppTheme: colorPrimary #ffcc3f, colorPrimaryDark #e59900, window #e6e6e6. The browse
+  // Toolbar has the drawer toggle and Search (always; ic_material_search_light), the overflow holds the column switch and
+  // Refresh. quick_edit.xml is a floating toolbar right under the bar ("Add quick note", then add_items_bar.xml's New
+  // note / New list / New recording / New photo note); notes are browse_index_text_note.xml on note_shadow. DrawerFragment
+  // (dex): Notes, Reminders, Archive and Trash (56 dp, black icons, 14 sp #de000000 32 dp after them), then the
+  // Help & feedback link (44 dp, bold). editor_menu.xml: Share, Change color, Add picture and Archive are "always", Delete
+  // note and the rest go to the overflow.
   function keep(ctx) {
-    const notes = ctx.data.keepNotes || [];
+    const notes = ctx.data.keepNotes || [], k = key => S(ctx, 'keep', key), view = ctx.ui.keepView || 'notes';
+    const bar3 = (title, actions, up) => `<header class="kp3-bar">${up ? `<button class="kp3-up" data-action="back" aria-label="${e(ctx.t('Back'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z" fill="#fff"/></svg></button>` : `<button class="kp3-toggle" data-action="keep-drawer" aria-label="${e(k('Open navigation drawer'))}"><i></i><i></i><i></i></button>`}<b>${e(title)}</b>${actions}</header>`;
+    const more = `<button class="sa-btn kp3-more" data-action="sa-menu" aria-label="${e(ctx.t('More options'))}"><i></i><i></i><i></i></button>`;
     if (ctx.ui.sub === 'note') {
       const note = notes.find(n => n.id === ctx.ui.keepNote);
-      if (note) return `<div class="app-view sa-app sa-keep">${bar(ctx, {title: ctx.t('Keep'), up: true, icon: 'keep.png', actions: btn('keep-delete', ctx.t('Delete'), 'trash') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-keep-edit" style="background:${KEEP_COLORS[note.color || 0]}"><textarea class="keep-text" maxlength="2000" aria-label="${e(ctx.t('Note'))}">${e(note.text)}</textarea></div></div>`;
+      if (note) return `<div class="app-view sa-app sa-keep sa-keep3">${bar3('', img('sa-unsupported', k('Share'), 'kp3-ic_material_sharing_addperson_light.png') + img('keep-color', k('Change color'), 'kp3-ic_material_color_light.png') + img('sa-unsupported', k('Add picture'), 'kp3-ic_material_camera_light.png') + img('keep-archive', k(note.archived ? 'Unarchive' : 'Archive'), note.archived ? 'kp3-ic_material_unarchive_light.png' : 'kp3-ic_material_archive_light.png') + more, true)}<div class="sa-keep-edit" style="background:${KEEP_COLORS[note.color || 0]}"><textarea class="keep-text" maxlength="2000" aria-label="${e(k('New note'))}">${e(note.text)}</textarea></div></div>`;
     }
-    return `<div class="app-view sa-app sa-keep">${bar(ctx, {title: ctx.t('Keep'), icon: 'keep.png', actions: btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<form class="sa-keep-add" data-form="keep-add"><input name="text" maxlength="500" autocomplete="off" placeholder="${e(ctx.t('Add quick note…'))}" aria-label="${e(ctx.t('Add quick note…'))}">${btn('sa-unsupported', ctx.t('List'), 'list')}${btn('sa-unsupported', ctx.t('Voice'), 'mic')}${btn('sa-unsupported', ctx.t('Camera'), 'camera')}</form><div class="sa-scroll"><div class="sa-notes">${notes.map(n => `<button class="sa-note" data-action="keep-open" data-id="${e(n.id)}" style="background:${KEEP_COLORS[n.color || 0]}">${e(n.text)}</button>`).join('') || `<p class="sa-empty">${e(ctx.t('Notes you add appear here'))}</p>`}</div></div></div>`;
+    const shown = view === 'reminders' || view === 'trash' ? [] : notes.filter(n => !!n.archived === (view === 'archive')), single = ctx.data.keepSingle;
+    const add = (action, key, src) => `<button type="button" class="kp3-new" data-action="${action}" aria-label="${e(k(key))}"><img src="assets/kp3-${src}.png" alt=""></button>`;
+    const quick = view === 'notes' ? `<form class="kp3-quick" data-form="keep-add"><input name="text" maxlength="500" autocomplete="off" placeholder="${e(k('Add quick note'))}" aria-label="${e(k('Add quick note'))}"><i></i><div class="kp3-items">${add('keep-new', 'New note', 'ic_material_note_dark')}${add('sa-unsupported', 'New list', 'ic_material_list_dark')}${add('sa-unsupported', 'New recording', 'ic_material_mic_dark')}${add('sa-unsupported', 'New photo note', 'ic_material_camera_dark')}</div></form>` : '';
+    const items = [['notes', 'Notes', 'lightbulb'], ['reminders', 'Reminders', 'reminder_finger'], ['archive', 'Archive', 'archive'], ['trash', 'Trash', 'trash']];
+    const title = view === 'notes' ? k('Keep') : k(items.find(([id]) => id === view)[1]);
+    const empty = {notes: 'Add quick note', reminders: 'Notes with upcoming reminders appear here', archive: 'Your archived notes appear here', trash: 'No notes in Trash'}[view];
+    const drawer = ctx.ui.keepDrawer ? `<button class="kp3-scrim" data-action="keep-drawer" aria-label="${e(ctx.t('Close'))}"></button><nav class="kp3-drawer"><div class="kp3-account"><b>Nexus 6</b><small>nexus6.demo@gmail.com</small></div>${items.map(([id, key, icon]) => `<button class="${view === id ? 'on' : ''}" data-action="keep-landing" data-id="${id}"><img src="assets/kp3-ic_material_${icon}_black.png" alt="">${e(k(key))}</button>`).join('')}<button class="kp3-help" data-action="sa-unsupported"><img src="assets/kp3-ic_material_feedback_black.png" alt="">${e(k('Help & feedback'))}</button></nav>` : '';
+    return `<div class="app-view sa-app sa-keep sa-keep3">${bar3(title, img('sa-unsupported', k('Search'), 'kp3-ic_material_search_light.png') + more)}<div class="sa-scroll">${quick}<div class="sa-notes${single ? ' single' : ''}">${shown.map(n => `<button class="sa-note" data-action="keep-open" data-id="${e(n.id)}" style="--note:${KEEP_COLORS[n.color || 0]}">${e(n.text)}</button>`).join('') || (view === 'notes' ? '' : `<p class="kp3-empty">${e(k(empty))}</p>`)}</div></div>${drawer}</div>`;
   }
+
 
   // ---- YouTube: What to Watch and a player ----
   const VIDEOS = [
@@ -181,6 +198,8 @@
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, lollipops', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
   // The overflow of the screen on show. News & Weather 2.2 (LMY48Y) res/menu/news_activity.xml: Search (abc_ic_search_api_mtrl_alpha) and Add section (ic_add_white_24dp) if room; Refresh, Edit weather display…, Remove this section and Migrate settings in the overflow.
   function menu(view, ctx) {
+    if (view === 'keep' && ctx.ui?.sub !== 'note') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-columns', title: k(ctx.data?.keepSingle ? 'Multi-column view' : 'Single-column view')}, {action: 'keep-refresh', title: k('Refresh')}]; }
+    if (view === 'keep') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-delete', title: k('Delete note')}, {action: 'sa-unsupported', title: k('Make a copy')}, {action: 'sa-unsupported', title: k('Send')}, {action: 'sa-unsupported', title: k('Show checkboxes')}]; }
     if (view === 'news-weather') { const n = key => S(ctx, 'news', key); return ['Refresh', 'Edit weather display…', 'Change editions…', 'Manage sections…', 'Switch to dark theme'].map(key => ({action: key === 'Refresh' ? 'sa-news-refresh' : 'sa-unsupported', title: n(key)})); }
     if (view === 'earth') { const ea = key => S(ctx, 'earth', key); return ['My location', 'Share'].map(key => ({action: 'sa-unsupported', title: ea(key)})); }
     return [];

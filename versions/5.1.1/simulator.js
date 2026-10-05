@@ -2049,7 +2049,14 @@
       case 'maps-locate': ui.mapsQuery = ''; render(); break;
       case 'drive-open': ui.driveFile = id; ui.sub = 'file'; render(); break;
       case 'keep-open': ui.keepNote = id; ui.sub = 'note'; render(); viewport.querySelector('.keep-text')?.focus(); break;
-      case 'keep-delete': data.keepNotes = (data.keepNotes || []).filter(note => note.id !== ui.keepNote); ui.sub = ''; save(); render(); break;
+      case 'keep-delete': ui.overlay = ''; renderOverlay(); data.keepNotes = (data.keepNotes || []).filter(note => note.id !== ui.keepNote); ui.sub = ''; save(); render(); break;
+      case 'keep-new': { const note = {id: 'k' + Date.now(), text: '', color: 0}; data.keepNotes = [note, ...(data.keepNotes || [])]; ui.keepNote = note.id; ui.sub = 'note'; render(); viewport.querySelector('.keep-text')?.focus(); break; }
+      case 'keep-color': { const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { saveKeepNote(); note.color = ((note.color || 0) + 1) % 5; save(); render(); } break; }
+      case 'keep-archive': { ui.overlay = ''; renderOverlay(); const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { saveKeepNote(); note.archived = !note.archived; ui.sub = ''; save(); render(); } break; }
+      case 'keep-columns': ui.overlay = ''; renderOverlay(); data.keepSingle = !data.keepSingle; save(); render(); break;
+      case 'keep-refresh': ui.overlay = ''; renderOverlay(); render(); break;
+      case 'keep-drawer': ui.keepDrawer = !ui.keepDrawer; render(); break;
+      case 'keep-landing': ui.keepView = id; ui.keepDrawer = false; render(); break;
       case 'yt-video': ui.ytVideo = id; ui.ytPaused = false; ui.sub = 'video'; render(); break;
       case 'yt-toggle': ui.ytPaused = !ui.ytPaused; render(); break;
       case 'yt-like': { const likes = data.ytLikes || []; data.ytLikes = likes.includes(id) ? likes.filter(x => x !== id) : [...likes, id]; save(); render(); break; }

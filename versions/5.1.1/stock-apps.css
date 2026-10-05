@@ -61,13 +61,6 @@
 .sa-page{min-height:100%;padding:24px 20px;background:#fff;box-shadow:0 1px 3px #0003;font:400 13.59px/1.6 Arial,sans-serif;color:#222}
 .sa-page p{margin:0 0 8px}
 /* Keep */
-.sa-keep{background:#e5e5e5}
-.sa-keep-add{flex:none;display:flex;align-items:center;margin:7.25px;padding-left:10px;background:#fff;box-shadow:0 1px 2px #0003;color:#777}
-.sa-keep-add input{flex:1;min-width:0;height:43.49px;border:0;background:none;font:400 15.4px RobotoICS,sans-serif;color:#222;outline:none}
-.sa-notes{columns:2;column-gap:7.25px;padding:0 7.25px 9px}
-.sa-note{display:block;width:100%;break-inside:avoid;margin:0 0 7.25px;padding:12px;border:0;box-shadow:0 1px 2px #0003;text-align:left;font:400 14.5px/1.4 RobotoICS,sans-serif;color:#333!important;white-space:pre-wrap;overflow-wrap:anywhere}
-.sa-keep-edit{flex:1;margin:7.25px;box-shadow:0 1px 2px #0003}
-.sa-keep-edit textarea{width:100%;height:100%;padding:14px;border:0;background:none;font:400 16.31px/1.5 RobotoICS,sans-serif;color:#222;resize:none;outline:none}
 /* YouTube */
 .sa-youtube{background:#ebebeb}
 .sa-yt-feed{padding:7.25px}
@@ -217,3 +210,38 @@
 .screen .nw2-drawer button{display:flex;align-items:center;width:100%;height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:500 12.68px Roboto,sans-serif;color:#000000de}
 .screen .nw2-drawer button.on{color:#3367d6;background:#0000000d}
 .nw2-drawer hr{margin:7.25px 0;border:0;border-top:.91px solid #0000001f}
+
+/* Keep 3.0 (audit step 4) at the Nexus 6 scale (xhdpi drawables x.453): the 56 dp yellow Toolbar, the floating
+   quick-edit toolbar on floating_toolbar_shadow (slices 20 28 36 28), notes on note_shadow in two columns, the drawer. */
+.sa-keep3{background:#e6e6e6}
+.kp3-bar{flex:none;display:flex;align-items:center;height:50.74px;padding-right:3.62px;background:#ffcc3f;box-shadow:0 1.81px 3.62px #0000003d;z-index:2}
+.screen .kp3-toggle,.screen .kp3-up{flex:none;display:flex;flex-direction:column;justify-content:center;gap:3.62px;width:65.23px;height:50.74px;padding:0 16.31px;border:0;background:none}
+.kp3-toggle i,.kp3-more i{display:block;height:1.81px;background:#fff}
+.kp3-toggle i{width:16.31px}
+.kp3-up svg{width:21.74px;height:21.74px}
+.kp3-bar>b{flex:1;min-width:0;font:500 18.12px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kp3-bar .sa-btn img{width:21.74px;height:21.74px}
+.screen .kp3-more{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3.17px}
+.kp3-more i{width:3.62px;height:3.62px;border-radius:50%}
+.kp3-quick{display:block;border-style:solid;border-width:9.06px 12.68px 16.31px;border-image:url('assets/kp3-floating_toolbar_shadow.png') 20 28 36 fill/9.06px 12.68px 16.31px}
+.kp3-quick input{display:block;width:100%;padding:7.25px;border:0;background:none;font:400 16.31px Roboto,sans-serif;color:#000;outline:none}
+.kp3-quick input::placeholder{color:#0000004d}
+.kp3-quick>i{display:block;height:.91px;background:#00000025}
+.kp3-items{display:flex;height:43.49px}
+.screen .kp3-new{flex:1;display:grid;place-items:center;padding:0;border:0;background:none}
+.kp3-new img{width:28.99px;height:28.99px}
+.sa-keep3 .sa-notes{columns:2;column-gap:0;padding:0 3.62px}
+.sa-keep3 .sa-notes.single{columns:1}
+.screen .sa-keep3 .sa-note{display:block;width:100%;min-height:43.49px;break-inside:avoid;margin:0;padding:7.25px;border:0 solid transparent;border-width:9.06px 12.68px 16.31px;border-image:url('assets/kp3-note_shadow.png') 20 28 36 28 / 9.06px 12.68px 16.31px stretch;background:var(--note,#fff) padding-box;text-align:left;font:400 14.5px/1.35 Roboto,sans-serif;color:#000000bb;white-space:pre-wrap;cursor:pointer}
+.sa-keep3 .sa-keep-edit{flex:1;margin:0}
+.sa-keep3 .sa-keep-edit textarea{width:100%;height:100%;padding:14.5px;border:0;background:none;font:400 16.31px/1.5 Roboto,sans-serif;color:#000000de;resize:none;outline:none}
+.kp3-empty{padding:72.48px 18.12px;margin:0;text-align:center;font:400 19.93px Roboto,sans-serif;color:#0000004d}
+.screen .kp3-scrim{position:absolute;inset:0;z-index:4;border:0;background:#0006}
+.kp3-drawer{position:absolute;left:0;top:0;bottom:0;z-index:5;width:min(271.8px,85%);overflow-y:auto;background:#f7f7f7}
+.kp3-account{display:flex;flex-direction:column;justify-content:flex-end;height:133.18px;padding:0 14.5px 10.87px;background:#303030;color:#fff;font:400 12.68px Roboto,sans-serif}
+.kp3-account b{font-weight:500}
+.screen .kp3-drawer button{display:flex;align-items:center;width:100%;height:50.74px;padding:0 14.5px;border:0;background:none;text-align:left;font:400 12.68px Roboto,sans-serif;color:#000000de}
+.kp3-drawer button img{width:21.74px;height:21.74px;margin-right:28.99px;opacity:.54}
+.screen .kp3-drawer button.on{background:#0000000f}
+.screen .kp3-drawer .kp3-help{height:39.86px;border-top:.91px solid #e5e5e5;border-bottom:.91px solid #e5e5e5;font-weight:700}
+.kp3-help img{margin-left:1.81px}

@@ -293,5 +293,169 @@ window.StockStrings = {
    "Ouvrir le panneau de navigation",
    "Abrir panel de navegación"
   ]
+ },
+ "keep": {
+  "Keep": [
+   "Keep",
+   "Notizen",
+   "Keep",
+   "Keep"
+  ],
+  "Add quick note": [
+   "Rövid jegyzet hozzáadása",
+   "Notiz hinzufügen",
+   "Ajouter une note",
+   "Añadir una nota rápida"
+  ],
+  "New note": [
+   "Új jegyzet",
+   "Neue Notiz",
+   "Nouvelle note",
+   "Nueva nota"
+  ],
+  "New list": [
+   "Új lista",
+   "Neue Liste",
+   "Nouvelle liste",
+   "Lista nueva"
+  ],
+  "New recording": [
+   "Új felvétel",
+   "Neue Aufnahme",
+   "Nouvel enregistrement",
+   "Nueva grabación"
+  ],
+  "New photo note": [
+   "Új fotójegyzet",
+   "Neue Fotonotiz",
+   "Nouvelle note photo",
+   "Nueva nota de foto"
+  ],
+  "Notes": [
+   "Jegyzetek",
+   "Notizen",
+   "Notes",
+   "Notas"
+  ],
+  "Reminders": [
+   "Emlékeztetők",
+   "Erinnerungen",
+   "Rappels",
+   "Recordatorios"
+  ],
+  "Archive": [
+   "Archívum",
+   "Archiv",
+   "Archives",
+   "Notas archivadas"
+  ],
+  "Trash": [
+   "Kuka",
+   "Papierkorb",
+   "Corbeille",
+   "Papelera"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe & Feedback",
+   "Aide et commentaires",
+   "Ayuda y enviar sugerencias"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók kinyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir control de navegación"
+  ],
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Single-column view": [
+   "Egyoszlopos nézet",
+   "Ansicht mit einer Spalte",
+   "Vue avec colonne unique",
+   "Vista de una columna"
+  ],
+  "Multi-column view": [
+   "Többoszlopos nézet",
+   "Ansicht mit mehreren Spalten",
+   "Vue multicolonne",
+   "Vista de varias columnas"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Share": [
+   "Megosztás",
+   "Teilen",
+   "Partager",
+   "Compartir"
+  ],
+  "Change color": [
+   "Szín módosítása",
+   "Farbe ändern",
+   "Modifier la couleur",
+   "Cambiar color"
+  ],
+  "Add picture": [
+   "Kép hozzáadása",
+   "Bild hinzufügen",
+   "Ajouter une image",
+   "Añadir imagen"
+  ],
+  "Unarchive": [
+   "Archiválás visszavonása",
+   "Dearchivieren",
+   "Annuler l'archivage",
+   "No archivar"
+  ],
+  "Delete note": [
+   "Jegyzet törlése",
+   "Notiz löschen",
+   "Supprimer la note",
+   "Eliminar nota"
+  ],
+  "Make a copy": [
+   "Másolat készítése",
+   "Kopie erstellen",
+   "Créer une copie",
+   "Crear una copia"
+  ],
+  "Send": [
+   "Küldés",
+   "Senden",
+   "Envoyer",
+   "Enviar"
+  ],
+  "Show checkboxes": [
+   "Jelölőnégyzetek megjelenítése",
+   "Kontrollkästchen anzeigen",
+   "Afficher les cases à cocher",
+   "Mostrar casillas de verificación"
+  ],
+  "Notes with upcoming reminders appear here": [
+   "Itt jelennek meg a közelgő emlékeztetőket tartalmazó jegyzetek",
+   "Hier werden Notizen mit anstehenden Erinnerungen angezeigt.",
+   "Les notes associées à des rappels à venir s'affichent ici.",
+   "Las notas con próximos recordatorios aparecerán aquí"
+  ],
+  "Your archived notes appear here": [
+   "Az archivált jegyzetek itt jelennek meg",
+   "Ihre archivierten Notizen erscheinen hier.",
+   "Vos notes archivées s'affichent ici.",
+   "Tus notas archivadas se mostrarán aquí"
+  ],
+  "No notes in Trash": [
+   "Nincs jegyzet a kukában",
+   "Keine Notizen im Papierkorb",
+   "Aucune note dans la corbeille",
+   "No hay notas en la papelera"
+  ]
  }
 };
