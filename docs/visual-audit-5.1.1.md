@@ -23,3 +23,7 @@
   - `quick_edit.xml` is a floating toolbar under the bar ("Add quick note" and the four new-note buttons). Notes sit on `note_shadow`.
   - DrawerFragment adds, per the dex, Notes, Reminders, Archive and Trash, then the Help & feedback link.
   - The editor has Share, Change color, Add picture and Archive in the bar (all "always"), and Delete note, Make a copy, Send and Show checkboxes in the overflow.
+- **Maps 9.3.0:**
+  - `base_main_internal.xml` (v17): the search box on `omnibox.9` with the menu grabber, "Search" and the mic; the my-location button and the blue (#4285f4) directions FAB at the bottom right; the watermark at the bottom left. It replaces the KitKat-era floating search card.
+  - The grabber opens `layers_menu_container.xml` from the left (white, the account switcher): Your places; Traffic, Public transit, Bicycling, Satellite, Terrain; Google Earth; Settings, Help, Send feedback.
+  - The search box itself is built in code, so its icons are the APK's `ic_qu_*` drawables.

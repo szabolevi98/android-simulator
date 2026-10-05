@@ -38,17 +38,10 @@
 /* Maps */
 .sa-maps{background:#ece8df}
 .sa-map{position:absolute;inset:0;width:100%;height:100%}
-.sa-maps-search{position:absolute;left:7.25px;right:7.25px;top:calc(var(--sb) + 7.25px);display:flex;align-items:center;height:43.49px;padding-left:9px;background:#fff;box-shadow:0 1px 3px #0000004d;z-index:2}
-.sa-maps-search img{width:25.37px;height:25.37px}
-.sa-maps-search input{flex:1;min-width:0;height:100%;padding:0 9px;border:0;background:none;font:400 16.31px RobotoICS,sans-serif;color:#222;outline:none}
-.sa-maps-search .sa-btn{color:#4285f4!important}
-.sa-maps-locate{position:absolute;right:12px;bottom:calc(var(--nb) + 14px);width:43.49px;height:43.49px;border:0;border-radius:2px;background:#fffffff0;box-shadow:0 1px 3px #0000004d;color:#666!important;display:grid;place-items:center;z-index:2}
-.sa-maps-locate svg{width:22px;height:22px}
 .sa-maps-card{position:absolute;left:0;right:0;bottom:var(--nb);display:flex;flex-direction:column;padding:12px 60px 12px 14px;background:#fff;box-shadow:0 -1px 4px #0003;z-index:3}
 .sa-maps-card b{font:400 18.12px RobotoICS,sans-serif}
 .sa-maps-card small{color:#777}
 .sa-maps-card .sa-btn{position:absolute;right:8px;top:8px;color:#4285f4!important}
-.sa-maps:has(.sa-maps-card) .sa-maps-locate{bottom:calc(var(--nb) + 80px)}
 /* Drive */
 .sa-files{background:#fff}
 .sa-file{display:flex;align-items:center;gap:14px;width:100%;min-height:57.98px;padding:0 14.5px;border:0;border-bottom:.906px solid #eee;background:none;text-align:left;color:#333!important}
@@ -245,3 +238,39 @@
 .screen .kp3-drawer button.on{background:#0000000f}
 .screen .kp3-drawer .kp3-help{height:39.86px;border-top:.91px solid #e5e5e5;border-bottom:.91px solid #e5e5e5;font-weight:700}
 .kp3-help img{margin-left:1.81px}
+
+/* Maps 9.3 (audit step 4) at the Nexus 6 scale (xxhdpi drawables x.302): omnibox.9 (slices 39 41 46 44) 8 dp in, 24 dp
+   icons in 48 dp; the 56 dp FAB (the 64 dp shadow around it) 16 dp from the corner, the my-location button above it; the
+   white side menu from the left. */
+.sa-maps9 .mp9-map{position:absolute;inset:0;overflow:hidden}
+.mp9-search{position:absolute;left:3.62px;right:3.62px;top:3.62px;display:flex;align-items:center;height:69.85px;box-sizing:border-box;border-style:solid;border-width:11.78px 12.38px 13.89px 13.29px;border-image:url('assets/mp9-omnibox.png') 39 41 46 44 fill/11.78px 12.38px 13.89px 13.29px}
+.mp9-search input{flex:1;min-width:0;height:100%;padding:0 3.62px;border:0;background:none;font:400 14.5px Roboto,sans-serif;color:#000000de;outline:none}
+.mp9-search input::placeholder{color:#0000008a}
+.screen .mp9-search button{display:grid;place-items:center;width:43.49px;height:43.49px;padding:0;border:0;background:none}
+.mp9-search button img{width:21.74px;height:21.74px;opacity:.54}
+.mp9-watermark{position:absolute;left:8.15px;bottom:8.15px;width:50.74px;height:19.03px}
+.screen .mp9-locate{position:absolute;right:21.74px;bottom:86.98px;width:36.24px;height:36.24px;padding:0;border:0;border-radius:50%;background:#fff;box-shadow:0 1.81px 3.62px #0000004d;display:grid;place-items:center}
+.mp9-locate img{width:21.74px;height:21.74px;opacity:.7}
+.screen .mp9-fab{position:absolute;right:10.87px;bottom:10.87px;width:57.98px;height:57.98px;padding:0;border:0;background:none}
+.mp9-fab .mp9-shadow{position:absolute;inset:0;width:100%;height:100%}
+.mp9-fab i{position:absolute;inset:3.62px;border-radius:50%;background:#4285f4}
+.mp9-fab .mp9-dir{position:absolute;left:50%;top:50%;width:21.74px;height:21.74px;margin:-10.87px;filter:brightness(0) invert(1)}
+.mp9-map.layer-traffic .sa-map g[stroke="#fff"]{stroke:#4caf50}
+.mp9-map.layer-transit .sa-map g[stroke="#fff"]{stroke:#7e57c2;stroke-dasharray:10 6}
+.mp9-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}
+.mp9-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
+.mp9-map.layer-terrain .sa-map{filter:sepia(.35) saturate(1.2)}
+.sa-maps9 .sa-maps-card{z-index:1}
+.screen .mp9-scrim{position:absolute;inset:0;z-index:4;border:0;background:#0006}
+.mp9-menu{position:absolute;left:0;top:0;bottom:0;z-index:5;width:min(271.8px,85%);overflow-y:auto;background:#fff}
+.mp9-account{display:flex;flex-direction:column;justify-content:flex-end;height:133.18px;padding:0 14.5px 10.87px;background:#303030;color:#fff;font:400 12.68px Roboto,sans-serif}
+.mp9-account b{font-weight:500}
+.screen .mp9-menu button{display:flex;align-items:center;width:calc(100% - 28.99px);margin:0 14.5px;padding:0 7.25px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#000;cursor:pointer}
+.screen .mp9-menu .mp9-layer{height:43.49px;margin-bottom:7.25px;gap:21.74px}
+.screen .mp9-menu .mp9-layer.on{color:#33b5e5}
+.screen .mp9-menu .mp9-places{margin:8.15px 14.5px}
+.mp9-layer img{width:21.74px;height:21.74px;opacity:.7}
+.mp9-layer .mp9-shortcut{width:24.46px;height:24.46px;margin-left:auto}
+.mp9-gap{display:block;height:9.06px}
+.screen .mp9-menu .mp9-item{height:65.23px;padding:0 7.25px}
+.mp9-menu hr{margin:0 14.5px;border:0;border-top:.91px solid #0000001f}

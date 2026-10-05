@@ -457,5 +457,91 @@ window.StockStrings = {
    "Aucune note dans la corbeille",
    "No hay notas en la papelera"
   ]
+ },
+ "maps": {
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Menu": [
+   "Menü",
+   "Menü",
+   "Menu",
+   "Menú"
+  ],
+  "Directions": [
+   "Útvonalterv",
+   "Route",
+   "Itinéraire",
+   "Indicaciones"
+  ],
+  "Move to your location": [
+   "Ugrás a saját helyre",
+   "Zu Ihrem Standort wechseln",
+   "Afficher le lieu",
+   "Mover a mi ubicación"
+  ],
+  "Your places": [
+   "Saját helyek",
+   "Meine Orte",
+   "Vos adresses",
+   "Tus lugares"
+  ],
+  "Traffic": [
+   "Forgalom",
+   "Verkehrslage",
+   "Trafic",
+   "Tráfico"
+  ],
+  "Public transit": [
+   "Tömegközlekedés",
+   "Öffentl. Verkehrsmittel",
+   "Transports en commun",
+   "Transporte público"
+  ],
+  "Bicycling": [
+   "Kerékpárral",
+   "Fahrrad",
+   "Vélo",
+   "Rutas en bicicleta"
+  ],
+  "Satellite": [
+   "Műhold",
+   "Satellit",
+   "Satellite",
+   "Satélite"
+  ],
+  "Terrain": [
+   "Terep",
+   "Gelände",
+   "Relief",
+   "Relieve"
+  ],
+  "Google Earth": [
+   "Google Earth",
+   "Google Earth",
+   "Google Earth",
+   "Google Earth"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Configuración"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer des commentaires",
+   "Enviar comentarios"
+  ]
  }
 };

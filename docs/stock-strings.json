@@ -355,6 +355,22 @@
    "Notes with upcoming reminders appear here": "PrebuiltKeep:empty_view_no_reminders",
    "Your archived notes appear here": "PrebuiltKeep:empty_view_no_archived_notes",
    "No notes in Trash": "PrebuiltKeep:empty_view_no_trashed_notes"
+  },
+  "maps": {
+   "Search": "Maps:SEARCH",
+   "Menu": "Maps:ACCESSIBILITY_MENU",
+   "Directions": "Maps:NAVIGATION",
+   "Move to your location": "Maps:ACCESSIBILITY_MOVE_TO_MY_LOCATION",
+   "Your places": "Maps:YOUR_PLACES",
+   "Traffic": "Maps:LAYER_TRAFFIC",
+   "Public transit": "Maps:LAYER_PUBLIC_TRANSIT",
+   "Bicycling": "Maps:LAYER_BICYCLING",
+   "Satellite": "Maps:LAYER_SATELLITE",
+   "Terrain": "Maps:LAYERS_TERRAIN",
+   "Google Earth": "Maps:LAYER_GOOGLE_EARTH",
+   "Settings": "Maps:SETTINGS",
+   "Help": "Maps:HELP",
+   "Send feedback": "Maps:SEND_FEEDBACK"
   }
  }
 }

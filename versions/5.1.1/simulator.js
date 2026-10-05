@@ -2047,6 +2047,9 @@
       case 'voice-listen': listenVoice(); break;
       case 'google-now-toggle': data.googleNowOn = data.googleNowOn === false; save(); render(); break;
       case 'maps-locate': ui.mapsQuery = ''; render(); break;
+      // Maps 9.3: the search box's grabber opens the side menu; a layer toggles the map's look.
+      case 'maps-panel': ui.mapsPanel = !ui.mapsPanel; render(); break;
+      case 'maps-layer': data.mapsLayer = data.mapsLayer === id ? '' : id; save(); render(); break;
       case 'drive-open': ui.driveFile = id; ui.sub = 'file'; render(); break;
       case 'keep-open': ui.keepNote = id; ui.sub = 'note'; render(); viewport.querySelector('.keep-text')?.focus(); break;
       case 'keep-delete': ui.overlay = ''; renderOverlay(); data.keepNotes = (data.keepNotes || []).filter(note => note.id !== ui.keepNote); ui.sub = ''; save(); render(); break;

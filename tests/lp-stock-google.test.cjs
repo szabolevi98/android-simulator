@@ -16,4 +16,7 @@ assert.ok(fs.readFileSync('versions/5.1.1/simulator.js','utf8').includes("'news-
 const kp=A.render('keep',{...ctx({keepDrawer:true}),data:{keepNotes:[{id:'k1',text:'Milk'}]}});assert.ok(kp.includes('kp3-bar')&&kp.includes('kp3-ic_material_search_light.png')&&kp.includes('kp3-quick'));
 assert.equal([...kp.matchAll(/data-action="keep-landing" data-id="(\w+)"/g)].map(m=>m[1]).join(),'notes,reminders,archive,trash');
 assert.ok(css.includes('.kp3-bar{')&&css.includes('#ffcc3f'));
+// Maps 9.3: the search box with the grabber and mic, the FAB and my-location button, layers_menu_internal's side menu.
+const mp=A.render('maps',ctx({mapsPanel:true}));assert.ok(mp.includes('mp9-ic_qu_menu_grabber.png')&&mp.includes('mp9-ic_qu_directions.png')&&mp.includes('mp9-ic_qu_direction_mylocation.png'));
+assert.ok(/Your places.*Traffic.*Public transit.*Bicycling.*Satellite.*Terrain.*Google Earth.*Settings.*Help.*Send feedback/s.test(mp));
 console.log('lp stock google ok');
