@@ -135,4 +135,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 5.1.1 Maps 9.3 (keresőmező, FAB, saját hely, oldalmenü) | f9bc37d |
 | 2026-10-05 | 4. lépés: 5.1.1 Drive 2.1 (szürke sáv, menü, dokumentumsorok, navigációs panel a dex szerint) | 157103c |
 | 2026-10-05 | 4. lépés: 5.1.1 YouTube 10.03 (piros Toolbar, listás feed, Guide a dex szerint, állapotsor-szín) | 30a9e8f |
-| 2026-10-05 | 4. lépés: 5.1.1 Google+ 4.9 (piros Toolbar, értesítések, kártyák, FAB) | (ez a commit) |
+| 2026-10-05 | 4. lépés: 5.1.1 Google+ 4.9 (piros Toolbar, értesítések, kártyák, FAB) | 9aa69e4 |
