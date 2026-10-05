@@ -527,3 +527,18 @@ News & Weather follows each image's menu XML instead of a crosshair for Refresh:
 
 The StockApps, Play and extra apps' remaining "‹" up carets go with their per-APK rework (audit step 4).
 
+## Calendar and Clock pickers on 4.0.4 (audit step 2) — 2026-10-05
+
+The Galaxy Nexus Calendar's editor had browser date and time fields and a Previous / Next bar of its own. Now:
+- **From / To:** the From and To rows follow CalendarGoogle's `edit_event_1.xml`:
+  - the labels are `EditEvent_LabelSmall` (14 sp #aaaaaa, caps), with the APK's translations ("Kezdete:", "Von"…);
+  - below them sit a 7 : 4 pair of Holo spinner buttons (`spinner_default_holo_light`) with "Fri, Oct 5, 2012" and the time;
+  - All day hides the times.
+- **The pickers:** the buttons open the framework's DatePickerDialog and TimePickerDialog (`ics-pickers.js`):
+  - phones show only the spinners (`date_picker_dialog.xml`: `calendarViewShown="false"`), in the locale's date order;
+  - the date dialog's title is the picked date, the time dialog's "Set time", with the buttons Cancel and Set;
+  - the NumberPicker wheels have 48 dp rows and blue selection dividers, and they turn with a tap, the mouse wheel or a drag;
+  - setting the start moves the end so the event keeps its length.
+- **No bar of its own:** the Previous / Next bar is gone; Month, Week and Day move with a swipe, and Today jumps back. The action bar's view list sits on `spinner_ab_default_holo_light` instead of a "▾" glyph, and the up caret is `ic_ab_back_holo_light`.
+- **Clock:** an alarm's Time opens the same TimePickerDialog in Holo dark.
+

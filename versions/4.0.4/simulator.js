@@ -577,6 +577,9 @@
       overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
       overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
+    } else if (ui.overlay === 'icpk') {
+      // The framework's DatePickerDialog / TimePickerDialog (Calendar's From / To, DeskClock's alarm time).
+      overlayRoot.innerHTML = ICSPickers.render(ui.icsPicker, i18n.locale());
     } else if (ui.overlay.startsWith('clock-')) {
       overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('calendar-')) {
@@ -1339,6 +1342,23 @@
       case 'calendar-next': calendarMove(1); break;
       case 'calendar-day': ui.selectedDate=id;ui.calendarMode=data.calendarMode='Day';save();calendarRender();break;
       case 'calendar-today': ui.selectedDate=today();calendarRender();break;
+      // Calendar's From / To buttons: the picker starts at the form's value; Set writes it back and, like EditEventView,
+      // moves the end with the start so the event keeps its length.
+      case 'calpick': {
+        const form=viewport.querySelector('form[data-form="event"]'),value=form?.elements[id]?.value||'';
+        ui.icsPicker=ICSPickers.fromValue(/date/i.test(id)?'date':'time',value||(/date/i.test(id)?ui.selectedDate:'09:00'),{field:id,theme:'light',setAction:'calpick-set',hour24:!!data.settings.hour24});
+        ui.overlay='icpk';renderOverlay();break;
+      }
+      case 'icpk-step': ICSPickers.step(ui.icsPicker,id);renderOverlay();break;
+      case 'calpick-set': {
+        const form=viewport.querySelector('form[data-form="event"]'),p=ui.icsPicker;ui.overlay='';renderOverlay();if(!form||!p)break;
+        const get=name=>form.elements[name].value,stamp=(d,t)=>new Date(`${d}T${t||'00:00'}`).getTime();
+        const before=stamp(get('date'),get('time')),length=stamp(get('endDate'),get('endTime'))-before;
+        form.elements[p.field].value=p.kind==='date'?ICSPickers.iso(p):ICSPickers.hhmm(p);
+        if(p.field==='date'||p.field==='time'){const end=new Date(stamp(get('date'),get('time'))+Math.max(0,length||0));form.elements.endDate.value=ICSCalendar.iso(end);form.elements.endTime.value=`${String(end.getHours()).padStart(2,'0')}:${String(end.getMinutes()).padStart(2,'0')}`;}
+        for(const name of ['date','time','endDate','endTime'])form.querySelector(`[data-action="calpick"][data-id="${name}"]`).textContent=/date/i.test(name)?ICSCalendar.dateButton(get(name),i18n.locale()):ICSCalendar.timeButton(get(name),i18n.locale(),!!data.settings.hour24);
+        break;
+      }
       case 'calendar-views': case 'calendar-menu': ui.overlay=action;renderOverlay();break;
       case 'calendar-mode': ui.calendarMode=data.calendarMode=id;save();ui.calendarSearch=undefined;ui.overlay='';calendarRender();break;
       case 'calendar-search': ui.calendarMode='Agenda';ui.calendarSearch='';ui.overlay='';render();viewport.querySelector('.cal-search input').focus();break;
@@ -1357,11 +1377,9 @@
       case 'alarm-edit': editAlarm(id); break;
       case 'alarm-cancel': ui.alarmDraft=null; ui.sub='alarms'; render(); break;
       case 'alarm-draft-toggle': ui.alarmDraft[id]=!ui.alarmDraft[id]; render(); break;
-      case 'alarm-field': ui.overlay='clock-'+id; renderOverlay(); break;
-      case 'alarm-time-step': {
-        const [field,step]=id.split(':'); const input=overlayRoot.querySelector(`[name="${field}"]`);
-        const count=field==='hour'?24:60; input.value=String(((Number(input.value)||0)+Number(step)+count)%count).padStart(2,'0'); break;
-      }
+      // SetAlarm's time preference opens the framework's TimePickerDialog (Holo dark, like DeskClock).
+      case 'alarm-field': if(id==='time'){ui.icsPicker=ICSPickers.fromValue('time',ICSDeskClock.normalize(ui.alarmDraft).time,{theme:'dark',setAction:'alarm-time-pick',hour24:!!data.settings.hour24});ui.overlay='icpk';renderOverlay();break;} ui.overlay='clock-'+id; renderOverlay(); break;
+      case 'alarm-time-pick': ui.alarmDraft.time=ICSPickers.hhmm(ui.icsPicker); ui.overlay=''; renderOverlay(); render(); break;
       case 'alarm-save': {
         const alarm=ICSDeskClock.normalize(ui.alarmDraft); delete alarm.snoozedUntil; delete alarm.lastFiredMinute;
         const index=data.alarms.findIndex(item=>item.id===alarm.id);
@@ -1502,7 +1520,6 @@
       }
       case 'calendar-search': ui.calendarSearch=String(values.get('query')||'').trim();render();break;
       case 'music-playlist': {const name=String(values.get('name')||'').trim();if(!name)return;ui.music.playlists.push({id:Date.now(),name,tracks:ui.musicAddPending?[ui.musicSelected]:[]});saveMusic();ui.overlay='';render();break;}
-      case 'alarm-time': ui.alarmDraft.time=String(values.get('hour')).padStart(2,'0')+':'+String(values.get('minute')).padStart(2,'0'); ui.overlay='';render();break;
       case 'alarm-days': ui.alarmDraft.days=values.getAll('days').map(Number);ui.overlay='';render();break;
       case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';render();break;
       case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';render();break;
