@@ -128,4 +128,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.4.4 YouTube 5.2 (logós sáv, Guide a dex sorrendjében, kártyák, nézőoldal) | a831eae |
 | 2026-10-05 | 4. lépés: 4.4.4 Drive 1.2 (sáv, menü, navigációs panel, dokumentumsorok időcsoportokkal) | 392811a |
 | 2026-10-05 | 4. lépés: 4.4.4 Google+ 4.2 (csengő, menü a dex szerint, compose sáv) – a 4.4.4 StockApps kész | (3c730d4) |
-| 2026-10-05 | 4. lépés: 5.1.1 S() + stock-strings.js; Google Settings a GMS 6.7 odex-kódjából (kategóriák, sorrend) | (ez a commit) |
+| 2026-10-05 | 4. lépés: 5.1.1 S() + stock-strings.js; Google Settings a GMS 6.7 odex-kódjából (kategóriák, sorrend) | 671e106 |
