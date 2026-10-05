@@ -31,7 +31,7 @@ Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem ti
 Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magasság), betű, ikonok, elrendezés, üres állapot, menü.
 
 - [ ] A StockApps, Play- és extra appok megmaradt „‹” vissza-jeleinek cseréje (az 1. lépésből ide került)
-- [x] `stock-apps.js` – 4.3 (JWR66Y): Google/Now, Voice Search, Maps 6.14, Keep 1.0, YouTube 4.5, Google+ 4.0, Earth, News & Weather, Google Settings
+- [x] `stock-apps.js` – 4.3 (JWR66Y): Google/Now, Voice Search, Maps 6.14, Keep 1.0, YouTube 4.5, Google+ 4.0, Earth, News & Weather, Google Settings (71d403f)
 - [ ] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival
 - [ ] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings
 - [ ] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games
@@ -119,4 +119,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.3 Google Search 2.5.9 / Google Now a Velvet.apk-ból (velvet-now.js a KitKatos gel-now.js helyett) | 7d1270b |
 | 2026-10-05 | 4. lépés: 4.3 Voice Search a Velvet speak_now.xml-jéből | 2a71725 |
 | 2026-10-05 | 4. lépés: 4.3 News & Weather a GenieWidget.apk-ból; 44 hibás `.851.6px` hossz javítva a 4.3 CSS-ében + teszt | e0eb0b6 |
-| 2026-10-05 | 4. lépés: 4.3 Google Settings a PrebuiltGmsCore-ból (sáv, a dex sorrendje); stock-strings.py aapt2-vel olvassa a kihagyott APK-kat | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.3 Google Settings a PrebuiltGmsCore-ból (sáv, a dex sorrendje); stock-strings.py aapt2-vel olvassa a kihagyott APK-kat | 71d403f |
