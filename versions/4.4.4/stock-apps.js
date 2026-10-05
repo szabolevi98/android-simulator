@@ -87,19 +87,34 @@
 
   // ---- Drive (2013): My Drive ----
   const FILES = [
-    {id: 'f0', name: 'Photos', kind: 'folder', date: 'Oct 28'}, {id: 'f1', name: 'Trip plan 2014', kind: 'doc', date: 'Nov 2', text: 'Day 1 — arrive in Lisbon, tram 28 to Alfama.\nDay 2 — Belém, pastéis de nata.\nDay 3 — Sintra by train.'},
-    {id: 'f2', name: 'Budget', kind: 'sheet', date: 'Oct 30', text: 'Rent 850\nGroceries 240\nTransport 60\nFun 120'}, {id: 'f3', name: 'Nexus 5 manual', kind: 'pdf', date: 'Oct 31', text: 'Welcome to Nexus 5. Swipe left from the Home screen to see Google Now.'},
-    {id: 'f4', name: 'Meetup slides', kind: 'slides', date: 'Sep 12', text: 'What’s new in KitKat\n• Immersive mode\n• Printing\n• Host card emulation'}
+    {id: 'f0', name: 'Photos', kind: 'folder', date: 'Oct 28', age: 9}, {id: 'f1', name: 'Trip plan 2014', kind: 'doc', date: 'Nov 2', age: 0, text: 'Day 1 — arrive in Lisbon, tram 28 to Alfama.\nDay 2 — Belém, pastéis de nata.\nDay 3 — Sintra by train.'},
+    {id: 'f2', name: 'Budget', kind: 'sheet', date: 'Oct 30', age: 1, text: 'Rent 850\nGroceries 240\nTransport 60\nFun 120'}, {id: 'f3', name: 'Nexus 5 manual', kind: 'pdf', date: 'Oct 31', age: 3, text: 'Welcome to Nexus 5. Swipe left from the Home screen to see Google Now.'},
+    {id: 'f4', name: 'Meetup slides', kind: 'slides', date: 'Sep 12', age: 60, text: 'What’s new in KitKat\n• Immersive mode\n• Printing\n• Host card emulation'}
   ];
   const kindColor = {folder: '#8f8f8f', doc: '#4285f4', sheet: '#0f9d58', pdf: '#db4437', slides: '#f4b400'};
+  // Drive 1.2.484 (KTU84P): CakemixTheme's ActionBar on action_bar_background (#dddddd over a 3 dp #d6d6d6 / #c3c3c3
+  // base, #333 text) with the navigation toggle (ic_drawer). menu_doclist_activity.xml under ActionMenuPresenter's three
+  // slots: Search and View as Grid in the bar; Add new, Refresh, Filter by, Sort by, Settings and Product Tour in the
+  // overflow. navigation_sliding_panel.xml (300 dp, #eeeeee): the account, then the entries of the iM enum - My Drive,
+  // Shared with me, Starred, Recent, Offline, Uploads - as navigation_list_item.xml rows (49 dp, 22 dp icons, 16 sp).
+  // doc_entry_row.xml: 60 dp, the type icon centred on #f0f0f0, the 16 sp title, "Modified: …" in 13 sp #aaaaaa, the info
+  // button; sorted by Last modified under Drive's time range titles (12 sp).
   function drive(ctx) {
+    const d = key => S(ctx, 'drive', key);
     if (ctx.ui.sub === 'file') {
       const file = FILES.find(f => f.id === ctx.ui.driveFile) || FILES[1];
       return `<div class="app-view sa-app sa-drive">${bar(ctx, {title: file.name, up: true, icon: 'drive.png', actions: btn('sa-unsupported', ctx.t('Share'), 'share') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-doc"><div class="sa-page">${e(file.text || '').split('\n').map(line => `<p>${line}</p>`).join('')}</div></div></div>`;
     }
-    const row = f => `<button class="sa-file" data-action="${f.kind === 'folder' ? 'sa-unsupported' : 'drive-open'}" data-id="${f.id}"><i style="background:${kindColor[f.kind]}">${f.kind === 'folder' ? ICON.folder : f.kind.charAt(0).toUpperCase()}</i><span><b>${e(f.name)}</b><small>${e(ctx.t('Modified'))} ${e(f.date)}</small></span></button>`;
-    return `<div class="app-view sa-app sa-drive">${bar(ctx, {title: ctx.t('My Drive'), icon: 'drive.png', actions: btn('sa-unsupported', ctx.t('New'), 'add') + btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-files">${FILES.map(row).join('')}</div></div>`;
+    const icon = {folder: 'ic_type_folder', doc: 'ic_type_doc', sheet: 'ic_type_sheet', pdf: 'ic_type_pdf', slides: 'ic_type_presentation'};
+    const range = age => age === 0 ? 'Today' : age === 1 ? 'Yesterday' : age < 7 ? 'Earlier this Week' : age < 31 ? 'Earlier this Month' : 'Older';
+    const when = age => new Date(ctx.now.getTime() - age * 864e5).toLocaleDateString(ctx.locale, {month: 'short', day: 'numeric'});
+    let last = '';
+    const rows = [...FILES].sort((a, b) => a.age - b.age).map(f => { const r = range(f.age), head = r !== last ? `<h4 class="dr-group">${e(d(r))}</h4>` : ''; last = r; return `${head}<div class="dr-row"><button class="dr-main" data-action="${f.kind === 'folder' ? 'sa-unsupported' : 'drive-open'}" data-id="${f.id}"><span class="dr-icon"><img src="assets/dr-${icon[f.kind]}.png" alt=""></span><span class="dr-text"><b>${e(f.name)}</b><small>${e(d('Modified: %s').replace('%s', when(f.age)))}</small></span></button><button class="dr-info" data-action="sa-unsupported" aria-label="${e(d('Show item properties'))}"><img src="assets/dr-ic_information_gray_small.png" alt=""></button></div>`; }).join('');
+    const nav = [['My Drive', 'my_drive'], ['Shared with me', 'shared_with_me'], ['Starred', 'starred'], ['Recent', 'recently_opened'], ['Offline', 'offline'], ['Uploads', 'upload']];
+    const panel = ctx.ui.driveNav ? `<button class="dr-scrim" data-action="drive-nav" aria-label="${e(ctx.t('Close'))}"></button><nav class="dr-nav"><div class="dr-account">kitkat.demo@gmail.com</div>${nav.map(([key, ic], n) => `<button class="${n ? '' : 'on'}" data-action="${n ? 'sa-unsupported' : 'drive-nav'}"><img src="assets/dr-ic_drive_${ic}_inactive.png" alt="">${e(d(key))}</button>`).join('')}</nav>` : '';
+    return `<div class="app-view sa-app sa-drive sa-drive12"><header class="sa-bar dr-bar"><button class="sa-up" data-action="drive-nav" aria-label="${e(d('Open navigation drawer'))}"><img class="dr-toggle" src="assets/dr-ic_drawer.png" alt=""><img src="assets/drive.png" alt=""></button><span class="sa-title"><b>${e(d('My Drive'))}</b></span>${img('sa-unsupported', d('Search'), 'dr-action_search.png')}${img('sa-unsupported', d('View as Grid'), 'dr-ic_grid_toggle.png')}<button class="sa-btn" data-action="sa-menu" aria-label="${e(ctx.t('More options'))}"><img src="assets/dr-ic_actionbar_overflow.png" alt=""></button></header><div class="sa-scroll dr-list">${rows}</div>${panel}</div>`;
   }
+
 
   // ---- Keep (2013): the quick note bar and coloured cards; notes are kept in data.keepNotes ----
   const KEEP_COLORS = ['#fff', '#f7f0a3', '#c6e5f5', '#c9f0b9', '#f8c8c0'];
@@ -209,6 +224,7 @@
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, KitKat', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
   // The overflow of the screen on show. GenieWidget 1.3.11 (KTU84P) res/menu/main_menu.xml: Refresh (navigation_refresh) always in the bar, Settings in the overflow.
   function menu(view, ctx) {
+    if (view === 'drive' && ctx.ui?.sub !== 'file') { const d = key => S(ctx, 'drive', key); return ['Add new', 'Refresh', 'Filter by', 'Sort by', 'Settings', 'Product Tour'].map(key => ({action: 'sa-unsupported', title: d(key)})); }
     if (view === 'youtube' && ctx.ui?.sub !== 'video') { const y = key => S(ctx, 'youtube', key); return [{action: 'sa-unsupported', title: y('Settings')}, {action: 'sa-unsupported', title: y('Feedback')}, {action: 'sa-unsupported', title: y('Help')}]; }
     if (view === 'keep' && ctx.ui?.sub !== 'note') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-columns', title: k(ctx.data?.keepSingle ? 'Multi-column view' : 'Single-column view')}, {action: 'keep-refresh', title: k('Refresh')}, {action: 'sa-unsupported', title: k('Settings')}, {action: 'sa-unsupported', title: k('Send feedback')}, {action: 'sa-unsupported', title: k('Help')}]; }
     if (view === 'keep') { const k = key => S(ctx, 'keep', key), note = (ctx.data?.keepNotes || []).find(n => n.id === ctx.ui.keepNote); return [{action: 'keep-archive', title: k(note?.archived ? 'Unarchive' : 'Archive')}, {action: 'keep-delete', title: k('Delete')}, {action: 'sa-unsupported', title: k('Show checkboxes')}, {action: 'sa-unsupported', title: k('Share…')}, {action: 'sa-unsupported', title: k('Settings')}, {action: 'sa-unsupported', title: k('Send feedback')}, {action: 'sa-unsupported', title: k('Help')}]; }

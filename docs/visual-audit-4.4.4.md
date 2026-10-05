@@ -37,3 +37,8 @@
   - The Guide follows `GuideFragment` (dex order): the account; Uploads, History, Favorites, Playlists, Watch later; the Subscriptions label with What to watch and My subscriptions; Browse channels; the From YouTube label with Recommended and Trending. It uses `guide_entry.xml` / `guide_section.xml` on #434343 with the `ic_drawer_*` icons.
   - Feed items are `video_feed_item.xml` on `card_frame`: thumbnail and duration badge, 18 sp title, 14 sp channel and views, the menu anchor.
   - The watch page shows the player, `watch_info_card.xml` with `like_dislike_panel.xml`, and `watch_suggested_card.xml` (`detailed_video_item_body.xml` rows, "More").
+- **Drive 1.2.484:**
+  - CakemixTheme's ActionBar (`action_bar_background`: #dddddd over a 3 dp grey base, #333 text) with the navigation toggle `ic_drawer`.
+  - `menu_doclist_activity.xml` under ActionMenuPresenter's three slots: Search and View as Grid in the bar; Add new, Refresh, Filter by, Sort by, Settings and Product Tour in the overflow.
+  - The navigation panel (`navigation_sliding_panel.xml`, #eeeeee) lists the account, then the `iM` enum's entries in the dex: My Drive, Shared with me, Starred, Recent, Offline, Uploads.
+  - Files are `doc_entry_row.xml` rows (60 dp, the `ic_type_*` icon on #f0f0f0, "Modified: …", the info button) under Drive's own time range titles (Today, Yesterday, Earlier this Week, Earlier this Month, Older).

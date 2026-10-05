@@ -634,5 +634,139 @@ window.StockStrings = {
    "Je n'aime pas",
    "No me gusta"
   ]
+ },
+ "drive": {
+  "My Drive": [
+   "Saját meghajtó",
+   "Meine Ablage",
+   "Mon Drive",
+   "Mi unidad"
+  ],
+  "Shared with me": [
+   "Velem megosztottak",
+   "Für mich freigegeben",
+   "Partagés avec moi",
+   "Compartido conmigo"
+  ],
+  "Starred": [
+   "Csillagozott elemek",
+   "Markiert",
+   "Suivis",
+   "Destacado"
+  ],
+  "Recent": [
+   "Legutóbbi",
+   "Zuletzt geöffnet",
+   "Récents",
+   "Reciente"
+  ],
+  "Offline": [
+   "Offline",
+   "Offline",
+   "Hors connexion",
+   "Sin conexión"
+  ],
+  "Uploads": [
+   "Feltöltések",
+   "Uploads",
+   "Importations",
+   "Subidas"
+  ],
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Rechercher",
+   "Buscar"
+  ],
+  "View as Grid": [
+   "Rácsnézet",
+   "Als Raster anzeigen",
+   "Grille",
+   "Ver como cuadrícula"
+  ],
+  "Add new": [
+   "Új hozzáadása",
+   "Neu hinzufügen",
+   "Ajouter",
+   "Nuevo"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Filter by": [
+   "Szűrés:",
+   "Filtern nach",
+   "Filtrer par",
+   "Filtrar por"
+  ],
+  "Sort by": [
+   "Rendezési szempont:",
+   "Sortieren nach",
+   "Trier par",
+   "Ordenar por"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Product Tour": [
+   "Termékbemutató",
+   "Produkttour",
+   "Visite guidée",
+   "Visita del producto"
+  ],
+  "Open navigation drawer": [
+   "Navigálási fiók megnyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir control de navegación"
+  ],
+  "Show item properties": [
+   "Elemtulajdonságok megjelenítése",
+   "Dokumenteigenschaften anzeigen",
+   "Afficher les propriétés de l'élément",
+   "Mostrar propiedades de los elementos"
+  ],
+  "Modified: %s": [
+   "Módosítva: %s",
+   "Geändert: %s",
+   "Modifié : %s",
+   "Modificado: %s"
+  ],
+  "Today": [
+   "Ma",
+   "Heute",
+   "Aujourd'hui",
+   "Hoy"
+  ],
+  "Yesterday": [
+   "Tegnap",
+   "Gestern",
+   "Hier",
+   "Ayer"
+  ],
+  "Earlier this Week": [
+   "Korábban a héten",
+   "In dieser Woche",
+   "Cette semaine",
+   "Anteriormente esta semana"
+  ],
+  "Earlier this Month": [
+   "Korábban a hónapban",
+   "In diesem Monat",
+   "Ce mois-ci",
+   "Anteriormente este mes"
+  ],
+  "Older": [
+   "Régebbiek",
+   "Ältere",
+   "Plus anciens",
+   "Más antiguos"
+  ]
  }
 };

@@ -30,4 +30,8 @@ assert.ok(!JSON.stringify(A.menu('keep',ctx())).includes('keep-archived')&&A.ren
 const yt=A.render('youtube',ctx({ytGuide:true}));assert.ok(yt.includes('yt5-action_bar_logo.png')&&yt.includes('yt5-card'));
 assert.deepEqual([...yt.matchAll(/class="yt5-entry[^"]*" data-action="[^"]+">(?:<img[^>]*>|<i><\/i>)<span>([^<]+)/g)].map(m=>m[1]).join('|'),'Uploads|History|Favorites|Playlists|Watch later|What to watch|My subscriptions|Browse channels|Recommended|Trending');
 const watch=A.render('youtube',ctx({sub:'video',ytVideo:'v2'}));assert.ok(watch.includes('yt5-info')&&watch.includes('yt5-ic_like.png')&&watch.includes('yt5-suggested'));
+// Drive 1.2: the toggle bar with Search and the grid toggle, iM's navigation entries, doc rows under time ranges.
+const dr=A.render('drive',ctx({driveNav:true}));assert.ok(dr.includes('dr-ic_drawer.png')&&dr.includes('dr-ic_grid_toggle.png')&&dr.includes('Today')&&dr.includes('Modified: '));
+assert.ok(/My Drive.*Shared with me.*Starred.*Recent.*Offline.*Uploads/s.test(dr.slice(dr.indexOf('dr-nav'))));
+assert.equal(JSON.stringify(A.menu('drive',ctx()).map(i=>i.title)),JSON.stringify(['Add new','Refresh','Filter by','Sort by','Settings','Product Tour']));
 console.log('kk stock google ok');
