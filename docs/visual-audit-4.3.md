@@ -618,7 +618,8 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - `compose_bar.xml` at the bottom: Photo, Check in, Mood and Write in their colours on black. Posts reshare with `ic_reshare_16`.
 - **Earth 7.1.1:**
   - Theme.Earth's overlay action bar on `header_bar_bg_80_percent_black` over the globe, replacing the white search box and the "‹" home button.
-  - `menu-v11/main.xml`: Search (expands in the bar with "Example: Pizza"), Reset to north, My location and the sensors toggle in the bar; Clear map, Share, Settings, Feedback, Help, Tutorial and Fly to in the overflow.
+  - `menu-v11/main.xml` as `EarthActivity.onCreateOptionsMenu` shows it on phones: every item except the sensors button and Fly to; Clear map only once there is something to clear (after a search).
+  - The framework's `max_action_buttons` is 3 at 360 dp and up, and `ActionMenuPresenter` keeps one slot for the overflow. So Search (always, expands with "Example: Pizza") and Reset to north are in the bar. My location, Share, Settings, Feedback, Help and Tutorial go to the overflow (the first version had My location and a sensors toggle in the bar).
 - **Google Search 2.5.9 (Google Now):**
   - The Google app showed the KitKat launcher's Google Now page (`gel-now.js`, a drawn header and a bottom bar of Reminders / Customize / Menu). It is now `velvet-now.js` from `velvet_main.xml`.
   - The header is Velvet's own picture for the time of day (`context_header_bg_dawn` / `_daylight` / `_dusk` / `_twilight`) with `ic_google_large_light`.

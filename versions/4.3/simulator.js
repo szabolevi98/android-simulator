@@ -1746,7 +1746,7 @@
       case 'maps-places': openApp('local'); break;
       case 'earth-search-open': ui.earthSearching = true; render(); viewport.querySelector('.sa-earth-field input')?.focus(); break;
       case 'earth-search-close': ui.earthSearching = false; render(); break;
-      case 'earth-sensors': data.earthSensors = !data.earthSensors; save(); render(); break;
+      case 'earth-clear': ui.overlay = ''; renderOverlay(); ui.earthQuery = ''; render(); break;
       case 'gplus-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'maps-feature': ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); if (id === 'local' || id === 'navigation') openApp(id); else { data.mapsLayer = id === 'traffic' ? 'traffic' : ''; save(); render(); } break;
       case 'maps-layer': ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); data.mapsLayer = data.mapsLayer === id ? '' : id; save(); render(); break;
@@ -2094,7 +2094,7 @@
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
       case 'maps-search': ui.mapsQuery = String(values.get('query') || '').trim().slice(0, 60); render(); break;
       case 'keep-add': { const text = String(values.get('text') || '').trim(); if (!text) return; data.keepNotes = [{id: 'k' + Date.now(), text, color: (data.keepNotes || []).length % 5}, ...(data.keepNotes || [])]; save(); render(); break; }
-      case 'earth-search': toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'earth-search': ui.earthQuery = String(values.get('query') || '').trim().slice(0, 60); ui.earthSearching = false; render(); break;
       case 'hg-new': { const target = ICSMessaging.recipient(values.get('recipient'), data.contacts); if (!target) { toast('Enter a contact name or valid phone number'); return; } pickHangout(target.key); break; }
       case 'mms-send': {
         const target = ui.sub === 'thread' ? {key:ui.thread} : ICSMessaging.recipient(values.get('recipient'),data.contacts);

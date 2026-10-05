@@ -187,11 +187,10 @@
 .screen .sa-gp-compose button:active{background:#33b5e566}
 .sa-post footer button img{width:13.63px;height:13.63px}
 
-/* Earth 7.1.1 (audit step 4): the overlay action bar on header_bar_bg_80_percent_black with the menu's icons; Search expands
-   into the bar. */
+/* Earth 7.1.1 (audit step 4): the overlay action bar on header_bar_bg_80_percent_black with Search and Reset to north;
+   Search expands into the bar, a search's query becomes the title. */
 .sa-earth .sa-earth-bar{position:absolute;left:0;right:0;top:var(--sb,0);z-index:3;background:#000000cc;border-bottom:0;color:#fff}
 .sa-earth-bar .sa-btn.tall img{width:10.65px;height:22.14px}
-.sa-earth-bar .sa-btn.on img{filter:brightness(0) invert(.75) sepia(1) hue-rotate(160deg) saturate(5)}
 .sa-earth-field{flex:1;min-width:0;display:flex;align-items:center}
 .sa-earth-field input{width:100%;padding:4px 2px;border:0;border-bottom:1.7px solid #33b5e5;background:none;color:#fff;font:400 15.33px Roboto,sans-serif;outline:0}
 

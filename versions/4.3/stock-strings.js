@@ -440,12 +440,6 @@ window.StockStrings = {
    "Anleitung",
    "Didacticiel",
    "Tutorial"
-  ],
-  "Fly to": [
-   "Repíts ide",
-   "Anfliegen",
-   "Aller à",
-   "Volar a"
   ]
  },
  "google": {

@@ -8,7 +8,7 @@ assert.ok(A.render('maps',ctx({mapsQuery:'Coffee'})).includes('sa-maps-card')&&A
 assert.ok(A.render('keep',ctx({},{keepNotes:A.DEFAULT_NOTES})).includes('Buy concert tickets')&&A.render('keep',ctx({sub:'note',keepNote:'k1'},{keepNotes:A.DEFAULT_NOTES})).includes('keep-text'));
 assert.ok(A.render('drive',ctx({sub:'file',driveFile:'f1'})).includes('Lisbon'));
 assert.ok(A.render('youtube',ctx({sub:'video',ytVideo:'v2'})).includes('sa-yt-player'));
-assert.ok(A.render('news-weather',ctx({newsTab:'Weather'})).includes('sa-forecast'));
+assert.ok(A.render('news-weather',ctx({newsTab:'Weather'})).includes('nw-forecast'));
 assert.ok(A.render('voice-search',ctx({voiceState:'retry'})).includes('Didn’t catch that.'));
 for(const f of ['google-plus','maps','earth','google-search','keep','drive','youtube','news-weather','voice-search'])assert.ok(fs.existsSync(`versions/4.4.4/assets/${f}.png`),f);
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');

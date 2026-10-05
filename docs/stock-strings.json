@@ -80,8 +80,7 @@
    "Settings": "GoogleEarth:menu_settings",
    "Feedback": "GoogleEarth:menu_feedback",
    "Help": "GoogleEarth:menu_help",
-   "Tutorial": "GoogleEarth:menu_tutorial",
-   "Fly to": "GoogleEarth:menu_flyto"
+   "Tutorial": "GoogleEarth:menu_tutorial"
   },
   "google": {
    "Search…": "Velvet:search_box_hint",
@@ -118,6 +117,49 @@
    "Search": "PrebuiltGmsCore:common_search_settings_title",
    "Ads": "PrebuiltGmsCore:common_ads_settings_title",
    "Verify apps": "PrebuiltGmsCore:common_security_settings_title"
+  }
+ },
+ "4.4.4": {
+  "news": {
+   "News & Weather": "GenieWidget:app_name",
+   "Refresh": "GenieWidget:menu_item_refresh",
+   "Settings": "GenieWidget:menu_item_setting",
+   "Weather": "GenieWidget:weather_tab_label",
+   "Humidity: %s%%": "GenieWidget:weather_humidity",
+   "Wind: %1$s %2$s": "GenieWidget:weather_wind",
+   "km/h": "GenieWidget:weather_kph",
+   "Mon": "GenieWidget:day_monday",
+   "Tue": "GenieWidget:day_tuesday",
+   "Wed": "GenieWidget:day_wednesday",
+   "Thu": "GenieWidget:day_thursday",
+   "Fri": "GenieWidget:day_friday",
+   "Sat": "GenieWidget:day_saturday",
+   "Sun": "GenieWidget:day_sunday"
+  },
+  "earth": {
+   "Earth": "GoogleEarth:app_name",
+   "Search": "GoogleEarth:search_id",
+   "Example: Pizza": "GoogleEarth:search_hint",
+   "Reset to north": "GoogleEarth:menu_north_up",
+   "My location": "GoogleEarth:my_location",
+   "Clear map": "GoogleEarth:menu_clear",
+   "Share": "GoogleEarth:menu_share",
+   "Settings": "GoogleEarth:menu_settings",
+   "Feedback": "GoogleEarth:menu_feedback",
+   "Help": "GoogleEarth:menu_help",
+   "Tutorial": "GoogleEarth:menu_tutorial"
+  },
+  "gsettings": {
+   "Google Settings": "PrebuiltGmsCore:common_google_settings",
+   "Apps with Google+ Sign-In": "PrebuiltGmsCore:common_connected_apps_settings_title",
+   "Google+": "PrebuiltGmsCore:common_plus_settings_title",
+   "Play Games": "PrebuiltGmsCore:common_games_settings_title",
+   "Location": "PrebuiltGmsCore:common_location_settings_title",
+   "Search & Now": "PrebuiltGmsCore:common_search_and_now_settings_title",
+   "Ads": "PrebuiltGmsCore:common_ads_settings_title",
+   "Verify apps": "PrebuiltGmsCore:common_security_settings_title",
+   "Android Device Manager": "PrebuiltGmsCore:common_mdm_feature_name",
+   "Drive apps": "PrebuiltGmsCore:drive_settings_title"
   }
  }
 }

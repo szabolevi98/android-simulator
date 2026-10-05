@@ -25,6 +25,7 @@
   };
   const btn = (action, label, icon, id = '') => `<button class="sa-btn" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${ICON[icon]}</button>`;
   // Action buttons with the apps' own drawables (assets/<prefix>-*.png).
+  const S = (ctx, app, key) => { const row = window.StockStrings?.[app]?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
   const img = (action, label, src, cls = '') => `<button class="sa-btn${cls ? ' ' + cls : ''}" data-action="${action}" aria-label="${e(label)}"><img src="assets/${src}" alt=""></button>`;
   function bar(ctx, {title, subtitle = '', up = false, icon, actions = '', cls = ''}) {
     return `<header class="sa-bar${cls}"><button class="sa-up" data-action="${up ? 'back' : 'home'}" aria-label="${e(ctx.t(up ? 'Back' : 'Home'))}">${up ? `<img class="sa-caret" src="assets/${/dark/.test(cls) ? 'ic_ab_back_holo_dark.png' : 'ic_ab_back_holo_light.png'}" alt="">` : ''}<img src="assets/${icon}" alt=""></button><span class="sa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
@@ -46,10 +47,17 @@
     const row = (icon, label) => `<button class="sa-row" data-action="sa-unsupported"><i>${ICON[icon] || ''}</i><span>${e(ctx.t(label))}</span></button>`;
     return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Settings'), up: true, icon: 'google-search.png'})}<div class="sa-scroll"><div class="sa-switch-row"><span>${e(ctx.t('Google Now'))}</span><button class="sa-switch${ctx.data.googleNowOn === false ? '' : ' on'}" data-action="google-now-toggle">${e(ctx.t(ctx.data.googleNowOn === false ? 'OFF' : 'ON'))}</button></div><h4>${e(ctx.t('SEARCH & NOW CARDS'))}</h4>${row('search', 'Phone search')}${row('mic', 'Voice')}${row('locate', 'Accounts & privacy')}${row('list', 'Notifications')}${row('', 'Help & feedback')}</div></div>`;
   }
+  // Google Settings (Google Play services 4.3.23, PrebuiltGmsCore.apk of KTU84P): common_settings.xml's 48 dp bar on
+  // common_settings_bg and one container with 16 dp side margins and list dividers, no section headers.
+  // GoogleSettingsActivity.onCreate adds simple_list_item_1 rows in this order when their intents resolve on the image:
+  // Apps with Google+ Sign-In, Google+, Play Games, Location (Maps 7.5 no longer offers Maps & Latitude), Search & Now
+  // (API 14 and up), Ads, Verify apps, Android Device Manager and Drive apps.
   function googleSettings(ctx) {
-    const rows = [['Ads', ''], ['Android Device Manager', ''], ['Location', ''], ['Search & Now', 'search'], ['Google+', ''], ['Google Fit', '']].slice(0, 5);
-    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Google Settings'), icon: 'google-settings.png'})}<div class="sa-scroll"><h4>${e(ctx.t('SERVICES'))}</h4>${rows.map(([label, sub]) => `<button class="sa-row" data-action="${sub === 'search' ? 'gel-overview-settings' : 'sa-unsupported'}"><span>${e(ctx.t(label))}</span></button>`).join('')}<h4>${e(ctx.t('APPS'))}</h4><button class="sa-row" data-action="sa-unsupported"><span>${e(ctx.t('Connected apps'))}</span></button></div></div>`;
+    const g = key => S(ctx, 'gsettings', key);
+    const rows = [['Apps with Google+ Sign-In'], ['Google+'], ['Play Games'], ['Location'], ['Search & Now', 'gel-overview-settings'], ['Ads'], ['Verify apps'], ['Android Device Manager'], ['Drive apps']];
+    return `<div class="app-view sa-app sa-gsettings"><header class="gs-bar"><button class="gs-up" data-action="home" aria-label="${e(g('Google Settings'))}"><i></i><img src="assets/google-settings.png" alt=""></button><b>${e(g('Google Settings'))}</b></header><div class="sa-scroll"><div class="gs-list">${rows.map(([key, action]) => `<button data-action="${action || 'sa-unsupported'}">${e(g(key))}</button>`).join('')}</div></div></div>`;
   }
+
 
   // ---- Maps (Google Maps 7, 2013): a full-screen map, the floating search card, my location ----
   function mapSvg(ctx) {
@@ -114,9 +122,18 @@
     return `<div class="app-view sa-app sa-gplus">${bar(ctx, {title: ctx.t('Home'), subtitle: ctx.t('All'), icon: 'google-plus.png', actions: btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-stream">${POSTS.map((p, i) => `<article class="sa-post">${avatar(p.name, i)}<div class="sa-post-head"><b>${e(p.name)}</b><small>${e(ctx.t(p.time))}</small></div><p>${e(p.text)}</p>${p.photo !== null ? `<div class="sa-post-photo">${thumb(p.photo)}</div>` : ''}<footer><button class="sa-plus${plused.includes(p.id) ? ' on' : ''}" data-action="gplus-plus" data-id="${p.id}">+1 <span>${p.plus + (plused.includes(p.id) ? 1 : 0)}</span></button><button data-action="sa-unsupported">${ICON.share}</button></footer></article>`).join('')}</div></div>`;
   }
 
-  // ---- Earth (2013): the globe in space under a translucent search bar ----
+  // Earth 7.1.3 (KTU84P): Theme.Earth (Holo, overlay action bar on header_bar_bg_80_percent_black, #cc000000) with
+  // res/menu-v11/main.xml. On phones EarthActivity.onCreateOptionsMenu shows every item but the sensors button and Fly
+  // to, and Clear map only when there is something to clear. ActionMenuPresenter allows three buttons at 360 dp and up
+  // and keeps one for the overflow: Search (always, expands to "Example: Pizza") and Reset to north (ifRoom) are in the
+  // bar; Clear map, My location, Share, Settings, Feedback, Help and Tutorial are in the overflow.
+  function earthBar(ctx) {
+    const ea = key => S(ctx, 'earth', key);
+    const search = ctx.ui.earthSearching ? `<form class="sa-earth-field" data-form="earth-search"><input name="query" autocomplete="off" placeholder="${e(ea('Example: Pizza'))}" aria-label="${e(ea('Search'))}"></form>` : img('earth-search-open', ea('Search'), 'ea7-ic_menu_search_holo_dark.png');
+    return `<header class="sa-bar dark sa-earth-bar"><button class="sa-up" data-action="${ctx.ui.earthSearching ? 'earth-search-close' : 'home'}" aria-label="${e(ea('Earth'))}"><img src="assets/earth.png" alt=""></button><span class="sa-title"><b>${ctx.ui.earthSearching ? '' : e(ctx.ui.earthQuery || ea('Earth'))}</b></span>${search}${img('sa-unsupported', ea('Reset to north'), 'ea7-ic_menu_northup.png', 'tall')}${btn('sa-menu', ctx.t('More options'), 'overflow')}</header>`;
+  }
   function earth(ctx) {
-    return `<div class="app-view sa-app sa-earth"><div class="sa-stars"></div><div class="sa-globe">${'<svg viewBox="0 0 200 200" aria-hidden="true"><defs><radialGradient id="sa-gl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#6fb4ff"/><stop offset=".55" stop-color="#1c5fb8"/><stop offset="1" stop-color="#05173d"/></radialGradient><clipPath id="sa-gc"><circle cx="100" cy="100" r="92"/></clipPath></defs><circle cx="100" cy="100" r="96" fill="#6fb4ff" opacity=".18"/><circle cx="100" cy="100" r="92" fill="url(#sa-gl)"/><g clip-path="url(#sa-gc)"><g class="sa-land" fill="#4f8f3e"><path d="M10 60c20-14 44-10 52 4s-8 26-2 40-20 30-36 22-26-48-14-66z"/><path d="M90 96c16-6 38 2 44 22s-8 40-26 46-24-12-18-30-16-30 0-38z"/><path d="M80 24c12-4 28 2 30 12s-16 10-24 6-18-16-6-18z"/><path d="M210 60c20-14 44-10 52 4s-8 26-2 40-20 30-36 22-26-48-14-66z"/><path d="M290 96c16-6 38 2 44 22s-8 40-26 46-24-12-18-30-16-30 0-38z"/><path d="M280 24c12-4 28 2 30 12s-16 10-24 6-18-16-6-18z"/></g><g fill="#fff" opacity=".55"><ellipse cx="60" cy="140" rx="30" ry="6"/><ellipse cx="140" cy="60" rx="24" ry="5"/></g></g><circle cx="100" cy="100" r="92" fill="none" stroke="#9cd0ff" stroke-opacity=".5" stroke-width="2"/></svg>'}</div><form class="sa-earth-search" data-form="earth-search"><input name="query" autocomplete="off" placeholder="${e(ctx.t('Search'))}" aria-label="${e(ctx.t('Search'))}"></form><button class="sa-earth-home" data-action="home" aria-label="${e(ctx.t('Home'))}">‹</button></div>`;
+    return `<div class="app-view sa-app sa-earth"><div class="sa-stars"></div><div class="sa-globe">${'<svg viewBox="0 0 200 200" aria-hidden="true"><defs><radialGradient id="sa-gl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#6fb4ff"/><stop offset=".55" stop-color="#1c5fb8"/><stop offset="1" stop-color="#05173d"/></radialGradient><clipPath id="sa-gc"><circle cx="100" cy="100" r="92"/></clipPath></defs><circle cx="100" cy="100" r="96" fill="#6fb4ff" opacity=".18"/><circle cx="100" cy="100" r="92" fill="url(#sa-gl)"/><g clip-path="url(#sa-gc)"><g class="sa-land" fill="#4f8f3e"><path d="M10 60c20-14 44-10 52 4s-8 26-2 40-20 30-36 22-26-48-14-66z"/><path d="M90 96c16-6 38 2 44 22s-8 40-26 46-24-12-18-30-16-30 0-38z"/><path d="M80 24c12-4 28 2 30 12s-16 10-24 6-18-16-6-18z"/><path d="M210 60c20-14 44-10 52 4s-8 26-2 40-20 30-36 22-26-48-14-66z"/><path d="M290 96c16-6 38 2 44 22s-8 40-26 46-24-12-18-30-16-30 0-38z"/><path d="M280 24c12-4 28 2 30 12s-16 10-24 6-18-16-6-18z"/></g><g fill="#fff" opacity=".55"><ellipse cx="60" cy="140" rx="30" ry="6"/><ellipse cx="140" cy="60" rx="24" ry="5"/></g></g><circle cx="100" cy="100" r="92" fill="none" stroke="#9cd0ff" stroke-opacity=".5" stroke-width="2"/></svg>'}</div>${earthBar(ctx)}</div>`;
   }
 
   // ---- News & Weather (2013, Holo dark): Weather, Top Stories and topics ----
@@ -125,12 +142,20 @@
     'Technology': [['KitKat runs on phones with 512 MB of RAM', 'Gadget Weekly', '1 hour ago'], ['Smart watches: the next big thing?', 'Droid Corner', '3 hours ago']],
     'Sports': [['Underdogs win the cup final', 'Sports Desk', '5 hours ago']]
   };
+  // News & Weather 1.3.11 (GenieWidget.apk, KTU84P): the ActionBar style (#222222, ic_launcher_news_weather) with
+  // main_menu.xml (Refresh in the bar, Settings in the overflow); tab_view_container_layout.xml's 52 dp tabs (12 sp,
+  // 35 dp padding, #222222, a 6 dp #33b5e5 bottom when selected, 1 dp #505050 otherwise, 1 dp #505050 separators);
+  // news_item_layout.xml rows (80 dp, 16 sp bold white title, 14 sp #bfbfbf snippet, the 70 dp picture on the right)
+  // on #1a1a1a; weather_current_view.xml in bg_weather_panel_app: the city (30 sp) with the info button, today's
+  // ic_weather_*_xl (90 dp) and temperature (80 sp), high / low (21 sp), conditions, humidity and wind (12 sp), The
+  // Weather Channel's logo, then weather_forecast_layout.xml's days (15 sp, 30 dp icons).
   function news(ctx) {
-    const tabs = ['Weather', 'Top Stories', 'Technology', 'Sports'], tab = ctx.ui.newsTab || 'Top Stories';
+    const n = key => S(ctx, 'news', key), tabs = ['Weather', 'Top Stories', 'Technology', 'Sports'], tab = ctx.ui.newsTab || 'Top Stories';
+    const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], forecast = [[21, 13, 'partly_cloudy'], [23, 14, 'sunny'], [19, 12, 'cloudy'], [20, 11, 'chance_of_rain']];
     const body = tab === 'Weather'
-      ? `<div class="sa-weather"><b>21°</b><span>${e(ctx.t('Partly cloudy'))}</span><small>Mountain View</small><div class="sa-forecast">${[0, 1, 2, 3].map(i => `<div><span>${e(new Date(ctx.now.getTime() + i * 864e5).toLocaleDateString(ctx.locale, {weekday: 'short'}))}</span><b>${[21, 23, 19, 20][i]}°</b><small>${[13, 14, 12, 11][i]}°</small></div>`).join('')}</div></div>`
-      : (STORIES[tab] || []).map(([title, source, time], i) => `<button class="sa-story" data-action="sa-unsupported">${i === 0 ? `<span class="sa-story-photo">${thumb(i + 2)}</span>` : ''}<b>${e(title)}</b><small>${e(source)} · ${e(ctx.t(time))}</small></button>`).join('');
-    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: ctx.t('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: img('sa-news-refresh', ctx.t('Refresh'), 'nw-navigation_refresh.png') + btn('sa-menu', ctx.t('More options'), 'overflow')})}<nav class="sa-news-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
+      ? `<div class="nw-weather"><div class="nw-city"><b>Mountain View</b><button data-action="sa-unsupported" aria-label="Info"><img src="assets/nw-weather_info_btn.png" alt=""></button></div><i class="nw-divider"></i><div class="nw-today"><img class="nw-twc" src="assets/nw-ic_weather_weather_channel.png" alt="The Weather Channel"><div class="nw-now"><img src="assets/nw-ic_weather_partly_cloudy_xl.png" alt=""><b>21°</b></div><div class="nw-range"><span>21°</span><span class="lo">13°</span><p>${e(ctx.t('Partly cloudy'))}</p><small>${e(n('Humidity: %s%%').replace('%s%%', '60%'))}</small><small>${e(n('Wind: %1$s %2$s').replace('%1$s', '13').replace('%2$s', n('km/h')))}</small></div></div><i class="nw-divider"></i><div class="nw-forecast">${forecast.map(([hi, lo, icon], i) => `<div><span>${e(n(DAYS[new Date(ctx.now.getTime() + i * 864e5).getDay()]))}</span><img src="assets/nw-ic_weather_${icon}_s.png" alt=""><b>${hi}°</b><small>${lo}°</small></div>`).join('')}</div></div>`
+      : `<div class="nw-list">${(STORIES[tab] || []).map(([title, source, time], i) => `<button class="nw-item${i === 0 ? ' pic' : ''}" data-action="sa-unsupported"><span><b>${e(title)}</b><small>${e(source)} - ${e(ctx.t(time))}</small></span>${i === 0 ? `<span class="nw-pic">${thumb(i + 2)}</span>` : ''}</button>`).join('')}</div>`;
+    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: n('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: img('sa-news-refresh', n('Refresh'), 'nw-navigation_refresh.png') + btn('sa-menu', ctx.t('More options'), 'overflow')})}<nav class="nw-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(id === 'Weather' ? n('Weather') : ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
   }
 
   const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
@@ -139,7 +164,8 @@
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, KitKat', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
   // The overflow of the screen on show. GenieWidget 1.3.11 (KTU84P) res/menu/main_menu.xml: Refresh (navigation_refresh) always in the bar, Settings in the overflow.
   function menu(view, ctx) {
-    if (view === 'news-weather') return [{action: 'sa-unsupported', title: ctx.t('Settings')}];
+    if (view === 'earth') { const ea = key => S(ctx, 'earth', key); return (ctx.ui?.earthQuery ? [{action: 'earth-clear', title: ea('Clear map')}] : []).concat(['My location', 'Share', 'Settings', 'Feedback', 'Help', 'Tutorial'].map(key => ({action: 'sa-unsupported', title: ea(key)}))); }
+    if (view === 'news-weather') return [{action: 'sa-unsupported', title: S(ctx, 'news', 'Settings')}];
     return [];
   }
   window.StockApps = {APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render, menu};
