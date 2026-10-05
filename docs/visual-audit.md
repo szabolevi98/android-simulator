@@ -484,3 +484,8 @@ A row is only taken from the APKs whose screens quote it. The calendar view, for
 ## Display > Brightness dialog — 2026-10-04
 
 Display > Brightness opened a page with a slider. ICS shows `BrightnessPreference` instead (`preference_dialog_brightness.xml`, android-4.0.4_r2.1): a dialog with an "Automatic brightness" check box over a seek bar. Moving the bar changes the screen at once, OK keeps the change and Cancel restores the old level. The simulator now does the same, and the row has no summary, as on the device. The IMM76I SettingsProvider turns automatic brightness on by default (`def_screen_brightness_automatic_mode`), and so does the simulator now. The 4.3 row now opens SystemUI's brightness dialog, the one Quick Settings shows: in 4.3, `BrightnessPreference.onClick` sends `ACTION_SHOW_BRIGHTNESS_DIALOG`.
+
+## Home screen search bar frame — 2026-10-05
+
+The 4.0.4 search bar had two hard lines (a light 1 px border and a dark 1 px inset). Launcher2's `search_bar.xml` (IMM76I) draws the 40dp bar on `search_frame.9.png`: one white line at 50% (2dp) with a soft shadow fading out on both sides. The bar now uses that nine-patch as `launcher-search_frame.png` (xhdpi slices 12 16 16 12, at 0.425 px).
+

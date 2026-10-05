@@ -244,7 +244,9 @@
 .home-widget .widget-weather{font-size:31px;font-weight:300}
 .dock{height:72px;margin:0 1px;padding:0;border-top:1px solid #b6b8b9;background:linear-gradient(#05060819,#08090d70)}
 .dock-slot{width:20%;min-height:0;height:100%}
-.home-search{background:transparent;box-shadow:inset 0 0 0 1px #31363a,0 1px 3px #0008}
+/* Launcher2 search_bar.xml (IMM76I): the 40dp bar on search_frame.9.png, one translucent white line (2dp, 50%) with a
+   soft shadow on both sides; xhdpi slices 12 16 16 12 at 0.425 px. */
+.home-search{border:5.1px solid transparent;border-width:5.1px 6.8px 6.8px 5.1px;border-image:url('assets/launcher-search_frame.png') 12 16 16 12 fill / 5.1px 6.8px 6.8px 5.1px stretch;background:transparent;box-shadow:none}
 .search-microphone{width:22px;height:25px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9;margin-right:-3px}
 .drawer-view{display:flex;flex-direction:column;background:#050608}
 .drawer-tabs{height:42px;min-height:42px;justify-content:flex-start;border:0;border-bottom:1px solid #151c20}
