@@ -189,5 +189,109 @@ window.StockStrings = {
    "Signaler",
    "Marcar"
   ]
+ },
+ "maps": {
+  "Maps": [
+   "Térkép",
+   "Maps",
+   "Maps",
+   "Maps"
+  ],
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Search Maps": [
+   "Keresés",
+   "Maps-Suche",
+   "Rechercher",
+   "Buscar en Maps"
+  ],
+  "Directions": [
+   "Útvonalterv",
+   "Route",
+   "Itinéraire",
+   "Indicaciones"
+  ],
+  "Local": [
+   "Helyi Információk",
+   "Local",
+   "Local",
+   "Local"
+  ],
+  "Layers": [
+   "Rétegek",
+   "Ebenen",
+   "Afficher...",
+   "Capas"
+  ],
+  "Clear map": [
+   "Találatok törlése",
+   "Karte leeren",
+   "Effacer les résultats",
+   "Borrar resultados"
+  ],
+  "My Places": [
+   "Saját helyek",
+   "Meine Orte",
+   "Mes adresses",
+   "Mis sitios"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Map": [
+   "Térkép",
+   "Karte",
+   "Plan",
+   "Mapa"
+  ],
+  "Find restaurants, bars & more": [
+   "Éttermek, bárok és egyebek keresése",
+   "Restaurants, Bars & mehr finden",
+   "Trouvez des restaurants, des bars et d'autres lieux",
+   "Buscar restaurantes, bares y más"
+  ],
+  "GPS navigation": [
+   "GPS navigáció",
+   "GPS-Navigation",
+   "Navigation GPS",
+   "Navegación GPS"
+  ],
+  "Traffic": [
+   "Forgalom",
+   "Verkehrslage",
+   "Trafic",
+   "Tráfico"
+  ],
+  "Satellite": [
+   "Műhold",
+   "Satellit",
+   "Satellite",
+   "Satélite"
+  ],
+  "Terrain": [
+   "Terep",
+   "Gelände",
+   "Relief",
+   "Relieve"
+  ],
+  "Bicycling": [
+   "Kerékpárral",
+   "Mit dem Fahrrad",
+   "À vélo",
+   "En bici"
+  ]
  }
 };

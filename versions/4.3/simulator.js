@@ -781,7 +781,7 @@
       overlayRoot.innerHTML = JBPlay.dialog(ui.overlay.slice(4), jbPlayContext());
     } else if (ui.overlay === 'sa-menu') {
       // The Google apps' action bar overflow (StockApps.menu: their menu XML's overflow items).
-      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${StockApps.menu(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()}).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${StockApps.menu(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()}).map(item => `<button data-action="${item.action}"${item.id != null ? ` data-id="${safe(item.id)}"` : ''}>${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'calc-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">Clear history</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${ui.calcPanel ? 'Basic panel' : 'Advanced panel'}</button></div>`;
     } else if (ui.overlay === 'phone-menu') {
@@ -1739,6 +1739,14 @@
       case 'voice-listen': listenVoice(); break;
       case 'google-now-toggle': data.googleNowOn = data.googleNowOn === false; save(); render(); break;
       case 'maps-locate': ui.mapsQuery = ''; render(); break;
+      // Maps 6.14: the feature switcher, Places (Local), Layers, Clear map, the zoom controls.
+      case 'maps-switcher': ui.mapsMenu = 'switcher'; ui.overlay = 'sa-menu'; renderOverlay(); break;
+      case 'maps-layers': ui.mapsMenu = 'layers'; ui.overlay = 'sa-menu'; renderOverlay(); break;
+      case 'maps-places': openApp('local'); break;
+      case 'maps-feature': ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); if (id === 'local' || id === 'navigation') openApp(id); else { data.mapsLayer = id === 'traffic' ? 'traffic' : ''; save(); render(); } break;
+      case 'maps-layer': ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); data.mapsLayer = data.mapsLayer === id ? '' : id; save(); render(); break;
+      case 'maps-clear': ui.overlay = ''; renderOverlay(); ui.mapsQuery = ''; ui.mapsSearching = false; data.mapsLayer = ''; save(); render(); break;
+      case 'maps-zoom': { const map = viewport.querySelector('.sa-maps6-map .sa-map'); if (map) { ui.mapsZoom = Math.max(1, Math.min(3, (ui.mapsZoom || 1) * (Number(id) > 0 ? 1.4 : 1 / 1.4))); map.style.transform = `scale(${ui.mapsZoom})`; } break; }
       case 'keep-open': ui.keepNote = id; ui.sub = 'note'; render(); viewport.querySelector('.keep-text')?.focus(); break;
       case 'keep-delete': ui.overlay = ''; renderOverlay(); data.keepNotes = (data.keepNotes || []).filter(note => note.id !== ui.keepNote); ui.sub = ''; save(); render(); break;
       // Keep 1.0's menus: New note, the note color (cycled through the picker's colors), Archive, the column view, Archived notes.
@@ -1753,7 +1761,7 @@
       case 'yt-like': ui.overlay = ''; renderOverlay(); { const vid = id || ui.ytVideo, likes = data.ytLikes || []; data.ytLikes = likes.includes(vid) ? likes.filter(x => x !== vid) : [...likes, vid]; save(); render(); break; }
       case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }
       case 'news-tab': ui.newsTab = id; render(); break;
-      case 'sa-menu': ui.overlay = 'sa-menu'; renderOverlay(); break;
+      case 'sa-menu': ui.mapsMenu = ''; ui.overlay = 'sa-menu'; renderOverlay(); break;
       case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'maps-search-open': ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); break;
       case 'kkx-unavailable': toast(i18n.t('This feature is not part of the simulator.')); break;

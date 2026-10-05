@@ -606,5 +606,9 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
 - **YouTube 4.5.17:**
   - The bar is `bg_stripes_dark` with `ic_logo_wide` and no title (it was a light bar titled "What to Watch"). Search sits in the bar; Settings, Feedback and Help in the overflow.
   - The Feed (`the_feed_video_item.xml`): the channel's avatar and name over the full-width thumbnail with its gradient, white title and underlined duration.
-  - The watch page has Add to and Share in the bar, and Like, Dislike, Copy URL and Flag in the overflow (the page's own Like / Share buttons are gone).
+  - The watch page has Add to and Share in the bar, and Like, Dislike, Copy URL and Flag in the overflow (the page's own Like / Share buttons are gone).- **Maps 6.14.4:**
+  - Search, Directions, Places (opens Local) and Layers in the bar (`map_view_default.xml`, `ic_menu_*` from `drawable-320dpi-v14`); Clear map, My Places, Settings and Help in the overflow.
+  - The Maps title opens the feature switcher: Map, Local, GPS navigation, Traffic.
+  - Layers toggles Traffic, Satellite, Terrain and Bicycling, and offers Clear map.
+  - My Location (`btn_myl_normal`) is on the map, with the zoom controls. "Make available offline" is not included: its title is not a resource in the APK.
 
