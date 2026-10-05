@@ -36,3 +36,6 @@
   - Theme.YouTube.Home: the Toolbar in #e62117 with the guide toggle and a white title, status bar #c31c13 (the 5.1.1 colour map was corrected), window #fefefe. Search is in the bar; Settings and Help & feedback are in the overflow.
   - Feed rows are `q_video_feed_entry.xml`: a list with #e1e1e1 separators instead of 5.x's cards.
   - The guide is white with `guide_entry.xml` rows. Home and My Subscriptions come from the server, so their labels are the simulator's; the local entries follow the `bhx` enum in the dex (Watch later, Favorites, Uploads, History), then Offline.
+- **Google+ 4.9:**
+  - `home_activity.xml`'s Toolbar in quantum googred 500 (#db4437) with "Home" (`stream_circles`), the notifications button and the overflow (Refresh, Feedback, Settings, Help, Sign out); the stream cards; `newposts_and_fab_row.xml`'s 56 dp compose FAB.
+  - The drawer's entries are registered by separate modules (`ixe.a(order, …)` in the dex) whose order the image doesn't settle, so the drawer toggle is not simulated rather than invented.

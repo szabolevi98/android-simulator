@@ -321,3 +321,14 @@
 .screen .yt10-entry.on{background:#0000000f}
 .screen .yt10-entry.on span{color:#e62117}
 .yt10-guide hr{margin:7.25px 0;border:0;border-top:.91px solid #ddd}
+
+/* Google+ 4.9 (audit step 4): the red Toolbar with white icons, the 56 dp red compose FAB 16 dp from the corner. */
+.sa-gplus49{display:flex;flex-direction:column;position:relative}
+.gp49-bar{flex:none;display:flex;align-items:center;height:50.74px;padding-right:3.62px;background:#db4437;box-shadow:0 1.81px 3.62px #0000003d;z-index:2}
+.screen .gp49-toggle{flex:none;display:flex;flex-direction:column;justify-content:center;gap:3.62px;width:65.23px;height:50.74px;padding:0 16.31px;border:0;background:none}
+.gp49-toggle i{display:block;width:16.31px;height:1.81px;background:#fff}
+.gp49-bar>b{flex:1;min-width:0;font:500 18.12px Roboto,sans-serif;color:#fff}
+.gp49-bar .sa-btn img{width:21.74px;height:21.74px}
+.gp49-bar .sa-btn svg{color:#fff;fill:#fff}
+.screen .gp49-fab{position:absolute;right:14.5px;bottom:14.5px;width:50.74px;height:50.74px;padding:0;border:0;border-radius:50%;background:#db4437;box-shadow:0 2.72px 5.44px #0000004d;display:grid;place-items:center;z-index:2}
+.gp49-fab img{width:21.74px;height:21.74px}

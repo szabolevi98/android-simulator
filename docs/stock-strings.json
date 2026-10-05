@@ -402,6 +402,14 @@
    "Uploads": "YouTube:channel_uploads",
    "History": "YouTube:channel_watch_history",
    "Offline": "YouTube:guide_offline_videos"
+  },
+  "gplus": {
+   "Home": "PlusOne:stream_circles",
+   "Refresh": "PlusOne:menu_refresh",
+   "Feedback": "PlusOne:home_menu_feedback",
+   "Settings": "PlusOne:home_menu_settings",
+   "Help": "PlusOne:menu_home_help",
+   "Sign out": "PlusOne:menu_home_sign_out"
   }
  }
 }

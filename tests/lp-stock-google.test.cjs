@@ -27,4 +27,7 @@ assert.equal(JSON.stringify(A.menu('drive',ctx()).map(i=>i.title)),JSON.stringif
 const yt=A.render('youtube',ctx({ytGuide:true}));assert.ok(yt.includes('yt10-bar')&&yt.includes('yt10-item')&&yt.includes('yt10-ic_drawer_what_to_watch.png'));
 assert.ok(/Watch later.*Favorites.*Uploads.*History.*Offline/s.test(yt.slice(yt.indexOf('yt10-guide'))));
 assert.ok(fs.readFileSync('versions/5.1.1/simulator.js','utf8').includes("youtube: '#c31c13'"));
+// Google+ 4.9: the red Toolbar with "Home" and the notifications button, the compose FAB, the host menu.
+const gp=A.render('google-plus',ctx());assert.ok(gp.includes('gp49-bar')&&gp.includes('gp49-quantum_ic_notifications_none_white_24.png')&&gp.includes('gp49-fab'));
+assert.equal(JSON.stringify(A.menu('google-plus',ctx()).map(i=>i.title)),JSON.stringify(['Refresh','Feedback','Settings','Help','Sign out']));
 console.log('lp stock google ok');

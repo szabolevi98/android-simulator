@@ -709,5 +709,43 @@ window.StockStrings = {
    "Hors connexion",
    "Sin conexión"
   ]
+ },
+ "gplus": {
+  "Home": [
+   "Kezdőlap",
+   "Übersicht",
+   "Accueil",
+   "Inicio"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Feedback": [
+   "Visszajelzés",
+   "Feedback",
+   "Laisser un avis",
+   "Enviar sugerencias"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Sign out": [
+   "Kijelentkezés",
+   "Abmelden",
+   "Déconnexion",
+   "Cerrar sesión"
+  ]
  }
 };
