@@ -34,7 +34,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] `stock-apps.js` – 4.3 (JWR66Y): Google/Now, Voice Search, Maps 6.14, Keep 1.0, YouTube 4.5, Google+ 4.0, Earth, News & Weather, Google Settings (71d403f)
 - [x] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival (3c730d4)
 - [x] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings (579af40)
-- [x] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games (a 4.3-as képen nincs Play Games) – (ez a commit)
+- [x] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games (a 4.3-as képen nincs Play Games) – bc3daf0
 - [ ] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games
 - [ ] `play-apps.js` – 5.1.1: Play Music, Movies, Books, Games
 - [ ] Extra appok – 4.0.4 és 4.3: Messenger, Navigation, Local, Currents, Magazines, Wallet, Movie Studio
@@ -140,4 +140,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 5.1.1 Voice Search a Velvet 4.1 hangmódjából – az 5.1.1 StockApps kész | (579af40) |
 | 2026-10-05 | 4. lépés: 4.3 Play Books 2.8.91 (FlatBlue sáv, oldalfiók a dex szerint, Recent kártyák, szűrő, világos menü, olvasó sávja) | 87b0518 |
 | 2026-10-05 | 4. lépés: 4.3 Play Movies 2.5.4 (sötét Holo, csíkos háttér, „Google Play” sáv, fülek, panelek, menük a dex szerint) | 22ca636 |
-| 2026-10-05 | 4. lépés: 4.3 Play Music 5.0 (odex a rendszerképből; sáv, fiók a HomeMenu szerint, fülek, Instant Mixes, menü, kártyák) | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.3 Play Music 5.0 (odex a rendszerképből; sáv, fiók a HomeMenu szerint, fülek, Instant Mixes, menü, kártyák) | bc3daf0 |
