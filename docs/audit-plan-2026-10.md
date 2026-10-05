@@ -145,4 +145,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.4.4 Play Movies 3.0 (piros nav_bar, fiók a VideosDrawerHelper szerint On Device-szal, menük, szekciócímek) | 125efcf |
 | 2026-10-05 | 4. lépés: 4.4.4 Play Books 3.1 (FlatBlue sáv, fiók a dex szerint Settings/Help sorokkal, menü, olvasó sávja) | c386e55 |
 | 2026-10-05 | 4. lépés: 4.4.4 Play Games 1.1 (zöld sáv, fiók, menü, APK-szövegek) – a 4.4.4 Play-appok kész | ff79528 |
-| 2026-10-05 | 4. lépés: 5.1.1 Play Music 5.8 (Toolbar, PlayDrawer profilfejléccel és ikonokkal, fejlécfülek, csak Search) + közös LP Play-alapok | (ez a commit) |
+| 2026-10-05 | 4. lépés: 5.1.1 Play Music 5.8 (Toolbar, PlayDrawer profilfejléccel és ikonokkal, fejlécfülek, csak Search) + közös LP Play-alapok | 9fbd894 |
