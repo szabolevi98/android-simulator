@@ -117,6 +117,20 @@
    "Search": "PrebuiltGmsCore:common_search_settings_title",
    "Ads": "PrebuiltGmsCore:common_ads_settings_title",
    "Verify apps": "PrebuiltGmsCore:common_security_settings_title"
+  },
+  "books": {
+   "Play Books": "Books:main_activity_name",
+   "Read Now": "Books:side_drawer_reading_now",
+   "My Library": "Books:side_drawer_my_library",
+   "Shop": "Books:menu_shop",
+   "Search": "Books:menu_search",
+   "Sort": "Books:menu_sort",
+   "Refresh": "Books:menu_refresh",
+   "Settings": "Books:menu_app_settings",
+   "Help": "Books:menu_help",
+   "Recent": "Books:library_header_recent",
+   "All books": "Books:action_bar_title_all_books",
+   "Purchases": "Books:action_bar_title_free_and_purchased"
   }
  },
  "4.4.4": {

@@ -634,5 +634,79 @@ window.StockStrings = {
    "Vérifier les applications",
    "Verificar aplicaciones"
   ]
+ },
+ "books": {
+  "Play Books": [
+   "Play Könyvek",
+   "Play Books",
+   "Play Livres",
+   "Play Books"
+  ],
+  "Read Now": [
+   "Olvasson most",
+   "Jetzt lesen",
+   "Lire",
+   "Leer ahora"
+  ],
+  "My Library": [
+   "Könyvtáram",
+   "Meine Bibliothek",
+   "Ma bibliothèque",
+   "Mi biblioteca"
+  ],
+  "Shop": [
+   "Bolt",
+   "Bücher kaufen",
+   "Boutique",
+   "Tienda"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Sort": [
+   "Rendezés",
+   "Sortieren",
+   "Trier",
+   "Ordenar"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Recent": [
+   "Legújabbak",
+   "Neueste Bücher",
+   "Récents",
+   "Recientes"
+  ],
+  "All books": [
+   "Az összes könyv",
+   "Alle Bücher",
+   "Tous les livres",
+   "Todos los libros"
+  ],
+  "Purchases": [
+   "Vásárlások",
+   "Käufe",
+   "Achats",
+   "Compras"
+  ]
  }
 };

@@ -640,3 +640,12 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - The rows are `simple_list_item_1` at 18 sp. The list had KitKat-era rows (Android Device Manager, Search & Now) under a SERVICES header.
   - `docs/stock-strings.py` now reads APKs the string index skips (PrebuiltGmsCore) through aapt2.
 - **Broken lengths:** 44 declarations in 4.3's chrome, hangouts, extra apps, email, Play apps and stock apps CSS read `.851.6px`, plus `.8.46px` and `.2.82px` left over from rescaling KitKat's values. The browser dropped them, so borders, shadows and paddings were missing. They are now `.85px` (1 dp), `.85px` and `.28px`, and `tests/css-numbers.test.cjs` guards all versions.
+- **Play Books 2.8.91 (Books.apk):**
+  - The app had Play Books 3's look (Android Police, October 2013): a drawn glyph, "Read Now" with a SEE ALL chip and bare covers. 2.8 is what the image ships.
+  - The action bar is `StyleUtils.configureFlatBlueActionBar` as `BooksActivity` calls it: `action_bar_bg_books` (#3f9fe0 over a 2 dp #3689c0 line), the drawer toggle's `ic_drawer_white`, `ic_corpora_books` and the view's title.
+  - `menu/home.xml`: Search is always in the bar (`ic_menu_search_dark`); Sort (only in My Library, `HomeMenuFragment.maybeUpdateMenu`), Refresh, Settings and Help are in the overflow, a Holo.Light popup (`menu_dropdown_panel_holo_light`).
+  - The side drawer is `HomeFragment.createSideDrawerItems`: Read Now, My Library, Shop, in `side_menu_list_item` rows (64 dp, 21 sp sans-serif-light #505050) on #fafafa, the current one on #25000000. The drawer and its scrim were drawn at the top of the screen, because `--sb` is not set in 4.3; they now sit under the action bar.
+  - Read Now is `read_now_header` ("Recent", 21 sp light italic) over `books_card_small` cards (`card_bg_play`, 16 sp light title, 13 sp #b5b5b5 author, `ic_menu_moreoverflow_card_dark_normal`).
+  - My Library is `my_library_header`'s filter spinner (`LibraryFilter`: All books and Purchases; Uploads and Samples stay hidden while empty) over `my_library_divider` (2 dp #3f9fe0).
+  - The reader's bar is ReadingActivityDay's `ab_solid_light_holo` with `ic_ab_back_holo_light` and `ic_corpora_books_color` instead of the "‹" caret.
+  - Test: `tests/jb-play-apps.test.cjs`.

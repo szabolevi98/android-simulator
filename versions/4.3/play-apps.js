@@ -7,6 +7,7 @@
    and game art are the simulator's own drawings; book pages are short public-domain excerpts. */
 (() => {
   'use strict';
+  const S = (ctx, app, key) => { const row = window.StockStrings?.[app]?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const glyph = {
     music: '<svg viewBox="0 0 24 24"><path d="M12 3a8.5 8.5 0 0 0-8.5 8.5V19a2 2 0 0 0 2 2H8v-7H5.5v-2.5a6.5 6.5 0 0 1 13 0V14H16v7h2.5a2 2 0 0 0 2-2v-7.5A8.5 8.5 0 0 0 12 3z" fill="#fff"/></svg>',
@@ -161,19 +162,32 @@
   }
 
   // ---- Play Books ----
+  // Play Books 2.8.91 (JWR66Y). BooksActivity's action bar (StyleUtils.configureFlatBlueActionBar): action_bar_bg_books
+  // (#3f9fe0 over a 2 dp #3689c0 line), the ActionBarDrawerToggle's ic_drawer_white, ic_corpora_books and the view's
+  // title; menu/home.xml: Search (always), then Sort (My Library only), Refresh, Settings and Help in the overflow.
+  // Read Now: read_now_header ("Recent", 21 sp light italic #505050) over books_card_small cards on #e5e5e5. My Library:
+  // my_library_header's filter Spinner (LibraryFilter: All books, Purchases; Uploads and Samples stay hidden while empty)
+  // over a 2 dp play_app_color divider. The reader's bar is ReadingActivityDay's ab_solid_light_holo with
+  // ic_ab_back_holo_light and ic_corpora_books_color.
+  const BOOK_FILTERS = ['All books', 'Purchases'];
   function books(ctx) {
-    const {ui, t, data} = ctx, page = ui.paPage?.['play-books'] || 'read', progress = data.playBooks || {};
+    const {ui, t, data} = ctx, page = ui.paPage?.['play-books'] || 'read', progress = data.playBooks || {}, b = key => S(ctx, 'books', key);
     if (ui.sub === 'reader') {
-      const book = BOOKS.find(b => b.id === ui.paItem) || BOOKS[0], index = Math.min(progress[book.id] || 0, book.pages.length - 1);
+      const book = BOOKS.find(item => item.id === ui.paItem) || BOOKS[0], index = Math.min(progress[book.id] || 0, book.pages.length - 1);
       const text = book.pages[index].split('\n').filter(Boolean).map((p, i) => index === 0 ? `<h2${i ? ' class="sub"' : ''}>${e(p)}</h2>` : `<p>${e(p)}</p>`).join('');
-      return `<div class="app-view pa-app pb-reader${ui.paBars === false ? ' bare' : ''}"><header class="pb-top"><button data-action="back" aria-label="${e(t('Back'))}">‹${glyph.books}</button><span><b>${e(book.title)}</b><small>${e(book.author)}</small></span><button class="pb-aa" data-action="pa-unsupported" aria-label="${e(t('Display options'))}">Aa</button>${btn('pa-unsupported', t('More options'), 'overflow')}</header><div class="pb-page" data-action="pa-reader-tap">${text}</div><footer class="pb-bottom">${btn('pa-unsupported', t('Contents'), 'toc')}<i style="--p:${(index / Math.max(1, book.pages.length - 1) * 100).toFixed(1)}%"></i><span>${index + 1} / ${book.pages.length}</span></footer></div>`;
+      return `<div class="app-view pa-app pb-reader${ui.paBars === false ? ' bare' : ''}"><header class="pb-top bk28-reader-bar"><button class="bk28-reader-up" data-action="back" aria-label="${e(t('Back'))}"><img src="assets/bk28-ic_ab_back_holo_light.png" alt=""><img src="assets/bk28-ic_corpora_books_color.png" alt=""></button><span><b>${e(book.title)}</b><small>${e(book.author)}</small></span><button class="pb-aa" data-action="pa-unsupported" aria-label="${e(t('Display options'))}">Aa</button><button class="pa-btn" data-action="pa-unsupported" aria-label="${e(t('More options'))}"><img class="bk28-icon" src="assets/ic_menu_moreoverflow_normal_holo_light.png" alt=""></button></header><div class="pb-page" data-action="pa-reader-tap">${text}</div><footer class="pb-bottom">${btn('pa-unsupported', t('Contents'), 'toc')}<i style="--p:${(index / Math.max(1, book.pages.length - 1) * 100).toFixed(1)}%"></i><span>${index + 1} / ${book.pages.length}</span></footer></div>`;
     }
-    const cover = b => art('book', seedOf(b.id), b.title, b.author);
-    const actions = btn('pa-unsupported', t('Search'), 'search') + btn('pa-unsupported', t('More options'), 'overflow');
-    const body = page === 'read'
-      ? `${section(t('Recent'), t('SEE ALL'), 'pa-see-all')}<div class="pa-grid pb-covers">${BOOKS.map(b => `<div class="pb-cover" role="button" tabindex="0" data-action="pa-book" data-id="${b.id}" aria-label="${e(b.title)}">${cover(b)}<span class="pb-pinned">${glyph.pin}</span></div>`).join('')}</div>`
-      : `${section(t('My Library'))}<div class="pa-grid">${BOOKS.map(b => card({action: 'pa-book', id: b.id, artHtml: cover(b), title: b.title, sub: b.author, note: progress[b.id] ? t('%d% read').replace('%d', Math.round(progress[b.id] / (b.pages.length - 1) * 100)) : ''})).join('')}</div>`;
-    return `<div class="app-view pa-app pa-books">${bar(ctx, {title: t(page === 'read' ? 'Read Now' : 'My Library'), actions})}<div class="pa-scroll">${body}</div></div>`;
+    const card = book => `<div class="bk28-card" role="button" tabindex="0" data-action="pa-book" data-id="${book.id}" aria-label="${e(book.title)}"><div class="bk28-thumb">${art('book', seedOf(book.id), book.title, book.author)}</div><div class="bk28-info"><b>${e(book.title)}</b><small>${e(book.author)}</small><button class="bk28-overflow" data-action="pa-unsupported" aria-label="${e(t('More options'))}"><img src="assets/bk28-ic_menu_moreoverflow_card_dark_normal.png" alt=""></button></div></div>`;
+    const filter = ui.bkFilter || 0;
+    const head = page === 'read' ? `<h3 class="bk28-header">${e(b('Recent'))}</h3>`
+      : `<div class="bk28-filter"><button class="bk28-spinner" data-action="pa-books-filter">${e(b(BOOK_FILTERS[filter]))}</button>${ui.bkFilterOpen ? `<div class="bk28-dropdown">${BOOK_FILTERS.map((key, n) => `<button class="${n === filter ? 'on' : ''}" data-action="pa-books-filter-set" data-id="${n}">${e(b(key))}</button>`).join('')}</div>` : ''}</div><hr class="bk28-divider">`;
+    return `<div class="app-view pa-app pa-books bk28"><header class="bk28-bar"><button class="bk28-home" data-action="pa-drawer" aria-label="${e(b('Play Books'))}"><img class="bk28-toggle" src="assets/bk28-ic_drawer_white.png" alt=""><img class="bk28-logo" src="assets/bk28-ic_corpora_books.png" alt=""></button><b>${e(b(page === 'read' ? 'Read Now' : 'My Library'))}</b><button class="pa-btn" data-action="pa-unsupported" aria-label="${e(b('Search'))}"><img class="bk28-icon" src="assets/bk28-ic_menu_search_dark.png" alt=""></button><button class="pa-btn" data-action="pa-menu" aria-label="${e(t('More options'))}"><img class="bk28-icon" src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button></header><div class="bk28-scroll">${head}<div class="bk28-grid">${BOOKS.map(card).join('')}</div></div></div>`;
+  }
+  // The overflow of menu/home.xml (Search is the action button; Sort only shows in My Library).
+  function menu(ctx) {
+    if (ctx.app !== 'play-books') return [];
+    const b = key => S(ctx, 'books', key), page = ctx.ui.paPage?.['play-books'] || 'read';
+    return [...(page === 'library' ? ['Sort'] : []), 'Refresh', 'Settings', 'Help'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: b(key)}));
   }
 
   // ---- Play Games ----
@@ -208,9 +222,12 @@
   // The navigation drawer: the app's pages, the current one highlighted.
   function drawer(ctx) {
     const app = APPS[ctx.app], page = ctx.ui.paPage?.[ctx.app] || DEFAULT[ctx.app];
+    // Books: HomeFragment.createSideDrawerItems (Read Now, My Library, Shop) in side_menu_list_item rows (64 dp, 21 sp
+    // sans-serif-light #505050) on #fafafa, the current one on library_side_drawer_item_selected_color (#25000000).
+    if (ctx.app === 'play-books') { const b = key => S(ctx, 'books', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="bk28-drawer" aria-label="${e(b('Play Books'))}">${[['read', 'Read Now'], ['library', 'My Library']].map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(b(key))}</button>`).join('')}<button data-action="pa-shop">${e(b('Shop'))}</button></nav>`; }
     return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pa-drawer pa-${app.key}" aria-label="${e(ctx.t(app.title))}">${app.pages.map(([id, label]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(ctx.t(label))}</button>`).join('')}</nav>`;
   }
   const bookPages = id => (BOOKS.find(b => b.id === id) || BOOKS[0]).pages.length;
   const music3 = tracks => albums(tracks);
-  window.PlayApps = {DEFAULT, APPS, MOVIES, SHOWS, BOOKS, GAMES, art, render, drawer, bookPages, albums: music3};
+  window.PlayApps = {DEFAULT, APPS, MOVIES, SHOWS, BOOKS, GAMES, art, render, drawer, menu, bookPages, albums: music3};
 })();
