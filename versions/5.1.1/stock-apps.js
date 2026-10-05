@@ -31,6 +31,7 @@
   };
   const btn = (action, label, icon, id = '') => `<button class="sa-btn" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${ICON[icon]}</button>`;
   // Action buttons with the apps' own drawables (assets/<prefix>-*.png).
+  const S = (ctx, app, key) => { const row = window.StockStrings?.[app]?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
   const img = (action, label, src, cls = '') => `<button class="sa-btn${cls ? ' ' + cls : ''}" data-action="${action}" aria-label="${e(label)}"><img src="assets/${src}" alt=""></button>`;
   function bar(ctx, {title, subtitle = '', up = false, icon, actions = '', cls = ''}) {
     return `<header class="sa-bar${cls}"><button class="sa-up" data-action="${up ? 'back' : 'home'}" aria-label="${e(ctx.t(up ? 'Back' : 'Home'))}">${up ? `<img class="sa-caret" src="assets/${/dark/.test(cls) ? 'lp-fw-ic_ab_back_material-dark.svg' : 'lp-fw-ic_ab_back_material.svg'}" alt="">` : ''}<img src="assets/${icon}" alt=""></button><span class="sa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
@@ -52,10 +53,19 @@
     const row = (icon, label) => `<button class="sa-row" data-action="sa-unsupported"><i>${ICON[icon] || ''}</i><span>${e(ctx.t(label))}</span></button>`;
     return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Settings'), up: true, icon: 'google-search.png'})}<div class="sa-scroll"><div class="sa-switch-row"><span>${e(ctx.t('Google Now'))}</span><button class="sa-switch${ctx.data.googleNowOn === false ? '' : ' on'}" data-action="google-now-toggle">${e(ctx.t(ctx.data.googleNowOn === false ? 'OFF' : 'ON'))}</button></div><h4>${e(ctx.t('SEARCH & NOW CARDS'))}</h4>${row('search', 'Phone search')}${row('mic', 'Voice')}${row('locate', 'Accounts & privacy')}${row('list', 'Notifications')}${row('', 'Help & feedback')}</div></div>`;
   }
+  // Google Settings (Google Play services 6.7.79, LMY48Y): common.Theme.GoogleSettings is AppCompat Light with a dark
+  // action bar in blue grey 900 (#263238) and a teal 500 (#009688) accent. GoogleSettingsActivity builds two categories
+  // (common_settings_category.xml: Body2 in the accent): Account with Google+ and Account History (the UDC flag defaults
+  // on), and Services with Ads, Connected apps, Google Fit, Play Games, Data management, Search & Now and Security;
+  // Location joins Services once the reporting service connects. Maps 9.3 no longer offers Maps & Latitude. Rows are
+  // common_settings_item.xml: Subhead (16 sp, 87% black), 48 dp minimum, 16 dp padding.
   function googleSettings(ctx) {
-    const rows = [['Ads', ''], ['Android Device Manager', ''], ['Location', ''], ['Search & Now', 'search'], ['Google+', ''], ['Google Fit', '']].slice(0, 5);
-    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Google Settings'), icon: 'google-settings.png'})}<div class="sa-scroll"><h4>${e(ctx.t('SERVICES'))}</h4>${rows.map(([label, sub]) => `<button class="sa-row" data-action="${sub === 'search' ? 'gel-overview-settings' : 'sa-unsupported'}"><span>${e(ctx.t(label))}</span></button>`).join('')}<h4>${e(ctx.t('APPS'))}</h4><button class="sa-row" data-action="sa-unsupported"><span>${e(ctx.t('Connected apps'))}</span></button></div></div>`;
+    const g = key => S(ctx, 'gsettings', key);
+    const cat = key => `<h4 class="gs6-cat">${e(g(key))}</h4>`;
+    const row = (key, action = 'sa-unsupported') => `<button class="gs6-row" data-action="${action}">${e(g(key))}</button>`;
+    return `<div class="app-view sa-app sa-gsettings6"><header class="gs6-bar"><b>${e(g('Google Settings'))}</b></header><div class="sa-scroll">${cat('Account')}${row('Google+')}${row('Account History')}${cat('Services')}${['Ads', 'Connected apps', 'Google Fit', 'Play Games', 'Data management'].map(key => row(key)).join('')}${row('Search & Now', 'gel-overview-settings')}${row('Security')}${row('Location')}</div></div>`;
   }
+
 
   // ---- Maps: a full-screen map, the floating search card, my location ----
   function mapSvg(ctx) {

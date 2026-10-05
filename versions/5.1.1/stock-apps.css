@@ -147,3 +147,12 @@
 
 /* The up caret: the framework's ic_ab_back_material (only with up navigation, no text glyph). */
 .sa-up .sa-caret{width:21.74px;height:21.74px;margin:0 1.81px 0 -5.44px}
+
+/* Google Settings 6.7 (audit step 4) at the Nexus 6 scale (.906 px per dp): the 56 dp blue grey toolbar with the 20 sp
+   white title, categories 16 dp from the left in Body2 teal, Subhead rows. */
+.sa-gsettings6{background:#fafafa}
+.gs6-bar{flex:none;display:flex;align-items:center;height:50.74px;padding:0 14.5px;background:#263238;box-shadow:0 1.81px 3.62px #0000003d;z-index:2}
+.gs6-bar b{font:500 18.12px Roboto,sans-serif;color:#fff}
+.gs6-cat{margin:0;padding:14.5px 14.5px 14.5px;font:500 12.68px Roboto,sans-serif;color:#009688}
+.screen .gs6-row{display:flex;align-items:center;width:100%;min-height:43.49px;padding:14.5px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#000000de;cursor:pointer}
+.screen .gs6-row:active{background:#0000001a}

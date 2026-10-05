@@ -271,5 +271,22 @@
    "Help": "PlusOne:menu_home_help",
    "Sign out": "PlusOne:menu_home_sign_out"
   }
+ },
+ "5.1.1": {
+  "gsettings": {
+   "Google Settings": "PrebuiltGmsCore:common_google_settings",
+   "Account": "PrebuiltGmsCore:common_google_settings_account",
+   "Services": "PrebuiltGmsCore:common_google_settings_services",
+   "Google+": "PrebuiltGmsCore:common_plus_settings_title",
+   "Account History": "PrebuiltGmsCore:udc_settings_title",
+   "Ads": "PrebuiltGmsCore:common_ads_settings_title",
+   "Connected apps": "PrebuiltGmsCore:common_connected_apps_settings_title",
+   "Google Fit": "PrebuiltGmsCore:common_fitness_settings_title",
+   "Play Games": "PrebuiltGmsCore:common_games_settings_title",
+   "Data management": "PrebuiltGmsCore:common_google_settings_data_management_title",
+   "Search & Now": "PrebuiltGmsCore:common_search_and_now_settings_title",
+   "Security": "PrebuiltGmsCore:common_security_settings_title",
+   "Location": "PrebuiltGmsCore:common_location_settings_title"
+  }
  }
 }
