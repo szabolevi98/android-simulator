@@ -595,3 +595,16 @@ AOSP Music (kept beside Play Music) had controls of the simulator's own: a "Demo
 
 The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/aosp-music-strings.py`). The demo songs stay silent, without a note on the phone.
 
+## Google apps checked against the JWR66Y APKs (audit step 4) — 2026-10-05
+
+`stock-strings.js` (`docs/stock-strings.py` from `docs/stock-strings.json`) carries each app's own texts as the image translates them, and the bars show the framework's up caret only when there is a way up.
+- **Keep 1.0.81:**
+  - `browse_fragment_menu.xml` has no action icons. The overflow holds Single-column / Multi-column view, Refresh, Archived notes, Settings, Send feedback and Help.
+  - `quick_edit.xml` spans the width: "Add quick note", a divider, and `add_items_bar.xml` with New note, New list, New recording and New photo.
+  - Notes sit on `note_shadow` in two columns or one. "Take a note" shows when there are none.
+  - The editor has Note color and New photo in the bar. Archive / Unarchive, Delete, Show checkboxes, Share, Settings, Send feedback and Help are in its overflow, and Archive works.
+- **YouTube 4.5.17:**
+  - The bar is `bg_stripes_dark` with `ic_logo_wide` and no title (it was a light bar titled "What to Watch"). Search sits in the bar; Settings, Feedback and Help in the overflow.
+  - The Feed (`the_feed_video_item.xml`): the channel's avatar and name over the full-width thumbnail with its gradient, white title and underlined duration.
+  - The watch page has Add to and Share in the bar, and Like, Dislike, Copy URL and Flag in the overflow (the page's own Like / Share buttons are gone).
+

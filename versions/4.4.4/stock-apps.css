@@ -144,3 +144,6 @@
 .sa-btn img{width:28.99px;height:28.99px}
 .sa-btn.tint img{filter:brightness(0) invert(1)}
 .screen .sa-btn:active{background:#ffffff26}
+
+/* The up caret: the framework's ic_ab_back_holo_* (only with up navigation, no text glyph). */
+.sa-up .sa-caret{width:14.50px;height:28.99px;margin:0 1.81px 0 -5.44px}

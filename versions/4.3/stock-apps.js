@@ -24,9 +24,10 @@
   };
   const btn = (action, label, icon, id = '') => `<button class="sa-btn" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${ICON[icon]}</button>`;
   // Action buttons with the apps' own drawables (assets/<prefix>-*.png).
+  const S = (ctx, app, key) => { const row = window.StockStrings?.[app]?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
   const img = (action, label, src, cls = '') => `<button class="sa-btn${cls ? ' ' + cls : ''}" data-action="${action}" aria-label="${e(label)}"><img src="assets/${src}" alt=""></button>`;
   function bar(ctx, {title, subtitle = '', up = false, icon, actions = '', cls = ''}) {
-    return `<header class="sa-bar${cls}"><button class="sa-up" data-action="${up ? 'back' : 'home'}" aria-label="${e(ctx.t(up ? 'Back' : 'Home'))}"><span aria-hidden="true">‹</span><img src="assets/${icon}" alt=""></button><span class="sa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
+    return `<header class="sa-bar${cls}"><button class="sa-up" data-action="${up ? 'back' : 'home'}" aria-label="${e(ctx.t(up ? 'Back' : 'Home'))}">${up ? `<img class="sa-caret" src="assets/${/dark/.test(cls) ? 'ic_ab_back_holo_dark.png' : 'ic_ab_back_holo_light.png'}" alt="">` : ''}<img src="assets/${icon}" alt=""></button><span class="sa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
   }
   const thumb = (seed, label = '') => {
     const p = [['#2b5876', '#f4d06f'], ['#6d2e46', '#f6a5c0'], ['#1e5128', '#d8e9a8'], ['#22313f', '#ff8c42'], ['#4a3b8f', '#9bd1f2'], ['#7a1f1f', '#ffd166']][seed % 6];
@@ -80,13 +81,20 @@
 
   // ---- Keep (2013): the quick note bar and coloured cards; notes are kept in data.keepNotes ----
   const KEEP_COLORS = ['#fff', '#f7f0a3', '#c6e5f5', '#c9f0b9', '#f8c8c0'];
+  // Keep 1.0.81 (JWR66Y): browse_fragment_menu.xml has no action icons, everything is in the overflow; quick_edit.xml spans
+  // the width (quick_edit_side_margins 0) with "Add quick note", a 1 dp #25000000 divider and add_items_bar.xml's New note /
+  // New list / New recording / New photo (ic_*_dark); notes are browse_list_text_note.xml on note_shadow, 16 sp #99000000,
+  // in two columns or one (Single-column / Multi-column view).
   function keep(ctx) {
-    const notes = ctx.data.keepNotes || [];
+    const notes = ctx.data.keepNotes || [], k = key => S(ctx, 'keep', key);
     if (ctx.ui.sub === 'note') {
       const note = notes.find(n => n.id === ctx.ui.keepNote);
-      if (note) return `<div class="app-view sa-app sa-keep">${bar(ctx, {title: ctx.t('Keep'), up: true, icon: 'keep.png', actions: btn('keep-delete', ctx.t('Delete'), 'trash') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-keep-edit" style="background:${KEEP_COLORS[note.color || 0]}"><textarea class="keep-text" maxlength="2000" aria-label="${e(ctx.t('Note'))}">${e(note.text)}</textarea></div></div>`;
+      if (note) return `<div class="app-view sa-app sa-keep">${bar(ctx, {title: k('Keep'), up: true, icon: 'keep.png', actions: img('keep-color', k('Note color'), 'kp-ic_colorpicker_dark.png') + img('sa-unsupported', k('New photo'), 'kp-ic_add_camera_dark.png') + btn('sa-menu', ctx.t('More options'), 'overflow')})}<div class="sa-keep-edit" style="background:${KEEP_COLORS[note.color || 0]}"><textarea class="keep-text" maxlength="2000" aria-label="${e(k('New note'))}">${e(note.text)}</textarea></div></div>`;
     }
-    return `<div class="app-view sa-app sa-keep">${bar(ctx, {title: ctx.t('Keep'), icon: 'keep.png', actions: btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<form class="sa-keep-add" data-form="keep-add"><input name="text" maxlength="500" autocomplete="off" placeholder="${e(ctx.t('Add quick note…'))}" aria-label="${e(ctx.t('Add quick note…'))}">${btn('sa-unsupported', ctx.t('List'), 'list')}${btn('sa-unsupported', ctx.t('Voice'), 'mic')}${btn('sa-unsupported', ctx.t('Camera'), 'camera')}</form><div class="sa-scroll"><div class="sa-notes">${notes.map(n => `<button class="sa-note" data-action="keep-open" data-id="${e(n.id)}" style="background:${KEEP_COLORS[n.color || 0]}">${e(n.text)}</button>`).join('') || `<p class="sa-empty">${e(ctx.t('Notes you add appear here'))}</p>`}</div></div></div>`;
+    const archived = ctx.ui.keepArchived, shown = notes.filter(n => !!n.archived === !!archived), single = ctx.data.keepSingle;
+    const add = (action, key, src) => `<button type="button" class="sa-keep-new" data-action="${action}" aria-label="${e(k(key))}"><img src="assets/kp-${src}.png" alt=""></button>`;
+    const quick = archived ? '' : `<form class="sa-keep-add" data-form="keep-add"><input name="text" maxlength="500" autocomplete="off" placeholder="${e(k('Add quick note'))}" aria-label="${e(k('Add quick note'))}"><i></i><div class="sa-keep-items">${add('keep-new', 'New note', 'ic_note_dark')}${add('sa-unsupported', 'New list', 'ic_list_dark')}${add('sa-unsupported', 'New recording', 'ic_mic_dark')}${add('sa-unsupported', 'New photo', 'ic_camera_dark')}</div></form>`;
+    return `<div class="app-view sa-app sa-keep">${bar(ctx, {title: archived ? k('Archived notes') : k('Keep'), up: !!archived, icon: 'keep.png', actions: btn('sa-menu', ctx.t('More options'), 'overflow')})}${quick}<div class="sa-scroll"><div class="sa-notes${single ? ' single' : ''}">${shown.map(n => `<button class="sa-note" data-action="keep-open" data-id="${e(n.id)}" style="--note:${KEEP_COLORS[n.color || 0]}">${e(n.text)}</button>`).join('') || `<p class="sa-empty">${e(k(archived ? 'There are no archived notes' : 'Take a note'))}</p>`}</div></div></div>`;
   }
 
   // ---- YouTube (2013): What to Watch and a player ----
@@ -96,12 +104,18 @@
     {id: 'v3', title: 'Timelapse: one day in the city', channel: 'Slow Motion Club', views: '92,437', len: '3:01', likes: 1876},
     {id: 'v4', title: 'How to make dessert-themed cupcakes', channel: 'Kitchen Science', views: '311,908', len: '11:20', likes: 2650}
   ];
+  // YouTube 4.5.17 (JWR66Y): ActionBar (v14) on bg_stripes_dark with ic_logo_wide and no title; menu.xml puts Search in
+  // the bar and Settings / Feedback / Help in the overflow; watch_menu.xml Add to and Share, then Like, Dislike, Copy URL
+  // and Flag. The Feed (the_feed_video_item.xml) shows the channel's 36 dp avatar and name (16 sp bold #3d3d3d) over the
+  // full-width thumbnail with its gradient (video_gradient_overlay_shape), the 18 sp white title and the duration.
   function youtube(ctx) {
+    const y = key => S(ctx, 'youtube', key), more = btn('sa-menu', ctx.t('More options'), 'overflow');
+    const ybar = (up, actions) => `<header class="sa-bar sa-yt-bar dark"><button class="sa-up" data-action="${up ? 'back' : 'home'}" aria-label="YouTube">${up ? '<img class="sa-caret" src="assets/ic_ab_back_holo_dark.png" alt="">' : ''}<img class="sa-yt-logo" src="assets/yt4-ic_logo_wide.png" alt="YouTube"></button><span class="sa-title"></span>${actions}</header>`;
     if (ctx.ui.sub === 'video') {
-      const v = VIDEOS.find(item => item.id === ctx.ui.ytVideo) || VIDEOS[0], i = VIDEOS.indexOf(v), liked = (ctx.data.ytLikes || []).includes(v.id);
-      return `<div class="app-view sa-app sa-youtube sa-yt-watch"><div class="sa-yt-player${ctx.ui.ytPaused ? '' : ' playing'}" data-action="yt-toggle">${thumb(i)}<span class="sa-yt-state">${ctx.ui.ytPaused ? ICON.play : ''}</span><i class="sa-yt-progress"></i></div><div class="sa-scroll"><div class="sa-yt-info"><b>${e(v.title)}</b><small>${e(v.channel)} · ${e(ctx.t('%s views').replace('%s', v.views))}</small><div class="sa-yt-actions"><button class="${liked ? 'on' : ''}" data-action="yt-like" data-id="${v.id}">${ICON.like}<span>${(v.likes + (liked ? 1 : 0)).toLocaleString(ctx.locale)}</span></button><button data-action="sa-unsupported">${ICON.share}<span>${e(ctx.t('Share'))}</span></button></div></div><h4>${e(ctx.t('Suggestions'))}</h4>${VIDEOS.filter(o => o !== v).map(o => `<button class="sa-yt-row" data-action="yt-video" data-id="${o.id}">${thumb(VIDEOS.indexOf(o))}<span><b>${e(o.title)}</b><small>${e(o.channel)}</small><small>${e(ctx.t('%s views').replace('%s', o.views))}</small></span></button>`).join('')}</div></div>`;
+      const v = VIDEOS.find(item => item.id === ctx.ui.ytVideo) || VIDEOS[0], i = VIDEOS.indexOf(v);
+      return `<div class="app-view sa-app sa-youtube sa-yt-watch">${ybar(true, img('sa-unsupported', y('Add to'), 'yt4-ic_menu_add_to_playlist.png') + img('sa-unsupported', y('Share'), 'yt4-ic_menu_share.png') + more)}<div class="sa-yt-player${ctx.ui.ytPaused ? '' : ' playing'}" data-action="yt-toggle">${thumb(i)}<span class="sa-yt-state">${ctx.ui.ytPaused ? ICON.play : ''}</span><i class="sa-yt-progress"></i></div><div class="sa-scroll"><div class="sa-yt-info"><b>${e(v.title)}</b><small>${e(v.channel)} · ${e(ctx.t('%s views').replace('%s', v.views))}</small></div><h4>${e(ctx.t('Suggestions'))}</h4>${VIDEOS.filter(o => o !== v).map(o => `<button class="sa-yt-row" data-action="yt-video" data-id="${o.id}">${thumb(VIDEOS.indexOf(o))}<span><b>${e(o.title)}</b><small>${e(o.channel)}</small><small>${e(ctx.t('%s views').replace('%s', o.views))}</small></span></button>`).join('')}</div></div>`;
     }
-    return `<div class="app-view sa-app sa-youtube"><header class="sa-bar sa-yt-bar"><button class="sa-up" data-action="home" aria-label="${e(ctx.t('Home'))}"><span aria-hidden="true">‹</span><img src="assets/youtube.png" alt=""></button><span class="sa-title"><b>${e(ctx.t('What to Watch'))}</b></span>${btn('sa-unsupported', ctx.t('Search'), 'search')}${btn('sa-unsupported', ctx.t('More options'), 'overflow')}</header><div class="sa-scroll sa-yt-feed">${VIDEOS.map((v, i) => `<button class="sa-yt-card" data-action="yt-video" data-id="${v.id}"><span class="sa-yt-thumb">${thumb(i)}<em>${e(v.len)}</em></span><span class="sa-yt-copy"><b>${e(v.title)}</b><small>${e(v.channel)} · ${e(ctx.t('%s views').replace('%s', v.views))}</small></span></button>`).join('')}</div></div>`;
+    return `<div class="app-view sa-app sa-youtube">${ybar(false, img('sa-unsupported', y('Search'), 'yt4-ic_menu_search.png') + more)}<div class="sa-scroll sa-yt-feed">${VIDEOS.map((v, i) => `<button class="sa-yt-item" data-action="yt-video" data-id="${v.id}"><span class="sa-yt-author"><img src="assets/yt4-missing_avatar.png" alt=""><b>${e(v.channel)}</b></span><span class="sa-yt-thumb">${thumb(i)}<i></i><b>${e(v.title)}</b><em>${e(v.len)}</em></span></button>`).join('')}</div></div>`;
   }
 
   // ---- Google+ (2013): the Home stream ----
@@ -140,6 +154,9 @@
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, jelly beans', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
   // The overflow of the screen on show. GenieWidget 1.3.11 (JWR66Y) res/menu/main_menu.xml: Refresh (navigation_refresh) always in the bar, Settings in the overflow.
   function menu(view, ctx) {
+    if (view === 'youtube') { const y = key => S(ctx, 'youtube', key); return ctx.ui?.sub === 'video' ? [{action: 'yt-like', title: y('Like')}, {action: 'sa-unsupported', title: y('Dislike')}, {action: 'sa-unsupported', title: y('Copy URL')}, {action: 'sa-unsupported', title: y('Flag')}] : [{action: 'sa-unsupported', title: y('Settings')}, {action: 'sa-unsupported', title: y('Feedback')}, {action: 'sa-unsupported', title: y('Help')}]; }
+    if (view === 'keep' && ctx.ui?.sub !== 'note') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-columns', title: k(ctx.data?.keepSingle ? 'Multi-column view' : 'Single-column view')}, {action: 'keep-refresh', title: k('Refresh')}, {action: 'keep-archived', title: k('Archived notes')}, {action: 'sa-unsupported', title: k('Settings')}, {action: 'sa-unsupported', title: k('Send feedback')}, {action: 'sa-unsupported', title: k('Help')}]; }
+    if (view === 'keep') { const k = key => S(ctx, 'keep', key), note = (ctx.data?.keepNotes || []).find(n => n.id === ctx.ui.keepNote); return [{action: 'keep-archive', title: k(note?.archived ? 'Unarchive' : 'Archive')}, {action: 'keep-delete', title: k('Delete')}, {action: 'sa-unsupported', title: k('Show checkboxes')}, {action: 'sa-unsupported', title: k('Share')}, {action: 'sa-unsupported', title: k('Settings')}, {action: 'sa-unsupported', title: k('Send feedback')}, {action: 'sa-unsupported', title: k('Help')}]; }
     if (view === 'news-weather') return [{action: 'sa-unsupported', title: ctx.t('Settings')}];
     return [];
   }

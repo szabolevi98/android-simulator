@@ -1,0 +1,39 @@
+{
+ "4.3": {
+  "keep": {
+   "Keep": "Keep:app_name",
+   "Add quick note": "Keep:add_quick_note_hint",
+   "Take a note": "Keep:empty_view_no_notes",
+   "There are no archived notes": "Keep:empty_view_no_archived_notes",
+   "New note": "Keep:menu_new_note",
+   "New list": "Keep:menu_new_list",
+   "New recording": "Keep:menu_new_recording",
+   "New photo": "Keep:menu_new_photo",
+   "Archive": "Keep:menu_archive",
+   "Delete": "Keep:menu_delete",
+   "Single-column view": "Keep:menu_switch_to_list_view",
+   "Multi-column view": "Keep:menu_switch_to_grid_view",
+   "Refresh": "Keep:menu_sync",
+   "Archived notes": "Keep:menu_archived_notes",
+   "Settings": "Keep:menu_settings",
+   "Send feedback": "Keep:menu_send_feedback",
+   "Help": "Keep:menu_help",
+   "Note color": "Keep:color_picker_title",
+   "Unarchive": "Keep:menu_unarchive",
+   "Share": "Keep:menu_share",
+   "Show checkboxes": "Keep:menu_show_checkboxes"
+  },
+  "youtube": {
+   "Search": "YouTube:menu_search",
+   "Settings": "YouTube:menu_settings",
+   "Feedback": "YouTube:menu_feedback",
+   "Help": "YouTube:menu_help",
+   "Add to": "YouTube:menu_add_to",
+   "Share": "YouTube:menu_share",
+   "Like": "YouTube:menu_like",
+   "Dislike": "YouTube:menu_dislike",
+   "Copy URL": "YouTube:menu_copy_url",
+   "Flag": "YouTube:menu_flag"
+  }
+ }
+}
