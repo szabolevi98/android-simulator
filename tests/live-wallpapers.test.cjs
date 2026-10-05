@@ -9,9 +9,13 @@ assert.ok(microbes.test(ics),'Microbes scene in 4.0.4');
 assert.equal(ics.replace(microbes,'').replace(/    \{id: 'microbes'.*\n/,'').replaceAll(', gl: true, raw: true}',', gl: true}'),lf('versions/4.3/live-wallpapers.js'),'both versions share the rest of the file');
 // packages/wallpapers/Basic services, sorted by label as LiveWallpaperListAdapter does with a Collator.
 assert.deepEqual(plain(lw.sorted(k=>k,'en').map(s=>s.label)),['Bubbles','Galaxy','Grass','Holo Spiral','Many','Maps','Nexus','Phase Beam','Polar clock','Spectrum','VU meter','Water','Waveform']);
-// Phase Beam, the Galaxy Nexus and Nexus 4 default (default_wallpaper_component), with its image's mesh and textures.
+// Phase Beam, the Galaxy Nexus and Nexus 4 images' default_wallpaper_component, with its image's mesh and textures.
 const pb=fs.readFileSync('versions/4.3/live-wallpapers.js','utf8');assert.ok(pb.includes('interval: 66')&&pb.includes('gl.blendFunc(gl.SRC_ALPHA, gl.ONE)'));
-for(const v of ['4.0.4','4.3']){for(const f of ['dot','beam','thumb'])assert.ok(fs.existsSync(`versions/${v}/assets/lw-phasebeam_${f}.png`),v+f);assert.ok(fs.readFileSync(`versions/${v}/simulator.js`,'utf8').includes("liveWallpaper: { id: 'phasebeam' }"),v);}
+for(const v of ['4.0.4','4.3'])for(const f of ['dot','beam','thumb'])assert.ok(fs.existsSync(`versions/${v}/assets/lw-phasebeam_${f}.png`),v+f);
+// Phase Beam is the first-boot wallpaper on 4.0.4 only; 4.3 opens on JWR66Y's default_wallpaper (wallpaper_01) and moves a
+// desktop still on the old Phase Beam default to it (wallpaperRevision 2).
+assert.ok(fs.readFileSync('versions/4.0.4/simulator.js','utf8').includes("liveWallpaper: { id: 'phasebeam' }"));
+const jbSim=fs.readFileSync('versions/4.3/simulator.js','utf8');assert.ok(!jbSim.includes("liveWallpaper: { id: 'phasebeam' }"));assert.match(jbSim,/wallpaper: 0, wallpaperRevision: 2/);assert.match(jbSim,/result\.liveWallpaper\?\.id === 'phasebeam'/);
 assert.equal(lw.labelOf(lw.find('phasebeam'),k=>k==='Phase Beam'?'Elmosódott cseppek':k),'Elmosódott cseppek');
 // AudioCapture: silence returns zero samples, then nothing after MAX_IDLE_TIME_MS; music yields centred 8-bit PCM.
 let playing=false;const cap=lw.audioCapture(()=>playing);

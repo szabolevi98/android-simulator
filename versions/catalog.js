@@ -32,7 +32,7 @@ window.ANDROID_VERSIONS = [
     description: 'Expandable notifications, Quick Settings, lock-screen widgets, Daydream and the BeanBag easter egg.',
     url: 'versions/4.3/',
     status: 'available',
-    art: {shot: 'landing-home.jpg?v=3', phone: 'nexus4'}
+    art: {shot: 'landing-home.jpg?v=4', phone: 'nexus4'}
   },
   {
     id: '4.4.4',

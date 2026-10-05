@@ -7,9 +7,10 @@
   const defaultData = {
     // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
     clings: LauncherClings.fresh(),
-    wallpaper: 0, wallpaperRevision: 1,
-    // config default_wallpaper_component: com.android.phasebeam/.PhaseBeamWallpaper (IMM76I and JWR66Y frameworks).
-    liveWallpaper: { id: 'phasebeam' },
+    // JWR66Y's framework default_wallpaper.jpg (= Launcher2 wallpaper_01), the Jelly Bean bokeh picture. The image's
+    // default_wallpaper_component is Phase Beam, as on the Galaxy Nexus; the simulator keeps Phase Beam for 4.0.4 only so
+    // the two versions do not open on the same wallpaper. Phase Beam stays in the live wallpaper picker.
+    wallpaper: 0, wallpaperRevision: 2,
     // JWR66Y's Launcher2 default_workspace.xml: the analog clock, the Google folder and Play Store on the middle screen,
     // Play Recommendations right of it; the dock holds Camera, Chrome, all apps, Messaging and Phone. Revision 3.
     layoutRevision: 3,
@@ -70,8 +71,6 @@
       const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
       if (!saved) return clone(defaultData);
       const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
-      // A saved desktop without a live wallpaper keeps its picture: the Phase Beam default is for a first boot only.
-      if (!('liveWallpaper' in saved)) delete result.liveWallpaper;
       if (!saved.clings) result.clings = LauncherClings.dismissedAll();
       if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
       result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
@@ -98,6 +97,11 @@
         if (result.wallpaper === 11 && (result.customWallpaper || result.customWallpaperPhoto)) result.wallpaper = 'custom';
         else if (typeof result.wallpaper === 'number') result.wallpaper = Math.max(0, ['01','02','03','04','05','06','07','08','09','10','11','12','13','14'].indexOf(old[result.wallpaper] || '01'));
         result.wallpaperRevision = 1;
+      }
+      // Revision 2: Phase Beam was the first-boot default until now; a desktop still on it moves to the JB picture.
+      if ((saved.wallpaperRevision || 0) < 2) {
+        if (result.liveWallpaper?.id === 'phasebeam') { delete result.liveWallpaper; result.wallpaper = 0; }
+        result.wallpaperRevision = 2;
       }
       return result;
     } catch { return clone(defaultData); }
