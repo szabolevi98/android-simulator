@@ -1,0 +1,22 @@
+/* Language & input (ics-language.js), 1 dp = 0.85 px. preference_inputmethod.xml: the check box in the widget frame,
+   title and 13 sp summary, a 2 dp divider_horizontal_dark and the ic_sysbar_quicksettings button (15 dp left padding). */
+.settings-row.lng-ime{display:flex;align-items:stretch;padding:0}
+.screen .lng-ime-check{flex:1;min-width:0;display:flex;align-items:center;gap:10.2px;padding:6px 0 6px 13.6px;border:0;background:none;color:inherit;text-align:left;cursor:pointer}
+.lng-ime-check .holo-checkbox{flex:none;order:0}
+.lng-ime>i{flex:none;width:1.7px;margin:4.25px 0;background:#ffffff26}
+.screen .lng-ime-settings{flex:none;display:flex;align-items:center;padding:0 13.6px 0 12.75px;border:0;background:none;cursor:pointer}
+.lng-ime-settings img{width:27.2px;height:27.2px}
+.screen .lng-ime-check:active,.screen .lng-ime-settings:active{background:#33b5e566}
+.lng-page .settings-row[disabled]{opacity:.45}
+.lng-empty{margin:20px 16px;color:#bbb;font-size:15px;line-height:1.4}
+.screen .lng-add{display:flex;align-items:center;justify-content:center;width:44px;height:100%;padding:0;border:0;background:none}
+.lng-add img{width:27.2px;height:27.2px}
+.lng-dialog .lng-radios{display:flex;flex-direction:column;margin:0 -16px}
+.screen .lng-dialog .sx-radio{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:48px;padding:0 16px;border:0;border-top:1px solid #3a3a3a;background:none;color:#f2f2f2;font-size:15px;text-align:left;cursor:pointer}
+.lng-dialog .sx-radio span{display:flex;flex-direction:column}
+.lng-dialog .sx-radio small{color:#aaa;font-size:12px}
+.lng-dialog .sx-radio img{width:27.2px;height:27.2px}
+.screen .lng-dialog .sx-radio:active{background:#33b5e566}
+.screen .lng-setup{display:block;width:calc(100% + 32px);margin:0 -16px -16px;padding:13px;border:0;border-top:1px solid #555;background:none;color:#eee;font-size:14px;cursor:pointer}
+.lng-seek{width:100%;margin:14px 0 4px;accent-color:#33b5e5}
+.lng-word{width:100%;padding:6px 2px;border:0;border-bottom:2px solid #33b5e5;background:none;color:#fff;font-size:16px;outline:0}

@@ -542,3 +542,21 @@ The Galaxy Nexus Calendar's editor had browser date and time fields and a Previo
 - **No bar of its own:** the Previous / Next bar is gone; Month, Week and Day move with a swipe, and Today jumps back. The action bar's view list sits on `spinner_ab_default_holo_light` instead of a "▾" glyph, and the up caret is `ic_ab_back_holo_light`.
 - **Clock:** an alarm's Time opens the same TimePickerDialog in Holo dark.
 
+## Language & input on 4.0.4 (audit step 3) — 2026-10-05
+
+The page was a language list and a Keyboard row. It now follows Settings' `language_settings.xml` (`ics-language.js`, texts from the APKs via `docs/apk-strings.py`, which now reads string arrays too):
+- **Language** opens the locale list.
+- **Spelling correction** is "Android correction" with LatinImeGoogle's spell checker settings ("Use proximity data") behind its settings button.
+- **Personal dictionary** lists the words, with Add in the action bar, and Edit / Delete.
+- **Keyboard & input methods:**
+  - Default opens the framework's "Select input method" (with "Set up input methods");
+  - Android keyboard and Google voice typing appear as `preference_inputmethod.xml` rows (check box, divider, `ic_sysbar_quicksettings`);
+  - LatinImeGoogle's `prefs.xml`: General (Input languages from `method.xml`, the five check boxes with the image's defaults, Voice input key), Text correction (Add-on dictionaries, Auto correction, Show correction suggestions), Other options > Advanced settings (Suggest Contact names, Bigram suggestions, Enable recorrections);
+  - Google voice typing's "Block offensive words".
+- **Speech:** the image has one recognizer, so there is no "Voice recognizer" list.
+  - Voice Search settings: Language, SafeSearch, Block offensive words, Personalized recognition, Google Account dashboard;
+  - Text-to-speech output: Google Text-to-speech Engine with its Language / Install voice data page, and Speech rate. "Listen to an example" is disabled, because GoogleTTS 4.0.4 offers no sample text.
+- **Mouse/trackpad:** Pointer speed, a seek bar from −7 to 7.
+
+The choices are kept in `data.inputPrefs`, the words in `data.userDictionary`.
+

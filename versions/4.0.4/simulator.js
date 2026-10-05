@@ -545,6 +545,8 @@
     if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.easterNyan = false; render(); return; }
     if (ui.view === 'settings' && ['vpn', 'tethering', 'beam', 'mobile-networks'].includes(ui.sub)) { ui.sub = 'wireless'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'wifi-advanced') { ui.sub = 'wifi'; render(); return; }
+    // Language & input's pages go back to their parent screen.
+    if (ui.view === 'settings' && String(ui.sub).startsWith('lng-')) { ui.sub = {'lng-latin-adv': 'lng-latin', 'lng-subtypes': 'lng-latin', 'lng-tts-engine': 'lng-tts'}[ui.sub] || 'language'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'sync-google') { ui.sub = 'sync'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'reset-info') { ui.sub = 'backup'; render(); return; }
     if (ui.view === 'settings' && ['brightness','wallpaper','sleep'].includes(ui.sub)) { ui.sub = 'display'; render(); return; }
@@ -571,6 +573,8 @@
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : n.kind === 'calendar' ? 'calendar.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay.startsWith('widget-photo')) {
       overlayRoot.innerHTML = ICSWidgets.photoOverlay(data, ui, key => i18n.t(key));
+    } else if(ui.overlay==='lng-dialog'){
+      overlayRoot.innerHTML=ICSLanguage.overlay(data,ui,i18n.locale());
     } else if(ui.overlay==='sx-dialog'){
       overlayRoot.innerHTML=ICSSystemSettings.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay === 'recent') {
@@ -758,7 +762,9 @@
     if (s === 'reset-info') return appView('Factory data reset', `<div class="detail-pad"><h3>Erase local simulator data</h3><p>This clears the saved home screens, settings, and sample content for this version.</p><button class="small-button" data-action="factory-reset">Reset simulator</button></div>`);
     if (s === 'accessibility') return appView('Accessibility', `${label('SERVICES')}${row('No services installed', '', 'noop', '', '')}${label('SYSTEM')}${toggleRow('Large text', 'Use larger text in Settings', 'largeText', 'A')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${toggleRow('Speak passwords', 'Speak password characters as you type', 'speakPasswords', '◉')}`);
     if (s === 'development') return appView('Developer options', `${toggleRow('USB debugging', 'Debug mode when USB is connected', 'usbDebug', '⚙')}${toggleRow('Stay awake', 'Screen will never sleep while charging', 'stayAwake', '◷')}${toggleRow('Allow mock locations', 'Permit mock locations', 'mockLocations', '◎')}${label('USER INTERFACE')}${toggleRow('Show touches', 'Show visual feedback for touches', 'showTouches', '◉')}${[['windowScale','Window animation scale'],['transitionScale','Transition animation scale']].map(([key, title]) => `<button class="settings-row" data-action="sd-dialog" data-id="${key}"><span class="row-copy">${safe(i18n.t(title))}<small>${safe(i18n.t(ICSSettingsDetail.animationScaleLabel(data.settings[key])))}</small></span></button>`).join('')}`);
-    if (s === 'language') return appView('Language & input', `<div class="detail-pad"><h3>Language</h3><div class="language-options">${[['en','English'],['hu','Magyar'],['de','Deutsch'],['fr','Français'],['es','Español']].map(([code,name]) => `<button class="language-choice ${i18n.language === code ? 'selected' : ''}" data-action="set-language" data-id="${code}" aria-pressed="${i18n.language === code}">${name}<span>${i18n.language === code ? '✓' : ''}</span></button>`).join('')}</div></div>${row('Keyboard', 'Android keyboard', 'noop', '', '▦')}`);
+    // Language & input and its pages (ics-language.js, from language_settings.xml and the IME / TTS / Voice Search preferences).
+    const language=ICSLanguage.render(data,ui,i18n.locale());
+    if(language)return appView(language.title,language.body,'lng-page',language.right||'');
     if (s === 'volumes' || s === 'ringtone' || s === 'sleep') return appView(s === 'volumes' ? 'Volumes' : s === 'ringtone' ? 'Phone ringtone' : 'Sleep', `<div class="detail-pad"><p>${s === 'ringtone' ? 'Orion is selected.' : s === 'sleep' ? 'Screen turns off after 30 seconds.' : 'Ringtone 70% · Media 60% · Alarm 80%'}</p></div>`);
     return appView('Settings', `${label('WIRELESS & NETWORKS')}${connectivityRow('Wi-Fi', 'wifi')}${connectivityRow('Bluetooth', 'bluetooth')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', null)}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${label('PERSONAL')}${row('Accounts & sync', '', 'settings-sub', 'sync', '↻')}${row('Location services', '', 'settings-sub', 'location', '◎')}${row('Security', '', 'settings-sub', 'security', '◉')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Backup & reset', '', 'settings-sub', 'backup', '↻')}${label('SYSTEM')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${row('Accessibility', '', 'settings-sub', 'accessibility', '◉')}${data.settings.developerUnlocked ? row('Developer options', '', 'settings-sub', 'development', '⚙') : ''}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
   }
@@ -1088,6 +1094,7 @@
       if (action === 'sa-news-refresh') { ui.overlay = ''; renderOverlay(); render(); return; }
     }
     if (ICSGoogleApps.APPS.includes(ui.view) && action.startsWith('ga-') && ICSGoogleApps.handle(action, id, googleAppsContext())) return;
+    if (action.startsWith('lng-') && ICSLanguage.handle(action, id, {data, ui, save, render, renderOverlay, toast: text => toast(i18n.t(text))})) return;
     if (ui.view === 'play-music' && action.startsWith('pm4-') && ICSPlayMusic.handle(action, id, playMusicContext(), button)) return;
     switch (action) {
       case 'open-app': openApp(app || id, !!button.closest('.recent-item')); break;
@@ -1448,6 +1455,7 @@
     if (form.dataset.form === 'maps-search') { ui.mapsQuery = String(values.get('query') || '').trim().slice(0, 60); render(); return; }
     if (form.dataset.form === 'earth-search') { toast(i18n.t('This feature is not part of the simulator.')); return; }
     if(form.dataset.form==='folder-name'){event.target.querySelector('input')?.blur();render();return;}
+    if(ICSLanguage.submit(form.dataset.form,values,{data,ui,save,render,renderOverlay}))return;
     if(form.dataset.form==='sx-save'){ui.systemError=ICSSystemSettings.submit(data,ui,values);if(ui.systemError){ui.systemValues=Object.fromEntries(values);renderOverlay();return;}save();ui.overlay='';render();return;}
     if(form.dataset.form==='sx-vpn-connect'){ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();return;}
     if(form.dataset.form==='sx-profile-delete'){ICSSystemSettings.removeProfile(data,ui);save();ui.overlay='';render();return;}

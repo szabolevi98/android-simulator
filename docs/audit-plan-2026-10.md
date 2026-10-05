@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 2. lépés kész. Következő: 3. lépés (ICS Language & input).
+**Állapot:** a 3. lépésből a Language & input kész. Következő: People szerkesztő 4.x.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -22,7 +22,7 @@ Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem ti
 
 ## 3. Egyszerűsített fontos oldalak (4–5 óra)
 
-- [ ] ICS Language & input a gyári hierarchiával (helyesírás, személyes szótár, beviteli módok, hangbevitel, TTS, mutatósebesség)
+- [x] ICS Language & input a gyári hierarchiával (helyesírás, személyes szótár, beviteli módok, hangbevitel, TTS, mutatósebesség) (COMMIT)
 - [ ] People szerkesztő 4.x: bővíthető, típusozható mezők, több telefonszám és e-mail, fotóválasztás
 - [ ] AOSP Music (ICS / JB): gyári menük és navigáció; a „Demo tracks—no audio” szöveg kikerül a telefon felületéről
 
@@ -110,3 +110,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 1. lépés: szöveges ikonok cseréje | 18f9838 |
 | 2026-10-05 | 2. lépés, 4.0.4: Naptár From / To választók, alsó sáv nélkül; Óra TimePickerDialog | 5786aa8 |
 | 2026-10-05 | 2. lépés, 4.3 / 4.4 / 5.1: Naptár datetimepicker, alsó sáv nélkül | 5c4ee69 |
+| 2026-10-05 | 3. lépés: ICS Language & input | COMMIT |
