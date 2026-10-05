@@ -53,6 +53,35 @@
    "Satellite": "Maps:da_satellite",
    "Terrain": "Maps:WALLPAPER_MAP_MODE_TERRAIN",
    "Bicycling": "Maps:da_bicycling"
+  },
+  "gplus": {
+   "Home": "PlusOne:home_stream_label",
+   "Photo": "PlusOne:compose_photo",
+   "Check in": "PlusOne:compose_checkin",
+   "Mood": "PlusOne:compose_emotishare2",
+   "Write": "PlusOne:compose_post",
+   "New post": "PlusOne:menu_post",
+   "Share photos": "PlusOne:menu_postphoto",
+   "Share your location": "PlusOne:menu_checkin",
+   "Refresh": "PlusOne:menu_refresh",
+   "Send feedback": "PlusOne:home_menu_feedback",
+   "Settings": "PlusOne:home_menu_settings",
+   "Help": "PlusOne:menu_home_help",
+   "Sign out": "PlusOne:menu_home_sign_out"
+  },
+  "earth": {
+   "Earth": "GoogleEarth:app_name",
+   "Search": "GoogleEarth:search_id",
+   "Example: Pizza": "GoogleEarth:search_hint",
+   "Reset to north": "GoogleEarth:menu_north_up",
+   "My location": "GoogleEarth:my_location",
+   "Clear map": "GoogleEarth:menu_clear",
+   "Share": "GoogleEarth:menu_share",
+   "Settings": "GoogleEarth:menu_settings",
+   "Feedback": "GoogleEarth:menu_feedback",
+   "Help": "GoogleEarth:menu_help",
+   "Tutorial": "GoogleEarth:menu_tutorial",
+   "Fly to": "GoogleEarth:menu_flyto"
   }
  }
 }

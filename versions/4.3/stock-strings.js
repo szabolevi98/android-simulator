@@ -293,5 +293,159 @@ window.StockStrings = {
    "À vélo",
    "En bici"
   ]
+ },
+ "gplus": {
+  "Home": [
+   "Kezdőlap",
+   "Übersicht",
+   "Accueil",
+   "Inicio"
+  ],
+  "Photo": [
+   "Fotó",
+   "Foto",
+   "Photo",
+   "Foto"
+  ],
+  "Check in": [
+   "Bejelentkezés",
+   "Check-in",
+   "Check-in",
+   "Visita"
+  ],
+  "Mood": [
+   "Hangulat",
+   "Stimmung",
+   "Humeur",
+   "Ánimo"
+  ],
+  "Write": [
+   "Írás",
+   "Schreiben",
+   "Rédiger",
+   "Escribir"
+  ],
+  "New post": [
+   "Új bejegyzés",
+   "Neuer Beitrag",
+   "Nouveau post",
+   "Publicar"
+  ],
+  "Share photos": [
+   "Fotók megosztása",
+   "Fotos teilen",
+   "Partager des photos",
+   "Compartir fotos"
+  ],
+  "Share your location": [
+   "Oszd meg a helyedet",
+   "Meinen Standort teilen",
+   "Partager votre position",
+   "Compartir ubicación"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer un commentaire",
+   "Danos tu opinión"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Sign out": [
+   "Kijelentkezés",
+   "Abmelden",
+   "Déconnexion",
+   "Cerrar sesión"
+  ]
+ },
+ "earth": {
+  "Earth": [
+   "Earth",
+   "Earth",
+   "Earth",
+   "Earth"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Recherche Google",
+   "Buscar"
+  ],
+  "Example: Pizza": [
+   "példa: Pizza",
+   "Beispiel: Pizza",
+   "Exemple : boulangerie",
+   "Ej.: Barcelona"
+  ],
+  "Reset to north": [
+   "Visszaállítás északi irányba",
+   "Auf Nordausrichtung zurücksetzen",
+   "Rétablir l'orientation (nord en haut)",
+   "Restablecer el Norte"
+  ],
+  "My location": [
+   "Saját pozíció",
+   "Mein Standort",
+   "Ma position",
+   "Mi ubicación"
+  ],
+  "Clear map": [
+   "Térképjelölők törlése",
+   "Karte leeren",
+   "Effacer la carte",
+   "Borrar mapa"
+  ],
+  "Share": [
+   "Megosztás",
+   "Teilen",
+   "Partager",
+   "Compartir"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Feedback": [
+   "Visszajelzés",
+   "Feedback",
+   "Commentaires",
+   "Comentarios"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Tutorial": [
+   "Útmutató",
+   "Anleitung",
+   "Didacticiel",
+   "Tutorial"
+  ],
+  "Fly to": [
+   "Repíts ide",
+   "Anfliegen",
+   "Aller à",
+   "Volar a"
+  ]
  }
 };

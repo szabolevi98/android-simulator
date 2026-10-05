@@ -606,9 +606,16 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
 - **YouTube 4.5.17:**
   - The bar is `bg_stripes_dark` with `ic_logo_wide` and no title (it was a light bar titled "What to Watch"). Search sits in the bar; Settings, Feedback and Help in the overflow.
   - The Feed (`the_feed_video_item.xml`): the channel's avatar and name over the full-width thumbnail with its gradient, white title and underlined duration.
-  - The watch page has Add to and Share in the bar, and Like, Dislike, Copy URL and Flag in the overflow (the page's own Like / Share buttons are gone).- **Maps 6.14.4:**
+  - The watch page has Add to and Share in the bar, and Like, Dislike, Copy URL and Flag in the overflow (the page's own Like / Share buttons are gone).
+- **Maps 6.14.4:**
   - Search, Directions, Places (opens Local) and Layers in the bar (`map_view_default.xml`, `ic_menu_*` from `drawable-320dpi-v14`); Clear map, My Places, Settings and Help in the overflow.
   - The Maps title opens the feature switcher: Map, Local, GPS navigation, Traffic.
   - Layers toggles Traffic, Satellite, Terrain and Bicycling, and offers Clear map.
   - My Location (`btn_myl_normal`) is on the map, with the zoom controls. "Make available offline" is not included: its title is not a resource in the APK.
-
+- **Google+ 4.0:**
+  - `host_action_bar.xml` on the light bar: `ic_gplus_red_32`, the Home stream with its subtitle, the notification count (`notification_count`: #dd4b39, white bold number) and the overflow.
+  - The overflow is `host_menu.xml`'s stream items: New post, Share photos, Share your location, Refresh, Send feedback, Settings, Help, Sign out.
+  - `compose_bar.xml` at the bottom: Photo, Check in, Mood and Write in their colours on black. Posts reshare with `ic_reshare_16`.
+- **Earth 7.1.1:**
+  - Theme.Earth's overlay action bar on `header_bar_bg_80_percent_black` over the globe, replacing the white search box and the "‹" home button.
+  - `menu-v11/main.xml`: Search (expands in the bar with "Example: Pizza"), Reset to north, My location and the sensors toggle in the bar; Clear map, Share, Settings, Feedback, Help, Tutorial and Fly to in the overflow.

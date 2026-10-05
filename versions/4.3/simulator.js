@@ -1743,6 +1743,10 @@
       case 'maps-switcher': ui.mapsMenu = 'switcher'; ui.overlay = 'sa-menu'; renderOverlay(); break;
       case 'maps-layers': ui.mapsMenu = 'layers'; ui.overlay = 'sa-menu'; renderOverlay(); break;
       case 'maps-places': openApp('local'); break;
+      case 'earth-search-open': ui.earthSearching = true; render(); viewport.querySelector('.sa-earth-field input')?.focus(); break;
+      case 'earth-search-close': ui.earthSearching = false; render(); break;
+      case 'earth-sensors': data.earthSensors = !data.earthSensors; save(); render(); break;
+      case 'gplus-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'maps-feature': ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); if (id === 'local' || id === 'navigation') openApp(id); else { data.mapsLayer = id === 'traffic' ? 'traffic' : ''; save(); render(); } break;
       case 'maps-layer': ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); data.mapsLayer = data.mapsLayer === id ? '' : id; save(); render(); break;
       case 'maps-clear': ui.overlay = ''; renderOverlay(); ui.mapsQuery = ''; ui.mapsSearching = false; data.mapsLayer = ''; save(); render(); break;

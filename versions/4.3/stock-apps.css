@@ -118,9 +118,6 @@
 .sa-globe svg{width:100%;height:100%}
 .sa-land{animation:sa-spin 30s linear infinite}
 @keyframes sa-spin{from{transform:translateX(0)}to{transform:translateX(-187.99px)}}
-.sa-earth-search{position:absolute;left:48.88px;right:8.46px;top:calc(var(--sb) + 6.81px);height:37.47px;background:#ffffffd9;box-shadow:0 1px 2.82px #0006}
-.sa-earth-search input{width:100%;height:100%;padding:0 11.28px;border:0;background:none;font:400 14.48px RobotoICS,sans-serif;color:#222;outline:none}
-.sa-earth-home{position:absolute;left:8.46px;top:calc(var(--sb) + 6.81px);width:37.47px;height:37.47px;border:0;background:#ffffffd9;color:#555!important;font-size:20.68px}
 /* News & Weather (Holo dark) */
 .sa-news{background:#111;color:#ddd}
 .sa-news .sa-up span{color:#777}
@@ -231,3 +228,24 @@
 .sa-maps6-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
 .sa-maps6-map.layer-terrain .sa-map{filter:sepia(.35) saturate(1.2)}
 .sa-maps6-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}
+
+/* Google+ 4.0 (audit step 4): the light host action bar with ic_gplus_red_32, the notification count (36 dp, #dd4b39,
+   1 dp #dddddd border, 3 sp corners, 18 sp bold white), compose_bar.xml (11 sp bold labels under 30 dp icons on black,
+   a 1 dp #393939 divider above). */
+.sa-gplus .sa-bar{background:#f2f2f2}
+.screen .sa-gp-notify{flex:none;display:flex;align-items:center;justify-content:center;width:47.69px;height:100%;padding:0;border:0;background:none}
+.sa-gp-notify b{display:flex;align-items:center;justify-content:center;width:30.66px;height:30.66px;border:.85px solid #ddd;border-radius:2.55px;background:#dd4b39;color:#fff;font:700 15.33px Roboto,sans-serif}
+.sa-gplus{display:flex;flex-direction:column}
+.sa-gp-compose{flex:none;display:flex;background:#000;border-top:.85px solid #393939}
+.screen .sa-gp-compose button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1.7px;padding:5.11px 0 4.26px;border:0;background:none;font:700 9.37px Roboto,sans-serif;text-transform:uppercase;cursor:pointer}
+.sa-gp-compose img{width:25.55px;height:25.55px}
+.screen .sa-gp-compose button:active{background:#33b5e566}
+.sa-post footer button img{width:13.63px;height:13.63px}
+
+/* Earth 7.1.1 (audit step 4): the overlay action bar on header_bar_bg_80_percent_black with the menu's icons; Search expands
+   into the bar. */
+.sa-earth .sa-earth-bar{position:absolute;left:0;right:0;top:var(--sb,0);z-index:3;background:#000000cc;border-bottom:0;color:#fff}
+.sa-earth-bar .sa-btn.tall img{width:10.65px;height:22.14px}
+.sa-earth-bar .sa-btn.on img{filter:brightness(0) invert(.75) sepia(1) hue-rotate(160deg) saturate(5)}
+.sa-earth-field{flex:1;min-width:0;display:flex;align-items:center}
+.sa-earth-field input{width:100%;padding:4px 2px;border:0;border-bottom:1.7px solid #33b5e5;background:none;color:#fff;font:400 15.33px Roboto,sans-serif;outline:0}
