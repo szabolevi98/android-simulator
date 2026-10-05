@@ -51,3 +51,9 @@
   - `menu/home_activity.xml`: Search (always, `ic_search_white`; the media route button only appears with a cast device), then Refresh, Settings, Help and Send feedback in a Holo.Light popup (`menu_dropdown_panel_holo_light`).
   - The drawer is `HomeMenu.FREE_ITEM_SCREENS`: Listen Now, My Library, Playlists, Instant Mixes, Shop (`side_menu_list_item`: 64 dp, 21 sp sans-serif-light #505050 on #fafafa). Instant Mixes has `InstantMixesFragment`'s My mixes / Recommended tabs.
   - My Library's tabs are `MyLibraryFragment`'s Genres, Artists, Albums, Songs on `PlayTabStrip` (`play_checker_tile`, 12 sp bold #505050, 8 dp selected underline); the cards use `card_bg_play` with `PlayCardTitle` / `PlayCardSubtitle` and the APK's reason strings.
+- **Play Movies & TV 3.0.27 (Videos.apk):**
+  - The ActionBar style is `nav_bar` (#c74b46 over a 2 dp #953834 line) with `ic_drawer_white`, `ic_movie` and the vertical's title, instead of the drawn glyph.
+  - The drawer is `VideosDrawerHelper`'s verticals in its order (4, 1, 2, 8: Watch Now, My Movies, My TV Shows, On Device) and Shop, in `side_drawer_item` rows (64 dp, 21 sp sans-serif-light #333333, the current one bold) on #f5f5f5 with #1a000000 lines. On Device was missing; with nothing pinned it shows `empty_pin_text`.
+  - Menus in `HomeActivity.onCreateOptionsMenu` order: Search (always) in the bar, then `common_menu` (Settings, Help, Contact us, Send feedback) and `home_menu` (Refresh, Personal videos) in the overflow. The cast button only appears with a device, so it left the bar.
+  - Section titles follow the outline helpers: Watch Now's "Now Playing" (not "Continue watching") and "Recommended for You" with the Shop action (`SectionHeaderAction`, caps on #c74b46); `section_heading` titles are 21 sp light italic #333333. The cards use `card_bg_play`.
+  - The player's "‹" is `ic_ab_back_holo_dark` with `ic_movie`.

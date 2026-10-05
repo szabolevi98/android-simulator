@@ -186,3 +186,20 @@
 .pm5-drawer{position:absolute;top:calc(var(--sb) + 43.49px);bottom:var(--nb);left:0;z-index:26;width:min(289.92px,calc(100% - 57.98px));background:#fafafa;overflow-y:auto;box-shadow:5.9px 0 7.25px -4.53px #00000040}
 .screen .pm5-drawer button{display:flex;align-items:center;width:100%;min-height:57.98px;padding:0 0 0 14.5px;border:0;border-bottom:.91px solid #00000023;background:none;text-align:left;font:300 19.03px 'Roboto Light',Roboto,sans-serif;color:#505050}
 .screen .pm5-drawer button.on{background:#00000025}
+
+/* Play Movies & TV 3.0 (audit step 4): the red nav_bar, section_heading (21 sp light italic #333333, the 12 sp caps
+   action on #c74b46), cluster cards on card_bg_play, the #f5f5f5 drawer. */
+.pm5-bar.mv3-bar{background:#c74b46;border-bottom-color:#953834}
+.pa-movies .pa-section h3{font:italic 300 19.03px 'Roboto Light',Roboto,sans-serif;color:#333}
+.pa-movies .pa-chip{padding:3.62px 7.25px;font:400 10.87px Roboto,sans-serif;background:#c74b46}
+.pa-movies .pa-card{border-style:solid;border-width:5.44px;border-image:url('assets/pm52-card_bg_play.png') 12 fill/5.44px;background:none;box-shadow:none;margin:-1.81px}
+.pa-movies .pa-card-art{margin:-1.81px -1.81px 0}
+.pa-movies .pa-dots svg{display:none}
+.pa-movies .pa-dots{background:url('assets/mv3-ic_menu_moreoverflow_card_dark_normal.png') center/28.99px no-repeat}
+.screen .pm-video-top>.mv25-up{display:flex;align-items:center;width:auto;padding:0 7.25px 0 0;border:0;background:none}
+.mv25-up img:first-child{width:14.5px;height:14.5px}
+.mv25-up img+img{width:28.99px;height:28.99px;margin-left:2.72px}
+.mv3-empty{margin:0;padding:43.49px 14.5px;text-align:center;font:300 19.03px 'Roboto Light',Roboto,sans-serif;color:#333}
+.pm5-drawer.mv3-drawer{background:#f5f5f5}
+.screen .mv3-drawer button{border-bottom-color:#0000001a;color:#333}
+.screen .mv3-drawer button.on{background:none;font:400 19.03px Roboto,sans-serif;font-weight:700}

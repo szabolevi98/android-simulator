@@ -959,5 +959,109 @@ window.StockStrings = {
    "Derniers ajouts",
    "Añadidas recientemente"
   ]
+ },
+ "movies": {
+  "Google Play": [
+   "Google Play",
+   "Google Play",
+   "Google Play",
+   "Google Play"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók kinyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir control de navegación"
+  ],
+  "Watch Now": [
+   "Megnézem",
+   "Jetzt ansehen",
+   "À voir",
+   "Ver ahora"
+  ],
+  "My Movies": [
+   "Saját filmek",
+   "Meine Filme",
+   "Mes films",
+   "Mis películas"
+  ],
+  "My TV Shows": [
+   "Saját tévéműsorok",
+   "Meine TV-Sendungen",
+   "Mes émissions télévisées",
+   "Mis programas de TV"
+  ],
+  "On Device": [
+   "Az eszközön",
+   "Auf dem Gerät",
+   "Sur l'appareil",
+   "En el dispositivo"
+  ],
+  "Shop": [
+   "Vásárlás",
+   "Einkaufen",
+   "Play Store",
+   "Comprar"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Contact us": [
+   "Kapcsolatfelvétel",
+   "Kontakt",
+   "Nous contacter",
+   "Contacto"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer des commentaires",
+   "Danos tu opinión"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Personal videos": [
+   "Személyes videók",
+   "Persönliche Videos",
+   "Vidéos personnelles",
+   "Vídeos personales"
+  ],
+  "Now Playing": [
+   "Éppen lejátszott",
+   "Läuft gerade",
+   "En cours de lecture",
+   "Reproduciendo"
+  ],
+  "Recommended for You": [
+   "Önnek ajánlott",
+   "Empfehlungen für mich",
+   "Recommandés pour vous",
+   "Recomendaciones personalizadas"
+  ],
+  "Nothing downloaded": [
+   "Nincs letöltött tartalom",
+   "Keine heruntergeladenen Inhalte",
+   "Aucun contenu téléchargé",
+   "No hay contenido descargado"
+  ]
  }
 };

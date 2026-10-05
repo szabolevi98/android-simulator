@@ -352,6 +352,25 @@
    "Recently added to My Library": "Music2:reason_recently_added",
    "Thumbs up": "Music2:thumbsup_list",
    "Last added": "Music2:recentlyadded"
+  },
+  "movies": {
+   "Google Play": "Videos:google_play",
+   "Open navigation drawer": "Videos:drawer_open",
+   "Watch Now": "Videos:tab_watch_now",
+   "My Movies": "Videos:tab_movies",
+   "My TV Shows": "Videos:tab_shows",
+   "On Device": "Videos:tab_on_device",
+   "Shop": "Videos:menu_shop",
+   "Search": "Videos:menu_search",
+   "Settings": "Videos:menu_settings",
+   "Help": "Videos:menu_help",
+   "Contact us": "Videos:menu_contact",
+   "Send feedback": "Videos:menu_feedback",
+   "Refresh": "Videos:menu_refresh",
+   "Personal videos": "Videos:menu_personal_videos",
+   "Now Playing": "Videos:currently_playing",
+   "Recommended for You": "Videos:recommended",
+   "Nothing downloaded": "Videos:empty_pin_text"
   }
  },
  "5.1.1": {

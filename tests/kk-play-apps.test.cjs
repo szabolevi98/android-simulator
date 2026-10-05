@@ -14,8 +14,12 @@ assert.ok(np.includes('data-field="music-position"')&&np.includes('data-action="
 assert.ok(P.render(ctx('play-music',{sub:'queue'})).includes('QUEUE'));
 assert.ok(P.render(ctx('play-music',{paPage:{'play-music':'library'},paMusicTab:'songs'})).includes('data-queue="all"'));
 const movies=P.render(ctx('play-movies'));
-assert.ok(movies.includes('My Movies')&&movies.includes('Recommended for You')&&movies.includes('SHOP')&&(movies.match(/data-action="pa-movie"/g)||[]).length===P.MOVIES.length);
+assert.ok(movies.includes('My Movies')&&movies.includes('Recommended for You')&&movies.includes('>Shop<')&&movies.includes('mv3-ic_movie.png')&&(movies.match(/data-action="pa-movie"/g)||[]).length===P.MOVIES.length);
 assert.ok(P.render(ctx('play-movies',{sub:'movie',paItem:'m1'})).includes('pm-video-bottom'));
+// Play Movies 3.0 (audit step 4): VideosDrawerHelper's verticals and the menus in onCreateOptionsMenu order.
+assert.equal([...P.drawer(ctx('play-movies')).matchAll(/<button[^>]*>([^<]*)</g)].map(m=>m[1]).join(),'Watch Now,My Movies,My TV Shows,On Device,Shop');
+assert.equal(P.menu(ctx('play-movies')).map(i=>i.title).join(),'Settings,Help,Contact us,Send feedback,Refresh,Personal videos');
+assert.ok(P.render(ctx('play-movies',{paPage:{'play-movies':'watch'}})).includes('Now Playing'));
 const books=P.render(ctx('play-books'));
 assert.ok(books.includes('Read Now')&&books.includes('SEE ALL')&&(books.match(/data-action="pa-book"/g)||[]).length===P.BOOKS.length);
 const reader=P.render(ctx('play-books',{sub:'reader',paItem:'b2'}));
