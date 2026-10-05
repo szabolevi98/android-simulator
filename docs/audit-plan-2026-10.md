@@ -113,4 +113,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 3. lépés: ICS Language & input | ac61964 |
 | 2026-10-05 | 3. lépés: People szerkesztő (4.0.4, 4.3, 4.4) | 5c88248 |
 | 2026-10-05 | 3. lépés: AOSP Music menük (4.0.4, 4.3) | fee85ca |
-| 2026-10-05 | 4. lépés: 4.3 Keep 1.0, YouTube 4.5; stock-strings.js; a „‹” jel helyett keretrendszer-nyíl a StockApps-ban | COMMIT |
+| 2026-10-05 | 4. lépés: 4.3 Keep 1.0, YouTube 4.5; stock-strings.js; a „‹” jel helyett keretrendszer-nyíl a StockApps-ban | 5d6e97d |
