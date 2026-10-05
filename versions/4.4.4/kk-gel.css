@@ -14,35 +14,48 @@
 .gel-now-open .gel-now-layer{pointer-events:auto}
 .kk-home.gel-home>.home-content,.kk-home.gel-home>.dock,.kk-home.gel-home>.page-indicators,.kk-home.gel-home>.home-search{translate:calc(var(--gnow) * 100%) 0;transition:translate .3s cubic-bezier(.2,0,.2,1),opacity .175s}
 .kk-home.gel-home[style*="--gnow-instant"] .gel-now-layer,.kk-home.gel-home[style*="--gnow-instant"]>*{transition:none}
-.gnow-page{position:absolute;inset:0;background:#e5e5e5;display:flex;flex-direction:column;color:#222;font-family:RobotoICS,sans-serif}
-.gnow-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;touch-action:pan-y;padding-bottom:var(--nb)}
+/* Google Now (gel-now.js, Velvet 3.3.11) at the Nexus 5 scale (.906 px per dp, xhdpi drawables x.453). In the launcher
+   pane the picture and the plate start under the translucent status bar; the Google app's view starts below it. */
+.gnow-page{--gn-top:var(--sb);position:absolute;inset:0;background:#eee;display:flex;flex-direction:column;color:#8d8d8d;font-family:Roboto,RobotoICS,sans-serif}
+.sa-google .gnow-page{--gn-top:0px}
+.gnow-scroll{position:relative;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;touch-action:pan-y;padding-bottom:var(--nb)}
 .gnow-scroll::-webkit-scrollbar{display:none}
-.gnow-header{position:relative;height:calc(var(--sb) + 112px)}
-.gnow-art{position:absolute;inset:0;width:100%;height:100%;display:block}
-.gnow-search{position:absolute;left:7.25px;right:7.25px;bottom:-21.74px;height:43.49px;display:flex;align-items:center;gap:0;padding:0 9.06px 0 12.68px;border:0;background:#fff;box-shadow:0 1px 2px #0000003d;text-align:left}
-.gnow-search img:first-child{height:28.99px;filter:brightness(.55)}
-.gnow-search span{flex:1}
-.gnow-search .gnow-search-mic{width:22px;height:22px}
-.gnow-cards{padding:30.8px 7.25px 10px;display:flex;flex-direction:column;gap:7.25px}
-.gnow-card{background:#fff;box-shadow:0 1px 1.5px #0000002e;padding:14.5px}
-.gnow-title{font:300 19.93px/1.25 RobotoLight,RobotoICS,sans-serif;color:#222}
-.gnow-title em{font-style:normal;color:#db4437}
-.gnow-sub{font:400 12.68px/1.45 RobotoICS,sans-serif;color:#777}
-.gnow-big{font:300 43.49px/1 RobotoLight,RobotoICS,sans-serif;color:#222}
-.gnow-weather-now{display:flex;justify-content:space-between;align-items:center}
-.gnow-weather-icon svg{width:65px;height:65px}
-.gnow-forecast{display:grid;grid-template-columns:repeat(4,1fr);margin-top:10.87px;padding-top:9.06px;border-top:1px solid #eee;text-align:center;font:400 11.78px RobotoICS,sans-serif;color:#777}
-.gnow-forecast div{display:flex;flex-direction:column;align-items:center;gap:3px}
-.gnow-forecast svg{width:25.37px;height:25.37px}
-.gnow-forecast b{color:#222;font-weight:400}
-.gnow-action{display:block;margin:10.87px -14.5px -14.5px;padding:10.87px 14.5px;width:calc(100% + 29px);border:0;border-top:1px solid #eee;background:none;text-align:left;font:400 14.5px RobotoICS,sans-serif;color:#4285f4}
-.gnow-tip{display:flex;gap:12.68px;align-items:flex-start}
-.gnow-tip img{width:28.99px;height:28.99px;flex:none;margin-top:2px}
-.gnow-more{align-self:center;margin:4px 0;padding:7.25px 18.12px;border:0;background:none;font:700 12.68px RobotoICS,sans-serif;color:#777;text-transform:uppercase}
-.gnow-bar{height:43.49px;margin:0 7.25px 7.25px;display:flex;justify-content:space-around;align-items:center}
-.gnow-bar button{width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center}
-.gnow-bar img{max-width:24px;max-height:24px}
-.gnow-bar button:active,.gnow-action:active,.gnow-search:active{background:#0000000f}
+.gnow-header{aspect-ratio:1280/549;background:center/cover no-repeat}
+.gnow-plate{position:absolute;left:0;right:0;top:var(--gn-top);display:flex;align-items:center;height:57.98px;box-sizing:border-box;border-style:solid;border-width:19.93px 20.84px;border-image:url('assets/vn3-search_bg.png') 44 46 fill/19.93px 20.84px}
+.gnow-plate>*{position:relative}
+.screen .gnow-plate button{padding:0;border:0;background:none;cursor:pointer}
+.screen .gnow-plate .gnow-plate-logo{flex:1;display:flex;align-items:center;height:36.24px;margin:0 0 0 -6.34px;padding-left:9.06px}
+.gnow-plate-logo img{width:69.31px;height:27.18px}
+.screen .gnow-plate .gnow-plate-mic{margin-right:-2.72px;padding:3.62px}
+.gnow-plate-mic img{width:28.99px;height:28.99px;display:block}
+.gnow-cards{display:flex;flex-direction:column;gap:9.06px;padding:10.87px 9.06px 8.15px}
+.gnow-card{position:relative;border-style:solid;border-width:1.81px 1.81px 4.53px;border-image:url('assets/vn3-card_background.png') 4 4 10 fill/1.81px 1.81px 4.53px;padding:0 0 14.5px}
+.gnow-card h3{margin:0;padding:12.68px 28.99px 0 14.5px;font:300 22.65px/1.3 'Roboto Light',Roboto,sans-serif;color:#707070}
+.gnow-card p{margin:0;font:400 12.68px/1.45 Roboto,sans-serif;color:#8d8d8d}
+.screen .gnow-card-menu{position:absolute;right:0;top:0;width:43.49px;height:43.49px;padding:10.87px 0 10.87px 21.74px;border:0;background:none}
+.gnow-card-menu img{width:21.74px;height:21.74px;display:block}
+.gnow-weather h3{margin-bottom:14.5px}
+.gnow-weather-now{display:flex;align-items:flex-start;padding:0 7.25px 0 14.5px;margin-bottom:10.87px}
+.gnow-weather-icon svg{width:86.98px;height:86.98px;display:block;margin-right:14.5px}
+.gnow-weather-now b{flex:1;margin-top:-10.87px;text-align:right;font:400 81.54px/1 Roboto,sans-serif;color:#707070}
+.gnow-weather-cond{width:86.98px;margin:0 0 0 14.5px;padding-bottom:14.5px;text-align:center}
+.gnow-weather-cond p{display:flex;align-items:center;justify-content:center;gap:3.62px}
+.gnow-weather-cond img{width:14.5px;height:14.5px}
+.gnow-week{display:flex;padding:0 7.25px 0 14.5px}
+.gnow-week div{flex:1;display:flex;flex-direction:column;align-items:center;padding:0 3.62px;font:400 12.68px 'Roboto Condensed',Roboto,sans-serif;color:#707070}
+.gnow-week span,.gnow-week b,.gnow-week small{padding-bottom:5.44px}
+.gnow-week svg{width:21.74px;height:21.74px;padding-bottom:5.44px}
+.gnow-week b{font-weight:700}
+.gnow-week small{font-size:12.68px;color:#b5b5b5}
+.gnow-appt .gnow-appt-time{padding:0 14.5px;font:300 22.65px/1.3 'Roboto Light',Roboto,sans-serif;color:#707070}
+.gnow-appt p{padding:0 14.5px}
+.screen .gnow-action{display:flex;align-items:center;width:100%;min-height:43.49px;margin:18.12px 0 -14.5px;padding:0 14.5px;border:0;border-top:.91px solid #e5e5e5;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#4285f4}
+.screen .gnow-more{align-self:center;padding:14.5px;border-style:solid;border-width:1.81px 1.81px 4.53px;border-image:url('assets/vn3-card_background_tutorial.png') 4 4 10 fill/1.81px 1.81px 4.53px;background:none;font:italic 400 12.68px Roboto,sans-serif;color:#777}
+.gnow-bar{display:flex;height:45.3px}
+.gnow-bar i{flex:1}
+.screen .gnow-bar button{width:50.74px;height:100%;padding:0;border:0;background:none;display:grid;place-items:center}
+.gnow-bar img{width:28.99px;height:28.99px}
+.screen .gnow-bar button:active,.screen .gnow-action:active,.screen .gnow-plate button:active{background:#f8f8f8}
 /* Overview mode in the Google Now Launcher keeps all three buttons (Launcher.hasSettings): 3 x 48 dp + 2 x 68 dp. */
 .kk-home.gel-home .kk-overview-panel{width:254.59px;margin-left:-127.3px}
 /* All apps on the stock Nexus 5 (video frame of a Nexus 5 unboxing, November 2013): the first row starts about 28 dp

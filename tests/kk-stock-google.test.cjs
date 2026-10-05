@@ -12,4 +12,9 @@ assert.equal(A.menu('earth',ctx({earthQuery:'Pizza'}))[0].action,'earth-clear');
 // News & Weather 1.3.11: GenieWidget's tabs, rows and weather panel with its own strings.
 assert.ok(A.render('news-weather',ctx()).includes('nw-item')&&css.includes('.nw-tabs'));
 const wx=A.render('news-weather',ctx({newsTab:'Weather'},'hu'));assert.ok(wx.includes('Páratartalom: 60%')&&wx.includes('nw-ic_weather_partly_cloudy_xl.png'));
+// Google Now (Velvet 3.3.11): the header picture, search_bg plate, card_background cards, load_more_card and in_app_footer.
+const g={window:{}};for(const f of ['stock-strings.js','gel-now.js'])vm.runInNewContext(fs.readFileSync('versions/4.4.4/'+f,'utf8'),g);
+const gel=fs.readFileSync('versions/4.4.4/kk-gel.css','utf8'),now=g.window.GELNow.render({data:{events:[{id:1,date:'2014-06-20',title:'Coffee',time:'11:00'}]},t:k=>k,locale:'hu',now:new Date(2014,5,20,10)});
+for(const part of ['vn3-context_header_bg_daylight.jpg','vn3-ic_google_small_dark.png','vn3-ic_training_dots_normal.png','Megtekintés a Naptárban','Továbbiak','vn3-ic_endoflist_reminders_normal.png','vn3-ic_magic_wand_normal.png'])assert.ok(now.includes(part),part);
+assert.ok(!now.includes('gnow-tip')&&gel.includes("vn3-search_bg.png")&&gel.includes("vn3-card_background.png")&&gel.includes('.gnow-page{--gn-top:var(--sb)'));
 console.log('kk stock google ok');

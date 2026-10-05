@@ -223,5 +223,49 @@ window.StockStrings = {
    "Drive apps",
    "Drive apps"
   ]
+ },
+ "google": {
+  "Card menu": [
+   "Kártya menü",
+   "Kartenmenü",
+   "Menu de la carte",
+   "Menú de la tarjeta"
+  ],
+  "View in Calendar": [
+   "Megtekintés a Naptárban",
+   "Im Kalender ansehen",
+   "Afficher dans l'agenda",
+   "Ver en Calendar"
+  ],
+  "More": [
+   "Továbbiak",
+   "Mehr",
+   "Plus",
+   "Más"
+  ],
+  "Reminders": [
+   "Emlékeztetők",
+   "Erinnerungen",
+   "Rappels",
+   "Recordatorios"
+  ],
+  "Train Google Now": [
+   "A Google Asszisztens betanítása",
+   "Interessen in Google Now festlegen",
+   "Améliorer Google Now",
+   "Enseñar a Google Now"
+  ],
+  "Menu": [
+   "Menü",
+   "Menü",
+   "Menu",
+   "Menú"
+  ],
+  "Tap to speak": [
+   "Koppintson a beszédhez",
+   "Zum Sprechen tippen",
+   "Appuyez pour parler",
+   "Toca para hablar."
+  ]
  }
 };

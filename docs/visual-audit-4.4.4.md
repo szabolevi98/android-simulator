@@ -12,3 +12,10 @@
   - The rows follow `GoogleSettingsActivity.onCreate` for the intents that resolve on the image: Connected apps, Google+, Play Games, Location, Search & Now, Ads, Verify apps, Android Device Manager, Drive apps.
   - Maps 7.5 no longer handles `LOCATION_SETTINGS`, so there is no Maps & Latitude.
   - The bar is `common_settings_bg` (xxhdpi).
+- **Google Now (Google Search 3.3.11, launcher pane and Google app):**
+  - `gel-now.js` follows `now_client_cards_view.xml` and matches shot 013 of GSMArena's Nexus 5 UI review.
+  - The page is #eeeeee. Velvet's time-of-day picture (`context_header_bg_*`) runs full width under the translucent status bar; it replaces a drawn SVG header.
+  - The `search_bg` plate sits 12 dp below the status bar with `ic_google_small_dark` and `ic_mic_dark`; the microphone opens Voice Search.
+  - The cards use `card_background` with Velvet's styles and the card menu dots: the weather card per `weather_card.xml` / `weather_forecast_column.xml`, and the next appointment with its View in Calendar button.
+  - `load_more_card.xml`'s italic "More" closes the list. `in_app_footer.xml` shows Reminders, Train Google Now and Menu with the APK's icons.
+  - The "Just say Ok Google" tip card is gone: Velvet 3.3 has no such card (only the launcher's search bar hint).

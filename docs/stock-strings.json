@@ -160,6 +160,15 @@
    "Verify apps": "PrebuiltGmsCore:common_security_settings_title",
    "Android Device Manager": "PrebuiltGmsCore:common_mdm_feature_name",
    "Drive apps": "PrebuiltGmsCore:drive_settings_title"
+  },
+  "google": {
+   "Card menu": "Velvet:accessibility_menu_button",
+   "View in Calendar": "Velvet:view_in_calendar",
+   "More": "Velvet:load_more",
+   "Reminders": "Velvet:my_reminders",
+   "Train Google Now": "Velvet:accessibility_training_button",
+   "Menu": "Velvet:accessibility_footer_menu_button",
+   "Tap to speak": "Velvet:ime_hint_tap_to_speak"
   }
  }
 }
