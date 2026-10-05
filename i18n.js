@@ -4,6 +4,7 @@
   const supported = ['en', 'hu', 'de', 'fr', 'es'];
   const locale = { en: 'en-US', hu: 'hu-HU', de: 'de-DE', fr: 'fr-FR', es: 'es-ES' };
   const rows = [
+    ['Source code (AGPLv3)','Forráskód (AGPLv3)','Quellcode (AGPLv3)','Code source (AGPLv3)','Código fuente (AGPLv3)'],
     ['Continue','Tovább','Weiter','Continuer','Continuar'],
     ['Confirm','Megerősítés','Bestätigen','Confirmer','Confirmar'],
     ['Retry','Újra','Erneut versuchen','Réessayer','Reintentar'],
