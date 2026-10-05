@@ -371,6 +371,27 @@
    "Settings": "Maps:SETTINGS",
    "Help": "Maps:HELP",
    "Send feedback": "Maps:SEND_FEEDBACK"
+  },
+  "drive": {
+   "My Drive": "Drive:menu_my_drive",
+   "Shared with me": "Drive:shared_with_me",
+   "Starred": "Drive:menu_show_starred",
+   "Recent": "Drive:menu_show_recent",
+   "On device": "Drive:menu_show_pinned",
+   "Uploads": "Drive:menu_show_upload",
+   "Search": "Drive:menu_search",
+   "View as Grid": "Drive:menu_doc_view_grid_mode",
+   "Create": "Drive:create_new",
+   "Refresh": "Drive:menu_refresh",
+   "Filter by": "Drive:menu_filter_by",
+   "Sort by": "Drive:menu_sort_by",
+   "Open navigation drawer": "Drive:doclist_open_navigation_drawer_content_description",
+   "Modified: %s": "Drive:doclist_date_modified_label",
+   "Today": "Drive:time_range_today",
+   "Yesterday": "Drive:time_range_yesterday",
+   "Earlier this Week": "Drive:time_range_this_week",
+   "Earlier this Month": "Drive:time_range_this_month",
+   "Older": "Drive:time_range_older"
   }
  }
 }

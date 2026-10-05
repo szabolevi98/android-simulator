@@ -543,5 +543,121 @@ window.StockStrings = {
    "Envoyer des commentaires",
    "Enviar comentarios"
   ]
+ },
+ "drive": {
+  "My Drive": [
+   "Saját meghajtó",
+   "Meine Ablage",
+   "Mon Drive",
+   "Mi unidad"
+  ],
+  "Shared with me": [
+   "Velem megosztott",
+   "Für mich freigegeben",
+   "Partagés avec moi",
+   "Compartido conmigo"
+  ],
+  "Starred": [
+   "Csillagozott",
+   "Markiert",
+   "Suivis",
+   "Destacados"
+  ],
+  "Recent": [
+   "Legutóbbi",
+   "Zuletzt geöffnet",
+   "Récents",
+   "Recientes"
+  ],
+  "On device": [
+   "Az eszközön",
+   "Auf dem Gerät",
+   "Sur cet appareil",
+   "En el dispositivo"
+  ],
+  "Uploads": [
+   "Feltöltések",
+   "Uploads",
+   "Importations",
+   "Subidas"
+  ],
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Rechercher",
+   "Buscar"
+  ],
+  "View as Grid": [
+   "Rácsnézet",
+   "Rasteransicht",
+   "Grille",
+   "Ver en cuadrícula"
+  ],
+  "Create": [
+   "Létrehozás",
+   "Erstellen",
+   "Créer",
+   "Crear"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Filter by": [
+   "Szűrő:",
+   "Filtern nach",
+   "Filtrer par",
+   "Filtrar por"
+  ],
+  "Sort by": [
+   "Rendezési szempont",
+   "Sortieren nach",
+   "Trier par",
+   "Ordenar por"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók megnyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir panel de navegación"
+  ],
+  "Modified: %s": [
+   "Módosítva: %s",
+   "Geändert: %s",
+   "Modifié : %s",
+   "Modificado el %s"
+  ],
+  "Today": [
+   "Ma",
+   "Heute",
+   "Aujourd'hui",
+   "Hoy"
+  ],
+  "Yesterday": [
+   "Tegnap",
+   "Gestern",
+   "Hier",
+   "Ayer"
+  ],
+  "Earlier this Week": [
+   "Korábban a héten",
+   "Diese Woche",
+   "Cette semaine",
+   "Principios de semana"
+  ],
+  "Earlier this Month": [
+   "Korábban a hónapban",
+   "Diesen Monat",
+   "Ce mois-ci",
+   "Principios de mes"
+  ],
+  "Older": [
+   "Régebben",
+   "Älter",
+   "Antérieurs",
+   "Anteriores"
+  ]
  }
 };

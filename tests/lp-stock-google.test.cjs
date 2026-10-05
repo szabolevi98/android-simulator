@@ -19,4 +19,8 @@ assert.ok(css.includes('.kp3-bar{')&&css.includes('#ffcc3f'));
 // Maps 9.3: the search box with the grabber and mic, the FAB and my-location button, layers_menu_internal's side menu.
 const mp=A.render('maps',ctx({mapsPanel:true}));assert.ok(mp.includes('mp9-ic_qu_menu_grabber.png')&&mp.includes('mp9-ic_qu_directions.png')&&mp.includes('mp9-ic_qu_direction_mylocation.png'));
 assert.ok(/Your places.*Traffic.*Public transit.*Bicycling.*Satellite.*Terrain.*Google Earth.*Settings.*Help.*Send feedback/s.test(mp));
+// Drive 2.1: the grey bar with Search and the grid toggle, rows under Drive's time ranges, the jx navigation entries.
+const dr=A.render('drive',ctx({driveNav:true}));assert.ok(dr.includes('dr2-bar')&&dr.includes('dr2-ic_grid_toggle.png')&&dr.includes('dr2-ic_type_doc.png')&&dr.includes('Today'));
+assert.ok(/My Drive.*Shared with me.*Starred.*Recent.*On device.*Uploads/s.test(dr.slice(dr.indexOf('dr2-nav'))));
+assert.equal(JSON.stringify(A.menu('drive',ctx()).map(i=>i.title)),JSON.stringify(['Create','Refresh','Filter by','Sort by']));
 console.log('lp stock google ok');

@@ -274,3 +274,28 @@
 .mp9-gap{display:block;height:9.06px}
 .screen .mp9-menu .mp9-item{height:65.23px;padding:0 7.25px}
 .mp9-menu hr{margin:0 14.5px;border:0;border-top:.91px solid #0000001f}
+
+/* Drive 2.1 (audit step 4) at the Nexus 6 scale (xxxhdpi drawables x.2265): the grey action bar with dark icons, 72 dp
+   rows with 40 dp type icons, #eeeeee group titles, the navigation panel. */
+.sa-drive21{background:#fff}
+.dr2-bar{flex:none;display:flex;align-items:center;height:50.74px;padding-right:3.62px;background:#e0e0e0;border-bottom:.91px solid #bdbdbd;z-index:2}
+.screen .dr2-toggle{flex:none;display:flex;flex-direction:column;justify-content:center;gap:3.62px;width:65.23px;height:50.74px;padding:0 16.31px;border:0;background:none}
+.dr2-toggle i{display:block;width:16.31px;height:1.81px;background:#4c4c4c}
+.dr2-bar>b{flex:1;min-width:0;font:400 18.12px Roboto,sans-serif;color:#4c4c4c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dr2-bar .sa-btn img{width:21.74px;height:21.74px;filter:brightness(0);opacity:.6}
+.dr2-group{margin:0;padding:14.5px 0 7.25px 21.74px;background:#eee;font:400 12.68px Roboto,sans-serif;color:#0000008a}
+.screen .dr2-row{display:flex;align-items:center;width:100%;height:65.23px;padding:0;border:0;background:#fff;text-align:left;cursor:pointer}
+.dr2-row img{width:36.24px;height:36.24px;margin:0 14.5px}
+.dr2-row span{min-width:0;display:flex;flex-direction:column;gap:2.72px}
+.dr2-row b{font:400 14.5px Roboto,sans-serif;color:#4c4c4c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dr2-row small{font:300 12.68px Roboto,sans-serif;color:#0000008a}
+.screen .dr2-row:active{background:#0000001a}
+.screen .dr2-scrim{position:absolute;inset:0;z-index:4;border:0;background:#0006}
+.dr2-nav{position:absolute;left:0;top:0;bottom:0;z-index:5;width:min(271.8px,85%);overflow-y:auto;background:#eee;display:flex;flex-direction:column}
+.dr2-account{display:flex;align-items:center;height:57.98px;padding:0 14.5px 0 18.12px;font:400 14.5px Roboto,sans-serif;color:#4c4c4c}
+.screen .dr2-nav button{display:flex;align-items:center;width:100%;height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:500 12.68px Roboto,sans-serif;color:#000000de}
+.dr2-nav img{width:21.74px;height:21.74px;margin-right:28.99px;opacity:.6}
+.screen .dr2-nav button.on{background:#0000001a}
+.dr2-storage{display:flex;align-items:center;margin-top:auto;padding:14.5px;border-top:.91px solid #d3d3d3}
+.dr2-storage span{display:flex;flex-direction:column;font:400 12.68px Roboto,sans-serif;color:#4c4c4c}
+.dr2-storage small{color:#0000008a}

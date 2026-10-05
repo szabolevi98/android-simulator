@@ -88,19 +88,33 @@
 
   // ---- Drive: My Drive ----
   const FILES = [
-    {id: 'f0', name: 'Photos', kind: 'folder', date: 'Oct 28'}, {id: 'f1', name: 'Trip plan 2015', kind: 'doc', date: 'Nov 2', text: 'Day 1 — arrive in Lisbon, tram 28 to Alfama.\nDay 2 — Belém, pastéis de nata.\nDay 3 — Sintra by train.'},
-    {id: 'f2', name: 'Budget', kind: 'sheet', date: 'Oct 30', text: 'Rent 850\nGroceries 240\nTransport 60\nFun 120'}, {id: 'f3', name: 'Nexus 6 guide', kind: 'pdf', date: 'Oct 31', text: 'Welcome to Nexus 5. Swipe left from the Home screen to see Google Now.'},
-    {id: 'f4', name: 'Meetup slides', kind: 'slides', date: 'Sep 12', text: 'What’s new in Lollipop\n• Material design\n• Heads-up notifications\n• Smart Lock\n• Overview'}
+    {id: 'f0', name: 'Photos', kind: 'folder', date: 'Oct 28', age: 9}, {id: 'f1', name: 'Trip plan 2015', kind: 'doc', date: 'Nov 2', age: 0, text: 'Day 1 — arrive in Lisbon, tram 28 to Alfama.\nDay 2 — Belém, pastéis de nata.\nDay 3 — Sintra by train.'},
+    {id: 'f2', name: 'Budget', kind: 'sheet', date: 'Oct 30', age: 1, text: 'Rent 850\nGroceries 240\nTransport 60\nFun 120'}, {id: 'f3', name: 'Nexus 6 guide', kind: 'pdf', date: 'Oct 31', age: 3, text: 'Welcome to Nexus 5. Swipe left from the Home screen to see Google Now.'},
+    {id: 'f4', name: 'Meetup slides', kind: 'slides', date: 'Sep 12', age: 60, text: 'What’s new in Lollipop\n• Material design\n• Heads-up notifications\n• Smart Lock\n• Overview'}
   ];
   const kindColor = {folder: '#8f8f8f', doc: '#4285f4', sheet: '#0f9d58', pdf: '#db4437', slides: '#f4b400'};
+  // Drive 2.1.495 (LMY48Y): CakemixTheme's ActionBar on action_bar_background (#e0e0e0 over a 1 dp #bdbdbd line, #4c4c4c
+  // text) with the navigation toggle. menu_doclist_activity.xml under AppCompat's three slots: Search and View as Grid
+  // (ifRoom|collapse) take the two free slots; Create, Refresh, Filter by and Sort by go to the overflow. Files are
+  // doc_entry_row_onecolumn.xml rows (72 dp, the 40 dp ic_type_* icon 16 dp in, the title and "Modified: …" 72 dp in)
+  // under Drive's time range titles (doc_entry_group_title_onecolumn.xml on #eeeeee, 24 dp in). The navigation panel lists
+  // the jx enum's entries (My Drive, Shared with me, Starred, Recent, On device, Uploads) and the storage footer.
   function drive(ctx) {
+    const d = key => S(ctx, 'drive', key);
     if (ctx.ui.sub === 'file') {
       const file = FILES.find(f => f.id === ctx.ui.driveFile) || FILES[1];
       return `<div class="app-view sa-app sa-drive">${bar(ctx, {title: file.name, up: true, icon: 'drive.png', actions: btn('sa-unsupported', ctx.t('Share'), 'share') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-doc"><div class="sa-page">${e(file.text || '').split('\n').map(line => `<p>${line}</p>`).join('')}</div></div></div>`;
     }
-    const row = f => `<button class="sa-file" data-action="${f.kind === 'folder' ? 'sa-unsupported' : 'drive-open'}" data-id="${f.id}"><i style="background:${kindColor[f.kind]}">${f.kind === 'folder' ? ICON.folder : f.kind.charAt(0).toUpperCase()}</i><span><b>${e(f.name)}</b><small>${e(ctx.t('Modified'))} ${e(f.date)}</small></span></button>`;
-    return `<div class="app-view sa-app sa-drive">${bar(ctx, {title: ctx.t('My Drive'), icon: 'drive.png', actions: btn('sa-unsupported', ctx.t('New'), 'add') + btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-files">${FILES.map(row).join('')}</div></div>`;
+    const icon = {folder: 'ic_type_folder', doc: 'ic_type_doc', sheet: 'ic_type_sheet', pdf: 'ic_type_pdf', slides: 'ic_type_presentation'};
+    const range = age => age === 0 ? 'Today' : age === 1 ? 'Yesterday' : age < 7 ? 'Earlier this Week' : age < 31 ? 'Earlier this Month' : 'Older';
+    const when = age => new Date(ctx.now.getTime() - (age || 0) * 864e5).toLocaleDateString(ctx.locale, {month: 'short', day: 'numeric'});
+    let last = '';
+    const rows = [...FILES].sort((a, b) => (a.age || 0) - (b.age || 0)).map(f => { const r = range(f.age || 0), head = r !== last ? `<h4 class="dr2-group">${e(d(r))}</h4>` : ''; last = r; return `${head}<button class="dr2-row" data-action="${f.kind === 'folder' ? 'sa-unsupported' : 'drive-open'}" data-id="${f.id}"><img src="assets/dr2-${icon[f.kind]}.png" alt=""><span><b>${e(f.name)}</b><small>${e(d('Modified: %s').replace('%s', when(f.age)))}</small></span></button>`; }).join('');
+    const nav = [['My Drive', 'my_drive'], ['Shared with me', 'shared_with_me'], ['Starred', 'starred'], ['Recent', 'recently_opened'], ['On device', 'offline'], ['Uploads', 'upload']];
+    const panel = ctx.ui.driveNav ? `<button class="dr2-scrim" data-action="drive-nav" aria-label="${e(ctx.t('Close'))}"></button><nav class="dr2-nav"><div class="dr2-account">nexus6.demo@gmail.com</div>${nav.map(([key, ic], n) => `<button class="${n ? '' : 'on'}" data-action="${n ? 'sa-unsupported' : 'drive-nav'}"><img src="assets/dr2-ic_drive_${ic}.png" alt="">${e(d(key))}</button>`).join('')}<div class="dr2-storage"><img src="assets/dr2-ic_storage_usage.png" alt=""><span><b>0.4 GB / 15 GB</b><small>3%</small></span></div></nav>` : '';
+    return `<div class="app-view sa-app sa-drive sa-drive21"><header class="dr2-bar"><button class="dr2-toggle" data-action="drive-nav" aria-label="${e(d('Open navigation drawer'))}"><i></i><i></i><i></i></button><b>${e(d('My Drive'))}</b>${img('sa-unsupported', d('Search'), 'dr2-ic_menu_search_alpha.png')}${img('sa-unsupported', d('View as Grid'), 'dr2-ic_grid_toggle.png')}<button class="sa-btn" data-action="sa-menu" aria-label="${e(ctx.t('More options'))}"><img src="assets/dr2-action_bar_overflow_white.png" alt=""></button></header><div class="sa-scroll dr2-list">${rows}</div>${panel}</div>`;
   }
+
 
   // ---- Keep: the quick note bar and coloured cards; notes are kept in data.keepNotes ----
   const KEEP_COLORS = ['#fff', '#f7f0a3', '#c6e5f5', '#c9f0b9', '#f8c8c0'];
@@ -207,6 +221,7 @@
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, lollipops', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
   // The overflow of the screen on show. News & Weather 2.2 (LMY48Y) res/menu/news_activity.xml: Search (abc_ic_search_api_mtrl_alpha) and Add section (ic_add_white_24dp) if room; Refresh, Edit weather display…, Remove this section and Migrate settings in the overflow.
   function menu(view, ctx) {
+    if (view === 'drive' && ctx.ui?.sub !== 'file') { const d = key => S(ctx, 'drive', key); return ['Create', 'Refresh', 'Filter by', 'Sort by'].map(key => ({action: 'sa-unsupported', title: d(key)})); }
     if (view === 'keep' && ctx.ui?.sub !== 'note') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-columns', title: k(ctx.data?.keepSingle ? 'Multi-column view' : 'Single-column view')}, {action: 'keep-refresh', title: k('Refresh')}]; }
     if (view === 'keep') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-delete', title: k('Delete note')}, {action: 'sa-unsupported', title: k('Make a copy')}, {action: 'sa-unsupported', title: k('Send')}, {action: 'sa-unsupported', title: k('Show checkboxes')}]; }
     if (view === 'news-weather') { const n = key => S(ctx, 'news', key); return ['Refresh', 'Edit weather display…', 'Change editions…', 'Manage sections…', 'Switch to dark theme'].map(key => ({action: key === 'Refresh' ? 'sa-news-refresh' : 'sa-unsupported', title: n(key)})); }

@@ -27,3 +27,8 @@
   - `base_main_internal.xml` (v17): the search box on `omnibox.9` with the menu grabber, "Search" and the mic; the my-location button and the blue (#4285f4) directions FAB at the bottom right; the watermark at the bottom left. It replaces the KitKat-era floating search card.
   - The grabber opens `layers_menu_container.xml` from the left (white, the account switcher): Your places; Traffic, Public transit, Bicycling, Satellite, Terrain; Google Earth; Settings, Help, Send feedback.
   - The search box itself is built in code, so its icons are the APK's `ic_qu_*` drawables.
+- **Drive 2.1.495:**
+  - CakemixTheme's ActionBar (`action_bar_background`: #e0e0e0 over a 1 dp #bdbdbd line, #4c4c4c text) with the navigation toggle.
+  - `menu_doclist_activity.xml` under AppCompat's three slots: Search and View as Grid in the bar; Create, Refresh, Filter by and Sort by in the overflow.
+  - Files are `doc_entry_row_onecolumn.xml` rows (72 dp, the coloured `ic_type_*` icons) under Drive's time ranges on #eeeeee.
+  - The navigation panel lists the `jx` enum's entries (dex): My Drive, Shared with me, Starred, Recent, On device, Uploads, and the storage footer. The APK has no FAB.
