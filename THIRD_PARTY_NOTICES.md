@@ -248,7 +248,7 @@ The 5.1.1 build follows the Nexus 6 factory image `shamu-lmy48y` (build LMY48Y, 
 
 `versions/4.0.4/assets/calendar-spinner_*_holo_light.png` and `ic_ab_back_holo_light.png` are framework-res.apk nine-patches and icons of the Galaxy Nexus IMM76I image (AOSP, Apache License 2.0).
 
-`versions/4.3/assets/kp-*` come from Keep.apk, `yt4-*` from YouTube.apk, `mp6-*` from Maps.apk, `gp4-*` from PlusOne.apk and `ea7-*` from GoogleEarth.apk of the Nexus 4 JWR66Y image; they are Google's artwork, used only to show what the phone looked like. `versions/*/stock-strings.js` holds the stock Google apps' texts from the same images.
+`versions/4.3/assets/kp-*` come from Keep.apk, `yt4-*` from YouTube.apk, `mp6-*` from Maps.apk, `gp4-*` from PlusOne.apk, `ea7-*` from GoogleEarth.apk and `vn-*` (the Google Now header pictures among them) from Velvet.apk of the Nexus 4 JWR66Y image; they are Google's artwork, used only to show what the phone looked like. `versions/*/stock-strings.js` holds the stock Google apps' texts from the same images.
 
 `versions/{4.0.4,4.3}/assets/music-ic_mp_playlist_recently_added_list.png` comes from AOSP `packages/apps/Music` (android-4.0.4_r2.1 / android-4.3_r1.1, Apache License 2.0), and `ic_sysbar_menu.png` from SystemUI.apk of the Galaxy Nexus IMM76I and Nexus 4 JWR66Y images; `music-strings.js` holds that AOSP Music's texts.
 

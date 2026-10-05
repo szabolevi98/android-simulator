@@ -1737,6 +1737,7 @@
       // Google, Voice Search, Maps, Keep, YouTube, Google+, Earth, News & Weather, Google Settings
       case 'sa-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'voice-listen': listenVoice(); break;
+      case 'gel-overview-settings': ui.overlay = ''; renderOverlay(); openApp('google-search'); ui.sub = 'settings'; render(); break;
       case 'google-now-toggle': data.googleNowOn = data.googleNowOn === false; save(); render(); break;
       case 'maps-locate': ui.mapsQuery = ''; render(); break;
       // Maps 6.14: the feature switcher, Places (Local), Layers, Clear map, the zoom controls.

@@ -36,7 +36,7 @@
   const avatar = (name, seed) => `<span class="sa-avatar" style="background:${['#d65f4e', '#4d8fe0', '#5fae5a', '#e3a33b', '#8a63c9'][seed % 5]}">${e(name.charAt(0))}</span>`;
 
   // ---- Google (Google Now) and Voice Search ----
-  function google(ctx) { return `<div class="app-view sa-app sa-google">${window.GELNow.render({data: ctx.data, t: ctx.t, locale: ctx.locale, now: ctx.now})}</div>`; }
+  function google(ctx) { return `<div class="app-view sa-app sa-google">${window.VelvetNow.render({data: ctx.data, t: ctx.t, locale: ctx.locale, now: ctx.now, s: key => S(ctx, 'google', key)})}</div>`; }
   function voice(ctx) {
     const listening = ctx.ui.voiceState !== 'retry';
     return `<div class="app-view sa-app sa-voice"><div class="sa-voice-lang">${e(ctx.t('English (US)'))}</div><button class="sa-voice-mic${listening ? ' on' : ''}" data-action="voice-listen" aria-label="${e(ctx.t('Speak now'))}">${ICON.mic}</button><p>${e(ctx.t(listening ? 'Speak now' : 'Didn’t catch that. Try speaking again.'))}</p></div>`;
@@ -173,6 +173,8 @@
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, jelly beans', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
   // The overflow of the screen on show. GenieWidget 1.3.11 (JWR66Y) res/menu/main_menu.xml: Refresh (navigation_refresh) always in the bar, Settings in the overflow.
   function menu(view, ctx) {
+    // Google Search 2.5.9: the footer's menu button (settings.xml, settings_menu.xml).
+    if (view === 'google-search' && ctx.ui?.sub !== 'settings') { const g = key => S(ctx, 'google', key); return [{action: 'gel-overview-settings', title: g('Settings')}, {action: 'sa-unsupported', title: g('Send feedback')}, {action: 'sa-unsupported', title: g('Help')}]; }
     if (view === 'earth') { const ea = key => S(ctx, 'earth', key); return ['Clear map', 'Share', 'Settings', 'Feedback', 'Help', 'Tutorial', 'Fly to'].map(key => ({action: 'sa-unsupported', title: ea(key)})); }
     if (view === 'google-plus') { const g = key => S(ctx, 'gplus', key); return ['New post', 'Share photos', 'Share your location', 'Refresh', 'Send feedback', 'Settings', 'Help', 'Sign out'].map(key => ({action: key === 'Refresh' ? 'gplus-refresh' : 'sa-unsupported', title: g(key)})); }
     if (view === 'maps') {

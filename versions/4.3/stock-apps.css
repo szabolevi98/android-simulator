@@ -19,7 +19,6 @@
 .sa-thumb{display:block;width:100%;height:100%}
 .sa-avatar{flex:none;display:grid;place-items:center;width:34.06px;height:34.06px;color:#fff;font:400 16.92px RobotoICS,sans-serif}
 /* Google (Now) fills the screen; Voice Search listens. */
-.sa-google .gnow-page{position:absolute;inset:0}
 .sa-voice{background:#fff;align-items:center;justify-content:center;gap:16.92px}
 .sa-voice-lang{position:absolute;top:calc(var(--sb) + 13.16px);font-size:11.92px;color:#888}
 .sa-voice-mic{width:80.84px;height:80.84px;border:0;border-radius:50%;background:#e5e5e5;color:#db4437!important;display:grid;place-items:center}
@@ -137,35 +136,6 @@
 .sa-forecast span{font-size:11.07px;color:#999}
 .sa-forecast b{font:400 16.92px RobotoICS,sans-serif;color:#fff}
 .sa-forecast small{color:#777}
-.gnow-page{position:absolute;inset:0;background:#e5e5e5;display:flex;flex-direction:column;color:#222;font-family:RobotoICS,sans-serif}
-.gnow-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;touch-action:pan-y;padding-bottom:var(--nb)}
-.gnow-scroll::-webkit-scrollbar{display:none}
-.gnow-header{position:relative;height:calc(var(--sb) + 105.28px)}
-.gnow-art{position:absolute;inset:0;width:100%;height:100%;display:block}
-.gnow-search{position:absolute;left:6.81px;right:6.81px;bottom:-20.43px;height:40.88px;display:flex;align-items:center;gap:0;padding:0 8.52px 0 11.92px;border:0;background:#fff;box-shadow:0 1px 1.88px #0000003d;text-align:left}
-.gnow-search img:first-child{height:27.25px;filter:brightness(.55)}
-.gnow-search span{flex:1}
-.gnow-search .gnow-search-mic{width:20.68px;height:20.68px}
-.gnow-cards{padding:28.95px 6.81px 9.4px;display:flex;flex-direction:column;gap:6.81px}
-.gnow-card{background:#fff;box-shadow:0 1px 1.41px #0000002e;padding:13.63px}
-.gnow-title{font:300 18.73px/1.25 RobotoLight,RobotoICS,sans-serif;color:#222}
-.gnow-title em{font-style:normal;color:#db4437}
-.gnow-sub{font:400 11.92px/1.45 RobotoICS,sans-serif;color:#777}
-.gnow-big{font:300 40.88px/1 RobotoLight,RobotoICS,sans-serif;color:#222}
-.gnow-weather-now{display:flex;justify-content:space-between;align-items:center}
-.gnow-weather-icon svg{width:61.1px;height:61.1px}
-.gnow-forecast{display:grid;grid-template-columns:repeat(4,1fr);margin-top:10.22px;padding-top:8.52px;border-top:1px solid #eee;text-align:center;font:400 11.07px RobotoICS,sans-serif;color:#777}
-.gnow-forecast div{display:flex;flex-direction:column;align-items:center;gap:2.82px}
-.gnow-forecast svg{width:23.85px;height:23.85px}
-.gnow-forecast b{color:#222;font-weight:400}
-.gnow-action{display:block;margin:10.22px -13.63px -13.63px;padding:10.22px 13.63px;width:calc(100% + 27.26px);border:0;border-top:1px solid #eee;background:none;text-align:left;font:400 13.63px RobotoICS,sans-serif;color:#4285f4}
-.gnow-tip{display:flex;gap:11.92px;align-items:flex-start}
-.gnow-tip img{width:27.25px;height:27.25px;flex:none;margin-top:1.88px}
-.gnow-more{align-self:center;margin:3.76px 0;padding:6.81px 17.03px;border:0;background:none;font:700 11.92px RobotoICS,sans-serif;color:#777;text-transform:uppercase}
-.gnow-bar{height:40.88px;margin:0 6.81px 6.81px;display:flex;justify-content:space-around;align-items:center}
-.gnow-bar button{width:40.88px;height:40.88px;border:0;background:none;display:grid;place-items:center}
-.gnow-bar img{max-width:22.56px;max-height:22.56px}
-.gnow-bar button:active,.gnow-action:active,.gnow-search:active{background:#0000000f}
 /* Maps 6.14: the light action bar over the map, the search field below it. */
 .sa-maps6{display:flex;flex-direction:column}
 .sa-maps6 .sa-maps6-map{position:relative;flex:1;min-height:0;overflow:hidden}
@@ -249,3 +219,44 @@
 .sa-earth-bar .sa-btn.on img{filter:brightness(0) invert(.75) sepia(1) hue-rotate(160deg) saturate(5)}
 .sa-earth-field{flex:1;min-width:0;display:flex;align-items:center}
 .sa-earth-field input{width:100%;padding:4px 2px;border:0;border-bottom:1.7px solid #33b5e5;background:none;color:#fff;font:400 15.33px Roboto,sans-serif;outline:0}
+
+/* Google Search 2.5.9 (audit step 4): velvet-now.js. The header picture at its 1280 x 549 ratio with ic_google_large_light
+   (136 x 50 dp) 22 dp above centre; search_plate on search_bg (xhdpi 9-patch, 12 dp of shadow margin) straddling the
+   picture's lower edge; cards 8 dp from the sides and 10 dp apart on #e5e5e5; the 50 dp footer under a 1 dp divider. */
+.sa-google .vn-page{position:absolute;inset:0;display:flex;flex-direction:column;background:#e5e5e5;color:#8d8d8d;font-family:Roboto,sans-serif}
+.vn-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;touch-action:pan-y}
+.vn-scroll::-webkit-scrollbar{display:none}
+.vn-header{position:relative;aspect-ratio:1280/549;background:center/cover no-repeat;display:grid;place-items:center}
+.vn-header img{width:115.82px;height:42.58px;transform:translateY(-18.74px)}
+.vn-plate{position:relative;display:flex;align-items:center;margin-top:-27.25px;border-style:solid;border-width:18.74px 19.59px;border-image:url('assets/vn-search_bg.png') 44 46 fill/18.74px 19.59px;padding:0;height:69.04px;box-sizing:border-box;margin-left:0;margin-right:0}
+.vn-plate>*{position:relative}
+.screen .vn-plate button{border:0;background:none;padding:0;cursor:pointer}
+.vn-plate-text{flex:1;min-width:0;display:flex;align-items:center;margin:-8.52px 0 -8.52px -9.37px;text-align:left}
+.vn-plate-text img{width:27.25px;height:27.25px;margin:0 6.81px}
+.vn-plate-text span{font:400 13.63px Roboto,sans-serif;color:#ccc}
+.screen .vn-plate .vn-plate-mic{padding:3.41px;margin-right:-6.18px}
+.vn-plate-mic img{width:27.25px;height:27.25px;display:block}
+.vn-cards{display:flex;flex-direction:column;gap:8.52px;padding:3.41px 6.81px 8.52px}
+.vn-card{position:relative;border-style:solid;border-width:1.7px 1.7px 4.26px;border-image:url('assets/vn-card_background.png') 4 4 10 fill/1.7px 1.7px 4.26px;padding:0 0 13.63px}
+.vn-card h3{margin:0;padding:11.92px 13.63px 0;font:300 21.29px/1.3 'Roboto Light',Roboto,sans-serif;color:#707070}
+.vn-card p{margin:0;padding:0 13.63px;font:400 11.92px/1.45 Roboto,sans-serif;color:#8d8d8d}
+.vn-weather-now{display:flex;justify-content:space-between;padding:13.63px 6.81px 0 13.63px}
+.vn-weather-now p{padding:0 0 0 6.81px;display:flex;align-items:center;gap:3.41px}
+.vn-weather-now p img{width:13.63px;height:13.63px}
+.vn-weather-icon svg{width:54.5px;height:54.5px;display:block}
+.vn-weather-now b{font:400 95.38px/1 Roboto,sans-serif;color:#707070;margin-top:-10.22px}
+.vn-week{width:100%;border-collapse:collapse;margin-top:6.81px;padding-bottom:10.22px;font:400 11.92px Roboto,sans-serif;color:#8d8d8d;text-align:center}
+.vn-week td{padding:1.7px 0}
+.vn-week svg{width:20.44px;height:20.44px;display:block;margin:0 auto 5.11px}
+.vn-week .vn-low td{color:#b5b5b5}
+.vn-appt{cursor:pointer}
+.vn-appt .vn-appt-time{font:300 21.29px/1.3 'Roboto Light',Roboto,sans-serif;color:#707070}
+.vn-appt i{display:block;height:17.03px}
+.vn-appt:active{filter:brightness(.94)}
+.vn-footer{flex:none;display:flex;height:42.58px;border-top:.85px solid #0000001f;padding-bottom:var(--nb)}
+.screen .vn-footer button{border:0;background:none;padding:0;cursor:pointer}
+.screen .vn-footer .vn-more{flex:1;padding-left:47.69px;font:italic 400 13.63px Roboto,sans-serif;color:#888}
+.vn-footer .vn-menu{width:47.69px;display:grid;place-items:center}
+.vn-menu img{width:27.25px;height:27.25px}
+.screen .vn-footer button:active,.screen .vn-plate button:active{background:#0000000f}
+

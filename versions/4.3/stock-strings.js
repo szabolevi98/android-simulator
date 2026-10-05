@@ -447,5 +447,49 @@ window.StockStrings = {
    "Aller à",
    "Volar a"
   ]
+ },
+ "google": {
+  "Search…": [
+   "Keresés...",
+   "Suchen…",
+   "Rechercher…",
+   "Buscar..."
+  ],
+  "Tap to speak": [
+   "Koppintson a beszédhez",
+   "Zum Sprechen tippen",
+   "Appuyez pour parler",
+   "Toca para hablar."
+  ],
+  "Show more cards…": [
+   "További kártyák...",
+   "Mehr Karten anzeigen…",
+   "Afficher d'autres cartes",
+   "Mostrar más tarjetas…"
+  ],
+  "Menu": [
+   "Menü",
+   "Menü",
+   "Menu",
+   "Menú"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer commentaires",
+   "Danos tu opinión"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ]
  }
 };

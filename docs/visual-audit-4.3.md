@@ -619,3 +619,9 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
 - **Earth 7.1.1:**
   - Theme.Earth's overlay action bar on `header_bar_bg_80_percent_black` over the globe, replacing the white search box and the "‹" home button.
   - `menu-v11/main.xml`: Search (expands in the bar with "Example: Pizza"), Reset to north, My location and the sensors toggle in the bar; Clear map, Share, Settings, Feedback, Help, Tutorial and Fly to in the overflow.
+- **Google Search 2.5.9 (Google Now):**
+  - The Google app showed the KitKat launcher's Google Now page (`gel-now.js`, a drawn header and a bottom bar of Reminders / Customize / Menu). It is now `velvet-now.js` from `velvet_main.xml`.
+  - The header is Velvet's own picture for the time of day (`context_header_bg_dawn` / `_daylight` / `_dusk` / `_twilight`) with `ic_google_large_light`.
+  - `search_plate.xml` on `search_bg` straddles the picture's edge: the "g", "Search…" and the microphone (opens Voice Search).
+  - The cards on #e5e5e5 use `card_background` with Velvet's text styles: the weather card (`weather_card.xml`: the big temperature, wind, precipitation, the week grid) and the next appointment (`next_appointment_card.xml`).
+  - `footer_fragment.xml`: "Show more cards…" and the menu button with Settings, Send feedback and Help. Settings now opens the Search settings, which the Google Settings app's "Search & Now" row did not do on 4.3 before.
