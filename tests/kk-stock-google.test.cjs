@@ -22,4 +22,8 @@ assert.ok(A.render('voice-search',ctx()).includes('vn3-vs_micbtn_rec.png')&&A.re
 // Maps 7.5: the omnibox, the side tab and the layers menu from the right with the APK's toggles and buttons.
 const mp=A.render('maps',ctx({mapsPanel:true},'de'),);assert.ok(mp.includes('mp7-omnibox')&&mp.includes('mp7-views_entry_point_flipped.png')&&mp.includes('mp7-ic_location.png')&&mp.includes('Google Earth'));
 assert.ok(!A.render('maps',ctx()).includes('mp7-panel')&&A.render('maps',{...ctx({mapsPanel:true}),data:{mapsLayer:'traffic'}}).includes('mp7-ic_layers_traffic_selected.png'));
+// Keep 2.0: the drawer toggle and DrawerFragment's items in the dex's order; Archived notes left the overflow.
+const kp=A.render('keep',{...ctx({keepDrawer:true},'hu'),data:{keepNotes:[{id:'k1',text:'Tej'}]}});assert.ok(kp.includes('kp2-ic_drawer.png')&&kp.includes('kitkat.demo@gmail.com'));
+assert.deepEqual([...kp.matchAll(/data-action="keep-landing" data-id="(\w+)"/g)].map(m=>m[1]).join(),'notes,archive,reminders');
+assert.ok(!JSON.stringify(A.menu('keep',ctx())).includes('keep-archived')&&A.render('keep',ctx({keepView:'reminders'})).includes('Create a reminder'));
 console.log('kk stock google ok');

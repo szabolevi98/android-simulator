@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépésben vagyok: 4.3 Keep, YouTube, Maps, Google+, Earth, minden 4.3-as StockApps kész; 4.4.4-en News & Weather, Earth, Google Settings, Google Now, Voice Search és Maps kész, következik a 4.4.4 Drive, Keep, YouTube és Google+.
+**Állapot:** a 4. lépésben vagyok: minden 4.3-as StockApps kész; 4.4.4-en News & Weather, Earth, Google Settings, Google Now, Voice Search, Maps és Keep kész, következik a 4.4.4 Drive, YouTube és Google+, aztán az 5.1.1 StockApps.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -124,3 +124,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.4.4 Google Now a Velvet 3.3.11-ből (fejléckép, keresőmező, kártyák, More, lábléc) | 86a2beb |
 | 2026-10-05 | 4. lépés: 4.4.4 Voice Search a Velvet 3.3.11 keresőmezőjének hangmódjából | c1c9596 |
 | 2026-10-05 | 4. lépés: 4.4.4 Maps 7.5 (omnibox, vízjel, saját hely, oldalfül és rétegmenü) | adc394c |
+| 2026-10-05 | 4. lépés: 4.4.4 Keep 2.0 (fiók, átfedő sáv, menük) | (ez a commit) |

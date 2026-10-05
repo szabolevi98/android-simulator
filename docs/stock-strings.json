@@ -185,6 +185,34 @@
    "Send feedback": "Maps:SEND_FEEDBACK",
    "Move to my location": "Maps:ACCESSIBILITY_MOVE_TO_MY_LOCATION",
    "Menu": "Maps:ACCESSIBILITY_MENU"
+  },
+  "keep": {
+   "Keep": "Keep:app_name",
+   "Add quick note": "Keep:add_quick_note_hint",
+   "New note": "Keep:menu_new_note",
+   "New list": "Keep:menu_new_list",
+   "New recording": "Keep:menu_new_recording",
+   "New photo": "Keep:menu_new_picture",
+   "Take a note": "Keep:empty_view_no_notes",
+   "There are no archived notes": "Keep:empty_view_no_archived_notes",
+   "Create a reminder": "Keep:empty_view_no_reminders",
+   "Notes": "Keep:drawer_landing_page_active_notes",
+   "Archive (drawer)": "Keep:drawer_landing_page_archived_notes",
+   "Reminders": "Keep:drawer_landing_page_all_reminders",
+   "Open navigation drawer": "Keep:drawer_open",
+   "Note color…": "Keep:color_picker_content_description",
+   "Add picture": "Keep:menu_add_picture",
+   "Archive": "Keep:menu_archive",
+   "Unarchive": "Keep:menu_unarchive",
+   "Delete": "Keep:menu_delete",
+   "Show checkboxes": "Keep:menu_show_checkboxes",
+   "Share…": "Keep:menu_share",
+   "Settings": "Keep:menu_settings",
+   "Send feedback": "Keep:menu_send_feedback",
+   "Help": "Keep:menu_help",
+   "Single-column view": "Keep:menu_switch_to_list_view",
+   "Multi-column view": "Keep:menu_switch_to_grid_view",
+   "Refresh": "Keep:menu_sync"
   }
  }
 }

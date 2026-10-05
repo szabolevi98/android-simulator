@@ -353,5 +353,164 @@ window.StockStrings = {
    "Menu",
    "Menú"
   ]
+ },
+ "keep": {
+  "Keep": [
+   "Keep",
+   "Keep",
+   "Keep",
+   "Keep"
+  ],
+  "Add quick note": [
+   "Rövid üzenet hozzáadása",
+   "Kurze Notiz hinzufügen",
+   "Ajouter une note rapide",
+   "Añadir nota rápida"
+  ],
+  "New note": [
+   "Új jegyzet",
+   "Neue Notiz",
+   "Nouvelle note",
+   "Nueva nota"
+  ],
+  "New list": [
+   "Új lista",
+   "Neue Liste",
+   "Nouvelle liste",
+   "Lista nueva"
+  ],
+  "New recording": [
+   "Új felvétel",
+   "Neue Aufnahme",
+   "Nouvel enregistrement",
+   "Nueva grabación"
+  ],
+  "New photo": [
+   "Új fotó",
+   "Neues Foto",
+   "Nouvelle photo",
+   "Foto nueva"
+  ],
+  "Take a note": [
+   "Jegyzetelés",
+   "Notiz schreiben",
+   "Rédiger une note",
+   "Tomar una nota"
+  ],
+  "There are no archived notes": [
+   "Nincsenek archivált jegyzetek",
+   "Keine archivierten Notizen vorhanden",
+   "Aucune note archivée",
+   "No hay notas archivadas"
+  ],
+  "Create a reminder": [
+   "Emlékeztető létrehozása",
+   "Erinnerung erstellen",
+   "Créer un rappel",
+   "Crear un recordatorio"
+  ],
+  "Notes": [
+   "Jegyzetek",
+   "Notizen",
+   "Notes",
+   "Notas"
+  ],
+  "Archive (drawer)": [
+   "Archívum",
+   "Archiv",
+   "Notes archivées",
+   "Archivadas",
+   "Archive"
+  ],
+  "Reminders": [
+   "Emlékeztetők",
+   "Erinnerungen",
+   "Rappels",
+   "Recordatorios"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók kinyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir control de navegación"
+  ],
+  "Note color…": [
+   "Jegyzet színe…",
+   "Notizfarbe…",
+   "Couleur de la note…",
+   "Color de la nota…"
+  ],
+  "Add picture": [
+   "Kép hozzáadása",
+   "Bild hinzufügen",
+   "Ajouter une image",
+   "Añadir imagen"
+  ],
+  "Archive": [
+   "Archiválás",
+   "Archivieren",
+   "Archiver",
+   "Archivar"
+  ],
+  "Unarchive": [
+   "Archiválás visszavonása",
+   "Dearchivieren",
+   "Annuler l'archivage",
+   "No archivar"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "Show checkboxes": [
+   "Jelölőnégyzetek megjelenítése",
+   "Kontrollkästchen anzeigen",
+   "Afficher les cases à cocher",
+   "Mostrar casillas de verificación"
+  ],
+  "Share…": [
+   "Megosztás…",
+   "Teilen…",
+   "Partager…",
+   "Compartir…"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer des commentaires",
+   "Danos tu opinión"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Single-column view": [
+   "Egyoszlopos nézet",
+   "Ansicht mit einer Spalte",
+   "Vue avec colonne unique",
+   "Vista de una columna"
+  ],
+  "Multi-column view": [
+   "Többoszlopos nézet",
+   "Ansicht mit mehreren Spalten",
+   "Vue multicolonne",
+   "Vista de varias columnas"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ]
  }
 };

@@ -47,13 +47,6 @@
 .sa-page{min-height:100%;padding:24px 20px;background:#fff;box-shadow:0 1px 3px #0003;font:400 13.59px/1.6 Arial,sans-serif;color:#222}
 .sa-page p{margin:0 0 8px}
 /* Keep */
-.sa-keep{background:#e5e5e5}
-.sa-keep-add{flex:none;display:flex;align-items:center;margin:7.25px;padding-left:10px;background:#fff;box-shadow:0 1px 2px #0003;color:#777}
-.sa-keep-add input{flex:1;min-width:0;height:43.49px;border:0;background:none;font:400 15.4px RobotoICS,sans-serif;color:#222;outline:none}
-.sa-notes{columns:2;column-gap:7.25px;padding:0 7.25px 9px}
-.sa-note{display:block;width:100%;break-inside:avoid;margin:0 0 7.25px;padding:12px;border:0;box-shadow:0 1px 2px #0003;text-align:left;font:400 14.5px/1.4 RobotoICS,sans-serif;color:#333!important;white-space:pre-wrap;overflow-wrap:anywhere}
-.sa-keep-edit{flex:1;margin:7.25px;box-shadow:0 1px 2px #0003}
-.sa-keep-edit textarea{width:100%;height:100%;padding:14px;border:0;background:none;font:400 16.31px/1.5 RobotoICS,sans-serif;color:#222;resize:none;outline:none}
 /* YouTube */
 .sa-youtube{background:#ebebeb}
 .sa-yt-feed{padding:7.25px}
@@ -223,3 +216,38 @@
 .mp7-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}
 .mp7-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
 .sa-maps7 .sa-maps-card{z-index:1}
+
+/* Keep 2.0.51 (1.0's pieces, KitKat scale) (audit step 4): quick_edit.xml across the width on quick_edit_shadow (xhdpi slices 20 28 36 28), "Add quick
+   note" in 18 sp #99000000 (8 dp left, 48 dp right padding), a 1 dp #25000000 divider over add_items_bar.xml (38 dp, four
+   32 dp icons); notes on note_shadow with their color inside, 16 sp #99000000 with 8 dp padding, two columns or one. */
+.sa-keep .sa-keep-add{display:block;margin:0;padding:0;background:none;box-shadow:none;border:0 solid transparent;border-width:9.06px 12.68px 16.31px;border-image:url('assets/kp2-quick_edit_shadow.png') 20 28 36 28 fill / 9.06px 12.68px 16.31px stretch}
+.sa-keep .sa-keep-add input{display:block;width:100%;height:auto;border:0;background:none;outline:none;padding:7.25px 43.49px 7.25px 7.25px;font:400 16.31px Roboto,sans-serif;color:#000}
+.sa-keep .sa-keep-add input::placeholder{color:#00000099}
+.sa-keep .sa-keep-add>i{display:block;height:.9px;background:#00000025}
+.sa-keep-items{display:flex;height:34.43px}
+.screen .sa-keep-new{flex:1;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none}
+.sa-keep-new img{width:28.99px;height:28.99px}
+.screen .sa-keep-new:active{background:#33b5e566}
+.sa-keep .sa-notes{columns:2;column-gap:0;padding:0 3.62px}
+.sa-keep .sa-notes.single{columns:1}
+.screen .sa-keep .sa-note{display:block;width:100%;min-height:43.49px;break-inside:avoid;margin:0;padding:7.25px;border:0 solid transparent;border-width:9.06px 12.68px 16.31px;border-image:url('assets/kp2-note_shadow.png') 20 28 36 28 / 9.06px 12.68px 16.31px stretch;background:var(--note,#fff) padding-box;box-shadow:none;text-align:left;font:400 14.5px/1.35 Roboto,sans-serif;color:#000000bb!important}
+.screen .sa-keep .sa-note:active{border-image-source:url('assets/kp2-note_shadow_activated.png')}
+/* Keep 2.0's overlay action bar on ab_solid (xhdpi slices 36 20 8 24, #dce1e3 at 90%), the 16 dp drawer indicator, 18 sp
+   #99000000 title; quick_edit.xml sits an action bar's height down; drawer_fragment.xml 300 dp on #f5f5f5 under the bar,
+   items 48 dp: 32 dp icon 4 dp in, 18 sp text 8 dp after it. */
+.sa-keep2{background:#dce1e3}
+.sa-keep2 .kp2-bar{position:absolute;left:0;right:0;top:0;z-index:3;height:43.49px;box-sizing:border-box;border-style:solid;border-width:16.31px 9.06px 3.62px 10.87px;border-image:url('assets/kp2-ab_solid.png') 36 20 8 24 fill/16.31px 9.06px 3.62px 10.87px;background:none;color:#00000099}
+.sa-keep2 .kp2-bar>*{margin-top:-16.31px;margin-bottom:-3.62px}
+.sa-keep2 .kp2-bar .sa-up{margin-left:-10.87px;padding-left:0}
+.kp2-drawer-icon{width:14.5px!important;height:14.5px!important;margin:0 1.81px 0 0}
+.sa-keep2 .kp2-bar .sa-title b{font:400 16.31px Roboto,sans-serif;color:#00000099}
+.sa-keep2 .sa-scroll{padding-top:43.49px}
+.sa-keep2 .sa-keep-edit{margin-top:50.74px}
+.screen .kp2-scrim{position:absolute;left:0;right:0;top:43.49px;bottom:0;z-index:2;border:0;background:#0006}
+.kp2-drawer{position:absolute;left:0;top:43.49px;bottom:0;z-index:2;width:min(271.8px,85%);background:#f5f5f5;overflow-y:auto}
+.kp2-account{height:43.49px;margin:0 10.87px;display:flex;align-items:center;border-bottom:.91px solid #c8c8c8;font:400 14.5px Roboto,sans-serif;color:#58585b}
+.screen .kp2-drawer button{display:flex;align-items:center;width:calc(100% - 28.99px);height:43.49px;margin:0 14.5px;padding:0;border:0;background:none;font:400 16.31px Roboto,sans-serif;color:#58585b;text-align:left;cursor:pointer}
+.kp2-drawer button img{width:28.99px;height:28.99px;margin:0 7.25px 0 3.62px}
+.screen .kp2-drawer button.on{color:#33b5e5cc}
+.screen .kp2-drawer button:active{background:#33b5e566}
+.sa-keep2 .sa-empty{padding:72.48px 18.12px;font:400 19.93px Roboto,sans-serif;color:#0000004d;text-align:center}

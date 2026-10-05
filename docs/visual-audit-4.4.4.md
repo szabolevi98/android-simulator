@@ -27,3 +27,8 @@
   - `base_main_internal.xml`: the floating omnibox (`omnibox.9`, 44 dp, 10 dp in) with "Search" in 17 sp sans-serif-light and the directions button after a #dedede divider; the "Google" watermark at the bottom left; the my-location button (`ic_location` on the `button` 9-patch) at the bottom right; the side tab `views_entry_point_flipped` on the right edge.
   - The tab opens `layers_menu_content.xml` from the right (`LayersContent`: gravity right, 300 dp, `layers_background` tiled): the Traffic, Public transit, Bicycling and Satellite toggles (selected: `layers_selected_background` and the `_selected` icon), Google Earth (opens Earth), then Settings, Help and Send feedback.
   - Placement is set in code. The tab's height on the right edge is my choice; one July 2013 report (MobileSyrup) puts the menu at the bottom left, but 7.5's resources (gravity right, the flipped tab) open it from the right.
+- **Keep 2.0.51:**
+  - MemoryAppTheme overlays the `ab_solid` action bar (#dce1e3 at 90%) on #dce1e3, with the drawer toggle (`ic_drawer`).
+  - `drawer_fragment.xml`: 300 dp on #f5f5f5, the account, then the items `DrawerFragment` adds (per the dex): Notes, Archive, Reminders, with blue icons and #cc33b5e5 text when active. The section headers in the APK are not used. The Reminders view shows "Create a reminder".
+  - Quick edit, add items bar and notes come from Keep 2.0's own drawables.
+  - `browse_fragment_menu.xml` no longer lists Archived notes; the editor has Note color… and Add picture in the bar.
