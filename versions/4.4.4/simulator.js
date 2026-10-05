@@ -787,6 +787,8 @@
     } else if (ui.overlay === 'dtp') {
       // Calendar's datetimepicker dialogs (dtp.js).
       overlayRoot.innerHTML = DateTimePicker.render(ui.dtp, i18n.locale(), deviceDate());
+    } else if (ui.overlay === 'hce-dialog') {
+      overlayRoot.innerHTML = HoloContactEditor.overlay({lang: i18n.language, draft: ui.peopleDraft, dialog: ui.hceDialog || '', photos: data.photos, photoUrl: pid => { const photo = data.photos.find(p => String(p.id) === String(pid)); return photo ? ICSMedia.image(photo) : ''; }});
     } else if (ui.overlay.startsWith('calendar-')) {
       overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('music-')) {
@@ -1155,7 +1157,7 @@
   function editPerson(isNew = false) {
     const person = isNew ? {} : contact(ui.selectedContact);
     if (!person) return;
-    ui.peopleDraft = {...person,groups:data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>g.id)};
+    ui.peopleDraft = HoloContactEditor.fromPerson(person,data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>g.id));
     ui.sub = isNew ? 'new' : 'edit'; ui.overlay = ''; render();
   }
   function peopleOverlay() {
@@ -1495,6 +1497,10 @@
       if(pending&&ui.view==='lock'){requestBouncer(pending);return;}
       if(!['back','alarm-dismiss','alarm-snooze','lock-media'].includes(action))return;
     }
+    // The Contacts editor (contact-editor.js): fields, types, photo and its dialogs.
+    if (ui.view === 'people' && action.startsWith('hce-') && HoloContactEditor.handle(action, id, {draft: ui.peopleDraft, form: viewport.querySelector('#people-editor'), ui, render, renderOverlay,
+      focus: selector => requestAnimationFrame(() => viewport.querySelector(selector)?.focus()),
+      takePhoto: () => { const photo = {...ICSMedia.scene(data), id: Date.now(), name: `IMG_${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)}`, album: 'camera', created: Date.now()}; data.photos.unshift(photo); save(); ui.peopleDraft.photo = photo.id; render(); }})) return;
     switch (action) {
       case 'open-app': if (GEL_UNSIMULATED.includes(app)) { toast(i18n.t('This app is not part of the simulator.')); break; } {
         const icon = button.closest('.launcher-icon, .drawer-app, .dock-app') || button;
@@ -1840,7 +1846,7 @@
       case 'phone-tab': ui.phoneTab = id; ui.phoneSearch = undefined; render(); break;
       case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
       case 'phone-menu': ui.overlay = 'phone-menu'; renderOverlay(); break;
-      case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phone=ui.dial; render(); break;
+      case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phones[0].value=ui.dial; render(); break;
       case 'phone-redial': startPhoneCall(id); break;
       case 'dial': if (ui.dial.length < 30) ui.dial += id; render(); break;
       case 'dial-delete': ui.dial = ui.dial.slice(0, -1); render(); break;
@@ -1870,9 +1876,10 @@
       case 'people-edit-group': ui.peopleEditGroup=ui.peopleGroup; ui.overlay='people-group'; renderOverlay(); break;
       case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
       case 'new-contact': editPerson(true); break;
-      case 'contact-call': startPhoneCall(contact(id)?.phone||'');break;
+      case 'contact-call': startPhoneCall(button.dataset.number||contact(id)?.phone||'');break;
+      case 'people-discard': ui.sub=ui.sub==='edit'?'detail':'';ui.peopleDraft=null;render();break;
       case 'contact-message': openMessageThread(id); break;
-      case 'contact-email': {const recipient=contact(id)?.email||'';openApp('email');composeEmail(null,false,recipient);break;}
+      case 'contact-email': {const recipient=button.dataset.email||contact(id)?.email||'';openApp('email');composeEmail(null,false,recipient);break;}
       case 'thread': openMessageThread(id); break;
       // New Hangout: a picked contact or typed number opens its conversation and takes along a shared draft.
       case 'hg-pick': pickHangout(id); break;
@@ -2108,15 +2115,17 @@
     switch (form.dataset.form) {
       case 'browser-find': ui.browserFind=String(values.get('query')||'').trim(); render(); break;
       case 'people-search': ui.peopleQuery=String(values.get('query')||'').trim(); render(); break;
+      case 'hce-label': HoloContactEditor.submitLabel(values,{draft:ui.peopleDraft,ui,render,renderOverlay}); break;
       case 'people-save': {
-        const name=String(values.get('name')||'').trim(); if(!name)return;
+        // ContactEditorFragment.save: every field of the form; a card with nothing in it is not kept.
         const id=ui.sub==='edit'?ui.selectedContact:Date.now();
-        const person=contact(id)||{id};
-        for(const key of ['name','phone','email','company','notes'])person[key]=String(values.get(key)||'').trim();
-        if(!contact(id))data.contacts.push(person);
-        const groups=values.getAll('groups');
+        const person=HoloContactEditor.commit(viewport.querySelector('#people-editor'),ui.peopleDraft,contact(id)||{id});
+        if(!person.name&&!person.phone&&!person.email){ui.sub=ui.sub==='edit'?'detail':'';ui.peopleDraft=null;render();break;}
+        if(!person.name)person.name=person.phone||person.email;
+        const index=data.contacts.findIndex(p=>p.id===id);if(index>=0)data.contacts[index]=person;else data.contacts.push(person);
+        const groups=ui.peopleDraft.groups||[];
         data.contactGroups.forEach(g=>{g.members=g.members.filter(member=>member!==id);if(groups.includes(g.id))g.members.push(id);});
-        save();ui.selectedContact=id;ui.sub='detail';ui.peopleDraft=null;render();toast('Contact saved');break;
+        save();ui.selectedContact=id;ui.sub='detail';ui.peopleDraft=null;render();toast(HoloContactEditor.T(i18n.language,'Contact saved.'));break;
       }
       case 'people-group': {
         const name=String(values.get('name')||'').trim();if(!name)return;
@@ -2190,11 +2199,7 @@
       viewport.querySelector('.camera-focus-area .media-photo').src=ICSMedia.image(ICSMedia.scene(data));
       viewport.querySelector('.camera-zoom output').textContent=Number(event.target.value).toFixed(1)+'×';return;
     }
-    if(event.target.closest('#people-editor')) {
-      if(event.target.name==='groups')ui.peopleDraft.groups=[...viewport.querySelectorAll('[name=groups]:checked')].map(input=>input.value);
-      else ui.peopleDraft[event.target.name]=event.target.value;
-      return;
-    }
+    if(event.target.closest('#people-editor')) { HoloContactEditor.sync(event.target.closest('#people-editor'),ui.peopleDraft); return; }
     if (event.target.closest('.jbp-bar.searching')) { ui.marketEdit = event.target.value; const view = viewport.querySelector('.jbp'); view?.querySelector('.jbp-suggest')?.remove(); const tmp = document.createElement('div'); tmp.innerHTML = JBPlay.render(jbPlayContext()); const sug = tmp.querySelector('.jbp-suggest'); if (sug && view) view.append(sug); return; }
     if (event.target.matches('[data-jbp-auto]')) { const id = event.target.dataset.jbpAuto, list = data.marketAuto || []; data.marketAuto = event.target.checked ? [...new Set([...list, id])] : list.filter(x => x !== id); save(); return; }
     if (event.target.matches('.keep-text')) { const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { note.text = event.target.value; save(); } return; }

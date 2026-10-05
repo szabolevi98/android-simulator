@@ -586,6 +586,8 @@
       overlayRoot.innerHTML = ICSPickers.render(ui.icsPicker, i18n.locale());
     } else if (ui.overlay.startsWith('clock-')) {
       overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key));
+    } else if (ui.overlay === 'hce-dialog') {
+      overlayRoot.innerHTML = HoloContactEditor.overlay({lang: i18n.language, draft: ui.peopleDraft, dialog: ui.hceDialog || '', photos: data.photos, photoUrl: pid => { const photo = data.photos.find(p => String(p.id) === String(pid)); return photo ? ICSMedia.image(photo) : ''; }});
     } else if (ui.overlay.startsWith('calendar-')) {
       overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('music-')) {
@@ -885,7 +887,7 @@
   function editPerson(isNew = false) {
     const person = isNew ? {} : contact(ui.selectedContact);
     if (!person) return;
-    ui.peopleDraft = {...person,groups:data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>g.id)};
+    ui.peopleDraft = HoloContactEditor.fromPerson(person,data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>g.id));
     ui.sub = isNew ? 'new' : 'edit'; ui.overlay = ''; render();
   }
   function peopleOverlay() {
@@ -1096,6 +1098,10 @@
     if (ICSGoogleApps.APPS.includes(ui.view) && action.startsWith('ga-') && ICSGoogleApps.handle(action, id, googleAppsContext())) return;
     if (action.startsWith('lng-') && ICSLanguage.handle(action, id, {data, ui, save, render, renderOverlay, toast: text => toast(i18n.t(text))})) return;
     if (ui.view === 'play-music' && action.startsWith('pm4-') && ICSPlayMusic.handle(action, id, playMusicContext(), button)) return;
+    // The Contacts editor (contact-editor.js): fields, types, photo and its dialogs.
+    if (ui.view === 'people' && action.startsWith('hce-') && HoloContactEditor.handle(action, id, {draft: ui.peopleDraft, form: viewport.querySelector('#people-editor'), ui, render, renderOverlay,
+      focus: selector => requestAnimationFrame(() => viewport.querySelector(selector)?.focus()),
+      takePhoto: () => { const photo = {...ICSMedia.scene(data), id: Date.now(), name: `IMG_${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)}`, album: 'camera', created: Date.now()}; data.photos.unshift(photo); save(); ui.peopleDraft.photo = photo.id; render(); }})) return;
     switch (action) {
       case 'open-app': openApp(app || id, !!button.closest('.recent-item')); break;
       case 'home': if (ui.view !== 'lock') home(); break;
@@ -1271,7 +1277,7 @@
       case 'phone-tab': ui.phoneTab = id; ui.phoneSearch = undefined; render(); break;
       case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
       case 'phone-menu': ui.overlay = 'phone-menu'; renderOverlay(); break;
-      case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phone=ui.dial; render(); break;
+      case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phones[0].value=ui.dial; render(); break;
       case 'phone-redial': startPhoneCall(id); break;
       case 'dial': if (ui.dial.length < 30) ui.dial += id; render(); break;
       case 'dial-delete': ui.dial = ui.dial.slice(0, -1); render(); break;
@@ -1294,9 +1300,10 @@
       case 'people-edit-group': ui.peopleEditGroup=ui.peopleGroup; ui.overlay='people-group'; renderOverlay(); break;
       case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
       case 'new-contact': editPerson(true); break;
-      case 'contact-call': startPhoneCall(contact(id)?.phone||'');break;
+      case 'contact-call': startPhoneCall(button.dataset.number||contact(id)?.phone||'');break;
+      case 'people-discard': ui.sub=ui.sub==='edit'?'detail':'';ui.peopleDraft=null;render();break;
       case 'contact-message': openMessageThread(id); break;
-      case 'contact-email': {const recipient=contact(id)?.email||'';openApp('email');composeEmail(null,false,recipient);break;}
+      case 'contact-email': {const recipient=button.dataset.email||contact(id)?.email||'';openApp('email');composeEmail(null,false,recipient);break;}
       case 'thread': openMessageThread(id); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
       case 'mms-menu': case 'mms-attach': case 'mms-smiley': ui.overlay = action; renderOverlay(); break;
@@ -1481,15 +1488,17 @@
     switch (form.dataset.form) {
       case 'browser-find': ui.browserFind=String(values.get('query')||'').trim(); render(); break;
       case 'people-search': ui.peopleQuery=String(values.get('query')||'').trim(); render(); break;
+      case 'hce-label': HoloContactEditor.submitLabel(values,{draft:ui.peopleDraft,ui,render,renderOverlay}); break;
       case 'people-save': {
-        const name=String(values.get('name')||'').trim(); if(!name)return;
+        // ContactEditorFragment.save: every field of the form; a card with nothing in it is not kept.
         const id=ui.sub==='edit'?ui.selectedContact:Date.now();
-        const person=contact(id)||{id};
-        for(const key of ['name','phone','email','company','notes'])person[key]=String(values.get(key)||'').trim();
-        if(!contact(id))data.contacts.push(person);
-        const groups=values.getAll('groups');
+        const person=HoloContactEditor.commit(viewport.querySelector('#people-editor'),ui.peopleDraft,contact(id)||{id});
+        if(!person.name&&!person.phone&&!person.email){ui.sub=ui.sub==='edit'?'detail':'';ui.peopleDraft=null;render();break;}
+        if(!person.name)person.name=person.phone||person.email;
+        const index=data.contacts.findIndex(p=>p.id===id);if(index>=0)data.contacts[index]=person;else data.contacts.push(person);
+        const groups=ui.peopleDraft.groups||[];
         data.contactGroups.forEach(g=>{g.members=g.members.filter(member=>member!==id);if(groups.includes(g.id))g.members.push(id);});
-        save();ui.selectedContact=id;ui.sub='detail';ui.peopleDraft=null;render();toast('Contact saved');break;
+        save();ui.selectedContact=id;ui.sub='detail';ui.peopleDraft=null;render();toast(HoloContactEditor.T(i18n.language,'Contact saved.'));break;
       }
       case 'people-group': {
         const name=String(values.get('name')||'').trim();if(!name)return;
@@ -1555,11 +1564,7 @@
       viewport.querySelector('.camera-focus-area .media-photo').src=ICSMedia.image(ICSMedia.scene(data));
       viewport.querySelector('.camera-zoom output').textContent=Number(event.target.value).toFixed(1)+'×';return;
     }
-    if(event.target.closest('#people-editor')) {
-      if(event.target.name==='groups')ui.peopleDraft.groups=[...viewport.querySelectorAll('[name=groups]:checked')].map(input=>input.value);
-      else ui.peopleDraft[event.target.name]=event.target.value;
-      return;
-    }
+    if(event.target.closest('#people-editor')) { HoloContactEditor.sync(event.target.closest('#people-editor'),ui.peopleDraft); return; }
     if (event.target.closest('.mms-compose')) {
       const draft = messageDraft();
       if (event.target.name === 'body') draft.body = event.target.value;

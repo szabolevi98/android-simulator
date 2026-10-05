@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 3. lépésből a Language & input kész. Következő: People szerkesztő 4.x.
+**Állapot:** a 3. lépésből a Language & input és a People szerkesztő kész. Következő: AOSP Music (ICS / JB).
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -23,7 +23,7 @@ Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem ti
 ## 3. Egyszerűsített fontos oldalak (4–5 óra)
 
 - [x] ICS Language & input a gyári hierarchiával (helyesírás, személyes szótár, beviteli módok, hangbevitel, TTS, mutatósebesség) (ac61964)
-- [ ] People szerkesztő 4.x: bővíthető, típusozható mezők, több telefonszám és e-mail, fotóválasztás
+- [x] People szerkesztő 4.x (4.0.4, 4.3, 4.4): bővíthető, típusozható mezők, több telefonszám és e-mail, fotóválasztás (COMMIT)
 - [ ] AOSP Music (ICS / JB): gyári menük és navigáció; a „Demo tracks—no audio” szöveg kikerül a telefon felületéről
 
 ## 4. Közös sablonok leválasztása és APK-nkénti átnézése (8–12 óra)
@@ -61,7 +61,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 
 - [ ] Naptár szerkesztő: az Ismétlődés és az Emlékeztetők legördülői még böngészős `<select>`-ek; a gyári Holo / GC5 spinner-párbeszédablakok kellenek (a 2. lépésből ide került); a 5.1-en az „All day” kapcsoló (Switch) is
 
-- [ ] People mezők teljes kezelése
+- [x] People mezők teljes kezelése — a 3. lépéssel együtt elkészült (COMMIT)
 - [ ] Naptár: résztvevők, elérhetőség, időzóna
 - [ ] Photos (KK / LP) szerkesztő és oldalmenü bekötése
 - [ ] Galéria-kivágás (GB / ICS)
@@ -111,3 +111,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 2. lépés, 4.0.4: Naptár From / To választók, alsó sáv nélkül; Óra TimePickerDialog | 5786aa8 |
 | 2026-10-05 | 2. lépés, 4.3 / 4.4 / 5.1: Naptár datetimepicker, alsó sáv nélkül | 5c4ee69 |
 | 2026-10-05 | 3. lépés: ICS Language & input | ac61964 |
+| 2026-10-05 | 3. lépés: People szerkesztő (4.0.4, 4.3, 4.4) | COMMIT |
