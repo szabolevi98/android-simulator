@@ -152,6 +152,29 @@
    "Refresh": "Videos:menu_refresh",
    "Accounts": "Videos:logout",
    "Download": "Videos:download"
+  },
+  "music": {
+   "Play Music": "Music2:app_name",
+   "Listen Now": "Music2:top_menu_mainstage",
+   "My Library": "Music2:top_menu_my_library",
+   "Playlists": "Music2:top_menu_playlists",
+   "Instant Mixes": "Music2:top_menu_instant_mixes",
+   "Shop": "Music2:top_menu_shop",
+   "All music": "Music2:spinner_title_all_music",
+   "Search": "Music2:search",
+   "Refresh": "Music2:refresh_title",
+   "Settings": "Music2:settings",
+   "Help": "Music2:help_title",
+   "Genres": "Music2:genres_title",
+   "Artists": "Music2:artists_title",
+   "Albums": "Music2:albums_title",
+   "Songs": "Music2:tracks_title",
+   "My mixes": "Music2:instant_mixes_my_mixes_title",
+   "Recommended": "Music2:radio_recommended_title",
+   "Recently played": "Music2:reason_recently_played",
+   "Recently added to My Library": "Music2:reason_recently_added",
+   "Thumbs up": "Music2:thumbsup_list",
+   "Last added": "Music2:recentlyadded"
   }
  },
  "4.4.4": {

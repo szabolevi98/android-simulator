@@ -825,5 +825,135 @@ window.StockStrings = {
    "Télécharger",
    "Descargar"
   ]
+ },
+ "music": {
+  "Play Music": [
+   "Google Play Zene",
+   "Google Play Music",
+   "Google Play Musique",
+   "Google Play Music",
+   "Google Play Music"
+  ],
+  "Listen Now": [
+   "Meghallgatás most",
+   "Jetzt anhören",
+   "Écoute immédiate",
+   "Escuchar ahora"
+  ],
+  "My Library": [
+   "Saját könyvtár",
+   "Meine Musik",
+   "Ma bibliothèque",
+   "Mi música"
+  ],
+  "Playlists": [
+   "Lejátszási listák",
+   "Playlists",
+   "Playlists",
+   "Listas de reproducción"
+  ],
+  "Instant Mixes": [
+   "Instant egyvelegek",
+   "Schnellmixe",
+   "Mix instantanés",
+   "Mixes instantáneos"
+  ],
+  "Shop": [
+   "Vásárlás",
+   "Einkaufen",
+   "Acheter",
+   "Tienda"
+  ],
+  "All music": [
+   "Minden zene",
+   "Alle Musiktitel",
+   "Toute la musique",
+   "Toda la música"
+  ],
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Refresh": [
+   "Zene frissítése",
+   "Musik aktualisieren",
+   "Actualiser les titres",
+   "Actualizar música",
+   "Refresh music"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Genres": [
+   "Műfajok",
+   "Genres",
+   "Genres",
+   "Géneros"
+  ],
+  "Artists": [
+   "Előadók",
+   "Interpreten",
+   "Artistes",
+   "Artistas"
+  ],
+  "Albums": [
+   "Albumok",
+   "Alben",
+   "Albums",
+   "Álbumes"
+  ],
+  "Songs": [
+   "Dalok",
+   "Titel",
+   "Titres",
+   "Canciones"
+  ],
+  "My mixes": [
+   "Saját egyvelegek",
+   "Meine Mixe",
+   "Mes mix",
+   "Mis mixes"
+  ],
+  "Recommended": [
+   "Ajánlott",
+   "Empfohlen",
+   "Recommandations",
+   "Recomendados"
+  ],
+  "Recently played": [
+   "Legutóbb lejátszott",
+   "Vor Kurzem angehört",
+   "Lu récemment",
+   "Reproducido recientemente"
+  ],
+  "Recently added to My Library": [
+   "Nemrég hozzáadva a saját könyvtárhoz",
+   "Vor Kurzem zu \"Meine Musik\" hinzugefügt",
+   "Ajouté récemment à \"Ma bibliothèque\"",
+   "Añadido recientemente a Mi música"
+  ],
+  "Thumbs up": [
+   "Tetszik",
+   "Mag ich",
+   "J'aime",
+   "Me gusta"
+  ],
+  "Last added": [
+   "Utoljára hozzáadott",
+   "Zuletzt hinzugefügt",
+   "Derniers ajouts",
+   "Añadidas recientemente"
+  ]
  }
 };

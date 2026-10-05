@@ -29,4 +29,13 @@ const personal=P.render(ctx('play-movies',{paPage:{'play-movies':'personal'}}));
 assert.ok(personal.includes('NO VIDEOS FOUND')&&!personal.includes('mv25-ic_menu_search.png'));
 assert.equal(JSON.stringify(P.menu(ctx('play-movies')).map(i=>i.title)),JSON.stringify(['Settings','Help','Contact us','Send feedback','Refresh','Accounts']));
 assert.ok(!P.render(ctx('play-movies',{sub:'movie',paItem:'m1'})).includes('‹'));
+// Play Music 5.0: MusicActionBar, HomeMenu.FREE_ITEM_SCREENS, MyLibraryFragment's tabs, menu/home_activity.xml.
+const listen=P.render(ctx('play-music'));
+assert.ok(listen.includes('pm5-ic_corpora_music_white.png')&&listen.includes('>Listen Now<')&&listen.includes('>All music<')&&listen.includes('pm5-ic_search_white.png')&&!listen.includes('‹'));
+assert.deepEqual([...P.drawer(ctx('play-music')).matchAll(/<button[^>]*>([^<]*)</g)].map(m=>m[1]),['Listen Now','My Library','Playlists','Instant Mixes','Shop']);
+const mlib=P.render(ctx('play-music',{paPage:{'play-music':'library'}}));
+assert.deepEqual([...mlib.matchAll(/data-action="pa-libtab" data-id="\w+">([^<]*)</g)].map(m=>m[1]),['Genres','Artists','Albums','Songs']);
+assert.ok(P.render(ctx('play-music',{paPage:{'play-music':'mixes'}})).includes('data-action="pa-mixtab"'));
+assert.equal(JSON.stringify(P.menu(ctx('play-music')).map(i=>i.title)),JSON.stringify(['Refresh music','Settings','Help']));
+assert.ok(P.render(ctx('play-music',{sub:'album'})).includes('ic_ab_back_holo_dark.png'));
 console.log('jb-play-apps ok');

@@ -224,3 +224,24 @@
 .screen .pm-video-top>.mv25-up{display:flex;align-items:center;width:auto;padding:0 6.81px 0 0;border:0;background:none}
 .mv25-up img:first-child{width:13.63px;height:13.63px}
 .mv25-up img+img{width:27.25px;height:27.25px;margin-left:2.55px}
+
+/* Play Music 5.0 (audit step 4): MusicActionBar, PlayTabStrip (play_checker_tile, 12 sp bold #505050, 24 dp padding,
+   the 8 dp selected and 2 dp full underlines, #19000000 separators), the play cards on card_bg_play. */
+.pm5-bar{flex:none;display:flex;align-items:center;height:40.88px;background:#f4842d;border-bottom:1.7px solid #d27127;z-index:2}
+.screen .pm5-home{flex:none;display:flex;align-items:center;height:100%;padding:0 5.11px 0 0;border:0;background:none}
+.pm5-toggle{width:13.63px;height:13.63px}
+.pm5-logo{width:27.25px;height:27.25px;margin-left:2.55px}
+.pm5-title{flex:1;min-width:0;display:flex;flex-direction:column;padding-left:5.11px}
+.pm5-title b{font:400 15.33px RobotoICS,Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm5-title small{margin-top:-1.7px;font:700 8.52px RobotoICS,Roboto,sans-serif;color:#ffffffb3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm5-bar .pa-btn{width:47.69px}
+.pm5-icon{width:27.25px;height:27.25px}
+.pa-music .pa-tabs.pm5-tabs{justify-content:flex-start;overflow-x:auto;scrollbar-width:none;height:40.88px;background:url('assets/pm5-play_checker_bg.png') 0 0/.85px;border-bottom:1.7px solid #00000026}
+.pa-music .pm5-tabs button{flex:none;height:100%;padding:0 20.44px;border-right:.85px solid #00000019;font:700 10.22px RobotoICS,Roboto,sans-serif;text-transform:none;color:#505050!important}
+.pa-music .pm5-tabs button.active{box-shadow:inset 0 -6.81px #f4842d;color:#505050!important}
+.pa-music .pa-card{border-style:solid;border-width:5.11px;border-image:url('assets/bk28-card_bg_play.png') 12 fill/5.11px;background:none;box-shadow:none;margin:-1.7px}
+.pa-music .pa-card-art{margin:-1.7px -1.7px 0}
+.pa-music .pa-card-copy b{font:300 13.63px/1.2 RobotoLight,RobotoICS,sans-serif;color:#505050}
+.pa-music .pa-card-copy small{font:400 11.07px RobotoICS,sans-serif;color:#b5b5b5}
+.pa-music .pa-dots svg{display:none}
+.pa-music .pa-dots{background:url('assets/bk28-ic_menu_moreoverflow_card_dark_normal.png') center/27.25px no-repeat}
