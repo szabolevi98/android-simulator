@@ -118,4 +118,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.3 Google+ 4.0 (sáv, értesítésszám, menü, compose sáv) és Earth 7.1 (átlátszó sáv, menü) | 91548d3 |
 | 2026-10-05 | 4. lépés: 4.3 Google Search 2.5.9 / Google Now a Velvet.apk-ból (velvet-now.js a KitKatos gel-now.js helyett) | 7d1270b |
 | 2026-10-05 | 4. lépés: 4.3 Voice Search a Velvet speak_now.xml-jéből | 2a71725 |
-| 2026-10-05 | 4. lépés: 4.3 News & Weather a GenieWidget.apk-ból; 44 hibás `.851.6px` hossz javítva a 4.3 CSS-ében + teszt | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.3 News & Weather a GenieWidget.apk-ból; 44 hibás `.851.6px` hossz javítva a 4.3 CSS-ében + teszt | e0eb0b6 |
