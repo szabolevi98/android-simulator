@@ -35,7 +35,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival (3c730d4)
 - [x] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings (579af40)
 - [x] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games (a 4.3-as képen nincs Play Games) – bc3daf0
-- [x] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games – (ez a commit)
+- [x] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games – ff79528
 - [ ] `play-apps.js` – 5.1.1: Play Music, Movies, Books, Games
 - [ ] Extra appok – 4.0.4 és 4.3: Messenger, Navigation, Local, Currents, Magazines, Wallet, Movie Studio
 - [ ] Extra appok – 4.4.4: Newsstand, Quickoffice, Wallet
@@ -144,4 +144,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.4.4 Play Music 5.2 (sáv, fiók a HomeMenu szerint, fülek, Instant Mixes, világos menü, kártyák) + S()/menu() a 4.4.4 Play-appokhoz | 4242d30 |
 | 2026-10-05 | 4. lépés: 4.4.4 Play Movies 3.0 (piros nav_bar, fiók a VideosDrawerHelper szerint On Device-szal, menük, szekciócímek) | 125efcf |
 | 2026-10-05 | 4. lépés: 4.4.4 Play Books 3.1 (FlatBlue sáv, fiók a dex szerint Settings/Help sorokkal, menü, olvasó sávja) | c386e55 |
-| 2026-10-05 | 4. lépés: 4.4.4 Play Games 1.1 (zöld sáv, fiók, menü, APK-szövegek) – a 4.4.4 Play-appok kész | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.4.4 Play Games 1.1 (zöld sáv, fiók, menü, APK-szövegek) – a 4.4.4 Play-appok kész | ff79528 |
