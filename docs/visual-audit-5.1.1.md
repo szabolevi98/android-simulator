@@ -46,3 +46,9 @@
 - **Voice Search (Google Search 4.1.29):**
   - The search plate's voice mode: a white plate 336 dp tall (`voice_search_plate_height` at h340dp), "Speak now" in `main_text` (24 dp sans-serif-light) at the top left, and the 90 dp RecognizerView at the top right.
   - The recognizer shows `ic_mic_listening_shadow` while listening and `ic_mic_idle` with Velvet's `no_match` text afterwards. It replaces the KitKat-era centred red circle.
+- **Play Music 5.8.1809R (Music2.apk, code from its odex):**
+  - The app was the KitKat module with Material colours (a drawn glyph, "ALL MUSIC", an overflow, a plain drawer). It is now `BaseMusicActivityTheme`'s Toolbar in colorPrimary #ef6c00 (status bar #e65100) with the AppCompat DrawerArrowToggle (18 dp bars, 3 dp apart) and the 20 sp title.
+  - `menu/home_activity.xml` has only Search (always, `ic_search_white`) and the media route button; there is no overflow menu.
+  - The drawer is the Play common library's PlayDrawer: `play_drawer_profile_info` (148 dp: `bg_default_profile_art` under #38000000, the 64 dp `ic_profile_none` avatar, "Nexus 6" and the address), the primary actions from `HomeMenuScreens` (free account: Listen Now, My Library, Playlists, Instant Mixes, Shop) with `HomeActivity$Screen`'s `ic_drawer_*` icons (the current one on #eeeeee with its `_selected` icon), the separator, then Settings, Help and Send feedback.
+  - My Library's tabs (Genres, Artists, Albums, Songs) and Instant Mixes' (My mixes, Recommended) are PlayHeaderListLayout tabs in the toolbar colour: 14 sp sans-serif-medium, #99ffffff, white with a 2 dp white underline when selected.
+  - Test: `tests/lp-play-apps.test.cjs`.

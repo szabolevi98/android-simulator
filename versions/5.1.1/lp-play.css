@@ -20,3 +20,34 @@
 .screen .pa-app{font-family:Roboto,sans-serif;background:#eee}
 .screen .pa-music{--pa:#ef6c00}.screen .pa-movies{--pa:#ed3b3b;background:#eee}.screen .pa-books{--pa:#039be5}.screen .pa-games{--pa:#4caf50}
 .screen .pa-app h2,.screen .pa-app h3{font-style:normal;font-family:Roboto,sans-serif}
+
+/* LP Play apps (audit step 4, dp x .906): the colorPrimary Toolbar (56 dp, elevation 4 dp) with the DrawerArrowToggle,
+   PlayHeaderListLayout tabs, the PlayDrawer, the material overflow popup. */
+.screen .lpa-bar{flex:none;display:flex;align-items:center;height:50.74px;background:var(--pa);z-index:2}
+.screen .lpa-bar:last-of-type,.screen .lpa-tabs{box-shadow:0 1.81px 3.62px #0000003d}
+.screen .lpa-bar+.lpa-tabs{margin-top:0}
+.screen .lpa-nav{flex:none;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2.72px;width:50.74px;height:50.74px;padding:0;border:0;background:none}
+.lpa-nav i{display:block;width:16.31px;height:1.81px;background:#fff}
+.lpa-nav span{width:21.74px;height:21.74px;background:#fff;-webkit-mask:url(assets/lp-fw-ic_ab_back_material.svg) center/contain no-repeat;mask:url(assets/lp-fw-ic_ab_back_material.svg) center/contain no-repeat}
+.screen .lpa-bar>b{flex:1;min-width:0;margin-left:14.5px;font:500 18.12px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .lpa-bar .pa-btn{width:43.49px;height:50.74px}
+.lpa-icon{width:21.74px;height:21.74px}
+.screen .lpa-tabs{flex:none;display:flex;height:43.49px;padding-left:50.74px;background:var(--pa);overflow-x:auto;scrollbar-width:none;z-index:2}
+.screen .lpa-tabs button{flex:none;height:100%;padding:0 10.87px;border:0;background:none;font:500 12.68px Roboto,sans-serif;color:#ffffff99}
+.screen .lpa-tabs button.on{color:#fff;box-shadow:inset 0 -1.81px #fff}
+.screen .lpa-scrim{inset:var(--sb) 0 var(--nb)}
+.lpa-drawer{position:absolute;top:var(--sb);bottom:var(--nb);left:0;z-index:26;width:min(289.92px,calc(100% - 50.74px));background:#fff;overflow-y:auto;box-shadow:0 0 14.5px #00000059;font-family:Roboto,sans-serif}
+.lpa-profile{position:relative;height:134.09px;overflow:hidden;color:#fff}
+.lpa-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lpa-profile::after{content:'';position:absolute;inset:0;background:#00000038}
+.lpa-avatar{position:absolute;left:14.5px;bottom:61.61px;width:57.98px;height:57.98px;border-radius:50%;z-index:1}
+.lpa-profile b,.lpa-profile small{position:absolute;left:14.5px;right:14.5px;z-index:1;font:500 12.68px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lpa-profile b{bottom:30.8px}.lpa-profile small{bottom:14.5px;font-weight:400}
+.lpa-primary{padding-top:7.25px}
+.screen .lpa-drawer button{display:flex;align-items:center;width:100%;min-height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:500 12.68px Roboto,sans-serif;color:#212121}
+.lpa-drawer button img{width:21.74px;height:21.74px;margin-right:28.99px}
+.screen .lpa-drawer button.on{background:#eee}
+.lpa-drawer hr{margin:7.25px 0;border:0;border-top:.91px solid #e5e5e5}
+.lpa-menu{position:absolute;z-index:26;top:calc(var(--sb) + 3.62px);right:3.62px;min-width:181.2px;padding:7.25px 0;background:#fff;border-radius:1.81px;box-shadow:0 3.62px 12.68px #00000059}
+.screen .lpa-menu button{display:block;width:100%;height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#212121}
+.screen .lpa-menu button:active{background:#0000001a}

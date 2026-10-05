@@ -562,6 +562,28 @@
    "Tap to speak": "Velvet:ime_hint_tap_to_speak",
    "Speak now": "Velvet:speak_now",
    "Didn't catch that. Try speaking again.": "Velvet:no_match"
+  },
+  "music": {
+   "Play Music": "Music2:app_name",
+   "Listen Now": "Music2:top_menu_mainstage",
+   "My Library": "Music2:top_menu_my_library",
+   "Playlists": "Music2:top_menu_playlists",
+   "Instant Mixes": "Music2:top_menu_instant_mixes",
+   "Shop": "Music2:top_menu_shop",
+   "Search": "Music2:search",
+   "Settings": "Music2:settings",
+   "Help": "Music2:help_title",
+   "Send feedback": "Music2:send_feedback",
+   "Genres": "Music2:genres_title",
+   "Artists": "Music2:artists_title",
+   "Albums": "Music2:albums_title",
+   "Songs": "Music2:tracks_title",
+   "My mixes": "Music2:instant_mixes_my_mixes_title",
+   "Recommended": "Music2:radio_recommended_title",
+   "Recently played": "Music2:reason_recently_played",
+   "Recently added to My Library": "Music2:reason_recently_added",
+   "Thumbs up": "Music2:thumbsup_list",
+   "Last added": "Music2:recentlyadded"
   }
  }
 }

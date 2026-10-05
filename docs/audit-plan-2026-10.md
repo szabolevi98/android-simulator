@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 következik), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
+**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 Music kész, Movies, Books, Games), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -145,3 +145,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.4.4 Play Movies 3.0 (piros nav_bar, fiók a VideosDrawerHelper szerint On Device-szal, menük, szekciócímek) | 125efcf |
 | 2026-10-05 | 4. lépés: 4.4.4 Play Books 3.1 (FlatBlue sáv, fiók a dex szerint Settings/Help sorokkal, menü, olvasó sávja) | c386e55 |
 | 2026-10-05 | 4. lépés: 4.4.4 Play Games 1.1 (zöld sáv, fiók, menü, APK-szövegek) – a 4.4.4 Play-appok kész | ff79528 |
+| 2026-10-05 | 4. lépés: 5.1.1 Play Music 5.8 (Toolbar, PlayDrawer profilfejléccel és ikonokkal, fejlécfülek, csak Search) + közös LP Play-alapok | (ez a commit) |
