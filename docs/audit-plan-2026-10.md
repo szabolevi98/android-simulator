@@ -139,4 +139,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 5.1.1 Google Now a Velvet 4.1.29-ből (fejléc, hamburger, navigációs fiók, nincs alsó sáv) | 297450b |
 | 2026-10-05 | 4. lépés: 5.1.1 Voice Search a Velvet 4.1 hangmódjából – az 5.1.1 StockApps kész | (579af40) |
 | 2026-10-05 | 4. lépés: 4.3 Play Books 2.8.91 (FlatBlue sáv, oldalfiók a dex szerint, Recent kártyák, szűrő, világos menü, olvasó sávja) | 87b0518 |
-| 2026-10-05 | 4. lépés: 4.3 Play Movies 2.5.4 (sötét Holo, csíkos háttér, „Google Play” sáv, fülek, panelek, menük a dex szerint) | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.3 Play Movies 2.5.4 (sötét Holo, csíkos háttér, „Google Play” sáv, fülek, panelek, menük a dex szerint) | 22ca636 |
