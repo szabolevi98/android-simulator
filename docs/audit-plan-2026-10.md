@@ -142,4 +142,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.3 Play Movies 2.5.4 (sötét Holo, csíkos háttér, „Google Play” sáv, fülek, panelek, menük a dex szerint) | 22ca636 |
 | 2026-10-05 | 4. lépés: 4.3 Play Music 5.0 (odex a rendszerképből; sáv, fiók a HomeMenu szerint, fülek, Instant Mixes, menü, kártyák) | bc3daf0 |
 | 2026-10-05 | 4. lépés: 4.4.4 Play Music 5.2 (sáv, fiók a HomeMenu szerint, fülek, Instant Mixes, világos menü, kártyák) + S()/menu() a 4.4.4 Play-appokhoz | 4242d30 |
-| 2026-10-05 | 4. lépés: 4.4.4 Play Movies 3.0 (piros nav_bar, fiók a VideosDrawerHelper szerint On Device-szal, menük, szekciócímek) | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.4.4 Play Movies 3.0 (piros nav_bar, fiók a VideosDrawerHelper szerint On Device-szal, menük, szekciócímek) | 125efcf |
