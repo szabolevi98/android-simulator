@@ -33,7 +33,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [ ] A StockApps, Play- és extra appok megmaradt „‹” vissza-jeleinek cseréje (az 1. lépésből ide került)
 - [x] `stock-apps.js` – 4.3 (JWR66Y): Google/Now, Voice Search, Maps 6.14, Keep 1.0, YouTube 4.5, Google+ 4.0, Earth, News & Weather, Google Settings (71d403f)
 - [x] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival (3c730d4)
-- [x] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings (ez a commit)
+- [x] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings (579af40)
 - [ ] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games
 - [ ] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games
 - [ ] `play-apps.js` – 5.1.1: Play Music, Movies, Books, Games
@@ -137,4 +137,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 5.1.1 YouTube 10.03 (piros Toolbar, listás feed, Guide a dex szerint, állapotsor-szín) | 30a9e8f |
 | 2026-10-05 | 4. lépés: 5.1.1 Google+ 4.9 (piros Toolbar, értesítések, kártyák, FAB) | 9aa69e4 |
 | 2026-10-05 | 4. lépés: 5.1.1 Google Now a Velvet 4.1.29-ből (fejléc, hamburger, navigációs fiók, nincs alsó sáv) | 297450b |
-| 2026-10-05 | 4. lépés: 5.1.1 Voice Search a Velvet 4.1 hangmódjából – az 5.1.1 StockApps kész | (ez a commit) |
+| 2026-10-05 | 4. lépés: 5.1.1 Voice Search a Velvet 4.1 hangmódjából – az 5.1.1 StockApps kész | (579af40) |
