@@ -1778,7 +1778,8 @@
       // Overview mode: Widgets opens all apps on the first widget page; a tap on a page returns to it.
       case 'kk-overview-widgets': ui.overview = false; ui.view = 'drawer'; ui.drawerWidgets = true; ui.drawerPage = drawerAppPages(); render(); break;
       // The Google Now Launcher's third overview button opens the Google Search settings (not simulated).
-      case 'gel-overview-settings': openApp('google-search'); ui.sub = 'settings'; render(); break;
+      case 'gnow-drawer': document.querySelectorAll('.gnow-page').forEach(page => page.classList.toggle('drawer-open')); break;
+      case 'gel-overview-settings': document.querySelectorAll('.gnow-page.drawer-open').forEach(page => page.classList.remove('drawer-open')); openApp('google-search'); ui.sub = 'settings'; render(); break;
       case 'kk-overview-page': if (ui.overview) { ui.overview = false; ui.page = Number(id); render(); } break;
       case 'drawer-page': ui.drawerPage = Number(id); render(); break;
       case 'add-widget': { const added = addWidget(button.dataset.widgetType); if (!added) { toast('This home screen is full'); break; } const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; home(false); ui.photoWidgetSetup = setup; if (added.type === 'photo') { ui.overlay = 'widget-photo-type'; renderOverlay(); } else toast('Widget added'); break; }

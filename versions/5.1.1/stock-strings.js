@@ -747,5 +747,55 @@ window.StockStrings = {
    "Déconnexion",
    "Cerrar sesión"
   ]
+ },
+ "google": {
+  "Card menu": [
+   "Kártya menü",
+   "Kartenmenü",
+   "Menu de la carte",
+   "Menú de la tarjeta"
+  ],
+  "View in Calendar": [
+   "Megtekintés a Naptárban",
+   "Im Kalender ansehen",
+   "Afficher dans l'agenda",
+   "Ver en Calendar"
+  ],
+  "More": [
+   "Továbbiak",
+   "Mehr",
+   "Plus",
+   "Más"
+  ],
+  "Reminders": [
+   "Emlékeztetők",
+   "Erinnerungen",
+   "Rappels",
+   "Recordatorios"
+  ],
+  "Customize": [
+   "Személyre szabás",
+   "Anpassen",
+   "Personnaliser",
+   "Personalizar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe & Feedback",
+   "Aide et commentaires",
+   "Ayuda y comentarios"
+  ],
+  "Tap to speak": [
+   "Koppintson a beszédhez",
+   "Zum Sprechen tippen",
+   "Appuyer pour parler",
+   "Toca para hablar"
+  ]
  }
 };

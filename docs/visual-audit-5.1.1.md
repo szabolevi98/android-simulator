@@ -39,3 +39,7 @@
 - **Google+ 4.9:**
   - `home_activity.xml`'s Toolbar in quantum googred 500 (#db4437) with "Home" (`stream_circles`), the notifications button and the overflow (Refresh, Feedback, Settings, Help, Sign out); the stream cards; `newposts_and_fab_row.xml`'s 56 dp compose FAB.
   - The drawer's entries are registered by separate modules (`ixe.a(order, …)` in the dex) whose order the image doesn't settle, so the drawer toggle is not simulated rather than invented.
+- **Google Now (Google Search 4.1.29):**
+  - `gel-now.js` follows Velvet 4.1, built from 4.4.4's 3.3 page and replacing the old KitKat-era page with a drawn header and a footer bar. The header picture is the 4.1 `context_header_bg_*` strip, cropped to the header. The search plate gains `ic_hamburger`; cards start 24 dp lower.
+  - The `in_app_footer` is gone. `GelNavigationDrawerLayout` adds `navigation_menu.xml`: Reminders, Customize, a divider, Settings, Help & feedback.
+  - The card menu is `ic_more_horz`, and "More" sits on `card_bg_training`.

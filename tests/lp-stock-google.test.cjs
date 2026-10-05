@@ -30,4 +30,9 @@ assert.ok(fs.readFileSync('versions/5.1.1/simulator.js','utf8').includes("youtub
 // Google+ 4.9: the red Toolbar with "Home" and the notifications button, the compose FAB, the host menu.
 const gp=A.render('google-plus',ctx());assert.ok(gp.includes('gp49-bar')&&gp.includes('gp49-quantum_ic_notifications_none_white_24.png')&&gp.includes('gp49-fab'));
 assert.equal(JSON.stringify(A.menu('google-plus',ctx()).map(i=>i.title)),JSON.stringify(['Refresh','Feedback','Settings','Help','Sign out']));
+// Google Now (Velvet 4.1.29): no in_app_footer; navigation_menu.xml's drawer behind ic_hamburger in the search plate.
+const g={window:{}};for(const f of ['stock-strings.js','gel-now.js'])vm.runInNewContext(fs.readFileSync('versions/5.1.1/'+f,'utf8'),g);
+const now=g.window.GELNow.render({data:{events:[]},t:k=>k,locale:'en',now:new Date(2015,7,20,10)});
+assert.ok(now.includes('vn4-ic_hamburger.png')&&now.includes('vn4-context_header_bg_daylight.jpg')&&!now.includes('gnow-bar')&&!now.includes('ic_endoflist'));
+assert.ok(/Reminders.*Customize.*<hr>.*Settings.*Help &amp; feedback/s.test(now.slice(now.indexOf('gnow-drawer'))));
 console.log('lp stock google ok');
