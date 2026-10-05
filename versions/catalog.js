@@ -54,6 +54,6 @@ window.ANDROID_VERSIONS = [
     description: 'Material Design, the new notification shade, heads-up notifications, Overview cards and the Lollipop Land easter egg.',
     url: 'versions/5.1.1/',
     status: 'available',
-    art: {shot: 'landing-home.jpg?v=2', phone: 'nexus6'}
+    art: {shot: 'landing-home.jpg?v=3', phone: 'nexus6'}
   }
 ];
