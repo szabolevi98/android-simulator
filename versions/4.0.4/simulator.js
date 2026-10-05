@@ -499,7 +499,8 @@
   // Google+, Talk, YouTube, Play Books / Movies, Search, Voice Dialer and Latitude (ics-google-apps.js).
   let voiceDialTimer = null;
   function googleAppsContext() {
-    return {data, ui, lang: i18n.language, account: ICSGmail.account, save, render, toast, openApp,
+    return {data, ui, view: ui.view, lang: i18n.language, account: ICSGmail.account, save, render, renderOverlay, toast, openApp,
+      closeOverlay() { if (ui.overlay) { ui.overlay = ''; renderOverlay(); } },
       browse(query) { openApp('browser'); navigateBrowser(`search:${query}`); },
       listen() { clearTimeout(voiceDialTimer); ui.gaVoice = 'listening'; render(); voiceDialTimer = setTimeout(() => { ui.gaVoice = 'failed'; if (ui.view === 'voice-dialer') render(); }, 3000); }};
   }
@@ -597,6 +598,12 @@
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${ICSPlay.menu(icsPlayContext()).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'icsp-sort' || ui.overlay === 'icsp-options') {
       overlayRoot.innerHTML = ICSPlay.dialog(ui.overlay.slice(5), icsPlayContext());
+    } else if (ui.overlay === 'ga-menu') {
+      // The ICS Google apps' action bar overflow (their menu XML's never-shown-as-action items).
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${ICSGoogleApps.menu(googleAppsContext()).map(item => `<button data-action="${item.action}"${item.id ? ` data-id="${safe(item.id)}"` : ''}>${safe(item.title)}</button>`).join('')}</div>`;
+    } else if (ui.overlay === 'sa-menu') {
+      // The Google apps' action bar overflow (StockApps.menu: their menu XML's overflow items).
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${StockApps.menu(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()}).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'calc-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">Clear history</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${ui.calcPanel ? 'Basic panel' : 'Advanced panel'}</button></div>`;
     } else if (ui.overlay === 'phone-menu') {
@@ -1070,10 +1077,12 @@
     if (ui.view === 'gmail' && action.startsWith('g4-') && ICSGmail.handle(action, id, gmailContext())) return;
     // Maps, Earth, News & Weather and the simple extras.
     if (['maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio'].includes(ui.view)) {
-      if (action === 'sa-unsupported' || action === 'kkx-unavailable') { toast(i18n.t('This feature is not part of the simulator.')); return; }
+      if (action === 'sa-unsupported' || action === 'kkx-unavailable') { ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); return; }
       if (action === 'maps-locate') { ui.mapsQuery = ''; ui.mapsSearching = false; render(); return; }
       if (action === 'maps-search-open') { ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); return; }
       if (action === 'news-tab') { ui.newsTab = id; render(); return; }
+      if (action === 'sa-menu') { ui.overlay = 'sa-menu'; renderOverlay(); return; }
+      if (action === 'sa-news-refresh') { ui.overlay = ''; renderOverlay(); render(); return; }
     }
     if (ICSGoogleApps.APPS.includes(ui.view) && action.startsWith('ga-') && ICSGoogleApps.handle(action, id, googleAppsContext())) return;
     if (ui.view === 'play-music' && action.startsWith('pm4-') && ICSPlayMusic.handle(action, id, playMusicContext(), button)) return;

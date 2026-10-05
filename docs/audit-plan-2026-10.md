@@ -6,13 +6,13 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** még nem kezdődött el. Következő: 1. lépés.
+**Állapot:** az 1. lépés kész. Következő: 2. lépés (Naptár dátum- és időválasztók).
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
-- [ ] ICS YouTube: Like / Dislike és a többi akcióikon a YouTube 3.5.5 APK-ból
-- [ ] ICS Google-appok közös `icon()` segédje: a jelekből rajzolt ikonok (Google+ új bejegyzés, Talk hozzáadás, Books tartalomjegyzék, Latitude bejelentkezés stb.) cseréje appokként a saját APK ikonjára
-- [ ] News & Weather frissítés: célkereszt helyett `ic_menu_refresh` és a gyári menü (4.0.4, 4.3, 4.4, 5.1)
+- [x] ICS YouTube: Like / Dislike és a többi akcióikon a YouTube 3.5.5 APK-ból — közben kiderült, hogy a YouTube 3.5.5 világos témájú (`Theme.Holo.Light.DarkActionBar`), ezért az egész app a gyári elrendezést kapta (COMMIT)
+- [x] ICS Google-appok közös `icon()` segédje: a jelekből rajzolt ikonok (Google+ új bejegyzés, Talk hozzáadás, Books tartalomjegyzék, Latitude bejelentkezés stb.) cseréje appokként a saját APK ikonjára; a Talk sötét akciósávot kapott (a gyári téma szerint), overflow menük a menü-XML-ek alapján, a Google+ kezdőrács, a Kereső és a Voice Dialer jelei is lecserélve (COMMIT)
+- [x] News & Weather frissítés: célkereszt helyett a gyári menü verziónként (4.0.4: overflow-ban; 4.3 / 4.4: `navigation_refresh`; 5.1: Search, Add section, overflow) (COMMIT)
 
 ## 2. Rendszeresen látható, nem Android-eredetű vezérlők (3–4 óra)
 
@@ -30,6 +30,7 @@ Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem ti
 
 Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magasság), betű, ikonok, elrendezés, üres állapot, menü.
 
+- [ ] A StockApps, Play- és extra appok megmaradt „‹” vissza-jeleinek cseréje (az 1. lépésből ide került)
 - [ ] `stock-apps.js` – 4.3 (JWR66Y): Google/Now, Voice Search, Maps 6.14, Keep 1.0, YouTube 4.5, Google+ 4.0, Earth, News & Weather, Google Settings
 - [ ] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival
 - [ ] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings
@@ -103,4 +104,5 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 
 | Dátum | Lépés | Commit |
 | --- | --- | --- |
-| 2026-10-05 | Munkaterv rögzítve | |
+| 2026-10-05 | Munkaterv rögzítve | 800e107 |
+| 2026-10-05 | 1. lépés: szöveges ikonok cseréje | COMMIT |

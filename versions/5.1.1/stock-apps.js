@@ -6,6 +6,13 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  // News & Weather 2.2's overflow texts, as LMY48Y's PrebuiltNewsWeather.apk translates them.
+  window.AndroidI18n?.extend([
+    ['Add section', 'Panel hozzáadása', 'Abschnitt hinzufügen', 'Ajouter une section', 'Añadir sección'],
+    ['Edit weather display…', 'Időjárásinformáció-módosítás…', 'Wetteranzeige bearbeiten…', "Modifier l'affichage météo…", 'Editar pantalla de tiempo…'],
+    ['Remove this section', 'A szakasz eltávolítása', 'Diesen Abschnitt entfernen', 'Supprimer cette section', 'Eliminar esta sección'],
+    ['Migrate settings', 'Beállítások áttelepítése', 'Einstellungen migrieren', 'Transférer les paramètres', 'Migrar ajustes']
+  ]);
   const ICON = {
     search: '<svg viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.6 5.6-1.4 1.4-5.6-5.6A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z" fill="currentColor"/></svg>',
     overflow: '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="19" r="2" fill="currentColor"/></svg>',
@@ -23,6 +30,8 @@
     chevron: '<svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>'
   };
   const btn = (action, label, icon, id = '') => `<button class="sa-btn" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${ICON[icon]}</button>`;
+  // Action buttons with the apps' own drawables (assets/<prefix>-*.png).
+  const img = (action, label, src, cls = '') => `<button class="sa-btn${cls ? ' ' + cls : ''}" data-action="${action}" aria-label="${e(label)}"><img src="assets/${src}" alt=""></button>`;
   function bar(ctx, {title, subtitle = '', up = false, icon, actions = '', cls = ''}) {
     return `<header class="sa-bar${cls}"><button class="sa-up" data-action="${up ? 'back' : 'home'}" aria-label="${e(ctx.t(up ? 'Back' : 'Home'))}"><span aria-hidden="true">‹</span><img src="assets/${icon}" alt=""></button><span class="sa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
   }
@@ -127,12 +136,17 @@
     const body = tab === 'Weather'
       ? `<div class="sa-weather"><b>21°</b><span>${e(ctx.t('Partly cloudy'))}</span><small>Mountain View</small><div class="sa-forecast">${[0, 1, 2, 3].map(i => `<div><span>${e(new Date(ctx.now.getTime() + i * 864e5).toLocaleDateString(ctx.locale, {weekday: 'short'}))}</span><b>${[21, 23, 19, 20][i]}°</b><small>${[13, 14, 12, 11][i]}°</small></div>`).join('')}</div></div>`
       : (STORIES[tab] || []).map(([title, source, time], i) => `<button class="sa-story" data-action="sa-unsupported">${i === 0 ? `<span class="sa-story-photo">${thumb(i + 2)}</span>` : ''}<b>${e(title)}</b><small>${e(source)} · ${e(ctx.t(time))}</small></button>`).join('');
-    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: ctx.t('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: btn('sa-unsupported', ctx.t('Refresh'), 'locate') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<nav class="sa-news-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
+    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: ctx.t('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: img('sa-unsupported', ctx.t('Search'), 'nw-abc_ic_search_api_mtrl_alpha.png', 'tint') + img('sa-unsupported', ctx.t('Add section'), 'nw-ic_add_white_24dp.png') + img('sa-menu', ctx.t('More options'), 'nw-abc_ic_menu_moreoverflow_mtrl_alpha.png')})}<nav class="sa-news-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
   }
 
   const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
   function render(app, ctx) { return (APPS[app] || google)(ctx); }
   const SIMPLE = ['google-search', 'voice-search', 'maps', 'drive', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings'];
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, lollipops', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
-  window.StockApps = {APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render};
+  // The overflow of the screen on show. News & Weather 2.2 (LMY48Y) res/menu/news_activity.xml: Search (abc_ic_search_api_mtrl_alpha) and Add section (ic_add_white_24dp) if room; Refresh, Edit weather display…, Remove this section and Migrate settings in the overflow.
+  function menu(view, ctx) {
+    if (view === 'news-weather') return [{action: 'sa-news-refresh', title: ctx.t('Refresh')}, {action: 'sa-unsupported', title: ctx.t('Edit weather display…')}, {action: 'sa-unsupported', title: ctx.t('Remove this section')}, {action: 'sa-unsupported', title: ctx.t('Migrate settings')}];
+    return [];
+  }
+  window.StockApps = {APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render, menu};
 })();

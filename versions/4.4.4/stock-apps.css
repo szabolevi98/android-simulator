@@ -140,3 +140,7 @@
 .sa-forecast span{font-size:11.78px;color:#999}
 .sa-forecast b{font:400 18px RobotoICS,sans-serif;color:#fff}
 .sa-forecast small{color:#777}
+/* Action buttons with the apps' own drawables (32 dp holo menu icons; 24 dp Material on 5.1.1). */
+.sa-btn img{width:28.99px;height:28.99px}
+.sa-btn.tint img{filter:brightness(0) invert(1)}
+.screen .sa-btn:active{background:#ffffff26}

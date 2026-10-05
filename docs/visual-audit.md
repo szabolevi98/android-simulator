@@ -489,3 +489,41 @@ Display > Brightness opened a page with a slider. ICS shows `BrightnessPreferenc
 
 The 4.0.4 search bar had two hard lines (a light 1 px border and a dark 1 px inset). Launcher2's `search_bar.xml` (IMM76I) draws the 40dp bar on `search_frame.9.png`: one white line at 50% (2dp) with a soft shadow fading out on both sides. The bar now uses that nine-patch as `launcher-search_frame.png` (xhdpi slices 12 16 16 12, at 0.425 px).
 
+## Icons from the APKs instead of text glyphs (audit step 1) — 2026-10-05
+
+The Galaxy Nexus's Google apps (`ics-google-apps.js`) drew several action icons with text characters. They now use the drawables of the apps in IMM76I, and each bar carries its menu XML's actions:
+- **YouTube 3.5.5** (`Theme.Holo.Light.DarkActionBar`, was drawn dark):
+  - the light #e6e6e6 app under the `bg_stripes_dark` action bar, with the launcher icon at the top level and the up caret with `ic_logo_square` elsewhere, and no title;
+  - Search and Record, with Settings, Feedback and Help in the overflow;
+  - the Home / Browse / Account tabs, red Holo indicators;
+  - `video_item.xml` rows: 105 × 66 dp thumbnails with the duration, 13 dp bold titles, the HD badge;
+  - the watch page (`watch_activity.xml`):
+    - the player with `ic_vidcontrol_play` / `_pause`;
+    - the #3d3d3d Info / Related / Comments tab row;
+    - `watch_info.xml`: title, date, "views | likes | dislikes", the +1 panel with `ic_plusone_standard_*`, and the Like / Dislike image buttons, which turn `_disabled` once you rate (with "You like this video." / "You dislike this video.");
+    - "by <channel>" on `bg_button_normal`, Description and Category;
+    - Add to and Share in the bar, Like and Dislike in the overflow.
+- **Google+**:
+  - the home grid's `home_screen_*_icon_default`;
+  - New post (`ic_menu_new_post_action_bar`);
+  - the comment count's `ic_comment`.
+- **Talk** (`Theme.Holo.Light.DarkActionBar`, its bar is now dark):
+  - the friends list has Search and Add friend, with Display options, End all chats, Sign out and Invites in the overflow;
+  - a chat has Video chat and Voice chat, with End chat, Friend info, Add to chat and Clear chat history in the overflow (Clear chat history works);
+  - Send is `ic_send_holo_light`.
+- **Books, Movies and Latitude**:
+  - Books: `ic_menu_toc_light` and `ic_menu_market_light`;
+  - Movies: `ic_menu_shop_holo_dark` and the Videos player icons;
+  - Latitude: `actionbar_checkin`.
+- **Search, Voice Dialer and the up caret**:
+  - Search: `ic_search_normal` and `ic_history_suggestion_normal`;
+  - Voice Dialer: `ic_vd_mic_on` / `ic_vd_retry`;
+  - the up caret is the framework's `ic_ab_back_holo_dark` / `_light`.
+
+News & Weather follows each image's menu XML instead of a crosshair for Refresh:
+- **4.0.4** (1.3.04): Refresh and Settings in the overflow.
+- **4.3 and 4.4.4** (1.3.11): `navigation_refresh` in the bar, Settings in the overflow.
+- **5.1.1** (2.2): Search and Add section in the bar; Refresh, Edit weather display…, Remove this section and Migrate settings in the overflow, translated as the APK has them.
+
+The StockApps, Play and extra apps' remaining "‹" up carets go with their per-APK rework (audit step 4).
+

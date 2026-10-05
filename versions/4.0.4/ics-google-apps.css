@@ -5,8 +5,11 @@
 .ga-bar h2{flex:1;min-width:0;margin:0;padding-left:5px;font-weight:400;font-size:15.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ga-home{display:flex;align-items:center;height:100%;padding:0 3px 0 6px;border:0;background:none}
 .ga-home img{width:27.2px;height:27.2px}
-.ga-back{margin-right:2px;opacity:.6;font-size:17px}
-.ga-icon{width:40.8px;height:40.8px;border:0;background:none;font-size:18px}
+/* Up caret: ic_ab_back_holo_dark / _light (xhdpi 32 px); action icons are the apps' 32dp menu drawables. */
+.ga-home img.ga-back{width:13.6px;height:27.2px;margin-right:-2px}
+.ga-icon{display:flex;align-items:center;justify-content:center;flex:none;width:44.2px;height:40.8px;padding:0;border:0;background:none}
+.ga-icon img{width:27.2px;height:27.2px}
+.screen .ga-icon:active,.screen .ga-home:active{background:#33b5e566}
 .ga-scroll{flex:1;min-height:0;overflow-y:auto}
 .ga-empty{margin:40px 0;text-align:center;color:#888}
 .ga-tabs{flex:none;display:flex;overflow-x:auto;scrollbar-width:none}
@@ -34,7 +37,7 @@
 .ga-gp-home{background:#e5e5e5}
 .ga-gp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:auto 0;padding:10px}
 .ga-gp-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:110px;border:0;background:#fff!important;color:#333!important}
-.ga-gp-tile span{font-size:32px;color:#dd4b39}
+.ga-gp-tile img{width:54.4px;height:54.4px}
 .ga-gp-tile b{font-weight:400;font-size:13.6px}
 .ga-gp-stream{background:#e5e5e5;padding:6px}
 .ga-post{margin-bottom:6px;padding:10px;background:#fff;box-shadow:0 1px 2px #0002}
@@ -45,13 +48,15 @@
 .ga-post header small{color:#999;font-size:10.2px}
 .ga-post p{margin:8px 0;color:#333;font-size:13.6px;line-height:1.35}
 .ga-post footer{display:flex;align-items:center;gap:14px;color:#999;font-size:11.9px}
+.ga-post footer span img{width:16.15px;height:11.05px;vertical-align:-1px}
 .ga-plus{padding:2px 8px;border:1px solid #ccc!important;border-radius:2px;background:#f5f5f5!important;color:#555!important;font-size:11.9px}
 .ga-plus.on{background:#dd4b39!important;border-color:#dd4b39!important;color:#fff!important}
 .ga-gp-photos h3{margin:10px 10px 0;color:#6f8fc7;font-size:11.9px;text-transform:uppercase}
 .ga-photo{position:relative;aspect-ratio:1;display:block}
 .ga-photo em{position:absolute;left:6px;bottom:6px;color:#fff;font-style:normal;font-size:11px;text-shadow:0 1px 2px #000}
 /* Google Talk: roster #edeff7 / #dfe2f5, chats on #eeeeee, chat_from #7785e0, chat_me #3492c5. */
-.ga-talk-bar{background:#f3f3f3;border-bottom:1.7px solid #d9d9d9}
+/* Talk's BuddyListCombo uses Theme.Holo.Light.DarkActionBar: the dark ab_solid_dark_holo bar (#222222) over the light lists. */
+.ga-talk-bar{background:#222;color:#fff;box-shadow:inset 0 1px #2d2d2d}
 .ga-talk-self{display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;border:0;background:#5b5c5c!important;color:#fff!important;text-align:left}
 .ga-talk-self img{width:40.8px;height:40.8px;background:#ddd}
 .ga-talk-self span{display:flex;flex-direction:column}
@@ -69,26 +74,61 @@
 .ga-talk-chat p.from b{color:#7785e0}.ga-talk-chat p.me b{color:#3492c5}
 .ga-talk-compose{flex:none;display:flex;padding:6px;background:#e8e8e8;border-top:1px solid #d9d9d9}
 .ga-talk-compose input{flex:1;min-width:0;height:34px;padding:0 8px;border:1px solid #bbb;background:#fff;font:400 13.6px RobotoICS,sans-serif}
-.ga-talk-compose button{width:40px;border:0;background:none;color:#3492c5!important;font-size:16px}
-/* YouTube 3.5.5: dark, ics_dark_grey #3d3d3d tabs, ics_red #cc0000. */
-.ga-yt{background:#212121;color:#fff;color-scheme:dark}
-.ga-yt-bar{background:#000}
-.ga-yt .ga-tabs{background:#3d3d3d}
-.ga-yt .ga-tabs button.on{box-shadow:inset 0 -3.4px #cc0000}
-.ga-yt-head{margin:10px 10px 4px;color:#aaa;font-size:11.9px;text-transform:uppercase}
-.ga-yt-row{display:flex;gap:9px;width:100%;padding:7px 8px;border:0;border-bottom:1px solid #333;background:none;text-align:left}
-.ga-yt-row span{display:flex;flex-direction:column;min-width:0}
-.ga-yt-row b{font-weight:400;font-size:13.6px;line-height:1.25}
-.ga-yt-row small{color:#aaa;font-size:10.2px}
+.ga-talk-compose button{display:flex;align-items:center;justify-content:center;width:40px;border:0;background:none}
+.ga-talk-compose button img{width:27.2px;height:27.2px}
+/* YouTube 3.5.5 (Theme.Holo.Light.DarkActionBar): primary_background ics_light_grey #e6e6e6, black / ics_grey #555555
+   text; the action bar is bg_stripes_dark tiled (xhdpi 32 px), its stacked tabs ab_stacked_solid_dark_holo (#111111) with
+   tab_selected_holo (6 dp) / tab_unselected_holo (2 dp) in ics_red #cc0000; video_item.xml 81 dp rows (105 x 66 dp
+   thumbnails, 13 dp bold titles, 12 dp details); the watch tab row tab_solid_* on #3d3d3d, 44 dp. */
+.ga-yt{background:#e6e6e6;color:#000}
+.ga-yt-bar{background:#222 url('assets/ga-yt-bg_stripes_dark.png') 0 0/13.6px 13.6px repeat;color:#fff}
+.ga-yt-bar .ga-home img:not(.ga-back){width:27.2px;height:27.2px}
+.ga-yt-fill{flex:1}
+.ga-yt-tabs{flex:none;display:flex;height:40.8px;background:#111;box-shadow:inset 0 1px #1d1d1d}
+.screen .ga-yt-tabs button{flex:1;border:0;background:none;color:#fff;font-weight:700;font-size:10.2px;text-transform:uppercase;box-shadow:inset 0 -1.7px #cc0000}
+.screen .ga-yt-tabs button.on{box-shadow:inset 0 -5.1px #cc0000}
+.screen .ga-yt-tabs button:active{background:#cc000040}
+.ga-yt-head{margin:8.5px 6.8px 3.4px;color:#555;font-weight:700;font-size:11.05px;text-transform:uppercase}
+.screen .ga-yt-row{display:flex;align-items:flex-start;width:100%;height:68.85px;padding:5.95px 6.8px 0;border:0;border-bottom:1px solid #0000001f;background:none;color:#000;text-align:left}
+.screen .ga-yt-row:active{background:#33b5e5;color:#fff}
+.ga-yt-thumb{position:relative;flex:none;width:89.25px;height:56.1px}
+.ga-yt-thumb .ga-art.thumb{width:100%;height:100%}
+.ga-yt-thumb i{position:absolute;right:0;bottom:0;padding:0 .85px;background:#000;color:#fff;font-style:normal;font-size:10.2px;line-height:1.2}
+.ga-yt-details{flex:1;min-width:0;display:flex;flex-direction:column;margin-left:4.25px}
+.ga-yt-details b{font-weight:700;font-size:11.05px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ga-yt-details small{display:flex;align-items:center;gap:2.55px;color:#555;font-size:10.2px}
+.ga-yt-row:active small{color:#fff}
+.ga-yt-details small img{width:18.3px;height:18.3px;margin:-5px 0}
 .ga-yt-video{position:relative;flex:none;padding:0;border:0;background:#000}
-.ga-yt-video i{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-style:normal;font-size:28px;opacity:0;transition:opacity .2s}
-.ga-yt-video.paused i,.ga-yt-video:hover i{opacity:.9}
-.ga-yt-info{padding:10px}
-.ga-yt-info h3{margin:0 0 4px;font-weight:400;font-size:15.3px}
-.ga-yt-info small{color:#aaa}
-.ga-yt-actions{display:flex;gap:6px;margin-top:10px}
-.ga-yt-actions button{flex:1;height:34px;border:1px solid #444!important;background:#2b2b2b!important;color:#ddd!important;font-size:11.9px}
-.ga-yt-actions button.on{color:#33b5e5!important}
+.ga-yt-video>img{position:absolute;left:50%;top:50%;width:79.5px;height:79.5px;transform:translate(-50%,-50%);opacity:0;transition:opacity .2s}
+.ga-yt-video.paused>img,.ga-yt-video:hover>img{opacity:1}
+.ga-yt-tabrow{flex:none;display:flex;height:37.4px;background:#3d3d3d}
+.screen .ga-yt-tabrow button{flex:1;border:0;background:none;color:#888;font-weight:700;font-size:10.2px;text-transform:uppercase;box-shadow:inset 0 -1.4px #cc0000}
+.screen .ga-yt-tabrow button.on{color:#fff;box-shadow:inset 0 -5.5px #cc0000}
+.ga-yt-pane{background:#e6e6e6}
+.ga-yt-info{padding:4.25px}
+.ga-yt-info h3{margin:0;padding:1.7px 0;font-weight:700;font-size:15.3px;line-height:1.25}
+.ga-yt-info small{display:block;color:#555;font-size:11.05px}
+.ga-yt-panel{display:flex;align-items:center;margin-top:8.5px;border-top:1px solid #0000001f;border-bottom:1px solid #0000001f}
+.screen .ga-yt-plus{flex:1;display:flex;align-items:center;padding:0 6.8px 0 5.1px;height:40.8px;border:0;background:none}
+.ga-yt-plus img{width:32.3px;height:20.4px}
+.ga-yt-panel i{flex:none;width:1px;height:20.4px;margin-left:6.8px;background:#0000001f}
+.screen .ga-yt-rate{display:flex;padding:6.8px;margin-left:6.8px;border:0;background:none}
+.screen .ga-yt-rate+.ga-yt-rate{margin:0 2.55px 0 0}
+.screen .ga-yt-rate:active,.screen .ga-yt-plus:active{background:#33b5e566}
+.ga-yt-rate img{width:27.2px;height:27.2px}
+.screen .ga-yt-channel{display:inline-block;margin-top:8.5px;padding:13.6px 17px;border:0 solid transparent;border-width:15.3px 10.2px 10.2px;border-image:url('assets/ga-yt-bg_button_normal.png') 36 24 24 24 fill / 15.3px 10.2px 10.2px stretch;background:none;color:#000;font-size:11.05px}
+.screen .ga-yt-channel:active{border-image-source:url('assets/ga-yt-bg_button_pressed.png');color:#fff}
+.ga-yt-channel b{font-weight:400}
+.ga-yt-info h4{margin:8.5px 0 0;font-size:11.05px}
+.ga-yt-info p{margin:0;font-size:11.05px}
+.ga-yt-info p.dim{color:#555}
+.ga-yt-none{margin:20px 0;color:#555;text-align:center;font-size:11.05px}
+.ga-yt-channelhead{display:flex;padding:13.6px;background:#d6d6d6}
+.ga-yt-channelhead img{width:64.6px;height:64.6px;padding:1px;background:#fff;box-shadow:0 0 0 1px #0002}
+.ga-yt-channelhead span{display:flex;flex-direction:column;margin-left:5.95px;min-width:0}
+.ga-yt-channelhead b{font-size:15.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ga-yt-channelhead small{color:#555;font-size:10.2px}
 /* Play Books 2.3 and Play Movies 1.4. */
 .ga-books-bar{background:#f3f3f3;border-bottom:1.7px solid #4da6e2}
 .ga-book-grid button{display:flex;flex-direction:column;gap:3px;padding:0;border:0;background:none;text-align:left}
@@ -112,14 +152,16 @@
 .ga-qsb{flex:none;display:flex;align-items:center;gap:6px;height:46px;padding:0 6px;background:#e6e6e6;border-bottom:1px solid #bbb}
 .ga-qsb img{width:30px;height:30px}
 .ga-qsb input{flex:1;min-width:0;height:34px;padding:0 8px;border:1px solid #aaa;background:#fff;font:400 15.3px RobotoICS,sans-serif}
-.ga-qsb button{width:36px;height:34px;border:0;background:none;font-size:18px}
-.ga-suggest span{color:#999}
+.ga-qsb button{display:flex;align-items:center;justify-content:center;width:36px;height:34px;border:0;background:none}
+.ga-qsb button img{width:27.2px;height:27px}
+.ga-suggest img{width:27.2px;height:27.2px}
 .ga-sources{color:#33b5e5!important}
 /* Voice Dialer (AOSP): the dark listening screen. */
 .ga-voice{align-items:center;justify-content:center;gap:14px;background:#111;color:#fff;text-align:center}
 .ga-voice h2{margin:0;font-weight:400;font-size:17px}
-.ga-voice-mic{width:96px;height:96px;border:2px solid #33b5e5!important;border-radius:50%;background:#1c2a33!important;font-size:40px}
-.ga-voice-mic.on{animation:ga-pulse 1.2s infinite}
+/* VoiceDialer's voice_dialing.xml images: ic_vd_mic_on while listening, ic_vd_retry after "No results" (hdpi 126 x 138). */
+.ga-voice-mic{display:flex;padding:0;border:0;background:none}
+.ga-voice-mic img{width:71.4px;height:78.2px}
 @keyframes ga-pulse{50%{box-shadow:0 0 0 12px #33b5e533}}
 .ga-voice p{margin:0;color:#bbb}
 .ga-voice-tip{display:flex;flex-direction:column;gap:4px;max-width:80%;margin-top:20px;color:#999;font-size:11.9px}

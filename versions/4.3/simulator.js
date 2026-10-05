@@ -773,6 +773,9 @@
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="jbp-menu" role="menu">${JBPlay.menu(jbPlayContext()).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay.startsWith('jbp-')) {
       overlayRoot.innerHTML = JBPlay.dialog(ui.overlay.slice(4), jbPlayContext());
+    } else if (ui.overlay === 'sa-menu') {
+      // The Google apps' action bar overflow (StockApps.menu: their menu XML's overflow items).
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${StockApps.menu(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()}).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'calc-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">Clear history</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${ui.calcPanel ? 'Basic panel' : 'Advanced panel'}</button></div>`;
     } else if (ui.overlay === 'phone-menu') {
@@ -1722,7 +1725,7 @@
       case 'browser-history': ui.sub = 'history'; render(); break;
       case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       // Google, Voice Search, Maps, Keep, YouTube, Google+, Earth, News & Weather, Google Settings
-      case 'sa-unsupported': toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'sa-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'voice-listen': listenVoice(); break;
       case 'google-now-toggle': data.googleNowOn = data.googleNowOn === false; save(); render(); break;
       case 'maps-locate': ui.mapsQuery = ''; render(); break;
@@ -1733,6 +1736,8 @@
       case 'yt-like': { const likes = data.ytLikes || []; data.ytLikes = likes.includes(id) ? likes.filter(x => x !== id) : [...likes, id]; save(); render(); break; }
       case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }
       case 'news-tab': ui.newsTab = id; render(); break;
+      case 'sa-menu': ui.overlay = 'sa-menu'; renderOverlay(); break;
+      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'maps-search-open': ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); break;
       case 'kkx-unavailable': toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'jbx-tab': ui.jbxMagazines = id; render(); break;

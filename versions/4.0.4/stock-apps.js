@@ -25,6 +25,8 @@
     chevron: '<svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>'
   };
   const btn = (action, label, icon, id = '') => `<button class="sa-btn" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${ICON[icon]}</button>`;
+  // Action buttons with the apps' own drawables (assets/<prefix>-*.png).
+  const img = (action, label, src, cls = '') => `<button class="sa-btn${cls ? ' ' + cls : ''}" data-action="${action}" aria-label="${e(label)}"><img src="assets/${src}" alt=""></button>`;
   function bar(ctx, {title, subtitle = '', up = false, icon, actions = '', cls = ''}) {
     return `<header class="sa-bar${cls}"><button class="sa-up" data-action="${up ? 'back' : 'home'}" aria-label="${e(ctx.t(up ? 'Back' : 'Home'))}"><span aria-hidden="true">‹</span><img src="assets/${icon}" alt=""></button><span class="sa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
   }
@@ -131,12 +133,17 @@
     const body = tab === 'Weather'
       ? `<div class="sa-weather"><b>21°</b><span>${e(ctx.t('Partly cloudy'))}</span><small>Mountain View</small><div class="sa-forecast">${[0, 1, 2, 3].map(i => `<div><span>${e(new Date(ctx.now.getTime() + i * 864e5).toLocaleDateString(ctx.locale, {weekday: 'short'}))}</span><b>${[21, 23, 19, 20][i]}°</b><small>${[13, 14, 12, 11][i]}°</small></div>`).join('')}</div></div>`
       : (STORIES[tab] || []).map(([title, source, time], i) => `<button class="sa-story" data-action="sa-unsupported">${i === 0 ? `<span class="sa-story-photo">${thumb(i + 2)}</span>` : ''}<b>${e(title)}</b><small>${e(source)} · ${e(ctx.t(time))}</small></button>`).join('');
-    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: ctx.t('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: btn('sa-unsupported', ctx.t('Refresh'), 'locate') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<nav class="sa-news-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
+    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: ctx.t('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: btn('sa-menu', ctx.t('More options'), 'overflow')})}<nav class="sa-news-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
   }
 
   const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
   function render(app, ctx) { return (APPS[app] || google)(ctx); }
   const SIMPLE = ['google-search', 'voice-search', 'maps', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings'];
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, jelly beans', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
-  window.StockApps = {APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render};
+  // The overflow of the screen on show. GenieWidget 1.3.04 (IMM76I) res/menu/main_menu.xml: Refresh and Settings have no showAsAction, so both sit in the overflow.
+  function menu(view, ctx) {
+    if (view === 'news-weather') return [{action: 'sa-news-refresh', title: ctx.t('Refresh')}, {action: 'sa-unsupported', title: ctx.t('Settings')}];
+    return [];
+  }
+  window.StockApps = {APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render, menu};
 })();

@@ -174,3 +174,7 @@
 .sa-maps6 .sa-maps6-map{position:relative;flex:1;min-height:0;overflow:hidden}
 .sa-maps6-search{position:absolute;left:0;right:0;top:40.88px;display:flex;height:40.88px;padding:0 9px;background:#fff;box-shadow:0 1px 3px #0000004d;z-index:2}
 .sa-maps6-search input{flex:1;min-width:0;border:0;border-bottom:2px solid #33b5e5;background:none;font:400 15.33px RobotoICS,sans-serif;color:#222;outline:none}
+/* Action buttons with the apps' own drawables (32 dp holo menu icons; 24 dp Material on 5.1.1). */
+.sa-btn img{width:27.25px;height:27.25px}
+.sa-btn.tint img{filter:brightness(0) invert(1)}
+.screen .sa-btn:active{background:#ffffff26}
