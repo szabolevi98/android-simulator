@@ -131,4 +131,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 5.1.1 S() + stock-strings.js; Google Settings a GMS 6.7 odex-kódjából (kategóriák, sorrend) | 671e106 |
 | 2026-10-05 | 4. lépés: 5.1.1 Earth 8.0.1 (gradiens Toolbar, AppCompat-menü, iránytű, Pegman, fiók) | 418fd1b |
 | 2026-10-05 | 4. lépés: 5.1.1 News & Weather 2.2 (világos Toolbar, menü a dex szerint, szekciókártyák, időjárás, fiók; állapotsor-szín) | 717cfb5 |
-| 2026-10-05 | 4. lépés: 5.1.1 Keep 3.0 (sárga Toolbar, lebegő gyorsjegyzet, fiók a dex szerint, szerkesztő menü) | (ez a commit) |
+| 2026-10-05 | 4. lépés: 5.1.1 Keep 3.0 (sárga Toolbar, lebegő gyorsjegyzet, fiók a dex szerint, szerkesztő menü) | 1ad9c1d |
