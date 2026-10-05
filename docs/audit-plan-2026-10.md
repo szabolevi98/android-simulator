@@ -32,7 +32,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 
 - [ ] A StockApps, Play- és extra appok megmaradt „‹” vissza-jeleinek cseréje (az 1. lépésből ide került)
 - [x] `stock-apps.js` – 4.3 (JWR66Y): Google/Now, Voice Search, Maps 6.14, Keep 1.0, YouTube 4.5, Google+ 4.0, Earth, News & Weather, Google Settings (71d403f)
-- [x] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival (ez a commit)
+- [x] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival (3c730d4)
 - [ ] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings
 - [ ] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games
 - [ ] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games
@@ -127,4 +127,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.4.4 Keep 2.0 (fiók, átfedő sáv, menük) | 1e5d0d2 |
 | 2026-10-05 | 4. lépés: 4.4.4 YouTube 5.2 (logós sáv, Guide a dex sorrendjében, kártyák, nézőoldal) | a831eae |
 | 2026-10-05 | 4. lépés: 4.4.4 Drive 1.2 (sáv, menü, navigációs panel, dokumentumsorok időcsoportokkal) | 392811a |
-| 2026-10-05 | 4. lépés: 4.4.4 Google+ 4.2 (csengő, menü a dex szerint, compose sáv) – a 4.4.4 StockApps kész | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.4.4 Google+ 4.2 (csengő, menü a dex szerint, compose sáv) – a 4.4.4 StockApps kész | (3c730d4) |
