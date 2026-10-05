@@ -512,5 +512,127 @@ window.StockStrings = {
    "Actualiser",
    "Actualizar"
   ]
+ },
+ "youtube": {
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Feedback": [
+   "Visszajelzés",
+   "Feedback",
+   "Commentaires",
+   "Danos tu opinión"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Uploads": [
+   "Feltöltések",
+   "Uploads",
+   "Vidéos mises en ligne",
+   "Vídeos subidos"
+  ],
+  "History": [
+   "Előzmények",
+   "Verlauf",
+   "Historique",
+   "Historial"
+  ],
+  "Favorites": [
+   "Kedvencek",
+   "Favoriten",
+   "Favoris",
+   "Favoritos"
+  ],
+  "Playlists": [
+   "Lejátszási listák",
+   "Playlists",
+   "Playlists",
+   "Listas"
+  ],
+  "Watch later": [
+   "Megnézendő videók",
+   "Später ansehen",
+   "À regarder plus tard",
+   "Ver más tarde"
+  ],
+  "Subscriptions": [
+   "Előfizetések",
+   "Abos",
+   "Abonnements",
+   "Suscripciones"
+  ],
+  "What to watch": [
+   "Megtekintendő videók",
+   "Empfohlene Videos",
+   "Vidéos à regarder",
+   "Actividad"
+  ],
+  "My subscriptions": [
+   "Feliratkozásaim",
+   "Meine Abos",
+   "Mes abonnements",
+   "Mis suscripciones"
+  ],
+  "Browse channels": [
+   "Csatornák tallózása",
+   "Kanäle finden",
+   "Parcourir les chaînes",
+   "Buscar canales"
+  ],
+  "From YouTube": [
+   "A YouTube-ról",
+   "Beliebt auf YouTube",
+   "Sur YouTube",
+   "Visto en YouTube"
+  ],
+  "Recommended": [
+   "Ajánlott",
+   "Empfohlen",
+   "Recommandations",
+   "Recomendados"
+  ],
+  "Trending": [
+   "Felkapott",
+   "Trends",
+   "Tendances",
+   "Tendencias"
+  ],
+  "Open guide": [
+   "A segéd megnyitása",
+   "Anleitung öffnen",
+   "Ouvrir le guide",
+   "Abrir guía"
+  ],
+  "More": [
+   "Több",
+   "Mehr",
+   "Plus",
+   "Más"
+  ],
+  "Like": [
+   "Tetszik",
+   "Mag ich",
+   "J'aime",
+   "Me gusta"
+  ],
+  "Dislike": [
+   "Nem tetszik",
+   "Mag ich nicht",
+   "Je n'aime pas",
+   "No me gusta"
+  ]
  }
 };

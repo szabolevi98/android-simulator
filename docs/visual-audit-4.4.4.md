@@ -32,3 +32,8 @@
   - `drawer_fragment.xml`: 300 dp on #f5f5f5, the account, then the items `DrawerFragment` adds (per the dex): Notes, Archive, Reminders, with blue icons and #cc33b5e5 text when active. The section headers in the APK are not used. The Reminders view shows "Create a reminder".
   - Quick edit, add items bar and notes come from Keep 2.0's own drawables.
   - `browse_fragment_menu.xml` no longer lists Archived notes; the editor has Note color… and Add picture in the bar.
+- **YouTube 5.2.27:**
+  - Theme.Home: #ededed under the ActionBar style (`action_bar_background`, a light gradient). It shows `action_bar_logo` and no title (displayOptions 3), after the guide toggle `ic_action_bar_drawer`. Search is in the bar; Settings, Feedback and Help are in the overflow.
+  - The Guide follows `GuideFragment` (dex order): the account; Uploads, History, Favorites, Playlists, Watch later; the Subscriptions label with What to watch and My subscriptions; Browse channels; the From YouTube label with Recommended and Trending. It uses `guide_entry.xml` / `guide_section.xml` on #434343 with the `ic_drawer_*` icons.
+  - Feed items are `video_feed_item.xml` on `card_frame`: thumbnail and duration badge, 18 sp title, 14 sp channel and views, the menu anchor.
+  - The watch page shows the player, `watch_info_card.xml` with `like_dislike_panel.xml`, and `watch_suggested_card.xml` (`detailed_video_item_body.xml` rows, "More").

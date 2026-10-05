@@ -1789,6 +1789,7 @@
       case 'keep-drawer': ui.keepDrawer = !ui.keepDrawer; render(); break;
       case 'keep-landing': ui.keepView = id; ui.keepDrawer = false; render(); break;
       case 'yt-video': ui.ytVideo = id; ui.ytPaused = false; ui.sub = 'video'; render(); break;
+      case 'yt-guide': ui.ytGuide = !ui.ytGuide; render(); break;
       case 'yt-toggle': ui.ytPaused = !ui.ytPaused; render(); break;
       case 'yt-like': { const likes = data.ytLikes || []; data.ytLikes = likes.includes(id) ? likes.filter(x => x !== id) : [...likes, id]; save(); render(); break; }
       case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }

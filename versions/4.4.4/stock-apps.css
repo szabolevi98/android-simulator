@@ -49,13 +49,6 @@
 /* Keep */
 /* YouTube */
 .sa-youtube{background:#ebebeb}
-.sa-yt-feed{padding:7.25px}
-.sa-yt-card{display:block;width:100%;margin-bottom:7.25px;padding:0;border:0;background:#fff;box-shadow:0 1px 2px #0002;text-align:left}
-.sa-yt-thumb{position:relative;display:block;aspect-ratio:16/9}
-.sa-yt-thumb em{position:absolute;right:6px;bottom:6px;padding:1px 4px;background:#000000c0;font:400 11px RobotoICS,sans-serif;font-style:normal;color:#fff}
-.sa-yt-copy{display:flex;flex-direction:column;padding:8px 10px 10px}
-.sa-yt-copy b,.sa-yt-info b{font:400 14.5px/1.3 RobotoICS,sans-serif;color:#222}
-.sa-yt-copy small,.sa-yt-info small{font-size:11.78px;color:#888}
 .sa-yt-watch{background:#fff}
 .sa-yt-player{position:relative;flex:none;aspect-ratio:16/9;background:#000;overflow:hidden;cursor:pointer}
 .sa-yt-player .sa-thumb{transition:transform 8s linear}
@@ -64,17 +57,6 @@
 .sa-yt-progress{position:absolute;left:0;bottom:0;height:3px;width:30%;background:#e62117}
 .sa-yt-player.playing .sa-yt-progress{animation:sa-yt 60s linear forwards}
 @keyframes sa-yt{to{width:100%}}
-.sa-yt-info{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border-bottom:.906px solid #e5e5e5}
-.sa-yt-actions{display:flex;gap:18px;margin-top:6px}
-.sa-yt-actions button{display:flex;align-items:center;gap:5px;padding:4px 0;border:0;background:none;color:#888!important;font-size:12.68px}
-.sa-yt-actions button.on{color:#167ac6!important}
-.sa-yt-actions svg{width:18px;height:18px}
-.sa-yt-watch h4{margin:10px 12px 4px;font:700 11.78px RobotoICS,sans-serif;color:#777;text-transform:uppercase}
-.sa-yt-row{display:flex;gap:9px;width:100%;padding:5px 12px;border:0;background:none;text-align:left}
-.sa-yt-row>svg{flex:none;width:120px;height:68px}
-.sa-yt-row span{display:flex;flex-direction:column;min-width:0}
-.sa-yt-row b{font:400 13.59px/1.3 RobotoICS,sans-serif;color:#222}
-.sa-yt-row small{font-size:11px;color:#888}
 /* Google+ */
 .sa-gplus{background:#e5e5e5}
 .sa-stream{padding:7.25px}
@@ -251,3 +233,47 @@
 .screen .kp2-drawer button.on{color:#33b5e5cc}
 .screen .kp2-drawer button:active{background:#33b5e566}
 .sa-keep2 .sa-empty{padding:72.48px 18.12px;font:400 19.93px Roboto,sans-serif;color:#0000004d;text-align:center}
+
+/* YouTube 5.2 (audit step 4) at the Nexus 5 scale (xhdpi drawables x.453): the gradient action bar with the 37 x 32 dp
+   logo after the 16 dp guide toggle; card_frame (xhdpi slices 6 8 10 8) 10 dp from the sides; the guide 85% wide over
+   the feed. */
+.sa-yt5{background:#ededed}
+.sa-yt5 .yt5-bar{background:url('assets/yt5-action_bar_background.png') 0 0/100% 100%;border-bottom:0;color:#666}
+.yt5-bar .sa-up img.yt5-toggle{width:14.5px;height:14.5px;margin-right:1.81px}
+.yt5-bar .sa-up img.yt5-logo{width:33.52px;height:28.99px}
+.yt5-feed{padding:4.53px 0}
+.screen .yt5-card{display:block;width:calc(100% - 18.12px);margin:4.53px 9.06px;padding:0 0 10.87px;border-style:solid;border-width:2.72px 3.62px 4.53px;border-image:url('assets/yt5-card_frame.png') 6 8 10 fill/2.72px 3.62px 4.53px;background:none;text-align:left;cursor:pointer}
+.yt5-thumb,.yt5-row-thumb{position:relative;display:block;aspect-ratio:16/9;overflow:hidden}
+.yt5-thumb .sa-thumb,.yt5-row-thumb .sa-thumb{position:absolute;inset:0;width:100%;height:100%}
+.yt5-thumb em,.yt5-row-thumb em{position:absolute;right:3.62px;bottom:3.62px;padding:5.44px;border:.91px solid #ffffff44;background:#000000cc;font:400 10.87px/1 Roboto,sans-serif;font-style:normal;color:#fff}
+.yt5-row-thumb em{padding:1.81px 3.62px}
+.yt5-copy{position:relative;display:flex;flex-direction:column;padding:10.87px 39.86px 0 10.87px}
+.yt5-copy b{font:400 16.31px/1.3 Roboto,sans-serif;color:#333}
+.yt5-copy small{margin-top:2.72px;font:400 12.68px Roboto,sans-serif;color:#999}
+.yt5-anchor{position:absolute;right:14.5px;top:10.87px;width:3.62px;height:14.5px}
+.sa-yt5.sa-yt-watch{background:#ededed}
+.yt5-info,.yt5-suggested{position:relative;margin:9.06px 9.06px 0;border-style:solid;border-width:2.72px 3.62px 4.53px;border-image:url('assets/yt5-card_frame.png') 6 8 10 fill/2.72px 3.62px 4.53px}
+.yt5-info h3{margin:0;padding:10.87px 43.49px 0 10.87px;font:400 16.31px/1.3 Roboto,sans-serif;color:#333}
+.yt5-info p{margin:1.81px 10.87px 0;font:400 12.68px Roboto,sans-serif;color:#999}
+.yt5-expand{position:absolute;right:16.31px;top:16.31px;width:9.97px;height:5.44px}
+.yt5-likes{display:flex;gap:14.5px;margin:10.87px 10.87px 0;padding-top:7.25px;border-top:.91px solid #e1e1e1;min-height:36.24px}
+.screen .yt5-likes button{display:flex;align-items:center;gap:3.62px;height:32.62px;padding:0;border:0;background:none;font:400 12.68px Roboto,sans-serif;color:#999}
+.yt5-likes img{width:28.99px;height:28.99px}
+.screen .yt5-likes button.on{color:#1b7fcc}
+.screen .yt5-row{display:flex;width:100%;padding:0 0 9.06px 12.68px;border:0;border-top:.91px solid #e1e1e1;background:none;text-align:left;cursor:pointer}
+.screen .yt5-row.first{border-top:0}
+.yt5-row-thumb{flex:3;margin-top:9.06px}
+.yt5-row-meta{flex:2;min-width:0;display:flex;flex-direction:column;margin:9.06px 9.06px 0}
+.yt5-row-meta b{font:400 12.68px/1.3 Roboto,sans-serif;color:#333;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.yt5-row-meta small{font:400 10.87px Roboto,sans-serif;color:#999}
+.screen .yt5-more{display:flex;align-items:center;width:100%;min-height:43.49px;padding:0 10.87px;border:0;border-top:.91px solid #e1e1e1;background:none;font:400 12.68px Roboto,sans-serif;color:#1b7fcc;text-align:left}
+.screen .yt5-scrim{position:absolute;inset:43.49px 0 0;z-index:2;border:0;background:#0006}
+.yt5-guide{position:absolute;left:0;top:43.49px;bottom:0;z-index:2;width:85%;overflow-y:auto;background:#434343}
+.yt5-account{display:flex;align-items:center;height:43.49px;padding-left:10.87px;border-bottom:1.81px solid #646464}
+.yt5-account img{width:28.99px;height:28.99px;margin-right:7.25px}
+.yt5-account span{display:flex;flex-direction:column;font:400 10.87px Roboto,sans-serif;color:#999}
+.screen .yt5-entry{display:flex;align-items:center;width:100%;height:43.49px;padding:0 12.68px;border:0;box-shadow:inset 0 -.91px #333,inset 12.68px 0 #434343,inset -12.68px 0 #434343,inset 0 -1.81px #444;background:none;text-align:left;cursor:pointer}
+.yt5-entry img,.yt5-entry i{flex:none;width:28.99px;height:28.99px;margin-right:7.25px}
+.yt5-entry span{font:400 14.5px Roboto,sans-serif;color:#f2f2f2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .yt5-entry.on,.screen .yt5-entry:active{background:#2a2a2a}
+.yt5-section{margin:0;padding:10.87px 12.68px 6.34px;border-bottom:1.81px solid #646464;font:400 10.87px Roboto,sans-serif;color:#999}

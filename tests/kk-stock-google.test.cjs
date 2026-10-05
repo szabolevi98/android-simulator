@@ -26,4 +26,8 @@ assert.ok(!A.render('maps',ctx()).includes('mp7-panel')&&A.render('maps',{...ctx
 const kp=A.render('keep',{...ctx({keepDrawer:true},'hu'),data:{keepNotes:[{id:'k1',text:'Tej'}]}});assert.ok(kp.includes('kp2-ic_drawer.png')&&kp.includes('kitkat.demo@gmail.com'));
 assert.deepEqual([...kp.matchAll(/data-action="keep-landing" data-id="(\w+)"/g)].map(m=>m[1]).join(),'notes,archive,reminders');
 assert.ok(!JSON.stringify(A.menu('keep',ctx())).includes('keep-archived')&&A.render('keep',ctx({keepView:'reminders'})).includes('Create a reminder'));
+// YouTube 5.2: the logo bar with the guide toggle, GuideFragment's entries in the dex's order, feed cards, watch cards.
+const yt=A.render('youtube',ctx({ytGuide:true}));assert.ok(yt.includes('yt5-action_bar_logo.png')&&yt.includes('yt5-card'));
+assert.deepEqual([...yt.matchAll(/class="yt5-entry[^"]*" data-action="[^"]+">(?:<img[^>]*>|<i><\/i>)<span>([^<]+)/g)].map(m=>m[1]).join('|'),'Uploads|History|Favorites|Playlists|Watch later|What to watch|My subscriptions|Browse channels|Recommended|Trending');
+const watch=A.render('youtube',ctx({sub:'video',ytVideo:'v2'}));assert.ok(watch.includes('yt5-info')&&watch.includes('yt5-ic_like.png')&&watch.includes('yt5-suggested'));
 console.log('kk stock google ok');

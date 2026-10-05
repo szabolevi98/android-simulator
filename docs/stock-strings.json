@@ -213,6 +213,28 @@
    "Single-column view": "Keep:menu_switch_to_list_view",
    "Multi-column view": "Keep:menu_switch_to_grid_view",
    "Refresh": "Keep:menu_sync"
+  },
+  "youtube": {
+   "Search": "YouTube:menu_search",
+   "Settings": "YouTube:menu_settings",
+   "Feedback": "YouTube:menu_feedback",
+   "Help": "YouTube:menu_help",
+   "Uploads": "YouTube:channel_uploads",
+   "History": "YouTube:channel_watch_history",
+   "Favorites": "YouTube:channel_favorites",
+   "Playlists": "YouTube:channel_playlists",
+   "Watch later": "YouTube:channel_watch_later",
+   "Subscriptions": "YouTube:guide_channels_label",
+   "What to watch": "YouTube:guide_what_to_watch",
+   "My subscriptions": "YouTube:guide_my_subscriptions",
+   "Browse channels": "YouTube:guide_channel_store",
+   "From YouTube": "YouTube:guide_from_youtube_label",
+   "Recommended": "YouTube:guide_recommended_for_you_feed",
+   "Trending": "YouTube:guide_trending_feed",
+   "Open guide": "YouTube:action_bar_guide_open",
+   "More": "YouTube:load_more_label",
+   "Like": "YouTube:menu_like",
+   "Dislike": "YouTube:menu_dislike"
   }
  }
 }
