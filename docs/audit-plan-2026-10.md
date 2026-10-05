@@ -16,9 +16,9 @@ Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem ti
 
 ## 2. Rendszeresen látható, nem Android-eredetű vezérlők (3–4 óra)
 
-- [ ] Naptár dátum- és időválasztó verziónként — a 4.0.4 kész (a keretrendszer görgetős DatePickerDialog / TimePickerDialog-ja) (COMMIT); a 4.3 / 4.4 / 5.1 Naptár a gyári képek szerint a `com.android.datetimepicker` könyvtárat használja (naptárrács, kerek óralap), az következik
-- [ ] Naptár saját alsó sávjának (Previous / nézet / Next) kivétele; gyári lapozás és nézetválasztó (4.0.4, 4.3, 4.4) — 4.0.4 kész (COMMIT)
-- [x] ICS Óra időválasztó: az eredeti ICS TimePickerDialog (Holo sötét) (COMMIT)
+- [ ] Naptár dátum- és időválasztó verziónként — a 4.0.4 kész (a keretrendszer görgetős DatePickerDialog / TimePickerDialog-ja) (5786aa8); a 4.3 / 4.4 / 5.1 Naptár a gyári képek szerint a `com.android.datetimepicker` könyvtárat használja (naptárrács, kerek óralap), az következik
+- [ ] Naptár saját alsó sávjának (Previous / nézet / Next) kivétele; gyári lapozás és nézetválasztó (4.0.4, 4.3, 4.4) — 4.0.4 kész (5786aa8)
+- [x] ICS Óra időválasztó: az eredeti ICS TimePickerDialog (Holo sötét) (5786aa8)
 
 ## 3. Egyszerűsített fontos oldalak (4–5 óra)
 
@@ -106,4 +106,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | --- | --- | --- |
 | 2026-10-05 | Munkaterv rögzítve | 800e107 |
 | 2026-10-05 | 1. lépés: szöveges ikonok cseréje | 18f9838 |
-| 2026-10-05 | 2. lépés, 4.0.4: Naptár From / To választók, alsó sáv nélkül; Óra TimePickerDialog | COMMIT |
+| 2026-10-05 | 2. lépés, 4.0.4: Naptár From / To választók, alsó sáv nélkül; Óra TimePickerDialog | 5786aa8 |
