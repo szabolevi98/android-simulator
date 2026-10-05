@@ -23,4 +23,8 @@ assert.ok(/Your places.*Traffic.*Public transit.*Bicycling.*Satellite.*Terrain.*
 const dr=A.render('drive',ctx({driveNav:true}));assert.ok(dr.includes('dr2-bar')&&dr.includes('dr2-ic_grid_toggle.png')&&dr.includes('dr2-ic_type_doc.png')&&dr.includes('Today'));
 assert.ok(/My Drive.*Shared with me.*Starred.*Recent.*On device.*Uploads/s.test(dr.slice(dr.indexOf('dr2-nav'))));
 assert.equal(JSON.stringify(A.menu('drive',ctx()).map(i=>i.title)),JSON.stringify(['Create','Refresh','Filter by','Sort by']));
+// YouTube 10.03: the red Toolbar with Search, q_video_feed_entry rows, the guide's local entries in the bhx order.
+const yt=A.render('youtube',ctx({ytGuide:true}));assert.ok(yt.includes('yt10-bar')&&yt.includes('yt10-item')&&yt.includes('yt10-ic_drawer_what_to_watch.png'));
+assert.ok(/Watch later.*Favorites.*Uploads.*History.*Offline/s.test(yt.slice(yt.indexOf('yt10-guide'))));
+assert.ok(fs.readFileSync('versions/5.1.1/simulator.js','utf8').includes("youtube: '#c31c13'"));
 console.log('lp stock google ok');

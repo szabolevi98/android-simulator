@@ -659,5 +659,55 @@ window.StockStrings = {
    "Antérieurs",
    "Anteriores"
   ]
+ },
+ "youtube": {
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe & Feedback",
+   "Aide et commentaires",
+   "Ayuda y sugerencias"
+  ],
+  "Watch later": [
+   "Megnézendő videók",
+   "Später ansehen",
+   "À regarder plus tard",
+   "Ver más tarde"
+  ],
+  "Favorites": [
+   "Kedvencek",
+   "Favoriten",
+   "Favoris",
+   "Favoritos"
+  ],
+  "Uploads": [
+   "Feltöltések",
+   "Uploads",
+   "Ajouts",
+   "Vídeos subidos"
+  ],
+  "History": [
+   "Előzmények",
+   "Verlauf",
+   "Historique",
+   "Historial"
+  ],
+  "Offline": [
+   "Offline",
+   "Offline",
+   "Hors connexion",
+   "Sin conexión"
+  ]
  }
 };

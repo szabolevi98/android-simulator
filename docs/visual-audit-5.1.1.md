@@ -32,3 +32,7 @@
   - `menu_doclist_activity.xml` under AppCompat's three slots: Search and View as Grid in the bar; Create, Refresh, Filter by and Sort by in the overflow.
   - Files are `doc_entry_row_onecolumn.xml` rows (72 dp, the coloured `ic_type_*` icons) under Drive's time ranges on #eeeeee.
   - The navigation panel lists the `jx` enum's entries (dex): My Drive, Shared with me, Starred, Recent, On device, Uploads, and the storage footer. The APK has no FAB.
+- **YouTube 10.03.5:**
+  - Theme.YouTube.Home: the Toolbar in #e62117 with the guide toggle and a white title, status bar #c31c13 (the 5.1.1 colour map was corrected), window #fefefe. Search is in the bar; Settings and Help & feedback are in the overflow.
+  - Feed rows are `q_video_feed_entry.xml`: a list with #e1e1e1 separators instead of 5.x's cards.
+  - The guide is white with `guide_entry.xml` rows. Home and My Subscriptions come from the server, so their labels are the simulator's; the local entries follow the `bhx` enum in the dex (Watch later, Favorites, Uploads, History), then Offline.

@@ -392,6 +392,16 @@
    "Earlier this Week": "Drive:time_range_this_week",
    "Earlier this Month": "Drive:time_range_this_month",
    "Older": "Drive:time_range_older"
+  },
+  "youtube": {
+   "Search": "YouTube:menu_search",
+   "Settings": "YouTube:menu_settings",
+   "Help & feedback": "YouTube:menu_help",
+   "Watch later": "YouTube:channel_watch_later",
+   "Favorites": "YouTube:channel_favorites",
+   "Uploads": "YouTube:channel_uploads",
+   "History": "YouTube:channel_watch_history",
+   "Offline": "YouTube:guide_offline_videos"
   }
  }
 }

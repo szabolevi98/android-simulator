@@ -140,7 +140,7 @@
   const LP_STATUS_COLORS = {
     settings: '#21272b', phone: '#0277bd', people: '#0277bd', messaging: '#026da7', chrome: '#757575', gmail: '#b93221', email: '#d06d0c',
     hangouts: '#0b8043', calendar: '#3367d6', 'play-store': '#558b2f', 'play-music': '#e65100', 'play-movies': '#c62828', 'play-books': '#0277bd',
-    'play-games': '#2e7d32', keep: '#e59900', youtube: '#b31217', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#455a64', calculator: '#00838f',
+    'play-games': '#2e7d32', keep: '#e59900', youtube: '#c31c13', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#455a64', calculator: '#00838f',
     clock: '#0277bd', camera: '#000', gallery: '#000', browser: '#000', music: '#000', maps: '#9e9e9e', 'google-search': '#3367d6', 'voice-search': '#3367d6',
     'google-plus': '#c53929', earth: '#000', 'news-weather': '#9e9e9e', 'google-settings': '#21272b'
   };
@@ -2062,6 +2062,7 @@
       case 'keep-drawer': ui.keepDrawer = !ui.keepDrawer; render(); break;
       case 'keep-landing': ui.keepView = id; ui.keepDrawer = false; render(); break;
       case 'yt-video': ui.ytVideo = id; ui.ytPaused = false; ui.sub = 'video'; render(); break;
+      case 'yt-guide': ui.ytGuide = !ui.ytGuide; render(); break;
       case 'yt-toggle': ui.ytPaused = !ui.ytPaused; render(); break;
       case 'yt-like': { const likes = data.ytLikes || []; data.ytLikes = likes.includes(id) ? likes.filter(x => x !== id) : [...likes, id]; save(); render(); break; }
       case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }

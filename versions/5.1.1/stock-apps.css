@@ -56,13 +56,6 @@
 /* Keep */
 /* YouTube */
 .sa-youtube{background:#ebebeb}
-.sa-yt-feed{padding:7.25px}
-.sa-yt-card{display:block;width:100%;margin-bottom:7.25px;padding:0;border:0;background:#fff;box-shadow:0 1px 2px #0002;text-align:left}
-.sa-yt-thumb{position:relative;display:block;aspect-ratio:16/9}
-.sa-yt-thumb em{position:absolute;right:6px;bottom:6px;padding:1px 4px;background:#000000c0;font:400 11px RobotoICS,sans-serif;font-style:normal;color:#fff}
-.sa-yt-copy{display:flex;flex-direction:column;padding:8px 10px 10px}
-.sa-yt-copy b,.sa-yt-info b{font:400 14.5px/1.3 RobotoICS,sans-serif;color:#222}
-.sa-yt-copy small,.sa-yt-info small{font-size:11.78px;color:#888}
 .sa-yt-watch{background:#fff}
 .sa-yt-player{position:relative;flex:none;aspect-ratio:16/9;background:#000;overflow:hidden;cursor:pointer}
 .sa-yt-player .sa-thumb{transition:transform 8s linear}
@@ -71,17 +64,6 @@
 .sa-yt-progress{position:absolute;left:0;bottom:0;height:3px;width:30%;background:#e62117}
 .sa-yt-player.playing .sa-yt-progress{animation:sa-yt 60s linear forwards}
 @keyframes sa-yt{to{width:100%}}
-.sa-yt-info{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border-bottom:.906px solid #e5e5e5}
-.sa-yt-actions{display:flex;gap:18px;margin-top:6px}
-.sa-yt-actions button{display:flex;align-items:center;gap:5px;padding:4px 0;border:0;background:none;color:#888!important;font-size:12.68px}
-.sa-yt-actions button.on{color:#167ac6!important}
-.sa-yt-actions svg{width:18px;height:18px}
-.sa-yt-watch h4{margin:10px 12px 4px;font:700 11.78px RobotoICS,sans-serif;color:#777;text-transform:uppercase}
-.sa-yt-row{display:flex;gap:9px;width:100%;padding:5px 12px;border:0;background:none;text-align:left}
-.sa-yt-row>svg{flex:none;width:120px;height:68px}
-.sa-yt-row span{display:flex;flex-direction:column;min-width:0}
-.sa-yt-row b{font:400 13.59px/1.3 RobotoICS,sans-serif;color:#222}
-.sa-yt-row small{font-size:11px;color:#888}
 /* Google+ */
 .sa-gplus{background:#e5e5e5}
 .sa-stream{padding:7.25px}
@@ -299,3 +281,43 @@
 .dr2-storage{display:flex;align-items:center;margin-top:auto;padding:14.5px;border-top:.91px solid #d3d3d3}
 .dr2-storage span{display:flex;flex-direction:column;font:400 12.68px Roboto,sans-serif;color:#4c4c4c}
 .dr2-storage small{color:#0000008a}
+
+/* YouTube 10.03 (audit step 4) at the Nexus 6 scale (xhdpi drawables x.453): the red Toolbar, the white guide,
+   q_video_feed_entry rows, the watch page's info card and suggestions. */
+.sa-yt10{background:#fefefe}
+.yt10-bar{flex:none;display:flex;align-items:center;height:50.74px;padding-right:3.62px;background:#e62117;box-shadow:0 1.81px 3.62px #0000003d;z-index:2}
+.screen .yt10-toggle{flex:none;display:flex;flex-direction:column;justify-content:center;gap:3.62px;width:65.23px;height:50.74px;padding:0 16.31px;border:0;background:none}
+.yt10-toggle i{display:block;width:16.31px;height:1.81px;background:#fff}
+.yt10-bar>b{flex:1;min-width:0;font:500 18.12px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.yt10-bar .sa-btn img{width:21.74px;height:21.74px;filter:brightness(0) invert(1)}
+.screen .yt10-item{display:block;width:100%;padding:14.5px 14.5px 0;border:0;background:none;text-align:left;cursor:pointer}
+.yt10-thumb{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;background:#000}
+.yt10-thumb .sa-thumb{position:absolute;inset:0;width:100%;height:100%}
+.yt10-thumb em{position:absolute;right:3.62px;bottom:3.62px;padding:2.72px 5.44px;border:.91px solid #ffffff44;background:#000000cc;font:400 10.87px/1 Roboto,sans-serif;font-style:normal;color:#fff}
+.yt10-copy{position:relative;display:flex;flex-direction:column;padding:7.25px 36.24px 14.5px 0;border-bottom:.91px solid #e1e1e1}
+.yt10-copy b{padding-top:1.81px;font:400 14.5px/1.3 Roboto,sans-serif;color:#333}
+.yt10-copy small{padding-top:3.62px;font:400 12.68px Roboto,sans-serif;color:#999}
+.yt10-copy img{position:absolute;right:0;top:7.25px;width:3.62px;height:14.5px;padding:0 0 0 0;opacity:.6}
+.yt10-info{padding:10.87px 14.5px 0;border-bottom:.91px solid #e1e1e1}
+.yt10-info h3{margin:0;font:400 16.31px/1.3 Roboto,sans-serif;color:#333}
+.yt10-info p{margin:1.81px 0 0;font:400 12.68px Roboto,sans-serif;color:#999}
+.yt10-likes{display:flex;gap:14.5px;padding:7.25px 0}
+.screen .yt10-likes button{display:flex;align-items:center;gap:3.62px;height:32.62px;padding:0;border:0;background:none;font:400 12.68px Roboto,sans-serif;color:#999}
+.yt10-likes img{width:28.99px;height:28.99px}
+.screen .yt10-likes button.on{color:#e62117}
+.screen .yt10-row{display:flex;width:100%;gap:9.06px;padding:9.06px 14.5px 0;border:0;background:none;text-align:left;cursor:pointer}
+.yt10-row .yt10-thumb{flex:3}
+.yt10-meta{flex:2;min-width:0;display:flex;flex-direction:column}
+.yt10-meta b{font:400 12.68px/1.3 Roboto,sans-serif;color:#333;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.yt10-meta small{font:400 10.87px Roboto,sans-serif;color:#999}
+.screen .yt10-scrim{position:absolute;inset:0;z-index:4;border:0;background:#0006}
+.yt10-guide{position:absolute;left:0;top:0;bottom:0;z-index:5;width:min(271.8px,85%);overflow-y:auto;background:#fff}
+.yt10-account{display:flex;flex-direction:column;justify-content:flex-end;height:133.18px;padding:0 14.5px 10.87px;background:#303030;color:#fff;font:400 12.68px Roboto,sans-serif}
+.yt10-account img{width:57.98px;height:57.98px;margin:14.5px 0 auto;border-radius:50%}
+.yt10-account b{font-weight:500}
+.screen .yt10-entry{display:flex;align-items:center;width:100%;height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;cursor:pointer}
+.yt10-entry img{width:21.74px;height:21.74px;margin-right:28.99px;opacity:.6}
+.yt10-entry span{font:400 12.68px Roboto,sans-serif;color:#000000de}
+.screen .yt10-entry.on{background:#0000000f}
+.screen .yt10-entry.on span{color:#e62117}
+.yt10-guide hr{margin:7.25px 0;border:0;border-top:.91px solid #ddd}
