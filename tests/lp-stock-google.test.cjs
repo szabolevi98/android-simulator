@@ -35,4 +35,6 @@ const g={window:{}};for(const f of ['stock-strings.js','gel-now.js'])vm.runInNew
 const now=g.window.GELNow.render({data:{events:[]},t:k=>k,locale:'en',now:new Date(2015,7,20,10)});
 assert.ok(now.includes('vn4-ic_hamburger.png')&&now.includes('vn4-context_header_bg_daylight.jpg')&&!now.includes('gnow-bar')&&!now.includes('ic_endoflist'));
 assert.ok(/Reminders.*Customize.*<hr>.*Settings.*Help &amp; feedback/s.test(now.slice(now.indexOf('gnow-drawer'))));
+// Voice Search: the 4.1 search plate's voice mode with the listening orb, then ic_mic_idle and no_match.
+assert.ok(A.render('voice-search',ctx()).includes('vn4-ic_mic_listening_shadow.png')&&A.render('voice-search',ctx({voiceState:'retry'})).includes('vn4-ic_mic_idle.png'));
 console.log('lp stock google ok');

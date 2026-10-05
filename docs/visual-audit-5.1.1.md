@@ -43,3 +43,6 @@
   - `gel-now.js` follows Velvet 4.1, built from 4.4.4's 3.3 page and replacing the old KitKat-era page with a drawn header and a footer bar. The header picture is the 4.1 `context_header_bg_*` strip, cropped to the header. The search plate gains `ic_hamburger`; cards start 24 dp lower.
   - The `in_app_footer` is gone. `GelNavigationDrawerLayout` adds `navigation_menu.xml`: Reminders, Customize, a divider, Settings, Help & feedback.
   - The card menu is `ic_more_horz`, and "More" sits on `card_bg_training`.
+- **Voice Search (Google Search 4.1.29):**
+  - The search plate's voice mode: a white plate 336 dp tall (`voice_search_plate_height` at h340dp), "Speak now" in `main_text` (24 dp sans-serif-light) at the top left, and the 90 dp RecognizerView at the top right.
+  - The recognizer shows `ic_mic_listening_shadow` while listening and `ic_mic_idle` with Velvet's `no_match` text afterwards. It replaces the KitKat-era centred red circle.

@@ -44,10 +44,16 @@
 
   // ---- Google (Google Now) and Voice Search ----
   function google(ctx) { return `<div class="app-view sa-app sa-google">${window.GELNow.render({data: ctx.data, t: ctx.t, locale: ctx.locale, now: ctx.now})}</div>`; }
+  // Voice Search on 5.1.1 is Google Search 4.1.29's search plate in voice mode: the white plate (search_bg) grows to
+  // voice_search_plate_height (336 dp on the Nexus 6) over #eeeeee; main_text (24 dp sans-serif-light #de000000) reads
+  // "Speak now" at the top left; the 90 dp RecognizerView sits 3 dp from the top and 5 dp from the right with
+  // ic_mic_listening_shadow while listening and ic_mic_idle afterwards, when the text turns to "Didn't catch that. Try
+  // speaking again."
   function voice(ctx) {
-    const listening = ctx.ui.voiceState !== 'retry';
-    return `<div class="app-view sa-app sa-voice"><div class="sa-voice-lang">${e(ctx.t('English (US)'))}</div><button class="sa-voice-mic${listening ? ' on' : ''}" data-action="voice-listen" aria-label="${e(ctx.t('Speak now'))}">${ICON.mic}</button><p>${e(ctx.t(listening ? 'Speak now' : 'Didn’t catch that. Try speaking again.'))}</p></div>`;
+    const listening = ctx.ui.voiceState !== 'retry', v = key => S(ctx, 'google', key);
+    return `<div class="app-view sa-app sa-voice sa-voice4"><div class="vs4-plate"><p>${e(v(listening ? 'Speak now' : "Didn't catch that. Try speaking again."))}</p><button class="vs4-mic${listening ? ' on' : ''}" data-action="voice-listen" aria-label="${e(v('Tap to speak'))}"><img src="assets/vn4-${listening ? 'ic_mic_listening_shadow' : 'ic_mic_idle'}.png" alt=""></button></div></div>`;
   }
+
   // Google Search settings (the overview "Settings" button) and the Google Settings app.
   function searchSettings(ctx) {
     const row = (icon, label) => `<button class="sa-row" data-action="sa-unsupported"><i>${ICON[icon] || ''}</i><span>${e(ctx.t(label))}</span></button>`;

@@ -419,7 +419,9 @@
    "Customize": "Velvet:customize",
    "Settings": "Velvet:settings",
    "Help & feedback": "Velvet:help_and_feedback",
-   "Tap to speak": "Velvet:ime_hint_tap_to_speak"
+   "Tap to speak": "Velvet:ime_hint_tap_to_speak",
+   "Speak now": "Velvet:speak_now",
+   "Didn't catch that. Try speaking again.": "Velvet:no_match"
   }
  }
 }

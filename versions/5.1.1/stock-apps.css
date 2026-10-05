@@ -20,13 +20,6 @@
 .sa-avatar{flex:none;display:grid;place-items:center;width:36.24px;height:36.24px;color:#fff;font:400 18px RobotoICS,sans-serif}
 /* Google (Now) fills the screen; Voice Search listens. */
 .sa-google .gnow-page{position:absolute;inset:0}
-.sa-voice{background:#fff;align-items:center;justify-content:center;gap:18px}
-.sa-voice-lang{position:absolute;top:calc(var(--sb) + 14px);font-size:12.68px;color:#888}
-.sa-voice-mic{width:86px;height:86px;border:0;border-radius:50%;background:#e5e5e5;color:#db4437!important;display:grid;place-items:center}
-.sa-voice-mic svg{width:40px;height:40px}
-.sa-voice-mic.on{background:#db4437;color:#fff!important;box-shadow:0 0 0 14px #db443726;animation:sa-listen 1.2s ease-in-out infinite}
-@keyframes sa-listen{50%{box-shadow:0 0 0 22px #db443714}}
-.sa-voice p{margin:0;font:300 21.74px RobotoLight,RobotoICS,sans-serif;color:#555;text-align:center;padding:0 24px}
 /* Settings lists */
 .sa-settings{background:#fafafa}
 .sa-settings h4{margin:14px 14.5px 4px;padding-bottom:5px;border-bottom:1.81px solid #ccc;font:700 12.68px RobotoICS,sans-serif;color:#555}
@@ -332,3 +325,12 @@
 .gp49-bar .sa-btn svg{color:#fff;fill:#fff}
 .screen .gp49-fab{position:absolute;right:14.5px;bottom:14.5px;width:50.74px;height:50.74px;padding:0;border:0;border-radius:50%;background:#db4437;box-shadow:0 2.72px 5.44px #0000004d;display:grid;place-items:center;z-index:2}
 .gp49-fab img{width:21.74px;height:21.74px}
+
+/* Voice Search (audit step 4): the voice-mode plate at the Nexus 6 scale; the listening orb breathes as the level changes. */
+.sa-voice4{background:#eee}
+.vs4-plate{position:relative;height:304.42px;background:#fff;box-shadow:0 1.81px 3.62px #0000003d}
+.vs4-plate p{position:absolute;left:21.74px;right:94.22px;top:21.74px;margin:0;font:300 21.74px/1.13 'Roboto Light',Roboto,sans-serif;color:#000000de}
+.screen .vs4-mic{position:absolute;right:4.53px;top:2.72px;width:81.54px;height:81.54px;padding:0;border:0;background:none;display:grid;place-items:center;cursor:pointer}
+.vs4-mic img{width:76.1px;height:76.1px}
+.vs4-mic.on img{animation:vs4-level 1.1s ease-in-out infinite}
+@keyframes vs4-level{0%,100%{transform:scale(1)}40%{transform:scale(1.08)}70%{transform:scale(.97)}}
