@@ -126,4 +126,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 4.4.4 Maps 7.5 (omnibox, vízjel, saját hely, oldalfül és rétegmenü) | adc394c |
 | 2026-10-05 | 4. lépés: 4.4.4 Keep 2.0 (fiók, átfedő sáv, menük) | 1e5d0d2 |
 | 2026-10-05 | 4. lépés: 4.4.4 YouTube 5.2 (logós sáv, Guide a dex sorrendjében, kártyák, nézőoldal) | a831eae |
-| 2026-10-05 | 4. lépés: 4.4.4 Drive 1.2 (sáv, menü, navigációs panel, dokumentumsorok időcsoportokkal) | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.4.4 Drive 1.2 (sáv, menü, navigációs panel, dokumentumsorok időcsoportokkal) | 392811a |
