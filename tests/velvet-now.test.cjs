@@ -9,4 +9,7 @@ assert.ok(A.render('google-search',ctx(6)).includes('_dawn.jpg')&&A.render('goog
 assert.ok(A.render('google-search',ctx(10,'hu')).includes('További kártyák...'));
 assert.equal(JSON.stringify(A.menu('google-search',ctx(10)).map(i=>i.title)),JSON.stringify(['Settings','Send feedback','Help']));
 for(const f of ['vn-context_header_bg_dawn.jpg','vn-context_header_bg_twilight.jpg','vn-ic_mic_dark.png','vn-card_background.png','vn-ic_menu_moreoverflow_smaller_dark.png'])assert.ok(fs.existsSync('versions/4.3/assets/'+f),f);
+// Voice Search: speak_now.xml's panel, vs_micbtn_rec while listening and vs_micbtn_on with no_match after.
+assert.ok(A.render('voice-search',ctx(10)).includes('vn-vs_micbtn_rec.png')&&A.render('voice-search',ctx(10)).includes('Speak now'));
+const retry=A.render('voice-search',{...ctx(10,'hu'),ui:{voiceState:'retry'}});assert.ok(retry.includes('vn-vs_micbtn_on.png')&&retry.includes('Nem sikerült értelmezni. Mondja ki újra.'));
 console.log('velvet-now ok');

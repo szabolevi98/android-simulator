@@ -625,3 +625,6 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - `search_plate.xml` on `search_bg` straddles the picture's edge: the "g", "Search…" and the microphone (opens Voice Search).
   - The cards on #e5e5e5 use `card_background` with Velvet's text styles: the weather card (`weather_card.xml`: the big temperature, wind, precipitation, the week grid) and the next appointment (`next_appointment_card.xml`).
   - `footer_fragment.xml`: "Show more cards…" and the menu button with Settings, Send feedback and Help. Settings now opens the Search settings, which the Google Settings app's "Search & Now" row did not do on 4.3 before.
+- **Voice Search (Google Search 2.5.9):**
+  - The screen was a centred red circle on white. It is now `speak_now.xml`: a `search_bg` panel 260 dp tall on #e5e5e5 with `ic_google_medium_dark`, the recognizer at the top right and "Speak now" in 20 sp sans-serif-light.
+  - The recognizer: `vs_micbtn_rec` over `vs_reactive_light` while listening, with `vs_levels_guideline`; after a timeout, `vs_micbtn_on` and the image's `no_match` text.

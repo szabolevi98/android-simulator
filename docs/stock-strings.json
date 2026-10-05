@@ -90,7 +90,9 @@
    "Menu": "Velvet:accessibility_footer_menu_button",
    "Settings": "Velvet:menu_settings",
    "Send feedback": "Velvet:feedback",
-   "Help": "Velvet:menu_help"
+   "Help": "Velvet:menu_help",
+   "Speak now": "Velvet:speak_now",
+   "Didn't catch that. Try speaking again.": "Velvet:no_match"
   }
  }
 }

@@ -19,13 +19,6 @@
 .sa-thumb{display:block;width:100%;height:100%}
 .sa-avatar{flex:none;display:grid;place-items:center;width:34.06px;height:34.06px;color:#fff;font:400 16.92px RobotoICS,sans-serif}
 /* Google (Now) fills the screen; Voice Search listens. */
-.sa-voice{background:#fff;align-items:center;justify-content:center;gap:16.92px}
-.sa-voice-lang{position:absolute;top:calc(var(--sb) + 13.16px);font-size:11.92px;color:#888}
-.sa-voice-mic{width:80.84px;height:80.84px;border:0;border-radius:50%;background:#e5e5e5;color:#db4437!important;display:grid;place-items:center}
-.sa-voice-mic svg{width:37.6px;height:37.6px}
-.sa-voice-mic.on{background:#db4437;color:#fff!important;box-shadow:0 0 0 13.16px #db443726;animation:sa-listen 1.2s ease-in-out infinite}
-@keyframes sa-listen{50%{box-shadow:0 0 0 20.68px #db443714}}
-.sa-voice p{margin:0;font:300 20.43px RobotoLight,RobotoICS,sans-serif;color:#555;text-align:center;padding:0 22.56px}
 /* Settings lists */
 .sa-settings{background:#fafafa}
 .sa-settings h4{margin:13.16px 13.63px 3.76px;padding-bottom:4.7px;border-bottom:1.7px solid #ccc;font:700 11.92px RobotoICS,sans-serif;color:#555}
@@ -259,4 +252,24 @@
 .vn-footer .vn-menu{width:47.69px;display:grid;place-items:center}
 .vn-menu img{width:27.25px;height:27.25px}
 .screen .vn-footer button:active,.screen .vn-plate button:active{background:#0000000f}
+
+/* Voice Search (audit step 4): speak_now.xml at the JB scale. The panel is search_bg (12 dp of shadow margin), the speech
+   area 260 dp; vs_micbtn_* 68 dp with its 88 dp shadow, 10 dp from the top and 9 dp from the right of the 152 dp
+   recognizer; vs_levels_guideline (160 dp, its arc drawn round the mic) aligned top right and vs_reactive_light breathing with the
+   sound level, both clipped to the recognizer. */
+.sa-voice{background:#e5e5e5}
+.vs-panel{margin-top:17.03px;border-style:solid;border-width:18.74px 19.59px;border-image:url('assets/vn-search_bg.png') 44 46 fill/18.74px 19.59px;margin-bottom:0}
+.vs-speech{position:relative;height:221.42px;margin:-8.52px -9.37px}
+.vs-logo{position:absolute;left:25.55px;top:23.84px;width:88.13px;height:31.08px}
+.vs-recognizer{position:absolute;right:0;top:0;width:129.44px;height:129.44px;overflow:hidden}
+.vs-recognizer>img,.vs-mic{position:absolute;left:auto}
+.vs-mic,.vs-mic img{width:57.9px;height:57.9px}
+.screen .vs-mic{right:7.66px;top:8.52px;padding:0;border:0;background:none;cursor:pointer;z-index:1}
+.vs-mic img{position:absolute;inset:0}
+.vs-mic img:first-child{inset:-8.52px;width:74.94px;height:74.94px}
+.vs-guide{width:136.67px;height:136.67px;right:0;top:0}
+.vs-levels{width:97.95px;height:97.95px;right:-12.3px;top:-11.45px;opacity:0;transition:opacity .2s}
+.vs-recognizer.on .vs-levels{opacity:1;animation:vs-level 1.1s ease-in-out infinite}
+@keyframes vs-level{0%,100%{transform:scale(.72)}35%{transform:scale(1.25)}60%{transform:scale(.9)}80%{transform:scale(1.1)}}
+.vs-speech p{position:absolute;left:27.25px;right:27.25px;bottom:27.25px;margin:0;font:300 17.03px/1.3 'Roboto Light',Roboto,sans-serif;color:#777}
 
