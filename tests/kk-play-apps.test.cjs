@@ -23,7 +23,7 @@ assert.ok(P.render(ctx('play-movies',{paPage:{'play-movies':'watch'}})).includes
 const books=P.render(ctx('play-books'));
 assert.ok(books.includes('Read Now')&&books.includes('SEE ALL')&&(books.match(/data-action="pa-book"/g)||[]).length===P.BOOKS.length);
 // Play Books 3.1 (audit step 4): HomeFragment.createSideDrawerItems and menu/fragment_home.xml.
-assert.equal([...P.drawer(ctx('play-books')).matchAll(/<button[^>]*>(?:<img[^>]*>)?([^<]*)</g)].map(m=>m[1]).join(),'Read Now,My Library,Shop,Settings,Help & feedback');
+assert.equal([...P.drawer(ctx('play-books')).matchAll(/<button[^>]*>(?:<img[^>]*>)?([^<]*)</g)].map(m=>m[1]).join(),'Read Now,My Library,Shop,Settings,Help &amp; feedback');
 assert.equal(P.menu(ctx('play-books')).map(i=>i.title).join(),'Refresh');
 assert.equal(P.menu(ctx('play-books',{paPage:{'play-books':'library'}})).map(i=>i.title).join(),'Sort,Refresh');
 assert.ok(books.includes('bk3-ic_corpora_books.png')&&!books.includes('‹'));
