@@ -633,4 +633,9 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - The tabs are the app's own 52 dp TabView: 12 sp, a 6 dp blue bottom on the selected tab, #505050 lines and separators. They are no longer Holo's uppercase tabs.
   - News rows are `news_item_layout.xml`: 80 dp, 16 sp bold title, 14 sp grey snippet, a 70 dp picture on the right instead of the full-width photo.
   - The Weather tab is `weather_current_view.xml` in `bg_weather_panel_app`: the city with the info button, the APK's `ic_weather_*` icons, today's 80 sp temperature, high / low, conditions, humidity and wind in its own strings, The Weather Channel's logo, and the forecast days with the app's one-letter day names.
+- **Google Settings (Google Play services, PrebuiltGmsCore):**
+  - The app's own 48 dp bar (`common_settings_bg`, the icon, "Google Settings" in 18 sp) over a list with 16 dp margins.
+  - The rows come from `GoogleSettingsActivity.e()` in the APK's dex, in its unsorted order: Apps with Google+ Sign-In, Google+, Location, Search, Ads, Verify apps. Play Games only shows with the Games app, which the image lacks.
+  - The rows are `simple_list_item_1` at 18 sp. The list had KitKat-era rows (Android Device Manager, Search & Now) under a SERVICES header.
+  - `docs/stock-strings.py` now reads APKs the string index skips (PrebuiltGmsCore) through aapt2.
 - **Broken lengths:** 44 declarations in 4.3's chrome, hangouts, extra apps, email, Play apps and stock apps CSS read `.851.6px`, plus `.8.46px` and `.2.82px` left over from rescaling KitKat's values. The browser dropped them, so borders, shadows and paddings were missing. They are now `.85px` (1 dp), `.85px` and `.28px`, and `tests/css-numbers.test.cjs` guards all versions.

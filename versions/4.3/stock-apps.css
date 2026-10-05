@@ -296,3 +296,18 @@
 .nw-forecast b{font-weight:400}
 .nw-forecast small{font-size:12.77px;color:#bfbfbf}
 
+/* Google Settings (audit step 4): common_settings_bg (xhdpi 9-patch, #dddddd with a darker 1.5 dp bottom) 48 dp tall,
+   the invisible 16 dp up icon, the icon in 32 dp with 4 dp after it, 18 sp black title; Theme.Holo.Light's list: rows
+   48 dp, 8 dp padding, 18 sp, list_divider_holo_light, on background_holo_light. */
+.sa-gsettings{background:#f3f3f3}
+.gs-bar{flex:none;display:flex;align-items:center;height:40.88px;border-style:solid;border-width:17.46px 9.79px 2.55px 10.22px;border-image:url('assets/gms-common_settings_bg.png') 41 23 6 24 fill/17.46px 9.79px 2.55px 10.22px;box-sizing:border-box}
+.gs-bar>*{margin-top:-17.46px;margin-bottom:-2.55px}
+.screen .gs-up{display:flex;align-items:center;height:40.88px;margin-left:-10.22px;padding:0;border:0;background:none;cursor:pointer}
+.gs-up i{width:13.63px}
+.gs-up img{width:27.25px;height:27.25px;margin-right:3.41px}
+.screen .gs-up:active{background:#33b5e566}
+.gs-bar b{font:400 15.33px Roboto,sans-serif;color:#000}
+.gs-list{margin:0 13.63px}
+.screen .gs-list button{display:flex;align-items:center;width:100%;min-height:40.88px;padding:0 6.81px;border:0;border-bottom:.85px solid #0000001f;background:none;text-align:left;font:400 15.33px Roboto,sans-serif;color:#000;cursor:pointer}
+.screen .gs-list button:active{background:#33b5e566}
+

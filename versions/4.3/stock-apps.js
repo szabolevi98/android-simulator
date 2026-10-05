@@ -50,10 +50,17 @@
     const row = (icon, label) => `<button class="sa-row" data-action="sa-unsupported"><i>${ICON[icon] || ''}</i><span>${e(ctx.t(label))}</span></button>`;
     return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Settings'), up: true, icon: 'google-search.png'})}<div class="sa-scroll"><div class="sa-switch-row"><span>${e(ctx.t('Google Now'))}</span><button class="sa-switch${ctx.data.googleNowOn === false ? '' : ' on'}" data-action="google-now-toggle">${e(ctx.t(ctx.data.googleNowOn === false ? 'OFF' : 'ON'))}</button></div><h4>${e(ctx.t('SEARCH & NOW CARDS'))}</h4>${row('search', 'Phone search')}${row('mic', 'Voice')}${row('locate', 'Accounts & privacy')}${row('list', 'Notifications')}${row('', 'Help & feedback')}</div></div>`;
   }
+  // Google Settings (Google Play services, PrebuiltGmsCore.apk of JWR66Y): common_settings.xml's own 48 dp bar on
+  // common_settings_bg (the up icon invisible when opened from the launcher, the 32 dp icon, "Google Settings" in 18 sp)
+  // over a list with 16 dp side margins. GoogleSettingsActivity.e() adds, in this order and unsorted, Apps with Google+
+  // Sign-In, Google+, (Play Games, only with the Games app), Location, Search, Ads and Verify apps, each a
+  // simple_list_item_1 at 18 sp; Search opens Google Search's privacy settings.
   function googleSettings(ctx) {
-    const rows = [['Ads', ''], ['Android Device Manager', ''], ['Location', ''], ['Search & Now', 'search'], ['Google+', ''], ['Google Fit', '']].slice(0, 5);
-    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Google Settings'), icon: 'google-settings.png'})}<div class="sa-scroll"><h4>${e(ctx.t('SERVICES'))}</h4>${rows.map(([label, sub]) => `<button class="sa-row" data-action="${sub === 'search' ? 'gel-overview-settings' : 'sa-unsupported'}"><span>${e(ctx.t(label))}</span></button>`).join('')}<h4>${e(ctx.t('APPS'))}</h4><button class="sa-row" data-action="sa-unsupported"><span>${e(ctx.t('Connected apps'))}</span></button></div></div>`;
+    const g = key => S(ctx, 'gsettings', key);
+    const rows = [['Apps with Google+ Sign-In'], ['Google+'], ['Location'], ['Search', 'gel-overview-settings'], ['Ads'], ['Verify apps']];
+    return `<div class="app-view sa-app sa-gsettings"><header class="gs-bar"><button class="gs-up" data-action="home" aria-label="${e(g('Google Settings'))}"><i></i><img src="assets/google-settings.png" alt=""></button><b>${e(g('Google Settings'))}</b></header><div class="sa-scroll"><div class="gs-list">${rows.map(([key, action]) => `<button data-action="${action || 'sa-unsupported'}">${e(g(key))}</button>`).join('')}</div></div></div>`;
   }
+
 
   // ---- Maps (Google Maps 7, 2013): a full-screen map, the floating search card, my location ----
   function mapSvg(ctx) {

@@ -596,5 +596,49 @@ window.StockStrings = {
    "D",
    "S"
   ]
+ },
+ "gsettings": {
+  "Google Settings": [
+   "Google-beállítások",
+   "Google Einstellungen",
+   "Paramètres Google",
+   "Ajustes de Google"
+  ],
+  "Apps with Google+ Sign-In": [
+   "Alkalmazások Google+-bejelentkezéssel",
+   "Apps mit Google+ Log-in",
+   "Applications permettant la connexion avec Google+",
+   "Aplicaciones con inicio de sesión de Google+"
+  ],
+  "Google+": [
+   "Google+",
+   "Google+",
+   "Google+",
+   "Google+"
+  ],
+  "Location": [
+   "Hely",
+   "Standort",
+   "Position",
+   "Ubicación"
+  ],
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Recherche",
+   "Búsqueda"
+  ],
+  "Ads": [
+   "Hirdetések",
+   "Anzeigen",
+   "Annonces",
+   "Anuncios"
+  ],
+  "Verify apps": [
+   "Alkalmazások ellenőrzése",
+   "Apps bestätigen",
+   "Vérifier les applications",
+   "Verificar aplicaciones"
+  ]
  }
 };

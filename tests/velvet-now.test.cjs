@@ -12,4 +12,7 @@ for(const f of ['vn-context_header_bg_dawn.jpg','vn-context_header_bg_twilight.j
 // Voice Search: speak_now.xml's panel, vs_micbtn_rec while listening and vs_micbtn_on with no_match after.
 assert.ok(A.render('voice-search',ctx(10)).includes('vn-vs_micbtn_rec.png')&&A.render('voice-search',ctx(10)).includes('Speak now'));
 const retry=A.render('voice-search',{...ctx(10,'hu'),ui:{voiceState:'retry'}});assert.ok(retry.includes('vn-vs_micbtn_on.png')&&retry.includes('Nem sikerült értelmezni. Mondja ki újra.'));
+// Google Settings: GoogleSettingsActivity's rows in its order, GmsCore's strings (read through aapt2).
+const gs=A.render('google-settings',ctx(10,'hu'));assert.ok(gs.includes('gms-common_settings_bg')||fs.readFileSync('versions/4.3/stock-apps.css','utf8').includes('gms-common_settings_bg.png'));
+assert.deepEqual([...gs.matchAll(/<button data-action="[^"]+">([^<]+)<\/button>/g)].map(m=>m[1]),['Alkalmazások Google+-bejelentkezéssel','Google+','Hely','Keresés','Hirdetések','Alkalmazások ellenőrzése']);
 console.log('velvet-now ok');

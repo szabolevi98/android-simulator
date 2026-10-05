@@ -109,6 +109,15 @@
    "Fri": "GenieWidget:day_friday",
    "Sat": "GenieWidget:day_saturday",
    "Sun": "GenieWidget:day_sunday"
+  },
+  "gsettings": {
+   "Google Settings": "PrebuiltGmsCore:common_google_settings",
+   "Apps with Google+ Sign-In": "PrebuiltGmsCore:common_connected_apps_settings_title",
+   "Google+": "PrebuiltGmsCore:common_plus_settings_title",
+   "Location": "PrebuiltGmsCore:common_location_settings_title",
+   "Search": "PrebuiltGmsCore:common_search_settings_title",
+   "Ads": "PrebuiltGmsCore:common_ads_settings_title",
+   "Verify apps": "PrebuiltGmsCore:common_security_settings_title"
   }
  }
 }

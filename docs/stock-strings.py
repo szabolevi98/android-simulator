@@ -2,11 +2,25 @@
 (stock-apps.js) draw, as that version's factory image translates them in the app's own APK (hu, de, fr, es, and the
 image's English when it differs from the key). stock-apps.js reads them through S(ctx, app, key) before i18n.js.
     python docs/stock-strings.py
-The image's string index comes from docs/image-index.py (_aosp/<device>/strings-index.json)."""
-import json, sys
+The image's string index comes from docs/image-index.py (_aosp/<device>/strings-index.json); APKs the index skips
+(PrebuiltGmsCore) are read through the Android SDK's aapt2."""
+import glob, json, os, re, subprocess, sys
 ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
 DEVICES = {'4.0.4': 'maguro', '4.3': 'mako', '4.4.4': 'hammerhead', '5.1.1': 'shamu'}
 spec = json.load(open(ROOT + 'docs/stock-strings.json', encoding='utf-8'))
+DUMPS = {}
+def from_aapt(device, apk, name):
+    """(English, {lang: text}) of string NAME in an APK the index skips, from `aapt2 dump resources`."""
+    if (device, apk) not in DUMPS:
+        path = next((p for d in ('app', 'priv-app') for p in glob.glob(f'{ROOT}_aosp/{device}/system/{d}/{apk}.apk') + glob.glob(f'{ROOT}_aosp/{device}/system/{d}/{apk}/{apk}.apk')), None)
+        if not path: return None
+        aapt = sorted(glob.glob(os.path.expandvars(r'%LOCALAPPDATA%/Android/Sdk/build-tools/*/aapt2*')))[-1]
+        DUMPS[(device, apk)] = subprocess.run([aapt, 'dump', 'resources', path], capture_output=True, text=True, encoding='utf-8').stdout
+    m = re.search(rf'resource 0x\w+ string/{re.escape(name)}\n((?:[ \t]+\(.*\n)+)', DUMPS[(device, apk)])
+    if not m: return None
+    values = {c: json.loads(t) for c, t in re.findall(r'\(([\w-]*)\) ("(?:[^"\\]|\\.)*")', m.group(1))}
+    if '' not in values: return None
+    return values[''], {lang: values[lang] for lang in ('hu', 'de', 'fr', 'es') if lang in values}
 for v, apps in spec.items():
     idx = json.load(open(f'{ROOT}_aosp/{DEVICES[v]}/strings-index.json', encoding='utf-8'))
     by = {}
@@ -16,8 +30,9 @@ for v, apps in spec.items():
     for app, rows in apps.items():
         for key, ref in rows.items():
             apk, _, name = ref.partition(':')
-            if (apk, name) not in by: missing.append(f'{app}: {ref}'); continue
-            en, tr = by[(apk, name)]
+            hit = by.get((apk, name)) or from_aapt(DEVICES[v], apk, name)
+            if not hit: missing.append(f'{app}: {ref}'); continue
+            en, tr = hit
             row = [tr.get(lang, en) for lang in ('hu', 'de', 'fr', 'es')]
             if en != key: row.append(en)
             out.setdefault(app, {})[key] = row
