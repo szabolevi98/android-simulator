@@ -22,7 +22,7 @@ Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem ti
 
 ## 3. Egyszerűsített fontos oldalak (4–5 óra)
 
-- [x] ICS Language & input a gyári hierarchiával (helyesírás, személyes szótár, beviteli módok, hangbevitel, TTS, mutatósebesség) (COMMIT)
+- [x] ICS Language & input a gyári hierarchiával (helyesírás, személyes szótár, beviteli módok, hangbevitel, TTS, mutatósebesség) (ac61964)
 - [ ] People szerkesztő 4.x: bővíthető, típusozható mezők, több telefonszám és e-mail, fotóválasztás
 - [ ] AOSP Music (ICS / JB): gyári menük és navigáció; a „Demo tracks—no audio” szöveg kikerül a telefon felületéről
 
@@ -110,4 +110,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 1. lépés: szöveges ikonok cseréje | 18f9838 |
 | 2026-10-05 | 2. lépés, 4.0.4: Naptár From / To választók, alsó sáv nélkül; Óra TimePickerDialog | 5786aa8 |
 | 2026-10-05 | 2. lépés, 4.3 / 4.4 / 5.1: Naptár datetimepicker, alsó sáv nélkül | 5c4ee69 |
-| 2026-10-05 | 3. lépés: ICS Language & input | COMMIT |
+| 2026-10-05 | 3. lépés: ICS Language & input | ac61964 |
