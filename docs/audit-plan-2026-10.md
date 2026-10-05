@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 2. lépésből a 4.0.4 kész. Következő: a 4.3 / 4.4 / 5.1 Naptár datetimepickere és alsó sávja.
+**Állapot:** a 2. lépés kész. Következő: 3. lépés (ICS Language & input).
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -16,8 +16,8 @@ Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem ti
 
 ## 2. Rendszeresen látható, nem Android-eredetű vezérlők (3–4 óra)
 
-- [ ] Naptár dátum- és időválasztó verziónként — a 4.0.4 kész (a keretrendszer görgetős DatePickerDialog / TimePickerDialog-ja) (5786aa8); a 4.3 / 4.4 / 5.1 Naptár a gyári képek szerint a `com.android.datetimepicker` könyvtárat használja (naptárrács, kerek óralap), az következik
-- [ ] Naptár saját alsó sávjának (Previous / nézet / Next) kivétele; gyári lapozás és nézetválasztó (4.0.4, 4.3, 4.4) — 4.0.4 kész (5786aa8)
+- [x] Naptár dátum- és időválasztó verziónként: 4.0.4 a keretrendszer görgetős DatePickerDialog / TimePickerDialog-ja (5786aa8); 4.3 / 4.4 / 5.1 a gyári Naptár `com.android.datetimepicker` könyvtára (naptárrács, évlista, kerek óralap) (COMMIT)
+- [x] Naptár saját alsó sávjának (Previous / nézet / Next) kivétele; lapozás húzással, Today ugrik vissza (4.0.4: 5786aa8; 4.3, 4.4: COMMIT_PLAIN)
 - [x] ICS Óra időválasztó: az eredeti ICS TimePickerDialog (Holo sötét) (5786aa8)
 
 ## 3. Egyszerűsített fontos oldalak (4–5 óra)
@@ -58,6 +58,8 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [ ] Beállítások kisebb aloldalai: választók és mentett állapot; az érintési késleltetésnek és a nagyításnak (háromszori koppintás) valódi hatása is legyen
 
 ## 6. Összetettebb helyi folyamatok (8–12 óra)
+
+- [ ] Naptár szerkesztő: az Ismétlődés és az Emlékeztetők legördülői még böngészős `<select>`-ek; a gyári Holo / GC5 spinner-párbeszédablakok kellenek (a 2. lépésből ide került); a 5.1-en az „All day” kapcsoló (Switch) is
 
 - [ ] People mezők teljes kezelése
 - [ ] Naptár: résztvevők, elérhetőség, időzóna
@@ -107,3 +109,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | Munkaterv rögzítve | 800e107 |
 | 2026-10-05 | 1. lépés: szöveges ikonok cseréje | 18f9838 |
 | 2026-10-05 | 2. lépés, 4.0.4: Naptár From / To választók, alsó sáv nélkül; Óra TimePickerDialog | 5786aa8 |
+| 2026-10-05 | 2. lépés, 4.3 / 4.4 / 5.1: Naptár datetimepicker, alsó sáv nélkül | COMMIT_PLAIN |

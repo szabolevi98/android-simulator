@@ -39,3 +39,16 @@
 .cal-event-head h2{font-size:21.6px;font-weight:700;margin:0}
 .cal-event-head p{font-size:12.6px;margin:3.6px 0 0}
 .cal-event-head p.cal-repeat{margin-top:-2.7px;color:#ffffffb3}
+
+/* edit_event_1.xml From / To: EditEvent_LabelSmall (14 sp #aaaaaa, caps) over EditEvent_SpinnerButton (18 sp #333333 on
+   spinner_default_holo_light) in a 7 : 4 pair; All day hides the times. 1 dp = 0.906 px. */
+.cal-when{margin:7.25px 0 3.62px}
+.cal-when-label{display:block;padding:7.25px 0 0;color:#aaa;font-size:12.68px;text-transform:uppercase}
+.cal-when>div{display:flex}
+.screen .cal-spin{flex:7;min-width:0;height:43.49px;padding:0;border:0 solid transparent;border-width:3.62px 14.5px 3.62px 7.25px;border-image:url('assets/calendar-spinner_default_holo_light.png') 12 48 78 12 fill / 3.62px 14.5px 23.56px 3.62px stretch;background:none;color:#333;font-size:16.31px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box}
+.screen .cal-spin.cal-spin-time{flex:4}
+.screen .cal-spin:active{border-image-source:url('assets/calendar-spinner_pressed_holo_light.png')}
+.cal-editor:has(input[name="allDay"]:checked) .cal-spin-time{visibility:hidden}
+.cal-up{width:14.50px!important;height:28.99px!important}
+/* The action bar's list navigation (Day / Week / Month / Agenda) on spinner_ab_default_holo_light. */
+.cal-bar .cal-view-picker{border:0 solid transparent;border-width:3.62px 14.5px 3.62px 3.62px;border-image:url('assets/calendar-spinner_ab_default_holo_light.png') 12 48 78 12 fill / 3.62px 14.5px 23.56px 3.62px stretch;background:none;margin:0 4px 0 6px;height:43.49px}

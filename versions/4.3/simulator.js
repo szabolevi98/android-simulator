@@ -748,6 +748,9 @@
       overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
     } else if (ui.overlay.startsWith('clock-')) {
       overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key));
+    } else if (ui.overlay === 'dtp') {
+      // Calendar's datetimepicker dialogs (dtp.js).
+      overlayRoot.innerHTML = DateTimePicker.render(ui.dtp, i18n.locale(), deviceDate());
     } else if (ui.overlay.startsWith('calendar-')) {
       overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('music-')) {
@@ -1872,6 +1875,23 @@
       case 'calendar-next': calendarMove(1); break;
       case 'calendar-day': ui.selectedDate=id;ui.calendarMode=data.calendarMode='Day';save();calendarRender();break;
       case 'calendar-today': ui.selectedDate=today();calendarRender();break;
+      // Calendar's From / To buttons open the datetimepicker at the form's value; Done writes it back and, like
+      // EditEventView, moves the end with the start so the event keeps its length.
+      case 'calpick': {
+        const form=viewport.querySelector('form[data-form="event"]'),value=form?.elements[id]?.value||'';
+        ui.dtp=DateTimePicker.fromValue(/date/i.test(id)?'date':'time',value||(/date/i.test(id)?ui.selectedDate:'09:00'),{field:id,setAction:'dtp-set',hour24:!!data.settings.hour24});
+        ui.overlay='dtp';renderOverlay();break;
+      }
+      case 'dtp-view': case 'dtp-day': case 'dtp-year': case 'dtp-month': case 'dtp-mode': case 'dtp-ampm': case 'dtp-radial': if(DateTimePicker.handle(action,id,ui.dtp))renderOverlay();break;
+      case 'dtp-set': {
+        const form=viewport.querySelector('form[data-form="event"]'),p=ui.dtp;ui.overlay='';renderOverlay();if(!form||!p)break;
+        const get=name=>form.elements[name].value,stamp=(d,t)=>new Date(`${d}T${t||'00:00'}`).getTime();
+        const before=stamp(get('date'),get('time')),length=stamp(get('endDate'),get('endTime'))-before;
+        form.elements[p.field].value=p.kind==='date'?DateTimePicker.iso(p):DateTimePicker.hhmm(p);
+        if(p.field==='date'||p.field==='time'){const end=new Date(stamp(get('date'),get('time'))+Math.max(0,length||0));form.elements.endDate.value=ICSCalendar.iso(end);form.elements.endTime.value=`${String(end.getHours()).padStart(2,'0')}:${String(end.getMinutes()).padStart(2,'0')}`;}
+        for(const name of ['date','time','endDate','endTime'])form.querySelector(`[data-action="calpick"][data-id="${name}"]`).textContent=/date/i.test(name)?ICSCalendar.dateButton(get(name),i18n.locale()):ICSCalendar.timeButton(get(name),i18n.locale(),!!data.settings.hour24);
+        break;
+      }
       case 'calendar-views': case 'calendar-menu': ui.overlay=action;renderOverlay();break;
       case 'calendar-mode': ui.calendarMode=data.calendarMode=id;save();ui.calendarSearch=undefined;ui.overlay='';calendarRender();break;
       case 'calendar-search': ui.calendarMode='Agenda';ui.calendarSearch='';ui.overlay='';render();viewport.querySelector('.cal-search input').focus();break;

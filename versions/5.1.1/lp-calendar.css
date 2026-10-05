@@ -83,3 +83,11 @@
 .gc-edit-body textarea{min-height:60px;resize:vertical}
 .gc-input[type=date]{flex:1.4}
 .gc-input[type=time]{flex:1}
+
+/* edit_segment_when.xml: Edit.Text.When (16 sp, 12 dp vertical padding, single line) date and end-aligned time, each on
+   selectableItemBackground, opening the datetimepicker; All day hides the times. */
+.screen .gc-when-date,.screen .gc-when-time{min-width:0;padding:10.87px 0;border:0;background:none;color:#212121;font:400 14.5px Roboto,sans-serif;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.screen .gc-when-date{flex:1}
+.screen .gc-when-time{flex:none;text-align:right}
+.screen .gc-when-date:active,.screen .gc-when-time:active{background:#0000001f}
+.gc-editor:has(input[name="allDay"]:checked) .gc-when-time{visibility:hidden}
