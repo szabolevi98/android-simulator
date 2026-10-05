@@ -1,5 +1,5 @@
 /* The Google Play media apps of the stock Nexus 5 (KTU84P). Audit step 4 rebuilds each from its APK: Play Music
-   5.2.1301L (Music2.apk) and Play Movies & TV 3.0.27 (Videos.apk) so far. The rest still follows the late 2013 sources: Play Movies & TV
+   5.2.1301L (Music2.apk) Play Movies & TV 3.0.27 (Videos.apk) and Play Books 3.1.33 (Books.apk) so far. The rest still follows the late 2013 sources: Play Movies & TV
    (Android Police, June 2013), Play Books 3 (Android Police, October 2013) and Play Games 1 (Droid Life, July 2013).
    They share one look: a coloured action bar (Music #f4842e, Movies #c74b46, Books #3f9fe0, Games #96aa39) with the
    drawer mark and a white glyph, a white navigation drawer, #e5e5e5 pages with light italic section titles and
@@ -93,6 +93,9 @@
     const app = APPS[ctx.app];
     // Play Movies 3.0's ActionBar style: nav_bar (#c74b46 over a 2 dp #953834 line), ic_drawer_white and ic_movie, the
     // vertical's title (VideosDrawerHelper.updateActionBar).
+    // Play Books 3.1's FlatBlue bar (StyleUtils.configureFlatBlueActionBar): action_bar_bg_books (#3f9fe0 over a 2 dp
+    // #3689c0 line), ic_drawer_white and ic_corpora_books, the view's title.
+    if (ctx.app === 'play-books') return `<header class="pm5-bar bk3-bar"><button class="pm5-home" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : S(ctx, 'books', 'Play Books'))}"><img class="pm5-toggle" src="assets/${up ? 'ic_ab_back_holo_dark' : 'pm52-ic_drawer_white'}.png" alt=""><img class="pm5-logo" src="assets/bk3-ic_corpora_books.png" alt=""></button><span class="pm5-title"><b>${e(title)}</b></span>${actions}</header>`;
     if (ctx.app === 'play-movies') return `<header class="pm5-bar mv3-bar"><button class="pm5-home" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : S(ctx, 'movies', 'Open navigation drawer'))}"><img class="pm5-toggle" src="assets/${up ? 'ic_ab_back_holo_dark' : 'pm52-ic_drawer_white'}.png" alt=""><img class="pm5-logo" src="assets/mv3-ic_movie.png" alt=""></button><span class="pm5-title"><b>${e(title)}</b></span>${actions}</header>`;
     if (ctx.app === 'play-music') return `<header class="pm5-bar"><button class="pm5-home" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : ctx.t(app.title))}"><img class="pm5-toggle" src="assets/${up ? 'ic_ab_back_holo_dark' : 'pm52-ic_drawer_white'}.png" alt=""><img class="pm5-logo" src="assets/pm52-ic_corpora_music_white.png" alt=""></button><span class="pm5-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
     return `<header class="pa-bar"><button class="pa-up" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : ctx.t(app.title))}">${up ? '<span aria-hidden="true">‹</span>' : '<i aria-hidden="true"></i>'}${glyph[app.key]}</button><span class="pa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
@@ -180,18 +183,19 @@
 
   // ---- Play Books ----
   function books(ctx) {
-    const {ui, t, data} = ctx, page = ui.paPage?.['play-books'] || 'read', progress = data.playBooks || {};
+    const {ui, t, data} = ctx, page = ui.paPage?.['play-books'] || 'read', progress = data.playBooks || {}, b = key => S(ctx, 'books', key);
     if (ui.sub === 'reader') {
       const book = BOOKS.find(b => b.id === ui.paItem) || BOOKS[0], index = Math.min(progress[book.id] || 0, book.pages.length - 1);
       const text = book.pages[index].split('\n').filter(Boolean).map((p, i) => index === 0 ? `<h2${i ? ' class="sub"' : ''}>${e(p)}</h2>` : `<p>${e(p)}</p>`).join('');
-      return `<div class="app-view pa-app pb-reader${ui.paBars === false ? ' bare' : ''}"><header class="pb-top"><button data-action="back" aria-label="${e(t('Back'))}">‹${glyph.books}</button><span><b>${e(book.title)}</b><small>${e(book.author)}</small></span><button class="pb-aa" data-action="pa-unsupported" aria-label="${e(t('Display options'))}">Aa</button>${btn('pa-unsupported', t('More options'), 'overflow')}</header><div class="pb-page" data-action="pa-reader-tap">${text}</div><footer class="pb-bottom">${btn('pa-unsupported', t('Contents'), 'toc')}<i style="--p:${(index / Math.max(1, book.pages.length - 1) * 100).toFixed(1)}%"></i><span>${index + 1} / ${book.pages.length}</span></footer></div>`;
+      return `<div class="app-view pa-app pb-reader${ui.paBars === false ? ' bare' : ''}"><header class="pb-top"><button class="bk3-reader-up" data-action="back" aria-label="${e(t('Back'))}"><img src="assets/ic_ab_back_holo_light.png" alt=""><img src="assets/bk3-ic_corpora_books_color.png" alt=""></button><span><b>${e(book.title)}</b><small>${e(book.author)}</small></span><button class="pb-aa" data-action="pa-unsupported" aria-label="${e(t('Display options'))}">Aa</button>${btn('pa-unsupported', t('More options'), 'overflow')}</header><div class="pb-page" data-action="pa-reader-tap">${text}</div><footer class="pb-bottom">${btn('pa-unsupported', t('Contents'), 'toc')}<i style="--p:${(index / Math.max(1, book.pages.length - 1) * 100).toFixed(1)}%"></i><span>${index + 1} / ${book.pages.length}</span></footer></div>`;
     }
     const cover = b => art('book', seedOf(b.id), b.title, b.author);
-    const actions = btn('pa-unsupported', t('Search'), 'search') + btn('pa-unsupported', t('More options'), 'overflow');
+    // menu/fragment_home.xml: Search (always, ic_menu_search_dark); Sort (My Library only) and Refresh in the overflow.
+    const actions = `<button class="pa-btn" data-action="pa-unsupported" aria-label="${e(b('Search'))}"><img class="pm5-icon" src="assets/bk3-ic_menu_search_dark.png" alt=""></button><button class="pa-btn" data-action="pa-menu" aria-label="${e(t('More options'))}"><img class="pm5-icon" src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button>`;
     const body = page === 'read'
-      ? `${section(t('Recent'), t('SEE ALL'), 'pa-see-all')}<div class="pa-grid pb-covers">${BOOKS.map(b => `<div class="pb-cover" role="button" tabindex="0" data-action="pa-book" data-id="${b.id}" aria-label="${e(b.title)}">${cover(b)}<span class="pb-pinned">${glyph.pin}</span></div>`).join('')}</div>`
-      : `${section(t('My Library'))}<div class="pa-grid">${BOOKS.map(b => card({action: 'pa-book', id: b.id, artHtml: cover(b), title: b.title, sub: b.author, note: progress[b.id] ? t('%d% read').replace('%d', Math.round(progress[b.id] / (b.pages.length - 1) * 100)) : ''})).join('')}</div>`;
-    return `<div class="app-view pa-app pa-books">${bar(ctx, {title: t(page === 'read' ? 'Read Now' : 'My Library'), actions})}<div class="pa-scroll">${body}</div></div>`;
+      ? `${section(b('Recent'), b('SEE ALL'), 'pa-see-all')}<div class="pa-grid pb-covers">${BOOKS.map(b => `<div class="pb-cover" role="button" tabindex="0" data-action="pa-book" data-id="${b.id}" aria-label="${e(b.title)}">${cover(b)}<span class="pb-pinned">${glyph.pin}</span></div>`).join('')}</div>`
+      : `${section(b('All books'))}<div class="pa-grid">${BOOKS.map(b => card({action: 'pa-book', id: b.id, artHtml: cover(b), title: b.title, sub: b.author, note: progress[b.id] ? t('%d% read').replace('%d', Math.round(progress[b.id] / (b.pages.length - 1) * 100)) : ''})).join('')}</div>`;
+    return `<div class="app-view pa-app pa-books">${bar(ctx, {title: b(page === 'read' ? 'Read Now' : 'My Library'), actions})}<div class="pa-scroll">${body}</div></div>`;
   }
 
   // ---- Play Games ----
@@ -230,6 +234,10 @@
     // side_menu_list_item rows (64 dp, 21 sp sans-serif-light #505050 on #fafafa, #23000000 dividers).
     // Movies: VideosDrawerHelper's verticals 4, 1, 2, 8 (Watch Now, My Movies, My TV Shows, On Device) and Shop in
     // side_drawer_item rows (64 dp, 21 sp sans-serif-light #333333, the current one bold sans-serif) on #f5f5f5.
+    // Books: HomeFragment.createSideDrawerItems: Read Now, My Library, Shop in home_drawer_list_item rows (64 dp, 21 sp
+    // sans-serif-light #505050 on #fafafa, the current one bold sans-serif), home_drawer_divider (1 dp #e5e5e5), then
+    // Settings and Help & feedback as home_drawer_list_menu_item (46 dp, 13 sp caps #666666, ic_gear_40 / ic_help_40).
+    if (ctx.app === 'play-books') { const b = key => S(ctx, 'books', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pm5-drawer bk3-drawer" aria-label="${e(b('Play Books'))}">${[['read', 'Read Now'], ['library', 'My Library']].map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(b(key))}</button>`).join('')}<button data-action="pa-shop">${e(b('Shop'))}</button><hr>${[['Settings', 'ic_gear_40'], ['Help & feedback', 'ic_help_40']].map(([key, icon]) => `<button class="bk3-menu-item" data-action="pa-unsupported"><img src="assets/bk3-${icon}.png" alt="">${e(b(key))}</button>`).join('')}</nav>`; }
     if (ctx.app === 'play-movies') { const v = key => S(ctx, 'movies', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pm5-drawer mv3-drawer" aria-label="${e(v('Google Play'))}">${app.pages.map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(v(key))}</button>`).join('')}<button data-action="pa-shop">${e(v('Shop'))}</button></nav>`; }
     if (ctx.app === 'play-music') { const m = key => S(ctx, 'music', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pm5-drawer" aria-label="${e(m('Play Music'))}">${[['listen', 'Listen Now'], ['library', 'My Library'], ['playlists', 'Playlists'], ['mixes', 'Instant Mixes']].map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(m(key))}</button>`).join('')}<button data-action="pa-shop">${e(m('Shop'))}</button></nav>`; }
     return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pa-drawer pa-${app.key}" aria-label="${e(ctx.t(app.title))}">${app.pages.map(([id, label]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(ctx.t(label))}</button>`).join('')}</nav>`;
@@ -237,6 +245,7 @@
   // Action bar overflow menus (the pa-menu overlay).
   function menu(ctx) {
     if (ctx.app === 'play-music') { const m = key => S(ctx, 'music', key); return ['Refresh', 'Settings', 'Help', 'Send feedback'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: m(key)})); }
+    if (ctx.app === 'play-books') { const b = key => S(ctx, 'books', key); return [...((ctx.ui.paPage?.['play-books'] || 'read') === 'library' ? ['Sort'] : []), 'Refresh'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: b(key)})); }
     // VideosApplication's common_menu, then home_menu.
     if (ctx.app === 'play-movies') { const v = key => S(ctx, 'movies', key); return ['Settings', 'Help', 'Contact us', 'Send feedback', 'Refresh', 'Personal videos'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: v(key)})); }
     return [];

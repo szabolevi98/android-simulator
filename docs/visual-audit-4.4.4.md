@@ -57,3 +57,8 @@
   - Menus in `HomeActivity.onCreateOptionsMenu` order: Search (always) in the bar, then `common_menu` (Settings, Help, Contact us, Send feedback) and `home_menu` (Refresh, Personal videos) in the overflow. The cast button only appears with a device, so it left the bar.
   - Section titles follow the outline helpers: Watch Now's "Now Playing" (not "Continue watching") and "Recommended for You" with the Shop action (`SectionHeaderAction`, caps on #c74b46); `section_heading` titles are 21 sp light italic #333333. The cards use `card_bg_play`.
   - The player's "‹" is `ic_ab_back_holo_dark` with `ic_movie`.
+- **Play Books 3.1.33 (Books.apk):**
+  - The FlatBlue bar (`configureFlatBlueActionBar`: #3f9fe0 over a 2 dp #3689c0 line, `ic_drawer_white`, `ic_corpora_books`, the view's title) replaces the drawn glyph.
+  - The drawer is `HomeFragment.createSideDrawerItems`: Read Now, My Library, Shop (`home_drawer_list_item`: 64 dp, 21 sp sans-serif-light #505050 on #fafafa, the current one bold), `home_drawer_divider`, then Settings and Help & feedback as `home_drawer_list_menu_item` (13 sp caps #666666 with `ic_gear_40` / `ic_help_40`). The drawer had only the two pages.
+  - `menu/fragment_home.xml`: Search (always, `ic_menu_search_dark`), then Sort (My Library only) and Refresh in the overflow.
+  - Texts come from the APK (Recent, SEE ALL, All books); the cards use `card_bg_play`; the reader's "‹" is `ic_ab_back_holo_light` with `ic_corpora_books_color`.

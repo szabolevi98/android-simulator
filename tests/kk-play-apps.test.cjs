@@ -22,7 +22,13 @@ assert.equal(P.menu(ctx('play-movies')).map(i=>i.title).join(),'Settings,Help,Co
 assert.ok(P.render(ctx('play-movies',{paPage:{'play-movies':'watch'}})).includes('Now Playing'));
 const books=P.render(ctx('play-books'));
 assert.ok(books.includes('Read Now')&&books.includes('SEE ALL')&&(books.match(/data-action="pa-book"/g)||[]).length===P.BOOKS.length);
+// Play Books 3.1 (audit step 4): HomeFragment.createSideDrawerItems and menu/fragment_home.xml.
+assert.equal([...P.drawer(ctx('play-books')).matchAll(/<button[^>]*>(?:<img[^>]*>)?([^<]*)</g)].map(m=>m[1]).join(),'Read Now,My Library,Shop,Settings,Help & feedback');
+assert.equal(P.menu(ctx('play-books')).map(i=>i.title).join(),'Refresh');
+assert.equal(P.menu(ctx('play-books',{paPage:{'play-books':'library'}})).map(i=>i.title).join(),'Sort,Refresh');
+assert.ok(books.includes('bk3-ic_corpora_books.png')&&!books.includes('‹'));
 const reader=P.render(ctx('play-books',{sub:'reader',paItem:'b2'}));
+assert.ok(!reader.includes('‹'));
 assert.ok(reader.includes('Pride and Prejudice')&&reader.includes('pa-reader-tap')&&reader.includes('1 / 4'));
 const games=P.render(ctx('play-games'));
 assert.ok(games.includes('Welcome!')&&games.includes('My games')&&games.includes('SEE MORE'));

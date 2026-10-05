@@ -203,3 +203,21 @@
 .pm5-drawer.mv3-drawer{background:#f5f5f5}
 .screen .mv3-drawer button{border-bottom-color:#0000001a;color:#333}
 .screen .mv3-drawer button.on{background:none;font:400 19.03px Roboto,sans-serif;font-weight:700}
+
+/* Play Books 3.1 (audit step 4): the FlatBlue bar, cards on card_bg_play, the drawer with its caps menu rows, the reader's up. */
+.pm5-bar.bk3-bar{background:#3f9fe0;border-bottom-color:#3689c0}
+.pa-books .pa-section h3{color:#505050}
+.pa-books .pa-card{border-style:solid;border-width:5.44px;border-image:url('assets/pm52-card_bg_play.png') 12 fill/5.44px;background:none;box-shadow:none;margin:-1.81px}
+.pa-books .pa-card-art{margin:-1.81px -1.81px 0}
+.pa-books .pa-dots svg{display:none}
+.pa-books .pa-dots{background:url('assets/bk3-ic_menu_moreoverflow_card_dark_normal.png') center/28.99px no-repeat}
+.pm5-drawer.bk3-drawer{background:#f7f7f7}
+.screen .bk3-drawer button{border-bottom:0}
+.screen .bk3-drawer button:not(.bk3-menu-item){background:#fafafa}
+.screen .bk3-drawer button.on{font:700 19.03px Roboto,sans-serif}
+.bk3-drawer hr{margin:0;border:0;height:.91px;background:#e5e5e5}
+.screen .bk3-drawer .bk3-menu-item{min-height:41.68px;font:400 11.78px Roboto,sans-serif;text-transform:uppercase;color:#666}
+.bk3-menu-item img{width:14.5px;height:14.5px;margin-right:7.25px}
+.screen .pb-top>.bk3-reader-up{display:flex;align-items:center;padding:0 7.25px 0 0;border:0;background:none}
+.bk3-reader-up img:first-child{width:14.5px;height:14.5px}
+.bk3-reader-up img+img{width:28.99px;height:28.99px;margin-left:2.72px}
