@@ -287,6 +287,22 @@
    "Search & Now": "PrebuiltGmsCore:common_search_and_now_settings_title",
    "Security": "PrebuiltGmsCore:common_security_settings_title",
    "Location": "PrebuiltGmsCore:common_location_settings_title"
+  },
+  "earth": {
+   "Earth": "GoogleEarth:app_name",
+   "Search": "GoogleEarth:search_id",
+   "Example: Pizza": "GoogleEarth:search_hint",
+   "Clear map": "GoogleEarth:menu_clear",
+   "My location": "GoogleEarth:my_location",
+   "Share": "GoogleEarth:menu_share",
+   "Street View": "GoogleEarth:menu_streetview",
+   "Layers": "GoogleEarth:menu_layer",
+   "Maps Gallery": "GoogleEarth:menu_gallery",
+   "Google+ Photos": "GoogleEarth:menu_tour_from_album",
+   "Settings": "GoogleEarth:menu_settings",
+   "Feedback": "GoogleEarth:menu_feedback",
+   "Help": "GoogleEarth:menu_help",
+   "Tutorial": "GoogleEarth:menu_tutorial"
   }
  }
 }

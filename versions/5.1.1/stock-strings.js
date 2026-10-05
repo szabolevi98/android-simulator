@@ -79,5 +79,91 @@ window.StockStrings = {
    "Position",
    "Ubicación"
   ]
+ },
+ "earth": {
+  "Earth": [
+   "Earth",
+   "Earth",
+   "Earth",
+   "Earth"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Recherche Google",
+   "Buscar"
+  ],
+  "Example: Pizza": [
+   "példa: Pizza",
+   "Beispiel: Pizza",
+   "Exemple : boulangerie",
+   "Ej.: Barcelona"
+  ],
+  "Clear map": [
+   "Térképjelölők törlése",
+   "Karte leeren",
+   "Effacer la carte",
+   "Borrar mapa"
+  ],
+  "My location": [
+   "Saját pozíció",
+   "Mein Standort",
+   "Ma position",
+   "Mi ubicación"
+  ],
+  "Share": [
+   "Megosztás",
+   "Teilen",
+   "Partager",
+   "Compartir"
+  ],
+  "Street View": [
+   "Utcakép",
+   "Street View",
+   "Street View",
+   "Street View"
+  ],
+  "Layers": [
+   "Rétegek",
+   "Ebenen",
+   "Calques",
+   "Capas"
+  ],
+  "Maps Gallery": [
+   "Térképgaléria",
+   "Maps-Galerie",
+   "Galerie Maps",
+   "Galería de Maps"
+  ],
+  "Google+ Photos": [
+   "Google+ Fotók",
+   "Google+ Fotos",
+   "Google+ Photos",
+   "Fotos de Google+"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Feedback": [
+   "Visszajelzés",
+   "Feedback",
+   "Commentaires",
+   "Comentarios"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Tutorial": [
+   "Útmutató",
+   "Anleitung",
+   "Didacticiel",
+   "Tutorial"
+  ]
  }
 };

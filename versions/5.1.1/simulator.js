@@ -2055,6 +2055,9 @@
       case 'yt-like': { const likes = data.ytLikes || []; data.ytLikes = likes.includes(id) ? likes.filter(x => x !== id) : [...likes, id]; save(); render(); break; }
       case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }
       case 'news-tab': ui.newsTab = id; render(); break;
+      case 'earth-search-open': ui.earthSearching = true; render(); viewport.querySelector('.ea8-field input')?.focus(); break;
+      case 'earth-clear': ui.overlay = ''; renderOverlay(); ui.earthQuery = ''; render(); break;
+      case 'earth-drawer': ui.earthDrawer = !ui.earthDrawer; render(); break;
       case 'sa-menu': ui.overlay = 'sa-menu'; renderOverlay(); break;
       case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       // Play Music, Movies & TV, Books and Games
@@ -2425,7 +2428,7 @@
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
       case 'maps-search': ui.mapsQuery = String(values.get('query') || '').trim().slice(0, 60); render(); break;
       case 'keep-add': { const text = String(values.get('text') || '').trim(); if (!text) return; data.keepNotes = [{id: 'k' + Date.now(), text, color: (data.keepNotes || []).length % 5}, ...(data.keepNotes || [])]; save(); render(); break; }
-      case 'earth-search': toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'earth-search': ui.earthQuery = String(values.get('query') || '').trim().slice(0, 60); ui.earthSearching = false; render(); break;
       case 'chrome-history-search': ui.chromeHistoryQuery = String(values.get('query') || '').trim(); render(); break;
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
       case 'hg-new': { const target = ICSMessaging.recipient(values.get('recipient'), data.contacts); if (!target) { toast('Enter a contact name or valid phone number'); return; } pickHangout(target.key); break; }
