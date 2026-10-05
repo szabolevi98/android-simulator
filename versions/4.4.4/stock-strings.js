@@ -266,6 +266,18 @@ window.StockStrings = {
    "Zum Sprechen tippen",
    "Appuyez pour parler",
    "Toca para hablar."
+  ],
+  "Speak now": [
+   "Most beszéljen",
+   "Sprechen",
+   "Parlez maintenant",
+   "Habla ahora"
+  ],
+  "Didn't catch that. Try speaking again.": [
+   "Nem sikerült értelmezni. Mondja ki újra.",
+   "Das wurde nicht verstanden. Bitte sprechen Sie erneut.",
+   "Je n'ai pas compris. Veuillez répéter.",
+   "No lo he entendido. Prueba a decirlo otra vez."
   ]
  }
 };

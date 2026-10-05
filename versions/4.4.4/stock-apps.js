@@ -38,10 +38,16 @@
 
   // ---- Google (Google Now) and Voice Search ----
   function google(ctx) { return `<div class="app-view sa-app sa-google">${window.GELNow.render({data: ctx.data, t: ctx.t, locale: ctx.locale, now: ctx.now})}</div>`; }
+  // Voice Search on 4.4.4 is Google Search 3.3.11's search plate in voice mode (velvet_search_plate.xml,
+  // search_plate.xml): the 20 dp #eeeeee strong shield, then search_bg with a 260 dp speech area: ic_google_medium_dark at
+  // 30 / 28 dp, the 68 dp recognizer 8 dp from the right (vs_micbtn_rec while listening, vs_micbtn_on after) over
+  // SoundLevels (152 dp, #dbdbdb level circle from 34 to 100 dp round the mic, a 1 dp guide), and main_text (20 sp
+  // sans-serif-light #777, 32 dp margins) at the bottom: "Speak now", then "Didn't catch that. Try speaking again."
   function voice(ctx) {
-    const listening = ctx.ui.voiceState !== 'retry';
-    return `<div class="app-view sa-app sa-voice"><div class="sa-voice-lang">${e(ctx.t('English (US)'))}</div><button class="sa-voice-mic${listening ? ' on' : ''}" data-action="voice-listen" aria-label="${e(ctx.t('Speak now'))}">${ICON.mic}</button><p>${e(ctx.t(listening ? 'Speak now' : 'Didn’t catch that. Try speaking again.'))}</p></div>`;
+    const listening = ctx.ui.voiceState !== 'retry', v = key => S(ctx, 'google', key);
+    return `<div class="app-view sa-app sa-voice"><div class="vs-panel"><div class="vs-speech"><img class="vs-logo" src="assets/vn3-ic_google_medium_dark.png" alt="Google"><div class="vs-levels${listening ? ' on' : ''}"><i></i><b></b></div><button class="vs-mic" data-action="voice-listen" aria-label="${e(v('Tap to speak'))}"><img src="assets/vn3-vs_micbtn_${listening ? 'rec' : 'on'}.png" alt=""></button><p>${e(v(listening ? 'Speak now' : "Didn't catch that. Try speaking again."))}</p></div></div></div>`;
   }
+
   // Google Search settings (the overview "Settings" button) and the Google Settings app.
   function searchSettings(ctx) {
     const row = (icon, label) => `<button class="sa-row" data-action="sa-unsupported"><i>${ICON[icon] || ''}</i><span>${e(ctx.t(label))}</span></button>`;

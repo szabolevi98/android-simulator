@@ -168,7 +168,9 @@
    "Reminders": "Velvet:my_reminders",
    "Train Google Now": "Velvet:accessibility_training_button",
    "Menu": "Velvet:accessibility_footer_menu_button",
-   "Tap to speak": "Velvet:ime_hint_tap_to_speak"
+   "Tap to speak": "Velvet:ime_hint_tap_to_speak",
+   "Speak now": "Velvet:speak_now",
+   "Didn't catch that. Try speaking again.": "Velvet:no_match"
   }
  }
 }

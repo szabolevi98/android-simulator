@@ -17,4 +17,6 @@ const g={window:{}};for(const f of ['stock-strings.js','gel-now.js'])vm.runInNew
 const gel=fs.readFileSync('versions/4.4.4/kk-gel.css','utf8'),now=g.window.GELNow.render({data:{events:[{id:1,date:'2014-06-20',title:'Coffee',time:'11:00'}]},t:k=>k,locale:'hu',now:new Date(2014,5,20,10)});
 for(const part of ['vn3-context_header_bg_daylight.jpg','vn3-ic_google_small_dark.png','vn3-ic_training_dots_normal.png','Megtekintés a Naptárban','Továbbiak','vn3-ic_endoflist_reminders_normal.png','vn3-ic_magic_wand_normal.png'])assert.ok(now.includes(part),part);
 assert.ok(!now.includes('gnow-tip')&&gel.includes("vn3-search_bg.png")&&gel.includes("vn3-card_background.png")&&gel.includes('.gnow-page{--gn-top:var(--sb)'));
+// Voice Search: the search plate's voice mode with Velvet 3.3's recognizer and texts.
+assert.ok(A.render('voice-search',ctx()).includes('vn3-vs_micbtn_rec.png')&&A.render('voice-search',ctx({voiceState:'retry'},'hu')).includes('Nem sikerült értelmezni. Mondja ki újra.'));
 console.log('kk stock google ok');
