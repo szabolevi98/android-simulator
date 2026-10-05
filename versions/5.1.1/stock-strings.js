@@ -165,5 +165,133 @@ window.StockStrings = {
    "Didacticiel",
    "Tutorial"
   ]
+ },
+ "news": {
+  "News & Weather": [
+   "Hírek és időjárás",
+   "News & Wetter",
+   "Actualités et météo",
+   "Noticias y tiempo"
+  ],
+  "Headlines": [
+   "Címsorok",
+   "Schlagzeilen",
+   "À la une",
+   "Titulares"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Add section": [
+   "Panel hozzáadása",
+   "Abschnitt hinzufügen",
+   "Ajouter une section",
+   "Añadir sección"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Edit weather display…": [
+   "Időjárásinformáció-módosítás…",
+   "Wetteranzeige bearbeiten…",
+   "Modifier l'affichage météo…",
+   "Editar pantalla de tiempo…"
+  ],
+  "Change editions…": [
+   "Más kiadás választása…",
+   "Ausgaben ändern...",
+   "Modifier les éditions…",
+   "Cambiar edición…"
+  ],
+  "Manage sections…": [
+   "Szakaszok kezelése…",
+   "Bereich verwalten…",
+   "Gérer les sections…",
+   "Administrar secciones…"
+  ],
+  "Switch to dark theme": [
+   "Váltás sötét témára",
+   "Zum dunklen Design wechseln",
+   "Passer au thème sombre",
+   "Cambiar a tema oscuro"
+  ],
+  "Section header menu button": [
+   "Szakaszfejléc menügombja",
+   "Menüschaltfläche für Abschnittsüberschrift",
+   "Bouton de menu de l'en-tête de section",
+   "Botón de menú del encabezado de la sección"
+  ],
+  "More stories from %1$s": [
+   "További cikkek innen: %1$s",
+   "Mehr Nachrichten aus dem Bereich \"%1$s\"",
+   "Autres articles de %1$s",
+   "Más noticias de %1$s"
+  ],
+  "Partly Cloudy": [
+   "Elszórt felhőzet",
+   "Teils bewölkt",
+   "Relativement nuageux",
+   "Parcialmente nublado"
+  ],
+  "Precipitation: %1$s%%": [
+   "Csapadék: %1$s%%",
+   "Niederschlag: %1$s%%",
+   "Précipitations : %1$s %%",
+   "Probabilidad de lluvia: %1$s%%"
+  ],
+  "Humidity: %1$s%%": [
+   "Páratartalom: %1$s%%",
+   "Feuchtigkeit: %1$s%%",
+   "Humidité : %1$s %%",
+   "Humedad: %1$s%%"
+  ],
+  "Temp.": [
+   "Hőmérs.",
+   "Temp.",
+   "Température",
+   "Temp."
+  ],
+  "Precip.": [
+   "Csapadék",
+   "Regen",
+   "Précip.",
+   "Precip."
+  ],
+  "Wind": [
+   "Szél",
+   "Wind",
+   "Vent",
+   "Viento"
+  ],
+  "Humidity": [
+   "Páratartalom",
+   "Feuchtigk.",
+   "Humidité",
+   "Humedad"
+  ],
+  "Add and remove sections…": [
+   "Részek felvétele és eltávolítása…",
+   "Bereiche hinzufügen und entfernen…",
+   "Ajouter et supprimer des sections…",
+   "Añadir o eliminar secciones…"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe & Feedback",
+   "Aide et commentaires",
+   "Ayuda y opiniones"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók kinyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir panel de navegación"
+  ]
  }
 };

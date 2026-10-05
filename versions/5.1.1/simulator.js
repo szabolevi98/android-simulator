@@ -142,7 +142,7 @@
     hangouts: '#0b8043', calendar: '#3367d6', 'play-store': '#558b2f', 'play-music': '#e65100', 'play-movies': '#c62828', 'play-books': '#0277bd',
     'play-games': '#2e7d32', keep: '#e59900', youtube: '#b31217', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#455a64', calculator: '#00838f',
     clock: '#0277bd', camera: '#000', gallery: '#000', browser: '#000', music: '#000', maps: '#9e9e9e', 'google-search': '#3367d6', 'voice-search': '#3367d6',
-    'google-plus': '#c53929', earth: '#000', 'news-weather': '#3367d6', 'google-settings': '#21272b'
+    'google-plus': '#c53929', earth: '#000', 'news-weather': '#9e9e9e', 'google-settings': '#21272b'
   };
   // colorPrimary of the same themes: the Overview card headers (TaskViewHeader takes the task's primary color).
   const LP_PRIMARY = {
@@ -150,7 +150,7 @@
     hangouts: '#0f9d58', calendar: '#4285f4', 'play-store': '#689f38', 'play-music': '#ef6c00', 'play-movies': '#ed3b3b', 'play-books': '#039be5',
     'play-games': '#4caf50', keep: '#ffcc3f', youtube: '#e62117', drive: '#e0e0e0', photos: '#f5f5f5', downloads: '#607d8b', calculator: '#00bcd4',
     clock: '#0288d1', camera: '#212121', gallery: '#212121', browser: '#e6e6e6', music: '#212121', maps: '#f5f5f5', 'google-search': '#4285f4', 'voice-search': '#4285f4',
-    'google-plus': '#db4437', earth: '#212121', 'news-weather': '#4285f4', 'google-settings': '#263238'
+    'google-plus': '#db4437', earth: '#212121', 'news-weather': '#f5f5f5', 'google-settings': '#263238'
   };
   const GEL_ALIASES = {};
   // Folder and grid size of the Large Phone profile.
@@ -2054,7 +2054,9 @@
       case 'yt-toggle': ui.ytPaused = !ui.ytPaused; render(); break;
       case 'yt-like': { const likes = data.ytLikes || []; data.ytLikes = likes.includes(id) ? likes.filter(x => x !== id) : [...likes, id]; save(); render(); break; }
       case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }
-      case 'news-tab': ui.newsTab = id; render(); break;
+      case 'news-tab': ui.newsTab = id; ui.newsDrawer = false; render(); break;
+      case 'news-drawer': ui.newsDrawer = !ui.newsDrawer; render(); break;
+      case 'news-chart': ui.newsChart = id; render(); break;
       case 'earth-search-open': ui.earthSearching = true; render(); viewport.querySelector('.ea8-field input')?.focus(); break;
       case 'earth-clear': ui.overlay = ''; renderOverlay(); ui.earthQuery = ''; render(); break;
       case 'earth-drawer': ui.earthDrawer = !ui.earthDrawer; render(); break;

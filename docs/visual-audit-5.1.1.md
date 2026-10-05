@@ -12,3 +12,9 @@
   - `menu/main.xml` uses the app namespace: Search (always, "Example: Pizza"), My location and Share (ifRoom) fill AppCompat's three slots at 411 dp, with no overflow. After a search, Clear map takes the free slot and the other two move to the overflow.
   - The compass and Pegman sit under the bar.
   - `main.xml`'s drawer shows the account switcher (147 dp; the cover comes from the account), then the `fm` adapters' items in the dex: Maps Gallery, Google+ Photos, Layers; Settings, Feedback, Help, Tutorial.
+- **News & Weather 2.2 (PrebuiltNewsWeather):**
+  - AppThemeLight: the Toolbar is the #f5f5f5 window colour with 4 dp elevation, status bar #9e9e9e, accent #3367d6. It replaces the old dark Holo bar and tabs; the 5.1.1 status and Overview colours were corrected to match.
+  - The bar holds Search and Add section. The overflow is what `NewsActivity.onPrepareOptionsMenu` leaves visible on Headlines (per the dex): Refresh, Edit weather display…, Change editions…, Manage sections…, Switch to dark theme. Migrate settings needs old widget settings, and Remove this section only applies to removable sections.
+  - Sections are cards on `card_background_single_light`: `item_section_header.xml` and `item_story_collapsed.xml` rows with 80 dp photos, then the "More stories from …" footer.
+  - Headlines opens with `item_weather.xml`: the condition picture is web-loaded, so a stand-in is used; then the temperature and the Temp. / Precip. / Wind / Humidity chart tabs.
+  - The drawer lists the sections, "Add and remove sections…" and "Help & feedback".

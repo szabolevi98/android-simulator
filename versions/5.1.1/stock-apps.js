@@ -154,13 +154,26 @@
     'Technology': [['Material design comes to more of your apps', 'Gadget Weekly', '1 hour ago'], ['Smart watches: the next big thing?', 'Droid Corner', '3 hours ago']],
     'Sports': [['Underdogs win the cup final', 'Sports Desk', '5 hours ago']]
   };
+  // News & Weather 2.2 (LMY48Y). AppThemeLight: the Toolbar takes colorPrimary = the window background #f5f5f5 with
+  // 4 dp elevation, status bar #9e9e9e, accent #3367d6, text #de000000 / #8d000000. news_activity.xml's menu: Search and
+  // Add section (ifRoom) beside the overflow (Refresh, Edit weather display, Change editions, Manage sections, Switch to
+  // dark theme). Each section is a card (card_background_*_light): item_section_header.xml (24 sp secondary, the
+  // ic_more_horiz button) over item_story_collapsed.xml rows (80 dp photo, 16 sp title, 14 sp source) and the "More stories
+  // from …" footer. Headlines starts with item_weather.xml: the condition picture (loaded from the web, so a stand-in),
+  // the temperature, and the Temp. / Precip. / Wind / Humidity tabs. The drawer (300 dp) lists the sections, then "Add
+  // and remove sections…" and "Help & feedback".
   function news(ctx) {
-    const tabs = ['Weather', 'Top Stories', 'Technology', 'Sports'], tab = ctx.ui.newsTab || 'Top Stories';
-    const body = tab === 'Weather'
-      ? `<div class="sa-weather"><b>21°</b><span>${e(ctx.t('Partly cloudy'))}</span><small>Mountain View</small><div class="sa-forecast">${[0, 1, 2, 3].map(i => `<div><span>${e(new Date(ctx.now.getTime() + i * 864e5).toLocaleDateString(ctx.locale, {weekday: 'short'}))}</span><b>${[21, 23, 19, 20][i]}°</b><small>${[13, 14, 12, 11][i]}°</small></div>`).join('')}</div></div>`
-      : (STORIES[tab] || []).map(([title, source, time], i) => `<button class="sa-story" data-action="sa-unsupported">${i === 0 ? `<span class="sa-story-photo">${thumb(i + 2)}</span>` : ''}<b>${e(title)}</b><small>${e(source)} · ${e(ctx.t(time))}</small></button>`).join('');
-    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: ctx.t('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: img('sa-unsupported', ctx.t('Search'), 'nw-abc_ic_search_api_mtrl_alpha.png', 'tint') + img('sa-unsupported', ctx.t('Add section'), 'nw-ic_add_white_24dp.png') + img('sa-menu', ctx.t('More options'), 'nw-abc_ic_menu_moreoverflow_mtrl_alpha.png')})}<nav class="sa-news-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
+    const n = key => S(ctx, 'news', key), sections = ['Headlines', 'Technology', 'Sports'], sec = sections.includes(ctx.ui.newsTab) ? ctx.ui.newsTab : 'Headlines';
+    const label = id => id === 'Headlines' ? n('Headlines') : ctx.t(id);
+    const stories = id => (id === 'Headlines' ? STORIES['Top Stories'] : STORIES[id]) || [];
+    const chart = ctx.ui.newsChart || 'Temp.', temps = [17, 19, 21, 22, 21, 19, 17, 15];
+    const bars = chart === 'Temp.' ? temps : chart === 'Precip.' ? [0, 0, 10, 20, 10, 0, 0, 0] : chart === 'Wind' ? [8, 10, 13, 15, 14, 11, 9, 8] : [72, 66, 60, 55, 54, 58, 64, 70];
+    const weather = sec === 'Headlines' ? `<section class="nw2-card nw2-weather"><div class="nw2-now"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="4" fill="#fbc02d"/><path d="M7 19h11a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.4 1.6A3.3 3.3 0 0 0 7 19z" fill="#cfd8dc"/></svg><b>21°</b><span><em>${e(n('Partly Cloudy'))}</em><small>${e(n('Precipitation: %1$s%%').replace('%1$s%%', '10%'))}</small><small>${e(n('Humidity: %1$s%%').replace('%1$s%%', '60%'))}</small></span></div><nav class="nw2-tabs">${['Temp.', 'Precip.', 'Wind', 'Humidity'].map(t => `<button class="${t === chart ? 'on' : ''}" data-action="news-chart" data-id="${t}">${e(n(t))}</button>`).join('')}</nav><div class="nw2-chart">${bars.map((v, j) => `<i style="height:${Math.max(4, Math.round(v / Math.max(...bars) * 100))}%"><b>${chart === 'Precip.' || chart === 'Humidity' ? v + '%' : v + (chart === 'Wind' ? '' : '°')}</b></i>`).join('')}</div></section>` : '';
+    const card = `<section class="nw2-card"><header class="nw2-head"><h3>${e(label(sec))}</h3><button data-action="sa-unsupported" aria-label="${e(n('Section header menu button'))}"><img src="assets/nw2-ic_more_horiz_white_18dp.png" alt=""></button></header>${stories(sec).map(([title, source, time], j) => `<button class="nw2-story" data-action="sa-unsupported"><span class="nw2-photo">${thumb(j + 2)}</span><span><b>${e(title)}</b><small>${e(source)} · ${e(ctx.t(time))}</small></span></button>`).join('')}<button class="nw2-more" data-action="sa-unsupported">${e(n('More stories from %1$s').replace('%1$s', label(sec)))}</button></section>`;
+    const drawer = ctx.ui.newsDrawer ? `<button class="nw2-scrim" data-action="news-drawer" aria-label="${e(ctx.t('Close'))}"></button><nav class="nw2-drawer"><div class="nw2-account"><b>Nexus 6</b><small>nexus6.demo@gmail.com</small></div>${sections.map(id => `<button class="${id === sec ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(label(id))}</button>`).join('')}<hr><button data-action="sa-unsupported">${e(n('Add and remove sections…'))}</button><button data-action="sa-unsupported">${e(n('Help & feedback'))}</button></nav>` : '';
+    return `<div class="app-view sa-app sa-news2"><header class="nw2-bar"><button class="nw2-toggle" data-action="news-drawer" aria-label="${e(n('Open navigation drawer'))}"><i></i><i></i><i></i></button><b>${e(label(sec))}</b>${img('sa-unsupported', n('Search'), 'nw2-abc_ic_search_api_mtrl_alpha.png')}${img('sa-unsupported', n('Add section'), 'nw2-ic_add_white_24dp.png')}<button class="sa-btn" data-action="sa-menu" aria-label="${e(ctx.t('More options'))}"><img src="assets/nw2-abc_ic_menu_moreoverflow_mtrl_alpha.png" alt=""></button></header><div class="sa-scroll nw2-page">${weather}${card}</div>${drawer}</div>`;
   }
+
 
   const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
   function render(app, ctx) { return (APPS[app] || google)(ctx); }
@@ -168,8 +181,8 @@
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, lollipops', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
   // The overflow of the screen on show. News & Weather 2.2 (LMY48Y) res/menu/news_activity.xml: Search (abc_ic_search_api_mtrl_alpha) and Add section (ic_add_white_24dp) if room; Refresh, Edit weather display…, Remove this section and Migrate settings in the overflow.
   function menu(view, ctx) {
+    if (view === 'news-weather') { const n = key => S(ctx, 'news', key); return ['Refresh', 'Edit weather display…', 'Change editions…', 'Manage sections…', 'Switch to dark theme'].map(key => ({action: key === 'Refresh' ? 'sa-news-refresh' : 'sa-unsupported', title: n(key)})); }
     if (view === 'earth') { const ea = key => S(ctx, 'earth', key); return ['My location', 'Share'].map(key => ({action: 'sa-unsupported', title: ea(key)})); }
-    if (view === 'news-weather') return [{action: 'sa-news-refresh', title: ctx.t('Refresh')}, {action: 'sa-unsupported', title: ctx.t('Edit weather display…')}, {action: 'sa-unsupported', title: ctx.t('Remove this section')}, {action: 'sa-unsupported', title: ctx.t('Migrate settings')}];
     return [];
   }
   window.StockApps = {APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render, menu};

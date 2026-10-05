@@ -177,3 +177,43 @@
 .screen .ea8-drawer button{display:flex;align-items:center;width:100%;height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:500 12.68px Roboto,sans-serif;color:#000000de}
 .ea8-drawer hr{margin:7.25px 0;border:0;border-top:.91px solid #0000001f}
 .screen .ea8-drawer button:active{background:#0000001a}
+
+/* News & Weather 2.2 (audit step 4) at the Nexus 6 scale (xxhdpi drawables x.302): the light Toolbar (icons tinted 54%
+   black, AppCompat's 18 x 2 dp drawer bars), cards on card_background_single_light (slices 14 17 26 17) 8 dp in. */
+.sa-news2{background:#f5f5f5;color:#000000de}
+.nw2-bar{flex:none;display:flex;align-items:center;height:50.74px;padding-right:3.62px;background:#f5f5f5;box-shadow:0 1.81px 3.62px #0000003d;z-index:2}
+.screen .nw2-toggle{flex:none;display:flex;flex-direction:column;justify-content:center;gap:3.62px;width:65.23px;height:50.74px;padding:0 16.31px 0 16.31px;border:0;background:none}
+.nw2-toggle i{display:block;width:16.31px;height:1.81px;background:#0000008a}
+.nw2-bar>b{flex:1;min-width:0;font:500 18.12px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nw2-bar .sa-btn img{width:21.74px;height:21.74px;filter:brightness(0);opacity:.54}
+.nw2-page{padding:3.62px 0 7.25px}
+.nw2-card{margin:3.62px 3.62px 0;border-style:solid;border-width:4.23px 5.13px 7.85px;border-image:url('assets/nw2-card_background_single_light.png') 14 17 26 fill/4.23px 5.13px 7.85px}
+.nw2-head{display:flex;align-items:flex-end;min-height:43.49px;padding:7.25px 0 3.62px}
+.nw2-head h3{flex:1;margin:0;padding:7.25px;font:400 21.74px Roboto,sans-serif;color:#0000008d}
+.screen .nw2-head button{padding:7.25px;border:0;background:none}
+.nw2-head img{width:12.08px;height:3.02px;filter:brightness(0);opacity:.54}
+.screen .nw2-story{display:flex;align-items:flex-start;gap:3.62px;width:100%;padding:10.87px 10.87px;border:0;border-top:.91px solid #0000001f;background:none;text-align:left;cursor:pointer}
+.nw2-photo{flex:none;width:72.48px;height:72.48px;overflow:hidden;padding:3.62px}
+.nw2-photo .sa-thumb{width:100%;height:100%}
+.nw2-story>span:last-child{min-width:0;display:flex;flex-direction:column;gap:3.62px;padding:3.62px}
+.nw2-story b{font:400 14.5px/1.35 Roboto,sans-serif;color:#000000de}
+.nw2-story small{font:400 12.68px Roboto,sans-serif;color:#0000008d}
+.screen .nw2-more{display:block;width:100%;padding:12.68px 14.5px;border:0;border-top:.91px solid #0000001f;background:none;text-align:left;font:500 12.68px Roboto,sans-serif;color:#3367d6}
+.nw2-now{display:flex;align-items:center;gap:10.87px;padding:14.5px}
+.nw2-now svg{width:57.98px;height:57.98px}
+.nw2-now>b{font:300 50.74px Roboto,sans-serif}
+.nw2-now span{display:flex;flex-direction:column;font:400 12.68px Roboto,sans-serif;color:#0000008d}
+.nw2-now em{font-style:normal;font-size:14.5px;color:#000000de}
+.nw2-tabs{display:flex;border-top:.91px solid #0000001f}
+.screen .nw2-tabs button{flex:1;height:43.49px;border:0;border-bottom:1.81px solid transparent;background:none;font:500 12.68px Roboto,sans-serif;color:#0000008d}
+.screen .nw2-tabs button.on{color:#3367d6;border-bottom-color:#3367d6}
+.nw2-chart{display:flex;align-items:flex-end;gap:5.44px;height:90.6px;padding:21.74px 14.5px 10.87px}
+.nw2-chart i{flex:1;position:relative;background:#3367d633;border-top:1.81px solid #3367d6}
+.nw2-chart i b{position:absolute;left:0;right:0;bottom:100%;font:400 9.06px Roboto,sans-serif;color:#0000008d;text-align:center}
+.screen .nw2-scrim{position:absolute;inset:0;z-index:4;border:0;background:#0006}
+.nw2-drawer{position:absolute;left:0;top:0;bottom:0;z-index:5;width:min(271.8px,85%);overflow-y:auto;background:#fafafa}
+.nw2-account{display:flex;flex-direction:column;justify-content:flex-end;height:133.18px;padding:0 14.5px 10.87px;background:#303030;color:#fff;font:400 12.68px Roboto,sans-serif}
+.nw2-account b{font-weight:500}
+.screen .nw2-drawer button{display:flex;align-items:center;width:100%;height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:500 12.68px Roboto,sans-serif;color:#000000de}
+.screen .nw2-drawer button.on{color:#3367d6;background:#0000000d}
+.nw2-drawer hr{margin:7.25px 0;border:0;border-top:.91px solid #0000001f}

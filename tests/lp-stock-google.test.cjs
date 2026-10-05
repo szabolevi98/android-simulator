@@ -9,4 +9,7 @@ assert.ok(css.includes('.gs6-bar{')&&css.includes('#263238')&&css.includes('#009
 // Earth 8: the gradient Toolbar with Search, My location and Share (no overflow until a search adds Clear map).
 const ea=A.render('earth',ctx());assert.ok(ea.includes('ea8-bar')&&ea.includes('ea8-ic_menu_mylocation.png')&&ea.includes('ea8-ic_share_alt_white_24dp.png')&&!ea.includes('data-action="sa-menu"'));
 const ea2=A.render('earth',ctx({earthQuery:'Pizza'}));assert.ok(ea2.includes('earth-clear')&&ea2.includes('data-action="sa-menu"'));
+// News & Weather 2.2: the light Toolbar with Search and Add section, Headlines' weather card and section card, the drawer.
+const nw=A.render('news-weather',ctx({newsDrawer:true},'hu'));assert.ok(nw.includes('nw2-bar')&&nw.includes('Címsorok')&&nw.includes('nw2-ic_add_white_24dp.png')&&nw.includes('nw2-weather')&&nw.includes('Súgó és visszajelzés'));
+assert.ok(fs.readFileSync('versions/5.1.1/simulator.js','utf8').includes("'news-weather': '#9e9e9e'"));
 console.log('lp stock google ok');
