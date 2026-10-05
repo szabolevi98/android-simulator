@@ -248,6 +248,8 @@ The 5.1.1 build follows the Nexus 6 factory image `shamu-lmy48y` (build LMY48Y, 
 
 `versions/4.0.4/assets/calendar-spinner_*_holo_light.png` and `ic_ab_back_holo_light.png` are framework-res.apk nine-patches and icons of the Galaxy Nexus IMM76I image (AOSP, Apache License 2.0).
 
+`versions/{4.0.4,4.3}/assets/music-ic_mp_playlist_recently_added_list.png` comes from AOSP `packages/apps/Music` (android-4.0.4_r2.1 / android-4.3_r1.1, Apache License 2.0), and `ic_sysbar_menu.png` from SystemUI.apk of the Galaxy Nexus IMM76I and Nexus 4 JWR66Y images; `music-strings.js` holds that AOSP Music's texts.
+
 `versions/{4.0.4,4.3,4.4.4}/assets/ce-*` (editor field buttons, expanders, section divider, account spinner icon, default picture, star and done icons) come from Contacts.apk of the Galaxy Nexus IMM76I, Nexus 4 JWR66Y and Nexus 5 KTU84P images (AOSP, Apache License 2.0).
 
 `versions/4.0.4/assets/lng-ic_sysbar_quicksettings.png` and `lng-ic_menu_add.png` come from Settings.apk of the Galaxy Nexus IMM76I image (AOSP, Apache License 2.0).

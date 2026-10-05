@@ -634,3 +634,7 @@ html,body{overscroll-behavior-y:none}
   .volume-rocker{top:130.3px;height:97.9px;left:-4px}
 }
 .notification-led{bottom:44px}
+/* The legacy menu key (ic_sysbar_menu) that SystemUI adds at the navigation bar's right end for apps targeting API 10 or lower (AOSP Music). */
+#nav-bar .nav-menu{position:absolute;right:0;top:0;bottom:0;width:13%}
+#nav-bar .nav-menu img{width:40px}
+.music-options{top:auto;bottom:52px;right:4px}

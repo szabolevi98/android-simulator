@@ -582,3 +582,16 @@ The contact editor was a fixed form (name / phone / email / company / notes). It
 - **Detail view:** lists every phone with its type and its own Call and Message buttons, every email, and the other fields. The star is `btn_star_on/off_normal_holo_dark`, and a contact photo shows in the list and the detail view.
 - **Saving:** the first phone and email stay the contact's `phone` / `email`, so Phone and Messaging keep working.
 
+## AOSP Music menus (audit step 3) — 2026-10-05
+
+AOSP Music (kept beside Play Music) had controls of the simulator's own: a "Demo tracks — no audio" note and a "Music library" button in the player, ⋮ buttons on every song, a "＋ New playlist" row and a ‹ back button. It now behaves like `packages/apps/Music` at this release:
+- **Context menus:** a long press (or right click) on a song opens Play, Add to playlist, (Remove from playlist), Use as phone ringtone, Delete and Search. Artists and albums get Play, Add to playlist, Delete and Search; playlists get Play and Delete.
+- **Options menu:** the app targets API 9, so SystemUI shows the legacy menu key (`ic_sysbar_menu`) at the navigation bar's right end.
+  - The library's options are Party shuffle and Shuffle all.
+  - The player's options are Library, Party shuffle, Add to playlist, Use as phone ringtone and Delete.
+- **Playlists:** the list starts with Recently added.
+- **Use as phone ringtone:** sets the ringtone and toasts the app's `"%s" set as phone ringtone.`
+- **Delete:** asks with `delete_song_desc` and removes the song from the lists.
+
+The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/aosp-music-strings.py`). The demo songs stay silent, without a note on the phone.
+
