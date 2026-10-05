@@ -10,7 +10,7 @@
 .pa-up svg{width:23.85px;height:23.85px}
 .pa-title{flex:1;min-width:0;display:flex;flex-direction:column;margin-left:5.11px}
 .pa-title b{font:400 15.33px RobotoICS,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pa-title small{font:400 8.52px RobotoICS,sans-serif;opacity:.85;letter-spacing:.2.82px}
+.pa-title small{font:400 8.52px RobotoICS,sans-serif;opacity:.85;letter-spacing:.28px}
 .pa-btn{flex:none;width:40.88px;height:40.88px;padding:0;border:0;background:none;display:grid;place-items:center;color:inherit!important}
 .pa-btn svg{width:20.43px;height:20.43px}
 .pa-app button:active,.pa-card:active{background-color:#0000001a}
@@ -22,7 +22,7 @@
 .pa-chip.big{padding:6.81px 20.43px;font-size:12.77px}
 .pa-note{margin:-5.64px 3.4px 6.81px;font:400 11.07px RobotoICS,sans-serif;color:#777}
 .pa-grid{display:grid;grid-template-columns:1fr 1fr;gap:6.81px}
-.pa-card{display:flex;flex-direction:column;min-width:0;background:#fff;box-shadow:0 .851.6px 1.7px #0000002e;cursor:pointer}
+.pa-card{display:flex;flex-direction:column;min-width:0;background:#fff;box-shadow:0 .85px 1.7px #0000002e;cursor:pointer}
 .pa-card-art{position:relative;aspect-ratio:1;overflow:hidden;background:#ccc}
 .pa-movies .pa-card-art{aspect-ratio:2/2.9}
 .pa-books .pa-card-art{aspect-ratio:2/3}
@@ -35,17 +35,17 @@
 .pa-dots svg{width:15.33px;height:15.33px}
 .pa-pin{position:absolute;right:5.11px;bottom:5.11px;width:23.85px;height:23.85px;padding:4.7px;border:0;border-radius:50%;background:#ddd;color:#999!important}
 .pa-movies .pa-card-copy{min-height:62.04px}
-.pa-tabs{position:sticky;top:0;z-index:1;display:flex;margin:0 -6.81px 6.81px;background:#f2f2f2;border-bottom:.851.6px solid #ccc}
+.pa-tabs{position:sticky;top:0;z-index:1;display:flex;margin:0 -6.81px 6.81px;background:#f2f2f2;border-bottom:.85px solid #ccc}
 .pa-tabs button{flex:1;height:40.88px;border:0;background:none;font:700 11.07px RobotoICS,sans-serif;color:#555!important;white-space:nowrap}
 .pa-tabs button.active{box-shadow:inset 0 -3.4px var(--pa);color:#222!important}
 /* Drawer */
 .pa-drawer-scrim{position:absolute;inset:calc(var(--sb) + 40.88px) 0 var(--nb);z-index:25;background:#0009}
 .pa-drawer{position:absolute;top:calc(var(--sb) + 40.88px);bottom:var(--nb);left:0;z-index:26;width:min(238.47px,80%);background:#fff;box-shadow:1.88px 0 4.7px #0004;overflow-y:auto}
-.pa-drawer button{display:block;width:100%;height:50.24px;padding:0 13.63px;border:0;border-bottom:.851.6px solid #e5e5e5;background:none;text-align:left;font:300 17.03px RobotoLight,RobotoICS,sans-serif;color:#333!important}
+.pa-drawer button{display:block;width:100%;height:50.24px;padding:0 13.63px;border:0;border-bottom:.85px solid #e5e5e5;background:none;text-align:left;font:300 17.03px RobotoLight,RobotoICS,sans-serif;color:#333!important}
 .pa-drawer button.on{background:#d4d4d4}
 /* Play Music: Listen Now cards, songs, the mini player and Now playing (GSMArena). */
 .pm-songs{background:#fff;margin:0 -6.81px}
-.pm-song,.pm-queue-row{display:flex;align-items:center;gap:10.22px;width:100%;min-height:47.69px;padding:3.76px 10.22px;border:0;border-bottom:.851.6px solid #e5e5e5;background:none;text-align:left;color:#333!important}
+.pm-song,.pm-queue-row{display:flex;align-items:center;gap:10.22px;width:100%;min-height:47.69px;padding:3.76px 10.22px;border:0;border-bottom:.85px solid #e5e5e5;background:none;text-align:left;color:#333!important}
 .pm-song em{width:16.92px;font-style:normal;color:#999;font-size:11.92px;text-align:center}
 .pm-song>span:not(.pm-qart),.pm-queue-row>span:not(.pm-qart){flex:1;min-width:0;display:flex;flex-direction:column}
 .pm-song b,.pm-queue-row b{font:400 13.63px RobotoICS,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -54,7 +54,7 @@
 .pm-song.on b,.pm-queue-row.on b{color:var(--pa)}
 .pm-qart{flex:none;width:37.47px;height:37.47px;overflow:hidden}
 .pm-album-head{margin:0 -6.81px;height:187.99px;overflow:hidden}
-.pm-mini{flex:none;display:flex;align-items:center;height:47.69px;background:#fff;border-top:.851.6px solid #ddd}
+.pm-mini{flex:none;display:flex;align-items:center;height:47.69px;background:#fff;border-top:.85px solid #ddd}
 .pm-mini-open{flex:1;min-width:0;display:flex;align-items:center;gap:8.52px;height:100%;padding:0;border:0;background:none;text-align:left}
 .pm-mini-art{flex:none;width:47.69px;height:47.69px}
 .pm-mini-copy{min-width:0;display:flex;flex-direction:column}
@@ -63,7 +63,7 @@
 .pm-mini-play{flex:none;width:47.69px;height:47.69px;border:0;background:none;color:#333!important;display:grid;place-items:center}
 .pm-mini-play svg{width:27.25px;height:27.25px}
 .pm-now{background:#fff}
-.pm-np-head{flex:none;display:flex;align-items:center;height:47.69px;background:#fff;border-bottom:.851.6px solid #ddd;color:#555}
+.pm-np-head{flex:none;display:flex;align-items:center;height:47.69px;background:#fff;border-bottom:.85px solid #ddd;color:#555}
 .pm-np-back{flex:1;min-width:0;display:flex;align-items:center;gap:8.52px;height:100%;padding:0;border:0;background:none;text-align:left}
 .pm-np-art{flex:none;width:47.69px;height:47.69px}
 .pm-np-copy{min-width:0;display:flex;flex-direction:column}
@@ -110,10 +110,10 @@
 .pm-progress-strip{position:absolute;left:0;right:0;bottom:0;height:3.76px;background:linear-gradient(90deg,#c74b46 var(--p),#0006 var(--p))}
 /* Play Books: Read Now covers and the reader. */
 .pb-covers{gap:5.11px}
-.pb-cover{position:relative;aspect-ratio:2/3;overflow:hidden;cursor:pointer;box-shadow:0 .851.6px 1.7px #0003}
+.pb-cover{position:relative;aspect-ratio:2/3;overflow:hidden;cursor:pointer;box-shadow:0 .85px 1.7px #0003}
 .pb-pinned{position:absolute;right:5.64px;bottom:5.64px;width:23.5px;height:23.5px;padding:4.7px;border-radius:50%;background:#3f9fe0;color:#fff;display:grid}
 .pb-reader{background:#fff;position:relative}
-.pb-top{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;height:40.88px;background:#f2f2f2;border-bottom:.851.6px solid #ccc;color:#555;transition:opacity .2s}
+.pb-top{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;height:40.88px;background:#f2f2f2;border-bottom:.85px solid #ccc;color:#555;transition:opacity .2s}
 .pb-top>button:first-child{display:flex;align-items:center;height:100%;padding:0 3.76px 0 5.64px;border:0;background:none;color:#999!important;font-size:20.68px}
 .pb-top>button:first-child svg{width:23.5px;height:23.5px}
 .pb-top>button:first-child svg path{fill:#3f9fe0}
@@ -126,7 +126,7 @@
 .pb-page h2{margin:37.6px 0 7.52px;text-align:center;font:400 20.68px Georgia,serif;letter-spacing:1px}
 .pb-page h2.sub{margin-top:0;font-size:16.92px;font-style:italic}
 .pb-page p{margin:0 0 11.28px;text-align:justify;text-indent:1.5em}
-.pb-bottom{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:8.46px;height:40.88px;padding-right:11.28px;background:#f2f2f2;border-top:.851.6px solid #ccc;color:#666;font-size:11.92px;transition:opacity .2s}
+.pb-bottom{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:8.46px;height:40.88px;padding-right:11.28px;background:#f2f2f2;border-top:.85px solid #ccc;color:#666;font-size:11.92px;transition:opacity .2s}
 .pb-bottom .pa-btn{color:#666!important}
 .pb-bottom i{flex:1;height:2.82px;background:linear-gradient(90deg,#3f9fe0 var(--p),#ccc var(--p))}
 .pb-reader.bare .pb-top,.pb-reader.bare .pb-bottom{opacity:0;pointer-events:none}
@@ -139,7 +139,7 @@
 .pg-game .pa-card-art .pa-art{border-radius:14%}
 .pg-game .pa-card-copy i{font-style:normal;color:#96aa39}
 .pg-list{display:flex;flex-direction:column;gap:6.81px}
-.pg-row{position:relative;display:flex;align-items:center;gap:10.22px;min-height:67.68px;padding:6.81px;background:#fff;box-shadow:0 .851.6px 1.7px #0000002e;cursor:pointer}
+.pg-row{position:relative;display:flex;align-items:center;gap:10.22px;min-height:67.68px;padding:6.81px;background:#fff;box-shadow:0 .85px 1.7px #0000002e;cursor:pointer}
 .pg-icon{flex:none;width:51.1px;height:51.1px;overflow:hidden;border-radius:12%}
 .pg-copy{flex:1;min-width:0;display:flex;flex-direction:column;align-self:flex-start}
 .pg-copy b{font:400 13.63px RobotoICS,sans-serif;color:#333}

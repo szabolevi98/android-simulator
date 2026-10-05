@@ -163,13 +163,22 @@
     'Technology': [['New Nexus 7 arrives with a 1080p screen', 'Gadget Weekly', '1 hour ago'], ['Smart watches: the next big thing?', 'Droid Corner', '3 hours ago']],
     'Sports': [['Underdogs win the cup final', 'Sports Desk', '5 hours ago']]
   };
+  // News & Weather 1.3.11 (GenieWidget.apk, JWR66Y): the ActionBar style (#222222, ic_launcher_news_weather) with
+  // main_menu.xml (Refresh in the bar, Settings in the overflow); tab_view_container_layout.xml's 52 dp tabs (12 sp,
+  // 35 dp padding, #222222, a 6 dp #33b5e5 bottom when selected, 1 dp #505050 otherwise, 1 dp #505050 separators);
+  // news_item_layout.xml rows (80 dp, 16 sp bold white title, 14 sp #bfbfbf snippet, the 70 dp picture on the right)
+  // on #1a1a1a; weather_current_view.xml in bg_weather_panel_app: the city (30 sp) with the info button, today's
+  // ic_weather_*_xl (90 dp) and temperature (80 sp), high / low (21 sp), conditions, humidity and wind (12 sp), The
+  // Weather Channel's logo, then weather_forecast_layout.xml's days (15 sp, 30 dp icons).
   function news(ctx) {
-    const tabs = ['Weather', 'Top Stories', 'Technology', 'Sports'], tab = ctx.ui.newsTab || 'Top Stories';
+    const n = key => S(ctx, 'news', key), tabs = ['Weather', 'Top Stories', 'Technology', 'Sports'], tab = ctx.ui.newsTab || 'Top Stories';
+    const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], forecast = [[21, 13, 'partly_cloudy'], [23, 14, 'sunny'], [19, 12, 'cloudy'], [20, 11, 'chance_of_rain']];
     const body = tab === 'Weather'
-      ? `<div class="sa-weather"><b>21°</b><span>${e(ctx.t('Partly cloudy'))}</span><small>Mountain View</small><div class="sa-forecast">${[0, 1, 2, 3].map(i => `<div><span>${e(new Date(ctx.now.getTime() + i * 864e5).toLocaleDateString(ctx.locale, {weekday: 'short'}))}</span><b>${[21, 23, 19, 20][i]}°</b><small>${[13, 14, 12, 11][i]}°</small></div>`).join('')}</div></div>`
-      : (STORIES[tab] || []).map(([title, source, time], i) => `<button class="sa-story" data-action="sa-unsupported">${i === 0 ? `<span class="sa-story-photo">${thumb(i + 2)}</span>` : ''}<b>${e(title)}</b><small>${e(source)} · ${e(ctx.t(time))}</small></button>`).join('');
-    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: ctx.t('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: img('sa-news-refresh', ctx.t('Refresh'), 'nw-navigation_refresh.png') + btn('sa-menu', ctx.t('More options'), 'overflow')})}<nav class="sa-news-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
+      ? `<div class="nw-weather"><div class="nw-city"><b>Mountain View</b><button data-action="sa-unsupported" aria-label="Info"><img src="assets/nw-weather_info_btn.png" alt=""></button></div><i class="nw-divider"></i><div class="nw-today"><img class="nw-twc" src="assets/nw-ic_weather_weather_channel.png" alt="The Weather Channel"><div class="nw-now"><img src="assets/nw-ic_weather_partly_cloudy_xl.png" alt=""><b>21°</b></div><div class="nw-range"><span>21°</span><span class="lo">13°</span><p>${e(ctx.t('Partly cloudy'))}</p><small>${e(n('Humidity: %s%%').replace('%s%%', '60%'))}</small><small>${e(n('Wind: %1$s %2$s').replace('%1$s', '13').replace('%2$s', n('km/h')))}</small></div></div><i class="nw-divider"></i><div class="nw-forecast">${forecast.map(([hi, lo, icon], i) => `<div><span>${e(n(DAYS[new Date(ctx.now.getTime() + i * 864e5).getDay()]))}</span><img src="assets/nw-ic_weather_${icon}_s.png" alt=""><b>${hi}°</b><small>${lo}°</small></div>`).join('')}</div></div>`
+      : `<div class="nw-list">${(STORIES[tab] || []).map(([title, source, time], i) => `<button class="nw-item${i === 0 ? ' pic' : ''}" data-action="sa-unsupported"><span><b>${e(title)}</b><small>${e(source)} - ${e(ctx.t(time))}</small></span>${i === 0 ? `<span class="nw-pic">${thumb(i + 2)}</span>` : ''}</button>`).join('')}</div>`;
+    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: n('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: img('sa-news-refresh', n('Refresh'), 'nw-navigation_refresh.png') + btn('sa-menu', ctx.t('More options'), 'overflow')})}<nav class="nw-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(id === 'Weather' ? n('Weather') : ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
   }
+
 
   const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
   function render(app, ctx) { return (APPS[app] || google)(ctx); }
@@ -190,7 +199,7 @@
     if (view === 'youtube') { const y = key => S(ctx, 'youtube', key); return ctx.ui?.sub === 'video' ? [{action: 'yt-like', title: y('Like')}, {action: 'sa-unsupported', title: y('Dislike')}, {action: 'sa-unsupported', title: y('Copy URL')}, {action: 'sa-unsupported', title: y('Flag')}] : [{action: 'sa-unsupported', title: y('Settings')}, {action: 'sa-unsupported', title: y('Feedback')}, {action: 'sa-unsupported', title: y('Help')}]; }
     if (view === 'keep' && ctx.ui?.sub !== 'note') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-columns', title: k(ctx.data?.keepSingle ? 'Multi-column view' : 'Single-column view')}, {action: 'keep-refresh', title: k('Refresh')}, {action: 'keep-archived', title: k('Archived notes')}, {action: 'sa-unsupported', title: k('Settings')}, {action: 'sa-unsupported', title: k('Send feedback')}, {action: 'sa-unsupported', title: k('Help')}]; }
     if (view === 'keep') { const k = key => S(ctx, 'keep', key), note = (ctx.data?.keepNotes || []).find(n => n.id === ctx.ui.keepNote); return [{action: 'keep-archive', title: k(note?.archived ? 'Unarchive' : 'Archive')}, {action: 'keep-delete', title: k('Delete')}, {action: 'sa-unsupported', title: k('Show checkboxes')}, {action: 'sa-unsupported', title: k('Share')}, {action: 'sa-unsupported', title: k('Settings')}, {action: 'sa-unsupported', title: k('Send feedback')}, {action: 'sa-unsupported', title: k('Help')}]; }
-    if (view === 'news-weather') return [{action: 'sa-unsupported', title: ctx.t('Settings')}];
+    if (view === 'news-weather') return [{action: 'sa-unsupported', title: S(ctx, 'news', 'Settings')}];
     return [];
   }
   window.StockApps = {APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render, menu};

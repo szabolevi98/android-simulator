@@ -503,5 +503,98 @@ window.StockStrings = {
    "Je n'ai pas compris. Veuillez répéter.",
    "No lo he entendido. Prueba a decirlo otra vez."
   ]
+ },
+ "news": {
+  "News & Weather": [
+   "Hírek és időjárás",
+   "News & Wetter",
+   "Actualités et météo",
+   "Noticias y tiempo"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Weather": [
+   "Időjárás",
+   "Wetter",
+   "Météo",
+   "Tiempo"
+  ],
+  "Humidity: %s%%": [
+   "Páratartalom: %s%%",
+   "Luftfeuchtigkeit: %s %%",
+   "Humidité : %s%%",
+   "Humedad: %s%%"
+  ],
+  "Wind: %1$s %2$s": [
+   "Szélerősség: %1$s %2$s",
+   "Wind: %1$s %2$s",
+   "Vent : %1$s %2$s",
+   "Viento: %1$s %2$s"
+  ],
+  "km/h": [
+   "km/h",
+   "km/h",
+   "km/h",
+   "km/h"
+  ],
+  "Mon": [
+   "H",
+   "M",
+   "L",
+   "L",
+   "M"
+  ],
+  "Tue": [
+   "K",
+   "D",
+   "M",
+   "M",
+   "T"
+  ],
+  "Wed": [
+   "Sze",
+   "M",
+   "M",
+   "X",
+   "W"
+  ],
+  "Thu": [
+   "Cs",
+   "D",
+   "J",
+   "J",
+   "T"
+  ],
+  "Fri": [
+   "P",
+   "F",
+   "V",
+   "V",
+   "F"
+  ],
+  "Sat": [
+   "Szo",
+   "S",
+   "S",
+   "S",
+   "S"
+  ],
+  "Sun": [
+   "V",
+   "S",
+   "D",
+   "D",
+   "S"
+  ]
  }
 };

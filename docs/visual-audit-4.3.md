@@ -628,3 +628,9 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
 - **Voice Search (Google Search 2.5.9):**
   - The screen was a centred red circle on white. It is now `speak_now.xml`: a `search_bg` panel 260 dp tall on #e5e5e5 with `ic_google_medium_dark`, the recognizer at the top right and "Speak now" in 20 sp sans-serif-light.
   - The recognizer: `vs_micbtn_rec` over `vs_reactive_light` while listening, with `vs_levels_guideline`; after a timeout, `vs_micbtn_on` and the image's `no_match` text.
+- **News & Weather 1.3.11 (GenieWidget):**
+  - The action bar is GenieWidget's ActionBar style (#222222), with Refresh in the bar and Settings in the overflow.
+  - The tabs are the app's own 52 dp TabView: 12 sp, a 6 dp blue bottom on the selected tab, #505050 lines and separators. They are no longer Holo's uppercase tabs.
+  - News rows are `news_item_layout.xml`: 80 dp, 16 sp bold title, 14 sp grey snippet, a 70 dp picture on the right instead of the full-width photo.
+  - The Weather tab is `weather_current_view.xml` in `bg_weather_panel_app`: the city with the info button, the APK's `ic_weather_*` icons, today's 80 sp temperature, high / low, conditions, humidity and wind in its own strings, The Weather Channel's logo, and the forecast days with the app's one-letter day names.
+- **Broken lengths:** 44 declarations in 4.3's chrome, hangouts, extra apps, email, Play apps and stock apps CSS read `.851.6px`, plus `.8.46px` and `.2.82px` left over from rescaling KitKat's values. The browser dropped them, so borders, shadows and paddings were missing. They are now `.85px` (1 dp), `.85px` and `.28px`, and `tests/css-numbers.test.cjs` guards all versions.
