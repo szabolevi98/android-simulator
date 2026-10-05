@@ -123,4 +123,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: Earth akciósáv a max_action_buttons szerint (4.3 javítás); 4.4.4: S() + stock-strings.js, News & Weather, Earth 7.1.3, Google Settings (GMS 4.3.23) | 630f9c5 |
 | 2026-10-05 | 4. lépés: 4.4.4 Google Now a Velvet 3.3.11-ből (fejléckép, keresőmező, kártyák, More, lábléc) | 86a2beb |
 | 2026-10-05 | 4. lépés: 4.4.4 Voice Search a Velvet 3.3.11 keresőmezőjének hangmódjából | c1c9596 |
-| 2026-10-05 | 4. lépés: 4.4.4 Maps 7.5 (omnibox, vízjel, saját hely, oldalfül és rétegmenü) | (ez a commit) |
+| 2026-10-05 | 4. lépés: 4.4.4 Maps 7.5 (omnibox, vízjel, saját hely, oldalfül és rétegmenü) | adc394c |
