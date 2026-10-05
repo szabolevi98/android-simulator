@@ -488,7 +488,7 @@
   // Calendar, Latitude, Traffic and the Google Voice widgets render the same live content in the picker and on the home screen.
   function googleWidget(type) {
     const ctx = {...gappContext(), events: data.calendarState ? [] : data.events};
-    return {calendar: GBGoogleWidgets.calendar, latitude: GBGoogleWidgets.latitude, traffic: GBGoogleWidgets.traffic, 'gvoice-inbox': GBGoogleWidgets.voiceInbox, 'gvoice-settings': GBGoogleWidgets.voiceSettings}[type]?.(ctx) ?? null;
+    return {calendar: GBGoogleWidgets.calendar, latitude: GBGoogleWidgets.latitude, traffic: GBGoogleWidgets.traffic, 'gvoice-inbox': GBGoogleWidgets.voiceInbox, 'gvoice-settings': GBGoogleWidgets.voiceSettings, 'rate-places': GBGoogleWidgets.ratePlaces}[type]?.(ctx) ?? null;
   }
   function widgetArt(type) {
     const google = googleWidget(type);
@@ -768,6 +768,7 @@
     if (ui.overlay === 'gb-dialog-camera') return {title: GBCamera.text(i18n.language, 'confirm_restore_title'), icon: 'ic_dialog_alert', message: GBCamera.text(i18n.language, 'confirm_restore_message'), buttons: [{action: 'gbcam-restore-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
     if (ui.overlay === 'gb-dialog-gallery') return GBGallery.details(gbGalleryContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-email') return GBEmail.dialog(ui.gbEmDialog, gbEmailContext()) || {title: '', items: []};
+    if (ui.overlay === 'gb-dialog-hotpot') return GBGoogleWidgets.placeDialog(gappContext());
     if (ui.overlay === 'gb-dialog-gapp') return GBApps.get(ui.view)?.dialog?.(ui.gappDialog, gappContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-cal') return GBCalendar.dialog(ui.gbCalDialog, gbCalContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-br') return GBBrowser.dialog(ui.gbBrDialog, gbBrowserContext()) || {title: '', items: []};
@@ -1544,6 +1545,13 @@
         else openApp('latitude');
         break;
       case 'gbw-traffic': openApp('maps'); break;
+      // Rate Places: the rate panel slides in over the place; a star rates the place and slides it back.
+      case 'gbw-hotpot':
+        if (id === 'places') { ui.overlay = 'gb-dialog-hotpot'; renderOverlay(); break; }
+        ui.gbwHotpot = id === 'rate' ? 'rate' : ''; ui.gbwHotpotSlide = true; render(); ui.gbwHotpotSlide = false; break;
+      case 'gbw-hotpot-star': { const [place, stars] = id.split(':'); const hp = data.hotpot ||= {}; (hp.ratings ||= {})[place] = Number(stars); ui.gbwHotpot = ''; ui.gbwHotpotSlide = true; save(); render(); ui.gbwHotpotSlide = false; break; }
+      case 'gbw-hotpot-more': ui.gbwHotpot = ''; openApp('places'); if (ui.mp) { ui.mp.page = id; render(); } break;
+      case 'gbw-hotpot-pick': data.hotpot = {...data.hotpot, place: id, updated: deviceDate().getTime()}; ui.overlay = ''; renderOverlay(); save(); render(); break;
       case 'gbw-voice-step': ui.gbwVoice = (ui.gbwVoice || 0) + Number(id); render(); break;
       case 'gbw-voice-open': openApp('google-voice'); if (id) { const c = GBExtraApps.gvStore(data).find(x => x.id === id); if (c) { c.read = true; ui.gvOpen = id; save(); } } render(); break;
       case 'gbw-voice-compose': openApp('google-voice'); render(); gappContext().dialog('gv-compose'); break;

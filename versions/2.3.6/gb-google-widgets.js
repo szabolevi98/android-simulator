@@ -11,6 +11,7 @@
    - Calendar (CalendarProvider.apk agenda_appwidget.xml, 2 x 2): the next event under the blue appwidget_calendar_bgtop_blue
      date (17 sp day, 30 sp date), "when" in 14 sp #666666, the 14 sp title, the 11 sp place, "1 more event", or
      "No upcoming calendar events".
+   - Rate Places (Maps.apk HotpotWidgetProvider, 4 x 1; hotpot_widget*.xml): see ratePlaces below.
    Texts are the APKs' (docs/apk-strings.py); friends and places are the Maps module's made-up ones. */
 (() => {
   'use strict';
@@ -117,6 +118,48 @@
           "%d weitere Termine",
           "%d autres événements",
           "%d eventos más"
+      ],
+      "Rate Places": [
+          "Rate Places",
+          "Orte bewerten",
+          "Donnez votre avis",
+          "Puntuar sitios"
+      ],
+      "You rated:": [
+          "You rated:",
+          "Sie haben bewertet: ",
+          "Votre note : ",
+          "Tu puntuación: "
+      ],
+      "Updated {0}": [
+          "Updated {0}",
+          "Aktualisiert am {0}",
+          "Mis à jour il y a {0}",
+          "Actualizado {0}"
+      ],
+      "Posting publicly as {0}": [
+          "Posting publicly as {0}",
+          "Öffentlich gepostet als {0}",
+          "Post public associé au nom {0}",
+          "Publicado públicamente como {0}"
+      ],
+      "Say more": [
+          "Say more",
+          "Mehr",
+          "Autres commentaires",
+          "¿Algo más?"
+      ],
+      "Select a place:": [
+          "Select a place:",
+          "Ort auswählen: ",
+          "Sélectionnez une adresse : ",
+          "Seleccionar un sitio: "
+      ],
+      "No location information": [
+          "No location information",
+          "Keine Standortinformationen",
+          "Aucune information géographique",
+          "Sin información de ubicación"
       ]
   };
   const LANGS = ['hu', 'de', 'fr', 'es'];
@@ -128,6 +171,7 @@
     {type: 'gvoice-inbox', label: 'Google Voice Inbox', app: 'google-voice', width: 3, height: 1},
     {type: 'gvoice-settings', label: 'Google Voice Settings', app: 'google-voice', width: 3, height: 1},
     {type: 'latitude', label: 'Latitude', app: 'latitude', width: 4, height: 2},
+    {type: 'rate-places', label: 'Rate Places', app: 'places', width: 4, height: 1},
     {type: 'traffic', label: 'Traffic', app: 'maps', width: 1, height: 1}
   ];
   const ago = (lang, at) => new Date(at).toLocaleTimeString(lang === 'en' ? 'en-US' : lang, {hour: 'numeric', minute: '2-digit'});
@@ -165,5 +209,28 @@
     const when = ev.time ? at.toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit', hour12: !ctx.hour24}) : '';
     return `<button class="gbw-cal" data-action="open-app" data-app="calendar"><span class="gbw-cal-top"><b class="dow">${e(at.toLocaleDateString(locale, {weekday: 'long'}).toUpperCase())}</b><b class="dom">${at.getDate()}</b></span><span class="gbw-cal-when">${e(when)}</span><span class="gbw-cal-title">${e(ev.title)}</span>${more ? `<span class="gbw-cal-more">${e(T(lang, more === 1 ? '1 more event' : '%d more events').replace('%d', more))}</span>` : ''}<span class="gbw-cal-where">${e(ev.location || '')}</span></button>`;
   }
-  window.GBGoogleWidgets = {PROVIDERS, T, latitude, traffic, voiceInbox, voiceSettings, calendar};
+  // Rate Places (Maps HotpotWidgetProvider, 300 x 56 dip; hotpot_widget.xml, hotpot_widget_rate.xml): the counter of rated places
+  // under the rate button, the nearest place (or the one picked from "Select a place:") with "You rated:" or the update time,
+  // and the drop-down arrow. The rate button or the place slides in the rate panel: "Posting publicly as {0}", five stars,
+  // Say more. data.hotpot = {place, ratings: {id: stars}, updated}; ui.gbwHotpot = 'rate' while the panel is open.
+  const places = () => { const m = window.GBMaps; return m ? [...m.POIS].sort((a, b) => m.km(m.ME || {fx: .5, fy: .52}, a) - m.km(m.ME || {fx: .5, fy: .52}, b)) : []; };
+  const hotpotPlace = data => { const list = places(); return list.find(p => p.id === data.hotpot?.place) || list[0]; };
+  function ratePlaces(ctx) {
+    const {lang, data, ui} = ctx, hp = data.hotpot || {}, ratings = hp.ratings || {}, place = hotpotPlace(data), open = ui.gbwHotpot === 'rate' && place;
+    const count = String(Math.min(999, Object.keys(ratings).length)).padStart(3, '0'), mine = place ? ratings[place.id] || 0 : 0;
+    const star = (n, on, small) => `<img src="assets/mp-hotpot_${small ? 'small_' : ''}star_${on ? 'on' : 'off'}.png" alt=""${small ? '' : ` data-n="${n}"`}>`;
+    const counter = `<button class="gbw-hp-counter" data-action="gbw-hotpot" data-id="${open ? 'back' : 'rate'}" aria-label="${e(T(lang, 'Rate Places'))}"><span class="gbw-hp-btn ${open ? 'back' : place ? 'rate' : 'off'}"></span><span class="gbw-hp-digits">${[...count].map(d => `<b>${d}</b>`).join('')}</span></button>`;
+    const sub = mine ? `<span class="gbw-hp-sub"><span>${e(T(lang, 'You rated:'))}</span><span class="gbw-hp-small">${[1, 2, 3, 4, 5].map(n => star(n, n <= mine, true)).join('')}</span></span>`
+      : `<span class="gbw-hp-sub"><img src="assets/mp-hotpot_small_blue_ball.png" alt=""><span>${e(T(lang, 'Updated {0}').replace('{0}', new Date(hp.updated || ctx.now).toLocaleTimeString(ctx.locale, {hour: 'numeric', minute: '2-digit', hour12: !ctx.hour24})))}</span></span>`;
+    const panel = open
+      ? `<span class="gbw-hp-panel rate${ui.gbwHotpotSlide ? ' slide' : ''}"><i class="gbw-hp-sep open"></i><span class="gbw-hp-stars"><small>${e(T(lang, 'Posting publicly as {0}').replace('{0}', ctx.account))}</small><span>${[1, 2, 3, 4, 5].map(n => `<button data-action="gbw-hotpot-star" data-id="${e(place.id)}:${n}" aria-label="${n}">${star(n, n <= mine)}</button>`).join('')}</span></span><i class="gbw-hp-sep"></i><button class="gbw-hp-more" data-action="gbw-hotpot-more" data-id="${e(place.id)}"><small>${e(T(lang, 'Say more'))}</small><span></span></button></span>`
+      : `<span class="gbw-hp-panel${ui.gbwHotpotSlide ? ' slide' : ''}"><i class="gbw-hp-sep"></i>${place ? `<button class="gbw-hp-place" data-action="gbw-hotpot" data-id="rate"><b>${e(place.name)}</b>${sub}</button>` : `<span class="gbw-hp-place none">${e(T(lang, 'No location information'))}</span>`}<i class="gbw-hp-sep"></i><button class="gbw-hp-drop" data-action="gbw-hotpot" data-id="places" aria-label="${e(T(lang, 'Select a place:'))}"><span></span></button></span>`;
+    return `<div class="gbw-hp${open ? ' open' : ''}">${counter}${panel}</div>`;
+  }
+  // HotpotSnapToPlace: the nearby places (hotpot_listing.xml: name and address) under "Select a place:".
+  function placeDialog(ctx) {
+    const current = hotpotPlace(ctx.data)?.id;
+    return {title: T(ctx.lang, 'Select a place:'), custom: `<div class="gbw-hp-list">${places().slice(0, 8).map(p => `<button class="${p.id === current ? 'on' : ''}" data-action="gbw-hotpot-pick" data-id="${e(p.id)}"><b>${e(p.name)}</b><small>${e(p.address)}</small></button>`).join('')}</div>`, buttons: []};
+  }
+  window.GBGoogleWidgets = {PROVIDERS, T, latitude, traffic, voiceInbox, voiceSettings, calendar, ratePlaces, placeDialog};
 })();

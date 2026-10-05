@@ -144,3 +144,54 @@
 .gbw-cal-where{margin:0 8.63px 5.18px;color:#666;font-size:9.49px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .gbw-cal-title+.gbw-cal-where{margin-top:auto}
 .screen .gbw-cal.empty{align-items:center;justify-content:center;padding:8.63px;color:#000000bb;font-weight:700;font-size:12.08px;text-align:center}
+/* Rate Places (Maps hotpot_widget.xml): 300 x 56 dip on hotpot_widget_bg_closed / _open, the 55 dip counter column, the
+   place panel on hotpot_widget_bg_rhs between hotpot_widget_separator_* lines, the 52 dip drop-down and Say more columns;
+   the panels slide in from the right (hotpot_widget_slide_in_from_right). 240 dpi drawables x 0.575. */
+.home-widget.widget-rate-places{display:flex;align-items:center;justify-content:center;text-shadow:none}
+.gbw-hp{display:flex;width:258.75px;max-width:100%;height:48.3px;overflow:hidden;background:url('assets/mp-hotpot_widget_bg_closed.png') 0 0/100% 100%;font-family:DroidSans,Arial,sans-serif;color:#000;text-shadow:none}
+.gbw-hp.open{background-image:url('assets/mp-hotpot_widget_bg_open.png')}
+.gbw-hp button{font-family:inherit;color:#000;cursor:pointer}
+.screen .gbw-hp-counter{flex:none;width:47.44px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;border:0;background:none}
+.gbw-hp-btn{width:43.13px;height:23.58px;background:url('assets/mp-hotpot_widget_btn_rate.png') 0 0/100% 100%}
+.gbw-hp-btn.off{background-image:url('assets/mp-hotpot_widget_btn_rate_disabled.png')}
+.gbw-hp-btn.back{background-image:url('assets/mp-hotpot_widget_btn_back.png')}
+.screen .gbw-hp-counter:active .gbw-hp-btn.rate{background-image:url('assets/mp-hotpot_widget_btn_rate_pressed.png')}
+.screen .gbw-hp-counter:active .gbw-hp-btn.back{background-image:url('assets/mp-hotpot_widget_btn_back_pressed.png')}
+.gbw-hp-digits{display:flex;width:39.68px;height:12.65px;margin-top:2.59px;background:url('assets/mp-hotpot_widget_counter.png') 0 0/100% 100%}
+.gbw-hp-digits b{flex:1;display:flex;align-items:center;justify-content:center;font-size:10.35px;line-height:1}
+.gbw-hp-panel{flex:1;min-width:0;display:flex;align-items:stretch}
+.gbw-hp-panel:not(.rate){background:url('assets/mp-hotpot_widget_bg_rhs.png') 100% 0/100% 100%}
+.gbw-hp-panel.slide{animation:gbw-hp-slide .3s ease-out}
+@keyframes gbw-hp-slide{from{transform:translateX(100%)}to{transform:none}}
+.gbw-hp-sep{flex:none;width:1.15px;background:url('assets/mp-hotpot_widget_separator_closed.png') 0 0/100% 100%}
+.gbw-hp-sep.open{background-image:url('assets/mp-hotpot_widget_separator_open.png')}
+.screen .gbw-hp-place{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:5.18px 0 0 6.9px;border:0 solid transparent;background:none;text-align:left}
+.screen .gbw-hp-place:active{padding:0 0 0 5.18px;border-width:5.18px 1.72px 0;border-image:url('assets/mp-hotpot_appwidget_inner_press_c.png') 10 3 fill / 5.75px 1.72px stretch}
+.gbw-hp-place.none{justify-content:center;padding:0 0 0 2.59px;font-size:13.8px}
+.gbw-hp-place b{max-width:100%;margin-bottom:3.45px;font-size:12.08px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-hp-sub{display:flex;align-items:center;max-width:100%;font-size:8.63px;white-space:nowrap;overflow:hidden}
+.gbw-hp-sub>img{flex:none;width:7.48px;height:7.48px;margin-top:1.73px}
+.gbw-hp-sub>img+span{padding-left:2.59px;overflow:hidden;text-overflow:ellipsis}
+.gbw-hp-small{display:flex;gap:0;margin:2.59px 0 0 2.59px}
+.gbw-hp-small img{width:5.18px;height:4.6px}
+.screen .gbw-hp-drop{flex:none;width:44.85px;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:none}
+.gbw-hp-drop span{width:18.4px;height:18.98px;background:url('assets/mp-hotpot_dropdown_arrow.png') 0 0/100% 100%}
+.screen .gbw-hp-drop:active span{background-image:url('assets/mp-hotpot_dropdown_arrow_pressed.png')}
+.gbw-hp-stars{flex:1;min-width:0;display:flex;flex-direction:column}
+.gbw-hp-stars small{padding:1.73px 0 1.73px 2.59px;font-size:7.76px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbw-hp-stars>span{flex:1;display:flex;align-items:center;justify-content:center}
+.screen .gbw-hp-stars button{display:flex;padding:0 3.45px;border:0;background:none}
+.screen .gbw-hp-stars button:first-child{padding-left:0}
+.screen .gbw-hp-stars button:last-child{padding-right:0}
+.gbw-hp-stars img{width:25.88px;height:25.88px}
+.screen .gbw-hp-more{flex:none;width:44.85px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;border:0;background:none}
+.gbw-hp-more small{padding-bottom:3.45px;font-size:7.76px}
+.gbw-hp-more span{width:26.45px;height:26.45px;background:url('assets/mp-hotpot_ic_review.png') 0 0/100% 100%}
+.screen .gbw-hp-more:active span{background-image:url('assets/mp-hotpot_ic_review_pressed.png')}
+.gbw-hp-list{display:flex;flex-direction:column;margin:-4px 0}
+.screen .gbw-hp-list button{display:flex;flex-direction:column;align-items:flex-start;min-height:55.2px;justify-content:center;padding:2.59px 6.04px 0;border:0;border-bottom:1px solid #ffffff2e;background:none;color:#fff;text-align:left;cursor:pointer;font-family:DroidSans,Arial,sans-serif}
+.screen .gbw-hp-list button:last-child{border-bottom:0}
+.screen .gbw-hp-list button:active{background:#ff9a00}
+/* hotpot_listing.xml: PlaceListViewPrimary 17 sp ?textColorPrimary, PlaceListViewSecondary 14 sp light_text_grey #999999. */
+.gbw-hp-list b{font-weight:400;font-size:14.66px}
+.gbw-hp-list small{color:#999;font-size:12.08px}

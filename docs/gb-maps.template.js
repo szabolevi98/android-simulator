@@ -365,5 +365,5 @@
   });
   const module = {render, mounted, menu, dialog, handle, submit, back, open};
   for (const id of APPS) GBApps.register(id, module);
-  window.GBMaps = {POIS, FRIENDS, search, route, km, distance, T};
+  window.GBMaps = {POIS, FRIENDS, ME, search, route, km, distance, T};
 })();

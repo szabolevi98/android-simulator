@@ -903,6 +903,10 @@ Taps open the story, the video, YouTube search or the app's Market page. The wid
 - **Google Voice Settings** 3 × 1 (`widget_settings_layout.xml`, 80 dip): Inbox, Compose, Call settings and Do not disturb, over the balance and call setting bar. Do not disturb toggles with the app's toast.
 - **Latitude** 4 × 2 (`Maps.apk` `layout-port/friends_appwidget.xml`): the header with your location, Check in and Refresh; two friends with their distance and place over the watermark; the account and "Last Updated" in the footer.
 - **Traffic** 1 × 1 (`traffic_appwidget.xml`): the 41 dip traffic light with the minutes home, slower in the rush hours.
+- **Rate Places** 4 × 1 (`Maps.apk` HotpotWidgetProvider; `hotpot_widget.xml`, `hotpot_widget_rate.xml`, 300 × 56 dip):
+  - the rate button over the three-digit counter of rated places;
+  - the nearest place with "You rated:" and small stars, or the blue dot and "Updated {0}";
+  - the drop-down opens "Select a place:" (ResolvePlaceActivity's dark list: 17 sp name, 14 sp #999 address);
+  - the rate button or the place slides in the rate panel: "Posting publicly as {0}", five stars, and Say more, which opens the place in Places.
 
-Taps open Latitude, Maps, Google Voice (the previewed conversation or Compose) or Calendar. The texts come from the APKs: Google Voice is English only, and Maps has no Hungarian. The migration no longer drops `calendar` widgets, because the inherited ICS calendar widgets went with the revision 3 reset.
-
+Taps open Latitude, Maps, Places, Google Voice (the previewed conversation or Compose) or Calendar. The texts come from the APKs: Google Voice is English only, and Maps has no Hungarian. The migration no longer drops `calendar` widgets, because the inherited ICS calendar widgets went with the revision 3 reset.
