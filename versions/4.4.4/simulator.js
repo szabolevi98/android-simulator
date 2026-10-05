@@ -801,6 +801,8 @@
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'pa-drawer') {
       overlayRoot.innerHTML = PlayApps.drawer(playContext(ui.view));
+    } else if (ui.overlay === 'pa-menu') {
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu holo-menu-light">${PlayApps.menu(playContext(ui.view)).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'photos-menu') {
       overlayRoot.innerHTML = PhotosApp.menu({ui, t: key => i18n.t(key)});
     } else if (ui.overlay === 'photos-delete') {
@@ -1384,7 +1386,7 @@
     if (!area || !note) return;
     note.text = area.value; if (!note.text.trim()) data.keepNotes = data.keepNotes.filter(item => item !== note); save();
   }
-  const playContext = app => ({app, ui, data, t: key => i18n.t(key), music: ui.music, tracks, time: ICSMusic.time});
+  const playContext = app => ({app, ui, data, locale: i18n.locale(), t: key => i18n.t(key), music: ui.music, tracks, time: ICSMusic.time});
   // The Play Movies player counts seconds without re-rendering (the picture keeps panning).
   function tickPlayVideo() {
     if (ui.view !== 'play-movies' || ui.sub !== 'movie' || ui.paPlaying === false || ui.locked) return;
@@ -1803,6 +1805,9 @@
       case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       // Play Music, Movies & TV, Books and Games
       case 'pa-drawer': ui.overlay = 'pa-drawer'; renderOverlay(); break;
+      case 'pa-menu': ui.overlay = 'pa-menu'; renderOverlay(); break;
+      case 'pa-refresh': ui.overlay = ''; renderOverlay(); render(); break;
+      case 'pa-mixtab': ui.paMixTab = id; render(); break;
       case 'pa-page': ui.paPage ||= {}; ui.paPage[ui.view] = id; ui.sub = ''; ui.overlay = ''; renderOverlay(); render(); break;
       case 'pa-unsupported': case 'pa-game-play': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'pa-album': ui.paAlbum = id; ui.sub = 'album'; render(); break;

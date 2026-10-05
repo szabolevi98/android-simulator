@@ -1,4 +1,5 @@
-/* The Google Play media apps of the stock Nexus 5, late 2013: Play Music 5 (GSMArena Nexus 5 review), Play Movies & TV
+/* The Google Play media apps of the stock Nexus 5 (KTU84P). Audit step 4 rebuilds each from its APK: Play Music
+   5.2.1301L (Music2.apk) so far. The rest still follows the late 2013 sources: Play Movies & TV
    (Android Police, June 2013), Play Books 3 (Android Police, October 2013) and Play Games 1 (Droid Life, July 2013).
    They share one look: a coloured action bar (Music #f4842e, Movies #c74b46, Books #3f9fe0, Games #96aa39) with the
    drawer mark and a white glyph, a white navigation drawer, #e5e5e5 pages with light italic section titles and
@@ -6,6 +7,7 @@
    and game art are the simulator's own drawings; book pages are short public-domain excerpts. */
 (() => {
   'use strict';
+  const S = (ctx, app, key) => { const row = window.StockStrings?.[app]?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const glyph = {
     music: '<svg viewBox="0 0 24 24"><path d="M12 3a8.5 8.5 0 0 0-8.5 8.5V19a2 2 0 0 0 2 2H8v-7H5.5v-2.5a6.5 6.5 0 0 1 13 0V14H16v7h2.5a2 2 0 0 0 2-2v-7.5A8.5 8.5 0 0 0 12 3z" fill="#fff"/></svg>',
@@ -40,7 +42,7 @@
     return `<svg class="pa-art" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="${w}" height="${h}" fill="${a}"/>${shapes}${text}</svg>`;
   }
   const APPS = {
-    'play-music': {key: 'music', title: 'Play Music', pages: [['listen', 'Listen Now'], ['library', 'My Library'], ['playlists', 'Playlists']]},
+    'play-music': {key: 'music', title: 'Play Music', pages: [['listen', 'Listen Now'], ['library', 'My Library'], ['playlists', 'Playlists'], ['mixes', 'Instant Mixes']]},
     'play-movies': {key: 'movies', title: 'Play Movies & TV', pages: [['watch', 'Watch Now'], ['movies', 'My Movies'], ['shows', 'My TV Shows']]},
     'play-books': {key: 'books', title: 'Play Books', pages: [['read', 'Read Now'], ['library', 'My Library']]},
     'play-games': {key: 'games', title: 'Play Games', pages: [['now', 'Play Now'], ['mine', 'My Games'], ['activity', 'My Activity'], ['players', 'Players'], ['recommended', 'Recommended Games'], ['shop', 'Shop']]}
@@ -84,10 +86,17 @@
   const PLAYERS = [{name: 'Alex Morgan', game: 'Robot Rally'}, {name: 'Sam Rivera', game: 'Bean Bounce'}];
   const seedOf = id => [...String(id)].reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
 
+  // Play Music 5.2's action bar (MusicActionBar on AppCompat): action_bar_bg_music (#f4842d over a 2 dp #d27127 line),
+  // the drawer toggle's ic_drawer_white (ic_ab_back_holo_dark when going up) beside ic_corpora_music_white, the title and
+  // home_action_bar_spinner_item's 10 sp bold #b3ffffff subtitle. The other Play apps still use the generic bar.
   function bar(ctx, {title, subtitle = '', up = false, actions = ''}) {
     const app = APPS[ctx.app];
+    if (ctx.app === 'play-music') return `<header class="pm5-bar"><button class="pm5-home" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : ctx.t(app.title))}"><img class="pm5-toggle" src="assets/${up ? 'ic_ab_back_holo_dark' : 'pm52-ic_drawer_white'}.png" alt=""><img class="pm5-logo" src="assets/pm52-ic_corpora_music_white.png" alt=""></button><span class="pm5-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
     return `<header class="pa-bar"><button class="pa-up" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : ctx.t(app.title))}">${up ? '<span aria-hidden="true">‹</span>' : '<i aria-hidden="true"></i>'}${glyph[app.key]}</button><span class="pa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
   }
+  // menu/home_activity.xml: Search (always) in the bar (the media route button only shows with a cast device), then
+  // Refresh, Settings, Help and Send feedback in the overflow.
+  const musicActions = ctx => `<button class="pa-btn" data-action="pa-unsupported" aria-label="${e(S(ctx, 'music', 'Search'))}"><img class="pm5-icon" src="assets/pm52-ic_search_white.png" alt=""></button><button class="pa-btn" data-action="pa-menu" aria-label="${e(ctx.t('More options'))}"><img class="pm5-icon" src="assets/pm52-ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button>`;
   const btn = (action, label, icon, id = '') => `<button class="pa-btn" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${glyph[icon]}</button>`;
   const section = (title, chip = '', chipAction = '') => `<div class="pa-section"><h3>${e(title)}</h3>${chip ? `<button class="pa-chip" data-action="${chipAction}">${e(chip)}</button>` : ''}</div>`;
   const card = ({action, id, artHtml, title, sub, note = '', pin = false, cls = ''}) => `<div class="pa-card${cls}" role="button" tabindex="0" data-action="${action}" data-id="${e(id)}" aria-label="${e(title)}"><div class="pa-card-art">${artHtml}</div><div class="pa-card-copy"><b>${e(title)}</b><small>${e(sub)}</small>${note ? `<i>${e(note)}</i>` : ''}<button class="pa-dots" data-action="pa-unsupported" aria-label="More options">${glyph.overflow}</button>${pin ? `<button class="pa-pin" data-action="pa-unsupported" aria-label="Keep on device">${glyph.pin}</button>` : ''}</div></div>`;
@@ -104,7 +113,7 @@
     return `<div class="pm-mini"><button class="pm-mini-open" data-action="pa-player"><span class="pm-mini-art">${art('cover', seedOf(track.album), track.album)}</span><span class="pm-mini-copy"><b>${e(track.title)}</b><small>${e(track.artist)}</small></span></button><button class="pm-mini-play" data-action="music-play" aria-label="${e(ctx.t(music.playing ? 'Pause' : 'Play'))}">${music.playing ? glyph.pause : glyph.play}</button></div>`;
   }
   function music(ctx) {
-    const {ui, t, tracks, music: state} = ctx, page = ui.paPage?.['play-music'] || 'listen';
+    const {ui, t, tracks, music: state} = ctx, page = ui.paPage?.['play-music'] || 'listen', m = key => S(ctx, 'music', key);
     const time = ctx.time;
     if (ui.sub === 'player' || ui.sub === 'queue') {
       const track = tracks[state.track], thumbs = ctx.data.playMusicThumbs || {};
@@ -117,27 +126,32 @@
     const list = albums(tracks);
     if (ui.sub === 'album') {
       const album = list.find(item => item.album === ui.paAlbum) || list[0];
-      return `<div class="app-view pa-app pa-music">${bar(ctx, {title: album.album, subtitle: album.artist, up: true, actions: btn('pa-unsupported', t('Search'), 'search') + btn('pa-unsupported', t('More options'), 'overflow')})}<div class="pa-scroll"><div class="pm-album-head">${art('cover', seedOf(album.album), album.album, album.artist)}</div><div class="pm-songs">${album.tracks.map((id, n) => `<button class="pm-song${id === state.track ? ' on' : ''}" data-action="pa-song" data-id="${id}" data-queue="${e(album.album)}"><em>${n + 1}</em><span><b>${e(tracks[id].title)}</b><small>${e(tracks[id].artist)}</small></span><time>${time(tracks[id].duration)}</time></button>`).join('')}</div></div>${miniPlayer(ctx)}</div>`;
+      return `<div class="app-view pa-app pa-music">${bar(ctx, {title: album.album, subtitle: album.artist, up: true, actions: musicActions(ctx)})}<div class="pa-scroll"><div class="pm-album-head">${art('cover', seedOf(album.album), album.album, album.artist)}</div><div class="pm-songs">${album.tracks.map((id, n) => `<button class="pm-song${id === state.track ? ' on' : ''}" data-action="pa-song" data-id="${id}" data-queue="${e(album.album)}"><em>${n + 1}</em><span><b>${e(tracks[id].title)}</b><small>${e(tracks[id].artist)}</small></span><time>${time(tracks[id].duration)}</time></button>`).join('')}</div></div>${miniPlayer(ctx)}</div>`;
     }
-    let body = '', title = t('Listen Now'), subtitle = t('ALL MUSIC');
+    let body = '', title = m('Listen Now'), subtitle = m('All music');
     if (page === 'listen') {
-      const reasons = ['Recently played', 'Recently added to My Library', 'Recently played'];
-      body = `<div class="pa-grid">${list.map((album, i) => card({action: 'pa-album', id: album.album, artHtml: art('cover', seedOf(album.album), album.album, album.artist), title: album.album, sub: album.artist, note: t(reasons[i % reasons.length])})).join('')}</div>`;
+      const reasons = ['Recently played', 'Recently added to My Library', 'Recently played'].map(m);
+      body = `<div class="pa-grid">${list.map((album, i) => card({action: 'pa-album', id: album.album, artHtml: art('cover', seedOf(album.album), album.album, album.artist), title: album.album, sub: album.artist, note: reasons[i % reasons.length]})).join('')}</div>`;
     } else if (page === 'library') {
-      title = t('My Library'); subtitle = '';
+      title = m('My Library');
       const tab = ui.paMusicTab || 'albums';
-      const tabs = [['genres', 'GENRES'], ['artists', 'ARTISTS'], ['albums', 'ALBUMS'], ['songs', 'SONGS']];
+      const tabs = [['genres', 'Genres'], ['artists', 'Artists'], ['albums', 'Albums'], ['songs', 'Songs']];
       const content = tab === 'albums' ? `<div class="pa-grid">${list.map(album => card({action: 'pa-album', id: album.album, artHtml: art('cover', seedOf(album.album), album.album, album.artist), title: album.album, sub: album.artist})).join('')}</div>`
         : tab === 'songs' ? `<div class="pm-songs">${tracks.map((track, id) => `<button class="pm-song${id === state.track ? ' on' : ''}" data-action="pa-song" data-id="${id}" data-queue="all"><span class="pm-qart">${art('cover', seedOf(track.album), track.album)}</span><span><b>${e(track.title)}</b><small>${e(track.artist)}</small></span><time>${time(track.duration)}</time></button>`).join('')}</div>`
         : tab === 'artists' ? `<div class="pm-songs">${[...new Set(tracks.map(track => track.artist))].map(artist => `<button class="pm-song" data-action="pa-album" data-id="${e(list.find(album => album.artist === artist).album)}"><span class="pm-qart">${art('cover', seedOf(artist), artist)}</span><span><b>${e(artist)}</b><small>${e(t('%d albums').replace('%d', list.filter(album => album.artist === artist).length))}</small></span></button>`).join('')}</div>`
         : `<div class="pm-songs"><button class="pm-song" data-action="pa-libtab" data-id="albums"><span class="pm-qart">${art('cover', 3, 'Pop')}</span><span><b>${e(t('Pop'))}</b><small>${e(t('%d albums').replace('%d', list.length))}</small></span></button></div>`;
-      body = `<nav class="pa-tabs">${tabs.map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="pa-libtab" data-id="${id}">${e(t(label))}</button>`).join('')}</nav>${content}`;
+      body = `<nav class="pa-tabs pm5-tabs">${tabs.map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="pa-libtab" data-id="${id}">${e(m(label))}</button>`).join('')}</nav>${content}`;
+    } else if (page === 'mixes') {
+      // InstantMixesFragment: My mixes, Recommended (the simulator recommends a mix per album).
+      title = m('Instant Mixes'); subtitle = '';
+      const tab = ui.paMixTab || 'recommended';
+      body = `<nav class="pa-tabs pm5-tabs">${[['mine', 'My mixes'], ['recommended', 'Recommended']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="pa-mixtab" data-id="${id}">${e(m(label))}</button>`).join('')}</nav>${tab === 'recommended' ? `<div class="pa-grid">${list.map(album => card({action: 'pa-album', id: album.album, artHtml: art('cover', seedOf(album.album) + 3, album.album), title: album.album, sub: album.artist})).join('')}</div>` : ''}`;
     } else {
-      title = t('Playlists'); subtitle = '';
+      title = m('Playlists'); subtitle = '';
       const auto = [['Thumbs up', Object.values(ctx.data.playMusicThumbs || {}).filter(v => v === 1).length], ['Last added', tracks.length]];
-      body = `${section(t('Auto playlists'))}<div class="pm-songs">${auto.map(([name, n], i) => `<button class="pm-song" data-action="pa-libtab-songs"><span class="pm-qart">${art('cover', i + 5, name)}</span><span><b>${e(t(name))}</b><small>${e(t('%d songs').replace('%d', n))}</small></span></button>`).join('')}</div>${state.playlists.length ? section(t('Playlists')) + `<div class="pm-songs">${state.playlists.map((p, i) => `<button class="pm-song" data-action="pa-libtab-songs"><span class="pm-qart">${art('cover', i + 2, p.name)}</span><span><b>${e(p.name)}</b><small>${e(t('%d songs').replace('%d', p.tracks.length))}</small></span></button>`).join('')}</div>` : ''}`;
+      body = `${section(t('Auto playlists'))}<div class="pm-songs">${auto.map(([name, n], i) => `<button class="pm-song" data-action="pa-libtab-songs"><span class="pm-qart">${art('cover', i + 5, name)}</span><span><b>${e(m(name))}</b><small>${e(t('%d songs').replace('%d', n))}</small></span></button>`).join('')}</div>${state.playlists.length ? section(t('Playlists')) + `<div class="pm-songs">${state.playlists.map((p, i) => `<button class="pm-song" data-action="pa-libtab-songs"><span class="pm-qart">${art('cover', i + 2, p.name)}</span><span><b>${e(p.name)}</b><small>${e(t('%d songs').replace('%d', p.tracks.length))}</small></span></button>`).join('')}</div>` : ''}`;
     }
-    return `<div class="app-view pa-app pa-music">${bar(ctx, {title, subtitle, actions: btn('pa-unsupported', t('Search'), 'search') + btn('pa-unsupported', t('More options'), 'overflow')})}<div class="pa-scroll">${body}</div>${miniPlayer(ctx)}</div>`;
+    return `<div class="app-view pa-app pa-music">${bar(ctx, {title, subtitle, actions: musicActions(ctx)})}<div class="pa-scroll">${body}</div>${miniPlayer(ctx)}</div>`;
   }
 
   // ---- Play Movies & TV ----
@@ -207,9 +221,17 @@
   // The navigation drawer: the app's pages, the current one highlighted.
   function drawer(ctx) {
     const app = APPS[ctx.app], page = ctx.ui.paPage?.[ctx.app] || DEFAULT[ctx.app];
+    // Music: HomeMenu.FREE_ITEM_SCREENS (Listen Now, My Library, Playlists, Instant Mixes, Shop) in side_panel_list's
+    // side_menu_list_item rows (64 dp, 21 sp sans-serif-light #505050 on #fafafa, #23000000 dividers).
+    if (ctx.app === 'play-music') { const m = key => S(ctx, 'music', key); return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pm5-drawer" aria-label="${e(m('Play Music'))}">${[['listen', 'Listen Now'], ['library', 'My Library'], ['playlists', 'Playlists'], ['mixes', 'Instant Mixes']].map(([id, key]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(m(key))}</button>`).join('')}<button data-action="pa-shop">${e(m('Shop'))}</button></nav>`; }
     return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pa-drawer pa-${app.key}" aria-label="${e(ctx.t(app.title))}">${app.pages.map(([id, label]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(ctx.t(label))}</button>`).join('')}</nav>`;
+  }
+  // Action bar overflow menus (the pa-menu overlay).
+  function menu(ctx) {
+    if (ctx.app === 'play-music') { const m = key => S(ctx, 'music', key); return ['Refresh', 'Settings', 'Help', 'Send feedback'].map(key => ({action: key === 'Refresh' ? 'pa-refresh' : 'pa-unsupported', title: m(key)})); }
+    return [];
   }
   const bookPages = id => (BOOKS.find(b => b.id === id) || BOOKS[0]).pages.length;
   const music3 = tracks => albums(tracks);
-  window.PlayApps = {DEFAULT, APPS, MOVIES, SHOWS, BOOKS, GAMES, art, render, drawer, bookPages, albums: music3};
+  window.PlayApps = {DEFAULT, APPS, MOVIES, SHOWS, BOOKS, GAMES, art, render, drawer, menu, bookPages, albums: music3};
 })();

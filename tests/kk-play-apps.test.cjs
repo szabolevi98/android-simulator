@@ -5,7 +5,10 @@ const P=w.window.PlayApps,t=k=>k,tracks=[{title:'A',artist:'X',album:'One',durat
 const music={queue:[0,1,2],track:0,position:10,playing:true,shuffle:false,repeat:'off',playlists:[]};
 const ctx=(app,ui={})=>({app,ui,data:{},t,music,tracks,time:s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`});
 const listen=P.render(ctx('play-music'));
-assert.ok(listen.includes('Listen Now')&&listen.includes('ALL MUSIC')&&(listen.match(/data-action="pa-album"/g)||[]).length===2&&listen.includes('pm-mini'));
+assert.ok(listen.includes('Listen Now')&&listen.includes('All music')&&listen.includes('pm52-ic_corpora_music_white.png')&&(listen.match(/data-action="pa-album"/g)||[]).length===2&&listen.includes('pm-mini'));
+// Play Music 5.2 (audit step 4): HomeMenu.FREE_ITEM_SCREENS, MyLibraryFragment's tabs, menu/home_activity.xml.
+assert.deepEqual([...P.drawer(ctx('play-music')).matchAll(/<button[^>]*>([^<]*)</g)].map(m=>m[1]).join(),'Listen Now,My Library,Playlists,Instant Mixes,Shop');
+assert.equal(P.menu(ctx('play-music')).map(i=>i.title).join(),'Refresh,Settings,Help,Send feedback');
 const np=P.render(ctx('play-music',{sub:'player'}));
 assert.ok(np.includes('data-field="music-position"')&&np.includes('data-action="music-play"')&&np.includes('pa-thumb')&&np.includes('0:10'));
 assert.ok(P.render(ctx('play-music',{sub:'queue'})).includes('QUEUE'));

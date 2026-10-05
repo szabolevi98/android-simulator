@@ -46,3 +46,8 @@
   - `host_action_bar.xml` has the bell notifications button (`ic_notifications_20` with the #dd4b39 count badge) instead of 4.0's count box.
   - The overflow holds only what the dex enables on the stream: Refresh (the stream fragments), Send feedback, Settings, Help and Sign out (the host).
   - `compose_bar.xml` shows Photo, Location and Write; Hangout and Mood start hidden.
+- **Play Music 5.2.1301L (Music2.apk):**
+  - The layout followed a late-2013 review with drawn glyphs and KitKat-simulator text. `MusicActionBar` (AppCompat) now uses `action_bar_bg_music` (#f4842d over a 2 dp #d27127 line), `ic_drawer_white` / `ic_ab_back_holo_dark`, `ic_corpora_music_white`, and the spinner subtitle "All music" (10 sp bold #b3ffffff) instead of "ALL MUSIC".
+  - `menu/home_activity.xml`: Search (always, `ic_search_white`; the media route button only appears with a cast device), then Refresh, Settings, Help and Send feedback in a Holo.Light popup (`menu_dropdown_panel_holo_light`).
+  - The drawer is `HomeMenu.FREE_ITEM_SCREENS`: Listen Now, My Library, Playlists, Instant Mixes, Shop (`side_menu_list_item`: 64 dp, 21 sp sans-serif-light #505050 on #fafafa). Instant Mixes has `InstantMixesFragment`'s My mixes / Recommended tabs.
+  - My Library's tabs are `MyLibraryFragment`'s Genres, Artists, Albums, Songs on `PlayTabStrip` (`play_checker_tile`, 12 sp bold #505050, 8 dp selected underline); the cards use `card_bg_play` with `PlayCardTitle` / `PlayCardSubtitle` and the APK's reason strings.
