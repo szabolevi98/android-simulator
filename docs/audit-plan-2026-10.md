@@ -154,4 +154,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 4.3 Messenger (Google+ 4.0 host bar, New conversation gomb, menü, beszélgetéssorok) | d5a4909 |
 | 2026-10-06 | 4. lépés: 4.3 Currents 2.1 (kategóriamenü a csúszó panel alatt, csempék, menü) | 154fa92 |
 | 2026-10-06 | 4. lépés: 4.3 Play Magazines 2.0 (lila sáv, fiók, menü, kártyarács) | e79485b |
-| 2026-10-06 | 4. lépés: 4.3 Wallet 1.6 (dashboard_activity gombjai) | (ez a commit) |
+| 2026-10-06 | 4. lépés: 4.3 Wallet 1.6 (dashboard_activity gombjai) | fc9f643 |
