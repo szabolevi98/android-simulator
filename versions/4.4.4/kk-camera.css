@@ -1,4 +1,5 @@
-/* Android 4.3 Camera (Gallery2 android-4.3_r1.1, dp scaled by 0.9): camera_controls (layout-port), PieRenderer, switcher popup. */
+/* Android 4.4.4 Camera (GoogleCamera 2.0.002, Camera2 android-4.4.4_r1, dp scaled by 0.9): camera_controls (layout-port),
+   PieRenderer, switcher popup; the same dimens and colours as the 4.3 Gallery2 camera in both images. */
 .jbcam{position:relative;height:100%;background:#000;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;color:#fff}
 .jbcam-preview{position:absolute;left:0;right:0;top:50%;aspect-ratio:3/4;transform:translateY(-50%);overflow:hidden;pointer-events:none}
 .jbcam-preview img{width:100%;height:100%;object-fit:cover;display:block}

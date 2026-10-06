@@ -1,5 +1,7 @@
-/* Android 4.3 Camera (Gallery2 android-4.3_r1.1: PhotoUI, PieRenderer, PhotoMenu, CameraSwitcher, ZoomRenderer,
-   CaptureAnimManager). The preview is a local illustration; nothing is captured from a real camera. */
+/* Android 4.4.4 Camera (GoogleCamera 2.0.002 of KTU84P, built from Camera2 android-4.4.4_r1: PhotoUI, PieRenderer,
+   PhotoMenu, ModuleSwitcher, ZoomRenderer, AnimationManager). Its camera_controls, pie and switcher resources are the
+   4.3 Gallery2 camera's (dimens and colours compared between the two APKs; only pie_progress_* and the filmstrip gap
+   are new). The preview is a local illustration; nothing is captured from a real camera. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -101,15 +103,17 @@
     const cx = width / 2, cy = height / 2, max = (Math.min(width, height) - P.zoomMin) / 2, r = P.zoomMin + (zoom - 1) / (maxZoom - 1) * (max - P.zoomMin);
     return `<g class="jbcam-zoom" fill="none" stroke="#fff"><circle cx="${cx}" cy="${cy}" r="${P.zoomMin}" stroke-width="${P.focusInnerStroke}"/><circle cx="${cx}" cy="${cy}" r="${max}" stroke-width="${P.focusInnerStroke}"/><line x1="${cx - P.zoomMin}" y1="${cy}" x2="${cx - max - 4}" y2="${cy}" stroke-width="${P.focusInnerStroke}"/><circle cx="${cx}" cy="${cy}" r="${r}" stroke-width="${P.focusOuterStroke}"/><text x="${cx}" y="${cy}" fill="#fff" fill-opacity=".75" stroke="none" text-anchor="middle" dominant-baseline="central">${zoom.toFixed(1)}x</text></g>`;
   }
-  // CaptureAnimManager: white flash (0.3 -> 0 over 200 ms), hold to 400 ms, slide to the 48dp thumbnail by 800 ms,
-  // hold until 3300 ms, then slide off to the right by 4100 ms.
+  // Camera2 4.4.4 AnimationManager: the flash overlay fades 0.3 -> 0 over FLASH_DURATION 300 ms while the picture
+  // shrinks from the whole preview into preview_thumb (48 dp, top right) over SHRINK_DURATION 400 ms, holds for
+  // HOLD_DURATION 2500 ms and slides off to the right over SLIDE_DURATION 1100 ms (ObjectAnimator's default
+  // accelerate-decelerate). The ImageView has no frame (4.3's CaptureAnimManager drew one).
   function captureFrame(t, box) {
     const size = 48 * DP, margin = 16 * DP, holdX = box.w - margin - size, holdY = margin;
-    const decel = k => 1 - (1 - k) * (1 - k), lerp = (a, b, k) => a + (b - a) * k;
-    if (t < 400) return {x: 0, y: 0, w: box.w, h: box.h, flash: t < 200 ? .3 - .3 * t / 200 : 0, border: false};
-    if (t < 800) { const k = decel((t - 400) / 400); return {x: lerp(0, holdX, k), y: lerp(0, holdY, k), w: lerp(box.w, size, k), h: lerp(box.h, size, k), flash: 0, border: false}; }
-    if (t < 3300) return {x: holdX, y: holdY, w: size, h: size, flash: 0, border: true};
-    if (t < 4100) return {x: holdX + (margin + size) * (t - 3300) / 800, y: holdY, w: size, h: size, flash: 0, border: true};
+    const ease = k => (Math.cos((k + 1) * Math.PI) / 2) + .5, lerp = (a, b, k) => a + (b - a) * k;
+    const flash = t < 300 ? .3 - .3 * t / 300 : 0;
+    if (t < 400) { const k = ease(t / 400); return {x: lerp(0, holdX, k), y: lerp(0, holdY, k), w: lerp(box.w, size, k), h: lerp(box.h, size, k), flash, border: false}; }
+    if (t < 2900) return {x: holdX, y: holdY, w: size, h: size, flash: 0, border: false, live: true};
+    if (t < 4000) return {x: holdX + (box.w - holdX) * ease((t - 2900) / 1100), y: holdY, w: size, h: size, flash: 0, border: false, live: true};
     return null;
   }
 
@@ -289,7 +293,7 @@
         const step = captureFrame(now - start, b);
         if (!step) { thumb.hidden = true; return; }
         Object.assign(thumb.style, {left: `${step.x}px`, top: `${step.y}px`, width: `${step.w}px`, height: `${step.h}px`, '--flash': step.flash});
-        thumb.classList.toggle('jbcam-thumb-border', step.border); thumb.classList.toggle('jbcam-thumb-live', step.border);
+        thumb.classList.toggle('jbcam-thumb-border', step.border); thumb.classList.toggle('jbcam-thumb-live', !!step.live);
         requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
