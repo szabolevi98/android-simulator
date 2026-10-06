@@ -45,6 +45,12 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] Teszt: két verzió alkalmazásfájlja ne lehessen bájtra azonos (`tests/version-files.test.cjs`): idegen korszak-előtag nem lehet a verziómappában, és új bájtazonos pár nem jöhet létre. A bevezetéskor meglévő 54 csoport (pl. `email.js` mind az öt verzióban, a 4.3/4.4/5.1 Gallery és Search) egy csak szűkülő listán van; ezek APK-nkénti átnézése külön tétel lett lent – 6d1889f
 - [ ] A listán maradt közös fájlok átnézése verziónként a saját gyári képük alapján (a teszt `SHARED` listája; a `calculator-engine.js`, `browser-session.js` és a `play-store.js` katalógus felület nélküli, ezek maradhatnak)
   - [x] Email (`email.js` / `email.css`): a 4.0.4 és a 4.3 AOSP Email a saját EmailGoogle.apk-jából (split bar a menü-XML-ek sorrendjében, fiókválasztó a legutóbbi mappákkal, Show all folders, üzenetsorok, kék feladófejléc, CAB, levélírás idézett szöveggel); az Attach file a Galéria választóját nyitja (Select photo / Cancel); a 4.3 Gmail régi csatolás-ablaka a saját `jb-email.js`-ébe került – 08bbd0e
+  - [x] Kamera 4.4.4: a GoogleCamera 2.0.002 erőforrásai a 4.3-aséval egyeznek (APK-összevetés), de a rögzítési animáció a Camera2 4.4 AnimationManager szerint (300 ms villanás, 400 ms zsugorodás keret nélkül, 2500 ms tartás, 1100 ms kicsúszás) – 48347e4
+  - [x] Fejlesztői beállítások: 4.3 / 4.4.4 / 5.1.1 verziónként a saját `development_prefs.xml`-ből generálva (`docs/devopts.py`), a kép saját fordításaival; 5.1.1-en kapcsolók és Material kategóriacímek – 07973b4
+  - [x] Keresőpanel és Recents: az 5.1.1 SearchPanelView/SearchPanelCircleView 5.1 szerint (fehér kör Google-logóval, scrim, ripple); a felhúzás mindhárom verzióban a Google Nowt nyitja; rezgés képenként (7 / 10 ms); 4.4.4 Recents bg_protect – 5a69717
+  - [x] Launcher 4.4.4: Launcher3 REORDER_TIMEOUT 350 ms – 8fa6eb5
+  - [x] Halott másolatok kivéve: 4.4.4 BeanBag (a KTU84P-ben csak DessertCase van) – 56aff7d; 2.3.6 Nyandroid – df6c518; 2.3.6 launcher clings – e38ebd3; 2.3.6 ICS-es mappastílusok (a GB-s user_folder szabályokat írták felül) – ec87102
+  - [ ] Hátralévő csoportok: calendar.js (4.3/4.4.4), hangouts.css, gallery.js/.css (4.4.4/5.1.1), downloads.js/.css (4.4.4/5.1.1), email.js/.css (2.3.6/4.4.4/5.1.1 modellrész), global-actions, launcher-folders (4.0.4/4.3, 4.4.4/5.1.1), live-wallpapers.css, lockscreen, media, messaging, music, people, phone-call, play-store.css, settings-detail.css, settings-system, volume-panel, widgets, browser.css, desk-clock.css
 
 ## 5. Kis ráfordítású funkciók (6–8 óra)
 
@@ -170,3 +176,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: rétegzett párok összevonva (4.4.4: 7, 5.1.1: 11 fájl), LP Play-appok saját `play-apps.css`; `tests/version-files.test.cjs` (korszak-előtag, bájtazonosság csak szűkülő listán) | 6d1889f |
 | 2026-10-06 | 5. lépés: helyi keresés – Play Music, Movies, Books, YouTube, Keep, Drive, GB Talk és Voice, Docs/Sheets/Slides az APK-k keresőfelületével | bced687 |
 | 2026-10-06 | 4. lépés, közös fájlok: AOSP Email 4.0.4 és 4.3 az EmailGoogle.apk-ból, Galéria-választó a csatoláshoz | 08bbd0e |
+| 2026-10-06 | 4. lépés, közös fájlok: KK kamera-animáció, Fejlesztői beállítások képenként, LP keresőpanel, KK Recents/Launcher, halott másolatok (BeanBag, Nyandroid, GB clings és mappastílus) | ec87102 |
