@@ -1,4 +1,6 @@
-/* AOSP Music's pre-Holo library and player (packages/apps/Music, targetSdkVersion 9), with a local simulated queue.
+/* AOSP Music's pre-Holo library and player (packages/apps/Music android-4.3_r1.1, targetSdkVersion 9), with a local simulated queue.
+   The image ships Play Music; the AOSP app is kept from the source of the same release (layouts and menus as in the other
+   4.x tag, its delete question is the 4.3 wording ("Permanently delete … ?")).
    Its menus are the app's: long press opens the context menu of a song, artist, album or playlist (Play, Add to playlist,
    Use as phone ringtone, Delete, Search), the navigation bar's legacy menu key the options (Party shuffle, Shuffle all;
    in the player Library, Party shuffle, Add to playlist, Use as phone ringtone, Delete). Playlists starts with Recently
