@@ -92,7 +92,7 @@
   const ui = {
     view: 'home', sub: '', page: 2, drawerTab: 'apps', drawerPage: 0, overlay: '',
     selectedContact: 1, thread: 1, selectedPhoto: 1,
-    dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, easterNyan: false, settingsRootScroll: 0,
+    dial: '', callNumber: '', aboutTaps: 0, buildTaps: 0, settingsRootScroll: 0,
     browserUrl: data.browserHistory.at(-1) || 'www.google.com', browserHistory: [...data.browserHistory], browserIndex: data.browserHistory.length - 1, browserTabs: [data.browserHistory.at(-1) || 'www.google.com'], browserTab: 0,
     calendarMode: ['Day','Week','Month','Agenda'].includes(data.calendarMode)?data.calendarMode:'Month', selectedDate: localDate(ICSSystemSettings.wallDate(data)),
     calc: '', calcFresh: false, calcPanel: 0, calcHistoryIndex: -1, phoneTab: 'dialpad',
@@ -390,9 +390,6 @@
       const elapsed = performance.now() - activeTransition.start;
       ICSTransitions.play(viewport.firstElementChild, ICSTransitions.specs[activeTransition.name].enter, activeTransition.factor).forEach(animation => { animation.currentTime = elapsed; activeTransition.animations.push(animation); });
     }
-    if (ui.nyandroid && !viewport.querySelector('[data-nyandroid]')?.isSameNode(ui.nyandroid.root)) { ui.nyandroid.stop(); ui.nyandroid = null; }
-    const nyanRoot = viewport.querySelector('[data-nyandroid]');
-    if (nyanRoot && !ui.nyandroid) requestAnimationFrame(() => { if (nyanRoot.isConnected && !ui.nyandroid) ui.nyandroid = {...ICSNyandroid.start(nyanRoot), root: nyanRoot}; });
     if (ui.view === 'browser' && !ui.sub && ui.browserFind) highlightBrowserText();
     if(ui.view==='calendar' && viewport.querySelector('.gbcal-scroll')){const box=viewport.querySelector('.gbcal-scroll');box.scrollTop=box.clientHeight*.8;}
   }
@@ -705,7 +702,7 @@
     if (ui.view === 'browser' && ui.gbBrEdit) { ui.gbBrEdit = false; render(); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (ui.view === 'browser' && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
-    if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.easterNyan = false; render(); return; }
+    if (ui.view === 'settings' && ['easter', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; render(); return; }
     if (ui.view === 'settings' && ['vpn', 'tethering', 'beam', 'mobile-networks'].includes(ui.sub)) { ui.sub = 'wireless'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'wifi-advanced') { ui.sub = 'wifi'; render(); return; }
     if (ui.view === 'settings' && ui.sub === 'sync-google') { ui.sub = 'sync'; render(); return; }
@@ -1716,10 +1713,9 @@
       case 'factory-reset': if (confirm(i18n.t('Reset all local Gingerbread simulator data?'))) resetSimulator(); break;
       case 'about-tap':
         ui.aboutTapTimes = [...(ui.aboutTapTimes || []), performance.now()].slice(-3);
-        if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = 'easter'; ui.easterNyan = false; ui.aboutTapTimes = []; render(); }
+        if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = 'easter'; ui.aboutTapTimes = []; render(); }
         break;
       case 'developer-tap': if (!data.settings.developerUnlocked && ++ui.buildTaps >= 7) { data.settings.developerUnlocked = true; save(); toast('Developer options unlocked'); } break;
-      case 'egg-nyan': toast('Android 4.0: Ice Cream Sandwich'); break;
       case 'gb-platlogo': toast('Zombie art by Jack Larson'); break;
       case 'toast': toast(id); break;
       case 'noop': break;
@@ -2684,12 +2680,6 @@
     if (heldThread && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.thread = heldThread.dataset.id; suppressReleaseClick(); gbMmsDialog('thread'); }, 550);
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     else if (ui.view === 'lock' && !ui.locked && event.target.closest('.lock-wave')) lockPing();
-    // PlatLogoActivity: the logo jumps to 1.25x, 2x, 3.25x and 5x (no tweening), then Nyandroid starts.
-    if (event.target.closest('.easter-robot')) {
-      const robot = event.target.closest('.easter-robot'); let count = 0;
-      const zoom = () => { count++; if (data.settings.haptic !== false) navigator.vibrate?.(50 * count); robot.style.transform = `scale(${ICSNyandroid.zoomScale(count)})`; if (count <= 3) eggTimer = setTimeout(zoom, ICSNyandroid.LONG_PRESS); else requestAnimationFrame(() => { ui.easterNyan = true; render(); }); };
-      eggTimer = setTimeout(zoom, 2 * ICSNyandroid.LONG_PRESS);
-    }
     if (ui.view === 'calculator' && !ui.overlay && event.target.closest('.calc-pager')) pointerStart.calculatorSwipe = true;
     if (event.target.closest('.ics-calc-delete button,.gbcalc-del')) calculatorClearTimer = setTimeout(() => { operateCalculator('C'); suppressClickUntil = Date.now() + 350; render(); }, 600);
     if (ui.view === 'home' && !ui.overlay) pointerStart.photoStack = event.target.closest('[data-photo-stack]')?.dataset.photoStack || '';
