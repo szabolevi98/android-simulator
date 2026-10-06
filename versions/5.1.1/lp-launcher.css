@@ -1,3 +1,40 @@
+/* Folder base rules (formerly launcher-folders.css, the Launcher2 base shared with 5.1.1/4.4.4); the Lollipop launcher's own
+   folder rules below override them (portal_container_holo / quantum_panel, the name and cell styles). */
+.app-icon.launcher-folder-icon{position:relative;width:54px;height:54px;display:block;background:url(assets/launcher-portal_ring_inner_holo.png) center/contain no-repeat;overflow:visible}
+.launcher-folder-icon>.folder-preview-item{position:absolute;display:block;width:34px;height:34px;left:7px;top:13px;z-index:3;transform-origin:0 0}
+.launcher-folder-icon>.folder-preview-item:nth-child(2){left:14px;top:9px;transform:scale(.825);z-index:2;filter:brightness(.85)}
+.launcher-folder-icon>.folder-preview-item:nth-child(3){left:21px;top:5px;transform:scale(.65);z-index:1;filter:brightness(.7)}
+.launcher-folder-icon .folder-preview-item .app-icon{width:100%!important;height:100%!important;background:none;border:0;box-shadow:none;border-radius:0}
+.launcher-folder-icon .folder-preview-item img{width:100%;height:100%;object-fit:contain}
+.dock .launcher-folder-icon>.folder-preview-item{width:29px;height:29px;left:6px;top:11px}
+.dock .launcher-folder-icon>.folder-preview-item:nth-child(2){left:12px;top:8px}
+.dock .launcher-folder-icon>.folder-preview-item:nth-child(3){left:18px;top:4px}
+.dock .launcher-icon .folder-preview-item,.dock .launcher-icon .folder-preview-item .app-icon{display:block}
+.launcher-folder-scrim{position:absolute;inset:var(--sb) 0 var(--nb);z-index:19;background:#0003}
+.launcher-folder{position:absolute;z-index:20;max-width:calc(100% - 16px);max-height:calc(100% - 94px);display:flex;flex-direction:column;padding:12px;isolation:isolate;transform-origin:var(--folder-origin,50% 80%);color:#fff}
+.launcher-folder:before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:21px 18px 30px;border-image:url(assets/launcher-portal_container_holo.png) 21 18 30 fill / 21px 18px 30px;pointer-events:none}
+.launcher-folder-grid{display:grid;grid-template-columns:repeat(var(--folder-columns),minmax(0,1fr));overflow-y:auto;min-height:0;overscroll-behavior:contain;scrollbar-width:none;touch-action:none}
+.launcher-folder-cell{height:82px;min-width:0;display:grid;place-items:center}
+.launcher-folder-cell>.launcher-icon{width:100%;height:100%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:5px 2px}
+.launcher-folder-cell .app-icon{width:48px;height:48px;flex:none}
+.launcher-folder-cell .launcher-icon>span:last-child{font-size:12px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.launcher-folder-name{flex:none;margin:0;border-top:1px solid #ffffff10}
+.launcher-folder-name input{display:block;width:100%;padding:10px 4px 7px;border:0;border-radius:0;background:transparent;font:14px RobotoICS,Arial,sans-serif;color:#33b5e5;text-align:center;outline:none;user-select:text;-webkit-user-select:text}
+.launcher-folder-name input::placeholder{color:#33b5e5;opacity:1}
+.launcher-folder-name input:focus{box-shadow:inset 0 -2px #33b5e5}
+.folder-drop-target .app-icon:after{content:'';position:absolute;inset:-9px;background:url(assets/launcher-portal_ring_outer_holo.png) center/contain no-repeat;pointer-events:none;animation:folder-target 100ms ease-in-out}
+.folder-drop-target .app-icon{position:relative}
+.folder-drop-target .folder-preview-item .app-icon:after{display:none}
+
+.drag-source-icon,.drag-source-widget{visibility:hidden}
+.screen.dragging .launcher-folder{animation:none}
+.screen.dragging .launcher-folder-scrim{background:transparent}
+.screen.dragging .drag-remove{z-index:30}
+
+@keyframes folder-target{from{transform:scale(.77)}to{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.launcher-folder,.folder-drop-target .app-icon:after{animation:none}}
+/* FolderRingAnimator grows the outer ring by 30% in 100 ms; the closing copy is inert while it fades. */
+.launcher-folder-closing{pointer-events:none}
 /* KitKat Launcher3 (android-4.4.4_r1) on the Nexus 5: DynamicGrid profile "Nexus 5" (359 x 567 dp, 4 x 4, 60 dp icons,
    13 sp labels, 5 hotseat cells, 56 dp hotseat icons) and DeviceProfile.layout(). The launcher draws under the
    translucent system bars; workspace_bg darkens the top and bottom ~100 dp. 1 dp = 0.906 px.

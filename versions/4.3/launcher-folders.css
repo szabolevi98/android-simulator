@@ -1,3 +1,6 @@
+/* Launcher2 folders of the JWR66Y (Nexus 4) image: folder_icon.xml (portal_ring_inner_holo with up to three preview icons),
+   user_folder.xml (portal_container_holo, 74 x 82 dp cells, the folder name) – the same layouts and dimens in the 4.0.4
+   and 4.3 images. */
 .app-icon.launcher-folder-icon{position:relative;width:54px;height:54px;display:block;background:url(assets/launcher-portal_ring_inner_holo.png) center/contain no-repeat;overflow:visible}
 .launcher-folder-icon>.folder-preview-item{position:absolute;display:block;width:34px;height:34px;left:7px;top:13px;z-index:3;transform-origin:0 0}
 .launcher-folder-icon>.folder-preview-item:nth-child(2){left:14px;top:9px;transform:scale(.825);z-index:2;filter:brightness(.85)}

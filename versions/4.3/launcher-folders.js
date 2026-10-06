@@ -1,4 +1,5 @@
-/* Launcher2 folder operations, independent of pointer events and DOM rendering. */
+/* Launcher2 folder operations of the JWR66Y (Nexus 4) image, independent of pointer events and DOM rendering:
+   folder_max_num_items 16 (4 x 4), the same in the 4.0.4 and 4.3 images. */
 (() => {
   'use strict';
   const capacity=16;
