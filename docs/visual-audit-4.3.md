@@ -681,3 +681,4 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - `home_nav_drawer`: Read Now, My Library, Shop (64 dp, 21 sp sans-serif-light #505050, #e1e1e1 dividers, the current one on #e6e6e6). Shop opens the Play Store.
   - `magazines_home_menu`: Search magazines as the bar icon; Refresh, On device only, Manage subscriptions, Settings and Help in the overflow.
   - The home grid uses `TitleNextWidget` cards (`card_bg_play`, 14 sp bold #333333 title, 13 sp #aaaaaa issue, the card overflow) in 140 dp columns on #e6e7e7.
+- **Wallet 1.6 (Wallet.apk):** `dashboard_activity` replaces the coloured list: two `DashboardButtonRow`s (20 dp side padding) of the `ic_btn_dashboard_*` buttons (Payment cards, Rewards cards, Offers, Transactions; the APK has them in hdpi only) with 18 sp #333333 captions, spaced 1 : 1 : 4 by `DashboardSpaceRow`s on `application_background` #e5e5e5, under the light bar with the app icon and "Wallet".

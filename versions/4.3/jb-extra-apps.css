@@ -139,3 +139,13 @@
 .screen .mag-drawer button{display:flex;align-items:center;width:100%;height:54.5px;padding:0 13.63px;border:0;border-bottom:.85px solid #e1e1e1;background:none;text-align:left;font:300 17.88px 'Roboto Light',Roboto,sans-serif;color:#505050}
 .screen .mag-drawer button.on{background:#e6e6e6}
 .screen .mag-drawer button:active{background:#98a1d7}
+
+/* Wallet 1.6 (audit step 4): dashboard_activity on #e5e5e5. */
+.wal16{display:flex;flex-direction:column;background:#e5e5e5}
+.wal-dash{flex:1;display:flex;flex-direction:column}
+.wal-space{flex:1;display:block}.wal-space.wide{flex:4}
+.wal-row{display:flex;padding:0 17.03px}
+.screen .wal-btn{flex:1;display:flex;flex-direction:column;align-items:center;padding:0;border:0;background:none;font:400 15.33px Roboto,sans-serif;color:#333}
+.wal-btn img{width:83.45px;height:70.96px}
+.wal-btn span{margin-top:.85px}
+.screen .wal-btn:active img{filter:brightness(.9)}
