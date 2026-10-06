@@ -1019,5 +1019,92 @@ window.StockStrings = {
    "Films",
    "Películas"
   ]
+ },
+ "books": {
+  "Play Books": [
+   "Play Könyvek",
+   "Play Bücher",
+   "Play Livres",
+   "Play Libros"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók megjelenítése",
+   "Navigationsleiste einblenden",
+   "Afficher le panneau de navigation",
+   "Mostrar panel de navegación",
+   "Show navigation drawer"
+  ],
+  "Read Now": [
+   "Olvass most",
+   "Jetzt lesen",
+   "À lire",
+   "Leer ahora"
+  ],
+  "My Library": [
+   "Könyvtáram",
+   "Meine Bücher",
+   "Ma bibliothèque",
+   "Mi biblioteca"
+  ],
+  "Shop": [
+   "Bolt",
+   "Bücher kaufen",
+   "Boutique",
+   "Tienda"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe und Feedback",
+   "Aide et commentaires",
+   "Ayuda y sugerencias"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Sort": [
+   "Rendezés",
+   "Sortieren",
+   "Trier",
+   "Ordenar"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Recent": [
+   "Legújabbak",
+   "Neueste Bücher",
+   "Achats récents",
+   "Recientes"
+  ],
+  "SEE ALL": [
+   "ÖSSZES",
+   "Alle ansehen",
+   "TOUT AFFICHER",
+   "VER TODO"
+  ],
+  "All books": [
+   "Az összes könyv",
+   "Alle Bücher",
+   "Tous les livres",
+   "Todos los libros"
+  ],
+  "Purchases": [
+   "Vásárlások",
+   "Meine Käufe",
+   "Achats",
+   "Comprados"
+  ]
  }
 };

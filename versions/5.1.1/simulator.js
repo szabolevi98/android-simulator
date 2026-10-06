@@ -2084,6 +2084,7 @@
       case 'pa-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'pa-mixtab': ui.paMixTab = id; render(); break;
       case 'pa-movietab': ui.paMovieTab = id; render(); break;
+      case 'pa-bookstab': ui.bkFilterTab = id; render(); break;
       case 'pa-page': ui.paPage ||= {}; ui.paPage[ui.view] = id; ui.sub = ''; ui.overlay = ''; renderOverlay(); render(); break;
       case 'pa-unsupported': case 'pa-game-play': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'pa-album': ui.paAlbum = id; ui.sub = 'album'; render(); break;

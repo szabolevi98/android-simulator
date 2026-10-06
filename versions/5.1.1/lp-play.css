@@ -52,3 +52,5 @@
 .screen .lpa-menu button{display:block;width:100%;height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#212121}
 .screen .lpa-menu button:active{background:#0000001a}
 .screen .pm-video-top>.lpa-nav.up{width:43.49px;height:43.49px}
+.screen .pb-top>.lpa-nav.up.dark{width:43.49px;height:43.49px;flex:none}
+.lpa-nav.dark span{background:#0000008a}

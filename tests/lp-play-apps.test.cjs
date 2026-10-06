@@ -19,4 +19,9 @@ const lib=P.render(ctx('play-movies'));
 assert.ok(lib.includes('>My Library<')&&lib.includes('mv36-abc_ic_search_api_mtrl_alpha.png')&&!lib.includes('pa-menu'));
 assert.equal([...lib.matchAll(/data-action="pa-movietab" data-id="\w+">([^<]*)</g)].map(m=>m[1]).join(),'My Movies,My TV Shows');
 assert.ok(!P.render(ctx('play-movies',{sub:'movie',paItem:'m1'})).includes('‹'));
+// Play Books 3.3: populateDrawerActions, menu/fragment_home.xml, the filter tabs.
+assert.equal(labels(P.drawer(ctx('play-books'))),'Read Now,My Library,Shop,Settings,Help &amp; feedback');
+assert.ok(!P.render(ctx('play-books')).includes('bk33-ic_sort_wht_24dp')&&P.render(ctx('play-books',{paPage:{'play-books':'library'}})).includes('bk33-ic_sort_wht_24dp'));
+assert.equal(P.menu(ctx('play-books')).map(i=>i.title).join(),'Refresh');
+assert.ok(P.render(ctx('play-books',{paPage:{'play-books':'library'}})).includes('data-action="pa-bookstab"')&&!P.render(ctx('play-books',{sub:'reader',paItem:'b1'})).includes('‹'));
 console.log('lp-play-apps ok');

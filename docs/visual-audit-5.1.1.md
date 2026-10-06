@@ -58,3 +58,8 @@
   - `search_menu` (Search, always) is the only action; the cast button appears only with a device and there is no overflow.
   - My Library pages the movies and shows verticals ("My Movies", "My TV Shows") in PlayHeaderListLayout tabs. Watch Now has the in-progress cards, then "Recommended for You" with Shop (`WatchNowFlowHelper`). My Wishlist shows `section_wishlist_movies`.
   - The player's "‹" is the material up arrow.
+- **Play Books 3.3.15 (Books.apk, code from its odex):**
+  - The Toolbar is `books_corpora_primary` (light blue 600, #039be5) with the DrawerArrowToggle.
+  - The PlayDrawer follows `HomeSideDrawer.populateDrawerActions`: Read Now, My Library, Shop (`ic_drawer_readnow`, `ic_drawer_mylibrary`, `ic_drawer_shop`), then Settings and Help & feedback.
+  - `menu/fragment_home.xml`: Search (always, `ic_search_wht_24dp`) and Sort (ifRoom, `ic_sort_wht_24dp`, only in My Library) as icons, Refresh in the overflow (a material popup).
+  - My Library pages the non-empty `LibraryFilter`s (`books_view_pager`) as PlayHeaderListLayout tabs: All books, Purchases. The reader's "‹" is the material up arrow.

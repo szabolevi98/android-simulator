@@ -600,6 +600,22 @@
    "Help & feedback": "Videos:menu_help_and_feedback",
    "Recommended for You": "Videos:recommended",
    "Movies": "Videos:section_wishlist_movies"
+  },
+  "books": {
+   "Play Books": "Books:main_activity_name",
+   "Open navigation drawer": "Books:play_drawer_open",
+   "Read Now": "Books:side_drawer_reading_now",
+   "My Library": "Books:side_drawer_my_library",
+   "Shop": "Books:menu_shop",
+   "Settings": "Books:menu_app_settings",
+   "Help & feedback": "Books:menu_help",
+   "Search": "Books:menu_search",
+   "Sort": "Books:menu_sort",
+   "Refresh": "Books:menu_refresh",
+   "Recent": "Books:library_header_recent",
+   "SEE ALL": "Books:library_header_see_all_books",
+   "All books": "Books:action_bar_title_all_books",
+   "Purchases": "Books:action_bar_title_free_and_purchased"
   }
  }
 }
