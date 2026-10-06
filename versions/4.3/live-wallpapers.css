@@ -1,4 +1,4 @@
-/* Live wallpapers: the wallpaper window sits behind every other window; LivePicker's list (Theme.Holo, no title) has
+/* Live wallpapers (4.3, JWR66Y LiveWallpapersPicker; its live_wallpaper_entry.xml has no description line): the wallpaper window sits behind every other window; LivePicker's list (Theme.Holo, no title) has
    75dp centre-cropped thumbnails and 18sp titles; the preview shows a #88000000 button bar at the bottom. */
 #live-wallpaper{position:absolute;inset:0;z-index:0;pointer-events:none;background:#000}
 #live-wallpaper[hidden]{display:none}

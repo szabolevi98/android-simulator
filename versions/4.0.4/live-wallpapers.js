@@ -1070,6 +1070,23 @@
     {id: 'vu', label: 'VU meter', thumb: 'lw-vis4.png', make: (c, a, o) => vuScene(c, a, o.audio || (() => false)), gl: true},
     {id: 'many', label: 'Many', thumb: 'lw-vis5.png', make: (c, a, o) => manyScene(c, a, o.audio || (() => false)), gl: true}
   ];
+  /* LiveWallpaperListAdapter (4.0.4) shows each wallpaper's android:description under its label (live_wallpaper_entry.xml,
+     textAppearanceSmall, up to 3 lines; <br> breaks the line): [en, hu, de, fr, es] as each IMM76I APK ships it. */
+  const DESCRIPTIONS = {"bubbles":["Watch some bubbles","Watch some bubbles","Watch some bubbles","Watch some bubbles","Watch some bubbles"],
+    "galaxy":["A galaxy made of slowly swirling stars.","Lassan forgó csillagokból álló galaxis.","Eine Galaxie aus langsam herumwirbelnden Sternen","Galaxie avec étoiles tourbillonnantes","Una galaxia formada por estrellas que giran lentamente"],
+    "grass":["Blades of grass wave gently in front of a day or night sky.","Fűszálak hullámzanak finoman, nappali vagy éjszakai égbolt előtt.","Grashalme wiegen sich sanft vor einem Tages- oder Nachthimmel.","Brins d'herbe ondoyant sur fond de ciel bleu ou nocturne","Las briznas de hierba ondean suavemente en un cielo diurno o nocturno."],
+    "holospiral":["Holo themed spiral wallpaper","Holografikus témájú spirálos háttérkép","Hintergrund mit Spirale und Holoeffekt","Fond d'écran Holo Spiral","Fondo de pantalla con una espiral a modo de galaxia"],
+    "maps":["Maps live wallpaper","Google Térkép élő háttérkép","Live-Hintergrund von Google Maps","Fond d'écran animé Google Maps","Fondo de pantalla animado de Google Maps"],
+    "microbes":["Life under the microscope.","Élet a mikroszkóp alatt.","Das Leben unter dem Mikroskop","La vie au microscope","La vida bajo el microscopio"],
+    "nexus":["A peek inside the neural network.","Bepillantás az ideghálózatba.","Ein Blick ins neuronale Netzwerk","Un aperçu du système nerveux","Un conjunto de redes neuronales"],
+    "phasebeam":["Phase beam themed wallpaper","Phase beam themed wallpaper","Phase beam themed wallpaper","Phase beam themed wallpaper","Phase beam themed wallpaper"],
+    "polar":["Presents the date and time as clockwise arcs: month, day, hour, minute, and second.","Balról jobbra haladó íveken jeleníti meg a dátumot és az időt: hónap, nap, óra, perc és másodperc.","Stellt Datum und Uhrzeit als uhrförmige Bögen dar: Monat, Tag, Stunde, Minute und Sekunde.","Date et heure sous forme d'arcs de cercle : mois, jour, heure, minutes, secondes.","Presenta la fecha y la hora en forma de arcos en el sentido de las agujas del reloj: mes, día, hora, minuto y segundo."],
+    "water":["Autumn leaves tumble\nTo the rippling pond below:\nLiquid background Zen","Őszi falevelek hullanak\na lenti fodrozódó tavacskába:\nHarmonikus Zen háttér","Bunte Blätter fallen\nin den sich kräuselnden Teich:\nWasserhintergrund Zen","Feuilles d'automne tombant\nsur l'onde de l'étang :\narrière-plan Zen","Las hojas otoñales caen\nen un estanque de agua"],
+    "waveform":["Draws the sound wave of any currently playing music track.","Felrajzolja az éppen játszott zeneszám hanghullámát.","Zeichnet die Schallwelle jedes zurzeit abgespielten Musiktitels.","Dessine l'onde acoustique du morceau en cours de lecture","Representa la onda sonora durante la reproducción de cualquier pista musical."],
+    "spectrum":["Shows the frequency spectrum of any currently playing music track.","Megjeleníti az éppen játszott zeneszám frekvenciaspektrumát.","Stellt das Frequenzspektrum des aktuell abgespielten Musiktitels dar.","Indique le spectre de fréquences de la piste en cours de lecture","Muestra el espectro de frecuencia mientras se reproduce una canción"],
+    "vu":["Simulates an analog sound meter.","Analóg hangerősségmérőt szimulál.","Simuliert einen analogen Schallpegelmesser.","Simule un sonomètre analogique","Simula un sonómetro analógico."],
+    "many":["All music visualizations together, slowly revolving in 3D.","Az összes zenei megjelenítés együtt, lassan váltakozva 3D-ben.","Alle Musikvisualisierungen zusammen, sich langsam in 3D drehend","Tous les effets de visualisation de musique réunis dans une animation en 3D","Todas las visualizaciones musicales juntas girando lentamente en 3D"]};
+  const describe = (spec, lang) => { const row = DESCRIPTIONS[spec.id]; if (!row) return ''; const i = ['en', 'hu', 'de', 'fr', 'es'].indexOf(lang); return row[i < 0 ? 0 : i]; };
   const find = id => LIST.find(item => item.id === id);
   const labelOf = (spec, t) => spec.raw ? spec.label : t(spec.label);
   function sorted(t, locale) { const collator = new Intl.Collator(locale); return [...LIST].sort((a, b) => collator.compare(labelOf(a, t), labelOf(b, t))); }
@@ -1115,5 +1132,5 @@
       destroy() { cancelAnimationFrame(raf); canvas.remove(); scene = null; }
     };
   }
-  window.LiveWallpapers = {LIST, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, labelOf, mount, M, audioCapture, needleModel};
+  window.LiveWallpapers = {describe, LIST, PALETTES, PALETTE_NAMES, PALETTE_ORDER, find, sorted, labelOf, mount, M, audioCapture, needleModel};
 })();
