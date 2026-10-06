@@ -100,3 +100,23 @@
 .msg-row b{font:700 15.33px Roboto,sans-serif;color:#303030;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .msg-row small{padding-top:1.7px;font:400 11.92px Roboto,sans-serif;color:#707070;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .msg-row time{position:absolute;right:13.63px;top:12.77px;font:400 10.22px Roboto,sans-serif;color:#c0c0c0}
+
+/* Currents 2.1 (audit step 4): the category menu under the sliding story panel. */
+.cur21{position:relative;background:#555;overflow:hidden}
+.cur-menu{position:absolute;inset:0 15% 0 0;overflow-y:auto;background:#555}
+.screen .cur-cat{display:flex;align-items:center;width:100%;height:40.88px;padding:0 7.66px;border:0;background:none;text-align:left;font:400 15.33px Roboto,sans-serif;color:#b2b2b2}
+.screen .cur-cat.on{background:#0099cb;color:#fff}
+.screen .cur-app{display:flex;align-items:center;gap:5.11px;width:100%;height:40.88px;padding:0 7.66px;border:0;border-top:.85px solid #555;background:#4c4c4c;text-align:left;font:400 11.92px Roboto,sans-serif;color:#fff}
+.cur-app i{flex:none;display:grid;place-items:center;width:27.25px;height:27.25px;font:700 13.63px Roboto,sans-serif;font-style:normal;color:#fff}
+.screen .cur-customize{font-style:italic;color:#b2b2b2}
+.cur-panel{position:absolute;inset:0;display:flex;flex-direction:column;background:#f1f1f1;box-shadow:-8.52px 0 8.52px -4.26px #0006;transition:transform .2s}
+.cur21.menu-open .cur-panel{transform:translateX(85%)}
+.cur-bar{flex:none;display:flex;align-items:center;height:40.88px;background:#f1f1f1;border-bottom:1.7px solid #d2d2d2}
+.screen .cur-home{flex:none;width:40.88px;height:100%;padding:0;border:0;background:none;display:grid;place-items:center}
+.cur-home img{width:27.25px;height:27.25px}
+.cur-bar b{flex:1;padding-left:7.66px;font:400 15.33px Roboto,sans-serif;color:#707070}
+.cur-stories{flex:1;overflow-y:auto;padding:6.81px}
+.screen .cur-tile{display:flex;flex-direction:column;gap:3.41px;width:100%;margin-bottom:6.81px;padding:10.22px;border:0;background:#fff;text-align:left;box-shadow:0 .85px 1.7px #0002}
+.cur-tile b{font:300 16.18px/1.25 'Roboto Light',Roboto,sans-serif;color:#000}
+.cur-tile small{font:400 11.92px Roboto,sans-serif;color:#8d8d8d}
+.cur-tile span{font:400 11.92px/1.4 Roboto,sans-serif;color:#777}

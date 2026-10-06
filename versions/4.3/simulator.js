@@ -1775,6 +1775,7 @@
       case 'jbx-tab': ui.jbxMagazines = id; render(); break;
       // Play Music, Play Movies and Play Books
       case 'pa-drawer': ui.overlay = 'pa-drawer'; renderOverlay(); break;
+      case 'currents-menu': ui.currentsMenu = !ui.currentsMenu; render(); break;
       case 'pa-menu': ui.overlay = 'pa-menu'; renderOverlay(); break;
       case 'pa-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'pa-books-filter': ui.bkFilterOpen = !ui.bkFilterOpen; render(); break;

@@ -1017,5 +1017,49 @@ window.StockStrings = {
    "Local",
    "Local"
   ]
+ },
+ "currents": {
+  "Currents": [
+   "Aktualitások",
+   "Currents",
+   "Flux d'actu",
+   "Currents"
+  ],
+  "Breaking stories": [
+   "Legfrissebb történetek",
+   "Eilmeldungen",
+   "Actualités",
+   "Últimas noticias"
+  ],
+  "Saved": [
+   "Mentett",
+   "Gespeichert",
+   "Enregistré",
+   "Guardado"
+  ],
+  "Customize": [
+   "Személyre szabás",
+   "Anpassen",
+   "Personnaliser",
+   "Personalizar"
+  ],
+  "Sync now": [
+   "Szinkronizálás most",
+   "Jetzt synchronisieren",
+   "Synchroniser maintenant",
+   "Sincronizar ahora"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ]
  }
 };

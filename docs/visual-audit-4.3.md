@@ -672,3 +672,7 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
 - **Messenger (Google+ 4.0's `ConversationListActivity`):**
   - `HostedMessengerFragment.onPrepareActionBar` shows "Messenger" (`home_screen_huddle_label`) in the light host bar with the New conversation action button (`ic_menu_start_new_huddle`). The overflow has the host menu's common items (Send feedback, Settings, Help, Sign out).
   - Rows are `conversation_list_item_view`: the 64 dp avatar (`ic_avatar`), the 18 sp bold #303030 name, the 12 sp #c0c0c0 time and the 14 sp #707070 last message, on `bg_tacos_body` cards over #e5e5e5. They replace the drawn person icons.
+- **Currents 2.1.1 (Currents.apk):**
+  - The app showed Currents 1's edition tiles. 2.1's `currents_home_activity` is a sliding story panel on #f1f1f1 over the `CurrentsHomeCategoryMenu` (#555555): special rows (Breaking stories, Saved; 18 dp #b2b2b2, the selected one on #0099cb), the editions (14 dp white on #4c4c4c with their icons) and the italic Customize row. The home button slides the panel aside.
+  - The bar shows the category as `currents_home_action_bar_list_item` (18 dp #707070). The story tiles use the APK's tile text styles: 19 dp light black titles, 14 dp #8d8d8d bylines, 14 dp #777777 bodies. The stories are made up.
+  - The overflow is `currents_home_menu` as the home shows it: Search, Sync now, Settings, Help.

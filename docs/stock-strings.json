@@ -187,6 +187,15 @@
    "Contacts": "Maps:da_picker_contacts",
    "Starred places": "Maps:da_picker_starred_items",
    "Local": "Maps:PLACES_APP_NAME"
+  },
+  "currents": {
+   "Currents": "Currents:app_name",
+   "Breaking stories": "Currents:breaking_stories",
+   "Saved": "Currents:saved_post_edition_title",
+   "Customize": "Currents:customize",
+   "Sync now": "Currents:sync_now",
+   "Settings": "Currents:settings",
+   "Help": "Currents:help"
   }
  },
  "4.4.4": {
