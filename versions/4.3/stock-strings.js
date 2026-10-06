@@ -711,10 +711,11 @@ window.StockStrings = {
  },
  "movies": {
   "Google Play": [
-   "Google Play",
-   "Google Play",
-   "Google Play",
-   "Google Play"
+   "Google Play Filmek",
+   "Google Play Movies",
+   "Google Play Films",
+   "Google Play Movies",
+   "Google Play Movies"
   ],
   "Movies": [
    "Filmek",
