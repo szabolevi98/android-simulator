@@ -958,6 +958,30 @@ window.StockStrings = {
    "Zuletzt hinzugefügt",
    "Derniers ajouts",
    "Añadidas recientemente"
+  ],
+  "Search music": [
+   "Zene keresése",
+   "Musik suchen",
+   "Rechercher de la musique",
+   "Buscar música"
+  ],
+  "%d MORE": [
+   "%d TOVÁBBI",
+   "%d weitere",
+   "%d autres",
+   "%d MÁS"
+  ],
+  "No results found.": [
+   "Nincs találat.",
+   "Keine Ergebnisse gefunden",
+   "Aucun résultat trouvé.",
+   "No se han encontrado resultados."
+  ],
+  "Clear query": [
+   "Clear query",
+   "Clear query",
+   "Clear query",
+   "Clear query"
   ]
  },
  "movies": {

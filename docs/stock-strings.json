@@ -176,7 +176,11 @@
    "Recently played": "Music2:reason_recently_played",
    "Recently added to My Library": "Music2:reason_recently_added",
    "Thumbs up": "Music2:thumbsup_list",
-   "Last added": "Music2:recentlyadded"
+   "Last added": "Music2:recentlyadded",
+   "Search music": "Music2:search_hint_music",
+   "%d MORE": "Music2:cluster_more",
+   "No results found.": "Music2:empty_screen_search",
+   "Clear query": "Music2:abs__searchview_description_clear"
   },
   "navigation": {
    "Navigation": "Maps:da_navigation",
@@ -387,7 +391,11 @@
    "Recently played": "Music2:reason_recently_played",
    "Recently added to My Library": "Music2:reason_recently_added",
    "Thumbs up": "Music2:thumbsup_list",
-   "Last added": "Music2:recentlyadded"
+   "Last added": "Music2:recentlyadded",
+   "Search music": "Music2:search_hint_music",
+   "%d MORE": "Music2:cluster_more",
+   "No results found.": "Music2:empty_screen_search",
+   "Clear query": "Music2:abc_searchview_description_clear"
   },
   "movies": {
    "Google Play": "Videos:google_play",
@@ -631,7 +639,11 @@
    "Recently added to My Library": "Music2:reason_recently_added",
    "Thumbs up": "Music2:thumbsup_list",
    "Last added": "Music2:recentlyadded",
-   "Open navigation drawer": "Music2:drawer_open"
+   "Open navigation drawer": "Music2:drawer_open",
+   "Search music": "Music2:search_hint_music",
+   "%d MORE": "Music2:cluster_more",
+   "No results found.": "Music2:empty_screen_search",
+   "Clear query": "Music2:abc_searchview_description_clear"
   },
   "movies": {
    "Google Play": "Videos:long_app_name",

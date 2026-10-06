@@ -245,3 +245,12 @@
 .pa-music .pa-card-copy small{font:400 11.07px RobotoICS,sans-serif;color:#b5b5b5}
 .pa-music .pa-dots svg{display:none}
 .pa-music .pa-dots{background:url('assets/bk28-ic_menu_moreoverflow_card_dark_normal.png') center/27.25px no-repeat}
+/* Play Music search (audit step 5): the expanded SearchView in the bar, the clusters, the empty state. */
+.screen .pm-sv{flex:1;min-width:0;display:flex;align-items:center;height:30.66px;margin:3.41px 6.81px;border-style:solid;border-width:0.43px 3.41px 3.41px;border-image:url(assets/pm5-textfield_search_selected_holo_dark.png) 1 8 8 fill/0.43px 3.41px 3.41px stretch}
+.screen .pm-sv input{flex:1;min-width:0;height:100%;padding:0 6.81px;border:0;background:none;outline:0;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#fff;margin:0 -3.41px}
+.screen .pm-sv input::placeholder{color:#ffffff80}
+.screen .pm-sv-clear{flex:none;display:grid;place-items:center;height:100%;padding:0 6.81px;border:0;background:none}
+.pm-sv-clear img{width:20.44px;height:20.44px}
+.pm-search-empty{display:flex;flex-direction:column;align-items:center;padding-top:81.75px;text-align:center}
+.pm-search-empty img{width:81.75px;height:81.75px}
+.pm-search-empty p{margin:13.63px 0 0;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#888}

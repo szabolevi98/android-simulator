@@ -103,7 +103,7 @@
   const lpTabs = (tabs, current, action) => `<nav class="lpa-tabs">${tabs.map(([id, text]) => `<button class="${id === current ? 'on' : ''}" data-action="${action}" data-id="${id}">${e(text)}</button>`).join('')}</nav>`;
   // Music 5.8's menu/home_activity.xml has only Search (always) and the media route button (with a cast device); there is
   // no overflow: Settings, Help and Send feedback are drawer actions.
-  const musicActions = ctx => `<button class="pa-btn" data-action="pa-unsupported" aria-label="${e(S(ctx, 'music', 'Search'))}"><img class="lpa-icon" src="assets/pm58-ic_search_white.png" alt=""></button>`;
+  const musicActions = ctx => `<button class="pa-btn" data-action="pa-search" aria-label="${e(S(ctx, 'music', 'Search'))}"><img class="lpa-icon" src="assets/pm58-ic_search_white.png" alt=""></button>`;
   const btn = (action, label, icon, id = '') => `<button class="pa-btn" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${glyph[icon]}</button>`;
   const section = (title, chip = '', chipAction = '') => `<div class="pa-section"><h3>${e(title)}</h3>${chip ? `<button class="pa-chip" data-action="${chipAction}">${e(chip)}</button>` : ''}</div>`;
   const card = ({action, id, artHtml, title, sub, note = '', pin = false, cls = ''}) => `<div class="pa-card${cls}" role="button" tabindex="0" data-action="${action}" data-id="${e(id)}" aria-label="${e(title)}"><div class="pa-card-art">${artHtml}</div><div class="pa-card-copy"><b>${e(title)}</b><small>${e(sub)}</small>${note ? `<i>${e(note)}</i>` : ''}<button class="pa-dots" data-action="pa-unsupported" aria-label="More options">${glyph.overflow}</button>${pin ? `<button class="pa-pin" data-action="pa-unsupported" aria-label="Keep on device">${glyph.pin}</button>` : ''}</div></div>`;
@@ -119,7 +119,24 @@
     if (!track) return '';
     return `<div class="pm-mini"><button class="pm-mini-open" data-action="pa-player"><span class="pm-mini-art">${art('cover', seedOf(track.album), track.album)}</span><span class="pm-mini-copy"><b>${e(track.title)}</b><small>${e(track.artist)}</small></span></button><button class="pm-mini-play" data-action="music-play" aria-label="${e(ctx.t(music.playing ? 'Pause' : 'Play'))}">${music.playing ? glyph.pause : glyph.play}</button></div>`;
   }
+  // Search (audit step 5): SearchActivity's expanded SearchView and the clusters of SearchMusicClustersFragment: Artists
+  // and Albums as 2 x 2 cards, Songs as up to 5 rows, "%d MORE" when a cluster holds more; ic_empty_state_search and
+  // "No results found." when nothing matches. Artist, album and song names are matched on their own.
+  function musicSearch(ctx) {
+    const {ui, tracks, music: state} = ctx, m = key => S(ctx, 'music', key), q = String(ui.paQuery || '').trim().toLocaleLowerCase();
+    const list = albums(tracks), has = text => String(text).toLocaleLowerCase().includes(q), more = (n, max) => n > max ? m('%d MORE').replace('%d', n - max) : '';
+    let body = '';
+    if (q) {
+      const artists = [...new Set(tracks.map(track => track.artist))].filter(has), found = list.filter(album => has(album.album)), songs = tracks.map((track, id) => ({track, id})).filter(({track}) => has(track.title));
+      if (!artists.length && !found.length && !songs.length) body = `<div class="pm-search-empty"><img src="assets/pm58-ic_empty_state_search.png" alt=""><p>${e(m('No results found.'))}</p></div>`;
+      else body = (artists.length ? section(m('Artists'), more(artists.length, 4), 'pa-unsupported') + `<div class="pa-grid">${artists.slice(0, 4).map(artist => card({action: 'pa-album', id: list.find(album => album.artist === artist).album, artHtml: art('cover', seedOf(artist), artist), title: artist, sub: ''})).join('')}</div>` : '')
+        + (found.length ? section(m('Albums'), more(found.length, 4), 'pa-unsupported') + `<div class="pa-grid">${found.slice(0, 4).map(album => card({action: 'pa-album', id: album.album, artHtml: art('cover', seedOf(album.album), album.album, album.artist), title: album.album, sub: album.artist})).join('')}</div>` : '')
+        + (songs.length ? section(m('Songs'), more(songs.length, 5), 'pa-unsupported') + `<div class="pm-songs">${songs.slice(0, 5).map(({track, id}) => `<button class="pm-song${id === state.track ? ' on' : ''}" data-action="pa-song" data-id="${id}" data-queue="all"><span class="pm-qart">${art('cover', seedOf(track.album), track.album)}</span><span><b>${e(track.title)}</b><small>${e(track.artist)}</small></span></button>`).join('')}</div>` : '');
+    }
+    return `<div class="app-view pa-app pa-music pm-search"><header class="lpa-bar pm-searchbar"><button class="lpa-nav up" data-action="back" aria-label="${e(ctx.t('Back'))}"><span></span></button><label class="pm-sv"><input data-pa-search value="${e(ui.paQuery || '')}" placeholder="${e(m('Search music'))}" aria-label="${e(m('Search music'))}" autocomplete="off" spellcheck="false">${ui.paQuery ? `<button class="pm-sv-clear" data-action="pa-search-clear" aria-label="${e(m('Clear query'))}"></button>` : ''}</label></header><div class="pa-scroll">${body}</div>${miniPlayer(ctx)}</div>`;
+  }
   function music(ctx) {
+    if (ctx.ui.sub === 'search') return musicSearch(ctx);
     const {ui, t, tracks, music: state} = ctx, page = ui.paPage?.['play-music'] || 'listen', m = key => S(ctx, 'music', key);
     const time = ctx.time;
     if (ui.sub === 'player' || ui.sub === 'queue') {
