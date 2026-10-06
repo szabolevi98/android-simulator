@@ -1,6 +1,6 @@
 /* The Google Play media apps of the Nexus 6 factory image (LMY48Y). Audit step 4 rebuilds each from its APK (the code
-   from the odex files in the system image): Play Music 5.8.1809R so far. Play Movies & TV, Play Books and Play Games
-   still follow the older sources. They share one look: a coloured action bar in the app's colorPrimary (lp-play.css: Music #EF6C00,
+   from the odex files in the system image): Play Music 5.8.1809R and Play Movies & TV 3.6.16 so far. Play Books
+   and Play Games still follow the older sources. They share one look: a coloured action bar in the app's colorPrimary (lp-play.css: Music #EF6C00,
    Movies #ED3B3B, Books #039BE5, Games #4CAF50) with the drawer mark and a white glyph, a white navigation drawer,
    #EEEEEE pages with section titles and coloured "SEE ALL" / "SEE MORE" / "SHOP" chips, and white cards (title, grey
    subtitle, overflow dots). Covers, posters
@@ -43,11 +43,11 @@
   }
   const APPS = {
     'play-music': {key: 'music', title: 'Play Music', pages: [['listen', 'Listen Now'], ['library', 'My Library'], ['playlists', 'Playlists'], ['mixes', 'Instant Mixes']]},
-    'play-movies': {key: 'movies', title: 'Play Movies & TV', pages: [['watch', 'Watch Now'], ['movies', 'My Movies'], ['shows', 'My TV Shows']]},
+    'play-movies': {key: 'movies', title: 'Play Movies & TV', pages: [['watch', 'Watch Now'], ['library', 'My Library'], ['wishlist', 'My Wishlist']]},
     'play-books': {key: 'books', title: 'Play Books', pages: [['read', 'Read Now'], ['library', 'My Library']]},
     'play-games': {key: 'games', title: 'Play Games', pages: [['now', 'Play Now'], ['mine', 'My Games'], ['activity', 'My Activity'], ['players', 'Players'], ['recommended', 'Recommended Games'], ['shop', 'Shop']]}
   };
-  const DEFAULT = {'play-music': 'listen', 'play-movies': 'movies', 'play-books': 'read', 'play-games': 'now'};
+  const DEFAULT = {'play-music': 'listen', 'play-movies': 'library', 'play-books': 'read', 'play-games': 'now'};
   const MOVIES = [
     {id: 'm1', title: 'The Last Lighthouse', year: 2014, mins: 104, progress: .42},
     {id: 'm2', title: 'Paper Planes', year: 2015, mins: 96, progress: 0},
@@ -88,9 +88,10 @@
 
   // The LP Play apps' Toolbar in colorPrimary (lp-play.css): the AppCompat DrawerArrowToggle (three 18 dp white bars, 3 dp
   // apart) or the material up arrow, the 20 sp title, the action icons; PlayHeaderListLayout's tabs sit in the same colour.
+  const LPA = new Set(['play-music', 'play-movies']);
   function bar(ctx, {title, subtitle = '', up = false, actions = '', tabs = ''}) {
     const app = APPS[ctx.app];
-    if (ctx.app === 'play-music') return `<header class="lpa-bar"><button class="lpa-nav${up ? ' up' : ''}" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : S(ctx, 'music', 'Play Music'))}">${up ? '<span></span>' : '<i></i><i></i><i></i>'}</button><b>${e(title)}</b>${actions}</header>${tabs}`;
+    if (LPA.has(ctx.app)) return `<header class="lpa-bar"><button class="lpa-nav${up ? ' up' : ''}" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : S(ctx, app.key, 'Open navigation drawer'))}">${up ? '<span></span>' : '<i></i><i></i><i></i>'}</button><b>${e(title)}</b>${actions}</header>${tabs}`;
     return `<header class="pa-bar"><button class="pa-up" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : ctx.t(app.title))}">${up ? '<span aria-hidden="true">‹</span>' : '<i aria-hidden="true"></i>'}${glyph[app.key]}</button><span class="pa-title"><b>${e(title)}</b>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</span>${actions}</header>`;
   }
   // The Play common library's PlayDrawer: play_drawer_profile_info (148 dp: the default cover under #38000000, the 64 dp
@@ -166,21 +167,28 @@
 
   // ---- Play Movies & TV ----
   function movies(ctx) {
-    const {ui, t} = ctx, page = ui.paPage?.['play-movies'] || 'movies';
+    const {ui, t} = ctx, page = ui.paPage?.['play-movies'] || 'library', v = key => S(ctx, 'movies', key);
     if (ui.sub === 'movie') {
       const movie = MOVIES.find(m => m.id === ui.paItem) || SHOWS.find(s => s.id === ui.paItem) || MOVIES[0];
       const playing = ui.paPlaying !== false, total = (movie.mins || 24) * 60, pos = Math.floor(total * (movie.progress || 0)) + (ui.paSeconds || 0);
       const clock = s => `${Math.floor(s / 3600)}:${String(Math.floor(s / 60) % 60).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
-      return `<div class="app-view pa-app pm-video${ui.paBars === false ? ' bare' : ''}" data-action="pa-video-bars"><div class="pm-video-frame${playing ? ' playing' : ''}">${art('poster', seedOf(movie.id), movie.title)}</div><header class="pm-video-top"><button data-action="back" aria-label="${e(t('Back'))}">‹</button><b>${e(movie.title)}</b>${btn('pa-unsupported', t('Cast screen'), 'cast')}</header><button class="pm-video-play" data-action="pa-video-toggle" aria-label="${e(t(playing ? 'Pause' : 'Play'))}">${playing ? glyph.pause : glyph.play}</button><footer class="pm-video-bottom"><span>${clock(pos)}</span><i style="--p:${Math.min(100, pos / total * 100).toFixed(1)}%"></i><span>${clock(total)}</span></footer></div>`;
+      return `<div class="app-view pa-app pm-video${ui.paBars === false ? ' bare' : ''}" data-action="pa-video-bars"><div class="pm-video-frame${playing ? ' playing' : ''}">${art('poster', seedOf(movie.id), movie.title)}</div><header class="pm-video-top"><button class="lpa-nav up" data-action="back" aria-label="${e(t('Back'))}"><span></span></button><b>${e(movie.title)}</b>${btn('pa-unsupported', t('Cast screen'), 'cast')}</header><button class="pm-video-play" data-action="pa-video-toggle" aria-label="${e(t(playing ? 'Pause' : 'Play'))}">${playing ? glyph.pause : glyph.play}</button><footer class="pm-video-bottom"><span>${clock(pos)}</span><i style="--p:${Math.min(100, pos / total * 100).toFixed(1)}%"></i><span>${clock(total)}</span></footer></div>`;
     }
-    const actions = btn('pa-unsupported', t('Search'), 'search') + btn('pa-unsupported', t('Cast screen'), 'cast') + btn('pa-unsupported', t('More options'), 'overflow');
+    // search_menu: Search (always) and the media route button (only with a cast device); no overflow.
+    const actions = `<button class="pa-btn" data-action="pa-unsupported" aria-label="${e(v('Search'))}"><img class="lpa-icon" src="assets/mv36-abc_ic_search_api_mtrl_alpha.png" alt=""></button>`;
     const movieCard = m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year}, ${t('%d mins.').replace('%d', m.mins)}`, pin: true});
-    let body;
-    if (page === 'watch') body = `${section(t('Continue watching'))}<div class="pa-grid">${MOVIES.filter(m => m.progress).map(m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title) + `<i class="pm-progress-strip" style="--p:${m.progress * 100}%"></i>`, title: m.title, sub: t('%d% watched').replace('%d', Math.round(m.progress * 100))})).join('')}</div>${section(t('Recommended for You'), t('SHOP'), 'pa-shop')}<div class="pa-grid">${RECOMMENDED.map(m => card({action: 'pa-shop', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year} · ${m.price}`})).join('')}</div>`;
-    else if (page === 'shows') body = `${section(t('My TV Shows'))}<div class="pa-grid">${SHOWS.map(s => card({action: 'pa-movie', id: s.id, artHtml: art('poster', seedOf(s.id), s.title), title: s.title, sub: t('%d episodes').replace('%d', s.episodes), pin: true})).join('')}</div>`;
-    else body = `${section(t('My Movies'))}<div class="pa-grid">${MOVIES.map(movieCard).join('')}</div>${section(t('Recommended for You'), t('SHOP'), 'pa-shop')}<div class="pa-grid">${RECOMMENDED.map(m => card({action: 'pa-shop', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year} · ${m.price}`})).join('')}</div>`;
-    const title = t(APPS['play-movies'].pages.find(p => p[0] === page)[1]);
-    return `<div class="app-view pa-app pa-movies">${bar(ctx, {title, actions})}<div class="pa-scroll">${body}</div></div>`;
+    const shopCard = m => card({action: 'pa-shop', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year} · ${m.price}`});
+    let body, tabBar = '';
+    if (page === 'watch') body = `<div class="pa-grid">${MOVIES.filter(m => m.progress).map(m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title) + `<i class="pm-progress-strip" style="--p:${m.progress * 100}%"></i>`, title: m.title, sub: t('%d% watched').replace('%d', Math.round(m.progress * 100))})).join('')}</div>${section(v('Recommended for You'), v('Shop'), 'pa-shop')}<div class="pa-grid">${RECOMMENDED.map(shopCard).join('')}</div>`;
+    else if (page === 'wishlist') body = `${section(v('Movies'))}<div class="pa-grid">${RECOMMENDED.map(shopCard).join('')}</div>`;
+    else {
+      // MyLibraryFragment pages the movies and shows verticals (VerticalsHelper's titles) under PlayHeaderListLayout tabs.
+      const tab = ui.paMovieTab || 'movies';
+      tabBar = lpTabs([['movies', v('My Movies')], ['shows', v('My TV Shows')]], tab, 'pa-movietab');
+      body = tab === 'shows' ? `<div class="pa-grid">${SHOWS.map(show => card({action: 'pa-movie', id: show.id, artHtml: art('poster', seedOf(show.id), show.title), title: show.title, sub: t('%d episodes').replace('%d', show.episodes), pin: true})).join('')}</div>` : `<div class="pa-grid">${MOVIES.map(movieCard).join('')}</div>`;
+    }
+    const title = v(APPS['play-movies'].pages.find(p => p[0] === page)[1]);
+    return `<div class="app-view pa-app pa-movies">${bar(ctx, {title, actions, tabs: tabBar})}<div class="pa-scroll">${body}</div></div>`;
   }
 
   // ---- Play Books ----
@@ -233,6 +241,9 @@
     const app = APPS[ctx.app], page = ctx.ui.paPage?.[ctx.app] || DEFAULT[ctx.app];
     // Music: HomeMenuScreens' free list (Listen Now, My Library, Playlists, Instant Mixes, Shop) with HomeActivity$Screen's
     // ic_drawer_* icons, then Settings, Help and Send feedback.
+    // Movies: VideosDrawerHelper's verticals 4, 16, 8 (Watch Now, My Library, My Wishlist) with their ic_drawer_* icons,
+    // Shop, then the secondary Settings and Help & feedback.
+    if (ctx.app === 'play-movies') { const v = key => S(ctx, 'movies', key); return playDrawer(v('Google Play'), 'mv36-', [['watch', v('Watch Now'), 'ic_drawer_watchnow'], ['library', v('My Library'), 'ic_drawer_mymovielibrary'], ['wishlist', v('My Wishlist'), 'ic_drawer_wishlist'], ['shop', v('Shop'), 'ic_drawer_shop', 'pa-shop']], [[v('Settings')], [v('Help & feedback')]], page); }
     if (ctx.app === 'play-music') { const m = key => S(ctx, 'music', key); return playDrawer(m('Play Music'), 'pm58-', [['listen', m('Listen Now'), 'ic_drawer_listennow'], ['library', m('My Library'), 'ic_drawer_mymusiclibrary'], ['playlists', m('Playlists'), 'ic_drawer_playlists'], ['mixes', m('Instant Mixes'), 'ic_drawer_radio'], ['shop', m('Shop'), 'ic_drawer_shop', 'pa-shop']], [[m('Settings')], [m('Help')], [m('Send feedback')]], page); }
     return `<div class="pa-drawer-scrim" data-action="close-overlay"></div><nav class="pa-drawer pa-${app.key}" aria-label="${e(ctx.t(app.title))}">${app.pages.map(([id, label]) => `<button class="${id === page ? 'on' : ''}" data-action="pa-page" data-id="${id}">${e(ctx.t(label))}</button>`).join('')}</nav>`;
   }

@@ -13,4 +13,10 @@ assert.equal(labels(md),'Listen Now,My Library,Playlists,Instant Mixes,Shop,Sett
 assert.ok(md.includes('pm58-ic_drawer_listennow_selected.png')&&md.includes('nexus6.demo@gmail.com'));
 assert.equal([...P.render(ctx('play-music',{paPage:{'play-music':'library'}})).matchAll(/data-action="pa-libtab" data-id="\w+">([^<]*)</g)].map(m=>m[1]).join(),'Genres,Artists,Albums,Songs');
 assert.ok(!P.render(ctx('play-music',{sub:'album'})).includes('‹'));
+// Play Movies 3.6: VideosDrawerHelper's verticals in the PlayDrawer, Search only, My Library's tabs.
+assert.equal(labels(P.drawer(ctx('play-movies'))),'Watch Now,My Library,My Wishlist,Shop,Settings,Help &amp; feedback');
+const lib=P.render(ctx('play-movies'));
+assert.ok(lib.includes('>My Library<')&&lib.includes('mv36-abc_ic_search_api_mtrl_alpha.png')&&!lib.includes('pa-menu'));
+assert.equal([...lib.matchAll(/data-action="pa-movietab" data-id="\w+">([^<]*)</g)].map(m=>m[1]).join(),'My Movies,My TV Shows');
+assert.ok(!P.render(ctx('play-movies',{sub:'movie',paItem:'m1'})).includes('‹'));
 console.log('lp-play-apps ok');

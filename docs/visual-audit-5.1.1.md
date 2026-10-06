@@ -52,3 +52,9 @@
   - The drawer is the Play common library's PlayDrawer: `play_drawer_profile_info` (148 dp: `bg_default_profile_art` under #38000000, the 64 dp `ic_profile_none` avatar, "Nexus 6" and the address), the primary actions from `HomeMenuScreens` (free account: Listen Now, My Library, Playlists, Instant Mixes, Shop) with `HomeActivity$Screen`'s `ic_drawer_*` icons (the current one on #eeeeee with its `_selected` icon), the separator, then Settings, Help and Send feedback.
   - My Library's tabs (Genres, Artists, Albums, Songs) and Instant Mixes' (My mixes, Recommended) are PlayHeaderListLayout tabs in the toolbar colour: 14 sp sans-serif-medium, #99ffffff, white with a 2 dp white underline when selected.
   - Test: `tests/lp-play-apps.test.cjs`.
+- **Play Movies & TV 3.6.16 (Videos.apk, code from its odex):**
+  - The Toolbar is `play_movies_primary` #ed3b3b; the status bar is `play_movies_secondary` #d23f31 (it was #c62828).
+  - The PlayDrawer follows `VideosDrawerHelper`: verticals 4, 16, 8 (Watch Now, My Library, My Wishlist) with their `ic_drawer_*` icons, Shop, then Settings and Help & feedback. The old drawer had Watch Now, My Movies, My TV Shows.
+  - `search_menu` (Search, always) is the only action; the cast button appears only with a device and there is no overflow.
+  - My Library pages the movies and shows verticals ("My Movies", "My TV Shows") in PlayHeaderListLayout tabs. Watch Now has the in-progress cards, then "Recommended for You" with Shop (`WatchNowFlowHelper`). My Wishlist shows `section_wishlist_movies`.
+  - The player's "‹" is the material up arrow.

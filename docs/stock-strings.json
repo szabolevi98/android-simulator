@@ -133,7 +133,7 @@
    "Purchases": "Books:action_bar_title_free_and_purchased"
   },
   "movies": {
-   "Google Play": "Videos:google_play",
+   "Google Play": "Videos:long_app_name",
    "Movies": "Videos:tab_movies",
    "TV shows": "Videos:tab_shows",
    "Personal videos": "Videos:tab_personal_videos",
@@ -354,7 +354,7 @@
    "Last added": "Music2:recentlyadded"
   },
   "movies": {
-   "Google Play": "Videos:google_play",
+   "Google Play": "Videos:long_app_name",
    "Open navigation drawer": "Videos:drawer_open",
    "Watch Now": "Videos:tab_watch_now",
    "My Movies": "Videos:tab_movies",
@@ -583,7 +583,23 @@
    "Recently played": "Music2:reason_recently_played",
    "Recently added to My Library": "Music2:reason_recently_added",
    "Thumbs up": "Music2:thumbsup_list",
-   "Last added": "Music2:recentlyadded"
+   "Last added": "Music2:recentlyadded",
+   "Open navigation drawer": "Music2:drawer_open"
+  },
+  "movies": {
+   "Google Play": "Videos:long_app_name",
+   "Open navigation drawer": "Videos:drawer_open",
+   "Watch Now": "Videos:tab_watch_now",
+   "My Library": "Videos:tab_my_library",
+   "My Wishlist": "Videos:tab_wishlist",
+   "My Movies": "Videos:tab_movies",
+   "My TV Shows": "Videos:tab_shows",
+   "Shop": "Videos:menu_shop",
+   "Search": "Videos:menu_search",
+   "Settings": "Videos:menu_settings",
+   "Help & feedback": "Videos:menu_help_and_feedback",
+   "Recommended for You": "Videos:recommended",
+   "Movies": "Videos:section_wishlist_movies"
   }
  }
 }

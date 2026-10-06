@@ -931,6 +931,93 @@ window.StockStrings = {
    "Zuletzt hinzugefügt",
    "Derniers ajouts",
    "Añadidas recientemente"
+  ],
+  "Open navigation drawer": [
+   "Open navigation drawer",
+   "Open navigation drawer",
+   "Open navigation drawer",
+   "Open navigation drawer"
+  ]
+ },
+ "movies": {
+  "Google Play": [
+   "Google Play Filmek",
+   "Google Play Filme",
+   "Google Play Films",
+   "Google Play Películas",
+   "Google Play Movies"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók kinyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir control de navegación"
+  ],
+  "Watch Now": [
+   "Megnézem",
+   "Jetzt ansehen",
+   "À voir",
+   "Ver ahora"
+  ],
+  "My Library": [
+   "Saját könyvtár",
+   "Meine Filme",
+   "Ma bibliothèque",
+   "Mis películas"
+  ],
+  "My Wishlist": [
+   "Kívánságlistám",
+   "Meine Wunschliste",
+   "Ma liste de souhaits",
+   "Mi lista de deseos"
+  ],
+  "My Movies": [
+   "Saját filmek",
+   "Meine Filme",
+   "Mes films",
+   "Mis películas"
+  ],
+  "My TV Shows": [
+   "Saját műsorok",
+   "Meine TV-Sendungen",
+   "Mes émissions télévisées",
+   "Mis programas de TV"
+  ],
+  "Shop": [
+   "Vásárlás",
+   "Einkaufen",
+   "Play Store",
+   "Comprar"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe & Feedback",
+   "Aide et commentaires",
+   "Ayuda y sugerencias"
+  ],
+  "Recommended for You": [
+   "Neked ajánlott",
+   "Empfehlungen für mich",
+   "Recommandations",
+   "Recomendaciones personalizadas"
+  ],
+  "Movies": [
+   "Filmek",
+   "Filme",
+   "Films",
+   "Películas"
   ]
  }
 };

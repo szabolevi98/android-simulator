@@ -139,7 +139,7 @@
   /* colorPrimaryDark of each app's Material theme, painted behind the status bar (Window.setStatusBarColor). */
   const LP_STATUS_COLORS = {
     settings: '#21272b', phone: '#0277bd', people: '#0277bd', messaging: '#026da7', chrome: '#757575', gmail: '#b93221', email: '#d06d0c',
-    hangouts: '#0b8043', calendar: '#3367d6', 'play-store': '#558b2f', 'play-music': '#e65100', 'play-movies': '#c62828', 'play-books': '#0277bd',
+    hangouts: '#0b8043', calendar: '#3367d6', 'play-store': '#558b2f', 'play-music': '#e65100', 'play-movies': '#d23f31', 'play-books': '#0277bd',
     'play-games': '#2e7d32', keep: '#e59900', youtube: '#c31c13', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#455a64', calculator: '#00838f',
     clock: '#0277bd', camera: '#000', gallery: '#000', browser: '#000', music: '#000', maps: '#9e9e9e', 'google-search': '#3367d6', 'voice-search': '#3367d6',
     'google-plus': '#c53929', earth: '#000', 'news-weather': '#9e9e9e', 'google-settings': '#21272b'
@@ -2083,6 +2083,7 @@
       case 'pa-menu': ui.overlay = 'pa-menu'; renderOverlay(); break;
       case 'pa-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'pa-mixtab': ui.paMixTab = id; render(); break;
+      case 'pa-movietab': ui.paMovieTab = id; render(); break;
       case 'pa-page': ui.paPage ||= {}; ui.paPage[ui.view] = id; ui.sub = ''; ui.overlay = ''; renderOverlay(); render(); break;
       case 'pa-unsupported': case 'pa-game-play': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'pa-album': ui.paAlbum = id; ui.sub = 'album'; render(); break;
