@@ -40,7 +40,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] Extra appok – 4.0.4 és 4.3: Messenger, Navigation, Local, Currents, Magazines, Wallet, Movie Studio – 46b0155
 - [x] Extra appok – 4.4.4: Newsstand, Quickoffice, Wallet – 9a989a1
 - [x] Extra appok – 5.1.1: Docs, Sheets, Slides, Fit, Newsstand, Wallet – 854ff90
-- [x] Fájlnevek rendbetétele (pl. a 4.0.4-es `jb-extra-apps.js` → `ics-extra-apps.js`): 25 fájl kapta meg a saját verziója előtagját; a rétegzett párok (pl. 4.4.4 `jb-deskclock.js` + `kk-deskclock.js`) a következő pontban olvadnak össze – (ez a commit)
+- [x] Fájlnevek rendbetétele (pl. a 4.0.4-es `jb-extra-apps.js` → `ics-extra-apps.js`): 25 fájl kapta meg a saját verziója előtagját; a rétegzett párok (pl. 4.4.4 `jb-deskclock.js` + `kk-deskclock.js`) a következő pontban olvadnak össze – ccc3156
 - [ ] Örökölt és felülírt CSS-párok összevonása (a `play-apps.css` 4.4 és 5.1 alatt bájtra azonos, LP-n `lp-play.css` írja felül): a Lollipop saját stíluslapot kap
 - [ ] Teszt: két verzió alkalmazásfájlja ne lehessen bájtra azonos
 
@@ -164,4 +164,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: „‹” jelek: 4.0.4 Earth 6.1 sávja az APK-ból, 4.0.4 StockApps bar() csak felfelé lépve, Play-appok holt ágai | 48e59a4 |
 | 2026-10-06 | 4. lépés (kiegészítés): 4.0.4 Maps 6.4 a map_view_default menüvel, funkcióváltóval, rétegekkel | 22ed243 |
 | 2026-10-06 | 4. lépés (kiegészítés): 4.0.4 News & Weather 1.3.04 (nincs action bar, 1.3.11-es elrendezések, IMM76I-grafikák) | ef96563 |
-| 2026-10-06 | 4. lépés: fájlnevek – 25 idegen előtagú fájl átnevezve (4.0.4 ics-extra-apps, 4.3 jb-email, 4.4.4 kk-camera/gallery/shade/…, 5.1.1 lp-gallery/downloads/gel/play/…); az image-strings kimenete változatlan | (ez a commit) |
+| 2026-10-06 | 4. lépés: fájlnevek – 25 idegen előtagú fájl átnevezve (4.0.4 ics-extra-apps, 4.3 jb-email, 4.4.4 kk-camera/gallery/shade/…, 5.1.1 lp-gallery/downloads/gel/play/…); az image-strings kimenete változatlan | ccc3156 |
