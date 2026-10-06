@@ -762,6 +762,22 @@
    "Satellite": "Maps:da_satellite",
    "Terrain": "Maps:WALLPAPER_MAP_MODE_TERRAIN",
    "Bicycling": "Maps:da_bicycling"
+  },
+  "news": {
+   "News & Weather": "GenieWidget:app_name",
+   "Refresh": "GenieWidget:menu_item_refresh",
+   "Settings": "GenieWidget:menu_item_setting",
+   "Weather": "GenieWidget:weather_tab_label",
+   "Humidity: %s%%": "GenieWidget:weather_humidity",
+   "Wind: %1$s %2$s": "GenieWidget:weather_wind",
+   "km/h": "GenieWidget:weather_kph",
+   "Mon": "GenieWidget:day_monday",
+   "Tue": "GenieWidget:day_tuesday",
+   "Wed": "GenieWidget:day_wednesday",
+   "Thu": "GenieWidget:day_thursday",
+   "Fri": "GenieWidget:day_friday",
+   "Sat": "GenieWidget:day_saturday",
+   "Sun": "GenieWidget:day_sunday"
   }
  }
 }

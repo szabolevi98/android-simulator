@@ -140,12 +140,17 @@
     'Technology': [['Android Market becomes Google Play', 'Gadget Weekly', '1 hour ago'], ['Smart watches: the next big thing?', 'Droid Corner', '3 hours ago']],
     'Sports': [['Underdogs win the cup final', 'Sports Desk', '5 hours ago']]
   };
+  // News & Weather 1.3.04 (GenieWidget.apk, IMM76I): no action bar (Theme.NoTitleBar), then 1.3.11's layouts:
+  // tab_view_container_layout.xml's 52 dp tabs (12 sp, a 6 dp #33b5e5 bottom when selected), news_item_layout.xml rows
+  // (80 dp, 16 sp bold white title, 14 sp #bfbfbf snippet, the 70 dp picture) on #1a1a1a, weather_current_view.xml in
+  // bg_weather_panel_app with the APK's ic_weather_* icons and The Weather Channel's logo, weather_forecast_layout.xml.
   function news(ctx) {
-    const tabs = ['Weather', 'Top Stories', 'Technology', 'Sports'], tab = ctx.ui.newsTab || 'Top Stories';
+    const n = key => S(ctx, 'news', key), tabs = ['Weather', 'Top Stories', 'Technology', 'Sports'], tab = ctx.ui.newsTab || 'Top Stories';
+    const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], forecast = [[21, 13, 'partly_cloudy'], [23, 14, 'sunny'], [19, 12, 'cloudy'], [20, 11, 'chance_of_rain']];
     const body = tab === 'Weather'
-      ? `<div class="sa-weather"><b>21°</b><span>${e(ctx.t('Partly cloudy'))}</span><small>Mountain View</small><div class="sa-forecast">${[0, 1, 2, 3].map(i => `<div><span>${e(new Date(ctx.now.getTime() + i * 864e5).toLocaleDateString(ctx.locale, {weekday: 'short'}))}</span><b>${[21, 23, 19, 20][i]}°</b><small>${[13, 14, 12, 11][i]}°</small></div>`).join('')}</div></div>`
-      : (STORIES[tab] || []).map(([title, source, time], i) => `<button class="sa-story" data-action="sa-unsupported">${i === 0 ? `<span class="sa-story-photo">${thumb(i + 2)}</span>` : ''}<b>${e(title)}</b><small>${e(source)} · ${e(ctx.t(time))}</small></button>`).join('');
-    return `<div class="app-view sa-app sa-news">${bar(ctx, {title: ctx.t('News & Weather'), icon: 'news-weather.png', cls: ' dark', actions: btn('sa-menu', ctx.t('More options'), 'overflow')})}<nav class="sa-news-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
+      ? `<div class="nw-weather"><div class="nw-city"><b>Mountain View</b><button data-action="sa-unsupported" aria-label="Info"><img src="assets/nw-weather_info_btn.png" alt=""></button></div><i class="nw-divider"></i><div class="nw-today"><img class="nw-twc" src="assets/nw-ic_weather_weather_channel.png" alt="The Weather Channel"><div class="nw-now"><img src="assets/nw-ic_weather_partly_cloudy_xl.png" alt=""><b>21°</b></div><div class="nw-range"><span>21°</span><span class="lo">13°</span><p>${e(ctx.t('Partly cloudy'))}</p><small>${e(n('Humidity: %s%%').replace('%s%%', '60%'))}</small><small>${e(n('Wind: %1$s %2$s').replace('%1$s', '13').replace('%2$s', n('km/h')))}</small></div></div><i class="nw-divider"></i><div class="nw-forecast">${forecast.map(([hi, lo, icon], i) => `<div><span>${e(n(DAYS[new Date(ctx.now.getTime() + i * 864e5).getDay()]))}</span><img src="assets/nw-ic_weather_${icon}_s.png" alt=""><b>${hi}°</b><small>${lo}°</small></div>`).join('')}</div></div>`
+      : `<div class="nw-list">${(STORIES[tab] || []).map(([title, source, time], i) => `<button class="nw-item${i === 0 ? ' pic' : ''}" data-action="sa-unsupported"><span><b>${e(title)}</b><small>${e(source)} - ${e(ctx.t(time))}</small></span>${i === 0 ? `<span class="nw-pic">${thumb(i + 2)}</span>` : ''}</button>`).join('')}</div>`;
+    return `<div class="app-view sa-app sa-news"><nav class="nw-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${id}">${e(id === 'Weather' ? n('Weather') : ctx.t(id))}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
   }
 
   const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};

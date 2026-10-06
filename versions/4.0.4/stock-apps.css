@@ -120,22 +120,6 @@
 @keyframes sa-spin{from{transform:translateX(0)}to{transform:translateX(-187.64px)}}
 /* News & Weather (Holo dark) */
 .sa-news{background:#111;color:#ddd}
-.sa-news-tabs{flex:none;display:flex;overflow-x:auto;scrollbar-width:none;background:#1b1b1b;border-bottom:.850px solid #333}
-.sa-news-tabs button{flex:none;padding:0 13.14px;height:37.4px;border:0;background:none;font:700 11.9px RobotoICS,sans-serif;color:#999!important;text-transform:uppercase}
-.sa-news-tabs button.on{color:#fff!important;box-shadow:inset 0 -3.39px #33b5e5}
-.sa-story{display:flex;flex-direction:column;gap:3.75px;width:100%;padding:11.26px 13.14px;border:0;border-bottom:.850px solid #2a2a2a;background:none;text-align:left}
-.sa-story-photo{display:block;margin:-11.26px -13.14px 7.51px;aspect-ratio:16/9}
-.sa-story b{font:400 15.3px/1.3 RobotoICS,sans-serif;color:#eee}
-.sa-story small{font-size:11.05px;color:#888}
-.sa-weather{display:flex;flex-direction:column;align-items:center;gap:3.75px;padding:26.27px 13.14px}
-.sa-weather>b{font:100 67.55px/1 RobotoThin,RobotoLight,RobotoICS,sans-serif;color:#fff}
-.sa-weather>span{font-size:15.3px}
-.sa-weather>small{color:#888}
-.sa-forecast{display:grid;grid-template-columns:repeat(4,1fr);gap:7.51px;width:100%;margin-top:20.64px;text-align:center}
-.sa-forecast div{display:flex;flex-direction:column;gap:2.81px;padding:9.38px 0;background:#1d1d1d}
-.sa-forecast span{font-size:11.05px;color:#999}
-.sa-forecast b{font:400 16.89px RobotoICS,sans-serif;color:#fff}
-.sa-forecast small{color:#777}
 .gnow-page{position:absolute;inset:0;background:#e5e5e5;display:flex;flex-direction:column;color:#222;font-family:RobotoICS,sans-serif}
 .gnow-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;touch-action:pan-y;padding-bottom:var(--nb)}
 .gnow-scroll::-webkit-scrollbar{display:none}
@@ -192,3 +176,40 @@
 .sa-maps6-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
 .sa-maps6-map.layer-terrain .sa-map{filter:sepia(.35) saturate(1.2)}
 .sa-maps6-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}
+/* News & Weather 1.3.04 (audit step 4): 1.3.11's tabs, rows and weather panel (as on 4.3), without an action bar. */
+.nw-tabs{flex:none;display:flex;overflow-x:auto;scrollbar-width:none;background:#222}
+.nw-tabs::-webkit-scrollbar{display:none}
+.screen .nw-tabs button{position:relative;flex:none;height:44.28px;padding:0 29.81px;border:0;background:#222;box-shadow:inset 0 -.85px #505050;font:400 10.22px Roboto,sans-serif;color:#fff;white-space:nowrap;cursor:pointer}
+.screen .nw-tabs button.on{box-shadow:inset 0 -5.11px #33b5e5}
+.nw-tabs button::after{content:'';position:absolute;right:0;top:8.52px;bottom:8.52px;width:.85px;background:#505050}
+.nw-list{background:#1a1a1a}
+.screen .nw-item{display:flex;align-items:center;width:100%;height:68.13px;padding:0 12.77px;border:0;border-bottom:.85px solid #ffffff1f;background:none;text-align:left;cursor:pointer}
+.screen .nw-item.pic{padding:0 8.52px 0 12.77px}
+.nw-item>span:first-child{flex:1;min-width:0;display:flex;flex-direction:column}
+.nw-item b{font:700 13.63px/1.3 Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nw-item small{font:400 11.92px/1.35 Roboto,sans-serif;color:#bfbfbf;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nw-pic{flex:none;width:59.61px;height:51.1px;margin-left:4.26px;overflow:hidden}
+.nw-pic .sa-thumb{width:100%;height:100%}
+.screen .nw-item:active{background:#33b5e566}
+.nw-weather{border-style:solid;border-width:13.06px;border-image:url('assets/nw-bg_weather_panel_app.png') 23 fill/13.06px}
+.nw-weather>*{margin:0 -4.54px}
+.nw-city{display:flex;align-items:center;height:42.58px;padding:0 8.52px 0 17.03px}
+.nw-city b{flex:1;min-width:0;font:400 25.55px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .nw-city button{padding:0;border:0;background:none}
+.nw-city img{width:23.28px;height:23.28px;display:block}
+.nw-divider{display:block;height:1.7px;background:#1a1a1a1a}
+.nw-today{position:relative}
+.nw-twc{position:absolute;right:0;top:0;width:29.8px;height:29.8px;padding:4.26px 4.26px 0 0}
+.nw-now{display:flex;align-items:flex-start}
+.nw-now img{width:76.64px;height:76.64px;padding-top:8.52px}
+.nw-now b{font:400 68.13px/1.2 Roboto,sans-serif;color:#fff}
+.nw-range{padding:0 0 17.03px 80.9px;display:flex;flex-wrap:wrap;align-items:baseline}
+.nw-range span{font:400 17.88px Roboto,sans-serif;color:#fff}
+.nw-range span.lo{color:#bfbfbf;padding-left:8.52px}
+.nw-range p{flex-basis:100%;margin:0;font:400 13.63px Roboto,sans-serif;color:#fff}
+.nw-range small{flex-basis:100%;font:400 10.22px Roboto,sans-serif;color:#bfbfbf}
+.nw-forecast{display:flex;justify-content:space-around}
+.nw-forecast div{display:flex;flex-direction:column;align-items:center;padding:17.03px 0 21.29px;font:400 12.77px Roboto,sans-serif;color:#fff}
+.nw-forecast img{width:25.55px;height:25.55px}
+.nw-forecast b{font-weight:400}
+.nw-forecast small{font-size:12.77px;color:#bfbfbf}

@@ -227,5 +227,98 @@ window.StockStrings = {
    "À vélo",
    "En bici"
   ]
+ },
+ "news": {
+  "News & Weather": [
+   "Hírek és időjárás",
+   "News & Wetter",
+   "Actualités et météo",
+   "Noticias y tiempo"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Weather": [
+   "Időjárás",
+   "Google Wetter",
+   "Météo",
+   "Tiempo"
+  ],
+  "Humidity: %s%%": [
+   "Páratartalom: %s%%",
+   "Luftfeuchtigkeit: %s %%",
+   "Humidité : %s%%",
+   "Humedad: %s%%"
+  ],
+  "Wind: %1$s %2$s": [
+   "Szélerősség: %1$s %2$s",
+   "Wind: %1$s %2$s",
+   "Vent : %1$s %2$s",
+   "Viento: %1$s %2$s"
+  ],
+  "km/h": [
+   "km/h",
+   "km/h",
+   "km/h",
+   "km/h"
+  ],
+  "Mon": [
+   "H",
+   "M",
+   "Lun",
+   "L",
+   "M"
+  ],
+  "Tue": [
+   "K",
+   "D",
+   "Mar",
+   "M",
+   "T"
+  ],
+  "Wed": [
+   "Sz",
+   "M",
+   "Mer",
+   "X",
+   "W"
+  ],
+  "Thu": [
+   "Cs",
+   "D",
+   "Jeu",
+   "J",
+   "T"
+  ],
+  "Fri": [
+   "P",
+   "F",
+   "Ven",
+   "J",
+   "F"
+  ],
+  "Sat": [
+   "Sz",
+   "S",
+   "Sam",
+   "S",
+   "S"
+  ],
+  "Sun": [
+   "V",
+   "S",
+   "Dim",
+   "D",
+   "S"
+  ]
  }
 };
