@@ -2189,6 +2189,7 @@
       case 'lpx-open': ui.sub = id; render(); break;
       case 'lpx-unavailable': case 'lpx-menu': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'lpx-overflow': ui.overlay = 'lpx-overflow'; renderOverlay(); break;
+      case 'lpx-drawer': ui.lpxDrawer = !ui.lpxDrawer; render(); break;
       case 'vol-zen': data.settings.zenMode = id; save(); renderStatus(); showVolume(volumeStream()); break;
       case 'vol-settings': hideVolume(); openApp('settings'); ui.sub = 'sound'; render(); break;
       case 'people-search-close': ui.peopleSearching = false; ui.peopleQuery = ''; render(); break;

@@ -48,3 +48,8 @@
 /* Editors (audit step 4): the APK's toolbar icons (xxhdpi x .302) and Drive's type icons (xxxhdpi x .2265). */
 .lpx-icon{width:21.74px;height:21.74px}
 .lpx-type{flex:none;width:21.74px;height:21.74px}
+.lpx-pad{flex:none;width:3.62px}
+.lpx-app{position:relative}
+.lpx-app .lpa-drawer,.lpx-app .lpa-scrim{position:absolute}
+.lpx-app .lpa-drawer{top:0;bottom:0}
+.screen .lpx-app .lpa-scrim{inset:0}

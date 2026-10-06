@@ -698,6 +698,22 @@
    "Refresh": "EditorsDocs:editors_menu_refresh",
    "Modified: %s": "EditorsDocs:doclist_date_modified_label",
    "Open navigation drawer": "EditorsDocs:doclist_open_navigation_drawer_content_description"
+  },
+  "fit": {
+   "Fit": "FitnessPrebuilt:app_name",
+   "Add activity": "FitnessPrebuilt:menu_item_add_activity",
+   "Add your weight": "FitnessPrebuilt:menu_item_add_weight",
+   "Settings": "FitnessPrebuilt:menu_item_settings",
+   "Help & feedback": "FitnessPrebuilt:menu_item_help"
+  },
+  "newsstand": {
+   "Read Now": "Newsstand:read_now_title",
+   "My Library": "Newsstand:my_library_title",
+   "Bookmarks": "Newsstand:saved_title",
+   "Explore": "Newsstand:explore_title",
+   "Settings": "Newsstand:settings",
+   "Help & Feedback": "Newsstand:help_feedback",
+   "Search": "Newsstand:search"
   }
  },
  "4.0.4": {

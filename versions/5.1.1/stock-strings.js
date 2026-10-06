@@ -1296,5 +1296,81 @@ window.StockStrings = {
    "Ouvrir le panneau de navigation",
    "Abrir panel de navegación"
   ]
+ },
+ "fit": {
+  "Fit": [
+   "Fitnesz",
+   "Fit",
+   "Fit",
+   "Fit"
+  ],
+  "Add activity": [
+   "Tevékenység hozzáadása",
+   "Aktivität hinzufügen",
+   "Ajouter une activité",
+   "Añadir actividad"
+  ],
+  "Add your weight": [
+   "Testsúly megadása",
+   "Gewicht hinzufügen",
+   "Ajouter votre poids",
+   "Añadir tu peso"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe und Feedback",
+   "Aide et commentaires",
+   "Ayuda y sugerencias"
+  ]
+ },
+ "newsstand": {
+  "Read Now": [
+   "Olvasson most",
+   "Jetzt lesen",
+   "À lire",
+   "Leer ahora"
+  ],
+  "My Library": [
+   "Saját könyvtár",
+   "Mein Kiosk",
+   "Ma bibliothèque",
+   "Mi kiosco"
+  ],
+  "Bookmarks": [
+   "Könyvjelzők",
+   "Lesezeichen",
+   "Favoris",
+   "Marcadores"
+  ],
+  "Explore": [
+   "Felfedezés",
+   "Entdecken",
+   "Découvrir",
+   "Explorar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help & Feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe & Feedback",
+   "Aide et commentaires",
+   "Ayuda y sugerencias"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ]
  }
 };

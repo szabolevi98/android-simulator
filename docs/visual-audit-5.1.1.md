@@ -74,3 +74,8 @@
   - `menu_doclist_activity_editors`: Search and Add new are always shown (`editors_action_search`, `editors_action_new`); View as Grid, Sort by, Open document and Refresh go to the overflow. Docs 1.4 has no floating create button, so the red FAB is gone.
   - Rows use Drive's `ic_type_*` icons (the files are identical) and `doclist_date_modified_label` ("Modified: %s").
   - The navigation panel's entries are ordered in obfuscated code, so the drawer button shows the unsupported toast.
+- **Fit 1.51, Newsstand 3.3.1, Wallet 8.0 (code from the odex files):**
+  - Fit has no navigation drawer and no search in its APK. `menu/main` puts Add activity, Add your weight, Settings and Help & feedback in the overflow (the debug items stay hidden).
+  - Newsstand's PlayDrawer is `NavDrawerEntry`'s HOME_PAGE_ENTRIES (Read Now, My Library, Bookmarks, Explore, with the `ic_drawer_*` icons) and MISC_ENTRIES (Settings, Help & Feedback), on its own default cover. `home_activity_menu` shows only Search, so the overflow is gone.
+  - Wallet 8.0's home has no options menu, only its `fab_action`, so the search and overflow buttons are gone. Its drawer rows come from injected modules, so the drawer is not simulated.
+  - Test: `tests/lp-extra-apps.test.cjs`.
