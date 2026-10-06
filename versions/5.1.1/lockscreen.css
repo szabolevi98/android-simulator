@@ -29,3 +29,25 @@
 .credential-keyboard.alpha button.fn:active{border-image-source:url('assets/ime-btn_keyboard_key_dark_pressed_holo.png')}
 .credential-keyboard.alpha button.space{flex:5}
 .credential-keyboard.alpha button img{height:23.4px;width:auto;max-width:100%;pointer-events:none}
+/* Settings 5.1 screen lock setup (Theme.Material.Settings, textColorPrimary #DE000000, dp x 0.906). LockPatternView 5.1:
+   12 dp dots and a 3 dp path in lock_pattern_view_regular_color #37474F while drawing, theme_accent #009688 once a
+   pattern is recorded, #F4511E when wrong. The field is TextAppearance.PasswordEntry (24 sp bold) over the accent
+   underline; SecurityPreferenceButtonContainer holds two equal borderless buttons. */
+.screen .credential-setup.lp-cl{background:#fafafa;color:#000000de}
+.lp-cl .credential-demo{color:#0000008a}
+.lp-cl .credential-body{background:none}
+.lp-cl .lp-cl-header{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;margin:0;padding:0 7.25px;font:400 16.31px/1.3 Roboto,sans-serif;color:#000000de}
+.lp-cl .lp-cl-footer{flex:1;min-height:0;margin:0;font:400 12.68px Roboto,sans-serif}
+.lp-cl .lp-cl-password .lp-cl-header{flex:none;height:2.6em;color:#0000008a}
+.lp-cl .credential-pattern button i,.lp-cl .credential-pattern button.selected i,.lp-cl .credential-pattern.wrong button.selected i{width:10.87px;height:10.87px;border-radius:50%;background:#37474f}
+.lp-cl .credential-pattern.done button.selected i{background:#009688}
+.lp-cl .credential-pattern.wrong button.selected i{background:#f4511e}
+.lp-cl .credential-pattern polyline{stroke:#37474f;stroke-width:2.72px;vector-effect:non-scaling-stroke}
+.lp-cl .credential-pattern.done polyline{stroke:#009688}
+.lp-cl .credential-pattern.wrong polyline{stroke:#f4511e}
+.lp-cl .lp-cl-field{margin:0 27.18px;border:0;border-bottom:1.81px solid #009688}
+.lp-cl .lp-cl-field input{height:auto;padding:5.44px 0;font:700 21.74px/1.25 Roboto,sans-serif;color:#000000de;letter-spacing:2px}
+.lp-cl .lp-cl-buttons{display:flex;min-height:43.49px;border:0;background:none}
+.lp-cl .lp-cl-buttons button{flex:1;border:0;background:none;color:#000000de;font:500 12.68px Roboto,sans-serif;text-transform:uppercase}
+.lp-cl .lp-cl-buttons button:active{background:#0000001a}
+.lp-cl .lp-cl-buttons button:disabled{color:#00000042}

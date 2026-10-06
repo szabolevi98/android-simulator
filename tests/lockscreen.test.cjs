@@ -14,5 +14,12 @@ const ctx={window:{},crypto:require('node:crypto').webcrypto,TextEncoder};vm.cre
   }
   const legacy={settings:{screenLock:'slide'}};lock.initialize(legacy);assert.equal(legacy.settings.screenLock,'slide');assert.equal(lock.secure(legacy),false);
   const broken={settings:{screenLock:'pin'},screenCredential:{kind:'pin',salt:'bad',digest:'bad'}};lock.initialize(broken);assert.equal(broken.settings.screenLock,'slide');
-  console.log('Lockscreen checks passed: pattern gap insertion, validation, salted credential matching, reload persistence, timed retry limit and legacy state.');
+  // Settings' screen lock setup speaks each image's words (lock-strings.js from its Settings.apk) and LP draws it in Material.
+  const words=v=>{const w={};vm.runInNewContext(fs.readFileSync(`versions/${v}/lock-strings.js`,'utf8'),{window:w});return w.LockStrings;};
+  assert.equal(words('4.0.4').lock_settings_picker_title.en,'Select screen lock');assert.equal(words('4.3').lock_settings_picker_title.en,'Choose screen lock');
+  assert.equal(words('4.3').lockpattern_recording_intro_header.en,'Draw an unlock pattern:');assert.equal(words('4.4.4').lockpattern_recording_intro_header.en,'Draw an unlock pattern');
+  assert.equal(words('5.1.1').unlock_set_unlock_none_title.en,'Swipe');assert.equal(words('5.1.1').lockpattern_tutorial_continue_label.en,'Next');
+  for(const v of ['4.0.4','4.3','4.4.4','5.1.1'])assert.ok(fs.readFileSync(`versions/${v}/lockscreen.js`,'utf8').includes('function setupHeader'),v);
+  assert.ok(fs.readFileSync('versions/5.1.1/lockscreen.js','utf8').includes('lp-settings credential-setup lp-cl')&&fs.readFileSync('versions/5.1.1/lockscreen.css','utf8').includes('#37474f'));
+  console.log('Lockscreen checks passed: pattern gap insertion, validation, salted credential matching, reload persistence, timed retry limit, legacy state and each image setup words.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

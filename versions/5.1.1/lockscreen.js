@@ -1,4 +1,6 @@
-/* ICS credential screens. This is a local simulation, not a browser security boundary. */
+/* Screen lock of the LMY48Y (Nexus 6) image: the credential checks, Settings 5.1's Material screen lock setup in this
+   image's layouts and words (renderSetup); the lock screen itself is lp-keyguard.js's look. This is a local simulation,
+   not a browser security boundary. */
 (() => {
   'use strict';
   const kinds=['pattern','pin','password'];
@@ -43,10 +45,11 @@
       const icon=(key,file,label,cls='fn')=>`<button type="button" class="${cls}" data-lock-key="${key}" aria-label="${escape(t(label))}"><img src="assets/ime-${file}.png" alt=""></button>`;
       return `<div class="credential-keyboard alpha">${rows.map((row,i)=>`<div>${i===2?icon('shift',state.shift?'sym_keyboard_shift_locked_holo':'sym_keyboard_shift_holo','Shift'):''}${row.split('').map(k=>keyButton(state.shift?k.toUpperCase():k)).join('')}${i===2?icon('delete','sym_keyboard_delete_holo','Delete'):''}</div>`).join('')}<div>${keyButton('symbols',state.symbols?'ABC':'?123','class="fn"')}${keyButton(',')}${icon('space','sym_keyboard_space_holo','Space','space')}${keyButton('.')}${icon('next','sym_keyboard_return_holo','Enter')}</div></div>`;
     }
-    function grid(){return `<div class="credential-pattern${state.error?' wrong':''}${data().settings.patternVisible===false&&state.stage==='unlock'?' stealth':''}" role="group" aria-label="${escape(t('Pattern'))}"><svg viewBox="0 0 300 300" aria-hidden="true"><polyline points="${state.pattern.map(n=>`${n%3*100+50},${Math.floor(n/3)*100+50}`).join(' ')}"></polyline></svg>${Array.from({length:9},(_,n)=>`<button type="button" data-lock-dot="${n}" class="${state.pattern.includes(n)?'selected':''}" aria-label="${escape(t('Dot'))} ${n+1}" aria-pressed="${state.pattern.includes(n)}"><i></i></button>`).join('')}</div>`;}
+    function grid(){return `<div class="credential-pattern${state.error?' wrong':''}${!drawing&&!state.error&&state.pattern.length?' done':''}${data().settings.patternVisible===false&&state.stage==='unlock'?' stealth':''}" role="group" aria-label="${escape(t('Pattern'))}"><svg viewBox="0 0 300 300" aria-hidden="true"><polyline points="${state.pattern.map(n=>`${n%3*100+50},${Math.floor(n/3)*100+50}`).join(' ')}"></polyline></svg>${Array.from({length:9},(_,n)=>`<button type="button" data-lock-dot="${n}" class="${state.pattern.includes(n)?'selected':''}" aria-label="${escape(t('Dot'))} ${n+1}" aria-pressed="${state.pattern.includes(n)}"><i></i></button>`).join('')}</div>`;}
     function message(){
       if(look.message&&state.stage==='unlock')return look.message({state,remaining:remaining(data()),data:data()});
       if(remaining(data())&&['unlock','verify'].includes(state.stage))return `${t('Try again in')} ${remaining(data())} ${t('seconds')}`;
+      if(setup())return setupHeader();
       if(state.error)return t(state.error);
       if(state.stage==='verify')return t('Confirm your current screen lock');
       if(state.kind==='pattern')return t(state.stage==='confirm'?'Draw your pattern again':state.stage==='create'?'Draw an unlock pattern':'Draw pattern to unlock');
@@ -56,11 +59,41 @@
     function surface(){
       return `<p class="credential-instruction" role="status">${escape(message())}</p>${state.kind==='pattern'?grid():`<form class="credential-entry" data-lock-form><input aria-label="${escape(t(names[state.kind]))}" type="password" inputmode="none" autocomplete="off" maxlength="16" value="${escape(state.value)}"><button type="button" data-lock-key="delete" aria-label="${escape(t('Delete'))}">⌫</button></form>`}`;
     }
+    /* Settings 5.1 (Theme.Material.Settings: white, the #263238 toolbar): ChooseLockGeneric (security_settings_picker.xml,
+       "Swipe" for the slide), ChooseLockPattern / ConfirmLockPattern (choose_lock_pattern.xml / confirm_lock_pattern.xml:
+       the 18 sp header and the empty 14 sp footer around the square Material LockPatternView) and ChooseLockPassword /
+       ConfirmLockPassword (the two-line header, the 24 sp bold field, the segmented borderless button bar; the confirm
+       screen has Cancel / Next). Their PasswordEntryKeyboardView stays gone, so the system keyboard comes up for the field.
+       Texts are this image's (lock-strings.js); stages follow ChooseLockPattern.Stage and ChooseLockPassword. */
+    const L=key=>{const row=window.LockStrings?.[key];return row?row[window.AndroidI18n?.language]||row.en:key;};
+    function setupHeader(){
+      if(state.kind==='pattern'){
+        if(state.stage==='verify')return L(state.error?'lockpattern_need_to_unlock_wrong':'lockpattern_need_to_unlock');
+        if(state.stage==='create')return state.error?L('lockpattern_recording_incorrect_too_short').replace('%d','4'):drawing?L('lockpattern_recording_inprogress'):state.pattern.length?L('lockpattern_pattern_entered_header'):L('lockpattern_recording_intro_header');
+        return state.error?L('lockpattern_need_to_unlock_wrong'):drawing?L('lockpattern_recording_inprogress'):state.pattern.length?L('lockpattern_pattern_confirmed_header'):L('lockpattern_need_to_confirm');
+      }
+      const pin=state.kind==='pin';
+      if(state.stage==='verify')return state.error?L('lockpattern_need_to_unlock_wrong'):L(pin?'lockpassword_confirm_your_pin_header':'lockpassword_confirm_your_password_header');
+      if(state.error==='Does not match. Try again.')return L(pin?'lockpassword_confirm_pins_dont_match':'lockpassword_confirm_passwords_dont_match');
+      if(state.error)return L(pin?'lockpassword_pin_too_short':'lockpassword_password_too_short').replace('%d','4');
+      return L(state.stage==='confirm'?(pin?'lockpassword_confirm_your_pin_header':'lockpassword_confirm_your_password_header'):(pin?'lockpassword_choose_your_pin_header':'lockpassword_choose_your_password_header'));
+    }
     function renderSetup(){
-      const title=state.stage==='choose'?'Choose screen lock':state.stage==='verify'?'Confirm screen lock':state.kind==='pattern'?'Choose your pattern':state.kind==='pin'?'Choose your PIN':'Choose your password';
-      const header=`<div class="actionbar"><button class="up" data-lock-action="cancel" aria-label="${escape(t('Back'))}"><img class="settings-header-icon" src="assets/settings.png" alt=""></button><h2>${escape(t(title))}</h2></div>`;
-      if(state.stage==='choose')return `<div class="app-view settings-app credential-setup">${header}<div class="credential-choices">${[['none','None'],['slide','Slide'],['face','Face Unlock'],['pattern','Pattern'],['pin','PIN'],['password','Password']].map(([id,name])=>`<button class="settings-row" data-lock-action="choose" data-lock-kind="${id}" ${id==='face'?'disabled':''}><span class="row-copy">${escape(t(name))}</span></button>`).join('')}<p class="credential-demo">${escape(t('Local simulator lock. Use a test code.'))}</p></div></div>`;
-      return `<div class="app-view settings-app credential-setup">${header}<div class="credential-body">${surface()}<div class="credential-spacer"></div><div class="credential-buttons"><button data-lock-action="${state.kind==='pattern'&&state.pattern.length?'retry':'cancel'}">${escape(t(state.kind==='pattern'&&state.pattern.length?'Retry':'Cancel'))}</button><button data-lock-action="next" ${busy?'disabled':''}>${escape(t(state.stage==='confirm'?'Confirm':'Continue'))}</button></div>${state.kind!=='pattern'?keyboard():''}</div></div>`;
+      const title=state.stage==='choose'||state.stage==='verify'?L('lock_settings_picker_title'):L(state.kind==='pattern'?'lockpassword_choose_your_pattern_header':state.kind==='pin'?'lockpassword_choose_your_pin_header':'lockpassword_choose_your_password_header');
+      const header=`<div class="actionbar lp-toolbar"><button class="up" data-lock-action="cancel" aria-label="${escape(t('Navigate up'))}"><img src="assets/lp-fw-ic_ab_back_material.svg" alt=""></button><h2>${escape(title)}</h2></div>`;
+      const view=inner=>`<div class="app-view settings-app lp-settings credential-setup lp-cl" data-no-translate>${header}${inner}</div>`;
+      if(state.stage==='choose')return view(`<div class="credential-choices">${[['none','off'],['slide','none'],['face','biometric_weak'],['pattern','pattern'],['pin','pin'],['password','password']].map(([id,key])=>`<button class="settings-row" data-lock-action="choose" data-lock-kind="${id}" ${id==='face'?'disabled':''}><span class="row-copy">${escape(L(`unlock_set_unlock_${key}_title`))}</span></button>`).join('')}<p class="credential-demo">${escape(t('Local simulator lock. Use a test code.'))}</p></div>`);
+      const bar=(left,right)=>`<div class="credential-buttons lp-cl-buttons"><button type="button" data-lock-action="${left[0]}">${escape(left[1])}</button><button type="button" data-lock-action="next" ${right[1]&&!busy?'':'disabled'}>${escape(right[0])}</button></div>`;
+      if(state.kind==='pattern'){
+        const valid=state.pattern.length>=4&&!state.error&&!drawing,verify=state.stage==='verify';
+        const left=state.stage==='create'&&state.pattern.length&&!drawing?['retry',L('lockpattern_retry_button_text')]:['cancel',L('lockpassword_cancel_label')];
+        const right=[L(state.stage==='create'?'lockpattern_continue_button_text':'lockpattern_confirm_button_text'),valid];
+        return view(`<div class="credential-body lp-cl-pattern"><p class="credential-instruction lp-cl-header" role="status">${escape(setupHeader())}</p>${grid()}<p class="lp-cl-footer"></p></div>${verify?'':bar(left,right)}`);
+      }
+      const verify=state.stage==='verify',long=state.value.length>=4;
+      const field=`<form class="credential-entry lp-cl-field" data-lock-form><input aria-label="${escape(t(names[state.kind]))}" type="password" inputmode="none" autocomplete="off" maxlength="16" value="${escape(state.value)}"></form>`;
+      const buttons=verify?bar(['cancel',L('lockpattern_tutorial_cancel_label')],[L('lockpattern_tutorial_continue_label'),long]):bar(['cancel',L('lockpassword_cancel_label')],[L(state.stage==='confirm'?'lockpassword_ok_label':'lockpassword_continue_label'),long]);
+      return view(`<div class="credential-body lp-cl-password"><p class="credential-instruction lp-cl-header" role="status">${escape(setupHeader())}</p>${field}<div class="credential-spacer"></div>${buttons}</div>${keyboard()}`);
     }
     function renderLock(){if(look.renderLock)return look.renderLock({state,message,grid,keyboard,escape,remaining:remaining(data())});return `<div class="lock-view credential-lock"><div class="lock-clock"><div class="lock-time">${clock()}</div><div class="lock-date">${date()}</div>${data().settings.showOwner?`<div class="lock-owner">${escape(data().settings.ownerInfo)}</div>`:''}</div><div class="credential-lock-content">${surface()}${state.kind!=='pattern'?keyboard():`<button class="credential-keyboard-confirm" data-lock-action="next">${escape(t('Unlock'))}</button>`}</div><div class="credential-carrier">${escape(carrier())}</div><button class="credential-emergency" data-lock-action="emergency"><img src="assets/lock-ic_lockscreen_emergencycall_normal.png" alt="">${escape(t('Emergency call'))}</button></div>`;}
     async function next(){
@@ -84,7 +117,9 @@
       }catch{if(token===revision){state.error='Could not save screen lock';busy=false;render();}}
       finally{if(token===revision)busy=false;}
     }
-    function updateInput(value){state.value=(state.kind==='pin'?value.replace(/\D/g,''):value).slice(0,16);state.error='';const input=document.querySelector('.credential-entry input');if(input)input.value=state.value;}
+    function updateInput(value){state.value=(state.kind==='pin'?value.replace(/\D/g,''):value).slice(0,16);state.error='';const input=document.querySelector('.credential-entry input');if(input)input.value=state.value;
+      // ChooseLockPassword.updateUi: Continue / OK / Next wait for the minimum length.
+      if(setup())document.querySelector('.credential-setup [data-lock-action="next"]')?.toggleAttribute('disabled',state.value.length<4);}
     function key(key){
       if(busy)return;
       if(key==='next'){next();return;}
@@ -119,7 +154,7 @@
       screen.addEventListener('input',event=>{if(event.target.matches('.credential-entry input')){updateInput(event.target.value);event.stopImmediatePropagation();}},true);
       screen.addEventListener('pointerdown',event=>{
         const pattern=event.target.closest('.credential-pattern');if(!pattern||busy||remaining(data())&&['unlock','verify'].includes(state.stage))return;
-        event.preventDefault();event.stopImmediatePropagation();clearTimeout(clearTimer);state.pattern=[];state.error='';const r=pattern.getBoundingClientRect();drawing={id:event.pointerId,element:pattern,rect:r,last:[(event.clientX-r.left)/r.width*300,(event.clientY-r.top)/r.height*300]};pattern.setPointerCapture(event.pointerId);hit(...drawing.last);paint(drawing.last);
+        event.preventDefault();event.stopImmediatePropagation();clearTimeout(clearTimer);state.pattern=[];state.error='';const r=pattern.getBoundingClientRect();drawing={id:event.pointerId,element:pattern,rect:r,last:[(event.clientX-r.left)/r.width*300,(event.clientY-r.top)/r.height*300]};if(setup()){const h=document.querySelector('.credential-setup .credential-instruction');if(h)h.textContent=setupHeader();}pattern.setPointerCapture(event.pointerId);hit(...drawing.last);paint(drawing.last);
       },true);
       window.addEventListener('pointermove',event=>{
         if(!drawing||event.pointerId!==drawing.id)return;event.preventDefault();event.stopImmediatePropagation();const r=drawing.rect,point=[(event.clientX-r.left)/r.width*300,(event.clientY-r.top)/r.height*300],old=drawing.last,steps=Math.max(1,Math.ceil(Math.hypot(point[0]-old[0],point[1]-old[1])/8));for(let i=1;i<=steps;i++)hit(old[0]+(point[0]-old[0])*i/steps,old[1]+(point[1]-old[1])*i/steps);drawing.last=point;paint(point);
