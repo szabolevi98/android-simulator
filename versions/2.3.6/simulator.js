@@ -1449,10 +1449,8 @@
       case 'search-key': searchKey(); break;
       case 'gb-ga-silent': { const silent = !data.settings.silent; data.settings.silent = silent; data.settings.silentMode = silent ? (data.settings.vibrateSilent === false ? 'mute' : 'vibrate') : 'off'; ui.overlay = ''; save(); render(); break; }
       case 'ga-power': ui.overlay = 'power-confirm'; ui.powerKind = 'shutdown'; renderOverlay(); break;
-      case 'ga-bugreport': ui.overlay = 'power-confirm'; ui.powerKind = 'bugreport'; renderOverlay(); break;
       case 'ga-airplane': ui.overlay = ''; data.settings.airplane = !data.settings.airplane; if (data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; } save(); render(); break;
-      case 'ga-ringer': GlobalActions.setRinger(data.settings, id); save(); renderStatus(); renderOverlay(); setTimeout(() => { if (ui.overlay === 'power-menu') { ui.overlay = ''; render(); } }, GlobalActions.DISMISS_DELAY); break;
-      case 'ga-confirm': powerConfirm(id); break;
+      case 'ga-confirm': powerConfirm(); break;
       case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
       case 'folder-open': ui.folderId=button.dataset.folderId;ui.overlay='folder';renderOverlay();break;
       case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = 0; render(); break;
@@ -2815,7 +2813,7 @@
     else if (event.key === 'Home' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) { event.preventDefault(); if (ui.view !== 'lock') home(); }
 
   });
-  function powerKey() { if (ui.power === 'off') { bootUp(false); return; } if (ui.power || ui.overlay === 'power-progress') return; if(ui.locked){ui.sleeping=!ui.sleeping;lockControls.lock();render();}else if(ui.sleeping||ui.view==='lock'){ui.sleeping=false;home(false);}else lockScreen(); }
+  function powerKey() { if (ui.power === 'off') { bootUp(); return; } if (ui.power || ui.overlay === 'power-progress') return; if(ui.locked){ui.sleeping=!ui.sleeping;lockControls.lock();render();}else if(ui.sleeping||ui.view==='lock'){ui.sleeping=false;home(false);}else lockScreen(); }
   // PhoneWindowManager: holding the key opens GlobalActions only while the screen is on; otherwise it just wakes.
   function powerHold() { if (ui.power || ui.sleeping || ui.overlay === 'power-progress') { powerKey(); return; } ui.overlay = 'power-menu'; render(); }
   // Touch keys: any touch on the device lights them; holding Home for the 500 ms long-press timeout opens the recent apps.
@@ -2865,20 +2863,18 @@
   for (const type of ['pointerup', 'pointercancel', 'pointerleave']) navRoot.addEventListener(type, () => { clearTimeout(homeHold); homeHold = 0; });
   for (const key of [document.querySelector('#power-button'), document.querySelector('.power-key')]) { key.addEventListener('click', powerKey); GlobalActions.hold(key, powerHold); }
   // ShutdownThread: the confirmation, the "Shutting down…" progress dialog with a 500 ms vibration, then off.
-  function powerConfirm(kind) {
-    if (kind === 'bugreport') { ui.overlay = ''; render(); setTimeout(() => addNotification('Bug report captured', 'Touch to share your bug report'), 6000); return; }
+  function powerConfirm() {
     ui.overlay = 'power-progress'; renderOverlay(); navigator.vibrate?.(500);
-    setTimeout(() => powerOff(kind === 'safemode'), GlobalActions.SHUTDOWN_MS);
+    setTimeout(powerOff, GlobalActions.SHUTDOWN_MS);
   }
-  function powerOff(reboot) {
+  function powerOff() {
     if (ui.activeCall) ui.activeCall = null;
     if (ui.music) ui.music.playing = false;
-    ui.overlay = ''; ui.view = 'home'; ui.sub = ''; ui.recent = []; ui.recentState = {}; ui.recentSnapshots = {}; ui.safeMode = false; ui.power = 'off';
+    ui.overlay = ''; ui.view = 'home'; ui.sub = ''; ui.recent = []; ui.recentState = {}; ui.recentSnapshots = {}; ui.power = 'off';
     render(); renderPower();
-    if (reboot) setTimeout(() => bootUp(true), 900);
   }
-  function bootUp(safeMode) {
-    ui.power = 'boot'; ui.safeMode = safeMode; renderPower();
+  function bootUp() {
+    ui.power = 'boot'; renderPower();
     setTimeout(() => { ui.power = ''; lockScreen(); ui.sleeping = false; if (!ui.locked && ui.view !== 'lock') home(); else render(); renderPower(); lastActivity = Date.now(); }, GlobalActions.BOOT_MS);
   }
   // Volume keys: the active stream's slider, a 3 s timeout, and a touch anywhere else closes it.
@@ -2915,7 +2911,7 @@
   bindVolumeKey(document.querySelector('#volume-up'), 1);
   bindVolumeKey(document.querySelector('.volume-rocker'), event => event.offsetY < event.currentTarget.clientHeight / 2 ? 1 : -1);
   const powerLayer = document.createElement('div'); powerLayer.id = 'power-layer'; screen.append(powerLayer);
-  function renderPower() { powerLayer.innerHTML = ui.power === 'off' ? '<div class="ga-off"></div>' : ui.power === 'boot' ? GlobalActions.boot() : ui.safeMode ? GlobalActions.safeMode(key => i18n.t(key)) : ''; }
+  function renderPower() { powerLayer.innerHTML = ui.power === 'off' ? '<div class="ga-off"></div>' : ui.power === 'boot' ? GlobalActions.boot() : ''; }
   screen.addEventListener('pointerdown',()=>{if(ui.sleeping){ui.sleeping=false;suppressClickUntil=Date.now()+350;if(ui.locked)render();else home(false);}},true);
   // Full screen (Fullscreen API): hides the browser chrome on phones and keeps portrait where the browser allows it.
   const fullscreenButton = document.querySelector('#fullscreen-button');

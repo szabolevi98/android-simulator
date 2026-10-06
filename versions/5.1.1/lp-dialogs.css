@@ -46,26 +46,9 @@
 .lp-vol .vol-zen.on{color:#fff;box-shadow:inset 0 -1.81px #80cbc4}
 .lp-vol .vol-subhead{display:flex;align-items:center;gap:3.62px;height:56.17px;padding:0 14.5px;color:#fff;font:400 14.5px Roboto,sans-serif}
 .lp-vol .vol-subhead img{width:21.74px;height:21.74px;opacity:.7}
-/* GlobalActions and ShutdownThread in Theme.DeviceDefault.Light.Dialog: white, 2 dp corners, Material type. */
-.screen .ga-dialog{border:0;border-image:none;background:#fff;color:#000000de;border-radius:1.81px;box-shadow:0 10.87px 27px #00000066;font-family:Roboto,sans-serif}
-.screen .ga-dialog.ga-list{padding:7.25px 0;min-width:217.44px}
-.screen .ga-item{display:flex;align-items:center;gap:21.74px;width:100%;min-height:57.98px;border:0;background:none;padding:0 21.74px;color:#000000de;text-align:left}
-.screen .ga-icon img{width:21.74px;height:21.74px;filter:brightness(0);opacity:.54}
-.screen .ga-message{font:400 14.5px Roboto,sans-serif;color:#000000de}
-.screen .ga-status{color:#0000008a}
-.screen .ga-scrim{background:#00000080}
-.screen .ga-title{margin:0;padding:21.74px 21.74px 14.5px;font:500 18.12px Roboto,sans-serif;color:#000000de;border:0;background:none}
-.screen .ga-body{margin:0;padding:0 21.74px 21.74px;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008a;border:0}
-.screen .ga-buttons{display:flex;justify-content:flex-end;gap:3.62px;padding:0 7.25px 7.25px;border:0;background:none}
-.screen .ga-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;color:#009688;font:500 12.68px Roboto,sans-serif;text-transform:uppercase}
-.screen .ga-progress{display:flex;align-items:center;gap:21.74px;padding:0 21.74px 21.74px;font:400 14.5px Roboto,sans-serif;color:#0000008a}
-.screen .ga-spinner{width:43.49px;height:43.49px;border-radius:50%;border:3.62px solid #00968833;border-top-color:#009688;animation:lp-spin 1s linear infinite}
-.screen .ga-spinner img{display:none}
-@keyframes lp-spin{to{transform:rotate(360deg)}}
 /* Toast (Theme.Material: the #323232-ish translucent pill, 2 dp radius, 14 sp white). */
 /* Toast (transient_notification.xml on Theme.Material's toastFrameBackground): framework-res toast_frame.9.png is a
    #555555 ellipse at 90 % whose 9-patch corners are 25 x 21 dp and whose padding is 25 dp across and 11 dp down;
    TextAppearance.Toast is 16 sp sans-serif-condensed in bright_foreground_dark with a #BB000000 shadow of 2.75;
    Toast's gravity is bottom-centre, toast_y_offset (64 dp) above the navigation bar. The Holo border image is off. */
 .screen .toast{left:50%;right:auto;transform:translateX(-50%);max-width:calc(100% - 58px);bottom:calc(var(--nb) + 57.98px);padding:9.97px 22.65px;border:0;border-image:none;border-radius:22.65px / 19.03px;background:#555555e6;box-shadow:none;font:400 14.5px/1.3 RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#fff;text-shadow:0 0 2.75px #000000bb;text-align:center}
-.screen .ga-dialog{width:min(289.92px,85%)}

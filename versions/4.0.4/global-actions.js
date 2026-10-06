@@ -1,6 +1,6 @@
-/* Power key menu, shutdown and boot (frameworks/base policy GlobalActions, ShutdownThread and cmds/bootanimation).
-   The same file serves 4.0.4 and 4.3; `version` switches on the 4.1+ additions (safe-mode reboot on a long press of
-   Power off, and the optional Bug report row). */
+/* Power key menu, shutdown and boot of the IMM76I (Galaxy Nexus) image (frameworks/base android-4.0.4 policy
+   GlobalActions, ShutdownThread and cmds/bootanimation): Power off, Airplane mode and the silent mode row. The safe-mode
+   reboot (a long press of Power off) and the Bug report row came with 4.1 and 4.2. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -15,26 +15,23 @@
     settings.silent = mode !== 'normal';
     settings.silentMode = mode === 'vibrate' ? 'vibrate' : mode === 'silent' ? 'mute' : 'off';
   }
-  // Items in createDialog() order: power off, airplane mode, bug report (4.2+, when enabled), silent mode.
-  function items(state, version) {
+  // Items in createDialog() order: power off, airplane mode, silent mode.
+  function items(state) {
     const list = [{id: 'power', icon: 'ga-ic_lock_power_off', message: 'Power off'},
       {id: 'airplane', icon: state.airplane ? 'ga-ic_lock_airplane_mode' : 'ga-ic_lock_airplane_mode_off', message: 'Airplane mode', status: state.airplane ? 'Airplane mode is ON' : 'Airplane mode is OFF'}];
-    if (version !== '4.0.4' && state.bugreport) list.push({id: 'bugreport', icon: 'ga-stat_sys_adb', message: 'Bug report'});
     list.push({id: 'ringer'});
     return list;
   }
-  function menu(state, t, version) {
+  function menu(state, t) {
     const ringer = state.ringer || 'normal';
-    const rows = items(state, version).map(item => item.id === 'ringer'
+    const rows = items(state).map(item => item.id === 'ringer'
       ? `<div class="ga-silent" role="radiogroup">${RINGER.map(([mode, icon, label], i) => `${i ? '<i aria-hidden="true"></i>' : ''}<button type="button" class="ga-option" data-action="ga-ringer" data-id="${mode}" role="radio" aria-checked="${ringer === mode}" aria-label="${e(t(label))}"><span class="ga-indicator"><img src="assets/${icon}.png" alt=""></span></button>`).join('')}</div>`
       : `<button type="button" class="ga-item" data-action="ga-${item.id}"><span class="ga-icon"><img src="assets/${item.icon}.png" alt=""></span><span class="ga-text"><span class="ga-message">${e(t(item.message))}</span>${item.status ? `<span class="ga-status">${e(t(item.status))}</span>` : ''}</span></button>`);
     return `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-list" role="dialog" aria-label="${e(t('Phone options'))}">${rows.join('')}</div>`;
   }
-  // ShutdownThread.shutdownInner / rebootSafeMode and the GlobalActions bug report dialog.
+  // ShutdownThread.shutdownInner: the confirmation dialog.
   const CONFIRM = {
-    shutdown: {title: 'Power off', message: 'Your phone will shut down.', ok: 'OK'},
-    safemode: {title: 'Reboot to safe mode', message: 'Do you want to reboot into safe mode? This will disable all third party applications you have installed. They will be restored when you reboot again.', ok: 'OK'},
-    bugreport: {title: 'Take bug report', message: 'This will collect information about your current device state, to send as an e-mail message. It will take a little time from starting the bug report until it is ready to be sent; please be patient.', ok: 'Report'}
+    shutdown: {title: 'Power off', message: 'Your phone will shut down.', ok: 'OK'}
   };
   function confirm(kind, t) {
     const spec = CONFIRM[kind] || CONFIRM.shutdown;
@@ -49,8 +46,6 @@
   function boot() {
     return '<div class="ga-boot" aria-label="Android"><span class="ga-boot-logo"><span class="ga-boot-shine"></span><img src="assets/boot-android-logo-mask.png" alt=""></span></div>';
   }
-  // safe_mode.xml: textAppearanceLarge, 3dp padding, #60000000 behind #80ffffff text, at the bottom left.
-  const safeMode = t => `<div class="ga-safe-mode">${e(t('Safe mode'))}</div>`;
   // Press and hold: fires once the key timeout passes and swallows the click that follows the release.
   function hold(element, onLong, timeout = KEY_TIMEOUT) {
     if (!element) return;
@@ -72,5 +67,5 @@
     ['pointerup', 'pointercancel', 'pointerleave'].forEach(type => element.addEventListener(type, cancel));
     element.addEventListener('contextmenu', event => event.preventDefault());
   }
-  window.GlobalActions = {KEY_TIMEOUT, RINGER, DISMISS_DELAY, SHUTDOWN_MS, BOOT_MS, CONFIRM, ringerOf, setRinger, items, menu, confirm, progress, boot, safeMode, hold};
+  window.GlobalActions = {KEY_TIMEOUT, RINGER, DISMISS_DELAY, SHUTDOWN_MS, BOOT_MS, CONFIRM, ringerOf, setRinger, items, menu, confirm, progress, boot, hold};
 })();

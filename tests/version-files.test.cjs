@@ -10,9 +10,7 @@ const SHARED={
   'play-store.js':[['4.0.4','4.3']],
   // Not yet checked against each image (the audit's follow-up list in docs/audit-plan-2026-10.md).
   'calendar.js':[['4.3','4.4.4']],
-  
-  'global-actions.css':[['2.3.6','4.0.4','4.3'],['4.4.4','5.1.1']],
-  'global-actions.js':[['2.3.6','4.0.4','4.3','4.4.4']],'hangouts.css':[['4.4.4','5.1.1']],
+  'hangouts.css':[['4.4.4','5.1.1']],
   'gallery.js':[['4.4.4','5.1.1']],
   'downloads.css':[['4.4.4','5.1.1']],'downloads.js':[['4.4.4','5.1.1']],
   'gallery.css':[['4.4.4','5.1.1']],

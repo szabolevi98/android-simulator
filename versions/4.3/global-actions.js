@@ -1,6 +1,6 @@
-/* Power key menu, shutdown and boot (frameworks/base policy GlobalActions, ShutdownThread and cmds/bootanimation).
-   The same file serves 4.0.4 and 4.3; `version` switches on the 4.1+ additions (safe-mode reboot on a long press of
-   Power off, and the optional Bug report row). */
+/* Power key menu, shutdown and boot of the JWR66Y (Nexus 4) image (frameworks/base android-4.3 policy GlobalActions,
+   ShutdownThread and cmds/bootanimation): Power off (a long press offers the safe-mode reboot), Airplane mode, Bug report
+   when Developer options turn it on, and the silent mode row. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -15,17 +15,17 @@
     settings.silent = mode !== 'normal';
     settings.silentMode = mode === 'vibrate' ? 'vibrate' : mode === 'silent' ? 'mute' : 'off';
   }
-  // Items in createDialog() order: power off, airplane mode, bug report (4.2+, when enabled), silent mode.
-  function items(state, version) {
+  // Items in createDialog() order: power off, airplane mode, bug report (when enabled), silent mode.
+  function items(state) {
     const list = [{id: 'power', icon: 'ga-ic_lock_power_off', message: 'Power off'},
       {id: 'airplane', icon: state.airplane ? 'ga-ic_lock_airplane_mode' : 'ga-ic_lock_airplane_mode_off', message: 'Airplane mode', status: state.airplane ? 'Airplane mode is ON' : 'Airplane mode is OFF'}];
-    if (version !== '4.0.4' && state.bugreport) list.push({id: 'bugreport', icon: 'ga-stat_sys_adb', message: 'Bug report'});
+    if (state.bugreport) list.push({id: 'bugreport', icon: 'ga-stat_sys_adb', message: 'Bug report'});
     list.push({id: 'ringer'});
     return list;
   }
-  function menu(state, t, version) {
+  function menu(state, t) {
     const ringer = state.ringer || 'normal';
-    const rows = items(state, version).map(item => item.id === 'ringer'
+    const rows = items(state).map(item => item.id === 'ringer'
       ? `<div class="ga-silent" role="radiogroup">${RINGER.map(([mode, icon, label], i) => `${i ? '<i aria-hidden="true"></i>' : ''}<button type="button" class="ga-option" data-action="ga-ringer" data-id="${mode}" role="radio" aria-checked="${ringer === mode}" aria-label="${e(t(label))}"><span class="ga-indicator"><img src="assets/${icon}.png" alt=""></span></button>`).join('')}</div>`
       : `<button type="button" class="ga-item" data-action="ga-${item.id}"><span class="ga-icon"><img src="assets/${item.icon}.png" alt=""></span><span class="ga-text"><span class="ga-message">${e(t(item.message))}</span>${item.status ? `<span class="ga-status">${e(t(item.status))}</span>` : ''}</span></button>`);
     return `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-list" role="dialog" aria-label="${e(t('Phone options'))}">${rows.join('')}</div>`;

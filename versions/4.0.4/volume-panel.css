@@ -2,7 +2,7 @@
    the screen in portrait. One 64dp row: the 32dp stream icon with 16dp padding and a holo SeekBar (16dp padding, 16dp
    end margin, 13dp track, 32dp thumb). No enter animation; it fades out over config_mediumAnimTime. */
 #volume-layer{position:absolute;left:0;right:0;top:72px;z-index:60;pointer-events:none}
-.vol-panel{pointer-events:auto;border:7.2px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 15 fill/9px stretch}
+.vol-panel{pointer-events:auto;border:7.2px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 20 fill/9px stretch}
 .vol-panel.fading{opacity:0;transition:opacity .4s cubic-bezier(.55,.085,.68,.53);pointer-events:none}
 .vol-item{display:flex;align-items:center;min-height:57.6px}
 .vol-icon{flex:none;padding:14.4px;display:grid}

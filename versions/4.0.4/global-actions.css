@@ -1,14 +1,16 @@
-/* GlobalActions, ShutdownThread and the boot animation (dp scaled by 0.9; hdpi px by 0.6). The dialog window is
+/* GlobalActions, ShutdownThread and the boot animation of the IMM76I (Galaxy Nexus) image (dp scaled by 0.9; the xhdpi art of its
+   framework-res, dialog_full_holo_dark's 9-patch cut at 20 px). The dialog window is
    Theme.Holo.Dialog.Alert: 95% of the portrait width, dialog_full_holo_dark with 8dp of shadow padding, dimmed 0.6
    behind it (the status and navigation bars sit above the keyguard dialog layer and stay undimmed). */
 .ga-scrim{position:absolute;left:0;right:0;top:var(--ga-top,24px);bottom:var(--ga-bottom,47px);z-index:40;background:#00000099}
-.ga-dialog{position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:95%;max-height:calc(100% - 90px);overflow:hidden;border:7.2px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 15 fill/9px stretch;color:#f3f3f3;font-family:Roboto,RobotoICS,sans-serif}
+.ga-dialog{position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:95%;max-height:calc(100% - 90px);overflow:hidden;border:7.2px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 20 fill/9px stretch;color:#f3f3f3;font-family:Roboto,RobotoICS,sans-serif}
 .ga-list{padding:0 7.2px;display:flex;flex-direction:column;min-height:57.6px}
 .ga-list>*+*{box-shadow:inset 0 1px #ffffff26}
-/* global_actions_item.xml: listPreferredItemHeight 64dp, 8dp start padding, a 56dp icon box and 22sp / 14sp text. */
-.ga-item{display:flex;align-items:center;min-height:57.6px;width:100%;padding:5.4px 0 5.4px 7.2px;border:0;background:none;text-align:left;color:inherit;font:inherit}
+/* global_actions_item.xml (4.0.4): listPreferredItemHeight 64dp, 16dp left padding, the icon at its own 32dp width with
+   16dp after it (4.1 moved it into a 56dp box), and 22sp / 14sp text. */
+.ga-item{display:flex;align-items:center;min-height:57.6px;width:100%;padding:5.4px 0 5.4px 14.4px;border:0;background:none;text-align:left;color:inherit;font:inherit}
 .ga-item:active,.ga-option:active{background-color:#33b5e599}
-.ga-icon{flex:none;width:50.4px;height:50.4px;margin-right:7.2px;display:grid;place-items:center}
+.ga-icon{flex:none;align-self:stretch;margin-right:14.4px;display:grid;place-items:center}
 .ga-icon img{width:28.8px;height:28.8px}
 .ga-text{flex:1;min-width:0;display:flex;flex-direction:column}
 .ga-message{font-size:19.8px;line-height:1.3;color:#f3f3f3}
