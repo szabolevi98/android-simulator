@@ -1042,6 +1042,18 @@ window.StockStrings = {
    "Filme",
    "Films",
    "Películas"
+  ],
+  "Search for movies & shows": [
+   "Filmek és sorozatok keresése",
+   "Nach Filmen & Sendungen suchen",
+   "Rechercher films et émissions",
+   "Buscar películas y programas"
+  ],
+  "Clear query": [
+   "Lekérdezés törlése",
+   "Suchanfrage löschen",
+   "Effacer la requête",
+   "Borrar consulta"
   ]
  },
  "books": {
@@ -1129,6 +1141,18 @@ window.StockStrings = {
    "Meine Käufe",
    "Achats",
    "Comprados"
+  ],
+  "Search Google Play": [
+   "Keresés a Google Playen",
+   "In Google Play suchen",
+   "Rechercher sur Google Play",
+   "Buscar en Google Play"
+  ],
+  "Clear query": [
+   "Lekérdezés törlése",
+   "Anfrage löschen",
+   "Effacer la requête",
+   "Borrar consulta"
   ]
  },
  "games": {

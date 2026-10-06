@@ -1086,6 +1086,18 @@ window.StockStrings = {
    "Keine heruntergeladenen Inhalte",
    "Aucun contenu téléchargé",
    "No hay contenido descargado"
+  ],
+  "Search for movies & shows": [
+   "Filmek és sorozatok keresése",
+   "Nach Filmen & Sendungen suchen",
+   "Rechercher films et émissions",
+   "Buscar películas y programas"
+  ],
+  "Clear query": [
+   "Lekérdezés törlése",
+   "Anfrage löschen",
+   "Effacer la requête",
+   "Borrar consulta"
   ]
  },
  "books": {
@@ -1160,6 +1172,24 @@ window.StockStrings = {
    "Alle Bücher",
    "Tous les livres",
    "Todos los libros"
+  ],
+  "Search for books": [
+   "Könyvek keresése",
+   "Nach Büchern suchen",
+   "Rechercher livres",
+   "Buscar libros"
+  ],
+  "Search online": [
+   "Keresés online",
+   "Online suchen",
+   "Rechercher en ligne",
+   "Buscar online"
+  ],
+  "Clear query": [
+   "Lekérdezés törlése",
+   "Anfrage löschen",
+   "Effacer la requête",
+   "Borrar consulta"
   ]
  },
  "games": {

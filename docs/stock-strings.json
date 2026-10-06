@@ -132,7 +132,10 @@
    "Help": "Books:menu_help",
    "Recent": "Books:library_header_recent",
    "All books": "Books:action_bar_title_all_books",
-   "Purchases": "Books:action_bar_title_free_and_purchased"
+   "Purchases": "Books:action_bar_title_free_and_purchased",
+   "Search for books": "Books:search_hint",
+   "Search online": "Books:suggest_market",
+   "Clear query": "Books:searchview_description_clear"
   },
   "movies": {
    "Google Play": "Videos:google_play",
@@ -153,7 +156,9 @@
    "Send feedback": "Videos:menu_feedback",
    "Refresh": "Videos:menu_refresh",
    "Accounts": "Videos:logout",
-   "Download": "Videos:download"
+   "Download": "Videos:download",
+   "Search for movies": "Videos:inapp_search_hint",
+   "Clear query": "framework:searchview_description_clear"
   },
   "music": {
    "Play Music": "Music2:app_name",
@@ -414,7 +419,9 @@
    "Personal videos": "Videos:menu_personal_videos",
    "Now Playing": "Videos:currently_playing",
    "Recommended for You": "Videos:recommended",
-   "Nothing downloaded": "Videos:empty_pin_text"
+   "Nothing downloaded": "Videos:empty_pin_text",
+   "Search for movies & shows": "Videos:inapp_search_hint_with_tv",
+   "Clear query": "framework:searchview_description_clear"
   },
   "books": {
    "Play Books": "Books:main_activity_name",
@@ -428,7 +435,10 @@
    "Refresh": "Books:menu_refresh",
    "Recent": "Books:library_header_recent",
    "SEE ALL": "Books:library_header_see_all_books",
-   "All books": "Books:action_bar_title_all_books"
+   "All books": "Books:action_bar_title_all_books",
+   "Search for books": "Books:search_hint",
+   "Search online": "Books:suggest_market",
+   "Clear query": "Books:searchview_description_clear"
   },
   "games": {
    "Play Games": "PlayGames:games_app_launcher_name",
@@ -658,7 +668,9 @@
    "Settings": "Videos:menu_settings",
    "Help & feedback": "Videos:menu_help_and_feedback",
    "Recommended for You": "Videos:recommended",
-   "Movies": "Videos:section_wishlist_movies"
+   "Movies": "Videos:section_wishlist_movies",
+   "Search for movies & shows": "Videos:inapp_search_hint_with_tv",
+   "Clear query": "Videos:abc_searchview_description_clear"
   },
   "books": {
    "Play Books": "Books:main_activity_name",
@@ -674,7 +686,9 @@
    "Recent": "Books:library_header_recent",
    "SEE ALL": "Books:library_header_see_all_books",
    "All books": "Books:action_bar_title_all_books",
-   "Purchases": "Books:action_bar_title_free_and_purchased"
+   "Purchases": "Books:action_bar_title_free_and_purchased",
+   "Search Google Play": "Books:play_search_box_hint",
+   "Clear query": "Books:searchview_description_clear"
   },
   "games": {
    "Play Games": "PlayGames:games_app_launcher_name",

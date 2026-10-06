@@ -183,7 +183,20 @@
   }
 
   // ---- Play Movies & TV ----
+  // Search in Play Movies & TV and Play Books (audit step 5): the expanded SearchView with the app's hint, then the
+  // suggestions the app's provider gives for the library while typing (Videos: search_dropdown_item_icons_2line with
+  // the thumbnail and title; Books: list_item_suggest_volume and the list_item_suggest_market row).
+  function storeSearch(ctx) {
+    const {ui} = ctx, movies = ctx.app === 'play-movies', key = movies ? 'movies' : 'books', s = k => S(ctx, key, k), q = String(ui.paQuery || '').trim().toLocaleLowerCase();
+    const hint = s(movies ? 'Search for movies & shows' : 'Search Google Play'), clear = s('Clear query');
+    const has = text => String(text).toLocaleLowerCase().includes(q);
+    let rows = '';
+    if (q && movies) rows = [...MOVIES, ...SHOWS].filter(item => has(item.title)).map(item => `<button class="pa-suggest-row" data-action="${MOVIES.includes(item) ? 'pa-movie' : 'pa-unsupported'}" data-id="${e(item.id)}"><span class="pa-suggest-art">${art('poster', seedOf(item.id), item.title)}</span><span><b>${e(item.title)}</b></span></button>`).join('');
+    if (q && !movies) rows = BOOKS.filter(book => has(book.title) || has(book.author)).map(book => `<button class="pa-suggest-row" data-action="pa-book" data-id="${e(book.id)}"><span class="pa-suggest-art">${art('book', seedOf(book.id), book.title)}</span><span><b>${e(book.title)}</b><small>${e(book.author)}</small></span></button>`).join('') + `<button class="pa-suggest-row market" data-action="pa-unsupported"><span><b>${e(s('Search Google Play'))}</b></span></button>`;
+    return `<div class="app-view pa-app ${movies ? 'pa-movies' : 'pa-books'} pm-search"><header class="lpa-bar pm-searchbar"><button class="lpa-nav up" data-action="back" aria-label="${e(ctx.t('Back'))}"><span></span></button><label class="pm-sv"><input data-pa-search value="${e(ui.paQuery || '')}" placeholder="${e(hint)}" aria-label="${e(hint)}" autocomplete="off" spellcheck="false">${ui.paQuery ? `<button class="pm-sv-clear" data-action="pa-search-clear" aria-label="${e(clear)}"></button>` : ''}</label></header>${rows ? `<div class="pa-suggest ${movies ? 'movies' : 'books'}">${rows}</div>` : ''}</div>`;
+  }
   function movies(ctx) {
+    if (ctx.ui.sub === 'search') return storeSearch(ctx);
     const {ui, t} = ctx, page = ui.paPage?.['play-movies'] || 'library', v = key => S(ctx, 'movies', key);
     if (ui.sub === 'movie') {
       const movie = MOVIES.find(m => m.id === ui.paItem) || SHOWS.find(s => s.id === ui.paItem) || MOVIES[0];
@@ -192,7 +205,7 @@
       return `<div class="app-view pa-app pm-video${ui.paBars === false ? ' bare' : ''}" data-action="pa-video-bars"><div class="pm-video-frame${playing ? ' playing' : ''}">${art('poster', seedOf(movie.id), movie.title)}</div><header class="pm-video-top"><button class="lpa-nav up" data-action="back" aria-label="${e(t('Back'))}"><span></span></button><b>${e(movie.title)}</b>${btn('pa-unsupported', t('Cast screen'), 'cast')}</header><button class="pm-video-play" data-action="pa-video-toggle" aria-label="${e(t(playing ? 'Pause' : 'Play'))}">${playing ? glyph.pause : glyph.play}</button><footer class="pm-video-bottom"><span>${clock(pos)}</span><i style="--p:${Math.min(100, pos / total * 100).toFixed(1)}%"></i><span>${clock(total)}</span></footer></div>`;
     }
     // search_menu: Search (always) and the media route button (only with a cast device); no overflow.
-    const actions = `<button class="pa-btn" data-action="pa-unsupported" aria-label="${e(v('Search'))}"><img class="lpa-icon" src="assets/mv36-abc_ic_search_api_mtrl_alpha.png" alt=""></button>`;
+    const actions = `<button class="pa-btn" data-action="pa-search" aria-label="${e(v('Search'))}"><img class="lpa-icon" src="assets/mv36-abc_ic_search_api_mtrl_alpha.png" alt=""></button>`;
     const movieCard = m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year}, ${t('%d mins.').replace('%d', m.mins)}`, pin: true});
     const shopCard = m => card({action: 'pa-shop', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year} · ${m.price}`});
     let body, tabBar = '';
@@ -210,6 +223,7 @@
 
   // ---- Play Books ----
   function books(ctx) {
+    if (ctx.ui.sub === 'search') return storeSearch(ctx);
     const {ui, t, data} = ctx, page = ui.paPage?.['play-books'] || 'read', progress = data.playBooks || {}, b = key => S(ctx, 'books', key);
     if (ui.sub === 'reader') {
       const book = BOOKS.find(b => b.id === ui.paItem) || BOOKS[0], index = Math.min(progress[book.id] || 0, book.pages.length - 1);
@@ -219,7 +233,7 @@
     const cover = b => art('book', seedOf(b.id), b.title, b.author);
     // menu/fragment_home.xml: Search (always) and Sort (ifRoom, My Library only) as icons, Refresh in the overflow.
     const icon = (action, label, src) => `<button class="pa-btn" data-action="${action}" aria-label="${e(label)}"><img class="lpa-icon" src="assets/${src}.png" alt=""></button>`;
-    const actions = icon('pa-unsupported', b('Search'), 'bk33-ic_search_wht_24dp') + (page === 'library' ? icon('pa-unsupported', b('Sort'), 'bk33-ic_sort_wht_24dp') : '') + icon('pa-menu', t('More options'), 'bk33-abc_ic_menu_moreoverflow_mtrl_alpha');
+    const actions = icon('pa-search', b('Search'), 'bk33-ic_search_wht_24dp') + (page === 'library' ? icon('pa-unsupported', b('Sort'), 'bk33-ic_sort_wht_24dp') : '') + icon('pa-menu', t('More options'), 'bk33-abc_ic_menu_moreoverflow_mtrl_alpha');
     // My Library pages LibraryFilter's non-empty filters (books_view_pager) as PlayHeaderListLayout tabs.
     const tabBar = page === 'library' ? lpTabs([['all', b('All books')], ['purchases', b('Purchases')]], ui.bkFilterTab || 'all', 'pa-bookstab') : '';
     const body = page === 'read'

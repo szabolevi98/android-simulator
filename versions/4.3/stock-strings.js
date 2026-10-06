@@ -719,6 +719,24 @@ window.StockStrings = {
    "Käufe",
    "Achats",
    "Compras"
+  ],
+  "Search for books": [
+   "Könyvek keresése",
+   "Nach Büchern suchen",
+   "Rechercher livres",
+   "Buscar libros"
+  ],
+  "Search online": [
+   "Keresés online",
+   "Online suchen",
+   "Rechercher en ligne",
+   "Buscar online"
+  ],
+  "Clear query": [
+   "Lekérdezés törlése",
+   "Anfrage löschen",
+   "Effacer la requête",
+   "Borrar consulta"
   ]
  },
  "movies": {
@@ -836,6 +854,18 @@ window.StockStrings = {
    "Herunterladen",
    "Télécharger",
    "Descargar"
+  ],
+  "Search for movies": [
+   "Filmkeresés",
+   "Nach Filmen suchen",
+   "Rechercher un film",
+   "Buscar películas"
+  ],
+  "Clear query": [
+   "Lekérdezés törlése",
+   "Anfrage löschen",
+   "Effacer la requête",
+   "Borrar consulta"
   ]
  },
  "music": {

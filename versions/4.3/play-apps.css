@@ -254,3 +254,17 @@
 .pm-search-empty{display:flex;flex-direction:column;align-items:center;padding-top:81.75px;text-align:center}
 .pm-search-empty img{width:81.75px;height:81.75px}
 .pm-search-empty p{margin:13.63px 0 0;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#888}
+/* Play Movies & TV / Play Books search (audit step 5): the suggestion list under the SearchView. */
+.pm-search .pm5-logo,.pm-search .mv25-logo{width:27.25px;height:27.25px}
+.pa-suggest{flex:1;min-height:0;overflow-y:auto;background:#282828;box-shadow:0 1.7px 3.41px #0006}
+.pa-suggest.books{background:#fff}
+.screen .pa-suggest-row{display:flex;align-items:center;width:100%;min-height:54.5px;padding:3.41px;border:0;background:none;text-align:left;font-family:RobotoICS,Roboto,sans-serif}
+.pa-suggest-art{flex:none;width:34.06px;height:47.69px;overflow:hidden}
+.pa-suggest-art .pa-art{width:100%;height:100%}
+.pa-suggest-row>span:last-child{flex:1;min-width:0;display:flex;flex-direction:column;padding-left:6.81px}
+.pa-suggest-row b{font-weight:400;font-size:15.33px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
+.pa-suggest-row small{font-size:11.92px;color:#808080}
+.pa-suggest.books .pa-suggest-row b{color:#000}
+.screen .pa-suggest-row.market{padding-left:40.88px}
+.pa-suggest-row:active{background:#0000001a}
+.pm-search .mv25-bar .pm5-home,.pm-search .bk28-bar .pm5-home{display:flex}
