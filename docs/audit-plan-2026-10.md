@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 21 / 32 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 22 / 32 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -52,7 +52,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 újraépítés a képből; a halott másolat kikerül. A felület nélküli `calculator-engine.js`, `browser-session.js` és a
 `play-store.js` katalógus marad közös, ezek nem tételek.
 
-**Állás: 21 / 32 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
+**Állás: 22 / 32 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
 
 - [x] Kezdőképernyő átrendezés 4.3 / 4.4.4 (`launcher.js`): Launcher3 időzítés – 8fa6eb5
 - [x] Óra stílus 2.3.6–5.1.1 (`desk-clock.css`): a 2.3.6 / 4.4.4 / 5.1.1 csak a riasztás-ablakok szabályait tartja meg, a 4.3 a képben még meglévő AlarmClock / SetAlarm képernyőét – 9a0dc35
@@ -76,7 +76,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Fejlesztői beállítások 4.3 / 4.4.4 / 5.1.1 (`devopts.js`): képenként a `development_prefs.xml`-ből – 07973b4
 - [x] Zárolóképernyő 2.3.6–5.1.1 (`lockscreen.js`, `lockscreen.css`): a Beállítások képernyőzár-beállítása képenként a Settings.apk elrendezései és szövegei szerint (`docs/lock-strings.py`); 4.x: choose / confirm_lock_pattern és _password (fejléc, code_lock_top / bottom, password_field_default, tiltott Continue / OK); 5.1.1: Material (Theme.Material.Settings, „Swipe”, 12 dp #37474F pöttyök, teal / #F4511E állapot, Cancel / Next); a 2.3.6-ból 30 halott szabály kikerült – f0c3454
 - [ ] (~2–3 óra) Billentyűzet KK / LP: a rendszer-billentyűzet a saját LatinImeGoogle témájával (KitKat „KLP”, Lollipop „LXX”), a PIN-hez a számbillentyűzet; most mindkettő az ICS Holo billentyűzetet mutatja – a Zárolóképernyő átnézésekor derült ki
-- [ ] (~1,5 óra) Widgetek 2.3.6–5.1.1 (`widgets.js`, `widgets.css`)
+- [x] Widgetek 2.3.6–5.1.1 (`widgets.js`, `widgets.css`): a 4.4.4 / 5.1.1 zene-widgetje a saját Music2.apk Play Music widgetje (KK widget_nowplaying_small, LP music_widget_small), a tálcában a previewImage; a 2.3.6-ban csak a GB saját widgetjei és a képlista-segéd maradt; halott CSS kivéve; `docs/widget-providers.py` – 1b0f554
 - [ ] (~1,5 óra) Beállítások aloldalai (`settings-system.js`, `settings-system.css`, `settings-detail.css`)
 - [ ] (~1,5 óra) Hívásképernyő 2.3.6 / 4.0.4 / 4.3 (`phone-call.js`, `phone-call.css`)
 - [ ] (~2 óra) Csörgő ébresztő 2.3.6–5.1.1 (`desk-clock.js` riasztás-ablaka: most mind az öt verzióban ugyanaz az ICS-szerű párbeszédablak; GB és ICS AlarmAlert, 4.3 / 4.4 GlowPad, 5.1 Material) – az Óra stílus átnézésekor derült ki
@@ -224,3 +224,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-06 | Célzott javítás: KitKat Recents a rendszersávok alatt is (LAYOUT_FULLSCREEN, örökölt áttetszőség) | 5a06436 |
 | 2026-10-06 | 4.5. pont: Kikapcsoló menü verziónként (párbeszédablakok a saját képből, LP Material) és a gyári bootanimációk | e5d8357, 7abd7d0 |
 | 2026-10-06 | 4.5. pont: Zárolóképernyő – a képernyőzár-beállítás képenként (4.x Holo, 5.1.1 Material), saját szövegekkel | f0c3454 |
+| 2026-10-06 | 4.5. pont: Widgetek – KK / LP Play Music widget a saját APK-ból, GB tisztítás | 1b0f554 |
