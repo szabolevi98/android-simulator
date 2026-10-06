@@ -1,4 +1,5 @@
-/* Offline Camera/Gallery presentation. Scenes are local illustrations, never device captures. */
+/* The simulator's own photo illustrations for the Nexus S Gallery and Camera (gb-gallery.js, gb-camera.js draw the apps):
+   the scenes, their pictures, the albums, and the Share menu the Gallery opens. Never device captures. */
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -18,30 +19,12 @@
     return 'data:image/svg+xml,'+encodeURIComponent(svg);
   }
   const art=photo=>`<img class="media-photo" src="${image(photo)}" alt="${e(photo.name||'')}">`;
-  const icon=(action,label,file,id='')=>`<button data-action="${action}" data-id="${e(id)}" aria-label="${e(label)}"><img src="assets/${file}" alt=""></button>`;
-  function gallery(data,ui,t) {
-    const photo=data.photos.find(p=>p.id===ui.selectedPhoto),inPhoto=ui.sub==='photo',inAlbum=ui.sub==='album';
-    const items=photos(data,ui.galleryAlbum),title=inPhoto?photo?.name||t('Photo unavailable'):inAlbum?t(ui.galleryAlbum==='camera'?'Camera':'Pictures'):t('Albums');
-    const header=`<header class="gallery-header">${icon('back','Back','gallery.png')}<h2>${e(title)}</h2>${inPhoto?icon('gallery-share','Share','gallery-ic_menu_share_holo_light.png'):!inAlbum?icon('gallery-camera','Camera','gallery-ic_menu_camera_holo_light.png'):icon('gallery-slideshow','Slideshow','gallery-ic_menu_slideshow_holo_light.png')}${(inPhoto||inAlbum)?icon('gallery-menu','More options','ic_menu_overflow.png'):''}</header>`;
-    if(inPhoto && photo)return `<div class="app-view gallery-app ${ui.gallerySlideshow?'gallery-slideshow':''}">${header}<div class="gallery-stage" data-gallery-swipe><button data-action="gallery-photo-zoom" class="gallery-image ${ui.galleryZoom?'zoomed':''}" aria-label="Zoom">${art(photo)}</button><button class="gallery-previous" data-action="gallery-step" data-id="-1" aria-label="Previous photo">‹</button><button class="gallery-next" data-action="gallery-step" data-id="1" aria-label="Next photo">›</button>${ui.gallerySlideshow?'<button class="gallery-stop" data-action="gallery-stop">Stop slideshow</button>':''}</div><div class="gallery-filmstrip">${items.map(p=>`<button class="${p.id===photo.id?'selected':''}" data-action="photo" data-id="${p.id}" aria-label="${e(p.name)}">${art(p)}</button>`).join('')}</div></div>`;
-    if(inAlbum)return `<div class="app-view gallery-app">${header}<div class="gallery-scroll gallery-photo-grid">${items.map(p=>`<button data-action="photo" data-id="${p.id}" aria-label="${e(p.name)}">${art(p)}</button>`).join('')||'<p class="empty-note">No photos</p>'}</div></div>`;
-    return `<div class="app-view gallery-app">${header}<div class="gallery-scroll gallery-albums">${['camera','pictures'].map(key=>{const group=photos(data,key);return group.length?`<button class="gallery-album" data-action="gallery-album" data-id="${key}">${art(group[0])}<span><img src="assets/gallery-frame_overlay_gallery_${key==='camera'?'camera':'folder'}.png" alt="">${e(t(key==='camera'?'Camera':'Pictures'))}<small>${group.length}</small></span></button>`:'';}).join('')||'<p class="empty-note">No photos</p>'}</div></div>`;
-  }
-  function camera(data,ui,t) {
-    const s=settings(data),last=photos(data,'camera')[0];
-    return `<div class="app-view camera-app"><div class="camera-preview"><button class="camera-focus-area" data-action="camera-focus" aria-label="Focus">${art(scene(data))}<span class="camera-focus-ring"></span></button><span class="camera-facing">${e(t(s.front?'Front camera':'Back camera'))}</span><div class="camera-indicators">${icon('camera-options','Camera settings','camera-ic_settings_holo_light.png')}${icon('camera-flash','Flash','camera-ic_flash_'+s.flash+'_holo_light.png')}${icon('camera-balance','White balance','camera-ic_white_balance_auto_holo_light.png')}${icon('camera-flip','Switch camera','camera-ic_rotate_camera_holo_dark.png')}</div><label class="camera-zoom"><img src="assets/camera-ic_zoom_in_holo_light.png" alt=""><input type="range" min="1" max="4" step=".1" value="${s.zoom}" aria-label="Zoom"><output>${Number(s.zoom).toFixed(1)}×</output></label></div><div class="camera-bottom"><span class="camera-photo-mode"><img src="assets/camera-ic_switch_camera_holo_light.png" alt="${e(t('Camera'))}"></span><button class="camera-shutter" data-action="shoot" aria-label="Take photo"></button><button class="camera-thumbnail" data-action="camera-review" aria-label="Gallery">${last?art(last):'<img src="assets/gallery.png" alt="">'}</button></div></div>`;
-  }
   function overlay(data,ui,t,locale) {
     const p=data.photos.find(p=>p.id===ui.selectedPhoto),s=settings(data);
     const menu=body=>`<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu media-menu">${body}</div>`;
     const item=(action,label,id='')=>`<button data-action="${action}" data-id="${e(id)}">${e(t(label))}</button>`;
-    if(ui.overlay==='gallery-menu')return menu(ui.sub==='photo'?item('gallery-slideshow','Slideshow')+item('gallery-rotate','Rotate left','-90')+item('gallery-rotate','Rotate right','90')+item('gallery-details','Details')+item('photo-wallpaper','Set wallpaper',p?.id)+item('photo-delete','Delete',p?.id):item('gallery-slideshow','Slideshow'));
     if(ui.overlay==='gallery-share')return menu(item('gallery-share-message','Messaging'));
-    if(ui.overlay==='camera-options')return menu(`<div class="camera-setting-title">${e(t('Exposure'))}</div>${[-2,-1,0,1,2].map(value=>`<button data-action="camera-exposure" data-id="${value}" aria-pressed="${s.exposure===value}">${value>0?'+':''}${value} ${s.exposure===value?'✓':''}</button>`).join('')}`);
-    if(ui.overlay==='camera-balance')return menu([['auto','Auto'],['daylight','Daylight'],['cloudy','Cloudy'],['incandescent','Incandescent']].map(([value,label])=>`<button data-action="camera-set-balance" data-id="${value}" aria-pressed="${s.balance===value}">${e(t(label))} ${s.balance===value?'✓':''}</button>`).join(''));
-    if(ui.overlay==='gallery-delete')return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="Delete photo?"><h3>Delete photo?</h3><p>${e(p?.name)}</p><div class="settings-dialog-actions">${item('close-overlay','Cancel')}${item('gallery-confirm-delete','Delete')}</div></div>`;
-    if(ui.overlay==='gallery-details')return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog media-details" role="dialog" aria-label="Details"><h3>Details</h3><dl><dt>Name</dt><dd>${e(p?.name)}</dd><dt>Album</dt><dd>${e(t(album(p||{})==='camera'?'Camera':'Pictures'))}</dd><dt>Dimensions</dt><dd>${(p?.rotation||0)%180?'768 × 1024':'1024 × 768'}</dd><dt>Rotation</dt><dd>${p?.rotation||0}°</dd>${p?.created?`<dt>Date</dt><dd>${e(new Date(p.created).toLocaleString(locale))}</dd>`:''}</dl><div class="settings-dialog-actions">${item('close-overlay','OK')}</div></div>`;
     return '';
   }
-  window.ICSMedia={image,art,album,photos,settings,scene,gallery,camera,overlay};
+  window.ICSMedia={image,art,album,photos,settings,scene,overlay};
 })();
