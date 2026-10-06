@@ -569,7 +569,17 @@
    "Show checkboxes": "PrebuiltKeep:menu_show_checkboxes",
    "Notes with upcoming reminders appear here": "PrebuiltKeep:empty_view_no_reminders",
    "Your archived notes appear here": "PrebuiltKeep:empty_view_no_archived_notes",
-   "No notes in Trash": "PrebuiltKeep:empty_view_no_trashed_notes"
+   "No notes in Trash": "PrebuiltKeep:empty_view_no_trashed_notes",
+   "Search notes": "PrebuiltKeep:search_notes_hint",
+   "No matching notes": "PrebuiltKeep:empty_view_no_search_results",
+   "Clear query": "PrebuiltKeep:searchview_description_clear",
+   "Navigate up": "PrebuiltKeep:editor_navigate_up_content_description",
+   "Filter by lists": "PrebuiltKeep:filter_type_list_note_hint",
+   "Filter by notes with audio": "PrebuiltKeep:filter_type_audio_note_hint",
+   "Filter by notes with images": "PrebuiltKeep:filter_type_photo_note_hint",
+   "Filter by notes with reminders": "PrebuiltKeep:filter_type_reminder_note_hint",
+   "Filter by shared notes": "PrebuiltKeep:filter_type_shared_note_hint",
+   "Filter by note color": "PrebuiltKeep:filter_type_color_hint"
   },
   "maps": {
    "Search": "Maps:SEARCH",

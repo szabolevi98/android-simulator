@@ -456,6 +456,66 @@ window.StockStrings = {
    "Keine Notizen im Papierkorb",
    "Aucune note dans la corbeille",
    "No hay notas en la papelera"
+  ],
+  "Search notes": [
+   "Jegyzetek keresése",
+   "In Notizen suchen",
+   "Rechercher dans les notes",
+   "Buscar notas"
+  ],
+  "No matching notes": [
+   "Nincsenek egyező megjegyzések",
+   "Keine passenden Notizen",
+   "Aucune note correspondante",
+   "No hay notas que coincidan con la búsqueda"
+  ],
+  "Clear query": [
+   "Lekérdezés törlése",
+   "Suchanfrage löschen",
+   "Effacer la requête",
+   "Borrar consulta"
+  ],
+  "Navigate up": [
+   "Lépés egy szinttel feljebb",
+   "Nach oben",
+   "Retour à la page précédente",
+   "Subir nivel"
+  ],
+  "Filter by lists": [
+   "Szűrés listák alapján",
+   "Nach Listen filtern",
+   "Filtrer par listes",
+   "Filtrar por listas"
+  ],
+  "Filter by notes with audio": [
+   "Szűrés hangjegyzetek alapján",
+   "Nach Notizen mit Audio filtern",
+   "Filtrer par notes avec audio",
+   "Filtrar por notas con audio"
+  ],
+  "Filter by notes with images": [
+   "Szűrés képjegyzetek alapján",
+   "Nach Notizen mit Bildern filtern",
+   "Filtrer par notes avec images",
+   "Filtrar por notas con imágenes"
+  ],
+  "Filter by notes with reminders": [
+   "Szűrés emlékeztetők alapján",
+   "Nach Notizen mit Erinnerungen filtern",
+   "Filtrer par notes avec rappels",
+   "Filtrar: notas con recordatorios"
+  ],
+  "Filter by shared notes": [
+   "Szűrés megosztott jegyzetek alapján",
+   "Nach geteilten Notizen filtern",
+   "Filtrer par notes partagées",
+   "Filtrar por notas compartidas"
+  ],
+  "Filter by note color": [
+   "Szűrés jegyzetszín alapján",
+   "Nach Notizfarbe filtern",
+   "Filtrer par couleur de la note",
+   "Filtrar por color de las notas"
   ]
  },
  "maps": {

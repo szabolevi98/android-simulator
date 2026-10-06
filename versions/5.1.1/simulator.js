@@ -2068,6 +2068,7 @@
       case 'keep-drawer': ui.keepDrawer = !ui.keepDrawer; render(); break;
       case 'keep-landing': ui.keepView = id; ui.keepDrawer = false; render(); break;
       case 'yt-video': ui.ytFrom = ui.sub; ui.ytVideo = id; ui.ytPaused = false; ui.sub = 'video'; render(); break;
+      case 'keep-search-open': case 'keep-search-clear': ui.sub = 'search'; ui.keepQuery = ''; render(); viewport.querySelector('[data-keep-search]')?.focus(); break;
       case 'yt-search-open': case 'yt-search-clear': ui.sub = 'search'; if (id !== 'keep') ui.ytQuery = ''; render(); viewport.querySelector('.yt-sv input')?.focus(); break;
       case 'yt-guide': ui.ytGuide = !ui.ytGuide; render(); break;
       case 'yt-toggle': ui.ytPaused = !ui.ytPaused; render(); break;
@@ -2502,6 +2503,7 @@
     }
   });
   document.addEventListener('input', event => {
+    if (event.target.matches('[data-keep-search]')) { ui.keepQuery = event.target.value; const at = event.target.selectionStart; render(); const input = viewport.querySelector('[data-keep-search]'); if (input) { input.focus(); input.setSelectionRange(at, at); } return; }
     if (event.target.matches('[data-pa-search]')) { ui.paQuery = event.target.value; const at = event.target.selectionStart; render(); const input = viewport.querySelector('[data-pa-search]'); if (input) { input.focus(); input.setSelectionRange(at, at); } return; }
     if (event.target.matches?.('[data-people-search]')) {
       ui.peopleQuery = event.target.value;
