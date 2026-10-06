@@ -962,11 +962,10 @@ window.StockStrings = {
  },
  "movies": {
   "Google Play": [
-   "Google Play Filmek",
-   "Google Play Movies",
-   "Google Play Films",
-   "Google Play Movies",
-   "Google Play Movies"
+   "Google Play",
+   "Google Play",
+   "Google Play",
+   "Google Play"
   ],
   "Open navigation drawer": [
    "Navigációs fiók kinyitása",

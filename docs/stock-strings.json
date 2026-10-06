@@ -133,7 +133,7 @@
    "Purchases": "Books:action_bar_title_free_and_purchased"
   },
   "movies": {
-   "Google Play": "Videos:long_app_name",
+   "Google Play": "Videos:google_play",
    "Movies": "Videos:tab_movies",
    "TV shows": "Videos:tab_shows",
    "Personal videos": "Videos:tab_personal_videos",
@@ -354,7 +354,7 @@
    "Last added": "Music2:recentlyadded"
   },
   "movies": {
-   "Google Play": "Videos:long_app_name",
+   "Google Play": "Videos:google_play",
    "Open navigation drawer": "Videos:drawer_open",
    "Watch Now": "Videos:tab_watch_now",
    "My Movies": "Videos:tab_movies",
