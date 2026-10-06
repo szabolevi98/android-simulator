@@ -156,4 +156,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 4.3 Play Magazines 2.0 (lila sáv, fiók, menü, kártyarács) | e79485b |
 | 2026-10-06 | 4. lépés: 4.3 Wallet 1.6 (dashboard_activity gombjai) | fc9f643 |
 | 2026-10-06 | 4. lépés: 4.3 Movie Studio (AOSP ProjectPickerAdapter új projekt csempéje) – a 4.3 extra appok kész, teszttel | d949245 |
-| 2026-10-06 | 4. lépés: 4.0.4 Navigation (Maps 6.4 régi fejléce + csempék), Places, Movie Studio; 4.0.4 stock-strings.js | (ez a commit) |
+| 2026-10-06 | 4. lépés: 4.0.4 Navigation (Maps 6.4 régi fejléce + csempék), Places, Movie Studio; 4.0.4 stock-strings.js | c9dbdb1 |
