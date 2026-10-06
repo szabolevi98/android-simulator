@@ -116,8 +116,10 @@
   const tiles = (items, cls = '') => `<div class="jbx-grid ${cls}">${items.map(([title, color, sub = '']) => `<button class="jbx-tile" data-action="kkx-unavailable" style="--tile:${color}"><span class="jbx-tile-art">${e(title.charAt(0))}</span><strong>${e(title)}</strong>${sub ? `<small>${e(sub)}</small>` : ''}</button>`).join('')}</div>`;
   function render(app, {ui, t, chats = [], contacts = []}) {
     if (app === 'messenger') {
-      const people = contacts.slice(0, 3);
-      return `<div class="app-view kkx-app jbx-messenger">${bar('messenger', t('Messenger'), action('plus', local('New conversation', t)) + action('more', t('More options')))}<div class="kkx-list">${people.map((p, i) => row('person', p.name, ['Saturday’s hike: who’s driving?', 'Photos from the meetup', 'See you at 11!'][i], ['#dd4b39', '#4285f4', '#0f9d58'][i])).join('')}</div></div>`;
+      // Google+ 4.0's HostedMessengerFragment: onPrepareActionBar shows the title and the New conversation button.
+      const m = key => S('gplus', key, t), people = contacts.slice(0, 3);
+      const rows = people.map((p, i) => `<button class="msg-row" data-action="kkx-unavailable"><img src="assets/msg-ic_avatar.png" alt=""><span><b>${e(p.name)}</b><small>${e(['Saturday’s hike: who’s driving?', 'Photos from the meetup', 'See you at 11!'][i])}</small></span><time>${['10:24', '9:02', 'Mon'][i]}</time></button>`).join('');
+      return `<div class="app-view kkx-app msg40"><header class="sa-bar"><button class="sa-up" data-action="home" aria-label="${e(m('Messenger'))}"><img src="assets/messenger.png" alt=""></button><span class="sa-title"><b>${e(m('Messenger'))}</b></span><button class="msg-act" data-action="kkx-unavailable" aria-label="${e(m('New conversation'))}"><img src="assets/msg-ic_menu_start_new_huddle.png" alt=""></button><button class="msg-act" data-action="sa-menu" aria-label="${e(t('More options'))}"><img src="assets/ic_menu_moreoverflow_normal_holo_light.png" alt=""></button></header><div class="msg-list">${rows}</div></div>`;
     }
     if (app === 'navigation') {
       // Maps 6.14's DestinationActivity on a phone (da_destination_activity_redesign): the shortcut tiles of class aa.

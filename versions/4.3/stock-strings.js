@@ -372,6 +372,18 @@ window.StockStrings = {
    "Abmelden",
    "Déconnexion",
    "Cerrar sesión"
+  ],
+  "Messenger": [
+   "Üzenetküldő",
+   "Messenger",
+   "Chat +",
+   "Messenger"
+  ],
+  "New conversation": [
+   "Új beszélgetés",
+   "Neue Unterhaltung",
+   "Nouvelle conversation",
+   "Nueva conversación"
   ]
  },
  "earth": {

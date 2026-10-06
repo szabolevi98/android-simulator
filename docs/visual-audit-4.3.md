@@ -669,3 +669,6 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - The white list with drawn pins is now `places2_wizard_header` (`actionbar_background`, the feature switcher with `ic_feature_local` and `switcher_dropdown_triangle`, "Local" in 22 sp, `actionbar_search`) and `places2_location_selector` (`places_location_bar_bg` with `gray_location`, the place in 16 sp white, `locationbar_triangle`).
   - The categories sit on `places_categories_bg` (#c7d5e6 with `places_categories_map` at the bottom) in `places2_category_line` rows of four `places2_wizard_item` tiles: the 54 dp `places_cat_icon_*` and a 12 sp black caption.
   - Maps 6.14 keeps most texts outside its Android resources, so the place name is the simulator's demo location (Mountain View).
+- **Messenger (Google+ 4.0's `ConversationListActivity`):**
+  - `HostedMessengerFragment.onPrepareActionBar` shows "Messenger" (`home_screen_huddle_label`) in the light host bar with the New conversation action button (`ic_menu_start_new_huddle`). The overflow has the host menu's common items (Send feedback, Settings, Help, Sign out).
+  - Rows are `conversation_list_item_view`: the 64 dp avatar (`ic_avatar`), the 18 sp bold #303030 name, the 12 sp #c0c0c0 time and the 14 sp #707070 last message, on `bg_tacos_body` cards over #e5e5e5. They replace the drawn person icons.

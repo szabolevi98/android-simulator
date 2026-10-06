@@ -67,7 +67,9 @@
    "Send feedback": "PlusOne:home_menu_feedback",
    "Settings": "PlusOne:home_menu_settings",
    "Help": "PlusOne:menu_home_help",
-   "Sign out": "PlusOne:menu_home_sign_out"
+   "Sign out": "PlusOne:menu_home_sign_out",
+   "Messenger": "PlusOne:home_screen_huddle_label",
+   "New conversation": "PlusOne:menu_new_conversation"
   },
   "earth": {
    "Earth": "GoogleEarth:app_name",
