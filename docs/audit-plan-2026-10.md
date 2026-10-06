@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** az 5. lépésben vagyok: a helyi keresés kész.
+**Állapot:** a 4. lépés utolsó tételén dolgozom (a közös fájlok verziónkénti átnézése), utána folytatom az 5. lépést a Gmail-csatolmánnyal.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -44,6 +44,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] Örökölt és felülírt CSS-párok összevonása (a `play-apps.css` 4.4 és 5.1 alatt bájtra azonos, LP-n `lp-play.css` írja felül): a Lollipop saját stíluslapot kap. A 4.4.4 hét, az 5.1.1 tizenegy rétegzett párja egy-egy saját fájl lett (pl. 5.1.1 `kk-launcher.css` + `jb-launcher.css` + `lp-launcher.css` → `lp-launcher.css`), az LP Play-appok szabályai a saját `play-apps.css`-be kerültek; HEAD és munkapéldány computed style-összevetése minden appon és egy szint mély vezérlőn: eltérés nélkül (közben a 4.4.4 `kk-launcher.css` a helyén maradt, az 5.1.1-ben egy holt KitKat-deklaráció kikerült) – 6d1889f
 - [x] Teszt: két verzió alkalmazásfájlja ne lehessen bájtra azonos (`tests/version-files.test.cjs`): idegen korszak-előtag nem lehet a verziómappában, és új bájtazonos pár nem jöhet létre. A bevezetéskor meglévő 54 csoport (pl. `email.js` mind az öt verzióban, a 4.3/4.4/5.1 Gallery és Search) egy csak szűkülő listán van; ezek APK-nkénti átnézése külön tétel lett lent – 6d1889f
 - [ ] A listán maradt közös fájlok átnézése verziónként a saját gyári képük alapján (a teszt `SHARED` listája; a `calculator-engine.js`, `browser-session.js` és a `play-store.js` katalógus felület nélküli, ezek maradhatnak)
+  - [x] Email (`email.js` / `email.css`): a 4.0.4 és a 4.3 AOSP Email a saját EmailGoogle.apk-jából (split bar a menü-XML-ek sorrendjében, fiókválasztó a legutóbbi mappákkal, Show all folders, üzenetsorok, kék feladófejléc, CAB, levélírás idézett szöveggel); az Attach file a Galéria választóját nyitja (Select photo / Cancel); a 4.3 Gmail régi csatolás-ablaka a saját `jb-email.js`-ébe került – 08bbd0e
 
 ## 5. Kis ráfordítású funkciók (6–8 óra)
 
@@ -168,3 +169,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: fájlnevek – 25 idegen előtagú fájl átnevezve (4.0.4 ics-extra-apps, 4.3 jb-email, 4.4.4 kk-camera/gallery/shade/…, 5.1.1 lp-gallery/downloads/gel/play/…); az image-strings kimenete változatlan | ccc3156 |
 | 2026-10-06 | 4. lépés: rétegzett párok összevonva (4.4.4: 7, 5.1.1: 11 fájl), LP Play-appok saját `play-apps.css`; `tests/version-files.test.cjs` (korszak-előtag, bájtazonosság csak szűkülő listán) | 6d1889f |
 | 2026-10-06 | 5. lépés: helyi keresés – Play Music, Movies, Books, YouTube, Keep, Drive, GB Talk és Voice, Docs/Sheets/Slides az APK-k keresőfelületével | bced687 |
+| 2026-10-06 | 4. lépés, közös fájlok: AOSP Email 4.0.4 és 4.3 az EmailGoogle.apk-ból, Galéria-választó a csatoláshoz | 08bbd0e |
