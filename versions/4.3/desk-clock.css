@@ -1,3 +1,6 @@
+/* Clock 4.3 (JWR66Y DeskClockGoogle): jb-deskclock.js draws the clock pages; its Alarms button opens the older AlarmClock
+   list and SetAlarm screen that the image still ships (alarm_clock.xml, alarm_time.xml, set_alarm.xml), drawn by
+   desk-clock.js with these rules, as are the alarm dialogs. */
 @font-face{font-family:AndroidClock;src:url('assets/AndroidClock.ttf') format('truetype');font-display:swap}
 .desk-app{display:flex;flex-direction:column;overflow:hidden;color:#eee;background:#080a0b url('assets/background_holo_dark.png') center/100% 100%;color-scheme:dark}
 .desk-header{display:flex;align-items:center;flex:none;min-height:48px;background:#000b;border-bottom:2px solid #33b5e5}.desk-header h2{margin:0;font-size:20px;font-weight:400}.desk-header button{height:46px;width:45px;border:0;background:none;padding:7px}.desk-header img{width:32px;height:32px;object-fit:contain}
