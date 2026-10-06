@@ -37,7 +37,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games (a 4.3-as képen nincs Play Games) – bc3daf0
 - [x] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games – ff79528
 - [x] `play-apps.js` – 5.1.1: Play Music, Movies, Books, Games – 31611fa
-- [x] Extra appok – 4.0.4 és 4.3: Messenger, Navigation, Local, Currents, Magazines, Wallet, Movie Studio – (ez a commit)
+- [x] Extra appok – 4.0.4 és 4.3: Messenger, Navigation, Local, Currents, Magazines, Wallet, Movie Studio – 46b0155
 - [ ] Extra appok – 4.4.4: Newsstand, Quickoffice, Wallet
 - [ ] Extra appok – 5.1.1: Docs, Sheets, Slides, Fit, Newsstand, Wallet
 - [ ] Fájlnevek rendbetétele (pl. a 4.0.4-es `jb-extra-apps.js` → `ics-extra-apps.js`)
@@ -157,4 +157,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 4.3 Wallet 1.6 (dashboard_activity gombjai) | fc9f643 |
 | 2026-10-06 | 4. lépés: 4.3 Movie Studio (AOSP ProjectPickerAdapter új projekt csempéje) – a 4.3 extra appok kész, teszttel | d949245 |
 | 2026-10-06 | 4. lépés: 4.0.4 Navigation (Maps 6.4 régi fejléce + csempék), Places, Movie Studio; 4.0.4 stock-strings.js | c9dbdb1 |
-| 2026-10-06 | 4. lépés: 4.0.4 Messenger (Google+ 2.4 EsActionBar, menü, sorok) – a 4.0.4 és 4.3 extra appok kész | (ez a commit) |
+| 2026-10-06 | 4. lépés: 4.0.4 Messenger (Google+ 2.4 EsActionBar, menü, sorok) – a 4.0.4 és 4.3 extra appok kész | 46b0155 |
