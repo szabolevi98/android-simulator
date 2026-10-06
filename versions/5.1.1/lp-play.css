@@ -345,3 +345,6 @@ img.jbp-card-art,img.jbp-row-art,img.jbp-head-art,img.jbp-dlg-art,img.jbp-shot-a
 .screen .jbp .jbp-btn{border-radius:1.81px;font:500 13.59px Roboto,sans-serif;text-transform:uppercase;box-shadow:0 .9px 1.8px #00000033}
 .screen .jbp .jbp-tabs{height:43.49px;box-shadow:0 1.8px 3.6px #0000003d}
 .screen .jbp .jbp-tabs button{font:500 12.68px Roboto,sans-serif}
+/* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
+   divider's room stays (fillForMissingDividers). */
+.screen .jbp-pref:has(+ .jbp-pref-cat){border-bottom-color:transparent}

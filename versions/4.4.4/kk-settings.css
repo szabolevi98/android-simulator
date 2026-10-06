@@ -61,3 +61,6 @@
 .kk-ab-text{font:700 12.68px RobotoICS,sans-serif;text-transform:uppercase;color:#fff;padding:0 10.87px;width:auto}
 .holo-menu .kk-check-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .holo-menu .kk-check-item img{width:28.99px;height:28.99px}
+/* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
+   divider's room stays (fillForMissingDividers). */
+.screen .settings-app :is(.settings-row,.list-row):has(+ .section-label){border-bottom-color:transparent}

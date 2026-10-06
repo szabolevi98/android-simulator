@@ -326,3 +326,6 @@ img.jbp-card-art,img.jbp-row-art,img.jbp-head-art,img.jbp-dlg-art,img.jbp-shot-a
 .kkp .jbp-cat b{min-width:0;padding-right:4px;overflow:hidden;text-overflow:ellipsis}
 .kkp .jbp-card-foot .jbp-stars{min-width:0;overflow:hidden}
 .kkp .jbp-card-foot em{flex:none;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+/* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
+   divider's room stays (fillForMissingDividers). */
+.screen .jbp-pref:has(+ .jbp-pref-cat){border-bottom-color:transparent}

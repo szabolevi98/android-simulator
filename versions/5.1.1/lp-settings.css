@@ -218,3 +218,6 @@
 .screen .lp-settings .kk-empty-page img{width:102.5px;height:132.5px;opacity:1}
 .screen .lp-settings .kk-empty-page p{padding-top:14.5px}
 .screen .lp-settings .kk-link{padding:14.5px 0 0;font-size:18.12px;font-style:italic}
+/* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
+   divider's room stays (fillForMissingDividers). */
+.screen .settings-app :is(.settings-row,.list-row):has(+ .section-label){border-bottom-color:transparent}

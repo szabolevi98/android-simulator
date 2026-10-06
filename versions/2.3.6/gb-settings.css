@@ -52,3 +52,6 @@
 /* PlatLogoActivity: the Gingerbread zombie art fitted on black, full screen. */
 .screen .gb-platlogo{display:block;width:100%;height:100%;padding:0;border:0;background:#000;cursor:pointer}
 .gb-platlogo img{display:block;width:100%;height:100%;object-fit:contain}
+/* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
+   divider's room stays (fillForMissingDividers). */
+.screen .gbset-row:has(+ .gbset-cat){border-bottom-color:transparent}

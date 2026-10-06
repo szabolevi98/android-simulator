@@ -199,3 +199,6 @@ img.jbp-card-art,img.jbp-row-art,img.jbp-head-art,img.jbp-dlg-art,img.jbp-shot-a
 .jbp-dlg-row i.on{border-color:#33b5e5;background:radial-gradient(circle,#33b5e5 0 4px,transparent 4.5px)}
 .jbp-dlg-actions{display:flex;border-top:1px solid #e3e3e3}
 .screen .jbp-dlg-actions button{flex:1;height:40px;border:0;background:none;color:#333;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+/* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
+   divider's room stays (fillForMissingDividers). */
+.screen .jbp-pref:has(+ .jbp-pref-cat){border-bottom-color:transparent}

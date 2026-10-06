@@ -222,3 +222,6 @@
 /* Settings: the AdMob explanation under its check box, with the Learn more link. */
 .icsp-pref-note{margin:0;padding:6px 14px 10px 16px;border-bottom:1px solid #ffffff1a;font-size:12.3px;line-height:1.35;color:#bdbdbd}
 .icsp-pref-note u{color:#33b5e5}
+/* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
+   divider's room stays (fillForMissingDividers). */
+.screen .icsp-pref:has(+ .icsp-pref-cat){border-bottom-color:transparent}

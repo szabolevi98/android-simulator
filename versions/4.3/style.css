@@ -640,3 +640,6 @@ html,body{overscroll-behavior-y:none}
 #nav-bar .nav-menu{position:absolute;right:0;top:0;bottom:0;width:13%}
 #nav-bar .nav-menu img{width:40px}
 .music-options{top:auto;bottom:52px;right:4px}
+/* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
+   divider's room stays (fillForMissingDividers). */
+.screen .settings-app :is(.settings-row,.list-row):has(+ .section-label){border-bottom-color:transparent}
