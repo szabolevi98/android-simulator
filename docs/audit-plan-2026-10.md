@@ -52,38 +52,38 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 újraépítés a képből; a halott másolat kikerül. A felület nélküli `calculator-engine.js`, `browser-session.js` és a
 `play-store.js` katalógus marad közös, ezek nem tételek.
 
-**Állás: 10 / 30 kész.**
+**Állás: 10 / 30 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
 
-- [x] Email 4.0.4 és 4.3 (`email.js`, `email.css`): AOSP Email a saját EmailGoogle.apk-jából, Galéria-választó a csatoláshoz – 08bbd0e
-- [x] Kamera 4.3 / 4.4.4 (`camera.css`): azonos erőforrások, a 4.4 rögzítési animációja – 48347e4
-- [x] Fejlesztői beállítások 4.3 / 4.4.4 / 5.1.1 (`devopts.js`): képenként a `development_prefs.xml`-ből – 07973b4
-- [x] Navigációs keresőpanel 4.3 / 4.4.4 / 5.1.1 (`search.js`): LP SearchPanelCircleView, Google Now indítás – 5a69717
-- [x] Recents 4.3 / 4.4.4 (`recents.js`): KK bg_protect – 5a69717
 - [x] Kezdőképernyő átrendezés 4.3 / 4.4.4 (`launcher.js`): Launcher3 időzítés – 8fa6eb5
+- [ ] (~15 perc) Óra stílus 2.3.6–5.1.1 (`desk-clock.css`)
+- [ ] (~15 perc) Böngésző stílus 2.3.6–5.1.1 (`browser.css`)
 - [x] BeanBag 4.3 / 4.4.4 (`beanbag.js`): a 4.4.4-ből kivéve, a képben nincs – 56aff7d
 - [x] Nyandroid 2.3.6 / 4.0.4 (`nyandroid.js`): a 2.3.6-ból kivéve, a GB-ben nincs – df6c518
+- [ ] (~20 perc) Play Store stílus 2.3.6–5.1.1 (`play-store.css`)
+- [ ] (~20 perc) Élő háttérképek 4.0.4 / 4.3 (`live-wallpapers.css`)
+- [x] Recents 4.3 / 4.4.4 (`recents.js`): KK bg_protect – 5a69717
 - [x] Indító-tippek 2.3.6 / 4.0.4 / 4.3 (`launcher-clings.js`, `.css`): a 2.3.6-ból kivéve, 4.0.4 / 4.3 ellenőrizve – e38ebd3, ec87102
+- [ ] (~30 perc) Email modell 2.3.6 / 4.4.4 / 5.1.1 (`email.js`, `email.css`: csak a postafiók-modell és egy régi párbeszédablak él belőlük)
+- [ ] (~30 perc) Mappák 4.0.4 / 4.3 és 4.4.4 / 5.1.1 (`launcher-folders.js`, `launcher-folders.css`)
+- [x] Kamera 4.3 / 4.4.4 (`camera.css`): azonos erőforrások, a 4.4 rögzítési animációja – 48347e4
 - [x] GB mappák (`launcher-folders.css` 2.3.6): a felülíró ICS-stílus kivéve – ec87102
-- [ ] Mappák 4.0.4 / 4.3 és 4.4.4 / 5.1.1 (`launcher-folders.js`, `launcher-folders.css`)
-- [ ] Email modell 2.3.6 / 4.4.4 / 5.1.1 (`email.js`, `email.css`: csak a postafiók-modell és egy régi párbeszédablak él belőlük)
-- [ ] Naptár 4.3 / 4.4.4 (`calendar.js`)
-- [ ] Hangouts 4.4.4 / 5.1.1 (`hangouts.css`; a 4.4.4 most képernyőképek alapján készült, a képben Hangouts 2.0.303 van)
-- [ ] Galéria 4.4.4 / 5.1.1 (`gallery.js`, `gallery.css`; a KK most a 4.3-as Galéria, az LP képben nincs Galéria)
-- [ ] Letöltések 4.4.4 / 5.1.1 (`downloads.js`, `downloads.css`; az LP most a 4.4-es DocumentsUI)
-- [ ] Kikapcsoló menü 2.3.6–5.1.1 (`global-actions.js`, `global-actions.css`)
-- [ ] Hangerőpanel 2.3.6–5.1.1 (`volume-panel.js`, `volume-panel.css`)
-- [ ] Zárolóképernyő 2.3.6–5.1.1 (`lockscreen.js`, `lockscreen.css`)
-- [ ] Média (Kamera / Galéria közös rajzolás) 2.3.6–5.1.1 (`media.js`, `media.css`)
-- [ ] Üzenetek 2.3.6 / 4.0.4 / 4.3 / 4.4.4 (`messaging.js`, `messaging.css`)
-- [ ] People 2.3.6–5.1.1 (`people.js`, `people.css`)
-- [ ] Hívásképernyő 2.3.6 / 4.0.4 / 4.3 (`phone-call.js`, `phone-call.css`)
-- [ ] AOSP Zene 4.0.4–5.1.1 (`music.js`, `music.css`)
-- [ ] Widgetek 2.3.6–5.1.1 (`widgets.js`, `widgets.css`)
-- [ ] Beállítások aloldalai (`settings-system.js`, `settings-system.css`, `settings-detail.css`)
-- [ ] Élő háttérképek 4.0.4 / 4.3 (`live-wallpapers.css`)
-- [ ] Play Store stílus 2.3.6–5.1.1 (`play-store.css`)
-- [ ] Böngésző stílus 2.3.6–5.1.1 (`browser.css`)
-- [ ] Óra stílus 2.3.6–5.1.1 (`desk-clock.css`)
+- [ ] (~45 perc) Média (Kamera / Galéria közös rajzolás) 2.3.6–5.1.1 (`media.js`, `media.css`)
+- [ ] (~45 perc) AOSP Zene 4.0.4–5.1.1 (`music.js`, `music.css`)
+- [ ] (~1 óra) Hangerőpanel 2.3.6–5.1.1 (`volume-panel.js`, `volume-panel.css`)
+- [ ] (~1 óra) Kikapcsoló menü 2.3.6–5.1.1 (`global-actions.js`, `global-actions.css`)
+- [x] Navigációs keresőpanel 4.3 / 4.4.4 / 5.1.1 (`search.js`): LP SearchPanelCircleView, Google Now indítás – 5a69717
+- [x] Fejlesztői beállítások 4.3 / 4.4.4 / 5.1.1 (`devopts.js`): képenként a `development_prefs.xml`-ből – 07973b4
+- [ ] (~1–1,5 óra) Zárolóképernyő 2.3.6–5.1.1 (`lockscreen.js`, `lockscreen.css`)
+- [ ] (~1,5 óra) Widgetek 2.3.6–5.1.1 (`widgets.js`, `widgets.css`)
+- [ ] (~1,5 óra) Beállítások aloldalai (`settings-system.js`, `settings-system.css`, `settings-detail.css`)
+- [ ] (~1,5 óra) Hívásképernyő 2.3.6 / 4.0.4 / 4.3 (`phone-call.js`, `phone-call.css`)
+- [ ] (~2 óra) Üzenetek 2.3.6 / 4.0.4 / 4.3 / 4.4.4 (`messaging.js`, `messaging.css`)
+- [ ] (~2 óra) Letöltések 4.4.4 / 5.1.1 (`downloads.js`, `downloads.css`; az LP most a 4.4-es DocumentsUI)
+- [ ] (~2–3 óra) Naptár 4.3 / 4.4.4 (`calendar.js`)
+- [ ] (~2–3 óra) People 2.3.6–5.1.1 (`people.js`, `people.css`)
+- [x] Email 4.0.4 és 4.3 (`email.js`, `email.css`): AOSP Email a saját EmailGoogle.apk-jából, Galéria-választó a csatoláshoz – 08bbd0e
+- [ ] (~3 óra) Hangouts 4.4.4 / 5.1.1 (`hangouts.css`; a 4.4.4 most képernyőképek alapján készült, a képben Hangouts 2.0.303 van)
+- [ ] (~3 óra) Galéria 4.4.4 / 5.1.1 (`gallery.js`, `gallery.css`; a KK most a 4.3-as Galéria, az LP képben nincs Galéria)
 
 ## 5. Kis ráfordítású funkciók (6–8 óra)
 
