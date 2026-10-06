@@ -52,5 +52,37 @@ window.StockStrings = {
    "Crear proyecto nuevo",
    "Create New Project"
   ]
+ },
+ "gplus": {
+  "Messenger": [
+   "Messenger",
+   "Messenger",
+   "Chat +",
+   "Messenger"
+  ],
+  "New conversation": [
+   "Új beszélgetés",
+   "Neue Unterhaltung",
+   "Nouvelle conversation",
+   "Nueva conversación"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Configuración"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer un commentaire",
+   "Enviar comentarios"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ]
  }
 };

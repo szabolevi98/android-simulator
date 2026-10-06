@@ -688,6 +688,13 @@
   },
   "studio": {
    "Create new project": "VideoEditorGoogle:projects_new_project"
+  },
+  "gplus": {
+   "Messenger": "PlusOne:home_screen_huddle_label",
+   "New conversation": "PlusOne:realtimechat_new_conversation_menu_item_text",
+   "Settings": "PlusOne:realtimechat_settings_menu_item_text",
+   "Send feedback": "PlusOne:home_menu_feedback",
+   "Help": "PlusOne:realtimechat_help_menu_item_text"
   }
  }
 }

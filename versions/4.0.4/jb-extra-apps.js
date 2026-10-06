@@ -118,8 +118,10 @@
   const tiles = (items, cls = '') => `<div class="jbx-grid ${cls}">${items.map(([title, color, sub = '']) => `<button class="jbx-tile" data-action="kkx-unavailable" style="--tile:${color}"><span class="jbx-tile-art">${e(title.charAt(0))}</span><strong>${e(title)}</strong>${sub ? `<small>${e(sub)}</small>` : ''}</button>`).join('')}</div>`;
   function render(app, {ui, t, chats = [], contacts = []}) {
     if (app === 'messenger') {
-      const people = contacts.slice(0, 3);
-      return `<div class="app-view kkx-app jbx-messenger">${bar('messenger', t('Messenger'), action('plus', local('New conversation', t)) + action('more', t('More options')))}<div class="kkx-list">${people.map((p, i) => row('person', p.name, ['Saturday’s hike: who’s driving?', 'Photos from the meetup', 'See you at 11!'][i], ['#dd4b39', '#4285f4', '#0f9d58'][i])).join('')}</div></div>`;
+      // Google+ 2.4's ConversationListActivity: the EsActionBar with home as up and conversation_list_item_view rows.
+      const m = key => S('gplus', key, t), people = contacts.slice(0, 3);
+      const rows = people.map((p, i) => `<button class="msg24-row" data-action="kkx-unavailable"><img src="assets/msg-default_avatar.png" alt=""><span><b>${e(p.name)}</b><small>${e(['Saturday’s hike: who’s driving?', 'Photos from the meetup', 'See you at 11!'][i])}</small></span><time>${['10:24', '9:02', 'Mon'][i]}</time></button>`).join('');
+      return `<div class="app-view kkx-app msg24"><header class="msg24-bar"><button data-action="home" aria-label="${e(m('Messenger'))}"><img class="up" src="assets/ga-fw-ic_ab_back_holo_dark.png" alt=""><img src="assets/messenger.png" alt=""></button><b>${e(m('Messenger'))}</b><button class="msg24-act" data-action="kkx-unavailable" aria-label="${e(m('New conversation'))}"><img src="assets/msg-ic_menu_start_new_huddle_action_bar.png" alt=""></button><button class="msg24-act" data-action="jbx-menu" aria-label="${e(t('More options'))}"><img src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button></header><div class="msg24-list">${rows}</div></div>`;
     }
     if (app === 'navigation') {
       // Maps 6.4's da_destination_activity: the da_actionBar (feature switcher, "Navigation", the Map button) over the
@@ -147,5 +149,10 @@
     }
     return '';
   }
-  window.JBExtraApps = {APPS, render};
+  // The action bar overflow (the jbx-menu overlay).
+  function menu(app, t) {
+    if (app === 'messenger') return ['Settings', 'Send feedback', 'Help'].map(key => ({action: 'kkx-unavailable', title: S('gplus', key, t)}));
+    return [];
+  }
+  window.JBExtraApps = {APPS, render, menu};
 })();

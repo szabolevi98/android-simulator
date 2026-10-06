@@ -607,6 +607,8 @@
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${ICSPlay.menu(icsPlayContext()).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'icsp-sort' || ui.overlay === 'icsp-options') {
       overlayRoot.innerHTML = ICSPlay.dialog(ui.overlay.slice(5), icsPlayContext());
+    } else if (ui.overlay === 'jbx-menu') {
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${JBExtraApps.menu(ui.view, key => i18n.t(key)).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'ga-menu') {
       // The ICS Google apps' action bar overflow (their menu XML's never-shown-as-action items).
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${ICSGoogleApps.menu(googleAppsContext()).map(item => `<button data-action="${item.action}"${item.id ? ` data-id="${safe(item.id)}"` : ''}>${safe(item.title)}</button>`).join('')}</div>`;
@@ -1088,6 +1090,7 @@
     if (ui.view === 'gmail' && action.startsWith('g4-') && ICSGmail.handle(action, id, gmailContext())) return;
     // Maps, Earth, News & Weather and the simple extras.
     if (['maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio'].includes(ui.view)) {
+      if (action === 'jbx-menu') { ui.overlay = 'jbx-menu'; renderOverlay(); return; }
       if (action === 'sa-unsupported' || action === 'kkx-unavailable') { ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); return; }
       if (action === 'maps-locate') { ui.mapsQuery = ''; ui.mapsSearching = false; render(); return; }
       if (action === 'maps-search-open') { ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); return; }

@@ -99,3 +99,20 @@
 .ms-thumb{position:relative;display:grid;place-items:center;width:255.48px;height:127.74px;background:#000}
 .ms-thumb img{width:54.5px;height:54.5px}
 .ms-thumb b{position:absolute;left:0;right:0;bottom:0;height:23.84px;padding:3.41px 0 0 17.03px;background:#00000080;text-align:left;font:400 11.92px Roboto,sans-serif;color:#fff}
+
+/* Messenger (Google+ 2.4, audit step 4): the #292929 EsActionBar and the conversation rows on Holo light. */
+.msg24{display:flex;flex-direction:column;background:#f3f3f3}
+.msg24-bar{flex:none;display:flex;align-items:center;height:40.88px;background:#292929}
+.screen .msg24-bar>button:first-child{display:flex;align-items:center;height:100%;padding:0 6.81px 0 0;border:0;background:none}
+.msg24-bar img.up{width:13.63px;height:13.63px}
+.msg24-bar>button:first-child img+img{width:27.25px;height:27.25px;margin-left:2.55px}
+.msg24-bar b{flex:1;min-width:0;font:400 15.33px Roboto,sans-serif;color:#fff;text-shadow:0 1.06px 0 #000000bb}
+.screen .msg24-act{flex:none;width:47.69px;height:100%;padding:0;border:0;background:none;display:grid;place-items:center}
+.msg24-act img{width:27.25px;height:27.25px}
+.msg24-list{flex:1;overflow-y:auto}
+.screen .msg24-row{position:relative;display:flex;align-items:flex-start;width:100%;min-height:54.5px;padding:0;border:0;border-bottom:.85px solid #0000001a;background:none;text-align:left}
+.msg24-row img{flex:none;width:54.5px;height:54.5px}
+.msg24-row span{flex:1;min-width:0;display:flex;flex-direction:column;padding:8.52px 47.69px 8.52px 6.81px}
+.msg24-row b{font:700 15.33px Roboto,sans-serif;color:#303030;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg24-row small{padding-top:1.7px;font:400 11.92px Roboto,sans-serif;color:#707070;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg24-row time{position:absolute;right:13.63px;top:12.77px;font:400 10.22px Roboto,sans-serif;color:#c0c0c0}

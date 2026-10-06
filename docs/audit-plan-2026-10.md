@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 kész; extra appok: 4.3 Navigation, Local, Messenger, Currents, Magazines, Wallet, Movie Studio kész – 4.3 kész; 4.0.4 Navigation, Places, Movie Studio kész, Messenger hátra), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
+**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 kész; extra appok: 4.3 Navigation, Local, Messenger, Currents, Magazines, Wallet, Movie Studio kész – 4.3 kész; 4.0.4 is kész; következik a 4.4.4 és 5.1.1 extra appok), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -37,7 +37,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games (a 4.3-as képen nincs Play Games) – bc3daf0
 - [x] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games – ff79528
 - [x] `play-apps.js` – 5.1.1: Play Music, Movies, Books, Games – 31611fa
-- [ ] Extra appok – 4.0.4 és 4.3: Messenger, Navigation, Local, Currents, Magazines, Wallet, Movie Studio
+- [x] Extra appok – 4.0.4 és 4.3: Messenger, Navigation, Local, Currents, Magazines, Wallet, Movie Studio – (ez a commit)
 - [ ] Extra appok – 4.4.4: Newsstand, Quickoffice, Wallet
 - [ ] Extra appok – 5.1.1: Docs, Sheets, Slides, Fit, Newsstand, Wallet
 - [ ] Fájlnevek rendbetétele (pl. a 4.0.4-es `jb-extra-apps.js` → `ics-extra-apps.js`)
@@ -157,3 +157,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 4.3 Wallet 1.6 (dashboard_activity gombjai) | fc9f643 |
 | 2026-10-06 | 4. lépés: 4.3 Movie Studio (AOSP ProjectPickerAdapter új projekt csempéje) – a 4.3 extra appok kész, teszttel | d949245 |
 | 2026-10-06 | 4. lépés: 4.0.4 Navigation (Maps 6.4 régi fejléce + csempék), Places, Movie Studio; 4.0.4 stock-strings.js | c9dbdb1 |
+| 2026-10-06 | 4. lépés: 4.0.4 Messenger (Google+ 2.4 EsActionBar, menü, sorok) – a 4.0.4 és 4.3 extra appok kész | (ez a commit) |
