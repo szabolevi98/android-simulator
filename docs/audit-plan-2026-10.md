@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 18 / 31 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 19 / 31 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -130,6 +130,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 
 - [ ] Play Store / Market verzióeltérések megtárgyalása (2.3.6 Market 3.x, 4.0.4 Play 3.8.17, 4.4.4 Play 4.8.22, 5.1.1 Play 4.8.22 felirat az 5.2-es kinézet mellett), utána a döntés szerinti javítás
 - [ ] KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – megtárgyalni
+- [ ] Boot képernyők (a tulajdonos ötlete, 2026-10-06): verziónként a gyári bootanimáció, ami alatt az assetek betöltődhetnek; kb. 5 másodpercig futna, vagy kattintásra azonnal továbblép. Még nem eldöntött, hogy kell-e – megtárgyalni
 
 ## Nem csináljuk meg
 
@@ -216,3 +217,6 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-06 | 5. lépés: helyi keresés – Play Music, Movies, Books, YouTube, Keep, Drive, GB Talk és Voice, Docs/Sheets/Slides az APK-k keresőfelületével | bced687 |
 | 2026-10-06 | 4. lépés, közös fájlok: AOSP Email 4.0.4 és 4.3 az EmailGoogle.apk-ból, Galéria-választó a csatoláshoz | 08bbd0e |
 | 2026-10-06 | 4. lépés, közös fájlok: KK kamera-animáció, Fejlesztői beállítások képenként, LP keresőpanel, KK Recents/Launcher, halott másolatok (BeanBag, Nyandroid, GB clings és mappastílus) | ec87102 |
+| 2026-10-06 | 4.5. pont: hangerőpanel verziónként (GB hangerő-toast, 4.x saját framework-res grafikák) | 548be6f |
+| 2026-10-06 | Célzott javítás: navigációs sáv gombjai középen (4.0.4 / 4.3 / 4.4.4, navigation_bar.xml) | 7ef6ef5 |
+| 2026-10-06 | Célzott javítás: KitKat Recents a rendszersávok alatt is (LAYOUT_FULLSCREEN, örökölt áttetszőség) | 5a06436 |
