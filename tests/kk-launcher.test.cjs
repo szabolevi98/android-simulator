@@ -26,4 +26,8 @@ assert.ok(sim.includes("row('Model number', 'Nexus 5'")&&sim.includes("row('Andr
 const egg={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/kk-egg.js','utf8'),egg);
 for(const d of [...egg.window.KKEgg.PASTRIES,...egg.window.KKEgg.RARE,...egg.window.KKEgg.XRARE,...egg.window.KKEgg.XXRARE])assert.ok(fs.existsSync(`versions/4.4.4/assets/kk-dessert_${d}.png`),d);
 assert.ok(fs.existsSync('versions/4.4.4/assets/kk-platlogo.png'));
+{ // Launcher3's Workspace.REORDER_TIMEOUT (kk-launcher.js), longer than Launcher2's 250 ms.
+  const w={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/kk-launcher.js','utf8'),w);
+  const L=Object.values(w.window).find(x=>x&&x.REORDER_TIMEOUT);assert.equal(L.REORDER_TIMEOUT,350);assert.equal(L.REORDER_DURATION,150);
+}
 console.log('kk about + egg ok');

@@ -1,9 +1,11 @@
-/* Jelly Bean Launcher2 workspace behavior: items move out of the way (CellLayout reorder) and widgets resize. */
+/* KitKat Google Now Launcher workspace behaviour (Launcher3 android-4.4.4_r1, which GoogleHome builds on): items move out
+   of the way (CellLayout reorder) and widgets resize. DynamicGrid gives the Nexus 5 a 4 x 4 workspace. */
 (() => {
   'use strict';
   const COLS = 4, ROWS = 4;
-  // Workspace.REORDER_TIMEOUT, CellLayout.REORDER_ANIMATION_DURATION, AppWidgetResizeFrame.RESIZE_THRESHOLD.
-  const REORDER_TIMEOUT = 250, REORDER_DURATION = 150, RESIZE_THRESHOLD = .66, FOLDER_RADIUS = .55;
+  // Workspace.REORDER_TIMEOUT (350 ms in Launcher3, 250 in Launcher2), CellLayout.REORDER_ANIMATION_DURATION,
+  // AppWidgetResizeFrame.RESIZE_THRESHOLD, and Workspace's folder-creation radius (0.55 of the icon size).
+  const REORDER_TIMEOUT = 350, REORDER_DURATION = 150, RESIZE_THRESHOLD = .66, FOLDER_RADIUS = .55;
   const overlaps = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
   const inside = rect => rect.x >= 0 && rect.y >= 0 && rect.x + rect.w <= COLS && rect.y + rect.h <= ROWS;
   // One page as rectangles: shortcuts/folders are 1 x 1, widgets keep their spans.
