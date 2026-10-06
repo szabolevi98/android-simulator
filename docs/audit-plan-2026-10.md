@@ -52,7 +52,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 újraépítés a képből; a halott másolat kikerül. A felület nélküli `calculator-engine.js`, `browser-session.js` és a
 `play-store.js` katalógus marad közös, ezek nem tételek.
 
-**Állás: 18 / 31 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
+**Állás: 19 / 31 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
 
 - [x] Kezdőképernyő átrendezés 4.3 / 4.4.4 (`launcher.js`): Launcher3 időzítés – 8fa6eb5
 - [x] Óra stílus 2.3.6–5.1.1 (`desk-clock.css`): a 2.3.6 / 4.4.4 / 5.1.1 csak a riasztás-ablakok szabályait tartja meg, a 4.3 a képben még meglévő AlarmClock / SetAlarm képernyőét – 9a0dc35
@@ -69,7 +69,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] GB mappák (`launcher-folders.css` 2.3.6): a felülíró ICS-stílus kivéve – ec87102
 - [x] Média (Kamera / Galéria közös rajzolás) 2.3.6–5.1.1 (`media.js`, `media.css`): csak a képillusztrációk, a szerkesztő-hatások és a Megosztás / Részletek ablak maradt; a halott ICS Galéria- és Kamera-képernyő kikerült (a két ablak gyári pontosítása a Galéria tételnél) – f95e6bc
 - [x] AOSP Zene 4.0.4–5.1.1 (`music.js`, `music.css`): a 4.0.4 / 4.3 a saját AOSP-tagjéből (ellenőrizve, felcímkézve); a 4.4.4 / 5.1.1-ben (a képben csak Play Music van) csak a lejátszási állapot maradt, a halott AOSP-képernyők és a `music.css` kikerültek – c96f1ad
-- [ ] (~1 óra) Hangerőpanel 2.3.6–5.1.1 (`volume-panel.js`, `volume-panel.css`)
+- [x] Hangerőpanel 2.3.6–5.1.1 (`volume-panel.js`, `volume-panel.css`): a 2.3.6 a saját Gingerbread hangerő-toastját kapta (2.3.6 VolumePanel / volume_adjust.xml: nem érinthető Toast a képernyő tetején, szöveg, nagy csengő- vagy kis stream-ikon, sárga progress_horizontal sáv; a 2.3-as csengőlépések; a Nexus S framework-res grafikái); a 4.0.4 / 4.3 / 4.4.4 kódja azonos marad (4.0.4–4.4 között a VolumePanel elrendezése, időzítése és csengőlépései egyeznek), az ikonok és a SeekBar a saját kép framework-res-éből (4.4: *_am bitmapek); az 5.1.1-ben a megmaradt Holo-alap az `lp-dialogs.css`-be került – 548be6f
 - [ ] (~1 óra) Kikapcsoló menü 2.3.6–5.1.1 (`global-actions.js`, `global-actions.css`)
 - [x] Navigációs keresőpanel 4.3 / 4.4.4 / 5.1.1 (`search.js`): LP SearchPanelCircleView, Google Now indítás – 5a69717
 - [x] Fejlesztői beállítások 4.3 / 4.4.4 / 5.1.1 (`devopts.js`): képenként a `development_prefs.xml`-ből – 07973b4
