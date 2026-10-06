@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 13 / 31 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 15 / 31 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -52,18 +52,18 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 újraépítés a képből; a halott másolat kikerül. A felület nélküli `calculator-engine.js`, `browser-session.js` és a
 `play-store.js` katalógus marad közös, ezek nem tételek.
 
-**Állás: 13 / 31 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
+**Állás: 15 / 31 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
 
 - [x] Kezdőképernyő átrendezés 4.3 / 4.4.4 (`launcher.js`): Launcher3 időzítés – 8fa6eb5
 - [x] Óra stílus 2.3.6–5.1.1 (`desk-clock.css`): a 2.3.6 / 4.4.4 / 5.1.1 csak a riasztás-ablakok szabályait tartja meg, a 4.3 a képben még meglévő AlarmClock / SetAlarm képernyőét – 9a0dc35
 - [x] Böngésző stílus 2.3.6–5.1.1 (`browser.css`): a 4.0.4 AOSP Böngészőé marad, a 2.3.6-ból kivéve, 4.3 / 4.4.4 / 5.1.1-en a `chrome.css` elejére került (4.4.4 / 5.1.1-en így a Chrome saját szövegszíne és sötét lapváltója érvényesül) – 7e8e992
 - [x] BeanBag 4.3 / 4.4.4 (`beanbag.js`): a 4.4.4-ből kivéve, a képben nincs – 56aff7d
 - [x] Nyandroid 2.3.6 / 4.0.4 (`nyandroid.js`): a 2.3.6-ból kivéve, a GB-ben nincs – df6c518
-- [ ] (~20 perc) Play Store stílus 2.3.6–5.1.1 (`play-store.css`)
+- [x] Play Store stílus 2.3.6–5.1.1 (`play-store.css`): a régi, 2012-es általános boltstílus egyik verzióban sem élt (mindegyiknek saját korabeli boltja van), kivéve; a célverziók kérdése a 7. pontban – e7adeeb
 - [x] Élő háttérképek 4.0.4 / 4.3 (`live-wallpapers.css`): a 4.0.4-es listasorok alá került a háttérképek leírása (a 4.0.4 `live_wallpaper_entry.xml`-je szerint, a képben lévő fordításokkal); a 4.3-as sorban nincs leírás – 5b0c6ef
 - [x] Recents 4.3 / 4.4.4 (`recents.js`): KK bg_protect – 5a69717
 - [x] Indító-tippek 2.3.6 / 4.0.4 / 4.3 (`launcher-clings.js`, `.css`): a 2.3.6-ból kivéve, 4.0.4 / 4.3 ellenőrizve – e38ebd3, ec87102
-- [ ] (~30 perc) Email modell 2.3.6 / 4.4.4 / 5.1.1 (`email.js`, `email.css`: csak a postafiók-modell és egy régi párbeszédablak él belőlük)
+- [x] Email modell 2.3.6 / 4.4.4 / 5.1.1 (`email.js`, `email.css`): az `email.js` csak a postafiók-modell; GB elvetés értesítéssel (MessageCompose.onDiscard), KK / LP „Discard this message?” megerősítés, KK írómenü a compose_menu.xml szerint (Attach video, Send feedback), LP csatolás-almenü és Cc/Bcc nyíl; a KK UnifiedEmail írónézetét felülíró régi `email.css` kikerült – e7adeeb
 - [ ] (~30 perc) Mappák 4.0.4 / 4.3 és 4.4.4 / 5.1.1 (`launcher-folders.js`, `launcher-folders.css`)
 - [x] Kamera 4.3 / 4.4.4 (`camera.css`): azonos erőforrások, a 4.4 rögzítési animációja – 48347e4
 - [x] GB mappák (`launcher-folders.css` 2.3.6): a felülíró ICS-stílus kivéve – ec87102
