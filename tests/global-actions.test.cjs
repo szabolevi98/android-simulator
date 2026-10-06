@@ -17,19 +17,39 @@ assert.ok(menu.includes('assets/ga-ic_lock_airplane_mode_off.png'));
 // ShutdownThread: Cancel on the left, OK on the right; the safe mode and bug report variants.
 const confirm=jb.confirm('shutdown',t);assert.ok(confirm.indexOf('>Cancel<')<confirm.indexOf('>OK<')&&confirm.includes('Your phone will shut down.'));
 assert.ok(jb.confirm('safemode',t).includes('Reboot to safe mode')&&jb.confirm('bugreport',t).includes('>Report<'));
-assert.ok(jb.progress(t).includes('Shutting down…')&&jb.boot().includes('boot-android-logo-mask.png'));
+assert.ok(jb.progress(t).includes('Shutting down…')&&jb.boot().includes('ga-boot-frame'));
 assert.ok(!('safemode' in ics.CONFIRM)&&!('bugreport' in ics.CONFIRM),'4.0.4: no safe-mode reboot or bug report');
-for(const v of ['4.0.4','4.3','4.4.4'])for(const f of ['ga-dialog_full_holo_dark','ga-ic_lock_power_off','ga-spinner_48_outer_holo','boot-android-logo-shine','stat_sys_ringer_vibrate','stat_sys_alarm'])assert.ok(fs.existsSync(`versions/${v}/assets/${f}.png`),`${v} ${f}`);
+for(const v of ['4.0.4','4.3','4.4.4'])for(const f of ['ga-dialog_full_holo_dark','ga-ic_lock_power_off','ga-spinner_48_outer_holo','stat_sys_ringer_vibrate','stat_sys_alarm'])assert.ok(fs.existsSync(`versions/${v}/assets/${f}.png`),`${v} ${f}`);
 // Each image's own framework-res art: xhdpi on the Galaxy Nexus and Nexus 4, xxhdpi on the Nexus 5.
 {const size=f=>{const b=fs.readFileSync(f);return [b.readUInt32BE(16),b.readUInt32BE(20)];};
 assert.deepEqual(size('versions/4.3/assets/ga-ic_lock_power_off.png'),[64,64]);assert.deepEqual(size('versions/4.4.4/assets/ga-ic_lock_power_off.png'),[96,96]);
 assert.ok(fs.readFileSync('versions/4.4.4/global-actions.css','utf8').includes("ga-dialog_full_holo_dark.png') 30 fill"));
 assert.ok(fs.readFileSync('versions/4.0.4/global-actions.css','utf8').includes('padding:5.4px 0 5.4px 14.4px'),'4.0.4 row: 16dp start padding, no 56dp icon box');}
 // Gingerbread: the list is a GBUI dialog; only the key hold, shutdown and boot come from here.
-assert.deepEqual(Object.keys(gb).sort(),['BOOT_MS','KEY_TIMEOUT','SHUTDOWN_MS','boot','hold']);
+assert.deepEqual(Object.keys(gb).sort(),['BOOT_MS','KEY_TIMEOUT','SHUTDOWN_MS','boot','hold','playBoot']);
 // Lollipop: Power off and, when enabled, Take bug report with ic_lock_bugreport; no airplane or ringer rows.
 assert.deepEqual(plain(lp.items({bugreport:true}).map(i=>[i.id,i.icon,i.message])),[['power','lp-fw-ic_lock_power_off.png','Power off'],['bugreport','lp-fw-ic_lock_bugreport.svg','Take bug report']]);
 assert.ok(!lp.menu({},t).includes('ga-silent')&&!lp.progress(t).includes('<img'));
 for(const f of ['lp-fw-ic_lock_power_off.png','lp-fw-ic_lock_bugreport.svg'])assert.ok(fs.existsSync(`versions/5.1.1/assets/${f}`),f);
 assert.ok(!fs.readFileSync('versions/5.1.1/lp-dialogs.css','utf8').includes('.ga-'),'the LP power dialogs live in their own global-actions.css');
-console.log('Global actions checks passed: item order per version, ringer modes, dialogs and assets.');
+// Boot animations from each image's bootanimation.zip: desc.txt's fps and parts ("c" parts only from 4.3 on).
+const bootData=v=>{const w={};vm.runInNewContext(fs.readFileSync(`versions/${v}/boot-animation.js`,'utf8'),{window:w});return w.BootAnimationData;};
+const shape={'2.3.6':[30,'p1 p0'],'4.0.4':[24,'p0'],'4.3':[24,'p1 c0 c0'],'4.4.4':[24,'p1 p0'],'5.1.1':[30,'c1 c1 c0 c1 c1 c1']};
+for(const [v,[fps,parts]] of Object.entries(shape)){const d=bootData(v);assert.equal(d.fps,fps,v);assert.equal(d.parts.map(p=>(p.complete?'c':'p')+p.count).join(' '),parts,v);
+  for(const p of d.parts){assert.ok(fs.existsSync(`versions/${v}/${p.sheet}`),`${v} ${p.sheet}`);assert.ok(p.cols*p.rows>=p.frames);}}
+// movie(): after the exit request a "c" loop finishes and the later parts play; a "p" loop stops at once.
+async function playOrder(v,exitAfter){
+  const data=bootData(v);data.fps=1000;
+  const shown=[],view={style:{set backgroundImage(u){const m=u.match(/boot-(part\d)/);if(shown.at(-1)!==m[1])shown.push(m[1]);}}};
+  const w={BootAnimationData:data};
+  const ctx={window:w,Image:class{decode(){return Promise.resolve();}},setTimeout,clearTimeout,Promise,performance};
+  vm.runInNewContext(fs.readFileSync(`versions/${v}/global-actions.js`,'utf8'),ctx);
+  await new Promise(resolve=>w.GlobalActions.playBoot({querySelector:()=>view},resolve,exitAfter));
+  return shown.join(' ');
+}
+(async()=>{
+  assert.equal(await playOrder('5.1.1',150),'part0 part1 part2 part3 part4 part5');
+  assert.equal(await playOrder('4.3',100),'part0 part1 part2');
+  assert.equal(await playOrder('2.3.6',1500),'part0 part1');assert.equal(await playOrder('4.0.4',50),'part0');
+  console.log('Global actions checks passed: item order per version, ringer modes, dialogs, assets and boot animations.');
+})().catch(error=>{console.error(error);process.exit(1);});

@@ -3396,7 +3396,7 @@
   }
   function bootUp(safeMode) {
     ui.power = 'boot'; ui.safeMode = safeMode; renderPower();
-    setTimeout(() => { ui.power = ''; lockScreen(); ui.sleeping = false; if (!ui.locked && ui.view !== 'lock') home(); else render(); renderPower(); lastActivity = Date.now(); }, GlobalActions.BOOT_MS);
+    GlobalActions.playBoot(powerLayer.firstElementChild, () => { ui.power = ''; lockScreen(); ui.sleeping = false; if (!ui.locked && ui.view !== 'lock') home(); else render(); renderPower(); lastActivity = Date.now(); });
   }
   // Volume keys: the active stream's slider, a 3 s timeout, and a touch anywhere else closes it.
   const volumeLayer = document.createElement('div'); volumeLayer.id = 'volume-layer'; screen.append(volumeLayer);
@@ -3432,7 +3432,7 @@
   bindVolumeKey(document.querySelector('#volume-up'), 1);
   bindVolumeKey(document.querySelector('.volume-rocker'), event => event.offsetY < event.currentTarget.clientHeight / 2 ? 1 : -1);
   const powerLayer = document.createElement('div'); powerLayer.id = 'power-layer'; screen.append(powerLayer);
-  function renderPower() { powerLayer.innerHTML = ui.power === 'off' ? '<div class="ga-off"></div>' : ui.power === 'boot' ? GlobalActions.boot() : ui.safeMode ? GlobalActions.safeMode(key => i18n.t(key)) : ''; }
+  function renderPower() { if (ui.power === 'boot' && powerLayer.querySelector('.ga-boot')) return; powerLayer.innerHTML = ui.power === 'off' ? '<div class="ga-off"></div>' : ui.power === 'boot' ? GlobalActions.boot() : ui.safeMode ? GlobalActions.safeMode(key => i18n.t(key)) : ''; }
   screen.addEventListener('pointerdown',()=>{if(ui.sleeping){ui.sleeping=false;suppressClickUntil=Date.now()+350;if(ui.locked)render();else home(false);}},true);
   // Full screen (Fullscreen API): hides the browser chrome on phones and keeps portrait where the browser allows it.
   const fullscreenButton = document.querySelector('#fullscreen-button');

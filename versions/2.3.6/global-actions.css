@@ -2,10 +2,7 @@
    the status bar. The Phone options and shutdown dialogs are GBUI dialogs (gb-ui.css). */
 #power-layer{position:absolute;inset:0;z-index:90;pointer-events:none}
 #power-layer>.ga-off,#power-layer>.ga-boot{position:absolute;inset:0;background:#000;pointer-events:auto}
-.ga-boot{display:grid;place-items:center}
-.ga-boot-logo{position:relative;width:115.2px;height:28.8px;overflow:hidden}
-.ga-boot-logo img{position:absolute;inset:0;width:100%;height:100%}
-.ga-boot-shine{position:absolute;inset:0;background:url('assets/boot-android-logo-shine.png') 0 0/230.4px 28.8px repeat-x;animation:ga-shine 2.1333s steps(26) infinite}
-@keyframes ga-shine{from{background-position-x:-230.4px}to{background-position-x:0}}
+.ga-boot{overflow:hidden}
+.ga-boot-frame{position:absolute;background-repeat:no-repeat}
 .power-key{cursor:pointer;z-index:1}
 .power-key::before{content:"";position:absolute;inset:-6px -10px -6px -4px}
