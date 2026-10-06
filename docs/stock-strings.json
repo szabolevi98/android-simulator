@@ -752,7 +752,11 @@
    "Open document": "EditorsDocs:open_with_picker",
    "Refresh": "EditorsDocs:editors_menu_refresh",
    "Modified: %s": "EditorsDocs:doclist_date_modified_label",
-   "Open navigation drawer": "EditorsDocs:doclist_open_navigation_drawer_content_description"
+   "Open navigation drawer": "EditorsDocs:doclist_open_navigation_drawer_content_description",
+   "Search: \"%s\"": "EditorsDocs:navigation_search_results",
+   "Cancel search": "EditorsDocs:menu_search_cancel",
+   "Clear search": "EditorsDocs:menu_search_clear",
+   "No Items": "EditorsDocs:empty_doclist"
   },
   "fit": {
    "Fit": "FitnessPrebuilt:app_name",

@@ -53,3 +53,10 @@
 .lpx-app .lpa-drawer,.lpx-app .lpa-scrim{position:absolute}
 .lpx-app .lpa-drawer{top:0;bottom:0}
 .screen .lpx-app .lpa-scrim{inset:0}
+/* Editors search (audit step 5): drive_search_bar.xml on m_search_bar_background (white). */
+.lpx-bar.ed-searchbar{background:#fff}
+.screen .ed-back{flex:none;height:100%;padding:0 21.74px 0 7.25px;border:0;background:none;display:grid;place-items:center}
+.ed-back img{width:21.74px;height:21.74px;filter:brightness(0);opacity:.54}
+.ed-sv{flex:1;min-width:0;height:100%;display:flex}
+.ed-sv input{flex:1;min-width:0;border:0;background:none;outline:0;padding:0;font:400 18.12px Roboto,sans-serif;color:#4c4c4c}
+.ed-sv input::placeholder{color:#00000061}

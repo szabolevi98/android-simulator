@@ -1445,6 +1445,30 @@ window.StockStrings = {
    "Navigationsleiste öffnen",
    "Ouvrir le panneau de navigation",
    "Abrir panel de navegación"
+  ],
+  "Search: \"%s\"": [
+   "Keresés: „%s”",
+   "Suchen: \"%s\"",
+   "Rechercher : \"%s\"",
+   "Buscar: \"%s\""
+  ],
+  "Cancel search": [
+   "Keresés leállítása",
+   "Suche abbrechen",
+   "Annuler la recherche",
+   "Cancelar búsqueda"
+  ],
+  "Clear search": [
+   "Keresés törlése",
+   "Suche löschen",
+   "Effacer la recherche",
+   "Borrar búsqueda"
+  ],
+  "No Items": [
+   "Nincs elem",
+   "Keine Dokumente",
+   "Aucun élément",
+   "0 elementos"
   ]
  },
  "fit": {

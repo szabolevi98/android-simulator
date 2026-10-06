@@ -766,6 +766,7 @@
     if(ui.view==='phone' && !ui.activeCall && ui.sub==='call-detail'){ui.sub=ui.kkLogFrom||'';render();return;}
     if(ui.view==='phone' && !ui.activeCall && (ui.lpSearchOpen || (ui.phoneSearch||'').trim())){ui.phoneSearch='';ui.lpSearchOpen=false;render();return;}
     if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
+    if (['docs', 'sheets', 'slides'].includes(ui.view) && ui.sub) { ui.sub = !['search', 'results'].includes(ui.sub) && ui.edFrom === 'results' ? 'results' : ''; ui.edFrom = ''; render(); return; }
     if (ui.view === 'drive' && ui.sub === 'file' && ui.driveFrom === 'results') { ui.sub = 'results'; ui.driveFrom = ''; render(); return; }
     if (ui.view === 'youtube' && ui.sub === 'video' && ui.ytFrom === 'results') { ui.sub = 'results'; ui.ytFrom = ''; render(); return; }
     if (StockApps.APPS.includes(ui.view) && ui.sub) { if (ui.view === 'keep') saveKeepNote(); ui.sub = ''; render(); return; }
@@ -2193,7 +2194,9 @@
         if (ui.view !== 'people') { ui.quickContactReturn = {view: ui.view, sub: ui.sub}; captureRecentView(); ui.view = 'people'; }
         ui.selectedContact = Number(id); ui.sub = 'detail'; ui.overlay = ''; render(); break;
       }
-      case 'lpx-open': ui.sub = id; render(); break;
+      case 'lpx-open': ui.edFrom = ui.sub; ui.sub = id; render(); break;
+      case 'ed-search-open': ui.sub = 'search'; ui.edQuery = ''; render(); viewport.querySelector('[data-form="ed-search"] input')?.focus(); break;
+      case 'ed-search-clear': ui.sub = ''; ui.edQuery = ''; render(); break;
       case 'lpx-unavailable': case 'lpx-menu': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'lpx-overflow': ui.overlay = 'lpx-overflow'; renderOverlay(); break;
       case 'lpx-drawer': ui.lpxDrawer = !ui.lpxDrawer; render(); break;
@@ -2461,6 +2464,7 @@
       case 'address': navigateBrowser(values.get('address')); break;
       case 'web-search': navigateBrowser(`search:${values.get('query')}`); break;
       case 'maps-search': ui.mapsQuery = String(values.get('query') || '').trim().slice(0, 60); render(); break;
+      case 'ed-search': { const query = String(values.get('query') || '').trim(); if (!query) return; ui.edQuery = query; ui.sub = 'results'; render(); break; }
       case 'drive-search': { const query = String(values.get('query') || '').trim(); if (!query) return; ui.driveQuery = query; ui.sub = 'results'; render(); break; }
       case 'yt-search': { const query = String(values.get('query') || '').trim(); if (!query) return; ui.ytQuery = query; ui.sub = 'results'; render(); break; }
       case 'keep-add': { const text = String(values.get('text') || '').trim(); if (!text) return; data.keepNotes = [{id: 'k' + Date.now(), text, color: (data.keepNotes || []).length % 5}, ...(data.keepNotes || [])]; save(); render(); break; }
