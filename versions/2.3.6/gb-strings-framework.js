@@ -64,6 +64,55 @@ window.GBStrings["framework"] = {
 "de": "Abbrechen",
 "fr": "Annuler",
 "es": "Cancelar"
+},
+"volume_ringtone": {
+"en": "Ringer volume",
+"hu": "Csengetés hangereje",
+"de": "Klingeltonlautstärke",
+"fr": "Volume de la sonnerie",
+"es": "Volumen del timbre"
+},
+"volume_music": {
+"en": "Media volume",
+"hu": "Média hangereje",
+"de": "Medienlautstärke",
+"fr": "Volume",
+"es": "Volumen multimedia"
+},
+"volume_call": {
+"en": "In-call volume",
+"hu": "Hívás hangereje",
+"de": "Hörerlautstärke",
+"fr": "Volume des appels entrants",
+"es": "Volumen de la llamada"
+},
+"volume_alarm": {
+"en": "Alarm volume",
+"hu": "Ébresztés hangereje",
+"de": "Lautstärke für Wecker",
+"fr": "Volume",
+"es": "Volumen de alarma"
+},
+"volume_notification": {
+"en": "Notification volume",
+"hu": "Értesítés hangereje",
+"de": "Benachrichtigungslautstärke",
+"fr": "Volume des notifications",
+"es": "Volumen de notificaciones"
+},
+"volume_unknown": {
+"en": "Volume",
+"hu": "Hangerő",
+"de": "Lautstärke",
+"fr": "Volume",
+"es": "Volumen"
+},
+"volume_music_hint_silent_ringtone_selected": {
+"en": "Silent ringtone selected",
+"hu": "Nincs csengőhang",
+"de": "Lautlos-Modus ausgewählt",
+"fr": "Sonnerie silencieuse sélectionnée",
+"es": "Tono de silencio seleccionado"
 }
 }
 };

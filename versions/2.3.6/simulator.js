@@ -2896,13 +2896,13 @@
     if (!ui.sleeping) showVolume(stream);
   }
   function showVolume(stream) {
-    volumeLayer.innerHTML = VolumePanel.render(data.settings, stream, key => i18n.t(key));
+    volumeLayer.innerHTML = VolumePanel.render(data.settings, stream, key => i18n.t(key), i18n.language);
     VolumePanel.bindSeek(volumeLayer, VolumePanel.STREAMS[stream].max, value => { VolumePanel.setIndex(data.settings, stream, value); save(); VolumePanel.update(volumeLayer, data.settings, stream); resetVolumeTimeout(); });
     resetVolumeTimeout();
   }
   function resetVolumeTimeout() { clearTimeout(volumeTimer); volumeTimer = setTimeout(hideVolume, VolumePanel.TIMEOUT); }
   function hideVolume() { clearTimeout(volumeTimer); const panel = volumeLayer.firstElementChild; if (!panel || panel.classList.contains('fading')) return; panel.classList.add('fading'); setTimeout(() => panel.remove(), 400); }
-  document.addEventListener('pointerdown', event => { if (volumeLayer.firstElementChild && !volumeLayer.contains(event.target) && !event.target.closest?.('.volume-key,.volume-rocker')) hideVolume(); }, true);
+  // The volume toast stays for its LENGTH_SHORT whatever is touched.
   // Held keys repeat after config_keyRepeatTimeout (500 ms) every 50 ms, as key repeats do.
   function bindVolumeKey(element, direction) {
     let delay = 0, repeat = 0;

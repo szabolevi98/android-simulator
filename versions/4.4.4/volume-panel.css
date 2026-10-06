@@ -1,4 +1,4 @@
-/* VolumePanel (dp scaled by 0.9): a TYPE_VOLUME_OVERLAY window 80dp from the top, above the status bar, as wide as
+/* VolumePanel of the KTU84P (Nexus 5) image (dp scaled by 0.9): a TYPE_VOLUME_OVERLAY window 80dp from the top, above the status bar, as wide as
    the screen in portrait. One 64dp row: the 32dp stream icon with 16dp padding and a holo SeekBar (16dp padding, 16dp
    end margin, 13dp track, 32dp thumb). No enter animation; it fades out over config_mediumAnimTime. */
 #volume-layer{position:absolute;left:0;right:0;top:72px;z-index:60;pointer-events:none}

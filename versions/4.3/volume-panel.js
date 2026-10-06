@@ -1,5 +1,6 @@
-/* Volume keys and the volume panel (frameworks/base VolumePanel, volume_adjust.xml and AudioService), shared by
-   4.0.4 and 4.3. A phone (config_voice_capable) shows only the active stream's slider, without the expand button. */
+/* Volume keys and the volume panel of the JWR66Y (Nexus 4) image (frameworks/base VolumePanel, volume_adjust.xml and
+   AudioService; the same layout, timeouts and ringer steps from 4.0.4 to 4.4; 4.3 added the remote-route stream, which the simulator never reaches). A phone (config_voice_capable)
+   shows only the active stream's slider, without the expand button. Icons and SeekBar art are this image's framework-res. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

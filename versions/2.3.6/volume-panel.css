@@ -1,20 +1,19 @@
-/* VolumePanel (dp scaled by 0.9): a TYPE_VOLUME_OVERLAY window 80dp from the top, above the status bar, as wide as
-   the screen in portrait. One 64dp row: the 32dp stream icon with 16dp padding and a holo SeekBar (16dp padding, 16dp
-   end margin, 13dp track, 32dp thumb). No enter animation; it fades out over config_mediumAnimTime. */
-#volume-layer{position:absolute;left:0;right:0;top:72px;z-index:60;pointer-events:none}
-.vol-panel{pointer-events:auto;border:7.2px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 15 fill/9px stretch}
-.vol-panel.fading{opacity:0;transition:opacity .4s cubic-bezier(.55,.085,.68,.53);pointer-events:none}
-.vol-item{display:flex;align-items:center;min-height:57.6px}
-.vol-icon{flex:none;padding:14.4px;display:grid}
-.vol-icon img{width:28.8px;height:28.8px}
-.vol-seek{flex:1;min-width:0;height:57.6px;margin-right:14.4px;padding:14.4px;display:flex;align-items:center;cursor:pointer;touch-action:none;outline:none}
-.vol-track{position:relative;flex:1;height:11.7px;background:url('assets/vol-scrubber_track_holo_dark.png') 0 0/100% 100%}
-.vol-progress{position:absolute;left:0;top:0;bottom:0;background:url('assets/vol-scrubber_primary_holo.png') 0 0/100% 100%}
-.vol-thumb{position:absolute;top:50%;width:28.8px;height:28.8px;margin:-14.4px 0 0 -14.4px;background:url('assets/vol-scrubber_control_normal_holo.png') center/100% 100%}
-.vol-seek.pressed .vol-thumb{background-image:url('assets/vol-scrubber_control_pressed_holo.png')}
-.vol-seek.disabled{cursor:default}
-.vol-seek.disabled .vol-track{opacity:.5}
-.vol-seek.disabled .vol-thumb{background-image:url('assets/vol-scrubber_control_disabled_holo.png')}
+/* Gingerbread volume toast (VolumePanel 2.3.6, volume_adjust.xml; 1 dp = 0.8625 px): a Toast at Gravity.TOP, just below
+   the status bar and centred, on panel_background (90 % black with its soft edge); the message in TextAppearance.Medium
+   (18 sp white), 14 dp above it; the 50 dp ringer icon or the 22 dp stream icon (6 dp before the message); the 200 dp
+   ProgressBar with 25 dp side and 14 dp vertical margins, 20 dp tall (Widget.ProgressBar.Horizontal), drawn by
+   progress_horizontal: 5 dp corners, the grey track and the yellow progress gradients at 270 degrees with the centre
+   at 75 %. The toast fades in and out (toast_enter / toast_exit) and ignores touches. */
+#volume-layer{position:absolute;left:0;right:0;top:21.85px;z-index:60;display:flex;justify-content:center;pointer-events:none}
+.vol-panel.gbvol{display:flex;flex-direction:column;align-items:center;border:10.35px solid transparent;border-image:url('assets/gbvol-panel_background.png') 18 fill/10.35px stretch;color:#fff;font-family:DroidSans,Arial,sans-serif;animation:gbvol-in .4s ease-out}
+@keyframes gbvol-in{from{opacity:0}}
+.vol-panel.gbvol.fading{opacity:0;transition:opacity .4s ease-in}
+.gbvol-head{display:flex;align-items:center;margin-top:12.08px}
+.gbvol-head span{font-size:15.53px;line-height:1.2}
+.gbvol-small{width:18.98px;height:18.98px;margin-right:5.18px}
+.gbvol-large{width:43.13px;height:41.4px;margin-top:12.08px}
+.gbvol-level{position:relative;width:172.5px;height:17.25px;margin:12.08px 21.56px;border-radius:4.31px;overflow:hidden;background:linear-gradient(#9d9e9d,#5a5d5a 75%,#747674)}
+.gbvol-level i{position:absolute;left:0;top:0;bottom:0;border-radius:4.31px;background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00)}
 .volume-rocker{cursor:pointer;z-index:1}
 .volume-rocker::before{content:"";position:absolute;inset:-4px -4px -4px -10px}
 .header-actions .volume-key svg{width:17px;height:17px;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
