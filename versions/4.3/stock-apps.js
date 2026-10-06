@@ -200,6 +200,8 @@
     if (view === 'earth') { const ea = key => S(ctx, 'earth', key); return (ctx.ui?.earthQuery ? [{action: 'earth-clear', title: ea('Clear map')}] : []).concat(['My location', 'Share', 'Settings', 'Feedback', 'Help', 'Tutorial'].map(key => ({action: 'sa-unsupported', title: ea(key)}))); }
     // Currents 2.1's currents_home_menu on the home (the edition items stay hidden).
     if (view === 'currents') { const c = key => S(ctx, 'currents', key); return [{action: 'sa-unsupported', title: ctx.t('Search')}].concat(['Sync now', 'Settings', 'Help'].map(key => ({action: 'sa-unsupported', title: c(key)}))); }
+    // Play Magazines 2.0's magazines_home_menu (Search magazines is the bar icon).
+    if (view === 'play-magazines') { const g = key => S(ctx, 'magazines', key); return ['Refresh', 'On device only', 'Manage subscriptions', 'Settings', 'Help'].map(key => ({action: 'sa-unsupported', title: g(key)})); }
     // Messenger (Google+ 4.0's host menu without the stream's items).
     if (view === 'messenger') { const g = key => S(ctx, 'gplus', key); return ['Send feedback', 'Settings', 'Help', 'Sign out'].map(key => ({action: 'sa-unsupported', title: g(key)})); }
     if (view === 'google-plus') { const g = key => S(ctx, 'gplus', key); return ['New post', 'Share photos', 'Share your location', 'Refresh', 'Send feedback', 'Settings', 'Help', 'Sign out'].map(key => ({action: key === 'Refresh' ? 'gplus-refresh' : 'sa-unsupported', title: g(key)})); }

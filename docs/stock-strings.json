@@ -196,6 +196,18 @@
    "Sync now": "Currents:sync_now",
    "Settings": "Currents:settings",
    "Help": "Currents:help"
+  },
+  "magazines": {
+   "Google Play Magazines": "Magazines:magazines_app_name",
+   "Read Now": "Magazines:magazines_navigation_reading_list",
+   "My Library": "Magazines:magazines_navigation_my_library",
+   "Shop": "Magazines:magazines_navigation_shop",
+   "Search magazines": "Magazines:magazines_menu_search",
+   "Refresh": "Magazines:refresh",
+   "On device only": "Magazines:magazines_on_device_only",
+   "Manage subscriptions": "Magazines:magazines_menu_manage_subscriptions",
+   "Settings": "Magazines:settings",
+   "Help": "Magazines:help"
   }
  },
  "4.4.4": {

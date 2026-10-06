@@ -120,3 +120,22 @@
 .cur-tile b{font:300 16.18px/1.25 'Roboto Light',Roboto,sans-serif;color:#000}
 .cur-tile small{font:400 11.92px Roboto,sans-serif;color:#8d8d8d}
 .cur-tile span{font:400 11.92px/1.4 Roboto,sans-serif;color:#777}
+
+/* Play Magazines 2.0 (audit step 4): the purple bar, the TitleNextWidget grid (140 dp columns, 10 dp gaps), the drawer. */
+.mag20{position:relative;display:flex;flex-direction:column;background:#e6e7e7}
+.mag-bar{flex:none;display:flex;align-items:center;height:40.88px;background:#5161bc;border-bottom:1.7px solid #4653a1;z-index:2}
+.screen .mag-home{flex:none;display:flex;align-items:center;height:100%;padding:0 5.11px 0 0;border:0;background:none}
+.mag-home img:first-child{width:13.63px;height:13.63px}
+.mag-home img+img{width:27.25px;height:27.25px;margin-left:2.55px}
+.mag-bar b{flex:1;min-width:0;font:400 15.33px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mag-grid{flex:1;overflow-y:auto;display:grid;align-content:start;align-items:start;grid-template-columns:repeat(auto-fill,minmax(119.22px,1fr));gap:0 8.52px;padding:5.11px}
+.screen .mag-card{position:relative;display:flex;flex-direction:column;min-width:0;margin-bottom:5.11px;padding:0 0 10.22px;border-style:solid;border-width:5.11px;border-image:url('assets/bk28-card_bg_play.png') 12 fill/5.11px;background:none;text-align:left}
+.mag-cover{display:grid;place-items:center;aspect-ratio:3/4;margin:-1.7px -1.7px 0;padding:8.52px;color:#fff;font:700 15.33px Georgia,serif;text-align:center}
+.mag-more{position:absolute;right:-3.41px;bottom:13.63px;width:27.25px;height:27.25px}
+.mag-card strong{padding:8.52px 23.85px 0 4.26px;font:700 11.92px Roboto,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mag-card small{padding:2.55px 5.11px 0 4.26px;font:400 11.07px Roboto,sans-serif;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .mag-scrim{position:absolute;inset:42.58px 0 0;z-index:3;border:0;background:#0009}
+.mag-drawer{position:absolute;top:42.58px;bottom:0;left:0;z-index:4;width:min(272.51px,calc(100% - 54.5px));background:#fff;box-shadow:1.7px 0 5.11px #0004}
+.screen .mag-drawer button{display:flex;align-items:center;width:100%;height:54.5px;padding:0 13.63px;border:0;border-bottom:.85px solid #e1e1e1;background:none;text-align:left;font:300 17.88px 'Roboto Light',Roboto,sans-serif;color:#505050}
+.screen .mag-drawer button.on{background:#e6e6e6}
+.screen .mag-drawer button:active{background:#98a1d7}

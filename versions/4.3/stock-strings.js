@@ -1061,5 +1061,67 @@ window.StockStrings = {
    "Aide",
    "Ayuda"
   ]
+ },
+ "magazines": {
+  "Google Play Magazines": [
+   "Google Play Magazinok",
+   "Google Play Magazines",
+   "Google Play Magazines",
+   "Google Play Magazines"
+  ],
+  "Read Now": [
+   "Olvasson most",
+   "Jetzt lesen",
+   "Lire maintenant",
+   "Leer ahora"
+  ],
+  "My Library": [
+   "Saját könyvtár",
+   "Meine Bibliothek",
+   "Ma bibliothèque",
+   "Mi biblioteca"
+  ],
+  "Shop": [
+   "Áruház",
+   "Einkaufen",
+   "Acheter",
+   "Tienda"
+  ],
+  "Search magazines": [
+   "Magazinok keresése",
+   "In Zeitschriften suchen",
+   "Rechercher dans les magazines",
+   "Buscar revistas"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "On device only": [
+   "On device only",
+   "On device only",
+   "On device only",
+   "On device only"
+  ],
+  "Manage subscriptions": [
+   "Előfizetések kezelése",
+   "Abonnements verwalten",
+   "Gérer les abonnements",
+   "Administrar suscripciones"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ]
  }
 };

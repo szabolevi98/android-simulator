@@ -1772,7 +1772,9 @@
       case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'maps-search-open': ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); break;
       case 'kkx-unavailable': toast(i18n.t('This feature is not part of the simulator.')); break;
-      case 'jbx-tab': ui.jbxMagazines = id; render(); break;
+      case 'jbx-tab': ui.jbxMagazines = id; ui.magDrawer = false; render(); break;
+      case 'play-store-open': ui.magDrawer = false; openApp('play-store'); break;
+      case 'mag-drawer': ui.magDrawer = !ui.magDrawer; render(); break;
       // Play Music, Play Movies and Play Books
       case 'pa-drawer': ui.overlay = 'pa-drawer'; renderOverlay(); break;
       case 'currents-menu': ui.currentsMenu = !ui.currentsMenu; render(); break;

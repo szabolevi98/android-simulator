@@ -676,3 +676,8 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - The app showed Currents 1's edition tiles. 2.1's `currents_home_activity` is a sliding story panel on #f1f1f1 over the `CurrentsHomeCategoryMenu` (#555555): special rows (Breaking stories, Saved; 18 dp #b2b2b2, the selected one on #0099cb), the editions (14 dp white on #4c4c4c with their icons) and the italic Customize row. The home button slides the panel aside.
   - The bar shows the category as `currents_home_action_bar_list_item` (18 dp #707070). The story tiles use the APK's tile text styles: 19 dp light black titles, 14 dp #8d8d8d bylines, 14 dp #777777 bodies. The stories are made up.
   - The overflow is `currents_home_menu` as the home shows it: Search, Sync now, Settings, Help.
+- **Play Magazines 2.0.0 (Magazines.apk):**
+  - `BaseTheme.Magazines.Light.PurpleActionBar`: `action_bar_bg_mag` (#5161bc over a 2 dp #4653a1 line) with `ic_drawer_white`, `ic_corpora_tile_magazines` and the white title, instead of the Holo tabs.
+  - `home_nav_drawer`: Read Now, My Library, Shop (64 dp, 21 sp sans-serif-light #505050, #e1e1e1 dividers, the current one on #e6e6e6). Shop opens the Play Store.
+  - `magazines_home_menu`: Search magazines as the bar icon; Refresh, On device only, Manage subscriptions, Settings and Help in the overflow.
+  - The home grid uses `TitleNextWidget` cards (`card_bg_play`, 14 sp bold #333333 title, 13 sp #aaaaaa issue, the card overflow) in 140 dp columns on #e6e7e7.
