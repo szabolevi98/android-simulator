@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépés kész (a közös fájlok APK-nkénti átnézése külön tételként maradt); következik az 5. lépés.
+**Állapot:** az 5. lépésben vagyok: a helyi keresés kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -47,7 +47,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 
 ## 5. Kis ráfordítású funkciók (6–8 óra)
 
-- [ ] Helyi keresés: Play Music és médiaappok, Keep, Drive, YouTube, GB Talk / Voice, Photos, dokumentumlisták
+- [x] Helyi keresés: Play Music és médiaappok, Keep, Drive, YouTube, GB Talk / Voice, Photos, dokumentumlisták – Play Music 5.0/5.2/5.8 (367edd9), Movies és Books (ca9c6f9), YouTube 4.5/5.2/10.03 (66c8a24), Keep 3.0 (82345f3), Drive 1.2/2.1 (7eda159), GB Talk (1384048) és Voice (6006173), Docs/Sheets/Slides (bced687). Nincs keresés a gyári menükben: Keep 1.0/2.0, Quickoffice 6.3 kezdőlap; a 4.3-as képben nincs Drive. A Photos (4.4/5.1) még nem APK-alapú, a keresése a 6. lépés Photos-átdolgozásával készül
 - [ ] Gmail csatolmány (GB, ICS) a galériából
 - [ ] Világóra városválasztással (JB / KK / LP)
 - [ ] GB Óra beállításai
@@ -64,7 +64,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 
 - [x] People mezők teljes kezelése — a 3. lépéssel együtt elkészült (5c88248)
 - [ ] Naptár: résztvevők, elérhetőség, időzóna
-- [ ] Photos (KK / LP) szerkesztő és oldalmenü bekötése
+- [ ] Photos (KK / LP) szerkesztő és oldalmenü bekötése – előbb az egész Photos a Google+ 4.2 / 4.9 APK-ból (a mostani a GSMArena-leírásból készült, „‹” jellel), benne a fotókeresés (host_photo_tile_search_activity, „Search for photos”)
 - [ ] Galéria-kivágás (GB / ICS)
 - [ ] Books: betűbeállítások, háttér, fejezetválasztás
 - [ ] Hangouts: archiválás, szundi, kép- és demóhely-megosztás
@@ -167,3 +167,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés (kiegészítés): 4.0.4 News & Weather 1.3.04 (nincs action bar, 1.3.11-es elrendezések, IMM76I-grafikák) | ef96563 |
 | 2026-10-06 | 4. lépés: fájlnevek – 25 idegen előtagú fájl átnevezve (4.0.4 ics-extra-apps, 4.3 jb-email, 4.4.4 kk-camera/gallery/shade/…, 5.1.1 lp-gallery/downloads/gel/play/…); az image-strings kimenete változatlan | ccc3156 |
 | 2026-10-06 | 4. lépés: rétegzett párok összevonva (4.4.4: 7, 5.1.1: 11 fájl), LP Play-appok saját `play-apps.css`; `tests/version-files.test.cjs` (korszak-előtag, bájtazonosság csak szűkülő listán) | 6d1889f |
+| 2026-10-06 | 5. lépés: helyi keresés – Play Music, Movies, Books, YouTube, Keep, Drive, GB Talk és Voice, Docs/Sheets/Slides az APK-k keresőfelületével | bced687 |
