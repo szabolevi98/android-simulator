@@ -136,7 +136,7 @@
   ui.music=ICSMusic.restore(data.music);
   ui.musicTrack=ui.music.track;
   ui.browserSession = ICSBrowserSession.restore(data.browserSession,data.browserHistory);
-  // Gmail's own offline account (UnifiedEmail screens from kk-email.js); the AOSP Email keeps data.mailbox.
+  // Gmail's own offline account (UnifiedEmail screens from jb-email.js); the AOSP Email keeps data.mailbox.
   data.gmailbox=GmailApp.restore(data.gmailbox);
   // Chrome and the AOSP Browser keep separate tabs; ui.browserSession is the one of the browser in front.
   ui.browserOwner = 'browser'; ui.browserSessions = {};

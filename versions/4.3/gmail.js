@@ -1,7 +1,7 @@
 /* Gmail 4.5.1 on the Nexus 4 (the JWR66Y image). Gmail 4.5 (May 2013) brought the navigation drawer, the Primary / Social /
    Promotions inbox and sender images (GSMArena, "Gmail 4.5 for Android starts rolling out"), so the KitKat simulator's
    Gmail 4.7 screens fit; only the account and the sample mail are the Nexus 4's. (KitKat: GSMArena Nexus 5 screenshots.) Gmail is built on the same
-   UnifiedEmail code as the AOSP Email (kk-email.js renders the screens); this file adds what Gmail has on top:
+   UnifiedEmail code as the AOSP Email (jb-email.js renders the screens); this file adds what Gmail has on top:
    - the inbox categories: "Primary" with its unread count under the title, the "Welcome to your new Inbox" teaser,
      the Social and Promotions rows with their blue "53 New" and green "1 New" badges, and "Change categories";
    - the drawer: the account, INBOX (Primary, Social, Promotions, Priority Inbox) and ALL LABELS (Starred, Important,

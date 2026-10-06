@@ -42,8 +42,8 @@ const STOCK = {
   'phone-call.js': ['GoogleDialer', 'TeleService', 'framework'], 'people.js': ['Contacts', 'framework'],
   'kk-deskclock.js': ['DeskClockGoogle', 'framework'], 'kk-downloads.js': ['DownloadProviderUi', 'DocumentsUI'], 'kk-email.js': ['EmailGoogle', 'framework'],
   'kk-egg.js': ['SystemUI'], 'kk-play.js': ['Phonesky'], 'kk-wallpaper-picker.js': ['GoogleHome', 'WallpaperCropper'], 'gel-now.js': ['Velvet'],
-  'jb-launcher.js': ['GoogleHome', 'framework'], 'launcher-clings.js': ['GoogleHome'], 'launcher-folders.js': ['GoogleHome'],
-  'widgets.js': ['GoogleHome', 'CalendarGoogle', 'DeskClockGoogle'], 'jb-camera.js': ['GoogleCamera'], 'gmail.js': ['Gmail2'], 'hangouts.js': ['Hangouts'],
+  'kk-launcher.js': ['GoogleHome', 'framework'], 'lp-launcher.js': ['GoogleHome', 'framework'], 'launcher-clings.js': ['GoogleHome'], 'launcher-folders.js': ['GoogleHome'],
+  'widgets.js': ['GoogleHome', 'CalendarGoogle', 'DeskClockGoogle'], 'kk-camera.js': ['GoogleCamera'], 'gmail.js': ['Gmail2'], 'hangouts.js': ['Hangouts'],
   'chrome.js': ['Chrome'], 'photos.js': ['PlusOne'], 'play-apps.js': ['Music2', 'Videos', 'Books', 'PlayGames'],
   // Simulated stock apps with texts of their own, and the AOSP Messaging kept in the drawer (the image has none).
   'kk-extra-apps.js': [], 'stock-apps.js': [], 'messaging.js': [], 'media.js': ['GalleryGoogle', 'framework'],
@@ -55,13 +55,16 @@ const VERSIONS = {
   '4.3': {device: 'mako', build: 'Nexus 4 JWR66Y', general: []},
   // KitKat and Lollipop draw the stock Nexus 5 / Nexus 6 (Google apps); their own files map to those APKs here.
   '4.4.4': {device: 'hammerhead', build: 'Nexus 5 KTU84P', general: ['GoogleHome', 'Velvet', 'TeleService', 'Keyguard'], files: {...STOCK,
-    'jb-keyguard.js': ['Keyguard', 'framework', 'Settings'], 'lockscreen.js': ['Keyguard', 'framework', 'Settings']}},
+    'kk-keyguard.js': ['Keyguard', 'framework', 'Settings'], 'lockscreen.js': ['Keyguard', 'framework', 'Settings'], 'kk-devopts.js': ['Settings'],
+    'kk-gallery.js': ['GalleryGoogle', 'framework'], 'kk-recents.js': ['SystemUI'], 'kk-search.js': ['SystemUI', 'framework'], 'kk-shade.js': ['SystemUI', 'framework']}},
   '5.1.1': {device: 'shamu', build: 'Nexus 6 LMY48Y', general: ['GoogleHome', 'Velvet', 'TeleService', 'Telecom'], files: {...STOCK,
     'calendar.js': ['CalendarGooglePrebuilt', 'framework'], 'email.js': ['PrebuiltEmailGoogle', 'framework'], 'kk-email.js': ['PrebuiltEmailGoogle', 'framework'],
     'lp-email.js': ['PrebuiltEmailGoogle', 'framework'], 'gmail.js': ['PrebuiltGmail'], 'people.js': ['GoogleContacts', 'framework'], 'photos.js': ['Photos', 'PlusOne'],
     'lp-camera.js': ['GoogleCamera'], 'lp-dialer.js': ['GoogleDialer', 'TeleService', 'Telecom', 'framework'], 'lp-egg.js': ['SystemUI'],
     'lp-keyguard.js': ['SystemUI', 'framework', 'Settings'], 'jb-keyguard.js': ['SystemUI', 'framework', 'Settings'], 'lockscreen.js': ['SystemUI', 'framework', 'Settings'],
     'lp-recents.js': ['SystemUI'], 'lp-shade.js': ['SystemUI', 'framework'], 'lp-qs-icons.js': ['SystemUI'], 'lp-settings-pages.js': ['Settings', 'framework'],
+    'lp-devopts.js': ['Settings'], 'lp-gallery.js': ['GalleryGoogle', 'framework'], 'lp-search.js': ['SystemUI', 'framework'],
+    'lp-downloads.js': ['DownloadProviderUi', 'DocumentsUI'], 'lp-play.js': ['Phonesky'], 'lp-wallpaper-picker.js': ['GoogleHome', 'WallpaperCropper'],
     'lp-extra-apps.js': [], 'lp-ripple.js': [], 'lp-scroll.js': [], 'messaging.js': ['PrebuiltBugle']},
     keep: {'Forward': "Chrome's toolbar shares it with Email; only Email's text is in the image"}},
 };

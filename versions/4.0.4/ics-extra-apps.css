@@ -1,4 +1,4 @@
-/* Nexus 4 extras (jb-extra-apps.js): the KitKat simulator's kk-extra-apps.css at 1 dp = 0.8516 px, plus tiles and tabs. */
+/* Nexus 4 extras (ics-extra-apps.js): the KitKat simulator's kk-extra-apps.css at 1 dp = 0.8516 px, plus tiles and tabs. */
 .kkx-app{display:flex;flex-direction:column;background:#f2f2f2;color:#222;font-family:Roboto,RobotoICS,sans-serif}
 .kkx-bar{flex:none;display:flex;align-items:center;height:40.8px;padding:0 3.39px 0 0;background:#f2f2f2;color:#333;border-bottom:1.7px solid #33b5e5}
 .kkx-bar.dark{background:#000;color:#fff;border-bottom:0}
