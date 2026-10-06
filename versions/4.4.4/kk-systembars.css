@@ -34,3 +34,5 @@
 .screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/kk-ic_sysbar_lights_out_dot_large.png')}
 /* Quick settings battery tile: BatteryMeterView at 16 x 26 dp inside the 32 dp icon box. */
 .jb-qs-icon .kk-qs-battery{position:absolute;left:50%;top:50%;width:14.5px;height:23.56px;margin:-11.78px 0 0 -7.25px}
+/* Recents: status_bar_recent_panel.xml's foreground bg_protect (xxhdpi 9-patch, 25 % black over 100 dp at either end). */
+.kk-recents-protect{position:absolute;inset:0;pointer-events:none;background:linear-gradient(#00000040,#0000 90.6px,#0000 calc(100% - 90.6px),#00000040)}

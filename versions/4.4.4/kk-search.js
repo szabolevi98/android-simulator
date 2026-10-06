@@ -1,5 +1,6 @@
-/* Android 4.3 navigation bar search panel (SystemUI SearchPanelView + GlowPadView, status_bar_search_panel.xml):
-   swipe up from the navigation bar to show the ring, drag to the assist target at its top to launch search. */
+/* Android 4.4.4 navigation bar search panel (SystemUI SearchPanelView + GlowPadView, status_bar_search_panel.xml of
+   KTU84P, the same layout and glowpad values as 4.3; config_search_panel_view_vibration_duration is 10 ms):
+   swipe up from the navigation bar to show the ring, drag to the assist target at its top to launch Google Now. */
 (() => {
   'use strict';
   const DP = .9;
@@ -45,7 +46,7 @@
     const move = (x, y) => {
       glow.x = x - geo.cx; glow.y = y - geo.cy; glow.alpha = 1;
       const now = snapped(geo, x, y);
-      if (now !== active) { active = now; root.classList.toggle('snapped', active); if (active && haptic()) navigator.vibrate?.(20); }
+      if (now !== active) { active = now; root.classList.toggle('snapped', active); if (active && haptic()) navigator.vibrate?.(10); }
     };
     const finish = launch => {
       if (done) return; done = true; cancelAnimationFrame(frame);

@@ -1,4 +1,6 @@
-/* Android 4.3 Recents (SystemUI RecentsPanelView / RecentsActivity, AppTransition thumbnail animations). */
+/* Android 4.4.4 Recents (SystemUI RecentsPanelView / RecentsActivity of KTU84P, AppTransition thumbnail animations): the
+   4.3 layouts and dimens, plus status_bar_recent_panel's foreground bg_protect, the gradient that darkens the
+   translucent bars' edges (25 % black fading out over 100 dp at the top and the bottom). */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -8,10 +10,10 @@
   const decelerate = 'cubic-bezier(.215,.61,.355,1)';
 
   function render(recent, {names, icon, snapshots, popup, t}) {
-    if (!recent.length) return `<div class="recent-panel jb-recents" data-action="close-overlay"><p class="recent-empty">${e(t('No recent apps'))}</p></div>`;
+    if (!recent.length) return `<div class="recent-panel jb-recents" data-action="close-overlay"><p class="recent-empty">${e(t('No recent apps'))}</p><i class="kk-recents-protect" aria-hidden="true"></i></div>`;
     const items = [...recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${e(names[id])}"><span class="recent-label">${e(names[id])}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${snapshots[id] || `<div class="recent-fallback">${icon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${icon(id)}</span></div>`).join('');
     const menu = popup ? `<div class="jb-recent-popup" role="menu" style="left:${popup.x}px;top:${popup.y}px"><button type="button" data-action="remove-recent" data-id="${e(popup.id)}" role="menuitem">${e(t('Remove from list'))}</button><button type="button" data-action="recent-app-info" data-id="${e(popup.id)}" role="menuitem">${e(t('App info'))}</button></div>` : '';
-    return `<div class="recent-panel jb-recents" data-action="close-overlay"><div class="recent-list">${items}</div>${menu}</div>`;
+    return `<div class="recent-panel jb-recents" data-action="close-overlay"><div class="recent-list">${items}</div>${menu}<i class="kk-recents-protect" aria-hidden="true"></i></div>`;
   }
 
   /* Opening: from an app, its window shrinks into the newest thumbnail (makeThumbnailScaleDownAnimation: scale and

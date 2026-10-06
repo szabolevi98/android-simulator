@@ -354,7 +354,7 @@
       const home = navRoot.querySelector('.nav-home').getBoundingClientRect();
       ui.overlay = 'search'; overlayRoot.innerHTML = ''; renderOverlay();
       searchSwipe.panel = JBSearchPanel.attach(overlayRoot.querySelector('[data-jb-search]'), {homeX: (home.left + home.width / 2 - box.left) / k, haptic: () => data.settings.haptic !== false, reduced: !!reducedMotion?.matches,
-        onLaunch: () => { ui.overlay = ''; renderOverlay(); openApp('browser'); ICSBrowserSession.navigate(ui.browserSession, 'www.google.com'); render(); },
+        onLaunch: () => { ui.overlay = ''; renderOverlay(); openApp('google-search'); },
         onClose: () => { if (ui.overlay === 'search') { ui.overlay = ''; renderOverlay(); } }});
       suppressClickUntil = Infinity;
     }
