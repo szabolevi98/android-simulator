@@ -1,6 +1,6 @@
 /* The Google Play media apps of the Nexus 6 factory image (LMY48Y). Audit step 4 rebuilds each from its APK (the code
-   from the odex files in the system image): Play Music 5.8.1809R, Play Movies & TV 3.6.16 and Play Books 3.3.15 so
-   far. Play Games still follows the older sources. They share one look: a coloured action bar in the app's colorPrimary (lp-play.css: Music #EF6C00,
+   from the odex files in the system image): Play Music 5.8.1809R, Play Movies & TV 3.6.16, Play Books 3.3.15 and
+   Play Games 2.2.09. They share one look: a coloured action bar in the app's colorPrimary (lp-play.css: Music #EF6C00,
    Movies #ED3B3B, Books #039BE5, Games #4CAF50) with the drawer mark and a white glyph, a white navigation drawer,
    #EEEEEE pages with section titles and coloured "SEE ALL" / "SEE MORE" / "SHOP" chips, and white cards (title, grey
    subtitle, overflow dots). Covers, posters
@@ -45,7 +45,7 @@
     'play-music': {key: 'music', title: 'Play Music', pages: [['listen', 'Listen Now'], ['library', 'My Library'], ['playlists', 'Playlists'], ['mixes', 'Instant Mixes']]},
     'play-movies': {key: 'movies', title: 'Play Movies & TV', pages: [['watch', 'Watch Now'], ['library', 'My Library'], ['wishlist', 'My Wishlist']]},
     'play-books': {key: 'books', title: 'Play Books', pages: [['read', 'Read Now'], ['library', 'My Library']]},
-    'play-games': {key: 'games', title: 'Play Games', pages: [['now', 'Play Now'], ['mine', 'My Games'], ['activity', 'My Activity'], ['players', 'Players'], ['recommended', 'Recommended Games'], ['shop', 'Shop']]}
+    'play-games': {key: 'games', title: 'Play Games', pages: [['now', 'Play Now'], ['mine', 'My Games'], ['inbox', 'Inbox'], ['players', 'Players'], ['explore', 'Explore']]}
   };
   const DEFAULT = {'play-music': 'listen', 'play-movies': 'library', 'play-books': 'read', 'play-games': 'now'};
   const MOVIES = [
@@ -88,7 +88,7 @@
 
   // The LP Play apps' Toolbar in colorPrimary (lp-play.css): the AppCompat DrawerArrowToggle (three 18 dp white bars, 3 dp
   // apart) or the material up arrow, the 20 sp title, the action icons; PlayHeaderListLayout's tabs sit in the same colour.
-  const LPA = new Set(['play-music', 'play-movies', 'play-books']);
+  const LPA = new Set(['play-music', 'play-movies', 'play-books', 'play-games']);
   function bar(ctx, {title, subtitle = '', up = false, actions = '', tabs = ''}) {
     const app = APPS[ctx.app];
     if (LPA.has(ctx.app)) return `<header class="lpa-bar"><button class="lpa-nav${up ? ' up' : ''}" data-action="${up ? 'back' : 'pa-drawer'}" aria-label="${e(up ? ctx.t('Back') : S(ctx, app.key, 'Open navigation drawer'))}">${up ? '<span></span>' : '<i></i><i></i><i></i>'}</button><b>${e(title)}</b>${actions}</header>${tabs}`;
@@ -212,27 +212,34 @@
   }
 
   // ---- Play Games ----
+  // Play Games 2.2: Play Now's sections (Continue playing, Discover new games, Add players you know), My Games, Inbox
+  // (games_inbox_null_state_*), Players and Explore (FEATURED, POPULAR, POPULAR MULTIPLAYER tabs); the overflow is
+  // games_default_menu (Settings).
   function games(ctx) {
-    const {ui, t} = ctx, page = ui.paPage?.['play-games'] || 'now';
+    const {ui, t} = ctx, page = ui.paPage?.['play-games'] || 'now', p = key => S(ctx, 'games', key);
     const icon = g => art('icon', seedOf(g.id), g.title);
-    const gameCard = g => card({action: 'pa-game', id: g.id, artHtml: icon(g), title: g.title, sub: g.dev, note: `${g.got} / ${g.achievements}`, cls: ' pg-game'});
-    const listRow = g => `<div class="pg-row" role="button" tabindex="0" data-action="pa-game" data-id="${g.id}"><span class="pg-icon">${icon(g)}</span><span class="pg-copy"><b>${e(g.title)}</b><small>${e(g.dev)}</small></span><button class="pa-dots" data-action="pa-unsupported" aria-label="More options">${glyph.overflow}</button><em>${e(t(g.state))}</em></div>`;
+    const overflow = `<button class="pa-btn" data-action="pa-menu" aria-label="${e(t('More options'))}"><img class="lpa-icon" src="assets/pg22-abc_ic_menu_moreoverflow_mtrl_alpha.png" alt=""></button>`;
+    const gameCard = g => card({action: 'pa-game', id: g.id, artHtml: icon(g), title: g.title, sub: g.dev, note: `${g.got}/${g.achievements}`, cls: ' pg-game'});
+    const playerCard = (pl, i) => card({action: 'pa-unsupported', id: pl.name, artHtml: art('icon', i + 4, pl.name), title: pl.name, sub: pl.game});
+    const listRow = g => `<div class="pg-row" role="button" tabindex="0" data-action="pa-game" data-id="${g.id}"><span class="pg-icon">${icon(g)}</span><span class="pg-copy"><b>${e(g.title)}</b><small>${e(g.dev)}</small></span>${g.state === 'PURCHASED' ? `<em>${e(p('PURCHASED'))}</em>` : ''}</div>`;
     if (ui.sub === 'game') {
       const g = GAMES.find(item => item.id === ui.paItem) || GAMES[0];
-      return `<div class="app-view pa-app pa-games">${bar(ctx, {title: g.title, up: true, actions: btn('pa-unsupported', t('More options'), 'overflow')})}<div class="pa-scroll"><div class="pg-hero">${art('poster', seedOf(g.id) + 1, '')}<span class="pg-hero-icon">${icon(g)}</span></div><div class="pg-detail"><b>${e(g.title)}</b><small>${e(g.dev)}</small><button class="pa-chip big" data-action="pa-game-play">${e(t('PLAY'))}</button></div>${section(t('Achievements'))}<div class="pg-achievements">${Array.from({length: Math.min(6, g.achievements)}, (_, i) => `<div class="pg-ach${i < g.got ? ' got' : ''}"><span>${glyph.trophy}</span><b>${e(t('Achievement %d').replace('%d', i + 1))}</b><small>${e(t(i < g.got ? 'Unlocked' : 'Locked'))}</small></div>`).join('')}</div></div></div>`;
+      return `<div class="app-view pa-app pa-games">${bar(ctx, {title: g.title, up: true, actions: overflow})}<div class="pa-scroll"><div class="pg-hero">${art('poster', seedOf(g.id) + 1, '')}<span class="pg-hero-icon">${icon(g)}</span></div><div class="pg-detail"><b>${e(g.title)}</b><small>${e(g.dev)}</small><button class="pa-chip big" data-action="pa-game-play">${e(p('PLAY'))}</button></div>${section(p('Achievements'))}<div class="pg-achievements">${Array.from({length: Math.min(6, g.achievements)}, (_, i) => `<div class="pg-ach${i < g.got ? ' got' : ''}"><span>${glyph.trophy}</span><b>${e(t('Achievement %d').replace('%d', i + 1))}</b><small>${e(t(i < g.got ? 'Unlocked' : 'Locked'))}</small></div>`).join('')}</div></div></div>`;
     }
-    let body;
-    if (page === 'now') body = `<div class="pg-welcome"><div><h2>${e(t('Welcome!'))}</h2><p>${e(t('Discover new games by seeing what your friends are playing on Google Play Games.'))}</p></div></div>${section(t('My games'), t('SEE MORE'), 'pa-games-mine')}<div class="pa-grid">${GAMES.slice(0, 2).map(gameCard).join('')}</div>${section(t('Players'), t('SEE MORE'), 'pa-games-players')}<p class="pa-note">${e(t('Most recently played'))}</p><div class="pa-grid">${PLAYERS.map((p, i) => card({action: 'pa-unsupported', id: p.name, artHtml: art('icon', i + 4, p.name), title: p.name, sub: p.game})).join('')}</div>`;
-    else if (page === 'mine') body = `${section(t('My Games'))}<div class="pa-grid">${GAMES.map(gameCard).join('')}</div>`;
-    else if (page === 'players') body = `${section(t('Players'))}<div class="pa-grid">${PLAYERS.map((p, i) => card({action: 'pa-unsupported', id: p.name, artHtml: art('icon', i + 4, p.name), title: p.name, sub: p.game})).join('')}</div>`;
-    else if (page === 'activity') body = `${section(t('My Activity'))}<div class="pg-list">${GAMES.filter(g => g.got).map(g => `<div class="pg-row" role="button" tabindex="0" data-action="pa-game" data-id="${g.id}"><span class="pg-icon">${icon(g)}</span><span class="pg-copy"><b>${e(t('Achievement unlocked'))}</b><small>${e(g.title)}</small></span></div>`).join('')}</div>`;
+    let body, tabBar = '';
+    if (page === 'now') body = `${section(p('Continue playing'))}<div class="pa-grid">${GAMES.slice(0, 2).map(gameCard).join('')}</div>${section(p('Discover new games'))}<div class="pg-list">${GAMES.slice(2).map(listRow).join('')}</div>${section(p('Add players you know'))}<div class="pa-grid">${PLAYERS.map(playerCard).join('')}</div>`;
+    else if (page === 'mine') body = `<div class="pa-grid">${GAMES.map(gameCard).join('')}</div>`;
+    else if (page === 'inbox') body = `<div class="pg-null"><p>${e(p('Game on! See invitations and matches in progress here.'))}</p><button class="pa-chip big" data-action="pa-page" data-id="explore">${e(p('FIND MULTIPLAYER GAMES'))}</button></div>`;
+    else if (page === 'players') body = `<div class="pa-grid">${PLAYERS.map(playerCard).join('')}</div>`;
     else {
-      const tab = ui.paGamesTab || 'popular';
-      body = `<nav class="pa-tabs">${[['featured', 'FEATURED'], ['popular', 'POPULAR'], ['multiplayer', 'POPULAR MULTIPLAYER']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="pa-gtab" data-id="${id}">${e(t(label))}</button>`).join('')}</nav><div class="pg-list">${(tab === 'featured' ? GAMES.slice(1) : tab === 'multiplayer' ? GAMES.slice(2) : GAMES).map(listRow).join('')}</div>`;
+      const tab = ui.paGamesTab || 'featured';
+      tabBar = lpTabs([['featured', p('FEATURED')], ['popular', p('POPULAR')], ['multiplayer', p('POPULAR MULTIPLAYER')]], tab, 'pa-gtab');
+      body = `<div class="pg-list">${(tab === 'featured' ? GAMES.slice(1) : tab === 'multiplayer' ? GAMES.slice(2) : GAMES).map(listRow).join('')}</div>`;
     }
-    const title = t(APPS['play-games'].pages.find(p => p[0] === page)[1]);
-    return `<div class="app-view pa-app pa-games">${bar(ctx, {title: page === 'now' ? t('Play Games') : title, actions: btn('pa-unsupported', t('More options'), 'overflow')})}<div class="pa-scroll">${body}</div></div>`;
+    const title = p(APPS['play-games'].pages.find(item => item[0] === page)[1]);
+    return `<div class="app-view pa-app pa-games">${bar(ctx, {title, actions: overflow, tabs: tabBar})}<div class="pa-scroll">${body}</div></div>`;
   }
+
 
   function render(ctx) {
     if (ctx.app === 'play-music') return music(ctx);
@@ -248,6 +255,9 @@
     // Movies: VideosDrawerHelper's verticals 4, 16, 8 (Watch Now, My Library, My Wishlist) with their ic_drawer_* icons,
     // Shop, then the secondary Settings and Help & feedback.
     // Books: HomeSideDrawer.populateDrawerActions: Read Now, My Library, Shop, then Settings and Help & feedback.
+    // Games: the destination drawer's list (Play Now, My Games, Inbox, Players, Explore with games_ic_drawer_* icons), then
+    // Settings and Help & Feedback.
+    if (ctx.app === 'play-games') { const p = key => S(ctx, 'games', key); return playDrawer(p('Play Games'), 'pg22-', [['now', p('Play Now'), 'games_ic_drawer_playnow'], ['mine', p('My Games'), 'games_ic_drawer_mygames'], ['inbox', p('Inbox'), 'games_ic_drawer_inbox'], ['players', p('Players'), 'games_ic_drawer_players'], ['explore', p('Explore'), 'games_ic_drawer_explore']], [[p('Settings')], [p('Help & Feedback')]], page, 'pm58-'); }
     if (ctx.app === 'play-books') { const b = key => S(ctx, 'books', key); return playDrawer(b('Play Books'), 'bk33-', [['read', b('Read Now'), 'ic_drawer_readnow'], ['library', b('My Library'), 'ic_drawer_mylibrary'], ['shop', b('Shop'), 'ic_drawer_shop', 'pa-shop']], [[b('Settings')], [b('Help & feedback')]], page, 'mv36-'); }
     if (ctx.app === 'play-movies') { const v = key => S(ctx, 'movies', key); return playDrawer(v('Google Play'), 'mv36-', [['watch', v('Watch Now'), 'ic_drawer_watchnow'], ['library', v('My Library'), 'ic_drawer_mymovielibrary'], ['wishlist', v('My Wishlist'), 'ic_drawer_wishlist'], ['shop', v('Shop'), 'ic_drawer_shop', 'pa-shop']], [[v('Settings')], [v('Help & feedback')]], page); }
     if (ctx.app === 'play-music') { const m = key => S(ctx, 'music', key); return playDrawer(m('Play Music'), 'pm58-', [['listen', m('Listen Now'), 'ic_drawer_listennow'], ['library', m('My Library'), 'ic_drawer_mymusiclibrary'], ['playlists', m('Playlists'), 'ic_drawer_playlists'], ['mixes', m('Instant Mixes'), 'ic_drawer_radio'], ['shop', m('Shop'), 'ic_drawer_shop', 'pa-shop']], [[m('Settings')], [m('Help')], [m('Send feedback')]], page); }
@@ -256,6 +266,7 @@
   // Action bar overflow menus (the pa-menu overlay).
   function menu(ctx) {
     if (ctx.app === 'play-books') return [{action: 'pa-refresh', title: S(ctx, 'books', 'Refresh')}];
+    if (ctx.app === 'play-games') return [{action: 'pa-unsupported', title: S(ctx, 'games', 'Settings')}];
     return [];
   }
   const bookPages = id => (BOOKS.find(b => b.id === id) || BOOKS[0]).pages.length;

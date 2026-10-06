@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 Music, Movies, Books kész; Games), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
+**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 kész; következnek az extra appok), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -36,7 +36,7 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings (579af40)
 - [x] `play-apps.js` – 4.3: Play Music 5.0, Movies 2.5.4, Books 2.8 (most a Books 3 kinézete), Games (a 4.3-as képen nincs Play Games) – bc3daf0
 - [x] `play-apps.js` – 4.4.4: Play Music, Movies, Books, Games – ff79528
-- [ ] `play-apps.js` – 5.1.1: Play Music, Movies, Books, Games
+- [x] `play-apps.js` – 5.1.1: Play Music, Movies, Books, Games – (ez a commit)
 - [ ] Extra appok – 4.0.4 és 4.3: Messenger, Navigation, Local, Currents, Magazines, Wallet, Movie Studio
 - [ ] Extra appok – 4.4.4: Newsstand, Quickoffice, Wallet
 - [ ] Extra appok – 5.1.1: Docs, Sheets, Slides, Fit, Newsstand, Wallet
@@ -148,3 +148,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-05 | 4. lépés: 5.1.1 Play Music 5.8 (Toolbar, PlayDrawer profilfejléccel és ikonokkal, fejlécfülek, csak Search) + közös LP Play-alapok | 9fbd894 |
 | 2026-10-06 | 4. lépés: 5.1.1 Play Movies 3.6 (PlayDrawer a VideosDrawerHelper szerint, csak Search, My Library fülek, Watch Now, Wishlist, állapotsor-szín) | 70f037a |
 | 2026-10-06 | 4. lépés: 5.1.1 Play Books 3.3 (PlayDrawer, Search/Sort ikonok, Refresh menü, szűrőfülek, olvasó sávja) | a0ba6e1 |
+| 2026-10-06 | 4. lépés: 5.1.1 Play Games 2.2 (zöld Toolbar, PlayDrawer, Settings menü, Play Now szekciók, Inbox, Explore fülek) – az 5.1.1 Play-appok kész | (ez a commit) |

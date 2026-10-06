@@ -18,7 +18,7 @@
 /* The Play media apps on LMY48Y (Play Music 5.8, Play Movies & TV, Play Books, Play Games) take their APKs'
    colorPrimary: Music #EF6C00, Movies #ED3B3B, Books #039BE5, Games #4CAF50, on Material Roboto type. */
 .screen .pa-app{font-family:Roboto,sans-serif;background:#eee}
-.screen .pa-music{--pa:#ef6c00}.screen .pa-movies{--pa:#ed3b3b;background:#eee}.screen .pa-books{--pa:#039be5}.screen .pa-games{--pa:#4caf50}
+.screen .pa-music{--pa:#ef6c00}.screen .pa-movies{--pa:#ed3b3b;background:#eee}.screen .pa-books{--pa:#039be5}.screen .pa-games{--pa:#689f38}
 .screen .pa-app h2,.screen .pa-app h3{font-style:normal;font-family:Roboto,sans-serif}
 
 /* LP Play apps (audit step 4, dp x .906): the colorPrimary Toolbar (56 dp, elevation 4 dp) with the DrawerArrowToggle,
@@ -54,3 +54,5 @@
 .screen .pm-video-top>.lpa-nav.up{width:43.49px;height:43.49px}
 .screen .pb-top>.lpa-nav.up.dark{width:43.49px;height:43.49px;flex:none}
 .lpa-nav.dark span{background:#0000008a}
+.pg-null{padding:43.49px 21.74px;text-align:center}
+.pg-null p{margin:0 0 21.74px;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008a}

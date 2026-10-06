@@ -63,3 +63,9 @@
   - The PlayDrawer follows `HomeSideDrawer.populateDrawerActions`: Read Now, My Library, Shop (`ic_drawer_readnow`, `ic_drawer_mylibrary`, `ic_drawer_shop`), then Settings and Help & feedback.
   - `menu/fragment_home.xml`: Search (always, `ic_search_wht_24dp`) and Sort (ifRoom, `ic_sort_wht_24dp`, only in My Library) as icons, Refresh in the overflow (a material popup).
   - My Library pages the non-empty `LibraryFilter`s (`books_view_pager`) as PlayHeaderListLayout tabs: All books, Purchases. The reader's "‹" is the material up arrow.
+- **Play Games 2.2.09 (PlayGames.apk, code from its odex):**
+  - The Toolbar is `play_games_theme_primary` #689f38 (it was #4caf50), the status bar `play_games_theme_secondary` #4e802b.
+  - The PlayDrawer is the destination drawer list: Play Now, My Games, Inbox, Players, Explore with the `games_ic_drawer_*` icons, then Settings and Help & Feedback. KitKat's My Activity, Recommended Games and Shop entries are gone; Explore has the FEATURED, POPULAR and POPULAR MULTIPLAYER tabs.
+  - `games_default_menu` puts Settings in the overflow.
+  - Play Now has the 2.2 sections (Continue playing, Discover new games, Add players you know) instead of KitKat's Welcome card; Inbox shows `games_inbox_null_state_text` with FIND MULTIPLAYER GAMES.
+  - The four 5.1.1 Play apps are now from their APKs. The shared parts are the Toolbar with the DrawerArrowToggle, `playDrawer()`, the PlayHeaderListLayout tabs and the `lpa-menu` material popup, all in `lp-play.css`.

@@ -140,7 +140,7 @@
   const LP_STATUS_COLORS = {
     settings: '#21272b', phone: '#0277bd', people: '#0277bd', messaging: '#026da7', chrome: '#757575', gmail: '#b93221', email: '#d06d0c',
     hangouts: '#0b8043', calendar: '#3367d6', 'play-store': '#558b2f', 'play-music': '#e65100', 'play-movies': '#d23f31', 'play-books': '#0277bd',
-    'play-games': '#2e7d32', keep: '#e59900', youtube: '#c31c13', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#455a64', calculator: '#00838f',
+    'play-games': '#4e802b', keep: '#e59900', youtube: '#c31c13', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#455a64', calculator: '#00838f',
     clock: '#0277bd', camera: '#000', gallery: '#000', browser: '#000', music: '#000', maps: '#9e9e9e', 'google-search': '#3367d6', 'voice-search': '#3367d6',
     'google-plus': '#c53929', earth: '#000', 'news-weather': '#9e9e9e', 'google-settings': '#21272b'
   };
@@ -148,7 +148,7 @@
   const LP_PRIMARY = {
     settings: '#263238', phone: '#0288d1', people: '#0288d1', messaging: '#0288d1', chrome: '#f2f2f2', gmail: '#da4336', email: '#e7790d',
     hangouts: '#0f9d58', calendar: '#4285f4', 'play-store': '#689f38', 'play-music': '#ef6c00', 'play-movies': '#ed3b3b', 'play-books': '#039be5',
-    'play-games': '#4caf50', keep: '#ffcc3f', youtube: '#e62117', drive: '#e0e0e0', photos: '#f5f5f5', downloads: '#607d8b', calculator: '#00bcd4',
+    'play-games': '#689f38', keep: '#ffcc3f', youtube: '#e62117', drive: '#e0e0e0', photos: '#f5f5f5', downloads: '#607d8b', calculator: '#00bcd4',
     clock: '#0288d1', camera: '#212121', gallery: '#212121', browser: '#e6e6e6', music: '#212121', maps: '#f5f5f5', 'google-search': '#4285f4', 'voice-search': '#4285f4',
     'google-plus': '#db4437', earth: '#212121', 'news-weather': '#f5f5f5', 'google-settings': '#263238'
   };

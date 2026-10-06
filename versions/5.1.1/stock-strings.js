@@ -1106,5 +1106,127 @@ window.StockStrings = {
    "Achats",
    "Comprados"
   ]
+ },
+ "games": {
+  "Play Games": [
+   "Play Játékok",
+   "Play Spiele",
+   "Play Jeux",
+   "Play Juegos"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók kinyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir control de navegación"
+  ],
+  "Play Now": [
+   "Játék indítása",
+   "Jetzt spielen",
+   "Jouer",
+   "Jugar ahora"
+  ],
+  "My Games": [
+   "Saját játékok",
+   "Meine Spiele",
+   "Mes jeux",
+   "Mis juegos"
+  ],
+  "Inbox": [
+   "Beérkezett üzenetek",
+   "Posteingang",
+   "Boîte de réception",
+   "Bandeja de entrada"
+  ],
+  "Players": [
+   "Játékosok",
+   "Spieler",
+   "Joueurs",
+   "Jugadores"
+  ],
+  "Explore": [
+   "Felfedezés",
+   "Entdecken",
+   "Découvrir",
+   "Explorar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help & Feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe & Feedback",
+   "Aide et commentaires",
+   "Ayuda y sugerencias"
+  ],
+  "Continue playing": [
+   "Játék folytatása",
+   "Weiterspielen",
+   "Continuer le jeu",
+   "Seguir jugando"
+  ],
+  "Discover new games": [
+   "Fedezz fel új játékokat",
+   "Neue Spiele entdecken",
+   "Découvrez de nouveaux jeux",
+   "Descubre nuevos juegos"
+  ],
+  "Add players you know": [
+   "Adj hozzá játékosokat, akiket ismersz",
+   "Bekannte Spieler hinzufügen",
+   "Ajoutez des joueurs que vous connaissez",
+   "Añade a jugadores que conozcas"
+  ],
+  "FEATURED": [
+   "KIEMELT",
+   "Angesagt",
+   "SÉLECTION",
+   "DESTACADOS"
+  ],
+  "POPULAR": [
+   "NÉPSZERŰ",
+   "Beliebt",
+   "POPULAIRES",
+   "POPULARES"
+  ],
+  "POPULAR MULTIPLAYER": [
+   "NÉPSZERŰ TÖBBSZEREPLŐS",
+   "Beliebte Multiplayer",
+   "JEUX MULTIJOUEURS POPULAIRES",
+   "MULTIJUGADOR POPULARES"
+  ],
+  "PURCHASED": [
+   "MEGVÁSÁROLVA",
+   "Gekauft",
+   "ACHETÉ",
+   "COMPRADO"
+  ],
+  "Achievements": [
+   "Megszerezhető jutalmak",
+   "Erfolge",
+   "Réussites",
+   "Logros"
+  ],
+  "PLAY": [
+   "JÁTÉK",
+   "Spielen",
+   "JOUER",
+   "JUGAR"
+  ],
+  "Game on! See invitations and matches in progress here.": [
+   "Hajrá! Itt láthatók a meghívók és a folyamatban lévő játékok.",
+   "Einfach loslegen! Hier sehen Sie Einladungen und laufende Spiele.",
+   "Faites vos jeux ! Les invitations et les parties en cours s'affichent ici.",
+   "¡A jugar! Echa un vistazo a las invitaciones y a las partidas en juego."
+  ],
+  "FIND MULTIPLAYER GAMES": [
+   "TÖBBSZEREPLŐS JÁTÉKOK KERESÉSE",
+   "Spiele im Mehrspielermodus suchen",
+   "RECHERCHER DES JEUX MULTIJOUEURS",
+   "BUSCAR JUEGOS MULTIJUGADOR"
+  ]
  }
 };

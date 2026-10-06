@@ -24,4 +24,10 @@ assert.equal(labels(P.drawer(ctx('play-books'))),'Read Now,My Library,Shop,Setti
 assert.ok(!P.render(ctx('play-books')).includes('bk33-ic_sort_wht_24dp')&&P.render(ctx('play-books',{paPage:{'play-books':'library'}})).includes('bk33-ic_sort_wht_24dp'));
 assert.equal(P.menu(ctx('play-books')).map(i=>i.title).join(),'Refresh');
 assert.ok(P.render(ctx('play-books',{paPage:{'play-books':'library'}})).includes('data-action="pa-bookstab"')&&!P.render(ctx('play-books',{sub:'reader',paItem:'b1'})).includes('‹'));
+// Play Games 2.2: the destination drawer, games_default_menu, Play Now's sections, Inbox's null state.
+assert.equal(labels(P.drawer(ctx('play-games'))),'Play Now,My Games,Inbox,Players,Explore,Settings,Help &amp; Feedback');
+assert.equal(P.menu(ctx('play-games')).map(i=>i.title).join(),'Settings');
+const now=P.render(ctx('play-games'));
+assert.ok(now.includes('Continue playing')&&now.includes('Discover new games')&&now.includes('Add players you know')&&!now.includes('Welcome!'));
+assert.ok(P.render(ctx('play-games',{paPage:{'play-games':'inbox'}})).includes('FIND MULTIPLAYER GAMES'));
 console.log('lp-play-apps ok');
