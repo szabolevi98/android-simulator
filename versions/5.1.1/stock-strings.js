@@ -718,6 +718,30 @@ window.StockStrings = {
    "Älter",
    "Antérieurs",
    "Anteriores"
+  ],
+  "Search: \"%s\"": [
+   "Keresés: „%s”",
+   "Suchen: \"%s\"",
+   "Rechercher : \"%s\"",
+   "Buscar: \"%s\""
+  ],
+  "No Items": [
+   "Nincs elem",
+   "Keine Dokumente",
+   "Aucun élément",
+   "0 elementos"
+  ],
+  "Cancel search": [
+   "Keresés leállítása",
+   "Suche abbrechen",
+   "Annuler la recherche",
+   "Cancelar búsqueda"
+  ],
+  "Clear search": [
+   "Keresés törlése",
+   "Suche löschen",
+   "Effacer la recherche",
+   "Borrar búsqueda"
   ]
  },
  "youtube": {

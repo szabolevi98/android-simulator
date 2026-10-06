@@ -371,7 +371,9 @@
    "Yesterday": "Drive:time_range_yesterday",
    "Earlier this Week": "Drive:time_range_this_week",
    "Earlier this Month": "Drive:time_range_this_month",
-   "Older": "Drive:time_range_older"
+   "Older": "Drive:time_range_older",
+   "Search: \"%s\"": "Drive:navigation_search_results",
+   "No Items": "Drive:empty_doclist"
   },
   "gplus": {
    "Home": "PlusOne:home_stream_label",
@@ -616,7 +618,11 @@
    "Yesterday": "Drive:time_range_yesterday",
    "Earlier this Week": "Drive:time_range_this_week",
    "Earlier this Month": "Drive:time_range_this_month",
-   "Older": "Drive:time_range_older"
+   "Older": "Drive:time_range_older",
+   "Search: \"%s\"": "Drive:navigation_search_results",
+   "No Items": "Drive:empty_doclist",
+   "Cancel search": "Drive:menu_search_cancel",
+   "Clear search": "Drive:menu_search_clear"
   },
   "youtube": {
    "Search": "YouTube:menu_search",

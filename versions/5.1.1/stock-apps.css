@@ -361,3 +361,9 @@
 .screen .kp3-filter{width:38.05px;height:38.05px;margin:0 3.62px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:none}
 .kp3-filter img{width:21.74px;height:21.74px}
 .kp3-nomatch{margin:0;padding:57.98px 12.68px 0;text-align:center;font:400 19.93px Roboto,sans-serif;color:#0000004d}
+/* Drive 2.1 search (audit step 5): drive_search_bar.xml (back 8 dp + 24 dp around ic_back_arrow_alpha, the 20 sp field). */
+.screen .dr2-back{flex:none;height:100%;padding:0 21.74px 0 7.25px;border:0;background:none;display:grid;place-items:center}
+.dr2-back img{width:21.74px;height:21.74px;filter:brightness(0);opacity:.54}
+.dr2-sv{flex:1;min-width:0;height:100%;display:flex}
+.dr2-sv input{flex:1;min-width:0;border:0;background:none;outline:0;padding:0;font:400 18.12px Roboto,sans-serif;color:#4c4c4c}
+.dr2-sv input::placeholder{color:#00000061}

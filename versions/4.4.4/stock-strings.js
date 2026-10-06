@@ -797,6 +797,18 @@ window.StockStrings = {
    "Ältere",
    "Plus anciens",
    "Más antiguos"
+  ],
+  "Search: \"%s\"": [
+   "Keresés: \"%s\"",
+   "Suchen: %s",
+   "Rechercher : \"%s\"",
+   "Buscar: \"%s\""
+  ],
+  "No Items": [
+   "Nincsenek elemek",
+   "Keine Dokumente",
+   "Aucun élément",
+   "No hay documentos"
   ]
  },
  "gplus": {
