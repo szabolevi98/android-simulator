@@ -35,3 +35,29 @@
 .screen .holo-switch:disabled{border-image-source:url('assets/kk-switch_bg_disabled_holo_dark.png')}
 .screen .holo-switch:disabled .switch-label{border-image-source:url('assets/kk-switch_thumb_disabled_holo_dark.png');color:#bebebe80}
 .screen .holo-switch.settings-action-switch{margin:0 7.25px 0 auto}
+
+/* ---- Location access and Daydream, carried over from the 4.3 simulator ---- */
+/* Android 4.3 Settings additions: Location access sources and Daydream (DreamSettings, DeskClock Screensaver, Colors). */
+.jb-disabled-group{opacity:.4}
+.jb-dream-row{display:flex;align-items:center;justify-content:space-between}
+.jb-dream-row .holo-radio{width:32px;height:32px;flex:none}
+.jb-dream{position:absolute;inset:0;z-index:60;background:#000;cursor:none;overflow:hidden}
+.jb-dream-saver{position:absolute;left:50%;top:var(--top,30%);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;color:#fff;opacity:.45;animation:dream-fade 1.5s ease-in-out}
+.jb-dream-saver[style*="--spot:1"]{--top:62%}.jb-dream-saver[style*="--spot:2"]{--top:42%}.jb-dream-saver[style*="--spot:3"]{--top:75%}
+@keyframes dream-fade{from{opacity:0}}
+.jb-dream-colors{background:linear-gradient(135deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);background-size:400% 400%;animation:dream-colors 30s linear infinite}
+@keyframes dream-colors{0%{background-position:0% 50%;filter:hue-rotate(0)}50%{background-position:100% 50%}100%{background-position:0% 50%;filter:hue-rotate(360deg)}}
+.jb-dream-photo img{width:100%;height:100%;object-fit:cover;animation:dream-fade 1.5s ease-in-out}
+.jb-dream-saver .jbclock-date img{width:14px;height:14px;opacity:.8}
+
+/* 4.4 Settings: disabled preference text, empty Tap & pay / Printing screens. */
+.kk-pref-disabled .row-copy{color:#ffffff4d}
+.kk-location.jb-disabled-group .row-copy,.kk-location.jb-disabled-group small{color:#ffffff4d}
+.kk-empty-page{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10.87px;min-height:70%;padding:21.74px;text-align:center;color:#ffffffb3;font-size:16.31px}
+.kk-empty-page img{width:86.98px;height:86.98px;opacity:.5}
+.kk-empty-page p{margin:0}
+.kk-link{border:0;background:none;color:#33b5e5;font-size:14.5px;padding:7.25px}
+.kk-empty-text{margin:0;padding:21.74px 14.5px;text-align:center;color:#ffffff80;font-size:16.31px}
+.kk-ab-text{font:700 12.68px RobotoICS,sans-serif;text-transform:uppercase;color:#fff;padding:0 10.87px;width:auto}
+.holo-menu .kk-check-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.holo-menu .kk-check-item img{width:28.99px;height:28.99px}

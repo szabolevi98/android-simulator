@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // KitKat DeskClock: alarm tab first, alarm card time formats and the radial picker's angle mapping.
-const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/kk-deskclock.js','utf8')+fs.readFileSync('versions/4.4.4/jb-deskclock.js','utf8'),context);
+const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/kk-deskclock.js','utf8'),context);
 const k=context.window.KKDeskClock,j=context.window.JBDeskClock;
 assert.equal(JSON.stringify(j.TABS),'["alarm","clock","timer","stopwatch"]');
 assert.equal(JSON.stringify(k.timeParts('07:05',false)),'{"text":"7:05","ampm":"AM"}');

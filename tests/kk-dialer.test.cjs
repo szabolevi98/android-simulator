@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // KitKat Dialer: LetterTileDrawable colours follow Java's String.hashCode; speed dial = starred, then frequently called.
-const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/jb-dialer.js','utf8')+fs.readFileSync('versions/4.4.4/kk-dialer.js','utf8'),context);
+const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/kk-dialer.js','utf8'),context);
 const d=context.window.KKDialer,t=k=>k;
 assert.equal(d.javaHash('Mom'),77547);
 assert.equal(d.javaHash('Alex Morgan'),'Alex Morgan'.split('').reduce((h,c)=>(Math.imul(31,h)+c.charCodeAt(0))|0,0));

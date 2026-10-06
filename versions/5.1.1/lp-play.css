@@ -1,3 +1,333 @@
+/* Google Play Store 4.2.3 (July 2013) on the Nexus 4: 1 dp = 0.8516 px (327 px for 384 dp). Measured on Android Police's
+   4.0.25 / 4.1.6 / 4.2.3 captures. Roboto Light / Light Italic / Bold are the AOSP 4.3 fonts. */
+@font-face{font-family:RobotoLight;src:url('assets/Roboto-Light.ttf') format('truetype');font-display:swap}
+@font-face{font-family:RobotoLightItalic;src:url('assets/Roboto-LightItalic.ttf') format('truetype');font-display:swap}
+@font-face{font-family:RobotoBoldJB;src:url('assets/Roboto-Bold.ttf') format('truetype');font-display:swap}
+#viewport>.app-view.jbp{height:100%;display:flex;flex-direction:column;color:#333;overflow:hidden;position:relative}
+.jbp-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:6.8px}
+.jbp-scroll::-webkit-scrollbar{display:none}
+
+/* Action bar: 48 dp, #666 or the section colour, the up caret with the white Play glyph (the bag with the triangle cut
+   out), the 18 dp title, the white search, share and overflow icons. */
+.jbp-bar{flex:none;display:flex;align-items:center;height:40.88px;padding:0;background:var(--bar,#666);color:#fff;position:relative;z-index:3;box-shadow:0 1px 2px #0004}
+.screen .jbp-up{flex:none;display:flex;align-items:center;height:100%;padding:0 3.4px 0 0;border:0;background:none;color:#fff;cursor:pointer}
+.jbp-up.root{padding-left:6.8px}
+.jbp-up span{width:8px;margin:0 0 2px 1px;font-size:20px;line-height:1;opacity:.9}
+.jbp-glyph{display:block;width:27.25px;height:27.25px;background:#fff;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M11.2 9.5V7.6a4.8 4.8 0 0 1 9.6 0v1.9' fill='none' stroke='%23000' stroke-width='2.1'/%3E%3Cpath fill-rule='evenodd' d='M5.4 9.9h21.2l-1.3 17.6a1.6 1.6 0 0 1-1.6 1.5H8.3a1.6 1.6 0 0 1-1.6-1.5zM13.1 14.2v10.4l8.6-5.2z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M11.2 9.5V7.6a4.8 4.8 0 0 1 9.6 0v1.9' fill='none' stroke='%23000' stroke-width='2.1'/%3E%3Cpath fill-rule='evenodd' d='M5.4 9.9h21.2l-1.3 17.6a1.6 1.6 0 0 1-1.6 1.5H8.3a1.6 1.6 0 0 1-1.6-1.5zM13.1 14.2v10.4l8.6-5.2z'/%3E%3C/svg%3E") center/contain no-repeat}
+.jbp-bar b{flex:1;min-width:0;margin-left:6.8px;font-weight:400;font-size:16.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .jbp-search,.screen .jbp-share,.screen .jbp-overflow{flex:none;width:40.88px;height:100%;padding:0;border:0;background:center/23.84px 23.84px no-repeat;cursor:pointer}
+.screen .jbp-search{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M14.4 14.4l6 6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E")}
+.screen .jbp-share{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Ccircle cx='18' cy='5.5' r='2.8'/%3E%3Ccircle cx='6' cy='12' r='2.8'/%3E%3Ccircle cx='18' cy='18.5' r='2.8'/%3E%3Cpath d='M6 12l12-6.5M6 12l12 6.5' stroke='%23fff' stroke-width='1.8'/%3E%3C/svg%3E")}
+.screen .jbp-overflow{width:29px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Crect x='10' y='4' width='4' height='4'/%3E%3Crect x='10' y='10' width='4' height='4'/%3E%3Crect x='10' y='16' width='4' height='4'/%3E%3C/svg%3E")}
+.screen .jbp-up:active,.screen .jbp-search:active,.screen .jbp-share:active,.screen .jbp-overflow:active{background-color:#ffffff33}
+.jbp-bar.searching input{flex:1;min-width:0;height:28px;margin-left:6.8px;border:0;border-bottom:1px solid #fff;background:none;color:#fff;font:400 15.3px RobotoICS,Arial,sans-serif;outline:0}
+.jbp-bar.searching input::placeholder{color:#ffffffb0}
+.jbp-suggest{position:absolute;left:0;right:0;top:40.88px;z-index:4;background:#fff;box-shadow:0 2px 4px #0005}
+.screen .jbp-suggest button{display:flex;align-items:center;gap:10px;width:100%;min-height:40.88px;padding:0 13.6px;border:0;border-bottom:1px solid #e3e3e3;background:#fff;color:#333;text-align:left;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+.jbp-suggest i{width:16px;height:16px;flex:none;opacity:.55;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10' cy='10' r='6' fill='none' stroke='%23333' stroke-width='2'/%3E%3Cpath d='M14.4 14.4l6 6' stroke='%23333' stroke-width='2.6'/%3E%3C/svg%3E")}
+.jbp-suggest i.recent{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8.5' fill='none' stroke='%23333' stroke-width='2'/%3E%3Cpath d='M12 7v5l3.5 2' fill='none' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E")}
+
+/* Home category buttons (4.1.6): 2 × 3, 40 dp tall with 8 dp gaps; the colour runs slightly lighter downwards and the
+   right-hand square is split by its diagonals into a light top, a lighter right, a darker bottom and the plain left. */
+.jbp-cats{display:grid;grid-template-columns:1fr 1fr;gap:6.81px;padding:6.81px}
+.screen .jbp-cat{position:relative;display:flex;align-items:center;gap:8.5px;height:34.06px;padding:0 0 0 6.81px;border:0;background:linear-gradient(var(--c),color-mix(in srgb,var(--c),#fff 7%));color:#fff;text-align:left;overflow:hidden;cursor:pointer}
+.jbp-cat::after{content:"";position:absolute;right:0;top:0;width:34.06px;height:100%;background:conic-gradient(from -45deg,#ffffff6b 0 90deg,#ffffff57 90deg 180deg,#0000000d 180deg 270deg,transparent 270deg)}
+.screen .jbp-cat:active{filter:brightness(1.12)}
+.jbp-cat b{position:relative;z-index:1;font-weight:400;font-size:12.3px;letter-spacing:.2px;text-transform:uppercase;white-space:nowrap}
+.jbp-cat-icon{flex:none;width:20.4px;height:20.4px;background:#fff;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.jbp-cat-icon.apps{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 10.5a7 6.2 0 0 1 14 0z'/%3E%3Cpath d='M7 5l1.5 2.2M17 5l-1.5 2.2' stroke='%23000' stroke-width='1.2'/%3E%3Crect x='5' y='11.5' width='14' height='9' rx='1.4'/%3E%3Crect x='1.6' y='11.5' width='2.6' height='7' rx='1.3'/%3E%3Crect x='19.8' y='11.5' width='2.6' height='7' rx='1.3'/%3E%3C/svg%3E")}
+.jbp-cat-icon.games{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M7 6.5h10a5.5 5.5 0 0 1 5.4 6.4l-.6 3.6a2.6 2.6 0 0 1-4.5 1.3L15 15.5H9l-2.3 2.3a2.6 2.6 0 0 1-4.5-1.3l-.6-3.6A5.5 5.5 0 0 1 7 6.5zM6 9.5v1.5H4.5v2H6v1.5h2V13h1.5v-2H8V9.5zM16.2 10a1.1 1.1 0 1 0 0 .01zM18.4 12.2a1.1 1.1 0 1 0 0 .01zM14 12.2a1.1 1.1 0 1 0 0 .01zM16.2 14.4a1.1 1.1 0 1 0 0 .01z'/%3E%3C/svg%3E")}
+.jbp-cat-icon.movies{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M3 3h18v18H3zM4.5 4.5v2h2v-2zm0 4v2h2v-2zm0 4v2h2v-2zm0 4v2h2v-2zm13-12v2h2v-2zm0 4v2h2v-2zm0 4v2h2v-2zm0 4v2h2v-2zM8 4.5v15h8v-15z'/%3E%3C/svg%3E")}
+.jbp-cat-icon.music{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3a9 9 0 0 0-9 9v6.5A2.5 2.5 0 0 0 5.5 21H8v-8H5v-1a7 7 0 0 1 14 0v1h-3v8h2.5a2.5 2.5 0 0 0 2.5-2.5V12a9 9 0 0 0-9-9z'/%3E%3C/svg%3E")}
+.jbp-cat-icon.books{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 4.5c4-1.5 7-1 9.2 1v15c-2.2-2-5.2-2.5-9.2-1zM22 4.5c-4-1.5-7-1-9.2 1v15c2.2-2 5.2-2.5 9.2-1z'/%3E%3C/svg%3E")}
+.jbp-cat-icon.magazines{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M6 2.5h14v19H6zm2.5 3v3h9v-3zm0 5v1.5h9V10.5zm0 3.5v1.5h9V14zm0 3.5V19h6v-1.5z'/%3E%3Cpath d='M3 5h2v15.5H4.4A1.4 1.4 0 0 1 3 19.1z'/%3E%3C/svg%3E")}
+
+/* Clusters: the Light Italic title with its grey subtitle, the SEE MORE button in the section colour, three cards. */
+.jbp-cluster{padding:5px 6.81px 3.4px}
+.jbp-cluster header{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;padding:8.5px 1.7px 6.81px}
+.jbp-cluster header span{min-width:0}
+.jbp-cluster h3{margin:0;font:400 19.6px/1.1 RobotoLightItalic,RobotoICS,Arial,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbp-cluster small{display:block;margin-top:1px;font:400 12.8px RobotoLight,RobotoICS,Arial,sans-serif;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .jbp-more{flex:none;margin-bottom:5px;padding:2.6px 6.81px;border:0;color:#fff;font:400 11.9px RobotoICS,Arial,sans-serif;text-transform:uppercase;cursor:pointer}
+.jbp-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:6.81px}
+.jbp-cards.wrap{padding:6.81px}
+.jbp-card{position:relative;min-width:0;background:#fff;box-shadow:0 1px 1.5px #0003}
+.screen .jbp-card-main{display:flex;flex-direction:column;width:100%;padding:0;border:0;background:none;color:#333;text-align:left;cursor:pointer}
+.screen .jbp-card-main:active{background:#e7f3fb}
+.jbp-card-art{display:block;width:100%;aspect-ratio:1;font-size:26px}
+.jbp-card.apps .jbp-card-art,.jbp-card.games .jbp-card-art{width:calc(100% - 13.6px);margin:6.81px 6.81px 0}
+.jbp-card-copy{display:flex;flex-direction:column;min-width:0;padding:4.26px 13px 5.1px 6.81px}
+.jbp-card-copy b{font:400 12.8px/1.2 RobotoLight,RobotoICS,Arial,sans-serif;color:#333;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:30px}
+.jbp-card-copy small{font:400 11.1px RobotoLight,RobotoICS,Arial,sans-serif;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbp-card-foot{display:flex;align-items:center;justify-content:space-between;gap:2px;margin-top:2.6px}
+.jbp-card-foot em{font-style:normal;font-size:11.1px;white-space:nowrap}
+em.ok{color:#96aa39!important;font-size:10.2px}
+em.check::before{content:"✔ ";color:#96aa39}
+.screen .jbp-dots{position:absolute;right:0;width:16px;height:30px;padding:0;border:0;background:center/3.4px 15px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 18' fill='%23999'%3E%3Crect width='4' height='4'/%3E%3Crect y='7' width='4' height='4'/%3E%3Crect y='14' width='4' height='4'/%3E%3C/svg%3E");cursor:pointer}
+.jbp-card .jbp-dots{bottom:22px}
+.screen .jbp-dots:active{background-color:#0001}
+.jbp-cover{display:grid;place-items:center;font-style:normal;background:linear-gradient(150deg,var(--a),var(--b))}
+.jbp-cover b{font-size:1.1em;color:#fff;text-shadow:0 1px 2px #0009}
+.jbp-cover.books{box-shadow:inset 3px 0 #0003}
+.jbp-svg svg{width:100%;height:100%;display:block}
+img.jbp-card-art,img.jbp-row-art,img.jbp-head-art,img.jbp-dlg-art,img.jbp-shot-art{object-fit:contain}
+/* The All Access promo: covers on the left, the pink block with the Light Italic call to action. */
+.screen .jbp-banner{display:flex;width:100%;height:102px;margin:8.5px 0 3.4px;padding:0;border:0;background:#ff4e6f;color:#fff;text-align:left;cursor:pointer;overflow:hidden}
+.jbp-banner-art{flex:0 0 44%;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:34px}
+.jbp-banner-tile{width:100%;height:100%;font-size:12px}
+.jbp-banner-copy{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 8.5px}
+.jbp-banner-copy b{font:400 22px/1.05 RobotoLightItalic,Arial,sans-serif}
+.jbp-banner-copy small{margin-top:5px;font:400 12.8px RobotoLight,Arial,sans-serif}
+
+/* Section tabs: 48 dp light strip, uppercase Bold 12 dp labels, the current one underlined 4 dp in the section colour. */
+.jbp-tabs{flex:none;display:flex;height:40.88px;background:#f2f2f2;border-bottom:1px solid #d6d6d6;overflow-x:auto;scrollbar-width:none;position:relative;z-index:2}
+.jbp-tabs::-webkit-scrollbar{display:none}
+.screen .jbp-tabs button{flex:none;position:relative;padding:0 13.6px;border:0;border-right:1px solid #e0e0e0;background:none;color:#555;font:400 10.9px RobotoBoldJB,Arial,sans-serif;text-transform:uppercase;white-space:nowrap;cursor:pointer}
+.jbp-tabs.few button{flex:1}
+.screen .jbp-tabs button.on{color:#333}
+.jbp-tabs button.on::after{content:"";position:absolute;left:8.5px;right:8.5px;bottom:0;height:3.4px;background:var(--c)}
+.jbp-catlist{margin:6.81px;background:#fff;box-shadow:0 1px 1.5px #0003}
+.screen .jbp-catlist button{display:block;width:100%;min-height:40.88px;padding:0 13.6px;border:0;border-bottom:1px solid #e3e3e3;background:#fff;color:#333;text-align:left;font:400 15.3px RobotoLight,RobotoICS,Arial,sans-serif;cursor:pointer}
+.screen .jbp-catlist button:active{background:#e7f3fb}
+
+/* List rows: white cards 4 dp apart, a 64 dp icon, "n. Title" in Light 16 dp, creator, stars, the price or status. */
+.jbp-list{padding:3.4px 6.81px}
+.jbp-row{position:relative;margin:3.4px 0;background:#fff;box-shadow:0 1px 1.5px #0003}
+.screen .jbp-row-main{display:flex;align-items:flex-start;gap:8.5px;width:100%;min-height:77px;padding:6.81px 6.81px 5.1px;border:0;background:none;color:#333;text-align:left;cursor:pointer}
+.screen .jbp-row-main:active{background:#e7f3fb}
+.jbp-row-art{flex:none;width:54.5px;height:54.5px;font-size:22px}
+.jbp-row-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;padding-right:10px}
+.jbp-row-copy b{font:400 14.5px/1.2 RobotoLight,RobotoICS,Arial,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbp-row-copy small{font:400 12.3px RobotoLight,RobotoICS,Arial,sans-serif;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbp-row-main>em{position:absolute;right:6.81px;bottom:5.1px;font-style:normal;font-size:11.1px}
+.jbp-row .jbp-dots{top:4px}
+.jbp-group{display:flex;justify-content:space-between;align-items:baseline;padding:10.2px 8.5px 3.4px;font:400 17.9px RobotoLightItalic,Arial,sans-serif;color:#555}
+.jbp-group b{font:inherit}
+.jbp-empty{margin:28px 16px;color:#888;text-align:center;font:400 14.5px RobotoLight,Arial,sans-serif}
+
+/* Stars: dark grey filled, light grey empty. */
+.jbp-stars{display:inline-flex;gap:.5px;line-height:1}
+.jbp-stars i{font-style:normal;font-size:10.2px;color:#c9c9c9}
+.jbp-stars i::before{content:"★"}
+.jbp-stars i.on{color:#6c6c6c}
+.jbp-stars i.half{background:linear-gradient(90deg,#6c6c6c 50%,#c9c9c9 50%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Details (4.0 / 4.1.6): the white header, OPEN / UNINSTALL or the coloured INSTALL / price, the screenshots, facts,
+   +1, Rate & review with the empty stars, What's new, Description, Reviews. */
+.jbp-head{display:flex;gap:10.2px;padding:8.5px 8.5px 10.2px;background:#fff;border-bottom:1px solid #ddd}
+.jbp-head-art{flex:none;width:81.75px;height:81.75px;font-size:32px}
+.jbp-head-copy{flex:1;min-width:0;display:flex;flex-direction:column}
+.jbp-head-copy b{font:400 19.6px/1.15 RobotoLight,RobotoICS,Arial,sans-serif;color:#333}
+.jbp-head-copy>small{margin-top:2px;font:400 11.9px RobotoICS,Arial,sans-serif;color:#999;letter-spacing:.3px}
+.jbp-btns{display:flex;flex-direction:column;align-items:flex-end;gap:5px;margin-top:auto;padding-top:8px}
+.screen .jbp-btn{width:119px;height:28px;border:1px solid #c8c8c8;background:#f4f4f4;color:#444;font:400 12.8px RobotoICS,Arial,sans-serif;text-transform:uppercase;cursor:pointer}
+.screen .jbp-btn:active:not(:disabled){background:#dcdcdc}
+.screen .jbp-btn:disabled{opacity:.45;cursor:default}
+.screen .jbp-btn.buy{border-color:transparent;background:var(--c);color:#fff}
+.jbp-dl{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:10px}
+.jbp-dl small{flex:none;font-size:11.1px;color:#777}
+.jbp-progress{flex:1;height:5px;background:#ddd}
+.jbp-progress b{display:block;height:100%}
+.screen .jbp-dl-cancel{flex:none;width:24px;height:24px;padding:0;border:0;background:center/12px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 1l10 10M11 1L1 11' stroke='%23777' stroke-width='1.8'/%3E%3C/svg%3E");cursor:pointer}
+.jbp-shots{display:flex;gap:5px;padding:8.5px;background:#f0f0f0;overflow-x:auto;scrollbar-width:none}
+.jbp-shot{flex:none;display:grid;place-items:center;width:88px;height:152px;background:linear-gradient(170deg,var(--a),var(--b))}
+.jbp-shot-art{width:44px;height:44px}
+.jbp-shot.n1{background:linear-gradient(10deg,var(--a),var(--b))}
+.jbp-shot.n2{background:linear-gradient(120deg,var(--b),var(--a))}
+.jbp-facts{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:8.5px;background:#fff;color:#999;font:400 12.3px RobotoLight,RobotoICS,Arial,sans-serif;border-bottom:1px solid #ddd}
+.jbp-facts span{display:flex;align-items:center;gap:4px}
+.jbp-plus{display:flex;align-items:center;gap:8px;padding:6.81px 8.5px;background:#fff;color:#555;font-size:12.3px;border-bottom:1px solid #ddd}
+.screen .jbp-plus button{flex:none;height:20px;padding:0 6px;border:1px solid #ccc;background:#f4f4f4;color:#c33;font:700 11.1px Arial,sans-serif;cursor:pointer}
+.screen .jbp-plus button.on{background:#c33;color:#fff;border-color:#c33}
+.jbp-rate{display:flex;align-items:center;justify-content:space-between;padding:8.5px;background:#fff;border-bottom:1px solid #ddd}
+.jbp-rate h4,.jbp-text h4,.jbp-reviews h4{margin:0;font:400 17.9px RobotoLightItalic,Arial,sans-serif;color:#555}
+.jbp-rate-stars{display:flex;gap:2px}
+.screen .jbp-rate-stars button{width:22px;height:22px;padding:0;border:0;background:none;color:#ccc;font-size:21px;line-height:1;cursor:pointer}
+.jbp-rate-stars button::before{content:"★"}
+.screen .jbp-rate-stars button.on{color:#33b5e5}
+.jbp-auto{display:flex;align-items:center;gap:8px;padding:8.5px;background:#fff;border-bottom:1px solid #ddd;font-size:13.6px;color:#333}
+.jbp-text{padding:8.5px;background:#fff;border-bottom:1px solid #ddd}
+.jbp-text p{margin:4px 0 0;font:400 13.6px/1.35 RobotoLight,RobotoICS,Arial,sans-serif;color:#555}
+.jbp-reviews{padding:8.5px;background:#fff}
+.jbp-hist{display:flex;gap:10px;margin:8px 0}
+.jbp-avg{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:76px}
+.jbp-avg b{font:400 34px/1 RobotoLight,Arial,sans-serif;color:#333}
+.jbp-avg small{font-size:10.2px;color:#999}
+.jbp-bars{flex:1;display:flex;flex-direction:column;gap:3px}
+.jbp-bars span{display:flex;align-items:center;gap:5px;font-size:10.2px;color:#777}
+.jbp-bars small{width:8px}
+.jbp-bars i{display:block;height:10px}
+.jbp-bars em{font-style:normal}
+.jbp-review{padding:6.81px 0;border-top:1px solid #eee}
+.jbp-review span{display:flex;align-items:center;gap:6px;font-size:11.9px;color:#999}
+.jbp-review strong{color:#333;font-weight:400}
+.jbp-review p{margin:3px 0 0;font:400 13.6px/1.35 RobotoLight,RobotoICS,Arial,sans-serif;color:#555}
+
+/* Settings (Holo Light, 4.1.6 / 4.2.3). */
+.jbp-pref-cat{margin:0;padding:13.6px 13.6px 3.4px;border-bottom:1.5px solid #c3c3c3;color:#777;font:400 11.9px RobotoBoldJB,Arial,sans-serif;text-transform:uppercase}
+.screen .jbp-pref{display:flex;align-items:center;gap:8px;width:100%;min-height:54.5px;padding:6.81px 13.6px;border:0;border-bottom:1px solid #d5d5d5;background:none;color:#222;text-align:left;cursor:pointer}
+.screen .jbp-pref:active{background:#cbe8f6}
+.jbp-pref span{flex:1;min-width:0;display:flex;flex-direction:column}
+.jbp-pref b{font:400 15.3px RobotoICS,Arial,sans-serif}
+.jbp-pref small{margin-top:1px;font:400 11.9px RobotoICS,Arial,sans-serif;color:#666}
+.jbp-pref img{flex:none;width:27.25px;height:27.25px}
+.jbp-pref.info{display:flex;padding:6.81px 13.6px}
+
+/* Holo Light popups and dialogs: the card overflow, the permissions dialog with the green ACCEPT, the auto-update list. */
+.jbp-pop-scrim,.jbp-dlg-scrim{position:absolute;inset:0;z-index:25}
+.jbp-dlg-scrim{background:#0009}
+.jbp-pop{position:absolute;right:8px;z-index:26;min-width:150px;background:#fff;box-shadow:0 2px 8px #0006}
+.screen .jbp-pop button,.screen .jbp-menu button{display:block;width:100%;padding:11px 14px;border:0;border-bottom:1px solid #e3e3e3;background:#fff;color:#333;text-align:left;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+.screen .jbp-pop button:last-child,.screen .jbp-menu button:last-child{border-bottom:0}
+.screen .jbp-pop button:active,.screen .jbp-menu button:active{background:#cbe8f6}
+.jbp-menu{position:absolute;top:44px;right:4px;z-index:26;min-width:160px;background:#fff;box-shadow:0 2px 8px #0006}
+.jbp-dlg{position:absolute;left:6%;right:6%;top:50%;z-index:26;transform:translateY(-50%);background:#fff;color:#333;box-shadow:0 6px 24px #000a}
+.jbp-dlg h3{margin:0;padding:13.6px 13.6px 10px;border-bottom:1.7px solid #33b5e5;color:#33b5e5;font:400 18.7px RobotoICS,Arial,sans-serif}
+.jbp-dlg-head{display:flex;align-items:center;gap:10px;padding:13.6px;border-bottom:1px solid #e3e3e3}
+.jbp-dlg-art{width:40.9px;height:40.9px;font-size:18px;flex:none}
+.jbp-dlg-head b{display:block;font:400 17px RobotoLight,RobotoICS,Arial,sans-serif}
+.jbp-dlg-head small{color:#888;font-size:12.3px}
+.jbp-perm-list{max-height:220px;overflow:auto;padding:5px 13.6px}
+.jbp-perm{display:flex;gap:10px;padding:7px 0}
+.jbp-perm i{flex:none;width:16px;height:16px;margin-top:2px;background:#9aa;border-radius:2px}
+.jbp-perm b{display:block;font:400 13.6px RobotoICS,Arial,sans-serif}
+.jbp-perm small{color:#888;font-size:11.9px}
+.screen .jbp-accept{display:block;width:calc(100% - 27px);margin:6.81px 13.6px 13.6px;height:34px;border:0;background:#96aa39;color:#fff;font:400 13.6px RobotoICS,Arial,sans-serif;cursor:pointer}
+.screen .jbp-dlg-row{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;padding:6px 13.6px;border:0;border-bottom:1px solid #e3e3e3;background:none;color:#333;text-align:left;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+.jbp-dlg-row span{flex:1}
+.jbp-dlg-row i{flex:none;width:18px;height:18px;border:2px solid #999;border-radius:50%}
+.jbp-dlg-row i.on{border-color:#33b5e5;background:radial-gradient(circle,#33b5e5 0 4px,transparent 4.5px)}
+.jbp-dlg-actions{display:flex;border-top:1px solid #e3e3e3}
+.screen .jbp-dlg-actions button{flex:1;height:40px;border:0;background:none;color:#333;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+
+/* ---- Play Store 4.8.22 over 4.2.3 (the KitKat simulator's rules) ---- */
+/* Google Play Store 4.8.22 (July 2014) on the Nexus 5, layered over the Play Store 4.2.3 rules above: 1 dp = 0.906 px. Measured on Android
+   Police's 4.6.16 (March 2014) and 4.8.19 / 4.8.22 (July 2014) captures. */
+.kkp .jbp-bar{height:43.49px}
+.kkp .jbp-bar b{margin-left:5.4px;font-size:16.3px}
+.kkp .jbp-glyph{width:29px;height:29px}
+.screen .kkp .jbp-search,.screen .kkp .jbp-share{width:43.49px;background-size:21.7px 21.7px}
+/* The drawer indicator: three short white bars pushed half off the left edge, as on every 4.x Holo app. */
+.screen .kkp-nav{padding:0 3.6px 0 0}
+.kkp-ind{display:block;width:7.2px;height:12px;margin-right:2.7px;background:linear-gradient(#fff 0 2px,transparent 2px 5px,#fff 5px 7px,transparent 7px 10px,#fff 10px 12px)}
+.kkp .jbp-suggest{top:43.49px}
+
+/* Store home: the six tiles (2 × 3, 40 dp tall, 8 dp gaps, 24 dp icons, 16 sp caps). */
+.kkp .jbp-cats{gap:7.25px;padding:7.25px 7.25px 0}
+.screen .kkp .jbp-cat{height:36.24px;gap:12.7px;padding-left:10.9px;background:var(--c)}
+.kkp .jbp-cat::after{width:36.24px;background:conic-gradient(from -45deg,#ffffff70 0 90deg,#ffffff59 90deg 180deg,#0000000f 180deg 270deg,transparent 270deg)}
+.kkp .jbp-cat b{font-size:13.6px;letter-spacing:0}
+.kkp .jbp-cat-icon{width:21.7px;height:21.7px}
+/* The 4.8 "We've simplified app permissions." note. */
+.kkp-note{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14.5px 7.25px 0;padding:10.9px 9px;background:#b2cb39;color:#fff;font:400 12.7px RobotoICS,Arial,sans-serif}
+.screen .kkp-note button{flex:none;padding:0;border:0;background:none;color:#ffffffc0;font:400 11.8px RobotoICS,Arial,sans-serif}
+
+/* Clusters: 24 sp Roboto Light titles (no longer italic), the grey subtitle, the MORE button in the section colour. */
+.kkp .jbp-cluster{padding:7.25px 7.25px 3.6px}
+.kkp .jbp-cluster header{align-items:center;padding:12.7px 7.25px 9px}
+.kkp .jbp-cluster h3{font:400 19.9px/1.15 RobotoLight,RobotoICS,Arial,sans-serif;color:#333}
+.kkp .jbp-cluster small{font:400 14.5px RobotoLight,RobotoICS,Arial,sans-serif;color:#787878}
+.screen .kkp .jbp-more{margin:0;min-width:45px;height:24.5px;padding:0 7.25px;font-size:12.7px}
+.kkp .jbp-cards{gap:7.25px}
+.kkp .jbp-card{box-shadow:0 1px 1.2px #0002}
+.kkp .jbp-card.apps .jbp-card-art,.kkp .jbp-card.games .jbp-card-art{width:calc(100% - 10.9px);margin:5.4px 5.4px 0}
+.kkp .jbp-card-copy{padding:5.4px 5.4px 5.4px 6.3px}
+.kkp .jbp-card-copy b{padding-right:9px;font-size:13.6px;color:#3e3e3e;min-height:33px}
+.kkp .jbp-card-foot{min-height:16px;margin-top:4.5px}
+.kkp .jbp-card-foot>small{min-width:0;font:400 11px RobotoLight,RobotoICS,Arial,sans-serif;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kkp .jbp-card-foot em{font-size:12.7px}
+.kkp .jbp-stars i{filter:grayscale(1) brightness(.85)}
+.kkp .jbp-card .jbp-dots{top:auto;bottom:24px;right:2px}
+/* The green round check of an installed item. */
+.kkp-check{flex:none;width:14.5px;height:14.5px;border-radius:50%;background:#9cbf2f center/9.5px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3l2.6 2.6L10 3.4' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E")}
+/* "See What's Trending": the wide card. */
+.kkp-wide{position:relative;background:#fff;box-shadow:0 1px 1.2px #0002}
+.screen .kkp-wide-main{display:flex;gap:10.9px;width:100%;padding:9px;border:0;background:none;color:#333;text-align:left;cursor:pointer}
+.screen .kkp-wide-main:active{background:#e7f3fb}
+.kkp-wide-art{flex:none;width:126.8px;height:126.8px;font-size:40px}
+.kkp-wide-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;padding-right:12px}
+.kkp-wide-copy b{font:400 18.1px RobotoLight,RobotoICS,Arial,sans-serif;color:#333}
+.kkp-wide-meta{display:flex;align-items:center;justify-content:space-between}
+.kkp-wide-meta em{font-style:normal;font-size:12.7px}
+.kkp-wide-copy small{margin-top:8px;font:400 13.6px/1.3 RobotoLight,RobotoICS,Arial,sans-serif;color:#999;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.kkp-wide .jbp-dots{top:6px;right:2px}
+
+/* Section tabs and lists at Nexus 5 scale. */
+.kkp .jbp-tabs{height:43.49px}
+.screen .kkp .jbp-tabs button{font-size:11.8px;padding:0 14.5px}
+.kkp .jbp-list{padding:3.6px 7.25px}
+.kkp .jbp-row{margin:7.25px 0}
+.kkp .jbp-row-art{width:58px;height:58px}
+.kkp .jbp-row-copy b{font-size:15.4px}
+.kkp .jbp-group{padding:12.7px 3.6px 0;font:400 18.1px RobotoLight,Arial,sans-serif;color:#555}
+
+/* Details: bigger buttons (4.8), INSTALL in the section colour, OPEN / UNINSTALL white with a grey border. */
+.screen .kkp .jbp-btn{width:126.8px;height:32.6px;font-size:13.6px;background:#fff;border-color:#d2d2d2}
+.screen .kkp .jbp-btn.buy{background:var(--c);border-color:transparent}
+.kkp .jbp-rate{flex-direction:column;gap:6px}
+.kkp .jbp-rate h4{font:400 14.5px RobotoLight,Arial,sans-serif;color:#777}
+.kkp .jbp-rate-stars{gap:20px}
+.screen .kkp .jbp-rate-stars button{width:26px;height:26px;font-size:25px;color:#bbb}
+.screen .kkp .jbp-rate-stars button.on{color:#9cbf2f}
+.kkp .jbp-rate h4,.kkp .jbp-text h4,.kkp .jbp-reviews h4{font-family:RobotoLight,RobotoICS,Arial,sans-serif;font-style:normal}
+.kkp-info dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:8px 0 0;font:400 13.6px RobotoLight,RobotoICS,Arial,sans-serif}
+.kkp-info dt{color:#999}
+.kkp-info dd{margin:0;color:#555}
+.screen .kkp-perm-link{margin-top:10px;padding:0;border:0;background:none;color:#96aa39;font:400 13.6px RobotoICS,Arial,sans-serif;text-transform:uppercase;cursor:pointer}
+
+/* The 4.8 permissions dialog: grouped rows with grey icons and chevrons, the Google play wordmark and the green ACCEPT. */
+.kkp-perms{background:#f5f5f5}
+.kkp-perms .jbp-dlg-head{border-bottom:0;padding:16.3px 16.3px 9px}
+.kkp-perms .jbp-dlg-head b{font-size:19px}
+.kkp-perm-list{padding:0 10.9px 6px}
+.screen .kkp-perm{display:flex;align-items:center;gap:14.5px;width:100%;height:39.9px;padding:0 5.4px;border:0;background:none;color:#333;text-align:left;font:400 14.5px RobotoICS,Arial,sans-serif;cursor:pointer}
+.kkp-perm span{flex:1}
+.kkp-perm-icon{flex:none;width:21.7px;height:21.7px;background:#777;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.kkp-perm-icon.files{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 7h12v10H4z' opacity='.55'/%3E%3Cpath fill-rule='evenodd' d='M7 4h14v11H7zm2 2v7l3-3.5 2 2.5 2.5-3L19 13V6z'/%3E%3Cpath d='M2 10h3v10h11v2H2z'/%3E%3C/svg%3E")}
+.kkp-perm-icon.wifi{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5L1 9.5a15.6 15.6 0 0 1 22 0z' opacity='.35'/%3E%3Cpath d='M12 20.5l-5.3-5.3a7.5 7.5 0 0 1 10.6 0z'/%3E%3C/svg%3E")}
+.kkp-perm-icon.other{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='5' cy='12' r='2.2'/%3E%3Ccircle cx='12' cy='12' r='2.2'/%3E%3Ccircle cx='19' cy='12' r='2.2'/%3E%3C/svg%3E")}
+.kkp-chev{flex:none;width:12px;height:12px;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.5 4l4.5 4.5L10.5 4' fill='none' stroke='%23999' stroke-width='1.4'/%3E%3C/svg%3E");transition:transform .15s}
+.kkp-perm.open .kkp-chev{transform:rotate(180deg)}
+.kkp-perm-detail{margin:-4px 0 6px 41.6px;color:#888;font:400 12.7px RobotoICS,Arial,sans-serif}
+.kkp-perm-foot{display:flex;align-items:center;justify-content:space-between;padding:9px 13.6px 13.6px}
+.kkp-gplay{display:block;width:84px;height:20px;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 20'%3E%3Cpath d='M1 3.5l12 6.5L1 16.5z' fill='%23999'/%3E%3Ctext x='17' y='14.5' font-family='Arial,sans-serif' font-size='13' fill='%23999'%3EGoogle%3C/text%3E%3Ctext x='62' y='14.5' font-family='Arial,sans-serif' font-size='13' fill='%23999'%3Eplay%3C/text%3E%3C/svg%3E")}
+.screen .kkp-perm-foot .jbp-accept{width:100.6px;height:29px;margin:0;background:#9cbf2f}
+
+/* The navigation drawer: 288 dp under the action bar (the bar stays lit), the account header on its dark pattern, the
+   big Roboto items with the current one in bold, the light grey footer with the small caps Redeem / Settings / Help. */
+.kkp-drawer-scrim{position:absolute;inset:calc(var(--sb) + 43.49px) 0 var(--nb);z-index:25;background:#0009;animation:kkp-fade .2s ease-out}
+.kkp-drawer{position:absolute;top:calc(var(--sb) + 43.49px);bottom:var(--nb);left:0;z-index:26;width:min(261px,84%);display:flex;flex-direction:column;background:#f7f7f7;color:#333;box-shadow:2px 0 6px #0005;overflow-y:auto;scrollbar-width:none;animation:kkp-slide .22s cubic-bezier(.2,.8,.3,1)}
+@keyframes kkp-slide{from{transform:translateX(-100%)}}
+@keyframes kkp-fade{from{opacity:0}}
+.screen .kkp-account{flex:none;display:flex;align-items:center;gap:9px;height:59.8px;padding:0 0 0 10.9px;border:0;background:repeating-linear-gradient(60deg,#ffffff0d 0 1px,transparent 1px 12px),repeating-linear-gradient(-60deg,#ffffff0d 0 1px,transparent 1px 12px),#0b0e12;color:#fff;text-align:left;cursor:pointer}
+.kkp-avatar{flex:none;width:36.2px;height:36.2px;border:1.5px solid #fff;border-radius:50%;background:#5f8fc8 center/70% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Ccircle cx='12' cy='8' r='4.5'/%3E%3Cpath d='M3 22a9 9 0 0 1 18 0z'/%3E%3C/svg%3E")}
+.kkp-account span{flex:1;min-width:0;display:flex;flex-direction:column}
+.kkp-account b{font:400 14.5px RobotoBoldJB,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kkp-account small{font:400 13.6px RobotoICS,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kkp-account-caret{flex:none;width:43.5px;height:36px;border-left:1px solid #ffffff30;background:center/12px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.5 4l4.5 4.5L10.5 4' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E")}
+.kkp-nav-main{flex:none;background:#fff;border-bottom:1px solid #e2e2e2}
+.screen .kkp-nav-item{display:block;width:100%;height:54.4px;padding:0 14.5px;border:0;background:none;color:#333;text-align:left;font:400 19.9px RobotoICS,Arial,sans-serif;cursor:pointer}
+.screen .kkp-nav-item.on{font-family:RobotoBoldJB,Arial,sans-serif}
+.screen .kkp-nav-item:active,.screen .kkp-nav-small:active{background:#cbe8f6}
+.kkp-nav-foot{flex:1;background:#f7f7f7}
+.screen .kkp-nav-small{display:flex;align-items:center;gap:10.9px;width:100%;height:39.9px;padding:0 14.5px;border:0;border-bottom:1px solid #ebebeb;background:none;color:#555;text-align:left;font:400 12.7px RobotoICS,Arial,sans-serif;letter-spacing:.2px;cursor:pointer}
+.kkp-nav-icon{flex:none;width:16.3px;height:16.3px;background:#777;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.kkp-nav-icon.settings{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M10 1h4l.6 3.2 2.1 1.2 3-1.2 2 3.5-2.5 2.1v2.4l2.5 2.1-2 3.5-3-1.2-2.1 1.2L14 23h-4l-.6-3.2-2.1-1.2-3 1.2-2-3.5 2.5-2.1v-2.4L2.3 9.7l2-3.5 3 1.2 2.1-1.2zM12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6z'/%3E%3C/svg%3E")}
+.kkp-nav-icon.help{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M12 1a11 11 0 1 1 0 22 11 11 0 0 1 0-22zm0 2a9 9 0 1 0 0 18 9 9 0 0 0 0-18z'/%3E%3Cpath d='M8.6 9.2a3.4 3.4 0 1 1 4.8 3.1c-.9.4-1.2.9-1.2 1.9v.6h-2v-.8c0-1.6.7-2.5 2-3.1a1.4 1.4 0 1 0-1.6-1.7z'/%3E%3Ccircle cx='11.2' cy='17.6' r='1.3'/%3E%3C/svg%3E")}
+.kkp-nav-icon.redeem{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M2 6h20v4a2 2 0 0 0 0 4v4H2v-4a2 2 0 0 0 0-4zm7 2v2h2V8zm0 3v2h2v-2zm0 3v2h2v-2z'/%3E%3C/svg%3E")}
+
+/* Settings at Nexus 5 scale. */
+.screen .kkp .jbp-pref{min-height:58px;padding:7.25px 14.5px}
+.kkp .jbp-pref b{font-size:16.3px}
+.kkp .jbp-pref small{font-size:12.7px}
+.kkp .jbp-pref-cat{padding:14.5px 14.5px 3.6px;font-size:12.7px}
+
+/* Longer translations: the tile label and the card stars give way to the price. */
+.kkp .jbp-cat b{min-width:0;padding-right:4px;overflow:hidden;text-overflow:ellipsis}
+.kkp .jbp-card-foot .jbp-stars{min-width:0;overflow:hidden}
+.kkp .jbp-card-foot em{flex:none;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+
+/* ---- Play Store 5.2 on the Nexus 6 over the rules above ---- */
 /* Play Store 5.2 (see lp-play.js); dp x 0.906. */
 .screen .jbp.kkp{font-family:Roboto,sans-serif;background:#eee}
 .screen .jbp .jbp-bar{height:50.74px;box-shadow:0 1.8px 3.6px #0000003d}
@@ -15,44 +345,3 @@
 .screen .jbp .jbp-btn{border-radius:1.81px;font:500 13.59px Roboto,sans-serif;text-transform:uppercase;box-shadow:0 .9px 1.8px #00000033}
 .screen .jbp .jbp-tabs{height:43.49px;box-shadow:0 1.8px 3.6px #0000003d}
 .screen .jbp .jbp-tabs button{font:500 12.68px Roboto,sans-serif}
-/* The Play media apps on LMY48Y (Play Music 5.8, Play Movies & TV, Play Books, Play Games) take their APKs'
-   colorPrimary: Music #EF6C00, Movies #ED3B3B, Books #039BE5, Games #4CAF50, on Material Roboto type. */
-.screen .pa-app{font-family:Roboto,sans-serif;background:#eee}
-.screen .pa-music{--pa:#ef6c00}.screen .pa-movies{--pa:#ed3b3b;background:#eee}.screen .pa-books{--pa:#039be5}.screen .pa-games{--pa:#689f38}
-.screen .pa-app h2,.screen .pa-app h3{font-style:normal;font-family:Roboto,sans-serif}
-
-/* LP Play apps (audit step 4, dp x .906): the colorPrimary Toolbar (56 dp, elevation 4 dp) with the DrawerArrowToggle,
-   PlayHeaderListLayout tabs, the PlayDrawer, the material overflow popup. */
-.screen .lpa-bar{flex:none;display:flex;align-items:center;height:50.74px;background:var(--pa);z-index:2}
-.screen .lpa-bar:last-of-type,.screen .lpa-tabs{box-shadow:0 1.81px 3.62px #0000003d}
-.screen .lpa-bar+.lpa-tabs{margin-top:0}
-.screen .lpa-nav{flex:none;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2.72px;width:50.74px;height:50.74px;padding:0;border:0;background:none}
-.lpa-nav i{display:block;width:16.31px;height:1.81px;background:#fff}
-.lpa-nav span{width:21.74px;height:21.74px;background:#fff;-webkit-mask:url(assets/lp-fw-ic_ab_back_material.svg) center/contain no-repeat;mask:url(assets/lp-fw-ic_ab_back_material.svg) center/contain no-repeat}
-.screen .lpa-bar>b{flex:1;min-width:0;margin-left:14.5px;font:500 18.12px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.screen .lpa-bar .pa-btn{width:43.49px;height:50.74px}
-.lpa-icon{width:21.74px;height:21.74px}
-.screen .lpa-tabs{flex:none;display:flex;height:43.49px;padding-left:50.74px;background:var(--pa);overflow-x:auto;scrollbar-width:none;z-index:2}
-.screen .lpa-tabs button{flex:none;height:100%;padding:0 10.87px;border:0;background:none;font:500 12.68px Roboto,sans-serif;color:#ffffff99}
-.screen .lpa-tabs button.on{color:#fff;box-shadow:inset 0 -1.81px #fff}
-.screen .lpa-scrim{inset:var(--sb) 0 var(--nb)}
-.lpa-drawer{position:absolute;top:var(--sb);bottom:var(--nb);left:0;z-index:26;width:min(289.92px,calc(100% - 50.74px));background:#fff;overflow-y:auto;box-shadow:0 0 14.5px #00000059;font-family:Roboto,sans-serif}
-.lpa-profile{position:relative;height:134.09px;overflow:hidden;color:#fff}
-.lpa-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.lpa-profile::after{content:'';position:absolute;inset:0;background:#00000038}
-.lpa-avatar{position:absolute;left:14.5px;bottom:61.61px;width:57.98px;height:57.98px;border-radius:50%;z-index:1}
-.lpa-profile b,.lpa-profile small{position:absolute;left:14.5px;right:14.5px;z-index:1;font:500 12.68px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lpa-profile b{bottom:30.8px}.lpa-profile small{bottom:14.5px;font-weight:400}
-.lpa-primary{padding-top:7.25px}
-.screen .lpa-drawer button{display:flex;align-items:center;width:100%;min-height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:500 12.68px Roboto,sans-serif;color:#212121}
-.lpa-drawer button img{width:21.74px;height:21.74px;margin-right:28.99px}
-.screen .lpa-drawer button.on{background:#eee}
-.lpa-drawer hr{margin:7.25px 0;border:0;border-top:.91px solid #e5e5e5}
-.lpa-menu{position:absolute;z-index:26;top:calc(var(--sb) + 3.62px);right:3.62px;min-width:181.2px;padding:7.25px 0;background:#fff;border-radius:1.81px;box-shadow:0 3.62px 12.68px #00000059}
-.screen .lpa-menu button{display:block;width:100%;height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#212121}
-.screen .lpa-menu button:active{background:#0000001a}
-.screen .pm-video-top>.lpa-nav.up{width:43.49px;height:43.49px}
-.screen .pb-top>.lpa-nav.up.dark{width:43.49px;height:43.49px;flex:none}
-.lpa-nav.dark span{background:#0000008a}
-.pg-null{padding:43.49px 21.74px;text-align:center}
-.pg-null p{margin:0 0 21.74px;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008a}

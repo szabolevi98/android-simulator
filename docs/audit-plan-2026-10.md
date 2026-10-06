@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépésben vagyok: a StockApps, a Play-appok, az extra appok és a „‹” jelek kész; hátra van az átnevezés, a CSS-összevonás és a byte-egyezés teszt.
+**Állapot:** a 4. lépés kész (a közös fájlok APK-nkénti átnézése külön tételként maradt); következik az 5. lépés.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -41,8 +41,9 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 - [x] Extra appok – 4.4.4: Newsstand, Quickoffice, Wallet – 9a989a1
 - [x] Extra appok – 5.1.1: Docs, Sheets, Slides, Fit, Newsstand, Wallet – 854ff90
 - [x] Fájlnevek rendbetétele (pl. a 4.0.4-es `jb-extra-apps.js` → `ics-extra-apps.js`): 25 fájl kapta meg a saját verziója előtagját; a rétegzett párok (pl. 4.4.4 `jb-deskclock.js` + `kk-deskclock.js`) a következő pontban olvadnak össze – ccc3156
-- [ ] Örökölt és felülírt CSS-párok összevonása (a `play-apps.css` 4.4 és 5.1 alatt bájtra azonos, LP-n `lp-play.css` írja felül): a Lollipop saját stíluslapot kap
-- [ ] Teszt: két verzió alkalmazásfájlja ne lehessen bájtra azonos
+- [x] Örökölt és felülírt CSS-párok összevonása (a `play-apps.css` 4.4 és 5.1 alatt bájtra azonos, LP-n `lp-play.css` írja felül): a Lollipop saját stíluslapot kap. A 4.4.4 hét, az 5.1.1 tizenegy rétegzett párja egy-egy saját fájl lett (pl. 5.1.1 `kk-launcher.css` + `jb-launcher.css` + `lp-launcher.css` → `lp-launcher.css`), az LP Play-appok szabályai a saját `play-apps.css`-be kerültek; HEAD és munkapéldány computed style-összevetése minden appon és egy szint mély vezérlőn: eltérés nélkül (közben a 4.4.4 `kk-launcher.css` a helyén maradt, az 5.1.1-ben egy holt KitKat-deklaráció kikerült) – (ez a commit)
+- [x] Teszt: két verzió alkalmazásfájlja ne lehessen bájtra azonos (`tests/version-files.test.cjs`): idegen korszak-előtag nem lehet a verziómappában, és új bájtazonos pár nem jöhet létre. A bevezetéskor meglévő 54 csoport (pl. `email.js` mind az öt verzióban, a 4.3/4.4/5.1 Gallery és Search) egy csak szűkülő listán van; ezek APK-nkénti átnézése külön tétel lett lent – (ez a commit)
+- [ ] A listán maradt közös fájlok átnézése verziónként a saját gyári képük alapján (a teszt `SHARED` listája; a `calculator-engine.js`, `browser-session.js` és a `play-store.js` katalógus felület nélküli, ezek maradhatnak)
 
 ## 5. Kis ráfordítású funkciók (6–8 óra)
 
@@ -165,3 +166,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés (kiegészítés): 4.0.4 Maps 6.4 a map_view_default menüvel, funkcióváltóval, rétegekkel | 22ed243 |
 | 2026-10-06 | 4. lépés (kiegészítés): 4.0.4 News & Weather 1.3.04 (nincs action bar, 1.3.11-es elrendezések, IMM76I-grafikák) | ef96563 |
 | 2026-10-06 | 4. lépés: fájlnevek – 25 idegen előtagú fájl átnevezve (4.0.4 ics-extra-apps, 4.3 jb-email, 4.4.4 kk-camera/gallery/shade/…, 5.1.1 lp-gallery/downloads/gel/play/…); az image-strings kimenete változatlan | ccc3156 |
+| 2026-10-06 | 4. lépés: rétegzett párok összevonva (4.4.4: 7, 5.1.1: 11 fájl), LP Play-appok saját `play-apps.css`; `tests/version-files.test.cjs` (korszak-előtag, bájtazonosság csak szűkülő listán) | (ez a commit) |
