@@ -15,7 +15,10 @@
 .status-data-type{height:16.31px!important}
 .kk-battery{flex:none;width:9.51px;height:14.5px;margin:0 0 .3px 3.62px;display:block}
 .status-clock{padding-left:5.44px;color:#fff;font:400 14.5px RobotoICS,Roboto,Arial,sans-serif}
-#nav-bar{background:#000;transition:background-color .2s}
+/* navigation_bar.xml (rot0): a 40 dp gap, Back, Home and Recents 80 dp wide (navigation_key_width) with equal weighted
+   space between them, then the 40 dp menu key, invisible on a KitKat phone; so Home sits in the middle. */
+#nav-bar{background:#000;transition:background-color .2s;justify-content:space-between;padding:0 36.25px}
+#nav-bar .nav-key{width:72.5px;padding:0}
 .nav-key img{width:72.5px;height:43.49px;opacity:.7}
 .nav-key:active img{opacity:1}
 /* Translucent mode (Launcher3 / keyguard: windowTranslucentStatus + windowTranslucentNavigation). */
