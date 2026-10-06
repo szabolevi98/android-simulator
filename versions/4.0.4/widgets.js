@@ -1,4 +1,5 @@
-/* Home-screen widgets based on AOSP 4.0.4 Calendar, Music and Gallery2 app widgets. */
+/* Home-screen widgets of the IMM76I (Galaxy Nexus) image: Calendar's CalendarAppWidgetProvider, Music2's album widget
+   and Gallery's PhotoAppWidgetProvider, as in AOSP 4.0.4. */
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

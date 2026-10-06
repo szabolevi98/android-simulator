@@ -1,4 +1,5 @@
-/* Home-screen widgets based on AOSP 4.0.4 Calendar, Music and Gallery2 app widgets. */
+/* Home-screen widgets of the LMY48Y (Nexus 6) image: Google Calendar 5.0's widget and Google Play Music's own widget
+   (the image has no Gallery; the photo helpers stay for the shared home screen code). */
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -60,12 +61,15 @@
 
   /* MediaAppWidgetProvider: before playback starts the title is hidden and the
      artist line asks the user to choose music; the left area opens the player. */
-  function music(state,tracks,active,t,preview=false) {
-    const track=tracks[state.track]||tracks[0];
-    const info=active?`<strong>${e(track.title)}</strong><span>${e(track.artist)}</span>`:`<span>${e(t('Touch to select music.'))}</span>`;
-    const markup=`<div class="musw" data-no-translate><button class="musw-info" data-action="widget-music-open" aria-label="${e(t('Music'))}">${info}</button><i class="musw-divider"></i><button class="musw-control" data-action="widget-music-play" aria-label="${e(t(state.playing?'Pause':'Play'))}"><img src="assets/music-ic_appwidget_music_${state.playing?'pause':'play'}.png" alt=""></button><i class="musw-divider"></i><button class="musw-control musw-next" data-action="widget-music-next" aria-label="${e(t('Next track'))}"><img src="assets/music-ic_appwidget_music_next.png" alt=""></button></div>`;
-    // Drawer and drag previews sit inside a button, so they must not contain controls.
-    return preview?markup.replace(/<button[^>]*?class="([^"]*)"[^>]*>/g,'<span class="$1">').replace(/<\/button>/g,'</span>'):markup;
+  /* Google Play Music's widget in the LMY48Y image (Music2 MediaAppWidgetProvider, music_widget_small, 4 x 1): white, the
+     73 dp album art, then the 14 sp line (the #333 title, "-" and the #999 artist) over the 42 dp button row of five equal
+     cells: thumbs up, previous, play / pause (fitted), next, thumbs down, pressed in #80F0F0F0 with 2 dp corners. */
+  const seedOf=id=>[...String(id)].reduce((sum,ch)=>sum+ch.charCodeAt(0),0);
+  function music(state,tracks,active,t) {
+    const track=tracks[state.track]||tracks[0],cover=window.PlayApps?window.PlayApps.art('cover',seedOf(track.album),track.album):'';
+    const button=(action,icon,label,cls='')=>`<button class="pmw-btn${cls}" data-action="${action}" aria-label="${e(t(label))}"><img src="assets/pm-${icon}.png" alt=""></button>`;
+    const markup=`<div class="pmlw" data-no-translate><button class="pmw-art" data-action="widget-music-open" aria-label="${e(t('Google Play Music'))}">${cover}</button><span class="pmlw-info"><button class="pmw-text" data-action="widget-music-open"><b>${e(track.title)}</b><span class="pmw-dash">-</span><span>${e(track.artist)}</span></button><span class="pmlw-buttons">${button('widget-music-open','ic_thumbs_up_default','Thumbs up')}${button('widget-music-prev','ic_rew_dark','Previous')}${button('widget-music-play',state.playing?'ic_pause_black_large':'ic_play_black',state.playing?'Pause':'Play',' fit')}${button('widget-music-next','ic_fwd_dark','Next')}${button('widget-music-open','ic_thumbs_down_default','Thumbs down')}</span></span></div>`;
+    return markup;
   }
 
   /* Gallery2 widget types: one cropped picture, an album stack or all pictures shuffled. */

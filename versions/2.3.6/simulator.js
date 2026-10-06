@@ -492,7 +492,7 @@
     if (type === 'bookmarks') return GBWidgets.bookmarks(data.bookmarks || [], 0, gbBrowserTitle, renderWebsite);
     if (type === 'digital') return `<strong class="widget-time">${clock()}</strong><span>${fullDate()}</span>`;
     if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
-    if (type === 'music') return ICSWidgets.music(ui.music, tracks, false, key => i18n.t(key), true);
+    if (type === 'music') return GBLauncher.music(ui.music, tracks[ui.music.track], false, key => i18n.t(key));
     if (type === 'power') return GBWidgets.power({...GBSettings.DEFAULTS, ...data.settings});
     if (type === 'news-weather') return GBWidgets.newsWeather(i18n.language);
     if (type === 'youtube') return GBWidgets.youtube(i18n.language);
@@ -562,11 +562,6 @@
     if (stack) stack.classList.add(direction > 0 ? 'stack-next' : 'stack-previous');
   }
   const pendingPhotoWidget = () => ui.photoWidgetSetup && data.homeWidgets[ui.photoWidgetSetup.page]?.find(widget => widget.id === ui.photoWidgetSetup.id);
-  function configurePhotoWidget(options) {
-    const widget = pendingPhotoWidget();
-    if (widget) Object.assign(widget, options);
-    ui.photoWidgetSetup = null; ui.overlay = ''; save(); render(); toast('Widget added');
-  }
   // Leaving WidgetConfigure without a choice removes the pending widget, as on Android.
   function cancelPhotoWidget() {
     const setup = ui.photoWidgetSetup;
@@ -659,7 +654,6 @@
     if(ui.view==='settings'&&ui.gbSettingsStack)while(ui.gbSettingsStack.length&&ui.gbSettingsStack.at(-1)===ui.sub)ui.gbSettingsStack.pop();
     if(ui.view==='settings'&&ui.sub&&ui.gbSettingsStack?.length&&!ui.overlay){ui.sub=ui.gbSettingsStack.pop();render();return;}
     if(ui.view==='lock'&&ui.gbPasswordEntry&&data.settings.screenLock!=='pattern'){ui.gbPasswordEntry=false;lockControls.lock();render();return;}
-    if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.gbPrefs && ui.gbPrefs.app === ui.view && !ui.overlay) { ui.gbPrefs = null; render(); return; }
     if (ui.view === 'calendar' && ui.gbCalSel && !ui.overlay) { ui.gbCalSel = null; render(); return; }
     if (ui.view === 'email' && ui.gbEmSetup && !ui.overlay) { ui.gbEmSetup = null; render(); return; }
@@ -830,8 +824,6 @@
       if (open || shadeTracking) GBStatusBar.place(panel, shadeTracking ? shadeTracking.y : screen.clientHeight, shadeBottom());
       else shadeFling(statusRoot.offsetHeight, 2000 * GBStatusBar.PX, true);
       renderStatus();
-    } else if (ui.overlay.startsWith('widget-photo')) {
-      overlayRoot.innerHTML = ICSWidgets.photoOverlay(data, ui, key => i18n.t(key));
     } else if(ui.overlay==='sx-dialog'){
       overlayRoot.innerHTML=ICSSystemSettings.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay === 'recent') {
@@ -1461,10 +1453,6 @@
       case 'widget-music-open': { const active = musicActive(); openApp('music'); if (active) { ui.sub = 'player'; render(); } break; }
       case 'widget-music-next': ICSMusic.step(ui.music, 1); ui.musicActive = true; ui.musicTrack = ui.music.track; saveMusic(); render(); break;
       case 'widget-photo-open': { const photo = data.photos.find(item => item.id === Number(id)); if (!photo) break; openApp('gallery'); ui.selectedPhoto = photo.id; ui.galleryAlbum = ICSMedia.album(photo); ui.sub = 'photo'; ui.galleryZoom = false; render(); break; }
-      case 'widget-photo-type': if (id === 'shuffle') configurePhotoWidget({source: 'shuffle'}); else { ui.overlay = id === 'album' ? 'widget-photo-album' : 'widget-photo-image'; renderOverlay(); } break;
-      case 'widget-photo-album': configurePhotoWidget({source: 'album', album: id}); break;
-      case 'widget-photo-image': configurePhotoWidget({source: 'photo', photo: Number(id)}); break;
-      case 'widget-photo-cancel': cancelPhotoWidget(); break;
       case 'open-wallpapers': ui.overlay = ''; ui.wpChoice = null; ui.view = 'wallpaper-picker'; render(); viewport.querySelector('.gbwp-item.selected')?.scrollIntoView({inline: 'center', block: 'nearest'}); break;
       case 'open-live-wallpapers': ui.overlay = ''; ui.view = 'live-wallpapers'; ui.sub = ''; render(); break;
       case 'lw-preview': ui.sub = `preview:${id}`; render(); break;

@@ -1,7 +1,7 @@
 /* AOSP 4.0.4 Calendar, Music and Gallery2 widgets. hdpi nine-patch sizes are scaled by 0.6 (1dp ≈ 0.9px). */
 .home-widget.widget-calendar,.home-widget.widget-music,.home-widget.widget-photo{place-items:stretch}
-.calw,.musw,.phw{width:100%;height:100%;min-width:0;min-height:0;color:#fff;text-shadow:none;text-align:left}
-:where(.calw,.musw,.phw) button{font:inherit;color:inherit;border:0;margin:0;cursor:pointer}
+.calw,.phw{width:100%;height:100%;min-width:0;min-height:0;color:#fff;text-shadow:none;text-align:left}
+:where(.calw,.phw,.pmw) button{font:inherit;color:inherit;border:0;margin:0;cursor:pointer}
 
 /* Calendar: appwidget.xml, widget_item.xml, widget_all_day_item.xml and appwidget_day.xml. */
 .calw{display:flex;flex-direction:column;padding:0}
@@ -27,17 +27,6 @@
 
 /* Music: album_appwidget.xml, a 4 × 1 strip with info, play/pause and next. */
 .home-widget.widget-music{align-items:center}
-.musw{display:flex;align-items:stretch;height:100%;max-height:72px;align-self:center;padding:0;border:14px solid transparent;border-image:url('assets/music-appwidget_bg.png') 24 fill / 14px stretch}
-.musw>*{margin:-6px 0}
-.musw-info{flex:3;min-width:0;padding:0 7px 0 10px;background:none;display:flex;flex-direction:column;justify-content:center;text-align:left;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent calc(100% - 7px));mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent calc(100% - 7px))}
-.musw-info strong{font-size:16px;line-height:1.25;font-weight:700;white-space:nowrap;overflow:hidden}
-.musw-info span{font-size:13px;line-height:1.3;white-space:nowrap;overflow:hidden}
-.musw-divider{flex:none;width:1px;background:#ffffff1a}
-.musw-control{flex:1;min-width:0;background:none;display:flex;align-items:center;justify-content:center;padding:0}
-.musw-control img{width:29px;height:29px}
-.musw-info:active,.musw-info:focus-visible{outline:0;-webkit-mask-image:none;mask-image:none;background:url('assets/music-appwidget_inner_press_l.png') left/100% 100% no-repeat}
-.musw-control:active,.musw-control:focus-visible{outline:0;background:url('assets/music-appwidget_inner_press_c.png') center/100% 100% no-repeat}
-.musw-next:active,.musw-next:focus-visible{background-image:url('assets/music-appwidget_inner_press_r.png')}
 
 /* Gallery2: photo_frame.xml for one picture; appwidget_main.xml's StackView for album/shuffle. */
 .phw{display:grid;place-items:center;position:relative;overflow:visible}
@@ -77,11 +66,25 @@
 
 /* Launcher drawer previews and drag outlines. */
 .drawer-widget-preview .widget-preview-image{max-width:100%;max-height:100%;min-height:0;object-fit:contain}
-.drawer-widget-preview .musw{height:auto;max-height:none;width:100%;border-width:10px;border-image-width:10px}
-.drawer-widget-preview .musw>*{margin:-4px 0}
-.drawer-widget-preview .musw-info span{font-size:9px}
-.drawer-widget-preview .musw-control img{width:18px;height:18px}
+
 .drag-ghost.widget-span-ghost{display:grid;place-items:stretch;opacity:.85;text-shadow:none;transform:none}
 .drag-ghost.widget-span-ghost .widget-preview-image{width:100%;height:100%;object-fit:contain}
 .drag-ghost.widget-span-ghost.widget-music{place-items:center stretch}
 .drag-ghost.widget-span-ghost>button{position:absolute;inset:0;width:auto;height:auto}
+/* Google Play Music widget (KTU84P Music2: widget_nowplaying_small; dp x 0.906): appwidget_bg (xxhdpi 9-patch cut
+   72 / 72 / 72 / 66), the 48 dp art and buttons, the 1 dp #33FFFFFF rule and the 14 sp text line. */
+.pmw{display:flex;flex-direction:column;height:auto;max-height:none;align-self:center;padding:0 0 1.81px;border:0 solid transparent;border-image:url('assets/pmw-appwidget_bg.png') 72 72 72 66 fill / 21.74px 21.74px 21.74px 19.93px stretch;background:none}
+.pmw-top{display:flex;height:43.49px}
+.pmw-art{flex:none;width:43.49px;height:43.49px;padding:0;background:#000;overflow:hidden}
+.pmw-art svg{display:block;width:100%;height:100%}
+.pmw-controls{flex:1;min-width:0;display:flex;align-items:center;padding:0 14.5px}
+.pmw-controls>i{flex:1}
+.pmw-controls>i.pmw-rating{flex:none;width:43.49px}
+.pmw-btn{flex:none;width:43.49px;height:43.49px;padding:7.25px;background:none;display:grid}
+.pmw-btn img{width:100%;height:100%;object-fit:contain}
+.pmw-btn:active{background:rgba(103,152,255,.24)}
+.pmw-rule{flex:none;height:.9px;background:#ffffff33}
+.pmw-text{display:flex;align-items:baseline;min-width:0;padding:4.53px 7.25px 3.62px;background:none;font:400 12.68px/1.3 Roboto,sans-serif;text-align:left;white-space:nowrap;overflow:hidden}
+.pmw-text b{font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis}
+.pmw-dash{flex:none;padding:0 4.53px;font-weight:700;color:#999}
+.pmw-text span:last-child{color:#999;overflow:hidden;text-overflow:ellipsis}

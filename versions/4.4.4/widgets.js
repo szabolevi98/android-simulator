@@ -1,4 +1,5 @@
-/* Home-screen widgets based on AOSP 4.0.4 Calendar, Music and Gallery2 app widgets. */
+/* Home-screen widgets of the KTU84P (Nexus 5) image: Calendar's CalendarAppWidgetProvider and Gallery's
+   PhotoAppWidgetProvider (the 4.x layouts), and Google Play Music's own widget. */
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -60,12 +61,16 @@
 
   /* MediaAppWidgetProvider: before playback starts the title is hidden and the
      artist line asks the user to choose music; the left area opens the player. */
-  function music(state,tracks,active,t,preview=false) {
-    const track=tracks[state.track]||tracks[0];
-    const info=active?`<strong>${e(track.title)}</strong><span>${e(track.artist)}</span>`:`<span>${e(t('Touch to select music.'))}</span>`;
-    const markup=`<div class="musw" data-no-translate><button class="musw-info" data-action="widget-music-open" aria-label="${e(t('Music'))}">${info}</button><i class="musw-divider"></i><button class="musw-control" data-action="widget-music-play" aria-label="${e(t(state.playing?'Pause':'Play'))}"><img src="assets/music-ic_appwidget_music_${state.playing?'pause':'play'}.png" alt=""></button><i class="musw-divider"></i><button class="musw-control musw-next" data-action="widget-music-next" aria-label="${e(t('Next track'))}"><img src="assets/music-ic_appwidget_music_next.png" alt=""></button></div>`;
-    // Drawer and drag previews sit inside a button, so they must not contain controls.
-    return preview?markup.replace(/<button[^>]*?class="([^"]*)"[^>]*>/g,'<span class="$1">').replace(/<\/button>/g,'</span>'):markup;
+  /* Google Play Music's widget in the KTU84P image (Music2 MediaAppWidgetProvider, widget_nowplaying_small, 4 x 1): on
+     appwidget_bg, the 48 dp album art beside the controls (the invisible thumbs-up slot, then previous, play / pause and
+     next, 48 dp each with 8 dp padding on play_controls_music_widget_states_holo, spaced by equal weights inside 16 dp
+     padding), a 1 dp #33FFFFFF rule, and the 14 sp line: the bold white title, "-" and the #999 artist. */
+  const seedOf=id=>[...String(id)].reduce((sum,ch)=>sum+ch.charCodeAt(0),0);
+  function music(state,tracks,active,t) {
+    const track=tracks[state.track]||tracks[0],cover=window.PlayApps?window.PlayApps.art('cover',seedOf(track.album),track.album):'';
+    const button=(action,icon,label)=>`<button class="pmw-btn" data-action="${action}" aria-label="${e(t(label))}"><img src="assets/pmw-btn_playback_${icon}_normal_jb_dark.png" alt=""></button>`;
+    const markup=`<div class="pmw" data-no-translate><div class="pmw-top"><button class="pmw-art" data-action="widget-music-open" aria-label="${e(t('Google Play Music'))}">${cover}</button><span class="pmw-controls"><i class="pmw-rating"></i><i></i>${button('widget-music-prev','rew','Previous')}<i></i>${button('widget-music-play',state.playing?'pause':'play',state.playing?'Pause':'Play')}<i></i>${button('widget-music-next','ff','Next')}</span></div><i class="pmw-rule"></i><button class="pmw-text" data-action="widget-music-open"><b>${e(track.title)}</b><span class="pmw-dash">-</span><span>${e(track.artist)}</span></button></div>`;
+    return markup;
   }
 
   /* Gallery2 widget types: one cropped picture, an album stack or all pictures shuffled. */

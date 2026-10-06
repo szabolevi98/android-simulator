@@ -59,4 +59,23 @@ const stack=widgets.photo(data,{id:'s',source:'album',album:'pictures'},4,t);
 assert.equal((stack.match(/phw-card/g)||[]).length,3);assert.ok(stack.includes('phw-front')&&stack.includes('&lt;Four&gt;'));
 assert.equal(widgets.wrap(-1,3),2);assert.equal(widgets.wrap(7,3),1);
 assert.ok(widgets.photoOverlay(data,{overlay:'widget-photo-album'},t).includes('widget-photo-album'));
-console.log('Widget checks passed: calendar day buckets, in-progress/finished/midnight events, 20-event cutoff, music state, photo sources and escaping.');
+
+// Each image's own widgets.
+const loadV=v=>{const w={PlayApps:{art:()=>'<svg></svg>'}};vm.runInNewContext(fs.readFileSync(`versions/${v}/widgets.js`,'utf8'),{window:w});return w.ICSWidgets;};
+const demo=[{title:'Blue Horizon',artist:'The Demo Tapes',album:'First Light'}];
+// KitKat: Google Play Music's widget_nowplaying_small (art, previous / play / next, the rule, title - artist).
+{const html=loadV('4.4.4').music({track:0,playing:false},demo,true,t);
+  assert.ok(html.startsWith('<div class="pmw"'));
+  for(const f of ['btn_playback_rew_normal_jb_dark','btn_playback_play_normal_jb_dark','btn_playback_ff_normal_jb_dark'])assert.ok(html.includes(`pmw-${f}.png`),f);
+  assert.ok(html.includes('pmw-rule')&&html.includes('<b>Blue Horizon</b>')&&html.includes('data-action="widget-music-prev"'));
+  assert.ok(loadV('4.4.4').music({track:0,playing:true},demo,true,t).includes('btn_playback_pause_normal_jb_dark'));}
+// Lollipop: music_widget_small (white, art, the text line over five buttons: thumbs, previous, play, next, thumbs).
+{const html=loadV('5.1.1').music({track:0,playing:false},demo,true,t);
+  assert.ok(html.startsWith('<div class="pmlw"'));
+  assert.deepEqual([...html.matchAll(/assets\/pm-(ic_[a-z_]+)\.png/g)].map(m=>m[1]),['ic_thumbs_up_default','ic_rew_dark','ic_play_black','ic_fwd_dark','ic_thumbs_down_default']);}
+for(const f of ['4.4.4/assets/pmw-appwidget_bg.png','4.4.4/assets/pmw-widget_preview_music.png','5.1.1/assets/pm-ic_play_black.png','5.1.1/assets/pm-music_widget_preview.png'])assert.ok(fs.existsSync(`versions/${f}`),f);
+// Gingerbread draws its own widgets; only the picture lists stay shared.
+assert.deepEqual(Object.keys(loadV('2.3.6')).sort(),['photoItems','wrap']);
+// 4.0.4 / 4.3 keep the AOSP album widget.
+assert.ok(loadV('4.3').music({track:0,playing:false},demo,true,t).includes('class="musw"'));
+console.log('Widget checks passed: calendar day buckets, in-progress/finished/midnight events, 20-event cutoff, music state, photo sources and escaping, and each image Play Music / Gingerbread widget sets.');
