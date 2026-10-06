@@ -1,10 +1,11 @@
-/* Launcher2 first-run clings (Cling.java, workspace_cling.xml, all_apps_cling.xml, folder_cling.xml), identical in
-   4.0.4 and 4.3. Sizes are dp scaled by 0.9; the punch-through graphic is scaled by reveal_radius / 94dp. */
+/* Launcher2 first-run clings of the IMM76I (Galaxy Nexus) image (Cling.java, workspace_cling.xml, all_apps_cling.xml,
+   folder_cling.xml; the layouts and texts are the same in the 4.0.4 and 4.3 images). Sizes are dp scaled by 0.9; the
+   punch-through graphic is scaled by the reveal radius / 94dp (reveal_radius is not a 4.0.4 dimen; Cling.java uses app_icon_size, 48dp). */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const SHOW = 550, DISMISS = 250; // Launcher.SHOW_CLING_DURATION / DISMISS_CLING_DURATION
-  const REVEAL = 43.2;             // reveal_radius (4.3) = app_icon_size (4.0.4) = 48dp
+  const REVEAL = 43.2;             // app_icon_size, 48dp
   const PUNCH = 600 * 0.6 * (48 / 94); // cling.png (400dp) scaled so its 94dp centre radius meets the reveal radius
   const HAND = [284 * 0.6, 391 * 0.6], HAND_OFFSET = 10.8; // hand.png, app_icon_size / 4
   const KINDS = {

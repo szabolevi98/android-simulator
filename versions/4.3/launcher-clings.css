@@ -1,4 +1,4 @@
-/* Launcher2 clings over the launcher (the DragLayer, between the status and navigation bars). ClingTitleText is 23sp
+/* Launcher2 clings of the JWR66Y (Nexus 4) image over the launcher (the DragLayer, between the status and navigation bars). ClingTitleText is 23sp
    #49C0EC and ClingText 15sp white, both with a 2px black shadow; ClingButton is bold with 10/35/15dp padding on
    btn_cling_normal. */
 #cling-layer{position:absolute;left:0;right:0;top:24px;bottom:47px;z-index:30;pointer-events:none}

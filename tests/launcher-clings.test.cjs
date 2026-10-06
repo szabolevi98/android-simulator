@@ -1,7 +1,8 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.3/launcher-clings.js','utf8'),context);
 const c=context.window.LauncherClings,t=k=>k;
-assert.equal(fs.readFileSync('versions/4.0.4/launcher-clings.js','utf8'),fs.readFileSync('versions/4.3/launcher-clings.js','utf8'),'both versions share the file');
+// 4.0.4 and 4.3 each keep their own copy; the images' cling layouts and texts are the same, so only the comments differ.
+{const strip=f=>fs.readFileSync(f,'utf8').replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/.*$/gm,'');assert.equal(strip('versions/4.0.4/launcher-clings.js'),strip('versions/4.3/launcher-clings.js'),'same behaviour in both');}
 assert.equal(c.SHOW,550);assert.equal(c.DISMISS,250);assert.equal(c.REVEAL,43.2);
 assert.ok(Math.abs(c.PUNCH-600*0.6*48/94)<1e-9,'cling.png is scaled by reveal_radius / clingPunchThroughGraphicCenterRadius');
 // Launcher shows the workspace cling on home, the all apps cling in the drawer and the folder cling in an open folder.

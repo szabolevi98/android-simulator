@@ -132,3 +132,10 @@
 .screen .gbprev-item:active,.screen .gbprev-item.current{border-image-source:url('assets/gb-l2-preview_bg_press.png')}
 .gbprev-thumb{display:block;position:relative;overflow:hidden}
 .gbprev-thumb .gbprev-grid{position:absolute;left:0;top:0;transform-origin:0 0;pointer-events:none}
+/* Dragging (formerly from the shared launcher-folders.css, whose ICS folder rules overrode the GB folder above): the
+   dragged icon leaves its slot empty, and a folder under the dragged item shows ic_launcher_folder_open
+   (UserFolderIcon.onDragEnter); Gingerbread draws no ring on other icons. */
+.drag-source-icon,.drag-source-widget{visibility:hidden}
+.folder-drop-target[data-folder-id] .app-icon img{content:url(assets/gb-l2-ic_launcher_folder_open.png)}
+.launcher-folder-closing{pointer-events:none}
+.screen.dragging .launcher-folder{animation:none}
