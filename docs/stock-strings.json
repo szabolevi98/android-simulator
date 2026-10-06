@@ -183,7 +183,8 @@
    "Speak destination": "Maps:da_picker_speak_destination",
    "Type destination": "Maps:da_picker_type_destination",
    "Contacts": "Maps:da_picker_contacts",
-   "Starred places": "Maps:da_picker_starred_items"
+   "Starred places": "Maps:da_picker_starred_items",
+   "Local": "Maps:PLACES_APP_NAME"
   }
  },
  "4.4.4": {

@@ -665,3 +665,7 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
 - **Navigation (Maps 6.14's DestinationActivity):**
   - The screen was a white list with drawn icons. On a phone with SDK 14+ `DestinationActivity.onCreate` uses `da_destination_activity_redesign`: Theme.Holo on black, the #222222 action bar (`da_DestinationPickerActionBarStyle`) with `ic_navigation`, and a ViewPager whose PagerTitleStrip shows SHORTCUTS and STARRED (12 sp #33b5e5 on the #2e2e2e–#3c3c3c gradient).
   - The shortcuts page has class `aa`'s tiles (`DestinationActivityTileButton`): Speak destination, Type destination, Contacts, Starred places, each 100 dp on `da_action_button_normal` with the 320 dpi `da_picker_*` icon over 13 sp #cccccc text. The texts come from the stock-strings index.
+- **Local (Maps 6.14's Places, `placesv2.xml`):**
+  - The white list with drawn pins is now `places2_wizard_header` (`actionbar_background`, the feature switcher with `ic_feature_local` and `switcher_dropdown_triangle`, "Local" in 22 sp, `actionbar_search`) and `places2_location_selector` (`places_location_bar_bg` with `gray_location`, the place in 16 sp white, `locationbar_triangle`).
+  - The categories sit on `places_categories_bg` (#c7d5e6 with `places_categories_map` at the bottom) in `places2_category_line` rows of four `places2_wizard_item` tiles: the 54 dp `places_cat_icon_*` and a 12 sp black caption.
+  - Maps 6.14 keeps most texts outside its Android resources, so the place name is the simulator's demo location (Mountain View).

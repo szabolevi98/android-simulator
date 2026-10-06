@@ -998,6 +998,12 @@ window.StockStrings = {
    "Markierte Orte",
    "Adresses enregistrées",
    "Sitios destacados"
+  ],
+  "Local": [
+   "Helyi Információk",
+   "Local",
+   "Local",
+   "Local"
   ]
  }
 };
