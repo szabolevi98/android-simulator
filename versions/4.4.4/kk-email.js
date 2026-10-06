@@ -39,6 +39,11 @@
     'Forward': ['Forward', 'Továbbítás', 'Weiterleiten', 'Transférer', 'Reenviar'],
     'Send': ['Send', 'Küldés', 'Senden', 'Envoyer', 'Enviar'],
     'Discard': ['Discard', 'Elvetés', 'Löschen', 'Supprimer', 'Descartar'],
+    'Discard this message?': ["Discard this message?", "Elveti ezt az üzenetet?", "Nachricht löschen?", "Supprimer ce message ?", "¿Quieres descartar este mensaje?"],
+    'Cancel': ["Cancel", "Mégse", "Abbrechen", "Annuler", "Cancelar"],
+    'Attach video': ["Attach video", "Videó csatolása", "Video anhängen", "Joindre une vidéo", "Adjuntar vídeo"],
+    'Send feedback': ["Send feedback", "Visszajelzés küldése", "Feedback geben", "Envoyer des commentaires", "Danos tu opinión"],
+    'Attach file': ["Attach file", "Fájl csatolása", "Datei anhängen", "Joindre un fichier", "Adjuntar archivo"],
     'Save draft': ['Save draft', 'Piszkozat mentése', 'Entwurf speichern', 'Enregistrer le brouillon', 'Guardar borrador'],
     'To': ['To', 'Címzett', 'An', 'À', 'Para'],
     'Cc': ['Cc', 'Másolatot kap', 'Cc', 'Cc', 'Cc'],
@@ -132,13 +137,19 @@
     const menu = items => `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu kem-menu">${items.map(([action, label]) => `<button data-action="${action}">${e(T(label))}</button>`).join('')}</div>`;
     if (ui.overlay === 'email-menu') {
       const kind = ui.emailMenu || 'list';
-      if (kind === 'compose') return menu([['email-attach', 'Attach picture'], ['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
+      // compose_menu.xml (KTU84P EmailGoogle): Send is the action; Attach picture, Attach video, Add Cc/Bcc, Save draft,
+      // Discard, Settings, Send feedback and Help overflow.
+      if (kind === 'compose') return menu([['email-attach', 'Attach picture'], ['email-unavailable', 'Attach video'], ['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Send feedback'], ['email-unavailable', 'Help']]);
       if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
       if (kind === 'message') return menu([['email-reply-all', 'Reply all'], ['email-forward', 'Forward']]);
       return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
     }
     if (ui.overlay === 'email-folders') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="kem-dialog" role="dialog" aria-label="${e(T('Move to'))}"><h3>${e(T('Move to'))}</h3>${['Inbox', 'Drafts', 'Sent', 'Trash'].map(name => `<button data-action="email-move" data-id="${name}">${e(T(name))}</button>`).join('')}</div>`;
-    return window.ICSEmail.overlay(mail, ui, photos, t);
+    // The picture list for Attach picture (until the GET_CONTENT chooser is built) and ComposeActivity's
+    // DiscardConfirmDialogFragment: confirm_discard_text with Discard and Cancel, no title.
+    if (ui.overlay === 'email-attach') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog email-photo-picker" role="dialog" aria-label="${e(T('Attach picture'))}"><h3>${e(T('Attach picture'))}</h3><div>${photos.map(photo => `<button data-action="email-attach-photo" data-id="${photo.id}">${window.ICSMedia.art(photo)}<span>${e(photo.name)}</span></button>`).join('')}</div><button data-action="close-overlay">${e(T('Cancel'))}</button></div>`;
+    if (ui.overlay === 'email-discard') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="kem-dialog kem-confirm" role="alertdialog" aria-label="${e(T('Discard this message?'))}"><p>${e(T('Discard this message?'))}</p><div class="kem-confirm-buttons"><button data-action="close-overlay">${e(T('Cancel'))}</button><button data-action="email-confirm-discard">${e(T('Discard'))}</button></div></div>`;
+    return '';
   }
   window.KKEmail = {S, tr, TILE_COLORS, hash, tile, shortDate, render, overlay};
 })();

@@ -851,8 +851,6 @@
       overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('music-')) {
       overlayRoot.innerHTML = ICSMusic.overlay(ui.music,ui,key=>i18n.t(key));
-    } else if (ui.overlay.startsWith('email-')) {
-      overlayRoot.innerHTML = ICSEmail.overlay(data.mailbox,ui,data.photos,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('sd-')) {
       overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
@@ -2030,8 +2028,6 @@
       case 'gbem-context-reply': case 'gbem-context-reply-all': case 'gbem-context-forward': ui.overlay = ''; composeEmail(data.mailbox.find(m => m.id === id), action === 'gbem-context-forward', '', action === 'gbem-context-reply-all'); break;
       case 'gbem-context-read': { const item = data.mailbox.find(m => m.id === id); if (item) item.read = !item.read; ui.overlay = ''; save(); render(); break; }
       case 'email-reply': case 'email-forward': composeEmail(data.mailbox.find(item=>item.id===ui.emailId),action==='email-forward');break;
-      case 'email-list': ui.sub='';ui.overlay='';ui.emailSelected=[];render();break;
-      case 'email-folders': case 'email-menu': ui.overlay=action;renderOverlay();break;
       case 'email-folder': ui.emailFolder=id;ui.sub='';ui.emailQuery=undefined;ui.emailSelected=[];ui.overlay='';render();break;
       case 'email-star': {const item=data.mailbox.find(item=>item.id===id);if(item)item.starred=!item.starred;save();render();break;}
       case 'email-select': ui.emailSelected ||= [];ui.emailSelected=ui.emailSelected.includes(id)?ui.emailSelected.filter(key=>key!==id):[...ui.emailSelected,id];render();break;
@@ -2046,8 +2042,6 @@
       case 'email-attach': gbEmSync();gbEmDialog('attach');break;
       case 'email-attach-photo': {const item=data.mailbox.find(item=>item.id===ui.emailId),photo=data.photos.find(photo=>photo.id===Number(id));if(item&&photo)item.attachment=clone(photo);ui.overlay='';save();render();break;}
       case 'email-remove-attachment': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(item)delete item.attachment;save();render();break;}
-      case 'email-discard': ui.overlay='email-discard';renderOverlay();break;
-      case 'email-confirm-discard': ICSEmail.trash(data.mailbox,[ui.emailId]);ui.sub='';ui.overlay='';save();render();break;
       default: break;
     }
   });

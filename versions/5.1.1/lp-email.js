@@ -38,7 +38,10 @@
     'Reply all': ['Reply all', 'Válasz mind.', 'Allen antworten', 'Répondre à tous', 'Responder a todos'],
     'Forward': ['Forward', 'Továbbítás', 'Weiterleiten', 'Transférer', 'Reenviar'],
     'Send': ['Send', 'Küldés', 'Senden', 'Envoyer', 'Enviar'],
-    'Discard': ['Discard', 'Elvetés', 'Löschen', 'Supprimer', 'Descartar'],
+    'Discard': ["Discard", "Elvetés", "Verwerfen", "Supprimer", "Descartar"],
+    'Discard this message?': ["Discard this message?", "Elveti ezt a levelet?", "Nachricht verwerfen?", "Supprimer ce message ?", "¿Quieres descartar este mensaje?"],
+    'Cancel': ["Cancel", "Mégse", "Abbrechen", "Annuler", "Cancelar"],
+    'Attach file': ["Attach file", "Fájl csatolása", "Datei anhängen", "Joindre un fichier", "Adjuntar archivo"],
     'Save draft': ['Save draft', 'Piszkozat mentése', 'Entwurf speichern', 'Enregistrer le brouillon', 'Guardar borrador'],
     'To': ['To', 'Címzett', 'An', 'À', 'Para'],
     'Cc': ['Cc', 'Másolatot kap', 'Cc', 'Cc', 'Cc'],
@@ -138,7 +141,11 @@
       return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
     }
     if (ui.overlay === 'email-folders') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="kem-dialog" role="dialog" aria-label="${e(T('Move to'))}"><h3>${e(T('Move to'))}</h3>${['Inbox', 'Drafts', 'Sent', 'Trash'].map(name => `<button data-action="email-move" data-id="${name}">${e(T(name))}</button>`).join('')}</div>`;
-    return window.ICSEmail.overlay(mail, ui, photos, t);
+    // The picture list for Attach picture (until the GET_CONTENT chooser is built) and ComposeActivity's
+    // DiscardConfirmDialogFragment: confirm_discard_text with Discard and Cancel, no title.
+    if (ui.overlay === 'email-attach') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog email-photo-picker" role="dialog" aria-label="${e(T('Attach picture'))}"><h3>${e(T('Attach picture'))}</h3><div>${photos.map(photo => `<button data-action="email-attach-photo" data-id="${photo.id}">${window.ICSMedia.art(photo)}<span>${e(photo.name)}</span></button>`).join('')}</div><button data-action="close-overlay">${e(T('Cancel'))}</button></div>`;
+    if (ui.overlay === 'email-discard') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="kem-dialog kem-confirm" role="alertdialog" aria-label="${e(T('Discard this message?'))}"><p>${e(T('Discard this message?'))}</p><div class="kem-confirm-buttons"><button data-action="close-overlay">${e(T('Cancel'))}</button><button data-action="email-confirm-discard">${e(T('Discard'))}</button></div></div>`;
+    return '';
   }
   window.KKEmail = {S, tr, TILE_COLORS, hash, tile, shortDate, render, overlay};
 })();
@@ -179,9 +186,10 @@
     const folder = ui.emailFolder || (opts.app === 'gmail' ? 'Primary' : 'Inbox'), selected = ui.emailSelected || [], item = mail.find(m => m.id === ui.emailId);
     const style = `--lem:${theme.primary};--lem-dark:${theme.dark}`;
     if (ui.sub === 'compose' && item) {
-      const field = (key, label) => `<label class="lem-field"><span>${e(T(label))}</span><input type="text" name="${key}" value="${e(item[key] || '')}" aria-label="${e(T(label))}"${key === 'subject' ? ' maxlength="160"' : ''}></label>`;
       const cc = ui.emailCc || item.cc || item.bcc;
-      return `<form class="app-view lem lem-compose email-compose" style="${style}" data-form="email"><header class="lem-bar">${act('email-list', T('Navigate up'), 'ic_arrow_back_wht_24dp')}<h2>${e(T('Compose'))}</h2>${act('email-attach', T('Attach picture'), 'ic_attach_file_wht_24dp')}<button type="submit" class="lem-act" aria-label="${e(T('Send'))}">${icon('ic_send_wht_24dp')}</button>${overflow('compose')}</header><div class="email-scroll lem-scroll"><div class="lem-field lem-from"><span>${e(T('From'))}</span><b>${e(item.from === window.ICSEmail.account ? account : item.address || account)}</b></div>${field('to', 'To')}${cc ? field('cc', 'Cc') + field('bcc', 'Bcc') : ''}<label class="lem-field lem-subject-field"><input type="text" name="subject" value="${e(item.subject || '')}" placeholder="${e(T('Subject'))}" aria-label="${e(T('Subject'))}" maxlength="160"></label><label class="lem-body"><textarea name="body" placeholder="${e(T('Compose email'))}" aria-label="${e(T('Compose email'))}" maxlength="10000">${e(item.body)}</textarea></label>${item.attachment ? `<div class="lem-attachment">${window.ICSMedia.art(item.attachment)}<span>${e(item.attachment.name)}</span><button type="button" data-action="email-remove-attachment" aria-label="${e(T('Discard'))}">×</button></div>` : ''}${ui.emailError ? `<p class="lem-error">${e(t(ui.emailError))}</p>` : ''}</div></form>`;
+      // compose_recipients.xml: the add_cc_bcc chevron (ic_expand_more_24dp) beside To while Cc / Bcc are hidden.
+      const field = (key, label) => `<label class="lem-field"><span>${e(T(label))}</span><input type="text" name="${key}" value="${e(item[key] || '')}" aria-label="${e(T(label))}"${key === 'subject' ? ' maxlength="160"' : ''}>${key === 'to' && !cc ? `<button type="button" class="lem-ccbtn" data-action="email-cc" aria-label="${e(T('Add Cc/Bcc'))}"><img src="assets/gm5-ic_expand_more_24dp.png" alt=""></button>` : ''}</label>`;
+      return `<form class="app-view lem lem-compose email-compose" style="${style}" data-form="email"><header class="lem-bar">${act('email-list', T('Navigate up'), 'ic_arrow_back_wht_24dp')}<h2>${e(T('Compose'))}</h2>${act('email-menu', T('Attach file'), 'ic_attach_file_wht_24dp', 'attach')}<button type="submit" class="lem-act" aria-label="${e(T('Send'))}">${icon('ic_send_wht_24dp')}</button>${overflow('compose')}</header><div class="email-scroll lem-scroll"><div class="lem-field lem-from"><span>${e(T('From'))}</span><b>${e(item.from === window.ICSEmail.account ? account : item.address || account)}</b></div>${field('to', 'To')}${cc ? field('cc', 'Cc') + field('bcc', 'Bcc') : ''}<label class="lem-field lem-subject-field"><input type="text" name="subject" value="${e(item.subject || '')}" placeholder="${e(T('Subject'))}" aria-label="${e(T('Subject'))}" maxlength="160"></label><label class="lem-body"><textarea name="body" placeholder="${e(T('Compose email'))}" aria-label="${e(T('Compose email'))}" maxlength="10000">${e(item.body)}</textarea></label>${item.attachment ? `<div class="lem-attachment">${window.ICSMedia.art(item.attachment)}<span>${e(item.attachment.name)}</span><button type="button" data-action="email-remove-attachment" aria-label="${e(T('Discard'))}">×</button></div>` : ''}${ui.emailError ? `<p class="lem-error">${e(t(ui.emailError))}</p>` : ''}</div></form>`;
     }
     if (ui.sub === 'read' && item) {
       const trashLike = item.folder === 'Trash';
@@ -223,7 +231,10 @@
     const menu = items => `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu">${items.map(([action, label]) => `<button role="menuitem" data-action="${action}">${e(T(label))}</button>`).join('')}</div>`;
     if (ui.overlay === 'email-menu') {
       const kind = ui.emailMenu || 'list';
-      if (kind === 'compose') return menu([['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help & feedback']]);
+      // compose_menu.xml (LMY48Y PrebuiltEmailGoogle): Attach file (a submenu: Attach file, Attach picture) and Send are
+      // actions; Save draft, Discard, Settings and Help & feedback overflow. Cc / Bcc open from the chevron by To.
+      if (kind === 'compose') return menu([['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help & feedback']]);
+      if (kind === 'attach') return menu([['email-unavailable', 'Attach file'], ['email-attach', 'Attach picture']]);
       if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help & feedback']]);
       if (kind === 'message') return menu([['email-reply-all', 'Reply all'], ['email-forward', 'Forward']]);
       return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help & feedback']]);
