@@ -1092,10 +1092,16 @@
     if (['maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio'].includes(ui.view)) {
       if (action === 'jbx-menu') { ui.overlay = 'jbx-menu'; renderOverlay(); return; }
       if (action === 'sa-unsupported' || action === 'kkx-unavailable') { ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); return; }
+      if (action === 'maps-switcher' || action === 'maps-layers') { ui.mapsMenu = action === 'maps-switcher' ? 'switcher' : 'layers'; ui.overlay = 'sa-menu'; renderOverlay(); return; }
+      if (action === 'maps-places') { openApp('local'); return; }
+      if (action === 'maps-feature') { ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); if (id === 'local' || id === 'navigation') openApp(id); else { data.mapsLayer = id === 'traffic' ? 'traffic' : ''; save(); render(); } return; }
+      if (action === 'maps-layer') { ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); data.mapsLayer = data.mapsLayer === id ? '' : id; save(); render(); return; }
+      if (action === 'maps-clear') { ui.overlay = ''; renderOverlay(); ui.mapsQuery = ''; ui.mapsSearching = false; data.mapsLayer = ''; save(); render(); return; }
+      if (action === 'maps-zoom') { const map = viewport.querySelector('.sa-maps6-map .sa-map'); if (map) { ui.mapsZoom = Math.max(1, Math.min(3, (ui.mapsZoom || 1) * (Number(id) > 0 ? 1.4 : 1 / 1.4))); map.style.transform = `scale(${ui.mapsZoom})`; } return; }
       if (action === 'maps-locate') { ui.mapsQuery = ''; ui.mapsSearching = false; render(); return; }
       if (action === 'maps-search-open') { ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); return; }
       if (action === 'news-tab') { ui.newsTab = id; render(); return; }
-      if (action === 'sa-menu') { ui.overlay = 'sa-menu'; renderOverlay(); return; }
+      if (action === 'sa-menu') { ui.mapsMenu = ''; ui.overlay = 'sa-menu'; renderOverlay(); return; }
       if (action === 'sa-news-refresh') { ui.overlay = ''; renderOverlay(); render(); return; }
     }
     if (ICSGoogleApps.APPS.includes(ui.view) && action.startsWith('ga-') && ICSGoogleApps.handle(action, id, googleAppsContext())) return;

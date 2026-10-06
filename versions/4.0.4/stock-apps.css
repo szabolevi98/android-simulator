@@ -179,3 +179,16 @@
 .sa-earth6-bar .sa-title b{color:#fff}
 .sa-earth6-bar .sa-btn{width:47.6px;height:40.8px;display:grid;place-items:center;border:0;background:none;padding:0}
 .sa-earth6-bar .sa-btn img{width:27.2px;height:27.2px}
+/* Maps 6.4 (audit step 4): the feature switcher title, my-location and zoom buttons, the layer looks (as on 4.3). */
+.sa-maps6-switcher{cursor:pointer}
+.sa-maps6-map{position:relative;overflow:hidden}
+.sa-maps6-map .sa-map{transform-origin:50% 50%;transition:transform .25s}
+.screen .sa-maps6-myl{position:absolute;right:6.81px;top:6.81px;padding:0;border:0;background:none}
+.sa-maps6-myl img{width:35.77px;height:35.77px;display:block}
+.sa-maps6-zoom{position:absolute;right:6.81px;bottom:10.22px;display:flex}
+.screen .sa-maps6-zoom button{padding:0;border:0;background:none}
+.sa-maps6-zoom img{width:35.77px;height:34.06px;display:block}
+.sa-maps6-map.layer-traffic .sa-map g[stroke="#fff"]{stroke:#4caf50}
+.sa-maps6-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
+.sa-maps6-map.layer-terrain .sa-map{filter:sepia(.35) saturate(1.2)}
+.sa-maps6-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}

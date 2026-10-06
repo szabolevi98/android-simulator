@@ -162,3 +162,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 5.1.1 Docs/Sheets/Slides (app_name cím, Search + Add new, menü, Drive típusikonok, nincs FAB) | 0afba8e |
 | 2026-10-06 | 4. lépés: 5.1.1 Fit (nincs fiók/keresés, menü), Newsstand (PlayDrawer, csak Search), Wallet (nincs menü) – az extra appok kész | 854ff90 |
 | 2026-10-06 | 4. lépés: „‹” jelek: 4.0.4 Earth 6.1 sávja az APK-ból, 4.0.4 StockApps bar() csak felfelé lépve, Play-appok holt ágai | 48e59a4 |
+| 2026-10-06 | 4. lépés (kiegészítés): 4.0.4 Maps 6.4 a map_view_default menüvel, funkcióváltóval, rétegekkel | (ez a commit) |

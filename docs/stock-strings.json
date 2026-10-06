@@ -744,6 +744,24 @@
    "Settings": "GoogleEarth:menu_settings",
    "Help": "GoogleEarth:menu_help",
    "Terms Of Service": "GoogleEarth:menu_terms"
+  },
+  "maps": {
+   "Maps": "Maps:MAPS_APP_NAME",
+   "Search": "Maps:da_search_label",
+   "Search Maps": "Maps:SEARCH_HINT",
+   "Directions": "Maps:DIRECTIONS_TITLE",
+   "Local": "Maps:FEATURE_SWITCHER_LOCAL",
+   "Layers": "Maps:da_layers",
+   "Clear map": "Maps:da_clear_layers",
+   "Settings": "Maps:da_settings",
+   "Help": "Maps:da_help",
+   "Map": "Maps:FEATURE_SWITCHER_MAP",
+   "Find restaurants, bars & more": "Maps:FEATURE_SWITCHER_LOCAL_SUBTITLE",
+   "GPS navigation": "Maps:FEATURE_SWITCHER_NAV",
+   "Traffic": "Maps:FEATURE_SWITCHER_TRAFFIC",
+   "Satellite": "Maps:da_satellite",
+   "Terrain": "Maps:WALLPAPER_MAP_MODE_TERRAIN",
+   "Bicycling": "Maps:da_bicycling"
   }
  }
 }
