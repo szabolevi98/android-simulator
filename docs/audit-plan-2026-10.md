@@ -151,4 +151,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 5.1.1 Play Games 2.2 (zöld Toolbar, PlayDrawer, Settings menü, Play Now szekciók, Inbox, Explore fülek) – az 5.1.1 Play-appok kész | 31611fa |
 | 2026-10-06 | 4. lépés: 4.3 Navigation (Maps 6.14 DestinationActivity: fekete Holo, lapcímsor, csempék) | 3b4a987 |
 | 2026-10-06 | 4. lépés: 4.3 Local (Maps 6.14 Places: világos fejléc, helysáv, kategóriarács térképháttérrel) | 41eb4f7 |
-| 2026-10-06 | 4. lépés: 4.3 Messenger (Google+ 4.0 host bar, New conversation gomb, menü, beszélgetéssorok) | (ez a commit) |
+| 2026-10-06 | 4. lépés: 4.3 Messenger (Google+ 4.0 host bar, New conversation gomb, menü, beszélgetéssorok) | d5a4909 |
