@@ -5,7 +5,7 @@
 .sa-bar{flex:none;display:flex;align-items:center;height:40.8px;background:#f2f2f2;border-bottom:1.7px solid #d2d2d2;color:#555;z-index:2}
 .sa-bar.dark{background:#222;border-bottom-color:#33b5e5;color:#eee}
 .sa-up{flex:none;position:relative;display:flex;align-items:center;height:100%;padding:0 3.75px 0 8.5px;border:0;background:none}
-.sa-up span{position:absolute;left:0;font:300 20.39px/1 RobotoICS,sans-serif;color:#999}
+.sa-caret{width:13.6px;height:27.2px;margin:0 1.7px 0 -5.1px}
 .sa-up img{width:27.2px;height:27.2px}
 .sa-title{flex:1;min-width:0;display:flex;flex-direction:column;margin-left:5.1px}
 .sa-title b{font:400 15.3px RobotoICS,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -118,12 +118,8 @@
 .sa-globe svg{width:100%;height:100%}
 .sa-land{animation:sa-spin 30s linear infinite}
 @keyframes sa-spin{from{transform:translateX(0)}to{transform:translateX(-187.64px)}}
-.sa-earth-search{position:absolute;left:48.79px;right:8.44px;top:calc(var(--sb) + 6.8px);height:37.4px;background:#ffffffd9;box-shadow:0 1px 2.81px #0006}
-.sa-earth-search input{width:100%;height:100%;padding:0 11.26px;border:0;background:none;font:400 14.45px RobotoICS,sans-serif;color:#222;outline:none}
-.sa-earth-home{position:absolute;left:8.44px;top:calc(var(--sb) + 6.8px);width:37.4px;height:37.4px;border:0;background:#ffffffd9;color:#555!important;font-size:20.64px}
 /* News & Weather (Holo dark) */
 .sa-news{background:#111;color:#ddd}
-.sa-news .sa-up span{color:#777}
 .sa-news-tabs{flex:none;display:flex;overflow-x:auto;scrollbar-width:none;background:#1b1b1b;border-bottom:.850px solid #333}
 .sa-news-tabs button{flex:none;padding:0 13.14px;height:37.4px;border:0;background:none;font:700 11.9px RobotoICS,sans-serif;color:#999!important;text-transform:uppercase}
 .sa-news-tabs button.on{color:#fff!important;box-shadow:inset 0 -3.39px #33b5e5}
@@ -178,3 +174,8 @@
 .sa-btn img{width:27.2px;height:27.2px}
 .sa-btn.tint img{filter:brightness(0) invert(1)}
 .screen .sa-btn:active{background:#ffffff26}
+/* Earth 6.1 (audit step 4): the overlay action bar over the globe. */
+.sa-earth6-bar{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;height:40.8px;background:url('assets/ea6-header_bar_bg_80_percent_black.png') 0 0/100% 100%;z-index:2}
+.sa-earth6-bar .sa-title b{color:#fff}
+.sa-earth6-bar .sa-btn{width:47.6px;height:40.8px;display:grid;place-items:center;border:0;background:none;padding:0}
+.sa-earth6-bar .sa-btn img{width:27.2px;height:27.2px}

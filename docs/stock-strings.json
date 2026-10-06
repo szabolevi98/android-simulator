@@ -735,6 +735,15 @@
    "Settings": "PlusOne:realtimechat_settings_menu_item_text",
    "Send feedback": "PlusOne:home_menu_feedback",
    "Help": "PlusOne:realtimechat_help_menu_item_text"
+  },
+  "earth": {
+   "Earth": "GoogleEarth:app_name",
+   "Search": "GoogleEarth:search_id",
+   "Layers": "GoogleEarth:menu_layer",
+   "My Location": "GoogleEarth:my_location",
+   "Settings": "GoogleEarth:menu_settings",
+   "Help": "GoogleEarth:menu_help",
+   "Terms Of Service": "GoogleEarth:menu_terms"
   }
  }
 }

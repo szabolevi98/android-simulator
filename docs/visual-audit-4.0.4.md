@@ -7,3 +7,9 @@
 - **Movie Studio (VideoEditorGoogle 1.1, AOSP VideoEditor android-4.0.4_r2.1):** `ProjectPickerAdapter` is the same as 4.3's: the 300 × 150 dp new-project bitmap (`add_video_project_big` on black, the 28 dp half-black overlay with "Create New Project") under the logo-only overlay action bar on `activity_background`.
 - 4.0.4 now has `versions/4.0.4/stock-strings.js` (from `docs/stock-strings.json`, section 4.0.4) for these texts.
 - **Messenger (Google+ 2.4.1's `ConversationListActivity`):** on ICS the activity uses Theme.EmeraldSea's `EsActionBar` (#292929, home as up, "Messenger") with `conversation_list_activity_menu`: New conversation as an ifRoom action (`ic_menu_start_new_huddle_action_bar`), Settings, Send feedback and Help in the overflow. Rows are `conversation_list_item_view` (64 dp `default_avatar`, 18 sp bold #303030, 12 sp #c0c0c0, 14 sp #707070) on Holo light. Test: `tests/ics-extra-apps.test.cjs`.
+
+## Back carets (audit step 4) — 2026-10-06
+
+- **Earth 6.1 (GoogleEarth.apk):** the white search box and the "‹" home button are replaced by `Theme.Earth`'s overlay ActionBar (`Widget.Holo.ActionBar.Earth`, `header_bar_bg_80_percent_black`) with the icon and "Earth"; `menu-v11/main.xml` shows Search, Layers, North up and My Location in the bar and Settings, Help and Terms Of Service in the overflow (Clear Search Results only after a search).
+- The shared `bar()` of 4.0.4's StockApps (Maps, News & Weather) drew a "‹" even on home screens; it now shows `ic_ab_back_holo_*` only when the bar goes up, as Holo does.
+- The Play apps' unused fallback bars with "‹" were removed from 4.4.4 and 5.1.1 (every Play app has its own bar now).

@@ -84,5 +84,49 @@ window.StockStrings = {
    "Aide",
    "Ayuda"
   ]
+ },
+ "earth": {
+  "Earth": [
+   "Earth",
+   "Earth",
+   "Earth",
+   "Earth"
+  ],
+  "Search": [
+   "Search",
+   "Suche",
+   "Recherche Google",
+   "Buscar"
+  ],
+  "Layers": [
+   "Layers",
+   "Ebenen",
+   "Données géographiques",
+   "Capas"
+  ],
+  "My Location": [
+   "My Location",
+   "Mein Standort",
+   "Ma position",
+   "Mi ubicación"
+  ],
+  "Settings": [
+   "Settings",
+   "Einstellungen",
+   "Paramètres",
+   "Configuración"
+  ],
+  "Help": [
+   "Help",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Terms Of Service": [
+   "Terms Of Service",
+   "Nutzungsbedingungen",
+   "Conditions d'utilisation",
+   "Condiciones del servicio"
+  ]
  }
 };
