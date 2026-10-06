@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 16 / 31 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 17 / 31 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -52,7 +52,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 újraépítés a képből; a halott másolat kikerül. A felület nélküli `calculator-engine.js`, `browser-session.js` és a
 `play-store.js` katalógus marad közös, ezek nem tételek.
 
-**Állás: 16 / 31 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
+**Állás: 17 / 31 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
 
 - [x] Kezdőképernyő átrendezés 4.3 / 4.4.4 (`launcher.js`): Launcher3 időzítés – 8fa6eb5
 - [x] Óra stílus 2.3.6–5.1.1 (`desk-clock.css`): a 2.3.6 / 4.4.4 / 5.1.1 csak a riasztás-ablakok szabályait tartja meg, a 4.3 a képben még meglévő AlarmClock / SetAlarm képernyőét – 9a0dc35
@@ -67,7 +67,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Mappák 4.0.4 / 4.3 és 4.4.4 / 5.1.1 (`launcher-folders.js`, `launcher-folders.css`): a két Launcher2 mappa-erőforrásai egyeznek (ellenőrizve, képenként felcímkézve); KK / LP-n az alap a saját GEL-stílus elejére került (KitKat fehér portal_container, Lollipop quantum_panel) – 869831a
 - [x] Kamera 4.3 / 4.4.4 (`camera.css`): azonos erőforrások, a 4.4 rögzítési animációja – 48347e4
 - [x] GB mappák (`launcher-folders.css` 2.3.6): a felülíró ICS-stílus kivéve – ec87102
-- [ ] (~45 perc) Média (Kamera / Galéria közös rajzolás) 2.3.6–5.1.1 (`media.js`, `media.css`)
+- [x] Média (Kamera / Galéria közös rajzolás) 2.3.6–5.1.1 (`media.js`, `media.css`): csak a képillusztrációk, a szerkesztő-hatások és a Megosztás / Részletek ablak maradt; a halott ICS Galéria- és Kamera-képernyő kikerült (a két ablak gyári pontosítása a Galéria tételnél) – f95e6bc
 - [ ] (~45 perc) AOSP Zene 4.0.4–5.1.1 (`music.js`, `music.css`)
 - [ ] (~1 óra) Hangerőpanel 2.3.6–5.1.1 (`volume-panel.js`, `volume-panel.css`)
 - [ ] (~1 óra) Kikapcsoló menü 2.3.6–5.1.1 (`global-actions.js`, `global-actions.css`)
