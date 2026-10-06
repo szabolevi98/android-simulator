@@ -16,7 +16,7 @@ const SHARED={
   'gallery.js':[['4.4.4','5.1.1']],
   'downloads.css':[['4.4.4','5.1.1']],'downloads.js':[['4.4.4','5.1.1']],
   'gallery.css':[['4.4.4','5.1.1']],
-  'launcher-clings.css':[['2.3.6','4.0.4','4.3']],'launcher-clings.js':[['2.3.6','4.0.4','4.3']],
+  'launcher-clings.css':[['4.0.4','4.3']],'launcher-clings.js':[['4.0.4','4.3']],
   'launcher-folders.css':[['2.3.6','4.0.4','4.3'],['4.4.4','5.1.1']],'launcher-folders.js':[['4.0.4','4.3']],'live-wallpapers.css':[['4.0.4','4.3']],
   'lockscreen.css':[['2.3.6','4.0.4','4.3','4.4.4','5.1.1']],'lockscreen.js':[['4.3','4.4.4','5.1.1']],
   'media.css':[['2.3.6','4.3','4.4.4','5.1.1']],'media.js':[['4.3','4.4.4','5.1.1']],

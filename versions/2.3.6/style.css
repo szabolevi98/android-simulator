@@ -516,7 +516,7 @@ html,body{overscroll-behavior-y:none}
 /* Gingerbread has no navigation bar: the Nexus S keys are capacitive buttons on the glass below the display. */
 #viewport{bottom:0}
 .screen .notification-shade,.screen .folder-scrim{bottom:0}
-.screen .recent-panel,.screen .menu-scrim,.screen .launcher-folder-scrim,#cling-layer{bottom:0}
+.screen .recent-panel,.screen .menu-scrim,.screen .launcher-folder-scrim{bottom:0}
 .screen{--ga-bottom:0px}
 .screen .toast{bottom:28px}
 /* Key centres follow the frame drawing (Back 74.7, Menu 142.7, Search 206.3, Home 270.3; 606.7 from the top). The backlight is

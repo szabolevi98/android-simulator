@@ -5,9 +5,7 @@
   const STORE = 'android-time-machine-gb-v1';
   const localDate = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const defaultData = {
-    // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
-    // Gingerbread's Launcher2 has no first-run clings.
-    clings: LauncherClings.dismissedAll(),
+    // Gingerbread's Launcher2 has no first-run clings (Cling.java came with 4.0).
     wallpaper: 0,
     // The Nexus S image's Launcher2 res/xml/default_workspace.xml (GRK39F): News & Weather; YouTube; the search bar and
     // the home screen tips; Market; Power control. Revision 3 moves older saved desktops onto it once.
@@ -59,7 +57,6 @@
       const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
       if (!saved) return clone(defaultData);
       const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
-      if (!saved.clings) result.clings = LauncherClings.dismissedAll();
       if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
       result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
       if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
@@ -916,10 +913,9 @@
       const animations = ICSTransitions.play(folderPanel, ICSTransitions.specs['folder-open'].enter);
       animations.forEach(animation => animation.finished.then(() => animation.cancel(), () => {}));
       const folderId = ui.folderId;
-      Promise.all(animations.map(animation => animation.finished)).catch(() => {}).then(() => { if (ui.overlay === 'folder' && ui.folderId === folderId) { ui.folderSettled = folderId; syncClings(); } });
+      Promise.all(animations.map(animation => animation.finished)).catch(() => {}).then(() => { if (ui.overlay === 'folder' && ui.folderId === folderId) { ui.folderSettled = folderId; } });
     }
-    if (!folderPanel && openFolderId && clingLayerRoot().querySelector('[data-cling="folder"]') && data.clings) { data.clings.folder = true; save(); }
-    else if (!folderPanel && closingFolder && openFolderId) {
+    if (!folderPanel && closingFolder && openFolderId) {
       closingFolder.inert = true; closingFolder.classList.add('launcher-folder-closing'); overlayRoot.append(closingFolder);
       const animations = ICSTransitions.play(closingFolder, ICSTransitions.specs['folder-close'].exit);
       Promise.all(animations.map(animation => animation.finished)).catch(() => {}).then(() => closingFolder.remove());
@@ -928,43 +924,7 @@
     if (!folderPanel && openFolderId) syncFolderIcons();
     openFolderId = folderPanel ? ui.folderId : '';
     if (!folderPanel) ui.folderSettled = '';
-    syncClings();
   }
-  // Created on first use: the first render runs before this point of the script.
-  function clingLayerRoot() { let node = screen.querySelector('#cling-layer'); if (!node) { node = document.createElement('div'); node.id = 'cling-layer'; screen.append(node); } return node; }
-  function clingTarget(kind) {
-    const base = clingLayerRoot().getBoundingClientRect(), centre = node => { if (!node) return null; const r = node.getBoundingClientRect(); return [r.left + r.width / 2 - base.left, r.top + r.height / 2 - base.top]; };
-    // Workspace: the all apps button, centred in the hotseat. All apps: the cell at clingFocusedX/Y = (1, 1).
-    if (kind === 'workspace') return {circle: centre(viewport.querySelector('.dock [data-action="drawer"]'))};
-    if (kind === 'allApps') return {circle: centre(viewport.querySelectorAll('.drawer-apps > *')[5])};
-    const folder = overlayRoot.querySelector('.launcher-folder')?.getBoundingClientRect();
-    return folder ? {rect: {left: folder.left - base.left, top: folder.top - base.top, right: folder.right - base.left, bottom: folder.bottom - base.top}} : {};
-  }
-  function placeCling(root, kind) {
-    const target = clingTarget(kind), point = target.circle;
-    LauncherClings.cut(root, target);
-    root.querySelectorAll('.cling-punch,.cling-hand').forEach(node => { node.hidden = !point; });
-    if (!point) return;
-    const punch = root.querySelector('.cling-punch'), hand = root.querySelector('.cling-hand');
-    if (punch) { punch.style.left = `${point[0]}px`; punch.style.top = `${point[1]}px`; }
-    if (hand) { hand.style.left = `${point[0] + LauncherClings.HAND_OFFSET}px`; hand.style.top = `${point[1] + LauncherClings.HAND_OFFSET}px`; }
-  }
-  function syncClings() {
-    let kind = ui.power || ui.locked || ui.sleeping ? '' : LauncherClings.wanted(ui, data.clings);
-    if (kind === 'folder' && ui.folderSettled !== ui.folderId) kind = '';
-    const current = clingLayerRoot().querySelector('.cling:not([style*="pointer-events: none"])');
-    if (current?.dataset.cling === kind) { placeCling(current, kind); return; }
-    current?.remove();
-    if (!kind) return;
-    clingLayerRoot().insertAdjacentHTML('beforeend', LauncherClings.markup(kind, key => i18n.t(key), [0, 0]));
-    const root = clingLayerRoot().lastElementChild;
-    placeCling(root, kind);
-    // initCling: all apps and folder clings fade in; the workspace one is there at once.
-    if (kind !== 'workspace') LauncherClings.show(root);
-    // Positions are read again once a launcher transition has settled.
-    setTimeout(() => { if (root.isConnected) placeCling(root, kind); }, 450);
-  }
-  window.addEventListener('resize', () => syncClings());
 
   /* UserFolder (user_folder.xml): Launcher.openFolder adds it over the whole CellLayout - a box_launcher_top title button
      (14 sp bold #404040; touch closes, touch & hold renames) above box_launcher_bottom with a 4-column grid of
@@ -1495,8 +1455,7 @@
       case 'ga-airplane': ui.overlay = ''; data.settings.airplane = !data.settings.airplane; if (data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; } save(); render(); break;
       case 'ga-ringer': GlobalActions.setRinger(data.settings, id); save(); renderStatus(); renderOverlay(); setTimeout(() => { if (ui.overlay === 'power-menu') { ui.overlay = ''; render(); } }, GlobalActions.DISMISS_DELAY); break;
       case 'ga-confirm': powerConfirm(id); break;
-      case 'drawer': if (data.clings && !data.clings.workspace) { data.clings.workspace = true; save(); } ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
-      case 'cling-dismiss': if (data.clings) { data.clings[id] = true; save(); } LauncherClings.dismiss(clingLayerRoot().querySelector(`[data-cling="${id}"]`)); break;
+      case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
       case 'folder-open': ui.folderId=button.dataset.folderId;ui.overlay='folder';renderOverlay();break;
       case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = 0; render(); break;
       case 'drawer-page': ui.drawerPage = Number(id); render(); break;
