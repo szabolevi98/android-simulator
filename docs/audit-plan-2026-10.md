@@ -126,6 +126,11 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [ ] Csengő- és ébresztőhang-előnézet, ébresztés nyitott oldalon
 - [ ] Fejlesztői beállítások: választók és mentett állapot
 
+## 7. Megbeszélés (az audit utolsó pontja)
+
+- [ ] Play Store / Market verzióeltérések megtárgyalása (2.3.6 Market 3.x, 4.0.4 Play 3.8.17, 4.4.4 Play 4.8.22, 5.1.1 Play 4.8.22 felirat az 5.2-es kinézet mellett), utána a döntés szerinti javítás
+- [ ] KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – megtárgyalni
+
 ## Nem csináljuk meg
 
 - Valódi háttérműködés: hívás, SMS, szinkron, fizetés, hardveres rádiók, Face Unlock, titkosítás, valódi visszajelzés-küldés (a képernyőik és demóállapotuk igen)
