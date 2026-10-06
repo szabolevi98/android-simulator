@@ -47,3 +47,13 @@
 .tk-compose input:focus{border-image-source:url('assets/gb-textfield_selected.png')}
 .screen .tk-compose button{flex:none;min-width:60px;padding:0 9px 5px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font-size:12.07px;cursor:pointer}
 .screen .tk-compose button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+/* Search results (audit step 5): search_results.xml on white, search_results_item.xml (84 dip; 1 dp = 0.8625 px). */
+.tk-hits{background:#fff}
+.screen .tk-hit{display:flex;flex-direction:column;justify-content:center;width:100%;height:72.45px;padding:8.63px 1.73px 8.63px 4.31px;border:0;border-bottom:1px solid #d6d6d6;background:#fff;text-align:left;color:#000}
+.tk-hit-title{display:flex;align-items:center}
+.tk-hit-title img{width:20.7px;height:20.7px;padding-top:1.73px}
+.tk-hit-title b{padding-left:4.31px;font:400 15.53px Roboto,'Droid Sans',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-hit-snippet{padding-left:1.73px;font:400 12.08px Roboto,'Droid Sans',sans-serif;color:#323232;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-hit-meta{display:flex;padding:1.73px 0 0 6.04px;font:400 10.35px Roboto,'Droid Sans',sans-serif;color:#7c7c7c}
+.tk-hit-meta i{flex:1;font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-hit-meta time{padding-right:4.31px}

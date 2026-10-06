@@ -13,6 +13,8 @@
   'use strict';
   const {e} = GBApps;
   const STRINGS = {
+      "Search Google Talk": ["Keresés a Google Csevegőben", "Google Talk durchsuchen", "Rechercher dans Google Talk", "Buscar Google Talk"],
+      "%1$s results for \"%2$s\"": ["%1$s találat a következőre: \"%2$s\"", "%1$s Ergebnisse für \"%2$s\"", "%1$s résultats pour \"%2$s\"", "%1$s resultados de \"%2$s\""],
       "Talk": [
           "Google Csevegő",
           "Talk",
@@ -284,7 +286,19 @@
     const note = off ? `<p class="tk-note">${e(T(lang, 'Chat off record'))}</p>` : '';
     return `<div class="app-view tk tk-chatview" data-no-translate><div class="tk-bar"><span class="tk-who"><b>${e(f.name)}</b><small>${e(f.status || label(lang, f.presence))}</small></span><img class="tk-pres" src="${presenceIcon(f)}" alt="">${buttons}</div><div class="tk-scroll tk-history">${note}${rows}</div><form class="tk-compose" data-form="tk-send"><input name="body" placeholder="${e(T(lang, 'Type to compose'))}" aria-label="${e(T(lang, 'Type to compose'))}" autocomplete="off"><button type="submit">${e(T(lang, 'Send'))}</button></form></div>`;
   }
-  function render(ctx) { return ctx.ui.tkChat ? chat(ctx) : roster(ctx); }
+  // Search (audit step 5): the framework SearchDialog with Talk's hint and history, then search_results.xml.
+  function searchDialog(ctx) {
+    const {lang, data} = ctx, s = store(data), hint = T(lang, 'Search Google Talk');
+    return `<div class="gbbr-search-scrim" data-action="tk-search-cancel"></div><form class="gbbr-search" data-form="tk-search"><div class="gbbr-search-row"><img class="gbbr-search-app" src="assets/talk.png" alt=""><input name="query" autocomplete="off" aria-label="${e(hint)}" placeholder="${e(hint)}"><button class="gbbr-go" type="submit" aria-label="Go"><img src="assets/gb-ic_btn_search_go.png" alt=""></button></div><div class="gbbr-suggest">${(s.searches || []).slice(0, 4).map(q => `<button type="button" class="gbbr-suggestion" data-action="tk-search-run" data-id="${e(q)}"><img src="assets/gb-br-ic_search_category_history.png" alt=""><span><b>${e(q)}</b></span></button>`).join('')}</div></form>`;
+  }
+  function results(ctx) {
+    const {lang, data, ui, locale} = ctx, s = store(data), q = ui.tkQuery.toLocaleLowerCase();
+    const hits = Object.keys(s.chats).map(id => ({f: friend(ctx, id), m: [...(s.chats[id] || [])].reverse().find(m => m.body.toLocaleLowerCase().includes(q))})).filter(h => h.f && h.m);
+    const rows = hits.map(({f, m}) => `<button class="tk-hit" data-action="tk-chat" data-id="${f.id}"><span class="tk-hit-title"><img src="assets/gb-stat_notify_chat.png" alt=""><b>${e(f.name)}</b></span><span class="tk-hit-snippet">${e(m.body)}</span><span class="tk-hit-meta"><i>${e(m.me ? ctx.account : f.name)}</i><time>${e(new Date(m.time).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'}))}</time></span></button>`).join('');
+    const title = T(lang, '%1$s results for "%2$s"').replace('%1$s', hits.length).replace('%2$s', ui.tkQuery);
+    return `<div class="app-view tk tk-results" data-no-translate><div class="gb-titlebar">${e(title)}</div><div class="tk-scroll tk-hits">${rows}</div></div>`;
+  }
+  function render(ctx) { const html = ctx.ui.tkChat ? chat(ctx) : ctx.ui.tkQuery ? results(ctx) : roster(ctx); return ctx.ui.tkSearching ? html.replace(/<\/div>$/, `${searchDialog(ctx)}</div>`) : html; }
   function menu(ctx) {
     const {lang, ui, data} = ctx, t = k => T(lang, k), s = store(data);
     if (ui.tkChat) return [
@@ -292,7 +306,7 @@
       {action: 'tk-record', title: t(s.offRecord[ui.tkChat] ? 'Chat on record' : 'Chat off record'), icon: s.offRecord[ui.tkChat] ? 'tk-ic_menu_chat_on_record.png' : 'tk-ic_menu_chat_off_record.png'},
       {action: 'tk-unsupported', title: t('Add to chat'), icon: 'tk-ic_menu_invite.png'}, {action: 'tk-end', title: t('End chat'), icon: 'tk-ic_menu_end_conversation.png'},
       {action: 'tk-smiley', title: t('Insert smiley'), icon: 'tk-ic_menu_emoticons.png'}, {action: 'tk-clear', title: t('Clear chat history')}, {action: 'tk-info', title: t('Friend info')}];
-    return [{action: 'tk-unsupported', title: t('Add friend'), icon: 'ic_menu_add'}, {action: 'tk-unsupported', title: t('Search'), icon: 'ic_menu_search'},
+    return [{action: 'tk-unsupported', title: t('Add friend'), icon: 'ic_menu_add'}, {action: 'tk-search', title: t('Search'), icon: 'ic_menu_search'},
       {action: 'tk-switch', title: t('Switch chats'), icon: 'tk-ic_menu_chat_dashboard.png'}, {action: 'tk-end-all', title: t('End all chats'), icon: 'tk-ic_menu_end_all_conversations.png'},
       {action: 'tk-unsupported', title: t('Settings'), icon: 'ic_menu_preferences'}, {action: 'tk-unsupported', title: t('Sign out'), icon: 'tk-ic_menu_logout.png'}];
   }
@@ -324,6 +338,9 @@
       case 'tk-info': ctx.dialog('info'); break;
       case 'tk-call': ui.tkCall = id; ctx.dialog('call'); break;
       case 'tk-call-ok': close(); ctx.toast(T(lang, 'Calling…')); break;
+      case 'tk-search': close(); ui.tkSearching = true; ctx.render(); ctx.focus('.gbbr-search input'); break;
+      case 'tk-search-cancel': ui.tkSearching = false; ctx.render(); break;
+      case 'tk-search-run': ui.tkSearching = false; ui.tkQuery = id; ctx.render(); break;
       case 'tk-unsupported': close(); ctx.toast('This feature is not part of the simulator.'); break;
       default: return false;
     }
@@ -332,6 +349,7 @@
   function submit(form, values, ctx) {
     const {ui, data} = ctx, s = store(data);
     if (form === 'tk-message') { handle('tk-message-ok', null, ctx); return true; }
+    if (form === 'tk-search') { const query = String(values.get('query') || '').trim(); if (!query) return true; s.searches = [query, ...(s.searches || []).filter(q => q !== query)].slice(0, 10); ctx.save(); ui.tkSearching = false; ui.tkQuery = query; ctx.render(); return true; }
     if (form !== 'tk-send') return false;
     const body = String(values.get('body') || '').trim(), id = ui.tkChat; if (!body || !id) return true;
     (s.chats[id] ||= []).push({me: true, body, time: Date.now()}); ctx.save(); ctx.render(); ctx.focus('.tk-compose input');
@@ -342,9 +360,9 @@
     }
     return true;
   }
-  function back(ctx) { if (ctx.ui.tkChat) { ctx.ui.tkChat = ''; ctx.render(); return true; } return false; }
+  function back(ctx) { if (ctx.ui.tkSearching) { ctx.ui.tkSearching = false; ctx.render(); return true; } if (ctx.ui.tkChat) { ctx.ui.tkChat = ''; ctx.render(); return true; } if (ctx.ui.tkQuery) { ctx.ui.tkQuery = ''; ctx.render(); return true; } return false; }
   function mounted(ctx) { const box = ctx.root.querySelector('.tk-history'); if (box) box.scrollTop = box.scrollHeight; }
-  function open(ctx, resume) { if (!resume) ctx.ui.tkChat = ''; }
+  function open(ctx, resume) { if (!resume) { ctx.ui.tkChat = ''; ctx.ui.tkQuery = ''; ctx.ui.tkSearching = false; } }
   GBApps.register('talk', {render, mounted, menu, dialog, handle, submit, back, open, scroll: '.tk-scroll'});
   window.GBTalk = {T, ROSTER};
 })();
