@@ -9,7 +9,7 @@ const SHARED={
   'calculator-engine.js':[['2.3.6','4.0.4','4.3','4.4.4','5.1.1']],'browser-session.js':[['4.0.4','4.3','4.4.4','5.1.1']],
   'play-store.js':[['4.0.4','4.3']],
   // Not yet checked against each image (the audit's follow-up list in docs/audit-plan-2026-10.md).
-  'beanbag.js':[['4.3','4.4.4']],'browser.css':[['2.3.6','4.0.4','4.3','4.4.4','5.1.1']],'calendar.js':[['4.3','4.4.4']],
+  'browser.css':[['2.3.6','4.0.4','4.3','4.4.4','5.1.1']],'calendar.js':[['4.3','4.4.4']],
   'desk-clock.css':[['2.3.6','4.0.4','4.3','4.4.4','5.1.1']],'email.css':[['2.3.6','4.4.4','5.1.1']],
   'email.js':[['2.3.6','4.4.4','5.1.1']],'global-actions.css':[['2.3.6','4.0.4','4.3'],['4.4.4','5.1.1']],
   'global-actions.js':[['2.3.6','4.0.4','4.3','4.4.4']],'hangouts.css':[['4.4.4','5.1.1']],

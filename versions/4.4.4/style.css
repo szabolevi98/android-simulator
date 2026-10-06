@@ -478,14 +478,6 @@ html,body{overscroll-behavior-y:none}
 .lock-transport-bar button:active{background:#33b5e566}
 .lock-transport-bar img{width:29px;height:29px}
 .lock-view.with-transport .lock-clock{visibility:hidden}
-/* Android 4.3 PlatLogoActivity (Theme.Wallpaper, platlogo with 32dp padding) and SystemUI BeanBag. */
-.jb-platlogo-view,.jb-beanbag{width:100%;height:100%;position:relative;overflow:hidden;background:transparent;touch-action:none}
-.jb-platlogo{position:absolute;inset:0;border:0;background:none;padding:29px;display:grid;place-items:center;cursor:pointer;-webkit-touch-callout:none}
-.jb-platlogo img{max-width:100%;max-height:100%;object-fit:contain;pointer-events:none}
-.jb-toast{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);z-index:30;display:flex;flex-direction:column;align-items:center;padding:7px;pointer-events:none;color:#fff;text-shadow:0 2px 4px #0006;animation:toast-in .2s ease-out}
-.jb-toast span{font:300 23px Roboto,RobotoICS,sans-serif;margin-bottom:-4px}
-.jb-toast strong{font:700 18px Roboto,RobotoICS,sans-serif}
-.jb-beanbag .bean{position:absolute;left:0;top:0;transform-origin:center;will-change:transform;user-select:none;-webkit-user-drag:none;cursor:grab;pointer-events:auto;touch-action:none}
 @keyframes toast-in{from{opacity:0}}
 /* Launcher2 hotseat: full width and transparent; dock_divider = hotseat_track_holo (2dp 50%% white line with a soft
    shadow) inset by workspace_divider_padding 3dp on each side. */
