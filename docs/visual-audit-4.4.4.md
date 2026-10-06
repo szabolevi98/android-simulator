@@ -68,3 +68,8 @@
   - The overflow is `games_destination_main_menu`: Accounts, Settings, Help.
   - All texts are the APK's. "Most recently played" is not in the APK and was removed; My Activity rows show `games_achievement_list_header_unlocked_format` ("3/18 unlocked") instead of a made-up "Achievement unlocked".
   - The four 4.4.4 Play apps are now from their APKs; the shared plumbing is `S()`, `PlayApps.menu()` and the `pa-menu` Holo.Light popup.
+- **Extra apps (Play Newsstand 3.0.1, Quickoffice 6.3.1, Wallet 2.0):**
+  - Newsstand: the home button opens `NavDrawerFragment`'s list of `HomePage$Type` (Read Now, My News, My Magazines, Saved — labelled "Bookmarks" in the APK — and Explore) in `nav_drawer_entry` rows (64 dp, #333333 on #fafafa). The menus merge as `FragmentActivity` does: `NSActivity`'s `standard_menu` (Settings, Help), then `HomeFragment`'s `home_fragment_menu` (Search as the bar icon `ic_menu_search_holo_dark`, On device only) in a Holo.Light popup.
+  - Quickoffice 6.3 has no navigation drawer in the APK, so the bar lost its drawer mark.
+  - Wallet 2.0: the home button opens `nav_drawer` (My Wallet, Send money, Transactions, Wallet Balance on #333333 with #666666 separators). Wallet stays in English, as the US-only app is.
+  - Test: `tests/kk-extra-apps.test.cjs`.

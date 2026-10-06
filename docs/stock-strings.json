@@ -446,6 +446,17 @@
    "Achievements": "PlayGames:games_achievement_list_title",
    "PLAY": "PlayGames:games_play",
    "%1$d/%2$d unlocked": "PlayGames:games_achievement_list_header_unlocked_format"
+  },
+  "newsstand": {
+   "Read Now": "Magazines:read_now_title",
+   "My News": "Magazines:my_news_title",
+   "My Magazines": "Magazines:my_magazines_title",
+   "Saved": "Magazines:saved_title",
+   "Explore": "Magazines:explore_title",
+   "Search": "Magazines:search",
+   "Settings": "Magazines:settings",
+   "Help": "Magazines:help",
+   "On device only": "Magazines:on_device_only"
   }
  },
  "5.1.1": {

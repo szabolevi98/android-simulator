@@ -1277,5 +1277,62 @@ window.StockStrings = {
    "%1$d/%2$d réussites déverrouillées",
    "%1$d/%2$d desbloqueados"
   ]
+ },
+ "newsstand": {
+  "Read Now": [
+   "Olvasson most",
+   "Jetzt lesen",
+   "À lire",
+   "Leer ahora"
+  ],
+  "My News": [
+   "Hírek",
+   "Meine Nachrichten",
+   "Mes actualités",
+   "Mis noticias"
+  ],
+  "My Magazines": [
+   "Saját Magazinok",
+   "Meine Zeitschriften",
+   "Mes magazines",
+   "Mis revistas"
+  ],
+  "Saved": [
+   "Könyvjelzők",
+   "Lesezeichen",
+   "Favoris",
+   "Marcadores",
+   "Bookmarks"
+  ],
+  "Explore": [
+   "Felfedezés",
+   "Entdecken",
+   "Découvrir",
+   "Explorar"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "On device only": [
+   "Csak az eszközön",
+   "Nur auf Gerät",
+   "Sur cet appareil uniquement",
+   "Solo en dispositivo"
+  ]
  }
 };

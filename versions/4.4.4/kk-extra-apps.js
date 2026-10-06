@@ -3,7 +3,7 @@
    card_background_blue1 / blue2 / orange), Quickoffice 6.3.1 (the light home screen: "Open or create new files" with
    Drive / Device and "Create new file", then the recent files from the simulator's Drive) and Wallet 2.0 (US only,
    so English everywhere: the Wallet Balance tile and PAYMENT METHODS). Labels come from the APKs; content is offline
-   and made up. */
+   and made up. Audit step 4 added Newsstand's and Wallet's navigation drawers and Newsstand's menus from the APKs. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -23,6 +23,8 @@
     'Recent files': ['Legújabb fájlok', 'Zuletzt verwendete Dateien', 'Fichiers récents', 'Archivos recientes']
   };
   const LANGS = ['hu', 'de', 'fr', 'es'];
+  // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
+  const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key], i = LANGS.indexOf(window.AndroidI18n?.language); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
   const local = (key, t) => { const i = LANGS.indexOf(window.AndroidI18n?.language); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : t(key); };
   const svg = {
     drawer: '<svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z" fill="currentColor"/></svg>',
@@ -36,12 +38,15 @@
   };
   const KIND_COLOR = {doc: '#4285f4', sheet: '#0f9d58', slides: '#f4b400', pdf: '#db4437'};
   // A Holo action bar: the drawer indicator, the app icon and the title, then action buttons.
-  const bar = (app, title, actions = '', cls = '') => `<header class="kkx-bar ${cls}"><button class="kkx-home" data-action="kkx-unavailable" aria-label="${e(title)}"><span class="kkx-drawer">${svg.drawer}</span><img src="assets/${app}.png" alt=""></button><h2>${e(title)}</h2>${actions}</header>`;
+  // Newsstand and Wallet open their navigation drawers from the home button; Quickoffice 6.3 has none.
+  const bar = (app, title, actions = '', cls = '') => `<header class="kkx-bar ${cls}"><button class="kkx-home" data-action="${app === 'quickoffice' ? 'home' : 'kkx-drawer'}" aria-label="${e(title)}">${app === 'quickoffice' ? '' : `<span class="kkx-drawer">${svg.drawer}</span>`}<img src="assets/${app}.png" alt=""></button><h2>${e(title)}</h2>${actions}</header>`;
   const action = (icon, label) => `<button class="kkx-btn" data-action="kkx-unavailable" aria-label="${e(label)}">${svg[icon]}</button>`;
   function render(app, {files, ui, t}) {
     if (app === 'newsstand') {
+      const n = key => S('newsstand', key, t);
+      const drawer = ui.kkxDrawer ? `<button class="kkx-scrim" data-action="kkx-drawer" aria-label="${e(t('Close'))}"></button><nav class="ns-drawer">${['Read Now', 'My News', 'My Magazines', 'Saved', 'Explore'].map((key, i) => `<button class="${i ? '' : 'on'}" data-action="${i ? 'kkx-unavailable' : 'kkx-drawer'}">${e(n(key))}</button>`).join('')}</nav>` : '';
       const stories = [['Material design comes to more apps', 'Gadget Weekly', '#15a0c8'], ['A weekend of trails above the city', 'Trail & Summit', '#4285f4'], ['Five autumn soups in thirty minutes', 'Weekend Kitchen', '#ef851c']];
-      return `<div class="app-view kkx-app kkx-newsstand">${bar('newsstand', local('Read Now', t), action('search', t('Search')) + action('more', t('More options')), 'dark')}<div class="kkx-list kkx-cards">${stories.map(([title, source, color]) => `<article class="kkx-story"><div class="kkx-story-art" style="background:${color}"><b>${e(title)}</b></div><div class="kkx-story-copy"><small>${e(source)}</small></div></article>`).join('')}</div></div>`;
+      return `<div class="app-view kkx-app kkx-newsstand">${bar('newsstand', n('Read Now'), `<button class="kkx-btn" data-action="kkx-unavailable" aria-label="${e(n('Search'))}"><img class="kkx-img" src="assets/ns-ic_menu_search_holo_dark.png" alt=""></button><button class="kkx-btn" data-action="kkx-menu" aria-label="${e(t('More options'))}">${svg.more}</button>`, 'dark')}<div class="kkx-list kkx-cards">${stories.map(([title, source, color]) => `<article class="kkx-story"><div class="kkx-story-art" style="background:${color}"><b>${e(title)}</b></div><div class="kkx-story-copy"><small>${e(source)}</small></div></article>`).join('')}</div>${drawer}</div>`;
     }
     if (app === 'quickoffice') {
       const open = ui.sub && files.find(file => file.id === ui.sub);
@@ -50,8 +55,17 @@
       const tile = (icon, label) => `<button class="kkx-tile" data-action="kkx-unavailable"><span>${svg[icon]}</span>${e(label)}</button>`;
       return `<div class="app-view kkx-app kkx-quickoffice">${bar('quickoffice', 'Quickoffice®', action('more', t('More options')))}<div class="kkx-list"><h3 class="kkx-section">${e(local('Open or create new files', t))}</h3><div class="kkx-tiles">${tile('drive', local('Drive', t))}${tile('device', local('Device', t))}${tile('plus', local('Create new file', t))}</div><h3 class="kkx-section">${e(local('Recent files', t))}</h3>${recent}</div></div>`;
     }
-    if (app === 'wallet') return `<div class="app-view kkx-app kkx-wallet">${bar('wallet', 'Wallet', action('more', 'More options'))}<div class="kkx-list"><div class="kkx-balance"><small>Wallet Balance</small><b>$0.00</b></div><h3 class="kkx-section">PAYMENT METHODS</h3><button class="kkx-file" data-action="kkx-unavailable"><span class="kkx-file-icon">${svg.card}</span><span class="kkx-file-copy"><strong>Tap and pay will not work. Add a card.</strong></span></button></div></div>`;
+    if (app === 'wallet') {
+      // Wallet 2.0's nav_drawer (US only, so English as the image shows it everywhere).
+      const drawer = ui.kkxDrawer ? `<button class="kkx-scrim" data-action="kkx-drawer" aria-label="${e(t('Close'))}"></button><nav class="wal-drawer">${['My Wallet', 'Send money', 'Transactions', 'Wallet Balance'].map((label, i) => `<button class="${i ? '' : 'on'}" data-action="${i ? 'kkx-unavailable' : 'kkx-drawer'}">${e(label)}</button>`).join('')}</nav>` : '';
+      return `<div class="app-view kkx-app kkx-wallet">${bar('wallet', 'Wallet', action('more', 'More options'))}<div class="kkx-list"><div class="kkx-balance"><small>Wallet Balance</small><b>$0.00</b></div><h3 class="kkx-section">PAYMENT METHODS</h3><button class="kkx-file" data-action="kkx-unavailable"><span class="kkx-file-icon">${svg.card}</span><span class="kkx-file-copy"><strong>Tap and pay will not work. Add a card.</strong></span></button></div>${drawer}</div>`;
+    }
     return '';
   }
-  window.KKExtraApps = {APPS, render};
+  // Newsstand's overflow: NSActivity's standard_menu, then HomeFragment's home_fragment_menu (Search is the bar icon).
+  function menu(app, t) {
+    if (app === 'newsstand') return ['Settings', 'Help', 'On device only'].map(key => ({action: 'kkx-unavailable', title: S('newsstand', key, t)}));
+    return [];
+  }
+  window.KKExtraApps = {APPS, render, menu};
 })();

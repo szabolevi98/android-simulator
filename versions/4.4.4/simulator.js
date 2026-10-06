@@ -801,6 +801,8 @@
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'pa-drawer') {
       overlayRoot.innerHTML = PlayApps.drawer(playContext(ui.view));
+    } else if (ui.overlay === 'kkx-menu') {
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu holo-menu-light">${KKExtraApps.menu(ui.view, key => i18n.t(key)).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'pa-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu holo-menu-light">${PlayApps.menu(playContext(ui.view)).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'photos-menu') {
@@ -1564,7 +1566,9 @@
       case 'lw-set': data.liveWallpaper = {id}; save(); ui.sub = ''; ui.lwFromPicker = false; home(false); break;
       case 'gallery-wallpaper': ui.overlay = ''; openApp('gallery'); break;
       case 'kkx-open': ui.sub = id; render(); break;
-      case 'kkx-unavailable': toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'kkx-unavailable': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'kkx-drawer': ui.kkxDrawer = !ui.kkxDrawer; render(); break;
+      case 'kkx-menu': ui.overlay = 'kkx-menu'; renderOverlay(); break;
       case 'photos-set-wallpaper': ui.overlay = ''; openApp('photos'); break;
       case 'market': openApp('play-store'); break;
       case 'play-menu': case 'jbp-menu': ui.overlay = 'play-menu'; renderOverlay(); break;
