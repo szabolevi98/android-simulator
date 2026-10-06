@@ -319,3 +319,11 @@
 .screen .sa-gp-bell{position:relative;flex:none;display:grid;place-items:center;width:50.74px;height:100%;padding:0;border:0;background:none}
 .sa-gp-bell img{width:18.12px;height:18.12px;padding:3.62px;box-sizing:content-box}
 .sa-gp-bell b{position:absolute;left:28.99px;top:7.25px;min-width:16.31px;height:16.31px;padding:0 2.72px;box-sizing:border-box;border:.91px solid #ddd;border-radius:2.72px;background:#dd4b39;font:400 9.97px/14.5px Roboto,sans-serif;color:#fff;text-align:center}
+/* YouTube 5.2 search (audit step 5): the SearchView in the bar, results_fragment's white spinner header, the feed cards. */
+.yt-sv{flex:1;min-width:0;display:flex;align-items:center;height:32.62px;margin:3.62px 7.25px;border:0 solid;border-image:url(assets/yt5-textfield_search_selected_holo_light.png) 1 12 12 fill/.3px 3.62px 3.62px stretch}
+.yt-sv input{flex:1;min-width:0;height:100%;padding:0 7.25px;border:0;background:none;outline:0;font:400 16.31px Roboto,sans-serif;color:#000}
+.yt-sv input::placeholder{color:#0000004d}
+.screen .yt-sv-clear{flex:none;display:grid;place-items:center;height:100%;padding:0 7.25px;border:0;background:none}
+.yt-sv-clear img{width:21.74px;height:21.74px}
+.yt-filters{flex:none;display:flex;background:#fff;box-shadow:0 2.72px 2.72px -1.81px #0003;z-index:1}
+.yt-filters span{display:flex;align-items:center;height:43.49px;margin-left:7.25px;padding:0 14.5px 0 10.87px;border:0 solid;border-image:url(assets/yt5-compat_spinner_default.png) 8 32 52 8 fill/3.62px 14.5px 23.56px 3.62px stretch;font:400 16.31px Roboto,sans-serif;color:#000;box-sizing:border-box}

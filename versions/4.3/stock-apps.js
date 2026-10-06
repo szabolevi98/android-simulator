@@ -128,11 +128,19 @@
   function youtube(ctx) {
     const y = key => S(ctx, 'youtube', key), more = btn('sa-menu', ctx.t('More options'), 'overflow');
     const ybar = (up, actions) => `<header class="sa-bar sa-yt-bar dark"><button class="sa-up" data-action="${up ? 'back' : 'home'}" aria-label="YouTube">${up ? '<img class="sa-caret" src="assets/ic_ab_back_holo_dark.png" alt="">' : ''}<img class="sa-yt-logo" src="assets/yt4-ic_logo_wide.png" alt="YouTube"></button><span class="sa-title"></span>${actions}</header>`;
+    if (ctx.ui.sub === 'search' || ctx.ui.sub === 'results') {
+    const q = String(ctx.ui.ytQuery || ''), found = VIDEOS.filter(v => (v.title + ' ' + v.channel).toLocaleLowerCase().includes(q.trim().toLocaleLowerCase()));
+    const field = `<form class="yt-sv" data-form="yt-search"><input name="query" value="${e(q)}" placeholder="${e(y('Search YouTube'))}" aria-label="${e(y('Search YouTube'))}" autocomplete="off" spellcheck="false" enterkeyhint="search">${q ? `<button type="button" class="yt-sv-clear" data-action="yt-search-clear" aria-label="${e(y('Clear query'))}"><img src="assets/yt4-ic_clear_normal.png" alt=""></button>` : ''}</form>`;
+    const head = ybar(true, '').replace('<span class="sa-title"></span>', ctx.ui.sub === 'search' ? field : `<span class="sa-title"></span>${img('yt-search-open', y('Search'), 'yt4-ic_menu_search.png')}`);
+    if (ctx.ui.sub === 'search') return `<div class="app-view sa-app sa-youtube yt-searching">${head}<div class="sa-scroll sa-yt-feed"></div></div>`;
+    const filters = `<div class="yt-filters dark"><span>${e(y('Videos'))}</span><span>${e(y('All time'))}</span></div>`;
+    return `<div class="app-view sa-app sa-youtube">${head}${filters}<div class="sa-scroll sa-yt-feed">${found.map(v => `<button class="sa-yt-item" data-action="yt-video" data-id="${v.id}"><span class="sa-yt-thumb">${thumb(VIDEOS.indexOf(v))}<i></i><b>${e(v.title)}</b><em>${e(v.len)}</em></span></button>`).join('') || `<p class="sa-empty">${e(y('No videos found'))}</p>`}</div></div>`;
+    }
     if (ctx.ui.sub === 'video') {
       const v = VIDEOS.find(item => item.id === ctx.ui.ytVideo) || VIDEOS[0], i = VIDEOS.indexOf(v);
       return `<div class="app-view sa-app sa-youtube sa-yt-watch">${ybar(true, img('sa-unsupported', y('Add to'), 'yt4-ic_menu_add_to_playlist.png') + img('sa-unsupported', y('Share'), 'yt4-ic_menu_share.png') + more)}<div class="sa-yt-player${ctx.ui.ytPaused ? '' : ' playing'}" data-action="yt-toggle">${thumb(i)}<span class="sa-yt-state">${ctx.ui.ytPaused ? ICON.play : ''}</span><i class="sa-yt-progress"></i></div><div class="sa-scroll"><div class="sa-yt-info"><b>${e(v.title)}</b><small>${e(v.channel)} · ${e(ctx.t('%s views').replace('%s', v.views))}</small></div><h4>${e(ctx.t('Suggestions'))}</h4>${VIDEOS.filter(o => o !== v).map(o => `<button class="sa-yt-row" data-action="yt-video" data-id="${o.id}">${thumb(VIDEOS.indexOf(o))}<span><b>${e(o.title)}</b><small>${e(o.channel)}</small><small>${e(ctx.t('%s views').replace('%s', o.views))}</small></span></button>`).join('')}</div></div>`;
     }
-    return `<div class="app-view sa-app sa-youtube">${ybar(false, img('sa-unsupported', y('Search'), 'yt4-ic_menu_search.png') + more)}<div class="sa-scroll sa-yt-feed">${VIDEOS.map((v, i) => `<button class="sa-yt-item" data-action="yt-video" data-id="${v.id}"><span class="sa-yt-author"><img src="assets/yt4-missing_avatar.png" alt=""><b>${e(v.channel)}</b></span><span class="sa-yt-thumb">${thumb(i)}<i></i><b>${e(v.title)}</b><em>${e(v.len)}</em></span></button>`).join('')}</div></div>`;
+    return `<div class="app-view sa-app sa-youtube">${ybar(false, img('yt-search-open', y('Search'), 'yt4-ic_menu_search.png') + more)}<div class="sa-scroll sa-yt-feed">${VIDEOS.map((v, i) => `<button class="sa-yt-item" data-action="yt-video" data-id="${v.id}"><span class="sa-yt-author"><img src="assets/yt4-missing_avatar.png" alt=""><b>${e(v.channel)}</b></span><span class="sa-yt-thumb">${thumb(i)}<i></i><b>${e(v.title)}</b><em>${e(v.len)}</em></span></button>`).join('')}</div></div>`;
   }
 
   // ---- Google+ (2013): the Home stream ----

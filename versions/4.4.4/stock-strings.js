@@ -633,6 +633,36 @@ window.StockStrings = {
    "Mag ich nicht",
    "Je n'aime pas",
    "No me gusta"
+  ],
+  "Search YouTube": [
+   "Keresés a YouTube-on",
+   "In YouTube suchen",
+   "Rechercher sur YouTube",
+   "Buscar..."
+  ],
+  "No videos found": [
+   "Nem található videó",
+   "Keine Videos gefunden",
+   "Aucune vidéo n'a été trouvée.",
+   "No se ha encontrado ningún vídeo."
+  ],
+  "Videos": [
+   "Videók",
+   "Videos",
+   "Vidéos",
+   "Vídeos"
+  ],
+  "All time": [
+   "Mindenkori",
+   "Gesamte Zeit",
+   "Toutes périodes",
+   "Todos"
+  ],
+  "Clear query": [
+   "Lekérdezés törlése",
+   "Anfrage löschen",
+   "Effacer la requête",
+   "Borrar consulta"
   ]
  },
  "drive": {

@@ -33,7 +33,12 @@
    "Like": "YouTube:menu_like",
    "Dislike": "YouTube:menu_dislike",
    "Copy URL": "YouTube:menu_copy_url",
-   "Flag": "YouTube:menu_flag"
+   "Flag": "YouTube:menu_flag",
+   "Search YouTube": "YouTube:search_hint",
+   "No videos found": "YouTube:no_videos_found",
+   "Videos": "YouTube:videos_search",
+   "All time": "YouTube:time_filter_all_time",
+   "Clear query": "framework:searchview_description_clear"
   },
   "maps": {
    "Maps": "Maps:MAPS_APP_NAME",
@@ -337,7 +342,12 @@
    "Open guide": "YouTube:action_bar_guide_open",
    "More": "YouTube:load_more_label",
    "Like": "YouTube:menu_like",
-   "Dislike": "YouTube:menu_dislike"
+   "Dislike": "YouTube:menu_dislike",
+   "Search YouTube": "YouTube:search_hint",
+   "No videos found": "YouTube:no_videos_found",
+   "Videos": "YouTube:videos_search",
+   "All time": "YouTube:time_filter_all_time",
+   "Clear query": "framework:searchview_description_clear"
   },
   "drive": {
    "My Drive": "Drive:menu_my_drive",
@@ -606,7 +616,10 @@
    "Favorites": "YouTube:channel_favorites",
    "Uploads": "YouTube:channel_uploads",
    "History": "YouTube:channel_watch_history",
-   "Offline": "YouTube:guide_offline_videos"
+   "Offline": "YouTube:guide_offline_videos",
+   "Search YouTube": "YouTube:search_hint",
+   "No videos found": "YouTube:no_videos_found",
+   "Clear": "YouTube:action_bar_search_clear"
   },
   "gplus": {
    "Home": "PlusOne:stream_circles",

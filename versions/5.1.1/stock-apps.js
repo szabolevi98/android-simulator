@@ -165,8 +165,18 @@
   // History), then Offline. q_video_feed_entry.xml: 16 dp sides, the 16:9 thumbnail with the duration, the 16 sp #333
   // title, 14 sp #999 details and the menu anchor, a 1 dp #e1e1e1 separator. The watch page keeps the player, the info
   // card with likes and the suggestions.
+  // Search (audit step 5): see the header of the version's YouTube; the simulator matches titles and channels.
+  function ytSearch(ctx, y) {
+    const q = String(ctx.ui.ytQuery || ''), found = VIDEOS.filter(v => (v.title + ' ' + v.channel).toLocaleLowerCase().includes(q.trim().toLocaleLowerCase()));
+    const field = `<form class="yt-sv" data-form="yt-search"><input name="query" value="${e(q)}" placeholder="${e(y('Search YouTube'))}" aria-label="${e(y('Search YouTube'))}" autocomplete="off" spellcheck="false" enterkeyhint="search">${q ? `<button type="button" class="yt-sv-clear" data-action="yt-search-clear" aria-label="${e(y('Clear query'))}"></button>` : ''}</form>`;
+    const clear = `<button type="button" class="yt-sv-clear" data-action="yt-search-clear" aria-label="${e(y('Clear'))}"></button>`;
+    const head = `<header class="yt10-bar yt10-search"><button class="yt10-back" data-action="back" aria-label="${e(ctx.t('Back'))}"></button>${ctx.ui.sub === 'search' ? field : `<button class="yt10-query" data-action="yt-search-open" data-id="keep">${e(q)}</button>${clear}`}</header>`;
+    if (ctx.ui.sub === 'search') return `<div class="app-view sa-app sa-youtube sa-yt10 yt-searching">${head}<div class="sa-scroll yt10-feed"></div></div>`;
+    return `<div class="app-view sa-app sa-youtube sa-yt10">${head}<div class="sa-scroll yt10-feed">${found.map(v => `<button class="yt10-compact" data-action="yt-video" data-id="${v.id}"><span class="yt10-cthumb">${thumb(VIDEOS.indexOf(v))}<em>${e(v.len)}</em></span><span class="yt10-ccopy"><b>${e(v.title)}</b><small>${e(v.channel)}</small><small>${e(ctx.t('%s views').replace('%s', v.views))}</small></span></button>`).join('') || `<p class="sa-empty">${e(y('No videos found'))}</p>`}</div></div>`;
+  }
   function youtube(ctx) {
     const y = key => S(ctx, 'youtube', key);
+    if (ctx.ui.sub === 'search' || ctx.ui.sub === 'results') return ytSearch(ctx, y);
     if (ctx.ui.sub === 'video') {
       const v = VIDEOS.find(item => item.id === ctx.ui.ytVideo) || VIDEOS[0], i = VIDEOS.indexOf(v), liked = (ctx.data.ytLikes || []).includes(v.id);
       const rows = VIDEOS.filter(item => item !== v).slice(0, 3);
@@ -174,7 +184,7 @@
     }
     const entry = (label, icon, action = 'sa-unsupported', on = false) => `<button class="yt10-entry${on ? ' on' : ''}" data-action="${action}"><img src="assets/yt10-ic_drawer_${icon}.png" alt=""><span>${e(label)}</span></button>`;
     const guide = ctx.ui.ytGuide ? `<button class="yt10-scrim" data-action="yt-guide" aria-label="${e(ctx.t('Close'))}"></button><nav class="yt10-guide"><div class="yt10-account"><img src="assets/yt10-missing_avatar.png" alt=""><b>Nexus 6</b><small>nexus6.demo@gmail.com</small></div>${entry(ctx.t('What to Watch'), 'what_to_watch', 'yt-guide', true)}${entry(ctx.t('My Subscriptions'), 'subscriptions')}<hr>${entry(y('Watch later'), 'watch_later')}${entry(y('Favorites'), 'favorites')}${entry(y('Uploads'), 'uploads')}${entry(y('History'), 'watch_history')}${entry(y('Offline'), 'offline')}</nav>` : '';
-    return `<div class="app-view sa-app sa-youtube sa-yt10"><header class="yt10-bar"><button class="yt10-toggle" data-action="yt-guide" aria-label="${e(ctx.t('Open navigation drawer'))}"><i></i><i></i><i></i></button><b>${e(ctx.t('What to Watch'))}</b>${img('sa-unsupported', y('Search'), 'yt10-ic_menu_search.png')}<button class="sa-btn" data-action="sa-menu" aria-label="${e(ctx.t('More options'))}"><img src="assets/yt10-abc_ic_menu_moreoverflow_mtrl_alpha.png" alt=""></button></header><div class="sa-scroll yt10-feed">${VIDEOS.map((v, i) => `<button class="yt10-item" data-action="yt-video" data-id="${v.id}"><span class="yt10-thumb">${thumb(i)}<em>${e(v.len)}</em></span><span class="yt10-copy"><b>${e(v.title)}</b><small>${e(v.channel)} · ${e(ctx.t('%s views').replace('%s', v.views))}</small><img src="assets/yt10-contextual_menu_anchor_normal.png" alt=""></span></button>`).join('')}</div>${guide}</div>`;
+    return `<div class="app-view sa-app sa-youtube sa-yt10"><header class="yt10-bar"><button class="yt10-toggle" data-action="yt-guide" aria-label="${e(ctx.t('Open navigation drawer'))}"><i></i><i></i><i></i></button><b>${e(ctx.t('What to Watch'))}</b>${img('yt-search-open', y('Search'), 'yt10-ic_menu_search.png')}<button class="sa-btn" data-action="sa-menu" aria-label="${e(ctx.t('More options'))}"><img src="assets/yt10-abc_ic_menu_moreoverflow_mtrl_alpha.png" alt=""></button></header><div class="sa-scroll yt10-feed">${VIDEOS.map((v, i) => `<button class="yt10-item" data-action="yt-video" data-id="${v.id}"><span class="yt10-thumb">${thumb(i)}<em>${e(v.len)}</em></span><span class="yt10-copy"><b>${e(v.title)}</b><small>${e(v.channel)} · ${e(ctx.t('%s views').replace('%s', v.views))}</small><img src="assets/yt10-contextual_menu_anchor_normal.png" alt=""></span></button>`).join('')}</div>${guide}</div>`;
   }
 
 

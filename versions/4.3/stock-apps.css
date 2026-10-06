@@ -309,4 +309,13 @@
 .gs-list{margin:0 13.63px}
 .screen .gs-list button{display:flex;align-items:center;width:100%;min-height:40.88px;padding:0 6.81px;border:0;border-bottom:.85px solid #0000001f;background:none;text-align:left;font:400 15.33px Roboto,sans-serif;color:#000;cursor:pointer}
 .screen .gs-list button:active{background:#33b5e566}
-
+/* YouTube 4.5 search (audit step 5): the SearchView in the striped bar, results_fragment's spinners and default_video_item. */
+.yt-sv{flex:1;min-width:0;display:flex;align-items:center;height:30.66px;margin:3.41px 6.81px;border:0 solid;border-image:url(assets/yt4-textfield_search_selected_holo_dark.png) 1 8 8 fill/.43px 3.41px 3.41px stretch}
+.yt-sv input{flex:1;min-width:0;height:100%;padding:0 6.81px;border:0;background:none;outline:0;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#fff}
+.yt-sv input::placeholder{color:#ffffff80}
+.screen .yt-sv-clear{flex:none;display:grid;place-items:center;height:100%;padding:0 6.81px;border:0;background:none}
+.yt-sv-clear img{width:20.44px;height:20.44px}
+.yt-filters{flex:none;display:flex;background:#fff}
+.yt-filters.dark{background:#3d3d3d}
+.yt-filters span{display:flex;align-items:center;height:40.88px;margin-left:6.81px;padding:0 13.63px 0 10.22px;border:0 solid;border-image:url(assets/yt4-compat_spinner_default.png) 8 32 52 8 fill/3.41px 13.63px 22.14px 3.41px stretch;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#000;box-sizing:border-box}
+.yt-filters.dark span{color:#fff}

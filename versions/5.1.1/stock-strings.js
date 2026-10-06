@@ -708,6 +708,24 @@ window.StockStrings = {
    "Offline",
    "Hors connexion",
    "Sin conexión"
+  ],
+  "Search YouTube": [
+   "Keresés a YouTube-on",
+   "In YouTube suchen",
+   "Rechercher sur YouTube",
+   "Buscar..."
+  ],
+  "No videos found": [
+   "Nem található videó",
+   "Keine Videos gefunden",
+   "Aucune vidéo n'a été trouvée.",
+   "No se ha encontrado ningún vídeo."
+  ],
+  "Clear": [
+   "Törlés",
+   "Löschen",
+   "Effacer",
+   "Borrar"
   ]
  },
  "gplus": {
