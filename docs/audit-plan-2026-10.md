@@ -155,4 +155,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 4.3 Currents 2.1 (kategóriamenü a csúszó panel alatt, csempék, menü) | 154fa92 |
 | 2026-10-06 | 4. lépés: 4.3 Play Magazines 2.0 (lila sáv, fiók, menü, kártyarács) | e79485b |
 | 2026-10-06 | 4. lépés: 4.3 Wallet 1.6 (dashboard_activity gombjai) | fc9f643 |
-| 2026-10-06 | 4. lépés: 4.3 Movie Studio (AOSP ProjectPickerAdapter új projekt csempéje) – a 4.3 extra appok kész, teszttel | (ez a commit) |
+| 2026-10-06 | 4. lépés: 4.3 Movie Studio (AOSP ProjectPickerAdapter új projekt csempéje) – a 4.3 extra appok kész, teszttel | d949245 |
