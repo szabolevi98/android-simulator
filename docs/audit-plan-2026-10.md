@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 kész; következnek az extra appok), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
+**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 kész; extra appok: 4.3 Navigation kész), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -149,3 +149,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 5.1.1 Play Movies 3.6 (PlayDrawer a VideosDrawerHelper szerint, csak Search, My Library fülek, Watch Now, Wishlist, állapotsor-szín) | 70f037a |
 | 2026-10-06 | 4. lépés: 5.1.1 Play Books 3.3 (PlayDrawer, Search/Sort ikonok, Refresh menü, szűrőfülek, olvasó sávja) | a0ba6e1 |
 | 2026-10-06 | 4. lépés: 5.1.1 Play Games 2.2 (zöld Toolbar, PlayDrawer, Settings menü, Play Now szekciók, Inbox, Explore fülek) – az 5.1.1 Play-appok kész | 31611fa |
+| 2026-10-06 | 4. lépés: 4.3 Navigation (Maps 6.14 DestinationActivity: fekete Holo, lapcímsor, csempék) | (ez a commit) |

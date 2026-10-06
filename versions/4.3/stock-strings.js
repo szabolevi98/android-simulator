@@ -955,5 +955,49 @@ window.StockStrings = {
    "Derniers ajouts",
    "Añadidas recientemente"
   ]
+ },
+ "navigation": {
+  "Navigation": [
+   "Navigáció",
+   "Navigation",
+   "Navigation",
+   "Navigation"
+  ],
+  "SHORTCUTS": [
+   "GYORSBILLENTYŰK",
+   "Schnellauswahl",
+   "RACCOURCIS",
+   "ACCESOS DIRECTOS"
+  ],
+  "STARRED": [
+   "CSILLAGOZOTT",
+   "MARKIERT",
+   "FAVORIS",
+   "DESTACADOS"
+  ],
+  "Speak destination": [
+   "Cél kimondása",
+   "Ziel einsprechen",
+   "Énoncer destination",
+   "Di el destino"
+  ],
+  "Type destination": [
+   "Cél begépelése",
+   "Ziel eintippen",
+   "Saisir destination",
+   "Escribe el destino"
+  ],
+  "Contacts": [
+   "Kapcsolatok",
+   "Kontakte",
+   "Contacts",
+   "Contactos"
+  ],
+  "Starred places": [
+   "Csillaggal megjelölt helyek",
+   "Markierte Orte",
+   "Adresses enregistrées",
+   "Sitios destacados"
+  ]
  }
 };

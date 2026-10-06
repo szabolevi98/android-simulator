@@ -175,6 +175,15 @@
    "Recently added to My Library": "Music2:reason_recently_added",
    "Thumbs up": "Music2:thumbsup_list",
    "Last added": "Music2:recentlyadded"
+  },
+  "navigation": {
+   "Navigation": "Maps:da_navigation",
+   "SHORTCUTS": "Maps:da_picker_shortcuts",
+   "STARRED": "Maps:da_picker_starred",
+   "Speak destination": "Maps:da_picker_speak_destination",
+   "Type destination": "Maps:da_picker_type_destination",
+   "Contacts": "Maps:da_picker_contacts",
+   "Starred places": "Maps:da_picker_starred_items"
   }
  },
  "4.4.4": {

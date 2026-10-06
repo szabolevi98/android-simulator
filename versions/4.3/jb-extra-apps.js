@@ -96,6 +96,8 @@
       ]
   };
   const LANGS = ['hu', 'de', 'fr', 'es'];
+  // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
+  const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key], i = LANGS.indexOf(window.AndroidI18n?.language); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
   const local = (key, t) => { const i = LANGS.indexOf(window.AndroidI18n?.language); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : t(key); };
   const svg = {
     search: '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/></svg>',
@@ -117,7 +119,12 @@
       const people = contacts.slice(0, 3);
       return `<div class="app-view kkx-app jbx-messenger">${bar('messenger', t('Messenger'), action('plus', local('New conversation', t)) + action('more', t('More options')))}<div class="kkx-list">${people.map((p, i) => row('person', p.name, ['Saturday’s hike: who’s driving?', 'Photos from the meetup', 'See you at 11!'][i], ['#dd4b39', '#4285f4', '#0f9d58'][i])).join('')}</div></div>`;
     }
-    if (app === 'navigation') return `<div class="app-view kkx-app jbx-navigation">${bar('navigation', t('Navigation'))}<div class="kkx-list">${row('mic', local('Speak destination', t))}${row('keyboard', local('Type destination', t))}${row('person', local('Contacts', t))}${row('star', local('Starred places', t), '', '#f4b400')}</div></div>`;
+    if (app === 'navigation') {
+      // Maps 6.14's DestinationActivity on a phone (da_destination_activity_redesign): the shortcut tiles of class aa.
+      const n = key => S('navigation', key, t);
+      const tile = (key, icon) => `<button class="nav-tile" data-action="kkx-unavailable"><img class="${icon}" src="assets/nav-${icon}.png" alt=""><span>${e(n(key))}</span></button>`;
+      return `<div class="app-view kkx-app nav614"><header class="nav-bar"><img src="assets/navigation.png" alt=""><b>${e(n('Navigation'))}</b></header><div class="nav-strip"><b>${e(n('SHORTCUTS'))}</b><span>${e(n('STARRED'))}</span></div><div class="nav-tiles">${tile('Speak destination', 'da_picker_speak_destination')}${tile('Type destination', 'da_picker_type_destination')}${tile('Contacts', 'da_picker_contacts')}${tile('Starred places', 'da_picker_starred_items')}</div></div>`;
+    }
     if (app === 'local') return `<div class="app-view kkx-app jbx-local">${bar('local', t('Local'), action('search', t('Search')))}<div class="kkx-list">${[['Restaurants', '#e8710a'], ['Coffee', '#795548'], ['Bars', '#9c27b0'], ['Hotels', '#3f51b5'], ['Attractions', '#0f9d58'], ['ATMs', '#607d8b'], ['Gas stations', '#db4437']].map(([label, color]) => row('pin', local(label, t), '', color)).join('')}</div></div>`;
     if (app === 'currents') return `<div class="app-view kkx-app jbx-currents">${bar('currents', t('Currents'), action('search', t('Search')) + action('more', t('More options')), 'dark')}<div class="kkx-list">${tiles([[local('Featured', t), '#00a1e4'], [local('Saved', t), '#7e57c2'], ['Tech Daily', '#e53935', 'Technology'], ['Trail & Summit', '#43a047', 'Outdoors'], ['Weekend Kitchen', '#fb8c00', 'Food'], [local('Add edition', t), '#9e9e9e']], 'dark')}</div></div>`;
     if (app === 'play-magazines') {
