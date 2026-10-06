@@ -675,5 +675,19 @@
    "Game on! See invitations and matches in progress here.": "PlayGames:games_inbox_null_state_text",
    "FIND MULTIPLAYER GAMES": "PlayGames:games_inbox_null_state_button_text"
   }
+ },
+ "4.0.4": {
+  "navigation": {
+   "Navigation": "Maps:da_navigation",
+   "Map": "Maps:da_map",
+   "Speak destination": "Maps:da_picker_speak_destination",
+   "Type destination": "Maps:da_picker_type_destination",
+   "Contacts": "Maps:da_picker_contacts",
+   "Starred places": "Maps:da_picker_starred_items",
+   "Places": "Maps:PLACES_APP_NAME"
+  },
+  "studio": {
+   "Create new project": "VideoEditorGoogle:projects_new_project"
+  }
  }
 }

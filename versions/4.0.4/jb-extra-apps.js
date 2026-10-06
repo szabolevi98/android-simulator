@@ -1,5 +1,5 @@
-/* (4.0.4 registers Messenger, Navigation, Places and Movie Studio, the same 2012-13 screens in the Galaxy Nexus image;
-   Maps' PlacesActivity is labelled Places there.)
+/* (4.0.4 registers Messenger, Navigation, Places and Movie Studio. Audit step 4 draws Navigation and Places from
+   Maps 6.4 and Movie Studio from AOSP VideoEditor 4.0.4, as the Galaxy Nexus image has them.)
    The remaining launcher apps of the Nexus 4 image (JWR66Y) as simple Holo screens, like the KitKat simulator's extras:
    Messenger (Google+ 4.0's group chat: the conversation list and "New conversation"), Navigation (Maps 6.14's
    DestinationActivity: Speak destination, Type destination, Contacts, Starred places), Local (Maps' Places: the category
@@ -98,6 +98,8 @@
       ]
   };
   const LANGS = ['hu', 'de', 'fr', 'es'];
+  // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
+  const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key], i = LANGS.indexOf(window.AndroidI18n?.language); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
   const local = (key, t) => { const i = LANGS.indexOf(window.AndroidI18n?.language); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : t(key); };
   const svg = {
     search: '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/></svg>',
@@ -119,8 +121,18 @@
       const people = contacts.slice(0, 3);
       return `<div class="app-view kkx-app jbx-messenger">${bar('messenger', t('Messenger'), action('plus', local('New conversation', t)) + action('more', t('More options')))}<div class="kkx-list">${people.map((p, i) => row('person', p.name, ['Saturday’s hike: who’s driving?', 'Photos from the meetup', 'See you at 11!'][i], ['#dd4b39', '#4285f4', '#0f9d58'][i])).join('')}</div></div>`;
     }
-    if (app === 'navigation') return `<div class="app-view kkx-app jbx-navigation">${bar('navigation', t('Navigation'))}<div class="kkx-list">${row('mic', local('Speak destination', t))}${row('keyboard', local('Type destination', t))}${row('person', local('Contacts', t))}${row('star', local('Starred places', t), '', '#f4b400')}</div></div>`;
-    if (app === 'local') return `<div class="app-view kkx-app jbx-local">${bar('local', t('Places'), action('search', t('Search')))}<div class="kkx-list">${[['Restaurants', '#e8710a'], ['Coffee', '#795548'], ['Bars', '#9c27b0'], ['Hotels', '#3f51b5'], ['Attractions', '#0f9d58'], ['ATMs', '#607d8b'], ['Gas stations', '#db4437']].map(([label, color]) => row('pin', local(label, t), '', color)).join('')}</div></div>`;
+    if (app === 'navigation') {
+      // Maps 6.4's da_destination_activity: the da_actionBar (feature switcher, "Navigation", the Map button) over the
+      // ListView whose header holds class aa's tiles.
+      const n = key => S('navigation', key, t);
+      const tile = (key, icon) => `<button class="nav-tile" data-action="kkx-unavailable"><img src="assets/nav-${icon}.png" alt=""><span>${e(n(key))}</span></button>`;
+      return `<div class="app-view kkx-app nav64"><header class="nav-head"><span class="nav-switch"><img src="assets/nav-ic_feature_navigation.png" alt=""><img src="assets/nav-switcher_dropdown_triangle.png" alt=""></span><i></i><b>${e(n('Navigation'))}</b><i></i><button data-action="kkx-unavailable"><img src="assets/nav-da_btn_show_map.png" alt="">${e(n('Map'))}</button></header><div class="nav-tiles">${tile('Speak destination', 'da_picker_speak_destination')}${tile('Type destination', 'da_picker_type_destination')}${tile('Contacts', 'da_picker_contacts')}${tile('Starred places', 'da_picker_starred_items')}</div></div>`;
+    }
+    if (app === 'local') {
+      // Maps 6.4's Places (placesv2.xml): the categories Places offers by default, with the APK's icons.
+      const cats = [['Restaurants', 'restaurants'], ['Coffee', 'cafe'], ['Bars', 'bars'], ['Hotels', 'hotels'], ['Attractions', 'attractions'], ['ATMs', 'atm'], ['Gas stations', 'gas']];
+      return `<div class="app-view kkx-app loc64"><header class="loc-bar"><span class="loc-switch"><img src="assets/loc-ic_feature_local.png" alt=""><img src="assets/nav-switcher_dropdown_triangle.png" alt=""></span><i></i><b>${e(S('navigation', 'Places', t))}</b><i></i><button data-action="kkx-unavailable" aria-label="${e(t('Search'))}"><img src="assets/loc-actionbar_search.png" alt=""></button></header><div class="loc-where"><img src="assets/loc-gray_location.png" alt=""><span>Mountain View</span><img src="assets/loc-locationbar_triangle.png" alt=""></div><div class="loc-cats">${cats.map(([key, icon]) => `<button data-action="kkx-unavailable"><img src="assets/loc-places_cat_icon_${icon}.png" alt=""><span>${e(local(key, t))}</span></button>`).join('')}</div></div>`;
+    }
     if (app === 'currents') return `<div class="app-view kkx-app jbx-currents">${bar('currents', t('Currents'), action('search', t('Search')) + action('more', t('More options')), 'dark')}<div class="kkx-list">${tiles([[local('Featured', t), '#00a1e4'], [local('Saved', t), '#7e57c2'], ['Tech Daily', '#e53935', 'Technology'], ['Trail & Summit', '#43a047', 'Outdoors'], ['Weekend Kitchen', '#fb8c00', 'Food'], [local('Add edition', t), '#9e9e9e']], 'dark')}</div></div>`;
     if (app === 'play-magazines') {
       const page = ui.jbxMagazines || 'read';
@@ -128,7 +140,11 @@
       return `<div class="app-view kkx-app jbx-magazines">${bar('play-magazines', t('Play Magazines'), action('search', t('Search')))}${tabs}<div class="kkx-list">${tiles(page === 'read' ? [['Gadget Weekly', '#c62828', 'July 2013'], ['Trail & Summit', '#2e7d32', 'Summer 2013'], ['Weekend Kitchen', '#ef6c00', 'August 2013']] : [['Gadget Weekly', '#c62828', 'July 2013'], ['Gadget Weekly', '#ad1457', 'June 2013']])}</div></div>`;
     }
     if (app === 'wallet') return `<div class="app-view kkx-app kkx-wallet">${bar('wallet', 'Wallet', action('more', 'More options'))}<div class="kkx-list">${[['Payment cards', '#0f9d58'], ['Rewards cards', '#f4b400'], ['Offers', '#db4437'], ['Transactions', '#4285f4']].map(([label, color]) => row('card', label, '', color)).join('')}</div></div>`;
-    if (app === 'movie-studio') return `<div class="app-view kkx-app jbx-studio">${bar('movie-studio', t('Movie Studio'), '', 'dark')}<div class="kkx-list">${`<div class="jbx-grid dark"><button class="jbx-tile jbx-new" data-action="kkx-unavailable"><span class="jbx-tile-art">${svg.plus}</span><strong>${e(local('Create new project', t))}</strong></button></div>`}</div></div>`;
+    if (app === 'movie-studio') {
+      // AOSP VideoEditor (android-4.0.4_r2.1): ProjectsActivity's project picker with the new-project bitmap.
+      const title = S('studio', 'Create new project', t);
+      return `<div class="app-view kkx-app ms43"><header class="ms-bar"><img src="assets/movie-studio.png" alt=""></header><div class="ms-grid"><button class="ms-item" data-action="kkx-unavailable" aria-label="${e(title)}"><span class="ms-thumb"><img src="assets/ms-add_video_project_big.png" alt=""><b>${e(title)}</b></span></button></div></div>`;
+    }
     return '';
   }
   window.JBExtraApps = {APPS, render};
