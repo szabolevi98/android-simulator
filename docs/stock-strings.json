@@ -208,6 +208,9 @@
    "Manage subscriptions": "Magazines:magazines_menu_manage_subscriptions",
    "Settings": "Magazines:settings",
    "Help": "Magazines:help"
+  },
+  "studio": {
+   "Create new project": "VideoEditorGoogle:projects_new_project"
   }
  },
  "4.4.4": {

@@ -149,3 +149,15 @@
 .wal-btn img{width:83.45px;height:70.96px}
 .wal-btn span{margin-top:.85px}
 .screen .wal-btn:active img{filter:brightness(.9)}
+
+/* Movie Studio (AOSP VideoEditor, audit step 4): activity_background under the overlay action bar (logo only) and the
+   project picker's new-project bitmap. */
+.ms43{position:relative;background:#040505 url('assets/ms-activity_background.png') center/cover no-repeat}
+.ms-bar{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;height:40.88px;padding-left:6.81px;background:#222;border-top:.85px solid #2d2d2d;z-index:2}
+.ms-bar img{width:27.25px;height:27.25px}
+.ms-grid{display:flex;flex-direction:column;align-items:center;padding-top:55.36px}
+.screen .ms-item{display:block;padding:14.48px 7.66px;border:0;background:none}
+.ms-thumb{position:relative;display:grid;place-items:center;width:255.48px;height:127.74px;background:#000}
+.ms-thumb img{width:54.5px;height:54.5px}
+.ms-thumb b{position:absolute;left:0;right:0;bottom:0;height:23.84px;padding:3.41px 0 0 17.03px;background:#00000080;text-align:left;font:400 11.92px Roboto,sans-serif;color:#fff}
+.screen .ms-item:active .ms-thumb{outline:1.7px solid #33b5e5}

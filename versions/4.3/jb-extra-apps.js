@@ -152,7 +152,10 @@
       const button = ([label, icon]) => `<button class="wal-btn" data-action="kkx-unavailable"><img src="assets/wal-ic_btn_dashboard_${icon}_normal.png" alt=""><span>${e(label)}</span></button>`;
       return `<div class="app-view kkx-app wal16"><header class="sa-bar"><button class="sa-up" data-action="home" aria-label="Wallet"><img src="assets/wallet.png" alt=""></button><span class="sa-title"><b>Wallet</b></span></header><div class="wal-dash"><i class="wal-space"></i><div class="wal-row">${[['Payment cards', 'payment'], ['Rewards cards', 'loyalty']].map(button).join('')}</div><i class="wal-space"></i><div class="wal-row">${[['Offers', 'offers'], ['Transactions', 'transactions']].map(button).join('')}</div><i class="wal-space wide"></i></div></div>`;
     }
-    if (app === 'movie-studio') return `<div class="app-view kkx-app jbx-studio">${bar('movie-studio', t('Movie Studio'), '', 'dark')}<div class="kkx-list">${`<div class="jbx-grid dark"><button class="jbx-tile jbx-new" data-action="kkx-unavailable"><span class="jbx-tile-art">${svg.plus}</span><strong>${e(local('Create new project', t))}</strong></button></div>`}</div></div>`;
+    if (app === 'movie-studio') {
+      const title = S('studio', 'Create new project', t);
+      return `<div class="app-view kkx-app ms43"><header class="ms-bar"><img src="assets/movie-studio.png" alt=""></header><div class="ms-grid"><button class="ms-item" data-action="kkx-unavailable" aria-label="${e(title)}"><span class="ms-thumb"><img src="assets/ms-add_video_project_big.png" alt=""><b>${e(title)}</b></span></button></div></div>`;
+    }
     return '';
   }
   window.JBExtraApps = {APPS, render};

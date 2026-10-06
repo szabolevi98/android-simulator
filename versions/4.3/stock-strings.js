@@ -1123,5 +1123,13 @@ window.StockStrings = {
    "Aide",
    "Ayuda"
   ]
+ },
+ "studio": {
+  "Create new project": [
+   "Új projekt létrehoz.",
+   "Neues Projekt erstellen",
+   "Créer un projet",
+   "Crear nuevo proyecto"
+  ]
  }
 };
