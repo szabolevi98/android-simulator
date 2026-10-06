@@ -149,4 +149,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 5.1.1 Play Movies 3.6 (PlayDrawer a VideosDrawerHelper szerint, csak Search, My Library fülek, Watch Now, Wishlist, állapotsor-szín) | 70f037a |
 | 2026-10-06 | 4. lépés: 5.1.1 Play Books 3.3 (PlayDrawer, Search/Sort ikonok, Refresh menü, szűrőfülek, olvasó sávja) | a0ba6e1 |
 | 2026-10-06 | 4. lépés: 5.1.1 Play Games 2.2 (zöld Toolbar, PlayDrawer, Settings menü, Play Now szekciók, Inbox, Explore fülek) – az 5.1.1 Play-appok kész | 31611fa |
-| 2026-10-06 | 4. lépés: 4.3 Navigation (Maps 6.14 DestinationActivity: fekete Holo, lapcímsor, csempék) | (ez a commit) |
+| 2026-10-06 | 4. lépés: 4.3 Navigation (Maps 6.14 DestinationActivity: fekete Holo, lapcímsor, csempék) | 3b4a987 |
