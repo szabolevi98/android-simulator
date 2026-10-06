@@ -380,9 +380,13 @@
       const rows = c.items.length ? c.items.map(m => c.kind === 'voicemail' ? `<div class="gv-vm"><button class="gv-play${ui.gvPlaying === c.id ? ' on' : ''}" data-action="gv-play" data-id="${c.id}" aria-label="Play"></button><span class="gv-bar"><i style="width:${ui.gvPlaying === c.id ? 100 : 0}%"></i></span><p class="gv-transcript">${e(m.text)}</p></div>` : `<div class="gv-sms${m.me ? ' me' : ''}"><b>${e(m.me ? 'Me' : c.name)}:</b> ${e(m.text)}</div>`).join('') : `<p class="gv-call">${e({missed: 'Missed call', placed: 'Placed call', received: 'Received call'}[c.kind] || '')} · ${e(gvTime(ctx, c.mins))}</p>`;
       return `<div class="app-view gv" data-no-translate><div class="gb-titlebar">${e(c.name)}</div><div class="gv-scroll gv-conv"><div class="gv-head"><img src="${GV('default_contact_picture')}" alt=""><span><b>${e(c.name)}</b><small>${e(c.number)}</small></span></div>${rows}</div>${c.kind === 'sms' ? `<form class="gv-compose" data-form="gv-sms"><input name="text" placeholder="Type to compose" aria-label="Type to compose" autocomplete="off"><button type="submit">Send</button></form>` : ''}</div>`;
     }
-    const items = list.filter(x => gvIn(x, label)).sort((a, b) => a.mins - b.mins);
+    const q = String(ui.gvQuery || '').toLocaleLowerCase(), match = x => [x.name, x.number || '', ...x.items.map(m => m.text || '')].some(t => String(t).toLocaleLowerCase().includes(q));
+    const items = list.filter(x => q ? x.label !== 'trash' && match(x) : gvIn(x, label)).sort((a, b) => a.mins - b.mins);
     const rows = items.map(x => `<div class="gv-item${x.read ? '' : ' unread'}"><button class="gv-open" data-action="gv-open" data-id="${x.id}"><span class="gv-photo"><img src="${GV('default_contact_picture')}" alt=""><img class="gv-badge" src="${GV(gvBadge(x.kind))}" alt=""></span><span class="gv-main"><span class="gv-top"><b>${e(x.name)}</b>${x.items.length > 1 ? `<i>(${x.items.length})</i>` : ''}<small>${e(gvTime(ctx, x.mins))}</small></span><span class="gv-text">${e(x.items.at(-1)?.text || {missed: 'Missed call', placed: 'Placed call', received: 'Received call'}[x.kind] || '')}</span></span></button><button class="gv-star${x.starred ? ' on' : ''}" data-action="gv-star" data-id="${x.id}" aria-label="Star"></button></div>`).join('');
-    return `<div class="app-view gv" data-no-translate><div class="gb-titlebar">Google Voice - ${e((GV_LABELS.find(l => l[0] === label) || [0, 'Inbox'])[1])}</div><div class="gv-scroll">${rows || '<p class="gv-empty">No messages</p>'}</div></div>`;
+    // Search (audit step 5): search_title over the matches, search_view_empty, the framework SearchDialog on top.
+    const title = q ? `Search results for: ${ui.gvQuery} (${items.length}/${items.length})` : `Google Voice - ${(GV_LABELS.find(l => l[0] === label) || [0, 'Inbox'])[1]}`;
+    const dialog = ui.gvSearching ? `<div class="gbbr-search-scrim" data-action="gv-search-cancel"></div><form class="gbbr-search" data-form="gv-search"><div class="gbbr-search-row"><img class="gbbr-search-app" src="assets/google-voice.png" alt=""><input name="query" autocomplete="off" aria-label="Search" placeholder="Search"><button class="gbbr-go" type="submit" aria-label="Go"><img src="assets/gb-ic_btn_search_go.png" alt=""></button></div></form>` : '';
+    return `<div class="app-view gv" data-no-translate><div class="gb-titlebar">${e(title)}</div><div class="gv-scroll">${rows || `<p class="gv-empty">${q ? 'No matches for your search' : 'No messages'}</p>`}</div>${dialog}</div>`;
   }
 
   // ---------- Tags ----------
@@ -437,7 +441,7 @@
     const {view, ui, lang} = ctx, t = k => T(lang, k);
     if (view === 'google-voice') return ui.gvOpen
       ? [{action: 'gv-call', title: 'Call', icon: 'gv-ic_menu_call_gingerbread.png'}, {action: 'gv-sms-open', title: 'Text', icon: 'gv-ic_menu_sms_gingerbread.png'}, {action: 'gv-archive', title: 'Archive', icon: 'gv-ic_menu_archive_gingerbread.png'}, {action: 'gv-delete', title: 'Delete', icon: 'gv-ic_menu_delete_gingerbread.png'}, {action: 'gv-star', id: ui.gvOpen, title: 'Add star', icon: 'gv-ic_menu_star_gingerbread.png'}]
-      : [{action: 'gv-compose', title: 'Compose', icon: 'gv-ic_menu_compose_gingerbread.png'}, {action: 'gv-labels', title: 'Labels', icon: 'gv-ic_menu_labels_gingerbread.png'}, {action: 'gv-refresh', title: 'Refresh', icon: 'gv-ic_menu_refresh_gingerbread.png'}, {action: 'gv-unsupported', title: 'Search', icon: 'gv-ic_menu_search_gingerbread.png'}, {action: 'gv-unsupported', title: 'Balance', icon: 'gv-ic_menu_balance_gingerbread.png'}, {action: 'gv-unsupported', title: 'Settings', icon: 'ic_menu_preferences'}, {action: 'gv-unsupported', title: 'Help', icon: 'ic_menu_help'}];
+      : [{action: 'gv-compose', title: 'Compose', icon: 'gv-ic_menu_compose_gingerbread.png'}, {action: 'gv-labels', title: 'Labels', icon: 'gv-ic_menu_labels_gingerbread.png'}, {action: 'gv-refresh', title: 'Refresh', icon: 'gv-ic_menu_refresh_gingerbread.png'}, {action: 'gv-search', title: 'Search', icon: 'gv-ic_menu_search_gingerbread.png'}, {action: 'gv-unsupported', title: 'Balance', icon: 'gv-ic_menu_balance_gingerbread.png'}, {action: 'gv-unsupported', title: 'Settings', icon: 'ic_menu_preferences'}, {action: 'gv-unsupported', title: 'Help', icon: 'ic_menu_help'}];
     if (view === 'tags') return ui.tgOpen ? [{action: 'tg-delete', id: ui.tgOpen, title: t('Delete tag'), icon: 'ic_menu_delete'}, {action: 'tg-intro', id: '0', title: t('Help'), icon: 'ic_menu_help'}] : [{action: 'tg-intro', id: '0', title: t('Help'), icon: 'ic_menu_help'}, {action: 'tg-settings', title: t('Settings'), icon: 'ic_menu_preferences'}];
     if (view === 'car-home') return [{action: 'ch-open', id: 'exit', title: T(lang, 'Exit car mode'), icon: 'ch-ic_exit_carhome.png'}, {action: 'ch-open', id: 'settings', title: t('Settings'), icon: 'ic_menu_preferences'}];
     return [];
@@ -465,7 +469,7 @@
       case 'gv-open': { const c = gvStore(data).find(x => x.id === id); if (c) { c.read = true; ui.gvOpen = id; ctx.save(); ctx.render(); } break; }
       case 'gv-star': { const c = gvStore(data).find(x => x.id === id); if (c) c.starred = !c.starred; close(); ctx.save(); ctx.render(); break; }
       case 'gv-labels': close(); ui.gvLabels = true; ctx.render(); break;
-      case 'gv-label': ui.gvLabel = id; ui.gvLabels = false; ctx.render(); break;
+      case 'gv-label': ui.gvLabel = id; ui.gvLabels = false; ui.gvQuery = ''; ctx.render(); break;
       case 'gv-play': { ui.gvPlaying = ui.gvPlaying === id ? '' : id; ctx.render(); clearTimeout(gvTimer); if (ui.gvPlaying) gvTimer = setTimeout(() => { ui.gvPlaying = ''; if (ui.view === 'google-voice') ctx.render(); }, 6000); break; }
       case 'gv-call': { const c = gvStore(data).find(x => x.id === ui.gvOpen); close(); if (c) ctx.call(c.number); break; }
       case 'gv-sms-open': close(); ctx.focus('.gv-compose input'); break;
@@ -473,6 +477,8 @@
       case 'gv-compose': ctx.dialog('gv-compose'); ctx.focus('.gbdlg [name=to]'); break;
       case 'gv-new-send': document.querySelector('.gbdlg form[data-form="gv-new"]')?.requestSubmit(); break;
       case 'gv-refresh': close(); ctx.toast('Getting messages'); break;
+      case 'gv-search': close(); ui.gvSearching = true; ctx.render(); ctx.focus('.gbbr-search input'); break;
+      case 'gv-search-cancel': ui.gvSearching = false; ctx.render(); break;
       case 'gv-unsupported': close(); ctx.toast('This feature is not part of the simulator.'); break;
       case 'tg-tab': ui.tgTab = id; ctx.render(); break;
       case 'tg-open': ui.tgOpen = id; ctx.render(); break;
@@ -490,6 +496,7 @@
   }
   function submit(form, values, ctx) {
     const {ui, data} = ctx;
+    if (form === 'gv-search') { const query = String(values.get('query') || '').trim(); if (!query) return true; ui.gvSearching = false; ui.gvQuery = query; ctx.render(); return true; }
     if (form === 'gv-sms') { const text = String(values.get('text') || '').trim(), c = gvStore(data).find(x => x.id === ui.gvOpen); if (!text || !c) return true; c.items.push({me: true, text}); c.mins = 0; ctx.save(); ctx.render(); ctx.toast('Message sent via Google Voice.'); return true; }
     if (form === 'gv-new') { const to = String(values.get('to') || '').trim(), text = String(values.get('text') || '').trim(); if (!to || !text) return true; gvStore(data).unshift({id: 'v' + Date.now(), name: to, number: to, kind: 'sms', mins: 0, read: true, starred: false, label: 'inbox', items: [{me: true, text}]}); ui.overlay = ''; ctx.renderOverlay(); ctx.save(); ctx.render(); ctx.toast('Message sent via Google Voice.'); return true; }
     if (form === 'tg-my') { const s = tgStore(data); s.myTag.title = String(values.get('title') || '').trim(); s.myTag.text = String(values.get('text') || '').trim(); ctx.save(); ctx.toast(T(ctx.lang, 'Save')); return true; }
@@ -499,6 +506,8 @@
     const {ui, view} = ctx;
     if (view === 'google-voice' && ui.gvOpen) { ui.gvOpen = ''; ctx.render(); return true; }
     if (view === 'google-voice' && ui.gvLabels) { ui.gvLabels = false; ctx.render(); return true; }
+    if (view === 'google-voice' && ui.gvSearching) { ui.gvSearching = false; ctx.render(); return true; }
+    if (view === 'google-voice' && ui.gvQuery) { ui.gvQuery = ''; ctx.render(); return true; }
     if (view === 'tags' && ui.tgIntro !== undefined) { ui.tgIntro = undefined; ctx.render(); return true; }
     if (view === 'tags' && ui.tgOpen) { ui.tgOpen = ''; ctx.render(); return true; }
     if (view === 'car-home' && ui.chScreen) { ui.chScreen = 0; ctx.render(); return true; }
@@ -507,7 +516,7 @@
   function open(ctx, resume) {
     const {ui, view, data} = ctx;
     if (resume) return;
-    if (view === 'google-voice') { ui.gvOpen = ''; ui.gvLabels = false; ui.gvLabel = 'inbox'; }
+    if (view === 'google-voice') { ui.gvOpen = ''; ui.gvLabels = false; ui.gvLabel = 'inbox'; ui.gvQuery = ''; ui.gvSearching = false; }
     if (view === 'tags') { ui.tgOpen = ''; ui.tgIntro = undefined; if (data.settings?.nfc === false) setTimeout(() => ctx.dialog('nfc')); }
     if (view === 'voice-dialer') ui.vdState = 'starting';
     if (view === 'car-home') ui.chScreen = 0;
