@@ -685,6 +685,19 @@
    "PLAY": "PlayGames:games_dest_game_detail_banner_play_button",
    "Game on! See invitations and matches in progress here.": "PlayGames:games_inbox_null_state_text",
    "FIND MULTIPLAYER GAMES": "PlayGames:games_inbox_null_state_button_text"
+  },
+  "editors": {
+   "Docs": "EditorsDocs:app_name_docs",
+   "Sheets": "EditorsDocs:app_name_sheets",
+   "Slides": "EditorsDocs:app_name_slides",
+   "Search": "EditorsDocs:editors_menu_search",
+   "Add new": "EditorsDocs:editors_menu_create_new_doc",
+   "View as Grid": "EditorsDocs:editors_menu_doc_view_grid_mode",
+   "Sort by": "EditorsDocs:editors_menu_sort_by",
+   "Open document": "EditorsDocs:open_with_picker",
+   "Refresh": "EditorsDocs:editors_menu_refresh",
+   "Modified: %s": "EditorsDocs:doclist_date_modified_label",
+   "Open navigation drawer": "EditorsDocs:doclist_open_navigation_drawer_content_description"
   }
  },
  "4.0.4": {

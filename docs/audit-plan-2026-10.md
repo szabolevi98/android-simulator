@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 kész; extra appok: 4.3 Navigation, Local, Messenger, Currents, Magazines, Wallet, Movie Studio kész – 4.3 kész; 4.0.4 is kész; 4.4.4 kész; 5.1.1 extra appok következnek), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
+**Állapot:** a 4. lépésben vagyok: a 4.3, 4.4.4 és 5.1.1 StockApps kész; következik a play-apps (4.3 Books 2.8, Movies 2.5.4, Music 5.0 kész; Magazines az extra appoknál; 4.4.4 kész; 5.1.1 kész; extra appok: 4.3 Navigation, Local, Messenger, Currents, Magazines, Wallet, Movie Studio kész – 4.3 kész; 4.0.4 is kész; 4.4.4 kész; 5.1.1 Docs/Sheets/Slides kész; Fit, Newsstand, Wallet), majd az extra appok, átnevezések, CSS-összevonás és a byte-egyezés teszt.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -159,3 +159,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 4.0.4 Navigation (Maps 6.4 régi fejléce + csempék), Places, Movie Studio; 4.0.4 stock-strings.js | c9dbdb1 |
 | 2026-10-06 | 4. lépés: 4.0.4 Messenger (Google+ 2.4 EsActionBar, menü, sorok) – a 4.0.4 és 4.3 extra appok kész | 46b0155 |
 | 2026-10-06 | 4. lépés: 4.4.4 extra appok (Newsstand fiók + menük, Quickoffice fiókjel nélkül, Wallet fiók) | 9a989a1 |
+| 2026-10-06 | 4. lépés: 5.1.1 Docs/Sheets/Slides (app_name cím, Search + Add new, menü, Drive típusikonok, nincs FAB) | (ez a commit) |

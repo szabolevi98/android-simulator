@@ -925,6 +925,8 @@
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'pa-drawer') {
       overlayRoot.innerHTML = PlayApps.drawer(playContext(ui.view));
+    } else if (ui.overlay === 'lpx-overflow') {
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lpa-menu">${LPExtraApps.menu(ui.view, key => i18n.t(key), i18n.locale()).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'pa-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lpa-menu">${PlayApps.menu(playContext(ui.view)).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'photos-menu') {
@@ -2185,7 +2187,8 @@
         ui.selectedContact = Number(id); ui.sub = 'detail'; ui.overlay = ''; render(); break;
       }
       case 'lpx-open': ui.sub = id; render(); break;
-      case 'lpx-unavailable': case 'lpx-menu': toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'lpx-unavailable': case 'lpx-menu': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'lpx-overflow': ui.overlay = 'lpx-overflow'; renderOverlay(); break;
       case 'vol-zen': data.settings.zenMode = id; save(); renderStatus(); showVolume(volumeStream()); break;
       case 'vol-settings': hideVolume(); openApp('settings'); ui.sub = 'sound'; render(); break;
       case 'people-search-close': ui.peopleSearching = false; ui.peopleQuery = ''; render(); break;

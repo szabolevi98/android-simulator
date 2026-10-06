@@ -1,6 +1,6 @@
-/* The remaining apps of the Nexus 6 factory image (LMY48Y) as simple screens: Docs 1.4, Sheets 1.4 and Slides 1.2
-   (the Drive editors: a toolbar in the brand colour, the recent files of that kind from the simulator's Drive, the red
-   create button and a read-only file view), Fit 1.51 (today's active time and steps), Newsstand 3.3 (Read Now
+/* The remaining apps of the Nexus 6 factory image (LMY48Y): Docs 1.4, Sheets 1.4 and Slides 1.2 (the Drive editors,
+   from their APKs since audit step 4: the app name as the doclist title, Search and Add new in the toolbar, the
+   overflow, Drive's file type icons; a read-only file view), Fit 1.51 (today's active time and steps), Newsstand 3.3 (Read Now
    cards) and Wallet 8.0 (its #4285F4 toolbar, the Wallet balance and the empty card list). All content is offline and
    made up. */
 (() => {
@@ -20,14 +20,20 @@
     doc: '<svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5zM8 12h8v1.5H8zm0 3h8v1.5H8zm0 3h5v1.5H8z" fill="currentColor"/></svg>',
     card: '<svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zm2 3v2h14V8zm0 5v4h14v-4z" fill="currentColor"/></svg>'
   };
+  // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
+  const S = (app, key, t, locale) => { const row = window.StockStrings?.[app]?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
+  const EDITOR_ICON = {doc: 'ic_type_doc', sheet: 'ic_type_sheet', slides: 'ic_type_presentation'};
+  const APP_NAME = {docs: 'Docs', sheets: 'Sheets', slides: 'Slides'};
+  // The editors' toolbar: menu_doclist_activity_editors' always items (Search, Add new) and the overflow.
+  const editorsBar = (app, title, t, locale) => `<header class="lpx-bar" style="background:${COLORS[app][0]}"><button class="lpx-btn" data-action="lpx-unavailable" aria-label="${e(S('editors', 'Open navigation drawer', t, locale))}">${svg.menu}</button><h2>${e(title)}</h2><button class="lpx-btn" data-action="lpx-unavailable" aria-label="${e(S('editors', 'Search', t, locale))}"><img class="lpx-icon" src="assets/ed-editors_action_search.png" alt=""></button><button class="lpx-btn" data-action="lpx-unavailable" aria-label="${e(S('editors', 'Add new', t, locale))}"><img class="lpx-icon" src="assets/ed-editors_action_new.png" alt=""></button><button class="lpx-btn" data-action="lpx-overflow" aria-label="${e(t('More options'))}">${svg.more}</button></header>`;
   const bar = (app, title, {up = false, dark = false} = {}) => `<header class="lpx-bar${dark ? ' dark' : ''}" style="background:${COLORS[app][0]}"><button class="lpx-btn" data-action="${up ? 'back' : 'lpx-menu'}" aria-label="${e(up ? 'Navigate up' : 'Open navigation drawer')}">${up ? svg.back : svg.menu}</button><h2>${e(title)}</h2><button class="lpx-btn" data-action="lpx-unavailable" aria-label="Search">${svg.search}</button><button class="lpx-btn" data-action="lpx-unavailable" aria-label="More options">${svg.more}</button></header>`;
   function render(app, {files, ui, t, locale}) {
     if (KIND[app]) {
       const list = files.filter(file => file.kind === KIND[app]);
       const open = ui.sub && list.find(file => file.id === ui.sub);
       if (open) return `<div class="app-view lpx-app lpx-editor">${bar(app, open.name, {up: true})}<div class="lpx-page"><article class="lpx-paper ${KIND[app]}">${KIND[app] === 'sheet' ? `<table>${open.text.split('\n').map((line, i) => `<tr><th>${i + 1}</th>${line.split(/\s+(?=\S+$)/).map(cell => `<td>${e(cell)}</td>`).join('')}</tr>`).join('')}</table>` : open.text.split('\n').map(line => `<p>${e(line)}</p>`).join('')}</article></div></div>`;
-      const rows = list.map(file => `<button class="lpx-file" data-action="lpx-open" data-id="${e(file.id)}"><span class="lpx-file-icon" style="color:${COLORS[app][0]}">${svg.doc}</span><span class="lpx-file-copy"><strong>${e(file.name)}</strong><small>${e(t('Modified'))} ${e(file.date)}</small></span></button>`).join('');
-      return `<div class="app-view lpx-app">${bar(app, t(TITLE[app]))}<div class="lpx-list">${rows || `<p class="lpx-empty">${e(t('No recent files'))}</p>`}</div><button class="lpx-fab" data-action="lpx-unavailable" aria-label="${e(t('Create new'))}">${svg.plus}</button></div>`;
+      const rows = list.map(file => `<button class="lpx-file" data-action="lpx-open" data-id="${e(file.id)}"><img class="lpx-type" src="assets/dr2-${EDITOR_ICON[KIND[app]]}.png" alt=""><span class="lpx-file-copy"><strong>${e(file.name)}</strong><small>${e(S('editors', 'Modified: %s', t, locale).replace('%s', file.date))}</small></span></button>`).join('');
+      return `<div class="app-view lpx-app">${editorsBar(app, S('editors', APP_NAME[app], t, locale), t, locale)}<div class="lpx-list">${rows || `<p class="lpx-empty">${e(t('No recent files'))}</p>`}</div></div>`;
     }
     if (app === 'fit') {
       const steps = 2431, active = 18, goal = 30, angle = Math.round(active / goal * 360);
@@ -40,5 +46,10 @@
     if (app === 'wallet') return `<div class="app-view lpx-app">${bar('wallet', t('Wallet'))}<div class="lpx-page"><div class="lpx-card lpx-balance"><small>${e(t('Wallet Balance'))}</small><b>$0.00</b></div><div class="lpx-card"><span class="lpx-file-icon" style="color:#4285f4">${svg.card}</span><strong>${e(t('Add a card to tap and pay'))}</strong><small>${e(t('Pay in stores with your phone. Not available offline.'))}</small></div></div><button class="lpx-fab" style="background:#4285f4" data-action="lpx-unavailable" aria-label="${e(t('Send money'))}">${svg.plus}</button></div>`;
     return '';
   }
-  window.LPExtraApps = {APPS, COLORS, render};
+  // The editors' overflow: menu_doclist_activity_editors' ifRoom and never items.
+  function menu(app, t, locale) {
+    if (KIND[app]) return ['View as Grid', 'Sort by', 'Open document', 'Refresh'].map(key => ({action: 'lpx-unavailable', title: S('editors', key, t, locale)}));
+    return [];
+  }
+  window.LPExtraApps = {APPS, COLORS, render, menu};
 })();

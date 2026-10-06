@@ -69,3 +69,8 @@
   - `games_default_menu` puts Settings in the overflow.
   - Play Now has the 2.2 sections (Continue playing, Discover new games, Add players you know) instead of KitKat's Welcome card; Inbox shows `games_inbox_null_state_text` with FIND MULTIPLAYER GAMES.
   - The four 5.1.1 Play apps are now from their APKs. The shared parts are the Toolbar with the DrawerArrowToggle, `playDrawer()`, the PlayHeaderListLayout tabs and the `lpa-menu` material popup, all in `lp-play.css`.
+- **Docs 1.4, Sheets 1.4, Slides 1.2 (EditorsDocs/Sheets/Slides.apk, code from the odex):**
+  - The doclist's title is the OPENED_OR_OWNED_BY_ME filter's label, which `EditorsEntriesFilter$4` takes from `app_name`: "Docs", "Sheets", "Slides". "Recent spreadsheets" and "Recent presentations" are not in the APKs.
+  - `menu_doclist_activity_editors`: Search and Add new are always shown (`editors_action_search`, `editors_action_new`); View as Grid, Sort by, Open document and Refresh go to the overflow. Docs 1.4 has no floating create button, so the red FAB is gone.
+  - Rows use Drive's `ic_type_*` icons (the files are identical) and `doclist_date_modified_label` ("Modified: %s").
+  - The navigation panel's entries are ordered in obfuscated code, so the drawer button shows the unsupported toast.

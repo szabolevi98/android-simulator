@@ -45,3 +45,6 @@
 .lpx-story-copy{padding:10.87px 14.5px 14.5px;display:flex;flex-direction:column;gap:3.62px}
 .lpx-story-copy small{font:500 11.78px Roboto,sans-serif;color:#757575;text-transform:uppercase}
 .lpx-story-copy strong{font:400 18.12px/1.3 Roboto,sans-serif}
+/* Editors (audit step 4): the APK's toolbar icons (xxhdpi x .302) and Drive's type icons (xxxhdpi x .2265). */
+.lpx-icon{width:21.74px;height:21.74px}
+.lpx-type{flex:none;width:21.74px;height:21.74px}

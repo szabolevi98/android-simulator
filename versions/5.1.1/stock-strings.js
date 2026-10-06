@@ -1228,5 +1228,73 @@ window.StockStrings = {
    "RECHERCHER DES JEUX MULTIJOUEURS",
    "BUSCAR JUEGOS MULTIJUGADOR"
   ]
+ },
+ "editors": {
+  "Docs": [
+   "Dokumentumok",
+   "Docs",
+   "Docs",
+   "Documentos"
+  ],
+  "Sheets": [
+   "Táblázatok",
+   "Tabellen",
+   "Sheets",
+   "Hojas de cálculo"
+  ],
+  "Slides": [
+   "Diák",
+   "Präsentationen",
+   "Slides",
+   "Presentaciones"
+  ],
+  "Search": [
+   "Keresés",
+   "Suchen",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Add new": [
+   "Új hozzáadása",
+   "Hinzufügen",
+   "Nouveau document",
+   "Nuevo"
+  ],
+  "View as Grid": [
+   "Rácsnézet",
+   "Raster anzeigen",
+   "Grille",
+   "Ver en cuadrícula"
+  ],
+  "Sort by": [
+   "Rendezés",
+   "Sortieren nach",
+   "Trier par",
+   "Ordenar por"
+  ],
+  "Open document": [
+   "Dokumentum megnyitása",
+   "Dokument öffnen",
+   "Ouvrir un document",
+   "Abrir documento"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Modified: %s": [
+   "Módosítva: %s",
+   "Geändert: %s",
+   "Modifié : %s",
+   "Modificado el %s"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók megnyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir panel de navegación"
+  ]
  }
 };
