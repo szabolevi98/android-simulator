@@ -2,11 +2,13 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const context={window:{devicePixelRatio:1},Intl,performance,document:{},Image:class{},requestAnimationFrame:()=>0,cancelAnimationFrame:()=>{}};
 vm.runInNewContext(fs.readFileSync('versions/4.3/live-wallpapers.js','utf8'),context);
 const lw=context.window.LiveWallpapers,plain=v=>JSON.parse(JSON.stringify(v));
-// The two copies differ in Phase Beam's label (IMM76I's PhaseBeam.apk has no translations: raw, JWR66Y's has) and in
+// The two copies differ in the 4.0.4 descriptions, in Phase Beam's label (IMM76I's PhaseBeam.apk has no translations: raw, JWR66Y's has) and in
 // Microbes, which only the Galaxy Nexus image ships.
 const lf=f=>fs.readFileSync(f,'utf8').replace(/\r\n/g,'\n'),ics=lf('versions/4.0.4/live-wallpapers.js'),microbes=/\n  \/\* ---------- Microbes [\s\S]*?\n  }\n(?=\n  \/\* ---------- )/;
 assert.ok(microbes.test(ics),'Microbes scene in 4.0.4');
-assert.equal(ics.replace(microbes,'').replace(/    \{id: 'microbes'.*\n/,'').replaceAll(', gl: true, raw: true}',', gl: true}'),lf('versions/4.3/live-wallpapers.js'),'both versions share the rest of the file');
+// 4.0.4's list also carries the wallpapers' descriptions (live_wallpaper_entry.xml has a description line there only).
+assert.ok(ics.includes('const DESCRIPTIONS = ')&&ics.includes('"galaxy":["A galaxy made of slowly swirling stars."'));
+assert.equal(ics.replace(/  \/\* LiveWallpaperListAdapter \(4\.0\.4\)[\s\S]*?\n  const describe = [^\n]*\n/,'').replace('{describe, ','{').replace(microbes,'').replace(/    \{id: 'microbes'.*\n/,'').replaceAll(', gl: true, raw: true}',', gl: true}'),lf('versions/4.3/live-wallpapers.js'),'both versions share the rest of the file');
 // packages/wallpapers/Basic services, sorted by label as LiveWallpaperListAdapter does with a Collator.
 assert.deepEqual(plain(lw.sorted(k=>k,'en').map(s=>s.label)),['Bubbles','Galaxy','Grass','Holo Spiral','Many','Maps','Nexus','Phase Beam','Polar clock','Spectrum','VU meter','Water','Waveform']);
 // Phase Beam, the Galaxy Nexus and Nexus 4 images' default_wallpaper_component, with its image's mesh and textures.
