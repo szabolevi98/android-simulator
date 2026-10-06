@@ -1,44 +1,700 @@
-/* Offline mailboxes and a Holo Light Email presentation. No network transport. */
+/* Email 4.3 on the Nexus 4 (JWR66Y EmailGoogle.apk, packages/apps/Email android-4.3_r1.1), one pane, Theme.Holo.Light with
+   uiOptions="splitActionBarWhenNarrow" (1 dp = 0.8516 px). The layouts are 4.0's; what 4.3 changed:
+   - UIControllerOnePane.onCreateOptionsMenu inflates one menu per screen: message_list_fragment_option for the list
+     (Compose, Search, Show all folders, Refresh; Sync options only for Exchange, Settings in the overflow),
+     message_view_fragment_option for a message (Delete, Move and Mark as unread as ifRoom actions, then the always-shown
+     Newer and Older, Settings in the overflow) and none for the folder list, so its split bar stays empty.
+   - ActionBarController: a message shows its subject as the bar's own title (subject_action_bar_title_text, 16 dp
+     #323232, two lines) and the folder list "Folders" over the account as title and subtitle; the list keeps
+     action_bar_spinner.xml (the mailbox over the account, the 36 dp #bbbbbb unread count) and AccountSelectorAdapter's
+     dropdown (the account, "Recent folders (account)", Drafts and Sent, Show all folders).
+   - The rest as in 4.0: MessageListItem rows (70 sp, the badge over the check box, 18 sp sender, 14 sp
+     "subject — snippet", 12 sp relative date, the star), the selection CAB, MailboxListFragment's rows, the #0099cc
+     sender header with star, reply and the Reply all / Forward popup, the subheader and details, MessageCompose with
+     Send and the overflow (Attach file, Add Cc/Bcc, Save draft, Discard, Settings), quoted_text.xml, and Attach file's
+     GET_CONTENT for image/* that the Gallery answers.
+   Texts are EmailGoogle.apk's (docs/apk-strings.py fills STRINGS from this template); the account is offline and made up. */
 (() => {
   'use strict';
-  const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const account='demo@example.com';
-  const folders=['Inbox','Starred','Drafts','Sent','Trash'];
-  const img=name=>`<img src="assets/email-${name}.png" alt="">`;
-  function restore(saved,samples=[],sent=[]) {
-    if(Array.isArray(saved))return saved.map(item=>({...item,id:String(item.id),body:String(item.body||''),subject:String(item.subject||''),to:String(item.to||''),cc:String(item.cc||''),bcc:String(item.bcc||''),read:!!item.read,starred:!!item.starred}));
-    return [...samples.map((item,i)=>({...item,id:'inbox-'+item.id,address:['android@example.com','alex@example.com','calendar@example.com'][i]||'hello@example.com',to:account,folder:'Inbox',read:false,starred:false})),...sent.map(item=>({...item,id:'sent-'+item.id,from:account,address:account,folder:'Sent',read:true,starred:false}))];
+  const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const STRINGS = {
+      "Compose": [
+          "Levélírás",
+          "Schreiben",
+          "Composer",
+          "Redactar"
+      ],
+      "Search": [
+          "Keresés",
+          "Suche",
+          "Rechercher",
+          "Búsqueda"
+      ],
+      "Show all folders": [
+          "Összes mappa megjelenítése",
+          "Alle Ordner anzeigen",
+          "Afficher tous les dossiers",
+          "Mostrar todas las carpetas"
+      ],
+      "Refresh": [
+          "Frissítés",
+          "Aktualisieren",
+          "Actualiser",
+          "Actualizar"
+      ],
+      "Settings": [
+          "Beállítások",
+          "Einstellungen",
+          "Paramètres",
+          "Ajustes"
+      ],
+      "Delete": [
+          "Törlés",
+          "Löschen",
+          "Supprimer",
+          "Eliminar"
+      ],
+      "Move": [
+          "Áthelyezés",
+          "Verschieben",
+          "Déplacer",
+          "Mover"
+      ],
+      "Mark as unread": [
+          "Megjelölés olvasatlanként",
+          "Als ungelesen markieren",
+          "Marquer comme non lu",
+          "Marcar como no leído"
+      ],
+      "Mark read": [
+          "Megjelölés olvasottként",
+          "Als gelesen markieren",
+          "Marquer comme lu",
+          "Marcar como leído"
+      ],
+      "Mark unread": [
+          "Megjelölés olvasatlanként",
+          "Als ungelesen markieren",
+          "Marquer comme non lu",
+          "Marcar como no leído"
+      ],
+      "Add star": [
+          "Csillagozás",
+          "Markierung hinzufügen",
+          "Activer le suivi",
+          "Añadir estrella"
+      ],
+      "Remove star": [
+          "Csillag eltávolítása",
+          "Markierung entfernen",
+          "Désactiver le suivi",
+          "Eliminar estrella"
+      ],
+      "Star": [
+          "Csillagozás",
+          "Markieren",
+          "Activer le suivi",
+          "Destacar"
+      ],
+      "Reply": [
+          "Válasz",
+          "Antworten",
+          "Répondre",
+          "Responder"
+      ],
+      "Reply all": [
+          "Válasz mindenkinek",
+          "Allen antworten",
+          "Répondre à tous",
+          "Responder a todos"
+      ],
+      "Forward": [
+          "Továbbítás",
+          "Weiterleiten",
+          "Transférer",
+          "Reenviar"
+      ],
+      "Send": [
+          "Küldés",
+          "Senden",
+          "Envoyer",
+          "Enviar"
+      ],
+      "Attach file": [
+          "Fájl csatolása",
+          "Datei anhängen",
+          "Joindre un fichier",
+          "Adjuntar archivo"
+      ],
+      "Add Cc/Bcc": [
+          "Másolatmezők is",
+          "Cc/Bcc hinzufügen",
+          "Ajouter Cc/Cci",
+          "Añadir Cc/Cco"
+      ],
+      "Save draft": [
+          "Piszkozatmentés",
+          "Speichern",
+          "Enregistrer",
+          "Guardar borrador"
+      ],
+      "Discard": [
+          "Elvetés",
+          "Verwerfen",
+          "Supprimer",
+          "Descartar"
+      ],
+      "To": [
+          "Címzett",
+          "An",
+          "À",
+          "Para"
+      ],
+      "Cc": [
+          "Másolatot kap",
+          "Cc",
+          "Cc",
+          "Cc"
+      ],
+      "Bcc": [
+          "Titkos másolat",
+          "Bcc",
+          "Cci",
+          "Cco"
+      ],
+      "Subject": [
+          "Tárgy",
+          "Betreff",
+          "Objet",
+          "Asunto"
+      ],
+      "Compose email": [
+          "Levélírás",
+          "E-Mail schreiben",
+          "Composez un message",
+          "Redactar correo"
+      ],
+      "Include quoted text": [
+          "Idézett szöveg beillesztése",
+          "Zitierten Text einfügen",
+          "Inclure le texte des messages précédents",
+          "Incluir texto citado"
+      ],
+      "Inbox": [
+          "Beérkezett üzenetek",
+          "Posteingang",
+          "Boîte de réception",
+          "Recibidos"
+      ],
+      "Drafts": [
+          "Piszkozatok",
+          "Entwürfe",
+          "Brouillons",
+          "Borradores"
+      ],
+      "Outbox": [
+          "Kimenő levelek",
+          "Postausgang",
+          "Boîte d'envoi",
+          "Enviados"
+      ],
+      "Sent": [
+          "Elküldve",
+          "Gesendet",
+          "Éléments envoyés",
+          "Enviados"
+      ],
+      "Trash": [
+          "Kuka",
+          "Papierkorb",
+          "Corbeille",
+          "Papelera"
+      ],
+      "Starred": [
+          "Csillaggal megjelölt",
+          "Markiert",
+          "Suivis",
+          "Destacados"
+      ],
+      "Recent folders (%s)": [
+          "Legutóbbi mappák (%s)",
+          "Letzte Ordner (%s)",
+          "Dossiers récents (%s)",
+          "Carpetas recientes (%s)"
+      ],
+      "Move to": [
+          "Áthelyezés",
+          "Verschieben",
+          "Déplacer vers",
+          "Mover a"
+      ],
+      "Delete this message?": [
+          "Törli ezt az üzenetet?",
+          "Diese Nachricht löschen?",
+          "Supprimer ce message ?",
+          "¿Eliminar este mensaje?"
+      ],
+      "Message deleted.": [
+          "Üzenet törölve.",
+          "Nachricht gelöscht",
+          "Message supprimé",
+          "Mensaje eliminado"
+      ],
+      "Messages deleted.": [
+          "Az üzenetek törölve.",
+          "Nachrichten gelöscht",
+          "Messages supprimés",
+          "Mensajes eliminados"
+      ],
+      "Message discarded.": [
+          "Üzenet elvetve.",
+          "Nachricht gelöscht",
+          "Message supprimé.",
+          "Mensaje descartado"
+      ],
+      "Message saved as draft.": [
+          "Az üzenet mentve piszkozatként.",
+          "Nachricht als Entwurf gespeichert",
+          "Brouillon enregistré",
+          "Mensaje guardado como borrador"
+      ],
+      "%d selected": [
+          "%d kiválasztva",
+          "%d ausgewählt",
+          "%d sélectionné(s)",
+          "%d seleccionados"
+      ],
+      "To:": [
+          "Címzett:",
+          "An:",
+          "À :",
+          "Para:"
+      ],
+      "Cc:": [
+          "Másolatot kap:",
+          "Cc:",
+          "Cc :",
+          "Cc:"
+      ],
+      "Bcc:": [
+          "Titkos másolat:",
+          "Bcc:",
+          "Cci :",
+          "Cco:"
+      ],
+      "Date:": [
+          "Dátum:",
+          "Datum:",
+          "Date :",
+          "Fecha:"
+      ],
+      "Message": [
+          "Üzenet",
+          "Nachricht",
+          "Message",
+          "Mensaje"
+      ],
+      "Attachment %1$d": [
+          "Melléklet - %1$d",
+          "Anhang: %1$d",
+          "Pièce jointe %1$d",
+          "%1$d adjunto"
+      ],
+      "View": [
+          "Megtekint",
+          "Anzeigen",
+          "Afficher",
+          "Ver"
+      ],
+      "Save": [
+          "Mentés",
+          "Speichern",
+          "Enregistrer",
+          "Guardar"
+      ],
+      "Search %1$s": [
+          "Keresés itt: %1$s",
+          "In %1$s suchen",
+          "Rechercher dans %1$s",
+          "Buscar en %1$s"
+      ],
+      "Results": [
+          "Találatok",
+          "Ergebnisse",
+          "Résultats",
+          "Resultados"
+      ],
+      "No messages": [
+          "Nincsenek üzenetek",
+          "Keine Nachrichten",
+          "Aucun message",
+          "No hay ningún mensaje."
+      ],
+      "You must add at least one recipient.": [
+          "Legalább egy résztvevőt hozzá kell adnia.",
+          "Sie müssen mindestens einen Empfänger hinzufügen.",
+          "Vous devez ajouter au moins un destinataire.",
+          "Debes especificar al menos un destinatario."
+      ],
+      "Some email addresses are invalid.": [
+          "Egyes e-mail címek érvénytelenek.",
+          "Einige E-Mail-Adressen sind ungültig.",
+          "Certaines adresses e-mail sont incorrectes.",
+          "Algunas direcciones de correo electrónico no son válidas."
+      ],
+      "Compose (title)": [
+          "Levélírás",
+          "Schreiben",
+          "Nouveau message",
+          "Redactar",
+          "Compose"
+      ],
+      "Folders": [
+          "Mappák",
+          "Ordner",
+          "Dossiers",
+          "Carpetas"
+      ],
+      "Show details": [
+          "Részletek megjelenítése",
+          "Details anzeigen",
+          "Afficher détails",
+          "Mostrar detalles"
+      ],
+      "OK": [
+          "OK",
+          "OK",
+          "OK",
+          "Aceptar"
+      ],
+      "Cancel": [
+          "Mégse",
+          "Abbrechen",
+          "Annuler",
+          "Cancelar"
+      ],
+      "%s wrote:": [
+          "\n\n%s a következőt írta:\n\n",
+          "\n\n%s schrieb:\n\n",
+          "\n\n%s a écrit :\n\n",
+          "\n\n%s wrote:\n\n",
+          "\n\n%s wrote:\n\n"
+      ]
+  };
+  const LANGS = ['hu', 'de', 'fr', 'es'];
+  // The app's own texts (with the image's English as a fifth entry where it differs), then the shared interface rows.
+  const T = (lang, key) => { const row = STRINGS[key], i = LANGS.indexOf(lang); if (row) return i >= 0 ? row[i] : row[4] ?? key; return window.AndroidI18n?.t(key) ?? key; };
+  const account = 'demo@example.com';
+  // MailboxFragmentAdapter.MAILBOX_ORDER_BY; Starred is the combined favourites row, shown while something is starred.
+  const folders = ['Inbox', 'Drafts', 'Outbox', 'Sent', 'Trash'];
+  const ICONS = {Inbox: 'ic_folder_inbox_holo_light', Drafts: 'ic_folder_drafts_holo_light', Outbox: 'ic_folder_outbox_holo_light', Sent: 'ic_folder_sent_holo_light', Trash: 'email-ic_menu_trash_holo_light', Starred: 'ic_menu_star_holo_light'};
+  const A = name => `assets/${name.startsWith('email-') || name.startsWith('ic_ab_') || name.startsWith('ic_menu_more') ? '' : 'em-'}${name}.png`;
+  const img = name => `<img src="${A(name)}" alt="">`;
+
+  // --- The local mailbox -----------------------------------------------------------------------------------------
+  function restore(saved, samples = [], sent = [], now = Date.now()) {
+    if (Array.isArray(saved)) return saved.map(item => ({...item, id: String(item.id), body: String(item.body || ''), subject: String(item.subject || ''), to: String(item.to || ''), cc: String(item.cc || ''), bcc: String(item.bcc || ''), read: !!item.read, starred: !!item.starred, created: item.created || now}));
+    return [...samples.map((item, i) => ({...item, id: 'inbox-' + item.id, address: item.address || ['android@example.com', 'alex@example.com', 'calendar@example.com'][i] || 'hello@example.com', to: account, folder: 'Inbox', read: false, starred: false, created: item.created || now - (item.hoursAgo || 0) * 36e5})),
+      ...sent.map(item => ({...item, id: 'sent-' + item.id, from: account, address: account, folder: 'Sent', read: true, starred: false, created: item.created || now}))];
   }
-  function list(mail,folder='Inbox',query='') {const search=query.toLocaleLowerCase();return mail.filter(item=>(folder==='Starred'?item.starred&&item.folder!=='Trash':item.folder===folder)&&(!search||[item.from,item.to,item.subject,item.body].join(' ').toLocaleLowerCase().includes(search)));}
-  function recipients(value) {return String(value||'').split(/[;,]/).map(x=>x.trim()).filter(Boolean);}
-  function validRecipients(draft) {const to=recipients(draft.to),all=[...to,...recipients(draft.cc),...recipients(draft.bcc)];return to.length>0&&all.every(x=>/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(x));}
-  function draft(source,forward=false,now=Date.now()) {
-    return {id:'draft-'+now,folder:'Drafts',from:account,address:account,to:source&&!forward?(source.folder==='Sent'?source.to:source.address):'',cc:'',bcc:'',subject:source?`${forward?'Fwd':'Re'}: ${source.subject.replace(/^(Re|Fwd):\s*/i,'')}`:'',body:source?`\n\n${source.from}:\n${source.body}`:'',read:true,starred:false,created:now,...(forward&&source?.attachment?{attachment:JSON.parse(JSON.stringify(source.attachment))}:{})};
+  function list(mail, folder = 'Inbox', query = '') {
+    const search = String(query || '').toLocaleLowerCase();
+    return mail.filter(item => (folder === 'Starred' ? item.starred && item.folder !== 'Trash' : item.folder === folder) && (!search || [item.from, item.to, item.subject, item.body].join(' ').toLocaleLowerCase().includes(search)));
   }
-  function trash(items,ids) {for(const item of items)if(ids.includes(item.id)&&item.folder!=='Trash'){item.previousFolder=item.folder;item.folder='Trash';}}
-  function untrash(item) {item.folder=['Inbox','Drafts','Sent'].includes(item.previousFolder)?item.previousFolder:'Inbox';delete item.previousFolder;}
-  function send(item,now=Date.now()) {if(!validRecipients(item))return false;item.folder='Sent';item.read=true;item.created=now;delete item.previousFolder;return true;}
-  function render(mail,ui,t,locale) {
-    const folder=ui.emailFolder||'Inbox',selected=ui.emailSelected||[],item=mail.find(item=>item.id===ui.emailId);
-    const btn=(action,label,asset,id='')=>`<button type="button" data-action="${action}" ${id?`data-id="${e(id)}"`:''} aria-label="${e(t(label))}">${img(asset)}</button>`;
-    const title=label=>`<button class="email-up" data-action="email-list" aria-label="${e(t('Back'))}">‹<img src="assets/email.png" alt=""></button><strong>${e(t(label))}</strong>`;
-    const stamp=item=>item.created?new Date(item.created).toLocaleDateString(locale,{month:'short',day:'numeric'}):t(item.time||'');
-    if(ui.sub==='compose'&&item) {
-      const field=(key,label,type='text')=>`<label><span>${e(t(label))}</span><input type="${type}" name="${key}" value="${e(item[key]||'')}" aria-label="${e(t(label))}" ${key==='subject'?'maxlength="160"':''}></label>`;
-      return `<form class="app-view stock-email email-compose" data-form="email"><header class="email-bar">${title('Compose')}<button type="submit" aria-label="${e(t('Send'))}">${img('ic_menu_send_holo_light')}</button><button type="button" data-action="email-menu" aria-label="${e(t('Menu'))}">⋮</button></header><div class="email-scroll"><p class="email-from">${e(t('From'))}: ${account}</p>${field('to','To')}${ui.emailCc||item.cc||item.bcc?field('cc','Cc')+field('bcc','Bcc'):''}${field('subject','Subject')}<label class="email-body-field"><textarea name="body" aria-label="${e(t('Message'))}" placeholder="${e(t('Message'))}" maxlength="10000">${e(item.body)}</textarea></label>${item.attachment?`<div class="email-attachment">${window.ICSMedia.art(item.attachment)}<button type="button" data-action="email-remove-attachment">Remove attachment</button></div>`:''}<p class="email-error" role="alert">${ui.emailError?e(t(ui.emailError)):''}</p></div></form>`;
+  // What the app lists: newest first, and an untouched new message is not a draft yet (MessageCompose saves only a
+  // changed message).
+  const shown = (mail, folder, query) => list(mail, folder, query).filter(item => item.folder !== 'Drafts' || changed(item)).sort((a, b) => (b.created || 0) - (a.created || 0));
+  const changed = item => [item.to, item.cc, item.bcc, item.subject, item.body].some(v => String(v || '').trim()) || !!item.attachment;
+  function recipients(value) { return String(value || '').split(/[;,]/).map(x => x.trim()).filter(Boolean); }
+  const validAddress = x => /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(x);
+  function validRecipients(draft) { const to = recipients(draft.to), all = [...to, ...recipients(draft.cc), ...recipients(draft.bcc)]; return to.length > 0 && all.every(validAddress); }
+  function draft(source, forward = false, now = Date.now()) {
+    return {id: 'draft-' + now, folder: 'Drafts', from: account, address: account, to: source && !forward ? (source.folder === 'Sent' ? source.to : source.address) : '', cc: '', bcc: '',
+      subject: source ? `${forward ? 'Fwd' : 'Re'}: ${source.subject.replace(/^(Re|Fwd):\s*/i, '')}` : '', body: source ? `
+
+${source.from}:
+${source.body}` : '', read: true, starred: false, created: now,
+      ...(forward && source?.attachment ? {attachment: JSON.parse(JSON.stringify(source.attachment))} : {})};
+  }
+  function trash(items, ids) { for (const item of items) if (ids.includes(item.id) && item.folder !== 'Trash') { item.previousFolder = item.folder; item.folder = 'Trash'; } }
+  function untrash(item) { item.folder = ['Inbox', 'Drafts', 'Sent'].includes(item.previousFolder) ? item.previousFolder : 'Inbox'; delete item.previousFolder; }
+  function send(item, now = Date.now()) { if (!validRecipients(item)) return false; item.folder = 'Sent'; item.read = true; item.created = now; delete item.previousFolder; return true; }
+  // FolderProperties.getMessageCount: unread for Inbox and user folders, all messages for Drafts and Outbox, none for Sent and Trash.
+  function count(mail, folder) {
+    if (folder === 'Sent' || folder === 'Trash') return 0;
+    const items = shown(mail, folder);
+    return folder === 'Drafts' || folder === 'Outbox' ? items.length : items.filter(item => !item.read).length;
+  }
+  const countText = n => n > 999 ? '999+' : n ? String(n) : '';
+
+  // --- Pieces ------------------------------------------------------------------------------------------------------
+  // DateUtils.getRelativeTimeSpanString(context, millis): the time today, else the abbreviated month and day (and year).
+  function when(item, ctx) {
+    const d = new Date(item.created || ctx.now), now = new Date(ctx.now);
+    if (d.toDateString() === now.toDateString()) return d.toLocaleTimeString(ctx.locale, {hour: 'numeric', minute: '2-digit', hour12: !ctx.hour24});
+    return d.toLocaleDateString(ctx.locale, {month: 'short', day: 'numeric', ...(d.getFullYear() !== now.getFullYear() ? {year: 'numeric'} : {})});
+  }
+  const btn = (action, label, icon, {id = '', disabled = false, cls = 'em-btn'} = {}) => `<button type="button" class="${cls}" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''}${disabled ? ' disabled' : ''} aria-label="${e(label)}" title="${e(label)}">${img(icon)}</button>`;
+  const overflow = (ctx, action = 'email-menu') => btn(action, T(ctx.lang, 'More options'), 'ic_menu_moreoverflow_normal_holo_light');
+  // The action bar: the app icon (with ic_ab_back_holo_light when it goes up) and the custom view.
+  function bar(ctx, content, {up = false, actions = ''} = {}) {
+    return `<header class="em-bar"><button type="button" class="em-home" data-action="${up ? 'email-up' : 'email-home'}" aria-label="Email">${up ? img('ic_ab_back_holo_light') : ''}<img src="assets/email.png" alt=""></button>${content}${actions}</header>`;
+  }
+  const split = buttons => `<footer class="em-split">${buttons}</footer>`;
+  const display = (ctx, folder) => T(ctx.lang, folder);
+  // action_bar_spinner.xml: line 1 the mailbox, line 2 the account, the count beside it.
+  function spinner(ctx, line1, line2, number, enabled = true) {
+    return `<button type="button" class="em-spinner${enabled ? '' : ' off'}" data-action="${enabled ? 'email-spinner' : 'email-none'}"${enabled ? ' aria-haspopup="true"' : ' disabled'}><span><b>${e(line1)}</b>${line2 ? `<small>${e(line2)}</small>` : ''}</span></button>${number ? `<span class="em-count">${e(number)}</span>` : ''}`;
+  }
+
+  // --- Message list ------------------------------------------------------------------------------------------------
+  function rows(ctx, items) {
+    const {ui, lang} = ctx, selected = ui.emailSelected || [];
+    if (!items.length) return `<p class="em-empty">${e(T(lang, 'No messages'))}</p>`;
+    return items.map(item => {
+      const on = selected.includes(item.id), badge = item.replied && item.forwarded ? 'ic_badge_reply_forward_holo_light' : item.replied ? 'ic_badge_reply_holo_light' : item.forwarded ? 'ic_badge_forward_holo_light' : '';
+      const sender = item.folder === 'Sent' || item.folder === 'Drafts' || item.folder === 'Outbox' ? (item.to || account) : item.from;
+      return `<div class="em-row${item.read ? ' read' : ''}${on ? ' on' : ''}"><button type="button" class="em-check" data-action="email-select" data-id="${e(item.id)}" role="checkbox" aria-checked="${on}" aria-label="${e(item.subject)}">${badge ? `<i style="background-image:url(${A(badge)})"></i>` : '<i></i>'}<img src="${A(on ? 'btn_check_on_normal_holo_light' : 'btn_check_off_normal_holo_light')}" alt=""></button>`
+        + `<button type="button" class="em-open" data-action="email-read" data-id="${e(item.id)}"><span class="em-sender">${e(sender)}</span><span class="em-date">${item.attachment ? img('ic_badge_attachment') : ''}${e(when(item, ctx))}</span><span class="em-line"><b>${e(item.subject)}</b>${item.subject && item.body ? ' — ' : ''}${e(item.body.replace(/\s+/g, ' '))}</span></button>`
+        + `<button type="button" class="em-star" data-action="email-star" data-id="${e(item.id)}" aria-pressed="${item.starred}" aria-label="${e(T(lang, 'Star'))}">${img(item.starred ? 'email-btn_star_on_normal_email_holo_light' : 'email-btn_star_off_normal_email_holo_light')}</button></div>`;
+    }).join('');
+  }
+  function listView(ctx) {
+    const {data, ui, lang} = ctx, mail = data.mailbox, folder = ui.emailFolder || 'Inbox', selected = (ui.emailSelected || []).filter(id => mail.some(m => m.id === id));
+    const searching = ui.emailQuery !== undefined, query = ui.emailSearched || '';
+    const items = shown(mail, folder, searching ? query : '');
+    let head, actions;
+    if (selected.length) {
+      const chosen = mail.filter(m => selected.includes(m.id)), readExists = chosen.some(m => m.read), nonStar = chosen.some(m => !m.starred);
+      head = `<header class="em-bar em-cab"><button type="button" class="em-done" data-action="email-clear-selection">${img('ic_cab_done_holo_light')}<b>${e(T(lang, 'Done'))}</b></button><span class="em-cab-title">${e(T(lang, '%d selected').replace('%d', selected.length))}</span></header>`;
+      actions = btn('email-selected-trash', T(lang, 'Delete'), 'email-ic_menu_trash_holo_light') + btn('email-move', T(lang, 'Move'), 'ic_menu_move_to_holo_light')
+        + (readExists ? btn('email-selected-unread', T(lang, 'Mark unread'), 'email-ic_menu_mark_unread_holo_light') : btn('email-selected-read', T(lang, 'Mark read'), 'ic_menu_mark_read_holo_light'))
+        + (nonStar ? btn('email-selected-star', T(lang, 'Add star'), 'ic_menu_star_holo_light') : btn('email-selected-unstar', T(lang, 'Remove star'), 'ic_menu_star_off_holo_light'));
+    } else if (searching) {
+      // action_bar_search.xml: a SearchView replaces the spinner; the hint names the IMAP mailbox.
+      head = bar(ctx, `<form class="em-search" data-form="email-search"><img src="assets/em-ic_search_api_holo_light.png" alt=""><input name="query" value="${e(ui.emailQuery)}" placeholder="${e(T(lang, 'Search %1$s').replace('%1$s', display(ctx, folder)))}" aria-label="${e(T(lang, 'Search'))}" autocomplete="off" enterkeyhint="search">${ui.emailQuery ? `<button type="button" data-action="email-search-clear" aria-label="${e(T(lang, 'Clear query'))}">${img('ic_clear_search_api_holo_light')}</button>` : ''}</form>`, {up: true});
+      actions = btn('email-compose', T(lang, 'Compose'), 'email-ic_menu_compose_normal_holo_light') + btn('email-mailboxes', T(lang, 'Show all folders'), 'ic_menu_move_to_holo_light') + overflow(ctx);
+    } else {
+      head = bar(ctx, spinner(ctx, display(ctx, folder), account, countText(count(mail, folder))), {up: folder !== 'Inbox'});
+      actions = btn('email-compose', T(lang, 'Compose'), 'email-ic_menu_compose_normal_holo_light') + btn('email-search', T(lang, 'Search'), 'email-ic_menu_search_holo_light')
+        + btn('email-mailboxes', T(lang, 'Show all folders'), 'ic_menu_move_to_holo_light')
+        + (ui.emailRefreshing ? '<span class="em-btn em-progress" role="progressbar"><i></i></span>' : btn('email-refresh', T(lang, 'Refresh'), 'email-ic_menu_refresh_holo_light')) + overflow(ctx);
     }
-    if(ui.sub==='read'&&item)return `<div class="app-view stock-email"><header class="email-bar">${title(folder)}${btn(item.folder==='Trash'?'email-restore':'email-trash',item.folder==='Trash'?'Restore':'Delete',item.folder==='Trash'?'ic_menu_refresh_holo_light':'ic_menu_trash_holo_light')}<button data-action="email-menu" aria-label="${e(t('Menu'))}">⋮</button></header><div class="email-scroll email-reader"><h2>${e(item.subject||t('(No subject)'))}</h2><div class="email-reader-from"><span><strong>${e(item.from)}</strong><small>${e(item.address||account)}</small><small>${e(t('To'))}: ${e(item.to||account)}</small>${item.cc?`<small>Cc: ${e(item.cc)}</small>`:''}<small>${e(stamp(item))}</small></span>${btn('email-star',item.starred?'Remove star':'Star',`btn_star_${item.starred?'on':'off'}_normal_email_holo_light`,item.id)}</div><div class="email-message-body">${e(item.body)}</div>${item.attachment?`<div class="email-attachment">${window.ICSMedia.art(item.attachment)}<small>${e(item.attachment.name)}</small></div>`:''}</div><footer class="email-bottom">${btn('email-reply','Reply','ic_reply')}${btn('email-forward','Forward message','ic_forward_holo_dark')}${btn('email-unread','Mark as unread','ic_menu_mark_unread_holo_light')}</footer></div>`;
-    const rows=list(mail,folder,ui.emailQuery||'');
-    const header=selected.length?`<button data-action="email-clear-selection" aria-label="${e(t('Cancel'))}">✓</button><strong>${selected.length}</strong>${btn('email-selected-read','Mark as read','ic_menu_mark_unread_holo_light')}${btn(folder==='Trash'?'email-selected-restore':'email-selected-trash',folder==='Trash'?'Restore':'Delete',folder==='Trash'?'ic_menu_refresh_holo_light':'ic_menu_trash_holo_light')}`:`<img class="email-app-icon" src="assets/email.png" alt=""><button class="email-folder-title" data-action="email-folders"><strong>${e(t(folder))} ▾</strong><small>${account}</small></button>`;
-    return `<div class="app-view stock-email"><header class="email-bar">${header}</header>${ui.emailQuery!==undefined?`<form class="email-search" data-form="email-search"><input name="query" value="${e(ui.emailQuery)}" placeholder="Search mail" aria-label="Search mail"><button type="submit">Search</button></form>`:''}<div class="email-scroll">${rows.map(item=>`<div class="email-message-row ${item.read?'':'unread'} ${selected.includes(item.id)?'selected':''}"><button class="email-select" data-action="email-select" data-id="${e(item.id)}" aria-label="${e(t('Select message')+': '+item.subject)}" role="checkbox" aria-checked="${selected.includes(item.id)}"><img src="assets/btn_check_${selected.includes(item.id)?'on':'off'}_holo_light.png" alt=""></button><button class="email-open" data-action="email-read" data-id="${e(item.id)}"><strong>${e(item.folder==='Sent'||item.folder==='Drafts'?item.to||t('Draft'):item.from)}</strong><span>${e(item.subject||t('(No subject)'))}</span><small>${e(item.body.replace(/\s+/g,' ').slice(0,110))}</small></button><div class="email-row-side"><time>${e(stamp(item))}</time>${btn('email-star',item.starred?'Remove star':'Star',`btn_star_${item.starred?'on':'off'}_normal_email_holo_light`,item.id)}</div></div>`).join('')||'<p class="empty-note">No messages</p>'}</div><footer class="email-bottom">${btn('email-compose','Compose email','ic_menu_compose_normal_holo_light')}${btn('email-search','Search','ic_menu_search_holo_light')}${btn('email-refresh','Refresh','ic_menu_refresh_holo_light')}<button data-action="email-menu" aria-label="${e(t('Menu'))}">⋮</button></footer></div>`;
+    const header = searching && query ? `<div class="em-search-header"><span>${e(T(lang, 'Results'))}</span><span>${items.length}</span></div>` : '';
+    return `<div class="app-view em-app">${head}${header}<div class="em-scroll email-scroll">${rows(ctx, items)}</div>${split(actions)}</div>`;
   }
-  function overlay(mail,ui,photos,t) {
-    const menu=content=>`<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu email-menu">${content}</div>`;
-    if(ui.overlay==='email-folders')return menu(folders.map(folder=>`<button data-action="email-folder" data-id="${folder}"><span>${e(t(folder))}</span><small>${list(mail,folder).length}</small></button>`).join(''));
-    if(ui.overlay==='email-menu')return menu(ui.sub==='compose'?'<button data-action="email-attach">Attach picture</button><button data-action="email-cc">Add Cc/Bcc</button><button data-action="email-list">Save draft</button><button data-action="email-discard">Discard</button>':ui.sub==='read'?'<button data-action="email-unread">Mark as unread</button><button data-action="email-forward">Forward message</button>':'<button data-action="email-folders">Folders</button>');
-    if(ui.overlay==='email-attach')return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog email-photo-picker" role="dialog" aria-label="${e(t('Attach picture'))}"><h3>Attach picture</h3><div>${photos.map(photo=>`<button data-action="email-attach-photo" data-id="${photo.id}">${window.ICSMedia.art(photo)}<span>${e(photo.name)}</span></button>`).join('')}</div><button data-action="close-overlay">Cancel</button></div>`;
-    if(ui.overlay==='email-discard')return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${e(t('Discard draft?'))}"><h3>Discard draft?</h3><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="email-confirm-discard">Discard</button></div></div>`;
+
+  // --- Show all folders (MailboxListFragment) ----------------------------------------------------------------------
+  function mailboxes(ctx) {
+    const {data, lang} = ctx, mail = data.mailbox;
+    const all = [...(mail.some(m => m.starred && m.folder !== 'Trash') ? ['Starred'] : []), ...folders];
+    const rowsHtml = all.map(folder => { const n = folder === 'Starred' ? mail.filter(m => m.starred && m.folder !== 'Trash').length : count(mail, folder);
+      return `<button type="button" class="em-mailbox" data-action="email-folder" data-id="${folder}">${img(ICONS[folder])}<span>${e(display(ctx, folder))}</span>${n ? `<b>${n}</b>` : ''}</button>`; }).join('');
+    return `<div class="app-view em-app">${bar(ctx, `<span class="em-titles"><b>${e(T(lang, 'Folders'))}</b><small>${e(account)}</small></span>`, {up: true})}<div class="em-scroll">${rowsHtml}</div></div>`;
+  }
+
+  // --- Message view ------------------------------------------------------------------------------------------------
+  function messageView(ctx, item) {
+    const {data, ui, lang, locale} = ctx, folder = ui.emailFolder || 'Inbox';
+    const items = shown(data.mailbox, folder, ui.emailQuery !== undefined ? ui.emailSearched || '' : ''), index = items.findIndex(m => m.id === item.id);
+    const newer = index > 0 ? items[index - 1] : null, older = index >= 0 && index < items.length - 1 ? items[index + 1] : null;
+    const fromName = item.folder === 'Sent' || item.folder === 'Drafts' ? account : item.from, fromAddress = item.folder === 'Sent' || item.folder === 'Drafts' ? account : item.address;
+    const addresses = [['To:', item.to], ['Cc:', item.cc], ['Bcc:', item.bcc]].filter(([, v]) => v).map(([label, v]) => `<b>${e(T(lang, label))}</b> ${e(v)}`).join('  ');
+    const full = new Date(item.created || ctx.now).toLocaleString(locale, {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: !ctx.hour24});
+    const details = ui.emailDetails
+      ? `<div class="em-details"><table><tr><th>${e(T(lang, 'Date:'))}</th><td>${e(full)}</td></tr>${[['To:', item.to], ['Cc:', item.cc], ['Bcc:', item.bcc]].filter(([, v]) => v).map(([l, v]) => `<tr><th>${e(T(lang, l))}</th><td>${e(v)}</td></tr>`).join('')}</table><button type="button" class="em-expander close" data-action="email-details" aria-expanded="true" aria-label="${e(T(lang, 'Show details'))}"></button></div>`
+      : `<div class="em-sub"><span class="em-addresses">${addresses}</span><span class="em-when">${e(when(item, ctx))}</span><button type="button" class="em-expander" data-action="email-details" aria-expanded="false" aria-label="${e(T(lang, 'Show details'))}"></button></div>`;
+    const tab = ui.emailTab === 'attachments' && item.attachment ? 'attachments' : 'message';
+    const tabs = item.attachment ? `<div class="em-tabs"><button type="button" data-action="email-tab" data-id="message" aria-selected="${tab === 'message'}">${e(T(lang, 'Message'))}</button><button type="button" data-action="email-tab" data-id="attachments" aria-selected="${tab === 'attachments'}">${e(T(lang, 'Attachment %1$d').replace('%1$d', 1))}</button></div><i class="em-divider"></i>` : '';
+    const body = tab === 'attachments'
+      ? `<div class="em-attachment-view"><div class="em-att-row"><span class="em-att-icon">${ctx.photo ? ctx.photo(item.attachment) : img('ic_attachment_holo_light')}</span><span><b>${e(item.attachment.name)}</b><small>${e(item.attachment.size || '214KB')}</small></span></div><div class="em-att-buttons"><button type="button" data-action="email-attachment-view">${e(T(lang, 'View'))}</button><button type="button" data-action="email-attachment-save">${e(T(lang, 'Save'))}</button></div></div>`
+      : `<div class="em-body">${e(item.body).replace(/\n/g, '<br>')}</div>`;
+    const head = bar(ctx, `<span class="em-subject-title">${e(item.subject)}</span>`, {up: true});
+    const actions = btn('email-trash', T(lang, 'Delete'), 'email-ic_menu_trash_holo_light') + (item.folder === 'Drafts' ? '' : btn('email-move', T(lang, 'Move'), 'ic_menu_move_to_holo_light'))
+      + btn('email-unread', T(lang, 'Mark as unread'), 'email-ic_menu_mark_unread_holo_light') + btn('email-newer', T(lang, 'Newer'), newer ? 'ic_newer_arrow_holo_light' : 'ic_newer_arrow_disabled_holo_light', {id: newer?.id || '', disabled: !newer})
+      + btn('email-older', T(lang, 'Older'), older ? 'ic_older_arrow_holo_light' : 'ic_older_arrow_disabled_holo_light', {id: older?.id || '', disabled: !older}) + overflow(ctx);
+    return `<div class="app-view em-app">${head}<div class="em-scroll email-scroll em-message"><div class="em-subject">${e(item.subject)}</div>`
+      + `<div class="em-header"><span class="em-badge"><img src="${A('ic_contact_picture')}" alt=""></span><i class="em-vline"></i><span class="em-from"><b>${e(fromName)}</b><small>${e(fromName === fromAddress ? ' ' : fromAddress)}</small></span>`
+      + `<button type="button" class="em-hbtn" data-action="email-star" data-id="${e(item.id)}" aria-pressed="${item.starred}" aria-label="${e(T(lang, 'Star'))}">${img(item.starred ? 'btn_star_on_convo_holo_light' : 'btn_star_off_convo_holo_light')}</button>`
+      + `<button type="button" class="em-hbtn" data-action="email-reply" aria-label="${e(T(lang, 'Reply'))}">${img('ic_reply_holo_dark')}</button><button type="button" class="em-hbtn em-more" data-action="email-more" aria-label="${e(T(lang, 'More options'))}">${img('ic_menu_moreoverflow_normal_holo_dark')}</button></div>`
+      + `${details}<i class="em-divider"></i>${tabs}${body}</div>${split(actions)}</div>`;
+  }
+
+  // --- Compose -----------------------------------------------------------------------------------------------------
+  function composeView(ctx, item) {
+    const {ui, lang, data} = ctx;
+    const mode = item.mode || '';
+    const title = mode ? `<button type="button" class="em-spinner em-mode" data-action="email-mode" aria-haspopup="true"><span><b>${e(T(lang, mode === 'reply' ? 'Reply' : mode === 'reply-all' ? 'Reply all' : 'Forward'))}</b></span></button>` : `<span class="em-title">${e(T(lang, 'Compose (title)'))}</span>`;
+    const field = (key, label) => `<label class="em-field em-recipient"><span>${e(T(lang, label))}</span><input type="email" multiple name="${key}" value="${e(item[key] || '')}" aria-label="${e(T(lang, label))}" autocomplete="off"></label>`;
+    const source = item.source ? data.mailbox.find(m => m.id === item.source) : null;
+    const quoted = source && item.mode !== 'forward' || source && item.mode === 'forward' ? `<div class="em-quoted"><label class="em-quoted-bar"><input type="checkbox" data-action="email-quoted"${item.includeQuoted !== false ? ' checked' : ''}><span>${e(T(lang, 'Include quoted text'))}</span></label><i></i>${item.includeQuoted !== false ? `<div class="em-quoted-text">${e(source.body).replace(/\n/g, '<br>')}</div>` : ''}</div>` : '';
+    const attachment = item.attachment ? `<div class="em-attachment">${img('ic_attachment_holo_light')}<span><b>${e(item.attachment.name)}</b><small>${e(item.attachment.size || '214KB')}</small></span><button type="button" data-action="email-remove-attachment" aria-label="${e(T(lang, 'Remove'))}">${img('ic_cancel_holo_light')}</button></div>` : '';
+    return `<form class="app-view em-app email-compose" data-form="email" novalidate>${bar(ctx, title, {up: true, actions: `<button type="submit" class="em-btn" aria-label="${e(T(lang, 'Send'))}" title="${e(T(lang, 'Send'))}">${img('email-ic_menu_send_holo_light')}</button>${overflow(ctx)}`})}`
+      + `<div class="em-scroll email-scroll em-compose"><div class="em-field em-fromrow">${e(account)}</div>${field('to', 'To')}${ui.emailCc ? field('cc', 'Cc') + field('bcc', 'Bcc') : ''}`
+      + `<label class="em-field"><input name="subject" value="${e(item.subject || '')}" placeholder="${e(T(lang, 'Subject'))}" aria-label="${e(T(lang, 'Subject'))}" maxlength="160" autocomplete="off"></label>${attachment}`
+      + `<label class="em-field em-body-field"><textarea name="body" placeholder="${e(T(lang, 'Compose email'))}" aria-label="${e(T(lang, 'Compose email'))}">${e(item.body || '')}</textarea></label>${quoted}</div></form>`;
+  }
+
+  function render(ctx) {
+    const {data, ui} = ctx, item = data.mailbox.find(m => m.id === ui.emailId);
+    if (ui.sub === 'compose' && item) return composeView(ctx, item);
+    if (ui.sub === 'read' && item) return messageView(ctx, item);
+    if (ui.sub === 'mailboxes') return mailboxes(ctx);
+    return listView(ctx);
+  }
+
+  // --- Popups and dialogs -----------------------------------------------------------------------------------------
+  function overlay(ctx) {
+    const {data, ui, lang} = ctx, mail = data.mailbox, item = mail.find(m => m.id === ui.emailId);
+    const popup = (cls, items) => `<div class="menu-scrim" data-action="close-overlay"></div><div class="em-popup ${cls}" role="menu">${items}</div>`;
+    const entry = (action, label, id = '', extra = '') => `<button type="button" role="menuitem" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''}><span>${e(label)}</span>${extra}</button>`;
+    if (ui.overlay === 'email-spinner') {
+      // AccountSelectorAdapter: the account, the recent-folders header, Drafts and Sent, then Show all folders.
+      const recent = ['Drafts', 'Sent'];
+      return popup('em-dropdown', entry('email-folder', account, 'Inbox', `<b>${e(countText(count(mail, 'Inbox')))}</b>`)
+        + `<h4>${e(T(lang, 'Recent folders (%s)').replace('%s', account))}</h4>` + recent.map(f => entry('email-folder', display(ctx, f), f, `<b>${e(countText(count(mail, f)))}</b>`)).join('')
+        + entry('email-mailboxes', T(lang, 'Show all folders')));
+    }
+    if (ui.overlay === 'email-menu') {
+      if (ui.sub === 'compose') return popup('em-overflow', entry('email-attach', T(lang, 'Attach file')) + (ui.emailCc ? '' : entry('email-cc', T(lang, 'Add Cc/Bcc'))) + entry('email-save', T(lang, 'Save draft')) + entry('email-discard', T(lang, 'Discard')) + entry('email-settings', T(lang, 'Settings')));
+      if (ui.sub === 'read') return popup('em-overflow', entry('email-settings', T(lang, 'Settings')));
+      return popup('em-overflow', entry('email-settings', T(lang, 'Settings')));
+    }
+    if (ui.overlay === 'email-more') return popup('em-header-menu', entry('email-reply-all', T(lang, 'Reply all')) + entry('email-forward', T(lang, 'Forward')));
+    if (ui.overlay === 'email-mode') return popup('em-dropdown em-mode-menu', [['reply', 'Reply'], ['reply-all', 'Reply all'], ['forward', 'Forward']].map(([id, label]) => entry('email-mode-pick', T(lang, label), id)).join(''));
+    if (ui.overlay === 'email-move') {
+      // MoveMessageToDialog: the mailboxes a message can move to, without its own.
+      const from = ui.sub === 'read' ? [item?.folder] : [...new Set(mail.filter(m => (ui.emailSelected || []).includes(m.id)).map(m => m.folder))];
+      const targets = ['Inbox', 'Sent', 'Trash'].filter(f => !(from.length === 1 && from[0] === f));
+      return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="em-dialog" role="dialog" aria-label="${e(T(lang, 'Move to'))}"><h3>${e(T(lang, 'Move to'))}</h3><div class="em-dialog-list">${targets.map(f => `<button type="button" data-action="email-move-to" data-id="${f}">${e(display(ctx, f))}</button>`).join('')}</div></div>`;
+    }
+    if (ui.overlay === 'email-discard') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="em-dialog" role="alertdialog" aria-label="${e(T(lang, 'Delete this message?'))}"><h3 class="em-alert">${img('ic_dialog_alert_holo_light')}</h3><p>${e(T(lang, 'Delete this message?'))}</p><div class="em-dialog-buttons"><button type="button" data-action="close-overlay">${e(T(lang, 'Cancel'))}</button><button type="button" data-action="email-confirm-discard">${e(T(lang, 'OK'))}</button></div></div>`;
     return '';
   }
-  window.ICSEmail={account,restore,list,recipients,validRecipients,draft,trash,untrash,send,render,overlay};
+
+  // --- Actions -----------------------------------------------------------------------------------------------------
+  const unsupported = ctx => { ctx.ui.overlay = ''; ctx.renderOverlay(); ctx.toast(T(ctx.lang, 'This feature is not part of the simulator.')); };
+  function keep(ctx) {
+    const form = ctx.root?.querySelector('.email-compose'), item = ctx.data.mailbox.find(m => m.id === ctx.ui.emailId); if (!form || !item) return;
+    for (const key of ['to', 'cc', 'bcc', 'subject', 'body']) { const f = form.querySelector(`[name=${key}]`); if (f) item[key] = f.value; }
+  }
+  function startCompose(ctx, source = null, mode = '', to = '') {
+    const {data, ui} = ctx, d = draft(source, mode === 'forward', ctx.now);
+    if (to) d.to = to;
+    // MessageCompose keeps the quoted original in quoted_text.xml, outside the body.
+    if (source) Object.assign(d, {body: '', source: source.id, includeQuoted: true});
+    if (source && mode === 'reply-all') d.cc = [...new Set([...recipients(source.to), ...recipients(source.cc)])].filter(a => a !== account).join(', ');
+    if (source) d.mode = mode || 'reply';
+    data.mailbox.unshift(d); ui.emailId = d.id; ui.emailCc = !!d.cc; ui.overlay = ''; ui.sub = 'compose';
+    ctx.save(); ctx.renderOverlay(); ctx.render(); ctx.focus(source && mode !== 'forward' ? '.email-compose [name=body]' : '.email-compose [name=to]');
+  }
+  // Leaving compose keeps a changed draft (MessageCompose.onBackPressed saves it) and drops an untouched one.
+  function leaveCompose(ctx, toast = true) {
+    const {data, ui} = ctx, item = data.mailbox.find(m => m.id === ui.emailId);
+    keep(ctx);
+    if (item && item.folder === 'Drafts') {
+      if (changed(item)) { if (toast) ctx.toast(T(ctx.lang, 'Message saved as draft.')); }
+      else data.mailbox.splice(data.mailbox.indexOf(item), 1);
+    }
+    const source = item?.source && data.mailbox.find(m => m.id === item.source);
+    ui.sub = source ? 'read' : ''; if (source) ui.emailId = source.id;
+    ui.emailCc = false; ui.overlay = ''; ctx.save(); ctx.renderOverlay(); ctx.render();
+  }
+  function open(ctx, id) {
+    const {data, ui} = ctx, item = data.mailbox.find(m => m.id === id); if (!item) return;
+    ui.emailId = id; ui.emailDetails = false; ui.emailTab = 'message'; ui.overlay = '';
+    if (item.folder === 'Drafts') { ui.sub = 'compose'; ui.emailCc = !!(item.cc || item.bcc); }
+    else { item.read = true; ui.sub = 'read'; }
+    ctx.save(); ctx.renderOverlay(); ctx.render();
+  }
+  function handle(action, id, ctx) {
+    const {data, ui, lang} = ctx, mail = data.mailbox, item = mail.find(m => m.id === ui.emailId);
+    const selection = () => mail.filter(m => (ui.emailSelected || []).includes(m.id));
+    const close = () => { ui.overlay = ''; ctx.renderOverlay(); };
+    switch (action) {
+      case 'email-home': break;
+      case 'email-up': ctx.back(); break;
+      case 'email-spinner': case 'email-menu': case 'email-more': case 'email-mode': if (ui.sub === 'compose') keep(ctx); ui.overlay = action; ctx.renderOverlay(); break;
+      case 'email-none': break;
+      case 'email-folder': ui.emailFolder = id; ui.sub = ''; ui.emailQuery = undefined; ui.emailSearched = ''; ui.emailSelected = []; close(); ctx.render(); break;
+      case 'email-mailboxes': ui.sub = 'mailboxes'; ui.emailSelected = []; close(); ctx.render(); break;
+      case 'email-read': open(ctx, id); break;
+      case 'email-newer': case 'email-older': if (id) open(ctx, id); break;
+      case 'email-compose': close(); startCompose(ctx); break;
+      case 'email-reply': close(); if (item) startCompose(ctx, item, 'reply'); break;
+      case 'email-reply-all': close(); if (item) startCompose(ctx, item, 'reply-all'); break;
+      case 'email-forward': close(); if (item) startCompose(ctx, item, 'forward'); break;
+      case 'email-mode-pick': {
+        close(); if (!item?.source) break;
+        const source = mail.find(m => m.id === item.source), next = draft(source, id === 'forward', ctx.now);
+        Object.assign(item, {mode: id, to: next.to, subject: next.subject, cc: id === 'reply-all' ? [...new Set([...recipients(source.to), ...recipients(source.cc)])].filter(a => a !== account).join(', ') : ''});
+        ui.emailCc = !!item.cc; ctx.save(); ctx.render(); break;
+      }
+      case 'email-star': { const m = mail.find(x => x.id === (id || ui.emailId)); if (m) m.starred = !m.starred; ctx.save(); ctx.render(); break; }
+      case 'email-select': ui.emailSelected = (ui.emailSelected || []).includes(id) ? ui.emailSelected.filter(x => x !== id) : [...(ui.emailSelected || []), id]; ctx.render(); break;
+      case 'email-clear-selection': ui.emailSelected = []; ctx.render(); break;
+      case 'email-selected-read': case 'email-selected-unread': selection().forEach(m => { m.read = action === 'email-selected-read'; }); ui.emailSelected = []; ctx.save(); ctx.render(); break;
+      case 'email-selected-star': case 'email-selected-unstar': selection().forEach(m => { m.starred = action === 'email-selected-star'; }); ui.emailSelected = []; ctx.save(); ctx.render(); break;
+      case 'email-selected-trash': { const n = selection().length; trash(mail, ui.emailSelected || []); ui.emailSelected = []; ctx.save(); ctx.render(); ctx.toast(T(lang, n === 1 ? 'Message deleted.' : 'Messages deleted.')); break; }
+      // Delete in the message view returns to the list (the default auto-advance is the message list).
+      case 'email-trash': if (item) { if (item.folder === 'Trash') mail.splice(mail.indexOf(item), 1); else trash(mail, [item.id]); } ui.sub = ''; ctx.save(); ctx.render(); ctx.toast(T(lang, 'Message deleted.')); break;
+      case 'email-move': ui.overlay = 'email-move'; ctx.renderOverlay(); break;
+      case 'email-move-to': {
+        const targets = ui.sub === 'read' && item ? [item] : selection();
+        for (const m of targets) { if (id === 'Trash') trash(mail, [m.id]); else { m.folder = id; delete m.previousFolder; } }
+        ui.emailSelected = []; if (ui.sub === 'read') ui.sub = ''; close(); ctx.save(); ctx.render(); break;
+      }
+      case 'email-unread': if (item) item.read = false; ui.sub = ''; close(); ctx.save(); ctx.render(); break;
+      case 'email-details': ui.emailDetails = !ui.emailDetails; ctx.render(); break;
+      case 'email-tab': ui.emailTab = id; ctx.render(); break;
+      case 'email-search': ui.emailQuery = ''; ui.emailSearched = ''; ui.emailSelected = []; ctx.render(); ctx.focus('.em-search input'); break;
+      case 'email-search-clear': ui.emailQuery = ''; ui.emailSearched = ''; ctx.render(); ctx.focus('.em-search input'); break;
+      // RefreshManager: the refresh item turns into the indeterminate progress while the local mailbox "syncs".
+      case 'email-refresh': ui.emailRefreshing = true; ctx.render(); setTimeout(() => { ui.emailRefreshing = false; if (ui.view === 'email') ctx.render(); }, 1400); break;
+      case 'email-cc': keep(ctx); ui.emailCc = true; close(); ctx.render(); ctx.focus('.email-compose [name=cc]'); break;
+      case 'email-attach': keep(ctx); close(); ctx.save(); ctx.pickPicture?.(); break;
+      case 'email-remove-attachment': keep(ctx); if (item) delete item.attachment; ctx.save(); ctx.render(); break;
+      case 'email-quoted': keep(ctx); if (item) item.includeQuoted = item.includeQuoted === false; ctx.save(); ctx.render(); break;
+      case 'email-save': keep(ctx); close(); if (item && changed(item)) { ctx.toast(T(lang, 'Message saved as draft.')); ctx.save(); } break;
+      case 'email-discard': keep(ctx); ui.overlay = 'email-discard'; ctx.renderOverlay(); break;
+      case 'email-confirm-discard': if (item) mail.splice(mail.indexOf(item), 1); { const source = item?.source && mail.find(m => m.id === item.source); ui.sub = source ? 'read' : ''; if (source) ui.emailId = source.id; } close(); ctx.save(); ctx.render(); ctx.toast(T(lang, 'Message discarded.')); break;
+      case 'email-settings': case 'email-attachment-view': case 'email-attachment-save': unsupported(ctx); break;
+      default: return false;
+    }
+    return true;
+  }
+  // Attach file → the Gallery's GET_CONTENT picker hands back a picture.
+  function attach(ctx, photo) {
+    const item = ctx.data.mailbox.find(m => m.id === ctx.ui.emailId); if (!item || !photo) return;
+    item.attachment = {...JSON.parse(JSON.stringify(photo)), size: photo.size || '214KB'}; ctx.ui.sub = 'compose'; ctx.save();
+  }
+  function submit(form, values, ctx) {
+    const {data, ui, lang} = ctx;
+    if (form === 'email-search') { ui.emailSearched = String(values.get('query') || '').trim(); ui.emailQuery = ui.emailSearched; ui.emailSelected = []; ctx.render(); return true; }
+    if (form !== 'email') return false;
+    const item = data.mailbox.find(m => m.id === ui.emailId); if (!item) return true;
+    for (const key of ['to', 'cc', 'bcc', 'subject', 'body']) if (values.has(key)) item[key] = String(values.get(key)).trim();
+    // MessageCompose.onSend: invalid addresses first, then no recipient at all.
+    const all = [...recipients(item.to), ...recipients(item.cc), ...recipients(item.bcc)];
+    if (all.some(a => !validAddress(a))) { ctx.toast(T(lang, 'Some email addresses are invalid.')); return true; }
+    if (!all.length) { ctx.toast(T(lang, 'You must add at least one recipient.')); return true; }
+    if (!recipients(item.to).length) item.to = item.cc || item.bcc;
+    if (item.source && item.includeQuoted !== false) { const source = data.mailbox.find(m => m.id === item.source); if (source) item.body = `${item.body}${T(lang, '%s wrote:').replace('%s', source.from)}${source.body}`; }
+    const source = item.source && data.mailbox.find(m => m.id === item.source);
+    if (source) { if (item.mode === 'forward') source.forwarded = true; else source.replied = true; }
+    send(item, ctx.now); delete item.mode; delete item.source;
+    ui.sub = source ? 'read' : ''; if (source) ui.emailId = source.id; ui.emailCc = false; ctx.save(); ctx.render();
+    return true;
+  }
+  function back(ctx) {
+    const {ui} = ctx;
+    if (ui.overlay) return false;
+    if (ui.sub === 'compose') { leaveCompose(ctx); return true; }
+    if (ui.sub === 'read' || ui.sub === 'mailboxes') { ui.sub = ''; ctx.render(); return true; }
+    if ((ui.emailSelected || []).length) { ui.emailSelected = []; ctx.render(); return true; }
+    if (ui.emailQuery !== undefined) { ui.emailQuery = undefined; ui.emailSearched = ''; ctx.render(); return true; }
+    if ((ui.emailFolder || 'Inbox') !== 'Inbox') { ui.emailFolder = 'Inbox'; ctx.render(); return true; }
+    return false;
+  }
+  window.ICSEmail = {account, restore, list, shown, recipients, validRecipients, draft, trash, untrash, send, count, render, overlay, handle, submit, back, attach, startCompose, keep};
 })();

@@ -127,9 +127,9 @@
     emailId: 1, recent: [], recentSnapshots: {}, toastTimer: null, wifiTarget: '', bluetoothScanned: false
   };
   const emailData = [
-    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Nexus 4 is ready. Explore Android 4.3 Jelly Bean, customize your home screen, and discover the little surprise hidden in Settings.', time: '9:41 AM' },
-    { id: 2, from: 'Alex Morgan', subject: 'Photos from the weekend', body: 'I added a few pictures to our album. Take a look when you have a moment!', time: 'Yesterday' },
-    { id: 3, from: 'Calendar', subject: 'Coffee with Alex', body: 'Reminder: Coffee with Alex at 11:00.', time: 'Yesterday' }
+    { id: 1, from: 'Android Team', subject: 'Welcome to Android', body: 'Your Nexus 4 is ready. Explore Android 4.3 Jelly Bean, customize your home screen, and discover the little surprise hidden in Settings.', hoursAgo: 1 },
+    { id: 2, from: 'Alex Morgan', subject: 'Photos from the weekend', body: 'I added a few pictures to our album. Take a look when you have a moment!', hoursAgo: 26 },
+    { id: 3, from: 'Calendar', subject: 'Coffee with Alex', body: 'Reminder: Coffee with Alex at 11:00.', hoursAgo: 30 }
   ];
   const tracks = ICSMusic.tracks;
   data.mailbox=ICSEmail.restore(data.mailbox,emailData,data.sentEmails);
@@ -646,6 +646,7 @@
     if (!appNames[app]) return;
     captureRecentView();
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
+    if (app === 'gallery') ui.galleryPick = '';
     ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
     ui.recent = [app, ...ui.recent.filter(id => id !== app)].slice(0, 7);
     render();
@@ -669,6 +670,9 @@
       save, render, renderOverlay, toast, openApp};
   }
   function navigateBack() {
+    if (ui.view === 'email' && ICSEmail.back(emailContext())) return;
+    // The Gallery's picker (GET_CONTENT from Email's Attach file) returns without a picture.
+    if (ui.view === 'gallery' && ui.galleryPick && !ui.overlay) { if (ui.sub === 'album') { ui.sub = ''; render(); return; } ui.galleryPick = ''; openApp('email', true); return; }
     if (ui.view === 'downloads' && HoloDownloads.back(dlContext())) return;
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
@@ -762,7 +766,7 @@
     } else if (ui.overlay.startsWith('email-') && ui.view === 'gmail') {
       overlayRoot.innerHTML = KKEmail.overlay(data.gmailbox,ui,data.photos,key=>i18n.t(key),i18n.language,gmailOptions());
     } else if (ui.overlay.startsWith('email-')) {
-      overlayRoot.innerHTML = ICSEmail.overlay(data.mailbox,ui,data.photos,key=>i18n.t(key));
+      overlayRoot.innerHTML = ICSEmail.overlay(emailContext());
     } else if (ui.overlay.startsWith('sd-')) {
       overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
@@ -1413,12 +1417,17 @@
     }
     return true;
   }
+  // Email 4.3 (email.js): its screens, menus and actions; Attach file opens the Gallery's picker.
+  function emailContext() {
+    return {data, ui, lang: i18n.language, locale: i18n.locale(), now: deviceDate().getTime(), hour24: !!data.settings.hour24, root: viewport,
+      save, render, renderOverlay, toast, back: navigateBack, focus: selector => viewport.querySelector(selector)?.focus(),
+      photo: photo => ICSMedia.art(photo), pickPicture: () => { openApp('gallery'); ui.galleryPick = 'email'; ui.galleryAlbum = ''; ui.sub = ''; render(); }};
+  }
   function renderEmail() {
-    return ICSEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale());
+    return ICSEmail.render(emailContext());
   }
   function composeEmail(source=null,forward=false,to='') {
-    const draft=ICSEmail.draft(source,forward);if(to)draft.to=to;
-    data.mailbox.unshift(draft);ui.emailId=draft.id;ui.emailCc=false;ui.emailError='';ui.overlay='';ui.sub='compose';save();render();
+    ICSEmail.startCompose(emailContext(),source,source?(forward?'forward':'reply'):'',to);
   }
   function resetSimulator() {
     data=clone(defaultData);data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...data.settings};
@@ -1506,6 +1515,7 @@
       focus: selector => requestAnimationFrame(() => viewport.querySelector(selector)?.focus()),
       takePhoto: () => { const photo = {...ICSMedia.scene(data), id: Date.now(), name: `IMG_${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)}`, album: 'camera', created: Date.now()}; data.photos.unshift(photo); save(); ui.peopleDraft.photo = photo.id; render(); }})) return;
     if (ui.view === 'gmail' && gmailAction(action, id, button)) return;
+    if (ui.view === 'email' && action.startsWith('email-') && ICSEmail.handle(action, id, emailContext())) return;
     if (ui.view === 'downloads' && action.startsWith('hdl-') && HoloDownloads.handle(action, id, dlContext())) return;
     switch (action) {
       case 'open-app': {
@@ -1885,6 +1895,8 @@
       case 'new-message': ui.sub = 'new'; ui.overlay = ''; render(); viewport.querySelector('[name=recipient]')?.focus(); break;
       case 'gallery-camera': openApp('camera'); break;
       case 'gallery-album': ui.galleryAlbum=id; ui.sub='album';ui.gallerySlideshow=false;render();break;
+      case 'gallery-pick': { const photo = data.photos.find(p => p.id === Number(id)); ui.galleryPick = ''; ui.sub = ''; openApp('email', true); ICSEmail.attach(emailContext(), photo); render(); break; }
+      case 'gallery-pick-cancel': ui.galleryPick = ''; ui.sub = ''; openApp('email', true); break;
       case 'photo': ui.selectedPhoto=Number(id);if(!galleryItems().some(p=>p.id===Number(id))){ui.galleryCluster='album';ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});}ui.sub='photo';ui.galleryZoom=false;ui.galleryFilm=false;ui.galleryBars=true;ui.galleryFromCamera=false;render();break;
       case 'gallery-step': galleryStep(Number(id));break;
       case 'gallery-photo-zoom': ui.galleryZoom=!ui.galleryZoom;render();break;
@@ -2020,27 +2032,6 @@
       case 'music-new-playlist': ui.musicAddPending=id==='add';ui.overlay='music-new-playlist';renderOverlay();break;
       case 'music-add-confirm': {const playlist=ui.music.playlists.find(p=>String(p.id)===id);if(playlist&&!playlist.tracks.includes(ui.musicSelected))playlist.tracks.push(ui.musicSelected);saveMusic();ui.overlay='';render();toast('Added to playlist');break;}
       case 'music-remove-from-playlist': {const playlist=ui.music.playlists.find(p=>String(p.id)===ui.musicGroup);if(playlist)playlist.tracks=playlist.tracks.filter(track=>track!==ui.musicSelected);saveMusic();ui.overlay='';render();break;}
-      case 'email-read': {const item=data.mailbox.find(item=>item.id===id);if(!item)break;ui.emailId=id;item.read=true;ui.sub=item.folder==='Drafts'?'compose':'read';ui.emailError='';save();render();break;}
-      case 'email-compose': composeEmail();break;
-      case 'email-reply': case 'email-forward': composeEmail(data.mailbox.find(item=>item.id===ui.emailId),action==='email-forward');break;
-      case 'email-list': ui.sub='';ui.overlay='';ui.emailSelected=[];render();break;
-      case 'email-folders': case 'email-menu': ui.overlay=action;renderOverlay();break;
-      case 'email-folder': ui.emailFolder=id;ui.sub='';ui.emailQuery=undefined;ui.emailSelected=[];ui.overlay='';render();break;
-      case 'email-star': {const item=data.mailbox.find(item=>item.id===id);if(item)item.starred=!item.starred;save();render();break;}
-      case 'email-select': ui.emailSelected ||= [];ui.emailSelected=ui.emailSelected.includes(id)?ui.emailSelected.filter(key=>key!==id):[...ui.emailSelected,id];render();break;
-      case 'email-clear-selection': ui.emailSelected=[];render();break;
-      case 'email-trash': case 'email-selected-trash': ICSEmail.trash(data.mailbox,action==='email-trash'?[ui.emailId]:ui.emailSelected||[]);ui.sub='';ui.emailSelected=[];save();render();break;
-      case 'email-restore': case 'email-selected-restore': {const ids=action==='email-restore'?[ui.emailId]:ui.emailSelected||[];data.mailbox.filter(item=>ids.includes(item.id)).forEach(ICSEmail.untrash);ui.sub='';ui.emailSelected=[];save();render();break;}
-      case 'email-selected-read': data.mailbox.filter(item=>(ui.emailSelected||[]).includes(item.id)).forEach(item=>item.read=true);ui.emailSelected=[];save();render();break;
-      case 'email-unread': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(item)item.read=false;ui.sub='';ui.overlay='';save();render();break;}
-      case 'email-search': ui.emailQuery='';render();viewport.querySelector('.email-search input').focus();break;
-      case 'email-refresh': toast('Local mailbox is up to date');break;
-      case 'email-cc': ui.emailCc=true;ui.overlay='';render();break;
-      case 'email-attach': ui.overlay='email-attach';renderOverlay();break;
-      case 'email-attach-photo': {const item=data.mailbox.find(item=>item.id===ui.emailId),photo=data.photos.find(photo=>photo.id===Number(id));if(item&&photo)item.attachment=clone(photo);ui.overlay='';save();render();break;}
-      case 'email-remove-attachment': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(item)delete item.attachment;save();render();break;}
-      case 'email-discard': ui.overlay='email-discard';renderOverlay();break;
-      case 'email-confirm-discard': ICSEmail.trash(data.mailbox,[ui.emailId]);ui.sub='';ui.overlay='';save();render();break;
       default: break;
     }
   }
@@ -2141,8 +2132,7 @@
       case 'alarm-days': ui.alarmDraft.days=values.getAll('days').map(Number);ui.overlay='';render();break;
       case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';render();break;
       case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';render();break;
-      case 'email': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(!item)break;for(const key of ['to','cc','bcc','subject','body'])if(values.has(key))item[key]=String(values.get(key)).trim();if(!ICSEmail.send(item)){ui.emailError='Enter valid email addresses';save();render();break;}save();ui.emailFolder='Sent';ui.emailQuery=undefined;ui.sub='read';ui.emailError='';render();toast('Demo email sent');break;}
-      case 'email-search': ui.emailQuery=String(values.get('query')||'').trim();ui.emailSelected=[];render();break;
+      case 'email': case 'email-search': ICSEmail.submit(form.dataset.form, values, emailContext()); break;
       case 'sd-volumes': for(const key of ['mediaVolume','ringVolume','alarmVolume'])data.settings[key]=Math.max(0,Math.min(100,Number(values.get(key))));save();ui.overlay='';render();break;
       case 'sd-choice': {const choice=String(values.get('choice'));if(ui.settingsField==='sleep')data.settings.sleep=Number(choice);else if(['windowScale','transitionScale','animatorScale'].includes(ui.settingsField))data.settings[ui.settingsField]=Number(choice);else if(ui.settingsField==='font')data.settings.largeText=choice==='large';else if(ui.settingsField==='silent'){data.settings.silent=choice!=='off';data.settings.silentMode=choice;}else data.settings[ui.settingsField]=choice;save();ui.overlay='';render();break;}
       default: break;

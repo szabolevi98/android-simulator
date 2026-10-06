@@ -62,6 +62,14 @@
     const sub = ui.sub || '', cluster = ui.galleryCluster || 'album';
     if (sub === 'edit') return renderEditor(data, ui, t, media);
     if (sub === 'photo') return renderPhoto(data, ui, t, media, locale);
+    // GET_CONTENT (Email's Attach file): AlbumSetPage and AlbumPage title the bar GalleryUtils.getSelectionModePrompt
+    // (select_image) and inflate menu/pickup.xml, a text-only Cancel; a picture goes back to the caller.
+    if (ui.galleryPick) {
+      const title = `<span class="jbgal-title">${e(t('Select photo'))}</span>`, cancel = `<button type="button" class="jbgal-text-action" data-action="gallery-pick-cancel">${e(t('Cancel'))}</button>`;
+      if (sub === 'album') return `<div class="app-view gallery-app jbgal" data-jbgal data-page="album">${bar(up(t) + title, cancel, t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-album-grid">${items(data, ui, locale).map(photo => `<button type="button" class="jbgal-slot" data-action="gallery-pick" data-id="${photo.id}" aria-label="${e(photo.name)}">${media.art(photo)}</button>`).join('')}</div></div></div>`;
+      const label = group => `<span class="jbgal-label"><img src="assets/gallery-frame_overlay_gallery_${group.key === 'camera' ? 'camera' : 'folder'}.png" alt=""><strong>${e(group.translate ? t(group.name) : group.name)}</strong><small>${group.items.length}</small></span>`;
+      return `<div class="app-view gallery-app jbgal" data-jbgal data-page="set">${bar(up(t) + title, cancel, t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-set-grid">${groups(data, 'album', locale).map(group => `<button type="button" class="jbgal-slot jbgal-album" data-jbgal-album="${e(group.key)}" aria-label="${e(group.translate ? t(group.name) : group.name)}">${media.art(group.items[0])}${label(group)}</button>`).join('')}</div></div></div>`;
+    }
     if (sub === 'album') {
       const list = items(data, ui, locale), group = groups(data, cluster, locale).find(g => g.key === ui.galleryAlbum) || {name: ui.galleryAlbum === 'pictures' ? 'Pictures' : 'Camera', translate: true};
       const spinner = `<button type="button" class="jbgal-spinner jbgal-two-line" data-jbgal-open="mode"><strong>${e(group.translate ? t(group.name) : group.name)}</strong><small>${e(t('Grid view'))}</small></button>`;

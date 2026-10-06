@@ -1,5 +1,147 @@
-.app-view.stock-email{display:flex;flex-direction:column;height:100%;padding:0;overflow:hidden;background:#fff;color:#333;color-scheme:light}.stock-email button{font:inherit;color:inherit;background:transparent;border:0;border-radius:0;cursor:pointer;min-width:0}.email-bar{display:flex;align-items:center;height:48px;flex:none;background:linear-gradient(#fafafa,#e9e9e9);border-bottom:2px solid #c1c1c1;gap:3px}.email-bar>button{height:46px;min-width:40px;font-size:25px;padding:4px}.email-bar img{width:32px;height:32px;object-fit:contain}.email-bar>strong{flex:1;font-weight:400;font-size:19px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.email-app-icon{margin-left:10px}.email-bar .email-up{display:flex;align-items:center;width:50px;padding:0}.email-folder-title{flex:1;text-align:left!important;font-size:17px!important;min-width:0}.email-folder-title strong{font-weight:400;display:block}.email-folder-title small{font-size:12px;display:block;color:#888}.email-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:thin}.email-message-row{display:flex;position:relative;height:86px;border-bottom:1px solid #ccc;background:#eee;align-items:center}.email-message-row.unread{background:white}.email-message-row.selected{background:#c4e8f2}.email-select{flex:none;width:35px;height:100%;padding:0!important}.email-select img{width:32px;height:32px}.email-open{flex:1;min-width:0;text-align:left;height:100%;padding:9px 0!important}.email-open strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:16px;font-weight:400;margin-bottom:4px}.unread .email-open strong{font-weight:bold}.email-open>span{font-size:14px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.email-open small{display:block;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;margin-top:3px}.email-row-side{flex:none;width:67px;height:100%;display:flex;align-items:flex-end;flex-direction:column;padding:10px 8px 0 0}.email-row-side:before{content:'';height:3px;background:#33b5e5;position:absolute;top:0;right:8px;width:42px}.email-row-side time{font-size:10px;color:#888;white-space:nowrap}.email-row-side button{margin-top:6px;padding:0;width:32px;height:32px}.email-row-side img{width:32px;height:32px;object-fit:contain}
-.email-bottom{display:flex;align-items:center;justify-content:space-around;height:48px;flex:none;background:#f2f2f2;border-top:1px solid #ccc}.email-bottom button{height:46px;flex:1;font-size:14px}.email-bottom img{width:32px;height:32px;object-fit:contain}.email-bottom button:last-child{font-size:23px}.email-reader h2{font-size:21px;font-weight:400;padding:15px 12px;margin:0;border-bottom:1px solid #ccc;overflow-wrap:anywhere}.email-reader-from{padding:14px 12px;background:#f4f4f4;display:flex;border-bottom:1px solid #ccc}.email-reader-from>span{flex:1;min-width:0}.email-reader-from strong{font-size:15px}.email-reader-from small{display:block;font-size:12px;margin-top:4px;color:#777;overflow-wrap:anywhere}.email-reader-from button{align-self:flex-start;padding:0}.email-reader-from img{width:32px;height:32px}.email-message-body{padding:18px 14px;font-size:16px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.email-attachment{padding:10px}.email-attachment>img{display:block;max-width:100%;max-height:210px;object-fit:contain;margin:auto}.email-attachment button{padding:10px;font-size:13px;width:100%}.email-attachment small{display:block;text-align:center;color:#777;font-size:12px;margin-top:6px}
-.email-compose .email-from{margin:0;padding:10px 14px;color:#777;font-size:13px;background:#f5f5f5;border-bottom:1px solid #ddd}.email-compose label{display:flex;align-items:center;margin:0 12px;border-bottom:1px solid #ccc;min-height:46px;gap:10px}.email-compose label>span{font-size:15px;color:#777;flex:none}.email-compose input,.email-compose textarea{font:16px Roboto,Arial,sans-serif;color:#333;border:0;background:transparent;outline:0;min-width:0;flex:1;width:100%;padding:10px 0;box-sizing:border-box}.email-compose .email-body-field{border:0}.email-compose textarea{min-height:180px;resize:vertical}.email-compose label:focus-within{border-color:#33b5e5}.email-error{color:#b71c1c;font-size:13px;padding:0 12px}.email-menu{background:#fafafa;color:#333}.email-menu button{color:#333!important;display:flex;justify-content:space-between;border-color:#ddd!important}.email-menu small{color:#999}.email-search{display:flex;flex:none;padding:6px;border-bottom:1px solid #ccc}.email-search input{width:0;flex:1;min-width:0;padding:6px;border:0;border-bottom:2px solid #33b5e5;font:inherit;background:#fff;color:#333}.email-search button{padding:6px;font-size:13px}.email-photo-picker>div{max-height:300px;overflow:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px}.email-photo-picker button{background:none;color:inherit;border:0;padding:5px;min-width:0}.email-photo-picker img{width:100%;height:85px;object-fit:cover}.email-photo-picker span{display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.stock-email button:active{background-color:#33b5e533}.stock-email button:focus-visible{outline:2px solid #33b5e5;outline-offset:-2px}
-
-.email-bottom [data-action=email-forward] img{filter:brightness(.45)}
+/* Email 4.0.4 (EmailGoogle.apk, Theme.Holo.Light, split action bar) on the Galaxy Nexus, 1 dp = 0.85 px:
+   ab_solid_light_holo #dddddd bars (the 48 dp top bar with its #d2d2d2 edge, the split bar with its #c6c6c6 edge), 32 dp
+   icons in 56 dp cells, 70 sp list rows on list_unread_holo #ffffff / list_read_holo #eeeeee, the #0099cc
+   header_convo_view_sender_bg_holo sender header, the compose fields on textfield_default_holo_light underlines, the
+   #efefef menu_dropdown_panel_holo_light popups and #f3f3f3 dialog_full_holo_light dialogs. */
+.em-app{display:flex;flex-direction:column;height:100%;padding:0;overflow:hidden;background:#fff;color:#000;font-family:RobotoICS,Roboto,sans-serif;color-scheme:light}
+.screen .em-app button{font-family:inherit;color:inherit;background:none;border:0;border-radius:0;padding:0;cursor:pointer;min-width:0}
+.em-bar{flex:none;display:flex;align-items:center;height:40.8px;background:#ddd;box-shadow:inset 0 -1.3px #d2d2d2}
+.em-home{flex:none;display:flex;align-items:center;height:100%;padding:0 6.8px 0 3.4px!important}
+.em-home img{width:27.2px;height:27.2px}
+.em-home img:first-child:not(:last-child){width:13.6px;height:13.6px;margin-right:-1.7px}
+.em-spinner{flex:1;min-width:0;display:flex;align-items:center;height:100%;text-align:left;padding-right:17px!important;background:url(assets/calendar-spinner_ab_default_holo_light.png) right bottom/18.7px 27.2px no-repeat!important}
+.em-spinner.off{background:none!important}
+.em-spinner span{display:flex;flex-direction:column;min-width:0}
+.em-spinner b{font-weight:400;font-size:13.6px;line-height:1.2;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-spinner small{font-size:11.9px;line-height:1.2;color:#323232;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-mode{flex:none;padding-right:20px!important}
+.em-mode b{font-size:15.3px}
+.em-count{flex:none;margin:0 6.8px 0 3.4px;font-size:30.6px;line-height:1;color:#bbb}
+.em-title,.em-subject-title{flex:1;min-width:0;font-size:15.3px;color:#000;overflow:hidden}
+.em-title{white-space:nowrap;text-overflow:ellipsis}
+.em-subject-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:13.6px;line-height:1.2;padding-right:6.8px}
+.em-btn{flex:none;display:grid;place-items:center;width:47.6px;height:40.8px}
+.em-btn img{width:27.2px;height:27.2px}
+.em-btn:disabled{cursor:default}
+.em-split{flex:none;display:flex;align-items:center;height:40.8px;background:#ddd;box-shadow:inset 0 1.3px #c6c6c6}
+.em-split .em-btn{flex:1 1 47.6px;width:auto}
+.em-progress i{display:block;width:27.2px;height:27.2px;background:url(assets/em-spinner_48_outer_holo.png) center/contain;animation:em-spin 1s linear infinite}
+@keyframes em-spin{to{transform:rotate(360deg)}}
+.em-cab{background:#fff;box-shadow:inset 0 -1.7px #33b5e5}
+.em-done{display:flex;align-items:center;gap:6.8px;height:100%;padding:0 13.6px 0 6.8px!important;border-right:1px solid #ccc!important;text-transform:uppercase;font-size:11.9px}
+.em-done img{width:27.2px;height:27.2px}
+.em-done b{font-weight:700}
+.em-cab-title{flex:1;min-width:0;padding:0 13.6px;font-size:15.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none}
+.em-empty{margin:0;padding:27.2px 13.6px;text-align:center;color:#666;font-size:15.3px}
+/* MessageListItem, message_list_item_normal.xml. */
+.em-row{position:relative;display:flex;height:59.5px;background:#fff;border-bottom:1px solid #d9d9d9}
+.em-row.read{background:#eee}
+.em-row.on{background:#99d6eb}
+.em-check{flex:none;display:flex;flex-direction:column;align-items:center;width:40.8px;padding-top:8.5px!important}
+.em-check i{display:block;width:13.6px;height:13.6px;background:center/contain no-repeat}
+.em-check img{width:13.6px;height:13.6px;margin-top:2.55px}
+.em-open{flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1fr;align-items:start;text-align:left;padding:0 34px 0 0!important}
+.em-sender{grid-column:1;margin-top:6.8px;font-size:15.3px;line-height:1.15;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-row:not(.read) .em-sender{color:#333;font-weight:700}
+.em-date{grid-column:2;display:flex;align-items:center;gap:3.4px;margin-top:7.65px;font-size:10.2px;color:#555;white-space:nowrap}
+.em-row:not(.read) .em-date{color:#333}
+.em-date img{width:13.6px;height:13.6px}
+.em-line{grid-column:1/-1;align-self:end;margin-bottom:6.8px;font-size:11.9px;line-height:1.25;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-line b{font-weight:400}
+.em-row:not(.read) .em-line{color:#555}
+.em-row:not(.read) .em-line b{font-weight:700}
+.em-star{position:absolute;right:6.8px;top:23.8px;width:27.2px;height:27.2px}
+.em-star img{width:27.2px;height:27.2px}
+.em-search{flex:1;min-width:0;display:flex;align-items:center;height:30px;margin-right:6.8px;border-bottom:1.7px solid #33b5e5}
+.em-search img{width:20.4px;height:20.4px;opacity:.6}
+.em-search input{flex:1;min-width:0;border:0;background:none;outline:0;font:15.3px RobotoICS,sans-serif;color:#000;padding:0 4px}
+.em-search input::placeholder{color:#808080}
+.em-search button img{width:20.4px;height:20.4px;opacity:1}
+.em-search-header{flex:none;display:flex;justify-content:space-between;align-items:center;height:27.2px;padding:0 5.1px;background:#666;color:#fff;font-size:11.9px}
+/* MailboxListFragment rows. */
+.em-mailbox{display:flex;align-items:center;width:100%;height:40.8px;padding:0 6.8px 0 6.8px!important;text-align:left;border-bottom:1px solid #e3e3e3!important}
+.em-mailbox img{width:27.2px;height:27.2px;margin-right:6.8px}
+.em-mailbox span{flex:1;min-width:0;font-size:15.3px;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-mailbox b{font-weight:400;font-size:15.3px;color:#bcbcbc;margin-left:6.8px}
+/* MessageViewFragment. */
+.em-subject{margin:6.8px 6.8px 3.4px;font-size:11.9px;font-weight:700;color:#323232;opacity:.8;overflow-wrap:anywhere}
+.em-header{display:flex;align-items:center;height:40.8px;background:#0099cc;color:#fff}
+.em-badge{flex:none;width:40.8px;height:40.8px;background:#f6f6f6}
+.em-badge img{width:100%;height:100%;object-fit:cover}
+.em-vline{flex:none;width:1px;height:100%;background:#fff}
+.em-from{flex:1;min-width:0;display:flex;flex-direction:column;margin-left:3.4px}
+.em-from b{font-size:13.6px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-from small{font-size:11.9px;line-height:1.2;color:#eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-hbtn{flex:none;display:grid;place-items:center;width:40.8px;height:40.8px}
+.em-hbtn img{width:27.2px;height:27.2px}
+.em-hbtn:first-of-type img{width:27.2px;height:27.2px}
+.em-header .em-hbtn img[src*=reply]{width:18.3px;height:18.3px}
+.em-sub{display:flex;align-items:center;height:40.8px;margin:0 13.6px;font-size:11.9px;color:#666}
+.em-addresses{flex:1;min-width:0;margin-left:6.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-addresses b{color:#666}
+.em-when{flex:none;margin-left:13.6px;white-space:nowrap}
+.em-expander{flex:none;width:30px;height:40.8px;margin-left:3.4px;background:url(assets/em-expander_open_holo_light.png) center/10.6px 5.5px no-repeat!important}
+.em-expander.close{position:absolute;right:0;top:0;background-image:url(assets/em-expander_close_holo_light.png)!important;background-size:10.6px 5.5px!important}
+.em-details{position:relative;margin:0 13.6px;padding:11.9px 0 6px}
+.em-details table{border-collapse:collapse;margin-right:27.2px;font-size:11.9px;line-height:1.5;color:#666}
+.em-details th{padding:0 6.8px;font-weight:700;text-align:left;vertical-align:top;white-space:nowrap}
+.em-details td{overflow-wrap:anywhere}
+.em-divider{display:block;height:1px;margin:0 13.6px;background:#0000001a}
+.em-tabs{display:flex;margin:0 13.6px;height:27.2px}
+.em-tabs button{padding:0 13.6px!important;font-size:11.9px;color:#666;border-bottom:2.55px solid transparent!important}
+.em-tabs button[aria-selected=true]{border-bottom-color:#33b5e5!important;color:#000}
+.em-body{margin:0 13.6px;padding:10px 0 20px;font-size:13.6px;line-height:1.45;color:#000;white-space:normal;overflow-wrap:anywhere}
+.em-attachment-view{margin:3.4px 13.6px;background:#f2f2f2}
+.em-att-row{display:flex;align-items:center;padding:3.4px}
+.em-att-icon{flex:none;display:grid;place-items:center;width:40.8px;height:40.8px;background:#e5e5e5;overflow:hidden}
+.em-att-icon>*{width:100%;height:100%;object-fit:cover}
+.em-att-row>span:last-child{display:flex;flex-direction:column;margin-left:13.6px;min-width:0}
+.em-att-row b{font-weight:400;font-size:11.9px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-att-row small{font-size:11.9px;color:#666}
+.em-att-buttons{display:flex}
+.em-att-buttons button{flex:1;padding:6.8px 0!important;font-size:11.9px!important;font-weight:700;text-transform:uppercase;color:#777!important}
+/* MessageCompose. */
+.em-compose{padding:0 13.6px}
+.em-field{display:flex;align-items:center;min-height:37.4px;padding:0 3.4px;--em-line:#0000004d;--em-w:.85px;background:linear-gradient(var(--em-line),var(--em-line)) left bottom 3.8px/100% var(--em-w) no-repeat,linear-gradient(var(--em-line),var(--em-line)) left bottom 3.8px/.85px 3.4px no-repeat,linear-gradient(var(--em-line),var(--em-line)) right bottom 3.8px/.85px 3.4px no-repeat}
+.em-field:focus-within{--em-line:#0099cc;--em-w:1.3px}
+.em-fromrow{height:40.8px;margin-top:3.4px;font-size:15.3px;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-recipient>span{flex:none;margin:3.4px 3.4px 0 0;font-size:15.3px;color:#aaa}
+.em-field input,.em-field textarea{flex:1;min-width:0;width:100%;border:0;background:none;outline:0;font:15.3px RobotoICS,sans-serif;color:#000;padding:8px 0}
+.em-field input::placeholder,.em-field textarea::placeholder{color:#aaa}
+.em-body-field textarea{min-height:120px;resize:none}
+.em-attachment{display:flex;align-items:center;height:40.8px;margin:3.4px 0;background:#f4f4f4}
+.em-attachment>img{width:27.2px;height:27.2px;margin-left:6.8px}
+.em-attachment span{flex:1;min-width:0;display:flex;align-items:baseline;gap:6.8px;margin-left:13.6px}
+.em-attachment b{font-weight:400;font-size:11.9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em-attachment small{font-size:10.2px;color:#666}
+.em-attachment button{width:20.4px;height:20.4px;margin-right:6.8px}
+.em-attachment button img{width:20.4px;height:20.4px}
+.em-quoted-bar{display:flex;align-items:center;gap:6.8px;height:40.8px;font-size:10.2px;color:#777;text-transform:uppercase}
+.em-quoted-bar input{width:17px;height:17px;margin:0;accent-color:#33b5e5}
+.em-quoted>i{display:block;height:1.7px;background:#babebe}
+.em-quoted-text{padding:6.8px 0 20px;font-size:13.6px;line-height:1.4;color:#000;overflow-wrap:anywhere}
+/* Popups (menu_dropdown_panel_holo_light) and dialogs (dialog_full_holo_light). */
+.em-popup{position:absolute;z-index:30;min-width:160px;max-width:85%;background:#efefef;color:#000;box-shadow:0 1px 4px #0005;font-family:RobotoICS,Roboto,sans-serif}
+.em-popup button{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:40.8px;padding:0 13.6px;border:0;border-bottom:1px solid #0000001a;background:none;color:#000;font:15.3px RobotoICS,sans-serif;text-align:left}
+.em-popup button:last-child{border-bottom:0}
+.em-popup button b{font-weight:400;color:#bcbcbc;font-size:15.3px}
+.em-popup h4{margin:0;padding:6px 13.6px 3px;border-bottom:1.7px solid #33b5e5;color:#33b5e5;font-size:11.9px;font-weight:700;text-transform:uppercase}
+.em-popup button:active{background:#33b5e566}
+.em-dropdown{left:30px;top:64.8px}
+.em-mode-menu{left:30px;top:64.8px}
+.em-overflow{right:0;bottom:87.8px}
+.screen:has(.email-compose) .em-overflow{bottom:auto;top:64.8px}
+.em-header-menu{right:0;top:150px}
+.em-dialog{position:absolute;z-index:30;left:13.6px;right:13.6px;top:50%;transform:translateY(-50%);background:#f3f3f3;color:#000;box-shadow:0 2px 10px #0006;font-family:RobotoICS,Roboto,sans-serif}
+.em-dialog h3{margin:0;padding:13.6px;border-bottom:1.7px solid #33b5e5;color:#33b5e5;font-size:18.7px;font-weight:400}
+.em-dialog h3.em-alert{padding:10px 13.6px}
+.em-dialog h3 img{width:27.2px;height:27.2px;display:block}
+.em-dialog p{margin:0;padding:13.6px;font-size:15.3px;color:#000}
+.em-dialog-list{display:flex;flex-direction:column}
+.em-dialog-list button{min-height:40.8px;padding:0 13.6px;border:0;border-top:1px solid #0000001a;background:none;color:#000;font:15.3px RobotoICS,sans-serif;text-align:left}
+.em-dialog-buttons{display:flex;border-top:1px solid #0000001a}
+.em-dialog-buttons button{flex:1;min-height:40.8px;border:0;background:none;color:#000;font:13.6px RobotoICS,sans-serif}
+.em-dialog-buttons button+button{border-left:1px solid #0000001a}
+.em-dialog button:active{background:#33b5e566}
+.em-bar>.em-mode{margin-right:auto}

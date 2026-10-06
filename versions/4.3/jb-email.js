@@ -139,7 +139,10 @@
       return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
     }
     if (ui.overlay === 'email-folders') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="kem-dialog" role="dialog" aria-label="${e(T('Move to'))}"><h3>${e(T('Move to'))}</h3>${['Inbox', 'Drafts', 'Sent', 'Trash'].map(name => `<button data-action="email-move" data-id="${name}">${e(T(name))}</button>`).join('')}</div>`;
-    return window.ICSEmail.overlay(mail, ui, photos, t);
+    // The picture list for Attach picture and the discard question (formerly email.js's, which now draws the AOSP Email).
+    if (ui.overlay === 'email-attach') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog email-photo-picker" role="dialog" aria-label="${e(t('Attach picture'))}"><h3>Attach picture</h3><div>${photos.map(photo => `<button data-action="email-attach-photo" data-id="${photo.id}">${window.ICSMedia.art(photo)}<span>${e(photo.name)}</span></button>`).join('')}</div><button data-action="close-overlay">Cancel</button></div>`;
+    if (ui.overlay === 'email-discard') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${e(t('Discard draft?'))}"><h3>Discard draft?</h3><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="email-confirm-discard">Discard</button></div></div>`;
+    return '';
   }
   window.KKEmail = {S, tr, TILE_COLORS, hash, tile, shortDate, render, overlay};
 })();

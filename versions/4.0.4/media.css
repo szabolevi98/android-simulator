@@ -2,3 +2,5 @@
 .camera-thumbnail>img{width:100%;height:100%;object-fit:contain}
 .screen:has(>#viewport>.camera-app):not(:has(>#overlay-root>.recent-panel)) #status-bar{display:none}
 .screen:has(>#viewport>.camera-app):not(:has(>#overlay-root>.recent-panel)) #viewport{top:0}
+.gallery-pick-cancel{flex:none;min-height:48px;padding:0 12px;border:0;border-left:1px solid #ffffff26;background:none;color:#fff;font-size:12px;text-transform:uppercase}
+.gallery-header .gallery-pick-cancel{width:auto}

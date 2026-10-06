@@ -236,6 +236,7 @@
     ['Delete event?','Törlöd az eseményt?','Termin löschen?','Supprimer l’événement ?','¿Eliminar evento?'],
     ['End must be after start','A befejezésnek a kezdés után kell lennie','Das Ende muss nach dem Beginn liegen','La fin doit être après le début','El final debe ser posterior al inicio'],
     ['Albums','Albumok','Alben','Albums','Álbumes'],
+    ['Select photo','Fénykép kiválasztása','Foto auswählen','Sélectionner photo','Seleccionar foto'],
     ['Album','Album','Album','Album','Álbum'],
     ['Pictures','Képek','Bilder','Images','Imágenes'],
     ['Share','Megosztás','Teilen','Partager','Compartir'],
