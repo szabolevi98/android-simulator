@@ -30,7 +30,7 @@ Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem ti
 
 Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magasság), betű, ikonok, elrendezés, üres állapot, menü.
 
-- [x] A StockApps, Play- és extra appok megmaradt „‹” vissza-jeleinek cseréje (az 1. lépésből ide került) – (ez a commit)
+- [x] A StockApps, Play- és extra appok megmaradt „‹” vissza-jeleinek cseréje (az 1. lépésből ide került) – 48e59a4
 - [x] `stock-apps.js` – 4.3 (JWR66Y): Google/Now, Voice Search, Maps 6.14, Keep 1.0, YouTube 4.5, Google+ 4.0, Earth, News & Weather, Google Settings (71d403f)
 - [x] `stock-apps.js` – 4.4.4 (KTU84P): ugyanezek a KitKat-kép verzióival (3c730d4)
 - [x] `stock-apps.js` – 5.1.1 (LMY48Y): Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google, Google Settings (579af40)
@@ -161,4 +161,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 4.4.4 extra appok (Newsstand fiók + menük, Quickoffice fiókjel nélkül, Wallet fiók) | 9a989a1 |
 | 2026-10-06 | 4. lépés: 5.1.1 Docs/Sheets/Slides (app_name cím, Search + Add new, menü, Drive típusikonok, nincs FAB) | 0afba8e |
 | 2026-10-06 | 4. lépés: 5.1.1 Fit (nincs fiók/keresés, menü), Newsstand (PlayDrawer, csak Search), Wallet (nincs menü) – az extra appok kész | 854ff90 |
-| 2026-10-06 | 4. lépés: „‹” jelek: 4.0.4 Earth 6.1 sávja az APK-ból, 4.0.4 StockApps bar() csak felfelé lépve, Play-appok holt ágai | (ez a commit) |
+| 2026-10-06 | 4. lépés: „‹” jelek: 4.0.4 Earth 6.1 sávja az APK-ból, 4.0.4 StockApps bar() csak felfelé lépve, Play-appok holt ágai | 48e59a4 |
