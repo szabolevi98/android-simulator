@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 10 / 30 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 11 / 31 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -52,10 +52,10 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 újraépítés a képből; a halott másolat kikerül. A felület nélküli `calculator-engine.js`, `browser-session.js` és a
 `play-store.js` katalógus marad közös, ezek nem tételek.
 
-**Állás: 10 / 30 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
+**Állás: 11 / 31 kész.** A tételek a becsült munka szerint nőnek; a nyitottaknál zárójelben a becslés.
 
 - [x] Kezdőképernyő átrendezés 4.3 / 4.4.4 (`launcher.js`): Launcher3 időzítés – 8fa6eb5
-- [ ] (~15 perc) Óra stílus 2.3.6–5.1.1 (`desk-clock.css`)
+- [x] Óra stílus 2.3.6–5.1.1 (`desk-clock.css`): a 2.3.6 / 4.4.4 / 5.1.1 csak a riasztás-ablakok szabályait tartja meg, a 4.3 a képben még meglévő AlarmClock / SetAlarm képernyőét – 9a0dc35
 - [ ] (~15 perc) Böngésző stílus 2.3.6–5.1.1 (`browser.css`)
 - [x] BeanBag 4.3 / 4.4.4 (`beanbag.js`): a 4.4.4-ből kivéve, a képben nincs – 56aff7d
 - [x] Nyandroid 2.3.6 / 4.0.4 (`nyandroid.js`): a 2.3.6-ból kivéve, a GB-ben nincs – df6c518
@@ -77,6 +77,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [ ] (~1,5 óra) Widgetek 2.3.6–5.1.1 (`widgets.js`, `widgets.css`)
 - [ ] (~1,5 óra) Beállítások aloldalai (`settings-system.js`, `settings-system.css`, `settings-detail.css`)
 - [ ] (~1,5 óra) Hívásképernyő 2.3.6 / 4.0.4 / 4.3 (`phone-call.js`, `phone-call.css`)
+- [ ] (~2 óra) Csörgő ébresztő 2.3.6–5.1.1 (`desk-clock.js` riasztás-ablaka: most mind az öt verzióban ugyanaz az ICS-szerű párbeszédablak; GB és ICS AlarmAlert, 4.3 / 4.4 GlowPad, 5.1 Material) – az Óra stílus átnézésekor derült ki
 - [ ] (~2 óra) Üzenetek 2.3.6 / 4.0.4 / 4.3 / 4.4.4 (`messaging.js`, `messaging.css`)
 - [ ] (~2 óra) Letöltések 4.4.4 / 5.1.1 (`downloads.js`, `downloads.css`; az LP most a 4.4-es DocumentsUI)
 - [ ] (~2–3 óra) Naptár 4.3 / 4.4.4 (`calendar.js`)
