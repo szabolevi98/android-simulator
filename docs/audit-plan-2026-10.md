@@ -153,4 +153,4 @@ Minden főképernyő a saját gyári APK-ja alapján: akciósáv (szín, magass�
 | 2026-10-06 | 4. lépés: 4.3 Local (Maps 6.14 Places: világos fejléc, helysáv, kategóriarács térképháttérrel) | 41eb4f7 |
 | 2026-10-06 | 4. lépés: 4.3 Messenger (Google+ 4.0 host bar, New conversation gomb, menü, beszélgetéssorok) | d5a4909 |
 | 2026-10-06 | 4. lépés: 4.3 Currents 2.1 (kategóriamenü a csúszó panel alatt, csempék, menü) | 154fa92 |
-| 2026-10-06 | 4. lépés: 4.3 Play Magazines 2.0 (lila sáv, fiók, menü, kártyarács) | (ez a commit) |
+| 2026-10-06 | 4. lépés: 4.3 Play Magazines 2.0 (lila sáv, fiók, menü, kártyarács) | e79485b |
