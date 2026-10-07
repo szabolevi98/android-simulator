@@ -106,7 +106,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Naptár szerkesztő: az Ismétlődés és az Emlékeztetők legördülői még böngészős `<select>`-ek; a gyári Holo / GC5 spinner-párbeszédablakok kellenek (a 2. lépésből ide került); a 5.1-en az „All day” kapcsoló (Switch) is – Holo spinner + legördülő lista (4.0.4–4.4.4), GC5 párbeszédablak és kapcsoló (5.1.1) (24fbcd0)
 
 - [x] People mezők teljes kezelése — a 3. lépéssel együtt elkészült (5c88248)
-- [ ] Naptár: résztvevők, elérhetőség, időzóna
+- [x] Naptár: résztvevők, elérhetőség, időzóna – Vendégek, Megjelenítés így / Adatvédelem (5.1: Láthatóság), az esemény időzónája a 4.0.4-es Naptár zónalistájával, a részletekben is (e04dc86). Az időzóna még nem számítja át a nézetek idejét
 - [ ] Photos (KK / LP) szerkesztő és oldalmenü bekötése – előbb az egész Photos a Google+ 4.2 / 4.9 APK-ból (a mostani a GSMArena-leírásból készült, „‹” jellel), benne a fotókeresés (host_photo_tile_search_activity, „Search for photos”)
 - [ ] Galéria-kivágás (GB / ICS)
 - [ ] Books: betűbeállítások, háttér, fejezetválasztás
@@ -246,3 +246,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 5. lépés: E-mail beállítások (generált, aláírás) | 675216f |
 | 2026-10-07 | 5. lépés: Kisegítő lehetőségek: érintés-késleltetés, nagyítás | 8374fb0 |
 | 2026-10-08 | 6. lépés: Naptár-szerkesztő spinnerek, 5.1 Egész nap kapcsoló | 24fbcd0 |
+| 2026-10-08 | 6. lépés: Naptár vendégek, elérhetőség, időzóna | e04dc86 |
