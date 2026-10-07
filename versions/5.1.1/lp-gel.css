@@ -68,3 +68,71 @@
 .home-widget .jbw-digital .jbw-digital-time b,.home-widget .jbw-digital .jbw-digital-time i{font-size:1em}
 .home-widget .jbw-digital .jbw-digital-date,.home-widget .jbw-digital .jbw-digital-date span{font-size:12.68px}
 .home-widget .jbw-digital .jbw-digital-alarm img{width:14.5px;height:14.5px}
+/* Reminders and card settings (audit step 5). reminder_card.xml: the title, then the 16 dp ic_reminder_small and the
+   14 sp CardText time. */
+.gnow-reminder .gnow-reminder-when{display:flex;align-items:center;gap:7.25px;padding:3.62px 14.5px 0}
+.gnow-reminder-when img{width:14.5px;height:14.5px}
+.gnow-reminder[role=button]{cursor:pointer}
+.gnr-app{position:absolute;inset:0;display:flex;flex-direction:column;font-family:Roboto,sans-serif}
+.gnr-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.gnr-empty{margin:0;padding:28.99px 21.74px;text-align:center;font:400 12.68px/1.4 Roboto,sans-serif;color:#8d8d8d}
+/* edit_reminder_layout.xml under edit_reminder_action_bar.xml: Cancel | Set (12 sp caps beside their 32 dp icons, a
+   1 dp divider 12 dp from the edges), the "Add a title" field 12 dp in (#707070, hint #cccccc), When / Where (16 sp
+   #707070 caps), a divider 16 dp in, the day and time spinners 12 dp in (16 sp #333333) and One-time. */
+.gnr-scrim{position:absolute;inset:0;z-index:40;border:0;background:#0009}
+.gnr-edit{position:absolute;z-index:41;left:14.5px;right:14.5px;top:65.23px;padding-bottom:14.5px;background:#fff;box-shadow:0 2px 10px #0006}
+.gnr-edit-bar{display:flex;height:43.49px;border-bottom:1px solid #0000001f}
+.screen .gnr-edit-bar button{flex:1;display:flex;align-items:center;justify-content:center;gap:7.25px;border:0;background:none;font:500 10.87px Roboto,sans-serif;color:#333;text-transform:uppercase}
+.screen .gnr-edit-bar button:active{background:#0000001a}
+.gnr-edit-bar img{width:28.99px;height:28.99px}
+.gnr-edit-bar i{width:1px;margin:10.87px 0;background:#000}
+.screen .gnr-label{display:block;width:calc(100% - 21.74px);margin:14.5px 10.87px 7.25px;padding:7.25px 3.62px;border:0;border-bottom:0.91px solid #cccccc;background:none;outline:none;font:400 16.31px Roboto,sans-serif;color:#707070}
+.screen .gnr-label:focus{border-bottom:1.81px solid #33b5e5}
+.gnr-label::placeholder{color:#cccccc}
+.gnr-trigger{display:flex;padding:14.5px}
+.screen .gnr-trigger button{flex:1;display:flex;align-items:center;justify-content:center;gap:7.25px;border:0;background:none;font:400 14.5px Roboto,sans-serif;color:#707070;text-transform:uppercase}
+.gnr-trigger button.on{color:#333}
+.gnr-trigger img{width:28.99px;height:28.99px}
+.gnr-edit hr{margin:0 14.5px;border:0;border-top:1px solid #0000001f}
+.gnr-spin-wrap{position:relative;margin:7.25px 10.87px 0}
+.screen .gnr-spin{display:block;width:100%;min-height:43.49px;padding:0 10.87px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .gnr-repeat{width:calc(100% - 21.74px);margin:7.25px 10.87px 0;padding:10.87px;border:0;background:none;color:#707070}
+.gnr-drop{position:absolute;z-index:2;left:0;right:0;top:100%;padding:3.62px 0;background:#fff;box-shadow:0 2px 8px #0005}
+.screen .gnr-drop button{display:block;width:100%;min-height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#333}
+.screen .gnr-drop button:active,.screen .gnr-spin:active,.screen .gnr-repeat:active{background:#0000001a}
+.screen .gnr-spin{border:0;border-bottom:1px solid #0000001f;background:none}
+.gnr-edit{border-radius:1.81px;box-shadow:0 10.87px 21.74px #0000004d}
+.screen .gnr-label:focus{border-bottom-color:#4285f4}
+.gnr-drop button[aria-selected=true]{background:#0000000f}
+/* RemindersListActivity (Theme.Gsa.ActionBar.Drawer): the 56 dp qp_blue bar (ic_arrow_back, the white 20 sp title),
+   the reminder cards on #eeeeee under Upcoming / Past and the 56 dp qp_fab 16 dp from the corner. */
+.gnr-app{background:#eee}
+.gnr-bar{flex:none;display:flex;align-items:center;height:50.74px;background:#4285f4;box-shadow:0 1.81px 3.62px #0003}
+.screen .gnr-up{display:grid;place-items:center;width:50.74px;height:100%;padding:0;border:0;background:none}
+.gnr-up img{width:21.74px;height:21.74px}
+.screen .gnr-up:active{background:#ffffff33}
+.gnr-bar b{flex:1;margin-left:14.5px;font:500 18.12px Roboto,sans-serif;color:#fff}
+.gnr-scroll{padding:0 7.25px 79.73px}
+.gnr-scroll .gnow-card{margin-bottom:7.25px}
+.gnr-head{margin:14.5px 7.25px 7.25px;font:500 12.68px Roboto,sans-serif;color:#00000084}
+.screen .gnr-fab{position:absolute;right:14.5px;bottom:14.5px;width:50.74px;height:50.74px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:#4285f4;box-shadow:0 2.72px 5.44px #0000004d}
+.gnr-fab img{width:21.74px;height:21.74px}
+.screen .gnr-fab:active{background:#3367d6}
+/* card_settings.xml: the 48 dp exit button (ic_close_grey600_24dp) at the top right, the question, then
+   training_question_radio_option.xml rows (48 dp, the 48 dp state icon 12 dp before the qp_h5 label). */
+.gnow-back{padding:3.62px 3.62px 7.25px}
+.screen .gnow-back-exit{position:absolute;right:3.62px;top:3.62px;width:43.49px;height:43.49px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:none}
+.gnow-back-exit img{width:21.74px;height:21.74px}
+.gnow-back .gnow-back-q{padding:14.5px 50.74px 7.25px 14.5px;font:400 14.5px/1.4 Roboto,sans-serif;color:#000000de}
+.screen .gnow-back-opt{display:flex;align-items:center;width:100%;min-height:43.49px;padding:0;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#00000084}
+.gnow-back-opt i{flex:none;display:grid;place-items:center;width:43.49px;height:43.49px;margin-right:10.87px}
+.gnow-back-opt i::before{content:'';width:14.5px;height:14.5px;border:1.81px solid #00000084;border-radius:50%}
+.gnow-back-opt.on{color:#000000de}
+.gnow-back-opt.on i::before{border-color:#4285f4;background:radial-gradient(#4285f4 0 4.53px, transparent 4.98px)}
+.screen .gnow-back-opt:active,.screen .gnow-back-exit:active{background:#0000000f}
+/* "Delete this reminder?" (Theme.Gsa.Dialog, Material). */
+.gnr-alert{position:absolute;z-index:41;left:21.74px;right:21.74px;top:50%;transform:translateY(-50%);background:#fff;border-radius:1.81px;box-shadow:0 10.87px 21.74px #0000004d}
+.gnr-alert p{margin:0;padding:21.74px 21.74px 0;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008a}
+.gnr-alert-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:21.74px 7.25px 7.25px}
+.screen .gnr-alert-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;font:500 12.68px Roboto,sans-serif;color:#4285f4;text-transform:uppercase}
+.screen .gnr-alert-buttons button:active{background:#0000001f}

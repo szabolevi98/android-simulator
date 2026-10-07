@@ -992,6 +992,204 @@ window.StockStrings = {
    "Das wurde nicht verstanden. Bitte sprechen Sie erneut.",
    "Je n'ai pas compris. Veuillez répéter.",
    "No lo he entendido. Prueba a decirlo otra vez."
+  ],
+  "Upcoming": [
+   "Aktuálisak",
+   "Demnächst",
+   "À venir",
+   "Próximos"
+  ],
+  "Past": [
+   "Korábbiak",
+   "Vergangene",
+   "Passés",
+   "Anteriores"
+  ],
+  "Add a title": [
+   "Adjon hozzá címet",
+   "Titel hinzufügen",
+   "Ajouter un titre",
+   "Añade un título"
+  ],
+  "Set": [
+   "Beállítás",
+   "Festlegen",
+   "Définir",
+   "Definir"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "When": [
+   "Időpont",
+   "Wann",
+   "Date et heure",
+   "Cuándo"
+  ],
+  "Where": [
+   "Helyszín",
+   "Wo",
+   "Lieu",
+   "Dónde"
+  ],
+  "One-time": [
+   "Egyszeri",
+   "Einmal",
+   "Une seule fois",
+   "Una vez"
+  ],
+  "Today, %1$s": [
+   "Ma, %1$s",
+   "Heute um %1$s",
+   "Aujourd'hui à %1$s",
+   "Hoy a las %1$s"
+  ],
+  "Tomorrow, %1$s": [
+   "Holnap, %1$s",
+   "Morgen um %1$s Uhr",
+   "Demain à %1$s",
+   "Mañana a las %1$s"
+  ],
+  "Delete this reminder?": [
+   "Törli ezt az emlékeztetőt?",
+   "Diese Erinnerung löschen?",
+   "Supprimer ce rappel ?",
+   "¿Eliminar este recordatorio?"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "Edit reminder": [
+   "Emlékeztető szerkesztése",
+   "Erinnerung bearbeiten",
+   "Modifier le rappel",
+   "Editar recordatorio"
+  ],
+  "No upcoming reminders": [
+   "Nincsenek közelgő emlékeztetők. Emlékeztető beállításához koppintson a „+” gombra.",
+   "Sie haben keine anstehenden Erinnerungen. Um eine Erinnerung einzurichten, tippen Sie auf die Schaltfläche \"+\".",
+   "Vous n'avez aucun rappel à venir. Pour définir un rappel, appuyez sur le bouton \"+\".",
+   "No hay próximos recordatorios. Para añadir un recordatorio, toca el botón +.",
+   "You don't have any upcoming reminders. To set a reminder, tap on the '+' button."
+  ],
+  "Reminder saved": [
+   "Emlékeztető mentve",
+   "Erinnerung gespeichert",
+   "Rappel enregistré.",
+   "Recordatorio guardado"
+  ],
+  "Weather units": [
+   "Mértékegységek az időjáráshoz",
+   "Wettereinheiten",
+   "Système d'unités de mesure météorologiques",
+   "Unidades de temperatura"
+  ],
+  "Celsius": [
+   "Celsius",
+   "Celsius",
+   "Celsius",
+   "Grados Celsius"
+  ],
+  "Fahrenheit": [
+   "Fahrenheit",
+   "Fahrenheit",
+   "Fahrenheit",
+   "Grados Fahrenheit"
+  ],
+  "Reminder list": [
+   "Emlékeztetők",
+   "Erinnerungen",
+   "Rappels",
+   "Recordatorios",
+   "Reminders"
+  ],
+  "Day 0": [
+   "Ma",
+   "Heute",
+   "Aujourd'hui",
+   "Hoy",
+   "Today"
+  ],
+  "Day 1": [
+   "Holnap",
+   "Morgen",
+   "Demain",
+   "Mañana",
+   "Tomorrow"
+  ],
+  "Day 2": [
+   "Időnként",
+   "Gelegentlich",
+   "Périodiquement",
+   "De forma ocasional",
+   "Occasionally"
+  ],
+  "Day 3": [
+   "Dátum beállítása…",
+   "Datum festlegen...",
+   "Définir la date…",
+   "Establecer fecha…",
+   "Set date…"
+  ],
+  "Time 0": [
+   "Reggel",
+   "Morgens",
+   "Matin",
+   "Por la mañana",
+   "Morning"
+  ],
+  "Time 1": [
+   "Délután",
+   "Nachmittags",
+   "Après-midi",
+   "Al mediodía",
+   "Afternoon"
+  ],
+  "Time 2": [
+   "Este",
+   "Abends",
+   "Soirée",
+   "Por la tarde",
+   "Evening"
+  ],
+  "Time 3": [
+   "Éjszaka",
+   "Nachts",
+   "Nuit",
+   "Por la noche",
+   "Night"
+  ],
+  "Time 4": [
+   "Egész nap",
+   "Ganztägig",
+   "Toute la journée",
+   "Todo el día",
+   "All day"
+  ],
+  "Time 5": [
+   "Idő beállítása…",
+   "Uhrzeit festlegen…",
+   "Définir l'heure…",
+   "Establecer hora…",
+   "Set time…"
+  ],
+  "Add a reminder…": [
+   "Emlékeztető hozzáadása…",
+   "Erinnerung hinzufügen...",
+   "Ajouter un rappel…",
+   "Añadir un recordatorio…"
+  ],
+  "Hide card settings": [
+   "Kártya beállításainak elrejtése",
+   "Karteneinstellungen ausblenden",
+   "Masquer les paramètres de la carte",
+   "Ocultar los ajustes de las tarjetas"
   ]
  },
  "music": {

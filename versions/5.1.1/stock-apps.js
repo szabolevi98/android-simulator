@@ -43,7 +43,7 @@
   const avatar = (name, seed) => `<span class="sa-avatar" style="background:${['#d65f4e', '#4d8fe0', '#5fae5a', '#e3a33b', '#8a63c9'][seed % 5]}">${e(name.charAt(0))}</span>`;
 
   // ---- Google (Google Now) and Voice Search ----
-  function google(ctx) { return `<div class="app-view sa-app sa-google">${window.GELNow.render({data: ctx.data, t: ctx.t, locale: ctx.locale, now: ctx.now})}</div>`; }
+  function google(ctx) { return `<div class="app-view sa-app sa-google">${window.GELNow.render({data: ctx.data, t: ctx.t, locale: ctx.locale, now: ctx.now, ui: ctx.ui})}</div>`; }
   // Voice Search on 5.1.1 is Google Search 4.1.29's search plate in voice mode: the white plate (search_bg) grows to
   // voice_search_plate_height (336 dp on the Nexus 6) over #eeeeee; main_text (24 dp sans-serif-light #de000000) reads
   // "Speak now" at the top left; the 90 dp RecognizerView sits 3 dp from the top and 5 dp from the right with
@@ -295,7 +295,7 @@
   }
 
 
-  const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
+  const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : ctx.ui.sub === 'reminders' ? window.GELNow.reminders({data: ctx.data, t: ctx.t, locale: ctx.locale, now: ctx.now, ui: ctx.ui}) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
   function render(app, ctx) { return (APPS[app] || google)(ctx); }
   const SIMPLE = ['google-search', 'voice-search', 'maps', 'drive', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings'];
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, lollipops', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
