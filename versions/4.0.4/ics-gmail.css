@@ -68,3 +68,16 @@
 .g4-overflow{top:calc(var(--status-height, 21px) + 40.8px);right:0}
 .g4-menu h4{margin:0;padding:8px 13.6px 4px;color:#33b5e5;font-weight:700;font-size:11.9px;text-transform:uppercase;border-bottom:1.7px solid #33b5e5}
 .g4-menu button{display:block;width:100%;min-height:40.8px;padding:0 13.6px;border:0;border-bottom:1px solid #e5e5e5;background:none;color:#222;font:400 15.3px RobotoICS,sans-serif;text-align:left}
+/* attachment.xml (dp x 0.9; xhdpi art x 0.45): attachment_bg_holo (32 px, stretch 18-19 / 19-20, padding 4 / 2 / 4 / 6),
+   48 dp tall, the thumbnail 8 dp in over ic_attachment_holo_light, the name 16 dp after it, the size in #555555, and
+   ic_cancel_holo_light (24 dp) 8 dp from the end. */
+.g4-attachment{display:flex;align-items:center;height:43.2px;margin:0 0 4px;padding:.9px 1.8px 2.7px;box-sizing:border-box;border-image:url('assets/g4-attachment_bg_holo.png') 19 13 12 18 fill/8.55px 5.85px 5.4px 8.1px stretch}
+.g4-att-thumb{position:relative;flex:none;width:21.6px;height:21.6px;margin-left:7.2px}
+.g4-att-thumb>img{width:21.6px;height:21.6px}
+.g4-att-photo{position:absolute;inset:0;overflow:hidden}
+.g4-att-photo>*{width:100%;height:100%}
+.g4-att-copy{flex:1;min-width:0;display:flex;flex-direction:column;margin:0 28.8px 0 14.4px}
+.g4-att-copy b{font:400 12.6px RobotoICS,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g4-att-copy small{font:400 12.6px RobotoICS,sans-serif;color:#555}
+.g4-att-remove{flex:none;width:21.6px;height:21.6px;margin-right:7.2px;padding:0;border:0;background:none}
+.g4-att-remove img{width:100%;height:100%}

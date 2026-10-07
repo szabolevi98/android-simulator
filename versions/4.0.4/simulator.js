@@ -509,7 +509,8 @@
   function gmailContext() {
     return {data, ui, lang: i18n.language, locale: i18n.locale(), now: deviceDate().getTime(), save, render, renderOverlay, toast,
       focus: selector => viewport.querySelector(selector)?.focus(), submit: selector => viewport.querySelector(selector)?.requestSubmit(),
-      keep: () => ICSGmail.keepDraft(data, ui, viewport.querySelector('.g4-form'))};
+      keep: () => ICSGmail.keepDraft(data, ui, viewport.querySelector('.g4-form')), photo: photo => ICSMedia.art(photo),
+      pickPicture: () => { openApp('gallery'); ui.galleryPick = 'gmail'; ui.galleryAlbum = ''; render(); }};
   }
   // Downloads: data.downloads (seeded on first use); the sort order and the selection live in ui.hdl.
   function dlContext() {
@@ -519,7 +520,7 @@
   function navigateBack() {
     if (ui.view === 'email' && ICSEmail.back(emailContext())) return;
     // The Gallery's picker (GET_CONTENT from Email's Attach file) returns without a picture.
-    if (ui.view === 'gallery' && ui.galleryPick && !ui.sub && !ui.overlay) { ui.galleryPick = ''; openApp('email', true); return; }
+    if (ui.view === 'gallery' && ui.galleryPick && !ui.sub && !ui.overlay) { const caller = ui.galleryPick; ui.galleryPick = ''; openApp(caller, true); return; }
     if (ui.view === 'downloads' && HoloDownloads.back(dlContext())) return;
     if (ICSGoogleApps.APPS.includes(ui.view) && ui.gaSub) { ui.gaSub = ''; render(); return; }
     if (ui.view === 'gmail') {
@@ -1384,8 +1385,9 @@
       case 'new-message': ui.sub = 'new'; ui.overlay = ''; render(); viewport.querySelector('[name=recipient]')?.focus(); break;
       case 'gallery-camera': openApp('camera'); break;
       case 'gallery-album': ui.galleryAlbum=id; ui.sub='album';ui.gallerySlideshow=false;render();break;
-      case 'gallery-pick': { const photo = data.photos.find(p => p.id === Number(id)); ui.galleryPick = ''; ui.sub = ''; openApp('email', true); ICSEmail.attach(emailContext(), photo); render(); break; }
-      case 'gallery-pick-cancel': ui.galleryPick = ''; ui.sub = ''; openApp('email', true); break;
+      // GET_CONTENT hands the picture back to whichever app asked: Email or Gmail.
+      case 'gallery-pick': { const photo = data.photos.find(p => p.id === Number(id)), caller = ui.galleryPick; ui.galleryPick = ''; ui.sub = ''; openApp(caller, true); if (caller === 'gmail') ICSGmail.attach(gmailContext(), photo); else ICSEmail.attach(emailContext(), photo); render(); break; }
+      case 'gallery-pick-cancel': { const caller = ui.galleryPick || 'email'; ui.galleryPick = ''; ui.sub = ''; openApp(caller, true); break; }
       case 'photo': ui.selectedPhoto=Number(id);ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});ui.sub='photo';ui.galleryZoom=false;render();break;
       case 'gallery-step': galleryStep(Number(id));break;
       case 'gallery-photo-zoom': ui.galleryZoom=!ui.galleryZoom;render();break;

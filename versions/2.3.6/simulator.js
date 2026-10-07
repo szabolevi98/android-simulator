@@ -669,6 +669,7 @@
     if (ui.view === 'people' && (ui.sub === 'edit' || ui.sub === 'new') && viewport.querySelector('.gbce')) { viewport.querySelector('.gbce').requestSubmit(); return; }
     if (ui.view === 'camera' && ui.gbcamPopup) { ui.gbcamPopup = ''; render(); return; }
     if (ui.view === 'camera' && ui.gbcamRec) { gbcamStopRecording(); render(); return; }
+    if (ui.view === 'gallery' && ui.gbgPick && !ui.sub && ui.gbgmPick) { ui.gbgPick = false; ui.gbgmPick = false; ui.view = 'gmail'; render(); return; }
     if (ui.view === 'gallery' && ui.gbgPick && !ui.sub && ui.gbcePick) { ui.gbgPick = false; ui.view = 'people'; ui.sub = ui.gbcePick.sub; ui.gbcePick = null; render(); return; }
     if (ui.view === 'gallery' && ui.gbgPick && !ui.sub) { ui.gbgPick = false; cancelPhotoWidget(); home(false); return; }
     if (ui.view === 'gallery' && ui.gbgPopup) { ui.gbgPopup = ''; render(); return; }
@@ -1314,6 +1315,8 @@
       ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel'), t: key => i18n.t(key),
       save, render, renderOverlay, toast, openApp, home: () => home(false), photos: data.photos, contacts: data.contacts,
       dialog(kind) { ui.gappDialog = kind; ui.overlay = 'gb-dialog-gapp'; renderOverlay(); },
+      // Gmail's Attach: the Gallery in its picker mode, which returns to Gmail with the picture.
+      pickPicture() { captureRecentView(); ui.gbgmPick = true; ui.view = 'gallery'; ui.sub = ''; ui.gbgPick = true; render(); },
       focus(selector) { requestAnimationFrame(() => viewport.querySelector(selector)?.focus()); },
       submit(selector) { viewport.querySelector(selector)?.requestSubmit(); },
       browse(url) { openApp('browser'); navigateBrowser(url); }, call(number) { startPhoneCall(number); }};
@@ -1799,7 +1802,8 @@
       case 'gbg-rotate': gbgSelectedPhotos().forEach(p => p.rotation = ((p.rotation || 0) + Number(id) + 360) % 360); save(); ui.gbgPopup = ''; if (ui.sub === 'photo') gbgEndSelection(); render(); break;
       case 'gbg-wallpaper': { const photo = gbgSelectedPhotos()[0]; gbgEndSelection(); if (photo) { data.wallpaper = 99; delete data.liveWallpaper; data.customWallpaper = photo.colors; data.customWallpaperPhoto = clone(photo); save(); toast('Wallpaper set'); } render(); break; }
       case 'gbg-share-email': { const photo = gbgSelectedPhotos()[0]; gbgEndSelection(); if (!photo) break; openApp('email'); composeEmail(); const item = data.mailbox.find(m => m.id === ui.emailId); if (item) item.attachment = clone(photo); save(); render(); break; }
-      case 'photo': if (ui.view === 'gallery' && ui.gbgPick && ui.gbcePick) { ui.gbgPick = false; if (ui.peopleDraft) ui.peopleDraft.photo = Number(id); ui.view = 'people'; ui.sub = ui.gbcePick.sub; ui.gbcePick = null; render(); break; }
+      case 'photo': if (ui.view === 'gallery' && ui.gbgPick && ui.gbgmPick) { ui.gbgPick = false; ui.gbgmPick = false; ui.view = 'gmail'; GBGmail.attach(gappContext(), data.photos.find(p => p.id === Number(id))); render(); break; }
+        if (ui.view === 'gallery' && ui.gbgPick && ui.gbcePick) { ui.gbgPick = false; if (ui.peopleDraft) ui.peopleDraft.photo = Number(id); ui.view = 'people'; ui.sub = ui.gbcePick.sub; ui.gbcePick = null; render(); break; }
         if (ui.view === 'gallery' && ui.gbgPick) { ui.gbgPick = false; const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; const widget = setup && data.homeWidgets[setup.page]?.find(w => w.id === setup.id); if (widget) Object.assign(widget, {source: 'photo', photo: Number(id)}); save(); ui.page = setup?.page ?? ui.page; ui.view = 'home'; ui.sub = ''; render(); break; }
         if (ui.view === 'home') { openApp('gallery'); }
         ui.selectedPhoto=Number(id);ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});ui.sub='photo';ui.galleryZoom=false;render();break;

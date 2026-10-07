@@ -129,3 +129,13 @@ textarea.gm-bodyfield{min-height:86px;padding-top:4.31px;resize:none}
 .gm-about{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;color:#fff;font-size:13.8px}
 .gm-about img{width:123.6px;height:51.2px}
 .gm-about p{margin:0}
+/* image_attachment.xml (1 dp = 0.8625 px, hdpi art x 0.575): the #D5D5D5 row, ic_email_attachment, the 32 dp thumbnail
+   with 5 dp padding, the black 14 sp name and size 5 dp in, and the framework's btn_dialog (pressed: btn_dialog_pressed). */
+.gm-attachment{display:flex;align-items:center;gap:0;background:#d5d5d5;margin:0 0 4px;padding:2px 0}
+.gm-att-clip{flex:none;width:32.2px;height:14.95px}
+.gm-att-thumb{flex:none;width:27.6px;height:27.6px;margin-left:4.31px;overflow:hidden}
+.gm-att-thumb>*{width:100%;height:100%}
+.gm-att-copy{flex:1;min-width:0;display:flex;flex-direction:column;padding-left:4.31px}
+.gm-att-copy b{font:400 12.07px DroidSans,Arial,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-att-remove{flex:none;width:27.6px;height:27.6px;margin:0 4px;padding:0;border:0;background:url('assets/gb-gm-btn_dialog_normal.png') center/100% no-repeat}
+.gm-att-remove:active{background-image:url('assets/gb-gm-btn_dialog_pressed.png')}

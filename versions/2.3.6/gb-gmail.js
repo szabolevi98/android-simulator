@@ -614,12 +614,21 @@
     const newer = index > 0 ? items[index - 1] : null, older = index >= 0 && index < items.length - 1 ? items[index + 1] : null;
     return `<div class="app-view gm gm-conv" data-no-translate><div class="gm-scroll gm-web"><div class="gm-subjecthead"><button class="gm-bigstar${c.starred ? ' on' : ''}" data-action="gm-star" data-id="${e(c.id)}" role="checkbox" aria-checked="${!!c.starred}" aria-label="${e(T(lang, c.starred ? 'Remove star' : 'Add star'))}"></button><div class="gm-subjecttext">${e(c.subject)}</div><div class="gm-labels">${c.labels.filter(l => !['Sent', 'Drafts', 'Outbox'].includes(l)).map(l => chip(l, lang)).join('')}${c.important ? chip('Important', lang) : ''}</div></div>${cards}</div><div class="gm-bottombar"><button data-action="gm-archive">${e(T(lang, 'Archive'))}</button><button data-action="gm-delete">${e(T(lang, 'Delete'))}</button><button class="gm-arrow left"${newer ? ` data-action="gm-open" data-id="${e(newer.id)}"` : ' disabled'} aria-label="${e(T(lang, 'Newer'))}"></button><button class="gm-arrow right"${older ? ` data-action="gm-open" data-id="${e(older.id)}"` : ' disabled'} aria-label="${e(T(lang, 'Older'))}"></button></div></div>`;
   }
+  // image_attachment.xml: the #D5D5D5 row with ic_email_attachment, the 32 dp thumbnail 5 dp in, the black name and
+  // size, and the framework's round btn_dialog to remove it.
+  function attachmentRow(lang, item) {
+    return `<div class="gm-attachment"><img class="gm-att-clip" src="assets/gb-gm-ic_email_attachment.png" alt=""><span class="gm-att-thumb">${window.ICSMedia ? ICSMedia.art(item) : ''}</span><span class="gm-att-copy"><b>${e(item.name || 'IMG.jpg')}</b><b>${e(item.size || '')}</b></span><button type="button" class="gm-att-remove" data-action="gm-remove-attachment" aria-label="${e(T(lang, 'Remove'))}"></button></div>`;
+  }
+  function attach(ctx, photo) {
+    if (!ctx.ui.gmDraft || !photo) return;
+    ctx.ui.gmDraft.attachment = {...JSON.parse(JSON.stringify(photo)), size: photo.size || '214KB'};
+  }
   function compose(ctx) {
     const {ui, lang} = ctx, d = ui.gmDraft || {};
     const field = (name, hint, extra = '') => `<input class="gm-field" name="${name}" value="${e(d[name] || '')}" placeholder="${e(T(lang, hint))}" aria-label="${e(T(lang, hint))}" autocomplete="off"${extra}>`;
     const head = d.mode ? `<button type="button" class="gm-picker" data-action="gm-mode">${e(T(lang, d.mode === 'reply' ? 'Reply' : d.mode === 'reply-all' ? 'Reply all' : 'Forward'))}</button>` : `<span class="gm-heading">${e(T(lang, 'Compose'))}</span>`;
     const quoted = d.quoted ? `<div class="gm-quoted-bar"><label><input type="checkbox" name="include" ${d.include !== false ? 'checked' : ''} data-action="gm-include"><span>${e(T(lang, 'Include text'))}</span></label><button type="button" data-action="gm-inline">${e(T(lang, 'Respond inline'))}</button></div><div class="gm-quoted${d.include === false ? ' off' : ''}">${e(d.quoted).replace(/\n/g, '<br>')}</div>` : '';
-    return `<form class="app-view gm gm-compose" data-form="gm-compose" data-no-translate><div class="gm-ctitle">${head}<i class="gm-vdiv"></i><button type="submit" class="gm-send" aria-label="${e(T(lang, 'Send'))}"></button><i class="gm-vdiv"></i><button type="button" class="gm-save" data-action="gm-save" aria-label="${e(T(lang, 'Save draft'))}"></button></div><div class="gm-scroll gm-carea"><div class="gm-from"><span>${e(T(lang, 'From'))}</span><b>${e(ACCOUNT)}</b></div>${field('to', 'To', ' type="email" multiple')}${ui.gmCc ? field('cc', 'Cc') + field('bcc', 'Bcc') : ''}<i class="gm-hdiv"></i>${field('subject', 'Subject')}<textarea class="gm-field gm-bodyfield" name="body" placeholder="${e(T(lang, 'Compose Mail'))}" aria-label="${e(T(lang, 'Compose Mail'))}">${e(d.body || '')}</textarea>${quoted}</div></form>`;
+    return `<form class="app-view gm gm-compose" data-form="gm-compose" data-no-translate><div class="gm-ctitle">${head}<i class="gm-vdiv"></i><button type="submit" class="gm-send" aria-label="${e(T(lang, 'Send'))}"></button><i class="gm-vdiv"></i><button type="button" class="gm-save" data-action="gm-save" aria-label="${e(T(lang, 'Save draft'))}"></button></div><div class="gm-scroll gm-carea"><div class="gm-from"><span>${e(T(lang, 'From'))}</span><b>${e(ACCOUNT)}</b></div>${field('to', 'To', ' type="email" multiple')}${ui.gmCc ? field('cc', 'Cc') + field('bcc', 'Bcc') : ''}<i class="gm-hdiv"></i>${field('subject', 'Subject')}${d.attachment ? attachmentRow(lang, d.attachment) : ''}<textarea class="gm-field gm-bodyfield" name="body" placeholder="${e(T(lang, 'Compose Mail'))}" aria-label="${e(T(lang, 'Compose Mail'))}">${e(d.body || '')}</textarea>${quoted}</div></form>`;
   }
   function labels(ctx) {
     const {data, lang} = ctx, mail = data.gmail23;
@@ -720,7 +729,9 @@
       case 'gm-include': keep(ctx); ui.gmDraft.include = !(ui.gmDraft.include !== false); ctx.render(); break;
       case 'gm-inline': keep(ctx); ui.gmDraft.body = `${ui.gmDraft.body || ''}\n\n${ui.gmDraft.quoted}`.replace(/^\n+/, ''); ui.gmDraft.quoted = ''; ctx.render(); break;
       case 'gm-cc': keep(ctx); ui.gmCc = !ui.gmCc; ui.overlay = ''; ctx.renderOverlay(); ctx.render(); break;
-      case 'gm-attach': ui.overlay = ''; ctx.renderOverlay(); ctx.toast('This feature is not part of the simulator.'); break;
+      // Attach: GET_CONTENT for a picture; the Gallery's picker hands it back (attach below).
+      case 'gm-attach': keep(ctx); ui.overlay = ''; ctx.renderOverlay(); ctx.pickPicture(); break;
+      case 'gm-remove-attachment': keep(ctx); if (ui.gmDraft) delete ui.gmDraft.attachment; ctx.render(); break;
       case 'gm-send': ui.overlay = ''; ctx.renderOverlay(); ctx.submit('.gm-compose'); break;
       case 'gm-save': keep(ctx); saveDraft(ctx); ui.gmView = ui.gmDraft?.source ? 'conversation' : ''; ui.gmDraft = null; ui.overlay = ''; ctx.save(); ctx.renderOverlay(); ctx.render(); ctx.toast(T(lang, 'Message saved as draft.')); break;
       case 'gm-discard': ctx.dialog('discard'); break;
@@ -802,5 +813,5 @@
     if (!resume) { ui.gmView = ''; ui.gmLabel = 'Inbox'; ui.gmSelected = []; ui.gmQuery = undefined; ui.gmUndo = null; }
   }
   GBApps.register('gmail', {render, menu, dialog, handle, submit, back, open, keep});
-  window.GBGmail = {ACCOUNT, restore, list, unread};
+  window.GBGmail = {ACCOUNT, restore, list, unread, attach};
 })();
