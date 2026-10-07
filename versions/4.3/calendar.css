@@ -19,7 +19,6 @@
 
 .cal-app{color-scheme:light}.cal-busy{overflow:hidden}.cal-editor .cal-check input{appearance:none;width:32px;height:32px;padding:0;border:0;background:transparent url(assets/btn_check_off_holo_light.png) center/32px 32px no-repeat}.cal-editor .cal-check input:checked{background-image:url(assets/btn_check_on_holo_light.png)}
 /* Holo Light spinners for Repetition and Reminders (EditEventView), with the corner triangle. */
-.cal-editor select{appearance:none;-webkit-appearance:none;width:100%;min-width:0;background:white linear-gradient(135deg,transparent 50%,#9a9a9a 50%) no-repeat right 2px bottom 3px/8px 8px;color:#333;border:0;border-bottom:1px solid #bbb;border-radius:0;padding:7px 18px 7px 3px;font:16px Roboto,Arial,sans-serif;outline-color:#33b5e5;text-overflow:ellipsis}
 .cal-repeat{font-size:13px;opacity:.9}
 .cal-scope{padding:8px 0}
 .cal-scope h3{margin:4px 16px 8px}
@@ -55,3 +54,10 @@
 /* edit_event_1.xml in the 4.3 Calendar (201306090): the All day label sits 8 dp left of its row (layout_marginLeft -8dp;
    the KitKat build drops the margin). */
 .cal-check>span{margin-left:-7.2px}
+/* The repeat and reminder spinners (audit step 6): full-width Holo spinners and their dropdown list (white panel,
+   48 dp rows of 18 sp text, the chosen one in holo blue tint). */
+.cal-editor .cal-select{display:block;flex:none;width:100%;text-align:left}
+.cal-spin-list{position:absolute;z-index:31;max-height:60%;overflow-y:auto;scrollbar-width:none;background:#fff;box-shadow:0 1.7px 6.81px #0006}
+.screen .cal-spin-list button{display:block;width:100%;min-height:40.88px;padding:0 13.63px;border:0;background:none;text-align:left;font:400 15.33px Roboto,RobotoICS,sans-serif;color:#000}
+.screen .cal-spin-list button[aria-selected="true"]{background:#33b5e522}
+.screen .cal-spin-list button:active{background:#33b5e566}

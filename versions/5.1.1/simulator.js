@@ -2360,6 +2360,21 @@
       case 'calendar-today': ui.selectedDate=today();calendarRender();break;
       // Calendar's From / To buttons open the datetimepicker at the form's value; Done writes it back and, like
       // EditEventView, moves the end with the start so the event keeps its length.
+      // The repeat / reminder spinners (calendar.js): the list opens under the field (a dialog on 5.1) and the pick goes
+      // straight into the form's hidden input, as the date and time pickers do.
+      case 'calspin': {
+        const form=viewport.querySelector('form[data-form="event"]');if(!form)break;
+        const draft={...ICSCalendar.normalize(ui.eventDraft||{}),...Object.fromEntries(new FormData(form))};
+        const b=button.getBoundingClientRect(),sr=screen.getBoundingClientRect(),k=screen.clientWidth/sr.width;
+        const items=ICSCalendar.spinner(id,draft,i18n.locale(),key=>i18n.t(key)),rowH=screen.clientWidth/8.3,below=(b.bottom-sr.top)*k;
+        ui.calSpin={field:id,value:form.elements[id].value,items,title:button.getAttribute('aria-label')||'',left:(b.left-sr.left)*k,width:b.width*k,top:below+items.length*rowH>screen.clientHeight?Math.max(0,(b.top-sr.top)*k-items.length*rowH):below};
+        ui.overlay='calendar-spinner';renderOverlay();break;
+      }
+      case 'calspin-pick': {
+        const form=viewport.querySelector('form[data-form="event"]'),sp=ui.calSpin;
+        if(form&&sp){form.elements[sp.field].value=id;const field=form.querySelector(`[data-action="calspin"][data-id="${sp.field}"]`);if(field)field.textContent=sp.items.find(item=>item.value===id)?.label||'';}
+        ui.overlay='';renderOverlay();break;
+      }
       case 'calpick': {
         const form=viewport.querySelector('form[data-form="event"]'),value=form?.elements[id]?.value||'';
         ui.dtp=DateTimePicker.fromValue(/date/i.test(id)?'date':'time',value||(/date/i.test(id)?ui.selectedDate:'09:00'),{field:id,setAction:'dtp-set',hour24:!!data.settings.hour24});

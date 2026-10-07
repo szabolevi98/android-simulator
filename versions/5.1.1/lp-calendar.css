@@ -79,7 +79,7 @@
 .gc-account{display:flex;flex-direction:column}
 .gc-allday{display:flex;justify-content:space-between;align-items:center}
 .gc-when{display:flex;gap:10px;margin-bottom:6px}
-.gc-input,.gc-edit-body select,.gc-edit-body textarea{width:100%;border:0;border-bottom:.906px solid #0000001f;background:none;outline:0;font:400 14.5px Roboto,sans-serif;color:#212121;padding:4px 0}
+.gc-input,.gc-edit-body textarea{width:100%;border:0;border-bottom:.906px solid #0000001f;background:none;outline:0;font:400 14.5px Roboto,sans-serif;color:#212121;padding:4px 0}
 .gc-edit-body textarea{min-height:60px;resize:vertical}
 .gc-input[type=date]{flex:1.4}
 .gc-input[type=time]{flex:1}
@@ -91,3 +91,15 @@
 .screen .gc-when-time{flex:none;text-align:right}
 .screen .gc-when-date:active,.screen .gc-when-time:active{background:#0000001f}
 .gc-editor:has(input[name="allDay"]:checked) .gc-when-time{visibility:hidden}
+/* Repeat and reminders (audit step 6): Google Calendar 5's rows open a single-choice dialog (24 dp padding, 48 dp
+   rows with the #4285f4 radio button); All day is a Material switch (the 14 dp track, the 20 dp thumb). */
+.screen .gc-edit-body .gc-select{display:block;width:100%;padding:3.62px 0;border:0;border-bottom:.906px solid #0000001f;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#212121}
+.gc-choice{position:absolute;z-index:31;left:21.74px;right:21.74px;top:50%;transform:translateY(-50%);max-height:70%;overflow-y:auto;scrollbar-width:none;padding:7.25px 0;background:#fff;border-radius:1.81px;box-shadow:0 10.87px 21.74px #0000004d}
+.screen .gc-choice button{display:flex;align-items:center;gap:21.74px;width:100%;min-height:43.49px;padding:0 21.74px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#212121}
+.gc-choice i{flex:none;width:18.12px;height:18.12px;box-sizing:border-box;border:1.81px solid #757575;border-radius:50%}
+.gc-choice button[aria-checked="true"] i{border-color:#4285f4;background:radial-gradient(#4285f4 0 4.53px, transparent 4.98px)}
+.screen .gc-choice button:active{background:#0000001a}
+.gc-allday .gc-switch{appearance:none;-webkit-appearance:none;position:relative;flex:none;width:30.8px;height:12.68px;margin:0 2.72px;border-radius:6.34px;background:#00000042;outline:0;cursor:pointer}
+.gc-allday .gc-switch::before{content:'';position:absolute;left:-2.72px;top:-2.72px;width:18.12px;height:18.12px;border-radius:50%;background:#f1f1f1;box-shadow:0 1px 3px #0006;transition:transform .15s}
+.gc-allday .gc-switch:checked{background:#4285f480}
+.gc-allday .gc-switch:checked::before{background:#4285f4;transform:translateX(18.12px)}
