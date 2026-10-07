@@ -93,7 +93,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Helyi keresés: Play Music és médiaappok, Keep, Drive, YouTube, GB Talk / Voice, Photos, dokumentumlisták – Play Music 5.0/5.2/5.8 (367edd9), Movies és Books (ca9c6f9), YouTube 4.5/5.2/10.03 (66c8a24), Keep 3.0 (82345f3), Drive 1.2/2.1 (7eda159), GB Talk (1384048) és Voice (6006173), Docs/Sheets/Slides (bced687). Nincs keresés a gyári menükben: Keep 1.0/2.0, Quickoffice 6.3 kezdőlap; a 4.3-as képben nincs Drive. A Photos (4.4/5.1) még nem APK-alapú, a keresése a 6. lépés Photos-átdolgozásával készül
 - [x] Gmail csatolmány (GB, ICS) a galériából: a Galéria választó módja visszaadja a képet a nyitott piszkozatnak; GB image_attachment.xml, ICS attachment.xml a saját grafikákkal (3cc1c79)
 - [x] Világóra városválasztással (JB / KK / LP): a képek saját cities.xml-je (dc-cities.js), CitiesActivity verziónként (JB betűfejlécek; KK/LP kiválasztottak elöl és rendezés), világóra-sorok a főóra alatt (8e4ea20)
-- [ ] GB Óra beállításai
+- [x] GB Óra beállításai: SettingsActivity (néma mód, ébresztési hangerő, szundi hossza, hangerőgombok) – a szundi és a hangerőgombok valóban így működnek (dde691b)
 - [ ] GB kézi dátum, idő és időzóna
 - [ ] Keep: jelölőnégyzetes lista és kép
 - [ ] Google Now emlékeztetők és kártyabeállítások
@@ -237,3 +237,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 4.5. pont: Galéria – KK Nyomtatás menüpont, LP Gallery2-maradványok ki | 39142dc |
 | 2026-10-07 | 5. lépés: Gmail csatolmány a galériából (GB, ICS) | 3cc1c79 |
 | 2026-10-07 | 5. lépés: Világóra városválasztással (JB / KK / LP) | 8e4ea20 |
+| 2026-10-07 | 5. lépés: GB Óra beállításai | dde691b |
