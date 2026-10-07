@@ -598,3 +598,8 @@ html,body{overscroll-behavior-y:none}
 }
 /* The Nexus 6 notification LED sits behind the top speaker grille. */
 .notification-led{top:25.5px;bottom:auto;left:50%}
+/* Accessibility (audit step 5): the magnification and shortcut descriptions, and magnified_region_frame (holo blue at
+   80%, 2 dp) around everything a triple tap magnifies; the navigation bar stays on top, unmagnified. */
+.a11y-summary{margin:0;padding:14.5px;white-space:pre-line;font-size:14.5px;line-height:1.4;color:#0000008a}
+.screen .magnify-frame{position:absolute;left:0;right:0;top:0;bottom:var(--nb,0px);z-index:60;pointer-events:none;border:1.81px solid transparent;border-image:url('assets/fw-magnified_region_frame.png') 6 / 1.81px stretch}
+.screen.magnified #nav-bar{z-index:70}

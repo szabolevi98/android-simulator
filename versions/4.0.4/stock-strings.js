@@ -320,5 +320,31 @@ window.StockStrings = {
    "D",
    "S"
   ]
+ },
+ "a11y": {
+  "Touch & hold delay": [
+   "Érintés és tartási késleltetés",
+   "Reaktionszeit Berühren/Halten",
+   "Délai de pression",
+   "Retraso pulsación prolongada"
+  ],
+  "Short": [
+   "Rövid",
+   "Kurz",
+   "Court",
+   "Corto"
+  ],
+  "Medium": [
+   "Közepes",
+   "Mittel",
+   "Moyen",
+   "Medio"
+  ],
+  "Long": [
+   "Hosszú",
+   "Lang",
+   "Long",
+   "Largo"
+  ]
  }
 };

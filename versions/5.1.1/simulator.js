@@ -253,6 +253,12 @@
   const LOCATION_MODES = {high: ['High accuracy', 'Use GPS, Wi‑Fi, and mobile networks to determine location'], battery: ['Battery saving', 'Use Wi‑Fi and mobile networks to determine location'], device: ['Device only', 'Use GPS to determine your location']};
   const locationMode = () => data.settings.gps && data.settings.networkLocation ? 'high' : data.settings.gps ? 'device' : 'battery';
   // Plain 4.3 preference rows (no icon or chevron); rows without their own screen explain that in a toast.
+  // Accessibility texts from the image's Settings (stock-strings.js).
+  const A11Y = key => { const row = window.StockStrings?.a11y?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : i18n.t(key); };
+  // Touch & hold delay: Settings' long_press_timeout_selector values (500 / 1000 / 1500 ms); the simulator's own
+  // long-press timers stretch by the same amount.
+  const HOLD = [500, 1000, 1500], HOLD_NAMES = ['Short', 'Medium', 'Long'];
+  const holdDelay = ms => ms + (HOLD[data.settings.longPressTimeout || 0] - 500);
   const prefRow = (title, summary, action = 'dev-info', id = '') => `<button class="settings-row wireless-row" data-action="${action}" data-id="${safe(id || title)}"><span class="row-copy">${safe(i18n.t(title))}${summary ? `<small>${safe(i18n.t(summary))}</small>` : ''}</span></button>`;
   const carrierName = () => data.settings.airplane ? i18n.t('No service.') : safe(data.settings.networkOperator||'Telekom');
   let lastActivity=Date.now();
@@ -752,6 +758,7 @@
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; ui.overview = false; if (resetPage) ui.page = 0; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
   function navigateBack() {
+    if (ui.view === 'settings' && ['a11y-magnification', 'a11y-shortcut'].includes(ui.sub) && !ui.overlay) { ui.sub = 'accessibility'; render(); return; }
     if (ui.view === 'email' && ui.sub === 'em-settings' && !ui.overlay) { if (ui.emPrefList || ui.emPrefEdit) { ui.emPrefList = ''; ui.emPrefEdit = ''; } else if (ui.emPref) ui.emPref = ''; else ui.sub = ''; render(); return; }
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
@@ -895,6 +902,8 @@
     } else if (ui.overlay === 'kk-sms-app') {
       // SmsDefaultDialog-style list preference: the SMS-capable apps (only Messaging in AOSP).
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(i18n.t('Default SMS app'))}"><h3>${safe(i18n.t('Default SMS app'))}</h3><button class="settings-row jb-dream-row" data-action="close-overlay" role="radio" aria-checked="true"><span class="row-copy">${safe(i18n.t('Messaging'))}</span><img class="holo-radio" src="assets/btn_radio_on_holo_dark.png" alt=""></button><div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
+    } else if (ui.overlay === 'a11y-hold') {
+      overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(A11Y('Touch & hold delay'))}"><h3>${safe(A11Y('Touch & hold delay'))}</h3>${HOLD_NAMES.map((name, i) => `<button class="settings-row wireless-row" data-action="a11y-hold-pick" data-id="${i}" role="radio" aria-checked="${(data.settings.longPressTimeout || 0) === i}"><span class="row-copy">${safe(A11Y(name))}</span><img class="holo-radio" src="assets/btn_radio_${(data.settings.longPressTimeout || 0) === i ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
     } else if (ui.overlay === 'dream-when') {
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(i18n.t('When to daydream'))}"><h3>${safe(i18n.t('When to daydream'))}</h3>${[['docked', 'While docked'], ['charging', 'While charging'], ['either', 'Either']].map(([id, name]) => `<button class="settings-row jb-dream-row" data-action="dream-when-pick" data-id="${id}" role="radio" aria-checked="${(data.settings.daydreamWhen || 'charging') === id}"><span class="row-copy">${safe(i18n.t(name))}</span><img class="holo-radio" src="assets/btn_radio_${(data.settings.daydreamWhen || 'charging') === id ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
     } else if (ui.overlay === 'kg-widget-picker') {
@@ -1167,7 +1176,11 @@
     if (s === 'daydream') return renderDaydreamSettings();
     if (s === 'backup') return appView('Backup & reset', `${label('BACKUP & RESTORE')}${toggleRow('Back up my data', 'Back up app data and settings', 'backup', '↻')}${prefRow('Backup account', 'No account is currently storing backed up data')}${toggleRow('Automatic restore', 'Restore settings when reinstalling apps', 'autoRestore', '↻')}${label('PERSONAL DATA')}${row('Factory data reset', 'Erase local simulator data', 'settings-sub', 'reset-info', '')}`);
     if (s === 'reset-info') return appView('Factory data reset', `<div class="detail-pad"><h3>Erase local simulator data</h3><p>This clears the saved home screens, settings, and sample content for this version.</p><button class="small-button" data-action="factory-reset">Reset simulator</button></div>`);
-    if (s === 'accessibility') return appView('Accessibility', `${label('SERVICES')}${row('No services installed', '', 'noop', '', '')}${label('SYSTEM')}${prefRow('Magnification gestures', 'Off')}${toggleRow('Large text', '', 'largeText', 'A')}${toggleRow('Power button ends call', '', 'powerEndsCall', '⏻')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${toggleRow('Speak passwords', '', 'speakPasswords', '◉')}${prefRow('Accessibility shortcut', 'Off')}${prefRow('Text-to-speech output', '')}${prefRow('Touch & hold delay', 'Short')}`);
+    if (s === 'accessibility') return appView('Accessibility', `${label('SERVICES')}${row('No services installed', '', 'noop', '', '')}${label('SYSTEM')}${prefRow(A11Y('Magnification gestures'), A11Y(data.settings.magnification ? 'On' : 'Off'), 'settings-sub', 'a11y-magnification')}${toggleRow('Large text', '', 'largeText', 'A')}${toggleRow('Power button ends call', '', 'powerEndsCall', '⏻')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${toggleRow('Speak passwords', '', 'speakPasswords', '◉')}${prefRow(A11Y('Accessibility shortcut'), A11Y(data.settings.a11yShortcut ? 'On' : 'Off'), 'settings-sub', 'a11y-shortcut')}${prefRow('Text-to-speech output', '')}${prefRow(A11Y('Touch & hold delay'), A11Y(HOLD_NAMES[data.settings.longPressTimeout || 0]), 'a11y-hold')}`);
+    // ToggleScreenMagnificationPreferenceFragment / ToggleGlobalGesturePreferenceFragment: the switch in the action
+    // bar over the feature's description.
+    if (s === 'a11y-magnification') return appView(A11Y('Magnification gestures'), `<p class="a11y-summary">${safe(A11Y('Magnification summary'))}</p>`, '', connectivitySwitch('magnification', A11Y('Magnification gestures'), true));
+    if (s === 'a11y-shortcut') return appView(A11Y('Accessibility shortcut'), `<p class="a11y-summary">${safe(A11Y('Accessibility shortcut summary'))}</p>`, '', connectivitySwitch('a11yShortcut', A11Y('Accessibility shortcut'), true));
     // Android 4.3 development_prefs.xml, with the master switch in the action bar (DevelopmentSettings).
     if (s === 'development') return appView('Developer options', JBDeveloperOptions.render(data.settings, key => i18n.t(key), value => ICSSettingsDetail.animationScaleLabel(value), i18n.language), '', connectivitySwitch('developerEnabled', i18n.t('Developer options'), true));
     // Settings 4.3 language_settings.xml: Language opens its own list; keyboards, speech and pointer speed follow.
@@ -2047,6 +2060,7 @@
         break;
       }
       case 'toggle-setting': {
+        if (id === 'magnification' && data.settings.magnification) { ui.magnify = null; applyMagnification(); }
         const previousScroll = viewport.querySelector('.settings-app')?.scrollTop || 0;
         data.settings[id] = !data.settings[id];
         if(id==='autoTime')data.settings.timeOffset=0;
@@ -2082,6 +2096,8 @@
       case 'emailpref-save': { const field = viewport.querySelector('[data-email-pref-edit]'); if (ui.emPrefEdit && field) { (data.emailPrefs ||= {})[ui.emPrefEdit] = field.value.trim(); save(); } ui.emPrefEdit = ''; render(); break; }
       case 'emailpref-close': ui.emPrefList = ''; ui.emPrefEdit = ''; render(); break;
       case 'emailpref-unsupported': toast('Not available in this simulator'); break;
+      case 'a11y-hold': ui.overlay = 'a11y-hold'; renderOverlay(); break;
+      case 'a11y-hold-pick': data.settings.longPressTimeout = Number(id); ui.overlay = ''; save(); renderOverlay(); render(); break;
       case 'toast': toast(id); break;
       case 'noop': break;
       case 'browser-search': openApp('chrome'); document.querySelector('.chr-omnibox input')?.focus(); break;
@@ -3167,6 +3183,42 @@
     }
   }, { passive: false });
   // A long press opens a dialog under the finger; the release must not activate it (Android ignores it too).
+  // Magnification gestures (Settings > Accessibility): a triple tap (taps within the 300 ms double-tap timeout) zooms
+  // everything but the navigation bar to ScreenMagnifier's default 2x around the tap, inside magnified_region_frame;
+  // another triple tap zooms out. Two-finger drags (a trackpad scroll or the mouse wheel) pan, a pinch (ctrl + wheel)
+  // changes the scale between 1 and 5.
+  let magnifyTaps = [];
+  function applyMagnification() {
+    const m = ui.magnify;
+    screen.classList.toggle('magnified', !!m);
+    for (const child of screen.children) {
+      if (child.id === 'nav-bar' || child.tagName.toLowerCase() === 'svg' || child.classList.contains('magnify-frame')) continue;
+      child.style.transformOrigin = m ? '0 0' : '';
+      child.style.transform = m ? `translate(${m.tx + (m.s - 1) * child.offsetLeft}px, ${m.ty + (m.s - 1) * child.offsetTop}px) scale(${m.s})` : '';
+    }
+    if (m && !screen.querySelector('.magnify-frame')) screen.insertAdjacentHTML('beforeend', '<i class="magnify-frame" aria-hidden="true"></i>');
+    if (!m) screen.querySelector('.magnify-frame')?.remove();
+  }
+  const magnifyClamp = m => { const w = screen.clientWidth, h = screen.clientHeight; m.tx = Math.min(0, Math.max(w * (1 - m.s), m.tx)); m.ty = Math.min(0, Math.max(h * (1 - m.s), m.ty)); return m; };
+  screen.addEventListener('pointerdown', event => {
+    if (!data.settings.magnification || event.button) { magnifyTaps = []; return; }
+    const r = screen.getBoundingClientRect(), k = screen.clientWidth / r.width, x = (event.clientX - r.left) * k, y = (event.clientY - r.top) * k, now = performance.now();
+    const last = magnifyTaps[magnifyTaps.length - 1];
+    if (last && (now - last.time > 300 || Math.hypot(last.x - x, last.y - y) > 40)) magnifyTaps = [];
+    magnifyTaps.push({time: now, x, y});
+    if (magnifyTaps.length < 3) return;
+    magnifyTaps = [];
+    ui.magnify = ui.magnify ? null : magnifyClamp({s: 2, tx: -x, ty: -y});
+    applyMagnification(); event.stopPropagation(); event.preventDefault(); suppressReleaseClick();
+  }, true);
+  screen.addEventListener('wheel', event => {
+    if (!ui.magnify) return;
+    event.preventDefault();
+    const m = ui.magnify, r = screen.getBoundingClientRect(), k = screen.clientWidth / r.width;
+    if (event.ctrlKey) { const x = (event.clientX - r.left) * k, y = (event.clientY - r.top) * k, s = Math.min(5, Math.max(1, m.s * Math.exp(-event.deltaY * 0.01))); m.tx = x - (x - m.tx) * s / m.s; m.ty = y - (y - m.ty) * s / m.s; m.s = s; }
+    else { m.tx -= event.deltaX * k; m.ty -= event.deltaY * k; }
+    magnifyClamp(m); applyMagnification();
+  }, {passive: false});
   function suppressReleaseClick() {
     suppressClickUntil = Infinity;
     window.addEventListener('pointerup', () => { suppressClickUntil = Date.now() + 350; }, {once: true, capture: true});
@@ -3230,21 +3282,21 @@
     // PanelView.schedulePeek: a finger resting on the status bar for ViewConfiguration.TAP_TIMEOUT (100 ms) peeks the panel.
     if (pointerStart.shadeDragEligible && !reducedMotion?.matches) pointerStart.peekTimer = setTimeout(() => startPeek(), 100);
     const qsToggle = ui.overlay === 'shade' ? event.target.closest('[data-qs-toggle]') : null;
-    if (qsToggle) homeLongPressTimer = setTimeout(() => { const key = qsToggle.dataset.qsToggle; data.settings[key] = !data.settings[key]; if (data.settings[key]) data.settings.airplane = false; if (key === 'wifi' && data.settings.wifi) data.settings.portableHotspot = false; save(); renderStatus(); renderOverlay(); pointerStart = null; suppressReleaseClick(); }, 500);
-    if (ui.view === 'home' && event.target.closest('.lp-cling .cling-shade')) homeLongPressTimer = setTimeout(() => { data.clings.workspace = true; save(); LauncherClings.dismiss(clingLayerRoot().querySelector('[data-cling="workspace"]'), () => { ui.overview = true; render(); }); pointerStart = null; suppressReleaseClick(); }, 550);
-    if (ui.view === 'home' && !ui.overlay && !ui.overview && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overview = true; render(); pointerStart = null; suppressReleaseClick(); }, 550);
+    if (qsToggle) homeLongPressTimer = setTimeout(() => { const key = qsToggle.dataset.qsToggle; data.settings[key] = !data.settings[key]; if (data.settings[key]) data.settings.airplane = false; if (key === 'wifi' && data.settings.wifi) data.settings.portableHotspot = false; save(); renderStatus(); renderOverlay(); pointerStart = null; suppressReleaseClick(); }, holdDelay(500));
+    if (ui.view === 'home' && event.target.closest('.lp-cling .cling-shade')) homeLongPressTimer = setTimeout(() => { data.clings.workspace = true; save(); LauncherClings.dismiss(clingLayerRoot().querySelector('[data-cling="workspace"]'), () => { ui.overview = true; render(); }); pointerStart = null; suppressReleaseClick(); }, holdDelay(550));
+    if (ui.view === 'home' && !ui.overlay && !ui.overview && event.target.closest('.home-slot') && !pointerStart.source) homeLongPressTimer = setTimeout(() => { ui.overview = true; render(); pointerStart = null; suppressReleaseClick(); }, holdDelay(550));
     const message = event.target.closest('.mms-message');
     const kwpScroll = ui.view === 'wallpaper-picker' ? event.target.closest('.kwp-scroll') : null;
     if (kwpScroll) { pointerStart.kwpScroll = kwpScroll; pointerStart.kwpLeft = kwpScroll.scrollLeft; }
     const kwpLong = ui.view === 'wallpaper-picker' && !ui.wp?.checked?.length ? event.target.closest('[data-kwp-long]') : null;
-    if (kwpLong) homeLongPressTimer = setTimeout(() => { ui.wp.checked = [kwpLong.dataset.id]; pointerStart = null; suppressReleaseClick(); wallpaperPickerRender(); }, 550);
-    if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, 550);
+    if (kwpLong) homeLongPressTimer = setTimeout(() => { ui.wp.checked = [kwpLong.dataset.id]; pointerStart = null; suppressReleaseClick(); wallpaperPickerRender(); }, holdDelay(550));
+    if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, holdDelay(550));
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     else if (ui.view === 'lock' && !ui.locked && event.target.closest('.lock-wave')) lockPing();
     if (ui.view === 'calculator' && !ui.overlay && event.target.closest('.calc-pager')) pointerStart.calculatorSwipe = true;
-    if (event.target.closest('.ics-calc-delete button')) calculatorClearTimer = setTimeout(() => { operateCalculator('C'); suppressClickUntil = Date.now() + 350; render(); }, 600);
+    if (event.target.closest('.ics-calc-delete button')) calculatorClearTimer = setTimeout(() => { operateCalculator('C'); suppressClickUntil = Date.now() + 350; render(); }, holdDelay(600));
     if (ui.view === 'home' && !ui.overlay) pointerStart.photoStack = event.target.closest('[data-photo-stack]')?.dataset.photoStack || '';
-    if (pointerStart.source) dragTimer = setTimeout(() => startDrag(event.clientX, event.clientY), 440);
+    if (pointerStart.source) dragTimer = setTimeout(() => startDrag(event.clientX, event.clientY), holdDelay(440));
   });
   window.addEventListener('pointermove', event => {
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;

@@ -335,6 +335,18 @@
    "Always show": "Gmail2:@array/prefEntries_snapHeader:0",
    "Only show in portrait": "Gmail2:@array/prefEntries_snapHeader:1",
    "Don't show": "Gmail2:@array/prefEntries_snapHeader:2"
+  },
+  "a11y": {
+   "Touch & hold delay": "Settings:accessibility_long_press_timeout_preference_title",
+   "Short": "Settings:@array/long_press_timeout_selector_titles:0",
+   "Medium": "Settings:@array/long_press_timeout_selector_titles:1",
+   "Long": "Settings:@array/long_press_timeout_selector_titles:2",
+   "Magnification gestures": "Settings:accessibility_screen_magnification_title",
+   "Magnification summary": "Settings:accessibility_screen_magnification_summary",
+   "Accessibility shortcut": "Settings:accessibility_global_gesture_preference_title",
+   "Accessibility shortcut summary": "Settings:accessibility_global_gesture_preference_description",
+   "On": "Settings:accessibility_feature_state_on",
+   "Off": "Settings:accessibility_feature_state_off"
   }
  },
  "4.4.4": {
@@ -739,6 +751,18 @@
    "Always show": "Gmail2:@array/prefEntries_snapHeader:0",
    "Only show in portrait": "Gmail2:@array/prefEntries_snapHeader:1",
    "Don't show": "Gmail2:@array/prefEntries_snapHeader:2"
+  },
+  "a11y": {
+   "Touch & hold delay": "Settings:accessibility_long_press_timeout_preference_title",
+   "Short": "Settings:@array/long_press_timeout_selector_titles:0",
+   "Medium": "Settings:@array/long_press_timeout_selector_titles:1",
+   "Long": "Settings:@array/long_press_timeout_selector_titles:2",
+   "Magnification gestures": "Settings:accessibility_screen_magnification_title",
+   "Magnification summary": "Settings:accessibility_screen_magnification_summary",
+   "Accessibility shortcut": "Settings:accessibility_global_gesture_preference_title",
+   "Accessibility shortcut summary": "Settings:accessibility_global_gesture_preference_description",
+   "On": "Settings:accessibility_feature_state_on",
+   "Off": "Settings:accessibility_feature_state_off"
   }
  },
  "5.1.1": {
@@ -1171,6 +1195,18 @@
    "Ask before showing": "PrebuiltGmail:@array/showImagesEntries:1",
    "Archive": "PrebuiltGmail:@array/prefEntries_removal_action:0",
    "Delete": "PrebuiltGmail:@array/prefEntries_removal_action:1"
+  },
+  "a11y": {
+   "Touch & hold delay": "Settings:accessibility_long_press_timeout_preference_title",
+   "Short": "Settings:@array/long_press_timeout_selector_titles:0",
+   "Medium": "Settings:@array/long_press_timeout_selector_titles:1",
+   "Long": "Settings:@array/long_press_timeout_selector_titles:2",
+   "Magnification gestures": "Settings:accessibility_screen_magnification_title",
+   "Magnification summary": "Settings:accessibility_screen_magnification_summary",
+   "Accessibility shortcut": "Settings:accessibility_global_gesture_preference_title",
+   "Accessibility shortcut summary": "Settings:accessibility_global_gesture_preference_description",
+   "On": "Settings:accessibility_feature_state_on",
+   "Off": "Settings:accessibility_feature_state_off"
   }
  },
  "4.0.4": {
@@ -1235,6 +1271,12 @@
    "Fri": "GenieWidget:day_friday",
    "Sat": "GenieWidget:day_saturday",
    "Sun": "GenieWidget:day_sunday"
+  },
+  "a11y": {
+   "Touch & hold delay": "Settings:accessibility_long_press_timeout_title",
+   "Short": "Settings:@array/long_press_timeout_selector_titles:0",
+   "Medium": "Settings:@array/long_press_timeout_selector_titles:1",
+   "Long": "Settings:@array/long_press_timeout_selector_titles:2"
   }
  }
 }

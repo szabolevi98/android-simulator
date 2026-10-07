@@ -645,3 +645,8 @@ html,body{overscroll-behavior-y:none}
 /* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
    divider's room stays (fillForMissingDividers). */
 .screen .settings-app :is(.settings-row,.list-row):has(+ .section-label){border-bottom-color:transparent}
+/* Accessibility (audit step 5): the magnification and shortcut descriptions, and magnified_region_frame (holo blue at
+   80%, 2 dp) around everything a triple tap magnifies; the navigation bar stays on top, unmagnified. */
+.a11y-summary{margin:0;padding:14.4px;white-space:pre-line;font-size:14.4px;line-height:1.4;color:#bebebe}
+.screen .magnify-frame{position:absolute;left:0;right:0;top:0;bottom:var(--nb,0px);z-index:60;pointer-events:none;border:1.8px solid transparent;border-image:url('assets/fw-magnified_region_frame.png') 4 / 1.8px stretch}
+.screen.magnified #nav-bar{z-index:70}

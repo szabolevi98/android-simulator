@@ -2438,5 +2438,69 @@ window.StockStrings = {
    "Supprimer",
    "Eliminar"
   ]
+ },
+ "a11y": {
+  "Touch & hold delay": [
+   "Érintés és tartási késleltetés",
+   "Reaktionszeit Berühren/Halten",
+   "Délai de pression",
+   "Retraso de pulsación prolongada"
+  ],
+  "Short": [
+   "Rövid",
+   "Kurz",
+   "Court",
+   "Corto"
+  ],
+  "Medium": [
+   "Közepes",
+   "Mittel",
+   "Moyen",
+   "Medio"
+  ],
+  "Long": [
+   "Hosszú",
+   "Lang",
+   "Long",
+   "Largo"
+  ],
+  "Magnification gestures": [
+   "Nagyítási kézmozdulatok",
+   "Vergrößerungsbewegungen",
+   "Gestes d'agrandissement",
+   "Gestos de lupa"
+  ],
+  "Magnification summary": [
+   "Ha a funkció be van kapcsolva, úgy kicsinyíthet/nagyíthat, hogy háromszor rákoppint a képernyőre.\n\nNagyított állapotban:\nPásztázhat: Két vagy több ujját húzza végig a képernyőn.\nMódosíthatja a nagyítási szintet: Két ujját húzza össze vagy távolítsa el egymástól.\n\nIdeiglenesen felnagyíthatja az ujja alatt lévő részt is, úgy hogy hármat koppint és lenyomva hagyja ujját. A nagyított nézetben az ujját húzva fedezheti fel a képernyő más részeit is. Az ujja felemelésével visszatérhet az előző állapotra.\n\nMegjegyzés: A háromszoros koppintással való nagyítás a billentyűzet és a navigációs sáv kivételével mindenhol működik.",
+   "Wenn diese Funktion aktiviert ist, können Sie heranzoomen und herauszoomen, indem Sie drei Mal auf den Bildschirm tippen.\n\nWenn Sie herangezoomt haben, können Sie:\nSchwenken: mindestens 2 Finger über den Bildschirm ziehen\nZoomstufe anpassen: mindestens 2 Finger zusammen- oder auseinanderziehen\n\nSie können auch das, was sich unter Ihrem Finger befindet, vorübergehend vergrößern, indem Sie drei Mal tippen und halten. In diesem vergrößerten Zustand können Sie Ihren Finger ziehen, um verschiedene Bereiche des Bildschirms zu erkunden. Heben Sie Ihren Finger an, um zum vorherigen Zustand zurückzukehren.\n\nHinweis: Das dreimalige Tippen zur Vergrößerung funktioniert überall außer in der Tastatur und in der Navigationsleiste.",
+   "Lorsque cette fonctionnalité est activée, vous pouvez effectuer des zooms avant et arrière en appuyant trois fois sur l'écran.\n\nLorsque vous effectuez un zoom avant, vous pouvez :\nEffectuer un panoramique : faites glisser deux doigts ou plus sur l'écran.\nRégler le niveau de zoom : pincez deux doigts ou plus, ou écartez-les.\n\nVous pouvez également agrandir le contenu se trouvant sous votre doigt en appuyant trois fois sur l'écran et en prolongeant la troisième pression. Lorsque la loupe est activée, vous pouvez faire glisser votre doigt sur l'écran pour en explorer les différentes parties. Relevez votre doigt pour revenir à l'état précédent.\n\nRemarque : vous pouvez appuyer trois fois sur l'écran pour agrandir le contenu partout, sauf sur le clavier et la barre de navigation.",
+   "Cuando esta función está activada, puedes acercar y alejar la imagen tocando tres veces la pantalla.\n\nA continuación se indican las acciones que puedes hacer con la imagen acercada:\nDesplazar la imagen: arrastra dos o más dedos por la pantalla.\nModificar el nivel de zoom: une dos o más dedos o sepáralos.\n\nTambién puedes ampliar el contenido seleccionado de forma temporal con solo tocar la pantalla tres veces y mantenerla pulsada. Con el contenido ampliado, puedes arrastrar el dedo para explorar diferentes partes de la pantalla. Levanta el dedo para volver al estado anterior.\n\nNota: puedes tocar tres veces la pantalla para ampliar el contenido en cualquier parte, excepto en el teclado y en la barra de navegación.",
+   "When this feature is turned on, you can zoom in and out by triple-tapping the screen.\n\nWhile zoomed in, you can:\nPan: Drag two or more fingers across the screen.\nAdjust zoom level: Pinch two or more fingers together or spread them apart.\n\nYou can also temporarily magnify what's under your finger by triple-tapping and holding. In this magnified state, you can drag your finger to explore different parts of the screen. Lift your finger to return to your previous state.\n\nNote: Triple-tap for magnification works everywhere except the keyboard and navigation bar."
+  ],
+  "Accessibility shortcut": [
+   "Hozzáférési gyorskombináció",
+   "Bedienungshilfenverknüpfung",
+   "Raccourci d'accessibilité",
+   "Acceso directo a accesibilidad"
+  ],
+  "Accessibility shortcut summary": [
+   "Ha a funkció engedélyezve van, gyorsan elérheti a kisegítő lehetőségeket két lépésben:\n\n1. lépés: tartsa lenyomva a bekapcsológombot a hangjelzésig vagy rezgésig.\n\n2. lépés: két ujját tartsa lenyomva a hangjelzéssel történő jóváhagyásig.\n\nHa az eszközt több felhasználó is használja, akkor e kombináció zárolási képernyőn való használatával ideiglenesen hozzáférhetővé válik az eszköz, amíg fel nem oldják azt.",
+   "Wenn diese Funktion aktiviert ist, können Sie Bedienungshilfen schnell in zwei Schritten aktivieren:\n\nSchritt 1: Drücken und halten Sie die Ein-/Aus-Taste, bis Sie einen Ton hören oder eine Vibration spüren.\n\nSchritt 2: Berühren und halten Sie mit zwei Fingern, bis Sie eine Audiobestätigung hören.\n\nFalls das Gerät mehrere Nutzer hat, werden die Bedienungshilfen durch Verwendung dieser Verknüpfung in der Bildschirmsperre solange aktiviert, bis das Gerät entsperrt ist.",
+   "Lorsque cette fonctionnalité est activée, vous pouvez rapidement activer les fonctionnalités d'accessibilité en deux étapes :\n\nÉtape 1 : Appuyez de manière prolongée sur le bouton Marche/Arrêt jusqu'à ce que le téléphone sonne ou vibre.\n\nÉtape 2 : Appuyez de manière prolongée avec deux doigts jusqu'à ce que vous entendiez la confirmation audio.\n\nSi l'appareil est utilisé par plusieurs personnes, l’utilisation de ce raccourci sur l'écran de verrouillage active l'accessibilité de manière temporaire jusqu'au déverrouillage de l'appareil.",
+   "Cuando esta función está activada, puedes habilitar las funciones de accesibilidad rápidamente en dos pasos.\n\nPaso 1: mantén pulsado el botón de encendido hasta que escuches un sonido o notes una vibración.\n\nPaso 2: mantén la pantalla pulsada con dos dedos hasta que escuches una confirmación.\n\nSi hay varios usuarios en el dispositivo, este acceso directo en la pantalla de bloqueo permite habilitar la accesibilidad de forma temporal hasta que el dispositivo se desbloquea.",
+   "When this feature is turned on, you can quickly enable accessibility features in two steps:\n\nStep 1: Press and hold the power button until you hear a sound or feel a vibration.\n\nStep 2: Touch and hold two fingers until you hear audio confirmation.\n\nIf the device has multiple users, using this shortcut on the lock screen temporarily enables accessibility until the device is unlocked."
+  ],
+  "On": [
+   "be",
+   "An",
+   "Activé",
+   "Sí"
+  ],
+  "Off": [
+   "Ki",
+   "Aus",
+   "Désactivé",
+   "No"
+  ]
  }
 };

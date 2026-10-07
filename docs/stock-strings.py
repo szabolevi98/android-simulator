@@ -18,7 +18,7 @@ def from_array(device, apk, name):
     path = next((p for d in ('app', 'priv-app') for p in glob.glob(f'{ROOT}_aosp/{device}/system/{d}/{apk}.apk') + glob.glob(f'{ROOT}_aosp/{device}/system/{d}/{apk}/{apk}.apk')), None)
     if not path: return None
     if path not in DUMPS: DUMPS[path] = APK(path).get_android_resources()
-    res = DUMPS[path]; pkg = res.get_packages_names()[0]
+    res = DUMPS[path]; pkg = ([name for name in res.get_packages_names() if name != 'android'] or res.get_packages_names())[-1]
     public = res.get_public_resources(pkg); public = public.decode() if isinstance(public, bytes) else public
     rid = dict(re.findall(r'type="array" name="([^"]+)" id="(0x[0-9a-f]+)"', public)).get(array)
     if not rid: return None
@@ -44,7 +44,7 @@ def from_arsc(path):
     """The string part of `aapt2 dump resources` for an APK, read with androguard when the SDK is missing."""
     from loguru import logger; logger.remove()
     from androguard.core.apk import APK
-    res = APK(path).get_android_resources(); pkg = res.get_packages_names()[0]
+    res = APK(path).get_android_resources(); pkg = ([name for name in res.get_packages_names() if name != 'android'] or res.get_packages_names())[-1]
     public = res.get_public_resources(pkg); public = public.decode() if isinstance(public, bytes) else public
     out = []
     for name, rid in re.findall(r'type="string" name="([^"]+)" id="(0x[0-9a-f]+)"', public):
