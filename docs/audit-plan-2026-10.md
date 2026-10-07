@@ -99,7 +99,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Google Now emlékeztetők és kártyabeállítások (4.4.4, 5.1.1) – Emlékeztetők lista, szerkesztő a Velvet napszak- és napválasztójával, emlékeztetőkártyák törléssel, időjárás-kártya hátoldala Celsius / Fahrenheit váltással (0bab781). Nincs még: „Dátum / Idő beállítása…”, Hely, „Időnként”; a 4.3 (Velvet 2.5.9) kártyabeállításai (predictive_cards_preferences) és emlékeztetői (ott hanggal / kereséssel készültek)
 - [x] Chrome: böngészési adatok törlése és a beállítások – Chrome 27 / 32 / 40 beállításfejlécei, Adatvédelem oldal (jelölők, listák), „Böngészési adatok törlése” párbeszédablak (az előzmények valóban törlődnek), A Chrome névjegye (35cf603). A többi fejléc (keresőmotor, automatikus kitöltés, tartalombeállítások stb.) még üzenetet ad
 - [x] E-mail / Gmail helyi beállításai (aláírás, értesítések, kategóriák) – Gmail 4.5.1 / 4.6.1 / 5.0.2 beállításai a képek XML-jeiből, működő beérkező-kategóriákkal és aláírással (068b09e); az AOSP E-mail 4.1 / 6.2 / 7.0 beállításai generátorral (docs/email-prefs.py), aláírással (675216f). A csengőhang, a gyors válaszok és a szerverbeállítások még üzenetet adnak
-- [ ] Beállítások kisebb aloldalai: választók és mentett állapot; az érintési késleltetésnek és a nagyításnak (háromszori koppintás) valódi hatása is legyen
+- [x] Beállítások kisebb aloldalai: választók és mentett állapot; az érintési késleltetésnek és a nagyításnak (háromszori koppintás) valódi hatása is legyen – Érintés és tartás késleltetése (a szimulátor összes hosszú érintése igazodik), Nagyítási kézmozdulatok (háromszoros koppintás, 2×, keret, pásztázás, csippentés), Hozzáférési gyorskombináció oldal (8374fb0)
 
 ## 6. Összetettebb helyi folyamatok (8–12 óra)
 
@@ -244,3 +244,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 5. lépés: Chrome beállítások és böngészési adatok törlése | 35cf603 |
 | 2026-10-07 | 5. lépés: Gmail beállítások (kategóriák, aláírás) | 068b09e |
 | 2026-10-07 | 5. lépés: E-mail beállítások (generált, aláírás) | 675216f |
+| 2026-10-07 | 5. lépés: Kisegítő lehetőségek: érintés-késleltetés, nagyítás | 8374fb0 |
