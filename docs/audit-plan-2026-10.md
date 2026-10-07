@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 26 / 32 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 27 / 32 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -80,7 +80,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Beállítások aloldalai (`settings-system.js`, `settings-system.css`, `settings-detail.css`): 4.0.4 / 4.3 / 4.4.4 / 5.1.1 a `docs/settings-system.template.js`-ből generálva, a saját kép XML-jei és szövegei szerint (dátum, biztonság, eszközkezelők, megosztás, speciális Wi-Fi, VPN, mobilhálózat, szolgáltatók, APN); KK „Widgetek engedélyezése” (alapból ki, a zárképernyő widgetoldalait is ez kapcsolja); a 2.3.6-ból az elérhetetlen ICS-oldalak kikerültek – 29f1e9d
 - [x] Hívásképernyő 2.3.6 / 4.0.4 / 4.3 (`phone-call.js`, `phone-call.css`): a 2.3.6 hívásnapló-részlete a GB saját CallDetailActivity-je (a Holo-oldal helyett), a GB-ből a halott ICS-telefonkód és CSS kikerült; a 4.0.4 / 4.3 a saját Phone.apk xhdpi grafikáival, a 4.3 vége-gombja ic_dial_end_call az end_call_background textúrán – dfdd809
 - [x] (~2 óra) Csörgő ébresztő 2.3.6–5.1.1: GB AlarmAlert (saját `dialog` 9-patch, ButtonBar), 4.0.4 Holo AlarmAlert, 4.3 / 4.4 AlarmAlertFullScreen GlowPad (4.3: félkövér óra, vékony „:mm”), 5.1 Material AlarmActivity (óraszín, húzás, kör-felfedés, „Elhalasztva / Riasztás ki” szöveg); szövegek a képek DeskClock-jából (`docs/alarm-strings.py`), a sávok a témák szerint (83af141)
-- [ ] (~2 óra) Üzenetek 2.3.6 / 4.0.4 / 4.3 / 4.4.4 (`messaging.js`, `messaging.css`)
+- [x] (~2 óra) Üzenetek 2.3.6 / 4.0.4 / 4.3 / 4.4.4: 4.0.4 / 4.3 saját messaging.js és Mms-szövegek (mms-strings.js), menük, smiley-lista, üzenetmenü (zárolással), törlés- és részletek-ablak a saját kódjuk szerint; GB-ből a halott ICS-overlay és CSS kiment; a KK mms-* stílusait a Hangouts használja, azt a Hangouts-tétel rendezi. Nyitott: a 4.3 címzettmezőjének chipjei (0a70456)
 - [ ] (~2 óra) Letöltések 4.4.4 / 5.1.1 (`downloads.js`, `downloads.css`; az LP most a 4.4-es DocumentsUI)
 - [ ] (~2–3 óra) Naptár 4.3 / 4.4.4 (`calendar.js`)
 - [ ] (~2–3 óra) People 2.3.6–5.1.1 (`people.js`, `people.css`)
@@ -229,3 +229,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 4.5. pont: Hívásképernyő – GB CallDetailActivity, 4.x saját Phone-grafikák | dfdd809 |
 | 2026-10-07 | 4.5. pont: Csörgő ébresztő képenként (GB / ICS AlarmAlert, JB / KK GlowPad, LP AlarmActivity) | 83af141 |
 | 2026-10-07 | 4.5. pont: KK / LP rendszer-billentyűzet a saját LatinImeGoogle-ből (KLP, LXX Light) | 7b71bc1 |
+| 2026-10-07 | 4.5. pont: Üzenetek képenként (Mms-szövegek, menük, smiley, zárolás, párbeszédablakok; GB tisztítás) | 0a70456 |
