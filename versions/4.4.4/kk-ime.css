@@ -1,0 +1,28 @@
+/* Google Keyboard 2.0 (KTU84P LatinImeGoogle), KLP theme, on the Nexus 5 (dp x 0.906; xxhdpi art x 0.302). The
+   205.6 dp keyboardHeight holds keyboard_top_padding_holo (2.335 %p), four 25 %p rows and keyboard_bottom_padding_holo
+   (4.669 %p); key_bottom_gap_holo (6.127 %p) and key_horizontal_gap_holo (1.739 %p) separate the keys, so a key is
+   38.35 dp tall. Letters are 55 % of that in bold (keyTypeface bold), labels 34 %, the top row's digit hints 25 % in
+   key_hint_letter_color_holo; a numeric key's digit follows the 65 % large letter ratio with its letters at 44 % in
+   key_hint_label_color_holo. Backgrounds are keyboard_background_holo and btn_keyboard_key_klp's states. */
+.kime{flex:none;height:186.27px;box-sizing:border-box;display:flex;flex-direction:column;padding:4.35px 0 8.7px;border-image:url('assets/kime-keyboard_background_holo.png') 6 0 0 0 fill/1.81px 0 0 0 stretch;user-select:none;touch-action:manipulation}
+.kime-row{flex:none;display:flex;height:46.16px;padding-bottom:11.41px;box-sizing:border-box}
+.kime-row:last-child{height:34.74px;padding-bottom:0}
+.screen .kime-key{flex:none;height:100%;margin:0;padding:0 .8695%;border:0;background:none;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.kime-key.kime-inset-right{padding-right:1.8695%}
+.kime-key.kime-inset-left{padding-left:1.8695%}
+.kime-key>span{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;box-sizing:border-box;border-image:url('assets/kime-btn_keyboard_key_light_normal_holo.png') 18 24 18 30 fill/5.44px 7.25px 5.44px 9.06px stretch;font:19.1px/1 RobotoBoldJB,RobotoICS,sans-serif;pointer-events:none}
+.kime-normal:active>span{border-image-source:url('assets/kime-btn_keyboard_key_light_pressed_klp.png')}
+.kime-fn>span,.kime-shift>span{border-image-source:url('assets/kime-btn_keyboard_key_dark_normal_holo.png')}
+.kime-action>span{border-image-source:url('assets/kime-btn_keyboard_key_dark_active_klp.png')}
+.kime-fn:active>span,.kime-shift:active>span,.kime-action:active>span{border-image-source:url('assets/kime-btn_keyboard_key_dark_pressed_klp.png')}
+.kime-label>span,.kime-action>span{font-size:11.81px}
+.kime-key img{width:auto;height:23.56px}
+/* dark_normal_off_holo / dark_normal_on_klp: the 18 x 6 px LED 12 px above the bottom; it grows by a third of the
+   key's extra width (the 9-patch stretches three columns, one inside the LED). */
+.kime-shift>span::after{content:'';position:absolute;left:50%;bottom:3.62px;width:calc(5.44px + (100% - 23.56px)/3);height:1.81px;transform:translateX(-50%);background:#000}
+.kime-shift.kime-on>span::after{background:#d5d5d5;box-shadow:0 0 .6px #8c8c8c}
+.kime-shift.kime-on:active>span::after{background:#bababa}
+.kime-key small{position:absolute;top:.6px;right:.91px;font:8.69px/1 RobotoBoldJB,RobotoICS,sans-serif;color:#00000080}
+.kime-num>span{gap:3.6px}
+.kime-num b{font:22.58px/1 RobotoBoldJB,RobotoICS,sans-serif;font-weight:400}
+.screen .kime-num small{position:static;font:15.29px/1 RobotoBoldJB,RobotoICS,sans-serif;color:#ffffffa0}

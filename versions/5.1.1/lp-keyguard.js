@@ -33,8 +33,11 @@
     let body;
     if (kind === 'pattern') body = `<div class="lp-kg-pattern">${api.grid()}</div>`;
     else if (kind === 'pin') body = `<div class="lp-kg-pin"><div class="lp-kg-pin-row">${entry('PIN')}<button type="button" class="lp-kg-delete" data-lock-key="delete" aria-label="${e(t('Delete'))}" ${locked ? 'disabled' : ''}><img src="assets/lp-kg-ic_backspace_24dp.svg" alt=""></button></div><div class="lp-kg-divider"></div>${[[1, 2, 3], [4, 5, 6], [7, 8, 9]].map(row => `<div class="lp-kg-keys">${row.map(key).join('')}</div>`).join('')}<div class="lp-kg-keys"><span></span>${key(0)}<button type="button" class="lp-kg-key lp-kg-ok" data-lock-action="next" aria-label="${e(t('OK'))}" ${locked ? 'disabled' : ''}><img src="assets/lp-kg-ic_done_wht.png" alt=""></button></div></div>`;
-    else body = `<div class="lp-kg-password">${entry('Password')}</div>${api.keyboard ? `<div class="lp-kg-ime">${api.keyboard()}</div>` : ''}`;
-    return `<div class="lp-kg-bouncer lp-kg-${kind}" role="group">${message}${body}<button type="button" class="lp-kg-emergency" data-lock-action="emergency">${e(t('Emergency call'))}</button></div>`;
+    else body = `<div class="lp-kg-password">${entry('Password')}</div>`;
+    // KeyguardPasswordView brings up the system keyboard (lp-ime.js) in its own window along the bottom; the bouncer
+    // resizes to the space above it.
+    const ime = kind === 'password' && api.keyboard ? `<div class="lp-kg-ime">${api.keyboard()}</div>` : '';
+    return `<div class="lp-kg-bouncer lp-kg-${kind}" role="group">${message}${body}<button type="button" class="lp-kg-emergency" data-lock-action="emergency">${e(t('Emergency call'))}</button></div>${ime}`;
   }
   function render(p) {
     const t = p.t, notes = p.notifications || [], shown = notes.slice(0, MAX_NOTES), more = notes.length - shown.length;

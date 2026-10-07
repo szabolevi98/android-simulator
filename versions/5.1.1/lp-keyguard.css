@@ -185,7 +185,9 @@
 .lp-kg-pattern .credential-pattern.wrong polyline{stroke:#f4511e}
 .lp-kg-password{padding:29px 14.5px 0}
 .lp-kg-password input{width:100%;border:0;border-bottom:1.8px solid #80cbc4;background:none;color:#fff;font:400 18px Roboto,sans-serif;padding:6px 2px;outline:0;text-align:center}
-.lp-kg-ime{margin-top:auto}
+.lp-kg-bouncer:has(+ .lp-kg-ime){bottom:calc(var(--nb) + 187.18px)}
+.lp-kg-bouncer:has(+ .lp-kg-ime) .lp-kg-emergency{margin-top:auto}
+.lp-kg-ime{position:absolute;left:0;right:0;bottom:var(--nb);z-index:5;display:flex;flex-direction:column}
 .lp-kg-emergency{flex:none;align-self:center;margin:7.25px 0 14.5px;border:0;background:none;color:#fff;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;padding:10.87px 14.5px;cursor:pointer}
 @media(prefers-reduced-motion:reduce){.lp-kg-scrim,.lp-kg-bouncer{animation:none}}
 /* The keyguard window covers the whole display under the transparent bars. */

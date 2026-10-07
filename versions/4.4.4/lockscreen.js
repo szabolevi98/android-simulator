@@ -33,17 +33,14 @@
     const data=()=>getData(),ui=()=>getUI();
     const active=()=>ui().view==='lock'&&secure(data())||ui().view==='settings'&&ui().sub==='lock-setup';
     const setup=()=>ui().view==='settings';
-    function fresh(stage,kind){clearTimeout(clearTimer);revision++;state={stage,kind,value:'',pattern:[],error:'',first:'',shift:false,symbols:false};drawing=null;busy=false;}
+    function fresh(stage,kind){clearTimeout(clearTimer);revision++;state={stage,kind,value:'',pattern:[],error:'',first:'',shift:false,symbols:false,more:false};drawing=null;busy=false;}
     function open(){fresh(secure(data())?'verify':'choose',data().settings.screenLock);ui().overlay='';ui().sub='lock-setup';render();}
     function cancel(){fresh('unlock',data().settings.screenLock);ui().sub='security';render();}
     function lock(){fresh('unlock',data().settings.screenLock);}
-    const keyButton=(key,label=key,extra='')=>`<button type="button" data-lock-key="${escape(key)}" aria-label="${escape(t(label))}" ${extra}>${escape(label.length>2?t(label):label)}</button>`;
+    // The system keyboard (kk-ime.js): numeric for a PIN; the action key is Next in Settings (actionNext) and Done on the
+    // keyguard (actionDone).
     function keyboard(){
-      if(state.kind==='pin')return `<div class="credential-keyboard numeric">${'123456789'.split('').map(k=>keyButton(k)).join('')}${keyButton('0','0','class="zero"')}<button type="button" data-lock-action="next" aria-label="${escape(t('Continue'))}"><img src="assets/lock-sym_keyboard_ok.png" alt=""></button></div>`;
-      const rows=state.symbols?['1234567890','@#$%&*()-','!"\':;/?']:['qwertyuiop','asdfghjkl','zxcvbnm'];
-      // LatinIME (KeyboardView.IceCreamSandwich): light letter keys, dark functional keys and the holo key icons.
-      const icon=(key,file,label,cls='fn')=>`<button type="button" class="${cls}" data-lock-key="${key}" aria-label="${escape(t(label))}"><img src="assets/ime-${file}.png" alt=""></button>`;
-      return `<div class="credential-keyboard alpha">${rows.map((row,i)=>`<div>${i===2?icon('shift',state.shift?'sym_keyboard_shift_locked_holo':'sym_keyboard_shift_holo','Shift'):''}${row.split('').map(k=>keyButton(state.shift?k.toUpperCase():k)).join('')}${i===2?icon('delete','sym_keyboard_delete_holo','Delete'):''}</div>`).join('')}<div>${keyButton('symbols',state.symbols?'ABC':'?123','class="fn"')}${keyButton(',')}${icon('space','sym_keyboard_space_holo','Space','space')}${keyButton('.')}${icon('next','sym_keyboard_return_holo','Enter')}</div></div>`;
+      return KKIme.render({mode:state.kind==='pin'?'number':'alpha',shift:state.shift,symbols:state.symbols,more:state.more,action:setup()?'next':'done',lang:window.AndroidI18n?.language||'en'});
     }
     function grid(){return `<div class="credential-pattern${state.error?' wrong':''}${data().settings.patternVisible===false&&state.stage==='unlock'?' stealth':''}" role="group" aria-label="${escape(t('Pattern'))}"><svg viewBox="0 0 300 300" aria-hidden="true"><polyline points="${state.pattern.map(n=>`${n%3*100+50},${Math.floor(n/3)*100+50}`).join(' ')}"></polyline></svg>${Array.from({length:9},(_,n)=>`<button type="button" data-lock-dot="${n}" class="${state.pattern.includes(n)?'selected':''}" aria-label="${escape(t('Dot'))} ${n+1}" aria-pressed="${state.pattern.includes(n)}"><i></i></button>`).join('')}</div>`;}
     function message(){
@@ -122,8 +119,12 @@
     function key(key){
       if(busy)return;
       if(key==='next'){next();return;}
-      if(key==='shift'||key==='symbols'){state[key]=!state[key];render();return;}
+      // Shift: a tap shifts the next letter, a second tap within 300 ms locks it (LatinIME's double tap), a tap unlocks.
+      if(key==='shift'){const now=Date.now();state.shift=state.shift==='lock'?false:state.shift&&now-state.shiftAt<300?'lock':state.shift?false:'on';state.shiftAt=now;render();return;}
+      if(key==='symbols'){state.symbols=!state.symbols;state.more=false;render();return;}
+      if(key==='more'){state.more=!state.more;render();return;}
       updateInput(key==='delete'?state.value.slice(0,-1):state.value+(key==='space'?' ':key));
+      if(state.shift==='on'&&key.length===1){state.shift=false;render();}
     }
     function paint(point){
       const element=document.querySelector('.credential-pattern');if(!element)return;

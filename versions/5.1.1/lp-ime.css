@@ -1,0 +1,33 @@
+/* Google Keyboard 4.0 (LMY48Y LatinImeGoogle), LXX Light theme, on the Nexus 6 (dp x 0.906; xxxhdpi art x 0.2265).
+   keyboard_background_lxx_light (its 1 dp top edge, #ECEFF1) pads the 205.6 dp config_default_keyboard_height, which
+   holds config_keyboard_top_padding_holo (2.335 %p), four 25 %p rows and config_keyboard_bottom_padding_holo
+   (4.669 %p); config_key_vertical_gap_holo (6.127 %p) and config_key_horizontal_gap_holo (1.739 %p) separate the keys,
+   so a key is 38.35 dp tall. Keys are flat (key_background_lxx_light, #2637474F while pressed); letters are 55 % of the
+   key height in key_text_color_lxx_light (#37474F), functional labels 34 % in #CC37474F, the top row's digit hints 25 %
+   in #B337474F; a numeric key's digit follows the 90 % large letter ratio, its letters 30 % at the bottom. */
+.lime{flex:none;height:187.18px;box-sizing:border-box;display:flex;flex-direction:column;padding:5.26px 0 8.7px;border-image:url('assets/lime-keyboard_background_lxx_light.png') 4 0 0 0 fill/.91px 0 0 0 stretch;user-select:none;touch-action:manipulation}
+.lime-row{flex:none;display:flex;height:46.16px;padding-bottom:11.41px;box-sizing:border-box}
+.lime-row:last-child{height:34.74px;padding-bottom:0}
+.screen .lime-key{flex:none;height:100%;margin:0;padding:0 .8695%;border:0;background:none;color:#37474f;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.lime-key.lime-inset-right{padding-right:1.8695%}
+.lime-key.lime-inset-left{padding-left:1.8695%}
+.lime-key>span{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;box-sizing:border-box;font:400 19.1px/1 Roboto,sans-serif;pointer-events:none}
+.lime-normal:active>span,.lime-fn:active>span{background:#37474f26}
+.screen .lime-fn{color:#37474fcc}
+.lime-label>span{font-size:11.81px}
+.lime-key img{width:21.74px;height:auto}
+/* btn_keyboard_key_active_lxx_light: the 152 px circle only stretches its transparent edge, so it stays 38 dp. */
+.lime-action>span{background:url('assets/lime-btn_keyboard_key_active_lxx_light.png') center/34.43px no-repeat}
+.lime-action:active>span{background-image:url('assets/lime-btn_keyboard_key_active_pressed_lxx_light.png')}
+/* btn_keyboard_spacebar_*_lxx_light: a 24 dp bar (96 px, 46 px rounded ends), centred in the key. */
+.lime-space>span::before{content:'';position:absolute;left:0;right:0;top:50%;height:21.74px;transform:translateY(-50%);box-sizing:border-box;border-image:url('assets/lime-btn_keyboard_spacebar_normal_lxx_light.png') 1 46 1 46 fill/.23px 10.42px .23px 10.42px stretch}
+.lime-space:active>span::before{border-image-source:url('assets/lime-btn_keyboard_spacebar_pressed_lxx_light.png')}
+/* normal_off / normal_on: the 24 x 8 px LED 4 px above the bottom (#7F8A90, #4DB6AC when locked); it grows by a third
+   of the key's extra width. Pressed, the key takes pressed_off / pressed_on's #2637474F. */
+.lime-shift:active>span{background:#37474f26}
+.lime-shift>span::after{content:'';position:absolute;left:50%;bottom:.91px;width:calc(5.44px + (100% - 14.95px)/3);height:1.81px;transform:translateX(-50%);background:#7f8a90}
+.lime-shift.lime-on>span::after{background:#4db6ac}
+.lime-key small{position:absolute;top:.6px;right:.91px;font:400 8.69px/1 Roboto,sans-serif;color:#37474fb3}
+.lime-num>span{gap:4.5px}
+.lime-num b{font:400 31.27px/1 Roboto,sans-serif}
+.screen .lime-num small{position:static;align-self:flex-end;margin-bottom:6px;font-size:10.42px;color:#37474fb3}
