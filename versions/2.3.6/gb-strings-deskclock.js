@@ -282,6 +282,62 @@ window.GBStrings["deskclock"] = {
 "fr": "Silencieuse",
 "es": "Silencio"
 },
+"alarm_in_silent_mode_title": {
+"en": "Alarm in silent mode",
+"hu": "Ébresztés néma üzemmódban",
+"de": "Auch im Lautlosmodus",
+"fr": "Alarme mode silencieux",
+"es": "Alarma en modo silencio"
+},
+"alarm_in_silent_mode_summary": {
+"en": "Play alarm even when the phone is in silent mode",
+"hu": "Az ébresztés akkor is megtörténik, ha a telefon néma üzemmódban van",
+"de": "Wecker klingelt auch im Lautlosmodus",
+"fr": "Faire sonner l'alarme même lorsque le téléphone est en mode silencieux",
+"es": "Reproducir alarma aunque el teléfono esté en modo silencio"
+},
+"alarm_volume_title": {
+"en": "Alarm volume",
+"hu": "Ébresztés hangereje",
+"de": "Lautstärke für Wecker",
+"fr": "Volume",
+"es": "Volumen de alarma"
+},
+"alarm_volume_summary": {
+"en": "Set the volume of alarms",
+"hu": "Beállítja az ébresztések hangerejét",
+"de": "Lautstärke des Weckers einstellen",
+"fr": "Définir le volume des alarmes",
+"es": "Establecer el volumen de las alarmas"
+},
+"snooze_duration_title": {
+"en": "Snooze duration",
+"hu": "Szundi hossza",
+"de": "Snooze-Dauer",
+"fr": "Répéter après",
+"es": "Repetición de alarmas"
+},
+"volume_button_setting_title": {
+"en": "Volume and Camera",
+"hu": "Hangerő és Kamera",
+"de": "Lautstärke und Kamera",
+"fr": "Volume/appareil photo",
+"es": "Volumen y cámara"
+},
+"volume_button_setting_summary": {
+"en": "Set what these buttons do when pressed during an alarm",
+"hu": "Itt állítható be, mi történjen a gombok ébresztés közben való megnyomására",
+"de": "Verhalten dieser Tasten während des Weckerklingelns",
+"fr": "Définir les actions de ces boutons lorsqu'ils sont utilisés pendant une alarme",
+"es": "Establecer la función de los botones de una alarma"
+},
+"volume_button_dialog_title": {
+"en": "Button effect",
+"hu": "A gomb hatása",
+"de": "Tasteneffekt",
+"fr": "Effet des boutons",
+"es": "Efecto de botón"
+},
 "date_time_set": {
 "en": "Set",
 "hu": "Beállítás",
@@ -341,6 +397,75 @@ window.GBStrings["deskclock"] = {
 "La alarma sonará en %1$s y %3$s.",
 "La alarma sonará en %2$s y %3$s.",
 "La alarma sonará en %1$s, %2$s y %3$s."
+]
+},
+"snooze_duration_entries": {
+"en": [
+"5 minutes",
+"10 minutes",
+"15 minutes",
+"20 minutes",
+"25 minutes",
+"30 minutes"
+],
+"hu": [
+"5 perc",
+"10 perc",
+"15 perc",
+"20 perc",
+"25 perc",
+"30 perc"
+],
+"de": [
+"5 Minuten",
+"10 Minuten",
+"15 Minuten",
+"20 Minuten",
+"25 Minuten",
+"30 Minuten"
+],
+"fr": [
+"5 minutes",
+"10 minutes",
+"15 minutes",
+"20 minutes",
+"25 minutes",
+"30 minutes"
+],
+"es": [
+"5 minutos",
+"10 minutos",
+"15 minutos",
+"20 minutos",
+"25 minutos",
+"30 minutos"
+]
+},
+"volume_button_setting_entries": {
+"en": [
+"None",
+"Snooze",
+"Dismiss"
+],
+"hu": [
+"Semelyik",
+"Szundi",
+"Elvetés"
+],
+"de": [
+"Keine",
+"Snooze-Funktion",
+"Beenden"
+],
+"fr": [
+"Aucun",
+"Répéter",
+"Désactiver"
+],
+"es": [
+"Ninguno",
+"Posponer",
+"Descartar"
 ]
 }
 }

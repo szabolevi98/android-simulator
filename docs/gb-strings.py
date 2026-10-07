@@ -50,8 +50,9 @@ search_empty view replace_image remove inline_subject menu_unlock'''.split(),
 label default_label set_alarm alarm_vibrate alarm_repeat alert time alarm_alert_dismiss_text alarm_alert_snooze_text alarm_alert_snooze_set day days
 hour hours minute minutes every_day never day_concat settings done revert delete alarm_button_description gallery_button_description
 music_button_description nightmode_button_description home_button_description desk_clock_button_description menu_item_dock_settings
-silent_alarm_summary date_time_set'''.split(),
-        'arrays': ['alarm_set'],
+silent_alarm_summary date_time_set alarm_in_silent_mode_title alarm_in_silent_mode_summary alarm_volume_title
+alarm_volume_summary snooze_duration_title volume_button_setting_title volume_button_setting_summary volume_button_dialog_title'''.split(),
+        'arrays': ['alarm_set', 'snooze_duration_entries', 'volume_button_setting_entries'],
     },
     'music': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-2.3.6_r1/res/values%s/strings.xml'],

@@ -328,7 +328,7 @@
   // Application preference screens (GBPrefs): Browser, Calendar and Email settings, stored in data.appPrefs.
   function gbPrefsContext(app = ui.gbPrefs?.app) {
     data.appPrefs ||= {}; data.appPrefs[app] ||= {};
-    return {app, lang: i18n.language, values: data.appPrefs[app], homepage: 'http://www.google.com/', account: ICSEmail.account, name: 'Nexus S'};
+    return {app, lang: i18n.language, values: data.appPrefs[app], settings: data.settings, homepage: 'http://www.google.com/', account: ICSEmail.account, name: 'Nexus S'};
   }
   function gbPrefSet(key, value) { const ctx = gbPrefsContext(); ctx.values[key] = value; save(); }
   // PreferenceActivity keeps its list position while a preference changes.
@@ -1922,8 +1922,10 @@
       case 'alarm-confirm-delete': data.alarms=data.alarms.filter(alarm=>alarm.id!==ui.alarmDraft.id); save(); ui.alarmDraft=null; ui.overlay=''; ui.sub='alarms'; render(); break;
       case 'alarm-snooze': {
         const alarm=data.alarms.find(item=>item.id===ui.ringingAlarm.id);
-        if(alarm){alarm.enabled=true;alarm.snoozedUntil=deviceDate().getTime()+10*60000;save();}
-        ui.overlay='';render();toast(GBDeskClock.text(i18n.language,'alarm_alert_snooze_set').replace('%d','10'));break;
+        // Snooze duration from the Clock settings (snooze_duration: 5, 10, ... 30 minutes).
+        const minutes=5*((data.appPrefs?.clock?.snooze_duration??1)+1);
+        if(alarm){alarm.enabled=true;alarm.snoozedUntil=deviceDate().getTime()+minutes*60000;save();}
+        ui.overlay='';render();toast(GBDeskClock.text(i18n.language,'alarm_alert_snooze_set').replace('%d',String(minutes)));break;
       }
       case 'alarm-dismiss': ui.overlay=''; render(); break;
       case 'alarm-toggle': { const alarm = data.alarms.find(item => item.id === Number(id)); if (alarm) { alarm.enabled = !alarm.enabled; delete alarm.snoozedUntil; } ui.overlay = ''; save(); render(); if (alarm?.enabled) alarmSetToast(alarm); break; }
@@ -2813,6 +2815,8 @@
   const volumeStream = () => VolumePanel.activeStream({inCall: !!ui.activeCall, musicActive: !!ui.music?.playing});
   function volumeKey(direction) {
     if (ui.power) return;
+    // AlarmAlert: the side buttons do what Clock's volume_button_setting says (None / Snooze / Dismiss).
+    if (ui.overlay === 'clock-ringing') { const how = data.appPrefs?.clock?.volume_button_setting ?? 2; if (how) { const key = document.createElement('button'); key.dataset.action = how === 1 ? 'alarm-snooze' : 'alarm-dismiss'; overlayRoot.append(key); key.click(); key.remove(); return; } }
     const stream = volumeStream();
     // With the screen off the keys only reach music that is playing, and no panel is shown.
     if (ui.sleeping && stream !== 'music') return;

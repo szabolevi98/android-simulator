@@ -1,5 +1,5 @@
 /* Android 2.3.6 application preference screens on the GB preference rows (gbset-*): Browser's BrowserPreferencesPage
-   (browser_preferences.xml), Calendar's CalendarPreferenceActivity (preferences.xml) and Email's AccountSettings
+   (browser_preferences.xml), Calendar's CalendarPreferenceActivity (preferences.xml), Clock's SettingsActivity (settings.xml) and Email's AccountSettings
    (account_settings_preferences.xml). Values live in data.appPrefs[app][key]; a list stores the entry index. Summaries
    follow the activities: Browser shows the text size, zoom and encoding entries and the home page, Calendar the home
    time zone and the version, Email the description, name, signature and check frequency. */
@@ -68,6 +68,17 @@
         action('build_version', T('preferences_build_version'), '2.3.6', {info: true})
       ]};
     },
+    // Clock's SettingsActivity (settings.xml): Alarm in silent mode, the alarm VolumePreference, Snooze duration (its
+    // entry as the summary) and the side volume buttons during an alarm (None / Snooze / Dismiss, Dismiss by default).
+    clock(ctx) {
+      const T = key => S('deskclock', ctx.lang, key);
+      return {set: 'deskclock', title: T('settings'), items: [
+        check('alarm_in_silent_mode', T('alarm_in_silent_mode_title'), T('alarm_in_silent_mode_summary')),
+        action('alarm_volume', T('alarm_volume_title'), T('alarm_volume_summary'), {volume: {key: 'alarmVolume', fallback: 80}}),
+        list('snooze_duration', T('snooze_duration_title'), A('deskclock', ctx.lang, 'snooze_duration_entries'), 1, {dialogTitle: T('snooze_duration_title'), showValue: true}),
+        list('volume_button_setting', T('volume_button_setting_title'), A('deskclock', ctx.lang, 'volume_button_setting_entries'), 2, {dialogTitle: T('volume_button_dialog_title'), summary: T('volume_button_setting_summary')})
+      ]};
+    },
     email(ctx) {
       const T = key => S('email', ctx.lang, key), v = ctx.values, freq = A('email', ctx.lang, 'account_settings_check_frequency_entries');
       const text = (key, label, fallback, hint) => action(key, T(label), (v[key] ?? fallback) || (hint ? T(hint) : ''), {edit: {title: T(label), value: v[key] ?? fallback}});
@@ -111,6 +122,8 @@
     const item = find(ctx, key); if (!item) return null;
     const id = `${ctx.app}:${key}`, ok = fw(ctx.lang, 'ok'), cancel = fw(ctx.lang, 'cancel');
     if (item.kind === 'list') return {title: item.dialogTitle || item.title, items: item.options.map((label, i) => ({action: 'gbpref-pick', id: `${id}:${i}`, title: label})), choice: 'single', selected: get(item, ctx.values), buttons: [{action: 'close-overlay', title: cancel}]};
+    // VolumePreference: the stream's seek bar with OK / Cancel.
+    if (item.volume) return {title: item.title, custom: `<div class="gbvols"><label class="gbvol"><input type="range" min="0" max="100" data-vol="${item.volume.key}" value="${Number(ctx.settings?.[item.volume.key] ?? item.volume.fallback)}" aria-label="${e(item.title)}"></label></div>`, buttons: [{action: 'gbset-volume-ok', title: ok}, {action: 'close-overlay', title: cancel}]};
     if (item.confirm) return {title: item.confirm.title, icon: 'ic_dialog_alert', message: item.confirm.message, buttons: [{action: 'gbpref-confirm', id, title: ok}, {action: 'close-overlay', title: cancel}]};
     if (item.edit) return {title: item.edit.title, custom: `<label class="gbdlg-field"><input data-pref-edit maxlength="200" value="${e(item.edit.value || '')}"></label>`, buttons: [{action: 'gbpref-edit-ok', id, title: ok}, {action: 'close-overlay', title: cancel}]};
     if (item.ringtone) {
