@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 31 / 32 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 32 / 32 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -86,7 +86,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] (~2–3 óra) People 2.3.6–5.1.1: képenkénti szövegek (people-strings.js), a részletek- és listamenük a forrás szerint, kitalált törlésgomb ki, törlés-megerősítés képenként (ICS címmel, 4.3/4.4 csak üzenet, LP Material, GB saját); GB halott ICS-ágak és people.css ki; a 4.0.4 és 4.3 people.js forrás szerint azonos maradt (f4f1d65)
 - [x] Email 4.0.4 és 4.3 (`email.js`, `email.css`): AOSP Email a saját EmailGoogle.apk-jából, Galéria-választó a csatoláshoz – 08bbd0e
 - [x] (~3 óra) Hangouts 4.4.4 / 5.1.1: a KK a Hangouts 2.0.303 saját grafikáival (ikonok, alapértelmezett avatar, SMS-jelvény), menük a forrás szerint; az LP nem tölti többé a KK hangouts.css-t, a néhány használt szabály az lp-hangouts.css-be került (e80b337)
-- [ ] (~3 óra) Galéria 4.4.4 / 5.1.1 (`gallery.js`, `gallery.css`; a KK most a 4.3-as Galéria, az LP képben nincs Galéria)
+- [x] (~3 óra) Galéria 4.4.4 / 5.1.1: a KK GalleryGoogle a 4.3-assal lényegében azonos, a különbség a fotómenü „Nyomtatás” eleme (felvéve); az LP képben nincs Galéria, a lp-gallery.js csak a Photos csoportosítását tartja, a halott Gallery2-kód és CSS kiment (39142dc)
 
 ## 5. Kis ráfordítású funkciók (6–8 óra)
 
@@ -234,3 +234,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 4.5. pont: Naptár 4.3 / 4.4.4 képenként generálva, túlcsordulás-menü a forrás szerint | 39a1072 |
 | 2026-10-07 | 4.5. pont: People képenként (szövegek, menük, törlés-ablakok; GB tisztítás) | f4f1d65 |
 | 2026-10-07 | 4.5. pont: Hangouts – KK saját APK-grafikák, LP KK-stíluslap nélkül | e80b337 |
+| 2026-10-07 | 4.5. pont: Galéria – KK Nyomtatás menüpont, LP Gallery2-maradványok ki | 39142dc |
