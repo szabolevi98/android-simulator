@@ -1,4 +1,5 @@
-/* SMS/MMS demo presentation, based on AOSP Mms android-4.0.4_r2.1. */
+/* The simulator's SMS data for KitKat, where Hangouts is the SMS app (hangouts.js): recipient lookup, threads, drafts,
+   the GSM 7-bit / UCS-2 segment counter and the picture attachment markup. */
 (() => {
   'use strict';
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

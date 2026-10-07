@@ -27,3 +27,26 @@ const html = m.render({...data,messages:[{id:1,contact:1,body:'<img src=x>',time
 assert.ok(html.includes('&lt;img src=x&gt;'));
 assert.ok(!html.includes('<img src=x>'));
 console.log('Messaging checks passed: SMS segments, recipients, legacy threads, drafts, search and escaping.');
+// Per image: Messaging's words come from the image's Mms.apk (mms-strings.js) and the overlays follow its code.
+for (const [v, cell] of [['4.0.4', false], ['4.3', true]]) {
+  const ctx = {window:{AndroidI18n:{language:'hu'}}};
+  vm.runInNewContext(fs.readFileSync(`versions/${v}/mms-strings.js`,'utf8'), ctx);
+  const S = ctx.window.MmsStrings;
+  assert.equal(S.t('Insert smiley'), 'Hangulatjel beszúrása');
+  assert.equal(S.t('Delete?'), 'Törli?');
+  assert.equal(S.has('Cell broadcasts'), cell, `${v} menu_cell_broadcasts`);
+  assert.equal(S.SMILEYS.length, 21);
+  for (const [name, , icon] of S.SMILEYS) { assert.ok(S.has(name), `${v} ${name}`); assert.ok(fs.existsSync(`versions/${v}/assets/mms-emo_im_${icon}.png`), `${v} ${icon}`); }
+  for (const f of ['mms-ic_lock_message_sms.png', 'mms-ic_dialog_alert_holo_light.png']) assert.ok(fs.existsSync(`versions/${v}/assets/${f}`), `${v} ${f}`);
+  const sim = fs.readFileSync(`versions/${v}/simulator.js`, 'utf8'), index = fs.readFileSync(`versions/${v}/index.html`, 'utf8');
+  assert.ok(index.indexOf('mms-strings.js') > 0 && index.indexOf('mms-strings.js') < index.indexOf('messaging.js'), `${v} loads mms-strings.js first`);
+  assert.equal(/Cell broadcasts/.test(sim), cell, `${v} Cell broadcasts menu item`);
+  assert.doesNotMatch(sim, /Delete this conversation or message from the simulator/);
+  assert.match(sim, /mmsDeleteLocked/);
+}
+// Gingerbread draws Messaging with gb-mms.js; the ICS overlay is gone and messaging.js keeps the shared helpers.
+assert.doesNotMatch(fs.readFileSync('versions/2.3.6/simulator.js','utf8'), /function renderMessageOverlay/);
+const gb = {window:{}}; vm.runInNewContext(fs.readFileSync('versions/2.3.6/messaging.js','utf8'), gb);
+assert.equal(gb.window.ICSMessaging.render, undefined);
+assert.equal(typeof gb.window.ICSMessaging.threads, 'function');
+console.log('Messaging image checks passed: Mms strings, smileys, menus and dialogs per image.');

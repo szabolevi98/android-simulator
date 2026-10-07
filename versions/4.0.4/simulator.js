@@ -923,20 +923,43 @@
     const history = viewport.querySelector('.mms-history');
     if (history) history.scrollTop = history.scrollHeight;
   }
+  /* Messaging overlays from this image's Mms code: the overflow menus (conversation_list_menu with ConversationList's
+     visibility rules; ComposeMessageActivity.onPrepareOptionsMenu: Add subject, Send once there is something to send,
+     Insert smiley, Delete thread or Discard, Add to People for a number that is no contact, Settings), Insert smiley
+     (showSmileyDialog: smiley_menu_item rows of icon, name and text), the message context menu (Copy text, Forward,
+     Lock / Unlock, View details, Delete), ConversationList.confirmDeleteThreadDialog (Delete? with "Delete locked
+     messages" while locked messages are there), confirmDeleteDialog and MessageUtils.getTextMessageDetails. The words
+     are mms-strings.js'. */
   function renderMessageOverlay() {
-    const dialog = (title, content) => `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="${safe(i18n.t(title))}"><h3>${safe(i18n.t(title))}</h3>${content}</div>`;
-    const option = (action, text, id = '') => `<button data-action="${action}" data-id="${safe(id)}">${safe(i18n.t(text))}</button>`;
-    if (ui.overlay === 'mms-menu') {
-      const composing = ['thread','new'].includes(ui.sub);
-      return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu ${composing ? '' : 'mms-menu-root'}">${composing ? option('mms-smiley','Insert smiley') + option('mms-discard','Discard draft') + (ui.sub === 'thread' ? option('mms-delete-thread','Delete thread') : '') : option('new-message','New message') + option('mms-search','Search messages')}</div>`;
-    }
-    if (ui.overlay === 'mms-attach') return dialog('Add attachment', `<div class="mms-dialog-list">${data.photos.map(p => `<button data-action="mms-photo" data-id="${p.id}">${ICSMessaging.photo(p)}</button>`).join('') || '<p>No photos</p>'}</div>`);
-    if (ui.overlay === 'mms-smiley') return dialog('Insert smiley', `<div class="mms-dialog-list">${[':-)',':-(', ';-)',':-D',':-P'].map(face=>option('mms-insert-smiley',face,face)).join('')}</div>`);
-    if (ui.overlay === 'mms-delete-confirm') return dialog(ui.mmsDelete === 'thread' ? 'Delete thread' : 'Delete message', `<p>Delete this conversation or message from the simulator?</p><div class="settings-dialog-actions">${option('close-overlay','Cancel')}${option('mms-confirm-delete','Delete')}</div>`);
+    const M = key => MmsStrings.t(key), unavailable = 'Not available in this simulator';
+    const option = (action, text, id = '') => `<button data-action="${action}" data-id="${safe(id)}">${safe(text)}</button>`;
+    const alert = (title, body, buttons = '', icon = false) => `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="mms-alert" role="alertdialog" aria-label="${safe(title)}" data-no-translate>${title ? `<h3>${icon ? '<img src="assets/mms-ic_dialog_alert_holo_light.png" alt="">' : ''}${safe(title)}</h3>` : ''}${body}${buttons ? `<div class="mms-alert-buttons">${buttons}</div>` : ''}</div>`;
     const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage));
+    if (ui.overlay === 'mms-menu') {
+      const composing = ['thread', 'new'].includes(ui.sub), draft = data.messageDrafts?.[ICSMessaging.draftKey(ui)] || {};
+      const messages = ui.sub === 'thread' ? data.messages.filter(m => String(m.contact) === String(ui.thread)) : [];
+      const to = ui.sub === 'thread' ? String(ui.thread) : ICSMessaging.recipient(draft.recipient || '', data.contacts)?.key || '';
+      const items = composing
+        ? option('toast', M('Add subject'), unavailable) + ((draft.body || '').trim() || draft.attachment ? option('mms-send-now', M('Send')) : '') + option('mms-smiley', M('Insert smiley'))
+          + (messages.length ? option('mms-delete-thread', M('Delete thread')) : option('mms-discard', M('Discard'))) + (to.startsWith('tel:') ? option('toast', M('Add to People'), unavailable) : '') + option('toast', M('Settings'), unavailable)
+        : option('toast', M('Settings'), unavailable) + (data.messages.length ? option('mms-delete-all', M('Delete all threads')) : '');
+      return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu ${composing ? '' : 'mms-menu-root'}" data-no-translate>${items}</div>`;
+    }
+    if (ui.overlay === 'mms-attach') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="${safe(MmsStrings.t('Attach'))}" data-no-translate><h3>${safe(MmsStrings.t('Attach'))}</h3><div class="mms-dialog-list">${data.photos.map(p => `<button data-action="mms-photo" data-id="${p.id}">${ICSMessaging.photo(p)}</button>`).join('') || `<p>${safe(i18n.t('No photos'))}</p>`}</div></div>`;
+    if (ui.overlay === 'mms-smiley') return alert(M('Insert smiley'), `<div class="mms-smileys">${MmsStrings.SMILEYS.map(([name, text, icon]) => `<button data-action="mms-insert-smiley" data-id="${safe(text)}"><img src="assets/mms-emo_im_${icon}.png" alt=""><span>${safe(M(name))}</span><b>${safe(text)}</b></button>`).join('')}</div>`);
+    if (ui.overlay === 'mms-delete-confirm') {
+      const scope = ui.mmsDelete === 'all' ? data.messages : ui.mmsDelete === 'thread' ? data.messages.filter(m => String(m.contact) === String(ui.thread)) : [];
+      if (ui.mmsDelete === 'message') return alert('', `<p>${safe(M(message?.locked ? 'Delete this locked message?' : 'The message will be deleted.'))}</p>`, option('close-overlay', M('Cancel')) + option('mms-confirm-delete', M('Delete')));
+      const locked = scope.some(m => m.locked) ? `<label class="mms-alert-check"><input type="checkbox" data-action="mms-delete-locked" ${ui.mmsDeleteLocked ? 'checked' : ''}><span>${safe(M('Delete locked messages'))}</span></label>` : '';
+      return alert(M('Delete?'), `<p>${safe(M(ui.mmsDelete === 'all' ? 'All threads will be deleted.' : 'The entire thread will be deleted.'))}</p>${locked}`, option('close-overlay', M('Cancel')) + option('mms-confirm-delete', M('Delete')), true);
+    }
     if (!message) return '';
-    if (ui.overlay === 'mms-message') return dialog('Message options', `<div class="mms-dialog-list">${option('mms-forward','Forward message')}${option('mms-details','View message details')}${option('mms-delete-message','Delete message')}</div>`);
-    if (ui.overlay === 'mms-details') return dialog('Message details', `<p>${message.attachment ? 'MMS' : 'SMS'} · ${safe(i18n.t(message.mine ? 'Sent' : 'Received'))}</p><p>${safe(ICSMessaging.identity(message.contact,data.contacts).phone)}</p><p>${safe(message.timestamp ? new Date(message.timestamp).toLocaleString(i18n.locale()) : i18n.t(message.time))}</p><p>${safe(message.body)}</p><div class="settings-dialog-actions">${option('close-overlay','OK')}</div>`);
+    if (ui.overlay === 'mms-message') return alert(M('Message options'), `<div class="mms-alert-list">${option('mms-copy', M('Copy text'))}${option('mms-forward', M('Forward'))}${option('mms-lock', M(message.locked ? 'Unlock' : 'Lock'))}${option('mms-details', M('View details'))}${option('mms-delete-message', M('Delete'))}</div>`);
+    if (ui.overlay === 'mms-details') {
+      const when = message.timestamp ? new Date(message.timestamp).toLocaleString(i18n.locale(), {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'}) : i18n.t(message.time || '');
+      const lines = [M('Type: ') + M(message.attachment ? 'Multimedia message' : 'Text message'), M(message.mine ? 'To: ' : 'From: ') + ICSMessaging.identity(message.contact, data.contacts).phone, M(message.mine ? 'Sent: ' : 'Received: ') + when];
+      return alert(M('Message details'), `<p class="mms-details">${lines.map(safe).join('<br>')}</p>`);
+    }
     return '';
   }
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
@@ -1335,10 +1358,17 @@
       case 'mms-message': ui.mmsMessage = id; ui.overlay = 'mms-message'; renderOverlay(); break;
       case 'mms-details': ui.overlay = 'mms-details'; renderOverlay(); break;
       case 'mms-forward': { const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage)); if (!message) break; ui.sub = 'new'; Object.assign(messageDraft(),{body:message.body,recipient:'',attachment:message.attachment ? clone(message.attachment) : null,updated:Date.now()}); save(); ui.overlay = ''; render(); break; }
-      case 'mms-delete-thread': case 'mms-delete-message': ui.mmsDelete = action === 'mms-delete-thread' ? 'thread' : 'message'; ui.overlay = 'mms-delete-confirm'; renderOverlay(); break;
+      case 'mms-delete-thread': case 'mms-delete-message': case 'mms-delete-all': ui.mmsDelete = action.slice(11); ui.mmsDeleteLocked = false; ui.overlay = 'mms-delete-confirm'; renderOverlay(); break;
+      case 'mms-delete-locked': ui.mmsDeleteLocked = !ui.mmsDeleteLocked; renderOverlay(); break;
+      case 'mms-lock': { const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage)); if (message) { message.locked = !message.locked; save(); } ui.overlay = ''; render(); scrollMessages(); break; }
+      case 'mms-copy': { const message = data.messages.find(m => String(m.id) === String(ui.mmsMessage)); navigator.clipboard?.writeText(message?.body || '').catch(() => {}); ui.overlay = ''; renderOverlay(); break; }
+      case 'mms-send-now': ui.overlay = ''; renderOverlay(); viewport.querySelector('.mms-compose')?.requestSubmit(); break;
       case 'mms-confirm-delete': {
-        data.messages = data.messages.filter(m => ui.mmsDelete === 'thread' ? String(m.contact) !== String(ui.thread) : String(m.id) !== String(ui.mmsMessage));
-        if (ui.mmsDelete === 'thread') { delete data.messageDrafts?.[String(ui.thread)]; ui.sub = ''; }
+        // Deleting a thread or all threads keeps locked messages unless "Delete locked messages" is ticked.
+        const doomed = m => ui.mmsDelete === 'message' ? String(m.id) === String(ui.mmsMessage) : (ui.mmsDelete === 'all' || String(m.contact) === String(ui.thread)) && (!m.locked || ui.mmsDeleteLocked);
+        data.messages = data.messages.filter(m => !doomed(m));
+        if (ui.mmsDelete === 'all') data.messageDrafts = {};
+        if (ui.mmsDelete === 'thread') { delete data.messageDrafts?.[String(ui.thread)]; if (!data.messages.some(m => String(m.contact) === String(ui.thread))) ui.sub = ''; }
         save(); ui.overlay = ''; render(); break;
       }
       case 'new-message': ui.sub = 'new'; ui.overlay = ''; render(); viewport.querySelector('[name=recipient]')?.focus(); break;
