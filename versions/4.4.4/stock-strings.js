@@ -511,6 +511,63 @@ window.StockStrings = {
    "Aktualisieren",
    "Actualiser",
    "Actualizar"
+  ],
+  "List item": [
+   "Listaelem",
+   "Listeneintrag",
+   "Élément de liste",
+   "Elemento de lista"
+  ],
+  "Hide checkboxes": [
+   "Jelölőnégyzetek elrejtése",
+   "Kontrollkästchen ausblenden",
+   "Masquer les cases à cocher",
+   "Ocultar casillas de verificación"
+  ],
+  "Delete checked items?": [
+   "Törli a kijelölt elemeket?",
+   "Aktivierte Elemente löschen?",
+   "Supprimer les éléments sélectionnés ?",
+   "¿Eliminar elementos tachados?"
+  ],
+  "Keep (button)": [
+   "Megőrzés",
+   "Beibehalten",
+   "Conserver",
+   "Mantener",
+   "Keep"
+  ],
+  "Delete (button)": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar",
+   "Delete"
+  ],
+  "Remove photo?": [
+   "Eltávolítja ezt a fotót?",
+   "Dieses Foto entfernen?",
+   "Supprimer cette photo ?",
+   "¿Eliminar esta foto?",
+   "Remove this photo?"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "Take photo": [
+   "Fotó készítése",
+   "Foto aufnehmen",
+   "Prendre une photo",
+   "Hacer foto"
+  ],
+  "Choose photo": [
+   "Fotó kiválasztása",
+   "Foto auswählen",
+   "Sélectionner une photo",
+   "Elegir foto"
   ]
  },
  "youtube": {

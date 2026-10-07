@@ -9,13 +9,29 @@ ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
 DEVICES = {'4.0.4': 'maguro', '4.3': 'mako', '4.4.4': 'hammerhead', '5.1.1': 'shamu'}
 spec = json.load(open(ROOT + 'docs/stock-strings.json', encoding='utf-8'))
 DUMPS = {}
+def from_arsc(path):
+    """The string part of `aapt2 dump resources` for an APK, read with androguard when the SDK is missing."""
+    from loguru import logger; logger.remove()
+    from androguard.core.apk import APK
+    res = APK(path).get_android_resources(); pkg = res.get_packages_names()[0]
+    public = res.get_public_resources(pkg); public = public.decode() if isinstance(public, bytes) else public
+    out = []
+    for name, rid in re.findall(r'type="string" name="([^"]+)" id="(0x[0-9a-f]+)"', public):
+        out.append(f'resource {rid} string/{name}')
+        for config, entry in res.get_res_configs(int(rid, 16), None):
+            try: lang, region, text = config.get_language(), config.get_country(), entry.get_key_data()
+            except Exception: continue
+            if '\x00' in lang: lang = ''
+            if region and '\x00' not in region: lang = f'{lang}-r{region}'
+            out.append(f'      ({lang}) {json.dumps(text, ensure_ascii=False)}')
+    return '\n'.join(out) + '\n'
 def from_aapt(device, apk, name):
     """(English, {lang: text}) of string NAME in an APK the index skips, from `aapt2 dump resources`."""
     if (device, apk) not in DUMPS:
         path = next((p for d in ('app', 'priv-app') for p in glob.glob(f'{ROOT}_aosp/{device}/system/{d}/{apk}.apk') + glob.glob(f'{ROOT}_aosp/{device}/system/{d}/{apk}/{apk}.apk')), None)
         if not path: return None
-        aapt = sorted(glob.glob(os.path.expandvars(r'%LOCALAPPDATA%/Android/Sdk/build-tools/*/aapt2*')))[-1]
-        DUMPS[(device, apk)] = subprocess.run([aapt, 'dump', 'resources', path], capture_output=True, text=True, encoding='utf-8').stdout
+        aapt = sorted(glob.glob(os.path.expandvars(r'%LOCALAPPDATA%/Android/Sdk/build-tools/*/aapt2*')))
+        DUMPS[(device, apk)] = subprocess.run([aapt[-1], 'dump', 'resources', path], capture_output=True, text=True, encoding='utf-8').stdout if aapt else from_arsc(path)
     m = re.search(rf'resource 0x\w+ string/{re.escape(name)}\n((?:[ \t]+\(.*\n)+)', DUMPS[(device, apk)])
     if not m: return None
     values = {c: json.loads(t) for c, t in re.findall(r'\(([\w-]*)\) ("(?:[^"\\]|\\.)*")', m.group(1))}

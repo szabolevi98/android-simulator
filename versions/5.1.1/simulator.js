@@ -767,7 +767,8 @@
     if (['docs', 'sheets', 'slides'].includes(ui.view) && ui.sub) { ui.sub = !['search', 'results'].includes(ui.sub) && ui.edFrom === 'results' ? 'results' : ''; ui.edFrom = ''; render(); return; }
     if (ui.view === 'drive' && ui.sub === 'file' && ui.driveFrom === 'results') { ui.sub = 'results'; ui.driveFrom = ''; render(); return; }
     if (ui.view === 'youtube' && ui.sub === 'video' && ui.ytFrom === 'results') { ui.sub = 'results'; ui.ytFrom = ''; render(); return; }
-    if (StockApps.APPS.includes(ui.view) && ui.sub) { if (ui.view === 'keep') saveKeepNote(); ui.sub = ''; render(); return; }
+    if (ui.view === 'keep' && ui.keepDialog) { ui.keepDialog = ''; render(); return; }
+    if (StockApps.APPS.includes(ui.view) && ui.sub) { if (ui.view === 'keep') saveKeepNote(true); ui.sub = ''; render(); return; }
     if (PLAY_APPS.includes(ui.view) && ui.sub) { ui.sub = ui.sub === 'queue' ? 'player' : ui.sub === 'player' ? ui.paReturn || '' : ui.sub === 'album' && ui.paFromSearch ? 'search' : ''; if (ui.sub !== 'album') ui.paFromSearch = ui.sub === 'search' && ui.paFromSearch; ui.paBars = true; render(); return; }
     if (ui.view === 'photos' && ui.sub) { ui.sub = ui.sub === 'photo' ? ui.photosReturn || '' : ui.sub === 'folder' ? 'folders' : ''; ui.photosChrome = true; render(); return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
@@ -780,7 +781,7 @@
     if (ui.view === 'drawer' && ui.drawerWidgets) { ui.drawerWidgets = false; ui.drawerPage = 0; home(false); ui.overview = true; render(); return; }
     if (ui.view === 'home' && ui.overview) { ui.overview = false; render(); return; }
     if (ui.view === 'wallpaper-picker' && ui.wp?.checked?.length) { ui.wp.checked = []; wallpaperPickerRender(); return; }
-    if (ui.view === 'kk-doc-picker') { ui.view = 'wallpaper-picker'; render(); return; }
+    if (ui.view === 'kk-doc-picker') { ui.view = ui.docPickFor === 'keep' ? 'keep' : 'wallpaper-picker'; ui.docPickFor = ''; render(); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
@@ -1559,11 +1560,24 @@
     clearTimeout(voiceTimer); ui.voiceState = 'listening'; if (ui.view === 'voice-search') render();
     voiceTimer = setTimeout(() => { ui.voiceState = 'retry'; if (ui.view === 'voice-search') render(); }, 3000);
   }
-  function saveKeepNote() {
-    const area = viewport.querySelector('.keep-text'), note = (data.keepNotes || []).find(item => item.id === ui.keepNote);
-    if (!area || !note) return;
-    note.text = area.value; if (!note.text.trim()) data.keepNotes = data.keepNotes.filter(item => item !== note); save();
+  const keepCurrent = () => (data.keepNotes || []).find(item => item.id === ui.keepNote);
+  // Keeps the editor's text; on leaving, empty list items go and a note without text, items or picture is dropped.
+  function saveKeepNote(leaving) {
+    const area = viewport.querySelector('.keep-text'), note = keepCurrent();
+    if (!note) return;
+    if (area) note.text = area.value;
+    if (leaving && note.list) note.list = note.list.filter(item => item.text.trim());
+    if (leaving && !String(note.text || '').trim() && !(note.list || []).length && !note.photo) data.keepNotes = data.keepNotes.filter(item => item !== note);
+    save();
   }
+  // A picture goes to the open note, or starts a new picture note from the browse bar.
+  function keepAttach(photoId, noteId) {
+    let note = (data.keepNotes || []).find(item => item.id === noteId);
+    if (!note) { note = {id: 'k' + Date.now(), text: '', color: 0}; data.keepNotes = [note, ...(data.keepNotes || [])]; }
+    note.photo = photoId; ui.keepNote = note.id; ui.sub = 'note'; ui.view = 'keep'; save(); render();
+  }
+  // Show / Hide checkboxes: lines become unchecked items; back to text drops the checked ones when asked to.
+  function keepToText(note, dropChecked) { note.text = note.list.filter(item => !(dropChecked && item.checked)).map(item => item.text).join('\n'); delete note.list; }
   const playContext = app => ({app, ui, data, locale: i18n.locale(), t: key => i18n.t(key), music: ui.music, tracks, time: ICSMusic.time});
   // The Play Movies player counts seconds without re-rendering (the picture keeps panning).
   function tickPlayVideo() {
@@ -1810,8 +1824,8 @@
         wp.selected = id; wp.stripHidden = false; wallpaperPickerRender(); break;
       }
       case 'kwp-tap': if (ui.wp) { ui.wp.stripHidden = !ui.wp.stripHidden; viewport.querySelector('.kwp-strip')?.classList.toggle('hidden', ui.wp.stripHidden); } break;
-      case 'kwp-pick': ui.view = 'kk-doc-picker'; render(); break;
-      case 'kwp-picked': { const wp = ui.wp ||= {selected: '', temp: [], checked: []}, pid = Number(id); wp.temp = [pid, ...(wp.temp || []).filter(x => x !== pid)]; wp.selected = `photo:${pid}`; ui.view = 'wallpaper-picker'; render(); break; }
+      case 'kwp-pick': ui.docPickFor = ''; ui.view = 'kk-doc-picker'; render(); break;
+      case 'kwp-picked': if (ui.docPickFor === 'keep') { ui.docPickFor = ''; keepAttach(Number(id), ui.keepPhotoTo); break; } { const wp = ui.wp ||= {selected: '', temp: [], checked: []}, pid = Number(id); wp.temp = [pid, ...(wp.temp || []).filter(x => x !== pid)]; wp.selected = `photo:${pid}`; ui.view = 'wallpaper-picker'; render(); break; }
       case 'kwp-cab-done': if (ui.wp) { ui.wp.checked = []; wallpaperPickerRender(); } break;
       case 'kwp-delete': { const wp = ui.wp, gone = new Set((wp?.checked || []).map(k => Number(k.slice(6)))); if (!wp) break; data.kkSavedWallpapers = (data.kkSavedWallpapers || []).filter(x => !gone.has(x)); wp.temp = (wp.temp || []).filter(x => !gone.has(x)); if (wp.checked.includes(wp.selected)) wp.selected = ''; wp.checked = []; save(); wallpaperPickerRender(); break; }
       case 'kwp-set': {
@@ -2070,6 +2084,19 @@
       case 'keep-archive': { ui.overlay = ''; renderOverlay(); const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { saveKeepNote(); note.archived = !note.archived; ui.sub = ''; save(); render(); } break; }
       case 'keep-columns': ui.overlay = ''; renderOverlay(); data.keepSingle = !data.keepSingle; save(); render(); break;
       case 'keep-refresh': ui.overlay = ''; renderOverlay(); render(); break;
+      // List and picture notes (stock-apps.js keepEditor / keepDialog).
+      case 'keep-new-list': { const note = {id: 'k' + Date.now(), text: '', color: 0, list: []}; data.keepNotes = [note, ...(data.keepNotes || [])]; ui.keepNote = note.id; ui.sub = 'note'; render(); viewport.querySelector('.kp-ed-add input')?.focus(); break; }
+      case 'keep-li-check': { const item = keepCurrent()?.list?.[Number(id)]; if (item) { item.checked = !item.checked; save(); render(); } break; }
+      case 'keep-li-delete': { const note = keepCurrent(); if (note?.list) { note.list.splice(Number(id), 1); save(); render(); } break; }
+      case 'keep-grave': ui.keepGraveClosed = !ui.keepGraveClosed; render(); break;
+      case 'keep-checkboxes': { ui.overlay = ''; renderOverlay(); const note = keepCurrent(); if (!note) break; saveKeepNote(); if (!note.list) { note.list = String(note.text || '').split('\n').filter(line => line.trim()).map(text => ({text, checked: false})); note.text = ''; } else if (note.list.some(item => item.checked)) ui.keepDialog = 'hide-checkboxes'; else keepToText(note, false); save(); render(); break; }
+      case 'keep-hide-keep': case 'keep-hide-delete': { const note = keepCurrent(); ui.keepDialog = ''; if (note?.list) keepToText(note, action === 'keep-hide-delete'); save(); render(); break; }
+      case 'keep-picture': saveKeepNote(); ui.keepDialog = 'picture'; render(); break;
+      case 'keep-photo-take': { ui.keepDialog = ''; saveKeepNote(); keepAttach(cameraShoot().id, ui.sub === 'note' ? ui.keepNote : ''); break; }
+      case 'keep-photo-choose': ui.keepDialog = ''; saveKeepNote(); ui.keepPhotoTo = ui.sub === 'note' ? ui.keepNote : ''; ui.docPickFor = 'keep'; ui.view = 'kk-doc-picker'; render(); break;
+      case 'keep-photo-remove': saveKeepNote(); ui.keepDialog = 'remove-photo'; render(); break;
+      case 'keep-photo-delete': { ui.keepDialog = ''; const note = keepCurrent(); if (note) { delete note.photo; save(); } render(); break; }
+      case 'keep-dialog-close': ui.keepDialog = ''; render(); break;
       case 'keep-drawer': ui.keepDrawer = !ui.keepDrawer; render(); break;
       case 'keep-landing': ui.keepView = id; ui.keepDrawer = false; render(); break;
       case 'yt-video': ui.ytFrom = ui.sub; ui.ytVideo = id; ui.ytPaused = false; ui.sub = 'video'; render(); break;
@@ -2465,6 +2492,7 @@
       case 'ed-search': { const query = String(values.get('query') || '').trim(); if (!query) return; ui.edQuery = query; ui.sub = 'results'; render(); break; }
       case 'drive-search': { const query = String(values.get('query') || '').trim(); if (!query) return; ui.driveQuery = query; ui.sub = 'results'; render(); break; }
       case 'yt-search': { const query = String(values.get('query') || '').trim(); if (!query) return; ui.ytQuery = query; ui.sub = 'results'; render(); break; }
+      case 'keep-li-add': { const text = String(values.get('text') || '').trim(), note = keepCurrent(); if (!text || !note?.list) return; note.list.push({text, checked: false}); save(); render(); viewport.querySelector('.kp-ed-add input')?.focus(); break; }
       case 'keep-add': { const text = String(values.get('text') || '').trim(); if (!text) return; data.keepNotes = [{id: 'k' + Date.now(), text, color: (data.keepNotes || []).length % 5}, ...(data.keepNotes || [])]; save(); render(); break; }
       case 'earth-search': ui.earthQuery = String(values.get('query') || '').trim().slice(0, 60); ui.earthSearching = false; render(); break;
       case 'chrome-history-search': ui.chromeHistoryQuery = String(values.get('query') || '').trim(); render(); break;
@@ -2541,6 +2569,7 @@
     }
     if (event.target.closest('.jbp-bar.searching')) { ui.marketEdit = event.target.value; const view = viewport.querySelector('.jbp'); view?.querySelector('.jbp-suggest')?.remove(); const tmp = document.createElement('div'); tmp.innerHTML = JBPlay.render(jbPlayContext()); const sug = tmp.querySelector('.jbp-suggest'); if (sug && view) view.append(sug); return; }
     if (event.target.matches('[data-jbp-auto]')) { const id = event.target.dataset.jbpAuto, list = data.marketAuto || []; data.marketAuto = event.target.checked ? [...new Set([...list, id])] : list.filter(x => x !== id); save(); return; }
+    if (event.target.matches('[data-keep-li]')) { const item = keepCurrent()?.list?.[Number(event.target.dataset.keepLi)]; if (item) { item.text = event.target.value; save(); } return; }
     if (event.target.matches('.keep-text')) { const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { note.text = event.target.value; save(); } return; }
     if (event.target.closest('.hg-new')) {
       const query = event.target.value.trim().toLocaleLowerCase();

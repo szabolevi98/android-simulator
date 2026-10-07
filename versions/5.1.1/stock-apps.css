@@ -368,3 +368,58 @@
 .dr2-sv{flex:1;min-width:0;height:100%;display:flex}
 .dr2-sv input{flex:1;min-width:0;border:0;background:none;outline:0;padding:0;font:400 18.12px Roboto,sans-serif;color:#4c4c4c}
 .dr2-sv input::placeholder{color:#00000061}
+/* List and picture notes (audit step 5). Cards: the photo edge to edge across the top, index_list_text_item.xml rows
+   (20 dp box, 2 dp down, 4 dp to the text; #99000000, checked #4d000000 struck through; three lines at most)
+   and the 24 dp indented "…". */
+.sa-keep3 .kp-text{display:block}
+.sa-keep3 .kp-photo{display:block;width:calc(100% + 14.5px);max-width:none;margin:-7.25px -7.25px 7.25px;aspect-ratio:4/3;object-fit:cover;background:#f5f5f5}
+.sa-keep3 .kp-photo:last-child{margin-bottom:-7.25px}
+.sa-keep3 .kp-li{display:flex;align-items:flex-start;margin-left:-3.62px;padding-top:3.62px;color:#00000099}
+.sa-keep3 .kp-li:first-child,.sa-keep3 .kp-photo+.kp-li{padding-top:0}
+.sa-keep3 .kp-li img{flex:none;width:18.12px;height:18.12px;margin:1.81px 3.62px 0 0}
+.sa-keep3 .kp-li span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}
+.sa-keep3 .kp-li.on{color:#0000004d}
+.sa-keep3 .kp-li.on span{text-decoration:line-through}
+.sa-keep3 .kp-ellipse{display:block;margin-left:18.12px;color:#00000099}
+/* Editor (editor_photo_layout.xml, list_text_note.xml, editor_add_list_item.xml, editor_graveyard_header.xml): the photo
+   with ic_delete_photo 4 dp in; rows of the drag handle, the AppCompat check box (colorControlNormal #8a000000, checked
+   in the #333333 accent) 4 dp after it, the 16 sp text 12 dp either side and the 32 dp ic_material_delete_dark 16 dp
+   from the end while the row is edited, 6 dp under each; the ic_add_item "List item" row; the graveyard: a 1 dp
+   #25000000 divider 32 dp in, the chevron and the italic 16 sp "Checked" in hint_text_color. */
+.sa-keep3 .sa-keep-edit{display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none}
+.sa-keep3 .sa-keep-edit textarea{flex:1 0 auto;height:auto;min-height:86.98px}
+.kp-ed-photo{position:relative;flex:none}
+.kp-ed-photo>img{display:block;width:100%;aspect-ratio:1/.66;object-fit:cover;background:#f5f5f5}
+.screen .kp-ed-photo-del{position:absolute;right:3.62px;bottom:3.62px;width:28.99px;height:28.99px;padding:3.62px;border:0;border-radius:50%;background:none}
+.kp-ed-photo-del img{display:block;width:100%;height:100%}
+.screen .kp-ed-photo-del:active,.screen .kp-ed-del:active,.screen .kp-grave-head:active{background:#0000001f}
+.kp-ed-list{padding:7.25px 0}
+.kp-ed-li,.kp-ed-add{position:relative;display:flex;align-items:center;padding-bottom:5.44px}
+.kp-ed-add{padding-left:28.99px}
+.kp-ed-grab{flex:none;width:28.99px;height:28.99px}
+.screen .kp-ed-check{flex:none;width:28.99px;height:28.99px;margin-left:3.62px;padding:0;border:0;background:#0000008a;-webkit-mask:url('assets/kp3-abc_btn_check_to_on_mtrl_000.png') center/contain no-repeat;mask:url('assets/kp3-abc_btn_check_to_on_mtrl_000.png') center/contain no-repeat}
+.screen .kp-ed-li.on .kp-ed-check{background:#333;-webkit-mask-image:url('assets/kp3-abc_btn_check_to_on_mtrl_015.png');mask-image:url('assets/kp3-abc_btn_check_to_on_mtrl_015.png')}
+.screen img.kp-ed-check{background:none;-webkit-mask:none;mask:none}
+.screen .kp-ed-text,.screen .kp-ed-add input{flex:1;min-width:0;padding:0 10.87px;border:0;background:none;outline:none;font:400 14.5px/1.1 Roboto,sans-serif;color:#00000099}
+.kp-ed-li.on .kp-ed-text{color:#0000004d;text-decoration:line-through}
+.kp-ed-add input::placeholder{color:#0000004d}
+.screen .kp-ed-del{flex:none;width:28.99px;height:28.99px;margin-right:14.5px;padding:3.62px;border:0;border-radius:50%;background:none;visibility:hidden}
+.kp-ed-li:focus-within .kp-ed-del{visibility:visible}
+.kp-ed-del img{display:block;width:100%;height:100%}
+.kp-grave{padding:14.5px 28.99px 0}
+.kp-grave>i{display:block;height:1px;background:#00000025}
+.screen .kp-grave-head{display:flex;align-items:center;width:100%;padding:14.5px 3.62px 10.87px;border:0;background:none;text-align:left}
+.kp-grave-head img{width:28.99px;height:28.99px}
+.kp-grave-head span{flex:1;padding:0 21.74px;font:italic 400 14.5px Roboto,sans-serif;color:#0000004d}
+/* AlertDialog (Material): 24 dp padding, the 20 sp medium title, the 16 sp message in #8a000000, the 14 sp medium
+   upper-case buttons in the #333333 accent; the picture choice is dialog_list_item_with_icon.xml (12 dp padding, the
+   icon, 16 sp #99000000 text 12 dp after it). */
+.kp-dlg-scrim{position:absolute;inset:0;z-index:40;border:0;background:#00000099}
+.kp-dlg{position:absolute;z-index:41;left:21.74px;right:21.74px;top:50%;transform:translateY(-50%);padding-bottom:7.25px;background:#fff;border-radius:1.81px;box-shadow:0 10.87px 21.74px #0000004d;font-family:Roboto,sans-serif}
+.kp-dlg h3{margin:0;padding:21.74px 21.74px 7.25px;font:500 18.12px Roboto,sans-serif;color:#000000de}
+.kp-dlg p{margin:0;padding:21.74px 21.74px 0;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008a}
+.kp-dlg-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:21.74px 7.25px 0}
+.screen .kp-dlg-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;color:#333!important;font:500 12.68px Roboto,sans-serif;text-transform:uppercase}
+.screen .kp-dlg-item{display:flex;align-items:center;gap:10.87px;width:100%;padding:10.87px 10.87px 10.87px 18.12px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#00000099}
+.kp-dlg-item img{width:28.99px;height:28.99px}
+.screen .kp-dlg button:active{background:#0000001f}

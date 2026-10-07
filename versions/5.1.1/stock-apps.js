@@ -133,29 +133,65 @@
   // (dex): Notes, Reminders, Archive and Trash (56 dp, black icons, 14 sp #de000000 32 dp after them), then the
   // Help & feedback link (44 dp, bold). editor_menu.xml: Share, Change color, Add picture and Archive are "always", Delete
   // note and the rest go to the overflow.
+  /* List and picture notes (Keep 3.0.03). A list note keeps .list = [{text, checked}], a picture note .photo = the id of
+     a Gallery photo. Browse cards (browse_index_list_note.xml): the photo across the top, then up to six unchecked-first
+     index_list_text_item.xml rows (20 dp ic_material_box_*_dark, 16 sp #99000000, #4d000000 and struck through when
+     checked) and "…". The editor: editor_photo_layout.xml (ic_delete_photo, "Delete image?"), list_text_note.xml rows
+     (the drag handle, the AppCompat check box in the #333333 accent, the 16 sp text, ic_material_delete_dark while
+     editing), editor_add_list_item.xml's ic_add_item "List item" row, then editor_graveyard_header.xml: a divider, the
+     chevron and "Checked", over the checked items (GraveyardHeaderView starts expanded; the chevron collapses them).
+     Add picture and "New photo note" offer Take photo / Choose image; Show / Hide checkboxes converts the note. */
+  const KEEP_INDEX_MAX = 6;
+  const keepPhoto = (ctx, id) => { const p = (ctx.data.photos || []).find(x => x.id === id); return p && window.ICSMedia ? window.ICSMedia.image(p) : ''; };
+  const keepOrder = list => true ? [...list.filter(i => !i.checked), ...list.filter(i => i.checked)] : list;
+  function keepCard(ctx, n) {
+    const photo = n.photo ? keepPhoto(ctx, n.photo) : '', items = n.list ? keepOrder(n.list).filter(i => i.text.trim()) : [];
+    const rows = items.slice(0, KEEP_INDEX_MAX).map(i => `<span class="kp-li${i.checked ? ' on' : ''}"><img src="assets/${i.checked ? 'kp3-ic_material_box_checked_dark.png' : 'kp3-ic_material_box_unchecked_dark.png'}" alt=""><span>${e(i.text)}</span></span>`).join('') + (items.length > KEEP_INDEX_MAX ? '<span class="kp-ellipse">…</span>' : '');
+    return `<button class="sa-note${photo ? ' kp-with-photo' : ''}" data-no-translate data-action="keep-open" data-id="${e(n.id)}" style="--note:${KEEP_COLORS[n.color || 0]}">${photo ? `<img class="kp-photo" src="${e(photo)}" alt="">` : ''}${n.list ? rows : n.text ? `<span class="kp-text">${e(n.text)}</span>` : ''}</button>`;
+  }
+  function keepEditor(ctx, note, k) {
+    const photo = note.photo ? keepPhoto(ctx, note.photo) : '';
+    const pic = photo ? `<div class="kp-ed-photo"><img src="${e(photo)}" alt=""><button type="button" class="kp-ed-photo-del" data-action="keep-photo-remove" aria-label="${e(k('Remove photo?'))}"><img src="assets/kp3-ic_delete_photo.png" alt=""></button></div>` : '';
+    if (!note.list) return `${pic}<textarea class="keep-text" maxlength="2000" aria-label="${e(k('New note'))}">${e(note.text)}</textarea>`;
+    const row = i => { const item = note.list[i]; return `<div class="kp-ed-li${item.checked ? ' on' : ''}"><img class="kp-ed-grab" src="assets/kp3-ic_material_drag_handle_dark.png" alt=""><button type="button" class="kp-ed-check" data-action="keep-li-check" data-id="${i}" role="checkbox" aria-checked="${!!item.checked}" aria-label="${e(item.text)}"></button><input class="kp-ed-text" data-keep-li="${i}" value="${e(item.text)}" maxlength="1000" autocomplete="off" aria-label="${e(k('List item'))}"><button type="button" class="kp-ed-del" data-action="keep-li-delete" data-id="${i}" aria-label="${e(k('Delete'))}"><img src="assets/kp3-ic_material_delete_dark.png" alt=""></button></div>`; };
+    const add = `<form class="kp-ed-add" data-form="keep-li-add"><img class="kp-ed-check" src="assets/kp3-ic_add_item.png" alt=""><input name="text" maxlength="1000" autocomplete="off" placeholder="${e(k('List item'))}" aria-label="${e(k('List item'))}"></form>`;
+    const index = note.list.map((_, i) => i);
+    const open = index.filter(i => !note.list[i].checked), done = index.filter(i => note.list[i].checked), closed = !!ctx.ui.keepGraveClosed;
+    const grave = done.length ? `<div class="kp-grave"><i></i><button type="button" class="kp-grave-head" data-action="keep-grave" aria-label="${e(k(closed ? 'Expand Checked Items' : 'Collapse Checked Items'))}"><img src="assets/kp3-ic_material_chevron_${closed ? 'down' : 'up'}_dark.png" alt=""><span>${e(k('Checked'))}</span></button></div>${closed ? '' : done.map(row).join('')}` : '';
+    return `${pic}<div class="kp-ed-list" data-no-translate>${open.map(row).join('')}${add}${grave}</div>`;
+  }
+  function keepDialog(ctx, k) {
+    const kind = ctx.ui.keepDialog;
+    if (!kind) return '';
+    const buttons = list => `<div class="kp-dlg-buttons">${list.map(([action, label]) => `<button type="button" data-action="${action}">${e(label)}</button>`).join('')}</div>`;
+    const body = kind === 'picture' ? `<h3>${e(k('Add picture'))}</h3>${[['keep-photo-take', 'Take photo', 'kp3-ic_material_camera_dark.png'], ['keep-photo-choose', 'Choose photo', 'kp3-ic_material_image_dark.png']].map(([action, key, icon]) => `<button type="button" class="kp-dlg-item" data-action="${action}"><img src="assets/${icon}" alt="">${e(k(key))}</button>`).join('')}`
+      : kind === 'remove-photo' ? `<p>${e(k('Remove photo?'))}</p>${buttons([['keep-dialog-close', k('Cancel')], ['keep-photo-delete', k('Delete')]])}`
+      : `<h3>${e(k('Delete checked items?'))}</h3>${buttons([['keep-hide-keep', k('Keep (button)')], ['keep-hide-delete', k('Delete (button)')]])}`;
+    return `<button type="button" class="kp-dlg-scrim" data-action="keep-dialog-close" aria-label="${e(ctx.t('Close'))}"></button><div class="kp-dlg" role="dialog">${body}</div>`;
+  }
   function keep(ctx) {
     const notes = ctx.data.keepNotes || [], k = key => S(ctx, 'keep', key), view = ctx.ui.keepView || 'notes';
     const bar3 = (title, actions, up) => `<header class="kp3-bar">${up ? `<button class="kp3-up" data-action="back" aria-label="${e(ctx.t('Back'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z" fill="#fff"/></svg></button>` : `<button class="kp3-toggle" data-action="keep-drawer" aria-label="${e(k('Open navigation drawer'))}"><i></i><i></i><i></i></button>`}<b>${e(title)}</b>${actions}</header>`;
     const more = `<button class="sa-btn kp3-more" data-action="sa-menu" aria-label="${e(ctx.t('More options'))}"><i></i><i></i><i></i></button>`;
     if (ctx.ui.sub === 'note') {
       const note = notes.find(n => n.id === ctx.ui.keepNote);
-      if (note) return `<div class="app-view sa-app sa-keep sa-keep3">${bar3('', img('sa-unsupported', k('Share'), 'kp3-ic_material_sharing_addperson_light.png') + img('keep-color', k('Change color'), 'kp3-ic_material_color_light.png') + img('sa-unsupported', k('Add picture'), 'kp3-ic_material_camera_light.png') + img('keep-archive', k(note.archived ? 'Unarchive' : 'Archive'), note.archived ? 'kp3-ic_material_unarchive_light.png' : 'kp3-ic_material_archive_light.png') + more, true)}<div class="sa-keep-edit" style="background:${KEEP_COLORS[note.color || 0]}"><textarea class="keep-text" maxlength="2000" aria-label="${e(k('New note'))}">${e(note.text)}</textarea></div></div>`;
+      if (note) return `<div class="app-view sa-app sa-keep sa-keep3">${bar3('', img('sa-unsupported', k('Share'), 'kp3-ic_material_sharing_addperson_light.png') + img('keep-color', k('Change color'), 'kp3-ic_material_color_light.png') + img('keep-picture', k('Add picture'), 'kp3-ic_material_camera_light.png') + img('keep-archive', k(note.archived ? 'Unarchive' : 'Archive'), note.archived ? 'kp3-ic_material_unarchive_light.png' : 'kp3-ic_material_archive_light.png') + more, true)}<div class="sa-keep-edit" style="background:${KEEP_COLORS[note.color || 0]}">${keepEditor(ctx, note, k)}</div>${keepDialog(ctx, k)}</div>`;
     }
     if (ctx.ui.sub === 'search') {
       // Search (audit step 5): search_filter_view.xml, then the matching notes or "No matching notes".
-      const q = String(ctx.ui.keepQuery || ''), found = q.trim() ? notes.filter(n => n.text.toLocaleLowerCase().includes(q.trim().toLocaleLowerCase())) : [];
+      const q = String(ctx.ui.keepQuery || ''), found = q.trim() ? notes.filter(n => [n.text, ...(n.list || []).map(i => i.text)].join('\n').toLocaleLowerCase().includes(q.trim().toLocaleLowerCase())) : [];
       const filter = (icon, key) => `<button class="kp3-filter" data-action="sa-unsupported" aria-label="${e(k(key))}"><img src="assets/kp3-ic_material_${icon}_dark.png" alt=""></button>`;
       const bar = `<div class="kp3-search"><div class="kp3-search-row"><button class="kp3-search-back" data-action="back" aria-label="${e(k('Navigate up'))}"><img src="assets/kp3-ic_material_arrow_left_dark.png" alt=""></button><input data-keep-search value="${e(q)}" placeholder="${e(k('Search notes'))}" aria-label="${e(k('Search notes'))}" autocomplete="off" spellcheck="false">${q ? `<button class="kp3-search-clear" data-action="keep-search-clear" aria-label="${e(k('Clear query'))}"><img src="assets/kp3-ic_cancel_dark.png" alt=""></button>` : ''}</div><div class="kp3-filters">${filter('list', 'Filter by lists')}${filter('mic', 'Filter by notes with audio')}${filter('camera', 'Filter by notes with images')}${filter('reminder_finger', 'Filter by notes with reminders')}${filter('sharing_person', 'Filter by shared notes')}${filter('color', 'Filter by note color')}</div></div>`;
-      return `<div class="app-view sa-app sa-keep sa-keep3 kp3-searching">${bar}<div class="sa-scroll"><div class="sa-notes${ctx.data.keepSingle ? ' single' : ''}">${found.map(n => `<button class="sa-note" data-action="keep-open" data-id="${e(n.id)}" style="--note:${KEEP_COLORS[n.color || 0]}">${e(n.text)}</button>`).join('')}</div>${q.trim() && !found.length ? `<p class="kp3-nomatch">${e(k('No matching notes'))}</p>` : ''}</div></div>`;
+      return `<div class="app-view sa-app sa-keep sa-keep3 kp3-searching">${bar}<div class="sa-scroll"><div class="sa-notes${ctx.data.keepSingle ? ' single' : ''}">${found.map(n => keepCard(ctx, n)).join('')}</div>${q.trim() && !found.length ? `<p class="kp3-nomatch">${e(k('No matching notes'))}</p>` : ''}</div></div>`;
     }
     const shown = view === 'reminders' || view === 'trash' ? [] : notes.filter(n => !!n.archived === (view === 'archive')), single = ctx.data.keepSingle;
     const add = (action, key, src) => `<button type="button" class="kp3-new" data-action="${action}" aria-label="${e(k(key))}"><img src="assets/kp3-${src}.png" alt=""></button>`;
-    const quick = view === 'notes' ? `<form class="kp3-quick" data-form="keep-add"><input name="text" maxlength="500" autocomplete="off" placeholder="${e(k('Add quick note'))}" aria-label="${e(k('Add quick note'))}"><i></i><div class="kp3-items">${add('keep-new', 'New note', 'ic_material_note_dark')}${add('sa-unsupported', 'New list', 'ic_material_list_dark')}${add('sa-unsupported', 'New recording', 'ic_material_mic_dark')}${add('sa-unsupported', 'New photo note', 'ic_material_camera_dark')}</div></form>` : '';
+    const quick = view === 'notes' ? `<form class="kp3-quick" data-form="keep-add"><input name="text" maxlength="500" autocomplete="off" placeholder="${e(k('Add quick note'))}" aria-label="${e(k('Add quick note'))}"><i></i><div class="kp3-items">${add('keep-new', 'New note', 'ic_material_note_dark')}${add('keep-new-list', 'New list', 'ic_material_list_dark')}${add('sa-unsupported', 'New recording', 'ic_material_mic_dark')}${add('keep-picture', 'New photo note', 'ic_material_camera_dark')}</div></form>` : '';
     const items = [['notes', 'Notes', 'lightbulb'], ['reminders', 'Reminders', 'reminder_finger'], ['archive', 'Archive', 'archive'], ['trash', 'Trash', 'trash']];
     const title = view === 'notes' ? k('Keep') : k(items.find(([id]) => id === view)[1]);
     const empty = {notes: 'Add quick note', reminders: 'Notes with upcoming reminders appear here', archive: 'Your archived notes appear here', trash: 'No notes in Trash'}[view];
     const drawer = ctx.ui.keepDrawer ? `<button class="kp3-scrim" data-action="keep-drawer" aria-label="${e(ctx.t('Close'))}"></button><nav class="kp3-drawer"><div class="kp3-account"><b>Nexus 6</b><small>nexus6.demo@gmail.com</small></div>${items.map(([id, key, icon]) => `<button class="${view === id ? 'on' : ''}" data-action="keep-landing" data-id="${id}"><img src="assets/kp3-ic_material_${icon}_black.png" alt="">${e(k(key))}</button>`).join('')}<button class="kp3-help" data-action="sa-unsupported"><img src="assets/kp3-ic_material_feedback_black.png" alt="">${e(k('Help & feedback'))}</button></nav>` : '';
-    return `<div class="app-view sa-app sa-keep sa-keep3">${bar3(title, img('keep-search-open', k('Search'), 'kp3-ic_material_search_light.png') + more)}<div class="sa-scroll">${quick}<div class="sa-notes${single ? ' single' : ''}">${shown.map(n => `<button class="sa-note" data-action="keep-open" data-id="${e(n.id)}" style="--note:${KEEP_COLORS[n.color || 0]}">${e(n.text)}</button>`).join('') || (view === 'notes' ? '' : `<p class="kp3-empty">${e(k(empty))}</p>`)}</div></div>${drawer}</div>`;
+    return `<div class="app-view sa-app sa-keep sa-keep3">${bar3(title, img('keep-search-open', k('Search'), 'kp3-ic_material_search_light.png') + more)}<div class="sa-scroll">${quick}<div class="sa-notes${single ? ' single' : ''}">${shown.map(n => keepCard(ctx, n)).join('') || (view === 'notes' ? '' : `<p class="kp3-empty">${e(k(empty))}</p>`)}</div></div>${drawer}${keepDialog(ctx, k)}</div>`;
   }
 
 
@@ -269,7 +305,7 @@
     if (view === 'youtube' && ctx.ui?.sub !== 'video') { const y = key => S(ctx, 'youtube', key); return [{action: 'sa-unsupported', title: y('Settings')}, {action: 'sa-unsupported', title: y('Help & feedback')}]; }
     if (view === 'drive' && ctx.ui?.sub !== 'file') { const d = key => S(ctx, 'drive', key); return ['Create', 'Refresh', 'Filter by', 'Sort by'].map(key => ({action: 'sa-unsupported', title: d(key)})); }
     if (view === 'keep' && ctx.ui?.sub !== 'note') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-columns', title: k(ctx.data?.keepSingle ? 'Multi-column view' : 'Single-column view')}, {action: 'keep-refresh', title: k('Refresh')}]; }
-    if (view === 'keep') { const k = key => S(ctx, 'keep', key); return [{action: 'keep-delete', title: k('Delete note')}, {action: 'sa-unsupported', title: k('Make a copy')}, {action: 'sa-unsupported', title: k('Send')}, {action: 'sa-unsupported', title: k('Show checkboxes')}]; }
+    if (view === 'keep') { const k = key => S(ctx, 'keep', key), note = (ctx.data?.keepNotes || []).find(n => n.id === ctx.ui.keepNote); return [{action: 'keep-delete', title: k('Delete note')}, {action: 'sa-unsupported', title: k('Make a copy')}, {action: 'sa-unsupported', title: k('Send')}, {action: 'keep-checkboxes', title: k(note?.list ? 'Hide checkboxes' : 'Show checkboxes')}]; }
     if (view === 'news-weather') { const n = key => S(ctx, 'news', key); return ['Refresh', 'Edit weather display…', 'Change editions…', 'Manage sections…', 'Switch to dark theme'].map(key => ({action: key === 'Refresh' ? 'sa-news-refresh' : 'sa-unsupported', title: n(key)})); }
     if (view === 'earth') { const ea = key => S(ctx, 'earth', key); return ['My location', 'Share'].map(key => ({action: 'sa-unsupported', title: ea(key)})); }
     return [];

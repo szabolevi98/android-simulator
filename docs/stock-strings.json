@@ -21,7 +21,14 @@
    "Note color": "Keep:color_picker_title",
    "Unarchive": "Keep:menu_unarchive",
    "Share": "Keep:menu_share",
-   "Show checkboxes": "Keep:menu_show_checkboxes"
+   "Show checkboxes": "Keep:menu_show_checkboxes",
+   "List item": "Keep:list_item_hint",
+   "Hide checkboxes": "Keep:menu_hide_checkboxes",
+   "Delete checked items?": "Keep:hide_checkboxes_dialog_title",
+   "Keep (button)": "Keep:hide_checkboxes_dialog_button_keep",
+   "Delete (button)": "Keep:hide_checkboxes_dialog_button_delete",
+   "Remove photo?": "Keep:remove_photo",
+   "Cancel": "Keep:menu_cancel"
   },
   "youtube": {
    "Search": "YouTube:menu_search",
@@ -320,7 +327,16 @@
    "Help": "Keep:menu_help",
    "Single-column view": "Keep:menu_switch_to_list_view",
    "Multi-column view": "Keep:menu_switch_to_grid_view",
-   "Refresh": "Keep:menu_sync"
+   "Refresh": "Keep:menu_sync",
+   "List item": "Keep:list_item_hint",
+   "Hide checkboxes": "Keep:menu_hide_checkboxes",
+   "Delete checked items?": "Keep:hide_checkboxes_dialog_title",
+   "Keep (button)": "Keep:hide_checkboxes_dialog_button_keep",
+   "Delete (button)": "Keep:hide_checkboxes_dialog_button_delete",
+   "Remove photo?": "Keep:remove_photo",
+   "Cancel": "Keep:menu_cancel",
+   "Take photo": "Keep:menu_launch_camera",
+   "Choose photo": "Keep:menu_launch_gallery"
   },
   "youtube": {
    "Search": "YouTube:menu_search",
@@ -581,7 +597,20 @@
    "Filter by notes with images": "PrebuiltKeep:filter_type_photo_note_hint",
    "Filter by notes with reminders": "PrebuiltKeep:filter_type_reminder_note_hint",
    "Filter by shared notes": "PrebuiltKeep:filter_type_shared_note_hint",
-   "Filter by note color": "PrebuiltKeep:filter_type_color_hint"
+   "Filter by note color": "PrebuiltKeep:filter_type_color_hint",
+   "List item": "PrebuiltKeep:list_item_hint",
+   "Hide checkboxes": "PrebuiltKeep:menu_hide_checkboxes",
+   "Delete checked items?": "PrebuiltKeep:hide_checkboxes_dialog_title",
+   "Keep (button)": "PrebuiltKeep:hide_checkboxes_dialog_button_keep",
+   "Delete (button)": "PrebuiltKeep:hide_checkboxes_dialog_button_delete",
+   "Remove photo?": "PrebuiltKeep:remove_photo",
+   "Cancel": "PrebuiltKeep:cancel",
+   "Take photo": "PrebuiltKeep:menu_launch_camera",
+   "Choose photo": "PrebuiltKeep:menu_launch_gallery",
+   "Checked": "PrebuiltKeep:arranged_checked_list_items",
+   "Expand Checked Items": "PrebuiltKeep:expand_checked_items_content_description",
+   "Collapse Checked Items": "PrebuiltKeep:collapse_checked_items_content_description",
+   "Delete": "PrebuiltKeep:menu_delete"
   },
   "maps": {
    "Search": "Maps:SEARCH",

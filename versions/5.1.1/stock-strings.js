@@ -516,6 +516,88 @@ window.StockStrings = {
    "Nach Notizfarbe filtern",
    "Filtrer par couleur de la note",
    "Filtrar por color de las notas"
+  ],
+  "List item": [
+   "Listaelem",
+   "Listenelement",
+   "Élément de liste",
+   "Elemento de lista"
+  ],
+  "Hide checkboxes": [
+   "Jelölőnégyzetek elrejtése",
+   "Kontrollkästchen ausblenden",
+   "Masquer les cases à cocher",
+   "Ocultar casillas de verificación"
+  ],
+  "Delete checked items?": [
+   "Törli a kijelölt elemeket?",
+   "Markierte Elemente löschen?",
+   "Supprimer les éléments sélectionnés ?",
+   "¿Eliminar elementos tachados?"
+  ],
+  "Keep (button)": [
+   "Megőrzés",
+   "Beibehalten",
+   "Conserver",
+   "Mantener",
+   "Keep"
+  ],
+  "Delete (button)": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar",
+   "Delete"
+  ],
+  "Remove photo?": [
+   "Törli a képet?",
+   "Bild löschen?",
+   "Supprimer l'image ?",
+   "¿Eliminar imagen?",
+   "Delete image?"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "Take photo": [
+   "Fotó készítése",
+   "Foto aufnehmen",
+   "Prendre une photo",
+   "Hacer foto"
+  ],
+  "Choose photo": [
+   "Kép kiválasztása",
+   "Bild auswählen",
+   "Sélectionner une image",
+   "Seleccionar imagen",
+   "Choose image"
+  ],
+  "Checked": [
+   "Ellenőrizve",
+   "Erledigt",
+   "Cochés",
+   "Marcados"
+  ],
+  "Expand Checked Items": [
+   "Kipipált elemek kibontása",
+   "Aktivierte Elemente maximieren",
+   "Développer les éléments sélectionnés",
+   "Amplia los elementos marcados"
+  ],
+  "Collapse Checked Items": [
+   "Kipipált elemek összecsukása",
+   "Aktivierte Elemente minimieren",
+   "Réduire les éléments sélectionnés",
+   "Contrae elementos marcados"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
   ]
  },
  "maps": {

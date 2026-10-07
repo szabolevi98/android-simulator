@@ -692,7 +692,8 @@
     if (ui.view === 'calculator' && ui.calcPanel) { setCalculatorPanel(0); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
     if (ui.view === 'youtube' && ui.sub === 'video' && ui.ytFrom === 'results') { ui.sub = 'results'; ui.ytFrom = ''; render(); return; }
-    if (StockApps.APPS.includes(ui.view) && ui.sub) { if (ui.view === 'keep') saveKeepNote(); ui.sub = ''; render(); return; }
+    if (ui.view === 'keep' && ui.keepDialog) { ui.keepDialog = ''; render(); return; }
+    if (StockApps.APPS.includes(ui.view) && ui.sub) { if (ui.view === 'keep') saveKeepNote(true); ui.sub = ''; render(); return; }
     if (ui.view === 'keep' && ui.keepArchived) { ui.keepArchived = false; render(); return; }
     if (PLAY_APPS.includes(ui.view) && ui.sub) { ui.sub = ui.sub === 'queue' ? 'player' : ui.sub === 'player' ? ui.paReturn || '' : ui.sub === 'album' && ui.paFromSearch ? 'search' : ''; if (ui.sub !== 'album') ui.paFromSearch = ui.sub === 'search' && ui.paFromSearch; ui.paBars = true; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
@@ -1374,11 +1375,24 @@
     clearTimeout(voiceTimer); ui.voiceState = 'listening'; if (ui.view === 'voice-search') render();
     voiceTimer = setTimeout(() => { ui.voiceState = 'retry'; if (ui.view === 'voice-search') render(); }, 3000);
   }
-  function saveKeepNote() {
-    const area = viewport.querySelector('.keep-text'), note = (data.keepNotes || []).find(item => item.id === ui.keepNote);
-    if (!area || !note) return;
-    note.text = area.value; if (!note.text.trim()) data.keepNotes = data.keepNotes.filter(item => item !== note); save();
+  const keepCurrent = () => (data.keepNotes || []).find(item => item.id === ui.keepNote);
+  // Keeps the editor's text; on leaving, empty list items go and a note without text, items or picture is dropped.
+  function saveKeepNote(leaving) {
+    const area = viewport.querySelector('.keep-text'), note = keepCurrent();
+    if (!note) return;
+    if (area) note.text = area.value;
+    if (leaving && note.list) note.list = note.list.filter(item => item.text.trim());
+    if (leaving && !String(note.text || '').trim() && !(note.list || []).length && !note.photo) data.keepNotes = data.keepNotes.filter(item => item !== note);
+    save();
   }
+  // A picture goes to the open note, or starts a new picture note from the browse bar.
+  function keepAttach(photoId, noteId) {
+    let note = (data.keepNotes || []).find(item => item.id === noteId);
+    if (!note) { note = {id: 'k' + Date.now(), text: '', color: 0}; data.keepNotes = [note, ...(data.keepNotes || [])]; }
+    note.photo = photoId; ui.keepNote = note.id; ui.sub = 'note'; ui.view = 'keep'; save(); render();
+  }
+  // Show / Hide checkboxes: lines become unchecked items; back to text drops the checked ones when asked to.
+  function keepToText(note, dropChecked) { note.text = note.list.filter(item => !(dropChecked && item.checked)).map(item => item.text).join('\n'); delete note.list; }
   const playContext = app => ({app, ui, data, locale: i18n.locale(), t: key => i18n.t(key), music: ui.music, tracks, time: ICSMusic.time});
   // The Play Movies player counts seconds without re-rendering (the picture keeps panning).
   function tickPlayVideo() {
@@ -1807,6 +1821,18 @@
       case 'keep-archive': { ui.overlay = ''; renderOverlay(); const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { saveKeepNote(); note.archived = !note.archived; ui.sub = ''; save(); render(); } break; }
       case 'keep-columns': ui.overlay = ''; renderOverlay(); data.keepSingle = !data.keepSingle; save(); render(); break;
       case 'keep-refresh': ui.overlay = ''; renderOverlay(); render(); break;
+      // List and picture notes (stock-apps.js keepEditor / keepDialog).
+      case 'keep-new-list': { const note = {id: 'k' + Date.now(), text: '', color: 0, list: []}; data.keepNotes = [note, ...(data.keepNotes || [])]; ui.keepNote = note.id; ui.sub = 'note'; render(); viewport.querySelector('.kp-ed-add input')?.focus(); break; }
+      case 'keep-li-check': { const item = keepCurrent()?.list?.[Number(id)]; if (item) { item.checked = !item.checked; save(); render(); } break; }
+      case 'keep-li-delete': { const note = keepCurrent(); if (note?.list) { note.list.splice(Number(id), 1); save(); render(); } break; }
+      case 'keep-grave': ui.keepGraveClosed = !ui.keepGraveClosed; render(); break;
+      case 'keep-checkboxes': { ui.overlay = ''; renderOverlay(); const note = keepCurrent(); if (!note) break; saveKeepNote(); if (!note.list) { note.list = String(note.text || '').split('\n').filter(line => line.trim()).map(text => ({text, checked: false})); note.text = ''; } else if (note.list.some(item => item.checked)) ui.keepDialog = 'hide-checkboxes'; else keepToText(note, false); save(); render(); break; }
+      case 'keep-hide-keep': case 'keep-hide-delete': { const note = keepCurrent(); ui.keepDialog = ''; if (note?.list) keepToText(note, action === 'keep-hide-delete'); save(); render(); break; }
+      case 'keep-picture': saveKeepNote(); ui.keepDialog = 'picture'; render(); break;
+      case 'keep-photo-take': { ui.keepDialog = ''; saveKeepNote(); keepAttach(cameraShoot().id, ui.sub === 'note' ? ui.keepNote : ''); break; }
+      case 'keep-photo-remove': saveKeepNote(); ui.keepDialog = 'remove-photo'; render(); break;
+      case 'keep-photo-delete': { ui.keepDialog = ''; const note = keepCurrent(); if (note) { delete note.photo; save(); } render(); break; }
+      case 'keep-dialog-close': ui.keepDialog = ''; render(); break;
       case 'keep-archived': ui.overlay = ''; renderOverlay(); ui.keepArchived = true; render(); break;
       case 'yt-video': ui.ytFrom = ui.sub; ui.ytVideo = id; ui.ytPaused = false; ui.sub = 'video'; render(); break;
       case 'yt-search-open': case 'yt-search-clear': ui.sub = 'search'; if (id !== 'keep') ui.ytQuery = ''; render(); viewport.querySelector('.yt-sv input')?.focus(); break;
@@ -2146,6 +2172,7 @@
       case 'mms-search': ui.mmsSearch = String(values.get('query') || '').trim(); render(); break;
       case 'maps-search': ui.mapsQuery = String(values.get('query') || '').trim().slice(0, 60); render(); break;
       case 'yt-search': { const query = String(values.get('query') || '').trim(); if (!query) return; ui.ytQuery = query; ui.sub = 'results'; render(); break; }
+      case 'keep-li-add': { const text = String(values.get('text') || '').trim(), note = keepCurrent(); if (!text || !note?.list) return; note.list.push({text, checked: false}); save(); render(); viewport.querySelector('.kp-ed-add input')?.focus(); break; }
       case 'keep-add': { const text = String(values.get('text') || '').trim(); if (!text) return; data.keepNotes = [{id: 'k' + Date.now(), text, color: (data.keepNotes || []).length % 5}, ...(data.keepNotes || [])]; save(); render(); break; }
       case 'earth-search': ui.earthQuery = String(values.get('query') || '').trim().slice(0, 60); ui.earthSearching = false; render(); break;
       case 'hg-new': { const target = ICSMessaging.recipient(values.get('recipient'), data.contacts); if (!target) { toast('Enter a contact name or valid phone number'); return; } pickHangout(target.key); break; }
@@ -2190,6 +2217,7 @@
   document.addEventListener('input', event => hangoutsScope(() => handleInput(event)));
   function handleInput(event) {
     if (event.target.matches('[data-pa-search]')) { ui.paQuery = event.target.value; const at = event.target.selectionStart; render(); const input = viewport.querySelector('[data-pa-search]'); if (input) { input.focus(); input.setSelectionRange(at, at); } return; }
+    if (event.target.matches('[data-keep-li]')) { const item = keepCurrent()?.list?.[Number(event.target.dataset.keepLi)]; if (item) { item.text = event.target.value; save(); } return; }
     if (event.target.matches('.keep-text')) { const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { note.text = event.target.value; save(); } return; }
     if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}
     if(event.target.dataset.field==='data-cycle'){ui.dataCycle=event.target.value;render();return;}
