@@ -1913,5 +1913,384 @@ window.StockStrings = {
    "Aide",
    "Ayuda"
   ]
+ },
+ "gmailprefs": {
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "General settings": [
+   "Általános beállítások",
+   "Allgemeine Einstellungen",
+   "Paramètres généraux",
+   "Ajustes generales"
+  ],
+  "Archive & delete actions": [
+   "Műveletek archiválás és törlése",
+   "Aktionen \"Archivieren\" und \"Löschen\"",
+   "Actions d'archivage et de suppression",
+   "Archivar y eliminar"
+  ],
+  "Swipe to archive": [
+   "Csúsztassa ujját az archiváláshoz",
+   "Zum Archivieren wischen",
+   "Faire glisser pour archiver",
+   "Desliza para archivar"
+  ],
+  "In conversation list": [
+   "Beszélgetéslistában",
+   "In einer Unterhaltungsliste",
+   "Dans la liste des conversations",
+   "En la lista de conversaciones"
+  ],
+  "Sender image": [
+   "Küldő képe",
+   "Bild des Absenders",
+   "Image de l'expéditeur",
+   "Imagen del remitente"
+  ],
+  "Sender image summary": [
+   "Megjelenítés a név mellett a beszélgetések listájában",
+   "Neben Namen in der Konversationsliste anzeigen",
+   "Afficher à côté du nom dans la liste des conversations",
+   "Mostrar junto al nombre en la lista de conversaciones",
+   "Show beside name in conversation list"
+  ],
+  "Reply all": [
+   "Válasz mindenkinek",
+   "Allen antworten",
+   "Répondre à tous",
+   "Responder a todos"
+  ],
+  "Reply all summary": [
+   "Használat alapértelmezettként értesítő üzenetekhez",
+   "Als Standard für Antworten auf Benachrichtigungen verwenden",
+   "Utiliser par défaut pour les réponses aux notifications de messages",
+   "Usar como predeterminada para responder a notificaciones de mensajes",
+   "Use as default for replies to message notifications"
+  ],
+  "Auto-fit messages": [
+   "Üzenet automatikus méretezése",
+   "Nachrichten autom. anpassen",
+   "Ajustement auto des messages",
+   "Ajuste de mensajes"
+  ],
+  "Auto-fit summary": [
+   "Üzenetek kicsinyítése, hogy elférjenek a képernyőn.",
+   "Nachrichten für die Anzeige auf dem Bildschirm verkleinern",
+   "Ajuster la taille des messages à celle de l'écran",
+   "Adaptar mensajes al tamaño de la pantalla",
+   "Shrink messages to fit the screen"
+  ],
+  "Auto-advance": [
+   "Automatikus léptetés",
+   "Automatisch fortfahren",
+   "Avance automatique",
+   "Avance automático"
+  ],
+  "Action Confirmations": [
+   "Művelet megerősítései",
+   "Aktionsbestätigungen",
+   "Confirmations des actions",
+   "Confirmaciones de acciones"
+  ],
+  "Confirm before deleting": [
+   "Megerősítés kérése törlés előtt",
+   "Vor Löschen bestätigen",
+   "Confirmer avant suppression",
+   "Confirmar para eliminar"
+  ],
+  "Confirm before archiving": [
+   "Megerősítés kérése archiválás előtt",
+   "Vor Archivieren bestätigen",
+   "Confirmer avant archivage",
+   "Confirmar para archivar"
+  ],
+  "Confirm before sending": [
+   "Megerősítés kérése küldés előtt",
+   "Vor Senden bestätigen",
+   "Confirmer avant envoi",
+   "Confirmar para enviar"
+  ],
+  "Inbox type": [
+   "Postaládatípus",
+   "Art des Posteingangs",
+   "Type de boîte de réception",
+   "Tipo de bandeja de entrada"
+  ],
+  "Inbox categories": [
+   "Beérkező levelek kategóriái",
+   "Kategorien des Posteingangs",
+   "Catégories de boîte de réception",
+   "Categorías de la bandeja de entrada"
+  ],
+  "Notifications": [
+   "Értesítések",
+   "Benachrichtigungen",
+   "Notifications",
+   "Notificaciones"
+  ],
+  "Inbox sound & vibrate": [
+   "Hang és rezgés beérkező üzenetekhez",
+   "Ton & Vibration für Posteingang",
+   "Sonnerie et vibreur de la boîte de réception",
+   "Vibración y sonido de Recibidos"
+  ],
+  "Signature": [
+   "Aláírás",
+   "Signatur",
+   "Signature",
+   "Firma"
+  ],
+  "Signature dialog": [
+   "Aláírás",
+   "Signatur",
+   "Signature",
+   "Firma",
+   "Signature"
+  ],
+  "Not set": [
+   "Nincs beállítva",
+   "Nicht festgelegt",
+   "Non définie",
+   "Sin configurar"
+  ],
+  "Data usage": [
+   "Adathasználat",
+   "Datenverbrauch",
+   "Consommation des données",
+   "Uso de datos"
+  ],
+  "Sync Gmail": [
+   "Gmail szinkronizálása",
+   "Gmail synchronisieren",
+   "Synchroniser Gmail",
+   "Sincronizar Gmail"
+  ],
+  "Days of mail to sync": [
+   "Ennyi nap leveleinek szinkronizálása",
+   "E-Mails: zu synchronisierende Tage",
+   "Nombre de jours à synchroniser",
+   "Días para sincronizar correo"
+  ],
+  "Manage labels": [
+   "Címkék kezelése",
+   "Labels verwalten",
+   "Gérer les libellés",
+   "Administrar etiquetas"
+  ],
+  "Download attachments": [
+   "Mellékletek letöltése",
+   "Anhänge herunterladen",
+   "Télécharger les pièces jointes",
+   "Descargar adjuntos"
+  ],
+  "Download attachments summary": [
+   "Mellékletek automatikus letöltése az üzenetekbe Wi-Fin keresztül",
+   "Anhänge neuer Nachrichten automatisch über WLAN herunterladen",
+   "Télécharger automatiquement les pièces jointes aux messages récents via Wi-Fi",
+   "Descargar automáticamente adjuntos de mensajes recientes por Wi-Fi",
+   "Auto-download attachments to recent messages via Wi-Fi"
+  ],
+  "Primary": [
+   "Elsődleges",
+   "Allgemein",
+   "Principale",
+   "Principal"
+  ],
+  "Primary summary": [
+   "Személyek közötti beszélgetések és üzenetek, amelyek nem jelennek meg más kategóriákban. Ha minden levelét egyetlen beérkező levelek mappában szeretné megkapni, törölje a jelet a többi négyzetből.",
+   "Private Konversationen und Nachrichten, die nicht in anderen Kategorien erscheinen. Wenn Sie nur einen Posteingang nutzen möchten, deaktivieren Sie alle anderen Optionen.",
+   "Les conversations et les messages privés ne figurant dans aucune autre catégorie. Pour n'utiliser qu'une seule boîte de réception, décochez toutes les autres.",
+   "Conversaciones y mensajes entre dos personas que no aparecen en otras categorías. Para recibir todos los mensajes en una única carpeta Recibidos, desactiva el resto de opciones.",
+   "Person-to-person conversations and messages that don't appear in other categories. To receive all mail in one inbox, uncheck all others."
+  ],
+  "Social": [
+   "Közösségi",
+   "Soziale Netzwerke",
+   "Rés. sociaux",
+   "Social"
+  ],
+  "Social summary": [
+   "Üzenetek közösségi hálózatokból, médiafájl-megosztó webhelyekről és online társkeresőkből",
+   "Nachrichten von sozialen Netzwerken, Foto- und Videoplattformen und Online-Partnerbörsen",
+   "Messages provenant de réseaux sociaux, de sites de partage de fichiers multimédias et de sites de rencontre",
+   "Mensajes de medios sociales, sitios donde se comparte contenido multimedia y servicios de citas online",
+   "Messages from social networks, media sharing sites, online dating services"
+  ],
+  "Promotions": [
+   "Promóciók",
+   "Werbung",
+   "Promotions",
+   "Promociones"
+  ],
+  "Promotions summary": [
+   "Akciók, ajánlatok és más marketing jellegű e-mailek",
+   "Angebots- und andere Werbe-E-Mails",
+   "Promotions, offres et autres e-mails commerciaux",
+   "Promociones, ofertas y otros mensajes de publicidad",
+   "Deals, offers, and other marketing email"
+  ],
+  "Updates": [
+   "Frissítések",
+   "Benachrichtigungen",
+   "Mises à jour",
+   "Notificaciones"
+  ],
+  "Updates summary": [
+   "Személyes, automatikusan generált frissítések, például visszaigazolások, nyugták, számlák és kimutatások",
+   "Automatisch erzeugte Statusinformationen persönlicher Art, zum Beispiel Bestätigungen, Belege, Rechnungen oder Kontoauszüge",
+   "Mises à jour personnelles générées automatiquement telles que les confirmations, reçus, factures et relevés",
+   "Notificaciones personales generadas automáticamente: confirmaciones, recibos, facturas y extractos de cuentas",
+   "Personal, auto-generated updates, including confirmations, receipts, bills, and statements"
+  ],
+  "Forums": [
+   "Fórumok",
+   "Foren",
+   "Forums",
+   "Foros"
+  ],
+  "Forums summary": [
+   "Üzenetek online csoportoktól, vitafórumokból és levelezőlistákból",
+   "Nachrichten aus Online-Gruppen, Diskussionsforen und Mailinglisten",
+   "Messages provenant de groupes en ligne, de forums de discussion et de listes de diffusion",
+   "Mensajes de grupos online, grupos de debate y listas de distribución",
+   "Messages from online groups, discussion boards, and mailing lists"
+  ],
+  "Include starred in Primary": [
+   "Csillagozott üzenetek az Elsődleges lapon",
+   "Markierte Nachrichten im Bereich \"Allgemein\" anzeigen",
+   "Messages suivis dans \"Principale\"",
+   "Mostrar destacados en Principal"
+  ],
+  "Starred category": [
+   "A módosítások a szinkronizálás után jelennek meg",
+   "Änderungen erscheinen nach der Synchronisierung.",
+   "Modifications prises en compte après synchro.",
+   "Los cambios aparecerán después de sincronizar",
+   "Changes appear after sync"
+  ],
+  "Changes appear after sync": [
+   "A módosítások a szinkronizálás után jelennek meg",
+   "Änderungen erscheinen nach der Synchronisierung.",
+   "Modifications prises en compte après synchro.",
+   "Los cambios aparecerán después de sincronizar"
+  ],
+  "Default Inbox": [
+   "Normál levelek",
+   "Standard-Posteingang",
+   "Boîte de réception par défaut",
+   "Bandeja de entrada predeterminada"
+  ],
+  "Priority Inbox": [
+   "Fontos levelek",
+   "Sortierter Eingang",
+   "Prioritaire",
+   "Prioritarios"
+  ],
+  "Newer": [
+   "Újabb",
+   "Neuer",
+   "Conversation précédente",
+   "Más reciente"
+  ],
+  "Older": [
+   "Korábbi",
+   "Älter",
+   "Conversation suivante",
+   "Más antigua"
+  ],
+  "Conversation list": [
+   "Beszélgetéslista",
+   "Konversationsliste",
+   "Liste des conversations",
+   "Lista de conversaciones"
+  ],
+  "About Gmail": [
+   "A Gmail névjegye",
+   "Über Gmail",
+   "À propos de Gmail",
+   "Acerca de Gmail"
+  ],
+  "Message text size": [
+   "Üzenet szövegének mérete",
+   "Nachrichtentextgröße",
+   "Taille du texte des messages",
+   "Tamaño de texto del mensaje"
+  ],
+  "Message actions": [
+   "Üzenetműveletek",
+   "E-Mail-Aktionen",
+   "Actions relatives aux messages",
+   "Acciones de mensajes"
+  ],
+  "Show archive only": [
+   "Csak az archiválás megjelenítése",
+   "Nur \"Archivieren\" anzeigen",
+   "N'afficher que le bouton \"Archiver\"",
+   "Mostrar solo archivar"
+  ],
+  "Show delete only": [
+   "Csak a törlés megjelenítése",
+   "Nur \"Löschen\" anzeigen",
+   "N'afficher que le bouton \"Supprimer\"",
+   "Mostrar solo eliminar"
+  ],
+  "Show archive & delete": [
+   "Archiválás és törlés megjelenítése",
+   "\"Archivieren\" und \"Löschen\" anzeigen",
+   "Afficher les boutons \"Archiver\" et \"Supprimer\"",
+   "Mostrar archivar y eliminar"
+  ],
+  "Tiny": [
+   "Apró",
+   "Sehr klein",
+   "Très petite",
+   "Muy pequeño"
+  ],
+  "Small": [
+   "Kicsi",
+   "Klein",
+   "Petite",
+   "Pequeño"
+  ],
+  "Normal": [
+   "Normál",
+   "Normal",
+   "Normale",
+   "Normal"
+  ],
+  "Large": [
+   "Nagy",
+   "Groß",
+   "Grande",
+   "Grande"
+  ],
+  "Huge": [
+   "Óriási",
+   "Sehr groß",
+   "Très grande",
+   "Enorme"
+  ],
+  "Always show": [
+   "Mindig látszik",
+   "Immer anzeigen",
+   "Toujours afficher",
+   "Mostrar siempre"
+  ],
+  "Only show in portrait": [
+   "Megjelenítés csak álló tájolásban",
+   "Nur im Hochformat anzeigen",
+   "Afficher uniquement en mode Portrait",
+   "Mostrar solo en modo vertical"
+  ],
+  "Don't show": [
+   "Ne jelenjen meg",
+   "Nicht anzeigen",
+   "Ne pas afficher",
+   "No mostrar"
+  ]
  }
 };

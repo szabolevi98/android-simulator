@@ -35,3 +35,50 @@
 .screen .gm-drawer .gm-folder.on em{color:#fff}
 .screen .gm-drawer .gm-folder.on .gm-folder-icon{color:#fff}
 .gm-folder em.gm-badge{min-width:30px;padding:1px 6px;color:#fff;text-align:center}
+/* Gmail settings (audit step 5): the preference screens, the category icons, the list and signature dialogs. */
+.gmp-app{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;font-family:Roboto,sans-serif}
+.gmp-bar{flex:none;display:flex;align-items:center}
+.gmp-bar b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen .gmp-up{display:flex;align-items:center;height:100%;padding:0;border:0;background:none}
+.gmp-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.screen .gmp-row{display:flex;align-items:center;width:100%;min-height:50.74px;padding:7.25px 14.5px;border:0;background:none;text-align:left}
+.gmp-text{flex:1;min-width:0;display:flex;flex-direction:column}
+.gmp-text small{margin-top:1.81px;white-space:pre-line;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
+.gmp-cat-icon{flex:none;width:21.74px;height:21.74px;margin-right:28.99px;background:center/contain no-repeat}
+.gmp-primary{background-image:url('assets/gmp-ic_drawer_primary_24dp.png')}
+.gmp-social{background-image:url('assets/gmp-ic_drawer_social_24dp.png')}
+.gmp-promotions{background-image:url('assets/gmp-ic_drawer_promotions_24dp.png')}
+.gmp-updates{background-image:url('assets/gmp-ic_drawer_updates_24dp.png')}
+.gmp-forums{background-image:url('assets/gmp-ic_drawer_forums_24dp.png')}
+.gmp-scrim{position:absolute;inset:0;z-index:40;border:0;background:#0009}
+.gmp-dialog{position:absolute;z-index:41;top:50%;transform:translateY(-50%);background:#fff}
+.gmp-dialog h3{margin:0}
+.screen .gmp-choice{display:flex;align-items:center;width:100%;min-height:43.49px;border:0;background:none;text-align:left}
+.gmp-choice span{flex:1}
+.gmp-choice i{flex:none;width:28.99px;height:28.99px}
+.screen .gmp-signature{display:block;width:calc(100% - 29px);margin:7.25px 14.5px;padding:7.25px 3.62px;border:0;border-bottom:1.81px solid #4285f4;background:none;outline:none;resize:none;font:400 14.5px/1.3 Roboto,sans-serif;color:#000}
+/* UnifiedEmailTheme v21 (Gmail 5.0): the 56 dp quantum_googred500 #da4336 bar with the white arrow and 20 sp title,
+   categories in the #4285f4 accent, 16 sp #de000000 titles over 14 sp #8a000000 summaries, Material check boxes,
+   radio buttons and dialogs. */
+.gmp-bar{height:50.74px;background:#da4336;box-shadow:0 1.81px 3.62px #0003}
+.screen .gmp-up{justify-content:center;width:50.74px}
+.gmp-up i{position:relative;width:14.5px;height:1.81px;background:#fff}
+.gmp-up i::before{content:'';position:absolute;left:0;top:50%;width:8.15px;height:8.15px;border-left:1.81px solid #fff;border-bottom:1.81px solid #fff;transform:translate(1px,-50%) rotate(45deg)}
+.gmp-bar b{margin-left:14.5px;font:500 18.12px Roboto,sans-serif;color:#fff}
+.screen .gmp-up:active{background:#ffffff33}
+.screen .gmp-row:active,.screen .gmp-dialog button:active{background:#0000001a}
+.gmp-cat{margin:0;padding:14.5px 14.5px 7.25px;font:500 12.68px Roboto,sans-serif;color:#4285f4}
+.screen .gmp-row{min-height:65.23px;padding:10.87px 14.5px}
+.gmp-text b{font:400 14.5px Roboto,sans-serif;color:#000000de}
+.gmp-text small{font:400 12.68px/1.3 Roboto,sans-serif;color:#0000008a}
+.gmp-check{flex:none;position:relative;width:16.31px;height:16.31px;margin:0 2.72px 0 14.5px;box-sizing:border-box;border:1.81px solid #0000008a;border-radius:1.81px}
+.gmp-check.on{border-color:#4285f4;background:#4285f4}
+.gmp-check.on::after{content:'';position:absolute;left:3.62px;top:0.45px;width:4.53px;height:9.06px;border:solid #fff;border-width:0 1.81px 1.81px 0;transform:rotate(45deg)}
+.gmp-dialog{left:21.74px;right:21.74px;padding-bottom:7.25px;border-radius:1.81px;box-shadow:0 10.87px 21.74px #0000004d}
+.gmp-dialog h3{padding:21.74px 21.74px 10.87px;font:500 18.12px Roboto,sans-serif;color:#000000de}
+.screen .gmp-choice{flex-direction:row-reverse;gap:18.12px;padding:0 21.74px;font:400 14.5px Roboto,sans-serif;color:#000000de}
+.gmp-choice i{display:grid;place-items:center;width:21.74px;height:21.74px}
+.gmp-choice i::before{content:'';width:18.12px;height:18.12px;box-sizing:border-box;border:1.81px solid #0000008a;border-radius:50%}
+.gmp-choice.on i::before{border-color:#4285f4;background:radial-gradient(#4285f4 0 4.53px, transparent 4.98px)}
+.gmp-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:7.25px 7.25px 0}
+.screen .gmp-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;font:500 12.68px Roboto,sans-serif;color:#4285f4;text-transform:uppercase}

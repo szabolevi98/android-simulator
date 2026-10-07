@@ -133,10 +133,10 @@
     const menu = items => `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu kem-menu">${items.map(([action, label]) => `<button data-action="${action}">${e(T(label))}</button>`).join('')}</div>`;
     if (ui.overlay === 'email-menu') {
       const kind = ui.emailMenu || 'list';
-      if (kind === 'compose') return menu([['email-attach', 'Attach picture'], ['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
-      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
+      if (kind === 'compose') return menu([['email-attach', 'Attach picture'], ['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-settings', 'Settings'], ['email-unavailable', 'Help']]);
+      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-settings', 'Settings'], ['email-unavailable', 'Help']]);
       if (kind === 'message') return menu([['email-reply-all', 'Reply all'], ['email-forward', 'Forward']]);
-      return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
+      return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-settings', 'Settings'], ['email-unavailable', 'Help']]);
     }
     if (ui.overlay === 'email-folders') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="kem-dialog" role="dialog" aria-label="${e(T('Move to'))}"><h3>${e(T('Move to'))}</h3>${['Inbox', 'Drafts', 'Sent', 'Trash'].map(name => `<button data-action="email-move" data-id="${name}">${e(T(name))}</button>`).join('')}</div>`;
     // The picture list for Attach picture and the discard question (formerly email.js's, which now draws the AOSP Email).

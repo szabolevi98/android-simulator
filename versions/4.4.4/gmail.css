@@ -35,3 +35,46 @@
 .screen .gm-drawer .gm-folder.on em{color:#fff}
 .screen .gm-drawer .gm-folder.on .gm-folder-icon{color:#fff}
 .gm-folder em.gm-badge{min-width:30px;padding:1px 6px;color:#fff;text-align:center}
+/* Gmail settings (audit step 5): the preference screens, the category icons, the list and signature dialogs. */
+.gmp-app{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;font-family:RobotoICS,Roboto,sans-serif}
+.gmp-bar{flex:none;display:flex;align-items:center}
+.gmp-bar b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen .gmp-up{display:flex;align-items:center;height:100%;padding:0;border:0;background:none}
+.gmp-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.screen .gmp-row{display:flex;align-items:center;width:100%;min-height:43.49px;padding:7.25px 14.5px;border:0;background:none;text-align:left}
+.gmp-text{flex:1;min-width:0;display:flex;flex-direction:column}
+.gmp-text small{margin-top:1.81px;white-space:pre-line;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
+.gmp-cat-icon{flex:none;width:28.99px;height:28.99px;margin-right:14.5px;background:center/contain no-repeat}
+.gmp-primary{background-image:url('assets/gmp-ic_menu_inbox_main_holo_light.png')}
+.gmp-social{background-image:url('assets/gmp-ic_menu_inbox_social_holo_light.png')}
+.gmp-promotions{background-image:url('assets/gmp-ic_menu_inbox_promotions_holo_light.png')}
+.gmp-updates{background-image:url('assets/gmp-ic_menu_inbox_notifications_holo_light.png')}
+.gmp-forums{background-image:url('assets/gmp-ic_menu_inbox_forums_holo_light.png')}
+.gmp-scrim{position:absolute;inset:0;z-index:40;border:0;background:#0009}
+.gmp-dialog{position:absolute;z-index:41;top:50%;transform:translateY(-50%);background:#fff}
+.gmp-dialog h3{margin:0}
+.screen .gmp-choice{display:flex;align-items:center;width:100%;min-height:43.49px;border:0;background:none;text-align:left}
+.gmp-choice span{flex:1}
+.gmp-choice i{flex:none;width:28.99px;height:28.99px}
+.screen .gmp-signature{display:block;width:calc(100% - 29px);margin:7.25px 14.5px;padding:7.25px 3.62px;border:0;border-bottom:1.81px solid #33b5e5;background:none;outline:none;resize:none;font:400 16.31px/1.3 RobotoICS,Roboto,sans-serif;color:#000}
+/* Holo Light (Gmail 4.5 / 4.6): the #f2f2f2 bar with the caret and the Gmail icon, list separators, 18 sp titles over
+   14 sp #727272 summaries, the Holo check box and radio buttons, the holo blue dialog title. */
+.gmp-bar{height:43.49px;background:#f2f2f2;border-bottom:1.81px solid #d6d6d6}
+.gmp-caret{width:14.5px;height:28.99px;object-fit:cover;object-position:left}
+.gmp-icon{width:28.99px;height:28.99px;margin-right:7.25px}
+.gmp-bar b{font:400 16.31px RobotoICS,Roboto,sans-serif;color:#333}
+.gmp-cat{margin:14.5px 14.5px 0;padding:0 7.25px 3.62px;border-bottom:1.81px solid #cfcfcf;font:700 12.68px RobotoICS,Roboto,sans-serif;color:#8f8f8f;text-transform:uppercase}
+.gmp-text b{font:400 16.31px RobotoICS,Roboto,sans-serif;color:#000}
+.gmp-text small{font:400 12.68px/1.3 RobotoICS,Roboto,sans-serif;color:#727272}
+.gmp-row+.gmp-row{border-top:1px solid #e3e3e3}
+.gmp-check{flex:none;width:28.99px;height:28.99px;margin-left:7.25px;background:url('assets/btn_check_off_holo_light.png') center/contain no-repeat}
+.gmp-check.on{background-image:url('assets/btn_check_on_holo_light.png')}
+.screen .gmp-up:active,.screen .gmp-row:active,.screen .gmp-dialog button:active{background:#33b5e566}
+.gmp-dialog{left:14.5px;right:14.5px;box-shadow:0 2px 10px #0006}
+.gmp-dialog h3{padding:14.5px;border-bottom:1.81px solid #33b5e5;font:400 19.93px RobotoICS,Roboto,sans-serif;color:#33b5e5}
+.screen .gmp-choice{padding:0 7.25px 0 14.5px;font:400 16.31px RobotoICS,Roboto,sans-serif;color:#000}
+.gmp-choice i{background:url('assets/btn_radio_off_holo_light.png') center/contain no-repeat}
+.gmp-choice.on i{background-image:url('assets/btn_radio_on_holo_light.png')}
+.gmp-buttons{display:flex;border-top:1px solid #0000001a}
+.screen .gmp-buttons button{flex:1;min-height:43.49px;border:0;background:none;font:400 14.5px RobotoICS,Roboto,sans-serif;color:#000}
+.gmp-buttons button+button{border-left:1px solid #0000001a}

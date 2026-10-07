@@ -135,10 +135,10 @@
     const menu = items => `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu kem-menu">${items.map(([action, label]) => `<button data-action="${action}">${e(T(label))}</button>`).join('')}</div>`;
     if (ui.overlay === 'email-menu') {
       const kind = ui.emailMenu || 'list';
-      if (kind === 'compose') return menu([['email-attach', 'Attach picture'], ['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
-      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
+      if (kind === 'compose') return menu([['email-attach', 'Attach picture'], ['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-settings', 'Settings'], ['email-unavailable', 'Help']]);
+      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-settings', 'Settings'], ['email-unavailable', 'Help']]);
       if (kind === 'message') return menu([['email-reply-all', 'Reply all'], ['email-forward', 'Forward']]);
-      return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
+      return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-settings', 'Settings'], ['email-unavailable', 'Help']]);
     }
     if (ui.overlay === 'email-folders') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="kem-dialog" role="dialog" aria-label="${e(T('Move to'))}"><h3>${e(T('Move to'))}</h3>${['Inbox', 'Drafts', 'Sent', 'Trash'].map(name => `<button data-action="email-move" data-id="${name}">${e(T(name))}</button>`).join('')}</div>`;
     // The picture list for Attach picture (until the GET_CONTENT chooser is built) and ComposeActivity's
@@ -233,11 +233,11 @@
       const kind = ui.emailMenu || 'list';
       // compose_menu.xml (LMY48Y PrebuiltEmailGoogle): Attach file (a submenu: Attach file, Attach picture) and Send are
       // actions; Save draft, Discard, Settings and Help & feedback overflow. Cc / Bcc open from the chevron by To.
-      if (kind === 'compose') return menu([['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help & feedback']]);
+      if (kind === 'compose') return menu([['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-settings', 'Settings'], ['email-unavailable', 'Help & feedback']]);
       if (kind === 'attach') return menu([['email-unavailable', 'Attach file'], ['email-attach', 'Attach picture']]);
-      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help & feedback']]);
+      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-settings', 'Settings'], ['email-unavailable', 'Help & feedback']]);
       if (kind === 'message') return menu([['email-reply-all', 'Reply all'], ['email-forward', 'Forward']]);
-      return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help & feedback']]);
+      return menu([['email-refresh', 'Refresh'], ['email-settings', 'Settings'], ['email-unavailable', 'Help & feedback']]);
     }
     return window.KKEmail.overlay(mail, ui, photos, t, lang, {});
   }

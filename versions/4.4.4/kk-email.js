@@ -139,10 +139,10 @@
       const kind = ui.emailMenu || 'list';
       // compose_menu.xml (KTU84P EmailGoogle): Send is the action; Attach picture, Attach video, Add Cc/Bcc, Save draft,
       // Discard, Settings, Send feedback and Help overflow.
-      if (kind === 'compose') return menu([['email-attach', 'Attach picture'], ['email-unavailable', 'Attach video'], ['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Send feedback'], ['email-unavailable', 'Help']]);
-      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
+      if (kind === 'compose') return menu([['email-attach', 'Attach picture'], ['email-unavailable', 'Attach video'], ['email-cc', 'Add Cc/Bcc'], ['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-settings', 'Settings'], ['email-unavailable', 'Send feedback'], ['email-unavailable', 'Help']]);
+      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-settings', 'Settings'], ['email-unavailable', 'Help']]);
       if (kind === 'message') return menu([['email-reply-all', 'Reply all'], ['email-forward', 'Forward']]);
-      return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-unavailable', 'Settings'], ['email-unavailable', 'Help']]);
+      return menu([['email-refresh', 'Refresh'], ['email-unavailable', 'Sync options'], ['email-settings', 'Settings'], ['email-unavailable', 'Help']]);
     }
     if (ui.overlay === 'email-folders') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="kem-dialog" role="dialog" aria-label="${e(T('Move to'))}"><h3>${e(T('Move to'))}</h3>${['Inbox', 'Drafts', 'Sent', 'Trash'].map(name => `<button data-action="email-move" data-id="${name}">${e(T(name))}</button>`).join('')}</div>`;
     // The picture list for Attach picture (until the GET_CONTENT chooser is built) and ComposeActivity's

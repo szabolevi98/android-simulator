@@ -54,11 +54,49 @@
     if (Array.isArray(saved)) return saved.map(item => ({...item, id: String(item.id), body: String(item.body || ''), subject: String(item.subject || ''), to: String(item.to || ''), cc: String(item.cc || ''), bcc: String(item.bcc || ''), read: !!item.read, starred: !!item.starred}));
     return SAMPLES.map(([from, address, subject, body, category, important, personal, hoursAgo], i) => ({id: 'gm-' + (i + 1), from, address, to: account, subject, body, folder: 'Inbox', category, important, personal, created: now - hoursAgo * 36e5, read: i >= 3 && category === 'primary', starred: i === 1}));
   }
+  /* Settings (audit step 5), Gmail 4.5.1 (Gmail2.apk of JWR66Y): preference_headers.xml (General settings, the account, About Gmail),
+     general_preferences.xml, the account's account_preferences.xml and inbox_section_preferences.xml, in the
+     image's words (stock-strings.js). Values live in data.gmailPrefs. Inbox categories: Primary always, Social and
+     Promotions on, Updates and Forums off by default; a category turned off sends its mail back to Primary and leaves
+     the inbox, the drawer and the teaser. The signature (EditTextPreference) is added to new mail as "\n\n%s". */
+  const P = (lang, key) => { const row = window.StockStrings?.gmailprefs?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(lang); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
+  const GENERAL = [['list', 'removal-action', 'Archive & delete actions', ['Show archive only', 'Show delete only', 'Show archive & delete'], 0], ['check', 'swipe', 'Swipe to archive', 'In conversation list', true], ['check', 'sender-image', 'Sender image', 'Sender image summary', true], ['check', 'reply-all', 'Reply all', 'Reply all summary', false], ['check', 'auto-fit', 'Auto-fit messages', 'Auto-fit summary', true], ['list', 'auto-advance', 'Auto-advance', ['Newer', 'Older', 'Conversation list'], 2], ['list', 'text-size', 'Message text size', ['Tiny', 'Small', 'Normal', 'Large', 'Huge'], 2], ['list', 'snap-headers', 'Message actions', ['Always show', 'Only show in portrait', "Don't show"], 2], ['cat', 'Action Confirmations'], ['check', 'confirm-delete', 'Confirm before deleting', '', true], ['check', 'confirm-archive', 'Confirm before archiving', '', true], ['check', 'confirm-send', 'Confirm before sending', '', true]];
+  const ACCOUNT = [['list', 'inbox-type', 'Inbox type', ['Default Inbox', 'Priority Inbox'], 0], ['screen', 'categories', 'Inbox categories'], ['check', 'notifications', 'Notifications', '', true], ['unsupported', 'sound', 'Inbox sound & vibrate'], ['signature'], ['cat', 'Data usage'], ['check', 'sync', 'Sync Gmail', '', true], ['unsupported', 'days', 'Days of mail to sync'], ['unsupported', 'labels', 'Manage labels'], ['check', 'prefetch', 'Download attachments', 'Download attachments summary', true]];
+  const CATEGORIES = [['fixed', 'primary', 'Primary', 'Primary summary'], ['check', 'social', 'Social', 'Social summary', true], ['check', 'promotions', 'Promotions', 'Promotions summary', true], ['check', 'updates', 'Updates', 'Updates summary', false], ['check', 'forums', 'Forums', 'Forums summary', false], ['cat', 'Starred category'], ['check', 'starred', 'Include starred in Primary', 'Changes appear after sync', false]];
+  let categoriesOff = {};
+  const prefsOf = data => data.gmailPrefs || {};
+  const pref = (data, key, fallback) => prefsOf(data)[key] ?? fallback;
+  const categoryOn = (data, id) => pref(data, 'category-' + id, (CATEGORIES.find(row => row[1] === id) || [])[4] ?? true);
+  function settings(data, ui, lang, emailT) {
+    const T = key => P(lang, key), page = ui.gmPref || '';
+    const screens = {general: GENERAL, account: ACCOUNT, categories: CATEGORIES};
+    const row = (action, id, label, summary = '', extra = '', icon = '') => `<button type="button" class="gmp-row${icon ? ' with-icon' : ''}" data-action="${action}" data-id="${e(id)}">${icon}<span class="gmp-text"><b>${e(label)}</b>${summary ? `<small>${e(summary)}</small>` : ''}</span>${extra}</button>`;
+    const check = on => `<i class="gmp-check${on ? ' on' : ''}" role="checkbox" aria-checked="${!!on}"></i>`;
+    const value = item => item[1].startsWith('category-') ? categoryOn(data, item[1].slice(9)) : pref(data, item[1], item[4]);
+    let body;
+    if (!page) body = [['general', 'General settings'], ['account', account], ['about', 'About Gmail']].map(([id, label]) => row(id === 'about' ? 'gmail-unavailable' : 'gmail-pref', id, id === 'account' ? label : T(label))).join('');
+    else body = screens[page].map(item => {
+      if (item[0] === 'cat') return `<h4 class="gmp-cat">${e(T(item[1]))}</h4>`;
+      if (item[0] === 'signature') { const sig = pref(data, 'signature', ''); return row('gmail-signature', 'signature', T('Signature'), sig || T('Not set')); }
+      if (item[0] === 'screen') return row('gmail-pref', item[1], T(item[2]));
+      if (item[0] === 'unsupported') return row('gmail-unavailable', item[1], T(item[2]));
+      if (item[0] === 'list') return row('gmail-pref-list', item[1], T(item[2]), T(item[3][pref(data, item[1], item[4])]));
+      const icon = page === 'categories' ? `<i class="gmp-cat-icon gmp-${item[1]}"></i>` : '';
+      if (item[0] === 'fixed') return row('gmail-noop', item[1], T(item[2]), T(item[3]), '', icon);
+      const on = page === 'categories' && item[1] !== 'starred' ? categoryOn(data, item[1]) : pref(data, item[1], item[4]);
+      return row('gmail-pref-toggle', page === 'categories' && item[1] !== 'starred' ? 'category-' + item[1] : item[1], T(item[2]), item[3] ? T(item[3]) : '', check(on), icon);
+    }).join('');
+    const title = !page ? T('Settings') : page === 'general' ? T('General settings') : page === 'categories' ? T('Inbox categories') : account;
+    const list = ui.gmPrefList && [...GENERAL, ...ACCOUNT].find(item => item[0] === 'list' && item[1] === ui.gmPrefList);
+    const dialog = list ? `<button type="button" class="gmp-scrim" data-action="gmail-pref-close" aria-label="${e(emailT('Cancel'))}"></button><div class="gmp-dialog" role="dialog"><h3>${e(T(list[2]))}</h3>${list[3].map((label, i) => `<button type="button" class="gmp-choice${pref(data, list[1], list[4]) === i ? ' on' : ''}" data-action="gmail-pref-pick" data-id="${list[1]}:${i}" role="radio" aria-checked="${pref(data, list[1], list[4]) === i}"><span>${e(T(label))}</span><i></i></button>`).join('')}<div class="gmp-buttons"><button type="button" data-action="gmail-pref-close">${e(emailT('Cancel'))}</button></div></div>`
+      : ui.gmSignature !== undefined ? `<button type="button" class="gmp-scrim" data-action="gmail-pref-close" aria-label="${e(emailT('Cancel'))}"></button><div class="gmp-dialog" role="dialog"><h3>${e(T('Signature dialog'))}</h3><textarea class="gmp-signature" data-gmail-signature data-no-translate rows="3">${e(ui.gmSignature)}</textarea><div class="gmp-buttons"><button type="button" data-action="gmail-pref-close">${e(emailT('Cancel'))}</button><button type="button" data-action="gmail-signature-save">${e(emailT('OK'))}</button></div></div>` : '';
+    return `<div class="app-view gmp-app"><header class="gmp-bar"><button type="button" class="gmp-up" data-action="back" aria-label="${e(emailT('Navigate up'))}"><img class="gmp-caret" src="assets/ic_ab_back_holo_light.png" alt=""><img class="gmp-icon" src="assets/gmail.png" alt=""></button><b data-no-translate>${e(title)}</b></header><div class="gmp-scroll">${body}</div>${dialog}</div>`;
+  }
   const live = item => !['Trash', 'Spam'].includes(item.folder);
   function list(mail, folder = 'Primary', query = '') {
     const q = query.toLocaleLowerCase();
     const match = item => {
-      if (CATEGORY[folder]) return item.folder === 'Inbox' && (item.category || 'primary') === CATEGORY[folder];
+      if (CATEGORY[folder]) return item.folder === 'Inbox' && !categoriesOff[CATEGORY[folder]] && (categoriesOff[item.category] ? 'primary' : item.category || 'primary') === CATEGORY[folder];
       if (folder === 'Priority Inbox') return item.folder === 'Inbox' && item.important;
       if (folder === 'Starred') return item.starred && live(item);
       if (folder === 'Important') return item.important && live(item);
@@ -80,12 +118,12 @@
     const T = key => tr(lang, key);
     const row = name => {
       const items = list(mail, name), n = items.filter(item => !item.read).length;
-      if (!items.length) return '';
+      if (!items.length || categoriesOff[CATEGORY[name]]) return '';
       const senders = [...new Set(items.map(item => item.from))].slice(0, 3).join(', ');
       return `<button class="gm-category" data-action="email-folder" data-id="${name}"><span class="gm-cat-icon">${icons[CATEGORY[name]]}</span><span class="gm-cat-copy"><b>${e(T(name))}</b><small>${e(senders)}</small></span>${n ? `<em class="gm-${CATEGORY[name]}">${e(T('%d New').replace('%d', n))}</em>` : ''}</button>`;
     };
     const welcome = !data.gmailWelcomeSeen;
-    return `${welcome ? `<div class="gm-welcome"><h3>${e(T('Welcome to your new Inbox'))}</h3><p>${e(T('Mail categories group messages of the same type for reading all at once.'))}</p><button data-action="gmail-unavailable">${e(T('Learn more'))}</button></div>` : ''}<div class="gm-categories">${row('Social')}${row('Promotions')}</div>${welcome ? `<div class="gm-welcome gm-change"><p>${e(T('You can enable and disable categories in settings.'))}</p><button data-action="gmail-unavailable">${e(T('Change categories'))}</button></div>` : ''}`;
+    return `${welcome ? `<div class="gm-welcome"><h3>${e(T('Welcome to your new Inbox'))}</h3><p>${e(T('Mail categories group messages of the same type for reading all at once.'))}</p><button data-action="gmail-unavailable">${e(T('Learn more'))}</button></div>` : ''}<div class="gm-categories">${row('Social')}${row('Promotions')}</div>${welcome ? `<div class="gm-welcome gm-change"><p>${e(T('You can enable and disable categories in settings.'))}</p><button data-action="gmail-categories">${e(T('Change categories'))}</button></div>` : ''}`;
   }
   function marker(item) {
     if (!item.personal || item.folder === 'Sent' || item.folder === 'Drafts') return '';
@@ -101,11 +139,12 @@
       const icon = name === 'Primary' ? icons.inbox : CATEGORY[name] && name !== 'Primary' ? icons[CATEGORY[name]] : '';
       return `<button class="kem-folder gm-folder${name === folder ? ' on' : ''}${icon ? ' with-icon' : ''}" data-action="email-folder" data-id="${name}">${icon ? `<i class="gm-folder-icon">${icon}</i>` : ''}<span>${e(T(name))}</span>${badge}</button>`;
     };
-    return `<div class="kem-drawer-scrim" data-action="close-overlay"></div><nav class="kem-drawer gm-drawer" aria-label="Gmail"><button class="kem-account" data-action="close-overlay"><img src="assets/kem-ic_radiobutton_selected.png" alt=""><span>${e(account)}</span>${total ? `<em>${total}</em>` : ''}</button><h4>${e(T('INBOX'))}</h4>${INBOX.map(row).join('')}<h4>${e(T('ALL LABELS'))}</h4>${LABELS.map(row).join('')}</nav>`;
+    return `<div class="kem-drawer-scrim" data-action="close-overlay"></div><nav class="kem-drawer gm-drawer" aria-label="Gmail"><button class="kem-account" data-action="close-overlay"><img src="assets/kem-ic_radiobutton_selected.png" alt=""><span>${e(account)}</span>${total ? `<em>${total}</em>` : ''}</button><h4>${e(T('INBOX'))}</h4>${INBOX.filter(name => !categoriesOff[CATEGORY[name]]).map(row).join('')}<h4>${e(T('ALL LABELS'))}</h4>${LABELS.map(row).join('')}</nav>`;
   }
   // Options for KKEmail.render / overlay.
   function options(data, ui, lang, emailT) {
     const mail = data.gmailbox;
+    categoriesOff = {social: !categoryOn(data, 'social'), promotions: !categoryOn(data, 'promotions')};
     const name = folder => S[folder] ? tr(lang, folder) : emailT(folder);
     return {
       icon: 'gmail.png', account, archive: true, teaserDismissed: !!data.gmailTeaserDismissed,
@@ -117,5 +156,5 @@
       drawer: () => drawer(mail, ui, lang, emailT)
     };
   }
-  window.GmailApp = {account, FOLDERS, S, tr, restore, list, unread, options};
+  window.GmailApp = {account, FOLDERS, S, tr, restore, list, unread, options, settings};
 })();

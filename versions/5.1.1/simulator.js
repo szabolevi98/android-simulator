@@ -786,6 +786,8 @@
     if (ui.view === 'kk-doc-picker') { ui.view = ui.docPickFor === 'keep' ? 'keep' : 'wallpaper-picker'; ui.docPickFor = ''; render(); return; }
     if (ui.view === 'drawer' || ui.view === 'wallpaper-picker') { home(false); return; }
     // Chrome settings: dialogs first, then the page, then back to the browser.
+    // Gmail settings: the dialogs, then the pages, then back to the mail.
+    if (ui.view === 'gmail' && ui.sub === 'gm-settings') { if (ui.gmPrefList || ui.gmSignature !== undefined) { ui.gmPrefList = ''; ui.gmSignature = undefined; } else if (ui.gmPref === 'categories') ui.gmPref = 'account'; else if (ui.gmPref) ui.gmPref = ''; else ui.sub = ''; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && (ui.chromeClear || ui.chromeList || ui.chromePrefMenu) && !ui.chromeClear?.busy) { ui.chromeClear = null; ui.chromeList = ''; ui.chromePrefMenu = false; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && ui.sub === 'chrome-settings') { if (ui.chromePref) ui.chromePref = ''; else ui.sub = ''; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
@@ -1600,7 +1602,7 @@
   }
   const mailbox = () => ui.view === 'gmail' ? data.gmailbox : data.mailbox;
   const gmailOptions = () => GmailApp.options(data, ui, i18n.language, key => KKEmail.tr(i18n.language, key));
-  function renderGmail() { return LPEmail.render(data.gmailbox, ui, key => i18n.t(key), i18n.locale(), i18n.language, gmailOptions()); }
+  function renderGmail() { if (ui.sub === 'gm-settings') return GmailApp.settings(data, ui, i18n.language, key => i18n.t(key)); return LPEmail.render(data.gmailbox, ui, key => i18n.t(key), i18n.locale(), i18n.language, gmailOptions()); }
   // Each mail app keeps its own folder, conversation and selection.
   function useMailApp(app) {
     if (ui.mailApp === app) return;
@@ -1612,6 +1614,8 @@
   function composeEmail(source=null,forward=false,to='') {
     const draft=ICSEmail.draft(source,forward);if(to)draft.to=to;
     if(ui.view==='gmail'){draft.from=draft.address=GmailApp.account;}
+    // Gmail's signature preference (gmail.js): "\n\n%s" after what the message starts with.
+    if(ui.view==='gmail'&&data.gmailPrefs?.signature)draft.body='\n\n'+data.gmailPrefs.signature+(draft.body?'\n\n'+draft.body:'');
     mailbox().unshift(draft);ui.emailId=draft.id;ui.emailCc=false;ui.emailError='';ui.overlay='';ui.sub='compose';save();render();
   }
   function resetSimulator() {
@@ -2460,6 +2464,17 @@
       // Gmail: Archive leaves the inbox (the conversation stays in All mail); tips and teaser links.
       case 'email-archive': case 'email-selected-archive': {const ids=action==='email-archive'?[ui.emailId]:ui.emailSelected||[];mailbox().filter(item=>ids.includes(item.id)&&item.folder==='Inbox').forEach(item=>{item.folder='Archive';});ui.sub='';ui.emailSelected=[];save();render();break;}
       case 'email-dismiss-teaser': if(ui.view==='gmail')data.gmailTeaserDismissed=true;else data.emailTeaserDismissed=true;save();render();break;
+      // Gmail settings (gmail.js GmailApp.settings); Email's own settings are not simulated.
+      case 'email-settings': ui.overlay = ''; renderOverlay(); if (ui.view === 'gmail') { ui.sub = 'gm-settings'; ui.gmPref = ''; render(); } else toast('Not available in this simulator'); break;
+      case 'gmail-categories': ui.sub = 'gm-settings'; ui.gmPref = 'categories'; render(); break;
+      case 'gmail-pref': ui.gmPref = id; render(); break;
+      case 'gmail-pref-toggle': { const prefs = data.gmailPrefs ||= {}; const fallback = id.startsWith('category-') ? !['updates', 'forums'].includes(id.slice(9)) : !['reply-all', 'starred'].concat(['confirm-delete', 'confirm-archive', 'confirm-send']).includes(id); prefs[id] = !(prefs[id] ?? fallback); save(); render(); break; }
+      case 'gmail-pref-list': ui.gmPrefList = id; render(); break;
+      case 'gmail-pref-pick': { const [key, value] = id.split(':'); (data.gmailPrefs ||= {})[key] = Number(value); ui.gmPrefList = ''; save(); render(); break; }
+      case 'gmail-pref-close': ui.gmPrefList = ''; ui.gmSignature = undefined; render(); break;
+      case 'gmail-signature': ui.gmSignature = (data.gmailPrefs || {}).signature || ''; render(); viewport.querySelector('[data-gmail-signature]')?.focus(); break;
+      case 'gmail-signature-save': { const text = viewport.querySelector('[data-gmail-signature]')?.value ?? ui.gmSignature ?? ''; (data.gmailPrefs ||= {}).signature = String(text).trim(); ui.gmSignature = undefined; save(); render(); break; }
+      case 'gmail-noop': break;
       case 'gmail-unavailable': toast(i18n.t('This feature is not part of the simulator.'));break;
       default: break;
     }
@@ -2601,6 +2616,7 @@
     if (event.target.closest('.jbp-bar.searching')) { ui.marketEdit = event.target.value; const view = viewport.querySelector('.jbp'); view?.querySelector('.jbp-suggest')?.remove(); const tmp = document.createElement('div'); tmp.innerHTML = JBPlay.render(jbPlayContext()); const sug = tmp.querySelector('.jbp-suggest'); if (sug && view) view.append(sug); return; }
     if (event.target.matches('[data-jbp-auto]')) { const id = event.target.dataset.jbpAuto, list = data.marketAuto || []; data.marketAuto = event.target.checked ? [...new Set([...list, id])] : list.filter(x => x !== id); save(); return; }
     if (event.target.matches('[data-gnr-title]')) { if (ui.gnowDraft) ui.gnowDraft.title = event.target.value; return; }
+    if (event.target.matches('[data-gmail-signature]')) { ui.gmSignature = event.target.value; return; }
     if (event.target.matches('[data-keep-li]')) { const item = keepCurrent()?.list?.[Number(event.target.dataset.keepLi)]; if (item) { item.text = event.target.value; save(); } return; }
     if (event.target.matches('.keep-text')) { const note = (data.keepNotes || []).find(item => item.id === ui.keepNote); if (note) { note.text = event.target.value; save(); } return; }
     if (event.target.closest('.hg-new')) {
