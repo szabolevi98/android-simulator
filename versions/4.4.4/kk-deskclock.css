@@ -132,3 +132,35 @@
 .jbclock-laps li span:first-child{color:#ffffff80;font-family:RobotoICS,sans-serif}
 .jbclock-laps li span:last-child{text-align:right;color:#ffffff80}
 .jbclock-clock>.jbclock-footer{align-self:stretch}
+/* World clock (dp x 0.9): world_clock_list_item rows 32 dp in, two cities each (medium_space 24 / 8 dp), the 60 dp bold
+   hours with light minutes, the 14 sp bold condensed label; CitiesActivity: the 8 / 32 dp padded list, 64 dp
+   city_list_item rows (24 sp bold condensed name, 16.2px time in clock_gray, the check box) under 14 sp header letters. */
+.jbclock-clock.has-cities .jbclock-time{margin-top:21.6px}
+.jbclock-clock.has-cities .jbclock-date{margin-bottom:0}
+.jbclock-world{flex:1;min-height:0;align-self:stretch;overflow-y:auto;scrollbar-width:none;padding:0 28.8px}
+.jbclock-city-row{display:flex}
+.jbclock-city{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;padding:21.6px 0 7.2px}
+.jbclock-city-time{display:flex;align-items:baseline;line-height:1;white-space:nowrap}
+.jbclock-city-time b{font:700 54px/1 RobotoICS,Roboto,sans-serif;margin-right:16.2px}
+.jbclock-city-time span{font:54px/1 RobotoLight,RobotoICS,sans-serif}
+.jbclock-city-time small{font:700 12.6px 'Roboto Condensed',RobotoICS,sans-serif;margin-left:3.6px;text-transform:uppercase}
+.jbclock-city-label{display:flex;gap:3.6px;max-width:100%;margin-top:1.8px;font:700 12.6px 'Roboto Condensed',RobotoICS,sans-serif;text-transform:uppercase;white-space:nowrap}
+.jbclock-city-label span{overflow:hidden;text-overflow:ellipsis}
+.jbclock-city-label em{font-style:normal;color:#ffffff80}
+.jbclock-cities{background:#000}
+.jbclock-ab{flex:none;height:43.2px;display:flex;align-items:center;background:#1a1a1a;border-bottom:1.8px solid #33b5e5}
+.jbclock-ab h2{flex:1;margin:0;font:400 16.2px RobotoICS,sans-serif;color:#fff}
+.jbclock-up{display:flex;align-items:center;height:100%;padding:0 7.2px 0 0;border:0;background:none}
+.jbclock-up img:first-child{width:14.4px;height:28.8px}
+.jbclock-up img+img{width:28.8px;height:28.8px}
+.jbclock-ab-menu{width:43.2px;height:100%;border:0;background:none;display:grid;place-items:center}
+.jbclock-ab-menu img{width:28.8px;height:28.8px}
+.jbclock-ab button:active{background:#33b5e544}
+.jbclock-city-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding:0 28.8px 0 7.2px}
+.jbclock-city-header{margin:0;padding:7.2px 7.2px 3.6px;border-bottom:1.8px solid #ffffff33;font:700 12.6px RobotoICS,sans-serif;color:#fff;text-transform:uppercase}
+.jbclock-city-item{display:flex;align-items:center;width:100%;min-height:57.6px;padding:0 7.2px;border:0;background:none;text-align:left;color:#fff}
+.jbclock-city-item:active{background:#33b5e544}
+.jbclock-city-item span{flex:1;min-width:0;display:flex;flex-direction:column}
+.jbclock-city-item b{font:700 21.6px 'Roboto Condensed',RobotoICS,sans-serif;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jbclock-city-item small{font:16.2px RobotoICS,sans-serif;color:#ffffff80;text-transform:uppercase}
+.jbclock-city-item img{flex:none;width:28.8px;height:28.8px}

@@ -229,3 +229,32 @@
 /* DeskClock 5.1 screensaver (Daydream): the same thin main_clock_frame as the Clock tab. */
 .jb-dream-saver .jbclock-time,.jb-dream-saver .jbclock-hours,.jb-dream-saver .jbclock-minutes{font-family:Roboto,sans-serif;font-weight:100}
 .jb-dream-saver .jbclock-date{font:400 13.59px Roboto,sans-serif;letter-spacing:.06em}
+/* World clock (DeskClock 3.0.4, dp x 0.906): world_clock_item rows 32 dp in (medium_space_top 22 dp) with the 14 sp
+   medium name and "/ day" in white_69p at the start and the thin 56 sp time at the end; CitiesActivity on the hour's
+   colour: the 20 sp "Selected Cities" header 24 dp down and 20 dp in, 56 dp city_list_item rows with the 56 dp index
+   column (14 sp bold letter), the check box, the name 16 dp after it and the time 8 dp from the end. */
+.lpdc .jbclock-clock.has-cities .jbclock-time{margin-top:19.93px}
+.lpdc .jbclock-clock.has-cities .jbclock-date{margin-bottom:0}
+.lpdc-world{flex:1;min-height:0;align-self:stretch;overflow-y:auto;scrollbar-width:none;padding:0 28.99px}
+.lpdc-city{display:flex;align-items:center;gap:7.25px;padding-top:19.93px}
+.lpdc-city-label{flex:1;min-width:0;display:flex;gap:3.62px;font:500 12.68px Roboto,sans-serif;white-space:nowrap}
+.lpdc-city-label b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+.lpdc-city-label em{font-style:normal;color:#ffffffb1}
+.lpdc-city-time{flex:none;font:100 50.74px/1 RobotoThin,Roboto,sans-serif;color:#fff;white-space:nowrap}
+.lpdc-cities{background:var(--dc)}
+.lpdc-ab{flex:none;height:50.74px;display:flex;align-items:center;color:#fff}
+.lpdc-ab h2{flex:1;margin:0 0 0 7.25px;font:500 18.12px Roboto,sans-serif}
+.lpdc-up,.lpdc-ab-btn{flex:none;width:50.74px;height:100%;border:0;background:none;display:grid;place-items:center;padding:0}
+.lpdc-up img{width:21.74px;height:21.74px;filter:invert(1)}
+.lpdc-ab-btn img{width:28.99px;height:28.99px}
+.lpdc-up:active,.lpdc-ab-btn:active{background:#ffffff33}
+.lpdc-city-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.lpdc-city-header{margin:21.74px 0 7.25px;min-height:28.99px;display:flex;align-items:center;padding-left:18.12px;font:400 18.12px Roboto,sans-serif;color:#fff}
+.lpdc-city-item{display:flex;align-items:center;width:100%;min-height:50.74px;padding:0;border:0;background:none;color:#fff;text-align:left;cursor:pointer}
+.lpdc-city-item:active{background:#ffffff33}
+.lpdc-city-index{flex:none;width:50.74px;text-align:center;font:700 12.68px Roboto,sans-serif}
+.lpdc-check{flex:none;position:relative;width:16.31px;height:16.31px;margin:0 2.72px;box-sizing:border-box;border:1.81px solid #ffffffb1;border-radius:1.81px}
+.lpdc-check.on{border-color:#fff;background:#fff}
+.lpdc-check.on::after{content:'';position:absolute;left:4.2px;top:.8px;width:3.6px;height:8.2px;border:solid var(--dc);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.lpdc-city-item b{flex:1;min-width:0;padding:0 9.06px 0 14.5px;font:500 12.68px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lpdc-city-item small{flex:none;margin-right:7.25px;font:500 12.68px Roboto,sans-serif;color:#ffffffb1}

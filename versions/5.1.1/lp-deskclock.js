@@ -80,6 +80,43 @@
   // now is the simulated wall clock for the Clock page; timers and the stopwatch run on real elapsed time.
   // Utils.BACKGROUND_SPECTRUM: the app's background follows the hour of the day.
   const SPECTRUM = ['#212121', '#27232e', '#2d253a', '#332847', '#382a53', '#3e2c5f', '#442e6c', '#393a7a', '#2e4687', '#235395', '#185fa2', '#0d6baf', '#0277bd', '#0d6cb1', '#1861a6', '#23569b', '#2d4a8f', '#383f84', '#433478', '#3d3169', '#382e5b', '#322b4d', '#2c273e', '#272430'];
+  /* World clock (DeskClock 3.0.4): the cities of cities.xml (dc-cities.js, in this image's languages). The Clock page
+     lists the chosen cities one to a row (world_clock_item: the 14 sp medium name and "/ day" in white_69p at the start,
+     the thin 56 sp "h:mm a" time at the end); CitiesActivity shows "Selected Cities" (20 sp) first, then every city as
+     city_list_item: the 56 dp index column with the first letter of each group, the check box, the 14 sp medium name
+     and the time in white_69p. Its menu is Search, the sort item, Settings and Help. */
+  const CITY_WORDS = {"Cities": {"en": "Cities", "hu": "Városok", "de": "Städte", "fr": "Villes", "es": "Ciudades"}, "Sort by time": {"en": "Sort by time", "hu": "Rendezés idő szerint", "de": "Zeitlich sortieren", "fr": "Trier par heure", "es": "Ordenar por hora"}, "Sort by name": {"en": "Sort by name", "hu": "Rendezés név szerint", "de": "Nach Namen sortieren", "fr": "Trier par nom", "es": "Ordenar por nombre"}, "Selected Cities": {"en": "Selected Cities", "hu": "Kiválasztott városok", "de": "Ausgewählte Städte", "fr": "Villes sélectionnées", "es": "Ciudades seleccionadas"}};
+  const cityWord = (key, locale) => (CITY_WORDS[key] || {})[String(locale).slice(0, 2)] || key;
+  const LANG_COL = {en: 2, hu: 3, de: 4, fr: 5, es: 6};
+  const city = id => (window.DeskClockCities || []).find(row => row[0] === id);
+  const cityName = (row, locale) => row[LANG_COL[String(locale).slice(0, 2)] || 2];
+  // An id the time zone database does not know falls back to GMT, as TimeZone does.
+  const zone = tz => { try { new Intl.DateTimeFormat('en-US', {timeZone: tz}); return tz; } catch { return 'UTC'; } };
+  function cityTime(tz, now, hour24, locale) {
+    tz = zone(tz);
+    const parts = Object.fromEntries(new Intl.DateTimeFormat(locale, {timeZone: tz, hour: 'numeric', minute: '2-digit', hour12: !hour24}).formatToParts(now).map(p => [p.type, p.value]));
+    const day = d => new Intl.DateTimeFormat('en-US', {timeZone: d, weekday: 'short'}).format(now);
+    const local = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const p = new Intl.DateTimeFormat('en-US', {timeZone: tz, timeZoneName: 'longOffset'}).formatToParts(now).find(x => x.type === 'timeZoneName')?.value || 'GMT', m = p.match(/([+-])(\d+):?(\d*)/);
+    return {hours: hour24 ? String(parts.hour).padStart(2, '0') : parts.hour, minutes: parts.minute, ampm: hour24 ? '' : parts.dayPeriod || '',
+      day: day(tz) === day(local) ? '' : new Intl.DateTimeFormat(locale, {timeZone: tz, weekday: 'short'}).format(now), offset: m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3] || 0)) : 0};
+  }
+  const stamp = c => `${c.hours}:${c.minutes}${c.ampm ? ' ' + c.ampm : ''}`;
+  function worldClocks(state, now, {locale, hour24}) {
+    const rows = (state.cities || []).map(city).filter(Boolean);
+    return rows.length ? `<div class="lpdc-world">${rows.map(row => { const c = cityTime(row[1], now, hour24, locale); return `<div class="lpdc-city"><span class="lpdc-city-label"><b>${e(cityName(row, locale))}</b>${c.day ? `<em>/ ${e(c.day)}</em>` : ''}</span><span class="lpdc-city-time">${e(stamp(c))}</span></div>`; }).join('')}</div>` : '';
+  }
+  function cities(state, t, {locale, now, hour24}) {
+    const chosen = new Set(state.cities || []), all = (window.DeskClockCities || []).map(row => ({row, name: cityName(row, locale), time: cityTime(row[1], now, hour24, locale)}));
+    const byName = (a, b) => a.name.localeCompare(b.name, locale);
+    const sorted = all.sort(state.citySort === 'time' ? (a, b) => a.time.offset - b.time.offset || byName(a, b) : byName);
+    let letter = '';
+    const item = (c, index) => `<button type="button" class="lpdc-city-item" data-action="jbclock-city" data-id="${e(c.row[0])}" role="checkbox" aria-checked="${chosen.has(c.row[0])}"><span class="lpdc-city-index">${e(index)}</span><i class="lpdc-check${chosen.has(c.row[0]) ? ' on' : ''}"></i><b>${e(c.name)}</b><small>${e(stamp(c.time))}</small></button>`;
+    const selected = sorted.filter(c => chosen.has(c.row[0]));
+    const list = (selected.length ? `<h4 class="lpdc-city-header">${e(cityWord('Selected Cities', locale))}</h4>${selected.map(c => item(c, '')).join('')}` : '')
+      + sorted.map(c => { const first = state.citySort === 'time' ? '' : c.name.charAt(0).toLocaleUpperCase(locale); const show = first !== letter; letter = first; return item(c, show ? first : ''); }).join('');
+    return `<div class="app-view jbclock-app lpdc lpdc-cities" style="--dc:${SPECTRUM[now.getHours()]}"><header class="lpdc-ab"><button type="button" class="lpdc-up" data-action="back" aria-label="${e(t('Navigate up'))}"><img src="assets/lp-fw-ic_ab_back_material.svg" alt=""></button><h2>${e(cityWord('Cities', locale))}</h2><button type="button" class="lpdc-ab-btn" data-action="toast" data-id="Not available in this demo" aria-label="${e(t('Search'))}"><img src="assets/dc5-ic_menu_search.png" alt=""></button><button type="button" class="lpdc-ab-btn" data-action="jbclock-cities-menu" aria-label="${e(t('More options'))}"><img src="assets/dc5-ic_overflow.png" alt=""></button></header><div class="jbclock-city-list lpdc-city-list">${list}</div></div>`;
+  }
   function render(state, t, {locale, now, hour24, alarm, date}) {
     const tab = TABS.includes(state.tab) ? state.tab : 'clock', index = TABS.indexOf(tab);
     const btn = (action, label, body, extra = '') => `<button type="button" data-action="${action}" aria-label="${e(t(label))}" ${extra}>${body}</button>`;
@@ -98,7 +135,8 @@
       timerPage = `<div class="jbclock-timers">${timers.map(timer => { const left = remaining(timer, Date.now()); return `<div class="jbclock-timer${timer.state === 'done' ? ' done' : ''}" data-timer="${e(timer.id)}"><div class="jbclock-circle-frame"><canvas class="jbclock-circle" data-circle="timer:${e(timer.id)}"></canvas><div class="jbclock-count" data-count="timer:${e(timer.id)}">${e(timer.state === 'done' ? t("Time's up") : formatTimer(left))}</div><div class="jbclock-label">${icon('ic_label_normal')}${e(timer.label || '')}</div>${btn('jbclock-timer-delete', 'Delete', icon('ic_delete_normal'), `data-id="${e(timer.id)}" class="jbclock-corner left"`)}${btn('jbclock-timer-toggle', timer.state === 'running' ? 'Stop' : timer.state === 'done' ? 'Reset' : 'Start', e(t(timer.state === 'running' ? 'Stop' : timer.state === 'done' ? 'Reset' : 'Start')), `data-id="${e(timer.id)}" class="jbclock-center"`)}${timer.state === 'stopped' && left === timer.length ? '' : btn('jbclock-timer-plus', 'Add 1 Minute', icon('ic_plusone_normal'), `data-id="${e(timer.id)}" class="jbclock-corner right"`)}</div></div>`; }).join('')}<footer class="kdc-footer">${btn('jbclock-timer-add', 'Add Timer', '<img src="assets/kdc-ic_add.png" alt="">', 'class="kdc-add"')}</footer></div>`;
     }
     const time = now.toLocaleTimeString(locale, {hour: hour24 ? '2-digit' : 'numeric', minute: '2-digit', hour12: !hour24}), [hours, rest = ''] = time.split(/[:.]/), minutes = rest.replace(/\s?[^\d].*$/, ''), ampm = hour24 ? '' : now.getHours() < 12 ? 'AM' : 'PM';
-    const clockPage = `<div class="jbclock-clock"><div class="jbclock-time"><span class="jbclock-hours" data-clock-hours>${e(hours)}</span><span class="jbclock-minutes" data-clock-minutes>:${e(minutes)}</span>${ampm ? `<small data-clock-ampm>${ampm}</small>` : ''}</div><div class="jbclock-date"><span data-clock-date>${e(date)}</span>${alarm ? `<span class="jbclock-next">${icon('ic_alarm_small')}${e(alarm)}</span>` : ''}</div><footer class="jbclock-footer clock-buttons kdc-clock-footer"><span></span>${btn('jbclock-cities', 'Cities', '<img src="assets/kdc-ic_globe.png" alt="">', 'class="kdc-round"')}${btn('jbclock-menu', 'More options', '<img src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt="">')}</footer></div>`;
+    const world = worldClocks(state, now, {locale, hour24});
+    const clockPage = `<div class="jbclock-clock${world ? ' has-cities' : ''}"><div class="jbclock-time"><span class="jbclock-hours" data-clock-hours>${e(hours)}</span><span class="jbclock-minutes" data-clock-minutes>:${e(minutes)}</span>${ampm ? `<small data-clock-ampm>${ampm}</small>` : ''}</div><div class="jbclock-date"><span data-clock-date>${e(date)}</span>${alarm ? `<span class="jbclock-next">${icon('ic_alarm_small')}${e(alarm)}</span>` : ''}</div>${world}<footer class="jbclock-footer clock-buttons kdc-clock-footer"><span></span>${btn('jbclock-cities', 'Cities', '<img src="assets/kdc-ic_globe.png" alt="">', 'class="kdc-round"')}${btn('jbclock-menu', 'More options', '<img src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt="">')}</footer></div>`;
     const watch = state.stopwatch || {}, laps = watch.laps || [], running = watch.started != null, total = elapsed(watch, Date.now());
     const lapRows = laps.map((lapTotal, i) => ({n: i + 1, lap: lapTotal - (laps[i - 1] || 0), total: lapTotal})).reverse();
     const watchPage = `<div class="jbclock-stopwatch"><div class="jbclock-circle-frame"><canvas class="jbclock-circle" data-circle="stopwatch"></canvas><div class="jbclock-count stopwatch" data-count="stopwatch">${e(formatStopwatch(total))}</div>${running ? btn('jbclock-sw', 'Lap', icon('ic_lap_normal'), 'data-id="lap" class="jbclock-corner left"') : total ? btn('jbclock-sw', 'Reset', icon('ic_reset_normal'), 'data-id="reset" class="jbclock-corner left"') : ''}${btn('jbclock-sw', running ? 'Stop' : 'Start', e(t(running ? 'Stop' : 'Start')), 'data-id="toggle" class="jbclock-center"')}${total ? btn('jbclock-sw', 'Share', icon('ic_share_normal'), 'data-id="share" class="jbclock-corner right"') : ''}</div><ol class="jbclock-laps">${lapRows.map(row => `<li><span># ${row.n}</span><span>${e(formatStopwatch(row.lap))}</span><span>${e(formatStopwatch(row.total))}</span></li>`).join('')}</ol></div>`;
@@ -126,7 +164,7 @@
     const canvas = root.querySelector('[data-circle="stopwatch"]');
     if (canvas) { const first = laps[0] || 0, last = laps.at(-1) || 0; drawCircle(canvas, {mode: 'stopwatch', interval: first, current: laps.length ? total - last : 0, marker: laps.length > 1 ? laps.at(-1) - laps.at(-2) : -1, running: watch.started != null}); }
   }
-  window.JBDeskClock = {SPECTRUM, TABS, setupDigits, setupTime, remaining, timerAction, formatTimer, formatStopwatch, elapsed, stopwatchAction, drawCircle, render, tick};
+  window.JBDeskClock = {SPECTRUM, TABS, setupDigits, setupTime, remaining, timerAction, formatTimer, formatStopwatch, elapsed, stopwatchAction, drawCircle, render, tick, cities, cityTime, cityWord};
 })();
 
 // ---- DeskClock alarms over the pages above ----

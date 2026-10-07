@@ -705,6 +705,7 @@
     if (ui.view === 'settings' && ['brightness','wallpaper','sleep'].includes(ui.sub)) { ui.sub = 'display'; render(); return; }
     if (ui.view === 'settings' && ['volumes','ringtone'].includes(ui.sub)) { ui.sub = 'sound'; render(); return; }
     if (ui.view === 'messaging' && ui.sub === 'thread') { ui.sub = ui.mmsListMode || ''; render(); return; }
+    if (ui.view === 'clock' && ui.sub === 'cities') { ui.sub = ''; render(); return; }
     if (ui.view === 'clock' && ui.sub === 'alarm-edit') { ui.alarmDraft=null; ui.sub='alarms'; render(); return; }
     if (ui.view === 'people' && ui.sub === 'edit') { ui.sub = 'detail'; render(); return; }
     if (ui.sub) { ui.sub = ''; render(); if (ui.view === 'settings') viewport.querySelector('.settings-app').scrollTop = ui.settingsRootScroll; return; }
@@ -752,6 +753,8 @@
       JBRecents.bindLongPress(overlayRoot.querySelector('.recent-panel'), popup => { ui.recentPopup = popup; suppressClickUntil = Infinity; window.addEventListener('pointerup', () => { suppressClickUntil = Date.now() + 50; }, {once: true, capture: true}); renderOverlay(); });
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
       overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
+    } else if (ui.overlay === 'jbclock-cities-menu') {
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${[['toast', 'Settings'], ['toast', 'Help']].map(([action, label]) => `<button data-action="${action}"${action === 'toast' ? ' data-id="Not available in this demo"' : ''}>${safe(i18n.t(label))}</button>`).join('')}</div>`;
     } else if (ui.overlay.startsWith('clock-')) {
       overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key),{hour24:!!data.settings.hour24,locale:i18n.locale(),now:deviceDate()});
       if(ui.overlay==='clock-ringing')ICSDeskClock.bindRinging?.(overlayRoot);
@@ -1294,6 +1297,7 @@
   // 4.2 DeskClock pages; the alarm list and editor keep the ICS AlarmClock/SetAlarm screens.
   const jbClockState = () => { data.jbClock ||= {tab: 'clock', timers: [], stopwatch: {accumulated: 0, started: null, laps: []}}; return {...data.jbClock, timerDigits: ui.timerDigits || '', timerSetup: !!ui.timerSetup}; };
   function renderClock() {
+    if (ui.sub === 'cities') return JBDeskClock.cities(jbClockState(), key => i18n.t(key), {locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24, words: {title: i18n.t('Cities'), selected: i18n.t('Selected Cities')}});
     if (['alarms', 'alarm-edit'].includes(ui.sub)) return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale(),deviceDate());
     return JBDeskClock.render(jbClockState(), key => i18n.t(key), {locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24, alarm: nextAlarmLabel(), date: deviceDate().toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'short', day: 'numeric'}).toLocaleUpperCase(i18n.locale())});
   }
@@ -2013,7 +2017,12 @@
         }
         data.jbClock.stopwatch = JBDeskClock.stopwatchAction(data.jbClock.stopwatch, id, Date.now()); save(); render(); break;
       }
-      case 'jbclock-cities': case 'jbclock-menu': toast('Not available in this demo'); break;
+      case 'jbclock-menu': toast('Not available in this demo'); break;
+      // CitiesActivity: the chosen cities are kept in the clock state; the list keeps its place while ticking them.
+      case 'jbclock-cities': ui.sub = 'cities'; ui.overlay = ''; render(); break;
+      case 'jbclock-city': { const list = viewport.querySelector('.jbclock-city-list'), top = list?.scrollTop || 0; jbClockState(); const chosen = data.jbClock.cities ||= []; const at = chosen.indexOf(id); if (at >= 0) chosen.splice(at, 1); else chosen.push(id); save(); render(); const after = viewport.querySelector('.jbclock-city-list'); if (after) after.scrollTop = top; break; }
+      case 'jbclock-cities-menu': ui.overlay = 'jbclock-cities-menu'; renderOverlay(); break;
+
       case 'clock-dim': ui.clockDim=!ui.clockDim; render(); break;
       case 'alarm-new': editAlarm(); break;
       case 'alarm-edit': editAlarm(id); break;
