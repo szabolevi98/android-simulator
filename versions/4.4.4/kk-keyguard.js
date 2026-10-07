@@ -26,10 +26,11 @@
     return Math.max(glowAlpha, waveAlpha);
   }
   // KeyguardHostView page order: add-widget slot, user widgets, transport (when music is active), status clock, camera.
-  function pages(widgets = [], {music = false} = {}) {
+  // KitKat hides the add slot and the user widgets unless Security > Enable widgets is on (getWidgetsEnabled, off by default).
+  function pages(widgets = [], {music = false, widgetsEnabled = false} = {}) {
     const list = [];
-    if (widgets.length < MAX_WIDGETS) list.push({type: 'add'});
-    widgets.forEach(widget => list.push({type: 'widget', widget}));
+    if (widgetsEnabled && widgets.length < MAX_WIDGETS) list.push({type: 'add'});
+    if (widgetsEnabled) widgets.forEach(widget => list.push({type: 'widget', widget}));
     if (music) list.push({type: 'transport'});
     list.push({type: 'status'}, {type: 'camera'});
     return list;

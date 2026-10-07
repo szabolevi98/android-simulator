@@ -466,7 +466,7 @@
   function keyguardParts() {
     // TransportControlView covers the clock rows while the Music service is active.
     const track = tracks[ui.music.track], transport = musicActive() ? `<div class="lock-transport" data-no-translate><div class="lock-transport-art"></div><div class="lock-transport-bar"><p><span>${safe(track.title)}</span> - ${safe(track.artist)} - ${safe(track.album)}</p><div><button data-action="lock-media" data-id="previous" aria-label="${safe(i18n.t('Previous track'))}"><img src="assets/music-ic_media_previous.png" alt=""></button><button data-action="lock-media" data-id="play" aria-label="${safe(i18n.t(ui.music.playing ? 'Pause' : 'Play'))}"><img src="assets/music-ic_media_${ui.music.playing ? 'pause' : 'play'}.png" alt=""></button><button data-action="lock-media" data-id="next" aria-label="${safe(i18n.t('Next track'))}"><img src="assets/music-ic_media_next.png" alt=""></button></div></div></div>` : '';
-    const kgPages = JBKeyguard.pages(data.keyguardWidgets || [], {music: musicActive()});
+    const kgPages = JBKeyguard.pages(data.keyguardWidgets || [], {music: musicActive(), widgetsEnabled: !!data.settings.kgWidgets});
     if (!Number.isInteger(ui.kgPage) || ui.kgPage >= kgPages.length || kgPages[ui.kgPage]?.type === 'camera') ui.kgPage = JBKeyguard.defaultPage(kgPages);
     const now = deviceDate(), hour24 = !!data.settings.hour24;
     return {list: kgPages, parts: {
@@ -498,7 +498,7 @@
     ui.kgPad?.destroy(); ui.kgPad = null; ui.kgChallenge?.destroy(); ui.kgChallenge = null;
     const root = viewport.querySelector('.jb-keyguard');
     if (!root) return;
-    const kgPages = JBKeyguard.pages(data.keyguardWidgets || [], {music: musicActive()}), secure = root.matches('[data-kg-secure]'), reduced = !!reducedMotion?.matches;
+    const kgPages = JBKeyguard.pages(data.keyguardWidgets || [], {music: musicActive(), widgetsEnabled: !!data.settings.kgWidgets}), secure = root.matches('[data-kg-secure]'), reduced = !!reducedMotion?.matches;
     if (secure) ui.kgChallenge = JBKeyguard.challenge(root, {up: ui.kgUp !== false, bouncing: !!ui.kgBouncing, reduced, onChange: up => { ui.kgUp = up; }, onBouncer: on => { ui.kgBouncing = on; if (!on) ui.kgPending = null; }});
     else ui.kgPad = JBKeyguard.glowPad(root.querySelector('.jbk-challenge'), {onUnlock: () => { suppressClickUntil = Date.now() + 350; home(); }, haptic: () => data.settings.haptic !== false, reduced});
     // With the challenge over the pager only swipes that start at the screen edges page (setOnlyAllowEdgeSwipes).
