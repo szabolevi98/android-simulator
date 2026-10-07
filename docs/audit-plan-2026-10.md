@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 32 / 32 kész.
+**Állapot:** a 4.5. pont kész (32 / 32); az 5. lépésen vagyok.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -91,7 +91,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 ## 5. Kis ráfordítású funkciók (6–8 óra)
 
 - [x] Helyi keresés: Play Music és médiaappok, Keep, Drive, YouTube, GB Talk / Voice, Photos, dokumentumlisták – Play Music 5.0/5.2/5.8 (367edd9), Movies és Books (ca9c6f9), YouTube 4.5/5.2/10.03 (66c8a24), Keep 3.0 (82345f3), Drive 1.2/2.1 (7eda159), GB Talk (1384048) és Voice (6006173), Docs/Sheets/Slides (bced687). Nincs keresés a gyári menükben: Keep 1.0/2.0, Quickoffice 6.3 kezdőlap; a 4.3-as képben nincs Drive. A Photos (4.4/5.1) még nem APK-alapú, a keresése a 6. lépés Photos-átdolgozásával készül
-- [ ] Gmail csatolmány (GB, ICS) a galériából
+- [x] Gmail csatolmány (GB, ICS) a galériából: a Galéria választó módja visszaadja a képet a nyitott piszkozatnak; GB image_attachment.xml, ICS attachment.xml a saját grafikákkal (3cc1c79)
 - [ ] Világóra városválasztással (JB / KK / LP)
 - [ ] GB Óra beállításai
 - [ ] GB kézi dátum, idő és időzóna
@@ -235,3 +235,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 4.5. pont: People képenként (szövegek, menük, törlés-ablakok; GB tisztítás) | f4f1d65 |
 | 2026-10-07 | 4.5. pont: Hangouts – KK saját APK-grafikák, LP KK-stíluslap nélkül | e80b337 |
 | 2026-10-07 | 4.5. pont: Galéria – KK Nyomtatás menüpont, LP Gallery2-maradványok ki | 39142dc |
+| 2026-10-07 | 5. lépés: Gmail csatolmány a galériából (GB, ICS) | 3cc1c79 |
