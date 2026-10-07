@@ -52,3 +52,6 @@
 .cal-up{width:13.63px!important;height:27.25px!important}
 /* The action bar's list navigation (Day / Week / Month / Agenda) on spinner_ab_default_holo_light. */
 .cal-bar .cal-view-picker{border:0 solid transparent;border-width:3.41px 13.63px 3.41px 3.41px;border-image:url('assets/calendar-spinner_ab_default_holo_light.png') 8 32 52 8 fill / 3.41px 13.63px 22.14px 3.41px stretch;background:none;margin:0 4px 0 6px;height:40.88px}
+/* edit_event_1.xml in the 4.3 Calendar (201306090): the All day label sits 8 dp left of its row (layout_marginLeft -8dp;
+   the KitKat build drops the margin). */
+.cal-check>span{margin-left:-7.2px}
