@@ -44,3 +44,12 @@ const svg=decodeURIComponent(media.image({look:'bw_contrast',border:'film',mirro
 assert.ok(svg.includes('feColorMatrix type="saturate" values="0"')&&svg.includes('slope="1.2"')&&svg.includes('url(#vig)')&&svg.includes('fill="#111"')&&svg.includes('scale(-1 1)'));
 assert.ok(!decodeURIComponent(media.image({})).includes('<filter'),'no filter without edits');
 console.log('JB gallery checks passed: clusters, slot and film geometry, back stack, markup, editor and picture filters.');
+// KitKat's GalleryGoogle adds Print to menu/photo.xml; Lollipop has no Gallery: lp-gallery.js only groups the pictures
+// for Photos and no Gallery2 stylesheet or view code reaches it.
+{
+  const kk=fs.readFileSync('versions/4.4.4/kk-gallery.js','utf8');assert.match(kk,/"hu":"Nyomtatás"|"hu": "Nyomtatás"/);assert.match(kk,/GalleryGoogle 1\.1\.40304/);
+  const c={window:{}};vm.runInNewContext(fs.readFileSync('versions/5.1.1/lp-gallery.js','utf8'),c);
+  assert.deepEqual(Object.keys(c.window.LPGallery),['groups','items']);
+  assert.ok(!fs.existsSync('versions/5.1.1/lp-gallery.css'));assert.doesNotMatch(fs.readFileSync('versions/5.1.1/simulator.js','utf8'),/JBGallery|data-jbgal/);
+  console.log('Gallery per image checks passed.');
+}

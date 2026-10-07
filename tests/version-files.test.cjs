@@ -11,9 +11,9 @@ const SHARED={
   // Not yet checked against each image (the audit's follow-up list in docs/audit-plan-2026-10.md).
   
   
-  'gallery.js':[['4.4.4','5.1.1']],
   
-  'gallery.css':[['4.4.4','5.1.1']],
+  
+  
   
   
   'people.css':[['4.3','4.4.4']],'people.js':[['4.0.4','4.3']],

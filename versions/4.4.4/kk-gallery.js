@@ -1,9 +1,12 @@
-/* Android 4.3 Gallery (Gallery2 android-4.3_r1.1): AlbumSetPage / AlbumPage slot grids that scroll sideways,
-   the clustering spinner, PhotoPage with film mode, and a reduced FilterShow photo editor. Pictures are the
+/* KitKat's Gallery: GalleryGoogle 1.1.40304 of the KTU84P image, the same Gallery2 as Jelly Bean 4.3's 1.1.40012 apart
+   from details (menu/photo.xml adds Print for the 4.4 print framework): AlbumSetPage / AlbumPage slot grids that scroll
+   sideways, the clustering spinner, PhotoPage with film mode, and a reduced FilterShow photo editor. Pictures are the
    simulator's own illustrations. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  // menu/photo.xml's Print (print_image) in GalleryGoogle 1.1.40304's words.
+  const PRINT = {"hu": "Nyomtatás", "de": "Drucken", "fr": "Imprimer", "es": "Imprimir"};
   const DP = .9;
   // Config.AlbumSetPage / AlbumPage, PositionController and PhotoPage constants.
   const G = {setRows: 3, setGap: 7 * DP, setPad: 7 * DP, labelHeight: 30 * DP, albumRows: 4, albumGap: 5 * DP,
@@ -81,7 +84,7 @@
     if (open === 'mode') { cls = 'jbgal-dropdown jbgal-dropdown-mode'; body = item('data-jbgal-mode="film"', 'Filmstrip view', false) + item('data-jbgal-mode="grid"', 'Grid view', true); }
     if (open === 'set-menu') body = item('data-jbgal-toast="Select album"', 'Select album') + item('data-jbgal-toast="Settings"', 'Settings');
     if (open === 'album-menu') body = item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-toast="Select item"', 'Select item') + item('data-jbgal-open="cluster"', 'Group by');
-    if (open === 'photo-menu') body = item('data-jbgal-delete', 'Delete') + item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-edit', 'Edit') + item('data-action="gallery-rotate" data-id="-90"', 'Rotate left') + item('data-action="gallery-rotate" data-id="90"', 'Rotate right') + item('data-jbgal-edit="geometry"', 'Crop') + item('data-jbgal-setas', 'Set picture as') + item('data-action="gallery-details"', 'Details');
+    if (open === 'photo-menu') body = item('data-jbgal-delete', 'Delete') + item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-edit', 'Edit') + item('data-action="gallery-rotate" data-id="-90"', 'Rotate left') + item('data-action="gallery-rotate" data-id="90"', 'Rotate right') + item('data-jbgal-edit="geometry"', 'Crop') + item('data-jbgal-setas', 'Set picture as') + item('data-action="gallery-details"', 'Details') + `<button type="button" data-action="toast" data-id="Not available in this simulator">${e(PRINT[window.AndroidI18n?.language] || 'Print')}</button>`;
     return `<div class="jbgal-popup-scrim" data-jbgal-close></div><div class="${cls}" role="menu">${body}</div>`;
   }
 
