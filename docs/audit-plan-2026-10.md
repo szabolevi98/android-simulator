@@ -94,7 +94,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Gmail csatolmány (GB, ICS) a galériából: a Galéria választó módja visszaadja a képet a nyitott piszkozatnak; GB image_attachment.xml, ICS attachment.xml a saját grafikákkal (3cc1c79)
 - [x] Világóra városválasztással (JB / KK / LP): a képek saját cities.xml-je (dc-cities.js), CitiesActivity verziónként (JB betűfejlécek; KK/LP kiválasztottak elöl és rendezés), világóra-sorok a főóra alatt (8e4ea20)
 - [x] GB Óra beállításai: SettingsActivity (néma mód, ébresztési hangerő, szundi hossza, hangerőgombok) – a szundi és a hangerőgombok valóban így működnek (dde691b)
-- [ ] GB kézi dátum, idő és időzóna
+- [x] GB kézi dátum, idő és időzóna (55ddac4)
 - [ ] Keep: jelölőnégyzetes lista és kép
 - [ ] Google Now emlékeztetők és kártyabeállítások
 - [ ] Chrome: böngészési adatok törlése és a beállítások
@@ -238,3 +238,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 5. lépés: Gmail csatolmány a galériából (GB, ICS) | 3cc1c79 |
 | 2026-10-07 | 5. lépés: Világóra városválasztással (JB / KK / LP) | 8e4ea20 |
 | 2026-10-07 | 5. lépés: GB Óra beállításai | dde691b |
+| 2026-10-07 | 5. lépés: GB kézi dátum, idő és időzóna | 55ddac4 |
