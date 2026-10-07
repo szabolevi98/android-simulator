@@ -10,7 +10,7 @@ const SHARED={
   'play-store.js':[['4.0.4','4.3']],
   // Not yet checked against each image (the audit's follow-up list in docs/audit-plan-2026-10.md).
   
-  'hangouts.css':[['4.4.4','5.1.1']],
+  
   'gallery.js':[['4.4.4','5.1.1']],
   
   'gallery.css':[['4.4.4','5.1.1']],

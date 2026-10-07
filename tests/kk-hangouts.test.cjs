@@ -6,7 +6,7 @@ const {Hangouts,ICSMessaging}=context.window;context.ICSMessaging=ICSMessaging;
 const data={contacts:[{id:1,name:'Alex Morgan',phone:'202-555-0148'},{id:4,name:'Mom',phone:'202-555-0107'}],messages:[{id:1,contact:1,body:'Hey!',mine:false,time:'10:42'},{id:2,contact:1,body:'See you at 11!',mine:true,time:'10:45'}],messageDrafts:{},photos:[]};
 const t=k=>k;
 const list=Hangouts.render(data,{sub:''},t,'en');
-assert.ok(list.includes('hg-thread')&&list.includes('<i>SMS</i>')&&list.includes('You: See you at 11!')&&list.includes('data-action="new-message"'));
+assert.ok(list.includes('hg-thread')&&list.includes('hg-ic_sms_status_badge.png')&&list.includes('You: See you at 11!')&&list.includes('data-action="new-message"'));
 const picker=Hangouts.render(data,{sub:'new'},t,'en');
 assert.ok(picker.includes('Type a name, email, number, or circle')&&(picker.match(/data-action="hg-pick"/g)||[]).length===2);
 const thread=Hangouts.render(data,{sub:'thread',thread:1},t,'en');
@@ -20,3 +20,12 @@ assert.ok(sim.includes("case 'hangouts': return Hangouts.render(")&&!sim.include
 assert.ok(!/GEL_ALIASES = \{[^}]*hangouts/.test(sim));
 assert.ok(fs.existsSync('versions/4.4.4/assets/stat_notify_hangouts.png'));
 console.log('kk-hangouts ok');
+// Hangouts 2.0.303's own art instead of drawn icons; Lollipop no longer loads KitKat's stylesheet.
+{
+  const src=fs.readFileSync('versions/4.4.4/hangouts.js','utf8'),css=fs.readFileSync('versions/4.4.4/hangouts.css','utf8');
+  assert.doesNotMatch(src,/<svg/);assert.doesNotMatch(css,/svg/);
+  for(const f of [...src.matchAll(/'(ic_[a-z_]+|default_avatar)'/g)].map(m=>`hg-${m[1]}.png`).concat(['hg-ic_sms_status_badge.png','hg-ic_send_dark_disabled.png']))assert.ok(fs.existsSync(`versions/4.4.4/assets/${f}`),f);
+  assert.ok(!fs.existsSync('versions/5.1.1/hangouts.css'));assert.doesNotMatch(fs.readFileSync('versions/5.1.1/index.html','utf8'),/href="hangouts\.css/);
+  assert.match(fs.readFileSync('versions/5.1.1/lp-hangouts.css','utf8'),/\.hg-person\{/);
+  console.log('Hangouts art checks passed.');
+}
