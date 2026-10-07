@@ -63,3 +63,11 @@
 .lpp-field input{width:100%;border:0;border-bottom:.906px solid #0000004d;background:none;outline:0;padding:6px 0 7px;font:400 14.5px Roboto,sans-serif;color:#202020;border-radius:0}
 .lpp-field input:focus{border-bottom:1.81px solid #0288d1;padding-bottom:6px}
 .lpp-field input::placeholder{color:#00000061}
+/* ContactDeletionInteraction in ContactsAlertDialogTheme (dp x 0.906): the white Material alert with its 2 dp corners,
+   24 dp padding, the 16 sp message in textColorSecondary, and the borderless Cancel / OK in colorAccent #0288D1. */
+.lpp-alert-scrim{position:absolute;inset:0;z-index:29;background:#00000099}
+.lpp-alert{position:absolute;z-index:30;left:21.74px;right:21.74px;top:50%;transform:translateY(-50%);background:#fff;border-radius:1.81px;box-shadow:0 10.87px 21.74px #0000004d;font-family:Roboto,sans-serif}
+.lpp-alert p{margin:0;padding:21.74px 21.74px 0;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008a}
+.lpp-alert-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:21.74px 7.25px 7.25px}
+.lpp-alert-buttons button{min-width:58px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;color:#0288d1!important;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;cursor:pointer}
+.lpp-alert-buttons button:active{background:#0000001f}

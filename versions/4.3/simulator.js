@@ -1141,8 +1141,16 @@
     ui.sub = isNew ? 'new' : 'edit'; ui.overlay = ''; render();
   }
   function peopleOverlay() {
-    if (ui.overlay === 'people-menu') return '<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="people-edit">Edit contact</button><button data-action="people-delete">Delete contact</button></div>';
-    if (ui.overlay === 'people-delete') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="Delete contact"><h3>Delete contact</h3><p>${safe(contact(ui.selectedContact)?.name || '')}</p><p>Messages will be kept under the phone number.</p><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="people-confirm-delete">Delete</button></div></div>`;
+    /* ContactDetailFragment's view_contact menu (Edit, Share, Delete, Set ringtone, the checkable All calls to voicemail
+       and, from 4.2, Place on Home screen), people_options' overflow (Contacts to display, Import/export, Accounts,
+       Settings and, from 4.2, Help; Clear frequents only with frequent contacts) and ContactDeletionInteraction (Ice Cream
+       Sandwich titles it "Delete contact?" with the alert icon; later releases show only the message), in this image's
+       words (people-strings.js). */
+    const P = key => PeopleStrings.t(key), unavailable = 'Not available in this simulator';
+    const option = (action, label, id = '') => `<button data-action="${action}" data-id="${safe(id)}">${safe(P(label))}</button>`;
+    if (ui.overlay === 'people-menu') { const person = contact(ui.selectedContact); return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu people-menu" data-no-translate>${option('people-edit', 'Edit')}${option('toast', 'Share', unavailable)}${option('people-delete', 'Delete')}${option('toast', 'Set ringtone', unavailable)}<button data-action="people-voicemail" role="menuitemcheckbox" aria-checked="${!!person?.sendToVoicemail}"><span>${safe(P('All calls to voicemail'))}</span><img src="assets/btn_check_${person?.sendToVoicemail ? 'on' : 'off'}_holo_dark.png" alt=""></button>${PeopleStrings.has('Place on Home screen') ? option('toast', 'Place on Home screen', unavailable) : ''}</div>`; }
+    if (ui.overlay === 'people-list-menu') return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu people-menu people-list-menu" data-no-translate>${['Contacts to display', 'Import/export', 'Accounts', 'Settings', ...(PeopleStrings.has('Help') ? ['Help'] : [])].map(label => option('toast', label, unavailable)).join('')}</div>`;
+    if (ui.overlay === 'people-delete') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="people-alert" role="alertdialog" aria-label="${safe(P('This contact will be deleted.'))}" data-no-translate>${PeopleStrings.has('Delete contact?') ? `<h3><img src="assets/people-ic_dialog_alert_holo_light.png" alt="">${safe(P('Delete contact?'))}</h3>` : ''}<p>${safe(P('This contact will be deleted.'))}</p><div class="people-alert-buttons">${option('close-overlay', 'Cancel')}${option('people-confirm-delete', 'OK')}</div></div>`;
     const group = data.contactGroups.find(g=>g.id===ui.peopleEditGroup);
     return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog mms-dialog people-editor" role="dialog" aria-label="${group?'Edit group':'New group'}" data-form="people-group"><h3>${group?'Edit group':'New group'}</h3><label>Group name<input name="name" required maxlength="50" value="${safe(group?.name||'')}"></label>${data.contacts.map(p=>`<label class="people-membership"><input type="checkbox" name="members" value="${p.id}" ${group?.members.includes(p.id)?'checked':''}>${safe(p.name)}</label>`).join('')}<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Save</button></div></form>`;
   }
@@ -1883,6 +1891,8 @@
       case 'people-menu': ui.overlay='people-menu'; renderOverlay(); break;
       case 'people-star': { const person=contact(ui.selectedContact); if(person)person.favorite=!person.favorite; save(); render(); break; }
       case 'people-delete': ui.overlay='people-delete'; renderOverlay(); break;
+      case 'people-list-menu': ui.overlay='people-list-menu'; renderOverlay(); break;
+      case 'people-voicemail': { const person=contact(ui.selectedContact); if(person)person.sendToVoicemail=!person.sendToVoicemail; save(); ui.overlay=''; renderOverlay(); break; }
       case 'people-confirm-delete': ICSPeople.remove(data,ui.selectedContact); save(); ui.sub=''; ui.overlay=''; render(); break;
       case 'people-group': ui.peopleGroup=id; ui.sub='group'; ui.peopleQuery=''; render(); break;
       case 'people-new-group': ui.peopleEditGroup=''; ui.overlay='people-group'; renderOverlay(); break;

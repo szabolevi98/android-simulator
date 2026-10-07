@@ -1132,7 +1132,7 @@
     const form = viewport.querySelector('.gbce'); if (!form || !ui.peopleDraft) return;
     for (const key of ['given', 'family', 'prefix', 'middle', 'suffix', 'phone', 'email', 'company', 'notes']) if (form.elements[key]) ui.peopleDraft[key] = form.elements[key].value;
   }
-  function renderPeople() { if (ui.sub === 'edit' || ui.sub === 'new') return GBContactEditor.render(gbceContext()); if (!ui.sub || ui.sub === 'detail' && contact(ui.selectedContact)) return GBPhone.render(gbPhoneContext()); return ICSPeople.render(data,ui,key => i18n.t(key),i18n.locale()); }
+  function renderPeople() { if (ui.sub === 'edit' || ui.sub === 'new') return GBContactEditor.render(gbceContext()); if (ui.sub === 'detail' && !contact(ui.selectedContact)) ui.sub = ''; return GBPhone.render(gbPhoneContext()); }
   function editPerson(isNew = false) {
     const person = isNew ? {} : contact(ui.selectedContact);
     if (!person) return;
@@ -1140,11 +1140,11 @@
     ui.peopleDraft = {...person,phone:person.phone??'',email:person.email??'',groups:data.contactGroups.filter(g=>g.members.includes(person.id)).map(g=>g.id)};
     ui.sub = isNew ? 'new' : 'edit'; ui.overlay = ''; render();
   }
+  // ContactDeletionInteraction 2.3: deleteConfirmation_title with ic_dialog_alert, deleteConfirmation, OK / Cancel.
   function peopleOverlay() {
-    if (ui.overlay === 'people-menu') return '<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="people-edit">Edit contact</button><button data-action="people-delete">Delete contact</button></div>';
-    if (ui.overlay === 'people-delete') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="Delete contact"><h3>Delete contact</h3><p>${safe(contact(ui.selectedContact)?.name || '')}</p><p>Messages will be kept under the phone number.</p><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="people-confirm-delete">Delete</button></div></div>`;
-    const group = data.contactGroups.find(g=>g.id===ui.peopleEditGroup);
-    return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog mms-dialog people-editor" role="dialog" aria-label="${group?'Edit group':'New group'}" data-form="people-group"><h3>${group?'Edit group':'New group'}</h3><label>Group name<input name="name" required maxlength="50" value="${safe(group?.name||'')}"></label>${data.contacts.map(p=>`<label class="people-membership"><input type="checkbox" name="members" value="${p.id}" ${group?.members.includes(p.id)?'checked':''}>${safe(p.name)}</label>`).join('')}<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">Save</button></div></form>`;
+    if (ui.overlay !== 'people-delete') return '';
+    const T = key => GBPhone.text(i18n.language, key);
+    return GBUI.dialog({t: key => i18n.t(key), title: T('deleteConfirmation_title'), icon: 'ic_dialog_alert', message: T('deleteConfirmation'), buttons: [{action: 'people-confirm-delete', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]});
   }
   function renderMessaging() { return GBMms.render(gbMmsContext()); }
   function gbMmsContext() {
@@ -1727,7 +1727,6 @@
       case 'phone-log-detail': ui.phoneCallId=Number(id);ui.sub='call-detail';render();break;
       case 'phone-log-back': ui.sub='';ui.phoneTab='history';render();break;
       case 'phone-log-message': { const recipient=ICSMessaging.recipient(id,data.contacts); if(recipient)openMessageThread(recipient.key);else toast('Enter a valid phone number');break; }
-      case 'people-tab': ui.peopleTab=id; ui.sub=''; ui.peopleQuery=''; ui.peopleSearching=false; render(); break;
       case 'people-search': ui.peopleTab='all'; ui.peopleSearching=true; render(); viewport.querySelector('.people-search input')?.focus(); break;
       case 'people-edit': ui.gbceMoreName = false; ui.gbceSecondary = false; editPerson(); break;
       case 'gbce-type': gbceSync(); ui.gbceDialog = id; ui.overlay = 'gb-dialog-ce'; renderOverlay(); break;
@@ -1737,13 +1736,9 @@
       case 'gbce-more-name': gbceSync(); ui.gbceMoreName = !ui.gbceMoreName; render(); break;
       case 'gbce-secondary': gbceSync(); ui.gbceSecondary = !ui.gbceSecondary; render(); break;
       case 'gbce-revert': ui.sub = ui.sub === 'edit' && contact(ui.selectedContact) ? 'detail' : ''; ui.peopleDraft = null; render(); break;
-      case 'people-menu': ui.overlay='people-menu'; renderOverlay(); break;
       case 'people-star': { const person=contact(ui.selectedContact); if(person)person.favorite=!person.favorite; save(); render(); break; }
       case 'people-delete': ui.overlay='people-delete'; renderOverlay(); break;
       case 'people-confirm-delete': ICSPeople.remove(data,ui.selectedContact); save(); ui.sub=''; ui.overlay=''; render(); break;
-      case 'people-group': ui.peopleGroup=id; ui.sub='group'; ui.peopleQuery=''; render(); break;
-      case 'people-new-group': ui.peopleEditGroup=''; ui.overlay='people-group'; renderOverlay(); break;
-      case 'people-edit-group': ui.peopleEditGroup=ui.peopleGroup; ui.overlay='people-group'; renderOverlay(); break;
       case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
       case 'new-contact': editPerson(true); break;
       case 'contact-call': startPhoneCall(contact(id)?.phone||'');break;
@@ -2023,13 +2018,6 @@
         if(!contact(id))data.contacts.push(person);
         if(!values.has('given')){const groups=values.getAll('groups');data.contactGroups.forEach(g=>{g.members=g.members.filter(member=>member!==id);if(groups.includes(g.id))g.members.push(id);});}
         save();ui.selectedContact=id;ui.sub='detail';ui.peopleDraft=null;render();toast(GBContactEditor.text(i18n.language,'contactSavedToast'));break;
-      }
-      case 'people-group': {
-        const name=String(values.get('name')||'').trim();if(!name)return;
-        const group=data.contactGroups.find(g=>g.id===ui.peopleEditGroup)||{id:'group-'+Date.now()};
-        group.name=name;group.members=values.getAll('members').map(Number).filter(id=>!!contact(id));
-        if(!data.contactGroups.some(g=>g.id===group.id))data.contactGroups.push(group);
-        save();ui.peopleGroup=group.id;ui.peopleTab='groups';ui.sub='group';ui.overlay='';render();break;
       }
       case 'address': navigateBrowser(values.get('address')); break;
       // AccountSetupCheckSettings: the simulator is offline, so the incoming server check fails like a phone without a connection.
