@@ -22,15 +22,22 @@ def from_array(device, apk, name):
     public = res.get_public_resources(pkg); public = public.decode() if isinstance(public, bytes) else public
     rid = dict(re.findall(r'type="array" name="([^"]+)" id="(0x[0-9a-f]+)"', public)).get(array)
     if not rid: return None
-    def text(value):
-        if value.data_type == 1: return res.get_resolved_res_configs(value.data)[0][1]
-        return value.format_value()
-    values = {}
-    for config, entry in res.get_res_configs(int(rid, 16), None):
-        lang = config.get_language(); lang = '' if '\x00' in lang else lang
-        region = config.get_country()
-        if region and '\x00' not in region: continue
-        values.setdefault(lang, text(entry.item.items[int(index)][1]))
+    def by_lang(rid):
+        out = {}
+        for config, entry in res.get_res_configs(rid, None):
+            lang, region = config.get_language(), config.get_country()
+            if region and '\x00' not in region: continue
+            out.setdefault('' if '\x00' in lang else lang, entry)
+        return out
+    arrays = by_lang(int(rid, 16))
+    def text(lang):
+        # An untranslated array of string references still reads each string in the language.
+        value = (arrays.get(lang) or arrays.get('')).item.items[int(index)][1]
+        if value.data_type != 1: return value.format_value() if lang in arrays or not lang else None
+        strings = by_lang(value.data); entry = strings.get(lang) or (strings.get('') if not lang else None)
+        return entry.get_key_data() if entry else None
+    values = {lang: text(lang) for lang in ('', 'hu', 'de', 'fr', 'es') if '' in arrays}
+    values = {lang: value for lang, value in values.items() if value is not None}
     if '' not in values: return None
     return values[''], {lang: values[lang] for lang in ('hu', 'de', 'fr', 'es') if lang in values}
 def from_arsc(path):

@@ -53,7 +53,7 @@
     const {t, data, locale} = ctx;
     const query = String(ctx.ui.chromeHistoryQuery || '').toLocaleLowerCase();
     const rows = [...new Set([...data.browserHistory].reverse())].filter(url => !internal(url) && (!query || `${ctx.title(url)} ${url}`.toLocaleLowerCase().includes(query))).slice(0, 40);
-    return `<div class="chr-history"><form class="chr-history-search" data-form="chrome-history-search"><input name="query" aria-label="${e(t('Search history'))}" placeholder="${e(t('Search history'))}" value="${e(ctx.ui.chromeHistoryQuery || '')}"><button type="submit">${e(t('Search history'))}</button></form><button class="chr-clear" data-action="chrome-unsupported">${e(t('Clear browsing data…'))}</button><h3>${e(new Date().toLocaleDateString(locale, {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'}))}</h3>${rows.map(url => `<button class="chr-history-row" data-action="browser-link" data-url="${e(url)}"><span class="chr-globe">${icon.globe}</span><span><strong>${e(ctx.title(url))}</strong><small>${e(display(url))}</small></span></button>`).join('') || `<p class="chr-empty">${e(t('No history'))}</p>`}</div>`;
+    return `<div class="chr-history"><form class="chr-history-search" data-form="chrome-history-search"><input name="query" aria-label="${e(t('Search history'))}" placeholder="${e(t('Search history'))}" value="${e(ctx.ui.chromeHistoryQuery || '')}"><button type="submit">${e(t('Search history'))}</button></form><button class="chr-clear" data-action="chrome-clear-open">${e(t('Clear browsing data…'))}</button><h3>${e(new Date().toLocaleDateString(locale, {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'}))}</h3>${rows.map(url => `<button class="chr-history-row" data-action="browser-link" data-url="${e(url)}"><span class="chr-globe">${icon.globe}</span><span><strong>${e(ctx.title(url))}</strong><small>${e(display(url))}</small></span></button>`).join('') || `<p class="chr-empty">${e(t('No history'))}</p>`}</div>`;
   }
   function find(ctx) {
     if (ctx.ui.browserFind === undefined) return '';
@@ -64,10 +64,55 @@
     const cards = tabs.map((tab, i) => `<article class="chr-card${i === active ? ' current' : ''}${tab.incognito ? ' incognito' : ''}" style="--i:${i}"><div class="chr-card-page" role="button" tabindex="0" data-action="browser-tab" data-id="${i}" aria-label="${e(ctx.title(tab.url))}">${tab.url === NTP ? `<div class="chr-card-ntp">${tab.incognito ? icon.incognito : '<img src="assets/chrome.png" alt="">'}</div>` : thumb(ctx, tab.url)}</div><div class="chr-card-tab"><span class="chr-globe">${icon.globe}</span><button data-action="browser-tab" data-id="${i}">${e(tab.url === NTP ? t('New tab') : ctx.title(tab.url))}</button><button class="chr-card-close" data-action="browser-close-tab" data-id="${i}" aria-label="${e(t('Close tab'))}">${icon.close}</button></div></article>`).join('');
     return `<div class="app-view ics-browser chr-app chr-switcher-view"><div class="chr-switcher-bar"><button class="chr-new-tab" data-action="browser-new-tab">${icon.plus}<span>${e(t('New tab'))}</span></button>${tabsButton(tabs.length)}${menuButton}</div><div class="chr-stack">${cards}</div></div>`;
   }
+  /* Settings (audit step 5), Chrome 32.0.1700.99: preference_headers_phone.xml (Basics: Search engine, Autofill forms, Save passwords, Homepage; Advanced: Privacy, Accessibility, Content settings, Bandwidth management, About Chrome) in Theme.Holo.Light. privacy_preferences.xml: the check boxes with their summaries, the
+     Usage and crash reports list and 'Do Not Track'; PRIVACY_MENU's Clear browsing data is the action bar button that opens
+     the dialog: Clear browsing history, Clear the cache and Clear cookies, site data ticked, Clear saved passwords and
+     Clear autofill data not, Cancel / Clear, then "Clearing browsing data" / "Please wait…". The history page's link
+     opens the same dialog. Clearing the history empties the history page and Most visited. About Chrome lists the
+     application version and the operating system. Texts come from the image's Chrome (stock-strings.js). */
+  const PREFS = {version: '32.0.1700.99', os: 'Android 4.4.4; Nexus 5 Build/KTU84P', material: false,
+    headers: [['cat', 'Basics'], ['search_engine', 'Search engine', 'Google'], ['autofill', 'Autofill forms'], ['passwords', 'Save passwords'], ['homepage', 'Home page'], ['cat', 'Advanced'], ['privacy', 'Privacy'], ['accessibility', 'Accessibility'], ['content', 'Content settings'], ['bandwidth', 'Bandwidth management'], ['about', 'About Chrome']],
+    privacy: [['check', 'navigation_error', 'Navigation error suggestions', 'Navigation error summary'], ['check', 'search_suggestions', 'Search and URL suggestions', 'Search suggestions summary'], ['check', 'network_predictions', 'Network action predictions', 'Network predictions summary'], ['list', 'crash', 'Usage and crash reports', ['Always send', 'Only send on Wi-Fi', 'Never send'], 2], ['screen', 'dnt', "'Do Not Track'", 'Off']],
+    topMenu: [['chrome-unsupported', 'Help']], clearInBar: true};
+  const CS = (ctx, key) => { const row = window.StockStrings?.chrome?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
+  const CLEAR_ITEMS = [['history', 'Clear browsing history', true], ['cache', 'Clear the cache', true], ['cookies', 'Clear cookies, site data', true], ['passwords', 'Clear saved passwords', false], ['formdata', 'Clear autofill data', false]];
+  const prefValue = (ctx, key, fallback) => (ctx.data.chromePrefs || {})[key] ?? fallback;
+  function clearDialog(ctx) {
+    const c = ctx.ui.chromeClear, s = key => CS(ctx, key);
+    if (!c) return '';
+    if (c.busy) return `<div class="chr-dlg-scrim"></div><div class="chr-dlg chr-dlg-progress" role="alertdialog"><h3>${e(s('Clearing browsing data'))}</h3><div class="chr-dlg-busy"><i class="chr-spinner"></i><p>${e(s('Please wait…'))}</p></div></div>`;
+    const rows = CLEAR_ITEMS.map(([key, label]) => `<button type="button" class="chr-dlg-check${c[key] ? ' on' : ''}" data-action="chrome-clear-toggle" data-id="${key}" role="checkbox" aria-checked="${!!c[key]}"><span>${e(s(label))}</span><i></i></button>`).join('');
+    return `<button type="button" class="chr-dlg-scrim" data-action="chrome-clear-cancel" aria-label="${e(s('Cancel'))}"></button><div class="chr-dlg" role="dialog"><h3>${e(s('Clear browsing data'))}</h3><div class="chr-dlg-list">${rows}</div><div class="chr-dlg-buttons"><button type="button" data-action="chrome-clear-cancel">${e(s('Cancel'))}</button><button type="button" data-action="chrome-clear-run"${CLEAR_ITEMS.some(([key]) => c[key]) ? '' : ' disabled'}>${e(s('Clear'))}</button></div></div>`;
+  }
+  function listDialog(ctx) {
+    const open = ctx.ui.chromeList, s = key => CS(ctx, key);
+    const item = open && PREFS.privacy.find(row => row[0] === 'list' && row[1] === open);
+    if (!item) return '';
+    const value = prefValue(ctx, item[1], item[4]);
+    return `<button type="button" class="chr-dlg-scrim" data-action="chrome-list-close" aria-label="${e(s('Cancel'))}"></button><div class="chr-dlg" role="dialog"><h3>${e(s(item[2]))}</h3><div class="chr-dlg-list">${item[3].map((label, i) => `<button type="button" class="chr-dlg-radio${value === i ? ' on' : ''}" data-action="chrome-list-pick" data-id="${item[1]}:${i}" role="radio" aria-checked="${value === i}"><span>${e(s(label))}</span><i></i></button>`).join('')}</div><div class="chr-dlg-buttons"><button type="button" data-action="chrome-list-close">${e(s('Cancel'))}</button></div></div>`;
+  }
+  function settings(ctx) {
+    const {ui} = ctx, s = key => CS(ctx, key), page = ui.chromePref || '';
+    const title = page === 'privacy' ? s('Privacy') : page === 'about' ? s('About Chrome') : s('Settings');
+    const row = (action, id, label, summary = '', extra = '') => `<button type="button" class="chr-pref" data-action="${action}" data-id="${id}"><span class="chr-pref-text"><b>${e(label)}</b>${summary ? `<small>${e(summary)}</small>` : ''}</span>${extra}</button>`;
+    let body;
+    if (page === 'privacy') body = PREFS.privacy.map(item => item[0] === 'check'
+      ? row('chrome-pref-toggle', item[1], s(item[2]), s(item[3]), `<i class="chr-pref-check${prefValue(ctx, item[1], true) ? ' on' : ''}" role="checkbox" aria-checked="${!!prefValue(ctx, item[1], true)}"></i>`)
+      : item[0] === 'list' ? row('chrome-list-open', item[1], s(item[2]), s(item[3][prefValue(ctx, item[1], item[4])]))
+      : row('chrome-unsupported', item[1], s(item[2]), item[3] ? s(item[3]) : '')).join('');
+    else if (page === 'about') body = row('chrome-noop', 'version', s('Application version'), `Chrome ${PREFS.version}`) + row('chrome-noop', 'os', s('Operating system'), PREFS.os) + row('chrome-unsupported', 'legal', s('Legal information'));
+    else body = PREFS.headers.map(([id, label, summary]) => id === 'cat' ? `<h4 class="chr-pref-cat">${e(s(label))}</h4>` : row(['privacy', 'about'].includes(id) ? 'chrome-pref' : 'chrome-unsupported', id, s(label), summary || '')).join('');
+    const menuItems = page === 'privacy' ? [...(PREFS.clearInBar ? [] : [['chrome-clear-open', 'Clear browsing data']]), ['chrome-unsupported', 'Help']] : page ? [] : PREFS.topMenu;
+    const clearButton = page === 'privacy' && PREFS.clearInBar ? `<button type="button" class="chr-pref-action" data-action="chrome-clear-open">${e(s('Clear browsing data'))}</button>` : '';
+    const overflow = menuItems.length ? `<button type="button" class="chr-pref-more" data-action="chrome-pref-menu" aria-label="${e(ctx.t('More options'))}"><i></i><i></i><i></i></button>` : '';
+    const popup = ui.chromePrefMenu && menuItems.length ? `<button type="button" class="chr-pref-popup-scrim" data-action="chrome-pref-menu" aria-label="${e(ctx.t('Close'))}"></button><div class="chr-pref-popup" role="menu">${menuItems.map(([action, label, id]) => `<button type="button" role="menuitem" data-action="${action}"${id ? ` data-id="${id}"` : ''}>${e(s(label))}</button>`).join('')}</div>` : '';
+    return `<div class="app-view chr-prefs${PREFS.material ? ' material' : ''}"><header class="chr-pref-bar"><button type="button" class="chr-pref-up" data-action="back" aria-label="${e(ctx.t('Navigate up'))}">${PREFS.material ? '<i></i>' : '<img class="chr-pref-caret" src="assets/ic_ab_back_holo_light.png" alt=""><img class="chr-pref-icon" src="assets/chrome.png" alt="">'}</button><b>${e(title)}</b>${clearButton}${overflow}</header><div class="chr-pref-scroll">${body}</div>${popup}${listDialog(ctx)}${clearDialog(ctx)}</div>`;
+  }
   function render(ctx) {
+    if (ctx.ui.sub === 'chrome-settings') return settings(ctx);
     if (ctx.ui.sub === 'tabs') return switcher(ctx);
     const content = ctx.url === NTP ? newTabPage(ctx) : ctx.url === HISTORY ? historyPage(ctx) : `<div class="browser-page">${ctx.page(ctx.url)}</div>`;
-    return `<div class="app-view ics-browser chr-app${ctx.incognito ? ' chr-incognito' : ''}">${toolbar(ctx)}${find(ctx)}${content}</div>`;
+    return `<div class="app-view ics-browser chr-app${ctx.incognito ? ' chr-incognito' : ''}">${toolbar(ctx)}${find(ctx)}${content}${clearDialog(ctx)}</div>`;
   }
   // The overflow menu: Back, Forward and Bookmark icons, then the Chrome 31 items (GSMArena), scrolling on small screens.
   function menu(ctx) {
@@ -77,9 +122,9 @@
     const item = (action, label, extra = '') => `<button data-action="${action}" role="menuitem">${e(t(label))}${extra}</button>`;
     const top = tabs ? '' : `<div class="chr-menu-icons"><button data-action="browser-back-menu" aria-label="${e(t('Back'))}" ${ui.browserIndex > 0 ? '' : 'disabled'}>${icon.back}</button><button data-action="browser-forward" aria-label="${e(t('Forward'))}" ${ui.browserIndex < ui.browserHistory.length - 1 ? '' : 'disabled'}>${icon.forward}</button><button data-action="browser-save" aria-label="${e(t('Bookmark'))}" ${internal(ctx.url) ? 'disabled' : ''}>${bookmarked ? icon.starOn : icon.star}</button></div>`;
     const items = tabs
-      ? [item('browser-new-tab', 'New tab'), item('chrome-incognito', 'New incognito tab'), item('chrome-close-all', 'Close all tabs'), item('chrome-unsupported', 'Settings'), item('chrome-unsupported', 'Help & feedback')]
-      : [item('browser-new-tab', 'New tab'), item('chrome-incognito', 'New incognito tab'), item('chrome-bookmarks', 'Bookmarks'), item('chrome-devices', 'Other devices'), item('chrome-history', 'History'), item('chrome-share', 'Share…'), item('chrome-unsupported', 'Print…'), item('browser-find', 'Find in page…'), item('chrome-desktop', 'Request desktop site', `<img class="chr-check" src="assets/btn_check_${ui.chromeDesktop ? 'on' : 'off'}_holo_light.png" alt="">`), item('chrome-unsupported', 'Settings'), item('chrome-unsupported', 'Help & feedback')];
+      ? [item('browser-new-tab', 'New tab'), item('chrome-incognito', 'New incognito tab'), item('chrome-close-all', 'Close all tabs'), item('chrome-settings', 'Settings'), item('chrome-unsupported', 'Help & feedback')]
+      : [item('browser-new-tab', 'New tab'), item('chrome-incognito', 'New incognito tab'), item('chrome-bookmarks', 'Bookmarks'), item('chrome-devices', 'Other devices'), item('chrome-history', 'History'), item('chrome-share', 'Share…'), item('chrome-unsupported', 'Print…'), item('browser-find', 'Find in page…'), item('chrome-desktop', 'Request desktop site', `<img class="chr-check" src="assets/btn_check_${ui.chromeDesktop ? 'on' : 'off'}_holo_light.png" alt="">`), item('chrome-settings', 'Settings'), item('chrome-unsupported', 'Help & feedback')];
     return `<div class="menu-scrim" data-action="close-overlay"></div><div class="chr-menu" role="menu">${top}${items.join('')}</div>`;
   }
-  window.ChromeApp = {render, menu, NTP, HISTORY, internal};
+  window.ChromeApp = {render, menu, NTP, HISTORY, internal, CLEAR_ITEMS};
 })();

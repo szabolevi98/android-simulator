@@ -37,3 +37,59 @@
 .chr40-menu-icons img{width:21.74px;height:21.74px;opacity:.7}
 .screen .chr-menu>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:43.49px;border:0;background:none;padding:0 14.5px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#333}
 .chr-menu .lp-check{margin-right:0}
+/* Settings (audit step 5): the preference screens, the list dialogs and Clear browsing data. */
+.chr-prefs{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;font-family:Roboto,sans-serif}
+.chr-pref-bar{position:relative;flex:none;display:flex;align-items:center;z-index:2}
+.chr-pref-bar b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen .chr-pref-up{display:flex;align-items:center;height:100%;padding:0;border:0;background:none}
+.chr-pref-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.screen .chr-pref{display:flex;align-items:center;width:100%;min-height:43.49px;padding:7.25px 14.5px;border:0;background:none;text-align:left}
+.chr-pref-text{flex:1;min-width:0;display:flex;flex-direction:column}
+.screen .chr-pref-more{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.72px;width:43.49px;height:100%;padding:0;border:0;background:none}
+.chr-pref-more i{width:3.62px;height:3.62px;border-radius:50%}
+.chr-pref-popup-scrim,.chr-dlg-scrim{position:absolute;inset:0;z-index:40;border:0}
+.chr-pref-popup-scrim{background:none}
+.chr-pref-popup{position:absolute;z-index:41;right:3.62px;top:3.62px;min-width:163.08px;padding:3.62px 0;background:#fff;box-shadow:0 1.81px 7.25px #0006}
+.screen .chr-pref-popup button{display:block;width:100%;min-height:43.49px;padding:0 14.5px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#000}
+.chr-dlg-scrim{background:#0009}
+.chr-dlg{position:absolute;z-index:41;top:50%;transform:translateY(-50%);background:#fff}
+.chr-dlg h3{margin:0}
+.screen .chr-dlg-check,.screen .chr-dlg-radio{display:flex;align-items:center;width:100%;min-height:43.49px;border:0;background:none;text-align:left}
+.chr-dlg-check span,.chr-dlg-radio span{flex:1}
+.chr-dlg-check i,.chr-dlg-radio i{flex:none;width:28.99px;height:28.99px}
+.chr-dlg-busy{display:flex;align-items:center;gap:14.5px;padding:21.74px}
+.chr-dlg-busy p{margin:0}
+.chr-spinner{flex:none;width:32.62px;height:32.62px;border-radius:50%;border:3.62px solid #0000001a;animation:chr-spin .9s linear infinite}
+@keyframes chr-spin{to{transform:rotate(360deg)}}
+.screen .chr-dlg-buttons button:disabled{opacity:.4}
+/* PreferencesTheme v21 (Material Light, DarkActionBar): the 56 dp #263238 bar with the white arrow and 20 sp title, the
+   overflow holding Clear browsing data; categories in the #03a9f4 accent (14 sp medium); rows of 16 sp #de000000 titles
+   and 14 sp #8a000000 summaries with the accent check box; Material dialogs with the accent buttons. */
+.chr-pref-bar{height:50.74px;background:#263238;box-shadow:0 1.81px 3.62px #0003}
+.screen .chr-pref-up{justify-content:center;width:50.74px}
+.chr-pref-up i{position:relative;width:14.5px;height:1.81px;background:#fff}
+.chr-pref-up i::before{content:'';position:absolute;left:0;top:50%;width:8.15px;height:8.15px;border-left:1.81px solid #fff;border-bottom:1.81px solid #fff;transform:translate(1px,-50%) rotate(45deg);transform-origin:center}
+.chr-pref-bar b{margin-left:14.5px;font:500 18.12px Roboto,sans-serif;color:#fff}
+.chr-pref-more i{background:#fff}
+.screen .chr-pref-up:active,.screen .chr-pref-more:active{background:#ffffff33}
+.screen .chr-pref:active,.screen .chr-pref-popup button:active,.screen .chr-dlg button:active{background:#0000001a}
+.chr-pref-cat{margin:0;padding:14.5px 14.5px 7.25px;font:500 12.68px Roboto,sans-serif;color:#03a9f4}
+.screen .chr-pref{min-height:65.23px;padding:10.87px 14.5px}
+.chr-pref-text b{font:400 14.5px Roboto,sans-serif;color:#000000de}
+.chr-pref-text small{margin-top:1.81px;font:400 12.68px/1.3 Roboto,sans-serif;color:#0000008a}
+.chr-pref-check{flex:none;position:relative;width:16.31px;height:16.31px;margin:0 2.72px 0 14.5px;border:1.81px solid #0000008a;border-radius:1.81px}
+.chr-pref-check.on,.chr-dlg-check.on i::before{border-color:#03a9f4;background:#03a9f4}
+.chr-pref-check.on::after,.chr-dlg-check.on i::after{content:'';position:absolute;left:3.62px;top:0.45px;width:4.53px;height:9.06px;border:solid #fff;border-width:0 1.81px 1.81px 0;transform:rotate(45deg)}
+.chr-pref-popup{border-radius:1.81px;top:3.62px}
+.chr-dlg{left:21.74px;right:21.74px;border-radius:1.81px;box-shadow:0 10.87px 21.74px #0000004d}
+.chr-dlg h3{padding:21.74px 21.74px 10.87px;font:500 18.12px Roboto,sans-serif;color:#000000de}
+.screen .chr-dlg-check,.screen .chr-dlg-radio{flex-direction:row-reverse;gap:18.12px;padding:0 21.74px;font:400 14.5px Roboto,sans-serif;color:#000000de}
+.chr-dlg-check i,.chr-dlg-radio i{position:relative;display:grid;place-items:center;width:21.74px;height:21.74px}
+.chr-dlg-check i::before{content:'';width:16.31px;height:16.31px;box-sizing:border-box;border:1.81px solid #0000008a;border-radius:1.81px}
+.chr-dlg-check.on i::after{left:9.06px;top:3.62px}
+.chr-dlg-radio i::before{content:'';width:18.12px;height:18.12px;box-sizing:border-box;border:1.81px solid #0000008a;border-radius:50%}
+.chr-dlg-radio.on i::before{border-color:#03a9f4;background:radial-gradient(#03a9f4 0 4.53px, transparent 4.98px)}
+.chr-dlg-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:7.25px}
+.screen .chr-dlg-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;font:500 12.68px Roboto,sans-serif;color:#03a9f4;text-transform:uppercase}
+.chr-dlg-busy p{font:400 14.5px Roboto,sans-serif;color:#0000008a}
+.chr-spinner{border-top-color:#03a9f4}

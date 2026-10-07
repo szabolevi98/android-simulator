@@ -1826,5 +1826,283 @@ window.StockStrings = {
    "Rechercher",
    "Buscar"
   ]
+ },
+ "chrome": {
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Navigation error suggestions": [
+   "Navigálási hibákkal kapcsolatos javaslatok",
+   "Vorschläge bei Navigationsfehlern",
+   "Suggestions en cas d'erreur de navigation",
+   "Sugerencias para errores de navegación"
+  ],
+  "Navigation error summary": [
+   "Javaslatok megjelenítése, ha egy internetcímet nem lehet feloldani, vagy nem lehet kapcsolódni",
+   "Vorschläge einblenden, wenn eine Webadresse nicht gefunden oder keine Verbindung hergestellt werden kann",
+   "Afficher d'autres solutions lorsqu'une adresse Web ne peut pas être résolue ou qu'une connexion ne peut pas être établie",
+   "Mostrar sugerencias cuando no se puede resolver una dirección web o no se puede establecer conexión.",
+   "Show suggestions when a web address does not resolve or a connection cannot be made"
+  ],
+  "Search and URL suggestions": [
+   "Keresési és URL-javaslatok",
+   "Such- und URL-Vorschläge",
+   "Suggestions de recherche et d'URL",
+   "Sugerencias de URL y de búsqueda"
+  ],
+  "Search suggestions summary": [
+   "Használjon következtetési szolgáltatást a kapcsolódó lekérdezések és népszerű webhelyek megjelenítéséhez a címsávba történő gépelés során.",
+   "Während der Eingabe in die Adressleiste mithilfe eines Vervollständigungsdienstes verwandte Suchanfragen und beliebte Websites einblenden",
+   "Utiliser un service de prédiction pour suggérer des requêtes associées et des sites populaires quand vous saisissez des termes dans la barre d'adresse",
+   "Usar un servicio de predicción para mostrar consultas relacionadas y sitios web populares a medida que escribes en la barra de direcciones",
+   "Use a prediction service to show related queries and popular websites as you type in the address bar"
+  ],
+  "Network action predictions": [
+   "Hálózati műveletekkel kapcsolatos várható kifejezések",
+   "Prognose von Netzwerkaktionen",
+   "Prédiction des actions du réseau",
+   "Predicciones de acciones de red"
+  ],
+  "Network predictions summary": [
+   "Oldal betöltési idejének javítása",
+   "Seiten schneller laden",
+   "Améliorer les performances de chargement des pages",
+   "Mejorar rendimiento de carga de páginas",
+   "Improve page load performance"
+  ],
+  "Usage and crash reports": [
+   "Használati és hibabejelentések",
+   "Nutzungs- und Absturzberichte",
+   "Statistiques d'utilisation et rapports d'erreur",
+   "Informes de uso y de errores"
+  ],
+  "Always send": [
+   "Mindig küldjön",
+   "Immer senden",
+   "Toujours envoyer",
+   "Enviar siempre"
+  ],
+  "Only send on Wi-Fi": [
+   "Csak Wi-Fin keresztül küldjön",
+   "Nur bei WLAN senden",
+   "Envoyer via Wi-Fi uniquement",
+   "Solo enviar en Wi-Fi"
+  ],
+  "Never send": [
+   "Soha ne küldjön",
+   "Nie senden",
+   "Ne jamais envoyer",
+   "No enviar nunca"
+  ],
+  "'Do Not Track'": [
+   "„Nincs nyomon követés”",
+   "\"Do Not Track\"",
+   "Interdire le suivi",
+   "No realizar seguimiento",
+   "‘Do Not Track’"
+  ],
+  "Off": [
+   "Kikapcsolva",
+   "Aus",
+   "Désactivé",
+   "No"
+  ],
+  "On": [
+   "Be",
+   "An",
+   "Activé",
+   "Sí"
+  ],
+  "Clear browsing data": [
+   "Böngészési adatok törl.",
+   "Browserdaten löschen",
+   "Effacer données navigation",
+   "Borrar datos de navegación"
+  ],
+  "Clear browsing history": [
+   "Előzmények törlése",
+   "Browserverlauf löschen",
+   "Effacer historique navigation",
+   "Borrar historial de navegación"
+  ],
+  "Clear the cache": [
+   "Gyorsítótár ürítése",
+   "Cache leeren",
+   "Vider le cache",
+   "Borrar la caché"
+  ],
+  "Clear cookies, site data": [
+   "Cookie-k, webhelyek törl",
+   "Cookies/Daten löschen",
+   "Eff. cookies/données site",
+   "Cookies y datos sitios"
+  ],
+  "Clear saved passwords": [
+   "Mentett jelszavak törlése",
+   "Passwörter löschen",
+   "Eff. mots passe enregistrés",
+   "Borrar contraseñas guardadas"
+  ],
+  "Clear autofill data": [
+   "Aut. kitöltési adatok törl.",
+   "AutoFill-Daten löschen",
+   "Eff. données saisie auto",
+   "Borrar datos de autocomp"
+  ],
+  "Clear": [
+   "Törlés",
+   "Löschen",
+   "Effacer",
+   "Borrar"
+  ],
+  "Clearing browsing data": [
+   "Böngészési adatok törlése",
+   "Browserdaten löschen",
+   "Effacement des données de navigation en cours…",
+   "Borrando datos de navegación"
+  ],
+  "Please wait…": [
+   "Kérjük, várjon...",
+   "Bitte warten...",
+   "Veuillez patienter…",
+   "Por favor, espera…"
+  ],
+  "Application version": [
+   "Alkalmazás verziószáma",
+   "App-Version",
+   "Version de l'application",
+   "Versión de la aplicación"
+  ],
+  "Operating system": [
+   "Operációs rendszer",
+   "Betriebssystem",
+   "Système d'exploitation",
+   "Sistema operativo"
+  ],
+  "Legal information": [
+   "Jogi információk",
+   "Rechtliche Hinweise",
+   "Informations légales",
+   "Información legal"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "Sign in to Chrome": [
+   "Bejelentk. Chrome-ba",
+   "In Chrome anmelden",
+   "Se connecter à Chrome",
+   "Iniciar sesión en Chrome"
+  ],
+  "Basics": [
+   "Alapok",
+   "Grundeinstellungen",
+   "Général",
+   "Básicos"
+  ],
+  "Advanced": [
+   "Haladó",
+   "Erweiterte Einstellungen",
+   "Avancés",
+   "Avanzados"
+  ],
+  "Search engine": [
+   "Keresőmotor",
+   "Suchmaschine",
+   "Moteur de recherche",
+   "Motor de búsqueda"
+  ],
+  "Merge tabs and apps": [
+   "Lapok és alkalmazások egyesítése",
+   "Tabs und Apps anzeigen",
+   "Fusionner les onglets et les applications",
+   "Combinar pestañas y aplicaciones"
+  ],
+  "Autofill forms": [
+   "Űrlapok automatikus kitöltése",
+   "AutoFill-Formulare",
+   "Saisie auto pour formulaires",
+   "Autocompletar formularios"
+  ],
+  "Save passwords": [
+   "Jelszavak mentése",
+   "Passwörter speichern",
+   "Enregistrer les mots de passe",
+   "Guardar contraseñas"
+  ],
+  "Home page": [
+   "Kezdőoldal",
+   "Startseite",
+   "Page d'accueil",
+   "Página de inicio"
+  ],
+  "Privacy": [
+   "Adatvédelem",
+   "Datenschutz",
+   "Confidentialité",
+   "Privacidad"
+  ],
+  "Touch to Search": [
+   "Érintéssel keresés",
+   "Zum Suchen tippen",
+   "Appuyer pour rechercher",
+   "Tocar para buscar"
+  ],
+  "Accessibility": [
+   "Kisegítő lehetőségek",
+   "Bedienungshilfen",
+   "Accessibilité",
+   "Accesibilidad"
+  ],
+  "Content settings": [
+   "Webhelybeállítások",
+   "Website-Einstellungen",
+   "Paramètres du site",
+   "Configuración del sitio",
+   "Site settings"
+  ],
+  "Reduce data usage": [
+   "Adatfelhasználás csökkentése",
+   "Datennutzung reduzieren",
+   "Réduire la consommation des données",
+   "Reducir uso de datos"
+  ],
+  "About Chrome": [
+   "A Chrome névjegye",
+   "Über Chrome",
+   "À propos de Chrome",
+   "Información sobre Chrome"
+  ],
+  "Help": [
+   "Súgó és visszajelzés",
+   "Hilfe und Feedback",
+   "Aide et commentaires",
+   "Ayuda y opiniones",
+   "Help & feedback"
+  ],
+  "Always": [
+   "Mindig",
+   "Immer",
+   "Toujours",
+   "Siempre"
+  ],
+  "Only on Wi-Fi": [
+   "Csak Wi-Fi-n",
+   "Nur bei WLAN",
+   "Wi-Fi uniquement",
+   "Solo en Wi-Fi"
+  ],
+  "Never": [
+   "Soha",
+   "Nie",
+   "Jamais",
+   "Nunca"
+  ]
  }
 };

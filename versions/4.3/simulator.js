@@ -696,6 +696,9 @@
     if (StockApps.APPS.includes(ui.view) && ui.sub) { if (ui.view === 'keep') saveKeepNote(true); ui.sub = ''; render(); return; }
     if (ui.view === 'keep' && ui.keepArchived) { ui.keepArchived = false; render(); return; }
     if (PLAY_APPS.includes(ui.view) && ui.sub) { ui.sub = ui.sub === 'queue' ? 'player' : ui.sub === 'player' ? ui.paReturn || '' : ui.sub === 'album' && ui.paFromSearch ? 'search' : ''; if (ui.sub !== 'album') ui.paFromSearch = ui.sub === 'search' && ui.paFromSearch; ui.paBars = true; render(); return; }
+    // Chrome settings: dialogs first, then the page, then back to the browser.
+    if (['browser', 'chrome'].includes(ui.view) && (ui.chromeClear || ui.chromeList || ui.chromePrefMenu) && !ui.chromeClear?.busy) { ui.chromeClear = null; ui.chromeList = ''; ui.chromePrefMenu = false; render(); return; }
+    if (['browser', 'chrome'].includes(ui.view) && ui.sub === 'chrome-settings') { if (ui.chromePref) ui.chromePref = ''; else ui.sub = ''; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserFind !== undefined) { ui.browserFind = undefined; render(); return; }
     if (['browser', 'chrome'].includes(ui.view) && !ui.sub && ui.browserIndex > 0) { browserBack(); return; }
     if (ui.view === 'settings' && ['easter', 'beanbag', 'about-status', 'about-legal', 'about-safety'].includes(ui.sub)) { ui.sub = 'about'; ui.jbLogoTapped = false; render(); return; }
@@ -1896,7 +1899,20 @@
       // Share: the Nexus 4 shares a link by SMS in Messaging (Hangouts took over SMS only on KitKat).
       case 'chrome-share': { const link = ui.browserUrl; ui.overlay = ''; renderOverlay(); if (ChromeApp.internal(link)) break; openApp('messaging'); ui.sub = 'new'; messageDraft().body = link.startsWith('search:') ? link.slice(7) : `http://${link}`; save(); render(); break; }
       case 'chrome-desktop': ui.chromeDesktop = !ui.chromeDesktop; ui.overlay = ''; renderOverlay(); render(); break;
-      case 'chrome-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'chrome-settings': ui.overlay = ''; renderOverlay(); ui.sub = 'chrome-settings'; ui.chromePref = ''; ui.chromePrefMenu = false; render(); break;
+      case 'chrome-pref': ui.chromePref = id; ui.chromePrefMenu = false; render(); break;
+      case 'chrome-pref-menu': ui.chromePrefMenu = !ui.chromePrefMenu; render(); break;
+      case 'chrome-pref-toggle': { const prefs = data.chromePrefs ||= {}; prefs[id] = !(prefs[id] ?? true); save(); render(); break; }
+      case 'chrome-list-open': ui.chromeList = id; render(); break;
+      case 'chrome-list-pick': { const [key, value] = id.split(':'); (data.chromePrefs ||= {})[key] = Number(value); ui.chromeList = ''; save(); render(); break; }
+      case 'chrome-list-close': ui.chromeList = ''; render(); break;
+      case 'chrome-noop': break;
+      // Clear browsing data: the dialog's ticks, then a short "Please wait…" before the history goes.
+      case 'chrome-clear-open': ui.chromePrefMenu = false; ui.chromeClear = Object.fromEntries(ChromeApp.CLEAR_ITEMS.map(([key, , on]) => [key, on])); render(); break;
+      case 'chrome-clear-toggle': if (ui.chromeClear) { ui.chromeClear[id] = !ui.chromeClear[id]; render(); } break;
+      case 'chrome-clear-cancel': ui.chromeClear = null; render(); break;
+      case 'chrome-clear-run': { const picked = ui.chromeClear; if (!picked) break; ui.chromeClear = {...picked, busy: true}; render(); setTimeout(() => { if (picked.history) { data.browserHistory = []; ui.chromeHistoryQuery = ''; } ui.chromeClear = null; save(); render(); }, 900); break; }
+      case 'chrome-unsupported': ui.chromePrefMenu = false; if (ui.sub === 'chrome-settings') render(); ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'browser-back-menu': ui.overlay = ''; renderOverlay(); browserBack(); break;
       case 'browser-new-tab': if (ui.view === 'chrome') { chromeNewTab(false); break; } if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); break; } ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       case 'browser-save': ui.overlay = ''; renderOverlay(); if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
