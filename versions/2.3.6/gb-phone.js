@@ -52,6 +52,21 @@
     return `<div class="gbp-detail"><div class="gbp-header"><img src="${window.GBContactPhoto?.(person) || 'assets/gb-c-ic_contact_picture.png'}" alt=""><span>${e(person.name)}</span><button data-action="people-star" data-id="${person.id}" aria-label="${e(T(person.favorite ? 'menu_removeStar' : 'menu_addStar'))}"><img src="assets/gb-btn_star_big_${person.favorite ? 'on' : 'off'}.png" alt=""></button></div><div class="gbp-list">${person.phone ? row('phone-redial', person.phone, 'badge_action_call', T(`call_${person.phoneType || 'mobile'}`), person.phone) + row('phone-log-message', person.phone, 'sym_action_sms', T(`sms_${person.phoneType || 'mobile'}`), person.phone) : ''}${person.email ? `<div class="gbset-cat">${e(ctx.t('Email'))}</div>` + row('gbp-email', person.email, 'sym_action_add', T(`email_${person.emailType === 'mobile' ? 'other' : person.emailType || 'home'}`), person.email) : ''}</div></div>`;
   }
 
+  // CallDetailActivity (call_detail.xml, call_detail_list_item.xml): under the "Call details" title, the title_bar_tall
+  // header with the 32 dip call type icon beside the type (textAppearanceLarge), the time (weekday, date, year and time)
+  // and the duration ("%1$s mins %2$s secs", none for a missed call); then the actions, each with its 32 dip icon on the
+  // right: the call ("Call <name>" with the label and number when the number is a contact's, else Call back / Call
+  // again / Return call), Send text message, and View contact or Add to contacts.
+  function callDetail(call, person, ctx) {
+    const T = key => text(ctx.lang, key), type = call.type || 'outgoing';
+    const when = new Date(call.time).toLocaleString(ctx.locale, {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'});
+    const secs = Math.max(0, Math.round(call.duration || 0)), duration = T('callDetailsDurationFormat').replace('%1$s', Math.floor(secs / 60)).replace('%2$s', secs % 60);
+    const action = (act, id, icon, title, label = '', number = '') => `<button class="gbp-cd-action" data-action="${act}" data-id="${e(id)}"><span class="gbp-cd-copy"><span>${e(title)}</span>${number ? `<small>${label ? `<b>${e(label)}</b>` : ''}${e(number)}</small>` : ''}</span><img src="assets/${icon}.png" alt=""></button>`;
+    const callText = person ? T('recentCalls_callNumber').replace('%s', person.name) : T({incoming: 'callBack', outgoing: 'callAgain', missed: 'returnCall'}[type]);
+    const kind = person?.phoneType || 'mobile', label = person ? T(`phoneType${kind[0].toUpperCase()}${kind.slice(1)}`) : '';
+    return `<div class="gbp-calldetail"><div class="gb-titlebar">${e(T('callDetailTitle'))}</div><div class="gbp-cd-head"><img src="assets/gb-c-ic_call_log_header_${type}_call.png" alt=""><span><strong>${e(T(`type_${type}`))}</strong><small>${e(when)}</small>${type === 'missed' ? '' : `<small>${e(duration)}</small>`}</span></div><div class="gbp-cd-list">${action('phone-redial', call.number, 'gb-sym_action_call', callText, person ? label : '', call.number)}${action('phone-log-message', call.number, 'gb-c-sym_action_sms', T('menu_sendTextMessage'))}${person ? action('gbp-contact', person.id, 'gb-c-sym_action_view_contact', T('menu_viewContact')) : action('phone-add-contact', call.number, 'gb-c-sym_action_add', T('recentCalls_addToContact'))}</div></div>`;
+  }
+
   // TwelveKeyDialer.showDialpadChooser: while a call is in progress the dialpad is replaced by a ListView of
   // dialpad_chooser_list_item rows (64 dp icon, textAppearanceMedium).
   function chooser(lang) {
@@ -115,5 +130,5 @@
     return [{action: 'people-search', title: T('menu_search'), icon: 'ic_menu_search'}, {action: 'gbp-new-contact', title: T('menu_newContact'), icon: 'ic_menu_add'}, {action: 'gbset-toast', id: 'Display options', title: T('menu_displayGroup'), icon: 'ic_menu_view'}, {action: 'gbset-toast', id: 'Accounts', title: T('menu_accounts'), icon: 'ic_menu_account_list'}, {action: 'gbset-toast', id: 'Import/Export', title: T('menu_import_export'), icon: 'c-ic_menu_import_export'}];
   }
 
-  window.GBPhone = {TABS, KEYS, HANGING_UP, ENDED, text, phoneText, relative, render, menu, callState, elapsedText, inCall};
+  window.GBPhone = {TABS, KEYS, HANGING_UP, ENDED, text, phoneText, relative, render, menu, callState, elapsedText, inCall, callDetail};
 })();

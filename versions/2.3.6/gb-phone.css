@@ -147,3 +147,20 @@
 .gbce-buttonbar{flex:none;display:flex;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
 .screen .gbce-buttonbar button{flex:1;min-width:0;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
 .screen .gbce-buttonbar button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+/* CallDetailActivity (call_detail.xml; 1 dp = 0.8625 px): the title_bar_tall header (9 dip in, 5 dip out, the 32 dip type
+   icon), then call_detail_list_item rows: listPreferredItemHeight, 9 dip in, the Large title over the bold label and the
+   number, the 32 dip action icon on the right; title_bar_shadow over the list. */
+.gbp-calldetail{flex:1;min-height:0;display:flex;flex-direction:column;background:#000}
+.gbp-cd-head{flex:none;display:flex;align-items:center;padding:4.31px 4.31px 4.31px 7.76px;background:url('assets/gb-title_bar_tall.png') 0 0/100% 100%}
+.gbp-cd-head>img{width:27.6px;height:27.6px;margin-right:8.63px}
+.gbp-cd-head span{display:flex;flex-direction:column}
+.gbp-cd-head strong{font-size:18.98px;font-weight:400;color:#fff}
+.gbp-cd-head small{font-size:12.07px;color:#bebebe}
+.gbp-cd-list{flex:1;min-height:0;overflow:auto;background:url('assets/gb-title_bar_shadow.png') 0 0/100% auto no-repeat}
+.screen .gbp-cd-action{display:flex;align-items:center;width:100%;min-height:55.2px;padding:4.31px 4.31px 6.04px 7.76px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;cursor:pointer}
+.gbp-cd-copy{flex:1;min-width:0;display:flex;flex-direction:column;margin-right:4.31px}
+.gbp-cd-copy span{font-size:18.98px}
+.gbp-cd-copy small{font-size:12.07px;color:#bebebe}
+.gbp-cd-copy small b{margin-right:4.31px}
+.gbp-cd-action img{flex:none;width:27.6px;height:27.6px;margin-left:4.31px}
+.screen .gbp-cd-action:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}

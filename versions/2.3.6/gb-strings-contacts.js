@@ -604,6 +604,13 @@ window.GBStrings["contacts"] = {
 "fr": "Afficher le contact",
 "es": "Ver contacto"
 },
+"menu_sendTextMessage": {
+"en": "Send text message",
+"hu": "SMS küldése",
+"de": "SMS/MMS senden",
+"fr": "Envoyer un SMS",
+"es": "Enviar un mensaje de texto"
+},
 "email_home": {
 "en": "Email home",
 "hu": "E-mail küldése haza",

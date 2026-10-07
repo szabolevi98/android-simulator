@@ -1,4 +1,5 @@
-/* Local outgoing-call state; no telephony or audio hardware is used. */
+/* The in-call screen and call details of the IMM76I (Galaxy Nexus) image (Phone: incall_screen, call_card,
+   incall_touch_ui with ic_end_call; its xhdpi art). Local call state only; no telephony or audio hardware is used. */
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

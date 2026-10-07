@@ -18,7 +18,7 @@ recentCalls_deleteAll clearCallLogConfirmation_title clearCallLogConfirmation ty
 callDetailTitle call_mobile call_home call_work call_other sms_mobile sms_home sms_work sms_other menu_search menu_newContact menu_displayGroup menu_accounts
 menu_import_export menu_addStar menu_removeStar menu_editContact menu_deleteContact menu_share menu_call menu_sendSMS menu_sendEmail add_2sec_pause
 add_wait searchHint viewContactTitle starredList frequentList dialer_addAnotherCall dialer_useDtmfDialpad dialer_returnToInCallScreen
-callDetailsDurationFormat menu_viewContact email_home email_work email_other email email_custom'''.split(),
+callDetailsDurationFormat menu_viewContact menu_sendTextMessage email_home email_work email_other email email_custom'''.split(),
     },
     'phone': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_phone/android-2.3.6_r1/res/values%s/strings.xml'],

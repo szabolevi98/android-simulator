@@ -21,4 +21,12 @@ html=P.render(ctx({tab:'favorites'}));assert.match(html,/Mom/);assert.doesNotMat
 assert.match(P.render(ctx({detail:people[0]})),/btn_star_big_on/);
 assert.deepEqual(JSON.parse(JSON.stringify(P.menu(ctx({dial:'5'})).map(i=>i.title))),['Add to contacts','Add 2-sec pause','Add wait']);
 assert.equal(P.menu(ctx()).length,0);assert.equal(P.menu(ctx({tab:'history',calls:[{number:'1',time:1}]}))[0].action,'gbp-clear-log');
+// CallDetailActivity 2.3.6: type header, time and duration, then the call / text / contact actions.
+{const html=P.callDetail({number:'+3612345',time:Date.parse('2026-10-07T10:00:00Z'),duration:75,type:'outgoing'},null,{lang:'en',locale:'en-US'});
+  assert.ok(html.includes('Call details')&&html.includes('Outgoing call')&&html.includes('1 mins 15 secs')&&html.includes('Call again')&&html.includes('Send text message')&&html.includes('Add to contacts'));
+  assert.ok(html.includes('gb-c-ic_call_log_header_outgoing_call.png')&&html.includes('gb-sym_action_call.png'));
+  const known=P.callDetail({number:'1',time:0,duration:0,type:'missed'},{id:'p1',name:'Alex',phoneType:'mobile'},{lang:'en',locale:'en-US'});
+  assert.ok(known.includes('Call Alex')&&known.includes('<b>Mobile</b>')&&known.includes('View contact')&&!known.includes('mins'));}
+{const c={window:{}};vm.runInNewContext(fs.readFileSync('versions/2.3.6/phone-call.js','utf8'),c);assert.deepEqual(Object.keys(c.window.ICSPhoneCall).sort(),['elapsed','finish','start']);}
+assert.ok(fs.readFileSync('versions/4.3/phone-call.js','utf8').includes("image('ic_dial_end_call')")&&fs.readFileSync('versions/4.0.4/phone-call.js','utf8').includes("image('ic_end_call')"));
 console.log('gb-phone ok');
