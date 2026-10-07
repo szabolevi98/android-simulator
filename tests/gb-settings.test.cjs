@@ -38,4 +38,11 @@ const tone=S.dialog('ringtone',ctx({}));assert.equal(tone.items[tone.selected].t
 assert.equal(S.soundOf({notificationSound:'OnTheHunt'},'notificationSound'),'Castor');assert.equal(S.soundOf({ringtone:''},'ringtone'),'');
 // Volume dialog hides the notification slider while it follows the ringer.
 assert.match(S.dialog('volume',ctx({})).custom,/data-vol-notification hidden/);
+// Date & time: manual date / time pickers (month, day, year in the locale's order; year 95 dip) and the ZoneList with its sort menu.
+let dt=S.dialog('date',{...ctx({}),locale:'en-US',draft:{y:2026,m:9,d:7,h:18,mi:5}});assert.equal(dt.title,'Wednesday, October 7, 2026');assert.match(dt.custom,/gbtp-m.*gbtp-d.*gbtp-y/s);assert.equal(dt.buttons[0].action,'gbset-dt-set');
+assert.match(S.dialog('date',{...ctx({}),locale:'hu-HU',draft:{y:2026,m:9,d:7,h:18,mi:5}}).custom,/gbtp-y.*gbtp-m.*gbtp-d/s);
+dt=S.dialog('time',{...ctx({}),locale:'en-US',draft:{y:2026,m:9,d:7,h:18,mi:5}});assert.equal(dt.title,'6:05 PM');assert.match(dt.custom,/gbset-dt-ampm/);assert.doesNotMatch(S.dialog('time',{...ctx({hour24:true}),locale:'en-US',draft:{y:2026,m:9,d:7,h:18,mi:5}}).custom,/gbset-dt-ampm/);
+assert.match(S.render('date',ctx({autoTime:false})).html,/data-action="gbset-go" data-id="zones"/);
+html=S.render('zones',{...ctx(),zones:[{id:'Asia/Tokyo',name:'Tokyo',offset:'GMT+09:00'}]}).html;assert.match(html,/gbset-zone" data-action="gbset-zone" data-id="Asia\/Tokyo"/);
+assert.equal(S.menu('zones',{...ctx(),zoneSort:'offset'})[0].title,'Sort alphabetically');assert.equal(S.menu('zones',{...ctx(),zoneSort:'name'})[0].title,'Sort by time zone');
 console.log('gb-settings ok');

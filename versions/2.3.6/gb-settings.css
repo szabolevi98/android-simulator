@@ -55,3 +55,8 @@
 /* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
    divider's room stays (fillForMissingDividers). */
 .screen .gbset-row:has(+ .gbset-cat){border-bottom-color:transparent}
+/* ZoneList (simple_list_item_2): the zone name in textAppearanceLarge over its GMT offset. */
+.gbset-zone .gbset-title{font-size:18.98px}
+/* DatePickerDialog (date_picker.xml): the month and day NumberPickers are 80 dip wide, the year 95 dip. */
+.gbtp-date .gbtp-picker{width:69px}
+.gbtp-date .gbtp-y{width:81.94px}

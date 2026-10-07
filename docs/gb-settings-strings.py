@@ -65,9 +65,10 @@ lockpassword_confirm_passwords_dont_match lockpassword_confirm_pins_dont_match l
 lockpattern_recording_intro_header lockpattern_recording_intro_footer lockpattern_recording_inprogress lockpattern_recording_incorrect_too_short
 lockpattern_pattern_entered_header lockpattern_need_to_confirm lockpattern_pattern_confirmed_header lockpattern_confirm_button_text
 lockpattern_restart_button_text lockpattern_retry_button_text lockpattern_continue_button_text lockpassword_confirm_your_password_header
+zone_list_menu_sort_alphabetically zone_list_menu_sort_by_timezone
 '''.split()
 ARRAYS = 'vibrate_entries animations_entries screen_timeout_entries emergency_tone_entries app_install_location_entries wifi_status wifi_status_with_ssid wifi_sleep_policy_entries bluetooth_visibility_timeout_entries'.split()
-FW_KEYS = 'ok cancel yes no'.split()
+FW_KEYS = 'ok cancel yes no date_time_set'.split()
 
 
 def fetch(url):

@@ -1968,6 +1968,20 @@ window.GBSettingsStrings = {
 "fr": "Continuer",
 "es": "Seguir"
 },
+"zone_list_menu_sort_alphabetically": {
+"en": "Sort alphabetically",
+"hu": "Rendezés név szerint",
+"de": "Alphabetisch sortieren",
+"fr": "Trier par ordre alphabétique",
+"es": "Ordenar alfabéticamente"
+},
+"zone_list_menu_sort_by_timezone": {
+"en": "Sort by time zone",
+"hu": "Rendezés időzóna szerint",
+"de": "Nach Zeitzone sortieren",
+"fr": "Trier par fuseau horaire",
+"es": "Ordenar por zona horaria"
+},
 "fw_ok": {
 "en": "OK",
 "hu": "OK",
@@ -1995,6 +2009,13 @@ window.GBSettingsStrings = {
 "de": "Abbrechen",
 "fr": "Annuler",
 "es": "Cancelar"
+},
+"fw_date_time_set": {
+"en": "Set",
+"hu": "Beállítás",
+"de": "Speichern",
+"fr": "Définir",
+"es": "Establecer"
 }
 },
 "arrays": {

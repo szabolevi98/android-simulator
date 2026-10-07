@@ -132,11 +132,15 @@
         check('powerButtonEndsCall', 'accessibility_power_button_ends_call', 'accessibility_power_button_ends_call_summary')]},
       date: {title: 'date_and_time', items: [
         check('autoTime', 'date_time_auto', 'date_time_auto_summaryOn'),
-        go('date_time_set_date', {raw: ctx.date}, 'toast:Turn off Automatic to set the date', {disabled: value(s, 'autoTime')}),
-        go('date_time_set_timezone', {raw: ctx.zone}, 'toast:GMT+01:00, Central European Time', {disabled: value(s, 'autoTime')}),
-        go('date_time_set_time', {raw: ctx.time}, 'toast:Turn off Automatic to set the time', {disabled: value(s, 'autoTime')}),
+        go('date_time_set_date', {raw: ctx.date}, 'dialog:date', {disabled: value(s, 'autoTime')}),
+        go('date_time_set_timezone', {raw: ctx.zone}, 'zones', {disabled: value(s, 'autoTime')}),
+        go('date_time_set_time', {raw: ctx.time}, 'dialog:time', {disabled: value(s, 'autoTime')}),
         check('hour24', 'date_time_24hour', {raw: s.hour24 ? '13:00' : '1:00 pm'}),
         list('dateFormat', 'date_time_date_format', null, null, {options: ctx.dateFormats})]},
+      // ZoneList: timezones.xml's zones as simple_list_item_2 rows (the name over its GMT offset), sorted by offset or by
+      // name from the menu (zone_list_menu_sort_alphabetically / _by_timezone).
+      zones: {title: 'date_time_set_timezone', menu: [ctx.zoneSort === 'name' ? {action: 'gbset-zone-sort', id: 'offset', title: 'zone_list_menu_sort_by_timezone', icon: 'gb-set-ic_menu_3d_globe.png'} : {action: 'gbset-zone-sort', id: 'name', title: 'zone_list_menu_sort_alphabetically', icon: 'gb-set-ic_menu_sort_alphabetically.png'}],
+        items: (ctx.zones || []).map(z => ({kind: 'zone', id: z.id, name: z.name, offset: z.offset}))},
       about: {title: 'about_settings', items: [
         go('system_update_settings_list_item_title', '', 'toast:Your system is currently up to date.'),
         go('device_status', 'device_status_summary', 'status'),
@@ -223,6 +227,7 @@
       const d = item.device;
       return `<button class="gbset-row with-icon" data-action="gbset-bt-device" data-id="${e(d.name)}"><img class="gbset-icon gbset-bt-icon" src="assets/gb-set-ic_bt_${d.kind || 'headset_hfp'}.png" alt=""><span class="gbset-text"><span class="gbset-title">${e(d.name)}</span><span class="gbset-sum">${e(text(ctx.lang, d.paired ? (d.connected ? 'bluetooth_connected' : 'bluetooth_paired') : 'bluetooth_not_connected'))}</span></span></button>`;
     }
+    if (item.kind === 'zone') return `<button class="gbset-row gbset-zone" data-action="gbset-zone" data-id="${e(item.id)}"><span class="gbset-text"><span class="gbset-title">${e(item.name)}</span><span class="gbset-sum">${e(item.offset)}</span></span></button>`;
     if (item.kind === 'locale') return `<button class="gbset-row gbset-locale" data-action="gbset-locale" data-id="${e(item.code)}"><span class="gbset-text"><span class="gbset-title">${e(item.name)}</span></span></button>`;
     if (item.kind === 'info') {
       const shown = table().strings[item.value] ? text(ctx.lang, item.value) : item.value;
@@ -255,6 +260,19 @@
   function dialog(kind, ctx) {
     const s = ctx.settings, T = key => text(ctx.lang, key), ok = T('fw_ok'), cancel = T('fw_cancel');
     const slider = (key, label, fallback) => `<label class="gbvol"><span>${e(label)}</span><input type="range" min="0" max="100" data-vol="${key}" value="${Number(s[key] ?? fallback)}"></label>`;
+    // DatePickerDialog / TimePickerDialog: the framework NumberPickers (month, day, year in the locale's order; hour,
+    // minute and the AM / PM button), titled with the full date or the time, Set / Cancel.
+    if (kind === 'date' || kind === 'time') {
+      const d = ctx.draft || {}, at = new Date(d.y, d.m, d.d, d.h, d.mi), set = T('fw_date_time_set');
+      const picker = (field, value) => `<div class="gbtp-picker gbtp-${field}"><button type="button" class="gbtp-up" data-action="gbset-dt-step" data-id="${field}:1" aria-label="+"></button><output class="gbtp-input">${e(value)}</output><button type="button" class="gbtp-down" data-action="gbset-dt-step" data-id="${field}:-1" aria-label="-"></button></div>`;
+      if (kind === 'date') {
+        const month = picker('m', at.toLocaleDateString(ctx.locale, {month: 'short'})), day = picker('d', String(d.d)), year = picker('y', String(d.y));
+        const order = new Intl.DateTimeFormat(ctx.locale, {year: 'numeric', month: 'short', day: 'numeric'}).formatToParts(at).filter(p => ['year', 'month', 'day'].includes(p.type)).map(p => ({year, month, day})[p.type]).join('');
+        return {title: at.toLocaleDateString(ctx.locale, {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}), icon: 'gb-ic_dialog_time.png', custom: `<div class="gbtp gbtp-date">${order}</div>`, buttons: [{action: 'gbset-dt-set', title: set}, {action: 'close-overlay', title: cancel}]};
+      }
+      const h24 = !!s.hour24, hour = h24 ? String(d.h).padStart(2, '0') : String(d.h % 12 || 12), ampm = d.h < 12 ? 'AM' : 'PM';
+      return {title: `${hour}:${String(d.mi).padStart(2, '0')}${h24 ? '' : ' ' + ampm}`, icon: 'gb-ic_dialog_time.png', custom: `<div class="gbtp">${picker('h', hour)}${picker('mi', String(d.mi).padStart(2, '0'))}${h24 ? '' : `<button type="button" class="gbtp-ampm" data-action="gbset-dt-ampm">${e(ampm)}</button>`}</div>`, buttons: [{action: 'gbset-dt-set', title: set}, {action: 'close-overlay', title: cancel}]};
+    }
     if (kind === 'volume') {
       const same = s.notificationSameAsRing !== false;
       return {title: T('all_volume_title'), custom: `<div class="gbvols">${slider('ringVolume', T('incoming_call_volume_title'), 70)}<label class="gbvol-check"><input type="checkbox" data-vol-same ${same ? 'checked' : ''}> ${e(T('checkbox_notification_same_as_incoming_call'))}</label>${slider('notificationVolume', T('notification_volume_title'), 70).replace('<label class="gbvol"', `<label class="gbvol" data-vol-notification${same ? ' hidden' : ''}`)}${slider('mediaVolume', T('media_volume_title'), 60)}${slider('alarmVolume', T('alarm_volume_title'), 80)}</div>`, buttons: [{action: 'gbset-volume-ok', title: ok}, {action: 'close-overlay', title: cancel}]};
