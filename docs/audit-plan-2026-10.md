@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 25 / 32 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 26 / 32 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -75,7 +75,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Navigációs keresőpanel 4.3 / 4.4.4 / 5.1.1 (`search.js`): LP SearchPanelCircleView, Google Now indítás – 5a69717
 - [x] Fejlesztői beállítások 4.3 / 4.4.4 / 5.1.1 (`devopts.js`): képenként a `development_prefs.xml`-ből – 07973b4
 - [x] Zárolóképernyő 2.3.6–5.1.1 (`lockscreen.js`, `lockscreen.css`): a Beállítások képernyőzár-beállítása képenként a Settings.apk elrendezései és szövegei szerint (`docs/lock-strings.py`); 4.x: choose / confirm_lock_pattern és _password (fejléc, code_lock_top / bottom, password_field_default, tiltott Continue / OK); 5.1.1: Material (Theme.Material.Settings, „Swipe”, 12 dp #37474F pöttyök, teal / #F4511E állapot, Cancel / Next); a 2.3.6-ból 30 halott szabály kikerült – f0c3454
-- [ ] (~2–3 óra) Billentyűzet KK / LP: a rendszer-billentyűzet a saját LatinImeGoogle témájával (KitKat „KLP”, Lollipop „LXX”), a PIN-hez a számbillentyűzet; most mindkettő az ICS Holo billentyűzetet mutatja – a Zárolóképernyő átnézésekor derült ki
+- [x] (~2–3 óra) Billentyűzet KK / LP: a saját LatinImeGoogle (KK 2.0 KLP, LP 4.0 LXX Light), nyelvenkénti kiosztás (QWERTY / QWERTZ / AZERTY / Ñ), szimbólumok, PIN-hez a jelszavas számbillentyűzet, Kész / Tovább akciógomb; LP keyguardon alul, teljes szélességben (7b71bc1)
 - [x] Widgetek 2.3.6–5.1.1 (`widgets.js`, `widgets.css`): a 4.4.4 / 5.1.1 zene-widgetje a saját Music2.apk Play Music widgetje (KK widget_nowplaying_small, LP music_widget_small), a tálcában a previewImage; a 2.3.6-ban csak a GB saját widgetjei és a képlista-segéd maradt; halott CSS kivéve; `docs/widget-providers.py` – 1b0f554
 - [x] Beállítások aloldalai (`settings-system.js`, `settings-system.css`, `settings-detail.css`): 4.0.4 / 4.3 / 4.4.4 / 5.1.1 a `docs/settings-system.template.js`-ből generálva, a saját kép XML-jei és szövegei szerint (dátum, biztonság, eszközkezelők, megosztás, speciális Wi-Fi, VPN, mobilhálózat, szolgáltatók, APN); KK „Widgetek engedélyezése” (alapból ki, a zárképernyő widgetoldalait is ez kapcsolja); a 2.3.6-ból az elérhetetlen ICS-oldalak kikerültek – 29f1e9d
 - [x] Hívásképernyő 2.3.6 / 4.0.4 / 4.3 (`phone-call.js`, `phone-call.css`): a 2.3.6 hívásnapló-részlete a GB saját CallDetailActivity-je (a Holo-oldal helyett), a GB-ből a halott ICS-telefonkód és CSS kikerült; a 4.0.4 / 4.3 a saját Phone.apk xhdpi grafikáival, a 4.3 vége-gombja ic_dial_end_call az end_call_background textúrán – dfdd809
@@ -228,3 +228,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 4.5. pont: Beállítások aloldalai képenként (generált, saját XML és szövegek), KK zárképernyő-widgetek kapcsolója | 29f1e9d |
 | 2026-10-07 | 4.5. pont: Hívásképernyő – GB CallDetailActivity, 4.x saját Phone-grafikák | dfdd809 |
 | 2026-10-07 | 4.5. pont: Csörgő ébresztő képenként (GB / ICS AlarmAlert, JB / KK GlowPad, LP AlarmActivity) | 83af141 |
+| 2026-10-07 | 4.5. pont: KK / LP rendszer-billentyűzet a saját LatinImeGoogle-ből (KLP, LXX Light) | 7b71bc1 |
