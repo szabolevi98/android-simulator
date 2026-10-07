@@ -96,7 +96,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] GB Óra beállításai: SettingsActivity (néma mód, ébresztési hangerő, szundi hossza, hangerőgombok) – a szundi és a hangerőgombok valóban így működnek (dde691b)
 - [x] GB kézi dátum, idő és időzóna (55ddac4)
 - [x] Keep: jelölőnégyzetes lista és kép – Keep 1.0 / 2.0 / 3.0 listajegyzet (3.0-n „Checked” rész), jelölőnégyzetek ki-be, fotó készítése / választása (DocumentsUI), képtörlés (67bf0bc)
-- [ ] Google Now emlékeztetők és kártyabeállítások
+- [x] Google Now emlékeztetők és kártyabeállítások (4.4.4, 5.1.1) – Emlékeztetők lista, szerkesztő a Velvet napszak- és napválasztójával, emlékeztetőkártyák törléssel, időjárás-kártya hátoldala Celsius / Fahrenheit váltással (0bab781). Nincs még: „Dátum / Idő beállítása…”, Hely, „Időnként”; a 4.3 (Velvet 2.5.9) kártyabeállításai (predictive_cards_preferences) és emlékeztetői (ott hanggal / kereséssel készültek)
 - [ ] Chrome: böngészési adatok törlése és a beállítások
 - [ ] E-mail / Gmail helyi beállításai (aláírás, értesítések, kategóriák)
 - [ ] Beállítások kisebb aloldalai: választók és mentett állapot; az érintési késleltetésnek és a nagyításnak (háromszori koppintás) valódi hatása is legyen
@@ -240,3 +240,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 5. lépés: GB Óra beállításai | dde691b |
 | 2026-10-07 | 5. lépés: GB kézi dátum, idő és időzóna | 55ddac4 |
 | 2026-10-07 | 5. lépés: Keep listák és képek | 67bf0bc |
+| 2026-10-07 | 5. lépés: Google Now emlékeztetők és kártyabeállítások | 0bab781 |
