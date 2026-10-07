@@ -585,6 +585,8 @@ ${source.body}` : '', read: true, starred: false, created: now,
     if (source) Object.assign(d, {body: '', source: source.id, includeQuoted: true});
     if (source && mode === 'reply-all') d.cc = [...new Set([...recipients(source.to), ...recipients(source.cc)])].filter(a => a !== account).join(', ');
     if (source) d.mode = mode || 'reply';
+    // The account's signature (email-prefs.js): MessageCompose adds it on a new line after the text.
+    if (ctx.signature) d.body = (d.body || '') + ctx.signature;
     data.mailbox.unshift(d); ui.emailId = d.id; ui.emailCc = !!d.cc; ui.overlay = ''; ui.sub = 'compose';
     ctx.save(); ctx.renderOverlay(); ctx.render(); ctx.focus(source && mode !== 'forward' ? '.email-compose [name=body]' : '.email-compose [name=to]');
   }
@@ -658,7 +660,8 @@ ${source.body}` : '', read: true, starred: false, created: now,
       case 'email-save': keep(ctx); close(); if (item && changed(item)) { ctx.toast(T(lang, 'Message saved as draft.')); ctx.save(); } break;
       case 'email-discard': keep(ctx); ui.overlay = 'email-discard'; ctx.renderOverlay(); break;
       case 'email-confirm-discard': if (item) mail.splice(mail.indexOf(item), 1); { const source = item?.source && mail.find(m => m.id === item.source); ui.sub = source ? 'read' : ''; if (source) ui.emailId = source.id; } close(); ctx.save(); ctx.render(); ctx.toast(T(lang, 'Message discarded.')); break;
-      case 'email-settings': case 'email-attachment-view': case 'email-attachment-save': unsupported(ctx); break;
+      case 'email-settings': close(); ctx.openSettings(); break;
+      case 'email-attachment-view': case 'email-attachment-save': unsupported(ctx); break;
       default: return false;
     }
     return true;

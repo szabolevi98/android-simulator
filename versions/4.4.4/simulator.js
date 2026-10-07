@@ -684,6 +684,7 @@
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; ui.overview = false; if (resetPage) ui.page = 0; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
   function navigateBack() {
+    if (ui.view === 'email' && ui.sub === 'em-settings' && !ui.overlay) { if (ui.emPrefList || ui.emPrefEdit) { ui.emPrefList = ''; ui.emPrefEdit = ''; } else if (ui.emPref) ui.emPref = ''; else ui.sub = ''; render(); return; }
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
@@ -1425,6 +1426,7 @@
   }
   setInterval(tickPlayVideo, 1000);
   function renderEmail() {
+    if (ui.sub === 'em-settings') return EmailPrefs.render(data, ui, i18n.language, key => i18n.t(key), ICSEmail.account);
     return KKEmail.render(data.mailbox,ui,key=>i18n.t(key),i18n.locale(),i18n.language,{teaserDismissed:!!data.emailTeaserDismissed});
   }
   const mailbox = () => ui.view === 'gmail' ? data.gmailbox : data.mailbox;
@@ -1442,6 +1444,8 @@
     const draft=ICSEmail.draft(source,forward);if(to)draft.to=to;
     if(ui.view==='gmail'){draft.from=draft.address=GmailApp.account;}
     // Gmail's signature preference (gmail.js): "\n\n%s" after what the message starts with.
+    // The Email account's signature (email-prefs.js): R.string.signature, "\n\n%s", before what the message starts with.
+    if(ui.view!=='gmail'&&EmailPrefs.signatureBody(data))draft.body=EmailPrefs.signatureBody(data)+(draft.body?'\n\n'+draft.body:'');
     if(ui.view==='gmail'&&data.gmailPrefs?.signature)draft.body='\n\n'+data.gmailPrefs.signature+(draft.body?'\n\n'+draft.body:'');
     mailbox().unshift(draft);ui.emailId=draft.id;ui.emailCc=false;ui.emailError='';ui.overlay='';ui.sub='compose';save();render();
   }
@@ -1794,6 +1798,15 @@
         else if (remaining < 5) toast(i18n.t(remaining === 1 ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.').replace('%d', remaining));
         break;
       }
+      // The Email app's settings (email-prefs.js, from the image's EmailGoogle preference XMLs).
+      case 'emailpref-page': ui.emPref = id; render(); break;
+      case 'emailpref-toggle': (data.emailPrefs ||= {})[id] = !EmailPrefs.value(data, id, ICSEmail.account); save(); render(); break;
+      case 'emailpref-list': ui.emPrefList = id; render(); break;
+      case 'emailpref-pick': { const [key, value] = id.split(':'); (data.emailPrefs ||= {})[key] = Number(value); ui.emPrefList = ''; save(); render(); break; }
+      case 'emailpref-edit': ui.emPrefEdit = id; ui.emPrefEditValue = undefined; render(); viewport.querySelector('[data-email-pref-edit]')?.focus(); break;
+      case 'emailpref-save': { const field = viewport.querySelector('[data-email-pref-edit]'); if (ui.emPrefEdit && field) { (data.emailPrefs ||= {})[ui.emPrefEdit] = field.value.trim(); save(); } ui.emPrefEdit = ''; render(); break; }
+      case 'emailpref-close': ui.emPrefList = ''; ui.emPrefEdit = ''; render(); break;
+      case 'emailpref-unsupported': toast('Not available in this simulator'); break;
       case 'toast': toast(id); break;
       case 'noop': break;
       case 'browser-search': openApp('chrome'); document.querySelector('.chr-omnibox input')?.focus(); break;
@@ -2168,7 +2181,7 @@
       case 'email-archive': case 'email-selected-archive': {const ids=action==='email-archive'?[ui.emailId]:ui.emailSelected||[];mailbox().filter(item=>ids.includes(item.id)&&item.folder==='Inbox').forEach(item=>{item.folder='Archive';});ui.sub='';ui.emailSelected=[];save();render();break;}
       case 'email-dismiss-teaser': if(ui.view==='gmail')data.gmailTeaserDismissed=true;else data.emailTeaserDismissed=true;save();render();break;
       // Gmail settings (gmail.js GmailApp.settings); Email's own settings are not simulated.
-      case 'email-settings': ui.overlay = ''; renderOverlay(); if (ui.view === 'gmail') { ui.sub = 'gm-settings'; ui.gmPref = ''; render(); } else toast('Not available in this simulator'); break;
+      case 'email-settings': ui.overlay = ''; renderOverlay(); if (ui.view === 'gmail') { ui.sub = 'gm-settings'; ui.gmPref = ''; } else { ui.sub = 'em-settings'; ui.emPref = ''; } render(); break;
       case 'gmail-categories': ui.sub = 'gm-settings'; ui.gmPref = 'categories'; render(); break;
       case 'gmail-pref': ui.gmPref = id; render(); break;
       case 'gmail-pref-toggle': { const prefs = data.gmailPrefs ||= {}; const fallback = id.startsWith('category-') ? !['updates', 'forums'].includes(id.slice(9)) : !['reply-all', 'starred'].concat([]).includes(id); prefs[id] = !(prefs[id] ?? fallback); save(); render(); break; }

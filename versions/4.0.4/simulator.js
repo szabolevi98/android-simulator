@@ -518,6 +518,7 @@
       save, render, renderOverlay, toast, openApp};
   }
   function navigateBack() {
+    if (ui.view === 'email' && ui.sub === 'em-settings' && !ui.overlay) { if (ui.emPrefList || ui.emPrefEdit) { ui.emPrefList = ''; ui.emPrefEdit = ''; } else if (ui.emPref) ui.emPref = ''; else ui.sub = ''; render(); return; }
     if (ui.view === 'email' && ICSEmail.back(emailContext())) return;
     // The Gallery's picker (GET_CONTENT from Email's Attach file) returns without a picture.
     if (ui.view === 'gallery' && ui.galleryPick && !ui.sub && !ui.overlay) { const caller = ui.galleryPick; ui.galleryPick = ''; openApp(caller, true); return; }
@@ -1063,11 +1064,12 @@
   }
   // Email 4.0.4 (email.js): its screens, menus and actions; Attach file opens the Gallery's picker.
   function emailContext() {
-    return {data, ui, lang: i18n.language, locale: i18n.locale(), now: deviceDate().getTime(), hour24: !!data.settings.hour24, root: viewport,
+    return {data, ui, lang: i18n.language, locale: i18n.locale(), now: deviceDate().getTime(), hour24: !!data.settings.hour24, root: viewport, signature: EmailPrefs.signatureBody(data), openSettings: () => { ui.sub = 'em-settings'; ui.emPref = ''; render(); },
       save, render, renderOverlay, toast, back: navigateBack, focus: selector => viewport.querySelector(selector)?.focus(),
       photo: photo => ICSMedia.art(photo), pickPicture: () => { openApp('gallery'); ui.galleryPick = 'email'; ui.galleryAlbum = ''; render(); }};
   }
   function renderEmail() {
+    if (ui.sub === 'em-settings') return EmailPrefs.render(data, ui, i18n.language, key => i18n.t(key), ICSEmail.account);
     return ICSEmail.render(emailContext());
   }
   function composeEmail(source=null,forward=false,to='') {
@@ -1304,6 +1306,15 @@
         break;
       case 'developer-tap': if (!data.settings.developerUnlocked && ++ui.buildTaps >= 7) { data.settings.developerUnlocked = true; save(); toast('Developer options unlocked'); } break;
       case 'egg-nyan': toast('Android 4.0: Ice Cream Sandwich'); break;
+      // The Email app's settings (email-prefs.js, from the image's EmailGoogle preference XMLs).
+      case 'emailpref-page': ui.emPref = id; render(); break;
+      case 'emailpref-toggle': (data.emailPrefs ||= {})[id] = !EmailPrefs.value(data, id, ICSEmail.account); save(); render(); break;
+      case 'emailpref-list': ui.emPrefList = id; render(); break;
+      case 'emailpref-pick': { const [key, value] = id.split(':'); (data.emailPrefs ||= {})[key] = Number(value); ui.emPrefList = ''; save(); render(); break; }
+      case 'emailpref-edit': ui.emPrefEdit = id; ui.emPrefEditValue = undefined; render(); viewport.querySelector('[data-email-pref-edit]')?.focus(); break;
+      case 'emailpref-save': { const field = viewport.querySelector('[data-email-pref-edit]'); if (ui.emPrefEdit && field) { (data.emailPrefs ||= {})[ui.emPrefEdit] = field.value.trim(); save(); } ui.emPrefEdit = ''; render(); break; }
+      case 'emailpref-close': ui.emPrefList = ''; ui.emPrefEdit = ''; render(); break;
+      case 'emailpref-unsupported': toast('Not available in this simulator'); break;
       case 'toast': toast(id); break;
       case 'noop': break;
       case 'browser-search': openApp('browser'); document.querySelector('.browser-toolbar input')?.focus(); break;
