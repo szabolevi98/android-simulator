@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 30 / 32 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 31 / 32 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -85,7 +85,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] (~2–3 óra) Naptár 4.3 / 4.4.4: a két kép Naptára szinte azonos verzió; a calendar.js képenként generált a saját szövegekkel (docs/calendar-jb.template.js), a túlcsordulás a forrás sorrendjében, a 4.3 „Egész nap” címkéje -8 dp (39a1072)
 - [x] (~2–3 óra) People 2.3.6–5.1.1: képenkénti szövegek (people-strings.js), a részletek- és listamenük a forrás szerint, kitalált törlésgomb ki, törlés-megerősítés képenként (ICS címmel, 4.3/4.4 csak üzenet, LP Material, GB saját); GB halott ICS-ágak és people.css ki; a 4.0.4 és 4.3 people.js forrás szerint azonos maradt (f4f1d65)
 - [x] Email 4.0.4 és 4.3 (`email.js`, `email.css`): AOSP Email a saját EmailGoogle.apk-jából, Galéria-választó a csatoláshoz – 08bbd0e
-- [ ] (~3 óra) Hangouts 4.4.4 / 5.1.1 (`hangouts.css`; a 4.4.4 most képernyőképek alapján készült, a képben Hangouts 2.0.303 van)
+- [x] (~3 óra) Hangouts 4.4.4 / 5.1.1: a KK a Hangouts 2.0.303 saját grafikáival (ikonok, alapértelmezett avatar, SMS-jelvény), menük a forrás szerint; az LP nem tölti többé a KK hangouts.css-t, a néhány használt szabály az lp-hangouts.css-be került (e80b337)
 - [ ] (~3 óra) Galéria 4.4.4 / 5.1.1 (`gallery.js`, `gallery.css`; a KK most a 4.3-as Galéria, az LP képben nincs Galéria)
 
 ## 5. Kis ráfordítású funkciók (6–8 óra)
@@ -233,3 +233,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 4.5. pont: Letöltések – LP saját Material DocumentsUI, KK MIME-ikonok | bb5efa6 |
 | 2026-10-07 | 4.5. pont: Naptár 4.3 / 4.4.4 képenként generálva, túlcsordulás-menü a forrás szerint | 39a1072 |
 | 2026-10-07 | 4.5. pont: People képenként (szövegek, menük, törlés-ablakok; GB tisztítás) | f4f1d65 |
+| 2026-10-07 | 4.5. pont: Hangouts – KK saját APK-grafikák, LP KK-stíluslap nélkül | e80b337 |
