@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 28 / 32 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 29 / 32 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -82,7 +82,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] (~2 óra) Csörgő ébresztő 2.3.6–5.1.1: GB AlarmAlert (saját `dialog` 9-patch, ButtonBar), 4.0.4 Holo AlarmAlert, 4.3 / 4.4 AlarmAlertFullScreen GlowPad (4.3: félkövér óra, vékony „:mm”), 5.1 Material AlarmActivity (óraszín, húzás, kör-felfedés, „Elhalasztva / Riasztás ki” szöveg); szövegek a képek DeskClock-jából (`docs/alarm-strings.py`), a sávok a témák szerint (83af141)
 - [x] (~2 óra) Üzenetek 2.3.6 / 4.0.4 / 4.3 / 4.4.4: 4.0.4 / 4.3 saját messaging.js és Mms-szövegek (mms-strings.js), menük, smiley-lista, üzenetmenü (zárolással), törlés- és részletek-ablak a saját kódjuk szerint; GB-ből a halott ICS-overlay és CSS kiment; a KK mms-* stílusait a Hangouts használja, azt a Hangouts-tétel rendezi. Nyitott: a 4.3 címzettmezőjének chipjei (0a70456)
 - [x] (~2 óra) Letöltések 4.4.4 / 5.1.1: az LP saját Material DocumentsUI 5.1.1-et kapott (Toolbar, ikonok, sorok, rács, popupok), a KK a saját MIME-ikonjait; nyitott: az LP háttérképválasztó még két KK DocumentsUI-ikont használ (bb5efa6)
-- [ ] (~2–3 óra) Naptár 4.3 / 4.4.4 (`calendar.js`)
+- [x] (~2–3 óra) Naptár 4.3 / 4.4.4: a két kép Naptára szinte azonos verzió; a calendar.js képenként generált a saját szövegekkel (docs/calendar-jb.template.js), a túlcsordulás a forrás sorrendjében, a 4.3 „Egész nap” címkéje -8 dp (39a1072)
 - [ ] (~2–3 óra) People 2.3.6–5.1.1 (`people.js`, `people.css`)
 - [x] Email 4.0.4 és 4.3 (`email.js`, `email.css`): AOSP Email a saját EmailGoogle.apk-jából, Galéria-választó a csatoláshoz – 08bbd0e
 - [ ] (~3 óra) Hangouts 4.4.4 / 5.1.1 (`hangouts.css`; a 4.4.4 most képernyőképek alapján készült, a képben Hangouts 2.0.303 van)
@@ -231,3 +231,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-07 | 4.5. pont: KK / LP rendszer-billentyűzet a saját LatinImeGoogle-ből (KLP, LXX Light) | 7b71bc1 |
 | 2026-10-07 | 4.5. pont: Üzenetek képenként (Mms-szövegek, menük, smiley, zárolás, párbeszédablakok; GB tisztítás) | 0a70456 |
 | 2026-10-07 | 4.5. pont: Letöltések – LP saját Material DocumentsUI, KK MIME-ikonok | bb5efa6 |
+| 2026-10-07 | 4.5. pont: Naptár 4.3 / 4.4.4 képenként generálva, túlcsordulás-menü a forrás szerint | 39a1072 |
