@@ -46,7 +46,7 @@
     const next=data.alarms.map(a=>nextOccurrence(a,now)).filter(Boolean).sort((a,b)=>a-b)[0];
     return `<div class="app-view desk-face ${ui.clockDim?'desk-dim':''}"><div class="desk-time-group"><button class="desk-time" data-action="clock-dim" aria-label="Night mode" aria-pressed="${!!ui.clockDim}">${now.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit',hour12:data.settings?.hour24===false})}</button><div class="desk-date">${now.toLocaleDateString(locale,{weekday:'long',month:'long',day:'numeric'})}</div><button class="desk-next" data-action="clock-alarms"><img src="assets/clock-ic_lock_idle_alarm.png" alt=""><span>${next?`${escape(t('Alarm set:'))} ${escape(next.toLocaleDateString(locale,{weekday:'short'}))} ${escape(next.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit',hour12:data.settings?.hour24===false}))}`:escape(t('Set alarm'))}</span></button></div></div>`;
   }
-  function overlay(ui,t) {
+  function overlay(ui,t,ctx={}) {
     const alarm=normalize(ui.alarmDraft), e=escape;
     const shell=(title,body,form='')=>`<div class="settings-dialog-scrim" data-action="close-overlay"></div><${form?'form':'div'} class="settings-dialog desk-dialog" role="dialog" aria-label="${e(t(title))}" ${form?`data-form="${form}"`:''}><h3>${e(t(title))}</h3>${body}</${form?'form':'div'}>`;
     const actions='<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">OK</button></div>';
@@ -54,8 +54,25 @@
     if(ui.overlay==='clock-tone')return shell('Ringtone',`<div class="desk-dialog-scroll">${tones.map(name=>`<label class="desk-day"><span>${e(t(name))}</span><input type="radio" name="tone" value="${name}" ${alarm.tone===name?'checked':''}></label>`).join('')}</div>${actions}`,'alarm-tone');
     if(ui.overlay==='clock-label')return shell('Label',`<input name="label" aria-label="${e(t('Label'))}" maxlength="60" value="${e(alarm.label)}">${actions}`,'alarm-label');
     if(ui.overlay==='clock-delete')return shell('Delete alarm?',`<p>${alarm.time} ${e(alarm.label)}</p><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="alarm-confirm-delete">Delete</button></div>`);
-    if(ui.overlay==='clock-ringing')return `<div class="settings-dialog-scrim"></div><div class="settings-dialog desk-dialog" role="alertdialog" aria-label="${e(t('Alarm'))}"><h3>${e(ui.ringingAlarm.label||t('Alarm'))}</h3><div class="desk-ringing-time">${e(ui.ringingAlarm.time)}</div><div class="settings-dialog-actions"><button data-action="alarm-snooze">Snooze</button><button data-action="alarm-dismiss">Dismiss</button></div></div>`;
+    if(ui.overlay==='clock-ringing')return ringing(ui,ctx);
     return '';
   }
-  window.ICSDeskClock={normalize,nextOccurrence,due,repeatText,render,overlay};
+  // The ringing alarm, in this image's DeskClock words (alarm-strings.js).
+  const e=escape;
+  const A=key=>{const row=window.AlarmStrings?.[key];return row?row[window.AndroidI18n?.language]||row.en:key;};
+  function ringParts(alarm,{hour24=true,locale='en-US'}={}) {
+    const [h,m]=String(alarm?.time||'0:00').split(':').map(Number),d=new Date(2000,0,1,h||0,m||0);
+    const ampm=hour24?'':new Intl.DateTimeFormat(locale,{hour:'numeric',hour12:true}).formatToParts(d).find(p=>p.type==='dayPeriod')?.value||(h<12?'AM':'PM');
+    return {hours:hour24?String(h).padStart(2,'0'):String(h%12||12),minutes:String(m).padStart(2,'0'),ampm,label:alarm?.label||A('default_label')};
+  }
+  /* AlarmAlert (alarm_alert.xml) in Theme.Holo.Dialog: the label as the window title; the DigitalClock (80 dp time,
+     20 dp bold AM/PM; 24 / 20 / 24 / 80 dp padding) under a full-width borderless Snooze button whose text sits 16 dp
+     above its bottom, a 1 dp divider 16 dp in, and the 48 dp Dismiss button. */
+  function ringing(ui,ctx={}) {
+    const r=ringParts(ui.ringingAlarm,ctx);
+    return `<div class="settings-dialog-scrim"></div><div class="dcal-ics" role="alertdialog" aria-label="${e(r.label)}"><h3 class="dcal-title">${e(r.label)}</h3><div class="dcal-body"><button class="dcal-snooze" data-action="alarm-snooze"><span class="dcal-clock"><b>${e(r.hours)}:${e(r.minutes)}</b>${r.ampm?`<small>${e(r.ampm)}</small>`:''}</span><span>${e(A('alarm_alert_snooze_text'))}</span></button><i class="dcal-divider"></i><button class="dcal-dismiss" data-action="alarm-dismiss">${e(A('alarm_alert_dismiss_text'))}</button></div></div>`;
+  }
+  // AlarmAlertFullScreen.snooze: "Snoozing for %d minutes."
+  const snoozeMessage=()=>A('alarm_alert_snooze_set').replace('%d','10');
+  window.ICSDeskClock={normalize,nextOccurrence,due,repeatText,render,overlay,ringing,snoozeMessage};
 })();

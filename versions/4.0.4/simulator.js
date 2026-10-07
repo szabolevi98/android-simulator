@@ -589,7 +589,8 @@
       // The framework's DatePickerDialog / TimePickerDialog (Calendar's From / To, DeskClock's alarm time).
       overlayRoot.innerHTML = ICSPickers.render(ui.icsPicker, i18n.locale());
     } else if (ui.overlay.startsWith('clock-')) {
-      overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key));
+      overlayRoot.innerHTML = ICSDeskClock.overlay(ui,key=>i18n.t(key),{hour24:!!data.settings.hour24,locale:i18n.locale(),now:deviceDate()});
+      if(ui.overlay==='clock-ringing')ICSDeskClock.bindRinging?.(overlayRoot);
     } else if (ui.overlay === 'hce-dialog') {
       overlayRoot.innerHTML = HoloContactEditor.overlay({lang: i18n.language, draft: ui.peopleDraft, dialog: ui.hceDialog || '', photos: data.photos, photoUrl: pid => { const photo = data.photos.find(p => String(p.id) === String(pid)); return photo ? ICSMedia.image(photo) : ''; }});
     } else if (ui.overlay.startsWith('calendar-')) {
@@ -1425,7 +1426,7 @@
       case 'alarm-snooze': {
         const alarm=data.alarms.find(item=>item.id===ui.ringingAlarm.id);
         if(alarm){alarm.enabled=true;alarm.snoozedUntil=deviceDate().getTime()+10*60000;save();}
-        ui.overlay='';render();toast('Snoozing for 10 minutes');break;
+        ui.overlay='';render();{const message=ICSDeskClock.snoozeMessage(new Date(alarm?.snoozedUntil||deviceDate().getTime()+600000),{hour24:!!data.settings.hour24,locale:i18n.locale()});if(message)toast(message);}break;
       }
       case 'alarm-dismiss': ui.overlay=''; render(); break;
       case 'alarm-toggle': { const alarm = data.alarms.find(item => item.id === Number(id)); if (alarm) { alarm.enabled = !alarm.enabled; delete alarm.snoozedUntil; } save(); render(); break; }

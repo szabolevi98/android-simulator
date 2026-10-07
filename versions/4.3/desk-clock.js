@@ -46,7 +46,7 @@
     const next=data.alarms.map(a=>nextOccurrence(a,now)).filter(Boolean).sort((a,b)=>a-b)[0];
     return `<div class="app-view desk-face ${ui.clockDim?'desk-dim':''}"><div class="desk-time-group"><button class="desk-time" data-action="clock-dim" aria-label="Night mode" aria-pressed="${!!ui.clockDim}">${now.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit',hour12:data.settings?.hour24===false})}</button><div class="desk-date">${now.toLocaleDateString(locale,{weekday:'long',month:'long',day:'numeric'})}</div><button class="desk-next" data-action="clock-alarms"><img src="assets/clock-ic_lock_idle_alarm.png" alt=""><span>${next?`${escape(t('Alarm set:'))} ${escape(next.toLocaleDateString(locale,{weekday:'short'}))} ${escape(next.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit',hour12:data.settings?.hour24===false}))}`:escape(t('Set alarm'))}</span></button></div></div>`;
   }
-  function overlay(ui,t) {
+  function overlay(ui,t,ctx={}) {
     const alarm=normalize(ui.alarmDraft), e=escape;
     const shell=(title,body,form='')=>`<div class="settings-dialog-scrim" data-action="close-overlay"></div><${form?'form':'div'} class="settings-dialog desk-dialog" role="dialog" aria-label="${e(t(title))}" ${form?`data-form="${form}"`:''}><h3>${e(t(title))}</h3>${body}</${form?'form':'div'}>`;
     const actions='<div class="settings-dialog-actions"><button type="button" data-action="close-overlay">Cancel</button><button type="submit">OK</button></div>';
@@ -55,8 +55,46 @@
     if(ui.overlay==='clock-tone')return shell('Ringtone',`<div class="desk-dialog-scroll">${tones.map(name=>`<label class="desk-day"><span>${e(t(name))}</span><input type="radio" name="tone" value="${name}" ${alarm.tone===name?'checked':''}></label>`).join('')}</div>${actions}`,'alarm-tone');
     if(ui.overlay==='clock-label')return shell('Label',`<input name="label" aria-label="${e(t('Label'))}" maxlength="60" value="${e(alarm.label)}">${actions}`,'alarm-label');
     if(ui.overlay==='clock-delete')return shell('Delete alarm?',`<p>${alarm.time} ${e(alarm.label)}</p><div class="settings-dialog-actions"><button data-action="close-overlay">Cancel</button><button data-action="alarm-confirm-delete">Delete</button></div>`);
-    if(ui.overlay==='clock-ringing')return `<div class="settings-dialog-scrim"></div><div class="settings-dialog desk-dialog" role="alertdialog" aria-label="${e(t('Alarm'))}"><h3>${e(ui.ringingAlarm.label||t('Alarm'))}</h3><div class="desk-ringing-time">${e(ui.ringingAlarm.time)}</div><div class="settings-dialog-actions"><button data-action="alarm-snooze">Snooze</button><button data-action="alarm-dismiss">Dismiss</button></div></div>`;
+    if(ui.overlay==='clock-ringing')return ringing(ui,ctx);
     return '';
   }
-  window.ICSDeskClock={normalize,nextOccurrence,due,repeatText,render,overlay};
+  // The ringing alarm, in this image's DeskClock words (alarm-strings.js).
+  const e=escape;
+  const A=key=>{const row=window.AlarmStrings?.[key];return row?row[window.AndroidI18n?.language]||row.en:key;};
+  function ringParts(alarm,{hour24=true,locale='en-US'}={}) {
+    const [h,m]=String(alarm?.time||'0:00').split(':').map(Number),d=new Date(2000,0,1,h||0,m||0);
+    const ampm=hour24?'':new Intl.DateTimeFormat(locale,{hour:'numeric',hour12:true}).formatToParts(d).find(p=>p.type==='dayPeriod')?.value||(h<12?'AM':'PM');
+    return {hours:hour24?String(h).padStart(2,'0'):String(h%12||12),minutes:String(m).padStart(2,'0'),ampm,label:alarm?.label||A('default_label')};
+  }
+  /* AlarmAlertFullScreen (alarm_alert.xml): black, the 24 sp bold label 32 sp from the top over the big clock, and the
+     DeskClock GlowPadView at the bottom: the alarm handle in the middle of a 270 dp ring (2 dp of #1AFFFFFF) that only
+     shows while the handle is held, dismiss (ic_lockscreen_wakeup) at 0 rad and snooze at pi on the 135 dp placement
+     radius; the handle snaps to a target within 40 dp and releasing there fires it. */
+  function ringing(ui,ctx={}) {
+    const r=ringParts(ui.ringingAlarm,ctx);
+    const time=`<div class="dcal-time"><b>${e(r.hours)}</b><span>:${e(r.minutes)}</span>${r.ampm?`<small>${e(r.ampm)}</small>`:''}</div>`;
+    return `<div class="dcal-glow" role="alertdialog" aria-label="${e(r.label)}"><div class="dcal-head"><p class="dcal-label">${e(r.label)}</p>${time}</div><div class="dcal-pad"><i class="dcal-ring"></i><button class="dcal-target dcal-snooze" data-action="alarm-snooze" aria-label="${e(A('description_direction_left'))}"><img src="assets/dcal-ic_lockscreen_snooze_normal.png" alt=""><img src="assets/dcal-ic_lockscreen_snooze_activated.png" alt=""></button><button class="dcal-target dcal-dismiss" data-action="alarm-dismiss" aria-label="${e(A('description_direction_right'))}"><img src="assets/dcal-ic_lockscreen_wakeup_normal.png" alt=""><img src="assets/dcal-ic_lockscreen_wakeup_activated.png" alt=""></button><span class="dcal-handle" aria-hidden="true"><img src="assets/dcal-ic_lockscreen_alarm.png" alt=""><img src="assets/dcal-ic_lockscreen_handle_pressed.png" alt=""></span></div></div>`;
+  }
+  function bindRinging(root) {
+    const pad=root.querySelector('.dcal-pad'),handle=root.querySelector('.dcal-handle');if(!pad||!handle)return;
+    const OUTER=135*.9,SNAP=40*.9;let grab=null,target=null;
+    const place=(x,y)=>{handle.style.transform=`translate(${x}px,${y}px)`;};
+    handle.addEventListener('pointerdown',event=>{if(event.button>0)return;event.preventDefault();grab={id:event.pointerId};pad.classList.add('dcal-grabbed');try{handle.setPointerCapture(event.pointerId);}catch{}});
+    handle.addEventListener('pointermove',event=>{
+      if(!grab||event.pointerId!==grab.id)return;
+      const box=pad.getBoundingClientRect(),k=box.width/pad.offsetWidth||1,dx=(event.clientX-(box.left+box.width/2))/k,dy=(event.clientY-(box.top+box.height/2))/k,dist=Math.hypot(dx,dy),s=dist>OUTER?OUTER/dist:1;
+      place(dx*s,dy*s);
+      const angle=Math.atan2(-dy,dx);target=dist>OUTER-SNAP?(Math.abs(angle)<Math.PI/4?'dismiss':Math.abs(angle)>3*Math.PI/4?'snooze':null):null;
+      pad.dataset.snapped=target||'';
+    });
+    const release=event=>{
+      if(!grab||event.pointerId!==grab.id)return;grab=null;pad.classList.remove('dcal-grabbed');pad.dataset.snapped='';
+      if(target){root.querySelector(`.dcal-${target}`)?.click();return;}
+      place(0,0);
+    };
+    handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);
+  }
+  // AlarmAlertFullScreen.snooze: "Snoozing for %d minutes."
+  const snoozeMessage=()=>A('alarm_alert_snooze_set').replace('%d','10');
+  window.ICSDeskClock={normalize,nextOccurrence,due,repeatText,render,overlay,ringing,snoozeMessage,bindRinging};
 })();

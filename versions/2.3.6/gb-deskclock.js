@@ -68,7 +68,7 @@
 
   // Dialogs: TimePickerDialog (title = the picked time, ic_dialog_time, two 70 dip NumberPickers and the AM/PM button,
   // Set / Cancel), the Repeat multi-choice list, the alarm ringtone picker, the Label EditTextPreference, delete,
-  // the AlarmClock context menu and AlarmAlert (64 sp time, Snooze / Dismiss).
+  // and the AlarmClock context menu.
   function dialog(kind, ctx) {
     const T = key => text(ctx.lang, key), temp = ctx.temp || {};
     if (kind === 'time') {
@@ -87,12 +87,18 @@
       const alarm = ctx.contextAlarm, a = alarmClock(alarm, ctx);
       return {title: `${a.time}${a.ampm ? ' ' + a.ampm : ''}${alarm.label ? ' ' + alarm.label : ''}`, items: [{action: 'alarm-toggle', id: alarm.id, title: T(alarm.enabled ? 'disable_alarm' : 'enable_alarm')}, {action: 'alarm-edit', id: alarm.id, title: T('menu_edit_alarm')}, {action: 'dc-delete-from-list', id: alarm.id, title: T('delete_alarm')}]};
     }
-    if (kind === 'ringing' && ctx.ringing) {
-      const a = alarmClock(ctx.ringing, ctx);
-      return {title: ctx.ringing.label || T('default_label'), custom: `<div class="gbdc-alert"><span>${e(a.time)}</span>${a.ampm ? `<b>${e(a.ampm)}</b>` : ''}</div>`, buttons: [{action: 'alarm-snooze', title: T('alarm_alert_snooze_text')}, {action: 'alarm-dismiss', title: T('alarm_alert_dismiss_text')}], cancel: ''};
-    }
     return null;
   }
 
-  window.GBDeskClock = {TONES, text, array, clock, daysText, setToast, toneTitle, render, menu, dialog};
+  // AlarmAlert (alarm_alert.xml in the alarm_alert Theme.Dialog): the dialog 9-patch panel, wrap_content and centred over
+  // the dimmed screen, with the label or "Alarm" (textAppearanceLarge, 5 dip padding), the 1 dip divider 10 dip in, the
+  // DigitalClock (64 sp time, bold medium AM/PM, 30 dip above and below) and the ButtonBar strip with Snooze, a 2 dip view
+  // and Dismiss weighted 3 / 1 / 3. Under the keyguard AlarmAlertFullScreen shows the same panel over the wallpaper
+  // (Theme.Wallpaper.NoTitleBar). Neither the back key nor a touch outside closes it.
+  function alert(ctx) {
+    const T = key => text(ctx.lang, key), a = alarmClock(ctx.ringing, ctx), title = ctx.ringing.label || T('default_label');
+    return `<div class="gbdc-ring-scrim${ctx.wallpaper ? ' full' : ''}"${ctx.wallpaper ? ` style="background:${e(ctx.wallpaper)}"` : ''}></div><div class="gbdc-ring" role="alertdialog" aria-label="${e(title)}"><div class="gbdc-ring-title">${e(title)}</div><i class="gbdc-ring-divider"></i><div class="gbdc-alert"><span>${e(a.time)}</span>${a.ampm ? `<b>${e(a.ampm)}</b>` : ''}</div><div class="gbdc-ring-bar"><button type="button" class="gbdlg-button" data-action="alarm-snooze">${e(T('alarm_alert_snooze_text'))}</button><i></i><button type="button" class="gbdlg-button" data-action="alarm-dismiss">${e(T('alarm_alert_dismiss_text'))}</button></div></div>`;
+  }
+
+  window.GBDeskClock = {TONES, text, array, clock, daysText, setToast, toneTitle, render, menu, dialog, alert};
 })();

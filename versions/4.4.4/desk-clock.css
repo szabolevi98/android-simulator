@@ -14,3 +14,28 @@
 .desk-time-picker input{font-size:28px;text-align:center;padding:8px 2px!important;border:0!important;border-top:2px solid #33b5e5!important;border-bottom:2px solid #33b5e5!important;border-radius:0!important;background:none!important;appearance:textfield}
 .desk-time-picker input::-webkit-inner-spin-button{appearance:none}
 .desk-ringing-time{font-family:AndroidClock,Roboto,sans-serif;font-size:64px;text-align:center;padding:20px 0}
+/* AlarmAlertFullScreen (alarm_alert.xml, dp x 0.906): black; the 24 sp bold label 32 sp from the top over the clock; the
+   DeskClock GlowPadView at the bottom (378 dp: the 135 dp placement radius plus the 108 dp targets), its 270 dp ring of
+   2 dp #1AFFFFFF and the snooze / dismiss targets showing only while the alarm handle is held. The theme is
+   Theme.Holo.Wallpaper.NoTitleBar, so the status and navigation bars stay, opaque
+   even over the launcher's transparent ones. */
+.screen:has(>#overlay-root>.dcal-glow) .status-button,.screen:has(>#overlay-root>.dcal-glow) #nav-bar{background:#000}
+.dcal-glow{position:absolute;inset:var(--sb) 0 var(--nb);z-index:41;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;overflow:hidden;font-family:RobotoICS,Roboto,sans-serif}
+.dcal-head{margin-top:28.99px;display:flex;flex-direction:column;align-items:flex-start}
+.dcal-label{max-width:100%;margin:0;padding:0 3.62px 1.81px;font:700 21.74px/1.2 RobotoICS,Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dcal-time{display:flex;align-items:baseline;line-height:1;padding-bottom:21.74px;white-space:nowrap}
+.dcal-time span{font:108.72px/1 RobotoThin,RobotoICS,sans-serif;letter-spacing:-2px}
+.dcal-time small{margin-left:3.62px;font:28.99px RobotoThin,RobotoICS,sans-serif}
+.dcal-pad{position:absolute;left:50%;bottom:0;width:342.47px;height:342.47px;margin-left:-171.23px;touch-action:none}
+.dcal-ring{position:absolute;left:50%;top:50%;width:244.62px;height:244.62px;margin:-122.31px 0 0 -122.31px;box-sizing:border-box;border:1.81px solid #ffffff1a;border-radius:50%;opacity:0;transition:opacity .2s}
+.dcal-target{position:absolute;top:50%;width:97.85px;height:97.85px;margin-top:-48.92px;padding:0;border:0;background:none;opacity:0;transition:opacity .2s}
+.dcal-glow .dcal-snooze{left:calc(50% - 122.31px - 48.92px)}
+.dcal-glow .dcal-dismiss{left:calc(50% + 122.31px - 48.92px)}
+.dcal-target img,.dcal-handle img{position:absolute;inset:0;width:100%;height:100%}
+.dcal-target img+img,.dcal-handle img+img{opacity:0}
+.dcal-grabbed .dcal-ring,.dcal-grabbed .dcal-target{opacity:1}
+.dcal-pad[data-snapped="snooze"] .dcal-snooze img+img,.dcal-pad[data-snapped="dismiss"] .dcal-dismiss img+img{opacity:1}
+.dcal-handle{position:absolute;left:50%;top:50%;width:97.85px;height:97.85px;margin:-48.92px 0 0 -48.92px;cursor:grab}
+.dcal-grabbed .dcal-handle img{opacity:0}
+.dcal-grabbed .dcal-handle img+img{opacity:1}
+.dcal-pad[data-snapped="snooze"] .dcal-handle,.dcal-pad[data-snapped="dismiss"] .dcal-handle{opacity:0}

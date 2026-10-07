@@ -410,6 +410,8 @@
 /* Keep mobile browser gestures outside the simulated device interactions. */
 html,body{overscroll-behavior-y:none}
 .screen{-webkit-touch-callout:none;-webkit-user-select:none;overscroll-behavior:none}
+/* The 24 px status bar and the 47 px navigation bar, for the rules that place a view between them. */
+.screen{--sb:24px;--nb:47px}
 .screen img{pointer-events:none;-webkit-touch-callout:none;-webkit-user-select:none;-webkit-user-drag:none}
 .screen input,.screen textarea,.screen [contenteditable="true"]{-webkit-touch-callout:default;-webkit-user-select:text;user-select:text}
 #status-bar,#nav-bar,.home-view,.drawer-view{touch-action:none}

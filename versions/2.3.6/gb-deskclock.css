@@ -64,6 +64,15 @@
 .screen .gbtp-ampm{margin-top:37.09px;min-height:41.4px;padding:5.75px 17.25px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 18.98px DroidSans,Arial,sans-serif;cursor:pointer}
 .screen .gbtp-ampm:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
 /* AlarmAlert: 64 sp time with the bold AM/PM, 30 dip above and below. */
-.gbdc-alert{display:flex;justify-content:center;align-items:baseline;gap:4px;padding:25.88px 0}
+/* AlarmAlert: the dialog 9-patch (75 px hdpi, stretch 31 / 34 / 39 / 35 px, content padding 14 / 18 / 22 / 18 px) */
+.gbdc-ring-scrim{position:absolute;inset:0;z-index:40;background:#00000099}
+.gbdc-ring-scrim.full{background-color:#000}
+.gbdc-ring{position:absolute;z-index:41;inset:0;margin:auto;width:fit-content;height:fit-content;display:flex;flex-direction:column;align-items:center;max-width:calc(100% - 20px);padding:8.05px 10.35px 12.65px;border-image:url('assets/gb-dc-dialog.png') 31 34 39 35 fill/18px 19.5px 22.5px 20px stretch;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.gbdc-ring-title{align-self:stretch;padding:4.31px;text-align:center;font-size:18.98px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbdc-ring-divider{align-self:stretch;height:.86px;margin:0 8.63px;background:url('assets/gb-dc-dialog_divider_horizontal_light.png') 0 0/100% 100%}
+.gbdc-alert{display:flex;justify-content:center;align-items:baseline;padding:25.88px 0;color:#fff}
 .gbdc-alert span{font:400 55.2px/1 Clockopia,DroidSans,sans-serif}
 .gbdc-alert b{font-size:15.53px}
+.gbdc-ring-bar{display:flex;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.gbdc-ring-bar i{flex:none;width:1.73px}
+.gbdc-ring-bar .gbdlg-button{flex:none}

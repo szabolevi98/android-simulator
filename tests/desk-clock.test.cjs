@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},Date};
-vm.runInNewContext(fs.readFileSync('versions/4.0.4/desk-clock.js','utf8'),context);
+for(const f of ['alarm-strings.js','desk-clock.js'])vm.runInNewContext(fs.readFileSync(`versions/4.0.4/${f}`,'utf8'),context);
 const clock=context.window.ICSDeskClock;
 const monday=new Date(2026,8,28,8,0,0);
 assert.equal(clock.normalize({time:'99:99'}).time,'07:00');
