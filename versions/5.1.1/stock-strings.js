@@ -2502,5 +2502,67 @@ window.StockStrings = {
    "Désactivé",
    "No"
   ]
+ },
+ "calendar": {
+  "Time zone": [
+   "Időzóna",
+   "Zeitzone",
+   "Fuseau horaire",
+   "Zona horaria"
+  ],
+  "Show me as": [
+   "Állapotjelzés",
+   "Mein Status",
+   "Ma disponibilité",
+   "Mostrarme como"
+  ],
+  "Busy": [
+   "Elfoglalt",
+   "Beschäftigt",
+   "Occupé",
+   "Ocupado"
+  ],
+  "Available": [
+   "Elérhető",
+   "Verfügbar",
+   "Disponible",
+   "Disponible"
+  ],
+  "Invite people": [
+   "Mások meghívása",
+   "Gäste einladen",
+   "Ajouter des invités",
+   "Añadir invitados"
+  ],
+  "Visibility": [
+   "Láthatóság",
+   "Sichtbarkeit",
+   "Visibilité",
+   "Visibilidad"
+  ],
+  "Public - Busy": [
+   "Nyilvános – Elfoglalt",
+   "Öffentlich – Beschäftigt",
+   "Public – Occupé",
+   "Público y ocupado"
+  ],
+  "Public - Available": [
+   "Nyilvános – Elérhető",
+   "Öffentlich – Verfügbar",
+   "Public – Disponible",
+   "Público y disponible"
+  ],
+  "Private - Busy": [
+   "Privát – Elfoglalt",
+   "Vertraulich – Beschäftigt",
+   "Privé – Occupé",
+   "Privado y ocupado"
+  ],
+  "Private - Available": [
+   "Privát – Elérhető",
+   "Vertraulich – Verfügbar",
+   "Privé – Disponible",
+   "Privado y disponible"
+  ]
  }
 };

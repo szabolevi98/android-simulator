@@ -2307,6 +2307,9 @@
         ui.eventDraft=event;
         if(!ICSCalendar.valid(event)){ui.calendarError='End must be after start';render();return;}
         event.repeat=String(values.get('repeat')||'none');event.reminder=Number(values.get('reminder')??-1);
+        // Guests, the time zone ('' is the device's) and Show me as / Privacy (5.1's Visibility holds both).
+        event.guests=String(values.get('guests')||'').trim();event.tz=String(values.get('tz')||'');
+        if(values.has('visibility')){const [privacy,availability]=String(values.get('visibility')).split(':').map(Number);event.privacy=privacy||0;event.availability=availability||0;}else{event.availability=Number(values.get('availability')||0);event.privacy=Number(values.get('privacy')||0);}
         const {scope,instance,seriesStart}=event;delete event.scope;delete event.instance;delete event.seriesStart;
         const existing=data.events.findIndex(item=>item.id===event.id);
         if(scope&&existing>=0){

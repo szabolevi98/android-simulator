@@ -2356,5 +2356,61 @@ window.StockStrings = {
    "Désactivé",
    "No"
   ]
+ },
+ "calendar": {
+  "Time zone": [
+   "Időzóna",
+   "Zeitzone",
+   "Fuseau horaire",
+   "Zona horaria"
+  ],
+  "Show me as": [
+   "Állapotjelzés",
+   "Mein Status",
+   "Ma disponibilité",
+   "Mostrarme como"
+  ],
+  "Busy": [
+   "Elfoglalt",
+   "Beschäftigt",
+   "Occupé",
+   "Ocupado"
+  ],
+  "Available": [
+   "Elérhető",
+   "Verfügbar",
+   "Disponible",
+   "Disponible"
+  ],
+  "Guests": [
+   "Résztvevők",
+   "Gäste",
+   "Invités",
+   "Invitados"
+  ],
+  "Privacy": [
+   "Adatvédelem",
+   "Vertraulichkeit",
+   "Confidentialité",
+   "Privacidad"
+  ],
+  "Default": [
+   "Alapértelmezett",
+   "Standard",
+   "Par défaut",
+   "Predeterminado"
+  ],
+  "Private": [
+   "Privát",
+   "Privat",
+   "Privé",
+   "Privado"
+  ],
+  "Public": [
+   "Nyilvános",
+   "Öffentlich",
+   "Public",
+   "Público"
+  ]
  }
 };
