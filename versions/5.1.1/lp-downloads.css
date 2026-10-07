@@ -1,27 +1,29 @@
-/* DocumentsUI (Theme.Holo.Light) in manage mode for the Downloads root. */
-.kdu-app{display:flex;flex-direction:column;height:100%;background:#f3f3f3;color:#000}
-.kdu-ab{flex:none;height:43.49px;display:flex;align-items:center;background:#f3f3f3;border-bottom:1.81px solid #c6c6c6}
-.kdu-ab h2{flex:1;min-width:0;margin:0;font:400 16.31px RobotoICS,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kdu-ab button{height:100%;width:43.49px;border:0;background:none;display:grid;place-items:center;padding:0}
-.kdu-ab button:active{background:#0000001a}
-.kdu-ab button img{width:28.99px;height:28.99px}
-.kdu-ab .kdu-home{width:auto;padding:0 7.25px 0 7.25px}
-.kdu-content{flex:1;min-height:0;overflow-y:auto;background:#f3f3f3}
-.kdu-empty{margin:0;height:100%;display:grid;place-items:center;font:400 16.31px RobotoICS,sans-serif;color:#808080}
-.kdu-item{display:flex;align-items:center;width:100%;min-height:57.98px;padding:7.25px 14.5px 7.25px 0;border:0;border-bottom:1px solid #e0e0e0;background:none;text-align:left}
-.kdu-item:active{background:#0000001a}
-.kdu-icon{width:28.99px;height:28.99px;margin:0 18.12px 0 25.37px;flex:none}
-.kdu-icon img{width:100%;height:100%}
-.kdu-copy{min-width:0;flex:1;display:flex;flex-direction:column}
-.kdu-title{font:400 16.31px RobotoICS,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kdu-line2{display:flex;gap:7.25px;font:400 12.68px RobotoICS,sans-serif;color:#808080}
-.kdu-line2 span{width:81.54px}
-.kdu-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.62px;padding:3.62px}
-.kdu-grid .kdu-item{flex-direction:column;align-items:stretch;background:#fff;border:0;padding:0 0 5.44px;min-height:154px}
-.kdu-grid .kdu-icon{flex:1;width:auto;height:auto;margin:0 0 5.44px;display:grid;place-items:center;background:#fff}
-.kdu-grid .kdu-icon img{width:28.99px;height:28.99px}
-.kdu-grid .kdu-copy{padding:0 7.25px}
-.kdu-menu{position:absolute;z-index:26;top:calc(var(--sb) + 43.49px);right:4px;min-width:174px;background:#fff;box-shadow:0 2px 8px #0006;border:1px solid #0000001a}
-.kdu-menu button{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:43.49px;padding:0 14.5px;border:0;border-bottom:1px solid #e3e3e3;background:none;color:#000;font:400 14.5px RobotoICS,sans-serif;text-align:left}
-.kdu-menu button:last-child{border-bottom:0}
-.kdu-menu button img{width:28.99px;height:28.99px}
+/* DocumentsUI 5.1.1 in manage mode for the Downloads root (dp x 0.906; xxxhdpi art x 0.2265): the 56 dp
+   colorPrimary Toolbar with its 8 dp elevation, the 20 sp medium white title and white icons (colorControlNormal of
+   ThemeOverlay.Material.Dark.ActionBar), the material_grey_50 directory, 72 dp list rows and 152 x 176 dp grid cells.
+   Icons are the APK's alpha masks painted in their tint. */
+.ldu-app{display:flex;flex-direction:column;height:100%;background:#fafafa;color:#000000de;font-family:Roboto,sans-serif}
+.ldu-toolbar{position:relative;z-index:1;flex:none;height:50.74px;display:flex;align-items:center;background:#37474f;box-shadow:0 2.7px 5.4px #0000003d}
+.ldu-toolbar h2{flex:1;min-width:0;margin:0 0 0 14.5px;font:500 18.12px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ldu-toolbar button{flex:none;height:100%;width:43.49px;border:0;background:none;display:grid;place-items:center;padding:0;cursor:pointer}
+.ldu-toolbar button:active{background:#ffffff33}
+.ldu-toolbar .ldu-nav{width:50.74px;margin-left:3.62px}
+.ldu-ab-icon{display:block;width:28.99px;height:28.99px;background:#fff;-webkit-mask:var(--icon) center/contain no-repeat;mask:var(--icon) center/contain no-repeat}
+.ldu-content{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ldu-empty{margin:0;height:100%;display:grid;place-items:center;font:400 14.5px Roboto,sans-serif;color:#000000de}
+.ldu-item{display:flex;align-items:center;width:100%;min-height:65.23px;padding:0 14.5px;border:0;background:none;text-align:left;cursor:pointer}
+.ldu-item:active{background:#0000001f}
+.ldu-icon{flex:none;width:36.24px;height:36.24px;margin-right:14.5px;display:grid;place-items:center}
+.ldu-mime{display:block;width:21.74px;height:21.74px;background:#0000008a;-webkit-mask:var(--icon) center/contain no-repeat;mask:var(--icon) center/contain no-repeat}
+.ldu-copy{flex:1;min-width:0;display:flex;flex-direction:column}
+.ldu-title{font:400 14.5px Roboto,sans-serif;color:#000000de;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ldu-line2{display:flex}
+.ldu-line2>span{flex:none;width:81.54px;margin-right:7.25px;font:400 12.68px Roboto,sans-serif;color:#0000008a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ldu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(137.71px,1fr));gap:3.62px;padding:3.62px}
+.ldu-cell{position:relative;height:159.46px;display:flex;flex-direction:column;padding:0;border:0;background:#eee;text-align:left;cursor:pointer}
+.ldu-cell:active{background:#ddd}
+.ldu-cell .ldu-mime{flex:1;width:100%;height:auto;-webkit-mask-size:21.74px;mask-size:21.74px}
+.ldu-band{flex:none;display:flex;flex-direction:column;padding:7.25px 10.87px 7.25px 14.5px;background:#00000088}
+.ldu-band .ldu-title{color:#fff}
+.ldu-band .ldu-line2>span{flex:1;width:auto;font-size:10.87px;color:#fff}
+.lp-popup-menu.ldu-popup{top:calc(var(--sb) + 3.62px)}

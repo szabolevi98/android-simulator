@@ -140,7 +140,7 @@
   const LP_STATUS_COLORS = {
     settings: '#21272b', phone: '#0277bd', people: '#0277bd', messaging: '#026da7', chrome: '#757575', gmail: '#b93221', email: '#d06d0c',
     hangouts: '#0b8043', calendar: '#3367d6', 'play-store': '#558b2f', 'play-music': '#e65100', 'play-movies': '#d23f31', 'play-books': '#0277bd',
-    'play-games': '#4e802b', keep: '#e59900', youtube: '#c31c13', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#455a64', calculator: '#00838f',
+    'play-games': '#4e802b', keep: '#e59900', youtube: '#c31c13', drive: '#9e9e9e', photos: '#9e9e9e', downloads: '#263238', calculator: '#00838f',
     clock: '#0277bd', camera: '#000', gallery: '#000', browser: '#000', music: '#000', maps: '#9e9e9e', 'google-search': '#3367d6', 'voice-search': '#3367d6',
     'google-plus': '#c53929', earth: '#000', 'news-weather': '#9e9e9e', 'google-settings': '#21272b'
   };
@@ -148,7 +148,7 @@
   const LP_PRIMARY = {
     settings: '#263238', phone: '#0288d1', people: '#0288d1', messaging: '#0288d1', chrome: '#f2f2f2', gmail: '#da4336', email: '#e7790d',
     hangouts: '#0f9d58', calendar: '#4285f4', 'play-store': '#689f38', 'play-music': '#ef6c00', 'play-movies': '#ed3b3b', 'play-books': '#039be5',
-    'play-games': '#689f38', keep: '#ffcc3f', youtube: '#e62117', drive: '#e0e0e0', photos: '#f5f5f5', downloads: '#607d8b', calculator: '#00bcd4',
+    'play-games': '#689f38', keep: '#ffcc3f', youtube: '#e62117', drive: '#e0e0e0', photos: '#f5f5f5', downloads: '#37474f', calculator: '#00bcd4',
     clock: '#0288d1', camera: '#212121', gallery: '#212121', browser: '#e6e6e6', music: '#212121', maps: '#f5f5f5', 'google-search': '#4285f4', 'voice-search': '#4285f4',
     'google-plus': '#db4437', earth: '#212121', 'news-weather': '#f5f5f5', 'google-settings': '#263238'
   };
@@ -723,7 +723,7 @@
       case 'calculator': return renderCalculator();
       case 'email': return renderEmail();
       case 'docs': case 'sheets': case 'slides': case 'fit': case 'newsstand': case 'wallet': return LPExtraApps.render(ui.view, {files: StockApps.FILES, ui, t: key => i18n.t(key), locale: i18n.locale()});
-      case 'downloads': return KKDownloads.render(data.downloads || [], ui, key => i18n.t(key), i18n.locale());
+      case 'downloads': return LPDownloads.render(data.downloads || [], ui, key => i18n.t(key), i18n.locale());
       default: return renderHome();
     }
   }
@@ -885,8 +885,8 @@
       overlayRoot.innerHTML = KKDeskClock.picker(ui.kdcPicker, {t: key => i18n.t(key), hour24: !!data.settings.hour24});
     } else if (ui.overlay === 'kk-cast-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="kk-cast-enable" role="menuitemcheckbox" aria-checked="${!!data.settings.wifiDisplay}" class="kk-check-item">${safe(i18n.t('Enable wireless display'))}<img src="assets/btn_check_${data.settings.wifiDisplay ? 'on' : 'off'}_holo_dark.png" alt=""></button></div>`;
-    } else if (ui.overlay === 'kdu-sort' || ui.overlay === 'kdu-overflow') {
-      overlayRoot.innerHTML = KKDownloads.menu(ui.overlay.slice(4), ui, key => i18n.t(key));
+    } else if (ui.overlay === 'ldu-sort' || ui.overlay === 'ldu-overflow') {
+      overlayRoot.innerHTML = LPDownloads.menu(ui.overlay.slice(4), ui, key => i18n.t(key));
     } else if (ui.overlay === 'kk-sms-app') {
       // SmsDefaultDialog-style list preference: the SMS-capable apps (only Messaging in AOSP).
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(i18n.t('Default SMS app'))}"><h3>${safe(i18n.t('Default SMS app'))}</h3><button class="settings-row jb-dream-row" data-action="close-overlay" role="radio" aria-checked="true"><span class="row-copy">${safe(i18n.t('Messaging'))}</span><img class="holo-radio" src="assets/btn_radio_on_holo_dark.png" alt=""></button><div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
@@ -1940,10 +1940,10 @@
       case 'kk-sms-app': ui.overlay = 'kk-sms-app'; renderOverlay(); break;
       case 'kk-cast-menu': ui.overlay = 'kk-cast-menu'; renderOverlay(); break;
       case 'kk-cast-enable': data.settings.wifiDisplay = !data.settings.wifiDisplay; save(); ui.overlay = ''; render(); break;
-      case 'kdu-menu': ui.overlay = `kdu-${id}`; renderOverlay(); break;
-      case 'kdu-sort': ui.dlSort = id; ui.overlay = ''; render(); break;
-      case 'kdu-view': ui.dlGrid = id === 'grid'; ui.overlay = ''; render(); break;
-      case 'kdu-search': toast('No items'); break;
+      case 'ldu-menu': ui.overlay = `ldu-${id}`; renderOverlay(); break;
+      case 'ldu-sort': ui.dlSort = id; ui.overlay = ''; render(); break;
+      case 'ldu-view': ui.dlGrid = id === 'grid'; ui.overlay = ''; render(); break;
+      case 'ldu-search': toast('No items'); break;
       case 'settings-sub': ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
       case 'sd-dialog': ui.settingsField=id;ui.overlay='sd-dialog';renderOverlay();break;
       case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;
