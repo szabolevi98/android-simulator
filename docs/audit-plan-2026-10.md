@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 24 / 32 kész.
+**Állapot:** a 4.5. ponton vagyok (közös fájlok tételenként): 25 / 32 kész.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -79,7 +79,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Widgetek 2.3.6–5.1.1 (`widgets.js`, `widgets.css`): a 4.4.4 / 5.1.1 zene-widgetje a saját Music2.apk Play Music widgetje (KK widget_nowplaying_small, LP music_widget_small), a tálcában a previewImage; a 2.3.6-ban csak a GB saját widgetjei és a képlista-segéd maradt; halott CSS kivéve; `docs/widget-providers.py` – 1b0f554
 - [x] Beállítások aloldalai (`settings-system.js`, `settings-system.css`, `settings-detail.css`): 4.0.4 / 4.3 / 4.4.4 / 5.1.1 a `docs/settings-system.template.js`-ből generálva, a saját kép XML-jei és szövegei szerint (dátum, biztonság, eszközkezelők, megosztás, speciális Wi-Fi, VPN, mobilhálózat, szolgáltatók, APN); KK „Widgetek engedélyezése” (alapból ki, a zárképernyő widgetoldalait is ez kapcsolja); a 2.3.6-ból az elérhetetlen ICS-oldalak kikerültek – 29f1e9d
 - [x] Hívásképernyő 2.3.6 / 4.0.4 / 4.3 (`phone-call.js`, `phone-call.css`): a 2.3.6 hívásnapló-részlete a GB saját CallDetailActivity-je (a Holo-oldal helyett), a GB-ből a halott ICS-telefonkód és CSS kikerült; a 4.0.4 / 4.3 a saját Phone.apk xhdpi grafikáival, a 4.3 vége-gombja ic_dial_end_call az end_call_background textúrán – dfdd809
-- [ ] (~2 óra) Csörgő ébresztő 2.3.6–5.1.1 (`desk-clock.js` riasztás-ablaka: most mind az öt verzióban ugyanaz az ICS-szerű párbeszédablak; GB és ICS AlarmAlert, 4.3 / 4.4 GlowPad, 5.1 Material) – az Óra stílus átnézésekor derült ki
+- [x] (~2 óra) Csörgő ébresztő 2.3.6–5.1.1: GB AlarmAlert (saját `dialog` 9-patch, ButtonBar), 4.0.4 Holo AlarmAlert, 4.3 / 4.4 AlarmAlertFullScreen GlowPad (4.3: félkövér óra, vékony „:mm”), 5.1 Material AlarmActivity (óraszín, húzás, kör-felfedés, „Elhalasztva / Riasztás ki” szöveg); szövegek a képek DeskClock-jából (`docs/alarm-strings.py`), a sávok a témák szerint (83af141)
 - [ ] (~2 óra) Üzenetek 2.3.6 / 4.0.4 / 4.3 / 4.4.4 (`messaging.js`, `messaging.css`)
 - [ ] (~2 óra) Letöltések 4.4.4 / 5.1.1 (`downloads.js`, `downloads.css`; az LP most a 4.4-es DocumentsUI)
 - [ ] (~2–3 óra) Naptár 4.3 / 4.4.4 (`calendar.js`)
@@ -227,3 +227,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-06 | 4.5. pont: Widgetek – KK / LP Play Music widget a saját APK-ból, GB tisztítás | 1b0f554 |
 | 2026-10-07 | 4.5. pont: Beállítások aloldalai képenként (generált, saját XML és szövegek), KK zárképernyő-widgetek kapcsolója | 29f1e9d |
 | 2026-10-07 | 4.5. pont: Hívásképernyő – GB CallDetailActivity, 4.x saját Phone-grafikák | dfdd809 |
+| 2026-10-07 | 4.5. pont: Csörgő ébresztő képenként (GB / ICS AlarmAlert, JB / KK GlowPad, LP AlarmActivity) | 83af141 |
