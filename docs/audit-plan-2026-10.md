@@ -139,6 +139,59 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] `sitemap.xml` a gyökérben: a kezdőoldal és a verziók oldalai (android.levente.net), `lastmod` értékkel – statikus fájl, a `docs/make-sitemap.mjs` generálja a `versions/catalog.js` elérhető verzióiból, a `lastmod` az oldalt utoljára módosító commit dátuma; oldalváltozás után újra kell futtatni (README: Search engines); `tests/sitemap.test.cjs` – 8b6e6bd
 - [x] Megengedő `robots.txt` (mindent enged), `Sitemap: https://android.levente.net/sitemap.xml` sorral – 8b6e6bd
 
+## 9. Forrás-felmérés: melyik app nem a gyári APK-ból készült (2026-10-08)
+
+A tulajdonos kérésére verziónként minden app összevetve a gyári kép APK-jával (verziószám a képből, a felület alapja a
+kódkommentek és a kód szerint). A felmérés a fájlokat olvasta, a képernyőket nem; egy tétel elkezdésekor előbb
+ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrásából készült), a 4. lépés ezeket már
+átdolgozta. Becslések zárójelben.
+
+**A) Az alap felület képernyőképről, cikkből vagy másik verzióból – javítandó**
+
+- [ ] Gmail 4.4.4: a Gmail-réteg (kategória-teaser, fiók, jelvények, csipek, szövegek) a 4.7-es GSMArena-képekről; a képben Gmail2 4.6.1. A 4.6.1 SectionedInboxTeaserView és FolderListFragment kódja már kiolvasva (~1,5–2 óra)
+- [ ] Gmail 4.3: ugyanazok a KitKat 4.7-es képernyők; a képben 4.5.1 (~1 óra a 4.4.4 után)
+- [ ] Gmail 4.0.4: Android Police-cikk alapján, más képek kem-* ikonjaival; a képben Gmail 4.0.4 (~2–3 óra)
+- [ ] Gmail 5.1.1: a 4.7-es gmail.css maradványai még töltődnek (.gm-chip stb.) (~0,5 óra)
+- [ ] Chrome 4.3 / 4.4.4 / 5.1.1: eszköztár, túlcsorduló menü, lapváltó, új lap a GSMArena Chrome 31-es képeiről, kézzel rajzolt ikonokkal; a képekben Chrome 27 / 32 / 40, csak a beállítások APK-alapúak (~1,5–2 óra verziónként)
+- [ ] Hangouts 4.3: a KitKat Hangouts 2.0 képernyői; a képben 1.0.2 (csak a szövegek és menük a sajátjai) (~2 óra)
+- [ ] Hangouts 4.4.4 / 5.1.1: a beszélgetéslista túlcsorduló menüje GSMArena-képről, nem a menü-XML-ből (~0,5 óra)
+- [ ] Kezdőképernyő 4.4.4: a keresősáv Wikimedia-képről, az alkalmazáslista videókockáról; a képben GoogleHome 1.0.10. Előbb egyeztetni (a 2026-10-03-i döntés a stock Google kinézetről szólt, nem a forrásról) (~2 óra)
+
+**B) Kitalált vagy általános képernyők – javítandó**
+
+- [ ] 5.1.1 Beállítások: Állapot, Jogi információk, Biztonsági információk, Fényerő-oldal, Fiókok › Google kitalált tartalommal (~1,5 óra)
+- [ ] 5.1.1 Fit és Wallet: helyőrző képernyők, csak a szövegek a sajátjaik (~1,5 óra)
+- [ ] 4.0.4: Kamera, Play Movies, az óralap és a Latitude nagyrészt saját készítésű; a Play Books könyvtára általános (~3–4 óra)
+- [ ] 4.0.4 Beállítások: a „Telefon névjegye” IMM76D buildet mutat (a kép IMM76I); néhány beépített oldal kitalált alcímekkel (~1 óra)
+- [ ] 4.0.4 News & Weather: a fő elrendezések a 4.3-as 1.3.11-ből, a képben 1.3.04 (~1 óra)
+- [ ] Számológép 4.0.4 / 4.4.4: általános ICS-stílusú billentyűzet, APK-forrás nélkül (~1 óra)
+- [ ] settings-detail.js (4.0.4 / 4.3 / 4.4.4 / 5.1.1): „szemléltető” oldalak és statisztikák forrás nélkül; átnézni, mi érhető el belőle (~1–2 óra)
+
+**C) Régebbi verzió öröksége – ellenőrizni**
+
+- [ ] Névjegyek listája és részletei 4.3 / 4.4.4: „ICS-ihletésű” renderelő (~1–2 óra)
+- [ ] Óra 4.3 / 4.4.4: az ébresztőlista és -szerkesztő ICS-ihletésű; 5.1.1: JB/KK DeskClock-váz a 3.0.4 alatt (~2 óra)
+- [ ] 4.4.4: értesítési panel, zárolóképernyő, Helyhozzáférés és Álmodozás a 4.3-ból maradt (~2 óra)
+- [ ] 5.1.1: a Telefon az AOSP Dialerből (a képben GoogleDialer 2.1), az E-mail alapja AOSP 4.4 UnifiedEmail (~1 óra ellenőrzés)
+- [ ] 2.3.6 Zene: a könyvtár és a lejátszó a 4.0.4-gyel közös modul, saját CSS-sel és angol szövegekkel (~1,5 óra)
+- [ ] 5.1.1: régi, nem gyári stíluslapok még töltődnek (stock-apps.css, play-apps.css 2013-as alap, lp-settings.css Holo-alap, people / messaging / calendar.css) (~1–2 óra)
+- [ ] Maps 4.3: az útvonal hiányzó szövegei a 7.5-ből (KitKat-kép); Google keresés beállításai 4.3: általános sorok a Velvet 2.5.9 helyett (~1 óra)
+
+**D) Hiányzó vagy a képben nem létező appok – egyeztetni**
+
+- [ ] AOSP Zene 4.0.4 / 4.3 és AOSP Böngésző 4.3: nincsenek a képben (a 4.3-asoknál korábbi döntés volt megtartani)
+- [ ] A képben van, a szimulátorban nincs: 4.3 Quickoffice (és esetleg Sound Search widget, Diktafon), 4.4.4 Street View
+
+**E) Kisebb hibák**
+
+- [ ] 2.3.6 Alkalmazásinfó: minden app verziója „2.3.6” (a képben Gmail 2.3.5.1, Maps 5.4.0 stb.)
+- [ ] 2.3.6 Google keresés: a „parancsikonok törlése” szövegben látható idézőjelek mind az öt nyelven; a szöveggenerátor nem szedi le őket, más generált fájlokat is meg kell nézni
+- [ ] 2.3.6: a Google-appok szövegei (Naptár, Kamera, Óra, E-mail, Galéria, Zene, Keresés) az AOSP-forrásból, nem a képből (egyeznek, de a képből kellene olvasni)
+- [ ] Naptár időzóna-listája 4.3 / 4.4.4: a maguro (4.0.4) képből generálva
+- [ ] 4.0.4: más képek kem-* ikonjai a Gmailben, a Play Zenében és a Google+-ban; a tárcsázó hdpi grafikája xhdpi telefonon
+- [ ] 2.3.6: a 4.0.4-es tartalék beállítási oldalak még be vannak kötve; az asztali óráról hiányzik az időjárás
+- [ ] Elavult fejléc-kommentek (4.0.4 ics-extra-apps.js, stock-apps.js; 5.1.1 people.js csomagnév; 4.4.4 kk-dialer „4.3”)
+
 ## Nem csináljuk meg
 
 - Valódi háttérműködés: hívás, SMS, szinkron, fizetés, hardveres rádiók, Face Unlock, titkosítás, valódi visszajelzés-küldés (a képernyőik és demóállapotuk igen)
@@ -266,3 +319,5 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-08 | Célzott javítás: KitKat Óra ébresztőlista be/ki kapcsolója (a csúszka a sávban, gyári thumbTextPadding) | 05c939e |
 | 2026-10-08 | 7. lépés: boot új fülben, a gyári animáció legalább egy teljes körével, utána zárképernyő | 65d64c9 |
 | 2026-10-08 | 6. lépés: LP Interruptions / Downtime (feltételek, inaktivitás automatikus be- és kikapcsolása) | 68709b7 |
+| 2026-10-08 | Célzott javítás: Docs / Sheets / Slides fájlmenü helye | 80f6ca3 |
+| 2026-10-08 | 9. pont: forrás-felmérés mind az öt verzióra (melyik app nem a gyári APK-ból készült) | (ez a commit) |
