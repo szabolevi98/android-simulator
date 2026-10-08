@@ -1,0 +1,37 @@
+/* gb-network.js on Gingerbread (1 dip = 1 sp = 0.8625 px): apn_preference_layout.xml rows (title / summary block with
+   16 sp left and 6 sp margins, the RadioButton with 4 dip margins), the dialogs' custom views — wifi_ap_dialog.xml on the
+   inverse (bright) body with textAppearanceSmallInverse labels and the dropdown Spinner, vpn_connect_dialog_view.xml's
+   90 sp right-aligned 16 sp labels with 10 sp margin and the checkbox 66 dip in, credentials_*_dialog.xml's 15 dip
+   padding with the bold red error line — and the tethering help WebView (white page, the asset's 14 / 16 px text). */
+.gbnet-apn{display:flex;align-items:center;min-height:55.2px;border-bottom:1px solid #ffffff1f}
+.screen .gbnet-apn-text{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;margin:5.18px 5.18px 5.18px 13.8px;padding:0;border:0;background:none;color:#fff;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.gbnet-apn-text b{font-weight:400;font-size:18.98px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.gbnet-apn-text small{font-size:12.07px;line-height:1.3;color:#bebebe}
+.screen .gbnet-apn-text:active,.screen .gbnet-apn-radio:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.screen .gbnet-apn-radio{flex:none;display:grid;place-items:center;margin:0 3.45px;padding:0;border:0;background:none;cursor:pointer}
+.gbnet-apn-radio img{width:27.6px;height:27.6px}
+.gbnet-form{display:flex;flex-direction:column;padding:6.9px 2.6px 4.31px;color:#fff;font:400 13.8px DroidSans,Arial,sans-serif}
+.gbnet-form .gbnet-input{margin:2.6px 0}
+.gbnet-label{display:block;margin-top:6.9px;font-size:13.8px}
+.gbnet-inverse .gbnet-label,.gbdlg .gbnet-inverse .gbnet-hint,.gbnet-inverse .gbnet-checkline{color:#323232;font-size:12.07px}
+.gbdlg .gbnet-hint{margin:0 0 8.63px;padding:0;font-size:10.35px}
+.gbnet-checkline{display:flex;align-items:center;gap:6.9px;min-height:41.4px;font-size:13.8px}
+.gbnet-checkline input{width:27.6px;height:27.6px;margin:0;flex:none;appearance:none;background:url('assets/gb-btn_check_off.png') center/contain no-repeat;cursor:pointer}
+.gbnet-checkline input:checked{background-image:url('assets/gb-btn_check_on.png')}
+.screen .gbnet-spinner{display:block;width:100%;box-sizing:border-box;min-height:41.98px;margin:2.6px 0;padding:6.33px 44.28px 9.78px 9.2px;border:0 solid transparent;border-image:url('assets/gb-btn_dropdown_normal.png') 8 46 14 11 fill / 4.6px 26.45px 8.05px 6.33px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;text-align:left;cursor:pointer}
+.screen .gbnet-spinner:active{border-image:url('assets/gb-btn_dropdown_pressed.png') 24 89 28 29 fill / 13.8px 51.18px 16.1px 16.68px stretch}
+.gbnet-connect{padding:8.63px 0 0}
+.gbnet-pair{display:flex;align-items:center}
+.gbnet-pair span{flex:none;width:77.63px;margin-right:8.63px;text-align:right;font-size:13.8px;overflow-wrap:anywhere}
+.gbnet-pair .gbnet-input{flex:1;min-width:0}
+.gbnet-remember{margin-left:56.93px}
+.gbnet-cred{padding:12.94px 4.31px 4.31px}
+.gbdlg .gbnet-note{padding:0;color:#fff;margin:0 0 8.63px;font-size:13.8px;line-height:1.3}
+.gbdlg .gbnet-error{margin:0 0 4.31px;padding:0;font-weight:700;color:#f00;font-size:13.8px;line-height:1.3}
+.gbnet-web{max-height:52vh;overflow-y:auto;margin:0 -2.6px 4.31px;padding:6.9px 7.76px;background:#fff;color:#000;font:400 13.8px/1.35 DroidSans,Arial,sans-serif}
+.gbdlg .gbnet-web p{margin:0 0 4px;padding:0;color:#000;font-size:12.07px}
+.gbdlg .gbnet-web p::before,.gbdlg .gbnet-form p::before{content:none}
+.gbnet-web b{font-size:13.8px}
+.gbnet-web .style1{font-size:13.8px}
+.gbnet-web ul{margin:4px 0 8px;padding-left:20px}
+.gbnet-web a{color:#00c}

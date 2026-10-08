@@ -202,11 +202,12 @@
   let seenNotes = null, stopTicker = null;
   function renderStatus() {
     const icons = data.notifications.map(noteIcon);
+    icons.unshift(...GBNetwork.statusIcons(gbNetContext()));
     if (ui.activeCall) icons.unshift(ui.activeCall.hold ? 'gb-stat_sys_phone_call_on_hold.png' : ui.activeCall.bluetooth ? 'gb-stat_sys_phone_call_bluetooth.png' : 'gb-stat_sys_phone_call.png');
     GBStatusBar.bar(statusRoot, {
       label: i18n.t('Open notifications'), notifications: icons, clock: gbClock(), expanded: ui.overlay === 'shade',
       date: deviceDate().toLocaleDateString(i18n.locale(), {year: 'numeric', month: 'long', day: 'numeric'}),
-      state: {bluetooth: data.settings.bluetooth, ringer: data.settings.silent ? (data.settings.silentMode === 'vibrate' ? 'vibrate' : 'silent') : '', airplane: data.settings.airplane, wifi: data.settings.wifi && !!data.settings.wifiNetwork, data: data.settings.mobileData === false ? '' : '3g', battery: 78, alarm: data.alarms.some(alarm => alarm.enabled)}
+      state: {bluetooth: data.settings.bluetooth, ringer: data.settings.silent ? (data.settings.silentMode === 'vibrate' ? 'vibrate' : 'silent') : '', airplane: data.settings.airplane, wifi: data.settings.wifi && !!data.settings.wifiNetwork, data: data.settings.mobileData === false || data.settings.dataEnabled === false ? '' : '3g', battery: 78, alarm: data.alarms.some(alarm => alarm.enabled)}
     });
     // Ticker: newly posted notifications scroll through the bar once (tickerText = the notification title).
     const ids = new Set(data.notifications.map(n => n.id));
@@ -258,6 +259,7 @@
     if (ui.view === 'clock') { const items = GBDeskClock.menu(gbClockContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'calculator') { ui.gbMenuItems = [{action: 'calc-clear', title: calcText('clear_history'), icon: 'gb-calc-clear_history.png'}, ui.calcPanel ? {action: 'calc-panel', id: 0, title: calcText('basic'), icon: 'gb-calc-simple.png'} : {action: 'calc-panel', id: 1, title: calcText('advanced'), icon: 'gb-calc-advanced.png'}]; ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
     if (ui.view === 'messaging') { ui.gbMenuItems = GBMms.menu(gbMmsContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); return; }
+    if (ui.view === 'settings' && GBNetwork.has(ui.sub)) { const items = GBNetwork.menu(ui.sub, gbNetContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     if (ui.view === 'settings' && GBSettings.has(ui.sub || 'main')) { const items = GBSettings.menu(ui.sub, gbSettingsContext()); if (items.length) { ui.gbMenuItems = items; ui.overlay = 'gb-menu-settings'; renderOverlay(); } return; }
     const button = [...viewport.querySelectorAll('[data-action$="-menu"]')].find(node => !node.disabled);
     button?.click();
@@ -650,6 +652,7 @@
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; if (resetPage) ui.page = 2; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
   function navigateBack() {
+    if (ui.view === 'settings' && !ui.overlay && GBNetwork.back(gbNetContext())) return;
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();if(ui.gbSettingsStack?.length)ui.gbSettingsStack.pop();return;}
     if(ui.view==='settings'&&ui.gbSettingsStack)while(ui.gbSettingsStack.length&&ui.gbSettingsStack.at(-1)===ui.sub)ui.gbSettingsStack.pop();
     if(ui.view==='settings'&&ui.sub&&ui.gbSettingsStack?.length&&!ui.overlay){ui.sub=ui.gbSettingsStack.pop();render();return;}
@@ -752,6 +755,8 @@
     if (ui.overlay === 'gb-dialog-dl') return GBDownloads.dialog(data.downloads?.find(d => d.id === ui.gbdlDialog), i18n.language) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-qsb-clear') return GBSearch.clearDialog(i18n.language);
     if (ui.overlay === 'gb-dialog-clearlog') return {title: GBPhone.text(i18n.language, 'clearCallLogConfirmation_title'), icon: 'ic_dialog_alert', message: GBPhone.text(i18n.language, 'clearCallLogConfirmation'), buttons: [{action: 'gbp-clear-log-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+    // Its texts come localized from the images' strings and profile names are the user's: no interface translation.
+    if (ui.overlay === 'gb-dialog-net') return {...(GBNetwork.dialog(ui.gbNetDialog, gbNetContext()) || {title: '', items: []}), noTranslate: true};
     if (ui.overlay === 'gb-dialog-sp') return GBSettingsPages.dialog(ui.gbspDialog, gbPagesContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-ce') return GBContactEditor.dialog(ui.gbceDialog, gbceContext()) || {title: '', items: []};
     if (ui.overlay === 'gb-dialog-camera') return {title: GBCamera.text(i18n.language, 'confirm_restore_title'), icon: 'ic_dialog_alert', message: GBCamera.text(i18n.language, 'confirm_restore_message'), buttons: [{action: 'gbcam-restore-ok', title: GBSettings.text(i18n.language, 'fw_ok')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
@@ -802,7 +807,7 @@
     popup.style.left = `${left}px`;
   }
   let openFolderId = '';
-  function renderOverlay() { renderOverlayBase(); gingerbreadMenu(); }
+  function renderOverlay() { renderOverlayBase(); gingerbreadMenu(); if (ui.overlay === 'gb-dialog-net') GBNetwork.wire(overlayRoot, gbNetContext()); }
   function renderOverlayBase() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.overlay === 'gb-previews') {
@@ -820,6 +825,7 @@
     } else if (ui.overlay === 'shade') {
       const time = n => n.id > 1e12 ? new Date(n.id).toLocaleTimeString(i18n.locale(), {hour: 'numeric', minute: '2-digit', hour12: !data.settings.hour24}) : '';
       const ongoing = ui.activeCall ? [{id: 'call', action: 'gbp-return-call', icon: ui.activeCall.hold ? 'gb-stat_sys_phone_call_on_hold.png' : ui.activeCall.bluetooth ? 'gb-stat_sys_phone_call_bluetooth.png' : 'gb-stat_sys_phone_call.png', title: ui.activeCall.hold ? GBPhone.phoneText(i18n.language, 'notification_on_hold') : GBPhone.phoneText(i18n.language, 'notification_ongoing_call_format').replace('%s', GBPhone.elapsedText(ui.activeCall)), text: contactByPhone(ui.activeCall.number)?.name || ui.activeCall.number}] : [];
+      ongoing.push(...GBNetwork.ongoing(gbNetContext()));
       const latest = data.notifications.map(n => ({id: n.id, icon: noteIcon(n), title: n.title, text: n.detail, time: time(n)}));
       const open = overlayRoot.querySelector('.gbsh');
       overlayRoot.innerHTML = GBStatusBar.shade({t: key => i18n.t(key), carrier: carrierName(), ongoing, latest, clearable: latest.length > 0});
@@ -956,11 +962,19 @@
   function gbOffset(zone) { const p = new Intl.DateTimeFormat('en-US', {timeZone: zone, timeZoneName: 'longOffset'}).formatToParts(new Date()).find(x => x.type === 'timeZoneName')?.value || 'GMT'; const m = p.match(/([+-])(\d+):?(\d*)/); const minutes = m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3] || 0)) : 0; return {minutes, text: `GMT${minutes < 0 ? '-' : '+'}${String(Math.floor(Math.abs(minutes) / 60)).padStart(2, '0')}:${String(Math.abs(minutes) % 60).padStart(2, '0')}`}; }
   function gbZones() { const col = {en: 1, hu: 2, de: 3, fr: 4, es: 5}[i18n.language] || 1; const list = (window.GBTimeZones || []).map(z => ({id: z[0], name: z[col], ...gbOffset(z[0])})).map(z => ({...z, offset: z.text})); return ui.gbZoneSort === 'name' ? list.sort((a, b) => a.name.localeCompare(b.name, i18n.locale())) : list.sort((a, b) => a.minutes - b.minutes); }
   function gbZoneText() { const id = ICSSystemSettings.zone(data), z = (window.GBTimeZones || []).find(row => row[0] === id), col = {en: 1, hu: 2, de: 3, fr: 4, es: 5}[i18n.language] || 1; return `${gbOffset(id).text}, ${z ? z[col] : new Intl.DateTimeFormat(i18n.locale(), {timeZone: id, timeZoneName: 'long'}).formatToParts(new Date()).find(x => x.type === 'timeZoneName')?.value || id}`; }
+  // gb-network.js: the hotspot, VPN, APN, network operator and credential storage screens and their dialogs.
+  function gbNetContext() {
+    return {data, ui, lang: i18n.language, t: key => i18n.t(key), save, render, renderOverlay, renderStatus, toast, overlayRoot,
+      go: sub => { (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = sub; render(); },
+      pop: () => { ui.sub = (ui.gbSettingsStack || []).pop() ?? ''; render(); },
+      openBrowser: url => { openApp('browser'); navigateBrowser(url); },
+      openSettings: sub => { ui.overlay = ''; renderOverlay(); ui.view = 'settings'; ui.sub = sub; ui.gbSettingsStack = sub === 'vpn' ? ['', 'wireless'] : ['', 'wireless']; render(); }};
+  }
   function gbSettingsContext() {
     const now = deviceDate(), lang = i18n.language;
     const formats = [now.toLocaleDateString(i18n.locale()), `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`, `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`, `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`];
     const up = Math.floor(performance.now() / 1000) + 9240;
-    return {settings: data.settings, lang, t: key => i18n.t(key), carrier: carrierName(), date: formats[GBSettings.value(data.settings, 'dateFormat')] || formats[0], time: gbClock() + (data.settings.hour24 ? '' : now.getHours() < 12 ? ' AM' : ' PM'), zone: gbZoneText(), zones: gbZones(), zoneSort: ui.gbZoneSort || 'offset', draft: ui.gbDtDraft, locale: i18n.locale(), dateFormats: [GBSettings.text(lang, 'Normal') === 'Normal' ? `${i18n.t('Normal')} (${formats[0]})` : formats[0], ...formats.slice(1)],
+    return {settings: data.settings, lang, t: key => i18n.t(key), carrier: carrierName(), cred: GBNetwork.credentialRows({data}), hotspot: GBNetwork.hotspotText(data, ui, lang), hotspotBusy: !!ui.gbApTurning, date: formats[GBSettings.value(data.settings, 'dateFormat')] || formats[0], time: gbClock() + (data.settings.hour24 ? '' : now.getHours() < 12 ? ' AM' : ' PM'), zone: gbZoneText(), zones: gbZones(), zoneSort: ui.gbZoneSort || 'offset', draft: ui.gbDtDraft, locale: i18n.locale(), dateFormats: [GBSettings.text(lang, 'Normal') === 'Normal' ? `${i18n.t('Normal')} (${formats[0]})` : formats[0], ...formats.slice(1)],
       languageName: {en: 'English', hu: 'Magyar', de: 'Deutsch', fr: 'Français', es: 'Español'}[lang] || 'English',
       // WifiSettings sorts the connected network first, then by signal; the paired device and the last scan's results.
       networks: allWifiNetworks().slice().sort((a, b) => Number(b.name === data.settings.wifiNetwork) - Number(a.name === data.settings.wifiNetwork) || b.strength - a.strength || a.name.localeCompare(b.name)),
@@ -991,6 +1005,7 @@
     const s = ui.sub;
     if(s==='lock-setup')return lockControls.renderSetup();
     if (!s) ui.gbSettingsStack = [];
+    if (GBNetwork.has(s)) return GBNetwork.render(s, gbNetContext()).html;
     if (GBSettings.has(s || 'main')) return GBSettings.render(s || 'main', gbSettingsContext()).html;
     if (GBSettingsPages.has(s)) { const page = GBSettingsPages.render(s, gbPagesContext()); if (page) return page; }
     const detail=ICSSettingsDetail.render(data,ui,apps,key=>i18n.t(key));
@@ -1407,6 +1422,7 @@
     if (Date.now() < suppressClickUntil) return;
     const { action, id, app, url } = button.dataset;
     if(ui.locked&&!['back','alarm-dismiss','alarm-snooze'].includes(action))return;
+    if (action.startsWith('gbnet-') && GBNetwork.handle(action, id, gbNetContext(), button)) return;
     if (GBApps.has(ui.view) && !['back', 'home', 'menu-key', 'search-key', 'open-app'].includes(action) && GBApps.get(ui.view).handle?.(action, id, gappContext(), button)) return;
     switch (action) {
       case 'open-app': openApp(app || id, !!button.closest('.recent-item')); break;
@@ -1518,7 +1534,8 @@
       case 'gbset-check': if (id === 'usbDebug' && !data.settings.usbDebug) { ui.overlay = 'gb-dialog-set'; ui.gbSetDialog = 'adb'; renderOverlay(); break; } { const current = data.settings[id] ?? GBSettings.DEFAULTS[id] ?? (id === 'patternVisible'); data.settings[id] = !current;
         // DateTimeSettings 2.3: one Automatic box covers the network time and zone; turning it off keeps the current zone.
         if (id === 'autoTime') { data.settings.timeOffset = 0; data.settings.autoZone = !!data.settings.autoTime; if (!data.settings.autoTime) data.settings.timeZone = ICSSystemSettings.zone({settings: {...data.settings, autoZone: true}}); }
-        if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; data.settings.portableHotspot = false; }
+        if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; data.settings.portableHotspot = false; GBNetwork.airplane(gbNetContext()); }
+        if (id === 'wifi' && data.settings.wifi) { data.settings.portableHotspot = false; data.settings.gbWifiSaved = false; }
         if (id === 'silent') data.settings.silentMode = data.settings.silent ? (GBSettings.value(data.settings, 'vibrateMode') === 1 || GBSettings.value(data.settings, 'vibrateMode') === 3 ? 'mute' : 'vibrate') : 'off';
         save(); render(); break; }
       case 'gbset-list': ui.overlay = 'gb-dialog-list'; ui.gbListKey = id; renderOverlay(); break;
@@ -2550,6 +2567,8 @@
     if (link && !ui.overlay) { ui.gbBrTarget = link.dataset.id; ui.overlay = 'gb-dialog-br'; ui.gbBrDialog = link.dataset.gbbrItem; renderOverlay(); }
     const song = event.target.closest('.stock-music [data-action="music-select"]');
     if (song && !ui.overlay) { ui.musicSelected = Number(song.dataset.id); ui.overlay = 'gb-dialog-music'; ui.gbMusicDialog = 'track'; renderOverlay(); }
+    const net = event.target.closest('[data-gbnet-hold]');
+    if (net && !ui.overlay) GBNetwork.hold(net.dataset.gbnetHold, gbNetContext());
     const alarm = event.target.closest('.gbdc-alarm-body');
     if (alarm && !ui.overlay) { ui.dcContext = Number(alarm.dataset.id); ui.overlay = 'clock-context'; renderOverlay(); }
     if (!dragState && ui.view === 'home' && !ui.overlay && event.button === 2 && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { ui.overlay = 'wallpaper-source'; renderOverlay(); }
@@ -2597,6 +2616,8 @@
     if (heldSong && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.musicSelected = Number(heldSong.dataset.id); suppressReleaseClick(); ui.overlay = 'gb-dialog-music'; ui.gbMusicDialog = 'track'; renderOverlay(); }, 550);
     const heldAlarm = event.target.closest('.gbdc-alarm-body');
     if (heldAlarm && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.dcContext = Number(heldAlarm.dataset.id); suppressReleaseClick(); ui.overlay = 'clock-context'; renderOverlay(); }, 550);
+    const heldNet = event.target.closest('[data-gbnet-hold]');
+    if (heldNet && !ui.overlay) messageHoldTimer = setTimeout(() => { suppressReleaseClick(); GBNetwork.hold(heldNet.dataset.gbnetHold, gbNetContext()); }, 550);
     const heldThread = event.target.closest('.gbmms-thread[data-action="thread"]');
     if (heldThread && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.thread = heldThread.dataset.id; suppressReleaseClick(); gbMmsDialog('thread'); }, 550);
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }

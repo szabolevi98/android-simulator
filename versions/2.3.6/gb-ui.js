@@ -28,10 +28,11 @@
   /* AlertDialog (alert_dialog.xml + AlertController.setBackground): a dark title panel (popup_top_dark, 22 sp title,
      the dialog icon, 1 dip divider), then a dark message (18 sp) or a bright list (22 sp black, 64 dip rows), then the
      buttons on popup_bottom_medium. The window dims what is behind it by 0.6. */
-  function dialog({title, icon, message, items, buttons = [], choice, selected, t, expanded, cancel = 'close-overlay', custom}) {
+  function dialog({title, icon, message, items, buttons = [], choice, selected, t, expanded, cancel = 'close-overlay', custom, light, noTranslate}) {
     const sections = [];
     if (title) sections.push({kind: 'title', light: false});
-    if (message || custom) sections.push({kind: 'message', light: false});
+    // setInverseBackgroundForced(true) (WifiApDialog) gives the message / custom view the bright pieces.
+    if (message || custom) sections.push({kind: 'message', light: !!light});
     if (items) sections.push({kind: 'list', light: true});
     if (buttons.length) sections.push({kind: 'buttons', light: true});
     // setBackground: top / center / bottom pieces, or the full piece when there is only one section.
@@ -53,7 +54,7 @@
       if (s.kind === 'list') return `<div class="${cls}"><div class="gbdlg-list" role="${choice ? 'radiogroup' : 'menu'}">${items.map(row).join('')}</div></div>`;
       return `<div class="${cls}"><div class="gbdlg-buttons${buttons.length === 1 ? ' single' : ''}">${buttons.map(button => `<button type="button" class="gbdlg-button" ${attrs(button)}>${e(button.title)}</button>`).join('')}</div></div>`;
     }).join('');
-    return `<div class="gbdlg-scrim" data-action="${e(cancel)}"></div><div class="gbdlg${expanded ? ' gbdlg-expanded' : ''}" role="dialog" aria-label="${e(title || '')}">${body}</div>`;
+    return `<div class="gbdlg-scrim" data-action="${e(cancel)}"></div><div class="gbdlg${expanded ? ' gbdlg-expanded' : ''}"${noTranslate ? ' data-no-translate' : ''} role="dialog" aria-label="${e(title || '')}">${body}</div>`;
   }
 
   window.GBUI = {rows, menu, expanded, dialog};

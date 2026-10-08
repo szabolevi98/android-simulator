@@ -215,6 +215,51 @@ does_not_repeat daily every_weekday weekly monthly_on_day_count monthly yearly_p
 modify_all_following delete_this_event_title delete_title preferences_title synced_visible alert_title'''.split(),
         'arrays': ['preferences_alert_type_labels', 'prefEntries_alerts_vibrateWhen', 'preferences_default_reminder_labels', 'timezone_labels', 'timezone_values', 'reminder_minutes_labels', 'reminder_minutes_values', 'availability', 'visibility', 'ordinal_labels', 'delete_repeating_labels'],
     },
+    # Settings' TetherSettings / WifiApSettings / WifiApDialog, VpnSettings / VpnTypeSelection / VpnEditor, ApnSettings /
+    # ApnEditor and SecuritySettings' credential storage; the framework's VPN types, tether notification and alert title;
+    # VpnServices' notification (not in the mirror: its strings come from the Nexus S image's VpnServices.apk).
+    'network': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/arrays.xml'],
+        'keys': '''tether_settings_title_both usb_tethering_button_text usb_tethering_unavailable_subtext wifi_tether_checkbox_text
+wifi_tether_enabled_subtext wifi_tether_settings_text wifi_tether_settings_subtext wifi_tether_settings_title wifi_tether_configure_ap_text
+wifi_tether_configure_subtext tethering_help_button_text wifi_starting wifi_stopping wifi_ssid wifi_security wifi_password wifi_show_password
+wifi_save wifi_cancel credentials_password_too_short
+apn_settings apn_edit apn_not_set apn_name apn_apn apn_http_proxy apn_http_port apn_user apn_password apn_server apn_mmsc apn_mms_proxy
+apn_mms_port apn_mcc apn_mnc apn_auth_type apn_type apn_protocol menu_delete menu_new menu_save menu_cancel error_title error_name_empty
+error_apn_empty error_mcc_not3 error_mnc_not23 restore_default_apn menu_restore restore_default_apn_completed untitled_apn
+vpn_settings_activity_title vpn_connect_to vpn_username_colon vpn_password_colon vpn_a_username vpn_a_password vpn_save_username
+vpn_connect_button vpn_yes_button vpn_no_button vpn_back_button vpn_mistake_button vpn_menu_done vpn_menu_cancel vpn_menu_revert
+vpn_menu_connect vpn_menu_disconnect vpn_menu_edit vpn_menu_delete vpn_error_miss_entering vpn_error_miss_selecting vpn_error_duplicate_name
+vpn_confirm_profile_deletion vpn_confirm_add_profile_cancellation vpn_confirm_edit_profile_cancellation vpn_type_title vpn_add_new_vpn
+vpn_edit_title_add vpn_edit_title_edit vpns vpn_connecting vpn_disconnecting vpn_connected vpn_connect_hint vpn_name vpn_a_name
+vpn_profile_added vpn_profile_replaced vpn_user_certificate_title vpn_user_certificate vpn_a_user_certificate vpn_ca_certificate_title
+vpn_ca_certificate vpn_a_ca_certificate vpn_l2tp_secret_string_title vpn_l2tp_secret vpn_a_l2tp_secret vpn_pptp_encryption_title
+vpn_pptp_encryption vpn_ipsec_presharedkey_title vpn_ipsec_presharedkey vpn_a_ipsec_presharedkey vpn_vpn_server_title vpn_vpn_server
+vpn_a_vpn_server vpn_dns_search_list_title vpn_dns_search_list vpn_field_is_set vpn_field_not_set vpn_field_not_set_optional
+vpn_enable_field vpn_is_enabled vpn_is_disabled vpn_secret_unchanged vpn_secret_not_set vpn_secret_not_set_dialog_msg
+credentials_category credentials_access credentials_access_summary credentials_unlock credentials_unlock_hint credentials_install_certificates
+credentials_install_certificates_summary credentials_set_password credentials_set_password_summary credentials_reset credentials_reset_summary
+credentials_reset_hint credentials_old_password credentials_new_password credentials_confirm_password credentials_first_time_hint
+credentials_wrong_password credentials_reset_warning credentials_reset_warning_plural credentials_passwords_mismatch credentials_passwords_empty
+credentials_password_empty credentials_erased credentials_enabled credentials_disabled
+pptp_vpn_description l2tp_vpn_description l2tp_ipsec_psk_vpn_description l2tp_ipsec_crt_vpn_description tethered_notification_title
+tethered_notification_message wifi_tether_configure_ssid_default dialog_alert_title ok cancel yes no'''.split(),
+        'arrays': ['wifi_ap_security', 'apn_auth_entries', 'apn_protocol_entries'],
+        'image': {
+            'vpn_notification_title_connected': {'en': '%s VPN connected', 'hu': 'Kapcsolódva a(z) %s virtuális magánhálózathoz', 'de': '%s mit VPN verbunden', 'fr': 'VPN %s connecté', 'es': 'VPN %s conectada'},
+        },
+    },
+    # Phone's network settings (network_setting.xml, gsm_umts_options.xml) and NetworkSetting (carrier_select.xml).
+    'phonenet': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_phone/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'keys': '''settings_label mobile_networks data_enabled data_enable_summary roaming roaming_enable roaming_disable roaming_warning apn_settings prefer_2g
+prefer_2g_summary networks sum_carrier_select label_available load_networks_progress empty_networks_list search_networks sum_search_networks
+select_automatically sum_select_automatically register_automatically register_on_network not_allowed connect_later registration_done
+dialog_alert_title yes no'''.split(),
+    },
 }
 
 

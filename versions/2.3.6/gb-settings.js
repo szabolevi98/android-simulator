@@ -41,7 +41,9 @@
   const LOCALES = [['en', 'English'], ['hu', 'Magyar'], ['de', 'Deutsch'], ['fr', 'Français'], ['es', 'Español']];
   /* Screens; "ics:x" targets reuse the version's existing page (lock setup, accounts, applications, battery). */
   function screens(ctx) {
-    const s = ctx.settings, lockSecure = ['pattern', 'pin', 'password'].includes(s.screenLock);
+    const s = ctx.settings, lockSecure = ['pattern', 'pin', 'password'].includes(s.screenLock), cred = ctx.cred || {};
+    // Strings of gb-network.js: Settings' tethering / network rows and Phone's network settings.
+    const NET = key => ({raw: window.GBNetwork ? window.GBNetwork.text(ctx.lang, key) : key}), PH = key => ({raw: window.GBNetwork ? window.GBNetwork.phoneText(ctx.lang, key) : key});
     return {
       main: {title: 'settings_label', items: [
         go('radio_controls_title', '', 'wireless', {icon: 'wireless'}), go('call_settings_title', '', 'call', {icon: 'call'}),
@@ -62,10 +64,11 @@
         check('nfc', 'nfc_quick_toggle_title', 'nfc_quick_toggle_summary'),
         go('network_settings_title', 'network_settings_summary', 'mobile', {disabled: s.airplane})]},
       tether: {title: 'tether_settings_title_both', items: [
-        check('usbTether', 'usb_tethering_button_text', {raw: ctx.t('USB not connected')}, {disabled: true}),
-        check('portableHotspot', 'wifi_tether_checkbox_text', {raw: s.portableHotspot ? text(ctx.lang, 'wifi_tether_enabled_subtext').replace('%1$s', 'AndroidAP') : ''}, {disabled: s.airplane}),
-        go('wifi_tether_configure_ap_text', 'wifi_tether_configure_subtext', 'toast:Hotspot name: AndroidAP'),
-        go('tethering_help_button_text', '', 'toast:Help is not available offline')]},
+        // TetherSettings (tether_prefs.xml): no USB cable, the hotspot (WifiApEnabler), its settings screen and the help.
+        check('usbTether', 'usb_tethering_button_text', NET('usb_tethering_unavailable_subtext'), {disabled: true}),
+        check('portableHotspot', 'wifi_tether_checkbox_text', {raw: ctx.hotspot || ''}, {disabled: s.airplane || ctx.hotspotBusy, act: 'gbnet-hotspot'}),
+        go(NET('wifi_tether_settings_text'), NET('wifi_tether_settings_subtext'), 'wifi-ap'),
+        go('tethering_help_button_text', '', 'dialog:help', {net: true})]},
       sound: {title: 'sound_settings', items: [
         cat('sound_category_sound_title'),
         check('silent', 'silent_mode_title', 'silent_mode_summary'),
@@ -97,10 +100,11 @@
         cat('security_passwords_title'), check('visiblePasswords', 'show_password', 'show_password_summary'),
         cat('device_admin_title'), go('manage_device_admin', 'manage_device_admin_summary', 'toast:No device administrators'),
         cat('credentials_category'),
-        check('credentialAccess', 'credentials_access', 'credentials_access_summary', {disabled: true}),
+        // CredentialStorage.updatePreferences: access and reset need an initialized storage (gb-network.js runs the dialogs).
+        check('credentialAccess', 'credentials_access', 'credentials_access_summary', {disabled: !cred.state || cred.state === 'uninit', act: 'gbnet-cred-access', on: !!cred.access}),
         go('credentials_install_certificates', 'credentials_install_certificates_summary', 'toast:No certificate found on the SD card'),
-        go('credentials_set_password', 'credentials_set_password_summary', 'toast:Credential storage is not available offline'),
-        go('credentials_reset', 'credentials_reset_summary', null, {disabled: true})]},
+        go('credentials_set_password', 'credentials_set_password_summary', 'gbnet-cred-password', {action: true}),
+        go('credentials_reset', 'credentials_reset_summary', 'gbnet-cred-reset', {action: true, disabled: !cred.state || cred.state === 'uninit'})]},
       applications: {title: 'applications_settings_header', items: [
         check('unknownSources', 'install_applications', 'install_unknown_applications'),
         list('installLocation', 'app_install_location_title', 'app_install_location_summary', 'app_install_location_entries'),
@@ -163,12 +167,12 @@
         go('Voicemail settings', {raw: ctx.t('Voicemail number not set')}, 'toast:Voicemail number not set'),
         go('Call forwarding', {raw: ctx.t('Forward incoming calls')}, 'toast:Call forwarding settings are offline'),
         go('Additional settings', {raw: ctx.t('Additional GSM only call settings')}, 'toast:Call settings error')]},
-      vpn: {title: 'vpn_settings_title', items: [go('Add VPN', '', 'toast:VPN credentials cannot be stored in the simulator'), cat('VPNs')]},
-      mobile: {title: 'network_settings_title', items: [
-        check('dataEnabled', 'Data enabled', {raw: ctx.t('Enable data access over Mobile network')}),
-        check('dataRoaming', 'Data roaming', {raw: ctx.t(s.dataRoaming ? 'Connect to data services when roaming' : 'You have lost data connectivity because you left your home network with data roaming turned off.')}),
-        go('Access Point Names', '', 'toast:Internet'), check('only2g', 'Use only 2G networks', {raw: ctx.t('Saves battery')}),
-        go('Network operators', {raw: ctx.t('Select a network operator')}, 'toast:Telekom')]},
+      // Phone's Settings (network_setting.xml + gsm_umts_options.xml; Data usage leaves without a throttle policy).
+      mobile: {title: PH('settings_label'), items: [
+        check('dataEnabled', PH('data_enabled'), PH('data_enable_summary'), {act: 'gbnet-data', fallback: true}),
+        check('dataRoaming', PH('roaming'), PH(s.dataRoaming ? 'roaming_enable' : 'roaming_disable'), {act: 'gbnet-roaming'}),
+        go(PH('apn_settings'), '', 'apn'), check('only2g', PH('prefer_2g'), PH('prefer_2g_summary')),
+        go(PH('networks'), PH('sum_carrier_select'), 'operators')]},
       // WifiSettings (wifi_settings.xml): the toggle, network notification, the access points and "Add Wi-Fi network".
       wifi: {title: 'wifi_settings_category', menu: [{action: 'gbset-wifi-scan', title: 'wifi_menu_scan', icon: 'ic_menu_refresh'}, {action: 'gbset-go', id: 'wifi-advanced', title: 'wifi_menu_advanced', icon: 'ic_menu_manage'}], items: [
         check('wifi', 'wifi_quick_toggle_title', wifiSummary(ctx), {disabled: s.airplane}),
@@ -207,9 +211,9 @@
     const disabled = item.disabled ? ' disabled aria-disabled="true"' : '';
     let summary = resolve(ctx.lang, ctx.t, item.summary), widget = '', action = '', id = '';
     if (item.kind === 'check') {
-      const on = !!(ctx.settings[item.key] ?? DEFAULTS[item.key] ?? (item.fallback ? true : false));
+      const on = item.on ?? !!(ctx.settings[item.key] ?? DEFAULTS[item.key] ?? (item.fallback ? true : false));
       widget = `<img class="gbset-check" src="assets/gb-btn_check_${on ? 'on' : 'off'}${item.disabled ? '_disable' : ''}.png" alt="">`;
-      action = 'gbset-check'; id = item.key;
+      action = item.act || 'gbset-check'; id = item.act ? '' : item.key;
       return `<button class="gbset-row" data-action="${action}" data-id="${e(id)}" role="checkbox" aria-checked="${on}"${disabled}><span class="gbset-text"><span class="gbset-title">${e(label)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span>${widget}</button>`;
     }
     if (item.kind === 'list') {
@@ -235,7 +239,7 @@
     }
     const icon = item.icon ? `<img class="gbset-icon" src="assets/gb-ic_settings_${item.icon}.png" alt="">` : '';
     const target = item.target || '';
-    action = item.action ? target : target.startsWith('ics:') ? 'settings-sub' : target.startsWith('toast:') ? 'gbset-toast' : target.startsWith('dialog:') ? 'gbset-dialog' : target ? 'gbset-go' : 'noop';
+    action = item.action ? target : target.startsWith('ics:') ? 'settings-sub' : target.startsWith('toast:') ? 'gbset-toast' : target.startsWith('dialog:') ? (item.net ? 'gbnet-dialog' : 'gbset-dialog') : target ? 'gbset-go' : 'noop';
     id = item.action ? '' : target.replace(/^(ics|toast|dialog):/, '');
     // The screen-lock rows hand over to the credential controller (ChooseLockGeneric).
     if (target === 'lock:open') return `<button class="gbset-row" data-lock-action="open"${disabled}><span class="gbset-text"><span class="gbset-title">${e(label)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span></button>`;
