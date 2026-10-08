@@ -131,7 +131,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 ## 7. Megbeszélés (az audit utolsó pontja)
 
 - [ ] Play Store / Market verzióeltérések megtárgyalása (2.3.6 Market 3.x, 4.0.4 Play 3.8.17, 4.4.4 Play 4.8.22, 5.1.1 Play 4.8.22 felirat az 5.2-es kinézet mellett), utána a döntés szerinti javítás
-- [ ] KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – megtárgyalni
+- [x] KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – döntés 2026-10-08: a gyári kép szerinti 4.6.1 lesz, ha újraépítjük (a következetesség miatt, mint a többi app); a munka a 9. pont „Gmail 4.4.4” tétele
 - [x] Boot képernyők (a tulajdonos ötlete, 2026-10-06): verziónként a gyári bootanimáció, ami alatt az assetek betöltődhetnek; kattintásra azonnal továbblép. Döntés 2026-10-08: fix idő helyett az animáció nem vágódik el, legalább egy teljes kör lemegy; fülenként (verziónként) egyszer, frissítéskor nincs; utána a zárképernyő. Kész: a rendszer akkor „indult el”, ha az oldal és a betűk betöltődtek (legfeljebb 12 s), és ez mindig az ismétlődő rész egy körének végén történik (a bekapcsológombos újraindításnál is); érintés vagy billentyű átugorja, csökkentett mozgásnál kimarad. Gyors netnél 2.3.6 / 4.0.4 kb. 3,2 s, 4.4.4 3,6 s, 4.3 4,6 s, 5.1.1 8 s – 65d64c9
 
 ## 8. Keresőmotorok (a tulajdonos kérése, 2026-10-08; az audit legvégén)
@@ -148,7 +148,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 
 **A) Az alap felület képernyőképről, cikkből vagy másik verzióból – javítandó**
 
-- [ ] Gmail 4.4.4: a Gmail-réteg (kategória-teaser, fiók, jelvények, csipek, szövegek) a 4.7-es GSMArena-képekről; a képben Gmail2 4.6.1. A 4.6.1 SectionedInboxTeaserView és FolderListFragment kódja már kiolvasva (~1,5–2 óra)
+- [ ] Gmail 4.4.4 (döntés: a gyári 4.6.1 lesz, 7. pont): a Gmail-réteg (kategória-teaser, fiók, jelvények, csipek, szövegek) a 4.7-es GSMArena-képekről; a képben Gmail2 4.6.1. A 4.6.1 SectionedInboxTeaserView és FolderListFragment kódja már kiolvasva (~1,5–2 óra)
 - [ ] Gmail 4.3: ugyanazok a KitKat 4.7-es képernyők; a képben 4.5.1 (~1 óra a 4.4.4 után)
 - [ ] Gmail 4.0.4: Android Police-cikk alapján, más képek kem-* ikonjaival; a képben Gmail 4.0.4 (~2–3 óra)
 - [ ] Gmail 5.1.1: a 4.7-es gmail.css maradványai még töltődnek (.gm-chip stb.) (~0,5 óra)
@@ -208,7 +208,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 ## Későbbi megbeszélésre
 
 - Play / Market célverziók (2.3.6 Market 3.x, 4.0.4 Play 3.8.17, 4.4.4 Play 4.8.22, 5.1.1 Play 4.8.22 felirat az 5.2-es kinézet mellett)
-- KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján
+- KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – eldöntve (7. pont): 4.6.1
 
 ## Napló
 
