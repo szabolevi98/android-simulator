@@ -226,3 +226,31 @@
 .screen .ga-bk-seg button:active{border-image-source:url('assets/ga-bk-23-btn_default_pressed_holo_dark.png')}
 .screen .ga-bk-seg button:disabled{border-image-source:url('assets/ga-bk-23-btn_default_disabled_holo_dark.png')}
 .ga-bk-seg img{width:20.4px;height:20.4px}
+/* Talk's Add friend and Search (1 dp = 0.85 px): add_buddy_custom_actionbar.xml's CANCEL / DONE halves with the vertical
+   divider, the medium "Send chat invitation to" 28 dp in and 16 dp down, the address field 16 dp from the sides and
+   48 dp high; the SearchView in the bar; search_extra.xml rows (8 dp margins, 64 dp, the icon 8 dp in, the bold medium
+   line over the small one); search_results_fragment.xml's header (40 dp above) and search_results_item.xml (84 dp). */
+.ga-tk-add{background:#f3f3f3;color:#333}
+.ga-tk-addbar{padding:0}
+.screen .ga-tk-addbar button{flex:1;display:flex;align-items:center;justify-content:center;gap:6.8px;height:100%;border:0;background:none;color:#fff;font:700 11.9px RobotoICS,sans-serif;cursor:pointer}
+.screen .ga-tk-addbar button:active{background:#33b5e566}
+.ga-tk-addbar button img{width:27.2px;height:27.2px}
+.ga-tk-addbar i{width:1px;align-self:stretch;margin:10.2px 0;background:#ffffff33}
+.ga-tk-add-label{display:block;margin:13.6px 13.6px 0 23.8px;font-size:15.3px;color:#333}
+.ga-tk-add-field{display:block;width:calc(100% - 27.2px);min-height:40.8px;margin:0 13.6px;padding:0 6.8px;border:0;border-bottom:1.7px solid #33b5e5;background:none;color:#000;font:400 15.3px RobotoICS,sans-serif;outline:0}
+.ga-tk-sv input{flex:1;min-width:0;height:30.6px;margin-right:6.8px;padding:0 3.4px;border:0;border-bottom:1.7px solid #33b5e5;background:none;color:#fff;font:400 15.3px RobotoICS,sans-serif;outline:0}
+.ga-tk-sv input::placeholder{color:#ffffff80}
+.ga-tk-extras{background:#fff}
+.screen .ga-tk-extra{display:flex;align-items:center;width:calc(100% - 13.6px);min-height:54.4px;margin:6.8px;padding:0 0 0 6.8px;border:0;background:none;color:#333;text-align:left;cursor:pointer}
+.screen .ga-tk-extra:active{background:#33b5e566}
+.ga-tk-extra img{width:27.2px;height:27.2px;flex:none}
+.ga-tk-extra span{flex:1;min-width:0;display:flex;flex-direction:column;padding:6.8px 27.2px 0 13.6px}
+.ga-tk-extra b{font-size:15.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ga-tk-extra small{font-size:11.9px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ga-tk-results-head{display:flex;justify-content:space-between;padding:34px 8.5px 8.5px;background:#fff;font-size:11.9px;color:#777}
+.ga-tk-results{background:#fff}
+.screen .ga-tk-hit{display:flex;flex-direction:column;justify-content:center;width:100%;height:71.4px;padding:8.5px 1.7px 8.5px 4.25px;border:0;border-bottom:1px solid #e0e0e0;background:none;color:#333;text-align:left;cursor:pointer}
+.ga-tk-hit b{padding-left:4.25px;font-weight:400;font-size:15.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.ga-tk-hit span{padding-left:1.7px;font-size:11.9px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.ga-tk-hit small{display:flex;align-items:center;gap:5.95px;padding:1.7px 0 0 5.95px;font-size:10.2px;color:#999}
+.ga-tk-hit small img{height:8.5px}

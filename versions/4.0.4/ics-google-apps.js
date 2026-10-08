@@ -4,7 +4,11 @@
      #3c3c3c tab row and its #dd4b39 line (stream_circles / stream_nearby / stream_whats_hot), posts in #333333 with
      #999999 times and #6f8fc7 links, +1s, Photos (the albums of the simulator's pictures) and Circles.
    - Google Talk (Talk.apk): the friends list with your status on top and presence dots on the roster's #edeff7 rows,
-     chats on #eeeeee with the names in chat_from #7785e0 and chat_me #3492c5, "Type message".
+     chats on #eeeeee with the names in chat_from #7785e0 and chat_me #3492c5, "Type message". buddy_list_menu.xml's
+     Search (a SearchView: search_extra.xml offers "Search chat history for '…'" and "Send invite to '…'", then
+     search_results_fragment.xml / search_results_item.xml under 'Chats matching "…"') and Add friend (AddBuddyScreen:
+     add_buddy_custom_actionbar.xml's CANCEL / DONE, "Send chat invitation to", the address field; a bare name gets
+     @gmail.com; "Invitation sent."), the overflow with global_options.xml's Settings / Help / Send feedback.
    - YouTube 3.5.5 (Theme.Holo.Light.DarkActionBar on #e6e6e6): the bg_stripes_dark action bar with Search and Record,
      the Home / Browse / Account tabs, video_item.xml rows, and the watch page (watch_activity.xml): the player, the
      #3d3d3d Info / Related / Comments tab row, watch_info.xml with the +1 panel and the Like / Dislike image buttons;
@@ -462,10 +466,103 @@
           "Standortverlauf",
           "Historique Latitude",
           "Historial de ubicaciones"
+      ],
+      "Search Google Talk": [
+          "Keresés a Google Csevegőben",
+          "In Google Talk suchen",
+          "Rechercher dans Talk",
+          "Buscar Google Talk"
+      ],
+      "Search chat history": [
+          "Keresés a csevegési előzményekben",
+          "In Chat-Liste suchen",
+          "Rechercher dans l'historique des chats",
+          "Buscar en el historial de chat"
+      ],
+      "for '%1$s'": [
+          "a következőre: %1$s",
+          "nach \"%1$s\"",
+          "pour \"%1$s\"",
+          "de \"%1$s\""
+      ],
+      "Send invite": [
+          "Meghívó küldése",
+          "Einladung senden",
+          "Envoyer une invitation",
+          "Enviar invitación"
+      ],
+      "to '%1$s'": [
+          "a következőnek: %1$s",
+          "an \"%1$s\"",
+          "à \"%1$s\"",
+          "a \"%1$s\""
+      ],
+      "Chats matching \"%1$s\"": [
+          "\"%1$s\" keresésnek megfelelő beszélgetések",
+          "Passende Chats zu \"%1$s\"",
+          "Chats correspondant à \"%1$s\"",
+          "Chats que coincidan con \"%1$s\""
+      ],
+      "Invite a friend to chat": [
+          "Ismerős meghívása csevegésre",
+          "Laden Sie einen Freund zum Chatten ein.",
+          "Inviter un ami à chatter",
+          "Invitar a un amigo a chatear"
+      ],
+      "Send chat invitation to": [
+          "Csevegési meghívás küldése a következőnek:",
+          "Einladung zum Chatten senden an",
+          "Envoyer une invitation à",
+          "Enviar una invitación de chat a"
+      ],
+      "Type email address": [
+          "Írjon be egy e-mail címet",
+          "E-Mail-Adresse eingeben",
+          "Saisissez l'adresse e-mail",
+          "Escribe tu correo"
+      ],
+      "DONE": [
+          "KÉSZ",
+          "FERTIG",
+          "TERMINÉ",
+          "LISTO"
+      ],
+      "CANCEL": [
+          "MÉGSE",
+          "Abbrechen",
+          "ANNULER",
+          "CANCELAR"
+      ],
+      "Invitation sent.": [
+          "Meghívó elküldve.",
+          "Einladung gesendet",
+          "Invitation envoyée.",
+          "Invitación enviada"
+      ],
+      "Talk settings": [
+          "Beállítások",
+          "Einstellungen",
+          "Paramètres",
+          "Ajustes",
+          "Settings"
+      ],
+      "Talk help": [
+          "Súgó",
+          "Hilfe",
+          "Aide",
+          "Ayuda",
+          "Help"
+      ],
+      "Send feedback": [
+          "Visszajelzés küldése",
+          "Feedback geben",
+          "Envoyer des commentaires",
+          "Enviar comentarios"
       ]
   };
   const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
+  // English reads the image's own text when it differs from the key (the fifth entry).
+  const T = (lang, key) => { const i = LANGS.indexOf(lang); if (lang === 'en' && STRINGS[key]?.[4]) return STRINGS[key][4]; return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
   const APPS = ['google-plus', 'talk', 'youtube', 'play-books', 'play-movies', 'search', 'voice-dialer', 'latitude'];
   const AVATAR = 'assets/kem-ic_generic_man.png';
   const hash = text => [...String(text)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
@@ -508,8 +605,22 @@
       const msgs = chats.filter(m => String(m.contact) === String(ui.gaChat));
       return `<div class="app-view ga-app ga-talk">${head('ga-talk-bar', 'talk', person.name, icon('ga-unsupported', T(lang, 'Video chat'), 'ga-tk-ic_video_default_holo_dark') + icon('ga-unsupported', T(lang, 'Voice chat'), 'ga-tk-ic_audio_default_holo_dark') + more(), true)}<div class="ga-scroll ga-talk-chat">${msgs.map(m => `<p class="${m.mine ? 'me' : 'from'}"><b>${e(m.mine ? 'me' : person.name.split(' ')[0])}:</b> ${e(m.body)}</p>`).join('')}</div><form class="ga-talk-compose" data-form="ga-talk"><input name="body" autocomplete="off" placeholder="${e(T(lang, 'Type message'))}" aria-label="${e(T(lang, 'Type message'))}"><button type="submit" aria-label="Send"><img src="assets/ga-tk-ic_send_holo_light.png" alt=""></button></form></div>`;
     }
+    if (ui.gaSub === 'add') {
+      const value = ui.gaInvite || '';
+      return `<form class="app-view ga-app ga-talk ga-tk-add" data-form="ga-talk-invite"><header class="ga-bar ga-talk-bar ga-tk-addbar"><button type="button" data-action="ga-talk-add-cancel"><img src="assets/ga-tk-ic_menu_cancel_holo_dark.png" alt=""><span>${e(T(lang, 'CANCEL'))}</span></button><i></i><button type="submit"><img src="assets/ga-tk-ic_menu_done_holo_dark.png" alt=""><span>${e(T(lang, 'DONE'))}</span></button></header><label class="ga-tk-add-label" for="ga-tk-invite">${e(T(lang, 'Send chat invitation to'))}</label><input id="ga-tk-invite" class="ga-tk-add-field" name="email" value="${e(value)}" placeholder="${e(T(lang, 'Type email address'))}" autocomplete="off" spellcheck="false"></form>`;
+    }
+    // The SearchView expanded in the bar, with search_extra.xml's two rows once there is text.
+    if (ui.gaSub === 'search') {
+      const q = ui.gaTalkQ || '', rows = q ? [['ga-talk-search-run', 'ic_menu_search_holo_light', 'Search chat history', "for '%1$s'"], ['ga-talk-invite-from', 'ic_menu_invite', 'Send invite', "to '%1$s'"]].map(([action, img, one, two]) => `<button class="ga-tk-extra" data-action="${action}" data-id="${e(q)}"><img src="assets/ga-tk-${img}.png" alt=""><span><b>${e(T(lang, one))}</b><small>${e(T(lang, two).replace('%1$s', q))}</small></span></button>`).join('') : '';
+      return `<div class="app-view ga-app ga-talk"><form class="ga-bar ga-talk-bar ga-tk-sv" data-form="ga-talk-search"><button type="button" class="ga-home" data-action="back" aria-label="${e(T(lang, 'Search'))}"><img class="ga-back" src="assets/ga-fw-ic_ab_back_holo_dark.png" alt=""><img src="assets/talk.png" alt=""></button><input name="query" value="${e(q)}" placeholder="${e(T(lang, 'Search Google Talk'))}" autocomplete="off" spellcheck="false"></form><div class="ga-scroll ga-tk-extras">${rows}</div></div>`;
+    }
+    // SearchActivity: the chats whose messages match, newest message first.
+    if (ui.gaSub === 'results') {
+      const q = (ui.gaTalkQ || '').toLocaleLowerCase(), hits = data.contacts.map(c => ({c, m: chats.filter(m => String(m.contact) === String(c.id) && m.body.toLocaleLowerCase().includes(q)).pop()})).filter(h => h.m);
+      return `<div class="app-view ga-app ga-talk">${head('ga-talk-bar', 'talk', T(lang, 'Chats matching "%1$s"').replace('%1$s', ui.gaTalkQ || ''), '', true)}<div class="ga-tk-results-head"><span></span><span>${hits.length}</span></div><div class="ga-scroll ga-tk-results">${hits.map(({c, m}) => `<button class="ga-tk-hit" data-action="ga-talk-open" data-id="${c.id}"><b>${e(c.name)}</b><span>${e(m.body)}</span><small><img src="assets/ga-tk-ic_email_caret_double.png" alt="">${e(m.mine ? ctx.account : c.name)}</small></button>`).join('')}</div></div>`;
+    }
     const status = ctx.ui.gaPresence || 'Available';
-    return `<div class="app-view ga-app ga-talk">${head('ga-talk-bar', 'talk', T(lang, 'Friends list'), icon('ga-unsupported', T(lang, 'Search'), 'ga-tk-ic_menu_search_holo_dark') + icon('ga-unsupported', T(lang, 'Add friend'), 'ga-tk-ic_menu_add_buddy_holo_light') + more())}<button class="ga-talk-self" data-action="ga-presence"><img src="${AVATAR}" alt=""><span><b>${e(ctx.account)}</b><small><i class="dot ${status.toLowerCase()}"></i>${e(T(lang, status))}</small></span></button><div class="ga-scroll">${data.contacts.map(c => { const p = PRESENCE[c.id] || 'Offline'; return `<button class="ga-buddy ${p === 'Offline' ? 'off' : ''}" data-action="ga-talk-open" data-id="${c.id}"><img src="${AVATAR}" alt=""><span><b>${e(c.name)}</b><small>${e(T(lang, p))}</small></span><i class="dot ${p.toLowerCase()}"></i></button>`; }).join('')}</div></div>`;
+    return `<div class="app-view ga-app ga-talk">${head('ga-talk-bar', 'talk', T(lang, 'Friends list'), icon('ga-talk-search', T(lang, 'Search'), 'ga-tk-ic_menu_search_holo_dark') + icon('ga-talk-add', T(lang, 'Add friend'), 'ga-tk-ic_menu_add_buddy_holo_light') + more())}<button class="ga-talk-self" data-action="ga-presence"><img src="${AVATAR}" alt=""><span><b>${e(ctx.account)}</b><small><i class="dot ${status.toLowerCase()}"></i>${e(T(lang, status))}</small></span></button><div class="ga-scroll">${data.contacts.map(c => { const p = PRESENCE[c.id] || 'Offline'; return `<button class="ga-buddy ${p === 'Offline' ? 'off' : ''}" data-action="ga-talk-open" data-id="${c.id}"><img src="${AVATAR}" alt=""><span><b>${e(c.name)}</b><small>${e(T(lang, p))}</small></span><i class="dot ${p.toLowerCase()}"></i></button>`; }).join('')}</div></div>`;
   }
 
   // ---- YouTube 3.5.5 ----
@@ -548,7 +659,7 @@
     if (ctx.view === 'play-books' && ui.gaSub === 'read') return [['ga-bk-options', 'Display options'], ['ga-unsupported', 'About the book'], ['ga-unsupported', 'Share'], ['ga-unsupported', 'Available offline'], ['ga-unsupported', 'Read aloud'], ['ga-unsupported', 'Help']].map(([action, key]) => ({action, title: BS(lang, key), id: ''}));
     if (ctx.view === 'youtube') return ui.gaSub === 'watch' ? [item('ga-yt-rate', 'Like', 'like'), item('ga-yt-rate', 'Dislike', 'dislike')] : [item('ga-unsupported', 'Settings'), item('ga-unsupported', 'Feedback'), item('ga-unsupported', 'Help')];
     if (ctx.view === 'talk') return ui.gaSub === 'chat' ? [item('ga-talk-end', 'End chat'), item('ga-unsupported', 'Friend info'), item('ga-unsupported', 'Add to chat'), item('ga-talk-clear', 'Clear chat history')]
-      : [item('ga-unsupported', 'Display options'), item('ga-talk-end-all', 'End all chats'), item('ga-unsupported', 'Sign out'), item('ga-unsupported', 'Invites')];
+      : [item('ga-unsupported', 'Display options'), item('ga-talk-end-all', 'End all chats'), item('ga-unsupported', 'Sign out'), item('ga-unsupported', 'Talk settings'), item('ga-unsupported', 'Talk help'), item('ga-unsupported', 'Send feedback')];
     return [];
   }
 
@@ -666,6 +777,11 @@
       case 'ga-plus': { const list = data.gaPlus || []; data.gaPlus = list.includes(id) ? list.filter(x => x !== id) : [...list, id]; ctx.save(); ctx.render(); break; }
       case 'ga-presence': ui.gaPresence = {Available: 'Busy', Busy: 'Invisible', Invisible: 'Available'}[ui.gaPresence || 'Available']; ctx.render(); break;
       case 'ga-talk-open': ui.gaChat = id; ui.gaSub = 'chat'; ctx.render(); break;
+      case 'ga-talk-search': ui.gaSub = 'search'; ui.gaTalkQ = ''; ctx.render(); ctx.focus?.('.ga-tk-sv input'); break;
+      case 'ga-talk-search-run': ui.gaTalkQ = id; ui.gaSub = 'results'; ctx.render(); break;
+      case 'ga-talk-add': ui.gaSub = 'add'; ui.gaInvite = ''; ctx.render(); ctx.focus?.('.ga-tk-add-field'); break;
+      case 'ga-talk-invite-from': ui.gaSub = 'add'; ui.gaInvite = id; ctx.render(); break;
+      case 'ga-talk-add-cancel': ui.gaSub = ''; ctx.render(); break;
       case 'ga-menu': ui.overlay = 'ga-menu'; ctx.renderOverlay(); break;
       case 'ga-talk-end': case 'ga-talk-end-all': ctx.closeOverlay(); ui.gaSub = ''; ctx.render(); break;
       case 'ga-talk-clear': ctx.closeOverlay(); data.talkChats = (data.talkChats || []).filter(m => String(m.contact) !== String(ui.gaChat)); ctx.save(); ctx.render(); break;
@@ -707,6 +823,12 @@
       const body = String(values.get('body') || '').trim(); if (!body) return true;
       data.talkChats ||= []; data.talkChats.push({contact: ui.gaChat, body, mine: true});
       ctx.save(); ctx.render(); return true;
+    }
+    if (form === 'ga-talk-search') { const q = String(values.get('query') || '').trim(); if (q) { ui.gaTalkQ = q; ui.gaSub = 'results'; ctx.render(); } return true; }
+    if (form === 'ga-talk-invite') {
+      const emails = String(values.get('email') || '').split(/[,;\s]+/).filter(Boolean).map(x => x.includes('@') ? x : `${x}@gmail.com`);
+      if (!emails.length) return true;
+      data.talkInvites = [...new Set([...(data.talkInvites || []), ...emails])]; ui.gaSub = ''; ctx.save(); ctx.render(); ctx.toast(T(ctx.lang, 'Invitation sent.')); return true;
     }
     if (form === 'ga-search') {
       const q = String(values.get('query') || '').trim(); if (!q) return true;

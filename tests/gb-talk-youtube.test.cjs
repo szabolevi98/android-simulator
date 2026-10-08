@@ -11,7 +11,14 @@ assert.ok(html.indexOf('Alex Morgan')<html.indexOf('Sam Rivera'),'available frie
 talk.handle('tk-chat','1',ctx);assert.equal(ui.tkChat,'1');
 assert.ok(talk.submit('tk-send',new Map([['body','Hi :-)']]),ctx));assert.equal(data.talk23.chats['1'][0].body,'Hi :-)');
 html=talk.render(ctx);assert.ok(html.includes('tk-emo_im_happy')&&html.includes('Type to compose'));
-assert.equal(JSON.stringify(talk.menu(ctx).slice(0,5).map(i=>i.title)),JSON.stringify(['Friends list','Switch chats','Chat off record','Add to chat','End chat']));
+assert.equal(JSON.stringify(talk.menu(ctx).slice(0,5).map(i=>i.title)),JSON.stringify(['Chat off record','Switch chats','Friends list','Add to chat','End chat']));
+// chat_screen_menu.xml order (Voice chat for friends with voice), buddy_list_menu.xml for the friends list.
+{const saved=ui.tkChat;ui.tkChat='';assert.equal(JSON.stringify(talk.menu(ctx).map(i=>i.title)),JSON.stringify(['Most popular','Add friend','Search','Sign out','Settings','End all chats','Invites','Blocked','Help']));ui.tkChat=saved;}
+// Add friend: a bare name gets @gmail.com, the invitation waits in Invites; Most popular keeps the friends you chat with.
+{const saved=ui.tkChat;ui.tkChat='';talk.handle('tk-add',null,ctx);assert.equal(ui.tkSub,'add');assert.ok(talk.render(ctx).includes('Send chat invitation to'));
+talk.submit('tk-invite',new Map([['email','robin']]),ctx);assert.equal(ui.tkSub,'');assert.equal(data.talk23.invites[0].email,'robin@gmail.com');
+talk.handle('tk-invites',null,ctx);assert.ok(talk.render(ctx).includes('robin@gmail.com'));talk.back(ctx);
+talk.handle('tk-popular',null,ctx);const pop=talk.render(ctx);assert.ok(pop.includes('Alex Morgan')&&!pop.includes('Sam Rivera'));talk.handle('tk-popular',null,ctx);ui.tkChat=saved;}
 talk.handle('tk-presence','busy',ctx);assert.equal(data.talk23.presence,'busy');
 assert.ok(talk.back(ctx));assert.equal(ui.tkChat,'');
 assert.equal(GBTalk.T('hu','Friends list'),'Ismerőslista');

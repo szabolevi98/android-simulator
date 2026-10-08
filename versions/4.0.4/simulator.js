@@ -509,6 +509,7 @@
   function googleAppsContext() {
     return {data, ui, view: ui.view, lang: i18n.language, account: ICSGmail.account, save, render, renderOverlay, toast, openApp,
       closeOverlay() { if (ui.overlay) { ui.overlay = ''; renderOverlay(); } },
+      focus(selector) { requestAnimationFrame(() => viewport.querySelector(selector)?.focus()); },
       browse(query) { openApp('browser'); navigateBrowser(`search:${query}`); },
       listen() { clearTimeout(voiceDialTimer); ui.gaVoice = 'listening'; render(); voiceDialTimer = setTimeout(() => { ui.gaVoice = 'failed'; if (ui.view === 'voice-dialer') render(); }, 3000); }};
   }
@@ -1671,6 +1672,9 @@
     }
   });
   document.addEventListener('input', event => {
+    // Talk's SearchView and Add friend field: the suggestions follow the query without re-rendering the field.
+    if (event.target.closest('.ga-tk-sv')) { ui.gaTalkQ = event.target.value; const box = viewport.querySelector('.ga-tk-extras'), tmp = document.createElement('div'); tmp.innerHTML = ICSGoogleApps.render(ui.view, googleAppsContext()); if (box) box.innerHTML = tmp.querySelector('.ga-tk-extras')?.innerHTML || ''; return; }
+    if (event.target.matches('.ga-tk-add-field')) { ui.gaInvite = event.target.value; return; }
     if (event.target.matches('[data-ga-bk-bright]')) { data.gaBookPrefs = {...ICSGoogleApps.books.bookPrefs(data), brightness: Number(event.target.value)}; save(); viewport.querySelector('.ga-bk-reader')?.style.setProperty('--bk-dim', ((100 - Number(event.target.value)) / 100 * .7).toFixed(3)); return; }
     // SearchView: the suggestion dropdown follows the query without re-rendering the field.
     if (event.target.closest('.icsp-bar.searching')) { ui.marketEdit = event.target.value; const view = viewport.querySelector('.icsp'); view?.querySelector('.icsp-suggest')?.remove(); const html = ICSPlay.render(icsPlayContext()); const tmp = document.createElement('div'); tmp.innerHTML = html; const sug = tmp.querySelector('.icsp-suggest'); if (sug && view) view.append(sug); return; }

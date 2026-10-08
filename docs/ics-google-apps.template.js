@@ -4,7 +4,11 @@
      #3c3c3c tab row and its #dd4b39 line (stream_circles / stream_nearby / stream_whats_hot), posts in #333333 with
      #999999 times and #6f8fc7 links, +1s, Photos (the albums of the simulator's pictures) and Circles.
    - Google Talk (Talk.apk): the friends list with your status on top and presence dots on the roster's #edeff7 rows,
-     chats on #eeeeee with the names in chat_from #7785e0 and chat_me #3492c5, "Type message".
+     chats on #eeeeee with the names in chat_from #7785e0 and chat_me #3492c5, "Type message". buddy_list_menu.xml's
+     Search (a SearchView: search_extra.xml offers "Search chat history for '…'" and "Send invite to '…'", then
+     search_results_fragment.xml / search_results_item.xml under 'Chats matching "…"') and Add friend (AddBuddyScreen:
+     add_buddy_custom_actionbar.xml's CANCEL / DONE, "Send chat invitation to", the address field; a bare name gets
+     @gmail.com; "Invitation sent."), the overflow with global_options.xml's Settings / Help / Send feedback.
    - YouTube 3.5.5 (Theme.Holo.Light.DarkActionBar on #e6e6e6): the bg_stripes_dark action bar with Search and Record,
      the Home / Browse / Account tabs, video_item.xml rows, and the watch page (watch_activity.xml): the player, the
      #3d3d3d Info / Related / Comments tab row, watch_info.xml with the +1 panel and the Like / Dislike image buttons;
@@ -18,31 +22,100 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const STRINGS = __STRINGS__({"Stream": "home_stream_label", "Photos": "home_screen_photos_label", "Profile": "home_screen_profile_label",
-    "Circles": "home_screen_people_label", "Messenger": "home_screen_huddle_label", "Games": "home_screen_games_label",
-    "All circles": "stream_circles", "Nearby": "stream_nearby", "What's hot": "stream_whats_hot", "New post": "menu_post",
-    "Your albums": "photos_home_your_albums_label", "Photos of you": "photos_home_of_you_label", "No posts found.": "no_posts", "Just now": "posted_just_now",
-    "Friends list": "Talk:menu_view_roster", "Available": "Talk:presence_available", "Busy": "Talk:presence_busy", "Away": "Talk:presence_away",
-    "Invisible": "Talk:presence_invisible", "Offline": "Talk:presence_offline", "Type message": "Talk:compose_hint", "Add friend": "Talk:menu_add",
-    "End chat": "Talk:menu_end_conversation", "Status message": "Talk:custom_status_hint",
-    "Home": "YouTube:tab_feed", "Browse": "YouTube:tab_categories", "Search YouTube": "YouTube:search_hint", "Like": "YouTube:menu_like",
-    "Dislike": "YouTube:menu_dislike", "Share": "YouTube:menu_share", "Most viewed": "YouTube:most_viewed_videos", "Account": "YouTube:tab_account",
-    "Search": "YouTube:menu_search", "Record": "YouTube:menu_camera", "Settings": "YouTube:menu_settings", "Feedback": "YouTube:menu_feedback",
-    "Help": "YouTube:menu_help", "Add to": "YouTube:menu_add_to", "Info": "YouTube:video_info", "Related": "YouTube:video_info_related_label_text",
-    "Comments": "YouTube:comments", "No comments found.": "YouTube:no_comments_found", "by": "YouTube:by", "Description": "YouTube:description_label_text",
-    "Category": "YouTube:category_label_text", "%1$,d views | %2$,d likes | %3$,d dislikes": "YouTube:num_views_likes_and_dislikes",
-    "You like this video.": "YouTube:rating_like", "You dislike this video.": "YouTube:rating_dislike", "Your Channel": "YouTube:menu_my_channel",
-    "Channel views": "YouTube:channel_stats_views_empty", "Uploaded": "YouTube:channel_stats_uploaded_empty", "Subscribers": "YouTube:channel_stats_subscribers_empty",
-    "Video chat": "Talk:menu_video_chat", "Voice chat": "Talk:menu_voice_chat", "Display options": "Talk:menu_sort_header", "End all chats": "Talk:menu_leave_all_chats",
-    "Sign out": "Talk:menu_sign_out", "Invites": "Talk:menu_show_invites", "Friend info": "Talk:menu_user_info", "Add to chat": "Talk:menu_add_contact",
+  const STRINGS = __STRINGS__({
+    "Stream": "home_stream_label",
+    "Photos": "home_screen_photos_label",
+    "Profile": "home_screen_profile_label",
+    "Circles": "home_screen_people_label",
+    "Messenger": "home_screen_huddle_label",
+    "Games": "home_screen_games_label",
+    "All circles": "stream_circles",
+    "Nearby": "stream_nearby",
+    "What's hot": "stream_whats_hot",
+    "New post": "menu_post",
+    "Your albums": "photos_home_your_albums_label",
+    "Photos of you": "photos_home_of_you_label",
+    "No posts found.": "no_posts",
+    "Just now": "posted_just_now",
+    "Friends list": "Talk:menu_view_roster",
+    "Available": "Talk:presence_available",
+    "Busy": "Talk:presence_busy",
+    "Away": "Talk:presence_away",
+    "Invisible": "Talk:presence_invisible",
+    "Offline": "Talk:presence_offline",
+    "Type message": "Talk:compose_hint",
+    "Add friend": "Talk:menu_add",
+    "End chat": "Talk:menu_end_conversation",
+    "Status message": "Talk:custom_status_hint",
+    "Home": "YouTube:tab_feed",
+    "Browse": "YouTube:tab_categories",
+    "Search YouTube": "YouTube:search_hint",
+    "Like": "YouTube:menu_like",
+    "Dislike": "YouTube:menu_dislike",
+    "Share": "YouTube:menu_share",
+    "Most viewed": "YouTube:most_viewed_videos",
+    "Account": "YouTube:tab_account",
+    "Search": "YouTube:menu_search",
+    "Record": "YouTube:menu_camera",
+    "Settings": "YouTube:menu_settings",
+    "Feedback": "YouTube:menu_feedback",
+    "Help": "YouTube:menu_help",
+    "Add to": "YouTube:menu_add_to",
+    "Info": "YouTube:video_info",
+    "Related": "YouTube:video_info_related_label_text",
+    "Comments": "YouTube:comments",
+    "No comments found.": "YouTube:no_comments_found",
+    "by": "YouTube:by",
+    "Description": "YouTube:description_label_text",
+    "Category": "YouTube:category_label_text",
+    "%1$,d views | %2$,d likes | %3$,d dislikes": "YouTube:num_views_likes_and_dislikes",
+    "You like this video.": "YouTube:rating_like",
+    "You dislike this video.": "YouTube:rating_dislike",
+    "Your Channel": "YouTube:menu_my_channel",
+    "Channel views": "YouTube:channel_stats_views_empty",
+    "Uploaded": "YouTube:channel_stats_uploaded_empty",
+    "Subscribers": "YouTube:channel_stats_subscribers_empty",
+    "Video chat": "Talk:menu_video_chat",
+    "Voice chat": "Talk:menu_voice_chat",
+    "Display options": "Talk:menu_sort_header",
+    "End all chats": "Talk:menu_leave_all_chats",
+    "Sign out": "Talk:menu_sign_out",
+    "Invites": "Talk:menu_show_invites",
+    "Friend info": "Talk:menu_user_info",
+    "Add to chat": "Talk:menu_add_contact",
     "Clear chat history": "Talk:menu_clear_chat",
-    "Shop": "BooksTablet:menu_shop", "Contents": "BooksTablet:menu_table_of_contents",
-    "My Rentals": "Videos:tab_rentals", "Personal Videos": "Videos:tab_personal_videos", "Watch": "Videos:title_watch",
-    "Google Search": "GoogleQuickSearchBox:google_search_hint", "Searchable items": "GoogleQuickSearchBox:search_sources",
-    "Listening…": "VoiceDialer:listening", "No results, try again.": "VoiceDialer:no_results_tts", "Did you know…": "VoiceDialer:tool_tip_title",
-    "Latitude": "Maps:LATITUDE_APP_NAME", "Check in": "Maps:CHECKINS_OPT_IN_TITLE", "Location history": "Maps:FRIENDS_HISTORY_SUMMARY_TITLE"});
+    "Shop": "BooksTablet:menu_shop",
+    "Contents": "BooksTablet:menu_table_of_contents",
+    "My Rentals": "Videos:tab_rentals",
+    "Personal Videos": "Videos:tab_personal_videos",
+    "Watch": "Videos:title_watch",
+    "Google Search": "GoogleQuickSearchBox:google_search_hint",
+    "Searchable items": "GoogleQuickSearchBox:search_sources",
+    "Listening…": "VoiceDialer:listening",
+    "No results, try again.": "VoiceDialer:no_results_tts",
+    "Did you know…": "VoiceDialer:tool_tip_title",
+    "Latitude": "Maps:LATITUDE_APP_NAME",
+    "Check in": "Maps:CHECKINS_OPT_IN_TITLE",
+    "Location history": "Maps:FRIENDS_HISTORY_SUMMARY_TITLE",
+    "Search Google Talk": "Talk:search_hint",
+    "Search chat history": "Talk:search_chats_line1",
+    "for '%1$s'": "Talk:search_chats_line2",
+    "Send invite": "Talk:add_friend_line1",
+    "to '%1$s'": "Talk:add_friend_line2",
+    "Chats matching \"%1$s\"": "Talk:search_results",
+    "Invite a friend to chat": "Talk:invite_buddy",
+    "Send chat invitation to": "Talk:invite_instruction",
+    "Type email address": "Talk:invite_hint",
+    "DONE": "Talk:invite_label",
+    "CANCEL": "Talk:invite_label_cancel",
+    "Invitation sent.": "Talk:invitation_sent",
+    "Talk settings": "Talk:menu_settings",
+    "Talk help": "Talk:menu_help",
+    "Send feedback": "Talk:menu_feedback"
+  });
   const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
+  // English reads the image's own text when it differs from the key (the fifth entry).
+  const T = (lang, key) => { const i = LANGS.indexOf(lang); if (lang === 'en' && STRINGS[key]?.[4]) return STRINGS[key][4]; return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
   const APPS = ['google-plus', 'talk', 'youtube', 'play-books', 'play-movies', 'search', 'voice-dialer', 'latitude'];
   const AVATAR = 'assets/kem-ic_generic_man.png';
   const hash = text => [...String(text)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
@@ -85,8 +158,22 @@
       const msgs = chats.filter(m => String(m.contact) === String(ui.gaChat));
       return `<div class="app-view ga-app ga-talk">${head('ga-talk-bar', 'talk', person.name, icon('ga-unsupported', T(lang, 'Video chat'), 'ga-tk-ic_video_default_holo_dark') + icon('ga-unsupported', T(lang, 'Voice chat'), 'ga-tk-ic_audio_default_holo_dark') + more(), true)}<div class="ga-scroll ga-talk-chat">${msgs.map(m => `<p class="${m.mine ? 'me' : 'from'}"><b>${e(m.mine ? 'me' : person.name.split(' ')[0])}:</b> ${e(m.body)}</p>`).join('')}</div><form class="ga-talk-compose" data-form="ga-talk"><input name="body" autocomplete="off" placeholder="${e(T(lang, 'Type message'))}" aria-label="${e(T(lang, 'Type message'))}"><button type="submit" aria-label="Send"><img src="assets/ga-tk-ic_send_holo_light.png" alt=""></button></form></div>`;
     }
+    if (ui.gaSub === 'add') {
+      const value = ui.gaInvite || '';
+      return `<form class="app-view ga-app ga-talk ga-tk-add" data-form="ga-talk-invite"><header class="ga-bar ga-talk-bar ga-tk-addbar"><button type="button" data-action="ga-talk-add-cancel"><img src="assets/ga-tk-ic_menu_cancel_holo_dark.png" alt=""><span>${e(T(lang, 'CANCEL'))}</span></button><i></i><button type="submit"><img src="assets/ga-tk-ic_menu_done_holo_dark.png" alt=""><span>${e(T(lang, 'DONE'))}</span></button></header><label class="ga-tk-add-label" for="ga-tk-invite">${e(T(lang, 'Send chat invitation to'))}</label><input id="ga-tk-invite" class="ga-tk-add-field" name="email" value="${e(value)}" placeholder="${e(T(lang, 'Type email address'))}" autocomplete="off" spellcheck="false"></form>`;
+    }
+    // The SearchView expanded in the bar, with search_extra.xml's two rows once there is text.
+    if (ui.gaSub === 'search') {
+      const q = ui.gaTalkQ || '', rows = q ? [['ga-talk-search-run', 'ic_menu_search_holo_light', 'Search chat history', "for '%1$s'"], ['ga-talk-invite-from', 'ic_menu_invite', 'Send invite', "to '%1$s'"]].map(([action, img, one, two]) => `<button class="ga-tk-extra" data-action="${action}" data-id="${e(q)}"><img src="assets/ga-tk-${img}.png" alt=""><span><b>${e(T(lang, one))}</b><small>${e(T(lang, two).replace('%1$s', q))}</small></span></button>`).join('') : '';
+      return `<div class="app-view ga-app ga-talk"><form class="ga-bar ga-talk-bar ga-tk-sv" data-form="ga-talk-search"><button type="button" class="ga-home" data-action="back" aria-label="${e(T(lang, 'Search'))}"><img class="ga-back" src="assets/ga-fw-ic_ab_back_holo_dark.png" alt=""><img src="assets/talk.png" alt=""></button><input name="query" value="${e(q)}" placeholder="${e(T(lang, 'Search Google Talk'))}" autocomplete="off" spellcheck="false"></form><div class="ga-scroll ga-tk-extras">${rows}</div></div>`;
+    }
+    // SearchActivity: the chats whose messages match, newest message first.
+    if (ui.gaSub === 'results') {
+      const q = (ui.gaTalkQ || '').toLocaleLowerCase(), hits = data.contacts.map(c => ({c, m: chats.filter(m => String(m.contact) === String(c.id) && m.body.toLocaleLowerCase().includes(q)).pop()})).filter(h => h.m);
+      return `<div class="app-view ga-app ga-talk">${head('ga-talk-bar', 'talk', T(lang, 'Chats matching "%1$s"').replace('%1$s', ui.gaTalkQ || ''), '', true)}<div class="ga-tk-results-head"><span></span><span>${hits.length}</span></div><div class="ga-scroll ga-tk-results">${hits.map(({c, m}) => `<button class="ga-tk-hit" data-action="ga-talk-open" data-id="${c.id}"><b>${e(c.name)}</b><span>${e(m.body)}</span><small><img src="assets/ga-tk-ic_email_caret_double.png" alt="">${e(m.mine ? ctx.account : c.name)}</small></button>`).join('')}</div></div>`;
+    }
     const status = ctx.ui.gaPresence || 'Available';
-    return `<div class="app-view ga-app ga-talk">${head('ga-talk-bar', 'talk', T(lang, 'Friends list'), icon('ga-unsupported', T(lang, 'Search'), 'ga-tk-ic_menu_search_holo_dark') + icon('ga-unsupported', T(lang, 'Add friend'), 'ga-tk-ic_menu_add_buddy_holo_light') + more())}<button class="ga-talk-self" data-action="ga-presence"><img src="${AVATAR}" alt=""><span><b>${e(ctx.account)}</b><small><i class="dot ${status.toLowerCase()}"></i>${e(T(lang, status))}</small></span></button><div class="ga-scroll">${data.contacts.map(c => { const p = PRESENCE[c.id] || 'Offline'; return `<button class="ga-buddy ${p === 'Offline' ? 'off' : ''}" data-action="ga-talk-open" data-id="${c.id}"><img src="${AVATAR}" alt=""><span><b>${e(c.name)}</b><small>${e(T(lang, p))}</small></span><i class="dot ${p.toLowerCase()}"></i></button>`; }).join('')}</div></div>`;
+    return `<div class="app-view ga-app ga-talk">${head('ga-talk-bar', 'talk', T(lang, 'Friends list'), icon('ga-talk-search', T(lang, 'Search'), 'ga-tk-ic_menu_search_holo_dark') + icon('ga-talk-add', T(lang, 'Add friend'), 'ga-tk-ic_menu_add_buddy_holo_light') + more())}<button class="ga-talk-self" data-action="ga-presence"><img src="${AVATAR}" alt=""><span><b>${e(ctx.account)}</b><small><i class="dot ${status.toLowerCase()}"></i>${e(T(lang, status))}</small></span></button><div class="ga-scroll">${data.contacts.map(c => { const p = PRESENCE[c.id] || 'Offline'; return `<button class="ga-buddy ${p === 'Offline' ? 'off' : ''}" data-action="ga-talk-open" data-id="${c.id}"><img src="${AVATAR}" alt=""><span><b>${e(c.name)}</b><small>${e(T(lang, p))}</small></span><i class="dot ${p.toLowerCase()}"></i></button>`; }).join('')}</div></div>`;
   }
 
   // ---- YouTube 3.5.5 ----
@@ -121,22 +208,81 @@
   // The action bar overflow of the screen on show (the apps' menu XML; showAsAction="never" items).
   function menu(ctx) {
     const {ui, lang} = ctx, item = (action, title, id = '') => ({action, title: T(lang, title), id});
+    // Play Books' fragment_reader.xml: Contents is the action item; the rest of reader_items fills the overflow.
+    if (ctx.view === 'play-books' && ui.gaSub === 'read') return [['ga-bk-options', 'Display options'], ['ga-unsupported', 'About the book'], ['ga-unsupported', 'Share'], ['ga-unsupported', 'Available offline'], ['ga-unsupported', 'Read aloud'], ['ga-unsupported', 'Help']].map(([action, key]) => ({action, title: BS(lang, key), id: ''}));
     if (ctx.view === 'youtube') return ui.gaSub === 'watch' ? [item('ga-yt-rate', 'Like', 'like'), item('ga-yt-rate', 'Dislike', 'dislike')] : [item('ga-unsupported', 'Settings'), item('ga-unsupported', 'Feedback'), item('ga-unsupported', 'Help')];
     if (ctx.view === 'talk') return ui.gaSub === 'chat' ? [item('ga-talk-end', 'End chat'), item('ga-unsupported', 'Friend info'), item('ga-unsupported', 'Add to chat'), item('ga-talk-clear', 'Clear chat history')]
-      : [item('ga-unsupported', 'Display options'), item('ga-talk-end-all', 'End all chats'), item('ga-unsupported', 'Sign out'), item('ga-unsupported', 'Invites')];
+      : [item('ga-unsupported', 'Display options'), item('ga-talk-end-all', 'End all chats'), item('ga-unsupported', 'Sign out'), item('ga-unsupported', 'Talk settings'), item('ga-unsupported', 'Talk help'), item('ga-unsupported', 'Send feedback')];
     return [];
   }
 
   // ---- Play Books 2.3.6 ----
+  // BooksTablet.apk's own strings (stock-strings.js, group books).
+  const BS = (lang, key) => { const row = window.StockStrings?.books?.[key], i = LANGS.indexOf(lang); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
   const BOOKS = [
-    {id: 'b1', title: 'Alice’s Adventures in Wonderland', author: 'Lewis Carroll', pages: ['Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do.', 'Down, down, down. Would the fall never come to an end?', 'There were doors all round the hall, but they were all locked.']},
-    {id: 'b2', title: 'The Adventures of Sherlock Holmes', author: 'Arthur Conan Doyle', pages: ['To Sherlock Holmes she is always the woman.', 'I had seen little of Holmes lately.']}
+    {id: "b1", title: "Alice’s Adventures in Wonderland", author: "Lewis Carroll", pages: [
+      "CHAPTER I.\nDown the Rabbit-Hole",
+      "Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”",
+      "So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.",
+      "There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, “Oh dear! Oh dear! I shall be late!”",
+      "CHAPTER II.\nThe Pool of Tears",
+      "“Curiouser and curiouser!” cried Alice (she was so much surprised, that for the moment she quite forgot how to speak good English); “now I’m opening out like the largest telescope that ever was! Good-bye, feet!”",
+      "CHAPTER III.\nA Caucus-Race and a Long Tale",
+      "They were indeed a queer-looking party that assembled on the bank—the birds with draggled feathers, the animals with their fur clinging close to them, and all dripping wet, cross, and uncomfortable."]},
+    {id: "b2", title: "The Adventures of Sherlock Holmes", author: "Arthur Conan Doyle", pages: [
+      "I. A Scandal in Bohemia",
+      "To Sherlock Holmes she is always the woman. I have seldom heard him mention her under any other name. In his eyes she eclipses and predominates the whole of her sex.",
+      "It was not that he felt any emotion akin to love for Irene Adler. All emotions, and that one particularly, were abhorrent to his cold, precise but admirably balanced mind.",
+      "II. The Red-Headed League",
+      "I had called upon my friend, Mr. Sherlock Holmes, one day in the autumn of last year and found him in deep conversation with a very stout, florid-faced, elderly gentleman with fiery red hair."]}
   ];
+  // Each chapter opens on its heading page; the Contents popup lists them.
+  BOOKS.forEach(book => { book.starts = book.pages.map((page, i) => /^(CHAPTER [IVX]+\.|Chapter \d+|\d+\. |[IVX]+\. )/.test(page) ? i : -1).filter(i => i >= 0); });
+  // LocalPreferences: themes 0 Day / 1 Night, typeface2, justification2, the window brightness (-1 follows the system),
+  // textZoom (TextZoomPreference: steps of 0.1, never below 0.1) and lineHeight2 (LineHeightPreference: 1.55, which is
+  // also the least, in steps of 0.25).
+  const BOOK_PREFS = {theme: '0', typeface: 'default', justification: 'default', brightness: -1, textZoom: 1, lineHeight: 1.55};
+  const ZOOM_STEP = .1, LINE_STEP = .25, LINE_MIN = 1.55;
+  const bookPrefs = data => ({...BOOK_PREFS, ...(data.gaBookPrefs || {})});
+  function stepPref(pr, key, dir) {
+    if (key === 'textZoom') return dir < 0 && pr.textZoom <= ZOOM_STEP + 1e-6 ? pr.textZoom : Math.max(ZOOM_STEP, Math.round((pr.textZoom + dir * ZOOM_STEP) * 10) / 10);
+    return Math.max(LINE_MIN, Math.round((pr.lineHeight + dir * LINE_STEP) * 100) / 100);
+  }
+  // TabletSpinnerPreference rows: arrays themes / typeface / justification with their entryIcons.
+  const PREF_SPINNERS = {
+    theme: [['Day', 'Night'], ['0', '1'], ['day', 'night']],
+    typeface: [['Default', 'Sans', 'Serif', 'Merriweather', 'Sorts Mill Goudy', 'Vollkorn'], ['default', 'sans', 'serif', 'Merriweather', 'OFLGoudyStMTT', 'Vollkorn'], ['default', 'font', 'font', 'font', 'font', 'font']],
+    justification: [['Default', 'Left', 'Justify'], ['default', 'left', 'justify'], ['default', 'align_left', 'align_justified']]
+  };
+  // ReaderSettingsFragment (layout-port/fragment_reader_settings.xml): the settings_panel under the action bar with the
+  // THEME, TYPEFACE, TEXT ALIGNMENT and BRIGHTNESS rows in one column, then FONT SIZE and LINE HEIGHT side by side
+  // (Preference.SegmentedButtons with the smaller / larger icons).
+  function bookSettings(lang, ui, pr) {
+    const b = key => BS(lang, key), open = ui.gaBkSpin;
+    const head = key => `<b class="ga-bk-sub">${e(b(key))}</b>`;
+    const spinner = key => {
+      const [entries, values, icons] = PREF_SPINNERS[key], at = Math.max(0, values.indexOf(String(pr[key])));
+      const iconOf = n => `<img src="assets/ga-bk-23-ic_settings_${icons[n]}_on.png" alt="">`;
+      return `<div class="ga-bk-spin-wrap"><button class="ga-bk-spin" data-action="ga-bk-spin" data-id="${key}">${iconOf(at)}<span>${e(b(entries[at]))}</span></button>${open === key ? `<div class="ga-bk-drop">${entries.map((entry, n) => `<button data-action="ga-bk-pref" data-id="${key}:${values[n]}">${iconOf(n)}<span>${e(b(entry))}</span></button>`).join('')}</div>` : ''}</div>`;
+    };
+    const auto = pr.brightness < 0;
+    const bright = `<div class="ga-bk-bright"><button class="ga-bk-auto${auto ? ' on' : ''}" data-action="ga-bk-auto" aria-pressed="${auto}"><span>${e(b('AUTO'))}</span></button><input type="range" min="5" max="100" value="${auto ? 100 : pr.brightness}" data-ga-bk-bright aria-label="${e(b('BRIGHTNESS'))}"${auto ? ' disabled' : ''}></div>`;
+    const seg = (key, kind, smaller, larger, canSmaller) => `<div class="ga-bk-seg"><button data-action="ga-bk-step" data-id="${key}:-1" aria-label="${e(b(smaller))}"${canSmaller ? '' : ' disabled'}><img src="assets/ga-bk-23-ic_settings_${kind}_smaller_${canSmaller ? 'on' : 'off'}.png" alt=""></button><button data-action="ga-bk-step" data-id="${key}:1" aria-label="${e(b(larger))}"><img src="assets/ga-bk-23-ic_settings_${kind}_larger_on.png" alt=""></button></div>`;
+    return `<div class="ga-bk-settings-scrim" data-action="ga-bk-options"></div><div class="ga-bk-settings"><div class="ga-bk-col">${head('THEME')}${spinner('theme')}<i></i>${head('TYPEFACE')}${spinner('typeface')}<i></i>${head('TEXT ALIGNMENT')}${spinner('justification')}<i></i>${head('BRIGHTNESS')}${bright}</div><i></i><div class="ga-bk-cols"><div class="ga-bk-col">${head('FONT SIZE')}${seg('textZoom', 'fontsize', 'Decrease font size', 'Increase font size', pr.textZoom > ZOOM_STEP + 1e-6)}</div><div class="ga-bk-col">${head('LINE HEIGHT')}${seg('lineHeight', 'lineheight', 'Decrease line height', 'Increase line height', pr.lineHeight > LINE_MIN + 1e-6)}</div></div></div>`;
+  }
+  // TableOfContentsActionItem.show: a ListPopupWindow (300 dp) under the button with list_item_navigation.xml rows, the
+  // current chapter's title and page bold.
+  function bookContents(book, index) {
+    const current = book.starts.filter(start => start <= index).length - 1;
+    return `<div class="ga-bk-toc-scrim" data-action="ga-bk-toc"></div><div class="ga-bk-toc">${book.starts.map((start, n) => `<button class="${n === current ? 'current' : ''}" data-action="ga-bk-chapter" data-id="${start}"><span>${e(book.pages[start].replace(/\n/g, ' '))}</span><em>${start + 1}</em></button>`).join('')}</div>`;
+  }
   function books(ctx) {
     const {ui, lang, data} = ctx;
     if (ui.gaSub === 'read') {
-      const b = BOOKS.find(x => x.id === ui.gaBook) || BOOKS[0], page = (data.gaBookPages || {})[b.id] || 0;
-      return `<div class="app-view ga-app ga-books">${head('ga-books-bar', 'play-books', b.title, icon('ga-unsupported', T(lang, 'Contents'), 'ga-bk-ic_menu_toc_light'), true)}<button class="ga-page" data-action="ga-book-turn"><p>${e(b.pages[page])}</p><small>${page + 1} / ${b.pages.length}</small></button></div>`;
+      const b = BOOKS.find(x => x.id === ui.gaBook) || BOOKS[0], page = Math.min((data.gaBookPages || {})[b.id] || 0, b.pages.length - 1), pr = bookPrefs(data);
+      const text = b.pages[page].split('\n').filter(Boolean).map((p, i) => b.starts.includes(page) ? `<h3${i ? ' class="sub"' : ''}>${e(p)}</h3>` : `<p>${e(p)}</p>`).join('');
+      const style = `--bk-zoom:${pr.textZoom};--bk-lh:${(pr.lineHeight / 1.55).toFixed(4)};--bk-dim:${pr.brightness < 0 ? 0 : ((100 - pr.brightness) / 100 * .7).toFixed(3)}`;
+      return `<div class="app-view ga-app ga-books ga-bk-reader ga-bk-${pr.theme === '1' ? 'night' : 'day'} ga-bk-face-${e(pr.typeface)} ga-bk-just-${e(pr.justification)}" style="${style}">${head('ga-books-bar', 'play-books', b.title, icon('ga-bk-toc', BS(lang, 'Contents'), 'ga-bk-ic_menu_toc_light') + more(true), true)}<button class="ga-page" data-action="ga-book-turn"><span class="ga-bk-text">${text}</span><small>${page + 1} / ${b.pages.length}</small></button>${ui.gaBkToc ? bookContents(b, page) : ''}${ui.gaBkOptions ? bookSettings(lang, ui, pr) : ''}<div class="ga-bk-dim"></div></div>`;
     }
     return `<div class="app-view ga-app ga-books">${head('ga-books-bar', 'play-books', 'Play Books', icon('ga-shop', T(lang, 'Shop'), 'ga-bk-ic_menu_market_light'))}<div class="ga-scroll ga-grid ga-book-grid">${BOOKS.map(b => `<button data-action="ga-book" data-id="${b.id}">${art(b.title, 'cover')}<b>${e(b.title)}</b><small>${e(b.author)}</small></button>`).join('')}</div></div>`;
   }
@@ -184,6 +330,11 @@
       case 'ga-plus': { const list = data.gaPlus || []; data.gaPlus = list.includes(id) ? list.filter(x => x !== id) : [...list, id]; ctx.save(); ctx.render(); break; }
       case 'ga-presence': ui.gaPresence = {Available: 'Busy', Busy: 'Invisible', Invisible: 'Available'}[ui.gaPresence || 'Available']; ctx.render(); break;
       case 'ga-talk-open': ui.gaChat = id; ui.gaSub = 'chat'; ctx.render(); break;
+      case 'ga-talk-search': ui.gaSub = 'search'; ui.gaTalkQ = ''; ctx.render(); ctx.focus?.('.ga-tk-sv input'); break;
+      case 'ga-talk-search-run': ui.gaTalkQ = id; ui.gaSub = 'results'; ctx.render(); break;
+      case 'ga-talk-add': ui.gaSub = 'add'; ui.gaInvite = ''; ctx.render(); ctx.focus?.('.ga-tk-add-field'); break;
+      case 'ga-talk-invite-from': ui.gaSub = 'add'; ui.gaInvite = id; ctx.render(); break;
+      case 'ga-talk-add-cancel': ui.gaSub = ''; ctx.render(); break;
       case 'ga-menu': ui.overlay = 'ga-menu'; ctx.renderOverlay(); break;
       case 'ga-talk-end': case 'ga-talk-end-all': ctx.closeOverlay(); ui.gaSub = ''; ctx.render(); break;
       case 'ga-talk-clear': ctx.closeOverlay(); data.talkChats = (data.talkChats || []).filter(m => String(m.contact) !== String(ui.gaChat)); ctx.save(); ctx.render(); break;
@@ -199,6 +350,16 @@
       case 'ga-yt-plus': { const v = ui.gaVideo || VIDEOS[0].id, list = data.gaYtPlus || []; data.gaYtPlus = list.includes(v) ? list.filter(x => x !== v) : [...list, v]; ctx.save(); ctx.render(); break; }
       case 'ga-book': ui.gaBook = id; ui.gaSub = 'read'; ctx.render(); break;
       case 'ga-book-turn': { const b = BOOKS.find(x => x.id === ui.gaBook) || BOOKS[0]; data.gaBookPages ||= {}; data.gaBookPages[b.id] = ((data.gaBookPages[b.id] || 0) + 1) % b.pages.length; ctx.save(); ctx.render(); break; }
+      // Play Books 2.3.6's reader: the Contents popup (TableOfContentsActionItem) and Display options (ReaderSettingsFragment).
+      case 'ga-bk-toc': ui.gaBkToc = !ui.gaBkToc; ui.gaBkOptions = false; ui.gaBkSpin = ''; ctx.render(); break;
+      case 'ga-bk-chapter': data.gaBookPages ||= {}; data.gaBookPages[ui.gaBook || BOOKS[0].id] = Number(id) || 0; ui.gaBkToc = false; ctx.save(); ctx.render(); break;
+      case 'ga-bk-options': ctx.closeOverlay(); ui.gaBkOptions = !ui.gaBkOptions; ui.gaBkToc = false; ui.gaBkSpin = ''; ctx.render(); break;
+      case 'ga-bk-spin': ui.gaBkSpin = ui.gaBkSpin === id ? '' : id; ctx.render(); break;
+      case 'ga-bk-pref': case 'ga-bk-step': {
+        const [key, value] = String(id).split(':'), prefs = bookPrefs(data);
+        data.gaBookPrefs = {...prefs, [key]: action === 'ga-bk-pref' ? value : stepPref(prefs, key, Number(value))}; ui.gaBkSpin = ''; ctx.save(); ctx.render(); break;
+      }
+      case 'ga-bk-auto': { const prefs = bookPrefs(data); data.gaBookPrefs = {...prefs, brightness: prefs.brightness < 0 ? Math.max(5, Math.round(data.settings?.brightness ?? 100)) : -1}; ctx.save(); ctx.render(); break; }
       case 'ga-movies-tab': ui.gaMoviesTab = id; ctx.render(); break;
       case 'ga-movie-watch': ui.gaMovie = id; ui.gaPaused = false; ui.gaSub = 'watch'; ctx.render(); break;
       case 'ga-shop': ctx.openApp('play-store'); break;
@@ -216,11 +377,17 @@
       data.talkChats ||= []; data.talkChats.push({contact: ui.gaChat, body, mine: true});
       ctx.save(); ctx.render(); return true;
     }
+    if (form === 'ga-talk-search') { const q = String(values.get('query') || '').trim(); if (q) { ui.gaTalkQ = q; ui.gaSub = 'results'; ctx.render(); } return true; }
+    if (form === 'ga-talk-invite') {
+      const emails = String(values.get('email') || '').split(/[,;\s]+/).filter(Boolean).map(x => x.includes('@') ? x : `${x}@gmail.com`);
+      if (!emails.length) return true;
+      data.talkInvites = [...new Set([...(data.talkInvites || []), ...emails])]; ui.gaSub = ''; ctx.save(); ctx.render(); ctx.toast(T(ctx.lang, 'Invitation sent.')); return true;
+    }
     if (form === 'ga-search') {
       const q = String(values.get('query') || '').trim(); if (!q) return true;
       data.gaSearches = [q, ...(data.gaSearches || []).filter(x => x !== q)].slice(0, 5); ctx.save(); ctx.browse(q); return true;
     }
     return false;
   }
-  window.ICSGoogleApps = {APPS, render, handle, submit, menu};
+  window.ICSGoogleApps = {APPS, render, handle, submit, menu, books: {BOOKS, BOOK_PREFS, bookPrefs, stepPref}};
 })();

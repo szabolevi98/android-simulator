@@ -57,3 +57,17 @@
 .tk-hit-meta{display:flex;padding:1.73px 0 0 6.04px;font:400 10.35px Roboto,'Droid Sans',sans-serif;color:#7c7c7c}
 .tk-hit-meta i{flex:1;font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tk-hit-meta time{padding-right:4.31px}
+/* AddBuddyScreen (add_buddy_screen.xml, the default dark Theme): 9 dip padding, the medium "Send chat invitation to",
+   the address field 2 dip below, Send invitation over the middle half of the ButtonBar. InvitedUserList and the blocked
+   list (invited_user.xml): 64 dip rows, 9 dip in, the picture, the bold medium nickname over the small address. */
+.tk-add,.tk-people{background:#000;color:#fff;color-scheme:dark}
+.tk-add-body{flex:1;padding:7.76px}
+.tk-add-body label{display:block;font-size:15.53px}
+.tk-add-body input{margin-top:1.73px}
+.tk-buttonbar{flex:none;display:flex;justify-content:center;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.screen .tk-buttonbar button{width:50%;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .tk-buttonbar button:active:not(:disabled){border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.screen .tk-buttonbar button:disabled{color:#888;cursor:default}
+.tk-invited{display:flex;align-items:center;height:55.2px;padding:0 7.76px 1.73px;border-bottom:1px solid #ffffff1f}
+.tk-invited .tk-text b{font-size:15.53px}
+.tk-invited .tk-text small{color:#bebebe}
