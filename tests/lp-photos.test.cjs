@@ -2,7 +2,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 // Nexus 6: Google+ 4.9.0 Photos: the white Material bar with the drawer (PhotosHomeActivity's views), CAMERA /
 // HIGHLIGHTS, search and the one-up view with photo_action_bar.xml.
 const context={window:{}};context.window.window=context.window;
-vm.runInNewContext(fs.readFileSync('versions/5.1.1/stock-strings.js','utf8'),context);vm.runInNewContext(fs.readFileSync('versions/5.1.1/photos.js','utf8'),context);
+vm.runInNewContext(fs.readFileSync('versions/5.1.1/stock-strings.js','utf8'),context);vm.runInNewContext(fs.readFileSync('versions/5.1.1/photos-video.js','utf8'),context);vm.runInNewContext(fs.readFileSync('versions/5.1.1/photos.js','utf8'),context);
 const P=context.window.PhotosApp,t=k=>k,media={image:p=>`img-${p.id}`};
 const data={photos:[{id:1,name:'A'},{id:2,name:'B',created:Date.UTC(2015,5,20)},{id:5,name:'IMG_5',created:Date.UTC(2015,5,21)}]};
 const groups=[{key:'camera',name:'Camera',translate:true,items:[data.photos[2]]}];

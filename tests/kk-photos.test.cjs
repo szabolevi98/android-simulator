@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Stock Nexus 5: Google+ 4.2.3 Photos: the host bar with the photo_spinner views, CAMERA / HIGHLIGHTS tabs, the Folders
 // tile and view, search, and the one-up viewer with photo_action_bar.xml.
-const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/photos.js','utf8'),context);
+const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/photos-video.js','utf8'),context);vm.runInNewContext(fs.readFileSync('versions/4.4.4/photos.js','utf8'),context);
 const P=context.window.PhotosApp,t=k=>k,media={image:p=>`img-${p.id}`};
 const data={photos:[{id:1,name:'A'},{id:2,name:'B',created:Date.UTC(2014,5,20)},{id:5,name:'C',created:Date.UTC(2014,5,21),album:'camera'}]};
 const groups=[{key:'camera',name:'Camera',translate:true,items:[data.photos[2]]},{key:'pictures',name:'Pictures',translate:true,items:data.photos.slice(0,2)}];
