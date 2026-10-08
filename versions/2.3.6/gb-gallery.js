@@ -80,13 +80,54 @@
     if (ctx.popup === 'delete') return `<div class="gbg-popup at-1"><button data-action="gbg-confirm-delete"><img src="assets/gb-g3-icon_delete.png" alt=""><span>${e(T('confirm_delete'))}</span></button><button data-action="gbg-popup-close"><img src="assets/gb-g3-icon_cancel.png" alt=""><span>${e(T('cancel'))}</span></button></div>`;
     if (ctx.popup === 'more') {
       const single = ctx.sub !== '' && ctx.selected.length === 1;
-      const options = [['gallery-details', T('details'), 'gb-g3-ic_menu_view_details.png'], ...(single ? [['gbset-toast', T('show_on_map'), 'gb-g3-ic_menu_mapmode.png', 'Unavailable in this simulator']] : []), ...(ctx.sub !== '' ? [['gbg-rotate', T('rotate_left'), 'gb-g3-ic_menu_rotate_left.png', '-90'], ['gbg-rotate', T('rotate_right'), 'gb-g3-ic_menu_rotate_right.png', '90']] : []), ...(single ? [['gbg-wallpaper', T('set_as_wallpaper'), 'gb-g3-ic_menu_set_as.png'], ['gbset-toast', T('crop'), 'gb-g3-ic_menu_crop.png', 'Unavailable in this simulator']] : [])];
+      const options = [['gallery-details', T('details'), 'gb-g3-ic_menu_view_details.png'], ...(single ? [['gbset-toast', T('show_on_map'), 'gb-g3-ic_menu_mapmode.png', 'Unavailable in this simulator']] : []), ...(ctx.sub !== '' ? [['gbg-rotate', T('rotate_left'), 'gb-g3-ic_menu_rotate_left.png', '-90'], ['gbg-rotate', T('rotate_right'), 'gb-g3-ic_menu_rotate_right.png', '90']] : []), ...(single ? [['gbg-wallpaper', T('set_as_wallpaper'), 'gb-g3-ic_menu_set_as.png'], ['gbg-crop', T('crop'), 'gb-g3-ic_menu_crop.png']] : [])];
       return `<div class="gbg-popup at-2">${options.map(([action, label, icon, id]) => `<button data-action="${action}"${id ? ` data-id="${e(id)}"` : ''}><img src="assets/${icon}" alt=""><span>${e(label)}</span></button>`).join('')}</div>`;
     }
     if (ctx.popup === 'share') return `<div class="gbg-popup at-0"><button data-action="gallery-share-message"><img src="assets/messaging.png" alt=""><span>Messaging</span></button><button data-action="gbg-share-email"><img src="assets/email.png" alt=""><span>Email</span></button></div>`;
     return '';
   }
+  // CropImage (com.cooliris.media, cropimage.xml): the CropImageView over #55000000 with the picture fitted to the screen,
+  // and Save / Discard (100 dip, crop_save_text / crop_discard_text) in the bottom corners. HighlightView: makeDefault's
+  // square (4/5 of the shorter side, centred) outlined 3 px #ff8a00, the rest of the view shaded ARGB(125, 50, 50, 50);
+  // while an edge is dragged (ModifyMode.Grow) camera_crop_width / camera_crop_height sit on the edges' midpoints.
+  const CROP = {hit: 20 / 1.5 * DP, min: 25};
+  function cropDefault(photo) {
+    const [w, h] = M().size(photo), side = Math.min(w, h) * 4 / 5;
+    return {x: (w - side) / 2 / w, y: (h - side) / 2 / h, w: side / w, h: side / h};
+  }
+  function crop(ctx) {
+    const c = ctx.crop, [w, h] = M().size(ctx.photo), T = key => text(ctx.lang, key), pct = n => `${(n * 100).toFixed(3)}%`;
+    return `<div class="app-view gbg-crop" data-no-translate><div class="gbg-crop-frame" data-crop-frame style="--ar:${(w / h).toFixed(5)}"><img src="${M().image(ctx.photo)}" alt="${e(ctx.photo.name)}"><div class="gbg-crop-hl" data-crop-hl style="left:${pct(c.x)};top:${pct(c.y)};width:${pct(c.w)};height:${pct(c.h)}"><i class="l"></i><i class="r"></i><i class="t"></i><i class="b"></i></div></div><div class="gbg-crop-buttons"><button data-action="gbg-crop-save">${e(T('crop_save_text'))}</button><button data-action="gbg-crop-discard">${e(T('crop_discard_text'))}</button></div></div>`;
+  }
+  // HighlightView.handleMotion: getHit's 20 px hysteresis picks the edges; Grow insets the box on both sides (growBy keeps
+  // it at least 25 picture pixels and inside the picture), Move slides it (moveBy keeps it on the picture).
+  function cropDrag(event, frame, c, photo, done) {
+    const box = frame.getBoundingClientRect(), hl = frame.querySelector('[data-crop-hl]');
+    if (!box.width || !hl) return false;
+    const W = box.width, H = box.height, [pw, ph] = M().size(photo), x = event.clientX - box.left, y = event.clientY - box.top;
+    const r = {l: c.x * W, t: c.y * H, r: (c.x + c.w) * W, b: (c.y + c.h) * H}, tol = CROP.hit;
+    const vertical = y >= r.t - tol && y < r.b + tol, horizontal = x >= r.l - tol && x < r.r + tol;
+    const edge = {l: Math.abs(r.l - x) < tol && vertical, r: Math.abs(r.r - x) < tol && vertical, t: Math.abs(r.t - y) < tol && horizontal, b: Math.abs(r.b - y) < tol && horizontal};
+    const grow = edge.l || edge.r || edge.t || edge.b, move = !grow && x >= r.l && x < r.r && y >= r.t && y < r.b;
+    if (!grow && !move) return false;
+    const start = {...c}, minW = CROP.min / pw, minH = CROP.min / ph, clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+    if (grow) hl.classList.add('grow', ...Object.keys(edge).filter(k => edge[k]));
+    const onMove = ev => {
+      const dx = (ev.clientX - event.clientX) / W, dy = (ev.clientY - event.clientY) / H;
+      if (move) { c.x = clamp(start.x + dx, 0, 1 - start.w); c.y = clamp(start.y + dy, 0, 1 - start.h); }
+      else {
+        const gx = edge.l || edge.r ? (edge.l ? -dx : dx) : 0, gy = edge.t || edge.b ? (edge.t ? -dy : dy) : 0;
+        const w = clamp(start.w + 2 * gx, minW, 1), h = clamp(start.h + 2 * gy, minH, 1);
+        c.w = w; c.h = h; c.x = clamp(start.x + (start.w - w) / 2, 0, 1 - w); c.y = clamp(start.y + (start.h - h) / 2, 0, 1 - h);
+      }
+      Object.assign(hl.style, {left: `${c.x * 100}%`, top: `${c.y * 100}%`, width: `${c.w * 100}%`, height: `${c.h * 100}%`});
+    };
+    const onUp = () => { window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); window.removeEventListener('pointercancel', onUp); hl.className = 'gbg-crop-hl'; done(); };
+    window.addEventListener('pointermove', onMove); window.addEventListener('pointerup', onUp); window.addEventListener('pointercancel', onUp);
+    return true;
+  }
   function render(ctx) {
+    if (ctx.crop && ctx.photo) return crop(ctx);
     if (ctx.sub === 'photo' && ctx.photo) return photo(ctx);
     if (ctx.sub === 'album') return album(ctx);
     return albums(ctx);
@@ -97,5 +138,5 @@
     if (!p) return null;
     return {title: T('details'), icon: 'ic_dialog_info', message: `${T('title')}: ${p.name}\n${T('type')}: image/jpeg\n${T('album')}: ${albumName(M().album(p), ctx.lang)}\n${T('taken_on')}: ${T('date_unknown')}\n${T('location')}: ${T('location_unknown')}`, buttons: [{action: 'close-overlay', title: T('details_ok')}]};
   }
-  window.GBGallery = {DP, ITEM_W, ITEM_H, ALBUMS, text, albumName, render, details};
+  window.GBGallery = {DP, ITEM_W, ITEM_H, ALBUMS, CROP, text, albumName, render, details, cropDefault, cropDrag};
 })();

@@ -8,7 +8,20 @@
   const photos=(data,key)=>data.photos.filter(p=>!key||album(p)===key);
   function settings(data) { return {flash:'auto',balance:'auto',exposure:0,zoom:1,front:false,...data.cameraSettings}; }
   function scene(data) { const s=settings(data);return {colors:palettes[s.front?1:0],zoom:s.zoom,balance:s.balance,exposure:s.exposure,front:s.front}; }
+  // A cropped copy (CropImage's saved picture) keeps its source and the crop as fractions of the source's picture;
+  // it draws the source inside its own frame, so later rotations turn the cropped picture.
+  function size(photo) {
+    const rotation=((Number(photo.rotation)||0)%360+360)%360;
+    let width=1024,height=768;
+    if(photo.source&&photo.crop){const [w,h]=size(photo.source);width=Math.max(1,Math.round(w*photo.crop.w));height=Math.max(1,Math.round(h*photo.crop.h));}
+    return rotation%180?[height,width]:[width,height];
+  }
   function image(photo) {
+    if(photo.source&&photo.crop){
+      const [sw,sh]=size(photo.source),c=photo.crop,rotation=((Number(photo.rotation)||0)%360+360)%360;
+      const cw=Math.max(1,Math.round(sw*c.w)),ch=Math.max(1,Math.round(sh*c.h)),[width,height]=size(photo);
+      return 'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><g transform="translate(${width/2} ${height/2}) rotate(${rotation}) translate(${-cw/2} ${-ch/2})"><svg width="${cw}" height="${ch}" viewBox="${(sw*c.x).toFixed(2)} ${(sh*c.y).toFixed(2)} ${(sw*c.w).toFixed(2)} ${(sh*c.h).toFixed(2)}" preserveAspectRatio="none"><image href="${image(photo.source)}" width="${sw}" height="${sh}"/></svg></g></svg>`);
+    }
     const colors=(photo.colors||palettes[0]).map((c,i)=>/^#[\da-f]{6}$/i.test(c)?c:palettes[0][i%3]);
     const [sky,sun,land]=[...colors,...palettes[0]];
     const rotation=((Number(photo.rotation)||0)%360+360)%360,zoom=Math.min(4,Math.max(1,Number(photo.zoom)||1));
@@ -26,5 +39,5 @@
     if(ui.overlay==='gallery-share')return menu(item('gallery-share-message','Messaging'));
     return '';
   }
-  window.ICSMedia={image,art,album,photos,settings,scene,overlay};
+  window.ICSMedia={size,image,art,album,photos,settings,scene,overlay};
 })();

@@ -538,10 +538,12 @@
     }
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
+    if (ui.overlay === 'gallery-crop-saving') return;
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
     if (ui.view === 'lock') return;
     if(ui.view==='phone' && ui.activeCall){if(ui.activeCall.keypad){ui.activeCall.keypad=false;render();}else home(false);return;}
+    if (ui.view === 'gallery' && ui.galleryCrop) { ui.galleryCrop=null;render();return; }
     if (ui.view === 'gallery' && ui.gallerySlideshow) { ui.gallerySlideshow=false;render();return; }
     if (ui.view === 'gallery' && ui.sub === 'photo') { ui.sub='album';ui.galleryZoom=false;render();return; }
     if (ui.view === 'calendar' && ui.sub === 'event-edit') { ui.sub=ui.eventDraft?.id?'event':'';ui.eventDraft=null;calendarRender();return; }
@@ -592,7 +594,7 @@
     } else if (ui.overlay === 'recent') {
       overlayRoot.innerHTML = `<div class="recent-panel" data-action="close-overlay">${ui.recent.length ? `<div class="recent-list">${[...ui.recent].reverse().map(id => `<div class="recent-item" data-action="open-app" data-app="${id}" role="button" tabindex="0" aria-label="${appNames[id]}"><span class="recent-label">${appNames[id]}</span><span class="recent-thumbnail" aria-hidden="true"><span class="recent-thumbnail-inner" inert>${ui.recentSnapshots[id] || `<div class="recent-fallback">${appIcon(id)}</div>`}</span></span><span class="recent-app-icon" aria-hidden="true">${appIcon(id)}</span></div>`).join('')}</div>` : '<p class="recent-empty">No recent apps</p>'}</div>`;
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
-      overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
+      overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale(),i18n.language);
     } else if (ui.overlay === 'icpk') {
       // The framework's DatePickerDialog / TimePickerDialog (Calendar's From / To, DeskClock's alarm time).
       overlayRoot.innerHTML = ICSPickers.render(ui.icsPicker, i18n.locale());
@@ -981,7 +983,7 @@
     return '';
   }
   function photoStyle(photo) { return `background-image:url('${ICSMedia.image(photo)}');background-size:cover;background-position:center`; }
-  function renderGallery() { return ICSMedia.gallery(data,ui,key=>i18n.t(key)); }
+  function renderGallery() { return ICSMedia.gallery(data,ui,key=>i18n.t(key),i18n.language); }
   function renderCamera() { return ICSMedia.camera(data,ui,key=>i18n.t(key)); }
   function galleryStep(direction) {
     const items=ICSMedia.photos(data,ui.galleryAlbum); if(!items.length)return;
@@ -1413,6 +1415,21 @@
       case 'gallery-step': galleryStep(Number(id));break;
       case 'gallery-photo-zoom': ui.galleryZoom=!ui.galleryZoom;render();break;
       case 'gallery-menu': case 'gallery-share': case 'gallery-details': ui.overlay=action;renderOverlay();break;
+      // PhotoPage's Crop starts CropImage; Crop saves <name>-<n>.jpg beside the picture with its title and date
+      // (saveLocalImage), and REQUEST_CROP's result shows the new picture. Cancel, Up and Back leave it unsaved.
+      case 'gallery-crop': {const photo=data.photos.find(p=>p.id===Number(id));ui.overlay='';if(photo&&!photo.video){ui.selectedPhoto=photo.id;ui.galleryZoom=false;ui.gallerySlideshow=false;ui.galleryCrop=ICSMedia.cropDefault();}render();break;}
+      case 'gallery-crop-cancel': ui.galleryCrop=null;render();break;
+      case 'gallery-crop-save': {
+        const photo=data.photos.find(p=>p.id===ui.selectedPhoto),c=ui.galleryCrop;
+        if(!photo||!c){ui.galleryCrop=null;render();break;}
+        ui.overlay='gallery-crop-saving';renderOverlay();
+        setTimeout(()=>{
+          const copy={...clone(photo),id:Date.now(),album:ICSMedia.album(photo),source:clone(photo),crop:{x:c.x,y:c.y,w:c.w,h:c.h},rotation:0,zoom:1};
+          data.photos.splice(Math.max(0,data.photos.indexOf(photo)),0,copy);save();
+          ui.selectedPhoto=copy.id;ui.galleryCrop=null;if(ui.overlay==='gallery-crop-saving')ui.overlay='';render();renderOverlay();
+        },600);
+        break;
+      }
       case 'gallery-rotate': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(photo)photo.rotation=((photo.rotation||0)+Number(id)+360)%360;save();ui.overlay='';render();break;}
       case 'gallery-slideshow': {const items=ICSMedia.photos(data,ui.galleryAlbum);if(!items.length)break;if(ui.sub!=='photo')ui.selectedPhoto=items[0].id;ui.sub='photo';ui.overlay='';ui.gallerySlideshow=true;ui.gallerySlideAt=Date.now();render();break;}
       case 'gallery-stop': ui.gallerySlideshow=false;render();break;
@@ -2078,6 +2095,13 @@
     window.addEventListener('pointerup', () => { suppressClickUntil = Date.now() + 350; }, {once: true, capture: true});
     window.addEventListener('pointercancel', () => { suppressClickUntil = Date.now() + 350; }, {once: true, capture: true});
   }
+  // CropImage's CropView owns its drags: they never reach the screen's swipe and long-press handling.
+  screen.addEventListener('pointerdown', event => {
+    if (ui.view !== 'gallery' || !ui.galleryCrop || ui.overlay || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    const frame = event.target.closest('.gallery-crop')?.querySelector('[data-crop-frame]');
+    if (!frame || event.target.closest('button')) return;
+    if (ICSMedia.cropDrag(event, frame, ui.galleryCrop, () => {})) { event.stopPropagation(); event.preventDefault(); }
+  }, true);
   screen.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (data.settings.showTouches) { const dot = document.createElement('span'); const rect = screen.getBoundingClientRect(); dot.className = 'touch-indicator'; dot.style.left = `${event.clientX - rect.left}px`; dot.style.top = `${event.clientY - rect.top}px`; screen.append(dot); setTimeout(() => dot.remove(), 400); }

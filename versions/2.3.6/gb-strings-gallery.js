@@ -267,6 +267,41 @@ window.GBStrings["gallery"] = {
 "de": "Ein Element aus Ihrer Sammlung auswählen",
 "fr": "Choisissez un élément dans votre collection.",
 "es": "Selecciona un elemento de tu colección."
+},
+"crop_label": {
+"en": "Crop picture",
+"hu": "Kép levágása",
+"de": "Bild zuschneiden",
+"fr": "Rogner l'image",
+"es": "Recortar imagen"
+},
+"crop_save_text": {
+"en": "Save",
+"hu": "Mentés",
+"de": "Speichern",
+"fr": "Enregistrer",
+"es": "Guardar"
+},
+"crop_discard_text": {
+"en": "Discard",
+"hu": "Elvetés",
+"de": "Verwerfen",
+"fr": "Annuler",
+"es": "Descartar"
+},
+"saving_image": {
+"en": "Saving picture…",
+"hu": "Kép mentése...",
+"de": "Bild wird gespeichert...",
+"fr": "Enregistrement de l'image",
+"es": "Guardando imagen..."
+},
+"running_face_detection": {
+"en": "Please wait…",
+"hu": "Kérjük, várjon...",
+"de": "Bitte warten...",
+"fr": "Veuillez patienter...",
+"es": "Por favor, espera..."
 }
 }
 };

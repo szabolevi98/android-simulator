@@ -4,3 +4,15 @@
 .screen:has(>#viewport>.camera-app):not(:has(>#overlay-root>.recent-panel)) #viewport{top:0}
 .gallery-pick-cancel{flex:none;min-height:48px;padding:0 12px;border:0;border-left:1px solid #ffffff26;background:none;color:#fff;font-size:12px;text-transform:uppercase}
 .gallery-header .gallery-pick-cancel{width:auto}
+/* CropImage: the overlay action bar over the CropView, the picture fitted to the view, HighlightRectangle's 3 px #008aff
+   outline over the #a0000000 shade and camera_crop_holo (22 dp) on the edges' midpoints. */
+.gallery-crop{position:relative}
+.gallery-crop .gallery-header{position:absolute;top:0;left:0;right:0;z-index:2}
+.gallery-crop-stage{position:absolute;inset:0;overflow:hidden;background:#000;container-type:size;touch-action:none;user-select:none}
+.gallery-crop-frame{position:absolute;inset:0;margin:auto;width:min(100cqw,100cqh * var(--ar));height:min(100cqh,100cqw / var(--ar))}
+.gallery-crop-frame>img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.gallery-crop-hl{position:absolute;outline:1.28px solid #008aff;outline-offset:-.64px;box-shadow:0 0 0 200vmax #000000a0}
+.gallery-crop-hl i{position:absolute;width:18.7px;height:18.7px;margin:-9.35px 0 0 -9.35px;background:url('assets/gallery-camera_crop_holo.png') center/100% 100% no-repeat;pointer-events:none}
+.gallery-crop-hl .l{left:0;top:50%}.gallery-crop-hl .r{left:100%;top:50%}.gallery-crop-hl .t{left:50%;top:0}.gallery-crop-hl .b{left:50%;top:100%}
+.gallery-crop-hl.moving i,.gallery-crop-hl.resizing i{display:none}
+.gallery-crop-hl.resizing.l i.l,.gallery-crop-hl.resizing.r i.r,.gallery-crop-hl.resizing.t i.t,.gallery-crop-hl.resizing.b i.b{display:block}

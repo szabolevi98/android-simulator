@@ -87,3 +87,17 @@
 .gbg-menubar.top button:nth-child(3){flex:1.6}
 .gbg-thumb{position:relative}
 .gbg-thumb img.gbg-video{position:absolute;left:50%;top:50%;width:34.5px;height:33.2px;margin:-16.6px 0 0 -17.25px;object-fit:contain}
+/* CropImage: the picture fitted to the view (ImageViewTouchBase), HighlightView's 3 px #ff8a00 outline with the
+   ARGB(125, 50, 50, 50) shade around it, camera_crop_width / _height (38 dip) on the edges while growing, and the two
+   100 dip buttons in the bottom corners (10 dip padding). */
+.gbg-crop{position:relative;height:100%;overflow:hidden;background:#000;container-type:size;user-select:none;touch-action:none}
+.gbg-crop-frame{position:absolute;inset:0;margin:auto;width:min(100cqw,100cqh * var(--ar));height:min(100cqh,100cqw / var(--ar))}
+.gbg-crop-frame>img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.gbg-crop-hl{position:absolute;outline:1.73px solid #ff8a00;outline-offset:-.86px;box-shadow:0 0 0 200vmax #3232327d}
+.gbg-crop-hl i{display:none;position:absolute;width:32.78px;height:32.78px;margin:-16.39px 0 0 -16.39px;background:url('assets/gb-g3-camera_crop_width.png') center/100% 100% no-repeat;pointer-events:none}
+.gbg-crop-hl.grow i{display:block}
+.gbg-crop-hl .l{left:0;top:50%}.gbg-crop-hl .r{left:100%;top:50%}
+.gbg-crop-hl .t,.gbg-crop-hl .b{left:50%;background-image:url('assets/gb-g3-camera_crop_height.png')}.gbg-crop-hl .t{top:0}.gbg-crop-hl .b{top:100%}
+.gbg-crop-buttons{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:0 8.63px}
+.screen .gbg-crop-buttons button{width:86.25px;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.screen .gbg-crop-buttons button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}

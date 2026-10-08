@@ -402,5 +402,38 @@ window.StockStrings = {
    "Public",
    "Público"
   ]
+ },
+ "gallery": {
+  "Crop": [
+   "Körbevágás",
+   "Zuschneiden",
+   "Rogner",
+   "Recortar"
+  ],
+  "Crop picture": [
+   "Kép levágása",
+   "Bild zuschneiden",
+   "Rogner l'image",
+   "Recortar"
+  ],
+  "Crop save": [
+   "Körülvágás",
+   "Zuschneiden",
+   "Rogner",
+   "Recortar",
+   "Crop"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "Saving picture…": [
+   "Kép mentése...",
+   "Bild wird gespeichert...",
+   "Enregistrement de l'image",
+   "Guardando imagen..."
+  ]
  }
 };

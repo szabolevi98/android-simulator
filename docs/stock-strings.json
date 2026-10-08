@@ -1385,6 +1385,13 @@
    "Default": "CalendarGoogle:@array/visibility:0",
    "Private": "CalendarGoogle:@array/visibility:1",
    "Public": "CalendarGoogle:@array/visibility:2"
+  },
+  "gallery": {
+   "Crop": "GalleryGoogle:crop_action",
+   "Crop picture": "GalleryGoogle:crop_label",
+   "Crop save": "GalleryGoogle:crop_save_text",
+   "Cancel": "GalleryGoogle:cancel",
+   "Saving picture…": "GalleryGoogle:saving_image"
   }
  }
 }
