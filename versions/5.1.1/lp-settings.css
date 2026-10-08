@@ -238,3 +238,5 @@
 .screen .lp-zen-days .settings-row{min-height:43.49px;padding:0 15.4px}
 .screen .lp-zen-days .settings-row .lp-check{margin:0 9.06px 0 3.62px}
 .screen .lp-zen-days .settings-row .row-copy{font:400 16.31px Roboto,sans-serif}
+/* screen_pinning_instructions.xml: the description in TextAppearance.Medium with the screen margins. */
+.lp-pin-help{margin:0;padding:14.5px 14.5px 0;white-space:pre-line;font:400 16.31px/1.35 Roboto,sans-serif;color:#000000de}

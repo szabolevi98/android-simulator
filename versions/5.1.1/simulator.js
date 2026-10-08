@@ -445,6 +445,16 @@
   screen.addEventListener('pointermove', event => { if (data.settings.pointerLocation) JBDeveloperOptions.pointerMove(screen, event, event.buttons > 0, 1); }, true);
   window.addEventListener('pointerup', event => { if (data.settings.pointerLocation) JBDeveloperOptions.pointerMove(screen, event, false, 1); }, true);
   let searchSwipe = null;
+  const pinHeld = new Set(); let pinTimer = 0;
+  navRoot.addEventListener('pointerdown', event => {
+    if (!ui.pinned) return;
+    const key = event.target.closest('.nav-back') ? 'back' : event.target.closest('.nav-recent') ? 'recent' : '';
+    if (!key) return;
+    pinHeld.add(key); clearTimeout(pinTimer);
+    if (pinHeld.has('recent')) pinTimer = setTimeout(() => { if (pinHeld.has('recent')) { suppressClickUntil = Date.now() + 400; unpin(); } }, pinHeld.has('back') ? 500 : 1000);
+  });
+  window.addEventListener('pointerup', event => { pinHeld.clear(); clearTimeout(pinTimer); });
+  window.addEventListener('pointercancel', () => { pinHeld.clear(); clearTimeout(pinTimer); });
   navRoot.addEventListener('pointerdown', event => { if (ui.locked || ui.view === 'lock' || event.button > 0) return; searchSwipe = {id: event.pointerId, x: event.clientX, y: event.clientY, panel: null}; }, true);
   window.addEventListener('pointermove', event => {
     if (!searchSwipe || event.pointerId !== searchSwipe.id) return;
@@ -766,7 +776,17 @@
   }
   // Drive's files as the apps change them (the editors, Drive).
   const officeFiles = () => data.driveFiles || StockApps.FILES;
+  // Screen pinning: the reminder toast, and unpinning (lock_to_app_exit, then the lock screen when it asks for the lock).
+  function pinnedToast() { toast(i18n.t('To unpin this screen, touch and hold Back and Overview at the same time.')); }
+  function unpin() {
+    if (!ui.pinned) return;
+    ui.pinned = null; updateBarMode(); toast(i18n.t('Screen unpinned'));
+    const secure = ['pin', 'password', 'pattern'].includes(data.settings.screenLock);
+    if (data.settings.pinExitLocked ?? secure) { lockScreen(); ui.sleeping = false; render(); }
+  }
   function navigateBack() {
+    // A pinned app keeps its first screen: Back stops there.
+    if (ui.pinned && ui.view === ui.pinned && !ui.overlay && !ui.sub) { pinnedToast(); return; }
     if (ui.view === 'maps' && !ui.overlay && (ui.mapsRoute || ui.navRun) && MapsRoute.back(mrContext())) return;
     // News & Weather: a dialog, then the article page, then an expanded story.
     if (ui.view === 'news-weather' && !ui.overlay && (ui.newsDialog || ui.newsWeb)) { if (ui.newsDialog) { ui.newsDialog = ''; ui.newsPick = undefined; } else ui.newsWeb = ''; render(); return; }
@@ -946,7 +966,7 @@
     } else if (ui.overlay === 'recent') {
       ui.lpRecents?.destroy();
       const searchCard = `<div class="lp-qsb-card"><button data-action="browser-search" aria-label="${safe(i18n.t('Search'))}"><img class="lp-qsb-logo" src="assets/gnl-ic_searchbox_google.png" alt="Google"></button><button class="voice-search" data-action="voice-search" aria-label="${safe(i18n.t('Voice Search'))}"><img class="lp-qsb-mic" src="assets/gnl-ic_mic_none.png" alt=""></button></div>`;
-      overlayRoot.innerHTML = LPRecents.render(ui.recent, {names: appNames, icon: appIcon, snapshots: ui.recentSnapshots, colors: LP_PRIMARY, statusColors: LP_STATUS_COLORS, t: key => i18n.t(key), search: searchCard});
+      overlayRoot.innerHTML = LPRecents.render(ui.recent, {names: appNames, icon: appIcon, snapshots: ui.recentSnapshots, colors: LP_PRIMARY, statusColors: LP_STATUS_COLORS, t: key => i18n.t(key), pin: !!data.settings.screenPinning, search: searchCard});
       const panel = overlayRoot.querySelector('.lp-recents');
       ui.lpRecents = LPRecents.attach(panel, {scroll: ui.recentsScroll, reduced: !!reducedMotion?.matches, from: ui.recentsFrom, elapsed: performance.now() - (ui.recentsAt || 0), onScroll: (value, end) => { ui.recentsScroll = value; if (end) suppressClickUntil = Date.now() + 300; }});
       if (ui.recentsScroll === undefined) ui.recentsScroll = LPRecents.layout(panel);
@@ -974,6 +994,9 @@
       // #overlay-root has no height of its own (its children are placed against the screen), so the row's place and the room below come from the screen.
       overlayRoot.innerHTML = LPExtraApps.edDialog(ui.overlay.slice(3), {files: officeFiles(), ui, t: key => i18n.t(key), locale: i18n.locale()});
       if (ui.overlay === 'ed-menu') { const anchor = viewport.querySelector(`[data-action="ed-item"][data-id="${CSS.escape(ui.edFile)}"]`), menu = overlayRoot.querySelector('.ed-itemmenu'); if (anchor && menu) { const a = anchor.getBoundingClientRect(), box = overlayRoot.getBoundingClientRect(), frame = screen.getBoundingClientRect(), scale = frame.height / screen.offsetHeight || 1, top = (a.top - box.top) / scale; menu.style.top = `${Math.max(8, Math.min(top, screen.offsetHeight - menu.offsetHeight - 8))}px`; } }
+    } else if (ui.overlay === 'pin-request') {
+      const ring = key => `<span class="pin-key ${key}"><i></i><img src="assets/lp-ic_sysbar_${key}.png" alt=""></span>`;
+      overlayRoot.innerHTML = `<div class="pin-scrim"></div><div class="pin-request" role="dialog" aria-label="${safe(i18n.t('Screen is pinned'))}" data-no-translate><h3>${safe(i18n.t('Screen is pinned'))}</h3><p>${safe(i18n.t('This keeps it in view until you unpin. Touch and hold Back and Overview at the same time to unpin.'))}</p><div class="pin-buttons"><button data-action="pin-cancel">${safe(i18n.t('No thanks'))}</button><button data-action="pin-ok">${safe(i18n.t('Got it'))}</button></div><div class="pin-nav">${ring('back')}<span class="pin-key home"><img src="assets/lp-ic_sysbar_home.png" alt=""></span>${ring('recent')}</div></div>`;
     } else if (ui.overlay === 'lpx-overflow') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lpa-menu">${LPExtraApps.menu(ui.view, key => i18n.t(key), i18n.locale()).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'pa-menu') {
@@ -1841,7 +1864,15 @@
         if (source) { const box = source.getBoundingClientRect(), frame = viewport.getBoundingClientRect(), k = frame.width / viewport.offsetWidth || 1; launchFrom = {left: (box.left - frame.left) / k, top: (box.top - frame.top) / k, width: box.width / k, height: box.height / k, recents: !!button.closest('.recent-item')}; }
         openApp(app || id, !!button.closest('.recent-item')); break;
       }
-      case 'home': if (ui.view !== 'lock') home(); break;
+      // Screen pinning: Home and Overview only remind how to unpin; ScreenPinningRequest confirms the pin.
+      case 'home': if (ui.pinned && ui.view !== 'lock') { pinnedToast(); break; } if (ui.view !== 'lock') home(); break;
+      case 'lp-pin': event.stopPropagation(); ui.recentPopup = null; ui.recentsScroll = undefined; ui.lpRecents?.destroy(); ui.lpRecents = null; openApp(app, true); ui.overlay = 'pin-request'; renderOverlay(); updateBarMode(); break;
+      case 'pin-ok': ui.pinned = ui.view; ui.overlay = ''; renderOverlay(); updateBarMode(); toast(i18n.t('Screen pinned')); break;
+      case 'pin-cancel': ui.overlay = ''; renderOverlay(); break;
+      case 'lp-pin-lock': { const secure = ['pin', 'password', 'pattern'].includes(data.settings.screenLock), current = data.settings.pinExitLocked ?? secure;
+        // Without a secure lock, turning it on asks for one first (ChooseLockGeneric).
+        if (!current && !secure) { data.settings.pinExitLocked = true; save(); lockControls.open(); render(); break; }
+        data.settings.pinExitLocked = !current; save(); render(); break; }
       case 'back': back(); break;
       case 'ga-power': ui.overlay = 'power-confirm'; ui.powerKind = 'shutdown'; renderOverlay(); break;
       case 'ga-bugreport': ui.overlay = 'power-confirm'; ui.powerKind = 'bugreport'; renderOverlay(); break;
@@ -1961,9 +1992,10 @@
       case 'voice-search': toast('Voice search unavailable offline'); break;
       case 'lock-media': if (id === 'play') { ui.music.playing = !ui.music.playing; if (ui.music.playing && ui.music.position >= tracks[ui.music.track].duration) ui.music.position = 0; } else ICSMusic.step(ui.music, id === 'previous' ? -1 : 1); ui.musicTrack = ui.music.track; saveMusic(); render(); break;
       case 'lock-hint': screen.classList.add('lock-dragging'); setTimeout(() => { if (!pointerStart?.lockDrag) lockRelease(null); }, 1000); break;
-      case 'shade': ui.overlay = ui.overlay === 'shade' ? '' : 'shade'; renderOverlay(); break;
+      case 'shade': if (ui.pinned) break; ui.overlay = ui.overlay === 'shade' ? '' : 'shade'; renderOverlay(); break;
       case 'recent': {
         if (ui.view === 'lock') break;
+        if (ui.pinned) { pinnedToast(); break; }
         if (ui.overlay === 'recent') { closeRecents(); break; }
         captureRecentView(); ui.recentPopup = null; ui.recentsScroll = undefined;
         ui.recentsFrom = ui.view === 'home' ? 'home' : 'app'; ui.recentsAt = performance.now(); ui.overlay = 'recent'; renderOverlay(); updateBarMode();

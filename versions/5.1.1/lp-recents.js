@@ -63,13 +63,13 @@
   }
   const px2 = dp => `${(dp * DP).toFixed(2)}px`;
   const luminance = hex => { const n = parseInt(String(hex).slice(1, 7), 16); return (.299 * (n >> 16 & 255) + .587 * (n >> 8 & 255) + .114 * (n & 255)) / 255; };
-  function render(recent, {names, icon, snapshots, colors, statusColors, t, search}) {
+  function render(recent, {names, icon, snapshots, colors, statusColors, t, search, pin}) {
     const tasks = [...recent].reverse();
     if (!tasks.length) return `<div class="recent-panel lp-recents" data-action="close-overlay"><div class="lp-recents-empty">${e(t('Your recent screens appear here'))}</div></div>`;
-    const cards = tasks.map(id => {
+    const cards = tasks.map((id, index) => {
       const color = colors[id] || '#e6e6e6', dark = luminance(color) > .6;
       const thumb = snapshots[id] || `<div class="recent-fallback">${icon(id)}</div>`;
-      return `<div class="recent-item lp-task" data-action="open-app" data-app="${e(id)}" role="button" tabindex="0" aria-label="${e(names[id])}"><span class="recent-thumbnail lp-task-thumb" aria-hidden="true"><span class="lp-task-thumb-inner" inert><span class="lp-task-thumb-status" style="background:${e(statusColors[id] || '#000')}"></span><span class="lp-task-thumb-app">${thumb}</span></span></span><span class="lp-task-bar${dark ? ' dark' : ''}" style="background:${e(color)}"><span class="lp-task-icon">${icon(id)}</span><span class="lp-task-label" data-no-translate>${e(names[id])}</span><button type="button" class="lp-task-dismiss" data-action="remove-recent" data-id="${e(id)}" aria-label="${e(t('Dismiss'))}"><img src="assets/lp-sysui-recents_dismiss_${dark ? 'dark' : 'light'}.svg" alt=""></button></span></div>`;
+      return `<div class="recent-item lp-task" data-action="open-app" data-app="${e(id)}" role="button" tabindex="0" aria-label="${e(names[id])}"><span class="recent-thumbnail lp-task-thumb" aria-hidden="true"><span class="lp-task-thumb-inner" inert><span class="lp-task-thumb-status" style="background:${e(statusColors[id] || '#000')}"></span><span class="lp-task-thumb-app">${thumb}</span></span></span><span class="lp-task-bar${dark ? ' dark' : ''}" style="background:${e(color)}"><span class="lp-task-icon">${icon(id)}</span><span class="lp-task-label" data-no-translate>${e(names[id])}</span><button type="button" class="lp-task-dismiss" data-action="remove-recent" data-id="${e(id)}" aria-label="${e(t('Dismiss'))}"><img src="assets/lp-sysui-recents_dismiss_${dark ? 'dark' : 'light'}.svg" alt=""></button></span>${pin && index === tasks.length - 1 ? `<button type="button" class="lp-task-pin" data-action="lp-pin" data-app="${e(id)}" aria-label="${e(t('screen pinning'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2z" fill="#fff"/></svg></button>` : ''}</div>`;
     }).join('');
     return `<div class="recent-panel lp-recents" data-action="close-overlay"><div class="lp-recents-search">${search || ''}</div><div class="lp-recents-stack" style="--task:${px2(size)};--left:${px2(task.left)}">${cards}</div></div>`;
   }

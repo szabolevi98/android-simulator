@@ -37,3 +37,29 @@
 .lp-qsb-card .lp-qsb-mic{width:21.74px;height:21.74px;display:block;filter:brightness(0) invert(.38)}
 .lp-recents-search .lp-qsb-card{height:57.98px}
 .lp-task .recent-thumbnail.lp-task-thumb{position:absolute;inset:0;width:auto;height:auto;margin:0;border:0;border-radius:0;box-shadow:none;background:#fafafa}
+/* Screen pinning (dp x 0.906). TaskView's lock_to_app_fab: 56 dp, recents_lock_to_task_button_bg #9cc8c4 (ripple
+   #9cdfd9), the 28 dp white recents_lock_to_app_pin, 15 dp from the card's bottom right. ScreenPinningRequest
+   (screen_pinning_request.xml): the #80000000 window over the app, the #009688 panel above the navigation bar: the 24 sp
+   title 43 dp down and 48 dp in, the 16 sp description, No thanks / Got it (14 sp, 36 dp), the 18 dp spacer and the
+   66 dp row copying the navigation bar with Back and Overview ringed (84 dp #4080cbc4, 56 dp system_accent_color
+   #80cbc4). */
+.screen .lp-task-pin{position:absolute;right:13.59px;bottom:13.59px;z-index:2;display:grid;place-items:center;width:50.74px;height:50.74px;padding:0;border:0;border-radius:50%;background:#9cc8c4;box-shadow:0 1.81px 3.62px #0000004d;cursor:pointer}
+.screen .lp-task-pin:active{background:#9cdfd9}
+.lp-task-pin svg{width:25.37px;height:25.37px}
+.pin-scrim{position:absolute;inset:0;z-index:40;background:#00000080}
+.pin-request{position:absolute;left:0;right:0;bottom:0;z-index:41;background:#009688;color:#fff;font-family:Roboto,sans-serif}
+.pin-request h3{margin:0;padding:38.96px 43.49px 0;font:400 21.74px Roboto,sans-serif}
+.pin-request p{margin:0;padding:11.42px 43.49px 0;font-size:14.5px;line-height:1.4}
+.pin-buttons{display:flex;justify-content:flex-end;gap:3.62px;margin-top:16.31px;padding:0 39.87px 16.31px 0}
+.screen .pin-buttons button{height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;color:#fff;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;cursor:pointer}
+.screen .pin-buttons button:active{background:#ffffff33}
+/* screen_pinning_request_buttons.xml (sw400dp): 84 x 66 dp keys between 44 dp sides; the 84 dp outer and 56 dp inner
+   circles start at the key's corner (matrix) and are cut by its bottom; the nav icons keep their size (center). */
+.pin-nav{display:flex;justify-content:space-between;height:59.8px;padding:0 39.86px}
+.pin-key{position:relative;width:76.1px;height:59.8px;overflow:hidden}
+.pin-key i{position:absolute;left:0;top:0;width:76.1px;height:76.1px;border-radius:50%;background:#80cbc440}
+.pin-key i::after{content:"";position:absolute;inset:12.68px;border-radius:50%;background:#80cbc4}
+.pin-key img{position:absolute;left:50%;top:38.05px;transform:translate(-50%,-50%)}
+.pin-key.back img{width:16.91px}
+.pin-key.home img{width:17.52px}
+.pin-key.recent img{width:16.31px}

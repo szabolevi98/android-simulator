@@ -25,6 +25,12 @@ assert.equal(typeof S.expand,'function');assert.equal(typeof S.animate,'function
 // Overview exports the enter and exit animations.
 const r={window:{}};vm.runInNewContext(fs.readFileSync(dir+'lp-recents.js','utf8'),r);
 assert.equal(typeof r.window.LPRecents.exit,'function');
+// Screen pinning: only the front task (the last card) carries the pin, and only while the setting is on.
+const opts=pin=>({names:{a:'A',b:'B'},icon:()=>'',snapshots:{},colors:{},statusColors:{},t:k=>k,pin});
+const cards=r.window.LPRecents.render(['a','b'],opts(true)).split('class="recent-item lp-task"').slice(1);
+assert.ok(!cards[0].includes('lp-task-pin')&&cards[1].includes('data-action="lp-pin" data-app="a"'));
+assert.ok(!r.window.LPRecents.render(['a','b'],opts(false)).includes('lp-task-pin'));
+for(const key of ['screen_pinning_title','lock_to_app_start','lock_to_app_exit','lock_to_app_toast'])assert.ok(fs.readFileSync('docs/lp-strings.txt','utf8').includes(key),key);
 // Texts come from the LMY48Y APKs; Google Calendar 5.0.1 there has no 3 day view.
 const strings=fs.readFileSync(dir+'lp-strings.js','utf8');
 for(const [en,hu] of [['Schedule','Ütemezés'],['Search contacts & places','Névjegyek és helyek keresése'],['Contacts','Névjegyek'],['Interruptions','Zavaró üzenetek'],['Welcome','Üdvözöljük!']])assert.ok(strings.includes(`["${en}", "${hu}"`),en);

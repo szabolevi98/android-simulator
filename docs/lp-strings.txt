@@ -271,3 +271,17 @@ framework plurals:zen_mode_duration_hours:other
 Settings zen_mode_downtime_days_none
 framework downtime_condition_line_one
 framework zen_mode_next_alarm_line_one
+# Screen pinning: Settings' ScreenPinningSettings, SystemUI's ScreenPinningRequest and the recents button, the framework toasts.
+Settings screen_pinning_description
+Settings screen_pinning_unlock_none
+Settings screen_pinning_unlock_pin
+Settings screen_pinning_unlock_password
+Settings screen_pinning_unlock_pattern
+SystemUI screen_pinning_title
+SystemUI screen_pinning_description
+SystemUI screen_pinning_positive
+SystemUI screen_pinning_negative
+SystemUI recents_lock_to_app_button_label
+framework lock_to_app_start
+framework lock_to_app_exit
+framework lock_to_app_toast
