@@ -54,3 +54,11 @@
 .wal-drawer{background:#333}
 .screen .wal-drawer button{display:flex;align-items:center;width:100%;height:43.49px;padding:0 14.5px;border:0;border-bottom:.91px solid #666;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#fff}
 .screen .wal-drawer button.on{background:#444}
+/* Quickoffice's new file: a blank page ("Not saved yet") until Save; the sheet shows its grid, the presentation its 4:3
+   slide; Save is a text action in the bar. The Rename file field. */
+.kkx-paper.qo-blank{min-height:60%;color:#999}
+.kkx-paper.qo-blank small{font-size:12.68px}
+.kkx-paper.qo-blank.sheet{background:linear-gradient(#e0e0e0 1px,transparent 1px) 0 0/100% 21.74px,linear-gradient(90deg,#e0e0e0 1px,transparent 1px) 0 0/72.48px 100%,#fff}
+.kkx-paper.qo-blank.slides{min-height:0;aspect-ratio:4/3}
+.screen .kkx-quickoffice .kkx-btn{width:auto;padding:0 10.87px;color:inherit;font:500 12.68px Roboto,sans-serif;text-transform:uppercase}
+.qo-name{display:block;width:calc(100% - 32px);margin:4px 16px 12px;padding:6px 0;border:0;border-bottom:2px solid #33b5e5;background:none;color:inherit;font:400 16px Roboto,sans-serif;outline:0}

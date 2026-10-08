@@ -25,7 +25,7 @@
   const EDITOR_ICON = {doc: 'ic_type_doc', sheet: 'ic_type_sheet', slides: 'ic_type_presentation'};
   const APP_NAME = {docs: 'Docs', sheets: 'Sheets', slides: 'Slides'};
   // The editors' toolbar: menu_doclist_activity_editors' always items (Search, Add new) and the overflow.
-  const editorsBar = (app, title, t, locale) => `<header class="lpx-bar" style="background:${COLORS[app][0]}"><button class="lpx-btn" data-action="lpx-unavailable" aria-label="${e(S('editors', 'Open navigation drawer', t, locale))}">${svg.menu}</button><h2>${e(title)}</h2><button class="lpx-btn" data-action="ed-search-open" aria-label="${e(S('editors', 'Search', t, locale))}"><img class="lpx-icon" src="assets/ed-editors_action_search.png" alt=""></button><button class="lpx-btn" data-action="lpx-unavailable" aria-label="${e(S('editors', 'Add new', t, locale))}"><img class="lpx-icon" src="assets/ed-editors_action_new.png" alt=""></button><button class="lpx-btn" data-action="lpx-overflow" aria-label="${e(t('More options'))}">${svg.more}</button></header>`;
+  const editorsBar = (app, title, t, locale) => `<header class="lpx-bar" style="background:${COLORS[app][0]}"><button class="lpx-btn" data-action="lpx-unavailable" aria-label="${e(S('editors', 'Open navigation drawer', t, locale))}">${svg.menu}</button><h2>${e(title)}</h2><button class="lpx-btn" data-action="ed-search-open" aria-label="${e(S('editors', 'Search', t, locale))}"><img class="lpx-icon" src="assets/ed-editors_action_search.png" alt=""></button><button class="lpx-btn" data-action="ed-new" aria-label="${e(S('editors', 'Add new', t, locale))}"><img class="lpx-icon" src="assets/ed-editors_action_new.png" alt=""></button><button class="lpx-btn" data-action="lpx-overflow" aria-label="${e(t('More options'))}">${svg.more}</button></header>`;
   // A toolbar with only the actions an app's menu XML shows: nav ('drawer', 'none', or the unsupported toast), icons, overflow.
   const toolbar = (app, title, {nav = 'unsupported', dark = false, icons = '', overflow = false} = {}) => `<header class="lpx-bar${dark ? ' dark' : ''}" style="background:${COLORS[app][0]}">${nav === 'none' ? '<i class="lpx-pad"></i>' : `<button class="lpx-btn" data-action="${nav === 'drawer' ? 'lpx-drawer' : 'lpx-unavailable'}" aria-label="Open navigation drawer">${svg.menu}</button>`}<h2>${e(title)}</h2>${icons}${overflow ? `<button class="lpx-btn" data-action="lpx-overflow" aria-label="More options">${svg.more}</button>` : ''}</header>`;
   // Newsstand 3.3's PlayDrawer (lp-play.css's lpa-* classes).
@@ -40,7 +40,7 @@
       const ed = key => S('editors', key, t, locale), q = String(ui.edQuery || '');
       if (ui.sub === 'search') return `<div class="app-view lpx-app"><header class="lpx-bar ed-searchbar"><button class="ed-back" data-action="back" aria-label="${e(ed('Cancel search'))}"><img src="assets/ed-ic_back_arrow_alpha.png" alt=""></button><form class="ed-sv" data-form="ed-search"><input name="query" placeholder="${e(ed('Search'))}" aria-label="${e(ed('Search'))}" autocomplete="off" spellcheck="false" enterkeyhint="search"></form></header><div class="lpx-list"></div></div>`;
       const found = ui.sub === 'results' ? list.filter(file => file.name.toLocaleLowerCase().includes(q.trim().toLocaleLowerCase())) : list;
-      const rows = found.map(file => `<button class="lpx-file" data-action="lpx-open" data-id="${e(file.id)}"><img class="lpx-type" src="assets/dr2-${EDITOR_ICON[KIND[app]]}.png" alt=""><span class="lpx-file-copy"><strong>${e(file.name)}</strong><small>${e(S('editors', 'Modified: %s', t, locale).replace('%s', file.date))}</small></span></button>`).join('');
+      const rows = found.map(file => `<div class="ed-row"><button class="lpx-file" data-action="lpx-open" data-id="${e(file.id)}"><img class="lpx-type" src="assets/dr2-${EDITOR_ICON[KIND[app]]}.png" alt=""><span class="lpx-file-copy"><strong>${e(file.name)}</strong><small>${e(S('editors', 'Modified: %s', t, locale).replace('%s', file.date))}</small></span></button><button class="ed-more" data-action="ed-item" data-id="${e(file.id)}" aria-label="${e(S('editors', 'Open the document actions menu', t, locale))}">${svg.more}</button></div>`).join('');
       if (ui.sub === 'results') return `<div class="app-view lpx-app"><header class="lpx-bar" style="background:${COLORS[app][0]}"><button class="lpx-btn" data-action="back" aria-label="${e(t('Back'))}"><img class="lpx-icon" src="assets/ed-ic_back_arrow_alpha.png" alt=""></button><h2>${e(ed('Search: "%s"').replace('%s', q))}</h2><button class="lpx-btn" data-action="ed-search-clear" aria-label="${e(ed('Clear search'))}"><img class="lpx-icon" src="assets/ed-ic_menu_clear_alpha.png" alt=""></button><button class="lpx-btn" data-action="lpx-overflow" aria-label="${e(t('More options'))}">${svg.more}</button></header><div class="lpx-list">${rows || `<p class="lpx-empty">${e(ed('No Items'))}</p>`}</div></div>`;
       return `<div class="app-view lpx-app">${editorsBar(app, S('editors', APP_NAME[app], t, locale), t, locale)}<div class="lpx-list">${rows || `<p class="lpx-empty">${e(t('No recent files'))}</p>`}</div></div>`;
     }
@@ -61,5 +61,18 @@
     if (app === 'fit') return ['Add activity', 'Add your weight', 'Settings', 'Help & feedback'].map(key => ({action: 'lpx-unavailable', title: S('fit', key, t, locale)}));
     return [];
   }
-  window.LPExtraApps = {APPS, COLORS, render, menu};
+  // The document actions menu (menu_doclist_context.xml's items for a Google document) and its Rename / Remove dialogs.
+  const ITEM_MENU = ['Share link', 'Send file', 'Keep on device', 'Move', 'Add to home screen', 'Rename', 'Print', 'Remove'];
+  const RENAME_TITLE = {doc: 'Rename document', sheet: 'Rename spreadsheet', slides: 'Rename presentation'};
+  const UNTITLED = {doc: 'Untitled document', sheet: 'Untitled spreadsheet', slides: 'Untitled presentation'};
+  function edDialog(kind, {files, ui, t, locale}) {
+    const file = files.find(f => f.id === ui.edFile), ed = key => S('editors', key, t, locale);
+    if (!file) return '';
+    if (kind === 'menu') return `<div class="menu-scrim" data-action="close-overlay"></div><div class="lpa-menu ed-itemmenu" data-no-translate>${ITEM_MENU.map(key => `<button data-action="${key === 'Rename' ? 'ed-rename' : key === 'Remove' ? 'ed-remove' : 'lpx-unavailable'}">${e(ed(key))}</button>`).join('')}</div>`;
+    const box = (title, body, ok) => `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${e(title)}" data-no-translate>${title ? `<h3>${e(title)}</h3>` : ''}${body}<div class="settings-dialog-actions"><button data-action="close-overlay">${e(ed('Cancel'))}</button>${ok}</div></div>`;
+    if (kind === 'rename') return box(ed(RENAME_TITLE[file.kind] || 'Rename'), `<input class="ed-name" data-ed-name value="${e(file.name)}" autocomplete="off" spellcheck="false">`, `<button data-action="ed-rename-ok">${e(ed('OK'))}</button>`);
+    if (kind === 'remove') return box('', `<p>${e(ed('Do you really want to remove this file?'))}</p>`, `<button data-action="ed-remove-ok">${e(ed('Remove button'))}</button>`);
+    return '';
+  }
+  window.LPExtraApps = {edDialog, KIND, UNTITLED, APPS, COLORS, render, menu};
 })();

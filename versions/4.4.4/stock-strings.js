@@ -3359,5 +3359,115 @@ window.StockStrings = {
    "Aide",
    "Ayuda"
   ]
+ },
+ "quickoffice": {
+  "Document": [
+   "Dokumentum",
+   "Dokument",
+   "Document",
+   "Documento"
+  ],
+  "Spreadsheet": [
+   "Táblázat",
+   "Tabelle",
+   "Feuille de calcul",
+   "Hoja de cálculo"
+  ],
+  "Presentation": [
+   "Prezentáció",
+   "Präsentation",
+   "Présentation",
+   "Presentación"
+  ],
+  "New Document": [
+   "Új dokumentum",
+   "Neues Dokument",
+   "Nouveau document",
+   "Nuevo documento"
+  ],
+  "New Spreadsheet": [
+   "Új táblázat",
+   "Neue Tabelle",
+   "Nouvelle feuille de calcul",
+   "Nueva hoja de cálculo"
+  ],
+  "New Presentation": [
+   "Új prezentáció",
+   "Neue Präsentation",
+   "Nouvelle présentation",
+   "Nueva presentación"
+  ],
+  "Save": [
+   "Mentés",
+   "Speichern",
+   "Enregistrer",
+   "Guardar"
+  ],
+  "File saved to %1$s": [
+   "A fájlt ide mentette: %1$s",
+   "Datei unter \"%1$s\" gespeichert",
+   "Fichier enregistré dans %1$s",
+   "Archivo guardado en %1$s"
+  ],
+  "Rename file": [
+   "Fájl átnevezése",
+   "Datei umbenennen",
+   "Renommer le fichier",
+   "Cambiar nombre de archivo"
+  ],
+  "File name": [
+   "Fájlnév",
+   "Dateiname",
+   "Nom du fichier",
+   "Nombre de archivo"
+  ],
+  "Rename": [
+   "Átnevezés",
+   "Umbenennen",
+   "Renommer",
+   "Cambiar nombre"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "Are you sure you want to delete %1$s?": [
+   "Biztosan törli a(z) %1$s fájlt?",
+   "Möchten Sie %1$s wirklich löschen?",
+   "Voulez-vous vraiment supprimer %1$s ?",
+   "¿Seguro que quieres eliminar %1$s?"
+  ],
+  "OK": [
+   "OK",
+   "OK",
+   "OK",
+   "Aceptar"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "Create new file": [
+   "Új fájl létrehozása",
+   "Neue Datei erstellen",
+   "Créer un fichier",
+   "Crear archivo nuevo"
+  ],
+  "Not saved yet": [
+   "Még nincs mentve",
+   "Noch nicht gespeichert",
+   "Non enregistré pour le moment",
+   "Aún no se ha guardado"
+  ],
+  "Save on Device": [
+   "Mentés a készülékre",
+   "Auf dem Gerät speichern",
+   "Enregistrer sur l'appareil",
+   "Guardar en dispositivo"
+  ]
  }
 };

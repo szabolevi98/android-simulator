@@ -2251,6 +2251,121 @@ window.StockStrings = {
    "Keine Dokumente",
    "Aucun élément",
    "0 elementos"
+  ],
+  "Untitled document": [
+   "Névtelen dokumentum",
+   "Unbenanntes Dokument",
+   "Document sans titre",
+   "Documento sin título"
+  ],
+  "Untitled spreadsheet": [
+   "Névtelen táblázat",
+   "Unbenannte Tabelle",
+   "Feuille de calcul sans titre",
+   "Hoja de cálculo sin título"
+  ],
+  "Untitled presentation": [
+   "Névtelen prezentáció",
+   "Unbenannte Präsentation",
+   "Présentation sans titre",
+   "Presentación sin título"
+  ],
+  "Share link": [
+   "Link megosztása",
+   "Link freigeben",
+   "Partager le lien",
+   "Compartir enlace"
+  ],
+  "Send file": [
+   "Fájl küldése",
+   "Datei senden",
+   "Envoyer fichier",
+   "Enviar archivo"
+  ],
+  "Keep on device": [
+   "Tárolás az eszközön",
+   "Auf Gerät speichern",
+   "Stocker sur l'appareil",
+   "Guardar en dispositivo"
+  ],
+  "Move": [
+   "Áthelyezés",
+   "Verschieben",
+   "Déplacer",
+   "Mover"
+  ],
+  "Add to home screen": [
+   "A kezdőképernyőre",
+   "Verknüpfung zu Startbildschirm hinzugefügt",
+   "Ajouter écr. acc.",
+   "Añadir a inicio"
+  ],
+  "Rename": [
+   "Átnevezés",
+   "Umbenennen",
+   "Renommer",
+   "Cambiar nombre"
+  ],
+  "Print": [
+   "Nyomtatás",
+   "Drucken",
+   "Imprimer",
+   "Imprimir"
+  ],
+  "Remove": [
+   "Eltávolítás",
+   "Entfernen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "Rename document": [
+   "Dokumentum átnevezése",
+   "Dokument umbenennen",
+   "Renommer le document",
+   "Cambiar nombre de documento"
+  ],
+  "Rename spreadsheet": [
+   "Táblázat átnevezése",
+   "Tabelle umbenennen",
+   "Renommer la feuille de calcul",
+   "Cambiar nombre de hoja de cálculo"
+  ],
+  "Rename presentation": [
+   "Prezentáció átnevezése",
+   "Präsentation umbenennen",
+   "Renommer la présentation",
+   "Cambiar nombre de presentación"
+  ],
+  "Do you really want to remove this file?": [
+   "Valóban el szeretné távolítani ezt a fájlt?",
+   "Möchten Sie diese Datei wirklich entfernen?",
+   "Voulez-vous vraiment supprimer ce fichier ?",
+   "¿Seguro que quieres eliminar este archivo?"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "OK": [
+   "OK",
+   "OK",
+   "OK",
+   "Aceptar"
+  ],
+  "Open the document actions menu": [
+   "A dokumentum műveleteit tartalmazó menü megnyitása",
+   "Aktionsmenü des Dokuments öffnen",
+   "Ouvrir le menu d'actions du document",
+   "Abrir el menú de acciones del documento"
+  ],
+  "Remove button": [
+   "Eltávolítás",
+   "Entfernen",
+   "Supprimer",
+   "Eliminar",
+   "Remove"
   ]
  },
  "fit": {

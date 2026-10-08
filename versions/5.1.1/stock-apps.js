@@ -96,7 +96,8 @@
 
 
   // ---- Drive: My Drive ----
-  const FILES = [
+  // Drive's files; data.driveFiles holds them once an app has created, renamed or removed one.
+  const FILES0 = [
     {id: 'f0', name: 'Photos', kind: 'folder', date: 'Oct 28', age: 9}, {id: 'f1', name: 'Trip plan 2015', kind: 'doc', date: 'Nov 2', age: 0, text: 'Day 1 — arrive in Lisbon, tram 28 to Alfama.\nDay 2 — Belém, pastéis de nata.\nDay 3 — Sintra by train.'},
     {id: 'f2', name: 'Budget', kind: 'sheet', date: 'Oct 30', age: 1, text: 'Rent 850\nGroceries 240\nTransport 60\nFun 120'}, {id: 'f3', name: 'Nexus 6 guide', kind: 'pdf', date: 'Oct 31', age: 3, text: 'Welcome to Nexus 5. Swipe left from the Home screen to see Google Now.'},
     {id: 'f4', name: 'Meetup slides', kind: 'slides', date: 'Sep 12', age: 60, text: 'What’s new in Lollipop\n• Material design\n• Heads-up notifications\n• Smart Lock\n• Overview'}
@@ -111,7 +112,7 @@
   function drive(ctx) {
     const d = key => S(ctx, 'drive', key);
     if (ctx.ui.sub === 'file') {
-      const file = FILES.find(f => f.id === ctx.ui.driveFile) || FILES[1];
+      const FILES = ctx.data.driveFiles || FILES0, file = FILES.find(f => f.id === ctx.ui.driveFile) || FILES[1];
       return `<div class="app-view sa-app sa-drive">${bar(ctx, {title: file.name, up: true, icon: 'drive.png', actions: btn('sa-unsupported', ctx.t('Share'), 'share') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-doc"><div class="sa-page">${e(file.text || '').split('\n').map(line => `<p>${line}</p>`).join('')}</div></div></div>`;
     }
     const icon = {folder: 'ic_type_folder', doc: 'ic_type_doc', sheet: 'ic_type_sheet', pdf: 'ic_type_pdf', slides: 'ic_type_presentation'};
@@ -119,7 +120,7 @@
     const when = age => new Date(ctx.now.getTime() - (age || 0) * 864e5).toLocaleDateString(ctx.locale, {month: 'short', day: 'numeric'});
     let last = '';
     const q = String(ctx.ui.driveQuery || ''), searching = ctx.ui.sub === 'search', results = ctx.ui.sub === 'results';
-    const list = results ? FILES.filter(f => f.name.toLocaleLowerCase().includes(q.trim().toLocaleLowerCase())) : FILES;
+    const FILES = ctx.data.driveFiles || FILES0, list = results ? FILES.filter(f => f.name.toLocaleLowerCase().includes(q.trim().toLocaleLowerCase())) : FILES;
     const rows = [...list].sort((a, b) => (a.age || 0) - (b.age || 0)).map(f => { const r = range(f.age || 0), head = r !== last ? `<h4 class="dr2-group">${e(d(r))}</h4>` : ''; last = r; return `${head}<button class="dr2-row" data-action="${f.kind === 'folder' ? 'sa-unsupported' : 'drive-open'}" data-id="${f.id}"><img src="assets/dr2-${icon[f.kind]}.png" alt=""><span><b>${e(f.name)}</b><small>${e(d('Modified: %s').replace('%s', when(f.age)))}</small></span></button>`; }).join('');
     const nav = [['My Drive', 'my_drive'], ['Shared with me', 'shared_with_me'], ['Starred', 'starred'], ['Recent', 'recently_opened'], ['On device', 'offline'], ['Uploads', 'upload']];
     const panel = ctx.ui.driveNav ? `<button class="dr2-scrim" data-action="drive-nav" aria-label="${e(ctx.t('Close'))}"></button><nav class="dr2-nav"><div class="dr2-account">nexus6.demo@gmail.com</div>${nav.map(([key, ic], n) => `<button class="${n ? '' : 'on'}" data-action="${n ? 'sa-unsupported' : 'drive-nav'}"><img src="assets/dr2-ic_drive_${ic}.png" alt="">${e(d(key))}</button>`).join('')}<div class="dr2-storage"><img src="assets/dr2-ic_storage_usage.png" alt=""><span><b>0.4 GB / 15 GB</b><small>3%</small></span></div></nav>` : '';
@@ -344,5 +345,5 @@
     if (view === 'earth') { const ea = key => S(ctx, 'earth', key); return ['My location', 'Share'].map(key => ({action: 'sa-unsupported', title: ea(key)})); }
     return [];
   }
-  window.StockApps = {news2, APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render, menu};
+  window.StockApps = {FILES: FILES0, news2, APPS: SIMPLE, VIDEOS, POSTS, DEFAULT_NOTES, render, menu};
 })();

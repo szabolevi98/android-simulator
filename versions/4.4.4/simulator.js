@@ -657,7 +657,7 @@
       case 'clock': return renderClock();
       case 'calculator': return renderCalculator();
       case 'email': return renderEmail();
-      case 'newsstand': case 'quickoffice': case 'wallet': return KKExtraApps.render(ui.view, {files: StockApps.FILES, ui, t: key => i18n.t(key)});
+      case 'newsstand': case 'quickoffice': case 'wallet': return KKExtraApps.render(ui.view, {files: officeFiles(), ui, t: key => i18n.t(key)});
       case 'downloads': return KKDownloads.render(data.downloads || [], ui, key => i18n.t(key), i18n.locale());
       default: return renderHome();
     }
@@ -696,7 +696,11 @@
       focus: selector => selector && requestAnimationFrame(() => viewport.querySelector(selector)?.focus()),
       unsupported: () => toast(i18n.t('This feature is not part of the simulator.'))};
   }
+  // Drive's files as the apps change them (Quickoffice, Drive).
+  const officeFiles = () => data.driveFiles || StockApps.FILES;
+  const QO = key => { const row = window.StockStrings?.quickoffice?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
   function navigateBack() {
+    if (ui.view === 'quickoffice' && ui.sub === 'qo-new' && !ui.overlay) { ui.sub = ''; render(); return; }
     if (ui.view === 'maps' && !ui.overlay && (ui.mapsRoute || ui.navRun) && MapsRoute.back(mrContext())) return;
     // News & Weather: a settings dialog or nested screen, then the settings or the story page.
     if (ui.view === 'news-weather' && ui.newsSub && !ui.overlay) { if (!(ui.newsSub === 'settings' && NewsPrefs.back(ui))) { ui.newsSub = ''; ui.nwpScreen = ''; } render(); return; }
@@ -832,6 +836,8 @@
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'pa-drawer') {
       overlayRoot.innerHTML = PlayApps.drawer(playContext(ui.view));
+    } else if (ui.overlay.startsWith('qo-')) {
+      overlayRoot.innerHTML = KKExtraApps.qoDialog({'qo-create': 'create', 'qo-file': 'file', 'qo-rename': 'rename', 'qo-delete': 'delete'}[ui.overlay], {files: officeFiles(), ui, t: key => i18n.t(key)});
     } else if (ui.overlay === 'kkx-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu holo-menu-light">${KKExtraApps.menu(ui.view, key => i18n.t(key)).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'pa-menu') {
@@ -1641,6 +1647,15 @@
       case 'lw-set': data.liveWallpaper = {id}; save(); ui.sub = ''; ui.lwFromPicker = false; home(false); break;
       case 'gallery-wallpaper': ui.overlay = ''; openApp('gallery'); break;
       case 'kkx-open': ui.sub = id; render(); break;
+      // Quickoffice: create, save, rename and delete files in the saved Drive list.
+      case 'qo-new': ui.overlay = 'qo-create'; renderOverlay(); break;
+      case 'qo-create': ui.overlay = ''; renderOverlay(); ui.qoKind = id; ui.sub = 'qo-new'; render(); break;
+      case 'qo-save': { const [base, ext] = KKExtraApps.QO_KIND[ui.qoKind], label = QO(base), names = new Set(officeFiles().map(f => f.name)); let name = `${label}${ext}`, n = 1; while (names.has(name)) name = `${label} (${n++})${ext}`;
+        data.driveFiles = [{id: `q${Date.now().toString(36)}`, name, kind: ui.qoKind, date: deviceDate().toLocaleDateString(i18n.locale(), {month: 'short', day: 'numeric'}), age: 0, text: ''}, ...officeFiles()]; save(); ui.sub = ''; render(); toast(QO('File saved to %1$s').replace('%1$s', KKExtraApps.local('Device', key => i18n.t(key)))); break; }
+      case 'qo-rename': ui.overlay = 'qo-rename'; renderOverlay(); overlayRoot.querySelector('[data-qo-name]')?.select(); break;
+      case 'qo-rename-ok': { const name = overlayRoot.querySelector('[data-qo-name]')?.value.trim(); if (name) { data.driveFiles = officeFiles().map(f => f.id === ui.qoFile ? {...f, name} : f); save(); } ui.overlay = ''; renderOverlay(); render(); break; }
+      case 'qo-delete': ui.overlay = 'qo-delete'; renderOverlay(); break;
+      case 'qo-delete-ok': data.driveFiles = officeFiles().filter(f => f.id !== ui.qoFile); save(); ui.overlay = ''; renderOverlay(); render(); break;
       case 'kkx-unavailable': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'kkx-drawer': ui.kkxDrawer = !ui.kkxDrawer; render(); break;
       case 'kkx-menu': ui.overlay = 'kkx-menu'; renderOverlay(); break;
@@ -2959,6 +2974,8 @@
     event.preventDefault();
     const message = event.target.closest('.mms-message');
     if (message && !ui.overlay) { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; renderOverlay(); }
+    const qo = event.target.closest('[data-qo-hold]');
+    if (qo && !ui.overlay) { ui.qoFile = qo.dataset.qoHold; ui.overlay = 'qo-file'; renderOverlay(); }
     if (!dragState && ui.view === 'home' && !ui.overlay && !ui.overview && event.button === 2 && event.target.closest('.home-slot') && !event.target.closest('.launcher-icon')) { ui.overview = true; render(); }
   });
   // Older WebKit versions may still start page rubber-banding during a custom
@@ -3076,6 +3093,8 @@
     const kwpLong = ui.view === 'wallpaper-picker' && !ui.wp?.checked?.length ? event.target.closest('[data-kwp-long]') : null;
     if (kwpLong) homeLongPressTimer = setTimeout(() => { ui.wp.checked = [kwpLong.dataset.id]; pointerStart = null; suppressReleaseClick(); wallpaperPickerRender(); }, holdDelay(550));
     if (message && !ui.overlay) messageHoldTimer = setTimeout(() => { ui.mmsMessage = message.dataset.id; ui.overlay = 'mms-message'; suppressReleaseClick(); renderOverlay(); }, holdDelay(550));
+    const heldQo = event.target.closest('[data-qo-hold]');
+    if (heldQo && !ui.overlay) messageHoldTimer = setTimeout(() => { suppressReleaseClick(); ui.qoFile = heldQo.dataset.qoHold; ui.overlay = 'qo-file'; renderOverlay(); }, holdDelay(550));
     if (pointerStart.lockDrag) { clearTimeout(ui.lockReleaseTimer); viewport.querySelectorAll('.lock-chevron').forEach(chevron => chevron.getAnimations().forEach(animation => animation.cancel())); screen.classList.remove('lock-releasing'); screen.classList.add('lock-dragging'); try { screen.setPointerCapture(event.pointerId); } catch {} }
     else if (ui.view === 'lock' && !ui.locked && event.target.closest('.lock-wave')) lockPing();
     if (ui.view === 'calculator' && !ui.overlay && event.target.closest('.calc-pager')) pointerStart.calculatorSwipe = true;

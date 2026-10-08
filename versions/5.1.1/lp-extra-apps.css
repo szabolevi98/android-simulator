@@ -60,3 +60,11 @@
 .ed-sv{flex:1;min-width:0;height:100%;display:flex}
 .ed-sv input{flex:1;min-width:0;border:0;background:none;outline:0;padding:0;font:400 18.12px Roboto,sans-serif;color:#4c4c4c}
 .ed-sv input::placeholder{color:#00000061}
+/* The editors' file rows with the document actions button (the overflow dots, 48 dp), the actions menu placed at its
+   row, and the Rename field. */
+.ed-row{display:flex;align-items:center}
+.ed-row .lpx-file{flex:1;min-width:0}
+.screen .ed-more{flex:none;display:grid;place-items:center;width:43.49px;height:43.49px;margin-right:3.62px;padding:0;border:0;border-radius:50%;background:none;color:#757575;cursor:pointer}
+.ed-more svg{width:21.74px;height:21.74px}
+.screen .ed-more:active{background:#0000001a}
+.ed-name{display:block;width:calc(100% - 43.48px);margin:0 21.74px 14.5px;padding:7.25px 0;border:0;border-bottom:1.81px solid #4285f4;background:none;color:#212121;font:400 14.5px Roboto,sans-serif;outline:0}

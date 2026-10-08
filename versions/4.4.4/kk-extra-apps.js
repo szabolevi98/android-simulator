@@ -41,6 +41,8 @@
   // Newsstand and Wallet open their navigation drawers from the home button; Quickoffice 6.3 has none.
   const bar = (app, title, actions = '', cls = '') => `<header class="kkx-bar ${cls}"><button class="kkx-home" data-action="${app === 'quickoffice' ? 'home' : 'kkx-drawer'}" aria-label="${e(title)}">${app === 'quickoffice' ? '' : `<span class="kkx-drawer">${svg.drawer}</span>`}<img src="assets/${app}.png" alt=""></button><h2>${e(title)}</h2>${actions}</header>`;
   const action = (icon, label) => `<button class="kkx-btn" data-action="kkx-unavailable" aria-label="${e(label)}">${svg[icon]}</button>`;
+  const Q = (key, t) => S('quickoffice', key, t);
+  const QO_KIND = {doc: ['New Document', '.docx'], sheet: ['New Spreadsheet', '.xlsx'], slides: ['New Presentation', '.pptx']};
   function render(app, {files, ui, t}) {
     if (app === 'newsstand') {
       const n = key => S('newsstand', key, t);
@@ -49,11 +51,13 @@
       return `<div class="app-view kkx-app kkx-newsstand">${bar('newsstand', n('Read Now'), `<button class="kkx-btn" data-action="kkx-unavailable" aria-label="${e(n('Search'))}"><img class="kkx-img" src="assets/ns-ic_menu_search_holo_dark.png" alt=""></button><button class="kkx-btn" data-action="kkx-menu" aria-label="${e(t('More options'))}">${svg.more}</button>`, 'dark')}<div class="kkx-list kkx-cards">${stories.map(([title, source, color]) => `<article class="kkx-story"><div class="kkx-story-art" style="background:${color}"><b>${e(title)}</b></div><div class="kkx-story-copy"><small>${e(source)}</small></div></article>`).join('')}</div>${drawer}</div>`;
     }
     if (app === 'quickoffice') {
+      // A new file (create_new_file_label: Document / Spreadsheet / Presentation) opens blank and "Not saved yet"; Save keeps it.
+      if (ui.sub === 'qo-new') return `<div class="app-view kkx-app kkx-quickoffice">${bar('quickoffice', Q(QO_KIND[ui.qoKind][0], t), `<button class="kkx-btn" data-action="qo-save" aria-label="${e(Q('Save', t))}">${e(Q('Save', t))}</button>`)}<div class="kkx-page"><article class="kkx-paper qo-blank ${ui.qoKind}"><small>${e(Q('Not saved yet', t))}</small></article></div></div>`;
       const open = ui.sub && files.find(file => file.id === ui.sub);
       if (open) return `<div class="app-view kkx-app kkx-quickoffice">${bar('quickoffice', open.name)}<div class="kkx-page"><article class="kkx-paper">${open.text.split('\n').map(line => `<p>${e(line)}</p>`).join('')}</article></div></div>`;
-      const recent = files.filter(file => KIND_COLOR[file.kind]).map(file => `<button class="kkx-file" data-action="kkx-open" data-id="${e(file.id)}"><span class="kkx-file-icon" style="color:${KIND_COLOR[file.kind]}">${svg.doc}</span><span class="kkx-file-copy"><strong>${e(file.name)}</strong><small>${e(file.date)}</small></span></button>`).join('');
+      const recent = files.filter(file => KIND_COLOR[file.kind]).map(file => `<button class="kkx-file" data-action="kkx-open" data-id="${e(file.id)}" data-qo-hold="${e(file.id)}"><span class="kkx-file-icon" style="color:${KIND_COLOR[file.kind]}">${svg.doc}</span><span class="kkx-file-copy"><strong>${e(file.name)}</strong><small>${e(file.date)}</small></span></button>`).join('');
       const tile = (icon, label) => `<button class="kkx-tile" data-action="kkx-unavailable"><span>${svg[icon]}</span>${e(label)}</button>`;
-      return `<div class="app-view kkx-app kkx-quickoffice">${bar('quickoffice', 'Quickoffice®', action('more', t('More options')))}<div class="kkx-list"><h3 class="kkx-section">${e(local('Open or create new files', t))}</h3><div class="kkx-tiles">${tile('drive', local('Drive', t))}${tile('device', local('Device', t))}${tile('plus', local('Create new file', t))}</div><h3 class="kkx-section">${e(local('Recent files', t))}</h3>${recent}</div></div>`;
+      return `<div class="app-view kkx-app kkx-quickoffice">${bar('quickoffice', 'Quickoffice®', action('more', t('More options')))}<div class="kkx-list"><h3 class="kkx-section">${e(local('Open or create new files', t))}</h3><div class="kkx-tiles">${tile('drive', local('Drive', t))}${tile('device', local('Device', t))}${tile('plus', local('Create new file', t)).replace('data-action="kkx-unavailable"', 'data-action="qo-new"')}</div><h3 class="kkx-section">${e(local('Recent files', t))}</h3>${recent}</div></div>`;
     }
     if (app === 'wallet') {
       // Wallet 2.0's nav_drawer (US only, so English as the image shows it everywhere).
@@ -67,5 +71,16 @@
     if (app === 'newsstand') return ['Settings', 'Help', 'On device only'].map(key => ({action: 'kkx-unavailable', title: S('newsstand', key, t)}));
     return [];
   }
-  window.KKExtraApps = {APPS, render, menu};
+  // The dialogs: create (Document / Spreadsheet / Presentation), a file's long-press menu, Rename file, Delete.
+  function qoDialog(kind, {files, ui, t}) {
+    const file = files.find(f => f.id === ui.qoFile), row = (action, id, label) => `<button class="settings-row" data-action="${action}" data-id="${e(id)}"><span class="row-copy">${e(label)}</span></button>`;
+    const box = (title, body, buttons = '') => `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${e(title)}" data-no-translate><h3>${e(title)}</h3>${body}${buttons ? `<div class="settings-dialog-actions">${buttons}</div>` : ''}</div>`;
+    if (kind === 'create') return box(local('Create new file', t), row('qo-create', 'doc', Q('Document', t)) + row('qo-create', 'sheet', Q('Spreadsheet', t)) + row('qo-create', 'slides', Q('Presentation', t)));
+    if (!file) return '';
+    if (kind === 'file') return box(file.name, row('qo-rename', file.id, Q('Rename', t)) + row('qo-delete', file.id, Q('Delete', t)));
+    if (kind === 'rename') return box(Q('Rename file', t), `<input class="qo-name" data-qo-name value="${e(file.name)}" placeholder="${e(Q('File name', t))}" aria-label="${e(Q('File name', t))}" autocomplete="off" spellcheck="false">`, `<button data-action="close-overlay">${e(Q('Cancel', t))}</button><button data-action="qo-rename-ok">${e(Q('OK', t))}</button>`);
+    if (kind === 'delete') return box(Q('Delete', t), `<p>${e(Q('Are you sure you want to delete %1$s?', t).replace('%1$s', file.name))}</p>`, `<button data-action="close-overlay">${e(Q('Cancel', t))}</button><button data-action="qo-delete-ok">${e(Q('OK', t))}</button>`);
+    return '';
+  }
+  window.KKExtraApps = {qoDialog, QO_KIND, local, APPS, render, menu};
 })();

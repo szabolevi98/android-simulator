@@ -725,7 +725,7 @@
       case 'clock': return renderClock();
       case 'calculator': return renderCalculator();
       case 'email': return renderEmail();
-      case 'docs': case 'sheets': case 'slides': case 'fit': case 'newsstand': case 'wallet': return LPExtraApps.render(ui.view, {files: StockApps.FILES, ui, t: key => i18n.t(key), locale: i18n.locale()});
+      case 'docs': case 'sheets': case 'slides': case 'fit': case 'newsstand': case 'wallet': return LPExtraApps.render(ui.view, {files: officeFiles(), ui, t: key => i18n.t(key), locale: i18n.locale()});
       case 'downloads': return LPDownloads.render(data.downloads || [], ui, key => i18n.t(key), i18n.locale());
       default: return renderHome();
     }
@@ -764,6 +764,8 @@
       focus: selector => selector && requestAnimationFrame(() => viewport.querySelector(selector)?.focus()),
       unsupported: () => toast(i18n.t('This feature is not part of the simulator.'))};
   }
+  // Drive's files as the apps change them (the editors, Drive).
+  const officeFiles = () => data.driveFiles || StockApps.FILES;
   function navigateBack() {
     if (ui.view === 'maps' && !ui.overlay && (ui.mapsRoute || ui.navRun) && MapsRoute.back(mrContext())) return;
     // News & Weather: a dialog, then the article page, then an expanded story.
@@ -959,6 +961,9 @@
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'pa-drawer') {
       overlayRoot.innerHTML = PlayApps.drawer(playContext(ui.view));
+    } else if (['ed-menu', 'ed-rename', 'ed-remove'].includes(ui.overlay)) {
+      overlayRoot.innerHTML = LPExtraApps.edDialog(ui.overlay.slice(3), {files: officeFiles(), ui, t: key => i18n.t(key), locale: i18n.locale()});
+      if (ui.overlay === 'ed-menu') { const anchor = viewport.querySelector(`[data-action="ed-item"][data-id="${CSS.escape(ui.edFile)}"]`), menu = overlayRoot.querySelector('.ed-itemmenu'); if (anchor && menu) { const a = anchor.getBoundingClientRect(), box = overlayRoot.getBoundingClientRect(), scale = box.height / overlayRoot.offsetHeight || 1, top = (a.top - box.top) / scale; menu.style.top = `${Math.max(8, Math.min(top, overlayRoot.offsetHeight - menu.offsetHeight - 8))}px`; } }
     } else if (ui.overlay === 'lpx-overflow') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lpa-menu">${LPExtraApps.menu(ui.view, key => i18n.t(key), i18n.locale()).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'pa-menu') {
@@ -2336,6 +2341,14 @@
         ui.selectedContact = Number(id); ui.sub = 'detail'; ui.overlay = ''; render(); break;
       }
       case 'lpx-open': ui.edFrom = ui.sub; ui.sub = id; render(); break;
+      // Docs / Sheets / Slides: Add new opens an untitled file; the actions menu renames or removes one (Drive shows the same list).
+      case 'ed-new': { const kind = LPExtraApps.KIND[ui.view], E = key => window.StockStrings?.editors?.[key]?.[['hu', 'de', 'fr', 'es'].indexOf(i18n.language)] || key, base = E(LPExtraApps.UNTITLED[kind]), names = new Set(officeFiles().map(f => f.name)); let name = base, n = 2; while (names.has(name)) name = `${base} (${n++})`;
+        const file = {id: `e${Date.now().toString(36)}`, name, kind, date: deviceDate().toLocaleDateString(i18n.locale(), {month: 'short', day: 'numeric'}), age: 0, text: ''}; data.driveFiles = [file, ...officeFiles()]; save(); ui.edFrom = ui.sub; ui.sub = file.id; render(); break; }
+      case 'ed-item': ui.edFile = id; ui.overlay = 'ed-menu'; renderOverlay(); break;
+      case 'ed-rename': ui.overlay = 'ed-rename'; renderOverlay(); overlayRoot.querySelector('[data-ed-name]')?.select(); break;
+      case 'ed-rename-ok': { const name = overlayRoot.querySelector('[data-ed-name]')?.value.trim(); if (name) { data.driveFiles = officeFiles().map(f => f.id === ui.edFile ? {...f, name} : f); save(); } ui.overlay = ''; renderOverlay(); render(); break; }
+      case 'ed-remove': ui.overlay = 'ed-remove'; renderOverlay(); break;
+      case 'ed-remove-ok': data.driveFiles = officeFiles().filter(f => f.id !== ui.edFile); save(); ui.overlay = ''; renderOverlay(); render(); break;
       case 'ed-search-open': ui.sub = 'search'; ui.edQuery = ''; render(); viewport.querySelector('[data-form="ed-search"] input')?.focus(); break;
       case 'ed-search-clear': ui.sub = ''; ui.edQuery = ''; render(); break;
       case 'lpx-unavailable': case 'lpx-menu': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
