@@ -132,7 +132,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 
 - [ ] Play Store / Market verzióeltérések megtárgyalása (2.3.6 Market 3.x, 4.0.4 Play 3.8.17, 4.4.4 Play 4.8.22, 5.1.1 Play 4.8.22 felirat az 5.2-es kinézet mellett), utána a döntés szerinti javítás
 - [ ] KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – megtárgyalni
-- [ ] Boot képernyők (a tulajdonos ötlete, 2026-10-06): verziónként a gyári bootanimáció, ami alatt az assetek betöltődhetnek; kb. 5 másodpercig futna, vagy kattintásra azonnal továbblép. Még nem eldöntött, hogy kell-e – megtárgyalni
+- [x] Boot képernyők (a tulajdonos ötlete, 2026-10-06): verziónként a gyári bootanimáció, ami alatt az assetek betöltődhetnek; kattintásra azonnal továbblép. Döntés 2026-10-08: fix idő helyett az animáció nem vágódik el, legalább egy teljes kör lemegy; fülenként (verziónként) egyszer, frissítéskor nincs; utána a zárképernyő. Kész: a rendszer akkor „indult el”, ha az oldal és a betűk betöltődtek (legfeljebb 12 s), és ez mindig az ismétlődő rész egy körének végén történik (a bekapcsológombos újraindításnál is); érintés vagy billentyű átugorja, csökkentett mozgásnál kimarad. Gyors netnél 2.3.6 / 4.0.4 kb. 3,2 s, 4.4.4 3,6 s, 4.3 4,6 s, 5.1.1 8 s – 65d64c9
 
 ## 8. Keresőmotorok (a tulajdonos kérése, 2026-10-08; az audit legvégén)
 
@@ -263,3 +263,5 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-08 | 6. lépés: Maps útvonalak, opciók és Navigation demóútvonal (mind az öt verzió) | 3776d67, 3c1a464, 2051400 |
 | 2026-10-08 | 6. lépés: Quickoffice / Docs / Sheets / Slides fájlkezelés (KK, LP) | 327d08d |
 | 2026-10-08 | 8. lépés: sitemap.xml (generált, statikus) és robots.txt | 8b6e6bd |
+| 2026-10-08 | Célzott javítás: KitKat Óra ébresztőlista be/ki kapcsolója (a csúszka a sávban, gyári thumbTextPadding) | 05c939e |
+| 2026-10-08 | 7. lépés: boot új fülben, a gyári animáció legalább egy teljes körével, utána zárképernyő | 65d64c9 |
