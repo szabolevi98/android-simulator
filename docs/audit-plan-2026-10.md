@@ -137,7 +137,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 ## 8. Keresőmotorok (a tulajdonos kérése, 2026-10-08; az audit legvégén)
 
 - [x] `sitemap.xml` a gyökérben: a kezdőoldal és a verziók oldalai (android.levente.net), `lastmod` értékkel – statikus fájl, a `docs/make-sitemap.mjs` generálja a `versions/catalog.js` elérhető verzióiból, a `lastmod` az oldalt utoljára módosító commit dátuma; oldalváltozás után újra kell futtatni (README: Search engines); `tests/sitemap.test.cjs` – 8b6e6bd
-- [x] Megengedő `robots.txt` (mindent enged), `Sitemap: https://android.levente.net/sitemap.xml` sorral  – 8b6e6bd
+- [x] Megengedő `robots.txt` (mindent enged), `Sitemap: https://android.levente.net/sitemap.xml` sorral – 8b6e6bd
 
 ## Nem csináljuk meg
 
