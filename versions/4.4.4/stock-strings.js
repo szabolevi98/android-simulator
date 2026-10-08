@@ -2412,5 +2412,195 @@ window.StockStrings = {
    "Public",
    "Público"
   ]
+ },
+ "photos": {
+  "Photos": [
+   "Fotók",
+   "Fotos",
+   "Photos",
+   "Fotos"
+  ],
+  "Photos of you": [
+   "Fotók rólad",
+   "Fotos von mir",
+   "Photos de vous",
+   "Fotos donde apareces"
+  ],
+  "Albums": [
+   "Albumok",
+   "Alben",
+   "Albums",
+   "Álbumes"
+  ],
+  "Auto Awesome": [
+   "Automat. szuperség",
+   "Auto-Effekte",
+   "Effets automatiques",
+   "Efectos automáticos"
+  ],
+  "Videos": [
+   "Videók",
+   "Videos",
+   "Vidéos",
+   "Vídeos"
+  ],
+  "Trash": [
+   "Kuka",
+   "Papierkorb",
+   "Corbeille",
+   "Papelera"
+  ],
+  "CAMERA": [
+   "KAMERA",
+   "Kamera",
+   "APPAREIL PHOTO",
+   "CÁMARA"
+  ],
+  "HIGHLIGHTS": [
+   "KIEMELÉSEK",
+   "Highlights",
+   "SÉLECTION",
+   "DESTACADAS"
+  ],
+  "Folders": [
+   "Mappák",
+   "Ordner",
+   "Dossiers",
+   "Carpetas"
+  ],
+  "Camera": [
+   "Kamera",
+   "Kamera",
+   "Appareil photo",
+   "Cámara"
+  ],
+  "Search for photos": [
+   "Fotók keresése",
+   "Nach Fotos suchen",
+   "Rechercher",
+   "Busca fotos"
+  ],
+  "Search instructions": [
+   "Személyek, helyek és egyéb dolgok keresése fotóidban, például a következők:",
+   "Suche nach Personen, Orten und Dingen auf Ihren Fotos, z. B.:",
+   "Recherchez des personnes, des lieux et des objets dans vos photos, par exemple :",
+   "Busca personas, lugares y cosas en tus fotos, como:",
+   "Search for people, places, and things in your photos, like:"
+  ],
+  "Search examples": [
+   "Josh, Tokió, napszemüveg",
+   "Jakob, Tokio, Sonnenbrille",
+   "Julien, Tokyo, des lunettes de soleil",
+   "Pedro, Tokio, gafas de sol",
+   "Josh, Tokyo, sunglasses"
+  ],
+  "No photos found for %s": [
+   "A program nem talált fotókat a következőhöz: <br><b>%s</b>",
+   "Keine Fotos gefunden für<br><b>%s</b>",
+   "Aucun résultat pour<br><b>%s</b>",
+   "No se han encontrado fotos de<br><b>%s</b>",
+   "No photos found for<br><b>%s</b>"
+  ],
+  "Camera & folders": [
+   "Fényképezőgép és mappák",
+   "Kamera & Ordner",
+   "Appareil photo et dossiers",
+   "Cámara y carpetas"
+  ],
+  "Make a movie": [
+   "Film létrehozása",
+   "Film erstellen",
+   "Créer une vidéo",
+   "Crear vídeo",
+   "Create movie"
+  ],
+  "Search photos": [
+   "Fotók keresése",
+   "Fotos suchen",
+   "Rechercher photos",
+   "Buscar fotos"
+  ],
+  "Select photos": [
+   "Kiválasztás…",
+   "Auswählen…",
+   "Sélectionner…",
+   "Seleccionar…",
+   "Select…"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer un commentaire",
+   "Danos tu opinión"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Edit": [
+   "Szerkesztés",
+   "Bearbeiten",
+   "Modifier",
+   "Editar"
+  ],
+  "Share": [
+   "Megosztás",
+   "Teilen",
+   "Partager",
+   "Compartir"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "Set as": [
+   "Beállítás a következőként…",
+   "Einstellen",
+   "Définir en",
+   "Establecer como...",
+   "Set as…"
+  ],
+  "Photo details": [
+   "Részletek",
+   "Details",
+   "Détails",
+   "Detalles",
+   "Details"
+  ],
+  "Print": [
+   "Nyomtatás",
+   "Drucken",
+   "Imprimer",
+   "Imprimir"
+  ],
+  "Slideshow": [
+   "Diavetítés",
+   "Diashow",
+   "Diaporama",
+   "Presentación de diapositivas"
+  ],
+  "Download": [
+   "Letöltés",
+   "Herunterladen",
+   "Télécharger",
+   "Descargar"
+  ],
+  "Navigate up": [
+   "Felfelé mozgás",
+   "Nach oben navigieren",
+   "Revenir en haut de la page",
+   "Desplazarse hacia arriba",
+   "Navigate Up"
+  ]
  }
 };
