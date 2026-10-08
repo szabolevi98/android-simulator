@@ -2564,5 +2564,189 @@ window.StockStrings = {
    "Privé – Disponible",
    "Privado y disponible"
   ]
+ },
+ "photos": {
+  "Photos": [
+   "Fotók",
+   "Fotos",
+   "Photos",
+   "Fotos"
+  ],
+  "Photos of you": [
+   "Fotók rólad",
+   "Fotos von mir",
+   "Photos de vous",
+   "Fotos donde apareces"
+  ],
+  "Albums": [
+   "Albumok",
+   "Alben",
+   "Albums",
+   "Álbumes"
+  ],
+  "Auto Awesome": [
+   "Automat. szuperség",
+   "Auto-Effekte",
+   "Effets automatiques",
+   "Efectos automáticos"
+  ],
+  "Videos": [
+   "Videók",
+   "Videos",
+   "Vidéos",
+   "Vídeos"
+  ],
+  "On device": [
+   "Az eszközön",
+   "Auf dem Gerät",
+   "Sur l'appareil",
+   "En el dispositivo"
+  ],
+  "Trash": [
+   "Kuka",
+   "Papierkorb",
+   "Corbeille",
+   "Papelera"
+  ],
+  "CAMERA": [
+   "KAMERA",
+   "Kamera",
+   "APPAREIL PHOTO",
+   "CÁMARA"
+  ],
+  "HIGHLIGHTS": [
+   "KIEMELÉSEK",
+   "Highlights",
+   "SÉLECTION",
+   "DESTACADAS"
+  ],
+  "Folders": [
+   "Az eszközön",
+   "Auf dem Gerät",
+   "Sur l'appareil",
+   "En el dispositivo",
+   "On device"
+  ],
+  "Search for photos": [
+   "Fotók keresése",
+   "Nach Fotos suchen",
+   "Rechercher",
+   "Busca fotos"
+  ],
+  "Search instructions": [
+   "Személyek, helyek és egyéb dolgok\nkeresése a fotóidon, például a következők:",
+   "Suche nach Personen, Orten und \nDingen auf Ihren Fotos, z. B.:",
+   "Rechercher des personnes, des lieux et \ndes objets dans vos photos, par exemple :",
+   "Buscar personas, sitios y \ncosas en tus fotos, como:",
+   "Search for people, places, and \nthings in your photos, like:"
+  ],
+  "Search examples": [
+   "János, Budapest, Gellért-hegy",
+   "Josh, Tokio, Berg",
+   "Marc, Paris, montagne",
+   "José, Tokio, montaña",
+   "Josh, Tokyo, mountain"
+  ],
+  "No photos found for %s": [
+   "A program nem talált fotókat a következőhöz: <br><b>%s</b>",
+   "Keine Fotos gefunden für<br><b>%s</b>",
+   "Aucun résultat pour<br><b>%s</b>",
+   "No se han encontrado fotos de<br><b>%s</b>",
+   "No photos found for<br><b>%s</b>"
+  ],
+  "Camera & folders": [
+   "Fényképezőgép és mappák",
+   "Kamera & Ordner",
+   "Appareil photo et dossiers",
+   "Cámara y carpetas"
+  ],
+  "Search photos": [
+   "Fotók keresése",
+   "Fotos suchen",
+   "Rechercher photos",
+   "Buscar fotos"
+  ],
+  "Select photos": [
+   "Kiválasztás…",
+   "Auswählen…",
+   "Sélectionner…",
+   "Seleccionar…",
+   "Select…"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Laisser un avis",
+   "Enviar sugerencias"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Edit": [
+   "Szerkesztés",
+   "Bearbeiten",
+   "Modifier",
+   "Editar"
+  ],
+  "Share": [
+   "Megosztás",
+   "Teilen",
+   "Partager",
+   "Compartir"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "Set as": [
+   "Beállítás a következőként…",
+   "Einstellen",
+   "Définir en",
+   "Establecer como...",
+   "Set as…"
+  ],
+  "Photo details": [
+   "Részletek",
+   "Details",
+   "Détails",
+   "Detalles",
+   "Details"
+  ],
+  "Print": [
+   "Nyomtatás",
+   "Drucken",
+   "Imprimer",
+   "Imprimir"
+  ],
+  "Slideshow": [
+   "Diavetítés",
+   "Diashow",
+   "Diaporama",
+   "Presentación de diapositivas"
+  ],
+  "Download": [
+   "Letöltés",
+   "Herunterladen",
+   "Télécharger",
+   "Descargar"
+  ],
+  "Navigate up": [
+   "Felfelé mozgás",
+   "Nach oben navigieren",
+   "Revenir en haut de la page",
+   "Desplazarse hacia arriba",
+   "Navigate Up"
+  ]
  }
 };
