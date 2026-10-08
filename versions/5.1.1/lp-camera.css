@@ -38,3 +38,44 @@
 .gcam-modes .gcam-settings{margin-top:auto;padding-left:27px}
 .gcam-settings img{width:21.74px;height:21.74px}
 .gcam-rec[hidden],.gcam-countdown[hidden],.gcam-focus[hidden]{display:none!important}
+/* The 4:3 picture sizes keep a 4:3 preview at the top; manual exposure brightens or darkens it by the step. */
+.gcam-preview.r43{bottom:auto;height:auto;aspect-ratio:3/4}
+.gcam-preview>*{filter:brightness(calc(1 + var(--ev, 0) * .18))}
+/* RadioOptions (mode_options_exposure): -2..+2 with the selected 48 dp camera_mode_color disc. */
+.gcam-options .gcam-ev.on{background:#4285f4}
+/* CameraSettingsActivity (Theme.CameraSettings, Holo Light, dp x 0.906): the 48 dp #00acc1 action bar with the up
+   caret, the app icon (32 dp) and the 18 sp title; the list with 16 dp sides (preference_fragment_padding_side);
+   preference_holo rows (64 dp, 18 sp black titles, 14 sp #323232 summaries, list_divider_holo_light between them),
+   list separators (32 dp, 14 sp bold caps #323232 over the 2 dp #00000033 line of list_section_divider_holo_light);
+   the Holo Light Switch; ListPreference's alert dialog (dialog_full_holo_light, 22 sp holo blue title over the 2 dp
+   #33b5e5 divider, 48 dp single-choice rows with btn_radio_holo_light, the Cancel bar) over the 0.6 dim. */
+.app-view.gcs{position:relative;display:flex;flex-direction:column;height:100%;overflow:hidden;background:#f3f3f3;color:#000;font-family:Roboto,sans-serif;padding:0}
+.gcs-bar{flex:none;display:flex;align-items:center;height:43.49px;background:#00acc1;color:#fff}
+.screen .gcs-up{display:flex;align-items:center;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.screen .gcs-up:active{background:#ffffff33}
+.gcs-caret{width:14.5px;height:14.5px;margin-right:-7.25px}
+.gcs-icon{width:28.99px;height:28.99px;margin:0 7.25px}
+.gcs-bar b{font:400 16.31px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gcs-list{flex:1;min-height:0;overflow-y:auto;padding:0 14.5px;scrollbar-width:none}
+.screen .gcs-row{display:flex;align-items:center;width:100%;min-height:57.98px;padding:0 9.06px 0 7.25px;border:0;background:none;color:#000;text-align:left;cursor:pointer}
+.screen .gcs-row:active{background:#33b5e566}
+.gcs-row+.gcs-row{border-top:1px solid #0000001a}
+.gcs-text{flex:1;min-width:0;display:flex;flex-direction:column;padding:5.44px 7.25px 5.44px 0}
+.gcs-text b{font:400 16.31px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gcs-text small{font:400 12.68px Roboto,sans-serif;color:#323232}
+.gcs-cat{display:flex;align-items:center;height:28.99px;margin:0;padding:0 7.25px;border-bottom:1.81px solid #00000033;font:700 12.68px Roboto,sans-serif;color:#323232;text-transform:uppercase}
+.gcs-switch{position:relative;flex:none;width:96.04px;height:25.37px;margin-right:-1.81px;border-style:solid;border-color:transparent;border-width:10.87px 9.06px 12.68px 7.25px;border-image:url('assets/gcs-switch_bg_holo_light.png') 36 30 42 24 fill / 10.87px 9.06px 12.68px 7.25px stretch;box-sizing:border-box}
+.gcs-switch i{position:absolute;top:-10.87px;bottom:-12.68px;left:-17.21px;width:71.57px;display:grid;place-items:center;border-style:solid;border-color:transparent;border-width:1.81px 21.74px;border-image:url('assets/gcs-switch_thumb_holo_light.png') 6 72 fill / 1.81px 21.74px stretch;box-sizing:border-box;font:400 12.68px Roboto,sans-serif;font-style:normal;color:#f3f3f3;line-height:1;transition:left .15s ease-out}
+.gcs-switch.on i{left:28.99px;border-image-source:url('assets/gcs-switch_thumb_activated_holo_light.png')}
+.gcs-row:active .gcs-switch i{border-image-source:url('assets/gcs-switch_thumb_pressed_holo_light.png')}
+.gcs-scrim{position:absolute;inset:0;z-index:10;background:#00000099}
+.gcs-dialog{position:absolute;z-index:11;left:2.5%;right:2.5%;top:50%;transform:translateY(-50%);border:9.06px solid transparent;border-image:url('assets/gcs-dialog_full_holo_light.png') 30 fill / 9.06px stretch}
+.gcs-dialog h3{display:flex;align-items:center;min-height:57.98px;margin:0;padding:0 14.5px;border-bottom:1.81px solid #33b5e5;font:400 19.93px Roboto,sans-serif;color:#33b5e5}
+.screen .gcs-choice{display:flex;align-items:center;width:100%;min-height:43.49px;padding:0 14.5px;border:0;background:none;color:#000;text-align:left;font:400 16.31px Roboto,sans-serif;cursor:pointer}
+.gcs-choice+.gcs-choice{border-top:1px solid #0000001a}
+.gcs-choice span{flex:1}
+.gcs-choice i{flex:none;width:28.99px;height:28.99px;background:url('assets/btn_radio_off_holo_light.png') center/contain no-repeat}
+.gcs-choice.on i{background-image:url('assets/btn_radio_on_holo_light.png')}
+.gcs-buttons{display:flex;border-top:1px solid #0000001a}
+.screen .gcs-buttons button{flex:1;min-height:43.49px;border:0;background:none;color:#000;font:400 12.68px Roboto,sans-serif;cursor:pointer}
+.screen .gcs-choice:active,.screen .gcs-buttons button:active{background:#33b5e566}
