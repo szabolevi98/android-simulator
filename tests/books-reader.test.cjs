@@ -33,4 +33,14 @@ const load=(v,files)=>{const context={window:{}};for(const f of files)vm.runInNe
   const sim=fs.readFileSync('versions/4.3/simulator.js','utf8');
   assert.ok(sim.includes("case 'bk-chapter':")&&sim.includes("case 'bk-pref-step'")&&sim.includes('[data-bk-bright]')&&sim.includes("ui.view === 'play-books' && ui.sub === 'reader' && (ui.bkSpin || ui.bkOptions || ui.bkToc)"));
 }
+// 4.4.4: Play Books 3.1.33 keeps 2.8.91's ReaderSettingsController order, arrays and Contents.
+{
+  const W=load('4.4.4',['stock-strings.js','play-apps.js']),P=W.PlayApps,t=k=>k;
+  const ctx=(ui,data={})=>({app:'play-books',ui:{sub:'reader',paItem:'b1',...ui},t,locale:'de',data:{playBooks:{b1:0},...data}});
+  const opts=P.render(ctx({bkOptions:true}));
+  assert.ok(opts.includes('bk3-options')&&opts.includes('bk3-ic_settings_fontsize_larger_on_holo_light')&&opts.indexOf('data-id="theme"')<opts.indexOf('data-id="typeface"')&&opts.indexOf('data-id="typeface"')<opts.indexOf('data-id="justification"'));
+  assert.ok(P.render(ctx({},{bookPrefs:{theme:'1'}})).includes('pb-top bk3-dark'));
+  const toc=P.render(ctx({bkToc:true}));assert.equal((toc.match(/data-action="bk-chapter"/g)||[]).length,3);assert.ok(toc.includes('class="current" data-action="bk-chapter" data-id="0"'));
+  const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');assert.ok(sim.includes("Play Books 3.1.33's reader")&&sim.includes('[data-bk-bright]'));
+}
 console.log('books-reader ok');

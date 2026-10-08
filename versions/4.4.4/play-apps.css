@@ -246,3 +246,72 @@
 .pa-suggest.books .pa-suggest-row b{color:#000}
 .screen .pa-suggest-row.market{padding-left:43.49px}
 .pa-suggest-row:active{background:#0000001a}
+/* Play Books 3.1.33 reader settings (1 dp = 0.906 px). The typefaces ship in the APK (assets/fonts); themes from
+   override.css (sepia #ece1ca / #645032, night #000 / #fff, ReadingActivityNight's ab_solid_dark_holo bar); the window
+   brightness dims the whole screen. */
+@font-face{font-family:'BK3 Merriweather';src:url('assets/bk3-Merriweather.ttf')}
+@font-face{font-family:'BK3 Goudy';src:url('assets/bk3-OFLGoudyStMTT.ttf')}
+@font-face{font-family:'BK3 Vollkorn';src:url('assets/bk3-Vollkorn-Regular.ttf')}
+.pb-reader .pb-page{font-size:calc(16.31px * var(--bk-zoom,1));line-height:calc(1.6 * var(--bk-lh,1))}
+.pb-reader .pb-page h2{font-size:calc(22px * var(--bk-zoom,1))}
+.pb-reader .pb-page h2.sub{font-size:calc(18px * var(--bk-zoom,1))}
+.bk3-face-sans .pb-page,.bk3-face-sans .pb-page h2{font-family:Roboto,RobotoICS,sans-serif}
+.bk3-face-serif .pb-page,.bk3-face-serif .pb-page h2{font-family:'Droid Serif','Noto Serif',serif}
+.bk3-face-Merriweather .pb-page,.bk3-face-Merriweather .pb-page h2{font-family:'BK3 Merriweather',serif}
+.bk3-face-OFLGoudyStMTT .pb-page,.bk3-face-OFLGoudyStMTT .pb-page h2{font-family:'BK3 Goudy',serif}
+.bk3-face-Vollkorn .pb-page,.bk3-face-Vollkorn .pb-page h2{font-family:'BK3 Vollkorn',serif}
+.bk3-just-left .pb-page p{text-align:left}
+.bk3-just-justify .pb-page p{text-align:justify}
+.pb-reader.bk3-theme-sepia{background:#ece1ca}.bk3-theme-sepia .pb-page{color:#645032}
+.pb-reader.bk3-theme-night{background:#000}.bk3-theme-night .pb-page{color:#fff}
+.pb-top.bk3-dark{border-style:solid;border-width:0 0 1.81px;border-image:url('assets/bk3-ab_solid_dark_holo.png') 60 30 6 36 fill/18.12px 9.06px 1.81px 10.87px;background:none}
+.pb-top.bk3-dark b{color:#fff}.pb-top.bk3-dark small{color:#bbb}
+.bk3-theme-night .pb-bottom{background:#222;border-top-color:#444;color:#bbb}
+.bk3-dim{position:absolute;inset:0;z-index:40;background:#000;opacity:var(--bk-dim,0);pointer-events:none}
+.screen .pb-top .bk3-action{width:50.74px;display:grid;place-items:center}
+.bk3-action img{width:28.99px;height:28.99px}
+.bk3-action.on{background:#33b5e566}
+/* display_options_popup.xml: 300 dp on menu_dropdown_panel_holo_light (2 dp from the right), display_options_view's
+   10 / 5 dp padding, pref_item.xml (2 dp margins, the 12 sp bold #808080 subtitle). */
+.bk3-options-scrim{position:absolute;inset:0;z-index:30;background:none}
+.bk3-options{position:absolute;z-index:31;top:43.49px;right:1.81px;width:271.8px;box-sizing:border-box;border:9.06px solid transparent;border-image:url('assets/bk3-menu_dropdown_panel_holo_light.png') 30 fill/9.06px;padding:2.72px 7.25px 0;color:#000}
+.bk3-pref{margin:1.81px 0}
+.bk3-pref>b{display:block;font:700 10.87px RobotoICS,Roboto,sans-serif;color:#808080}
+.bk3-pspin-wrap{position:relative;margin-top:3.63px}
+.screen .bk3-pspin{display:block;width:100%;min-height:43.49px;padding:6.34px 14.5px 7.25px 7.25px;border:0 solid transparent;border-width:3.63px 14.5px 23.55px 3.63px;border-image:url('assets/bk3-spinner_default_holo_light.png') 12 48 78 12 fill/3.63px 14.5px 23.55px 3.63px;background:none;text-align:left;font:400 16.31px RobotoICS,Roboto,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .bk3-pspin:active{border-image-source:url('assets/bk3-spinner_pressed_holo_light.png')}
+.bk3-pdrop{position:absolute;left:0;right:0;top:100%;z-index:2;padding:0;border:9.06px solid transparent;border-image:url('assets/bk3-menu_dropdown_panel_holo_light.png') 30 fill/9.06px;margin:-9.06px -6.38px 0}
+.screen .bk3-pdrop button{display:block;width:100%;min-height:43.49px;padding:0 7.25px;border:0;background:none;text-align:left;font:400 16.31px RobotoICS,Roboto,sans-serif;color:#000}
+.screen .bk3-pdrop button:active{background:#33b5e566}
+.bk3-plus{display:flex;align-items:stretch;margin-top:.64px}
+.screen .bk3-plus button{flex:1;display:grid;place-items:center;min-height:36.17px;padding:4.53px;border:0 solid transparent;border-width:7.25px 10.87px 6.34px;border-image:url('assets/bk3-btn_default_normal_holo_light.png') 48 36 42 36 fill/7.25px 10.87px 6.34px;background:none}
+.screen .bk3-plus button:active{border-image-source:url('assets/bk3-btn_default_pressed_holo_light.png')}
+.screen .bk3-plus button:disabled{border-image-source:url('assets/bk3-btn_default_disabled_holo_light.png')}
+.bk3-plus img{width:21.75px;height:21.75px}
+.bk3-plus span{min-width:43.49px;display:grid;place-items:center;font:400 12.68px RobotoICS,Roboto,sans-serif;color:#323232}
+.bk3-bright{display:flex;align-items:center}
+.bk3-bright label{display:flex;flex-direction:column;align-items:center;font:400 10.87px RobotoICS,Roboto,sans-serif;color:#808080}
+.bk3-bright input[type=checkbox]{appearance:none;width:28.99px;height:28.99px;margin:0;background:url('assets/btn_check_off_holo_light.png') center/contain no-repeat}
+.bk3-bright input[type=checkbox]:checked{background-image:url('assets/btn_check_on_holo_light.png')}
+.bk3-bright input[type=range]{flex:1;min-width:0;margin:0 0 0 18.12px;height:28.99px;appearance:none;background:url('assets/bk3-scrubber_track_holo_light.png') center/100% 10.87px no-repeat}
+.bk3-bright input[type=range]::-webkit-slider-thumb{appearance:none;width:28.99px;height:28.99px;background:url('assets/bk3-scrubber_control_normal_holo.png') center/contain no-repeat}
+.bk3-bright input[type=range]:active::-webkit-slider-thumb{background-image:url('assets/bk3-scrubber_control_pressed_holo.png')}
+.bk3-bright input[type=range]:disabled{opacity:.5}
+/* TableOfContentsActivityLight: popup_background_color_light, the TabRow (48 dp tabs on toc_tab, 4 dp apart, bold 14 sp,
+   titlebar_divider between them) and list_item_navigation.xml rows (16 dp sides, 48 dp, 18 sp; the current chapter bold). */
+.bk3-toc{background:#efefef;color:#000}
+.bk3-toc .pb-top{position:relative}
+.bk3-toc-title{font-size:16.31px!important}
+.bk3-toc-tabs{flex:none;display:flex;align-items:center;height:43.49px;background:#efefef}
+.bk3-toc-tabs i{flex:none;width:1.21px;height:41.07px;background:url('assets/bk3-titlebar_divider_light.png') center/100% 100% no-repeat}
+.screen .bk3-toc-tabs button{flex:1;min-width:0;height:100%;margin:0 3.63px;padding:0;border:0 solid transparent;border-bottom-width:1.81px;border-image:url('assets/bk3-tab_unselected_holo.png') 0 0 6 0 fill/0 0 1.81px 0;background:none;font:700 12.68px RobotoICS,Roboto,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .bk3-toc-tabs button.on{border-bottom-width:5.44px;border-image:url('assets/bk3-tab_selected_holo.png') 0 0 18 0 fill/0 0 5.44px 0}
+.bk3-toc-list{flex:1;min-height:0;overflow-y:auto}
+.screen .bk3-toc-list button{display:flex;align-items:center;gap:9.06px;width:100%;min-height:43.49px;padding:0 14.5px;border:0;border-bottom:.9px solid #00000017;background:none;text-align:left;font:400 16.31px RobotoICS,Roboto,sans-serif;color:#000}
+.bk3-toc-list span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk3-toc-list em{font-style:normal}
+.bk3-toc-list .current{font-weight:700}
+.screen .bk3-toc-list button:active{background:#33b5e566}
+.bk3-toc-empty{flex:1;min-height:0;overflow-y:auto}
+.bk3-toc-empty p{margin:0;padding:14.5px 14.5px 0;font:400 14.5px RobotoICS,Roboto,sans-serif;color:#000}
+.bk3-toc-empty img{display:block;width:100%}

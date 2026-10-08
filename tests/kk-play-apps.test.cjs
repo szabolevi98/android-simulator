@@ -29,7 +29,7 @@ assert.equal(P.menu(ctx('play-books',{paPage:{'play-books':'library'}})).map(i=>
 assert.ok(books.includes('bk3-ic_corpora_books.png')&&!books.includes('‹'));
 const reader=P.render(ctx('play-books',{sub:'reader',paItem:'b2'}));
 assert.ok(!reader.includes('‹'));
-assert.ok(reader.includes('Pride and Prejudice')&&reader.includes('pa-reader-tap')&&reader.includes('1 / 4'));
+assert.ok(reader.includes('Pride and Prejudice')&&reader.includes('pa-reader-tap')&&reader.includes('1 / 6'));
 const games=P.render(ctx('play-games'));
 assert.ok(games.includes('Welcome!')&&games.includes('My games')&&games.includes('SEE MORE'));
 assert.ok(P.render(ctx('play-games',{paPage:{'play-games':'recommended'}})).includes('POPULAR MULTIPLAYER'));
