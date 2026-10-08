@@ -109,7 +109,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] Naptár: résztvevők, elérhetőség, időzóna – Vendégek, Megjelenítés így / Adatvédelem (5.1: Láthatóság), az esemény időzónája a 4.0.4-es Naptár zónalistájával, a részletekben is (e04dc86). Az időzóna még nem számítja át a nézetek idejét
 - [x] Photos (KK / LP) szerkesztő és oldalmenü bekötése – előbb az egész Photos a Google+ 4.2 / 4.9 APK-ból (a mostani a GSMArena-leírásból készült, „‹” jellel), benne a fotókeresés (host_photo_tile_search_activity, „Search for photos”) – KK: G+ 4.2.3 (a25b62a; a Szerkesztés a Galéria szerkesztőjét nyitja), LP: G+ 4.9.0 fiókkal (40c7f5f). Nincs még: az LP-n a G+ saját fotószerkesztője, a nem „Fotók” nézetek tartalma (Albumok, Automatikus szuperség, Videók, Rólad, Kuka)
 - [x] Galéria-kivágás (GB / ICS) – GB: Gallery3D CropImage (narancs HighlightView, szimmetrikus átméretezés, Mentés / Elvetés, „Kép mentése…”); ICS: Gallery2 CropImage (kék CropView, élenkénti átméretezés, Mégse / Körülvágás az action baron), a vágott másolat az eredeti mellé kerül (f29faaf). Nincs még: a CropImageView / AnimationController ráközelítése a kis kijelölésre, arcfelismerés
-- [ ] Books: betűbeállítások, háttér, fejezetválasztás
+- [x] Books: betűbeállítások, háttér, fejezetválasztás – mind az öt verzió a saját Books APK-ja szerint: GB eBooks 1.2.2 ReadingPreferenceActivity (előnézet, szövegméret, betűkép, sortávolság, igazítás, Nappal / Éjszaka, fényerő) és fejezetlista (b8137cf); ICS 2.3.6 felső beállításpanel és Tartalom-popup (2b22746); JB 2.8.91 és KK 3.1.33 Megjelenítési beállítások-popup és TableOfContentsActivity (b3ff3e0, d4b79d4); LP 3.3.15 kártya és kék ContentsView (471539b). Az APK-k saját betűtípusai, valódi témák, lépésközök és képernyő-tompítás; a mintakönyvek új fejezeteket kaptak. Nincs még: könyvjelzők, jegyzetek, felolvasás
 - [ ] Hangouts: archiválás, szundi, kép- és demóhely-megosztás
 - [ ] News & Weather: cikkoldal, frissítés, beállítások (GB beállítások is)
 - [ ] GB hálózati képernyők és mentett profilok (Hotspot, VPN, APN, szolgáltató)
@@ -249,3 +249,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-08 | 6. lépés: Naptár vendégek, elérhetőség, időzóna | e04dc86 |
 | 2026-10-08 | 6. lépés: Photos újraépítve a G+ 4.2.3 / 4.9.0 APK-ból | a25b62a, 40c7f5f |
 | 2026-10-08 | 6. lépés: Galéria-kivágás (GB, ICS) | f29faaf |
+| 2026-10-08 | 6. lépés: Books olvasóbeállítások és tartalomjegyzék (GB, ICS, JB, KK, LP) | b3ff3e0, d4b79d4, 471539b, 2b22746, b8137cf |
