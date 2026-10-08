@@ -1,0 +1,23 @@
+/* Videos in the __ANDROID__ Gallery (gallery-video.js), written by docs/gallery2-video.py; dp x 0.9. */
+.g2v-strip{position:absolute;left:0;top:0;bottom:0;aspect-ratio:40/312;background:url('assets/gallery-ic_video_thumb.png') 0 0/100% 100% no-repeat;pointer-events:none}
+.jbgal-slot>.g2v-slot-play{position:absolute;left:50%;top:50%;width:auto;height:16.67%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
+.jbgal-picture>.g2v-photo-play{position:absolute;left:50%;top:50%;width:87px;height:87px;transform:translate(-50%,-50%);pointer-events:none}
+/* MovieActivity: black, the picture letterboxed; the overlay follows the bars (player_out fades it). */
+.jbgal-photo.g2v{background:#000;overflow:hidden}
+.screen:has(>#viewport>.g2v) #viewport{bottom:0}
+.screen:has(>#viewport>.g2v:not(.bars)) #nav-bar{opacity:0}
+.g2v-frame{position:absolute;inset:0;transform-origin:50% 50%}
+.g2v-frame>img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+.g2v-overlay{position:absolute;inset:0;z-index:2}
+.g2v.fading .jbgal-bar,.g2v.fading .g2v-overlay{opacity:0;transition:opacity .5s linear}
+.g2v:not(.bars) .g2v-overlay{visibility:hidden}
+.g2v-timebar{position:absolute;left:0;right:0;bottom:__NB__;height:45px;touch-action:none;cursor:pointer}
+.g2v-back{position:absolute;left:0;right:0;bottom:0;height:36px;background:#000000c1}
+.g2v-time{position:absolute;top:27px;width:44px;transform:translateY(-50%);text-align:center;font:400 12.6px Roboto,sans-serif;color:#cecece}
+.g2v-now{left:0}
+.g2v-total{right:0}
+.g2v-track{position:absolute;left:53.6px;right:53.6px;top:27px;height:1.8px;background:#808080}
+.g2v-track i{position:absolute;left:0;top:0;bottom:0;background:#fff}
+.g2v-track b{position:absolute;top:50%;width:28.8px;height:29.25px;transform:translate(-50%,-50%);background:url('assets/gallery-scrubber_knob.png') center/100% 100% no-repeat}
+.screen .g2v-button{position:absolute;left:50%;top:50%;width:207px;height:84.15px;transform:translate(-50%,-50%);padding:0;border:0;background:url('assets/gallery-bg_vidcontrol.png') center/100% 100% no-repeat;display:grid;place-items:center;cursor:pointer}
+.g2v-button img{width:84.15px;height:84.15px}

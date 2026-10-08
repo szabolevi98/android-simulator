@@ -260,7 +260,7 @@
     let countdown = null;
     function capture() {
       if (module === 'video') {
-        if (ui.jbcamRecording) { const seconds = Math.round((Date.now() - ui.jbcamRecording) / 1000); ui.jbcamRecording = null; rerender(); toast(`${t('Video recording is simulated and not saved')} (${seconds} s)`); }
+        if (ui.jbcamRecording) { const duration = Date.now() - ui.jbcamRecording; ui.jbcamRecording = null; shoot({duration}); rerender(); }
         else { ui.jbcamRecording = Date.now(); rerender(); }
         return;
       }

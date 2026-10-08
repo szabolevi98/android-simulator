@@ -15,7 +15,7 @@ const WALLPAPERS = ['LiveWallpapersPicker', 'LiveWallpapers', 'PhaseBeam', 'Holo
 const PHONE = ['Phone', 'Dialer', 'Contacts', 'framework'];
 const FILES = {
   'calendar.js': ['CalendarGoogle', 'framework'], 'desk-clock.js': ['DeskClockGoogle', 'framework'], 'jb-deskclock.js': ['DeskClockGoogle', 'framework'],
-  'email.js': ['EmailGoogle', 'framework'], 'jb-camera.js': ['GalleryGoogle', 'CameraGoogle'], 'jb-gallery.js': ['GalleryGoogle', 'framework'],
+  'email.js': ['EmailGoogle', 'framework'], 'jb-camera.js': ['GalleryGoogle', 'CameraGoogle'], 'jb-gallery.js': ['GalleryGoogle', 'framework'], 'gallery-video.js': ['GalleryGoogle', 'framework'],
   'jb-dialer.js': PHONE, 'phone-call.js': PHONE, 'people.js': ['Contacts', 'framework'], 'messaging.js': ['Mms', 'framework'],
   'jb-play.js': ['Phonesky'], 'play-store.js': ['Phonesky'], 'live-wallpapers.js': WALLPAPERS,
   'jb-keyguard.js': ['framework', 'Settings'], 'lockscreen.js': ['framework', 'Settings'],

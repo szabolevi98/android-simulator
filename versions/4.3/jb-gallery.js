@@ -62,26 +62,32 @@
     const sub = ui.sub || '', cluster = ui.galleryCluster || 'album';
     if (sub === 'edit') return renderEditor(data, ui, t, media);
     if (sub === 'photo') return renderPhoto(data, ui, t, media, locale);
+    // MovieActivity for a video (gallery-video.js) under the Holo.ActionBar with the title and Share.
+    if (sub === 'movie') {
+      const photo = data.photos.find(p => p.id === ui.selectedPhoto);
+      if (photo?.video) return window.G2Video.render(photo, {ui, t, media, bar: bar(up(t) + `<h2>${e(photo.name)}</h2>`, iconButton('data-action="gallery-share"', 'Share', 'gallery-ic_menu_share_holo_light.png', t), t)});
+      return renderPhoto(data, ui, t, media, locale);
+    }
     // GET_CONTENT (Email's Attach file): AlbumSetPage and AlbumPage title the bar GalleryUtils.getSelectionModePrompt
     // (select_image) and inflate menu/pickup.xml, a text-only Cancel; a picture goes back to the caller.
     if (ui.galleryPick) {
       const title = `<span class="jbgal-title">${e(t('Select photo'))}</span>`, cancel = `<button type="button" class="jbgal-text-action" data-action="gallery-pick-cancel">${e(t('Cancel'))}</button>`;
-      if (sub === 'album') return `<div class="app-view gallery-app jbgal" data-jbgal data-page="album">${bar(up(t) + title, cancel, t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-album-grid">${items(data, ui, locale).map(photo => `<button type="button" class="jbgal-slot" data-action="gallery-pick" data-id="${photo.id}" aria-label="${e(photo.name)}">${media.art(photo)}</button>`).join('')}</div></div></div>`;
+      if (sub === 'album') return `<div class="app-view gallery-app jbgal" data-jbgal data-page="album">${bar(up(t) + title, cancel, t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-album-grid">${items(data, ui, locale).filter(photo => !photo.video).map(photo => `<button type="button" class="jbgal-slot" data-action="gallery-pick" data-id="${photo.id}" aria-label="${e(photo.name)}">${media.art(photo)}${window.G2Video.slot(photo)}</button>`).join('')}</div></div></div>`;
       const label = group => `<span class="jbgal-label"><img src="assets/gallery-frame_overlay_gallery_${group.key === 'camera' ? 'camera' : 'folder'}.png" alt=""><strong>${e(group.translate ? t(group.name) : group.name)}</strong><small>${group.items.length}</small></span>`;
-      return `<div class="app-view gallery-app jbgal" data-jbgal data-page="set">${bar(up(t) + title, cancel, t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-set-grid">${groups(data, 'album', locale).map(group => `<button type="button" class="jbgal-slot jbgal-album" data-jbgal-album="${e(group.key)}" aria-label="${e(group.translate ? t(group.name) : group.name)}">${media.art(group.items[0])}${label(group)}</button>`).join('')}</div></div></div>`;
+      return `<div class="app-view gallery-app jbgal" data-jbgal data-page="set">${bar(up(t) + title, cancel, t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-set-grid">${groups(data, 'album', locale).map(group => `<button type="button" class="jbgal-slot jbgal-album" data-jbgal-album="${e(group.key)}" aria-label="${e(group.translate ? t(group.name) : group.name)}">${media.art(group.items[0])}${window.G2Video.slot(group.items[0])}${label(group)}</button>`).join('')}</div></div></div>`;
     }
     if (sub === 'album') {
       const list = items(data, ui, locale), group = groups(data, cluster, locale).find(g => g.key === ui.galleryAlbum) || {name: ui.galleryAlbum === 'pictures' ? 'Pictures' : 'Camera', translate: true};
       const spinner = `<button type="button" class="jbgal-spinner jbgal-two-line" data-jbgal-open="mode"><strong>${e(group.translate ? t(group.name) : group.name)}</strong><small>${e(t('Grid view'))}</small></button>`;
-      return `<div class="app-view gallery-app jbgal" data-jbgal data-page="album">${bar(up(t) + spinner, iconButton('data-action="gallery-camera"', 'Switch to Camera', 'gallery-ic_menu_camera_holo_light.png', t) + iconButton('data-jbgal-open="album-menu"', 'More options', 'jbgal-overflow.png', t), t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-album-grid">${list.map(photo => `<button type="button" class="jbgal-slot" data-action="photo" data-id="${photo.id}" aria-label="${e(photo.name)}">${media.art(photo)}</button>`).join('') || `<p class="jbgal-empty">${e(t('0 images/videos available.'))}</p>`}</div></div>${popups(ui, t)}</div>`;
+      return `<div class="app-view gallery-app jbgal" data-jbgal data-page="album">${bar(up(t) + spinner, iconButton('data-action="gallery-camera"', 'Switch to Camera', 'gallery-ic_menu_camera_holo_light.png', t) + iconButton('data-jbgal-open="album-menu"', 'More options', 'jbgal-overflow.png', t), t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-album-grid">${list.map(photo => `<button type="button" class="jbgal-slot" data-action="photo" data-id="${photo.id}" aria-label="${e(photo.name)}">${media.art(photo)}${window.G2Video.slot(photo)}</button>`).join('') || `<p class="jbgal-empty">${e(t('0 images/videos available.'))}</p>`}</div></div>${popups(ui, t)}</div>`;
     }
     const sets = groups(data, cluster, locale);
     const spinner = `<button type="button" class="jbgal-spinner" data-jbgal-open="cluster">${e(t(CLUSTERS.find(c => c[0] === cluster)[1]))}</button>`;
     const label = group => `<span class="jbgal-label"><img src="assets/gallery-frame_overlay_gallery_${group.key === 'camera' ? 'camera' : 'folder'}.png" alt=""><strong>${e(group.translate ? t(group.name) : group.name)}</strong><small>${group.items.length}</small></span>`;
-    return `<div class="app-view gallery-app jbgal" data-jbgal data-page="set">${bar(up(t) + spinner, iconButton('data-action="gallery-camera"', 'Switch to Camera', 'gallery-ic_menu_camera_holo_light.png', t) + iconButton('data-jbgal-open="set-menu"', 'More options', 'jbgal-overflow.png', t), t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-set-grid">${sets.map(group => `<button type="button" class="jbgal-slot jbgal-album" data-jbgal-album="${e(group.key)}" aria-label="${e(group.translate ? t(group.name) : group.name)}">${media.art(group.items[0])}${label(group)}</button>`).join('') || `<p class="jbgal-empty">${e(t('No albums available.'))}</p>`}</div></div>${popups(ui, t)}</div>`;
+    return `<div class="app-view gallery-app jbgal" data-jbgal data-page="set">${bar(up(t) + spinner, iconButton('data-action="gallery-camera"', 'Switch to Camera', 'gallery-ic_menu_camera_holo_light.png', t) + iconButton('data-jbgal-open="set-menu"', 'More options', 'jbgal-overflow.png', t), t)}<div class="jbgal-scroll" data-jbgal-scroll><div class="jbgal-grid jbgal-set-grid">${sets.map(group => `<button type="button" class="jbgal-slot jbgal-album" data-jbgal-album="${e(group.key)}" aria-label="${e(group.translate ? t(group.name) : group.name)}">${media.art(group.items[0])}${window.G2Video.slot(group.items[0])}${label(group)}</button>`).join('') || `<p class="jbgal-empty">${e(t('No albums available.'))}</p>`}</div></div>${popups(ui, t)}</div>`;
   }
   // Holo spinner dropdowns and overflow menus, drawn inside the app like the action bar popups.
-  function popups(ui, t) {
+  function popups(ui, t, video = false) {
     const open = ui.galleryPopup, item = (attr, label, checked) => `<button type="button" ${attr} ${checked === undefined ? '' : `role="menuitemradio" aria-checked="${checked}"`}>${e(t(label))}</button>`;
     if (!open) return '';
     let body = '', cls = 'jbgal-menu';
@@ -89,7 +95,8 @@
     if (open === 'mode') { cls = 'jbgal-dropdown jbgal-dropdown-mode'; body = item('data-jbgal-mode="film"', 'Filmstrip view', false) + item('data-jbgal-mode="grid"', 'Grid view', true); }
     if (open === 'set-menu') body = item('data-jbgal-toast="Select album"', 'Select album') + item('data-jbgal-toast="Settings"', 'Settings');
     if (open === 'album-menu') body = item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-toast="Select item"', 'Select item') + item('data-jbgal-open="cluster"', 'Group by');
-    if (open === 'photo-menu') body = item('data-jbgal-delete', 'Delete') + item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-edit', 'Edit') + item('data-action="gallery-rotate" data-id="-90"', 'Rotate left') + item('data-action="gallery-rotate" data-id="90"', 'Rotate right') + item('data-jbgal-edit="geometry"', 'Crop') + item('data-jbgal-setas', 'Set picture as') + item('data-action="gallery-details"', 'Details');
+    if (open === 'photo-menu' && video) body = item('data-jbgal-delete', 'Delete') + item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-toast="This feature is not part of the simulator."', 'Trim') + item('data-jbgal-toast="This feature is not part of the simulator."', 'Mute') + item('data-action="gallery-details"', 'Details');
+    else if (open === 'photo-menu') body = item('data-jbgal-delete', 'Delete') + item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-edit', 'Edit') + item('data-action="gallery-rotate" data-id="-90"', 'Rotate left') + item('data-action="gallery-rotate" data-id="90"', 'Rotate right') + item('data-jbgal-edit="geometry"', 'Crop') + item('data-jbgal-setas', 'Set picture as') + item('data-action="gallery-details"', 'Details');
     return `<div class="jbgal-popup-scrim" data-jbgal-close></div><div class="${cls}" role="menu">${body}</div>`;
   }
 
@@ -98,15 +105,15 @@
     if (!photo) return `<div class="app-view gallery-app jbgal" data-jbgal data-page="photo"><p class="jbgal-empty">${e(t('Photo unavailable'))}</p></div>`;
     const group = groups(data, ui.galleryCluster || 'album', locale).find(g => g.key === ui.galleryAlbum), title = group ? (group.translate ? t(group.name) : group.name) : t('Camera');
     const film = !!ui.galleryFilm, bars = ui.galleryBars !== false || film;
-    const pictures = [index - 2, index - 1, index, index + 1, index + 2].filter(i => i >= 0 && i < list.length).map(i => `<button type="button" class="jbgal-picture${i === index ? ' current' : ''}" data-jbgal-picture="${i}" data-id="${list[i].id}" aria-label="${e(list[i].name)}" ${i === index ? '' : 'tabindex="-1"'}>${media.art(list[i])}</button>`).join('');
+    const pictures = [index - 2, index - 1, index, index + 1, index + 2].filter(i => i >= 0 && i < list.length).map(i => `<button type="button" class="jbgal-picture${i === index ? ' current' : ''}" data-jbgal-picture="${i}" data-id="${list[i].id}" aria-label="${e(list[i].name)}" ${i === index ? '' : 'tabindex="-1"'}>${media.art(list[i])}${window.G2Video.photoIcon(list[i])}</button>`).join('');
     const camera = ui.galleryFromCamera && index === 0 ? `<div class="jbgal-picture jbgal-camera-card" data-jbgal-picture="-1" aria-hidden="true">${media.art(media.scene(data))}</div>` : '';
     return `<div class="app-view gallery-app jbgal jbgal-photo${film ? ' film' : ''}${bars ? ' bars' : ''}${ui.gallerySlideshow ? ' slideshow' : ''}" data-jbgal data-page="photo" data-index="${index}" data-count="${list.length}">
       <div class="jbgal-stage" data-jbgal-stage>${camera}${pictures}</div>
       ${bar(up(t) + `<h2>${e(title)}</h2>`, iconButton('data-action="gallery-share"', 'Share', 'gallery-ic_menu_share_holo_light.png', t) + iconButton('data-jbgal-open="photo-menu"', 'More options', 'jbgal-overflow.png', t), t)}
-      <div class="jbgal-bottom"><button type="button" class="jbgal-icon" data-jbgal-edit aria-label="${e(t('Edit'))}"><img src="assets/jbgal-ic_menu_edit_holo_dark.png" alt=""></button></div>
+      <div class="jbgal-bottom"${photo.video ? ' hidden' : ''}><button type="button" class="jbgal-icon" data-jbgal-edit aria-label="${e(t('Edit'))}"><img src="assets/jbgal-ic_menu_edit_holo_dark.png" alt=""></button></div>
       ${ui.galleryUndo ? `<div class="jbgal-undo" role="status"><span>${e(t('Deleted'))}</span><button type="button" data-jbgal-undo>${e(t('UNDO'))}</button></div>` : ''}
       ${ui.gallerySlideshow ? `<button type="button" class="gallery-stop" data-action="gallery-stop">${e(t('Stop slideshow'))}</button>` : ''}
-      ${popups(ui, t)}</div>`;
+      ${popups(ui, t, !!photo.video)}</div>`;
   }
 
   /* FilterShowActivity: Save in the action bar, the picture on #101010, a 128dp category strip and the
@@ -146,6 +153,7 @@
       if (edit && photo && !edit.confirm && editKey(edit) !== editKey(editState(photo))) { edit.confirm = true; return true; }
       ui.sub = 'photo'; ui.galleryEdit = null; return true;
     }
+    if (ui.sub === 'movie') { ui.sub = 'photo'; ui.galleryMovie = null; return true; }
     if (ui.sub === 'photo' && ui.galleryFilm && !ui.galleryFromCamera) { ui.galleryFilm = false; return true; }
     if (ui.sub === 'photo') { if (ui.galleryFromCamera) return 'camera'; ui.sub = 'album'; return true; }
     if (ui.sub === 'album') { ui.sub = ''; return true; }
@@ -154,6 +162,7 @@
 
   function attach(root, {data, ui, t, media, locale, save, render: rerender, toast, openCamera, setWallpaper, reduced}) {
     const page = root.dataset.page;
+    if (page === 'movie') return window.G2Video.attach(root, {photo: data.photos.find(p => p.id === ui.selectedPhoto), ui, rerender, reduced});
     let hideTimer = 0, destroyed = false;
     const refresh = () => { if (!destroyed) rerender(); };
     // Horizontal slot views: vertical wheel scrolls sideways, like the GL SlotView on a phone.
@@ -253,6 +262,7 @@
         // Pointer capture retargets the release to the stage, so find the picture under the finger.
         const picture = document.elementFromPoint(event.clientX, event.clientY)?.closest('[data-jbgal-picture]');
         if (film) { if (picture && Number(picture.dataset.jbgalPicture) >= 0) { ui.selectedPhoto = list[Number(picture.dataset.jbgalPicture)].id; ui.galleryFilm = false; ui.galleryBars = false; refresh(); } else if (picture) openCamera(); return; }
+        if (list[index]?.video && window.G2Video.centerTap(stage.getBoundingClientRect(), event.clientX, event.clientY)) { ui.sub = 'movie'; ui.galleryMovie = null; ui.galleryPopup = ''; refresh(); return; }
         const now = performance.now();
         if (now - lastTap < 300) { ui.galleryZoom = !ui.galleryZoom; lastTap = 0; layout(0, 0, true); return; }
         lastTap = now;

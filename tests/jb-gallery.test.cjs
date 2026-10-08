@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},encodeURIComponent,ResizeObserver:class{observe(){}}};vm.createContext(context);
-vm.runInContext(fs.readFileSync('versions/4.3/media.js','utf8'),context);vm.runInContext(fs.readFileSync('versions/4.3/jb-gallery.js','utf8'),context);
+vm.runInContext(fs.readFileSync('versions/4.3/media.js','utf8'),context);vm.runInContext(fs.readFileSync('versions/4.3/gallery-video.js','utf8'),context);vm.runInContext(fs.readFileSync('versions/4.3/jb-gallery.js','utf8'),context);
 const gal=context.window.JBGallery,media=context.window.ICSMedia,plain=v=>JSON.parse(JSON.stringify(v)),t=k=>k;
 const day=new Date(2026,9,1,12).getTime();
 const data={photos:[{id:101,name:'IMG_1',album:'camera',created:day},{id:102,name:'IMG_2',album:'camera',created:day+1000},{id:1,name:'Canyon'},{id:2,name:'Coast'}]};
