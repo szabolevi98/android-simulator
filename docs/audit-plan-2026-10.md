@@ -179,7 +179,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 
 **D) Hiányzó vagy a képben nem létező appok – egyeztetni**
 
-- [ ] AOSP Zene 4.0.4 / 4.3 és AOSP Böngésző 4.3: nincsenek a képben (a 4.3-asoknál korábbi döntés volt megtartani)
+- [x] AOSP Zene 4.0.4 / 4.3 és AOSP Böngésző 4.3: nincsenek a képben – döntés 2026-10-08: szándékosan megtartjuk (kivétel a gyári-kép szabály alól, mint a Play Store)
 - [ ] A képben van, a szimulátorban nincs: 4.3 Quickoffice (és esetleg Sound Search widget, Diktafon), 4.4.4 Street View
 
 **E) Kisebb hibák**
