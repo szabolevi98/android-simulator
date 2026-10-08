@@ -127,8 +127,9 @@
       // Maps 6.4's da_destination_activity: the da_actionBar (feature switcher, "Navigation", the Map button) over the
       // ListView whose header holds class aa's tiles.
       const n = key => S('navigation', key, t);
-      const tile = (key, icon) => `<button class="nav-tile" data-action="kkx-unavailable"><img src="assets/nav-${icon}.png" alt=""><span>${e(n(key))}</span></button>`;
-      return `<div class="app-view kkx-app nav64"><header class="nav-head"><span class="nav-switch"><img src="assets/nav-ic_feature_navigation.png" alt=""><img src="assets/nav-switcher_dropdown_triangle.png" alt=""></span><i></i><b>${e(n('Navigation'))}</b><i></i><button data-action="kkx-unavailable"><img src="assets/nav-da_btn_show_map.png" alt="">${e(n('Map'))}</button></header><div class="nav-tiles">${tile('Speak destination', 'da_picker_speak_destination')}${tile('Type destination', 'da_picker_type_destination')}${tile('Contacts', 'da_picker_contacts')}${tile('Starred places', 'da_picker_starred_items')}</div></div>`;
+      // Type destination asks for a place and drives there (maps-route.js); the other pickers need the network.
+      const tile = (key, icon) => `<button class="nav-tile" data-action="${key === 'Type destination' ? 'mr-type-dest' : 'kkx-unavailable'}"><img src="assets/nav-${icon}.png" alt=""><span>${e(n(key))}</span></button>`;
+      return `<div class="app-view kkx-app nav64"><header class="nav-head"><span class="nav-switch"><img src="assets/nav-ic_feature_navigation.png" alt=""><img src="assets/nav-switcher_dropdown_triangle.png" alt=""></span><i></i><b>${e(n('Navigation'))}</b><i></i><button data-action="open-app" data-app="maps"><img src="assets/nav-da_btn_show_map.png" alt="">${e(n('Map'))}</button></header><div class="nav-tiles">${tile('Speak destination', 'da_picker_speak_destination')}${tile('Type destination', 'da_picker_type_destination')}${tile('Contacts', 'da_picker_contacts')}${tile('Starred places', 'da_picker_starred_items')}</div></div>`;
     }
     if (app === 'local') {
       // Maps 6.4's Places (placesv2.xml): the categories Places offers by default, with the APK's icons.
@@ -154,5 +155,5 @@
     if (app === 'messenger') return ['Settings', 'Send feedback', 'Help'].map(key => ({action: 'kkx-unavailable', title: S('gplus', key, t)}));
     return [];
   }
-  window.JBExtraApps = {APPS, render, menu};
+  window.JBExtraApps = {APPS, render, menu, text: (app, key) => S(app, key, k => k)};
 })();

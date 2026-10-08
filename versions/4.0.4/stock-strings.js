@@ -226,6 +226,168 @@ window.StockStrings = {
    "Mit dem Fahrrad",
    "À vélo",
    "En bici"
+  ],
+  "Get directions": [
+   "Útvonaltervezés",
+   "Route berechnen",
+   "Itinéraire",
+   "Cómo llegar"
+  ],
+  "Navigation": [
+   "Navigáció",
+   "Navigation",
+   "Navigation",
+   "Navigation"
+  ],
+  "Route options": [
+   "Útvonalopciók",
+   "Routenoptionen",
+   "Options itinéraire",
+   "Opciones ruta"
+  ],
+  "Avoiding highways": [
+   "Autópályák kikerülése",
+   "Ohne Autobahn",
+   "Itinéraire sans autoroutes",
+   "Sin autopistas"
+  ],
+  "Avoiding tolls": [
+   "Útdíjak kikerülése",
+   "Ohne Mautpflicht",
+   "Itinéraire sans péages",
+   "Sin peajes"
+  ],
+  "Head %1$s on %2$s": [
+   "Menjen %1$si irányba a(z) %2$s úton",
+   "Richtung %1$s auf %2$s fahren",
+   "Suivre la direction %1$s sur %2$s",
+   "Dirección %1$s por %2$s"
+  ],
+  "north": [
+   "észak",
+   "Norden",
+   "nord",
+   "norte"
+  ],
+  "south": [
+   "dél",
+   "Süden",
+   "sud",
+   "sur"
+  ],
+  "Turn right onto %1$s": [
+   "Forduljon jobbra erre: %1$s",
+   "Rechts auf %1$s abbiegen",
+   "Prendre %1$s complètement à droite",
+   "Gira a la derecha hacia %1$s."
+  ],
+  "Turn left onto %1$s": [
+   "Forduljon balra erre: %1$s",
+   "Links auf %1$s abbiegen",
+   "Prendre à gauche sur %1$s",
+   "Gira a la izquierda hacia %1$s."
+  ],
+  "Continue onto %1$s": [
+   "Tovább erre: %1$s",
+   "Weiter auf %1$s",
+   "Continuer sur %1$s",
+   "Continúa por %1$s."
+  ],
+  "Your destination is on the right.": [
+   "Az úti cél a jobb oldalon található.",
+   "Das Ziel befindet sich auf der rechten Seite.",
+   "Votre destination se trouve sur la droite.",
+   "Tu destino está a la derecha."
+  ],
+  "You have arrived.": [
+   "Megérkezett.",
+   "Sie haben das Ziel erreicht.",
+   "Vous êtes arrivé.",
+   "Has llegado."
+  ],
+  "%1$s min": [
+   "%1$s perc",
+   "%1$s Min.",
+   "%1$s mn",
+   "%1$s min"
+  ],
+  "%1$s hr  %2$s min": [
+   "%1$s óra %2$s perc",
+   "%1$s h %2$s min",
+   "%1$s h %2$s mn",
+   "%1$s h %2$s min"
+  ],
+  "{0} km": [
+   "{0} km",
+   "{0} km",
+   "{0} km",
+   "{0} km"
+  ],
+  "{0} m": [
+   "{0} m",
+   "{0} m",
+   "{0} m",
+   "{0} m"
+  ],
+  "{0} mi": [
+   "{0} mf",
+   "{0} mi",
+   "{0} mi",
+   "{0} mi"
+  ],
+  "{0} ft": [
+   "{0} láb",
+   "{0} ft",
+   "{0} pieds",
+   "{0} pie(s)"
+  ],
+  "imperial": [
+   "metric",
+   "metric",
+   "metric",
+   "metric"
+  ],
+  "Exit navigation?": [
+   "Kilép a navigációból?",
+   "Navigation beenden?",
+   "Quitter le mode Navigation ?",
+   "¿Salir de Navigation?"
+  ],
+  "Exit navigation": [
+   "Kilépés a navigációból",
+   "Navigation beenden",
+   "Quitter le mode Navigation",
+   "Salir de la navegación"
+  ],
+  "OK": [
+   "OK",
+   "OK",
+   "OK",
+   "Aceptar"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "Avoid tolls": [
+   "Útdíjak kikerülése",
+   "Mautpflichtige Straßen meiden",
+   "Éviter les péages",
+   "Evitar peajes"
+  ],
+  "east": [
+   "kelet",
+   "Osten",
+   "est",
+   "este"
+  ],
+  "west": [
+   "nyugat",
+   "Westen",
+   "ouest",
+   "oeste"
   ]
  },
  "news": {

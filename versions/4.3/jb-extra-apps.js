@@ -124,7 +124,8 @@
     if (app === 'navigation') {
       // Maps 6.14's DestinationActivity on a phone (da_destination_activity_redesign): the shortcut tiles of class aa.
       const n = key => S('navigation', key, t);
-      const tile = (key, icon) => `<button class="nav-tile" data-action="kkx-unavailable"><img class="${icon}" src="assets/nav-${icon}.png" alt=""><span>${e(n(key))}</span></button>`;
+      // Type destination asks for a place and drives there (maps-route.js); the other pickers need the network.
+      const tile = (key, icon) => `<button class="nav-tile" data-action="${key === 'Type destination' ? 'mr-type-dest' : 'kkx-unavailable'}"><img class="${icon}" src="assets/nav-${icon}.png" alt=""><span>${e(n(key))}</span></button>`;
       return `<div class="app-view kkx-app nav614"><header class="nav-bar"><img src="assets/navigation.png" alt=""><b>${e(n('Navigation'))}</b></header><div class="nav-strip"><b>${e(n('SHORTCUTS'))}</b><span>${e(n('STARRED'))}</span></div><div class="nav-tiles">${tile('Speak destination', 'da_picker_speak_destination')}${tile('Type destination', 'da_picker_type_destination')}${tile('Contacts', 'da_picker_contacts')}${tile('Starred places', 'da_picker_starred_items')}</div></div>`;
     }
     if (app === 'local') {
@@ -158,5 +159,5 @@
     }
     return '';
   }
-  window.JBExtraApps = {APPS, render};
+  window.JBExtraApps = {APPS, render, text: (app, key) => S(app, key, k => k)};
 })();
