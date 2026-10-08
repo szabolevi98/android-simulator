@@ -180,7 +180,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 **D) Hiányzó vagy a képben nem létező appok – egyeztetni**
 
 - [x] AOSP Zene 4.0.4 / 4.3 és AOSP Böngésző 4.3: nincsenek a képben – döntés 2026-10-08: szándékosan megtartjuk (kivétel a gyári-kép szabály alól, mint a Play Store)
-- [ ] A képben van, a szimulátorban nincs: 4.3 Sound Search widget, Diktafon (ellenőrizni, van-e indítóikonjuk). A 4.4.4 Street View nem kell (a tulajdonos döntése, 2026-10-08). A 4.3 Quickoffice (OccamQuickOffice 5.7.3) nem hiányzik: a manifestjében egyetlen activity sem LAUNCHER, a launcher.txt-ben sincs, csak dokumentum-megnyitóként fut, így az alkalmazáslistában a gyári telefonon sem látszott
+- [ ] A képben van, a szimulátorban nincs: 4.3 Sound Search widget és Diktafon – kell (a tulajdonos, 2026-10-08). Ellenőrizve: egyiknek sincs indítóikonja; a GoogleEars 1.1.9 csak widgetként jelenik meg (a widgetválasztóba kell), a SoundRecorder 4.3 se ikon, se widget, csak más app hívja (pl. az Üzenetek hangfelvétel-csatolása). A 4.4.4 Street View nem kell (a tulajdonos döntése, 2026-10-08). A 4.3 Quickoffice (OccamQuickOffice 5.7.3) nem hiányzik: a manifestjében egyetlen activity sem LAUNCHER, a launcher.txt-ben sincs, csak dokumentum-megnyitóként fut, így az alkalmazáslistában a gyári telefonon sem látszott
 
 **E) Kisebb hibák**
 
