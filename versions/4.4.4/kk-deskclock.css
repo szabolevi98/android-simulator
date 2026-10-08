@@ -13,7 +13,12 @@
 .kdc-time b{font:700 12.68px RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;margin-left:1.81px}
 .kdc-alarm.off .kdc-time{color:#ffffff80}
 .kdc-time:active{background:#ffffff26}
+/* alarm_time.xml's Switch is the Holo one of the Settings rows with android:thumbTextPadding="10dip" instead of 12: the
+   thumb is 4 dp and the track 8 dp narrower. The thumb is placed in the switch itself, outside .settings-app too. */
 .kdc-switch{margin-left:auto}
+.screen .kdc-switch.holo-switch{position:relative;flex:none;width:88.79px!important;min-width:88.79px!important}
+.screen .kdc-switch.holo-switch .switch-label{width:67.95px}
+.screen .kdc-switch.holo-switch.on .switch-label{left:25.36px}
 .kdc-body{position:relative}
 .kdc-delete{position:absolute;right:0;top:0;border:0;background:none;padding:7.25px;z-index:1}
 .kdc-delete img{width:28.99px;height:28.99px;display:block}
