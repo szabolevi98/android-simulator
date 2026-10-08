@@ -17,6 +17,8 @@ def apk_path(key):
     sys.exit(f'no APK for {key}')
 ENTRIES = [l.split() for l in open(os.path.join(os.path.dirname(__file__), 'lp-strings.txt')) if l.strip() and not l.startswith('#')]
 LANGS = ['hu', 'de', 'fr', 'es']
+# The attribute ids of a plurals entry's quantities.
+QUANTITY = {'other': 0x01000004, 'zero': 0x01000005, 'one': 0x01000006, 'two': 0x01000007, 'few': 0x01000008, 'many': 0x01000009}
 def clean(v):
     v = re.sub(r'\\(["\'])', r'\1', v).replace('\\n', '\n')
     return v  # androguard escapes quotes but does not wrap the text in them
@@ -37,6 +39,23 @@ for apk_key, name in ENTRIES:
         for i, en in enumerate(per.get('en', [])):
             if en in seen: continue
             seen.add(en); rows.append([en] + [per.get(q, per['en'])[i] for q in LANGS])
+        continue
+    if name.startswith('plurals:'):
+        # A quantity string, "plurals:name:quantity" (one, other...); a language without that quantity takes 'other'.
+        _, plural, quantity = name.split(':')
+        rid = r.get_res_id_by_key(pkg, 'plurals', plural)
+        if rid is None: print('missing', apk_key, name, file=sys.stderr); continue
+        vals = {}
+        for cfg, entry in r.get_res_configs(rid):
+            q = cfg.get_qualifier() or 'en'
+            if q not in ['en'] + LANGS: continue
+            items = dict(entry.item.items)
+            item = items.get(QUANTITY[quantity]) or items.get(QUANTITY['other'])
+            if item is not None: vals[q] = clean(r.stringpool_main.getString(item.data))
+        en = vals.get('en')
+        if not en or en in seen: continue
+        seen.add(en)
+        rows.append([en] + [vals.get(q, en) for q in LANGS])
         continue
     rid = r.get_res_id_by_key(pkg, 'string', name)
     if rid is None: print('missing', apk_key, name, file=sys.stderr); continue

@@ -23,7 +23,7 @@
     },
     keepNotes: StockApps.DEFAULT_NOTES.map(note => ({...note})),
     dock: ['phone', 'messaging', 'apps', 'chrome', 'camera'],
-    settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false, locationAccess: true, pulse: true, doze: true, dialTones: true, screenLockSounds: true, touchSounds: true, haptic: true, vibrateRing: false, zenMode: 'all', zenEvents: true, zenCalls: true, zenMessages: true, patternVisible: true, autoBrightness: false },
+    settings: { wifi: true, wifiNetwork: 'AndroidAP', wifiNotify: true, bluetooth: false, bluetoothVisible: false, pairedDevice: '', airplane: false, nfc: true, androidBeam: true, wifiDirect: false, portableHotspot: false, dataEnabled: true, dataRoaming: false, developerUnlocked: false, silent: false, rotate: true, brightness: 68, autoSync: true, networkLocation: true, gps: false, visiblePasswords: false, unknownSources: false, backup: true, autoRestore: true, largeText: false, speakPasswords: false, usbDebug: false, stayAwake: false, mockLocations: false, showTouches: false, locationAccess: true, pulse: true, doze: true, dialTones: true, screenLockSounds: true, touchSounds: true, haptic: true, vibrateRing: false, zenMode: 'all', zenEvents: true, zenCalls: false, zenMessages: false, patternVisible: true, autoBrightness: false },
     contacts: [
       { id: 1, name: 'Alex Morgan', phone: '202-555-0148', email: 'alex@example.com' },
       { id: 2, name: 'Sam Rivera', phone: '202-555-0192', email: 'sam@example.com' },
@@ -911,11 +911,20 @@
     } else if (ui.overlay === 'dream') {
       overlayRoot.innerHTML = renderDream();
     } else if (ui.overlay === 'kdc-picker' && ui.kdcPicker) {
-      overlayRoot.innerHTML = KKDeskClock.picker(ui.kdcPicker, {t: key => i18n.t(key), hour24: !!data.settings.hour24});
+      overlayRoot.innerHTML = KKDeskClock.picker(ui.kdcPicker, {t: key => i18n.t(key), hour24: !!data.settings.hour24, accent: ui.kdcPicker.zen ? '#009688' : undefined});
     } else if (ui.overlay === 'kk-cast-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="kk-cast-enable" role="menuitemcheckbox" aria-checked="${!!data.settings.wifiDisplay}" class="kk-check-item">${safe(i18n.t('Enable wireless display'))}<img src="assets/btn_check_${data.settings.wifiDisplay ? 'on' : 'off'}_holo_dark.png" alt=""></button></div>`;
     } else if (ui.overlay === 'ldu-sort' || ui.overlay === 'ldu-overflow') {
       overlayRoot.innerHTML = LPDownloads.menu(ui.overlay.slice(4), ui, key => i18n.t(key));
+    } else if (ui.overlay === 'lp-zen-drop') {
+      overlayRoot.innerHTML = LPZen.dropdown(ui.zenDrop, data.settings, key => i18n.t(key));
+      // overlapAnchor: the list covers the preference, from its start padding.
+      const anchor = viewport.querySelector(`[data-action="lp-zen-drop"][data-id="${ui.zenDrop}"]`), list = overlayRoot.querySelector('.lp-dropdown');
+      if (anchor && list) { const a = anchor.getBoundingClientRect(), box = overlayRoot.getBoundingClientRect(), frame = screen.getBoundingClientRect(), scale = frame.height / screen.offsetHeight || 1; list.style.top = `${Math.max(0, Math.min((a.top - box.top) / scale, screen.offsetHeight - list.offsetHeight))}px`; }
+    } else if (ui.overlay === 'lp-zen-cond' && ui.zenCond) {
+      overlayRoot.innerHTML = LPZen.conditionDialog(ui.zenCond, key => i18n.t(key));
+    } else if (ui.overlay === 'lp-zen-days') {
+      overlayRoot.innerHTML = LPZen.daysDialog(data.settings, key => i18n.t(key), i18n.locale());
     } else if (ui.overlay === 'kk-sms-app') {
       // SmsDefaultDialog-style list preference: the SMS-capable apps (only Messaging in AOSP).
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(i18n.t('Default SMS app'))}"><h3>${safe(i18n.t('Default SMS app'))}</h3><button class="settings-row jb-dream-row" data-action="close-overlay" role="radio" aria-checked="true"><span class="row-copy">${safe(i18n.t('Messaging'))}</span><img class="holo-radio" src="assets/btn_radio_on_holo_dark.png" alt=""></button><div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
@@ -1725,6 +1734,8 @@
     if (note.kind === 'market-done') return {...note, smallIcon: 'lpn-play-installed.png', color: '#607d8b'};
     return {...note, smallIcon: 'lp-sysui-android.svg', color: '#9e9e9e'};
   }
+  // AlarmManager.getNextAlarmClock: the next enabled alarm, in ms of device time (0 without one).
+  function nextAlarmTime() { const next = data.alarms.filter(alarm => alarm.enabled).map(alarm => ICSDeskClock.nextOccurrence(alarm, deviceDate())).filter(Boolean).sort((a, b) => a - b)[0]; return next ? next.getTime() : 0; }
   // Settings.System.NEXT_ALARM_FORMATTED, shown by the temporary alarm tile.
   function nextAlarmLabel() {
     const next = data.alarms.filter(alarm => alarm.enabled).map(alarm => ICSDeskClock.nextOccurrence(alarm, deviceDate())).filter(Boolean).sort((a, b) => a - b)[0];
@@ -2071,7 +2082,27 @@
       case 'sx-apn-open': ui.systemDraft=clone((data.apnProfiles||[{id:'default',name:'Telekom',apn:'internet.telekom',mcc:'216',mnc:'30'}]).find(profile=>profile.id===id)||{});ui.systemField='apn-edit';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
       case 'sx-apn-select': data.settings.apnId=id;save();render();break;
       case 'dev-info': toast(i18n.t('Not available in the simulator')); break;
-      case 'lp-zen': data.settings.zenMode = id; save(); render(); break;
+      // Interruptions (lp-zen.js): the DropDownPreference lists, the condition dialog after priority / none, Days, the times.
+      case 'lp-zen-drop': ui.zenDrop = id; ui.overlay = 'lp-zen-drop'; renderOverlay(); break;
+      case 'lp-zen-pick': {
+        const [kind, value] = id.split(':'), s = data.settings;
+        ui.overlay = '';
+        if (kind === 'mode' && value !== (s.zenMode || 'all')) {
+          const old = s.zenMode || 'all', oldExit = s.zenExit || null;
+          s.zenMode = value;
+          if (value === 'all') s.zenExit = null;
+          else { const now = deviceDate().getTime(); ui.zenCond = {mode: value, old, oldExit, index: 0, list: LPZen.conditions(s, now, nextAlarmTime())}; ui.overlay = 'lp-zen-cond'; }
+        }
+        if (kind === 'from') s.zenFrom = value;
+        if (kind === 'downtime' && s.zenSleepNone !== (value === 'none')) { s.zenSleepNone = value === 'none'; delete s.zenDowntimed; }
+        save(); render(); renderOverlay(); break;
+      }
+      case 'lp-zen-cond': ui.zenCond.index = Number(id); renderOverlay(); break;
+      case 'lp-zen-ok': LPZen.confirm(data.settings, ui.zenCond.list[ui.zenCond.index], deviceDate().getTime()); ui.zenCond = null; ui.overlay = ''; save(); render(); renderOverlay(); break;
+      case 'lp-zen-cancel': data.settings.zenMode = ui.zenCond.old; data.settings.zenExit = ui.zenCond.oldExit; ui.zenCond = null; ui.overlay = ''; save(); render(); renderOverlay(); break;
+      case 'lp-zen-days': ui.overlay = 'lp-zen-days'; renderOverlay(); break;
+      case 'lp-zen-day': { const day = Number(id), days = new Set(data.settings.zenDays || []); if (days.has(day)) days.delete(day); else days.add(day); data.settings.zenDays = [...days].sort(); delete data.settings.zenDowntimed; save(); render(); renderOverlay(); break; }
+      case 'lp-zen-time': { const [h, m] = (data.settings[id === 'start' ? 'zenStart' : 'zenEnd'] || (id === 'start' ? '22:00' : '07:00')).split(':').map(Number); ui.kdcPicker = {zen: id, hour: h, minute: m, mode: 'hour'}; ui.overlay = 'kdc-picker'; renderOverlay(); break; }
       case 'lp-lock-notif': { const order = ['show', 'hide', 'none']; data.settings.lockNotifications = order[(order.indexOf(data.settings.lockNotifications || 'show') + 1) % 3]; save(); render(); break; }
       case 'build-tap': {
         if (data.settings.developerUnlocked) { toast('No need, you are already a developer.'); break; }
@@ -2354,7 +2385,7 @@
       case 'lpx-unavailable': case 'lpx-menu': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'lpx-overflow': ui.overlay = 'lpx-overflow'; renderOverlay(); break;
       case 'lpx-drawer': ui.lpxDrawer = !ui.lpxDrawer; render(); break;
-      case 'vol-zen': data.settings.zenMode = id; save(); renderStatus(); showVolume(volumeStream()); break;
+      case 'vol-zen': data.settings.zenMode = id; if (id === 'all') data.settings.zenExit = null; save(); renderStatus(); showVolume(volumeStream()); break;
       case 'vol-settings': hideVolume(); openApp('settings'); ui.sub = 'sound'; render(); break;
       case 'people-search-close': ui.peopleSearching = false; ui.peopleQuery = ''; render(); break;
       case 'open-settings-sync': ui.overlay = ''; openApp('settings'); ui.sub = 'sync'; render(); break;
@@ -2481,6 +2512,7 @@
       case 'kdc-picker-done': {
         // AlarmClockFragment.onTimeSet: an edited alarm is switched on; a new one is added, enabled and expanded.
         const p=ui.kdcPicker, time=`${String(p.hour).padStart(2,'0')}:${String(p.minute).padStart(2,'0')}`;
+        if(p.zen){data.settings[p.zen==='start'?'zenStart':'zenEnd']=time;delete data.settings.zenDowntimed;save();ui.kdcPicker=null;ui.overlay='';render();renderOverlay();break;}
         if(p.id){const alarm=data.alarms.find(item=>item.id===p.id); if(alarm){alarm.time=time;alarm.enabled=true;delete alarm.snoozedUntil;}}
         else{const alarm=ICSDeskClock.normalize({time,enabled:true});alarm.id=Date.now();data.alarms.push(alarm);ui.kdcExpanded=alarm.id;}
         save(); ui.kdcPicker=null; ui.overlay=''; render(); toast('Alarm set'); break;
@@ -3737,6 +3769,8 @@
     }
     checkAlarms(now);
     checkTimers();
+    // Interruptions: the end of a countdown, alarm or downtime condition, and Downtime's autotrigger.
+    if (LPZen.tick(data.settings, now.getTime(), nextAlarmTime())) { save(); renderStatus(); if (ui.view === 'settings' && ui.sub === 'zen' && !ui.overlay) render(); }
     // Dreams redraw only when the saver moves (each minute) or the slideshow advances; otherwise just the text changes.
     if (ui.overlay === 'dream' && !pointerStart) {
       const key = `${data.settings.daydreamType}:${Math.floor(Date.now() / 60000)}:${Math.floor(Date.now() / 6000)}`, type = data.settings.daydreamType || 'clock';

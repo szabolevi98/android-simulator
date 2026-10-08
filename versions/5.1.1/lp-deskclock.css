@@ -207,9 +207,9 @@
 .lpdc .jbclock-timers,.lpdc .jbclock-stopwatch{background:none;padding-bottom:79.73px}
 .lpdc .jbclock-count{color:#fff;font-weight:100}
 .lpdc .jbclock-laps{color:#ffffffcc}
-/* The Material TimePickerDialog (accent #FF4081): pink header, light dial. */
+/* The Material TimePickerDialog in the app's accent (--kdc-accent, DeskClock #FF4081): header, light dial. */
 .screen .kdc-picker{background:#fff;color:#000000de;border-radius:1.81px;box-shadow:0 10.87px 27px #00000066;overflow:hidden}
-.screen .kdc-picker-header{background:#ff4081;color:#ffffff99;padding:14.5px 0}
+.screen .kdc-picker-header{background:var(--kdc-accent,#ff4081);color:#ffffff99;padding:14.5px 0}
 .screen .kdc-picker-header button{color:#ffffff99;background:none;border:0;font:300 50.74px Roboto,sans-serif}
 .screen .kdc-picker-header button.sel{color:#fff}
 .screen .kdc-picker-header span{color:#ffffff99;font:300 50.74px Roboto,sans-serif}
@@ -219,12 +219,12 @@
 .screen .kdc-num.sel{color:#fff}
 /* TimePickerFragment opens the framework TimePickerDialog: CANCEL and OK (TimePickerDialog.java) in the pink accent. */
 .screen .kdc-picker .settings-dialog-actions{min-height:43.49px;align-items:center;padding:0 7.25px;border:0}
-.screen .kdc-picker .settings-dialog-actions button{flex:none;width:auto;border:0;color:#ff4081;background:none}
+.screen .kdc-picker .settings-dialog-actions button{flex:none;width:auto;border:0;color:var(--kdc-accent,#ff4081);background:none}
 .screen .kdc-dial::before{background:#eceff1}
 .screen .kdc-num{font-family:Roboto,sans-serif}
 .screen .kdc-num.inner{color:#0000008a}
 .screen .kdc-dial-ampm{background:#0000000d;color:#000000de;font-family:Roboto,sans-serif}
-.screen .kdc-dial-ampm.sel{background:#ff4081;color:#fff}
+.screen .kdc-dial-ampm.sel{background:var(--kdc-accent,#ff4081);color:#fff}
 .screen .kdc-picker-header .kdc-picker-ampm,.screen .kdc-picker footer{font-family:Roboto,sans-serif}
 /* DeskClock 5.1 screensaver (Daydream): the same thin main_clock_frame as the Clock tab. */
 .jb-dream-saver .jbclock-time,.jb-dream-saver .jbclock-hours,.jb-dream-saver .jbclock-minutes{font-family:Roboto,sans-serif;font-weight:100}

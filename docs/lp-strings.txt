@@ -238,3 +238,36 @@ PlusOne photos_setas_wallpaper
 Velvet pick_wallpaper
 # Play Music widget label (MediaAppWidgetProvider takes the app label).
 Music2 app_name
+# Interruptions (ZenModeSettings 5.1, zen_mode_settings.xml) and its dialogs.
+Settings zen_mode_option_title
+Settings zen_mode_option_important_interruptions
+Settings zen_mode_option_no_interruptions
+Settings zen_mode_important_category
+Settings zen_mode_events
+Settings zen_mode_calls
+Settings zen_mode_messages
+Settings zen_mode_from
+Settings zen_mode_from_anyone
+Settings zen_mode_from_starred
+Settings zen_mode_from_contacts
+Settings zen_mode_alarm_info
+Settings zen_mode_downtime_category
+Settings zen_mode_downtime_days
+Settings zen_mode_start_time
+Settings zen_mode_end_time
+Settings zen_mode_end_time_priority_next_day_summary_format
+Settings zen_mode_end_time_none_same_day_summary_format
+Settings zen_mode_end_time_none_next_day_summary_format
+Settings zen_mode_downtime_mode_title
+Settings zen_mode_downtime_mode_priority
+Settings done_button
+Settings okay
+Settings cancel_all_caps
+# ZenModeConditionSelection (5.1): "Until you turn this off" and the countdown durations (ZenModeConfig.MINUTE_BUCKETS).
+framework zen_mode_forever
+framework plurals:zen_mode_duration_minutes:other
+framework plurals:zen_mode_duration_hours:one
+framework plurals:zen_mode_duration_hours:other
+Settings zen_mode_downtime_days_none
+framework downtime_condition_line_one
+framework zen_mode_next_alarm_line_one

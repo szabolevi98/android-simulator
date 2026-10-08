@@ -221,3 +221,20 @@
 /* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
    divider's room stays (fillForMissingDividers). */
 .screen .settings-app :is(.settings-row,.list-row):has(+ .section-label){border-bottom-color:transparent}
+/* Interruptions (lp-zen.js). The DropDownPreference's Spinner list: popup_background_material (white, 2 dp corners,
+   16 dp elevation), simple_spinner_dropdown_item rows (48 dp, 16 sp, 8 dp padding), as wide as the longest item. */
+.lp-dropdown{position:absolute;left:14.5px;top:0;z-index:40;max-width:calc(100% - 29px);background:#fff;border-radius:1.81px;box-shadow:0 7.25px 14.5px #0000003d,0 0 3.62px #0000001f}
+.lp-dropdown button{display:block;width:100%;height:43.49px;padding:0 7.25px;border:0;background:none;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:400 14.5px Roboto,sans-serif;color:#000000de;cursor:pointer}
+.lp-dropdown button:active{background:#0000001f}
+/* alarm_info: a Preference without a title, its summary in textAppearanceSmall and textColorSecondary; not selectable. */
+.screen .lp-settings .lp-zen-note{min-height:0;padding-top:7.25px;padding-bottom:7.25px;cursor:default}
+.screen .lp-settings .lp-zen-note small{margin:0;font:400 12.68px Roboto,sans-serif;color:#0000008a}
+/* ZenModeConditionSelection: a RadioGroup with content_margin_left (16 dp) padding, Material radio buttons (32 dp). */
+.screen .lp-zen-dialog .lp-zen-conditions{max-height:calc(100vh - 160px);overflow-y:auto;padding:0 14.5px}
+.screen .lp-zen-dialog .lp-zen-conditions .settings-row{min-height:28.99px;padding:0}
+.screen .lp-zen-dialog .lp-zen-conditions .lp-radio{margin:0 10.87px 0 5.44px}
+.screen .lp-zen-dialog .lp-zen-conditions .row-copy{font:400 12.68px Roboto,sans-serif}
+/* ZenModeDowntimeDaysSelection: zen_downtime_day.xml check boxes, 48 dp, 18 sp, 7 dp text padding, 17 dp sides. */
+.screen .lp-zen-days .settings-row{min-height:43.49px;padding:0 15.4px}
+.screen .lp-zen-days .settings-row .lp-check{margin:0 9.06px 0 3.62px}
+.screen .lp-zen-days .settings-row .row-copy{font:400 16.31px Roboto,sans-serif}
