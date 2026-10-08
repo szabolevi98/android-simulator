@@ -258,7 +258,22 @@ tethered_notification_message wifi_tether_configure_ssid_default dialog_alert_ti
         'keys': '''settings_label mobile_networks data_enabled data_enable_summary roaming roaming_enable roaming_disable roaming_warning apn_settings prefer_2g
 prefer_2g_summary networks sum_carrier_select label_available load_networks_progress empty_networks_list search_networks sum_search_networks
 select_automatically sum_select_automatically register_automatically register_on_network not_allowed connect_later registration_done
-dialog_alert_title yes no'''.split(),
+dialog_alert_title yes no simContacts_emptyLoading simContacts_empty simContacts_title importSimEntry importAllSimEntries
+importingSimContacts cancel'''.split(),
+    },
+    # Contacts' display options (ContactsPreferencesActivity), Import/Export (ImportVCardActivity, ExportVCardActivity) and
+    # sharing; the image is a "nosdcard" build, so the USB storage variants come first in the files.
+    'contactsio': {
+        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-2.3.6_r1/res/values%s/strings.xml',
+                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'keys': '''displayGroups menu_done menu_doNotSave showFilterPhones showFilterPhonesDescrip headerContactGroups display_options_sort_list_by
+display_options_sort_by_given_name display_options_sort_by_family_name display_options_view_names_as display_options_view_given_name_first
+display_options_view_family_name_first display_ungrouped display_all_contacts display_more_groups menu_sync_remove dialog_sync_add
+display_warn_remove_ungrouped dialog_import_export import_from_sim import_from_sdcard export_to_sdcard share_visible_contacts searching_vcard_title
+searching_vcard_message scanning_sdcard_failed_title scanning_sdcard_failed_message fail_reason_no_vcard_file select_vcard_title
+import_one_vcard_string import_multiple_vcard_string import_all_vcard_string reading_vcard_title reading_vcard_message reading_vcard_contacts
+confirm_export_title confirm_export_message exporting_contact_list_title exporting_contact_list_message exporting_contact_list_progress
+exporting_contact_failed_title exporting_contact_failed_message fail_reason_no_exportable_contact share_error whichApplication ok cancel'''.split(),
     },
 }
 

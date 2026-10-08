@@ -35,14 +35,16 @@
     }).join('')}</div>`;
   }
   // ContactsListActivity: alphabetical with list_separator headers, a 48 dp QuickContactBadge and the 22 sp name.
+  // Display options (gb-contacts-io.js): the visible groups, only contacts with phones, the sort key and the name order.
   function contacts(people, ctx, favorites = false) {
-    const sorted = [...people].sort((a, b) => a.name.localeCompare(b.name, ctx.locale));
+    const io = ctx.io, key = person => io ? io.key(person) : person.name, label = person => io ? io.name(person) : person.name;
+    const sorted = [...(io && !favorites ? io.filter(people) : people)].sort((a, b) => key(a).localeCompare(key(b), ctx.locale));
     if (!sorted.length) return `<p class="gbp-empty">${e(text(ctx.lang, favorites ? 'noFavoritesHelpText' : 'noContactsHelpText')).replace(/\n/g, '<br>')}</p>`;
     let letter = '';
     return `<div class="gbp-list">${sorted.map(person => {
-      const initial = favorites ? '' : person.name[0].toLocaleUpperCase(ctx.locale);
+      const initial = favorites ? '' : key(person)[0].toLocaleUpperCase(ctx.locale);
       const header = initial && initial !== letter ? `<div class="gbp-section">${e(letter = initial)}</div>` : '';
-      return `${header}<button class="gbp-contact" data-action="gbp-contact" data-id="${person.id}"><img src="${window.GBContactPhoto?.(person) || 'assets/gb-c-ic_contact_list_picture.png'}" alt=""><span>${e(person.name)}</span>${favorites ? '' : ''}</button>`;
+      return `${header}<button class="gbp-contact" data-action="gbp-contact" data-id="${person.id}"><img src="${window.GBContactPhoto?.(person) || 'assets/gb-c-ic_contact_list_picture.png'}" alt=""><span>${e(label(person))}</span></button>`;
     }).join('')}</div>`;
   }
   // ViewContactActivity: the contact header (photo, name, star) and the data rows - call, text and email.
@@ -124,10 +126,10 @@
   // ContactsListActivity (Search, New contact, Display options, Accounts, Import/Export).
   function menu(ctx) {
     const T = key => text(ctx.lang, key), tab = ctx.tab || 'dialpad';
-    if (ctx.detail) return [{action: 'people-edit', title: T('menu_editContact'), icon: 'ic_menu_edit'}, {action: 'people-share', title: T('menu_share'), icon: 'ic_menu_share'}, {action: 'people-delete', title: T('menu_deleteContact'), icon: 'ic_menu_delete'}];
+    if (ctx.detail) return [{action: 'people-edit', title: T('menu_editContact'), icon: 'ic_menu_edit'}, {action: 'gbct-share-one', id: ctx.detail.id, title: T('menu_share'), icon: 'ic_menu_share'}, {action: 'people-delete', title: T('menu_deleteContact'), icon: 'ic_menu_delete'}];
     if (tab === 'dialpad') return ctx.dial ? [{action: 'phone-add-contact', title: T('recentCalls_addToContact'), icon: 'ic_menu_add'}, {action: 'dial', id: ',', title: T('add_2sec_pause'), icon: 'ic_menu_add'}, {action: 'dial', id: ';', title: T('add_wait'), icon: 'ic_menu_add'}] : [];
     if (tab === 'history') return ctx.calls.length ? [{action: 'gbp-clear-log', title: T('recentCalls_deleteAll'), icon: 'ic_menu_close_clear_cancel'}] : [];
-    return [{action: 'people-search', title: T('menu_search'), icon: 'ic_menu_search'}, {action: 'gbp-new-contact', title: T('menu_newContact'), icon: 'ic_menu_add'}, {action: 'gbset-toast', id: 'Display options', title: T('menu_displayGroup'), icon: 'ic_menu_view'}, {action: 'gbset-toast', id: 'Accounts', title: T('menu_accounts'), icon: 'ic_menu_account_list'}, {action: 'gbset-toast', id: 'Import/Export', title: T('menu_import_export'), icon: 'c-ic_menu_import_export'}];
+    return [{action: 'people-search', title: T('menu_search'), icon: 'ic_menu_search'}, {action: 'gbp-new-contact', title: T('menu_newContact'), icon: 'ic_menu_add'}, {action: 'gbct-display', title: T('menu_displayGroup'), icon: 'ic_menu_view'}, {action: 'gbct-accounts', title: T('menu_accounts'), icon: 'ic_menu_account_list'}, {action: 'gbct-io-menu', title: T('menu_import_export'), icon: 'c-ic_menu_import_export'}];
   }
 
   window.GBPhone = {TABS, KEYS, HANGING_UP, ENDED, text, phoneText, relative, render, menu, callState, elapsedText, inCall, callDetail};

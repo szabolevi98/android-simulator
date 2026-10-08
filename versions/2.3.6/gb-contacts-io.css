@@ -1,0 +1,30 @@
+/* gb-contacts-io.js on Gingerbread (1 dip = 0.8625 px): ContactsPreferencesActivity's rows (64 dip, 14 dip in, a medium
+   18 sp title over a small 14 sp summary, the btn_check widgets 4 dip from the edge), the MoreButton (btn_circle with
+   ic_btn_round_more), the account row (expandableListPreferredItemPaddingLeft 40 dip, the expander indicator, the large
+   22 sp name), the group children, the ButtonBar on bottom_bar; Phone's SimContacts rows (64 dip, ic_input_add on the
+   left, large text); ProgressDialog STYLE_HORIZONTAL (progress_horizontal's grey track and yellow fill, 5 dip corners). */
+.gbct{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.gbct-list{flex:1;min-height:0;overflow-y:auto}
+.screen .gbct-row{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 5.18px 0 12.08px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font-family:inherit;cursor:pointer}
+.screen .gbct-row:active,.screen .gbct-sim:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.gbct-row>span{flex:1;min-width:0;display:flex;flex-direction:column;padding:5.18px 5.18px 5.18px 0}
+.gbct-row b{font-weight:400;font-size:15.53px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbct-row b.large{font-size:18.98px}
+.gbct-row small{font-size:12.07px;line-height:1.3;color:#bebebe}
+.gbct-check{flex:none;width:27.6px;height:27.6px;margin-right:3.45px}
+.gbct-more i{flex:none;width:32.78px;height:41.4px;background:url('assets/gb-ce-ic_btn_round_more.png') 0 0/100% 100%,url('assets/gb-ce-btn_circle_normal.png') 0 0/100% 100%}
+.screen .gbct-account{padding-left:34.5px;background:url('assets/gb-expander_ic_minimized.png') 3.45px 50%/27.6px 31.05px no-repeat}
+.screen .gbct-account.open{background-image:url('assets/gb-expander_ic_maximized.png')}
+.screen .gbct-child{padding-left:34.5px}
+.gbct-bar{flex:none;display:flex;padding:4.31px 3.45px .86px;background:url('assets/gb-bottom_bar.png') 0 0/100% 100%}
+.screen .gbct-bar button{flex:1;min-width:0;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gbct-bar button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.screen .gbct-sim{display:flex;align-items:center;gap:0;width:100%;height:55.2px;padding:0;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font:400 18.98px DroidSans,Arial,sans-serif;cursor:pointer}
+.gbct-sim::before{content:"";flex:none;width:32.78px;height:41.4px;background:url('assets/gb-ic_input_add.png') 0 0/100% 100%}
+.gbct-empty{display:grid;place-items:center;height:100%;margin:0;padding:0 12px;text-align:center;font-size:18.98px;color:#fff}
+.gbct-progress{padding:0 0 0}
+.gbdlg .gbct-progress p{padding:1.73px 8.63px 0 12.08px}
+.gbct-progress i{display:block;height:6.9px;margin:10.35px 8.63px .86px;border-radius:4.31px;background:linear-gradient(#9d9e9d,#5a5d5a 75%,#747674);overflow:hidden}
+.gbct-progress i b{display:block;height:100%;border-radius:4.31px;background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00);transition:width .3s}
+.gbct-progress span{display:flex;justify-content:space-between;padding:0 8.63px 10.35px;font-size:12.07px;color:#fff}
+.gbct-progress em{font-style:normal}

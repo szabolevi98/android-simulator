@@ -177,6 +177,55 @@ window.GBStrings["phonenet"] = {
 "fr": "Enregistré sur le réseau.",
 "es": "Registrado en la red"
 },
+"simContacts_emptyLoading": {
+"en": "Reading from SIM card…",
+"hu": "Beolvasás a SIM-kártyáról...",
+"de": "SIM-Karte wird ausgelesen...",
+"fr": "Lecture de la carte SIM…",
+"es": "Leyendo desde tarjeta SIM…"
+},
+"simContacts_empty": {
+"en": "No contacts on your SIM card.",
+"hu": "Nincsenek névjegyek a SIM-kártyán.",
+"de": "Keine Kontakte auf Ihrer SIM-Karte",
+"fr": "Aucun contact n'a été trouvé sur votre carte SIM.",
+"es": "No hay ningún contacto en la tarjeta SIM."
+},
+"simContacts_title": {
+"en": "Select contacts to import",
+"hu": "Válassza ki az importálni kívánt névjegyeket",
+"de": "Kontakte für Import auswählen",
+"fr": "Sélection des contacts à importer",
+"es": "Seleccionar contactos para importar"
+},
+"importSimEntry": {
+"en": "Import",
+"hu": "Importálás",
+"de": "Importieren",
+"fr": "Importer",
+"es": "Importar"
+},
+"importAllSimEntries": {
+"en": "Import all",
+"hu": "Összes importálása",
+"de": "Alle importieren",
+"fr": "Tout importer",
+"es": "Importar todos"
+},
+"importingSimContacts": {
+"en": "Importing SIM contacts",
+"hu": "SIM-kártya névjegyeinek importálása",
+"de": "SIM-Kontakte werden importiert",
+"fr": "Importation des contacts SIM",
+"es": "Importando contactos de tarjeta SIM..."
+},
+"cancel": {
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
 "dialog_alert_title": {
 "en": "Attention",
 "hu": "Figyelem",

@@ -617,7 +617,7 @@
   // image_attachment.xml: the #D5D5D5 row with ic_email_attachment, the 32 dp thumbnail 5 dp in, the black name and
   // size, and the framework's round btn_dialog to remove it.
   function attachmentRow(lang, item) {
-    return `<div class="gm-attachment"><img class="gm-att-clip" src="assets/gb-gm-ic_email_attachment.png" alt=""><span class="gm-att-thumb">${window.ICSMedia ? ICSMedia.art(item) : ''}</span><span class="gm-att-copy"><b>${e(item.name || 'IMG.jpg')}</b><b>${e(item.size || '')}</b></span><button type="button" class="gm-att-remove" data-action="gm-remove-attachment" aria-label="${e(T(lang, 'Remove'))}"></button></div>`;
+    return `<div class="gm-attachment"><img class="gm-att-clip" src="assets/gb-gm-ic_email_attachment.png" alt=""><span class="gm-att-thumb">${window.ICSMedia && !item.vcard ? ICSMedia.art(item) : ''}</span><span class="gm-att-copy"><b>${e(item.name || 'IMG.jpg')}</b><b>${e(item.size || '')}</b></span><button type="button" class="gm-att-remove" data-action="gm-remove-attachment" aria-label="${e(T(lang, 'Remove'))}"></button></div>`;
   }
   function attach(ctx, photo) {
     if (!ctx.ui.gmDraft || !photo) return;
