@@ -74,3 +74,18 @@
 .hg-attach button:last-child{border-bottom:0}
 .hg-attach svg{width:20.43px;height:20.43px;color:#9a9a9a;flex:none}
 .hg-menu button:active,.hg-attach button:active,.hg-thread:active,.hg-person:active{background:#0000001a!important}
+/* dnd_list_item.xml on mute_ongoing_bg_shadow (#f2ff5533 with its shadow): "Notifications snoozed" (18 sp bold
+   italic), "Will resume at …" (14 sp italic), a 1 dp translucent white rule and Resume, all white with a text shadow. */
+.hg-dnd-bar{flex:none;position:relative;z-index:1;display:flex;align-items:stretch;padding:0 13.63px;background:#ff5533f2;box-shadow:0 2.55px 5.11px #0000002e;color:#fff;text-shadow:.85px 1.7px .85px #0000004d}
+.hg-dnd-bar span{flex:1;min-width:0;display:flex;flex-direction:column;padding:6.81px 0 8.52px}
+.hg-dnd-bar b{font:italic 700 15.33px RobotoICS,Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg-dnd-bar small{font:italic 400 11.92px RobotoICS,Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg-dnd-bar i{flex:none;width:.85px;margin:13.63px;background:#ffffff80}
+.screen .hg-dnd-bar button{flex:none;padding:0 3.41px;border:0;background:none;color:#fff;font:400 11.92px RobotoICS,Roboto,sans-serif;text-shadow:inherit}
+.screen .hg-dnd-bar button:active{background:#ffffff33}
+/* EsApplication.showDndChoiceDialog: a Holo Light list dialog. */
+.settings-dialog.hg-dnd{background:#fff;color:#000}
+.hg-dnd h3{margin:0;padding:13.63px 13.63px 10.22px;font:400 18.74px RobotoICS,Roboto,sans-serif;color:#33b5e5;border-bottom:1.7px solid #33b5e5}
+.hg-dnd-list{display:flex;flex-direction:column}
+.screen .hg-dnd-list button{min-height:40.88px;padding:0 13.63px;border:0;border-bottom:.85px solid #0000001a;background:none;text-align:left;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#000}
+.screen .hg-dnd-list button:active{background:#33b5e566}

@@ -24,4 +24,15 @@ const t=k=>k;
   const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
   assert.ok(sim.includes("case 'hg-share-location':")&&sim.includes("case 'hg-dnd-set':")&&sim.includes("ui.sub === 'archived' ? 'archived'"));
 }
+// 4.3: Hangouts 1.0.2: the same archive and snooze; no mood item and no location sharing yet.
+{
+  const W=load('4.3',['stock-strings.js','messaging.js','hangouts.js']),H=W.Hangouts,now=Date.UTC(2013,7,1,12);
+  const data={contacts:[{id:1,name:'Taylor',phone:'5'}],messages:[{id:1,contact:1,body:'Hi',mine:false,time:'Yesterday'}],messageDrafts:{},hgArchived:{1:now}};
+  assert.ok(H.render(data,{sub:'archived'},t,'hu',now).includes('Taylor')&&!H.render(data,{sub:''},t,'hu',now).includes('Taylor'));
+  const menu=H.overlay(data,{overlay:'mms-menu',sub:''},t);assert.ok(menu.includes('Hangoutkérelmek')&&!menu.includes('mood')&&menu.includes('data-action="hg-dnd"'));
+  assert.ok(H.overlay(data,{overlay:'mms-menu',sub:'thread',thread:'1'},t).includes('data-action="hg-unarchive"'));
+  assert.ok(H.overlay(data,{overlay:'mms-hg-dnd'},t).includes('Minden értesítés halasztása'));
+  assert.ok(!H.render(data,{sub:'thread',thread:'1'},t,'hu',now).includes('hg-location'));
+  const sim=fs.readFileSync('versions/4.3/simulator.js','utf8');assert.ok(sim.includes("if (ui.view === 'hangouts') { const own = Hangouts.overlay(")&&sim.includes("case 'hg-dnd-set':"));
+}
 console.log('hangouts-features ok');

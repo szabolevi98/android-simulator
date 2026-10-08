@@ -8,6 +8,13 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const AVATAR = 'assets/people-ic_contact_picture_holo_light.png';
+  // Hangouts.apk's own texts (stock-strings.js, group hangouts), then the image's.
+  const H = (t, key) => { const row = window.StockStrings?.hangouts?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(globalThis.document?.documentElement?.lang || '').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
+  // A conversation stays archived until something newer than the archiving arrives in it (conversation_archived).
+  const isArchived = (data, thread) => { const at = data.hgArchived?.[thread.key]; return !!at && !(thread.last?.timestamp > at); };
+  // EsApplication.showDndChoiceDialog: 60, 120, 240, 480, 1440 and 4320 minutes as plurals/dnd_hours.
+  const SNOOZE_MINUTES = [60, 120, 240, 480, 1440, 4320];
+  const hours = (t, minutes) => minutes === 60 ? H(t, '1 hour') : H(t, '%d hours').replace('%d', minutes / 60);
   const svg = {
     add: '<svg viewBox="0 0 24 24"><path d="M11 4h2v7h7v2h-7v7h-2v-7H4v-2h7z" fill="currentColor"/></svg>',
     call: '<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z" fill="currentColor"/></svg>',
@@ -31,15 +38,19 @@
     return `<header class="hg-bar"><button type="button" class="hg-up" data-action="${up ? 'back' : 'home'}" aria-label="${up ? 'Back' : 'Home'}">${up ? '<span aria-hidden="true">‹</span>' : ''}<img src="assets/hangouts.png" alt=""></button><div class="hg-title${spinner ? ' hg-spinner' : ''}"><h2>${e(title)}</h2>${subtitle ? `<small>${e(subtitle)}</small>` : ''}</div>${actions}</header>`;
   }
   function list(data, ui, t, locale, now) {
-    const rows = ICSMessaging.threads(data).map(thread => {
+    const archived = ui.sub === 'archived';
+    const rows = ICSMessaging.threads(data).filter(thread => isArchived(data, thread) === archived).map(thread => {
       const draft = thread.draft?.body || thread.draft?.attachment;
       const last = thread.last;
       const snippet = draft ? `<b>${e(t('Draft'))}:</b> ${e(thread.draft.body || t('Picture'))}` : last ? `${last.mine ? e(t('You:')) + ' ' : ''}${e(last.body || t('Picture'))}` : '';
       const unread = thread.messages.some(m => m.read === false);
       return `<button class="hg-thread${unread ? ' unread' : ''}" data-action="thread" data-id="${e(thread.key)}"><span class="hg-avatar"><img src="${AVATAR}" alt=""></span><span class="hg-thread-copy"><span class="hg-thread-top"><strong>${e(thread.person.name)}</strong><time>${e(stamp(last, t, locale, now, true))}</time></span><span class="hg-snippet">${snippet}</span></span></button>`;
     }).join('');
+    if (archived) return `<div class="app-view mms-app hg-app">${bar({up: true, title: H(t, 'Archived Hangouts'), actions: ''})}<div class="mms-scroll hg-threads">${rows || `<p class="hg-empty">${e(H(t, 'No archived Hangouts'))}</p>`}</div></div>`;
     const pending = data.messageDrafts?.new?.body || data.messageDrafts?.new?.attachment;
-    return `<div class="app-view mms-app hg-app">${bar({title: t('Hangouts'), actions: button('new-message', t('New Hangout'), 'add') + button('mms-menu', t('More options'), 'ic_menu_moreoverflow_normal_holo_light.png')})}<div class="mms-scroll hg-threads">${pending ? `<button class="hg-pending" data-action="new-message">${e(t('Draft'))}: ${e(data.messageDrafts.new.body || t('Picture'))}</button>` : ''}${rows || `<p class="hg-empty">${e(t('No conversations'))}</p>`}</div></div>`;
+    // dnd_list_item.xml: the snooze banner over the list.
+    const snoozed = data.hgSnooze > now ? `<div class="hg-dnd-bar"><span><b>${e(H(t, 'Notifications snoozed'))}</b><small>${e(H(t, 'Will resume at %s').replace('%s', new Date(data.hgSnooze).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'})))}</small></span><i></i><button data-action="hg-dnd-cancel">${e(H(t, 'Resume'))}</button></div>` : '';
+    return `<div class="app-view mms-app hg-app">${bar({title: t('Hangouts'), actions: button('new-message', t('New Hangout'), 'add') + button('mms-menu', t('More options'), 'ic_menu_moreoverflow_normal_holo_light.png')})}${snoozed}<div class="mms-scroll hg-threads">${pending ? `<button class="hg-pending" data-action="new-message">${e(t('Draft'))}: ${e(data.messageDrafts.new.body || t('Picture'))}</button>` : ''}${rows || `<p class="hg-empty">${e(t('No conversations'))}</p>`}</div></div>`;
   }
   function picker(data, ui, t) {
     const draft = data.messageDrafts?.new || {};
@@ -52,7 +63,7 @@
     const actions = button('mms-call', t('Call'), 'call') + button('mms-menu', t('More options'), 'ic_menu_moreoverflow_normal_holo_light.png');
     const cards = messages.map(message => `<button type="button" class="mms-message hg-message ${message.mine ? 'sent' : 'received'}" data-action="mms-message" data-id="${message.id}"><img class="hg-avatar-small" src="${AVATAR}" alt=""><span class="hg-card"><span class="hg-body">${e(message.body)}</span>${message.attachment ? ICSMessaging.photo(message.attachment) : ''}<time>${e(stamp(message, t, locale, now, false))}</time></span></button>`).join('');
     const canSend = (draft.body || '').trim() || draft.attachment;
-    return `<div class="app-view mms-app hg-app">${bar({up: true, title: person.name, spinner: true, actions})}<form class="mms-compose hg-compose" data-form="mms-send"><div class="mms-scroll mms-history hg-history">${cards}</div>${draft.attachment ? `<div class="mms-attachment">${ICSMessaging.photo(draft.attachment)}<button type="button" data-action="mms-remove-attachment" aria-label="Remove attachment">×</button></div>` : ''}<div class="mms-compose-bar hg-editor"><textarea name="body" rows="1" maxlength="2000" aria-label="${e(t('Send a message'))}" placeholder="${e(t('Send a message'))}">${e(draft.body || '')}</textarea><small class="mms-counter" hidden></small><button type="button" class="hg-tool" data-action="hg-location" aria-label="${e(t('Share location'))}">${svg.pin}</button><button type="button" class="hg-tool" data-action="mms-attach" aria-label="${e(t('Attach'))}">${svg.camera}</button><button class="mms-send hg-send" type="submit" aria-label="${e(t('Send'))}" ${canSend ? '' : 'disabled'}>${svg.send}</button></div></form></div>`;
+    return `<div class="app-view mms-app hg-app">${bar({up: true, title: person.name, spinner: true, actions})}<form class="mms-compose hg-compose" data-form="mms-send"><div class="mms-scroll mms-history hg-history">${cards}</div>${draft.attachment ? `<div class="mms-attachment">${ICSMessaging.photo(draft.attachment)}<button type="button" data-action="mms-remove-attachment" aria-label="Remove attachment">×</button></div>` : ''}<div class="mms-compose-bar hg-editor"><textarea name="body" rows="1" maxlength="2000" aria-label="${e(t('Send a message'))}" placeholder="${e(t('Send a message'))}">${e(draft.body || '')}</textarea><small class="mms-counter" hidden></small><button type="button" class="hg-tool" data-action="mms-attach" aria-label="${e(t('Attach'))}">${svg.camera}</button><button class="mms-send hg-send" type="submit" aria-label="${e(t('Send'))}" ${canSend ? '' : 'disabled'}>${svg.send}</button></div></form></div>`;
   }
   function render(data, ui, t, locale, now = Date.now()) {
     if (ui.sub === 'thread') return conversation(data, ui, t, locale, now);
@@ -60,16 +71,19 @@
     return list(data, ui, t, locale, now);
   }
   // Overflow of the conversation list (GSMArena), of a conversation, and the camera button's attach menu.
-  const MENU = ['Set mood…', 'Invites', 'Snooze notifications', 'Archived Hangouts', 'Settings', 'Send feedback', 'Help'];
+  // Hangouts 1.0.2's conversation_list_activity_menu.xml (no mood setting yet) and conversation_activity_menu.xml.
+  const MENU = [['hg-unsupported', 'Invites'], ['hg-dnd', 'Snooze notifications'], ['hg-archived', 'Archived Hangouts'], ['hg-unsupported', 'Settings'], ['hg-unsupported', 'Send feedback'], ['hg-unsupported', 'Help']];
   const ATTACH = [['hg-unsupported', 'Take photo', 'camera'], ['hg-unsupported', 'Take video', 'video'], ['hg-attach-photo', 'Attach photo', 'photo'], ['hg-unsupported', 'Google+ albums', 'albums']];
   function overlay(data, ui, t) {
-    const option = (action, label, id = label) => `<button data-action="${action}" data-id="${e(id)}">${e(t(label))}</button>`;
+    const option = (action, label, id = label) => `<button data-action="${action}" data-id="${e(id)}">${e(H(t, label))}</button>`;
     if (ui.overlay === 'mms-menu') {
-      const items = ui.sub === 'thread' ? [option('mms-delete-thread', 'Delete'), option('mms-discard', 'Discard draft'), option('hg-unsupported', 'Settings'), option('hg-unsupported', 'Help')] : ui.sub === 'new' ? [option('hg-unsupported', 'Settings'), option('hg-unsupported', 'Help')] : MENU.map(label => option('hg-unsupported', label));
+      const thread = {key: ui.thread, last: [...data.messages].reverse().find(m => String(m.contact) === String(ui.thread))};
+      const items = ui.sub === 'thread' ? [option('hg-unsupported', 'Add people'), isArchived(data, thread) ? option('hg-unarchive', 'Unarchive') : option('hg-archive', 'Archive'), option('mms-delete-thread', 'Delete')] : ui.sub === 'new' ? [option('hg-unsupported', 'Settings'), option('hg-unsupported', 'Help')] : MENU.map(([action, label]) => option(action, label));
       return `<div class="menu-scrim" data-action="close-overlay"></div><div class="hg-menu" role="menu">${items.join('')}</div>`;
     }
+    if (ui.overlay === 'mms-hg-dnd') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog hg-dnd" role="dialog" aria-label="${e(H(t, 'Snooze notifications for…'))}"><h3>${e(H(t, 'Snooze notifications for…'))}</h3><div class="hg-dnd-list">${SNOOZE_MINUTES.map(m => `<button data-action="hg-dnd-set" data-id="${m}">${e(hours(t, m))}</button>`).join('')}</div></div>`;
     if (ui.overlay === 'mms-attach') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="hg-attach" role="menu">${ATTACH.map(([action, label, icon]) => `<button data-action="${action}" data-id="${e(label)}">${svg[icon]}${e(t(label))}</button>`).join('')}</div>`;
     return null;
   }
-  window.Hangouts = {render, overlay};
+  window.Hangouts = {render, overlay, isArchived, SNOOZE_MINUTES, H};
 })();

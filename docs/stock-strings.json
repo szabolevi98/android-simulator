@@ -383,6 +383,26 @@
    "Default": "CalendarGoogle:@array/visibility:0",
    "Private": "CalendarGoogle:@array/visibility:1",
    "Public": "CalendarGoogle:@array/visibility:2"
+  },
+  "hangouts": {
+   "Snooze notifications": "Hangouts:dnd_menu_item",
+   "Snooze notifications for…": "Hangouts:dnd_dialog_title",
+   "1 hour": "Hangouts:@plurals/dnd_hours:one",
+   "%d hours": "Hangouts:@plurals/dnd_hours:other",
+   "Notifications snoozed": "Hangouts:notifications_are_dnd",
+   "Will resume at %s": "Hangouts:dnd_will_expire_at",
+   "Resume": "Hangouts:notifications_dnd_cancel",
+   "Archived Hangouts": "Hangouts:menu_archived_conversations",
+   "Archive": "Hangouts:realtimechat_conversation_archive_menu_item_text",
+   "Unarchive": "Hangouts:realtimechat_conversation_unarchive_menu_item_text",
+   "Delete": "Hangouts:realtimechat_conversation_delete_menu_item_text",
+   "No archived Hangouts": "Hangouts:no_archived_conversations_text",
+   "Hangout archived.": "Hangouts:conversation_archived",
+   "Invites": "Hangouts:menu_invites",
+   "Settings": "Hangouts:realtimechat_settings_menu_item_text",
+   "Send feedback": "Hangouts:home_menu_feedback",
+   "Help": "Hangouts:realtimechat_help_menu_item_text",
+   "Add people": "Hangouts:realtimechat_conversation_invite_menu_item_text"
   }
  },
  "4.4.4": {

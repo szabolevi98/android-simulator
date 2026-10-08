@@ -2145,5 +2145,117 @@ window.StockStrings = {
    "Public",
    "Público"
   ]
+ },
+ "hangouts": {
+  "Snooze notifications": [
+   "Értesítések elhalasztása",
+   "Benachrichtigungen deaktivieren",
+   "Suspendre les notifications",
+   "Detener notificaciones"
+  ],
+  "Snooze notifications for…": [
+   "Minden értesítés halasztása a következőnél...",
+   "Alle Benachrichtigungen deaktivieren für…",
+   "Suspendre les notifications pendant…",
+   "Detener todas las notificaciones durante…",
+   "Snooze all notifications for…"
+  ],
+  "1 hour": [
+   "1 óra",
+   "1 Stunde",
+   "1 heure",
+   "1 hora"
+  ],
+  "%d hours": [
+   "%d óra",
+   "vor %d Stunden",
+   "%d heures",
+   "%d horas"
+  ],
+  "Notifications snoozed": [
+   "Értesítések elhalasztva",
+   "Schlummern für Benachrichtigungen aktiviert",
+   "Notifications suspendues",
+   "Notificaciones detenidas"
+  ],
+  "Will resume at %s": [
+   "Folytatás innen: %s",
+   "Fortsetzung um %s",
+   "Reprise : %s",
+   "Se reanudarán a la(s) %s"
+  ],
+  "Resume": [
+   "Folytatás",
+   "Fortsetzen",
+   "Reprendre",
+   "Reanudar"
+  ],
+  "Archived Hangouts": [
+   "Archivált Hangoutok",
+   "Archivierte Hangouts",
+   "Hangouts archivés",
+   "Hangouts archivados"
+  ],
+  "Archive": [
+   "Archiválás",
+   "Archivieren",
+   "Archiver",
+   "Archivar"
+  ],
+  "Unarchive": [
+   "Archiválás visszavonása",
+   "Dearchivieren",
+   "Annuler l'archivage",
+   "No archivar"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "No archived Hangouts": [
+   "Nincsenek archivált Hangoutok",
+   "Keine archivierten Hangouts",
+   "Aucun Hangout archivé",
+   "No hay Hangouts archivados"
+  ],
+  "Hangout archived.": [
+   "Hangout archiválva.",
+   "Hangout wurde archiviert.",
+   "Hangout archivé.",
+   "Hangout archivado"
+  ],
+  "Invites": [
+   "Hangoutkérelmek",
+   "Hangout-Anfragen",
+   "Demandes de Hangout",
+   "Solicitudes de Hangouts",
+   "Hangout requests"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer un commentaire",
+   "Danos tu opinión"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Add people": [
+   "Személyek hozzáadása",
+   "Personen hinzufügen",
+   "Ajouter des contacts",
+   "Añadir personas"
+  ]
  }
 };
