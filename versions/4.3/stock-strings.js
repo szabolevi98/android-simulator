@@ -812,6 +812,156 @@ window.StockStrings = {
    "Anfrage löschen",
    "Effacer la requête",
    "Borrar consulta"
+  ],
+  "Display options": [
+   "Megjelenítési beállítások",
+   "Anzeigeoptionen",
+   "Options d'affichage",
+   "Opciones de visualización"
+  ],
+  "Contents": [
+   "Tartalom",
+   "Inhaltsverzeichnis",
+   "Table des matières",
+   "Índice"
+  ],
+  "THEME": [
+   "TÉMA",
+   "Design",
+   "THÈME",
+   "TEMA"
+  ],
+  "TYPEFACE": [
+   "BETŰKÉP",
+   "Schriftart",
+   "POLICE",
+   "TIPO DE LETRA"
+  ],
+  "TEXT ALIGNMENT": [
+   "SZÖVEG IGAZÍTÁSA",
+   "Textausrichtung",
+   "ALIGNEMENT DU TEXTE",
+   "ALINEACIÓN DEL TEXTO"
+  ],
+  "BRIGHTNESS": [
+   "FÉNYERŐ",
+   "Helligkeit",
+   "LUMINOSITÉ",
+   "BRILLO"
+  ],
+  "FONT SIZE": [
+   "BETŰMÉRET",
+   "Schriftgröße",
+   "TAILLE DE POLICE",
+   "TAMAÑO DE FUENTE"
+  ],
+  "LINE HEIGHT": [
+   "SORMAGASSÁG",
+   "Zeilenhöhe",
+   "HAUTEUR DE LIGNE",
+   "INTERLINEADO"
+  ],
+  "AUTO": [
+   "AUTO",
+   "Autom.",
+   "AUTO",
+   "AUTO"
+  ],
+  "Day": [
+   "Nappal",
+   "Tag",
+   "Jour",
+   "Día"
+  ],
+  "Night": [
+   "Éjszaka",
+   "Nacht",
+   "Nuit",
+   "Noche"
+  ],
+  "Sepia": [
+   "szépia",
+   "Sepia",
+   "Sépia",
+   "Sepia"
+  ],
+  "Default": [
+   "Alapbeállítás",
+   "Standard",
+   "Par défaut",
+   "Predeterminado"
+  ],
+  "Sans": [
+   "Sans",
+   "Sans",
+   "Sans",
+   "Sans"
+  ],
+  "Serif": [
+   "Serif",
+   "Serif",
+   "Serif",
+   "Serif"
+  ],
+  "Left": [
+   "Balra",
+   "Links",
+   "Gauche",
+   "Izquierda"
+  ],
+  "Justify": [
+   "Sorkizárás",
+   "Blocksatz",
+   "Justifier",
+   "Justificar"
+  ],
+  "Decrease font size": [
+   "Betűméret csökkentése",
+   "Schrift verkleinern",
+   "Diminuer la taille de la police",
+   "Reducir el tamaño de la fuente"
+  ],
+  "Increase font size": [
+   "Betűméret növelése",
+   "Schrift vergrößern",
+   "Augmenter la taille de la police",
+   "Aumentar el tamaño de la fuente"
+  ],
+  "Decrease line height": [
+   "Sormagasság csökkentése",
+   "Zeilenhöhe verkleinern",
+   "Diminuer la hauteur de ligne",
+   "Disminuir la altura de la línea"
+  ],
+  "Increase line height": [
+   "Sormagasság növelése",
+   "Zeilenhöhe vergrößern",
+   "Augmenter la hauteur de ligne",
+   "Aumentar altura de la línea"
+  ],
+  "Chapters": [
+   "Fejezetek",
+   "Kapitel",
+   "Chapitres",
+   "Capítulos"
+  ],
+  "Bookmarks": [
+   "Könyvjelzők",
+   "Lesezeichen",
+   "Favoris",
+   "Marcadores"
+  ],
+  "Notes": [
+   "Jegyzetek",
+   "Notizen",
+   "Notes",
+   "Notas"
+  ],
+  "Any pages you bookmark will be listed here.": [
+   "Minden, a könyvjelzők közé felvett oldal itt fog megjelenni.",
+   "Alle Seiten mit Lesezeichen werden hier aufgelistet.",
+   "Les pages que vous ajoutez aux favoris sont répertoriées ici.",
+   "Las páginas añadidas a marcadores aparecerán aquí."
   ]
  },
  "movies": {

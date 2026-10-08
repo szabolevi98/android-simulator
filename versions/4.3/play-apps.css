@@ -268,3 +268,72 @@
 .screen .pa-suggest-row.market{padding-left:40.88px}
 .pa-suggest-row:active{background:#0000001a}
 .pm-search .mv25-bar .pm5-home,.pm-search .bk28-bar .pm5-home{display:flex}
+/* Play Books 2.8.91 reader settings (1 dp = 0.8516 px). The typefaces ship in the APK (assets/fonts); themes from
+   override.css (sepia #ece1ca / #645032, night #000 / #fff, ReadingActivityNight's ab_solid_dark_holo bar); the window
+   brightness dims the whole screen. */
+@font-face{font-family:'BK28 Merriweather';src:url('assets/bk28-Merriweather.ttf')}
+@font-face{font-family:'BK28 Goudy';src:url('assets/bk28-OFLGoudyStMTT.ttf')}
+@font-face{font-family:'BK28 Vollkorn';src:url('assets/bk28-Vollkorn-Regular.ttf')}
+.pb-reader .pb-page{font-size:calc(15.33px * var(--bk-zoom,1));line-height:calc(1.6 * var(--bk-lh,1))}
+.pb-reader .pb-page h2{font-size:calc(20.68px * var(--bk-zoom,1))}
+.pb-reader .pb-page h2.sub{font-size:calc(16.92px * var(--bk-zoom,1))}
+.bk28-face-sans .pb-page,.bk28-face-sans .pb-page h2{font-family:Roboto,RobotoICS,sans-serif}
+.bk28-face-serif .pb-page,.bk28-face-serif .pb-page h2{font-family:'Droid Serif','Noto Serif',serif}
+.bk28-face-Merriweather .pb-page,.bk28-face-Merriweather .pb-page h2{font-family:'BK28 Merriweather',serif}
+.bk28-face-OFLGoudyStMTT .pb-page,.bk28-face-OFLGoudyStMTT .pb-page h2{font-family:'BK28 Goudy',serif}
+.bk28-face-Vollkorn .pb-page,.bk28-face-Vollkorn .pb-page h2{font-family:'BK28 Vollkorn',serif}
+.bk28-just-left .pb-page p{text-align:left}
+.bk28-just-justify .pb-page p{text-align:justify}
+.pb-reader.bk28-theme-sepia{background:#ece1ca}.bk28-theme-sepia .pb-page{color:#645032}
+.pb-reader.bk28-theme-night{background:#000}.bk28-theme-night .pb-page{color:#fff}
+.bk28-reader-bar.dark{border-image-source:url('assets/bk28-ab_solid_dark_holo.png')}
+.bk28-reader-bar.dark b{color:#fff}.bk28-reader-bar.dark small{color:#bbb}
+.bk28-theme-night .pb-bottom{background:#222;border-top-color:#444;color:#bbb}
+.bk28-dim{position:absolute;inset:0;z-index:40;background:#000;opacity:var(--bk-dim,0);pointer-events:none}
+.screen .pb-top .bk28-action{width:47.69px;display:grid;place-items:center}
+.bk28-action img{width:27.25px;height:27.25px}
+.bk28-action.on{background:#33b5e566}
+/* display_options_popup.xml: 300 dp on menu_dropdown_panel_holo_light (2 dp from the right), display_options_view's
+   10 / 5 dp padding, pref_item.xml (2 dp margins, the 12 sp bold #808080 subtitle). */
+.bk28-options-scrim{position:absolute;inset:0;z-index:30;background:none}
+.bk28-options{position:absolute;z-index:31;top:40.88px;right:1.7px;width:255.48px;box-sizing:border-box;border:8.52px solid transparent;border-image:url('assets/bk28-menu_dropdown_panel_holo_light.png') 20 fill/8.52px;padding:2.56px 6.81px 0;color:#000}
+.bk28-pref{margin:1.7px 0}
+.bk28-pref>b{display:block;font:700 10.22px RobotoICS,Roboto,sans-serif;color:#808080}
+.bk28-pspin-wrap{position:relative;margin-top:3.41px}
+.screen .bk28-pspin{display:block;width:100%;min-height:40.88px;padding:5.96px 13.63px 6.81px 6.81px;border:0 solid transparent;border-width:3.41px 13.63px 22.14px 3.41px;border-image:url('assets/bk28-spinner_default_holo_light.png') 8 32 52 8 fill/3.41px 13.63px 22.14px 3.41px;background:none;text-align:left;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .bk28-pspin:active{border-image-source:url('assets/bk28-spinner_pressed_holo_light.png')}
+.bk28-pdrop{position:absolute;left:0;right:0;top:100%;z-index:2;padding:0;border:8.52px solid transparent;border-image:url('assets/bk28-menu_dropdown_panel_holo_light.png') 20 fill/8.52px;margin:-8.52px -6px 0}
+.screen .bk28-pdrop button{display:block;width:100%;min-height:40.88px;padding:0 6.81px;border:0;background:none;text-align:left;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#000}
+.screen .bk28-pdrop button:active{background:#33b5e566}
+.bk28-plus{display:flex;align-items:stretch;margin-top:.6px}
+.screen .bk28-plus button{flex:1;display:grid;place-items:center;min-height:34px;padding:4.26px;border:0 solid transparent;border-width:6.81px 10.22px 5.96px;border-image:url('assets/bk28-btn_default_normal_holo_light.png') 32 24 28 24 fill/6.81px 10.22px 5.96px;background:none}
+.screen .bk28-plus button:active{border-image-source:url('assets/bk28-btn_default_pressed_holo_light.png')}
+.screen .bk28-plus button:disabled{border-image-source:url('assets/bk28-btn_default_disabled_holo_light.png')}
+.bk28-plus img{width:20.44px;height:20.44px}
+.bk28-plus span{min-width:40.88px;display:grid;place-items:center;font:400 11.92px RobotoICS,Roboto,sans-serif;color:#323232}
+.bk28-bright{display:flex;align-items:center}
+.bk28-bright label{display:flex;flex-direction:column;align-items:center;font:400 10.22px RobotoICS,Roboto,sans-serif;color:#808080}
+.bk28-bright input[type=checkbox]{appearance:none;width:27.25px;height:27.25px;margin:0;background:url('assets/btn_check_off_holo_light.png') center/contain no-repeat}
+.bk28-bright input[type=checkbox]:checked{background-image:url('assets/btn_check_on_holo_light.png')}
+.bk28-bright input[type=range]{flex:1;min-width:0;margin:0 0 0 17.03px;height:27.25px;appearance:none;background:url('assets/bk28-scrubber_track_holo_light.png') center/100% 10.22px no-repeat}
+.bk28-bright input[type=range]::-webkit-slider-thumb{appearance:none;width:27.25px;height:27.25px;background:url('assets/bk28-scrubber_control_normal_holo.png') center/contain no-repeat}
+.bk28-bright input[type=range]:active::-webkit-slider-thumb{background-image:url('assets/bk28-scrubber_control_pressed_holo.png')}
+.bk28-bright input[type=range]:disabled{opacity:.5}
+/* TableOfContentsActivityLight: popup_background_color_light, the TabRow (48 dp tabs on toc_tab, 4 dp apart, bold 14 sp,
+   titlebar_divider between them) and list_item_navigation.xml rows (16 dp sides, 48 dp, 18 sp; the current chapter bold). */
+.bk28-toc{background:#efefef;color:#000}
+.bk28-toc .pb-top{position:relative}
+.bk28-toc-title{font-size:15.33px!important}
+.bk28-toc-tabs{flex:none;display:flex;align-items:center;height:40.88px;background:#efefef}
+.bk28-toc-tabs i{flex:none;width:1.14px;height:38.6px;background:url('assets/bk28-titlebar_divider.png') center/100% 100% no-repeat}
+.screen .bk28-toc-tabs button{flex:1;min-width:0;height:100%;margin:0 3.41px;padding:0;border:0 solid transparent;border-bottom-width:1.7px;border-image:url('assets/bk28-tab_unselected_holo.png') 0 0 3 0 fill/0 0 1.7px 0;background:none;font:700 11.92px RobotoICS,Roboto,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .bk28-toc-tabs button.on{border-bottom-width:5.11px;border-image:url('assets/bk28-tab_selected_holo.png') 0 0 9 0 fill/0 0 5.11px 0}
+.bk28-toc-list{flex:1;min-height:0;overflow-y:auto}
+.screen .bk28-toc-list button{display:flex;align-items:center;gap:8.52px;width:100%;min-height:40.88px;padding:0 13.63px;border:0;border-bottom:.85px solid #00000017;background:none;text-align:left;font:400 15.33px RobotoICS,Roboto,sans-serif;color:#000}
+.bk28-toc-list span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk28-toc-list em{font-style:normal}
+.bk28-toc-list .current{font-weight:700}
+.screen .bk28-toc-list button:active{background:#33b5e566}
+.bk28-toc-empty{flex:1;min-height:0;overflow-y:auto}
+.bk28-toc-empty p{margin:0;padding:13.63px 13.63px 0;font:400 13.63px RobotoICS,Roboto,sans-serif;color:#000}
+.bk28-toc-empty img{display:block;width:100%}
