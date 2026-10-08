@@ -745,6 +745,8 @@
     if (ui.view === 'settings' && ui.sub === 'reset-info') { ui.sub = 'backup'; render(); return; }
     if (ui.view === 'settings' && ['brightness','wallpaper','sleep'].includes(ui.sub)) { ui.sub = 'display'; render(); return; }
     if (ui.view === 'settings' && ['volumes','ringtone'].includes(ui.sub)) { ui.sub = 'sound'; render(); return; }
+    if (ui.view === 'hangouts' && ui.sub === 'thread' && ui.hgLocation) { ui.hgLocation = false; render(); return; }
+    if (ui.view === 'hangouts' && ui.sub === 'archived') { ui.sub = ''; render(); return; }
     if (['messaging', 'hangouts'].includes(ui.view) && ui.sub === 'thread') { ui.sub = ui.mmsListMode || ''; render(); return; }
     if (ui.view === 'clock' && ui.sub === 'cities') { ui.sub = ''; render(); return; }
     if (ui.view === 'clock' && ui.sub === 'alarm-edit') { ui.alarmDraft=null; ui.sub='alarms'; render(); return; }
@@ -1206,7 +1208,7 @@
   }
   function openMessageThread(key) {
     if (!['messaging', 'hangouts'].includes(ui.view)) openApp('hangouts');
-    if (ui.sub !== 'thread') ui.mmsListMode = ui.sub === 'search' ? 'search' : '';
+    if (ui.sub !== 'thread') ui.mmsListMode = ui.sub === 'search' ? 'search' : ui.sub === 'archived' ? 'archived' : '';
     ui.thread = key; ui.sub = 'thread'; ui.overlay = '';
     data.messages.filter(m => String(m.contact) === String(key)).forEach(m => { m.read = true; });
     if (String(key) === '1') data.notifications = data.notifications.filter(n => n.id !== 2);
@@ -2031,7 +2033,17 @@
       // New Hangout: a picked contact or typed number opens its conversation and takes along a shared draft.
       case 'hg-pick': pickHangout(id); break;
       case 'hg-attach-photo': ui.overlay = 'mms-attach-photos'; renderOverlay(); break;
-      case 'hg-location': case 'hg-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
+      case 'hg-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
+      // Hangouts 2.0.303: ShareLocationActivity sends the demo place; conversations archive until something newer
+      // arrives; the snooze dialog (EsApplication's 1–72 hours) shows dnd_list_item.xml's banner until Resume.
+      case 'hg-location': ui.hgLocation = true; render(); break;
+      case 'hg-share-location': ui.hgLocation = false; sendMessage(ui.thread, Hangouts.locationBody(key => i18n.t(key))); save(); break;
+      case 'hg-archive': (data.hgArchived ||= {})[ui.thread] = Date.now(); ui.overlay = ''; ui.sub = ''; ui.mmsListMode = ''; save(); renderOverlay(); render(); toast(Hangouts.H(key => i18n.t(key), 'Hangout archived.')); break;
+      case 'hg-unarchive': if (data.hgArchived) delete data.hgArchived[ui.thread]; ui.overlay = ''; if (ui.mmsListMode === 'archived') ui.mmsListMode = ''; save(); renderOverlay(); render(); break;
+      case 'hg-archived': ui.overlay = ''; ui.sub = 'archived'; renderOverlay(); render(); break;
+      case 'hg-dnd': ui.overlay = 'mms-hg-dnd'; renderOverlay(); break;
+      case 'hg-dnd-set': data.hgSnooze = deviceDate().getTime() + Number(id) * 60000; ui.overlay = ''; save(); renderOverlay(); render(); break;
+      case 'hg-dnd-cancel': delete data.hgSnooze; save(); render(); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
       case 'mms-menu': case 'mms-attach': case 'mms-smiley': ui.overlay = action; renderOverlay(); break;
       case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }

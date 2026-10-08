@@ -4,7 +4,8 @@ image's English when it differs from the key). stock-apps.js reads them through 
     python docs/stock-strings.py
 The image's string index comes from docs/image-index.py (_aosp/<device>/strings-index.json); APKs the index skips
 (PrebuiltGmsCore) are read through the Android SDK's aapt2 (or androguard without it). A reference
-"Apk:@array/name:i" takes item i of a string-array."""
+"Apk:@array/name:i" takes item i of a string-array, "Apk:@plurals/name:one" (or :other) a quantity string of
+a plurals resource (a language without that quantity gives its "other")."""
 import glob, json, os, re, subprocess, sys
 ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
 DEVICES = {'4.0.4': 'maguro', '4.3': 'mako', '4.4.4': 'hammerhead', '5.1.1': 'shamu'}
@@ -38,6 +39,30 @@ def from_array(device, apk, name):
         return entry.get_key_data() if entry else None
     values = {lang: text(lang) for lang in ('', 'hu', 'de', 'fr', 'es') if '' in arrays}
     values = {lang: value for lang, value in values.items() if value is not None}
+    if '' not in values: return None
+    return values[''], {lang: values[lang] for lang in ('hu', 'de', 'fr', 'es') if lang in values}
+QUANTITY = {'other': 0x01000004, 'zero': 0x01000005, 'one': 0x01000006, 'two': 0x01000007, 'few': 0x01000008, 'many': 0x01000009}
+def from_plural(device, apk, name):
+    """(English, {lang: text}) of quantity Q of plurals NAME ("@plurals/name:q") in an APK, read with androguard."""
+    from loguru import logger; logger.remove()
+    from androguard.core.apk import APK
+    plural, _, quantity = name[len('@plurals/'):].partition(':')
+    path = next((p for d in ('app', 'priv-app') for p in glob.glob(f'{ROOT}_aosp/{device}/system/{d}/{apk}.apk') + glob.glob(f'{ROOT}_aosp/{device}/system/{d}/{apk}/{apk}.apk')), None)
+    if not path: return None
+    if path not in DUMPS: DUMPS[path] = APK(path).get_android_resources()
+    res = DUMPS[path]; pkg = ([n for n in res.get_packages_names() if n != 'android'] or res.get_packages_names())[-1]
+    public = res.get_public_resources(pkg); public = public.decode() if isinstance(public, bytes) else public
+    rid = dict(re.findall(r'type="plurals" name="([^"]+)" id="(0x[0-9a-f]+)"', public)).get(plural)
+    if not rid: return None
+    values = {}
+    for config, entry in res.get_res_configs(int(rid, 16), None):
+        lang, region = config.get_language(), config.get_country()
+        if region and '\x00' not in region: continue
+        lang = '' if '\x00' in lang else lang
+        if lang in values or lang not in ('', 'hu', 'de', 'fr', 'es'): continue
+        items = {key: value for key, value in entry.item.items}
+        value = items.get(QUANTITY[quantity]) or items.get(QUANTITY['other'])
+        if value is not None: values[lang] = res.stringpool_main.getString(value.data) if value.data_type == 3 else value.format_value()
     if '' not in values: return None
     return values[''], {lang: values[lang] for lang in ('hu', 'de', 'fr', 'es') if lang in values}
 def from_arsc(path):
@@ -77,7 +102,7 @@ for v, apps in spec.items():
     for app, rows in apps.items():
         for key, ref in rows.items():
             apk, _, name = ref.partition(':')
-            hit = from_array(DEVICES[v], apk, name) if name.startswith('@array/') else by.get((apk, name)) or from_aapt(DEVICES[v], apk, name)
+            hit = from_array(DEVICES[v], apk, name) if name.startswith('@array/') else from_plural(DEVICES[v], apk, name) if name.startswith('@plurals/') else by.get((apk, name)) or from_aapt(DEVICES[v], apk, name)
             if not hit: missing.append(f'{app}: {ref}'); continue
             en, tr = hit
             row = [tr.get(lang, en) for lang in ('hu', 'de', 'fr', 'es')]

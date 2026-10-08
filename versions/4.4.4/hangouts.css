@@ -78,3 +78,24 @@
 .hg-attach button:last-child{border-bottom:0}
 .hg-attach .hg-icon{width:28.99px;height:28.99px;flex:none}
 .hg-menu button:active,.hg-attach button:active,.hg-thread:active,.hg-person:active{background:#0000001a!important}
+/* dnd_list_item.xml on mute_ongoing_bg_shadow (#f2ff5533 with its shadow): "Notifications snoozed" (18 sp bold
+   italic), "Will resume at …" (14 sp italic), a 1 dp translucent white rule and Resume, all white with a text shadow. */
+.hg-dnd-bar{flex:none;position:relative;z-index:1;display:flex;align-items:stretch;padding:0 14.5px;background:#ff5533f2;box-shadow:0 2.72px 5.44px #0000002e;color:#fff;text-shadow:.91px 1.81px .91px #0000004d}
+.hg-dnd-bar span{flex:1;min-width:0;display:flex;flex-direction:column;padding:7.25px 0 9.06px}
+.hg-dnd-bar b{font:italic 700 16.31px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg-dnd-bar small{font:italic 400 12.68px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg-dnd-bar i{flex:none;width:.91px;margin:14.5px;background:#ffffff80}
+.screen .hg-dnd-bar button{flex:none;padding:0 3.62px;border:0;background:none;color:#fff;font:400 12.68px Roboto,sans-serif;text-shadow:inherit}
+.screen .hg-dnd-bar button:active{background:#ffffff33}
+.settings-dialog.hg-dnd{background:#fff;color:#000}
+.hg-dnd h3{margin:0;padding:14.5px 14.5px 10.87px;font:400 19.93px Roboto,sans-serif;color:#33b5e5;border-bottom:1.81px solid #33b5e5}
+.hg-dnd-list{display:flex;flex-direction:column}
+.screen .hg-dnd-list button{min-height:43.49px;padding:0 14.5px;border:0;border-bottom:.91px solid #0000001a;background:none;text-align:left;font:400 16.31px Roboto,sans-serif;color:#000}
+.screen .hg-dnd-list button:active{background:#33b5e566}
+/* ShareLocationActivity: the map with ic_map_pin centred and the SHARE action (ic_send_dark with its text). */
+.hg-map-wrap{position:relative;flex:1;min-height:0;overflow:hidden}
+.hg-map{position:absolute;inset:0;background:linear-gradient(transparent 37%,#fff 37%,#fff 39%,transparent 39%,transparent 62%,#fff 62%,#fff 64%,transparent 64%),linear-gradient(90deg,transparent 24%,#fff 24%,#fff 27%,transparent 27%,transparent 71%,#fff 71%,#fff 74%,transparent 74%),linear-gradient(160deg,transparent 47%,#f9d26b 47%,#f9d26b 49%,transparent 49%),linear-gradient(transparent 78%,#a9cdee 78%),radial-gradient(circle at 22% 20%,#cde5b4 0 12%,transparent 12%),radial-gradient(circle at 80% 62%,#cde5b4 0 9%,transparent 9%),#ece8df}
+.hg-pin{position:absolute;left:50%;top:50%;width:89.11px;height:104.22px;transform:translate(-50%,-50%)}
+.screen .hg-ab-text{flex:none;display:flex;align-items:center;height:100%;padding:0 10.87px 0 7.25px;border:0;background:none;font:500 12.68px Roboto,sans-serif;color:#333;text-transform:uppercase}
+.hg-ab-text img{width:28.99px;height:28.99px}
+.screen .hg-ab-text:active{background:#0000001a}

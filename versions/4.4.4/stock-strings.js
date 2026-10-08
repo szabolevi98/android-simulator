@@ -2752,5 +2752,139 @@ window.StockStrings = {
    "Desplazarse hacia arriba",
    "Navigate Up"
   ]
+ },
+ "hangouts": {
+  "Snooze notifications": [
+   "Értesítések elhalasztása",
+   "Benachrichtigungen deaktivieren",
+   "Suspendre les notifications",
+   "Detener notificaciones"
+  ],
+  "Snooze notifications for…": [
+   "Értesítések elhalasztása...",
+   "Benachrichtigungen deaktivieren für…",
+   "Suspendre les notifications pendant…",
+   "Detener notificaciones durante…"
+  ],
+  "1 hour": [
+   "1 óra",
+   "1 Stunde",
+   "1 heure",
+   "1 hora"
+  ],
+  "%d hours": [
+   "%d óra",
+   "%d Stunden",
+   "%d heures",
+   "%d horas"
+  ],
+  "Notifications snoozed": [
+   "Értesítések elhalasztva",
+   "Benachrichtigungen deaktiviert",
+   "Notifications suspendues",
+   "Notificaciones detenidas"
+  ],
+  "Will resume at %s": [
+   "Folytatás innen: %s",
+   "Fortsetzung: %s",
+   "Reprise : %s",
+   "Se reanudarán a las %s"
+  ],
+  "Resume": [
+   "Folytatás",
+   "Fortsetzen",
+   "Reprendre",
+   "Reanudar"
+  ],
+  "Archived Hangouts": [
+   "Archív Hangouts-beszélgetések",
+   "Archivierte Hangouts",
+   "Hangouts archivés",
+   "Conversaciones archivadas"
+  ],
+  "Archive": [
+   "Archiválás",
+   "Archivieren",
+   "Archiver",
+   "Archivar"
+  ],
+  "Unarchive": [
+   "Archiválás visszavonása",
+   "Dearchivieren",
+   "Annuler l'archivage",
+   "No archivar"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "No archived Hangouts": [
+   "Nincsenek archív Hangouts-beszélgetések",
+   "Keine archivierten Hangouts",
+   "Aucun Hangout archivé",
+   "No hay conversaciones archivadas"
+  ],
+  "Hangout archived.": [
+   "A Hangouts-beszélgetés archiválása sikerült.",
+   "Hangout archiviert",
+   "Hangout archivé.",
+   "Conversación archivada"
+  ],
+  "People & options": [
+   "Személyek és beállítások",
+   "Personen & Optionen",
+   "Participants et options",
+   "Usuarios y opciones"
+  ],
+  "Share location": [
+   "Hely megosztása",
+   "Standort freigeben",
+   "Partager ma position",
+   "Compartir ubicación"
+  ],
+  "SHARE": [
+   "MEGOSZTÁS",
+   "Teilen",
+   "PARTAGER",
+   "COMPARTIR"
+  ],
+  "Location": [
+   "Hely",
+   "Standort",
+   "Position",
+   "Ubicación"
+  ],
+  "Set mood…": [
+   "Hangulatbeállítás megadása…",
+   "Stimmung festlegen…",
+   "Définir l'humeur…",
+   "Establecer estado de ánimo…"
+  ],
+  "Invites": [
+   "Meghívások",
+   "Einladungen",
+   "Invitations",
+   "Invitaciones"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Send feedback": [
+   "Visszajelzés küldése",
+   "Feedback geben",
+   "Envoyer un commentaire",
+   "Danos tu opinión"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ]
  }
 };
