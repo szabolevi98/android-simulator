@@ -292,6 +292,120 @@ window.StockStrings = {
    "Navigationsleiste öffnen",
    "Ouvrir le panneau de navigation",
    "Abrir panel de navegación"
+  ],
+  "Show less": [
+   "Kevesebb megjelenítése",
+   "Weniger anzeigen",
+   "Afficher moins",
+   "Mostrar menos"
+  ],
+  "Share article": [
+   "Cikk megosztása",
+   "Artikel teilen",
+   "Partager l'article",
+   "Compartir artículo"
+  ],
+  "Open in browser": [
+   "Megnyitás böngészőben",
+   "Im Browser öffnen",
+   "Ouvrir dans un navigateur",
+   "Abrir en navegador"
+  ],
+  "Gathering your news…": [
+   "Hírek gyűjtése…",
+   "Nachrichten werden abgerufen…",
+   "Collecte des actualités en cours…",
+   "Recopilando tus noticias…"
+  ],
+  "Temperature units…": [
+   "Hőmérséklet mértékegysége…",
+   "Maßeinheit für Temperatur…",
+   "Unités de température…",
+   "Unidades de temperatura…"
+  ],
+  "Wind speed units…": [
+   "Szélsebesség mértékegysége…",
+   "Einh. für Windgeschwindigkeit…",
+   "Unités de vitesse du vent…",
+   "Unidades velocidad del viento…"
+  ],
+  "Featured weather": [
+   "Kiemelt időjárási adatok",
+   "Angezeigtes Wetter",
+   "Météo locale",
+   "Información tiempo destacada"
+  ],
+  "Hide": [
+   "Elrejtés",
+   "Ausblenden",
+   "Masquer",
+   "Ocultar"
+  ],
+  "Auto-detect my location": [
+   "Saját pozíció automatikus észlelése",
+   "Meinen Standort automatisch ermitteln",
+   "Détecter automatiquement ma position",
+   "Detectar mi ubicación automáticamente"
+  ],
+  "Use another location": [
+   "Másik hely használata",
+   "Anderen Standort verwenden",
+   "Utiliser une autre position",
+   "Usar otra ubicación"
+  ],
+  "Choose a location…": [
+   "Hely kiválasztása…",
+   "Ort auswählen…",
+   "Sélectionner un lieu…",
+   "Seleccionar una ubicación…"
+  ],
+  "Temperature units": [
+   "Hőmérséklet mértékegysége",
+   "Maßeinheit für Temperatur",
+   "Unités de température",
+   "Unidades de temperatura"
+  ],
+  "Wind speed units": [
+   "Szélsebesség mértékegysége",
+   "Maßeinheit für Windgeschwindigkeit",
+   "Unités de vitesse du vent",
+   "Unidades de velocidad del viento"
+  ],
+  "C°": [
+   "C°",
+   "C°",
+   "C°",
+   "C°"
+  ],
+  "F°": [
+   "F°",
+   "F°",
+   "F°",
+   "F°"
+  ],
+  "mph": [
+   "mph",
+   "mph",
+   "mi/h",
+   "mph"
+  ],
+  "km/h": [
+   "km/h",
+   "km/h",
+   "km/h",
+   "km/h"
+  ],
+  "m/s": [
+   "m/s",
+   "m/s",
+   "m/s",
+   "m/s"
+  ],
+  "Switch to light theme": [
+   "Váltás világos témára",
+   "Zum hellen Design wechseln",
+   "Passer au thème clair",
+   "Cambiar a tema claro"
   ]
  },
  "keep": {

@@ -423,3 +423,59 @@
 .screen .kp-dlg-item{display:flex;align-items:center;gap:10.87px;width:100%;padding:10.87px 10.87px 10.87px 18.12px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:#00000099}
 .kp-dlg-item img{width:28.99px;height:28.99px}
 .screen .kp-dlg button:active{background:#0000001f}
+/* News & Weather 2.2: item_story_expanded.xml (the larger photo, the snippet, the article rows between dividers and
+   story_footer.xml's share and Show less), web_content_activity.xml's page, the Material dialogs, content_loading_placeholder,
+   and AppThemeDark (#212121, card_background_single_dark, #deffffff / #92ffffff text as CSS #ffffffde / #ffffff92, accent #a1c2fa). */
+.nw2-expanded{border-top:.91px solid #0000001f}
+.nw2-exp-top{display:flex;align-items:flex-start;gap:3.62px;padding:10.87px 3.62px 0 10.87px}
+.nw2-exp-top>span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column;gap:3.62px;padding:3.62px}
+.nw2-exp-top b{font:400 14.5px/1.35 Roboto,sans-serif;color:#000000de}
+.nw2-exp-top small{font:400 12.68px Roboto,sans-serif;color:#0000008d}
+.nw2-photo.big{width:101.47px;height:101.47px}
+.screen .nw2-icon{flex:none;display:grid;place-items:center;padding:10.87px;border:0;background:none}
+.nw2-icon img,.nw2-less img{width:21.74px;height:auto;filter:brightness(0);opacity:.54}
+.nw2-icon img[src*="share"]{width:16.31px}
+.screen .nw2-snippet{display:block;width:100%;padding:7.25px 14.5px 10.87px;border:0;background:none;text-align:left;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008d}
+.screen .nw2-article-row{display:block;width:100%;padding:10.87px 14.5px;border:0;border-top:.91px solid #0000001f;background:none;text-align:left;font:400 12.68px Roboto,sans-serif;color:#3367d6}
+.nw2-expanded footer{display:flex;justify-content:space-between;align-items:center;border-top:.91px solid #0000001f}
+.screen .nw2-less{display:flex;align-items:center;gap:3.62px;padding:10.87px 14.5px;border:0;background:none;font:500 12.68px Roboto,sans-serif;color:#0000008d;text-transform:uppercase}
+.screen .nw2-snippet:active,.screen .nw2-article-row:active,.screen .nw2-less:active,.screen .nw2-icon:active{background:#0000001a}
+.nw2-now strong{font:500 12.68px Roboto,sans-serif;color:#000000de}
+.nw2-loading{display:flex;flex-direction:column;align-items:center;gap:14.5px;margin:0;padding:57.98px 14.5px;font:400 14.5px Roboto,sans-serif;color:#0000008d}
+.nw2-loading i{width:36.24px;height:36.24px;border:3.62px solid #3367d6;border-right-color:transparent;border-radius:50%;animation:nw2-spin 1s linear infinite}
+@keyframes nw2-spin{to{transform:rotate(360deg)}}
+.nw2-back{flex:none;display:grid;place-items:center;width:50.74px;height:50.74px;padding:0;border:0;background:none}
+.nw2-back img{width:21.74px;height:21.74px;filter:brightness(0);opacity:.54}
+.nw2-article{background:#fff;padding:14.5px}
+.nw2-article h2{margin:0 0 5.44px;font:400 21.74px/1.25 Roboto,sans-serif;color:#000000de}
+.nw2-article>small{display:block;margin-bottom:10.87px;font:400 12.68px Roboto,sans-serif;color:#0000008d}
+.nw2-article-photo{display:block;width:100%;aspect-ratio:16/9;overflow:hidden}
+.nw2-article-photo .sa-thumb{width:100%;height:100%}
+.nw2-article p{font:400 14.5px/1.5 Roboto,sans-serif;color:#000000de}
+.screen .nw2-dialog-scrim{position:absolute;inset:0;z-index:30;border:0;background:#00000080}
+.nw2-dialog{position:absolute;z-index:31;left:21.74px;right:21.74px;top:50%;transform:translateY(-50%);padding:21.74px 0 7.25px;border-radius:1.81px;background:#fff;box-shadow:0 7.25px 21.74px #0006;color:#000000de}
+.nw2-dialog h3{margin:0;padding:0 21.74px 14.5px;font:500 18.12px Roboto,sans-serif}
+.screen .nw2-radio{display:flex;align-items:center;gap:18.12px;width:100%;min-height:43.49px;padding:0 21.74px;border:0;background:none;text-align:left;font:400 14.5px Roboto,sans-serif;color:inherit}
+.nw2-radio i{flex:none;width:18.12px;height:18.12px;border:1.81px solid #0000008a;border-radius:50%;box-sizing:border-box}
+.nw2-radio.on i{border-color:#3367d6;background:radial-gradient(#3367d6 0 4.53px,transparent 4.53px)}
+.nw2-place{display:block;width:calc(100% - 79.73px);margin:0 21.74px 7.25px 57.99px;padding:5.44px 0;border:0;border-bottom:1.81px solid #3367d6;background:none;color:inherit;font:400 14.5px Roboto,sans-serif;outline:none}
+.nw2-place:disabled{border-bottom-color:#0000001f;opacity:.5}
+.nw2-dialog-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:7.25px 7.25px 0}
+.screen .nw2-dialog-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;font:500 12.68px Roboto,sans-serif;color:#3367d6;text-transform:uppercase}
+.screen .nw2-dialog-buttons button:active,.screen .nw2-radio:active{background:#0000001a}
+.sa-news2.nw2-dark{background:#212121;color:#ffffffde}
+.nw2-dark .nw2-bar{background:#212121}
+.nw2-dark .nw2-bar>b{color:#ffffffde}
+.nw2-dark .nw2-bar .sa-btn img,.nw2-dark .nw2-toggle i{filter:none;opacity:1}
+.nw2-dark .nw2-toggle i{background:#ffffffde}
+.nw2-dark .nw2-back img{filter:none;opacity:1}
+.nw2-dark .nw2-card{border-image-source:url('assets/nw2-card_background_single_dark.png')}
+.nw2-dark .nw2-head h3,.nw2-dark .nw2-story small,.nw2-dark .nw2-exp-top small,.nw2-dark .nw2-snippet,.nw2-dark .nw2-now span,.nw2-dark .nw2-chart i b,.nw2-dark .nw2-loading,.nw2-dark .nw2-less{color:#ffffff92}
+.nw2-dark .nw2-story b,.nw2-dark .nw2-exp-top b,.nw2-dark .nw2-now em,.nw2-dark .nw2-now strong{color:#ffffffde}
+.nw2-dark .nw2-head img,.nw2-dark .nw2-icon img,.nw2-dark .nw2-less img{filter:none;opacity:.7}
+.nw2-dark .nw2-story,.nw2-dark .nw2-more,.nw2-dark .nw2-tabs,.nw2-dark .nw2-expanded,.nw2-dark .nw2-expanded footer,.nw2-dark .nw2-article-row{border-color:#ffffff1f}
+.nw2-dark .nw2-tabs button.on,.nw2-dark .nw2-article-row{color:#a1c2fa;border-bottom-color:#a1c2fa}
+.nw2-dark .nw2-dialog{background:#424242;color:#ffffffde}
+.nw2-dark .nw2-dialog-buttons button,.nw2-dark .nw2-more{color:#a1c2fa}
+.nw2-dark .nw2-radio i{border-color:#ffffff92}
+.nw2-dark .nw2-radio.on i{border-color:#a1c2fa;background:radial-gradient(#a1c2fa 0 4.53px,transparent 4.53px)}

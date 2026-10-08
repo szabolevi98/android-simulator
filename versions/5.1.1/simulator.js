@@ -732,6 +732,7 @@
   }
   function openApp(app, resume = false) {
     if(ui.locked)return;
+    if (app === 'news-weather' && !resume) { ui.newsWeb = ''; ui.newsDialog = ''; ui.newsExpanded = ''; }
     if (GEL_ALIASES[app]) app = GEL_ALIASES[app];
     if (!appNames[app]) return;
     if (app === 'chrome') useBrowserSession(app);
@@ -758,6 +759,8 @@
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; ui.overview = false; if (resetPage) ui.page = 0; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
   function navigateBack() {
+    // News & Weather: a dialog, then the article page, then an expanded story.
+    if (ui.view === 'news-weather' && !ui.overlay && (ui.newsDialog || ui.newsWeb)) { if (ui.newsDialog) { ui.newsDialog = ''; ui.newsPick = undefined; } else ui.newsWeb = ''; render(); return; }
     if (ui.view === 'settings' && ['a11y-magnification', 'a11y-shortcut'].includes(ui.sub) && !ui.overlay) { ui.sub = 'accessibility'; render(); return; }
     if (ui.view === 'email' && ui.sub === 'em-settings' && !ui.overlay) { if (ui.emPrefList || ui.emPrefEdit) { ui.emPrefList = ''; ui.emPrefEdit = ''; } else if (ui.emPref) ui.emPref = ''; else ui.sub = ''; render(); return; }
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
@@ -2171,8 +2174,24 @@
       case 'earth-clear': ui.overlay = ''; renderOverlay(); ui.earthQuery = ''; render(); break;
       case 'earth-drawer': ui.earthDrawer = !ui.earthDrawer; render(); break;
       case 'gplus-refresh': ui.overlay = ''; renderOverlay(); render(); break;
-      case 'sa-menu': ui.overlay = 'sa-menu'; renderOverlay(); break;
-      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
+      case 'sa-menu': ui.newsMenu = ''; ui.overlay = 'sa-menu'; renderOverlay(); break;
+      // News & Weather 2.2: Refresh shows content_loading_placeholder while it gathers; stories expand and open
+      // WebContentActivity; the weather card's menu and the app menu open its dialogs; the theme switches.
+      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); ui.newsRefreshing = true; render(); setTimeout(() => { ui.newsRefreshing = false; if (ui.view === 'news-weather') render(); }, 900); break;
+      case 'news2-expand': ui.newsExpanded = id; render(); break;
+      case 'news2-open': ui.newsWeb = id; render(); break;
+      case 'news2-share': { ui.overlay = ''; renderOverlay(); const title = viewport.querySelector(`[data-id="${id}"]`)?.closest('.nw2-expanded')?.querySelector('b')?.textContent || viewport.querySelector('.nw2-article h2')?.textContent || ''; openApp('messaging'); ui.sub = 'new'; messageDraft().body = title; save(); render(); break; }
+      case 'news2-weather-menu': ui.newsMenu = 'weather'; ui.overlay = 'sa-menu'; renderOverlay(); break;
+      case 'news2-dialog': ui.overlay = ''; renderOverlay(); ui.newsDialog = id; ui.newsPick = undefined; render(); break;
+      case 'news2-pick': { const place = viewport.querySelector('[data-news2-place]')?.value; ui.newsPick = id; render(); const input = viewport.querySelector('[data-news2-place]'); if (input && place !== undefined) input.value = place; break; }
+      case 'news2-cancel': ui.newsDialog = ''; ui.newsPick = undefined; render(); break;
+      case 'news2-ok': {
+        const o = StockApps.news2(data), pick = ui.newsPick ?? (ui.newsDialog === 'weather' ? o.weather : ui.newsDialog === 'unit' ? o.unit : o.wind);
+        data.news2 = {...o, ...(ui.newsDialog === 'weather' ? {weather: pick, place: (viewport.querySelector('[data-news2-place]')?.value || '').trim()} : ui.newsDialog === 'unit' ? {unit: pick} : {wind: pick})};
+        if (data.news2.weather === 'custom' && !data.news2.place) data.news2.weather = 'auto';
+        ui.newsDialog = ''; ui.newsPick = undefined; save(); render(); break;
+      }
+      case 'news2-theme': ui.overlay = ''; renderOverlay(); data.news2 = {...StockApps.news2(data), dark: !StockApps.news2(data).dark}; save(); render(); break;
       // Play Music, Movies & TV, Books and Games
       case 'pa-drawer': ui.overlay = 'pa-drawer'; renderOverlay(); break;
       case 'pa-menu': ui.overlay = 'pa-menu'; renderOverlay(); break;
