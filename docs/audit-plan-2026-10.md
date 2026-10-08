@@ -134,6 +134,11 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [ ] KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – megtárgyalni
 - [ ] Boot képernyők (a tulajdonos ötlete, 2026-10-06): verziónként a gyári bootanimáció, ami alatt az assetek betöltődhetnek; kb. 5 másodpercig futna, vagy kattintásra azonnal továbblép. Még nem eldöntött, hogy kell-e – megtárgyalni
 
+## 8. Keresőmotorok (a tulajdonos kérése, 2026-10-08; az audit legvégén)
+
+- [ ] `sitemap.xml` a gyökérben: a kezdőoldal és a verziók oldalai (android.levente.net), `lastmod` értékkel
+- [ ] Megengedő `robots.txt` (mindent enged), `Sitemap: https://android.levente.net/sitemap.xml` sorral
+
 ## Nem csináljuk meg
 
 - Valódi háttérműködés: hívás, SMS, szinkron, fizetés, hardveres rádiók, Face Unlock, titkosítás, valódi visszajelzés-küldés (a képernyőik és demóállapotuk igen)
