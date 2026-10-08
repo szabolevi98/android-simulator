@@ -43,4 +43,19 @@ const load=(v,files)=>{const context={window:{}};for(const f of files)vm.runInNe
   const toc=P.render(ctx({bkToc:true}));assert.equal((toc.match(/data-action="bk-chapter"/g)||[]).length,3);assert.ok(toc.includes('class="current" data-action="bk-chapter" data-id="0"'));
   const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');assert.ok(sim.includes("Play Books 3.1.33's reader")&&sim.includes('[data-bk-bright]'));
 }
+// 5.1.1: Play Books 3.3.15's card: theme buttons, brightness, the "T" and alignment spinners, size and line buttons
+// (addTheme, addBrightness, addTypeFace, addJustification, addTextSize, addLineHeight), and ContentsView's blue header.
+{
+  const W=load('5.1.1',['stock-strings.js','play-apps.js']),P=W.PlayApps,t=k=>k;
+  const ctx=(ui,data={})=>({app:'play-books',ui:{sub:'reader',paItem:'b2',...ui},t,locale:'en',data:{playBooks:{b2:5},...data}});
+  const reader=P.render(ctx({}));assert.ok(reader.includes('bk33-ic_toc_24dp')&&reader.includes('bk33-ic_text_format_24dp'));
+  const opts=P.render(ctx({bkOptions:true},{bookPrefs:{theme:'2',justification:'justify'}}));
+  const at=k=>opts.indexOf(k),order=['class="bk33-pref themes"','class="bk33-pref bright"','data-id="typeface"','data-id="justification"','data-id="textZoom:-1"','data-id="lineHeight:-1"'].map(at);
+  assert.ok(order.every((n,i)=>n>0&&(i===0||n>order[i-1])),JSON.stringify(order));
+  assert.ok(opts.includes('bk33-theme sepia on')&&opts.includes('alignment_justify_holo_light')&&opts.includes('brightness_auto_on')&&!opts.slice(opts.indexOf('bk33-options"')).includes('<b>'));
+  const toc=P.render(ctx({bkToc:true}));
+  assert.ok(toc.includes('bk33-ic_close_wht_24dp')&&toc.includes('aria-label="Close table of contents"')&&toc.includes('<b>Pride and Prejudice</b>')&&toc.includes('class="current" data-action="bk-chapter" data-id="4"'));
+  assert.ok(P.render(ctx({bkToc:true,bkTocTab:'bookmarks'})).includes('To add a bookmark, touch the top corner of the page'));
+  assert.ok(fs.readFileSync('versions/5.1.1/simulator.js','utf8').includes("Play Books 3.3.15's reader"));
+}
 console.log('books-reader ok');

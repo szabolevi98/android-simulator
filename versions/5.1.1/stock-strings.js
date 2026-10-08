@@ -1535,6 +1535,162 @@ window.StockStrings = {
    "Anfrage löschen",
    "Effacer la requête",
    "Borrar consulta"
+  ],
+  "Display options": [
+   "Megjelenítési beállítások",
+   "Anzeigeoptionen",
+   "Options d'affichage",
+   "Opciones de visualización"
+  ],
+  "Contents": [
+   "Tartalom",
+   "Inhaltsverzeichnis",
+   "Table des matières",
+   "Índice"
+  ],
+  "Viewing theme": [
+   "Nézet témája",
+   "Design der Ansicht",
+   "Thème",
+   "Tema de visualización"
+  ],
+  "Brightness": [
+   "Fényerő",
+   "Helligkeit",
+   "Luminosité",
+   "Brillo"
+  ],
+  "Typeface": [
+   "Betűkép",
+   "Schriftart",
+   "Police",
+   "Tipo de letra"
+  ],
+  "Text alignment": [
+   "Szövegigazítás",
+   "Textausrichtung",
+   "Alignement du texte",
+   "Alineación del texto"
+  ],
+  "Font size": [
+   "Betűméret",
+   "Schriftgröße",
+   "Taille de police",
+   "Tamaño de fuente"
+  ],
+  "Line height": [
+   "Sormagasság",
+   "Zeilenhöhe",
+   "Hauteur des lignes",
+   "Interlineado"
+  ],
+  "Automatic brightness": [
+   "Automatikus fényerő",
+   "Automatische Helligkeit",
+   "Ajuster automatiquement la luminosité",
+   "Brillo automático"
+  ],
+  "Day": [
+   "Nappal",
+   "Tag",
+   "Jour",
+   "Día"
+  ],
+  "Night": [
+   "Éjszaka",
+   "Nacht",
+   "Nuit",
+   "Noche"
+  ],
+  "Sepia": [
+   "szépia",
+   "Sepia",
+   "Sépia",
+   "Sepia"
+  ],
+  "Default": [
+   "Alapbeállítás",
+   "Standard",
+   "Par défaut",
+   "Predeterminado"
+  ],
+  "Sans": [
+   "Sans",
+   "Sans",
+   "Sans",
+   "Sans"
+  ],
+  "Serif": [
+   "Serif",
+   "Serif",
+   "Serif",
+   "Serif"
+  ],
+  "Left": [
+   "Balra",
+   "Links",
+   "Gauche",
+   "Izquierda"
+  ],
+  "Justify": [
+   "Sorkizárás",
+   "Blocksatz",
+   "Justifier",
+   "Justificar"
+  ],
+  "Decrease font size": [
+   "Betűméret csökkentése",
+   "Schrift verkleinern",
+   "Diminuer la taille de la police",
+   "Reducir el tamaño de la fuente"
+  ],
+  "Increase font size": [
+   "Betűméret növelése",
+   "Schrift vergrößern",
+   "Augmenter la taille de la police",
+   "Aumentar el tamaño de la fuente"
+  ],
+  "Decrease line height": [
+   "Sormagasság csökkentése",
+   "Zeilenhöhe verkleinern",
+   "Diminuer l'interligne",
+   "Disminuir la altura de la línea"
+  ],
+  "Increase line height": [
+   "Sormagasság növelése",
+   "Zeilenhöhe vergrößern",
+   "Augmenter l'interligne",
+   "Aumentar altura de la línea"
+  ],
+  "Chapters": [
+   "Fejezetek",
+   "Kapitel",
+   "Chapitres",
+   "Capítulos"
+  ],
+  "Bookmarks": [
+   "Könyvjelzők",
+   "Lesezeichen",
+   "Favoris",
+   "Marcadores"
+  ],
+  "Notes": [
+   "Jegyzetek",
+   "Notizen",
+   "Notes",
+   "Notas"
+  ],
+  "To add a bookmark, touch the top corner of the page": [
+   "Könyvjelző hozzáadásához érintsd meg az oldal felső sarkát",
+   "Um ein Lesezeichen hinzuzufügen, berühren Sie die Seite oben.",
+   "Pour ajouter un marque-page, appuyez dans l'angle supérieur de la page.",
+   "Para añadir un marcador, toca la esquina superior de la página"
+  ],
+  "Close table of contents": [
+   "Tartalomjegyzék bezárása",
+   "Inhaltsverzeichnis schließen",
+   "Fermer la table des matières",
+   "Cerrar índice"
   ]
  },
  "games": {

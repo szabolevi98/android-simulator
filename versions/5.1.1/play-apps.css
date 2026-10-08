@@ -219,3 +219,81 @@
 .pa-suggest.books .pa-suggest-row b{color:#000}
 .screen .pa-suggest-row.market{padding-left:43.49px}
 .pa-suggest-row:active{background:#0000001a}
+/* Play Books 3.3.15 reader settings (1 dp = 0.906 px; xxxhdpi assets). The typefaces ship in the APK (assets/fonts);
+   override.css's themes (sepia #ece1ca / #645032, night #000 / #cccccc) and reader_ab_solid_dark (#212121); the window
+   brightness dims the whole screen. */
+@font-face{font-family:'BK33 Merriweather';src:url('assets/bk33-Merriweather.ttf')}
+@font-face{font-family:'BK33 Goudy';src:url('assets/bk33-OFLGoudyStMTT.ttf')}
+@font-face{font-family:'BK33 Vollkorn';src:url('assets/bk33-Vollkorn-Regular.ttf')}
+.pb-reader .pb-page{font-size:calc(16.31px * var(--bk-zoom,1));line-height:calc(1.6 * var(--bk-lh,1))}
+.pb-reader .pb-page h2{font-size:calc(22px * var(--bk-zoom,1))}
+.pb-reader .pb-page h2.sub{font-size:calc(18px * var(--bk-zoom,1))}
+.bk33-face-sans .pb-page,.bk33-face-sans .pb-page h2{font-family:Roboto,sans-serif}
+.bk33-face-serif .pb-page,.bk33-face-serif .pb-page h2{font-family:'Noto Serif','Droid Serif',serif}
+.bk33-face-Merriweather .pb-page,.bk33-face-Merriweather .pb-page h2{font-family:'BK33 Merriweather',serif}
+.bk33-face-OFLGoudyStMTT .pb-page,.bk33-face-OFLGoudyStMTT .pb-page h2{font-family:'BK33 Goudy',serif}
+.bk33-face-Vollkorn .pb-page,.bk33-face-Vollkorn .pb-page h2{font-family:'BK33 Vollkorn',serif}
+.bk33-just-left .pb-page p{text-align:left}
+.bk33-just-justify .pb-page p{text-align:justify}
+.pb-reader.bk33-theme-sepia{background:#ece1ca}.bk33-theme-sepia .pb-page{color:#645032}
+.pb-reader.bk33-theme-night{background:#000}.bk33-theme-night .pb-page{color:#ccc}
+.pb-top.bk33-dark{background:#212121;border-bottom-color:#000}
+.pb-top.bk33-dark b{color:#fff}.pb-top.bk33-dark small{color:#bbb}
+.pb-top.bk33-dark .bk33-action img,.pb-top.bk33-dark .lpa-nav span{filter:invert(1)}
+.bk33-theme-night .pb-bottom{background:#212121;border-top-color:#000;color:#bbb}
+.bk33-dim{position:absolute;inset:0;z-index:40;background:#000;opacity:var(--bk-dim,0);pointer-events:none}
+.screen .pb-top .bk33-action{width:43.49px;display:grid;place-items:center}
+.bk33-action img{width:21.74px;height:21.74px}
+.bk33-action.on{background:#0000001a}
+/* display_options_popup.xml: 300 dp on card_background_default_light, 2 dp from the right; display_options_view's 24 / 10 dp
+   padding; 48 dp rows 6 dp apart. */
+.bk33-options-scrim{position:absolute;inset:0;z-index:30;background:none}
+.bk33-options{position:absolute;z-index:31;top:43.49px;right:1.81px;width:271.8px;box-sizing:border-box;padding:16.31px 28.99px;border:0;border-image:url('assets/bk33-card_background_default_light.png') 90 79 69 80 fill/20.39px 17.89px 15.63px 18.12px;color:#000000de}
+.bk33-pref{position:relative;display:flex;align-items:center;height:43.49px;margin:5.44px 0}
+.screen .bk33-theme{flex:1;min-width:0;height:32.62px;padding:0;border:0;border-radius:2.72px;font:400 18.12px 'Noto Serif',serif}
+.screen .bk33-theme.day{background:#fff;color:#000}
+.screen .bk33-theme.night{margin:0 7.25px;background:#000;color:#ccc}
+.screen .bk33-theme.sepia{background:#ece1ca;color:#645032}
+.screen .bk33-theme.on{box-shadow:inset 0 0 0 2.72px #0277bd}
+.screen .bk33-theme:active{filter:brightness(.9)}
+.screen .bk33-auto{flex:none;padding:0;border:0;background:none}
+.bk33-auto img{display:block;width:36.24px;height:36.24px}
+.bk33-pref input[type=range]{flex:1;min-width:0;margin:0 0 0 21.74px;height:36.24px;appearance:none;background:url('assets/bk33-scrubber_track_holo_light.png') center/100% 10.87px no-repeat}
+.bk33-pref input[type=range]::-webkit-slider-thumb{appearance:none;width:13.59px;height:13.59px;border-radius:50%;background:#0277bd}
+.bk33-pref input[type=range]:disabled{opacity:.4}
+.bk33-label{flex:none;width:21.74px;margin-right:3.62px;font:400 19.93px 'Noto Serif',serif;color:#646464;text-align:center}
+img.bk33-label{height:21.74px}
+.bk33-pspin-wrap{position:relative;flex:1;min-width:0;height:100%}
+.screen .bk33-pspin{position:relative;display:block;width:100%;height:100%;padding:0 16.31px 0 3.62px;border:0;background:none;text-align:left;font:400 16.31px Roboto,sans-serif;color:#000000de;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .bk33-pspin:active{background:#0000001a}
+/* abc_spinner_mtrl_am_alpha is an alpha mask, tinted with colorControlNormal (#8a000000). */
+.bk33-pspin::after{content:"";position:absolute;right:0;top:calc(50% - 10.87px);width:16.31px;height:21.74px;background:#0000008a;-webkit-mask:url('assets/bk33-abc_spinner_mtrl_am_alpha.png') center/100% 100% no-repeat;mask:url('assets/bk33-abc_spinner_mtrl_am_alpha.png') center/100% 100% no-repeat}
+.bk33-pdrop{position:absolute;left:-7.25px;right:-7.25px;top:100%;z-index:2;border:9.06px solid transparent;border-image:url('assets/bk33-menu_dropdown_panel_holo_light.png') 30 fill/9.06px;margin-top:-9.06px}
+.screen .bk33-pdrop button{display:block;width:100%;min-height:43.49px;padding:0 7.25px;border:0;background:none;text-align:left;font:400 16.31px Roboto,sans-serif;color:#000000de}
+.screen .bk33-pdrop button:active{background:#0000001a}
+.screen .bk33-btn{flex:1;min-width:0;height:32.62px;display:grid;place-items:center;padding:0;border:0;border-radius:2.72px;background:#dcdcdc;color:#646464}
+.screen .bk33-btn:active{background:#c8c8c8}
+.screen .bk33-btn:disabled{background:#e8e8e8;color:#6464647f}
+.bk33-btn img{width:21.74px;height:21.74px}
+.bk33-letter{font-family:'Noto Serif',serif!important}
+.bk33-letter.small{font-size:14.5px!important}.bk33-letter.large{font-size:25.37px!important}
+.bk33-num{flex:none;min-width:65.23px;text-align:center;font:400 14.5px Roboto,sans-serif;color:#000000de}
+/* ContentsView: the books_corpora_primary PlayHeaderListLayout (56 dp toolbar, 48 dp tab strip with the 2 dp underline)
+   over top_level_chapter.xml rows. */
+.app-view.bk33-toc{background:#fff;color:#000000de}
+.bk33-toc-head{flex:none;background:#039be5;color:#fff;box-shadow:0 1.81px 3.62px #0003;z-index:1}
+.bk33-toc-bar{display:flex;align-items:center;height:50.74px}
+.screen .bk33-toc-bar button{flex:none;display:grid;place-items:center;width:50.74px;height:50.74px;padding:0;border:0;background:none}
+.bk33-toc-bar img{width:21.74px;height:21.74px}
+.bk33-toc-bar b{flex:1;min-width:0;margin-left:14.5px;font:500 18.12px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk33-toc-tabs{display:flex;height:43.49px}
+.screen .bk33-toc-tabs button{flex:1;min-width:0;padding:0 10.87px;border:0;background:none;font:500 12.68px Roboto,sans-serif;color:#ffffffb3;text-transform:uppercase;white-space:nowrap}
+.screen .bk33-toc-tabs button.on{color:#fff;box-shadow:inset 0 -1.81px #fff}
+.bk33-toc-list{flex:1;min-height:0;overflow-y:auto}
+.screen .bk33-toc-list button{display:flex;align-items:center;width:100%;min-height:43.49px;padding:0 3.62px 0 14.5px;border:0;background:none;text-align:left;font:400 12.68px Roboto,sans-serif;color:#000000de}
+.bk33-toc-list span{flex:1;min-width:0;margin-right:10.87px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk33-toc-list em{margin-right:10.87px;font:italic 400 14.5px 'Noto Serif',serif;color:#0000008a}
+.bk33-toc-list .current span{font-weight:700}
+.screen .bk33-toc-list button:active{background:#0000001a}
+.bk33-toc-empty{flex:1;min-height:0}
+.bk33-toc-empty p{margin:0;padding:14.5px;font:400 12.68px Roboto,sans-serif;color:#0000008a}

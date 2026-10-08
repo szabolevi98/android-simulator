@@ -62,21 +62,33 @@
       'CHAPTER I.\nDown the Rabbit-Hole',
       'Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”',
       'So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.',
-      'There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, “Oh dear! Oh dear! I shall be late!”']},
+      'There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, “Oh dear! Oh dear! I shall be late!”',
+      'CHAPTER II.\nThe Pool of Tears',
+      '“Curiouser and curiouser!” cried Alice (she was so much surprised, that for the moment she quite forgot how to speak good English); “now I’m opening out like the largest telescope that ever was! Good-bye, feet!”',
+      'CHAPTER III.\nA Caucus-Race and a Long Tale',
+      'They were indeed a queer-looking party that assembled on the bank—the birds with draggled feathers, the animals with their fur clinging close to them, and all dripping wet, cross, and uncomfortable.']},
     {id: 'b2', title: 'Pride and Prejudice', author: 'Jane Austen', pages: [
       'Chapter 1',
       'It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.',
       'However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.',
-      '“My dear Mr. Bennet,” said his lady to him one day, “have you heard that Netherfield Park is let at last?”\n\nMr. Bennet replied that he had not.']},
+      '“My dear Mr. Bennet,” said his lady to him one day, “have you heard that Netherfield Park is let at last?”\n\nMr. Bennet replied that he had not.',
+      'Chapter 2',
+      'Mr. Bennet was among the earliest of those who waited on Mr. Bingley. He had always intended to visit him, though to the last always assuring his wife that he should not go; and till the evening after the visit was paid she had no knowledge of it.']},
     {id: 'b3', title: 'The Three Musketeers', author: 'Alexandre Dumas', pages: [
       '1. The Three Presents of D’Artagnan the Elder',
       'On the first Monday of the month of April, 1625, the market town of Meung, in which the author of Romance of the Rose was born, appeared to be in as perfect a state of revolution as if the Huguenots had just made a second La Rochelle of it.',
-      'Many citizens, seeing the women flying toward the High Street, leaving their children crying at the open doors, hastened to don the cuirass, and supporting their somewhat uncertain courage with a musket or a partisan, directed their steps toward the hostelry of the Jolly Miller.']},
+      'Many citizens, seeing the women flying toward the High Street, leaving their children crying at the open doors, hastened to don the cuirass, and supporting their somewhat uncertain courage with a musket or a partisan, directed their steps toward the hostelry of the Jolly Miller.',
+      '2. The Antechamber of M. de Tréville',
+      'M. de Troisville, as his family was still called in Gascony, or M. de Tréville, as he has ended by styling himself in Paris, had really commenced life as d’Artagnan now did; that is to say, without a sou in his pocket, but with a fund of audacity, shrewdness, and intelligence.']},
     {id: 'b4', title: 'The Adventures of Sherlock Holmes', author: 'Arthur Conan Doyle', pages: [
       'I. A Scandal in Bohemia',
       'To Sherlock Holmes she is always the woman. I have seldom heard him mention her under any other name. In his eyes she eclipses and predominates the whole of her sex.',
-      'It was not that he felt any emotion akin to love for Irene Adler. All emotions, and that one particularly, were abhorrent to his cold, precise but admirably balanced mind.']}
+      'It was not that he felt any emotion akin to love for Irene Adler. All emotions, and that one particularly, were abhorrent to his cold, precise but admirably balanced mind.',
+      'II. The Red-Headed League',
+      'I had called upon my friend, Mr. Sherlock Holmes, one day in the autumn of last year and found him in deep conversation with a very stout, florid-faced, elderly gentleman with fiery red hair.']}
   ];
+  // Each chapter opens on its heading page; the reader's Contents lists them (ContentsView.ChaptersAdapter).
+  BOOKS.forEach(book => { book.starts = book.pages.map((page, i) => /^(CHAPTER [IVX]+\.|Chapter \d+|\d+\. |[IVX]+\. )/.test(page) ? i : -1).filter(i => i >= 0); });
   const GAMES = [
     {id: 'g1', title: 'Bean Bounce', dev: 'Android Demo', achievements: 18, got: 3, state: 'PURCHASED'},
     {id: 'g2', title: 'Dessert Dash', dev: 'Sweet Pixel', achievements: 12, got: 0, state: 'FREE'},
@@ -222,13 +234,64 @@
   }
 
   // ---- Play Books ----
+  // The reader's settings (LocalPreferences' defaults): themes 0 Day / 1 Night / 2 Sepia, typeface2, justification2, the
+  // window brightness (-1 follows the system), textZoom (ReaderUtils' default 1, steps of 1/8) and lineHeight2 (1.5 shown
+  // as 100%, steps of 0.1875, at least 1.125).
+  const THEME_KEYS = ['day', 'night', 'sepia'];
+  const BOOK_PREFS = {theme: '0', typeface: 'default', justification: 'default', brightness: -1, textZoom: 1, lineHeight: 1.5};
+  const bookPrefs = data => ({...BOOK_PREFS, ...(data.bookPrefs || {})});
+  const ZOOM_STEP = .125, LINE_STEP = .1875, LINE_MIN = 1.125;
+  const PREF_SPINNERS = {
+    typeface: [['Default', 'Sans', 'Serif', 'Merriweather', 'Sorts Mill Goudy', 'Vollkorn'], ['default', 'sans', 'serif', 'Merriweather', 'OFLGoudyStMTT', 'Vollkorn']],
+    justification: [['Default', 'Left', 'Justify'], ['default', 'left', 'justify']]
+  };
+  // TextZoomPreference / LineHeightPreference.stepValue: one increment up or down, rounded to the increment.
+  function stepPref(pr, key, dir) {
+    if (key === 'textZoom') { const next = Math.max(1, Math.round((pr.textZoom + dir * ZOOM_STEP) / ZOOM_STEP)) * ZOOM_STEP; return dir < 0 && pr.textZoom <= 1.98 * ZOOM_STEP ? pr.textZoom : next; }
+    if (dir < 0 && pr.lineHeight <= LINE_MIN) return pr.lineHeight;
+    return Math.max(LINE_MIN, Math.round((pr.lineHeight + dir * LINE_STEP) / LINE_STEP) * LINE_STEP);
+  }
+  // Play Books 3.3.15's ReaderSettingsController.createFlowingTextModeSettingsView: display_options_popup.xml (300 dp on
+  // card_background_default_light, top right) with 48 dp pref_item.xml rows and no headings, in addTheme, addBrightness,
+  // addTypeFace, addJustification, addTextSize, addLineHeight order. pref_theme.xml's three "A" buttons (white, black
+  // with #cccccc, books_sepia with books_chocolate; the chosen one ringed 3 dp in books_corpora_accent), pref_brightness.xml's
+  // auto button and seek bar, the "T" / alignment labels before the spinners, and the pref_button_light buttons.
+  function displayOptions(ctx, pr) {
+    const b = key => S(ctx, 'books', key), open = ctx.ui.bkSpin;
+    const spinner = key => {
+      const [entries, values] = PREF_SPINNERS[key], at = Math.max(0, values.indexOf(String(pr[key])));
+      return `<div class="bk33-pspin-wrap"><button class="bk33-pspin" data-action="bk-pref-spin" data-id="${key}" aria-label="${e(b(key === 'typeface' ? 'Typeface' : 'Text alignment'))}">${e(b(entries[at]))}</button>${open === key ? `<div class="bk33-pdrop">${entries.map((entry, n) => `<button data-action="bk-pref" data-id="${key}:${values[n]}">${e(b(entry))}</button>`).join('')}</div>` : ''}</div>`;
+    };
+    const themes = [['0', 'Day'], ['1', 'Night'], ['2', 'Sepia']].map(([value, key]) => `<button class="bk33-theme ${THEME_KEYS[value]}${pr.theme === value ? ' on' : ''}" data-action="bk-pref" data-id="theme:${value}" aria-label="${e(b(key))}">A</button>`).join('');
+    const auto = pr.brightness < 0;
+    const bright = `<button class="bk33-auto" data-action="bk-pref-auto" aria-pressed="${auto}" aria-label="${e(b('Automatic brightness'))}"><img src="assets/bk33-ic_settings_brightness_auto_${auto ? 'on' : 'off'}_holo_light.png" alt=""></button><input type="range" min="5" max="100" value="${auto ? 100 : pr.brightness}" data-bk-bright aria-label="${e(b('Brightness'))}"${auto ? ' disabled' : ''}>`;
+    const canSmallerText = pr.textZoom > 1.98 * ZOOM_STEP, canSmallerLine = pr.lineHeight > LINE_MIN;
+    const size = `<button class="bk33-btn bk33-letter small" data-action="bk-pref-step" data-id="textZoom:-1" aria-label="${e(b('Decrease font size'))}"${canSmallerText ? '' : ' disabled'}>T</button><span class="bk33-num">${Math.round(pr.textZoom * 100)}%</span><button class="bk33-btn bk33-letter large" data-action="bk-pref-step" data-id="textZoom:1" aria-label="${e(b('Increase font size'))}">T</button>`;
+    const line = `<button class="bk33-btn" data-action="bk-pref-step" data-id="lineHeight:-1" aria-label="${e(b('Decrease line height'))}"${canSmallerLine ? '' : ' disabled'}><img src="assets/bk33-ic_settings_lineheight_smaller_${canSmallerLine ? 'on' : 'off'}_holo_light.png" alt=""></button><span class="bk33-num">${Math.round(pr.lineHeight / 1.5 * 100)}%</span><button class="bk33-btn" data-action="bk-pref-step" data-id="lineHeight:1" aria-label="${e(b('Increase line height'))}"><img src="assets/bk33-ic_settings_lineheight_larger_on_holo_light.png" alt=""></button>`;
+    const row = (cls, label, body) => `<div class="bk33-pref ${cls}" aria-label="${e(b(label))}">${body}</div>`;
+    return `<div class="bk33-options-scrim" data-action="bk-options"></div><div class="bk33-options" role="dialog" aria-label="${e(b('Display options'))}">${row('themes', 'Viewing theme', themes)}${row('bright', 'Brightness', bright)}${row('spin', 'Typeface', `<span class="bk33-label">T</span>${spinner('typeface')}`)}${row('spin', 'Text alignment', `<img class="bk33-label" src="assets/bk33-ic_settings_alignment_${pr.justification === 'justify' ? 'justify' : 'left'}_holo_light.png" alt="">${spinner('justification')}`)}${row('plus', 'Font size', size)}${row('plus', 'Line height', line)}</div>`;
+  }
+  // ContentsView (3.3.15): a PlayHeaderListLayout in books_corpora_primary with the close button (ic_close_wht_24dp), the
+  // book's title and the Chapters / Bookmarks / Notes tab strip, then the ExpandableListView of top_level_chapter.xml rows
+  // (16 dp gutter, the 14 sp title and the start page in 16 sp serif italic). Bookmarks and Notes show their empty views.
+  function bookContents(ctx, book, index) {
+    const b = key => S(ctx, 'books', key), tab = ctx.ui.bkTocTab || 'chapters';
+    const current = book.starts.filter(start => start <= index).length - 1;
+    const tabs = [['chapters', 'Chapters'], ['bookmarks', 'Bookmarks'], ['notes', 'Notes']].map(([id, key]) => `<button class="${tab === id ? 'on' : ''}" data-action="bk-toc-tab" data-id="${id}">${e(b(key))}</button>`).join('');
+    const body = tab === 'chapters' ? `<div class="bk33-toc-list">${book.starts.map((start, n) => `<button class="${n === current ? 'current' : ''}" data-action="bk-chapter" data-id="${start}"><span>${e(book.pages[start].replace(/\n/g, ' '))}</span><em>${start + 1}</em></button>`).join('')}</div>`
+      : `<div class="bk33-toc-empty">${tab === 'bookmarks' ? `<p>${e(b('To add a bookmark, touch the top corner of the page'))}</p>` : ''}</div>`;
+    return `<div class="app-view pa-app bk33-toc"><header class="bk33-toc-head"><div class="bk33-toc-bar"><button data-action="bk-toc" aria-label="${e(b('Close table of contents'))}"><img src="assets/bk33-ic_close_wht_24dp.png" alt=""></button><b>${e(book.title)}</b></div><nav class="bk33-toc-tabs">${tabs}</nav></header>${body}</div>`;
+  }
   function books(ctx) {
     if (ctx.ui.sub === 'search') return storeSearch(ctx);
     const {ui, t, data} = ctx, page = ui.paPage?.['play-books'] || 'read', progress = data.playBooks || {}, b = key => S(ctx, 'books', key);
     if (ui.sub === 'reader') {
       const book = BOOKS.find(b => b.id === ui.paItem) || BOOKS[0], index = Math.min(progress[book.id] || 0, book.pages.length - 1);
-      const text = book.pages[index].split('\n').filter(Boolean).map((p, i) => index === 0 ? `<h2${i ? ' class="sub"' : ''}>${e(p)}</h2>` : `<p>${e(p)}</p>`).join('');
-      return `<div class="app-view pa-app pb-reader${ui.paBars === false ? ' bare' : ''}"><header class="pb-top"><button class="lpa-nav up dark" data-action="back" aria-label="${e(t('Back'))}"><span></span></button><span><b>${e(book.title)}</b><small>${e(book.author)}</small></span><button class="pb-aa" data-action="pa-unsupported" aria-label="${e(t('Display options'))}">Aa</button>${btn('pa-unsupported', t('More options'), 'overflow')}</header><div class="pb-page" data-action="pa-reader-tap">${text}</div><footer class="pb-bottom">${btn('pa-unsupported', t('Contents'), 'toc')}<i style="--p:${(index / Math.max(1, book.pages.length - 1) * 100).toFixed(1)}%"></i><span>${index + 1} / ${book.pages.length}</span></footer></div>`;
+      if (ui.bkToc) return bookContents(ctx, book, index);
+      const heading = book.starts.includes(index), pr = bookPrefs(data), night = pr.theme === '1', b = key => S(ctx, 'books', key);
+      const text = book.pages[index].split('\n').filter(Boolean).map((p, i) => heading ? `<h2${i ? ' class="sub"' : ''}>${e(p)}</h2>` : `<p>${e(p)}</p>`).join('');
+      const style = `--bk-zoom:${pr.textZoom};--bk-lh:${(pr.lineHeight / 1.5).toFixed(4)};--bk-dim:${pr.brightness < 0 ? 0 : ((100 - pr.brightness) / 100 * .7).toFixed(3)}`;
+      return `<div class="app-view pa-app pb-reader bk33-theme-${THEME_KEYS[pr.theme] || 'day'} bk33-face-${e(pr.typeface)} bk33-just-${e(pr.justification)}${ui.paBars === false && !ui.bkOptions ? ' bare' : ''}" style="${style}"><header class="pb-top${night ? ' bk33-dark' : ''}"><button class="lpa-nav up dark" data-action="back" aria-label="${e(t('Back'))}"><span></span></button><span><b>${e(book.title)}</b><small>${e(book.author)}</small></span><button class="pa-btn bk33-action" data-action="bk-toc" aria-label="${e(b('Contents'))}"><img src="assets/bk33-ic_toc_24dp.png" alt=""></button><button class="pa-btn bk33-action${ui.bkOptions ? ' on' : ''}" data-action="bk-options" aria-label="${e(b('Display options'))}"><img src="assets/bk33-ic_text_format_24dp.png" alt=""></button>${btn('pa-unsupported', t('More options'), 'overflow')}</header><div class="pb-page" data-action="pa-reader-tap">${text}</div><footer class="pb-bottom"><i style="--p:${(index / Math.max(1, book.pages.length - 1) * 100).toFixed(1)}%"></i><span>${index + 1} / ${book.pages.length}</span></footer><div class="bk33-dim"></div>${ui.bkOptions ? displayOptions(ctx, pr) : ''}</div>`;
     }
     const cover = b => art('book', seedOf(b.id), b.title, b.author);
     // menu/fragment_home.xml: Search (always) and Sort (ifRoom, My Library only) as icons, Refresh in the overflow.
@@ -302,5 +365,5 @@
   }
   const bookPages = id => (BOOKS.find(b => b.id === id) || BOOKS[0]).pages.length;
   const music3 = tracks => albums(tracks);
-  window.PlayApps = {DEFAULT, APPS, MOVIES, SHOWS, BOOKS, GAMES, art, render, drawer, menu, bookPages, albums: music3};
+  window.PlayApps = {DEFAULT, APPS, MOVIES, SHOWS, BOOKS, GAMES, BOOK_PREFS, art, render, drawer, menu, bookPages, bookPrefs, stepPref, albums: music3};
 })();
