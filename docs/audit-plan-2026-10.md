@@ -108,7 +108,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] People mezők teljes kezelése — a 3. lépéssel együtt elkészült (5c88248)
 - [x] Naptár: résztvevők, elérhetőség, időzóna – Vendégek, Megjelenítés így / Adatvédelem (5.1: Láthatóság), az esemény időzónája a 4.0.4-es Naptár zónalistájával, a részletekben is (e04dc86). Az időzóna még nem számítja át a nézetek idejét
 - [x] Photos (KK / LP) szerkesztő és oldalmenü bekötése – előbb az egész Photos a Google+ 4.2 / 4.9 APK-ból (a mostani a GSMArena-leírásból készült, „‹” jellel), benne a fotókeresés (host_photo_tile_search_activity, „Search for photos”) – KK: G+ 4.2.3 (a25b62a; a Szerkesztés a Galéria szerkesztőjét nyitja), LP: G+ 4.9.0 fiókkal (40c7f5f). Nincs még: az LP-n a G+ saját fotószerkesztője, a nem „Fotók” nézetek tartalma (Albumok, Automatikus szuperség, Videók, Rólad, Kuka)
-- [ ] Galéria-kivágás (GB / ICS)
+- [x] Galéria-kivágás (GB / ICS) – GB: Gallery3D CropImage (narancs HighlightView, szimmetrikus átméretezés, Mentés / Elvetés, „Kép mentése…”); ICS: Gallery2 CropImage (kék CropView, élenkénti átméretezés, Mégse / Körülvágás az action baron), a vágott másolat az eredeti mellé kerül (f29faaf). Nincs még: a CropImageView / AnimationController ráközelítése a kis kijelölésre, arcfelismerés
 - [ ] Books: betűbeállítások, háttér, fejezetválasztás
 - [ ] Hangouts: archiválás, szundi, kép- és demóhely-megosztás
 - [ ] News & Weather: cikkoldal, frissítés, beállítások (GB beállítások is)
@@ -248,3 +248,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-08 | 6. lépés: Naptár-szerkesztő spinnerek, 5.1 Egész nap kapcsoló | 24fbcd0 |
 | 2026-10-08 | 6. lépés: Naptár vendégek, elérhetőség, időzóna | e04dc86 |
 | 2026-10-08 | 6. lépés: Photos újraépítve a G+ 4.2.3 / 4.9.0 APK-ból | a25b62a, 40c7f5f |
+| 2026-10-08 | 6. lépés: Galéria-kivágás (GB, ICS) | f29faaf |
