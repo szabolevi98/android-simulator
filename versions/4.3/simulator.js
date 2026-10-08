@@ -624,7 +624,7 @@
       case 'browser': return renderBrowser();
       case 'chrome': return renderChrome();
       case 'messenger': case 'navigation': case 'local': case 'currents': case 'play-magazines': case 'wallet': case 'movie-studio': return JBExtraApps.render(ui.view, {ui, t: key => i18n.t(key), contacts: data.contacts});
-      case 'google-search': case 'voice-search': case 'maps': case 'keep': case 'youtube': case 'google-plus': case 'earth': case 'news-weather': case 'google-settings': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()});
+      case 'google-search': case 'voice-search': case 'maps': case 'keep': case 'youtube': case 'google-plus': case 'earth': case 'news-weather': case 'google-settings': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), lang: i18n.language, locale: i18n.locale(), now: deviceDate()});
       case 'hangouts': return hangoutsScope(() => Hangouts.render(data, ui, key => i18n.t(key), i18n.locale(), deviceDate().getTime()));
       case 'downloads': return HoloDownloads.render(dlContext());
       case 'gmail': return renderGmail();
@@ -644,6 +644,7 @@
   }
   function openApp(app, resume = false) {
     if(ui.locked)return;
+    if (app === 'news-weather' && !resume) { ui.newsSub = ''; ui.nwpScreen = ''; ui.nwpDialog = ''; }
     if (app === 'google-keyboard') { openApp('settings'); ui.sub = 'language'; render(); return; }
     if (app === 'voice-search') setTimeout(listenVoice);
     if (app === 'keep' && !Array.isArray(data.keepNotes)) data.keepNotes = clone(defaultData.keepNotes);
@@ -676,6 +677,8 @@
       save, render, renderOverlay, toast, openApp};
   }
   function navigateBack() {
+    // News & Weather: a settings dialog or nested screen, then the settings or the story page.
+    if (ui.view === 'news-weather' && ui.newsSub && !ui.overlay) { if (!(ui.newsSub === 'settings' && NewsPrefs.back(ui))) { ui.newsSub = ''; ui.nwpScreen = ''; } render(); return; }
     if (ui.view === 'settings' && ['a11y-magnification', 'a11y-shortcut'].includes(ui.sub) && !ui.overlay) { ui.sub = 'accessibility'; render(); return; }
     if (ui.view === 'email' && ui.sub === 'em-settings' && !ui.overlay) { if (ui.emPrefList || ui.emPrefEdit) { ui.emPrefList = ''; ui.emPrefEdit = ''; } else if (ui.emPref) ui.emPref = ''; else ui.sub = ''; render(); return; }
     if (ui.view === 'email' && ICSEmail.back(emailContext())) return;
@@ -1893,7 +1896,13 @@
       case 'gplus-plus': { const plus = data.gplusPlus || []; data.gplusPlus = plus.includes(id) ? plus.filter(x => x !== id) : [...plus, id]; save(); render(); break; }
       case 'news-tab': ui.newsTab = id; render(); break;
       case 'sa-menu': ui.mapsMenu = ''; ui.overlay = 'sa-menu'; renderOverlay(); break;
-      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
+      // News & Weather: Refresh records the time the refresh status shows; Settings, the story page and Share story.
+      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(window.StockStrings?.news?.['Updating news topics…']?.[['hu', 'de', 'fr', 'es'].indexOf(i18n.language)] || 'Updating news topics…'); break;
+      case 'news-settings': ui.overlay = ''; renderOverlay(); ui.newsSub = 'settings'; ui.nwpScreen = 'root'; ui.nwpDialog = ''; render(); break;
+      case 'news-story': ui.newsSub = 'story'; ui.newsStory = id; render(); break;
+      case 'news-share': { ui.overlay = ''; renderOverlay(); const title = viewport.querySelector('.nwp-story h2')?.textContent || ''; openApp('messaging'); ui.sub = 'new'; messageDraft().body = title; save(); render(); break; }
+      case 'nwp-open': case 'nwp-toggle': case 'nwp-topic': case 'nwp-remove': case 'nwp-dialog': case 'nwp-cancel': case 'nwp-choose': case 'nwp-ok': case 'nwp-unsupported':
+        NewsPrefs.handle(action, id, {ui, data, lang: i18n.language, save, render, input: () => viewport.querySelector('[data-nwp-input]')?.value, unsupported: () => toast(i18n.t('This feature is not part of the simulator.'))}); break;
       case 'maps-search-open': ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); break;
       case 'kkx-unavailable': toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'jbx-tab': ui.jbxMagazines = id; ui.magDrawer = false; render(); break;

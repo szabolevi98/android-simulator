@@ -91,6 +91,259 @@ window.StockStrings = {
    "D",
    "D",
    "S"
+  ],
+  "Share story": [
+   "Hír megosztása",
+   "Artikel teilen",
+   "Partager l'histoire",
+   "Compartir noticia"
+  ],
+  "News isn't available right now.": [
+   "Jelenleg nem érhetők el hírek.",
+   "News sind momentan nicht verfügbar.",
+   "Les actualités ne sont pas disponibles actuellement.",
+   "Las noticias no están disponibles en este momento."
+  ],
+  "Updating news topics…": [
+   "Témakörök frissítése...",
+   "Nachrichtenthemen werden aktualisiert...",
+   "Mise à jour des sujets d'actualité…",
+   "Actualizando temas de noticias..."
+  ],
+  "Weather settings": [
+   "Időjárás -- beállítások",
+   "Wetter-Einstellungen",
+   "Paramètres de la météo",
+   "Ajustes de Tiempo"
+  ],
+  "Set location, units": [
+   "Hely és mértékegység megadása",
+   "Standort und Maßeinheiten festlegen",
+   "Définir le lieu et le système de mesure",
+   "Establecer ubicación, unidades"
+  ],
+  "News settings": [
+   "Hírek -- beállítások",
+   "News-Einstellungen",
+   "Paramètres de l'actualité",
+   "Ajustes de Noticias"
+  ],
+  "Choose topics, manage downloads": [
+   "Témák kiválasztása, letöltések kezelése",
+   "Themen auswählen, Downloads verwalten",
+   "Sélectionner des sujets, gérer les téléchargements",
+   "Seleccionar temas, administrar descargas"
+  ],
+  "Refresh settings": [
+   "Frissítési beállítások",
+   "Aktualisierungs-Einstellungen",
+   "Paramètres d'actualisation",
+   "Ajustes de actualización"
+  ],
+  "Set up auto-refresh, refresh interval": [
+   "Az automatikus frissítés és a frissítés gyakoriságának beállítása",
+   "Automatische Aktualisierung, Aktualisierungsintervall festlegen",
+   "Définir l'actualisation automatique, la fréquence d'actualisation",
+   "Establecer si hay actualizaciones automáticas y el intervalo de actualización"
+  ],
+  "App version": [
+   "Alkalmazás verziója",
+   "App-Version",
+   "Version de l'application",
+   "Versión de la aplicación"
+  ],
+  "Use my location": [
+   "Saját pozíció használata",
+   "Standort verwenden",
+   "Utiliser ma position",
+   "Utilizar Mi ubicación"
+  ],
+  "Automatically determine location": [
+   "Hely automatikus megállapítása",
+   "Standort automatisch bestimmen",
+   "Déterminer automatiquement ma position",
+   "Identificar ubicación automáticamente"
+  ],
+  "Set location": [
+   "Hely beállítása",
+   "Standort manuell festlegen",
+   "Définir un lieu",
+   "Establecer ubicación"
+  ],
+  "Specify your location": [
+   "Adja meg tartózkodási helyét",
+   "Meinen Standort angeben",
+   "Indiquer un lieu",
+   "Especifica tu ubicación"
+  ],
+  "Use metric": [
+   "Metrikus mértékegység használata",
+   "Metrische Einheiten",
+   "Utiliser le système métrique",
+   "Usar sistema métrico"
+  ],
+  "Toggle metric/imperial units": [
+   "Metrikus/angolszász mértékegység váltása",
+   "Zwischen metrischen und angloamerikanischen Einheiten umschalten",
+   "Système métrique/Système impérial",
+   "Alternar unidades métricas/imperiales"
+  ],
+  "Choose news topics": [
+   "Témakörök kiválasztása",
+   "Nachrichtenthemen auswählen",
+   "Sélectionner des sujets d'actualités",
+   "Seleccionar temas de noticias"
+  ],
+  "Manage news topics": [
+   "Témakörök kezelése",
+   "Nachrichtenthemen verwalten",
+   "Gérer les sujets d'actualités",
+   "Administrar temas de noticias"
+  ],
+  "Prefetch articles": [
+   "Cikkek előzetes lekérése",
+   "Artikel vorabrufen",
+   "Prélire les articles",
+   "Descargar previamente"
+  ],
+  "Prefetch articles for faster access": [
+   "A cikkek előzetes lekérése a gyorsabb elérés érdekében",
+   "Artikel für schnelleren Zugriff vorabrufen",
+   "Prélire les articles pour un accès plus rapide",
+   "Descargar artículos previamente para acceder a ellos más rápido"
+  ],
+  "Prefetch images": [
+   "Képek előzetes lekérése",
+   "Bilder vorabrufen",
+   "Prélire les images",
+   "Recopilar imágenes previamente"
+  ],
+  "Prefetch images for faster access": [
+   "A képek előzetes lekérése a gyorsabb elérés érdekében",
+   "Bilder für schnelleren Zugriff vorabrufen",
+   "Prélire les images pour un accès plus rapide",
+   "Recopilar imágenes previamente para acceder más rápido"
+  ],
+  "News terms of service": [
+   "Hírek általános szerződési feltételek",
+   "Nutzungsbedingungen",
+   "Conditions d'utilisation",
+   "Condiciones de servicio"
+  ],
+  "Mobile privacy policy": [
+   "Mobil adatvédelmi irányelvek",
+   "Google Mobile-Datenschutzerklärung",
+   "Règles de confidentialité Google Mobile",
+   "Política de privacidad"
+  ],
+  "Custom topics": [
+   "Egyéni témák",
+   "Benutzerdefinierte Themen",
+   "Sujets personnalisés",
+   "Temas personalizados"
+  ],
+  "Custom topic": [
+   "Egyéni téma",
+   "Benutzerdefiniert",
+   "Sujet personnalisé",
+   "Personalizar tema"
+  ],
+  "Add a custom news topic here": [
+   "Itt adhat hozzá egyéni témaköröket",
+   "Ein benutzerdefiniertes Nachrichtenthema hinzufügen",
+   "Ajouter un sujet d'actualités personnalisé ici",
+   "Añade aquí un tema de noticias personalizado"
+  ],
+  "News topics": [
+   "Témakörök",
+   "Nachrichtenthemen",
+   "Sujets d'actualité",
+   "Temas de noticias"
+  ],
+  "Auto-refresh": [
+   "Automatikus frissítés",
+   "Automat. Aktualisieren",
+   "Automatique",
+   "Actualizar automáticamente"
+  ],
+  "Auto-refresh summary": [
+   "Hírek és időjárás automatikus frissítése",
+   "News & Wetter automatisch aktualisieren",
+   "Actualiser automatiquement les actualités et la météo",
+   "Actualizar automáticamente la información sobre noticias y tiempo",
+   "Automatically refresh news & weather"
+  ],
+  "Refresh interval": [
+   "Frissítés gyakorisága",
+   "Aktualisierungsintervall",
+   "Fréquence d'actualisation",
+   "Intervalo de actualización"
+  ],
+  "Refresh status": [
+   "Frissítés állapota",
+   "Status aktualisieren",
+   "État de l'actualisation",
+   "Actualizar estado"
+  ],
+  "Last refresh %s": [
+   "Utolsó frissítés: %s",
+   "Letzte Aktualisierung: %s",
+   "Dernière actualisation %s",
+   "Última actualización: %s"
+  ],
+  "Last refresh %1$s \nNext refresh %2$s": [
+   "Utolsó frissítés: %1$s \nKövetkező frissítés: %2$s",
+   "Letzte Aktualisierung: %1$s \nNächste Aktualisierung: %2$s",
+   "Dernière actualisation le %1$s \nNouvelle actualisation le %2$s",
+   "Última actualización %1$s \nPróxima actualización %2$s"
+  ],
+  "Type a city or postal code:": [
+   "Adjon meg egy várost vagy egy irányítószámot:",
+   "Stadt oder Postleitzahl eingeben:",
+   "Saisissez une ville ou un code postal :",
+   "Escribe una ciudad o un código postal:"
+  ],
+  "Type a custom topic:": [
+   "Írjon be egy egyéni témát:",
+   "Geben Sie ein benutzerdefiniertes Thema ein:",
+   "Saisissez un sujet personnalisé :",
+   "Escribe un tema personalizado:"
+  ],
+  "Half an hour": [
+   "Fél óra",
+   "30 Minuten",
+   "Une demi-heure",
+   "Media hora"
+  ],
+  "1 hour": [
+   "1 óra",
+   "1 Stunde",
+   "1 heure",
+   "1 hora"
+  ],
+  "3 hours": [
+   "3 óra",
+   "3 Stunden",
+   "3 heures",
+   "3 horas"
+  ],
+  "6 hours": [
+   "6 óra",
+   "6 Stunden",
+   "6 heures",
+   "6 horas"
+  ],
+  "12 hours": [
+   "12 óra",
+   "12 Stunden",
+   "12 heures",
+   "12 horas"
+  ],
+  "One day": [
+   "Egy nap",
+   "24 Stunden",
+   "Un jour",
+   "Un día"
   ]
  },
  "earth": {

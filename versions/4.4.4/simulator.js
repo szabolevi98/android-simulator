@@ -647,7 +647,7 @@
       case 'photos': return PhotosApp.render(photosContext());
       case 'gmail': return renderGmail();
       case 'play-music': case 'play-movies': case 'play-books': case 'play-games': return PlayApps.render(playContext(ui.view));
-      case 'google-search': case 'voice-search': case 'maps': case 'drive': case 'keep': case 'youtube': case 'google-plus': case 'earth': case 'news-weather': case 'google-settings': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()});
+      case 'google-search': case 'voice-search': case 'maps': case 'drive': case 'keep': case 'youtube': case 'google-plus': case 'earth': case 'news-weather': case 'google-settings': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), lang: i18n.language, locale: i18n.locale(), now: deviceDate()});
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
       case 'hangouts': return Hangouts.render(data, ui, key => i18n.t(key), i18n.locale(), deviceDate().getTime());
@@ -664,6 +664,7 @@
   }
   function openApp(app, resume = false) {
     if(ui.locked)return;
+    if (app === 'news-weather' && !resume) { ui.newsSub = ''; ui.nwpScreen = ''; ui.nwpDialog = ''; }
     if (GEL_ALIASES[app]) app = GEL_ALIASES[app];
     if (!appNames[app]) return;
     if (app === 'chrome') useBrowserSession(app);
@@ -690,6 +691,8 @@
   function home(resetPage = true) { if(ui.locked)return;if(ui.photoWidgetSetup){const setup=ui.photoWidgetSetup;data.homeWidgets[setup.page]=data.homeWidgets[setup.page].filter(widget=>widget.id!==setup.id);ui.photoWidgetSetup=null;save();}if(ui.sub==='lock-setup')lockControls.lock();captureRecentView(); ui.view = 'home'; ui.sub = ''; ui.overlay = ''; ui.overview = false; if (resetPage) ui.page = 0; render(); }
   function back() { pendingNav = 'back'; try { navigateBack(); } finally { pendingNav = ''; } }
   function navigateBack() {
+    // News & Weather: a settings dialog or nested screen, then the settings or the story page.
+    if (ui.view === 'news-weather' && ui.newsSub && !ui.overlay) { if (!(ui.newsSub === 'settings' && NewsPrefs.back(ui))) { ui.newsSub = ''; ui.nwpScreen = ''; } render(); return; }
     if (ui.view === 'settings' && ['a11y-magnification', 'a11y-shortcut'].includes(ui.sub) && !ui.overlay) { ui.sub = 'accessibility'; render(); return; }
     if (ui.view === 'email' && ui.sub === 'em-settings' && !ui.overlay) { if (ui.emPrefList || ui.emPrefEdit) { ui.emPrefList = ''; ui.emPrefEdit = ''; } else if (ui.emPref) ui.emPref = ''; else ui.sub = ''; render(); return; }
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
@@ -1897,7 +1900,13 @@
       case 'earth-clear': ui.overlay = ''; renderOverlay(); ui.earthQuery = ''; render(); break;
       case 'gplus-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'sa-menu': ui.overlay = 'sa-menu'; renderOverlay(); break;
-      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); render(); break;
+      // News & Weather: Refresh records the time the refresh status shows; Settings, the story page and Share story.
+      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(window.StockStrings?.news?.['Updating news topics…']?.[['hu', 'de', 'fr', 'es'].indexOf(i18n.language)] || 'Updating news topics…'); break;
+      case 'news-settings': ui.overlay = ''; renderOverlay(); ui.newsSub = 'settings'; ui.nwpScreen = 'root'; ui.nwpDialog = ''; render(); break;
+      case 'news-story': ui.newsSub = 'story'; ui.newsStory = id; render(); break;
+      case 'news-share': { ui.overlay = ''; renderOverlay(); const title = viewport.querySelector('.nwp-story h2')?.textContent || ''; openApp('hangouts'); ui.sub = 'new'; messageDraft().body = title; save(); render(); break; }
+      case 'nwp-open': case 'nwp-toggle': case 'nwp-topic': case 'nwp-remove': case 'nwp-dialog': case 'nwp-cancel': case 'nwp-choose': case 'nwp-ok': case 'nwp-unsupported':
+        NewsPrefs.handle(action, id, {ui, data, lang: i18n.language, save, render, input: () => viewport.querySelector('[data-nwp-input]')?.value, unsupported: () => toast(i18n.t('This feature is not part of the simulator.'))}); break;
       // Play Music, Movies & TV, Books and Games
       case 'pa-drawer': ui.overlay = 'pa-drawer'; renderOverlay(); break;
       case 'pa-menu': ui.overlay = 'pa-menu'; renderOverlay(); break;

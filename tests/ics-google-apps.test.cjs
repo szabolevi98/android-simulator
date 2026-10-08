@@ -39,7 +39,7 @@ G.handle('ga-yt-rate','dislike',hctx);G.handle('ga-yt-rate','like',hctx);assert.
 // News & Weather: each image's menu XML (no crosshair for Refresh); on 5.1.1 the items NewsActivity.onPrepareOptionsMenu
 // leaves visible on Headlines (dex of the odex).
 for(const [v,bar,menu] of [['4.0.4',[],['Refresh','Settings']],['4.3',['nw-navigation_refresh'],['Settings']],['4.4.4',['nw-navigation_refresh'],['Settings']],['5.1.1',['nw2-abc_ic_search_api_mtrl_alpha','nw2-ic_add_white_24dp'],['Refresh','Edit weather display…','Change editions…','Manage sections…','Switch to dark theme']]]){
-  const c={window:{}};vm.runInNewContext(fs.readFileSync(`versions/${v}/stock-apps.js`,'utf8'),c);
+  const c={window:{}};for(const f of ['news-prefs.js','stock-apps.js'])if(fs.existsSync(`versions/${v}/${f}`))vm.runInNewContext(fs.readFileSync(`versions/${v}/${f}`,'utf8'),c);
   const html=c.window.StockApps.render('news-weather',{ui:{},data:{},t:k=>k,locale:'en-US',now:new Date(2015,5,1)});
   assert.doesNotMatch(html,/aria-label="Refresh"[^>]*><svg/,v);for(const src of bar){assert.match(html,new RegExp(src),v);assert.ok(fs.existsSync(`versions/${v}/assets/${src}.png`),v+src);}
   assert.deepEqual([...c.window.StockApps.menu('news-weather',{t:k=>k}).map(i=>i.title)],menu,v);

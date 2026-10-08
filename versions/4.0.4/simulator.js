@@ -229,7 +229,7 @@
     i18n.translateDOM(statusRoot);
   }
   function renderNav() {
-    navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/nav-back.png" alt=""></button><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/nav-home.png" alt=""></button><button class="nav-key nav-recent" data-action="recent" aria-label="Recent apps"><img src="assets/nav-recent.png" alt=""></button>${ui.view==='music'&&!ui.locked?'<button class="nav-key nav-menu" data-action="legacy-menu" aria-label="Menu"><img src="assets/ic_sysbar_menu.png" alt=""></button>':''}`;
+    navRoot.innerHTML = `<button class="nav-key nav-back" data-action="back" aria-label="Back"><img src="assets/nav-back.png" alt=""></button><button class="nav-key nav-home" data-action="home" aria-label="Home screen"><img src="assets/nav-home.png" alt=""></button><button class="nav-key nav-recent" data-action="recent" aria-label="Recent apps"><img src="assets/nav-recent.png" alt=""></button>${(ui.view==='music'||ui.view==='news-weather'&&!ui.newsSub)&&!ui.locked?'<button class="nav-key nav-menu" data-action="legacy-menu" aria-label="Menu"><img src="assets/ic_sysbar_menu.png" alt=""></button>':''}`;
     if(ui.locked)navRoot.querySelectorAll('.nav-home,.nav-recent').forEach(button=>{button.disabled=true;button.setAttribute('aria-hidden','true');});
   }
   // Window transitions: the outgoing view is kept in a temporary layer while both animate.
@@ -459,7 +459,7 @@
       case 'gmail': return ICSGmail.render(gmailContext());
       case 'play-music': return ICSPlayMusic.render(playMusicContext());
       case 'google-plus': case 'talk': case 'youtube': case 'play-books': case 'play-movies': case 'search': case 'voice-dialer': case 'latitude': return ICSGoogleApps.render(ui.view, googleAppsContext());
-      case 'maps': case 'earth': case 'news-weather': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()});
+      case 'maps': case 'earth': case 'news-weather': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), lang: i18n.language, locale: i18n.locale(), now: deviceDate()});
       case 'messenger': case 'navigation': case 'local': case 'movie-studio': return JBExtraApps.render(ui.view, {ui, t: key => i18n.t(key), contacts: data.contacts});
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
@@ -475,6 +475,7 @@
     }
   }
   function openApp(app, resume = false) {
+    if (app === 'news-weather' && !resume) { ui.newsSub = ''; ui.nwpScreen = ''; ui.nwpDialog = ''; }
     if (ICSGoogleApps.APPS.includes(app) && !resume) { ui.gaSub = ''; if (app === 'voice-dialer') setTimeout(() => googleAppsContext().listen()); }
     if(ui.locked)return;
     if (!appNames[app]) return;
@@ -524,6 +525,8 @@
       save, render, renderOverlay, toast, openApp};
   }
   function navigateBack() {
+    // News & Weather: a settings dialog or nested screen, then the settings or the story page.
+    if (ui.view === 'news-weather' && ui.newsSub && !ui.overlay) { if (!(ui.newsSub === 'settings' && NewsPrefs.back(ui))) { ui.newsSub = ''; ui.nwpScreen = ''; } render(); return; }
     if (ui.view === 'email' && ui.sub === 'em-settings' && !ui.overlay) { if (ui.emPrefList || ui.emPrefEdit) { ui.emPrefList = ''; ui.emPrefEdit = ''; } else if (ui.emPref) ui.emPref = ''; else ui.sub = ''; render(); return; }
     if (ui.view === 'email' && ICSEmail.back(emailContext())) return;
     // The Gallery's picker (GET_CONTENT from Email's Attach file) returns without a picture.
@@ -1160,7 +1163,12 @@
       if (action === 'maps-search-open') { ui.mapsSearching = true; render(); viewport.querySelector('.sa-maps6-search input')?.focus(); return; }
       if (action === 'news-tab') { ui.newsTab = id; render(); return; }
       if (action === 'sa-menu') { ui.mapsMenu = ''; ui.overlay = 'sa-menu'; renderOverlay(); return; }
-      if (action === 'sa-news-refresh') { ui.overlay = ''; renderOverlay(); render(); return; }
+      // News & Weather: Refresh records the time the refresh status shows; Settings, the story page and Share story.
+      if (action === 'sa-news-refresh') { ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(window.StockStrings?.news?.['Updating news topics…']?.[['hu', 'de', 'fr', 'es'].indexOf(i18n.language)] || 'Updating news topics…'); return; }
+      if (action === 'news-settings') { ui.overlay = ''; renderOverlay(); ui.newsSub = 'settings'; ui.nwpScreen = 'root'; ui.nwpDialog = ''; render(); return; }
+      if (action === 'news-story') { ui.newsSub = 'story'; ui.newsStory = id; render(); return; }
+      if (action === 'news-share') { ui.overlay = ''; renderOverlay(); const title = viewport.querySelector('.nwp-story h2')?.textContent || ''; openApp('messaging'); ui.sub = 'new'; messageDraft().body = title; save(); render(); return; }
+      if (action.startsWith('nwp-')) { NewsPrefs.handle(action, id, {ui, data, lang: i18n.language, save, render, input: () => viewport.querySelector('[data-nwp-input]')?.value, unsupported: () => toast(i18n.t('This feature is not part of the simulator.'))}); return; }
     }
     if (ICSGoogleApps.APPS.includes(ui.view) && action.startsWith('ga-') && ICSGoogleApps.handle(action, id, googleAppsContext())) return;
     if (action.startsWith('lng-') && ICSLanguage.handle(action, id, {data, ui, save, render, renderOverlay, toast: text => toast(i18n.t(text))})) return;
@@ -1543,7 +1551,8 @@
       case 'music-shuffle': ui.music.shuffle=!ui.music.shuffle;saveMusic();render();break;
       case 'music-repeat': ui.music.repeat={off:'all',all:'one',one:'off'}[ui.music.repeat];saveMusic();render();break;
       // AOSP Music (targetSdkVersion 9): the navigation bar's legacy menu key and the long-press context menus.
-      case 'legacy-menu': if(ui.view==='music'){ui.music.lang=i18n.language;ui.overlay='music-options';renderOverlay();}break;
+      // NewsActivity (Theme.NoTitleBar, targetSdkVersion 11) has no action bar, so PhoneWindow asks for the menu key.
+      case 'legacy-menu': if(ui.view==='music'){ui.music.lang=i18n.language;ui.overlay='music-options';renderOverlay();}else if(ui.view==='news-weather'){ui.overlay='sa-menu';renderOverlay();}break;
       case 'music-ctx-play': {
         const [kind,key]=String(id).includes(':')?String(id).split(/:(.*)/s):['track',id];
         const list=kind==='track'?[Number(key)]:kind==='playlist'?(key==='recent'?ICSMusic.listing(ui.music,{sub:''}):ui.music.playlists.find(p=>String(p.id)===key)?.tracks||[]):tracks.map((_,i)=>i).filter(i=>tracks[i].artist===key||tracks[i].album===key);

@@ -213,3 +213,39 @@
 .nw-forecast img{width:25.55px;height:25.55px}
 .nw-forecast b{font-weight:400}
 .nw-forecast small{font-size:12.77px;color:#bfbfbf}
+/* News & Weather 1.3.04's Preferences / LocationPreferences on the Holo dark theme (1 dp = 0.85 px): 64 dp rows, 18 sp
+   titles, 14 sp #bebebe summaries, btn_check_holo_dark, list separators; the EditText / ListPreference dialogs; the
+   story page (a light web page). */
+.nwp{display:flex;flex-direction:column;background:#000;color:#fff;font-family:RobotoICS,Roboto,sans-serif}
+.nwp-list{flex:1;min-height:0;overflow-y:auto}
+.screen .nwp-row{display:flex;align-items:center;width:100%;min-height:54.4px;padding:6.8px 13.6px;border:0;border-bottom:0.85px solid #ffffff1f;background:none;text-align:left;color:#fff}
+.screen .nwp-row:active{background:#33b5e566}
+.nwp-row span{flex:1;min-width:0;display:flex;flex-direction:column}
+.nwp-row b{font:400 15.3px RobotoICS,Roboto,sans-serif}
+.nwp-row small{margin-top:1.7px;font:400 11.9px RobotoICS,Roboto,sans-serif;color:#bebebe;white-space:pre-line}
+.nwp-row.disabled b,.nwp-row.disabled small{opacity:.5}
+.nwp-check{flex:none;width:27.2px;height:27.2px;margin-left:6.8px;background:url('assets/btn_check_off_holo_dark.png') center/contain no-repeat}
+.nwp-check.on{background-image:url('assets/btn_check_on_holo_dark.png')}
+.nwp-category{margin:0;padding:13.6px 13.6px 3.4px;border-bottom:1.7px solid #ffffff4d;font:700 11.9px RobotoICS,Roboto,sans-serif;color:#bebebe;text-transform:uppercase}
+.nwp-scrim{position:absolute;inset:0;z-index:30;border:0;background:#0009}
+.nwp-dialog{position:absolute;z-index:31;left:13.6px;right:13.6px;top:50%;transform:translateY(-50%);background:#282828;color:#fff;box-shadow:0 3.4px 13.6px #000a}
+.nwp-dialog h3{margin:0;padding:13.6px 13.6px 10.2px;border-bottom:1.7px solid #33b5e5;font:400 18.7px RobotoICS,Roboto,sans-serif;color:#33b5e5}
+.nwp-dialog p{margin:0;padding:10.2px 13.6px 0;font:400 13.6px RobotoICS,Roboto,sans-serif;color:#bebebe}
+.nwp-dialog input{display:block;width:calc(100% - 27.21px);margin:6.8px 13.6px 13.6px;padding:3.4px 0;border:0;border-bottom:1.7px solid #33b5e5;background:none;color:#fff;font:400 15.3px RobotoICS,Roboto,sans-serif;outline:none}
+.nwp-choices{max-height:281.46px;overflow-y:auto}
+.screen .nwp-choices button{display:flex;align-items:center;width:100%;min-height:40.8px;padding:0 13.6px;border:0;border-bottom:0.85px solid #ffffff1f;background:none;color:#fff;font:400 15.3px RobotoICS,Roboto,sans-serif;text-align:left}
+.nwp-choices span{flex:1}
+.nwp-radio{width:27.2px;height:27.2px;background:url('assets/btn_radio_off_holo_dark.png') center/contain no-repeat}
+.nwp-radio.on{background-image:url('assets/btn_radio_on_holo_dark.png')}
+.nwp-buttons{display:flex;border-top:0.85px solid #ffffff1f}
+.screen .nwp-buttons button{flex:1;min-height:40.8px;border:0;background:none;color:#fff;font:400 13.6px RobotoICS,Roboto,sans-serif}
+.screen .nwp-buttons button+button{border-left:0.85px solid #ffffff1f}
+.screen .nwp-buttons button:active,.screen .nwp-choices button:active{background:#33b5e566}
+.nw-unavailable{margin:0;padding:27.2px 13.6px;text-align:center;font:400 13.6px RobotoICS,Roboto,sans-serif;color:#bfbfbf}
+.nw-story-view .sa-scroll{background:#fff}
+.nwp-story{padding:13.6px;color:#222;font-family:RobotoICS,Roboto,sans-serif}
+.nwp-story h2{margin:0 0 5.1px;font:700 18.7px RobotoICS,Roboto,sans-serif;color:#000}
+.nwp-story small{display:block;margin-bottom:10.2px;font:400 11.9px RobotoICS,Roboto,sans-serif;color:#888}
+.nwp-story p{margin:10.2px 0 0;font:400 13.6px/1.5 RobotoICS,Roboto,sans-serif}
+.nwp-picture{display:block;width:100%;aspect-ratio:16/9;overflow:hidden;background:#ddd}
+.nwp-picture>*{width:100%;height:100%;object-fit:cover}
