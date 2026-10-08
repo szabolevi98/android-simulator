@@ -49,14 +49,16 @@
   /* BootAnimation::movie() over this image's bootanimation.zip (boot-animation.js): each part's frames at desc.txt's
      fps, centred on black, repeated `count` times (0: until the system has booted), then `pause` frames of stillness.
      Once boot completes a "p" part stops at once while a "c" part (4.3+) finishes its loop, and the parts after a
-     looping one still play; the animation ends after its last part. The display stays black while the sheets load. */
+     looping one still play; the animation ends after its last part. The display stays black while the sheets load.
+     The simulated system completes its boot at the end of a loop of the looping part, so that loop always runs at
+     least once and a "p" loop is never cut off half-way. `exitAfter` is a delay in ms or a promise of the boot. */
   function boot() {
     return '<div class="ga-boot" aria-label="Android"><i class="ga-boot-frame"></i></div>';
   }
   function playBoot(root, done, exitAfter = BOOT_MS) {
     const data = window.BootAnimationData, view = root?.querySelector('.ga-boot-frame');
     if (!data || !view) { const timer = setTimeout(done, exitAfter); return () => clearTimeout(timer); }
-    let exit = false, stopped = false, exitTimer = 0;
+    let exit = false, booted = false, stopped = false, exitTimer = 0;
     // Each frame waits for an absolute deadline, as movie()'s clock_nanosleep(TIMER_ABSTIME) does, so delays never add up.
     const frameMs = 1000 / data.fps;
     let next = 0;
@@ -72,7 +74,8 @@
     (async () => {
       await Promise.all(data.parts.map(part => { const img = new Image(); img.src = part.sheet; return img.decode().catch(() => {}); }));
       if (stopped) return;
-      exitTimer = setTimeout(() => { exit = true; }, exitAfter);
+      if (typeof exitAfter === 'number') exitTimer = setTimeout(() => { booted = true; }, exitAfter);
+      else Promise.resolve(exitAfter).then(() => { booted = true; });
       next = performance.now();
       for (const part of data.parts) {
         for (let r = 0; !part.count || r < part.count; r++) {
@@ -83,7 +86,7 @@
           }
           if (part.pause) await wait(part.pause * frameMs);
           if (stopped) return;
-          if (exit && !part.count) break;
+          if (!part.count && booted) { exit = true; break; }
         }
       }
       done();

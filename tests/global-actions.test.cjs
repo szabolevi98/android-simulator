@@ -38,9 +38,9 @@ const shape={'2.3.6':[30,'p1 p0'],'4.0.4':[24,'p0'],'4.3':[24,'p1 c0 c0'],'4.4.4
 for(const [v,[fps,parts]] of Object.entries(shape)){const d=bootData(v);assert.equal(d.fps,fps,v);assert.equal(d.parts.map(p=>(p.complete?'c':'p')+p.count).join(' '),parts,v);
   for(const p of d.parts){assert.ok(fs.existsSync(`versions/${v}/${p.sheet}`),`${v} ${p.sheet}`);assert.ok(p.cols*p.rows>=p.frames);}}
 // movie(): after the exit request a "c" loop finishes and the later parts play; a "p" loop stops at once.
-async function playOrder(v,exitAfter){
+async function playOrder(v,exitAfter,frames){
   const data=bootData(v);data.fps=1000;
-  const shown=[],view={style:{set backgroundImage(u){const m=u.match(/boot-(part\d)/);if(shown.at(-1)!==m[1])shown.push(m[1]);}}};
+  const shown=[],view={style:{set backgroundImage(u){const m=u.match(/boot-(part\d)/);if(frames)frames[m[1]]=(frames[m[1]]||0)+1;if(shown.at(-1)!==m[1])shown.push(m[1]);}}};
   const w={BootAnimationData:data};
   const ctx={window:w,Image:class{decode(){return Promise.resolve();}},setTimeout,clearTimeout,Promise,performance};
   vm.runInNewContext(fs.readFileSync(`versions/${v}/global-actions.js`,'utf8'),ctx);
@@ -51,5 +51,15 @@ async function playOrder(v,exitAfter){
   assert.equal(await playOrder('5.1.1',150),'part0 part1 part2 part3 part4 part5');
   assert.equal(await playOrder('4.3',100),'part0 part1 part2');
   assert.equal(await playOrder('2.3.6',1500),'part0 part1');assert.equal(await playOrder('4.0.4',50),'part0');
+  // The boot completes at the end of a loop: with the system already booted the looping part still plays once, whole,
+  // "p" (2.3.6, 4.0.4, 4.4.4) as well as "c"; a promise of the boot (the cold start's page load) works as the delay does.
+  for(const v of ['2.3.6','4.0.4','4.3','4.4.4','5.1.1']){const frames={},d=bootData(v);await playOrder(v,Promise.resolve(),frames);
+    d.parts.forEach((p,i)=>assert.equal(frames[`part${i}`],p.count?p.count*p.frames:p.frames,`${v} part${i}`));}
+  {const frames={};await playOrder('2.3.6',30,frames);assert.equal(frames.part1%49,0,'2.3.6: the looping X shine is not cut off half-way');}
+  // Cold start: a new tab boots each version once (sessionStorage), after the first render, into the lock screen.
+  for(const v of ['2.3.6','4.0.4','4.3','4.4.4','5.1.1']){const src=fs.readFileSync(`versions/${v}/simulator.js`,'utf8').replace(/\r\n/g,'\n');
+    assert.ok(src.includes(`sessionStorage.getItem('android-sim-booted-${v}')`)&&src.includes("prefers-reduced-motion"),v);
+    assert.ok(/\n  render\(\);\n  coldBoot\(\);\n\}\)\(\);\s*$/.test(src),`${v}: coldBoot after the first render`);
+    assert.ok(/const finish = \(\) => \{[^\n]*lockScreen\(\)/.test(src),`${v}: the boot ends on the lock screen`);}
   console.log('Global actions checks passed: item order per version, ringer modes, dialogs, assets and boot animations.');
 })().catch(error=>{console.error(error);process.exit(1);});

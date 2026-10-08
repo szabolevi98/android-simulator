@@ -3182,9 +3182,25 @@
     render(); renderPower();
     if (reboot) setTimeout(() => bootUp(true), 900);
   }
-  function bootUp(safeMode) {
+  function bootUp(safeMode, booted) {
     ui.power = 'boot'; ui.safeMode = safeMode; renderPower();
-    GlobalActions.playBoot(powerLayer.firstElementChild, () => { ui.power = ''; lockScreen(); ui.sleeping = false; if (!ui.locked && ui.view !== 'lock') home(); else render(); renderPower(); lastActivity = Date.now(); });
+    // The animation calls finish when it ends; a skipped cold boot calls it at once and stops the animation.
+    let finished = false, stop = () => {};
+    const finish = () => { if (finished) return; finished = true; stop(); ui.power = ''; lockScreen(); ui.sleeping = false; if (!ui.locked && ui.view !== 'lock') home(); else render(); renderPower(); lastActivity = Date.now(); };
+    stop = GlobalActions.playBoot(powerLayer.firstElementChild, finish, booted);
+    return finish;
+  }
+  /* A new tab switches the phone on (audit step 7): the image's boot animation, then the lock screen, as after the power
+     key. The system counts as booted once the page and its fonts have loaded (at most 12 s), at the end of a loop of the
+     animation. A reload in the same tab or a reduced-motion preference starts at once as before; a touch or a key skips it. */
+  function coldBoot() {
+    try { if (sessionStorage.getItem('android-sim-booted-4.3') || matchMedia('(prefers-reduced-motion: reduce)').matches) return; sessionStorage.setItem('android-sim-booted-4.3', '1'); } catch { return; }
+    const loaded = document.readyState === 'complete' ? Promise.resolve() : new Promise(resolve => window.addEventListener('load', resolve, {once: true}));
+    const booted = Promise.race([Promise.all([loaded, document.fonts?.ready]), new Promise(resolve => setTimeout(resolve, 12000))]);
+    const finish = bootUp(false, booted);
+    const skip = event => { off(); if (ui.power !== 'boot') return; event.preventDefault(); event.stopPropagation(); suppressClickUntil = Date.now() + 350; finish(); };
+    const off = () => { powerLayer.removeEventListener('pointerdown', skip); window.removeEventListener('keydown', skip, true); };
+    powerLayer.addEventListener('pointerdown', skip); window.addEventListener('keydown', skip, true);
   }
   // Volume keys: the active stream's slider, a 3 s timeout, and a touch anywhere else closes it.
   const volumeLayer = document.createElement('div'); volumeLayer.id = 'volume-layer'; screen.append(volumeLayer);
@@ -3295,4 +3311,5 @@
 
   i18n.translateDOM(document.body);
   render();
+  coldBoot();
 })();
