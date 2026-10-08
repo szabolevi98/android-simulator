@@ -529,6 +529,9 @@
     // The Gallery's picker (GET_CONTENT from Email's Attach file) returns without a picture.
     if (ui.view === 'gallery' && ui.galleryPick && !ui.sub && !ui.overlay) { const caller = ui.galleryPick; ui.galleryPick = ''; openApp(caller, true); return; }
     if (ui.view === 'downloads' && HoloDownloads.back(dlContext())) return;
+    // Play Books' reader: a dropdown, Display options, then the Contents popup close before the reader does.
+    if (ui.view === 'play-books' && ui.gaSub === 'read' && (ui.gaBkSpin || ui.gaBkOptions || ui.gaBkToc)) { if (ui.gaBkSpin) ui.gaBkSpin = ''; else if (ui.gaBkOptions) ui.gaBkOptions = false; else ui.gaBkToc = false; render(); return; }
+    if (ui.view === 'play-books') { ui.gaBkSpin = ''; ui.gaBkOptions = false; ui.gaBkToc = false; }
     if (ICSGoogleApps.APPS.includes(ui.view) && ui.gaSub) { ui.gaSub = ''; render(); return; }
     if (ui.view === 'gmail') {
       if (ui.overlay) { ui.overlay = ''; renderOverlay(); return; }
@@ -1659,6 +1662,7 @@
     }
   });
   document.addEventListener('input', event => {
+    if (event.target.matches('[data-ga-bk-bright]')) { data.gaBookPrefs = {...ICSGoogleApps.books.bookPrefs(data), brightness: Number(event.target.value)}; save(); viewport.querySelector('.ga-bk-reader')?.style.setProperty('--bk-dim', ((100 - Number(event.target.value)) / 100 * .7).toFixed(3)); return; }
     // SearchView: the suggestion dropdown follows the query without re-rendering the field.
     if (event.target.closest('.icsp-bar.searching')) { ui.marketEdit = event.target.value; const view = viewport.querySelector('.icsp'); view?.querySelector('.icsp-suggest')?.remove(); const html = ICSPlay.render(icsPlayContext()); const tmp = document.createElement('div'); tmp.innerHTML = html; const sug = tmp.querySelector('.icsp-suggest'); if (sug && view) view.append(sug); return; }
     if (event.target.matches('[data-icsp-auto]')) { const id = event.target.dataset.icspAuto, list = data.marketAuto || []; data.marketAuto = event.target.checked ? [...new Set([...list, id])] : list.filter(x => x !== id); save(); return; }

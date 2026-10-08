@@ -1468,6 +1468,33 @@
    "Crop save": "GalleryGoogle:crop_save_text",
    "Cancel": "GalleryGoogle:cancel",
    "Saving picture…": "GalleryGoogle:saving_image"
+  },
+  "books": {
+   "Contents": "BooksTablet:menu_table_of_contents",
+   "Display options": "BooksTablet:menu_reader_settings",
+   "THEME": "BooksTablet:pref_themes",
+   "TYPEFACE": "BooksTablet:pref_typeface",
+   "TEXT ALIGNMENT": "BooksTablet:pref_justification",
+   "BRIGHTNESS": "BooksTablet:pref_brightness",
+   "FONT SIZE": "BooksTablet:pref_text_size",
+   "LINE HEIGHT": "BooksTablet:pref_line_height",
+   "AUTO": "BooksTablet:pref_brightness_auto_small",
+   "Day": "BooksTablet:pref_themes_day",
+   "Night": "BooksTablet:pref_themes_night",
+   "Default": "BooksTablet:pref_font_book_default",
+   "Sans": "BooksTablet:pref_font_sans",
+   "Serif": "BooksTablet:pref_font_serif",
+   "Left": "BooksTablet:pref_justification_left",
+   "Justify": "BooksTablet:pref_justification_justify",
+   "Decrease font size": "BooksTablet:decrease_font_size",
+   "Increase font size": "BooksTablet:increase_font_size",
+   "Decrease line height": "BooksTablet:decrease_line_height",
+   "Increase line height": "BooksTablet:increase_line_height",
+   "About the book": "BooksTablet:menu_about_the_book",
+   "Share": "BooksTablet:book_popup_share",
+   "Available offline": "BooksTablet:menu_reader_available_offline",
+   "Read aloud": "BooksTablet:menu_read_aloud",
+   "Help": "BooksTablet:menu_help"
   }
  }
 }

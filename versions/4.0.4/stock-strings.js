@@ -435,5 +435,157 @@ window.StockStrings = {
    "Enregistrement de l'image",
    "Guardando imagen..."
   ]
+ },
+ "books": {
+  "Contents": [
+   "Tartalom",
+   "Inhaltsverzeichnis",
+   "Table des matières",
+   "Índice"
+  ],
+  "Display options": [
+   "Megjelenítési beállítások",
+   "Anzeigeoptionen",
+   "Options d'affichage",
+   "Mostrar opciones"
+  ],
+  "THEME": [
+   "TÉMA",
+   "Design",
+   "THÈME",
+   "TEMA"
+  ],
+  "TYPEFACE": [
+   "BETŰKÉP",
+   "Schriftart",
+   "POLICE",
+   "TIPO DE LETRA"
+  ],
+  "TEXT ALIGNMENT": [
+   "SZÖVEG IGAZÍTÁSA",
+   "Textausrichtung",
+   "ALIGNEMENT DU TEXTE",
+   "ALINEACIÓN DEL TEXTO"
+  ],
+  "BRIGHTNESS": [
+   "FÉNYERŐ",
+   "Helligkeit",
+   "LUMINOSITÉ",
+   "BRILLO"
+  ],
+  "FONT SIZE": [
+   "BETŰMÉRET",
+   "Schriftgröße",
+   "TAILLE DE POLICE",
+   "TAMAÑO DE FUENTE"
+  ],
+  "LINE HEIGHT": [
+   "SORMAGASSÁG",
+   "Zeilenhöhe",
+   "HAUTEUR DE LIGNE",
+   "INTERLINEADO"
+  ],
+  "AUTO": [
+   "AUTO",
+   "Autom.",
+   "AUTO",
+   "AUTO"
+  ],
+  "Day": [
+   "Nappal",
+   "Tag",
+   "Jour",
+   "Día"
+  ],
+  "Night": [
+   "Éjszaka",
+   "Nacht",
+   "Nuit",
+   "Noche"
+  ],
+  "Default": [
+   "Alapbeállítás",
+   "Standard",
+   "Par défaut",
+   "Predeterminado"
+  ],
+  "Sans": [
+   "Sans",
+   "Sans",
+   "Sans",
+   "Sans"
+  ],
+  "Serif": [
+   "Serif",
+   "Serif",
+   "Serif",
+   "Serif"
+  ],
+  "Left": [
+   "Balra",
+   "Links",
+   "Gauche",
+   "Izquierda"
+  ],
+  "Justify": [
+   "Sorkizárás",
+   "Blocksatz",
+   "Justifier",
+   "Justificar"
+  ],
+  "Decrease font size": [
+   "Betűméret csökkentése",
+   "Schrift verkleinern",
+   "Diminuer la taille de la police",
+   "Reducir el tamaño de la fuente"
+  ],
+  "Increase font size": [
+   "Betűméret növelése",
+   "Schrift vergrößern",
+   "Augmenter la taille de la police",
+   "Aumentar el tamaño de la fuente"
+  ],
+  "Decrease line height": [
+   "Sormagasság csökkentése",
+   "Zeilenhöhe verkleinern",
+   "Diminuer la hauteur de ligne",
+   "Disminuir la altura de la línea"
+  ],
+  "Increase line height": [
+   "Sormagasság növelése",
+   "Zeilenhöhe vergrößern",
+   "Augmenter la hauteur de ligne",
+   "Aumentar altura de la línea"
+  ],
+  "About the book": [
+   "Információ a könyvről",
+   "Über das Buch",
+   "À propos du livre",
+   "Acerca del libro"
+  ],
+  "Share": [
+   "Megosztás",
+   "Teilen",
+   "Partager",
+   "Compartir"
+  ],
+  "Available offline": [
+   "Elérhető offline állapotban",
+   "Offline verfügbar",
+   "Disponible hors connexion",
+   "Disponible sin conexión"
+  ],
+  "Read aloud": [
+   "Hangos felolvasás",
+   "Vorlesen",
+   "Lire à voix haute",
+   "Leer en voz alta"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ]
  }
 };

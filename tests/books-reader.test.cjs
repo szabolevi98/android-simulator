@@ -58,4 +58,21 @@ const load=(v,files)=>{const context={window:{}};for(const f of files)vm.runInNe
   assert.ok(P.render(ctx({bkToc:true,bkTocTab:'bookmarks'})).includes('To add a bookmark, touch the top corner of the page'));
   assert.ok(fs.readFileSync('versions/5.1.1/simulator.js','utf8').includes("Play Books 3.3.15's reader"));
 }
+// 4.0.4: Play Books 2.3.6: the Contents ListPopupWindow, fragment_reader.xml's overflow and ReaderSettingsFragment's panel
+// (THEME, TYPEFACE, TEXT ALIGNMENT, BRIGHTNESS, then FONT SIZE beside LINE HEIGHT); text zoom steps 0.1, line height 1.55 + 0.25.
+{
+  const W=load('4.0.4',['stock-strings.js','ics-google-apps.js']),G=W.ICSGoogleApps,B=G.books;
+  const ctx=(ui,data={})=>({view:'play-books',ui:{gaSub:'read',gaBook:'b1',...ui},lang:'hu',data:{gaBookPages:{b1:4},...data},t:k=>k,account:'me'});
+  const reader=G.render('play-books',ctx({}));assert.ok(reader.includes('data-action="ga-bk-toc"')&&reader.includes('<h3>CHAPTER II.</h3>'));
+  const toc=G.render('play-books',ctx({gaBkToc:true}));assert.equal((toc.match(/data-action="ga-bk-chapter"/g)||[]).length,3);assert.ok(toc.includes('class="current" data-action="ga-bk-chapter" data-id="4"'));
+  assert.equal(G.menu(ctx({}))[0].action,'ga-bk-options');assert.equal(G.menu(ctx({}))[0].title,'Megjelenítési beállítások');
+  const panel=G.render('play-books',ctx({gaBkOptions:true}));
+  const order=['TÉMA','BETŰKÉP','SZÖVEG IGAZÍTÁSA','FÉNYERŐ','BETŰMÉRET','SORMAGASSÁG'].map(k=>panel.indexOf(`>${k}<`));
+  assert.ok(order.every((n,i)=>n>0&&(i===0||n>order[i-1])),JSON.stringify(order));
+  assert.ok(panel.includes('ic_settings_day_on')&&panel.includes('lineheight_smaller_off')&&panel.includes('ga-bk-auto on'));
+  assert.ok(G.render('play-books',ctx({gaBkOptions:true,gaBkSpin:'theme'})).includes('data-id="theme:1"'));
+  const pr=B.bookPrefs({});assert.equal(B.stepPref(pr,'textZoom',1),1.1);assert.equal(B.stepPref(pr,'lineHeight',-1),1.55);assert.equal(B.stepPref(pr,'lineHeight',1),1.8);assert.equal(B.stepPref({...pr,textZoom:.1},'textZoom',-1),.1);
+  assert.ok(G.render('play-books',ctx({},{gaBookPrefs:{theme:'1',typeface:'Vollkorn'}})).includes('ga-bk-night ga-bk-face-Vollkorn'));
+  const sim=fs.readFileSync('versions/4.0.4/simulator.js','utf8');assert.ok(sim.includes('[data-ga-bk-bright]')&&sim.includes("ui.gaBkSpin || ui.gaBkOptions || ui.gaBkToc"));
+}
 console.log('books-reader ok');

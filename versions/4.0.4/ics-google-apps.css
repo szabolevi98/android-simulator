@@ -170,3 +170,59 @@
 .ga-lat-bar{background:#f3f3f3;border-bottom:1.7px solid #d9d9d9}
 .ga-lat-map{flex:none;height:45%}
 .ga-lat-map svg{width:100%;height:100%;display:block}
+/* Play Books 2.3.6 reader settings (1 dp = 0.85 px). The typefaces ship in BooksTablet.apk (assets/fonts); night is
+   override.css's #000 / #fff; the window brightness dims the whole screen. */
+@font-face{font-family:'GA BK Merriweather';src:url('assets/ga-bk-23-Merriweather.ttf')}
+@font-face{font-family:'GA BK Goudy';src:url('assets/ga-bk-23-OFLGoudyStMTT.ttf')}
+@font-face{font-family:'GA BK Vollkorn';src:url('assets/ga-bk-23-Vollkorn-Regular.ttf')}
+.ga-bk-reader{position:relative}
+.ga-bk-text{font:400 calc(16px * var(--bk-zoom,1))/calc(1.5 * var(--bk-lh,1)) Georgia,serif}
+.ga-bk-text h3{margin:24px 0 6px;text-align:center;font-weight:400;font-size:1.3em}
+.ga-bk-text h3.sub{margin-top:0;font-size:1.1em;font-style:italic}
+.ga-bk-text p{margin:0 0 10px;text-indent:1.5em}
+.ga-bk-face-sans .ga-bk-text{font-family:RobotoICS,Roboto,sans-serif}
+.ga-bk-face-serif .ga-bk-text{font-family:'Droid Serif',serif}
+.ga-bk-face-Merriweather .ga-bk-text{font-family:'GA BK Merriweather',serif}
+.ga-bk-face-OFLGoudyStMTT .ga-bk-text{font-family:'GA BK Goudy',serif}
+.ga-bk-face-Vollkorn .ga-bk-text{font-family:'GA BK Vollkorn',serif}
+.ga-bk-just-left .ga-bk-text p{text-align:left}
+.ga-bk-just-justify .ga-bk-text p{text-align:justify}
+.ga-bk-night .ga-page{background:#000!important;color:#fff!important}
+.ga-bk-dim{position:absolute;inset:0;z-index:40;background:#000;opacity:var(--bk-dim,0);pointer-events:none}
+/* TableOfContentsActionItem: the 300 dp ListPopupWindow on menu_dropdown_panel_holo_light, list_item_navigation.xml rows
+   (48 dp, 10 dp sides, textAppearanceSmall). */
+.ga-bk-toc-scrim,.ga-bk-settings-scrim{position:absolute;inset:40.8px 0 0;z-index:29;border:0;background:none}
+.ga-bk-toc{position:absolute;z-index:30;top:37px;right:3.4px;width:min(255px,calc(100% - 6.8px));max-height:calc(100% - 50px);overflow-y:auto;box-sizing:border-box;border:8.5px solid transparent;border-image:url('assets/ga-bk-23-menu_dropdown_panel_holo_light.png') 20 fill/8.5px}
+.screen .ga-bk-toc button{display:flex;align-items:center;width:100%;min-height:40.8px;padding:0 8.5px;border:0;background:none;text-align:left;font:400 11.9px RobotoICS,sans-serif;color:#000}
+.ga-bk-toc span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ga-bk-toc em{margin-left:8.5px;font-style:normal}
+.ga-bk-toc .current{font-weight:700}
+.screen .ga-bk-toc button:active{background:#33b5e566}
+/* ReaderSettingsFragment: settings_panel (#222222 at 96 %) under the action bar, 10 / 10 / 9 / 5 dp padding, 10 dp column
+   sides, the 12 sp bold subtitles at half opacity, 6 dp spaces, 38 dp spinner frames and the 36 dp segmented buttons. */
+.ga-bk-settings{position:absolute;z-index:30;top:40.8px;left:0;right:0;padding:8.5px 7.65px 4.25px 8.5px;background:#222222f5;color:#fff;font-family:RobotoICS,sans-serif}
+.ga-bk-settings i{display:block;height:5.1px}
+.ga-bk-col{flex:1;min-width:0;padding:0 8.5px}
+.ga-bk-cols{display:flex}
+.ga-bk-sub{display:block;font-size:10.2px;font-weight:700;color:#fff;opacity:.5}
+.ga-bk-spin-wrap{position:relative;height:32.3px;padding-top:3.4px}
+.screen .ga-bk-spin{display:flex;align-items:center;width:100%;height:100%;padding:0 13.6px 0 0;border:0 solid transparent;border-width:3.4px 13.6px 3.4px 3.4px;border-image:url('assets/ga-bk-23-spinner_default_holo_dark.png') 8 32 52 8 fill/3.4px 13.6px 22.1px 3.4px;background:none;color:#fff;font:400 15.3px RobotoICS,sans-serif;text-align:left}
+.screen .ga-bk-spin:active{border-image-source:url('assets/ga-bk-23-spinner_pressed_holo_dark.png')}
+.ga-bk-spin img,.ga-bk-drop img{flex:none;width:20.4px;height:20.4px;margin-left:3.4px}
+.ga-bk-spin span,.ga-bk-drop span{flex:1;min-width:0;margin-left:3.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ga-bk-drop{position:absolute;left:-5px;right:-5px;top:100%;z-index:2;border:8.5px solid transparent;border-image:url('assets/ga-bk-23-menu_dropdown_panel_holo_dark.png') 20 fill/8.5px;margin-top:-6px}
+.screen .ga-bk-drop button{display:flex;align-items:center;width:100%;padding:12.75px;border:0;background:none;color:#fff;font:400 15.3px RobotoICS,sans-serif;text-align:left}
+.screen .ga-bk-drop button:active{background:#33b5e566}
+.ga-bk-bright{display:flex;align-items:center;height:32.3px;margin-right:1.7px}
+.screen .ga-bk-auto{position:relative;flex:none;align-self:stretch;width:40.8px;margin-left:4.25px;padding:0;border:0;background:url('assets/ga-bk-23-settings_checkbox_off.png') center/100% 100% no-repeat}
+.screen .ga-bk-auto.on{background-image:url('assets/ga-bk-23-settings_checkbox_on.png')}
+.ga-bk-auto span{position:absolute;left:0;right:0;top:16.15px;font-size:10.2px;color:#bebebe;text-align:center}
+.ga-bk-bright input{flex:1;min-width:0;margin:0 0 0 17px;height:27.2px;appearance:none;background:url('assets/ga-bk-23-scrubber_track_holo_dark.png') center/100% 10.2px no-repeat}
+.ga-bk-bright input::-webkit-slider-thumb{appearance:none;width:27.2px;height:27.2px;background:url('assets/ga-bk-23-scrubber_control_normal_holo.png') center/contain no-repeat}
+.ga-bk-bright input:active::-webkit-slider-thumb{background-image:url('assets/ga-bk-23-scrubber_control_pressed_holo.png')}
+.ga-bk-bright input:disabled{opacity:.4}
+.ga-bk-seg{display:flex;height:30.6px;margin-top:3.4px}
+.screen .ga-bk-seg button{flex:1;min-width:0;display:grid;place-items:center;padding:0;border:0 solid transparent;border-width:6.8px 10.2px 5.95px;border-image:url('assets/ga-bk-23-btn_default_normal_holo_dark.png') 32 24 28 24 fill/6.8px 10.2px 5.95px;background:none}
+.screen .ga-bk-seg button:active{border-image-source:url('assets/ga-bk-23-btn_default_pressed_holo_dark.png')}
+.screen .ga-bk-seg button:disabled{border-image-source:url('assets/ga-bk-23-btn_default_disabled_holo_dark.png')}
+.ga-bk-seg img{width:20.4px;height:20.4px}
