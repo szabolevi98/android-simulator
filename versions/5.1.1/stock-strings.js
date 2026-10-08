@@ -2904,5 +2904,127 @@ window.StockStrings = {
    "Desplazarse hacia arriba",
    "Navigate Up"
   ]
+ },
+ "hangouts": {
+  "Snooze notifications": [
+   "Értesítések elhalasztása",
+   "Benachrichtigungen pausieren",
+   "Suspendre les notifications",
+   "Detener notificaciones"
+  ],
+  "Snooze notifications for…": [
+   "Értesítések elhalasztása…",
+   "Benachrichtigungen pausieren für…",
+   "Suspendre les notifications pendant…",
+   "Detener notificaciones durante…"
+  ],
+  "1 hour": [
+   "1 óra",
+   "1 Stunde",
+   "1 heure",
+   "1 hora"
+  ],
+  "%d hours": [
+   "%d óra",
+   "%d Stunden",
+   "%d heures",
+   "%d horas"
+  ],
+  "Notifications snoozed": [
+   "Értesítések elhalasztva",
+   "Benachrichtigungen deaktiviert",
+   "Notifications suspendues",
+   "Notificaciones detenidas"
+  ],
+  "Will resume at %s": [
+   "Folytatás innen: %s",
+   "Fortsetzung: %s",
+   "Reprise : %s",
+   "Se reanudarán a las %s"
+  ],
+  "Resume": [
+   "Folytatás",
+   "Fortsetzen",
+   "Reprendre",
+   "Reanudar"
+  ],
+  "Archived": [
+   "Archiválva",
+   "Archiviert",
+   "Archivées",
+   "Archivadas"
+  ],
+  "Archived conversations": [
+   "Archivált beszélgetések",
+   "Archivierte Unterhaltungen",
+   "Conversations archivées",
+   "Conversaciones archivadas"
+  ],
+  "Archive": [
+   "Archiválás",
+   "Archivieren",
+   "Archiver",
+   "Archivar"
+  ],
+  "Unarchive": [
+   "Archiválás megszüntetése",
+   "Dearchivieren",
+   "Annuler l'archivage",
+   "No archivar"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "No archived conversations": [
+   "Nincsenek archivált beszélgetések",
+   "Keine archivierten Unterhaltungen",
+   "Aucune conversation archivée",
+   "No hay ninguna conversación archivada"
+  ],
+  "Hangout archived.": [
+   "Hangout archiválva.",
+   "Hangout archiviert",
+   "Hangout archivé.",
+   "Conversación archivada"
+  ],
+  "Invites": [
+   "Meghívások",
+   "Einladungen",
+   "Invitations",
+   "Invitaciones"
+  ],
+  "Settings": [
+   "Beállítások",
+   "Einstellungen",
+   "Paramètres",
+   "Ajustes"
+  ],
+  "Attach photo": [
+   "Fotó csatolása",
+   "Foto anhängen",
+   "Joindre une photo",
+   "Adjuntar foto"
+  ],
+  "Share your location": [
+   "A tartózkodási hely megosztása",
+   "Standort freigeben",
+   "Partagez votre position.",
+   "Compartir tu ubicación"
+  ],
+  "Location": [
+   "Hely",
+   "Standort",
+   "Position",
+   "Ubicación"
+  ],
+  "Add attachment": [
+   "Melléklet hozzáadása",
+   "Anhang hinzufügen",
+   "Ajouter une pièce jointe",
+   "Añadir adjunto"
+  ]
  }
 };

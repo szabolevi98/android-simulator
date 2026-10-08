@@ -35,4 +35,18 @@ const t=k=>k;
   assert.ok(!H.render(data,{sub:'thread',thread:'1'},t,'hu',now).includes('hg-location'));
   const sim=fs.readFileSync('versions/4.3/simulator.js','utf8');assert.ok(sim.includes("if (ui.view === 'hangouts') { const own = Hangouts.overlay(")&&sim.includes("case 'hg-dnd-set':"));
 }
+// 5.1.1: Hangouts 2.5: Archived / Snooze notifications in the overflow, Archive / Unarchive and Delete in a conversation,
+// the attachment button (quantum_ic_attachment) with Attach photo and Share your location.
+{
+  const W=load('5.1.1',['stock-strings.js','messaging.js','hangouts.js']),H=W.Hangouts,now=Date.UTC(2015,7,1,12);
+  const data={contacts:[{id:1,name:'Sam',phone:'5'}],messages:[{id:1,contact:1,body:'Hi',mine:false,time:'Yesterday',channel:'hangouts'}],messageDrafts:{},hgArchived:{1:now}};
+  const arch=H.render(data,{sub:'archived'},t,'hu',now);assert.ok(arch.includes('Archivált beszélgetések')&&arch.includes('Sam'));
+  assert.ok(!H.render(data,{sub:''},t,'hu',now).includes('>Sam<'));
+  assert.ok(H.render({...data,hgSnooze:now+60000},{sub:''},t,'hu',now).includes('hg-dnd-bar'));
+  const menu=H.overlay(data,{overlay:'mms-menu',sub:''},t);assert.ok(menu.indexOf('hg-archived')<menu.indexOf('hg-dnd')&&menu.includes('Archiválva'));
+  assert.ok(H.overlay(data,{overlay:'mms-menu',sub:'thread',thread:'1'},t).includes('data-action="hg-unarchive"'));
+  const conv=H.render({...data,hgArchived:{}},{sub:'thread',thread:'1'},t,'hu',now);assert.ok(conv.includes('hg-lp-quantum_ic_attachment_grey600_24'));
+  const att=H.overlay(data,{overlay:'mms-attach',sub:'thread',thread:'1'},t);assert.ok(att.includes('data-action="hg-attach-photo"')&&att.includes('data-action="hg-share-location"'));
+  assert.equal([...H.overlay(data,{overlay:'mms-hg-dnd'},t).matchAll(/data-id="(\d+)"/g)].length,6);
+}
 console.log('hangouts-features ok');

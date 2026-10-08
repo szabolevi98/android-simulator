@@ -1424,6 +1424,28 @@
    "Slideshow": "PlusOne:start_slideshow",
    "Download": "PlusOne:menu_download_photo",
    "Navigate up": "PlusOne:nav_up_content_description"
+  },
+  "hangouts": {
+   "Snooze notifications": "Hangouts:dnd_menu_item",
+   "Snooze notifications for…": "Hangouts:dnd_dialog_title",
+   "1 hour": "Hangouts:@plurals/dnd_hours:one",
+   "%d hours": "Hangouts:@plurals/dnd_hours:other",
+   "Notifications snoozed": "Hangouts:notifications_are_dnd",
+   "Will resume at %s": "Hangouts:dnd_will_expire_at",
+   "Resume": "Hangouts:notifications_dnd_cancel",
+   "Archived": "Hangouts:menu_archived_conversations",
+   "Archived conversations": "Hangouts:archived_conversations_title",
+   "Archive": "Hangouts:realtimechat_conversation_archive_menu_item_text",
+   "Unarchive": "Hangouts:realtimechat_conversation_unarchive_menu_item_text",
+   "Delete": "Hangouts:realtimechat_conversation_delete_menu_item_text",
+   "No archived conversations": "Hangouts:no_archived_conversations_text",
+   "Hangout archived.": "Hangouts:conversation_archived",
+   "Invites": "Hangouts:menu_invites",
+   "Settings": "Hangouts:realtimechat_settings_menu_item_text",
+   "Attach photo": "Hangouts:menu_choose_photo_from_gallery",
+   "Share your location": "Hangouts:realtimechat_location",
+   "Location": "Hangouts:notification_location",
+   "Add attachment": "Hangouts:realtimechat_add_attachment"
   }
  },
  "4.0.4": {
