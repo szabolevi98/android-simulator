@@ -136,8 +136,8 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 
 ## 8. Keresőmotorok (a tulajdonos kérése, 2026-10-08; az audit legvégén)
 
-- [ ] `sitemap.xml` a gyökérben: a kezdőoldal és a verziók oldalai (android.levente.net), `lastmod` értékkel
-- [ ] Megengedő `robots.txt` (mindent enged), `Sitemap: https://android.levente.net/sitemap.xml` sorral
+- [x] `sitemap.xml` a gyökérben: a kezdőoldal és a verziók oldalai (android.levente.net), `lastmod` értékkel – statikus fájl, a `docs/make-sitemap.mjs` generálja a `versions/catalog.js` elérhető verzióiból, a `lastmod` az oldalt utoljára módosító commit dátuma; oldalváltozás után újra kell futtatni (README: Search engines); `tests/sitemap.test.cjs` – 8b6e6bd
+- [x] Megengedő `robots.txt` (mindent enged), `Sitemap: https://android.levente.net/sitemap.xml` sorral  – 8b6e6bd
 
 ## Nem csináljuk meg
 
@@ -262,3 +262,4 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 | 2026-10-08 | 6. lépés: Talk barát hozzáadása, keresés (GB, ICS) | 6bad3cd |
 | 2026-10-08 | 6. lépés: Maps útvonalak, opciók és Navigation demóútvonal (mind az öt verzió) | 3776d67, 3c1a464, 2051400 |
 | 2026-10-08 | 6. lépés: Quickoffice / Docs / Sheets / Slides fájlkezelés (KK, LP) | 327d08d |
+| 2026-10-08 | 8. lépés: sitemap.xml (generált, statikus) és robots.txt | 8b6e6bd |
