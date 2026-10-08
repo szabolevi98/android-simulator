@@ -971,8 +971,9 @@
     } else if (ui.overlay === 'pa-drawer') {
       overlayRoot.innerHTML = PlayApps.drawer(playContext(ui.view));
     } else if (['ed-menu', 'ed-rename', 'ed-remove'].includes(ui.overlay)) {
+      // #overlay-root has no height of its own (its children are placed against the screen), so the row's place and the room below come from the screen.
       overlayRoot.innerHTML = LPExtraApps.edDialog(ui.overlay.slice(3), {files: officeFiles(), ui, t: key => i18n.t(key), locale: i18n.locale()});
-      if (ui.overlay === 'ed-menu') { const anchor = viewport.querySelector(`[data-action="ed-item"][data-id="${CSS.escape(ui.edFile)}"]`), menu = overlayRoot.querySelector('.ed-itemmenu'); if (anchor && menu) { const a = anchor.getBoundingClientRect(), box = overlayRoot.getBoundingClientRect(), scale = box.height / overlayRoot.offsetHeight || 1, top = (a.top - box.top) / scale; menu.style.top = `${Math.max(8, Math.min(top, overlayRoot.offsetHeight - menu.offsetHeight - 8))}px`; } }
+      if (ui.overlay === 'ed-menu') { const anchor = viewport.querySelector(`[data-action="ed-item"][data-id="${CSS.escape(ui.edFile)}"]`), menu = overlayRoot.querySelector('.ed-itemmenu'); if (anchor && menu) { const a = anchor.getBoundingClientRect(), box = overlayRoot.getBoundingClientRect(), frame = screen.getBoundingClientRect(), scale = frame.height / screen.offsetHeight || 1, top = (a.top - box.top) / scale; menu.style.top = `${Math.max(8, Math.min(top, screen.offsetHeight - menu.offsetHeight - 8))}px`; } }
     } else if (ui.overlay === 'lpx-overflow') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lpa-menu">${LPExtraApps.menu(ui.view, key => i18n.t(key), i18n.locale()).map(item => `<button data-action="${item.action}">${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'pa-menu') {
