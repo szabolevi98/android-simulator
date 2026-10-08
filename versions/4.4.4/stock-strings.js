@@ -791,6 +791,226 @@ window.StockStrings = {
    "Menü",
    "Menu",
    "Menú"
+  ],
+  "Choose starting point...": [
+   "Válasszon kiindulási pontot...",
+   "Start auswählen…",
+   "Choisissez un point de départ…",
+   "Elegir punto de partida..."
+  ],
+  "Choose destination...": [
+   "Válasszon úti célt...",
+   "Ziel auswählen…",
+   "Choisissez une destination…",
+   "Elegir destino..."
+  ],
+  "Swap start and destination": [
+   "Kiindulópont és cél felcserélése",
+   "Start und Ziel vertauschen",
+   "Inverser le point de départ et la destination",
+   "Intercambiar lugares de origen y destino"
+  ],
+  "Avoid highways": [
+   "Autópályák elkerülése",
+   "Autobahnen vermeiden",
+   "Éviter les autoroutes",
+   "Evitar autopistas"
+  ],
+  "Avoid tolls": [
+   "Fizetős utak elkerülése",
+   "Mautstraßen vermeiden",
+   "Éviter les péages",
+   "Evitar peajes"
+  ],
+  "Route Options": [
+   "Útvonalopciók",
+   "Routenoptionen",
+   "Options d'itinéraire",
+   "Opciones de ruta"
+  ],
+  "Cancel": [
+   "Mégse",
+   "Abbrechen",
+   "Annuler",
+   "Cancelar"
+  ],
+  "Done": [
+   "Kész",
+   "Fertig",
+   "OK",
+   "Finalizar"
+  ],
+  "Start navigation": [
+   "Navigáció indítása",
+   "Navigation starten",
+   "Démarrer la navigation",
+   "Iniciar Navegación GPS"
+  ],
+  "Start": [
+   "Indulás",
+   "Start",
+   "Départ",
+   "Iniciar"
+  ],
+  "Via %1$s": [
+   "Ezen keresztül: %1$s",
+   "Über %1$s",
+   "Via %1$s",
+   "Por %1$s"
+  ],
+  "Head %1$s on %2$s": [
+   "Menjen %1$s irányba a(z) %2$s úton",
+   "Auf %2$s Richtung %1$s fahren",
+   "Suivre la direction %1$s sur %2$s",
+   "Dirígete al %1$s por %2$s."
+  ],
+  "north": [
+   "észak",
+   "Norden",
+   "nord",
+   "norte"
+  ],
+  "south": [
+   "dél",
+   "Süden",
+   "sud",
+   "sur"
+  ],
+  "east": [
+   "kelet",
+   "Osten",
+   "est",
+   "este"
+  ],
+  "west": [
+   "nyugat",
+   "Westen",
+   "ouest",
+   "oeste"
+  ],
+  "Turn right onto %1$s": [
+   "Forduljon jobbra erre: %1$s",
+   "Nach rechts auf %1$s abbiegen",
+   "Prendre à droite sur %1$s",
+   "Gira a la derecha en %1$s."
+  ],
+  "Turn left onto %1$s": [
+   "Forduljon balra erre: %1$s",
+   "Nach links auf %1$s abbiegen",
+   "Prendre à gauche sur %1$s",
+   "Gira a la izquierda en %1$s."
+  ],
+  "Continue onto %1$s": [
+   "Tovább erre: %1$s",
+   "Weiter auf %1$s",
+   "Continuer sur %1$s",
+   "Continúa por %1$s."
+  ],
+  "Your destination is on the right.": [
+   "Az úti cél a jobb oldalon található.",
+   "Das Ziel befindet sich auf der rechten Seite.",
+   "Votre destination se trouve sur la droite.",
+   "Tu lugar de destino está a la derecha."
+  ],
+  "You have arrived.": [
+   "Megérkezett.",
+   "Sie haben das Ziel erreicht",
+   "Vous êtes arrivé.",
+   "Has llegado."
+  ],
+  "%s km": [
+   "%s km",
+   "%s km",
+   "%s km",
+   "%s km",
+   "%s km"
+  ],
+  "%s m": [
+   "%s m",
+   "%s m",
+   "%s m",
+   "%s m",
+   "%s m"
+  ],
+  "%s mi": [
+   "%s mf",
+   "%s mi",
+   "%s mi",
+   "%s mi",
+   "%s mi"
+  ],
+  "%s ft": [
+   "%s láb",
+   "%s ft",
+   "%s pi",
+   "%s ft",
+   "%s ft"
+  ],
+  "imperial": [
+   "metric",
+   "metric",
+   "metric",
+   "metric"
+  ],
+  "%d minute": [
+   "%d perc",
+   "%d Minute",
+   "%d minute",
+   "%d minuto"
+  ],
+  "%d minutes": [
+   "%d perc",
+   "%d Minuten",
+   "%d minutes",
+   "%d minutos"
+  ],
+  "%d hour": [
+   "%d óra",
+   "%d Stunde",
+   "%d heure",
+   "%d hora"
+  ],
+  "%d hours": [
+   "%d óra",
+   "%d Stunden",
+   "%d heures",
+   "%d horas"
+  ],
+  "%1$s  %2$s": [
+   "%1$s %2$s",
+   "%1$s %2$s",
+   "%1$s %2$s",
+   "%1$s %2$s"
+  ],
+  "%1$s (%2$s) to destination": [
+   "%1$s (%2$s) az úti célig",
+   "%1$s (%2$s) bis zum Ziel",
+   "%1$s (%2$s) avant d'atteindre la destination",
+   "%1$s (%2$s) hasta el destino"
+  ],
+  "Close navigation": [
+   "Navigáció bezárása",
+   "Navigation schließen",
+   "Fermer la navigation",
+   "Cerrar navegación"
+  ],
+  "Navigation menu": [
+   "A Navigáció menüje",
+   "Navigationsmenü",
+   "Menu de la fonctionnalité Navigation",
+   "Menú de navegación"
+  ],
+  "My Location": [
+   "Saját hely",
+   "Mein Standort",
+   "Ma position",
+   "Mi ubicación"
+  ],
+  "Route options": [
+   "Útvonalopciók",
+   "Routenoptionen",
+   "Options d'itinéraire",
+   "Opciones de ruta"
   ]
  },
  "keep": {
