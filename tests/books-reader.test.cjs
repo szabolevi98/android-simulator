@@ -79,7 +79,7 @@ const load=(v,files)=>{const context={window:{}};for(const f of files)vm.runInNe
 // Justification, Themes, Brightness) and reader_tab_chapters.xml.
 {
   const w={setTimeout,clearTimeout,requestAnimationFrame:()=>0,cancelAnimationFrame(){}};w.window=w;w.document={addEventListener(){}};
-  for(const f of ['gb-apps.js','gb-google-apps.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),w);
+  for(const f of ['gb-apps.js','news-prefs.js','gb-google-apps.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),w);
   const m=w.GBApps.get('books'),ui={},data={},ctx={ui,data,view:'books',lang:'hu',locale:'hu',t:k=>k,save(){},render(){},renderOverlay(){},toast(){},dialog(k){ui.dlg=k;},closeOverlay(){}};
   m.open(ctx,false);m.handle('bk-open','b1',ctx);
   assert.equal(m.menu(ctx).map(i=>i.action).join(),'ga-unsupported,bk-toc,bk-library,bk-settings,ga-unsupported');

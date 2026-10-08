@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus S: News & Weather, Books, Earth and Voice Search (gb-google-apps.js) on GBApps.
 const w={setTimeout,clearTimeout,requestAnimationFrame:()=>0,cancelAnimationFrame(){}};w.window=w;w.document={addEventListener(){}};
-for(const f of ['gb-apps.js','gb-google-apps.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),w);
+for(const f of ['gb-apps.js','news-prefs.js','gb-google-apps.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),w);
 const {GBApps,GBGoogleApps:G}=w;
 for(const id of ['news-weather','books','earth','voice-search'])assert.ok(GBApps.has(id),id);
 const ui={},data={},opened=[],ctx={ui,data,view:'news-weather',lang:'en',locale:'en-US',now:new Date(2011,6,20),t:k=>k,contacts:[{id:1,name:'Alex',phone:'202-555-0148'}],root:{querySelector:()=>null},save(){},render(){},renderOverlay(){},toast(){},dialog(k){ui.dlg=k;},focus(){},openApp(a){opened.push(a);},browse(u){opened.push(u);},call(n){opened.push('call:'+n);},home(){opened.push('home');}};

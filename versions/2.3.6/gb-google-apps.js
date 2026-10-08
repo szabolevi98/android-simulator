@@ -16,6 +16,262 @@
   'use strict';
   const {e} = GBApps;
   const STRINGS = {
+      "News isn't available right now.": [
+          "Sajnáljuk, a hírek jelenleg nem érhetők el.",
+          "Derzeit sind leider keine Nachrichten verfügbar.",
+          "Désolé, les actualités sont indisponibles actuellement.",
+          "No hay datos disponibles en este momento.",
+          "Sorry, news currently unavailable."
+      ],
+      "Updating news topics…": [
+          "A témakörök frissítése...",
+          "Nachrichtenthemen werden aktualisiert...",
+          "Mise à jour des sujets d'actualités en cours...",
+          "Actualizando temas de noticias...",
+          "Updating news topics..."
+      ],
+      "Weather settings": [
+          "Időjárás -- beállítások",
+          "Google Wetter-Einstellungen",
+          "Paramètres de la météo",
+          "Ajustes de Tiempo"
+      ],
+      "Set location, units": [
+          "Hely és mértékegység megadása",
+          "Standort und Maßeinheiten festlegen",
+          "Définir le lieu et le système de mesure",
+          "Establecer ubicación, unidades"
+      ],
+      "News settings": [
+          "Hírek -- beállítások",
+          "Google News-Einstellungen",
+          "Paramètres de l'actualité",
+          "Ajustes de Noticias"
+      ],
+      "Choose topics, manage downloads": [
+          "Témák kiválasztása, letöltések kezelése",
+          "Themen auswählen, Downloads verwalten",
+          "Choisir des sujets, gérer les téléchargements",
+          "Seleccionar temas, administrar descargas",
+          "Pick topics, manage downloads"
+      ],
+      "Refresh settings": [
+          "Frissítési beállítások",
+          "Aktualisierungs-Einstellungen",
+          "Paramètres d'actualisation",
+          "Actualizar configuración"
+      ],
+      "Set up auto-refresh, refresh interval": [
+          "Az automatikus frissítés és a frissítés gyakoriságának beállítása",
+          "Automatische Aktualisierung, Aktualisierungsintervall festlegen",
+          "Définir l'actualisation automatique, la fréquence d'actualisation",
+          "Establecer actualización automática, intervalo de actualización"
+      ],
+      "App version": [
+          "Alkalmazás verziószáma",
+          "Anwendungsversion",
+          "Version de l'application",
+          "Versión de la aplicación",
+          "Application version"
+      ],
+      "Use my location": [
+          "Saját pozíció használata",
+          "Standort verwenden",
+          "Utiliser ma position",
+          "Utilizar Mi ubicación"
+      ],
+      "Automatically determine location": [
+          "Hely automatikus megállapítása",
+          "Standort automatisch bestimmen",
+          "Déterminer automatiquement ma position",
+          "Identificar ubicación automáticamente"
+      ],
+      "Set location": [
+          "Hely beállítása",
+          "Standort manuell festlegen",
+          "Définir un lieu",
+          "Establecer ubicación"
+      ],
+      "Specify your location": [
+          "Adja meg tartózkodási helyét",
+          "Meinen Standort angeben",
+          "Indiquer un lieu",
+          "Especifica tu ubicación"
+      ],
+      "Use metric": [
+          "Metrikus mértékegység használata",
+          "Metrische Einheiten",
+          "Utiliser le système métrique",
+          "Usar sistema métrico"
+      ],
+      "Toggle metric/imperial units": [
+          "Metrikus/angolszász mértékegység váltása",
+          "Zwischen metrischen und angloamerikanischen Einheiten umschalten",
+          "Système métrique/Système impérial",
+          "Alternar unidades métricas/imperiales"
+      ],
+      "Choose news topics": [
+          "Témakörök kiválasztása",
+          "Themen auswählen",
+          "Sélectionner des sujets",
+          "Seleccionar temas de noticias",
+          "Select news topics"
+      ],
+      "Manage news topics": [
+          "Témakörök kezelése",
+          "Nachrichtenthemen verwalten",
+          "Gérer les sujets d'actualités",
+          "Administrar temas de noticias"
+      ],
+      "Prefetch articles": [
+          "Cikkek előzetes lekérése",
+          "Artikel vorabrufen",
+          "Prélire les articles",
+          "Recopilar artículos previamente"
+      ],
+      "Prefetch articles for faster access": [
+          "A cikkek előzetes lekérése a gyorsabb elérés érdekében",
+          "Artikel für schnelleren Zugriff vorabrufen",
+          "Prélire les articles pour un accès plus rapide",
+          "Recopilar artículos previamente para acceder más rápido"
+      ],
+      "Prefetch images": [
+          "Képek előzetes lekérése",
+          "Bilder vorabrufen",
+          "Prélire les images",
+          "Recopilar imágenes previamente"
+      ],
+      "Prefetch images for faster access": [
+          "A képek előzetes lekérése a gyorsabb elérés érdekében",
+          "Bilder für schnelleren Zugriff vorabrufen",
+          "Prélire les images pour un accès plus rapide",
+          "Recopilar imágenes previamente para acceder más rápido"
+      ],
+      "News terms of service": [
+          "Hírek általános szerződési feltételek",
+          "Nutzungsbedingungen",
+          "Conditions d'utilisation",
+          "Condiciones del servicio de Noticias"
+      ],
+      "Mobile privacy policy": [
+          "Mobil adatvédelmi irányelvek",
+          "Google Mobile-Datenschutzbestimmungen",
+          "Règles de confidentialité Google Mobile",
+          "Política de privacidad para móviles"
+      ],
+      "Custom topics": [
+          "Egyéni témák",
+          "Benutzerdefinierte Themen",
+          "Sujets personnalisés",
+          "Personalizar temas",
+          "Custom Topics"
+      ],
+      "Custom topic": [
+          "Egyéni téma",
+          "Benutzerdefiniert",
+          "Sujet personnalisé",
+          "Personalizar tema"
+      ],
+      "Add a custom news topic here": [
+          "Itt adhat hozzá egyéni témaköröket",
+          "Ein benutzerdefiniertes Nachrichtenthema hinzufügen",
+          "Ajouter un sujet d'actualités personnalisé ici",
+          "Añade aquí un tema de noticias personalizado"
+      ],
+      "News topics": [
+          "Témakörök",
+          "Nachrichtenthemen",
+          "Sujets d'actualités",
+          "Temas de noticias",
+          "News Topics"
+      ],
+      "Auto-refresh": [
+          "Automatikus frissítés",
+          "Automat. Aktualisieren",
+          "Automatique",
+          "Actualizar automáticamente"
+      ],
+      "Auto-refresh summary": [
+          "Hírek és időjárás automatikus frissítése",
+          "News und Wetter automatisch aktualisieren",
+          "Actualiser automatiquement les actualités et la météo",
+          "Actualizar automáticamente la información sobre noticias y tiempo",
+          "Automatically refresh news and weather"
+      ],
+      "Refresh interval": [
+          "Frissítés gyakorisága",
+          "Aktualisierungsintervall",
+          "Fréquence d'actualisation",
+          "Intervalo de actualización"
+      ],
+      "Refresh status": [
+          "Frissítés állapota",
+          "Status aktualisieren",
+          "État de l'actualisation",
+          "Actualizar estado"
+      ],
+      "Last refresh %s": [
+          "Utolsó frissítés: %s",
+          "Letzte Aktualisierung: %s",
+          "Dernière actualisation %s",
+          "Última actualización: %s"
+      ],
+      "Last refresh %1$s \nNext refresh %2$s": [
+          "Utolsó frissítés: %1$s \nKövetkező frissítés: %2$s",
+          "Letzte Aktualisierung: %1$s \nNächste Aktualisierung: %2$s",
+          "Dernière actualisation le %1$s \nNouvelle actualisation le %2$s",
+          "Última actualización %1$s \nPróxima actualización %2$s"
+      ],
+      "Type a city or postal code:": [
+          "Adjon meg egy irányítószámot:",
+          "Geben Sie eine Stadt oder eine Postleitzahl ein:",
+          "Saisissez une ville ou un code postal :",
+          "Introduce una ciudad o un código postal:",
+          "Enter a city or postal code:"
+      ],
+      "Type a custom topic:": [
+          "Adjon meg egyéni témát:",
+          "Geben Sie ein benutzerdefiniertes Thema ein:",
+          "Entrez un sujet personnalisé :",
+          "Introduce un tema personalizado:",
+          "Enter a custom topic:"
+      ],
+      "Half an hour": [
+          "Fél óra",
+          "30 Minuten",
+          "Une demi-heure",
+          "Media hora"
+      ],
+      "1 hour": [
+          "1 óra",
+          "1 Stunde",
+          "1 heure",
+          "1 hora"
+      ],
+      "3 hours": [
+          "3 óra",
+          "3 Stunden",
+          "3 heures",
+          "3 horas"
+      ],
+      "6 hours": [
+          "6 óra",
+          "6 Stunden",
+          "6 heures",
+          "6 horas"
+      ],
+      "12 hours": [
+          "12 óra",
+          "12 Stunden",
+          "12 heures",
+          "12 horas"
+      ],
+      "One day": [
+          "Egy nap",
+          "24 Stunden",
+          "Un jour",
+          "Un día"
+      ],
       "Typeface": [
           "Betűkép",
           "Schriftart",
@@ -363,20 +619,26 @@
   };
   // A summer week for the made-up city: [condition, icon, high, low] in °F; today first.
   const FORECAST = [['Partly Cloudy', 'partly_cloudy', 78, 59], ['Sunny', 'sunny', 82, 61], ['Chance of Rain', 'chance_of_rain', 74, 58], ['Cloudy', 'cloudy', 71, 57]];
-  const metric = lang => lang !== 'en';
+  // Use metric (news-prefs.js) follows the language until it is set.
+  let newsData = {};
+  const metric = lang => window.NewsPrefs ? NewsPrefs.metric(newsData, lang) : lang !== 'en';
   const deg = (lang, f) => metric(lang) ? `${Math.round((f - 32) * 5 / 9)}°` : `${f}°`;
   function news(ctx) {
-    const {ui, lang} = ctx, tab = ui.nwTab ?? 'Weather', story = ui.nwStory;
+    const {ui, lang} = ctx, NP = window.NewsPrefs, story = ui.nwStory;
+    newsData = ctx.data;
+    // Preferences (news-prefs.js) under the window's title bar.
+    if (ui.nwSub === 'settings') return NP.render({data: ctx.data, ui, lang, locale: ctx.locale, N: key => T(lang, key), t: ctx.t, standard: TOPICS, topic: name => ctx.t(name), version: '1.3.04', bar: title => `<div class="gb-titlebar">${e(title)}</div>`});
+    const tabs0 = ['Weather', ...NP.topics(ctx.data, TOPICS)], tab = tabs0.includes(ui.nwTab ?? 'Weather') ? (ui.nwTab ?? 'Weather') : 'Weather';
     if (story) {
       const [title, snippet, source] = STORIES[tab]?.[+story] || [];
       return `<div class="app-view nw nw-article" data-no-translate><div class="nw-scroll"><h2>${e(title)}</h2><small>${e(source)}</small><p>${e(snippet)}</p><p>${e(snippet.replace(/\.$/, ''))} — a fuller account follows when the phone is online.</p></div></div>`;
     }
-    const tabs = ['Weather', ...TOPICS].map(t => `<button class="nw-tab${t === tab ? ' on' : ''}" data-action="nw-tab" data-id="${e(t)}">${e(t === 'Weather' ? T(lang, 'Weather') : ctx.t(t))}</button>`).join('');
+    const tabs = tabs0.map(t => `<button class="nw-tab${t === tab ? ' on' : ''}" data-action="nw-tab" data-id="${e(t)}">${e(t === 'Weather' ? T(lang, 'Weather') : TOPICS.includes(t) ? ctx.t(t) : t)}</button>`).join('');
     let body;
     if (tab === 'Weather') {
       const [cond, icon, hi, lo] = FORECAST[0], days = [...Array(4)].map((_, i) => new Date(ctx.now.getTime() + i * 864e5).toLocaleDateString(ctx.locale, {weekday: 'short'}));
-      body = `<div class="nw-weather"><div class="nw-panel"><div class="nw-city"><span>Mountain View, CA</span><img src="${NA('ic_weather_info')}" alt=""></div><i class="nw-div"></i><div class="nw-now"><img class="nw-cond" src="${NA(`ic_weather_${icon}_xl`)}" alt=""><span class="nw-temp">${deg(lang, 72)}</span><img class="nw-twc" src="${NA('ic_weather_weather_channel')}" alt=""></div><div class="nw-detail"><b>${deg(lang, hi)}</b><b class="lo">${deg(lang, lo)}</b><span>${e(ctx.t(cond))}</span><small>${e(T(lang, 'Humidity: %s%%').replace('%s%%', '58%'))}</small><small>${e(T(lang, 'Wind: %1$s %2$s').replace('%1$s', metric(lang) ? '13' : '8').replace('%2$s', T(lang, metric(lang) ? 'km/h' : 'mph')))}</small></div><i class="nw-div"></i><div class="nw-days">${FORECAST.map(([c, ic, h, l], i) => `<span><b>${e(days[i])}</b><img src="${NA(`ic_weather_${ic}_s`)}" alt="${e(ctx.t(c))}"><i>${deg(lang, h)}</i><i class="lo">${deg(lang, l)}</i></span>`).join('')}</div></div></div>`;
-    } else body = `<div class="nw-list">${(STORIES[tab] || []).map(([title, snippet, source], i) => `<button class="nw-item" data-action="nw-story" data-id="${i}"><span><b>${e(title)}</b><small>${e(snippet)}</small></span>${i === 0 ? `<i class="nw-pic" style="--h:${(title.length * 37) % 360}"></i>` : ''}</button>`).join('')}</div>`;
+      body = `<div class="nw-weather"><div class="nw-panel"><div class="nw-city"><span>${e(NP.city(ctx.data, 'Mountain View, CA'))}</span><img src="${NA('ic_weather_info')}" alt=""></div><i class="nw-div"></i><div class="nw-now"><img class="nw-cond" src="${NA(`ic_weather_${icon}_xl`)}" alt=""><span class="nw-temp">${deg(lang, 72)}</span><img class="nw-twc" src="${NA('ic_weather_weather_channel')}" alt=""></div><div class="nw-detail"><b>${deg(lang, hi)}</b><b class="lo">${deg(lang, lo)}</b><span>${e(ctx.t(cond))}</span><small>${e(T(lang, 'Humidity: %s%%').replace('%s%%', '58%'))}</small><small>${e(T(lang, 'Wind: %1$s %2$s').replace('%1$s', metric(lang) ? '13' : '8').replace('%2$s', T(lang, metric(lang) ? 'km/h' : 'mph')))}</small></div><i class="nw-div"></i><div class="nw-days">${FORECAST.map(([c, ic, h, l], i) => `<span><b>${e(days[i])}</b><img src="${NA(`ic_weather_${ic}_s`)}" alt="${e(ctx.t(c))}"><i>${deg(lang, h)}</i><i class="lo">${deg(lang, l)}</i></span>`).join('')}</div></div></div>`;
+    } else body = !STORIES[tab] ? `<p class="nw-unavailable">${e(T(lang, "News isn't available right now."))}</p>` : `<div class="nw-list">${STORIES[tab].map(([title, snippet, source], i) => `<button class="nw-item" data-action="nw-story" data-id="${i}"><span><b>${e(title)}</b><small>${e(snippet)}</small></span>${i === 0 ? `<i class="nw-pic" style="--h:${(title.length * 37) % 360}"></i>` : ''}</button>`).join('')}</div>`;
     return `<div class="app-view nw" data-no-translate><div class="nw-tabs"><div class="nw-tabrow">${tabs}</div></div><div class="nw-scroll">${body}</div></div>`;
   }
 
@@ -551,7 +813,7 @@
 
   function menu(ctx) {
     const {lang, ui, view} = ctx, t = k => T(lang, k);
-    if (view === 'news-weather') return [{action: 'nw-refresh', title: t('Refresh'), icon: 'nw-ic_menu_refresh.png'}, ...(ui.nwStory ? [{action: 'nw-share', title: t('Share story'), icon: 'nw-ic_menu_share.png'}] : []), {action: 'ga-unsupported', title: t('Settings'), icon: 'ic_menu_preferences'}];
+    if (view === 'news-weather') return ui.nwSub === 'settings' ? [] : [{action: 'nw-refresh', title: t('Refresh'), icon: 'nw-ic_menu_refresh.png'}, ...(ui.nwStory ? [{action: 'nw-share', title: t('Share story'), icon: 'nw-ic_menu_share.png'}] : []), {action: 'nw-settings', title: t('Settings'), icon: 'ic_menu_preferences'}];
     // menu/reader.xml: About, Contents, (Original pages: scanned books only), My eBooks, Settings, Help.
     if (view === 'books') return ui.bkRead && !ui.bkPrefs
       ? [{action: 'ga-unsupported', title: t('About'), icon: 'bk-ic_menu_about.png'}, {action: 'bk-toc', title: t('Contents'), icon: 'bk-ic_menu_contents.png'}, {action: 'bk-library', title: t('My eBooks'), icon: 'bk-ic_menu_myebooks.png'}, {action: 'bk-settings', title: t('Settings'), icon: 'bk-ic_menu_reader_settings.png'}, {action: 'ga-unsupported', title: t('Help'), icon: 'bk-ic_menu_help.png'}]
@@ -587,7 +849,10 @@
     switch (action) {
       case 'nw-tab': ui.nwTab = id; ui.nwStory = ''; ctx.render(); break;
       case 'nw-story': ui.nwStory = id; ctx.render(); break;
-      case 'nw-refresh': close(); ctx.toast(T(lang, 'Loading...')); break;
+      case 'nw-refresh': close(); NewsPrefs.refresh(data, Date.now()); ctx.save(); ctx.toast(T(lang, 'Updating news topics…')); break;
+      case 'nw-settings': close(); ui.nwSub = 'settings'; ui.nwpScreen = 'root'; ui.nwpDialog = ''; ui.nwStory = ''; ctx.render(); break;
+      case 'nwp-open': case 'nwp-toggle': case 'nwp-topic': case 'nwp-remove': case 'nwp-dialog': case 'nwp-cancel': case 'nwp-choose': case 'nwp-ok': case 'nwp-unsupported':
+        NewsPrefs.handle(action, id, {ui, data, lang, save: ctx.save, render: ctx.render, input: () => ctx.root?.querySelector?.('[data-nwp-input]')?.value ?? document.querySelector('[data-nwp-input]')?.value, unsupported: () => ctx.toast('This feature is not part of the simulator.')}); break;
       case 'nw-share': close(); ctx.openApp('gmail'); break;
       case 'bk-open': ui.bkRead = id; (data.booksLast ||= {})[id] = Date.now(); ctx.save(); ctx.toast(T(lang, 'Your book will open in a moment…')); ctx.render(); break;
       case 'bk-page': { const b = BOOKS.find(x => x.id === ui.bkRead); if (!b) break; const p = data.booksPages ||= {}; p[b.id] = Math.max(0, Math.min(b.pages.length - 1, (p[b.id] || 0) + Number(id))); ctx.save(); ctx.render(); break; }
@@ -628,6 +893,7 @@
   }
   function back(ctx) {
     const {ui, view} = ctx;
+    if (view === 'news-weather' && ui.nwSub === 'settings') { if (!NewsPrefs.back(ui)) { ui.nwSub = ''; ui.nwpScreen = ''; } ctx.render(); return true; }
     if (view === 'news-weather' && ui.nwStory) { ui.nwStory = ''; ctx.render(); return true; }
     if (view === 'books' && ui.bkRead && (ui.bkPrefs || ui.bkToc)) { ui.bkPrefs = false; ui.bkToc = false; ctx.render(); return true; }
     if (view === 'books' && ui.bkRead) { ui.bkRead = ''; ctx.render(); return true; }
@@ -638,7 +904,7 @@
   function open(ctx, resume) {
     const {ui, view} = ctx;
     if (resume) return;
-    if (view === 'news-weather') { ui.nwTab = 'Weather'; ui.nwStory = ''; }
+    if (view === 'news-weather') { ui.nwTab = 'Weather'; ui.nwStory = ''; ui.nwSub = ''; ui.nwpScreen = ''; ui.nwpDialog = ''; }
     if (view === 'books') { ui.bkRead = ''; ui.bkPrefs = false; ui.bkToc = false; }
     if (view === 'earth') { ui.eaSplash = true; ui.eaPlace = ''; globe.spin = true; setTimeout(() => { ui.eaSplash = false; if (ui.view === 'earth') ctx.render(); }, 1600); }
     if (view === 'voice-search') ui.vsState = 'listening';

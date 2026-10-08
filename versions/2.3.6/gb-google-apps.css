@@ -167,3 +167,31 @@
 .vs-act span{display:flex;flex-direction:column}
 .vs-act b{font-size:13.8px}
 .vs-act small{color:#aaa;font-size:12.07px}
+/* News & Weather 1.3.04's Preferences on Gingerbread (1 dip = 0.8625 px): the window title bar, preference rows like
+   the Settings app's (64 dip, 22 sp titles, 14 sp #bebebe summaries, btn_check), list separators on dark_header, the
+   EditText / list dialogs on popup_full_dark. */
+.nwp{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.nwp-list{flex:1;min-height:0;overflow-y:auto}
+.screen .nwp-row{display:flex;align-items:center;width:100%;min-height:55.2px;padding:0 5.18px 0 12.94px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .nwp-row:active:not(:disabled){border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
+.nwp-row span{flex:1;min-width:0;display:flex;flex-direction:column;padding:5.18px 5.18px 5.18px 0}
+.nwp-row b{font-weight:400;font-size:18.98px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nwp-row small{font-size:12.07px;line-height:1.3;color:#bebebe;white-space:pre-line}
+.nwp-row.disabled b,.nwp-row.disabled small{opacity:.5}
+.nwp-check{flex:none;width:27.6px;height:27.6px;margin-right:3.45px;background:url('assets/gb-btn_check_off.png') center/contain no-repeat}
+.nwp-check.on{background-image:url('assets/gb-btn_check_on.png')}
+.nwp-category{margin:0;height:21.56px;line-height:21.56px;padding-left:4.31px;background:url('assets/gb-dark_header.png') 0 0/100% 100%;color:#bebebe;font-size:12.07px;font-weight:700}
+.nwp-scrim{position:absolute;inset:0;z-index:30;border:0;background:#0009}
+.nwp-dialog{position:absolute;z-index:31;left:1.73px;right:1.73px;top:50%;transform:translateY(-50%);border:0 solid transparent;border-image:url('assets/gb-popup_full_dark.png') 16 20 24 20 fill / 9.2px 11.5px 13.8px stretch;padding:8.63px 10.93px 13.23px;color:#fff}
+.nwp-dialog h3{margin:0;padding:6.9px 4.31px 8.63px;border-bottom:1px solid #ffffff40;font:400 18.98px DroidSans,Arial,sans-serif}
+.nwp-dialog p{margin:0;padding:8.63px 4.31px 0;font-size:15.53px;color:#fff}
+.nwp-dialog input{display:block;width:calc(100% - 8.62px);margin:6.9px 4.31px;padding:6.9px;border:1px solid #888;border-radius:3px;background:#fff;color:#000;font:400 15.53px DroidSans,Arial,sans-serif}
+.nwp-choices{max-height:280px;overflow-y:auto}
+.screen .nwp-choices button{display:flex;align-items:center;width:100%;min-height:41.4px;padding:0 4.31px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;font:400 15.53px DroidSans,Arial,sans-serif;text-align:left}
+.nwp-choices span{flex:1}
+.nwp-radio{width:27.6px;height:27.6px;background:url('assets/gb-btn_radio_off.png') center/contain no-repeat}
+.nwp-radio.on{background-image:url('assets/gb-btn_radio_on.png')}
+.nwp-buttons{display:flex;gap:4.31px;padding-top:8.63px}
+.screen .nwp-buttons button{flex:1;min-height:41.4px;padding:5.75px 4px 9.78px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;background:none;color:#000;font:400 15.53px DroidSans,Arial,sans-serif}
+.screen .nwp-buttons button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
+.nw-unavailable{margin:0;padding:25.88px 12.94px;text-align:center;font-size:15.53px;color:#bfbfbf}
