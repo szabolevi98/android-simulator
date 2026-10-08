@@ -18,7 +18,7 @@
   const P = (ctx, key) => { const row = window.StockStrings?.photos?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
   const newest = photos => [...photos].sort((a, b) => (b.created || b.id || 0) - (a.created || a.id || 0));
   const VIEWS = [['photos', 'Photos', 'photo_library'], ['albums', 'Albums', 'photo_album'], ['auto-awesome', 'Auto Awesome', 'auto_awesome'], ['videos', 'Videos', 'play_circle_fill'], ['of-you', 'Photos of you', 'tag_faces'], ['folders', 'On device', 'folder'], ['trash', 'Trash', 'delete']];
-  const thumb = (ctx, photo, list) => `<button class="ph-thumb" data-action="photos-open" data-id="${photo.id}" data-list="${list}" aria-label="${e(photo.name)}"><img src="${ctx.media.image(photo)}" alt=""></button>`;
+  const thumb = (ctx, photo, list) => `<button class="ph-thumb" data-action="photos-open" data-id="${photo.id}" data-list="${list}" aria-label="${e(photo.name)}"><img src="${ctx.media.image(photo)}" alt="">${window.GPVideo.tile(photo)}</button>`;
   const iconBtn = (name, label, src) => `<button class="ph-btn" data-action="${name}" aria-label="${e(label)}"><img src="assets/gp4-${src}.png" alt=""></button>`;
   function bar(ctx, {up, title, actions = ''}) {
     const start = up
@@ -56,11 +56,12 @@
   function viewer(ctx) {
     const {ui, list} = ctx, photo = list[ui.photosIndex] || list[0];
     if (!photo) return '';
-    return `<div class="app-view ph-app ph-viewer-view${ui.photosChrome === false ? ' ph-bare' : ''}"><div class="ph-viewer" data-action="photos-toggle-bars"><img src="${ctx.media.image(photo)}" alt="${e(photo.name)}" draggable="false"></div>${bar(ctx, {up: true})}<nav class="ph-actionbar"><button class="ph-edit" data-action="photos-edit" aria-label="${e(P(ctx, 'Edit'))}"><img src="assets/gp4-quantum_ic_create_white_24.png" alt=""></button><button data-action="gallery-share-message" aria-label="${e(P(ctx, 'Share'))}"><img src="assets/gp4-quantum_ic_share_white_24.png" alt=""></button><button data-action="photos-delete" aria-label="${e(P(ctx, 'Delete'))}"><img src="assets/gp4-quantum_ic_delete_white_24.png" alt=""></button></nav></div>`;
+    return `<div class="app-view ph-app ph-viewer-view${ui.photosChrome === false ? ' ph-bare' : ''}"><div class="ph-viewer" data-action="photos-toggle-bars"><img src="${ctx.media.image(photo)}" alt="${e(photo.name)}" draggable="false">${window.GPVideo.viewerIcon(photo, ctx.t('Play video'))}</div>${bar(ctx, {up: true})}<nav class="ph-actionbar">${photo.video ? '' : `<button class="ph-edit" data-action="photos-edit" aria-label="${e(P(ctx, 'Edit'))}"><img src="assets/gp4-quantum_ic_create_white_24.png" alt=""></button>`}<button data-action="gallery-share-message" aria-label="${e(P(ctx, 'Share'))}"><img src="assets/gp4-quantum_ic_share_white_24.png" alt=""></button><button data-action="photos-delete" aria-label="${e(P(ctx, 'Delete'))}"><img src="assets/gp4-quantum_ic_delete_white_24.png" alt=""></button></nav></div>`;
   }
   function list(ctx) {
     const {data, ui, groups} = ctx;
     if (ui.photosList === 'folder') return groups.find(group => group.key === ui.photosFolder)?.items || [];
+    if (ui.photosList === 'videos') return newest((data.photos || []).filter(p => p.video));
     if (ui.photosList === 'search') { const q = String(ui.photosQuery || '').trim().toLocaleLowerCase(); return newest(data.photos || []).filter(p => [p.name, p.album].join(' ').toLocaleLowerCase().includes(q)); }
     return newest(data.photos || []);
   }
@@ -74,6 +75,8 @@
     const {ui} = ctx;
     ctx.list = list(ctx);
     if (ui.sub === 'photo') return viewer(ctx);
+    // VideoViewActivity (photos-video.js).
+    if (ui.sub === 'video') { const photo = ctx.list[ui.photosIndex]; if (photo?.video) return window.GPVideo.render(photo, ctx); }
     if (ui.sub === 'search') return search(ctx);
     if (ui.sub === 'folders') return `<div class="app-view ph-app">${bar(ctx, {up: true, title: P(ctx, 'Folders')})}<div class="ph-scroll">${folders(ctx)}</div></div>`;
     if (ui.sub === 'folder') {
@@ -83,6 +86,8 @@
     const view = ui.photosView || 'photos', title = P(ctx, VIEWS.find(([id]) => id === view)[1]);
     const actions = iconBtn('photos-search', P(ctx, 'Search photos'), 'quantum_ic_search_grey600_24');
     if (view === 'folders') return `<div class="app-view ph-app">${bar(ctx, {title, actions})}<div class="ph-scroll">${folders(ctx)}</div>${drawer(ctx)}</div>`;
+    const videos = newest((ctx.data.photos || []).filter(p => p.video));
+    if (view === 'videos' && videos.length) return `<div class="app-view ph-app">${bar(ctx, {title, actions})}<div class="ph-scroll"><div class="ph-grid">${videos.map(p => thumb(ctx, p, 'videos')).join('')}</div></div>${drawer(ctx)}</div>`;
     if (view !== 'photos') return `<div class="app-view ph-app">${bar(ctx, {title, actions})}<div class="ph-scroll"><p class="ph-empty">${e(ctx.t('No photos'))}</p></div>${drawer(ctx)}</div>`;
     const tab = ui.photosTab || 'camera';
     return `<div class="app-view ph-app">${bar(ctx, {title, actions})}<nav class="ph-tabs">${[['camera', 'CAMERA'], ['highlights', 'HIGHLIGHTS']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="photos-tab" data-id="${id}">${e(P(ctx, label))}</button>`).join('')}</nav><div class="ph-scroll">${tab === 'highlights' ? highlights(ctx) : camera(ctx)}</div>${drawer(ctx)}</div>`;

@@ -21,7 +21,7 @@
   const newest = photos => [...photos].sort((a, b) => (b.created || b.id || 0) - (a.created || a.id || 0));
   // photo_spinner_*: the home spinner's views, with the nav icons the APK has for them.
   const VIEWS = [['photos', 'Photos', ''], ['of-you', 'Photos of you', 'ic_photos_of_you_nav_20'], ['albums', 'Albums', 'ic_albums_nav_20'], ['auto-awesome', 'Auto Awesome', 'ic_auto_awesome_nav_20'], ['videos', 'Videos', ''], ['trash', 'Trash', 'ic_trash_dark_grey_20']];
-  const thumb = (ctx, photo, list) => `<button class="ph-thumb" data-action="photos-open" data-id="${photo.id}" data-list="${list}" aria-label="${e(photo.name)}"><img src="${ctx.media.image(photo)}" alt=""></button>`;
+  const thumb = (ctx, photo, list) => `<button class="ph-thumb" data-action="photos-open" data-id="${photo.id}" data-list="${list}" aria-label="${e(photo.name)}"><img src="${ctx.media.image(photo)}" alt="">${window.GPVideo.tile(photo)}</button>`;
   function bar(ctx, {up, title, actions = ''}) {
     const start = up
       ? `<button class="ph-up" data-action="back" aria-label="${e(P(ctx, 'Navigate up'))}"><img class="ph-caret" src="assets/ic_ab_back_holo_light.png" alt=""><img class="ph-icon" src="assets/gp-ic_photos_color_32.png" alt=""></button>${title ? `<h2>${e(title)}</h2>` : ''}`
@@ -62,12 +62,13 @@
   function viewer(ctx) {
     const {ui, list} = ctx, photo = list[ui.photosIndex] || list[0];
     if (!photo) return '';
-    const bottom = [['photos-edit', 'Edit', 'ic_brush_white_20'], ['gallery-share-message', 'Share', 'ic_share_alt_white_20'], ['photos-delete', 'Delete', 'ic_trash_white_20']].map(([name, label, src]) => `<button data-action="${name}" aria-label="${e(P(ctx, label))}"><img src="assets/gp-${src}.png" alt=""></button>`).join('');
-    return `<div class="app-view ph-app ph-viewer-view${ui.photosChrome === false ? ' ph-bare' : ''}"><div class="ph-viewer" data-action="photos-toggle-bars"><img src="${ctx.media.image(photo)}" alt="${e(photo.name)}" draggable="false"></div>${bar(ctx, {up: true})}<nav class="ph-actionbar">${bottom}</nav></div>`;
+    const bottom = [...(photo.video ? [] : [['photos-edit', 'Edit', 'ic_brush_white_20']]), ['gallery-share-message', 'Share', 'ic_share_alt_white_20'], ['photos-delete', 'Delete', 'ic_trash_white_20']].map(([name, label, src]) => `<button data-action="${name}" aria-label="${e(P(ctx, label))}"><img src="assets/gp-${src}.png" alt=""></button>`).join('');
+    return `<div class="app-view ph-app ph-viewer-view${ui.photosChrome === false ? ' ph-bare' : ''}"><div class="ph-viewer" data-action="photos-toggle-bars"><img src="${ctx.media.image(photo)}" alt="${e(photo.name)}" draggable="false">${window.GPVideo.viewerIcon(photo, ctx.t('Play video'))}</div>${bar(ctx, {up: true})}<nav class="ph-actionbar">${bottom}</nav></div>`;
   }
   function list(ctx) {
     const {data, ui, groups} = ctx;
     if (ui.photosList === 'folder') return groups.find(group => group.key === ui.photosFolder)?.items || [];
+    if (ui.photosList === 'videos') return newest((data.photos || []).filter(p => p.video));
     if (ui.photosList === 'search') { const q = String(ui.photosQuery || '').trim().toLocaleLowerCase(); return newest(data.photos || []).filter(p => [p.name, p.album].join(' ').toLocaleLowerCase().includes(q)); }
     return newest(data.photos || []);
   }
@@ -75,6 +76,8 @@
     const {ui} = ctx;
     ctx.list = list(ctx);
     if (ui.sub === 'photo') return viewer(ctx);
+    // VideoViewActivity (photos-video.js).
+    if (ui.sub === 'video') { const photo = ctx.list[ui.photosIndex]; if (photo?.video) return window.GPVideo.render(photo, ctx); }
     if (ui.sub === 'search') return search(ctx);
     if (ui.sub === 'folders') return `<div class="app-view ph-app">${bar(ctx, {up: true, title: P(ctx, 'Folders')})}<div class="ph-scroll">${folders(ctx)}</div></div>`;
     if (ui.sub === 'folder') {
@@ -83,6 +86,8 @@
     }
     const actions = action('photos-unsupported', P(ctx, 'Make a movie'), 'ic_create_movie_20') + action('photos-search', P(ctx, 'Search photos'), 'ic_search_grey_20');
     const view = ui.photosView || 'photos';
+    const videos = newest((ctx.data.photos || []).filter(p => p.video));
+    if (view === 'videos' && videos.length) return `<div class="app-view ph-app">${bar(ctx, {actions})}<div class="ph-scroll"><div class="ph-grid">${videos.map(p => thumb(ctx, p, 'videos')).join('')}</div></div>${spinner(ctx)}</div>`;
     if (view !== 'photos') return `<div class="app-view ph-app">${bar(ctx, {actions})}<div class="ph-scroll"><p class="ph-empty">${e(ctx.t('No photos'))}</p></div>${spinner(ctx)}</div>`;
     const tab = ui.photosTab || 'camera';
     return `<div class="app-view ph-app">${bar(ctx, {actions})}<nav class="ph-tabs">${[['camera', 'CAMERA'], ['highlights', 'HIGHLIGHTS']].map(([id, label]) => `<button class="${tab === id ? 'active' : ''}" data-action="photos-tab" data-id="${id}">${e(P(ctx, label))}</button>`).join('')}</nav><div class="ph-scroll">${tab === 'highlights' ? highlights(ctx) : camera(ctx)}</div>${spinner(ctx)}</div>`;
