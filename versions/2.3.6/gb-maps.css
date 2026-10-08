@@ -123,3 +123,11 @@
 .mp-status>img:first-child{width:24.15px;height:24.15px;margin-left:2.59px}
 .mp-status b{font-weight:400;font-size:20.1px;white-space:nowrap}
 .mp-status span{flex:1;min-width:0;padding-left:8px;text-align:right;padding-right:6px;font-size:15.53px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Navigation's Directions List (da_directions_list_item.xml): the 48 dip turn icon with 12 dip margins and the 18 dip step
+   text in da_primary_text (white) on the dark list; the current step is highlighted. */
+.mp-navlist{background:#000;color:#fff}
+.mp-navstep{display:flex;align-items:center;border-bottom:1px solid #333}
+.mp-navstep img{flex:none;width:41.4px;height:41.4px;margin:10.35px}
+.mp-navstep span{padding:10.35px 10.35px 10.35px 0;font-size:15.53px}
+.mp-navstep b{font-weight:400}
+.mp-navstep.now{background:#444466}

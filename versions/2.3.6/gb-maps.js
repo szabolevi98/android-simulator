@@ -384,8 +384,35 @@
           "Ziel auswählen",
           "Choisir destination",
           "Elegir destino"
+      ],
+      "Route options": [
+          "Útvonalopciók",
+          "Routenoptionen",
+          "Options itinéraire",
+          "Opciones ruta"
+      ],
+      "Avoid tolls": [
+          "Útdíjak kikerülése",
+          "Mautpflichtige Straßen meiden",
+          "Éviter les péages",
+          "Evitar peajes"
+      ],
+      "Avoiding highways": [
+          "Autópályák kikerülése",
+          "Ohne Autobahn",
+          "Itinéraire sans autoroutes",
+          "Sin autopistas"
+      ],
+      "Avoiding tolls": [
+          "Útdíjak kikerülése",
+          "Ohne Mautpflicht",
+          "Itinéraire sans péages",
+          "Sin peajes"
       ]
   };
+  // Navigation's route options offer highways and tolls; the image only has "Avoid tolls" for the check box, so the
+  // highways one is Maps 7.5's DIRECTIONS_OPTIONS_AVOID_HIGHWAYS (Nexus 5 image) in the same languages.
+  STRINGS['Avoid highways'] = ['Autópályák elkerülése', 'Autobahnen vermeiden', 'Éviter les autoroutes', 'Evitar autopistas'];
   const T = GBApps.texts(STRINGS);
   const APPS = ['maps', 'places', 'latitude', 'navigation'];
   const A = name => `assets/mp-${name}.png`;
@@ -513,7 +540,7 @@
     if (nav) return navScreen(ctx, nav);
     const recent = (data.navRecent || []).map(poi).filter(Boolean);
     const row = (action, img, label, id = '') => `<button class="mp-pick" data-action="${action}"${id ? ` data-id="${id}"` : ''}><img src="${A(img)}" alt=""><span>${e(label)}</span></button>`;
-    return `<div class="app-view mp mp-navpick" data-no-translate><div class="mp-dabar"><i></i><img class="mp-dasep" src="${A('da_vertical_separator_light')}" alt=""><button data-action="mp-unsupported" aria-label="Route options"><img src="${A('da_btn_route_options_off')}" alt=""></button><img class="mp-dasep" src="${A('da_vertical_separator_light')}" alt=""><button class="mp-dashow" data-action="mp-open-maps"><img src="${A('da_btn_show_map')}" alt=""><b>${e(T(lang, 'Map'))}</b></button></div><div class="mp-scroll">${row('mp-speak', 'da_picker_speak_destination', T(lang, 'Speak Destination'))}${row('mp-type', 'da_picker_type_destination', T(lang, 'Type Destination'))}${row('mp-contacts', 'da_picker_contacts', T(lang, 'Contacts'))}${row('mp-starred', 'da_picker_starred_items', T(lang, 'Starred Places'))}${recent.length ? `<div class="mp-sep">${e(T(lang, 'Recent Destinations'))}</div>${recent.map(p => `<button class="mp-pick" data-action="mp-navigate" data-id="${p.id}"><img src="${A('da_marker_destination')}" alt=""><span>${e(p.name)}<small>${e(p.address)}</small></span></button>`).join('')}` : ''}</div></div>`;
+    return `<div class="app-view mp mp-navpick" data-no-translate><div class="mp-dabar"><i></i><img class="mp-dasep" src="${A('da_vertical_separator_light')}" alt=""><button data-action="mp-route-options" aria-label="${e(T(lang, 'Route options'))}"><img src="${A(avoiding(data).length ? 'da_btn_route_options_on' : 'da_btn_route_options_off')}" alt=""></button><img class="mp-dasep" src="${A('da_vertical_separator_light')}" alt=""><button class="mp-dashow" data-action="mp-open-maps"><img src="${A('da_btn_show_map')}" alt=""><b>${e(T(lang, 'Map'))}</b></button></div><div class="mp-scroll">${row('mp-speak', 'da_picker_speak_destination', T(lang, 'Speak Destination'))}${row('mp-type', 'da_picker_type_destination', T(lang, 'Type Destination'))}${row('mp-contacts', 'da_picker_contacts', T(lang, 'Contacts'))}${row('mp-starred', 'da_picker_starred_items', T(lang, 'Starred Places'))}${recent.length ? `<div class="mp-sep">${e(T(lang, 'Recent Destinations'))}</div>${recent.map(p => `<button class="mp-pick" data-action="mp-navigate" data-id="${p.id}"><img src="${A('da_marker_destination')}" alt=""><span>${e(p.name)}<small>${e(p.address)}</small></span></button>`).join('')}` : ''}</div></div>`;
   }
   function steps(lang, to) {
     const a = STREETS[(to.name.length) % STREETS.length], b = to.address.replace(/^\d+\s/, '') || STREETS[1];
@@ -524,7 +551,13 @@
       {icon: 'da_turn_arrive', text: T(lang, 'Your destination is on the right.'), road: to.name}
     ];
   }
+  // Directions List (da_directions_list_item.xml): the 48 dip turn icon 12 dip in, the 18 dip step text.
+  function navList(ctx, nav) {
+    const {lang} = ctx, to = poi(nav.to) || nav.custom;
+    return `<div class="app-view mp mp-navlist" data-no-translate><div class="mp-scroll">${steps(lang, to).map((st, i) => `<div class="mp-navstep${i === Math.min(nav.step, 3) ? ' now' : ''}"><img src="${A(st.icon)}" alt=""><span><b>${e(st.text)}</b></span></div>`).join('')}</div></div>`;
+  }
   function navScreen(ctx, nav) {
+    if (ctx.ui.mpNavList) return navList(ctx, nav);
     const {lang} = ctx, to = poi(nav.to) || nav.custom, list = steps(lang, to), step = list[Math.min(nav.step, list.length - 1)];
     const left = Math.max(0, nav.km * (1 - nav.progress)), done = nav.progress >= 1;
     return `<div class="app-view mp mp-nav" data-no-translate><div class="mp-step"><div class="mp-turn"><img src="${A(done ? 'da_turn_arrive' : step.icon)}" alt=""><b>${e(done ? '' : distance(lang, left / (list.length - nav.step || 1)))}</b></div><img class="mp-vsep" src="${A('da_vertical_separator')}" alt=""><div class="mp-road"><b>${e(done ? T(lang, 'You have arrived.') : step.text)}</b></div></div><div class="mp-navmap"><canvas class="mp-canvas"></canvas><img class="mp-dotimg" src="${A('blue_location')}" alt="" hidden><img class="mp-chevron" src="${A('dav_chevron')}" alt="" hidden></div><div class="mp-status"><img src="${A('da_traffic_dot_green')}" alt=""><b>${e(done ? '' : minutes(lang, Math.ceil(nav.min * (1 - nav.progress))))}</b><img class="mp-vsep" src="${A('da_vertical_separator')}" alt=""><span>${e(done ? to.name : step.road)}</span></div></div>`;
@@ -546,10 +579,11 @@
       const nav = ui.mpNav, route = nav.path;
       const tick = () => {
         if (!root.isConnected || ui.mpNav !== nav) return;
-        const canvas = root.querySelector('.mp-navmap .mp-canvas'); if (!canvas) return;
+        // The run goes on behind the Directions List; only the map drawing waits for the map.
+        const canvas = root.querySelector('.mp-navmap .mp-canvas'); if (!canvas && !ui.mpNavList) return;
         nav.progress = Math.min(1, (Date.now() - nav.started) / 40000);
         const at = along(route, nav.progress), nm = {cx: at.fx, cy: at.fy, z: 2.2, ay: .86, mode: m.mode === 'satellite' ? 'satellite' : 'normal', traffic: m.traffic, route: {path: route}};
-        draw(root.querySelector('.mp-navmap'), nm, {chevron: true, me: at});
+        if (canvas) draw(root.querySelector('.mp-navmap'), nm, {chevron: true, me: at});
         const step = Math.min(3, Math.floor(nav.progress * 4));
         if (step !== nav.step || (nav.progress >= 1 && !nav.done)) { nav.step = step; nav.done = nav.progress >= 1; clearTimeout(navTimer); ctx.render(); return; }
         if (nav.progress < 1) navTimer = setTimeout(tick, 120);
@@ -565,11 +599,13 @@
     for (let i = 0; i < lens.length; i++) { if (left <= lens[i]) { const f = lens[i] ? left / lens[i] : 0; return {fx: path[i].fx + (path[i + 1].fx - path[i].fx) * f, fy: path[i].fy + (path[i + 1].fy - path[i].fy) * f}; } left -= lens[i]; }
     return path[path.length - 1];
   }
-  function route(to, mode = 'drive') {
-    const path = [ME, {fx: to.fx, fy: ME.fy}, to], d = Math.abs(to.fx - ME.fx) * 4 + Math.abs(to.fy - ME.fy) * 3;
-    const speed = {drive: 30, transit: 20, bike: 15, walk: 5}[mode] || 30;
-    return {to, path, mode, km: d, min: Math.max(1, Math.round(d / speed * 60) + (mode === 'drive' ? 2 : 0))};
+  function route(to, mode = 'drive', avoid = {}) {
+    const side = avoid.highways && mode === 'drive', path = side ? [ME, {fx: ME.fx, fy: to.fy}, to] : [ME, {fx: to.fx, fy: ME.fy}, to];
+    const d = (Math.abs(to.fx - ME.fx) * 4 + Math.abs(to.fy - ME.fy) * 3) * (side ? 1.15 : 1), speed = {drive: side ? 22 : 30, transit: 20, bike: 15, walk: 5}[mode] || 30;
+    return {to, path, mode, km: d, min: Math.max(1, Math.round(d / speed * 60) + (mode === 'drive' ? 2 + (avoid.tolls ? 2 : 0) : 0))};
   }
+  // The saved route options and the summary lines they add (da_avoiding_highways / _tolls).
+  const avoiding = data => ['highways', 'tolls'].filter(k => data.navAvoid?.[k]);
   function search(query) {
     const q = String(query || '').trim(); if (!q) return [];
     const cat = Object.keys(WORDS).find(c => WORDS[c].test(q));
@@ -581,7 +617,7 @@
 
   function menu(ctx) {
     const {ui, lang, view} = ctx, m = state(ui), t = ctx.t;
-    if (view === 'navigation' && ui.mpNav) return [{action: 'mp-route-info', title: T(lang, 'Route Info'), icon: 'mp-da_ic_menu_route_info.png'}, {action: 'mp-unsupported', title: T(lang, 'Directions List'), icon: 'mp-ic_menu_directions.png'}, {action: 'mp-layers', title: T(lang, 'Layers'), icon: 'mp-da_ic_menu_layers.png'}, {action: 'mp-mute', title: T(lang, ui.mpMuted ? 'Unmute' : 'Mute'), icon: 'mp-da_ic_menu_mute.png'}, {action: 'mp-nav-search', title: T(lang, 'Search'), icon: 'mp-da_ic_menu_search.png'}, {action: 'mp-exit-nav', title: T(lang, 'Exit Navigation'), icon: 'mp-da_ic_menu_close_clear_cancel.png'}];
+    if (view === 'navigation' && ui.mpNav) return [{action: 'mp-route-info', title: T(lang, 'Route Info'), icon: 'mp-da_ic_menu_route_info.png'}, {action: 'mp-nav-list', title: T(lang, 'Directions List'), icon: 'mp-da_ic_menu_listview.png'}, {action: 'mp-layers', title: T(lang, 'Layers'), icon: 'mp-da_ic_menu_layers.png'}, {action: 'mp-mute', title: T(lang, ui.mpMuted ? 'Unmute' : 'Mute'), icon: 'mp-da_ic_menu_mute.png'}, {action: 'mp-nav-search', title: T(lang, 'Search'), icon: 'mp-da_ic_menu_search.png'}, {action: 'mp-exit-nav', title: T(lang, 'Exit Navigation'), icon: 'mp-da_ic_menu_close_clear_cancel.png'}];
     if (view === 'navigation') return [{action: 'mp-unsupported', title: T(lang, 'Settings'), icon: 'ic_menu_preferences'}, {action: 'mp-unsupported', title: T(lang, 'Help'), icon: 'ic_menu_help'}, {action: 'mp-unsupported', title: T(lang, 'Terms, Privacy & Notices'), icon: 'mp-ic_menu_terms.png'}];
     if (view === 'latitude') return [{action: 'mp-friends-map', title: T(lang, 'Map'), icon: 'mp-ic_menu_see_map.png'}, {action: 'mp-refresh', title: t('Refresh'), icon: 'mp-ic_menu_refresh.png'}, {action: 'mp-addfriend', title: t('Add friends'), icon: 'ic_menu_add'}, {action: 'mp-checkin', title: t('Check in'), icon: 'mp-ic_menu_latitude_checkin.png'}, {action: 'mp-unsupported', title: T(lang, 'Settings'), icon: 'ic_menu_preferences'}];
     if (view === 'places') return [{action: 'mp-open-maps', title: T(lang, 'Map'), icon: 'mp-ic_menu_see_map.png'}, {action: 'mp-unsupported', title: T(lang, 'Help'), icon: 'mp-ic_menu_help.png'}];
@@ -598,13 +634,14 @@
     if (kind === 'contacts') return {title: T(lang, 'Contacts'), items: (ctx.contacts || []).slice(0, 4).map((c, i) => ({action: 'mp-navigate', id: POIS[(i * 5 + 2) % POIS.length].id, title: c.name, summary: POIS[(i * 5 + 2) % POIS.length].address}))};
     if (kind === 'type') return {title: T(lang, 'Type Destination'), custom: `<form data-form="mp-type"><input class="gbdlg-input" name="q" placeholder="${e(T(lang, 'Destination'))}" aria-label="${e(T(lang, 'Destination'))}" autocomplete="off"></form>`, buttons: [{action: 'mp-type-go', title: T(lang, 'Go')}, {action: 'close-overlay', title: T(lang, 'Cancel')}]};
     if (kind === 'exit') return {title: T(lang, 'Exit navigation?'), icon: 'ic_dialog_alert', message: T(lang, 'This will end all route guidance.'), buttons: [{action: 'mp-exit-ok', title: T(lang, 'OK')}, {action: 'close-overlay', title: T(lang, 'Cancel')}]};
-    if (kind === 'route') { const nav = ui.mpNav, to = nav && (poi(nav.to) || nav.custom); return {title: T(lang, 'Route Info'), message: to ? `${to.name}\n${distance(lang, nav.km)} – ${minutes(lang, nav.min)}` : '', buttons: [{action: 'close-overlay', title: T(lang, 'OK')}]}; }
+    if (kind === 'route-options') { const d = ui.mpAvoidDraft || {}; return {title: T(lang, 'Route options'), items: [['highways', 'Avoid highways'], ['tolls', 'Avoid tolls']].map(([id, key]) => ({action: 'mp-avoid', id, title: T(lang, key), checked: !!d[id]})), choice: 'multi', buttons: [{action: 'mp-avoid-ok', title: T(lang, 'OK')}, {action: 'close-overlay', title: T(lang, 'Cancel')}]}; }
+    if (kind === 'route') { const nav = ui.mpNav, to = nav && (poi(nav.to) || nav.custom); return {title: T(lang, 'Route Info'), message: to ? `${to.name}\n${distance(lang, nav.km)} – ${minutes(lang, nav.min)}${avoiding(ctx.data).map(k => `\n${T(lang, k === 'highways' ? 'Avoiding highways' : 'Avoiding tolls')}`).join('')}` : '', buttons: [{action: 'close-overlay', title: T(lang, 'OK')}]}; }
     if (kind === 'about') return {title: T(lang, 'Maps'), message: 'Google Maps 5.4.0', buttons: [{action: 'close-overlay', title: T(lang, 'OK')}]};
     return null;
   }
   function showZoom(ctx) { const m = state(ctx.ui); m.zoomShown = true; ctx.root.querySelector('.mp-map')?.classList.add('zoom'); clearTimeout(zoomTimer); zoomTimer = setTimeout(() => { m.zoomShown = false; document.querySelector('.mp-map')?.classList.remove('zoom'); }, 3500); }
   function startNav(ctx, to, custom) {
-    const {ui, data} = ctx, r = route(to);
+    const {ui, data} = ctx, r = route(to, 'drive', data.navAvoid || {});
     data.navRecent = [to.id, ...(data.navRecent || []).filter(x => x !== to.id)].filter(id => poi(id)).slice(0, 5);
     ui.mpNav = {to: to.id, custom, path: r.path, km: r.km, min: r.min, step: 0, progress: 0, started: Date.now()};
     ui.overlay = ''; ctx.save(); ctx.renderOverlay();
@@ -650,10 +687,14 @@
       case 'mp-type-go': document.querySelector('.gbdlg form[data-form="mp-type"]')?.requestSubmit(); break;
       case 'mp-contacts': ctx.dialog('contacts'); break;
       case 'mp-route-info': ctx.dialog('route'); break;
+      case 'mp-nav-list': close(); ui.mpNavList = true; ctx.render(); break;
+      case 'mp-route-options': ui.mpAvoidDraft = {...(data.navAvoid || {})}; ctx.dialog('route-options'); break;
+      case 'mp-avoid': ui.mpAvoidDraft[id] = !ui.mpAvoidDraft[id]; ctx.renderOverlay(); break;
+      case 'mp-avoid-ok': data.navAvoid = ui.mpAvoidDraft; ctx.save(); close(); ctx.render(); break;
       case 'mp-mute': ui.mpMuted = !ui.mpMuted; close(); break;
       case 'mp-nav-search': close(); ctx.dialog('type'); break;
       case 'mp-exit-nav': ctx.dialog('exit'); break;
-      case 'mp-exit-ok': ui.mpNav = null; clearTimeout(navTimer); close(); ctx.render(); break;
+      case 'mp-exit-ok': ui.mpNav = null; ui.mpNavList = false; clearTimeout(navTimer); close(); ctx.render(); break;
       case 'mp-unsupported': close(); ctx.toast('This feature is not part of the simulator.'); break;
       default: return false;
     }
@@ -686,6 +727,7 @@
   }
   function back(ctx) {
     const {ui, view} = ctx, m = state(ui);
+    if (view === 'navigation' && ui.mpNavList) { ui.mpNavList = false; ctx.render(); return true; }
     if (view === 'navigation' && ui.mpNav) { ctx.dialog('exit'); return true; }
     if (m.page) { m.page = ''; ctx.render(); return true; }
     if (view === 'places' && ui.mpCat) { ui.mpCat = ''; ctx.render(); return true; }
