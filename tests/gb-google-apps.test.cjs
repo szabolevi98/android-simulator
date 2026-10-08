@@ -10,7 +10,7 @@ let html=m.render(ctx);assert.ok(html.includes('Mountain View, CA')&&html.includ
 ctx.lang='hu';assert.ok(m.render(ctx).includes('22°')&&m.render(ctx).includes('Időjárás'),'metric and the image texts');ctx.lang='en';
 m.handle('nw-tab','Technology',ctx);assert.ok(m.render(ctx).includes('Phones with NFC chips'));m.handle('nw-story','0',ctx);assert.ok(m.render(ctx).includes('nw-article'));assert.ok(m.back(ctx));
 ctx.view='books';m.open(ctx,false);html=m.render(ctx);assert.ok(html.includes('Google <b>eBooks</b>')&&html.includes('Pride and Prejudice'));
-m.handle('bk-open','b2',ctx);m.handle('bk-page','1',ctx);html=m.render(ctx);assert.ok(html.includes('It is a truth universally acknowledged')&&html.includes('page 2 of 4'));
+m.handle('bk-open','b2',ctx);m.handle('bk-page','1',ctx);html=m.render(ctx);assert.ok(html.includes('It is a truth universally acknowledged')&&html.includes('page 2 of 6'));
 assert.equal(G.T('hu','My eBooks'),'E-könyveim');
 ctx.view='voice-search';m.open(ctx,false);html=m.render(ctx);assert.ok(html.includes('Speak now')&&html.includes('vs-vs_dialog_red')===false&&html.includes('vs-mic'));
 m.handle('vs-help',null,ctx);assert.ok(m.render(ctx).includes('send text to john smith'));
