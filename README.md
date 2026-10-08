@@ -48,10 +48,19 @@ The portfolio card on levente.net uses a 1600 × 960 variant with an English hea
 node docs/make-og-cover.mjs
 ```
 
+## Search engines
+
+`robots.txt` allows every crawler and points to `sitemap.xml`. The sitemap is a static file that lists the landing page and each available version from `versions/catalog.js`. Each `lastmod` is the date of the last commit that changed that page. Regenerate it after committing page changes, then commit the new `sitemap.xml`:
+
+```bash
+node docs/make-sitemap.mjs
+```
+
 ## Adding a version
 
 1. Create a `versions/<version>/` directory with its own `index.html`, CSS, JavaScript, and assets.
 2. Add an entry to `versions/catalog.js` with `status: 'available'` and a `url` pointing to the new directory.
+3. Run `node docs/make-sitemap.mjs` so that the sitemap lists the new version.
 
 Each version keeps its interface and saved state separate, so adding a release does not change the ICS simulation.
 
