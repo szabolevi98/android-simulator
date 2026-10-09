@@ -18,7 +18,7 @@
 .screen .gms-box:active,.screen .gms-pref:active,.screen .gms-hup:active{background:#33b5e566}
 /* Theme.Holo.Light: the 48 dp action bar (ab_solid_light_holo), preference rows (64 dp, 18 sp / 14 sp #323232) with
    16 + 8 dp in, the list separator (32 dp, 14 sp bold caps #323232, 2 dp #00000033 line) and the Holo Light Switch. */
-.gms-hbar{flex:none;display:flex;align-items:center;height:40.88px;background:#f2f2f2;border-bottom:1.7px solid #d6d6d6}
+.gms-hbar{flex:none;display:flex;align-items:center;height:40.88px;background:#ddd;border-bottom:1.28px solid #d2d2d2;box-sizing:border-box}
 .screen .gms-hup{display:flex;align-items:center;height:100%;padding:0 6.81px 0 1.7px;border:0;background:none;cursor:pointer}
 .gms-caret{width:13.63px;height:27.25px;object-fit:cover;object-position:left}
 .gms-appicon{width:27.25px;height:27.25px}

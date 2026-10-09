@@ -60,8 +60,10 @@
   // (API 14 and up), Ads, Verify apps, Android Device Manager and Drive apps.
   function googleSettings(ctx) {
     const g = key => S(ctx, 'gsettings', key);
-    const rows = [['Apps with Google+ Sign-In'], ['Google+'], ['Play Games'], ['Location'], ['Search & Now', 'gel-overview-settings'], ['Ads'], ['Verify apps'], ['Android Device Manager'], ['Drive apps']];
-    return `<div class="app-view sa-app sa-gsettings"><header class="gs-bar"><button class="gs-up" data-action="home" aria-label="${e(g('Google Settings'))}"><i></i><img src="assets/google-settings.png" alt=""></button><b>${e(g('Google Settings'))}</b></header><div class="sa-scroll"><div class="gs-list">${rows.map(([key, action]) => `<button data-action="${action || 'sa-unsupported'}">${e(g(key))}</button>`).join('')}</div></div></div>`;
+    // The pages GMS draws itself (gms-settings.js); Google+ and Play Games open other screens, not drawn here.
+    if (String(ctx.ui.sub || '').startsWith('gms-')) return window.GMSSettings.render(ctx, g);
+    const rows = [['Apps with Google+ Sign-In', 'gms-open', 'apps'], ['Google+'], ['Play Games'], ['Location', 'gms-open', 'location'], ['Search & Now', 'gel-overview-settings'], ['Ads', 'gms-open', 'ads'], ['Verify apps', 'gms-open', 'verify'], ['Android Device Manager', 'gms-open', 'mdm'], ['Drive apps', 'gms-open', 'drive']];
+    return `<div class="app-view sa-app sa-gsettings"><header class="gs-bar"><button class="gs-up" data-action="home" aria-label="${e(g('Google Settings'))}"><i></i><img src="assets/google-settings.png" alt=""></button><b>${e(g('Google Settings'))}</b></header><div class="sa-scroll"><div class="gs-list">${rows.map(([key, action, id]) => `<button data-action="${action || 'sa-unsupported'}" data-id="${id || ''}">${e(g(key))}</button>`).join('')}</div></div></div>`;
   }
 
 
