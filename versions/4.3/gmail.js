@@ -1,44 +1,35 @@
-/* Gmail 4.5.1 on the Nexus 4 (the JWR66Y image). Gmail 4.5 (May 2013) brought the navigation drawer, the Primary / Social /
-   Promotions inbox and sender images (GSMArena, "Gmail 4.5 for Android starts rolling out"), so the KitKat simulator's
-   Gmail 4.7 screens fit; only the account and the sample mail are the Nexus 4's. (KitKat: GSMArena Nexus 5 screenshots.) Gmail is built on the same
-   UnifiedEmail code as the AOSP Email (jb-email.js renders the screens); this file adds what Gmail has on top:
-   - the inbox categories: "Primary" with its unread count under the title, the "Welcome to your new Inbox" teaser,
-     the Social and Promotions rows with their blue "53 New" and green "1 New" badges, and "Change categories";
-   - the drawer: the account, INBOX (Primary, Social, Promotions, Priority Inbox) and ALL LABELS (Starred, Important,
-     Chats, Sent, Outbox, Drafts, All mail, Spam, Trash) with the selected row in #33b5e5;
-   - the personal level markers (UnifiedEmail ic_email_caret_*: » only to me, › to me and others, yellow if
-     important), Archive in the conversation and selection bars, and the "Inbox" label chip under the subject.
+/* Gmail 4.5.1 on the Nexus 4 (Gmail2.apk of the JWR66Y image). Gmail is built on the same UnifiedEmail code as
+   the AOSP Email (kk-email.js renders the screens); this file adds what Gmail2 has on top, from its layouts and code:
+   - the sectioned inbox teaser at the top of Primary (section_teaser_view.xml, folder_teaser_item.xml,
+     SectionedInboxTeaserView): while onboarding the welcome box, every enabled section and the change-categories box;
+     afterwards only the sections with unseen mail. Each section row has its ic_menu_inbox_*_holo_light icon tinted
+     (SRC_IN) in the section colour on #eeeeee, the name, the unseen senders and the "%d New" count on that colour;
+   - the drawer (FolderListFragment, account_item.xml, folder_list_header.xml, folder_item.xml, FolderItemView): the
+     account with the radio button, the "Inbox" and "All labels" headings, the section icons (holo_dark when
+     activated), unseen counts on the section colour for inbox sections, unread counts elsewhere (the total for
+     Drafts and Outbox), the activated row in mail_app_blue (#33b5e5);
+   - the action bar subtitle "%d unread" (actionbar_unread_messages, a plain string in 4.5.1), the personal level markers
+     (Gmail2's ic_email_caret_*: » only to me, › to me and others, yellow if important),
+     Archive in the conversation and selection bars, and the "Inbox" label chip under the subject in the system label
+     colours (LabelColorUtils DEFAULT_COLORS #dddddd / #777777).
+   Section colours come from the server, not from the APK: Social and Promotions as the Nexus 5 screenshots of
+   Gmail 4.7 show them, the other sections LabelColorUtils' default label colour.
    The mailbox is a separate offline Gmail account; nothing is sent. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const account = 'jellybean.demo@gmail.com';
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
-  // Gmail's own label names in the five simulator languages.
-  const S = {
-    'Primary': ['Primary', 'Elsődleges', 'Allgemein', 'Principale', 'Principal'],
-    'Social': ['Social', 'Közösségi', 'Soziale Netzwerke', 'Réseaux sociaux', 'Social'],
-    'Promotions': ['Promotions', 'Promóciók', 'Werbung', 'Promotions', 'Promociones'],
-    'Priority Inbox': ['Priority Inbox', 'Prioritásos beérkező levelek', 'Sortierter Eingang', 'Boîte de réception prioritaire', 'Prioritarios'],
-    'Important': ['Important', 'Fontos', 'Wichtig', 'Important', 'Importantes'],
-    'Chats': ['Chats', 'Csevegések', 'Chats', 'Chats', 'Chats'],
-    'All mail': ['All mail', 'Összes levél', 'Alle Nachrichten', 'Tous les messages', 'Todos'],
-    'Spam': ['Spam', 'Spam', 'Spam', 'Spam', 'Spam'],
-    'INBOX': ['INBOX', 'BEÉRKEZŐ LEVELEK', 'POSTEINGANG', 'BOÎTE DE RÉCEPTION', 'RECIBIDOS'],
-    'ALL LABELS': ['ALL LABELS', 'ÖSSZES CÍMKE', 'ALLE LABELS', 'TOUS LES LIBELLÉS', 'TODAS LAS ETIQUETAS'],
-    'Welcome to your new Inbox': ['Welcome to your new Inbox', 'Üdvözöljük az új postafiókban', 'Willkommen in Ihrem neuen Posteingang', 'Bienvenue dans votre nouvelle boîte de réception', 'Bienvenido a tu nueva bandeja de entrada'],
-    'Mail categories group messages of the same type for reading all at once.': ['Mail categories group messages of the same type for reading all at once.', 'A levélkategóriák az azonos típusú üzeneteket csoportosítják, így egyszerre elolvashatja őket.', 'E-Mail-Kategorien gruppieren Nachrichten desselben Typs, damit Sie sie gemeinsam lesen können.', 'Les catégories regroupent les messages du même type pour que vous puissiez les lire en une seule fois.', 'Las categorías agrupan los mensajes del mismo tipo para que los leas todos a la vez.'],
-    'Learn more': ['Learn more', 'További információ', 'Weitere Informationen', 'En savoir plus', 'Más información'],
-    'You can enable and disable categories in settings.': ['You can enable and disable categories in settings.', 'A kategóriákat a beállításokban kapcsolhatja be és ki.', 'Sie können Kategorien in den Einstellungen aktivieren und deaktivieren.', 'Vous pouvez activer et désactiver les catégories dans les paramètres.', 'Puedes habilitar e inhabilitar las categorías en la configuración.'],
-    'Change categories': ['Change categories', 'Kategóriák módosítása', 'Kategorien ändern', 'Modifier les catégories', 'Cambiar categorías'],
-    '%d unread': ['%d unread', '%d olvasatlan', '%d ungelesen', '%d non lus', '%d no leídos'],
-    '%d New': ['%d New', '%d új', '%d neu', '%d nouveaux', '%d nuevos']
-  };
-  const tr = (lang, key) => (S[key] || [key])[Math.max(0, LANGS.indexOf(lang))] ?? key;
-  const INBOX = ['Primary', 'Social', 'Promotions', 'Priority Inbox'];
+  // Gmail2's own words (stock-strings.js, group gmail): [hu, de, fr, es, English when it differs from the key].
+  const tr = (lang, key) => { const row = window.StockStrings?.gmail?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(lang); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
+  // A plurals resource: "<key> one" holds the quantity "one" where the language has it.
+  const count = (lang, key, n) => tr(lang, n === 1 && window.StockStrings?.gmail?.[key + ' one'] ? key + ' one' : key).replace(/%(1\$)?d/, n);
+  const INBOX = ['Primary', 'Social', 'Promotions', 'Updates', 'Forums', 'Priority Inbox'];
   const LABELS = ['Starred', 'Important', 'Chats', 'Sent', 'Outbox', 'Drafts', 'All mail', 'Spam', 'Trash'];
   const FOLDERS = [...INBOX, ...LABELS];
-  const CATEGORY = {Primary: 'primary', Social: 'social', Promotions: 'promotions'};
+  const CATEGORY = {Primary: 'primary', Social: 'social', Promotions: 'promotions', Updates: 'updates', Forums: 'forums'};
+  const ICON = {primary: 'main', social: 'social', promotions: 'promotions', updates: 'notifications', forums: 'forums'};
+  const COLOR = {social: '#4880d7', promotions: '#13a864'};
+  const colorOf = id => COLOR[id] || '#dddddd';
   // A 2013 inbox: personal mail in Primary, Google+ in Social, Google Play offers in Promotions.
   const SAMPLES = [
     ['Google Nexus', 'nexus-noreply@google.com', 'Welcome to your Nexus 4 with Android 4.3, Jelly Bean', 'Discover what your new smartphone has to offer. Now that you own the Nexus 4, discover how you can tailor it to fit — and enhance — your life.', 'primary', true, 'only', 0],
@@ -107,54 +98,54 @@
     return mail.filter(item => match(item) && (!q || [item.from, item.to, item.subject, item.body].join(' ').toLocaleLowerCase().includes(q))).sort((a, b) => (b.created || 0) - (a.created || 0));
   }
   const unread = (mail, folder) => list(mail, folder).filter(item => !item.read).length;
-  const icons = {
-    social: '<svg viewBox="0 0 24 24"><circle cx="8.5" cy="9" r="3" fill="#4a86e8"/><circle cx="16" cy="9.5" r="2.5" fill="#4a86e8"/><path d="M2.5 18c0-3 2.7-5 6-5s6 2 6 5zM14 18c0-1.6-.5-2.9-1.4-3.9 3.4-.9 7.4.6 7.4 3.9z" fill="#4a86e8"/></svg>',
-    promotions: '<svg viewBox="0 0 24 24"><path d="M3 3h8.5L21 12.5 12.5 21 3 11.5zm4 2.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" fill="#16a765" fill-rule="evenodd"/><path d="m8 13 3 3 5-5" fill="none" stroke="#fff" stroke-width="1.8"/></svg>',
-    inbox: '<svg viewBox="0 0 24 24"><path d="M3 4h18v16H3zm2 2v7h4l1 2h4l1-2h4V6z" fill="currentColor" fill-rule="evenodd"/></svg>'
-  };
-  // The top of Primary: the categories teaser (welcome text until a conversation has been opened) and the photo tip.
+  // Folder.unseenCount: unread mail that came after the section was last opened (data.gmailSeen); the app opens on Primary.
+  let seen = {};
+  const unseenItems = (mail, folder) => folder === 'Primary' || !CATEGORY[folder] ? [] : list(mail, folder).filter(item => !item.read && (item.created || 0) > (seen[folder] || 0));
+  const SECTIONS = ['Social', 'Promotions', 'Updates', 'Forums'];
+  // The top of Primary: SectionedInboxTeaserView (welcome and change-categories boxes until a conversation has been opened).
   function top(mail, folder, lang, data) {
     if (folder !== 'Primary') return '';
-    const T = key => tr(lang, key);
+    const T = key => tr(lang, key), onboarding = !data.gmailWelcomeSeen;
     const row = name => {
-      const items = list(mail, name), n = items.filter(item => !item.read).length;
-      if (!items.length || categoriesOff[CATEGORY[name]]) return '';
-      const senders = [...new Set(items.map(item => item.from))].slice(0, 3).join(', ');
-      return `<button class="gm-category" data-action="email-folder" data-id="${name}"><span class="gm-cat-icon">${icons[CATEGORY[name]]}</span><span class="gm-cat-copy"><b>${e(T(name))}</b><small>${e(senders)}</small></span>${n ? `<em class="gm-${CATEGORY[name]}">${e(T('%d New').replace('%d', n))}</em>` : ''}</button>`;
+      const id = CATEGORY[name], items = unseenItems(mail, name);
+      if (categoriesOff[id] || (!onboarding && !items.length)) return '';
+      const senders = [...new Set(items.map(item => item.from))].join(', ');
+      return `<button type="button" class="gm-section" data-action="email-folder" data-id="${name}" style="--gm-color:${colorOf(id)}"><span class="gm-section-icon"><i style="--gm-icon:url('assets/gm-ic_menu_inbox_${ICON[id]}_holo_light.png')"></i></span><span class="gm-section-copy"><b>${e(T(name))}</b><small>${e(senders)}</small></span><em>${e(count(lang, '%d New', items.length))}</em></button>`;
     };
-    const welcome = !data.gmailWelcomeSeen;
-    return `${welcome ? `<div class="gm-welcome"><h3>${e(T('Welcome to your new Inbox'))}</h3><p>${e(T('Mail categories group messages of the same type for reading all at once.'))}</p><button data-action="gmail-unavailable">${e(T('Learn more'))}</button></div>` : ''}<div class="gm-categories">${row('Social')}${row('Promotions')}</div>${welcome ? `<div class="gm-welcome gm-change"><p>${e(T('You can enable and disable categories in settings.'))}</p><button data-action="gmail-categories">${e(T('Change categories'))}</button></div>` : ''}`;
+    const rows = SECTIONS.map(row).join('');
+    if (!onboarding && !rows) return '';
+    return `<div class="gm-teaser">${onboarding ? `<button type="button" class="gm-welcome" data-action="gmail-unavailable"><b>${e(T('Welcome to your new Inbox'))}</b><span>${e(T('Welcome text'))}</span><span class="gm-link">${e(T('Learn more'))}</span></button>` : ''}<div class="gm-sections">${rows}</div>${onboarding ? `<button type="button" class="gm-welcome gm-change" data-action="gmail-categories"><span>${e(T('Categories text'))}</span><span class="gm-link">${e(T('Change categories'))}</span></button>` : ''}</div>`;
   }
   function marker(item) {
     if (!item.personal || item.folder === 'Sent' || item.folder === 'Drafts') return '';
     const file = `ic_email_caret_${item.personal === 'only' ? 'double' : 'single'}${item.important ? '_important_unread' : ''}`;
     return `<img class="gm-caret" src="assets/kem-${file}.png" alt="">`;
   }
-  function drawer(mail, ui, lang, emailT) {
-    const T = key => S[key] ? tr(lang, key) : emailT(key), folder = ui.emailFolder || 'Primary';
-    const total = unread(mail, 'Primary');
+  function drawer(mail, ui, lang) {
+    const T = key => tr(lang, key), folder = ui.emailFolder || 'Primary', total = unread(mail, 'Primary');
     const row = name => {
-      const n = ['Drafts', 'Outbox'].includes(name) ? list(mail, name).length : name === 'Spam' || name === 'Trash' || name === 'All mail' || name === 'Starred' ? list(mail, name).length : unread(mail, name);
-      const badge = n && (name === 'Social' || name === 'Promotions') ? `<em class="gm-badge gm-${CATEGORY[name]}">${n}</em>` : n ? `<em>${n}</em>` : '';
-      const icon = name === 'Primary' ? icons.inbox : CATEGORY[name] && name !== 'Primary' ? icons[CATEGORY[name]] : '';
-      return `<button class="kem-folder gm-folder${name === folder ? ' on' : ''}${icon ? ' with-icon' : ''}" data-action="email-folder" data-id="${name}">${icon ? `<i class="gm-folder-icon">${icon}</i>` : ''}<span>${e(T(name))}</span>${badge}</button>`;
+      const id = CATEGORY[name], on = name === folder, unseen = unseenItems(mail, name).length;
+      const n = ['Drafts', 'Outbox'].includes(name) ? list(mail, name).length : unread(mail, name);
+      const badge = unseen ? `<em class="gm-unseen" style="background:${colorOf(id)}">${unseen}</em>` : n ? `<em>${n}</em>` : '';
+      const icon = id ? `<img class="gm-folder-icon" src="assets/gm-ic_menu_inbox_${ICON[id]}_holo_${on ? 'dark' : 'light'}.png" alt="">` : '';
+      return `<button type="button" class="gm-folder${on ? ' on' : ''}${icon ? ' with-icon' : ''}" data-action="email-folder" data-id="${name}">${icon}<span>${e(T(name))}</span>${badge}</button>`;
     };
-    return `<div class="kem-drawer-scrim" data-action="close-overlay"></div><nav class="kem-drawer gm-drawer" aria-label="Gmail"><button class="kem-account" data-action="close-overlay"><img src="assets/kem-ic_radiobutton_selected.png" alt=""><span>${e(account)}</span>${total ? `<em>${total}</em>` : ''}</button><h4>${e(T('INBOX'))}</h4>${INBOX.filter(name => !categoriesOff[CATEGORY[name]]).map(row).join('')}<h4>${e(T('ALL LABELS'))}</h4>${LABELS.map(row).join('')}</nav>`;
+    return `<div class="kem-drawer-scrim" data-action="close-overlay"></div><nav class="kem-drawer gm-drawer" aria-label="Gmail"><button type="button" class="gm-account" data-action="close-overlay"><img src="assets/kem-ic_radiobutton_selected.png" alt=""><span>${e(account)}</span>${total ? `<em>${total}</em>` : ''}</button><h4>${e(T('Inbox heading'))}</h4>${INBOX.filter(name => !categoriesOff[CATEGORY[name]]).map(row).join('')}<h4>${e(T('All labels'))}</h4>${LABELS.map(row).join('')}</nav>`;
   }
   // Options for KKEmail.render / overlay.
   function options(data, ui, lang, emailT) {
     const mail = data.gmailbox;
-    categoriesOff = {social: !categoryOn(data, 'social'), promotions: !categoryOn(data, 'promotions')};
-    const name = folder => S[folder] ? tr(lang, folder) : emailT(folder);
+    categoriesOff = Object.fromEntries(['social', 'promotions', 'updates', 'forums'].map(id => [id, !categoryOn(data, id)]));
+    seen = data.gmailSeen || {};
     return {
       icon: 'gmail.png', account, archive: true, teaserDismissed: !!data.gmailTeaserDismissed,
-      list, folderName: name,
-      subtitle: folder => { const n = unread(mail, folder); return n && folder !== 'Sent' && folder !== 'Drafts' ? tr(lang, '%d unread').replace('%d', n) : account; },
+      list, folderName: folder => tr(lang, folder),
+      subtitle: folder => { const n = unread(mail, folder); return n && folder !== 'Sent' && folder !== 'Drafts' ? count(lang, '%d unread', n) : account; },
       top: folder => top(mail, folder, lang, data),
       marker,
-      chip: item => item.folder === 'Inbox' ? `<span class="gm-chip">${e(emailT('Inbox'))}</span>` : '',
-      drawer: () => drawer(mail, ui, lang, emailT)
+      chip: item => item.folder === 'Inbox' ? `<span class="gm-chip">${e(tr(lang, 'Inbox'))}</span>` : '',
+      drawer: () => drawer(mail, ui, lang)
     };
   }
-  window.GmailApp = {account, FOLDERS, S, tr, restore, list, unread, options, settings};
+  window.GmailApp = {account, FOLDERS, tr, restore, list, unread, options, settings};
 })();
