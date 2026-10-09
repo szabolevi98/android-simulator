@@ -78,6 +78,259 @@ window.StockStrings = {
    "Standort",
    "Position",
    "Ubicación"
+  ],
+  "Opt out of interest-based ads": [
+   "Az érdeklődésen alapuló hirdetések letiltása",
+   "Interessenbezogene Anzeigen deaktivieren",
+   "Désactiver annonces par centres d'intérêt",
+   "Inhabilitar anuncios basados en intereses"
+  ],
+  "Opt out summary": [
+   "Utasítsa az alkalmazásokat, hogy ne használják a hirdetési azonosítóját profilok építéséhez, illetve ne jelenítsenek meg Önnek érdeklődésen alapuló hirdetéseket.",
+   "Weisen Sie Apps an, Ihre Werbe-ID nicht zur Erstellung von Profilen zu verwenden oder Ihnen keine interessenbezogene Werbung zu zeigen.",
+   "Demandez aux applications de ne pas utiliser votre identifiant publicitaire pour créer des profils ni diffuser d'annonces par centres d'intérêt.",
+   "Indicar a las aplicaciones que no utilicen tu ID de publicidad para crear perfiles o mostrar anuncios basados en tus intereses.",
+   "Instruct apps not to use your advertising ID to build profiles or show you interest-based ads."
+  ],
+  "Reset advertising ID": [
+   "Hirdetési azonosító visszaállítása",
+   "Werbe-ID zurücksetzen",
+   "Réinitialiser l'identifiant publicitaire",
+   "Restablecer ID de publicidad"
+  ],
+  "Reset message": [
+   "Ez lecseréli az Ön hirdetési azonosítóját egy véletlenszerűen kiválasztott számra.",
+   "Ihre Werbe-ID wird durch eine zufällig ausgewählte Nummer ersetzt.",
+   "Votre identifiant publicitaire va être remplacé par un nouveau numéro aléatoire.",
+   "Esto sustituirá tu ID de publicidad con un nuevo número aleatorio.",
+   "This will replace your advertising ID with a new random number."
+  ],
+  "Ads by Google": [
+   "Google Hirdetések",
+   "Google Anzeigen",
+   "Annonces Google",
+   "Anuncios Google"
+  ],
+  "Your advertising ID": [
+   "Az Ön hirdetési azonosítója:",
+   "Meine Werbe-ID:",
+   "Votre identifiant publicitaire :",
+   "Tu ID de publicidad:",
+   "Your advertising ID:"
+  ],
+  "Android Device Manager": [
+   "Android Eszközkezelő",
+   "Android Geräte-Manager",
+   "Gestionnaire d'appareils Android",
+   "Administrador de dispositivos"
+  ],
+  "Remotely locate this device": [
+   "Az eszköz távoli meghatározása",
+   "Remote-Ortung für dieses Gerät durchführen",
+   "Localiser cet appareil à distance",
+   "Ubicar este dispositivo de forma remota"
+  ],
+  "Locate summary": [
+   "Eszköz helyének megjelenítése az Android Eszközkezelőben",
+   "Gerätestandort im Android Geräte-Manager anzeigen",
+   "Afficher la position de l'appareil dans le Gestionnaire d'appareils Android",
+   "Mostrar ubicación del dispositivo en el Administrador de dispositivos Android",
+   "Show device location on Android Device Manager"
+  ],
+  "Locate disabled summary": [
+   "Nem érhető el, mert a Google Beállítások > Hely > Tartózkodási hely elérése ki van kapcsolva",
+   "Nicht verfügbar, weil unter \"Google-Einstellungen\" > \"Standort\" die Option \"Standortzugriff\" deaktiviert ist",
+   "Indisponible, car l'option \"Accéder aux données de localisation\" sous Paramètres Google > Position est désactivée.",
+   "No disponible porque la opción Ajustes de Google > Ubicación > Acceder a la ubicación está desactivada",
+   "Unavailable because Google Settings > Location > Access location is turned off"
+  ],
+  "Allow remote lock and erase": [
+   "Távoli zárolás és törlés engedélyezése",
+   "Remote-Sperre und Löschen zulassen",
+   "Autoriser verrouillage et suppression des données à distance",
+   "Permitir borrado y bloqueo remotos"
+  ],
+  "Wipe summary": [
+   "Ha elveszíti eszközét, az Android Eszközkezelővel távolról zárolhatja azt, illetve visszaállíthatja rajta a gyári beállításokat.",
+   "Wenn Sie Ihr Gerät verlieren, können Sie es mit dem Android Geräte-Manager per Remote-Zugriff sperren oder auf die Werkseinstellungen zurücksetzen.",
+   "Si vous égarez votre appareil, vous pouvez le verrouiller ou le réinitialiser à distance grâce au Gestionnaire d'appareils Android.",
+   "Si pierdes tu dispositivo, puedes bloquearlo o restablecer los datos de fábrica de forma remota con el Administrador de dispositivos Android",
+   "If you lose your device, you can remotely lock or factory reset it with Android Device Manager"
+  ],
+  "Verify apps": [
+   "Alkalmazások ellenőrzése",
+   "Apps überprüfen",
+   "Valider les applications",
+   "Verificar aplicaciones"
+  ],
+  "Scan device for security threats": [
+   "Ellenőrzés biztonsági veszélyek szempontjából",
+   "Gerät nach Sicherheitsbedrohungen durchsuchen",
+   "Analyser appareil pour détecter menaces de sécurité",
+   "Buscar amenazas de seguridad en el dispositivo"
+  ],
+  "Scan summary": [
+   "Eszköztevékenység rendszeres ellenőrzése és a potenciális veszélyek megelőzése, illetve értesítés küldése ezekről",
+   "Geräteaktivität regelmäßig überprüfen und vor potenziellen Schäden warnen oder diese verhindern",
+   "Vérifier régulièrement l'activité de l'appareil pour empêcher tout dommage ou vous en avertir",
+   "Comprobar de forma regular la actividad del dispositivo y avisar sobre posibles daños y evitarlos",
+   "Regularly check device activity and prevent or warn about potential harm"
+  ],
+  "Improve harmful app detection": [
+   "Ártalmas alkalmazások észlelésének javítása",
+   "Erkennung schädlicher Apps verbessern",
+   "Amél. détect. applis nuisibles",
+   "Mejor detección aplic dañinas"
+  ],
+  "Upload summary": [
+   "Ismeretlen alkalmazások küldése a Goolgle-nak a jobb észlelés érdekében",
+   "Unbekannte Apps zur Verbesserung der Erkennung an Google senden",
+   "Envoyer les applications inconnues à Google pour améliorer la détection des menaces",
+   "Enviar aplicaciones desconocidas a Google para mejorar la detección",
+   "Send unknown apps to Google for better detection"
+  ],
+  "Upload disabled summary": [
+   "Nem érhető el, mert az eszközkeresés ki van kapcsolva",
+   "Nicht verfügbar, da die Funktion zum Durchsuchen des Geräts deaktiviert ist",
+   "Indisponible, car la recherche d'appareils est désactivée",
+   "No disponible porque la búsqueda de dispositivos está desactivada",
+   "Unavailable because device scanning is off"
+  ],
+  "Connected apps title": [
+   "Kapcsolt alkalmazások",
+   "Verbundene Apps",
+   "Applications associées",
+   "Aplicaciones conectadas",
+   "Connected apps"
+  ],
+  "Apps empty": [
+   "Még nem kapcsolódtál egyetlen alkalmazáshoz sem a Google+ Bejelentkezéssel.\n\nTovábbi információ",
+   "Sie haben sich mit keinen Apps über die Google+ Anmeldung verbunden.\n\nWeitere Informationen",
+   "Vous ne vous êtes connecté à aucune application via Google+ Sign-In.\n\nEn savoir plus",
+   "No te has conectado a ninguna aplicación mediante el inicio de sesión con Google+.\n\nMás información",
+   "You have not connected with any apps using Google+ Sign-In.\n\nLearn more"
+  ],
+  "Google location settings": [
+   "Google-helybeállítások",
+   "Google-Standorteinstellungen",
+   "Paramètres de localisation",
+   "Ajustes de ubicación de Google"
+  ],
+  "Access location": [
+   "Tartózkodási hely elérése",
+   "Standortzugriff",
+   "Données de localisation",
+   "Acceder a la ubicación"
+  ],
+  "Access location summary": [
+   "A Google-alkalmazások bármikor használhatják az eszköz helyadatait, ha az be van kapcsolva",
+   "Google-Apps dürfen den Standort des Geräts immer verwenden, wenn es eingeschaltet ist",
+   "Autoriser les applications Google à utiliser les données de localisation de cet appareil lorsque la mise à jour de la position est activée",
+   "Permite que las aplicaciones de Google utilicen la ubicación de este dispositivo cuando esté encendido",
+   "Let Google apps use this device's location any time it is on"
+  ],
+  "Location Reporting": [
+   "Tartózkodási hely jelentése",
+   "Standortbericht",
+   "Mise à jour de la position",
+   "Informes de Ubicación"
+  ],
+  "Location History": [
+   "Helyelőzmények",
+   "Standortverlauf",
+   "Historique des positions",
+   "Historial de Ubicaciones"
+  ],
+  "Reporting on": [
+   "Bekapcsolva ezen az eszközön",
+   "Für dieses Gerät aktiviert",
+   "Activée sur cet appareil",
+   "Activada en este dispositivo",
+   "On for this device"
+  ],
+  "Reporting off": [
+   "Kikapcsolva ezen az eszközön",
+   "Für dieses Gerät deaktiviert",
+   "Désactivée sur cet appareil",
+   "Desactivado en este dispositivo",
+   "Off for this device"
+  ],
+  "History on": [
+   "Bekapcsolva",
+   "Aktiviert",
+   "Activé",
+   "Sí",
+   "On"
+  ],
+  "History off": [
+   "Kikapcsolva",
+   "Deaktiviert",
+   "Désactivé",
+   "No",
+   "Off"
+  ],
+  "On": [
+   "Bekapcsolva",
+   "Ein",
+   "Activé",
+   "Sí"
+  ],
+  "Off": [
+   "Kikapcsolva",
+   "Aus",
+   "Désactivé",
+   "No"
+  ],
+  "Reporting text": [
+   "A Google ezt a funkciót olyan termékeknél használja, mint például a Google Asszisztens vagy a Google Térkép. \n\nA tartózkodási hely jelentésének bekapcsolása lehetővé teszi, hogy azok a Google-termékek, amelyek használják ezt a funkciót, eltárolják és felhasználják az eszköz legutóbbi, az Ön Google-fiókjával kapcsolatos helyadatait.",
+   "Google verwendet diese Funktion in Produkten wie Google Now und Google Maps. \n\nWenn Sie den Standortbericht aktivieren, können alle Google-Produkte, die diese Funktion nutzen, den aktuellen Standort dieses Geräts in Verbindung mit Ihrem Google-Konto aufzeichnen.",
+   "Des produits tels que Google Now et Google Maps utilisent cette fonctionnalité. \n\nSi vous activez la mise à jour de la position, vous autorisez les produits Google à enregistrer et à utiliser les données de localisation les plus récentes associées à votre compte Google sur votre appareil.",
+   "Google utiliza la función Informes de Ubicación en algunos productos, como Google Now y Google Maps. \n\nAl activar esta función, permites que cualquier producto de Google que la utilice almacene y use los datos más recientes sobre la ubicación del dispositivo en relación con tu cuenta de Google.",
+   "Google uses this feature in products like Google Now and Google Maps. \n\nTurning on Location Reporting lets any Google product that uses this feature store and use this device's most recent location data in connection with your Google account."
+  ],
+  "History text": [
+   "A bejelentkezett eszközökön rögzített tartózkodási helyek alapján létrehozott privát térképnek köszönhetően a Helyelőzmények hasznos információkkal szolgál. Ezek közé tartoznak például az ingázással kapcsolatos automatikus előrejelzések, a javított keresési eredmények, valamint hasznosabb hirdetések a Google domainjein és más webhelyeken. \n\nE térkép létrehozásához a Google rendszeresen lekéri a helyadatokat a fiókhoz társított összes olyan eszközről, amelyen engedélyezve van a Tartózkodási hely jelentése funkció – ez még akkor is igaz, ha Ön nem használ konkrét Google-terméket. További információ \n\nA tartózkodási hely jelentésének rögzítését bármikor szüneteltetheti, de ilyenkor nem törlődnek a korábbi tevékenységek. Saját Helyelőzmények-adatait megtekintheti, szerkesztheti és törölheti a https://www.google.com/locationhistory weboldalon. \n\nA „Helyelőzmények törlése” gombra kattintva törölheti a fiókjához társított összes helyelőzményadatot.",
+   "Mit dem Standortverlauf erhalten Sie nützliche Informationen wie beispielsweise automatische Verkehrsvorhersagen für Ihren Arbeitsweg, verbesserte Suchergebnisse und nützlichere Anzeigen (nicht nur bei Google), indem eine private Karte mit Orten erstellt wird, die Sie mit Ihren in Google angemeldeten Geräten besucht haben. \n\nUm diese Karte zu erstellen, wird Google regelmäßig Standortdaten von allen Geräten erhalten, die mit diesem Konto verbunden sind und bei denen Sie Standortberichte aktiviert haben, auch wenn Sie kein bestimmtes Google-Produkt verwenden. Weitere Informationen \n\nSie können den Standortverlauf jederzeit pausieren. Dadurch wird jedoch keine vorige Aktivität gelöscht. Sie können unter https://www.google.com/locationhistory Ihre privaten Standortverlaufsdaten ansehen, bearbeiten und löschen. \n\nDie Schaltfläche \"Standortverlauf löschen\" unten löscht alle bestehenden Standortverlaufsdaten Ihres Kontos.",
+   "L'historique des positions vous permet d'obtenir des informations utiles (par exemple, des prévisions automatiques sur votre trajet domicile-travail, des résultats de recherche améliorés, ainsi que davantage d'annonces pertinentes sur Google et d'autres services) en créant une carte privée des lieux où vous vous rendez avec vos appareils connectés.\n\nPour pouvoir créer cette carte, Google recevra régulièrement des données de localisation de l'ensemble des appareils associés au compte pour lequel vous avez activé la mise à jour de la position, y compris lorsque vous n'utilisez pas un produit Google particulier.En savoir plus.\n\nVous pouvez suspendre l'historique des positions à tout moment lorsque vous le souhaitez, mais cela ne supprime pas vos activités passées. Vous pouvez consulter, modifier et supprimer les données de localisation de votre historique des positions disponible à l'adressehttps://www.google.com/locationhistory..\n\nLe bouton \"Supprimer l'historique des positions\" ci-dessous supprimera toutes les données qui se trouvent dans l'historique des positions associé à votre compte.",
+   "El Historial de Ubicaciones te permite obtener información útil (por ejemplo, predicciones automáticas de desplazamiento al trabajo, resultados de búsqueda mejorados y anuncios más útiles dentro y fuera de Google) creando un mapa privado de los lugares a los que accedes con tus dispositivos en los que has iniciado sesión. \n\nPara crear este mapa, Google obtendrá regularmente datos de ubicación de todos los dispositivos asociados a esta cuenta en los que hayas habilitado los Informes de Ubicación, incluso cuando no estés utilizando un producto específico de Google. Más información. \n\nPuedes detener el Historial de Ubicaciones siempre que lo desees, pero esta acción no elimina ninguna actividad anterior. Puedes ver, editar y eliminar tus datos del Historial de Ubicaciones en https://www.google.com/locationhistory. \n\nEl botón \"Eliminar el Historial de Ubicaciones\" incluido a continuación eliminará todos los datos del Historial de Ubicaciones de tu cuenta.",
+   "Location History helps you get useful information—for example, automatic commute predictions, improved search results, and more useful ads on and off Google—by creating a private map of where you go with your logged-in devices. \n\nTo create this map, Google will regularly obtain location data from all devices associated with this account where you have enabled Location Reporting, including when you aren’t using a specific Google product. Learn more. \n\nYou can pause Location History whenever you like, but this doesn’t delete any previous activity. You can view, edit and delete your private Location History data at https://www.google.com/locationhistory. \n\nThe “Delete Location History” button below will delete all existing Location History data for your account. "
+  ],
+  "DELETE LOCATION HISTORY": [
+   "HELYELŐZMÉNYEK TÖRLÉSE",
+   "STANDORTVERLAUF LÖSCHEN",
+   "SUPPRIMER L'HISTORIQUE DES POSITIONS",
+   "ELIMINAR HISTORIAL DE UBICACIONES"
+  ],
+  "DELETING...": [
+   "TÖRLÉS...",
+   "WIRD GELÖSCHT...",
+   "SUPPRESSION EN COURS...",
+   "ELIMINANDO..."
+  ],
+  "Permanently delete?": [
+   "Véglegesen törli?",
+   "Endgültig löschen?",
+   "Supprimer définitivement ?",
+   "¿Eliminar de forma permanente?"
+  ],
+  "Delete body": [
+   "Nem tud majd újra hozzáférni a helyelőzményekhez. \n\nA Google Asszisztens és a helyelőzményeket használó egyéb alkalmazások működése leállhat.",
+   "Sie können Ihren Standortverlauf nicht wiederherstellen. \n\nGoogle Now und andere Apps, die Ihren Standortverlauf verwenden, funktionieren nach dem Löschen möglicherweise nicht mehr.",
+   "Vous ne pourrez pas récupérer l'historique des positions. \n\nGoogle Now et les applications qui l'utilisent risquent de ne plus fonctionner.",
+   "No podrás volver a acceder a tu Historial de Ubicaciones. \n\nEs posible que Google Now y otras aplicaciones que utilizan el Historial de Ubicaciones dejen de funcionar.",
+   "You won't be able to get your Location History back again. \n\nGoogle Now and other apps that use your Location History may stop working."
+  ],
+  "I understand and want to delete": [
+   "Értem és törlöm",
+   "Trotzdem löschen",
+   "Je comprends et je confirme la suppression.",
+   "Acepto, eliminarlo"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
   ]
  },
  "earth": {

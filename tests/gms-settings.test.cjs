@@ -22,4 +22,13 @@ assert.ok(page('gms-mdm',{gms:{access:false}}).includes('Locate disabled summary
 assert.ok(page('gms-drive').includes('Transfer files only over WiFi')&&page('gms-apps').includes('Apps empty'));
 assert.ok(page('gms-location').includes('kitkat.demo@gmail.com')&&page('gms-reporting').includes('gms-switch'));
 assert.ok(fs.readFileSync(dir+'stock-apps.js','utf8').includes("['Android Device Manager', 'gms-open', 'mdm']"));}
+// 5.1.1 (PrebuiltGmsCore 6.7.79): Ads, Security (ADM + Verify apps), Connected apps, location with the switch bar.
+{const dir='versions/5.1.1/',html=fs.readFileSync(dir+'index.html','utf8');assert.ok(html.indexOf('gms-settings.js')<html.indexOf('stock-apps.js'));
+const c={window:{}};vm.createContext(c);vm.runInContext(fs.readFileSync(dir+'gms-settings.js','utf8'),c);
+const G=c.window.GMSSettings,page=(sub,data={},ui={})=>G.render({ui:{sub,...ui},data,t:k=>k},k=>k);
+const ads=page('gms-ads',{gms:{adid:'xyz'}});assert.ok(ads.indexOf('Opt out of interest-based ads')<ads.indexOf('Reset advertising ID')&&ads.includes('xyz'));
+const sec=page('gms-security',{gms:{verify:false}});assert.ok(sec.includes('Android Device Manager')&&sec.includes('Scan device for security threats')&&sec.includes('Upload disabled summary'));
+assert.ok(page('gms-location').includes('nexus6.demo@gmail.com')&&page('gms-location').includes('Reporting off'));
+const h=page('gms-history',{gms:{history:true}},{gmsDialog:'delete'});assert.ok(h.includes('gms6-switchbar')&&h.includes('I understand and want to delete')&&h.includes('disabled>Delete'));
+assert.ok(fs.readFileSync(dir+'stock-apps.js','utf8').includes("row('Security', 'gms-open', 'security')"));}
 console.log('gms-settings ok');
