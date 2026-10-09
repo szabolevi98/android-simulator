@@ -1,40 +1,54 @@
-/* Gmail 4.7 additions on the UnifiedEmail screens (GSMArena Nexus 5 screenshots, 1 dp = 0.906 px): the unread count
-   under "Primary" in dark bold, the Primary teasers on #ededed with light 22 sp headings and Holo blue links, the
-   Social / Promotions rows with #4880d7 and #13a864 badges, the personal level carets, the drawer sections and the
-   selected label in #33b5e5, and the grey "Inbox" chip under the subject. */
+/* Gmail 4.6.1 (Gmail2.apk of KTU84P) on the UnifiedEmail screens, 1 dp = 0.906 px.
+   section_teaser_view.xml: the welcome and change-categories boxes 16 dp padded on list_read_holo (#eeeeee, #cbcbcb
+   line), a 21 sp title and 16 sp light text in dark_gray_text_color (#58585b), the link in Holo blue; the sections box
+   (4 dp top and bottom) on list_unread_holo (#ffffff, #d9d9d9 line). folder_teaser_item.xml: 8 dp top padding, the
+   48 dp icon box on #eeeeee (16 / 12 dp margins, 8 dp under it), the icon tinted in the section colour, the 16 sp bold
+   name over 12 sp light senders, the count 16 sp white on the section colour, 24 sp tall, 16 dp padded, at least
+   96 dp wide, 12 / 16 dp margins. */
 .gm-list .kem-title small{font-weight:700;color:#333}
-.gm-welcome{padding:10.87px 14.5px 9.06px;background:#ededed;border-bottom:1px solid #d6d6d6}
-.gm-welcome h3{margin:0 0 3.62px;font:300 19.93px/1.25 RobotoLight,RobotoICS,sans-serif;color:#474747}
-.gm-welcome p{margin:0;font:300 14.5px/1.3 RobotoLight,RobotoICS,sans-serif;color:#474747}
-.gm-welcome button{padding:4px 0 2px;border:0;background:none;font:300 14.5px RobotoLight,RobotoICS,sans-serif;color:#29b2e8!important}
-.gm-change{padding-top:12.68px}
-.gm-categories{background:#fff;border-bottom:1px solid #d6d6d6}
-.gm-categories:empty{display:none}
-.gm-category{display:flex;align-items:center;gap:12.68px;width:100%;height:39.86px;padding:0 14.5px;border:0;background:none;text-align:left}
-.gm-category:first-child{margin-top:5.44px}.gm-category:last-child{margin-bottom:5.44px}
-.gm-cat-icon{flex:none;display:grid;place-items:center;width:43.49px;height:30.8px;background:#eee}
-.gm-cat-icon svg{width:19.93px;height:19.93px}
-.gm-cat-copy{flex:1;min-width:0;display:flex;flex-direction:column}
-.gm-cat-copy b{font:700 14.5px RobotoICS,sans-serif;color:#444}
-.gm-cat-copy small{font:400 11.78px RobotoICS,sans-serif;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gm-category em{flex:none;min-width:81.54px;padding:2.72px 6px;font:400 14.5px RobotoICS,sans-serif;font-style:normal;color:#fff;text-align:center}
-.gm-social{background:#4880d7}.gm-promotions{background:#13a864}
-.gm-category:active{background:#0000000f}
+.gm-teaser{background:#999}
+.screen .gm-welcome{display:flex;flex-direction:column;width:100%;padding:14.5px;border:0;border-bottom:1px solid #cbcbcb;background:#eee;text-align:left;cursor:pointer}
+.gm-welcome b{font:400 19.03px/1.2 RobotoICS,sans-serif;color:#58585b}
+.gm-welcome span{font:300 14.5px/1.3 RobotoLight,RobotoICS,sans-serif;color:#58585b}
+.gm-welcome .gm-link{font-family:RobotoICS,sans-serif;font-weight:400;color:#33b5e5}
+.gm-sections{padding:3.62px 0;background:#fff;border-bottom:1px solid #d9d9d9}
+.gm-sections:empty{display:none}
+.screen .gm-section{display:flex;align-items:center;width:100%;padding:7.25px 0 0;border:0;background:none;text-align:left;cursor:pointer}
+.gm-section-icon{flex:none;display:grid;place-items:center;width:43.49px;height:28.99px;margin:0 10.87px 7.25px 14.5px;background:#eee}
+.gm-section-icon i{width:28.99px;height:28.99px;background:var(--gm-color);-webkit-mask:var(--gm-icon) center/contain no-repeat;mask:var(--gm-icon) center/contain no-repeat}
+.gm-section-copy{flex:1;min-width:0;display:flex;flex-direction:column;margin-bottom:7.25px}
+.gm-section-copy b{font:700 14.5px RobotoICS,sans-serif;color:#58585b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-section-copy small{font:300 10.87px RobotoLight,RobotoICS,sans-serif;color:#58585b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-section em{flex:none;min-width:86.98px;height:21.74px;margin:0 14.5px 7.25px 10.87px;padding:0 14.5px;background:var(--gm-color);font:400 14.5px/21.74px RobotoICS,sans-serif;font-style:normal;color:#fff;text-align:center}
+.screen .gm-welcome:active,.screen .gm-section:active{background:#33b5e599}
 .gm-caret{flex:none;width:14.5px;height:14.5px;align-self:center;margin-right:-1px}
-.gm-chip{display:inline-block;margin:6px 0 0;padding:1px 6px;background:#ddd;font:400 11.78px RobotoICS,sans-serif;color:#666}
+/* conversation_view_header.xml: the folder span 12 sp, 1 dp above and below, 14 dp wider than the text, 4 dp above,
+   in the system label colours. */
+.gm-chip{display:inline-block;margin:3.62px 0 0;padding:.91px 6.34px;background:#ddd;font:400 10.87px RobotoICS,sans-serif;color:#777}
 .kem-subject:has(.gm-chip){flex-wrap:wrap}
 .kem-subject:has(.gm-chip) h2{flex:1 1 calc(100% - 50px)}
 .kem-subject:has(.gm-chip) .kem-conv-star{order:2}
 .gm-chip{order:3;margin-left:auto!important}
-.gm-drawer h4{margin:10.87px 14.5px 0;padding-bottom:4.53px;border-bottom:1.81px solid #ddd;font:700 12.68px RobotoICS,sans-serif;color:#58585b}
-.screen .gm-folder{border-bottom:0}
-.screen .gm-folder.with-icon{padding-left:12.68px}
-.gm-folder-icon{flex:none;display:grid;place-items:center;width:21.74px;height:21.74px;color:#777}
-.gm-folder-icon svg{width:21.74px;height:21.74px}
-.screen .gm-drawer .gm-folder.on{background:#33b5e5;color:#fff}
-.screen .gm-drawer .gm-folder.on em{color:#fff}
-.screen .gm-drawer .gm-folder.on .gm-folder-icon{color:#fff}
-.gm-folder em.gm-badge{min-width:30px;padding:1px 6px;color:#fff;text-align:center}
+/* The drawer: account_item.xml (48 dp, the radio 14 dp in, the 18 sp name and the count in mail_app_blue when it is
+   the current account), folder_list_header.xml (44 dp, 14 sp bold caps in #58585b, 16 dp sides, 3 dp bottom, the
+   2 dp list_section_divider_holo_light line), folder_item.xml (48 dp, ic_drawer_divider's top line, the 32 dp icon
+   7 dp in, the 18 sp name 7 dp after it or 16 dp in without one, the 44 dp count box 8 dp from the end: 14 sp, bold
+   white on the section colour when unseen), activated in #33b5e5 with white text, pressed list_pressed_holo. */
+.screen .gm-account,.screen .gm-folder{display:flex;align-items:center;width:100%;min-height:43.49px;padding:0 7.25px 0 0;border:0;border-top:1px solid #00000021;background:none;text-align:left;cursor:pointer}
+.screen .gm-account{border-top:0}
+.gm-account img{flex:none;width:16.31px;height:16.31px;margin-left:12.68px}
+.gm-account span,.gm-folder span{flex:1;min-width:0;margin:0 7.25px 0 12.68px;font:400 16.31px RobotoICS,sans-serif;color:#33b5e5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-folder span{margin:0 7.25px 0 14.5px;color:#58585b;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.gm-folder.with-icon span{margin-left:6.34px}
+.gm-account em,.gm-folder em{flex:none;width:39.86px;padding:3.62px 0;font:400 12.68px RobotoICS,sans-serif;font-style:normal;color:#58585b;text-align:center}
+.gm-account em{color:#33b5e5}
+.gm-folder em.gm-unseen{font-weight:700;color:#fff}
+.gm-folder-icon{flex:none;width:28.99px;height:28.99px;margin-left:6.34px}
+.gm-drawer h4{display:flex;align-items:flex-end;min-height:39.86px;margin:0;padding:0 14.5px 2.72px;border-bottom:1.81px solid #0003;font:700 12.68px RobotoICS,sans-serif;color:#58585b;text-transform:uppercase}
+.gm-drawer h4+.gm-folder{border-top:0}
+.screen .gm-drawer .gm-folder.on{background:#33b5e5}
+.screen .gm-drawer .gm-folder.on span,.screen .gm-drawer .gm-folder.on em{color:#fff}
+.screen .gm-account:active,.screen .gm-folder:active{background:#33b5e599}
 /* Gmail settings (audit step 5): the preference screens, the category icons, the list and signature dialogs. */
 .gmp-app{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;font-family:RobotoICS,Roboto,sans-serif}
 .gmp-bar{flex:none;display:flex;align-items:center}
@@ -45,11 +59,11 @@
 .gmp-text{flex:1;min-width:0;display:flex;flex-direction:column}
 .gmp-text small{margin-top:1.81px;white-space:pre-line;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
 .gmp-cat-icon{flex:none;width:28.99px;height:28.99px;margin-right:14.5px;background:center/contain no-repeat}
-.gmp-primary{background-image:url('assets/gmp-ic_menu_inbox_main_holo_light.png')}
-.gmp-social{background-image:url('assets/gmp-ic_menu_inbox_social_holo_light.png')}
-.gmp-promotions{background-image:url('assets/gmp-ic_menu_inbox_promotions_holo_light.png')}
-.gmp-updates{background-image:url('assets/gmp-ic_menu_inbox_notifications_holo_light.png')}
-.gmp-forums{background-image:url('assets/gmp-ic_menu_inbox_forums_holo_light.png')}
+.gmp-primary{background-image:url('assets/gm-ic_menu_inbox_main_holo_light.png')}
+.gmp-social{background-image:url('assets/gm-ic_menu_inbox_social_holo_light.png')}
+.gmp-promotions{background-image:url('assets/gm-ic_menu_inbox_promotions_holo_light.png')}
+.gmp-updates{background-image:url('assets/gm-ic_menu_inbox_notifications_holo_light.png')}
+.gmp-forums{background-image:url('assets/gm-ic_menu_inbox_forums_holo_light.png')}
 .gmp-scrim{position:absolute;inset:0;z-index:40;border:0;background:#0009}
 .gmp-dialog{position:absolute;z-index:41;top:50%;transform:translateY(-50%);background:#fff}
 .gmp-dialog h3{margin:0}

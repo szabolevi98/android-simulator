@@ -3705,5 +3705,169 @@ window.StockStrings = {
    "Enregistrer sur l'appareil",
    "Guardar en dispositivo"
   ]
+ },
+ "gmail": {
+  "Primary": [
+   "Elsődleges",
+   "Allgemein",
+   "Principale",
+   "Principal"
+  ],
+  "Social": [
+   "Közösségi",
+   "Soziale Netzwerke",
+   "Rés. sociaux",
+   "Social"
+  ],
+  "Promotions": [
+   "Promóciók",
+   "Werbung",
+   "Promotions",
+   "Promociones"
+  ],
+  "Updates": [
+   "Frissítések",
+   "Benachrichtigungen",
+   "Mises à jour",
+   "Notificaciones"
+  ],
+  "Forums": [
+   "Fórumok",
+   "Foren",
+   "Forums",
+   "Foros"
+  ],
+  "Priority Inbox": [
+   "Fontos levelek",
+   "Sortierter Eingang",
+   "Prioritaire",
+   "Prioritarios"
+  ],
+  "Inbox": [
+   "Beérkezett üzenetek",
+   "Posteingang",
+   "Boîte de réception",
+   "Recibidos"
+  ],
+  "Starred": [
+   "Csillaggal megjelölt",
+   "Markiert",
+   "Messages suivis",
+   "Destacados"
+  ],
+  "Important": [
+   "Fontos",
+   "Wichtig",
+   "Important",
+   "Importante"
+  ],
+  "Chats": [
+   "Csevegések",
+   "Chats",
+   "Tous les chats",
+   "Chats"
+  ],
+  "Sent": [
+   "Elküldve",
+   "Gesendet",
+   "Messages envoyés",
+   "Enviados"
+  ],
+  "Outbox": [
+   "Kimenő levelek",
+   "Postausgang",
+   "Boîte d'envoi",
+   "Bandeja de salida"
+  ],
+  "Drafts": [
+   "Piszkozatok",
+   "Entwürfe",
+   "Brouillons",
+   "Borradores"
+  ],
+  "All mail": [
+   "Összes e-mail",
+   "Alle Nachrichten",
+   "Tous les messages",
+   "Todo el correo"
+  ],
+  "Spam": [
+   "Spam",
+   "Spam",
+   "Spam",
+   "Spam"
+  ],
+  "Trash": [
+   "Kuka",
+   "Papierkorb",
+   "Corbeille",
+   "Papelera"
+  ],
+  "Inbox heading": [
+   "Beérkező levelek",
+   "Posteingang",
+   "Boîte de réception",
+   "Bandeja de entrada",
+   "Inbox"
+  ],
+  "All labels": [
+   "Minden címke",
+   "Alle Labels",
+   "Tous les libellés",
+   "Todas las etiquetas"
+  ],
+  "Welcome to your new Inbox": [
+   "Üdvözli a beérkező üzenetek megújult fiókja",
+   "Willkommen im neuen Posteingang",
+   "Bienvenue dans votre nouvelle boîte de réception",
+   "Te damos la bienvenida a tu nueva bandeja de entrada"
+  ],
+  "Welcome text": [
+   "A levélkategóriák csoportosítás révén lehetővé teszik, hogy az azonos típusú üzeneteket egyszerre tudja elolvasni.",
+   "E-Mail-Kategorien für Gruppennachrichten desselben Typs zum gleichzeitigen Lesen",
+   "Les catégories vous permettent de lire l'ensemble des e-mails du même type en une seule fois.",
+   "Las categorías de correo agrupan mensajes del mismo tipo para poder leerlos a la vez.",
+   "Mail categories group messages of the same type for reading all at once."
+  ],
+  "Learn more": [
+   "További információ",
+   "Weitere Informationen",
+   "En savoir plus",
+   "Más información"
+  ],
+  "Categories text": [
+   "Kategóriákat a beállításoknál engedélyezhet (vagy kapcsolhat ki).",
+   "Sie können Kategorien in den Einstellungen aktivieren und deaktivieren.",
+   "Vous pouvez activer et désactiver les catégories dans les paramètres.",
+   "Puedes habilitar e inhabilitar las categorías en la configuración.",
+   "You can enable and disable categories in settings."
+  ],
+  "Change categories": [
+   "Kategóriák módosítása",
+   "Kategorien ändern",
+   "Modifier les catégories",
+   "Cambiar categorías"
+  ],
+  "%d New one": [
+   "%1$d új",
+   "%1$d neue",
+   "%1$d nouveau",
+   "%1$d nuevos",
+   "%1$d New"
+  ],
+  "%d New": [
+   "%1$d új",
+   "%1$d neue",
+   "%1$d nouveaux",
+   "%1$d nuevos",
+   "%1$d New"
+  ],
+  "%d unread": [
+   "%1$d olvasatlan",
+   "%1$d ungelesene",
+   "%1$d non lus",
+   "%1$d no leídos",
+   "%1$d unread"
+  ]
  }
 };
