@@ -1129,6 +1129,151 @@ window.StockStrings = {
    "Apps bestätigen",
    "Vérifier les applications",
    "Verificar aplicaciones"
+  ],
+  "Google Ads": [
+   "Google Hirdetések",
+   "Google-Anzeigen",
+   "Annonces Google",
+   "Publicidad de Google"
+  ],
+  "Personalize Google Ads in Apps": [
+   "Személyre szabott Google-hirdetések",
+   "Google-Anzeigen in Apps personalisieren",
+   "Personnaliser Annonces Google dans applis",
+   "Personalizar anuncios de Google en aplicaciones"
+  ],
+  "Ads description": [
+   "Döntse el, hogy személyre szabja-e a Google-hirdetéseket az alkalmazásokban ezen az eszközön.\n<a href=%1$s>További információ</a>",
+   "Legen Sie fest, ob auf diesem Gerät Google-Anzeigen in Apps personalisiert werden sollen.\n<a href=%1$s>Weitere Informationen</a>",
+   "Choisissez de personnaliser les annonces Google dans les applications sur cet appareil.\n<a href=%1$s>En savoir plus</a>",
+   "Elige si quieres personalizar anuncios de Google en las aplicaciones de este dispositivo.\n<a href=%1$s>Más información</a>",
+   "Choose whether to personalize Google ads in apps on this device.\n<a href=\"%1$s\">Learn more</a>"
+  ],
+  "Verify apps summary": [
+   "A Google figyelmeztetheti akkor, ha egy nem a Google Playről származó alkalmazás esetleg veszélyes. <a href=%1$s>További információ</a>",
+   "Google prüft Apps aus anderen Quellen als Google Play und warnt Sie vor potenziell schädlichen Apps. <a href=%1$s>Weitere Informationen</a>",
+   "Nous analysons applis autres que Google Play et vous prévenons si elles peuvent être dangereuses (rare). <a href=%1$s>En savoir plus</a>",
+   "Deja que Google analice aplicaciones ajenas a Google Play. Te avisa en el caso de que puedan dañar el dispositivo. <a href=%1$s>Más</a>",
+   "Let Google scan apps from sources other than Google Play, and warn you in the rare case that an app is potentially harmful. <a href=\"%1$s\">Learn more</a>"
+  ],
+  "Google location settings": [
+   "Google-helybeállítások",
+   "Google-Standorteinstellungen",
+   "Paramètres de localisation",
+   "Ajustes de ubicación de Google"
+  ],
+  "Access location": [
+   "Tartózkodási hely elérése",
+   "Standortzugriff",
+   "Données de localisation",
+   "Acceder a la ubicación"
+  ],
+  "Access location summary": [
+   "A Google-alkalmazások bármikor felhasználhatják a telefon tartózkodási helyét, ha az eszköz be van kapcsolva",
+   "Google-Apps dürfen den Standort des Telefons immer verwenden, wenn das Gerät eingeschaltet ist.",
+   "Autoriser les applications Google à utiliser les données de localisation de ce téléphone lorsqu'il est allumé",
+   "Permitir que las aplicaciones de Google utilicen la ubicación de este teléfono cuando el dispositivo esté encendido",
+   "Let Google apps use this phone's location any time the device is on"
+  ],
+  "Location reporting": [
+   "Tartózkodási hely jelentése",
+   "Standortbericht",
+   "Mise à jour de la position",
+   "Informes de ubicación"
+  ],
+  "Location history": [
+   "Helyelőzmények",
+   "Standortverlauf",
+   "Historique des positions",
+   "Historial de ubicaciones"
+  ],
+  "On": [
+   "Bekapcsolva",
+   "Aktiviert",
+   "Activé",
+   "Activado"
+  ],
+  "Off": [
+   "Kikapcsolva",
+   "Deaktiviert",
+   "Désactivé",
+   "Desactivado"
+  ],
+  "Location Reporting": [
+   "Tartózkodási hely jelentése",
+   "Standortbericht",
+   "Mise à jour de la position",
+   "Informes de ubicación"
+  ],
+  "Location History": [
+   "Helyelőzmények",
+   "Standortverlauf",
+   "Historique des positions",
+   "Historial de ubicaciones"
+  ],
+  "Reporting text": [
+   "A Google ezt a beállítást olyan termékeknél használja, mint például a Google Asszisztens vagy a Google Térkép. \n\nA tartózkodási hely jelentésének bekapcsolása lehetővé teszi, hogy azok a Google-termékek, amelyek használják ezt a beállítást, eltárolják és felhasználják az eszközén legutóbb megjelenő, Google Fiókjával kapcsolatos helyadatokat.",
+   "Google verwendet diese Funktion in Produkten wie Google Now und Google Maps. \n\nWenn Sie den Standortbericht aktivieren, können alle Google-Produkte, die diese Funktion nutzen, den aktuellen Standort Ihres Geräts in Verbindung mit Ihrem Google-Konto aufzeichnen.",
+   "Des produits tels que Google Now et Google Maps utilisent cette fonctionnalité. \n\nSi vous activez la mise à jour de la position, vous autorisez les produits Google à enregistrer et à utiliser les données de position les plus récentes associées à votre compte Google sur votre appareil.",
+   "Google utiliza la función Informes de ubicación en algunos productos, como Google Now y Google Maps. \n\nAl activar esta función, das permiso para que cualquier producto de Google que la utilice almacene y use los datos más recientes sobre la ubicación de tu dispositivo en relación con tu cuenta de Google.",
+   "Google uses this feature in products like Google Now and Google Maps. \n\nTurning on Location Reporting lets any Google product that uses this feature store and use your device's most recent location data in connection with your Google account."
+  ],
+  "History text": [
+   "Ezzel a beállítással a Google eltárolja a helyadatelőzményeket eszközéről azokon a helyeken, ahol ehhez a fiókhoz engedélyezte a Tartózkodási hely jelentését. A helyelőzmények segítségével többet is kihozhat a Google-ból – például a Google Asszisztens értesítheti Önt az ingázási útvonal forgalmi adatairól. \n\nMegtekintheti és kezelheti saját helyelőzményeit a maps.google.com/locationhistory címen. Bármikor kikapcsolhatja a helyelőzmények tárolását, de ezzel a már meglévő bejegyzéseket nem fogja törölni. Az alábbi gomb segítségével törölheti az összes eddigi helyelőzmény-bejegyzést a fiókhoz.",
+   "Durch diese Einstellung kann Google den Standortverlauf auf Geräten aufzeichnen, auf denen Sie die Option \"Standortbericht\" für dieses Konto aktiviert haben. Mit dem aktivierten Standortverlauf können Sie Google optimal nutzen. So erfahren Sie in Google Now zum Beispiel mehr über die Verkehrslage auf Ihrem Weg zur Arbeit. \n\nSie können Ihren Standortverlauf unter maps.google.com/locationhistory abrufen und verwalten. Sie können diese Option jederzeit deaktivieren, bereits vorhandene Daten werden dadurch jedoch nicht gelöscht. Tippen Sie auf die Schaltfläche unten, um alle Einträge des Standortverlaufs für Ihr Konto zu löschen.",
+   "Ce paramètre nous permet d'enregistrer l'historique des données de position des appareils pour lesquels vous avez activé la mise à jour de la position pour ce compte. L'historique des positions vous permet de mieux profiter des services Google. Par exemple, Google Now peut l'utiliser pour afficher des alertes relatives à la circulation sur votre trajet domicile-travail. \n\nVous pouvez afficher et gérer votre historique des positions à l'adresse maps.google.com/locationhistory. Il est possible de le désactiver à tout moment. Toutefois, cette opération ne supprime pas les entrées existantes. Utilisez le bouton ci-dessous pour supprimer de votre compte toutes les entrées existantes de l'historique des positions.",
+   "Esta configuración permite a Google almacenar un historial de los datos de tu ubicación desde aquellos dispositivos en los que hayas habilitado la opción Informes de ubicación para esta cuenta. La función Historial de ubicaciones te permite sacar más partido a Google. Por ejemplo, Google Now puede utilizar esta función para informarte sobre el estado del tráfico de camino al trabajo todos los días. \n\nPuedes ver y administrar tu historial de ubicaciones en maps.google.com/locationhistory. Puedes desactivar el historial de ubicaciones en cualquier momento, pero si lo haces no se eliminarán las entradas existentes. Al hacer clic en el botón que aparece a continuación, se eliminarán todas las entradas existentes en el historial de ubicaciones de tu cuenta.",
+   "This setting allows Google to store a history of your location data from devices where you have enabled Location Reporting for this account. Location History helps you get more out of Google—for example, Google Now may use it to notify you about traffic on your commute. \n\nYou can view and manage your Location History at maps.google.com/locationhistory. You can turn off Location History at any point, but doing so will not remove existing entries. The button below will delete all existing Location History entries for your account."
+  ],
+  "DELETE LOCATION HISTORY": [
+   "HELYELŐZMÉNYEK TÖRLÉSE",
+   "STANDORTVERLAUF LÖSCHEN",
+   "SUPPRIMER L'HISTORIQUE DES POSITIONS",
+   "ELIMINAR HISTORIAL DE UBICACIONES"
+  ],
+  "DELETING...": [
+   "TÖRLÉS...",
+   "WIRD GELÖSCHT...",
+   "SUPPRESSION EN COURS...",
+   "ELIMINANDO..."
+  ],
+  "Permanently delete?": [
+   "Véglegesen törli?",
+   "Endgültig löschen?",
+   "Supprimer définitivement ?",
+   "¿Eliminar de forma permanente?"
+  ],
+  "Delete body": [
+   "Nem fog tudni újra hozzájutni a helyelőzményekhez. \n\nA Google Asszisztens és a helyelőzményeket használó egyéb alkalmazások működése leállhat.",
+   "Sie können Ihren Standortverlauf nicht wiederherstellen. \n\nGoogle Now und andere Apps, die Ihren Standortverlauf verwenden, funktionieren nach dem Löschen möglicherweise nicht mehr.",
+   "Vous ne pourrez pas récupérer l'historique de vos positions. \n\nGoogle Now et les applications qui l'utilisent risquent de ne plus fonctionner.",
+   "No podrás volver a acceder a tu historial de ubicaciones. \n\nEs posible que Google Now y otras aplicaciones que utilizan el historial de ubicaciones dejen de funcionar.",
+   "You won't be able to get your location history back again. \n\nGoogle Now and other apps that use your location history may stop working."
+  ],
+  "I understand and want to delete": [
+   "Értem és törlöm",
+   "Trotzdem löschen",
+   "Je comprends et je souhaite supprimer mon historique",
+   "Acepto, eliminarlo"
+  ],
+  "Delete": [
+   "Törlés",
+   "Löschen",
+   "Supprimer",
+   "Eliminar"
+  ],
+  "Connected apps": [
+   "Kapcsolt alkalmazások",
+   "Verbundene Apps",
+   "Applications connectées",
+   "Aplicaciones conectadas"
+  ],
+  "Apps empty": [
+   "Nem kapcsolódtál egyetlen alkalmazáshoz sem a Google+ Bejelentkezéssel.\n\nTovábbi információ\n\n",
+   "Sie haben sich mit keinen Apps über das Google+ Log-in verbunden.\n\nWeitere Informationen\n\n",
+   "Vous ne vous êtes connecté à aucune application à l'aide de Google+ Sign-In.\n\nEn savoir plus\n\n",
+   "No has conectado con ninguna aplicación mediante el Inicio de sesión con Google+.\n\nMás información\n\n",
+   "You have not connected with any apps using Google+ Sign-In.\n\nLearn more\n\n"
   ]
  },
  "books": {

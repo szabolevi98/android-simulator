@@ -14,5 +14,5 @@ assert.ok(A.render('voice-search',ctx(10)).includes('vn-vs_micbtn_rec.png')&&A.r
 const retry=A.render('voice-search',{...ctx(10,'hu'),ui:{voiceState:'retry'}});assert.ok(retry.includes('vn-vs_micbtn_on.png')&&retry.includes('Nem sikerült értelmezni. Mondja ki újra.'));
 // Google Settings: GoogleSettingsActivity's rows in its order, GmsCore's strings (read through aapt2).
 const gs=A.render('google-settings',ctx(10,'hu'));assert.ok(gs.includes('gms-common_settings_bg')||fs.readFileSync('versions/4.3/stock-apps.css','utf8').includes('gms-common_settings_bg.png'));
-assert.deepEqual([...gs.matchAll(/<button data-action="[^"]+">([^<]+)<\/button>/g)].map(m=>m[1]),['Alkalmazások Google+-bejelentkezéssel','Google+','Hely','Keresés','Hirdetések','Alkalmazások ellenőrzése']);
+assert.deepEqual([...gs.matchAll(/<button data-action="[^"]+" data-id="[^"]*">([^<]+)<\/button>/g)].map(m=>m[1]),['Alkalmazások Google+-bejelentkezéssel','Google+','Hely','Keresés','Hirdetések','Alkalmazások ellenőrzése']);
 console.log('velvet-now ok');

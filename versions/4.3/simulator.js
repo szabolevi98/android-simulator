@@ -685,6 +685,7 @@
       navigate: run => { ui.mapsRoute = ui.mapsRoute ? {...ui.mapsRoute, screen: 'map'} : null; openApp('navigation'); MapsRoute.startNav(mrContext(), run); render(); }};
   }
   function navigateBack() {
+    if (ui.view === 'google-settings' && GMSSettings.back(ui)) { render(); return; }
     if (ui.view === 'maps' && !ui.overlay && ui.mapsRoute && MapsRoute.back(mrContext())) return;
     if (ui.view === 'navigation' && !ui.overlay && ui.navRun) { ui.overlay = 'mr-exit'; renderOverlay(); return; }
     // News & Weather: a settings dialog or nested screen, then the settings or the story page.
@@ -1875,6 +1876,12 @@
       case 'browser-history': ui.sub = 'history'; render(); break;
       case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       // Google, Voice Search, Maps, Keep, YouTube, Google+, Earth, News & Weather, Google Settings
+      // Google Settings' GMS pages (gms-settings.js).
+      case 'gms-open': ui.sub = `gms-${id}`; ui.gmsDialog = ''; render(); break;
+      case 'gms-toggle': { const s = GMSSettings.state(data); data.gms = {...s, [id]: !s[id]}; save(); render(); break; }
+      case 'gms-dialog': ui.gmsDialog = id; ui.gmsUnderstand = false; render(); break;
+      case 'gms-understand': ui.gmsUnderstand = !ui.gmsUnderstand; render(); break;
+      case 'gms-delete': ui.gmsDialog = ''; ui.gmsDeleting = true; render(); setTimeout(() => { ui.gmsDeleting = false; if (ui.sub === 'gms-history') render(); }, 1500); break;
       case 'sa-unsupported': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'voice-listen': listenVoice(); break;
       case 'gel-overview-settings': ui.overlay = ''; renderOverlay(); openApp('google-search'); ui.sub = 'settings'; render(); break;

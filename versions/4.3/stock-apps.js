@@ -57,8 +57,10 @@
   // simple_list_item_1 at 18 sp; Search opens Google Search's privacy settings.
   function googleSettings(ctx) {
     const g = key => S(ctx, 'gsettings', key);
-    const rows = [['Apps with Google+ Sign-In'], ['Google+'], ['Location'], ['Search', 'gel-overview-settings'], ['Ads'], ['Verify apps']];
-    return `<div class="app-view sa-app sa-gsettings"><header class="gs-bar"><button class="gs-up" data-action="home" aria-label="${e(g('Google Settings'))}"><i></i><img src="assets/google-settings.png" alt=""></button><b>${e(g('Google Settings'))}</b></header><div class="sa-scroll"><div class="gs-list">${rows.map(([key, action]) => `<button data-action="${action || 'sa-unsupported'}">${e(g(key))}</button>`).join('')}</div></div></div>`;
+    // The pages GMS draws itself (gms-settings.js); Google+ opens the Google+ app's settings, not part of GMS.
+    if (String(ctx.ui.sub || '').startsWith('gms-')) return window.GMSSettings.render(ctx, g);
+    const rows = [['Apps with Google+ Sign-In', 'gms-open', 'apps'], ['Google+'], ['Location', 'gms-open', 'location'], ['Search', 'gel-overview-settings'], ['Ads', 'gms-open', 'ads'], ['Verify apps', 'gms-open', 'verify']];
+    return `<div class="app-view sa-app sa-gsettings"><header class="gs-bar"><button class="gs-up" data-action="home" aria-label="${e(g('Google Settings'))}"><i></i><img src="assets/google-settings.png" alt=""></button><b>${e(g('Google Settings'))}</b></header><div class="sa-scroll"><div class="gs-list">${rows.map(([key, action, id]) => `<button data-action="${action || 'sa-unsupported'}" data-id="${id || ''}">${e(g(key))}</button>`).join('')}</div></div></div>`;
   }
 
 
