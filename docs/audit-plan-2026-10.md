@@ -126,7 +126,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 - [x] LP biztonsági aloldalak (demóállapot) – a LMY48Y Settings szerint: SIM-kártya lezárása (IccLockSettings: kapcsoló és PIN-módosítás az EditPinPreference párbeszédablakával; a demó SIM az első megadott PIN-t tartja meg), Megbízható hitelesítő adatok (Rendszer / Felhasználó fül, a kép /system/etc/security/cacerts 162 tanúsítványa a docs/lp-cacerts.py-jal, SslCertificate részletek, kikapcsolás / bekapcsolás megerősítéssel), Trust agent komponensek (csak biztonságos zárral; a GMS „Smart Lock (Google)” ügynöke), Alkalmazások hozzáféréssel (üres, mert a képben csak a rendszer kéri, azt a Settings kihagyja); Telepítés tárhelyről: a CertInstaller „nincs tanúsítványfájl” üzenete; Hitelesítési adatok törlése üres tárolónál letiltva; a kitalált Smart Lock-üzenet kikerült (c519783). Nincs még: a GMS Smart Lock képernyője (megbízható eszközök / helyek / arc)
 - [x] GB Google Voice keresés és beállítások – Beállítások › Hangbevitel és -kimenet a voice_input_output_settings.xml szerint, a kép egyetlen felismerőjével (VoiceSearch GoogleRecognitionService, „Google”): Hangbevitel / Hangfelismerő beállításai, Hangkimenet / TTS; a Hangfelismerő beállításai a Voice Search 2.1.3 VoiceSearchPreferences-e: nyelv („Alapértelmezett – a telefon nyelve”, majd az APK 134 nyelve), SafeSearch a szint szövegével és utótagjával, sértő szavak tiltása, személyre szabott felismerés be- / kikapcsoló párbeszédablakkal, irányítópult-link; a szövegek és listák a VoiceSearch.apk-ból (docs/gb-voice-settings.py; magyar fordítás a képben nincs, ezért angol, mint a telefonon). A keresőmező és a widget mikrofonja a Voice Search párbeszédablakát nyitja a kitalált „offline nem érhető el” üzenet helyett (0b3aca0). A 4.3 / 4.4.4 keresőmezőjének mikrofonja is a saját hangkeresést nyitja. Nincs még: 4.0.4 (a képben VoiceSearch.apk van, a szimulátorban nincs hangkereső app; a 9. pont D) részében)
 - [ ] Csengő- és ébresztőhang-előnézet, ébresztés nyitott oldalon – DÖNTÉS KELL (2026-10-09): az ébresztés nyitott oldalon már működik mind az öt verzióban (checkAlarms az órajelen, a 4.5. pont csörgő képernyőivel). Az előnézethez és a csörgés hangjához a képek /system/media/audio fájljai kellenek: GB 53 db 2,8 MB, ICS 47 db 3,1 MB, JB 43 db 3,5 MB, KK 31 db 3,3 MB, LP 32 db 6,6 MB, összesen 19,3 MB (ismétlések nélkül 16,3 MB); a repó most 39 MB, a git-történetből utólag nem vehető ki. Lehetőségek: (a) verziónként az eredeti OGG-k (19 MB), (b) egy közös, ismétlésmentes hangmappa (16 MB), (c) kisebb bitrátára átkódolva (~3–4 MB; ehhez ffmpeg kell, a gépen nincs), (d) marad hang nélkül. Csak lejátszáskor töltődnének le
-- [ ] Fejlesztői beállítások: választók és mentett állapot
+- [x] Fejlesztői beállítások: választók és mentett állapot – a képek development_prefs.xml-jének minden listája (HDCP-ellenőrzés, futtatókörnyezet, naplópuffer, másodlagos kijelző, GPU-túlrajzolás, nem téglalap vágás, színtér, GPU-profil, OpenGL-nyomok, háttérfolyamat-korlát) a saját tételeivel és ablakcímével választható, a választás mentve (dev_<kulcs>), a sor a gyári összegzést mutatja; 4.0.4-en az oldal is a képből generált (eddig kézzel írt volt; az ICS-ben a menüpont mindig látszik, nincs hétszeri koppintás; buildszám IMM76I). Holo ablakokban a választósorok sötétek (eddig fehér doboz), LP-n Material rádió. A docs/devopts.py androguarddal olvas (az aapt2 nincs a gépen) – cf596f7
 
 ## 7. Megbeszélés (az audit utolsó pontja)
 
@@ -162,7 +162,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 - [ ] 5.1.1 Beállítások: Állapot, Jogi információk, Biztonsági információk, Fényerő-oldal, Fiókok › Google kitalált tartalommal (~1,5 óra)
 - [ ] 5.1.1 Fit és Wallet: helyőrző képernyők, csak a szövegek a sajátjaik (~1,5 óra)
 - [ ] 4.0.4: Kamera, Play Movies, az óralap és a Latitude nagyrészt saját készítésű; a Play Books könyvtára általános (~3–4 óra)
-- [ ] 4.0.4 Beállítások: a „Telefon névjegye” IMM76D buildet mutat (a kép IMM76I); néhány beépített oldal kitalált alcímekkel (~1 óra)
+- [ ] 4.0.4 Beállítások: néhány beépített oldal kitalált alcímekkel (~1 óra). A buildszám (IMM76I) és a Fejlesztői beállítások már a képből – cf596f7
 - [ ] 4.0.4 News & Weather: a fő elrendezések a 4.3-as 1.3.11-ből, a képben 1.3.04 (~1 óra)
 - [ ] Számológép 4.0.4 / 4.4.4: általános ICS-stílusú billentyűzet, APK-forrás nélkül (~1 óra)
 - [ ] settings-detail.js (4.0.4 / 4.3 / 4.4.4 / 5.1.1): „szemléltető” oldalak és statisztikák forrás nélkül; átnézni, mi érhető el belőle (~1–2 óra)
@@ -324,7 +324,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-08 | 7. lépés: boot új fülben, a gyári animáció legalább egy teljes körével, utána zárképernyő | 65d64c9 |
 | 2026-10-08 | 6. lépés: LP Interruptions / Downtime (feltételek, inaktivitás automatikus be- és kikapcsolása) | 68709b7 |
 | 2026-10-08 | Célzott javítás: Docs / Sheets / Slides fájlmenü helye | 80f6ca3 |
-| 2026-10-08 | 9. pont: forrás-felmérés mind az öt verzióra (melyik app nem a gyári APK-ból készült) | (ez a commit) |
+| 2026-10-08 | 9. pont: forrás-felmérés mind az öt verzióra (melyik app nem a gyári APK-ból készült) | b2582df |
 | 2026-10-09 | 6. lépés: LP képernyőrögzítés (beállítási oldal, rögzítő gomb, kérés, feloldás) | d5d794f |
 | 2026-10-09 | 6. lépés: LP kamerabeállítások (Google Camera 2.4 CameraSettingsActivity, manuális expozíció, képarány) | 4ecbbf7 |
 | 2026-10-09 | 6. lépés: videófelvétel a galériába (4.3 / 4.4.4 Galéria MovieActivity, 4.4.4 / 5.1.1 Fotók VideoViewActivity) | a57cf50, a6d4886, d96e7c1 |
@@ -332,3 +332,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-09 | 6. lépés: Google Settings aloldalai (4.3 GMS 3.1, 4.4.4 GMS 4.3, 5.1.1 GMS 6.7) | 64e6f3d, e709007, e3f2cbb |
 | 2026-10-09 | 6. lépés: LP biztonsági aloldalak (SIM-zár, megbízható tanúsítványok a képből, trust agent, használati hozzáférés) | c519783 |
 | 2026-10-09 | 6. lépés: GB hangkeresés és beállításai (VoiceSearch 2.1.3) | 0b3aca0 |
+| 2026-10-09 | 6. lépés: Fejlesztői beállítások listái és mentett állapota (4.0.4 a képből generálva) | cf596f7 |
