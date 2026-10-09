@@ -1529,7 +1529,11 @@
         if(id==='bluetooth'&&!data.settings.bluetooth)data.settings.bluetoothTether=false;
         save(); render(); break;
       case 'widget-music-play': ui.musicActive=true;ui.music.playing=!ui.music.playing;if(ui.music.playing&&ui.music.position>=tracks[ui.music.track].duration)ui.music.position=0;saveMusic();render();break;
-      case 'voice-search': toast('Voice search unavailable offline'); break;
+      // The search box and widget microphones start Voice Search's recognition dialog (gb-google-apps.js).
+      case 'voice-search': openApp('voice-search'); break;
+      // VoiceSearchPreferences: Personalized recognition asks before it changes.
+      case 'gbvs-personal': ui.overlay = 'gb-dialog-set'; ui.gbSetDialog = data.settings.vsPersonal ? 'vs-off' : 'vs-on'; renderOverlay(); break;
+      case 'gbvs-personal-on': case 'gbvs-personal-off': data.settings.vsPersonal = action === 'gbvs-personal-on'; ui.overlay = ''; save(); renderOverlay(); render(); break;
       case 'gb-add': ui.overlay = 'gb-dialog-add'; renderOverlay(); break;
       case 'gb-add-shortcuts': ui.overlay = 'gb-dialog-shortcuts'; renderOverlay(); break;
       case 'gb-add-widgets': ui.overlay = 'gb-dialog-widgets'; renderOverlay(); break;

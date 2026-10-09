@@ -11,7 +11,7 @@
   const entries = (lang, name) => { const entry = table().arrays[name]; return entry ? entry[lang] || entry.en : []; };
 
   // SettingsProvider defaults.xml and the 2.3.6 AudioService / PackageManager defaults.
-  const DEFAULTS = {backgroundData: true, autoSync: true, syncContacts: true, syncCalendar: true, syncEmail: true, vibrateMode: 2, screenTimeout: 2, animationLevel: 2, emergencyTone: 0, installLocation: 2, notificationPulse: true, dtmfTone: true, soundEffects: false, lockSounds: false, autoBrightness: true, haptic: true, assistedGps: true, tactileFeedback: true, autoTime: true, powerButtonEndsCall: false, accessibility: false, dateFormat: 0};
+  const DEFAULTS = {vsLanguage: 0, vsSafeSearch: 1, vsProfanity: true, backgroundData: true, autoSync: true, syncContacts: true, syncCalendar: true, syncEmail: true, vibrateMode: 2, screenTimeout: 2, animationLevel: 2, emergencyTone: 0, installLocation: 2, notificationPulse: true, dtmfTone: true, soundEffects: false, lockSounds: false, autoBrightness: true, haptic: true, assistedGps: true, tactileFeedback: true, autoTime: true, powerButtonEndsCall: false, accessibility: false, dateFormat: 0};
   const value = (settings, key) => settings[key] ?? DEFAULTS[key];
 
   const cat = title => ({kind: 'category', title});
@@ -40,6 +40,13 @@
   const soundTitle = name => name ? TITLES[name] || name.replace(/_/g, ' ').replace(/([a-z])([A-Z0-9])/g, '$1 $2').replace(/\s+/g, ' ').trim() : '';
   const LOCALES = [['en', 'English'], ['hu', 'Magyar'], ['de', 'Deutsch'], ['fr', 'Français'], ['es', 'Español']];
   /* Screens; "ics:x" targets reuse the version's existing page (lock setup, accounts, applications, battery). */
+  // Voice Search 2.1.3's settings data (gb-voice-settings.js) and its language entries.
+  const V = window.GBVoiceSettings;
+  const VS_LOCALE = {en: 'en-US', hu: 'hu-HU', de: 'de-DE', fr: 'fr-FR', es: 'es-ES'};
+  function vsLanguages(lang) {
+    const own = V.languages.find(([code]) => code === VS_LOCALE[lang]) || V.languages.find(([code]) => code === 'en-US');
+    return [V.text(lang, 'prefDefaultTitlePrefix_language').replace('%s', own[1]), ...V.languages.map(([, name]) => name)];
+  }
   function screens(ctx) {
     const s = ctx.settings, lockSecure = ['pattern', 'pin', 'password'].includes(s.screenLock), cred = ctx.cred || {};
     // Strings of gb-network.js: Settings' tethering / network rows and Phone's network settings.
@@ -127,8 +134,20 @@
         cat('language_settings_category'), go('phone_language', {raw: ctx.languageName}, 'locale'),
         go('user_dict_settings_titlebar', '', 'toast:No words in user dictionary'),
         cat('keyboard_settings_category'), go('Android keyboard', {raw: ctx.t('Android keyboard settings')}, 'toast:Android keyboard')]},
+      // voice_input_output_settings.xml with the one recognizer (VoiceSearch's GoogleRecognitionService, "Google"):
+      // VoiceInputOutputSettings drops the recognizer list and links its settings.
       voice: {title: 'voice_input_output_settings', items: [
-        go('tts_settings', '', 'toast:Pico TTS')]},
+        ...(V ? [cat('voice_input_category'), go('recognizer_settings_title', {raw: text(ctx.lang, 'recognizer_settings_summary').replace('%s', V.text(ctx.lang, 'serviceLabel'))}, 'voice-recognizer')] : []),
+        cat('voice_output_category'), go('tts_settings', '', 'toast:Pico TTS')]},
+      // VoiceSearchPreferences (preferences.xml): the language ("Default - <the phone's language>" first), SafeSearch with
+      // its level text and suffix, Block offensive words, Personalized recognition (opt-in / opt-out dialogs), the
+      // Google Account dashboard link.
+      'voice-recognizer': V && {title: {raw: V.text(ctx.lang, 'voiceSearchPreferences')}, items: [
+        list('vsLanguage', {raw: V.text(ctx.lang, 'prefTitle_language')}, null, null, {options: vsLanguages(ctx.lang)}),
+        list('vsSafeSearch', {raw: V.text(ctx.lang, 'prefTitle_safeSearch')}, {raw: `${V.text(ctx.lang, ['prefSummary_safeSearchOff', 'prefSummary_safeSearchModerate', 'prefSummary_safeSearchStrict'][value(s, 'vsSafeSearch')])}\n${V.text(ctx.lang, 'prefSummary_safeSearchSuffix')}`}, null, {options: V.safeSearch(ctx.lang)}),
+        check('vsProfanity', {raw: V.text(ctx.lang, 'prefTitle_profanityFilter')}, {raw: V.text(ctx.lang, 'prefSummary_profanityFilter')}),
+        check('vsPersonal', {raw: V.text(ctx.lang, 'personalization_header')}, {raw: V.text(ctx.lang, 'personalization_settings_message')}, {act: 'gbvs-personal'}),
+        go({raw: V.text(ctx.lang, 'manage_personalization')}, {raw: V.text(ctx.lang, 'manage_personalization_message')}, `toast:${ctx.t('This feature is not part of the simulator.')}`)]},
       accessibility: {title: 'accessibility_settings', items: [
         check('accessibility', 'accessibility_settings', {raw: ''}, {disabled: true}),
         cat('accessibility_services_category'), info('accessibility_service_no_apps_title', ''),
@@ -219,7 +238,7 @@
     if (item.kind === 'list') {
       const options = item.options || entries(ctx.lang, item.array);
       if (item.summary === null) summary = options[value(ctx.settings, item.key)] ?? '';
-      return `<button class="gbset-row" data-action="gbset-list" data-id="${e(item.key)}"${disabled}><span class="gbset-text"><span class="gbset-title">${e(label)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span></button>`;
+      return `<button class="gbset-row" data-action="gbset-list" data-id="${e(item.key)}"${disabled}><span class="gbset-text"><span class="gbset-title">${e(label)}</span>${summary ? `<span class="gbset-sum">${e(summary).replace(/\n/g, '<br>')}</span>` : ''}</span></button>`;
     }
     if (item.kind === 'ap') {
       // AccessPoint: SSID, "Connected" or "Secured with WPA2" / "Remembered", and the (lock) signal icon.
@@ -297,6 +316,8 @@
       return {title: n.name, custom: body, buttons: connected ? [{action: 'gbset-wifi-forget', id: n.name, title: T('wifi_forget')}, {action: 'close-overlay', title: T('wifi_cancel')}] : [{action: 'gbset-wifi-connect', id: n.name, title: T('wifi_connect')}, {action: 'close-overlay', title: T('wifi_cancel')}]};
     }
     if (kind === 'wifi-add') return {title: T('wifi_add_network'), custom: `<label class="gbdlg-field"><span>${e(T('wifi_ssid'))}</span><input data-wifi-ssid maxlength="32"></label>`, buttons: [{action: 'gbset-wifi-save', title: T('wifi_save')}, {action: 'close-overlay', title: T('wifi_cancel')}]};
+    // PersonalizationOptInActivity: turning personalized recognition on, or off.
+    if (kind === 'vs-on' || kind === 'vs-off') { const VT = key => V.text(ctx.lang, key); return {title: VT('personalization_header'), message: kind === 'vs-on' ? `${VT('personalization_popup_first_time_header')}\n\n${VT('personalization_popup_message')}` : VT('personalization_popup_disable_message'), buttons: [{action: kind === 'vs-on' ? 'gbvs-personal-on' : 'gbvs-personal-off', title: VT('ok')}, {action: 'close-overlay', title: VT('cancel')}]}; }
     if (kind === 'adb') return {title: T('adb_warning_title'), icon: 'ic_dialog_alert', message: ctx.t('USB debugging is intended for development purposes only. It can be used to copy data between your computer and your device, install applications on your device without notification, and read log data.'), buttons: [{action: 'gbset-adb-ok', title: T('fw_yes')}, {action: 'close-overlay', title: T('fw_no')}]};
     return null;
   }

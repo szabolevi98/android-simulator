@@ -1331,6 +1331,34 @@ window.GBSettingsStrings = {
 "fr": "Paramètres de la synthèse vocale",
 "es": "Configuración síntesis voz"
 },
+"voice_input_category": {
+"en": "Voice input",
+"hu": "Hangbevitel",
+"de": "Spracheingabe",
+"fr": "Saisie vocale",
+"es": "Entrada de voz"
+},
+"recognizer_settings_title": {
+"en": "Voice recognizer settings",
+"hu": "Hangfelismerő beállításai",
+"de": "Spracherkennung",
+"fr": "Reconnaissance vocale",
+"es": "Reconocimiento de voz"
+},
+"recognizer_settings_summary": {
+"en": "Settings for '%s'",
+"hu": "\"%s\" - Beállítások",
+"de": "Einstellungen für '%s'",
+"fr": "Paramètres de \"%s\"",
+"es": "Configuración de \"%s\""
+},
+"voice_output_category": {
+"en": "Voice output",
+"hu": "Hangkimenet",
+"de": "Sprachausgabe",
+"fr": "Sortie vocale",
+"es": "Salida de voz"
+},
 "wifi_settings_category": {
 "en": "Wi-Fi settings",
 "hu": "Wi-Fi beállítások",
