@@ -55,7 +55,9 @@
     if(field==='font'){title='Font size';choices=[['normal','Normal'],['large','Large']];value=p.largeText?'large':'normal';}
     if(field==='silent'){title='Silent mode';choices=[['off','Off'],['vibrate','Vibrate'],['mute','Mute']];value=p.silent?(p.silentMode||'mute'):'off';}
     if(field==='ringtone'||field==='notificationTone'){title=field==='ringtone'?'Phone ringtone':'Default notification';const list=field==='ringtone'?RINGTONES:NOTIFICATIONS;choices=['Silent',...list].map(name=>[name,name]);value=soundOf(p,field);}
-    return shell(title,`<div class="sd-choice-list">${choices.map(([id,name])=>`<label><span>${e(t(name))}</span><input type="radio" name="choice" value="${id}" ${String(id)===String(value)?'checked':''}></label>`).join('')}</div>${actions}`,'sd-choice');
+    // A ringtone list plays the touched tone (RingtonePickerActivity), sounds.js listens on data-sound.
+    const html=shell(title,`<div class="sd-choice-list">${choices.map(([id,name])=>`<label><span>${e(t(name))}</span><input type="radio" name="choice" value="${id}" ${String(id)===String(value)?'checked':''}></label>`).join('')}</div>${actions}`,'sd-choice');
+    return field==='ringtone'||field==='notificationTone'?html.replace('data-form="sd-choice"',`data-form="sd-choice" data-sound="${field}"`):html;
   }
   window.ICSSettingsDetail={defaults,prefs,sizes,render,overlay,animationScaleLabel};
 })();
