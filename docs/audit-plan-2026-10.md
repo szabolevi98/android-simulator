@@ -148,7 +148,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 
 **A) Az alap felület képernyőképről, cikkből vagy másik verzióból – javítandó**
 
-- [ ] Gmail 4.4.4 (döntés: a gyári 4.6.1 lesz, 7. pont): a Gmail-réteg (kategória-teaser, fiók, jelvények, csipek, szövegek) a 4.7-es GSMArena-képekről; a képben Gmail2 4.6.1. A 4.6.1 SectionedInboxTeaserView és FolderListFragment kódja már kiolvasva (~1,5–2 óra)
+- [x] Gmail 4.4.4 (döntés: a gyári 4.6.1 lesz, 7. pont): a Gmail-réteg most a képben lévő Gmail2 4.6.1 szerint – kategória-teaser (onboarding alatt üdvözlő és kategóriamódosító doboz, utána csak az új levelet tartalmazó szekciók, a szekció színére színezett ikonnal és „%d új” többes számmal), fiókváltó („Beérkező levelek” / „Minden címke”, szekcióikonok, nem látott darabszám a szekció színén), „%d olvasatlan” alcím, Inbox-csip a rendszercímke színeivel; minden szöveg a képből (stock-strings.json, gmail csoport). A szekciószínek szerveradatok, nincsenek az APK-ban: a Közösségi és a Promóciók a Nexus 5-képek szerint, a többi az APK alapértelmezett címkeszíne – 3b40416
 - [ ] Gmail 4.3: ugyanazok a KitKat 4.7-es képernyők; a képben 4.5.1 (~1 óra a 4.4.4 után)
 - [ ] Gmail 4.0.4: Android Police-cikk alapján, más képek kem-* ikonjaival; a képben Gmail 4.0.4 (~2–3 óra)
 - [ ] Gmail 5.1.1: a 4.7-es gmail.css maradványai még töltődnek (.gm-chip stb.) (~0,5 óra)
@@ -334,3 +334,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-09 | 6. lépés: GB hangkeresés és beállításai (VoiceSearch 2.1.3) | 0b3aca0 |
 | 2026-10-09 | 6. lépés: Fejlesztői beállítások listái és mentett állapota (4.0.4 a képből generálva) | cf596f7 |
 | 2026-10-09 | 6. lépés: csengőhang-előnézet és ébresztőhang a képek hangjaiból (6. lépés kész) | fa8b5c6 |
+| 2026-10-10 | 9. lépés: Gmail 4.4.4 a gyári Gmail2 4.6.1 szerint (teaser, fiókváltó, számlálók, szövegek a képből) | 3b40416 |
