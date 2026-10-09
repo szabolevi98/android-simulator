@@ -1,0 +1,25 @@
+/* Security sub-pages (lp-security.js), dp x 0.906. Trusted credentials: the Material TabWidget (48 dp, 14 sp medium
+   caps, the 2 dp accent underline) and trusted_credential.xml rows (15 dp top and bottom, 16 dp in, 18 sp primary over
+   14 sp secondary subjects, the Switch). */
+.lps-tabs{display:flex;position:sticky;top:0;z-index:1;background:#fafafa;box-shadow:0 .91px 0 #0000001f}
+.screen .lps-tabs button{flex:1;height:43.49px;padding:0;border:0;border-bottom:1.81px solid transparent;background:none;font:500 12.68px Roboto,sans-serif;color:#0000008a;text-transform:uppercase;cursor:pointer}
+.screen .lps-tabs button.on{border-bottom-color:#009688;color:#000000de}
+.lps-list{display:flex;flex-direction:column}
+.screen .lps-cert{display:flex;align-items:center;gap:14.5px;width:100%;padding:13.59px 14.5px;border:0;background:none;text-align:left;cursor:pointer}
+.screen .lps-cert:active{background:#0000001a}
+.lps-cert .row-copy{flex:1;min-width:0;display:flex;flex-direction:column;font:400 16.31px Roboto,sans-serif;color:#000000de}
+.lps-cert small{font:400 12.68px Roboto,sans-serif;color:#0000008a}
+.lps-cert .lp-mswitch{flex:none}
+.lps-agent .lp-check{margin:0 14.5px 0 0}
+/* EditPinPreference and SslCertificate's details in the Material alert dialog. */
+.lps-dialog{max-height:85%;display:flex;flex-direction:column}
+.lps-dialog p{margin:0 0 7.25px}
+.lps-error{color:#d32f2f!important}
+.screen .lps-pin{display:block;width:calc(100% - 43.48px);margin:4px 21.74px 10px;padding:3.62px 0;border:0;border-bottom:1.81px solid #009688;background:none;outline:none;font:400 16.31px Roboto,sans-serif;color:#000000de;letter-spacing:.2em}
+.lps-details{flex:1;min-height:0;overflow-y:auto;margin:0;padding:0 21.74px;font:400 12.68px/1.35 Roboto,sans-serif;color:#000000de;scrollbar-width:none}
+.lps-details dt{margin-top:5.44px;color:#0000008a}
+.lps-details dt.lps-head{margin-top:10.87px;font-weight:500;color:#000000de}
+.lps-details dd{margin:0;overflow-wrap:anywhere}
+.lps-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:7.25px 14.5px 0}
+.screen .lps-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;font:500 12.68px Roboto,sans-serif;color:#009688;text-transform:uppercase;cursor:pointer}
+.screen .lps-buttons button:active{background:#0000001a}

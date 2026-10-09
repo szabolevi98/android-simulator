@@ -334,3 +334,43 @@ framework capital_on
 framework capital_off
 framework action_bar_up_description
 GoogleCamera processing_panorama
+# Security sub-pages: IccLockSettings (sim_lock_settings.xml, EditPinPreference), TrustedCredentialsSettings and
+# SslCertificate's details, CertInstaller's no-file toast, the credentials reset state, TrustAgentSettings (GMS's
+# agent), UsageAccessSettings.
+Settings sim_lock_settings
+Settings sim_pin_toggle
+Settings sim_lock_on
+Settings sim_pin_change
+Settings sim_enter_pin
+Settings sim_enable_sim_lock
+Settings sim_disable_sim_lock
+Settings sim_enter_old
+Settings sim_enter_new
+Settings sim_reenter_new
+Settings sim_bad_pin
+Settings sim_pins_dont_match
+Settings sim_change_succeeded
+Settings sim_change_failed
+Settings sim_lock_failed
+Settings trusted_credentials_system_tab
+Settings trusted_credentials_user_tab
+Settings trusted_credentials_disable_label
+Settings trusted_credentials_enable_label
+Settings trusted_credentials_disable_confirmation
+Settings trusted_credentials_enable_confirmation
+Settings disabled_because_no_backup_security
+Settings usage_access_title
+CertInstaller no_cert_file_found
+framework ssl_certificate
+framework issued_to
+framework issued_by
+framework common_name
+framework org_name
+framework org_unit
+framework validity_period
+framework issued_on
+framework expires_on
+framework fingerprints
+framework sha256_fingerprint
+framework sha1_fingerprint
+PrebuiltGmsCore auth_personal_unlocking_service_name

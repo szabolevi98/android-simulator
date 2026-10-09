@@ -969,6 +969,9 @@
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog jb-brightness" role="dialog" aria-label="${safe(i18n.t('Brightness'))}"><h3>${safe(i18n.t('Brightness'))}</h3><div class="jb-brightness-row"><img src="assets/jb-ic_qs_brightness_auto_off.png" alt=""><input type="range" min="10" max="100" value="${data.settings.brightness}" data-field="brightness" aria-label="${safe(i18n.t('Brightness'))}" ${data.settings.autoBrightness ? 'disabled' : ''}><label><input type="checkbox" data-field="auto-brightness" ${data.settings.autoBrightness ? 'checked' : ''}><span>${safe(i18n.t('AUTO'))}</span></label></div></div>`;
     } else if (ui.overlay.startsWith('widget-photo')) {
       overlayRoot.innerHTML = ICSWidgets.photoOverlay(data, ui, key => i18n.t(key));
+    } else if (ui.overlay.startsWith('lps-')) {
+      overlayRoot.innerHTML = LPSecurity.overlay({data, ui, t: key => i18n.t(key), locale: i18n.locale()});
+      overlayRoot.querySelector('[data-lps-pin]')?.focus();
     } else if(ui.overlay==='sx-dialog'){
       overlayRoot.innerHTML=ICSSystemSettings.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay === 'search') {
@@ -1201,7 +1204,8 @@
   function renderSettings() {
     const s = ui.sub;
     if(s==='lock-setup')return lockControls.renderSetup();
-    const lp=LPSettingsPages.render(s,{data,t:key=>i18n.t(key),locale:i18n.locale()});
+    // Security's sub-pages (lp-security.js), then the other Lollipop pages.
+    const lp=LPSecurity.page(s,{data,ui,t:key=>i18n.t(key)})||LPSettingsPages.render(s,{data,t:key=>i18n.t(key),locale:i18n.locale()});
     if(lp)return appView(lp.title,(lp.switchKey?switchBar(lp.switchKey,lp.switchOn):'')+lp.body,'','');
     const system=ICSSystemSettings.render(data,ui,key=>i18n.t(key),i18n.locale());
     if(system)return appView(system.title,system.body,'sx-page',system.right);
@@ -2197,6 +2201,15 @@
       case 'a11y-hold': ui.overlay = 'a11y-hold'; renderOverlay(); break;
       case 'a11y-hold-pick': data.settings.longPressTimeout = Number(id); ui.overlay = ''; save(); renderOverlay(); render(); break;
       case 'toast': toast(id); break;
+      // Security's sub-pages (lp-security.js).
+      case 'lps-toast': toast(i18n.t(id)); break;
+      case 'lps-sim': ui.lpsPin = {mode: id, step: 'pin'}; ui.overlay = 'lps-pin'; renderOverlay(); break;
+      case 'lps-pin-ok': { const value = overlayRoot.querySelector('[data-lps-pin]')?.value || '', note = LPSecurity.pinOk(data, ui, value); if (note === null) { renderOverlay(); break; } save(); ui.overlay = ''; renderOverlay(); render(); if (note) toast(i18n.t(note)); break; }
+      case 'lps-tab': ui.lpsTab = id; render(); break;
+      case 'lps-cert': ui.lpsCert = id; ui.overlay = 'lps-cert'; renderOverlay(); break;
+      case 'lps-cert-ask': ui.overlay = 'lps-confirm'; renderOverlay(); break;
+      case 'lps-cert-toggle': { const off = new Set(data.settings.disabledCerts || []); if (off.has(ui.lpsCert)) off.delete(ui.lpsCert); else off.add(ui.lpsCert); data.settings.disabledCerts = [...off]; save(); ui.overlay = ''; renderOverlay(); render(); break; }
+      case 'lps-agent': data.settings.smartLockAgent = data.settings.smartLockAgent === false; save(); render(); break;
       case 'noop': break;
       case 'browser-search': openApp('chrome'); document.querySelector('.chr-omnibox input')?.focus(); break;
       case 'browser-link': navigateBrowser(url); break;
