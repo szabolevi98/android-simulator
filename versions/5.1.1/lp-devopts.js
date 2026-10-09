@@ -4,9 +4,9 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  // [kind, title, summary, setting key, depends on USB debugging]; kind: check (CheckBoxPreference), switch
-  // (SwitchPreference), list (a row with its summary: ListPreference, PreferenceScreen, Preference), scale (the
-  // animation scale dialog).
+  // [kind, title, summary, setting key, depends on USB debugging, ...]; kind: check (CheckBoxPreference), switch
+  // (SwitchPreference), choice (ListPreference: + entries, summaries or null, default index, dialog title), list (a row
+  // with its summary: PreferenceScreen, Preference), scale (the animation scale dialog).
   const SECTIONS = [
     [
       "",
@@ -28,9 +28,23 @@
           "stayAwake"
         ],
         [
-          "list",
+          "choice",
           "HDCP checking",
-          "Use HDCP checking for DRM content only"
+          "",
+          "dev_hdcp_checking",
+          false,
+          [
+            "Never check",
+            "Check for DRM content only",
+            "Always check"
+          ],
+          [
+            "Never use HDCP checking",
+            "Use HDCP checking for DRM content only",
+            "Always use HDCP checking"
+          ],
+          1,
+          "Set HDCP checking behavior"
         ],
         [
           "switch",
@@ -132,9 +146,27 @@
           "wifiRoamScans"
         ],
         [
-          "list",
+          "choice",
           "Logger buffer sizes",
-          "256K per log buffer"
+          "",
+          "dev_select_logd_size",
+          false,
+          [
+            "64K",
+            "256K",
+            "1M",
+            "4M",
+            "16M"
+          ],
+          [
+            "64K per log buffer",
+            "256K per log buffer",
+            "1M per log buffer",
+            "4M per log buffer",
+            "16M per log buffer"
+          ],
+          1,
+          "Select Logger sizes per log buffer"
         ]
       ]
     ],
@@ -195,9 +227,24 @@
           "animatorScale"
         ],
         [
-          "list",
+          "choice",
           "Simulate secondary displays",
-          "None"
+          "",
+          "dev_overlay_display_devices",
+          false,
+          [
+            "None",
+            "720x480 mdpi",
+            "720x480 mdpi (secure)",
+            "1280x720 tvdpi",
+            "1280x720 tvdpi (secure)",
+            "1920x1080 xhdpi",
+            "1920x1080 xhdpi (secure)",
+            "1280x720 tvdpi and 1920x1080 xhdpi"
+          ],
+          null,
+          0,
+          "Simulate secondary displays"
         ]
       ]
     ],
@@ -223,14 +270,34 @@
           "layerUpdates"
         ],
         [
-          "list",
+          "choice",
           "Debug GPU overdraw",
-          "Off"
+          "",
+          "dev_debug_hw_overdraw",
+          false,
+          [
+            "Off",
+            "Show overdraw areas",
+            "Show areas for Deuteranomaly"
+          ],
+          null,
+          0,
+          "Debug GPU overdraw"
         ],
         [
-          "list",
+          "choice",
           "Debug non-rectangular clip operations",
-          "Off"
+          "",
+          "dev_show_non_rect_clip",
+          false,
+          [
+            "Off",
+            "Draw non-rectangular clip region in blue",
+            "Highlight tested drawing commands in green"
+          ],
+          null,
+          0,
+          "Debug non-rectangular clip operations"
         ],
         [
           "switch",
@@ -245,9 +312,21 @@
           "disableOverlays"
         ],
         [
-          "list",
+          "choice",
           "Simulate color space",
-          "Disabled"
+          "",
+          "dev_simulate_color_space",
+          false,
+          [
+            "Disabled",
+            "Monochromacy",
+            "Deuteranomaly (red-green)",
+            "Protanomaly (red-green)",
+            "Tritanomaly (blue-yellow)"
+          ],
+          null,
+          0,
+          "Simulate color space"
         ]
       ]
     ],
@@ -284,14 +363,35 @@
           "showCpu"
         ],
         [
-          "list",
+          "choice",
           "Profile GPU rendering",
-          "Off"
+          "",
+          "dev_track_frame_time",
+          false,
+          [
+            "Off",
+            "On screen as bars",
+            "In adb shell dumpsys gfxinfo"
+          ],
+          null,
+          0,
+          "Profile GPU rendering"
         ],
         [
-          "list",
+          "choice",
           "Enable OpenGL traces",
-          "None"
+          "",
+          "dev_enable_opengl_traces",
+          false,
+          [
+            "None",
+            "Logcat",
+            "Systrace (Graphics)",
+            "Call stack on glGetError"
+          ],
+          null,
+          0,
+          "Enable OpenGL traces"
         ]
       ]
     ],
@@ -305,9 +405,22 @@
           "dontKeep"
         ],
         [
-          "list",
+          "choice",
           "Background process limit",
-          "Standard limit"
+          "",
+          "dev_app_process_limit",
+          false,
+          [
+            "Standard limit",
+            "No background processes",
+            "At most 1 process",
+            "At most 2 processes",
+            "At most 3 processes",
+            "At most 4 processes"
+          ],
+          null,
+          0,
+          "Background process limit"
         ],
         [
           "switch",
@@ -326,7 +439,13 @@
     "Stay awake":["Nem kapcsolódik ki","Aktiv lassen","Rester activé","Pantalla activa"],
     "Screen will never sleep while charging":["A képernyő soha nem kapcsol ki töltés során","Display wird beim Laden nie in den Ruhezustand versetzt","L'écran ne se met jamais en veille lors du chargement.","La pantalla nunca entra en modo de suspensión si el dispositivo se está cargando"],
     "HDCP checking":["HDCP ellenőrzés","HDCP-Prüfung","Vérification HDCP","Comprobación de HDCP"],
+    "Never check":["Ellenőrzés soha","Nie prüfen","Ne jamais vérifier","No comprobar"],
+    "Check for DRM content only":["Csak DRM-tartalom ellenőrzése","Nur auf DRM-Inhalte prüfen","Vérifier le contenu GDN uniquement","Buscar solo contenido DRM"],
+    "Always check":["Ellenőrzés mindig","Immer prüfen","Toujours vérifier","Comprobar siempre"],
+    "Never use HDCP checking":["Soha ne használjon HDCP ellenőrzést","HDCP-Prüfung nie verwenden","Ne jamais utiliser la vérification HDCP","No utilizar comprobación de HDCP"],
     "Use HDCP checking for DRM content only":["Csak DRM-tartalomhoz használjon HDCP ellenőrzést","HDCP-Prüfung nur für DRM-Inhalte verwenden","Utiliser la vérification HDCP uniquement pour le contenu GDN","Utilizar comprobación de HDCP solo para contenido DRM"],
+    "Always use HDCP checking":["Mindig használjon HDCP ellenőrzést","HDCP-Prüfung immer verwenden","Toujours utiliser la vérification HDCP","Utilizar siempre comprobación de HDCP"],
+    "Set HDCP checking behavior":["HDCP-ellenőrzés beállítása","HDCP-Prüfverhalten festlegen","Config. vérification HDCP","Definir comprobación HDCP"],
     "Enable Bluetooth HCI snoop log":["Bluetooth HCI snoop napló engedélyezése","Bluetooth HCI-Snoop-Protokoll aktivieren","Activer journaux HCI Bluetooth","Registro de búsqueda de HCI Bluetooth"],
     "Capture all bluetooth HCI packets in a file":["Az összes Bluetooth HCI-csomag rögzítése egy fájlban","Alle Bluetooth HCI-Pakete in einer Datei erfassen","Enregistrer tous les paquets HCI Bluetooth dans un fichier","Capturar todos los paquetes de HCI de Bluetooth HCI en un archivo"],
     "OEM unlocking":["OEM-feloldás","OEM-Entsperrung","Déverrouillage OEM","Desbloqueo de OEM"],
@@ -355,7 +474,17 @@
     "Aggressive Wi‑Fi to Cellular handover":["Agresszív Wi‑Fi–mobilhálózat átadás","Aggressives Handover von WLAN an Mobilfunk","Passage forcé du Wi-Fi aux données mobiles","Transferencia total de Wi‑Fi a móvil"],
     "Always allow Wi‑Fi Roam Scans":["Wi‑Fi-roaming ellenőrzésének engedélyezése mindig","WLAN-Roamingsuchen immer zulassen","Toujours autoriser la détection de réseaux Wi-Fi en itinérance","Permitir siempre búsquedas de Wi-Fi"],
     "Logger buffer sizes":["Logger pufferméret","Logger-Puffergrößen","Tailles des mémoires tampons Logger","Tamaños de búfer de Logger"],
+    "64K":["64 KB","64.000","64 Ko","64 K"],
+    "256K":["256 KB","256.000","256 Ko","256 K"],
+    "1M":["1 MB","1 Mio.","1 Mo","1 M"],
+    "4M":["4 MB","4 Mio.","4 Mo","4 M"],
+    "16M":["16 MB","16 Mio.","16 Mo","16 M"],
+    "64K per log buffer":["64 KB/naplópuffer","64.000 pro Puffer","64 Ko/tampon journal","64 K/búfer registro"],
     "256K per log buffer":["256 KB/naplópuffer","256.000 pro Puffer","256 Ko/tampon journal","256 K/búfer registro"],
+    "1M per log buffer":["1 MB/naplópuffer","1 Mio. pro Puffer","1 Mo/tampon journal","1 M/búfer registro"],
+    "4M per log buffer":["4 MB/naplópuffer","4 Mio. pro Puffer","4 Mo/tampon journal","4 M/búfer registro"],
+    "16M per log buffer":["16 MB/naplópuffer","16 Mio. pro Puffer","16 Mo/tampon journal","16 M/búfer registro"],
+    "Select Logger sizes per log buffer":["Logger naplópufferméret választása","Größe pro Protokollpuffer wählen","Tailles Logger par tampon journal","Elegir tamaños Logger/búfer registro"],
     "Input":["Bevitel","Eingabe","Saisie","Entrada"],
     "Show touches":["Érintések megjelenítése","Berührungen anzeigen","Afficher élément sélectionné","Mostrar pulsaciones"],
     "Show visual feedback for touches":["Érintések vizuális visszajelzésének megjelenítése","Visuelles Feedback für Berührungen anzeigen","Afficher repère visuel pour éléments sélectionnés","Mostrar la ubicación de las pulsaciones en la pantalla"],
@@ -373,6 +502,13 @@
     "Animator duration scale":["Animáció léptéke","Maßstab für Animatorzeit","Échelle durée animation","Escala de duración de animador"],
     "Simulate secondary displays":["Másodlagos kijelzők szimulálása","Sekundäre Displays simulieren","Simuler des écrans secondaires","Simular pantallas secundarias"],
     "None":["Egyik sem","Keine","Aucun","Ninguna"],
+    "720x480 mdpi":["720x480 mdpi","720 x 480 mdpi","720 x 480 mdpi","720 x 480 mdpi"],
+    "720x480 mdpi (secure)":["720x480 mdpi (biztonságos)","720 x 480 mdpi (sicher)","720 x 480 mdpi (sécurisé)","720x480 mdpi (seguro)"],
+    "1280x720 tvdpi":["1280x720 tvdpi","1.280 x 720 tvdpi","1 280 x 720 tvdpi","1280 x 720 tvdpi"],
+    "1280x720 tvdpi (secure)":["1280x720 tvdpi (biztonságos)","1.280 x 720 tvdpi (sicher)","1 280 x 720 tvdpi (sécurisé)","1280x720 tvdpi (seguro)"],
+    "1920x1080 xhdpi":["1920x1080 xhdpi","1.920 x 1.080 xhdpi","1 920 x 1 080 xhdpi","1920x1080 xhdpi"],
+    "1920x1080 xhdpi (secure)":["1920x1080 xhdpi (biztonságos)","1.920 x 1.080 xhdpi (sicher)","1 920 x 1 080 xhdpi (sécurisé)","1920x1080 xhdpi (seguro)"],
+    "1280x720 tvdpi and 1920x1080 xhdpi":["1280x720 tvdpi és 1920x1080 xhdpi","1.280 x 720 tvdpi und 1.920 x 1.080 xhdpi","1 280 x 720 tvdpi et 1 920 x1 080 xhdpi","1280x720 tvdpi y 1920x1080 xhdpi"],
     "Hardware accelerated rendering":["Hardveres gyorsítású megjelenítés","Hardwarebeschleunigtes Rendering","Accélération matérielle","Renderización acelerada por hardware"],
     "Force GPU rendering":["GPU-megjelenítés","GPU-Rendering erzwingen","Forcer le rendu GPU","Forzar aceleración GPU"],
     "Force use of GPU for 2d drawing":["GPU használatának kényszerítése 2D rajzhoz","Einsatz von GPU für 2D-Zeichnung erzwingen","Forcer l'utilisation du GPU pour le dessin 2D","Forzar uso de GPU para dibujos en 2D"],
@@ -382,13 +518,21 @@
     "Flash hardware layers green when they update":["Frissítéskor a hardverrétegek zölden villognak","Hardwareebenen blinken beim Aktualisieren grün","Couches matérielles en vert une fois mises à jour","Iluminar capas de hardware en verde al actualizarse"],
     "Debug GPU overdraw":["GPU tartalom-felülírási hibakeresés","Debugging – GPU-Überschneidung","Déboguer les conflits GPU","Depurar sobredibujos de GPU"],
     "Off":["Ki","Aus","Désactivé","No"],
+    "Show overdraw areas":["Tartalom-felülírási területek mutatása","Überschneidungsbereiche anzeigen","Afficher les zones de conflit","Mostrar áreas sobredibujadas"],
+    "Show areas for Deuteranomaly":["A deuteranomália területeinek megjelenítése","Bereiche für Deuteranomalie anzeigen","Afficher couleurs de zones adaptées à deutéranomalie","Mostrar áreas para deuteranomalía"],
     "Debug non-rectangular clip operations":["Nem négyzetes kivágási műveletek hibakeresése","Nicht rechteckige Clip-Operationen debuggen","Déboguer opé. de découpage non rect.","Depurar operaciones de recorte no rectangulares"],
+    "Draw non-rectangular clip region in blue":["Nem négyzetes kivágás kékkel","Nicht rechteckigen Clipbereich blau zeichnen","Dessiner zone de découpage non rectangulaire en bleu","Dibujar región de recorte no rectangular en azul"],
+    "Highlight tested drawing commands in green":["Tesztelt rajzolási parancsok kiemelése zölddel","Getestete Zeichenbefehle grün hervorheben","Surligner en vert les commandes de dessin testées","Resaltar comandos de dibujo probados en verde"],
     "Force 4x MSAA":["4x MSAA kényszerítése","4x MSAA erzwingen","Forcer MSAA 4x","Forzar MSAA 4x"],
     "Enable 4x MSAA in OpenGL ES 2.0 apps":["A 4x MSAA engedélyezése az OpenGL ES 2.0-nál","4x MSAA in OpenGL ES 2.0-Apps aktivieren","Activer MSAA 4x dans les applications OpenGL ES 2.0","Habilitar MSAA 4x en aplicaciones de OpenGL ES 2.0"],
     "Disable HW overlays":["HW fedvények letiltása","HW-Overlays deaktivieren","Désactiver superpos. matér.","Inhabilitar superposiciones HW"],
     "Always use GPU for screen compositing":["Mindig a GPU használata képernyő-feldolgozáshoz","GPU immer für Bildschirmaufbau verwenden","Toujours utiliser le GPU pour la composition écran","Usar siempre GPU para combinar pantallas"],
     "Simulate color space":["Színtérszimuláció","Farbraum simulieren","Simuler espace colori.","Simular espacio de color"],
     "Disabled":["Letiltva","Deaktiviert","Désactivé","Inhabilitado"],
+    "Monochromacy":["Monokromázia","Farbenblindheit","Monochromatisme","Acromatopsia"],
+    "Deuteranomaly (red-green)":["Színtévesztés (piros–zöld)","Deuteranomalie (Rot-Grün-Sehschwäche)","Deutéranomalie (rouge/vert)","Deuteronomalía (rojo-verde)"],
+    "Protanomaly (red-green)":["Színtévesztés (piros– zöld)","Protanomalie (Rot-Grün-Sehschwäche)","Protanomalie (rouge/vert)","Protanomalía (rojo-verde)"],
+    "Tritanomaly (blue-yellow)":["Színtévesztés (kék–sárga)","Tritanomalie (Blau-Gelb-Sehschwäche)","Tritanomalie (bleu-jaune)","Tritanomalía (azul-amarillo)"],
     "Media":["Média","Medien","Multimédia","Multimedia"],
     "Use AwesomePlayer (deprecated)":["AwesomePlayer (megszűnt)","AwesomePlayer (eingestellt) nutzen","Utiliser AwesomePlayer (obsolète)","Usar AwesomePlayer (obsoleto)"],
     "Use AwesomePlayer instead of NuPlayer for most media playback":["Az AwesomePlayer használata a NuPlayer helyett","Für die meisten Medien AwesomePlayer statt NuPlayer verwenden","Utiliser AwesomePlayer au lieu de NuPlayer pour la lecture de la plupart des contenus médias","Reproducir con AwesomePlayer en vez de NuPlayer"],
@@ -400,12 +544,22 @@
     "Show CPU usage":["CPU-használat mutatása","CPU-Auslastung anzeigen","Afficher mém. CPU utilisée","Mostrar uso de la CPU"],
     "Screen overlay showing current CPU usage":["Képernyőfedvény a jelenlegi CPU-használattal","Bildschirm-Overlay mit aktueller CPU-Auslastung","Superposition écran indiquant mémoire CPU utilisée","Suporponer el uso de la CPU en la pantalla"],
     "Profile GPU rendering":["Profil GPU-renderelésről","GPU-Rendering für Profil","Rendu GPU du profil","Perfil de renderización de GPU"],
+    "On screen as bars":["A képernyőn sávként","Auf Bildschirm als Balken","À l'écran sous forme de barres","En pantalla como barras"],
+    "In adb shell dumpsys gfxinfo":["adb shell dumpsys gfxinfo elemben","In adb shell dumpsys gfxinfo","Dans adb shell dumpsys gfxinfo","En adb shell dumpsys gfxinfo"],
     "Enable OpenGL traces":["OpenGL nyomon követése","OpenGL-Traces aktivieren","Activer les traces OpenGL","Habilitar seguimiento OpenGL"],
+    "Logcat":["Logcat","Logcat","Logcat","Logcat"],
+    "Systrace (Graphics)":["Systrace (grafika)","Systrace (Grafik)","Systrace (graphismes)","Systrace (gráficos)"],
+    "Call stack on glGetError":["Verem meghívása glGetError esetén","Aufrufliste für glGetError","Appeler une pile sur glGetError","Pila de llamadas en glGetError"],
     "Apps":["Alkalmazások","Apps","Applications","Aplicaciones"],
     "Don't keep activities":["Törölje a tevékenységeket","Aktionen nicht speichern","Ne pas conserver activités","Destruir actividades"],
     "Destroy every activity as soon as the user leaves it":["Tevékenységek törlése, amint elhagyják azokat","Aktivität löschen, sobald der Nutzer diese beendet","Supprimer immédiatement les activités abandonnées","Destruir actividades cuando el usuario deje de usarlas"],
     "Background process limit":["Háttérfolyamat-korlátozás","Hintergrundprozesslimit","Limite processus arr.-plan","Límitar procesos en segundo plano"],
     "Standard limit":["Normál korlátozás","Standardlimit","Limite standard","Límite estándar"],
+    "No background processes":["Nincsenek háttérfolyamatok","Keine Hintergrundprozesse","Aucun processus en arrière-plan","Sin procesos en segundo plano"],
+    "At most 1 process":["Legfeljebb 1 folyamat","Höchstens 1 Prozess","Un processus maximum","1 proceso"],
+    "At most 2 processes":["Legfeljebb 2 folyamat","Höchstens 2 Prozesse","Deux processus maximum","2 procesos"],
+    "At most 3 processes":["Legfeljebb 3 folyamat","Höchstens 3 Prozesse","Trois processus maximum","3 procesos"],
+    "At most 4 processes":["Legfeljebb 4 folyamat","Höchstens 4 Prozesse","Quatre processus maximum","4 procesos"],
     "Show all ANRs":["Összes ANR mutatása","Alle ANRS anzeigen","Afficher tous les messages ANR","Errores sin respuesta"],
     "Show App Not Responding dialog for background apps":["Az Alkalmazás nem válaszol ablak megjelenítése","Dialogfeld \"App antwortet nicht\" für Hintergrund-Apps anzeigen","Afficher \"L'application ne répond plus\" pour applis en arrière-plan","Informar de que una aplicación en segundo plano no responde"]
   };
@@ -424,9 +578,19 @@
       const copy = `<span class="row-copy">${e(T(title))}${summary ? `<small>${e(T(summary))}</small>` : ''}</span>`;
       if (kind === 'check') return `<button class="settings-row wireless-row jb-dev-row" data-action="toggle-setting" data-id="${key}" role="checkbox" aria-checked="${!!settings[key]}" ${attrs}>${copy}<img class="holo-checkbox" src="assets/btn_check_${settings[key] ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
       if (kind === 'switch') return `<button class="settings-row lp-switch-row jb-dev-row" data-action="toggle-setting" data-id="${key}" role="switch" aria-checked="${!!settings[key]}" ${attrs}>${copy}<span class="lp-mswitch${settings[key] ? ' on' : ''}" aria-hidden="true"></span></button>`;
+      if (kind === 'choice') { const [, , , , , entries, summaries, fallback] = SECTIONS.flatMap(([, list]) => list).find(row => row[3] === key); const index = settings[key] ?? fallback; return `<button class="settings-row jb-dev-row" data-action="dev-list" data-id="${key}" ${attrs}><span class="row-copy">${e(T(title))}<small>${e(T((summaries || entries)[index] ?? entries[0]))}</small></span></button>`; }
       if (kind === 'scale') return `<button class="settings-row jb-dev-row" data-action="sd-dialog" data-id="${key}" ${attrs}><span class="row-copy">${e(T(title))}<small>${e(t(scaleLabel(settings[key] ?? 1)))}</small></span></button>`;
       return `<button class="settings-row jb-dev-row" data-action="dev-info" data-id="${e(title)}" ${attrs}>${copy}</button>`;
     }).join('')}`).join('');
+  }
+
+  // ListPreference's dialog: the title, the entries as single-choice rows, Cancel; a tap picks and closes.
+  function dialog(key, settings, t, lang = 'en') {
+    const row = SECTIONS.flatMap(([, rows]) => rows).find(item => item[0] === 'choice' && item[3] === key);
+    if (!row) return '';
+    const i = LANGS.indexOf(lang), T = text => STRINGS[text] && i >= 0 ? STRINGS[text][i] : STRINGS[text] ? text : t(text);
+    const [, , , , , entries, , fallback, title] = row, current = settings[key] ?? fallback;
+    return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${e(T(title))}"><h3>${e(T(title))}</h3>${entries.map((entry, n) => `<button class="settings-row wireless-row" data-action="dev-list-pick" data-id="${key}:${n}" role="radio" aria-checked="${n === current}"><span class="row-copy">${e(T(entry))}</span>${CATEGORY_CAPS ? `<img class="holo-radio" src="assets/btn_radio_${n === current ? 'on' : 'off'}_holo_dark.png" alt="">` : `<span class="lp-radio${n === current ? ' on' : ''}" aria-hidden="true"></span>`}</button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${e(t('Cancel'))}</button></div></div>`;
   }
 
   /* Overlays: layout bounds (red clip bounds and blue corner marks), PointerLocationView's top bar, and the
@@ -450,5 +614,5 @@
     const box = screen.getBoundingClientRect(), k = box.width / screen.offsetWidth || 1, x = (event.clientX - box.left) / k * 2, y = (event.clientY - box.top) / k * 2;
     bar.textContent = `P: ${down ? 1 : 0} / ${count}   X: ${x.toFixed(1)}   Y: ${y.toFixed(1)}   Xv: 0.000   Yv: 0.000   Prs: ${down ? '1.00' : '0.00'}   Size: ${down ? '0.20' : '0.00'}`;
   }
-  window.JBDeveloperOptions = {SECTIONS, STRINGS, DEFAULTS, keys, render, apply, updateCpu, pointerMove};
+  window.JBDeveloperOptions = {SECTIONS, STRINGS, DEFAULTS, keys, render, dialog, apply, updateCpu, pointerMove};
 })();

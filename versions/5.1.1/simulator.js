@@ -958,6 +958,8 @@
     } else if (ui.overlay === 'kk-sms-app') {
       // SmsDefaultDialog-style list preference: the SMS-capable apps (only Messaging in AOSP).
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(i18n.t('Default SMS app'))}"><h3>${safe(i18n.t('Default SMS app'))}</h3><button class="settings-row jb-dream-row" data-action="close-overlay" role="radio" aria-checked="true"><span class="row-copy">${safe(i18n.t('Messaging'))}</span><img class="holo-radio" src="assets/btn_radio_on_holo_dark.png" alt=""></button><div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
+    } else if (ui.overlay === 'dev-list') {
+      overlayRoot.innerHTML = JBDeveloperOptions.dialog(ui.devList, data.settings, key => i18n.t(key), i18n.language);
     } else if (ui.overlay === 'a11y-hold') {
       overlayRoot.innerHTML = `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${safe(A11Y('Touch & hold delay'))}"><h3>${safe(A11Y('Touch & hold delay'))}</h3>${HOLD_NAMES.map((name, i) => `<button class="settings-row wireless-row" data-action="a11y-hold-pick" data-id="${i}" role="radio" aria-checked="${(data.settings.longPressTimeout || 0) === i}"><span class="row-copy">${safe(A11Y(name))}</span><img class="holo-radio" src="assets/btn_radio_${(data.settings.longPressTimeout || 0) === i ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${safe(i18n.t('Cancel'))}</button></div></div>`;
     } else if (ui.overlay === 'dream-when') {
@@ -2132,6 +2134,9 @@
       case 'sx-apn-open': ui.systemDraft=clone((data.apnProfiles||[{id:'default',name:'Telekom',apn:'internet.telekom',mcc:'216',mnc:'30'}]).find(profile=>profile.id===id)||{});ui.systemField='apn-edit';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
       case 'sx-apn-select': data.settings.apnId=id;save();render();break;
       case 'dev-info': toast(i18n.t('Not available in the simulator')); break;
+      // Developer options' ListPreferences: the choice is kept in data.settings['dev_<key>'] (index into the entries).
+      case 'dev-list': ui.devList = id; ui.overlay = 'dev-list'; renderOverlay(); break;
+      case 'dev-list-pick': { const cut = id.lastIndexOf(':'); data.settings[id.slice(0, cut)] = Number(id.slice(cut + 1)); save(); ui.overlay = ''; renderOverlay(); render(); break; }
       // Interruptions (lp-zen.js): the DropDownPreference lists, the condition dialog after priority / none, Days, the times.
       case 'lp-zen-drop': ui.zenDrop = id; ui.overlay = 'lp-zen-drop'; renderOverlay(); break;
       case 'lp-zen-pick': {

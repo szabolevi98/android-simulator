@@ -143,7 +143,7 @@
 .screen .settings-dialog h3{margin:0 0 14.5px;padding:0 21.74px;font:500 18.12px Roboto,sans-serif;color:#000000de;border:0;background:none;text-transform:none}
 .screen .settings-dialog p,.screen .settings-dialog label{padding:0 21.74px;color:#0000008a;font:400 14.5px/1.4 Roboto,sans-serif}
 .screen .settings-dialog input:not([type=checkbox]):not([type=radio]):not([type=range]),.screen .settings-dialog select{width:calc(100% - 43.48px);margin:4px 21.74px 10px;border:0;border-bottom:1.81px solid #009688;background:none;color:#000000de;font:400 14.5px Roboto,sans-serif;padding:5px 0;outline:0}
-.screen .settings-dialog .settings-row{border:0;padding:0 21.74px;min-height:43.49px}
+.screen .settings-dialog .settings-row{border:0;padding:0 21.74px;min-height:43.49px;background:none}
 .screen .settings-dialog .settings-row .row-copy{color:#000000de}
 .screen .settings-dialog .settings-row .lp-radio,.screen .settings-dialog .settings-row .lp-check{order:-1;margin:0 21.74px 0 0}
 .screen .settings-dialog-actions{display:flex;justify-content:flex-end;gap:3.62px;padding:7.25px 7.25px 0;border:0;background:none}

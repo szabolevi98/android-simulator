@@ -8,35 +8,35 @@ entry of the list's array), and every text in Hungarian, German, French and Span
 The behaviour lives in docs/devopts.template.js."""
 import glob, json, os, re, subprocess, sys
 ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
-DEVICES = {'mako': ('4.3', 'jb', 'android-4.3_r1.1', 'Nexus 4 (JWR66Y)'), 'hammerhead': ('4.4.4', 'kk', 'android-4.4.4_r1', 'Nexus 5 (KTU84P)'),
+DEVICES = {'maguro': ('4.0.4', 'ics', 'android-4.0.4_r2.1', 'Galaxy Nexus (IMM76I)'), 'mako': ('4.3', 'jb', 'android-4.3_r1.1', 'Nexus 4 (JWR66Y)'), 'hammerhead': ('4.4.4', 'kk', 'android-4.4.4_r1', 'Nexus 5 (KTU84P)'),
            'shamu': ('5.1.1', 'lp', 'android-5.1.1_r9', 'Nexus 6 (LMY48Y)')}
 device = sys.argv[1]
 version, prefix, tag, phone = DEVICES[device]
-AAPT = sorted(glob.glob(os.path.expandvars(r'%LOCALAPPDATA%/Android/Sdk/build-tools/*/aapt2*')))[-1]
 SYSTEM = f'{ROOT}_aosp/{device}/system/'
 def apk(name):
     if name == 'framework': return SYSTEM + 'framework/framework-res.apk'
     return next(p for p in [SYSTEM + f'{d}/{name}.apk' for d in ('app', 'priv-app')] + [SYSTEM + f'{d}/{name}/{name}.apk' for d in ('app', 'priv-app')] if os.path.exists(p))
-def run(*args): return subprocess.run([AAPT, *args], capture_output=True, text=True, encoding='utf-8', errors='replace').stdout
-RES = {}
-def table(name):
-    """Resource id -> name, and array name -> {config: [items]} of an APK."""
-    if name in RES: return RES[name]
-    ids, arrays, cur, config, buf = {}, {}, None, None, ''
-    def flush():
-        if cur is not None and config is not None and buf: arrays[cur][config] = re.findall(r'@string/[\w.]+|"(?:[^"\\]|\\.)*"', buf)
-    for line in run('dump', 'resources', apk(name)).splitlines():
-        m = re.match(r'\s+resource (0x[0-9a-f]+) (\S+)', line)
-        if m:
-            flush(); ids[int(m.group(1), 16)] = m.group(2); config, buf = None, ''
-            cur = m.group(2)[6:] if m.group(2).startswith('array/') else None
-            if cur is not None: arrays[cur] = {}
-            continue
-        m = re.match(r'\s+\(([^)]*)\) \(array\)', line)
-        if m and cur is not None: flush(); config, buf = m.group(1), ''; continue
-        if cur is not None and config is not None: buf += line
-    flush()
-    RES[name] = (ids, arrays); return RES[name]
+# Resources are read with androguard (no Android SDK needed).
+from loguru import logger; logger.remove()
+from androguard.core.apk import APK
+from androguard.core.axml import AXMLPrinter
+APKS = {}
+def load(name):
+    if name not in APKS:
+        a = APK(apk(name)); r = a.get_android_resources()
+        APKS[name] = (a, r, ([p for p in r.get_packages_names() if p != 'android'] or ['android'])[-1])
+    return APKS[name]
+def res_name(name, rid):
+    """'array/x' of a resource id."""
+    _, r, pkg = load(name); return r.get_resource_xml_name(rid, pkg)[1:]
+def array_items(name, array):
+    """{config: [items]} of a string-array: '@string/name' for references, '"text"' for inline strings."""
+    _, r, pkg = load(name); rid = r.get_res_id_by_key(pkg, 'array', array); out = {}
+    for config, entry in r.get_res_configs(rid):
+        q = config.get_qualifier() or ''
+        if q in out: continue
+        out[q] = ['@' + res_name(name, v.data) if v.data_type == 1 else '"' + r.stringpool_main.getString(v.data) + '"' for _, v in entry.item.items]
+    return out
 idx = json.load(open(f'{ROOT}_aosp/{device}/strings-index.json', encoding='utf-8'))
 by = {}
 for en, hits in idx.items():
@@ -49,8 +49,7 @@ def text(source, name):
     en = en.replace("\\'", "'").replace('\\"', '"')
     STRINGS.setdefault(en, [tr.get(l, en).replace("\\'", "'").replace('\\"', '"') for l in LANGS]); return en
 def array_text(name, index):
-    ids, arrays = table('Settings')
-    configs = arrays[name]
+    configs = array_items('Settings', name)
     def item(config):
         x = (configs.get(config) or configs[''])[index]
         if x.startswith('@string/'): return by[('Settings', x[8:])]
@@ -62,12 +61,12 @@ def array_text(name, index):
         STRINGS.setdefault(en, [tr.get(l, en) for l in LANGS])
     return en
 def ref(value):
-    """'@0x7f0c0123' or '@android:string/x' -> (apk, name)."""
-    m = re.match(r'@(0x[0-9a-f]+)', value)
+    """'@7F0C0123' or '@android:01040013' -> (apk, name)."""
+    m = re.match(r'@(?:android:)?([0-9A-Fa-f]{8})$', value)
     if m:
         rid = int(m.group(1), 16)
         source = 'framework' if rid >> 24 == 1 else 'Settings'
-        return source, table(source)[0][rid].split('/', 1)[1]
+        return source, res_name(source, rid).split('/', 1)[1]
     raise ValueError(value)
 # The simulator's setting keys for the rows it already keeps (data.settings); new switches get their own.
 KEYS = {'keep_screen_on': 'stayAwake', 'enforce_read_external': 'protectStorage', 'enable_adb': 'usbDebug', 'bugreport_in_power': 'bugreportPower',
@@ -86,16 +85,10 @@ LIST_DEFAULTS = {'hdcp_checking': ('hdcp_checking_summaries', 1), 'select_runtim
                  'show_non_rect_clip': ('show_non_rect_clip_entries', 0), 'debug_hw_overdraw': ('debug_hw_overdraw_entries', 0),
                  'simulate_color_space': ('simulate_color_space_entries', 0), 'track_frame_time': ('track_frame_time_entries', 0),
                  'enable_opengl_traces': ('enable_opengl_traces_entries', 0), 'app_process_limit': ('app_process_limit_entries', 0)}
-tree = run('dump', 'xmltree', apk('Settings'), '--file', 'res/xml/development_prefs.xml')
-elements, cur = [], None
-for line in tree.splitlines():
-    m = re.match(r'\s*E: (\S+)', line)
-    if m: cur = {'tag': m.group(1).rsplit('.', 1)[-1]}; elements.append(cur); continue
-    m = re.match(r'\s*A: (?:http://schemas.android.com/apk/res/android:)?(\w+)(?:\(0x[0-9a-f]+\))?=(.*)', line)
-    if m and cur is not None:
-        v = m.group(2)
-        raw = re.search(r'\(Raw: "([^"]*)"\)', v)
-        cur[m.group(1)] = raw.group(1) if raw else v.split(' ')[0]
+import xml.etree.ElementTree as ET
+ANDROID = '{http://schemas.android.com/apk/res/android}'
+tree = ET.fromstring(AXMLPrinter(load('Settings')[0].get_file('res/xml/development_prefs.xml')).get_xml())
+elements = [{'tag': node.tag.rsplit('.', 1)[-1], **{k.replace(ANDROID, ''): v for k, v in node.attrib.items()}} for node in tree.iter()]
 sections, rows = [], None
 for el in elements:
     tag = el['tag']
@@ -110,7 +103,15 @@ for el in elements:
         row = ['switch' if tag == 'SwitchPreference' else 'check', title, summary, KEYS[key]]
         if key == 'wait_for_debugger': row.append(True)
     elif key in SCALES: row = ['scale', title, '', SCALES[key]]
-    elif tag == 'ListPreference': row = ['list', title, array_text(*LIST_DEFAULTS[key]) if key in LIST_DEFAULTS else summary]
+    elif tag == 'ListPreference':
+        # A ListPreference: its entries (and the summaries DevelopmentSettings shows instead for HDCP, runtime and log
+        # buffer sizes), the default index, and the dialog title; the choice is kept in data.settings['dev_<key>'].
+        array, default = LIST_DEFAULTS[key]
+        entries_name = res_name('Settings', int(el['entries'][1:], 16)).split('/', 1)[1]
+        entries = [array_text(entries_name, i) for i in range(len(array_items('Settings', entries_name)['']))]
+        summaries = [array_text(array, i) for i in range(len(entries))] if array.endswith('_summaries') else None
+        dialog_title = text(*ref(el['dialogTitle'])) if el.get('dialogTitle', '').startswith('@') else title
+        row = ['choice', title, '', 'dev_' + key, False, entries, summaries, default, dialog_title]
     elif key == 'debug_app': row = ['list', title, text('Settings', 'debug_app_not_set')]
     else: row = ['list', title, summary]
     rows.append(row)

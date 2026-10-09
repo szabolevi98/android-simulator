@@ -554,3 +554,10 @@ html,body{overscroll-behavior-y:none}
 /* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
    divider's room stays (fillForMissingDividers). */
 .screen .settings-app :is(.settings-row,.list-row):has(+ .section-label){border-bottom-color:transparent}
+/* Developer options rows (ics-devopts.js): a disabled row is dimmed. */
+.jb-dev-row:disabled{opacity:.4}
+/* Single-choice rows in the Holo dark settings dialogs (ListPreference, Daydream, touch & hold delay): white text on
+   the dialog's dark panel with the Holo radio on the right and the list divider, not the light list style. */
+.settings-dialog>.settings-row{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:43.49px;padding:0 0 0 14.5px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#f2f2f2;text-align:left;font-size:16.31px}
+.settings-dialog>.settings-row .row-copy{color:#f2f2f2}
+.settings-dialog>.settings-row .holo-radio{width:28.99px;height:28.99px;flex:none}

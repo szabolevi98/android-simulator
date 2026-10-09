@@ -650,3 +650,8 @@ html,body{overscroll-behavior-y:none}
 .a11y-summary{margin:0;padding:14.4px;white-space:pre-line;font-size:14.4px;line-height:1.4;color:#bebebe}
 .screen .magnify-frame{position:absolute;left:0;right:0;top:0;bottom:var(--nb,0px);z-index:60;pointer-events:none;border:1.8px solid transparent;border-image:url('assets/fw-magnified_region_frame.png') 4 / 1.8px stretch}
 .screen.magnified #nav-bar{z-index:70}
+/* Single-choice rows in the Holo dark settings dialogs (ListPreference, Daydream, touch & hold delay): white text on
+   the dialog's dark panel with the Holo radio on the right and the list divider, not the light list style. */
+.settings-dialog>.settings-row{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:43.49px;padding:0 0 0 14.5px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#f2f2f2;text-align:left;font-size:16.31px}
+.settings-dialog>.settings-row .row-copy{color:#f2f2f2}
+.settings-dialog>.settings-row .holo-radio{width:28.99px;height:28.99px;flex:none}

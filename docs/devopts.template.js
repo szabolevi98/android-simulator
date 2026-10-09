@@ -2,9 +2,9 @@ __HEADER__
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  // [kind, title, summary, setting key, depends on USB debugging]; kind: check (CheckBoxPreference), switch
-  // (SwitchPreference), list (a row with its summary: ListPreference, PreferenceScreen, Preference), scale (the
-  // animation scale dialog).
+  // [kind, title, summary, setting key, depends on USB debugging, ...]; kind: check (CheckBoxPreference), switch
+  // (SwitchPreference), choice (ListPreference: + entries, summaries or null, default index, dialog title), list (a row
+  // with its summary: PreferenceScreen, Preference), scale (the animation scale dialog).
   const SECTIONS = __SECTIONS__;
   // English -> [hu, de, fr, es] as the image's Settings.apk (or framework-res) translates it.
   const STRINGS = {
@@ -25,9 +25,19 @@ __HEADER__
       const copy = `<span class="row-copy">${e(T(title))}${summary ? `<small>${e(T(summary))}</small>` : ''}</span>`;
       if (kind === 'check') return `<button class="settings-row wireless-row jb-dev-row" data-action="toggle-setting" data-id="${key}" role="checkbox" aria-checked="${!!settings[key]}" ${attrs}>${copy}<img class="holo-checkbox" src="assets/btn_check_${settings[key] ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
       if (kind === 'switch') return `<button class="settings-row lp-switch-row jb-dev-row" data-action="toggle-setting" data-id="${key}" role="switch" aria-checked="${!!settings[key]}" ${attrs}>${copy}<span class="lp-mswitch${settings[key] ? ' on' : ''}" aria-hidden="true"></span></button>`;
+      if (kind === 'choice') { const [, , , , , entries, summaries, fallback] = SECTIONS.flatMap(([, list]) => list).find(row => row[3] === key); const index = settings[key] ?? fallback; return `<button class="settings-row jb-dev-row" data-action="dev-list" data-id="${key}" ${attrs}><span class="row-copy">${e(T(title))}<small>${e(T((summaries || entries)[index] ?? entries[0]))}</small></span></button>`; }
       if (kind === 'scale') return `<button class="settings-row jb-dev-row" data-action="sd-dialog" data-id="${key}" ${attrs}><span class="row-copy">${e(T(title))}<small>${e(t(scaleLabel(settings[key] ?? 1)))}</small></span></button>`;
       return `<button class="settings-row jb-dev-row" data-action="dev-info" data-id="${e(title)}" ${attrs}>${copy}</button>`;
     }).join('')}`).join('');
+  }
+
+  // ListPreference's dialog: the title, the entries as single-choice rows, Cancel; a tap picks and closes.
+  function dialog(key, settings, t, lang = 'en') {
+    const row = SECTIONS.flatMap(([, rows]) => rows).find(item => item[0] === 'choice' && item[3] === key);
+    if (!row) return '';
+    const i = LANGS.indexOf(lang), T = text => STRINGS[text] && i >= 0 ? STRINGS[text][i] : STRINGS[text] ? text : t(text);
+    const [, , , , , entries, , fallback, title] = row, current = settings[key] ?? fallback;
+    return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${e(T(title))}"><h3>${e(T(title))}</h3>${entries.map((entry, n) => `<button class="settings-row wireless-row" data-action="dev-list-pick" data-id="${key}:${n}" role="radio" aria-checked="${n === current}"><span class="row-copy">${e(T(entry))}</span>${CATEGORY_CAPS ? `<img class="holo-radio" src="assets/btn_radio_${n === current ? 'on' : 'off'}_holo_dark.png" alt="">` : `<span class="lp-radio${n === current ? ' on' : ''}" aria-hidden="true"></span>`}</button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${e(t('Cancel'))}</button></div></div>`;
   }
 
   /* Overlays: layout bounds (red clip bounds and blue corner marks), PointerLocationView's top bar, and the
@@ -51,5 +61,5 @@ __HEADER__
     const box = screen.getBoundingClientRect(), k = box.width / screen.offsetWidth || 1, x = (event.clientX - box.left) / k * 2, y = (event.clientY - box.top) / k * 2;
     bar.textContent = `P: ${down ? 1 : 0} / ${count}   X: ${x.toFixed(1)}   Y: ${y.toFixed(1)}   Xv: 0.000   Yv: 0.000   Prs: ${down ? '1.00' : '0.00'}   Size: ${down ? '0.20' : '0.00'}`;
   }
-  window.JBDeveloperOptions = {SECTIONS, STRINGS, DEFAULTS, keys, render, apply, updateCpu, pointerMove};
+  window.JBDeveloperOptions = {SECTIONS, STRINGS, DEFAULTS, keys, render, dialog, apply, updateCpu, pointerMove};
 })();
