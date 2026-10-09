@@ -22,13 +22,12 @@
 .gm-section em{flex:none;min-width:81.76px;height:20.43px;margin:0 13.63px 6.81px 10.22px;padding:0 13.63px;background:var(--gm-color);font:400 13.63px/20.43px RobotoICS,sans-serif;font-style:normal;color:#fff;text-align:center}
 .screen .gm-welcome:active,.screen .gm-section:active{background:#33b5e599}
 .gm-caret{flex:none;width:13.63px;height:13.63px;align-self:center;margin-right:-1px}
-/* conversation_view_header.xml: the folder span 12 sp, 1 dp above and below, 14 dp wider than the text, 4 dp above,
+/* conversation_view_header.xml (4.5.1: right of the subject, on its baseline): the folder span 12 sp, 1 dp above and below, 14 dp wider than the text, 4 dp above,
    in the system label colours. */
 .gm-chip{display:inline-block;margin:3.4px 0 0;padding:0.86px 5.96px;background:#ddd;font:400 10.22px RobotoICS,sans-serif;color:#777}
-.kem-subject:has(.gm-chip){flex-wrap:wrap}
-.kem-subject:has(.gm-chip) h2{flex:1 1 calc(100% - 47px)}
-.kem-subject:has(.gm-chip) .kem-conv-star{order:2}
-.gm-chip{order:3;margin-left:auto!important}
+.kem-subject:has(.gm-chip){align-items:baseline}
+.kem-subject:has(.gm-chip) h2{flex:1 1 auto}
+.gm-chip{flex:none;margin-left:auto!important}
 /* The drawer: account_item.xml (48 dp, the radio 14 dp in, the 18 sp name and the count in mail_app_blue when it is
    the current account), folder_list_header.xml (44 dp, 14 sp bold caps in #58585b, 16 dp sides, 3 dp bottom, the
    2 dp list_section_divider_holo_light line), folder_item.xml (48 dp, ic_drawer_divider's top line, the 32 dp icon

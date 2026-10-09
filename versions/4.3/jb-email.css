@@ -21,11 +21,10 @@
 /* ConversationItemView rows. */
 .kem-row{position:relative;display:flex;padding:0 13.63px;background:#eeeeee;border-bottom:1px solid #cbcbcb}
 .kem-row.unread{background:#fff;border-bottom-color:#d9d9d9}
-.kem-row.selected{background:#cfe9f5}
+.kem-row.selected{background:#cfe9f3;border-bottom-color:#c4dde7}
 .screen .kem-photo{flex:none;width:40.88px;height:40.88px;margin:10.22px 10.22px 10.22px 0;padding:0;border:0;background:none;cursor:pointer}
 .kem-tile{display:grid;place-items:center;width:100%;height:100%;color:#fff;font:300 28.1px/1 RobotoLight,Roboto,Arial,sans-serif;overflow:hidden}
-.kem-tile.generic,.kem-tile.checked{background:#d66161}
-.kem-tile.checked{background:#9e9e9e}
+.kem-tile.generic{background:#d66161}
 .screen .kem-tile img{width:100%;height:100%;object-fit:cover}
 .screen .kem-row-main{flex:1;min-width:0;display:flex;flex-direction:column;padding:10.22px 16.92px 10.22px 0;border:0;background:none;color:inherit;text-align:left;cursor:pointer}
 .kem-line1{display:flex;align-items:baseline;gap:3.76px}
@@ -39,7 +38,7 @@
 .kem-subj{color:#58585b}
 .kem-row.unread .kem-subj{font-weight:700}
 .screen .kem-star{position:absolute;right:1.88px;bottom:5.64px;width:30.08px;height:30.08px;padding:0;border:0;background:none;cursor:pointer}
-.kem-star img{width:27.25px;height:27.25px}
+.kem-star img{width:16.18px;height:15.33px}
 
 /* The folder drawer: 300 dp under the action bar, the account row, then the folders. */
 .kem-drawer-scrim{position:absolute;inset:calc(var(--sb) + 40.88px) 0 var(--nb);z-index:25;background:#0009;animation:kem-fade .2s ease-out}
@@ -59,8 +58,6 @@
 .kem-conversation .kem-scroll{background:#eeeeee}
 .kem-subject{display:flex;align-items:flex-start;gap:7.52px;padding:13.63px 7.52px 10.22px 15.32px;background:#fff}
 .kem-subject h2{flex:1;margin:0;font:400 15.33px/1.3 RobotoICS,Arial,sans-serif;color:#58585b}
-.screen .kem-conv-star{flex:none;width:30.08px;height:30.08px;padding:0;border:0;background:none;cursor:pointer}
-.kem-conv-star img{width:27.25px;height:27.25px}
 .kem-message{margin:0 6.81px 6.81px;background:#fff;box-shadow:0 1px 1px #0002}
 .kem-msg-head{display:flex;align-items:center;gap:8.46px;padding:6.81px 0 6.81px 6.81px;border-top:1px solid #ebebeb}
 .kem-msg-head .kem-tile{flex:none;width:40.88px;height:40.88px}
