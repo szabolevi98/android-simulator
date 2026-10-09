@@ -79,3 +79,16 @@
 .gcs-buttons{display:flex;border-top:1px solid #0000001a}
 .screen .gcs-buttons button{flex:1;min-height:43.49px;border:0;background:none;color:#000;font:400 12.68px Roboto,sans-serif;cursor:pointer}
 .screen .gcs-choice:active,.screen .gcs-buttons button:active{background:#33b5e566}
+/* Panorama (see lp-camera.js): the dimmed preview, the stitched band, the target and the next frame's dot; the
+   processing card with ic_pano_blanket and bottom_progress_bar. */
+.gpano{position:absolute;inset:0;pointer-events:none}
+.gpano[data-gpano=capture]{background:#00000080}
+.gpano-band{position:absolute;left:0;right:0;top:50%;height:34%;transform:translateY(-50%);overflow:hidden}
+.gpano-strip{position:absolute;left:0;top:0;height:100%;width:auto;max-width:none}
+.gpano-target{position:absolute;left:50%;top:50%;width:57.08px;height:57.08px;margin:-28.54px 0 0 -28.54px}
+.gpano-dot{position:absolute;left:50%;top:50%;width:14.5px;height:14.5px;margin:-7.25px 0 0 -7.25px;border-radius:50%;background:#fff;box-shadow:0 0 3.62px #0008}
+.gpano[data-gpano=process]{display:grid;place-items:center;background:#000000b3}
+.gpano-card{display:flex;flex-direction:column;align-items:center;gap:10.87px;width:72%;font:400 14.5px Roboto,sans-serif;color:#fff}
+.gpano-card img{width:57.98px;height:57.98px}
+.gpano-progress{position:relative;align-self:stretch;height:2.72px;background:#ffffff4d}
+.gpano-progress i{position:absolute;left:0;top:0;bottom:0;width:0;background:#fff}

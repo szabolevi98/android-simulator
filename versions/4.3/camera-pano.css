@@ -1,0 +1,22 @@
+/* The Android 4.3 camera's panorama (camera-pano.js), written by docs/camera-pano.py; dp x 0.9. */
+.pnm{position:absolute;inset:0;display:flex;flex-direction:column;pointer-events:none}
+.pnm-bar{flex:1;display:grid;place-items:center;background:#000;font:400 16.2px Roboto,sans-serif;color:#fff}
+.pnm-area{flex:2;position:relative;overflow:hidden}
+.pnm-strip{position:absolute;left:0;top:0;height:100%;width:auto;max-width:none}
+.pnm-review{background:#000}
+.pnm-reviewarea{flex:1.5;min-height:0}
+.pnm-reviewarea img{width:100%;height:100%;object-fit:contain;display:block}
+.pnm-pan,.pnm-saving{position:absolute;left:50%;display:flex;align-items:center;gap:4.5px;transform:translateX(-50%)}
+.pnm-pan,.pnm-saving{bottom:88.2px}
+.pnm-pan[hidden]{display:none}
+.pnm-arrow{width:9.45px;height:13.95px}
+.pnm-progress{position:relative;width:112.95px;height:34.65px;overflow:hidden;background:#2e2e2e}
+.pnm-done{position:absolute;left:0;top:0;bottom:0;width:0;background:#33525e}
+.pnm-indicator{position:absolute;top:0;bottom:0;left:0;width:9px;background:#0099cc}
+.pnm-progress>img{position:absolute;inset:0;width:100%;height:100%}
+.screen .pnm-cancel{position:absolute;left:50%;bottom:9px;width:57.6px;height:57.6px;margin-left:-28.8px;padding:0;border:0;border-radius:50%;background:none;display:grid;place-items:center;pointer-events:auto;cursor:pointer}
+.pnm-cancel:active{background:#33b5e566}
+.pnm-cancel img{width:28.8px;height:28.8px}
+/* While capturing the switcher steps aside; in review the camera controls give way to Cancel. */
+.jbcam:has(.pnm[data-state=capture]) .jbcam-switcher,.jbcam:has(.pnm[data-state=capture]) .jbcam-thumb{visibility:hidden}
+.jbcam:has(.pnm-review) .jbcam-controls,.jbcam:has(.pnm-review) .jbcam-thumb{display:none}

@@ -38,7 +38,7 @@
   }
   // PositionController film mode: the picture fits in 70% x 48% of a portrait screen.
   function fit(photo, width, height, film) {
-    const rotated = ((Number(photo.rotation) || 0) % 180 + 180) % 180 !== 0, w = rotated ? 768 : 1024, h = rotated ? 1024 : 768;
+    const rotated = ((Number(photo.rotation) || 0) % 180 + 180) % 180 !== 0, w = photo.pano ? 3072 : rotated ? 768 : 1024, h = rotated && !photo.pano ? 1024 : 768;
     const k = Math.min((film ? G.filmWidth : 1) * width / w, (film ? G.filmHeight : 1) * height / h);
     return {w: w * k, h: h * k};
   }

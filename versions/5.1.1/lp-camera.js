@@ -14,13 +14,19 @@
    run time, so only the sizes on record are listed: back (4:3) 4160 x 3120 and (16:9) 4160 x 2340 (Digital Citizen's
    Nexus 6 review), front 1920 x 1080 (the imx132 mode in /vendor/lib/libmmcamera_imx132.so). Video qualities follow
    SettingsUtil.getSelectedVideoQualities over the image's /etc/media_profiles.xml (back 2160p / 1080p / 720p, front
-   1080p / 720p / 480p). A 4:3 picture size gives a 4:3 preview at the top. */
+   1080p / 720p / 480p). A 4:3 picture size gives a 4:3 preview at the top.
+   Panorama: the orange shutter with ic_capture_pano starts and stops the capture. LightCycle draws its capture view
+   natively, so that part is an approximation built from the APK's pieces: the dimmed preview with the stitched band
+   growing in the middle, pano_target_default (63 dp) turning into pano_target_activated as each next frame's dot
+   reaches it; then "Processing panorama …" over ic_pano_blanket with bottom_progress_bar (3 dp, white over 30 %
+   white) before the PANO_ picture joins the camera roll. The sweep is a demonstration at a steady pace. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const icon = name => `assets/gcam-${name}.png`;
   const MODES = [['photosphere', 'Photo Sphere', '#ab47bc', 'ic_photosphere_normal'], ['panorama', 'Panorama', '#ff9e00', 'ic_panorama_normal'], ['refocus', 'Lens Blur', '#0f9d58', 'ic_refocus_normal'], ['photo', 'Camera', '#4285f4', 'ic_camera_normal'], ['video', 'Video', '#db4437', 'ic_video_normal']];
   const FLASH = ['auto', 'on', 'off'], TIMER = [0, 3, 10], EV = [-2, -1, 0, 1, 2];
+  const PANO = {sweep: 160, speed: 28, frame: 20, process: 2200};
   const SIZES = {back: ['4160x3120', '4160x2340'], front: ['1920x1080']};
   const VIDEO = {back: ['2160p', '1080p', '720p'], front: ['1080p', '720p', '480p']}, VIDEO_NAME = {'2160p': 'UHD 4K', '1080p': 'HD 1080p', '720p': 'HD 720p', '480p': 'SD 480p'};
   const QUALITY = {max: 'High', hq: 'Normal', lq: 'Low (fastest)'};
@@ -64,7 +70,8 @@
     const s = settings(media, data), mode = MODES.some(m => m[0] === ui.jbcamModule) ? ui.jbcamModule : 'photo', recording = !!ui.jbcamRecording;
     const [pw, ph] = (s.front ? s.pictureFront : s.pictureBack).split('x').map(Number);
     const [, , color] = MODES.find(m => m[0] === mode);
-    const shutterIcon = mode === 'video' ? (recording ? '' : 'ic_capture_video') : 'ic_capture_camera_normal';
+    const shutterIcon = mode === 'video' ? (recording ? '' : 'ic_capture_video') : mode === 'panorama' ? 'ic_capture_pano' : 'ic_capture_camera_normal';
+    const pano = mode === 'panorama' && ui.lpPano?.state !== 'idle' ? ui.lpPano : null, panoArt = pano ? media.image({...media.scene(data), pano: true}) : '';
     const options = [...(s.exposure ? [['exposure', 'ic_exposure_normal', 'Manual Exposure Compensation']] : []), ['timer', `ic_timer_${s.timer ? s.timer + 's' : 'off'}_normal`, s.timer ? `Countdown timer duration is set to ${s.timer} seconds` : 'Countdown timer is off'], ['grid', s.grid ? 'ic_grid_on_normal' : 'ic_grid_off_normal', s.grid ? 'Grid lines on' : 'Grid lines off'], ['hdr', s.hdr ? 'ic_hdr_plus_on_normal' : 'ic_hdr_plus_off_normal', s.hdr ? 'HDR Plus on' : 'HDR Plus off'], ['flash', `ic_flash_${s.flash}_normal`, `Flash ${s.flash}`], ['front', s.front ? 'ic_switch_camera_front_normal' : 'ic_switch_camera_back_normal', s.front ? 'Front camera' : 'Back camera']];
     const evName = v => v < 0 ? `n${-v}` : v > 0 ? `p${v}` : '0', exposure = ui.gcamExposure && s.exposure;
     const optionButtons = exposure
@@ -72,6 +79,8 @@
       : options.map(([key, file, label]) => `<button type="button" data-gcam-option="${key}" aria-label="${e(t(label))}"><img src="${icon(file)}" alt=""></button>`).join('');
     return `<div class="app-view camera-app gcam${ui.gcamModes ? ' modes-open' : ''}" data-gcam data-module="${mode}" style="--mode:${color}" data-no-translate>
       <div class="gcam-preview${s.front ? ' front' : ''}${Math.abs(pw / ph - 4 / 3) < .05 ? ' r43' : ''}" data-gcam-preview style="--ev:${s.ev}">${media.art(media.scene(data))}${s.grid ? '<div class="gcam-grid" aria-hidden="true"></div>' : ''}</div>
+      ${pano?.state === 'capture' ? `<div class="gpano" data-gpano="capture"><div class="gpano-band"><img class="gpano-strip" data-gpano-strip src="${panoArt}" alt=""></div><img class="gpano-target" data-gpano-target src="${icon('pano_target_default')}" alt=""><i class="gpano-dot" data-gpano-dot></i></div>` : ''}
+      ${pano?.state === 'process' ? `<div class="gpano" data-gpano="process"><div class="gpano-card"><img src="${icon('ic_pano_blanket')}" alt=""><span>${e(t('Processing panorama …'))}</span><span class="gpano-progress"><i data-gpano-progress></i></span></div></div>` : ''}
       <div class="gcam-focus" data-gcam-focus hidden></div><div class="gcam-flash" data-gcam-flash></div>
       <div class="gcam-countdown" data-gcam-countdown hidden></div>
       <div class="gcam-rec" data-gcam-rec ${recording ? '' : 'hidden'}><i></i><span>00:00</span></div>
@@ -89,6 +98,36 @@
   }
   function attach(root, {data, ui, t, media, save, render: rerender, shoot, gallery, toast, reduced}) {
     const backStep = () => { if (back(ui)) rerender(); };
+    // Panorama: the sweep, then the processing; both run on from ui.lpPano's times after a redraw.
+    let panoFrame = 0;
+    const p = ui.lpPano ||= {state: 'idle', angle: 0};
+    const panoPaint = () => {
+      const k = Math.min(1, p.angle / PANO.sweep), strip = root.querySelector('[data-gpano-strip]'), dot = root.querySelector('[data-gpano-dot]'), target = root.querySelector('[data-gpano-target]');
+      if (strip) { strip.style.clipPath = `inset(0 ${(1 - k) * 100}% 0 0)`; strip.style.transform = `translateX(${-k * Math.max(0, strip.offsetWidth - strip.parentNode.offsetWidth)}px)`; }
+      const phase = (p.angle % PANO.frame) / PANO.frame;
+      if (dot) dot.style.transform = `translate(${(1 - phase) * 120}px, 0)`;
+      if (target) target.src = icon(phase > .8 ? 'pano_target_activated' : 'pano_target_default');
+    };
+    const panoTick = now => {
+      if (destroyed || p.state !== 'capture' || ui.jbcamModule !== 'panorama') return;
+      p.angle = Math.min(PANO.sweep, p.angle + (now - p.last) / 1000 * PANO.speed); p.last = now; panoPaint();
+      if (p.angle >= PANO.sweep) { panoStop(); return; }
+      panoFrame = requestAnimationFrame(panoTick);
+    };
+    const panoStop = () => { p.state = 'process'; p.at = performance.now(); rerender(); };
+    const panoProcess = now => {
+      if (destroyed || p.state !== 'process') return;
+      const k = Math.min(1, (now - p.at) / PANO.process), bar = root.querySelector('[data-gpano-progress]');
+      if (bar) bar.style.width = `${k * 100}%`;
+      if (k < 1) { panoFrame = requestAnimationFrame(panoProcess); return; }
+      ui.lpPano = {state: 'idle', angle: 0}; shoot({pano: true}); rerender();
+    };
+    const panoToggle = () => {
+      if (p.state === 'idle') { p.state = 'capture'; p.angle = 0; p.last = performance.now(); rerender(); }
+      else if (p.state === 'capture') { cancelAnimationFrame(panoFrame); panoStop(); }
+    };
+    if (p.state === 'capture') { p.last = performance.now(); panoPaint(); panoFrame = requestAnimationFrame(panoTick); }
+    if (p.state === 'process') panoFrame = requestAnimationFrame(panoProcess);
     let destroyed = false, start = null, countdown = 0, recTimer = 0;
     const update = patch => { data.cameraSettings = {...settings(media, data), ...patch}; save(); rerender(); };
     const focusRing = (x, y) => {
@@ -108,6 +147,7 @@
         else { ui.jbcamRecording = Date.now(); rerender(); }
         return;
       }
+      if (mode === 'panorama') { panoToggle(); return; }
       if (mode !== 'photo') { toast(t(`${MODES.find(m => m[0] === mode)[1]} capture is not simulated`)); return; }
       const s = settings(media, data);
       if (!s.timer) { capture(); return; }
@@ -148,7 +188,7 @@
       if (el.closest('[data-gcam-modes]')) { ui.gcamModes = true; root.classList.add('modes-open'); return; }
       if (el.closest('[data-gcam-modes-close]')) { ui.gcamModes = false; root.classList.remove('modes-open'); return; }
       const chosen = el.closest('[data-gcam-mode]')?.dataset.gcamMode;
-      if (chosen) { ui.gcamModes = false; ui.gcamOptions = false; if (chosen !== ui.jbcamModule) { ui.jbcamModule = chosen; ui.jbcamRecording = null; } rerender(); return; }
+      if (chosen) { ui.gcamModes = false; ui.gcamOptions = false; if (chosen !== ui.jbcamModule) { ui.jbcamModule = chosen; ui.jbcamRecording = null; ui.lpPano = null; } rerender(); return; }
       if (el.closest('[data-gcam-settings]')) { ui.gcamModes = false; ui.gcamOptions = false; ui.gcamExposure = false; ui.gcsPage = 'root'; rerender(); return; }
     };
     const down = event => {
@@ -173,7 +213,7 @@
       const tick = () => { if (!ui.jbcamRecording || destroyed) return; const sec = Math.floor((Date.now() - ui.jbcamRecording) / 1000); label.textContent = `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`; };
       tick(); recTimer = setInterval(tick, 500);
     }
-    return {root, destroy() { destroyed = true; clearInterval(countdown); clearInterval(recTimer); root.removeEventListener('click', click); root.removeEventListener('pointerdown', down); root.removeEventListener('pointerup', up); }};
+    return {root, destroy() { destroyed = true; cancelAnimationFrame(panoFrame); clearInterval(countdown); clearInterval(recTimer); root.removeEventListener('click', click); root.removeEventListener('pointerdown', down); root.removeEventListener('pointerup', up); }};
   }
   window.LPCamera = {MODES, SIZES, settings, sizeLabel, render, attach, back};
 })();

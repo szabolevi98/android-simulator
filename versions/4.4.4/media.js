@@ -38,7 +38,16 @@
     if(kind==='film'){const f=t*1.6,holes=Array.from({length:Math.floor(width/(f*1.4))},(_,i)=>`<rect x="${i*f*1.4+f*.35}" y="${f*.3}" width="${f*.7}" height="${f*.4}" rx="${f*.08}" fill="#ddd"/><rect x="${i*f*1.4+f*.35}" y="${height-f*.7}" width="${f*.7}" height="${f*.4}" rx="${f*.08}" fill="#ddd"/>`).join('');return `<rect width="${width}" height="${f}" fill="#111"/><rect y="${height-f}" width="${width}" height="${f}" fill="#111"/>${holes}`;}
     return '';
   }
+  // A panorama (PANO_*): the scene three times across, the middle one mirrored so the hills meet, one sun.
+  function panoImage(photo) {
+    const colors=(photo.colors||palettes[0]).map((c,i)=>/^#[\da-f]{6}$/i.test(c)?c:palettes[0][i%3]);
+    const [sky,sun,land]=[...colors,...palettes[0]],width=3072,height=768;
+    const hills=`<path d="M0 610 260 250 565 580 780 320 1024 610V768H0Z" fill="${land}"/><path d="m170 375 90-125 105 126-98-40Z" fill="#ffffffa0"/><path d="M0 630Q260 510 510 665T1024 610V768H0Z" fill="${sky}" opacity=".7"/><path d="M0 710Q300 630 550 738T1024 700V768H0Z" fill="${land}"/>`;
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="${sky}"/><stop offset="1" stop-color="${sun}"/></linearGradient></defs><rect width="${width}" height="${height}" fill="url(#sky)"/><circle cx="1790" cy="200" r="65" fill="${sun}"/>${hills}<g transform="translate(2048 0) scale(-1 1)">${hills}</g><g transform="translate(2048 0)">${hills}</g></svg>`;
+    return 'data:image/svg+xml,'+encodeURIComponent(svg);
+  }
   function image(photo) {
+    if(photo.pano)return panoImage(photo);
     const colors=(photo.colors||palettes[0]).map((c,i)=>/^#[\da-f]{6}$/i.test(c)?c:palettes[0][i%3]);
     const [sky,sun,land]=[...colors,...palettes[0]];
     const rotation=((Number(photo.rotation)||0)%360+360)%360,zoom=Math.min(4,Math.max(1,Number(photo.zoom)||1));

@@ -333,3 +333,4 @@ GoogleCamera accessibility_mode_options
 framework capital_on
 framework capital_off
 framework action_bar_up_description
+GoogleCamera processing_panorama
