@@ -2771,6 +2771,146 @@ window.StockStrings = {
    "Hilfe",
    "Aide",
    "Ayuda"
+  ],
+  "New tab": [
+   "Új lap",
+   "Neuer Tab",
+   "Nouvel onglet",
+   "Nueva pestaña"
+  ],
+  "New incognito tab": [
+   "Új inkognitólap",
+   "Neuer Inkognito-Tab",
+   "Nouv. onglet nav. privée",
+   "Nueva pestaña incógnito"
+  ],
+  "Bookmarks": [
+   "Könyvjelzők",
+   "Lesezeichen",
+   "Favoris",
+   "Marcadores"
+  ],
+  "Other devices": [
+   "Egyéb eszközök",
+   "Andere Geräte",
+   "Autres appareils",
+   "Otros dispositivos"
+  ],
+  "History": [
+   "Előzmények",
+   "Verlauf",
+   "Historique",
+   "Historial"
+  ],
+  "Share…": [
+   "Megosztás...",
+   "Teilen...",
+   "Partager…",
+   "Compartir…"
+  ],
+  "Print…": [
+   "Nyomtatás...",
+   "Drucken...",
+   "Imprimer…",
+   "Imprimir…"
+  ],
+  "Find in page": [
+   "Keresés ezen az oldalon",
+   "Suchen auf der Seite",
+   "Chercher sur la page",
+   "Buscar en la página"
+  ],
+  "Add to homescreen": [
+   "Hozzáadás a kezdőképernyőhöz",
+   "Zum Startbildschirm hinzu",
+   "Ajouter à l'écran d'accueil",
+   "Añadir a pantalla inicio"
+  ],
+  "Request desktop site": [
+   "Asztali webhely kérése",
+   "Desktop-Version",
+   "Voir version ordinateur",
+   "Ver como en un ordenador"
+  ],
+  "Close all tabs": [
+   "Összes lap bezárása",
+   "Alle Tabs schließen",
+   "Fermer tous les onglets",
+   "Cerrar todas las pestañas"
+  ],
+  "Close incognito tabs": [
+   "Inkognitólapok bezárása",
+   "Inkognito-Tabs schließen",
+   "Fermer onglets navigation privée",
+   "Cerrar pestañas de incógnito"
+  ],
+  "Go back": [
+   "Vissza",
+   "Zurück",
+   "Retour",
+   "Volver"
+  ],
+  "Go forward": [
+   "Előrelépés",
+   "Weiter",
+   "Avancer",
+   "Avanzar"
+  ],
+  "Bookmark page": [
+   "Oldal felvétele a könyvjelzők közé",
+   "Seite als Lesezeichen speichern",
+   "Ajouter la page aux favoris",
+   "Añadir página a marcadores"
+  ],
+  "Edit bookmark page": [
+   "Könyvjelzők oldal szerkesztése",
+   "Lesezeichen für diese Seite bearbeiten",
+   "Modifier la page ajoutée aux favoris",
+   "Editar página añadida a marcadores"
+  ],
+  "Refresh page": [
+   "Oldal frissítése",
+   "Seite aktualisieren",
+   "Actualiser la page",
+   "Actualizar página"
+  ],
+  "More options": [
+   "További lehetőségek",
+   "Weitere Optionen",
+   "Autres options",
+   "Más opciones"
+  ],
+  "%1$d open tabs button.": [
+   "%1$d megnyitott lap gomb.",
+   "Schaltfläche für %1$d geöffnete Tabs",
+   "Bouton de %1$d onglets ouverts",
+   "%1$d abre el botón de pestañas."
+  ],
+  "Most visited": [
+   "Leggyakoribb",
+   "Meistbesucht",
+   "Les plus visités",
+   "Más visitado"
+  ],
+  "Incognito": [
+   "Inkognitómód",
+   "Inkognito",
+   "Navigation privée",
+   "Incógnito"
+  ],
+  "NTP bookmarks": [
+   "Könyvjelzők",
+   "Lesezeichen",
+   "Favoris",
+   "Marcadores",
+   "Bookmarks"
+  ],
+  "NTP other devices": [
+   "Egyéb eszközök",
+   "Andere Geräte",
+   "Autres appareils",
+   "Otros dispositivos",
+   "Other devices"
   ]
  },
  "gmailprefs": {

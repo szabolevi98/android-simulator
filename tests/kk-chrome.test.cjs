@@ -1,22 +1,31 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-// Stock Nexus 5: Chrome (toolbar, New Tab page, incognito, history, tab switcher, menu) over the offline demo web.
-const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/chrome.js','utf8'),context);
+// Stock Nexus 5: Chrome 32.0.1700.99 (Chrome.apk of KTU84P): toolbar, chrome://newtab, incognito, history, overview, menu.
+const context={window:{}};for(const f of ['stock-strings.js','chrome-pak.js','chrome.js'])vm.runInNewContext(fs.readFileSync(`versions/4.4.4/${f}`,'utf8'),context);
 const C=context.window.ChromeApp,t=k=>k;
 const data={browserHistory:['www.google.com','news.example','chrome://history','search:kitkat','en.wikipedia.org/wiki/android'],bookmarks:['www.google.com','en.wikipedia.org/wiki/Android']};
 const base={data,t,locale:'en',page:url=>`<p>${url}</p>`,title:url=>url,tabs:[{url:'chrome://newtab'}],active:0};
 const ntp=C.render({...base,ui:{},url:C.NTP});
-assert.ok(ntp.includes('chr-toolbar')&&ntp.includes('placeholder="Search or type URL"')&&ntp.includes('data-action="chrome-ntp" data-id="devices"'));
+assert.ok(ntp.includes('chr-toolbar')&&ntp.includes('c32-ic_suggestion_globe')&&ntp.includes('c32-btn_omnibox_reload_normal')&&ntp.includes('<span class="">1</span>'));
+assert.ok(ntp.includes('data-action="chrome-ntp" data-id="devices"')&&ntp.includes('c32-most_visited_icon')&&ntp.includes('chr-ntp-logo'));
 assert.equal((ntp.match(/class="chr-tile"/g)||[]).length,3,'most visited skips chrome:// and searches, case-insensitively unique');
 const inc=C.render({...base,ui:{},url:C.NTP,incognito:true});
-assert.ok(inc.includes('chr-toolbar incognito')&&inc.includes('You’ve gone incognito.')&&!inc.includes('data-id="devices"'));
+assert.ok(inc.includes('chr-toolbar incognito')&&inc.includes("You've gone incognito.")&&inc.includes('c32-ntp_button_incognito')&&!inc.includes('data-id="devices"'));
 assert.ok(C.render({...base,ui:{chromeNtp:'bookmarks'},url:C.NTP}).includes('Mobile bookmarks'));
+assert.ok(C.render({...base,ui:{chromeNtp:'devices'},url:C.NTP}).includes('Tabs you have opened in Chrome on your other devices will appear here.'));
+const hu=C.render({...base,ui:{},url:C.NTP,incognito:true,locale:'hu'});assert.ok(hu.includes('Inkognitó módba lépett.'));
 const hist=C.render({...base,ui:{chromeHistoryQuery:'news'},url:C.HISTORY});
 assert.ok(hist.includes('data-form="chrome-history-search"')&&(hist.match(/chr-history-row/g)||[]).length===1);
 const tabs=C.render({...base,ui:{sub:'tabs'},url:'news.example',tabs:[{url:'news.example'},{url:'chrome://newtab',incognito:true}],active:1});
-assert.ok(tabs.includes('chr-switcher-bar')&&(tabs.match(/<article class="chr-card/g)||[]).length===2&&tabs.includes('chr-card current incognito'));
-const menu=C.menu({ui:{browserIndex:1,browserHistory:['a','b']},data,t,url:'www.google.com'});
-for(const label of ['New tab','New incognito tab','Bookmarks','Other devices','History','Share…','Print…','Find in page…','Request desktop site','Settings','Help &amp; feedback'])assert.ok(menu.includes(`>${label}`),label);
-assert.ok(menu.includes('data-action="browser-back-menu" aria-label="Back" >')&&menu.includes('data-action="browser-forward" aria-label="Forward" disabled'));
+assert.ok(tabs.includes('chr-switcher-bar')&&(tabs.match(/<article class="chr-card/g)||[]).length===2&&tabs.includes('chr-card current incognito')&&tabs.includes('c32-new_tab_light'));
+// main_menu.xml through Main.prepareMenu.
+const labels=m=>[...m.matchAll(/<span>([^<]+)<\/span>/g)].map(x=>x[1]);
+let menu=C.menu({ui:{browserIndex:1,browserHistory:['a','b']},data,t,locale:'en',url:'www.google.com'});
+assert.deepEqual(labels(menu),['New tab','New incognito tab','Bookmarks','Other devices','History','Share…','Print…','Find in page','Add to homescreen','Request desktop site','Settings','Help']);
+assert.ok(menu.includes('aria-label="Go back" >')&&menu.includes('aria-label="Go forward" disabled')&&menu.includes('c32-star_lit'));
+menu=C.menu({ui:{browserIndex:0,browserHistory:['a']},data,t,locale:'en',url:C.NTP});
+assert.deepEqual(labels(menu),['New tab','New incognito tab','Bookmarks','Other devices','History','Print…','Find in page','Settings','Help']);
+menu=C.menu({ui:{sub:'tabs',browserIndex:0,browserHistory:['a']},data,t,locale:'hu',url:C.NTP});
+assert.deepEqual(labels(menu),['Új lap','Új inkognitólap','Összes lap bezárása','Beállítások']);
 const sim=fs.readFileSync('versions/4.4.4/simulator.js','utf8');
 assert.ok(sim.includes("case 'chrome': return renderChrome();")&&sim.includes("if (app === 'chrome') useBrowserSession(app);")&&!sim.includes("['browser', 'Browser'")&&!/GEL_ALIASES = {[^}]*chrome/.test(sim));
 console.log('kk-chrome ok');
