@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 9. lépés E) szakaszán vagyok (Kisebb hibák); utána a 10–12. lépés és a 7–8. pont megbeszélése következik.
+**Állapot:** a 9. lépés E) szakaszán vagyok (Kisebb hibák); utána a 10–13. lépés és a 7–8. pont megbeszélése következik.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -279,6 +279,45 @@ Ez a gyári pontosság későbbi ellenőrzését és a tiszta checkoutból tört
 - [ ] Próba újragenerálás dokumentált bemenetekből: a kimeneti fájllista, a szükséges assetek megléte és a transzformációk legyenek ellenőrizhetők. A nagy gyári képek továbbra sem kerülnek a Gitbe; az újragenerálási eszközök és a forrásleírás igen.
 
 A 11–12. pont most felmérés és munkaterv: implementáció még nem történt. A felmérés során csak az auditfájl módosult.
+
+## 13. Állapotmentés, böngészős tesztek és fokozatos kódrendezés (2026-10-10; a korábbi auditpontok után)
+
+A tulajdonos kérésére felvett további fejlesztések. Ezek a hosszú távú megbízhatóságot és karbantarthatóságot
+javítják; a teljes projekt működési auditja még nem történt meg. Elsőként az állapotmentés és a böngészős
+tesztek következzenek, a nagy kódfájlok bontása később, az érintett funkciók módosításával együtt.
+
+**A) Mentett adatok és verzióváltások**
+
+A verziónkénti `simulator.js` fájlok saját `load()` / `save()` megoldást használnak. Már vannak célzott
+átalakítások, például `layoutRevision` / `wallpaperRevision` és régi widgetadatok kezelése, de a teljes
+mentett állapot átállításának nincs egységes rendje. A `localStorage.setItem()` hibái csendben elnyelődnek;
+betöltési vagy feldolgozási hibánál a teljes alapállapot jön vissza. Ezek ellenőrzendő viselkedések,
+nem ebben a felmérésben reprodukált adatvesztési esetek.
+
+- [ ] A verziónkénti mentett adatok szerkezetét és a meglévő átállításokat felmérni; a teljes mentési séma verziózását és a lépésenkénti migrációkat következetesen rendezni. Az Android-verziók mentései továbbra is külön maradjanak.
+- [ ] Ellenőrizni a korábbi mentések frissítését, a sérült JSON-t, a hibás mezőtípusokat és a hiányzó részadatokat. A helyreállítás lehetőleg csak az érintett részt állítsa vissza; az érvényes felhasználói adatok megőrzését tesztelni.
+- [ ] A tiltott vagy megtelt böngészőtárhely kezelését kidolgozni: a felhasználó kapjon érthető visszajelzést, ha a módosítás nem menthető, és a felület maradjon használható. A mentés/újratöltés, visszaállítás és ismételt migráció viselkedését célzott tesztekkel ellenőrizni.
+
+**B) Böngészős folyamatellenőrzés és automatikus tesztfuttatás**
+
+A meglévő Node-tesztek sok modult és generált felületet ellenőriznek; a 11. pontban igazolt hiányzó
+CSS-képek ugyanakkor átmentek a releváns teszteken. A teljes, böngészőben betöltött oldal alapfolyamatait
+is ellenőrizni kell. A felméréskor a repóban nem volt verziózott `.github/workflows` tesztkonfiguráció.
+
+- [ ] Mind az öt Android-verzióhoz böngészős alapfolyamatteszteket készíteni: oldalindítás és boot, feloldás, appnyitás, Vissza / Kezdőképernyő, párbeszédablak nyitása és bezárása, nyelvváltás, módosítás mentése és újratöltése.
+- [ ] A tesztek során a JavaScript-hibákat és a helyi erőforrások sikertelen betöltését is ellenőrizni. Asztali és keskeny mobilnézetben legyen legalább egy reprezentatív folyamat; a böngészők közötti eltéréseket a tényleges támogatási célhoz igazítani.
+- [ ] A meglévő Node-teszteket és az új böngészős ellenőrzéseket egy dokumentált paranccsal futtathatóvá tenni, majd push / pull request esetén automatikusan futtatni. Hiba esetén legyen használható napló és a böngészős hibához képernyőkép.
+
+**C) A nagy simulator.js fájlok fokozatos bontása (alacsonyabb prioritás)**
+
+Ezekben a több ezer soros fájlokban az állapotkezelés, a navigáció, a renderelés és az alkalmazások
+eseménykezelése együtt van. A rendezés célja, hogy egy későbbi javítás kisebb, áttekinthető egységet érintsen.
+
+- [ ] Az érintett funkciók későbbi javításakor külön modulba kiemelni a mentést, a navigációt és az alkalmazásonkénti eseménykezelést; egyszerre egy jól körülhatárolt területet módosítani.
+- [ ] A közös működési logikát és a verzió saját megjelenését világos interfészekkel összekötni. A generált fájlok módosításakor a sablonok és generátorok is kövessék a bontást; a gyári verziókülönbségek maradjanak meg.
+- [ ] Minden kiemelésnél a meglévő modultesztekkel és a B) pont böngészős folyamataival ellenőrizni a viselkedés azonosságát. A fájlok rendezését külön változtatásként kezelni a funkcionális javításoktól.
+
+A 13. pont munkaterv; az implementáció nem kezdődött el.
 
 ## Nem csináljuk meg
 
