@@ -196,7 +196,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 - [ ] 4.3 / 4.4.4 Naptár eseményrészletek: eltérő zónánál az EventInfoFragment a helyi zóna rövid nevét írja az idő mellé (Utils.getDisplayedTimezone, TimeZone.SHORT); most a választó hosszú neve és GMT-eltolása látszik
 - [x] 4.0.4: más képek kem-* ikonjai a Gmailben, a Play Zenében és a Google+-ban; a tárcsázó hdpi grafikája xhdpi telefonon — 39c9d53: a Play Zene sávja a Music2 saját sötét ikonjaival (CSS-invertálás nélkül), a Google+, Csevegő és YouTube a saját „nincs kép” ábrájával; a tárcsázó, a hívásnapló és a hívás közbeni számbillentyűzet a Contacts.apk xhdpi grafikáival. A Gmail már nem használt kem-ikont
 - [x] 2.3.6: a 4.0.4-es tartalék beállítási oldalak még be vannak kötve; az asztali óráról hiányzik az időjárás — 75e6fd5: a settings-detail.js és a halott ICS-oldalak kikerültek; a képernyő-időtúllépés (automatikus zárolás) és az Animáció beállítás most a GB-oldalakról jön; az asztali óra a DeskClock 2.0.2 időjárás-blokkját mutatja a Hírek és időjárás adataival
-- [ ] Elavult fejléc-kommentek (4.0.4 ics-extra-apps.js, stock-apps.js; 5.1.1 people.js csomagnév; 4.4.4 kk-dialer „4.3”)
+- [x] Elavult fejléc-kommentek (4.0.4 ics-extra-apps.js, stock-apps.js; 5.1.1 people.js csomagnév; 4.4.4 kk-dialer „4.3”) — 254439c: a fejlécek a saját kép appjait írják le; a fájlokból a más képről maradt, sosem hívott részek (4.0.4 Currents / Play Magazines / Wallet, KitKat Google-appok; 4.4.4 a 4.3-as tárcsázó és háromhelyes javaslatsáv) is kikerültek
 
 ## 10. Szövegkezelés egységesítése (2026-10-10; a többi auditjavítás után)
 
@@ -486,3 +486,4 @@ A 13. pont munkaterv; az implementáció nem kezdődött el.
 | 2026-10-10 | 9. lépés: 4.3 / 4.4.4 Naptár TimeZonePickerDialog a képek adataiból | 74d92d0 |
 | 2026-10-10 | 9. lépés: 4.0.4 kem-* ikonok és hdpi tárcsázó lecserélve a kép saját grafikáira | 39c9d53 |
 | 2026-10-10 | 9. lépés: 2.3.6 ICS-tartalékoldalak ki, GB képernyő-időtúllépés / animáció, asztali óra időjárás | 75e6fd5 |
+| 2026-10-10 | 9. lépés: elavult fejléc-kommentek és a mögöttük maradt halott kód (E szakasz kész) | 254439c |
