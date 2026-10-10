@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 9. lépés E) szakasza (Kisebb hibák) kész, az 5.1.1 Naptár időzóna-választójával együtt. A 10–13. lépés és a 7–8. pont megbeszélése további feladat; a 2026-10-10-i sessionfolytatás csak a félbemaradt Naptár-javítást fejezte be.
+**Állapot:** a 9. lépés E) szakasza (Kisebb hibák) kész, az 5.1.1 Naptár időzóna-választójával együtt. A 9/A függő 4.4.4-kezdőképernyő tétele is elkészült a tulajdonos 2026-10-10-i kérésére. A 10–13. lépés és a 7–8. pont megbeszélése további feladat.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -155,7 +155,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 - [x] Chrome 4.3 / 4.4.4 / 5.1.1: a képekben lévő Chrome 27 / 32 / 40 szerint – eszköztár (toolbar.xml, location_bar.xml, a lapszámláló a kód szerint), a menü a menü-XML és a prepareMenu láthatósági szabályai szerint, a saját szövegekkel; az új lap 4.3 / 4.4.4-en a chrome://newtab (ntp_android a chrome.pak / resources.pak-ból, szövegek a nyelvi pak-okból: docs/chrome-pak.py) a NewTabPageToolbar alsó sávval, 5.1.1-en a natív new_tab_page.xml / most_visited_item.xml és a sötét inkognitó-oldal; minden ikon az APK saját rajzolata – 583de32, f16838e, 3ec0db3. A lapváltó kártyái (GL-rajzolás) közelítés maradnak, a színek és ikonok az APK-ból
 - [x] Hangouts 4.3: a képben lévő Hangouts 1.0.2 szerint – akciósáv (ab_solid, ic_add_gray, ic_hangout_gray), listaelem (72 dp, 56 dp avatar, olvasatlan félkövér), beszélgetés (MessageListItemView elrendezése, msg_bubble_left/right 9-patch buborékok), szerkesztő (kamera → küldés), Új Hangout lista, „Személyek és beállítások” menüpont, a kamera gomb választója (Fotó készítése, Google+-fotók, Egyéb fotók); saját ikonok és szövegek – e9d19f9
 - [x] Hangouts 4.4.4 / 5.1.1: 4.4.4-en a menü már egyezett a conversation_list_activity_menu.xml-lel (a megjegyzés most ezt mondja); 5.1.1-en a Hangouts 2.5-ben nincs listamenü és FAB: a fejlécben a fiók-kapcsoló és a „+” (home_activity_menu.xml), a NavigationDrawerFragment elemei a kód sorrendjében (Meghívások, Archivált, Letiltott személyek | Értesítések elhalasztása, Beállítások, Súgó és visszajelzés) a saját ikonjaikkal; a beszélgetés menüje a conversation_activity_menu.xml szerint – f2addcc
-- [ ] Kezdőképernyő 4.4.4: a keresősáv Wikimedia-képről, az alkalmazáslista videókockáról; a képben GoogleHome 1.0.10. Előbb egyeztetni (a 2026-10-03-i döntés a stock Google kinézetről szólt, nem a forrásról) (~2 óra)
+- [x] Kezdőképernyő 4.4.4: a keresősáv Wikimedia-képről, az alkalmazáslista videókockáról — 4e28a91: a tulajdonos 2026-10-10-i kérésére a KTU84P kép saját GoogleHome 1.0.10 / Velvet 3.3.11 adataiból. A GoogleHome indítókomponens, a tényleges GEL / Launcher3 és keresősáv a Velvetben van. Saját keresősáv-háttér, Google-logó, lenyomott logó és mikrofon; a search_plate.xml és stílusai szerinti méretek. Az alkalmazáslista a DeviceProfile / CellLayout / ShortcutAndWidgetContainer számításával: 4×5 rács, 60 dp ikonok, 13 sp feliratok, kb. 15 dp első ikonsor a becsült 28 dp helyett. Generátor: docs/kitkat-launcher.py, források és hash-ek: docs/kitkat-launcher-source.json. Újragenerálás byte-ra azonos; 138/138 teszt sikeres, két alkalmazásoldal, appindítás, kereső/mikrofon és öt nyelv böngészőben ellenőrizve.
 
 **B) Kitalált vagy általános képernyők – javítandó**
 
@@ -489,3 +489,4 @@ A 13. pont munkaterv; az implementáció nem kezdődött el.
 | 2026-10-10 | 9. lépés: elavult fejléc-kommentek és a mögöttük maradt halott kód (E szakasz kész) | 254439c |
 | 2026-10-10 | 9. lépés: 4.3 / 4.4.4 eseményrészlet a helyi zónában, rövid zónanévvel | ee63900 |
 | 2026-10-10 | 9. lépés: 5.1.1 Naptár TimeZonePickerDialog a saját képből, Material stílussal; eseményrészlet a készülék zónájában | 4ef64ba |
+| 2026-10-10 | 9. lépés: 4.4.4 Google Now Launcher keresősáv és alkalmazásrács a saját gyári APK-kból | 4e28a91 |
