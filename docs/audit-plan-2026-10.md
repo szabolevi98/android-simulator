@@ -171,7 +171,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 
 - [x] Névjegyek listája és részletei 4.3 / 4.4.4: „ICS-ihletésű” renderelő (~1–2 óra) — 8d98b5c: a menük már a menü-XML-ekből jöttek; a sorok és szakaszfejlécek a PeopleTheme-ből, a fénykép oldala a dexből (4.3 jobbra, 4.4 balra)
 - [x] Óra 4.3 / 4.4.4: az ébresztőlista és -szerkesztő ICS-ihletésű; 5.1.1: JB/KK DeskClock-váz a 3.0.4 alatt (~2 óra) — 53b305e: a 4.3 AlarmClock a kép kinyitható kártyáival és a TimePicker billentyűzettel (a dex szerint a 4.3 már ezt használja); a 4.4.4 kártyái már a KK DeskClockból jöttek; 5.1.1 9df9aa1: a 3.0.4 oldalai mentek, a FAB-ikonok mérete javítva
-- [ ] 4.4.4: értesítési panel, zárolóképernyő, Helyhozzáférés és Álmodozás a 4.3-ból maradt (~2 óra)
+- [x] 4.4.4: értesítési panel, zárolóképernyő, Helyhozzáférés és Álmodozás a 4.3-ból maradt (~2 óra) — ac70b7c: ellenőrizve: a panel QS-ikonjai pixelre a hammerhead SystemUI xxhdpi ikonjai, a 4.4-es csempekészlet (akkumulátormérő, Hely, Képernyőküldés) megvan; a zárolóképernyő a KK által megtartott 4.3-as lapozó getWidgetsEnabled-del; a Hely (kapcsoló, Mód) és az Álmodozás KK-oldalak; csak a fejléc-kommentek voltak elavultak
 - [ ] 5.1.1: a Telefon az AOSP Dialerből (a képben GoogleDialer 2.1), az E-mail alapja AOSP 4.4 UnifiedEmail (~1 óra ellenőrzés)
 - [ ] 2.3.6 Zene: a könyvtár és a lejátszó a 4.0.4-gyel közös modul, saját CSS-sel és angol szövegekkel (~1,5 óra)
 - [ ] 5.1.1: régi, nem gyári stíluslapok még töltődnek (stock-apps.css, play-apps.css 2013-as alap, lp-settings.css Holo-alap, people / messaging / calendar.css) (~1–2 óra)
@@ -350,3 +350,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-10 | 9. lépés: settings-detail.js 4.0.4–5.1.1 a képek Settings-szövegeivel | 1de8ff2 |
 | 2026-10-10 | 9. lépés: Névjegyek 4.3 / 4.4.4 sorai a Contacts témájából és kódjából | 8d98b5c |
 | 2026-10-10 | 9. lépés: Óra 4.3 ébresztők a DeskClock 4.3 szerint; 5.1.1 FAB | 53b305e, 9df9aa1 |
+| 2026-10-10 | 9. lépés: 4.4.4 panel / zárolóképernyő / Hely / Álmodozás ellenőrzése | ac70b7c |
