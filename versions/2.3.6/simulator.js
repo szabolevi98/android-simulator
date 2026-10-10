@@ -83,7 +83,7 @@
     } catch { return clone(defaultData); }
   }
   let data = load();
-  data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...data.settings};
+  data.settings={...ICSSystemSettings.defaults,...data.settings};
   ICSLockscreen.initialize(data);
   function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
   const ui = {
@@ -177,17 +177,7 @@
   const launcherIcon = id => ICSLauncherFolders.folder(data,id)
     ? `<button class="launcher-icon" data-action="folder-open" data-folder-id="${safe(id)}" aria-label="${safe(folderName(id))}" data-no-translate>${appIcon(id)}<span>${safe(folderName(id))}</span></button>`
     : `<button class="launcher-icon" data-action="${id==='apps'?'drawer':'open-app'}" ${id==='apps'?'':`data-app="${id}"`} aria-label="${safe(appNames[id]||'Apps')}">${appIcon(id)}<span>${safe(appNames[id]||'Apps')}</span></button>`;
-  const actionbar = (title, right = '') => `<div class="actionbar"><button class="up" data-action="${ui.view === 'settings' && !ui.sub ? 'noop' : 'back'}" aria-label="${ui.view === 'settings' && !ui.sub ? 'Settings' : 'Back'}">${ui.view === 'settings' ? `${ui.sub ? '<img class="up-chevron" src="assets/ic_ab_back_holo_dark.png" alt="">' : ''}<img class="settings-header-icon" src="assets/settings.png" alt="">` : '‹'}</button><h2>${safe(title)}</h2>${right}</div>`;
   const content = (inner, theme = '') => `<div class="app-content ${theme}">${inner}</div>`;
-  const appView = (title, inner, theme = '', right = '') => `<div class="app-view ${ui.view === 'settings' ? `settings-app ${!ui.sub ? 'settings-main' : ''}` : ''}">${actionbar(title, right)}${content(inner, ui.view === 'settings' ? `settings-dark ${theme}` : theme)}</div>`;
-  const settingIcon = (id, fallback) => ui.view === 'settings' && ['wireless','bluetooth','data','sound','display','storage','battery','apps','language','date','about','sync','location','security','backup','accessibility','development'].includes(id) ? `<img src="assets/setting-${id}.png${id === 'bluetooth' ? '?v=2' : ''}" alt="">` : fallback;
-  const row = (title, subtitle, action, id, icon = '') => `<button class="settings-row" data-action="${action}" data-id="${safe(id)}"><span class="row-icon">${icon === null ? '' : settingIcon(id, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="chevron">›</span></button>`;
-  const toggleRow = (title, subtitle, key) => wirelessCheckRow(title, subtitle, key);
-  const connectivitySwitch = (key, title, inHeader = false) => `<button class="holo-switch ${data.settings[key] ? 'on' : ''} ${inHeader ? 'settings-action-switch' : ''}" data-action="toggle-setting" data-id="${key}" role="switch" aria-label="${safe(title)}" aria-checked="${data.settings[key]}"><span class="switch-label" aria-hidden="true">${data.settings[key] ? 'ON' : 'OFF'}</span></button>`;
-  const connectivityRow = (title, key) => `<div class="settings-row connectivity-row"><button class="connectivity-open" data-action="settings-sub" data-id="${key}"><span class="row-icon">${settingIcon(key === 'wifi' ? 'wireless' : key, '')}</span><span class="row-copy">${safe(title)}</span></button>${connectivitySwitch(key, title)}</div>`;
-  const wirelessRow = (title, subtitle, id) => `<button class="settings-row wireless-row" data-action="settings-sub" data-id="${id}"><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span></button>`;
-  const wirelessCheckRow = (title, subtitle, key) => `<button class="settings-row wireless-row" data-action="toggle-setting" data-id="${key}" role="checkbox" aria-checked="${data.settings[key]}"><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><img class="holo-checkbox" src="assets/btn_check_${data.settings[key] ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
-  const label = text => `<div class="section-label">${safe(text)}</div>`;
   const carrierName = () => data.settings.airplane ? i18n.t('No service.') : safe(data.settings.networkOperator||'Telekom');
   let lastActivity=Date.now();
   for(const name of ['pointerdown','keydown','input','wheel'])document.addEventListener(name,()=>{lastActivity=Date.now();},{passive:true,capture:true});
@@ -345,7 +335,10 @@
   // Window transitions: the outgoing view is kept in a temporary layer while both animate.
   let lastScene = null, pendingNav = '', activeTransition = null;
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
-  const animationScale = name => { const value = Number(data.settings[name === 'unlock' ? 'windowScale' : 'transitionScale']); return name.startsWith('drawer-') ? 1 : Number.isFinite(value) ? value : 1; };
+  // Settings > Display > Animation (animations_values "00", "01", "11": window then transition scale).
+  // Settings > Display > Screen timeout: Settings.apk's screen_timeout_values (ms).
+  const SCREEN_TIMEOUT = [15000, 30000, 60000, 120000, 600000, 1800000];
+  const animationScale = name => { const level = data.settings.animationLevel ?? GBSettings.DEFAULTS.animationLevel; return name.startsWith('drawer-') ? 1 : name === 'unlock' ? Number(level === 2) : Number(level >= 1); };
   function endTransition() {
     if (!activeTransition) return;
     clearTimeout(activeTransition.timer);
@@ -525,7 +518,6 @@
     const body = widgetBody(widget) ?? (widget.type === 'power' ? `<div class="power-widget">${[['wifi','Wi-Fi','wifi'],['bluetooth','Bluetooth','bluetooth'],['gps','GPS satellites','gps'],['autoSync','Auto-sync','sync'],['brightness','Brightness','brightness']].map(([key,title,asset]) => `<button class="power-cell ${data.settings[key] ? 'enabled' : ''}" data-action="power-toggle" data-id="${key}" aria-label="${title}" aria-pressed="${!!data.settings[key]}"><img src="assets/power-${asset}-${key === 'brightness' ? data.settings.brightness > 70 ? 'full' : data.settings.brightness > 25 ? 'half' : 'off' : data.settings[key] ? 'on' : 'off'}.png" alt=""><i></i></button>`).join('')}</div>` : `<button data-action="open-app" data-app="${spec.app || 'gallery'}" aria-label="${safe(spec.name || 'Widget')}">${widgetArt(widget.type)}</button>`);
     return `<div class="home-widget widget-${widget.type}" data-widget-id="${safe(widget.id)}" style="grid-column:${widget.x + 1}/span ${spec.width};grid-row:${widget.y + 1}/span ${spec.height}">${body}</div>`;
   };
-  const wallpaperChoices = () => `<div class="wallpaper-grid">${wallpaperFiles.map((name, i) => `<button class="wallpaper-choice ${data.wallpaper === i ? 'selected' : ''}" data-action="wallpaper" data-id="${i}" aria-label="${safe(name)}"><span class="wallpaper-swatch" style="background-image:url('assets/wallpaper_${name}.jpg')"></span><strong>${safe(name[0].toUpperCase() + name.slice(1))}</strong></button>`).join('')}</div>`;
   function renderHome() {
     const t = key => i18n.t(key);
     return `<div class="home-view gbl"><div class="home-content"><div class="home-pages" style="transform:translateX(${-ui.page * 100}%)">${data.homePages.map((page, index) => `<div class="home-grid" data-home-page="${index}" ${index !== ui.page ? 'inert' : ''}>${page.map((id, slot) => `<div class="home-slot" data-home-slot="${slot}" style="grid-column:${slot % 4 + 1};grid-row:${Math.floor(slot / 4) + 1}">${id ? launcherIcon(id) : ''}</div>`).join('')}${data.homeWidgets[index].map(homeWidget).join('')}</div>`).join('')}</div></div>${GBLauncher.arrows(ui.page, 5, t)}${GBLauncher.dock(t)}<div class="drop-target-bar gbl-delete"><div class="drop-target" data-drop-remove="true" aria-label="${safe(t('Remove'))}"><img src="assets/gb-l2-trashcan.png" alt=""><img class="drop-target-active" src="assets/gb-l2-trashcan_hover.png" alt=""></div></div></div>`;
@@ -854,8 +846,6 @@
       overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('music-')) {
       overlayRoot.innerHTML = ICSMusic.overlay(ui.music,ui,key=>i18n.t(key));
-    } else if (ui.overlay.startsWith('sd-')) {
-      overlayRoot.innerHTML = ICSSettingsDetail.overlay(data,ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('people-')) {
       overlayRoot.innerHTML = peopleOverlay();
     } else if (ui.overlay === 'browser-menu') {
@@ -952,15 +942,6 @@
   window.addEventListener('resize',()=>{if(ui.overlay==='folder')positionFolder();});
 
   const allWifiNetworks = () => [...wifiNetworks, ...(data.savedWifiNetworks || [])];
-  const connectivityMenu = kind => `<button class="connectivity-overflow" data-action="connectivity-menu" data-id="${kind}" aria-label="More options"><img src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button>`;
-  function renderWifiSettings() {
-    return appView('Wi-Fi', `<div class="connectivity-page">${data.settings.wifi ? allWifiNetworks().sort((a,b) => Number(b.name === data.settings.wifiNetwork) - Number(a.name === data.settings.wifiNetwork) || b.strength - a.strength || a.name.localeCompare(b.name, i18n.locale())).map(network => `<button class="settings-row network-row" data-action="wifi-network" data-id="${safe(network.name)}"><span class="row-copy">${safe(network.name)}<small>${data.settings.wifiNetwork === network.name ? i18n.t('Connected') : network.security === 'Open' ? i18n.t('Open network') : i18n.t('Secured with WPA2')}</small></span><span class="network-signal"><img src="assets/${network.security === 'Open' ? `ic_wifi_signal_${network.strength >= 3 ? 3 : 2}` : 'ic_wifi_lock_signal_4'}.png" alt=""></span></button>`).join('') : '<p class="connectivity-empty">Turn on Wi-Fi to see available networks</p>'}</div>`, '', connectivitySwitch('wifi', 'Wi-Fi', true) + connectivityMenu('wifi'));
-  }
-  function renderBluetoothSettings() {
-    const deviceRow = (name, paired) => `<button class="settings-row network-row" data-action="bluetooth-pair" data-id="${safe(name)}"><span class="network-signal"><img src="assets/${name === 'Car Audio' ? 'ic_bt_headphones_a2dp' : 'ic_bt_headset_hfp'}.png" alt=""></span><span class="row-copy">${safe(name)}${paired ? '<small>Paired</small>' : ''}</span>${paired ? '<img class="bt-config-icon" src="assets/ic_bt_config.png" alt="">' : ''}</button>`;
-    return appView('Bluetooth', `<div class="connectivity-page">${data.settings.bluetooth ? `<button class="settings-row network-row" data-action="toggle-setting" data-id="bluetoothVisible"><span class="network-signal"><img src="assets/ic_bt_cellphone.png" alt=""></span><span class="row-copy">${safe(data.settings.bluetoothName || 'Galaxy Nexus')}<small>${data.settings.bluetoothVisible ? i18n.t('Visible to nearby Bluetooth devices') : i18n.t('Not visible to other Bluetooth devices')}</small></span></button>${data.settings.pairedDevice ? `${label('PAIRED DEVICES')}${deviceRow(data.settings.pairedDevice, true)}` : ''}${label('AVAILABLE DEVICES')}${ui.bluetoothScanned ? ['Wireless Headset','Car Audio'].filter(name => name !== data.settings.pairedDevice).map(name => deviceRow(name, false)).join('') : '<p class="connectivity-empty small">Tap Scan to find nearby devices</p>'}` : '<p class="connectivity-empty">Turn on Bluetooth to see nearby devices</p>'}</div>`, '', connectivitySwitch('bluetooth', 'Bluetooth', true) + connectivityMenu('bluetooth'));
-  }
-
   // ZoneList rows and the Date & time summary: timezones.xml's names with their current "GMT+01:00" offsets.
   function gbOffset(zone) { const p = new Intl.DateTimeFormat('en-US', {timeZone: zone, timeZoneName: 'longOffset'}).formatToParts(new Date()).find(x => x.type === 'timeZoneName')?.value || 'GMT'; const m = p.match(/([+-])(\d+):?(\d*)/); const minutes = m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3] || 0)) : 0; return {minutes, text: `GMT${minutes < 0 ? '-' : '+'}${String(Math.floor(Math.abs(minutes) / 60)).padStart(2, '0')}:${String(Math.abs(minutes) % 60).padStart(2, '0')}`}; }
   function gbZones() { const col = {en: 1, hu: 2, de: 3, fr: 4, es: 5}[i18n.language] || 1; const list = (window.GBTimeZones || []).map(z => ({id: z[0], name: z[col], ...gbOffset(z[0])})).map(z => ({...z, offset: z.text})); return ui.gbZoneSort === 'name' ? list.sort((a, b) => a.name.localeCompare(b.name, i18n.locale())) : list.sort((a, b) => a.minutes - b.minutes); }
@@ -1011,31 +992,9 @@
     if (GBNetwork.has(s)) return GBNetwork.render(s, gbNetContext()).html;
     if (GBSettings.has(s || 'main')) return GBSettings.render(s || 'main', gbSettingsContext()).html;
     if (GBSettingsPages.has(s)) { const page = GBSettingsPages.render(s, gbPagesContext()); if (page) return page; }
-    const detail=ICSSettingsDetail.render(data,ui,apps,key=>i18n.t(key));
-    if(detail)return appView(detail.title,detail.body,'sd-page');
-    if (s === 'wifi') return renderWifiSettings();
-    if (s === 'bluetooth') return renderBluetoothSettings();
-    if (s === 'wallpaper') {
-      return appView('Wallpaper', wallpaperChoices());
-    }
-    if (s === 'about') return appView('About phone', `${row('Status', 'Phone number, signal, etc.', 'settings-sub', 'about-status')}${row('Legal information', '', 'settings-sub', 'about-legal')}${row('Model number', 'Nexus S', 'noop', '')}${row('Android version', '2.3.6', 'about-tap', '')}${row('Baseband version', 'I9020XXKD1', 'noop', '')}${row('Kernel version', '2.6.35.7-gf5f63ef\nandroid-build@apa28 #1\nTue Aug 2 13:57:05 PDT 2011', 'noop', '')}${row('Build number', 'GRK39F', 'noop', '')}`, 'about-settings');
-    if (s === 'about-status') return appView('Status', `${row('Battery status', 'Discharging', 'noop', '')}${row('Battery level', '78%', 'noop', '')}${row('Network', carrierName(), 'noop', '')}${row('Signal strength', data.settings.airplane ? '0 dBm  99 asu' : '-75 dBm  19 asu', 'noop', '')}${row('Phone number', 'Unknown', 'noop', '')}${row('Wi-Fi MAC address', '02:00:00:40:04:01', 'noop', '')}${row('Bluetooth address', data.settings.bluetooth ? '02:00:00:40:04:02' : 'Unavailable', 'noop', '')}`, 'about-settings');
-    if (s === 'about-legal') return appView('Legal information', `${row('Open source licenses', 'Android Open Source Project', 'noop', '')}${row('Google legal', 'Offline demonstration', 'noop', '')}`, 'about-settings');
-    if (s === 'about-safety') return appView('Safety information', `<div class="detail-pad"><p>Nexus S safety information is not available in this offline simulation.</p></div>`, 'about-settings');
     // PlatLogoActivity (Theme.NoTitleBar.Fullscreen): platlogo FIT_CENTER on black; every touch shows the credit toast.
     if (s === 'easter') return `<button class="gb-platlogo" data-action="gb-platlogo" aria-label="Gingerbread"><img src="assets/gb-platlogo.jpg" alt=""></button>`;
-    if (s === 'beam') return appView('Android Beam', `${wirelessCheckRow('Android Beam', 'Ready to transmit app content via NFC', 'androidBeam')}`, 'wireless-more');
-    if (s === 'brightness') return appView('Brightness', `<div class="detail-pad"><h3>Brightness</h3><input type="range" min="10" max="100" value="${data.settings.brightness}" data-field="brightness" aria-label="Brightness"><p>${data.settings.brightness}%</p></div>`);
-    if (s === 'sync') return appView('Accounts & sync', `${toggleRow('Auto-sync', 'Sync app data automatically', 'autoSync', '↻')}${label('ACCOUNTS')}${row('Google', 'demo@android.local', 'settings-sub', 'sync-google', '◎')}${row('Add account', '', 'toast', 'Demo account already added', '+')}`);
-    if (s === 'sync-google') return appView('Google', `<div class="detail-pad"><h3>demo@android.local</h3><p>Sample account data is stored only in this browser.</p></div>${row('Sync Gmail', 'Last synced today', 'noop', '', '✉')}${row('Sync Calendar', 'Last synced today', 'noop', '', '▦')}${row('Sync Contacts', 'Last synced today', 'noop', '', '◉')}`);
-    if (s === 'location') return appView('Location services', `${toggleRow("Google's location service", 'Let apps use approximate location', 'networkLocation', '◎')}${toggleRow('GPS satellites', 'Let apps use precise location', 'gps', '◉')}`);
-    if (s === 'backup') return appView('Backup & reset', `${label('BACKUP & RESTORE')}${toggleRow('Back up my data', 'Back up app data and settings', 'backup', '↻')}${toggleRow('Automatic restore', 'Restore settings when reinstalling apps', 'autoRestore', '↻')}${label('PERSONAL DATA')}${row('Factory data reset', 'Erase local simulator data', 'settings-sub', 'reset-info', '⚠')}`);
-    if (s === 'reset-info') return appView('Factory data reset', `<div class="detail-pad"><h3>Erase local simulator data</h3><p>This clears the saved home screens, settings, and sample content for this version.</p><button class="small-button" data-action="factory-reset">Reset simulator</button></div>`);
-    if (s === 'accessibility') return appView('Accessibility', `${label('SERVICES')}${row('No services installed', '', 'noop', '', '')}${label('SYSTEM')}${toggleRow('Large text', 'Use larger text in Settings', 'largeText', 'A')}${toggleRow('Auto-rotate screen', '', 'rotate', '↻')}${toggleRow('Speak passwords', 'Speak password characters as you type', 'speakPasswords', '◉')}`);
-    if (s === 'development') return appView('Developer options', `${toggleRow('USB debugging', 'Debug mode when USB is connected', 'usbDebug', '⚙')}${toggleRow('Stay awake', 'Screen will never sleep while charging', 'stayAwake', '◷')}${toggleRow('Allow mock locations', 'Permit mock locations', 'mockLocations', '◎')}${label('USER INTERFACE')}${toggleRow('Show touches', 'Show visual feedback for touches', 'showTouches', '◉')}${[['windowScale','Window animation scale'],['transitionScale','Transition animation scale']].map(([key, title]) => `<button class="settings-row" data-action="sd-dialog" data-id="${key}"><span class="row-copy">${safe(i18n.t(title))}<small>${safe(i18n.t(ICSSettingsDetail.animationScaleLabel(data.settings[key])))}</small></span></button>`).join('')}`);
-    if (s === 'language') return appView('Language & input', `<div class="detail-pad"><h3>Language</h3><div class="language-options">${[['en','English'],['hu','Magyar'],['de','Deutsch'],['fr','Français'],['es','Español']].map(([code,name]) => `<button class="language-choice ${i18n.language === code ? 'selected' : ''}" data-action="set-language" data-id="${code}" aria-pressed="${i18n.language === code}">${name}<span>${i18n.language === code ? '✓' : ''}</span></button>`).join('')}</div></div>${row('Keyboard', 'Android keyboard', 'noop', '', '▦')}`);
-    if (s === 'volumes' || s === 'ringtone' || s === 'sleep') return appView(s === 'volumes' ? 'Volumes' : s === 'ringtone' ? 'Phone ringtone' : 'Sleep', `<div class="detail-pad"><p>${s === 'ringtone' ? 'Orion is selected.' : s === 'sleep' ? 'Screen turns off after 30 seconds.' : 'Ringtone 70% · Media 60% · Alarm 80%'}</p></div>`);
-    return appView('Settings', `${label('WIRELESS & NETWORKS')}${connectivityRow('Wi-Fi', 'wifi')}${connectivityRow('Bluetooth', 'bluetooth')}${row('Data usage', '', 'settings-sub', 'data', '◕')}${row('More...', '', 'settings-sub', 'wireless', null)}${label('DEVICE')}${row('Sound', '', 'settings-sub', 'sound', '♫')}${row('Display', '', 'settings-sub', 'display', '☼')}${row('Storage', '', 'settings-sub', 'storage', '▤')}${row('Battery', '', 'settings-sub', 'battery', '◧')}${row('Apps', '', 'settings-sub', 'apps', '▦')}${label('PERSONAL')}${row('Accounts & sync', '', 'settings-sub', 'sync', '↻')}${row('Location services', '', 'settings-sub', 'location', '◎')}${row('Security', '', 'settings-sub', 'security', '◉')}${row('Language & input', '', 'settings-sub', 'language', '◎')}${row('Backup & reset', '', 'settings-sub', 'backup', '↻')}${label('SYSTEM')}${row('Date & time', '', 'settings-sub', 'date', '◷')}${row('Accessibility', '', 'settings-sub', 'accessibility', '◉')}${data.settings.developerUnlocked ? row('Developer options', '', 'settings-sub', 'development', '⚙') : ''}${row('About phone', '', 'settings-sub', 'about', '◉')}`);
+    return GBSettings.render('main', gbSettingsContext()).html;
   }
 
   function normalizeAddress(raw) {
@@ -1285,7 +1244,10 @@
   function renderClock() { return GBDeskClock.render(gbClockContext()); }
   function gbClockContext() {
     const now = deviceDate();
-    return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), hour24: !!data.settings.hour24, now, sub: ui.sub, dim: !!ui.clockDim, alarms: data.alarms.map(alarm => ICSDeskClock.normalize(alarm)), next: data.alarms.map(alarm => ICSDeskClock.nextOccurrence(alarm, now)).filter(Boolean).sort((a, b) => a - b)[0], draft: ui.alarmDraft ? ICSDeskClock.normalize(ui.alarmDraft) : null, temp: ui.dcTemp, contextAlarm: data.alarms.find(alarm => alarm.id === ui.dcContext), ringing: ui.ringingAlarm ? ICSDeskClock.normalize(ui.ringingAlarm) : null, ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel')};
+    // The weather DeskClock reads from News & Weather: today's forecast for its city, in its units (Use metric).
+    const today = window.GBGoogleApps?.FORECAST?.[0], metric = window.NewsPrefs ? NewsPrefs.metric(data, i18n.language) : i18n.language !== 'en', deg = f => metric ? Math.round((f - 32) * 5 / 9) : f;
+    const weather = today && {icon: today[1], temp: deg(72), high: deg(today[2]), low: deg(today[3]), location: window.NewsPrefs ? NewsPrefs.city(data, 'Mountain View, CA') : 'Mountain View, CA'};
+    return {lang: i18n.language, locale: i18n.locale(), t: key => i18n.t(key), hour24: !!data.settings.hour24, now, sub: ui.sub, weather, dim: !!ui.clockDim, alarms: data.alarms.map(alarm => ICSDeskClock.normalize(alarm)), next: data.alarms.map(alarm => ICSDeskClock.nextOccurrence(alarm, now)).filter(Boolean).sort((a, b) => a - b)[0], draft: ui.alarmDraft ? ICSDeskClock.normalize(ui.alarmDraft) : null, temp: ui.dcTemp, contextAlarm: data.alarms.find(alarm => alarm.id === ui.dcContext), ringing: ui.ringingAlarm ? ICSDeskClock.normalize(ui.ringingAlarm) : null, ok: GBSettings.text(i18n.language, 'fw_ok'), cancel: GBSettings.text(i18n.language, 'fw_cancel')};
   }
   // Alarms.formatToast after an enabled alarm is saved or switched on.
   function alarmSetToast(alarm) { const now = deviceDate(), next = ICSDeskClock.nextOccurrence(alarm, now); if (next) toast(GBDeskClock.setToast(next, now, i18n.language)); }
@@ -1374,7 +1336,7 @@
     data.mailbox.unshift(draft);ui.emailId=draft.id;ui.emailCc=false;ui.emailError='';ui.overlay='';ui.sub='compose';save();render();
   }
   function resetSimulator() {
-    data=clone(defaultData);data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...data.settings};
+    data=clone(defaultData);data.settings={...ICSSystemSettings.defaults,...data.settings};
     data.mailbox=ICSEmail.restore(null,emailData,[]);ui.music=ICSMusic.restore();ui.musicActive=false;ui.photoStacks={};ui.photoWidgetSetup=null;ui.musicTrack=0;ui.musicPlaying=false;ui.musicPosition=0;
     ui.activeCall=null;ui.sleeping=false;ui.locked=false;ui.vpnConnected=null;ui.calendarMode='Month';ui.emailFolder='Inbox';ui.emailQuery=undefined;ui.emailSelected=[];ui.recent=[];ui.recentState={};ui.recentSnapshots={};
     ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
@@ -1557,7 +1519,7 @@
         if (id === 'silent') data.settings.silentMode = data.settings.silent ? (GBSettings.value(data.settings, 'vibrateMode') === 1 || GBSettings.value(data.settings, 'vibrateMode') === 3 ? 'mute' : 'vibrate') : 'off';
         save(); render(); break; }
       case 'gbset-list': ui.overlay = 'gb-dialog-list'; ui.gbListKey = id; renderOverlay(); break;
-      case 'gbset-list-pick': { const [key, index] = id.split(':'); data.settings[key] = Number(index); if (key === 'animationLevel') data.settings.transitionScale = [0, .5, 1][Number(index)]; ui.overlay = ''; save(); render(); break; }
+      case 'gbset-list-pick': { const [key, index] = id.split(':'); data.settings[key] = Number(index); ui.overlay = ''; save(); render(); break; }
       case 'gbset-toast': toast(id); break;
       case 'gbset-dialog': if (id === 'date' || id === 'time') { const now = deviceDate(); ui.gbDtDraft = {y: now.getFullYear(), m: now.getMonth(), d: now.getDate(), h: now.getHours(), mi: now.getMinutes()}; } ui.overlay = 'gb-dialog-set'; ui.gbSetDialog = id; renderOverlay(); break;
       // The pickers wrap like NumberPicker; Set moves the device clock by the difference (data.settings.timeOffset).
@@ -1599,9 +1561,6 @@
       case 'unlock': ui.view = 'home'; render(); break;
       case 'unlock-camera': openApp('camera'); break;
       case 'settings-sub': if (ui.view === 'settings') (ui.gbSettingsStack ||= []).push(ui.sub); ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
-      case 'sd-dialog': ui.settingsField=id;ui.overlay='sd-dialog';renderOverlay();break;
-      case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;
-      case 'sd-app-info': ui.settingsApp=id;ui.sub='app-info';render();break;
       case 'gbsp-tab': ui.gbAppsTab = id; render(); break;
       case 'gbacc-background': if ((data.settings.backgroundData ?? true)) { ui.gbspDialog = 'background'; ui.overlay = 'gb-dialog-sp'; renderOverlay(); } else { data.settings.backgroundData = true; save(); render(); } break;
       case 'gbacc-background-off': data.settings.backgroundData = false; save(); ui.overlay = ''; render(); break;
@@ -1619,14 +1578,6 @@
       case 'gbsp-clear-cache': data.gbClearedApps = [...new Set([...(data.gbClearedApps || []), ui.settingsApp])]; save(); render(); break;
       case 'gbsp-reset-initiate': (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = 'gb-reset-final'; render(); break;
       case 'factory-reset-confirmed': ui.gbSettingsStack = []; resetSimulator(); break;
-      case 'sd-data-app': ui.settingsApp=id;ui.sub='data-app';render();break;
-      case 'sd-storage-open': if(id==='gallery'||id==='music')openApp(id);else{ui.sub=id;if(id==='apps')ui.settingsAppsTab='All';render();}break;
-      case 'sd-battery-history': ui.sub='battery-history';render();break;
-      case 'sd-battery-app': ui.batteryDetail=id;ui.sub='battery-detail';render();break;
-      case 'sd-clear-cache': data.appCacheCleared=[...new Set([...(data.appCacheCleared||[]),ui.settingsApp])];save();render();break;
-      case 'sd-clear-data': ui.overlay='sd-clear-data';renderOverlay();break;
-      case 'sd-confirm-clear': clearAppData(ui.settingsApp);ui.overlay='';render();toast('App data cleared');break;
-      case 'sd-force-stop': if(ui.settingsApp==='phone')ui.activeCall=null;if(ui.settingsApp==='music'){ui.music.playing=false;saveMusic();}ui.recent=ui.recent.filter(app=>app!==ui.settingsApp);delete ui.recentState?.[ui.settingsApp];delete ui.recentSnapshots[ui.settingsApp];toast('App stopped');break;
       case 'connectivity-menu': ui.connectivityMenu = id; ui.overlay = 'connectivity-menu'; renderOverlay(); break;
       case 'wifi-scan': ui.overlay = ''; renderOverlay(); toast('Scanning…'); break;
       case 'wifi-add': ui.overlay = 'wifi-add'; renderOverlay(); break;
@@ -2132,8 +2083,6 @@
       case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';render();break;
       case 'email': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(!item)break;for(const key of ['to','cc','bcc','subject','body'])if(values.has(key))item[key]=String(values.get(key)).trim();if(!ICSEmail.recipients(item.to).length){save();toast(emailText('message_compose_error_no_recipients'));break;}if(item.quoted){item.body=[item.body,item.quoted].filter(Boolean).join('\n\n');delete item.quoted;}if(!ICSEmail.send(item)){save();toast(emailText('message_compose_error_invalid_email'));break;}ui.emailCc=false;ui.sub='';ui.emailError='';save();render();break;}
       case 'email-search': ui.emailQuery=String(values.get('query')||'').trim();ui.emailSelected=[];render();break;
-      case 'sd-volumes': for(const key of ['mediaVolume','ringVolume','alarmVolume'])data.settings[key]=Math.max(0,Math.min(100,Number(values.get(key))));save();ui.overlay='';render();break;
-      case 'sd-choice': {const choice=String(values.get('choice'));if(ui.settingsField==='sleep')data.settings.sleep=Number(choice);else if(['windowScale','transitionScale'].includes(ui.settingsField))data.settings[ui.settingsField]=Number(choice);else if(ui.settingsField==='font')data.settings.largeText=choice==='large';else if(ui.settingsField==='silent'){data.settings.silent=choice!=='off';data.settings.silentMode=choice;}else data.settings[ui.settingsField]=choice;save();ui.overlay='';render();break;}
       default: break;
     }
   });
@@ -2977,7 +2926,7 @@
     lockControls.tick();
     document.querySelectorAll('.status-clock').forEach(node => { node.textContent = clock(); });
     const now = deviceDate();
-    if(!document.hidden && !ui.sleeping && ui.view!=='lock' && !ui.overlay && !ui.activeCall && !dragState && Date.now()-lastActivity>=data.settings.sleep*1000){captureRecentView();lockScreen();lastActivity=Date.now();}
+    if(!document.hidden && !ui.sleeping && ui.view!=='lock' && !ui.overlay && !ui.activeCall && !dragState && Date.now()-lastActivity>=SCREEN_TIMEOUT[data.settings.screenTimeout ?? GBSettings.DEFAULTS.screenTimeout]){captureRecentView();lockScreen();lastActivity=Date.now();}
     if(ui.activeCall){
       const screen=viewport.querySelector('.gbic'),state=GBPhone.callState(ui.activeCall);
       if(screen&&screen.dataset.state!==state)render();

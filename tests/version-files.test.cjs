@@ -17,7 +17,7 @@ const SHARED={
   
   
   
-  'settings-detail.css':[['2.3.6','4.3','4.4.4']],'settings-system.css':[['4.3','4.4.4','5.1.1']],
+  'settings-detail.css':[['4.3','4.4.4']],'settings-system.css':[['4.3','4.4.4','5.1.1']],
 };
 const files={};
 for(const v of V){

@@ -16,6 +16,14 @@
 .gbdc-time span{font:400 91.42px/1 Clockopia,DroidSans,sans-serif;padding-bottom:2.59px}
 .gbdc-time b{margin-left:3.45px;padding-bottom:10px;font-size:15.53px;font-weight:700}
 .gbdc-date{margin-left:3.45px;font-size:15.53px}
+.screen .gbdc-weather{flex:none;display:flex;flex-direction:column;align-items:flex-start;margin:10.35px 0 34.5px 3.45px;padding:0;border:0;background:none;color:#fff;font:inherit;text-align:left;cursor:pointer}
+.gbdc-wx{display:flex;align-items:flex-end;margin-bottom:-5.18px}
+.gbdc-wx img{width:51.75px;height:51.75px;margin-right:6.9px;object-fit:contain}
+.gbdc-wx-temp{margin-right:6.9px;font-size:39.68px;line-height:1}
+.gbdc-wx-hl{display:flex;flex-direction:column;width:34.5px;font-size:12.08px;line-height:1.2}
+.gbdc-wx-hl b{color:#fff}
+.gbdc-wx-hl i{font-style:normal;color:#bebebe}
+.gbdc-wx-loc{max-width:258.75px;font-size:15.53px}
 /* ButtonStripLeft / Middle / Right: btn_strip_trans_* 9-patches with the 48 dip ic_clock_strip_* icons. */
 .gbdc-strip,.gbdc-bottom{flex:none;display:flex}
 .screen .gbdc-strip-btn{flex:1 1 0;min-width:0;min-height:69px;display:flex;align-items:center;justify-content:center;padding:14.38px 13.8px 13.23px;border:0 solid transparent;border-image:url('assets/gb-dc-btn_strip_trans_middle_normal.png') 64 27 55 28 fill / 36.8px 15.53px 31.63px 16.1px stretch;background:none;color:#fff;cursor:pointer}

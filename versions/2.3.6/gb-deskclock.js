@@ -35,12 +35,20 @@
     return (array(lang, 'alarm_set')[index] || '').replace('%1$s', part(days, 'day', 'days')).replace('%2$s', part(hours, 'hour', 'hours')).replace('%3$s', part(minutes, 'minute', 'minutes'));
   }
 
+  // desk_clock_weather.xml with what News & Weather's provider (com.google.android.apps.genie.geniewidget.weather)
+  // gives DeskClock: Genie's condition icon at 60 sp, the temperature in 46 sp, high (bold) over low in 14 sp, each
+  // "%d°", and the location in 18 sp; a tap opens News & Weather.
+  function weather(ctx) {
+    const w = ctx.weather;
+    if (!w) return '';
+    return `<button class="gbdc-weather" data-action="open-app" data-app="news-weather"><span class="gbdc-wx"><img src="assets/nw-ic_weather_${e(w.icon)}_l.png" alt=""><span class="gbdc-wx-temp">${w.temp}°</span><span class="gbdc-wx-hl"><b>${w.high}°</b><i>${w.low}°</i></span></span><span class="gbdc-wx-loc">${e(w.location)}</span></button>`;
+  }
   function face(ctx) {
     const T = key => text(ctx.lang, key), now = ctx.now, c = clock(now.getHours(), now.getMinutes(), ctx);
     // Alarms.formatDayAndTime ("E h:mm aa") for Settings.System.NEXT_ALARM_FORMATTED.
     const next = ctx.next ? (() => { const n = clock(ctx.next.getHours(), ctx.next.getMinutes(), ctx); return `${weekday((ctx.next.getDay() + 6) % 7, ctx, 'short')} ${n.time}${n.ampm ? ' ' + n.ampm : ''}`; })() : '';
     const strip = [['left', 'clock-alarms', 'alarm', 'alarm_button_description'], ['middle', 'open-app" data-app="gallery', 'gallery', 'gallery_button_description'], ['middle', 'open-app" data-app="music', 'music', 'music_button_description'], ['right', 'home', 'home', 'home_button_description']];
-    return `<div class="app-view gbdc gbdc-face${ctx.dim ? ' dim' : ''}" data-no-translate><div class="gbdc-main"><div class="gbdc-top"><span class="gbdc-next"${next ? '' : ' hidden'}><img src="assets/gb-dc-ic_lock_idle_alarm.png" alt="">${e(next)}</span><button class="gbdc-round" data-action="clock-dim" aria-label="${e(T('nightmode_button_description'))}" aria-pressed="${!!ctx.dim}"><img src="assets/gb-dc-ic_round_brightness.png" alt=""></button></div><div class="gbdc-timedate"><div class="gbdc-time"><span>${e(c.time)}</span>${c.ampm ? `<b>${e(c.ampm)}</b>` : ''}</div><div class="gbdc-date">${e(now.toLocaleDateString(ctx.locale, {weekday: 'long', month: 'long', day: 'numeric'}))}</div></div></div><div class="gbdc-strip">${strip.map(([pos, action, icon, label]) => `<button class="gbdc-strip-btn ${pos}" data-action="${action}" aria-label="${e(T(label))}"><img src="assets/gb-dc-ic_clock_strip_${icon}.png" alt=""></button>`).join('')}</div>${ctx.dim ? '<button class="gbdc-tint" data-action="clock-dim" aria-label="Undim"></button>' : ''}</div>`;
+    return `<div class="app-view gbdc gbdc-face${ctx.dim ? ' dim' : ''}" data-no-translate><div class="gbdc-main"><div class="gbdc-top"><span class="gbdc-next"${next ? '' : ' hidden'}><img src="assets/gb-dc-ic_lock_idle_alarm.png" alt="">${e(next)}</span><button class="gbdc-round" data-action="clock-dim" aria-label="${e(T('nightmode_button_description'))}" aria-pressed="${!!ctx.dim}"><img src="assets/gb-dc-ic_round_brightness.png" alt=""></button></div><div class="gbdc-timedate"><div class="gbdc-time"><span>${e(c.time)}</span>${c.ampm ? `<b>${e(c.ampm)}</b>` : ''}</div><div class="gbdc-date">${e(now.toLocaleDateString(ctx.locale, {weekday: 'long', month: 'long', day: 'numeric'}))}</div></div>${weather(ctx)}</div><div class="gbdc-strip">${strip.map(([pos, action, icon, label]) => `<button class="gbdc-strip-btn ${pos}" data-action="${action}" aria-label="${e(T(label))}"><img src="assets/gb-dc-ic_clock_strip_${icon}.png" alt=""></button>`).join('')}</div>${ctx.dim ? '<button class="gbdc-tint" data-action="clock-dim" aria-label="Undim"></button>' : ''}</div>`;
   }
   function list(ctx) {
     const T = key => text(ctx.lang, key), c = clock(ctx.now.getHours(), ctx.now.getMinutes(), ctx);
