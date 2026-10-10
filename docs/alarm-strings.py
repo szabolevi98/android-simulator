@@ -7,7 +7,9 @@ ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
 DEVICES = {'maguro': '4.0.4', 'mako': '4.3', 'hammerhead': '4.4.4', 'shamu': '5.1.1'}
 KEYS = """alarm_alert_snooze_text alarm_alert_dismiss_text default_label""".split()
 OPTIONAL = """description_direction_left description_direction_right alarm_alert_snoozed_text alarm_alert_off_text
-alarm_alert_snooze_until alarm_alert_snooze_set control_set_alarm control_set_alarm_with_existing""".split()
+alarm_alert_snooze_until alarm_alert_snooze_set control_set_alarm control_set_alarm_with_existing add_alarm alarm_repeat alarm_vibrate
+label every_day time_picker_set time_picker_cancel menu_item_settings menu_item_help alarm_list_title expand_alarm collapse_alarm
+alarm_deleted""".split()
 
 
 def main(device):

@@ -1,0 +1,57 @@
+/* Android 4.3 alarms (jb-alarms.js): AlarmClockTheme on blackish #1c1e20, alarm_time.xml cards, DeskClock's TimePicker;
+   dp x 0.9. */
+.jba-app{display:flex;flex-direction:column;overflow:hidden;background:#1c1e20;color:#fff;font-family:Roboto,sans-serif}
+.jba-bar{flex:none;display:flex;align-items:center;height:43.2px;background:#000;border-bottom:1.8px solid #33b5e5}
+.screen .jba-up{display:flex;align-items:center;height:100%;padding:0 4px 0 0;border:0;background:none}
+.jba-up img:first-child{width:14.4px;height:28.8px}
+.jba-up img+img{width:28.8px;height:28.8px}
+.jba-bar h2{flex:1;margin:0 0 0 7.2px;font:400 16.2px Roboto,sans-serif}
+.screen .jba-action{width:43.2px;height:100%;border:0;background:none;display:grid;place-items:center;padding:0}
+.jba-action img{width:28.8px;height:28.8px}
+.screen .jba-up:active,.screen .jba-action:active{background:#33b5e566}
+.jba-list{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:5.4px;padding-bottom:5.4px;touch-action:pan-y}
+.jba-card{flex:none;background:#ffffff0c;transition:transform .2s,opacity .2s}
+.jba-card.off .jba-time{opacity:.5}
+.jba-top{display:flex;align-items:center;margin:10.8px 7.2px 10.8px 10.8px}
+.screen .jba-time{display:flex;align-items:flex-start;padding:0;border:0;background:none;color:#fff;line-height:1}
+.jba-time b{font:700 43.2px Roboto,sans-serif;padding-right:7.2px}
+.jba-time span{font:300 43.2px Roboto,sans-serif}
+.jba-time small{margin-left:3.6px;font:700 12.6px 'Roboto Condensed',Roboto,sans-serif;text-transform:uppercase}
+.jba-switch{margin-left:auto}
+.jba-hairline{display:block;height:.9px;margin:0 7.2px;background:#ffffff28}
+.screen .jba-info{display:flex;align-items:center;width:100%;height:28.8px;padding:0 0 0 14.4px;border:0;background:none;color:#fff;text-align:left}
+.jba-summary{flex:1;min-width:0;display:flex;gap:5.4px;overflow:hidden;white-space:nowrap}
+.jba-summary-label{color:#ffffff80;font:400 10.8px 'Roboto Condensed',Roboto,sans-serif;overflow:hidden;text-overflow:ellipsis}
+.jba-summary b{font:700 10.8px 'Roboto Condensed',Roboto,sans-serif;text-transform:uppercase}
+.jba-info img,.jba-collapse img{width:43.2px;height:28.8px}
+.screen .jba-label{display:block;height:57.6px;margin:0 14.4px;padding:0;border:0;background:none;color:#ffffff80;font:400 16.2px Roboto,sans-serif;text-align:left}
+.jba-label.set{color:#ffffff80}
+.screen .jba-checkrow{display:flex;align-items:center;gap:3.6px;height:43.2px;margin:0 14.4px 0 9px;padding:0;border:0;background:none;color:#fff;font:400 16.2px 'Roboto Condensed',Roboto,sans-serif;text-transform:uppercase}
+.jba-check{width:28.8px;height:28.8px}
+.jba-days{display:flex;height:43.2px;margin:0 9px}
+.screen .jba-days button{flex:1;min-width:0;border:0;background:none;color:#ffffff80;font:400 16.2px 'Roboto Condensed',Roboto,sans-serif;text-transform:uppercase}
+.screen .jba-days button.on{color:#fff;background:linear-gradient(#33b5e5cc,#33b5e5cc) center bottom 9px/70% 1.8px no-repeat}
+.jba-tone-row{display:flex;align-items:center;height:57.6px;margin:0 14.4px 0 9px}
+.screen .jba-tone{flex:1;min-width:0;display:flex;align-items:center;gap:7.2px;height:100%;margin-right:14.4px;padding:0;border:0;background:none;color:#fff;font:400 16.2px 'Roboto Condensed',Roboto,sans-serif;text-transform:uppercase;text-align:left}
+.jba-tone img{width:28.8px;height:28.8px}
+.jba-tone span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen .jba-vibrate{margin:0;color:#ffffff80}
+.screen .jba-collapse{display:flex;justify-content:flex-end;width:100%;height:28.8px;padding:0;border:0;background:none}
+.screen .jba-info:active,.screen .jba-collapse:active,.screen .jba-time:active,.screen .jba-tone:active,.screen .jba-label:active,.screen .jba-days button:active{background:#33b5e544}
+/* TimePicker in its dialog: 60 dp time, 48 sp light keys, 24 sp AM / PM, a #28ffffff grid. */
+.jba-picker{position:absolute;z-index:31;left:7.2px;right:7.2px;top:50%;transform:translateY(-50%);height:min(460px,86%);display:flex;flex-direction:column;background:#1c1e20;color:#fff;box-shadow:0 2px 12px #000a}
+.jba-picker-display{flex:none;display:flex;align-items:center;padding:10.8px 0 10.8px 14.4px}
+.jba-picker-time{flex:3;display:flex;align-items:flex-start;font:700 54px Roboto,sans-serif;line-height:1}
+.jba-picker-time span{font-weight:300}
+.jba-picker-time small{margin-left:3.6px;font:700 12.6px 'Roboto Condensed',Roboto,sans-serif}
+.screen .jba-back{flex:1;align-self:stretch;border:0;background:none;display:grid;place-items:center}
+.jba-back img{width:28.8px;height:28.8px}
+.jba-keys{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr}
+.screen .jba-keys button{border:0;background:none;color:#fff;font:300 43.2px Roboto,sans-serif}
+.screen .jba-keys button.jba-ampm{font-size:21.6px;text-transform:uppercase}
+.screen .jba-keys button:disabled{color:#ffffff40}
+.jba-picker-buttons{flex:none;display:flex}
+.screen .jba-picker-buttons button{flex:1;height:43.2px;border:0;background:none;color:#fff;font:400 14.4px Roboto,sans-serif}
+.screen .jba-picker-buttons button+button{border-left:.9px solid #ffffff28}
+.screen .jba-picker-buttons button:disabled{color:#ffffff40}
+.screen .jba-keys button:active,.screen .jba-picker-buttons button:active,.screen .jba-back:active{background:#33b5e544}

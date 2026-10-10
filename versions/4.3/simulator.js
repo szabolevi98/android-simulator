@@ -790,6 +790,11 @@
       JBRecents.bindLongPress(overlayRoot.querySelector('.recent-panel'), popup => { ui.recentPopup = popup; suppressClickUntil = Infinity; window.addEventListener('pointerup', () => { suppressClickUntil = Date.now() + 50; }, {once: true, capture: true}); renderOverlay(); });
     } else if (ui.overlay.startsWith('gallery-') || ui.overlay.startsWith('camera-')) {
       overlayRoot.innerHTML=ICSMedia.overlay(data,ui,key=>i18n.t(key),i18n.locale());
+    } else if (ui.overlay === 'jba-picker' && ui.jbaPicker) {
+      overlayRoot.innerHTML = JBAlarms.picker(ui.jbaPicker, {hour24: !!data.settings.hour24});
+    } else if (ui.overlay === 'jba-menu') {
+      const A = key => { const row = window.AlarmStrings?.[key]; return row ? row[i18n.language] || row.en : key; };
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu" data-no-translate>${['menu_item_settings', 'menu_item_help'].map(key => `<button data-action="toast" data-id="This feature is not part of the simulator.">${safe(A(key))}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'jbclock-cities-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${[['toast', 'Settings'], ['toast', 'Help']].map(([action, label]) => `<button data-action="${action}"${action === 'toast' ? ' data-id="Not available in this demo"' : ''}>${safe(i18n.t(label))}</button>`).join('')}</div>`;
     } else if (ui.overlay.startsWith('clock-')) {
@@ -1351,7 +1356,9 @@
   const jbClockState = () => { data.jbClock ||= {tab: 'clock', timers: [], stopwatch: {accumulated: 0, started: null, laps: []}}; return {...data.jbClock, timerDigits: ui.timerDigits || '', timerSetup: !!ui.timerSetup}; };
   function renderClock() {
     if (ui.sub === 'cities') return JBDeskClock.cities(jbClockState(), key => i18n.t(key), {locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24, words: {title: i18n.t('Cities'), selected: i18n.t('Selected Cities')}});
-    if (['alarms', 'alarm-edit'].includes(ui.sub)) return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale(),deviceDate());
+    // The 4.3 AlarmClock activity (jb-alarms.js); alarm-edit is the old SetAlarm screen the list no longer opens.
+    if (ui.sub === 'alarms') return JBAlarms.page(data.alarms, {expandedId: ui.jbaExpanded, locale: i18n.locale(), hour24: !!data.settings.hour24, normalize: ICSDeskClock.normalize});
+    if (ui.sub === 'alarm-edit') return ICSDeskClock.render(data,ui,key=>i18n.t(key),i18n.locale(),deviceDate());
     return JBDeskClock.render(jbClockState(), key => i18n.t(key), {locale: i18n.locale(), now: deviceDate(), hour24: !!data.settings.hour24, alarm: nextAlarmLabel(), date: deviceDate().toLocaleDateString(i18n.locale(), {weekday: 'short', month: 'short', day: 'numeric'}).toLocaleUpperCase(i18n.locale())});
   }
   let clockFrame = 0;
@@ -1376,6 +1383,13 @@
       if (ui.view === 'clock') { data.jbClock.tab = 'timer'; render(); }
       toast("Time's up");
     }
+  }
+  // Label and ringtone edits from a 4.3 alarm card go straight into that alarm.
+  function jbaCommit() {
+    if (!ui.jbaEditing) return;
+    const alarm = data.alarms.find(item => item.id === ui.jbaEditing);
+    if (alarm) { alarm.label = ui.alarmDraft.label; alarm.tone = ui.alarmDraft.tone; save(); }
+    ui.jbaEditing = null; ui.alarmDraft = null;
   }
   function editAlarm(id) {
     ui.alarmDraft=ICSDeskClock.normalize(data.alarms.find(alarm=>alarm.id===Number(id)));
@@ -2188,6 +2202,24 @@
         }
         data.jbClock.stopwatch = JBDeskClock.stopwatchAction(data.jbClock.stopwatch, id, Date.now()); save(); render(); break;
       }
+      case 'jba-add': ui.jbaPicker={id:null,digits:'',ampm:''}; ui.overlay='jba-picker'; renderOverlay(); break;
+      case 'jba-time': ui.jbaPicker={id:Number(id),digits:'',ampm:''}; ui.overlay='jba-picker'; renderOverlay(); break;
+      case 'jba-key': ui.jbaPicker=JBAlarms.pickerKey(ui.jbaPicker,id,!!data.settings.hour24); renderOverlay(); break;
+      case 'jba-picker-cancel': ui.jbaPicker=null; ui.overlay=''; renderOverlay(); break;
+      case 'jba-picker-set': {
+        // AlarmClock.onTimeSet: an edited alarm is switched on; a new one is added, enabled and expanded.
+        const v=JBAlarms.pickerValue(ui.jbaPicker.digits,!!data.settings.hour24,ui.jbaPicker.ampm); if(!v)break;
+        const time=`${String(v.h).padStart(2,'0')}:${String(v.m).padStart(2,'0')}`, p=ui.jbaPicker;
+        if(p.id){const alarm=data.alarms.find(item=>item.id===p.id); if(alarm){alarm.time=time;alarm.enabled=true;delete alarm.snoozedUntil;}}
+        else{const alarm=ICSDeskClock.normalize({time,enabled:true});alarm.id=Date.now();data.alarms.push(alarm);ui.jbaExpanded=alarm.id;}
+        save(); ui.jbaPicker=null; ui.overlay=''; render(); renderOverlay(); toast('Alarm set'); break;
+      }
+      case 'jba-expand': ui.jbaExpanded=ui.jbaExpanded===Number(id)?null:Number(id); render(); break;
+      case 'jba-repeat': { const alarm=data.alarms.find(item=>item.id===Number(id)); if(!alarm)break; const n=ICSDeskClock.normalize(alarm); if(n.days.length){alarm.days=[];alarm.repeatOpen=false;}else alarm.repeatOpen=!alarm.repeatOpen; save(); render(); break; }
+      case 'jba-day': { const [alarmId,day]=id.split(':').map(Number); const alarm=data.alarms.find(item=>item.id===alarmId); if(!alarm)break; const days=new Set(ICSDeskClock.normalize(alarm).days); days.has(day)?days.delete(day):days.add(day); alarm.days=[...days].sort(); save(); render(); break; }
+      case 'jba-vibrate': { const alarm=data.alarms.find(item=>item.id===Number(id)); if(!alarm)break; alarm.vibrate=!ICSDeskClock.normalize(alarm).vibrate; save(); render(); break; }
+      case 'jba-label': case 'jba-tone': { const alarm=data.alarms.find(item=>item.id===Number(id)); if(!alarm)break; ui.alarmDraft=ICSDeskClock.normalize(alarm); ui.jbaEditing=alarm.id; ui.overlay=action==='jba-label'?'clock-label':'clock-tone'; renderOverlay(); break; }
+      case 'jba-menu': ui.overlay='jba-menu'; renderOverlay(); break;
       case 'jbclock-menu': toast('Not available in this demo'); break;
       // CitiesActivity: the chosen cities are kept in the clock state; the list keeps its place while ticking them.
       case 'jbclock-cities': ui.sub = 'cities'; ui.overlay = ''; render(); break;
@@ -2355,8 +2387,8 @@
       case 'music-playlist': {const name=String(values.get('name')||'').trim();if(!name)return;ui.music.playlists.push({id:Date.now(),name,tracks:ui.musicAddPending?[ui.musicSelected]:[]});saveMusic();ui.overlay='';render();break;}
       case 'alarm-time': ui.alarmDraft.time=String(values.get('hour')).padStart(2,'0')+':'+String(values.get('minute')).padStart(2,'0'); ui.overlay='';render();break;
       case 'alarm-days': ui.alarmDraft.days=values.getAll('days').map(Number);ui.overlay='';render();break;
-      case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';render();break;
-      case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';render();break;
+      case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';jbaCommit();render();break;
+      case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';jbaCommit();render();break;
       case 'email': case 'email-search': ICSEmail.submit(form.dataset.form, values, emailContext()); break;
       case 'sd-volumes': for(const key of ['mediaVolume','ringVolume','alarmVolume'])data.settings[key]=Math.max(0,Math.min(100,Number(values.get(key))));save();ui.overlay='';render();break;
       case 'sd-choice': {const choice=String(values.get('choice'));if(ui.settingsField==='sleep')data.settings.sleep=Number(choice);else if(['windowScale','transitionScale','animatorScale'].includes(ui.settingsField))data.settings[ui.settingsField]=Number(choice);else if(ui.settingsField==='font'){data.settings.fontSize=choice;data.settings.largeText=choice==='large'||choice==='huge';}else if(ui.settingsField==='silent'){data.settings.silent=choice!=='off';data.settings.silentMode=choice;}else data.settings[ui.settingsField]=choice;save();ui.overlay='';render();break;}
@@ -2875,6 +2907,10 @@
   }, {passive:false});
   screen.addEventListener('dragstart', event => event.preventDefault());
   let homeLongPressTimer = null, calculatorClearTimer = null, messageHoldTimer = null;
+  let jbaSwipe = null;
+  viewport.addEventListener('pointerdown', event => { const card = event.target.closest('[data-jba-swipe]'); if (!card || event.target.closest('.jba-expand,.holo-switch')) return; jbaSwipe = {card, x: event.clientX, y: event.clientY, dx: 0}; });
+  window.addEventListener('pointermove', event => { if (!jbaSwipe) return; const dx = event.clientX - jbaSwipe.x; if (Math.abs(event.clientY - jbaSwipe.y) > 24 && Math.abs(dx) < 24) { jbaSwipe.card.style.transform = ''; jbaSwipe = null; return; } jbaSwipe.dx = dx; if (Math.abs(dx) > 12) { jbaSwipe.card.style.transition = 'none'; jbaSwipe.card.style.transform = `translateX(${dx}px)`; jbaSwipe.card.style.opacity = String(Math.max(.2, 1 - Math.abs(dx) / jbaSwipe.card.offsetWidth)); } });
+  window.addEventListener('pointerup', () => { if (!jbaSwipe) return; const {card, dx} = jbaSwipe; jbaSwipe = null; card.style.transition = ''; if (Math.abs(dx) > card.offsetWidth * .4) { const id = Number(card.dataset.jbaSwipe); data.alarms = data.alarms.filter(alarm => alarm.id !== id); if (ui.jbaExpanded === id) ui.jbaExpanded = null; save(); render(); const row = window.AlarmStrings?.alarm_deleted; toast(row ? row[i18n.language] || row.en : 'Alarm deleted.'); suppressClickUntil = Date.now() + 350; } else { card.style.transform = ''; card.style.opacity = ''; if (Math.abs(dx) > 12) suppressClickUntil = Date.now() + 350; } });
   screen.addEventListener('contextmenu', event => {
     if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
     event.preventDefault();
