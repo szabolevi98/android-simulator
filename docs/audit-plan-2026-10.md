@@ -160,7 +160,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 **B) Kitalált vagy általános képernyők – javítandó**
 
 - [x] 5.1.1 Beállítások: az Állapot (SIM kártya állapota és IMEI-információ aloldallal) a device_info_status.xml és a Status kód szerint, a Jogi információk a képben feloldható tevékenységek szerint (Nyílt forráskódú licencek, Google – jogi szabályozás, Háttérképek), a kitalált Biztonsági információk oldal törölve, a Fényerő a SystemUI BrightnessDialog párbeszédablaka, a Fiókok › Google › fiók a Settings három képernyője szerint, a szinkronlista a kép szinkronadaptereiből (docs/lp-sync-adapters.py) – d4351cf
-- [ ] 5.1.1 Fit és Wallet: helyőrző képernyők, csak a szövegek a sajátjaik (~1,5 óra)
+- [x] 5.1.1 Fit és Wallet: helyőrző képernyők, csak a szövegek a sajátjaik (~1,5 óra) — c73642d: a Fit a TimelineFragment fejléce (legenda, összefoglaló, kerék) és a napi tevékenységek, a Wallet a WarmWelcomeActivity üdvözlő oldalai
 - [ ] 4.0.4: Kamera, Play Movies, az óralap és a Latitude nagyrészt saját készítésű; a Play Books könyvtára általános (~3–4 óra)
 - [ ] 4.0.4 Beállítások: néhány beépített oldal kitalált alcímekkel (~1 óra). A buildszám (IMM76I) és a Fejlesztői beállítások már a képből – cf596f7
 - [ ] 4.0.4 News & Weather: a fő elrendezések a 4.3-as 1.3.11-ből, a képben 1.3.04 (~1 óra)
@@ -342,3 +342,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-10 | 9. lépés: Hangouts 4.3 a gyári Hangouts 1.0.2 szerint | e9d19f9 |
 | 2026-10-10 | 9. lépés: Hangouts 4.4.4 / 5.1.1 listamenü és navigációs fiók a menü-XML-ek és a kód szerint | f2addcc |
 | 2026-10-10 | 9. lépés: 5.1.1 Beállítások – Állapot, Jogi információk, Fényerő, Fiókok a képből | d4351cf |
+| 2026-10-10 | 9. lépés: 5.1.1 Fit és Wallet a FitnessPrebuilt és a Wallet APK szerint | c73642d |
