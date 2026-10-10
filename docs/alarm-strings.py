@@ -1,4 +1,4 @@
-"""Writes versions/<v>/alarm-strings.js: the DeskClock strings of the ringing alarm (AlarmAlert / AlarmActivity) as
+"""Writes versions/<v>/alarm-strings.js: the DeskClock strings of the ringing alarm (AlarmAlert / AlarmActivity) and the 4.0.4 clock face's alarm line as
 that factory image words them, with its Hungarian, German, French and Spanish translations (from
 _aosp/<device>/strings-index.json). Keys a release does not have are left out.
     python docs/alarm-strings.py             -> 4.0.4, 4.3, 4.4.4, 5.1.1"""
@@ -7,7 +7,7 @@ ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
 DEVICES = {'maguro': '4.0.4', 'mako': '4.3', 'hammerhead': '4.4.4', 'shamu': '5.1.1'}
 KEYS = """alarm_alert_snooze_text alarm_alert_dismiss_text default_label""".split()
 OPTIONAL = """description_direction_left description_direction_right alarm_alert_snoozed_text alarm_alert_off_text
-alarm_alert_snooze_until alarm_alert_snooze_set""".split()
+alarm_alert_snooze_until alarm_alert_snooze_set control_set_alarm control_set_alarm_with_existing""".split()
 
 
 def main(device):

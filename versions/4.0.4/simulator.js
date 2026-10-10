@@ -2056,7 +2056,8 @@
   function syncLiveWallpaper() {
     const preview = ui.view === 'live-wallpapers' && String(ui.sub || '').startsWith('preview:');
     const id = preview ? ui.sub.slice(8) : data.liveWallpaper?.id || '';
-    const visible = !!id && (preview || ['home', 'lock'].includes(ui.view)) && !ui.sleeping && !ui.power;
+    // DeskClock's face is Theme.Holo.Wallpaper.NoTitleBar: the (live) wallpaper shows behind it too.
+    const visible = !!id && (preview || ['home', 'lock'].includes(ui.view) || ui.view === 'clock' && !ui.sub) && !ui.sleeping && !ui.power;
     const key = id ? `${id}:${preview}` : '';
     if (liveWallpaper && liveWallpaper.key !== key) { liveWallpaper.destroy(); liveWallpaper = null; }
     if (key && !liveWallpaper) {

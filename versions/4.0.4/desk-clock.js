@@ -1,4 +1,4 @@
-/* Local DeskClock model and AOSP ICS-inspired presentation. */
+/* Local DeskClock model; the clock face follows DeskClockGoogle 4.0.4's desk_clock.xml and DeskClock.java. */
 (() => {
   'use strict';
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -44,7 +44,13 @@
     }
     if(ui.sub==='alarms')return `<div class="app-view desk-app">${header('Alarms')}<button class="desk-add" data-action="alarm-new"><img src="assets/clock-ic_menu_add.png" alt=""><span>Add alarm</span></button><div class="desk-scroll">${data.alarms.map(raw=>{const alarm=normalize(raw);return `<div class="desk-alarm-row"><button class="desk-alarm-toggle" data-action="alarm-toggle" data-id="${alarm.id}" role="checkbox" aria-checked="${alarm.enabled}" aria-label="${escape(t('Turn alarm on')+' '+alarm.time)}">${check(alarm.enabled)}</button><button class="desk-alarm-edit" data-action="alarm-edit" data-id="${alarm.id}"><span><strong>${alarm.time}</strong><em>${escape(alarm.label)}</em></span><small>${escape(repeatText(alarm,t))}</small></button></div>`;}).join('')||'<p class="empty-note">No alarms</p>'}</div></div>`;
     const next=data.alarms.map(a=>nextOccurrence(a,now)).filter(Boolean).sort((a,b)=>a-b)[0];
-    return `<div class="app-view desk-face ${ui.clockDim?'desk-dim':''}"><div class="desk-time-group"><button class="desk-time" data-action="clock-dim" aria-label="Night mode" aria-pressed="${!!ui.clockDim}">${now.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit',hour12:data.settings?.hour24===false})}</button><div class="desk-date">${now.toLocaleDateString(locale,{weekday:'long',month:'long',day:'numeric'})}</div><button class="desk-next" data-action="clock-alarms"><img src="assets/clock-ic_lock_idle_alarm.png" alt=""><span>${next?`${escape(t('Alarm set:'))} ${escape(next.toLocaleDateString(locale,{weekday:'short'}))} ${escape(next.toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit',hour12:data.settings?.hour24===false}))}`:escape(t('Set alarm'))}</span></button></div></div>`;
+    // DigitalClock: the time in AndroidClock with am_pm beside it in 12-hour mode; refreshDate: full_wday_month_day_no_year
+    // ("EEEE, MMMM d"); refreshAlarm: control_set_alarm_with_existing with next_alarm_formatted ("E h:mm aa" / "E kk:mm"),
+    // or control_set_alarm. Touching the window dims (window_touch), the alarm line opens the alarms.
+    const h12 = data.settings?.hour24 === false, parts = new Intl.DateTimeFormat(locale, {hour: 'numeric', minute: '2-digit', hour12: h12}).formatToParts(now);
+    const clockText = parts.filter(p => p.type !== 'dayPeriod').map(p => p.value).join('').trim(), ampm = parts.find(p => p.type === 'dayPeriod')?.value || '';
+    const nextText = next ? `${next.toLocaleDateString(locale, {weekday: 'short'})} ${next.toLocaleTimeString(locale, {hour: h12 ? 'numeric' : '2-digit', minute: '2-digit', hour12: h12})}` : '';
+    return `<div class="app-view desk-face ${ui.clockDim?'desk-dim':''}"><div class="desk-time-group"><button class="desk-time" data-action="clock-dim" aria-label="Night mode" aria-pressed="${!!ui.clockDim}">${escape(clockText)}${ampm ? `<span class="desk-ampm">${escape(ampm)}</span>` : ''}</button><div class="desk-date">${now.toLocaleDateString(locale,{weekday:'long',month:'long',day:'numeric'})}</div><button class="desk-next" data-action="clock-alarms"><img src="assets/clock-ic_lock_idle_alarm.png" alt=""><span>${escape(next?A('control_set_alarm_with_existing').replace('%s',nextText):A('control_set_alarm'))}</span></button></div></div>`;
   }
   function overlay(ui,t,ctx={}) {
     const alarm=normalize(ui.alarmDraft), e=escape;
