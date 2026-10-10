@@ -1,4 +1,5 @@
-/* Android 4.3 phone notification panel (SystemUI PhoneStatusBar, flip settings and QuickSettings). */
+/* Android 4.4 phone notification panel (SystemUI KTU84P: PhoneStatusBar, the flip to QuickSettings with the 4.4 tiles and
+   the image's xxhdpi icons, the BatteryMeterView, Location and Cast screen tiles). Built on the 4.3 panel, which 4.4 keeps. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

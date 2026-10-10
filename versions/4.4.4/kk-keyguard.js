@@ -1,4 +1,5 @@
-/* Android 4.3 keyguard: KeyguardWidgetPager pages above a GlowPadView challenge (AOSP android-4.3_r1.1). */
+/* Android 4.4 keyguard (Keyguard.apk KTU84P): the 4.3 KeyguardWidgetPager above the GlowPadView challenge, with KitKat's
+   getWidgetsEnabled (no add slot or user widgets unless Security > Enable widgets is on) and kk-keyguard.css. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
