@@ -2,7 +2,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 // Calendar editor (audit step 6): the repeat and reminder fields are spinners with their own lists, no <select>.
 for(const v of ['4.0.4','4.3','4.4.4','5.1.1']){
   const src=fs.readFileSync(`versions/${v}/calendar.js`,'utf8');assert.ok(!src.includes('<select'),v);
-  const w={window:{AndroidI18n:{language:'en'}},document:{}};w.window.window=w.window;vm.runInNewContext(src,w);
+  const w={window:{AndroidI18n:{language:'en'}},document:{}};w.window.window=w.window;if(v==='4.3'||v==='4.4.4')vm.runInNewContext(fs.readFileSync(`versions/${v}/tzpicker.js`,'utf8'),w);vm.runInNewContext(src,w);
   const C=w.window.ICSCalendar,t=k=>k;
   const html=C.render({events:[],calendarMode:'Month'},{sub:'event-edit',selectedDate:'2026-10-08',eventDraft:{date:'2026-10-08',title:'x',repeat:'weekly',reminder:60}},t,'en-US',new Date(2026,9,8));
   assert.match(html,/<input type="hidden" name="repeat" value="weekly"><button type="button" class="[^"]*" data-action="calspin" data-id="repeat"/);

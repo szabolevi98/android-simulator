@@ -782,6 +782,17 @@
     clearTimeout(ui.toastTimer); ui.toastTimer = setTimeout(() => element.remove(), 2500);
   }
   let openFolderId = '';
+  // The time zone picker's context: the language, the 12 / 24 hour clock, the instant now (the set time included) and
+  // the Calendar's recent zones (preferences_recent_timezones).
+  const tzpContext = () => ({lang: i18n.language, locale: i18n.locale(), hour24: !!data.settings.hour24, recents: data.calRecentTimezones || [],
+    now: Date.now() + (data.settings.autoTime === false ? Number(data.settings.timeOffset) || 0 : 0)});
+  // Re-renders the picker keeping the search field's focus and caret.
+  function renderTzPicker(focus) {
+    const input = overlayRoot.querySelector('[data-tzp-search]'), at = input && document.activeElement === input ? input.selectionStart : null;
+    renderOverlay();
+    const next = overlayRoot.querySelector('[data-tzp-search]');
+    if (next && (focus || at !== null)) { next.focus(); const end = at ?? next.value.length; next.setSelectionRange(end, end); }
+  }
   function renderOverlay() {
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.overlay === 'shade') {
@@ -832,6 +843,9 @@
     } else if (ui.overlay === 'dtp') {
       // Calendar's datetimepicker dialogs (dtp.js).
       overlayRoot.innerHTML = DateTimePicker.render(ui.dtp, i18n.locale(), deviceDate());
+    } else if (ui.overlay === 'tzpicker') {
+      // Calendar's TimeZonePickerDialog (tzpicker.js).
+      overlayRoot.innerHTML = TimeZonePicker.render(ui.tzp, tzpContext());
     } else if (ui.overlay === 'hce-dialog') {
       overlayRoot.innerHTML = HoloContactEditor.overlay({lang: i18n.language, draft: ui.peopleDraft, dialog: ui.hceDialog || '', photos: data.photos, photoUrl: pid => { const photo = data.photos.find(p => String(p.id) === String(pid)); return photo ? ICSMedia.image(photo) : ''; }});
     } else if (ui.overlay.startsWith('calendar-')) {
@@ -2161,6 +2175,18 @@
       // EditEventView, moves the end with the start so the event keeps its length.
       // The repeat / reminder spinners (calendar.js): the list opens under the field (a dialog on 5.1) and the pick goes
       // straight into the form's hidden input, as the date and time pickers do.
+      case 'caltz': ui.tzp = TimeZonePicker.open(id, Number(button.dataset.ms) || Date.now()); ui.overlay = 'tzpicker'; renderTzPicker(true); break;
+      case 'tzp-field': TimeZonePicker.focus(ui.tzp, tzpContext()); renderTzPicker(true); break;
+      case 'tzp-filter': TimeZonePicker.filter(ui.tzp, id); renderTzPicker(false); break;
+      case 'tzp-clear': TimeZonePicker.clear(ui.tzp); renderTzPicker(true); break;
+      case 'tzp-pick': {
+        // onTimeZoneSet: the event takes the zone, the button its label; saveRecentTimezone keeps the last three.
+        const form = viewport.querySelector('form[data-form="event"]'), field = form?.querySelector('[data-action="caltz"]');
+        if (form) { form.elements.tz.value = id; if (ui.eventDraft) ui.eventDraft.tz = id; }
+        if (field) { const ms = TimeZonePicker.millis(id, form.elements.date?.value, form.elements.time?.value); field.dataset.id = id; field.dataset.ms = ms; field.innerHTML = TimeZonePicker.label(id, ms, i18n.language); }
+        data.calRecentTimezones = TimeZonePicker.saveRecent(data.calRecentTimezones, id); save();
+        ui.overlay = ''; renderOverlay(); break;
+      }
       case 'calspin': {
         const form=viewport.querySelector('form[data-form="event"]');if(!form)break;
         const draft={...ICSCalendar.normalize(ui.eventDraft||{}),...Object.fromEntries(new FormData(form))};
@@ -2429,6 +2455,7 @@
     }
   });
   document.addEventListener('input', event => {
+    if (event.target.matches('[data-tzp-search]') && ui.tzp) { TimeZonePicker.input(ui.tzp, event.target.value, tzpContext()); renderTzPicker(true); return; }
     if (event.target.matches('[data-photos-search]')) { ui.photosQuery = event.target.value; const at = event.target.selectionStart; render(); const input = viewport.querySelector('[data-photos-search]'); if (input) { input.focus(); input.setSelectionRange(at, at); } return; }
     if (event.target.matches('[data-pa-search]')) { ui.paQuery = event.target.value; const at = event.target.selectionStart; render(); const input = viewport.querySelector('[data-pa-search]'); if (input) { input.focus(); input.setSelectionRange(at, at); } return; }
     if (event.target.matches?.('[data-kk-dialer-search]')) {
