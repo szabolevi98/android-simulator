@@ -191,7 +191,9 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 - [x] 2.3.6 Alkalmazásinfó: minden app verziója „2.3.6” (a képben Gmail 2.3.5.1, Maps 5.4.0 stb.) — beb6207: csomagonként a GRK39F kép versionName-je (launcher.txt)
 - [x] 2.3.6 Google keresés: a „parancsikonok törlése” szövegben látható idézőjelek mind az öt nyelven; a szöveggenerátor nem szedi le őket, más generált fájlokat is meg kell nézni — 614dd50: a generátor az aapt szabályai szerint dolgozza fel a szöveget (több idézett szakasz, szóközök, escape-ek); érintett volt még a Gyári adatok visszaállítása, a fiók eltávolítása, a Névjegyek üres listája, az E-mail válaszfejléce és a vCard-exporthiba. A közös docs/aosp_text.py-t a 2.3.6 beállítás- és a 4.0.4 / 4.3 AOSP Zene-generátor is használja (ezek kimenete nem változott); a többi verzió szövegei APK-ból jönnek, ott nem volt ilyen hiba
 - [x] 2.3.6: a Google-appok szövegei (Naptár, Kamera, Óra, E-mail, Galéria, Zene, Keresés) az AOSP-forrásból, nem a képből (egyeznek, de a képből kellene olvasni) — 0881774: a 2.3.6 összes szövegtáblája (a Google-appoké és az AOSP-appoké is) a GRK39F kép APK-iból, a docs/image_res.py-val; a kézzel átmásolt képértékek megszűntek. Ahol a kép eltér az AOSP-tól, most a kép látszik (pl. Alkalmazások: „Alkalmazások kezelése”); az Alkalmazásinfó az appok honosított nevét mutatja
-- [ ] Naptár időzóna-listája 4.3 / 4.4.4: a maguro (4.0.4) képből generálva
+- [x] Naptár időzóna-listája 4.3 / 4.4.4: a maguro (4.0.4) képből generálva — 74d92d0: a gyári TimeZonePickerDialog (keresőmező országra / GMT-órára, javaslatlista, legutóbbi zónák, „Nincs találat”), a képek saját adataiból: a Naptár zone.tab / backward fájlja és tömbjei, a kép tzdata-ja (2013c / 2014a) és ICU-ja (icudt50l / icudt51l) a zóna- és országnevekhez; a szerkesztő gombja „Közép-európai zónaidő  GMT+1 ☀”
+- [ ] 5.1.1 Google Naptár 5.0.1: az időzóna-lista még a maguro képből (calendar-timezones.js); a 5.0.1-es saját választóját kell a képből felépíteni (assets/zone.tab, backward a CalendarGooglePrebuilt-ben)
+- [ ] 4.3 / 4.4.4 Naptár eseményrészletek: eltérő zónánál az EventInfoFragment a helyi zóna rövid nevét írja az idő mellé (Utils.getDisplayedTimezone, TimeZone.SHORT); most a választó hosszú neve és GMT-eltolása látszik
 - [ ] 4.0.4: más képek kem-* ikonjai a Gmailben, a Play Zenében és a Google+-ban; a tárcsázó hdpi grafikája xhdpi telefonon
 - [ ] 2.3.6: a 4.0.4-es tartalék beállítási oldalak még be vannak kötve; az asztali óráról hiányzik az időjárás
 - [ ] Elavult fejléc-kommentek (4.0.4 ics-extra-apps.js, stock-apps.js; 5.1.1 people.js csomagnév; 4.4.4 kk-dialer „4.3”)
@@ -442,3 +444,4 @@ A 11–12. pont most felmérés és munkaterv: implementáció még nem történ
 | 2026-10-10 | 9. lépés: 2.3.6 Alkalmazásinfó verziói a képből | beb6207 |
 | 2026-10-10 | 9. lépés: 2.3.6 szöveggenerátor: idézőjelek és szóközök az aapt szerint | 614dd50 |
 | 2026-10-10 | 9. lépés: 2.3.6 szövegtáblák a kép APK-iból | 0881774 |
+| 2026-10-10 | 9. lépés: 4.3 / 4.4.4 Naptár TimeZonePickerDialog a képek adataiból | 74d92d0 |
