@@ -10,6 +10,10 @@ VERSIONS = {
               'strings': {'otr': "<strong>You've gone incognito.</strong>", 'sync': '<p>\n          Tabs you have opened in Chrome on your other devices',
                           'mobile': 'Mobile bookmarks'},
               'page': 'ntp_android'},
+    '4.3': {'apk': '_aosp/mako/system/app/Chrome.apk', 'build': '27.0.1453.111', 'prefix': 'c27-',
+            'strings': {'otr': "<strong>You've gone incognito.</strong>", 'sync': '<p>\n          Tabs you have opened in Chrome on your other devices',
+                        'mobile': 'Mobile bookmarks'},
+            'page': 'ntp_android'},
 }
 LANGS = ['en-US', 'hu', 'de', 'fr', 'es']
 def pak(apk, name):
@@ -41,8 +45,9 @@ for version, cfg in VERSIONS.items():
         for key, rid in ids.items(): data[key].append(clean(p[rid]))
     # The NTP page's images (data: URIs in resources.pak): the 2x document / folder favicon boxes, the default
     # thumbnail and the incognito icon.
-    res = pak(cfg['apk'], 'resources.pak')
-    page = next(d.decode('utf-8', 'replace') for d in res.values() if b'most_visited_list' in d and b'incognito_container' in d)
+    # Chrome 32 keeps the page in resources.pak, Chrome 27 in chrome.pak.
+    paks = [n[len('assets/'):] for n in zipfile.ZipFile(ROOT + cfg['apk']).namelist() if n in ('assets/resources.pak', 'assets/chrome.pak')]
+    page = next(d.decode('utf-8', 'replace') for name in paks for d in pak(cfg['apk'], name).values() if b'most_visited_list' in d and b'incognito_container' in d)
     css = ''.join(re.findall(r'<style>(.*?)</style>', page, re.S))
     def uri(selector, media=None):
         part = css

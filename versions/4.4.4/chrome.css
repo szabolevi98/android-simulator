@@ -33,7 +33,7 @@
 .chr-ntp-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;font:400 14.5px RobotoICS,'Droid Sans',sans-serif;color:#000}
 /* updateMostVisitedStylePhone: two columns of 108 x 72 thumbnails with 20 px side margins and 25 px labels 128 px
    wide, the rows spread over 85 % of the page height (at most 420 px). */
-.chr-most{display:flex;flex-wrap:wrap;justify-content:center;padding-bottom:9.06px}
+.chr-most{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;padding-bottom:9.06px}
 .chr-tile{position:relative;width:97.85px;height:87.88px;margin:25.37px 18.12px 0;cursor:pointer}
 .chr-tile-thumb{position:relative;width:97.85px;height:65.23px;overflow:hidden;border:1px solid #999;background:#fff url('assets/c32-ntp-thumbnail.png') center top/cover no-repeat;box-sizing:border-box}
 .chr-tile-thumb .browser-page{position:absolute;left:0;top:0;width:326px;height:220px;padding:15px;overflow:hidden;transform:scale(.3);transform-origin:0 0;pointer-events:none;color:#333}

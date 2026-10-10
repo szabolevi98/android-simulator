@@ -32,7 +32,7 @@
   const display = url => internal(url) ? '' : url.startsWith('search:') ? url.slice(7) : url;
   function toolbar(ctx) {
     const {url, tabs, incognito} = ctx, secure = String(url).startsWith('https:');
-    return `<div class="chr-toolbar${incognito ? ' incognito' : ''}"><form class="chr-omnibox" data-form="address"><span class="chr-site-icon">${secure ? img('omnibox_https_valid') : img('ic_suggestion_globe')}</span><input name="address" autocomplete="off" spellcheck="false" aria-label="${e(ctx.t('Search or type URL'))}" placeholder="${e(ctx.t('Search or type URL'))}" value="${e(display(url))}"><button type="button" class="chr-reload" data-action="browser-reload" aria-label="${e(CS(ctx, 'Refresh page'))}">${img('btn_omnibox_reload_normal')}</button></form>${tabsButton(ctx, tabs.length)}${menuButton(ctx)}</div>`;
+    return `<div class="chr-toolbar${incognito ? ' incognito' : ''}"><form class="chr-omnibox" data-form="address"><span class="chr-site-icon">${secure ? img('omnibox_https_valid') : img('ic_suggestion_globe')}</span><input name="address" autocomplete="off" spellcheck="false" aria-label="${e(ctx.t('Search or type URL'))}" placeholder="${e(ctx.t('Search or type URL'))}" value="${e(display(url))}"><button type="button" class="chr-reload" data-action="browser-refresh" aria-label="${e(CS(ctx, 'Refresh page'))}">${img('btn_omnibox_reload_normal')}</button></form>${tabsButton(ctx, tabs.length)}${menuButton(ctx)}</div>`;
   }
   function thumb(ctx, url) {
     return `<div class="browser-page" inert aria-hidden="true">${ctx.page(url)}</div>`;

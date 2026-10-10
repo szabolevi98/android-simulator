@@ -3,56 +3,68 @@
 .ics-browser{display:flex;flex-direction:column;overflow:hidden;background:#fff;color:#222;color-scheme:light}.ics-browser .browser-toolbar{flex:none;height:48px;background:linear-gradient(#444,#292929);padding:4px;gap:0}.ics-browser .browser-toolbar form{display:flex;align-items:center;min-width:0;height:38px;background:#222;box-shadow:inset 0 1px 2px #0007}.ics-browser .browser-toolbar form img{height:24px;width:24px;margin:0 6px}.ics-browser .browser-toolbar input{background:none;border:0;color:#ddd;font-size:15px;padding:5px;min-width:0;outline:none}.ics-browser .browser-toolbar button{width:38px;height:40px;padding:5px;flex:none;position:relative}.ics-browser .browser-toolbar button img{width:28px;height:28px;object-fit:contain}.browser-tab-count{position:absolute;inset:10px 0 0;color:#222;font-size:10px;font-weight:700}.ics-browser .browser-page{flex:1;overflow:auto;min-height:0;overscroll-behavior:contain;touch-action:pan-y;padding:15px}.web-header{display:flex;align-items:center;min-height:48px;background:#333;color:white;padding:0 5px;gap:5px}.web-header h2{flex:1;font-size:18px;font-weight:400;min-width:0;margin:0}.web-header button{border:0;background:none;color:white;height:44px;min-width:38px}.web-header img{width:28px;height:28px;object-fit:contain}.web-tabs{flex:1;overflow:auto;background:linear-gradient(#252a2e,#080a0c);padding:14px;overscroll-behavior:contain;touch-action:pan-y}.web-tab-card{background:#333;border:1px solid #555;margin:0 auto 16px;max-width:250px;box-shadow:0 3px 9px #0008}.web-tab-card.current{border-color:#33b5e5}.web-tab-title{display:flex;color:#eee;height:36px}.web-tab-title>button{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:0;background:none;text-align:left;padding:7px;color:inherit;font-size:12px}.web-tab-title>button:last-child{flex:0 0 36px}.web-tab-title img{width:20px;height:20px}.web-tab-preview{display:block;position:relative;height:165px;width:100%;border:0;padding:0;background:white;overflow:hidden;color:#333!important;text-align:left}.web-tab-preview>div{position:absolute;left:0;top:0;width:320px;min-height:250px;padding:15px;transform:scale(.72);transform-origin:0 0;pointer-events:none}.web-library-tabs{display:flex;background:#333;color:white}.web-library-tabs button{flex:1;border:0;border-bottom:3px solid transparent;background:none;padding:12px 3px;font-size:12px;text-transform:uppercase}.web-library-tabs button.active{border-bottom-color:#33b5e5}.web-library{flex:1;overflow:auto;min-height:0;background:#fafafa;overscroll-behavior:contain;touch-action:pan-y}.web-library-row{display:flex;border-bottom:1px solid #ddd}.web-library-row>button{flex:1;min-width:0;overflow-wrap:anywhere;text-align:left;border:0;background:none;color:#222!important;padding:14px;font-size:15px}.web-library-row>button:last-child:not(:first-child){flex:0 0 40px;color:#888!important;padding:5px}.web-library-row small{display:block;color:#888;font-size:11px;margin-top:4px}.web-find{display:flex;background:#ddd;padding:6px;gap:4px}.web-find input{flex:1;min-width:0;border:0;border-bottom:2px solid #33b5e5;background:white;color:#222;padding:7px}.web-find button{border:0;background:#bbb;color:#222!important}.browser-page mark{background:#ffe277;color:#111}.web-find-count{padding:4px 9px;background:#eee;color:#777;font-size:11px}.web-menu{max-height:calc(100% - 100px);overflow:auto}.web-menu button:disabled{opacity:.4}.web-offline-article{line-height:1.6}.web-offline-article h2{font-family:Georgia,serif}.web-offline-article time{font-size:11px;color:#888}.web-saved-note{padding:10px;background:#f1f1f1;color:#777;font-size:12px}
 
 .web-tab-preview .browser-page{height:240px;max-height:none;overflow:hidden;display:block;background:white;box-sizing:border-box}.web-tab-preview .browser-page *{pointer-events:none}
-/* Chrome 27 on the Nexus 4: the KitKat simulator's Chrome 31-35 styles (GSMArena Nexus 5 screenshots) scaled from the
-   Nexus 5's 1 dp = 0.906 px to the Nexus 4's 0.8516 px: a 48 dp #e1e1e1 toolbar with a white 32 dp omnibox, the tab-count
-   square and the overflow in #666; incognito tinted #4f566c; the black tab switcher with stacked cards; the New Tab page
-   bar; and the light popup menu with 18 sp items. */
+/* Chrome 27.0.1453.111 (Chrome.apk of JWR66Y), 1 dp = 0.8516 px. toolbar.xml on the toolbar drawable (#e1e1e1 over a
+   #898989 line; toolbar_incognito #4b5771 over #444444), the textbox omnibox 5 dp down and 6 dp up from the bottom with
+   32 dp icon slots and the 15 sp URL, the 48 dp tab switcher button (cardstack, the count in bold #717171, #f8f8f8 on
+   the incognito and overview bars) and menu_btn_bg with 8 dp padding. */
 .chr-app{background:#fff;color:#333;color-scheme:light;font-family:RobotoICS,Roboto,sans-serif}
-.chr-toolbar{flex:none;display:flex;align-items:center;height:40.88px;padding-left:8.52px;background:#e1e1e1;z-index:2}
-.chr-toolbar.incognito{background:#4f566c}
-.chr-omnibox{flex:1;min-width:0;display:flex;align-items:center;height:27.25px;background:#fff;box-shadow:0 .85px 1.7px #0000003d}
-.chr-omnibox input{flex:1;min-width:0;height:100%;padding:0 6.81px;border:0;background:none;font:400 13.63px RobotoICS,sans-serif;color:#333;outline:none}
-.chr-omnibox input::placeholder{color:#888}
-.chr-reload{flex:none;width:27.25px;height:27.25px;padding:0;border:0;background:none;display:grid;place-items:center;color:#777!important}
-.chr-reload svg{width:18.73px;height:18.73px}
-.chr-btn{flex:none;width:37.47px;height:40.88px;padding:0;border:0;background:none;display:grid;place-items:center;color:#666!important}
-.chr-btn svg{width:20.43px;height:20.43px}
-.chr-toolbar .chr-btn:last-child{width:32.36px}
-.chr-tabs-btn span{position:relative;display:grid;place-items:center;width:16.18px;height:16.18px;margin:2.82px 0 0 2.82px;border:1.7px solid currentColor;border-radius:1.7px;font:700 10.22px/1 RobotoICS,sans-serif}
-.chr-tabs-btn span::before{content:"";position:absolute;left:-5.08px;top:-5.08px;width:11.92px;height:11.92px;border:solid currentColor;border-width:1.7px 0 0 1.7px;border-radius:1.7px 0 0 0}
-.chr-toolbar.incognito .chr-btn,.chr-switcher-bar .chr-btn{color:#fff!important}
-.chr-app .chr-btn:active,.chr-reload:active{background:#00000014}
+.chr-toolbar{flex:none;display:flex;align-items:stretch;height:40.88px;padding-left:8.52px;background:url('assets/c27-toolbar.png') 0 0/100% 100%;z-index:2}
+.chr-toolbar.incognito{background-image:url('assets/c27-toolbar_incognito.png')}
+.chr-omnibox{position:relative;flex:1;min-width:0;display:flex;align-items:center;margin:4.26px 0 5.11px}
+.chr-omnibox::before{content:'';position:absolute;inset:0;border-style:solid;border-width:5.54px 5.11px 4.26px 4.68px;border-image:url('assets/c27-textbox.png') 13 12 10 11 fill stretch;pointer-events:none}
+.chr-site-icon{position:relative;flex:none;display:grid;place-items:center;width:27.25px;height:100%}
+.chr-site-icon img{width:27.25px;height:27.25px}
+.chr-omnibox input{position:relative;flex:1;min-width:0;height:100%;padding:0;border:0;background:none;font:400 12.77px RobotoICS,sans-serif;color:#333;outline:none}
+.chr-omnibox input::placeholder{color:#a1a1a1}
+.chr-reload{position:relative;flex:none;display:grid;place-items:center;width:27.25px;height:22.15px;padding:0;border:0;background:none}
+.chr-reload img{width:27.25px;height:27.25px}
+.chr-btn{flex:none;display:grid;place-items:center;width:40.88px;padding:0;border:0;background:none}
+.chr-tabs-btn span{display:grid;place-items:center;width:22.15px;height:22.15px;margin:1.7px 0 0 1.7px;background:url('assets/c27-cardstack_normal.png') center/contain no-repeat;font:700 9.37px/1 RobotoICS,sans-serif;color:#717171}
+.chr-tabs-btn span.two{font-size:7.66px}
+.chr-tabs-btn.light span,.chr-toolbar.incognito .chr-tabs-btn span{background-image:url('assets/c27-cardstack_light.png');color:#f8f8f8}
+.chr-menu-btn img{width:27.25px;height:27.25px}
+.chr-toolbar.incognito .chr-menu-btn img{content:url('assets/c27-menu_btn_bg_light.png')}
+.chr-app .chr-btn:active,.chr-reload:active{background:#33b5e566}
 .chr-app .browser-page{background:#fff}
 .chr-app.chr-incognito .browser-page{background:#fff}
 .chr-find{background:#e1e1e1}
-/* New Tab page */
-.chr-ntp{flex:1;min-height:0;display:flex;flex-direction:column;background:#f2f2f2}
-.chr-ntp-incognito{background:#fff}
-.chr-ntp-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;padding:8.52px}
-.chr-most{display:grid;grid-template-columns:1fr 1fr;gap:8.52px}
-.chr-tile{display:block;min-width:0;cursor:pointer;padding:0;border:0;background:#fff;box-shadow:0 .85px 1.7px #00000033;text-align:left;overflow:hidden}
-.chr-tile-thumb{display:block;position:relative;height:88.36px;overflow:hidden;background:#fff}
-.chr-tile-thumb .browser-page{position:absolute;left:0;top:0;width:306.43px;height:244.39px;padding:14.1px;overflow:hidden;transform:scale(.45);transform-origin:0 0;pointer-events:none;color:#333}
-.chr-tile-title{display:block;padding:5.96px 6.81px;border-top:.85px solid #e3e3e3;font:400 11.92px RobotoICS,sans-serif;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chr-ntp-title{margin:3.4px 3.4px 8.52px;font:700 11.92px RobotoICS,sans-serif;color:#777;text-transform:uppercase}
-.chr-bookmarks{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8.52px}
-.chr-bookmark{display:flex;flex-direction:column;align-items:center;gap:5.96px;padding:11.92px 3.76px;border:0;background:#fff;box-shadow:0 .85px 1.7px #00000033;font:400 11.07px RobotoICS,sans-serif;color:#555!important}
-.chr-bookmark>span:last-child{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chr-favicon{display:grid;place-items:center;width:40.88px;height:40.88px;background:#7b9cd6;color:#fff;font:700 20.43px RobotoICS,sans-serif}
-.chr-devices{padding:37.6px 16.92px;text-align:center;color:#777;font-size:12.77px}
-.chr-devices svg{width:54.52px;height:54.52px;color:#aaa}
-.chr-empty{padding:28.2px 9.4px;text-align:center;color:#888;font-size:12.77px}
-.chr-incognito-card{position:relative;padding:13.63px;background:#f0f0f0;box-shadow:0 .85px 1.7px #00000026;color:#222}
-.chr-incognito-card h3{margin:0 37.6px 11.28px 0;font:700 12.77px RobotoICS,sans-serif}
-.chr-incognito-card p{margin:0 0 11.28px;font:400 11.92px/1.4 RobotoICS,sans-serif}
-.chr-incognito-icon{position:absolute;right:11.28px;top:9.4px;color:#aab}
-.chr-incognito-icon svg{width:30.08px;height:30.08px}
-.chr-ntp-bar{flex:none;display:flex;height:40.88px;background:#f1f1f1;border-top:.85px solid #d9d9d9}
-.chr-ntp-bar button{flex:1;display:flex;align-items:center;justify-content:center;gap:4.7px;border:0;border-top:3.4px solid transparent;background:none;color:#555!important;font:400 15.33px RobotoICS,sans-serif}
-.chr-ntp-bar button+button{border-left:.85px solid #ddd}
-.chr-ntp-bar button.active{border-top-color:#33b5e5}
-.chr-ntp-bar img{width:18.73px;height:18.73px}
-.chr-ntp-bar svg{width:22.15px;height:22.15px}
+/* New Tab page: chrome://newtab (ntp_android from chrome.pak, its CSS px are dp) over NewTabPageToolbar. */
+.chr-ntp{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff}
+.chr-ntp-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;font:400 13.63px RobotoICS,'Droid Sans',sans-serif;color:#000}
+/* updateMostVisitedStylePhone: two columns of 108 x 72 thumbnails with 20 px side margins and 20 px labels 128 px
+   wide, the rows spread over 85 % of the page height (at most 420 px). */
+.chr-most{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;padding-bottom:8.52px}
+.chr-tile{position:relative;width:91.97px;height:78.35px;margin:23.85px 17.03px 0;cursor:pointer}
+.chr-tile-thumb{position:relative;width:91.97px;height:61.31px;overflow:hidden;border:1px solid #999;background:#fff url('assets/c27-ntp-thumbnail.png') center top/cover no-repeat;box-sizing:border-box}
+.chr-tile-thumb .browser-page{position:absolute;left:0;top:0;width:326px;height:220px;padding:14.1px;overflow:hidden;transform:scale(.3);transform-origin:0 0;pointer-events:none;color:#333}
+.chr-tile-thumb i{position:absolute;inset:0;border:1px solid #fffc;background:linear-gradient(#0000,#0000000d)}
+.chr-tile-title{position:absolute;left:-9.06px;top:61.31px;width:109.01px;height:17.03px;line-height:17.03px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;font-size:13.63px;color:#000}
+.chr-tile:active .chr-tile-thumb{box-shadow:inset 0 .906px 8.52px #0003}
+/* Bookmarks: the 44 px breadcrumb (17 px, the current folder in bold) over a #d0d0d0 line, 80 px favicon cells. */
+.chr-bm-title{display:flex;height:37.47px;line-height:37.47px;border-bottom:1px solid #d0d0d0;font-size:14.48px;white-space:nowrap;overflow:hidden}
+.chr-bm-title span{margin:0 0 0 8.52px;padding-right:8.52px;font-weight:700}
+.chr-bookmarks{display:flex;flex-wrap:wrap;justify-content:center}
+.chr-bookmark{width:86.86px;height:89.42px;padding:9.37px;border:0;background:none;text-align:center;box-sizing:content-box;color:#000}
+.chr-bookmark:active{background:#33b5e566}
+.chr-fav-box{position:relative;display:grid;place-items:center;width:55.35px;height:54.5px;margin:auto;background:url('assets/c27-ntp-document.png') center/100% 100% no-repeat}
+.chr-fav{display:grid;place-items:center;width:13.63px;height:13.63px;background:#7b9cd6;font:700 10.22px RobotoICS,sans-serif;color:#fff}
+.chr-strip{position:absolute;left:6.81px;bottom:2.56px;width:40.88px;height:3.4px;border-radius:0 0 1.7px 1.7px}
+.chr-bm-name{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;height:25.55px;padding:8.52px 0 6.81px;overflow:hidden;line-height:15.33px;font-size:13.63px;word-wrap:break-word}
+/* Other devices: center-empty-content (14 pt, 275 px); the incognito box (#eeeeee, 5 px corners, 10 px). */
+.chr-devices{width:234.19px;margin:0 auto;padding-top:8.52px;font-size:15.89px;color:#000}
+.chr-devices p{margin:0 0 8.52px}
+.chr-link{color:#00e;text-decoration:underline}
+.chr-otr{margin:8.52px;padding:8.52px;border-radius:4.26px;background:#eee;font-size:13.63px;line-height:1.3;color:#000}
+.chr-otr img{float:right;width:31.51px;height:28.1px;margin:0 5.11px 0 2.56px;transform:scaleX(-1)}
+/* NewTabPageToolbar: new_tab_logo (the 102 dp "chrome" logo, then #f1f1f1 under a #8c8c8c line), 44 dp, the buttons
+   sharing the rest with their 34 x 26 dp icons, ntp_toolbar_button_divider and the 1 dp #33b5e5 selected line. */
+.chr-ntp-bar{flex:none;display:flex;height:37.47px;background:url('assets/c27-new_tab_logo.png') 0 0/auto 100% no-repeat,linear-gradient(#8c8c8c,#8c8c8c) 0 0/100% .45px no-repeat,#f1f1f1}
+.chr-ntp-logo{flex:none;width:86.44px}
+.chr-ntp-bar button{position:relative;flex:1;display:grid;place-items:center;padding:0;border:0;background:none}
+.chr-ntp-bar button::after{content:'';position:absolute;right:0;top:50%;width:.906px;height:20.43px;transform:translateY(-50%);background:#0000001a}
+.chr-ntp-bar button.active{background:linear-gradient(#33b5e5,#33b5e5) 0 0/100% .906px no-repeat}
+.chr-ntp-bar img{height:22.15px}
+.chr-ntp-bar button:active{background:#33b5e566}
 /* History (chrome://history) */
 .chr-history{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:8.52px 10.22px;background:#fff}
 .chr-history-search{display:flex;gap:5.64px}
@@ -66,34 +78,37 @@
 .chr-history-row>span:last-child{min-width:0}
 .chr-globe{flex:none;display:grid;place-items:center;width:15.04px;height:15.04px;color:#888}
 .chr-globe svg{width:15.04px;height:15.04px}
-/* Tab switcher: black, "New tab" on the left, tabs stacked as cards with a tab label at the top right. */
+/* Overview: toolbar_switcher (#111111), "New tab" with new_tab_light, the light card stack and menu buttons; tabs as
+   stacked cards with their globe favicon and close_tab. */
 .chr-switcher-view{background:#111}
-.chr-switcher-bar{flex:none;display:flex;align-items:center;height:40.88px;background:#111}
-.chr-new-tab{flex:1;display:flex;align-items:center;gap:6.81px;height:100%;padding:0 10.22px;border:0;background:none;color:#fff!important;font:400 15.33px RobotoICS,sans-serif;text-align:left}
-.chr-new-tab svg{width:18.73px;height:18.73px}
-.chr-stack{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;padding:8.52px 11.92px 28.2px}
-.chr-card{position:relative;height:272.59px;background:#fff;box-shadow:0 -1.88px 7.52px #000000b3}
-.chr-card+.chr-card{margin-top:-120.31px}
+.chr-switcher-bar{flex:none;display:flex;align-items:stretch;height:40.88px;background:#111}
+.chr-new-tab{flex:1;display:flex;align-items:center;gap:1.7px;height:100%;padding:0 6.81px 0 6.81px;border:0;background:none;color:#fff!important;font:400 13.63px RobotoICS,sans-serif;text-align:left}
+.chr-new-tab img{width:27.25px;height:27.25px}
+.chr-stack{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;padding:8.52px 11.92px 30px}
+.chr-card{position:relative;height:290px;background:#fff;box-shadow:0 -2px 7.52px #000000b3}
+.chr-card+.chr-card{margin-top:-128px}
 .chr-card-page{position:absolute;inset:0;overflow:hidden;cursor:pointer}
 .chr-card-page .browser-page{height:100%;padding:31.96px 14.1px 14.1px;overflow:hidden;pointer-events:none;color:#333;background:#fff}
-.chr-card-ntp{height:100%;display:grid;place-items:center;background:#f2f2f2;color:#9aa}
-.chr-card-ntp img,.chr-card-ntp svg{width:60.16px;height:60.16px}
-.chr-card.incognito .chr-card-ntp{background:#4f566c;color:#fff}
-.chr-card-tab{position:absolute;top:0;right:0;width:62%;height:25.55px;display:flex;align-items:center;padding-left:15.04px;background:#f2f2f2;clip-path:polygon(10.34px 0,100% 0,100% 100%,0 100%);box-shadow:0 1px 0 #ccc}
+.chr-card-ntp{height:100%;background:#fff url('assets/c27-ntp-thumbnail.png') center/60% auto no-repeat}
+.chr-card.incognito .chr-card-ntp{background-color:#4b5771}
+.chr-card-tab{position:absolute;top:0;right:0;width:62%;height:25.55px;display:flex;align-items:center;padding-left:15.04px;background:#f2f2f2;clip-path:polygon(10.34px 0,100% 0,100% 100%,0 100%)}
 .chr-card.incognito .chr-card-tab{background:#d9dbe2}
+.chr-card-tab>img{width:13.63px;height:13.63px}
 .chr-card-tab>button:not(.chr-card-close){flex:1;min-width:0;padding:0 4.7px;border:0;background:none;text-align:left;font:400 12.77px RobotoICS,sans-serif;color:#444!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chr-card-close{flex:none;width:25.55px;height:25.55px;padding:4.7px;border:0;background:none;color:#888!important}
-/* Popup menu */
-.chr-menu{position:absolute;z-index:31;top:calc(var(--sb) + 40.88px);right:3.4px;width:201.15px;max-height:calc(100% - var(--sb) - 40.88px - var(--nb) - 3.76px);overflow-y:auto;scrollbar-width:none;background:#f2f2f2;box-shadow:0 1.88px 7.52px #00000059,0 0 0 .85px #0000001a}
-.chr-menu>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:40.88px;padding:0 11.92px;border:0;border-top:.85px solid #dedede;background:none;text-align:left;font:400 15.33px RobotoICS,sans-serif;color:#222!important;white-space:nowrap}
+.chr-card-close{flex:none;display:grid;place-items:center;width:25.55px;height:25.55px;padding:0;border:0;background:none}
+.chr-card-close img{width:10.22px;height:10.22px}
+/* PhoneMenuPopup: 257 dp, 48 dp rows with 18 sp items 9 dp in, menu_icon_row.xml's back / forward / star separated by the
+   list divider. */
+.chr-menu{position:absolute;z-index:31;top:calc(var(--sb) + 40.88px);right:0;width:218.86px;max-height:calc(100% - var(--sb) - 40.88px - var(--nb));overflow-y:auto;scrollbar-width:none;background:#fff;box-shadow:0 1.7px 6.81px #0006}
+.chr-menu>button{display:flex;align-items:center;width:100%;height:40.88px;padding:0 6.81px 0 7.66px;border:0;border-top:.906px solid #0000001f;background:none;text-align:left;font:400 15.33px RobotoICS,sans-serif;color:#000!important}
+.chr-menu>button span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chr-menu>button:first-child{border-top:0}
 .chr-check{width:27.25px;height:27.25px}
 .chr-menu-icons{display:flex;height:40.88px}
-.chr-menu-icons button{flex:1;display:grid;place-items:center;border:0;background:none;color:#555!important}
-.chr-menu-icons button+button{border-left:.85px solid #dedede}
-.chr-menu-icons button:disabled{color:#c2c2c2!important}
-.chr-menu-icons svg{width:20.43px;height:20.43px}
-.chr-menu button:active:not(:disabled),.chr-ntp-bar button:active,.chr-tile:active,.chr-bookmark:active,.chr-history-row:active{background:#00000014}
+.chr-menu-icons button{flex:1;display:grid;place-items:center;padding:0;border:0;background:none}
+.chr-menu-icons button img{width:27.25px;height:27.25px}
+.chr-menu-icons i{flex:none;width:.906px;margin-bottom:.906px;background:#0000001f}
+.chr-menu button:active:not(:disabled),.chr-history-row:active{background:#33b5e566}
 /* Settings (audit step 5): the preference screens, the list dialogs and Clear browsing data. */
 .chr-prefs{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;font-family:RobotoICS,Roboto,sans-serif}
 .chr-pref-bar{position:relative;flex:none;display:flex;align-items:center;z-index:2}

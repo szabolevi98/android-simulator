@@ -2198,6 +2198,122 @@ window.StockStrings = {
    "Über Chrome",
    "À propos de Chrome",
    "Acerca de Chrome"
+  ],
+  "New tab": [
+   "Új lap",
+   "Neuer Tab",
+   "Nouvel onglet",
+   "Nueva pestaña"
+  ],
+  "New incognito tab": [
+   "Új inkognitólap",
+   "Neuer Inkognito-Tab",
+   "Nouv. onglet nav. privée",
+   "Nueva pestaña incógnito"
+  ],
+  "Bookmarks": [
+   "Könyvjelzők",
+   "Lesezeichen",
+   "Favoris",
+   "Marcadores"
+  ],
+  "Other devices": [
+   "Egyéb eszközök",
+   "Andere Geräte",
+   "Autres appareils",
+   "Otros dispositivos"
+  ],
+  "Share...": [
+   "Megosztás...",
+   "Teilen...",
+   "Partager…",
+   "Compartir..."
+  ],
+  "Find in page...": [
+   "Keresés az oldalon...",
+   "Auf Seite suchen...",
+   "Rechercher sur la page…",
+   "Buscar en la página..."
+  ],
+  "Request desktop site": [
+   "Asztali webhely kérése",
+   "Desktop-Version",
+   "Voir version ordinateur",
+   "Ver como en un ordenador"
+  ],
+  "Help": [
+   "Súgó",
+   "Hilfe",
+   "Aide",
+   "Ayuda"
+  ],
+  "Close all tabs": [
+   "Összes lap bezárása",
+   "Alle Tabs schließen",
+   "Fermer tous les onglets",
+   "Cerrar todas las pestañas"
+  ],
+  "Close incognito tabs": [
+   "Inkognitólapok bezárása",
+   "Inkognito-Tabs schließen",
+   "Fermer onglets navigation privée",
+   "Cerrar pestañas de incógnito"
+  ],
+  "Go back": [
+   "Vissza",
+   "Zurück",
+   "Retour",
+   "Volver"
+  ],
+  "Go forward": [
+   "Előrelépés",
+   "Weiter",
+   "Avancer",
+   "Avanzar"
+  ],
+  "Bookmark page": [
+   "Oldal felvétele a könyvjelzők közé",
+   "Seite als Lesezeichen speichern",
+   "Ajouter la page aux favoris",
+   "Añadir página a marcadores"
+  ],
+  "Edit bookmark page": [
+   "Könyvjelzők oldal szerkesztése",
+   "Lesezeichen für diese Seite bearbeiten",
+   "Modifier la page ajoutée aux favoris",
+   "Editar página añadida a marcadores"
+  ],
+  "Refresh page": [
+   "Oldal frissítése",
+   "Seite aktualisieren",
+   "Actualiser la page",
+   "Actualizar página"
+  ],
+  "More options": [
+   "További lehetőségek",
+   "Weitere Optionen",
+   "Autres options",
+   "Más opciones"
+  ],
+  "%1$d open tabs button.": [
+   "Lapváltó megjelenítése",
+   "Tab-Wechsler umschalten",
+   "Activer/Désactiver le changement d'onglet",
+   "Activar o desactivar el icono de cambio de pestaña",
+   "Toggle tab switcher"
+  ],
+  "Most visited": [
+   "Leggyakrabban látogatott",
+   "Meistbesucht",
+   "Les plus visités",
+   "Más visitado",
+   "Most Visited"
+  ],
+  "Incognito": [
+   "Inkognitómód",
+   "Inkognito",
+   "Navigation privée",
+   "Incógnito"
   ]
  },
  "gmailprefs": {
