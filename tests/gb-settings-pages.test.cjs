@@ -21,6 +21,8 @@ html=G.render('app-info',ctx());
 assert.match(html,/Application info/);assert.match(html,/version 2\.3\.6/);assert.match(html,/gbsp-force-stop" data-id="browser" disabled/);assert.match(html,/>Uninstall<\/button>/);
 assert.match(html,/>Total</);assert.match(html,/>Clear data</);assert.match(html,/>Clear cache</);assert.match(html,/No defaults set\./);assert.match(html,/full Internet access/);
 assert.match(G.render('app-info',ctx({cleared:true})),/gbsp-clear-data" data-id="browser" disabled/);
+// Each package's versionName from the GRK39F image, not the platform version.
+assert.match(G.render('app-info',ctx({app:{id:'gmail',name:'Gmail',icon}})),/version 2\.3\.5\.1/);assert.match(G.render('app-info',ctx({app:{id:'places',name:'Places',icon}})),/version 5\.4\.0/);
 // Battery use and details.
 html=G.render('battery',ctx());assert.match(html,/3h on battery/);assert.match(html,/Battery use since unplugged/);assert.match(html,/<b>40%<\/b>/);assert.match(html,/width:25\.0%/);
 html=G.render('battery-detail',ctx());assert.match(html,/Battery use details/);assert.match(html,/Time on/);assert.match(html,/Display settings/);

@@ -45,6 +45,13 @@
     const rows = ctx.running.map(item => `<button class="gbsp-app running" data-action="gbsp-app" data-id="${e(item.id)}">${item.icon}<span><span class="gbsp-line"><b>${e(item.name)}</b><small>${e(size(item.ram))}</small></span><span class="gbsp-line"><small>${e(T('running_processes_item_description_s_s').replace('%1$d', 1).replace('%2$d', 1))}</small><small>${e(item.uptime)}</small></span></span></button>`).join('');
     return `<div class="gbsp-list">${rows || `<p class="gbsp-empty">${e(T('no_running_services'))}</p>`}</div><div class="gbsp-storage"><span class="gbsp-storage-label">RAM</span><div class="gbsp-colorbar"><i style="width:58%"></i></div><div class="gbsp-storage-text"><span>${e(T('service_foreground_processes').replace('%1$s', '196MB'))}</span><span>${e(T('service_background_processes').replace('%1$s', '144MB'))}</span></div></div>`;
   }
+  // Each package's versionName in the Nexus S GRK39F image (PackageManager, as _aosp/crespo/launcher.txt lists them): the
+  // Phone and Contacts are one package, Maps, Navigation, Places and Latitude another.
+  const VERSIONS = {phone: '2.3.6', people: '2.3.6', messaging: '2.3.6', browser: '2.3.6', camera: '1', gallery: '1.1.30682', settings: '2.3.6',
+    clock: '2.0.2', calendar: '2.3.6', calculator: '2.3.6', music: '2.3.6', email: '2.3.4', 'play-store': '2.3.4', search: '1.1.2.189904',
+    downloads: '2.3.6', gmail: '2.3.5.1', maps: '5.4.0', navigation: '5.4.0', places: '5.4.0', latitude: '5.4.0', talk: '1.3', youtube: '2.1.6',
+    'news-weather': '1.3.04', books: '1.2.2', earth: '2.0.1', 'voice-search': '2.1.3', 'car-home': '2.2.1.2', 'google-voice': '0.4.2.30', tags: '1.1',
+    'voice-dialer': '2.3.6'};
   // InstalledAppDetails: app snippet, Force stop / Uninstall, Storage with dotted leaders, Cache, Launch by default, Permissions.
   function appInfo(ctx) {
     const T = key => text(ctx.lang, key), app = ctx.app;
@@ -52,7 +59,7 @@
     const s = ctx.cleared ? {...sizes(app.id), data: 0, cache: 0} : sizes(app.id);
     const pair = (label, value) => `<div class="gbsp-pair"><span>${e(label)}</span><i></i><span>${e(value)}</span></div>`;
     return `<div class="app-view gbset gbsp" data-no-translate>${titleBar(T('application_info_label'))}<div class="gbsp-scroll">
-      <div class="gbsp-snippet">${app.icon}<span><b>${e(app.name)}</b><small>${e(T('version_text').replace('%1$s', '2.3.6'))}</small></span></div>
+      <div class="gbsp-snippet">${app.icon}<span><b>${e(app.name)}</b><small>${e(T('version_text').replace('%1$s', VERSIONS[app.id] || '2.3.6'))}</small></span></div>
       <div class="gbsp-buttons">${button('gbsp-force-stop', T('force_stop'), app.id, !ctx.isRunning)}${button('gbsp-uninstall', T('uninstall_text'), app.id, true)}</div>
       ${separator(T('storage_label'))}<div class="gbsp-pairs">${pair(T('total_size_label'), size(s.code + s.data))}${pair(T('application_size_label'), size(s.code))}${pair(T('data_size_label'), size(s.data))}</div>
       <div class="gbsp-buttons center">${button('gbsp-clear-data', T('clear_user_data_text'), app.id, !s.data)}</div>
