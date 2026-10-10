@@ -1,7 +1,7 @@
 # Audit munkaterv – 2026. október
 
 Forrás: `android-szimulator-audit-2026-10-04.md` (a tulajdonos külön sessionben készült auditja, a `c2f0c49` állapotra).
-Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.1 / 4.7 verziókérdése egyelőre kimarad.
+Egyeztetve: 2026-10-05. A Play/Market verzióeltérések a 7. pontban maradnak nyitva. A KitKat Gmail a későbbi döntés szerint már a gyári 4.6.1-et követi (3b40416).
 
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
@@ -131,7 +131,7 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 ## 7. Megbeszélés (az audit utolsó pontja)
 
 - [ ] Play Store / Market verzióeltérések megtárgyalása (2.3.6 Market 3.x, 4.0.4 Play 3.8.17, 4.4.4 Play 4.8.22, 5.1.1 Play 4.8.22 felirat az 5.2-es kinézet mellett), utána a döntés szerinti javítás
-- [x] KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – döntés 2026-10-08: a gyári kép szerinti 4.6.1 lesz, ha újraépítjük (a következetesség miatt, mint a többi app); a munka a 9. pont „Gmail 4.4.4” tétele
+- [x] KitKat Gmail – döntés 2026-10-08: a gyári kép szerinti 4.6.1. Elkészült: 3b40416; a megvalósítás részletei a 9. pont „Gmail 4.4.4” lezárt tételében.
 - [x] Boot képernyők (a tulajdonos ötlete, 2026-10-06): verziónként a gyári bootanimáció, ami alatt az assetek betöltődhetnek; kattintásra azonnal továbblép. Döntés 2026-10-08: fix idő helyett az animáció nem vágódik el, legalább egy teljes kör lemegy; fülenként (verziónként) egyszer, frissítéskor nincs; utána a zárképernyő. Kész: a rendszer akkor „indult el”, ha az oldal és a betűk betöltődtek (legfeljebb 12 s), és ez mindig az ismétlődő rész egy körének végén történik (a bekapcsológombos újraindításnál is); érintés vagy billentyű átugorja, csökkentett mozgásnál kimarad. Gyors netnél 2.3.6 / 4.0.4 kb. 3,2 s, 4.4.4 3,6 s, 4.3 4,6 s, 5.1.1 8 s – 65d64c9
 
 ## 8. Keresőmotorok (a tulajdonos kérése, 2026-10-08; az audit legvégén)
@@ -331,11 +331,6 @@ A 13. pont munkaterv; az implementáció nem kezdődött el.
 - A fejlesztői beállítások vizuális hatásai (GPU-sávok, másodlagos kijelző)
 - A mutatósebesség hatása
 - Ébresztés bezárt böngészőnél
-
-## Későbbi megbeszélésre
-
-- Play / Market célverziók (2.3.6 Market 3.x, 4.0.4 Play 3.8.17, 4.4.4 Play 4.8.22, 5.1.1 Play 4.8.22 felirat az 5.2-es kinézet mellett)
-- KitKat Gmail: a gyári kép 4.6.1, a szimulátor 4.7-es képernyőképek alapján – eldöntve (7. pont): 4.6.1
 
 ## Napló
 
