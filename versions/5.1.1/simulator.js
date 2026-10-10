@@ -877,6 +877,8 @@
   }
   // Toast.LENGTH_SHORT (NotificationManagerService.SHORT_DELAY, 2 s) inside Animation.Toast: toast_enter fades in and
   // toast_exit fades out over config_longAnimTime (500 ms) with decelerate_quad / accelerate_quad.
+  // The dialer's screens read the GoogleDialer rows keyed 'Phone|…' first (lp-strings.txt contexts).
+  const phoneText = key => i18n.t(key, 'Phone');
   function toast(message) {
     document.querySelector('.toast')?.remove();
     const element = document.createElement('div'); element.className = 'toast'; element.textContent = i18n.t(message);
@@ -1045,9 +1047,13 @@
     } else if (ui.overlay === 'calc-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">Clear history</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${ui.calcPanel ? 'Basic panel' : 'Advanced panel'}</button></div>`;
     } else if (ui.overlay === 'phone-menu') {
-      // DialtactsActivity's overflow (History, Settings, Help & feedback); the dialpad's adds the pause and wait.
-      const items = ui.phoneMenu === 'dialpad' ? [['dial-pause', 'Add 2-sec pause'], ['dial-wait', 'Add wait']] : [['kk-dialer-history', 'Call History'], ['toast:Call settings are not part of this simulation.', 'Settings'], ['toast:Help is not available offline.', 'Help & feedback']];
-      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu lpd-menu${ui.phoneMenu === 'dialpad' ? ' lpd-menu-pad' : ''}" role="menu">${items.map(([action, title]) => { const [act, arg] = action.split(/:(.*)/); return `<button role="menuitem" data-action="${act}"${arg ? ` data-id="${safe(arg)}"` : ''}>${safe(i18n.t(title))}</button>`; }).join('')}</div>`;
+      // The dialer's popup menus (LPDialer.menu); the dialpad's opens over its overflow button (PopupMenu, overlapAnchor).
+      const items = LPDialer.menu(ui.phoneMenu, {data, t: phoneText, byPhone: contactByPhone});
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu lpd-menu${ui.phoneMenu === 'dialpad' ? ' lpd-menu-pad' : ''}" role="menu" data-no-translate>${items.map(([action, title]) => { const [act, arg] = action.split(/:(.*)/); return `<button role="menuitem" data-action="${act}"${arg ? ` data-id="${safe(arg)}"` : ''}>${safe(title)}</button>`; }).join('')}</div>`;
+      const anchor = ui.phoneMenu === 'dialpad' && viewport.querySelector('.lpd-digits-menu'), list = overlayRoot.querySelector('.lpd-menu');
+      if (anchor && list) { const a = anchor.getBoundingClientRect(), box = overlayRoot.getBoundingClientRect(), scale = box.width / overlayRoot.offsetWidth || 1; list.style.left = `${(a.left - box.left) / scale}px`; list.style.top = `${(a.top - box.top) / scale}px`; list.style.right = 'auto'; }
+    } else if (ui.overlay === 'lpd-confirm') {
+      overlayRoot.innerHTML = LPDialer.confirm(ui.lpdConfirm, phoneText);
     } else if (ui.overlay === 'lp-settings-menu') {
       if (ui.lpMenu === 'accounts') { const on = data.settings.autoSync !== false; overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu"><button role="menuitemcheckbox" aria-checked="${on}" data-action="lp-auto-sync" class="lp-menu-check"><span>${safe(i18n.t('Auto-sync data'))}</span><i class="lp-check${on ? ' on' : ''}"></i></button></div>`; return; }
       const items = ui.lpMenu === 'sync-account' ? [['lp-sync-now', 'Sync now'], ['toast:This feature is not part of the simulator.', 'Remove account']] : ui.lpMenu === 'wifi' ? [['wifi-add', 'Add network'], ['settings-sub:wifi-saved', 'Saved networks'], ['wifi-scan', 'Refresh'], ['settings-sub:wifi-advanced', 'Advanced']] : [['bluetooth-scan', 'Refresh'], ['bluetooth-rename', 'Rename this device'], ['bluetooth-files', 'Show received files']];
@@ -1416,10 +1422,10 @@
     ui.play = {...ui.play,...next}; ui.overlay = ''; render();
   }
   function renderPhone() {
-    if(ui.activeCall)return ICSPhoneCall.render(ui.activeCall,contactByPhone(ui.activeCall.number),(key,context)=>i18n.t(key,context));
-    if(ui.sub==='call-detail'){const call=(data.callHistory||[]).find(call=>call.time===ui.phoneCallId);if(call)return ICSPhoneCall.details(call,contactByPhone(call.number),key=>i18n.t(key),i18n.locale());}
+    if(ui.activeCall)return ICSPhoneCall.render(ui.activeCall,contactByPhone(ui.activeCall.number),phoneText);
+    if(ui.sub==='call-detail'){const call=(data.callHistory||[]).find(call=>call.time===ui.phoneCallId);if(call)return ICSPhoneCall.details(call,contactByPhone(call.number),phoneText,i18n.locale());}
     // Google Dialer 5.1 (lp-dialer.js): speed dial, recents and contacts tabs, search, the sliding dialpad, History.
-    return LPDialer.render({data, ui, t: key => i18n.t(key), locale: i18n.locale(), byPhone: contactByPhone});
+    return LPDialer.render({data, ui, t: phoneText, locale: i18n.locale(), byPhone: contactByPhone});
   }
   function contactByPhone(number) { const normalized = String(number).replace(/[^\d+]/g, ''); return data.contacts.find(item => item.phone.replace(/[^\d+]/g, '') === normalized); }
   function startPhoneCall(number) {
@@ -2448,7 +2454,14 @@
       case 'phone-search': ui.phoneTab = 'favorites'; ui.phoneSearch = ''; ui.overlay = ''; render(); viewport.querySelector('.phone-search input')?.focus(); break;
       case 'phone-menu': ui.phoneMenu = id || ''; ui.overlay = 'phone-menu'; renderOverlay(); break;
       case 'dial-pause': case 'dial-wait': ui.dial = (ui.dial + (action === 'dial-pause' ? ',' : ';')).slice(0, 30); ui.overlay = ''; render(); break;
-      case 'phone-add-contact': openApp('people'); editPerson(true); ui.peopleDraft.phone=ui.dial; render(); break;
+      case 'phone-add-contact': { const number = id || ui.dial; openApp('people'); editPerson(true); ui.peopleDraft.phone = number; render(); break; }
+      case 'phone-new-contact': openApp('people'); editPerson(true); render(); break;
+      case 'phone-dial-sms': ui.overlay = ''; renderOverlay(); { const recipient = ICSMessaging.recipient(ui.dial, data.contacts); if (recipient) openMessageThread(recipient.key); else toast('Enter a valid phone number'); } break;
+      case 'lpd-clear-frequents': case 'lpd-clear-log': ui.lpdConfirm = action === 'lpd-clear-log' ? 'log' : 'frequents'; ui.overlay = 'lpd-confirm'; renderOverlay(); break;
+      case 'lpd-clear-frequents-ok': data.frequentsClearedAt = Date.now(); save(); ui.overlay = ''; render(); break;
+      case 'lpd-clear-log-ok': data.callHistory = []; ui.lpLogExpanded = null; save(); ui.overlay = ''; render(); break;
+      case 'lpd-edit-before-call': { const call = (data.callHistory || []).find(c => c.time === ui.phoneCallId); ui.overlay = ''; ui.sub = ''; ui.kkDialpad = true; ui.lpSearchOpen = false; ui.phoneSearch = ''; ui.dial = (call?.number || '').slice(0, 30); render(); break; }
+      case 'lpd-remove-call': data.callHistory = (data.callHistory || []).filter(c => c.time !== ui.phoneCallId); ui.lpLogExpanded = null; save(); ui.sub = ui.kkLogFrom || ''; render(); break;
       case 'phone-redial': startPhoneCall(id); break;
       case 'dial': if (ui.dial.length < 30) ui.dial += id; render(); break;
       case 'dial-delete': ui.dial = ui.dial.slice(0, -1); render(); break;
@@ -2861,7 +2874,7 @@
     if (event.target.matches?.('[data-kk-dialer-search]')) {
       ui.phoneSearch = event.target.value;
       const list = viewport.querySelector('[data-kk-dialer-list]');
-      if (list) { const fresh = document.createElement('div'); fresh.innerHTML = LPDialer.render({data, ui, t: key => i18n.t(key), locale: i18n.locale(), byPhone: contactByPhone}); list.innerHTML = fresh.querySelector('[data-kk-dialer-list]').innerHTML; i18n.translateDOM?.(list); }
+      if (list) { const fresh = document.createElement('div'); fresh.innerHTML = LPDialer.render({data, ui, t: phoneText, locale: i18n.locale(), byPhone: contactByPhone}); list.innerHTML = fresh.querySelector('[data-kk-dialer-list]').innerHTML; i18n.translateDOM?.(list); }
       return;
     }
     if(event.target.closest('[data-form="folder-name"]')){const folder=ICSLauncherFolders.folder(data,ui.folderId);if(folder){folder.name=event.target.value.slice(0,40);delete folder.nameKey;save();for(const button of viewport.querySelectorAll('[data-folder-id]'))if(button.dataset.folderId===ui.folderId){button.setAttribute('aria-label',folderName(ui.folderId));button.lastElementChild.textContent=folderName(ui.folderId);}}return;}

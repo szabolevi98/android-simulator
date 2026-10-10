@@ -3,7 +3,9 @@ Spanish exactly as the Nexus 6 LMY48Y factory image ships them. Point LMY48Y_SYS
 https://dl.google.com/dl/android/aosp/shamu-lmy48y-factory-505ed306.zip and run from the repository root:
     LMY48Y_SYSTEM=/path/to/system python3 docs/lp-strings.py
 Each entry is (apk, resource name[, quantity]); plurals take the 'other' form. The English text is the lookup key the
-simulator passes to AndroidI18n.t, so an entry whose English text clashes with an earlier one is skipped."""
+simulator passes to AndroidI18n.t, so an entry whose English text clashes with an earlier one is skipped. A third word
+is a context: the row is keyed '<context>|<English>', which AndroidI18n.t(text, context) reads before the plain row
+(the dialer's 'Older' is not the one Gmail or Email show)."""
 import json, os, re, sys
 from loguru import logger; logger.remove()
 from androguard.core.apk import APK
@@ -15,7 +17,7 @@ def apk_path(key):
         path = os.path.join(SYSTEM, top, key, key + '.apk')
         if os.path.exists(path): return path
     sys.exit(f'no APK for {key}')
-ENTRIES = [l.split() for l in open(os.path.join(os.path.dirname(__file__), 'lp-strings.txt')) if l.strip() and not l.startswith('#')]
+ENTRIES = [(l.split() + [''])[:3] for l in open(os.path.join(os.path.dirname(__file__), 'lp-strings.txt')) if l.strip() and not l.startswith('#')]
 LANGS = ['hu', 'de', 'fr', 'es']
 # The attribute ids of a plurals entry's quantities.
 QUANTITY = {'other': 0x01000004, 'zero': 0x01000005, 'one': 0x01000006, 'two': 0x01000007, 'few': 0x01000008, 'many': 0x01000009}
@@ -23,7 +25,7 @@ def clean(v):
     v = re.sub(r'\\(["\'])', r'\1', v).replace('\\n', '\n')
     return v  # androguard escapes quotes but does not wrap the text in them
 cache, rows, seen = {}, [], set()
-for apk_key, name in ENTRIES:
+for apk_key, name, context in ENTRIES:
     if apk_key not in cache:
         a = APK(apk_path(apk_key)); r = a.get_android_resources(); cache[apk_key] = (r, r.get_packages_names()[0])
     r, pkg = cache[apk_key]
@@ -64,9 +66,10 @@ for apk_key, name in ENTRIES:
         q = cfg.get_qualifier() or 'en'
         if q in ['en'] + LANGS: vals[q] = clean(v)
     en = vals.get('en')
-    if not en or en in seen: continue
-    seen.add(en)
-    rows.append([en] + [vals.get(q, en) for q in LANGS])
+    key = f'{context}|{en}' if context and en else en
+    if not en or key in seen: continue
+    seen.add(key)
+    rows.append([key] + [vals.get(q, en) for q in LANGS])
 # Simulator texts that no APK has (demo notifications, hints): docs/lp-strings-extra.tsv, en / hu / de / fr / es.
 for line in open(os.path.join(os.path.dirname(__file__), 'lp-strings-extra.tsv'), encoding='utf-8'):
     cols = line.rstrip('\n').split('\t')

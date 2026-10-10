@@ -83,7 +83,10 @@
 .lpd-result-copy{flex:1;min-width:0;margin-left:14.5px;display:flex;flex-direction:column;font:400 14.5px Roboto,sans-serif}
 .lpd-result-copy small{font:400 12.68px Roboto,sans-serif;color:#737373}
 .lpd-shortcut-icon{flex:none;width:36.24px;height:36.24px;border-radius:50%;background:#b6b6b6;display:grid;place-items:center}
-.lpd-shortcut-icon img{width:21.74px;height:21.74px}
+/* ContactListItemView.setDrawableResource draws the icon at its own size (ScaleType.CENTER), tinted #F8F8F8: the
+   40 dp ic_results_phone canvas, the 24 dp ic_person_add_24dp. */
+.lpd-shortcut-icon img{width:21.74px;height:21.74px;filter:brightness(0) invert(.97)}
+.lpd-shortcut-icon img[src$="ic_results_phone.png"]{width:36.24px;height:36.24px}
 /* Dialpad */
 .lpd-pad-up .lpd-pad-results{padding-top:var(--sb,0)}
 .lpd-dialpad{position:relative;flex:none;background:#fcfcfc;box-shadow:0 -3.6px 9px #00000026;padding-bottom:58.89px;animation:lpd-pad-in .25s cubic-bezier(0,0,.2,1) both}
@@ -133,16 +136,17 @@
 .lpc-keys{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;padding:0 4.53px}
 .lpc-keys .lpd-key{height:auto}
 /* CallDetailActivity */
-.lpc-details{background:#fafafa}
-.lpc-detail-head{display:flex;align-items:center;gap:14.5px;padding:14.5px;background:#fff;border-bottom:.906px solid #0000001f}
-.lpc-detail-head .lpc-detail-photo{width:50.74px;height:50.74px}
-.lpc-detail-head>span:last-child{display:flex;flex-direction:column;min-width:0}
-.lpc-detail-head strong{font:400 18.12px Roboto,sans-serif;color:#333}
-.lpc-detail-head small{font:400 12.68px Roboto,sans-serif;color:#737373}
-.lpc-detail-action{display:flex;align-items:center;gap:28.99px;width:100%;min-height:50.74px;border:0;border-bottom:.906px solid #0000001f;background:#fff;padding:0 14.5px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#333}
-.lpc-detail-action img{width:21.74px;height:21.74px;filter:brightness(0);opacity:.54}
-.lpc-detail-history{display:flex;align-items:center;gap:14.5px;padding:14.5px}
-.lpc-detail-history .lpd-arrow{width:10.87px;height:10.87px}
-.lpc-detail-history span{flex:1;display:flex;flex-direction:column}
-.lpc-detail-history strong{font:400 14.5px Roboto,sans-serif;color:#333}
-.lpc-detail-history small{font:400 12.68px Roboto,sans-serif;color:#737373}
+.lpc-details{background:#f9f9f9}
+.lpd-toolbar .lpd-toolbar-more{margin-left:auto}
+.lpc-detail-head{position:relative;z-index:1;display:flex;align-items:flex-start;gap:14.5px;padding:32.62px 14.5px 28.99px;background:#fff;box-shadow:0 .45px .9px #0000003d}
+.lpc-detail-head .lpc-detail-photo{flex:none;width:36.24px;height:36.24px;margin-top:2.72px}
+.lpc-detail-head>span:last-child{display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:38.96px}
+.lpc-detail-head strong{margin-bottom:4.53px;font:400 14.5px/1.15 Roboto,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lpc-detail-head small{font:400 12.68px Roboto,sans-serif;color:#737373;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lpc-detail-list{flex:1;overflow-y:auto}
+.lpc-detail-list h3{margin:0;padding:18.12px 14.5px 8.15px;font:500 12.68px Roboto,sans-serif;color:#737373}
+.lpc-detail-item{display:flex;flex-direction:column;padding:11.78px 7.25px 11.78px 14.5px}
+.lpc-detail-type{display:flex;align-items:center;gap:3.62px;font:400 14.5px Roboto,sans-serif;color:#333}
+.lpc-detail-item small{font:400 12.68px Roboto,sans-serif;color:#737373}
+/* ClearFrequentsDialog / ClearCallLogDialog: GoogleDialer's AlertDialogTheme (colorAccent dialtacts_theme_color). */
+.lpd-alert .ga-buttons button{color:#0288d1}

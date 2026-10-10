@@ -69,8 +69,8 @@
 })();
 
 // ---- Lollipop Dialer over the smart dial above ----
-/* Google Dialer on the Nexus 6 (com.android.dialer from LMY48Y, the AOSP android-5.1.1_r26 Dialer with Google's
-   "Search contacts & places"). DialtactsActivity: a 64 dp #0288D1 action bar holding the white search box (8 dp
+/* Google Dialer 2.1 on the Nexus 6 (GoogleDialer.apk, com.google.android.dialer, from LMY48Y: the AOSP 5.1 Dialer
+   classes with Google's "Search contacts & places" and GoogleDialtactsActivity; code read from its odex). DialtactsActivity: a 64 dp #0288D1 action bar holding the white search box (8 dp
    margins, 3 dp elevation; magnifier, 14 sp #737373 hint, voice search and the overflow menu, icons tinted #A4A4A4).
    lists_fragment.xml: an OverlappingPaneLayout whose top pane, on the same blue, is the shortcut card of the most recent
    call (8 dp margins, 3 dp elevation); under it the 43 dp ViewPagerTabs (SPEED DIAL, RECENTS, CONTACTS; 14 sp
@@ -101,9 +101,10 @@
     return `<span class="lpd-letter ${cls}" style="background:${tileColor(name)}" aria-hidden="true">${l ? `<span>${e(l)}</span>` : '<img src="assets/gd-ic_person_white_120dp.png" alt="">'}</span>`;
   }
   const KEYS = [['1', ''], ['2', 'ABC'], ['3', 'DEF'], ['4', 'GHI'], ['5', 'JKL'], ['6', 'MNO'], ['7', 'PQRS'], ['8', 'TUV'], ['9', 'WXYZ'], ['*', ''], ['0', '+'], ['#', '']];
+  // Calls before "Clear frequents" (ClearFrequentsDialog resets the contacts' usage) no longer make a contact frequent.
   function speedDial(data, byPhone) {
-    const counts = new Map();
-    for (const call of data.callHistory || []) { const person = byPhone(call.number); if (person) counts.set(person.id, (counts.get(person.id) || 0) + 1); }
+    const counts = new Map(), since = data.frequentsClearedAt || 0;
+    for (const call of data.callHistory || []) { const person = call.time > since && byPhone(call.number); if (person) counts.set(person.id, (counts.get(person.id) || 0) + 1); }
     const starred = data.contacts.filter(person => person.favorite);
     const frequent = data.contacts.filter(person => !person.favorite && counts.has(person.id)).sort((a, b) => counts.get(b.id) - counts.get(a.id));
     return [...starred, ...frequent].slice(0, Math.max(20, starred.length));
@@ -128,14 +129,22 @@
     const actions = open ? `<div class="lpd-log-actions"><button data-action="phone-redial" data-id="${e(call.number)}">${e(t('CALL BACK'))}</button><button data-action="phone-log-detail" data-id="${call.time}">${e(t('DETAILS'))}</button></div>` : '';
     return `<div class="lpd-log-row${card ? ' lpd-card' : ''}${open ? ' open' : ''}">${main}${actions}</div>`;
   }
-  function results(data, query, t) {
+  // PhoneNumberUtils.normalizeNumber: digits and a leading +, letters turned into their dialpad digits.
+  const normalize = text => [...String(text)].map(ch => /[0-9]/.test(ch) ? ch : window.JBDialer?.KEYS[ch.toLowerCase()] || (ch === '+' ? ch : '')).join('').replace(/(?!^)\+/g, '');
+  /* DialerPhoneNumberListAdapter's shortcuts under the matches (ContactListItemView with the 40 dp #B6B6B6 circle and
+     the #F8F8F8 icon). The search box (RegularSearchListAdapter) offers "Call %s" (ic_results_phone) and "Add to
+     contacts" (ic_person_add_24dp) once the query normalizes to a number; the dialpad (SmartDialSearchFragment)
+     only "Add to contacts", the call button being there. Video calling is off on this image (CallUtil.isVideoEnabled). */
+  function results(data, query, t, pad = false) {
     const q = String(query || '').trim();
     if (!q) return '';
     const digits = q.replace(/[^\d+*#]/g, '');
     const fold = text => String(text).toLocaleLowerCase();
     const found = window.JBDialer && digits === q ? window.JBDialer.suggestions(data.contacts, q, 20).map(item => item.person) : data.contacts.filter(person => fold(`${person.name} ${person.phone}`).includes(fold(q)) || (digits && person.phone.replace(/\D/g, '').includes(digits)));
     const rows = found.map(person => `<button class="lpd-result" data-action="contact-call" data-id="${person.id}">${letterTile(person, 'lpd-photo')}<span class="lpd-result-copy"><span>${e(person.name)}</span><small>${e(t('Mobile'))} ${e(person.phone)}</small></span></button>`).join('');
-    const shortcuts = digits ? `<button class="lpd-result lpd-shortcut" data-action="phone-add-contact"><span class="lpd-shortcut-icon"><img src="assets/gd-ic_person_add_24dp.png" alt=""></span><span class="lpd-result-copy"><span>${e(t('Create new contact'))}</span></span></button><button class="lpd-result lpd-shortcut" data-action="phone-add-contact"><span class="lpd-shortcut-icon"><img src="assets/gd-ic_person_add_24dp.png" alt=""></span><span class="lpd-result-copy"><span>${e(t('Add to a contact'))}</span></span></button>` : '';
+    const number = pad ? q : normalize(q);
+    const shortcut = (action, icon, label) => `<button class="lpd-result lpd-shortcut" data-action="${action}" data-id="${e(number)}"><span class="lpd-shortcut-icon"><img src="assets/${icon}" alt=""></span><span class="lpd-result-copy"><span>${e(label)}</span></span></button>`;
+    const shortcuts = number ? `${pad ? '' : shortcut('smartdial-call', 'gd-ic_results_phone.png', t('Call %s').replace('%s', number))}${shortcut('phone-add-contact', 'gd-ic_person_add_24dp.png', t('Add to contacts'))}` : '';
     return `<div class="lpd-results">${rows}${shortcuts}</div>`;
   }
   function speedDialPage(data, t, byPhone) {
@@ -159,9 +168,30 @@
   function dialpad(dial, t) {
     return `<div class="lpd-dialpad" role="group" aria-label="${e(t('Dial pad'))}"><div class="lpd-digits"><button class="lpd-digits-menu" data-action="phone-menu" data-id="dialpad" aria-label="${e(t('More options'))}" ${dial ? '' : 'hidden'}><img src="assets/gd-ic_overflow_menu.png" alt=""></button><output aria-label="${e(t('Phone number'))}">${e(dial)}</output><button class="lpd-delete" data-action="dial-delete" aria-label="${e(t('Delete'))}" ${dial ? '' : 'disabled'}><img src="assets/gd-ic_dialpad_delete.png" alt=""></button></div><div class="lpd-keys">${KEYS.map(([digit, letters]) => `<button class="lpd-key${digit === '*' ? ' star' : digit === '#' ? ' pound' : ''}" data-action="dial" data-id="${digit}" aria-label="${digit}"><span class="lpd-key-num">${digit}</span>${digit === '1' ? '<img src="assets/gd-ic_dialpad_voicemail.png" alt="">' : letters ? `<span class="lpd-key-letters">${e(letters)}</span>` : ''}</button>`).join('')}</div><button class="lpd-fab lpd-fab-call" data-action="call" aria-label="${e(t('dial'))}"><img src="assets/gd-fab_ic_call.png" alt=""></button></div>`;
   }
+  // SpeedDialFragment.hasFrequents: a frequently called contact that is not starred.
+  const hasFrequents = (data, byPhone) => speedDial(data, byPhone).some(person => !person.favorite);
+  /* The overflow menus as the image's code leaves them. DialtactsActivity: dialtacts_options.xml in an END-gravity
+     PopupMenu, OptionsPopupMenu.show hiding "Clear frequents" without frequents (Settings opens GoogleDialerSettings).
+     DialpadFragment: dialpad_options.xml (Add to contacts, Add 2-sec pause, Add wait, Send SMS; the last only with
+     an SMS app, Messenger here). CallLogActivity: call_log_options.xml, "Clear call history" only over a non-empty
+     list. CallDetailActivity: call_details_options.xml's overflow keeps "Edit number before call" (the delete item is
+     the action bar icon; Delete voicemail only for voicemail). */
+  function menu(kind, {data, t, byPhone}) {
+    const unavailable = 'This feature is not part of the simulator.';
+    if (kind === 'dialpad') return [['phone-add-contact', t('Add to contacts')], ['dial-pause', t('Add 2-sec pause')], ['dial-wait', t('Add wait')], ['phone-dial-sms', t('Send SMS')]];
+    if (kind === 'history') return (data.callHistory || []).length ? [['lpd-clear-log', t('Clear call history')]] : [];
+    if (kind === 'detail') return [['lpd-edit-before-call', t('Edit number before call')]];
+    return [['kk-dialer-history', t('Call History')], [`toast:${unavailable}`, t('Import/export')], ...(hasFrequents(data, byPhone) ? [['lpd-clear-frequents', t('Clear frequents')]] : []), ['phone-new-contact', t('New contact')], [`toast:${unavailable}`, t('Settings')]];
+  }
+  // ClearFrequentsDialog / ClearCallLogDialog: the Material alert in the dialer's #0288D1 accent (AlertDialogTheme).
+  function confirm(kind, t) {
+    const [title, message, ok] = kind === 'log' ? ['Clear call history?', 'This will delete all calls from your history', 'lpd-clear-log-ok'] : ['Clear frequently contacted?', "You'll clear the frequently contacted list in the People and Phone apps, and force email apps to learn your addressing preferences from scratch.", 'lpd-clear-frequents-ok'];
+    return `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-alert lpd-alert" role="alertdialog" aria-label="${e(t(title))}"><h3 class="ga-title">${e(t(title))}</h3><p class="ga-body">${e(t(message))}</p><div class="ga-buttons"><button type="button" data-action="close-overlay">${e(t('Cancel'))}</button><button type="button" data-action="${ok}">${e(t('OK'))}</button></div></div>`;
+  }
   function history(data, ui, t, locale, byPhone) {
     const tab = ui.kkLogTab === 'missed' ? 'missed' : 'all';
-    return `<div class="app-view lpd-app lpd-history"><header class="lpd-toolbar"><button data-action="kk-dialer-back" aria-label="${e(t('Navigate up'))}"><img src="assets/gd-ic_arrow_back_24dp.png" alt=""></button><h2>${e(t('History'))}</h2></header><nav class="lpd-tabs" role="tablist">${[['all', 'All'], ['missed', 'Missed']].map(([id, label]) => `<button role="tab" aria-selected="${tab === id}" data-action="kk-dialer-log-tab" data-id="${id}">${e(t(label))}</button>`).join('')}</nav><div class="lpd-page">${logList(data, ui, t, locale, byPhone, tab)}</div></div>`;
+    const more = (data.callHistory || []).length ? `<button class="lpd-toolbar-more" data-action="phone-menu" data-id="history" aria-label="${e(t('More options'))}"><img src="assets/gd-ic_overflow_menu.png" alt=""></button>` : '';
+    return `<div class="app-view lpd-app lpd-history"><header class="lpd-toolbar"><button data-action="kk-dialer-back" aria-label="${e(t('Navigate up'))}"><img src="assets/gd-ic_arrow_back_24dp.png" alt=""></button><h2>${e(t('History'))}</h2>${more}</header><nav class="lpd-tabs" role="tablist">${[['all', 'All'], ['missed', 'Missed']].map(([id, label]) => `<button role="tab" aria-selected="${tab === id}" data-action="kk-dialer-log-tab" data-id="${id}">${e(t(label))}</button>`).join('')}</nav><div class="lpd-page">${logList(data, ui, t, locale, byPhone, tab)}</div></div>`;
   }
   function render({data, ui, t, locale, byPhone}) {
     if (ui.sub === 'kk-history') return history(data, ui, t, locale, byPhone);
@@ -174,11 +204,11 @@
       ? `<div class="lpd-search expanded"><button data-action="lpd-search-close" aria-label="${e(t('Navigate up'))}"><span class="lpd-back" aria-hidden="true"></span></button><input type="text" data-kk-dialer-search aria-label="${e(t('Search contacts & places'))}" placeholder="${e(t('Search contacts & places'))}" value="${e(ui.phoneSearch || '')}" autocomplete="off">${(ui.phoneSearch || '') ? `<button data-action="kk-dialer-clear" aria-label="${e(t('Clear search'))}"><img src="assets/gd-ic_close_dk.png" alt=""></button>` : ''}</div>`
       : `<div class="lpd-search"><button class="lpd-search-open" data-action="lpd-search-open"><img src="assets/gd-ic_ab_search.png" alt=""><span>${e(t('Search contacts & places'))}</span></button><button data-action="voice-search" aria-label="${e(t('Start voice search'))}"><img src="assets/gd-ic_voice_search.png" alt=""></button><button data-action="phone-menu" aria-label="${e(t('More options'))}"><img src="assets/gd-ic_overflow_menu.png" alt=""></button></div>`;
     const body = pad
-      ? `<div class="lpd-list lpd-pad-results" data-kk-dialer-list>${results(data, ui.dial, t)}</div>${dialpad(ui.dial, t)}`
+      ? `<div class="lpd-list lpd-pad-results" data-kk-dialer-list>${results(data, ui.dial, t, true)}</div>${dialpad(ui.dial, t)}`
       : search
         ? `<div class="lpd-list lpd-search-results" data-kk-dialer-list>${results(data, ui.phoneSearch, t)}</div>`
         : `<div class="lpd-pane" data-kk-dialer-list>${card}<nav class="lpd-tabs" role="tablist">${[['speed', 'Speed dial'], ['recents', 'Recents'], ['contacts', 'Contacts']].map(([id, label]) => `<button role="tab" aria-selected="${tab === id}" data-action="lpd-tab" data-id="${id}">${e(t(label))}</button>`).join('')}</nav><div class="lpd-page lpd-page-${tab}">${page}</div></div><button class="lpd-fab${tab === 'speed' ? '' : ' end'}" data-action="kk-dialer-pad" aria-label="${e(t('dial pad'))}"><img src="assets/gd-fab_ic_dial.png" alt=""></button>`;
     return `<div class="app-view lpd-app${pad ? ' lpd-pad-up' : ''}${search ? ' lpd-searching' : ''}">${pad ? '' : `<header class="lpd-actionbar">${box}</header>`}${body}</div>`;
   }
-  window.LPDialer = {COLORS, javaHash, tileColor, tileColorDark, letterTile, speedDial, results, render, KEYS, dayGroup};
+  window.LPDialer = {COLORS, javaHash, tileColor, tileColorDark, letterTile, speedDial, hasFrequents, menu, confirm, results, render, KEYS, dayGroup};
 })();

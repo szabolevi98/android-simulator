@@ -414,3 +414,42 @@ Settings sync_menu_sync_now
 Settings remove_account_label
 Settings account_settings_menu_auto_sync
 Settings account_sync_settings_title
+# GoogleDialer 2.1: menus, dialogs, call details, shortcuts and the in-call card (lp-dialer.js, phone-call.js)
+GoogleDialer action_menu_call_history_description
+GoogleDialer menu_import_export
+GoogleDialer menu_clear_frequents
+GoogleDialer menu_newContact
+GoogleDialer add_contact
+GoogleDialer add_2sec_pause
+GoogleDialer add_wait
+GoogleDialer menu_sendTextMessage
+GoogleDialer clearFrequentsConfirmation_title
+GoogleDialer clearFrequentsConfirmation
+GoogleDialer recentCalls_deleteAll
+GoogleDialer clearCallLogConfirmation_title
+GoogleDialer clearCallLogConfirmation
+GoogleDialer recentCalls_removeFromRecentList
+GoogleDialer recentCalls_editNumberBeforeCall
+GoogleDialer callDetailTitle Phone
+GoogleDialer call_detail_list_header
+GoogleDialer type_incoming
+GoogleDialer type_outgoing Phone
+GoogleDialer type_missed
+GoogleDialer callDetailsDurationFormat
+GoogleDialer call_log_action_call_back
+GoogleDialer call_log_action_details
+GoogleDialer recentCalls_empty
+GoogleDialer all_contacts_empty
+GoogleDialer speed_dial_empty
+GoogleDialer recents_footer_text
+GoogleDialer call_log_activity_title Phone
+GoogleDialer call_log_all_title Phone
+GoogleDialer call_log_missed_title Phone
+GoogleDialer call_log_header_today Phone
+GoogleDialer call_log_header_yesterday Phone
+GoogleDialer call_log_header_other Phone
+GoogleDialer tab_all_contacts Phone
+GoogleDialer description_dial_button
+GoogleDialer card_title_dialing Phone
+GoogleDialer onscreenShowDialpadText Phone
+GoogleDialer onscreenEndCallText Phone
