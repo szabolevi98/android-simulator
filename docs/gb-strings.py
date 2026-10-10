@@ -1,14 +1,15 @@
-"""Generates versions/2.3.6/gb-strings-<app>.js from AOSP android-2.3.6_r1 string resources (en, hu, de, fr, es).
-Each output defines window.GBStrings[<app>] = {strings: {key: {en, hu, de, fr, es}}, arrays: {key: {en: [...], ...}}}.
-Usage: python docs/gb-strings.py contacts   (see APPS below for the sources and keys)."""
-import re, sys, json, urllib.error
-from aosp_text import clean, fetch
+"""Generates versions/2.3.6/gb-strings-<app>.js from the string resources of the Nexus S GRK39F image's APKs (en, hu, de,
+fr, es), as aapt compiled them; the image is unpacked in _aosp/crespo (docs/image_res.py reads it).
+Each output defines window.GBStrings[<app>] = {strings: {key: {en, hu, de, fr, es}}, arrays: {key: {en: [...], ...}}}; a
+language the image does not translate is left out, so the reader falls back to English.
+Usage: python docs/gb-strings.py contacts   (see APPS below for each table's APKs and keys)."""
+import sys, json
+from image_res import ImageRes, ROOT
 
-LANGS = ['', '-hu', '-de', '-fr', '-es']
+RES = ImageRes('crespo')
 APPS = {
     'contacts': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'apks': ['Contacts', 'framework'],
         'keys': '''attachToContact take_photo pick_photo use_photo_as_primary removePicture changePicture contactsList search_settings_description account_phone nameLabelsGroup name_given name_family name_prefix name_middle name_suffix phoneLabelsGroup emailLabelsGroup
 organizationLabelsGroup ghostData_company ghostData_title label_notes edit_secondary_collapse menu_done menu_doNotSave editContact_title_edit
 editContact_title_insert contactSavedToast deleteConfirmation deleteConfirmation_title selectLabel postalLabelsGroup phoneTypeMobile phoneTypeHome
@@ -22,14 +23,13 @@ add_wait searchHint viewContactTitle starredList frequentList dialer_addAnotherC
 callDetailsDurationFormat menu_viewContact menu_sendTextMessage email_home email_work email_other email email_custom'''.split(),
     },
     'phone': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_phone/android-2.3.6_r1/res/values%s/strings.xml'],
+        'apks': ['Phone'],
         'keys': '''card_title_dialing card_title_in_progress card_title_call_ended card_title_on_hold card_title_hanging_up onscreenAddCallText
 onscreenEndCallText onscreenShowDialpadText onscreenHideDialpadText onscreenMuteText onscreenSpeakerText onscreenBluetoothText onscreenHoldText
 onscreenUnholdText unknown onHold notification_on_hold notification_ongoing_call_format contactPhoto'''.split(),
     },
     'mms': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_mms/android-2.3.6_r1/res/values%s/strings.xml'],
-        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_mms/android-2.3.6_r1/res/values%s/arrays.xml'],
+        'apks': ['Mms'],
         'keys': '''search_label search_hint search_setting_description app_label new_message create_new_message has_draft messagelist_sender_self sent_on type_to_compose_text_enter_to_send to_hint
 send sending_message menu_compose_new menu_delete_all menu_preferences menu_call menu_view_contact add_subject add_attachment menu_insert_smiley
 delete_thread discard all_threads menu_add_to_contacts message_options menu_forward copy_message_text view_message_details delete_message menu_lock
@@ -40,13 +40,11 @@ search_empty view replace_image remove inline_subject menu_unlock'''.split(),
         'arrays': ['default_smiley_names', 'default_smiley_texts'],
     },
     'calculator': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_calculator/android-2.3.6_r1/res/values%s/strings.xml'],
+        'apks': ['Calculator'],
         'keys': 'app_name error del clear basic advanced clear_history'.split(),
     },
     'deskclock': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
-        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_deskclock/android-2.3.6_r1/res/values%s/strings.xml'],
+        'apks': ['DeskClockGoogle', 'framework'],
         'keys': '''app_label alarm_list_title add_alarm menu_desk_clock menu_edit_alarm delete_alarm enable_alarm disable_alarm delete_alarm_confirm
 label default_label set_alarm alarm_vibrate alarm_repeat alert time alarm_alert_dismiss_text alarm_alert_snooze_text alarm_alert_snooze_set day days
 hour hours minute minutes every_day never day_concat settings done revert delete alarm_button_description gallery_button_description
@@ -57,8 +55,7 @@ alarm_volume_summary snooze_duration_title volume_button_setting_title volume_bu
     },
     # Music: docs/gb-music-strings.py reads them (and the plurals) from the image's MusicGoogle.apk.
     'browser': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_browser/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'apks': ['Browser', 'framework'],
         'keys': '''pref_content_title pref_text_size pref_text_size_dialogtitle pref_default_zoom pref_default_zoom_dialogtitle pref_content_load_page
 pref_content_load_page_summary pref_default_text_encoding pref_default_text_encoding_dialogtitle pref_content_block_popups pref_content_load_images
 pref_content_load_images_summary pref_content_autofit pref_content_autofit_summary pref_content_landscape_only pref_content_landscape_only_summary
@@ -80,10 +77,9 @@ copy_page_url share_page choosertitle_sharevia menu_preferences clear_history em
 bookmark_page switch_to_thumbnails switch_to_list set_as_homepage contextmenu_openlink contextmenu_openlink_newwindow contextmenu_sharelink
 contextmenu_copylink remove_history_item create_shortcut_bookmark'''.split(),
         'arrays': ['pref_text_size_choices', 'pref_default_zoom_choices', 'pref_default_text_encoding_choices', 'pref_content_plugins_choices'],
-        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_browser/android-2.3.6_r1/res/values%s/strings.xml'],
     },
     'email': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_email/android-2.3.6_r1/res/values%s/strings.xml'],
+        'apks': ['EmailGoogle'],
         'keys': '''accounts_welcome account_setup_basics_title account_setup_basics_email_hint account_setup_basics_password_hint
 account_setup_basics_default_label account_setup_basics_manual_setup_action next_action account_setup_check_settings_check_incoming_msg
 account_setup_failed_dlg_title account_setup_failed_dlg_server_message account_setup_failed_dlg_edit_details_action exchange_name account_settings_title_fmt account_settings_description_label account_settings_name_label account_settings_signature_label
@@ -103,18 +99,16 @@ message_saved_toast notification_new_title okay_action cancel_action read_action
 account_settings_action'''.split(),
         'plurals': ['message_deleted_toast'],
         'arrays': ['account_settings_check_frequency_entries', 'account_settings_vibrate_when_entries'],
-        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_email/android-2.3.6_r1/res/values%s/arrays.xml', 'https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_email/android-2.3.6_r1/res/values%s/strings.xml'],
     },
     'gallery': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_gallery3d/android-2.3.6_r1/res/values%s/strings.xml'],
+        'apks': ['Gallery3DGoogle'],
         'keys': '''app_name camera delete confirm_delete cancel share more select_all deselect_all slideshow menu details album_selected item_selected
 albums_selected items_selected album location location_unknown title type taken_on added_on show_on_map rotate_left rotate_right crop set_as
 set_as_wallpaper item items date_unknown details_ok no_items wallpaper camera_setas_wallpaper pick pick_prompt crop_label crop_save_text
 crop_discard_text saving_image running_face_detection'''.split(),
     },
     'camera': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-2.3.6_r1/res/values%s/strings.xml'],
-        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_camera/android-2.3.6_r1/res/values%s/arrays.xml'],
+        'apks': ['CameraGoogle'],
         'keys': '''camera_label video_camera_label confirm_restore_title confirm_restore_message switch_camera_id pref_camera_id_title
 pref_camera_id_entry_back pref_camera_id_entry_front pref_camera_recordlocation_title pref_camera_recordlocation_entry_off
 pref_camera_recordlocation_entry_on pref_video_quality_title pref_camera_settings_category pref_camcorder_settings_category
@@ -126,12 +120,11 @@ pref_exposure_title zoom_control_title switch_to_camera_lable switch_to_video_la
                    'pref_camera_video_flashmode_entries'],
     },
     'framework': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'apks': ['framework'],
         'keys': 'recent_tasks_title no_recent_tasks ringtone_default ringtone_silent ringtone_picker_title ok cancel yes no volume_ringtone volume_music volume_call volume_alarm volume_notification volume_unknown volume_music_hint_silent_ringtone_selected'.split(),
     },
     'settings2': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'apks': ['Settings', 'framework'],
         'keys': '''manageapplications_settings_title runningservices_settings_title filter_apps_all filter_apps_third_party filter_apps_running
 filter_apps_onsdcard no_applications sort_order_alpha sort_order_size internal_storage sd_card_storage service_background_processes
 service_foreground_processes no_running_services running_processes_item_description_s_s running_processes_item_description_s_p
@@ -147,28 +140,22 @@ master_clear_desc erase_external_storage erase_external_storage_description mast
 master_clear_final_button_text master_clear_gesture_explanation'''.split(),
     },
     'accounts': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_accountsandsyncsettings/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'apks': ['AccountAndSyncSettings', 'framework'],
         'keys': '''sync_settings background_data background_data_summary background_data_dialog_title background_data_dialog_message sync_automatically
 sync_automatically_summary sync_menu_sync_now sync_menu_sync_cancel sync_one_time_sync sync_calendar sync_contacts header_manage_accounts
 header_general_sync_settings sync_enabled sync_disabled add_account_label header_data_and_synchronization remove_account_label header_add_an_account
 really_remove_account_title really_remove_account_message remove_account_failed sync_item_title ok cancel'''.split(),
     },
     'search': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_quicksearchbox/android-2.3.6_r1/res/values%s/strings.xml'],
+        'apks': ['GoogleQuickSearchBox'],
         'keys': '''app_name corpus_selection_heading corpus_selection_edit_items corpus_label_global corpus_label_web corpus_description_web
 corpus_label_apps corpus_description_apps corpus_hint_apps menu_settings search_settings web_search_category_title system_search_category_title
 search_sources search_sources_summary clear_shortcuts clear_shortcuts_summary clear_shortcuts_prompt agree disagree google_search_label
 google_search_hint google_search_settings google_show_web_suggestions google_show_web_suggestions_summary_enabled
 google_show_web_suggestions_summary_disabled'''.split(),
-        # The Nexus S ships GoogleQuickSearchBox: its GRK39F build words these differently from AOSP (read from the image).
-        'image': {'agree': {'de': 'Zustimmen', 'fr': 'Accepter', 'es': 'Acepto'}, 'disagree': {'de': 'Ablehnen', 'fr': 'Refuser', 'es': 'No acepto'},
-                  'google_search_settings': {'de': 'Einstellungen der Google-Suche', 'fr': 'Paramètres de recherche Google', 'es': 'Configuración de búsqueda de Google'}},
     },
     'downloads': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_providers_downloadprovider/android-2.3.6_r1/ui/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/donottranslate-cldr.xml'],
+        'apks': ['DownloadProviderUi', 'framework'],
         'keys': '''app_label download_title no_downloads missing_title download_menu_sort_by_size download_menu_sort_by_date download_queued
 download_running download_success download_error dialog_title_not_available dialog_failed_body dialog_title_queued_body dialog_queued_body
 dialog_file_missing_body download_no_application_title remove_download delete_download keep_queued_download cancel_running_download
@@ -176,26 +163,21 @@ retry_download deselect_all today yesterday last_month older'''.split(),
         'plurals': ['last_num_days'],
     },
     'wallpapers': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_livepicker/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_basic/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_musicvisualization/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_musicvisualization/android-2.3.6_r1/res/values%s/cube.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_wallpapers_magicsmoke/android-2.3.6_r1/res/values%s/strings.xml'],
+        'apks': ['LiveWallpapersPicker', 'LiveWallpapers', 'VisualizationWallpapers', 'MagicSmokeWallpapers', 'Microbes', 'Maps'],
         'keys': '''live_wallpaper_picker_title live_wallpaper_preview_title configure_wallpaper wallpaper_instructions live_wallpaper_empty
 live_wallpaper_loading wallpaper_grass wallpaper_grass_desc wallpaper_galaxy wallpaper_galaxy_desc wallpaper_fall wallpaper_fall_desc wallpaper_clock
 wallpaper_clock_desc wallpaper_nexus wallpaper_nexus_desc clock_settings show_seconds variable_line_width palette palette_gray palette_violet
 palette_matrix palette_white_c palette_black_c palette_halloween palette_zenburn palette_oceanic author wallpaper_vis2 wallpaper_vis3 wallpaper_vis4
-wallpaper_vis5 vis2_desc vis3_desc vis4_desc vis5_desc wallpaper_magicsmoke magicsmoke_desc taptochange ok'''.split(),
-        # Google's Microbes.apk on the Nexus S image (not in AOSP), untranslated there: the same text in every language.
-        'image': {key: dict.fromkeys(['en', 'hu', 'de', 'fr', 'es'], text) for key, text in
-                  [('wallpaper_microbes', 'Microbes'), ('wallpaper_microbes_desc', 'Life under the microscope.')]},
-        # Maps 5.4.0's MapWallpaper strings on the same image (it has no Hungarian, so Hungarian shows English).
-        'image_maps': {"wallpaper_maps": {"en": "Maps", "hu": "Maps", "de": "Maps", "fr": "Maps", "es": "Maps"}, "maps_mode_normal": {"en": "Normal", "hu": "Normal", "de": "Normal", "fr": "Standard", "es": "Normal"}, "maps_mode_satellite": {"en": "Satellite", "hu": "Satellite", "de": "Satellit", "fr": "Satellite", "es": "Satélite"}, "wallpaper_maps_desc": {"en": "Maps live wallpaper", "hu": "Maps live wallpaper", "de": "Live-Hintergrund von Google Maps", "fr": "Fond d'écran animé Google Maps", "es": "Fondo de pantalla animado de Google Maps"}, "maps_map_mode": {"en": "Map mode", "hu": "Map mode", "de": "Kartenmodus", "fr": "Mode d'affichage", "es": "Modo de mapa"}, "maps_map_mode_summary": {"en": "The mode of the map e.g. Satellite", "hu": "The mode of the map e.g. Satellite", "de": "Der Kartenmodus (z. B. Satellit)", "fr": "Mode d'affichage (Satellite, par exemple)", "es": "Modo del mapa (p. ej., Satélite)"}, "maps_mode_terrain": {"en": "Terrain", "hu": "Terrain", "de": "Gelände", "fr": "Relief", "es": "Relieve"}, "maps_settings": {"en": "Maps live wallpaper settings", "hu": "Maps live wallpaper settings", "de": "Einstellungen für Maps-Live-Hintergrund", "fr": "Paramètres du fond d'écran animé Google Maps", "es": "Configuración del fondo de pantalla animado de Google Maps"}, "maps_show_traffic": {"en": "Show traffic", "hu": "Show traffic", "de": "Verkehr anzeigen", "fr": "Afficher les infos trafic", "es": "Mostrar tráfico"}},
+wallpaper_vis5 vis2_desc vis3_desc vis4_desc vis5_desc wallpaper_magicsmoke magicsmoke_desc taptochange ok
+wallpaper_microbes wallpaper_microbes_desc wallpaper_maps wallpaper_maps_desc maps_settings maps_map_mode maps_map_mode_summary maps_mode_normal
+maps_mode_satellite maps_mode_terrain maps_show_traffic'''.split(),
+        # Maps 5.4.0's MapWallpaper: the service label, wallpaper.xml's description and wallpaper_prefs.xml under Maps' own names.
+        'aliases': {'wallpaper_maps': 'MAPS_APP_NAME', 'wallpaper_maps_desc': 'WALLPAPER_DESCRIPTION', 'maps_settings': 'WALLPAPER_SETTINGS',
+                    'maps_map_mode': 'WALLPAPER_MAP_MODE', 'maps_map_mode_summary': 'WALLPAPER_MAP_MODE_SUMMARY', 'maps_mode_normal': 'WALLPAPER_MAP_MODE_NORMAL',
+                    'maps_mode_satellite': 'WALLPAPER_MAP_MODE_SATELLITE', 'maps_mode_terrain': 'WALLPAPER_MAP_MODE_TERRAIN', 'maps_show_traffic': 'WALLPAPER_SHOW_TRAFFIC'},
     },
     'calendar': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml'],
-        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/strings.xml',
-                          'https://raw.githubusercontent.com/aosp-mirror-neo/platform_packages_apps_calendar/android-2.3.6_r1/res/values%s/arrays.xml'],
+        'apks': ['CalendarGoogle'],
         'keys': '''calendars_title synced_visible synced_not_visible not_synced_not_visible preferences_general_title preferences_hide_declined_title preferences_use_home_tz_title preferences_use_home_tz_descrip
 preferences_home_tz_title preferences_alerts_title preferences_alerts_type_title preferences_alerts_type_dialog preferences_alerts_ringtone_title
 preferences_alerts_vibrateWhen_title preferences_alerts_vibrateWhen_summary prefDialogTitle_vibrateWhen preferences_default_reminder_title
@@ -214,9 +196,7 @@ modify_all_following delete_this_event_title delete_title preferences_title sync
     # ApnEditor and SecuritySettings' credential storage; the framework's VPN types, tether notification and alert title;
     # VpnServices' notification (not in the mirror: its strings come from the Nexus S image's VpnServices.apk).
     'network': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
-        'array_sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/arrays.xml'],
+        'apks': ['Settings', 'framework', 'VpnServices'],
         'keys': '''tether_settings_title_both usb_tethering_button_text usb_tethering_unavailable_subtext wifi_tether_checkbox_text
 wifi_tether_enabled_subtext wifi_tether_settings_text wifi_tether_settings_subtext wifi_tether_settings_title wifi_tether_configure_ap_text
 wifi_tether_configure_subtext tethering_help_button_text wifi_starting wifi_stopping wifi_ssid wifi_security wifi_password wifi_show_password
@@ -240,16 +220,12 @@ credentials_reset_hint credentials_old_password credentials_new_password credent
 credentials_wrong_password credentials_reset_warning credentials_reset_warning_plural credentials_passwords_mismatch credentials_passwords_empty
 credentials_password_empty credentials_erased credentials_enabled credentials_disabled
 pptp_vpn_description l2tp_vpn_description l2tp_ipsec_psk_vpn_description l2tp_ipsec_crt_vpn_description tethered_notification_title
-tethered_notification_message wifi_tether_configure_ssid_default dialog_alert_title ok cancel yes no'''.split(),
+tethered_notification_message wifi_tether_configure_ssid_default dialog_alert_title ok cancel yes no vpn_notification_title_connected'''.split(),
         'arrays': ['wifi_ap_security', 'apn_auth_entries', 'apn_protocol_entries'],
-        'image': {
-            'vpn_notification_title_connected': {'en': '%s VPN connected', 'hu': 'Kapcsolódva a(z) %s virtuális magánhálózathoz', 'de': '%s mit VPN verbunden', 'fr': 'VPN %s connecté', 'es': 'VPN %s conectada'},
-        },
     },
     # Phone's network settings (network_setting.xml, gsm_umts_options.xml) and NetworkSetting (carrier_select.xml).
     'phonenet': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_phone/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'apks': ['Phone', 'framework'],
         'keys': '''settings_label mobile_networks data_enabled data_enable_summary roaming roaming_enable roaming_disable roaming_warning apn_settings prefer_2g
 prefer_2g_summary networks sum_carrier_select label_available load_networks_progress empty_networks_list search_networks sum_search_networks
 select_automatically sum_select_automatically register_automatically register_on_network not_allowed connect_later registration_done
@@ -259,8 +235,7 @@ importingSimContacts cancel'''.split(),
     # Contacts' display options (ContactsPreferencesActivity), Import/Export (ImportVCardActivity, ExportVCardActivity) and
     # sharing; the image is a "nosdcard" build, so the USB storage variants come first in the files.
     'contactsio': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_contacts/android-2.3.6_r1/res/values%s/strings.xml',
-                    'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
+        'apks': ['Contacts', 'framework'],
         'keys': '''displayGroups menu_done menu_doNotSave showFilterPhones showFilterPhonesDescrip headerContactGroups display_options_sort_list_by
 display_options_sort_by_given_name display_options_sort_by_family_name display_options_view_names_as display_options_view_given_name_first
 display_options_view_family_name_first display_ungrouped display_all_contacts display_more_groups menu_sync_remove dialog_sync_add
@@ -274,72 +249,26 @@ exporting_contact_failed_title exporting_contact_failed_message fail_reason_no_e
 
 
 def build(name):
-    app, out = APPS[name], {}
-    for lang in LANGS:
-        code = lang[1:] or 'en'
-        for source in app['sources']:
-            try:
-                text = fetch(source % lang)
-            except urllib.error.HTTPError:
-                continue
-            for key in app['keys']:
-                m = re.search(r'<string name="%s"(?: product="default")?[^>]*>(.*?)</string>' % re.escape(key), text, re.S)
-                if m and code not in out.get(key, {}):
-                    out.setdefault(key, {})[code] = clean(m.group(1))
-    arrays = {}
-    for lang in LANGS:
-        code = lang[1:] or 'en'
-        for source in app.get('array_sources', []):
-            # Untranslated arrays.xml (entries that are @string references) only exist in values/; resolve them per language.
-            try:
-                text = fetch(source % lang)
-            except urllib.error.HTTPError:
-                try:
-                    text = fetch(source % '')
-                except urllib.error.HTTPError:
-                    continue
-                if '@string/' not in text:
-                    continue
-            # Items may point at strings (@string/key): resolve them in the same language, falling back to English.
-            def resolve(item, code=code):
-                if not item.startswith('@string/'):
-                    return item
-                ref = item[8:]
-                for src in app['sources']:
-                    for variant in ([lang, ''] if lang else ['']):
-                        try:
-                            body = fetch(src % variant)
-                        except urllib.error.HTTPError:
-                            continue
-                        m2 = re.search(r'<string name="%s"[^>]*>(.*?)</string>' % re.escape(ref), body, re.S)
-                        if m2:
-                            return clean(m2.group(1))
-                return item
-            for key in app.get('arrays', []):
-                m = re.search(r'<string-array name="%s"[^>]*>(.*?)</string-array>' % re.escape(key), text, re.S)
-                if m:
-                    arrays.setdefault(key, {})[code] = [resolve(clean(item)) for item in re.findall(r'<item[^>]*>(.*?)</item>', m.group(1), re.S)]
-    for lang in LANGS:
-        code = lang[1:] or 'en'
-        for source in app['sources'] if app.get('plurals') else []:
-            try:
-                text = fetch(source % lang)
-            except urllib.error.HTTPError:
-                continue
-            for key in app['plurals']:
-                m = re.search(r'<plurals name="%s"[^>]*>(.*?)</plurals>' % re.escape(key), text, re.S)
-                if not m:
-                    continue
-                for quantity, value in re.findall(r'<item quantity="(\w+)"[^>]*>(.*?)</item>', m.group(1), re.S):
-                    if quantity in ('one', 'other') and code not in out.get(f'{key}_{quantity}', {}):
-                        out.setdefault(f'{key}_{quantity}', {})[code] = clean(value)
-    for key, values in {**app.get('image', {}), **app.get('image_maps', {})}.items():
-        out.setdefault(key, {}).update(values)
+    app, out, arrays = APPS[name], {}, {}
+    for key in app['keys']:
+        value = RES.string(app['apks'], app.get('aliases', {}).get(key, key))
+        if value:
+            out[key] = value
+    for key in app.get('plurals', []):
+        for lang, quantities in (RES.plurals(app['apks'], key) or {}).items():
+            for quantity in ('one', 'other'):
+                if quantity in quantities:
+                    out.setdefault(f'{key}_{quantity}', {})[lang] = quantities[quantity]
+    for key in app.get('arrays', []):
+        value = RES.array(app['apks'], key)
+        if value:
+            arrays[key] = value
     missing = [k for k in app['keys'] if k not in out] + [k for k in app.get('arrays', []) if k not in arrays]
-    js = ('/* Generated by docs/gb-strings.py from AOSP android-2.3.6_r1 strings (values, -hu, -de, -fr, -es). Do not edit. */\n'
+    js = ('/* Generated by docs/gb-strings.py from the Nexus S GRK39F image (%s; en, hu, de, fr, es). Do not edit. */\n'
           'window.GBStrings = window.GBStrings || {};\n'
-          'window.GBStrings[%s] = %s;\n' % (json.dumps(name), json.dumps({'strings': out, **({'arrays': arrays} if arrays else {})}, ensure_ascii=False, indent=0)))
-    open('D:/xampp/htdocs/android-simulator/versions/2.3.6/gb-strings-%s.js' % name, 'w', encoding='utf-8').write(js)
+          'window.GBStrings[%s] = %s;\n' % (', '.join(a if a == 'framework' else a + '.apk' for a in app['apks']), json.dumps(name),
+                                            json.dumps({'strings': out, **({'arrays': arrays} if arrays else {})}, ensure_ascii=False, indent=0)))
+    open(f'{ROOT}versions/2.3.6/gb-strings-{name}.js', 'w', encoding='utf-8', newline='\n').write(js)
     print(name, 'keys', len(out), 'missing', missing)
 
 

@@ -987,7 +987,7 @@
   }
   // Data for the 2.3.6 application, battery and reset pages; the simulator's apps are the system image.
   function gbPagesContext() {
-    const list = apps.filter(app => app[0] !== 'play-store' || true).map(app => ({id: app[0], name: appNames[app[0]], icon: appIcon(app[0])}));
+    const list = apps.filter(app => app[0] !== 'play-store' || true).map(app => ({id: app[0], name: i18n.t(appNames[app[0]]), icon: appIcon(app[0])}));
     const named = id => list.find(a => a.id === id);
     const running = [...new Set(['phone', 'messaging', ...ui.recent])].map(named).filter(Boolean).map((a, i) => ({...a, ram: 3200000 + i * 1450000, uptime: `${String(12 + i * 7).padStart(2, '0')}:${String(30 - i * 3).padStart(2, '0')}`}));
     const sysIcon = name => `<span class="app-icon"><img src="assets/gb-st-${name}.png" alt=""></span>`;
