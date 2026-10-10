@@ -184,7 +184,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 
 - [ ] A szimulátorban van, a képben nincs: a 4.0.4-es Google Beállítások app (a maguro IMM76I képben nincs PrebuiltGmsCore, csak GoogleServicesFramework) – egyeztetni: marad, mint a Play Store, vagy kikerül (2026-10-09)
 
-- [ ] A képben van, a szimulátorban nincs: 4.0.4 Voice Search (VoiceSearch.apk); a keresőmező mikrofonja addig a kitalált „offline nem érhető el” üzenetet adja (2026-10-09)
+- [x] A képben van, a szimulátorban nincs: 4.0.4 Voice Search (VoiceSearch.apk); a keresőmező mikrofonja addig a kitalált „offline nem érhető el” üzenetet adja (2026-10-09) — 424aab9: a Voice Search 3.0.1 RecognitionActivity párbeszédablaka (Most beszéljen / hiba: Nem észlelhető beszéd, Újramondás, Súgó, beállítások), mikrofon nélkül a beszéd-időtúllépéssel; a Súgó tartalmát a gyári app is a szervertől töltötte, ezért a betöltő pörgettyű látszik
 
 **E) Kisebb hibák**
 
@@ -356,3 +356,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-10 | 9. lépés: 5.1.1 régi stíluslapok ki / megtisztítva | 056543b |
 | 2026-10-10 | 9. lépés: 4.3 Google keresés beállításai (Velvet 2.5.9); Maps 4.3 útvonal-szövegek ellenőrizve | 83c9c47 |
 | 2026-10-10 | 9. lépés: 4.3 Hangkeresés widget és Diktafon (+ Mms csatolástípusok) | 47ec39b, b5615d0 |
+| 2026-10-10 | 9. lépés: 4.0.4 Voice Search 3.0.1 | 424aab9 |
