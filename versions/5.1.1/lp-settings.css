@@ -240,3 +240,24 @@
 .screen .lp-zen-days .settings-row .row-copy{font:400 16.31px Roboto,sans-serif}
 /* screen_pinning_instructions.xml: the description in TextAppearance.Medium with the screen margins. */
 .lp-pin-help{margin:0;padding:14.5px 14.5px 0;white-space:pre-line;font:400 16.31px/1.35 Roboto,sans-serif;color:#000000de}
+/* Information preferences (preferenceInformationStyle): not clickable, the value as the summary. */
+.lp-info-row .row-copy small{white-space:pre-line}
+.screen .lp-info-row:active{background:none}
+/* SystemUI's BrightnessDialog: Theme.DeviceDefault.Dialog (the dark Material dialog, #424242, 2 dp corners, 16 dp
+   window inset) at the top of the screen without dimming; quick_settings_brightness_dialog.xml: 16 dp sides, the
+   auto-brightness icon (tinted ?colorControlNormal, #ffffffb3) 8 dp before the slider. */
+.lp-bright-scrim{position:absolute;inset:0;z-index:40;background:transparent}
+.lp-bright-dlg{position:absolute;z-index:41;left:14.5px;right:14.5px;top:calc(var(--sb,21.74px) + 14.5px);display:flex;align-items:center;padding:0 14.5px;background:#424242;border-radius:1.81px;box-shadow:0 3.62px 10.87px #00000080}
+.screen .lp-bright-auto{flex:none;width:28.99px;height:28.99px;margin-right:7.25px;padding:0;border:0;background:none;opacity:.7}
+.lp-bright-auto img{width:28.99px;height:28.99px}
+.screen .lp-bright-auto.on{opacity:1}
+.lp-bright-dlg .lp-bright-slider{position:relative;inset:auto;top:auto;flex:1;padding:0;height:54.36px}
+/* AccountSyncSettings: title.xml (the 48 dp provider icon 8 dp before the 18 sp account over the 14 sp "Google",
+   8 dp padding, a list divider under it) and the SyncStateSwitchPreference rows; account rows' 24 dp icons. */
+.lp-sync-title{display:grid;grid-template-columns:auto 1fr;column-gap:7.25px;align-items:center;margin:0 14.5px;padding:7.25px 0;border-bottom:.906px solid #0000001f}
+.lp-sync-title img{grid-row:span 2;width:43.49px;height:43.49px}
+.lp-sync-title b{font:400 16.31px Roboto,sans-serif;color:#000000de;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lp-sync-title small{font:400 12.68px Roboto,sans-serif;color:#0000008a}
+.lp-sync-row .lp-mswitch{flex:none}
+.lp-account-icon{width:21.74px;height:21.74px}
+.lp-menu-check{display:flex!important;align-items:center;justify-content:space-between;gap:14.5px}
