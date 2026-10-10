@@ -54,13 +54,7 @@ silent_alarm_summary date_time_set alarm_in_silent_mode_title alarm_in_silent_mo
 alarm_volume_summary snooze_duration_title volume_button_setting_title volume_button_setting_summary volume_button_dialog_title'''.split(),
         'arrays': ['alarm_set', 'snooze_duration_entries', 'volume_button_setting_entries'],
     },
-    'music': {
-        'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_music/android-2.3.6_r1/res/values%s/strings.xml'],
-        'keys': '''musicbrowserlabel search_hint search_settings_description goto_start party_shuffle party_shuffle_off delete_item shuffle_all nowplaying_title artists_title albums_title tracks_title
-playlists_title search_title no_tracks_title ringtone_menu play_selection add_to_playlist queue new_playlist new_playlist_name_template
-create_playlist_create_text remove_from_playlist shuffle_on_notif shuffle_off_notif repeat_all_notif
-repeat_current_notif repeat_off_notif emptyplaylist'''.split(),
-    },
+    # Music: docs/gb-music-strings.py reads them (and the plurals) from the image's MusicGoogle.apk.
     'browser': {
         'sources': ['https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_browser/android-2.3.6_r1/res/values%s/strings.xml',
                     'https://raw.githubusercontent.com/aosp-mirror/platform_frameworks_base/android-2.3.6_r1/core/res/res/values%s/strings.xml'],
