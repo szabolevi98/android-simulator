@@ -453,3 +453,4 @@ GoogleDialer description_dial_button
 GoogleDialer card_title_dialing Phone
 GoogleDialer onscreenShowDialpadText Phone
 GoogleDialer onscreenEndCallText Phone
+Settings screen_timeout_summary

@@ -412,6 +412,7 @@ window.AndroidI18n?.extend([
   ["Phone|Dialing", "Tárcsázás", "Rufaufbau", "Appel en cours…", "Llamando"],
   ["Phone|Dialpad", "Tárcsázó", "Wähltasten", "Clavier", "Teclado"],
   ["Phone|End", "Befejezés", "Ende", "Raccrocher", "Finalizar"],
+  ["After %1$s of inactivity", "%1$s inaktivitás után", "Nach %1$s ohne Aktivität", "Après %1$s d'inactivité", "%1$s de inactividad"],
   ["Welcome to Android 5.1", "Üdvözli az Android 5.1", "Willkommen bei Android 5.1", "Bienvenue dans Android 5.1", "Te damos la bienvenida a Android 5.1"],
   ["Your Nexus 6 is ready to explore.", "A Nexus 6 készen áll a felfedezésre.", "Ihr Nexus 6 ist bereit.", "Votre Nexus 6 est prêt à être exploré.", "Tu Nexus 6 está listo para explorar."],
   ["Only the owner can be signed in on this simulator.", "Ebben a szimulátorban csak a tulajdonos jelentkezhet be.", "In diesem Simulator kann nur der Eigentümer angemeldet sein.", "Seul le propriétaire peut être connecté sur ce simulateur.", "En este simulador solo puede iniciar sesión el propietario."]

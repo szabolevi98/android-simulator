@@ -36,13 +36,7 @@
 .sa-maps-card small{color:#777}
 .sa-maps-card .sa-btn{position:absolute;right:8px;top:8px;color:#4285f4!important}
 /* Drive */
-.sa-files{background:#fff}
-.sa-file{display:flex;align-items:center;gap:14px;width:100%;min-height:57.98px;padding:0 14.5px;border:0;border-bottom:.906px solid #eee;background:none;text-align:left;color:#333!important}
-.sa-file i{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:2px;color:#fff;font:700 14px RobotoICS,sans-serif;font-style:normal}
-.sa-file i svg{width:18px;height:18px}
-.sa-file span{display:flex;flex-direction:column;min-width:0}
-.sa-file b{font:400 15.4px RobotoICS,sans-serif}
-.sa-file small{font-size:11.78px;color:#999}
+
 .sa-doc{background:#e5e5e5;padding:12px}
 .sa-page{min-height:100%;padding:24px 20px;background:#fff;box-shadow:0 1px 3px #0003;font:400 13.59px/1.6 Arial,sans-serif;color:#222}
 .sa-page p{margin:0 0 8px}
@@ -80,24 +74,7 @@
 .sa-land{animation:sa-spin 30s linear infinite}
 @keyframes sa-spin{from{transform:translateX(0)}to{transform:translateX(-200px)}}
 /* News & Weather (Holo dark) */
-.sa-news{background:#111;color:#ddd}
-.sa-news .sa-up span{color:#777}
-.sa-news-tabs{flex:none;display:flex;overflow-x:auto;scrollbar-width:none;background:#1b1b1b;border-bottom:.906px solid #333}
-.sa-news-tabs button{flex:none;padding:0 14px;height:39.86px;border:0;background:none;font:700 12.68px RobotoICS,sans-serif;color:#999!important;text-transform:uppercase}
-.sa-news-tabs button.on{color:#fff!important;box-shadow:inset 0 -3.62px #33b5e5}
-.sa-story{display:flex;flex-direction:column;gap:4px;width:100%;padding:12px 14px;border:0;border-bottom:.906px solid #2a2a2a;background:none;text-align:left}
-.sa-story-photo{display:block;margin:-12px -14px 8px;aspect-ratio:16/9}
-.sa-story b{font:400 16.31px/1.3 RobotoICS,sans-serif;color:#eee}
-.sa-story small{font-size:11.78px;color:#888}
-.sa-weather{display:flex;flex-direction:column;align-items:center;gap:4px;padding:28px 14px}
-.sa-weather>b{font:100 72px/1 RobotoThin,RobotoLight,RobotoICS,sans-serif;color:#fff}
-.sa-weather>span{font-size:16.31px}
-.sa-weather>small{color:#888}
-.sa-forecast{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;margin-top:22px;text-align:center}
-.sa-forecast div{display:flex;flex-direction:column;gap:3px;padding:10px 0;background:#1d1d1d}
-.sa-forecast span{font-size:11.78px;color:#999}
-.sa-forecast b{font:400 18px RobotoICS,sans-serif;color:#fff}
-.sa-forecast small{color:#777}
+
 /* Action buttons with the apps' own drawables (32 dp holo menu icons; 24 dp Material on 5.1.1). */
 .sa-btn img{width:21.74px;height:21.74px}
 .sa-btn.tint img{filter:brightness(0) invert(1)}
@@ -230,11 +207,7 @@
 .mp9-fab .mp9-shadow{position:absolute;inset:0;width:100%;height:100%}
 .mp9-fab i{position:absolute;inset:3.62px;border-radius:50%;background:#4285f4}
 .mp9-fab .mp9-dir{position:absolute;left:50%;top:50%;width:21.74px;height:21.74px;margin:-10.87px;filter:brightness(0) invert(1)}
-.mp9-map.layer-traffic .sa-map g[stroke="#fff"]{stroke:#4caf50}
-.mp9-map.layer-transit .sa-map g[stroke="#fff"]{stroke:#7e57c2;stroke-dasharray:10 6}
-.mp9-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}
-.mp9-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
-.mp9-map.layer-terrain .sa-map{filter:sepia(.35) saturate(1.2)}
+
 .sa-maps9 .sa-maps-card{z-index:1}
 .screen .mp9-scrim{position:absolute;inset:0;z-index:4;border:0;background:#0006}
 .mp9-menu{position:absolute;left:0;top:0;bottom:0;z-index:5;width:min(271.8px,85%);overflow-y:auto;background:#fff}

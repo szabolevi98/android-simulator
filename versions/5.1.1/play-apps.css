@@ -120,7 +120,7 @@
 .pb-top span{flex:1;min-width:0;display:flex;flex-direction:column}
 .pb-top b{font:400 13.59px RobotoICS,sans-serif;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pb-top small{font-size:10.87px;color:#777}
-.pb-aa{border:0;background:none;font:400 16px RobotoICS,sans-serif;color:#666!important;padding:0 8px}
+
 .pb-top .pa-btn{color:#666!important}
 .pb-page{flex:1;min-height:0;overflow:hidden;padding:60px 24px;font:400 16.31px/1.6 Georgia,'Times New Roman',serif;color:#222;cursor:pointer}
 .pb-page h2{margin:40px 0 8px;text-align:center;font:400 22px Georgia,serif;letter-spacing:1px}
@@ -131,10 +131,7 @@
 .pb-bottom i{flex:1;height:3px;background:linear-gradient(90deg,#3f9fe0 var(--p),#ccc var(--p))}
 .pb-reader.bare .pb-top,.pb-reader.bare .pb-bottom{opacity:0;pointer-events:none}
 /* Play Games */
-.pg-welcome{margin:7.25px -7.25px 0;padding:14.5px 7.25px;background:linear-gradient(160deg,#5ab9ba 0 30%,#8fc04d 30% 55%,#f4b400 55% 75%,#e2574c 75%)}
-.pg-welcome div{padding:12.68px 14.5px;background:#fff}
-.pg-welcome h2{margin:0 0 4px;font:700 19.93px RobotoICS,sans-serif;color:#222}
-.pg-welcome p{margin:0;font-size:12.68px;color:#555}
+
 .pg-game .pa-card-art{padding:12px;background:#fff}
 .pg-game .pa-card-art .pa-art{border-radius:14%}
 .pg-game .pa-card-copy i{font-style:normal;color:#96aa39}
@@ -207,7 +204,7 @@
 .pm-search-empty img{width:86.98px;height:86.98px}
 .pm-search-empty p{margin:14.5px 0 0;font:400 16.31px Roboto,sans-serif;color:#0000008a}
 /* Play Movies & TV / Play Books search (audit step 5): the suggestion list under the SearchView. */
-.pm-search .pm5-logo,.pm-search .mv25-logo{width:28.99px;height:28.99px}
+
 .pa-suggest{flex:1;min-height:0;overflow-y:auto;background:#fff;box-shadow:0 1.81px 3.62px #0006}
 .pa-suggest.books{background:#fff}
 .screen .pa-suggest-row{display:flex;align-items:center;width:100%;min-height:57.98px;padding:3.62px;border:0;background:none;text-align:left;font-family:Roboto,sans-serif}
