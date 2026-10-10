@@ -190,7 +190,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 
 - [x] 2.3.6 Alkalmazásinfó: minden app verziója „2.3.6” (a képben Gmail 2.3.5.1, Maps 5.4.0 stb.) — beb6207: csomagonként a GRK39F kép versionName-je (launcher.txt)
 - [x] 2.3.6 Google keresés: a „parancsikonok törlése” szövegben látható idézőjelek mind az öt nyelven; a szöveggenerátor nem szedi le őket, más generált fájlokat is meg kell nézni — 614dd50: a generátor az aapt szabályai szerint dolgozza fel a szöveget (több idézett szakasz, szóközök, escape-ek); érintett volt még a Gyári adatok visszaállítása, a fiók eltávolítása, a Névjegyek üres listája, az E-mail válaszfejléce és a vCard-exporthiba. A közös docs/aosp_text.py-t a 2.3.6 beállítás- és a 4.0.4 / 4.3 AOSP Zene-generátor is használja (ezek kimenete nem változott); a többi verzió szövegei APK-ból jönnek, ott nem volt ilyen hiba
-- [ ] 2.3.6: a Google-appok szövegei (Naptár, Kamera, Óra, E-mail, Galéria, Zene, Keresés) az AOSP-forrásból, nem a képből (egyeznek, de a képből kellene olvasni)
+- [x] 2.3.6: a Google-appok szövegei (Naptár, Kamera, Óra, E-mail, Galéria, Zene, Keresés) az AOSP-forrásból, nem a képből (egyeznek, de a képből kellene olvasni) — 0881774: a 2.3.6 összes szövegtáblája (a Google-appoké és az AOSP-appoké is) a GRK39F kép APK-iból, a docs/image_res.py-val; a kézzel átmásolt képértékek megszűntek. Ahol a kép eltér az AOSP-tól, most a kép látszik (pl. Alkalmazások: „Alkalmazások kezelése”); az Alkalmazásinfó az appok honosított nevét mutatja
 - [ ] Naptár időzóna-listája 4.3 / 4.4.4: a maguro (4.0.4) képből generálva
 - [ ] 4.0.4: más képek kem-* ikonjai a Gmailben, a Play Zenében és a Google+-ban; a tárcsázó hdpi grafikája xhdpi telefonon
 - [ ] 2.3.6: a 4.0.4-es tartalék beállítási oldalak még be vannak kötve; az asztali óráról hiányzik az időjárás
@@ -441,3 +441,4 @@ A 11–12. pont most felmérés és munkaterv: implementáció még nem történ
 | 2026-10-10 | 9. lépés: 4.0.4 Voice Search 3.0.1 | 424aab9 |
 | 2026-10-10 | 9. lépés: 2.3.6 Alkalmazásinfó verziói a képből | beb6207 |
 | 2026-10-10 | 9. lépés: 2.3.6 szöveggenerátor: idézőjelek és szóközök az aapt szerint | 614dd50 |
+| 2026-10-10 | 9. lépés: 2.3.6 szövegtáblák a kép APK-iból | 0881774 |
