@@ -1,5 +1,12 @@
 # Visual audit – Android 4.0.4 (Galaxy Nexus, IMM76I)
 
+## Google Settings absence verified against the factory image — 2026-10-10
+
+- The owner chose the IMM76I factory image as the reference for this app. `_aosp/maguro/system/build.prop` identifies Android 4.0.4 / IMM76I, and its system APK inventory contains `GoogleServicesFramework.apk`, but no `PrebuiltGmsCore.apk`. The image's launcher-activity inventory has no Google Settings activity.
+- The simulator already follows that absence: `simulator.js` has no Google Settings app registration or route, and the default Google folder does not contain it. `openApp` rejects unregistered apps; saved folder items are filtered against the registered app list.
+- Commit `254439c` removed the unreachable Google Settings fallback and other unused later-version screens from `stock-apps.js`. The pending audit statement that the simulator still contained this app was stale; no further app-code change is needed.
+- Both pages of the live Hungarian app drawer were checked on 2026-10-10: Google Settings is absent, while the ordinary Settings app is present and opens normally. The existing separate decision about Play Store is unaffected.
+
 ## Extra launcher apps checked against the IMM76I APKs (audit step 4) — 2026-10-06
 
 - **Navigation (Maps 6.4.0):** `DestinationActivity.onCreate` uses `da_destination_activity` on SDK 11+ (the redesign layout exists but is not used): the `da_actionBar` header (`da_action_bar_background`, #f3f3f3 to #dcdcdc between #d5d5d5 and #ababab lines) with the feature switcher (`ic_feature_navigation`, `switcher_dropdown_triangle`), "Navigation" in 16 dp bold and the Map button (`da_btn_show_map`), over Theme.Holo's black. Class `aa`'s four tiles (Speak destination, Type destination, Contacts, Starred places) use `da_action_button_normal` and the 320 dpi `da_picker_*` icons. The old white list with drawn icons is gone.
