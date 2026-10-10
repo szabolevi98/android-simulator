@@ -1,0 +1,76 @@
+{
+  "source": "Nexus 5 KTU84P",
+  "googleHome": "1.0.10.1069658",
+  "velvet": "3.3.11.1069658.arm",
+  "apkSha256": "c8f4d120ef49331c891d424f41673ecb72f83e225b18154c52857f42cb8e05f0",
+  "assets": {
+    "ic_google_small_light": {
+      "apkPath": "res/drawable-xxhdpi/ic_google_small_light.png",
+      "target": "gel-ic_google_small_light.png",
+      "size": [
+        229,
+        90
+      ],
+      "sha256": "14548c6014658870979d922023972764c8ac5a4684b264e60f8653489b7d3f18"
+    },
+    "ic_google_small_light_pressed": {
+      "apkPath": "res/drawable-xxhdpi/ic_google_small_light_pressed.png",
+      "target": "gel-ic_google_small_light_pressed.png",
+      "size": [
+        229,
+        90
+      ],
+      "sha256": "5599ec7df05111dd0862847520b3af12b7d8651aa9996a3a56e752458fdcdbb4"
+    },
+    "ic_mic_light": {
+      "apkPath": "res/drawable-xxhdpi/ic_mic_light.png",
+      "target": "gel-ic_mic_light.png",
+      "size": [
+        96,
+        96
+      ],
+      "sha256": "3f340cfee121536faea9eaa1c7792851921d411371ab6d15f704a8d98fffd8d3"
+    },
+    "search_bg_transparent": {
+      "apkPath": "res/drawable-xxhdpi/search_bg_transparent.9.png",
+      "target": "gel-search_bg_transparent.png",
+      "size": [
+        144,
+        144
+      ],
+      "sha256": "e6455ba871b258ff74316ee8c9d74e600230ed8e7ff861eb82855d415ba2fb58"
+    }
+  },
+  "dimensionsDp": {
+    "dynamic_grid_edge_margin": 6.0,
+    "dynamic_grid_icon_drawable_padding": 4.0,
+    "dynamic_grid_all_apps_cell_padding": 18.0,
+    "dynamic_grid_page_indicator_height": 24.0,
+    "search_bar_text_size": 16.0,
+    "recognizer_view_padding": 4.0,
+    "search_plate_end_gap": 8.0
+  },
+  "integers": {
+    "config_dynamic_grid_max_long_edge_cell_count": 6,
+    "config_dynamic_grid_max_short_edge_cell_count": 5,
+    "config_dynamic_grid_min_edge_cell_count": 3,
+    "config_appsCustomizeSpringLoadedBgAlpha": 65
+  },
+  "nexus5Profile": {
+    "minWidthDp": 359.0,
+    "minHeightDp": 567.0,
+    "iconDp": 60.0,
+    "textSp": 13.0
+  },
+  "drawerNativePixels": {
+    "width": 1080,
+    "height": 1704,
+    "rows": 5,
+    "columns": 4,
+    "pageBottom": 27,
+    "fontHeight": 52,
+    "contentHeight": 244,
+    "firstIconTop": 45
+  },
+  "fontSha256": "f87925e2be4c38abba7920ec54e5634f0538ba6368d758e4da300d9af12c9d27"
+}

@@ -209,6 +209,15 @@ The Nexus S simulator follows the factory image `soju-grk39f` (GRK39F). The laun
 
 ## Android 4.4.4 stock Nexus 5 launcher icons
 
+The Google Now Launcher search plate uses the original `search_bg_transparent.9.png`,
+`ic_google_small_light.png` (normal and pressed) and `ic_mic_light.png` from
+`Velvet.apk` 3.3.11.1069658.arm in the Nexus 5 KTU84P factory image, copied as
+`versions/4.4.4/assets/gel-*` by `docs/kitkat-launcher.py`. GoogleHome
+1.0.10.1069658 delegates the launcher to this APK. These assets are Google's
+artwork and trademarks, used for the historical simulator; they are not covered
+by the project's license. Resource paths and hashes are in
+`docs/kitkat-launcher-source.json`.
+
 `versions/4.4.4` shows the stock Nexus 5 (Google Now Launcher) desktop. Two sources provide the Google app icons:
 - **Google's "Android Quick Start Guide" for Android 4.4** (Copyright 2013 Google Inc.). The images embedded in the guide supply `phone.png` (Google Phone), `hangouts.png`, `gmail.png`, `photos.png`, `play-books.png`, `play-games.png`, `play-movies.png`, `play-music.png`, `calendar.png` (Google Calendar) and `google-settings.png`.
 - **[Wikimedia Commons "Nexus 5 (Android 4.4.2) Screenshot.jpg"](https://commons.wikimedia.org/wiki/File:Nexus_5_(Android_4.4.2)_Screenshot.jpg)**, labelled Apache License 2.0. It served as the layout reference for the home screen. `chrome.png` is now the xxhdpi launcher icon (`res/mipmap-xxhdpi/app_icon.png`) of the Chrome 32.0.1700.99 APK (January 2014); the earlier cut-out left wallpaper on its edges.

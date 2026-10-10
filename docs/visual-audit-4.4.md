@@ -210,6 +210,10 @@ The 4.3 camera screens therefore stay.
 
 ## Stock Nexus 5 (Google Now Launcher) — 2026-10-03
 
+The screenshot-derived search plate and video-derived all-apps spacing described
+below were replaced on 2026-10-10; see the factory-source verification at the end
+of this document.
+
 The owner chose the stock Nexus 5 experience over pure AOSP.
 
 **Step 1: desktop**
@@ -414,3 +418,41 @@ The contact editor was a fixed form (name / phone / email / company / notes). It
 - **Detail view:** lists every phone with its type and its own Call and Message buttons, every email, and the other fields. The star is `btn_star_on/off_normal_holo_dark`, and a contact photo shows in the list and the detail view.
 - **Saving:** the first phone and email stay the contact's `phone` / `email`, so Phone and Messaging keep working.
 
+
+## Google Now Launcher from KTU84P — 2026-10-10
+
+The remaining launcher audit item is complete. The source is the Nexus 5 KTU84P
+factory image: GoogleHome 1.0.10.1069658 is the entry-point stub; GEL, Launcher3,
+SearchOverlayImpl, GelSearchPlateContainer and SearchPlate are in its paired
+Velvet 3.3.11.1069658.arm APK. `docs/kitkat-launcher.py` copies its original
+xxhdpi assets and generates `versions/4.4.4/gel-factory.css`.
+`docs/kitkat-launcher-source.json` records the APK/resource paths, hashes, resource
+values, Nexus 5 profile and computed native-pixel geometry.
+
+- **Search plate:** GEL.getQsbBar uses SearchOverlayImpl and search_plate.xml,
+  rather than the generic Launcher3 qsb.xml. The background is Velvet's
+  search_bg_transparent nine-patch, with its compiled stretch regions and 12dp
+  content padding. SearchPlate.onFinishInflate / mode 11 select the light Google
+  logo and microphone. LauncherSearchButton supplies the 4dp margin and 6dp
+  left/top padding; RecognizerView has 4dp padding and a 4dp end margin. The hint
+  uses SearchPlateHotwordHint (16sp sans-serif-condensed, white, the original
+  shadow). The outer plate is 64dp high, including its transparent padding;
+  its painted surface and controls fit inside that padding. Normal and pressed
+  Google assets come from the same APK.
+- **All apps:** DynamicGrid's Nexus 5 profile is 60dp icons / 13sp labels.
+  DeviceProfile.updateIconSize gives a 4-column, 5-row grid from the 1080px width,
+  1704px usable height, 18dp minimum cell padding and 24dp indicator. Its layout
+  calculation leaves 27 native pixels beneath the page. CellLayout and
+  ShortcutAndWidgetContainer.measureChild distribute and centre the content in
+  each cell using the image's Roboto font metrics. The first icon is 45 native
+  pixels (15dp) below the status bar, replacing the estimated 28dp offset and
+  top-aligned rows. AppsCustomizeTabHost uses its own 65% black background.
+- **Validation:** 138/138 existing tests pass. Browser checks cover both app
+  pages, launching Calculator, the search and voice-search buttons, and all five
+  languages (no hint/logo overlap or clipping). No console errors. Browser
+  measurement gives a 13.73px first-row inset at the simulator's .906px/dp scale,
+  matching the factory calculation within native-pixel rounding. No other
+  Android version changed.
+
+Regenerate with `python docs/kitkat-launcher.py` (androguard, ext4, Pillow and
+fontTools; local `_aosp/hammerhead` image required).
