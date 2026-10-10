@@ -22,7 +22,6 @@
    - Search (Google Search 1.4.1, the Quick Search Box app before Google Now): "Google Search", recent queries and the
      searchable items; a search opens the Browser.
    - Voice Dialer (AOSP packages/apps/VoiceDialer): "Listening…", then "No results, try again." with its tip.
-   - Latitude (Maps 6.4): friends on the drawn map, Check in and Location history.
    All content is offline and made up. */
 (() => {
   'use strict';
@@ -526,24 +525,6 @@
           "Saviez-vous que...",
           "¿Sabías que...?"
       ],
-      "Latitude": [
-          "Koordináták",
-          "Latitude",
-          "Latitude",
-          "Latitude"
-      ],
-      "Check in": [
-          "Bejelentkezés",
-          "Check-in",
-          "Check-in",
-          "Check-in"
-      ],
-      "Location history": [
-          "Helyelőzmények",
-          "Standortverlauf",
-          "Historique Latitude",
-          "Historial de ubicaciones"
-      ],
       "Search Google Talk": [
           "Keresés a Google Csevegőben",
           "In Google Talk suchen",
@@ -640,14 +621,14 @@
   const LANGS = ['hu', 'de', 'fr', 'es'];
   // English reads the image's own text when it differs from the key (the fifth entry).
   const T = (lang, key) => { const i = LANGS.indexOf(lang); if (lang === 'en' && STRINGS[key]?.[4]) return STRINGS[key][4]; return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
-  const APPS = ['google-plus', 'talk', 'youtube', 'play-books', 'play-movies', 'search', 'voice-dialer', 'latitude'];
+  const APPS = ['google-plus', 'talk', 'youtube', 'play-books', 'play-movies', 'search', 'voice-dialer'];
   const AVATAR = 'assets/kem-ic_generic_man.png';
   const hash = text => [...String(text)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
   const COLORS = ['#3c5a8a', '#7a3a2a', '#2c6e5a', '#5a2a5e', '#8a6a2a', '#2a5a7a'];
   const art = (title, cls) => `<span class="ga-art ${cls}" style="--c:${COLORS[hash(title) % COLORS.length]}"><em>${e(title)}</em></span>`;
-  // Action bars: the framework's up caret (ic_ab_back_holo_dark, or _light on the light bars of Books and Latitude), the
+  // Action bars: the framework's up caret (ic_ab_back_holo_dark, or _light on the light bar of Books), the
   // apps' own menu icons (ga-<app>-*.png from their APKs) and the Holo overflow button.
-  const LIGHT_BARS = ['ga-books-bar', 'ga-lat-bar'];
+  const LIGHT_BARS = ['ga-books-bar'];
   const head = (cls, icon, title, actions = '', up = false) => `<header class="ga-bar ${cls}"><button class="ga-home" data-action="${up ? 'back' : 'home'}" aria-label="${e(title)}">${up ? `<img class="ga-back" src="assets/ga-fw-ic_ab_back_holo_${LIGHT_BARS.includes(cls) ? 'light' : 'dark'}.png" alt="">` : ''}<img src="assets/${icon}.png" alt=""></button><h2>${e(title)}</h2>${actions}</header>`;
   const tabs = (items, current, action) => `<nav class="ga-tabs">${items.map(([id, label]) => `<button class="${id === current ? 'on' : ''}" data-action="${action}" data-id="${e(id)}">${e(label)}</button>`).join('')}</nav>`;
   const icon = (action, label, src) => `<button class="ga-icon" data-action="${action}" aria-label="${e(label)}"><img src="assets/${src}.png" alt=""></button>`;
@@ -835,14 +816,8 @@
     return `<div class="app-view ga-app ga-voice"><h2>${e(T(lang, 'Voice Dialer'))}</h2><button class="ga-voice-mic" data-action="ga-voice-listen" aria-label="${e(T(lang, 'Listening…'))}"><img src="assets/ga-vd-ic_vd_${failed ? 'retry' : 'mic_on'}.png" alt=""></button><p>${e(T(lang, failed ? 'No results, try again.' : 'Listening…'))}</p><div class="ga-voice-tip"><b>${e(T(lang, 'Did you know…'))}</b><span>“Call Alex Morgan”, “Dial 202-555-0148”, “Open Calendar”</span></div></div>`;
   }
 
-  // ---- Latitude (Maps 6.4) ----
-  function latitude(ctx) {
-    const {lang, data} = ctx, pins = data.contacts.slice(0, 3);
-    return `<div class="app-view ga-app ga-latitude">${head('ga-lat-bar', 'latitude', T(lang, 'Latitude'), icon('ga-unsupported', T(lang, 'Check in'), 'ga-lat-actionbar_checkin'))}<div class="ga-lat-map"><svg viewBox="0 0 360 260" preserveAspectRatio="xMidYMid slice"><rect width="360" height="260" fill="#ece8df"/><path d="M-10 190c80-20 120 10 200-10s140-40 180-30v120H-10z" fill="#a9cdee"/><g stroke="#fff" stroke-width="6"><path d="M-10 90H370M120-10V270M260-10V270"/></g><path d="M-10 140C80 130 160 160 370 120" stroke="#f7d36b" stroke-width="9" fill="none"/>${pins.map((p, i) => `<g transform="translate(${80 + i * 100} ${70 + (i % 2) * 60})"><rect x="-14" y="-30" width="28" height="28" fill="#fff" stroke="#4285f4" stroke-width="2"/><text y="-11" text-anchor="middle" font-size="14" fill="#4285f4">${e(p.name.charAt(0))}</text></g>`).join('')}<circle cx="180" cy="150" r="7" fill="#4285f4" stroke="#fff" stroke-width="3"/></svg></div><div class="ga-scroll">${pins.map((p, i) => `<div class="ga-person"><img src="${AVATAR}" alt=""><span><b>${e(p.name)}</b><small>${['0.4 mi', '1.2 mi', '3 mi'][i]} · ${['5 min ago', '1 hour ago', 'Yesterday'][i]}</small></span></div>`).join('')}<button class="ga-suggest" data-action="ga-unsupported">${e(T(lang, 'Location history'))}</button></div></div>`;
-  }
-
   function render(app, ctx) {
-    return ({'google-plus': gplus, talk, youtube, 'play-books': books, 'play-movies': movies, search, 'voice-dialer': voiceDialer, latitude}[app] || (() => ''))(ctx);
+    return ({'google-plus': gplus, talk, youtube, 'play-books': books, 'play-movies': movies, search, 'voice-dialer': voiceDialer}[app] || (() => ''))(ctx);
   }
   // ctx: {data, ui, lang, account, save, render, toast, openApp, browse(query), listen()}.
   function handle(action, id, ctx) {

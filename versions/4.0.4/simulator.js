@@ -458,8 +458,8 @@
       case 'downloads': return HoloDownloads.render(dlContext());
       case 'gmail': return ICSGmail.render(gmailContext());
       case 'play-music': return ICSPlayMusic.render(playMusicContext());
-      case 'google-plus': case 'talk': case 'youtube': case 'play-books': case 'play-movies': case 'search': case 'voice-dialer': case 'latitude': return ICSGoogleApps.render(ui.view, googleAppsContext());
-      case 'maps': case 'earth': case 'news-weather': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), lang: i18n.language, locale: i18n.locale(), now: deviceDate()});
+      case 'google-plus': case 'talk': case 'youtube': case 'play-books': case 'play-movies': case 'search': case 'voice-dialer': return ICSGoogleApps.render(ui.view, googleAppsContext());
+      case 'maps': case 'latitude': case 'earth': case 'news-weather': return StockApps.render(ui.view, {ui, data, t: key => i18n.t(key), lang: i18n.language, locale: i18n.locale(), now: deviceDate()});
       case 'messenger': case 'navigation': case 'local': case 'movie-studio': if (ui.view === 'navigation' && ui.navRun) return MapsRoute.nav(mrContext()); return JBExtraApps.render(ui.view, {ui, t: key => i18n.t(key), contacts: data.contacts});
       case 'phone': return renderPhone();
       case 'people': return renderPeople();
@@ -1175,12 +1175,12 @@
     if (ui.view === 'gmail' && action.startsWith('g4-') && ICSGmail.handle(action, id, gmailContext())) return;
     if (ui.view === 'email' && action.startsWith('email-') && ICSEmail.handle(action, id, emailContext())) return;
     // Maps, Earth, News & Weather and the simple extras.
-    if (['maps', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio'].includes(ui.view)) {
+    if (['maps', 'latitude', 'earth', 'news-weather', 'messenger', 'navigation', 'local', 'movie-studio'].includes(ui.view)) {
       if (action === 'jbx-menu') { ui.overlay = 'jbx-menu'; renderOverlay(); return; }
       if (action === 'sa-unsupported' || action === 'kkx-unavailable') { ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); return; }
       if (action === 'maps-switcher' || action === 'maps-layers') { ui.mapsMenu = action === 'maps-switcher' ? 'switcher' : 'layers'; ui.overlay = 'sa-menu'; renderOverlay(); return; }
       if (action === 'maps-places') { openApp('local'); return; }
-      if (action === 'maps-feature') { ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); if (id === 'local' || id === 'navigation') openApp(id); else { data.mapsLayer = id === 'traffic' ? 'traffic' : ''; save(); render(); } return; }
+      if (action === 'maps-feature') { ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); if (id === 'local' || id === 'navigation' || id === 'latitude' && ui.view !== 'latitude') openApp(id); else if (id === 'map' && ui.view === 'latitude') openApp('maps'); else if (id !== 'latitude') { data.mapsLayer = id === 'traffic' ? 'traffic' : ''; save(); render(); } return; }
       if (action === 'maps-layer') { ui.overlay = ''; ui.mapsMenu = ''; renderOverlay(); data.mapsLayer = data.mapsLayer === id ? '' : id; save(); render(); return; }
       if (action === 'maps-clear') { ui.overlay = ''; renderOverlay(); ui.mapsQuery = ''; ui.mapsSearching = false; data.mapsLayer = ''; save(); render(); return; }
       if (action === 'maps-zoom') { const map = viewport.querySelector('.sa-maps6-map .sa-map'); if (map) { ui.mapsZoom = Math.max(1, Math.min(3, (ui.mapsZoom || 1) * (Number(id) > 0 ? 1.4 : 1 / 1.4))); map.style.transform = `scale(${ui.mapsZoom})`; } return; }

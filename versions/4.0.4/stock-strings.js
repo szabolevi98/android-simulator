@@ -388,6 +388,18 @@ window.StockStrings = {
    "Westen",
    "ouest",
    "oeste"
+  ],
+  "Latitude": [
+   "Koordináták",
+   "Latitude",
+   "Latitude",
+   "Latitude"
+  ],
+  "Find family & friends": [
+   "Családtagok és ismerősök keresése",
+   "Familie & Freunde finden",
+   "Trouvez les membres de votre famille et vos amis",
+   "Buscar familiares y amigos"
   ]
  },
  "news": {

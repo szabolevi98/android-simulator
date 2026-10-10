@@ -177,9 +177,6 @@
 .ga-voice-tip{display:flex;flex-direction:column;gap:4px;max-width:80%;margin-top:20px;color:#999;font-size:11.9px}
 .ga-voice-tip b{color:#ddd}
 /* Latitude (Maps 6.4). */
-.ga-lat-bar{background:#f3f3f3;border-bottom:1.7px solid #d9d9d9}
-.ga-lat-map{flex:none;height:45%}
-.ga-lat-map svg{width:100%;height:100%;display:block}
 /* Play Books 2.3.6 reader settings (1 dp = 0.85 px). The typefaces ship in BooksTablet.apk (assets/fonts); night is
    override.css's #000 / #fff; the window brightness dims the whole screen. */
 @font-face{font-family:'GA BK Merriweather';src:url('assets/ga-bk-23-Merriweather.ttf')}

@@ -7,7 +7,7 @@ const GLYPHS=/[←-⇿⌀-⏿─-➿⤀-⯿\u{1F300}-\u{1FAFF}]/u;
 const screens=[
   ['youtube',{}],['youtube',{gaYtTab:'Browse'}],['youtube',{gaYtTab:'Account'}],['youtube',{gaSub:'watch',gaVideo:'v1'}],['youtube',{gaSub:'watch',gaVideo:'v1',gaYtWatchTab:'related'}],
   ['google-plus',{}],['google-plus',{gaSub:'stream'}],['talk',{}],['talk',{gaSub:'chat',gaChat:1}],['play-books',{}],['play-books',{gaSub:'read'}],
-  ['play-movies',{}],['play-movies',{gaMoviesTab:'personal'}],['search',{}],['voice-dialer',{}],['voice-dialer',{gaVoice:'failed'}],['latitude',{}]
+  ['play-movies',{}],['play-movies',{gaMoviesTab:'personal'}],['search',{}],['voice-dialer',{}],['voice-dialer',{gaVoice:'failed'}]
 ];
 for(const [view,ui] of screens){
   const html=G.render(view,base(view,ui));

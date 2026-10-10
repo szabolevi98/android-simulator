@@ -2047,7 +2047,9 @@
    "Cancel": "Maps:da_dialog_cancel",
    "Avoid tolls": "Maps:da_avoid_tolls",
    "east": "Maps:da_direction_east",
-   "west": "Maps:da_direction_west"
+   "west": "Maps:da_direction_west",
+   "Latitude": "Maps:LATITUDE_APP_NAME",
+   "Find family & friends": "Maps:FEATURE_SWITCHER_LATITUDE_SUBTITLE"
   },
   "news": {
    "News & Weather": "GenieWidget:app_name",

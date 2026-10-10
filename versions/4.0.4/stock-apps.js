@@ -63,12 +63,19 @@
   // the feature switcher (FEATURE_SWITCHER_*: Map, Local, Latitude, GPS navigation, Traffic); the map carries the
   // my-location button (btn_myl_normal) and the zoom controls (btn_zoom_up / _down_normal). Layers toggles the map's
   // Traffic / Satellite / Terrain / Bicycling look.
+  /* Latitude (LatitudeActivity, a translucent trampoline into MapsActivity): the same map under map_view_latitude.xml,
+     whose bar holds the prev / next friend arrows (ic_menu_prev_normal / ic_menu_next_normal, 240 dpi v14) and whose
+     never items fill the overflow (Clear map, Directions, Layers, Settings, Help). Its "list" item has no icon and
+     takes its title from Maps' server-side text bundle, so it is left out; the friends are server data too, so the
+     demo account's map shows only its own location. The title opens the same feature switcher. */
   function maps(ctx) {
     // Directions: the input panel and the route list of maps-route.js.
     if (window.MapsRoute?.has(ctx.ui)) return MapsRoute.render({...ctx, bar: o => bar(ctx, o)});
     const q = ctx.ui.mapsQuery || '', searching = ctx.ui.mapsSearching || q, mp = key => S(ctx, 'maps', key), layer = ctx.data.mapsLayer || '';
-    const actions = img('maps-search-open', mp('Search'), 'mp6-ic_menu_search.png') + img('mr-open', mp('Directions'), 'mp6-ic_menu_directions.png') + img('maps-places', mp('Local'), 'mp6-ic_menu_places.png') + img('maps-layers', mp('Layers'), 'mp6-ic_menu_layers.png') + btn('sa-menu', ctx.t('More options'), 'overflow');
-    const head = bar(ctx, {title: mp('Maps'), icon: 'maps.png', actions}).replace('<span class="sa-title">', '<span class="sa-title sa-maps6-switcher" data-action="maps-switcher" role="button">');
+    const lat = ctx.latitude;
+    const actions = lat ? img('sa-unsupported', 'Previous', 'mp6-ic_menu_prev_normal.png') + img('sa-unsupported', 'Next', 'mp6-ic_menu_next_normal.png') + btn('sa-menu', ctx.t('More options'), 'overflow')
+      : img('maps-search-open', mp('Search'), 'mp6-ic_menu_search.png') + img('mr-open', mp('Directions'), 'mp6-ic_menu_directions.png') + img('maps-places', mp('Local'), 'mp6-ic_menu_places.png') + img('maps-layers', mp('Layers'), 'mp6-ic_menu_layers.png') + btn('sa-menu', ctx.t('More options'), 'overflow');
+    const head = bar(ctx, {title: mp(lat ? 'Latitude' : 'Maps'), icon: lat ? 'latitude.png' : 'maps.png', actions}).replace('<span class="sa-title">', '<span class="sa-title sa-maps6-switcher" data-action="maps-switcher" role="button">');
     return `<div class="app-view sa-app sa-maps sa-maps6">${head}<div class="sa-maps6-map${layer ? ' layer-' + layer : ''}">${mapSvg(ctx)}${window.MapsRoute?.banner(ctx) || ''}<button class="sa-maps6-myl" data-action="maps-locate" aria-label="My Location"><img src="assets/mp6-btn_myl_normal.png" alt=""></button><span class="sa-maps6-zoom"><button data-action="maps-zoom" data-id="1" aria-label="+"><img src="assets/mp6-btn_zoom_up_normal.png" alt=""></button><button data-action="maps-zoom" data-id="-1" aria-label="-"><img src="assets/mp6-btn_zoom_down_normal.png" alt=""></button></span></div>${searching ? `<form class="sa-maps6-search" data-form="maps-search"><input name="query" autocomplete="off" placeholder="${e(mp('Search Maps'))}" aria-label="${e(mp('Search Maps'))}" value="${e(q)}"></form>` : ''}${q ? `<div class="sa-maps-card"><b>${e(q)}</b><small>${e(ctx.t('0.8 mi · 4 min drive'))}</small>${img('mr-open', mp('Directions'), 'mp6-ic_menu_directions.png').replace('data-action="mr-open"', `data-action="mr-open" data-id="${e(q)}"`)}</div>` : ''}</div>`;
   }
 
@@ -163,15 +170,16 @@
     return `<div class="app-view sa-app sa-news"><nav class="nw-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${e(id)}"${id === 'Weather' || standard.includes(id) ? '' : ' data-no-translate'}>${e(id === 'Weather' ? n('Weather') : standard.includes(id) ? ctx.t(id) : id)}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
   }
 
-  const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
+  const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, latitude: ctx => maps({...ctx, latitude: true}), drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
   function render(app, ctx) { return (APPS[app] || google)(ctx); }
   const SIMPLE = ['google-search', 'voice-search', 'maps', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings'];
   const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, jelly beans', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
   // The overflow of the screen on show. GenieWidget 1.3.04 (IMM76I) res/menu/main_menu.xml: Refresh and Settings have no showAsAction, so both sit in the overflow.
   function menu(view, ctx) {
-    if (view === 'maps') {
+    if (view === 'latitude' && ctx.ui?.mapsMenu !== 'switcher') return [{action: 'maps-clear', title: S(ctx, 'maps', 'Clear map')}, {action: 'mr-open', title: S(ctx, 'maps', 'Directions')}, {action: 'maps-layers', title: S(ctx, 'maps', 'Layers')}, {action: 'sa-unsupported', title: S(ctx, 'maps', 'Settings')}, {action: 'sa-unsupported', title: S(ctx, 'maps', 'Help')}];
+    if (view === 'maps' || view === 'latitude') {
       const mp = key => S(ctx, 'maps', key);
-      if (ctx.ui?.mapsMenu === 'switcher') return [{action: 'maps-feature', id: 'map', title: mp('Map')}, {action: 'maps-feature', id: 'local', title: `${mp('Local')} — ${mp('Find restaurants, bars & more')}`}, {action: 'maps-feature', id: 'navigation', title: mp('GPS navigation')}, {action: 'maps-feature', id: 'traffic', title: mp('Traffic')}];
+      if (ctx.ui?.mapsMenu === 'switcher') return [{action: 'maps-feature', id: 'map', title: mp('Map')}, {action: 'maps-feature', id: 'local', title: `${mp('Local')} — ${mp('Find restaurants, bars & more')}`}, {action: 'maps-feature', id: 'latitude', title: `${mp('Latitude')} — ${mp('Find family & friends')}`}, {action: 'maps-feature', id: 'navigation', title: mp('GPS navigation')}, {action: 'maps-feature', id: 'traffic', title: mp('Traffic')}];
       if (ctx.ui?.mapsMenu === 'layers') return [['traffic', 'Traffic'], ['satellite', 'Satellite'], ['terrain', 'Terrain'], ['bicycling', 'Bicycling']].map(([id, key]) => ({action: 'maps-layer', id, title: mp(key)})).concat([{action: 'maps-layer', id: '', title: mp('Clear map')}]);
       return [{action: 'maps-clear', title: mp('Clear map')}, {action: 'sa-unsupported', title: mp('Settings')}, {action: 'sa-unsupported', title: mp('Help')}];
     }
