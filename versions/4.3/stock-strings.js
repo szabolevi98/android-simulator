@@ -2926,6 +2926,66 @@ window.StockStrings = {
    "Personen hinzufügen",
    "Ajouter des contacts",
    "Añadir personas"
+  ],
+  "People & options": [
+   "Személyek és beállítások",
+   "Personen & Optionen",
+   "Participants et options",
+   "Usuarios y opciones"
+  ],
+  "New Hangout": [
+   "Új Hangout",
+   "Neuer Hangout",
+   "Nouveau Hangout",
+   "Nuevo Hangout"
+  ],
+  "Video call": [
+   "Videohívás",
+   "Videoanruf",
+   "Appel vidéo",
+   "Videollamada"
+  ],
+  "Camera": [
+   "Kamera",
+   "Kamera",
+   "Appareil photo",
+   "Cámara"
+  ],
+  "Send a message": [
+   "Üzenet küldése",
+   "Nachricht senden",
+   "Envoyer un message",
+   "Enviar un mensaje"
+  ],
+  "Type a name, email, number, or circle": [
+   "Írjon be egy nevet, e-mail címet, számot vagy kört",
+   "Namen, E-Mail-Adresse, Telefonnummer oder einen Kreis eingeben",
+   "Saisir un nom, un e-mail, un numéro ou un cercle",
+   "Escribe un nombre, un correo, un número o un círculo"
+  ],
+  "Take photo": [
+   "Fotó készítése",
+   "Foto machen",
+   "Prendre une photo",
+   "Hacer una foto"
+  ],
+  "Google+ photos": [
+   "Google+-fotók",
+   "Google+ Fotos",
+   "Photos Google+",
+   "Fotos de Google+"
+  ],
+  "Other photos": [
+   "Egyéb fotók",
+   "Weitere Fotos",
+   "Autres photos",
+   "Otras fotos"
+  ],
+  "Send": [
+   "Küldés",
+   "Senden",
+   "Envoyer",
+   "Enviar"
   ]
  },
  "gmail": {

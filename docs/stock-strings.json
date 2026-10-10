@@ -512,7 +512,17 @@
    "Settings": "Hangouts:realtimechat_settings_menu_item_text",
    "Send feedback": "Hangouts:home_menu_feedback",
    "Help": "Hangouts:realtimechat_help_menu_item_text",
-   "Add people": "Hangouts:realtimechat_conversation_invite_menu_item_text"
+   "Add people": "Hangouts:realtimechat_conversation_invite_menu_item_text",
+   "People & options": "Hangouts:menu_show_participants_and_options",
+   "New Hangout": "Hangouts:realtimechat_new_conversation_menu_item_text",
+   "Video call": "Hangouts:realtimechat_start_hangout_button",
+   "Camera": "Hangouts:realtimechat_camera",
+   "Send a message": "Hangouts:realtimechat_message_text_hint",
+   "Type a name, email, number, or circle": "Hangouts:realtimechat_new_conversation_hint_text",
+   "Take photo": "Hangouts:menu_take_camera_photo",
+   "Google+ photos": "Hangouts:menu_choose_photo_from_gplus",
+   "Other photos": "Hangouts:menu_choose_photo_from_gallery",
+   "Send": "Hangouts:realtimechat_send_button_text"
   },
   "gmail": {
    "Primary": "Gmail2:label_inbox_section_personal",
