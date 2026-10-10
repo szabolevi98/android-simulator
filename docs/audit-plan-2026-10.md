@@ -169,7 +169,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 
 **C) Régebbi verzió öröksége – ellenőrizni**
 
-- [ ] Névjegyek listája és részletei 4.3 / 4.4.4: „ICS-ihletésű” renderelő (~1–2 óra)
+- [x] Névjegyek listája és részletei 4.3 / 4.4.4: „ICS-ihletésű” renderelő (~1–2 óra) — 8d98b5c: a menük már a menü-XML-ekből jöttek; a sorok és szakaszfejlécek a PeopleTheme-ből, a fénykép oldala a dexből (4.3 jobbra, 4.4 balra)
 - [ ] Óra 4.3 / 4.4.4: az ébresztőlista és -szerkesztő ICS-ihletésű; 5.1.1: JB/KK DeskClock-váz a 3.0.4 alatt (~2 óra)
 - [ ] 4.4.4: értesítési panel, zárolóképernyő, Helyhozzáférés és Álmodozás a 4.3-ból maradt (~2 óra)
 - [ ] 5.1.1: a Telefon az AOSP Dialerből (a képben GoogleDialer 2.1), az E-mail alapja AOSP 4.4 UnifiedEmail (~1 óra ellenőrzés)
@@ -348,3 +348,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-10 | 9. lépés: 4.0.4 News & Weather az 1.3.04 szerint ellenőrizve | df5af84 |
 | 2026-10-10 | 9. lépés: Számológép 4.0.4 / 4.4.4 a Calculator.apk szerint | 7559ce1 |
 | 2026-10-10 | 9. lépés: settings-detail.js 4.0.4–5.1.1 a képek Settings-szövegeivel | 1de8ff2 |
+| 2026-10-10 | 9. lépés: Névjegyek 4.3 / 4.4.4 sorai a Contacts témájából és kódjából | 8d98b5c |
