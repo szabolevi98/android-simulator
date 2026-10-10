@@ -150,7 +150,8 @@
 .lpdc-fab{width:50.74px;height:50.74px;border:0;border-radius:50%;padding:0;background:#ff4081;display:grid;place-items:center;box-shadow:0 3.6px 9px #00000059;transition:transform .2s,box-shadow .2s}
 .lpdc-fab:active{box-shadow:0 7.2px 14px #00000066}
 .lpdc-fab:disabled{opacity:0;transform:scale(.6);pointer-events:none}
-.lpdc-fab img{width:21.74px;height:21.74px}
+/* desk_clock.xml's fab: scaleType center, so ic_fab_* (and the clock page's ic_globe) draw at their 56 dp canvas. */
+.lpdc-fab img{width:50.74px;height:50.74px}
 .lpdc-side{width:43.49px;height:43.49px;border:0;border-radius:50%;background:none;display:grid;place-items:center;padding:0}
 .lpdc-side img{width:21.74px;height:21.74px}
 .lpdc .jbclock-footer,.lpdc .kdc-footer,.lpdc .jbclock-center,.lpdc .jbclock-corner{display:none!important}

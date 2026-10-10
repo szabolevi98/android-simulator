@@ -1,4 +1,5 @@
-/* Android 4.2/4.3 DeskClock: Timer | Clock | Stopwatch pages (DeskClock, TimerFragment, StopwatchFragment). */
+/* Android 5.1 DeskClock 3.0.4 (DeskClockGoogle, LMY48Y): Alarm | Clock | Timer | Stopwatch pages over the hour colour,
+   desk_clock.xml's footer (left button, the 56 dp hot_pink fab, right button), world clock and alarm cards. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
