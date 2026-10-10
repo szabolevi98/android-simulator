@@ -178,7 +178,7 @@
   const icon = name => `<img src="assets/gm5-${name}.png" alt="">`;
   const act = (action, label, name, id = '') => `<button type="button" class="lem-act" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${icon(name)}</button>`;
   const overflow = (menu, dark = false) => `<button type="button" class="lem-act${dark ? ' dark' : ''}" data-action="email-menu" data-id="${menu}" aria-label="More options">${icon('ic_overflow_24dp')}</button>`;
-  const FOLDER_ICONS = {Inbox: 'inbox', Primary: 'primary', Social: 'social', Promotions: 'promotions', 'Priority Inbox': 'priority', Starred: 'starred', Important: 'important', Chats: 'allmail', Sent: 'sent', Outbox: 'outbox', Drafts: 'drafts', 'All mail': 'allmail', Spam: 'spam', Trash: 'trash'};
+  const FOLDER_ICONS = {Inbox: 'inbox', Primary: 'primary', Social: 'social', Promotions: 'promotions', Updates: 'updates', Forums: 'forums', 'Priority Inbox': 'priority', Starred: 'starred', Important: 'important', Chats: 'allmail', Sent: 'sent', Outbox: 'outbox', Drafts: 'drafts', 'All mail': 'allmail', Spam: 'spam', Trash: 'trash'};
   function render(mail, ui, t, locale, lang, opts = {}) {
     const T = key => { const v = window.KKEmail.tr(lang, key); return v !== key ? v : t(key); }, account = opts.account || window.ICSEmail.account;
     const theme = THEMES[opts.app || 'email'];

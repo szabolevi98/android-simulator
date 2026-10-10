@@ -137,25 +137,10 @@
 .lem-star img{width:18.12px;height:18.12px}
 .lem-star[aria-pressed=false] img{filter:brightness(0);opacity:.26}
 .lem-row+.lem-row::before{content:'';position:absolute;left:65.23px;right:0;top:0;height:.906px;background:#0000000f}
-.gm-caret{width:9px;height:auto;margin-right:2px;align-self:center}
 .lem-empty{margin:43.49px 14.5px;text-align:center;font:400 14.5px Roboto,sans-serif;color:#757575}
 .lem-fab{position:absolute;right:14.5px;bottom:14.5px;z-index:4;width:50.74px;height:50.74px;border:0;border-radius:50%;padding:0;background:var(--lem);display:grid;place-items:center;box-shadow:0 3.6px 9px #0000004d}
 .lem-fab:active{background:var(--lem-dark)}
 .lem-fab img{width:21.74px;height:21.74px}
-/* Gmail 5 folder teasers at the top of Primary */
-.gm-categories:empty{display:none}
-.gm-categories{border-bottom:.906px solid #0000001f}
-.screen .gm-category{display:flex;align-items:center;gap:14.5px;width:100%;min-height:57.98px;border:0;background:#fff;padding:7.25px 14.5px;text-align:left;color:#212121}
-.gm-cat-icon{flex:none;width:36.24px;height:36.24px;border-radius:50%;background:#eee;position:relative;-webkit-mask:none;mask:none}
-.gm-cat-icon{background-color:transparent;-webkit-mask-size:21.74px;mask-size:21.74px;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-.gm-cat-icon.gm-social{background-color:#4285f4}
-.gm-cat-icon.gm-promotions{background-color:#0f9d58}
-.gm-cat-copy{flex:1;min-width:0;display:flex;flex-direction:column}
-.gm-cat-copy b{font:400 14.5px Roboto,sans-serif;color:#212121}
-.gm-cat-copy small{font:400 12.68px Roboto,sans-serif;color:#757575;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gm-category em{flex:none;font:500 10.87px Roboto,sans-serif;font-style:normal;padding:3px 7px;border-radius:2px;color:#fff}
-.gm-category em.gm-social{background:#4285f4}
-.gm-category em.gm-promotions{background:#0f9d58}
 /* Drawer */
 .lem-drawer-scrim{position:absolute;inset:var(--sb) 0 var(--nb);z-index:30;background:#00000080;animation:lp-fade .2s both}
 .lem-drawer{position:absolute;left:0;top:var(--sb);bottom:var(--nb);z-index:31;width:239.18px;overflow-y:auto;background:#fff;box-shadow:0 0 14.5px #00000059;animation:lem-drawer-in .25s cubic-bezier(0,0,.2,1) both;scrollbar-width:none;padding-bottom:7.25px}
@@ -176,7 +161,6 @@
 /* Conversation */
 .lem-subject{display:flex;align-items:flex-start;padding:14.5px 0 7.25px 14.5px}
 .lem-subject h2{flex:1;min-width:0;margin:6px 0 0;font:400 18.12px/1.35 Roboto,sans-serif;color:#212121}
-.gm-chip{display:inline-block;margin-left:7.25px;padding:1px 5px;border-radius:2px;background:#eee;font:400 10.87px Roboto,sans-serif;color:#666;vertical-align:middle}
 .lem-conv-star{flex:none;width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center;padding:0}
 .lem-conv-star img{width:18.12px;height:18.12px}
 .lem-conv-star[aria-pressed=false] img{filter:brightness(0);opacity:.26}
