@@ -1245,6 +1245,21 @@
    "%d New one": "Gmail2:@plurals/sectioned_inbox_teaser_unseen_plural_text:one",
    "%d New": "Gmail2:@plurals/sectioned_inbox_teaser_unseen_plural_text:other",
    "%d unread": "Gmail2:@plurals/actionbar_unread_messages:other"
+  },
+  "calculator": {
+   "DELETE": "Calculator:del",
+   "CLR": "Calculator:clear",
+   "sin": "Calculator:sin",
+   "cos": "Calculator:cos",
+   "tan": "Calculator:tan",
+   "ln": "Calculator:ln",
+   "log": "Calculator:lg",
+   "e": "Calculator:e",
+   "Clear history": "Calculator:clear_history",
+   "Basic panel": "Calculator:basic",
+   "Advanced panel": "Calculator:advanced",
+   "Error": "Calculator:error",
+   "delete": "Calculator:delDesc"
   }
  },
  "5.1.1": {
@@ -2201,6 +2216,20 @@
    "switch_to_camera_label": "CameraGoogle:switch_to_camera_label",
    "switch_to_video_label": "CameraGoogle:switch_to_video_label",
    "switch_to_panorama_label": "CameraGoogle:switch_to_panorama_label"
+  },
+  "calculator": {
+   "DELETE": "Calculator:del",
+   "CLR": "Calculator:clear",
+   "sin": "Calculator:sin",
+   "cos": "Calculator:cos",
+   "tan": "Calculator:tan",
+   "ln": "Calculator:ln",
+   "log": "Calculator:lg",
+   "e": "Calculator:e",
+   "Clear history": "Calculator:clear_history",
+   "Basic panel": "Calculator:basic",
+   "Advanced panel": "Calculator:advanced",
+   "Error": "Calculator:error"
   }
  }
 }

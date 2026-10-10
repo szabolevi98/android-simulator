@@ -387,18 +387,18 @@
 /* Calculator portrait XML: display 3, delete row 1.5, paged keys 10. */
 .ics-calculator{height:100%;display:flex;flex-direction:column;background:#000;color:#fff;overflow:hidden}
 .ics-calc-display{flex:3;min-height:0;display:flex;align-items:center}
-.ics-calc-display output{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;text-align:right;padding:8px;font-size:30px;scrollbar-width:none}
-.ics-calc-display>button{width:40px;height:100%;flex:none;background:none;border:0;padding:4px}
+.ics-calc-display output{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;text-align:right;padding:7.2px 7.2px 0;font-size:27px;scrollbar-width:none}
+.ics-calc-display>button{width:43.2px;height:100%;flex:none;margin-left:7.2px;background:none;border:0;padding:4px}
 .ics-calc-display img{width:32px;height:32px}
 .ics-calc-delete{flex:1.5;min-height:0;display:grid;grid-template-columns:3fr 1fr;gap:1px}
 .ics-calc-delete>span,.ics-calc-delete>button,.ics-calc-grid button{background:transparent;border-style:solid;border-color:transparent;border-width:4px 5.33px 4px 6.67px;border-image:url('assets/calc-btn_keyboard_key_dark_normal_holo.png') 6 8 6 10 fill stretch;color:#fff;border-radius:0}
-.ics-calc-delete>button{font-size:15px}
+.ics-calc-delete>button{font-size:13.5px}
 .calc-pager{flex:10;min-height:0;overflow:hidden;touch-action:none}
 .calc-panels{height:100%;width:200%;display:flex;transition:transform 180ms ease-out}
 .ics-calc-grid{width:50%;height:100%;flex:none;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);column-gap:1px}
 .ics-calc-grid.scientific{grid-template-columns:repeat(3,1fr)}
-.ics-calc-grid button{font-size:34px;font-weight:400;padding:0;min-width:0}
-.ics-calc-grid.scientific button{font-size:28px}
+.ics-calc-grid button{font-size:36px;font-weight:400;padding:0;min-width:0}
+.ics-calc-grid button.small{font-size:27px}
 .ics-calc-grid button.digit{border-image-source:url('assets/calc-btn_keyboard_key_light_normal_holo.png')}
 .ics-calc-delete>button:active,.ics-calc-grid button:active{border-image-source:url('assets/calc-btn_keyboard_key_dark_pressed_holo.png')}
 .ics-calc-grid button.digit:active{border-image-source:url('assets/calc-btn_keyboard_key_light_pressed_holo.png')}

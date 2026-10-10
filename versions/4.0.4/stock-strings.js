@@ -1299,5 +1299,79 @@ window.StockStrings = {
    "Cambiar a modo panorámico",
    "Switch to panorama"
   ]
+ },
+ "calculator": {
+  "DELETE": [
+   "TÖRLÉS",
+   "Entfernen",
+   "SUPPRIMER",
+   "BORRAR"
+  ],
+  "CLR": [
+   "Törlés",
+   "Entfernen",
+   "EFF.",
+   "BORRAR"
+  ],
+  "sin": [
+   "sin",
+   "sin",
+   "sin",
+   "sen"
+  ],
+  "cos": [
+   "cos",
+   "cos",
+   "cos",
+   "cos"
+  ],
+  "tan": [
+   "tan",
+   "tan",
+   "tan",
+   "tan"
+  ],
+  "ln": [
+   "ln",
+   "ln",
+   "ln",
+   "ln"
+  ],
+  "log": [
+   "log",
+   "log",
+   "log",
+   "log"
+  ],
+  "e": [
+   "e",
+   "e",
+   "E",
+   "e"
+  ],
+  "Clear history": [
+   "Előzmények törlése",
+   "Verlauf löschen",
+   "Effacer l'historique",
+   "Borrar historial"
+  ],
+  "Basic panel": [
+   "Alappanel",
+   "Grundfunktionen",
+   "Panneau de base",
+   "Funciones básicas"
+  ],
+  "Advanced panel": [
+   "Speciális panel",
+   "Erweiterte Funktionen",
+   "Fonctions avancées",
+   "Funciones avanzadas"
+  ],
+  "Error": [
+   "Hiba",
+   "Fehler",
+   "Erreur",
+   "Error"
+  ]
  }
 };

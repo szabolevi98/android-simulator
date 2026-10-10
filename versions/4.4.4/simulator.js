@@ -869,7 +869,7 @@
       // The Google apps' action bar overflow (StockApps.menu: their menu XML's overflow items).
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${StockApps.menu(ui.view, {ui, data, t: key => i18n.t(key), locale: i18n.locale(), now: deviceDate()}).map(item => `<button data-action="${item.action}"${item.id != null ? ` data-id="${safe(item.id)}"` : ''}>${safe(item.title)}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'calc-menu') {
-      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">Clear history</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${ui.calcPanel ? 'Basic panel' : 'Advanced panel'}</button></div>`;
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="calc-clear">${safe(CALC('Clear history'))}</button><button data-action="calc-panel" data-id="${ui.calcPanel ? 0 : 1}">${safe(CALC(ui.calcPanel ? 'Basic panel' : 'Advanced panel'))}</button></div>`;
     } else if (ui.overlay === 'phone-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu phone-overflow"><button data-action="phone-add-contact">Add to contacts</button></div>`;
     } else if (ui.overlay === 'connectivity-menu') {
@@ -1409,11 +1409,18 @@
     ui.ringingAlarm=clone(alarm); save(); ui.overlay='clock-ringing'; renderOverlay();
   }
 
+  /* Calculator (KTU84P Calculator.apk), layout-port/main.xml: the display (display_style: 30 sp, 8 dp padding) with the
+     overflow_menu button (48 dp, shown as the phone has no menu key), the btn_function strip with CLR / DELETE (15 dp,
+     minWidth 89 dp, delDesc as its description) at its end, and the CalculatorViewPager's simple_pad.xml / advanced_pad.xml (weights 3 : 1.5 : 10). button_style 40 dp on
+     btn_function, digit_button_style on btn_digit, button_small_style 30 dp for sin, cos, tan, ln and log; 1 dp gaps. The
+     labels are the image's (strings.xml: "sen" in Spanish, "E" in French). */
+  const CALC = key => { const row = window.StockStrings?.calculator?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
   function renderCalculator() {
     const basic = ['7','8','9','÷','4','5','6','×','1','2','3','−','.','0','=','+'];
-    const advanced = ['sin','cos','tan','ln','log','!','π','e','^','(',')','√'];
-    const keys = (items, scientific = false) => items.map(key => `<button class="${!scientific && /^[0-9.]$/.test(key) ? 'digit' : 'function'}" data-action="calc-key" data-id="${key}">${key}</button>`).join('');
-    return `<div class="app-view"><div class="ics-calculator"><div class="ics-calc-display"><output aria-label="Calculator display">${safe(ui.calc)}</output><button data-action="calc-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div><div class="ics-calc-delete"><span></span><button data-action="calc-key" data-id="${ui.calcFresh ? 'C' : '⌫'}" aria-label="${ui.calcFresh ? 'Clear' : 'Delete'}">${ui.calcFresh ? 'CLR' : 'DELETE'}</button></div><div class="calc-pager"><div class="calc-panels" style="transform:translateX(-${ui.calcPanel * 50}%)"><div class="ics-calc-grid" aria-label="Basic panel" ${ui.calcPanel ? 'inert' : ''}>${keys(basic)}</div><div class="ics-calc-grid scientific" aria-label="Advanced panel" ${ui.calcPanel ? '' : 'inert'}>${keys(advanced,true)}</div></div></div></div></div>`;
+    const advanced = ['sin','cos','tan','ln','log','!','π','e','^','(',')','√'], small = ['sin','cos','tan','ln','log'];
+    const label = key => ['sin','cos','tan','ln','log','e'].includes(key) ? CALC(key) : key;
+    const keys = items => items.map(key => `<button class="${/^[0-9.]$/.test(key) ? 'digit' : small.includes(key) ? 'function small' : 'function'}" data-action="calc-key" data-id="${key}">${safe(label(key))}</button>`).join('');
+    return `<div class="app-view"><div class="ics-calculator"><div class="ics-calc-display"><output aria-label="Calculator display">${safe(ui.calc === 'Error' ? CALC('Error') : ui.calc)}</output><button data-action="calc-menu" aria-label="More options"><img src="assets/ic_menu_overflow.png" alt=""></button></div><div class="ics-calc-delete"><span></span><button data-action="calc-key" data-id="${ui.calcFresh ? 'C' : '⌫'}" aria-label="${safe(ui.calcFresh ? CALC('CLR') : CALC('delete'))}">${safe(CALC(ui.calcFresh ? 'CLR' : 'DELETE'))}</button></div><div class="calc-pager"><div class="calc-panels" style="transform:translateX(-${ui.calcPanel * 50}%)"><div class="ics-calc-grid" aria-label="${safe(CALC('Basic panel'))}" ${ui.calcPanel ? 'inert' : ''}>${keys(basic)}</div><div class="ics-calc-grid scientific" aria-label="${safe(CALC('Advanced panel'))}" ${ui.calcPanel ? '' : 'inert'}>${keys(advanced)}</div></div></div></div></div>`;
   }
   function setCalculatorPanel(index) {
     ui.calcPanel = index;
