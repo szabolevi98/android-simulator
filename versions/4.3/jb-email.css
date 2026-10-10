@@ -59,12 +59,17 @@
 .kem-subject{display:flex;align-items:flex-start;gap:7.52px;padding:13.63px 7.52px 10.22px 15.32px;background:#fff}
 .kem-subject h2{flex:1;margin:0;font:400 15.33px/1.3 RobotoICS,Arial,sans-serif;color:#58585b}
 .kem-message{margin:0 6.81px 6.81px;background:#fff;box-shadow:0 1px 1px #0002}
-.kem-msg-head{display:flex;align-items:center;gap:8.46px;padding:6.81px 0 6.81px 6.81px;border-top:1px solid #ebebeb}
+.kem-msg-head{display:flex;align-items:stretch;height:40.88px;background:#33b5e5}
 .kem-msg-head .kem-tile{flex:none;width:40.88px;height:40.88px}
-.kem-msg-who{flex:1;min-width:0;display:flex;flex-direction:column}
-.kem-msg-who b{font:700 13.63px RobotoBoldJB,Arial,sans-serif;color:#58585b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kem-msg-who small,.kem-msg-date{font:400 11.07px RobotoICS,Arial,sans-serif;color:#a6a8ab;white-space:nowrap}
-.screen .kem-msg-act{flex:none;width:33.84px;height:40.88px;padding:0;border:0;background:none;cursor:pointer}
+.kem-msg-spacer{flex:none;width:.85px;background:#fff}
+.kem-msg-who{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;margin-right:13.63px;padding-left:6.81px}
+.kem-msg-who b{font:700 13.63px RobotoBoldJB,Arial,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kem-msg-who small{margin-top:-1.7px;font:400 11.92px RobotoICS,Arial,sans-serif;color:#eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kem-msg-details{display:flex;align-items:center;height:40.88px;padding:0 13.63px 0 20.44px;border-bottom:.85px solid #c0c0c0;font:400 11.92px RobotoICS,Arial,sans-serif;color:#777}
+.kem-msg-details span:first-child{flex:1;min-width:0;margin-right:13.63px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kem-msg-date{margin-right:3.41px;white-space:nowrap}
+.kem-msg-details img{width:13.63px;height:13.63px}
+.screen .kem-msg-act{flex:none;width:40.88px;height:40.88px;padding:0;border:0;background:none;cursor:pointer}
 .kem-msg-act img{width:27.25px;height:27.25px}
 .kem-msg-body{padding:6.81px 8.46px 13.63px;font:400 13.63px/1.45 RobotoICS,Arial,sans-serif;color:#333;overflow-wrap:anywhere}
 .kem-attachment{display:flex;align-items:center;gap:7.52px;margin:0 8.46px 8.46px;padding:4.7px;background:#dddddd;font-size:11.94px;color:#333}
