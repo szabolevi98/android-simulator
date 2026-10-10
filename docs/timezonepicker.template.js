@@ -45,10 +45,16 @@
   const offsetMinutes = (id, ms) => state(id, ms).off;
   // libcore's createGmtOffsetString(true, true, offset) for zones ICU has no name for.
   const gmtString = minutes => `GMT${minutes < 0 ? '-' : '+'}${String(Math.floor(Math.abs(minutes) / 60)).padStart(2, '0')}:${String(Math.abs(minutes) % 60).padStart(2, '0')}`;
-  // TimeZone.getDisplayName(daylight, LONG, locale): daylight only when the zone still uses DST.
-  function displayName(id, lang, daylight) {
-    const row = DATA.zones[zone(id)], useDaylight = daylight && !!row[1], name = DATA.zoneNames[row[3]][li(lang) * 2 + (useDaylight ? 1 : 0)];
+  // TimeZone.getDisplayName(daylight, LONG or SHORT, locale): daylight only when the zone still uses DST. A zone's names
+  // are [long std, long dst, short std, short dst] per language.
+  function displayName(id, lang, daylight, short = false) {
+    const row = DATA.zones[zone(id)], useDaylight = daylight && !!row[1], name = DATA.zoneNames[row[3]][li(lang) * 4 + (short ? 2 : 0) + (useDaylight ? 1 : 0)];
     return name >= 0 ? DATA.names[name] : gmtString(row[0] + (useDaylight ? 60 : 0));
+  }
+  // The wall date and time in a zone at an instant: {date: 'YYYY-MM-DD', time: 'HH:MM'}.
+  function wall(id, ms) {
+    const iso = new Date(ms + offsetMinutes(id, ms) * 60000).toISOString();
+    return {date: iso.slice(0, 10), time: iso.slice(11, 16)};
   }
   // TimeZonePickerUtils.appendGmtOffset: "GMT+1", "GMT-3:30".
   const gmtOffset = minutes => `GMT${minutes < 0 ? '-' : '+'}${Math.floor(Math.abs(minutes) / 60)}${Math.abs(minutes) % 60 ? ':' + String(Math.abs(minutes) % 60).padStart(2, '0') : ''}`;
@@ -237,6 +243,10 @@
     },
     clear(st) { st.query = ''; st.drop = null; st.filter = {type: NONE, str: null, time: 0}; },
     saveRecent,
+    wall,
+    // Utils.getDisplayedTimezone: the short name of the device's zone at the event's start ("CET", "GMT+01:00"); an id
+    // the image does not know is shown as it is.
+    shortName: (id, ms, lang) => DATA.zones[id] || DATA.links[id] ? displayName(id, lang, state(id, ms).dst, true) : id,
     // For tests: the list as the dialog builds it.
     data: (defaultId, millis, lang, now) => tzData(defaultId, millis, lang, now),
     suggestions: (defaultId, millis, lang, now, query) => suggestions(tzData(defaultId, millis, lang, now), query)

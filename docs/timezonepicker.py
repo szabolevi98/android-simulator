@@ -6,8 +6,8 @@ CalendarGoogle ships it, from docs/timezonepicker.template.js, with the data tha
   - the image's /system/usr/share/zoneinfo/tzdata (bionic's packed TZif files): each zone's raw offset, its transitions
     (TimeZoneInfo.hasSameRules compares the raw offset and the next six transitions) and whether it still uses DST;
   - the image's ICU data (/system/usr/icu/icudtNNl.dat): TimeZone.getDisplayName's long standard / daylight names
-    (zoneStrings: the zone's own name, else its metazone's; libcore drops names starting with "GMT" and makes
-    "GMT+01:00" itself) and Locale.getDisplayCountry's country names (region/ Countries).
+    (zoneStrings: the zone's own long / short name, else its metazone's; libcore drops names starting with "GMT" and
+    makes "GMT+01:00" itself) and Locale.getDisplayCountry's country names (region/ Countries).
 TimeZoneData's list depends on the event's own zone (it is added first, replacing an identical one), so the template
 builds it at run time. Transitions are kept from 2015 on; "now" for the rule comparison and ICU's metazones is REFERENCE.
 Needs androguard and the ext4 package; the images are unpacked in _aosp/<device> (system.raw.img).
@@ -132,9 +132,9 @@ class Names:
                 return entry[0]
         return None
 
-    def zone(self, zid, lang, daylight):
-        """ICU's long name, or None where libcore makes the GMT string itself (no name, or one starting with GMT)."""
-        locale, kind, key = LOCALES[lang], 'ld' if daylight else 'ls', self.canonical(zid)
+    def zone(self, zid, lang, daylight, short=False):
+        """ICU's long (or short) name, or None where libcore makes the GMT string itself (none, or one starting with GMT)."""
+        locale, kind, key = LOCALES[lang], ('s' if short else 'l') + ('d' if daylight else 's'), self.canonical(zid)
         name = self.icu.get('zone', locale, 'zoneStrings', key, kind)
         if not name:
             mz = self.metazone(key)
@@ -194,7 +194,7 @@ def build(version, device, app, image, d, density):
     for zid in [z for z, _ in zt if z in zones] + etc + ['GMT']:
         z = zones[zid]
         out_zones[zid] = [z.raw // 60, int(z.use_dst), share('sigs', z.signature()),
-                          share('names', [intern(names.zone(zid, lang, dl)) for lang in LANGS for dl in (False, True)]),
+                          share('names', [intern(names.zone(zid, lang, dl, short)) for lang in LANGS for short in (False, True) for dl in (False, True)]),
                           share('trans', z.runtime())]
     sigs = tables['sigs']
 

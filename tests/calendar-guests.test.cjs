@@ -1,8 +1,9 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Calendar (audit step 6): guests, Show me as / Privacy (5.1: Visibility) and the event's time zone (4.3 / 4.4.4: the
-// TimeZonePickerDialog button, tzpicker.js; 4.0.4 / 5.1.1: the zone list).
+// TimeZonePickerDialog button, tzpicker.js, and the details in the device's zone with its short name; 4.0.4 / 5.1.1:
+// the zone list).
 for(const v of ['4.0.4','4.3','4.4.4','5.1.1']){
-  const w={window:{AndroidI18n:{language:'en'}}};w.window.window=w.window;
+  const w={window:{AndroidI18n:{language:'en'},ICSSystemSettings:{zone:()=>'Europe/Budapest'}}};w.window.window=w.window;
   const JB=v==='4.3'||v==='4.4.4';
   for(const f of ['stock-strings.js',JB?'tzpicker.js':'calendar-timezones.js','calendar.js'])vm.runInNewContext(fs.readFileSync(`versions/${v}/${f}`,'utf8'),w);
   const C=w.window.ICSCalendar,t=k=>k,LP=v==='5.1.1',zone=JB?/Japan Standard Time  <i>GMT\+9<\/i>/:/\(GMT\+9:00\) Tokyo/;
@@ -15,7 +16,7 @@ for(const v of ['4.0.4','4.3','4.4.4','5.1.1']){
   if(!JB)assert.equal(C.spinner('tz',draft,'en-US',t).length,83);else assert.match(ed,/data-action="caltz" data-id="Asia\/Tokyo"/);assert.deepEqual(Array.from(C.spinner('availability',draft,'en-US',t),i=>i.label),['Busy','Available']);
   const n=C.normalize({date:'2026-10-08',availability:'1',privacy:'5',tz:'Europe/Paris'});assert.equal(n.availability,1);assert.equal(n.privacy,0);assert.equal(n.tz,'Europe/Paris');assert.equal(n.guests,'');
   const info=C.render({events:[{id:1,...draft,time:'10:00',endTime:'11:00',endDate:'2026-10-08',repeat:'none',reminder:-1}],calendarMode:'Month'},{sub:'event',selectedEvent:1,selectedDate:'2026-10-08'},t,'en-US',new Date(2026,9,8));
-  assert.match(info,/alex@example\.com/);assert.match(info,zone);
+  assert.match(info,/alex@example\.com/);if(JB)assert.match(info,/Thursday, October 8, 2026, 03:00 – 04:00<span class="cal-tz">  CEST<\/span>/);else assert.match(info,zone);
   const sim=fs.readFileSync(`versions/${v}/simulator.js`,'utf8');assert.ok(sim.includes("event.guests=String(values.get('guests')||'').trim();event.tz=String(values.get('tz')||'');"),v);
   assert.ok(fs.readFileSync(`versions/${v}/index.html`,'utf8').includes(JB?'tzpicker.js?v=':'calendar-timezones.js?v='),v);
 }

@@ -16,6 +16,10 @@ for(const v of ['4.3','4.4.4']){
   assert.equal(P.label('Australia/Sydney',winter,'hu'),'Kelet-ausztráliai idő – NSW  <i>GMT+11</i> <b>☀</b>',v);
   // An old id reads its backward zone.
   assert.equal(P.label('Asia/Calcutta',winter,'en'),P.label('Asia/Kolkata',winter,'en'),v);
+  // Utils.getDisplayedTimezone's short names (ICU's, else libcore's GMT string) and a wall time in another zone.
+  assert.equal(P.shortName('Europe/Budapest',winter,'en'),'CET',v);assert.equal(P.shortName('Europe/Budapest',summer,'de'),'MESZ',v);
+  assert.equal(P.shortName('Asia/Tokyo',winter,'en'),'GMT+09:00',v);assert.equal(P.shortName('Mars/Olympus',winter,'en'),'Mars/Olympus',v);
+  same(P.wall('Europe/Budapest',P.millis('Asia/Tokyo','2026-12-01','10:00')),{date:'2026-12-01',time:'02:00'},v);
   // The wall time of the event in its zone.
   assert.equal(P.millis('Europe/Budapest','2026-12-01','10:00'),winter,v);
   // TimeZoneData: sorted by today's offset (largest first), one zone per rule set and country, the event's zone in.
