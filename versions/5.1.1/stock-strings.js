@@ -4230,5 +4230,584 @@ window.StockStrings = {
    "Listo",
    "Done"
   ]
+ },
+ "settings": {
+  "1 minute": [
+   "1 perc",
+   "1 Minute",
+   "1 minute",
+   "1 minuto"
+  ],
+  "10 minutes": [
+   "10 perc",
+   "10 Minuten",
+   "10 minutes",
+   "10 minutos"
+  ],
+  "15 seconds": [
+   "15 másodperc",
+   "15 Sekunden",
+   "15 secondes",
+   "15 segundos"
+  ],
+  "2 minutes": [
+   "2 perc",
+   "2 Minuten",
+   "2 minutes",
+   "2 minutos"
+  ],
+  "30 minutes": [
+   "30 perc",
+   "30 Minuten",
+   "30 minutes",
+   "30 minutos"
+  ],
+  "30 seconds": [
+   "30 másodperc",
+   "30 Sekunden",
+   "30 secondes",
+   "30 segundos"
+  ],
+  "5 minutes": [
+   "5 perc",
+   "5 Minuten",
+   "5 minutes",
+   "5 minutos"
+  ],
+  "Adjust power use": [
+   "Az energiafelhasználás beállítása",
+   "Energieverbrauch anpassen",
+   "Ajuster la consommation",
+   "Cómo reducir el uso de la batería"
+  ],
+  "After %1$s of inactivity": [
+   "%1$s inaktivitás után",
+   "Nach %1$s ohne Aktivität",
+   "Après %1$s d'inactivité",
+   "%1$s de inactividad"
+  ],
+  "Alarms": [
+   "Ébresztés",
+   "Wecker",
+   "Alarmes",
+   "Alarmas"
+  ],
+  "All": [
+   "Összes",
+   "Alle",
+   "Toutes",
+   "Todas"
+  ],
+  "Android OS": [
+   "Android OS",
+   "Android OS",
+   "Plate-forme Android",
+   "Sistema Android"
+  ],
+  "Animator duration scale": [
+   "Animáció léptéke",
+   "Maßstab für Animatorzeit",
+   "Échelle durée animation",
+   "Escala de duración de animador"
+  ],
+  "App": [
+   "Alkalmazás",
+   "App",
+   "Application",
+   "Aplicación"
+  ],
+  "App data usage": [
+   "Alkalmazás adathasználata",
+   "Datennutzung durch Apps",
+   "Conso données application",
+   "Uso datos de aplicación"
+  ],
+  "App info": [
+   "Alkalmazásinformáció",
+   "App-Info",
+   "Informations sur l'application",
+   "Información de la aplicación"
+  ],
+  "Apps": [
+   "Alkalmazások",
+   "Apps",
+   "Applications",
+   "Aplicaciones"
+  ],
+  "Audio": [
+   "Hang",
+   "Audio",
+   "Audio",
+   "Audio"
+  ],
+  "Auto-rotate screen": [
+   "Automatikus képernyőforgatás",
+   "Display automatisch drehen",
+   "Rotation auto de l'écran",
+   "Girar pantalla automáticamente"
+  ],
+  "Available": [
+   "Elérhető",
+   "Verfügbar",
+   "Disponible",
+   "Disponible"
+  ],
+  "Awake": [
+   "Ébren",
+   "Aktiv",
+   "En activité",
+   "Activa"
+  ],
+  "Background": [
+   "Háttér",
+   "Hintergrund",
+   "Arrière-plan",
+   "Segundo plano"
+  ],
+  "Battery": [
+   "Akkumulátor",
+   "Akku",
+   "Batterie",
+   "Batería"
+  ],
+  "Brightness": [
+   "Fényerő",
+   "Helligkeit",
+   "Luminosité",
+   "Brillo"
+  ],
+  "Cache": [
+   "Gyorsítótár",
+   "Cache",
+   "Cache",
+   "Caché"
+  ],
+  "Call ringtone & vibrate": [
+   "Csengőhang és rezgés beállításai",
+   "Klingelton & Vibration für Anrufe",
+   "Sonnerie et vibreur pour les appels",
+   "Tono de llamada y vibración"
+  ],
+  "Cast screen": [
+   "Képernyő tartalmának átküldése",
+   "Bildschirmübertragung",
+   "Caster l'écran",
+   "Enviar pantalla"
+  ],
+  "Cell standby": [
+   "Cella készenlét",
+   "Mobilfunk-Standby",
+   "Veille GSM",
+   "Dispositivo inactivo"
+  ],
+  "Cellular data": [
+   "Mobiladat-kapcsolat",
+   "Mobilfunkdaten",
+   "Données mobiles",
+   "Datos móviles"
+  ],
+  "Charging": [
+   "Töltés",
+   "Wird aufgeladen...",
+   "Batterie en charge",
+   "Cargando"
+  ],
+  "Data": [
+   "Adatok",
+   "Daten",
+   "Données",
+   "Datos"
+  ],
+  "Data usage": [
+   "Adathasználat",
+   "Datenverbrauch",
+   "Consommation des données",
+   "Uso de datos"
+  ],
+  "Data usage cycle": [
+   "Adatforgalmi ciklus",
+   "Datenverbrauchszyklus",
+   "Cycle de consommation",
+   "Ciclo de uso"
+  ],
+  "Daydream": [
+   "Álmodozás",
+   "Daydream",
+   "Écran de veille interactif",
+   "Salvapantallas"
+  ],
+  "Default notification": [
+   "Alapértelmezett értesítési hang",
+   "Standard-Benachrichtigungston",
+   "Son de notification par défaut",
+   "Sonido de notificación predeterminado",
+   "Default notification sound"
+  ],
+  "Default notification sound": [
+   "Alapértelmezett értesítési hang",
+   "Standard-Benachrichtigungston",
+   "Son de notification par défaut",
+   "Sonido de notificación predeterminado"
+  ],
+  "Delete app data?": [
+   "Alkalmazásadatok törlése?",
+   "App-Daten löschen?",
+   "Supprimer les données de l'application ?",
+   "¿Eliminar datos de la aplicación?"
+  ],
+  "Dial pad touch tones": [
+   "Tárcsázó érintési hangjai",
+   "Wähltastentöne",
+   "Numérotation sonore",
+   "Sonar al marcar número"
+  ],
+  "Disabled": [
+   "Letiltva",
+   "Deaktiviert",
+   "Désactivé",
+   "Inhabilitado"
+  ],
+  "Display": [
+   "Megjelenítés",
+   "Display",
+   "Affichage",
+   "Pantalla"
+  ],
+  "Downloaded": [
+   "Letöltött",
+   "Heruntergeladen",
+   "Téléchargées",
+   "Descargadas"
+  ],
+  "Either": [
+   "Bármelyik",
+   "Immer",
+   "Dans les deux cas",
+   "Ambos casos"
+  ],
+  "Font size": [
+   "Betűméret",
+   "Schriftgröße",
+   "Taille de la police",
+   "Tamaño de la fuente"
+  ],
+  "Foreground": [
+   "Előtér",
+   "Vordergrund",
+   "Premier plan",
+   "Primer plano"
+  ],
+  "GPS on": [
+   "GPS bekapcsolva",
+   "GPS aktiv",
+   "GPS activé",
+   "GPS activado"
+  ],
+  "History details": [
+   "Előzmények részletei",
+   "Verlaufsdetails",
+   "Informations sur l'historique",
+   "Detalles de historial"
+  ],
+  "Huge": [
+   "Hatalmas",
+   "Sehr groß",
+   "Très grande",
+   "Enorme"
+  ],
+  "Internal storage": [
+   "Belső tárhely",
+   "Interner Speicher",
+   "Stockage interne",
+   "Almacenamiento interno"
+  ],
+  "Large": [
+   "Nagy",
+   "Groß",
+   "Grande",
+   "Grande"
+  ],
+  "Launch by default": [
+   "Elindítás alapértelmezettként",
+   "Standardmäßig starten",
+   "Lancer par défaut",
+   "Abrir de forma predeterminada"
+  ],
+  "Misc.": [
+   "Egyéb.",
+   "Sonstiges",
+   "Divers",
+   "Varios"
+  ],
+  "Music effects": [
+   "Zenei hatások",
+   "Musikeffekte",
+   "Effets musicaux",
+   "Efectos de música"
+  ],
+  "Music, video, games, & other media": [
+   "Zene, videó, játékok és egyéb média",
+   "Musik, Video, Spiele und andere Medien",
+   "Musique, vidéo, jeux et autres fichiers multimédias",
+   "Música, vídeos, juegos, y otros archivos multimedia"
+  ],
+  "No defaults set.": [
+   "Nincs beállítva alapértelmezettként.",
+   "Kein Standard",
+   "Aucun paramètre par défaut défini",
+   "No se han establecido valores por defecto"
+  ],
+  "None": [
+   "Nincs",
+   "Keine",
+   "Aucun",
+   "Sin seguridad"
+  ],
+  "Normal": [
+   "Normál",
+   "Normal",
+   "Normale",
+   "Normal"
+  ],
+  "Notifications": [
+   "Értesítések",
+   "Benachrichtigungen",
+   "Notifications",
+   "Notificaciones"
+  ],
+  "Off": [
+   "Ki",
+   "Aus",
+   "Désactivé",
+   "No"
+  ],
+  "On": [
+   "Be",
+   "An",
+   "Activé",
+   "Sí"
+  ],
+  "Permissions": [
+   "Engedélyek",
+   "Berechtigungen",
+   "Autorisations",
+   "Permisos"
+  ],
+  "Phone idle": [
+   "Telefon - tétlen",
+   "Ruhezustand",
+   "Téléphone inactif",
+   "Teléfono inactivo"
+  ],
+  "Phone ringtone": [
+   "Telefon csengőhangja",
+   "Klingelton",
+   "Sonnerie du téléphone",
+   "Tono del teléfono"
+  ],
+  "Phone signal": [
+   "Mobilhálózati jel",
+   "Mobilfunksignal",
+   "Signal du réseau mobile",
+   "Señal de red móvil",
+   "Cellular network signal"
+  ],
+  "Pictures, videos": [
+   "Képek, videók",
+   "Bilder, Videos",
+   "Images, vidéos",
+   "Imágenes, vídeos"
+  ],
+  "Pulse notification light": [
+   "Villogó értesítő fény",
+   "Benachrichtigungslicht",
+   "Voyant de notification",
+   "Usar LED de notificaciones"
+  ],
+  "Restrict background data": [
+   "Háttéradatok korlátozása",
+   "Hintergrunddaten beschränken",
+   "Limiter données arr.-plan",
+   "Restringir conexiones automáticas"
+  ],
+  "Ringtone & notifications": [
+   "Csengőhang és értesítések",
+   "Klingelton & Benachrichtigungen",
+   "Sonnerie et notifications",
+   "Tono y notificaciones"
+  ],
+  "Running": [
+   "Futó",
+   "Aktiv",
+   "En cours",
+   "En ejecución"
+  ],
+  "Screen": [
+   "Képernyő",
+   "Display",
+   "Écran",
+   "Pantalla"
+  ],
+  "Screen lock sound": [
+   "Képernyőzár hangja",
+   "Ton bei Displaysperre",
+   "Son au verrouillage écran",
+   "Sonido en pantalla de bloqueo"
+  ],
+  "Screen on": [
+   "Bekapcsolt képernyővel",
+   "Bildschirm an",
+   "Écran activé",
+   "Pantalla encendida"
+  ],
+  "Set cellular data limit": [
+   "Mobiladatkorlát beállítása",
+   "Mobilfunklimit festlegen",
+   "Définir limite données mob.",
+   "Establecer límite datos"
+  ],
+  "Sleep": [
+   "Alvó mód",
+   "Ruhezustand",
+   "Veille",
+   "Suspender después de"
+  ],
+  "Small": [
+   "Kicsi",
+   "Klein",
+   "Petite",
+   "Pequeño"
+  ],
+  "Sound": [
+   "Hang",
+   "Töne",
+   "Son",
+   "Sonido"
+  ],
+  "Storage": [
+   "Tárhely",
+   "Speicher",
+   "Stockage",
+   "Almacenamiento"
+  ],
+  "System": [
+   "Rendszer",
+   "System",
+   "Système",
+   "Sistema"
+  ],
+  "Time on": [
+   "Bekapcsolva töltött idő",
+   "Laufzeit",
+   "Durée d'activation",
+   "Tiempo encendida"
+  ],
+  "Total": [
+   "Összesen",
+   "Insgesamt",
+   "Total",
+   "Total"
+  ],
+  "Total space": [
+   "Összes hely",
+   "Gesamtspeicher",
+   "Espace total",
+   "Espacio total"
+  ],
+  "Touch sounds": [
+   "Érintés hangja",
+   "Töne bei Berührung",
+   "Sons des touches",
+   "Sonar al tocar"
+  ],
+  "Transition animation scale": [
+   "Áttűnési animáció mérete",
+   "Maßstab Übergangsanimation",
+   "Échelle anim. transitions",
+   "Escala de transición-animación"
+  ],
+  "Use details": [
+   "Használat részletei",
+   "Details zum Verbrauch",
+   "Informations sur l'utilisation",
+   "Detalles de uso"
+  ],
+  "Vibrate": [
+   "Rezgés",
+   "Vibration",
+   "Vibreur",
+   "Vibrar"
+  ],
+  "Vibrate on touch": [
+   "Érintéskor rezegjen",
+   "Bei Berührung vibrieren",
+   "Vibrer au toucher",
+   "Vibrar al tocar"
+  ],
+  "Vibrate when ringing": [
+   "Rezgés a hívásoknál is",
+   "Bei Anrufen auch vibrieren",
+   "Vibreur aussi pour les appels",
+   "Vibrar también en llamadas",
+   "Also vibrate for calls"
+  ],
+  "Volumes": [
+   "Hangerő",
+   "Lautstärke",
+   "Volume",
+   "Volumen"
+  ],
+  "Wallpaper": [
+   "Háttérkép",
+   "Hintergrund",
+   "Fond d'écran",
+   "Fondo de pantalla"
+  ],
+  "While charging": [
+   "Töltés közben",
+   "Während des Ladevorgangs",
+   "Pendant la charge",
+   "Durante la carga"
+  ],
+  "While docked": [
+   "Dokkolt állapotban",
+   "Bei angedocktem Gerät",
+   "Sur la station d'accueil",
+   "Cuando el dispositivo esté conectado a una base"
+  ],
+  "Wi-Fi": [
+   "Wi-Fi",
+   "WLAN",
+   "Wi-Fi",
+   "Wi-Fi",
+   "Wi‑Fi"
+  ],
+  "Window animation scale": [
+   "Ablakanimáció mérete",
+   "Maßstab Fensteranimation",
+   "Échelle animation fenêtres",
+   "Escala de animación ventana"
+  ],
+  "battery": [
+   "Akkumulátor",
+   "Akku",
+   "Batterie",
+   "Batería",
+   "Battery"
+  ],
+  "data": [
+   "Adatok",
+   "Daten",
+   "Données",
+   "Datos",
+   "Data"
+  ],
+  "storage:Storage": [
+   "Tárhely",
+   "Speicher",
+   "Stockage",
+   "Almacenamiento",
+   "Storage"
+  ]
  }
 };
