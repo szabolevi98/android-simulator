@@ -7,6 +7,455 @@
   'use strict';
   const DEVICE='maguro',ICS=DEVICE==='maguro',KK=DEVICE==='hammerhead',LP=DEVICE==='shamu';
   const STRINGS={
+      "About phone": [
+          "A telefonról",
+          "Über das Telefon",
+          "À propos du téléphone",
+          "Acerca del teléfono"
+      ],
+      "System updates": [
+          "Rendszerfrissítések",
+          "Systemaktualisierungen",
+          "Mises à jour du système",
+          "Actualizaciones del sistema"
+      ],
+      "Status": [
+          "Állapot",
+          "Status",
+          "État",
+          "Estado"
+      ],
+      "Phone number, signal, etc.": [
+          "Telefonszám, jel stb.",
+          "Telefonnummer, Signal usw.",
+          "Numéro de téléphone, signal, etc.",
+          "Número de teléfono, señal, etc."
+      ],
+      "Legal information": [
+          "Jogi információk",
+          "Rechtliche Hinweise",
+          "Informations légales",
+          "Información legal"
+      ],
+      "Model number": [
+          "Modellszám",
+          "Modellnummer",
+          "Numéro du modèle",
+          "Número de modelo"
+      ],
+      "Android version": [
+          "Android verziója",
+          "Android-Version",
+          "Version d'Android",
+          "Versión de Android"
+      ],
+      "Baseband version": [
+          "Alapsáv verziója",
+          "Baseband-Version",
+          "Version de bande de base",
+          "Versión de banda base"
+      ],
+      "Kernel version": [
+          "Kernel verziója",
+          "Kernel-Version",
+          "Version du noyau",
+          "Versión de kernel"
+      ],
+      "Build number": [
+          "Build-szám",
+          "Build-Nummer",
+          "Numéro de build",
+          "Número de compilación"
+      ],
+      "Battery status": [
+          "Akkumulátor állapota",
+          "Akkustatus",
+          "État de la batterie",
+          "Estado de la batería"
+      ],
+      "Battery level": [
+          "Akkumulátorszint",
+          "Akkuladung",
+          "Niveau de la batterie",
+          "Nivel de batería"
+      ],
+      "Network": [
+          "Hálózat",
+          "Netzwerk",
+          "Réseau",
+          "Red"
+      ],
+      "Signal strength": [
+          "Jelerősség",
+          "Signalstärke",
+          "Intensité du signal",
+          "Intensidad de la señal"
+      ],
+      "Mobile network type": [
+          "Mobilhálózat típusa",
+          "Art des Mobilfunknetzes",
+          "Type de réseau mobile",
+          "Tipo de red móvil"
+      ],
+      "Service state": [
+          "Szolgáltatás állapota",
+          "Servicestatus",
+          "État du service",
+          "Estado del servicio"
+      ],
+      "Roaming": [
+          "Barangolás",
+          "Roaming",
+          "Itinérance",
+          "Itinerancia"
+      ],
+      "Mobile network state": [
+          "Mobilhálózat állapota",
+          "Status des Mobilfunknetzes",
+          "État du réseau mobile",
+          "Estado de red móvil"
+      ],
+      "My phone number": [
+          "Saját telefonszámom",
+          "Meine Telefonnummer",
+          "Mon numéro de téléphone",
+          "Mi número de teléfono"
+      ],
+      "IMEI": [
+          "IMEI",
+          "IMEI",
+          "IMEI",
+          "IMEI"
+      ],
+      "IMEI SV": [
+          "IMEI SV",
+          "IMEI SV",
+          "IMEI SV",
+          "IMEI SV"
+      ],
+      "IP address": [
+          "IP-cím",
+          "IP-Adresse",
+          "Adresse IP",
+          "Dirección IP"
+      ],
+      "Wi-Fi MAC address": [
+          "Wi-Fi eszköz MAC-címe",
+          "WLAN-MAC-Adresse",
+          "Adresse MAC Wi-Fi",
+          "Dirección MAC de Wi-Fi"
+      ],
+      "Bluetooth address": [
+          "Bluetooth-cím",
+          "Bluetooth-Adresse",
+          "Adresse Bluetooth",
+          "Dirección de Bluetooth"
+      ],
+      "Serial number": [
+          "Sorozatszám",
+          "Seriennummer",
+          "Numéro de série",
+          "Número de serie"
+      ],
+      "Up time": [
+          "Futásidő",
+          "Betriebszeit",
+          "Durée d'activité",
+          "Tiempo de actividad"
+      ],
+      "Not available": [
+          "Nem érhető el",
+          "Nicht verfügbar",
+          "Non disponible",
+          "No disponible"
+      ],
+      "Unknown": [
+          "Ismeretlen",
+          "Unbekannt",
+          "Inconnu",
+          "Desconocido"
+      ],
+      "Discharging": [
+          "Lemerülés",
+          "Akkubetrieb",
+          "Baisse du niveau de charge",
+          "No se está cargando"
+      ],
+      "In service": [
+          "Szolgáltatás",
+          "In Betrieb",
+          "Service en cours",
+          "En servicio"
+      ],
+      "Not roaming": [
+          "Nem barangol",
+          "Kein Roaming",
+          "Sans itinérance",
+          "Sin itinerancia"
+      ],
+      "Connected": [
+          "Csatlakozva",
+          "Verbunden",
+          "Connecté",
+          "Conectado"
+      ],
+      "Disconnected": [
+          "Szétkapcsolva",
+          "Nicht verbunden",
+          "Déconnecté",
+          "Desconectada"
+      ],
+      "unknown": [
+          "ismeretlen",
+          "unbekannt",
+          "inconnu",
+          "desconocido"
+      ],
+      "Open source licenses": [
+          "Nyílt forráskódú licencek",
+          "Open-Source-Lizenzen",
+          "Licences open source",
+          "Licencias de código abierto"
+      ],
+      "Google legal": [
+          "Google - jogi szabályozás",
+          "Rechtliche Hinweise",
+          "Infos légales Google",
+          "Departamento legal de Google"
+      ],
+      "Location services": [
+          "Helyszolgáltatások",
+          "Standortdienste",
+          "Services de localisation",
+          "Servicios de ubicación"
+      ],
+      "Google's location service": [
+          "A Google helyszolgáltatása",
+          "Standortdienst von Google",
+          "Service de localisation",
+          "Ubicación de Google"
+      ],
+      "Let apps use data from sources such as Wi-Fi and mobile networks to determine your approximate location": [
+          "Engedélyezze az alkalmazásoknak a Wi-Fi és mobiladatok használatát a hozzávetőleges tartózkodási hely meghatározásához",
+          "Zulassen, dass Apps WLAN und Mobilfunknetze für die Bestimmung meines ungefähren Standorts verwenden",
+          "Utiliser les données des réseaux Wi-Fi et mobiles pour déterminer votre position approximative",
+          "Permitir que las aplicaciones usen datos de fuentes como redes Wi-Fi y móviles para determinar tu ubicación aproximada"
+      ],
+      "GPS satellites": [
+          "GPS-műholdak",
+          "GPS-Satelliten",
+          "Satellites GPS",
+          "Satélites GPS"
+      ],
+      "Let apps use GPS to pinpoint your location": [
+          "Engedélyezze a GPS használatát az alkalmazások számára tartózkodási helyének meghatározása érdekében",
+          "Apps dürfen meinen Standort mithilfe von GPS bestimmen.",
+          "Autoriser les applications à utiliser le GPS pour localiser votre position",
+          "Permitir que las aplicaciones usen el GPS para determinar tu ubicación"
+      ],
+      "Backup & reset": [
+          "Biztonsági mentés és visszaállítás",
+          "Sichern & zurücksetzen",
+          "Sauvegarder et réinitialiser",
+          "Copia de seguridad y restauración"
+      ],
+      "Backup & restore": [
+          "Biztonsági mentés és visszaállítás",
+          "Backup und Wiederherstellung",
+          "Sauvegarde et restauration",
+          "Copia de seguridad"
+      ],
+      "Back up my data": [
+          "Adatok biztonsági mentése",
+          "Meine Daten sichern",
+          "Sauvegarder mes données",
+          "Copiar mis datos"
+      ],
+      "Back up app data, Wi-Fi passwords, and other settings to Google servers": [
+          "Alkalmazásadatok, Wi-Fi jelszavak és más beállítások mentése a Google szervereire",
+          "App-Daten, WLAN-Passwörter und andere Einstellungen auf Google-Servern sichern",
+          "Sauvegarder les données des applications, les mots de passe Wi-Fi et autres paramètres de serveurs Google",
+          "Hacer copia de seguridad en servidores de Google de datos de aplicaciones, contraseñas Wi-Fi y otras opciones de configuración",
+          "Back up application data, Wi-Fi passwords, and other settings to Google servers"
+      ],
+      "Backup account": [
+          "Fiók biztonsági mentése",
+          "Sicherungskonto",
+          "Compte de sauvegarde",
+          "Cuenta de copia de seguridad"
+      ],
+      "Automatic restore": [
+          "Automatikus helyreállítás",
+          "Autom. Wiederherstellung",
+          "Restaurer automatiquement",
+          "Restauración automática"
+      ],
+      "When reinstalling an app, restore backed up settings and data": [
+          "Amikor újratelepít egy alkalmazást, a biztonsági mentésből állítsa helyre a beállításait és az adatokat",
+          "Stellen Sie nach der Neuinstallation einer App gesicherte Einstellungen und Daten wieder her.",
+          "Lors de la réinstallation d'une application, restaurer les paramètres et les données sauvegardées",
+          "Cuando vuelvas a instalar una aplicación, restaurar la configuración y los datos incluidos en la copia"
+      ],
+      "Personal data": [
+          "Személyes adatok",
+          "Persönliche Daten",
+          "Données personnelles",
+          "Datos personales"
+      ],
+      "Factory data reset": [
+          "Gyári adatok visszaállítása",
+          "Auf Werkszustand zurück",
+          "Restaurer valeurs d'usine",
+          "Restablecer datos de fábrica"
+      ],
+      "Erases all data on phone": [
+          "Minden adat törlése a telefonról",
+          "Löscht alle Daten auf dem Telefon",
+          "Effacer toutes les données du téléphone",
+          "Borrar todos los datos del teléfono"
+      ],
+      "master_clear_desc": [
+          "Ez minden adatot töröl a telefon belső tárolójáról, többek között: \n \nGoogle Fiókját\nA rendszer- és alkalmazásadatokat és beállításokat \n A letöltött alkalmazásokat",
+          "Hierdurch werden alle Daten aus dem internen Speicher Ihres Telefons gelöscht, u. a.\n\nIhr Google-Konto\nSystem- und App-Daten sowie entsprechende Einstellungen\n und heruntergeladene Apps.",
+          "Cette action effacera toutes les données du stockage interne de votre téléphone, y compris :\n\nVotre compte Google\nLes données et paramètres du système et de l'application\nLes applications téléchargées",
+          "Se borrarán todos los datos del almacenamiento interno del teléfono, por ejemplo:\n\ntu cuenta de Google,\nlos ajustes y los datos de aplicaciones y del sistema,\nlas aplicaciones descargadas.",
+          "This will erase all data from your phone's internal storage, including:\n\nYour Google account\nSystem and app data and settings\nDownloaded apps"
+      ],
+      "master_clear_desc_also_erases_external": [
+          "Zene\nFotók\nMás felhasználói adatok",
+          "Musik\nFotos\nSonstige Nutzerdaten",
+          "Musique\nPhotos\nAutres données utilisateur",
+          "Música\nFotos\nOtros datos de usuario",
+          "Music\nPhotos\nOther user data"
+      ],
+      "master_clear_accounts": [
+          "\n\nJelenleg a következő fiókokba van bejelentkezve:\n",
+          "\n\nSie sind zurzeit in folgenden Konten angemeldet:\n",
+          "\n\nVous êtes actuellement connecté aux comptes suivants :\n",
+          "\n\nHas accedido a las cuentas que se indican a continuación:\n",
+          "\n\nYou are currently signed into the following accounts:\n"
+      ],
+      "Reset phone": [
+          "Telefon visszaállítása",
+          "Telefon zurücksetzen",
+          "Réinitialiser le téléphone",
+          "Restablecer teléfono"
+      ],
+      "No account is currently storing backed up data": [
+          "Jelenleg egyik fiók sem tárol biztonsági mentéseket",
+          "Zurzeit werden in keinem Konto gesicherte Daten gespeichert.",
+          "Aucun compte ne stocke actuellement des données sauvegardées.",
+          "Ninguna cuenta está almacenando datos con copia de seguridad en estos momentos."
+      ],
+      "Accounts & sync": [
+          "Fiókok és szinkronizálás",
+          "Konten & Synchronisierung",
+          "Comptes et synchro",
+          "Cuentas y sincronización"
+      ],
+      "Add account": [
+          "Fiók hozzáadása",
+          "Konto hinzufügen",
+          "Ajouter un compte",
+          "Añadir cuenta"
+      ],
+      "Sync is ON": [
+          "Szinkr. BEKAPCSOLVA",
+          "Synchronisierung AN",
+          "Synchronisation activée",
+          "Sincronización activa"
+      ],
+      "Sync is OFF": [
+          "Szinkr. KIKAPCSOLVA",
+          "Synchronisierung AUS",
+          "Synchronisation désactivée",
+          "La sincronización está desactivada."
+      ],
+      "Data & synchronization": [
+          "Adatok és szinkronizálás",
+          "Daten & Synchronisierung",
+          "Données et synchronisation",
+          "Datos y sincronización"
+      ],
+      "Sync %s": [
+          "%s szinkronizálása",
+          "%s synchronisieren",
+          "Synchroniser %s",
+          "Sincronizar %s"
+      ],
+      "Remove account": [
+          "Fiók törlése",
+          "Konto entfernen",
+          "Supprimer le compte",
+          "Eliminar cuenta"
+      ],
+      "Sync now": [
+          "Szinkronizálás most",
+          "Jetzt synchronisieren",
+          "Synchroniser maintenant",
+          "Sincronizar ahora"
+      ],
+      "Accessibility": [
+          "Kisegítő lehetőségek beállításai",
+          "Einstellungen für Bedienungshilfen",
+          "Paramètres d'accessibilité",
+          "Ajustes de accesibilidad",
+          "Accessibility settings"
+      ],
+      "Services": [
+          "Szolgáltatások",
+          "Dienste",
+          "Services",
+          "Servicios"
+      ],
+      "System": [
+          "Rendszer",
+          "System",
+          "Système",
+          "Sistema"
+      ],
+      "Large text": [
+          "Nagy szöveg",
+          "Großer Text",
+          "Grands caractères",
+          "Texto grande"
+      ],
+      "Power button ends call": [
+          "A bekapcsoló gomb megszakítja a hívást",
+          "Ein/Aus beendet Anruf",
+          "Bouton marche/arrêt raccroche",
+          "Botón encendido cuelga"
+      ],
+      "Auto-rotate screen": [
+          "Képernyő automatikus forgatása",
+          "Display autom. drehen",
+          "Rotation auto écran",
+          "Pantalla giratoria"
+      ],
+      "Speak passwords": [
+          "Jelszavak kimondása",
+          "Passwörter aussprechen",
+          "Énoncer les mots de passe",
+          "Decir contraseñas"
+      ],
+      "Touch & hold delay": [
+          "Érintés és tartási késleltetés",
+          "Reaktionszeit Berühren/Halten",
+          "Délai de pression",
+          "Retraso pulsación prolongada"
+      ],
+      "Install web scripts": [
+          "Internetes szkriptek telepítése",
+          "Webskripts installieren",
+          "Installer des scripts Web",
+          "Instalar scripts web"
+      ],
+      "Off": [
+          "Ki",
+          "Deaktiviert",
+          "Désactivé",
+          "Desactivado"
+      ],
       "Date & time": [
           "Dátum és idő",
           "Datum & Uhrzeit",
@@ -476,12 +925,6 @@
           "Adresse MAC",
           "Dirección MAC"
       ],
-      "IP address": [
-          "IP-cím",
-          "IP-Adresse",
-          "Adresse IP",
-          "Dirección IP"
-      ],
       "Unavailable": [
           "Nem érhető el",
           "Nicht verfügbar",
@@ -616,6 +1059,7 @@
   };
   const LANGS=['hu','de','fr','es'];
   const S=key=>{const row=STRINGS[key];if(!row)return key;const i=LANGS.indexOf(window.AndroidI18n?.language);return (i>=0?row[i]:row[4])||key;};
+  const START=Date.now();
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const defaults={autoTime:true,autoZone:true,timeOffset:0,timeZone:'Europe/Budapest',hour24:true,dateFormat:'locale',screenLock:'slide',ownerInfo:'',showOwner:false,lockAfter:'5000',powerInstantLock:true,lockTactile:true,kgWidgets:false,hotspotName:'AndroidAP',hotspotSecurity:'WPA2',bluetoothTether:false,wifiSleep:'always',wifiScanAlways:false,wifiPoorAvoid:false,wifiBand:'auto',wifiOptimize:true,networkOperator:'Telekom',networkAuto:true,networkType:'lte',only2g:false};
   const prefs=data=>({...defaults,...data.settings});
@@ -660,6 +1104,40 @@
   function render(data,ui,t,locale) {
     const p=prefs(data),page=(title,body,right='')=>({title,body,right}),now=wallDate(data),secure=['pattern','pin','password'].includes(p.screenLock);
     // date_time_prefs.xml: the 24-hour summary samples were dropped in 4.1 and the date format list in 5.0.
+    // ICS-only pages (4.0.4), from the IMM76I Settings' preference XML and code.
+    if(ICS){
+      const info=(title,value,action='noop',id='')=>row(S(title),value,action,id);
+      const A11Y=k=>{const r=window.StockStrings?.a11y?.[k],i=['hu','de','fr','es'].indexOf(window.AndroidI18n?.language);return r?(i>=0?r[i]:r[4]||k):k;},na=S('Not available'),account=window.ICSGmail?.account||'icecream.demo@gmail.com';
+      // device_info_settings.xml after DeviceInfoSettings: System updates (GoogleServicesFramework handles the intent),
+      // Status, Legal information, then the read-only values; the additional update, safety legal and copyright entries
+      // have no activity on the image and go.
+      if(ui.sub==='about')return page(S('About phone'),`${row(S('System updates'),'','toast','This feature is not part of the simulator.')}${row(S('Status'),S('Phone number, signal, etc.'),'settings-sub','about-status')}${row(S('Legal information'),'','settings-sub','about-legal')}${info('Model number','Galaxy Nexus')}${info('Android version','4.0.4','about-tap')}${info('Baseband version','I9250XXLA02')}${info('Kernel version','3.0.8-g034fec9\nandroid-build@vpbs1 #1\nTue Mar 13 15:46:20 PDT 2012')}${info('Build number','IMM76I')}`);
+      // deviceinfo.Status on a GSM phone: the CDMA rows (MIN, PRL version, MEID), ICCID and WiMAX are removed.
+      if(ui.sub==='about-status'){
+        const up=Math.floor((Date.now()-START)/1000),pad=n=>String(n).padStart(2,'0'),air=p.airplane;
+        return page(S('Status'),`${info('Battery status',S('Discharging'))}${info('Battery level','78%')}${info('Network',air?S('unknown'):window.ICSCarrierName?.()||'')}${info('Signal strength',air?'0 dBm   0 asu':'-75 dBm   19 asu')}${info('Mobile network type',air?S('unknown'):'HSPA+')}${info('Service state',air?S('unknown'):S('In service'))}${info('Roaming',S('Not roaming'))}${info('Mobile network state',S(p.mobileData===false||air?'Disconnected':'Connected'))}${info('My phone number',S('Unknown'))}${info('IMEI','353918050412345')}${info('IMEI SV','01')}${info('IP address',p.wifi?'192.168.1.104':na)}${info('Wi-Fi MAC address','02:00:00:40:04:01')}${info('Bluetooth address',p.bluetooth?'02:00:00:40:04:02':na)}${info('Serial number','0149A05B0F00A00B')}${info('Up time',`${Math.floor(up/3600)}:${pad(Math.floor(up/60)%60)}:${pad(up%60)}`)}`);
+      }
+      // Utils.updatePreferenceToSpecificActivityOrRemove titles the entries after their activities.
+      if(ui.sub==='about-legal')return page(S('Legal information'),`${row(S('Open source licenses'),'','toast','This feature is not part of the simulator.')}${row(S('Google legal'),'','toast','This feature is not part of the simulator.')}`);
+      if(ui.sub==='location')return page(S('Location services'),`${check(S("Google's location service"),'networkLocation',p.networkLocation!==false,S('Let apps use data from sources such as Wi-Fi and mobile networks to determine your approximate location'))}${check(S('GPS satellites'),'gps',!!p.gps,S('Let apps use GPS to pinpoint your location'))}`);
+      // privacy_settings.xml; the backup account is the Google account once backup is on.
+      if(ui.sub==='backup')return page(S('Backup & reset'),`${section(S('Backup & restore'))}${check(S('Back up my data'),'backup',p.backup!==false,S('Back up app data, Wi-Fi passwords, and other settings to Google servers'))}${row(S('Backup account'),p.backup!==false?account:S('No account is currently storing backed up data'),'noop','',p.backup===false)}${check(S('Automatic restore'),'autoRestore',p.autoRestore!==false,S('When reinstalling an app, restore backed up settings and data'),p.backup===false)}${section(S('Personal data'))}${row(S('Factory data reset'),S('Erases all data on phone'),'settings-sub','reset-info')}`);
+      // MasterClear (master_clear.xml) with emulated external storage: also_erases_external, the signed-in accounts.
+      if(ui.sub==='reset-info')return page(S('Factory data reset'),`<div class="sx-master-clear"><p>${e(S('master_clear_desc').trimEnd()+'\n'+S('master_clear_desc_also_erases_external').replace(/^\n+/,''))}</p><p>${e(S('master_clear_accounts'))}</p><p class="sx-account"><img src="assets/ic_google_account.png" alt="">${e(account)}</p></div><button class="sx-reset" data-action="factory-reset">${e(S('Reset phone'))}</button>`);
+      // ManageAccountsSettings: the auto-sync Switch in the action bar, "Add account" (ifRoom|withText), AccountPreference
+      // rows with sync_enabled / sync_disabled and ic_sync_green_holo / ic_sync_grey_holo.
+      if(ui.sub==='sync'){const on=p.autoSync!==false;return page(S('Accounts & sync'),`${row(account,S(on?'Sync is ON':'Sync is OFF'),'settings-sub','sync-google')}`.replace('<span class="row-copy">',`<img class="sx-account-icon" src="assets/ic_google_account.png" alt=""><span class="row-copy">`).replace('</span></button>',`</span><img class="sx-sync-icon" src="assets/ic_sync_${on?'green':'grey'}_holo.png" alt=""></button>`),`<button class="sx-text-action" data-action="toast" data-id="This feature is not part of the simulator.">${e(S('Add account').toUpperCase())}</button><button class="holo-switch settings-action-switch${on?' on':''}" data-action="toggle-setting" data-id="autoSync" role="switch" aria-checked="${on}" aria-label="${e(S('Accounts & sync'))}"></button>`);}
+      // AccountSyncSettings: title.xml, the Data & synchronization category, a "Sync %s" check box per sync adapter of the
+      // image (ics-sync-adapters.js), Remove account and Sync now in the overflow (showAsAction withText only).
+      if(ui.sub==='sync-google'){
+        const lang=['en','hu','de','fr','es'].indexOf(window.AndroidI18n?.language),off=p.syncOff||{},auto=p.autoSync!==false;
+        const rows=(window.ICSSyncAdapters||[]).map(names=>({key:names[0],name:names[Math.max(0,lang)]||names[0]})).sort((a,b)=>a.name.localeCompare(b.name,locale)).map(({key,name})=>{const on=auto&&!off[key];return `<button class="settings-row" data-action="sx-sync-toggle" data-id="${e(key)}" role="checkbox" aria-checked="${on}"><span class="row-copy">${e(S('Sync %s').replace('%s',name))}<small>${e(new Date(START).toLocaleString(locale,{year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'}))}</small></span><img class="holo-checkbox" src="assets/btn_check_${on?'on':'off'}_holo_dark.png" alt=""></button>`;}).join('');
+        return page('Google',`<div class="sx-sync-title"><img src="assets/ic_google_account.png" alt=""><span><b>${e(account)}</b><small>Google</small></span></div>${section(S('Data & synchronization'))}${rows}`,`<button class="sx-overflow" data-action="sx-dialog" data-id="account-menu" aria-label="More options"><img src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button>`);
+      }
+      // AccessibilitySettings: TalkBack from the image under Services (off), the system check boxes, Explore by touch only
+      // while a service is on.
+      if(ui.sub==='accessibility')return page(S('Accessibility'),`${section(S('Services'))}${row('TalkBack',S('Off'),'toast','This feature is not part of the simulator.')}${section(S('System'))}${check(S('Large text'),'largeText',!!p.largeText)}${check(S('Power button ends call'),'powerEndsCall',!!p.powerEndsCall)}${check(S('Auto-rotate screen'),'rotate',p.rotate!==false)}${check(S('Speak passwords'),'speakPasswords',!!p.speakPasswords)}${row(S('Touch & hold delay'),A11Y(['Short','Medium','Long'][p.longPressTimeout||0]),'a11y-hold','a11y-hold')}${check(S('Install web scripts'),'webScripts',!!p.webScripts)}`);
+    }
     if(ui.sub==='date')return page(S('Date & time'),`${check(S('Automatic date & time'),'autoTime',p.autoTime,S('Use network-provided time'))}${check(S('Automatic time zone'),'autoZone',p.autoZone,S('Use network-provided time zone'))}${row(S('Set date'),dateText(data,locale),'sx-dialog','date',p.autoTime)}${row(S('Set time'),now.toLocaleTimeString(locale,{hour:'numeric',minute:'2-digit',hour12:!p.hour24}),'sx-dialog','time',p.autoTime)}${row(S('Select time zone'),zoneText(data,locale),'sx-dialog','zone',p.autoZone)}${check(S('Use 24-hour format'),'hour24',p.hour24,ICS?S(p.hour24?'13:00':'1:00 pm'):'')}${LP?'':row(S('Choose date format'),dateText(data,locale),'sx-dialog','date-format')}`);
     // SecuritySettings: the lock screen XML for the current quality (chooser / lockscreen / pattern / pin / password), the
     // encryption category, then security_settings_misc.xml. Verify apps came with 4.2; Notification access (4.3) is removed
@@ -694,6 +1172,7 @@
   }
   function overlay(data,ui,t) {
     const p=prefs(data),field=ui.systemField;
+    if(field==='account-menu')return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="toast" data-id="This feature is not part of the simulator.">${e(S('Remove account'))}</button><button data-action="close-overlay">${e(S('Sync now'))}</button></div>`;
     const input=(title,name,value='',type='text',required=false,max=100)=>`<label><span>${e(t(title))}</span><input name="${name}" type="${type}" value="${e(ui.systemValues?.[name]??value)}" ${required?'required':''} maxlength="${max}" autocomplete="off"></label>`;
     const choice=(title,name,options,value)=>`<label><span>${e(t(title))}</span><select name="${name}">${options.map(([id,label])=>`<option value="${id}" ${id===value?'selected':''}>${e(t(label))}</option>`).join('')}</select></label>`;
     const shell=(title,body,form='sx-save',extra='',submitLabel='Save')=>`<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog sx-dialog" role="dialog" aria-label="${e(t(title))}" data-form="${form}"><h3>${e(t(title))}</h3><div class="sx-fields">${body}</div>${ui.systemError?`<p class="sx-error" role="alert">${e(t(ui.systemError))}</p>`:''}<div class="settings-dialog-actions">${extra}<button type="button" data-action="close-overlay">Cancel</button><button type="submit">${e(t(submitLabel))}</button></div></form>`;

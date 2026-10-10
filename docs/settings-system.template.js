@@ -7,6 +7,80 @@
   'use strict';
   const DEVICE='__DEVICE__',ICS=DEVICE==='maguro',KK=DEVICE==='hammerhead',LP=DEVICE==='shamu';
   const STRINGS=__STRINGS__({
+    "About phone": "?about_settings",
+    "System updates": "?system_update_settings_list_item_title",
+    "Status": "?device_status",
+    "Phone number, signal, etc.": "?device_status_summary",
+    "Legal information": "?legal_information",
+    "Model number": "?model_number",
+    "Android version": "?firmware_version",
+    "Baseband version": "?baseband_version",
+    "Kernel version": "?kernel_version",
+    "Build number": "?build_number",
+    "Battery status": "?battery_status_title",
+    "Battery level": "?battery_level_title",
+    "Network": "?status_operator",
+    "Signal strength": "?status_signal_strength",
+    "Mobile network type": "?status_network_type",
+    "Service state": "?status_service_state",
+    "Roaming": "?status_roaming",
+    "Mobile network state": "?status_data_state",
+    "My phone number": "?status_number",
+    "IMEI": "?status_imei",
+    "IMEI SV": "?status_imei_sv",
+    "IP address": "?wifi_advanced_ip_address_title",
+    "Wi-Fi MAC address": "?status_wifi_mac_address",
+    "Bluetooth address": "?status_bt_address",
+    "Serial number": "?status_serial_number",
+    "Up time": "?status_up_time",
+    "Not available": "?device_info_not_available",
+    "Unknown": "?device_info_default",
+    "Discharging": "?battery_info_status_discharging",
+    "In service": "?radioInfo_service_in",
+    "Not roaming": "?radioInfo_roaming_not",
+    "Connected": "?radioInfo_data_connected",
+    "Disconnected": "?radioInfo_data_disconnected",
+    "unknown": "?radioInfo_unknown",
+    "Open source licenses": "?settings_license_activity_title",
+    "Google legal": "GoogleServicesFramework:gls_settings_tos_activity_title",
+    "Location services": "?location_settings_title",
+    "Google's location service": "?location_network_based",
+    "Let apps use data from sources such as Wi-Fi and mobile networks to determine your approximate location": "?location_neighborhood_level",
+    "GPS satellites": "?location_gps",
+    "Let apps use GPS to pinpoint your location": "?location_street_level",
+    "Backup & reset": "?privacy_settings_title",
+    "Backup & restore": "?backup_section_title",
+    "Back up my data": "?backup_data_title",
+    "Back up app data, Wi-Fi passwords, and other settings to Google servers": "?backup_data_summary",
+    "Backup account": "?backup_configure_account_title",
+    "Automatic restore": "?auto_restore_title",
+    "When reinstalling an app, restore backed up settings and data": "?auto_restore_summary",
+    "Personal data": "?personal_data_section_title",
+    "Factory data reset": "?master_clear_title",
+    "Erases all data on phone": "?master_clear_summary",
+    "master_clear_desc": "?master_clear_desc",
+    "master_clear_desc_also_erases_external": "?master_clear_desc_also_erases_external",
+    "master_clear_accounts": "?master_clear_accounts",
+    "Reset phone": "?master_clear_button_text",
+    "No account is currently storing backed up data": "?backup_configure_account_default_summary",
+    "Accounts & sync": "?sync_settings",
+    "Add account": "?add_account_label",
+    "Sync is ON": "?sync_enabled",
+    "Sync is OFF": "?sync_disabled",
+    "Data & synchronization": "?header_data_and_synchronization",
+    "Sync %s": "?sync_item_title",
+    "Remove account": "?remove_account_label",
+    "Sync now": "?sync_menu_sync_now",
+    "Accessibility": "?accessibility_settings_title",
+    "Services": "?accessibility_services_title",
+    "System": "?accessibility_system_title",
+    "Large text": "?accessibility_toggle_large_text_title",
+    "Power button ends call": "?accessibility_power_button_ends_call_title",
+    "Auto-rotate screen": "?accelerometer_title",
+    "Speak passwords": "?accessibility_speak_password_title",
+    "Touch & hold delay": "?accessibility_long_press_timeout_title",
+    "Install web scripts": "?accessibility_script_injection_title",
+    "Off": "?accessibility_service_state_off",
     "Date & time":"date_and_time_settings_title","Automatic date & time":"date_time_auto","Use network-provided time":"date_time_auto_summaryOn",
     "Automatic time zone":"zone_auto","Use network-provided time zone":"zone_auto_summaryOn","Set date":"date_time_set_date","Set time":"date_time_set_time",
     "Select time zone":"date_time_set_timezone","Use 24-hour format":"date_time_24hour","13:00":"?date_time_24_hour_sample","1:00 pm":"?date_time_12_hour_sample",
@@ -53,6 +127,7 @@
   });
   const LANGS=['hu','de','fr','es'];
   const S=key=>{const row=STRINGS[key];if(!row)return key;const i=LANGS.indexOf(window.AndroidI18n?.language);return (i>=0?row[i]:row[4])||key;};
+  const START=Date.now();
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const defaults={autoTime:true,autoZone:true,timeOffset:0,timeZone:'Europe/Budapest',hour24:true,dateFormat:'locale',screenLock:'slide',ownerInfo:'',showOwner:false,lockAfter:'5000',powerInstantLock:true,lockTactile:true,kgWidgets:false,hotspotName:'AndroidAP',hotspotSecurity:'WPA2',bluetoothTether:false,wifiSleep:'always',wifiScanAlways:false,wifiPoorAvoid:false,wifiBand:'auto',wifiOptimize:true,networkOperator:'Telekom',networkAuto:true,networkType:'lte',only2g:false};
   const prefs=data=>({...defaults,...data.settings});
@@ -97,6 +172,40 @@
   function render(data,ui,t,locale) {
     const p=prefs(data),page=(title,body,right='')=>({title,body,right}),now=wallDate(data),secure=['pattern','pin','password'].includes(p.screenLock);
     // date_time_prefs.xml: the 24-hour summary samples were dropped in 4.1 and the date format list in 5.0.
+    // ICS-only pages (4.0.4), from the IMM76I Settings' preference XML and code.
+    if(ICS){
+      const info=(title,value,action='noop',id='')=>row(S(title),value,action,id);
+      const A11Y=k=>{const r=window.StockStrings?.a11y?.[k],i=['hu','de','fr','es'].indexOf(window.AndroidI18n?.language);return r?(i>=0?r[i]:r[4]||k):k;},na=S('Not available'),account=window.ICSGmail?.account||'icecream.demo@gmail.com';
+      // device_info_settings.xml after DeviceInfoSettings: System updates (GoogleServicesFramework handles the intent),
+      // Status, Legal information, then the read-only values; the additional update, safety legal and copyright entries
+      // have no activity on the image and go.
+      if(ui.sub==='about')return page(S('About phone'),`${row(S('System updates'),'','toast','This feature is not part of the simulator.')}${row(S('Status'),S('Phone number, signal, etc.'),'settings-sub','about-status')}${row(S('Legal information'),'','settings-sub','about-legal')}${info('Model number','Galaxy Nexus')}${info('Android version','4.0.4','about-tap')}${info('Baseband version','I9250XXLA02')}${info('Kernel version','3.0.8-g034fec9\nandroid-build@vpbs1 #1\nTue Mar 13 15:46:20 PDT 2012')}${info('Build number','IMM76I')}`);
+      // deviceinfo.Status on a GSM phone: the CDMA rows (MIN, PRL version, MEID), ICCID and WiMAX are removed.
+      if(ui.sub==='about-status'){
+        const up=Math.floor((Date.now()-START)/1000),pad=n=>String(n).padStart(2,'0'),air=p.airplane;
+        return page(S('Status'),`${info('Battery status',S('Discharging'))}${info('Battery level','78%')}${info('Network',air?S('unknown'):window.ICSCarrierName?.()||'')}${info('Signal strength',air?'0 dBm   0 asu':'-75 dBm   19 asu')}${info('Mobile network type',air?S('unknown'):'HSPA+')}${info('Service state',air?S('unknown'):S('In service'))}${info('Roaming',S('Not roaming'))}${info('Mobile network state',S(p.mobileData===false||air?'Disconnected':'Connected'))}${info('My phone number',S('Unknown'))}${info('IMEI','353918050412345')}${info('IMEI SV','01')}${info('IP address',p.wifi?'192.168.1.104':na)}${info('Wi-Fi MAC address','02:00:00:40:04:01')}${info('Bluetooth address',p.bluetooth?'02:00:00:40:04:02':na)}${info('Serial number','0149A05B0F00A00B')}${info('Up time',`${Math.floor(up/3600)}:${pad(Math.floor(up/60)%60)}:${pad(up%60)}`)}`);
+      }
+      // Utils.updatePreferenceToSpecificActivityOrRemove titles the entries after their activities.
+      if(ui.sub==='about-legal')return page(S('Legal information'),`${row(S('Open source licenses'),'','toast','This feature is not part of the simulator.')}${row(S('Google legal'),'','toast','This feature is not part of the simulator.')}`);
+      if(ui.sub==='location')return page(S('Location services'),`${check(S("Google's location service"),'networkLocation',p.networkLocation!==false,S('Let apps use data from sources such as Wi-Fi and mobile networks to determine your approximate location'))}${check(S('GPS satellites'),'gps',!!p.gps,S('Let apps use GPS to pinpoint your location'))}`);
+      // privacy_settings.xml; the backup account is the Google account once backup is on.
+      if(ui.sub==='backup')return page(S('Backup & reset'),`${section(S('Backup & restore'))}${check(S('Back up my data'),'backup',p.backup!==false,S('Back up app data, Wi-Fi passwords, and other settings to Google servers'))}${row(S('Backup account'),p.backup!==false?account:S('No account is currently storing backed up data'),'noop','',p.backup===false)}${check(S('Automatic restore'),'autoRestore',p.autoRestore!==false,S('When reinstalling an app, restore backed up settings and data'),p.backup===false)}${section(S('Personal data'))}${row(S('Factory data reset'),S('Erases all data on phone'),'settings-sub','reset-info')}`);
+      // MasterClear (master_clear.xml) with emulated external storage: also_erases_external, the signed-in accounts.
+      if(ui.sub==='reset-info')return page(S('Factory data reset'),`<div class="sx-master-clear"><p>${e(S('master_clear_desc').trimEnd()+'\n'+S('master_clear_desc_also_erases_external').replace(/^\n+/,''))}</p><p>${e(S('master_clear_accounts'))}</p><p class="sx-account"><img src="assets/ic_google_account.png" alt="">${e(account)}</p></div><button class="sx-reset" data-action="factory-reset">${e(S('Reset phone'))}</button>`);
+      // ManageAccountsSettings: the auto-sync Switch in the action bar, "Add account" (ifRoom|withText), AccountPreference
+      // rows with sync_enabled / sync_disabled and ic_sync_green_holo / ic_sync_grey_holo.
+      if(ui.sub==='sync'){const on=p.autoSync!==false;return page(S('Accounts & sync'),`${row(account,S(on?'Sync is ON':'Sync is OFF'),'settings-sub','sync-google')}`.replace('<span class="row-copy">',`<img class="sx-account-icon" src="assets/ic_google_account.png" alt=""><span class="row-copy">`).replace('</span></button>',`</span><img class="sx-sync-icon" src="assets/ic_sync_${on?'green':'grey'}_holo.png" alt=""></button>`),`<button class="sx-text-action" data-action="toast" data-id="This feature is not part of the simulator.">${e(S('Add account').toUpperCase())}</button><button class="holo-switch settings-action-switch${on?' on':''}" data-action="toggle-setting" data-id="autoSync" role="switch" aria-checked="${on}" aria-label="${e(S('Accounts & sync'))}"></button>`);}
+      // AccountSyncSettings: title.xml, the Data & synchronization category, a "Sync %s" check box per sync adapter of the
+      // image (ics-sync-adapters.js), Remove account and Sync now in the overflow (showAsAction withText only).
+      if(ui.sub==='sync-google'){
+        const lang=['en','hu','de','fr','es'].indexOf(window.AndroidI18n?.language),off=p.syncOff||{},auto=p.autoSync!==false;
+        const rows=(window.ICSSyncAdapters||[]).map(names=>({key:names[0],name:names[Math.max(0,lang)]||names[0]})).sort((a,b)=>a.name.localeCompare(b.name,locale)).map(({key,name})=>{const on=auto&&!off[key];return `<button class="settings-row" data-action="sx-sync-toggle" data-id="${e(key)}" role="checkbox" aria-checked="${on}"><span class="row-copy">${e(S('Sync %s').replace('%s',name))}<small>${e(new Date(START).toLocaleString(locale,{year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'}))}</small></span><img class="holo-checkbox" src="assets/btn_check_${on?'on':'off'}_holo_dark.png" alt=""></button>`;}).join('');
+        return page('Google',`<div class="sx-sync-title"><img src="assets/ic_google_account.png" alt=""><span><b>${e(account)}</b><small>Google</small></span></div>${section(S('Data & synchronization'))}${rows}`,`<button class="sx-overflow" data-action="sx-dialog" data-id="account-menu" aria-label="More options"><img src="assets/ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button>`);
+      }
+      // AccessibilitySettings: TalkBack from the image under Services (off), the system check boxes, Explore by touch only
+      // while a service is on.
+      if(ui.sub==='accessibility')return page(S('Accessibility'),`${section(S('Services'))}${row('TalkBack',S('Off'),'toast','This feature is not part of the simulator.')}${section(S('System'))}${check(S('Large text'),'largeText',!!p.largeText)}${check(S('Power button ends call'),'powerEndsCall',!!p.powerEndsCall)}${check(S('Auto-rotate screen'),'rotate',p.rotate!==false)}${check(S('Speak passwords'),'speakPasswords',!!p.speakPasswords)}${row(S('Touch & hold delay'),A11Y(['Short','Medium','Long'][p.longPressTimeout||0]),'a11y-hold','a11y-hold')}${check(S('Install web scripts'),'webScripts',!!p.webScripts)}`);
+    }
     if(ui.sub==='date')return page(S('Date & time'),`${check(S('Automatic date & time'),'autoTime',p.autoTime,S('Use network-provided time'))}${check(S('Automatic time zone'),'autoZone',p.autoZone,S('Use network-provided time zone'))}${row(S('Set date'),dateText(data,locale),'sx-dialog','date',p.autoTime)}${row(S('Set time'),now.toLocaleTimeString(locale,{hour:'numeric',minute:'2-digit',hour12:!p.hour24}),'sx-dialog','time',p.autoTime)}${row(S('Select time zone'),zoneText(data,locale),'sx-dialog','zone',p.autoZone)}${check(S('Use 24-hour format'),'hour24',p.hour24,ICS?S(p.hour24?'13:00':'1:00 pm'):'')}${LP?'':row(S('Choose date format'),dateText(data,locale),'sx-dialog','date-format')}`);
     // SecuritySettings: the lock screen XML for the current quality (chooser / lockscreen / pattern / pin / password), the
     // encryption category, then security_settings_misc.xml. Verify apps came with 4.2; Notification access (4.3) is removed
@@ -131,6 +240,7 @@
   }
   function overlay(data,ui,t) {
     const p=prefs(data),field=ui.systemField;
+    if(field==='account-menu')return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="toast" data-id="This feature is not part of the simulator.">${e(S('Remove account'))}</button><button data-action="close-overlay">${e(S('Sync now'))}</button></div>`;
     const input=(title,name,value='',type='text',required=false,max=100)=>`<label><span>${e(t(title))}</span><input name="${name}" type="${type}" value="${e(ui.systemValues?.[name]??value)}" ${required?'required':''} maxlength="${max}" autocomplete="off"></label>`;
     const choice=(title,name,options,value)=>`<label><span>${e(t(title))}</span><select name="${name}">${options.map(([id,label])=>`<option value="${id}" ${id===value?'selected':''}>${e(t(label))}</option>`).join('')}</select></label>`;
     const shell=(title,body,form='sx-save',extra='',submitLabel='Save')=>`<div class="settings-dialog-scrim" data-action="close-overlay"></div><form class="settings-dialog sx-dialog" role="dialog" aria-label="${e(t(title))}" data-form="${form}"><h3>${e(t(title))}</h3><div class="sx-fields">${body}</div>${ui.systemError?`<p class="sx-error" role="alert">${e(t(ui.systemError))}</p>`:''}<div class="settings-dialog-actions">${extra}<button type="button" data-action="close-overlay">Cancel</button><button type="submit">${e(t(submitLabel))}</button></div></form>`;
