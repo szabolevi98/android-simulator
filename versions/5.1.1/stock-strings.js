@@ -2973,6 +2973,133 @@ window.StockStrings = {
    "Nie",
    "Jamais",
    "Nunca"
+  ],
+  "New tab": [
+   "Új lap",
+   "Neuer Tab",
+   "Nouvel onglet",
+   "Nueva pestaña"
+  ],
+  "New incognito tab": [
+   "Új inkognitólap",
+   "Neuer Inkognito-Tab",
+   "Nouv. onglet nav. privée",
+   "Nueva pestaña incógnito"
+  ],
+  "Bookmarks": [
+   "Könyvjelzők",
+   "Lesezeichen",
+   "Favoris",
+   "Marcadores"
+  ],
+  "Recent tabs": [
+   "Mostanában megjelenített lapok",
+   "Zuletzt geöffnete Tabs",
+   "Onglets récents",
+   "Pestañas recientes"
+  ],
+  "History": [
+   "Előzmények",
+   "Verlauf",
+   "Historique",
+   "Historial"
+  ],
+  "Share…": [
+   "Megosztás...",
+   "Teilen...",
+   "Partager…",
+   "Compartir…"
+  ],
+  "Print…": [
+   "Nyomtatás…",
+   "Drucken...",
+   "Imprimer…",
+   "Imprimir…"
+  ],
+  "Find in page": [
+   "Keresés ezen az oldalon",
+   "Suchen auf der Seite",
+   "Chercher sur la page",
+   "Buscar en la página"
+  ],
+  "Add to homescreen": [
+   "Hozzáadás a kezdőképernyőhöz",
+   "Zum Startbildschirm hinzu",
+   "Ajouter à l'écran d'accueil",
+   "Añadir a pantalla inicio"
+  ],
+  "Request desktop site": [
+   "Asztali webhely kérése",
+   "Desktop-Version",
+   "Voir version ordinateur",
+   "Ver como ordenador"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe und Feedback",
+   "Aide et commentaires",
+   "Ayuda y opiniones"
+  ],
+  "Close all tabs": [
+   "Összes lap bezárása",
+   "Alle Tabs schließen",
+   "Fermer tous les onglets",
+   "Cerrar todas las pestañas"
+  ],
+  "Close incognito tabs": [
+   "Inkognitólapok bezárása",
+   "Inkognito-Tabs schließen",
+   "Fermer onglets navigation privée",
+   "Cerrar pestañas de incógnito"
+  ],
+  "Go forward": [
+   "Előrelépés",
+   "Weiter",
+   "Avancer",
+   "Avanzar"
+  ],
+  "Bookmark this page": [
+   "Könyvjelző hozzáadása ehhez az oldalhoz",
+   "Lesezeichen für diese Seite erstellen",
+   "Ajouter cette page aux favoris",
+   "Añadir esta página a marcadores"
+  ],
+  "Edit bookmark": [
+   "Könyvjelző szerkesztése",
+   "Lesezeichen bearbeiten",
+   "Modifier le favori",
+   "Editar marcador"
+  ],
+  "Refresh page": [
+   "Oldal frissítése",
+   "Seite aktualisieren",
+   "Actualiser la page",
+   "Actualizar página"
+  ],
+  "Search or type URL": [
+   "Keressen, vagy írjon be egy URL-t",
+   "Suchen oder URL eingeben",
+   "Rechercher ou saisir une URL",
+   "Buscar o escribir una URL"
+  ],
+  "You've gone incognito.": [
+   "Ön inkognitómódra váltott.",
+   "Sie haben in den Inkognito-Modus gewechselt.",
+   "Vous êtes passé en mode navigation privée",
+   "Has entrado en el modo de navegación de incógnito."
+  ],
+  "Incognito message": [
+   "Az inkognitólapokon megtekintett oldalak nem maradnak meg a böngészési előzményekben, a cookie-k tárolójában vagy a keresési előzményekben, miután bezárta az összes inkognitólapot. A letöltött fájlok és a létrehozott könyvjelzők azonban megmaradnak.\n\nMindazonáltal Ön nem lesz láthatatlan. Az inkognitómód használatával nem rejtheti el böngészési tevékenységét munkaadója, internetszolgáltatója vagy a felkeresett webhelyek elől.",
+   "Seiten, die Sie in Inkognito-Tabs öffnen, werden nicht in Ihrem Browserverlauf, Cookie-Speicher oder Suchverlauf gespeichert, nachdem Sie alle Inkognito-Tabs geschlossen haben. Alle heruntergeladenen Dateien und gespeicherten Lesezeichen bleiben erhalten.\n\nSie sind jedoch nicht unsichtbar. Durch den Inkognito-Modus wird die Tatsache, dass Sie im Web surfen, nicht vor Ihrem Arbeitgeber, Internetanbieter oder den besuchten Websites verborgen.",
+   "Les pages consultées dans les onglets de navigation privée ne sont pas enregistrées dans l'historique de votre navigateur, dans les cookies ni dans l'historique des recherches une fois que vous avez fermé tous les onglets de navigation privée. Les fichiers téléchargés et les favoris ajoutés sont conservés.\n\nVous n'êtes cependant pas devenu invisible. L'utilisation du mode navigation privée n'empêche pas votre employeur, votre fournisseur d'accès à Internet ou les sites Web que vous avez consultés d'avoir accès aux informations relatives à votre navigation.",
+   "Las páginas que visites a través de las pestañas de incógnito no se mostrarán en el historial del navegador, en el almacén de cookies ni en el historial de búsquedas una vez que cierres todas las pestañas de incógnito. Sí se conservarán los archivos que descargues y los marcadores que crees.\n\nNo obstante, tus acciones no serán totalmente invisibles. El uso del modo incógnito no te permite ocultar tu actividad de navegación a tu empresa, a tu proveedor de servicios de Internet o a los sitios web que visites.",
+   "Pages you view in incognito tabs won’t stick around in your browser’s history, cookie store, or search history after you’ve closed all of your incognito tabs. Any files you download or bookmarks you create will be kept.\n\nHowever, you aren’t invisible. Going incognito doesn’t hide your browsing from your employer, your internet service provider, or the websites you visit."
+  ],
+  "Learn more": [
+   "További információ",
+   "Mehr Informationen",
+   "En savoir plus",
+   "Más información"
   ]
  },
  "gmailprefs": {

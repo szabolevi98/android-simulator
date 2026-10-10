@@ -9,8 +9,12 @@
 .screen .chr40-omnibox input::placeholder{color:#969696}
 .screen .chr40-toolbar.incognito .chr40-omnibox input{color:#fff}
 .screen .chr40-toolbar .chr-btn{width:43.49px;height:43.49px;border-radius:50%}
-.screen .chr40-toolbar .chr-tabs-btn span{border:1.81px solid #5a5a5a;border-radius:2.72px;color:#5a5a5a;font:700 10.87px Roboto,sans-serif;min-width:18px;height:18px;display:grid;place-items:center}
-.screen .chr40-toolbar.incognito .chr-tabs-btn span{border-color:#fff;color:#fff}
+.screen .chr-app .chr-tabs-btn span{display:grid;place-items:center;margin:0;width:21.74px;height:21.74px;border:0;background:url('assets/chr40-btn_tabswitcher.png') center/contain no-repeat;color:#5a5a5a;font:700 10.87px Roboto,sans-serif}
+.screen .chr40-toolbar.incognito .chr-tabs-btn span{filter:brightness(0) invert(1)}
+.screen .chr-app .chr-tabs-btn span::before{display:none}
+.chr-switcher-bar .chr-tabs-btn span,.chr-switcher-bar .chr-btn>img{filter:brightness(0) invert(1)}
+.chr-app .chr-btn>img{width:21.74px;height:21.74px;object-fit:contain}
+.chr-app .chr-btn>img[src*=btn_menu]{width:12.68px}
 /* New Tab page */
 .screen .chr40-ntp{background:#fff}
 .chr40-logo{display:grid;place-items:center;padding:43.49px 0 21.74px}
@@ -20,21 +24,31 @@
 .chr40-fakebox input::placeholder{color:#969696}
 .chr40-fakebox button{width:36.24px;height:36.24px;border:0;background:none;display:grid;place-items:center;padding:0}
 .chr40-fakebox img{width:21.74px;height:21.74px;opacity:.6}
-.screen .chr40-most{display:grid;grid-template-columns:1fr 1fr;gap:14.5px 10.87px;padding:0 14.5px 14.5px}
-.screen .chr40-most .chr-tile{background:#f2f2f2;border-radius:1.81px;overflow:hidden;box-shadow:none;border:0}
-.screen .chr40-most .chr-tile-title{display:block;padding:7.25px;font:400 12.68px Roboto,sans-serif;color:#333;background:#f2f2f2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* MostVisitedLayout: most_visited_item.xml tiles, 156 x 130 dp, 4 dp padding, the 24 dp 12 sp title (4 dp in, 4 dp
+   above the thumbnail), the 148 x 94 dp thumbnail, #f2f2f2 with 2 dp corners, 16 dp apart, 16 dp from the sides. */
+.screen .chr40-most{display:grid;grid-template-columns:repeat(2,141.34px);justify-content:center;gap:14.5px;padding:14.5px 14.5px 14.5px}
+.screen .chr40-most .chr-tile{display:flex;flex-direction:column;width:141.34px;height:117.78px;padding:3.62px;background:#f2f2f2;border-radius:1.81px;overflow:hidden;box-shadow:none;border:0;box-sizing:border-box}
+.screen .chr40-most .chr-tile-title{flex:none;display:block;height:21.74px;line-height:21.74px;margin-bottom:3.62px;padding:0 0 0 3.62px;font:400 10.87px Roboto,sans-serif;color:#333;background:none;border:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .chr40-most .chr-tile-thumb{flex:none;width:134.09px;height:85.16px;background:#fff}
+.screen .chr40-most .chr-tile-thumb .browser-page{transform:scale(.41)}
 .screen .chr40-ntp-bar{display:flex;height:48.92px;background:#fff;border-top:.906px solid #0000001f}
 .screen .chr40-ntp-bar button{flex:1;display:flex;align-items:center;justify-content:center;gap:7.25px;border:0;background:none;color:#333;font:400 12.68px Roboto,sans-serif}
 .screen .chr40-ntp-bar button.active{color:#4285f4}
 .chr40-ntp-bar img{width:21.74px;height:21.74px;opacity:.6}
+/* new_tab_page_incognito.xml: #222222, 32 dp sides, 24 dp top; incognito_splash 19 dp above the 24 sp light #d2d2d2
+   header, the 14 sp #bdbdbd message 32 dp below (1.2 line spacing), LEARN MORE 14 sp medium #03a9f4, 16 dp padded. */
 .chr40-ntp.incognito{background:#222}
-.chr40-incognito{display:block;width:72px;margin:28px auto 14px}
+.chr40-otr{display:flex;flex-direction:column;align-items:center;padding:21.74px 28.99px 14.5px}
+.chr40-otr img{width:108.72px;height:108.72px;margin-bottom:17.21px}
+.chr40-otr h3{margin:0;align-self:flex-start;font:300 21.74px Roboto,sans-serif;color:#d2d2d2}
+.chr40-otr p{margin:28.99px 0 9.06px;align-self:flex-start;font:400 12.68px/1.2 Roboto,sans-serif;color:#bdbdbd;white-space:pre-line}
+.screen .chr40-learn{align-self:flex-start;margin-left:-14.5px;padding:14.5px;border:0;background:none;font:500 12.68px Roboto,sans-serif;color:#03a9f4;text-transform:uppercase}
 /* Menu: the Material popup with the icon row */
 .screen .chr-menu{top:calc(var(--sb) + 3.62px);right:3.62px;min-width:200px;background:#fff;border-radius:1.81px;box-shadow:0 3.6px 12.68px #00000059;padding:0 0 7.25px;font-family:Roboto,sans-serif}
 .screen .chr40-menu-icons{display:flex;justify-content:space-around;border-bottom:.906px solid #0000001f;padding:0}
 .screen .chr40-menu-icons button{flex:1;height:43.49px;border:0;background:none;display:grid;place-items:center}
 .screen .chr40-menu-icons button:disabled{opacity:.3}
-.chr40-menu-icons img{width:21.74px;height:21.74px;opacity:.7}
+.chr40-menu-icons img{width:21.74px;height:21.74px}
 .screen .chr-menu>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:43.49px;border:0;background:none;padding:0 14.5px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#333}
 .chr-menu .lp-check{margin-right:0}
 /* Settings (audit step 5): the preference screens, the list dialogs and Clear browsing data. */
@@ -93,3 +107,10 @@
 .screen .chr-dlg-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;font:500 12.68px Roboto,sans-serif;color:#03a9f4;text-transform:uppercase}
 .chr-dlg-busy p{font:400 14.5px Roboto,sans-serif;color:#0000008a}
 .chr-spinner{border-top-color:#03a9f4}
+/* Chrome 40's drawables in the overview and the pages: btn_new_tab_white, btn_tab_close, ic_suggestion_page, recent_laptop,
+   incognito_splash; the toolbar count 12 dip bold (toolbar_tab_count_text_size_1_digit), 10 dip for two digits. */
+.chr-new-tab img{width:21.74px;height:21.74px}
+.chr-card-close img{width:16.31px;height:16.31px}
+.chr-globe img{width:14.5px;height:14.5px}
+.chr-devices img{width:43.49px;height:43.49px}
+.chr-card-ntp img.chr40-card-incognito{width:64px;height:auto}
