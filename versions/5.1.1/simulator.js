@@ -280,7 +280,7 @@
     // RecentsTheme: transparent system bars over the wallpaper.
     screen.classList.toggle('lp-recents-open', ui.overlay === 'recent');
     // Window.setStatusBarColor: the app's colorPrimaryDark (LP_STATUS_COLORS), black where the theme sets none.
-    screen.style.setProperty('--lp-sb', ui.view === 'youtube' && ['search', 'results'].includes(ui.sub) ? '#d9d9d9' : ui.sub === 'chrome-settings' && ['chrome', 'browser'].includes(ui.view) ? '#161e21' : LP_STATUS_COLORS[ui.view] || LPExtraApps.COLORS[ui.view]?.[1] || '#000');
+    screen.style.setProperty('--lp-sb', ui.view === 'youtube' && ['search', 'results'].includes(ui.sub) ? '#d9d9d9' : ui.sub === 'chrome-settings' && ['chrome', 'browser'].includes(ui.view) ? '#161e21' : ui.view === 'wallet' ? LPExtraApps.walletStatus(ui) : LP_STATUS_COLORS[ui.view] || LPExtraApps.COLORS[ui.view]?.[1] || '#000');
     // QuickContactActivity tints the status bar with the darker shade of the contact's colour.
     if (ui.view === 'people' && ui.sub === 'detail') { const person = contact(ui.selectedContact); if (person) screen.style.setProperty('--lp-sb', LPDialer.tileColorDark(person.name)); }
     // Google+'s VideoViewActivity: VideoViewTheme's colorPrimaryDark (Theme.EmeraldSea, quantum_googred700).
@@ -757,6 +757,8 @@
     if (app === 'voice-search') setTimeout(listenVoice);
     if (app === 'keep' && !Array.isArray(data.keepNotes)) data.keepNotes = clone(defaultData.keepNotes);
     captureRecentView();
+    // Wallet's warm welcome: the intro splash, then the pager (WarmWelcomeActivity.startIntroAnimation).
+    if (app === 'wallet' && !resume) { ui.walPage = undefined; setTimeout(() => { if (ui.view === 'wallet' && ui.walPage == null) { ui.walPage = 0; render(); } }, 2000); }
     if (app === 'camera' && !resume) { ui.gcsPage = ''; ui.gcsDialog = ''; ui.gcamExposure = false; }
     if (app === 'play-store' && !resume) { ui.play = ICSPlayStore.initial(); ui.playHistory = []; ui.market = {page: 'home'}; ui.marketHistory = []; ui.marketSearching = false; }
     ui.view = app; ui.sub = resume ? ui.recentState?.[app]?.sub || '' : ''; ui.overlay = ''; if (app === 'settings' && !resume) ui.settingsRootScroll = 0;
@@ -2497,6 +2499,8 @@
       case 'ed-search-clear': ui.sub = ''; ui.edQuery = ''; render(); break;
       case 'lpx-unavailable': case 'lpx-menu': ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'lpx-overflow': ui.overlay = 'lpx-overflow'; renderOverlay(); break;
+      case 'wal-next': ui.walPage = Math.min((ui.walPage ?? 0) + 1, LPExtraApps.WAL_PAGES.length - 1); render(); break;
+      case 'wal-finish': toast(i18n.t('This feature is not part of the simulator.')); break;
       case 'lpx-drawer': ui.lpxDrawer = !ui.lpxDrawer; render(); break;
       case 'vol-zen': data.settings.zenMode = id; if (id === 'all') data.settings.zenExit = null; save(); renderStatus(); showVolume(volumeStream()); break;
       case 'vol-settings': hideVolume(); openApp('settings'); ui.sub = 'sound'; render(); break;

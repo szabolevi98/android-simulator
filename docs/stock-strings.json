@@ -1705,7 +1705,22 @@
    "Add activity": "FitnessPrebuilt:menu_item_add_activity",
    "Add your weight": "FitnessPrebuilt:menu_item_add_weight",
    "Settings": "FitnessPrebuilt:menu_item_settings",
-   "Help & feedback": "FitnessPrebuilt:menu_item_help"
+   "Help & feedback": "FitnessPrebuilt:menu_item_help",
+   "legend_duration_value": "FitnessPrebuilt:legend_duration_value",
+   "wheel_duration_today_m": "FitnessPrebuilt:wheel_duration_today_m",
+   "wheel_goal_duration_not_met_m": "FitnessPrebuilt:wheel_goal_duration_not_met_m",
+   "wheel_goal_duration_met": "FitnessPrebuilt:wheel_goal_duration_met",
+   "summary_message_no_data_today": "FitnessPrebuilt:summary_message_no_data_today",
+   "summary_message_no_goal_active": "FitnessPrebuilt:summary_message_no_goal_active",
+   "summary_message_goal_30_to_50_percent": "FitnessPrebuilt:summary_message_goal_30_to_50_percent",
+   "summary_message_goal_50_to_70_percent": "FitnessPrebuilt:summary_message_goal_50_to_70_percent",
+   "summary_message_goal_70_to_90_percent": "FitnessPrebuilt:summary_message_goal_70_to_90_percent",
+   "summary_message_goal_complete": "FitnessPrebuilt:summary_message_goal_complete",
+   "timeline_event_title_activity_m": "FitnessPrebuilt:timeline_event_title_activity_m",
+   "timeline_activity_walking": "FitnessPrebuilt:timeline_activity_walking",
+   "timeline_activity_running": "FitnessPrebuilt:timeline_activity_running",
+   "timeline_activity_biking": "FitnessPrebuilt:timeline_activity_biking",
+   "overflow_menu": "FitnessPrebuilt:overflow_menu"
   },
   "newsstand": {
    "Read Now": "Newsstand:read_now_title",
@@ -1945,6 +1960,19 @@
    "Learn more": "PrebuiltGmail:learn_more",
    "Categories text": "PrebuiltGmail:sectioned_inbox_welcome_text2",
    "Change categories": "PrebuiltGmail:sectioned_inbox_welcome_change_categories"
+  },
+  "wallet": {
+   "app_name": "Wallet:app_name",
+   "welcome_intro": "Wallet:welcome_intro",
+   "welcome_walletcard_heading": "Wallet:welcome_walletcard_heading",
+   "welcome_walletcard_text": "Wallet:welcome_walletcard_text",
+   "welcome_p2p_heading": "Wallet:welcome_p2p_heading",
+   "welcome_p2p_text": "Wallet:welcome_p2p_text",
+   "welcome_loyalty_heading": "Wallet:welcome_loyalty_heading",
+   "welcome_loyalty_text": "Wallet:welcome_loyalty_text",
+   "skip_warm_welcome": "Wallet:skip_warm_welcome",
+   "button_continue": "Wallet:button_continue",
+   "button_done": "Wallet:button_done"
   }
  },
  "4.0.4": {

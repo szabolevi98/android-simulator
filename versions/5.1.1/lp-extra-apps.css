@@ -2,20 +2,15 @@
 .app-view.lpx-app{position:relative;display:flex;flex-direction:column;height:100%;overflow:hidden;background:#fafafa;color:#212121;font-family:Roboto,sans-serif;padding:0}
 .lpx-app button{cursor:pointer;font-family:inherit}
 .lpx-bar{flex:none;display:flex;align-items:center;height:50.74px;padding:0 3.62px;color:#fff;box-shadow:0 1.8px 3.6px #0000003d;position:relative;z-index:2}
-.lpx-bar.dark{color:#212121}
 .lpx-bar h2{flex:1;min-width:0;margin:0 0 0 10.87px;font:500 18.12px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .screen .lpx-btn{width:43.49px;height:43.49px;border:0;border-radius:50%;background:none;color:inherit;display:grid;place-items:center;padding:0}
 .lpx-btn svg{width:21.74px;height:21.74px}
 .lpx-list{flex:1;min-height:0;overflow-y:auto;padding:7.25px 0 79.73px;scrollbar-width:none}
 .screen .lpx-file{display:flex;align-items:center;gap:28.99px;width:100%;min-height:65.23px;border:0;background:none;padding:0 14.5px;text-align:left;color:#212121}
-.lpx-file-icon{flex:none;display:grid;place-items:center}
-.lpx-file-icon svg{width:21.74px;height:21.74px}
 .lpx-file-copy{display:flex;flex-direction:column;min-width:0}
 .lpx-file-copy strong{font:400 14.5px Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lpx-file-copy small{font:400 12.68px Roboto,sans-serif;color:#757575}
 .lpx-empty{margin:43px 14.5px;text-align:center;font:400 14.5px Roboto,sans-serif;color:#757575}
-.screen .lpx-fab{position:absolute;right:14.5px;bottom:14.5px;width:50.74px;height:50.74px;border:0;border-radius:50%;background:#db4437;color:#fff;display:grid;place-items:center;padding:0;box-shadow:0 3.6px 9px #0000004d}
-.lpx-fab svg{width:21.74px;height:21.74px}
 .lpx-page{flex:1;min-height:0;overflow-y:auto;padding:14.5px 7.25px;scrollbar-width:none}
 .lpx-paper{background:#fff;min-height:100%;padding:28.99px 21.74px;box-shadow:0 .9px 2.7px #00000033;font:400 14.5px/1.6 Roboto,sans-serif}
 .lpx-paper p{margin:0 0 7.25px}
@@ -25,20 +20,6 @@
 .lpx-paper table{width:100%;border-collapse:collapse;font:400 13.59px Roboto,sans-serif}
 .lpx-paper th{width:28px;background:#f3f3f3;color:#757575;font-weight:400}
 .lpx-paper td,.lpx-paper th{border:.906px solid #e0e0e0;padding:7.25px}
-.lpx-card{display:flex;flex-direction:column;gap:3.62px;margin:7.25px;padding:14.5px;background:#fff;border-radius:1.81px;box-shadow:0 .9px 2.7px #00000033}
-.lpx-card strong{font:400 14.5px Roboto,sans-serif}
-.lpx-card small{font:400 12.68px Roboto,sans-serif;color:#757575}
-.lpx-balance b{font:400 28.99px Roboto,sans-serif}
-.lpx-fit{background:#fff}
-.lpx-ring{width:181.2px;height:181.2px;margin:21.74px auto;border-radius:50%;background:conic-gradient(#db4437 var(--a),#eee 0);display:grid;place-items:center}
-.lpx-ring>div{width:159.46px;height:159.46px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.lpx-ring b{font:300 50.74px/1 Roboto,sans-serif;color:#db4437}
-.lpx-ring small{font:400 14.5px Roboto,sans-serif;color:#757575}
-.lpx-ring span{margin-top:3.62px;font:500 12.68px Roboto,sans-serif;color:#757575;text-transform:uppercase}
-.lpx-stats{display:flex;justify-content:space-around;margin-bottom:14.5px}
-.lpx-stats div{display:flex;flex-direction:column;align-items:center}
-.lpx-stats b{font:400 21.74px Roboto,sans-serif}
-.lpx-stats small{font:400 12.68px Roboto,sans-serif;color:#757575}
 .lpx-cards{padding:7.25px}
 .lpx-story{margin-bottom:7.25px;background:#fff;border-radius:1.81px;overflow:hidden;box-shadow:0 .9px 2.7px #00000033}
 .lpx-story-art{height:126.84px}
@@ -68,3 +49,52 @@
 .ed-more svg{width:21.74px;height:21.74px}
 .screen .ed-more:active{background:#0000001a}
 .ed-name{display:block;width:calc(100% - 43.48px);margin:0 21.74px 14.5px;padding:7.25px 0;border:0;border-bottom:1.81px solid #4285f4;background:none;color:#212121;font:400 14.5px Roboto,sans-serif;outline:0}
+/* Fit 1.51 (lp-extra-apps.js): app_background #f0f1f2; legend_item_height 60 dp, legend_icon_circle_size 40 dp,
+   legend_icon_image_size 25 dp, legend_item_internal_padding 5 dp, legend_space_min_width 15 dp; summary_message_height
+   60 dp at summary_message_large 26 sp; wheel_size 290 dp; timeline_header_padding_bottom 64 dp; sessions at
+   timeline_line_x_position 26 dp, timeline_event_diameter 20 dp, timeline_event_content_padding 46 dp, 16 sp. */
+.app-view.fit-app{background:#f0f1f2}
+.fit-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:14.5px}
+.fit-legend{display:flex;align-items:center;height:54.36px}
+.fit-legend-items{flex:1;display:flex;align-items:center;min-width:0;overflow-x:auto;scrollbar-width:none}
+.fit-space{flex:1 0 13.59px}
+.fit-legend-item{display:flex;align-items:center;gap:4.53px}
+.fit-legend-icon{width:36.24px;height:36.24px;border-radius:50%;display:grid;place-items:center}
+.fit-legend-icon img{width:22.65px;height:22.65px}
+.fit-legend-value{font:400 14.5px/1.15 Roboto,sans-serif;color:#757575}
+.fit-legend-value b{font:400 18.12px Roboto,sans-serif;color:#212121}
+.screen .fit-overflow{flex:none;width:32.62px;height:54.36px;border:0;padding:0;background:none;display:grid;place-items:center}
+.fit-overflow img{width:3.62px;height:14.5px}
+.fit-summary{height:54.36px;margin:0;display:grid;place-items:center;padding:0 14.5px;text-align:center;font:400 23.56px Roboto,sans-serif;color:#212121}
+.fit-wheel{position:relative;width:262.74px;height:262.74px;margin:0 auto 57.98px}
+.fit-wheel svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke-width:20}
+.fit-wheel-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.fit-value{margin:0;font:400 25.37px/1.2 Roboto,sans-serif;color:#212121}
+.fit-value b{font:400 27.18px Roboto,sans-serif}
+.fit-info{margin:13.59px 0 0;padding:0 27.18px;font:400 13.59px Roboto,sans-serif;color:#757575}
+.fit-timeline{list-style:none;margin:0;padding:0}
+.fit-session{position:relative;display:flex;flex-direction:column;padding:0 7.25px 14.5px 41.68px;min-height:21.74px}
+.fit-session::before{content:'';position:absolute;left:23.1px;top:0;bottom:0;width:.906px;background:var(--c)}
+.fit-dot{position:absolute;left:14.5px;top:1.81px;width:18.12px;height:18.12px;border-radius:50%;background:var(--c)}
+.fit-session strong{font:400 14.5px/21.74px Roboto,sans-serif;color:#212121}
+.fit-session small{font:400 14.5px Roboto,sans-serif;color:#757575}
+/* Wallet 8.0's warm welcome (lp-extra-apps.js): the page colour behind the 360x640 dp hero, the copy (48 dp in,
+   Headline 18 sp, Body 14 sp + 8 dp line spacing) above a 1 dp #33ffffff divider, the 48 dp button bar. */
+.app-view.wal-app{color:#fff}
+.wal-page{position:relative;flex:1;min-height:0;overflow:hidden}
+.wal-hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wal-copy{position:absolute;left:0;right:0;bottom:0;border-bottom:.906px solid #ffffff33}
+.wal-copy h2{margin:0;padding:0 43.49px 7.25px;text-align:center;font:400 16.31px Roboto,sans-serif;color:#fff}
+.wal-copy p{margin:0;padding:0 43.49px 7.25px;min-height:3.6em;text-align:center;font:400 12.68px/1.62 Roboto,sans-serif;color:#ffffffb3}
+.wal-bar{flex:none;display:flex;align-items:center;height:43.49px}
+.screen .wal-btn{flex:1;height:100%;border:0;background:none;padding:0 14.5px;color:#fff;font:700 12.68px Roboto,sans-serif;text-transform:uppercase;display:flex;align-items:center}
+.wal-skip{justify-content:flex-start}
+.wal-done,.wal-next{justify-content:flex-end}
+.wal-next img{width:21.74px;height:21.74px}
+.wal-dots{display:flex;gap:10.87px;padding:14.5px}
+.wal-dots i{width:7.25px;height:7.25px;border-radius:50%;background:#ffffff80}
+.wal-dots i.on{background:#fff}
+.wal-splash{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;background:#efefef;animation:wal-intro .5s 1.5s forwards}
+.wal-splash img{flex:1;min-height:0;width:79.73px;object-fit:contain}
+.wal-splash h1{margin:0;padding:14.5px 57.98px 57.98px;text-align:center;font:400 16.31px Roboto,sans-serif;color:#000000de}
+@keyframes wal-intro{to{opacity:0;visibility:hidden}}

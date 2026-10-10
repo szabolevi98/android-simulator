@@ -2651,6 +2651,111 @@ window.StockStrings = {
    "Hilfe und Feedback",
    "Aide et commentaires",
    "Ayuda y sugerencias"
+  ],
+  "legend_duration_value": [
+   "{count,plural, =1{1\nperc}other{#\nperc}}",
+   "{count,plural, =1{1\nmin}other{#\nmin}}",
+   "{count,plural, =1{1\nmin}one{#\nmin}other{#\nmin}}",
+   "{count,plural, =1{1\nmin}other{#\nmin}}",
+   "{count, plural, =1 {1\nmin} other {#\nmin}}"
+  ],
+  "wheel_duration_today_m": [
+   "{count,plural, =1{1 perc\nma}other{# perc\nma}}",
+   "{count,plural, =1{1 min\nheute}other{# min\nheute}}",
+   "{count,plural, =1{1 min\naujourd'hui}one{# min\naujourd'hui}other{# min\naujourd'hui}}",
+   "{count,plural, =1{1 min\nhoy}other{# min\nhoy}}",
+   "{count, plural, =1 {1 min\ntoday} other {# min\ntoday}}"
+  ],
+  "wheel_goal_duration_not_met_m": [
+   "{count,plural, =1{1 perc a célig}other{# perc a célig}}",
+   "{count,plural, =1{1 min bis zum Ziel}other{# min bis zum Ziel}}",
+   "{count,plural, =1{1 min avant l'objectif}one{# min avant l'objectif}other{# min avant l'objectif}}",
+   "{count,plural, =1{1 min para el objetivo}other{# min para el objetivo}}",
+   "{count, plural, =1 {1 min to goal} other {# min to goal}}"
+  ],
+  "wheel_goal_duration_met": [
+   "Cél teljesítve",
+   "Ziel erreicht",
+   "Objectif atteint",
+   "Objetivo alcanzado",
+   "Goal reached"
+  ],
+  "summary_message_no_data_today": [
+   "Készen áll a mozgásra?",
+   "Startbereit?",
+   "Prêt à bouger ?",
+   "¿Listo para empezar a moverte?",
+   "Ready to get moving?"
+  ],
+  "summary_message_no_goal_active": [
+   "Remekül halad",
+   "Weiter so!",
+   "Ce n'est pas mal.",
+   "Estupendo",
+   "Great going"
+  ],
+  "summary_message_goal_30_to_50_percent": [
+   "Félúton van célja felé",
+   "Sie haben fast die Hälfte geschafft!",
+   "Vous êtes presque à mi-chemin.",
+   "Casi a medio camino de tu objetivo",
+   "Almost halfway to your goal"
+  ],
+  "summary_message_goal_50_to_70_percent": [
+   "Félúton jár",
+   "Die Hälfte ist geschafft!",
+   "Vous êtes à mi-chemin.",
+   "A mitad de camino",
+   "At the halfway mark"
+  ],
+  "summary_message_goal_70_to_90_percent": [
+   "Már közel jár a célhoz",
+   "Fast geschafft!",
+   "Vous avez presque terminé.",
+   "Ya casi has acabado",
+   "Almost there"
+  ],
+  "summary_message_goal_complete": [
+   "Elérte a célját!",
+   "Sie haben Ihr Ziel erreicht!",
+   "Objectif atteint !",
+   "¡Objetivo conseguido!",
+   "You met your goal!"
+  ],
+  "timeline_event_title_activity_m": [
+   "{count,plural, =1{1 perc {activity}}other{# perc {activity}}}",
+   "{count,plural, =1{1 min {activity}}other{# min {activity}}}",
+   "{count,plural, =1{1 min ({activity})}one{# min ({activity})}other{# min ({activity})}}",
+   "{count,plural, =1{1 min {activity}}other{# min {activity}}}",
+   "{count, plural, =1 {1 min {activity}} other {# min {activity}}}"
+  ],
+  "timeline_activity_walking": [
+   "gyaloglás",
+   "Gehen",
+   "marche à pied",
+   "andando",
+   "walking"
+  ],
+  "timeline_activity_running": [
+   "futás",
+   "Laufen",
+   "course à pied",
+   "corriendo",
+   "running"
+  ],
+  "timeline_activity_biking": [
+   "kerékpározás",
+   "Radfahren",
+   "vélo",
+   "bicicleta",
+   "biking"
+  ],
+  "overflow_menu": [
+   "További lehetőségek",
+   "Weitere Optionen",
+   "Plus d'options",
+   "Más opciones",
+   "More options"
   ]
  },
  "newsstand": {
@@ -4045,6 +4150,85 @@ window.StockStrings = {
    "Kategorien ändern",
    "Modifier les catégories",
    "Cambiar categorías"
+  ]
+ },
+ "wallet": {
+  "app_name": [
+   "Wallet",
+   "Wallet",
+   "Wallet",
+   "Wallet",
+   "Wallet"
+  ],
+  "welcome_intro": [
+   "Welcome to Google Wallet, an easier way to pay",
+   "Willkommen bei Google Wallet – der einfacheren Zahlungsmethode",
+   "Bienvenue dans Google Wallet, un mode de paiement plus pratique",
+   "Te damos la bienvenida a Google Wallet, una forma más fácil de pagar",
+   "Welcome to Google Wallet, an easier way to pay"
+  ],
+  "welcome_walletcard_heading": [
+   "Pay in stores",
+   "In Geschäften zahlen",
+   "Effectuez vos paiements dans les magasins",
+   "Pagar en tiendas",
+   "Pay in stores"
+  ],
+  "welcome_walletcard_text": [
+   "Swipe your Google Wallet Card\nor tap your phone",
+   "Nutzen Sie Ihre Google Wallet-Karte\noder tippen Sie auf Ihr Telefon.",
+   "Passez votre carte Google Wallet\nou appuyez sur votre téléphone.",
+   "Desliza tu tarjeta Google Wallet\no toca tu teléfono",
+   "Swipe your Google Wallet Card\nor tap your phone"
+  ],
+  "welcome_p2p_heading": [
+   "Send money for free",
+   "Kostenlos Geld senden",
+   "Envoyez de l'argent gratuitement",
+   "Envía dinero de forma gratuita",
+   "Send money for free"
+  ],
+  "welcome_p2p_text": [
+   "It's as easy as sending an email",
+   "So einfach wie das Senden einer E-Mail",
+   "C'est aussi simple que d'envoyer un e-mail.",
+   "Es tan fácil como enviar un correo electrónico",
+   "It's as easy as sending an email"
+  ],
+  "welcome_loyalty_heading": [
+   "Carry less, save more",
+   "Weniger dabeihaben, mehr sparen",
+   "Allégez votre portefeuille et réalisez davantage d'économies",
+   "Lleva menos peso en tu cartera y ahorra mucho más",
+   "Carry less, save more"
+  ],
+  "welcome_loyalty_text": [
+   "Add your loyalty and gifts cards\nso they're always on hand",
+   "Fügen Sie Ihre Kunden- und Geschenkkarten hinzu,\ndamit Sie sie jederzeit nutzen können.",
+   "Ajoutez vos cartes de fidélité et vos cartes cadeau\npour les avoir toujours sous la main.",
+   "Añade tus tarjetas regalo y de fidelización\npara tenerlas siempre a mano",
+   "Add your loyalty and gifts cards\nso they're always on hand"
+  ],
+  "skip_warm_welcome": [
+   "Skip",
+   "Überspringen",
+   "Ignorer",
+   "Saltar",
+   "Skip"
+  ],
+  "button_continue": [
+   "Continue",
+   "Weiter",
+   "Continuer",
+   "Continuar",
+   "Continue"
+  ],
+  "button_done": [
+   "Done",
+   "Fertig",
+   "OK",
+   "Listo",
+   "Done"
   ]
  }
 };
