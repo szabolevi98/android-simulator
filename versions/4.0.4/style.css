@@ -372,7 +372,7 @@
 .power-cell.enabled i{background:transparent url('assets/appwidget_settings_ind_on_c_holo.png') center/100% 100%}
 .drawer-widget-preview .power-cell i{height:8px;margin-top:0}
 .power-widget{background:none;border:7px solid transparent;border-image:url('assets/widget-power-bg.png') 12 fill stretch;padding:0;border-radius:0}
-/* AOSP Contacts dialpad: 20/65/15 vertical weights and original hdpi art. */
+/* AOSP Contacts dialpad: 20/65/15 vertical weights and the image's Contacts.apk xhdpi art (the 10 px texture is 5 dp). */
 .phone-app{display:flex;flex-direction:column;background:#000;color:#eee;overflow:hidden}
 .phone-tabs{height:48px;flex:none;display:flex;background:#080808;border-bottom:1px solid #33b5e5}
 .phone-tabs button{position:relative;flex:1;border:0;background:transparent;display:grid;place-items:center}
@@ -380,7 +380,7 @@
 .phone-tabs button[aria-selected=true]{box-shadow:inset 0 -5px #33b5e5}
 .phone-tabs img{width:32px;height:32px}
 .ics-dialer{display:flex;flex:1;min-height:0;flex-direction:column;gap:2px}
-.dial-digits,.ics-dial-pad,.dial-actions{background:#171717 url('assets/dial_background_texture.png') repeat;background-size:5px 5px}
+.dial-digits,.ics-dial-pad,.dial-actions{background:#171717 url('assets/dial_background_texture.png') repeat;background-size:4.25px 4.25px}
 .dial-digits{flex:20;min-height:0;display:flex;align-items:center}
 .dial-digits output{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:29px;text-align:center;padding-left:12px;white-space:nowrap}
 .dial-digits button{width:48px;height:100%;border:0;background:none;flex:none}

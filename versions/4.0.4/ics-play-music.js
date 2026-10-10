@@ -160,7 +160,7 @@
     return all.map(([, i]) => i);
   }
   function bar(ctx, {up = false} = {}) {
-    return `<header class="pm4-bar"><button class="pm4-home" data-action="${up ? 'back' : 'home'}" aria-label="Play Music">${up ? '<span class="pm4-back">‹</span>' : ''}<img src="assets/play-music.png" alt=""></button><span class="pm4-spacer"></span><button class="pm4-icon" data-action="pm4-unsupported" aria-label="${e(T(ctx.lang, 'Search music'))}"><img src="assets/kem-ic_menu_search_holo_light.png" alt=""></button><button class="pm4-icon" data-action="pm4-menu" aria-label="${e(T(ctx.lang, 'More options'))}"><img src="assets/kem-ic_menu_moreoverflow_normal_holo_light.png" alt=""></button></header>`;
+    return `<header class="pm4-bar"><button class="pm4-home" data-action="${up ? 'back' : 'home'}" aria-label="Play Music">${up ? '<span class="pm4-back">‹</span>' : ''}<img src="assets/play-music.png" alt=""></button><span class="pm4-spacer"></span><button class="pm4-icon" data-action="pm4-unsupported" aria-label="${e(T(ctx.lang, 'Search music'))}"><img src="assets/pm4-ic_menu_search_holo_dark.png" alt=""></button><button class="pm4-icon" data-action="pm4-menu" aria-label="${e(T(ctx.lang, 'More options'))}"><img src="assets/pm4-ic_menu_moreoverflow_normal_holo_dark.png" alt=""></button></header>`;
   }
   function songRows(ctx, ids, queue) {
     const {tracks, music} = ctx;
