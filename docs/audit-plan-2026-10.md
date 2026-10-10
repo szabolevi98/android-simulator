@@ -165,7 +165,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 - [x] 4.0.4 Beállítások: néhány beépített oldal kitalált alcímekkel (~1 óra) — b00110e: Névjegy, Állapot, Jogi információk, Fiókok és szinkronizálás (+ fiók szinkronizálása), Helyszolgáltatások, Biztonsági mentés, Gyári visszaállítás, Kisegítő lehetőségek a kép XML-jei és kódja szerint. A buildszám (IMM76I) és a Fejlesztői beállítások már a képből – cf596f7
 - [x] 4.0.4 News & Weather: a fő elrendezések a 4.3-as 1.3.11-ből, a képben 1.3.04 (~1 óra) — df5af84: az 1.3.04 és 1.3.11 layoutjai dekódolva megegyeznek; a 4.0.4 már az 1.3.04 témáját és menüjét követte, csak az 1.3.11-es lenyomott állapot kellett kivenni
 - [x] Számológép 4.0.4 / 4.4.4: általános ICS-stílusú billentyűzet, APK-forrás nélkül (~1 óra) — 7559ce1: a layoutok egyeztek a Calculator.apk-val; a méretek a stílusokból, a feliratok és a menü a képből
-- [ ] settings-detail.js (4.0.4 / 4.3 / 4.4.4 / 5.1.1): „szemléltető” oldalak és statisztikák forrás nélkül; átnézni, mi érhető el belőle (~1–2 óra)
+- [x] settings-detail.js (4.0.4 / 4.3 / 4.4.4 / 5.1.1): „szemléltető” oldalak és statisztikák forrás nélkül; átnézni, mi érhető el belőle (~1–2 óra) — 1de8ff2: minden felirat a kép Settings-szövegéből (stock-strings settings csoport), a kitalált szövegek (kategóriák, „Zenei hatások” hiánya, alvó mód összegzés, betűméretek, adatciklus, Egyéb fájljai, engedélysor, verziószám) javítva; a számok (adatforgalom, tárhely, akku) továbbra is bemutató értékek
 
 **C) Régebbi verzió öröksége – ellenőrizni**
 
@@ -347,3 +347,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-10 | 9. lépés: 4.0.4 Beállítások oldalai (Névjegy, Állapot, Fiókok, Hely, Mentés, Kisegítő) a képből | b00110e |
 | 2026-10-10 | 9. lépés: 4.0.4 News & Weather az 1.3.04 szerint ellenőrizve | df5af84 |
 | 2026-10-10 | 9. lépés: Számológép 4.0.4 / 4.4.4 a Calculator.apk szerint | 7559ce1 |
+| 2026-10-10 | 9. lépés: settings-detail.js 4.0.4–5.1.1 a képek Settings-szövegeivel | 1de8ff2 |
