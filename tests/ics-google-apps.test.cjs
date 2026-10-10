@@ -7,7 +7,7 @@ const GLYPHS=/[←-⇿⌀-⏿─-➿⤀-⯿\u{1F300}-\u{1FAFF}]/u;
 const screens=[
   ['youtube',{}],['youtube',{gaYtTab:'Browse'}],['youtube',{gaYtTab:'Account'}],['youtube',{gaSub:'watch',gaVideo:'v1'}],['youtube',{gaSub:'watch',gaVideo:'v1',gaYtWatchTab:'related'}],
   ['google-plus',{}],['google-plus',{gaSub:'stream'}],['talk',{}],['talk',{gaSub:'chat',gaChat:1}],['play-books',{}],['play-books',{gaSub:'read'}],
-  ['play-movies',{}],['play-movies',{gaSub:'watch',gaPaused:true}],['search',{}],['voice-dialer',{}],['voice-dialer',{gaVoice:'failed'}],['latitude',{}]
+  ['play-movies',{}],['play-movies',{gaMoviesTab:'personal'}],['search',{}],['voice-dialer',{}],['voice-dialer',{gaVoice:'failed'}],['latitude',{}]
 ];
 for(const [view,ui] of screens){
   const html=G.render(view,base(view,ui));
@@ -44,4 +44,9 @@ for(const [v,bar,menu] of [['4.0.4',[],['Refresh','Settings']],['4.3',['nw-navig
   assert.doesNotMatch(html,/aria-label="Refresh"[^>]*><svg/,v);for(const src of bar){assert.match(html,new RegExp(src),v);assert.ok(fs.existsSync(`versions/${v}/assets/${src}.png`),v+src);}
   assert.deepEqual([...c.window.StockApps.menu('news-weather',{t:k=>k}).map(i=>i.title)],menu,v);
 }
+// Play Movies 1.4.11 (audit step 9): no title (useLogo | showHome), Shop, rentals_controller.xml's welcome, menus.
+const mv=G.render('play-movies',base('play-movies'));
+assert.doesNotMatch(mv,/<h2>/);assert.match(mv,/ga-mv-ic_menu_shop_holo_dark/);assert.match(mv,/Welcome!/);assert.match(mv,/There was a problem with the network/);assert.match(mv,/MY RENTALS|My Rentals/);
+assert.match(G.render('play-movies',base('play-movies',{gaMoviesTab:'personal'})),/You don&#39;t have any personal videos/);
+assert.deepEqual([...G.menu(base('play-movies')).map(i=>i.title)],['Manage offline rentals','Accounts','Settings','Help','Contact us','Send feedback']);
 console.log('ics-google-apps ok');

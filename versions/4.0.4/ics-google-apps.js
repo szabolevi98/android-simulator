@@ -13,7 +13,12 @@
      the Home / Browse / Account tabs, video_item.xml rows, and the watch page (watch_activity.xml): the player, the
      #3d3d3d Info / Related / Comments tab row, watch_info.xml with the +1 panel and the Like / Dislike image buttons;
      Add to and Share in the action bar, Like and Dislike in its overflow.
-   - Play Books 2.3.6 and Play Movies 1.4.11: the library and a reader; My Rentals / Personal Videos and a player.
+   - Play Books 2.3.6: the library and a reader. Play Movies 1.4.11 (Videos.apk; since audit step 9 from its layouts):
+     VideosActivity on its background.png under the logo-only action bar (ActionBar: displayOptions useLogo|showHome),
+     the My Rentals / Personal Videos tabs on tab_selected_holo / tab_unselected_holo, rentals_controller.xml's
+     no_rentals_layout for an account without rentals (Top Rentals is server data: status.xml's alert_error, the
+     error and Retry), local_videos_controller.xml's status for no personal videos; rentals_menu.xml's Shop and
+     overflow, then common_menu.xml.
    - Search (Google Search 1.4.1, the Quick Search Box app before Google Now): "Google Search", recent queries and the
      searchable items; a search opens the Browser.
    - Voice Dialer (AOSP packages/apps/VoiceDialer): "Listening…", then "No results, try again." with its tip.
@@ -413,11 +418,83 @@
           "Vidéos perso",
           "Vídeos personales"
       ],
-      "Watch": [
-          "Megtekintés",
-          "Ansehen",
-          "Visionner",
-          "Ver"
+      "Movies: Shop": [
+          "Bolt",
+          "Shop",
+          "Boutique",
+          "Tienda",
+          "Shop"
+      ],
+      "Welcome!": [
+          "Üdvözlünk!",
+          "Willkommen!",
+          "Bienvenue !",
+          "¡Te damos la bienvenida!"
+      ],
+      "Looks like you don't have any rentals. Touch the shop icon above to browse our full catalog, or select from our most popular rentals below.": [
+          "Úgy tűnik, nincsenek kölcsönzéseid. Érintsd meg a bolt fenti ikonját teljes katalógusunk böngészéséhez, vagy válassz a legnépszerűbb kölcsönzéseinkből alább.",
+          "Offenbar hast du noch keine Videos geliehen. Berühre oben das Shop-Symbol, um unseren vollständigen Katalog anzusehen, oder triff unten eine Auswahl aus unseren beliebtesten Leihvideos.",
+          "Il semble que vous n'ayez aucune location en cours. Appuyez sur l'icône de la boutique ci-dessus pour parcourir notre catalogue complet ou faites votre choix parmi les locations les plus populaires ci-dessous.",
+          "Parece que no tienes alquileres. Toca el icono de tienda situado arriba para consultar todo el catálogo o selecciona uno de los alquileres más populares que aparecen a continuación."
+      ],
+      "There was a problem with the network": [
+          "Gond volt a hálózattal",
+          "Es gab ein Problem mit dem Netzwerk",
+          "Un problème s'est produit au niveau du réseau.",
+          "Ha ocurrido un problema con la red."
+      ],
+      "Retry": [
+          "Újra",
+          "Wiederholen",
+          "Réessayer",
+          "Reintentar"
+      ],
+      "You don't have any personal videos": [
+          "Nincsenek személyes videóid",
+          "Keine persönlichen Videos vorhanden",
+          "Vous n'avez aucune vidéo personnelle.",
+          "No tienes vídeos personales."
+      ],
+      "Manage offline rentals": [
+          "Offline kölcsönzések kezelése",
+          "Offline-Leihvideos verwalten",
+          "Gérer films hors connexion",
+          "Admin alquileres sin conexión"
+      ],
+      "Movies: Accounts": [
+          "Fiókok",
+          "Konten",
+          "Comptes",
+          "Cuentas",
+          "Accounts"
+      ],
+      "Movies: Settings": [
+          "Beállítások",
+          "Einstellungen",
+          "Paramètres",
+          "Ajustes",
+          "Settings"
+      ],
+      "Movies: Help": [
+          "Súgó",
+          "Hilfe",
+          "Aide",
+          "Ayuda",
+          "Help"
+      ],
+      "Movies: Contact us": [
+          "Kapcsolatfelvétel",
+          "Kontakt",
+          "Nous contacter",
+          "Contacto",
+          "Contact us"
+      ],
+      "Movies: Send feedback": [
+          "Visszajelzés küldése",
+          "Feedback geben",
+          "Commentaires",
+          "Enviar comentarios",
+          "Send feedback"
       ],
       "Google Search": [
           "Google Keresés",
@@ -657,6 +734,7 @@
     const {ui, lang} = ctx, item = (action, title, id = '') => ({action, title: T(lang, title), id});
     // Play Books' fragment_reader.xml: Contents is the action item; the rest of reader_items fills the overflow.
     if (ctx.view === 'play-books' && ui.gaSub === 'read') return [['ga-bk-options', 'Display options'], ['ga-unsupported', 'About the book'], ['ga-unsupported', 'Share'], ['ga-unsupported', 'Available offline'], ['ga-unsupported', 'Read aloud'], ['ga-unsupported', 'Help']].map(([action, key]) => ({action, title: BS(lang, key), id: ''}));
+    if (ctx.view === 'play-movies') return ['Manage offline rentals', 'Movies: Accounts', 'Movies: Settings', 'Movies: Help', 'Movies: Contact us', 'Movies: Send feedback'].map(key => item('ga-unsupported', key));
     if (ctx.view === 'youtube') return ui.gaSub === 'watch' ? [item('ga-yt-rate', 'Like', 'like'), item('ga-yt-rate', 'Dislike', 'dislike')] : [item('ga-unsupported', 'Settings'), item('ga-unsupported', 'Feedback'), item('ga-unsupported', 'Help')];
     if (ctx.view === 'talk') return ui.gaSub === 'chat' ? [item('ga-talk-end', 'End chat'), item('ga-unsupported', 'Friend info'), item('ga-unsupported', 'Add to chat'), item('ga-talk-clear', 'Clear chat history')]
       : [item('ga-unsupported', 'Display options'), item('ga-talk-end-all', 'End all chats'), item('ga-unsupported', 'Sign out'), item('ga-unsupported', 'Talk settings'), item('ga-unsupported', 'Talk help'), item('ga-unsupported', 'Send feedback')];
@@ -735,16 +813,14 @@
   }
 
   // ---- Play Movies 1.4.11 ----
-  const MOVIES = [{id: 'm1', title: 'The Last Lighthouse', year: 2011, mins: 104}, {id: 'm2', title: 'Paper Planes', year: 2012, mins: 96}];
+  // status.xml: the 15 dp light_grey message between alert_error and Retry, centred.
+  const mvStatus = (lang, message, error = false) => `<div class="ga-mv-status">${error ? '<img src="assets/ga-mv-alert_error.png" alt="">' : ''}<span>${e(T(lang, message))}</span>${error ? `<button class="ga-mv-retry" data-action="ga-unsupported">${e(T(lang, 'Retry'))}</button>` : ''}</div>`;
   function movies(ctx) {
-    const {ui, lang} = ctx;
-    if (ui.gaSub === 'watch') {
-      const m = MOVIES.find(x => x.id === ui.gaMovie) || MOVIES[0];
-      return `<div class="app-view ga-app ga-movies ga-movie-player"><button class="ga-yt-video${ui.gaPaused ? ' paused' : ''}" data-action="ga-yt-toggle">${art(m.title, 'wide')}<img src="assets/ga-mv-ic_vidcontrol_${ui.gaPaused ? 'play' : 'pause'}.png" alt=""></button><h3>${e(m.title)}</h3></div>`;
-    }
-    const tab = ui.gaMoviesTab || 'rentals';
-    const body = tab === 'rentals' ? MOVIES.map(m => `<div class="ga-movie">${art(m.title, 'poster')}<span><b>${e(m.title)}</b><small>${m.year} · ${m.mins}′</small><button data-action="ga-movie-watch" data-id="${m.id}">${e(T(lang, 'Watch'))}</button></span></div>`).join('') : `<p class="ga-empty">—</p>`;
-    return `<div class="app-view ga-app ga-movies">${head('ga-movies-bar', 'play-movies', 'Play Movies', icon('ga-shop', T(lang, 'Shop'), 'ga-mv-ic_menu_shop_holo_dark'))}${tabs([['rentals', T(lang, 'My Rentals')], ['personal', T(lang, 'Personal Videos')]], tab, 'ga-movies-tab')}<div class="ga-scroll">${body}</div></div>`;
+    const {ui, lang} = ctx, tab = ui.gaMoviesTab || 'rentals';
+    const body = tab === 'rentals'
+      ? `<h3 class="ga-mv-welcome">${e(T(lang, 'Welcome!'))}</h3><p class="ga-mv-intro">${e(T(lang, "Looks like you don't have any rentals. Touch the shop icon above to browse our full catalog, or select from our most popular rentals below."))}</p><hr class="ga-mv-rule">${mvStatus(lang, 'There was a problem with the network', true)}`
+      : mvStatus(lang, "You don't have any personal videos");
+    return `<div class="app-view ga-app ga-movies"><header class="ga-bar ga-movies-bar"><button class="ga-home" data-action="home" aria-label="${e(T(lang, 'Play Movies'))}"><img src="assets/play-movies.png" alt=""></button><span class="ga-mv-fill"></span>${icon('ga-shop', T(lang, 'Movies: Shop'), 'ga-mv-ic_menu_shop_holo_dark')}${more()}</header><nav class="ga-mv-tabs">${[['rentals', 'My Rentals'], ['personal', 'Personal Videos']].map(([id, label]) => `<button class="${id === tab ? 'on' : ''}" data-action="ga-movies-tab" data-id="${id}">${e(T(lang, label))}</button>`).join('')}</nav><div class="ga-scroll ga-mv-page${tab === 'personal' ? ' ga-mv-empty' : ''}">${body}</div></div>`;
   }
 
   // ---- Google Search 1.4.1 (Quick Search Box) ----
@@ -808,7 +884,6 @@
       }
       case 'ga-bk-auto': { const prefs = bookPrefs(data); data.gaBookPrefs = {...prefs, brightness: prefs.brightness < 0 ? Math.max(5, Math.round(data.settings?.brightness ?? 100)) : -1}; ctx.save(); ctx.render(); break; }
       case 'ga-movies-tab': ui.gaMoviesTab = id; ctx.render(); break;
-      case 'ga-movie-watch': ui.gaMovie = id; ui.gaPaused = false; ui.gaSub = 'watch'; ctx.render(); break;
       case 'ga-shop': ctx.openApp('play-store'); break;
       case 'ga-search-run': ctx.browse(id); break;
       case 'ga-voice-listen': ctx.listen(); break;
