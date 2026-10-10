@@ -595,11 +595,23 @@
     clearTimeout(ui.toastTimer); ui.toastTimer = setTimeout(() => element.remove(), 2500);
   }
   let openFolderId = '';
+  /* Voice Search 3.0.1 (ics-voice.js): RecognitionDialog waits, then listens; without a microphone the recognizer's
+     speech timeout ends it in "No speech heard". The listening level repaints the dialog. */
+  function vs3Stop() { clearTimeout(ui.vs3Timer); clearInterval(ui.vs3Tick); }
+  function vs3Start() {
+    vs3Stop(); ui.vs3 = {phase: 'waiting'}; ui.overlay = 'vs3'; renderOverlay();
+    ui.vs3Timer = setTimeout(() => {
+      ui.vs3 = {phase: 'listening'}; renderOverlay();
+      ui.vs3Tick = setInterval(() => { if (ui.overlay === 'vs3' && ui.vs3.phase === 'listening') renderOverlay(); else clearInterval(ui.vs3Tick); }, 150);
+      ui.vs3Timer = setTimeout(() => { clearInterval(ui.vs3Tick); if (ui.overlay === 'vs3') { ui.vs3 = {phase: 'error'}; renderOverlay(); } }, ICSVoice.LISTEN_MS);
+    }, ICSVoice.WAIT_MS);
+  }
   function renderOverlay() {
     if (ui.view === 'downloads' && ui.overlay.startsWith('hdl-')) { overlayRoot.innerHTML = HoloDownloads.overlay(dlContext()) || ''; return; }
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.view === 'play-music' && ui.overlay.startsWith('pm4-')) { overlayRoot.innerHTML = ICSPlayMusic.overlay(playMusicContext()) || ''; return; }
     if (ui.view === 'gmail' && ui.overlay.startsWith('g4-')) { overlayRoot.innerHTML = ICSGmail.overlay(gmailContext()) || ''; return; }
+    if (ui.overlay === 'vs3') { overlayRoot.innerHTML = ICSVoice.render(ui.vs3 || {phase: 'waiting'}, i18n.language, data.inputPrefs?.vsLanguage || 'en-US'); return; }
     if (ui.overlay === 'shade') {
       overlayRoot.innerHTML = `<div class="notification-shade"><div class="shade-top"><span class="shade-date">${shadeDate()}</span><button data-action="open-app" data-app="settings" aria-label="Settings"><img src="assets/ic_notify_quicksettings_normal.png" alt=""></button>${data.notifications.length ? '<button class="shade-clear" data-action="clear-notifications" aria-label="Clear notifications"><img src="assets/ic_notify_clear_normal.png" alt=""></button>' : ''}</div><div class="shade-divider"></div><div class="shade-body"><div class="shade-list">${ui.activeCall?`<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>`:''}${data.notifications.map(n => `<button class="notification" data-action="notification-open" data-id="${n.id}"><span class="notification-icon"><img src="assets/${n.id === 2 ? 'stat_notify_sms.png' : n.kind === 'calendar' ? 'calendar.png' : 'settings.png'}" alt=""></span><span><strong>${safe(n.title)}</strong><small>${safe(n.detail)}</small></span></button>`).join('')}</div><div class="shade-carrier">${carrierName()}</div></div><button class="shade-handle" data-action="close-overlay" aria-label="Close notifications"><img src="assets/status_bar_close_on.png" alt=""></button></div>`;
     } else if (ui.overlay.startsWith('widget-photo')) {
@@ -1273,7 +1285,11 @@
         if(id==='bluetooth'&&!data.settings.bluetooth)data.settings.bluetoothTether=false;
         save(); render(); break;
       case 'widget-music-play': ui.musicActive=true;ui.music.playing=!ui.music.playing;if(ui.music.playing&&ui.music.position>=tracks[ui.music.track].duration)ui.music.position=0;saveMusic();render();break;
-      case 'voice-search': toast('Voice search unavailable offline'); break;
+      case 'voice-search': vs3Start(); break;
+      case 'vs3-again': vs3Start(); break;
+      case 'vs3-cancel': vs3Stop(); ui.overlay = ''; renderOverlay(); break;
+      case 'vs3-help': vs3Stop(); ui.vs3 = {phase: 'help'}; renderOverlay(); break;
+      case 'vs3-settings': vs3Stop(); ui.overlay = ''; renderOverlay(); openApp('settings'); ui.sub = 'lng-vs'; render(); break;
       case 'lock-media': if (id === 'play') { ui.music.playing = !ui.music.playing; if (ui.music.playing && ui.music.position >= tracks[ui.music.track].duration) ui.music.position = 0; } else ICSMusic.step(ui.music, id === 'previous' ? -1 : 1); ui.musicTrack = ui.music.track; saveMusic(); render(); break;
       case 'lock-hint': screen.classList.add('lock-dragging'); setTimeout(() => { if (!pointerStart?.lockDrag) lockRelease(null); }, 1000); break;
       case 'shade': ui.overlay = ui.overlay === 'shade' ? '' : 'shade'; renderOverlay(); break;
