@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések és a KitKat Gmail 4.6.
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 4.5. pont kész (32 / 32); az 5. lépésen vagyok.
+**Állapot:** a 9. lépés E) szakaszán vagyok (Kisebb hibák); utána a 10–12. lépés és a 7–8. pont megbeszélése következik.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -188,8 +188,8 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 
 **E) Kisebb hibák**
 
-- [ ] 2.3.6 Alkalmazásinfó: minden app verziója „2.3.6” (a képben Gmail 2.3.5.1, Maps 5.4.0 stb.)
-- [ ] 2.3.6 Google keresés: a „parancsikonok törlése” szövegben látható idézőjelek mind az öt nyelven; a szöveggenerátor nem szedi le őket, más generált fájlokat is meg kell nézni
+- [x] 2.3.6 Alkalmazásinfó: minden app verziója „2.3.6” (a képben Gmail 2.3.5.1, Maps 5.4.0 stb.) — beb6207: csomagonként a GRK39F kép versionName-je (launcher.txt)
+- [x] 2.3.6 Google keresés: a „parancsikonok törlése” szövegben látható idézőjelek mind az öt nyelven; a szöveggenerátor nem szedi le őket, más generált fájlokat is meg kell nézni — 614dd50: a generátor az aapt szabályai szerint dolgozza fel a szöveget (több idézett szakasz, szóközök, escape-ek); érintett volt még a Gyári adatok visszaállítása, a fiók eltávolítása, a Névjegyek üres listája, az E-mail válaszfejléce és a vCard-exporthiba. A közös docs/aosp_text.py-t a 2.3.6 beállítás- és a 4.0.4 / 4.3 AOSP Zene-generátor is használja (ezek kimenete nem változott); a többi verzió szövegei APK-ból jönnek, ott nem volt ilyen hiba
 - [ ] 2.3.6: a Google-appok szövegei (Naptár, Kamera, Óra, E-mail, Galéria, Zene, Keresés) az AOSP-forrásból, nem a képből (egyeznek, de a képből kellene olvasni)
 - [ ] Naptár időzóna-listája 4.3 / 4.4.4: a maguro (4.0.4) képből generálva
 - [ ] 4.0.4: más képek kem-* ikonjai a Gmailben, a Play Zenében és a Google+-ban; a tárcsázó hdpi grafikája xhdpi telefonon
@@ -439,3 +439,5 @@ A 11–12. pont most felmérés és munkaterv: implementáció még nem történ
 | 2026-10-10 | 9. lépés: 4.3 Google keresés beállításai (Velvet 2.5.9); Maps 4.3 útvonal-szövegek ellenőrizve | 83c9c47 |
 | 2026-10-10 | 9. lépés: 4.3 Hangkeresés widget és Diktafon (+ Mms csatolástípusok) | 47ec39b, b5615d0 |
 | 2026-10-10 | 9. lépés: 4.0.4 Voice Search 3.0.1 | 424aab9 |
+| 2026-10-10 | 9. lépés: 2.3.6 Alkalmazásinfó verziói a képből | beb6207 |
+| 2026-10-10 | 9. lépés: 2.3.6 szöveggenerátor: idézőjelek és szóközök az aapt szerint | 614dd50 |
