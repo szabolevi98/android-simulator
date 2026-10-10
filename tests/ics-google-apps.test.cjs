@@ -49,4 +49,11 @@ const mv=G.render('play-movies',base('play-movies'));
 assert.doesNotMatch(mv,/<h2>/);assert.match(mv,/ga-mv-ic_menu_shop_holo_dark/);assert.match(mv,/Welcome!/);assert.match(mv,/There was a problem with the network/);assert.match(mv,/MY RENTALS|My Rentals/);
 assert.match(G.render('play-movies',base('play-movies',{gaMoviesTab:'personal'})),/You don&#39;t have any personal videos/);
 assert.deepEqual([...G.menu(base('play-movies')).map(i=>i.title)],['Manage offline rentals','Accounts','Settings','Help','Contact us','Send feedback']);
+// Play Books 2.3.6 (audit step 9): the carousel by default, "View as list" switches; the offline pin toggles.
+let bk=G.render('play-books',base('play-books'));
+assert.match(bk,/ga-bk-carousel/);assert.match(bk,/ga-bk-ic_menu_search_light/);assert.match(bk,/ga-bk-btn_pin|ga-bk-pin/);
+assert.deepEqual([...G.menu(base('play-books')).map(i=>i.title)],['Refresh','Accounts','Help','Make available offline','View as list']);
+const bd={},bu={},bctx={...base('play-books',bu,bd),ui:bu,data:bd,save(){},render(){},closeOverlay(){},toast(){}};
+G.handle('ga-bk-view','',bctx);assert.equal(bd.gaBkView,'list');assert.match(G.render('play-books',{...base('play-books'),data:{...base('play-books').data,...bd}}),/ga-bk-list/);
+G.handle('ga-bk-pin','b1',bctx);assert.equal(bd.gaBkPinned.b1,true);
 console.log('ics-google-apps ok');

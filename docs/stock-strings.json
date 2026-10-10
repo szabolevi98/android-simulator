@@ -2158,7 +2158,13 @@
    "Share": "BooksTablet:book_popup_share",
    "Available offline": "BooksTablet:menu_reader_available_offline",
    "Read aloud": "BooksTablet:menu_read_aloud",
-   "Help": "BooksTablet:menu_help"
+   "Help": "BooksTablet:menu_help",
+   "Search": "BooksTablet:menu_search",
+   "Refresh": "BooksTablet:menu_refresh",
+   "Accounts": "BooksTablet:menu_accounts",
+   "Make available offline": "BooksTablet:menu_manage_offline",
+   "View as carousel": "BooksTablet:menu_carousel_view",
+   "View as list": "BooksTablet:menu_list_view"
   }
  }
 }

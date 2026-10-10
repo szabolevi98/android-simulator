@@ -131,9 +131,6 @@
 .ga-yt-channelhead small{color:#555;font-size:10.2px}
 /* Play Books 2.3 and Play Movies 1.4. */
 .ga-books-bar{background:#f3f3f3;border-bottom:1.7px solid #4da6e2}
-.ga-book-grid button{display:flex;flex-direction:column;gap:3px;padding:0;border:0;background:none;text-align:left}
-.ga-book-grid b{font-weight:400;font-size:12.8px}
-.ga-book-grid small{color:#888;font-size:10.2px}
 .ga-page{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:24px 22px 12px;border:0;background:#fbf8f0!important;color:#222!important;font:400 16px Georgia,serif;text-align:left;line-height:1.5}
 .ga-page small{align-self:center;color:#999;font:400 11px RobotoICS,sans-serif}
 /* Play Movies 1.4.11: Theme's background.png window, the transparent action bar, stacked tabs (Holo TabText 12 sp bold
@@ -261,3 +258,23 @@
 .ga-tk-hit span{padding-left:1.7px;font-size:11.9px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .ga-tk-hit small{display:flex;align-items:center;gap:5.95px;padding:1.7px 0 0 5.95px;font-size:10.2px;color:#999}
 .ga-tk-hit small img{height:8.5px}
+/* Play Books 2.3.6's library: carousel_bg behind the overlaid bar, the turntable and volume_detail_view.xml, or the
+   books_list_item.xml list (36 x 54 dp covers, 16 dp in, 64 dp rows); btn_pin_off / _on; dp x 0.85. */
+.ga-bk-home{background:#dfe3e8 url('assets/ga-bk-carousel_bg.png') center/cover}
+.ga-bk-home .ga-books-bar{background:#f3f3f3e6}
+.ga-art.ga-bk-cover{width:100%;aspect-ratio:2/3;box-shadow:0 2px 6px #0006}
+.ga-bk-carousel{position:relative;flex:1;min-height:0;perspective:600px;overflow:hidden}
+.screen .ga-bk-slot{position:absolute;left:50%;top:50%;width:42%;padding:0;border:0;background:none;transform:translate(-50%,-50%) translateX(calc(var(--d) * 62%)) translateZ(calc(-90px * var(--a))) rotateY(calc(var(--d) * -38deg));transition:transform .3s;-webkit-box-reflect:below 2px linear-gradient(transparent 70%,#fff4)}
+.ga-bk-detail{flex:none;display:flex;flex-direction:column;align-items:center;gap:1.7px;padding:4.25px 13.6px 20.4px;text-align:center;color:#000;font:400 11.9px RobotoICS,Roboto,sans-serif}
+.ga-bk-detail b{font-weight:700}
+.screen .ga-bk-pin{flex:none;width:30.6px;height:30.6px;padding:0;border:0;background:url('assets/ga-bk-btn_pin_off.png') center/contain no-repeat}
+.screen .ga-bk-pin.on{background-image:url('assets/ga-bk-btn_pin_on.png')}
+.screen .ga-bk-pin:active{background-image:url('assets/ga-bk-btn_pin_pressed.png')}
+.ga-bk-list{padding:0 13.6px;background:#fff}
+.ga-bk-row{display:flex;align-items:center;min-height:54.4px;padding:0 6.8px;border-bottom:1px solid #0000001a}
+.screen .ga-bk-open{flex:1;display:flex;align-items:center;min-width:0;padding:4.25px 0;border:0;background:none;text-align:left}
+.ga-bk-open .ga-art.ga-bk-cover{flex:none;width:30.6px;box-shadow:none}
+.ga-bk-open .ga-art em{display:none}
+.ga-bk-open span{display:flex;flex-direction:column;min-width:0;padding-left:13.6px}
+.ga-bk-open b{font:700 15.3px RobotoICS,Roboto,sans-serif;color:#000}
+.ga-bk-open small{font:400 11.9px RobotoICS,Roboto,sans-serif;color:#000;opacity:.75}

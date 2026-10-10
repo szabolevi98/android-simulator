@@ -1022,6 +1022,42 @@ window.StockStrings = {
    "Hilfe",
    "Aide",
    "Ayuda"
+  ],
+  "Search": [
+   "Keresés",
+   "Suche",
+   "Rechercher",
+   "Buscar"
+  ],
+  "Refresh": [
+   "Frissítés",
+   "Aktualisieren",
+   "Actualiser",
+   "Actualizar"
+  ],
+  "Accounts": [
+   "Fiókok",
+   "Konten",
+   "Comptes",
+   "Cuentas"
+  ],
+  "Make available offline": [
+   "Offline elérhető albumok",
+   "Offline bereitstellen",
+   "Consulter hors connexion",
+   "Disponible sin conexión"
+  ],
+  "View as carousel": [
+   "Megtekintés körhintaként",
+   "In Karussellansicht anzeigen",
+   "Afficher sous forme de carrousel",
+   "Ver como carrusel"
+  ],
+  "View as list": [
+   "Megtekintés listaként",
+   "Als Liste anzeigen",
+   "Afficher sous forme de liste",
+   "Ver como lista"
   ]
  }
 };
