@@ -1,10 +1,8 @@
-/* (4.0.4 registers Maps, Earth and News & Weather from this module: Maps 6.4.0, Earth 6.1 and News & Weather 1.3.04 of
-   the Galaxy Nexus image share these 2012-13 designs.)
-   The Google apps of the Nexus 4 image (JWR66Y, July 2013) as simple screens, from the KitKat simulator's stock-apps.js:
-   Google (Google Search 2.5 opens Google Now), Voice Search listens, Maps 6.14 shows the drawn map under its pre-Maps-7
-   action bar (Maps icon, Search, Directions, My Location, overflow), Keep 1.0 keeps notes, YouTube 4.5 has What to Watch
-   and a player, Google+ 4.0 a Home stream, Earth 7.1 a turning globe, News & Weather its tabs, and Google Settings /
-   Search settings their lists. All content is offline and made up; dates and topics are mid-2013. */
+/* Three Google apps of the Galaxy Nexus image (IMM76I, spring 2012) as working screens with their APKs' drawables and
+   texts (stock-strings.js): Maps 6.4.0 with Latitude (map_view_default.xml's bar, the feature switcher, layers, my
+   location; Directions through maps-route.js), Earth 6.1 (Theme.Earth's overlay bar over a turning globe) and News &
+   Weather 1.3.04 (GenieWidget: Weather, Top Stories and topics, its settings and story view). Content is offline and
+   made up. */
 (() => {
   'use strict';
   const S = (ctx, app, key) => { const row = window.StockStrings?.[app]?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
@@ -35,25 +33,9 @@
     const p = [['#2b5876', '#f4d06f'], ['#6d2e46', '#f6a5c0'], ['#1e5128', '#d8e9a8'], ['#22313f', '#ff8c42'], ['#4a3b8f', '#9bd1f2'], ['#7a1f1f', '#ffd166']][seed % 6];
     return `<svg class="sa-thumb" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="90" fill="${p[0]}"/><circle cx="${40 + seed * 17 % 80}" cy="38" r="22" fill="${p[1]}" opacity=".85"/><path d="M0 70 Q40 ${44 + seed % 3 * 6} 80 66 T160 60 V90 H0Z" fill="${p[1]}" opacity=".45"/>${label ? `<text x="8" y="82" font-family="Arial" font-size="11" fill="#fff">${e(label)}</text>` : ''}</svg>`;
   };
-  const avatar = (name, seed) => `<span class="sa-avatar" style="background:${['#d65f4e', '#4d8fe0', '#5fae5a', '#e3a33b', '#8a63c9'][seed % 5]}">${e(name.charAt(0))}</span>`;
 
-  // ---- Google (Google Now) and Voice Search ----
-  function google(ctx) { return `<div class="app-view sa-app sa-google">${window.GELNow.render({data: ctx.data, t: ctx.t, locale: ctx.locale, now: ctx.now})}</div>`; }
-  function voice(ctx) {
-    const listening = ctx.ui.voiceState !== 'retry';
-    return `<div class="app-view sa-app sa-voice"><div class="sa-voice-lang">${e(ctx.t('English (US)'))}</div><button class="sa-voice-mic${listening ? ' on' : ''}" data-action="voice-listen" aria-label="${e(ctx.t('Speak now'))}">${ICON.mic}</button><p>${e(ctx.t(listening ? 'Speak now' : 'Didn’t catch that. Try speaking again.'))}</p></div>`;
-  }
-  // Google Search settings (the overview "Settings" button) and the Google Settings app.
-  function searchSettings(ctx) {
-    const row = (icon, label) => `<button class="sa-row" data-action="sa-unsupported"><i>${ICON[icon] || ''}</i><span>${e(ctx.t(label))}</span></button>`;
-    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Settings'), up: true, icon: 'google-search.png'})}<div class="sa-scroll"><div class="sa-switch-row"><span>${e(ctx.t('Google Now'))}</span><button class="sa-switch${ctx.data.googleNowOn === false ? '' : ' on'}" data-action="google-now-toggle">${e(ctx.t(ctx.data.googleNowOn === false ? 'OFF' : 'ON'))}</button></div><h4>${e(ctx.t('SEARCH & NOW CARDS'))}</h4>${row('search', 'Phone search')}${row('mic', 'Voice')}${row('locate', 'Accounts & privacy')}${row('list', 'Notifications')}${row('', 'Help & feedback')}</div></div>`;
-  }
-  function googleSettings(ctx) {
-    const rows = [['Ads', ''], ['Android Device Manager', ''], ['Location', ''], ['Search & Now', 'search'], ['Google+', ''], ['Google Fit', '']].slice(0, 5);
-    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Google Settings'), icon: 'google-settings.png'})}<div class="sa-scroll"><h4>${e(ctx.t('SERVICES'))}</h4>${rows.map(([label, sub]) => `<button class="sa-row" data-action="${sub === 'search' ? 'gel-overview-settings' : 'sa-unsupported'}"><span>${e(ctx.t(label))}</span></button>`).join('')}<h4>${e(ctx.t('APPS'))}</h4><button class="sa-row" data-action="sa-unsupported"><span>${e(ctx.t('Connected apps'))}</span></button></div></div>`;
-  }
 
-  // ---- Maps (Google Maps 7, 2013): a full-screen map, the floating search card, my location ----
+  // ---- Maps 6.4.0 (with Latitude): the drawn map ----
   function mapSvg(ctx) {
     const pin = ctx.ui.mapsQuery ? '<g transform="translate(222 190)"><path d="M0-34a14 14 0 0 0-14 14c0 11 14 26 14 26s14-15 14-26A14 14 0 0 0 0-34z" fill="#db4437"/><circle cy="-20" r="5" fill="#fff"/></g>' : '';
     return `<svg class="sa-map" viewBox="0 0 360 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="360" height="600" fill="#ece8df"/><path d="M-10 430c80-20 120 10 200-10s140-60 180-50v240H-10z" fill="#a9cdee"/><rect x="30" y="80" width="110" height="90" fill="#cde5b4"/><rect x="230" y="300" width="90" height="70" fill="#cde5b4"/><g stroke="#fff" stroke-width="7" fill="none"><path d="M-10 200H370M-10 330H370M90 -10V620M260 -10V620"/></g><g stroke="#f7d36b" stroke-width="10" fill="none"><path d="M-10 260C80 250 140 280 200 240S320 200 370 210"/><path d="M180 -10C170 120 200 200 190 300S160 460 170 620"/></g><g stroke="#fff" stroke-width="3" fill="none"><path d="M-10 120H370M-10 380H370M40 -10V620M150 -10V620M320 -10V620"/></g><text x="50" y="130" font-family="Arial" font-size="12" fill="#5b8a46">${e(ctx.t('City Park'))}</text><text x="210" y="470" font-family="Arial" font-size="12" fill="#4a77a8" font-style="italic">${e(ctx.t('Bay'))}</text>${window.MapsRoute?.svg(ctx) || pin}<circle cx="180" cy="300" r="22" fill="#4285f4" opacity=".18"/><circle cx="180" cy="300" r="8" fill="#4285f4" stroke="#fff" stroke-width="3"/></svg>`;
@@ -81,57 +63,14 @@
 
 
   // ---- Drive (2013): My Drive ----
-  const FILES = [
-    {id: 'f0', name: 'Photos', kind: 'folder', date: 'Oct 28'}, {id: 'f1', name: 'Trip plan 2014', kind: 'doc', date: 'Nov 2', text: 'Day 1 — arrive in Lisbon, tram 28 to Alfama.\nDay 2 — Belém, pastéis de nata.\nDay 3 — Sintra by train.'},
-    {id: 'f2', name: 'Budget', kind: 'sheet', date: 'Oct 30', text: 'Rent 850\nGroceries 240\nTransport 60\nFun 120'}, {id: 'f3', name: 'Nexus 5 manual', kind: 'pdf', date: 'Oct 31', text: 'Welcome to Nexus 5. Swipe left from the Home screen to see Google Now.'},
-    {id: 'f4', name: 'Meetup slides', kind: 'slides', date: 'Sep 12', text: 'What’s new in KitKat\n• Immersive mode\n• Printing\n• Host card emulation'}
-  ];
   const kindColor = {folder: '#8f8f8f', doc: '#4285f4', sheet: '#0f9d58', pdf: '#db4437', slides: '#f4b400'};
-  function drive(ctx) {
-    if (ctx.ui.sub === 'file') {
-      const file = FILES.find(f => f.id === ctx.ui.driveFile) || FILES[1];
-      return `<div class="app-view sa-app sa-drive">${bar(ctx, {title: file.name, up: true, icon: 'drive.png', actions: btn('sa-unsupported', ctx.t('Share'), 'share') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-doc"><div class="sa-page">${e(file.text || '').split('\n').map(line => `<p>${line}</p>`).join('')}</div></div></div>`;
-    }
-    const row = f => `<button class="sa-file" data-action="${f.kind === 'folder' ? 'sa-unsupported' : 'drive-open'}" data-id="${f.id}"><i style="background:${kindColor[f.kind]}">${f.kind === 'folder' ? ICON.folder : f.kind.charAt(0).toUpperCase()}</i><span><b>${e(f.name)}</b><small>${e(ctx.t('Modified'))} ${e(f.date)}</small></span></button>`;
-    return `<div class="app-view sa-app sa-drive">${bar(ctx, {title: ctx.t('My Drive'), icon: 'drive.png', actions: btn('sa-unsupported', ctx.t('New'), 'add') + btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-files">${FILES.map(row).join('')}</div></div>`;
-  }
 
   // ---- Keep (2013): the quick note bar and coloured cards; notes are kept in data.keepNotes ----
   const KEEP_COLORS = ['#fff', '#f7f0a3', '#c6e5f5', '#c9f0b9', '#f8c8c0'];
-  function keep(ctx) {
-    const notes = ctx.data.keepNotes || [];
-    if (ctx.ui.sub === 'note') {
-      const note = notes.find(n => n.id === ctx.ui.keepNote);
-      if (note) return `<div class="app-view sa-app sa-keep">${bar(ctx, {title: ctx.t('Keep'), up: true, icon: 'keep.png', actions: btn('keep-delete', ctx.t('Delete'), 'trash') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-keep-edit" style="background:${KEEP_COLORS[note.color || 0]}"><textarea class="keep-text" maxlength="2000" aria-label="${e(ctx.t('Note'))}">${e(note.text)}</textarea></div></div>`;
-    }
-    return `<div class="app-view sa-app sa-keep">${bar(ctx, {title: ctx.t('Keep'), icon: 'keep.png', actions: btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<form class="sa-keep-add" data-form="keep-add"><input name="text" maxlength="500" autocomplete="off" placeholder="${e(ctx.t('Add quick note…'))}" aria-label="${e(ctx.t('Add quick note…'))}">${btn('sa-unsupported', ctx.t('List'), 'list')}${btn('sa-unsupported', ctx.t('Voice'), 'mic')}${btn('sa-unsupported', ctx.t('Camera'), 'camera')}</form><div class="sa-scroll"><div class="sa-notes">${notes.map(n => `<button class="sa-note" data-action="keep-open" data-id="${e(n.id)}" style="background:${KEEP_COLORS[n.color || 0]}">${e(n.text)}</button>`).join('') || `<p class="sa-empty">${e(ctx.t('Notes you add appear here'))}</p>`}</div></div></div>`;
-  }
 
   // ---- YouTube (2013): What to Watch and a player ----
-  const VIDEOS = [
-    {id: 'v1', title: 'Nexus 4 — hands-on and first impressions', channel: 'Gadget Weekly', views: '1,204,311', len: '8:42', likes: 9120},
-    {id: 'v2', title: 'Jelly Bean: 10 tips for Android 4.3', channel: 'Droid Corner', views: '486,020', len: '6:15', likes: 4310},
-    {id: 'v3', title: 'Timelapse: one day in the city', channel: 'Slow Motion Club', views: '92,437', len: '3:01', likes: 1876},
-    {id: 'v4', title: 'How to make dessert-themed cupcakes', channel: 'Kitchen Science', views: '311,908', len: '11:20', likes: 2650}
-  ];
-  function youtube(ctx) {
-    if (ctx.ui.sub === 'video') {
-      const v = VIDEOS.find(item => item.id === ctx.ui.ytVideo) || VIDEOS[0], i = VIDEOS.indexOf(v), liked = (ctx.data.ytLikes || []).includes(v.id);
-      return `<div class="app-view sa-app sa-youtube sa-yt-watch"><div class="sa-yt-player${ctx.ui.ytPaused ? '' : ' playing'}" data-action="yt-toggle">${thumb(i)}<span class="sa-yt-state">${ctx.ui.ytPaused ? ICON.play : ''}</span><i class="sa-yt-progress"></i></div><div class="sa-scroll"><div class="sa-yt-info"><b>${e(v.title)}</b><small>${e(v.channel)} · ${e(ctx.t('%s views').replace('%s', v.views))}</small><div class="sa-yt-actions"><button class="${liked ? 'on' : ''}" data-action="yt-like" data-id="${v.id}">${ICON.like}<span>${(v.likes + (liked ? 1 : 0)).toLocaleString(ctx.locale)}</span></button><button data-action="sa-unsupported">${ICON.share}<span>${e(ctx.t('Share'))}</span></button></div></div><h4>${e(ctx.t('Suggestions'))}</h4>${VIDEOS.filter(o => o !== v).map(o => `<button class="sa-yt-row" data-action="yt-video" data-id="${o.id}">${thumb(VIDEOS.indexOf(o))}<span><b>${e(o.title)}</b><small>${e(o.channel)}</small><small>${e(ctx.t('%s views').replace('%s', o.views))}</small></span></button>`).join('')}</div></div>`;
-    }
-    return `<div class="app-view sa-app sa-youtube"><header class="sa-bar sa-yt-bar"><button class="sa-up" data-action="home" aria-label="${e(ctx.t('Home'))}"><img src="assets/youtube.png" alt=""></button><span class="sa-title"><b>${e(ctx.t('What to Watch'))}</b></span>${btn('sa-unsupported', ctx.t('Search'), 'search')}${btn('sa-unsupported', ctx.t('More options'), 'overflow')}</header><div class="sa-scroll sa-yt-feed">${VIDEOS.map((v, i) => `<button class="sa-yt-card" data-action="yt-video" data-id="${v.id}"><span class="sa-yt-thumb">${thumb(i)}<em>${e(v.len)}</em></span><span class="sa-yt-copy"><b>${e(v.title)}</b><small>${e(v.channel)} · ${e(ctx.t('%s views').replace('%s', v.views))}</small></span></button>`).join('')}</div></div>`;
-  }
 
   // ---- Google+ (2013): the Home stream ----
-  const POSTS = [
-    {id: 'p1', name: 'Alex Morgan', time: '2h', text: 'Finally got the Nexus 4. The glass back sparkles in the sun!', photo: 1, plus: 12},
-    {id: 'p2', name: 'Android', time: '5h', text: 'Android 4.3, Jelly Bean: restricted profiles, Bluetooth Smart and OpenGL ES 3.0.', photo: 4, plus: 2381},
-    {id: 'p3', name: 'Taylor Lee', time: 'Yesterday', text: 'Slides from the meetup are up on Drive. Thanks everyone for coming!', photo: null, plus: 7}
-  ];
-  function gplus(ctx) {
-    const plused = ctx.data.gplusPlus || [];
-    return `<div class="app-view sa-app sa-gplus">${bar(ctx, {title: ctx.t('Home'), subtitle: ctx.t('All'), icon: 'google-plus.png', actions: btn('sa-unsupported', ctx.t('Search'), 'search') + btn('sa-unsupported', ctx.t('More options'), 'overflow')})}<div class="sa-scroll sa-stream">${POSTS.map((p, i) => `<article class="sa-post">${avatar(p.name, i)}<div class="sa-post-head"><b>${e(p.name)}</b><small>${e(ctx.t(p.time))}</small></div><p>${e(p.text)}</p>${p.photo !== null ? `<div class="sa-post-photo">${thumb(p.photo)}</div>` : ''}<footer><button class="sa-plus${plused.includes(p.id) ? ' on' : ''}" data-action="gplus-plus" data-id="${p.id}">+1 <span>${p.plus + (plused.includes(p.id) ? 1 : 0)}</span></button><button data-action="sa-unsupported">${ICON.share}</button></footer></article>`).join('')}</div></div>`;
-  }
 
   // ---- Earth 6.1 (IMM76I): Theme.Earth's overlay ActionBar on header_bar_bg_80_percent_black with menu-v11/main.xml's
   // four always-shown actions (Search, Layers, North up, My Location); the rest of the menu is in the overflow. ----
@@ -170,10 +109,8 @@
     return `<div class="app-view sa-app sa-news"><nav class="nw-tabs">${tabs.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="news-tab" data-id="${e(id)}"${id === 'Weather' || standard.includes(id) ? '' : ' data-no-translate'}>${e(id === 'Weather' ? n('Weather') : standard.includes(id) ? ctx.t(id) : id)}</button>`).join('')}</nav><div class="sa-scroll">${body}</div></div>`;
   }
 
-  const APPS = {'google-search': (ctx) => ctx.ui.sub === 'settings' ? searchSettings(ctx) : google(ctx), 'voice-search': voice, maps, latitude: ctx => maps({...ctx, latitude: true}), drive, keep, youtube, 'google-plus': gplus, earth, 'news-weather': news, 'google-settings': googleSettings, 'google-search-settings': searchSettings};
-  function render(app, ctx) { return (APPS[app] || google)(ctx); }
-  const SIMPLE = ['google-search', 'voice-search', 'maps', 'keep', 'youtube', 'google-plus', 'earth', 'news-weather', 'google-settings'];
-  const DEFAULT_NOTES = [{id: 'k1', text: 'Buy concert tickets', color: 0}, {id: 'k2', text: 'Groceries: milk, eggs, jelly beans', color: 1}, {id: 'k3', text: 'Call Mom on Sunday', color: 2}];
+  const APPS = {maps, latitude: ctx => maps({...ctx, latitude: true}), earth, 'news-weather': news};
+  function render(app, ctx) { return (APPS[app] || maps)(ctx); }
   // The overflow of the screen on show. GenieWidget 1.3.04 (IMM76I) res/menu/main_menu.xml: Refresh and Settings have no showAsAction, so both sit in the overflow.
   function menu(view, ctx) {
     if (view === 'latitude' && ctx.ui?.mapsMenu !== 'switcher') return [{action: 'maps-clear', title: S(ctx, 'maps', 'Clear map')}, {action: 'mr-open', title: S(ctx, 'maps', 'Directions')}, {action: 'maps-layers', title: S(ctx, 'maps', 'Layers')}, {action: 'sa-unsupported', title: S(ctx, 'maps', 'Settings')}, {action: 'sa-unsupported', title: S(ctx, 'maps', 'Help')}];
@@ -188,5 +125,5 @@
     if (view === 'news-weather') { const n = key => S(ctx, 'news', key); return ctx.ui?.newsSub === 'settings' ? [] : ctx.ui?.newsSub === 'story' ? [{action: 'news-share', title: n('Share story')}] : [{action: 'sa-news-refresh', title: n('Refresh')}, {action: 'news-settings', title: n('Settings')}]; }
     return [];
   }
-  window.StockApps = {mapSvg, APPS: SIMPLE, FILES, VIDEOS, POSTS, DEFAULT_NOTES, render, menu};
+  window.StockApps = {mapSvg, render, menu};
 })();

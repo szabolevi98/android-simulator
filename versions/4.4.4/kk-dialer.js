@@ -1,9 +1,10 @@
-/* Android 4.3 Dialer smart dial (packages/apps/Dialer: SmartDialNameMatcher, SmartDialAdapter, dialpad_fragment.xml). */
+/* Smart dial of the KitKat Dialer (GoogleDialer 1.1, com.google.android.dialer of KTU84P; com.android.dialer.dialpad's
+   SmartDialNameMatcher and LatinSmartDialMap): name and number matches for the dialpad's search results. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const KEYS = {a: '2', b: '2', c: '2', d: '3', e: '3', f: '3', g: '4', h: '4', i: '4', j: '5', k: '5', l: '5', m: '6', n: '6', o: '6', p: '7', q: '7', r: '7', s: '7', t: '8', u: '8', v: '8', w: '9', x: '9', y: '9', z: '9'};
-  // SmartDialNameMatcher.remapAccentedChar: letters are folded to ASCII before mapping to keys.
+  // LatinSmartDialMap.normalizeCharacter: letters are folded to ASCII before mapping to keys.
   const fold = text => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const digitOf = ch => /[0-9]/.test(ch) ? ch : KEYS[ch] || '';
 
@@ -49,23 +50,7 @@
     }
     return found.sort((a, b) => b.score - a.score).slice(0, limit);
   }
-  // SmartDialAdapter: the best match sits in the middle slot, the second on the left and the third on the right.
-  const SLOT_ORDER = [1, 0, 2];
-  function highlight(text, positions) {
-    const set = new Set(positions);
-    return [...text].map((ch, i) => set.has(i) ? `<b>${e(ch)}</b>` : e(ch)).join('');
-  }
-  function render(contacts, query, t) {
-    const list = suggestions(contacts, query), slots = [null, null, null];
-    list.forEach((item, rank) => { slots[SLOT_ORDER[rank]] = item; });
-    return `<div class="jb-smartdial" role="list" aria-label="${e(t('Suggestions'))}">${slots.map(item => {
-      if (!item) return '<span class="jb-smartdial-item empty" aria-hidden="true"></span>';
-      const phone = item.person.phone || '';
-      const number = item.number ? (() => { let seen = 0, out = ''; for (const ch of phone) { const digit = /[0-9]/.test(ch); const lit = digit && seen >= item.number.start && seen < item.number.start + item.number.length; if (digit) seen++; out += lit ? `<b>${e(ch)}</b>` : e(ch); } return out; })() : e(phone);
-      return `<button type="button" class="jb-smartdial-item" role="listitem" data-action="smartdial-call" data-id="${e(phone)}"><span class="jb-smartdial-name">${item.name ? highlight(item.person.name, item.name.positions) : e(item.person.name)}</span><span class="jb-smartdial-number">${number}</span></button>`;
-    }).join('')}</div>`;
-  }
-  window.JBDialer = {KEYS, fold, matchName, matchNumber, suggestions, render, SLOT_ORDER};
+  window.JBDialer = {KEYS, fold, matchName, matchNumber, suggestions};
 })();
 
 // ---- Android 4.4 Dialer over the smart dial above ----

@@ -18,7 +18,7 @@
     data.contacts = data.contacts.filter(p=>p.id!==id);
     data.contactGroups.forEach(g=>{g.members=g.members.filter(member=>member!==id);});
   }
-  /* Google Contacts 5.1 (com.android.contacts, LMY48Y). PeopleActivity: the 56 dp #0288D1 toolbar ("Contacts",
+  /* Google Contacts 1.1 (GoogleContacts.apk, com.google.android.contacts, LMY48Y). PeopleActivity: the 56 dp #0288D1 toolbar ("Contacts",
      search, overflow) over the FAVORITES / ALL CONTACTS ViewPagerTabs; All contacts lists 40 dp round photos with the
      16 sp name beside the 48 dp letter column, under the ME row; Favorites are the square tiles. The 56 dp blue FAB
      adds a contact. QuickContactActivity: the header in the contact's letter-tile colour (0.6 x the width, the white
