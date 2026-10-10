@@ -1914,7 +1914,13 @@
    "Attach photo": "Hangouts:menu_choose_photo_from_gallery",
    "Share your location": "Hangouts:realtimechat_location",
    "Location": "Hangouts:notification_location",
-   "Add attachment": "Hangouts:realtimechat_add_attachment"
+   "Add attachment": "Hangouts:realtimechat_add_attachment",
+   "Blocked people": "Hangouts:menu_blocked_people",
+   "Help & feedback": "Hangouts:help_feedback_menu_item_text",
+   "People & options": "Hangouts:menu_show_participants_and_options",
+   "Add people": "Hangouts:realtimechat_conversation_invite_menu_item_text",
+   "New Hangout": "Hangouts:realtimechat_new_conversation_menu_item_text",
+   "Open navigation drawer": "Hangouts:navigation_drawer_open"
   },
   "gmail": {
    "Primary": "PrebuiltGmail:label_inbox_section_personal",

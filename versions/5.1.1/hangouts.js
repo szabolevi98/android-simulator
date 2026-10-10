@@ -34,12 +34,15 @@
   }
   /* Hangouts 2.5 (com.google.android.talk on LMY48Y): the Material #0F9D58 toolbar (status bar #0B8043), conversation
      rows with the round avatar, the 18 sp name, the snippet and time, a 1 dp divider and the video-call button at the
-     end; the green FAB starts a "New Hangout" ("Type a name, email, number, or circle"). A conversation lays the chat
+     end; the toolbar's drawer toggle opens NavigationDrawerFragment and home_activity_menu.xml's ic_add_24dp starts a
+     "New Hangout" ("Type a name, email, number, or circle"); Hangouts 2.5 has no list overflow and no FAB. A conversation lays the chat
      on #EEEEEE: incoming msg_bubble_left (white, the fold at the top left) beside the avatar, outgoing
      msg_bubble_hangout_right (#DEF3D8, the fold at the bottom right), 16 sp #333 text and #66000000 times; the
      editor row holds the emoji button, "Send Hangouts message" and the send arrow. */
-  function bar({up, title, actions}) {
-    return `<header class="hgl-bar">${up ? `<button type="button" class="hgl-btn" data-action="back" aria-label="${e('Navigate up')}"><img src="assets/bg-ic_arrow_back_light.png" alt=""></button>` : ''}<h2>${e(title)}</h2>${actions}</header>`;
+  // The home toolbar: the drawer toggle (BabelHomeActivity's DrawerLayout), the title and home_activity_menu.xml's
+  // ic_add_24dp; the rest of the old overflow lives in NavigationDrawerFragment.
+  function bar({up, title, actions, drawer}) {
+    return `<header class="hgl-bar">${drawer ? `<button type="button" class="hgl-btn hgl-white" data-action="hg-drawer" aria-label="${e(drawer)}"><img src="assets/hg-quantum_ic_menu_black_24.png" alt=""></button>` : ''}${up ? `<button type="button" class="hgl-btn" data-action="back" aria-label="${e('Navigate up')}"><img src="assets/bg-ic_arrow_back_light.png" alt=""></button>` : ''}<h2>${e(title)}</h2>${actions}</header>`;
   }
   const tool = (action, label, file, cls = '') => `<button type="button" class="hgl-btn ${cls}" data-action="${action}" aria-label="${e(label)}"><img src="assets/${file}" alt=""></button>`;
   const avatar = (person, cls) => window.LPDialer ? LPDialer.letterTile(person, cls) : `<img class="${cls}" src="assets/hg-default_avatar.png" alt="">`;
@@ -55,7 +58,7 @@
     if (archived) return `<div class="app-view mms-app hgl-app">${bar({up: true, title: H(t, 'Archived conversations'), actions: ''})}<div class="mms-scroll hgl-list">${rows || `<p class="hgl-empty">${e(H(t, 'No archived conversations'))}</p>`}</div></div>`;
     // dnd_list_item.xml on notification_off_background (#d8453c).
     const snoozed = data.hgSnooze > now ? `<div class="hg-dnd-bar"><span><b>${e(H(t, 'Notifications snoozed'))}</b><small>${e(H(t, 'Will resume at %s').replace('%s', new Date(data.hgSnooze).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'})))}</small></span><i></i><button data-action="hg-dnd-cancel">${e(H(t, 'Resume'))}</button></div>` : '';
-    return `<div class="app-view mms-app hgl-app">${bar({title: t('Hangouts'), actions: tool('mms-menu', t('More options'), 'gd-ic_overflow_menu.png', 'hgl-white')})}${snoozed}<div class="mms-scroll hgl-list">${rows || `<p class="hgl-empty">${e(t('Send a message or'))}<br>${e(t('start a video call'))}</p>`}</div><button class="hgl-fab" data-action="new-message" aria-label="${e(t('New Hangout'))}"><img src="assets/bg-ic_add_white.png" alt=""></button></div>`;
+    return `<div class="app-view mms-app hgl-app">${bar({title: t('Hangouts'), drawer: H(t, 'Open navigation drawer'), actions: tool('new-message', H(t, 'New Hangout'), 'hg-ic_add_24dp.png', 'hgl-white')})}${snoozed}<div class="mms-scroll hgl-list">${rows || `<p class="hgl-empty">${e(t('Send a message or'))}<br>${e(t('start a video call'))}</p>`}</div></div>`;
   }
   function picker(data, ui, t) {
     const draft = data.messageDrafts?.['hg:new'] || {};
@@ -76,15 +79,24 @@
     if (ui.sub === 'new') return picker(data, ui, t);
     return list(data, ui, t, locale, now);
   }
-  // Overflow of the conversation list (GSMArena), of a conversation, and the camera button's attach menu.
-  const MENU = [['hg-unsupported', 'Invites'], ['hg-archived', 'Archived'], ['hg-dnd', 'Snooze notifications'], ['hg-unsupported', 'Settings'], ['hg-unsupported', 'Help & feedback']];
+  // NavigationDrawerFragment items (above), the overflow of a conversation, and the camera button's attach menu.
+  // NavigationDrawerFragment.onAttachBinder's items sorted by their index (Invites 1, Archived 2, Blocked people 3 | Snooze
+  // notifications 5, Settings 6, Help & feedback 7; the second group under a divider), with their 24 dp icons, 50 dp rows
+  // (20 dp in, the 16 sp #4c4c4c label 44 dp after the icon) under AccountSwitcherView's 147 dp selected account.
+  const DRAWER = [['hg-unsupported', 'Invites', 'ic_drafts_24dp', 0], ['hg-archived', 'Archived', 'ic_archive_24dp', 0], ['hg-unsupported', 'Blocked people', 'ic_report_24dp', 0], ['hg-dnd', 'Snooze notifications', 'ic_notifications_off_24dp', 1], ['hg-unsupported', 'Settings', 'ic_settings_24dp', 1], ['hg-unsupported', 'Help & feedback', 'ic_help_24dp', 1]];
+  const MENU = DRAWER.map(([action, label]) => [action, label]);
   // The attachment button's choices: menu_choose_photo_from_gallery and realtimechat_location.
   const ATTACH = [['hg-attach-photo', 'Attach photo'], ['hg-share-location', 'Share your location']];
   function overlay(data, ui, t) {
     const option = (action, label, id = label) => `<button data-action="${action}" data-id="${e(id)}">${e(H(t, label))}</button>`;
+    if (ui.overlay === 'mms-hg-drawer') {
+      const account = 'nexus6.demo@gmail.com';
+      const rows = DRAWER.map(([action, label, icon, group], i) => `${i && group !== DRAWER[i - 1][3] ? '<hr>' : ''}<button type="button" data-action="${action}" data-id="${e(label)}"><img src="assets/hg-${icon}.png" alt=""><span>${e(H(t, label))}</span></button>`).join('');
+      return `<div class="hgl-drawer-scrim" data-action="close-overlay"></div><nav class="hgl-drawer" aria-label="Hangouts"><div class="hgl-account"><span class="hgl-account-avatar">${e(account.charAt(0).toUpperCase())}</span><b>${e(account.split('@')[0])}</b><small>${e(account)}</small></div>${rows}</nav>`;
+    }
     if (ui.overlay === 'mms-menu') {
       const thread = {key: ui.thread, last: [...data.messages].reverse().find(m => String(m.contact) === String(ui.thread) && ICSMessaging.channelOf(m) === 'hangouts')};
-      const items = ui.sub === 'thread' ? [isArchived(data, thread) ? option('hg-unarchive', 'Unarchive') : option('hg-archive', 'Archive'), option('mms-delete-thread', 'Delete')] : ui.sub === 'new' ? [option('hg-unsupported', 'Settings'), option('hg-unsupported', 'Help')] : MENU.map(([action, label]) => option(action, label));
+      const items = ui.sub === 'thread' ? [option('hg-unsupported', 'People & options'), option('hg-unsupported', 'Add people'), isArchived(data, thread) ? option('hg-unarchive', 'Unarchive') : option('hg-archive', 'Archive'), option('mms-delete-thread', 'Delete')] : ui.sub === 'new' ? [option('hg-unsupported', 'Settings'), option('hg-unsupported', 'Help')] : MENU.map(([action, label]) => option(action, label));
       return `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu">${items.join('')}</div>`;
     }
     if (ui.overlay === 'mms-hg-dnd') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog hg-dnd" role="dialog" aria-label="${e(H(t, 'Snooze notifications for…'))}"><h3>${e(H(t, 'Snooze notifications for…'))}</h3><div class="hg-dnd-list">${SNOOZE_MINUTES.map(m => `<button data-action="hg-dnd-set" data-id="${m}">${e(hours(t, m))}</button>`).join('')}</div></div>`;

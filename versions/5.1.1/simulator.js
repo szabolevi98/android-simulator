@@ -2477,6 +2477,7 @@
       case 'hg-unarchive': if (data.hgArchived) delete data.hgArchived[ui.thread]; ui.overlay = ''; if (ui.mmsListMode === 'archived') ui.mmsListMode = ''; save(); renderOverlay(); render(); break;
       case 'hg-archived': ui.overlay = ''; ui.sub = 'archived'; renderOverlay(); render(); break;
       case 'hg-dnd': ui.overlay = 'mms-hg-dnd'; renderOverlay(); break;
+      case 'hg-drawer': ui.overlay = 'mms-hg-drawer'; renderOverlay(); break;
       case 'hg-dnd-set': data.hgSnooze = deviceDate().getTime() + Number(id) * 60000; ui.overlay = ''; save(); renderOverlay(); render(); break;
       case 'hg-dnd-cancel': delete data.hgSnooze; save(); render(); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;

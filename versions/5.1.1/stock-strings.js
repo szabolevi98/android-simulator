@@ -3866,6 +3866,42 @@ window.StockStrings = {
    "Anhang hinzufügen",
    "Ajouter une pièce jointe",
    "Añadir adjunto"
+  ],
+  "Blocked people": [
+   "Letiltott személyek",
+   "Blockierte Personen",
+   "Contacts bloqués",
+   "Personas bloqueadas"
+  ],
+  "Help & feedback": [
+   "Súgó és visszajelzés",
+   "Hilfe & Feedback",
+   "Aide et commentaires",
+   "Ayuda y sugerencias"
+  ],
+  "People & options": [
+   "Személyek és beállítások",
+   "Personen und Optionen",
+   "Participants et options",
+   "Usuarios y opciones"
+  ],
+  "Add people": [
+   "Személyek hozzáadása",
+   "Personen hinzufügen",
+   "Ajouter des personnes",
+   "Añadir personas"
+  ],
+  "New Hangout": [
+   "Új Hangout",
+   "Neuer Hangout",
+   "Nouveau Hangout",
+   "Nueva conversación"
+  ],
+  "Open navigation drawer": [
+   "Navigációs fiók megnyitása",
+   "Navigationsleiste öffnen",
+   "Ouvrir le panneau de navigation",
+   "Abrir panel de navegación"
   ]
  },
  "gmail": {

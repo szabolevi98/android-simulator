@@ -73,7 +73,9 @@
     if (ui.sub === 'new') return picker(data, ui, t);
     return list(data, ui, t, locale, now);
   }
-  // Overflow of the conversation list (GSMArena), of a conversation, and the camera button's attach menu.
+  // Overflow of the conversation list (conversation_list_activity_menu.xml of the KTU84P Hangouts; BabelHomeActivity
+  // .onPrepareOptionsMenu only adds the invite count to Invites and hides Debug), of a conversation, and the camera
+  // button's attach menu.
   const MENU = [['hg-unsupported', 'Set mood…'], ['hg-unsupported', 'Invites'], ['hg-dnd', 'Snooze notifications'], ['hg-archived', 'Archived Hangouts'], ['hg-unsupported', 'Settings'], ['hg-unsupported', 'Send feedback'], ['hg-unsupported', 'Help']];
   const ATTACH = [['hg-unsupported', 'Take photo', 'camera'], ['hg-unsupported', 'Take video', 'video'], ['hg-attach-photo', 'Attach photo', 'photo'], ['hg-unsupported', 'Google+ albums', 'albums']];
   function overlay(data, ui, t) {
