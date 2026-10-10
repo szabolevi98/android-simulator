@@ -232,6 +232,52 @@ Felmérés közbeni ellenőrzés: az index.html-ekben hivatkozott, külön `*str
 verzión sikerült; az `image-strings.test.cjs`, `contact-editor.test.cjs` és `email.test.cjs` is átment.
 Ez a jelenlegi működés részleges ellenőrzése, nem teljes fordítási audit. A szövegkezelés átépítése még nem kezdődött el.
 
+## 11. Assethivatkozások és képfájlok ellenőrzése (2026-10-10; a többi auditjavítás után)
+
+A tulajdonos kérésére az öt verzió index.html-jeiben betöltött JS- és CSS-fájlok helyi képhivatkozásai
+ellenőrizve. Az assetek saját verziómappája helyes elkülönítés; a gond a teljes referenciaellenőrzés hiánya.
+A dinamikusan összeállított fájlneveket egy egyszerű szöveges keresés nem tudja teljesen ellenőrizni.
+
+**Igazolt hiány a használt felületen:** a `versions/2.3.6/gb-calendar.css` három nem létező képre hivatkozik:
+`assets/gb-divider_horizontal_bright.png`, `assets/gb-cal-btn_circle_normal.png` és
+`assets/gb-cal-btn_circle_pressed.png`. A `GBCalendar.render()` eseményszerkesztője ténylegesen létrehozza
+a `.gbcal-bright` elválasztót és a `.gbcal-round` emlékeztetőgombokat; ezek háttere és lenyomott állapota
+hiányos. A plusz/mínusz előtérikonok léteznek, tehát nem a teljes gomb tűnik el. Más előtaggal vannak hasonló
+fájlok (`gb-ce-btn_circle_*`, `gb-qsb-divider_horizontal_bright`), de a csere előtt a gyári APK alapján
+kell igazolni az erőforrásazonosságot. A `gb-calendar.test.cjs` így is átmegy: nem ellenőrzi ezeket a CSS-asseteket.
+
+A `version-files.test.cjs` szintén átmegy: a közvetlen JS/CSS-bekötéseket és a kódfájlok duplikációját
+ellenőrzi, nem az összes képet. Más tesztekben vannak célzott képellenőrzések, de nincs teljes lefedés.
+A statikus találatok egy része elérhetetlen ág: pl. a 4.3 / 4.4.4 / 5.1.1 `settings-system.js` hiányzó
+`ic_google_account.png` hivatkozásai az `ICS` feltétel mögött vannak, amely ezekben a verziókban mindig hamis.
+Az 5.1.1 Chrome és E-mail Holo-visszaikonját sem használja a Material ág. Ezeket nem szabad látható képhibának
+számolni; a szükségtelen ágakat a generátornál lehet később rendezni.
+
+- [ ] A három GB Naptár-assetet a saját kép megfelelő erőforrásával pótolni vagy a hivatkozást javítani; a normál és lenyomott állapotot is ellenőrizni.
+- [ ] Mind az öt verzióhoz teljes helyi assetellenőrzést készíteni: a betöltött CSS `url()`-jai, a renderelt HTML képei, valamint a dinamikus ikon-, háttérkép-, hang- és bootanimáció-listák is szerepeljenek benne. A ténylegesen használt ágakat külön ellenőrizni; az URL-eket a helyes alapmappához feloldani, a távoli és data: URL-eket megfelelően kezelni.
+- [ ] Linuxon is helyes kis-/nagybetűzést ellenőrizni. A most ellenőrzött, létező statikus assethivatkozások fájlneveinél nem volt ilyen eltérés; ez nem teljes dinamikus ellenőrzés.
+- [ ] A duplikált és a vélhetően nem használt képeket forrás és használat szerint felmérni. Az öt verzión belül összesen 136 bájtazonos assetcsoport volt, kb. 0,71 MiB többlettel; ez alacsony prioritás. Azonos gyári grafikák alkalmazásonkénti neve indokolt lehet, a képek vagy verziómappák automatikus összevonása nem cél. Dinamikus hivatkozás miatt egy fájl nem törölhető pusztán azért, mert nincs rá szó szerinti találat.
+
+## 12. Assetforrások és újragenerálás követhetősége (2026-10-10)
+
+A források jelentős része már dokumentált a kódban, a generátorokban és a `THIRD_PARTY_NOTICES.md`-ben.
+A teljes kivonási folyamat és az egyes kimeneti fájlok forrásadatai azonban nincsenek egységesen rögzítve.
+Ez a gyári pontosság későbbi ellenőrzését és a tiszta checkoutból történő újragenerálást nehezíti.
+
+**Konkrét problémák:**
+
+- A `docs/image-icons.py` 29. sorában a `('v' not in q or True)` feltétel mindig igaz. A kvalifikátor vizsgálata így hatástalan; azonos density mellett a `files.setdefault()` az első bejárt PNG-t tartja meg. Nincs kifejezett, a célrendszerhez illesztett választás a további konfigurációk között. Ez igazolt kiválasztási kockázat, nem annak bizonyítéka, hogy minden jelenlegi ikon hibás.
+- A `docs/gb-music-strings.py` a gyári kép kibontásához az `_aosp/extract_image.py`-ra hivatkozik. Ez a helyi script létezik, de az egész `_aosp/` Git által kihagyott; egy új checkoutban a hivatkozott eszköz nincs ott. A nagy rendszerképek kihagyása indokolt, az újrageneráláshoz szükséges saját eszközöknek verziózott helyen kell lenniük.
+- Ugyanez a kibontó az `app`, `priv-app`, `framework`, `media` mappákat és a build.prop-ot kezeli, a `fonts` mappát nem. Az 5.1.1 `lp-base.css` saját LMY48Y rendszerfontokra hivatkozik, de a helyileg kibontott képekben a `system/fonts` nem áll rendelkezésre az ellenőrzéshez. Ez megismételhetőségi hiány; a mostani betűfájlok hibás eredetét nem igazolja.
+
+- [ ] A használt képkibontó és assetexportáló eszközöket verziózott `docs/` vagy `tools/` helyen tartani; dokumentálni a bemeneti gyári képet, a parancsokat és a szükséges Python/SDK-eszközöket. A már kiváltott helyi scriptekre mutató hivatkozásokat javítani.
+- [ ] Az ikonexportálóban a mindig igaz feltételt megszüntetni; a célképhez tartozó density, API-szint és további konfigurációk kiválasztását kifejezetten kezelni. Több alkalmas vagy hiányzó erőforrás esetén egyértelmű jelentés kell, nem véletlen bejárási sorrend.
+- [ ] Assetleltárt vezetni: kimeneti fájl → gyári kép/build, APK vagy rendszerfájl, eredeti erőforrásútvonal, density/kvalifikátor és átalakítás. A `.9.png` keretlevágás, a nyújtási/padding adatok, az SVG-konverzió, az átméretezés és a boot/hang átkódolás is legyen követhető; az eredeti és a kimeneti hash segít az ellenőrzésben.
+- [ ] A rendszerfontokat is elérhetővé tenni az ellenőrzési folyamatban; a saját képhez tartozó fájl, fontcsalád, súly és dőlés alapján ellenőrizni a CSS-bekötést. Az alkalmazások saját fontjai külön forrást kapjanak a leltárban.
+- [ ] Próba újragenerálás dokumentált bemenetekből: a kimeneti fájllista, a szükséges assetek megléte és a transzformációk legyenek ellenőrizhetők. A nagy gyári képek továbbra sem kerülnek a Gitbe; az újragenerálási eszközök és a forrásleírás igen.
+
+A 11–12. pont most felmérés és munkaterv: implementáció még nem történt. A felmérés során csak az auditfájl módosult.
+
 ## Nem csináljuk meg
 
 - Valódi háttérműködés: hívás, SMS, szinkron, fizetés, hardveres rádiók, Face Unlock, titkosítás, valódi visszajelzés-küldés (a képernyőik és demóállapotuk igen)
