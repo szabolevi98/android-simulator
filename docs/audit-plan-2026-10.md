@@ -194,7 +194,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 - [x] Naptár időzóna-listája 4.3 / 4.4.4: a maguro (4.0.4) képből generálva — 74d92d0: a gyári TimeZonePickerDialog (keresőmező országra / GMT-órára, javaslatlista, legutóbbi zónák, „Nincs találat”), a képek saját adataiból: a Naptár zone.tab / backward fájlja és tömbjei, a kép tzdata-ja (2013c / 2014a) és ICU-ja (icudt50l / icudt51l) a zóna- és országnevekhez; a szerkesztő gombja „Közép-európai zónaidő  GMT+1 ☀”
 - [ ] 5.1.1 Google Naptár 5.0.1: az időzóna-lista még a maguro képből (calendar-timezones.js); a 5.0.1-es saját választóját kell a képből felépíteni (assets/zone.tab, backward a CalendarGooglePrebuilt-ben)
 - [ ] 4.3 / 4.4.4 Naptár eseményrészletek: eltérő zónánál az EventInfoFragment a helyi zóna rövid nevét írja az idő mellé (Utils.getDisplayedTimezone, TimeZone.SHORT); most a választó hosszú neve és GMT-eltolása látszik
-- [ ] 4.0.4: más képek kem-* ikonjai a Gmailben, a Play Zenében és a Google+-ban; a tárcsázó hdpi grafikája xhdpi telefonon
+- [x] 4.0.4: más képek kem-* ikonjai a Gmailben, a Play Zenében és a Google+-ban; a tárcsázó hdpi grafikája xhdpi telefonon — 39c9d53: a Play Zene sávja a Music2 saját sötét ikonjaival (CSS-invertálás nélkül), a Google+, Csevegő és YouTube a saját „nincs kép” ábrájával; a tárcsázó, a hívásnapló és a hívás közbeni számbillentyűzet a Contacts.apk xhdpi grafikáival. A Gmail már nem használt kem-ikont
 - [ ] 2.3.6: a 4.0.4-es tartalék beállítási oldalak még be vannak kötve; az asztali óráról hiányzik az időjárás
 - [ ] Elavult fejléc-kommentek (4.0.4 ics-extra-apps.js, stock-apps.js; 5.1.1 people.js csomagnév; 4.4.4 kk-dialer „4.3”)
 
@@ -445,3 +445,4 @@ A 11–12. pont most felmérés és munkaterv: implementáció még nem történ
 | 2026-10-10 | 9. lépés: 2.3.6 szöveggenerátor: idézőjelek és szóközök az aapt szerint | 614dd50 |
 | 2026-10-10 | 9. lépés: 2.3.6 szövegtáblák a kép APK-iból | 0881774 |
 | 2026-10-10 | 9. lépés: 4.3 / 4.4.4 Naptár TimeZonePickerDialog a képek adataiból | 74d92d0 |
+| 2026-10-10 | 9. lépés: 4.0.4 kem-* ikonok és hdpi tárcsázó lecserélve a kép saját grafikáira | 39c9d53 |
