@@ -65,3 +65,18 @@
 .mms-alert button:active{background:#33b5e566}
 /* message_list_item_*: ic_lock_message_sms beside the date of a locked message. */
 .mms-locked{width:auto;height:14.4px;margin-left:2.7px;vertical-align:-2px}
+/* The attachment chooser: the dialog title with ic_dialog_attach, icon_list_item rows (64 dp minimum, 9 dp padding,
+   the 32 dp icon 9 dp before textAppearanceLarge). 1 dp = 0.852 px. */
+.mms-attach-types h3{display:flex;align-items:center;gap:6.82px}
+.mms-attach-types h3 img{width:27.26px;height:27.26px}
+.screen .mms-attach-types .mms-dialog-list>button{display:flex;align-items:center;min-height:54.53px;padding:.85px 7.67px;text-align:left;font:400 18.74px Roboto,sans-serif;color:#000!important}
+.mms-attach-types .mms-dialog-list img{flex:none;width:27.26px;height:27.26px;padding-right:7.67px}
+/* audio_attachment_view.xml on attachment_editor_bg; the small Play / Replace / Remove buttons are 100 x 45 dp. */
+.mms-audio-editor{display:flex;align-items:center;margin:4px 6px;padding:13.63px 4.26px 14.48px 13.63px;border:0 solid transparent;border-width:8.52px 13.63px 14.48px;border-image:url('assets/mms-attachment_editor_bg.png') 20 32 34 32 fill / 8.52px 13.63px 14.48px stretch;flex-shrink:0}
+.mms-audio-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;font:400 13.63px Roboto,sans-serif;color:#333}
+.mms-audio-info img{width:27.26px;height:27.26px;padding-bottom:8.52px}
+.mms-audio-buttons{display:flex;flex-direction:column;padding-right:6.82px}
+.screen .mms-audio-buttons button{width:85.2px;height:38.34px;padding:0;border:0 solid transparent;border-width:6.81px 10.22px 5.96px;border-image:url('assets/bk28-btn_default_normal_holo_light.png') 32 24 28 24 fill / 6.81px 10.22px 5.96px stretch;background:none;color:#000!important;font:400 12.78px Roboto,sans-serif}
+.screen .mms-audio-buttons button:active{border-image-source:url('assets/bk28-btn_default_pressed_holo_light.png')}
+.mms-audio{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:12px;color:#555}
+.mms-audio img{width:27.26px;height:27.26px}

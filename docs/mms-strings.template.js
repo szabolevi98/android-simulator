@@ -8,7 +8,9 @@
   const LANGS = ['hu', 'de', 'fr', 'es'];
   const STRINGS = __STRINGS__({"Messaging": "app_label", "New message": "new_message", "Search messaging": "search_hint",
     "To": "to_hint", "Type message": "type_to_compose_text_enter_to_send", "Draft": "has_draft", "No conversations.": "no_conversations",
-    "Attach": "add_attachment", "Call": "menu_call", "Send": "send", "MMS": "mms",
+    "Attach": "add_attachment", "Pictures": "attach_image", "Capture picture": "attach_take_photo", "Videos": "attach_video",
+    "Capture video": "attach_record_video", "Audio": "attach_sound", "Record audio": "attach_record_sound", "Slideshow": "attach_slideshow",
+    "Play": "play", "Replace": "replace", "Remove": "remove", "Call": "menu_call", "Send": "send", "MMS": "mms",
     "Settings": "menu_preferences", "Delete all threads": "menu_delete_all", "Cell broadcasts": "?menu_cell_broadcasts",
     "Add subject": "add_subject", "Insert smiley": "menu_insert_smiley", "Delete thread": "delete_thread", "Discard": "discard",
     "Add to People": "menu_add_to_contacts", "Group participants": "?menu_group_participants",

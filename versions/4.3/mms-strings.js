@@ -55,6 +55,66 @@
           "Pièce jointe",
           "Adjuntar"
       ],
+      "Pictures": [
+          "Képek",
+          "Bilder",
+          "Images",
+          "Imagen"
+      ],
+      "Capture picture": [
+          "Kép rögzítése",
+          "Bild aufnehmen",
+          "Prendre une photo",
+          "Capturar imagen"
+      ],
+      "Videos": [
+          "Videók",
+          "Videos",
+          "Vidéos",
+          "Vídeos"
+      ],
+      "Capture video": [
+          "Videó rögzítése",
+          "Video aufnehmen",
+          "Prendre une vidéo",
+          "Capturar vídeo"
+      ],
+      "Audio": [
+          "Hanganyag",
+          "Audio",
+          "Fichier audio",
+          "Audio"
+      ],
+      "Record audio": [
+          "Hanganyag rögzítése",
+          "Audio aufnehmen",
+          "Enregistrer message",
+          "Grabar audio"
+      ],
+      "Slideshow": [
+          "Diavetítés",
+          "Diashow",
+          "Diaporama",
+          "Presentación"
+      ],
+      "Play": [
+          "Lejátszás",
+          "Wiedergeben",
+          "Lire",
+          "Reproducir"
+      ],
+      "Replace": [
+          "Csere",
+          "Ersetzen",
+          "Remplacer",
+          "Sustituir"
+      ],
+      "Remove": [
+          "Törlés",
+          "Entfernen",
+          "Supprimer",
+          "Eliminar"
+      ],
       "Call": [
           "Hívás",
           "Anrufen",

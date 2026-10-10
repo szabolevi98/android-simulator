@@ -1,0 +1,28 @@
+/* Sound Recorder 4.3 main.xml (port) on Theme.Holo at 1 dp = 0.852 px; its hdpi drawables at 0.568, the framework's
+   xhdpi ones at 0.426. */
+.app-view.sr-app{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;font-family:Roboto,sans-serif}
+.sr-bar{flex:none;display:flex;align-items:center;height:40.9px;border-bottom:1.7px solid #33b5e5;background:#000}
+.sr-bar img{width:27.26px;height:27.26px;margin:0 6.82px 0 6.82px}
+.sr-bar h2{margin:0;font:400 15.34px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-timer-area{position:relative;flex:none;height:206.18px;border-top:.85px solid #ffffff13;border-bottom:.85px solid #ffffff13;background:url('assets/sr-gradient_bg.png') center/100% 100%}
+.sr-timer{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:400 95.42px/1 Roboto,sans-serif;color:#fff}
+.sr-state{position:absolute;left:0;right:0;bottom:calc(50% + 47.71px);text-align:center}
+.sr-msg2{display:flex;align-items:center;justify-content:center;gap:2.13px;font:400 15.34px Roboto,sans-serif;min-height:0}
+.sr-msg2 img{width:10.22px;height:10.22px}
+.sr-msg1{font:400 11.93px Roboto,sans-serif;color:#bebebe}
+.sr-progress{position:absolute;left:17.04px;right:17.04px;bottom:calc(50% + 47.71px);height:2.56px;background:url('assets/jb-progress_bg_holo_dark.png') 0 0/100% 100%}
+.sr-progress i{display:block;height:100%;background:url('assets/jb-progress_primary_holo_dark.png') 0 0/100% 100%}
+.sr-middle{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;border-bottom:.85px solid #ffffff13}
+/* VUMeter: 200 x 80 px on vumeter.png; PIVOT_RADIUS 3.5 px, PIVOT_Y_OFFSET 10 px, the needle h * 4 / 5 long. */
+.sr-vumeter{position:relative;width:85.2px;height:34.08px;background:url('assets/sr-vumeter.png') center/100% 100%}
+.sr-needle{position:absolute;right:50%;bottom:5.75px;width:27.26px;height:.85px;background:#fff;box-shadow:.85px .85px 0 #0000003c;transform-origin:100% 50%}
+.sr-vumeter::after{content:"";position:absolute;left:50%;bottom:4.26px;width:2.98px;height:2.98px;margin-left:-1.49px;border-radius:50%;background:#fff}
+.sr-exit{display:flex;width:100%;padding:0 1.7px;box-sizing:border-box}
+.screen .sr-btn{flex:1;min-height:40.9px;margin:0 12.78px 0 0;border:0 solid transparent;border-width:13.6px 10.2px 11.9px;border-image:url('assets/jb-btn_default_normal_holo_dark.png') 24 18 21 18 fill / 13.6px 10.2px 11.9px 10.2px stretch;background:none;color:#fff;font:400 15.34px Roboto,sans-serif;padding:0}
+.screen .sr-btn+.sr-btn{margin:0 0 0 12.78px}
+.screen .sr-btn:active{border-image-source:url('assets/jb-btn_default_pressed_holo_dark.png')}
+.sr-buttons{flex:none;display:flex;justify-content:center;gap:0;height:51.12px;padding:3.41px 0;box-sizing:border-box;border:0 solid transparent;border-width:.43px 12.35px 0 13.21px;border-image:url('assets/sr-activity_title_bar.png') 1 29 0 31 fill / .43px 12.35px 0 13.21px stretch}
+.screen .sr-media{width:60.49px;height:100%;padding:0;border:0 solid transparent;border-width:13.6px 10.2px 11.9px;border-image:url('assets/jb-btn_default_normal_holo_dark.png') 24 18 21 18 fill / 13.6px 10.2px 11.9px 10.2px stretch;background:none;display:grid;place-items:center}
+.screen .sr-media:active:not(:disabled){border-image-source:url('assets/jb-btn_default_pressed_holo_dark.png')}
+.screen .sr-media:disabled{border-image:url('assets/sr-btn_default_disabled_holo_dark.png') 32 24 28 24 fill / 13.6px 10.2px 11.9px 10.2px stretch;cursor:default}
+.sr-media img{width:17.04px;height:17.04px;object-fit:contain}

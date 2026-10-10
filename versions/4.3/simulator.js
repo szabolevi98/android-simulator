@@ -623,6 +623,7 @@
     switch (ui.view) {
       case 'play-store': return JBPlay.render(jbPlayContext());
       case 'live-wallpapers': return renderLiveWallpapers();
+      case 'sound-recorder': return SoundRecorder.render(ui.sr ||= SoundRecorder.initial(), i18n.language);
       case 'ears-history': return Ears.history(data.earsHistory || [], i18n.language, i18n.locale());
       case 'wallpaper-picker': return `<div class="app-view wallpaper-picker"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>Wallpapers</h2></div><div class="app-content dark">${wallpaperChoices()}</div></div>`;
       case 'settings': return renderSettings();
@@ -705,6 +706,7 @@
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
     if (ui.view === 'ears-history' && !ui.overlay) { home(false); return; }
+    if (ui.view === 'sound-recorder' && !ui.overlay) { const st = ui.sr.state; if (st === 'idle') srFinish(ui.sr.length > 0); else if (st === 'playing') srStop(); else { clearInterval(ui.srTimer); ui.sr = SoundRecorder.initial(); render(); } return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
     if (ui.view === 'lock' && ui.kgChallenge?.bouncing()) { ui.kgChallenge.hideBouncer(); return; }
     if (ui.view === 'lock') return;
@@ -766,6 +768,33 @@
   let openFolderId = '';
   /* Sound Search capture: EarsWidgetCaptureService listens for at most Ears.CAPTURE_MS; here the song the Music app is
      playing is recognized after Ears.MATCH_MS, anything else ends without a match. The widget alone is repainted. */
+  /* Sound Recorder: the recording runs until stopped or until the MMS size limit (SoundRecorder.LIMIT seconds, then
+     "Maximum length reached"); playback runs to the end of the sample. The view repaints four times a second. */
+  function srTick() {
+    clearInterval(ui.srTimer);
+    ui.srTimer = setInterval(() => {
+      if (ui.view !== 'sound-recorder' || ui.sr.state === 'idle') { clearInterval(ui.srTimer); return; }
+      const t = SoundRecorder.progress(ui.sr);
+      if (ui.sr.state === 'recording' && t >= SoundRecorder.LIMIT) { ui.sr = {...ui.sr, state: 'idle', length: SoundRecorder.LIMIT, interrupted: true, error: 'max_length_reached'}; }
+      else if (ui.sr.state === 'playing' && t >= ui.sr.length) ui.sr = {...ui.sr, state: 'idle'};
+      render();
+    }, 250);
+    render();
+  }
+  function srStart() { if (ui.sr.state === 'recording') return; ui.sr = {...SoundRecorder.initial(), state: 'recording', started: Date.now()}; srTick(); }
+  function srStop() {
+    if (ui.sr.state === 'recording') ui.sr = {...ui.sr, state: 'idle', length: Math.max(1, SoundRecorder.progress(ui.sr))};
+    else if (ui.sr.state === 'playing') ui.sr = {...ui.sr, state: 'idle'};
+    clearInterval(ui.srTimer); render();
+  }
+  // Back in Messaging: saveSample's result becomes the draft's audio attachment.
+  function srFinish(keep) {
+    clearInterval(ui.srTimer);
+    const back = ui.srReturn || {view: 'messaging', sub: ''};
+    ui.view = back.view; ui.sub = back.sub; ui.thread = back.thread;
+    if (keep && ui.sr.length > 0) { const draft = messageDraft(); draft.attachment = SoundRecorder.sample(ui.sr, i18n.language); draft.updated = Date.now(); save(); }
+    ui.sr = SoundRecorder.initial(); render();
+  }
   function earsPaint() { viewport.querySelectorAll('.widget-ears').forEach(node => { const id = node.dataset.widgetId; node.innerHTML = Ears.widget(ui.ears, i18n.language) + (node.querySelector('[data-resize-frame]')?.outerHTML || ''); }); }
   function earsStart() {
     clearTimeout(ui.earsTimer); clearInterval(ui.earsTick);
@@ -1308,7 +1337,11 @@
         : option('toast', M('Settings'), unavailable) + (data.messages.length ? option('mms-delete-all', M('Delete all threads')) : '') + option('toast', M('Cell broadcasts'), unavailable);
       return `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu ${composing ? '' : 'mms-menu-root'}" data-no-translate>${items}</div>`;
     }
-    if (ui.overlay === 'mms-attach') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="${safe(MmsStrings.t('Attach'))}" data-no-translate><h3>${safe(MmsStrings.t('Attach'))}</h3><div class="mms-dialog-list">${data.photos.map(p => `<button data-action="mms-photo" data-id="${p.id}">${ICSMessaging.photo(p)}</button>`).join('') || `<p>${safe(i18n.t('No photos'))}</p>`}</div></div>`;
+    /* ComposeMessageActivity's attachment chooser: an AlertDialog ("Attach", ic_dialog_attach) over
+       AttachmentTypeSelectorAdapter's icon_list_item rows in its order. Pictures lists the simulator's photos; Record
+       audio starts Sound Recorder; the other sources are not part of the simulator. */
+    if (ui.overlay === 'mms-attach') { const M = key => MmsStrings.t(key); const types = [['pictures', 'Pictures', 'ic_attach_picture_holo_light'], ['capture-picture', 'Capture picture', 'ic_attach_capture_picture_holo_light'], ['videos', 'Videos', 'ic_attach_video_holo_light'], ['capture-video', 'Capture video', 'ic_attach_capture_video_holo_light'], ['audio', 'Audio', 'ic_attach_audio_holo_light'], ['record-audio', 'Record audio', 'ic_attach_capture_audio_holo_light'], ['slideshow', 'Slideshow', 'ic_attach_slideshow_holo_light']]; return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog mms-attach-types" role="dialog" aria-label="${safe(M('Attach'))}" data-no-translate><h3><img src="assets/mms-ic_dialog_attach.png" alt="">${safe(M('Attach'))}</h3><div class="mms-dialog-list">${types.map(([id, label, icon]) => `<button data-action="mms-attach-type" data-id="${id}"><img src="assets/mms-${icon}.png" alt=""><span>${safe(M(label))}</span></button>`).join('')}</div></div>`; }
+    if (ui.overlay === 'mms-attach-pick') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog mms-dialog" role="dialog" aria-label="${safe(MmsStrings.t('Attach'))}" data-no-translate><h3>${safe(MmsStrings.t('Attach'))}</h3><div class="mms-dialog-list">${data.photos.map(p => `<button data-action="mms-photo" data-id="${p.id}">${ICSMessaging.photo(p)}</button>`).join('') || `<p>${safe(i18n.t('No photos'))}</p>`}</div></div>`;
     if (ui.overlay === 'mms-smiley') return alert(M('Insert smiley'), `<div class="mms-smileys">${MmsStrings.SMILEYS.map(([name, text, icon]) => `<button data-action="mms-insert-smiley" data-id="${safe(text)}"><img src="assets/mms-emo_im_${icon}.png" alt=""><span>${safe(M(name))}</span><b>${safe(text)}</b></button>`).join('')}</div>`);
     if (ui.overlay === 'mms-delete-confirm') {
       const scope = ui.mmsDelete === 'all' ? data.messages : ui.mmsDelete === 'thread' ? data.messages.filter(m => String(m.contact) === String(ui.thread)) : [];
@@ -2125,6 +2158,12 @@
       case 'hg-dnd-cancel': delete data.hgSnooze; save(); render(); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
       case 'mms-menu': case 'mms-attach': case 'mms-smiley': ui.overlay = action; renderOverlay(); break;
+      case 'mms-attach-type': if (id === 'pictures') { ui.overlay = 'mms-attach-pick'; renderOverlay(); } else if (id === 'record-audio') { ui.overlay = ''; renderOverlay(); ui.srReturn = {view: ui.view, sub: ui.sub, thread: ui.thread}; ui.sr = SoundRecorder.initial(); ui.view = 'sound-recorder'; ui.sub = ''; render(); } else { ui.overlay = ''; renderOverlay(); toast('This feature is not part of the simulator.'); } break;
+      case 'sr-record': srStart(); break;
+      case 'sr-play': if (ui.sr.state === 'idle' && ui.sr.length) { ui.sr = {...ui.sr, state: 'playing', started: Date.now(), interrupted: false, error: ''}; srTick(); } break;
+      case 'sr-stop': srStop(); break;
+      case 'sr-accept': srStop(); srFinish(true); break;
+      case 'sr-discard': srStop(); srFinish(false); break;
       case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }
       case 'mms-call': {const person=ICSMessaging.identity(ui.thread,data.contacts);startPhoneCall(person.phone);break;}
       case 'mms-photo': { const photo = data.photos.find(p => p.id === Number(id)); if (photo) { messageDraft().attachment = clone(photo); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); } break; }
