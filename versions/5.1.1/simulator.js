@@ -2722,7 +2722,9 @@
       case 'email-move': {const item=mailbox().find(item=>item.id===ui.emailId);if(item){if(id==='Trash')ICSEmail.trash(mailbox(),[item.id]);else{item.folder=id;delete item.previousFolder;}}ui.overlay='';ui.sub='';save();render();break;}
       case 'email-unavailable': ui.overlay='';renderOverlay();toast('Not available in this simulator');break;
       case 'email-folder': if(ui.view==='gmail'){data.gmailSeen={...data.gmailSeen,[id]:Date.now()};save();}ui.emailFolder=id;ui.sub='';ui.emailQuery=undefined;ui.emailSelected=[];ui.overlay='';render();break;
-      case 'email-star': {const item=mailbox().find(item=>item.id===id);if(item)item.starred=!item.starred;save();render();break;}
+      case 'email-star': {const item=mailbox().find(item=>item.id===id);if(item)item.starred=!item.starred;ui.overlay='';renderOverlay();save();render();break;}
+      case 'email-empty-trash': ui.overlay='email-empty-trash';renderOverlay();break;
+      case 'email-empty-trash-ok': {const box=mailbox();for(let i=box.length-1;i>=0;i--)if(box[i].folder==='Trash')box.splice(i,1);ui.overlay='';renderOverlay();save();render();break;}
       case 'email-select': ui.emailSelected ||= [];ui.emailSelected=ui.emailSelected.includes(id)?ui.emailSelected.filter(key=>key!==id):[...ui.emailSelected,id];render();break;
       case 'email-clear-selection': ui.emailSelected=[];render();break;
       case 'email-trash': case 'email-selected-trash': ICSEmail.trash(mailbox(),action==='email-trash'?[ui.emailId]:ui.emailSelected||[]);ui.sub='';ui.emailSelected=[];save();render();break;

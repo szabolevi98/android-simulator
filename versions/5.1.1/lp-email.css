@@ -137,7 +137,17 @@
 .lem-star img{width:18.12px;height:18.12px}
 .lem-star[aria-pressed=false] img{filter:brightness(0);opacity:.26}
 .lem-row+.lem-row::before{content:'';position:absolute;left:65.23px;right:0;top:0;height:.906px;background:#0000000f}
-.lem-empty{margin:43.49px 14.5px;text-align:center;font:400 14.5px Roboto,sans-serif;color:#757575}
+/* ConversationListEmptyView: centred, the 120 dp ic_empty_* picture, 16 dp, the 20 sp light #757575 text, 228 dp wide. */
+.lem-empty-view{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:14.5px;box-sizing:border-box}
+.lem-empty-view img{width:108.72px;height:108.72px}
+.lem-empty-view p{max-width:206.57px;margin:14.5px 0 0;text-align:center;font:300 18.12px/1.3 Roboto,sans-serif;color:#757575}
+/* EmptyFolderDialogFragment in UnifiedEmailTheme's colorAccent (accent_blue). */
+.lem-alert .ga-buttons button{color:#4285f4}
+.lem-move .lem-move-list{padding-bottom:7.25px}
+.screen .lem-move-list button{display:flex;align-items:center;width:100%;height:43.49px;padding:0 21.74px;border:0;background:none;text-align:left;cursor:pointer}
+.lem-move-list button:active{background:#0000001f}
+.lem-move-list .lem-folder-icon{flex:none;margin-right:0;width:21.74px;height:21.74px;background:#757575;-webkit-mask-size:contain;mask-size:contain}
+.lem-move-list span:last-child{flex:1;min-width:0;margin-left:14.5px;font:400 14.5px Roboto,sans-serif;color:#757575;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lem-fab{position:absolute;right:14.5px;bottom:14.5px;z-index:4;width:50.74px;height:50.74px;border:0;border-radius:50%;padding:0;background:var(--lem);display:grid;place-items:center;box-shadow:0 3.6px 9px #0000004d}
 .lem-fab:active{background:var(--lem-dark)}
 .lem-fab img{width:21.74px;height:21.74px}

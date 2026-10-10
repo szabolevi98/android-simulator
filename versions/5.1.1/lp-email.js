@@ -163,7 +163,13 @@
    - the conversation: Archive, Delete, Mark unread on the toolbar, the 20 sp subject with its label chip and the star,
      the message header (40 dp tile, sender, "to me", date, reply and overflow) and the body;
    - ComposeActivity: the toolbar with attach and send, From / To / Subject rows with #757575 labels, "Compose email".
-   Mail storage and actions are shared with email.js (window.ICSEmail); strings come from the UnifiedEmail part above (KKEmail.tr). */
+   - the menus as Email 7.0's code leaves them (ActionBarController, MessageHeaderView; read from its odex): the list
+     toolbar has only Search (Refresh, Settings and Help are keyboard shortcuts; Settings and Help sit in the drawer),
+     "Empty Trash" over a non-empty trash, "Move to" in the conversation's overflow, Reply all / Forward / star / Print
+     in the message's; the empty-list pictures and texts of ConversationListEmptyView;
+   Mail storage and actions are shared with email.js (window.ICSEmail). The texts are each app's own
+   (lp-email-strings.js from docs/lp-email-strings.py); the 4.4 part above still draws the photo picker and the
+   discard prompt. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -179,8 +185,17 @@
   const act = (action, label, name, id = '') => `<button type="button" class="lem-act" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''} aria-label="${e(label)}">${icon(name)}</button>`;
   const overflow = (menu, dark = false) => `<button type="button" class="lem-act${dark ? ' dark' : ''}" data-action="email-menu" data-id="${menu}" aria-label="More options">${icon('ic_overflow_24dp')}</button>`;
   const FOLDER_ICONS = {Inbox: 'inbox', Primary: 'primary', Social: 'social', Promotions: 'promotions', Updates: 'updates', Forums: 'forums', 'Priority Inbox': 'priority', Starred: 'starred', Important: 'important', Chats: 'allmail', Sent: 'sent', Outbox: 'outbox', Drafts: 'drafts', 'All mail': 'allmail', Spam: 'spam', Trash: 'trash'};
+  // The app's own texts (lp-email-strings.js, from PrebuiltEmailGoogle 7.0 / PrebuiltGmail 5.0.2), else the shared rows.
+  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
+  const text = (app, lang, key, t) => window.LPEmailStrings?.[app]?.[key]?.[Math.max(0, LANGS.indexOf(lang))] ?? (t ? t(key) : window.AndroidI18n?.t?.(key) ?? key);
+  /* ConversationListEmptyView (EmptyStateUtils): the 120 dp ic_empty_* picture and the 20 sp sans-serif-light #757575
+     text, 228 dp wide and 16 dp below it, for the inbox, search results, spam, trash or any other folder. */
+  function emptyView(app, folder, query, T) {
+    const [pic, key] = query !== undefined ? ['search', 'Empty search'] : folder === 'Inbox' || folder === 'Primary' ? ['inbox', 'Empty inbox'] : folder === 'Spam' ? ['spam', 'Empty spam'] : folder === 'Trash' ? ['trash', 'Empty trash'] : ['default', 'Empty folder'];
+    return `<div class="lem-empty-view"><img src="assets/${app === 'gmail' ? 'gm5' : 'em7'}-ic_empty_${pic}.png" alt=""><p>${e(T(key).replace('%1$s', query || ''))}</p></div>`;
+  }
   function render(mail, ui, t, locale, lang, opts = {}) {
-    const T = key => { const v = window.KKEmail.tr(lang, key); return v !== key ? v : t(key); }, account = opts.account || window.ICSEmail.account;
+    const app = opts.app || 'email', T = key => text(app, lang, key, t), account = opts.account || window.ICSEmail.account;
     const theme = THEMES[opts.app || 'email'];
     const listOf = opts.list || window.ICSEmail.list, name = opts.folderName || (folder => T(folder));
     const folder = ui.emailFolder || (opts.app === 'gmail' ? 'Primary' : 'Inbox'), selected = ui.emailSelected || [], item = mail.find(m => m.id === ui.emailId);
@@ -188,7 +203,7 @@
     if (ui.sub === 'compose' && item) {
       const cc = ui.emailCc || item.cc || item.bcc;
       // compose_recipients.xml: the add_cc_bcc chevron (ic_expand_more_24dp) beside To while Cc / Bcc are hidden.
-      const field = (key, label) => `<label class="lem-field"><span>${e(T(label))}</span><input type="text" name="${key}" value="${e(item[key] || '')}" aria-label="${e(T(label))}"${key === 'subject' ? ' maxlength="160"' : ''}>${key === 'to' && !cc ? `<button type="button" class="lem-ccbtn" data-action="email-cc" aria-label="${e(T('Add Cc/Bcc'))}"><img src="assets/gm5-ic_expand_more_24dp.png" alt=""></button>` : ''}</label>`;
+      const field = (key, label) => `<label class="lem-field"><span>${e(T(label))}</span><input type="text" name="${key}" value="${e(item[key] || '')}" aria-label="${e(T(label))}"${key === 'subject' ? ' maxlength="160"' : ''}>${key === 'to' && !cc ? `<button type="button" class="lem-ccbtn" data-action="email-cc" aria-label="${e(T('+ Cc/Bcc'))}"><img src="assets/gm5-ic_expand_more_24dp.png" alt=""></button>` : ''}</label>`;
       return `<form class="app-view lem lem-compose email-compose" style="${style}" data-form="email"><header class="lem-bar">${act('email-list', T('Navigate up'), 'ic_arrow_back_wht_24dp')}<h2>${e(T('Compose'))}</h2>${act('email-menu', T('Attach file'), 'ic_attach_file_wht_24dp', 'attach')}<button type="submit" class="lem-act" aria-label="${e(T('Send'))}">${icon('ic_send_wht_24dp')}</button>${overflow('compose')}</header><div class="email-scroll lem-scroll"><div class="lem-field lem-from"><span>${e(T('From'))}</span><b>${e(item.from === window.ICSEmail.account ? account : item.address || account)}</b></div>${field('to', 'To')}${cc ? field('cc', 'Cc') + field('bcc', 'Bcc') : ''}<label class="lem-field lem-subject-field"><input type="text" name="subject" value="${e(item.subject || '')}" placeholder="${e(T('Subject'))}" aria-label="${e(T('Subject'))}" maxlength="160"></label><label class="lem-body"><textarea name="body" placeholder="${e(T('Compose email'))}" aria-label="${e(T('Compose email'))}" maxlength="10000">${e(item.body)}</textarea></label>${item.attachment ? `<div class="lem-attachment">${window.ICSMedia.art(item.attachment)}<span>${e(item.attachment.name)}</span><button type="button" data-action="email-remove-attachment" aria-label="${e(T('Discard'))}">×</button></div>` : ''}${ui.emailError ? `<p class="lem-error">${e(t(ui.emailError))}</p>` : ''}</div></form>`;
     }
     if (ui.sub === 'read' && item) {
@@ -196,26 +211,25 @@
       const actions = (opts.archive && item.folder === 'Inbox' ? act('email-archive', T('Archive'), 'ic_archive_wht_24dp') : '') + (trashLike ? act('email-restore', T('Move to'), 'ic_move_to_wht_24dp') : act('email-trash', T('Delete'), 'ic_delete_wht_24dp')) + act('email-unread', T('Mark unread'), 'ic_mark_unread_wht_24dp') + overflow('conversation');
       const sent = item.folder === 'Sent' || item.folder === 'Drafts';
       const to = sent ? item.to || '' : T('me');
-      return `<div class="app-view lem lem-conversation" style="${style}"><header class="lem-bar">${act('email-list', T('Navigate up'), 'ic_arrow_back_wht_24dp')}<span class="lem-spacer"></span>${actions}</header><div class="email-scroll lem-scroll"><div class="lem-subject"><h2>${e(item.subject || '')}${opts.chip ? opts.chip(item) : ''}</h2><button class="lem-conv-star" data-action="email-star" data-id="${e(item.id)}" aria-label="${e(T(item.starred ? 'Remove star' : 'Add star'))}" aria-pressed="${item.starred}">${icon(item.starred ? 'ic_star_20dp' : 'ic_star_outline_20dp')}</button></div><article class="lem-message"><div class="lem-msg-head">${tile(item.from, item.address)}<span class="lem-msg-who"><b>${e(item.from)}</b><small>${e(T('to'))} ${e(to)} · ${e(window.KKEmail.shortDate(item, locale))}</small></span><button class="lem-msg-act" data-action="email-reply" aria-label="${e(T('Reply'))}">${icon('ic_reply_24dp')}</button><button class="lem-msg-act narrow" data-action="email-menu" data-id="message" aria-label="More options">${icon('ic_overflow_24dp')}</button></div><div class="lem-msg-body">${e(item.body).replace(/\n/g, '<br>')}</div>${item.attachment ? `<div class="lem-attachment">${window.ICSMedia.art(item.attachment)}<span>${e(item.attachment.name)}</span></div>` : ''}<div class="lem-msg-footer"><button data-action="email-reply">${icon('ic_reply_24dp')}<span>${e(T('Reply'))}</span></button><button data-action="email-reply-all">${icon('ic_reply_all_24dp')}<span>${e(T('Reply all'))}</span></button><button data-action="email-forward">${icon('ic_forward_24dp')}<span>${e(T('Forward'))}</span></button></div></article></div></div>`;
+      return `<div class="app-view lem lem-conversation" style="${style}"><header class="lem-bar">${act('email-list', T('Navigate up'), 'ic_arrow_back_wht_24dp')}<span class="lem-spacer"></span>${actions}</header><div class="email-scroll lem-scroll"><div class="lem-subject"><h2>${e(item.subject || '')}${opts.chip ? opts.chip(item) : ''}</h2><button class="lem-conv-star" data-action="email-star" data-id="${e(item.id)}" aria-label="${e(T(item.starred ? 'Remove star' : 'Add star'))}" aria-pressed="${item.starred}">${icon(item.starred ? 'ic_star_20dp' : 'ic_star_outline_20dp')}</button></div><article class="lem-message"><div class="lem-msg-head">${tile(item.from, item.address)}<span class="lem-msg-who"><b>${e(item.from)}</b><small>${e(T('to %1$s').replace('%1$s', to))} · ${e(window.KKEmail.shortDate(item, locale))}</small></span><button class="lem-msg-act" data-action="email-reply" aria-label="${e(T('Reply'))}">${icon('ic_reply_24dp')}</button><button class="lem-msg-act narrow" data-action="email-menu" data-id="message" aria-label="More options">${icon('ic_overflow_24dp')}</button></div><div class="lem-msg-body">${e(item.body).replace(/\n/g, '<br>')}</div>${item.attachment ? `<div class="lem-attachment">${window.ICSMedia.art(item.attachment)}<span>${e(item.attachment.name)}</span></div>` : ''}<div class="lem-msg-footer"><button data-action="email-reply">${icon('ic_reply_24dp')}<span>${e(T('Reply'))}</span></button><button data-action="email-reply-all">${icon('ic_reply_all_24dp')}<span>${e(T('Reply all'))}</span></button><button data-action="email-forward">${icon('ic_forward_24dp')}<span>${e(T('Forward'))}</span></button></div></article></div></div>`;
     }
     const rows = listOf(mail, folder, ui.emailQuery || '');
     const head = selected.length
       ? `<header class="lem-bar cab">${act('email-clear-selection', 'Done', 'ic_arrow_back_wht_24dp')}<h2>${selected.length}</h2>${opts.archive && folder !== 'Trash' ? act('email-selected-archive', T('Archive'), 'ic_archive_wht_24dp') : ''}${folder === 'Trash' ? act('email-selected-restore', T('Move to'), 'ic_move_to_wht_24dp') : act('email-selected-trash', T('Delete'), 'ic_delete_wht_24dp')}${act('email-selected-read', T('Mark read'), 'ic_mark_read_wht_24dp')}</header>`
       : ui.emailQuery !== undefined
-        ? `<form class="lem-bar lem-searchbar" data-form="email-search">${act('email-list', T('Navigate up'), 'ic_arrow_back_wht_24dp')}<input name="query" value="${e(ui.emailQuery)}" placeholder="${e(T('Search email'))}" aria-label="${e(T('Search email'))}" autocomplete="off"></form>`
-        : `<header class="lem-bar">${act('email-drawer', T('Open navigation drawer'), 'ic_menu_wht_24dp')}<h2>${e(name(folder))}</h2>${act('email-search', T('Search'), 'ic_menu_search')}${overflow('list')}</header>`;
+        ? `<form class="lem-bar lem-searchbar" data-form="email-search">${act('email-list', T('Navigate up'), 'ic_arrow_back_wht_24dp')}<input name="query" value="${e(ui.emailQuery)}" placeholder="${e(T('Search hint'))}" aria-label="${e(T('Search hint'))}" autocomplete="off"></form>`
+        : `<header class="lem-bar">${act('email-drawer', T('Open navigation drawer'), 'ic_menu_wht_24dp')}<h2>${e(name(folder))}</h2>${act('email-search', T('Search'), 'ic_menu_search')}${app === 'email' && folder === 'Trash' && rows.length ? overflow('trash') : ''}</header>`;
     const row = m => {
       const on = selected.includes(m.id), who = m.folder === 'Sent' || m.folder === 'Drafts' ? (m.to || m.from) : m.from;
       return `<div class="lem-row ${m.read ? 'read' : 'unread'}${on ? ' selected' : ''}"><button class="lem-photo" data-action="email-select" data-id="${e(m.id)}" role="checkbox" aria-checked="${on}" aria-label="${e(who)}">${on ? '<span class="lem-tile checked">✓</span>' : tile(who, m.folder === 'Sent' ? m.to : m.address)}</button><button class="lem-row-main" data-action="email-read" data-id="${e(m.id)}"><span class="lem-line1">${opts.marker ? opts.marker(m) : ''}<b class="lem-senders">${m.folder === 'Drafts' ? `<span class="lem-draft">${e(T('Drafts'))}</span>` : e(who)}</b>${m.attachment ? `<i class="lem-clip">${icon('ic_attach_file_wht_24dp')}</i>` : ''}<span class="lem-date">${e(window.KKEmail.shortDate(m, locale))}</span></span><span class="lem-subj">${e(m.subject || '')}</span><span class="lem-snippet">${e((m.body || '').replace(/\s+/g, ' '))}</span></button><button class="lem-star" data-action="email-star" data-id="${e(m.id)}" aria-label="${e(T(m.starred ? 'Remove star' : 'Add star'))}" aria-pressed="${m.starred}">${icon(m.starred ? 'ic_star_20dp' : 'ic_star_outline_20dp')}</button></div>`;
     };
     const plain = !selected.length && ui.emailQuery === undefined;
     const top = plain && opts.top ? opts.top(folder) : '';
-    return `<div class="app-view lem lem-list" style="${style}">${head}<div class="email-scroll lem-scroll">${top}${rows.length ? rows.map(row).join('') : `<p class="lem-empty">${e(T('No messages.'))}</p>`}</div>${plain ? `<button class="lem-fab" data-action="email-compose" aria-label="${e(T('Compose'))}">${icon('ic_pencil_wht_24dp')}</button>` : ''}</div>`;
+    return `<div class="app-view lem lem-list" style="${style}">${head}<div class="email-scroll lem-scroll">${top}${rows.length ? rows.map(row).join('') : emptyView(app, folder, ui.emailQuery, T)}</div>${plain ? `<button class="lem-fab" data-action="email-compose" aria-label="${e(T('Compose'))}">${icon('ic_pencil_wht_24dp')}</button>` : ''}</div>`;
   }
   // The navigation drawer: account header, then the folders with their icons.
-  const translate = (lang, key) => { const v = window.KKEmail.tr(lang, key); return v !== key ? v : window.AndroidI18n?.t?.(key) ?? key; };
   function drawer(mail, ui, lang, opts) {
-    const T = key => translate(lang, key);
+    const T = key => text(opts.app || 'email', lang, key);
     const theme = THEMES[opts.app || 'email'], account = opts.account || window.ICSEmail.account;
     const groups = opts.folders || [['', ['Inbox', 'Starred', 'Drafts', 'Outbox', 'Sent', 'Trash']]];
     const folder = ui.emailFolder || (opts.app === 'gmail' ? 'Primary' : 'Inbox');
@@ -223,21 +237,41 @@
     const count = f => { const items = listOf(mail, f); return ['Drafts', 'Outbox', 'Spam', 'Trash', 'All mail', 'Starred'].includes(f) ? items.length : items.filter(m => !m.read).length; };
     const row = f => { const n = count(f); return `<button class="lem-folder${f === folder ? ' on' : ''}" data-action="email-folder" data-id="${e(f)}"><span class="lem-folder-icon" style="-webkit-mask-image:url(assets/gm5-ic_drawer_${FOLDER_ICONS[f] || 'label'}_24dp.png);mask-image:url(assets/gm5-ic_drawer_${FOLDER_ICONS[f] || 'label'}_24dp.png)"></span><span class="lem-folder-name">${e(name(f))}</span>${n ? `<em>${n}</em>` : ''}</button>`; };
     const initial = account.charAt(0).toLocaleUpperCase();
-    return `<div class="lem-drawer-scrim" data-action="close-overlay"></div><nav class="lem-drawer" style="--lem:${theme.primary}" aria-label="${e(theme.name)}"><div class="lem-account"><span class="lem-account-avatar">${e(initial)}</span><b>${e(opts.accountName || 'Nexus 6')}</b><small>${e(account)}</small></div>${groups.map(([title, folders]) => `${title ? `<h4>${e(name(title))}</h4>` : ''}${folders.map(row).join('')}`).join('<hr>')}<hr><button class="lem-folder" data-action="email-unavailable"><span class="lem-folder-icon" style="-webkit-mask-image:url(assets/gm5-ic_drawer_settings_24dp.png);mask-image:url(assets/gm5-ic_drawer_settings_24dp.png)"></span><span class="lem-folder-name">${e(T('Settings'))}</span></button><button class="lem-folder" data-action="email-unavailable"><span class="lem-folder-icon" style="-webkit-mask-image:url(assets/gm5-ic_drawer_help_24dp.png);mask-image:url(assets/gm5-ic_drawer_help_24dp.png)"></span><span class="lem-folder-name">${e(T('Help & feedback'))}</span></button></nav>`;
+    return `<div class="lem-drawer-scrim" data-action="close-overlay"></div><nav class="lem-drawer" style="--lem:${theme.primary}" aria-label="${e(theme.name)}"><div class="lem-account"><span class="lem-account-avatar">${e(initial)}</span><b>${e(opts.accountName || 'Nexus 6')}</b><small>${e(account)}</small></div>${groups.map(([title, folders]) => `${title ? `<h4>${e(name(title))}</h4>` : ''}${folders.map(row).join('')}`).join('<hr>')}<hr><button class="lem-folder" data-action="email-settings"><span class="lem-folder-icon" style="-webkit-mask-image:url(assets/gm5-ic_drawer_settings_24dp.png);mask-image:url(assets/gm5-ic_drawer_settings_24dp.png)"></span><span class="lem-folder-name">${e(T('Settings'))}</span></button><button class="lem-folder" data-action="email-unavailable"><span class="lem-folder-icon" style="-webkit-mask-image:url(assets/gm5-ic_drawer_help_24dp.png);mask-image:url(assets/gm5-ic_drawer_help_24dp.png)"></span><span class="lem-folder-name">${e(T('Help & feedback'))}</span></button></nav>`;
   }
   function overlay(mail, ui, photos, t, lang, opts = {}) {
-    const T = key => translate(lang, key);
+    const app = opts.app || 'email', T = key => text(app, lang, key, t);
     if (ui.overlay === 'email-drawer') return drawer(mail, ui, lang, opts);
-    const menu = items => `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu">${items.map(([action, label]) => `<button role="menuitem" data-action="${action}">${e(T(label))}</button>`).join('')}</div>`;
+    const menu = items => `<div class="menu-scrim" data-action="close-overlay"></div><div class="lp-popup-menu" role="menu">${items.map(([action, label, id]) => `<button role="menuitem" data-action="${action}"${id ? ` data-id="${e(id)}"` : ''}>${e(T(label))}</button>`).join('')}</div>`;
     if (ui.overlay === 'email-menu') {
-      const kind = ui.emailMenu || 'list';
+      const kind = ui.emailMenu || 'list', item = mail.find(m => m.id === ui.emailId);
       // compose_menu.xml (LMY48Y PrebuiltEmailGoogle): Attach file (a submenu: Attach file, Attach picture) and Send are
       // actions; Save draft, Discard, Settings and Help & feedback overflow. Cc / Bcc open from the chevron by To.
       if (kind === 'compose') return menu([['email-save', 'Save draft'], ['email-discard', 'Discard'], ['email-settings', 'Settings'], ['email-unavailable', 'Help & feedback']]);
       if (kind === 'attach') return menu([['email-unavailable', 'Attach file'], ['email-attach', 'Attach picture']]);
-      if (kind === 'conversation') return menu([['email-folders', 'Move to'], ['email-settings', 'Settings'], ['email-unavailable', 'Help & feedback']]);
-      if (kind === 'message') return menu([['email-reply-all', 'Reply all'], ['email-forward', 'Forward']]);
-      return menu([['email-refresh', 'Refresh'], ['email-settings', 'Settings'], ['email-unavailable', 'Help & feedback']]);
+      /* conversation_actions.xml as ActionBarController.setConversationModeOptions leaves it for an Email account
+         (EmailProvider.getCapabilities: no archive, labels, importance, mute, spam or "show original"): Delete and Mark
+         unread on the toolbar, "Move to" (menu_move_to_state: never) in the overflow; Settings and Help stay hidden. */
+      if (kind === 'conversation') return menu([['email-folders', 'Move to']]);
+      /* MessageHeaderView's overflow (message_header_overflow_menu.xml): with the default reply behaviour Reply is the
+         header button, so Reply all, Forward, Add or Remove star (not in Trash) and Print. */
+      if (kind === 'message') return menu([['email-reply-all', 'Reply all'], ['email-forward', 'Forward'], ...(item && item.folder !== 'Trash' ? [['email-star', item.starred ? 'Remove star' : 'Add star', item.id]] : []), ['email-unavailable', 'Print']]);
+      // validateVolatileMenuOptionVisibility: "Empty Trash" over a non-empty trash (EMPTY_TRASH is an Email capability).
+      if (kind === 'trash') return menu([['email-empty-trash', 'Empty Trash']]);
+      return '';
+    }
+    /* SingleFolderSelectionDialog: an AlertDialog titled "Move to" over single_folders_view rows (48 sp; the 24 dp folder
+       icon 24 dp in, the 16 sp #757575 name 16 dp after it) and Cancel / OK. Only folders that take moved mail are offered
+       (EmailProvider.getFolderCapabilities: Inbox and Trash on this account), not the one the message is in; a row moves
+       it at once. */
+    if (ui.overlay === 'email-folders' && app === 'email') {
+      const item = mail.find(m => m.id === ui.emailId), targets = ['Inbox', 'Trash'].filter(f => f !== item?.folder);
+      return `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-alert lem-alert lem-move" role="dialog" aria-label="${e(T('Move to'))}"><h3 class="ga-title">${e(T('Move to'))}</h3><div class="lem-move-list">${targets.map(f => `<button type="button" data-action="email-move" data-id="${f}"><span class="lem-folder-icon" style="-webkit-mask-image:url(assets/gm5-ic_drawer_${FOLDER_ICONS[f]}_24dp.png);mask-image:url(assets/gm5-ic_drawer_${FOLDER_ICONS[f]}_24dp.png)"></span><span>${e(T(f))}</span></button>`).join('')}</div><div class="ga-buttons"><button type="button" data-action="close-overlay">${e(T('Cancel'))}</button><button type="button" data-action="close-overlay">${e(T('OK'))}</button></div></div>`;
+    }
+    /* EmptyFolderDialogFragment: "Empty Trash?" with the plural count, Cancel and Delete in the #4285F4 accent. */
+    if (ui.overlay === 'email-empty-trash') {
+      const n = window.ICSEmail.list(mail, 'Trash').length, message = T(n === 1 ? 'Will be deleted (one)' : 'Will be deleted').replace('%1$d', n);
+      return `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-alert lem-alert" role="alertdialog" aria-label="${e(T('Empty Trash?'))}"><h3 class="ga-title">${e(T('Empty Trash?'))}</h3><p class="ga-body">${e(message)}</p><div class="ga-buttons"><button type="button" data-action="close-overlay">${e(T('Cancel'))}</button><button type="button" data-action="email-empty-trash-ok">${e(T('Delete'))}</button></div></div>`;
     }
     return window.KKEmail.overlay(mail, ui, photos, t, lang, {});
   }
