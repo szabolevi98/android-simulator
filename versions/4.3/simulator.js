@@ -183,7 +183,9 @@
     { type: 'photo', name: 'Photo Gallery', app: 'gallery', width: 3, height: 3 },
     { type: 'power', name: 'Power control', app: 'settings', width: 4, height: 1 },
     // Play Store 4.2.3's RecommendedWidgetProvider (minWidth 500 dp, minHeight 110 dp: 4 × 2).
-    { type: 'play-recommended', name: 'Play Recommendations', app: 'play-store', width: 4, height: 2 }
+    { type: 'play-recommended', name: 'Play Recommendations', app: 'play-store', width: 4, height: 2 },
+    // Sound Search 1.1.9's EarsMusicWidgetProvider (minWidth 300 dp, minHeight 60 dp: 4 x 1), labelled ears_widget_name.
+    { type: 'ears', get name() { return Ears.text(i18n.language, 'ears_widget_name'); }, app: '', width: 4, height: 1 }
   ];
   const widgetSize = value => {
     const widget = typeof value === 'string' ? {type: value} : value;
@@ -506,6 +508,7 @@
     if (type === 'digitalclock') return '<img class="widget-preview-image" src="assets/jbclock-appwidget_digital_clock_preview.png" alt="">';
     if (type === 'digital') return `<strong class="widget-time">${clock()}</strong><span>${fullDate()}</span>`;
     if (type === 'calendar') return '<img class="widget-preview-image" src="assets/calwidget-calendar_widget_preview.png" alt="">';
+    if (type === 'ears') return '<img class="widget-preview-image" src="assets/ears-ears_widget_preview.png" alt="">';
     if (type === 'weather') return '<strong class="widget-weather">☀ 22°</strong><span>Sunny · San Francisco</span>';
     if (type === 'music') return ICSWidgets.music(ui.music, tracks, false, key => i18n.t(key), true);
     if (type === 'power') return `<div class="power-widget">${[['wifi','wifi'],['bluetooth','bluetooth'],['gps','gps'],['autoSync','sync'],['brightness','brightness']].map(([key,asset]) => `<span class="power-cell ${data.settings[key] ? 'enabled' : ''}"><img src="assets/power-${asset}-${key === 'brightness' ? data.settings.brightness > 70 ? 'full' : data.settings.brightness > 25 ? 'half' : 'off' : data.settings[key] ? 'on' : 'off'}.png" alt=""><i></i></span>`).join('')}</div>`;
@@ -526,6 +529,7 @@
     if (widget.type === 'photo') return ICSWidgets.photo(data, widget, ui.photoStacks?.[widget.id] || 0, t);
     if (widget.type === 'digitalclock') return digitalClockWidget();
     if (widget.type === 'play-recommended') return playRecommendations();
+    if (widget.type === 'ears') return Ears.widget(ui.ears, i18n.language);
     return null;
   }
   /* DeskClock 4.3 digital_appwidget / digital_widget_time: bold sans-serif hours and thin minutes (widget_big_font_size
@@ -619,6 +623,7 @@
     switch (ui.view) {
       case 'play-store': return JBPlay.render(jbPlayContext());
       case 'live-wallpapers': return renderLiveWallpapers();
+      case 'ears-history': return Ears.history(data.earsHistory || [], i18n.language, i18n.locale());
       case 'wallpaper-picker': return `<div class="app-view wallpaper-picker"><div class="actionbar"><button class="up" data-action="back" aria-label="Back">‹</button><h2>Wallpapers</h2></div><div class="app-content dark">${wallpaperChoices()}</div></div>`;
       case 'settings': return renderSettings();
       case 'browser': return renderBrowser();
@@ -699,6 +704,7 @@
     if(ui.view==='settings'&&ui.sub==='lock-setup'){lockControls.cancel();return;}
     if (ui.overlay.startsWith('widget-photo')) { cancelPhotoWidget(); return; }
     if (ui.overlay) { ui.overlay = ''; render(); return; }
+    if (ui.view === 'ears-history' && !ui.overlay) { home(false); return; }
     if (ui.view === 'live-wallpapers') { const sub = String(ui.sub || ''); if (sub.startsWith('settings:')) ui.sub = `preview:${sub.slice(9)}`; else if (sub) ui.sub = ''; else { home(false); return; } render(); return; }
     if (ui.view === 'lock' && ui.kgChallenge?.bouncing()) { ui.kgChallenge.hideBouncer(); return; }
     if (ui.view === 'lock') return;
@@ -758,12 +764,40 @@
     clearTimeout(ui.toastTimer); ui.toastTimer = setTimeout(() => element.remove(), 2500);
   }
   let openFolderId = '';
+  /* Sound Search capture: EarsWidgetCaptureService listens for at most Ears.CAPTURE_MS; here the song the Music app is
+     playing is recognized after Ears.MATCH_MS, anything else ends without a match. The widget alone is repainted. */
+  function earsPaint() { viewport.querySelectorAll('.widget-ears').forEach(node => { const id = node.dataset.widgetId; node.innerHTML = Ears.widget(ui.ears, i18n.language) + (node.querySelector('[data-resize-frame]')?.outerHTML || ''); }); }
+  function earsStart() {
+    clearTimeout(ui.earsTimer); clearInterval(ui.earsTick);
+    const hears = ui.music.playing ? tracks[ui.music.track] : null;
+    ui.ears = {phase: 'listening', started: Date.now(), hears}; earsPaint();
+    ui.earsTick = setInterval(() => { if (ui.ears?.phase === 'listening') earsPaint(); else clearInterval(ui.earsTick); }, 150);
+    ui.earsTimer = setTimeout(earsFinish, hears ? Ears.MATCH_MS : Ears.CAPTURE_MS);
+  }
+  function earsFinish() {
+    if (ui.ears?.phase !== 'listening') return;
+    clearTimeout(ui.earsTimer); clearInterval(ui.earsTick);
+    const song = ui.music.playing ? tracks[ui.music.track] : null;
+    ui.ears = {phase: 'lookup'}; earsPaint();
+    ui.earsTimer = setTimeout(() => {
+      if (song) { ui.ears = {phase: 'result', title: song.title, artist: song.artist}; data.earsHistory = [{title: song.title, artist: song.artist, time: Date.now()}, ...(data.earsHistory || [])].slice(0, 100); save(); }
+      else ui.ears = {phase: 'nomatch'};
+      earsPaint();
+    }, Ears.LOOKUP_MS);
+  }
   function renderOverlay() {
     if (ui.view === 'downloads' && ui.overlay.startsWith('hdl-')) { overlayRoot.innerHTML = HoloDownloads.overlay(dlContext()) || ''; return; }
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.overlay === 'shade') {
       const call = ui.activeCall ? `<button class="phone-resume-call" data-action="open-app" data-app="phone">${safe(i18n.t('Ongoing call'))} · ${safe(contactByPhone(ui.activeCall.number)?.name||ui.activeCall.number)}</button>` : '';
       overlayRoot.innerHTML = '<div class="jb-shade-scrim" data-action="close-overlay"></div>' + JBShade.render({...data, notifications: data.notifications.map(decorateNotification)}, ui, key => i18n.t(key), {locale: i18n.locale(), clock: clock(), date: fullDate(), carrier: data.settings.airplane ? i18n.t('No service.') : (data.settings.networkOperator || 'Telekom'), alarm: nextAlarmLabel(), extra: call});
+    } else if (ui.overlay === 'ears-menu') {
+      // history_menu.xml in the Holo dark overflow.
+      overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu ears-menu" data-no-translate>${Ears.menu(i18n.language).map(([action, title]) => `<button data-action="${action}">${safe(title)}</button>`).join('')}</div>`;
+    } else if (ui.overlay === 'ears-clear') {
+      // Clear all: an AlertDialog with delete_all_confirmation and No / Yes.
+      const T = key => Ears.text(i18n.language, key);
+      overlayRoot.innerHTML = `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-alert" role="alertdialog" aria-label="${safe(T('delete_all'))}" data-no-translate><p class="ga-body">${safe(T('delete_all_confirmation'))}</p><div class="ga-buttons"><button type="button" data-action="close-overlay">${safe(T('no'))}</button><button type="button" data-action="ears-clear">${safe(T('yes'))}</button></div></div>`;
     } else if (ui.overlay === 'dream') {
       overlayRoot.innerHTML = renderDream();
     } else if (ui.overlay === 'dev-list') {
@@ -1681,6 +1715,14 @@
       case 'widget-photo-image': configurePhotoWidget({source: 'photo', photo: Number(id)}); break;
       case 'widget-photo-cancel': cancelPhotoWidget(); break;
       case 'open-wallpapers': ui.overlay = ''; ui.view = 'wallpaper-picker'; render(); break;
+      case 'ears-listen': earsStart(); break;
+      case 'ears-stop': earsFinish(); break;
+      case 'ears-close': clearTimeout(ui.earsTimer); ui.ears = {phase: 'idle'}; earsPaint(); break;
+      case 'ears-history': captureRecentView(); ui.view = 'ears-history'; ui.sub = ''; ui.overlay = ''; render(); break;
+      case 'ears-menu': ui.overlay = 'ears-menu'; renderOverlay(); break;
+      case 'ears-account': ui.overlay = ''; renderOverlay(); toast('This feature is not part of the simulator.'); break;
+      case 'ears-clear-ask': ui.overlay = 'ears-clear'; renderOverlay(); break;
+      case 'ears-clear': data.earsHistory = []; save(); ui.overlay = ''; render(); break;
       case 'open-live-wallpapers': ui.overlay = ''; ui.view = 'live-wallpapers'; ui.sub = ''; render(); break;
       case 'lw-preview': ui.sub = `preview:${id}`; render(); break;
       case 'lw-settings': ui.sub = `settings:${id}`; render(); break;

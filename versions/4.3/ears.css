@@ -1,0 +1,47 @@
+/* Sound Search 1.1.9 (GoogleEars.apk) at 1 dp = 0.852 px; xhdpi drawables at 0.426.
+   widget_ears_4_1.xml: 8 dp in, the ViewFlipper on appwidget_bg (1 dp padding), the 1 dp #33FFFFFF dividers 50 dp tall,
+   42 dp navigation buttons (pressed #883A4E77). */
+.home-widget.widget-ears{place-items:stretch}
+.ears-widget{height:100%;padding:6.82px;box-sizing:border-box}
+.ears-flipper{position:relative;height:100%;padding:.85px;box-sizing:border-box;border:6.82px solid transparent;border-image:url('assets/ears-appwidget_bg.png') 16 fill / 6.82px stretch;background-clip:padding-box}
+.ears-flipper>*{position:absolute;inset:0}
+.ears-idle,.ears-relisten,.ears-result{display:flex;align-items:center}
+.screen .ears-widget button{border:0;background:none;padding:0;color:inherit;cursor:pointer}
+.screen .ears-widget button:active{background:#883a4e77}
+.screen .ears-start{flex:1;min-width:0;height:100%;display:flex;align-items:center;padding-left:20.45px!important;font:400 17.89px Roboto,sans-serif;color:#57c2d7!important}
+.ears-start img{flex:none;width:27.69px;height:29.39px}
+.ears-start span{flex:1;min-width:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ears-divider{flex:none;width:.85px;height:42.6px;margin-left:6.82px;background:#33ffffff}
+.screen .ears-nav{flex:none;width:35.78px;height:100%;display:grid;place-items:center}
+.ears-nav img{width:27.26px;height:27.26px}
+/* capture_animation_imageview: AudioProgressRenderer's bars, teal (music_teal_eq) as they are heard. */
+.screen .ears-capture{display:flex;align-items:center;justify-content:space-between;gap:1.7px;padding:6.82px!important;width:100%;height:100%}
+.ears-eq{flex:1;min-width:0;max-height:100%;background:url('assets/ears-music_empty_eq.png') center/100% 100%}
+.ears-eq.on{background-image:url('assets/ears-music_teal_eq.png')}
+.ears-progress{inset:auto!important;left:50%!important;top:50%!important;width:13.63px;height:13.63px;margin:-6.82px 0 0 -6.82px;border:1.7px solid #ffffff40;border-top-color:#33b5e5;border-radius:50%;animation:ears-spin .8s linear infinite;box-sizing:border-box}
+@keyframes ears-spin{to{transform:rotate(360deg)}}
+.ears-relisten{background:#80000000}
+.ears-relisten>span:first-child{flex:1;margin-left:6.82px;text-align:center;font:400 13.63px Roboto,sans-serif;color:#54bfd4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ears-art{flex:none;align-self:stretch;width:68.16px;margin:0 5.11px 2.56px 0;background:url('assets/ears-music_icon_small.png') center/cover}
+.ears-result-text{flex:1;min-width:0;display:flex;flex-direction:column}
+.ears-result-text b{font:400 15.34px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ears-result-text small{font:400 11.93px Roboto,sans-serif;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* EarsHistoryActivity on Theme.Holo: the action bar title 20 dp #57C2D7 after play_logo (12 dp margins), history_entry
+   rows with the 80 dp art, the 18 dp white track, the 14 dp #AAAAAA date and the artist. */
+.app-view.ears-history{display:flex;flex-direction:column;height:100%;background:#000;color:#fff}
+
+.ears-history .ears-bar{display:flex;align-items:center;height:40.9px;background:#000;border-bottom:1.7px solid #33b5e5}
+.screen .ears-up{flex:none;display:grid;place-items:center;height:100%;padding:0 10.22px;border:0;background:none}
+.ears-up img{width:27.69px;height:29.39px}
+.ears-history h2{flex:1;min-width:0;margin:0;font:400 17.04px Roboto,sans-serif;color:#57c2d7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .ears-more{flex:none;width:40.9px;height:100%;border:0;background:none;display:grid;place-items:center}
+.ears-more img{width:27.26px;height:27.26px}
+.ears-list{flex:1;min-height:0;overflow-y:auto}
+.ears-entry{display:flex;align-items:center;height:68.16px;border-bottom:.85px solid #ffffff1f}
+.ears-entry .ears-art{height:68.16px;margin:0 5.11px 0 0}
+.ears-entry-text{flex:1;min-width:0;display:flex;flex-direction:column}
+.ears-entry-top{display:flex;align-items:baseline}
+.ears-entry-top b{flex:1;min-width:0;margin-right:5.11px;font:400 15.34px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ears-entry-top time{flex:none;margin-right:6.82px;padding-top:1.7px;font:400 11.93px Roboto,sans-serif;color:#aaa}
+.ears-entry-text small{font:400 11.93px Roboto,sans-serif;color:#bebebe}
+.ears-empty{margin:0;padding:6.82px;height:100%;display:grid;place-items:center;text-align:center;font:400 15.34px Roboto,sans-serif;color:#fff}
