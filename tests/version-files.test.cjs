@@ -16,7 +16,7 @@ const SHARED={
   
   
   
-  'people.css':[['4.3','4.4.4']],'people.js':[['4.0.4','4.3']],
+  
   'settings-detail.css':[['2.3.6','4.3','4.4.4']],'settings-system.css':[['4.3','4.4.4','5.1.1']],
 };
 const files={};

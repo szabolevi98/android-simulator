@@ -1,4 +1,5 @@
-/* Offline People presentation inspired by the AOSP ICS Contacts layouts. */
+/* People (Contacts) list, detail and groups: PeopleActivity with its tabs, ContactListItemView rows and section headers, the
+   contact card and people_options.xml / view_contact.xml menus of this image (people.css); offline data. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

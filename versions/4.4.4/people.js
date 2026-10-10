@@ -1,4 +1,5 @@
-/* Offline People presentation inspired by the AOSP ICS Contacts layouts. */
+/* People (Contacts) list, detail and groups: PeopleActivity with its tabs, ContactListItemView rows and section headers, the
+   contact card and people_options.xml / view_contact.xml menus of this image (people.css, kk-people.css); offline data. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -42,7 +43,7 @@
     if(tab==='groups' && ui.sub!=='group') return `<div class="app-view people-app">${header}${tabs}<div class="people-scroll">${data.contactGroups.map(g=>`<button class="people-group" data-action="people-group" data-id="${e(g.id)}"><strong>${e(t(g.name))}</strong><small>${g.members.filter(id=>data.contacts.some(p=>p.id===id)).length} ${e(t('contacts'))}</small></button>`).join('')||'<p class="empty-note">No groups</p>'}</div>${toolbar}</div>`;
     const items=list(data,tab,ui.peopleQuery||'',ui.sub==='group'?ui.peopleGroup:'',locale);
     let initial='';
-    const rows=tab==='favorites' ? items.map(p=>`<button class="people-favorite-tile" data-action="contact" data-id="${p.id}">${tile(p,'people-fav-letter')}<span>${e(p.name)}</span></button>`).join('') : items.map(p=>{const first=p.name.slice(0,1).toLocaleUpperCase();const separator=first!==initial?`<h4 class="people-section">${e(first)}</h4>`:'';initial=first;return `${separator}<button class="people-row" data-action="contact" data-id="${p.id}"><span>${e(p.name)}</span>${tile(p,'people-row-letter')}</button>`;}).join('');
+    const rows=tab==='favorites' ? items.map(p=>`<button class="people-favorite-tile" data-action="contact" data-id="${p.id}">${tile(p,'people-fav-letter')}<span>${e(p.name)}</span></button>`).join('') : items.map(p=>{const first=p.name.slice(0,1).toLocaleUpperCase();const separator=first!==initial?`<h4 class="people-section">${e(first)}</h4>`:'';initial=first;return `${separator}<button class="people-row" data-action="contact" data-id="${p.id}">${tile(p,'people-row-letter')}<span>${e(p.name)}</span></button>`;}).join('');
     return `<div class="app-view people-app">${header}${tabs}${ui.peopleSearching?`<form class="people-search" data-form="people-search"><input name="query" type="search" aria-label="Search contacts" placeholder="Search contacts" value="${e(ui.peopleQuery||'')}"><button type="submit">Search</button></form>`:''}<div class="people-scroll ${tab==='favorites'?'people-favorites':''}">${rows||`<p class="empty-note">${e(t(tab==='favorites'?'No favorites yet':'No contacts found'))}</p>`}</div>${toolbar}</div>`;
   }
   window.ICSPeople={render,list,remove};
