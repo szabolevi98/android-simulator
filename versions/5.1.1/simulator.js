@@ -913,6 +913,17 @@
       }
     });
   }
+  // The time zone picker's context: the language, the 12 / 24 hour clock, the instant now (the set time included) and
+  // the Calendar's recent zones (preferences_recent_timezones).
+  const tzpContext = () => ({lang: i18n.language, locale: i18n.locale(), hour24: !!data.settings.hour24, recents: data.calRecentTimezones || [],
+    now: Date.now() + (data.settings.autoTime === false ? Number(data.settings.timeOffset) || 0 : 0)});
+  // Re-renders the picker keeping the search field's focus and caret.
+  function renderTzPicker(focus) {
+    const input = overlayRoot.querySelector('[data-tzp-search]'), at = input && document.activeElement === input ? input.selectionStart : null;
+    renderOverlay();
+    const next = overlayRoot.querySelector('[data-tzp-search]');
+    if (next && (focus || at !== null)) { next.focus(); const end = at ?? next.value.length; next.setSelectionRange(end, end); }
+  }
   function renderOverlay() {
     fadeOverlay(shownOverlay); shownOverlay = ui.overlay;
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
@@ -1005,6 +1016,9 @@
     } else if (ui.overlay === 'dtp') {
       // Calendar's datetimepicker dialogs (dtp.js).
       overlayRoot.innerHTML = DateTimePicker.render(ui.dtp, i18n.locale(), deviceDate());
+    } else if (ui.overlay === 'tzpicker') {
+      // Calendar's TimeZonePickerDialog (tzpicker.js).
+      overlayRoot.innerHTML = TimeZonePicker.render(ui.tzp, tzpContext());
     } else if (ui.overlay.startsWith('calendar-')) {
       overlayRoot.innerHTML = ICSCalendar.overlay(ui,key=>i18n.t(key));
     } else if (ui.overlay.startsWith('email-')) {
@@ -2593,6 +2607,18 @@
       // EditEventView, moves the end with the start so the event keeps its length.
       // The repeat / reminder spinners (calendar.js): the list opens under the field (a dialog on 5.1) and the pick goes
       // straight into the form's hidden input, as the date and time pickers do.
+      case 'caltz': ui.tzp = TimeZonePicker.open(id, Number(button.dataset.ms) || Date.now()); ui.overlay = 'tzpicker'; renderTzPicker(true); break;
+      case 'tzp-field': TimeZonePicker.focus(ui.tzp, tzpContext()); renderTzPicker(true); break;
+      case 'tzp-filter': TimeZonePicker.filter(ui.tzp, id); renderTzPicker(false); break;
+      case 'tzp-clear': TimeZonePicker.clear(ui.tzp); renderTzPicker(true); break;
+      case 'tzp-pick': {
+        // onTimeZoneSet: the event takes the zone, the button its label; saveRecentTimezone keeps the last three.
+        const form = viewport.querySelector('form[data-form="event"]'), field = form?.querySelector('[data-action="caltz"]');
+        if (form) { form.elements.tz.value = id; if (ui.eventDraft) ui.eventDraft.tz = id; }
+        if (field) { const ms = TimeZonePicker.millis(id, form.elements.date?.value, form.elements.time?.value); field.dataset.id = id; field.dataset.ms = ms; field.innerHTML = TimeZonePicker.label(id, ms, i18n.language); }
+        data.calRecentTimezones = TimeZonePicker.saveRecent(data.calRecentTimezones, id); save();
+        ui.overlay = ''; renderOverlay(); break;
+      }
       case 'calspin': {
         const form=viewport.querySelector('form[data-form="event"]');if(!form)break;
         const draft={...ICSCalendar.normalize(ui.eventDraft||{}),...Object.fromEntries(new FormData(form))};
@@ -2619,6 +2645,9 @@
         form.elements[p.field].value=p.kind==='date'?DateTimePicker.iso(p):DateTimePicker.hhmm(p);
         if(p.field==='date'||p.field==='time'){const end=new Date(stamp(get('date'),get('time'))+Math.max(0,length||0));form.elements.endDate.value=ICSCalendar.iso(end);form.elements.endTime.value=`${String(end.getHours()).padStart(2,'0')}:${String(end.getMinutes()).padStart(2,'0')}`;}
         for(const name of ['date','time','endDate','endTime'])form.querySelector(`[data-action="calpick"][data-id="${name}"]`).textContent=/date/i.test(name)?ICSCalendar.dateButton(get(name),i18n.locale()):ICSCalendar.timeButton(get(name),i18n.locale(),!!data.settings.hour24);
+        // A different start can cross a daylight-saving boundary; refresh the zone name and picker timestamp too.
+        const zoneButton=form.querySelector('[data-action="caltz"]');
+        if(zoneButton){const zone=zoneButton.dataset.id,ms=TimeZonePicker.millis(zone,get('date'),get('time'));zoneButton.dataset.ms=ms;zoneButton.innerHTML=TimeZonePicker.label(zone,ms,i18n.language);}
         break;
       }
       case 'calendar-views': case 'calendar-menu': ui.overlay=action;renderOverlay();break;
@@ -2864,6 +2893,7 @@
     }
   });
   document.addEventListener('input', event => {
+    if (event.target.matches('[data-tzp-search]') && ui.tzp) { TimeZonePicker.input(ui.tzp, event.target.value, tzpContext()); renderTzPicker(true); return; }
     if (event.target.matches('[data-keep-search]')) { ui.keepQuery = event.target.value; const at = event.target.selectionStart; render(); const input = viewport.querySelector('[data-keep-search]'); if (input) { input.focus(); input.setSelectionRange(at, at); } return; }
     if (event.target.matches('[data-photos-search]')) { ui.photosQuery = event.target.value; const at = event.target.selectionStart; render(); const input = viewport.querySelector('[data-photos-search]'); if (input) { input.focus(); input.setSelectionRange(at, at); } return; }
     if (event.target.matches('[data-pa-search]')) { ui.paQuery = event.target.value; const at = event.target.selectionStart; render(); const input = viewport.querySelector('[data-pa-search]'); if (input) { input.focus(); input.setSelectionRange(at, at); } return; }

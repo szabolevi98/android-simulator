@@ -12,7 +12,7 @@ TimeZoneData's list depends on the event's own zone (it is added first, replacin
 builds it at run time. Transitions are kept from 2015 on; "now" for the rule comparison and ICU's metazones is REFERENCE.
 Needs androguard and the ext4 package; the images are unpacked in _aosp/<device> (system.raw.img).
     python docs/timezonepicker.py"""
-import json, struct, sys
+import json, os, struct, sys
 from datetime import datetime, timezone
 import ext4
 from loguru import logger; logger.remove()
@@ -21,9 +21,10 @@ from image_res import ImageRes, LANGS, ROOT
 from icu_res import IcuData
 
 VERSIONS = {
-    # version: (device, app, image, 1 dp in px, drawable density)
-    '4.3': ('mako', 'CalendarGoogle 201306090', 'Nexus 4 JWR66Y', .8516, 'xhdpi'),
-    '4.4.4': ('hammerhead', 'CalendarGoogle 201308023', 'Nexus 5 KTU84P', .906, 'xxhdpi'),
+    # version: (device, Calendar APK, app, image, 1 dp in px, drawable density, Material dialog)
+    '4.3': ('mako', 'CalendarGoogle', 'CalendarGoogle 201306090', 'Nexus 4 JWR66Y', .8516, 'xhdpi', False),
+    '4.4.4': ('hammerhead', 'CalendarGoogle', 'CalendarGoogle 201308023', 'Nexus 5 KTU84P', .906, 'xxhdpi', False),
+    '5.1.1': ('shamu', 'CalendarGooglePrebuilt', 'Google Calendar 5.0.1', 'Nexus 6 LMY48Y', .906, 'xxhdpi', True),
 }
 LOCALES = {'en': 'en_US', 'hu': 'hu_HU', 'de': 'de_DE', 'fr': 'fr_FR', 'es': 'es_ES'}
 REFERENCE = int(datetime(2026, 1, 1, tzinfo=timezone.utc).timestamp())
@@ -145,10 +146,9 @@ class Names:
         return self.icu.get('region', LOCALES[lang], 'Countries', code)
 
 
-def build(version, device, app, image, d, density):
+def build(version, device, apk_name, app, image, d, density, material):
     res = ImageRes(device)
-    apk_path = f'{ROOT}_aosp/{device}/system/app/CalendarGoogle.apk'
-    apk = APK(apk_path)
+    apk = APK(next(p for p in (f'{ROOT}_aosp/{device}/system/app/{apk_name}.apk', f'{ROOT}_aosp/{device}/system/app/{apk_name}/{apk_name}.apk') if os.path.exists(p)))
     zone_tab = apk.get_file('assets/zone.tab').decode('utf-8')
     backward = apk.get_file('assets/backward').decode('utf-8')
     tz_version, zones = tzdata(device)
@@ -199,9 +199,9 @@ def build(version, device, app, image, d, density):
     sigs = tables['sigs']
 
     codes = sorted({cc for _, cc in zt})
-    backup = (res.array(['CalendarGoogle'], 'backup_country_codes') or {}).get('en', [])
-    backup_names = res.array(['CalendarGoogle'], 'backup_country_names') or {}
-    palestine = res.string(['CalendarGoogle'], 'palestine_display_name')
+    backup = (res.array([apk_name], 'backup_country_codes') or {}).get('en', [])
+    backup_names = res.array([apk_name], 'backup_country_names') or {}
+    palestine = res.string([apk_name], 'palestine_display_name')
     countries = {}
     for cc in codes:
         row = []
@@ -215,13 +215,13 @@ def build(version, device, app, image, d, density):
             row.append(intern(name))
         countries[cc] = row
 
-    rename_ids = res.array(['CalendarGoogle'], 'timezone_rename_ids')['en']
-    rename_labels = res.array(['CalendarGoogle'], 'timezone_rename_labels')
+    rename_ids = res.array([apk_name], 'timezone_rename_ids')['en']
+    rename_labels = res.array([apk_name], 'timezone_rename_labels')
     renames = {zid: [intern(rename_labels.get(lang, rename_labels['en'])[i]) for lang in LANGS] for i, zid in enumerate(rename_ids)}
 
     strings = {}
     for key in ('hint_time_zone_search', 'no_results_found', 'searchview_description_clear', 'accessibility_pick_time_zone'):
-        value = res.string(['CalendarGoogle'], key)
+        value = res.string([apk_name], key)
         strings[key] = [value.get(lang, value['en']) for lang in LANGS]
 
     data = {'from': KEEP_FROM // 60, 'zoneTab': zt, 'links': links, 'etc': etc, 'zones': out_zones, 'zoneNames': tables['names'], 'transitions': tables['trans'],
@@ -230,9 +230,9 @@ def build(version, device, app, image, d, density):
     js = (template.replace('__APP__', app).replace('__IMAGE__', image).replace('__TZDATA__', tz_version).replace('__ICU__', icu_name)
           .replace('__DATA__', json.dumps(data, ensure_ascii=False, separators=(',', ':'))))
     open(f'{ROOT}versions/{version}/tzpicker.js', 'w', encoding='utf-8', newline='\n').write(js)
-    open(f'{ROOT}versions/{version}/tzpicker.css', 'w', encoding='utf-8', newline='\n').write(CSS % {'app': app, 'image': image, 'd': d, 'slice': {'xhdpi': 20, 'xxhdpi': 30}[density]})
+    open(f'{ROOT}versions/{version}/tzpicker.css', 'w', encoding='utf-8', newline='\n').write((CSS + (MATERIAL if material else '')) % {'app': app, 'image': image, 'd': d, 'slice': {'xhdpi': 20, 'xxhdpi': 30}[density]})
     for name in ('ic_search_holo_light', 'ic_clear_search_holo_light'):
-        rid = apk.get_android_resources().get_res_id_by_key(res._apk('CalendarGoogle')[1], 'drawable', name)
+        rid = apk.get_android_resources().get_res_id_by_key(res._apk(apk_name)[1], 'drawable', name)
         files = {}
         for config, _ in apk.get_android_resources().get_res_configs(rid):
             q = config.get_qualifier() or ''
@@ -282,6 +282,23 @@ CSS = """/* frameworks/opt/timezonepicker (tzpicker.js) of %(app)s, %(image)s; 1
 .cal-tz{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cal-tz i{font-style:normal;color:#888}
 .cal-tz b{font-weight:inherit;color:#bfbfbf}
+"""
+
+MATERIAL = """/* Lollipop: the dialog takes Theme.Material.Light.Dialog over the activity (background_floating_material_light
+   #EEEEEE with 2 dp corners, colorAccent material_deep_teal_500 #009688 for the focused field), the field is
+   edit_text_material (colorControlNormal = textColorSecondary #8A000000), text in Material's primary #DE000000 and
+   secondary #8A000000, the time line in TextAppearance.Material (14 sp) and the suggestions on popup_background_material.
+   Names and suggestions take two lines (maxLines 2). */
+.tzp{background:#eee;border-radius:calc(2 * var(--d));box-shadow:0 calc(9 * var(--d)) calc(28 * var(--d)) #0000004d,0 calc(6 * var(--d)) calc(10 * var(--d)) #00000038}
+.screen .tzp-input{color:#000000de;caret-color:#009688;background:linear-gradient(#0000008a,#0000008a) left calc(100%% - calc(8 * var(--d)))/100%% 1px no-repeat}
+.screen .tzp-input:focus{background:linear-gradient(#009688,#009688) left calc(100%% - calc(8 * var(--d)))/100%% 2px no-repeat}
+.tzp-hint{color:#00000061}
+.tzp-name{color:#000000de;white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.tzp-time{font-size:calc(14 * var(--d));color:#000000de}
+.tzp-country{color:#0000008a}
+.tzp-drop{border:0;border-image:none;border-radius:calc(2 * var(--d));background:#eee;box-shadow:0 calc(4 * var(--d)) calc(12 * var(--d)) #0000004d;padding:calc(8 * var(--d)) 0}
+.screen .tzp-drop button{color:#000000de;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.screen .tzp-row:active,.screen .tzp-drop button:active,.screen .tzp-clear:active{background:#0000001a}
 """
 
 if __name__ == '__main__':
