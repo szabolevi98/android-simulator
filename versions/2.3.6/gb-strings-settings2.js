@@ -494,10 +494,10 @@ window.GBStrings["settings2"] = {
 },
 "master_clear_desc": {
 "en": "This will erase all data from your phone's internal storage, including:\n\nYour Google account\nSystem and application data and settings\nDownloaded applications\n\nTo clear all data on this phone the USB storage needs to be erased.\n\n",
-"hu": "\"Ez törli az összes adatot telefonja \"\"belső tárhelyéről\"\", ideértve:\"\n\n\"az Ön Google Fiókját\"\n\"a rendszer- és alkalmazásadatokat és -beállításokat\"\n\"a letöltött alkalmazásokat\"\n\n\"A telefon összes adatának törléséhez az \"\"USB-tárat\"\" is törölni kell.\"\n\n",
-"de": "\"Hierdurch werden alle Daten aus dem \"\"internen Speicher\"\" Ihres Telefons gelöscht, einschließlich\"\n\n\"der System- und Anwendungsdaten und -einstellungen Ihres Google-Kontos\"\n\n\"heruntergeladener Anwendungen\"\n\n\"Um sämtliche Daten auf diesem Telefon zu löschen, müssen Sie den \"\"USB-Speicher\"\" löschen.\"\n\n",
-"fr": "\"Cette action effacera toutes les données de la mémoire de \"\"stockage interne\"\" de votre mobile, y compris :\"\n\n\"Votre compte Google\"\n\"Les données et les paramètres des applications et du système\"\n\"Les applications téléchargées\"\n\n\"Pour supprimer toutes les données de votre mobile, vous devez également effacer la mémoire de \"\"stockage USB\"\".\"\n\n",
-"es": "\"Se borrarán todos los datos del \"\"almacenamiento interno\"\" del teléfono, incluidos:\"\n\n\"tu cuenta de Google\"\n\"datos y configuración del sistema y de aplicaciones y\"\n\"las aplicaciones descargadas.\"\n\n\"Para eliminar todos los datos de este teléfono, debes borrar el \"\"almacenamiento USB\"\".\"\n\n"
+"hu": "Ez törli az összes adatot telefonja belső tárhelyéről, ideértve:\n\naz Ön Google Fiókját\na rendszer- és alkalmazásadatokat és -beállításokat\na letöltött alkalmazásokat\n\nA telefon összes adatának törléséhez az USB-tárat is törölni kell.\n\n",
+"de": "Hierdurch werden alle Daten aus dem internen Speicher Ihres Telefons gelöscht, einschließlich\n\nder System- und Anwendungsdaten und -einstellungen Ihres Google-Kontos\n\nheruntergeladener Anwendungen\n\nUm sämtliche Daten auf diesem Telefon zu löschen, müssen Sie den USB-Speicher löschen.\n\n",
+"fr": "Cette action effacera toutes les données de la mémoire de stockage interne de votre mobile, y compris :\n\nVotre compte Google\nLes données et les paramètres des applications et du système\nLes applications téléchargées\n\nPour supprimer toutes les données de votre mobile, vous devez également effacer la mémoire de stockage USB.\n\n",
+"es": "Se borrarán todos los datos del almacenamiento interno del teléfono, incluidos:\n\ntu cuenta de Google\ndatos y configuración del sistema y de aplicaciones y\nlas aplicaciones descargadas.\n\nPara eliminar todos los datos de este teléfono, debes borrar el almacenamiento USB.\n\n"
 },
 "erase_external_storage": {
 "en": "Erase USB storage",

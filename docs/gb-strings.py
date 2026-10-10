@@ -1,7 +1,8 @@
 """Generates versions/2.3.6/gb-strings-<app>.js from AOSP android-2.3.6_r1 string resources (en, hu, de, fr, es).
 Each output defines window.GBStrings[<app>] = {strings: {key: {en, hu, de, fr, es}}, arrays: {key: {en: [...], ...}}}.
 Usage: python docs/gb-strings.py contacts   (see APPS below for the sources and keys)."""
-import re, sys, json, html, urllib.request
+import re, sys, json, urllib.error
+from aosp_text import clean, fetch
 
 LANGS = ['', '-hu', '-de', '-fr', '-es']
 APPS = {
@@ -272,42 +273,30 @@ exporting_contact_failed_title exporting_contact_failed_message fail_reason_no_e
 }
 
 
-def clean(value):
-    value = re.sub(r'<xliff:g[^>]*>(.*?)</xliff:g>', r'\1', value, flags=re.S)
-    value = re.sub(r'<[^>]+>', '', value).strip()
-    if value.startswith('"') and value.endswith('"'):
-        value = value[1:-1]
-    # aapt collapses raw whitespace (line breaks and indentation in the XML) to single spaces; only escapes add breaks.
-    value = re.sub(r'[ \t\r\n]+', ' ', value)
-    value = re.sub(r'\\u([0-9a-fA-F]{4})', lambda m: chr(int(m.group(1), 16)), value)
-    value = value.replace("\\'", "'").replace('\\"', '"').replace('\\n', '\n').replace('\\\\', '\\')
-    return html.unescape(re.sub(r' *\n *', '\n', value))
-
-
 def build(name):
     app, out = APPS[name], {}
     for lang in LANGS:
         code = lang[1:] or 'en'
         for source in app['sources']:
             try:
-                text = urllib.request.urlopen(source % lang).read().decode('utf-8')
-            except Exception:
+                text = fetch(source % lang)
+            except urllib.error.HTTPError:
                 continue
             for key in app['keys']:
                 m = re.search(r'<string name="%s"(?: product="default")?[^>]*>(.*?)</string>' % re.escape(key), text, re.S)
                 if m and code not in out.get(key, {}):
                     out.setdefault(key, {})[code] = clean(m.group(1))
-    arrays, string_cache = {}, {}
+    arrays = {}
     for lang in LANGS:
         code = lang[1:] or 'en'
         for source in app.get('array_sources', []):
             # Untranslated arrays.xml (entries that are @string references) only exist in values/; resolve them per language.
             try:
-                text = urllib.request.urlopen(source % lang).read().decode('utf-8')
-            except Exception:
+                text = fetch(source % lang)
+            except urllib.error.HTTPError:
                 try:
-                    text = urllib.request.urlopen(source % '').read().decode('utf-8')
-                except Exception:
+                    text = fetch(source % '')
+                except urllib.error.HTTPError:
                     continue
                 if '@string/' not in text:
                     continue
@@ -319,8 +308,8 @@ def build(name):
                 for src in app['sources']:
                     for variant in ([lang, ''] if lang else ['']):
                         try:
-                            body = string_cache.setdefault(src % variant, urllib.request.urlopen(src % variant).read().decode('utf-8'))
-                        except Exception:
+                            body = fetch(src % variant)
+                        except urllib.error.HTTPError:
                             continue
                         m2 = re.search(r'<string name="%s"[^>]*>(.*?)</string>' % re.escape(ref), body, re.S)
                         if m2:
@@ -334,8 +323,8 @@ def build(name):
         code = lang[1:] or 'en'
         for source in app['sources'] if app.get('plurals') else []:
             try:
-                text = urllib.request.urlopen(source % lang).read().decode('utf-8')
-            except Exception:
+                text = fetch(source % lang)
+            except urllib.error.HTTPError:
                 continue
             for key in app['plurals']:
                 m = re.search(r'<plurals name="%s"[^>]*>(.*?)</plurals>' % re.escape(key), text, re.S)

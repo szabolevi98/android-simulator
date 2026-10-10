@@ -1,6 +1,7 @@
 """Generates versions/2.3.6/gb-settings-strings.js from the AOSP 2.3.6 Settings (and framework) string resources.
-Usage: python gen_gb_settings_strings.py  (keys are listed below; arrays are resolved to their items)."""
-import re, json, urllib.request, html
+Usage: python docs/gb-settings-strings.py  (keys are listed below; arrays are resolved to their items)."""
+import re, json, urllib.error
+from aosp_text import clean, fetch
 
 LANGS = ['', '-hu', '-de', '-fr', '-es']
 SETTINGS = 'https://raw.githubusercontent.com/aosp-mirror/platform_packages_apps_settings/android-2.3.6_r1/res/values%s/%s.xml'
@@ -71,28 +72,19 @@ ARRAYS = 'vibrate_entries animations_entries screen_timeout_entries emergency_to
 FW_KEYS = 'ok cancel yes no date_time_set'.split()
 
 
-def fetch(url):
+def fetch_or_empty(url):
     try:
-        return urllib.request.urlopen(url).read().decode('utf-8')
-    except Exception:
+        return fetch(url)
+    except urllib.error.HTTPError:
         return ''
-
-
-def clean(value):
-    value = re.sub(r'<xliff:g[^>]*>(.*?)</xliff:g>', r'\1', value, flags=re.S)
-    value = re.sub(r'<[^>]+>', '', value).strip()
-    if value.startswith('"') and value.endswith('"'):
-        value = value[1:-1]
-    value = value.replace("\\'", "'").replace('\\"', '"').replace('\\n', '\n').replace('\\u2026', '…')
-    return html.unescape(value)
 
 
 out, arrays = {}, {}
 for lang in LANGS:
     code = lang[1:] or 'en'
-    strings = fetch(SETTINGS % (lang, 'strings'))
-    arr = fetch(SETTINGS % (lang, 'arrays'))
-    fw = fetch(FRAMEWORK % (lang, 'strings'))
+    strings = fetch_or_empty(SETTINGS % (lang, 'strings'))
+    arr = fetch_or_empty(SETTINGS % (lang, 'arrays'))
+    fw = fetch_or_empty(FRAMEWORK % (lang, 'strings'))
     for key in KEYS:
         m = re.search(r'<string name="%s"(?: product="default")?[^>]*>(.*?)</string>' % re.escape(key), strings, re.S)
         if m:

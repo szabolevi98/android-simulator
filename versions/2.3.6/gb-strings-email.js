@@ -529,10 +529,10 @@ window.GBStrings["email"] = {
 },
 "message_compose_reply_header_fmt": {
 "en": "\n\n%s wrote:\n\n",
-"hu": "\n\n\"%s a következőt írta:\"\n\n",
-"de": "\n\n\"%s schrieb:\"\n\n",
-"fr": "\n\n\"%s a écrit :\"\n\n",
-"es": "\n\n\"%s wrote:\"\n\n"
+"hu": "\n\n%s a következőt írta:\n\n",
+"de": "\n\n%s schrieb:\n\n",
+"fr": "\n\n%s a écrit :\n\n",
+"es": "\n\n%s wrote:\n\n"
 },
 "message_compose_quoted_text_label": {
 "en": "Quoted text",

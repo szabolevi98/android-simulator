@@ -291,10 +291,10 @@ window.GBStrings["contactsio"] = {
 },
 "exporting_contact_failed_message": {
 "en": "Failed to export contact data.\nReason for failure: \"%s\"",
-"hu": "Nem sikerült exportálni a névjegyadatokat.\"\n\"A hiba oka: \"%s\"",
-"de": "Fehler beim Exportieren der Kontaktdaten.\"\n\"Fehlerursache: \"%s\"",
-"fr": "Échec lors de l'exportation des données du contact.\"\n\"Motif : \"%s\"",
-"es": "Se ha producido un error al exportar los datos del contacto.\"\n\"Motivo del error: \"%s\""
+"hu": "Nem sikerült exportálni a névjegyadatokat.\nA hiba oka: \"%s\"",
+"de": "Fehler beim Exportieren der Kontaktdaten.\nFehlerursache: \"%s\"",
+"fr": "Échec lors de l'exportation des données du contact.\nMotif : \"%s\"",
+"es": "Se ha producido un error al exportar los datos del contacto.\nMotivo del error: \"%s\""
 },
 "fail_reason_no_exportable_contact": {
 "en": "There is no exportable contact",

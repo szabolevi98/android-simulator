@@ -122,11 +122,11 @@ window.GBStrings["search"] = {
 "es": "Borrar los accesos directos a las sugerencias de búsqueda seleccionadas recientemente"
 },
 "clear_shortcuts_prompt": {
-"en": "This will clear all shortcuts to recently chosen search suggestions.\"\n\n\"(To clear your Browser history, use the Browser's settings.)",
-"hu": "Ezzel törli a közelmúltban kiválasztott keresési javaslatokra mutató összes gyorslinket.\"\n\n\"(A böngészési előzményeket a böngésző beállításaiban lehet törölni.)",
-"de": "Hiermit werden alle Verknüpfungen mit zuletzt ausgewählten Suchvorschlägen gelöscht.\"\n\n\"(Löschen Sie Ihren Browserverlauf über die Browsereinstellungen.)",
-"fr": "Tous les raccourcis vers les suggestions de recherche sélectionnées récemment seront effacés.\"\n\n\"Pour effacer le contenu de l'historique de votre navigateur, utilisez les options de ce dernier.",
-"es": "Se borrarán todos los accesos directos a las sugerencias de búsqueda seleccionadas recientemente.\"\n\n\"(Para borrar el historial de tu navegador, utiliza las opciones de configuración del navegador)."
+"en": "This will clear all shortcuts to recently chosen search suggestions.\n\n(To clear your Browser history, use the Browser's settings.)",
+"hu": "Ezzel törli a közelmúltban kiválasztott keresési javaslatokra mutató összes gyorslinket.\n\n(A böngészési előzményeket a böngésző beállításaiban lehet törölni.)",
+"de": "Hiermit werden alle Verknüpfungen mit zuletzt ausgewählten Suchvorschlägen gelöscht.\n\n(Löschen Sie Ihren Browserverlauf über die Browsereinstellungen.)",
+"fr": "Tous les raccourcis vers les suggestions de recherche sélectionnées récemment seront effacés.\n\nPour effacer le contenu de l'historique de votre navigateur, utilisez les options de ce dernier.",
+"es": "Se borrarán todos los accesos directos a las sugerencias de búsqueda seleccionadas recientemente.\n\n(Para borrar el historial de tu navegador, utiliza las opciones de configuración del navegador)."
 },
 "agree": {
 "en": "OK",

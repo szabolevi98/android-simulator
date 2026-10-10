@@ -67,10 +67,10 @@ window.GBStrings["accounts"] = {
 },
 "sync_one_time_sync": {
 "en": "Touch to sync now\n%1$s",
-"hu": "Érintse meg az azonnali szinkronizáláshoz %1$s",
-"de": "Zum sofortigen Synchronisieren berühren %1$s",
-"fr": "Touchez l'écran pour lancer la synchronisation %1$s",
-"es": "Tocar para realizar la sincronización ahora %1$s"
+"hu": "Érintse meg az azonnali szinkronizáláshoz\n%1$s",
+"de": "Zum sofortigen Synchronisieren berühren\n%1$s",
+"fr": "Touchez l'écran pour lancer la synchronisation\n%1$s",
+"es": "Tocar para realizar la sincronización ahora\n%1$s"
 },
 "sync_calendar": {
 "en": "Calendar",
@@ -151,10 +151,10 @@ window.GBStrings["accounts"] = {
 },
 "really_remove_account_message": {
 "en": "Do you really want to remove this account? Removing it will also delete all of its messages, contacts, and other data from the phone.\nProceed?",
-"hu": "Valóban törli ezt a fiókot? Ha eltávolítja, akkor vele együtt törli az üzeneteit, a névjegyeit, valamint a telefonon lévő többi vele kapcsolatos adatot. \"\n\"Folytatja?",
-"de": "Möchten Sie dieses Konto wirklich entfernen? Hierdurch werden auch die zugehörigen Nachrichten, Kontakte und anderen Daten auf dem Telefon gelöscht. \"\n\"Vorgang fortsetzen?",
-"fr": "Voulez-vous vraiment supprimer ce compte ? Cela entraînera également la suppression de tous ses messages, contacts et autres données du téléphone.\"\n\"Voulez-vous continuer ?",
-"es": "¿Deseas eliminar realmente esta cuenta? Si la eliminas, se eliminarán también todos los mensajes, los contactos y otros datos del teléfono. \"\n\"¿Quieres continuar?"
+"hu": "Valóban törli ezt a fiókot? Ha eltávolítja, akkor vele együtt törli az üzeneteit, a névjegyeit, valamint a telefonon lévő többi vele kapcsolatos adatot.\nFolytatja?",
+"de": "Möchten Sie dieses Konto wirklich entfernen? Hierdurch werden auch die zugehörigen Nachrichten, Kontakte und anderen Daten auf dem Telefon gelöscht.\nVorgang fortsetzen?",
+"fr": "Voulez-vous vraiment supprimer ce compte ? Cela entraînera également la suppression de tous ses messages, contacts et autres données du téléphone.\nVoulez-vous continuer ?",
+"es": "¿Deseas eliminar realmente esta cuenta? Si la eliminas, se eliminarán también todos los mensajes, los contactos y otros datos del teléfono.\n¿Quieres continuar?"
 },
 "remove_account_failed": {
 "en": "This account is required by some applications. You can only remove it by resetting the phone to factory defaults (which deletes all your personal data). You do that in the Settings application, under Privacy.",

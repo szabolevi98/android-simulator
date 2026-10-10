@@ -2,7 +2,8 @@
 menus, Recently added), from packages/apps/Music at the version's AOSP tag (values, -hu, -de, -fr, -es). The images
 ship Play Music, so the kept AOSP Music takes its texts from the AOSP source of the same release.
     python docs/aosp-music-strings.py"""
-import html, json, re, urllib.request
+import json, re, urllib.error
+from aosp_text import clean, fetch
 ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
 TAGS = {'4.0.4': 'android-4.0.4_r2.1', '4.3': 'android-4.3_r1.1'}
 KEYS = '''party_shuffle party_shuffle_off shuffle_all goto_start ringtone_menu delete_item search_title play_selection add_to_playlist new_playlist
@@ -13,15 +14,12 @@ for v, tag in TAGS.items():
     for lang, suffix in [('en', ''), ('hu', '-hu'), ('de', '-de'), ('fr', '-fr'), ('es', '-es')]:
         for repo in ('aosp-mirror-neo', 'aosp-mirror'):
             try:
-                xml = urllib.request.urlopen(f'https://raw.githubusercontent.com/{repo}/platform_packages_apps_music/{tag}/res/values{suffix}/strings.xml', timeout=30).read().decode('utf-8'); break
-            except Exception: xml = ''
+                xml = fetch(f'https://raw.githubusercontent.com/{repo}/platform_packages_apps_music/{tag}/res/values{suffix}/strings.xml'); break
+            except urllib.error.HTTPError: xml = ''
         for key in KEYS:
             m = re.search(r'<string name="' + key + r'"[^>]*>(.*?)</string>', xml, re.S)
             if m:
-                raw = re.sub(r'<[^>]+>', '', m.group(1)).strip()
-                # Android strings may be wrapped in unescaped quotes; escaped \" quotes belong to the text.
-                if len(raw) > 1 and raw[0] == '"' and raw[-1] == '"' and raw[-2] != '\\': raw = raw[1:-1]
-                out.setdefault(key, {})[lang] = html.unescape(raw).replace("\\'", "'").replace('\\"', '"')
+                out.setdefault(key, {})[lang] = clean(m.group(1))
     missing = [k for k in KEYS if 'en' not in out.get(k, {})]
     body = json.dumps({k: out[k] for k in KEYS if k in out}, ensure_ascii=False, indent=1)
     open(f'{ROOT}versions/{v}/music-strings.js', 'w', encoding='utf-8', newline='\n').write(
