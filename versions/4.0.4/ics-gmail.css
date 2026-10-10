@@ -1,73 +1,111 @@
-/* Gmail 4.0.4 on the Galaxy Nexus (1 dp = 0.85 px): Theme.Holo.Light with a 48 dp top bar (the label name in 18 sp over
-   the account in 12 sp) and the 48 dp split action bar at the bottom, 32 dp Holo light icons, two-line conversation rows
-   with 16 sp senders, read rows on grey, Holo check boxes, the conversation header and the open compose screen. */
-.g4-app{display:flex;flex-direction:column;background:#fff;color:#222;font-family:RobotoICS,Roboto,sans-serif;color-scheme:light}
+/* Gmail 4.0.4 (Gmail.apk of IMM76I) on Theme.Holo.Light, 1 dp = 0.85 px. The framework's ab_solid_light_holo (#dddddd,
+   a 1.5 dp #d2d2d2 line) and ab_bottom_solid_light_holo (#dddddd under a #c6c6c6 line), 48 dp bars with 32 dp icons;
+   the 18 sp title over the 14 sp #777777 account, spinner_ab_default_holo_light round the recent labels spinner and
+   the 36 dip #bbbbbb unread count; conversation rows on list_unread_holo (#ffffff) / list_read_holo (#eeeeee), checked
+   ones under list_selected_holo (#0099cc66); the blue expanded message header; Holo text field lines in compose. */
+.g4-app{display:flex;flex-direction:column;background:#fff;color:#000;font-family:RobotoICS,Roboto,sans-serif;color-scheme:light}
 .screen .g4-app button{color:inherit;font-family:inherit}
-.g4-top{flex:none;display:flex;align-items:center;height:40.8px;padding-right:3.4px;background:#f3f3f3;border-bottom:1.7px solid #d9d9d9}
-.g4-home{display:flex;align-items:center;height:100%;padding:0 5.1px 0 3.4px;border:0;background:none}
+.g4-top{flex:none;display:flex;align-items:center;height:40.8px;background:#ddd;border-bottom:1.28px solid #d2d2d2}
+.g4-home{flex:none;display:flex;align-items:center;height:100%;padding:0 0 0 3.4px;border:0;background:none}
 .g4-home img{width:27.2px;height:27.2px}
-.g4-caret{margin-right:2px;color:#777;font-size:17px}
-.g4-title{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;height:100%;padding:0 6.8px;border:0;background:none;text-align:left}
-.g4-title b{font-weight:400;font-size:15.3px;line-height:1.15;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.g4-title small{font-size:10.2px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.g4-spinner b::after{content:'';display:inline-block;margin-left:4px;border:4px solid transparent;border-right-color:#888;border-bottom-color:#888;vertical-align:-2px}
+.g4-home .g4-up{width:13.6px;height:13.6px;margin-right:-1.7px}
+.g4-title{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;height:100%;padding:0 6.8px;border:0;background:none;text-align:left}
+.g4-title b{max-width:100%;font-weight:400;font-size:15.3px;line-height:1.15;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g4-title small{max-width:100%;font-size:11.9px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g4-spinner{flex:0 1 auto;margin-left:3.4px;padding:0 15.3px 0 3.4px}
+.g4-spinner::after{content:'';position:absolute;inset:0;border-style:solid;border-width:3.4px 13.6px 22.1px 3.4px;border-image:url('assets/g4-spinner_ab_default_holo_light.png') 8 32 52 8 fill stretch;pointer-events:none}
+.g4-unread{flex:none;margin:0 6.8px 0 auto;padding-left:3.4px;font:400 30.6px/1 RobotoICS,sans-serif;font-style:normal;color:#bbb}
+.g4-top .g4-btn{width:47.6px;height:100%}
 .g4-btn{display:grid;place-items:center;width:40.8px;height:40.8px;padding:0;border:0;background:none}
 .g4-btn img{width:27.2px;height:27.2px}
-.g4-bottom{flex:none;display:flex;justify-content:space-around;height:40.8px;background:#f3f3f3;border-top:1px solid #d0d0d0}
-.g4-bottom .g4-btn{flex:1;width:auto}
+.screen .g4-btn:active,.screen .g4-home:active,.screen .g4-spinner:active,.screen .g4-text-btn:active{background:#33b5e599}
+.g4-top>.g4-btn:first-of-type{margin-left:auto}
+.g4-bottom{flex:none;display:flex;height:40.8px;background:#ddd;border-top:1.28px solid #c6c6c6}
+.g4-bottom .g4-btn{flex:1;width:auto;height:100%}
+.g4-text-btn{flex:1;height:100%;padding:0 6.8px;border:0;background:none;font:700 10.2px RobotoICS,sans-serif;color:#333;text-transform:uppercase}
 .g4-cab{background:#e9e9e9}
 .g4-done{display:flex;align-items:center;gap:5px;height:100%;padding:0 10px;border:0;border-right:1px solid #ccc;background:none;font-size:12px;text-transform:uppercase}
 .g4-done img{width:27.2px;height:27.2px}
 .g4-count{margin-left:auto;padding:0 12px;font-size:15.3px;color:#33b5e5}
-.g4-scroll{flex:1;min-height:0;overflow-y:auto}
-.g4-empty{margin:40px 0;text-align:center;color:#888;font-size:13.6px}
-.g4-row{display:flex;align-items:stretch;min-height:61.2px;border-bottom:1px solid #dcdcdc;background:#fff}
-.g4-row.read{background:#ececec}
-.g4-row.checked{background:#b5e5f8}
-.g4-check{flex:none;width:40.8px;border:0;background:url(assets/btn_check_off_holo_light.png) center/27.2px no-repeat}
-.g4-check[aria-checked=true]{background-image:url(assets/btn_check_on_holo_light.png)}
-.g4-row-main{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:6px 0;border:0;background:none;text-align:left}
-.g4-row-top{display:flex;align-items:baseline;gap:8px}
-.g4-row-top b{flex:1;min-width:0;font-size:13.6px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.g4-row.read .g4-row-top b,.g4-row.read .g4-row-text strong{font-weight:400}
-.g4-row-top time{flex:none;font-size:10.2px;color:#33b5e5}
-.g4-row.read .g4-row-top time{color:#777}
-.g4-chevron{margin-right:3px;color:#f4b400;font-style:normal;font-weight:700}
-.g4-row-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11.9px;color:#777;line-height:1.3}
-.g4-row-text strong{color:#222}
-.g4-star{flex:none;width:34px;border:0;background:none}
-.g4-star img{width:27.2px;height:27.2px}
+.g4-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.g4-empty{margin:32.3px 0 0;text-align:center;font-size:18.7px;color:#000}
+/* conversation_header_view_normal.xml: 70 sp rows; the caret 8 dp in and 10 sp down, the 18 sp senders 8 dp after it
+   (8 sp down), the 12 sp date 16 dp from the end; then (4 sp up) the 16 dp check box 8 dp in, the 14 sp two-line
+   subject and snippet 8 dp after it and the 16 dp star 16 dp from the end. Unread: senders and date #333333, the
+   subject bold, #555555; read: #555555 senders, #777777 text; Drafts in #990000. */
+.g4-row{position:relative;height:59.5px;background:#fff;border-bottom:1px solid #0000001f}
+.g4-row.read{background:#eee}
+.g4-row.checked{background-image:linear-gradient(#0099cc66,#0099cc66)}
+.screen .g4-row-main{display:flex;flex-direction:column;width:100%;height:100%;padding:0;border:0;background:none;text-align:left}
+.screen .g4-row-main:active{background:#33b5e599}
+.g4-line1{display:flex;align-items:flex-start;min-width:0}
+.g4-caret{flex:none;width:13.6px;height:13.6px;margin:8.5px 0 0 6.8px}
+.g4-caret img{width:13.6px;height:13.6px;display:block}
+.g4-line1 b{flex:1;min-width:0;margin:6.8px 0 0 6.8px;font-size:15.3px;font-weight:700;line-height:1.2;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g4-draft{color:#990000}
+.g4-clip{flex:none;width:13.6px;height:13.6px;margin:3.4px 0 0 3.4px}
+.g4-line1 time{flex:none;margin:6.8px 13.6px 0 6.8px;font-size:10.2px;line-height:1.6;font-weight:700;color:#333}
+.g4-line2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:-1.7px 34px 0 27.2px;font-size:11.9px;line-height:1.2;color:#555}
+.g4-line2 strong{font-weight:700;color:#555}
+.g4-row.read .g4-line1 b,.g4-row.read .g4-line1 time{font-weight:400;color:#555}
+.g4-row.read .g4-line2,.g4-row.read .g4-line2 strong{font-weight:400;color:#777}
+.screen .g4-check{position:absolute;left:0;top:22.1px;width:27.2px;height:27.2px;padding:0 0 0 6.8px;border:0;background:none;text-align:left}
+.g4-check img,.g4-star img{display:block;width:13.6px;height:13.6px}
+.screen .g4-star{position:absolute;right:6.8px;top:22.1px;display:grid;place-items:center;width:27.2px;height:27.2px;padding:0;border:0;background:none}
 .g4-search{flex:1;display:flex;height:100%;padding:6px 6px 6px 0}
-.g4-search input{flex:1;min-width:0;border:0;border-bottom:1.7px solid #33b5e5;background:none;font:400 15.3px RobotoICS,sans-serif;color:#222;outline:none}
-.g4-subject{position:sticky;top:0;z-index:1;padding:8.5px 10.2px;background:#fff;border-bottom:1px solid #dcdcdc}
-.g4-subject h2{margin:0 0 4px;font-weight:400;font-size:18.7px;line-height:1.2}
-.g4-chip{display:inline-block;margin:0 4px 0 0;padding:1px 5px;border-radius:2px;background:#ddd;color:#555;font-size:10.2px}
-.g4-message{border-bottom:1px solid #dcdcdc}
-.g4-message header{display:flex;align-items:center;gap:8px;padding:8.5px 0 8.5px 10.2px}
-.g4-photo{width:40.8px;height:40.8px;background:#ddd}
-.g4-message header span{flex:1;min-width:0;display:flex;flex-direction:column}
-.g4-message header b{font-size:13.6px;font-weight:700}
-.g4-message header small,.g4-message header time{font-size:10.2px;color:#777}
-.g4-reply{width:40.8px;height:40.8px;border:0;border-left:1px solid #e0e0e0;background:none}
-.g4-reply img{width:27.2px;height:27.2px}
-.g4-body{padding:0 10.2px 12px;font-size:13.6px;line-height:1.4}
-.g4-respond{display:flex;border-top:1px solid #e6e6e6}
-.g4-respond button{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;height:40.8px;border:0;border-right:1px solid #e6e6e6;background:none;font-size:11.9px;color:#555}
-.g4-respond img{width:23.8px;height:23.8px}
-.g4-form{flex:1;min-height:0;display:flex;flex-direction:column;padding:0 6.8px}
-.g4-field{display:flex;border-bottom:1px solid #d0d0d0}
-.g4-field input{flex:1;min-width:0;height:40.8px;border:0;background:none;font:400 15.3px RobotoICS,sans-serif;color:#222;outline:none}
-.g4-form textarea{flex:1;min-height:120px;padding:8px 0;border:0;background:none;font:400 15.3px RobotoICS,sans-serif;color:#222;resize:none;outline:none}
+.g4-search input{flex:1;min-width:0;border:0;border-bottom:1.7px solid #33b5e5;background:none;font:400 15.3px RobotoICS,sans-serif;color:#000;outline:none}
+/* conversation_view_header.xml and MessageHeaderView. */
+.g4-cv-head{display:flex;align-items:baseline;background:#fff}
+.g4-cv-head h2{flex:1 1 auto;min-width:0;margin:0;padding:6.8px 8.5px 6.8px 6.8px;font-size:11.9px;font-weight:700;line-height:1.3;color:#000}
+.g4-labels-line{flex:none;display:flex;align-items:center;gap:3.4px;padding:6.8px}
+.g4-labels-line img{width:13.6px;height:13.6px}
+.g4-chip{padding:0 3.4px;background:#ddd;font-size:10.2px;color:#777}
+.g4-message{background:#fff}
+.g4-mh{display:flex;align-items:stretch;height:40.8px;background:#0099cc}
+.g4-photo{flex:none;width:40.8px;height:40.8px;object-fit:cover}
+.g4-mh-spacer{flex:none;width:.85px;background:#fff}
+.g4-mh-title{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;margin-right:13.6px;padding-left:6.8px}
+.g4-mh-title b{font-size:13.6px;font-weight:700;line-height:1.2;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g4-mh-title small{font-size:11.9px;line-height:1.2;color:#eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen .g4-mh-act{flex:none;display:grid;place-items:center;width:40.8px;padding:0;border:0;background:none}
+.g4-mh-act img{width:27.2px;height:27.2px}
+.screen .g4-mh-act:active{background:#ffffff40}
+.g4-details{display:flex;align-items:center;height:40.8px;padding:0 13.6px 0 20.4px;border-bottom:.85px solid #c0c0c0;font-size:11.9px;color:#777}
+.g4-details span{flex:1;min-width:0;margin-right:13.6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g4-details time{margin-right:3.4px}
+.g4-details img{width:13.6px;height:13.6px}
+.g4-body{padding:6.8px;font-size:13.6px;line-height:1.4;color:#000}
+/* compose_area_layout.xml: 16 dp in, 4 dp down; the static From (18 sp, 8 dp in), the #aaaaaa "To" heading and the
+   recipients, Subject and the body on textfield_default_holo_light lines (1 dp #0000004d). */
+.g4-form{flex:1;min-height:0;display:flex;flex-direction:column;padding:3.4px 13.6px 0;overflow-y:auto}
+.g4-field{display:flex;align-items:center;min-height:40.8px;border-bottom:.85px solid #0000004d;font:400 15.3px RobotoICS,sans-serif;color:#000}
+.g4-from{margin-top:3.4px;padding-left:6.8px}
+.g4-recipient span{flex:none;margin:3.4px 3.4px 0 0;color:#aaa}
+.g4-field input{flex:1;min-width:0;height:35.7px;border:0;background:none;font:inherit;color:#000;outline:none}
+.g4-field input::placeholder,.g4-form textarea::placeholder{color:#aaa}
+.g4-body-field{flex:none}
+.g4-form textarea{flex:1;min-height:35.7px;padding:8px 0;border:0;background:none;font:400 15.3px RobotoICS,sans-serif;color:#000;resize:none;outline:none;field-sizing:content}
+/* LabelsActivity: label_list_header.xml (32 dp, 14 sp bold caps #777777, 8 dp sides) and label_item.xml (48 dp, 18 sp
+   names 24 dp in, 18 dip #bcbcbc counts 16 dp from the end, the current label on list_activated_holo). */
 .g4-labels{background:#fff}
-.g4-label{display:flex;align-items:center;width:100%;min-height:40.8px;padding:0 13.6px;border:0;border-bottom:1px solid #e3e3e3;background:none;font-size:15.3px;text-align:left}
-.g4-label.on{background:#e5f4fb}
+.g4-labels h4{display:flex;align-items:center;height:27.2px;margin:0;padding:0 6.8px;border-bottom:1.7px solid #0003;font-size:11.9px;font-weight:700;color:#777;text-transform:uppercase}
+.screen .g4-label{display:flex;align-items:center;width:100%;min-height:40.8px;padding:0 13.6px 0 20.4px;border:0;background:none;font-size:15.3px;color:#000;text-align:left}
 .g4-label span{flex:1}
-.g4-label em{font-style:normal;font-size:11.9px;color:#777}
-.g4-menu{position:absolute;z-index:40;min-width:180px;background:#fff;color:#222;box-shadow:0 2px 8px #0006}
-.g4-recent{top:calc(var(--status-height, 21px) + 40.8px);left:34px}
-.g4-overflow{top:calc(var(--status-height, 21px) + 40.8px);right:0}
-.g4-menu h4{margin:0;padding:8px 13.6px 4px;color:#33b5e5;font-weight:700;font-size:11.9px;text-transform:uppercase;border-bottom:1.7px solid #33b5e5}
-.g4-menu button{display:block;width:100%;min-height:40.8px;padding:0 13.6px;border:0;border-bottom:1px solid #e5e5e5;background:none;color:#222;font:400 15.3px RobotoICS,sans-serif;text-align:left}
+.g4-label em,.g4-recent em{flex:none;margin-left:6.8px;font-size:15.3px;font-style:normal;color:#bcbcbc}
+.screen .g4-label.on{background:#0099cccc;color:#fff}
+.screen .g4-label:active{background:#33b5e599}
+/* Popups on menu_dropdown_panel_holo_light: the recent labels spinner (274 dp; account_switch_spinner_dropdown_header
+   with "Recent" and the account, 48 dp label rows with 18 sp names and their counts) and the overflow menus (18 sp). */
+.g4-menu{position:absolute;z-index:40;min-width:166.6px;background:#fff;color:#000;box-shadow:0 2px 8px #0006}
+.g4-recent{top:calc(24px + 40.8px);left:30.6px;width:232.9px}
+.g4-overflow{right:0;bottom:calc(47px + 40.8px)}
+.g4-overflow-compose,.g4-overflow-message{top:calc(24px + 40.8px);bottom:auto}
+.g4-menu h4{display:flex;align-items:center;gap:6.8px;height:27.2px;margin:0;padding:0 6.8px;border-bottom:1.7px solid #0003;font-size:11.9px;color:#777}
+.g4-menu h4 b{text-transform:uppercase}
+.g4-menu h4 span{flex:1;min-width:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g4-menu button{display:flex;align-items:center;width:100%;min-height:40.8px;padding:0 13.6px;border:0;border-bottom:1px solid #0000001f;background:none;color:#000;font:400 15.3px RobotoICS,sans-serif;text-align:left}
+.g4-menu button span{flex:1}
+.screen .g4-menu button:active{background:#33b5e599}
 /* attachment.xml (dp x 0.9; xhdpi art x 0.45): attachment_bg_holo (32 px, stretch 18-19 / 19-20, padding 4 / 2 / 4 / 6),
    48 dp tall, the thumbnail 8 dp in over ic_attachment_holo_light, the name 16 dp after it, the size in #555555, and
    ic_cancel_holo_light (24 dp) 8 dp from the end. */
