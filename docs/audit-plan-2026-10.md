@@ -149,7 +149,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 **A) Az alap felület képernyőképről, cikkből vagy másik verzióból – javítandó**
 
 - [x] Gmail 4.4.4 (döntés: a gyári 4.6.1 lesz, 7. pont): a Gmail-réteg most a képben lévő Gmail2 4.6.1 szerint – kategória-teaser (onboarding alatt üdvözlő és kategóriamódosító doboz, utána csak az új levelet tartalmazó szekciók, a szekció színére színezett ikonnal és „%d új” többes számmal), fiókváltó („Beérkező levelek” / „Minden címke”, szekcióikonok, nem látott darabszám a szekció színén), „%d olvasatlan” alcím, Inbox-csip a rendszercímke színeivel; minden szöveg a képből (stock-strings.json, gmail csoport). A szekciószínek szerveradatok, nincsenek az APK-ban: a Közösségi és a Promóciók a Nexus 5-képek szerint, a többi az APK alapértelmezett címkeszíne – 3b40416
-- [ ] Gmail 4.3: ugyanazok a KitKat 4.7-es képernyők; a képben 4.5.1 (~1 óra a 4.4.4 után)
+- [x] Gmail 4.3: a képben lévő Gmail2 4.5.1 szerint – ugyanaz a Gmail-réteg, mint a 4.4.4-en (section_teaser_item.xml, dőlt linkek, „%d olvasatlan” sima szövegként), szövegek a képből; a lista és a beszélgetés is a 4.5.1 elrendezéseit követi (ic_star_off/on, kijelöléskor nincs pipás avatar, csak list_checked_holo háttér, a csillag az üzenetfejlécben, a címkecsip a tárgy mellett), az ikonok a Gmail2 4.5.1 és a JWR66Y keretrendszer saját xhdpi rajzolatai – b82d66c, 84440c3. Nyitott: a 4.5.1 válasz-ikonjai (ic_reply_holo_dark) fehérek a majdnem fehér fejlécen; képernyőkép nélkül nem dönthető el, hogyan látszottak, addig a 4.4-es ikon marad
 - [ ] Gmail 4.0.4: Android Police-cikk alapján, más képek kem-* ikonjaival; a képben Gmail 4.0.4 (~2–3 óra)
 - [ ] Gmail 5.1.1: a 4.7-es gmail.css maradványai még töltődnek (.gm-chip stb.) (~0,5 óra)
 - [ ] Chrome 4.3 / 4.4.4 / 5.1.1: eszköztár, túlcsorduló menü, lapváltó, új lap a GSMArena Chrome 31-es képeiről, kézzel rajzolt ikonokkal; a képekben Chrome 27 / 32 / 40, csak a beállítások APK-alapúak (~1,5–2 óra verziónként)
@@ -335,3 +335,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-09 | 6. lépés: Fejlesztői beállítások listái és mentett állapota (4.0.4 a képből generálva) | cf596f7 |
 | 2026-10-09 | 6. lépés: csengőhang-előnézet és ébresztőhang a képek hangjaiból (6. lépés kész) | fa8b5c6 |
 | 2026-10-10 | 9. lépés: Gmail 4.4.4 a gyári Gmail2 4.6.1 szerint (teaser, fiókváltó, számlálók, szövegek a képből) | 3b40416 |
+| 2026-10-10 | 9. lépés: Gmail 4.3 a gyári Gmail2 4.5.1 szerint (Gmail-réteg, lista- és beszélgetés-részletek, saját ikonok) | b82d66c, 84440c3 |
