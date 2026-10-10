@@ -180,7 +180,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 **D) Hiányzó vagy a képben nem létező appok – egyeztetni**
 
 - [x] AOSP Zene 4.0.4 / 4.3 és AOSP Böngésző 4.3: nincsenek a képben – döntés 2026-10-08: szándékosan megtartjuk (kivétel a gyári-kép szabály alól, mint a Play Store)
-- [ ] A képben van, a szimulátorban nincs: 4.3 Sound Search widget és Diktafon – kell (a tulajdonos, 2026-10-08). Ellenőrizve: egyiknek sincs indítóikonja; a GoogleEars 1.1.9 csak widgetként jelenik meg (a widgetválasztóba kell), a SoundRecorder 4.3 se ikon, se widget, csak más app hívja (pl. az Üzenetek hangfelvétel-csatolása). A 4.4.4 Street View nem kell (a tulajdonos döntése, 2026-10-08). A 4.3 Quickoffice (OccamQuickOffice 5.7.3) nem hiányzik: a manifestjében egyetlen activity sem LAUNCHER, a launcher.txt-ben sincs, csak dokumentum-megnyitóként fut, így az alkalmazáslistában a gyári telefonon sem látszott
+- [x] A képben van, a szimulátorban nincs: 4.3 Sound Search widget és Diktafon – kell (a tulajdonos, 2026-10-08). Kész: a Hangkeresés (GoogleEars 1.1.9) 4×1-es widgetje a widgetválasztóban, állapotokkal és előzmény-oldallal (47ec39b; mikrofon nincs, ezért a Zene app éppen szóló dalát ismeri fel, egyébként „Nincs találat.”); a Diktafon (SoundRecorder 4.3) az Üzenetek „Hanganyag rögzítése” csatolásából, a Mms 4.3 csatolástípus-választójával és a hang-csatolmány nézettel (b5615d0). Ellenőrizve: egyiknek sincs indítóikonja; a GoogleEars 1.1.9 csak widgetként jelenik meg (a widgetválasztóba kell), a SoundRecorder 4.3 se ikon, se widget, csak más app hívja (pl. az Üzenetek hangfelvétel-csatolása). A 4.4.4 Street View nem kell (a tulajdonos döntése, 2026-10-08). A 4.3 Quickoffice (OccamQuickOffice 5.7.3) nem hiányzik: a manifestjében egyetlen activity sem LAUNCHER, a launcher.txt-ben sincs, csak dokumentum-megnyitóként fut, így az alkalmazáslistában a gyári telefonon sem látszott
 
 - [ ] A szimulátorban van, a képben nincs: a 4.0.4-es Google Beállítások app (a maguro IMM76I képben nincs PrebuiltGmsCore, csak GoogleServicesFramework) – egyeztetni: marad, mint a Play Store, vagy kikerül (2026-10-09)
 
@@ -355,3 +355,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-10 | 9. lépés: 2.3.6 Zene a MusicGoogle 2.3.6 szerint | 647c85c |
 | 2026-10-10 | 9. lépés: 5.1.1 régi stíluslapok ki / megtisztítva | 056543b |
 | 2026-10-10 | 9. lépés: 4.3 Google keresés beállításai (Velvet 2.5.9); Maps 4.3 útvonal-szövegek ellenőrizve | 83c9c47 |
+| 2026-10-10 | 9. lépés: 4.3 Hangkeresés widget és Diktafon (+ Mms csatolástípusok) | 47ec39b, b5615d0 |
