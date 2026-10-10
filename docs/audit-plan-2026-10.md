@@ -162,7 +162,7 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 - [x] 5.1.1 Beállítások: az Állapot (SIM kártya állapota és IMEI-információ aloldallal) a device_info_status.xml és a Status kód szerint, a Jogi információk a képben feloldható tevékenységek szerint (Nyílt forráskódú licencek, Google – jogi szabályozás, Háttérképek), a kitalált Biztonsági információk oldal törölve, a Fényerő a SystemUI BrightnessDialog párbeszédablaka, a Fiókok › Google › fiók a Settings három képernyője szerint, a szinkronlista a kép szinkronadaptereiből (docs/lp-sync-adapters.py) – d4351cf
 - [x] 5.1.1 Fit és Wallet: helyőrző képernyők, csak a szövegek a sajátjaik (~1,5 óra) — c73642d: a Fit a TimelineFragment fejléce (legenda, összefoglaló, kerék) és a napi tevékenységek, a Wallet a WarmWelcomeActivity üdvözlő oldalai
 - [x] 4.0.4: Kamera, Play Movies, az óralap és a Latitude nagyrészt saját készítésű; a Play Books könyvtára általános (~3–4 óra) — Play Movies 9997a03, Latitude 206455a (a Maps 6.4 Latitude-módja), Play Books könyvtár 7b4c47c (körhinta / lista), óralap e0133c5, Kamera 324a1f4
-- [ ] 4.0.4 Beállítások: néhány beépített oldal kitalált alcímekkel (~1 óra). A buildszám (IMM76I) és a Fejlesztői beállítások már a képből – cf596f7
+- [x] 4.0.4 Beállítások: néhány beépített oldal kitalált alcímekkel (~1 óra) — b00110e: Névjegy, Állapot, Jogi információk, Fiókok és szinkronizálás (+ fiók szinkronizálása), Helyszolgáltatások, Biztonsági mentés, Gyári visszaállítás, Kisegítő lehetőségek a kép XML-jei és kódja szerint. A buildszám (IMM76I) és a Fejlesztői beállítások már a képből – cf596f7
 - [ ] 4.0.4 News & Weather: a fő elrendezések a 4.3-as 1.3.11-ből, a képben 1.3.04 (~1 óra)
 - [ ] Számológép 4.0.4 / 4.4.4: általános ICS-stílusú billentyűzet, APK-forrás nélkül (~1 óra)
 - [ ] settings-detail.js (4.0.4 / 4.3 / 4.4.4 / 5.1.1): „szemléltető” oldalak és statisztikák forrás nélkül; átnézni, mi érhető el belőle (~1–2 óra)
@@ -344,3 +344,4 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 | 2026-10-10 | 9. lépés: 5.1.1 Beállítások – Állapot, Jogi információk, Fényerő, Fiókok a képből | d4351cf |
 | 2026-10-10 | 9. lépés: 5.1.1 Fit és Wallet a FitnessPrebuilt és a Wallet APK szerint | c73642d |
 | 2026-10-10 | 9. lépés: 4.0.4 Kamera, Play Movies, óralap, Latitude, Play Books könyvtár az APK-k szerint | 9997a03, 206455a, 7b4c47c, e0133c5, 324a1f4 |
+| 2026-10-10 | 9. lépés: 4.0.4 Beállítások oldalai (Névjegy, Állapot, Fiókok, Hely, Mentés, Kisegítő) a képből | b00110e |
