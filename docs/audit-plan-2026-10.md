@@ -196,6 +196,42 @@ ellenőrizni kell. A legtöbb app rendben van (APK-ból vagy a kép AOSP-forrás
 - [ ] 2.3.6: a 4.0.4-es tartalék beállítási oldalak még be vannak kötve; az asztali óráról hiányzik az időjárás
 - [ ] Elavult fejléc-kommentek (4.0.4 ics-extra-apps.js, stock-apps.js; 5.1.1 people.js csomagnév; 4.4.4 kk-dialer „4.3”)
 
+## 10. Szövegkezelés egységesítése (2026-10-10; a többi auditjavítás után)
+
+A tulajdonos kérésére ellenőrizve: valóban több, egymással nem kompatibilis szövegformátum és külön fordítósegéd
+keveredik, egy verzión belül is. Ez karbantartási probléma; az eltérő formátum önmagában nem bizonyít hibás
+fordítást. A verziók és az alkalmazások eltérő gyári szóhasználata helyes, azt a rendezés során meg kell őrizni.
+
+**Konkrét példák a jelenlegi kódból:**
+
+- `versions/2.3.6/gb-strings-framework.js`, a `gb-strings-*.js` fájlok, a verziónkénti `alarm-strings.js`, `lock-strings.js` és a 4.0.4 / 4.3 `music-strings.js`: erőforrásnév alatt nyelvi objektum, pl. `{en: 'Snooze', hu: 'Szundi', ...}`. A fogyasztók a nyelvkóddal indexelnek.
+- `i18n.js`, verziónként `image-strings.js`, valamint `5.1.1/lp-strings.js`: `[angol kulcs, hu, de, fr, es]` sorok, az `AndroidI18n.extend()` egy közös táblába írja őket. Az angol kulcs gyakran egyben a megjelenített szöveg is.
+- A 4.0.4–5.1.1 `stock-strings.js`, `people-strings.js`, az APK-sablonokból generált modulok: `kulcs: [hu, de, fr, es, opcionális gyári angol]`. Ugyanaz az öt elem itt más oszlopsorrendet jelent, mint az előző formátumban.
+- `5.1.1/lp-email-strings.js` és pl. `4.3/jb-email.js`: `kulcs: [en, hu, de, fr, es]`, megint külön olvasóval. Nem csak a verziók között, hanem ugyanazon verzió moduljai között is eltér a séma.
+- Több külön `S`, `T`, `tr`, `text` segéd ismétli a nyelv kiválasztását. Egyesek a kapott `lang` értéket, mások a globális nyelvet, mások a `locale` első két karakterét használják. Hiányzó adatnál eltérően térnek vissza a kulcsra, a gyári angolra vagy a közös táblára; nincs egy központi szerződés.
+
+**Igazolt ütközés:** az 5.1.1 oldal az `i18n.js` után az `image-strings.js`-t, majd az `lp-strings.js`-t tölti.
+Az első gyári tábla a `Good` kulcshoz a Settings `battery_info_health_good` fordítását adja (`Rendben van`),
+a második a Wi-Fi `wifi_signal` tömbből `Jó`-t ír ugyanarra a globális kulcsra. A két erőforrás eltérő
+fordítása indokolt, az egy közös kulcs alá írásuk a probléma. A tényleges betöltési sorrendet lefuttatva a
+közös `t('Good')` eredménye `Rendben van` → `Jó`; az `extend()` csendben felülír. Ugyanígy eltérő sorok
+íródnak egymásra a `Wireless & networks` és a `Maps` kulcsnál. Ez bizonyított táblaszintű ütközés,
+nem minden érintett képernyőn igazolt megjelenítési hiba. Az `image-strings.test.cjs` csak az image-táblát
+tölti a közös alapra, az LP második felülírását nem ellenőrzi.
+
+**Teendők:**
+
+- [ ] Felmérni mind az öt verzió betöltött szövegtábláit, a modulokba írt fordításokat, generátorokat és fogyasztóikat; az ismételt segédeket és az azonos kulcsú, eltérő forrású szövegeket is.
+- [ ] Egy közös adatsémát és fordító API-t kijelölni: névvel jelölt nyelvek és alkalmazás-/erőforrás-azonosító (ahol elérhető, az APK eredeti neve), egységes angol tartalékkal. A gyári adatok továbbra is a saját verziójukhoz és alkalmazásukhoz tartozzanak; a szimulátor saját szövegeinek is legyen azonosítója.
+- [ ] A globális, angol felirat szerinti ütközéseket rendezni, az indokolt felülírásokat kifejezetten megjelölni. A közös demószöveg ne írjon felül véletlenül gyári alkalmazásszöveget; a `Good` esetében az akkumulátor és a Wi-Fi külön erőforrás maradjon.
+- [ ] A generátorokat és a sablonokat átállítani, majd modulonként a fogyasztókat is. A generált JS-fájlok kézi átírása nem elég: újragenerálás után is az egységes séma maradjon.
+- [ ] Egységesíteni a paraméterhelyettesítést és a többes szám kezelését a gyári formák megőrzésével. A jelenlegi helyi `.replace('%1$s', ...)`, `.replace(/%(1\$)?d/, ...)` és külön `one` / `other` választások is ide tartoznak.
+- [ ] Ellenőrzés: minden támogatott nyelv, hiányzó fordítás és ismeretlen kulcs; az oldalak tényleges betöltési sorrendje; eltérő alkalmazáskontextusok; paraméteres szövegek és többes számok; újragenerálhatóság. Átállítás előtt és után a gyári szövegek egyezzenek, az ismert ütközések javítása kivételével.
+
+Felmérés közbeni ellenőrzés: az index.html-ekben hivatkozott, külön `*strings*.js` fájlok betöltése mind az öt
+verzión sikerült; az `image-strings.test.cjs`, `contact-editor.test.cjs` és `email.test.cjs` is átment.
+Ez a jelenlegi működés részleges ellenőrzése, nem teljes fordítási audit. A szövegkezelés átépítése még nem kezdődött el.
+
 ## Nem csináljuk meg
 
 - Valódi háttérműködés: hívás, SMS, szinkron, fizetés, hardveres rádiók, Face Unlock, titkosítás, valódi visszajelzés-küldés (a képernyőik és demóállapotuk igen)
