@@ -1488,10 +1488,13 @@
       case 'camera-review': {const photo=ICSMedia.photos(data,'camera')[0];openApp('gallery');if(photo){ui.galleryAlbum='camera';ui.selectedPhoto=photo.id;ui.sub='photo';render();}break;}
       case 'camera-focus': {const preview=viewport.querySelector('.camera-focus-area');preview.classList.remove('focusing');void preview.offsetWidth;preview.classList.add('focusing');break;}
       case 'camera-flip': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.front=!data.cameraSettings.front;save();render();break;
-      case 'camera-flash': {data.cameraSettings=ICSMedia.settings(data);const choices=['auto','off','on'];data.cameraSettings.flash=choices[(choices.indexOf(data.cameraSettings.flash)+1)%3];save();render();toast(i18n.t('Flash')+': '+i18n.t(data.cameraSettings.flash==='auto'?'Auto':data.cameraSettings.flash==='on'?'On':'Off'));break;}
-      case 'camera-options': case 'camera-balance': ui.overlay=action;renderOverlay();break;
-      case 'camera-set-balance': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.balance=id;save();ui.overlay='';render();break;
-      case 'camera-exposure': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.exposure=Number(id);save();ui.overlay='';render();break;
+      case 'camera-level': ui.cameraLevel2=!ui.cameraLevel2;render();break;
+      case 'camera-modes': ui.cameraModes=!ui.cameraModes;render();break;
+      case 'camera-mode': ui.cameraModes=false;render();if(id!=='camera')toast(i18n.t('This feature is not part of the simulator.'));break;
+      case 'camera-setting': ui.cameraSetting=id;ui.overlay='camera-setting';renderOverlay();break;
+      case 'camera-pick': {data.cameraSettings=ICSMedia.settings(data);const key=ui.cameraSetting;data.cameraSettings[key]=key==='exposure'?Number(id):id;save();ui.overlay='';renderOverlay();render();break;}
+      case 'camera-knob': {data.cameraSettings=ICSMedia.settings(data);const [key,step]=id.split(':'),values=ICSMedia.PREF[key].values,i=values.indexOf(data.cameraSettings[key]);data.cameraSettings[key]=values[Math.max(0,Math.min(values.length-1,i+Number(step)))];save();renderOverlay();break;}
+      case 'camera-location': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.location=!data.cameraSettings.location;save();renderOverlay();break;
       case 'calendar-prev': calendarMove(-1); break;
       case 'calendar-next': calendarMove(1); break;
       case 'calendar-day': ui.selectedDate=id;ui.calendarMode=data.calendarMode='Day';save();calendarRender();break;
@@ -1718,7 +1721,7 @@
     if(event.target.matches('.camera-zoom input')) {
       data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.zoom=Number(event.target.value);save();
       viewport.querySelector('.camera-focus-area .media-photo').src=ICSMedia.image(ICSMedia.scene(data));
-      viewport.querySelector('.camera-zoom output').textContent=Number(event.target.value).toFixed(1)+'×';return;
+      return;
     }
     if(event.target.closest('#people-editor')) { HoloContactEditor.sync(event.target.closest('#people-editor'),ui.peopleDraft); return; }
     if (event.target.closest('.mms-compose')) {

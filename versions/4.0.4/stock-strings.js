@@ -1059,5 +1059,245 @@ window.StockStrings = {
    "Afficher sous forme de liste",
    "Ver como lista"
   ]
+ },
+ "camera": {
+  "pref_camera_flashmode_title": [
+   "Vakumód",
+   "Blitzmodus",
+   "Mode Flash",
+   "Flash",
+   "Flash mode"
+  ],
+  "pref_camera_flashmode_entry_auto": [
+   "Automatikus",
+   "Automatisch",
+   "Automatique",
+   "Automático",
+   "Auto"
+  ],
+  "pref_camera_flashmode_entry_on": [
+   "Be",
+   "An",
+   "Activé",
+   "Activado",
+   "On"
+  ],
+  "pref_camera_flashmode_entry_off": [
+   "Ki",
+   "Aus",
+   "Désactivé",
+   "Desactivado",
+   "Off"
+  ],
+  "pref_camera_whitebalance_title": [
+   "Fehéregyensúly",
+   "Weißabgleich",
+   "Balance des blancs",
+   "Balance de blancos",
+   "White balance"
+  ],
+  "pref_camera_whitebalance_entry_auto": [
+   "Automatikus",
+   "Automatisch",
+   "Automatique",
+   "Automático",
+   "Auto"
+  ],
+  "pref_camera_whitebalance_entry_incandescent": [
+   "Izzólámpa",
+   "Glühlampenlicht",
+   "Incandescent",
+   "Incandescente",
+   "Incandescent"
+  ],
+  "pref_camera_whitebalance_entry_daylight": [
+   "Nappali fény",
+   "Tageslicht",
+   "Lumière du jour",
+   "Luz natural",
+   "Daylight"
+  ],
+  "pref_camera_whitebalance_entry_fluorescent": [
+   "Fénycső",
+   "Neonlicht",
+   "Fluorescent",
+   "Fluorescente",
+   "Fluorescent"
+  ],
+  "pref_camera_whitebalance_entry_cloudy": [
+   "Felhős",
+   "Bewölkt",
+   "Nuageux",
+   "Nublado",
+   "Cloudy"
+  ],
+  "pref_camera_scenemode_title": [
+   "Kép jellege",
+   "Szenenmodus",
+   "Mode Scène",
+   "Modo de escena",
+   "Scene mode"
+  ],
+  "pref_camera_scenemode_entry_auto": [
+   "Automatikus",
+   "Automatisch",
+   "Automatique",
+   "Automático",
+   "Auto"
+  ],
+  "pref_camera_scenemode_entry_action": [
+   "Akció",
+   "Action",
+   "Action",
+   "Acción",
+   "Action"
+  ],
+  "pref_camera_scenemode_entry_night": [
+   "Éjszakai",
+   "Nachtaufnahme",
+   "Nuit",
+   "Nocturno",
+   "Night"
+  ],
+  "pref_camera_scenemode_entry_sunset": [
+   "Napnyugta",
+   "Sonnenuntergang",
+   "Coucher de soleil",
+   "Atardecer",
+   "Sunset"
+  ],
+  "pref_camera_scenemode_entry_party": [
+   "Buli",
+   "Party",
+   "Fête",
+   "Fiesta",
+   "Party"
+  ],
+  "pref_camera_settings_category": [
+   "Kamera beállításai",
+   "Kameraeinstellungen",
+   "Paramètres appareil photo",
+   "Configuración de cámara",
+   "Camera settings"
+  ],
+  "pref_camera_recordlocation_title": [
+   "Hely tárolása",
+   "Ort speichern",
+   "Enregist. position",
+   "Añadir ubicación",
+   "Store location"
+  ],
+  "pref_camera_picturesize_title": [
+   "Képméret",
+   "Bildgröße",
+   "Taille d'image",
+   "Tamaño imagen",
+   "Picture size"
+  ],
+  "pref_camera_picturesize_entry_2592x1936": [
+   "5 megapixel",
+   "5 Millionen Pixel",
+   "5 M pixels",
+   "5 Mpx",
+   "5M pixels"
+  ],
+  "pref_camera_picturesize_entry_2048x1536": [
+   "3 megapixel",
+   "3 Millionen Pixel",
+   "3 M pixels",
+   "3 Mpx",
+   "3M pixels"
+  ],
+  "pref_camera_picturesize_entry_1600x1200": [
+   "2 megapixel",
+   "2 Millionen Pixel",
+   "2 M pixels",
+   "2 Mpx",
+   "2M pixels"
+  ],
+  "pref_camera_picturesize_entry_1280x960": [
+   "1,3 megapixel",
+   "1,3 Megapixel",
+   "1,3 M pixels",
+   "1,3 Mpx",
+   "1.3M pixels"
+  ],
+  "pref_camera_picturesize_entry_1024x768": [
+   "1 megapixel",
+   "1 Million Pixel",
+   "1 M pixels",
+   "1 Mpx",
+   "1M pixels"
+  ],
+  "pref_camera_picturesize_entry_640x480": [
+   "VGA",
+   "VGA",
+   "VGA",
+   "VGA",
+   "VGA"
+  ],
+  "pref_camera_picturesize_entry_320x240": [
+   "QVGA",
+   "QVGA",
+   "QVGA",
+   "QVGA",
+   "QVGA"
+  ],
+  "pref_camera_focusmode_title": [
+   "Fókuszálás módja",
+   "Fokussierungsmodus",
+   "Mise au point",
+   "Modo de enfoque",
+   "Focus mode"
+  ],
+  "pref_camera_focusmode_entry_auto": [
+   "Automatikus",
+   "Automatisch",
+   "Auto",
+   "Auto",
+   "Auto"
+  ],
+  "pref_camera_focusmode_entry_infinity": [
+   "Végtelen",
+   "Unendlich",
+   "Infini",
+   "Infinito",
+   "Infinity"
+  ],
+  "pref_camera_focusmode_entry_macro": [
+   "Makró",
+   "Makro",
+   "Macro",
+   "Macro",
+   "Macro"
+  ],
+  "pref_exposure_title": [
+   "Expozíció",
+   "Belichtung",
+   "Exposition",
+   "Exposición",
+   "Exposure"
+  ],
+  "switch_to_camera_label": [
+   "Váltás kamerára",
+   "Zu Kamera wechseln",
+   "Passer en mode photo",
+   "Cambiar a cámara",
+   "Switch to camera"
+  ],
+  "switch_to_video_label": [
+   "Váltás videóra",
+   "Zu Video wechseln",
+   "Passer en mode vidéo",
+   "Cambiar a vídeo",
+   "Switch to video"
+  ],
+  "switch_to_panorama_label": [
+   "Váltás panoráma módra",
+   "Zu Panorama wechseln",
+   "Passer en mode panoramique",
+   "Cambiar a modo panorámico",
+   "Switch to panorama"
+  ]
  }
 };
