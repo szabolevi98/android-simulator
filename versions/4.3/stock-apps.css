@@ -20,13 +20,21 @@
 .sa-avatar{flex:none;display:grid;place-items:center;width:34.06px;height:34.06px;color:#fff;font:400 16.92px RobotoICS,sans-serif}
 /* Google (Now) fills the screen; Voice Search listens. */
 /* Settings lists */
-.sa-settings{background:#fafafa}
-.sa-settings h4{margin:13.16px 13.63px 3.76px;padding-bottom:4.7px;border-bottom:1.7px solid #ccc;font:700 11.92px RobotoICS,sans-serif;color:#555}
+/* Velvet 2.5.9 SettingsActivity (Theme.Holo.Light: background_holo_light #f3f3f3): header rows of 48 dp minimum with
+   the title in textAppearanceMedium (18 sp, black) and the summary in textAppearanceSmall (14 sp, #323232), 6 dp
+   margins; the Google Now header carries the Holo Light Switch (gms-switch) 8 dp padded. 1 dp = 0.852 px. */
+.sa-settings{background:#f3f3f3}
+.screen .vs-header{min-height:40.9px;padding:5.11px 13.63px 5.11px 18.74px}
+.vs-header span{flex:1;min-width:0;display:flex;flex-direction:column}
+.vs-header b{font:400 15.33px RobotoICS,sans-serif;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vs-header small{font:400 11.92px RobotoICS,sans-serif;color:#323232;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vs-now{padding-right:0}
+.screen .vs-now>button:first-child{flex:1;min-width:0;display:flex;align-self:stretch;align-items:center;padding:0;border:0;background:none;text-align:left}
+.vs-now .gms-switch{margin:0 6.81px}
+/* DarkActionBar: Widget.Holo.Light.ActionBar.Solid.Inverse, ab_solid_dark_holo (#222 with a #1b1b1b foot, no blue line). */
+.sa-bar.vs-bar{border-bottom-color:#1b1b1b}
 .sa-row{display:flex;align-items:center;gap:13.16px;width:100%;min-height:45.12px;padding:0 13.63px;border:0;border-bottom:.85px solid #e5e5e5;background:none;text-align:left;font:400 15.33px RobotoICS,sans-serif;color:#222!important}
 .sa-row i{flex:none;width:22.56px;height:22.56px;color:#777}
-.sa-switch-row{display:flex;align-items:center;justify-content:space-between;min-height:52.64px;padding:0 13.63px;font:400 15.33px RobotoICS,sans-serif}
-.sa-switch{min-width:60.16px;padding:3.76px 9.4px;border:0;background:#bbb;font:700 11.92px RobotoICS,sans-serif;color:#fff!important}
-.sa-switch.on{background:#33b5e5}
 /* Maps */
 .sa-maps{background:#ece8df}
 .sa-map{position:absolute;inset:0;width:100%;height:100%}

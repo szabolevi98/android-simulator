@@ -46,9 +46,28 @@
     return `<div class="app-view sa-app sa-voice"><div class="vs-panel"><div class="vs-speech"><img class="vs-logo" src="assets/vn-ic_google_medium_dark.png" alt="Google"><div class="vs-recognizer${listening ? ' on' : ''}"><img class="vs-guide" src="assets/vn-vs_levels_guideline.png" alt=""><img class="vs-levels" src="assets/vn-vs_reactive_light.png" alt=""><button class="vs-mic" data-action="voice-listen" aria-label="${e(v('Tap to speak'))}"><img src="assets/vn-vs_micbtn_shadow.png" alt=""><img src="assets/vn-vs_micbtn_${listening ? 'rec' : 'on'}.png" alt=""></button></div><p>${e(v(listening ? 'Speak now' : "Didn't catch that. Try speaking again."))}</p></div></div></div>`;
   }
   // Google Search settings (the overview "Settings" button) and the Google Settings app.
+  /* Google Search 2.5.9 (Velvet.apk, JWR66Y) SettingsActivity on Theme.Holo.Light.DarkActionBar: a PreferenceActivity
+     whose phone layout is the header list of preferences_headers.xml as onBuildHeaders leaves it for an account that
+     runs Google Now (the [Debug] Goggles and Dogfood headers go): Google Now with its Switch
+     (preference_header_switch_item.xml: 48 dp minimum, 6 dp margins, the switch 8 dp padded), then Notifications and
+     My stuff (only while Google Now is on), Voice, Phone search and Privacy & accounts. The texts are the image's. */
+  const VS = {
+    "Settings": ["Beállítások", "Einstellungen", "Paramètres", "Ajustes"],
+    "Google Now": ["Google Asszisztens", "Google Now", "Google Now", "Google Now"],
+    "Notifications": ["Értesítések", "Benachrichtigungen", "Notifications", "Notificaciones"],
+    "My stuff": ["Saját dolgaim", "Meine Inhalte", "Mes infos", "Mis cosas"],
+    "My sports teams, stocks, places, reminders": ["Sportcsapatok, részvények, helyek, emlékeztetők", "Meine Mannschaften, Aktienkurse, Orte, Erinnerungen", "Mes équipes sportives, mes actions, mes adresses, mes rappels", "Mis equipos deportivos, acciones, sitios, recordatorios"],
+    "Voice": ["Hang", "Sprache", "Voix", "Voz"],
+    "Phone search": ["Keresés a telefonon", "Suche im Telefon", "Recherche sur le téléphone", "Búsqueda en teléfono"],
+    "Privacy & accounts": ["Adatvédelem és fiókok", "Datenschutz & Konten", "Confidentialité et comptes", "Privacidad y cuentas"]
+  };
   function searchSettings(ctx) {
-    const row = (icon, label) => `<button class="sa-row" data-action="sa-unsupported"><i>${ICON[icon] || ''}</i><span>${e(ctx.t(label))}</span></button>`;
-    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: ctx.t('Settings'), up: true, icon: 'google-search.png'})}<div class="sa-scroll"><div class="sa-switch-row"><span>${e(ctx.t('Google Now'))}</span><button class="sa-switch${ctx.data.googleNowOn === false ? '' : ' on'}" data-action="google-now-toggle">${e(ctx.t(ctx.data.googleNowOn === false ? 'OFF' : 'ON'))}</button></div><h4>${e(ctx.t('SEARCH & NOW CARDS'))}</h4>${row('search', 'Phone search')}${row('mic', 'Voice')}${row('locate', 'Accounts & privacy')}${row('list', 'Notifications')}${row('', 'Help & feedback')}</div></div>`;
+    const i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)), V = key => i >= 0 && VS[key] ? VS[key][i] : key;
+    const on = ctx.data.googleNowOn !== false;
+    const header = (title, summary = '') => `<button class="sa-row vs-header" data-action="sa-unsupported"><span><b>${e(V(title))}</b>${summary ? `<small>${e(V(summary))}</small>` : ''}</span></button>`;
+    const now = `<div class="sa-row vs-header vs-now"><button data-action="sa-unsupported"><span><b>${e(V('Google Now'))}</b></span></button><button class="gms-switch${on ? ' on' : ''}" data-action="google-now-toggle" role="switch" aria-checked="${on}" aria-label="${e(V('Google Now'))}"><i>${e(S(ctx, 'gsettings', on ? 'ON' : 'OFF'))}</i></button></div>`;
+    const rows = now + (on ? header('Notifications') + header('My stuff', 'My sports teams, stocks, places, reminders') : '') + header('Voice') + header('Phone search') + header('Privacy & accounts');
+    return `<div class="app-view sa-app sa-settings">${bar(ctx, {title: V('Settings'), up: true, icon: 'google-search.png', cls: ' dark vs-bar'})}<div class="sa-scroll">${rows}</div></div>`;
   }
   // Google Settings (Google Play services, PrebuiltGmsCore.apk of JWR66Y): common_settings.xml's own 48 dp bar on
   // common_settings_bg (the up icon invisible when opened from the launcher, the 32 dp icon, "Google Settings" in 18 sp)
