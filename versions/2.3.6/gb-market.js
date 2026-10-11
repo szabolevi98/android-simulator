@@ -1,190 +1,811 @@
-/* Android Market 3.x as it ran on the Nexus S in autumn 2011 (Market is closed source; rebuilt from period material: the
-   Android Developers Blog post "A New Android Market for Phones" of July 2011 with its home screenshot, Google's Nexus S
-   video, Android Police's Market 3.1.3 screenshots (details page, settings) and hands-on videos of the Apps section).
-   Screens: the home page (action bar with the bag, the promo banner, the Apps / Games / Books / Movies tiles with their
-   colour stripes and the featured column), the sections with the swipeable CATEGORIES / FEATURED / TOP … tabs, the app
-   details page (dark header, price or Open / Uninstall buttons between green rules, screenshot strip, the light info block,
-   +1, Allow automatic updating, DESCRIPTION), the permissions page with "Accept & download", download progress,
-   My apps, search and Settings. The catalog is the simulator's fictional one (play-store.js); 1 dp = 0.8625 px. */
+/* Android Market 2.3.4 (com.android.vending), the Vending.apk of the Nexus S's GRK39F image, rebuilt from that APK: texts
+   in five languages from its resources (docs/apk-strings.py), drawables from its hdpi set (assets/gbm234-*), colours and
+   sizes from its values and layouts, the menu from res/menu/base.xml and the details sections from the code
+   (Vending.odex: AssetInfoActivity.setupContentArea).
+   - TallTitleBarTheme is Theme.Light.NoTitleBar: white lists under the "velvet" headers. The green arcs are drawn by
+     velvet.ArcPaintingUtils: LinearGradients of header_background_dark1 #465D00, medium3 #80A600, medium2 #709000,
+     medium1 #90B000 and light1 #99C000 with lighter swooshes, the highlight band (highlight1 #9FC000, highlight2
+     #A5D300) along the curved edge.
+   - Home (carousel_home_header, 260 dp): slim_title (ic_market_logo, the title, menu_divider, ic_market_search), the
+     carousel of featured promos (promo_frame), the carousel snippet (title, rating, price), the ArcBottomLayout with
+     Apps / Games / My apps (HomeNavButton: ic_market_* over white bold labels), then "Featured" (featured_list_header
+     on #D0D0D0) and asset_list_snippet rows (48 dp icon, bold title, author, price or state and the rating).
+   - Apps / Games: carousel_categories_with_apps (168 dp arc) over the categories with their featured apps; a category
+     opens carousel_tabbed_app_browser (the 74 dp arc with the Top paid / Top free / Just in radio tabs).
+   - Details (asset_info_page): asset_fat_header (240 dp: the 144 x 96 dp promo in asset_thumbnail_frame, title, author,
+     the dark FatHeaderButtons Install / Open / Uninstall and the rating), then the download progress, Rate it!,
+     Allow automatic updating, Description (with More, version and size, downloads, screenshots), the permissions
+     (on #EDEDED with More), Reviews, Related, the developer, sharing and Flag as inappropriate.
+   - confirm_permissions ("Allow this application to access:", OK / Cancel on bottombar_portrait_565), My apps
+     (my_downloads_activity: "Currently downloading" / "Downloads" sections, Update all), the settings activity
+     (Content filtering with "Allow apps rated", Notifications with Notify me / Do not notify me) and search.
+   The catalog and promo lines are the simulator's own storefront; 1 dp = 0.8625 CSS px on the Nexus S screen. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  // Market labels in the five simulator languages (period Market wording).
-  const S = {
-    'Market': ['Market', 'Market', 'Market', 'Market', 'Market'],
-    'Apps': ['Apps', 'Alkalmazások', 'Apps', 'Applications', 'Aplicaciones'],
-    'Games': ['Games', 'Játékok', 'Spiele', 'Jeux', 'Juegos'],
-    'Books': ['Books', 'Könyvek', 'Bücher', 'Livres', 'Libros'],
-    'Movies': ['Movies', 'Filmek', 'Filme', 'Films', 'Películas'],
-    'see more': ['see more', 'továbbiak', 'mehr', 'plus', 'ver más'],
-    'CATEGORIES': ['CATEGORIES', 'KATEGÓRIÁK', 'KATEGORIEN', 'CATÉGORIES', 'CATEGORÍAS'],
-    'FEATURED': ['FEATURED', 'KIEMELT', 'EMPFOHLEN', 'SÉLECTION', 'DESTACADO'],
-    'TOP PAID': ['TOP PAID', 'LEGNÉPSZERŰBB FIZETŐS', 'TOP-KAUF', 'TOP PAYANTS', 'MÁS VENDIDO'],
-    'TOP FREE': ['TOP FREE', 'LEGNÉPSZERŰBB INGYENES', 'TOP-GRATIS', 'TOP GRATUITS', 'GRATIS MÁS POPULARES'],
-    'TOP GROSSING': ['TOP GROSSING', 'LEGNAGYOBB BEVÉTEL', 'UMSATZSTÄRKSTE', 'MEILLEURES VENTES', 'MÁS RENTABLES'],
-    'TOP NEW PAID': ['TOP NEW PAID', 'ÚJ FIZETŐS', 'NEU & KOSTENPFLICHTIG', 'NOUVEAUTÉS PAYANTES', 'NOVEDADES DE PAGO'],
-    'TOP NEW FREE': ['TOP NEW FREE', 'ÚJ INGYENES', 'NEU & GRATIS', 'NOUVEAUTÉS GRATUITES', 'NOVEDADES GRATUITAS'],
-    'TRENDING': ['TRENDING', 'FELKAPOTT', 'IM TREND', 'TENDANCES', 'TENDENCIAS'],
-    'My apps': ['My apps', 'Saját alkalmazások', 'Meine Apps', 'Mes applications', 'Mis aplicaciones'],
-    'Accounts': ['Accounts', 'Fiókok', 'Konten', 'Comptes', 'Cuentas'],
-    'Settings': ['Settings', 'Beállítások', 'Einstellungen', 'Paramètres', 'Ajustes'],
-    'Help': ['Help', 'Súgó', 'Hilfe', 'Aide', 'Ayuda'],
-    'FREE': ['FREE', 'INGYENES', 'KOSTENLOS', 'GRATUIT', 'GRATIS'],
-    'Open': ['Open', 'Megnyitás', 'Öffnen', 'Ouvrir', 'Abrir'],
-    'Uninstall': ['Uninstall', 'Eltávolítás', 'Deinstallieren', 'Désinstaller', 'Desinstalar'],
-    'Download': ['Download', 'Letöltés', 'Herunterladen', 'Télécharger', 'Descargar'],
-    'Accept & download': ['Accept & download', 'Elfogadás és letöltés', 'Akzeptieren & herunterladen', 'Accepter et télécharger', 'Aceptar y descargar'],
-    'Downloading…': ['Downloading…', 'Letöltés…', 'Wird heruntergeladen…', 'Téléchargement…', 'Descargando…'],
-    'Installing…': ['Installing…', 'Telepítés…', 'Wird installiert…', 'Installation…', 'Instalando…'],
-    'Cancel': ['Cancel', 'Mégse', 'Abbrechen', 'Annuler', 'Cancelar'],
-    'INSTALLED': ['INSTALLED', 'TELEPÍTVE', 'INSTALLIERT', 'INSTALLÉE', 'INSTALADA'],
-    'DESCRIPTION': ['DESCRIPTION', 'LEÍRÁS', 'BESCHREIBUNG', 'DESCRIPTION', 'DESCRIPCIÓN'],
-    'downloads': ['downloads', 'letöltés', 'Downloads', 'téléchargements', 'descargas'],
-    'Size': ['Size', 'Méret', 'Größe', 'Taille', 'Tamaño'],
-    'Allow automatic updating': ['Allow automatic updating', 'Automatikus frissítés engedélyezése', 'Automatisches Aktualisieren zulassen', 'Autoriser la mise à jour automatique', 'Permitir actualización automática'],
-    'people +1\'d this': ['people +1\'d this', 'ember +1-ezte ezt', 'Personen haben dies mit +1 bewertet', 'personnes ont attribué un +1', 'personas han hecho +1'],
-    'Permissions': ['This application has access to the following:', 'Az alkalmazás a következőkhöz fér hozzá:', 'Diese Anwendung hat Zugriff auf:', 'Cette application a accès aux éléments suivants :', 'Esta aplicación tiene acceso a:'],
-    'Search Market': ['Search Market', 'Keresés a Marketen', 'Market durchsuchen', 'Rechercher dans l\'Android Market', 'Buscar en Market'],
-    'No results': ['No results found.', 'Nincs találat.', 'Keine Ergebnisse.', 'Aucun résultat.', 'No se han encontrado resultados.'],
-    'Notifications': ['Notifications', 'Értesítések', 'Benachrichtigungen', 'Notifications', 'Notificaciones'],
-    'Notifications summary': ['Notify me about updates to apps or games that I downloaded', 'Értesítés a letöltött alkalmazások és játékok frissítéseiről', 'Über Updates heruntergeladener Apps und Spiele benachrichtigen', 'M\'informer des mises à jour des applications et des jeux téléchargés', 'Notificarme sobre actualizaciones de aplicaciones o juegos descargados'],
-    'Clear search history': ['Clear search history', 'Keresési előzmények törlése', 'Suchverlauf löschen', 'Effacer l\'historique de recherche', 'Borrar historial de búsqueda'],
-    'Clear search history summary': ['Remove all the searches you have performed', 'Az összes korábbi keresés eltávolítása', 'Alle bisherigen Suchanfragen entfernen', 'Supprimer toutes les recherches effectuées', 'Eliminar todas las búsquedas realizadas'],
-    'User controls': ['User controls', 'Felhasználói beállítások', 'Nutzereinstellungen', 'Contrôles utilisateur', 'Controles de usuario'],
-    'Content filtering': ['Content filtering', 'Tartalomszűrés', 'Inhaltsfilter', 'Filtrage du contenu', 'Filtrado de contenido'],
-    'Content filtering summary': ['Set the content filtering level to restrict applications that can be downloaded.', 'A letölthető alkalmazásokat korlátozó szűrési szint beállítása.', 'Filterstufe festlegen, um herunterladbare Apps einzuschränken.', 'Définir le niveau de filtrage pour limiter les applications téléchargeables.', 'Establece el nivel de filtrado para restringir las aplicaciones que se pueden descargar.'],
-    'Use PIN for purchases': ['Use PIN for purchases', 'PIN-kód a vásárlásokhoz', 'PIN für Käufe verwenden', 'Utiliser un code PIN pour les achats', 'Usar PIN para compras'],
-    'Use PIN summary': ['Require PIN entry before purchasing any application or other content.', 'PIN-kód megadása minden vásárlás előtt.', 'Vor jedem Kauf die PIN abfragen.', 'Demander le code PIN avant tout achat.', 'Solicitar PIN antes de realizar cualquier compra.'],
-    'Successfully installed.': ['Successfully installed.', 'Sikeresen telepítve.', 'Erfolgreich installiert.', 'Installation réussie.', 'Se ha instalado correctamente.'],
-    'Unavailable': ['Not available in this simulator', 'Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+  const STRINGS = {
+      "Market": [
+          "Market",
+          "Market",
+          "Android Market",
+          "Market"
+      ],
+      "Android Market": [
+          "Android Market",
+          "Android Market",
+          "Android Market",
+          "Android Market"
+      ],
+      "Search Android Market": [
+          "Keresés az Android Marketen",
+          "Market durchsuchen",
+          "Rechercher...",
+          "Buscar en Android Market"
+      ],
+      "Apps": [
+          "Alkalmazások",
+          "Apps",
+          "Applications",
+          "Aplicaciones"
+      ],
+      "Games": [
+          "Játékok",
+          "Spiele",
+          "Jeux",
+          "Juegos"
+      ],
+      "My apps": [
+          "Saját alk.",
+          "Meine Apps",
+          "Mes applications",
+          "Descargadas"
+      ],
+      "Featured": [
+          "Kiemelt",
+          "Empfohlen",
+          "Sélection de contenu",
+          "Destacados"
+      ],
+      "Top paid": [
+          "Legjobb bevételű",
+          "Top kostenpflichtig",
+          "Top payant",
+          "De pago"
+      ],
+      "Top free": [
+          "Legjobb ingyenes",
+          "Top kostenlos",
+          "Top gratuit",
+          "Gratuitas"
+      ],
+      "Just in": [
+          "Csak itt",
+          "Ganz neu",
+          "Nouveautés",
+          "Nuevas"
+      ],
+      "FREE": [
+          "INGYENES",
+          "GRATIS",
+          "GRATUIT",
+          "GRATUITA"
+      ],
+      "Install": [
+          "Telepítés",
+          "Installieren",
+          "Installer",
+          "Instalar"
+      ],
+      "Uninstall": [
+          "Eltávolítás",
+          "Deinstallieren",
+          "Désinstaller",
+          "Desinstalar"
+      ],
+      "Open": [
+          "Megnyitás",
+          "Öffnen",
+          "Ouvrir",
+          "Abrir"
+      ],
+      "Buy": [
+          "Vásárlás",
+          "Kaufen",
+          "Acheter",
+          "Comprar"
+      ],
+      "Update": [
+          "Frissítés",
+          "Aktualisieren",
+          "Mettre à jour",
+          "Actualizar"
+      ],
+      "Installed": [
+          "Telepítve",
+          "Installiert",
+          "Installé",
+          "Instalada"
+      ],
+      "Downloading": [
+          "Letöltés",
+          "Download...",
+          "Téléchargement en cours",
+          "Descargando..."
+      ],
+      "Installing…": [
+          "Telepítés...",
+          "Installation...",
+          "Installation…",
+          "Instalando…"
+      ],
+      "Uninstalling…": [
+          "Eltávolítás...",
+          "Deinstallation...",
+          "Désinstallation...",
+          "Desinstalando..."
+      ],
+      "Starting download…": [
+          "Letöltés megkezdése...",
+          "Download wird gestartet...",
+          "Début du téléchargement…",
+          "Iniciando descarga…"
+      ],
+      "Downloading…": [
+          "Letöltés...",
+          "Download...",
+          "Téléchargement…",
+          "Descargando..."
+      ],
+      "Cancel download": [
+          "Letöltés megszakítása",
+          "Download abbrechen",
+          "Annuler le téléchargement",
+          "Cancelar descarga"
+      ],
+      "OK": [
+          "OK",
+          "OK",
+          "OK",
+          "Aceptar"
+      ],
+      "Cancel": [
+          "Mégse",
+          "Abbrechen",
+          "Annuler",
+          "Cancelar"
+      ],
+      "Accept permissions": [
+          "Engedélyek elfogadása",
+          "Berechtigungen akzeptieren",
+          "Accepter les autorisations",
+          "Aceptar permisos"
+      ],
+      "Allow this application to access:": [
+          "Engedély az alkalmazásnak a következők hozzáférésére:",
+          "Dieser Anwendung Zugriff erlauben auf:",
+          "Autoriser cette application à accéder à :",
+          "Permitir a esta aplicación acceder:"
+      ],
+      "No permissions required.": [
+          "Nincs szükséges engedély.",
+          "Keine Berechtigungen erforderlich.",
+          "Aucune autorisation requise.",
+          "No se necesitan permisos."
+      ],
+      "Description": [
+          "Leírás",
+          "Beschreibung",
+          "Description",
+          "Descripción"
+      ],
+      "More": [
+          "Továbbiak",
+          "Mehr",
+          "Plus",
+          "Más"
+      ],
+      "Less": [
+          "Kevesebb",
+          "Weniger",
+          "Moins",
+          "Menos"
+      ],
+      "Version %1$s": [
+          "Verzió: %1$s",
+          "Version %1$s",
+          "Version %1$s",
+          "Versión %1$s"
+      ],
+      "%1$s downloads": [
+          "%1$s letöltés",
+          "%1$s Downloads",
+          "%1$s téléchargements",
+          "%1$s descargas"
+      ],
+      "Rate it!": [
+          "Értékelje!",
+          "Bewerten!",
+          "Donnez votre avis !",
+          "¡Puntúalo!"
+      ],
+      "My review": [
+          "Saját vélemények",
+          "Meine Erfahrungsberichte",
+          "Mon avis",
+          "Mi comentario"
+      ],
+      "Let others know what you think of this application.": [
+          "Hozza mások tudomására, mi a véleménye erről az alkalmazásról.",
+          "Geben Sie Ihre Erfahrungen mit dieser Anwendung weiter.",
+          "Donnez votre avis sur cette application.",
+          "Comparte tu opinión sobre la aplicación con otros usuarios."
+      ],
+      "Unrated": [
+          "Nincs értékelve",
+          "Nicht bewertet",
+          "Aucune classification",
+          "Sin puntuar"
+      ],
+      "Poor": [
+          "Gyenge",
+          "Schwach",
+          "Médiocre",
+          "Mala"
+      ],
+      "Below average": [
+          "Átlag alatti",
+          "Unterdurchschnittlich",
+          "Peu satisfaisant",
+          "Inferior al promedio"
+      ],
+      "Average": [
+          "Átlagos",
+          "Durchschnittlich",
+          "Moyen",
+          "Normal"
+      ],
+      "Above average": [
+          "Átlag feletti",
+          "Überdurchschnittlich",
+          "Très satisfaisant",
+          "Superior a la media"
+      ],
+      "Excellent!": [
+          "Kiváló!",
+          "Ausgezeichnet!",
+          "Excellent !",
+          "Excelente"
+      ],
+      "Allow automatic updating": [
+          "Automatikus frissítés engedélyezése",
+          "Automatische Updates zulassen",
+          "Autoriser la mise à jour automatique",
+          "Actualizaciones automáticas"
+      ],
+      "Reviews": [
+          "Vélemények",
+          "Erfahrungsberichte",
+          "Avis",
+          "Comentarios"
+      ],
+      "The most recent reviews are shown here, touch More below to read all reviews.": [
+          "A legutóbbi értékelések láthatók itt. Az összes értékelés elolvasásához érintse meg a További gombot.",
+          "Hier werden die neuesten Beurteilungen angezeigt. Tippen Sie unten auf \"Mehr\", um alle Beurteilungen zu lesen.",
+          "Les avis les plus récents sont affichés ici. Appuyez sur Plus ci-dessous pour lire tous les avis.",
+          "En esta página se muestran los comentarios más recientes. Toca la opción \"Más\" que aparece a continuación para leer todos los comentarios."
+      ],
+      "Related": [
+          "Kapcsolódó",
+          "Ähnliche",
+          "Voir aussi",
+          "Relacionados"
+      ],
+      "The most relevant applications are shown here. Touch More below to see all related applications.": [
+          "Itt a legrelevánsabb alkalmazások láthatók. Érintse meg a További gombot az összes kapcsolódó alkalmazás megtekintéséhez.",
+          "Hier werden die relevantesten Anwendungen angezeigt. Tippen Sie unten auf \"Mehr\", um alle ähnlichen Anwendungen zu sehen.",
+          "Les applications les plus utiles sont affichées ici. Appuyez sur Plus ci-dessous pour voir la liste de toutes les applications associées.",
+          "Las aplicaciones más importantes se muestran en esta página. Toca la opción \"Más\" situada debajo para ver todas las aplicaciones relacionadas."
+      ],
+      "Developer Info": [
+          "Fejlesztői információk",
+          "Entwickler-Informationen",
+          "Infos sur le développeur",
+          "Información para desarrolladores"
+      ],
+      "Learn more about the creator and designer.": [
+          "További információk a fejlesztőről és a tervezőről.",
+          "Weitere Informationen zum Entwickler und Designer",
+          "En savoir plus sur le créateur et le concepteur",
+          "Más información sobre el creador y el diseñador"
+      ],
+      "Sharing": [
+          "Megosztás",
+          "Freigabe",
+          "Partage",
+          "Uso compartido"
+      ],
+      "Let your friends know about this application.": [
+          "Ismertesse meg ismerőseivel is ezt az alkalmazást.",
+          "Geben Sie Ihre Erfahrungen mit dieser Anwendung an Ihre Freunde weiter.",
+          "Faites découvrir cette application à vos amis.",
+          "Informa a tus amigos sobre esta aplicación."
+      ],
+      "Market content": [
+          "Market-tartalom",
+          "Market-Content",
+          "Contenu Android Market",
+          "Contenido de Market"
+      ],
+      "A chance to give us some feedback.": [
+          "Visszajelzést küldhet nekünk.",
+          "Geben Sie uns Feedback.",
+          "Laissez-nous un commentaire.",
+          "Una oportunidad para enviarnos tus comentarios"
+      ],
+      "Flag as inappropriate": [
+          "Megjelölés nem megfelelőként",
+          "Als unangemessen kennzeichnen",
+          "Signaler du contenu pouvant offenser",
+          "Marcar como inadecuado"
+      ],
+      "Currently downloading": [
+          "Jelenlegi letöltések",
+          "Aktuelle Downloads",
+          "En cours de téléchargement",
+          "Descargas en curso"
+      ],
+      "Downloads": [
+          "Letöltések",
+          "Downloads",
+          "Téléchargements",
+          "Descargas"
+      ],
+      "No downloads from Android Market.": [
+          "Nincsenek letöltések az Android Marketről.",
+          "Keine Downloads von Android Market",
+          "Aucun téléchargement depuis Android Market.",
+          "No hay descargas de Android Market."
+      ],
+      "Update all": [
+          "Összes frissítése",
+          "Alle aktualisieren",
+          "Tout mettre à jour",
+          "Actualizar todo"
+      ],
+      "Search": [
+          "Keresés",
+          "Suche",
+          "Rechercher",
+          "Buscar"
+      ],
+      "Settings": [
+          "Beállítások",
+          "Einstellungen",
+          "Paramètres",
+          "Ajustes"
+      ],
+      "settings": [
+          "beállítások",
+          "Einstellungen",
+          "paramètres",
+          "ajustes"
+      ],
+      "Help": [
+          "Súgó",
+          "Hilfe",
+          "Aide",
+          "Ayuda"
+      ],
+      "Home": [
+          "Otthoni",
+          "Startseite",
+          "Accueil",
+          "Inicio"
+      ],
+      "Security": [
+          "Biztonság",
+          "Sicherheit",
+          "Sécurité",
+          "Seguridad"
+      ],
+      "Clear my review": [
+          "Véleményem törlése",
+          "Meine Rezensionen löschen",
+          "Effacer mon avis",
+          "Borrar mi valoración"
+      ],
+      "Content filtering": [
+          "Tartalomszűrés",
+          "Filter für Inhalte",
+          "Filtrage du contenu",
+          "Filtrado de contenido"
+      ],
+      "Set the content filtering level to restrict applications that can be downloaded.": [
+          "Tartalomszűrő szintjének beállítása letölthető alkalmazások korlátozására.",
+          "Legen Sie die Inhaltsfilterung so fest, dass der Zugriff auf Anwendungen, die heruntergeladen werden können, beschränkt wird.",
+          "Définir le niveau de filtrage du contenu de manière à limiter les applications qui peuvent être téléchargées",
+          "Define el nivel de filtrado de contenido para restringir las aplicaciones que se pueden descargan."
+      ],
+      "Allow apps rated": [
+          "Értékelt alk. engedélyezése",
+          "Bewertete Apps zulassen",
+          "Autoriser app. classées",
+          "Aplicaciones clasificadas"
+      ],
+      "Show all apps": [
+          "Összes alkalmazást megjelenít",
+          "Alle Apps anzeigen",
+          "Afficher toutes applications",
+          "Mostrar todas las aplicaciones"
+      ],
+      "High maturity": [
+          "Érett korosztály",
+          "Hohe Stufe",
+          "Maturité élevée",
+          "Nivel de madurez alto"
+      ],
+      "Medium maturity": [
+          "Közepesen érett korosztály",
+          "Mittlere Stufe",
+          "Maturité moyenne",
+          "Nivel de madurez medio"
+      ],
+      "Low maturity": [
+          "Legfiatalabb korosztály",
+          "Niedrige Stufe",
+          "Maturité faible",
+          "Nivel de madurez bajo"
+      ],
+      "Everyone": [
+          "Mindenki",
+          "Alle Stufen",
+          "Tous",
+          "Todos los públicos"
+      ],
+      "Notifications": [
+          "Értesítések",
+          "Benachrichtigungen",
+          "Notifications",
+          "Notificaciones"
+      ],
+      "Choose whether to be notified if there are updates to apps or games that you have downloaded": [
+          "Döntse el, hogy kér-e értesítést a letöltött alkalmazásokhoz és játékokhoz kijött frissítésekről",
+          "Wählen Sie aus, ob Sie über Aktualisierungen der von Ihnen heruntergeladenen Apps oder Spiele informiert werden möchten.",
+          "Indiquez si vous souhaitez être informé lorsque des mises à jour sont disponibles pour les applications ou les jeux que vous avez téléchargés.",
+          "Elige si deseas que te informemos de las actualizaciones de aplicaciones o de los juegos que te has descargado."
+      ],
+      "Notify me": [
+          "Értesítést kérek",
+          "Mich benachrichtigen",
+          "M'informer",
+          "Informarme"
+      ],
+      "Do not notify me": [
+          "Nem kérek értesítést",
+          "Mich nicht benachrichtigen",
+          "Ne pas m'informer",
+          "No informarme"
+      ],
+      "No matching content in Android Market.": [
+          "Nincs megfelelő tartalom az Android Marketen.",
+          "Keine Treffer in Android Market.",
+          "Aucun contenu correspondant dans Android Market.",
+          "No se ha encontrado ningún contenido coincidente con la solicitud en Android Market."
+      ],
+      "No search results": [
+          "Eredménytelen keresés",
+          "Keine Suchergebnisse",
+          "Aucun résultat de recherche",
+          "Ningún resultado de búsqueda"
+      ],
+      "There are no matches in Android Market for the search: ^1": [
+          "Nincs találat az Android Marketen a következő keresésre: <b>^1</b>",
+          "Es wurden keine Treffer in Android Markt für folgende Suche gefunden: <b>^1</b>",
+          "Aucune correspondance dans Android Market pour la recherche : <b>^1</b>",
+          "No se ha encontrado en Android Market ningún resultado coincidente con la búsqueda: <b>^1</b>",
+          "There are no matches in Android Market for the search: <b>^1</b>"
+      ],
+      "Suggestions:": [
+          "Javaslatok:",
+          "Vorschläge:",
+          "Suggestions :",
+          "Sugerencias:"
+      ],
+      "Make sure all words are spelled correctly.": [
+          "Ellenőrizze, hogy az összes szót helyesen írta-e.",
+          "Überprüfen Sie, ob alle Wörter richtig geschrieben sind.",
+          "Vérifiez que tous les mots sont correctement orthographiés.",
+          "Asegúrate de que todas las palabras estén escritas correctamente."
+      ],
+      "Try different search words.": [
+          "Próbálkozzon más keresőszavakkal.",
+          "Versuchen Sie es mit anderen Suchbegriffen.",
+          "Essayez avec des termes de recherche différents.",
+          "Prueba diferentes palabras de búsqueda."
+      ],
+      "Try more general search words.": [
+          "Próbálkozzon általánosabb keresőszavakkal.",
+          "Versuchen Sie es mit allgemeineren Begriffen.",
+          "Essayez avec des termes de recherche plus généraux.",
+          "Prueba palabras de búsqueda más generales."
+      ],
+      "Uninstall application": [
+          "Alkalmazás eltávolítása",
+          "Anwendung deinstallieren",
+          "Désinstaller l'application",
+          "Desinstalar aplicación"
+      ],
+      "%1$s will be removed from this phone.": [
+          "%1$s el lesz távolítva erről a telefonról.\n\nEzt a tételt további költségek nélkül újratelepítheti a telefonjára.",
+          "%1$s wird von diesem Telefon entfernt.\n\nSie können dieses Element erneut kostenlos auf Ihrem Telefon installieren.",
+          "%1$s sera supprimé de ce téléphone.\n\nVous pourrez réinstaller cet élément sur votre téléphone sans frais supplémentaires.",
+          "%1$s se eliminará del teléfono.\n\nPodrás volver a instalar esta aplicación en el teléfono cuando lo desees sin coste alguno.",
+          "%1$s will be removed from this phone.\n\nThis item can be installed again on your phone at no charge."
+      ],
+      "Please tell us why you removed this item:": [
+          "Kérjük, árulja el, miért távolította el ezt az alkalmazást:",
+          "Bitte teilen Sie uns mit, warum Sie diese Anwendung entfernt haben:",
+          "Merci de nous indiquer la raison pour laquelle vous avez supprimé cet élément :",
+          "Indica el motivo por el que has eliminado este elemento:"
+      ],
+      "I don't use or want it.": [
+          "Nem használom/nincs rá szükségem.",
+          "Ich verwende oder möchte sie nicht.",
+          "Je ne l'utilise pas/ne veux pas l'utiliser.",
+          "No la utilizo o no me interesa."
+      ],
+      "I need more space on my phone.": [
+          "Több helyre van szükségem a telefonon.",
+          "Ich benötige mehr Speicherplatz auf meinem Telefon.",
+          "Je souhaite libérer de l'espace.",
+          "Necesito más espacio en el teléfono."
+      ],
+      "It's defective.": [
+          "Hibás.",
+          "Fehlerhaft",
+          "Il ne fonctionne pas correctement.",
+          "Es defectuosa."
+      ],
+      "It's malicious.": [
+          "Rosszindulatú.",
+          "Schädlich",
+          "Il s'agit d'une application malveillante.",
+          "Es una aplicación malintencionada."
+      ],
+      "I'd rather not say.": [
+          "Inkább nem mondom meg.",
+          "Möchte ich lieber nicht sagen.",
+          "Je préfère ne pas préciser mes raisons.",
+          "Prefiero no indicar el motivo."
+      ],
+      "Successfully installed.": [
+          "Sikeresen telepítve.",
+          "Erfolgreich installiert",
+          "Installation terminée.",
+          "La aplicación se ha instalado correctamente."
+      ],
+      "Network communication": [
+          "Hálózati kommunikáció",
+          "Netzwerkkommunikation",
+          "Communications réseau",
+          "Comunicación de red"
+      ],
+      "full Internet access": [
+          "teljes internet-hozzáférés",
+          "uneingeschränkter Internetzugriff",
+          "Accès Internet complet",
+          "acceso íntegro a Internet"
+      ],
+      "Hardware controls": [
+          "Hardver vezérlése",
+          "Hardware-Steuerelemente",
+          "Commandes du matériel",
+          "Controles de hardware"
+      ],
+      "control vibrator": [
+          "rezgés vezérlése",
+          "Vibrationsalarm steuern",
+          "Contrôle du vibreur",
+          "controlar vibración"
+      ],
+      "Storage": [
+          "Tárhely",
+          "Speicher",
+          "Stockage",
+          "Almacenamiento"
+      ],
+      "modify/delete SD card contents": [
+          "USB-tár tartalmának módosítása és törlése",
+          "USB-Speicherinhalt ändern/löschen",
+          "modif./suppr. contenu mémoire USB",
+          "modificar/borrar contenido USB",
+          "modify/delete USB storage contents"
+      ]
   };
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
-  const text = (lang, key) => (S[key] || [key])[Math.max(0, LANGS.indexOf(lang))] ?? key;
-  // Market 3 colour coding: green for apps and games, blue for books, red for movies.
-  const SECTIONS = [['apps', 'Apps', '#a4c639'], ['games', 'Games', '#8cba2e'], ['books', 'Books', '#3d8fd6'], ['movies', 'Movies', '#d8473e']];
-  const TABS = ['CATEGORIES', 'FEATURED', 'TOP PAID', 'TOP FREE', 'TOP GROSSING', 'TOP NEW PAID', 'TOP NEW FREE', 'TRENDING'];
-  // Books and movies of the period sections: public-domain classics and fictional films.
+  // The storefront itself (promo lines, category names) came from the server; "Unavailable" is the simulator's note.
+  const OWN = {
+    'Unavailable': ['Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+  };
+  const LANGS = ['hu', 'de', 'fr', 'es'];
+  const text = (lang, key) => {
+    const i = LANGS.indexOf(String(lang || 'en').slice(0, 2)), row = STRINGS[key] || OWN[key];
+    if (!row) return key;
+    return i >= 0 ? row[i] : STRINGS[key]?.[4] || key;
+  };
+  const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/\^(\d)/g, (_, n) => args[n - 1] ?? '');
+  const VERSION = '2.3.4';
+  const SECTIONS = [['apps', 'Apps'], ['games', 'Games']];
+  const TABS = ['Top paid', 'Top free', 'Just in'];
+  const CATEGORIES = {
+    apps: ['Books & Reference', 'Business', 'Comics', 'Communication', 'Entertainment', 'Finance', 'Health', 'Lifestyle', 'Multimedia', 'News & Weather', 'Productivity', 'Reference', 'Shopping', 'Social', 'Sports', 'Themes', 'Tools', 'Travel'],
+    games: ['Arcade & Action', 'Brain & Puzzle', 'Cards & Casino', 'Casual']
+  };
   const EXTRA = [
-    {id: 'lunar-golf', kind: 'games', art: 'golf', name: 'Lunar Golf', developer: 'Crater Games', rating: 4.4, price: '$0.99', size: '9.8MB', description: 'Eighteen holes in low gravity.'},
-    {id: 'pocket-planner', kind: 'apps', art: 'planner', name: 'Pocket Planner', developer: 'Quiet Tools', rating: 4.3, price: '$1.99', size: '1.6MB', description: 'Plan your week on one simple page.'},
-    {id: 'book-pride', kind: 'books', name: 'Pride and Prejudice', developer: 'Jane Austen', rating: 4.6, price: 'FREE', colors: ['#5d4a3a', '#c9b48a']},
-    {id: 'book-holmes', kind: 'books', name: 'The Adventures of Sherlock Holmes', developer: 'Arthur Conan Doyle', rating: 4.7, price: 'FREE', colors: ['#28323c', '#a7b4bd']},
-    {id: 'book-alice', kind: 'books', name: 'Alice\'s Adventures in Wonderland', developer: 'Lewis Carroll', rating: 4.5, price: 'FREE', colors: ['#3a5f8a', '#f0d48a']},
-    {id: 'movie-orbit', kind: 'movies', name: 'Orbit Hopper: The Movie', developer: 'Animation', rating: 4.1, price: '$3.99', colors: ['#141c3a', '#8f7fff']},
-    {id: 'movie-quiet', kind: 'movies', name: 'A Quiet Afternoon', developer: 'Drama', rating: 3.9, price: '$2.99', colors: ['#3a2a1c', '#e0a868']}
+    {id: 'lunar-golf', kind: 'games', category: 'Arcade & Action', art: 'golf', name: 'Lunar Golf', developer: 'Crater Games', rating: 4.4, price: '$0.99', size: '9.8 MB', description: 'Eighteen holes in low gravity.', colors: ['#0c1022', '#b9bfd0']},
+    {id: 'pocket-planner', kind: 'apps', category: 'Productivity', art: 'planner', name: 'Pocket Planner', developer: 'Quiet Tools', rating: 4.3, price: '$1.99', size: '1.6 MB', description: 'Plan your week on one simple page.', colors: ['#2a6fbd', '#e8453c']}
   ];
-  // The simulator's fictional apps; installed ones are the simulator's own (system) apps plus anything installed here.
-  const catalog = () => (window.ICSPlayStore?.catalog || []).map((item, i) => ({...item, kind: item.category === 'Games' ? 'games' : 'apps', price: 'FREE', downloads: ['10,000,000+', '1,000,000+', '500,000+', '100,000+'][i % 4], votes: 12000 + i * 4173, updated: ['September 21, 2011', 'September 2, 2011', 'August 18, 2011', 'July 30, 2011'][i % 4], plus: 120 + i * 37}));
-  const all = () => [...catalog(), ...EXTRA.map(item => ({downloads: '50,000+', votes: 812, plus: 46, updated: 'August 1, 2011', size: item.kind === 'books' ? '1.2MB' : '820MB', description: item.kind === 'books' ? 'A classic, free from Google eBooks.' : 'Rent and watch within 30 days.', ...item}))];
+  const CATEGORY = {Games: 'Arcade & Action', Photography: 'Multimedia', Communication: 'Communication', 'Music & audio': 'Multimedia', Productivity: 'Productivity', Tools: 'Tools'};
+  const catalog = () => (window.ICSPlayStore?.catalog || []).map((item, i) => ({...item, kind: item.category === 'Games' ? 'games' : 'apps', category: CATEGORY[item.category] || 'Tools', price: 'FREE', downloads: ['1,000,000 - 5,000,000', '100,000 - 500,000', '50,000 - 100,000', '10,000 - 50,000'][i % 4], votes: 1200 + i * 417, version: `1.${i}.${(i * 3) % 7}`, updated: ['Aug 2, 2011', 'Jul 21, 2011', 'Jun 14, 2011', 'May 30, 2011'][i % 4]}));
+  const all = () => [...catalog(), ...EXTRA.map(item => ({downloads: '5,000 - 10,000', votes: 81, version: '1.0', updated: 'Jul 9, 2011', ...item}))];
   const find = id => all().find(item => item.id === id);
   const installedState = (item, ctx) => item.app ? 'installed' : ctx.installed.includes(item.id) ? 'installed' : ctx.downloading === item.id ? ctx.phase : '';
+  // MarketRatingBarSmall: 14 dp stars (ic_market_star_*).
   const stars = rating => `<span class="gbmk-stars" aria-label="${rating}">${[1, 2, 3, 4, 5].map(n => `<i class="${rating >= n - .25 ? 'on' : rating >= n - .75 ? 'half' : ''}"></i>`).join('')}</span>`;
-  // Product art: the app icon, a drawn icon for the fictional apps, or a book / film cover in the item's colours.
   const ICONS = {
-    orbit: '<svg viewBox="0 0 48 48"><defs><radialGradient id="p" cx=".35" cy=".3"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#d0631e"/></radialGradient></defs><rect x="2" y="2" width="44" height="44" rx="9" fill="#152049"/><circle cx="12" cy="12" r="1" fill="#fff"/><circle cx="37" cy="9" r="1.2" fill="#fff"/><circle cx="38" cy="36" r=".9" fill="#fff"/><circle cx="24" cy="25" r="10" fill="url(#p)"/><ellipse cx="24" cy="25" rx="18" ry="5" fill="none" stroke="#9fd8ff" stroke-width="2.2" transform="rotate(-18 24 25)"/></svg>',
-    blocks: '<svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="9" fill="#2b2b2b"/><g stroke="#0006" stroke-width="1"><rect x="8" y="26" width="10" height="10" fill="#ff5a4e"/><rect x="18" y="26" width="10" height="10" fill="#ffc533"/><rect x="28" y="26" width="10" height="10" fill="#45c1ff"/><rect x="18" y="16" width="10" height="10" fill="#7bd448"/><rect x="28" y="16" width="10" height="10" fill="#b77bff"/><rect x="28" y="6" width="10" height="10" fill="#ff8bc4"/></g></svg>',
-    golf: '<svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="9" fill="#0c1022"/><circle cx="24" cy="40" r="20" fill="#b9bfd0"/><circle cx="17" cy="33" r="3" fill="#8e95aa"/><circle cx="31" cy="36" r="2" fill="#8e95aa"/><path d="M28 30V10l9 4-9 4" fill="#e04848" stroke="#ddd" stroke-width="1.2"/><circle cx="16" cy="24" r="2.4" fill="#fff"/></svg>',
-    planner: '<svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="9" fill="#2a6fbd"/><rect x="10" y="12" width="28" height="26" rx="2" fill="#fff"/><rect x="10" y="12" width="28" height="7" rx="2" fill="#e8453c"/><g fill="#9aa7b5"><rect x="14" y="23" width="5" height="4"/><rect x="21" y="23" width="5" height="4"/><rect x="28" y="23" width="5" height="4"/><rect x="14" y="30" width="5" height="4"/><rect x="21" y="30" width="5" height="4"/></g><path d="M28 31l3 3 6-7" fill="none" stroke="#3da543" stroke-width="2.4"/></svg>'
+    orbit: '<svg viewBox="0 0 48 48"><defs><radialGradient id="gm" cx=".35" cy=".3"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#d0631e"/></radialGradient></defs><rect x="2" y="2" width="44" height="44" rx="9" fill="#152049"/><circle cx="24" cy="24" r="10" fill="url(#gm)"/><ellipse cx="24" cy="24" rx="17" ry="5.5" fill="none" stroke="#9fd3ff" stroke-width="2.2" transform="rotate(-20 24 24)"/></svg>',
+    blocks: '<svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="9" fill="#2b2b2b"/><g stroke="#0006" stroke-width="1"><rect x="8" y="26" width="10" height="10" fill="#ff5a4e"/><rect x="18" y="26" width="10" height="10" fill="#ffc533"/><rect x="28" y="26" width="10" height="10" fill="#45c1ff"/><rect x="18" y="16" width="10" height="10" fill="#7bd448"/><rect x="28" y="16" width="10" height="10" fill="#b36cff"/></g></svg>',
+    golf: '<svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="9" fill="#0c1022"/><circle cx="24" cy="40" r="20" fill="#b9bfd0"/><path d="M28 30V10l9 4-9 4" fill="#e04848" stroke="#ddd" stroke-width="1.2"/><circle cx="16" cy="24" r="2.4" fill="#fff"/></svg>',
+    planner: '<svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="9" fill="#2a6fbd"/><rect x="10" y="12" width="28" height="26" rx="2" fill="#fff"/><rect x="10" y="12" width="28" height="7" rx="2" fill="#e8453c"/><path d="M27 33l3 3 6-7" fill="none" stroke="#2fa84f" stroke-width="2.4"/></svg>'
   };
-  const art = (item, cls = 'gbmk-icon') => item.app ? `<img class="${cls}" src="assets/${item.app}.png" alt="">`
-    : ICONS[item.art] ? `<i class="${cls} gbmk-svg" aria-hidden="true">${ICONS[item.art]}</i>`
-    : `<i class="${cls} gbmk-cover ${item.kind || ''}" style="--a:${(item.colors || ['#2f4f6f', '#8fc0e8'])[0]};--b:${(item.colors || ['#2f4f6f', '#8fc0e8'])[1]}" aria-hidden="true"><b>${e((item.name || '?').slice(0, 1))}</b></i>`;
+  const icon = (item, cls = 'gbmk-icon') => item.app ? `<img class="${cls}" src="assets/${item.app}.png" alt="">` : ICONS[item.art] ? `<i class="${cls} gbmk-svg" aria-hidden="true">${ICONS[item.art]}</i>` : `<i class="${cls}" aria-hidden="true"></i>`;
+  // A promo graphic (the server's 180 x 120 promo): the icon on its colours.
+  const promo = (item, cls = 'gbmk-promo') => `<span class="${cls}" style="--a:${(item.colors || ['#38511a', '#9fc33b'])[0]};--b:${(item.colors || ['#38511a', '#9fc33b'])[1]}">${icon(item, 'gbmk-promo-icon')}</span>`;
   const price = (item, ctx) => item.price === 'FREE' ? text(ctx.lang, 'FREE') : item.price;
-  const header = (ctx, title, back = true) => `<div class="gbmk-bar">${back ? '<button class="gbmk-up" data-action="back" aria-label="Back"><span>‹</span><img src="assets/play-store.svg?v=3" alt=""></button>' : '<span class="gbmk-up root"><img src="assets/play-store.svg?v=3" alt=""></span>'}${title ? `<b>${e(title)}</b>` : '<b></b>'}${ctx.share ? '<button class="gbmk-share" data-action="gbset-toast" data-id="Unavailable in this simulator" aria-label="Share"></button>' : ''}<button class="gbmk-search" data-action="gbmk-search" aria-label="${e(text(ctx.lang, 'Search Market'))}"></button></div>`;
+  const T = ctx => key => text(ctx.lang, key);
+  // The state shown by asset_common_info: Installed, Downloading, Installing… or the price.
+  const stateLabel = (item, ctx) => { const s = installedState(item, ctx), t = T(ctx); return s === 'installed' ? t('Installed') : s === 'downloading' ? t('Downloading') : s === 'installing' ? t('Installing…') : price(item, ctx); };
+
+  // velvet: the arc background (ArcPaintingUtils), slim_title on top. kind: 'home' (260 dp), 'fat' (240 dp),
+  // 'list' (168 dp), 'tabs' (74 dp) or 'flat' (SlimFlatView).
+  function arc(ctx, kind, title, inner = '', noTitle = false) {
+    const t = T(ctx), k = kind.replace(/\s+/g, '-');
+    const head = `<div class="gbmk-slim"><button class="gbmk-logo" data-action="gbmk-home" aria-label="${e(t('Market'))}"></button><b>${e(title)}</b><i class="gbmk-divider"></i><button class="gbmk-search-btn" data-action="gbmk-search" aria-label="${e(t('Search'))}"></button></div>`;
+    return `<div class="gbmk-arc ${kind}"><svg class="gbmk-arc-bg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="gbmk-g1-${k}" x1="0" y1="1" x2="1" y2=".5"><stop offset="0" stop-color="#465D00"/><stop offset=".3" stop-color="#80A600"/><stop offset=".7" stop-color="#80A600"/><stop offset="1" stop-color="#709000"/></linearGradient><linearGradient id="gbmk-g2-${k}" x1="0" y1="0" x2=".65" y2=".75"><stop offset="0" stop-color="#709000"/><stop offset="1" stop-color="#90B000"/></linearGradient><linearGradient id="gbmk-g3-${k}" x1="0" y1="0" x2=".25" y2=".3"><stop offset="0" stop-color="#709000"/><stop offset="1" stop-color="#99C000"/></linearGradient><linearGradient id="gbmk-h-${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A5D300"/><stop offset="1" stop-color="#9FC000"/></linearGradient></defs><rect width="100" height="100" fill="url(#gbmk-g1-${k})"/><path d="M0 50C35 75 65 75 100 60V0H0z" fill="url(#gbmk-g2-${k})" opacity=".55"/><path d="M0 25C25 5 50 5 100 30V0H0z" fill="url(#gbmk-g3-${k})" opacity=".5"/>${kind === 'flat' ? '' : `<path d="M0 ${kind === 'tabs' ? 100 : 92}Q50 ${kind === 'tabs' ? 100 : 78} 100 ${kind === 'tabs' ? 100 : 92}" stroke="url(#gbmk-h-${k})" stroke-width="2.5" fill="none"/>`}</svg>${noTitle ? '' : head}${inner}</div>`;
+  }
+  const view = (cls, body) => `<div class="app-view gbmk ${cls}" data-no-translate>${body}</div>`;
+  // asset_list_snippet: the 48 dp icon, bold title, author, the price or state and the rating on the right.
+  const row = (item, ctx) => `<button class="gbmk-row" data-action="gbmk-detail" data-id="${e(item.id)}">${icon(item)}<span class="gbmk-row-copy"><b>${e(item.name)}</b><small>${e(item.developer)}</small></span><span class="gbmk-row-side"><em>${e(stateLabel(item, ctx))}</em>${stars(item.rating)}</span></button>`;
 
   function home(ctx) {
-    const T = key => text(ctx.lang, key), items = all(), promo = items.find(i => i.id === 'orbit') || items[0];
-    const featured = [items.find(i => i.id === 'blocks'), EXTRA[1], EXTRA[3], items.find(i => i.id === 'camera')].filter(Boolean).map(i => find(i.id));
-    const tiles = SECTIONS.map(([id, label, color]) => `<button class="gbmk-tile ${id}" style="--c:${color}" data-action="gbmk-section" data-id="${id}"><b>${e(T(label))}</b><i class="gbmk-mark ${id}"></i><small>${e(T('see more'))} ›</small></button>`).join('');
-    const cards = featured.map(item => `<button class="gbmk-card" style="--c:${SECTIONS.find(s => s[0] === item.kind)?.[2] || '#a4c639'}" data-action="gbmk-detail" data-id="${e(item.id)}">${art(item, 'gbmk-card-art')}<span><b>${e(item.name)}</b><small>${e(item.developer)}</small><span class="gbmk-card-foot">${stars(item.rating)}<em>${e(price(item, ctx))}</em></span></span></button>`).join('');
-    return `<div class="app-view gbmk gbmk-home" data-no-translate>${header(ctx, T('Market'), false)}<div class="gbmk-scroll"><button class="gbmk-promo" data-action="gbmk-detail" data-id="${e(promo.id)}" style="--a:#0e1630;--b:#4a64c8"><span class="gbmk-promo-stars"></span><b>${e(promo.name)}</b><small>${e(promo.description || '')}</small></button><div class="gbmk-columns"><div class="gbmk-tiles">${tiles}</div><div class="gbmk-cards">${cards}</div></div></div></div>`;
+    const t = T(ctx), items = all().filter(item => !item.app), featured = all().filter(item => item.kind === 'apps' || item.kind === 'games');
+    const index = Math.max(0, Math.min(items.length - 1, ctx.carousel || 0)), cur = items[index];
+    const tiles = items.map((item, i) => { const d = i - index; return Math.abs(d) > 2 ? '' : `<button class="gbmk-car-tile d${d < 0 ? 'm' : 'p'}${Math.abs(d)}" data-action="${d ? 'gbmk-carousel' : 'gbmk-detail'}" data-id="${d ? i : e(item.id)}">${promo(item)}</button>`; }).join('');
+    const nav = [['gbmk-section', 'apps', 'apps', 'Apps'], ['gbmk-section', 'games', 'games', 'Games'], ['gbmk-my-apps', '', 'downloads', 'My apps']];
+    const inner = `<div class="gbmk-carousel">${tiles}</div><div class="gbmk-car-snippet"><b>${e(cur?.name || '')}</b>${stars(cur?.rating || 0)}<em>${e(cur ? stateLabel(cur, ctx) : '')}</em></div><div class="gbmk-nav">${nav.map(([action, id, ic, label]) => `<button data-action="${action}"${id ? ` data-id="${id}"` : ''}><i class="${ic}"></i><span>${e(t(label))}</span></button>`).join('')}</div>`;
+    return view('gbmk-home', `<div class="gbmk-scroll">${arc(ctx, 'home', t('Android Market'), inner)}<h3 class="gbmk-featured">${e(t('Featured'))}</h3><div class="gbmk-list">${featured.map(item => row(item, ctx)).join('')}</div></div>`);
   }
-  // A section with the ViewPager tab strip (the current tab centred, its neighbours at the edges).
+  // CategoriesWithAppsListActivity: the 168 dp arc with the carousel snippet, the categories with their featured apps.
   function section(ctx) {
-    const T = key => text(ctx.lang, key), [id, label, color] = SECTIONS.find(s => s[0] === ctx.section) || SECTIONS[0];
-    const tabs = id === 'apps' || id === 'games' ? TABS : TABS.filter(t => t !== 'TOP GROSSING' && t !== 'TOP NEW PAID' && t !== 'TOP NEW FREE' && t !== 'TRENDING');
-    const tab = tabs.includes(ctx.tab) ? ctx.tab : 'FEATURED', i = tabs.indexOf(tab);
-    const strip = `<div class="gbmk-tabs" style="--c:${color}" data-gbmk-swipe><button data-action="gbmk-tab" data-id="${e(tabs[i - 1] || '')}"${i ? '' : ' disabled'}>${i ? e(T(tabs[i - 1])) : ''}</button><b>${e(T(tab))}</b><button data-action="gbmk-tab" data-id="${e(tabs[i + 1] || '')}"${i < tabs.length - 1 ? '' : ' disabled'}>${i < tabs.length - 1 ? e(T(tabs[i + 1])) : ''}</button></div>`;
-    const items = all().filter(item => item.kind === id);
-    let body;
-    if (tab === 'CATEGORIES') {
-      const cats = id === 'games' ? ['Arcade & Action', 'Brain & Puzzle', 'Cards & Casino', 'Casual', 'Racing', 'Sports Games'] : id === 'apps' ? ['Books & Reference', 'Business', 'Communication', 'Entertainment', 'Music & Audio', 'Photography', 'Productivity', 'Tools'] : id === 'books' ? ['Fiction', 'Classics', 'Mystery'] : ['Animation', 'Drama', 'Family'];
-      body = `<div class="gbmk-list">${cats.map(c => `<button class="gbmk-cat" data-action="gbmk-tab" data-id="TOP FREE">${e(c)}</button>`).join('')}</div>`;
-    } else if (tab === 'FEATURED') {
-      const lead = items[0], rest = items.slice(1, 5);
-      body = lead ? `<div class="gbmk-featured"><button class="gbmk-banner" data-action="gbmk-detail" data-id="${e(lead.id)}" style="--a:${(lead.colors || ['#13301a'])[0]};--b:${color}">${art(lead, 'gbmk-banner-art')}<b>${e(lead.name)}</b></button><div class="gbmk-grid">${rest.map(item => `<button class="gbmk-gridtile" data-action="gbmk-detail" data-id="${e(item.id)}">${art(item, 'gbmk-tile-art')}<span><b>${e(item.name)}</b>${stars(item.rating)}</span></button>`).join('')}<button class="gbmk-gridtile pick" style="--c:${color}" data-action="gbmk-tab" data-id="TOP FREE"><b>${e(T('TOP FREE'))}</b><i class="gbmk-mark ${id}"></i></button></div></div>` : '';
-    } else {
-      const sorted = [...items].sort((a, b) => tab === 'TRENDING' ? a.name.localeCompare(b.name) : b.rating - a.rating).filter(item => tab.includes('PAID') ? item.price !== 'FREE' : tab.includes('FREE') ? item.price === 'FREE' : true);
-      body = sorted.length ? `<div class="gbmk-list">${sorted.map(item => row(item, ctx)).join('')}</div>` : `<p class="gbmk-empty">${e(T('No results'))}</p>`;
-    }
-    return `<div class="app-view gbmk" data-no-translate>${header(ctx, T(label))}${strip}<div class="gbmk-scroll">${body}</div></div>`;
+    const t = T(ctx), id = ctx.section === 'games' ? 'games' : 'apps', label = id === 'games' ? 'Games' : 'Apps', items = all().filter(item => item.kind === id);
+    const lead = items.find(item => !item.app) || items[0];
+    const inner = lead ? `<button class="gbmk-car-snippet small" data-action="gbmk-detail" data-id="${e(lead.id)}"><b>${e(lead.name)}</b>${stars(lead.rating)}<em>${e(stateLabel(lead, ctx))}</em></button>` : '';
+    const cats = CATEGORIES[id].map(name => { const apps = items.filter(item => item.category === name); return `<button class="gbmk-cat" data-action="gbmk-category" data-id="${e(id + ':' + name)}"><b>${e(name)}</b><small>${e(apps.map(item => item.name).join(', '))}</small></button>`; }).join('');
+    return view('gbmk-section', `<div class="gbmk-scroll">${arc(ctx, 'list', t(label), inner)}<div class="gbmk-list">${cats}</div></div>`);
   }
-  // List rows: icon, bold title, developer, stars and the price (or INSTALLED).
-  function row(item, ctx) {
-    const state = installedState(item, ctx);
-    return `<button class="gbmk-row" data-action="gbmk-detail" data-id="${e(item.id)}">${art(item)}<span class="gbmk-row-copy"><b>${e(item.name)}</b><small>${e(item.developer)}</small>${stars(item.rating)}</span><em class="${state === 'installed' ? 'installed' : ''}">${e(state === 'installed' ? text(ctx.lang, 'INSTALLED') : price(item, ctx))}</em></button>`;
+  // carousel_tabbed_app_browser: the 74 dp arc with the radio tabs, the list of the chosen tab.
+  function category(ctx) {
+    const t = T(ctx), [kind, name] = String(ctx.category || 'apps:').split(':'), tab = TABS.includes(ctx.tab) ? ctx.tab : 'Top paid';
+    let items = all().filter(item => item.kind === kind && (!name || item.category === name));
+    items = tab === 'Top paid' ? items.filter(item => item.price !== 'FREE') : tab === 'Top free' ? items.filter(item => item.price === 'FREE') : [...items].reverse();
+    const tabs = `<div class="gbmk-tabs">${TABS.map(id => `<button class="${id === tab ? 'on' : ''}" data-action="gbmk-tab" data-id="${e(id)}">${e(t(id))}</button>`).join('')}</div>`;
+    return view('gbmk-category', `${arc(ctx, 'tabs', name || t(kind === 'games' ? 'Games' : 'Apps'), tabs)}<div class="gbmk-scroll"><div class="gbmk-list">${items.length ? items.map(item => row(item, ctx)).join('') : `<p class="gbmk-empty">${e(t('No matching content in Android Market.'))}</p>`}</div></div>`);
   }
+  const REVIEWS = [
+    {author: 'Joseph', date: 'August 4, 2011', stars: 5, text: 'Exactly what I was looking for. Works great on my Nexus S.'},
+    {author: 'Maria', date: 'July 23, 2011', stars: 4, text: 'Simple and pretty. Does what it says.'}
+  ];
+  // asset_info_section_header (details_header_gradient): the bold label and its line.
+  const sectionHead = (title, line, action, id) => `<button class="gbmk-sec" data-action="${action || 'gbmk-noop'}"${id ? ` data-id="${e(id)}"` : ''}><b>${e(title)}</b>${line ? `<small>${e(line)}</small>` : ''}</button>`;
   function detail(ctx) {
-    const T = key => text(ctx.lang, key), item = find(ctx.selected);
+    const t = T(ctx), item = find(ctx.selected);
     if (!item) return home(ctx);
     const state = installedState(item, ctx);
-    let actions;
-    if (state === 'installed') actions = `<div class="gbmk-actions"><button data-action="gbmk-open" data-id="${e(item.id)}">${e(T('Open'))}</button><button data-action="gbmk-uninstall" data-id="${e(item.id)}"${item.app ? ' disabled' : ''}>${e(T('Uninstall'))}</button></div>`;
-    else if (state === 'downloading' || state === 'installing') actions = `<div class="gbmk-actions progress"><div><span>${e(T(state === 'installing' ? 'Installing…' : 'Downloading…'))}</span><i class="gbmk-progress"><b style="width:${state === 'installing' ? 100 : Math.round(ctx.progress * 100)}%"></b></i></div><button data-action="gbmk-cancel">${e(T('Cancel'))}</button></div>`;
-    else actions = '';
-    const priceButton = state ? '' : `<button class="gbmk-price" data-action="gbmk-buy" data-id="${e(item.id)}">${e(price(item, ctx))}</button>`;
-    const shots = [0, 1, 2].map(n => `<span class="gbmk-shot n${n}" style="--a:${(item.colors || ['#2a3a4a', '#a4c639'])[0]};--b:${(item.colors || ['#2a3a4a', '#a4c639'])[1]}">${art(item, 'gbmk-shot-art')}</span>`).join('');
-    return `<div class="app-view gbmk gbmk-detail" data-no-translate>${header({...ctx, share: true}, '')}<div class="gbmk-scroll">
-      <div class="gbmk-head">${art(item, 'gbmk-head-art')}<span><b>${e(item.name)}</b><small>${e(item.developer.toUpperCase())}</small></span>${priceButton}</div>
-      ${actions ? `<i class="gbmk-rule"></i>${actions}<i class="gbmk-rule"></i>` : '<i class="gbmk-rule"></i>'}
-      <div class="gbmk-shots" data-gbmk-shots>${shots}</div>
-      <div class="gbmk-info"><div class="gbmk-info-row"><span>${stars(item.rating)} <small>${item.votes.toLocaleString(ctx.locale)}</small></span><span>${e(item.updated)}</span></div><div class="gbmk-info-row"><span>${e(item.downloads)} ${e(T('downloads'))}</span><span>${e(T('Size'))}: ${e(item.size || '')}</span></div>
-      <div class="gbmk-plus"><button data-action="gbmk-plus" data-id="${e(item.id)}" class="${ctx.plussed.includes(item.id) ? 'on' : ''}">+1</button><span>${item.plus + (ctx.plussed.includes(item.id) ? 1 : 0)} ${e(T('people +1\'d this'))}</span></div>
-      ${state === 'installed' && !item.app ? `<label class="gbmk-auto"><input type="checkbox" data-gbmk-auto="${e(item.id)}"${ctx.autoUpdate.includes(item.id) ? ' checked' : ''}><span>${e(T('Allow automatic updating'))}</span></label>` : ''}
-      <div class="gbmk-desc"><h4>${e(T('DESCRIPTION'))}</h4><p>${e(item.description || '')}</p></div></div></div></div>`;
+    let buttons;
+    if (state === 'installed') buttons = `<button class="gbmk-fat-btn" data-action="gbmk-open" data-id="${e(item.id)}">${e(t('Open'))}</button><i></i><button class="gbmk-fat-btn" data-action="gbmk-uninstall-page" data-id="${e(item.id)}"${item.app ? ' disabled' : ''}>${e(t('Uninstall'))}</button>`;
+    else if (state === 'downloading' || state === 'installing') buttons = `<span class="gbmk-fat-label">${e(t(state === 'installing' ? 'Installing…' : 'Downloading'))}</span><button class="gbmk-fat-btn" data-action="gbmk-cancel">${e(t('Cancel'))}</button>`;
+    else buttons = `<button class="gbmk-fat-btn" data-action="gbmk-buy" data-id="${e(item.id)}">${e(item.price === 'FREE' ? t('Install') : `${t('Buy')} ${item.price}`)}</button>`;
+    const fat = `<div class="gbmk-fat">${promo(item, 'gbmk-fat-promo')}<b class="gbmk-fat-title">${e(item.name)}</b><small class="gbmk-fat-author">${e(item.developer)}</small><div class="gbmk-fat-side">${buttons}<i></i>${stars(item.rating)}</div></div>`;
+    const progress = state === 'downloading' || state === 'installing' ? `<div class="gbmk-progress-sec"><i class="gbmk-progress"><b style="width:${state === 'installing' ? 100 : Math.round(ctx.progress * 100)}%"></b></i><small>${e(state === 'installing' ? t('Installing…') : fmt(t('Downloading…')))}</small></div>` : '';
+    const rated = ctx.rated?.[item.id] || 0;
+    const review = state === 'installed' && !item.app ? `<button class="gbmk-myreview" data-action="gbmk-rate"><span class="gbmk-stars big">${[1, 2, 3, 4, 5].map(n => `<i class="${n <= rated ? 'on' : ''}"></i>`).join('')}</span><small>${e(t('Rate it!'))}</small></button>` : '';
+    const auto = state === 'installed' && !item.app ? `<label class="gbmk-auto"><span>${e(t('Allow automatic updating'))}</span><input type="checkbox" data-gbmk-auto="${e(item.id)}"${ctx.autoUpdate.includes(item.id) ? ' checked' : ''}><img src="assets/gb-btn_check_${ctx.autoUpdate.includes(item.id) ? 'on' : 'off'}.png" alt=""></label>` : '';
+    const desc = `<div class="gbmk-desc"><div class="gbmk-desc-head"><b>${e(t('Description'))}</b><p>${e(item.description || '')}</p></div><div class="gbmk-more"><i></i><button data-action="gbmk-noop">${e(t('More'))}</button></div><p class="gbmk-meta">${e(fmt(t('Version %1$s'), item.version || '1.0'))} · ${e(item.size || '')}</p><p class="gbmk-meta">${e(fmt(t('%1$s downloads'), item.downloads))}</p><div class="gbmk-shots">${[0, 1].map(n => `<span class="gbmk-shot n${n}" style="--a:${(item.colors || ['#2a3a4a', '#9fc33b'])[0]};--b:${(item.colors || ['#2a3a4a', '#9fc33b'])[1]}">${icon(item, 'gbmk-shot-icon')}</span>`).join('')}</div></div>`;
+    const groups = item.kind === 'games' ? [['Network communication', 'full Internet access'], ['Hardware controls', 'control vibrator']] : [['Network communication', 'full Internet access'], ['Storage', 'modify/delete SD card contents']];
+    const perms = `<div class="gbmk-perms"><p>${e(t('Allow this application to access:'))}</p><p>${groups.map(([g, p]) => `${e(t(g))} – ${e(t(p))}`).join('<br>')}</p><div class="gbmk-more light"><i></i><button data-action="gbmk-noop">${e(t('More'))}</button></div></div>`;
+    const comments = `${sectionHead(t('Reviews'), t('The most recent reviews are shown here, touch More below to read all reviews.'))}${REVIEWS.map(r => `<div class="gbmk-comment"><div><b>${e(r.author)}</b><small>${e(r.date)}</small>${stars(r.stars)}</div><p>${e(r.text)}</p></div>`).join('')}`;
+    const related = all().filter(x => x.kind === item.kind && x.id !== item.id).slice(0, 2);
+    const similar = `${sectionHead(t('Related'), t('The most relevant applications are shown here. Touch More below to see all related applications.'))}<div class="gbmk-list">${related.map(x => row(x, ctx)).join('')}</div>`;
+    const more = `${sectionHead(t('Developer Info'), t('Learn more about the creator and designer.'), 'gbmk-unavailable')}${sectionHead(t('Sharing'), t('Let your friends know about this application.'), 'gbmk-unavailable')}${sectionHead(t('Market content'), t('A chance to give us some feedback.'), 'gbmk-unavailable')}`;
+    return view('gbmk-detail', `<div class="gbmk-scroll">${arc(ctx, 'fat', t('Market'), fat)}${progress}${review}${auto}${desc}${perms}${comments}${similar}${more}</div>`);
   }
-  // The permissions screen of the purchase flow.
+  // confirm_permissions: the asset snippet (SlimFlatView), "Allow this application to access:" and the groups with the
+  // ic_bullet_key_permission bullet, OK / Cancel on bottombar_portrait_565.
+  const snippet = (item, ctx) => arc(ctx, 'flat snippet', '', `<div class="gbmk-snippet">${icon(item, 'gbmk-snip-icon')}<span><b>${e(item.name)}</b><small>${e(item.developer)}</small></span><span class="gbmk-snip-side"><em>${e(stateLabel(item, ctx))}</em>${stars(item.rating)}</span></div>`, true);
   function permissions(ctx) {
-    const T = key => text(ctx.lang, key), item = find(ctx.selected);
-    const groups = item.kind === 'games' ? [['Network communication', 'full Internet access'], ['Hardware controls', 'control vibrator']] : [['Network communication', 'full Internet access'], ['Storage', 'modify/delete USB storage contents']];
-    return `<div class="app-view gbmk gbmk-perms" data-no-translate>${header(ctx, '')}<div class="gbmk-head">${art(item, 'gbmk-head-art')}<span><b>${e(item.name)}</b><small>${e(item.developer.toUpperCase())}</small></span></div><i class="gbmk-rule"></i><div class="gbmk-scroll"><p class="gbmk-perm-intro">${e(T('Permissions'))}</p>${groups.map(([g, d]) => `<div class="gbmk-perm"><img src="assets/gb-ic_bullet_key_permission.png" alt=""><span><b>${e(g)}</b><small>${e(d)}</small></span></div>`).join('')}</div><div class="gbmk-accept"><button data-action="gbmk-accept" data-id="${e(item.id)}">${e(T('Accept & download'))}</button></div></div>`;
+    const t = T(ctx), item = find(ctx.selected);
+    if (!item) return home(ctx);
+    const groups = item.kind === 'games' ? [['Network communication', 'full Internet access'], ['Hardware controls', 'control vibrator']] : [['Network communication', 'full Internet access'], ['Storage', 'modify/delete SD card contents']];
+    return view('gbmk-perms-page', `${snippet(item, ctx)}<div class="gbmk-scroll gbmk-shadow"><p class="gbmk-perm-intro">${e(t('Allow this application to access:'))}</p>${groups.map(([g, p]) => `<div class="gbmk-perm"><i></i><span><b>${e(t(g))}</b><small>${e(t(p))}</small></span></div>`).join('')}</div><div class="gbmk-bottombar"><button data-action="gbmk-accept" data-id="${e(item.id)}">${e(t('OK'))}</button><button data-action="back">${e(t('Cancel'))}</button></div>`);
   }
+  // UninstallActivity: the snippet, the reasons (uninstall_reason_*) and the button on bottombar_portrait_565.
+  function uninstallPage(ctx) {
+    const t = T(ctx), item = find(ctx.selected);
+    if (!item) return home(ctx);
+    const reasons = ["I don't use or want it.", 'I need more space on my phone.', "It's defective.", "It's malicious.", "I'd rather not say."];
+    const pick = ctx.reason ?? 4;
+    return view('gbmk-uninstall', `${snippet(item, ctx)}<div class="gbmk-scroll gbmk-shadow"><p class="gbmk-perm-intro">${e(t('Please tell us why you removed this item:'))}</p>${reasons.map((r, i) => `<button class="gbmk-reason" data-action="gbmk-reason" data-id="${i}" role="radio" aria-checked="${i === pick}"><img src="assets/gb-btn_radio_${i === pick ? 'on' : 'off'}.png" alt=""><span>${e(t(r))}</span></button>`).join('')}</div><div class="gbmk-bottombar"><button data-action="gbmk-uninstall" data-id="${e(item.id)}">${e(t('OK'))}</button></div>`);
+  }
+  // my_downloads_activity: SlimFlatView, "Currently downloading" and "Downloads" (section headers on #D0D0D0), Update all.
   function myApps(ctx) {
-    const items = all().filter(item => installedState(item, ctx) === 'installed');
-    return `<div class="app-view gbmk" data-no-translate>${header(ctx, text(ctx.lang, 'My apps'))}<div class="gbmk-scroll"><div class="gbmk-list">${items.map(item => row(item, ctx)).join('')}</div></div></div>`;
+    const t = T(ctx), items = all().filter(item => !item.app && installedState(item, ctx) === 'installed').sort((a, b) => a.name.localeCompare(b.name));
+    const dl = ctx.downloading ? find(ctx.downloading) : null;
+    const body = (dl ? `<h3 class="gbmk-head">${e(t('Currently downloading'))}</h3><div class="gbmk-list">${row(dl, ctx)}</div>` : '') + (items.length ? `<h3 class="gbmk-head">${e(t('Downloads'))}</h3><div class="gbmk-list">${items.map(item => row(item, ctx)).join('')}</div>` : '');
+    return view('gbmk-myapps', `${arc(ctx, 'flat', t('My apps'))}<div class="gbmk-scroll gbmk-shadow">${body || `<p class="gbmk-empty">${e(t('No downloads from Android Market.'))}</p>`}</div>`);
   }
   function search(ctx) {
-    const q = String(ctx.query || '').trim().toLocaleLowerCase(ctx.locale), items = q ? all().filter(item => `${item.name} ${item.developer}`.toLocaleLowerCase(ctx.locale).includes(q)) : [];
-    return `<div class="app-view gbmk" data-no-translate>${header(ctx, `"${ctx.query || ''}"`)}<div class="gbmk-scroll">${items.length ? `<div class="gbmk-list">${items.map(item => row(item, ctx)).join('')}</div>` : `<p class="gbmk-empty">${e(text(ctx.lang, 'No results'))}</p>`}</div></div>`;
+    const t = T(ctx), q = String(ctx.query || '').trim(), lq = q.toLocaleLowerCase(ctx.locale), items = q ? all().filter(item => `${item.name} ${item.developer}`.toLocaleLowerCase(ctx.locale).includes(lq)) : [];
+    const none = `<div class="gbmk-noresults"><p>${e(fmt(t('There are no matches in Android Market for the search: ^1'), q).replace(/<[^>]*>/g, ''))}</p><b>${e(t('Suggestions:'))}</b>${['Make sure all words are spelled correctly.', 'Try different search words.', 'Try more general search words.'].map(s => `<p>${e(t(s))}</p>`).join('')}</div>`;
+    return view('gbmk-results', `${arc(ctx, 'flat', q)}<div class="gbmk-scroll gbmk-shadow">${items.length ? `<div class="gbmk-list">${items.map(item => row(item, ctx)).join('')}</div>` : none}</div>`);
   }
-  // Settings (Android Police, Market 3.1.3): Notifications, Clear search history, User controls.
+  // settings_activity: Content filtering (the lock button and "Allow apps rated"), Notifications with its spinner.
   function settings(ctx) {
-    const T = key => text(ctx.lang, key), s = ctx.prefs;
-    const chk = (key, title, summary) => `<button class="gbset-row" data-action="gbmk-pref" data-id="${key}" role="checkbox" aria-checked="${!!s[key]}"><span class="gbset-text"><span class="gbset-title">${e(T(title))}</span><span class="gbset-sum">${e(T(summary))}</span></span><img class="gbset-check" src="assets/gb-btn_check_${s[key] ? 'on' : 'off'}.png" alt=""></button>`;
-    return `<div class="app-view gbset gbmk-settings" data-no-translate>${header(ctx, T('Settings'))}<div class="gbmk-scroll">${chk('notify', 'Notifications', 'Notifications summary')}<button class="gbset-row" data-action="gbmk-clear-history"><span class="gbset-text"><span class="gbset-title">${e(T('Clear search history'))}</span><span class="gbset-sum">${e(T('Clear search history summary'))}</span></span></button><div class="gbset-cat">${e(T('User controls'))}</div><button class="gbset-row" data-action="gbset-toast" data-id="Unavailable in this simulator"><span class="gbset-text"><span class="gbset-title">${e(T('Content filtering'))}</span><span class="gbset-sum">${e(T('Content filtering summary'))}</span></span></button>${chk('pin', 'Use PIN for purchases', 'Use PIN summary')}</div></div>`;
+    const t = T(ctx), s = ctx.prefs;
+    return view('gbmk-settings', `${arc(ctx, 'flat', t('settings'))}<div class="gbmk-scroll gbmk-shadow"><h3 class="gbmk-head">${e(t('Content filtering'))}</h3><p class="gbmk-set-text">${e(t('Set the content filtering level to restrict applications that can be downloaded.'))}</p><div class="gbmk-filter"><button class="gbmk-lock" data-action="gbmk-unavailable" aria-label="PIN"></button><button class="gbmk-spinner" data-action="gbmk-filter">${e(t('Allow apps rated'))}</button></div><h3 class="gbmk-head">${e(t('Notifications'))}</h3><p class="gbmk-set-text">${e(t('Choose whether to be notified if there are updates to apps or games that you have downloaded'))}</p><button class="gbmk-spinner wide" data-action="gbmk-notify">${e(t(s.notify === false ? 'Do not notify me' : 'Notify me'))}</button></div>`);
   }
-  // The framework SearchDialog over the Market (search_plate_global with the Market icon), suggestions from the catalog.
   function searchDialog(ctx) {
-    const T = key => text(ctx.lang, key), q = String(ctx.editValue || '').trim().toLocaleLowerCase(ctx.locale);
+    const t = T(ctx), q = String(ctx.editValue || '').trim().toLocaleLowerCase(ctx.locale);
     const sugg = q ? all().filter(item => item.name.toLocaleLowerCase(ctx.locale).includes(q)).slice(0, 4) : ctx.history.slice(0, 4).map(h => ({id: '', name: h}));
-    return `<div class="gbbr-search-scrim" data-action="gbmk-search-cancel"></div><form class="gbbr-search" data-form="gbmk-search"><div class="gbbr-search-row"><img class="gbbr-search-app" src="assets/play-store.svg?v=3" alt=""><input name="query" autocomplete="off" aria-label="${e(T('Search Market'))}" placeholder="${e(T('Search Market'))}" value="${e(ctx.editValue || '')}"><button class="gbbr-go" type="submit" aria-label="Go"><img src="assets/gb-ic_btn_search_go.png" alt=""></button></div><div class="gbbr-suggest">${sugg.map(s => `<button type="button" class="gbbr-suggestion" data-action="${s.id ? 'gbmk-detail' : 'gbmk-search-run'}" data-id="${e(s.id || s.name)}"><img src="assets/${s.id ? 'gb-ic_search_category_default.png' : 'gb-br-ic_search_category_history.png'}" alt=""><span><b>${e(s.name)}</b></span></button>`).join('')}</div></form>`;
+    return `<div class="gbbr-search-scrim" data-action="gbmk-search-cancel"></div><form class="gbbr-search" data-form="gbmk-search"><div class="gbbr-search-row"><img class="gbbr-search-app" src="assets/gbm234-ic_launcher_androidmarket.png" alt=""><input name="query" autocomplete="off" aria-label="${e(t('Search Android Market'))}" placeholder="${e(t('Search Android Market'))}" value="${e(ctx.editValue || '')}"><button class="gbbr-search-go" type="submit" aria-label="${e(t('Search'))}"></button></div>${sugg.length ? `<div class="gbbr-search-list">${sugg.map(s => `<button type="button" data-action="${s.id ? 'gbmk-detail' : 'gbmk-search-run'}" data-id="${e(s.id || s.name)}"><span>${e(s.name)}</span></button>`).join('')}</div>` : ''}</form>`;
   }
   function render(ctx) {
     let html;
     if (ctx.page === 'section') html = section(ctx);
+    else if (ctx.page === 'category') html = category(ctx);
     else if (ctx.page === 'detail') html = detail(ctx);
     else if (ctx.page === 'permissions') html = permissions(ctx);
+    else if (ctx.page === 'uninstall') html = uninstallPage(ctx);
     else if (ctx.page === 'my-apps') html = myApps(ctx);
     else if (ctx.page === 'search') html = search(ctx);
     else if (ctx.page === 'settings') html = settings(ctx);
     else html = home(ctx);
     return ctx.searching ? html.replace(/<\/div>$/, `${searchDialog(ctx)}</div>`) : html;
   }
-  // Menu on the Market pages: My apps, Accounts, Settings, Help.
+  // res/menu/base.xml: Search, My apps, Settings, Help, Home (the details group adds Security / Clear my review).
   function menu(ctx) {
-    const T = key => text(ctx.lang, key);
-    if (ctx.page === 'permissions' || ctx.page === 'settings') return [];
-    return [{action: 'gbmk-my-apps', title: T('My apps'), icon: 'gb-ic_menu_archive.png'}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: T('Accounts'), icon: 'ic_menu_account_list'}, {action: 'gbmk-settings', title: T('Settings'), icon: 'ic_menu_preferences'}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: T('Help'), icon: 'ic_menu_help'}];
+    const t = T(ctx);
+    if (['permissions', 'uninstall', 'settings'].includes(ctx.page)) return [];
+    const item = ctx.page === 'detail' ? find(ctx.selected) : null, owned = item && installedState(item, ctx) === 'installed';
+    return [{action: 'gbmk-search', title: t('Search'), icon: 'ic_menu_search'}, {action: 'gbmk-my-apps', title: t('My apps'), icon: 'gbm234-ic_menu_my_downloads.png'}, {action: 'gbmk-settings', title: t('Settings'), icon: 'ic_menu_preferences'}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: t('Help'), icon: 'ic_menu_help'},
+      ...(ctx.page === 'home' ? [] : [{action: 'gbmk-home', title: t('Home'), icon: 'gbm234-ic_menu_home.png'}]),
+      ...(item ? [{action: 'gbmk-security', title: t('Security'), icon: 'gbm234-ic_menu_security_setting.png'}] : []), ...(owned && ctx.rated?.[item.id] ? [{action: 'gbmk-clear-review', title: t('Clear my review'), icon: 'gbm234-ic_menu_clear_rating.png'}] : [])];
   }
-  window.GBMarket = {SECTIONS, TABS, EXTRA, text, all, find, installedState, render, menu};
+  // GB AlertDialogs: the rating (set_rating: the stars and Unrated … Excellent!), Notifications and content filtering.
+  function dialog(kind, ctx) {
+    const t = T(ctx), item = find(ctx.selected);
+    if (kind === 'rate' && item) {
+      const r = ctx.rateDraft ?? ctx.rated?.[item.id] ?? 0, names = ['Unrated', 'Poor', 'Below average', 'Average', 'Above average', 'Excellent!'];
+      return {title: t('Rate it!'), icon: 'gbm234-ic_dialog_rate.png', custom: `<div class="gbmk-setrating"><span>${[1, 2, 3, 4, 5].map(n => `<button class="${n <= r ? 'on' : ''}" data-action="gbmk-rate-pick" data-id="${n}" aria-label="${n}"></button>`).join('')}</span><p>${e(t(names[r]))}</p></div>`, buttons: [{action: 'gbmk-rate-ok', id: item.id, title: t('OK')}, {action: 'close-overlay', title: t('Cancel')}]};
+    }
+    if (kind === 'notify') return {title: t('Notifications'), choice: 'single', selected: ctx.prefs.notify === false ? 1 : 0, items: [{action: 'gbmk-notify-pick', id: 'on', title: t('Notify me')}, {action: 'gbmk-notify-pick', id: 'off', title: t('Do not notify me')}]};
+    if (kind === 'filter') {
+      const levels = ['Everyone', 'Low maturity', 'Medium maturity', 'High maturity', 'Show all apps'], f = ctx.filterDraft || ctx.prefs.filter || levels;
+      return {title: t('Allow apps rated'), choice: 'multi', items: levels.map(level => ({action: 'gbmk-filter-pick', id: level, title: t(level), checked: f.includes(level)})), buttons: [{action: 'gbmk-filter-ok', title: t('OK')}, {action: 'close-overlay', title: t('Cancel')}]};
+    }
+    if (kind === 'security' && item) {
+      const groups = item.kind === 'games' ? [['Network communication', 'full Internet access'], ['Hardware controls', 'control vibrator']] : [['Network communication', 'full Internet access'], ['Storage', 'modify/delete SD card contents']];
+      return {title: t('Security'), message: `${t('Allow this application to access:')}\n${groups.map(([g, p]) => `${t(g)} – ${t(p)}`).join('\n')}`, buttons: [{action: 'close-overlay', title: t('OK')}]};
+    }
+    return null;
+  }
+  window.GBMarket = {SECTIONS, TABS, EXTRA, VERSION, text, fmt, all, find, installedState, render, menu, dialog};
 })();

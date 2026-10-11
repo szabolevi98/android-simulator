@@ -8,11 +8,11 @@ An interactive browser simulator of classic Android releases, each on its own Ne
 
 | Version | Phone | Store |
 | --- | --- | --- |
-| [Android 2.3.6 Gingerbread](docs/visual-audit-2.3.md) | Nexus S | Android Market 3 |
-| [Android 4.0.4 Ice Cream Sandwich](docs/features-4.0.4.md) | Galaxy Nexus | Google Play Store 3.8 |
-| [Android 4.3 Jelly Bean](docs/features-4.3.md) | Nexus 4 | Google Play Store 4.2 |
-| [Android 4.4.4 KitKat](docs/features-4.4.4.md) | Nexus 5 (Google apps) | Google Play Store 4.8 |
-| [Android 5.1.1 Lollipop](docs/features-5.1.1.md) | Nexus 6 (Google apps) | Google Play Store 5.2 |
+| [Android 2.3.6 Gingerbread](docs/visual-audit-2.3.md) | Nexus S | Android Market 2.3.4 |
+| [Android 4.0.4 Ice Cream Sandwich](docs/features-4.0.4.md) | Galaxy Nexus | Google Play Store 3.4.7 |
+| [Android 4.3 Jelly Bean](docs/features-4.3.md) | Nexus 4 | Google Play Store 4.2.3 |
+| [Android 4.4.4 KitKat](docs/features-4.4.4.md) | Nexus 5 (Google apps) | Google Play Store 4.5.10 |
+| [Android 5.1.1 Lollipop](docs/features-5.1.1.md) | Nexus 6 (Google apps) | Google Play Store 5.2.13 |
 
 ## Getting started
 

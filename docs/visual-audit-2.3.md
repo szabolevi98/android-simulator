@@ -118,7 +118,7 @@ The code is in `versions/2.3.6/gb-launcher.js` / `.css`, and the window animatio
 - **All apps** (AllApps2D).
   - A black 4-column grid of `application_boxed` items (88 dp, two-line 13 dip labels), sorted alphabetically, above the home button.
   - It opens with `all_apps_2d_fade_in` (700 ms decelerate) and closes with the 700 ms accelerate fade-out.
-- **App names and icons.** The 2.3.6 hdpi launcher icons replace the ICS ones: Phone, Contacts, Messaging, Browser, Camera, Gallery (Gallery3D), Settings, Clock, Calendar, Calculator, Music and Email. "People" is "Contacts" and "Play Store" is "Market"; the Market icon stays a placeholder, since it was never part of AOSP.
+- **App names and icons.** The 2.3.6 hdpi launcher icons replace the ICS ones: Phone, Contacts, Messaging, Browser, Camera, Gallery (Gallery3D), Settings, Clock, Calendar, Calculator, Music and Email. "People" is "Contacts" and "Play Store" is "Market"; since 2026-10-11 the Market icon is the image's own `ic_launcher_androidmarket` from Vending.apk.
 - **Window animations** (2.3.6 `core/res/res/anim`, short 150 / medium 300 / long 400 ms).
   - Launcher ↔ app: `wallpaper_close_*` / `wallpaper_open_*` — the app scales between 0.5 and 1 with a fade, the launcher between 1 and 2.
   - Within an app: `activity_*` — the new screen slides in from 33%, the old one slides off on top.
@@ -566,6 +566,19 @@ All artwork is drawn here, including the bag icon (`assets/play-store.svg`, 2.3.
 - The labels come from a small five-language table in `gb-market.js`, since the Market's own translations are not public.
 
 Checks: `gb-market.test.cjs` covers the home tiles and colours, the section tab strip, the free and paid lists, the details states, download progress, permissions, My apps, search, settings, the menu and translations. Headless Chrome covered home → Games → TOP PAID / TOP FREE → details → Accept & download → Downloading → Open / Uninstall → My apps → search, plus Hungarian. The five-language sweep at 360 × 640 now includes the Market and is clean.
+
+## Market 2.3.4 from the image — 2026-10-11
+
+This replaces the 2026-10-02 Market above, which was a Market 3.x reconstruction from period material. The GRK39F image ships Market 2.3.4 (`system/app/Vending.apk`), so the store is now rebuilt from that APK, like the image's other apps:
+- **Sources:** texts in five languages from the APK's resources (`docs/gb-market.template.js` → `docs/apk-strings.py` → `gb-market.js`), drawables from its hdpi set (`assets/gbm234-*`), sizes from its layouts, behaviour and colours from its `classes.dex`. The catalog, the featured list and the reviews stay the simulator's own (they came from the server).
+- **Home** (`home_activity`): the velvet arc header, whose gradients use the colours HomeActivity sets in code (`header_background_dark1` #465D00 to `highlight` #A5D300); the carousel of featured apps with its page buttons; Apps / Games / My apps; then the Featured list.
+- **Sections and categories:** a section lists its categories with a few app names under each; a category has the Top paid / Top free / Just in tabs and the APK's "No matching content" text when a list is empty.
+- **Details** (`AssetInfoActivity.setupContentArea`): the fat header with the icon frame, Install or Open / Uninstall and the rating; "Rate it!" and "Allow automatic updating" for installed apps; Description with More, the version and download count, the screenshots, the permissions, Reviews, Related, Developer info. Install opens the permissions page (OK / Cancel on `bottombar_portrait`); Uninstall asks for one of the APK's five reasons first.
+- **Dialogs:** "Rate it!" is `set_rating.xml` (a plain framework RatingBar, so the framework's `btn_rating_star_*`, and the Unrated … Excellent! labels), Security lists the permissions, Notifications and "Allow apps rated" are the settings lists.
+- **Menu** (`res/menu/base.xml`): Search, My apps, Settings, Help; Home on inner pages; details add Security, and Clear my review once a rated app is installed.
+- **Settings:** Content filtering (the `settings_lock` button and the "Allow apps rated" spinner) and Notifications.
+
+Checks: `gb-market.test.cjs` covers the version, the translations, home, sections, category tabs, details for new and installed apps, permissions, the uninstall reasons, My apps, search, settings, the menu and the dialogs in every language. Headless Chrome covered home → Apps → Tools → details → Install → OK → download → Rate it! → uninstall reasons, and settings with the filter list.
 
 ## Widgets — 2026-10-02
 

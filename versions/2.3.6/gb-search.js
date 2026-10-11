@@ -41,7 +41,7 @@
       (ctx.history || []).filter(url => !url.startsWith('search:') && matches(url, q)).slice(-2).reverse().forEach(url => push({kind: 'url', corpus: 'web', id: url, text1: ctx.titleOf(url), text2: url, icon: 'gb-qsb-globe.png'}));
     }
     const want = id => corpus ? corpus === id : on.includes(id);
-    if (want('apps')) ctx.apps.filter(([, name]) => matches(name, q)).forEach(([id, name]) => push({kind: 'app', corpus: 'apps', id, text1: name, icon: id === 'play-store' ? 'play-store.svg?v=3' : id + '.png'}));
+    if (want('apps')) ctx.apps.filter(([, name]) => matches(name, q)).forEach(([id, name]) => push({kind: 'app', corpus: 'apps', id, text1: name, icon: id === 'play-store' ? 'gbm234-ic_launcher_androidmarket.png' : id + '.png'}));
     if (want('contacts')) ctx.contacts.filter(c => matches(c.name, q) || norm(c.phone).replace(/\D/g, '').includes(q.replace(/\D/g, '') || '\u0000')).forEach(c => push({kind: 'contact', corpus: 'contacts', id: String(c.id), text1: c.name, text2: c.phone || c.email || '', icon: 'gb-c-ic_contact_list_picture.png', src: window.GBContactPhoto?.(c) || ''}));
     if (want('messaging')) ctx.messages.filter(m => norm(m.body).includes(q)).slice(0, 4).forEach(m => push({kind: 'message', corpus: 'messaging', id: String(m.contact), text1: m.body, text2: m.from, icon: 'messaging.png'}));
     if (want('music')) ctx.tracks.forEach((t, i) => { if (matches(t.title, q) || matches(t.artist, q) || matches(t.album, q)) push({kind: 'track', corpus: 'music', id: String(i), text1: t.title, text2: t.artist, icon: 'music.png'}); });
