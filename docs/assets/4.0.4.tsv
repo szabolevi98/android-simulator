@@ -97,7 +97,6 @@ versions/4.0.4/assets/dial_num_8_wht.png	0a5a05c12d31da41	copy	maguro:/system/ap
 versions/4.0.4/assets/dial_num_9_wht.png	0fbd705f55ab020f	copy	maguro:/system/app/Contacts.apk!res/drawable-xhdpi/dial_num_9_wht.png	drawable-xhdpi		0fbd705f55ab020f
 versions/4.0.4/assets/dial_num_pound_wht.png	193f53861b34a0cf	copy	maguro:/system/app/Contacts.apk!res/drawable-xhdpi/dial_num_pound_wht.png	drawable-xhdpi		193f53861b34a0cf
 versions/4.0.4/assets/dial_num_star_wht.png	a533ddb9405fba80	copy	maguro:/system/app/Contacts.apk!res/drawable-xhdpi/dial_num_star_wht.png	drawable-xhdpi		a533ddb9405fba80
-versions/4.0.4/assets/dl-ab_solid_dark_holo.png	7c37a21f88eaca53	copy	maguro:/system/framework/framework-res.apk!res/drawable-xhdpi/ab_solid_dark_holo.9.png	drawable-xhdpi		7c37a21f88eaca53
 versions/4.0.4/assets/dl-btn_check_off_holo_dark.png	735c8ff0a9d4796d	copy	maguro:/system/framework/framework-res.apk!res/drawable-xhdpi/btn_check_off_holo_dark.png	drawable-xhdpi		735c8ff0a9d4796d
 versions/4.0.4/assets/dl-btn_check_on_holo_dark.png	f17303734b571210	copy	maguro:/system/framework/framework-res.apk!res/drawable-xhdpi/btn_check_on_holo_dark.png	drawable-xhdpi		f17303734b571210
 versions/4.0.4/assets/dl-expander_close_holo_dark.png	33c748088b8db384	copy	maguro:/system/app/Music2.apk!res/drawable-xhdpi/expander_close_holo_dark.9.png	drawable-xhdpi		33c748088b8db384
@@ -106,7 +105,6 @@ versions/4.0.4/assets/dl-ic_cab_done_holo_dark.png	fb47e8d72e97faba	copy	maguro:
 versions/4.0.4/assets/dl-ic_download_misc_file_type.png	7d7c39fbfd4fcf3c	copy	maguro:/system/app/DownloadProviderUi.apk!res/drawable-hdpi/ic_download_misc_file_type.png	drawable-hdpi		7d7c39fbfd4fcf3c
 versions/4.0.4/assets/dl-ic_menu_delete.png	a7d99bc99e77a4f9	copy	maguro:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_menu_delete.png	drawable-xhdpi		a7d99bc99e77a4f9
 versions/4.0.4/assets/dl-ic_menu_share.png	1a91acf9b576561a	copy	maguro:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_menu_share.png	drawable-xhdpi		1a91acf9b576561a
-versions/4.0.4/assets/dl-list_selector_pressed_holo_dark.png	a8870d94c1533b8c	copy	maguro:/system/framework/framework-res.apk!res/drawable-xhdpi/list_selector_pressed_holo_dark.9.png	drawable-xhdpi		a8870d94c1533b8c
 versions/4.0.4/assets/downloads.png	5653d7c3853fbcdc	copy	maguro:/system/app/DownloadProviderUi.apk!res/mipmap-xhdpi/ic_launcher_download.png	mipmap-xhdpi		5653d7c3853fbcdc
 versions/4.0.4/assets/ea6-header_bar_bg_80_percent_black.png	ee66df9086666c61	copy	maguro:/system/app/GoogleEarth.apk!res/drawable-v11/header_bar_bg_80_percent_black.png	drawable-v11		ee66df9086666c61
 versions/4.0.4/assets/ea6-ic_menu_layers.png	41a90eadcdae3dfe	copy	maguro:/system/app/GoogleEarth.apk!res/drawable-xhdpi/ic_menu_layers.png	drawable-xhdpi		41a90eadcdae3dfe
@@ -310,7 +308,6 @@ versions/4.0.4/assets/gallery-ic_menu_trash_holo_light.png	75140ca2b9e4527e	same
 versions/4.0.4/assets/gallery-widget_preview.png	8399834bd135d230	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/preview.png	drawable-hdpi		85b1509de1c75c62
 versions/4.0.4/assets/gallery.png	7f70433a87a2b37b	copy	maguro:/system/app/GalleryGoogle.apk!res/mipmap-hdpi/ic_launcher_gallery.png	mipmap-hdpi		7f70433a87a2b37b
 versions/4.0.4/assets/gmail.png	a7efcd1d082d4d6c	copy	maguro:/system/app/Gmail.apk!res/mipmap-xhdpi/ic_launcher_mail.png	mipmap-xhdpi		a7efcd1d082d4d6c
-versions/4.0.4/assets/gnow-customize.png	db9b5a058ee9d989	not traced				
 versions/4.0.4/assets/gnow-menu.png	aa49f23e9d4e553d	not traced				
 versions/4.0.4/assets/gnow-mic.png	ceef5d09d0df036d	not traced				
 versions/4.0.4/assets/gnow-reminders.png	4979a45c0cc4d59e	not traced				
@@ -405,7 +402,6 @@ versions/4.0.4/assets/lw-holospiral_points.png	16bfc0168c9e51a9	copy	maguro:/sys
 versions/4.0.4/assets/lw-holospiral_thumb.png	7b97c7268c4883d6	copy	maguro:/system/app/HoloSpiralWallpaper.apk!res/drawable-hdpi/wallpaper_thumb.png	drawable-hdpi		7b97c7268c4883d6
 versions/4.0.4/assets/lw-leaves.png	0189ac16176c8e20	same pixels	maguro:/system/app/LiveWallpapers.apk!res/drawable-hdpi/leaves.png	drawable-hdpi		9eb6deab5a44230d
 versions/4.0.4/assets/lw-light1.jpg	cbf681dff27c6546	copy	maguro:/system/app/LiveWallpapers.apk!res/drawable-hdpi/light1.jpg	drawable-hdpi		cbf681dff27c6546
-versions/4.0.4/assets/lw-livewallpaper_placeholder.png	c73482890fbcc705	same pixels	maguro:/system/app/LiveWallpapersPicker.apk!res/drawable-hdpi/livewallpaper_placeholder.png	drawable-hdpi		1a5507d1055bdb77
 versions/4.0.4/assets/lw-maps_thumb.png	7d900cfb926fd1fe	own	drawn for the simulator: Google's map tiles cannot ship (commit c895aaf)			
 versions/4.0.4/assets/lw-microbes_thumb.png	80a5b8e1ca34bef6	own	capture of the simulator's own Microbes rendering (THIRD_PARTY_NOTICES.md)			
 versions/4.0.4/assets/lw-nexus_thumb.png	fae362b77e6d3129	same pixels	maguro:/system/app/LiveWallpapers.apk!res/drawable-hdpi/nexus_thumb.png	drawable-hdpi		969e1279ccc7f250
@@ -639,11 +635,6 @@ versions/4.0.4/assets/ps347-ic_menu_market_search.png	2391dc57afbaca69	copy	magu
 versions/4.0.4/assets/ps347-ic_more_arrow_righthome.png	e7e1824ad1025920	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/ic_more_arrow_righthome.png	drawable-hdpi		e7e1824ad1025920
 versions/4.0.4/assets/ps347-ic_plusone_tall_off.png	c7ee937e195ea1ca	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/ic_plusone_tall_off.png	drawable-hdpi		c7ee937e195ea1ca
 versions/4.0.4/assets/ps347-ic_plusone_tall_on.png	64f95cb3430236df	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/ic_plusone_tall_on.png	drawable-hdpi		64f95cb3430236df
-versions/4.0.4/assets/ps347-ic_rate_star_market_half.png	b398c589c43f5752	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/ic_rate_star_market_half.png	drawable-hdpi		b398c589c43f5752
-versions/4.0.4/assets/ps347-ic_rate_star_market_off.png	ab2fe4bd41113437	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/ic_rate_star_market_off.png	drawable-hdpi		ab2fe4bd41113437
-versions/4.0.4/assets/ps347-ic_rate_star_market_on.png	19865e16884fd16d	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/ic_rate_star_market_on.png	drawable-hdpi		19865e16884fd16d
-versions/4.0.4/assets/ps347-market_grid_nav_2x4.png	8843085da5347a59	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/market_grid_nav_2x4.9.png	drawable-hdpi		8843085da5347a59
-versions/4.0.4/assets/ps347-section_header_cancel.png	ee11b5e8852ceaef	copy	maguro:/system/app/Phonesky.apk!res/drawable-mdpi/section_header_cancel.png	drawable-mdpi		ee11b5e8852ceaef
 versions/4.0.4/assets/psw-bottom.png	00f0f5b175d313a6	converted	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/phonesky_widget_bottom.9.png	drawable-hdpi	nine-patch border removed, mean difference 0.00	f86fe41ee341d1a0
 versions/4.0.4/assets/psw-top.png	8d66c89fda80168f	converted	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/phonesky_widget_top.9.png	drawable-hdpi	nine-patch border removed, mean difference 0.00	42157f91385ca0ba
 versions/4.0.4/assets/search.png	30d9b5880cfd9e66	copy	maguro:/system/app/GoogleQuickSearchBox.apk!res/mipmap-xhdpi/search_app_icon.png	mipmap-xhdpi		30d9b5880cfd9e66
@@ -712,10 +703,7 @@ versions/4.0.4/assets/wallpaper_kepler.jpg	3c72b213e92ff0e5	own	AOSP Launcher2 r
 versions/4.0.4/assets/wallpaper_leaf.jpg	e2555069b8eb32c7	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
 versions/4.0.4/assets/wallpaper_noir.jpg	1198bb087cb4c6fe	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
 versions/4.0.4/assets/wallpaper_outofthebox.jpg	bee77c144746ca41	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.0.4/assets/web-ic_bookmarks_holo_dark.png	8c6cd7426ecd1662	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_bookmarks_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.44	0e16b8586025dbda
-versions/4.0.4/assets/web-ic_forward_holo_dark.png	1a38d56b079ccf9c	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_forward_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.83	fb025cfde49800da
 versions/4.0.4/assets/web-ic_new_window_holo_dark.png	83565ea403ac6780	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_new_window_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.10	bd28a3e63d928cea
-versions/4.0.4/assets/web-ic_refresh_holo_dark.png	67226f977eaa7269	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_refresh_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.35	b653eb2ccfe419c3
 versions/4.0.4/assets/web-ic_tab_close.png	419b1ebf2c1b1ef4	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_tab_close.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.11	21e05c2c499f9e99
 versions/4.0.4/assets/web-ic_windows_holo_dark.png	c41c613480096611	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_windows_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.49	fc49a9aee987ab25
 versions/4.0.4/assets/widget-power-bg.png	d5a52ca02be8e432	same pixels	maguro:/system/app/Music2.apk!res/drawable-hdpi-v14/appwidget_bg.9.png	drawable-hdpi-v14		58ee54952ef2147a

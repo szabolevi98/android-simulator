@@ -4,7 +4,6 @@ versions/4.3/assets/AndroidClockMono-Bold.ttf	a500b26e392d7304	copy	mako:/system
 versions/4.3/assets/AndroidClockMono-Light.ttf	9a7d493efd28438c	copy	mako:/system/app/DeskClockGoogle.apk!assets/fonts/AndroidClockMono-Light.ttf			9a7d493efd28438c
 versions/4.3/assets/AndroidClockMono-Thin.ttf	36b8ff47ed75e57f	copy	mako:/system/app/DeskClockGoogle.apk!assets/fonts/AndroidClockMono-Thin.ttf			36b8ff47ed75e57f
 versions/4.3/assets/Roboto-Bold.ttf	f0c7062c89c89ecd	copy	mako:/system/fonts/Roboto-Bold.ttf			f0c7062c89c89ecd
-versions/4.3/assets/Roboto-Italic.ttf	27025d401cb6746f	copy	mako:/system/fonts/Roboto-Italic.ttf			27025d401cb6746f
 versions/4.3/assets/Roboto-Light.ttf	15ee2c8b2f3bc2d2	copy	mako:/system/fonts/Roboto-Light.ttf			15ee2c8b2f3bc2d2
 versions/4.3/assets/Roboto-LightItalic.ttf	c1b20b41ddeccab5	copy	mako:/system/fonts/Roboto-LightItalic.ttf			c1b20b41ddeccab5
 versions/4.3/assets/Roboto-Regular.ttf	00ae3fd7698bec21	copy	mako:/system/fonts/Roboto-Regular.ttf			00ae3fd7698bec21
@@ -115,7 +114,6 @@ versions/4.3/assets/calendar.png	3b26c4834a01ed3e	same pixels	mako:/system/app/C
 versions/4.3/assets/calwidget-calendar_widget_preview.png	6f23a76da110b175	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/calendar_widget_preview.png	drawable-hdpi		6ed48a0b690039df
 versions/4.3/assets/calwidget-header_bg_cal_widget_holo.png	33a0ca1b7ca79b8a	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/header_bg_cal_widget_holo.9.png	drawable-hdpi		6aaff788fa75a6e0
 versions/4.3/assets/calwidget-header_bg_cal_widget_pressed_holo.png	2e480b86ccef26e7	not traced				
-versions/4.3/assets/calwidget-header_row_press_cal_widget_holo.png	1feff7fe51390a01	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/header_row_press_cal_widget_holo.9.png	drawable-hdpi		e57cc98a7908259c
 versions/4.3/assets/camera-bg_camera_pattern.png	6df2b58664731fc6	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/bg_camera_pattern.png	drawable-xhdpi	resized 230×720 → 173×540, mean difference 0.02	6fb238ca46eb1d20
 versions/4.3/assets/camera-btn_camera_shutter_holo.png	4875395edcb6ab9f	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/btn_camera_shutter_holo.png	drawable-xhdpi	resized 134×134 → 101×101, mean difference 2.10	76053bec6b2900ac
 versions/4.3/assets/camera-btn_camera_shutter_pressed_holo.png	5250c04bd0d38eaa	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/btn_camera_shutter_pressed_holo.png	drawable-xhdpi	resized 134×134 → 101×101, mean difference 2.21	75d405eaf1397dd5
@@ -310,7 +308,6 @@ versions/4.3/assets/hg1-abs__ic_menu_moreoverflow_normal_holo_light.png	1bef2d14
 versions/4.3/assets/hg1-default_avatar.png	60b12956651829b1	same pixels	mako:/system/app/Hangouts.apk!res/drawable-xhdpi/default_avatar.png	drawable-xhdpi		c13e09e56967d229
 versions/4.3/assets/hg1-ic_add_gray.png	90cca0108c63f364	same pixels	mako:/system/app/Hangouts.apk!res/drawable-xhdpi/ic_add_gray.png	drawable-xhdpi		e33674da7cda586b
 versions/4.3/assets/hg1-ic_camera_dark.png	7a313e216f49810b	same pixels	mako:/system/app/Hangouts.apk!res/drawable-xhdpi/ic_camera_dark.png	drawable-xhdpi		1d08168ba2f16fea
-versions/4.3/assets/hg1-ic_checkmark_dark.png	5489fa2a46b1e9c7	same pixels	mako:/system/app/Hangouts.apk!res/drawable-xhdpi/ic_checkmark_dark.png	drawable-xhdpi		a135170569cea74a
 versions/4.3/assets/hg1-ic_gallery_dark.png	87548005bb777675	same pixels	mako:/system/app/Hangouts.apk!res/drawable-xhdpi/ic_gallery_dark.png	drawable-xhdpi		740a6d76ebda5fc3
 versions/4.3/assets/hg1-ic_hangout_gray.png	6f163eb07977f41b	same pixels	mako:/system/app/Hangouts.apk!res/drawable-xhdpi/ic_hangout_gray.png	drawable-xhdpi		d147cb50de7a574a
 versions/4.3/assets/hg1-ic_menu_camera.png	c228cef11c5be8e1	same pixels	mako:/system/app/Hangouts.apk!res/drawable-xhdpi/ic_menu_camera.png	drawable-xhdpi		eda6723093cc1ad1
@@ -329,7 +326,6 @@ versions/4.3/assets/ic_bt_cellphone.png	e87c48ccecbc984f	resized	mako:/system/ap
 versions/4.3/assets/ic_bt_config.png	58392d9791c44587	same pixels	mako:/system/app/Music2.apk!res/drawable-hdpi/ic_bt_config.png	drawable-hdpi		c50a2b440097105b
 versions/4.3/assets/ic_bt_headphones_a2dp.png	8b13a455c8095a12	resized	mako:/system/app/Settings.apk!res/drawable-xhdpi/ic_bt_headphones_a2dp.png	drawable-xhdpi	resized 96×96 → 72×72, mean difference 0.23	f9c506bb94586acc
 versions/4.3/assets/ic_bt_headset_hfp.png	4438e0a870ff5a5c	resized	mako:/system/app/Settings.apk!res/drawable-xhdpi/ic_bt_headset_hfp.png	drawable-xhdpi	resized 96×96 → 72×72, mean difference 0.24	1f535174da2782e3
-versions/4.3/assets/ic_btn_speak_now.png	162afcabc495d9a0	resized	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_btn_speak_now.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.42	36beaf1726d6e777
 versions/4.3/assets/ic_call_outgoing_holo_dark.png	13a5e8f75befc71a	same pixels	mako:/system/app/Dialer.apk!res/drawable-hdpi/ic_call_outgoing_holo_dark.png	drawable-hdpi		acbcffaf5ec432fc
 versions/4.3/assets/ic_contact_picture_holo_dark.png	47630753b3ddf5a7	resized	mako:/system/app/Contacts.apk!res/drawable-xhdpi/ic_contact_picture_holo_dark.png	drawable-xhdpi	resized 128×128 → 96×96, mean difference 0.01	539beadf8c0af009
 versions/4.3/assets/ic_dial_action_call.png	537aa133dc8a0481	same pixels	mako:/system/app/Dialer.apk!res/drawable-hdpi/ic_dial_action_call.png	drawable-hdpi		5505ad289d3a814a
@@ -347,7 +343,6 @@ versions/4.3/assets/ic_menu_moreoverflow_normal_holo_dark.png	f15477bcc065482f	r
 versions/4.3/assets/ic_menu_moreoverflow_normal_holo_light.png	8b366ec12a25717f	resized	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_menu_moreoverflow_normal_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.51	4d600c2c5ee39df9
 versions/4.3/assets/ic_menu_overflow.png	26a19bf8860487e2	same pixels	mako:/system/app/Dialer.apk!res/drawable-hdpi/ic_menu_overflow.png	drawable-hdpi		926d07756e290fa2
 versions/4.3/assets/ic_notify_clear_normal.png	73aa7f4b6dd1bae7	resized	maguro:/system/app/SystemUI.apk!res/drawable-xhdpi/ic_notify_clear_normal.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.12	c2a0c0483bc9df6f
-versions/4.3/assets/ic_notify_quicksettings_normal.png	93df6ee78e4279cf	resized	maguro:/system/app/SystemUI.apk!res/drawable-xhdpi/ic_notify_quicksettings_normal.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.66	c83a9dd333d9f73f
 versions/4.3/assets/ic_sysbar_menu.png	57ce51156f6dabee	copy	mako:/system/app/SystemUI.apk!res/drawable-xhdpi/ic_sysbar_menu.png	drawable-xhdpi		57ce51156f6dabee
 versions/4.3/assets/ic_wifi_lock_signal_4.png	ce95526863dc4f29	resized	mako:/system/app/Settings.apk!res/drawable-xhdpi/ic_wifi_lock_signal_4.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.94	7f7a8de8feefa5e9
 versions/4.3/assets/ic_wifi_signal_2.png	3320b8b5a7d03c1a	resized	mako:/system/app/Settings.apk!res/drawable-xhdpi/ic_wifi_signal_2.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.34	cff1eb1fc846254a
@@ -562,7 +557,6 @@ versions/4.3/assets/jdc-ic_expand_down.png	fdf269275b29fa44	copy	mako:/system/ap
 versions/4.3/assets/jdc-ic_expand_up.png	07a36d4e7414fcc9	copy	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_expand_up.png	drawable-xhdpi		07a36d4e7414fcc9
 versions/4.3/assets/jdc-ic_menu_add.png	4573b237d9e95a55	copy	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_menu_add.png	drawable-xhdpi		4573b237d9e95a55
 versions/4.3/assets/jdc-ic_ringtone.png	eea4df816a384c6f	copy	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_ringtone.png	drawable-xhdpi		eea4df816a384c6f
-versions/4.3/assets/jdc-toggle_underline_activated.png	5339deca7eda316c	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-xhdpi/toggle_underline_activated.9.png	drawable-xhdpi		5339deca7eda316c
 versions/4.3/assets/keep.png	f574ad49b5780b06	copy	mako:/system/app/Keep.apk!res/mipmap-xhdpi/ic_launcher.png	mipmap-xhdpi		f574ad49b5780b06
 versions/4.3/assets/kem-btn_star_off_convo_holo_light.png	ad7614f2d0f92fce	same pixels	mako:/system/app/Gmail2.apk!res/drawable-xhdpi/btn_star_off_convo_holo_light.png	drawable-xhdpi		b8b4370b935fc911
 versions/4.3/assets/kem-btn_star_on_convo_holo_light.png	b84f131233828996	same pixels	mako:/system/app/Gmail2.apk!res/drawable-xhdpi/btn_star_on_convo_holo_light.png	drawable-xhdpi		112e8e77a6fd0d09
@@ -652,7 +646,6 @@ versions/4.3/assets/lw-holospiral_points.png	16bfc0168c9e51a9	copy	mako:/system/
 versions/4.3/assets/lw-holospiral_thumb.png	7b97c7268c4883d6	copy	mako:/system/app/HoloSpiralWallpaper.apk!res/drawable-hdpi/wallpaper_thumb.png	drawable-hdpi		7b97c7268c4883d6
 versions/4.3/assets/lw-leaves.png	0189ac16176c8e20	same pixels	mako:/system/app/LiveWallpapers.apk!res/drawable-hdpi/leaves.png	drawable-hdpi		9eb6deab5a44230d
 versions/4.3/assets/lw-light1.jpg	cbf681dff27c6546	copy	mako:/system/app/LiveWallpapers.apk!res/drawable-hdpi/light1.jpg	drawable-hdpi		cbf681dff27c6546
-versions/4.3/assets/lw-livewallpaper_placeholder.png	c73482890fbcc705	same pixels	mako:/system/app/LiveWallpapersPicker.apk!res/drawable-hdpi/livewallpaper_placeholder.png	drawable-hdpi		1a5507d1055bdb77
 versions/4.3/assets/lw-maps_thumb.png	7d900cfb926fd1fe	own	drawn for the simulator: Google's map tiles cannot ship (commit c895aaf)			
 versions/4.3/assets/lw-nexus_thumb.png	fae362b77e6d3129	same pixels	mako:/system/app/LiveWallpapers.apk!res/drawable-hdpi/nexus_thumb.png	drawable-hdpi		969e1279ccc7f250
 versions/4.3/assets/lw-night.jpg	72a071cdf033e7e9	copy	mako:/system/app/LiveWallpapers.apk!res/drawable-hdpi/night.jpg	drawable-hdpi		72a071cdf033e7e9
@@ -778,7 +771,6 @@ versions/4.3/assets/mp6r-turn_square_green_bg_normal.png	72fd19cbf3bb324e	copy	m
 versions/4.3/assets/mp6r-vertical_separator.png	a236820929051245	copy	mako:/system/app/Maps.apk!res/drawable-nodpi/vertical_separator.png	drawable-nodpi		a236820929051245
 versions/4.3/assets/ms-activity_background.png	fb5e06cc8e7fddff	copy	mako:/system/app/VideoEditorGoogle.apk!res/drawable-xhdpi/activity_background.png	drawable-xhdpi		fb5e06cc8e7fddff
 versions/4.3/assets/ms-add_video_project_big.png	7558c3a64548645b	copy	mako:/system/app/VideoEditorGoogle.apk!res/drawable-xhdpi/add_video_project_big.png	drawable-xhdpi		7558c3a64548645b
-versions/4.3/assets/ms-timeline_item_normal.png	33fc55fd5f35b04f	copy	mako:/system/app/VideoEditorGoogle.apk!res/drawable-xhdpi/timeline_item_normal.9.png	drawable-xhdpi		33fc55fd5f35b04f
 versions/4.3/assets/msg-bg_tacos_body.png	254e60d5fcbeb081	copy	mako:/system/app/PlusOne.apk!res/drawable/bg_tacos_body.9.png	drawable		254e60d5fcbeb081
 versions/4.3/assets/msg-ic_avatar.png	955a67cd1fac09be	copy	mako:/system/app/PlusOne.apk!res/drawable-xhdpi/ic_avatar.png	drawable-xhdpi		955a67cd1fac09be
 versions/4.3/assets/msg-ic_menu_start_new_huddle.png	66d4d1e52bfb75da	copy	mako:/system/app/PlusOne.apk!res/drawable-xhdpi/ic_menu_start_new_huddle.png	drawable-xhdpi		66d4d1e52bfb75da
@@ -866,7 +858,6 @@ versions/4.3/assets/play-magazines.png	8ec5c42134520098	copy	mako:/system/app/Cu
 versions/4.3/assets/play-movies.png	ca0d74bfc730438b	copy	mako:/system/app/Videos.apk!res/mipmap-xhdpi/ic_launcher_videos.png	mipmap-xhdpi		ca0d74bfc730438b
 versions/4.3/assets/play-music.png	3d96682036494780	copy	mako:/system/app/Music2.apk!res/mipmap-xhdpi/ic_launcher_play_music.png	mipmap-xhdpi		3d96682036494780
 versions/4.3/assets/play-store.svg	60fd6aec6825a802	own	Wikimedia Commons "Google Play Store (2012-2014).svg", CC BY-SA 3.0, view box cropped (THIRD_PARTY_NOTICES.md)			
-versions/4.3/assets/pm5-action_bar_bg_music.png	d5db5e840bab333d	copy	mako:/system/app/Music2.apk!res/drawable-xhdpi/action_bar_bg_music.9.png	drawable-xhdpi		d5db5e840bab333d
 versions/4.3/assets/pm5-ic_clear_normal.png	8e8eaf9222d03b48	copy	mako:/system/app/Books.apk!res/drawable-hdpi/ic_clear_normal.png	drawable-hdpi		8e8eaf9222d03b48
 versions/4.3/assets/pm5-ic_corpora_music_white.png	57fa458b155529be	copy	mako:/system/app/Music2.apk!res/drawable-xhdpi/ic_corpora_music_white.png	drawable-xhdpi		57fa458b155529be
 versions/4.3/assets/pm5-ic_empty_state_search.png	a12b6ac0c013c2e3	copy	mako:/system/app/Music2.apk!res/drawable-xhdpi/ic_empty_state_search.png	drawable-xhdpi		a12b6ac0c013c2e3
@@ -916,7 +907,6 @@ versions/4.3/assets/ps423-ic_rate_star_market_off.png	5bce94d84f96b904	copy	mako
 versions/4.3/assets/ps423-ic_rate_star_market_on.png	17ef44f604ce4d68	copy	mako:/system/app/Magazines.apk!res/drawable-xhdpi/ic_rate_star_market_on.png	drawable-xhdpi		17ef44f604ce4d68
 versions/4.3/assets/ps423-ic_review.png	028b6c74f16d8599	copy	mako:/system/app/Phonesky.apk!res/drawable-hdpi/ic_review.png	drawable-hdpi		028b6c74f16d8599
 versions/4.3/assets/ps423-ic_search_api_holo_light.png	85a27d3bf676315b	copy	mako:/system/app/Books.apk!res/drawable-xhdpi/ic_search_api_holo_light.png	drawable-xhdpi		85a27d3bf676315b
-versions/4.3/assets/ps423-logo_play_purchase_flow_gray_light.png	09d44de755dbb82a	copy	mako:/system/app/Phonesky.apk!res/drawable-xhdpi/logo_play_purchase_flow_gray_light.png	drawable-xhdpi		09d44de755dbb82a
 versions/4.3/assets/ps423-menu_dropdown_panel_holo_light.png	bb9c6a15c36c809f	copy	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/menu_dropdown_panel_holo_light.9.png	drawable-xhdpi		bb9c6a15c36c809f
 versions/4.3/assets/ps423-play_checker_bg.png	60e90880ab16ba2a	copy	mako:/system/app/Music2.apk!res/drawable-nodpi/play_checker_bg.png	drawable-nodpi		60e90880ab16ba2a
 versions/4.3/assets/ps423-progress_bg_holo_light.png	f93f99aec102e16f	copy	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/progress_bg_holo_light.9.png	drawable-xhdpi		f93f99aec102e16f
@@ -968,13 +958,11 @@ versions/4.3/assets/status_bar_close_on.png	5a3323c8dacac0c6	resized	maguro:/sys
 versions/4.3/assets/toast_frame_holo.png	7fd4fe41686ec2b6	same pixels	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/toast_frame_holo.9.png	drawable-xhdpi		39634b26f134b6ca
 versions/4.3/assets/tzp-ic_clear_search_holo_light.png	3a3044fc93cbcb85	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-xhdpi/ic_clear_search_holo_light.png	drawable-xhdpi		3a3044fc93cbcb85
 versions/4.3/assets/tzp-ic_search_holo_light.png	e55397d88d7a99ab	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-xhdpi/ic_search_holo_light.png	drawable-xhdpi		e55397d88d7a99ab
-versions/4.3/assets/vn-card_action_button_bg_normal.png	3fe7fadb4e3f6e93	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/card_action_button_bg_normal.9.png	drawable-xhdpi		3fe7fadb4e3f6e93
 versions/4.3/assets/vn-card_background.png	20bffb1ae4f4e109	copy	mako:/system/app/Phonesky.apk!res/drawable-xhdpi/card_background.9.png	drawable-xhdpi		20bffb1ae4f4e109
 versions/4.3/assets/vn-context_header_bg_dawn.jpg	d84cc293102379ab	converted	mako:/system/app/Velvet.apk!res/drawable-nodpi/context_header_bg_dawn.jpg	drawable-nodpi	JPG, resized 1280×549 → 768×329, mean difference 1.48	dbd11d8a7115a293
 versions/4.3/assets/vn-context_header_bg_daylight.jpg	92a208517c11836e	converted	mako:/system/app/Velvet.apk!res/drawable-nodpi/context_header_bg_daylight.jpg	drawable-nodpi	JPG, resized 1280×549 → 768×329, mean difference 1.60	56b1da151375e221
 versions/4.3/assets/vn-context_header_bg_dusk.jpg	a5255b7627a1b2e1	converted	mako:/system/app/Velvet.apk!res/drawable-nodpi/context_header_bg_dusk.jpg	drawable-nodpi	JPG, resized 1280×549 → 768×329, mean difference 1.61	5d392d79f590a89b
 versions/4.3/assets/vn-context_header_bg_twilight.jpg	ba1c132841d2719a	converted	mako:/system/app/Velvet.apk!res/drawable-nodpi/context_header_bg_twilight.jpg	drawable-nodpi	JPG, resized 1280×549 → 768×329, mean difference 1.48	287498c50feffcc3
-versions/4.3/assets/vn-corpus_shadow.png	592b0052dca31da7	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/corpus_shadow.9.png	drawable-xhdpi		592b0052dca31da7
 versions/4.3/assets/vn-ic_google_large_light.png	98a6c84f74ad33b1	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/ic_google_large_light.png	drawable-xhdpi		98a6c84f74ad33b1
 versions/4.3/assets/vn-ic_google_medium_dark.png	c12cd60d58eccb68	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/ic_google_medium_dark.png	drawable-xhdpi		c12cd60d58eccb68
 versions/4.3/assets/vn-ic_menu_moreoverflow_card_dark_normal.png	2794dda5f737c597	copy	mako:/system/app/Magazines.apk!res/drawable-xhdpi/ic_menu_moreoverflow_card_dark_normal.png	drawable-xhdpi		2794dda5f737c597
@@ -984,7 +972,6 @@ versions/4.3/assets/vn-ic_searh_plate_g.png	cf686ec1e9cae17a	copy	mako:/system/a
 versions/4.3/assets/vn-ic_weather_umbrella.png	fd988369f7001ab3	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/ic_weather_umbrella.png	drawable-xhdpi		fd988369f7001ab3
 versions/4.3/assets/vn-ic_weather_wind.png	1491652e7d8ad56d	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/ic_weather_wind.png	drawable-xhdpi		1491652e7d8ad56d
 versions/4.3/assets/vn-search_bg.png	3f8e714c93b52d5f	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/search_bg.9.png	drawable-xhdpi		3f8e714c93b52d5f
-versions/4.3/assets/vn-search_bg_shadow.png	0e984b2673318802	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/search_bg_shadow.9.png	drawable-xhdpi		0e984b2673318802
 versions/4.3/assets/vn-vs_levels_guideline.png	374c1d663003c0d5	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/vs_levels_guideline.png	drawable-xhdpi		374c1d663003c0d5
 versions/4.3/assets/vn-vs_micbtn_on.png	5967d2e4876ba6be	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/vs_micbtn_on.png	drawable-xhdpi		5967d2e4876ba6be
 versions/4.3/assets/vn-vs_micbtn_pressed.png	083012cd003dbc64	copy	mako:/system/app/Velvet.apk!res/drawable-xhdpi/vs_micbtn_pressed.png	drawable-xhdpi		083012cd003dbc64
@@ -1002,17 +989,6 @@ versions/4.3/assets/wal-ic_btn_dashboard_offers_normal.png	fa716705687b961b	copy
 versions/4.3/assets/wal-ic_btn_dashboard_payment_normal.png	db34a4ffe0ab9993	copy	mako:/system/app/Wallet.apk!res/drawable-hdpi/ic_btn_dashboard_payment_normal.png	drawable-hdpi		db34a4ffe0ab9993
 versions/4.3/assets/wal-ic_btn_dashboard_transactions_normal.png	547c16efa69efe95	copy	mako:/system/app/Wallet.apk!res/drawable-hdpi/ic_btn_dashboard_transactions_normal.png	drawable-hdpi		547c16efa69efe95
 versions/4.3/assets/wallet.png	19dae149b9b8e210	copy	mako:/system/app/Wallet.apk!res/mipmap-xhdpi/ic_launcher_wallet.png	mipmap-xhdpi		19dae149b9b8e210
-versions/4.3/assets/wallpaper_architecture.jpg	69112be6f6181739	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_bubblegum.jpg	672254d20b773a2c	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_canyon.jpg	33a8a7d3ffac770e	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_chroma.jpg	ba4ff41f6784f77c	converted	mako:/system/app/Launcher2.apk!res/drawable-sw600dp-nodpi/wallpaper_11.jpg	drawable-sw600dp-nodpi	JPG, resized 1600×1280 → 960×800, mean difference 3.25	c77c43d495f292ab
-versions/4.3/assets/wallpaper_escape.jpg	6efd966f40ac1e52	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_fidelity.jpg	6faf469447bfd50c	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_flora.jpg	9eab0e0830a94e66	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_kepler.jpg	3c72b213e92ff0e5	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_leaf.jpg	e2555069b8eb32c7	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_noir.jpg	1198bb087cb4c6fe	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
-versions/4.3/assets/wallpaper_outofthebox.jpg	bee77c144746ca41	own	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it			
 versions/4.3/assets/web-ic_bookmarks_holo_dark.png	8c6cd7426ecd1662	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_bookmarks_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.44	0e16b8586025dbda
 versions/4.3/assets/web-ic_forward_holo_dark.png	1a38d56b079ccf9c	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_forward_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.83	fb025cfde49800da
 versions/4.3/assets/web-ic_new_window_holo_dark.png	83565ea403ac6780	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_new_window_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.10	bd28a3e63d928cea

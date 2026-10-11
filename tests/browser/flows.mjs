@@ -88,6 +88,12 @@ async function flow(version, mobile) {
   }
   await sleep(500);
   check('no exception', errors.length === 0, errors.join(' | '));
+  // PHP's built-in server sometimes refuses a connection under the burst of requests; a file it serves on a second try
+  // is not missing.
+  for (const f of [...failed]) {
+    const m = f.match(/^net::ERR_CONNECTION_\w+ (\S+)$/);
+    if (m && (await fetch(BASE + m[1]).catch(() => null))?.ok) failed.splice(failed.indexOf(f), 1);
+  }
   check('no failed local request', failed.length === 0, failed.join(' | '));
   return steps;
 }

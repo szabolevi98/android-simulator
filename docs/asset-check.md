@@ -10,11 +10,10 @@ Static: 38 stylesheets, 80 scripts; 0 missing, 110 references built at run time 
 Runtime: 74 apps opened; 0 failed requests.
 
 
-Inventory: 1859 files, 268 loaded on the opened screens; 47 byte-identical groups (187 KiB over one copy each); 737 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
+Inventory: 1761 files, 268 loaded on the opened screens; 45 byte-identical groups (103 KiB over one copy each); 639 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
 
 <details><summary>Byte-identical groups</summary>
 
-- aosp-wallpaper.jpg, wallpaper_chroma.jpg
 - bk-ic_menu_my_downloads.png, gbm234-ic_menu_my_downloads.png
 - bk-ic_menu_refresh.png, gv-ic_menu_refresh_gingerbread.png
 - bk-ic_menu_sort_alphabetically.png, gb-set-ic_menu_sort_alphabetically.png
@@ -33,7 +32,6 @@ Inventory: 1859 files, 268 loaded on the opened screens; 47 byte-identical group
 - gb-c-contact_picture_border_pressed.png, gb-ce-contact_picture_border_pressed.png
 - gb-c-dial_num_1_no_vm_blk.png, gb-c-dial_num_1_no_vm_wht.png
 - gb-c-ic_menu_add_picture.png, gb-ce-ic_menu_add_picture.png
-- gb-cam-ic_menu_gallery.png, lw-livewallpaper_placeholder.png
 - gb-ic_btn_search_go.png, gb-qsb-ic_btn_search.png
 - gb-ic_media_next.png, music-ic_media_next.png
 - gb-ic_media_pause.png, music-ic_media_pause.png
@@ -73,13 +71,12 @@ Static: 31 stylesheets, 52 scripts; 0 missing, 86 references built at run time (
 Runtime: 50 apps opened; 0 failed requests.
 
 
-Inventory: 721 files, 237 loaded on the opened screens; 15 byte-identical groups (97 KiB over one copy each); 131 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
+Inventory: 707 files, 237 loaded on the opened screens; 14 byte-identical groups (97 KiB over one copy each); 117 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
 
 <details><summary>Byte-identical groups</summary>
 
 - aosp-wallpaper.jpg, wallpaper_chroma.jpg
 - camera-ic_menu_overflow.png, ph-ic_menu_overflow.png
-- dl-ab_solid_dark_holo.png, ga-fw-ab_solid_dark_holo.png
 - em-ic_attachment_holo_light.png, g4-ic_attachment_holo_light.png
 - em-ic_cancel_holo_light.png, g4-ic_cancel_holo_light.png
 - em-ic_dialog_alert_holo_light.png, mms-ic_dialog_alert_holo_light.png, people-ic_dialog_alert_holo_light.png
@@ -104,11 +101,10 @@ Static: 44 stylesheets, 69 scripts; 0 missing, 113 references built at run time 
 Runtime: 79 apps opened; 0 failed requests.
 
 
-Inventory: 1031 files, 278 loaded on the opened screens; 31 byte-identical groups (281 KiB over one copy each); 204 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
+Inventory: 1007 files, 278 loaded on the opened screens; 30 byte-identical groups (201 KiB over one copy each); 180 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
 
 <details><summary>Byte-identical groups</summary>
 
-- aosp-wallpaper.jpg, wallpaper_chroma.jpg
 - bk28-ab_solid_dark_holo.png, dl-ab_solid_dark_holo.png
 - bk28-ab_solid_light_holo.png, gms-common_settings_bg.png
 - bk28-ic_ab_back_holo_light.png, gms-common_ic_settings_back.png, ic_ab_back_holo_light.png
@@ -151,11 +147,10 @@ Static: 48 stylesheets, 68 scripts; 0 missing, 114 references built at run time 
 Runtime: 83 apps opened; 0 failed requests.
 
 
-Inventory: 1097 files, 247 loaded on the opened screens; 23 byte-identical groups (147 KiB over one copy each); 328 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
+Inventory: 1009 files, 247 loaded on the opened screens; 22 byte-identical groups (68 KiB over one copy each); 240 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
 
 <details><summary>Byte-identical groups</summary>
 
-- aosp-wallpaper.jpg, wallpaper_chroma.jpg
 - bk3-ic_menu_moreoverflow_card_dark_normal.png, ps4510-ic_menu_moreoverflow_card_dark_normal.png
 - bk3-menu_dropdown_panel_holo_light.png, menu_dropdown_panel_holo_light.png, ps4510-menu_dropdown_panel_holo_light.png
 - bk3-scrubber_control_normal_holo.png, vol-scrubber_control_normal_holo.png
@@ -190,7 +185,7 @@ Static: 47 stylesheets, 72 scripts; 0 missing, 116 references built at run time 
 Runtime: 82 apps opened; 0 failed requests.
 
 
-Inventory: 1301 files, 220 loaded on the opened screens; 36 byte-identical groups (245 KiB over one copy each); 458 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
+Inventory: 1220 files, 220 loaded on the opened screens; 35 byte-identical groups (244 KiB over one copy each); 377 files neither named literally nor loaded (to review: deeper screens, states and dialogs reach many of them).
 
 <details><summary>Byte-identical groups</summary>
 
@@ -205,7 +200,6 @@ Inventory: 1301 files, 220 loaded on the opened screens; 36 byte-identical group
 - em7-ic_empty_search.png, gm5-ic_empty_search.png
 - em7-ic_empty_spam.png, gm5-ic_empty_spam.png
 - em7-ic_empty_trash.png, gm5-ic_empty_trash.png
-- gallery-ic_menu_share_holo_light.png, jbgal-ic_menu_share_holo_light.png
 - gc-ic_ab_search.png, gd-ic_ab_search.png
 - gc-ic_arrow_back_24dp.png, gd-ic_arrow_back_24dp.png
 - gc-ic_person_add_24dp.png, gd-ic_person_add_24dp.png
