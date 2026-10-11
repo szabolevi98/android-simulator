@@ -7,7 +7,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.settings2?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.settings2), text = (lang, key) => R.t(key, lang);
   const PAGES = new Set(['sync', 'sync-account', 'apps', 'running', 'app-info', 'battery', 'battery-detail', 'about-legal', 'gb-licenses', 'reset-info', 'gb-reset-final']);
   // Formatter.formatFileSize: KB / MB / GB with two significant decimals.
   function size(bytes) {
@@ -103,7 +103,7 @@
   /* AccountsAndSyncSettings (packages/apps/AccountsAndSyncSettings): ManageAccountsSettings with General sync settings and
      Manage accounts above the bottom_bar "Add account" button; AccountSyncSettings with the title_bar header (48 dip provider
      icon, bold account, provider), "Data & synchronization" SyncStateCheckBoxPreferences and "Remove account". */
-  const acc = (lang, key) => { const entry = window.GBStrings?.accounts?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const ACC = AndroidStrings.resources(() => window.GBStrings?.accounts), acc = (lang, key) => ACC.t(key, lang);
   const checkRow = (key, title, summary, on, action = 'gbset-check') => `<button class="gbset-row" data-action="${action}" data-id="${e(key)}" role="checkbox" aria-checked="${on}"><span class="gbset-text"><span class="gbset-title">${e(title)}</span>${summary ? `<span class="gbset-sum">${e(summary)}</span>` : ''}</span><img class="gbset-check" src="assets/gb-btn_check_${on ? 'on' : 'off'}.png" alt=""></button>`;
   function syncPage(ctx) {
     const A = key => acc(ctx.lang, key), s = ctx.settings, on = s.backgroundData !== false && s.autoSync !== false;

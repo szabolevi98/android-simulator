@@ -38,7 +38,7 @@
     } else if (direction > 0) { setRinger(settings, 'normal'); if (!level) setIndex(settings, 'ring', 1); }
     return result;
   }
-  const fw = (key, lang) => window.GBStrings?.framework?.strings?.[key]?.[lang] ?? window.GBStrings?.framework?.strings?.[key]?.en ?? key;
+  const fw = (key, lang) => AndroidStrings.resources(() => window.GBStrings?.framework).t(key, lang);
   // onShowVolumeChanged: the ringer's level reads 0 while it is in vibrate or silent; in-call volume is shown one up.
   function render(settings, stream, t, lang = 'en') {
     const spec = STREAMS[stream], mode = ringerOf(settings), muted = stream === 'ring' && mode !== 'normal';

@@ -5,7 +5,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key, app = 'contacts') => { const entry = window.GBStrings?.[app]?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const text = (lang, key, app = 'contacts') => AndroidStrings.resources(() => window.GBStrings?.[app]).t(key, lang);
   const phoneText = (lang, key) => text(lang, key, 'phone');
   const TABS = [['dialpad', 'dialerIconLabel', 'dialer'], ['history', 'recentCallsIconLabel', 'recent'], ['contacts', 'contactsIconLabel', 'contacts'], ['favorites', 'contactsFavoritesLabel', 'starred']];
   const KEYS = [['1', 'dial_num_1_no_vm'], ['2', 'dial_num_2'], ['3', 'dial_num_3'], ['4', 'dial_num_4'], ['5', 'dial_num_5'], ['6', 'dial_num_6'], ['7', 'dial_num_7'], ['8', 'dial_num_8'], ['9', 'dial_num_9'], ['*', 'dial_num_star'], ['0', 'dial_num_0'], ['#', 'dial_num_pound']];

@@ -6,8 +6,8 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const S = (set, lang, key) => { const entry = window.GBStrings?.[set]?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
-  const A = (set, lang, key) => { const entry = window.GBStrings?.[set]?.arrays?.[key]; return entry ? entry[lang] || entry.en : []; };
+  const S = (set, lang, key) => AndroidStrings.resources(() => window.GBStrings?.[set]).t(key, lang);
+  const A = (set, lang, key) => AndroidStrings.resources(() => window.GBStrings?.[set]).array(key, lang);
   const cat = title => ({kind: 'category', title});
   const check = (key, title, summary, def = true, extra = {}) => ({kind: 'check', key, title, summary, def, ...extra});
   const list = (key, title, options, def, extra = {}) => ({kind: 'list', key, title, options, def, ...extra});

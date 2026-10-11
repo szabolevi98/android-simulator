@@ -7,9 +7,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const S = () => window.GBStrings?.camera || {strings: {}, arrays: {}};
-  const text = (lang, key) => { const entry = S().strings[key]; return entry ? entry[lang] ?? entry.en : key; };
-  const array = (lang, key) => { const entry = S().arrays?.[key]; return entry ? entry[lang] ?? entry.en : []; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.camera), text = (lang, key) => R.t(key, lang), array = (lang, key) => R.array(key, lang);
   // camera_preferences.xml with the crespo values; the entry arrays line up with these values.
   const PREFS = {
     flash: {title: 'pref_camera_flashmode_title', entries: 'pref_camera_flashmode_entries', values: ['auto', 'on', 'off'], icon: v => `flash_${v}`},

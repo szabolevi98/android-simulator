@@ -6,9 +6,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const table = () => window.GBSettingsStrings || {strings: {}, arrays: {}};
-  const text = (lang, key) => { const entry = table().strings[key]; return entry ? entry[lang] ?? entry.en : key; };
-  const entries = (lang, name) => { const entry = table().arrays[name]; return entry ? entry[lang] || entry.en : []; };
+  const R = AndroidStrings.resources(() => window.GBSettingsStrings), text = (lang, key) => R.t(key, lang), entries = (lang, name) => R.array(name, lang);
 
   // SettingsProvider defaults.xml and the 2.3.6 AudioService / PackageManager defaults.
   const DEFAULTS = {vsLanguage: 0, vsSafeSearch: 1, vsProfanity: true, backgroundData: true, autoSync: true, syncContacts: true, syncCalendar: true, syncEmail: true, vibrateMode: 2, screenTimeout: 2, animationLevel: 2, emergencyTone: 0, installLocation: 2, notificationPulse: true, dtmfTone: true, soundEffects: false, lockSounds: false, autoBrightness: true, haptic: true, assistedGps: true, tactileFeedback: true, autoTime: true, powerButtonEndsCall: false, accessibility: false, dateFormat: 0};
@@ -223,7 +221,7 @@
     };
   }
 
-  const resolve = (lang, t, item) => typeof item === 'object' && item ? (item.raw ?? '') : item ? (table().strings[item] ? text(lang, item) : t(item)) : '';
+  const resolve = (lang, t, item) => typeof item === 'object' && item ? (item.raw ?? '') : item ? (R.has(item) ? text(lang, item) : t(item)) : '';
   function row(item, ctx) {
     const label = resolve(ctx.lang, ctx.t, item.title);
     if (item.kind === 'category') return `<div class="gbset-cat">${e(label)}</div>`;
@@ -253,7 +251,7 @@
     if (item.kind === 'zone') return `<button class="gbset-row gbset-zone" data-action="gbset-zone" data-id="${e(item.id)}"><span class="gbset-text"><span class="gbset-title">${e(item.name)}</span><span class="gbset-sum">${e(item.offset)}</span></span></button>`;
     if (item.kind === 'locale') return `<button class="gbset-row gbset-locale" data-action="gbset-locale" data-id="${e(item.code)}"><span class="gbset-text"><span class="gbset-title">${e(item.name)}</span></span></button>`;
     if (item.kind === 'info') {
-      const shown = table().strings[item.value] ? text(ctx.lang, item.value) : item.value;
+      const shown = R.has(item.value) ? text(ctx.lang, item.value) : item.value;
       return `<div class="gbset-row gbset-info"${item.action ? ` data-action="${e(item.action)}" role="button" tabindex="0"` : ''}><span class="gbset-text"><span class="gbset-title">${e(label)}</span>${shown ? `<span class="gbset-sum">${e(shown).replace(/\n/g, '<br>')}</span>` : ''}</span></div>`;
     }
     const icon = item.icon ? `<img class="gbset-icon" src="assets/gb-ic_settings_${item.icon}.png" alt="">` : '';

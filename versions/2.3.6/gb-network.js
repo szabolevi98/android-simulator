@@ -10,8 +10,8 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const lookup = (group, lang, key) => { const entry = window.GBStrings?.[group]?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
-  const array = (lang, name) => { const entry = window.GBStrings?.network?.arrays?.[name]; return entry ? entry[lang] || entry.en : []; };
+  const lookup = (group, lang, key) => AndroidStrings.resources(() => window.GBStrings?.[group]).t(key, lang);
+  const array = (lang, name) => AndroidStrings.resources(() => window.GBStrings?.network).array(name, lang);
   // Java's String.format for %s, %d and %1$s.
   const fmt = (pattern, ...args) => { let next = 0; return String(pattern).replace(/%(?:(\d+)\$)?[sd]/g, (m, pos) => String(args[pos ? Number(pos) - 1 : next++] ?? '')); };
 

@@ -7,7 +7,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.email?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.email), text = (lang, key) => R.t(key, lang);
   const ACCOUNT = 'demo@example.com';
   // The local IMAP account's mailboxes in MailboxList order, and the AccountFolderList summary folders.
   const MAILBOXES = [['Inbox', 'inbox'], ['Drafts', 'drafts'], ['Outbox', 'outbox'], ['Sent', 'sent'], ['Trash', 'trash']];

@@ -5,7 +5,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.browser?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.browser), text = (lang, key) => R.t(key, lang);
   const FAVICON = 'assets/gb-br-app_web_browser_sm.png';
   const favicon = () => `<span class="gbbr-fav"><img src="${FAVICON}" alt=""></span>`;
   // TabControl.MAX_TABS in 2.3.

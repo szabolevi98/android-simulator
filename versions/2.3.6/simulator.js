@@ -566,7 +566,7 @@
   /* LivePicker 2.3.6: LiveWallpaperListActivity (Theme.NoTitleBar; live_wallpaper_entry rows with the 75 dip thumbnail,
      the label and the Html description), LiveWallpaperPreview (two 160 dip buttons at the bottom; Settings… only with a
      settings activity), MagicSmokeSelector ("Tap to change", OK) and PolarClockSettings (Theme, two checkboxes and a list). */
-  const lwText = key => { const entry = window.GBStrings?.wallpapers?.strings?.[key]; return entry ? entry[i18n.language] ?? entry.en : key; };
+  const lwText = key => AndroidStrings.resources(() => window.GBStrings?.wallpapers).t(key, i18n.language);
   const lwLabel = spec => lwText(spec.gb?.[0] || spec.label);
   function renderLiveWallpapers() {
     const sub = String(ui.sub || ''), T = lwText;
@@ -832,7 +832,7 @@
     } else if (ui.overlay === 'recent') {
       // RecentApplicationsDialog (recent_apps_dialog.xml): "Recent", up to eight 80 dip icon buttons in rows of four, newest first,
       // or "No recent applications."; recent_dialog_background behind it, fading in and out.
-      const fw = key => window.GBStrings?.framework?.strings?.[key]?.[i18n.language] ?? window.GBStrings?.framework?.strings?.[key]?.en ?? key;
+      const fw = key => AndroidStrings.resources(() => window.GBStrings?.framework).t(key, i18n.language);
       const items = ui.recent.filter(id => appNames[id]).slice(0, 8);
       const rows = items.length ? [items.slice(0, 4), items.slice(4, 8)].filter(row => row.length).map(row => `<div class="gbrecent-row">${row.map(id => `<button class="gbrecent-item" data-action="open-app" data-app="${id}">${appIcon(id)}<span>${safe(appNames[id])}</span></button>`).join('')}</div>`).join('') : `<div class="gbrecent-empty">${safe(fw('no_recent_tasks'))}</div>`;
       overlayRoot.innerHTML = `<div class="gbrecent-scrim" data-action="close-overlay"></div><div class="gbrecent" role="dialog" aria-label="${safe(fw('recent_tasks_title'))}"><div class="gbrecent-title">${safe(fw('recent_tasks_title'))}</div>${rows}<div class="gbrecent-spacer"></div></div>`;
@@ -1270,7 +1270,7 @@
      PanelSwitcher (weight 4). The simple pad has an empty gradient cell and CLEAR (tap deletes, long press clears), then
      digit rows on blue_button and operators on button; the advanced pad has sin cos tan / ln log ! / pi e ^ / ( ) sqrt.
      ColorButton draws white text and the "magic flame" outline. */
-  const calcText = key => { const entry = window.GBStrings?.calculator?.strings?.[key]; return entry ? entry[i18n.language] ?? entry.en : key; };
+  const calcText = key => AndroidStrings.resources(() => window.GBStrings?.calculator).t(key, i18n.language);
   function renderCalculator() {
     const key = (id, cls = '') => `<button class="gbcalc-key${cls}" data-action="calc-key" data-id="${id}">${safe(id)}</button>`;
     const row = keys => `<div class="gbcalc-row">${keys.map(([id, cls]) => key(id, cls)).join('')}</div>`;
@@ -1287,9 +1287,10 @@
     track.style.transform = `translateX(-${index * 50}%)`;
     track.querySelectorAll('.ics-calc-grid,.gbcalc-pad').forEach((panel, i) => { panel.inert = i !== index; });
   }
-  const musicText = key => { const entry = window.GBStrings?.music?.strings?.[key]; return entry ? entry[i18n.language] ?? entry.en : key; };
+  const MUSIC = AndroidStrings.resources(() => window.GBStrings?.music), musicText = key => MUSIC.t(key, i18n.language);
   // Music's plurals (Nalbums, Nsongs, Nsongscomp): the one / other text of the image, %d and %n$d / %n$s filled in.
-  const musicPlural = (key, n, ...rest) => { const forms = window.GBStrings?.music?.plurals?.[key]; const set = forms?.[i18n.language] || forms?.en || {}; const args = [n, ...rest]; return String((n === 1 && set.one) || set.other || n).replace(/%(\d)\$[ds]/g, (_, i) => args[i - 1]).replace(/%d/g, n); };
+  // The quantity the language's plural rules pick (CLDR, as Android's Resources.getQuantityString).
+  const musicPlural = (key, n, ...rest) => MUSIC.plural(key, n, i18n.language, n, ...rest);
   function renderMusic() {
     return ICSMusic.render(ui.music,ui,key=>i18n.t(key),musicText,musicPlural);
   }

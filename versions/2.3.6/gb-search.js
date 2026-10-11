@@ -7,7 +7,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const str = (set, lang, key) => { const entry = window.GBStrings?.[set]?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const str = (set, lang, key) => AndroidStrings.resources(() => window.GBStrings?.[set]).t(key, lang);
   const text = (lang, key) => str('search', lang, key);
   // Corpus: label, description (Searchable items), hint and icon. All and Web show the Google hint image instead of text.
   const CORPORA = {

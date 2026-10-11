@@ -5,8 +5,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.deskclock?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
-  const array = (lang, key) => { const entry = window.GBStrings?.deskclock?.arrays?.[key]; return entry ? entry[lang] || entry.en : []; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.deskclock), text = (lang, key) => R.t(key, lang), array = (lang, key) => R.array(key, lang);
   // The Nexus S image's /system/media/audio/alarms (file, Vorbis TITLE) in title order; ro.config.alarm_alert=Alarm_Classic.ogg.
   const TONE_TITLES = [['Alarm_Beep_02', 'BeeBeep Alarm'], ['Alarm_Beep_03', 'Beep-Beep-Beep Alarm'], ['Alarm_Buzzer', 'Buzzer Alarm'], ['Alarm_Beep_01', 'Piezo Alarm'], ['Alarm_Classic', 'Ringing Alarm']];
   const TONES = TONE_TITLES.map(([file]) => file);

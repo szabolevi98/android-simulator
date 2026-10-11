@@ -6,7 +6,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.contacts?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.contacts), text = (lang, key) => R.t(key, lang);
   // FallbackSource type lists (the primary types; the label button cycles through them in a list dialog).
   const PHONE_TYPES = ['home', 'mobile', 'work', 'other'], EMAIL_TYPES = ['home', 'work', 'other', 'mobile'];
   const typeLabel = (kind, type, lang) => text(lang, `${kind}Type${type[0].toUpperCase()}${type.slice(1)}`);

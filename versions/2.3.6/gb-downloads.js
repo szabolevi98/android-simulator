@@ -6,7 +6,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.downloads?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.downloads), text = (lang, key) => R.t(key, lang);
   // The file type decides the icon (the activity that would open it) and what a click does.
   const KINDS = {image: {icon: 'gallery.png', app: 'gallery'}, audio: {icon: 'music.png', app: 'music'}, other: {icon: 'gb-dl-ic_download_misc_file_type.png'}};
   const DAY = 86400000;

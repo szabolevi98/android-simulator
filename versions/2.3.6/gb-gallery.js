@@ -7,7 +7,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.gallery?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.gallery), text = (lang, key) => R.t(key, lang);
   const DP = 0.8625, ITEM_W = 96 * DP, ITEM_H = 72 * DP;
   const M = () => window.ICSMedia;
   // LocalDataSource buckets shown in this simulator: the camera roll and the Pictures folder.

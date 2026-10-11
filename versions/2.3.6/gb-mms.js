@@ -5,8 +5,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const text = (lang, key) => { const entry = window.GBStrings?.mms?.strings?.[key]; return entry ? entry[lang] ?? entry.en : key; };
-  const array = (lang, key) => { const entry = window.GBStrings?.mms?.arrays?.[key]; return entry ? entry[lang] || entry.en : []; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.mms), text = (lang, key) => R.t(key, lang), array = (lang, key) => R.array(key, lang);
   // SmileyParser: default_smiley_texts with DEFAULT_SMILEY_RES_IDS in the same order.
   const SMILEYS = ['happy', 'sad', 'winking', 'tongue_sticking_out', 'surprised', 'kissing', 'yelling', 'cool', 'money_mouth', 'foot_in_mouth', 'embarrassed', 'angel', 'undecided', 'crying', 'lips_are_sealed', 'laughing', 'wtf'];
   function smileys(body, lang) {

@@ -8,9 +8,7 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const C = () => window.ICSCalendar;
-  const S = () => window.GBStrings?.calendar || {strings: {}, arrays: {}};
-  const text = (lang, key) => { const entry = S().strings[key]; return entry ? entry[lang] ?? entry.en : key; };
-  const array = (lang, key) => { const entry = S().arrays?.[key]; return entry ? entry[lang] ?? entry.en : []; };
+  const R = AndroidStrings.resources(() => window.GBStrings?.calendar), text = (lang, key) => R.t(key, lang), array = (lang, key) => R.array(key, lang);
   // The phone's local calendar colour (Calendars.COLOR) used for event boxes and the event info card.
   const COLOR = '#2952a3';
   const minutes = time => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5));
