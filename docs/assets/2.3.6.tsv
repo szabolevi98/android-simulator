@@ -94,8 +94,8 @@ versions/2.3.6/assets/ch-ic_places.png	395e596b77efb372	copy	crespo:/system/app/
 versions/2.3.6/assets/ch-ic_settings.png	23d9b0f978ed510e	copy	crespo:/system/app/CarHomeGoogle.apk!res/drawable-hdpi/ic_settings.png	drawable-hdpi		23d9b0f978ed510e
 versions/2.3.6/assets/ch-ic_voicesearch.png	91c78505b757df7f	copy	crespo:/system/app/CarHomeGoogle.apk!res/drawable-hdpi/ic_voicesearch.png	drawable-hdpi		91c78505b757df7f
 versions/2.3.6/assets/clock-ic_lock_idle_alarm.png	68fba134ddc10de9	same pixels	crespo:/system/app/DeskClockGoogle.apk!res/drawable-hdpi/ic_lock_idle_alarm.png	drawable-hdpi		680a2fbe7183e280
-versions/2.3.6/assets/clock-ic_menu_add.png	13877afff5458c65	resized	maguro:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_menu_add.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.15	8896469ff9ca4ade
-versions/2.3.6/assets/clock-ic_menu_alarms.png	3e7f9fbda8be7bef	resized	maguro:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_menu_alarms.png	drawable-xhdpi	resized 96×96 → 72×72, mean difference 1.49	fe4d2236f280813e
+versions/2.3.6/assets/clock-ic_menu_add.png	afc0c1bf19ed207d	resized	crespo:/system/app/DeskClockGoogle.apk!res/drawable-hdpi/ic_menu_add.png	drawable-hdpi	resized 72×72 → 48×48, mean difference 0.00	faa82d6f7db54d7f
+versions/2.3.6/assets/clock-ic_menu_alarms.png	e7af5deb0688ce79	copy	crespo:/system/app/DeskClockGoogle.apk!res/drawable-hdpi/ic_menu_alarms.png	drawable-hdpi		e7af5deb0688ce79
 versions/2.3.6/assets/clock.png	c1ae78178e9d186e	same pixels	crespo:/system/app/DeskClockGoogle.apk!res/drawable-hdpi/ic_launcher_alarmclock.png	drawable-hdpi		323fdc048214d71b
 versions/2.3.6/assets/cp-appwidget_bg.png	47570d9b5ac36c64	copy	crespo:/system/app/CalendarProvider.apk!res/drawable-hdpi/appwidget_bg.9.png	drawable-hdpi		47570d9b5ac36c64
 versions/2.3.6/assets/cp-appwidget_calendar_bgtop_blue.png	99e9104c4ddb64a8	copy	crespo:/system/app/CalendarProvider.apk!res/drawable-hdpi/appwidget_calendar_bgtop_blue.9.png	drawable-hdpi		99e9104c4ddb64a8
@@ -1365,8 +1365,8 @@ versions/2.3.6/assets/mk-green_gradient.png	fad91a59ba81141c	copy	crespo:/system
 versions/2.3.6/assets/mk-widget_header.png	c3c88ed2d3c8ba14	copy	crespo:/system/app/Vending.apk!res/drawable-hdpi/widget_header.png	drawable-hdpi		c3c88ed2d3c8ba14
 versions/2.3.6/assets/mk-widget_title_bg.png	1d035527d57f2360	copy	crespo:/system/app/Vending.apk!res/drawable-hdpi/widget_title_bg.9.png	drawable-hdpi		1d035527d57f2360
 versions/2.3.6/assets/mms-ic_contact_picture.png	5f9b8ffe18169c78	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/ic_contact_picture.png	drawable-hdpi		e3b34f9124fe0431
-versions/2.3.6/assets/mms-ic_menu_attachment.png	2216150d74fe1618	resized	maguro:/system/app/Mms.apk!res/drawable-xhdpi/ic_menu_attachment.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.53	3ff746dd792f8430
-versions/2.3.6/assets/mms-ic_menu_call.png	5d2a8a53144ded26	resized	maguro:/system/app/Mms.apk!res/drawable-xhdpi/ic_menu_call.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.26	76105472dc706ca4
+versions/2.3.6/assets/mms-ic_menu_attachment.png	e8b0ab20b31b83b5	resized	crespo:/system/app/Mms.apk!res/drawable-hdpi/ic_menu_attachment.png	drawable-hdpi	resized 72×72 → 48×48, mean difference 0.00	cced15b1a5f58a74
+versions/2.3.6/assets/mms-ic_menu_call.png	cfe7037aba9866eb	resized	crespo:/system/app/Mms.apk!res/drawable-hdpi/ic_menu_call.png	drawable-hdpi	resized 72×72 → 48×48, mean difference 0.00	fcc25832bc4bb5ad
 versions/2.3.6/assets/mms-msg_bubble_left.png	79b6ff7963d6f74c	resized	maguro:/system/app/Mms.apk!res/drawable-xhdpi/msg_bubble_left.png	drawable-xhdpi	resized 12×32 → 9×24, mean difference 2.08	1844aa3b46ad03db
 versions/2.3.6/assets/mms-msg_bubble_right.png	4dfe61cc2aee9ebf	resized	maguro:/system/app/Mms.apk!res/drawable-xhdpi/msg_bubble_right.png	drawable-xhdpi	resized 12×32 → 9×24, mean difference 2.08	8f4a590047af83df
 versions/2.3.6/assets/mp-avatar_unknown.png	a938f888c555f054	copy	crespo:/system/app/Maps.apk!res/drawable-240dpi/avatar_unknown.png	drawable-240dpi		a938f888c555f054
@@ -1601,24 +1601,24 @@ versions/2.3.6/assets/power-sync-on.png	2710c1385b0f576d	resized	maguro:/system/
 versions/2.3.6/assets/power-wifi-off.png	b280ba85b54c50e6	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_appwidget_settings_wifi_off_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.21	132da9aa3321dcf2
 versions/2.3.6/assets/power-wifi-on.png	471b14b360a64964	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_appwidget_settings_wifi_on_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.32	145d4128d427a36d
 versions/2.3.6/assets/search.png	ffcc5104b288ca10	copy	crespo:/system/app/GoogleQuickSearchBox.apk!res/drawable-hdpi/google_icon.png	drawable-hdpi		ffcc5104b288ca10
-versions/2.3.6/assets/setting-about.png	bac4d0e017edbe76	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_about.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.65	2f7e557ec9e3dc6f
-versions/2.3.6/assets/setting-accessibility.png	1b37d9f5f21dfe5c	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_accessibility.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.71	4346641f7a4f9fd0
-versions/2.3.6/assets/setting-apps.png	5cce43892d39fa8c	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_applications.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.71	758a080fed476838
+versions/2.3.6/assets/setting-about.png	dfd57766841a1ae2	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_about.png	drawable-hdpi		dfd57766841a1ae2
+versions/2.3.6/assets/setting-accessibility.png	b6a51e6cc344ab58	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_accessibility.png	drawable-hdpi		b6a51e6cc344ab58
+versions/2.3.6/assets/setting-apps.png	c91362aa3e74b192	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_applications.png	drawable-hdpi		c91362aa3e74b192
 versions/2.3.6/assets/setting-backup.png	111b1a60b96fd67b	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_backup.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.72	1ed411744c3e1db8
 versions/2.3.6/assets/setting-battery.png	6aa6d68460aa2e8d	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_battery.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.57	3d0c6ab5c7f97625
 versions/2.3.6/assets/setting-bluetooth.png	333c51e8eeb517bf	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_bluetooth2.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.95	2f398ec29e96cf9e
 versions/2.3.6/assets/setting-data.png	d46b5c7b3a15f0f9	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_data_usage.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.62	36c510c8c341fe13
-versions/2.3.6/assets/setting-date.png	8b71d43be4608ce2	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_date_time.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.75	594c75c39fea03f4
+versions/2.3.6/assets/setting-date.png	e5497ee869526ff5	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_date_time.png	drawable-hdpi		e5497ee869526ff5
 versions/2.3.6/assets/setting-development.png	d121ade6aed9fcd8	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_development.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 1.43	8af3406a85c8e52c
-versions/2.3.6/assets/setting-display.png	bc4204395d7d5037	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_display.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.91	3e9cd4250583198a
-versions/2.3.6/assets/setting-language.png	1123945f78686ea2	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_language.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.76	b9b8eda9009798e1
+versions/2.3.6/assets/setting-display.png	b79786a1a57c79ad	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_display.png	drawable-hdpi		b79786a1a57c79ad
+versions/2.3.6/assets/setting-language.png	a7211c7402c45335	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_language.png	drawable-hdpi		a7211c7402c45335
 versions/2.3.6/assets/setting-location.png	4f29d56b9fe0b38c	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_location.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 1.37	5e208cc69698b65b
-versions/2.3.6/assets/setting-security.png	b1124d23933b8dbc	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_security.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.69	6998de7aad4090ab
-versions/2.3.6/assets/setting-sound.png	77804eb61cae4544	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_sound.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.75	4a5677da0ccf2f54
-versions/2.3.6/assets/setting-storage.png	a59dfe76bd29e872	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_storage.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.78	7647f3baa8122ba0
-versions/2.3.6/assets/setting-sync.png	7a44dff3e42d52b4	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_sync.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.85	6ca542fa74325e0d
+versions/2.3.6/assets/setting-security.png	f65b6d75677afb86	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_security.png	drawable-hdpi		f65b6d75677afb86
+versions/2.3.6/assets/setting-sound.png	2961383d84389f51	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_sound.png	drawable-hdpi		2961383d84389f51
+versions/2.3.6/assets/setting-storage.png	f57a3a60738f1d3b	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_storage.png	drawable-hdpi		f57a3a60738f1d3b
+versions/2.3.6/assets/setting-sync.png	94bbc1b3435ed3d1	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_appwidget_settings_sync_on.png	drawable-hdpi		94bbc1b3435ed3d1
 versions/2.3.6/assets/setting-wifi.png	0bd09ea6571db7e5	same pixels	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_wifi.png	drawable-hdpi		8f512527bf23fb92
-versions/2.3.6/assets/setting-wireless.png	fa6b07a174e89ae2	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_wireless.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.66	e7e3fcd057c8476b
+versions/2.3.6/assets/setting-wireless.png	4977616948c4d866	copy	crespo:/system/app/Settings.apk!res/drawable-hdpi/ic_appwidget_settings_wifi_on.png	drawable-hdpi		4977616948c4d866
 versions/2.3.6/assets/settings.png	921ec701bd34417e	same pixels	crespo:/system/app/SystemUI.apk!res/drawable-hdpi/ic_launcher_settings.png	drawable-hdpi		a713deab9712d08f
 versions/2.3.6/assets/stat_notify_sms.png	c6a98355b5cd7550	resized	maguro:/system/app/Mms.apk!res/drawable-xhdpi/stat_notify_sms.png	drawable-xhdpi	resized 48×48 → 36×36, mean difference 2.22	f6a2d1cf5ba97342
 versions/2.3.6/assets/stat_sys_alarm.png	536cb6ebffaf4a91	resized	maguro:/system/app/SystemUI.apk!res/drawable-xhdpi/stat_sys_alarm.png	drawable-xhdpi	resized 36×36 → 27×27, mean difference 0.58	1bc5e3ef11c110f9
