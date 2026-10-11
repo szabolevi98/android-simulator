@@ -131,6 +131,8 @@ szerint. Minden tételnél: melyik verzió használja ténylegesen, egyezik-e a 
 ## 7. Megbeszélés (az audit utolsó pontja)
 
 - [ ] Play Store / Market verzióeltérések megtárgyalása (2.3.6 Market 3.x, 4.0.4 Play 3.8.17, 4.4.4 Play 4.8.22, 5.1.1 Play 4.8.22 felirat az 5.2-es kinézet mellett), utána a döntés szerinti javítás
+  - Döntés (2026-10-10): mind az öt verzió a saját gyári képének boltját kapja, a kép APK-jából újraépítve: 2.3.6 Market 2.3.4 (Vending.apk), 4.0.4 Play 3.4.7, 4.3 Play 4.2.3, 4.4.4 Play 4.5.10, 5.1.1 Play 5.2.13 (Phonesky.apk). A katalógus, a gyűjtemények címei és a listanevek továbbra is a szimulátor sajátjai (a telefonon ezek a szerverről jöttek).
+  - [x] 4.3 Play 4.2.3: a szövegek az APK-ból öt nyelven (docs/jb-play.template.js → docs/apk-strings.py), a grafikák az APK xhdpi erőforrásai (assets/ps423-*), a színek és méretek a values / layout fájlokból; a túlcsorduló menü a MainActivity sorrendjében (Saját alkalmazások, Kívánságlista, Beváltás, Fiókok, Beállítások, Súgó; a részleteknél a Megosztás a menübe kerül, ha a könyvjelző foglalja a második helyet); a részletek fejléce rögzített a 2 dp-s korpuszcsíkkal, saját alkalmazásnál előbb az Újdonságok; „Rate it!” értékelőablak, eltávolítási kérdés, engedélyablak a keretrendszer engedélycsoportjaival, a beállításoknál „Parancsikonok automatikus hozzáadása” és tartalomszűrő ablak
 - [x] KitKat Gmail – döntés 2026-10-08: a gyári kép szerinti 4.6.1. Elkészült: 3b40416; a megvalósítás részletei a 9. pont „Gmail 4.4.4” lezárt tételében.
 - [x] Boot képernyők (a tulajdonos ötlete, 2026-10-06): verziónként a gyári bootanimáció, ami alatt az assetek betöltődhetnek; kattintásra azonnal továbblép. Döntés 2026-10-08: fix idő helyett az animáció nem vágódik el, legalább egy teljes kör lemegy; fülenként (verziónként) egyszer, frissítéskor nincs; utána a zárképernyő. Kész: a rendszer akkor „indult el”, ha az oldal és a betűk betöltődtek (legfeljebb 12 s), és ez mindig az ismétlődő rész egy körének végén történik (a bekapcsológombos újraindításnál is); érintés vagy billentyű átugorja, csökkentett mozgásnál kimarad. Gyors netnél 2.3.6 / 4.0.4 kb. 3,2 s, 4.4.4 3,6 s, 4.3 4,6 s, 5.1.1 8 s – 65d64c9
 
@@ -485,4 +487,5 @@ A 13. pont munkaterv; az implementáció nem kezdődött el.
 | 2026-10-10 | 9. lépés: 4.3 / 4.4.4 eseményrészlet a helyi zónában, rövid zónanévvel | ee63900 |
 | 2026-10-10 | 9. lépés: 5.1.1 Naptár TimeZonePickerDialog a saját képből, Material stílussal; eseményrészlet a készülék zónájában | 4ef64ba |
 | 2026-10-10 | 9. lépés: 4.4.4 Google Now Launcher keresősáv és alkalmazásrács a saját gyári APK-kból | 4e28a91 |
+| 2026-10-11 | 7. pont: 4.3 Play Store 4.2.3 a gyári Phonesky.apk-ból | (ez a commit) |
 | 2026-10-10 | 9/D: 4.0.4 Google Beállítások gyári kép szerinti hiánya ellenőrizve helyben és élesben; elavult auditbejegyzés lezárva (a tartalékkód korábban törölve) | 254439c |
