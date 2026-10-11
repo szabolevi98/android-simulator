@@ -61,9 +61,9 @@ Not traced:
 
 ## 5.1.1 (shamu)
 
-copy: 609, resized: 199, vector: 199, same pixels: 162, converted: 29, similar: 9, generated: 6, not traced: 6, own: 3
+copy: 613, vector: 199, resized: 180, same pixels: 158, converted: 29, similar: 7, generated: 6, not traced: 6, own: 3
 
-From another release's image (the own image has no such file; to review): crespo 2, hammerhead 33, maguro 74, mako 45 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): crespo 2, hammerhead 30, maguro 74, mako 25 — the source column of the TSV names each.
 
 Not traced:
 
