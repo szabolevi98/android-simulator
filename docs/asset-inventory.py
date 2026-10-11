@@ -122,10 +122,12 @@ class Image_:
         return [r for r in self.names if r[1].rsplit('/', 1)[-1] in {f'{n}.{ext}' for n in names}]
 
     def rank(self, row, wanted):
-        """Prefer the resource name of the output, then the version's density, then framework / app order."""
+        """Prefer the resource name of the output, a phone configuration, then the version's density, then framework / app order."""
         q = qualifier(row[1])
         dens = next((d for d in DENSITIES if re.search(rf'(^|-){d}(-|$)', q)), '')
-        return (name_of(row[1] or row[0]) not in wanted, dens != self.density, abs(DENSITIES.index(dens) - DENSITIES.index(self.density)) if dens else 9, row[0], row[1])
+        # A phone's own configuration first: tablet (swNNNdp, large), landscape and right-to-left variants come after.
+        other = bool(re.search(r'(^|-)(sw\d+dp|w\d+dp|large|xlarge|land|ldrtl|night|television|car)(-|$)', q))
+        return (name_of(row[1] or row[0]) not in wanted, other, dens != self.density, abs(DENSITIES.index(dens) - DENSITIES.index(self.density)) if dens else 9, row[0], row[1])
 
 
 def name_of(path):

@@ -80,7 +80,7 @@ versions/4.4.4/assets/c32-menu_btn_bg.png	463a22567e97797b	same pixels	hammerhea
 versions/4.4.4/assets/c32-menu_btn_bg_light.png	b7126b5e67c89b0e	same pixels	hammerhead:/system/app/Chrome.apk!res/drawable-xhdpi/menu_btn_bg_light.png	drawable-xhdpi		0232ce5965d3953e
 versions/4.4.4/assets/c32-most_visited_icon.png	35d5df7a99e40f72	same pixels	hammerhead:/system/app/Chrome.apk!res/drawable-xhdpi/most_visited_icon.png	drawable-xhdpi		6b2ffd7d0fc7bd48
 versions/4.4.4/assets/c32-new_tab_light.png	8dea26519aa54ead	same pixels	hammerhead:/system/app/Chrome.apk!res/drawable-xhdpi/new_tab_light.png	drawable-xhdpi		83aa8ee4e2ff97b6
-versions/4.4.4/assets/c32-new_tab_logo.png	312510cf6a00a7f0	same pixels	hammerhead:/system/app/Chrome.apk!res/drawable-ldrtl-xhdpi/new_tab_logo.9.png	drawable-ldrtl-xhdpi		d2c5bb090e51dc15
+versions/4.4.4/assets/c32-new_tab_logo.png	312510cf6a00a7f0	same pixels	hammerhead:/system/app/Chrome.apk!res/drawable-xhdpi/new_tab_logo.9.png	drawable-xhdpi		611e14d9e28eeeb5
 versions/4.4.4/assets/c32-ntp-document.png	02c45a6874312934	own	docs/chrome-pak.py: the data: URIs of the ntp_android page in the image's Chrome 32 resources.pak			
 versions/4.4.4/assets/c32-ntp-folder.png	bf8d143237cf41f0	own	docs/chrome-pak.py: the data: URIs of the ntp_android page in the image's Chrome 32 resources.pak		closest: mean difference 5.03 (hammerhead:/system/app/Chrome.apk!res/drawable-hdpi/bookmarks_folder_icon.png)	
 versions/4.4.4/assets/c32-ntp-incognito.png	689da6138d328360	own	docs/chrome-pak.py: the data: URIs of the ntp_android page in the image's Chrome 32 resources.pak			
@@ -365,7 +365,7 @@ versions/4.4.4/assets/jb-ic_qs_bluetooth_off.png	d92ddc69ebdb093f	same pixels	ha
 versions/4.4.4/assets/jb-ic_qs_bluetooth_on.png	f9231f2d513c1377	same pixels	hammerhead:/system/priv-app/SystemUI.apk!res/drawable-xxhdpi/ic_qs_bluetooth_on.png	drawable-xxhdpi		ae214dd93c7e13d6
 versions/4.4.4/assets/jb-ic_qs_brightness_auto_off.png	7aec9fea40c0e185	same pixels	hammerhead:/system/priv-app/SystemUI.apk!res/drawable-xxhdpi/ic_qs_brightness_auto_off.png	drawable-xxhdpi		e116cf0cb65582b3
 versions/4.4.4/assets/jb-ic_qs_brightness_auto_on.png	84f84a96795d75e8	same pixels	hammerhead:/system/priv-app/SystemUI.apk!res/drawable-xxhdpi/ic_qs_brightness_auto_on.png	drawable-xxhdpi		3f9b9b451c262f15
-versions/4.4.4/assets/jb-ic_qs_default_user.png	f5aa082a43788bb6	same pixels	hammerhead:/system/priv-app/SystemUI.apk!res/drawable-ldrtl-xxhdpi/ic_qs_default_user.png	drawable-ldrtl-xxhdpi		76a77c6b09020b65
+versions/4.4.4/assets/jb-ic_qs_default_user.png	f5aa082a43788bb6	same pixels	hammerhead:/system/priv-app/SystemUI.apk!res/drawable-xxhdpi/ic_qs_default_user.png	drawable-xxhdpi		76a77c6b09020b65
 versions/4.4.4/assets/jb-ic_qs_location.png	4e6d9e5976ad01e3	resized	mako:/system/app/SystemUI.apk!res/drawable-xhdpi/ic_qs_location.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.99	22a9a65d07c99b08
 versions/4.4.4/assets/jb-ic_qs_location_off.png	c4c2933444e9c2db	same pixels	hammerhead:/system/priv-app/SystemUI.apk!res/drawable-xxhdpi/ic_qs_location_off.png	drawable-xxhdpi		c4ed5c0de6cbd387
 versions/4.4.4/assets/jb-ic_qs_location_on.png	5a8742d9a45fcdc0	same pixels	hammerhead:/system/priv-app/SystemUI.apk!res/drawable-xxhdpi/ic_qs_location_on.png	drawable-xxhdpi		14ba2e89ce9057b8
@@ -715,7 +715,7 @@ versions/4.4.4/assets/l3-widget_resize_handle_bottom.png	f3e4e5c8d4d3b174	same p
 versions/4.4.4/assets/l3-widget_resize_handle_left.png	fc2b817d7f0d7b31	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/widget_resize_handle_left.png	drawable-xxhdpi		513cbe55976f03f5
 versions/4.4.4/assets/l3-widget_resize_handle_right.png	7619d3803229df80	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/widget_resize_handle_right.png	drawable-xxhdpi		1cf7da0e389e535d
 versions/4.4.4/assets/l3-widget_resize_handle_top.png	c3c7d673ac8a7d56	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/widget_resize_handle_top.png	drawable-xxhdpi		f40ba2e05eb95505
-versions/4.4.4/assets/l3-workspace_bg.png	b083781860c6de8f	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-sw720dp-xxhdpi/workspace_bg.9.png	drawable-sw720dp-xxhdpi		46e0931b2018f413
+versions/4.4.4/assets/l3-workspace_bg.png	b083781860c6de8f	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/workspace_bg.9.png	drawable-xxhdpi		46e0931b2018f413
 versions/4.4.4/assets/landing-home.jpg	bba5daf40c68b68b	own	capture of the simulator's own home screen for the landing page card			
 versions/4.4.4/assets/launcher-ic_launcher_clear_active_holo.png	77c712178de0a2a1	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-hdpi/ic_launcher_clear_active_holo.png	drawable-hdpi		f51e71dfb22205b8
 versions/4.4.4/assets/launcher-ic_launcher_clear_normal_holo.png	ab90bea161700e9d	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-hdpi/ic_launcher_clear_normal_holo.png	drawable-hdpi		eb998879e452c5bf

@@ -144,11 +144,11 @@ versions/5.1.1/assets/dc5-ic_fab_play.png	fdad7f2b2ddacb5a	copy	shamu:/system/ap
 versions/5.1.1/assets/dc5-ic_fab_plus.png	6095bac88226521d	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_fab_plus.png	drawable-xxxhdpi-v4		6095bac88226521d
 versions/5.1.1/assets/dc5-ic_fab_stop.png	a9b2aa76bc961b54	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_fab_stop.png	drawable-xxxhdpi-v4		a9b2aa76bc961b54
 versions/5.1.1/assets/dc5-ic_globe.png	1feb40db6ec0b15e	same pixels	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxhdpi-v4/ic_globe.png	drawable-xxhdpi-v4		b498b2acc36c6f9b
-versions/5.1.1/assets/dc5-ic_label_normal.png	c87934d25c929eaf	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-sw600dp-xxxhdpi-v13/ic_label_normal.png	drawable-sw600dp-xxxhdpi-v13		c87934d25c929eaf
+versions/5.1.1/assets/dc5-ic_label_normal.png	c87934d25c929eaf	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_label_normal.png	drawable-xxxhdpi-v4		c87934d25c929eaf
 versions/5.1.1/assets/dc5-ic_lap.png	4e90dd47a30af605	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_lap.png	drawable-xxxhdpi-v4		4e90dd47a30af605
 versions/5.1.1/assets/dc5-ic_menu_search.png	d7fcb3c470c2d5ea	copy	shamu:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/ic_menu_search.png	drawable-xxhdpi-v4		d7fcb3c470c2d5ea
 versions/5.1.1/assets/dc5-ic_noalarms.png	27a1b13b9a556a06	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_noalarms.png	drawable-xxxhdpi-v4		27a1b13b9a556a06
-versions/5.1.1/assets/dc5-ic_overflow.png	a6eb1feee5e3a25c	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-sw600dp-xxxhdpi-v13/ic_overflow.png	drawable-sw600dp-xxxhdpi-v13		a6eb1feee5e3a25c
+versions/5.1.1/assets/dc5-ic_overflow.png	a6eb1feee5e3a25c	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_overflow.png	drawable-xxxhdpi-v4		a6eb1feee5e3a25c
 versions/5.1.1/assets/dc5-ic_plusone.png	f33cf0eadee60edf	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_plusone.png	drawable-xxxhdpi-v4		f33cf0eadee60edf
 versions/5.1.1/assets/dc5-ic_reset.png	aefc7b57d3fac5a5	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_reset.png	drawable-xxxhdpi-v4		aefc7b57d3fac5a5
 versions/5.1.1/assets/dc5-ic_ringtone.png	ba8e0daf897d2759	copy	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/ic_ringtone.png	drawable-xxxhdpi-v4		ba8e0daf897d2759
@@ -634,7 +634,7 @@ versions/5.1.1/assets/l3-portal_ring_inner_holo.png	f795f30a0f8e3155	same pixels
 versions/5.1.1/assets/l3-portal_ring_outer_holo.png	d63ae1ca37b3a741	same pixels	shamu:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/portal_ring_outer_holo.png	drawable-xxhdpi-v4		8a3bec785f227618
 versions/5.1.1/assets/l3-screenpanel.png	5d76dc06783bf2cc	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/screenpanel.9.png	drawable-xxhdpi		0869181442cc9c4c
 versions/5.1.1/assets/l3-search_frame.png	386a0b13a24943a2	resized	shamu:/system/priv-app/SystemUI/SystemUI.apk!res/drawable-xxhdpi-v4/search_bg_transparent.9.png	drawable-xxhdpi-v4	resized 144×144 → 48×48, mean difference 1.93	272b5f84bb15329b
-versions/5.1.1/assets/l3-workspace_bg.png	b083781860c6de8f	same pixels	shamu:/system/priv-app/Velvet/Velvet.apk!res/drawable-sw720dp-xxhdpi-v13/workspace_bg.9.png	drawable-sw720dp-xxhdpi-v13		5fc349e56df5e213
+versions/5.1.1/assets/l3-workspace_bg.png	b083781860c6de8f	same pixels	shamu:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/workspace_bg.9.png	drawable-xxhdpi-v4		5fc349e56df5e213
 versions/5.1.1/assets/landing-home.jpg	64630bd80dd0ff70	own	capture of the simulator's own home screen for the landing page card			
 versions/5.1.1/assets/launcher-portal_container_holo.png	625a56915a820470	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/portal_container_holo.9.png	drawable-xhdpi	resized 72×72 → 54×54, mean difference 0.17	e472a98176a3e3bc
 versions/5.1.1/assets/launcher-portal_ring_inner_holo.png	5b83fed6a94ff9e4	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/portal_ring_inner_holo.png	drawable-xhdpi	resized 128×128 → 96×96, mean difference 0.46	e4dc52b6ea7b438b
@@ -742,7 +742,7 @@ versions/5.1.1/assets/lp-sysui-ic_audio_remote.svg	5000a157976e68cb	vector	shamu
 versions/5.1.1/assets/lp-sysui-ic_audio_vol.svg	949f245a5960b3e7	vector	shamu:/system/framework/framework-res.apk!res/drawable/ic_audio_vol.xml	drawable	vector drawable drawn as SVG	43d9a7f897baa306
 versions/5.1.1/assets/lp-sysui-ic_audio_vol_mute.svg	a89fa258ea17eb5a	vector	shamu:/system/framework/framework-res.apk!res/drawable/ic_audio_vol_mute.xml	drawable	vector drawable drawn as SVG	34e0fbb21bc45fa3
 versions/5.1.1/assets/lp-sysui-ic_brightness_thumb.svg	20744ff4cfea73c5	vector	shamu:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_brightness_thumb.xml	drawable	vector drawable drawn as SVG	d6bc2f23ac382fdf
-versions/5.1.1/assets/lp-sysui-ic_chevron_left.svg	b740d1a2fd679827	vector	shamu:/system/priv-app/Hangouts/Hangouts.apk!res/drawable-ldrtl/ic_chevron_left.xml	drawable-ldrtl	vector drawable drawn as SVG	a4c3b09363bfe3d1
+versions/5.1.1/assets/lp-sysui-ic_chevron_left.svg	b740d1a2fd679827	vector	shamu:/system/priv-app/Hangouts/Hangouts.apk!res/drawable/ic_chevron_left.xml	drawable	vector drawable drawn as SVG	b223e76490be0360
 versions/5.1.1/assets/lp-sysui-ic_close.svg	1ebee82a09c28a2a	vector	shamu:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_close.xml	drawable	vector drawable drawn as SVG	ec5e9190523b4c09
 versions/5.1.1/assets/lp-sysui-ic_hotspot_disable.svg	a94ce14043ed3531	vector	shamu:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_hotspot_disable.xml	drawable	vector drawable drawn as SVG	2a05182f1f40f870
 versions/5.1.1/assets/lp-sysui-ic_hotspot_enable.svg	f460c3c9195610d5	vector	shamu:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_hotspot_enable.xml	drawable	vector drawable drawn as SVG	f74fad4a674afd41
