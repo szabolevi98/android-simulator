@@ -138,7 +138,7 @@
     categoriesOff = Object.fromEntries(['social', 'promotions', 'updates', 'forums'].map(id => [id, !categoryOn(data, id)]));
     seen = data.gmailSeen || {};
     return {
-      icon: 'gmail.png', account, archive: true, teaserDismissed: !!data.gmailTeaserDismissed,
+      app: 'gmail', icon: 'gmail.png', account, archive: true, teaserDismissed: !!data.gmailTeaserDismissed,
       list, folderName: folder => tr(lang, folder),
       subtitle: folder => { const n = unread(mail, folder); return n && folder !== 'Sent' && folder !== 'Drafts' ? count(lang, '%d unread', n) : account; },
       top: folder => top(mail, folder, lang, data),

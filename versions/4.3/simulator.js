@@ -1553,7 +1553,7 @@
   }
   setInterval(tickPlayVideo, 1000);
   // Gmail 4.5.1: KitKat's UnifiedEmail screens on its own mailbox, folder, conversation and selection.
-  const gmailOptions = () => GmailApp.options(data, ui, i18n.language, key => KKEmail.tr(i18n.language, key));
+  const gmailOptions = () => GmailApp.options(data, ui, i18n.language, key => KKEmail.tr(i18n.language, key, 'gmail'));
   function renderGmail() { if (ui.sub === 'gm-settings') return GmailApp.settings(data, ui, i18n.language, key => i18n.t(key)); return KKEmail.render(data.gmailbox, ui, key => i18n.t(key), i18n.locale(), i18n.language, gmailOptions()); }
   function useMailApp(app) {
     if (ui.mailApp === app) return;
@@ -1578,7 +1578,7 @@
       case 'email-folders': case 'email-menu': ui.emailMenu=id||'list';ui.overlay=action;renderOverlay();break;
       // 4.4 Email (UnifiedEmail): the folder drawer, Save draft, Reply all, Move to and the menu entries without a screen.
       case 'email-drawer': ui.overlay='email-drawer';renderOverlay();break;
-      case 'email-save': ui.sub='';ui.overlay='';ui.emailSelected=[];render();toast(KKEmail.tr(i18n.language,'Message saved as draft.'));break;
+      case 'email-save': ui.sub='';ui.overlay='';ui.emailSelected=[];render();toast(KKEmail.tr(i18n.language,'Message saved as draft.',ui.view==='gmail'?'gmail':'email'));break;
       case 'email-reply-all': ui.overlay='';composeGmail(data.gmailbox.find(item=>item.id===ui.emailId),false);break;
       case 'email-move': {const item=data.gmailbox.find(item=>item.id===ui.emailId);if(item){if(id==='Trash')ICSEmail.trash(data.gmailbox,[item.id]);else{item.folder=id;delete item.previousFolder;}}ui.overlay='';ui.sub='';save();render();break;}
       case 'email-unavailable': ui.overlay='';renderOverlay();toast('Not available in this simulator');break;

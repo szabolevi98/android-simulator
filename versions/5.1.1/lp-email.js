@@ -61,7 +61,8 @@
     'Dismiss tip': {res: 'PrebuiltEmailGoogle:dismiss_tip_hover_text', hu: 'Tipp elvetése', de: 'Tipp schließen', fr: 'Masquer le conseil', es: 'Ignorar sugerencia'},
     'Archive': {res: 'PrebuiltEmailGoogle:archive', hu: 'Archiválás', de: 'Archivieren', fr: 'Archiver', es: 'Archivar'}
   };
-  const STR = AndroidStrings.table('', S), tr = (lang, key) => STR.t(key, lang);
+  // The text of the app on show: Gmail's (StockStrings.gmailui) or Email's (LPEmailStrings.email) from the image, else the row.
+  const STR = AndroidStrings.table('', S), tr = (lang, key, app) => { const row = app === 'gmail' ? window.StockStrings?.gmailui?.[key] : app === 'email' ? window.LPEmailStrings?.email?.[key] : null; return row ? AndroidStrings.pick(row, lang, key) : STR.t(key, lang); };
   const FOLDERS = ['Inbox', 'Starred', 'Drafts', 'Outbox', 'Sent', 'Trash'];
   const ICON = name => `<img src="assets/kem-${name}.png" alt="">`;
   // LetterTileProvider: Java String.hashCode of the address picks one of the eight letter_tile_colors.
@@ -92,7 +93,7 @@
   // opts lets Gmail (gmail.js) reuse the UnifiedEmail screens: its icon, account, label lists, Primary teasers,
   // importance markers, Archive and the label chip.
   function render(mail, ui, t, locale, lang, opts = {}) {
-    const T = key => tr(lang, key), account = opts.account || window.ICSEmail.account;
+    const T = key => tr(lang, key, opts.app), account = opts.account || window.ICSEmail.account;
     appIcon = opts.icon || 'email.png';
     const listOf = opts.list || window.ICSEmail.list, name = opts.folderName || (folder => T(folder));
     const folder = ui.emailFolder || 'Inbox', selected = ui.emailSelected || [], item = mail.find(m => m.id === ui.emailId);
@@ -124,7 +125,7 @@
   }
   // The drawer (under the action bar), the overflow menus and the photo picker / discard dialogs.
   function overlay(mail, ui, photos, t, lang, opts = {}) {
-    const T = key => tr(lang, key), account = window.ICSEmail.account, folder = ui.emailFolder || 'Inbox';
+    const T = key => tr(lang, key, opts.app), account = window.ICSEmail.account, folder = ui.emailFolder || 'Inbox';
     const unread = name => window.ICSEmail.list(mail, name).filter(m => !m.read).length;
     if (ui.overlay === 'email-drawer' && opts.drawer) return opts.drawer();
     if (ui.overlay === 'email-drawer') {

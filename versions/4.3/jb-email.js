@@ -67,7 +67,8 @@
     'Dismiss tip': {src: 'AOSP', hu: 'Tipp elvetése', de: 'Tipp schließen', fr: 'Masquer le conseil', es: 'Ignorar sugerencia'},
     'Archive': {res: 'Gmail2:notification_action_archive', hu: 'Archiválás', de: 'Archivieren', fr: 'Archiver', es: 'Archivar'}
   };
-  const STR = AndroidStrings.table('', S), tr = (lang, key) => STR.t(key, lang);
+  // On 4.3 these screens are Gmail 4.5.1's: Gmail2's own text where it has one (StockStrings.gmailui), else the AOSP row.
+  const STR = AndroidStrings.table('', S), tr = (lang, key) => { const row = window.StockStrings?.gmailui?.[key]; return row ? AndroidStrings.pick(row, lang, key) : STR.t(key, lang); };
   const FOLDERS = ['Inbox', 'Starred', 'Drafts', 'Outbox', 'Sent', 'Trash'];
   const ICON = name => `<img src="assets/kem-${name}.png" alt="">`;
   // LetterTileProvider: Java String.hashCode of the address picks one of the eight letter_tile_colors.
