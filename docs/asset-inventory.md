@@ -31,7 +31,7 @@ Not traced:
 
 ## 4.3 (mako)
 
-copy: 430, same pixels: 336, resized: 198, converted: 18, own: 8, similar: 7, not traced: 7, generated: 3
+copy: 430, same pixels: 336, resized: 198, converted: 19, own: 8, similar: 7, not traced: 6, generated: 3
 
 From another release's image (the own image has no such file; to review): crespo 26, maguro 23, shamu 1 — the source column of the TSV names each.
 
@@ -43,7 +43,6 @@ Not traced:
 - `versions/4.3/assets/em-expander_open_holo_light.png`
 - `versions/4.3/assets/jb-ic_notifications_normal.png`
 - `versions/4.3/assets/jb-kg_widget_bg_padded.png`
-- `versions/4.3/assets/jb-wallpaper_03.jpg`
 
 ## 4.4.4 (hammerhead)
 
