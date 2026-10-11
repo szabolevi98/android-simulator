@@ -116,9 +116,6 @@ versions/4.4.4/assets/calendar.png	8d210af43ac7cf48	own	Google "Android Quick St
 versions/4.4.4/assets/calwidget-calendar_widget_preview.png	6f23a76da110b175	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/calendar_widget_preview.png	drawable-hdpi		6ed48a0b690039df
 versions/4.4.4/assets/calwidget-header_bg_cal_widget_holo.png	fa3c76c750e72076	copy	hammerhead:/system/app/CalendarGoogle.apk!res/drawable-hdpi/header_bg_cal_widget_normal_holo.9.png	drawable-hdpi		fa3c76c750e72076
 versions/4.4.4/assets/calwidget-header_bg_cal_widget_pressed_holo.png	06d169af7b836ae7	copy	hammerhead:/system/app/CalendarGoogle.apk!res/drawable-hdpi-v19/header_bg_cal_widget_pressed_holo.9.png	drawable-hdpi-v19		06d169af7b836ae7
-versions/4.4.4/assets/camera-bg_camera_pattern.png	6df2b58664731fc6	same pixels	hammerhead:/system/app/Drive.apk!res/drawable-hdpi/ds_camera_control_background.png	drawable-hdpi		ebb2a535de9d39e4
-versions/4.4.4/assets/camera-btn_camera_shutter_holo.png	4875395edcb6ab9f	same pixels	hammerhead:/system/app/Drive.apk!res/drawable-hdpi/ds_shutter_holo.png	drawable-hdpi		2f3e6cbcc3ce2055
-versions/4.4.4/assets/camera-btn_camera_shutter_pressed_holo.png	5250c04bd0d38eaa	same pixels	hammerhead:/system/app/Drive.apk!res/drawable-hdpi/ds_shutter_pressed_holo.png	drawable-hdpi		5ad02178c93b9ab0
 versions/4.4.4/assets/camera-ic_flash_auto_holo_light.png	207cd0d1fbafb3f0	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_auto_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.57	6d36e030f944d0c2
 versions/4.4.4/assets/camera-ic_flash_off_holo_light.png	fbe1a982e1726356	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_off_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.46	b9e87cd65e5a8885
 versions/4.4.4/assets/camera-ic_flash_on_holo_light.png	4ddc25ea24d29502	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_on_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.41	d5a7c0f72eef38ff
@@ -141,7 +138,6 @@ versions/4.4.4/assets/ce-list_section_divider_holo_custom.png	3beba00c3ff798be	c
 versions/4.4.4/assets/chrome.png	3798f6c3fa5eabce	same pixels	hammerhead:/system/app/Chrome.apk!res/mipmap-xxhdpi/app_icon.png	mipmap-xxhdpi		00d30666d22047cd
 versions/4.4.4/assets/clock-ic_lock_idle_alarm.png	0030f35443a18a19	resized	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_lock_idle_alarm.png	drawable-xhdpi	resized 51×51 → 38×38, mean difference 0.00	a8cc66ae3af56441
 versions/4.4.4/assets/clock-ic_menu_add.png	71b6b64679925e52	resized	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xxhdpi/ic_menu_add.png	drawable-xxhdpi	resized 96×96 → 48×48, mean difference 0.13	bd787a0ba442a442
-versions/4.4.4/assets/clock-ic_menu_alarms.png	3e7f9fbda8be7bef	resized	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_menu_alarms.png	drawable-xhdpi	resized 96×96 → 72×72, mean difference 1.49	fe4d2236f280813e
 versions/4.4.4/assets/clock-ic_setalarm_holo_dark.png	73938521b839f0b5	resized	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_setalarm_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.53	ab0261e2156fe5ff
 versions/4.4.4/assets/clock.png	2c6d2d7921df3166	same pixels	hammerhead:/system/app/DeskClockGoogle.apk!res/mipmap-xxhdpi/ic_launcher_alarmclock.png	mipmap-xxhdpi		3e2117353e6165e1
 versions/4.4.4/assets/dcal-ic_lockscreen_alarm.png	45ac1d7f25607b8e	copy	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xxhdpi/ic_lockscreen_alarm.png	drawable-xxhdpi		45ac1d7f25607b8e
@@ -183,8 +179,6 @@ versions/4.4.4/assets/email-ic_menu_refresh_holo_light.png	b47a7bc5bc259a94	same
 versions/4.4.4/assets/email-ic_menu_search_holo_light.png	7c69a9749ff6fc93	same pixels	hammerhead:/system/app/Chrome.apk!res/drawable-hdpi/ic_menu_search_holo_light.png	drawable-hdpi		1b72d80ee51f5e6d
 versions/4.4.4/assets/email-ic_menu_send_holo_light.png	76f00147c6d7673b	resized	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_menu_send_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.83	94dff62000b430e1
 versions/4.4.4/assets/email-ic_menu_trash_holo_light.png	a96aaaa0c594b79a	same pixels	hammerhead:/system/app/EmailGoogle.apk!res/drawable-hdpi/ic_folder_trash_holo_light.png	drawable-hdpi		a420680764991367
-versions/4.4.4/assets/email-ic_reply.png	5faac039ca1fe95a	resized	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_reply.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.30	ba8fe41db0ba3ab0
-versions/4.4.4/assets/email-ic_reply_all.png	f472e79fbf873e96	resized	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_reply_all.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.38	a652f9cee7ded67c
 versions/4.4.4/assets/email.png	3b55077029520710	same pixels	hammerhead:/system/app/EmailGoogle.apk!res/mipmap-xxhdpi/ic_launcher_mail.png	mipmap-xxhdpi		0e1cf04f292579d0
 versions/4.4.4/assets/fw-magnified_region_frame.png	ad59b5d8a160946d	copy	hammerhead:/system/framework/framework-res.apk!res/drawable-xxhdpi/magnified_region_frame.9.png	drawable-xxhdpi		ad59b5d8a160946d
 versions/4.4.4/assets/ga-dialog_full_holo_dark.png	bd85a983aaf3076b	copy	hammerhead:/system/framework/framework-res.apk!res/drawable-xxhdpi/dialog_full_holo_dark.9.png	drawable-xxhdpi		bd85a983aaf3076b
@@ -540,7 +534,6 @@ versions/4.4.4/assets/kdc-ic_tab_stopwatch_activated.png	9764e555222ad16a	same p
 versions/4.4.4/assets/kdc-ic_tab_stopwatch_normal.png	283b1a4f7e789da2	same pixels	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xxhdpi/ic_tab_stopwatch_normal.png	drawable-xxhdpi		51bac37087c5cd5a
 versions/4.4.4/assets/kdc-ic_tab_timer_activated.png	328ea57fb360f206	same pixels	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xxhdpi/ic_tab_timer_activated.png	drawable-xxhdpi		85b646d916711765
 versions/4.4.4/assets/kdc-ic_tab_timer_normal.png	fc08a411a56ada6f	same pixels	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xxhdpi/ic_tab_timer_normal.png	drawable-xxhdpi		190f3d65d954edd1
-versions/4.4.4/assets/kdu-ic_cab_accept.png	4c4db6d63412a8ac	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_cab_accept.png	drawable-xxhdpi		7eba2d84f8240586
 versions/4.4.4/assets/kdu-ic_doc_apk.png	cb4a57ade1ca74cc	copy	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_doc_apk.png	drawable-xxhdpi		cb4a57ade1ca74cc
 versions/4.4.4/assets/kdu-ic_doc_audio_am.png	452aa80dbb8ff19f	copy	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_doc_audio_am.png	drawable-xxhdpi		452aa80dbb8ff19f
 versions/4.4.4/assets/kdu-ic_doc_compressed.png	44f0eb9413fe0cde	copy	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_doc_compressed.png	drawable-xxhdpi		44f0eb9413fe0cde
@@ -553,8 +546,6 @@ versions/4.4.4/assets/kdu-ic_drawer_glyph.png	1f933a1b0e759893	same pixels	hamme
 versions/4.4.4/assets/kdu-ic_menu_overflow.png	852bc5091eb1dee3	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_menu_overflow.png	drawable-xxhdpi		8dc8fc76f9f17f6d
 versions/4.4.4/assets/kdu-ic_menu_search.png	b59c87356d2b4eaf	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_menu_search.png	drawable-xxhdpi		ee77e30ff29689f3
 versions/4.4.4/assets/kdu-ic_menu_sortby_am.png	996b926452ab6dc5	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_menu_sortby_am.png	drawable-xxhdpi		51fa6f63f2900b41
-versions/4.4.4/assets/kdu-ic_menu_view_grid.png	c414b65953034728	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_menu_view_grid.png	drawable-xxhdpi		85cc9b4ce1f2e50b
-versions/4.4.4/assets/kdu-ic_menu_view_list.png	ac6e39be0bb96013	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_menu_view_list.png	drawable-xxhdpi		f44fd9ca60f577d4
 versions/4.4.4/assets/kdu-ic_root_download.png	90c64ac49a91d302	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_root_download.png	drawable-xxhdpi		263d678185fa973b
 versions/4.4.4/assets/kdu-ic_root_recent.png	70fda0687fd83812	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_root_recent.png	drawable-xxhdpi		10cd21659bd0e66e
 versions/4.4.4/assets/keep.png	0ccab7bace585972	copy	mako:/system/app/Keep.apk!res/mipmap-xxhdpi/ic_launcher.png	mipmap-xxhdpi		0ccab7bace585972
@@ -706,7 +697,6 @@ versions/4.4.4/assets/l3-portal_container_holo.png	15c22dcc44382729	same pixels	
 versions/4.4.4/assets/l3-portal_ring_inner_holo.png	f795f30a0f8e3155	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/portal_ring_inner_holo.png	drawable-xxhdpi		ce72a2b190bfe3ea
 versions/4.4.4/assets/l3-portal_ring_outer_holo.png	d63ae1ca37b3a741	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/portal_ring_outer_holo.png	drawable-xxhdpi		8a3bec785f227618
 versions/4.4.4/assets/l3-screenpanel.png	5d76dc06783bf2cc	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/screenpanel.9.png	drawable-xxhdpi		0869181442cc9c4c
-versions/4.4.4/assets/l3-screenpanel_hover.png	726eb7cba1d5545f	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/screenpanel_hover.9.png	drawable-xxhdpi		e6a1985807abd187
 versions/4.4.4/assets/l3-search_frame.png	386a0b13a24943a2	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/search_frame.9.png	drawable-xxhdpi		8714aebbb5209940
 versions/4.4.4/assets/l3-tab_selected_holo.png	d8e938da610025b2	same pixels	hammerhead:/system/framework/framework-res.apk!res/drawable-xxhdpi/tab_selected_holo.9.png	drawable-xxhdpi		7dfd4e2152fcc6b6
 versions/4.4.4/assets/l3-tab_unselected_holo.png	fb008d3b047e3333	same pixels	hammerhead:/system/framework/framework-res.apk!res/drawable-xxhdpi/tab_unselected_holo.9.png	drawable-xxhdpi		b2606dff650ce2d5
@@ -737,8 +727,6 @@ versions/4.4.4/assets/lw-sunbeam_thumb.png	35244aa3f4adc004	copy	hammerhead:/sys
 versions/4.4.4/assets/maps.png	aeff9a15e4b113bd	copy	hammerhead:/system/app/Maps.apk!res/mipmap-xxhdpi/ic_launcher.png	mipmap-xxhdpi		aeff9a15e4b113bd
 versions/4.4.4/assets/menu_dropdown_panel_holo_light.png	01047ed2f361ccdf	copy	hammerhead:/system/app/Books.apk!res/drawable-xxhdpi/menu_dropdown_panel_holo_light.9.png	drawable-xxhdpi		01047ed2f361ccdf
 versions/4.4.4/assets/mms-ic_contact_picture.png	5f9b8ffe18169c78	same pixels	hammerhead:/system/app/Music2.apk!res/drawable-hdpi/ic_contact_picture.png	drawable-hdpi		e3b34f9124fe0431
-versions/4.4.4/assets/mms-ic_menu_attachment.png	2216150d74fe1618	resized	maguro:/system/app/Mms.apk!res/drawable-xhdpi/ic_menu_attachment.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.53	3ff746dd792f8430
-versions/4.4.4/assets/mms-ic_menu_call.png	5d2a8a53144ded26	resized	hammerhead:/system/priv-app/GoogleDialer.apk!res/drawable-xxhdpi/badge_action_call.png	drawable-xxhdpi	resized 96×96 → 48×48, mean difference 1.71	5609ea96dbfd3178
 versions/4.4.4/assets/mms-ic_menu_msg_compose_holo_dark.png	5052e2203f979f2b	resized	maguro:/system/app/Mms.apk!res/drawable-xhdpi/ic_menu_msg_compose_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.79	2fcaf5103c6e3a99
 versions/4.4.4/assets/mms-ic_menu_search_holo_dark.png	f05de6317a5688d1	resized	hammerhead:/system/app/Magazines.apk!res/drawable-xxhdpi/ic_menu_search_holo_dark.png	drawable-xxhdpi	resized 96×96 → 48×48, mean difference 0.11	7584dbdd57f7874c
 versions/4.4.4/assets/mms-ic_send_disabled_holo_light.png	c8c8d4cd6bd700fc	resized	mako:/system/app/Mms.apk!res/drawable-xhdpi/ic_send_disabled_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.18	2b163756381fc56a

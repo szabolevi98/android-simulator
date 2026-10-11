@@ -75,16 +75,6 @@ versions/2.3.6/assets/calendar-ic_menu_today_holo_light.png	49dc4d658e133cf9	sam
 versions/2.3.6/assets/calendar-stat_notify_calendar.png	66389e644349b4f4	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/stat_notify_calendar.png	drawable-hdpi		767514e9705e2d98
 versions/2.3.6/assets/calendar.png	03f8e9c17f0b0b92	same pixels	crespo:/system/app/CalendarGoogle.apk!res/drawable-hdpi/app_icon.png	drawable-hdpi		53e1166366700ffc
 versions/2.3.6/assets/camera-bg_camera_pattern.png	6df2b58664731fc6	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/bg_camera_pattern.png	drawable-xhdpi	resized 230×720 → 173×540, mean difference 0.02	6fb238ca46eb1d20
-versions/2.3.6/assets/camera-btn_camera_shutter_holo.png	4875395edcb6ab9f	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/btn_camera_shutter_holo.png	drawable-xhdpi	resized 134×134 → 101×101, mean difference 2.10	76053bec6b2900ac
-versions/2.3.6/assets/camera-btn_camera_shutter_pressed_holo.png	5250c04bd0d38eaa	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/btn_camera_shutter_pressed_holo.png	drawable-xhdpi	resized 134×134 → 101×101, mean difference 2.21	75d405eaf1397dd5
-versions/2.3.6/assets/camera-ic_flash_auto_holo_light.png	207cd0d1fbafb3f0	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_auto_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.57	6d36e030f944d0c2
-versions/2.3.6/assets/camera-ic_flash_off_holo_light.png	fbe1a982e1726356	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_off_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.46	b9e87cd65e5a8885
-versions/2.3.6/assets/camera-ic_flash_on_holo_light.png	4ddc25ea24d29502	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_on_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.41	d5a7c0f72eef38ff
-versions/2.3.6/assets/camera-ic_rotate_camera_holo_dark.png	0f1284e22f279136	same pixels	maguro:/system/app/CameraGoogle.apk!res/drawable-hdpi/ic_rotate_camera_holo_dark.png	drawable-hdpi		075b81082d200cc6
-versions/2.3.6/assets/camera-ic_settings_holo_light.png	9d80ac018a2daa28	not traced				
-versions/2.3.6/assets/camera-ic_switch_camera_holo_light.png	3f35f841bfc670c7	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_switch_camera_holo_light.png	drawable-xhdpi	resized 96×96 → 72×72, mean difference 0.99	3e48692cce3433a6
-versions/2.3.6/assets/camera-ic_white_balance_auto_holo_light.png	ad74642728604284	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_white_balance_auto_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.54	606b65b22788bff1
-versions/2.3.6/assets/camera-ic_zoom_in_holo_light.png	6e8326bb98344b32	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_zoom_in_holo_light.png	drawable-xhdpi	resized 48×48 → 36×36, mean difference 0.26	7b8aaf4f774b0948
 versions/2.3.6/assets/camera.png	8c08de216b654178	same pixels	crespo:/system/app/CameraGoogle.apk!res/drawable-hdpi/ic_launcher_camera.png	drawable-hdpi		9bd7f0fe5217d3ab
 versions/2.3.6/assets/car-home.png	3fbe55e8e135f4ee	copy	crespo:/system/app/CarHomeGoogle.apk!res/drawable-hdpi/app_icon.png	drawable-hdpi		3fbe55e8e135f4ee
 versions/2.3.6/assets/ch-arrow_empty.png	cdf62b37387ee482	copy	crespo:/system/app/CarHomeGoogle.apk!res/drawable-land-hdpi/arrow_empty.png	drawable-land-hdpi		cdf62b37387ee482
@@ -106,7 +96,6 @@ versions/2.3.6/assets/ch-ic_voicesearch.png	91c78505b757df7f	copy	crespo:/system
 versions/2.3.6/assets/clock-ic_lock_idle_alarm.png	68fba134ddc10de9	same pixels	crespo:/system/app/DeskClockGoogle.apk!res/drawable-hdpi/ic_lock_idle_alarm.png	drawable-hdpi		680a2fbe7183e280
 versions/2.3.6/assets/clock-ic_menu_add.png	13877afff5458c65	resized	maguro:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_menu_add.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.15	8896469ff9ca4ade
 versions/2.3.6/assets/clock-ic_menu_alarms.png	3e7f9fbda8be7bef	resized	maguro:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_menu_alarms.png	drawable-xhdpi	resized 96×96 → 72×72, mean difference 1.49	fe4d2236f280813e
-versions/2.3.6/assets/clock-ic_setalarm_holo_dark.png	73938521b839f0b5	resized	maguro:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_setalarm_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.53	ab0261e2156fe5ff
 versions/2.3.6/assets/clock.png	c1ae78178e9d186e	same pixels	crespo:/system/app/DeskClockGoogle.apk!res/drawable-hdpi/ic_launcher_alarmclock.png	drawable-hdpi		323fdc048214d71b
 versions/2.3.6/assets/cp-appwidget_bg.png	47570d9b5ac36c64	copy	crespo:/system/app/CalendarProvider.apk!res/drawable-hdpi/appwidget_bg.9.png	drawable-hdpi		47570d9b5ac36c64
 versions/2.3.6/assets/cp-appwidget_calendar_bgtop_blue.png	99e9104c4ddb64a8	copy	crespo:/system/app/CalendarProvider.apk!res/drawable-hdpi/appwidget_calendar_bgtop_blue.9.png	drawable-hdpi		99e9104c4ddb64a8
@@ -123,15 +112,6 @@ versions/2.3.6/assets/ea-pegman.png	e068c9c04fd11d49	copy	crespo:/system/app/Goo
 versions/2.3.6/assets/ea-splash.png	849fead18cc0c6ac	copy	crespo:/system/app/GoogleEarth.apk!res/drawable/splash.png	drawable		849fead18cc0c6ac
 versions/2.3.6/assets/earth.png	7d3fefbe150997bd	copy	crespo:/system/app/GoogleEarth.apk!res/drawable-hdpi/icon.png	drawable-hdpi		7d3fefbe150997bd
 versions/2.3.6/assets/email.png	8b52155c9846644d	same pixels	crespo:/system/app/EmailGoogle.apk!res/drawable-hdpi/icon.png	drawable-hdpi		b1fc0521a7b29721
-versions/2.3.6/assets/gallery-appwidget_photo_border.png	72af089a65ecc9c7	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/appwidget_photo_border.9.png	drawable-hdpi		97799d0b87c9b0d3
-versions/2.3.6/assets/gallery-border_photo_frame_widget_holo.png	1079b6a8acc4e359	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/border_photo_frame_widget_holo.9.png	drawable-hdpi		2af39a645955e171
-versions/2.3.6/assets/gallery-border_photo_frame_widget_pressed_holo.png	24494ae7d2a59861	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/border_photo_frame_widget_pressed_holo.9.png	drawable-hdpi		ed26a11c71c17861
-versions/2.3.6/assets/gallery-frame_overlay_gallery_camera.png	d44646bf454e6210	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/frame_overlay_gallery_camera.png	drawable-hdpi		4f9d066afca60faa
-versions/2.3.6/assets/gallery-frame_overlay_gallery_folder.png	04d5cac2820f0f83	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/frame_overlay_gallery_folder.png	drawable-hdpi		1b4e4e2772a5dd27
-versions/2.3.6/assets/gallery-ic_menu_camera_holo_light.png	d89a3aa38ec661ef	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/ic_menu_camera_holo_light.png	drawable-hdpi		993d35698d79458a
-versions/2.3.6/assets/gallery-ic_menu_share_holo_light.png	e2064ea7bc8af520	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/ic_menu_share_holo_light.png	drawable-hdpi		d34720613de9c270
-versions/2.3.6/assets/gallery-ic_menu_slideshow_holo_light.png	957179a455e992b5	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/ic_menu_slideshow_holo_light.png	drawable-hdpi		1aebefc6aeb2a0f6
-versions/2.3.6/assets/gallery-ic_menu_trash_holo_light.png	75140ca2b9e4527e	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/ic_menu_trash_holo_light.png	drawable-hdpi		9ebd785f6120cc41
 versions/2.3.6/assets/gallery-widget_preview.png	8399834bd135d230	same pixels	maguro:/system/app/GalleryGoogle.apk!res/drawable-hdpi/preview.png	drawable-hdpi		85b1509de1c75c62
 versions/2.3.6/assets/gallery.png	b17efda4ae7a3023	same pixels	crespo:/system/app/Gallery3DGoogle.apk!res/drawable-hdpi/icon.png	drawable-hdpi		2d23c625f183368b
 versions/2.3.6/assets/gb-acc-ic_list_sync_anim0.png	1c0ff14bb08beb1c	same pixels	crespo:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_list_sync_anim0.png	drawable-hdpi		183d9423cade0477
@@ -1603,11 +1583,6 @@ versions/2.3.6/assets/nw-tab_weather_shadow_l.png	c91241dc45c1b30d	copy	crespo:/
 versions/2.3.6/assets/nw-tab_weather_shadow_r.png	003b4df8a6f267ae	copy	crespo:/system/app/GenieWidget.apk!res/drawable/tab_weather_shadow_r.9.png	drawable		003b4df8a6f267ae
 versions/2.3.6/assets/nw-tab_weather_unselected.png	c26637f9ba074c51	copy	crespo:/system/app/GenieWidget.apk!res/drawable/tab_weather_unselected.9.png	drawable		c26637f9ba074c51
 versions/2.3.6/assets/nw-weather_background_grey.png	d445ff9c31e887cb	copy	crespo:/system/app/GenieWidget.apk!res/drawable/weather_background_grey.png	drawable		d445ff9c31e887cb
-versions/2.3.6/assets/people-ic_contact_picture_180_holo_light.png	1c049efd89ebbf13	resized	maguro:/system/app/Contacts.apk!res/drawable-xhdpi/ic_contact_picture_180_holo_light.png	drawable-xhdpi	resized 360×360 → 270×270, mean difference 0.20	4ed47e1fe5c1576a
-versions/2.3.6/assets/people-ic_contact_picture_holo_light.png	8e88cb82b7674286	resized	maguro:/system/app/Contacts.apk!res/drawable-xhdpi/ic_contact_picture_holo_light.png	drawable-xhdpi	resized 128×128 → 96×96, mean difference 0.05	c1032e2668d6122c
-versions/2.3.6/assets/people-ic_groups_holo_dark.png	d884077fe2302049	resized	maguro:/system/app/Contacts.apk!res/drawable-xhdpi/ic_groups_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.72	c4a1f5666e7da90a
-versions/2.3.6/assets/people-ic_menu_add_contact_holo_light.png	5b553fd441efbcfe	resized	maguro:/system/app/Contacts.apk!res/drawable-xhdpi/ic_menu_add_contact_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.20	6d4fbf2307303e9d
-versions/2.3.6/assets/people-ic_menu_star_holo_light.png	0fe487b2b7c7e304	resized	maguro:/system/app/Contacts.apk!res/drawable-xhdpi/ic_menu_star_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.44	9d403e0b895e7318
 versions/2.3.6/assets/people.png	24adcc4e1745430e	same pixels	crespo:/system/app/ContactsProvider.apk!res/drawable-hdpi/app_icon.png	drawable-hdpi		654a46933312aa25
 versions/2.3.6/assets/phone-picture_unknown.png	e0cc992b4f41231e	resized	maguro:/system/app/Phone.apk!res/drawable-xhdpi/picture_unknown.png	drawable-xhdpi	resized 360×360 → 270×270, mean difference 0.04	87449a8c6588e991
 versions/2.3.6/assets/phone.png	bcfdcbb969dc1f79	same pixels	crespo:/system/app/TelephonyProvider.apk!res/drawable-hdpi/ic_launcher_phone.png	drawable-hdpi		8a1b490df7655217
@@ -1734,7 +1709,6 @@ versions/2.3.6/assets/vs-mic_full.png	37518a5ea0b79327	copy	crespo:/system/app/V
 versions/2.3.6/assets/vs-vs_dialog_blue.png	e855c9355ea24103	copy	crespo:/system/app/VoiceSearch.apk!res/drawable-hdpi/vs_dialog_blue.9.png	drawable-hdpi		e855c9355ea24103
 versions/2.3.6/assets/vs-vs_dialog_hintbubble_default.png	39952fbe12267267	copy	crespo:/system/app/VoiceSearch.apk!res/drawable-hdpi/vs_dialog_hintbubble_default.9.png	drawable-hdpi		39952fbe12267267
 versions/2.3.6/assets/vs-vs_dialog_red.png	3ee35d7130c18099	copy	crespo:/system/app/VoiceSearch.apk!res/drawable-hdpi/vs_dialog_red.9.png	drawable-hdpi		3ee35d7130c18099
-versions/2.3.6/assets/web-ic_tab_close.png	419b1ebf2c1b1ef4	resized	maguro:/system/app/BrowserGoogle.apk!res/drawable-xhdpi/ic_tab_close.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.11	21e05c2c499f9e99
 versions/2.3.6/assets/widget-power-bg.png	d5a52ca02be8e432	same pixels	maguro:/system/app/Music2.apk!res/drawable-hdpi-v14/appwidget_bg.9.png	drawable-hdpi-v14		58ee54952ef2147a
 versions/2.3.6/assets/youtube.png	cb5dad762b237f77	copy	crespo:/system/app/MediaUploader.apk!res/drawable-hdpi/youtube_main.png	drawable-hdpi		cb5dad762b237f77
 versions/2.3.6/assets/yt-btn_logo_normal.png	43b9de64e6472e73	copy	crespo:/system/app/YouTube.apk!res/drawable-hdpi/btn_logo_normal.png	drawable-hdpi		43b9de64e6472e73

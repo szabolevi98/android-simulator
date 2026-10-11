@@ -114,9 +114,6 @@ versions/4.3/assets/calendar.png	3b26c4834a01ed3e	same pixels	mako:/system/app/C
 versions/4.3/assets/calwidget-calendar_widget_preview.png	6f23a76da110b175	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/calendar_widget_preview.png	drawable-hdpi		6ed48a0b690039df
 versions/4.3/assets/calwidget-header_bg_cal_widget_holo.png	fa3c76c750e72076	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-hdpi/header_bg_cal_widget_normal_holo.9.png	drawable-hdpi		fa3c76c750e72076
 versions/4.3/assets/calwidget-header_bg_cal_widget_pressed_holo.png	af2a39bcdd78e4f9	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-hdpi/header_bg_cal_widget_pressed_holo.9.png	drawable-hdpi		af2a39bcdd78e4f9
-versions/4.3/assets/camera-bg_camera_pattern.png	6df2b58664731fc6	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/bg_camera_pattern.png	drawable-xhdpi	resized 230×720 → 173×540, mean difference 0.02	6fb238ca46eb1d20
-versions/4.3/assets/camera-btn_camera_shutter_holo.png	4875395edcb6ab9f	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/btn_camera_shutter_holo.png	drawable-xhdpi	resized 134×134 → 101×101, mean difference 2.10	76053bec6b2900ac
-versions/4.3/assets/camera-btn_camera_shutter_pressed_holo.png	5250c04bd0d38eaa	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/btn_camera_shutter_pressed_holo.png	drawable-xhdpi	resized 134×134 → 101×101, mean difference 2.21	75d405eaf1397dd5
 versions/4.3/assets/camera-ic_flash_auto_holo_light.png	207cd0d1fbafb3f0	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_auto_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.57	6d36e030f944d0c2
 versions/4.3/assets/camera-ic_flash_off_holo_light.png	fbe1a982e1726356	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_off_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.46	b9e87cd65e5a8885
 versions/4.3/assets/camera-ic_flash_on_holo_light.png	4ddc25ea24d29502	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/ic_flash_on_holo_light.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.41	d5a7c0f72eef38ff
@@ -145,7 +142,6 @@ versions/4.3/assets/cling-cling.png	f0dac4d7a506903a	resized	mako:/system/app/La
 versions/4.3/assets/cling-hand.png	fedbfccecefec086	resized	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/hand.png	drawable-xhdpi	resized 378×521 → 284×391, mean difference 0.28	e7ecf032ffc5d7b9
 versions/4.3/assets/clock-ic_lock_idle_alarm.png	0030f35443a18a19	resized	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_lock_idle_alarm.png	drawable-xhdpi	resized 51×51 → 38×38, mean difference 0.00	a8cc66ae3af56441
 versions/4.3/assets/clock-ic_menu_add.png	71b6b64679925e52	resized	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_menu_add.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.14	4573b237d9e95a55
-versions/4.3/assets/clock-ic_menu_alarms.png	3e7f9fbda8be7bef	resized	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_menu_alarms.png	drawable-xhdpi	resized 96×96 → 72×72, mean difference 1.49	fe4d2236f280813e
 versions/4.3/assets/clock-ic_setalarm_holo_dark.png	73938521b839f0b5	resized	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_setalarm_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.53	ab0261e2156fe5ff
 versions/4.3/assets/clock.png	44bf2b4f107b8109	same pixels	mako:/system/app/DeskClockGoogle.apk!res/mipmap-xhdpi/ic_launcher_alarmclock.png	mipmap-xhdpi		aa09da8dcfc2ac18
 versions/4.3/assets/currents.png	bccd1ef443af0441	copy	mako:/system/app/Currents.apk!res/mipmap-xhdpi/ic_launcher_currents.png	mipmap-xhdpi		bccd1ef443af0441
@@ -183,7 +179,7 @@ versions/4.3/assets/dl-list_selector_pressed_holo_dark.png	a8870d94c1533b8c	copy
 versions/4.3/assets/downloads.png	5653d7c3853fbcdc	copy	mako:/system/app/DownloadProviderUi.apk!res/mipmap-xhdpi/ic_launcher_download.png	mipmap-xhdpi		5653d7c3853fbcdc
 versions/4.3/assets/ea7-ic_menu_northup.png	0fbcfff631376396	copy	mako:/system/app/GoogleEarth.apk!res/drawable-xhdpi/ic_menu_northup.png	drawable-xhdpi		0fbcfff631376396
 versions/4.3/assets/ea7-ic_menu_search_holo_dark.png	51511aeb7aa5a2d9	copy	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_menu_search_holo_dark.png	drawable-xhdpi		51511aeb7aa5a2d9
-versions/4.3/assets/ears-appwidget_bg.png	1795a8228e5ab5dc	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/appwidget_bg.9.png	drawable-xhdpi		a38d49fe297fbc53
+versions/4.3/assets/ears-appwidget_bg.png	1795a8228e5ab5dc	same pixels	mako:/system/app/Music2.apk!res/drawable-mdpi/appwidget_bg.9.png	drawable-mdpi		a38d49fe297fbc53
 versions/4.3/assets/ears-btn_price_normal_market.png	1ddf96d2308bb0dc	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/btn_price_normal_market.9.png	drawable-xhdpi		ac1b4b85dc028f40
 versions/4.3/assets/ears-close.png	2ee57b6600a75a55	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/close.png	drawable-xhdpi		fa4ad8f3771320ed
 versions/4.3/assets/ears-cover_result.png	3c377959d6a8a823	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/cover_result.9.png	drawable-xhdpi		bf9c1a8e6b01106d
@@ -283,9 +279,7 @@ versions/4.3/assets/gm-ic_menu_inbox_social_holo_dark.png	3eea081877c482f9	same 
 versions/4.3/assets/gm-ic_menu_inbox_social_holo_light.png	d35438c59b1887c7	same pixels	mako:/system/app/Gmail2.apk!res/drawable-xhdpi/ic_menu_inbox_social_holo_light.png	drawable-xhdpi		73748cc096816834
 versions/4.3/assets/gmail.png	f57409774bfa6746	copy	mako:/system/app/Gmail2.apk!res/mipmap-xhdpi/ic_launcher_mail.png	mipmap-xhdpi		f57409774bfa6746
 versions/4.3/assets/gms-common_ic_googleplayservices.png	522c6dbad73d9ae0	same pixels	mako:/system/app/PrebuiltGmsCore.apk!res/drawable-xhdpi/common_ic_googleplayservices.png	drawable-xhdpi		6683c25d854d15f6
-versions/4.3/assets/gms-common_ic_settings_back.png	b337b8aae35678b0	copy	mako:/system/app/PrebuiltGmsCore.apk!res/drawable-xhdpi/common_ic_settings_back.png	drawable-xhdpi		b337b8aae35678b0
 versions/4.3/assets/gms-common_settings_bg.png	022d742a303aeceb	copy	mako:/system/app/PrebuiltGmsCore.apk!res/drawable-xhdpi/common_settings_bg.9.png	drawable-xhdpi		022d742a303aeceb
-versions/4.3/assets/gms-common_settings_icon.png	f8e2a09430bc1562	same pixels	mako:/system/app/PrebuiltGmsCore.apk!res/drawable-xhdpi/common_settings_icon.png	drawable-xhdpi		89b7892902deff8c
 versions/4.3/assets/gms-ic_google_selected.png	15d0d7ae8aba8671	same pixels	mako:/system/app/GoogleLoginService.apk!res/drawable-xhdpi/ic_google_selected.png	drawable-xhdpi		62b610ec25a20ec9
 versions/4.3/assets/gms-plus_icon_red_32.png	98ca5d0039523e84	same pixels	mako:/system/app/PrebuiltGmsCore.apk!res/drawable-xhdpi/plus_icon_red_32.png	drawable-xhdpi		f97f9d0f7fd3f28f
 versions/4.3/assets/gms-switch_bg_holo_light.png	9fb43c44ea1d6a01	same pixels	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/switch_bg_holo_light.9.png	drawable-xhdpi		40e8f893c79bc027
