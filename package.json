@@ -8,6 +8,7 @@
     "check:texts": "node docs/text-check.mjs",
     "check:assets": "node docs/asset-check.mjs",
     "check:fonts": "node docs/font-check.mjs",
-    "regenerate:texts": "node docs/texts.mjs --check"
+    "regenerate:texts": "node docs/texts.mjs --check",
+    "regenerate:assets": "python docs/asset-inventory.py --check"
   }
 }

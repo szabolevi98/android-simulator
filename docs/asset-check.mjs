@@ -123,6 +123,12 @@ async function runtimeCheck(version) {
   for (const app of list) { await click('home'); await sleep(150); await click('open-app', `el.dataset.app=${JSON.stringify(app)};`); await sleep(600); }
   await sleep(1000);
   ws.close(); proc.kill();
+  // PHP's built-in server sometimes refuses a connection under the burst of requests; a file it serves on a second try is
+  // not missing.
+  for (const f of [...failed]) {
+    const m = f.match(/^net::ERR_CONNECTION_\w+ (\S+)$/);
+    if (m && (await fetch(BASE + m[1]).catch(() => null))?.ok) failed.delete(f);
+  }
   return {apps: list.length, failed: [...failed].sort(), loaded};
 }
 

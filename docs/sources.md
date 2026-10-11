@@ -39,12 +39,20 @@ runtime checks.
 - Drawables of an app module: each module's header names the APK and density its `assets/<prefix>-*` files come from;
   compiled nine-patches are copied as stored (the APK keeps their padding and stretch areas in the npTc chunk).
 - Boot animations, sounds, fonts and the other data generators: see each `docs/*.py` header.
+- Asset inventory: `python docs/asset-inventory.py [version…]` traces every file of `versions/<v>/assets` (and
+  `assets/audio`) to its image — APK or system file, resource path, density, transformation (copy, same pixels,
+  resized, converted, rotated, nine-patch border removed, vector drawn as SVG, transcoded sound, generated sprite sheet)
+  and both hashes — into `docs/assets/<version>.tsv`, with a summary in `docs/asset-inventory.md`. Files no image file
+  matches take their source from `docs/asset-sources.tsv`; the rest are listed for review.
+  `python docs/asset-inventory.py --check` (`npm run regenerate:assets`) is the trial regeneration: every traced file is
+  rebuilt from its source and compared, the boot animation sheets by rerunning `docs/bootanimation.py`.
 
 ## Checks
 
 - `node --test tests/*.cjs` — the module tests, including `text-tables`, `text-entries`, `strings` and `assets`.
 - `node docs/text-survey.mjs --md docs/text-survey.md` — the inventory of the text tables (audit point 10).
 - `node docs/text-check.mjs` — every app of every version opened in hu / de / fr / es; missing keys → `docs/text-check.md`.
+- `node tests/asset-inventory.test.cjs` (in `npm test`) — the inventory lists exactly the asset files, with their hashes.
 - `node docs/asset-check.mjs` — stylesheet url()s and literal asset paths (case-sensitive), failed requests while every
   app opens, and the asset folders' inventory → `docs/asset-check.md`.
 

@@ -1,0 +1,22 @@
+# Sources of the asset files no file of a factory image matches (docs/asset-inventory.py): <path pattern, * = any>	<source>
+# Each source is the one THIRD_PARTY_NOTICES.md or the adding commit names; files without a row here stay "not traced".
+versions/*/assets/device-*.svg	drawn by docs/device-frames.py: the outline measured from the maker's front render, the shading drawn
+versions/*/assets/landing-home.jpg	capture of the simulator's own home screen for the landing page card
+versions/2.3.6/assets/play-store.svg	project-authored redrawing of the 2010–2011 Android Market bag (THIRD_PARTY_NOTICES.md)
+versions/*/assets/play-store.svg	Wikimedia Commons "Google Play Store (2012-2014).svg", CC BY-SA 3.0, view box cropped (THIRD_PARTY_NOTICES.md)
+versions/*/assets/wallpaper_*.jpg	AOSP Launcher2 res at android-4.0.4_r2.1 (THIRD_PARTY_NOTICES.md); the copies outside 4.0.4 are inherited from it
+versions/*/assets/lw-microbes_thumb.png	capture of the simulator's own Microbes rendering (THIRD_PARTY_NOTICES.md)
+versions/*/assets/lw-maps_thumb.png	drawn for the simulator: Google's map tiles cannot ship (commit c895aaf)
+versions/2.3.6/assets/lw-smoke-noise*.png	AOSP packages/wallpapers/MagicSmoke at android-2.3.6_r1 (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/phone.png	Google "Android Quick Start Guide" for Android 4.4, embedded image (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/hangouts.png	Google "Android Quick Start Guide" for Android 4.4, embedded image (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/gmail.png	Google "Android Quick Start Guide" for Android 4.4, embedded image (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/photos.png	Google "Android Quick Start Guide" for Android 4.4, embedded image (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/play-*.png	Google "Android Quick Start Guide" for Android 4.4, embedded image (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/calendar.png	Google "Android Quick Start Guide" for Android 4.4, embedded image (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/google-settings.png	Google "Android Quick Start Guide" for Android 4.4, embedded image (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/earth.png	Wikimedia Commons "Google Earth logo 2013.svg" (THIRD_PARTY_NOTICES.md)
+versions/4.4.4/assets/google-plus.png	Wikimedia Commons "Google Plus icon (2013-2015).png" (THIRD_PARTY_NOTICES.md)
+versions/*/assets/stat_notify_hangouts.png	drawn for the simulator: a white Hangouts glyph (THIRD_PARTY_NOTICES.md)
+versions/*/assets/c27-ntp-*.png	docs/chrome-pak.py: the data: URIs of the ntp_android page in the image's Chrome 27 resources.pak
+versions/*/assets/c32-ntp-*.png	docs/chrome-pak.py: the data: URIs of the ntp_android page in the image's Chrome 32 resources.pak
