@@ -10,9 +10,9 @@ From another release's image (the own image has no such file; to review): maguro
 
 ## 4.0.4 (maguro)
 
-copy: 396, same pixels: 147, resized: 134, own: 15, converted: 4, similar: 4, not traced: 4, cropped: 2, generated: 1
+copy: 396, same pixels: 146, resized: 135, own: 15, converted: 4, similar: 4, not traced: 4, cropped: 2, generated: 1
 
-From another release's image (the own image has no such file; to review): crespo 23, hammerhead 1, mako 3 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): crespo 23, hammerhead 1, mako 2 — the source column of the TSV names each.
 
 Not traced:
 
