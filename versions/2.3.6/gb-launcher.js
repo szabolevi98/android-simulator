@@ -75,7 +75,7 @@
   }
 
   // QuickSearchBox search_widget.xml: corpus indicator, the "Google" hint field and the voice button on search_floater.
-  const search = t => `<div class="gbqsb"><button class="gbqsb-corpus" data-action="browser-search" aria-label="${e(t('Search'))}"><img src="assets/gb-qsb-search_app_icon.png" alt=""></button><button class="gbqsb-field" data-action="browser-search" aria-label="Google"><img src="assets/gb-qsb-hint_google.png" alt=""></button><button class="gbqsb-voice" data-action="voice-search" aria-label="${e(t('Voice search'))}"><img src="assets/gb-qsb-ic_btn_speak_now.png" alt=""></button></div>`;
+  const search = t => `<div class="gbqsb"><button class="gbqsb-corpus" data-action="browser-search" aria-label="${e(t('Search'))}"><img src="assets/gb-qsb-search_app_icon.png?v=2" alt=""></button><button class="gbqsb-field" data-action="browser-search" aria-label="Google"><img src="assets/gb-qsb-hint_google.png" alt=""></button><button class="gbqsb-voice" data-action="voice-search" aria-label="${e(t('Voice search'))}"><img src="assets/gb-qsb-ic_btn_speak_now.png" alt=""></button></div>`;
 
   // launcher.xml (port): all_apps_button_cluster (phone, all apps, browser) and the 93 dp previous/next screen buttons
   // whose home_arrows level-list shows one dot per screen on that side (up to four).

@@ -898,7 +898,7 @@ versions/2.3.6/assets/gb-qsb-hint_google.png	7ec24d5c3860923b	same pixels	crespo
 versions/2.3.6/assets/gb-qsb-ic_btn_search.png	3e9e5cc0287c1047	same pixels	crespo:/system/app/GoogleQuickSearchBox.apk!res/drawable-hdpi/ic_btn_search.png	drawable-hdpi		67d5e83809d44b79
 versions/2.3.6/assets/gb-qsb-ic_btn_speak_now.png	ac718b9aef9f7b55	same pixels	crespo:/system/app/GoogleQuickSearchBox.apk!res/drawable-hdpi/ic_btn_speak_now.png	drawable-hdpi		697a9065042f43ff
 versions/2.3.6/assets/gb-qsb-magnifying_glass.png	378409794608c202	same pixels	crespo:/system/app/Browser.apk!res/drawable-hdpi/magnifying_glass.png	drawable-hdpi		71556a9c53277c34
-versions/2.3.6/assets/gb-qsb-search_app_icon.png	0b38cf6c62098fc9	not traced				
+versions/2.3.6/assets/gb-qsb-search_app_icon.png	ffcc5104b288ca10	copy	crespo:/system/app/GoogleQuickSearchBox.apk!res/drawable-hdpi/search_app_icon.png	drawable-hdpi		ffcc5104b288ca10
 versions/2.3.6/assets/gb-qsb-search_floater.png	eedb7c4acb37f2b9	same pixels	crespo:/system/app/GoogleQuickSearchBox.apk!res/drawable-hdpi/search_floater.9.png	drawable-hdpi		47570d9b5ac36c64
 versions/2.3.6/assets/gb-qsb-search_plate_global.png	088a487082b351d4	same pixels	crespo:/system/app/GoogleQuickSearchBox.apk!res/drawable-hdpi/search_plate_global.9.png	drawable-hdpi		6499b2a5525857d5
 versions/2.3.6/assets/gb-qsb-suggestion_background_focus.png	bcbc1cc20019c730	same pixels	crespo:/system/app/GoogleQuickSearchBox.apk!res/drawable/suggestion_background_focus.9.png	drawable		9fa130cbe7d1b66e
@@ -1600,7 +1600,7 @@ versions/2.3.6/assets/power-sync-off.png	c1779757f33684de	resized	maguro:/system
 versions/2.3.6/assets/power-sync-on.png	2710c1385b0f576d	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_appwidget_settings_sync_on_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.34	0cb7736b409a310e
 versions/2.3.6/assets/power-wifi-off.png	b280ba85b54c50e6	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_appwidget_settings_wifi_off_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.21	132da9aa3321dcf2
 versions/2.3.6/assets/power-wifi-on.png	471b14b360a64964	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_appwidget_settings_wifi_on_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.32	145d4128d427a36d
-versions/2.3.6/assets/search.png	0b38cf6c62098fc9	not traced				
+versions/2.3.6/assets/search.png	ffcc5104b288ca10	copy	crespo:/system/app/GoogleQuickSearchBox.apk!res/drawable-hdpi/google_icon.png	drawable-hdpi		ffcc5104b288ca10
 versions/2.3.6/assets/setting-about.png	bac4d0e017edbe76	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_about.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.65	2f7e557ec9e3dc6f
 versions/2.3.6/assets/setting-accessibility.png	1b37d9f5f21dfe5c	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_accessibility.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.71	4346641f7a4f9fd0
 versions/2.3.6/assets/setting-apps.png	5cce43892d39fa8c	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/ic_settings_applications.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.71	758a080fed476838
