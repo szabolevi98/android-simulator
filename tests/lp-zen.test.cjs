@@ -52,8 +52,8 @@ assert.deepEqual(plain(Z.config({zenDays:[1,7,2]}).days),[2,7,1]);
   const order=['When calls and notifications arrive','Priority interruptions','Events and reminders','Calls','Messages','Calls/messages from','Alarms are always priority interruptions','Downtime','Days','Start time','End time','Interruptions allowed'];
   const html=page({});let last=-1;for(const title of order){const i=html.indexOf(`>${title}<`);assert.ok(i>last,title);last=i;}}
 // Every text the module asks for is in the image's strings (lp-strings.js).
-{const rows=[];vm.runInNewContext(fs.readFileSync('versions/5.1.1/lp-strings.js','utf8'),{window:{AndroidI18n:{extend:r=>rows.push(...r)}}});
-  const known=new Set(rows.map(r=>r[0]));
+{let table={};vm.runInNewContext(fs.readFileSync('versions/5.1.1/lp-strings.js','utf8'),{window:{AndroidI18n:{extend:t=>{table=t;}}}});
+  const known=new Set(Object.keys(table));
   const src=fs.readFileSync('versions/5.1.1/lp-zen.js','utf8');
   for(const key of ['Indefinitely','For %d minutes','For one hour','For %d hours','Until your downtime ends','Until next alarm','When calls and notifications arrive','Priority interruptions','Events and reminders','Calls','Messages','Calls/messages from','Anyone','Starred contacts only','Contacts only','Alarms are always priority interruptions','Downtime','Days','Start time','End time','Interruptions allowed','Priority only','None','%s next day','%s or any alarm before','%s next day or any alarm before','Always interrupt','Allow only priority interruptions',"Don't interrupt",'CANCEL','OK']){
     assert.ok(known.has(key),`lp-strings.js lacks ${key}`);assert.ok(src.includes(key),key);}}

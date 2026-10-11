@@ -8,11 +8,6 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const APPS = ['newsstand', 'quickoffice', 'wallet'];
-  // Launcher labels (Magazines, QuickOffice, Wallet) and Music2's MediaAppWidgetProvider label, as KTU84P ships them.
-  window.AndroidI18n?.extend([
-    ['Play Newsstand', 'Play Újságos', 'Play Kiosk', 'Google Play Kiosque', 'Play Kiosco'],
-    ['Google Play Music', 'Google Play Zene', 'Google Play Music', 'Google Play Musique', 'Google Play Música']
-  ]);
   // Screen texts from the APKs (Play Books uses "Read Now" with another translation, so these stay local).
   const STRINGS = {
     'Read Now': ['Olvasson most', 'Jetzt lesen', 'À lire', 'Leer ahora'],

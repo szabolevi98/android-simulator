@@ -2380,6 +2380,38 @@ window.GBSettingsStrings = {
 "Una hora",
 "Nunca"
 ]
+},
+"wifi_signal": {
+"en": [
+"Poor",
+"Fair",
+"Good",
+"Excellent"
+],
+"hu": [
+"Gyenge",
+"Közepes",
+"Jó",
+"Kiváló"
+],
+"de": [
+"Schwach",
+"Gut",
+"OK",
+"Ausgezeichnet"
+],
+"fr": [
+"Faible",
+"Satisfaisante",
+"Bonne",
+"Excellente"
+],
+"es": [
+"Mala",
+"Aceptable",
+"Buena",
+"Excelente"
+]
 }
 }
 };

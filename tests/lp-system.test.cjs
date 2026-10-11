@@ -33,7 +33,7 @@ assert.ok(!r.window.LPRecents.render(['a','b'],opts(false)).includes('lp-task-pi
 for(const key of ['screen_pinning_title','lock_to_app_start','lock_to_app_exit','lock_to_app_toast'])assert.ok(fs.readFileSync('docs/lp-strings.txt','utf8').includes(key),key);
 // Texts come from the LMY48Y APKs; Google Calendar 5.0.1 there has no 3 day view.
 const strings=fs.readFileSync(dir+'lp-strings.js','utf8');
-for(const [en,hu] of [['Schedule','Ütemezés'],['Search contacts & places','Névjegyek és helyek keresése'],['Contacts','Névjegyek'],['Interruptions','Zavaró üzenetek'],['Welcome','Üdvözöljük!']])assert.ok(strings.includes(`["${en}", "${hu}"`),en);
+for(const [en,hu] of [['Schedule','Ütemezés'],['Search contacts & places','Névjegyek és helyek keresése'],['Contacts','Névjegyek'],['Interruptions','Zavaró üzenetek'],['Welcome','Üdvözöljük!']])assert.ok(strings.includes(`${JSON.stringify(en)}: {`)&&new RegExp(`${JSON.stringify(en)}: \{[^}]*"hu": ${JSON.stringify(hu)}`).test(strings),en);
 assert.ok(!fs.readFileSync(dir+'calendar.js','utf8').includes("'3 day','Week'"));
 // Material touch feedback: RippleDrawable's constants.
 const ripple=fs.readFileSync(dir+'lp-ripple.js','utf8');

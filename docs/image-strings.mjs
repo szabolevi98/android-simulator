@@ -66,7 +66,9 @@ const VERSIONS = {
     'lp-devopts.js': ['Settings'], 'lp-deskclock.js': ['DeskClockGoogle', 'framework'], 'lp-gallery.js': ['GalleryGoogle', 'framework'], 'lp-search.js': ['SystemUI', 'framework'],
     'lp-downloads.js': ['DownloadProviderUi', 'DocumentsUI'], 'lp-play.js': ['Phonesky'], 'lp-wallpaper-picker.js': ['GoogleHome', 'WallpaperCropper'],
     'lp-extra-apps.js': [], 'lp-ripple.js': [], 'lp-scroll.js': [], 'messaging.js': ['PrebuiltBugle']},
-    keep: {'Forward': "Chrome's toolbar shares it with Email; only Email's text is in the image"}},
+    keep: {'Forward': "Chrome's toolbar shares it with Email; only Email's text is in the image"},
+    // The launcher shows the Maps app's own label (Velvet's search corpus of that name says 'Mapas' in Spanish).
+    pin: {'Maps': 'Maps:MAPS_APP_NAME'}, titleCase: true},
 };
 // English text -> 'apk:resource' when the screens' APKs disagree.
 const PIN = {
@@ -101,42 +103,73 @@ const CONTEXT = {
   'Mute': ['Phone', 'Phone:onscreenMuteText', 'GoogleDialer:onscreenMuteText'],  // the in-call button ('Lezárás' in Hungarian), not Settings' silent mode
 };
 
-const version = process.argv[2], config = VERSIONS[version];
-if (!config) { console.error('usage: node docs/image-strings.mjs <' + Object.keys(VERSIONS).join('|') + '>'); process.exit(1); }
+const version = process.argv[2], config = VERSIONS[version], suggest = process.argv.includes('--suggest');
+if (!config) { console.error('usage: node docs/image-strings.mjs <' + Object.keys(VERSIONS).join('|') + '> [--suggest]'); process.exit(1); }
 const rows = eval(fs.readFileSync('i18n.js', 'utf8').match(/const rows = (\[[\s\S]*?\n  \]);/)[1]);
+const shared = Object.fromEntries(rows.map(row => [row[0], row]));
 const index = JSON.parse(fs.readFileSync(`_aosp/${config.device}/strings-index.json`, 'utf8'));
 const dir = `versions/${version}/`;
 const sources = fs.readdirSync(dir).filter(name => /\.(js|html)$/.test(name) && !/^(image-strings|gb-strings-.*|gb-settings-strings|lp-strings)\.js$/.test(name)).map(name => [name, fs.readFileSync(dir + name, 'utf8')]);
 const LANGS = ['hu', 'de', 'fr', 'es'];
-const quoted = text => [`'${text.replaceAll("'", "\\'")}'`, `"${text.replaceAll('"', '\\"')}"`, '`' + text + '`', `>${text}<`];
-const out = [], report = [], seen = new Set();
-for (const row of rows) {
-  const en = row[0];
-  if (seen.has(en) || KEEP[en] || config.keep?.[en] || /%|<\/?[a-z]/i.test(en)) continue;
-  seen.add(en);
-  const all = (index[en] || []).filter(hit => LANGS.every(lang => hit[2][lang]));
-  if (!all.length) continue;
-  const users = sources.filter(([, text]) => quoted(en).some(q => text.includes(q))).map(([name]) => name);
-  const apps = new Set(users.flatMap(name => (config.files || {})[name] ?? FILES[name] ?? [...GENERAL, ...config.general]));
-  let hits = all.filter(hit => apps.has(hit[0]));
-  if (PIN[en]) hits = all.filter(hit => `${hit[0]}:${hit[1]}` === PIN[en]);
-  if (!hits.length) continue;
-  const variants = new Map(hits.map(hit => [JSON.stringify(LANGS.map(lang => hit[2][lang])), hit]));
-  if (variants.size > 1) { report.push(`SKIP\t${en}\t${row[1]}\t${[...variants.values()].map(hit => `${hit[0]}:${hit[1]}=${hit[2].hu}`).join(' / ')}\t[${users.join(' ')}]`); continue; }
-  const [apk, name, tr] = hits[0];
-  if (LANGS.some(lang => tr[lang] !== tr[lang].trim())) { report.push(`SKIP\t${en}\t${row[1]}\t${apk}:${name} has outer spaces`); continue; }
-  // Settings' header rows are list separators (textAllCaps), so their translations show upper-case as well.
-  const caps = /^header_category_/.test(name);
-  const next = [en, ...LANGS.map(lang => caps ? tr[lang].toLocaleUpperCase(lang) : tr[lang])];
-  if (next.every((text, i) => text === row[i])) continue;
-  out.push(next);
-  report.push(`${apk}:${name}\t${en}\t${LANGS.map((lang, i) => row[i + 1] === next[i + 1] ? '=' : `${row[i + 1]} -> ${next[i + 1]}`).join(' | ')}\t[${users.join(' ')}]`);
+const quoted = text => [`'${text.replaceAll("'", "\'")}'`, `"${text.replaceAll('"', '\\"')}"`, '`' + text + '`', `>${text}<`];
+const usersOf = en => sources.filter(([, text]) => quoted(en).some(q => text.includes(q))).map(([name]) => name);
+// Settings' header rows are list separators (textAllCaps) up to 4.4, so their translations show upper-case as well.
+// Lollipop's dashboard titles (TextAppearance.CategoryTitle: bold, colorAccent) keep the resource's own case.
+// A language the resource has no translation for shows its English, as Android falls back to values/.
+const texts = (name, tr, en) => LANGS.map(lang => tr[lang] ?? en).map((text, i) => /^header_category_/.test(name) && !config.titleCase ? text.toLocaleUpperCase(LANGS[i]) : text);
+
+// The rows a version takes are fixed in docs/image-strings-<version>.res ("English<TAB>Apk:resource", a context row as
+// "Context|English"), so the output only changes when that list or the image does. --suggest runs the old search
+// (the screens' APKs, PIN, KEEP, CONTEXT) and prints what it would add, change or drop, without writing anything.
+function search() {
+  const found = new Map(), skipped = [], seen = new Set();
+  for (const row of rows) {
+    const en = row[0];
+    if (seen.has(en) || KEEP[en] || config.keep?.[en] || /%|<\/?[a-z]/i.test(en)) continue;
+    seen.add(en);
+    const all = (index[en] || []).filter(hit => LANGS.every(lang => hit[2][lang]));
+    if (!all.length) continue;
+    const users = usersOf(en);
+    const apps = new Set(users.flatMap(name => (config.files || {})[name] ?? FILES[name] ?? [...GENERAL, ...config.general]));
+    let hits = all.filter(hit => apps.has(hit[0]));
+    const pin = config.pin?.[en] || PIN[en];
+    if (pin) hits = all.filter(hit => `${hit[0]}:${hit[1]}` === pin);
+    if (!hits.length) continue;
+    const variants = new Map(hits.map(hit => [JSON.stringify(LANGS.map(lang => hit[2][lang])), hit]));
+    if (variants.size > 1) { skipped.push(`SKIP\t${en}\t${[...variants.values()].map(hit => `${hit[0]}:${hit[1]}=${hit[2].hu}`).join(' / ')}\t[${users.join(' ')}]`); continue; }
+    const [apk, name, tr] = hits[0];
+    if (LANGS.some(lang => tr[lang] !== tr[lang].trim())) { skipped.push(`SKIP\t${en}\t${apk}:${name} has outer spaces`); continue; }
+    if (texts(name, tr, en).every((text, i) => text === row[i + 1])) continue;
+    found.set(en, `${apk}:${name}`);
+  }
+  for (const [en, [context, ...resources]] of Object.entries(CONTEXT)) {
+    const hit = (index[en] || []).find(hit => resources.includes(`${hit[0]}:${hit[1]}`) && LANGS.every(lang => hit[2][lang]));
+    if (hit) found.set(`${context}|${en}`, `${hit[0]}:${hit[1]}`);
+  }
+  return {found, skipped};
 }
-for (const [en, [context, ...resources]] of Object.entries(CONTEXT)) {
-  const hit = (index[en] || []).find(hit => resources.includes(`${hit[0]}:${hit[1]}`) && LANGS.every(lang => hit[2][lang])), resource = hit && `${hit[0]}:${hit[1]}`;
-  if (hit) { out.push([`${context}|${en}`, ...LANGS.map(lang => hit[2][lang])]); report.push(`${resource}\t${context}|${en}\t${LANGS.map(lang => hit[2][lang]).join(' | ')}`); }
+
+const resFile = `docs/image-strings-${version}.res`;
+const locked = fs.readFileSync(resFile, 'utf8').split('\n').filter(line => line.trim() && !line.startsWith('#')).map(line => line.split('\t'));
+if (suggest) {
+  const {found, skipped} = search(), have = new Map(locked);
+  for (const [key, res] of found) if (!have.has(key)) console.log(`+ ${key}\t${res}\t[${usersOf(key.split('|').pop()).join(' ')}]`);
+  for (const [key, res] of found) if (have.has(key) && have.get(key) !== res) console.log(`~ ${key}\t${have.get(key)} -> ${res}`);
+  for (const [key] of locked) if (!usersOf(key.split('|').pop()).length) console.log(`- ${key}\tno file of ${version} quotes it`);
+  for (const line of skipped) console.log(line);
+  process.exit(0);
 }
-const head = `/* Generated by docs/image-strings.mjs from the ${config.build} factory image (values, -hu, -de, -fr, -es). Do not edit. */\n`;
-fs.writeFileSync(`${dir}image-strings.js`, head + 'window.AndroidI18n?.extend([\n' + out.map(row => '  ' + JSON.stringify(row)).join(',\n') + '\n]);\n');
+const out = {}, report = [];
+for (const [key, res] of locked) {
+  const en = key.split('|').pop(), [apk, name] = res.split(':');
+  const hit = (index[en] || []).find(hit => hit[0] === apk && hit[1] === name);
+  if (!hit) { console.error(`${resFile}: the image has no ${res} for "${en}"`); process.exit(1); }
+  const next = texts(name, hit[2], en), row = shared[key];
+  out[key] = {res, ...Object.fromEntries(LANGS.map((lang, i) => [lang, next[i]]))};
+  report.push(`${res}\t${key}\t${LANGS.map((lang, i) => row?.[i + 1] === next[i] ? '=' : row ? `${row[i + 1]} -> ${next[i]}` : next[i]).join(' | ')}\t[${usersOf(en).join(' ')}]`);
+}
+const head = `/* Generated by docs/image-strings.mjs from the ${config.build} factory image and ${resFile} (values, -hu, -de, -fr, -es).\n   Do not edit. */\n`;
+const body = Object.entries(out).map(([key, entry]) => `  ${JSON.stringify(key)}: ${JSON.stringify(entry)}`).join(',\n');
+fs.writeFileSync(`${dir}image-strings.js`, head + `window.AndroidI18n?.extend({\n${body}\n}, 'image-strings');\n`);
 fs.writeFileSync(`docs/image-strings-${version}.tsv`, report.join('\n') + '\n');
-console.log(out.length, 'rows,', report.filter(line => line.startsWith('SKIP')).length, 'skipped');
+console.log(Object.keys(out).length, 'rows');

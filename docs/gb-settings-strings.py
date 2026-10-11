@@ -67,7 +67,7 @@ lockpattern_pattern_entered_header lockpattern_need_to_confirm lockpattern_patte
 lockpattern_restart_button_text lockpattern_retry_button_text lockpattern_continue_button_text lockpassword_confirm_your_password_header
 zone_list_menu_sort_alphabetically zone_list_menu_sort_by_timezone
 '''.split()
-ARRAYS = 'vibrate_entries animations_entries screen_timeout_entries emergency_tone_entries app_install_location_entries wifi_status wifi_status_with_ssid wifi_sleep_policy_entries bluetooth_visibility_timeout_entries'.split()
+ARRAYS = 'vibrate_entries animations_entries screen_timeout_entries emergency_tone_entries app_install_location_entries wifi_status wifi_status_with_ssid wifi_sleep_policy_entries bluetooth_visibility_timeout_entries wifi_signal'.split()
 FW_KEYS = 'ok cancel yes no date_time_set'.split()
 
 

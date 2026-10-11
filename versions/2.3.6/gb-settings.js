@@ -309,7 +309,7 @@
     if (kind.startsWith('ap:')) {
       const n = (ctx.networks || []).find(item => item.name === kind.slice(3)); if (!n) return null;
       const connected = s.wifiNetwork === n.name, secured = n.security !== 'Open';
-      const signal = ctx.t(['Poor', 'Poor', 'Fair', 'Good', 'Excellent'][n.strength] || 'Good');
+      const signal = entries(ctx.lang, 'wifi_signal')[[0, 0, 1, 2, 3][n.strength] ?? 2];
       const rows = connected ? [[T('wifi_status'), entries(ctx.lang, 'wifi_status')[5]], [T('wifi_signal'), signal], [T('wifi_speed'), '54Mbps'], [T('wifi_security'), secured ? n.security : ctx.t('None')], [T('wifi_ip_address'), '192.168.1.104']]
         : [[T('wifi_security'), secured ? n.security : ctx.t('None')], [T('wifi_signal'), signal]];
       const body = `<dl class="gbwifi">${rows.map(([k, v]) => `<dt>${e(k)}</dt><dd>${e(v)}</dd>`).join('')}</dl>${!connected && secured ? `<label class="gbdlg-field"><span>${e(T('wifi_password'))}</span><input type="password" data-wifi-password maxlength="63"></label><label class="gbvol-check"><input type="checkbox" data-wifi-show> ${e(T('wifi_show_password'))}</label>` : ''}`;

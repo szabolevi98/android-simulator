@@ -1517,7 +1517,20 @@
       }
     }
   }
-  // A version page can lay its own strings over the shared table (Lollipop: lp-strings.js, taken from the release's APKs).
-  function extend(extra) { for (const [en, hu, de, fr, es] of extra) translations[en] = { hu, de, fr, es }; }
-  window.AndroidI18n = { get language() { return language; }, locale: () => locale[language], t, setLanguage, translateDOM, supported, extend };
+  // A version page lays its own strings over the shared table: image-strings.js (the factory image's wording for these
+  // rows), lp-strings.js and a few app modules. extend(table, source) takes {English or 'Context|English': {hu, de, fr, es,
+  // res?}} (or the older [English, hu, de, fr, es] rows). A row of this file gives way silently, since the image's own
+  // wording wins; a key that an earlier extension wrote differently is noted in conflicts (tests/text-tables.test.cjs keeps
+  // that list empty), so two resources with one English text need a context instead.
+  const origin = {}, conflicts = [];
+  function extend(extra, source = 'extend') {
+    const entries = Array.isArray(extra) ? extra.map(([en, hu, de, fr, es]) => [en, { hu, de, fr, es }]) : Object.entries(extra);
+    for (const [key, entry] of entries) {
+      const next = { hu: entry.hu, de: entry.de, fr: entry.fr, es: entry.es }, prev = translations[key];
+      if (origin[key] && prev && ['hu', 'de', 'fr', 'es'].some(lang => prev[lang] !== next[lang])) conflicts.push({ key, first: origin[key], then: source });
+      translations[key] = next;
+      origin[key] = source;
+    }
+  }
+  window.AndroidI18n = { get language() { return language; }, locale: () => locale[language], t, setLanguage, translateDOM, supported, extend, conflicts };
 })();

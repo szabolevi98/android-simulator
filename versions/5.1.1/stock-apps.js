@@ -6,13 +6,6 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  // News & Weather 2.2's overflow texts, as LMY48Y's PrebuiltNewsWeather.apk translates them.
-  window.AndroidI18n?.extend([
-    ['Add section', 'Panel hozzáadása', 'Abschnitt hinzufügen', 'Ajouter une section', 'Añadir sección'],
-    ['Edit weather display…', 'Időjárásinformáció-módosítás…', 'Wetteranzeige bearbeiten…', "Modifier l'affichage météo…", 'Editar pantalla de tiempo…'],
-    ['Remove this section', 'A szakasz eltávolítása', 'Diesen Abschnitt entfernen', 'Supprimer cette section', 'Eliminar esta sección'],
-    ['Migrate settings', 'Beállítások áttelepítése', 'Einstellungen migrieren', 'Transférer les paramètres', 'Migrar ajustes']
-  ]);
   const ICON = {
     search: '<svg viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.6 5.6-1.4 1.4-5.6-5.6A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z" fill="currentColor"/></svg>',
     overflow: '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="19" r="2" fill="currentColor"/></svg>',
