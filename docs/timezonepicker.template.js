@@ -18,11 +18,11 @@
 (() => {
   'use strict';
   const DATA = __DATA__;
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
   const NONE = 0, COUNTRY = 1, GMT = 3, EMPTY = -1, EMPTY_INDEX = -100, OFFSET_ARRAY_OFFSET = 20, MAX_RECENT = 3;
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const li = lang => Math.max(0, LANGS.indexOf(String(lang || 'en').slice(0, 2)));
-  const S = (lang, key) => DATA.strings[key][li(lang)];
+  // The data's language column, in strings.js's order (en, hu, de, fr, es).
+  const li = lang => AndroidStrings.LANGS.indexOf(AndroidStrings.code(lang || 'en'));
+  const S = (lang, key) => AndroidStrings.pick(DATA.strings[key], String(lang || 'en'), key);
   // TimeZone.getTimeZone: an old id reads its backward-mapped zone, an unknown one is GMT.
   const zone = id => DATA.zones[id] ? id : DATA.zones[DATA.links[id]] ? DATA.links[id] : 'GMT';
   // A zone: [raw minutes, useDaylightTime, rule signature, name tuple (std, dst per language), transition table]; a

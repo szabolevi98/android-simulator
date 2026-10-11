@@ -222,7 +222,7 @@ def build(version, device, apk_name, app, image, d, density, material):
     strings = {}
     for key in ('hint_time_zone_search', 'no_results_found', 'searchview_description_clear', 'accessibility_pick_time_zone'):
         value = res.string([apk_name], key)
-        strings[key] = [value.get(lang, value['en']) for lang in LANGS]
+        strings[key] = {'res': f'{apk_name}:{key}', **{lang: value.get(lang, value['en']) for lang in LANGS}}  # the named form strings.js reads
 
     data = {'from': KEEP_FROM // 60, 'zoneTab': zt, 'links': links, 'etc': etc, 'zones': out_zones, 'zoneNames': tables['names'], 'transitions': tables['trans'],
             'countries': countries, 'renames': renames, 'names': pool, 'strings': strings}

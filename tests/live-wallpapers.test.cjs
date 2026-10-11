@@ -57,5 +57,5 @@ for(const v of ['2.3.6','4.0.4','4.3']){
   const sim=fs.readFileSync(`versions/${v}/simulator.js`,'utf8');assert.ok(sim.includes("sub === 'settings:maps'")&&sim.includes("case 'lw-mapmode-pick'"),v);
   assert.equal(sim.includes("data-id=\"maps:traffic\""),v==='2.3.6','Show traffic only in Maps 5.4.0 (Nexus S)');
 }
-assert.ok(fs.readFileSync('i18n.js','utf8').includes('["Maps|Normal", "Normál", "Normal", "Standard", "Normal"]')||fs.readFileSync('i18n.js','utf8').includes('["Maps|Normal","Normál","Normal","Standard","Normal"]'));
+assert.ok(fs.readFileSync('i18n.js','utf8').includes("'Maps|Normal': {own: true, hu: 'Normál', de: 'Normal', fr: 'Standard', es: 'Normal'}"));
 console.log('Maps wallpaper checks passed: registered with settings on 2.3.6, 4.0.4 and 4.3.');

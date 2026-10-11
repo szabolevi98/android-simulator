@@ -6,7 +6,7 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   // menu/photo.xml's Print (print_image) in GalleryGoogle 1.1.40304's words.
-  const PRINT = {"hu": "Nyomtatás", "de": "Drucken", "fr": "Imprimer", "es": "Imprimir"};
+  const PRINT = {res: "GalleryGoogle:print_image", "hu": "Nyomtatás", "de": "Drucken", "fr": "Imprimer", "es": "Imprimir"};
   const DP = .9;
   // Config.AlbumSetPage / AlbumPage, PositionController and PhotoPage constants.
   const G = {setRows: 3, setGap: 7 * DP, setPad: 7 * DP, labelHeight: 30 * DP, albumRows: 4, albumGap: 5 * DP,
@@ -91,7 +91,7 @@
     if (open === 'set-menu') body = item('data-jbgal-toast="Select album"', 'Select album') + item('data-jbgal-toast="Settings"', 'Settings');
     if (open === 'album-menu') body = item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-toast="Select item"', 'Select item') + item('data-jbgal-open="cluster"', 'Group by');
     if (open === 'photo-menu' && video) body = item('data-jbgal-delete', 'Delete') + item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-toast="This feature is not part of the simulator."', 'Trim') + item('data-jbgal-toast="This feature is not part of the simulator."', 'Mute') + item('data-action="gallery-details"', 'Details');
-    else if (open === 'photo-menu') body = item('data-jbgal-delete', 'Delete') + item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-edit', 'Edit') + item('data-action="gallery-rotate" data-id="-90"', 'Rotate left') + item('data-action="gallery-rotate" data-id="90"', 'Rotate right') + item('data-jbgal-edit="geometry"', 'Crop') + item('data-jbgal-setas', 'Set picture as') + item('data-action="gallery-details"', 'Details') + `<button type="button" data-action="toast" data-id="Not available in this simulator">${e(PRINT[window.AndroidI18n?.language] || 'Print')}</button>`;
+    else if (open === 'photo-menu') body = item('data-jbgal-delete', 'Delete') + item('data-action="gallery-slideshow"', 'Slideshow') + item('data-jbgal-edit', 'Edit') + item('data-action="gallery-rotate" data-id="-90"', 'Rotate left') + item('data-action="gallery-rotate" data-id="90"', 'Rotate right') + item('data-jbgal-edit="geometry"', 'Crop') + item('data-jbgal-setas', 'Set picture as') + item('data-action="gallery-details"', 'Details') + `<button type="button" data-action="toast" data-id="Not available in this simulator">${e(AndroidStrings.pick(PRINT, window.AndroidI18n?.language, 'Print'))}</button>`;
     return `<div class="jbgal-popup-scrim" data-jbgal-close></div><div class="${cls}" role="menu">${body}</div>`;
   }
 

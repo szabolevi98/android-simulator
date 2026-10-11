@@ -31,7 +31,7 @@
   const VIDEO = {back: ['2160p', '1080p', '720p'], front: ['1080p', '720p', '480p']}, VIDEO_NAME = {'2160p': 'UHD 4K', '1080p': 'HD 1080p', '720p': 'HD 720p', '480p': 'SD 480p'};
   const QUALITY = {max: 'High', hq: 'Normal', lq: 'Low (fastest)'};
   // pref_category_advanced: the framework's "Advanced" comes first in lp-strings.js, so the camera's own text is here.
-  const ADVANCED = {hu: 'Haladó', de: 'Erweitert', fr: 'Avancé', es: 'Avanzado'};
+  const ADVANCED = {res: 'GoogleCamera:pref_category_advanced', hu: 'Haladó', de: 'Erweitert', fr: 'Avancé', es: 'Avanzado'};
   function settings(media, data) { return {flash: 'auto', hdr: false, grid: false, timer: 0, front: false, pictureBack: SIZES.back[0], pictureFront: SIZES.front[0], videoBack: 'large', videoFront: 'large', location: false, exposure: false, ev: 0, lightcycle: 'hq', refocus: 'hq', ...data.cameraSettings}; }
   // getSizeSummaryString: the aspect ratio snapped to 16:9 / 4:3 (fuzzAspectRatio, 0.05) or reduced, megapixels "##0.0".
   function sizeLabel(value, t, locale) {
@@ -61,7 +61,7 @@
     const body = page === 'resolution'
       ? cat(t('Camera')) + list('pictureBack') + list('pictureFront') + cat(t('Video')) + list('videoBack') + list('videoFront') + cat(t('Photo sphere and panorama')) + list('lightcycle') + cat(t('Lens Blur')) + list('refocus')
       : page === 'advanced' ? toggle('exposure', 'Manual exposure')
-      : row('data-gcs-open="resolution"', t('Resolution & quality')) + toggle('location', 'Save location') + row('data-gcs-open="advanced"', ADVANCED[lang] || 'Advanced') + row('data-gcs-help', t('Help & feedback'));
+      : row('data-gcs-open="resolution"', t('Resolution & quality')) + toggle('location', 'Save location') + row('data-gcs-open="advanced"', AndroidStrings.pick(ADVANCED, lang, 'Advanced')) + row('data-gcs-help', t('Help & feedback'));
     const key = ui.gcsDialog, dialog = key && L[key] ? `<div class="gcs-scrim" data-gcs-cancel></div><div class="gcs-dialog" role="dialog" aria-label="${e(t(L[key][0]))}"><h3>${e(t(L[key][0]))}</h3><div class="gcs-choices">${L[key][1].map(([value, text]) => `<button type="button" class="gcs-choice${value === s[key] ? ' on' : ''}" data-gcs-pick="${e(value)}" role="radio" aria-checked="${value === s[key]}"><span>${e(key.startsWith('picture') ? text : t(text))}</span><i></i></button>`).join('')}</div><div class="gcs-buttons"><button type="button" data-gcs-cancel>${e(t('Cancel'))}</button></div></div>` : '';
     return `<div class="app-view camera-app gcs" data-gcam data-gcs data-no-translate><header class="gcs-bar"><button type="button" class="gcs-up" data-gcs-up aria-label="${e(t('Navigate up'))}"><img class="gcs-caret" src="assets/gcs-ic_ab_back_holo_dark_am.png" alt=""><img class="gcs-icon" src="assets/camera.png" alt=""></button><b>${e(t('Settings'))}</b></header><div class="gcs-list">${body}</div>${dialog}</div>`;
   }

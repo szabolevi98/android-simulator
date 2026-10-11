@@ -105,7 +105,8 @@ const CONTEXT = {
 
 const version = process.argv[2], config = VERSIONS[version], suggest = process.argv.includes('--suggest');
 if (!config) { console.error('usage: node docs/image-strings.mjs <' + Object.keys(VERSIONS).join('|') + '> [--suggest]'); process.exit(1); }
-const rows = eval(fs.readFileSync('i18n.js', 'utf8').match(/const rows = (\[[\s\S]*?\n  \]);/)[1]);
+// i18n.js's own rows, {English: {own, hu, de, fr, es}}, as [English, hu, de, fr, es].
+const rows = Object.entries(eval('(' + fs.readFileSync('i18n.js', 'utf8').replace(/\r\n/g, '\n').match(/const table = (\{[\s\S]*?\n  \});/)[1] + ')')).map(([en, e]) => [en, e.hu, e.de, e.fr, e.es]);
 const shared = Object.fromEntries(rows.map(row => [row[0], row]));
 const index = JSON.parse(fs.readFileSync(`_aosp/${config.device}/strings-index.json`, 'utf8'));
 const dir = `versions/${version}/`;
