@@ -20,7 +20,7 @@ versions/4.4.4/assets/appwidget_clock_hour.png	a957de193f9b8799	resized	hammerhe
 versions/4.4.4/assets/appwidget_clock_minute.png	0060eb888c1738ef	resized	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xxhdpi/appwidget_clock_minute.png	drawable-xxhdpi	resized 720×720 → 360×360, mean difference 0.07	27af697a7137cd51
 versions/4.4.4/assets/appwidget_settings_ind_off_c_holo.png	6bc886358baba09c	resized	hammerhead:/system/priv-app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_off_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.33	9a598ce5ca91fb9f
 versions/4.4.4/assets/appwidget_settings_ind_on_c_holo.png	7dc1f487273953d8	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_on_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.92	6cb9943ed4887a5c
-versions/4.4.4/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/background_holo_dark.png	drawable-hdpi		937ebf6c3ec776ed
+versions/4.4.4/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-mdpi/background_holo_dark.png	drawable-mdpi		937ebf6c3ec776ed
 versions/4.4.4/assets/bk3-Merriweather.ttf	74cb5e7deaded85d	copy	hammerhead:/system/app/Books.apk!assets/fonts/Merriweather.ttf			74cb5e7deaded85d
 versions/4.4.4/assets/bk3-OFLGoudyStMTT.ttf	1d8d7c56c65c7106	copy	hammerhead:/system/app/Books.apk!assets/fonts/OFLGoudyStMTT.ttf			1d8d7c56c65c7106
 versions/4.4.4/assets/bk3-Vollkorn-Regular.ttf	5747bd44f86ef4c9	copy	hammerhead:/system/app/Books.apk!assets/fonts/Vollkorn-Regular.ttf			5747bd44f86ef4c9
@@ -753,7 +753,7 @@ versions/4.4.4/assets/l3-widget_resize_handle_left.png	fc2b817d7f0d7b31	same pix
 versions/4.4.4/assets/l3-widget_resize_handle_right.png	7619d3803229df80	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/widget_resize_handle_right.png	drawable-xxhdpi		1cf7da0e389e535d
 versions/4.4.4/assets/l3-widget_resize_handle_top.png	c3c7d673ac8a7d56	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/widget_resize_handle_top.png	drawable-xxhdpi		f40ba2e05eb95505
 versions/4.4.4/assets/l3-workspace_bg.png	b083781860c6de8f	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-sw720dp-xxhdpi/workspace_bg.9.png	drawable-sw720dp-xxhdpi		46e0931b2018f413
-versions/4.4.4/assets/landing-home.jpg	959606caa164784a	own	capture of the simulator's own home screen for the landing page card			
+versions/4.4.4/assets/landing-home.jpg	bba5daf40c68b68b	own	capture of the simulator's own home screen for the landing page card			
 versions/4.4.4/assets/launcher-ic_home_voice_search_holo.png	85c35aea1483bb05	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-hdpi/ic_home_voice_search_holo.png	drawable-hdpi		9c44d1ed48c0a923
 versions/4.4.4/assets/launcher-ic_launcher_clear_active_holo.png	77c712178de0a2a1	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-hdpi/ic_launcher_clear_active_holo.png	drawable-hdpi		f51e71dfb22205b8
 versions/4.4.4/assets/launcher-ic_launcher_clear_normal_holo.png	ab90bea161700e9d	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-hdpi/ic_launcher_clear_normal_holo.png	drawable-hdpi		eb998879e452c5bf

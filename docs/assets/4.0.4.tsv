@@ -8,7 +8,7 @@ versions/4.0.4/assets/appwidget_clock_hour.png	c26221476b716b61	resized	maguro:/
 versions/4.0.4/assets/appwidget_clock_minute.png	4b559b7f593f9a59	resized	maguro:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/appwidget_clock_minute.png	drawable-xhdpi	resized 392×392 → 294×294, mean difference 0.06	163ff478cf9d34b5
 versions/4.0.4/assets/appwidget_settings_ind_off_c_holo.png	6bc886358baba09c	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_off_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.33	9a598ce5ca91fb9f
 versions/4.0.4/assets/appwidget_settings_ind_on_c_holo.png	7dc1f487273953d8	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_on_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.92	6cb9943ed4887a5c
-versions/4.0.4/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/background_holo_dark.png	drawable-hdpi		937ebf6c3ec776ed
+versions/4.0.4/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-mdpi/background_holo_dark.png	drawable-mdpi		937ebf6c3ec776ed
 versions/4.0.4/assets/boot-part0.webp	3569f061a87c9e49	generated	maguro:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/bootanimation.py)	
 versions/4.0.4/assets/browser.png	ab5e4f99e8b18396	same pixels	maguro:/system/app/BrowserGoogle.apk!res/mipmap-xhdpi/ic_launcher_browser.png	mipmap-xhdpi		f82cdc92eef2de4f
 versions/4.0.4/assets/btn_check_off_holo_dark.png	d741031387f84797	resized	maguro:/system/framework/framework-res.apk!res/drawable-xhdpi/btn_check_off_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.18	735c8ff0a9d4796d
@@ -278,7 +278,7 @@ versions/4.0.4/assets/ga-yt-bg_button_normal.png	1cd21a502e33ec63	copy	maguro:/s
 versions/4.0.4/assets/ga-yt-bg_button_pressed.png	60de760565f51762	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/bg_button_pressed.9.png	drawable-xhdpi		60de760565f51762
 versions/4.0.4/assets/ga-yt-bg_stripes_dark.png	0d5c6e6bdc1ef40d	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/bg_stripes_dark.png	drawable-xhdpi		0d5c6e6bdc1ef40d
 versions/4.0.4/assets/ga-yt-bg_yt_button_panel.png	bd8105c5beb7ad3b	copy	maguro:/system/app/YouTube.apk!res/drawable-nodpi/bg_yt_button_panel.9.png	drawable-nodpi		bd8105c5beb7ad3b
-versions/4.0.4/assets/ga-yt-divider_horizontal.png	095405eb9585c15a	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/divider_horizontal.9.png	drawable-xhdpi		095405eb9585c15a
+versions/4.0.4/assets/ga-yt-divider_horizontal.png	095405eb9585c15a	copy	maguro:/system/app/YouTube.apk!res/drawable-mdpi/divider_horizontal.9.png	drawable-mdpi		095405eb9585c15a
 versions/4.0.4/assets/ga-yt-ic_dislike.png	4d07920f11a0cbce	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_dislike.png	drawable-xhdpi		4d07920f11a0cbce
 versions/4.0.4/assets/ga-yt-ic_dislike_disabled.png	0168cb2c97771c42	copy	maguro:/system/app/YouTube.apk!res/drawable-hdpi/ic_dislike_disabled.png	drawable-hdpi		0168cb2c97771c42
 versions/4.0.4/assets/ga-yt-ic_hd.png	cb611f27c4eb5f68	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_hd.png	drawable-xhdpi		cb611f27c4eb5f68
@@ -291,8 +291,8 @@ versions/4.0.4/assets/ga-yt-ic_menu_search.png	e6200c2141e100b3	copy	maguro:/sys
 versions/4.0.4/assets/ga-yt-ic_menu_share.png	02234443ba53f3fd	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_menu_share.png	drawable-xhdpi		02234443ba53f3fd
 versions/4.0.4/assets/ga-yt-ic_plusone_standard_off.png	4913a59d101ad00d	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_plusone_standard_off.png	drawable-xhdpi		4913a59d101ad00d
 versions/4.0.4/assets/ga-yt-ic_plusone_standard_on.png	d42dc3ed23247d1f	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_plusone_standard_on.png	drawable-xhdpi		d42dc3ed23247d1f
-versions/4.0.4/assets/ga-yt-ic_vidcontrol_pause.png	7346a3e66e626aab	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_vidcontrol_pause.png	drawable-xhdpi		7346a3e66e626aab
-versions/4.0.4/assets/ga-yt-ic_vidcontrol_play.png	56a834d18a0cd005	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_vidcontrol_play.png	drawable-xhdpi		56a834d18a0cd005
+versions/4.0.4/assets/ga-yt-ic_vidcontrol_pause.png	7346a3e66e626aab	copy	maguro:/system/app/YouTube.apk!res/drawable-sw600dp-hdpi/ic_vidcontrol_pause.png	drawable-sw600dp-hdpi		7346a3e66e626aab
+versions/4.0.4/assets/ga-yt-ic_vidcontrol_play.png	56a834d18a0cd005	copy	maguro:/system/app/YouTube.apk!res/drawable-sw600dp-hdpi/ic_vidcontrol_play.png	drawable-sw600dp-hdpi		56a834d18a0cd005
 versions/4.0.4/assets/ga-yt-tab_selected_holo.png	93219b4bc1b153bb	copy	maguro:/system/app/YouTube.apk!res/drawable/tab_selected_holo.9.png	drawable		93219b4bc1b153bb
 versions/4.0.4/assets/ga-yt-tab_solid_selected.png	b514d8272288eee3	copy	maguro:/system/app/YouTube.apk!res/drawable/tab_solid_selected.9.png	drawable		b514d8272288eee3
 versions/4.0.4/assets/ga-yt-tab_solid_unselected.png	6fc061a79a82a473	copy	maguro:/system/app/YouTube.apk!res/drawable/tab_solid_unselected.9.png	drawable		6fc061a79a82a473
@@ -361,7 +361,7 @@ versions/4.0.4/assets/ime-sym_keyboard_shift_holo.png	33fc0e952fee5660	same pixe
 versions/4.0.4/assets/ime-sym_keyboard_shift_locked_holo.png	29715a4ef658f121	same pixels	maguro:/system/app/LatinImeGoogle.apk!res/drawable-hdpi/sym_keyboard_shift_locked_holo.png	drawable-hdpi		c6fc7b1dee1037c8
 versions/4.0.4/assets/ime-sym_keyboard_space_holo.png	0dcffcc42c216355	same pixels	maguro:/system/app/LatinImeGoogle.apk!res/drawable-hdpi/sym_keyboard_space_holo.png	drawable-hdpi		d53cc6080de5e5a0
 versions/4.0.4/assets/l3-ic_home_google_logo_normal_holo.png	fd9417adc7ddeb28	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/ic_home_google_logo_normal_holo.png	drawable-xxhdpi		39570dc0f672af1c
-versions/4.0.4/assets/landing-home.jpg	8d4a54eab65bdd14	own	capture of the simulator's own home screen for the landing page card			
+versions/4.0.4/assets/landing-home.jpg	475b6f1f118d3411	own	capture of the simulator's own home screen for the landing page card			
 versions/4.0.4/assets/latitude.png	946419e9c7f85c71	copy	maguro:/system/app/Maps.apk!res/drawable-320dpi/latitude_icon.png	drawable-320dpi		946419e9c7f85c71
 versions/4.0.4/assets/launcher-ic_launcher_clear_active_holo.png	77c712178de0a2a1	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/ic_launcher_clear_active_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.15	71ce892f947482cb
 versions/4.0.4/assets/launcher-ic_launcher_clear_normal_holo.png	ab90bea161700e9d	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/ic_launcher_clear_normal_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.19	e7033b8addf11b73
@@ -643,7 +643,7 @@ versions/4.0.4/assets/ps347-ic_rate_star_market_half.png	b398c589c43f5752	copy	m
 versions/4.0.4/assets/ps347-ic_rate_star_market_off.png	ab2fe4bd41113437	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/ic_rate_star_market_off.png	drawable-hdpi		ab2fe4bd41113437
 versions/4.0.4/assets/ps347-ic_rate_star_market_on.png	19865e16884fd16d	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/ic_rate_star_market_on.png	drawable-hdpi		19865e16884fd16d
 versions/4.0.4/assets/ps347-market_grid_nav_2x4.png	8843085da5347a59	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/market_grid_nav_2x4.9.png	drawable-hdpi		8843085da5347a59
-versions/4.0.4/assets/ps347-section_header_cancel.png	ee11b5e8852ceaef	copy	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/section_header_cancel.png	drawable-hdpi		ee11b5e8852ceaef
+versions/4.0.4/assets/ps347-section_header_cancel.png	ee11b5e8852ceaef	copy	maguro:/system/app/Phonesky.apk!res/drawable-mdpi/section_header_cancel.png	drawable-mdpi		ee11b5e8852ceaef
 versions/4.0.4/assets/psw-bottom.png	00f0f5b175d313a6	converted	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/phonesky_widget_bottom.9.png	drawable-hdpi	nine-patch border removed, mean difference 0.00	f86fe41ee341d1a0
 versions/4.0.4/assets/psw-top.png	8d66c89fda80168f	converted	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/phonesky_widget_top.9.png	drawable-hdpi	nine-patch border removed, mean difference 0.00	42157f91385ca0ba
 versions/4.0.4/assets/search.png	30d9b5880cfd9e66	copy	maguro:/system/app/GoogleQuickSearchBox.apk!res/mipmap-xhdpi/search_app_icon.png	mipmap-xhdpi		30d9b5880cfd9e66

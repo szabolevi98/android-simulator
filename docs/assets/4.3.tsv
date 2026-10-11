@@ -16,7 +16,7 @@ versions/4.3/assets/appwidget_clock_hour.png	a957de193f9b8799	resized	mako:/syst
 versions/4.3/assets/appwidget_clock_minute.png	0060eb888c1738ef	resized	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/appwidget_clock_minute.png	drawable-xhdpi	resized 480×480 → 360×360, mean difference 0.04	9296ffe4497261c6
 versions/4.3/assets/appwidget_settings_ind_off_c_holo.png	6bc886358baba09c	resized	mako:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_off_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.33	9a598ce5ca91fb9f
 versions/4.3/assets/appwidget_settings_ind_on_c_holo.png	7dc1f487273953d8	resized	mako:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_on_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.92	6cb9943ed4887a5c
-versions/4.3/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/background_holo_dark.png	drawable-hdpi		937ebf6c3ec776ed
+versions/4.3/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-mdpi/background_holo_dark.png	drawable-mdpi		937ebf6c3ec776ed
 versions/4.3/assets/bk28-Merriweather.ttf	74cb5e7deaded85d	copy	mako:/system/app/Books.apk!assets/fonts/Merriweather.ttf			74cb5e7deaded85d
 versions/4.3/assets/bk28-OFLGoudyStMTT.ttf	1d8d7c56c65c7106	copy	mako:/system/app/Books.apk!assets/fonts/OFLGoudyStMTT.ttf			1d8d7c56c65c7106
 versions/4.3/assets/bk28-Vollkorn-Regular.ttf	5747bd44f86ef4c9	copy	mako:/system/app/Books.apk!assets/fonts/Vollkorn-Regular.ttf			5747bd44f86ef4c9
@@ -610,7 +610,7 @@ versions/4.3/assets/kp-ic_unchecked_dark.png	91caae97c0877360	copy	mako:/system/
 versions/4.3/assets/kp-note_shadow.png	6bebfb0c56683a61	copy	mako:/system/app/Keep.apk!res/drawable-xhdpi/note_shadow.9.png	drawable-xhdpi		6bebfb0c56683a61
 versions/4.3/assets/kp-note_shadow_activated.png	b9c6fe3b76fa42ac	copy	mako:/system/app/Keep.apk!res/drawable-xhdpi/note_shadow_activated.9.png	drawable-xhdpi		b9c6fe3b76fa42ac
 versions/4.3/assets/kp-quick_edit_shadow.png	6bebfb0c56683a61	copy	mako:/system/app/Keep.apk!res/drawable-xhdpi/quick_edit_shadow.9.png	drawable-xhdpi		6bebfb0c56683a61
-versions/4.3/assets/landing-home.jpg	d71621ee12d3c8ef	own	capture of the simulator's own home screen for the landing page card			
+versions/4.3/assets/landing-home.jpg	9b9cc7164ae7a955	own	capture of the simulator's own home screen for the landing page card			
 versions/4.3/assets/launcher-ic_home_voice_search_holo.png	85c35aea1483bb05	resized	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/ic_home_voice_search_holo.png	drawable-xhdpi	resized 44×64 → 33×48, mean difference 0.77	42c4dda28a5042e0
 versions/4.3/assets/launcher-ic_launcher_clear_active_holo.png	77c712178de0a2a1	resized	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/ic_launcher_clear_active_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.15	71ce892f947482cb
 versions/4.3/assets/launcher-ic_launcher_clear_normal_holo.png	ab90bea161700e9d	resized	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/ic_launcher_clear_normal_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.19	e7033b8addf11b73

@@ -1390,7 +1390,7 @@ versions/2.3.6/assets/ime-sym_keyboard_return_holo.png	5734900451bc3514	same pix
 versions/2.3.6/assets/ime-sym_keyboard_shift_holo.png	33fc0e952fee5660	same pixels	maguro:/system/app/LatinImeGoogle.apk!res/drawable-hdpi/sym_keyboard_shift_holo.png	drawable-hdpi		4e55f7be0ae46d4f
 versions/2.3.6/assets/ime-sym_keyboard_shift_locked_holo.png	29715a4ef658f121	same pixels	maguro:/system/app/LatinImeGoogle.apk!res/drawable-hdpi/sym_keyboard_shift_locked_holo.png	drawable-hdpi		c6fc7b1dee1037c8
 versions/2.3.6/assets/ime-sym_keyboard_space_holo.png	0dcffcc42c216355	same pixels	maguro:/system/app/LatinImeGoogle.apk!res/drawable-hdpi/sym_keyboard_space_holo.png	drawable-hdpi		d53cc6080de5e5a0
-versions/2.3.6/assets/landing-home.jpg	65a1da088e90a05b	own	capture of the simulator's own home screen for the landing page card			
+versions/2.3.6/assets/landing-home.jpg	19466109a409c1fb	own	capture of the simulator's own home screen for the landing page card			
 versions/2.3.6/assets/latitude.png	ef6beb33aa7a25aa	copy	crespo:/system/app/Maps.apk!res/drawable-240dpi/latitude_icon.png	drawable-240dpi		ef6beb33aa7a25aa
 versions/2.3.6/assets/launcher-ic_launcher_clear_active_holo.png	77c712178de0a2a1	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/ic_launcher_clear_active_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.15	71ce892f947482cb
 versions/2.3.6/assets/launcher-ic_launcher_clear_normal_holo.png	ab90bea161700e9d	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/ic_launcher_clear_normal_holo.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.19	e7033b8addf11b73

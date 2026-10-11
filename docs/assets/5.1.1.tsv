@@ -22,7 +22,7 @@ versions/5.1.1/assets/appwidget_clock_hour.png	a957de193f9b8799	resized	shamu:/s
 versions/5.1.1/assets/appwidget_clock_minute.png	0060eb888c1738ef	resized	shamu:/system/app/DeskClockGoogle/DeskClockGoogle.apk!res/drawable-xxxhdpi-v4/appwidget_clock_minute.png	drawable-xxxhdpi-v4	resized 960×960 → 360×360, mean difference 0.20	896f2a7ab462202f
 versions/5.1.1/assets/appwidget_settings_ind_off_c_holo.png	6bc886358baba09c	resized	shamu:/system/priv-app/Settings/Settings.apk!res/drawable-xxxhdpi-v4/appwidget_settings_ind_off_c_holo.9.png	drawable-xxxhdpi-v4	resized 6×42 → 3×21, mean difference 0.43	fa4997a93eab584f
 versions/5.1.1/assets/appwidget_settings_ind_on_c_holo.png	7dc1f487273953d8	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_on_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.92	6cb9943ed4887a5c
-versions/5.1.1/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/background_holo_dark.png	drawable-hdpi		937ebf6c3ec776ed
+versions/5.1.1/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-mdpi/background_holo_dark.png	drawable-mdpi		937ebf6c3ec776ed
 versions/5.1.1/assets/bg-ic_add_white.png	fc349f2a42d35ad7	copy	shamu:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxxhdpi-v4/ic_add_white.png	drawable-xxxhdpi-v4		fc349f2a42d35ad7
 versions/5.1.1/assets/bg-ic_arrow_back_light.png	eab0bafb4eb0258f	copy	shamu:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxxhdpi-v4/ic_arrow_back_light.png	drawable-xxxhdpi-v4		eab0bafb4eb0258f
 versions/5.1.1/assets/bg-ic_attachment_dark.png	e599a518286b32ab	copy	shamu:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxxhdpi-v4/ic_attachment_dark.png	drawable-xxxhdpi-v4		e599a518286b32ab
@@ -692,7 +692,7 @@ versions/5.1.1/assets/l3-portal_ring_outer_holo.png	d63ae1ca37b3a741	same pixels
 versions/5.1.1/assets/l3-screenpanel.png	5d76dc06783bf2cc	same pixels	hammerhead:/system/priv-app/Velvet.apk!res/drawable-xxhdpi/screenpanel.9.png	drawable-xxhdpi		0869181442cc9c4c
 versions/5.1.1/assets/l3-search_frame.png	386a0b13a24943a2	resized	shamu:/system/priv-app/SystemUI/SystemUI.apk!res/drawable-xxhdpi-v4/search_bg_transparent.9.png	drawable-xxhdpi-v4	resized 144×144 → 48×48, mean difference 1.93	272b5f84bb15329b
 versions/5.1.1/assets/l3-workspace_bg.png	b083781860c6de8f	same pixels	shamu:/system/priv-app/Velvet/Velvet.apk!res/drawable-sw720dp-xxhdpi-v13/workspace_bg.9.png	drawable-sw720dp-xxhdpi-v13		5fc349e56df5e213
-versions/5.1.1/assets/landing-home.jpg	0e53401574d8f6ea	own	capture of the simulator's own home screen for the landing page card			
+versions/5.1.1/assets/landing-home.jpg	64630bd80dd0ff70	own	capture of the simulator's own home screen for the landing page card			
 versions/5.1.1/assets/launcher-portal_container_holo.png	625a56915a820470	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/portal_container_holo.9.png	drawable-xhdpi	resized 72×72 → 54×54, mean difference 0.17	e472a98176a3e3bc
 versions/5.1.1/assets/launcher-portal_ring_inner_holo.png	5b83fed6a94ff9e4	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/portal_ring_inner_holo.png	drawable-xhdpi	resized 128×128 → 96×96, mean difference 0.46	e4dc52b6ea7b438b
 versions/5.1.1/assets/launcher-portal_ring_outer_holo.png	4e67fde915724260	resized	maguro:/system/app/Launcher2.apk!res/drawable-xhdpi/portal_ring_outer_holo.png	drawable-xhdpi	resized 213×213 → 160×160, mean difference 0.17	3b6e025085ccae09
