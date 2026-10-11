@@ -11,22 +11,21 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
   const STR = {
-    record_your_message: ["Record your message", "Rögzítse üzenetét", "Ihre Nachricht aufnehmen", "Enregistrez votre message", "Grabar mensaje"],
-    message_recorded: ["Message recorded", "Az üzenet rögzítve", "Nachricht aufgezeichnet", "Message enregistré", "Mensaje grabado"],
-    review_message: ["Review message", "Üzenet visszahallgatása", "Nachricht erneut anhören", "Revoir le message", "Revisar mensaje"],
-    recording: ["Recording", "Rögzítés folyamatban", "Aufnahme", "Enregistrement audio", "Grabando..."],
-    recording_stopped: ["Recording stopped", "A rögzítés leállt", "Aufnahme beendet", "Enregistrement audio interrompu", "Grabación detenida"],
-    max_length_reached: ["Maximum length reached", "Elérte a maximális hosszúságot", "Maximale Länge erreicht", "Taille maximale atteinte", "Duración máxima alcanzada"],
-    min_available: ["%d min available", "%d p áll rendelkezésére", "%d Min. verfügbar", "%d min disponibles", "%d minutos disponibles"],
-    sec_available: ["%ds available", "%d mp áll rendelkezésére", "%d Sek. verfügbar", "Il reste %d s", "%d segundos disponibles"],
-    accept: ["Done", "Kész", "Fertig", "OK", "Listo"],
-    discard: ["Discard", "Elvetés", "Verwerfen", "Supprimer", "Descartar"],
-    audio_db_artist_name: ["Your recordings", "Saját felvételek", "Ihre Aufnahmen", "Vos enregistrements audio", "Tus grabaciones"],
-    audio_db_album_name: ["Audio recordings", "Hangfelvételek", "Audioaufnahmen", "Enregistrements audio", "Grabaciones de audio"]
+    'record_your_message': {res: 'SoundRecorder:record_your_message', en: 'Record your message', hu: 'Rögzítse üzenetét', de: 'Ihre Nachricht aufnehmen', fr: 'Enregistrez votre message', es: 'Grabar mensaje'},
+    'message_recorded': {res: 'SoundRecorder:message_recorded', en: 'Message recorded', hu: 'Az üzenet rögzítve', de: 'Nachricht aufgezeichnet', fr: 'Message enregistré', es: 'Mensaje grabado'},
+    'review_message': {res: 'SoundRecorder:review_message', en: 'Review message', hu: 'Üzenet visszahallgatása', de: 'Nachricht erneut anhören', fr: 'Revoir le message', es: 'Revisar mensaje'},
+    'recording': {res: 'SoundRecorder:recording', en: 'Recording', hu: 'Rögzítés folyamatban', de: 'Aufnahme', fr: 'Enregistrement audio', es: 'Grabando...'},
+    'recording_stopped': {res: 'SoundRecorder:recording_stopped', en: 'Recording stopped', hu: 'A rögzítés leállt', de: 'Aufnahme beendet', fr: 'Enregistrement audio interrompu', es: 'Grabación detenida'},
+    'max_length_reached': {res: 'SoundRecorder:max_length_reached', en: 'Maximum length reached', hu: 'Elérte a maximális hosszúságot', de: 'Maximale Länge erreicht', fr: 'Taille maximale atteinte', es: 'Duración máxima alcanzada'},
+    'min_available': {res: 'SoundRecorder:min_available', en: '%d min available', hu: '%d p áll rendelkezésére', de: '%d Min. verfügbar', fr: '%d min disponibles', es: '%d minutos disponibles'},
+    'sec_available': {res: 'SoundRecorder:sec_available', en: '%ds available', hu: '%d mp áll rendelkezésére', de: '%d Sek. verfügbar', fr: 'Il reste %d s', es: '%d segundos disponibles'},
+    'accept': {res: 'SoundRecorder:accept', en: 'Done', hu: 'Kész', de: 'Fertig', fr: 'OK', es: 'Listo'},
+    'discard': {res: 'SoundRecorder:discard', en: 'Discard', hu: 'Elvetés', de: 'Verwerfen', fr: 'Supprimer', es: 'Descartar'},
+    'audio_db_artist_name': {res: 'SoundRecorder:audio_db_artist_name', en: 'Your recordings', hu: 'Saját felvételek', de: 'Ihre Aufnahmen', fr: 'Vos enregistrements audio', es: 'Tus grabaciones'},
+    'audio_db_album_name': {res: 'SoundRecorder:audio_db_album_name', en: 'Audio recordings', hu: 'Hangfelvételek', de: 'Audioaufnahmen', fr: 'Enregistrements audio', es: 'Grabaciones de audio'}
   };
-  const text = (lang, key) => (STR[key] || [key])[Math.max(0, LANGS.indexOf(lang))];
+  const TABLE = AndroidStrings.table('', STR), text = (lang, key) => TABLE.t(key, lang);
   // Mms passes MmsConfig's 300 KB message size limit (less the slideshow slop); AMR_NB is counted at 5 900 bit/s.
   const MAX_BYTES = 300 * 1024 - 1024, BYTES_PER_SECOND = 5900 / 8;
   const LIMIT = Math.floor(MAX_BYTES / BYTES_PER_SECOND);

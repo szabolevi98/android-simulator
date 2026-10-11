@@ -15,25 +15,24 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
   const STR = {
-    ears_widget_name: ["Sound Search", "Hangkeresés", "Sound Search", "Recherche audio", "Sound Search"],
-    click_to_recognize: ["What's this song?", "Mi ez a dal?", "Welcher Song ist das?", "C'est quoi ce titre ?", "¿Cuál es esta canción?"],
-    no_results_found_status: ["No match found.", "Nincs találat.", "Kein Treffer", "Aucune correspondance.", "No se ha encontrado ninguna coincidencia."],
-    history_title_label2: ["Sound Search History", "Hangkeresési előzmények", "Sound Search-Verlauf", "Historique des recherches audio", "Historial de Sound Search"],
-    no_history_status: ["History is currently empty.", "Jelenleg nincsenek előzmények.", "Der Verlauf ist momentan leer.", "Votre historique est vide pour le moment.", "Por ahora, el historial está vacío."],
-    delete: ["Delete", "Törlés", "Löschen", "Supprimer", "Eliminar"],
-    delete_all: ["Clear all", "Összes törlése", "Alle deaktivieren", "Tout effacer", "Borrar todo"],
-    delete_all_confirmation: ["Are you sure you want to clear all your history?", "Biztos benne, hogy törli az összes előzményt?", "Möchten Sie wirklich Ihren gesamten Verlauf löschen?", "Voulez-vous vraiment effacer l'ensemble de votre historique ?", "¿Seguro que quieres eliminar todo el historial?"],
-    yes: ["Yes", "Igen", "Ja", "Oui", "Sí"],
-    no: ["No", "Nem", "Nein", "Non", "No"],
-    switch_account: ["Change account", "Másik fiók választása", "Konto ändern", "Changer de compte", "Cambiar cuenta"],
-    close_button_desc: ["Close", "Bezárás", "Schließen", "Fermer", "Cerrar"],
-    listening_button_desc: ["Listening, click to stop", "Hallgatás folyamatban, a megállításhoz kattintson.", "Wird abgespielt, zum Beenden klicken", "Écoute en cours, cliquez pour arrêter.", "Escuchando... Haz clic para parar."],
-    history_button_desc: ["Open Sound Search history", "Open Sound keresési előzmények", "Sound Search-Verlauf öffnen", "Ouvrir l'historique des recherches audio", "Abrir historial de Sound Search"],
-    album_art_desc: ["Album art", "Lemezborító", "Album-Cover", "Image de l'album", "Imagen del álbum"]
+    'ears_widget_name': {res: 'GoogleEars:ears_widget_name', en: 'Sound Search', hu: 'Hangkeresés', de: 'Sound Search', fr: 'Recherche audio', es: 'Sound Search'},
+    'click_to_recognize': {res: 'GoogleEars:click_to_recognize', en: 'What\'s this song?', hu: 'Mi ez a dal?', de: 'Welcher Song ist das?', fr: 'C\'est quoi ce titre ?', es: '¿Cuál es esta canción?'},
+    'no_results_found_status': {res: 'GoogleEars:no_results_found_status', en: 'No match found.', hu: 'Nincs találat.', de: 'Kein Treffer', fr: 'Aucune correspondance.', es: 'No se ha encontrado ninguna coincidencia.'},
+    'history_title_label2': {res: 'GoogleEars:history_title_label2', en: 'Sound Search History', hu: 'Hangkeresési előzmények', de: 'Sound Search-Verlauf', fr: 'Historique des recherches audio', es: 'Historial de Sound Search'},
+    'no_history_status': {res: 'GoogleEars:no_history_status', en: 'History is currently empty.', hu: 'Jelenleg nincsenek előzmények.', de: 'Der Verlauf ist momentan leer.', fr: 'Votre historique est vide pour le moment.', es: 'Por ahora, el historial está vacío.'},
+    'delete': {res: 'GoogleEars:delete', en: 'Delete', hu: 'Törlés', de: 'Löschen', fr: 'Supprimer', es: 'Eliminar'},
+    'delete_all': {res: 'GoogleEars:delete_all', en: 'Clear all', hu: 'Összes törlése', de: 'Alle deaktivieren', fr: 'Tout effacer', es: 'Borrar todo'},
+    'delete_all_confirmation': {res: 'GoogleEars:delete_all_confirmation', en: 'Are you sure you want to clear all your history?', hu: 'Biztos benne, hogy törli az összes előzményt?', de: 'Möchten Sie wirklich Ihren gesamten Verlauf löschen?', fr: 'Voulez-vous vraiment effacer l\'ensemble de votre historique ?', es: '¿Seguro que quieres eliminar todo el historial?'},
+    'yes': {res: 'GoogleEars:yes', en: 'Yes', hu: 'Igen', de: 'Ja', fr: 'Oui', es: 'Sí'},
+    'no': {res: 'GoogleEars:no', en: 'No', hu: 'Nem', de: 'Nein', fr: 'Non', es: 'No'},
+    'switch_account': {res: 'GoogleEars:switch_account', en: 'Change account', hu: 'Másik fiók választása', de: 'Konto ändern', fr: 'Changer de compte', es: 'Cambiar cuenta'},
+    'close_button_desc': {res: 'GoogleEars:close_button_desc', en: 'Close', hu: 'Bezárás', de: 'Schließen', fr: 'Fermer', es: 'Cerrar'},
+    'listening_button_desc': {res: 'GoogleEars:listening_button_desc', en: 'Listening, click to stop', hu: 'Hallgatás folyamatban, a megállításhoz kattintson.', de: 'Wird abgespielt, zum Beenden klicken', fr: 'Écoute en cours, cliquez pour arrêter.', es: 'Escuchando... Haz clic para parar.'},
+    'history_button_desc': {res: 'GoogleEars:history_button_desc', en: 'Open Sound Search history', hu: 'Open Sound keresési előzmények', de: 'Sound Search-Verlauf öffnen', fr: 'Ouvrir l\'historique des recherches audio', es: 'Abrir historial de Sound Search'},
+    'album_art_desc': {res: 'GoogleEars:album_art_desc', en: 'Album art', hu: 'Lemezborító', de: 'Album-Cover', fr: 'Image de l\'album', es: 'Imagen del álbum'}
   };
-  const text = (lang, key) => (STR[key] || [key])[Math.max(0, LANGS.indexOf(lang))];
+  const TABLE = AndroidStrings.table('', STR), text = (lang, key) => TABLE.t(key, lang);
   const CAPTURE_MS = 15000, MATCH_MS = 4000, LOOKUP_MS = 900, BARS = 40;
   const A = name => `assets/ears-${name}.png`;
   // AudioProgressRenderer: the captured share of the bars in teal at the heard level, the rest empty.

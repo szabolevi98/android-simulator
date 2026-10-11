@@ -24,7 +24,7 @@ DROP = {'account_sync_contacts', 'account_sync_calendar', 'account_policies', 's
 RENDERER = r'''(() => {
   'use strict';
   const D = window.EmailPrefData, e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const L = (row, lang) => row ? row[Math.max(0, ['en', 'hu', 'de', 'fr', 'es'].indexOf(lang))] || row[0] : '';
+  const L = (row, lang) => row ? AndroidStrings.pick(row, lang, '') || row.en : '';
   const rowsOf = page => page === 'general' ? D.general : page === 'account' ? D.account : [];
   const find = key => [...D.general, ...D.account].find(row => row.key === key);
   function value(data, key, account) {
@@ -71,19 +71,20 @@ for v, (device, apk_name, general_title) in VERSIONS.items():
         return out
     def string(rid):
         """The five languages of a string (following references), English where a language is missing."""
-        entries = by_lang(rid); out = []
+        # The named form strings.js reads: {res, en, hu, de, fr, es}.
+        entries = by_lang(rid); out = {'res': f"{apk_name}:{res.get_resource_xml_name(rid).split('/')[-1]}"}
         for lang in LANGS:
             entry = entries.get(lang) or entries.get('')
             key = entry.key
-            out.append(string(key.data)[LANGS.index(lang)] if key.data_type == 1 else entry.get_key_data())
+            out[lang or 'en'] = string(key.data)[lang or 'en'] if key.data_type == 1 else entry.get_key_data()
         return out
     def array(rid):
         entries = by_lang(rid); items = entries[''].item.items; out = []
         for i in range(len(items)):
-            row = []
+            row = {'res': f"{apk_name}:@array/{res.get_resource_xml_name(rid).split('/')[-1]}:{i}"}
             for lang in LANGS:
                 value = (entries.get(lang) or entries['']).item.items[i][1]
-                row.append(string(value.data)[LANGS.index(lang)] if value.data_type == 1 else value.format_value())
+                row[lang or 'en'] = string(value.data)[lang or 'en'] if value.data_type == 1 else value.format_value()
             out.append(row)
         return out
     def plain(rid):

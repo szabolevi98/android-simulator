@@ -12,26 +12,25 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
   const STR = {
-    speak_now: ["Speak now", "Most beszéljen", "Jetzt sprechen", "Parler", "Hablar ahora"],
-    working: ["Working", "Feldolgozás", "In Bearbeitung", "En cours", "En curso..."],
-    speech_timeout: ["No speech heard", "Nem észlelhető beszéd", "Keine Sprachdaten erkannt", "Aucune requête vocale détectée.", "Voz no detectada"],
-    cancel: ["Cancel", "Mégse", "Abbrechen", "Annuler", "Cancelar"],
-    tryagain: ["Speak again", "Újramondás", "Wiederholen", "Réessayer", "Volver a hablar"],
-    help: ["Help", "Súgó", "Hilfe", "Aide", "Ayuda"],
-    settings_button: ["Settings", "Beállítások", "Einstellungen", "Paramètres", "Ajustes"]
+    'speak_now': {res: 'VoiceSearch:speak_now', en: 'Speak now', hu: 'Most beszéljen', de: 'Jetzt sprechen', fr: 'Parler', es: 'Hablar ahora'},
+    'working': {res: 'VoiceSearch:working', en: 'Working', hu: 'Feldolgozás', de: 'In Bearbeitung', fr: 'En cours', es: 'En curso...'},
+    'speech_timeout': {res: 'VoiceSearch:speech_timeout', en: 'No speech heard', hu: 'Nem észlelhető beszéd', de: 'Keine Sprachdaten erkannt', fr: 'Aucune requête vocale détectée.', es: 'Voz no detectada'},
+    'cancel': {res: 'VoiceSearch:cancel', en: 'Cancel', hu: 'Mégse', de: 'Abbrechen', fr: 'Annuler', es: 'Cancelar'},
+    'tryagain': {res: 'VoiceSearch:tryagain', en: 'Speak again', hu: 'Újramondás', de: 'Wiederholen', fr: 'Réessayer', es: 'Volver a hablar'},
+    'help': {res: 'VoiceSearch:help', en: 'Help', hu: 'Súgó', de: 'Hilfe', fr: 'Aide', es: 'Ayuda'},
+    'settings_button': {res: 'VoiceSearch:settings_button', en: 'Settings', hu: 'Beállítások', de: 'Einstellungen', fr: 'Paramètres', es: 'Ajustes'}
   };
   // languageCodes / languageNames: the recognition language (Voice Search settings' Language) in the interface language.
   const LANGUAGE_NAMES = {
-    'en-US': ["English (US)", "angol (Egyesült Államok)", "Englisch (USA)", "Anglais (États-Unis)", "inglés (EE.UU.)"],
-    'en-GB': ["English (UK)", "angol (Egyesült Királyság)", "Englisch (Großbritannien)", "Anglais (Royaume-Uni)", "inglés (Reino Unido)"],
-    'de-DE': ["German (Germany)", "német (Németország)", "Deutsch (Deutschland)", "Allemand (Allemagne)", "alemán (Alemania)"],
-    'es-ES': ["Spanish (Spain)", "spanyol (Spanyolország)", "Spanisch (Spanien)", "Espagnol (Espagne)", "español (España)"],
-    'fr-FR': ["French (France)", "francia (Franciaország)", "Französisch (Frankreich)", "Français (France)", "francés (Francia)"],
-    'hu-HU': ["Hungarian (Hungary)", "magyar (Magyarország)", "Ungarisch (Ungarn)", "Hongrois (Hongrie)", "húngaro (Hungría)"]
+    'en-US': {res: 'VoiceSearch:voice_ime_language_en_us', en: 'English (US)', hu: 'angol (Amerikai Egyesült Államok)', de: 'Englisch (USA)', fr: 'Anglais (États-Unis)', es: 'inglés (Estados Unidos)'},
+    'en-GB': {res: 'VoiceSearch:voice_ime_language_en_gb', en: 'English (UK)', hu: 'angol (Egyesült-Királyság)', de: 'Englisch (Großbritannien)', fr: 'Anglais (Royaume-Uni)', es: 'inglés (Reino Unido)'},
+    'de-DE': {res: 'VoiceSearch:voice_ime_language_de_de', en: 'German (Germany)', hu: 'német (Németország)', de: 'Deutsch (Deutschland)', fr: 'Allemand (Allemagne)', es: 'alemán (Alemania)'},
+    'es-ES': {res: 'VoiceSearch:voice_ime_language_es_es', en: 'Spanish (Spain)', hu: 'spanyol (Spanyolország)', de: 'Spanisch (Spanien)', fr: 'Espagnol (Espagne)', es: 'español (España)'},
+    'fr-FR': {res: 'VoiceSearch:voice_ime_language_fr_fr', en: 'French (France)', hu: 'francia (Franciaország)', de: 'Französisch (Frankreich)', fr: 'Français (France)', es: 'francés (Francia)'},
+    'hu-HU': {res: 'VoiceSearch:voice_ime_language_hu_hu', en: 'Hungarian (Hungary)', hu: 'magyar (Magyarország)', de: 'Ungarisch (Ungarn)', fr: 'Hongrois (Hongrie)', es: 'húngaro (Hungría)'}
   };
-  const text = (lang, key) => (STR[key] || [key])[Math.max(0, LANGS.indexOf(lang))];
+  const TABLE = AndroidStrings.table('', STR), text = (lang, key) => TABLE.t(key, lang);
   const WAIT_MS = 400, LISTEN_MS = 5000;
   const DIVIDER = {waiting: '#dd000000', listening: '#ff0000', working: '#0760b8', error: '#6c7011'};
   function render(state, lang, recognition = 'en-US', now = Date.now()) {
@@ -43,7 +42,7 @@
       : phase === 'error' ? '<img class="vs3-ring" src="assets/vs3-error_ring.png" alt="">'
       : `<img class="vs3-ring" src="assets/vs3-inactive_ring.png" alt="">${phase === 'listening' ? `<img class="vs3-ring vs3-level" src="assets/vs3-listen_outer_glow.png" alt="" style="transform:scale(${(.8 + level * .4).toFixed(3)});opacity:${level.toFixed(2)}">` : ''}`;
     const image = phase === 'error' ? 'ic_error' : 'ic_mic_cd';
-    return `<div class="vs3-scrim" data-action="vs3-cancel"></div><div class="vs3-dialog" role="dialog" aria-label="${e(header || T('speak_now'))}"><div class="vs3-body"><div class="vs3-header"><span>${e(header)}</span><button class="vs3-settings" data-action="vs3-settings" aria-label="${e(T('settings_button'))}"><img src="assets/vs3-ic_menu_preferences.png" alt=""></button></div><i class="vs3-divider" style="background:${DIVIDER[phase] || DIVIDER.waiting}"></i><div class="vs3-indicator">${ring}<img class="vs3-image" src="assets/vs3-${image}.png" alt=""></div><img class="vs3-logo" src="assets/vs3-google_logo.png" alt="Google"><span class="vs3-lang">${e((LANGUAGE_NAMES[recognition] || LANGUAGE_NAMES['en-US'])[Math.max(0, LANGS.indexOf(lang))])}</span></div><div class="vs3-buttons"><button data-action="vs3-cancel">${e(T('cancel'))}</button>${phase === 'error' ? `<button data-action="vs3-again">${e(T('tryagain'))}</button>` : ''}<button data-action="vs3-help">${e(T('help'))}</button></div></div>`;
+    return `<div class="vs3-scrim" data-action="vs3-cancel"></div><div class="vs3-dialog" role="dialog" aria-label="${e(header || T('speak_now'))}"><div class="vs3-body"><div class="vs3-header"><span>${e(header)}</span><button class="vs3-settings" data-action="vs3-settings" aria-label="${e(T('settings_button'))}"><img src="assets/vs3-ic_menu_preferences.png" alt=""></button></div><i class="vs3-divider" style="background:${DIVIDER[phase] || DIVIDER.waiting}"></i><div class="vs3-indicator">${ring}<img class="vs3-image" src="assets/vs3-${image}.png" alt=""></div><img class="vs3-logo" src="assets/vs3-google_logo.png" alt="Google"><span class="vs3-lang">${e(AndroidStrings.pick(LANGUAGE_NAMES[recognition] || LANGUAGE_NAMES['en-US'], lang, recognition))}</span></div><div class="vs3-buttons"><button data-action="vs3-cancel">${e(T('cancel'))}</button>${phase === 'error' ? `<button data-action="vs3-again">${e(T('tryagain'))}</button>` : ''}<button data-action="vs3-help">${e(T('help'))}</button></div></div>`;
   }
   window.ICSVoice = {STR, text, WAIT_MS, LISTEN_MS, render};
 })();

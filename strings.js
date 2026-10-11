@@ -2,7 +2,8 @@
    name) to an entry with named languages:
      {res?, hu, de, fr, es, en?}  or for the simulator's own texts  {own: true, hu, de, fr, es, en?}
    en is the image's English and is left out when it equals the key; res names the factory resource the row was read from
-   ("Vending:install", "framework:ok"). A plural entry holds an object of quantities per language: {en: {one, other}, hu: …}.
+   ("Vending:install", "framework:ok"); src: 'AOSP' marks a row taken from the AOSP sources where the image has no
+   resource with these texts. A plural entry holds an object of quantities per language: {en: {one, other}, hu: …}.
    AndroidStrings.table(id, entries, missing?) gives the reader every module uses:
      t(key, lang)            the entry in that language, else its English, else missing(key, lang) (default: the key)
      fmt(key, lang, …args)   t() with %s / %d / %1$s / %2$d / %% / ^1 filled in

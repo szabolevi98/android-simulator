@@ -17,52 +17,51 @@
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   // Email / UnifiedEmail strings from the AOSP values, values-hu, -de, -fr and -es.
   const S = {
-    'Inbox': ['Inbox', 'Beérkezett üzenetek', 'Posteingang', 'Boîte de réception', 'Recibidos'],
-    'Outbox': ['Outbox', 'Kimenő levelek', 'Postausgang', 'Boîte d’envoi', 'Por enviar'],
-    'Drafts': ['Drafts', 'Piszkozatok', 'Entwürfe', 'Brouillons', 'Borradores'],
-    'Sent': ['Sent', 'Elküldve', 'Gesendet', 'Éléments envoyés', 'Enviados'],
-    'Trash': ['Trash', 'Kuka', 'Papierkorb', 'Corbeille', 'Papelera'],
-    'Starred': ['Starred', 'Csillagozott', 'Markiert', 'Messages suivis', 'Destacados'],
-    'Compose': ['Compose', 'Levélírás', 'Schreiben', 'Nouveau message', 'Redactar'],
-    'Search': ['Search', 'Keresés', 'Suche', 'Rechercher', 'Buscar'],
-    'Refresh': ['Refresh', 'Frissítés', 'Aktualisieren', 'Actualiser', 'Actualizar'],
-    'Sync options': ['Sync options', 'Szinkronizálási beállítások', 'Synchronisierungsoptionen', 'Options de synchronisation', 'Ajustes de sincronización'],
-    'Settings': ['Settings', 'Beállítások', 'Einstellungen', 'Paramètres', 'Ajustes'],
-    'Help': ['Help', 'Súgó', 'Hilfe', 'Aide', 'Ayuda'],
-    'Mark read': ['Mark read', 'Megjelölés olvasottként', 'Als gelesen markieren', 'Marquer comme lu', 'Marcar como leída'],
-    'Mark unread': ['Mark unread', 'Megjelölés olvasatlanként', 'Als ungelesen markieren', 'Marquer comme non lu', 'Marcar como no leída'],
-    'Delete': ['Delete', 'Törlés', 'Löschen', 'Supprimer', 'Eliminar'],
-    'Add star': ['Add star', 'Csillagozás', 'Markieren', 'Activer le suivi', 'Añadir estrella'],
-    'Remove star': ['Remove star', 'Csillag eltávolítása', 'Markierung entfernen', 'Désactiver le suivi', 'Eliminar estrella'],
-    'Reply': ['Reply', 'Válasz', 'Antworten', 'Répondre', 'Responder'],
-    'Reply all': ['Reply all', 'Válasz mind.', 'Allen antworten', 'Répondre à tous', 'Responder a todos'],
-    'Forward': ['Forward', 'Továbbítás', 'Weiterleiten', 'Transférer', 'Reenviar'],
-    'Send': ['Send', 'Küldés', 'Senden', 'Envoyer', 'Enviar'],
-    'Discard': ["Discard", "Elvetés", "Verwerfen", "Supprimer", "Descartar"],
-    'Discard this message?': ["Discard this message?", "Elveti ezt a levelet?", "Nachricht verwerfen?", "Supprimer ce message ?", "¿Quieres descartar este mensaje?"],
-    'Cancel': ["Cancel", "Mégse", "Abbrechen", "Annuler", "Cancelar"],
-    'Attach file': ["Attach file", "Fájl csatolása", "Datei anhängen", "Joindre un fichier", "Adjuntar archivo"],
-    'Save draft': ['Save draft', 'Piszkozat mentése', 'Entwurf speichern', 'Enregistrer le brouillon', 'Guardar borrador'],
-    'To': ['To', 'Címzett', 'An', 'À', 'Para'],
-    'Cc': ['Cc', 'Másolatot kap', 'Cc', 'Cc', 'Cc'],
-    'Bcc': ['Bcc', 'Titkos másolat', 'Bcc', 'Cci', 'Cco'],
-    'Subject': ['Subject', 'Tárgy', 'Betreff', 'Objet', 'Asunto'],
-    'Compose email': ['Compose email', 'Levélírás', 'E-Mail schreiben', 'Composez un message', 'Escribe tu correo'],
-    'Add Cc/Bcc': ['Add Cc/Bcc', 'Másolatmezők', 'Cc/Bcc hinzufügen', 'Ajouter Cc/Cci', 'Añadir Cc/Cco'],
-    'Attach picture': ['Attach picture', 'Kép csatolása', 'Bild anhängen', 'Joindre une photo', 'Adjuntar imagen'],
-    'Open navigation drawer': ['Open navigation drawer', 'Navigációs fiók kinyitása', 'Navigationsleiste öffnen', 'Ouvrir le panneau de navigation', 'Abrir control de navegación'],
-    'Search email': ['Search email', 'E-mail keresése', 'In E-Mails suchen', 'Rechercher l’e-mail', 'Buscar correo'],
-    'No messages.': ['No messages.', 'Nincsenek üzenetek.', 'Keine Nachrichten', 'Aucun message', 'No hay ningún mensaje.'],
-    'me': ['me', 'nekem', 'ich', 'moi', 'yo'],
-    'To: ': ['To: ', 'Címzett: ', 'An: ', 'À : ', 'Para: '],
-    'Message saved as draft.': ['Message saved as draft.', 'Az üzenet mentve piszkozatként.', 'Nachricht wurde als Entwurf gespeichert.', 'Brouillon enregistré.', 'Mensaje guardado como borrador'],
-    'Move to': ['Move to', 'Áthelyezés ide:', 'Verschieben nach', 'Déplacer vers', 'Mover a'],
-    'Touch a sender image to select that conversation.': ['Touch a sender image to select that conversation.', 'A beszélgetés kiválasztásához érintse meg a küldő képét.', 'Auf Absenderbild tippen, um die entsprechende Konversation auszuwählen', 'Appuyez sur l\'image d\'un expéditeur pour sélectionner la conversation.', 'Toca la imagen de un remitente para seleccionar esa conversación.'],
-    'Dismiss tip': ['Dismiss tip', 'Tipp elvetése', 'Tipp schließen', 'Masquer le conseil', 'Ignorar sugerencia'],
-    'Archive': ['Archive', 'Archiválás', 'Archivieren', 'Archiver', 'Archivar']
+    'Inbox': {src: 'AOSP', hu: 'Beérkezett üzenetek', de: 'Posteingang', fr: 'Boîte de réception', es: 'Recibidos'},
+    'Outbox': {src: 'AOSP', hu: 'Kimenő levelek', de: 'Postausgang', fr: 'Boîte d’envoi', es: 'Por enviar'},
+    'Drafts': {res: 'PrebuiltEmailGoogle:mailbox_name_display_drafts', hu: 'Piszkozatok', de: 'Entwürfe', fr: 'Brouillons', es: 'Borradores'},
+    'Sent': {res: 'PrebuiltEmailGoogle:mailbox_name_display_sent', hu: 'Elküldve', de: 'Gesendet', fr: 'Éléments envoyés', es: 'Enviados'},
+    'Trash': {res: 'PrebuiltEmailGoogle:mailbox_name_display_trash', hu: 'Kuka', de: 'Papierkorb', fr: 'Corbeille', es: 'Papelera'},
+    'Starred': {src: 'AOSP', hu: 'Csillagozott', de: 'Markiert', fr: 'Messages suivis', es: 'Destacados'},
+    'Compose': {res: 'PrebuiltEmailGoogle:compose', hu: 'Levélírás', de: 'Schreiben', fr: 'Nouveau message', es: 'Redactar'},
+    'Search': {res: 'PrebuiltEmailGoogle:menu_search', hu: 'Keresés', de: 'Suche', fr: 'Rechercher', es: 'Buscar'},
+    'Refresh': {res: 'PrebuiltEmailGoogle:refresh', hu: 'Frissítés', de: 'Aktualisieren', fr: 'Actualiser', es: 'Actualizar'},
+    'Sync options': {res: 'PrebuiltEmailGoogle:mailbox_settings_activity_title', hu: 'Szinkronizálási beállítások', de: 'Synchronisierungsoptionen', fr: 'Options de synchronisation', es: 'Ajustes de sincronización'},
+    'Settings': {res: 'PrebuiltEmailGoogle:menu_settings', hu: 'Beállítások', de: 'Einstellungen', fr: 'Paramètres', es: 'Ajustes'},
+    'Help': {res: 'PrebuiltEmailGoogle:help_and_info', hu: 'Súgó', de: 'Hilfe', fr: 'Aide', es: 'Ayuda'},
+    'Mark read': {res: 'PrebuiltEmailGoogle:mark_read', hu: 'Megjelölés olvasottként', de: 'Als gelesen markieren', fr: 'Marquer comme lu', es: 'Marcar como leída'},
+    'Mark unread': {res: 'PrebuiltEmailGoogle:mark_unread', hu: 'Megjelölés olvasatlanként', de: 'Als ungelesen markieren', fr: 'Marquer comme non lu', es: 'Marcar como no leída'},
+    'Delete': {res: 'PrebuiltEmailGoogle:delete', hu: 'Törlés', de: 'Löschen', fr: 'Supprimer', es: 'Eliminar'},
+    'Add star': {src: 'AOSP', hu: 'Csillagozás', de: 'Markieren', fr: 'Activer le suivi', es: 'Añadir estrella'},
+    'Remove star': {src: 'AOSP', hu: 'Csillag eltávolítása', de: 'Markierung entfernen', fr: 'Désactiver le suivi', es: 'Eliminar estrella'},
+    'Reply': {res: 'PrebuiltEmailGoogle:reply', hu: 'Válasz', de: 'Antworten', fr: 'Répondre', es: 'Responder'},
+    'Reply all': {src: 'AOSP', hu: 'Válasz mind.', de: 'Allen antworten', fr: 'Répondre à tous', es: 'Responder a todos'},
+    'Forward': {res: 'PrebuiltEmailGoogle:forward', hu: 'Továbbítás', de: 'Weiterleiten', fr: 'Transférer', es: 'Reenviar'},
+    'Send': {res: 'PrebuiltEmailGoogle:send', hu: 'Küldés', de: 'Senden', fr: 'Envoyer', es: 'Enviar'},
+    'Discard': {res: 'PrebuiltEmailGoogle:discard', hu: 'Elvetés', de: 'Verwerfen', fr: 'Supprimer', es: 'Descartar'},
+    'Discard this message?': {res: 'PrebuiltEmailGoogle:confirm_discard_text', hu: 'Elveti ezt a levelet?', de: 'Nachricht verwerfen?', fr: 'Supprimer ce message ?', es: '¿Quieres descartar este mensaje?'},
+    'Cancel': {res: 'PrebuiltEmailGoogle:cancel', hu: 'Mégse', de: 'Abbrechen', fr: 'Annuler', es: 'Cancelar'},
+    'Attach file': {res: 'PrebuiltEmailGoogle:add_file_attachment', hu: 'Fájl csatolása', de: 'Datei anhängen', fr: 'Joindre un fichier', es: 'Adjuntar archivo'},
+    'Save draft': {res: 'PrebuiltEmailGoogle:save_draft', hu: 'Piszkozat mentése', de: 'Entwurf speichern', fr: 'Enregistrer le brouillon', es: 'Guardar borrador'},
+    'To': {res: 'PrebuiltEmailGoogle:to', hu: 'Címzett', de: 'An', fr: 'À', es: 'Para'},
+    'Cc': {src: 'AOSP', hu: 'Másolatot kap', de: 'Cc', fr: 'Cc', es: 'Cc'},
+    'Bcc': {src: 'AOSP', hu: 'Titkos másolat', de: 'Bcc', fr: 'Cci', es: 'Cco'},
+    'Subject': {res: 'PrebuiltEmailGoogle:subject_hint', hu: 'Tárgy', de: 'Betreff', fr: 'Objet', es: 'Asunto'},
+    'Compose email': {res: 'PrebuiltEmailGoogle:body_hint', hu: 'Levélírás', de: 'E-Mail schreiben', fr: 'Composez un message', es: 'Escribe tu correo'},
+    'Add Cc/Bcc': {src: 'AOSP', hu: 'Másolatmezők', de: 'Cc/Bcc hinzufügen', fr: 'Ajouter Cc/Cci', es: 'Añadir Cc/Cco'},
+    'Attach picture': {res: 'PrebuiltEmailGoogle:add_photo_attachment', hu: 'Kép csatolása', de: 'Bild anhängen', fr: 'Joindre une photo', es: 'Adjuntar imagen'},
+    'Open navigation drawer': {res: 'PlayGames:games_dest_nav_drawer_open', hu: 'Navigációs fiók kinyitása', de: 'Navigationsleiste öffnen', fr: 'Ouvrir le panneau de navigation', es: 'Abrir control de navegación'},
+    'Search email': {src: 'AOSP', hu: 'E-mail keresése', de: 'In E-Mails suchen', fr: 'Rechercher l’e-mail', es: 'Buscar correo'},
+    'No messages.': {src: 'AOSP', hu: 'Nincsenek üzenetek.', de: 'Keine Nachrichten', fr: 'Aucun message', es: 'No hay ningún mensaje.'},
+    'me': {src: 'AOSP', hu: 'nekem', de: 'ich', fr: 'moi', es: 'yo'},
+    'To: ': {src: 'AOSP', hu: 'Címzett: ', de: 'An: ', fr: 'À : ', es: 'Para: '},
+    'Message saved as draft.': {res: 'PrebuiltEmailGoogle:message_saved', hu: 'Az üzenet mentve piszkozatként.', de: 'Nachricht wurde als Entwurf gespeichert.', fr: 'Brouillon enregistré.', es: 'Mensaje guardado como borrador'},
+    'Move to': {res: 'PrebuiltEmailGoogle:menu_move_to', hu: 'Áthelyezés ide:', de: 'Verschieben nach', fr: 'Déplacer vers', es: 'Mover a'},
+    'Touch a sender image to select that conversation.': {res: 'PrebuiltEmailGoogle:conversation_photo_welcome_text', hu: 'A beszélgetés kiválasztásához érintse meg a küldő képét.', de: 'Auf Absenderbild tippen, um die entsprechende Konversation auszuwählen', fr: 'Appuyez sur l\'image d\'un expéditeur pour sélectionner la conversation.', es: 'Toca la imagen de un remitente para seleccionar esa conversación.'},
+    'Dismiss tip': {res: 'PrebuiltEmailGoogle:dismiss_tip_hover_text', hu: 'Tipp elvetése', de: 'Tipp schließen', fr: 'Masquer le conseil', es: 'Ignorar sugerencia'},
+    'Archive': {res: 'PrebuiltEmailGoogle:archive', hu: 'Archiválás', de: 'Archivieren', fr: 'Archiver', es: 'Archivar'}
   };
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
-  const tr = (lang, key) => (S[key] || [key])[Math.max(0, LANGS.indexOf(lang))] ?? key;
+  const STR = AndroidStrings.table('', S), tr = (lang, key) => STR.t(key, lang);
   const FOLDERS = ['Inbox', 'Starred', 'Drafts', 'Outbox', 'Sent', 'Trash'];
   const ICON = name => `<img src="assets/kem-${name}.png" alt="">`;
   // LetterTileProvider: Java String.hashCode of the address picks one of the eight letter_tile_colors.
@@ -186,8 +185,7 @@
   const overflow = (menu, dark = false) => `<button type="button" class="lem-act${dark ? ' dark' : ''}" data-action="email-menu" data-id="${menu}" aria-label="More options">${icon('ic_overflow_24dp')}</button>`;
   const FOLDER_ICONS = {Inbox: 'inbox', Primary: 'primary', Social: 'social', Promotions: 'promotions', Updates: 'updates', Forums: 'forums', 'Priority Inbox': 'priority', Starred: 'starred', Important: 'important', Chats: 'allmail', Sent: 'sent', Outbox: 'outbox', Drafts: 'drafts', 'All mail': 'allmail', Spam: 'spam', Trash: 'trash'};
   // The app's own texts (lp-email-strings.js, from PrebuiltEmailGoogle 7.0 / PrebuiltGmail 5.0.2), else the shared rows.
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
-  const text = (app, lang, key, t) => window.LPEmailStrings?.[app]?.[key]?.[Math.max(0, LANGS.indexOf(lang))] ?? (t ? t(key) : window.AndroidI18n?.t?.(key) ?? key);
+  const text = (app, lang, key, t) => { const row = window.LPEmailStrings?.[app]?.[key]; return row ? AndroidStrings.pick(row, lang, key) : t ? t(key) : window.AndroidI18n?.t?.(key) ?? key; };
   /* ConversationListEmptyView (EmptyStateUtils): the 120 dp ic_empty_* picture and the 20 sp sans-serif-light #757575
      text, 228 dp wide and 16 dp below it, for the inbox, search results, spam, trash or any other folder. */
   function emptyView(app, folder, query, T) {
