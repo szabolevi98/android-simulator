@@ -13,6 +13,7 @@ How a file is traced, first match wins:
   similar       the same size, a small mean difference (recorded)
   resized       the same resource scaled to the output size (the mean difference after scaling is recorded)
   converted     the same resource as JPEG / WebP, or a grey image turned into a white mask (mean difference recorded)
+  cropped       a part of the same resource (an icon cut out of a nine-patch), its position recorded
   rotated       the same resource turned by 90° (the 2.3.6 Camera's *-p files)
   generated     built by a generator from the image (boot animation sprite sheets: docs/bootanimation.py); --check
                 reruns the generator and compares
@@ -195,7 +196,18 @@ def same_shape(a, b, tolerance=0.05):
     return abs(a[0] / a[1] - b[0] / b[1]) < tolerance * b[0] / b[1]
 
 
-def match(img, rows, out, ext, limit, rotate=False):
+def window(src, out):
+    """Where the output sits inside a larger source, exactly (premultiplied), or None."""
+    from numpy.lib.stride_tricks import sliding_window_view
+    pm = lambda im: (lambda a: np.concatenate([a[..., :3] * a[..., 3:4] // 255, a[..., 3:]], -1))(np.asarray(im, dtype=np.int32))
+    s, o = pm(src), pm(out)
+    if not o[..., 3].any(): return None
+    views = sliding_window_view(s, o.shape)[:, :, 0]
+    hits = np.argwhere((np.abs(views - o) <= 2).all(axis=(2, 3, 4)))
+    return (int(hits[0][1]), int(hits[0][0])) if len(hits) else None
+
+
+def match(img, rows, out, ext, limit, rotate=False, crop=False):
     """The row whose pixels give the output: (status, row, detail) or None."""
     best = None
     for row in rows:
@@ -209,11 +221,17 @@ def match(img, rows, out, ext, limit, rotate=False):
             elif same_shape(src.size, out.size):
                 d = difference(src.resize(out.size, Image.LANCZOS), out)
                 if best is None or d < best[0]: best = (d, row, ', '.join(filter(None, [label, f'resized {src.size[0]}×{src.size[1]} → {out.size[0]}×{out.size[1]}'])))
+            elif crop and src.size[0] >= out.size[0] and src.size[1] >= out.size[1] and src.size[0] * src.size[1] <= 160000:
+                at = window(src, out)
+                if at:
+                    d = difference(src.crop((at[0], at[1], at[0] + out.size[0], at[1] + out.size[1])), out)
+                    if best is None or d < best[0]: best = (d, row, ', '.join(filter(None, [label, f'cropped at {at[0]},{at[1]}'])))
     if not best or best[0] >= limit: return None
     d, row, how = best
     if ext in ('jpg', 'jpeg', 'webp'): kind, detail = 'converted', ', '.join(filter(None, [ext.upper(), how]))
     elif 'resized' in how: kind, detail = 'resized', how
     elif 'rotated' in how: kind, detail = 'rotated', how
+    elif 'cropped' in how: kind, detail = 'cropped', how
     elif how: kind, detail = 'converted', how
     else: kind, detail = 'similar', 'same size'
     return kind, row, f'{detail}, mean difference {d:.2f}'
@@ -271,8 +289,8 @@ def trace(own, path, data):
     # alone, where a near miss is more likely another graphic; a JPEG / WebP output re-encodes a lossy picture.
     lossy = ext in ('jpg', 'jpeg', 'webp')
     for img in images:
-        for rows, limit in ((named(img, IMAGES)[:24], 6 if lossy else 3), (img.near(out), 4.5 if lossy else 2)):
-            found = match(img, rows, out, ext, limit, file.endswith('-p.png'))
+        for rows, limit, crop in ((named(img, IMAGES)[:24], 6 if lossy else 3, True), (img.near(out), 4.5 if lossy else 2, False)):
+            found = match(img, rows, out, ext, limit, file.endswith('-p.png'), crop)
             if found: return found[0], img, found[1], found[2]
     hint = closest(images, out)
     if hint and hint[0] < 10: return None, hint[1], hint[2], f'closest: mean difference {hint[0]:.2f}'
@@ -399,6 +417,8 @@ def check(versions):
             else:
                 label = ', '.join(x for x in [MASK, BORDER, 'rotated 90°', 'rotated 270°'] if x in detail)
                 out, s = pixels(data), dict(variants(src, True, True))[label]
+                at = re.search(r'cropped at (\d+),(\d+)', detail)
+                if at: s = s.crop((int(at.group(1)), int(at.group(2)), int(at.group(1)) + out.size[0], int(at.group(2)) + out.size[1]))
                 if s.size != out.size: s = s.resize(out.size, Image.LANCZOS)
                 limit = float(re.search(r'mean difference ([\d.]+)', detail).group(1)) + 0.01 if 'mean difference' in detail else 0
                 ok = difference(s, out) <= limit

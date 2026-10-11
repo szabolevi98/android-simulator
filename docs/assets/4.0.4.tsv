@@ -8,7 +8,7 @@ versions/4.0.4/assets/appwidget_clock_hour.png	c26221476b716b61	resized	maguro:/
 versions/4.0.4/assets/appwidget_clock_minute.png	4b559b7f593f9a59	resized	maguro:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/appwidget_clock_minute.png	drawable-xhdpi	resized 392×392 → 294×294, mean difference 0.06	163ff478cf9d34b5
 versions/4.0.4/assets/appwidget_settings_ind_off_c_holo.png	6bc886358baba09c	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_off_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.33	9a598ce5ca91fb9f
 versions/4.0.4/assets/appwidget_settings_ind_on_c_holo.png	7dc1f487273953d8	resized	maguro:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_on_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.92	6cb9943ed4887a5c
-versions/4.0.4/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/background_holo_dark.png	drawable-hdpi		937ebf6c3ec776ed
+versions/4.0.4/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-mdpi/background_holo_dark.png	drawable-mdpi		937ebf6c3ec776ed
 versions/4.0.4/assets/boot-part0.webp	3569f061a87c9e49	generated	maguro:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/bootanimation.py)	
 versions/4.0.4/assets/browser.png	ab5e4f99e8b18396	same pixels	maguro:/system/app/BrowserGoogle.apk!res/mipmap-xhdpi/ic_launcher_browser.png	mipmap-xhdpi		f82cdc92eef2de4f
 versions/4.0.4/assets/btn_check_off_holo_dark.png	d741031387f84797	resized	maguro:/system/framework/framework-res.apk!res/drawable-xhdpi/btn_check_off_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.18	735c8ff0a9d4796d
@@ -116,8 +116,8 @@ versions/4.0.4/assets/em-btn_check_off_normal_holo_light.png	caf46710b1206890	co
 versions/4.0.4/assets/em-btn_check_on_normal_holo_light.png	f2daa037933d8d56	copy	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/btn_check_on_normal_holo_light.png	drawable-xhdpi		f2daa037933d8d56
 versions/4.0.4/assets/em-btn_star_off_convo_holo_light.png	c56ccece7d2930e0	copy	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/btn_star_off_convo_holo_light.png	drawable-xhdpi		c56ccece7d2930e0
 versions/4.0.4/assets/em-btn_star_on_convo_holo_light.png	a75214f85ff6ddc5	copy	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/btn_star_on_convo_holo_light.png	drawable-xhdpi		a75214f85ff6ddc5
-versions/4.0.4/assets/em-expander_close_holo_light.png	cef668093198f136	not traced			closest: mean difference 5.11 (shamu:/system/app/CloudPrint2/CloudPrint2.apk!res/drawable-xxxhdpi-v4/ic_empty_state_add_printer.png)	
-versions/4.0.4/assets/em-expander_open_holo_light.png	1d5f11bb8eaa5954	not traced			closest: mean difference 5.46 (shamu:/system/app/CloudPrint2/CloudPrint2.apk!res/drawable-xxhdpi-v4/ic_empty_state_print_queue.png)	
+versions/4.0.4/assets/em-expander_close_holo_light.png	cef668093198f136	cropped	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/expander_close_holo_light.9.png	drawable-xhdpi	cropped at 19,23, mean difference 0.00	4ae2a31424c1bac8
+versions/4.0.4/assets/em-expander_open_holo_light.png	1d5f11bb8eaa5954	cropped	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/expander_open_holo_light.9.png	drawable-xhdpi	cropped at 19,27, mean difference 0.00	e4ab4eaa189bb0c5
 versions/4.0.4/assets/em-ic_attachment_holo_light.png	de20b4a32cc23a81	copy	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_attachment_holo_light.png	drawable-xhdpi		de20b4a32cc23a81
 versions/4.0.4/assets/em-ic_badge_attachment.png	1f5a76b5554a580d	copy	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_badge_attachment.png	drawable-xhdpi		1f5a76b5554a580d
 versions/4.0.4/assets/em-ic_badge_forward_holo_light.png	b28279473827c0e0	copy	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_badge_forward_holo_light.png	drawable-xhdpi		b28279473827c0e0
@@ -276,7 +276,7 @@ versions/4.0.4/assets/ga-yt-bg_button_normal.png	1cd21a502e33ec63	copy	maguro:/s
 versions/4.0.4/assets/ga-yt-bg_button_pressed.png	60de760565f51762	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/bg_button_pressed.9.png	drawable-xhdpi		60de760565f51762
 versions/4.0.4/assets/ga-yt-bg_stripes_dark.png	0d5c6e6bdc1ef40d	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/bg_stripes_dark.png	drawable-xhdpi		0d5c6e6bdc1ef40d
 versions/4.0.4/assets/ga-yt-bg_yt_button_panel.png	bd8105c5beb7ad3b	copy	maguro:/system/app/YouTube.apk!res/drawable-nodpi/bg_yt_button_panel.9.png	drawable-nodpi		bd8105c5beb7ad3b
-versions/4.0.4/assets/ga-yt-divider_horizontal.png	095405eb9585c15a	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/divider_horizontal.9.png	drawable-xhdpi		095405eb9585c15a
+versions/4.0.4/assets/ga-yt-divider_horizontal.png	095405eb9585c15a	copy	maguro:/system/app/YouTube.apk!res/drawable-mdpi/divider_horizontal.9.png	drawable-mdpi		095405eb9585c15a
 versions/4.0.4/assets/ga-yt-ic_dislike.png	4d07920f11a0cbce	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_dislike.png	drawable-xhdpi		4d07920f11a0cbce
 versions/4.0.4/assets/ga-yt-ic_dislike_disabled.png	0168cb2c97771c42	copy	maguro:/system/app/YouTube.apk!res/drawable-hdpi/ic_dislike_disabled.png	drawable-hdpi		0168cb2c97771c42
 versions/4.0.4/assets/ga-yt-ic_hd.png	cb611f27c4eb5f68	copy	maguro:/system/app/YouTube.apk!res/drawable-xhdpi/ic_hd.png	drawable-xhdpi		cb611f27c4eb5f68

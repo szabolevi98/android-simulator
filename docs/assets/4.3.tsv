@@ -15,7 +15,7 @@ versions/4.3/assets/appwidget_clock_hour.png	a957de193f9b8799	resized	mako:/syst
 versions/4.3/assets/appwidget_clock_minute.png	0060eb888c1738ef	resized	mako:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/appwidget_clock_minute.png	drawable-xhdpi	resized 480×480 → 360×360, mean difference 0.04	9296ffe4497261c6
 versions/4.3/assets/appwidget_settings_ind_off_c_holo.png	6bc886358baba09c	resized	mako:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_off_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.33	9a598ce5ca91fb9f
 versions/4.3/assets/appwidget_settings_ind_on_c_holo.png	7dc1f487273953d8	resized	mako:/system/app/Settings.apk!res/drawable-xhdpi/appwidget_settings_ind_on_c_holo.9.png	drawable-xhdpi	resized 4×28 → 3×21, mean difference 0.92	6cb9943ed4887a5c
-versions/4.3/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-hdpi/background_holo_dark.png	drawable-hdpi		937ebf6c3ec776ed
+versions/4.3/assets/background_holo_dark.png	275b8748605a7ec8	same pixels	maguro:/system/app/Phonesky.apk!res/drawable-mdpi/background_holo_dark.png	drawable-mdpi		937ebf6c3ec776ed
 versions/4.3/assets/bk28-Merriweather.ttf	74cb5e7deaded85d	copy	mako:/system/app/Books.apk!assets/fonts/Merriweather.ttf			74cb5e7deaded85d
 versions/4.3/assets/bk28-OFLGoudyStMTT.ttf	1d8d7c56c65c7106	copy	mako:/system/app/Books.apk!assets/fonts/OFLGoudyStMTT.ttf			1d8d7c56c65c7106
 versions/4.3/assets/bk28-Vollkorn-Regular.ttf	5747bd44f86ef4c9	copy	mako:/system/app/Books.apk!assets/fonts/Vollkorn-Regular.ttf			5747bd44f86ef4c9
@@ -199,8 +199,8 @@ versions/4.3/assets/em-btn_check_off_normal_holo_light.png	caf46710b1206890	copy
 versions/4.3/assets/em-btn_check_on_normal_holo_light.png	f2daa037933d8d56	copy	mako:/system/app/EmailGoogle.apk!res/drawable-xhdpi/btn_check_on_normal_holo_light.png	drawable-xhdpi		f2daa037933d8d56
 versions/4.3/assets/em-btn_star_off_convo_holo_light.png	c56ccece7d2930e0	copy	mako:/system/app/EmailGoogle.apk!res/drawable-xhdpi/btn_star_off_convo_holo_light.png	drawable-xhdpi		c56ccece7d2930e0
 versions/4.3/assets/em-btn_star_on_convo_holo_light.png	a75214f85ff6ddc5	copy	mako:/system/app/EmailGoogle.apk!res/drawable-xhdpi/btn_star_on_convo_holo_light.png	drawable-xhdpi		a75214f85ff6ddc5
-versions/4.3/assets/em-expander_close_holo_light.png	cef668093198f136	not traced			closest: mean difference 5.11 (shamu:/system/app/CloudPrint2/CloudPrint2.apk!res/drawable-xxxhdpi-v4/ic_empty_state_add_printer.png)	
-versions/4.3/assets/em-expander_open_holo_light.png	1d5f11bb8eaa5954	not traced			closest: mean difference 5.46 (shamu:/system/app/CloudPrint2/CloudPrint2.apk!res/drawable-xxhdpi-v4/ic_empty_state_print_queue.png)	
+versions/4.3/assets/em-expander_close_holo_light.png	cef668093198f136	cropped	mako:/system/app/EmailGoogle.apk!res/drawable-xhdpi/expander_close_holo_light.9.png	drawable-xhdpi	cropped at 19,23, mean difference 0.00	4ae2a31424c1bac8
+versions/4.3/assets/em-expander_open_holo_light.png	1d5f11bb8eaa5954	cropped	mako:/system/app/EmailGoogle.apk!res/drawable-xhdpi/expander_open_holo_light.9.png	drawable-xhdpi	cropped at 19,27, mean difference 0.00	e4ab4eaa189bb0c5
 versions/4.3/assets/em-ic_attachment_holo_light.png	de20b4a32cc23a81	copy	mako:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_attachment_holo_light.png	drawable-xhdpi		de20b4a32cc23a81
 versions/4.3/assets/em-ic_badge_attachment.png	1f5a76b5554a580d	copy	mako:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_badge_attachment.png	drawable-xhdpi		1f5a76b5554a580d
 versions/4.3/assets/em-ic_badge_forward_holo_light.png	b28279473827c0e0	copy	mako:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_badge_forward_holo_light.png	drawable-xhdpi		b28279473827c0e0

@@ -16,22 +16,20 @@ Not traced:
 
 ## 4.0.4 (maguro)
 
-copy: 396, same pixels: 147, resized: 136, own: 15, not traced: 6, converted: 4, similar: 4, generated: 1
+copy: 396, same pixels: 147, resized: 136, own: 15, converted: 4, similar: 4, not traced: 4, cropped: 2, generated: 1
 
 From another release's image (the own image has no such file; to review): crespo 23, hammerhead 1, mako 3 — the source column of the TSV names each.
 
 Not traced:
 
 - `versions/4.0.4/assets/camera-ic_settings_holo_light.png`
-- `versions/4.0.4/assets/em-expander_close_holo_light.png`
-- `versions/4.0.4/assets/em-expander_open_holo_light.png`
 - `versions/4.0.4/assets/gnow-menu.png`
 - `versions/4.0.4/assets/gnow-mic.png`
 - `versions/4.0.4/assets/gnow-reminders.png`
 
 ## 4.3 (mako)
 
-copy: 430, same pixels: 336, resized: 198, converted: 19, own: 8, similar: 7, not traced: 6, generated: 3
+copy: 430, same pixels: 336, resized: 198, converted: 19, own: 8, similar: 7, not traced: 4, generated: 3, cropped: 2
 
 From another release's image (the own image has no such file; to review): crespo 26, maguro 23, shamu 1 — the source column of the TSV names each.
 
@@ -39,8 +37,6 @@ Not traced:
 
 - `versions/4.3/assets/calwidget-header_bg_cal_widget_pressed_holo.png`
 - `versions/4.3/assets/camera-ic_settings_holo_light.png`
-- `versions/4.3/assets/em-expander_close_holo_light.png`
-- `versions/4.3/assets/em-expander_open_holo_light.png`
 - `versions/4.3/assets/jb-ic_notifications_normal.png`
 - `versions/4.3/assets/jb-kg_widget_bg_padded.png`
 
@@ -60,7 +56,7 @@ Not traced:
 
 ## 5.1.1 (shamu)
 
-copy: 613, vector: 199, resized: 180, same pixels: 158, converted: 29, similar: 7, generated: 6, not traced: 6, own: 3
+copy: 613, vector: 199, resized: 179, same pixels: 158, converted: 29, similar: 7, generated: 6, not traced: 6, own: 3, cropped: 1
 
 From another release's image (the own image has no such file; to review): crespo 2, hammerhead 30, maguro 74, mako 25 — the source column of the TSV names each.
 
