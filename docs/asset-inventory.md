@@ -16,9 +16,9 @@ Not traced:
 
 ## 4.0.4 (maguro)
 
-copy: 401, same pixels: 151, resized: 138, own: 15, not traced: 7, converted: 4, similar: 4, generated: 1
+copy: 403, same pixels: 148, resized: 139, own: 15, not traced: 7, converted: 4, similar: 4, generated: 1
 
-From another release's image (the own image has no such file; to review): crespo 26, hammerhead 2, mako 3 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): crespo 23, hammerhead 1, mako 3 — the source column of the TSV names each.
 
 Not traced:
 
@@ -32,9 +32,9 @@ Not traced:
 
 ## 4.3 (mako)
 
-copy: 438, same pixels: 340, resized: 199, converted: 19, own: 18, similar: 7, not traced: 7, generated: 3
+copy: 438, same pixels: 339, resized: 200, converted: 19, own: 18, similar: 7, not traced: 7, generated: 3
 
-From another release's image (the own image has no such file; to review): crespo 27, hammerhead 1, maguro 25, shamu 1 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): crespo 26, maguro 25, shamu 1 — the source column of the TSV names each.
 
 Not traced:
 
@@ -48,9 +48,9 @@ Not traced:
 
 ## 4.4.4 (hammerhead)
 
-same pixels: 459, copy: 377, resized: 195, own: 30, converted: 16, similar: 13, not traced: 5, generated: 2
+same pixels: 458, copy: 377, resized: 196, own: 30, converted: 16, similar: 13, not traced: 5, generated: 2
 
-From another release's image (the own image has no such file; to review): crespo 26, maguro 52, mako 26 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): crespo 25, maguro 52, mako 26 — the source column of the TSV names each.
 
 Not traced:
 
@@ -64,7 +64,7 @@ Not traced:
 
 copy: 619, resized: 222, same pixels: 206, vector: 199, converted: 29, similar: 9, not traced: 7, generated: 6, own: 4
 
-From another release's image (the own image has no such file; to review): crespo 29, hammerhead 34, maguro 84, mako 53 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): crespo 29, hammerhead 33, maguro 84, mako 53 — the source column of the TSV names each.
 
 Not traced:
 

@@ -97,7 +97,7 @@ function apps(version) {
   }
   return [...ids].sort();
 }
-async function runtimeCheck(version) {
+export async function runtimeCheck(version) {
   const port = 9300 + Math.floor(Math.random() * 500), dir = fs.mkdtempSync(path.join(os.tmpdir(), 'asset-check-'));
   const proc = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${dir}`, 'about:blank'], {stdio: 'ignore'});
   let ws;
