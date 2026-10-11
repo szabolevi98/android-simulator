@@ -53,6 +53,8 @@ runtime checks.
 - `node docs/text-survey.mjs --md docs/text-survey.md` — the inventory of the text tables (audit point 10).
 - `node docs/text-check.mjs` — every app of every version opened in hu / de / fr / es; missing keys → `docs/text-check.md`.
 - `node tests/asset-inventory.test.cjs` (in `npm test`) — the inventory lists exactly the asset files, with their hashes.
+- `node docs/asset-unused.mjs` — asset files no code, page, test or built-up path uses (a list to check by hand before
+  deleting; empty after the 2026-10 cleanup).
 - `node docs/asset-check.mjs` — stylesheet url()s and literal asset paths (case-sensitive), failed requests while every
   app opens, and the asset folders' inventory → `docs/asset-check.md`.
 
