@@ -10,16 +10,13 @@ From another release's image (the own image has no such file; to review): maguro
 
 ## 4.0.4 (maguro)
 
-copy: 396, same pixels: 146, resized: 135, own: 15, converted: 4, similar: 4, not traced: 4, cropped: 2, generated: 1
+copy: 396, same pixels: 146, resized: 135, own: 15, converted: 4, similar: 4, cropped: 2, generated: 1, not traced: 1
 
 From another release's image (the own image has no such file; to review): crespo 23, hammerhead 1, mako 2 — the source column of the TSV names each.
 
 Not traced:
 
 - `versions/4.0.4/assets/camera-ic_settings_holo_light.png`
-- `versions/4.0.4/assets/gnow-menu.png`
-- `versions/4.0.4/assets/gnow-mic.png`
-- `versions/4.0.4/assets/gnow-reminders.png`
 
 ## 4.3 (mako)
 
@@ -46,15 +43,12 @@ Not traced:
 
 ## 5.1.1 (shamu)
 
-copy: 614, vector: 198, resized: 164, same pixels: 146, converted: 29, similar: 7, generated: 6, not traced: 5, own: 3, cropped: 1
+copy: 614, vector: 198, resized: 164, same pixels: 146, converted: 29, similar: 7, generated: 6, own: 3, not traced: 2, cropped: 1
 
 From another release's image (the own image has no such file; to review): crespo 2, hammerhead 28, maguro 33, mako 22 — the source column of the TSV names each.
 
 Not traced:
 
 - `versions/5.1.1/assets/calwidget-header_bg_cal_widget_pressed_holo.png`
-- `versions/5.1.1/assets/gnow-menu.png`
-- `versions/5.1.1/assets/gnow-mic.png`
-- `versions/5.1.1/assets/gnow-reminders.png`
 - `versions/5.1.1/assets/jb-kg_widget_bg_padded.png`
 
