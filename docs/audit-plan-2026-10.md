@@ -318,9 +318,9 @@ A meglévő Node-tesztek sok modult és generált felületet ellenőriznek; a 11
 CSS-képek ugyanakkor átmentek a releváns teszteken. A teljes, böngészőben betöltött oldal alapfolyamatait
 is ellenőrizni kell. A felméréskor a repóban nem volt verziózott `.github/workflows` tesztkonfiguráció.
 
-- [ ] Mind az öt Android-verzióhoz böngészős alapfolyamatteszteket készíteni: oldalindítás és boot, feloldás, appnyitás, Vissza / Kezdőképernyő, párbeszédablak nyitása és bezárása, nyelvváltás, módosítás mentése és újratöltése.
-- [ ] A tesztek során a JavaScript-hibákat és a helyi erőforrások sikertelen betöltését is ellenőrizni. Asztali és keskeny mobilnézetben legyen legalább egy reprezentatív folyamat; a böngészők közötti eltéréseket a tényleges támogatási célhoz igazítani.
-- [ ] A meglévő Node-teszteket és az új böngészős ellenőrzéseket egy dokumentált paranccsal futtathatóvá tenni, majd push / pull request esetén automatikusan futtatni. Hiba esetén legyen használható napló és a böngészős hibához képernyőkép.
+- [x] Mind az öt Android-verzióhoz böngészős alapfolyamatteszteket készíteni: oldalindítás és boot, feloldás, appnyitás, Vissza / Kezdőképernyő, párbeszédablak nyitása és bezárása, nyelvváltás, módosítás mentése és újratöltése. Kész: `tests/browser/flows.mjs` mind az öt verzión fej nélküli Chrome-ban: indítás (boot, zár- vagy kezdőképernyő), feloldás, a Beállítások megnyitása, Vissza, a bekapcsológomb nyomva tartására a kikapcsoló menü, Vissza-ra bezárul, nyelvváltás magyarra, újratöltés után megmarad a nyelv és a mentés hibátlanul olvasható – (ez a commit)
+- [x] A tesztek során a JavaScript-hibákat és a helyi erőforrások sikertelen betöltését is ellenőrizni. Asztali és keskeny mobilnézetben legyen legalább egy reprezentatív folyamat; a böngészők közötti eltéréseket a tényleges támogatási célhoz igazítani. Kész: a folyamatok minden oldalon hibának veszik a JavaScript-kivételt és a sikertelen helyi kérést; az 5.1.1 és a 2.3.6 375 × 812-es telefonszélességen is fut (vízszintes túlcsordulás nélkül); a cél a Chrome (a szimulátor Chrome-ra készül) – (ez a commit)
+- [x] A meglévő Node-teszteket és az új böngészős ellenőrzéseket egy dokumentált paranccsal futtathatóvá tenni, majd push / pull request esetén automatikusan futtatni. Hiba esetén legyen használható napló és a böngészős hibához képernyőkép. Kész: `npm test` és `npm run test:browser` (`package.json`, függőség nélkül), a README Checks szakasza; a `.github/workflows/tests.yml` minden push / pull request esetén futtatja mindkettőt (statikus szerverrel), hiba esetén a sikertelen folyamat képernyőképét `tests/browser/artifacts/` alól műtermékként feltölti – (ez a commit)
 
 **C) A nagy simulator.js fájlok fokozatos bontása (alacsonyabb prioritás)**
 
@@ -331,7 +331,7 @@ eseménykezelése együtt van. A rendezés célja, hogy egy későbbi javítás 
 - [ ] A közös működési logikát és a verzió saját megjelenését világos interfészekkel összekötni. A generált fájlok módosításakor a sablonok és generátorok is kövessék a bontást; a gyári verziókülönbségek maradjanak meg.
 - [ ] Minden kiemelésnél a meglévő modultesztekkel és a B) pont böngészős folyamataival ellenőrizni a viselkedés azonosságát. A fájlok rendezését külön változtatásként kezelni a funkcionális javításoktól.
 
-Állapot (2026-10-11): az A) rész 2–3. tétele kész (`state.js`); a mentési séma egységes verziózása, a B) és a C) rész nyitott.
+Állapot (2026-10-11): az A) rész 2–3. tétele és a B) rész kész; a mentési séma egységes verziózása és a C) rész nyitott.
 
 ## Nem csináljuk meg
 

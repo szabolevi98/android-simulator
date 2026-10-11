@@ -69,8 +69,19 @@ Each version keeps its interface and saved state separate, so adding a release d
 Every test runs with plain Node, without packages:
 
 ```bash
-for f in tests/*.test.cjs; do node "$f"; done
+npm test
 ```
+
+The browser flows open each version in headless Chrome (boot, unlock, an app, Back, the power menu, a language switch
+and a reload, at desktop and phone width) against a server for the repository root, e.g. `php -S localhost:8090 -t .`:
+
+```bash
+npm run test:browser
+```
+
+Both run on every push (`.github/workflows/tests.yml`). The text, asset and font checks (`npm run check:texts`,
+`check:assets`, `check:fonts`) write their reports to `docs/`; how the factory images are unpacked and the generated
+files rebuilt is in [docs/sources.md](docs/sources.md).
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Comparisons with the original interfaces and the remaining differences are in the visual audits: [2.3](docs/visual-audit-2.3.md), [4.0.4](docs/visual-audit.md), [4.3](docs/visual-audit-4.3.md) and [4.4](docs/visual-audit-4.4.md).
 
