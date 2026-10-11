@@ -413,6 +413,13 @@ window.AndroidI18n?.extend({
   "Phone|Dialpad": {"res": "GoogleDialer:onscreenShowDialpadText", "hu": "Tárcsázó", "de": "Wähltasten", "fr": "Clavier", "es": "Teclado"},
   "Phone|End": {"res": "GoogleDialer:onscreenEndCallText", "hu": "Befejezés", "de": "Ende", "fr": "Raccrocher", "es": "Finalizar"},
   "After %1$s of inactivity": {"res": "Settings:screen_timeout_summary", "hu": "%1$s inaktivitás után", "de": "Nach %1$s ohne Aktivität", "fr": "Après %1$s d'inactivité", "es": "%1$s de inactividad"},
+  "Show Calendar List and Settings drawer": {"res": "CalendarGooglePrebuilt:accessibility_drawer_open", "hu": "A Naptárlista és beállítások fiók megjelenítése", "de": "Leiste Kalenderliste und -einstellungen einblenden", "fr": "Afficher le panneau Liste et paramètres des agendas", "es": "Mostrar la lista de calendarios y el panel de configuración"},
+  "Shutter": {"res": "GoogleCamera:accessibility_shutter_button", "hu": "Exponálógomb", "de": "Blende", "fr": "Obturateur", "es": "Obturador"},
+  "Toggle mode list": {"res": "GoogleCamera:accessibility_mode_list_toggle", "hu": "Váltás a módlistára", "de": "Modusliste umschalten", "fr": "Activer/désactiver la liste de modes", "es": "Activar lista de modo"},
+  "Photo Sphere": {"res": "GoogleCamera:mode_photosphere", "hu": "Körpanorámakép", "de": "Photo Sphere", "fr": "Photo Sphere", "es": "Photo Sphere"},
+  "Panorama": {"res": "GoogleCamera:mode_panorama", "hu": "Panorámakép", "de": "Panorama", "fr": "Panorama", "es": "Panorámica"},
+  "del": {"res": "Calculator:del", "hu": "del", "de": "del", "fr": "sup", "es": "CE"},
+  "You: ": {"res": "PrebuiltBugle:conversation_list_item_view_sent_from_you_prefix", "hu": "Ön: ", "de": "Sie: ", "fr": "Vous : ", "es": "Tú: "},
   "Welcome to Android 5.1": {"own": true, "hu": "Üdvözli az Android 5.1", "de": "Willkommen bei Android 5.1", "fr": "Bienvenue dans Android 5.1", "es": "Te damos la bienvenida a Android 5.1"},
   "Your Nexus 6 is ready to explore.": {"own": true, "hu": "A Nexus 6 készen áll a felfedezésre.", "de": "Ihr Nexus 6 ist bereit.", "fr": "Votre Nexus 6 est prêt à être exploré.", "es": "Tu Nexus 6 está listo para explorar."},
   "Only the owner can be signed in on this simulator.": {"own": true, "hu": "Ebben a szimulátorban csak a tulajdonos jelentkezhet be.", "de": "In diesem Simulator kann nur der Eigentümer angemeldet sein.", "fr": "Seul le propriétaire peut être connecté sur ce simulateur.", "es": "En este simulador solo puede iniciar sesión el propietario."}

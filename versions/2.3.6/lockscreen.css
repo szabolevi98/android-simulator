@@ -3,7 +3,7 @@
 .credential-demo{color:#aaa;font-size:12px;line-height:1.4;padding:10px 18px}
 .credential-instruction{text-align:center;font-size:16px;line-height:1.35;margin:0;padding:14px 10px;min-height:50px;flex:none;color:#eee}
 .credential-entry{display:flex;align-items:center;margin:0 24px;flex:none;border-bottom:2px solid #33b5e5}
-.credential-entry input{min-width:0;width:100%;border:0;border-radius:0;background:transparent;color:#fff;font:26px RobotoICS,Arial,sans-serif;text-align:center;outline:none;height:44px;padding:4px;user-select:text;-webkit-user-select:text}
+.credential-entry input{min-width:0;width:100%;border:0;border-radius:0;background:transparent;color:#fff;font:26px DroidSans,Arial,sans-serif;text-align:center;outline:none;height:44px;padding:4px;user-select:text;-webkit-user-select:text}
 .credential-entry button{width:40px;height:42px;border:0;background:none;font-size:22px}
 
 .credential-pattern{width:min(100%,300px);aspect-ratio:1;max-height:300px;align-self:center;flex:none;position:relative;display:grid;grid-template-columns:repeat(3,1fr);touch-action:none;user-select:none;-webkit-user-select:none}
@@ -21,7 +21,7 @@
 .credential-keyboard.alpha{height:185px;flex:none;display:flex;flex-direction:column;gap:0;padding:4.3px 0 8.6px;background:linear-gradient(#282828,#171717 33%,#050505 66%,#000)}
 .credential-keyboard.alpha>div{flex:1;min-height:0;display:flex;justify-content:center;gap:0;padding:0 0 11.3px}
 .credential-keyboard.alpha>div:nth-child(2){padding:0 5% 11.3px}
-.credential-keyboard.alpha button{flex:1;min-width:0;height:100%;margin:0 3.4px;padding:0;border-style:solid;border-color:transparent;border-width:5.4px 7.2px 5.4px 9px;border-image:url('assets/ime-btn_keyboard_key_light_normal_holo.png') 9 12 9 15 fill / 5.4px 7.2px 5.4px 9px;border-radius:0;background:none;box-shadow:none;color:#fff;text-shadow:none;font:700 17.4px Roboto,RobotoICS,sans-serif;display:grid;place-items:center}
+.credential-keyboard.alpha button{flex:1;min-width:0;height:100%;margin:0 3.4px;padding:0;border-style:solid;border-color:transparent;border-width:5.4px 7.2px 5.4px 9px;border-image:url('assets/ime-btn_keyboard_key_light_normal_holo.png') 9 12 9 15 fill / 5.4px 7.2px 5.4px 9px;border-radius:0;background:none;box-shadow:none;color:#fff;text-shadow:none;font:700 17.4px DroidSans,sans-serif;display:grid;place-items:center}
 .credential-keyboard.alpha button:active{background:none;border-image-source:url('assets/ime-btn_keyboard_key_light_pressed_holo.png')}
 
 .credential-keyboard.alpha button.space{flex:5}

@@ -230,6 +230,11 @@ def build(version, device, apk_name, app, image, d, density, material):
     js = (template.replace('__APP__', app).replace('__IMAGE__', image).replace('__TZDATA__', tz_version).replace('__ICU__', icu_name)
           .replace('__DATA__', json.dumps(data, ensure_ascii=False, separators=(',', ':'))))
     open(f'{ROOT}versions/{version}/tzpicker.js', 'w', encoding='utf-8', newline='\n').write(js)
+    # The suggestion list's frame: the image framework's menu_dropdown_panel_holo_light at the drawable density, as stored.
+    import zipfile
+    fw = zipfile.ZipFile(f'{ROOT}_aosp/{device}/system/framework/framework-res.apk')
+    panel = next(n for n in fw.namelist() if n.endswith('/menu_dropdown_panel_holo_light.9.png') and n.split('/')[1].split('-')[1] == density)
+    open(f'{ROOT}versions/{version}/assets/menu_dropdown_panel_holo_light.png', 'wb').write(fw.read(panel))
     open(f'{ROOT}versions/{version}/tzpicker.css', 'w', encoding='utf-8', newline='\n').write((CSS + (MATERIAL if material else '')) % {'app': app, 'image': image, 'd': d, 'slice': {'xhdpi': 20, 'xxhdpi': 30}[density]})
     for name in ('ic_search_holo_light', 'ic_clear_search_holo_light'):
         rid = apk.get_android_resources().get_res_id_by_key(res._apk(apk_name)[1], 'drawable', name)

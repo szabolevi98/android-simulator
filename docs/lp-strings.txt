@@ -454,3 +454,12 @@ GoogleDialer card_title_dialing Phone
 GoogleDialer onscreenShowDialpadText Phone
 GoogleDialer onscreenEndCallText Phone
 Settings screen_timeout_summary
+# Screen-reader and small labels the runtime text check (docs/text-check.mjs) found asked for: Calendar's drawer button,
+# the camera's shutter and mode list, its mode names, the calculator's DEL key and Messenger's own-message prefix.
+CalendarGooglePrebuilt accessibility_drawer_open
+GoogleCamera accessibility_shutter_button
+GoogleCamera accessibility_mode_list_toggle
+GoogleCamera mode_photosphere
+GoogleCamera mode_panorama
+Calculator del
+PrebuiltBugle conversation_list_item_view_sent_from_you_prefix

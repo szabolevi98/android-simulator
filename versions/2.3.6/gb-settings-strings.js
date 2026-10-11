@@ -1048,6 +1048,13 @@ window.GBSettingsStrings = {
 "fr": "Choisir le format de date",
 "es": "Formato de fecha"
 },
+"normal_date_format": {
+"en": "Normal (%s)",
+"hu": "Normál (%s)",
+"de": "Normal (%s)",
+"fr": "Normal (%s)",
+"es": "Normal (%s)"
+},
 "language_picker_title": {
 "en": "Locale",
 "hu": "Nyelvi beállítások",

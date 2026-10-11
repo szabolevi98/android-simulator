@@ -1,6 +1,6 @@
 """Generates versions/2.3.6/gb-strings-music.js from the Nexus S GRK39F image's MusicGoogle.apk (Music 2.3.6, the AOSP
 Music classes in Google's build), in English, Hungarian, German, French and Spanish. Run from the repository root with
-the image extracted (see _aosp/extract_image.py):
+the image extracted (see docs/extract-image.py and docs/sources.md):
     python docs/gb-music-strings.py
 The output keeps the docs/gb-strings.py shape, window.GBStrings.music = {strings: {key: {en, hu, ...}}, plurals: {key:
 {en: {one, other}, ...}}}; music.js, the dialogs in simulator.js and the search settings read it."""

@@ -131,12 +131,12 @@ img.jbp-card-art,img.jbp-row-art,img.jbp-head-art,img.jbp-shot-art{object-fit:co
 .jbp-stars i{width:calc(14*var(--dp));height:calc(14*var(--dp));background:url('assets/ps4510-ic_rate_star_market_off.png') center/contain no-repeat}
 .jbp-stars i.on{background-image:url('assets/ps4510-ic_rate_star_market_on.png')}
 .jbp-stars i.half{background-image:url('assets/ps4510-ic_rate_star_market_half.png')}
-.jbp-stars.big i{width:calc(24*var(--dp));height:calc(24*var(--dp));background-image:url('assets/ps4510-btn_rating_star_off_normal_market.png')}
-.jbp-stars.big.apps i.on,.jbp-stars.big.games i.on{background-image:url('assets/ps4510-btn_rating_star_on_normal_apps.png')}
-.jbp-stars.big.books i.on{background-image:url('assets/ps4510-btn_rating_star_on_normal_books.png')}
-.jbp-stars.big.movies i.on{background-image:url('assets/ps4510-btn_rating_star_on_normal_movies.png')}
-.jbp-stars.big.music i.on{background-image:url('assets/ps4510-btn_rating_star_on_normal_music.png')}
-.jbp-stars.big.magazines i.on{background-image:url('assets/ps4510-btn_rating_star_on_normal_magazines.png')}
+.jbp-stars.big i{width:calc(24*var(--dp));height:calc(24*var(--dp));background-image:url('assets/ps4510-btn_rating_star_normal.png')}
+.jbp-stars.big.apps i.on,.jbp-stars.big.games i.on{background-image:url('assets/ps4510-btn_rating_star_apps.png')}
+.jbp-stars.big.books i.on{background-image:url('assets/ps4510-btn_rating_star_books.png')}
+.jbp-stars.big.movies i.on{background-image:url('assets/ps4510-btn_rating_star_movies.png')}
+.jbp-stars.big.music i.on{background-image:url('assets/ps4510-btn_rating_star_music.png')}
+.jbp-stars.big.magazines i.on{background-image:url('assets/ps4510-btn_rating_star_newsstand.png')}
 
 /* details_summary (stays above the scrolling content): the 104 dp thumbnail with 4 dp padding, Light 21 sp title,
    14 sp #777777 creator, the button column; item_summary_trailing is the 2 dp corpus strip below. */
@@ -245,8 +245,8 @@ img.jbp-card-art,img.jbp-row-art,img.jbp-head-art,img.jbp-shot-art{object-fit:co
 .screen .jbp-dlg-buttons button:active:not(:disabled){background:#33b5e580}
 .screen .jbp-dlg-buttons button:disabled{color:#00000042}
 .jbp-rate-set{display:flex;justify-content:center;padding:calc(16*var(--dp)) 0 0}
-.screen .jbp-rate-set button{width:calc(48*var(--dp));height:calc(48*var(--dp));padding:0;border:0;background:url('assets/ps4510-btn_rating_star_off_normal_market.png') center/contain no-repeat;cursor:pointer}
-.screen .jbp-rate-set button.on{background-image:url('assets/ps4510-btn_rating_star_on_normal_apps.png')}
+.screen .jbp-rate-set button{width:calc(48*var(--dp));height:calc(48*var(--dp));padding:0;border:0;background:url('assets/ps4510-btn_rating_star_normal.png') center/contain no-repeat;cursor:pointer}
+.screen .jbp-rate-set button.on{background-image:url('assets/ps4510-btn_rating_star_apps.png')}
 .jbp-dlg .jbp-rate-name{padding:0 0 calc(2*var(--dp));text-align:center;font-size:calc(14*var(--dp));color:#323232}
 .jbp-field{display:block;width:calc(100% - 32*var(--dp));margin:calc(4*var(--dp)) calc(16*var(--dp));padding:calc(6*var(--dp)) calc(4*var(--dp));border:0;border-bottom:calc(1*var(--dp)) solid #b2b2b2;background:none;color:#000;font:400 calc(18*var(--dp)) RobotoICS,Arial,sans-serif;resize:none;outline:0}
 .jbp-field:focus{border-bottom:calc(2*var(--dp)) solid #33b5e5}

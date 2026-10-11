@@ -1474,14 +1474,38 @@
     'Wikipedia': {own: true, hu: 'Wikipédia', de: 'Wikipedia', fr: 'Wikipédia', es: 'Wikipedia'},
     '3D Buildings': {own: true, hu: '3D épületek', de: '3D-Gebäude', fr: 'Bâtiments 3D', es: 'Edificios en 3D'},
     'Books': {own: true, hu: 'Könyvek', de: 'Google Bücher', fr: 'Livres', es: 'Google Libros'},
-    'Reset all local Gingerbread simulator data?': {own: true, hu: 'Visszaállítod a Gingerbread szimulátor összes helyi adatát?', de: 'Alle lokalen Gingerbread-Simulatordaten zurücksetzen?', fr: 'Réinitialiser toutes les données locales du simulateur Gingerbread ?', es: '¿Restablecer todos los datos locales del simulador Gingerbread?'}
+    'Reset all local Gingerbread simulator data?': {own: true, hu: 'Visszaállítod a Gingerbread szimulátor összes helyi adatát?', de: 'Alle lokalen Gingerbread-Simulatordaten zurücksetzen?', fr: 'Réinitialiser toutes les données locales du simulateur Gingerbread ?', es: '¿Restablecer todos los datos locales del simulador Gingerbread?'},
+    // The power control widget's accessibility labels (the 2.3 widget has none of its own).
+    'GPS': {own: true, hu: 'GPS', de: 'GPS', fr: 'GPS', es: 'GPS'},
+    'Sync': {own: true, hu: 'Szinkronizálás', de: 'Synchronisierung', fr: 'Synchronisation', es: 'Sincronización'},
+    // Earth 6's North up action is an icon without a text of its own: the label for screen readers.
+    'North up': {own: true, hu: 'Északra igazítás', de: 'Nach Norden ausrichten', fr: 'Nord en haut', es: 'Norte arriba'},
+    // Saved state (state.js): what the page tells when a save could not be read, was repaired, upgraded in part or written.
+    'The saved data could not be read, so the phone started fresh. A copy of it was kept.': {own: true, hu: 'A mentett adatok nem olvashatók, ezért a telefon alaphelyzetből indult. Az adatokról másolat készült.', de: 'Die gespeicherten Daten waren nicht lesbar, deshalb startet das Telefon neu. Eine Kopie wurde aufbewahrt.', fr: 'Les données enregistrées étaient illisibles : le téléphone repart de zéro. Une copie a été conservée.', es: 'No se pudieron leer los datos guardados, así que el teléfono empezó de cero. Se guardó una copia.'},
+    'Some saved data was damaged and has been reset.': {own: true, hu: 'A mentett adatok egy része sérült volt, ezt visszaállítottuk.', de: 'Ein Teil der gespeicherten Daten war beschädigt und wurde zurückgesetzt.', fr: 'Une partie des données enregistrées était endommagée et a été réinitialisée.', es: 'Parte de los datos guardados estaba dañada y se ha restablecido.'},
+    'Your saved data was kept, but part of it could not be updated.': {own: true, hu: 'A mentett adatok megmaradtak, de egy részüket nem sikerült frissíteni.', de: 'Deine gespeicherten Daten bleiben erhalten, ein Teil konnte aber nicht aktualisiert werden.', fr: 'Vos données enregistrées ont été conservées, mais une partie n’a pas pu être mise à jour.', es: 'Se conservaron tus datos guardados, pero una parte no se pudo actualizar.'},
+    'Changes can’t be saved: this browser’s storage is full or turned off.': {own: true, hu: 'A módosítások nem menthetők: a böngésző tárhelye megtelt vagy ki van kapcsolva.', de: 'Änderungen können nicht gespeichert werden: Der Speicher dieses Browsers ist voll oder deaktiviert.', fr: 'Impossible d’enregistrer les modifications : le stockage de ce navigateur est plein ou désactivé.', es: 'No se pueden guardar los cambios: el almacenamiento de este navegador está lleno o desactivado.'},
+    // Language names stay in their own language, as Android's language picker shows them.
+    'English': {own: true, hu: 'English', de: 'English', fr: 'English', es: 'English'},
+    'Magyar': {own: true, hu: 'Magyar', de: 'Magyar', fr: 'Magyar', es: 'Magyar'},
+    'Deutsch': {own: true, hu: 'Deutsch', de: 'Deutsch', fr: 'Deutsch', es: 'Deutsch'},
+    'Français': {own: true, hu: 'Français', de: 'Français', fr: 'Français', es: 'Français'},
+    'Español': {own: true, hu: 'Español', de: 'Español', fr: 'Español', es: 'Español'}
   };
   const translations = Object.fromEntries(Object.entries(table).map(([en, { hu, de, fr, es }]) => [en, { hu, de, fr, es }]));
   let saved;
   try { saved = localStorage.getItem('android-time-machine-language'); } catch {}
   let language = supported.includes(saved) ? saved : supported.includes((navigator.language || '').slice(0, 2).toLowerCase()) ? navigator.language.slice(0, 2).toLowerCase() : 'en';
   // A context ('Phone') picks a row keyed 'Phone|<English>' first: the same English text that one APK translates differently.
-  function t(key, context) { return language === 'en' ? key : (context && translations[`${context}|${key}`]?.[language]) || translations[key]?.[language] || key; }
+  function lookup(key, context) { return language === 'en' ? key : (context && translations[`${context}|${key}`]?.[language]) || translations[key]?.[language] || key; }
+  // Keys asked for through t() that no row has in the current language (translateDOM tries every text node, so it does
+  // not count): docs/text-check.mjs reads them.
+  const misses = new Map();
+  function t(key, context) {
+    const text = lookup(key, context);
+    if (language !== 'en' && text === key && !translations[key] && /[A-Za-z]{2}/.test(key)) misses.set(key, (misses.get(key) || 0) + 1);
+    return text;
+  }
   function setLanguage(next) {
     if (!supported.includes(next)) next = 'en';
     language = next;
@@ -1497,7 +1521,7 @@
       if(node.parentElement?.closest('[data-no-translate]'))continue;
       if (['SCRIPT', 'STYLE', 'OPTION'].includes(node.parentElement?.tagName)) continue;
       const raw = node.nodeValue, trimmed = raw.trim();
-      if (trimmed && t(trimmed) !== trimmed) node.nodeValue = raw.replace(trimmed, t(trimmed));
+      if (trimmed && lookup(trimmed) !== trimmed) node.nodeValue = raw.replace(trimmed, lookup(trimmed));
     }
     const elements = [root, ...root.querySelectorAll('*')];
     for (const element of elements) {
@@ -1505,7 +1529,7 @@
       if (element.dataset?.i18n) element.textContent = t(element.dataset.i18n);
       for (const attr of ['aria-label', 'placeholder', 'title']) {
         const value = element.getAttribute?.(attr);
-        if (value && t(value) !== value) element.setAttribute(attr, t(value));
+        if (value && lookup(value) !== value) element.setAttribute(attr, lookup(value));
       }
     }
   }
@@ -1524,5 +1548,5 @@
       origin[key] = source;
     }
   }
-  window.AndroidI18n = { get language() { return language; }, locale: () => locale[language], t, setLanguage, translateDOM, supported, extend, conflicts };
+  window.AndroidI18n = { get language() { return language; }, locale: () => locale[language], t, setLanguage, translateDOM, supported, extend, conflicts, misses };
 })();

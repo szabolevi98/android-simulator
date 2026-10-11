@@ -52,10 +52,10 @@
   };
 
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
+  // state.js reads the save: unreadable JSON is kept aside, a field of the wrong kind takes its default alone, and an
+  // error in the upgrades below keeps the save instead of starting over.
   function load() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-      if (!saved) return clone(defaultData);
+    return AndroidState.load(STORE, defaultData, saved => {
       const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
       if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
       result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
@@ -80,12 +80,13 @@
       result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
       if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 99;
       return result;
-    } catch { return clone(defaultData); }
+    });
   }
   let data = load();
+  AndroidState.onProblem(problem => setTimeout(() => toast(i18n.t({unreadable: 'The saved data could not be read, so the phone started fresh. A copy of it was kept.', repaired: 'Some saved data was damaged and has been reset.', upgrade: 'Your saved data was kept, but part of it could not be updated.', unsaved: 'Changes can’t be saved: this browser’s storage is full or turned off.'}[problem.kind])), 1200));
   data.settings={...ICSSystemSettings.defaults,...data.settings};
   ICSLockscreen.initialize(data);
-  function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
+  function save() { AndroidState.save(STORE, data); }
   const ui = {
     view: 'home', sub: '', page: 2, drawerTab: 'apps', drawerPage: 0, overlay: '',
     selectedContact: 1, thread: 1, selectedPhoto: 1,
@@ -959,7 +960,7 @@
     const now = deviceDate(), lang = i18n.language;
     const formats = [now.toLocaleDateString(i18n.locale()), `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`, `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`, `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`];
     const up = Math.floor(performance.now() / 1000) + 9240;
-    return {settings: data.settings, lang, t: key => i18n.t(key), carrier: carrierName(), cred: GBNetwork.credentialRows({data}), hotspot: GBNetwork.hotspotText(data, ui, lang), hotspotBusy: !!ui.gbApTurning, date: formats[GBSettings.value(data.settings, 'dateFormat')] || formats[0], time: gbClock() + (data.settings.hour24 ? '' : now.getHours() < 12 ? ' AM' : ' PM'), zone: gbZoneText(), zones: gbZones(), zoneSort: ui.gbZoneSort || 'offset', draft: ui.gbDtDraft, locale: i18n.locale(), dateFormats: [GBSettings.text(lang, 'Normal') === 'Normal' ? `${i18n.t('Normal')} (${formats[0]})` : formats[0], ...formats.slice(1)],
+    return {settings: data.settings, lang, t: key => i18n.t(key), carrier: carrierName(), cred: GBNetwork.credentialRows({data}), hotspot: GBNetwork.hotspotText(data, ui, lang), hotspotBusy: !!ui.gbApTurning, date: formats[GBSettings.value(data.settings, 'dateFormat')] || formats[0], time: gbClock() + (data.settings.hour24 ? '' : now.getHours() < 12 ? ' AM' : ' PM'), zone: gbZoneText(), zones: gbZones(), zoneSort: ui.gbZoneSort || 'offset', draft: ui.gbDtDraft, locale: i18n.locale(), dateFormats: [AndroidStrings.format(GBSettings.text(lang, 'normal_date_format'), formats[0]), ...formats.slice(1)],
       languageName: {en: 'English', hu: 'Magyar', de: 'Deutsch', fr: 'Français', es: 'Español'}[lang] || 'English',
       // WifiSettings sorts the connected network first, then by signal; the paired device and the last scan's results.
       networks: allWifiNetworks().slice().sort((a, b) => Number(b.name === data.settings.wifiNetwork) - Number(a.name === data.settings.wifiNetwork) || b.strength - a.strength || a.name.localeCompare(b.name)),

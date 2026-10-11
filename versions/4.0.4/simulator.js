@@ -59,10 +59,10 @@
   };
 
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
+  // state.js reads the save: unreadable JSON is kept aside, a field of the wrong kind takes its default alone, and an
+  // error in the upgrades below keeps the save instead of starting over.
   function load() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-      if (!saved) return clone(defaultData);
+    return AndroidState.load(STORE, defaultData, saved => {
       const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
       // A saved desktop without a live wallpaper keeps its picture: the Phase Beam default is for a first boot only.
       if (!('liveWallpaper' in saved)) delete result.liveWallpaper;
@@ -93,12 +93,13 @@
         result.wallpaperRevision = 1;
       }
       return result;
-    } catch { return clone(defaultData); }
+    });
   }
   let data = load();
+  AndroidState.onProblem(problem => setTimeout(() => toast(i18n.t({unreadable: 'The saved data could not be read, so the phone started fresh. A copy of it was kept.', repaired: 'Some saved data was damaged and has been reset.', upgrade: 'Your saved data was kept, but part of it could not be updated.', unsaved: 'Changes can’t be saved: this browser’s storage is full or turned off.'}[problem.kind])), 1200));
   data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...data.settings};
   ICSLockscreen.initialize(data);
-  function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
+  function save() { AndroidState.save(STORE, data); }
   const ui = {
     view: 'home', sub: '', page: 2, drawerTab: 'apps', drawerPage: 0, overlay: '',
     selectedContact: 1, thread: 1, selectedPhoto: 1,

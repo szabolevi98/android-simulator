@@ -2,6 +2,7 @@
 // unpacked in _aosp/ (audit point 10). Run from the repository root:
 //     node docs/texts.mjs            rebuilds everything in place; `git status` then shows what a regeneration changes
 //     node docs/texts.mjs gb-        only the jobs whose command or output contains the filter
+//     node docs/texts.mjs --check    rebuilds everything and fails when an output differs from the committed one
 // Outputs are generated: edit the template or the generator, never the output, and rerun.
 import {spawnSync} from 'node:child_process';
 
@@ -75,7 +76,7 @@ const JOBS = [
   {cmd: ['node', 'docs/text-survey.mjs', '--md', 'docs/text-survey.md'], out: ['docs/text-survey.md']},
 ];
 
-const filter = process.argv[2] || '';
+const check = process.argv.includes('--check'), filter = process.argv.slice(2).find(a => !a.startsWith('--')) || '';
 let failed = 0;
 for (const job of JOBS) {
   if (filter && !job.cmd.join(' ').includes(filter) && !job.out.some(o => o.includes(filter))) continue;
@@ -85,4 +86,11 @@ for (const job of JOBS) {
   console.log(`${ok ? 'ok  ' : 'FAIL'} ${job.cmd.slice(1).join(' ')}${ok ? '' : '\n' + (run.stderr || run.stdout).trim().split('\n').slice(-4).join('\n')}`);
 }
 if (failed) process.exit(1);
+if (check) {
+  // Regenerability: every output must come out as committed.
+  const outputs = JOBS.filter(job => !filter || job.cmd.join(' ').includes(filter) || job.out.some(o => o.includes(filter))).flatMap(job => job.out);
+  const changed = spawnSync('git', ['status', '--porcelain', '--', ...outputs], {encoding: 'utf8'}).stdout.trim();
+  console.log(changed ? 'changed after regeneration:\n' + changed : 'every output is as committed');
+  if (changed) process.exit(1);
+}
 export {JOBS};

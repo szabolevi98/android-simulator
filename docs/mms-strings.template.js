@@ -5,7 +5,7 @@
    SmileyParser's emo_im_* icons, in that order). MmsStrings.t(english) answers in the simulator's language. */
 (() => {
   'use strict';
-  const STRINGS = __STRINGS__({"Messaging": "app_label", "New message": "new_message", "Search messaging": "search_hint",
+  const STRINGS = __STRINGS__({"Messaging": "app_label", "New message": "new_message", "Search": "menu_search", "Search messaging": "search_hint",
     "To": "to_hint", "Type message": "type_to_compose_text_enter_to_send", "Draft": "has_draft", "No conversations.": "no_conversations",
     "Attach": "add_attachment", "Pictures": "attach_image", "Capture picture": "attach_take_photo", "Videos": "attach_video",
     "Capture video": "attach_record_video", "Audio": "attach_sound", "Record audio": "attach_record_sound", "Slideshow": "attach_slideshow",

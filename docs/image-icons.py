@@ -3,7 +3,7 @@ of the phone, saved as versions/<version>/assets/<id>.png.
     python docs/image-icons.py <device dir> <density> <version> <id>=<apk>[:<activity>] ...
 e.g. python docs/image-icons.py _aosp/mako xhdpi 4.3 chrome=Chrome play-music=Music2
 The device folder holds the image's /system (see docs/image-index.py)."""
-import glob, os, sys
+import glob, os, re, sys
 from loguru import logger; logger.remove()
 from androguard.core.apk import APK
 
@@ -21,12 +21,20 @@ for spec in sys.argv[4:]:
         for act in x.iter(tag):
             if activity and act.get(NS + 'name', '').split('.')[-1] == activity and act.get(NS + 'icon'): icon = act.get(NS + 'icon')
     rid = int(icon[1:], 16)
+    # The launcher's configuration: a density, optionally an API level; a locale, orientation, layout direction or screen
+    # size variant is not what the home screen shows. Within a density the highest API level wins (the image is newer
+    # than every -vNN folder of its own APKs).
     files = {}
     for cfg, entry in r.get_res_configs(rid):
-        q = cfg.get_qualifier() or ''
+        parts = [p for p in (cfg.get_qualifier() or '').split('-') if p]
         value = r.get_resolved_res_configs(rid, cfg)[0][1]
-        dens = next((d for d in ORDER[:-1] if d and d in q.split('-')), '')
-        if value.endswith('.png') and ('v' not in q or True): files.setdefault(dens, value)
-    pick = next(files[d] for d in ORDER if d in files)
+        dens = next((p for p in parts if p in ORDER[:-1]), '')
+        if not value.endswith('.png') or any(p != dens and not re.fullmatch(r'v\d+', p) for p in parts): continue
+        api = max([int(p[1:]) for p in parts if re.fullmatch(r'v\d+', p)] or [0])
+        files.setdefault(dens, []).append((api, value))
+    density = next(d for d in ORDER if d in files)
+    candidates = sorted(set(files[density]), reverse=True)
+    if len({v for _, v in candidates}) > 1: print(f'note: {out}: {len(candidates)} {density or "default"} files, took {candidates[0][1]}', file=sys.stderr)
+    pick = candidates[0][1]
     target = f'versions/{VERSION}/assets/{out}.png'
     open(target, 'wb').write(a.get_file(pick)); print(out, '<-', apk_name, pick)

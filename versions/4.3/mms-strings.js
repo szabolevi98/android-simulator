@@ -8,6 +8,7 @@
   const STRINGS = {
     "Messaging": {"res": "Mms:app_label", "hu": "Üzenetek", "de": "SMS/MMS", "fr": "SMS/MMS", "es": "Mensajes"},
     "New message": {"res": "Mms:new_message", "hu": "Új üzenet", "de": "Neue Nachricht", "fr": "Nouveau message", "es": "Mensaje nuevo"},
+    "Search": {"res": "Mms:menu_search", "hu": "Keresés", "de": "Suchen", "fr": "Rechercher", "es": "Buscar"},
     "Search messaging": {"res": "Mms:search_hint", "hu": "Keresés az üzenetekben", "de": "In SMS/MMS suchen", "fr": "Rechercher dans les messages", "es": "Buscar mensajes"},
     "To": {"res": "Mms:to_hint", "hu": "Címzett", "de": "An", "fr": "À", "es": "Para"},
     "Type message": {"res": "Mms:type_to_compose_text_enter_to_send", "hu": "Írja be az üzenetet", "de": "Nachricht schreiben", "fr": "Saisissez un message", "es": "Escribir mensaje"},

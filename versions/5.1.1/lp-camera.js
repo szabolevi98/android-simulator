@@ -86,9 +86,9 @@
       <div class="gcam-rec" data-gcam-rec ${recording ? '' : 'hidden'}><i></i><span>00:00</span></div>
       <div class="gcam-options${ui.gcamOptions ? ' open' : ''}">${ui.gcamOptions ? optionButtons : ''}<button type="button" class="gcam-options-toggle" data-gcam-options aria-label="${e(t('Options'))}" aria-expanded="${!!ui.gcamOptions}"><i></i><i></i><i></i></button></div>
       <div class="gcam-bar"><span></span><button type="button" class="gcam-shutter${recording ? ' recording' : ''}" data-gcam-shutter aria-label="${e(t(mode === 'video' ? (recording ? 'Stop recording' : 'Start recording') : 'Shutter'))}">${shutterIcon ? `<img src="${icon(shutterIcon)}" alt="">` : '<i></i>'}</button><span></span></div>
-      <button type="button" class="gcam-edge" data-gcam-modes aria-label="${e(t('Switch mode'))}"></button>
+      <button type="button" class="gcam-edge" data-gcam-modes aria-label="${e(t('Toggle mode list'))}"></button>
       <div class="gcam-modes-scrim" data-gcam-modes-close></div>
-      <nav class="gcam-modes" aria-label="${e(t('Switch mode'))}">${MODES.map(([id, label, c, file]) => `<button type="button" data-gcam-mode="${id}" ${id === mode ? 'aria-current="true"' : ''}><span class="gcam-mode-icon" style="--c:${c}"><img src="${icon(file)}" alt=""></span><span>${e(t(label))}</span></button>`).join('')}<button type="button" class="gcam-settings" data-gcam-settings aria-label="${e(t('Settings'))}"><img src="${icon('ic_settings_normal')}" alt=""></button></nav>
+      <nav class="gcam-modes" aria-label="${e(t('Toggle mode list'))}">${MODES.map(([id, label, c, file]) => `<button type="button" data-gcam-mode="${id}" ${id === mode ? 'aria-current="true"' : ''}><span class="gcam-mode-icon" style="--c:${c}"><img src="${icon(file)}" alt=""></span><span>${e(t(label))}</span></button>`).join('')}<button type="button" class="gcam-settings" data-gcam-settings aria-label="${e(t('Settings'))}"><img src="${icon('ic_settings_normal')}" alt=""></button></nav>
     </div>`;
   }
   // Back / Up in the settings: the dialog, then the sub screen, then the camera.

@@ -253,7 +253,8 @@ window.StockStrings = {
   "Offline": {"res": "YouTube:guide_offline_videos", "hu": "Offline", "de": "Offline", "fr": "Hors connexion", "es": "Sin conexión"},
   "Search YouTube": {"res": "YouTube:search_hint", "hu": "Keresés a YouTube-on", "de": "In YouTube suchen", "fr": "Rechercher sur YouTube", "es": "Buscar..."},
   "No videos found": {"res": "YouTube:no_videos_found", "hu": "Nem található videó", "de": "Keine Videos gefunden", "fr": "Aucune vidéo n'a été trouvée.", "es": "No se ha encontrado ningún vídeo."},
-  "Clear": {"res": "YouTube:action_bar_search_clear", "hu": "Törlés", "de": "Löschen", "fr": "Effacer", "es": "Borrar"}
+  "Clear": {"res": "YouTube:action_bar_search_clear", "hu": "Törlés", "de": "Löschen", "fr": "Effacer", "es": "Borrar"},
+  "Open guide": {"res": "YouTube:action_bar_guide_open", "hu": "A segéd megnyitása", "de": "Anleitung öffnen", "fr": "Ouvrir le guide", "es": "Abrir guía"}
  },
  "gplus": {
   "Home": {"res": "PlusOne:stream_circles", "hu": "Kezdőlap", "de": "Übersicht", "fr": "Accueil", "es": "Inicio"},

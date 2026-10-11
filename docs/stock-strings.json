@@ -1768,7 +1768,8 @@
    "Offline": "YouTube:guide_offline_videos",
    "Search YouTube": "YouTube:search_hint",
    "No videos found": "YouTube:no_videos_found",
-   "Clear": "YouTube:action_bar_search_clear"
+   "Clear": "YouTube:action_bar_search_clear",
+   "Open guide": "YouTube:action_bar_guide_open"
   },
   "gplus": {
    "Home": "PlusOne:stream_circles",

@@ -63,10 +63,10 @@
   };
 
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
+  // state.js reads the save: unreadable JSON is kept aside, a field of the wrong kind takes its default alone, and an
+  // error in the upgrades below keeps the save instead of starting over.
   function load() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-      if (!saved) return clone(defaultData);
+    return AndroidState.load(STORE, defaultData, saved => {
       const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
       if (!saved.clings) result.clings = LauncherClings.dismissedAll();
       if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
@@ -86,12 +86,13 @@
       // Live wallpapers were offered before the picker followed the LMY48Y image, which has none.
       delete result.liveWallpaper; delete result.lwPrefs;
       return result;
-    } catch { return clone(defaultData); }
+    });
   }
   let data = load();
+  AndroidState.onProblem(problem => setTimeout(() => toast(i18n.t({unreadable: 'The saved data could not be read, so the phone started fresh. A copy of it was kept.', repaired: 'Some saved data was damaged and has been reset.', upgrade: 'Your saved data was kept, but part of it could not be updated.', unsaved: 'Changes can’t be saved: this browser’s storage is full or turned off.'}[problem.kind])), 1200));
   data.settings={...ICSSettingsDetail.defaults,...ICSSystemSettings.defaults,...JBDeveloperOptions.DEFAULTS,spellChecker:true,imeLatin:true,...data.settings};
   ICSLockscreen.initialize(data);
-  function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {} }
+  function save() { AndroidState.save(STORE, data); }
   const ui = {
     view: 'home', sub: '', page: 0, drawerTab: 'apps', drawerPage: 0, overlay: '', overview: false,
     selectedContact: 1, thread: 1, selectedPhoto: 1,

@@ -33,8 +33,11 @@
       })
       .replace(/\^(\d)/g, (all, n) => args[n - 1] ?? all);
   }
+  // Keys a table was asked for in another language than English but does not have (docs/text-check.mjs reads them).
+  const misses = new Map();
+  const miss = (key, lang) => { if (lang !== 'en' && /[A-Za-z]{2}/.test(key)) misses.set(key, (misses.get(key) || 0) + 1); };
   function value(entry, key, lang, missing) {
-    if (entry === undefined || entry === null) return missing ? missing(key, code(lang)) : key;
+    if (entry === undefined || entry === null) { if (missing) return missing(key, code(lang)); miss(key, code(lang)); return key; }
     if (typeof entry === 'string') return entry;
     const c = code(lang);
     return entry[c] ?? entry.en ?? key;
@@ -80,7 +83,7 @@
   const shared = (key, lang) => lang === 'en' ? key : (globalThis.window?.AndroidI18n ?? globalThis.AndroidI18n)?.t(key) ?? key;
   // Legacy shapes, for tables that have not moved to the named form yet: [hu, de, fr, es, en?] rows keyed by English.
   const fromRows = rows => Object.fromEntries(Object.entries(rows).map(([key, [hu, de, fr, es, en]]) => [key, en && en !== key ? {en, hu, de, fr, es} : {hu, de, fr, es}]));
-  const api = {LANGS, LOCALES, code, format, table, tables, resources, pick, quantity, shared, fromRows, locale: lang => LOCALES[code(lang)]};
+  const api = {LANGS, LOCALES, code, format, table, tables, resources, pick, quantity, shared, misses, fromRows, locale: lang => LOCALES[code(lang)]};
   // A page's window is its global object; a test's vm context may carry a separate window object, so both get it.
   globalThis.AndroidStrings = api;
   if (globalThis.window) globalThis.window.AndroidStrings = api;

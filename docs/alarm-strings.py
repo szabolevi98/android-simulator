@@ -19,7 +19,8 @@ def main(device):
     for en, rows in index.items():
         for apk, name, tr in rows:
             if apk.startswith('DeskClock') and (name in KEYS or name in OPTIONAL):
-                found[name] = {'res': f'{apk}:{name}', 'en': en, **{k: v for k, v in tr.items() if v}}
+                # A language the image leaves untranslated shows the English, as Android falls back to values/.
+                found[name] = {'res': f'{apk}:{name}', 'en': en, **{k: tr.get(k) or en for k in ('hu', 'de', 'fr', 'es')}}
     missing = [k for k in KEYS if k not in found]
     if missing: sys.exit(f'{device}: missing {missing}')
     table = {k: found[k] for k in KEYS + OPTIONAL if k in found}
