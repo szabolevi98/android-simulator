@@ -64,29 +64,45 @@
 
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
   // state.js reads the save: unreadable JSON is kept aside, a field of the wrong kind takes its default alone, and an
-  // error in the upgrades below keeps the save instead of starting over.
+  // error in one of the upgrade steps below is reported by name while the others still run.
   function load() {
-    return AndroidState.load(STORE, defaultData, saved => {
-      const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
-      if (!saved.clings) result.clings = LauncherClings.dismissedAll();
-      if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
-      while (result.homeWidgets.length < result.homePages.length) result.homeWidgets.push([]);
-      result.homeWidgets.length = result.homePages.length;
+    return AndroidState.load(STORE, defaultData, saved => ({ ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } }), [
+      ['clings of an older save', (result, saved) => {
+        if (!saved.clings) result.clings = LauncherClings.dismissedAll();
+      }],
+      ['missing widget pages', (result, saved) => {
+        if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
+      }],
+      ['widget page for every page', (result, saved) => {
+        while (result.homeWidgets.length < result.homePages.length) result.homeWidgets.push([]);
+      }],
+      ['no widget page without a page', (result, saved) => {
+        result.homeWidgets.length = result.homePages.length;
+      }],
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
-      result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
+      ['old photo frame size', (result, saved) => {
+        result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
+      }],
       // A reload during Gallery widget configuration leaves no completed choice.
-      result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
-      if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      ['unfinished photo frame', (result, saved) => {
+        result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
+      }],
+      ['custom wallpaper slot', (result, saved) => {
+        if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      }],
       // The AOSP Browser, Gallery and Music (and Gallery's photo widget) left the drawer: drop their shortcuts and widgets.
-      const gone = ['browser', 'gallery', 'music'], keep = id => !gone.includes(id);
-      result.homePages = result.homePages.map(page => page.map(id => keep(id) ? id : null));
-      result.dock = (result.dock || []).map(id => keep(id) ? id : null);
-      Object.values(result.folders || {}).forEach(folder => { if (Array.isArray(folder.items)) folder.items = folder.items.filter(keep); });
-      result.homeWidgets = result.homeWidgets.map(page => page.filter(widget => widget?.type !== 'photo'));
+      ['apps no longer on the image', (result, saved) => {
+        const gone = ['browser', 'gallery', 'music'], keep = id => !gone.includes(id);
+        result.homePages = result.homePages.map(page => page.map(id => keep(id) ? id : null));
+        result.dock = (result.dock || []).map(id => keep(id) ? id : null);
+        Object.values(result.folders || {}).forEach(folder => { if (Array.isArray(folder.items)) folder.items = folder.items.filter(keep); });
+        result.homeWidgets = result.homeWidgets.map(page => page.filter(widget => widget?.type !== 'photo'));
+      }],
       // Live wallpapers were offered before the picker followed the LMY48Y image, which has none.
-      delete result.liveWallpaper; delete result.lwPrefs;
-      return result;
-    });
+      ['live wallpapers of the image', (result, saved) => {
+        delete result.liveWallpaper; delete result.lwPrefs;
+      }]
+    ]);
   }
   let data = load();
   AndroidState.onProblem(problem => setTimeout(() => toast(i18n.t({unreadable: 'The saved data could not be read, so the phone started fresh. A copy of it was kept.', repaired: 'Some saved data was damaged and has been reset.', upgrade: 'Your saved data was kept, but part of it could not be updated.', unsaved: 'Changes can’t be saved: this browser’s storage is full or turned off.'}[problem.kind])), 1200));

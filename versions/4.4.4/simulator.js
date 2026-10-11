@@ -49,57 +49,87 @@
 
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
   // state.js reads the save: unreadable JSON is kept aside, a field of the wrong kind takes its default alone, and an
-  // error in the upgrades below keeps the save instead of starting over.
+  // error in one of the upgrade steps below is reported by name while the others still run.
   function load() {
-    return AndroidState.load(STORE, defaultData, saved => {
-      const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
-      if (!saved.clings) result.clings = LauncherClings.dismissedAll();
-      if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
-      result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
-      if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
+    return AndroidState.load(STORE, defaultData, saved => ({ ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } }), [
+      ['clings of an older save', (result, saved) => {
+        if (!saved.clings) result.clings = LauncherClings.dismissedAll();
+      }],
+      ['old third page shortcuts', (result, saved) => {
+        if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
+      }],
+      ['pages of 12 cells to 16', (result, saved) => {
+        result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
+      }],
+      ['missing widget pages', (result, saved) => {
+        if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
+      }],
       // Replace only the untouched old demo layout; preserve customized desktops.
-      if (!saved.layoutRevision) {
-        const oldShortcuts = [['calendar','music',null,null],['camera','gallery','email',null],['camera',null,null,'google'],['email','camera','clock',null],['calculator','settings',null,null]].map(items => [...Array(12).fill(null), ...items]);
-        const oldWidgets = ['digital','weather','analog','music','calendar'].map((type, i) => [{id: ['default-clock','default-weather','default-analog','default-music','default-calendar'][i], type, x: 1, y: 0}]);
-        if (JSON.stringify(result.homePages) === JSON.stringify(oldShortcuts) && JSON.stringify(result.homeWidgets) === JSON.stringify(oldWidgets)) {
-          result.homePages = clone(defaultData.homePages);
-          result.homeWidgets = clone(defaultData.homeWidgets);
-        } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
-        result.layoutRevision = 2;
-      }
+      ['layout revision 2', (result, saved) => {
+        if (!saved.layoutRevision) {
+          const oldShortcuts = [['calendar','music',null,null],['camera','gallery','email',null],['camera',null,null,'google'],['email','camera','clock',null],['calculator','settings',null,null]].map(items => [...Array(12).fill(null), ...items]);
+          const oldWidgets = ['digital','weather','analog','music','calendar'].map((type, i) => [{id: ['default-clock','default-weather','default-analog','default-music','default-calendar'][i], type, x: 1, y: 0}]);
+          if (JSON.stringify(result.homePages) === JSON.stringify(oldShortcuts) && JSON.stringify(result.homeWidgets) === JSON.stringify(oldWidgets)) {
+            result.homePages = clone(defaultData.homePages);
+            result.homeWidgets = clone(defaultData.homeWidgets);
+          } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
+          result.layoutRevision = 2;
+        }
+      }],
       // The KitKat scaffold started from the Jelly Bean desktop; switch it to the Launcher3 one.
-      if ((saved.layoutRevision || 0) < 3) { result.clings = clone(defaultData.clings); }
+      ['layout revision 3', (result, saved) => {
+        if ((saved.layoutRevision || 0) < 3) { result.clings = clone(defaultData.clings); }
+      }],
       // Revision 4 moves the desktop from the AOSP Launcher3 layout to the stock Nexus 5 one.
-      if ((saved.layoutRevision || 0) < 4) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = clone(defaultData.folders); result.layoutRevision = 4; }
-      while (result.homeWidgets.length < result.homePages.length) result.homeWidgets.push([]);
-      result.homeWidgets.length = result.homePages.length;
+      ['layout revision 4', (result, saved) => {
+        if ((saved.layoutRevision || 0) < 4) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = clone(defaultData.folders); result.layoutRevision = 4; }
+      }],
+      ['widget page for every page', (result, saved) => {
+        while (result.homeWidgets.length < result.homePages.length) result.homeWidgets.push([]);
+      }],
+      ['no widget page without a page', (result, saved) => {
+        result.homeWidgets.length = result.homePages.length;
+      }],
       // Revision 5: the default clock goes on the first page only where its two rows are still empty.
-      if ((saved.layoutRevision || 0) < 5) {
-        const page = result.homePages[0] || [], widgets = result.homeWidgets[0] || [];
-        const free = page.slice(0, 8).every(slot => !slot) && !widgets.some(widget => (widget.y || 0) < 2);
-        if (free && !widgets.some(widget => widget.type === 'digitalclock')) widgets.push(clone(defaultData.homeWidgets[0][0]));
-        result.homeWidgets[0] = widgets; result.layoutRevision = 5;
-      }
+      ['layout revision 5', (result, saved) => {
+        if ((saved.layoutRevision || 0) < 5) {
+          const page = result.homePages[0] || [], widgets = result.homeWidgets[0] || [];
+          const free = page.slice(0, 8).every(slot => !slot) && !widgets.some(widget => (widget.y || 0) < 2);
+          if (free && !widgets.some(widget => widget.type === 'digitalclock')) widgets.push(clone(defaultData.homeWidgets[0][0]));
+          result.homeWidgets[0] = widgets; result.layoutRevision = 5;
+        }
+      }],
       // Revision 6: the Google folder gets GSMArena's launch contents unless it was edited.
-      if ((saved.layoutRevision || 0) < 6) {
-        const folder = result.folders?.['folder-google'];
-        if (folder && JSON.stringify(folder.items) === JSON.stringify(['gmail', 'play-movies', 'play-music', 'play-books', 'play-games', 'photos'])) folder.items = clone(defaultData.folders['folder-google'].items);
-        result.layoutRevision = 6;
-      }
+      ['layout revision 6', (result, saved) => {
+        if ((saved.layoutRevision || 0) < 6) {
+          const folder = result.folders?.['folder-google'];
+          if (folder && JSON.stringify(folder.items) === JSON.stringify(['gmail', 'play-movies', 'play-music', 'play-books', 'play-games', 'photos'])) folder.items = clone(defaultData.folders['folder-google'].items);
+          result.layoutRevision = 6;
+        }
+      }],
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
-      result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
+      ['old photo frame size', (result, saved) => {
+        result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
+      }],
       // A reload during Gallery widget configuration leaves no completed choice.
-      result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
-      if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      ['unfinished photo frame', (result, saved) => {
+        result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
+      }],
+      ['custom wallpaper slot', (result, saved) => {
+        if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      }],
       // The AOSP Browser, Messaging and Music left the drawer: drop their shortcuts.
-      const gone = ['browser', 'messaging', 'music'], keep = id => !gone.includes(id);
-      result.homePages = result.homePages.map(page => page.map(id => keep(id) ? id : null));
-      result.dock = (result.dock || []).map(id => keep(id) ? id : null);
-      Object.values(result.folders || {}).forEach(folder => { if (Array.isArray(folder.items)) folder.items = folder.items.filter(keep); });
+      ['apps no longer on the image', (result, saved) => {
+        const gone = ['browser', 'messaging', 'music'], keep = id => !gone.includes(id);
+        result.homePages = result.homePages.map(page => page.map(id => keep(id) ? id : null));
+        result.dock = (result.dock || []).map(id => keep(id) ? id : null);
+        Object.values(result.folders || {}).forEach(folder => { if (Array.isArray(folder.items)) folder.items = folder.items.filter(keep); });
+      }],
       // Only Sun Beam is left of the live wallpapers offered before the picker followed the KTU84P image.
-      if (result.liveWallpaper && result.liveWallpaper.id !== 'sunbeam') delete result.liveWallpaper; delete result.lwPrefs;
-      return result;
-    });
+      ['live wallpapers of the image', (result, saved) => {
+        if (result.liveWallpaper && result.liveWallpaper.id !== 'sunbeam') delete result.liveWallpaper; delete result.lwPrefs;
+      }]
+    ]);
   }
   let data = load();
   AndroidState.onProblem(problem => setTimeout(() => toast(i18n.t({unreadable: 'The saved data could not be read, so the phone started fresh. A copy of it was kept.', repaired: 'Some saved data was damaged and has been reset.', upgrade: 'Your saved data was kept, but part of it could not be updated.', unsaved: 'Changes can’t be saved: this browser’s storage is full or turned off.'}[problem.kind])), 1200));

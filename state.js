@@ -1,12 +1,13 @@
 /* Saved simulator state (audit point 13): one localStorage key per Android version, read and written here so a broken
    save never costs more than the part that is broken.
-     AndroidState.load(key, defaults, build)
+     AndroidState.load(key, defaults, build, steps)
        - nothing saved: a fresh copy of defaults
        - unreadable JSON: kept under '<key>:unreadable', a fresh copy of defaults, the problem reported
        - a top-level field whose kind differs from the default's (array, object, string, number, boolean) takes the
          default for that field alone; the rest of the save stays (reported)
-       - build(saved) is the version's own merge and upgrades; if it throws, the repaired save over the defaults is used
-         and the error reported, instead of starting over
+       - build(saved) is the version's own merge; if it throws, the repaired save over the defaults is used
+       - steps: the version's upgrades in order, [name, (result, saved) => …]; each runs on its own, so one that throws
+         is reported by name and the others still run
      AndroidState.save(key, data)  true when stored; a full or blocked storage is reported once per page
      AndroidState.onProblem(fn)    fn({kind, key, detail}) for every problem so far and later ('unreadable', 'repaired',
                                    'upgrade', 'unsaved') */
@@ -28,7 +29,7 @@
     if (fixed.length) report({kind: 'repaired', key, detail: fixed.join(', ')});
     return out;
   }
-  function load(key, defaults, build = saved => ({...clone(defaults), ...saved})) {
+  function load(key, defaults, build = saved => ({...clone(defaults), ...saved}), steps = []) {
     let text = null;
     try { text = storage()?.getItem(key) ?? null; } catch {}
     if (text === null) return clone(defaults);
@@ -40,10 +41,15 @@
       return clone(defaults);
     }
     const repaired = repair(saved, defaults, key);
-    try { return build(repaired); } catch (error) {
+    let result;
+    try { result = build(repaired); } catch (error) {
       report({kind: 'upgrade', key, detail: String(error?.message || error)});
-      return {...clone(defaults), ...repaired};
+      result = {...clone(defaults), ...repaired};
     }
+    for (const [name, step] of steps) {
+      try { step(result, repaired); } catch (error) { report({kind: 'upgrade', key, detail: `${name}: ${error?.message || error}`}); }
+    }
+    return result;
   }
   function save(key, data) {
     try { storage().setItem(key, JSON.stringify(data)); unsavedReported = false; return true; } catch (error) {

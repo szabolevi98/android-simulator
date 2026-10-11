@@ -60,40 +60,60 @@
 
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
   // state.js reads the save: unreadable JSON is kept aside, a field of the wrong kind takes its default alone, and an
-  // error in the upgrades below keeps the save instead of starting over.
+  // error in one of the upgrade steps below is reported by name while the others still run.
   function load() {
-    return AndroidState.load(STORE, defaultData, saved => {
-      const result = { ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } };
+    return AndroidState.load(STORE, defaultData, saved => ({ ...clone(defaultData), ...saved, settings: { ...defaultData.settings, ...saved.settings } }), [
       // A saved desktop without a live wallpaper keeps its picture: the Phase Beam default is for a first boot only.
-      if (!('liveWallpaper' in saved)) delete result.liveWallpaper;
-      if (!saved.clings) result.clings = LauncherClings.dismissedAll();
-      if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
-      result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
-      if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
+      ['live wallpaper on first boot only', (result, saved) => {
+        if (!('liveWallpaper' in saved)) delete result.liveWallpaper;
+      }],
+      ['clings of an older save', (result, saved) => {
+        if (!saved.clings) result.clings = LauncherClings.dismissedAll();
+      }],
+      ['old third page shortcuts', (result, saved) => {
+        if (JSON.stringify(result.homePages?.[2]) === JSON.stringify([null,null,null,null,null,null,null,null,'calendar','gallery','settings','music'])) result.homePages[2] = clone(defaultData.homePages[2]);
+      }],
+      ['pages of 12 cells to 16', (result, saved) => {
+        result.homePages = result.homePages.map(page => page.length === 12 ? [null, null, null, null, ...page] : page);
+      }],
+      ['missing widget pages', (result, saved) => {
+        if (!Array.isArray(saved.homeWidgets)) result.homeWidgets = clone(defaultData.homeWidgets);
+      }],
       // Replace only the untouched old demo layout; preserve customized desktops.
-      if (!saved.layoutRevision) {
-        const oldShortcuts = [['calendar','music',null,null],['camera','gallery','email',null],['camera',null,null,'google'],['email','camera','clock',null],['calculator','settings',null,null]].map(items => [...Array(12).fill(null), ...items]);
-        const oldWidgets = ['digital','weather','analog','music','calendar'].map((type, i) => [{id: ['default-clock','default-weather','default-analog','default-music','default-calendar'][i], type, x: 1, y: 0}]);
-        if (JSON.stringify(result.homePages) === JSON.stringify(oldShortcuts) && JSON.stringify(result.homeWidgets) === JSON.stringify(oldWidgets)) {
-          result.homePages = clone(defaultData.homePages);
-          result.homeWidgets = clone(defaultData.homeWidgets);
-        } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
-        result.layoutRevision = 2;
-      }
-      if ((saved.layoutRevision || 0) < 3) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = {...(result.folders || {}), ...clone(defaultData.folders)}; result.layoutRevision = 3; }
+      ['layout revision 2', (result, saved) => {
+        if (!saved.layoutRevision) {
+          const oldShortcuts = [['calendar','music',null,null],['camera','gallery','email',null],['camera',null,null,'google'],['email','camera','clock',null],['calculator','settings',null,null]].map(items => [...Array(12).fill(null), ...items]);
+          const oldWidgets = ['digital','weather','analog','music','calendar'].map((type, i) => [{id: ['default-clock','default-weather','default-analog','default-music','default-calendar'][i], type, x: 1, y: 0}]);
+          if (JSON.stringify(result.homePages) === JSON.stringify(oldShortcuts) && JSON.stringify(result.homeWidgets) === JSON.stringify(oldWidgets)) {
+            result.homePages = clone(defaultData.homePages);
+            result.homeWidgets = clone(defaultData.homeWidgets);
+          } else result.homeWidgets.flat().forEach(widget => { widget.width = 2; widget.height = 2; });
+          result.layoutRevision = 2;
+        }
+      }],
+      ['layout revision 3', (result, saved) => {
+        if ((saved.layoutRevision || 0) < 3) { result.homePages = clone(defaultData.homePages); result.homeWidgets = clone(defaultData.homeWidgets); result.dock = clone(defaultData.dock); result.folders = {...(result.folders || {}), ...clone(defaultData.folders)}; result.layoutRevision = 3; }
+      }],
       // Earlier photo frames were 2 × 2 and showed the first picture; keep their footprint.
-      result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
+      ['old photo frame size', (result, saved) => {
+        result.homeWidgets.flat().forEach(widget => { if (widget?.type === 'photo' && !('source' in widget) && !widget.width) { widget.width = 2; widget.height = 2; } });
+      }],
       // A reload during Gallery widget configuration leaves no completed choice.
-      result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
-      if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      ['unfinished photo frame', (result, saved) => {
+        result.homeWidgets = result.homeWidgets.map(page => Array.isArray(page) ? page.filter(widget => widget && !(widget.type === 'photo' && widget.source === null)) : []);
+      }],
+      ['custom wallpaper slot', (result, saved) => {
+        if (result.wallpaper === 4 && result.customWallpaper) result.wallpaper = 11;
+      }],
       // Saved choices from the Chroma-first list follow their picture into the image's order once.
-      if (!saved.wallpaperRevision) {
-        const old = ['chroma','architecture','bubblegum','canyon','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
-        if (typeof result.wallpaper === 'number' && result.wallpaper < old.length) result.wallpaper = ['architecture','bubblegum','canyon','chroma','escape','fidelity','flora','kepler','leaf','noir','outofthebox'].indexOf(old[result.wallpaper]);
-        result.wallpaperRevision = 1;
-      }
-      return result;
-    });
+      ['wallpaper revision 1', (result, saved) => {
+        if (!saved.wallpaperRevision) {
+          const old = ['chroma','architecture','bubblegum','canyon','escape','fidelity','flora','kepler','leaf','noir','outofthebox'];
+          if (typeof result.wallpaper === 'number' && result.wallpaper < old.length) result.wallpaper = ['architecture','bubblegum','canyon','chroma','escape','fidelity','flora','kepler','leaf','noir','outofthebox'].indexOf(old[result.wallpaper]);
+          result.wallpaperRevision = 1;
+        }
+      }]
+    ]);
   }
   let data = load();
   AndroidState.onProblem(problem => setTimeout(() => toast(i18n.t({unreadable: 'The saved data could not be read, so the phone started fresh. A copy of it was kept.', repaired: 'Some saved data was damaged and has been reset.', upgrade: 'Your saved data was kept, but part of it could not be updated.', unsaved: 'Changes can’t be saved: this browser’s storage is full or turned off.'}[problem.kind])), 1200));

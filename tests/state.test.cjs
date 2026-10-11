@@ -18,4 +18,7 @@ const D={layout:2,settings:{wifi:true},photos:[1,2],name:'Nexus'};
 {const {S}=make({},true);const seen=[];S.onProblem(p=>seen.push(p.kind));assert.equal(S.save('k',{a:1}),false);S.save('k',{a:2});assert.deepEqual(seen,['unsaved']);}
 // A listener added later still hears the problems found while loading.
 {const {S}=make({k:'nope'});S.load('k',D);const seen=[];S.onProblem(p=>seen.push(p.kind));assert.deepEqual(seen,['unreadable']);}
+// Upgrade steps run in order on the merged save; one that throws is reported by name and the next one still runs.
+{const {S}=make({k:JSON.stringify({layout:1})});const d=S.load('k',D,undefined,[['first',r=>{r.layout++;}],['broken',()=>{throw new Error('x');}],['third',(r,saved)=>{r.from=saved.layout;}]]);
+ assert.equal(d.layout,2);assert.equal(d.from,1);assert.equal(S.problems[0].kind,'upgrade');assert.match(S.problems[0].detail,/^broken: x/);}
 console.log('state ok');
