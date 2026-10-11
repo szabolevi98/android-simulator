@@ -235,7 +235,7 @@
 
   // ---- Play Books 2.3.6 ----
   // BooksTablet.apk's own strings (stock-strings.js, group books).
-  const BS = (lang, key) => { const row = window.StockStrings?.books?.[key], i = LANGS.indexOf(lang); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
+  const BS = (lang, key) => { const row = window.StockStrings?.books?.[key]; return row ? AndroidStrings.pick(row, lang, key) : key; };
   const BOOKS = [
     {id: "b1", title: "Alice’s Adventures in Wonderland", author: "Lewis Carroll", pages: [
       "CHAPTER I.\nDown the Rabbit-Hole",

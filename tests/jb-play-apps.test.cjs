@@ -17,7 +17,7 @@ assert.deepEqual([...P.drawer(ctx('play-books')).matchAll(/<button[^>]*>([^<]*)<
 // menu/home.xml overflow: Sort only in My Library.
 assert.equal(JSON.stringify(P.menu(ctx('play-books')).map(i=>i.title)),JSON.stringify(['Refresh','Settings','Help']));
 assert.equal(JSON.stringify(P.menu(ctx('play-books',{paPage:{'play-books':'library'}})).map(i=>i.title)),JSON.stringify(['Sort','Refresh','Settings','Help']));
-assert.equal(P.menu(ctx('play-books',{},'hu'))[0].title,w.window.StockStrings.books.Refresh[0]);
+assert.equal(P.menu(ctx('play-books',{},'hu'))[0].title,w.window.StockStrings.books.Refresh.hu);
 const reader=P.render(ctx('play-books',{sub:'reader',paItem:'b2'}));
 assert.ok(reader.includes('bk28-ic_ab_back_holo_light.png')&&reader.includes('Pride and Prejudice')&&!reader.includes('‹'));
 // Play Movies 2.5.4: "Google Play", the three verticals as tabs, My movies + Suggestions, the menus in insertion order.

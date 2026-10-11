@@ -205,7 +205,7 @@
   const settingIcon = (id, fallback) => ui.view === 'settings' && ['wireless','bluetooth','data','sound','display','storage','battery','apps','language','date','about','sync','location','security','backup','accessibility','development'].includes(id) ? `<img src="assets/setting-${id}.png${id === 'bluetooth' ? '?v=2' : ''}" alt="">` : fallback;
   const row = (title, subtitle, action, id, icon = '') => `<button class="settings-row" data-action="${action}" data-id="${safe(id)}"><span class="row-icon">${icon === null ? '' : settingIcon(id, icon)}</span><span class="row-copy">${safe(title)}${subtitle ? `<small>${safe(subtitle)}</small>` : ''}</span><span class="chevron">›</span></button>`;
   // Accessibility texts from the image's Settings (stock-strings.js).
-  const A11Y = key => { const row = window.StockStrings?.a11y?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : i18n.t(key); };
+  const A11Y = key => { const row = window.StockStrings?.a11y?.[key]; return row ? AndroidStrings.pick(row, i18n.language, key) : i18n.t(key); };
   // Touch & hold delay: Settings' long_press_timeout_selector values (500 / 1000 / 1500 ms); the simulator's own
   // long-press timers stretch by the same amount.
   const HOLD = [500, 1000, 1500], HOLD_NAMES = ['Short', 'Medium', 'Long'];
@@ -1075,7 +1075,7 @@
      quarter, and the CalculatorViewPager's simple_pad.xml / advanced_pad.xml (weights 3 : 1.5 : 10). button_style 40 dp on
      btn_function, digit_button_style on btn_digit, button_small_style 30 dp for sin, cos, tan, ln and log; 1 dp gaps. The
      labels are the image's (strings.xml: "sen" in Spanish, "E" in French). */
-  const CALC = key => { const row = window.StockStrings?.calculator?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
+  const CALC = key => { const row = window.StockStrings?.calculator?.[key]; return row ? AndroidStrings.pick(row, i18n.language, key) : key; };
   function renderCalculator() {
     const basic = ['7','8','9','÷','4','5','6','×','1','2','3','−','.','0','=','+'];
     const advanced = ['sin','cos','tan','ln','log','!','π','e','^','(',')','√'], small = ['sin','cos','tan','ln','log'];
@@ -1197,7 +1197,7 @@
       if (action === 'news-tab') { ui.newsTab = id; render(); return; }
       if (action === 'sa-menu') { ui.mapsMenu = ''; ui.overlay = 'sa-menu'; renderOverlay(); return; }
       // News & Weather: Refresh records the time the refresh status shows; Settings, the story page and Share story.
-      if (action === 'sa-news-refresh') { ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(window.StockStrings?.news?.['Updating news topics…']?.[['hu', 'de', 'fr', 'es'].indexOf(i18n.language)] || 'Updating news topics…'); return; }
+      if (action === 'sa-news-refresh') { ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(AndroidStrings.pick(window.StockStrings?.news?.['Updating news topics…'], i18n.language, 'Updating news topics…')); return; }
       if (action === 'news-settings') { ui.overlay = ''; renderOverlay(); ui.newsSub = 'settings'; ui.nwpScreen = 'root'; ui.nwpDialog = ''; render(); return; }
       if (action === 'news-story') { ui.newsSub = 'story'; ui.newsStory = id; render(); return; }
       if (action === 'news-share') { ui.overlay = ''; renderOverlay(); const title = viewport.querySelector('.nwp-story h2')?.textContent || ''; openApp('messaging'); ui.sub = 'new'; messageDraft().body = title; save(); render(); return; }

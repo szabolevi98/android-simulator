@@ -255,7 +255,7 @@
   const locationMode = () => data.settings.gps && data.settings.networkLocation ? 'high' : data.settings.gps ? 'device' : 'battery';
   // Plain 4.3 preference rows (no icon or chevron); rows without their own screen explain that in a toast.
   // Accessibility texts from the image's Settings (stock-strings.js).
-  const A11Y = key => { const row = window.StockStrings?.a11y?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : i18n.t(key); };
+  const A11Y = key => { const row = window.StockStrings?.a11y?.[key]; return row ? AndroidStrings.pick(row, i18n.language, key) : i18n.t(key); };
   // Touch & hold delay: Settings' long_press_timeout_selector values (500 / 1000 / 1500 ms); the simulator's own
   // long-press timers stretch by the same amount.
   const HOLD = [500, 1000, 1500], HOLD_NAMES = ['Short', 'Medium', 'Long'];
@@ -1976,7 +1976,7 @@
       case 'gnow-reminder-spin': ui.gnowSpin = ui.gnowSpin === id ? '' : id; render(); break;
       case 'gnow-reminder-pick': { const [kind, value] = id.split(':'), next = {...ui.gnowDraft, [kind === 'day' ? 'day' : 'slot']: Number(value)}; ui.gnowSpin = ''; if (GELNow.draftReminder({...next, day: kind === 'day' ? next.day : 0, slot: kind === 'time' ? next.slot : 0}, deviceDate())) ui.gnowDraft = next; else toast('Not available in this demo'); render(); break; }
       case 'gnow-reminder-cancel': ui.gnowDraft = null; ui.gnowSpin = ''; render(); break;
-      case 'gnow-reminder-set': { const draft = ui.gnowDraft, when = draft && GELNow.draftReminder(draft, deviceDate()), title = String(draft?.title || '').trim(); if (!when || !title) break; const list = data.nowReminders ||= []; const item = list.find(r => r.id === draft.id); if (item) Object.assign(item, {title, ...when}); else list.push({id: 'r' + Date.now(), title, ...when}); ui.gnowDraft = null; ui.gnowSpin = ''; save(); render(); const row = window.StockStrings?.google?.['Reminder saved'], lang = ['hu', 'de', 'fr', 'es'].indexOf(i18n.locale().slice(0, 2)); toast(row ? (lang >= 0 ? row[lang] : row[4] || 'Reminder saved') : 'Reminder saved'); break; }
+      case 'gnow-reminder-set': { const draft = ui.gnowDraft, when = draft && GELNow.draftReminder(draft, deviceDate()), title = String(draft?.title || '').trim(); if (!when || !title) break; const list = data.nowReminders ||= []; const item = list.find(r => r.id === draft.id); if (item) Object.assign(item, {title, ...when}); else list.push({id: 'r' + Date.now(), title, ...when}); ui.gnowDraft = null; ui.gnowSpin = ''; save(); render(); toast(AndroidStrings.pick(window.StockStrings?.google?.['Reminder saved'], i18n.locale(), 'Reminder saved')); break; }
       case 'gnow-reminder-menu': ui.gnowDialog = id; render(); break;
       case 'gnow-reminder-delete': data.nowReminders = (data.nowReminders || []).filter(r => r.id !== id); ui.gnowDialog = ''; ui.gnowDraft = null; save(); render(); break;
       case 'gnow-dialog-close': ui.gnowDialog = ''; render(); break;
@@ -2523,7 +2523,7 @@
       }
       case 'lpx-open': ui.edFrom = ui.sub; ui.sub = id; render(); break;
       // Docs / Sheets / Slides: Add new opens an untitled file; the actions menu renames or removes one (Drive shows the same list).
-      case 'ed-new': { const kind = LPExtraApps.KIND[ui.view], E = key => window.StockStrings?.editors?.[key]?.[['hu', 'de', 'fr', 'es'].indexOf(i18n.language)] || key, base = E(LPExtraApps.UNTITLED[kind]), names = new Set(officeFiles().map(f => f.name)); let name = base, n = 2; while (names.has(name)) name = `${base} (${n++})`;
+      case 'ed-new': { const kind = LPExtraApps.KIND[ui.view], E = key => AndroidStrings.pick(window.StockStrings?.editors?.[key], i18n.language, key), base = E(LPExtraApps.UNTITLED[kind]), names = new Set(officeFiles().map(f => f.name)); let name = base, n = 2; while (names.has(name)) name = `${base} (${n++})`;
         const file = {id: `e${Date.now().toString(36)}`, name, kind, date: deviceDate().toLocaleDateString(i18n.locale(), {month: 'short', day: 'numeric'}), age: 0, text: ''}; data.driveFiles = [file, ...officeFiles()]; save(); ui.edFrom = ui.sub; ui.sub = file.id; render(); break; }
       case 'ed-item': ui.edFile = id; ui.overlay = 'ed-menu'; renderOverlay(); break;
       case 'ed-rename': ui.overlay = 'ed-rename'; renderOverlay(); overlayRoot.querySelector('[data-ed-name]')?.select(); break;

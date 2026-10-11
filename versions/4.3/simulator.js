@@ -241,7 +241,7 @@
   const label = text => `<div class="section-label">${safe(text)}</div>`;
   // Plain 4.3 preference rows (no icon or chevron); rows without their own screen explain that in a toast.
   // Accessibility texts from the image's Settings (stock-strings.js).
-  const A11Y = key => { const row = window.StockStrings?.a11y?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : i18n.t(key); };
+  const A11Y = key => { const row = window.StockStrings?.a11y?.[key]; return row ? AndroidStrings.pick(row, i18n.language, key) : i18n.t(key); };
   // Touch & hold delay: Settings' long_press_timeout_selector values (500 / 1000 / 1500 ms); the simulator's own
   // long-press timers stretch by the same amount.
   const HOLD = [500, 1000, 1500], HOLD_NAMES = ['Short', 'Medium', 'Long'];
@@ -867,7 +867,7 @@
     } else if (ui.overlay === 'jba-picker' && ui.jbaPicker) {
       overlayRoot.innerHTML = JBAlarms.picker(ui.jbaPicker, {hour24: !!data.settings.hour24});
     } else if (ui.overlay === 'jba-menu') {
-      const A = key => { const row = window.AlarmStrings?.[key]; return row ? row[i18n.language] || row.en : key; };
+      const A = key => AndroidStrings.table('', window.AlarmStrings || {}).t(key, i18n.language);
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu" data-no-translate>${['menu_item_settings', 'menu_item_help'].map(key => `<button data-action="toast" data-id="This feature is not part of the simulator.">${safe(A(key))}</button>`).join('')}</div>`;
     } else if (ui.overlay === 'jbclock-cities-menu') {
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu">${[['toast', 'Settings'], ['toast', 'Help']].map(([action, label]) => `<button data-action="${action}"${action === 'toast' ? ' data-id="Not available in this demo"' : ''}>${safe(i18n.t(label))}</button>`).join('')}</div>`;
@@ -2046,7 +2046,7 @@
       case 'news-tab': ui.newsTab = id; render(); break;
       case 'sa-menu': ui.mapsMenu = ''; ui.overlay = 'sa-menu'; renderOverlay(); break;
       // News & Weather: Refresh records the time the refresh status shows; Settings, the story page and Share story.
-      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(window.StockStrings?.news?.['Updating news topics…']?.[['hu', 'de', 'fr', 'es'].indexOf(i18n.language)] || 'Updating news topics…'); break;
+      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(AndroidStrings.pick(window.StockStrings?.news?.['Updating news topics…'], i18n.language, 'Updating news topics…')); break;
       case 'news-settings': ui.overlay = ''; renderOverlay(); ui.newsSub = 'settings'; ui.nwpScreen = 'root'; ui.nwpDialog = ''; render(); break;
       case 'news-story': ui.newsSub = 'story'; ui.newsStory = id; render(); break;
       case 'news-share': { ui.overlay = ''; renderOverlay(); const title = viewport.querySelector('.nwp-story h2')?.textContent || ''; openApp('messaging'); ui.sub = 'new'; messageDraft().body = title; save(); render(); break; }
@@ -3027,7 +3027,7 @@
   let jbaSwipe = null;
   viewport.addEventListener('pointerdown', event => { const card = event.target.closest('[data-jba-swipe]'); if (!card || event.target.closest('.jba-expand,.holo-switch')) return; jbaSwipe = {card, x: event.clientX, y: event.clientY, dx: 0}; });
   window.addEventListener('pointermove', event => { if (!jbaSwipe) return; const dx = event.clientX - jbaSwipe.x; if (Math.abs(event.clientY - jbaSwipe.y) > 24 && Math.abs(dx) < 24) { jbaSwipe.card.style.transform = ''; jbaSwipe = null; return; } jbaSwipe.dx = dx; if (Math.abs(dx) > 12) { jbaSwipe.card.style.transition = 'none'; jbaSwipe.card.style.transform = `translateX(${dx}px)`; jbaSwipe.card.style.opacity = String(Math.max(.2, 1 - Math.abs(dx) / jbaSwipe.card.offsetWidth)); } });
-  window.addEventListener('pointerup', () => { if (!jbaSwipe) return; const {card, dx} = jbaSwipe; jbaSwipe = null; card.style.transition = ''; if (Math.abs(dx) > card.offsetWidth * .4) { const id = Number(card.dataset.jbaSwipe); data.alarms = data.alarms.filter(alarm => alarm.id !== id); if (ui.jbaExpanded === id) ui.jbaExpanded = null; save(); render(); const row = window.AlarmStrings?.alarm_deleted; toast(row ? row[i18n.language] || row.en : 'Alarm deleted.'); suppressClickUntil = Date.now() + 350; } else { card.style.transform = ''; card.style.opacity = ''; if (Math.abs(dx) > 12) suppressClickUntil = Date.now() + 350; } });
+  window.addEventListener('pointerup', () => { if (!jbaSwipe) return; const {card, dx} = jbaSwipe; jbaSwipe = null; card.style.transition = ''; if (Math.abs(dx) > card.offsetWidth * .4) { const id = Number(card.dataset.jbaSwipe); data.alarms = data.alarms.filter(alarm => alarm.id !== id); if (ui.jbaExpanded === id) ui.jbaExpanded = null; save(); render(); toast(window.AlarmStrings?.alarm_deleted ? AndroidStrings.table('', window.AlarmStrings).t('alarm_deleted', i18n.language) : 'Alarm deleted.'); suppressClickUntil = Date.now() + 350; } else { card.style.transform = ''; card.style.opacity = ''; if (Math.abs(dx) > 12) suppressClickUntil = Date.now() + 350; } });
   screen.addEventListener('contextmenu', event => {
     if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
     event.preventDefault();

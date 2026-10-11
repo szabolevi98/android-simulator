@@ -34,7 +34,7 @@
   const icon=(action,label,file,id='')=>`<button data-action="${action}" data-id="${e(id)}" aria-label="${e(label)}"><img src="assets/${file}" alt=""></button>`;
   // Gallery2's own strings (stock-strings.js, group gallery): crop_action, crop_label, menu/crop.xml's cancel and
   // crop_save_text, saving_image.
-  const G=(key,lang)=>{const row=window.StockStrings?.gallery?.[key],i=['hu','de','fr','es'].indexOf(lang);return row?(i>=0?row[i]:row[4]||key):key;};
+  const G=(key,lang)=>{const row=window.StockStrings?.gallery?.[key];return row ? AndroidStrings.pick(row, lang, key) :key;};
   // CropImage (com.android.gallery3d.app): the overlay action bar titled crop_label with menu/crop.xml's Cancel and Crop
   // (ifRoom|withText), and the CropView: the picture fitted to the view, HighlightRectangle's selection (setInitRectangle:
   // 0.3 either side of the centre on both axes when no aspect is asked for) outlined 3 px #008aff over a #a0000000
@@ -91,7 +91,7 @@
      second level on indicator_background #40000000: btn_close_settings, then Camera.initializeIndicatorControl's keys
      (flash, white balance, exposure, scene mode, each IconListPreference's icon) and ic_menu_overflow for the other
      settings (store location, picture size, focus mode). camera_preferences.xml's titles, entries and icons. */
-  const CS=(key,lang)=>{const row=window.StockStrings?.camera?.[key],i=['hu','de','fr','es'].indexOf(lang||window.AndroidI18n?.language);return row?(i>=0?row[i]:row[4]||key):key;};
+  const CS=(key,lang)=>{const row=window.StockStrings?.camera?.[key];return row ? AndroidStrings.pick(row, lang||window.AndroidI18n?.language, key) :key;};
   const PREF={
     flash:{title:'pref_camera_flashmode_title',values:['auto','on','off'],entries:['flashmode_entry_auto','flashmode_entry_on','flashmode_entry_off'],icons:['ic_flash_auto_holo_light','ic_flash_on_holo_light','ic_flash_off_holo_light']},
     balance:{title:'pref_camera_whitebalance_title',values:['auto','incandescent','daylight','fluorescent','cloudy-daylight'],entries:['whitebalance_entry_auto','whitebalance_entry_incandescent','whitebalance_entry_daylight','whitebalance_entry_fluorescent','whitebalance_entry_cloudy'],icons:['ic_white_balance_auto_holo_light','ic_white_balance_incandescent_holo_light','ic_white_balance_sunlight_holo_light','ic_white_balance_fluorescent_holo_light','ic_white_balance_cloudy_holo_light']},

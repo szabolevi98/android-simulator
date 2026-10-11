@@ -22,8 +22,8 @@
   const ME = {x: 180, y: 300};
   const A = name => `assets/mp7r-${name}.png`;
   function S(ctx, key) {
-    const row = window.StockStrings?.maps?.[key], i = LANGS.indexOf(String(ctx.locale || 'en').slice(0, 2));
-    return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key);
+    const row = window.StockStrings?.maps?.[key];
+    return row ? AndroidStrings.pick(row, String(ctx.locale || 'en').slice(0, 2), key) : ctx.t(key);
   }
   const fmt = (pattern, ...args) => args.reduce((s, a, i) => s.replace(`%${i + 1}$s`, a), pattern).replace('%s', args[0]).replace('%d', args[0]);
   function distance(ctx, km) {

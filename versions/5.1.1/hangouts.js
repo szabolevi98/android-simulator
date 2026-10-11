@@ -4,7 +4,7 @@
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const AVATAR = 'assets/people-ic_contact_picture_holo_light.png';
   // Hangouts.apk's own texts (stock-strings.js, group hangouts), then the image's.
-  const H = (t, key) => { const row = window.StockStrings?.hangouts?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(globalThis.document?.documentElement?.lang || '').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
+  const H = (t, key) => { const row = window.StockStrings?.hangouts?.[key]; return row ? AndroidStrings.pick(row, String(globalThis.document?.documentElement?.lang || '').slice(0, 2), key) : t(key); };
   // A conversation stays archived until something newer than the archiving arrives in it (conversation_archived).
   const isArchived = (data, thread) => { const at = data.hgArchived?.[thread.key]; return !!at && !(thread.last?.timestamp > at); };
   // EsApplication.y(): 1, 2, 4, 8, 24 and 72 hours (plurals/dnd_hours).

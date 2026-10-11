@@ -6,7 +6,7 @@ for(const [v,third] of [['4.4.4','Weekend'],['5.1.1','Occasionally']]){
   vm.runInNewContext(fs.readFileSync(`versions/${v}/stock-strings.js`,'utf8'),w);
   vm.runInNewContext(fs.readFileSync(`versions/${v}/gel-now.js`,'utf8'),w);
   const N=w.window.GELNow,now=new Date(2026,9,7,19,7),t=k=>k;
-  assert.equal(w.window.StockStrings.google['Day 2'][4],third,v);
+  assert.equal(w.window.StockStrings.google['Day 2'].en,third,v);
   // A new draft starts on the next symbolic time (Night, 20:00, at 19:07), or tomorrow morning after it.
   assert.deepEqual({...N.draftFrom(null,now)},{title:'',day:0,slot:3});
   assert.deepEqual({...N.draftFrom(null,new Date(2026,9,7,21,0))},{title:'',day:1,slot:0});

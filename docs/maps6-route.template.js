@@ -14,13 +14,12 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   // Maps 7.5 (KTU84P) texts for what the image does not carry.
   const KK = {
-    'Avoid highways': ['Autópályák elkerülése', 'Autobahnen vermeiden', 'Éviter les autoroutes', 'Evitar autopistas'],
-    'Avoid tolls': ['Fizetős utak elkerülése', 'Mautstraßen vermeiden', 'Éviter les péages', 'Evitar peajes'],
-    'From': ['Innen', 'Von', 'De', 'Desde'],
-    'To': ['Ide', 'Nach', 'À', 'Hasta']
+    'Avoid highways': {res: 'Maps:DIRECTIONS_OPTIONS_AVOID_HIGHWAYS', hu: 'Autópályák elkerülése', de: 'Autobahnen vermeiden', fr: 'Éviter les autoroutes', es: 'Evitar autopistas'},
+    'Avoid tolls': {res: 'Maps:DIRECTIONS_OPTIONS_AVOID_TOLLS', hu: 'Fizetős utak elkerülése', de: 'Mautstraßen vermeiden', fr: 'Éviter les péages', es: 'Evitar peajes'},
+    'From': {res: 'Maps:DIRECTIONS_OMNIBOX_FROM', hu: 'Kiindulópont:', de: 'Von', fr: 'De', es: 'Desde'},
+    'To': {res: 'Maps:DIRECTIONS_OMNIBOX_TO', hu: 'Úti cél:', de: 'Nach', fr: 'À', es: 'Hasta'}
   };
   const MODES = [['drive', 'driving', 'mode_drive'], ['transit', 'transit', 'mode_transit_icon'], ['bike', 'bike', 'mode_biking'], ['walk', 'walk', 'mode_walking']];
   const STREETS = ['Market St', 'River St', 'Park Ave', 'Bay Rd'];
@@ -28,10 +27,8 @@
   const A = name => `assets/mp6r-${name}.png`;
   // The image's own strings (stock-strings.js, group maps), then Maps 7.5's for the missing ones, then the interface's.
   function S(ctx, key) {
-    const row = window.StockStrings?.maps?.[key], i = LANGS.indexOf(String(ctx.locale || 'en').slice(0, 2));
-    if (row) return i >= 0 ? row[i] : row[4] || key;
-    if (KK[key]) return i >= 0 ? KK[key][i] : key;
-    return ctx.t(key);
+    const row = window.StockStrings?.maps?.[key] || KK[key];
+    return row ? AndroidStrings.pick(row, String(ctx.locale || 'en'), key) : ctx.t(key);
   }
   const fmt = (pattern, ...args) => args.reduce((s, a, i) => s.replace(`%${i + 1}$s`, a).replace(`{${i}}`, a), pattern);
   function distance(ctx, km) {

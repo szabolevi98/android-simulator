@@ -15,7 +15,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const P = (ctx, key) => { const row = window.StockStrings?.photos?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
+  const P = (ctx, key) => { const row = window.StockStrings?.photos?.[key]; return row ? AndroidStrings.pick(row, String(ctx.locale || 'en').slice(0, 2), key) : ctx.t(key); };
   const newest = photos => [...photos].sort((a, b) => (b.created || b.id || 0) - (a.created || a.id || 0));
   const VIEWS = [['photos', 'Photos', 'photo_library'], ['albums', 'Albums', 'photo_album'], ['auto-awesome', 'Auto Awesome', 'auto_awesome'], ['videos', 'Videos', 'play_circle_fill'], ['of-you', 'Photos of you', 'tag_faces'], ['folders', 'On device', 'folder'], ['trash', 'Trash', 'delete']];
   const thumb = (ctx, photo, list) => `<button class="ph-thumb" data-action="photos-open" data-id="${photo.id}" data-list="${list}" aria-label="${e(photo.name)}"><img src="${ctx.media.image(photo)}" alt="">${window.GPVideo.tile(photo)}</button>`;

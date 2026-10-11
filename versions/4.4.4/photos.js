@@ -17,7 +17,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const P = (ctx, key) => { const row = window.StockStrings?.photos?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
+  const P = (ctx, key) => { const row = window.StockStrings?.photos?.[key]; return row ? AndroidStrings.pick(row, String(ctx.locale || 'en').slice(0, 2), key) : ctx.t(key); };
   const newest = photos => [...photos].sort((a, b) => (b.created || b.id || 0) - (a.created || a.id || 0));
   // photo_spinner_*: the home spinner's views, with the nav icons the APK has for them.
   const VIEWS = [['photos', 'Photos', ''], ['of-you', 'Photos of you', 'ic_photos_of_you_nav_20'], ['albums', 'Albums', 'ic_albums_nav_20'], ['auto-awesome', 'Auto Awesome', 'ic_auto_awesome_nav_20'], ['videos', 'Videos', ''], ['trash', 'Trash', 'ic_trash_dark_grey_20']];

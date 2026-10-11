@@ -151,7 +151,7 @@
   // (the popup under the spinner, 48 dp rows) sets the hidden input the form submits.
   // Guests, Show me as, Privacy (Visibility on 5.1) and the time zone (audit step 6), in the APK's words
   // (stock-strings.js, group calendar). TimezoneAdapter's rows read "(GMT+1:00) Amsterdam" (calendar-timezones.js).
-  const CS=key=>{const row=window.StockStrings?.calendar?.[key],i=['hu','de','fr','es'].indexOf(window.AndroidI18n?.language);return row?(i>=0?row[i]:row[4]||key):key;};
+  const CS=key=>{const row=window.StockStrings?.calendar?.[key];return row ? AndroidStrings.pick(row, window.AndroidI18n?.language, key) :key;};
   const zoneMinutes=(tz,date)=>{try{const p=new Intl.DateTimeFormat('en-US',{timeZone:tz,timeZoneName:'longOffset'}).formatToParts(date).find(x=>x.type==='timeZoneName')?.value||'GMT';const m=p.match(/([+-])(\d+):?(\d*)/);return m?(m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3]||0)):0;}catch{return 0;}};
   const zoneLabel=(tz,date)=>{const col=1+Math.max(0,['en','hu','de','fr','es'].indexOf(window.AndroidI18n?.language||'en')),row=(window.CalendarTimezones||[]).find(item=>item[0]===tz),m=zoneMinutes(tz,date);return `(GMT${m<0?'-':'+'}${Math.floor(Math.abs(m)/60)}:${String(Math.abs(m)%60).padStart(2,'0')}) ${row?row[col]:tz.split('/').pop().replace(/_/g,' ')}`;};
   const deviceZone=data=>{try{return window.ICSSystemSettings?.zone?.(data)||Intl.DateTimeFormat().resolvedOptions().timeZone;}catch{return Intl.DateTimeFormat().resolvedOptions().timeZone;}};

@@ -43,6 +43,8 @@ for version, cfg in VERSIONS.items():
     for lang in LANGS:
         p = pak(cfg['apk'], lang + '.pak')
         for key, rid in ids.items(): data[key].append(clean(p[rid]))
+    # The named form strings.js reads; res is the message id in the .pak files of this build.
+    data = {key: {'res': f"Chrome:pak/{ids[key]}", **dict(zip(('en', 'hu', 'de', 'fr', 'es'), texts))} for key, texts in data.items()}
     # The NTP page's images (data: URIs in resources.pak): the 2x document / folder favicon boxes, the default
     # thumbnail and the incognito icon.
     # Chrome 32 keeps the page in resources.pak, Chrome 27 in chrome.pak.

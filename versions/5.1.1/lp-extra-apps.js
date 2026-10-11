@@ -21,7 +21,7 @@
     doc: '<svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5zM8 12h8v1.5H8zm0 3h8v1.5H8zm0 3h5v1.5H8z" fill="currentColor"/></svg>'
   };
   // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
-  const S = (app, key, t, locale) => { const row = window.StockStrings?.[app]?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
+  const S = (app, key, t, locale) => { const row = window.StockStrings?.[app]?.[key]; return row ? AndroidStrings.pick(row, String(locale || 'en').slice(0, 2), key) : t(key); };
   /* Fit 1.51 and Wallet 8.0 keep their plurals as ICU MessageFormat ("{count, plural, =1 {1 min} other {# min}}", with
      {activity} arguments; MessageFormatter.a): a small formatter for the patterns of the image's translations. */
   function icu(pattern, args, locale) {

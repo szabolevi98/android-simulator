@@ -19,7 +19,7 @@ def main(device):
     for en, rows in index.items():
         for apk, name, tr in rows:
             if apk.startswith('DeskClock') and (name in KEYS or name in OPTIONAL):
-                found[name] = {'en': en, **{k: v for k, v in tr.items() if v}}
+                found[name] = {'res': f'{apk}:{name}', 'en': en, **{k: v for k, v in tr.items() if v}}
     missing = [k for k in KEYS if k not in found]
     if missing: sys.exit(f'{device}: missing {missing}')
     table = {k: found[k] for k in KEYS + OPTIONAL if k in found}

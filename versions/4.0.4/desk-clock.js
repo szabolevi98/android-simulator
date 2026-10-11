@@ -65,7 +65,7 @@
   }
   // The ringing alarm, in this image's DeskClock words (alarm-strings.js).
   const e=escape;
-  const A=key=>{const row=window.AlarmStrings?.[key];return row?row[window.AndroidI18n?.language]||row.en:key;};
+  const A=key=>AndroidStrings.table('',window.AlarmStrings||{}).t(key);
   function ringParts(alarm,{hour24=true,locale='en-US'}={}) {
     const [h,m]=String(alarm?.time||'0:00').split(':').map(Number),d=new Date(2000,0,1,h||0,m||0);
     const ampm=hour24?'':new Intl.DateTimeFormat(locale,{hour:'numeric',hour12:true}).formatToParts(d).find(p=>p.type==='dayPeriod')?.value||(h<12?'AM':'PM');

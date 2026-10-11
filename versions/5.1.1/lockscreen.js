@@ -62,7 +62,7 @@
        ConfirmLockPassword (the two-line header, the 24 sp bold field, the segmented borderless button bar; the confirm
        screen has Cancel / Next). Their PasswordEntryKeyboardView stays gone, so the system keyboard comes up for the field.
        Texts are this image's (lock-strings.js); stages follow ChooseLockPattern.Stage and ChooseLockPassword. */
-    const L=key=>{const row=window.LockStrings?.[key];return row?row[window.AndroidI18n?.language]||row.en:key;};
+    const L=key=>AndroidStrings.table('',window.LockStrings||{}).t(key);
     function setupHeader(){
       if(state.kind==='pattern'){
         if(state.stage==='verify')return L(state.error?'lockpattern_need_to_unlock_wrong':'lockpattern_need_to_unlock');

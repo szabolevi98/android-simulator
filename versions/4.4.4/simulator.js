@@ -242,7 +242,7 @@
   const locationMode = () => data.settings.gps && data.settings.networkLocation ? 'high' : data.settings.gps ? 'device' : 'battery';
   // Plain 4.3 preference rows (no icon or chevron); rows without their own screen explain that in a toast.
   // Accessibility texts from the image's Settings (stock-strings.js).
-  const A11Y = key => { const row = window.StockStrings?.a11y?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : i18n.t(key); };
+  const A11Y = key => { const row = window.StockStrings?.a11y?.[key]; return row ? AndroidStrings.pick(row, i18n.language, key) : i18n.t(key); };
   // Touch & hold delay: Settings' long_press_timeout_selector values (500 / 1000 / 1500 ms); the simulator's own
   // long-press timers stretch by the same amount.
   const HOLD = [500, 1000, 1500], HOLD_NAMES = ['Short', 'Medium', 'Long'];
@@ -702,7 +702,7 @@
   }
   // Drive's files as the apps change them (Quickoffice, Drive).
   const officeFiles = () => data.driveFiles || StockApps.FILES;
-  const QO = key => { const row = window.StockStrings?.quickoffice?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
+  const QO = key => { const row = window.StockStrings?.quickoffice?.[key]; return row ? AndroidStrings.pick(row, i18n.language, key) : key; };
   function navigateBack() {
     if (ui.view === 'google-settings' && GMSSettings.back(ui)) { render(); return; }
     if (ui.view === 'quickoffice' && ui.sub === 'qo-new' && !ui.overlay) { ui.sub = ''; render(); return; }
@@ -1415,7 +1415,7 @@
      minWidth 89 dp, delDesc as its description) at its end, and the CalculatorViewPager's simple_pad.xml / advanced_pad.xml (weights 3 : 1.5 : 10). button_style 40 dp on
      btn_function, digit_button_style on btn_digit, button_small_style 30 dp for sin, cos, tan, ln and log; 1 dp gaps. The
      labels are the image's (strings.xml: "sen" in Spanish, "E" in French). */
-  const CALC = key => { const row = window.StockStrings?.calculator?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(i18n.language); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
+  const CALC = key => { const row = window.StockStrings?.calculator?.[key]; return row ? AndroidStrings.pick(row, i18n.language, key) : key; };
   function renderCalculator() {
     const basic = ['7','8','9','÷','4','5','6','×','1','2','3','−','.','0','=','+'];
     const advanced = ['sin','cos','tan','ln','log','!','π','e','^','(',')','√'], small = ['sin','cos','tan','ln','log'];
@@ -1620,7 +1620,7 @@
       case 'gnow-reminder-spin': ui.gnowSpin = ui.gnowSpin === id ? '' : id; render(); break;
       case 'gnow-reminder-pick': { const [kind, value] = id.split(':'), next = {...ui.gnowDraft, [kind === 'day' ? 'day' : 'slot']: Number(value)}; ui.gnowSpin = ''; if (GELNow.draftReminder({...next, day: kind === 'day' ? next.day : 0, slot: kind === 'time' ? next.slot : 0}, deviceDate())) ui.gnowDraft = next; else toast('Not available in this demo'); render(); break; }
       case 'gnow-reminder-cancel': ui.gnowDraft = null; ui.gnowSpin = ''; render(); break;
-      case 'gnow-reminder-set': { const draft = ui.gnowDraft, when = draft && GELNow.draftReminder(draft, deviceDate()), title = String(draft?.title || '').trim(); if (!when || !title) break; const list = data.nowReminders ||= []; const item = list.find(r => r.id === draft.id); if (item) Object.assign(item, {title, ...when}); else list.push({id: 'r' + Date.now(), title, ...when}); ui.gnowDraft = null; ui.gnowSpin = ''; save(); render(); const row = window.StockStrings?.google?.['Reminder saved'], lang = ['hu', 'de', 'fr', 'es'].indexOf(i18n.locale().slice(0, 2)); toast(row ? (lang >= 0 ? row[lang] : row[4] || 'Reminder saved') : 'Reminder saved'); break; }
+      case 'gnow-reminder-set': { const draft = ui.gnowDraft, when = draft && GELNow.draftReminder(draft, deviceDate()), title = String(draft?.title || '').trim(); if (!when || !title) break; const list = data.nowReminders ||= []; const item = list.find(r => r.id === draft.id); if (item) Object.assign(item, {title, ...when}); else list.push({id: 'r' + Date.now(), title, ...when}); ui.gnowDraft = null; ui.gnowSpin = ''; save(); render(); toast(AndroidStrings.pick(window.StockStrings?.google?.['Reminder saved'], i18n.locale(), 'Reminder saved')); break; }
       case 'gnow-reminder-menu': ui.gnowDialog = id; render(); break;
       case 'gnow-reminder-delete': data.nowReminders = (data.nowReminders || []).filter(r => r.id !== id); ui.gnowDialog = ''; ui.gnowDraft = null; save(); render(); break;
       case 'gnow-dialog-close': ui.gnowDialog = ''; render(); break;
@@ -1958,7 +1958,7 @@
       case 'gplus-refresh': ui.overlay = ''; renderOverlay(); render(); break;
       case 'sa-menu': ui.overlay = 'sa-menu'; renderOverlay(); break;
       // News & Weather: Refresh records the time the refresh status shows; Settings, the story page and Share story.
-      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(window.StockStrings?.news?.['Updating news topics…']?.[['hu', 'de', 'fr', 'es'].indexOf(i18n.language)] || 'Updating news topics…'); break;
+      case 'sa-news-refresh': ui.overlay = ''; renderOverlay(); NewsPrefs.refresh(data, deviceDate().getTime()); save(); render(); toast(AndroidStrings.pick(window.StockStrings?.news?.['Updating news topics…'], i18n.language, 'Updating news topics…')); break;
       case 'news-settings': ui.overlay = ''; renderOverlay(); ui.newsSub = 'settings'; ui.nwpScreen = 'root'; ui.nwpDialog = ''; render(); break;
       case 'news-story': ui.newsSub = 'story'; ui.newsStory = id; render(); break;
       case 'news-share': { ui.overlay = ''; renderOverlay(); const title = viewport.querySelector('.nwp-story h2')?.textContent || ''; openApp('hangouts'); ui.sub = 'new'; messageDraft().body = title; save(); render(); break; }

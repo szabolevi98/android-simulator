@@ -229,7 +229,7 @@
     // ICS-only pages (4.0.4), from the IMM76I Settings' preference XML and code.
     if(ICS){
       const info=(title,value,action='noop',id='')=>row(S(title),value,action,id);
-      const A11Y=k=>{const r=window.StockStrings?.a11y?.[k],i=['hu','de','fr','es'].indexOf(window.AndroidI18n?.language);return r?(i>=0?r[i]:r[4]||k):k;},na=S('Not available'),account=window.ICSGmail?.account||'icecream.demo@gmail.com';
+      const A11Y=k=>{const r=window.StockStrings?.a11y?.[k];return r ? AndroidStrings.pick(r, window.AndroidI18n?.language, k) :k;},na=S('Not available'),account=window.ICSGmail?.account||'icecream.demo@gmail.com';
       // device_info_settings.xml after DeviceInfoSettings: System updates (GoogleServicesFramework handles the intent),
       // Status, Legal information, then the read-only values; the additional update, safety legal and copyright entries
       // have no activity on the image and go.

@@ -15,7 +15,7 @@
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const account = 'nexus6.demo@gmail.com';
   // PrebuiltGmail's own words (stock-strings.js, group gmail): [hu, de, fr, es, English when it differs from the key].
-  const tr = (lang, key) => { const row = window.StockStrings?.gmail?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(lang); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
+  const tr = (lang, key) => { const row = window.StockStrings?.gmail?.[key]; return row ? AndroidStrings.pick(row, lang, key) : key; };
   const INBOX = ['Primary', 'Social', 'Promotions', 'Updates', 'Forums', 'Priority Inbox'];
   const LABELS = ['Starred', 'Important', 'Chats', 'Sent', 'Outbox', 'Drafts', 'All mail', 'Spam', 'Trash'];
   const FOLDERS = [...INBOX, ...LABELS];
@@ -43,7 +43,7 @@
      image's words (stock-strings.js). Values live in data.gmailPrefs. Inbox categories: Primary always, Social and
      Promotions on, Updates and Forums off by default; a category turned off sends its mail back to Primary and leaves
      the inbox, the drawer and the teaser. The signature (EditTextPreference) is added to new mail as "\n\n%s". */
-  const P = (lang, key) => { const row = window.StockStrings?.gmailprefs?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(lang); return row ? (i >= 0 ? row[i] : row[4] || key) : key; };
+  const P = (lang, key) => { const row = window.StockStrings?.gmailprefs?.[key]; return row ? AndroidStrings.pick(row, lang, key) : key; };
   const GENERAL = [['list', 'removal-action', 'Archive & delete actions', ['Archive', 'Delete'], 0], ['check', 'swipe', 'Swipe to archive', 'In conversation list', true], ['check', 'sender-image', 'Sender image', 'Sender image summary', true], ['check', 'reply-all', 'Reply all', 'Reply all summary', false], ['check', 'auto-fit', 'Auto-fit messages', 'Auto-fit summary', true], ['list', 'auto-advance', 'Auto-advance', ['Newer', 'Older', 'Conversation list'], 2], ['cat', 'Action Confirmations'], ['check', 'confirm-delete', 'Confirm before deleting', '', false], ['check', 'confirm-archive', 'Confirm before archiving', '', false], ['check', 'confirm-send', 'Confirm before sending', '', false]];
   const ACCOUNT = [['list', 'inbox-type', 'Inbox type', ['Default Inbox', 'Priority Inbox'], 0], ['screen', 'categories', 'Inbox categories'], ['check', 'notifications', 'Notifications', '', true], ['unsupported', 'sound', 'Inbox sound & vibrate'], ['signature'], ['unsupported', 'vacation', 'Vacation responder'], ['cat', 'Data usage'], ['check', 'sync', 'Sync Gmail', '', true], ['unsupported', 'days', 'Days of mail to sync'], ['unsupported', 'labels', 'Manage labels'], ['check', 'prefetch', 'Download attachments', 'Download attachments summary', true], ['list', 'images', 'Images', ['Always show', 'Ask before showing'], 0]];
   const CATEGORIES = [['fixed', 'primary', 'Primary', 'Primary summary'], ['check', 'social', 'Social', 'Social summary', true], ['check', 'promotions', 'Promotions', 'Promotions summary', true], ['check', 'updates', 'Updates', 'Updates summary', false], ['check', 'forums', 'Forums', 'Forums summary', false], ['cat', 'Starred category'], ['check', 'starred', 'Include starred in Primary', 'Changes appear after sync', false]];

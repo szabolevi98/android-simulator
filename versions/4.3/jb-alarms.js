@@ -11,7 +11,7 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const A = key => { const row = window.AlarmStrings?.[key]; return row ? row[window.AndroidI18n?.language] || row.en : key; };
+  const A = key => AndroidStrings.table('', window.AlarmStrings || {}).t(key);
   const pad = n => String(n).padStart(2, '0');
   // Alarm.DaysOfWeek on the cards: Sunday first in en-US; stored days are 0 = Monday ... 6 = Sunday (desk-clock.js).
   const ORDER = [6, 0, 1, 2, 3, 4, 5];

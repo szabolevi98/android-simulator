@@ -23,9 +23,8 @@
   const internal = url => String(url).startsWith('chrome://');
   const img = (name, alt = '') => `<img src="assets/c32-${name}.png" alt="${e(alt)}">`;
   // The image's words: the APK's strings (stock-strings.js, group chrome), resources.pak's (chrome-pak.js).
-  const lang = ctx => ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2));
-  const CS = (ctx, key) => { const row = window.StockStrings?.chrome?.[key], i = lang(ctx); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
-  const PAK = (ctx, key) => { const row = window.ChromePak?.[key]; return row ? row[lang(ctx) + 1] ?? row[0] : key; };
+  const CS = (ctx, key) => { const row = window.StockStrings?.chrome?.[key]; return row ? AndroidStrings.pick(row, String(ctx.locale || 'en'), key) : ctx.t(key); };
+  const PAK = (ctx, key) => AndroidStrings.pick(window.ChromePak?.[key], String(ctx.locale || 'en'), key);
   // ToolbarPhone.updateTabCountVisuals: the count, ":)" past two digits.
   const tabsButton = (ctx, count, light = false) => { const text = count > 99 ? ':)' : String(count); return `<button type="button" class="chr-btn chr-tabs-btn${light ? ' light' : ''}" data-action="browser-tabs" aria-label="${e(CS(ctx, '%1$d open tabs button.').replace('%1$d', count))}"><span class="${text.length > 1 ? 'two' : ''}">${e(text)}</span></button>`; };
   const menuButton = (ctx, light = false) => `<button type="button" class="chr-btn chr-menu-btn" data-action="browser-menu" aria-label="${e(CS(ctx, 'More options'))}">${img(light ? 'menu_btn_bg_light' : 'menu_btn_bg')}</button>`;

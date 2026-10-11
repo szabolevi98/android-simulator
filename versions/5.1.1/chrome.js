@@ -71,7 +71,7 @@
     headers: [['signin', 'Sign in to Chrome'], ['cat', 'Basics'], ['search_engine', 'Search engine', 'Google'], ['tabs_apps', 'Merge tabs and apps'], ['autofill', 'Autofill forms'], ['passwords', 'Save passwords'], ['homepage', 'Home page'], ['cat', 'Advanced'], ['privacy', 'Privacy'], ['accessibility', 'Accessibility'], ['content', 'Content settings'], ['bandwidth', 'Reduce data usage'], ['about', 'About Chrome']],
     privacy: [['check', 'navigation_error', 'Navigation error suggestions', 'Navigation error summary'], ['check', 'search_suggestions', 'Search and URL suggestions', 'Search suggestions summary'], ['screen', 'contextual', 'Touch to Search'], ['list', 'network_predictions', 'Network action predictions', ['Always', 'Only on Wi-Fi', 'Never'], 1], ['list', 'crash', 'Usage and crash reports', ['Always send', 'Only send on Wi-Fi', 'Never send'], 2], ['screen', 'dnt', "'Do Not Track'", 'Off']],
     topMenu: [['chrome-unsupported', 'Help']], clearInBar: false};
-  const CS = (ctx, key) => { const row = window.StockStrings?.chrome?.[key], i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)); return row ? (i >= 0 ? row[i] : row[4] || key) : ctx.t(key); };
+  const CS = (ctx, key) => { const row = window.StockStrings?.chrome?.[key]; return row ? AndroidStrings.pick(row, String(ctx.locale || 'en').slice(0, 2), key) : ctx.t(key); };
   const CLEAR_ITEMS = [['history', 'Clear browsing history', true], ['cache', 'Clear the cache', true], ['cookies', 'Clear cookies, site data', true], ['passwords', 'Clear saved passwords', false], ['formdata', 'Clear autofill data', false]];
   const prefValue = (ctx, key, fallback) => (ctx.data.chromePrefs || {})[key] ?? fallback;
   function clearDialog(ctx) {

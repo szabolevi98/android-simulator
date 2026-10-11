@@ -158,7 +158,7 @@
   // (the popup under the spinner, 48 dp rows) sets the hidden input the form submits.
   // Guests, Show me as, Privacy (Visibility on 5.1) and the time zone (audit step 6), in the APK's words
   // (stock-strings.js, group calendar).
-  const CS=key=>{const row=window.StockStrings?.calendar?.[key],i=['hu','de','fr','es'].indexOf(window.AndroidI18n?.language);return row?(i>=0?row[i]:row[4]||key):key;};
+  const CS=key=>{const row=window.StockStrings?.calendar?.[key];return row ? AndroidStrings.pick(row, window.AndroidI18n?.language, key) :key;};
   // EditEventView's timezone_button: TimeZonePickerUtils.getGmtDisplayName at the event's start; a tap opens
   // TimeZonePickerDialog (tzpicker.js, the image's zones, names and countries).
   // EventInfoFragment's when line: an event in another zone is shown in the device's zone, followed by that zone's

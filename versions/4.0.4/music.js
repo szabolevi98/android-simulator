@@ -40,7 +40,7 @@
     if(ui.sub==='music-group')return ui.musicTab==='Artists'?ids().filter(id=>tracks[id].artist===ui.musicGroup):ui.musicTab==='Albums'?ids().filter(id=>tracks[id].album===ui.musicGroup):(state.playlists.find(p=>String(p.id)===ui.musicGroup)?.tracks||[]);
     return ids().filter(id=>!(state.deleted||[]).includes(id));
   }
-  const M=(key,lang=window.AndroidI18n?.language||'en')=>{const row=window.AOSPMusicStrings?.[key];return row?row[lang]||row.en:key;};
+  const M=(key,lang)=>AndroidStrings.table('',window.AOSPMusicStrings||{}).t(key,lang);
   function render(state,ui,t) {
     const track=tracks[state.track],tab=ui.musicTab||'Artists';
     const button=(action,label,asset,extra='')=>`<button data-action="${action}" aria-label="${e(t(label))}" ${extra}>${img(asset)}</button>`;
