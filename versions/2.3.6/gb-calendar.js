@@ -23,13 +23,13 @@
     const T = key => text(ctx.lang, key), d = C().parse(date), weekday = d.toLocaleDateString(ctx.locale, {weekday: 'long'});
     if (repeat === 'daily') return T('daily');
     if (repeat === 'weekdays') return T('every_weekday');
-    if (repeat === 'weekly') return T('weekly').replace('%s', weekday);
+    if (repeat === 'weekly') return AndroidStrings.format(T('weekly'), weekday);
     if (repeat === 'monthly-weekday') {
       const last = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate(), n = d.getDate() + 7 > last && d.getDate() > 28 ? 4 : Math.ceil(d.getDate() / 7) - 1;
-      return T('monthly_on_day_count').replace('%1$s', array(ctx.lang, 'ordinal_labels')[n] || '').replace('%2$s', weekday);
+      return AndroidStrings.format(T('monthly_on_day_count'), array(ctx.lang, 'ordinal_labels')[n] || '', weekday);
     }
-    if (repeat === 'monthly-day') return T('monthly_on_day').replace('%s', d.getDate());
-    if (repeat === 'yearly') return T('yearly').replace('%s', d.toLocaleDateString(ctx.locale, {month: 'long', day: 'numeric'}));
+    if (repeat === 'monthly-day') return AndroidStrings.format(T('monthly_on_day'), d.getDate());
+    if (repeat === 'yearly') return AndroidStrings.format(T('yearly'), d.toLocaleDateString(ctx.locale, {month: 'long', day: 'numeric'}));
     return T('does_not_repeat');
   }
   const title = (body, extra = '') => `<div class="gb-titlebar gbcal-title${extra}">${body}</div>`;
@@ -76,12 +76,12 @@
     const long = date => fmt(date, ctx.locale, {weekday: 'long', month: 'long', day: 'numeric'});
     let previous = '', rows = '';
     for (const item of items) {
-      if (item.date !== previous) { rows += `<div class="gbcal-agenda-day">${e(item.date === today ? T('agenda_today').replace('%1$s', long(item.date)) : long(item.date))}</div>`; previous = item.date; }
+      if (item.date !== previous) { rows += `<div class="gbcal-agenda-day">${e(item.date === today ? AndroidStrings.format(T('agenda_today'), long(item.date)) : long(item.date))}</div>`; previous = item.date; }
       const when = item.allDay ? fmt(item.date, ctx.locale, {month: 'short', day: 'numeric'}) : `${clockText(item.date, item.time, ctx)} – ${clockText(item.endDate, item.endTime, ctx)}`;
       rows += `<button class="gbcal-agenda-item" style="--c:${COLOR}" data-action="event-open" data-id="${item.id}" data-date="${item.instance || item.date}"><b>${e(item.title || T('no_title_label'))}</b><span class="when">${e(when)}</span>${item.location ? `<span>${e(item.location)}</span>` : ''}</button>`;
     }
     const short = date => fmt(date, ctx.locale, {month: 'short', day: 'numeric', year: 'numeric'});
-    return `<div class="app-view gbcal gbcal-agenda" data-no-translate>${title(e(T('agenda_view')))}<div class="gbcal-agenda-list"><button class="gbcal-agenda-more" data-action="gbcal-agenda-step" data-id="-1">${e(T('show_older_events').replace('%1$s', short(from)))}</button>${rows}<button class="gbcal-agenda-more" data-action="gbcal-agenda-step" data-id="1">${e(T('show_newer_events').replace('%1$s', short(to)))}</button></div></div>`;
+    return `<div class="app-view gbcal gbcal-agenda" data-no-translate>${title(e(T('agenda_view')))}<div class="gbcal-agenda-list"><button class="gbcal-agenda-more" data-action="gbcal-agenda-step" data-id="-1">${e(AndroidStrings.format(T('show_older_events'), short(from)))}</button>${rows}<button class="gbcal-agenda-more" data-action="gbcal-agenda-step" data-id="1">${e(AndroidStrings.format(T('show_newer_events'), short(to)))}</button></div></div>`;
   }
 
   /* EventInfoActivity */

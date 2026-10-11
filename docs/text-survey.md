@@ -16,8 +16,8 @@ A later file replacing a hand-written i18n.js row is the intended order: the ima
 
 ## String table formats
 
-- **named entries {res | own | src, hu, de, fr, es, en?}** (90): `i18n.js`, `strings.js`, `2.3.6/gb-extra-apps.js`, `2.3.6/gb-gmail.js`, `2.3.6/gb-google-apps.js`, `2.3.6/gb-google-widgets.js`, `2.3.6/gb-maps.js`, `2.3.6/gb-market.js`, `2.3.6/gb-talk.js`, `2.3.6/gb-youtube.js`, `2.3.6/image-strings.js`, `4.0.4/alarm-strings.js`, `4.0.4/calendar.js`, `4.0.4/contact-editor.js`, `4.0.4/email-prefs.js`, `4.0.4/email.js`, `4.0.4/ics-devopts.js`, `4.0.4/ics-downloads.js`, `4.0.4/ics-extra-apps.js`, `4.0.4/ics-gmail.js`, `4.0.4/ics-google-apps.js`, `4.0.4/ics-language.js`, `4.0.4/ics-pickers.js`, `4.0.4/ics-play-music.js`, `4.0.4/ics-play.js`, `4.0.4/ics-sync-adapters.js`, `4.0.4/ics-voice.js`, `4.0.4/image-strings.js`, `4.0.4/live-wallpapers.js`, `4.0.4/lock-strings.js`, `4.0.4/maps-route.js`, `4.0.4/mms-strings.js`, `4.0.4/music-strings.js`, `4.0.4/people-strings.js`, `4.0.4/settings-system.js`, `4.0.4/stock-strings.js`, `4.3/alarm-strings.js`, `4.3/calendar.js`, `4.3/chrome-pak.js`, `4.3/contact-editor.js`, `4.3/dtp.js`, `4.3/ears.js`, `4.3/email-prefs.js`, `4.3/email.js`, `4.3/image-strings.js`, `4.3/jb-devopts.js`, `4.3/jb-downloads.js`, `4.3/jb-email.js`, `4.3/jb-extra-apps.js`, `4.3/jb-play.js`, `4.3/lock-strings.js`, `4.3/maps-route.js`, `4.3/mms-strings.js`, `4.3/music-strings.js`, `4.3/people-strings.js`, `4.3/settings-system.js`, `4.3/sound-recorder.js`, `4.3/stock-apps.js`, `4.3/stock-strings.js`, `4.4.4/alarm-strings.js`, `4.4.4/calendar.js`, `4.4.4/chrome-pak.js`, `4.4.4/contact-editor.js`, `4.4.4/dtp.js`, `4.4.4/email-prefs.js`, `4.4.4/image-strings.js`, `4.4.4/kk-devopts.js`, `4.4.4/kk-email.js`, `4.4.4/kk-extra-apps.js`, `4.4.4/kk-gallery.js`, `4.4.4/kk-play.js`, `4.4.4/lock-strings.js`, `4.4.4/people-strings.js`, `4.4.4/settings-system.js`, `4.4.4/stock-strings.js`, `5.1.1/alarm-strings.js`, `5.1.1/dtp.js`, `5.1.1/email-prefs.js`, `5.1.1/image-strings.js`, `5.1.1/lock-strings.js`, `5.1.1/lp-camera.js`, `5.1.1/lp-devopts.js`, `5.1.1/lp-email-strings.js`, `5.1.1/lp-email.js`, `5.1.1/lp-play.js`, `5.1.1/lp-strings.js`, `5.1.1/lp-sync-adapters.js`, `5.1.1/people-strings.js`, `5.1.1/settings-system.js`, `5.1.1/stock-strings.js`
-- **language objects keyed by resource name {en, hu, de, fr, es} (GB tables, alarm / lock / music strings)** (55): `i18n.js`, `strings.js`, `2.3.6/gb-launcher.js`, `2.3.6/gb-settings-strings.js`, `2.3.6/gb-settings.js`, `2.3.6/gb-strings-accounts.js`, `2.3.6/gb-strings-browser.js`, `2.3.6/gb-strings-calculator.js`, `2.3.6/gb-strings-calendar.js`, `2.3.6/gb-strings-camera.js`, `2.3.6/gb-strings-contacts.js`, `2.3.6/gb-strings-contactsio.js`, `2.3.6/gb-strings-deskclock.js`, `2.3.6/gb-strings-downloads.js`, `2.3.6/gb-strings-email.js`, `2.3.6/gb-strings-framework.js`, `2.3.6/gb-strings-gallery.js`, `2.3.6/gb-strings-mms.js`, `2.3.6/gb-strings-music.js`, `2.3.6/gb-strings-network.js`, `2.3.6/gb-strings-phone.js`, `2.3.6/gb-strings-phonenet.js`, `2.3.6/gb-strings-search.js`, `2.3.6/gb-strings-settings2.js`, `2.3.6/gb-strings-wallpapers.js`, `2.3.6/simulator.js`, `4.0.4/alarm-strings.js`, `4.0.4/email-prefs.js`, `4.0.4/ics-sync-adapters.js`, `4.0.4/ics-voice.js`, `4.0.4/live-wallpapers.js`, `4.0.4/lock-strings.js`, `4.0.4/music-strings.js`, `4.3/alarm-strings.js`, `4.3/chrome-pak.js`, `4.3/ears.js`, `4.3/email-prefs.js`, `4.3/lock-strings.js`, `4.3/music-strings.js`, `4.3/simulator.js`, `4.3/sound-recorder.js`, `4.4.4/alarm-strings.js`, `4.4.4/chrome-pak.js`, `4.4.4/email-prefs.js`, `4.4.4/kk-deskclock.js`, `4.4.4/kk-ime.js`, `4.4.4/lock-strings.js`, `4.4.4/simulator.js`, `5.1.1/alarm-strings.js`, `5.1.1/email-prefs.js`, `5.1.1/lock-strings.js`, `5.1.1/lp-deskclock.js`, `5.1.1/lp-ime.js`, `5.1.1/lp-sync-adapters.js`, `5.1.1/simulator.js`
+- **named entries {res | own | src, hu, de, fr, es, en?}** (94): `i18n.js`, `strings.js`, `2.3.6/gb-extra-apps.js`, `2.3.6/gb-gmail.js`, `2.3.6/gb-google-apps.js`, `2.3.6/gb-google-widgets.js`, `2.3.6/gb-launcher.js`, `2.3.6/gb-maps.js`, `2.3.6/gb-market.js`, `2.3.6/gb-talk.js`, `2.3.6/gb-youtube.js`, `2.3.6/image-strings.js`, `4.0.4/alarm-strings.js`, `4.0.4/calendar.js`, `4.0.4/contact-editor.js`, `4.0.4/email-prefs.js`, `4.0.4/email.js`, `4.0.4/ics-devopts.js`, `4.0.4/ics-downloads.js`, `4.0.4/ics-extra-apps.js`, `4.0.4/ics-gmail.js`, `4.0.4/ics-google-apps.js`, `4.0.4/ics-language.js`, `4.0.4/ics-pickers.js`, `4.0.4/ics-play-music.js`, `4.0.4/ics-play.js`, `4.0.4/ics-sync-adapters.js`, `4.0.4/ics-voice.js`, `4.0.4/image-strings.js`, `4.0.4/live-wallpapers.js`, `4.0.4/lock-strings.js`, `4.0.4/maps-route.js`, `4.0.4/mms-strings.js`, `4.0.4/music-strings.js`, `4.0.4/people-strings.js`, `4.0.4/settings-system.js`, `4.0.4/stock-strings.js`, `4.3/alarm-strings.js`, `4.3/calendar.js`, `4.3/chrome-pak.js`, `4.3/contact-editor.js`, `4.3/dtp.js`, `4.3/ears.js`, `4.3/email-prefs.js`, `4.3/email.js`, `4.3/image-strings.js`, `4.3/jb-devopts.js`, `4.3/jb-downloads.js`, `4.3/jb-email.js`, `4.3/jb-extra-apps.js`, `4.3/jb-play.js`, `4.3/lock-strings.js`, `4.3/maps-route.js`, `4.3/mms-strings.js`, `4.3/music-strings.js`, `4.3/people-strings.js`, `4.3/settings-system.js`, `4.3/sound-recorder.js`, `4.3/stock-apps.js`, `4.3/stock-strings.js`, `4.3/tzpicker.js`, `4.4.4/alarm-strings.js`, `4.4.4/calendar.js`, `4.4.4/chrome-pak.js`, `4.4.4/contact-editor.js`, `4.4.4/dtp.js`, `4.4.4/email-prefs.js`, `4.4.4/image-strings.js`, `4.4.4/kk-devopts.js`, `4.4.4/kk-email.js`, `4.4.4/kk-extra-apps.js`, `4.4.4/kk-gallery.js`, `4.4.4/kk-play.js`, `4.4.4/lock-strings.js`, `4.4.4/people-strings.js`, `4.4.4/settings-system.js`, `4.4.4/stock-strings.js`, `4.4.4/tzpicker.js`, `5.1.1/alarm-strings.js`, `5.1.1/dtp.js`, `5.1.1/email-prefs.js`, `5.1.1/image-strings.js`, `5.1.1/lock-strings.js`, `5.1.1/lp-camera.js`, `5.1.1/lp-devopts.js`, `5.1.1/lp-email-strings.js`, `5.1.1/lp-email.js`, `5.1.1/lp-play.js`, `5.1.1/lp-strings.js`, `5.1.1/lp-sync-adapters.js`, `5.1.1/people-strings.js`, `5.1.1/settings-system.js`, `5.1.1/stock-strings.js`, `5.1.1/tzpicker.js`
+- **language objects keyed by resource name {en, hu, de, fr, es} (GB tables, alarm / lock / music strings)** (58): `i18n.js`, `strings.js`, `2.3.6/gb-launcher.js`, `2.3.6/gb-settings-strings.js`, `2.3.6/gb-settings.js`, `2.3.6/gb-strings-accounts.js`, `2.3.6/gb-strings-browser.js`, `2.3.6/gb-strings-calculator.js`, `2.3.6/gb-strings-calendar.js`, `2.3.6/gb-strings-camera.js`, `2.3.6/gb-strings-contacts.js`, `2.3.6/gb-strings-contactsio.js`, `2.3.6/gb-strings-deskclock.js`, `2.3.6/gb-strings-downloads.js`, `2.3.6/gb-strings-email.js`, `2.3.6/gb-strings-framework.js`, `2.3.6/gb-strings-gallery.js`, `2.3.6/gb-strings-mms.js`, `2.3.6/gb-strings-music.js`, `2.3.6/gb-strings-network.js`, `2.3.6/gb-strings-phone.js`, `2.3.6/gb-strings-phonenet.js`, `2.3.6/gb-strings-search.js`, `2.3.6/gb-strings-settings2.js`, `2.3.6/gb-strings-wallpapers.js`, `2.3.6/simulator.js`, `4.0.4/alarm-strings.js`, `4.0.4/email-prefs.js`, `4.0.4/ics-sync-adapters.js`, `4.0.4/ics-voice.js`, `4.0.4/live-wallpapers.js`, `4.0.4/lock-strings.js`, `4.0.4/music-strings.js`, `4.3/alarm-strings.js`, `4.3/chrome-pak.js`, `4.3/ears.js`, `4.3/email-prefs.js`, `4.3/lock-strings.js`, `4.3/music-strings.js`, `4.3/simulator.js`, `4.3/sound-recorder.js`, `4.3/tzpicker.js`, `4.4.4/alarm-strings.js`, `4.4.4/chrome-pak.js`, `4.4.4/email-prefs.js`, `4.4.4/kk-deskclock.js`, `4.4.4/kk-ime.js`, `4.4.4/lock-strings.js`, `4.4.4/simulator.js`, `4.4.4/tzpicker.js`, `5.1.1/alarm-strings.js`, `5.1.1/email-prefs.js`, `5.1.1/lock-strings.js`, `5.1.1/lp-deskclock.js`, `5.1.1/lp-ime.js`, `5.1.1/lp-sync-adapters.js`, `5.1.1/simulator.js`, `5.1.1/tzpicker.js`
 - **positional rows [en, hu, de, fr, es] (AndroidI18n.extend)** (0): —
 - **positional rows key: [hu, de, fr, es, (en?)]** (15): `2.3.6/gb-market.js`, `2.3.6/gb-settings-strings.js`, `2.3.6/gb-strings-browser.js`, `2.3.6/gb-strings-calendar.js`, `2.3.6/gb-strings-camera.js`, `2.3.6/gb-strings-network.js`, `2.3.6/simulator.js`, `4.0.4/ics-play.js`, `4.0.4/simulator.js`, `4.3/jb-play.js`, `4.3/simulator.js`, `4.4.4/kk-play.js`, `4.4.4/simulator.js`, `5.1.1/lp-play.js`, `5.1.1/simulator.js`
 
@@ -53,7 +53,7 @@ A later file replacing a hand-written i18n.js row is the intended order: the ima
 
 Rows that name no source (res / own / src) or are still positional, per script:
 
-`2.3.6/gb-google-apps.js` (8), `2.3.6/gb-settings-strings.js` (2), `2.3.6/gb-strings-browser.js` (4), `2.3.6/gb-strings-calendar.js` (1), `2.3.6/gb-strings-camera.js` (3), `4.3/play-apps.js` (1), `4.3/tzpicker.js` (3), `4.4.4/play-apps.js` (1), `4.4.4/tzpicker.js` (3), `5.1.1/play-apps.js` (1), `5.1.1/tzpicker.js` (3)
+`2.3.6/gb-google-apps.js` (8), `2.3.6/gb-settings-strings.js` (2), `2.3.6/gb-strings-browser.js` (4), `2.3.6/gb-strings-calendar.js` (1), `2.3.6/gb-strings-camera.js` (3), `4.3/play-apps.js` (1), `4.4.4/play-apps.js` (1), `5.1.1/play-apps.js` (1)
 
 ## Local language pickers
 
@@ -63,114 +63,23 @@ Rows that name no source (res / own / src) or are still positional, per script:
 
 ## Placeholders and plurals
 
-Local `%s` / `%1$s` / `%d` replacements: 261 in 105 scripts. Plural choices (one / other …): 25 in 16 scripts.
+Local `%s` / `%1$s` / `%d` replacements: 1 in 1 scripts. Plural choices (one / other …): 26 in 16 scripts.
 
 | Script | Replacements | Plural choices |
 | --- | ---: | ---: |
-| strings.js | 1 | 4 |
-| 2.3.6/calendar.js | 4 | 0 |
-| 2.3.6/gb-calendar.js | 7 | 0 |
-| 2.3.6/gb-contacts-io.js | 1 | 0 |
-| 2.3.6/gb-deskclock.js | 2 | 0 |
-| 2.3.6/gb-downloads.js | 1 | 2 |
-| 2.3.6/gb-email.js | 1 | 0 |
-| 2.3.6/gb-extra-apps.js | 1 | 0 |
-| 2.3.6/gb-gmail.js | 6 | 0 |
-| 2.3.6/gb-google-apps.js | 3 | 0 |
-| 2.3.6/gb-google-widgets.js | 4 | 0 |
+| strings.js | 1 | 5 |
+| 2.3.6/gb-downloads.js | 0 | 2 |
 | 2.3.6/gb-keyguard.js | 0 | 1 |
-| 2.3.6/gb-maps.js | 7 | 0 |
-| 2.3.6/gb-market.js | 1 | 0 |
-| 2.3.6/gb-mms.js | 2 | 0 |
-| 2.3.6/gb-network.js | 1 | 0 |
-| 2.3.6/gb-phone.js | 3 | 0 |
-| 2.3.6/gb-settings-pages.js | 8 | 0 |
-| 2.3.6/gb-settings.js | 5 | 0 |
-| 2.3.6/gb-talk.js | 1 | 0 |
-| 2.3.6/gb-widgets.js | 1 | 0 |
-| 2.3.6/gb-youtube.js | 6 | 0 |
-| 2.3.6/lockscreen.js | 3 | 0 |
 | 2.3.6/music.js | 0 | 2 |
-| 2.3.6/news-prefs.js | 2 | 0 |
-| 2.3.6/simulator.js | 3 | 2 |
-| 4.0.4/calendar.js | 4 | 0 |
-| 4.0.4/contact-editor.js | 1 | 1 |
-| 4.0.4/desk-clock.js | 2 | 0 |
-| 4.0.4/email-prefs.js | 1 | 0 |
-| 4.0.4/email.js | 6 | 0 |
-| 4.0.4/ics-downloads.js | 2 | 0 |
-| 4.0.4/ics-google-apps.js | 2 | 0 |
-| 4.0.4/ics-language.js | 1 | 0 |
-| 4.0.4/ics-play.js | 3 | 0 |
-| 4.0.4/lockscreen.js | 2 | 0 |
-| 4.0.4/music.js | 1 | 2 |
-| 4.0.4/news-prefs.js | 2 | 0 |
-| 4.0.4/settings-detail.js | 1 | 0 |
-| 4.0.4/settings-system.js | 2 | 0 |
-| 4.0.4/simulator.js | 1 | 1 |
-| 4.0.4/stock-apps.js | 1 | 0 |
-| 4.3/calendar.js | 4 | 0 |
-| 4.3/chrome.js | 1 | 0 |
-| 4.3/contact-editor.js | 1 | 1 |
-| 4.3/desk-clock.js | 1 | 0 |
-| 4.3/email-prefs.js | 1 | 0 |
-| 4.3/email.js | 5 | 0 |
-| 4.3/gmail.js | 1 | 0 |
-| 4.3/hangouts.js | 2 | 0 |
-| 4.3/jb-downloads.js | 2 | 0 |
-| 4.3/jb-keyguard.js | 1 | 0 |
-| 4.3/jb-play.js | 2 | 0 |
-| 4.3/lockscreen.js | 2 | 0 |
-| 4.3/music.js | 1 | 2 |
-| 4.3/news-prefs.js | 2 | 0 |
-| 4.3/play-apps.js | 8 | 0 |
-| 4.3/settings-detail.js | 1 | 0 |
-| 4.3/settings-system.js | 2 | 0 |
-| 4.3/simulator.js | 3 | 1 |
-| 4.3/sound-recorder.js | 2 | 0 |
-| 4.3/stock-apps.js | 3 | 0 |
-| 4.4.4/calendar.js | 4 | 0 |
-| 4.4.4/chrome.js | 1 | 0 |
-| 4.4.4/contact-editor.js | 1 | 1 |
-| 4.4.4/desk-clock.js | 1 | 0 |
-| 4.4.4/email-prefs.js | 1 | 0 |
-| 4.4.4/gel-now.js | 2 | 0 |
-| 4.4.4/gmail.js | 1 | 0 |
-| 4.4.4/hangouts.js | 2 | 0 |
-| 4.4.4/kk-dialer.js | 1 | 0 |
-| 4.4.4/kk-extra-apps.js | 1 | 0 |
-| 4.4.4/kk-keyguard.js | 1 | 0 |
-| 4.4.4/kk-play.js | 2 | 0 |
-| 4.4.4/kk-wallpaper-picker.js | 2 | 0 |
-| 4.4.4/lockscreen.js | 2 | 0 |
-| 4.4.4/maps-route.js | 2 | 0 |
-| 4.4.4/news-prefs.js | 2 | 0 |
-| 4.4.4/photos.js | 1 | 0 |
-| 4.4.4/play-apps.js | 11 | 0 |
-| 4.4.4/settings-detail.js | 1 | 0 |
-| 4.4.4/settings-system.js | 2 | 0 |
-| 4.4.4/simulator.js | 3 | 1 |
-| 4.4.4/stock-apps.js | 7 | 0 |
-| 5.1.1/calendar.js | 4 | 0 |
-| 5.1.1/email-prefs.js | 1 | 0 |
-| 5.1.1/gel-now.js | 2 | 0 |
-| 5.1.1/hangouts.js | 2 | 0 |
-| 5.1.1/lockscreen.js | 2 | 0 |
-| 5.1.1/lp-camera.js | 1 | 0 |
-| 5.1.1/lp-dialer.js | 1 | 0 |
-| 5.1.1/lp-email.js | 3 | 0 |
-| 5.1.1/lp-extra-apps.js | 2 | 2 |
-| 5.1.1/lp-keyguard.js | 2 | 0 |
-| 5.1.1/lp-play.js | 2 | 1 |
-| 5.1.1/lp-settings-pages.js | 1 | 0 |
-| 5.1.1/lp-wallpaper-picker.js | 2 | 0 |
-| 5.1.1/lp-zen.js | 2 | 0 |
-| 5.1.1/maps-route.js | 2 | 0 |
-| 5.1.1/messaging.js | 1 | 0 |
-| 5.1.1/phone-call.js | 2 | 0 |
-| 5.1.1/photos.js | 1 | 0 |
-| 5.1.1/play-apps.js | 10 | 0 |
-| 5.1.1/settings-detail.js | 1 | 0 |
-| 5.1.1/settings-system.js | 2 | 0 |
-| 5.1.1/simulator.js | 6 | 1 |
-| 5.1.1/stock-apps.js | 7 | 0 |
+| 2.3.6/simulator.js | 0 | 2 |
+| 4.0.4/contact-editor.js | 0 | 1 |
+| 4.0.4/music.js | 0 | 2 |
+| 4.0.4/simulator.js | 0 | 1 |
+| 4.3/contact-editor.js | 0 | 1 |
+| 4.3/music.js | 0 | 2 |
+| 4.3/simulator.js | 0 | 1 |
+| 4.4.4/contact-editor.js | 0 | 1 |
+| 4.4.4/simulator.js | 0 | 1 |
+| 5.1.1/lp-extra-apps.js | 0 | 2 |
+| 5.1.1/lp-play.js | 0 | 1 |
+| 5.1.1/simulator.js | 0 | 1 |

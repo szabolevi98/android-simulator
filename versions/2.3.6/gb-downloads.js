@@ -26,7 +26,7 @@
     return [today.getTime(), today.getTime() - DAY, today.getTime() - 6 * DAY, month.getTime()];
   }
   const binOf = (time, edges) => { const i = edges.findIndex(edge => time >= edge); return i < 0 ? 4 : i; };
-  const binLabel = (lang, i) => i === 0 ? text(lang, 'today') : i === 1 ? text(lang, 'yesterday') : i === 2 ? text(lang, 'last_num_days_other').replace('%d', 7) : i === 3 ? text(lang, 'last_month') : text(lang, 'older');
+  const binLabel = (lang, i) => i === 0 ? text(lang, 'today') : i === 1 ? text(lang, 'yesterday') : i === 2 ? AndroidStrings.format(text(lang, 'last_num_days_other'), 7) : i === 3 ? text(lang, 'last_month') : text(lang, 'older');
   // Formatter.formatFileSize (2.3): KB above 900 bytes, MB above 900 KB; two decimals below 100, none above.
   function size(bytes, locale) {
     let value = bytes, unit = 'B';

@@ -33,7 +33,7 @@
   const progress = (sr, now = Date.now()) => Math.floor((now - sr.started) / 1000);
   function remaining(sr, lang, now) {
     const t = LIMIT - progress(sr, now);
-    return t < 60 ? text(lang, 'sec_available').replace('%d', t) : t < 540 ? text(lang, 'min_available').replace('%d', Math.floor(t / 60) + 1) : '';
+    return t < 60 ? AndroidStrings.format(text(lang, 'sec_available'), t) : t < 540 ? AndroidStrings.format(text(lang, 'min_available'), Math.floor(t / 60) + 1) : '';
   }
   // VUMeter.onDraw: the needle angle from pi/8 (silence) to 7pi/8 (full scale), drawn from the pivot at the bottom.
   function needle(sr, now) {

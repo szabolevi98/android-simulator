@@ -176,7 +176,7 @@
   const STR = AndroidStrings.table('', {...OWN, ...STRINGS}, key => key.trim());
   const text = (lang, key) => STR.t(key, lang);
   // Android's %1$s / %1$d and the ^1 TextUtils.expandTemplate placeholders.
-  const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/%[sd]/g, () => args[0] ?? '').replace(/\^(\d)/g, (_, n) => args[n - 1] ?? '');
+  const fmt = (s, ...args) => AndroidStrings.format(s, ...args);
   const VERSION = '4.5.10';
   // Corpus colours (values/colors.xml: *_primary, *_secondary) and the action bars (action_bar_bg_*.9.png: the fill and
   // its 2 dp bottom edge).

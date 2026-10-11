@@ -67,13 +67,13 @@
     function setupHeader(){
       if(state.kind==='pattern'){
         if(state.stage==='verify')return L(state.error?'lockpattern_need_to_unlock_wrong':'lockpattern_need_to_unlock');
-        if(state.stage==='create')return state.error?L('lockpattern_recording_incorrect_too_short').replace('%d','4'):drawing?L('lockpattern_recording_inprogress'):state.pattern.length?L('lockpattern_pattern_entered_header'):L('lockpattern_recording_intro_header');
+        if(state.stage==='create')return state.error?AndroidStrings.format(L('lockpattern_recording_incorrect_too_short'), '4'):drawing?L('lockpattern_recording_inprogress'):state.pattern.length?L('lockpattern_pattern_entered_header'):L('lockpattern_recording_intro_header');
         return state.error?L('lockpattern_need_to_unlock_wrong'):drawing?L('lockpattern_recording_inprogress'):state.pattern.length?L('lockpattern_pattern_confirmed_header'):L('lockpattern_need_to_confirm');
       }
       const pin=state.kind==='pin';
       if(state.stage==='verify')return state.error?L('lockpattern_need_to_unlock_wrong'):L(pin?'lockpassword_confirm_your_pin_header':'lockpassword_confirm_your_password_header');
       if(state.error==='Does not match. Try again.')return L(pin?'lockpassword_confirm_pins_dont_match':'lockpassword_confirm_passwords_dont_match');
-      if(state.error)return L(pin?'lockpassword_pin_too_short':'lockpassword_password_too_short').replace('%d','4');
+      if(state.error)return AndroidStrings.format(L(pin?'lockpassword_pin_too_short':'lockpassword_password_too_short'), '4');
       return L(state.stage==='confirm'?(pin?'lockpassword_confirm_your_pin_header':'lockpassword_confirm_your_password_header'):(pin?'lockpassword_choose_your_pin_header':'lockpassword_choose_your_password_header'));
     }
     function renderSetup(){

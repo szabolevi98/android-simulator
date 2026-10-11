@@ -32,7 +32,7 @@
     const type=call.type==='missed'?'missed':call.type==='incoming'?'incoming':'outgoing';
     const tile=window.LPDialer?LPDialer.letterTile(person||{name:''},'lpd-photo lpc-detail-photo'):'';
     const date=new Date(call.time).toLocaleString(locale,{weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'numeric',minute:'2-digit'});
-    const seconds=call.duration||0, length=t('%s min %s sec').replace('%s',Math.floor(seconds/60)).replace('%s',seconds%60);
+    const seconds=call.duration||0, length=AndroidStrings.format(t('%s min %s sec'), Math.floor(seconds/60), seconds%60);
     const bar=`<header class="lpd-toolbar"><button data-action="phone-log-back" aria-label="${e(t('Navigate up'))}"><img src="assets/gd-ic_arrow_back_24dp.png" alt=""></button><h2>${e(t('Call details'))}</h2><button class="lpd-toolbar-more" data-action="lpd-remove-call" aria-label="${e(t('Delete from call history'))}" title="${e(t('Delete from call history'))}"><img src="assets/gd-ic_delete_wht_24dp.png" alt=""></button><button data-action="phone-menu" data-id="detail" aria-label="${e(t('More options'))}"><img src="assets/gd-ic_overflow_menu.png" alt=""></button></header>`;
     const head=`<div class="lpc-detail-head">${tile}<span><strong>${e(person?.name||call.number)}</strong>${person?`<small>${e(`${t('Mobile')} ${call.number}`)}</small>`:''}</span></div>`;
     const item=`<div class="lpc-detail-item"><span class="lpc-detail-type"><i class="lpd-arrow ${type}" aria-hidden="true"></i>${e(t({missed:'Missed call',incoming:'Incoming call',outgoing:'Outgoing call'}[type]))}</span><small>${e(date)}</small>${type==='missed'?'':`<small>${e(length)}</small>`}</div>`;

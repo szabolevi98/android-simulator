@@ -18,16 +18,18 @@
     const c = String(lang || (globalThis.window?.AndroidI18n ?? globalThis.AndroidI18n)?.language || 'en').slice(0, 2).toLowerCase();
     return LANGS.includes(c) ? c : 'en';
   };
-  // Android's formatter: positional %1$s / %2$d, sequential %s / %d, %% for a percent sign; the Market's ^1 as well.
+  // Android's formatter: positional %1$s / %2$d, sequential %s / %d, %% for a percent sign, a width with 0 padding (%02d),
+  // a precision (%.1f) and the grouping flag (%,d: callers pass the number already grouped); the Market's ^1 as well.
   function format(text, ...args) {
     let next = 0;
     return String(text ?? '')
-      .replace(/%(?:(\d+)\$)?([-#+0]*\d*(?:\.\d+)?)([sdfS%])/g, (all, pos, flags, type) => {
+      .replace(/%(?:(\d+)\$)?([-#+0,]*)(\d*)(?:\.(\d+))?([sdfS%])/g, (all, pos, flags, width, precision, type) => {
         if (type === '%') return '%';
         const value = args[pos ? pos - 1 : next++];
         if (value === undefined) return all;
-        if (type === 'f' && /\.(\d+)/.test(flags)) return Number(value).toFixed(Number(flags.match(/\.(\d+)/)[1]));
-        return String(value);
+        let out = type === 'f' && precision ? Number(value).toFixed(Number(precision)) : String(value);
+        if (width && out.length < Number(width)) out = flags.includes('-') ? out.padEnd(Number(width)) : out.padStart(Number(width), flags.includes('0') ? '0' : ' ');
+        return out;
       })
       .replace(/\^(\d)/g, (all, n) => args[n - 1] ?? all);
   }
@@ -59,6 +61,8 @@
   }
   // One entry read the shared way, for a module that has already looked it up (a missing language reads as English).
   const pick = (entry, lang, key) => value(entry, key, lang ?? 'en');
+  // The CLDR plural category of n in a language ('one', 'other', …), as Android's getQuantityString picks it.
+  const quantity = (n, lang) => new Intl.PluralRules(LOCALES[code(lang)]).select(Number(n));
   // Tables keyed by resource name, as docs/gb-strings.py writes them: {strings: {name: {en, hu, …}}, arrays: {name: {en:
   // [...], hu: [...]}}, plurals: {name: {en: {one, other}, …}}}. get() is read on every call, so the order the scripts
   // load in does not matter.
@@ -76,7 +80,7 @@
   const shared = (key, lang) => lang === 'en' ? key : (globalThis.window?.AndroidI18n ?? globalThis.AndroidI18n)?.t(key) ?? key;
   // Legacy shapes, for tables that have not moved to the named form yet: [hu, de, fr, es, en?] rows keyed by English.
   const fromRows = rows => Object.fromEntries(Object.entries(rows).map(([key, [hu, de, fr, es, en]]) => [key, en && en !== key ? {en, hu, de, fr, es} : {hu, de, fr, es}]));
-  const api = {LANGS, LOCALES, code, format, table, tables, resources, pick, shared, fromRows, locale: lang => LOCALES[code(lang)]};
+  const api = {LANGS, LOCALES, code, format, table, tables, resources, pick, quantity, shared, fromRows, locale: lang => LOCALES[code(lang)]};
   // A page's window is its global object; a test's vm context may carry a separate window object, so both get it.
   globalThis.AndroidStrings = api;
   if (globalThis.window) globalThis.window.AndroidStrings = api;

@@ -22,7 +22,7 @@
   function wifiSummary(ctx) {
     const s = ctx.settings;
     if (s.airplane) return 'wifi_in_airplane_mode';
-    if (s.wifi && s.wifiNetwork) return {raw: (entries(ctx.lang, 'wifi_status_with_ssid')[5] || 'Connected to %1$s').replace('%1$s', s.wifiNetwork)};
+    if (s.wifi && s.wifiNetwork) return {raw: AndroidStrings.format((entries(ctx.lang, 'wifi_status_with_ssid')[5] || 'Connected to %1$s'), s.wifiNetwork)};
     return 'wifi_quick_toggle_summary';
   }
   /* The Nexus S GRK39F image's /system/media/audio: file name and Vorbis TITLE, in MediaStore title order. build.prop sets
@@ -43,7 +43,7 @@
   const VS_LOCALE = {en: 'en-US', hu: 'hu-HU', de: 'de-DE', fr: 'fr-FR', es: 'es-ES'};
   function vsLanguages(lang) {
     const own = V.languages.find(([code]) => code === VS_LOCALE[lang]) || V.languages.find(([code]) => code === 'en-US');
-    return [V.text(lang, 'prefDefaultTitlePrefix_language').replace('%s', own[1]), ...V.languages.map(([, name]) => name)];
+    return [AndroidStrings.format(V.text(lang, 'prefDefaultTitlePrefix_language'), own[1]), ...V.languages.map(([, name]) => name)];
   }
   function screens(ctx) {
     const s = ctx.settings, lockSecure = ['pattern', 'pin', 'password'].includes(s.screenLock), cred = ctx.cred || {};
@@ -135,7 +135,7 @@
       // voice_input_output_settings.xml with the one recognizer (VoiceSearch's GoogleRecognitionService, "Google"):
       // VoiceInputOutputSettings drops the recognizer list and links its settings.
       voice: {title: 'voice_input_output_settings', items: [
-        ...(V ? [cat('voice_input_category'), go('recognizer_settings_title', {raw: text(ctx.lang, 'recognizer_settings_summary').replace('%s', V.text(ctx.lang, 'serviceLabel'))}, 'voice-recognizer')] : []),
+        ...(V ? [cat('voice_input_category'), go('recognizer_settings_title', {raw: AndroidStrings.format(text(ctx.lang, 'recognizer_settings_summary'), V.text(ctx.lang, 'serviceLabel'))}, 'voice-recognizer')] : []),
         cat('voice_output_category'), go('tts_settings', '', 'toast:Pico TTS')]},
       // VoiceSearchPreferences (preferences.xml): the language ("Default - <the phone's language>" first), SafeSearch with
       // its level text and suffix, Block offensive words, Personalized recognition (opt-in / opt-out dialogs), the
@@ -205,7 +205,7 @@
       bluetooth: {title: 'bluetooth_settings', items: [
         check('bluetooth', 'bluetooth', 'bluetooth_quick_toggle_summary', {disabled: s.airplane}),
         go('bluetooth_device_name', {raw: s.bluetoothName || 'Nexus S'}, 'dialog:bt-name', {disabled: !s.bluetooth}),
-        check('bluetoothVisible', 'bluetooth_visibility', {raw: s.bluetoothVisible ? text(ctx.lang, 'bluetooth_is_discoverable').replace('%1$s', '120') : text(ctx.lang, 'bluetooth_not_discoverable')}, {disabled: !s.bluetooth}),
+        check('bluetoothVisible', 'bluetooth_visibility', {raw: s.bluetoothVisible ? AndroidStrings.format(text(ctx.lang, 'bluetooth_is_discoverable'), '120') : text(ctx.lang, 'bluetooth_not_discoverable')}, {disabled: !s.bluetooth}),
         list('btTimeout', 'bluetooth_visibility_timeout', 'bluetooth_visibility_timeout_summary', 'bluetooth_visibility_timeout_entries', {disabled: !s.bluetooth}),
         go('bluetooth_preference_scan_title', '', 'gbset-bt-scan', {disabled: !s.bluetooth, action: true}),
         cat('bluetooth_devices'),
@@ -241,7 +241,7 @@
     if (item.kind === 'ap') {
       // AccessPoint: SSID, "Connected" or "Secured with WPA2" / "Remembered", and the (lock) signal icon.
       const n = item.network, connected = ctx.settings.wifiNetwork === n.name, secured = n.security !== 'Open';
-      const status = connected ? entries(ctx.lang, 'wifi_status')[5] : secured ? text(ctx.lang, 'wifi_secured').replace('%1$s', n.security) : '';
+      const status = connected ? entries(ctx.lang, 'wifi_status')[5] : secured ? AndroidStrings.format(text(ctx.lang, 'wifi_secured'), n.security) : '';
       return `<button class="gbset-row" data-action="gbset-ap" data-id="${e(n.name)}"><span class="gbset-text"><span class="gbset-title">${e(n.name)}</span>${status ? `<span class="gbset-sum">${e(status)}</span>` : ''}</span><img class="gbset-signal" src="assets/gb-set-ic_wifi_${secured ? 'lock_' : ''}signal_${Math.max(1, Math.min(4, n.strength))}.png" alt=""></button>`;
     }
     if (item.kind === 'bt') {

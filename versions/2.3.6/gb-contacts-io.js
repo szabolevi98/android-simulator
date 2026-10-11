@@ -11,7 +11,7 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const lookup = (group, lang, key) => AndroidStrings.resources(() => window.GBStrings?.[group]).t(key, lang);
-  const fmt = (pattern, ...args) => { let next = 0; return String(pattern).replace(/%(?:(\d+)\$)?[sd]/g, (m, pos) => String(args[pos ? Number(pos) - 1 : next++] ?? '')); };
+  const fmt = (pattern, ...args) => AndroidStrings.format(pattern, ...args);
   const C = (ctx, key) => lookup('contactsio', ctx.lang, key);
   const P = (ctx, key) => lookup('phonenet', ctx.lang, key);
 

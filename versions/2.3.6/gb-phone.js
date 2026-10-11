@@ -31,7 +31,7 @@
     if (!calls.length) return `<p class="gbp-empty">${e(text(ctx.lang, 'recentCalls_empty'))}</p>`;
     return `<div class="gbp-list">${[...calls].reverse().map(call => {
       const person = contactOf(call.number), type = call.type || 'outgoing';
-      return `<div class="gbp-log"><button class="gbp-log-main" data-action="phone-log-detail" data-id="${call.time}"><span class="gbp-log-name">${e(person?.name || call.number)}</span><span class="gbp-log-meta"><img src="assets/gb-c-ic_call_log_list_${type === 'missed' ? 'missed' : type === 'incoming' ? 'incoming' : 'outgoing'}_call.png" alt="">${person ? `<b>${e(ctx.t('Mobile'))}</b> ` : ''}${e(relative(call.time, ctx.now, ctx.locale))}</span></button><i class="gbp-divider"></i><button class="gbp-log-call" data-action="phone-redial" data-id="${e(call.number)}" aria-label="${e(text(ctx.lang, 'recentCalls_callNumber').replace('%s', person?.name || call.number))}"><img src="assets/gb-c-badge_action_call.png" alt=""></button></div>`;
+      return `<div class="gbp-log"><button class="gbp-log-main" data-action="phone-log-detail" data-id="${call.time}"><span class="gbp-log-name">${e(person?.name || call.number)}</span><span class="gbp-log-meta"><img src="assets/gb-c-ic_call_log_list_${type === 'missed' ? 'missed' : type === 'incoming' ? 'incoming' : 'outgoing'}_call.png" alt="">${person ? `<b>${e(ctx.t('Mobile'))}</b> ` : ''}${e(relative(call.time, ctx.now, ctx.locale))}</span></button><i class="gbp-divider"></i><button class="gbp-log-call" data-action="phone-redial" data-id="${e(call.number)}" aria-label="${e(AndroidStrings.format(text(ctx.lang, 'recentCalls_callNumber'), person?.name || call.number))}"><img src="assets/gb-c-badge_action_call.png" alt=""></button></div>`;
     }).join('')}</div>`;
   }
   // ContactsListActivity: alphabetical with list_separator headers, a 48 dp QuickContactBadge and the 22 sp name.
@@ -62,9 +62,9 @@
   function callDetail(call, person, ctx) {
     const T = key => text(ctx.lang, key), type = call.type || 'outgoing';
     const when = new Date(call.time).toLocaleString(ctx.locale, {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'});
-    const secs = Math.max(0, Math.round(call.duration || 0)), duration = T('callDetailsDurationFormat').replace('%1$s', Math.floor(secs / 60)).replace('%2$s', secs % 60);
+    const secs = Math.max(0, Math.round(call.duration || 0)), duration = AndroidStrings.format(T('callDetailsDurationFormat'), Math.floor(secs / 60), secs % 60);
     const action = (act, id, icon, title, label = '', number = '') => `<button class="gbp-cd-action" data-action="${act}" data-id="${e(id)}"><span class="gbp-cd-copy"><span>${e(title)}</span>${number ? `<small>${label ? `<b>${e(label)}</b>` : ''}${e(number)}</small>` : ''}</span><img src="assets/${icon}.png" alt=""></button>`;
-    const callText = person ? T('recentCalls_callNumber').replace('%s', person.name) : T({incoming: 'callBack', outgoing: 'callAgain', missed: 'returnCall'}[type]);
+    const callText = person ? AndroidStrings.format(T('recentCalls_callNumber'), person.name) : T({incoming: 'callBack', outgoing: 'callAgain', missed: 'returnCall'}[type]);
     const kind = person?.phoneType || 'mobile', label = person ? T(`phoneType${kind[0].toUpperCase()}${kind.slice(1)}`) : '';
     return `<div class="gbp-calldetail"><div class="gb-titlebar">${e(T('callDetailTitle'))}</div><div class="gbp-cd-head"><img src="assets/gb-c-ic_call_log_header_${type}_call.png" alt=""><span><strong>${e(T(`type_${type}`))}</strong><small>${e(when)}</small>${type === 'missed' ? '' : `<small>${e(duration)}</small>`}</span></div><div class="gbp-cd-list">${action('phone-redial', call.number, 'gb-sym_action_call', callText, person ? label : '', call.number)}${action('phone-log-message', call.number, 'gb-c-sym_action_sms', T('menu_sendTextMessage'))}${person ? action('gbp-contact', person.id, 'gb-c-sym_action_view_contact', T('menu_viewContact')) : action('phone-add-contact', call.number, 'gb-c-sym_action_add', T('recentCalls_addToContact'))}</div></div>`;
   }

@@ -51,7 +51,7 @@
     function grid(){return `<div class="credential-pattern gbkg-pattern${state.error?' wrong':''}${data().settings.patternVisible===false&&state.stage==='unlock'?' stealth':''}" role="group" aria-label="${escape(t('Pattern'))}"><svg viewBox="0 0 300 300" aria-hidden="true"><defs><g id="gbkg-arrow"><image class="gbkg-arrow-green" href="assets/gb-indicator_code_lock_drag_direction_green_up.png" x="-10" y="-40" width="20" height="20"/><image class="gbkg-arrow-red" href="assets/gb-indicator_code_lock_drag_direction_red_up.png" x="-10" y="-40" width="20" height="20"/></g></defs><polyline points="${state.pattern.map(n=>`${n%3*100+50},${Math.floor(n/3)*100+50}`).join(' ')}"></polyline></svg>${Array.from({length:9},(_,n)=>`<button type="button" data-lock-dot="${n}" class="${state.pattern.includes(n)?'selected':''}" aria-label="${escape(t('Dot'))} ${n+1}" aria-pressed="${state.pattern.includes(n)}"><i></i></button>`).join('')}<svg class="gbkg-arrow-layer" viewBox="0 0 300 300" aria-hidden="true"><g class="gbkg-arrows">${arrows(state.pattern)}</g></svg></div>`;}
     function message(){
       const locking=['unlock','verify'].includes(state.stage);
-      if(remaining(data())&&locking)return t('Try again in %d seconds.').replace('%d',remaining(data()));
+      if(remaining(data())&&locking)return AndroidStrings.format(t('Try again in %d seconds.'), remaining(data()));
       if(state.stage==='unlock'){
         // PatternUnlockScreen shows "Sorry, try again" after a wrong pattern; PasswordUnlockScreen only clears the field.
         if(state.kind==='pattern')return t(state.error?'Sorry, try again':'Draw pattern to unlock');
@@ -73,13 +73,13 @@
     function setupHeader(){
       if(state.kind==='pattern'){
         if(state.stage==='verify')return G(state.error?'lockpattern_need_to_unlock_wrong':'lockpattern_need_to_unlock');
-        if(state.stage==='create')return state.error?G('lockpattern_recording_incorrect_too_short').replace('%d','4'):drawing?G('lockpattern_recording_inprogress'):state.pattern.length?G('lockpattern_pattern_entered_header'):G('lockpattern_recording_intro_header');
+        if(state.stage==='create')return state.error?AndroidStrings.format(G('lockpattern_recording_incorrect_too_short'), '4'):drawing?G('lockpattern_recording_inprogress'):state.pattern.length?G('lockpattern_pattern_entered_header'):G('lockpattern_recording_intro_header');
         return state.error?G('lockpattern_need_to_unlock_wrong'):drawing?G('lockpattern_recording_inprogress'):state.pattern.length?G('lockpattern_pattern_confirmed_header'):G('lockpattern_need_to_confirm');
       }
       const pin=state.kind==='pin';
       if(state.stage==='verify')return state.error?t(state.error):G(pin?'lockpassword_confirm_your_pin_header':'lockpassword_confirm_your_password_header');
       if(state.error==='Does not match. Try again.')return G(pin?'lockpassword_confirm_pins_dont_match':'lockpassword_confirm_passwords_dont_match');
-      if(state.error)return G(pin?'lockpassword_pin_too_short':'lockpassword_password_too_short').replace('%d','4');
+      if(state.error)return AndroidStrings.format(G(pin?'lockpassword_pin_too_short':'lockpassword_password_too_short'), '4');
       return G(state.stage==='confirm'?(pin?'lockpassword_confirm_your_pin_header':'lockpassword_confirm_your_password_header'):(pin?'lockpassword_choose_your_pin_header':'lockpassword_choose_your_password_header'));
     }
     function renderSetup(){

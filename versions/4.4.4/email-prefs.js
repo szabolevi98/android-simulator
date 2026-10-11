@@ -14,7 +14,7 @@ window.EmailPrefData = {"version":"6.2-1227136","material":false,"signature":"\n
     return row && 'default' in row ? row.default : '';
   }
   // The signature as the new message's body (MessageCompose / UnifiedEmail's R.string.signature).
-  const signatureBody = data => { const sig = value(data, 'account_signature', ''); return sig ? D.signature.replace('%s', sig) : ''; };
+  const signatureBody = data => { const sig = value(data, 'account_signature', ''); return sig ? AndroidStrings.format(D.signature, sig) : ''; };
   function render(data, ui, lang, t, account) {
     const page = ui.emPref || '', T = row => L(row, lang);
     const item = (action, id, label, summary = '', extra = '') => `<button type="button" class="emp-row" data-action="${action}" data-id="${e(id)}"><span class="emp-text"><b>${e(label)}</b>${summary ? `<small>${e(summary)}</small>` : ''}</span>${extra}</button>`;

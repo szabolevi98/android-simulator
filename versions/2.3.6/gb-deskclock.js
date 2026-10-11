@@ -29,9 +29,9 @@
   function setToast(next, now, lang) {
     const delta = next - now, totalHours = Math.floor(delta / 3600000), minutes = Math.floor(delta / 60000) % 60;
     const days = Math.floor(totalHours / 24), hours = totalHours % 24;
-    const part = (n, one, many) => n === 0 ? '' : n === 1 ? text(lang, one) : text(lang, many).replace('%s', n);
+    const part = (n, one, many) => n === 0 ? '' : n === 1 ? text(lang, one) : AndroidStrings.format(text(lang, many), n);
     const index = (days > 0 ? 1 : 0) | (hours > 0 ? 2 : 0) | (minutes > 0 ? 4 : 0);
-    return (array(lang, 'alarm_set')[index] || '').replace('%1$s', part(days, 'day', 'days')).replace('%2$s', part(hours, 'hour', 'hours')).replace('%3$s', part(minutes, 'minute', 'minutes'));
+    return AndroidStrings.format((array(lang, 'alarm_set')[index] || ''), part(days, 'day', 'days'), part(hours, 'hour', 'hours'), part(minutes, 'minute', 'minutes'));
   }
 
   // desk_clock_weather.xml with what News & Weather's provider (com.google.android.apps.genie.geniewidget.weather)

@@ -107,7 +107,7 @@
     const {lang, data, ui, locale} = ctx, s = store(data), q = ui.tkQuery.toLocaleLowerCase();
     const hits = Object.keys(s.chats).map(id => ({f: friend(ctx, id), m: [...(s.chats[id] || [])].reverse().find(m => m.body.toLocaleLowerCase().includes(q))})).filter(h => h.f && h.m);
     const rows = hits.map(({f, m}) => `<button class="tk-hit" data-action="tk-chat" data-id="${f.id}"><span class="tk-hit-title"><img src="assets/gb-stat_notify_chat.png" alt=""><b>${e(f.name)}</b></span><span class="tk-hit-snippet">${e(m.body)}</span><span class="tk-hit-meta"><i>${e(m.me ? ctx.account : f.name)}</i><time>${e(new Date(m.time).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'}))}</time></span></button>`).join('');
-    const title = T(lang, '%1$s results for "%2$s"').replace('%1$s', hits.length).replace('%2$s', ui.tkQuery);
+    const title = AndroidStrings.format(T(lang, '%1$s results for "%2$s"'), hits.length, ui.tkQuery);
     return `<div class="app-view tk tk-results" data-no-translate><div class="gb-titlebar">${e(title)}</div><div class="tk-scroll tk-hits">${rows}</div></div>`;
   }
   // AddBuddyScreen, InvitedUserList and the blocked list.

@@ -63,7 +63,7 @@
     if (!message.timestamp) return t(message.time || '');
     const diff = now - message.timestamp, minutes = Math.floor(diff / 60000);
     if (minutes < 1) return t('Now');
-    if (minutes < 60) return t(minutes === 1 ? '%d min' : '%d mins').replace('%d', minutes);
+    if (minutes < 60) return AndroidStrings.format(t(AndroidStrings.quantity(minutes) === 'one' ? '%d min' : '%d mins'), minutes);
     const date = new Date(message.timestamp), today = new Date(now);
     if (date.toDateString() === today.toDateString()) return date.toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'});
     if (diff < 6 * 86400000) return date.toLocaleDateString(locale, {weekday: 'short'});

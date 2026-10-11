@@ -9,7 +9,7 @@
   const isArchived = (data, thread) => { const at = data.hgArchived?.[thread.key]; return !!at && !(thread.last?.timestamp > at); };
   // EsApplication.y(): 1, 2, 4, 8, 24 and 72 hours (plurals/dnd_hours).
   const SNOOZE_MINUTES = [60, 120, 240, 480, 1440, 4320];
-  const hours = (t, minutes) => minutes === 60 ? H(t, '1 hour') : H(t, '%d hours').replace('%d', minutes / 60);
+  const hours = (t, minutes) => minutes === 60 ? H(t, '1 hour') : AndroidStrings.format(H(t, '%d hours'), minutes / 60);
   // The demo place "Share your location" sends.
   const PLACE = {address: '1600 Amphitheatre Pkwy, Mountain View, CA', lat: 37.4220, lng: -122.0841};
   const locationBody = t => `${H(t, 'Location')}: ${PLACE.address}\nhttp://maps.google.com/maps?q=${PLACE.lat},${PLACE.lng}`;
@@ -57,7 +57,7 @@
     }).join('');
     if (archived) return `<div class="app-view mms-app hgl-app">${bar({up: true, title: H(t, 'Archived conversations'), actions: ''})}<div class="mms-scroll hgl-list">${rows || `<p class="hgl-empty">${e(H(t, 'No archived conversations'))}</p>`}</div></div>`;
     // dnd_list_item.xml on notification_off_background (#d8453c).
-    const snoozed = data.hgSnooze > now ? `<div class="hg-dnd-bar"><span><b>${e(H(t, 'Notifications snoozed'))}</b><small>${e(H(t, 'Will resume at %s').replace('%s', new Date(data.hgSnooze).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'})))}</small></span><i></i><button data-action="hg-dnd-cancel">${e(H(t, 'Resume'))}</button></div>` : '';
+    const snoozed = data.hgSnooze > now ? `<div class="hg-dnd-bar"><span><b>${e(H(t, 'Notifications snoozed'))}</b><small>${e(AndroidStrings.format(H(t, 'Will resume at %s'), new Date(data.hgSnooze).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'})))}</small></span><i></i><button data-action="hg-dnd-cancel">${e(H(t, 'Resume'))}</button></div>` : '';
     return `<div class="app-view mms-app hgl-app">${bar({title: t('Hangouts'), drawer: H(t, 'Open navigation drawer'), actions: tool('new-message', H(t, 'New Hangout'), 'hg-ic_add_24dp.png', 'hgl-white')})}${snoozed}<div class="mms-scroll hgl-list">${rows || `<p class="hgl-empty">${e(t('Send a message or'))}<br>${e(t('start a video call'))}</p>`}</div></div>`;
   }
   function picker(data, ui, t) {

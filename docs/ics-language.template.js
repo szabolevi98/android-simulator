@@ -116,7 +116,7 @@
       + section(t('General')) + row(t('Speech rate'), t('Speed at which the text is spoken'), 'lng-dialog', 'ttsRate')
       + `<button class="settings-row wireless-row" disabled><span class="row-copy">${e(t('Listen to an example'))}<small>${e(t('Play a short demonstration of speech synthesis'))}</small></span></button>`};
     if (s === 'lng-tts-engine') return {title: t('Google Text-to-speech Engine'), body: row(t('Language'), t('Sets the language-specific voice for the spoken text'), 'lng-dialog', 'ttsLang')
-      + row(t('Settings for %s').replace('%s', t('Google Text-to-speech Engine')), '', 'lng-online') + row(t('Install voice data'), t('Install the voice data required for speech synthesis'), 'lng-online')};
+      + row(AndroidStrings.format(t('Settings for %s'), t('Google Text-to-speech Engine')), '', 'lng-online') + row(t('Install voice data'), t('Install the voice data required for speech synthesis'), 'lng-online')};
     return null;
   }
   // Dialogs: list preferences as Holo single-choice lists, the input method picker, the dictionary word, pointer speed.

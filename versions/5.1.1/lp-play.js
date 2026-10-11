@@ -168,7 +168,7 @@
   // The APK's text (STRINGS) before the simulator's own (OWN), in the named form strings.js reads.
   const STR = AndroidStrings.table('', {...OWN, ...STRINGS}, key => key.trim());
   const text = (lang, key) => STR.t(key, lang);
-  const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/%[sd]/g, () => args[0] ?? '').replace(/\^(\d)/g, (_, n) => args[n - 1] ?? '');
+  const fmt = (s, ...args) => AndroidStrings.format(s, ...args);
   const VERSION = '5.2.13';
   // Corpus colours (values/colors.xml: play_*_primary, status_bar_*, play_*_light).
   const SECTIONS = [

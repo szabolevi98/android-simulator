@@ -25,4 +25,7 @@ assert.equal(T.plural('apps',1,'en'),'1 app');assert.equal(T.plural('apps',3,'en
 assert.equal(T.plural('apps',1,'de'),'1 App');assert.equal(T.plural('apps',2,'fr'),'2 apps');
 // The legacy [hu, de, fr, es, en?] rows convert to the named form.
 assert.deepEqual(JSON.parse(JSON.stringify(S.fromRows({A:['a','b','c','d'],B:['a','b','c','d','Bee']}))),{A:{hu:'a',de:'b',fr:'c',es:'d'},B:{en:'Bee',hu:'a',de:'b',fr:'c',es:'d'}});
+// A width with zero padding, the grouping flag (the number arrives grouped), and the CLDR category Android picks plurals by.
+assert.equal(S.format('%2$d:%5$02d',undefined,3,undefined,undefined,7),'3:07');assert.equal(S.format('%1$,d views','1,234'),'1,234 views');
+assert.equal(S.quantity(1,'en'),'one');assert.equal(S.quantity(0,'en'),'other');assert.equal(S.quantity(0,'fr'),'one');assert.equal(S.quantity(2,'hu'),'other');
 console.log('strings ok');

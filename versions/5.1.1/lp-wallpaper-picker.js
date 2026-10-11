@@ -32,13 +32,13 @@
     const preview = !sel ? '' : sel.kind === 'default' ? "url('assets/lp-default_wallpaper.jpg')" : sel.kind === 'bundled' ? `url('assets/gh-${sel.name}.jpg')` : `url('${ctx.image(sel.photo)}')`;
     const tile = item => {
       const cls = `kwp-tile ${item.kind}${item.key === wp.selected && !checked.length ? ' selected' : ''}${checked.includes(item.key) ? ' checked' : ''}`;
-      const label = t('Wallpaper %1$d of %2$d').replace('%1$d', list.indexOf(item) + 1).replace('%2$d', list.length);
+      const label = AndroidStrings.format(t('Wallpaper %1$d of %2$d'), list.indexOf(item) + 1, list.length);
       const img = item.kind === 'default' ? 'assets/lp-default_wallpaper.jpg' : item.kind === 'bundled' ? `assets/gh-${item.name}_small.jpg` : ctx.image(item.photo);
       return `<button class="${cls}" data-action="kwp-tile" data-id="${e(item.key)}"${item.deletable ? ' data-kwp-long="1"' : ''} aria-label="${e(label)}" aria-pressed="${item.key === wp.selected}"><img src="${e(img)}" alt=""></button>`;
     };
     const pick = `<button class="kwp-tile pick" data-action="kwp-pick"><img src="${last ? e(ctx.image(last)) : ''}" alt=""><span class="kwp-pick-label"><img src="assets/kwp-ic_images.png" alt="">${e(t('Pick image'))}</span></button>`;
     const bar = checked.length
-      ? `<div class="kwp-bar cab"><button class="kwp-cab-done" data-action="kwp-cab-done" aria-label="${e(t('Done'))}"><img src="assets/kwp-ic_cab_done_holo_dark.png" alt=""></button><b>${e(t('%1$d selected').replace('%1$d', checked.length))}</b><button class="kwp-cab-delete" data-action="kwp-delete" aria-label="${e(t('Delete'))}"><img src="assets/kwp-ic_menu_delete.png" alt=""></button></div>`
+      ? `<div class="kwp-bar cab"><button class="kwp-cab-done" data-action="kwp-cab-done" aria-label="${e(t('Done'))}"><img src="assets/kwp-ic_cab_done_holo_dark.png" alt=""></button><b>${e(AndroidStrings.format(t('%1$d selected'), checked.length))}</b><button class="kwp-cab-delete" data-action="kwp-delete" aria-label="${e(t('Delete'))}"><img src="assets/kwp-ic_menu_delete.png" alt=""></button></div>`
       : `<div class="kwp-bar"><button class="kwp-set" data-action="kwp-set"><img src="assets/kwp-ic_actionbar_accept.png" alt="">${e(t('Set wallpaper'))}</button></div>`;
     return `<div class="app-view kwp" data-no-translate><button class="kwp-crop${preview ? ' on' : ''}" data-action="kwp-tap" aria-label="${e(t('Wallpapers'))}" style="${preview ? `background-image:${preview}` : ''}"></button>${bar}<div class="kwp-strip${wp.stripHidden ? ' hidden' : ''}"><i class="kwp-shadow top"></i><div class="kwp-scroll"><div class="kwp-list">${pick}${list.map(tile).join('')}</div></div><i class="kwp-shadow bottom"></i></div></div>`;
   }

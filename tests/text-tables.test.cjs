@@ -27,6 +27,9 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
   const sources=[...fs.readdirSync('versions').filter(v=>/^\d/.test(v)).flatMap(v=>fs.readdirSync(`versions/${v}`).filter(f=>f.endsWith('.js')).map(f=>`versions/${v}/${f}`)),...fs.readdirSync('docs').filter(f=>/\.template\.js$/.test(f)).map(f=>`docs/${f}`)];
   const picker=/\[\s*(?:'en',\s*)?'hu',\s*'de',\s*'fr',\s*'es'\s*\]\.indexOf|(?<!AndroidStrings\.)\bLANGS\.indexOf/;
   assert.deepEqual(sources.filter(f=>picker.test(fs.readFileSync(f,'utf8'))),[],'local language pickers');
+  // Placeholders go through AndroidStrings.format (positional, sequential, %%, widths), not local replaces.
+  const replacer=/\.replace\(\s*(?:['"`]%|\/%)/;
+  assert.deepEqual(sources.filter(f=>replacer.test(fs.readFileSync(f,'utf8'))),[],'local placeholder replaces');
   assert.doesNotMatch(fs.readFileSync('i18n.js','utf8'),/^\s*\['[^']*',\s*'[^']*',\s*'[^']*',\s*'[^']*',\s*'[^']*'\],?$/m,'i18n.js rows are named');
   console.log('text-tables ok');
 })().catch(e=>{console.error(e);process.exit(1);});

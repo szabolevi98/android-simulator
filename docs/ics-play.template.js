@@ -49,7 +49,7 @@
   // The APK's text (STRINGS) before the simulator's own (OWN), in the named form strings.js reads.
   const STR = AndroidStrings.table('', {...OWN, ...STRINGS});
   const text = (lang, key) => STR.t(key, lang);
-  const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/%[sd]/g, () => args[0] ?? '');
+  const fmt = (s, ...args) => AndroidStrings.format(s, ...args);
   const stripTags = s => String(s).replace(/<[^>]*>/g, '');
   const VERSION = '3.4.7';
   // Corpus colours (values/colors.xml: *_background, the strips; *_foreground, the tab titles) in the TOC's order.
@@ -149,7 +149,7 @@
   ];
   function reviews(item, ctx) {
     const T = key => text(ctx.lang, key), total = item.votes, shares = [.62, .2, .09, .04, .05].map((s, i) => Math.round(total * (s + (item.rating - 4.4) * (i ? -.04 : .16))));
-    const max = Math.max(...shares), label = n => T(n === 1 ? '1 star' : `${n} stars`);
+    const max = Math.max(...shares), label = n => T(AndroidStrings.quantity(n) === 'one' ? '1 star' : `${n} stars`);
     return `<div class="icsp-reviews"><h4>${e(T('REVIEWS'))}</h4><div class="icsp-hist"><div class="icsp-avg"><small>${e(T('Average'))}</small><b>${item.rating.toLocaleString(ctx.locale, {minimumFractionDigits: 1})}</b>${stars(item.rating)}<small>${total.toLocaleString(ctx.locale)}</small></div><div class="icsp-bars">${shares.map((n, i) => `<span><small>${e(label(5 - i))}</small><i style="width:${Math.max(2, Math.round(n / max * 100))}%"></i><em>${Math.max(0, n).toLocaleString(ctx.locale)}</em></span>`).join('')}</div></div>${REVIEWS.map(r => `<div class="icsp-review"><b>${e(r.title)}</b><span>${stars(r.stars)} <strong>${e(r.author)}</strong> ${e(r.date)}</span><p>${e(r.text)}</p></div>`).join('')}</div>`;
   }
   function detail(ctx) {
@@ -191,7 +191,7 @@
     const cat = title => `<h3 class="icsp-pref-cat">${e(T(title))}</h3>`;
     const chk = (key, title, summary, disabled) => `<button class="icsp-pref" data-action="icsp-pref" data-id="${key}" role="checkbox" aria-checked="${!!s[key]}"${disabled ? ' disabled' : ''}><span><b>${e(T(title))}</b><small>${e(T(summary))}</small></span><img src="assets/btn_check_${s[key] ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
     const plain = (action, title, summary, raw) => `<button class="icsp-pref" data-action="${action}"><span><b>${e(T(title))}</b><small>${raw ? e(summary) : e(T(summary))}</small></span></button>`;
-    return `<div class="app-view icsp icsp-settings" data-no-translate>${header({...ctx, noMenu: true}, T('Settings'))}<div class="icsp-scroll">${cat('General')}${chk('notify', 'Notifications', 'Notifications summary')}${chk('autoUpdate', 'Auto-update apps', 'Auto-update summary')}${chk('wifiOnly', 'Update over Wi-Fi only', 'Wi-Fi summary')}${chk('widgets', 'Auto-add widgets', 'Widgets summary')}${plain('icsp-clear-history', 'Clear search history', 'Clear search history summary')}${cat('User controls')}<button class="icsp-pref" data-action="icsp-unavailable"${s.pinSet ? '' : ' disabled'}><span><b>${e(T('Unlock settings'))}</b></span></button>${plain('icsp-unavailable', 'Content filtering', 'Content filtering summary')}${chk('pin', 'Use PIN for purchases', 'Use PIN summary', !s.pinSet)}${plain('icsp-unavailable', 'Set or change PIN', 'Set PIN summary')}${cat('Other')}${chk('admob', 'Google AdMob Ads', 'AdMob summary')}<p class="icsp-pref-note">${e(stripTags(T('AdMob info')).replace(/%1\$s/g, ''))}</p>${cat('About')}${plain('icsp-unavailable', 'Open source licenses', 'Licenses summary')}<div class="icsp-pref info"><span><b>${e(T('Build version'))}</b><small>${e(fmt(T('Version'), VERSION))}</small></span></div></div></div>`;
+    return `<div class="app-view icsp icsp-settings" data-no-translate>${header({...ctx, noMenu: true}, T('Settings'))}<div class="icsp-scroll">${cat('General')}${chk('notify', 'Notifications', 'Notifications summary')}${chk('autoUpdate', 'Auto-update apps', 'Auto-update summary')}${chk('wifiOnly', 'Update over Wi-Fi only', 'Wi-Fi summary')}${chk('widgets', 'Auto-add widgets', 'Widgets summary')}${plain('icsp-clear-history', 'Clear search history', 'Clear search history summary')}${cat('User controls')}<button class="icsp-pref" data-action="icsp-unavailable"${s.pinSet ? '' : ' disabled'}><span><b>${e(T('Unlock settings'))}</b></span></button>${plain('icsp-unavailable', 'Content filtering', 'Content filtering summary')}${chk('pin', 'Use PIN for purchases', 'Use PIN summary', !s.pinSet)}${plain('icsp-unavailable', 'Set or change PIN', 'Set PIN summary')}${cat('Other')}${chk('admob', 'Google AdMob Ads', 'AdMob summary')}<p class="icsp-pref-note">${e(AndroidStrings.format(stripTags(T('AdMob info')), ''))}</p>${cat('About')}${plain('icsp-unavailable', 'Open source licenses', 'Licenses summary')}<div class="icsp-pref info"><span><b>${e(T('Build version'))}</b><small>${e(fmt(T('Version'), VERSION))}</small></span></div></div></div>`;
   }
   function render(ctx) {
     if (ctx.page === 'section') return section(ctx);

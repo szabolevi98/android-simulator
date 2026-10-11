@@ -61,7 +61,7 @@
   // The APK's text (STRINGS) before the simulator's own (OWN), in the named form strings.js reads.
   const STR = AndroidStrings.table('', {...OWN, ...STRINGS});
   const text = (lang, key) => STR.t(key, lang);
-  const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/\^(\d)/g, (_, n) => args[n - 1] ?? '');
+  const fmt = (s, ...args) => AndroidStrings.format(s, ...args);
   const VERSION = '2.3.4';
   const SECTIONS = [['apps', 'Apps'], ['games', 'Games']];
   const TABS = ['Top paid', 'Top free', 'Just in'];

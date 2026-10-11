@@ -69,7 +69,7 @@
   function hud(ctx, crumbs, topRight) {
     if (ctx.selecting) {
       const n = ctx.selected.length, sets = ctx.sub === '', T = key => text(ctx.lang, key);
-      const count = `${n} ${T(sets ? (n === 1 ? 'album_selected' : 'albums_selected') : (n === 1 ? 'item_selected' : 'items_selected'))}`;
+      const count = `${n} ${T(sets ? (AndroidStrings.quantity(n) === 'one' ? 'album_selected' : 'albums_selected') : (AndroidStrings.quantity(n) === 'one' ? 'item_selected' : 'items_selected'))}`;
       return `${menuBar([['gbg-select-all', T('select_all')], ['', count], ['gbg-deselect', T('deselect_all')]], 'top')}${menuBar([['gbg-share', T('share'), 'gb-g3-icon_share.png'], ['gbg-delete', T('delete'), 'gb-g3-icon_delete.png'], ['gbg-more', T('more'), 'gb-g3-icon_more.png']], 'bottom')}${popup(ctx)}`;
     }
     return `${pathBar(crumbs)}${topRight}`;

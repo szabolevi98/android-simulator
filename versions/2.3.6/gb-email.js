@@ -106,7 +106,7 @@
   // MessageCompose: the reply / forward header above the quoted original (message_compose_reply_header_fmt / _fwd_header_fmt).
   function quote(source, forward, lang) {
     if (forward) return `\n\n-------- Original Message --------\nSubject: ${source.subject}\nFrom: ${source.from || source.address}\nTo: ${source.to || ACCOUNT}\n\n${source.body}`;
-    return text(lang, 'message_compose_reply_header_fmt').replace('%s', source.from || source.address).replace(/^\n+/, '') + source.body;
+    return AndroidStrings.format(text(lang, 'message_compose_reply_header_fmt'), source.from || source.address).replace(/^\n+/, '') + source.body;
   }
   /* AccountSetupBasics (account_setup_basics.xml): the 20 sp welcome, the email and password fields and the default-account
      checkbox between flexible gaps, then the 54 dip bottom_bar with Manual setup on the left and Next (button_indicator_next)

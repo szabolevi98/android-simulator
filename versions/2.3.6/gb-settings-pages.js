@@ -36,14 +36,14 @@
     list.sort((a, b) => ctx.sortBySize ? (sizes(b.id).code + sizes(b.id).data) - (sizes(a.id).code + sizes(a.id).data) : a.name.localeCompare(b.name, ctx.locale));
     const rows = list.map(app => `<button class="gbsp-app" data-action="gbsp-app" data-id="${e(app.id)}">${app.icon}<span><b>${e(app.name)}</b><small>${e(size(sizes(app.id).code + sizes(app.id).data + sizes(app.id).cache))}</small></span></button>`).join('');
     const used = 0.26, free = ctx.freeText;
-    const bar = `<div class="gbsp-storage"><span class="gbsp-storage-label">${e(T('internal_storage'))}</span><div class="gbsp-colorbar"><i style="width:${used * 100}%"></i></div><div class="gbsp-storage-text"><span>${e(T('service_foreground_processes').replace('%1$s', ctx.usedText))}</span><span>${e(T('service_background_processes').replace('%1$s', free))}</span></div></div>`;
+    const bar = `<div class="gbsp-storage"><span class="gbsp-storage-label">${e(T('internal_storage'))}</span><div class="gbsp-colorbar"><i style="width:${used * 100}%"></i></div><div class="gbsp-storage-text"><span>${e(AndroidStrings.format(T('service_foreground_processes'), ctx.usedText))}</span><span>${e(AndroidStrings.format(T('service_background_processes'), free))}</span></div></div>`;
     return `<div class="app-view gbset gbsp" data-no-translate>${head}<div class="gbsp-list">${rows || `<p class="gbsp-empty">${e(T('no_applications'))}</p>`}</div>${bar}</div>`;
   }
   // RunningServices: running_processes_item with the process / service counts, size and uptime; RAM bar at the bottom.
   function running(ctx) {
     const T = key => text(ctx.lang, key);
-    const rows = ctx.running.map(item => `<button class="gbsp-app running" data-action="gbsp-app" data-id="${e(item.id)}">${item.icon}<span><span class="gbsp-line"><b>${e(item.name)}</b><small>${e(size(item.ram))}</small></span><span class="gbsp-line"><small>${e(T('running_processes_item_description_s_s').replace('%1$d', 1).replace('%2$d', 1))}</small><small>${e(item.uptime)}</small></span></span></button>`).join('');
-    return `<div class="gbsp-list">${rows || `<p class="gbsp-empty">${e(T('no_running_services'))}</p>`}</div><div class="gbsp-storage"><span class="gbsp-storage-label">RAM</span><div class="gbsp-colorbar"><i style="width:58%"></i></div><div class="gbsp-storage-text"><span>${e(T('service_foreground_processes').replace('%1$s', '196MB'))}</span><span>${e(T('service_background_processes').replace('%1$s', '144MB'))}</span></div></div>`;
+    const rows = ctx.running.map(item => `<button class="gbsp-app running" data-action="gbsp-app" data-id="${e(item.id)}">${item.icon}<span><span class="gbsp-line"><b>${e(item.name)}</b><small>${e(size(item.ram))}</small></span><span class="gbsp-line"><small>${e(AndroidStrings.format(T('running_processes_item_description_s_s'), 1, 1))}</small><small>${e(item.uptime)}</small></span></span></button>`).join('');
+    return `<div class="gbsp-list">${rows || `<p class="gbsp-empty">${e(T('no_running_services'))}</p>`}</div><div class="gbsp-storage"><span class="gbsp-storage-label">RAM</span><div class="gbsp-colorbar"><i style="width:58%"></i></div><div class="gbsp-storage-text"><span>${e(AndroidStrings.format(T('service_foreground_processes'), '196MB'))}</span><span>${e(AndroidStrings.format(T('service_background_processes'), '144MB'))}</span></div></div>`;
   }
   // Each package's versionName in the Nexus S GRK39F image (PackageManager, as _aosp/crespo/launcher.txt lists them): the
   // Phone and Contacts are one package, Maps, Navigation, Places and Latitude another.
@@ -59,7 +59,7 @@
     const s = ctx.cleared ? {...sizes(app.id), data: 0, cache: 0} : sizes(app.id);
     const pair = (label, value) => `<div class="gbsp-pair"><span>${e(label)}</span><i></i><span>${e(value)}</span></div>`;
     return `<div class="app-view gbset gbsp" data-no-translate>${titleBar(T('application_info_label'))}<div class="gbsp-scroll">
-      <div class="gbsp-snippet">${app.icon}<span><b>${e(app.name)}</b><small>${e(T('version_text').replace('%1$s', VERSIONS[app.id] || '2.3.6'))}</small></span></div>
+      <div class="gbsp-snippet">${app.icon}<span><b>${e(app.name)}</b><small>${e(AndroidStrings.format(T('version_text'), VERSIONS[app.id] || '2.3.6'))}</small></span></div>
       <div class="gbsp-buttons">${button('gbsp-force-stop', T('force_stop'), app.id, !ctx.isRunning)}${button('gbsp-uninstall', T('uninstall_text'), app.id, true)}</div>
       ${separator(T('storage_label'))}<div class="gbsp-pairs">${pair(T('total_size_label'), size(s.code + s.data))}${pair(T('application_size_label'), size(s.code))}${pair(T('data_size_label'), size(s.data))}</div>
       <div class="gbsp-buttons center">${button('gbsp-clear-data', T('clear_user_data_text'), app.id, !s.data)}</div>
@@ -72,7 +72,7 @@
   function battery(ctx) {
     const T = key => text(ctx.lang, key);
     const rows = ctx.usage.map(item => `<button class="gbsp-gauge" data-action="gbsp-battery-item" data-id="${e(item.id)}">${item.icon}<span class="gbsp-gauge-body"><span class="gbsp-line"><span>${e(item.name)}</span><b>${item.percent}%</b></span><span class="gbsp-bar"><i style="width:${(item.percent / ctx.usage[0].percent * 100).toFixed(1)}%"></i></span></span></button>`).join('');
-    return `<div class="app-view gbset gbsp" data-no-translate>${titleBar(T('power_usage_summary_title'))}<div class="gbsp-scroll"><div class="gbsp-onbattery">${e(T('battery_stats_on_battery').replace('%1$s', ctx.onBattery))}</div>${separator(T('battery_since_unplugged'))}${rows}</div></div>`;
+    return `<div class="app-view gbset gbsp" data-no-translate>${titleBar(T('power_usage_summary_title'))}<div class="gbsp-scroll"><div class="gbsp-onbattery">${e(AndroidStrings.format(T('battery_stats_on_battery'), ctx.onBattery))}</div>${separator(T('battery_since_unplugged'))}${rows}</div></div>`;
   }
   function batteryDetail(ctx) {
     const T = key => text(ctx.lang, key), item = ctx.usage.find(u => u.id === ctx.item) || ctx.usage[0];
@@ -115,7 +115,7 @@
     const items = [['syncContacts', 'sync_contacts'], ['syncCalendar', 'sync_calendar'], ['syncEmail', null]].map(([key, label]) => {
       const name = label ? A(label) : 'Email', on = s[key] !== false;
       const summary = ctx.syncing ? A('sync_one_time_sync').split('\n')[0] : ctx.lastSync;
-      return `<button class="gbset-row gbacc-item" data-action="gbset-check" data-id="${key}" role="checkbox" aria-checked="${on}"><span class="gbset-text"><span class="gbset-title">${e(A('sync_item_title').replace('%s', name))}</span><span class="gbset-sum">${e(summary)}</span></span>${ctx.syncing && on ? '<img class="gbacc-anim" src="assets/gb-acc-ic_list_sync_anim0.png" alt="">' : ''}<img class="gbset-check" src="assets/gb-btn_check_${on ? 'on' : 'off'}${auto ? '' : '_disable'}.png" alt=""></button>`;
+      return `<button class="gbset-row gbacc-item" data-action="gbset-check" data-id="${key}" role="checkbox" aria-checked="${on}"><span class="gbset-text"><span class="gbset-title">${e(AndroidStrings.format(A('sync_item_title'), name))}</span><span class="gbset-sum">${e(summary)}</span></span>${ctx.syncing && on ? '<img class="gbacc-anim" src="assets/gb-acc-ic_list_sync_anim0.png" alt="">' : ''}<img class="gbset-check" src="assets/gb-btn_check_${on ? 'on' : 'off'}${auto ? '' : '_disable'}.png" alt=""></button>`;
     }).join('');
     return `<div class="app-view gbset gbsp" data-no-translate><div class="gbacc-title"><img src="assets/email.png" alt=""><span><b>${e(ctx.account)}</b><small>Email</small></span></div><div class="gbsp-scroll">${separator(A('header_data_and_synchronization'))}${items}</div><div class="gbacc-bar"><button class="gbsp-btn" data-action="gbacc-remove">${e(A('remove_account_label'))}</button></div></div>`;
   }

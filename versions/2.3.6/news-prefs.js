@@ -58,7 +58,7 @@
     } else if (screen === 'refresh') {
       title = N('Refresh settings');
       const interval = INTERVALS.find(([, v]) => v === p.interval) || INTERVALS[3];
-      const status = p.lastRefresh ? (p.autoRefresh ? N('Last refresh %1$s \nNext refresh %2$s').replace('%1$s', when(p.lastRefresh)).replace('%2$s', when(p.lastRefresh + Number(p.interval) * 1000)) : N('Last refresh %s').replace('%s', when(p.lastRefresh))) : '';
+      const status = p.lastRefresh ? (p.autoRefresh ? AndroidStrings.format(N('Last refresh %1$s \nNext refresh %2$s'), when(p.lastRefresh), when(p.lastRefresh + Number(p.interval) * 1000)) : AndroidStrings.format(N('Last refresh %s'), when(p.lastRefresh))) : '';
       body = row({action: 'nwp-toggle', id: 'autoRefresh', title: N('Auto-refresh'), summary: N('Auto-refresh summary') === 'Auto-refresh summary' ? '' : N('Auto-refresh summary'), check: p.autoRefresh})
         + row({action: 'nwp-dialog', id: 'interval', title: N('Refresh interval'), summary: N(interval[0]), disabled: !p.autoRefresh})
         + row({title: N('Refresh status'), summary: status, disabled: true});

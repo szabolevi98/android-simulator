@@ -30,7 +30,7 @@
     const row = window.StockStrings?.maps?.[key] || KK[key];
     return row ? AndroidStrings.pick(row, String(ctx.locale || 'en'), key) : ctx.t(key);
   }
-  const fmt = (pattern, ...args) => args.reduce((s, a, i) => s.replace(`%${i + 1}$s`, a).replace(`{${i}}`, a), pattern);
+  const fmt = (pattern, ...args) => AndroidStrings.format(args.reduce((s, a, i) => s.replace(`{${i}}`, a), pattern), ...args);
   function distance(ctx, km) {
     if (S(ctx, 'imperial') === 'imperial') { const mi = km * .621; return mi < .1 ? fmt(S(ctx, '{0} ft'), Math.round(mi * 5280 / 50) * 50) : fmt(S(ctx, '{0} mi'), mi.toFixed(1)); }
     return km < 1 ? fmt(S(ctx, '{0} m'), Math.round(km * 100) * 10) : fmt(S(ctx, '{0} km'), km.toFixed(1));

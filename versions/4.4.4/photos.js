@@ -56,7 +56,7 @@
     const body = !query
       ? `<div class="ph-search-help"><p class="ph-search-title">${e(P(ctx, 'Search instructions'))}</p><p class="ph-search-icons"><img src="assets/gp-ic_person_grey_24.png" alt=""><img src="assets/gp-ic_location_grey_24.png" alt=""><img src="assets/gp-ic_sunglasses_24.png" alt=""></p><p class="ph-search-examples">${e(P(ctx, 'Search examples'))}</p></div>`
       : found.length ? `<h4 class="ph-search-head">${e(P(ctx, 'Camera & folders'))}</h4><div class="ph-grid">${found.map(p => thumb(ctx, p, 'search')).join('')}</div>`
-      : `<p class="ph-empty">${P(ctx, 'No photos found for %s').replace('%s', e(q))}</p>`;
+      : `<p class="ph-empty">${AndroidStrings.format(P(ctx, 'No photos found for %s'), e(q))}</p>`;
     return `<div class="app-view ph-app"><header class="ph-bar ph-search-bar"><button class="ph-up" data-action="back" aria-label="${e(P(ctx, 'Navigate up'))}"><img class="ph-caret" src="assets/ic_ab_back_holo_light.png" alt=""><img class="ph-icon" src="assets/gp-ic_photos_color_32.png" alt=""></button><input data-photos-search value="${e(q)}" placeholder="${e(P(ctx, 'Search for photos'))}" aria-label="${e(P(ctx, 'Search for photos'))}" autocomplete="off" spellcheck="false"></header><div class="ph-scroll">${body}</div></div>`;
   }
   function viewer(ctx) {

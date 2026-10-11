@@ -1047,7 +1047,7 @@
      second up to WPS_TIMEOUT_S (120 s), after which the failure message and an OK button remain. */
   function wpsDialog() {
     const wps = ui.wps || {mode: 'pbc', start: Date.now(), pin: '30521874'}, elapsed = Math.floor((Date.now() - wps.start) / 1000), done = elapsed >= 120;
-    const text = done ? i18n.t('WPS failed. Please try again in a few minutes.') : elapsed < 1 ? i18n.t('Starting WPS…') : wps.mode === 'pin' ? i18n.t('Enter pin %1$s on your Wi-Fi router. The setup can take up to two minutes to complete.').replace('%1$s', wps.pin) : i18n.t('Press the Wi-Fi Protected Setup button on your router. It may be called "WPS" or contain this symbol:');
+    const text = done ? i18n.t('WPS failed. Please try again in a few minutes.') : elapsed < 1 ? i18n.t('Starting WPS…') : wps.mode === 'pin' ? AndroidStrings.format(i18n.t('Enter pin %1$s on your Wi-Fi router. The setup can take up to two minutes to complete.'), wps.pin) : i18n.t('Press the Wi-Fi Protected Setup button on your router. It may be called "WPS" or contain this symbol:');
     return `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-alert jb-wps" role="dialog" aria-label="${safe(i18n.t('Wi-Fi Protected Setup'))}" data-no-translate><h3 class="ga-title">${safe(i18n.t('Wi-Fi Protected Setup'))}</h3><div class="jb-wps-body"><p>${safe(text)}</p><img src="assets/jb-ic_wps.png" alt=""><span class="jb-progress-h" role="progressbar" aria-valuemin="0" aria-valuemax="120" aria-valuenow="${Math.min(120, elapsed)}"><i style="width:${Math.min(120, elapsed) / 120 * 100}%"></i></span><button type="button" class="jb-holo-button" data-action="close-overlay">${safe(i18n.t(done ? 'OK' : 'Cancel'))}</button></div></div>`;
   }
   setInterval(() => { if (ui.overlay === 'wifi-wps') renderOverlay(); }, 1000);
@@ -1959,7 +1959,7 @@
         if (data.settings.developerUnlocked) { toast('No need, you are already a developer.'); break; }
         const remaining = 7 - ++ui.buildTaps;
         if (remaining <= 0) { data.settings.developerUnlocked = true; ui.buildTaps = 0; save(); toast('You are now a developer!'); }
-        else if (remaining < 5) toast(i18n.t(remaining === 1 ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.').replace('%d', remaining));
+        else if (remaining < 5) toast(AndroidStrings.format(i18n.t(AndroidStrings.quantity(remaining) === 'one' ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.'), remaining));
         break;
       }
       case 'jb-platlogo': ui.jbLogoTapped = true; render(); platLogoToast(); break;
@@ -2390,7 +2390,7 @@
       }
       case 'music-party': ui.music.party=!ui.music.party;if(ui.music.party)ui.music.shuffle=true;ui.overlay='';renderOverlay();saveMusic();render();break;
       case 'music-shuffle-all': {const list=ICSMusic.listing(ui.music,{sub:''});ui.overlay='';renderOverlay();if(!list.length)break;ui.music.shuffle=true;ui.music.queue=[...list];ui.music.track=list[Math.floor(Math.random()*list.length)];ui.music.position=0;ui.music.playing=true;saveMusic();ui.sub='player';render();break;}
-      case 'music-ringtone': {const track=tracks[Number(id)];ui.overlay='';renderOverlay();if(!track)break;data.settings.ringtoneName=track.title;save();toast(ICSMusic.M('ringtone_set',i18n.language).replace('%s',track.title));break;}
+      case 'music-ringtone': {const track=tracks[Number(id)];ui.overlay='';renderOverlay();if(!track)break;data.settings.ringtoneName=track.title;save();toast(AndroidStrings.format(ICSMusic.M('ringtone_set',i18n.language), track.title));break;}
       case 'music-delete': {const n=Number(String(id).replace(/^group:/,''));if(String(id).startsWith('group:')){ui.musicSelected=null;ui.overlay='';renderOverlay();break;}ui.musicSelected=n;ui.music.lang=i18n.language;ui.overlay='music-delete';renderOverlay();break;}
       case 'music-delete-confirm': {ui.music.deleted=[...new Set([...(ui.music.deleted||[]),ui.musicSelected])];ui.music.queue=ui.music.queue.filter(x=>x!==ui.musicSelected);ui.music.playlists.forEach(p=>{p.tracks=p.tracks.filter(x=>x!==ui.musicSelected);});if(ui.music.track===ui.musicSelected){ui.music.playing=false;ui.sub='';}ui.overlay='';renderOverlay();saveMusic();render();break;}
       case 'music-playlist-delete': ui.music.playlists=ui.music.playlists.filter(p=>String(p.id)!==id);ui.overlay='';renderOverlay();saveMusic();render();break;

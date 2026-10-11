@@ -13,7 +13,7 @@
   const lookup = (group, lang, key) => AndroidStrings.resources(() => window.GBStrings?.[group]).t(key, lang);
   const array = (lang, name) => AndroidStrings.resources(() => window.GBStrings?.network).array(name, lang);
   // Java's String.format for %s, %d and %1$s.
-  const fmt = (pattern, ...args) => { let next = 0; return String(pattern).replace(/%(?:(\d+)\$)?[sd]/g, (m, pos) => String(args[pos ? Number(pos) - 1 : next++] ?? '')); };
+  const fmt = (pattern, ...args) => AndroidStrings.format(pattern, ...args);
 
   // VpnType (android.net.vpn): the display name and the framework description, in VpnManager.getSupportedVpnTypes order.
   const VPN_TYPES = [['PPTP', 'PPTP', 'pptp_vpn_description'], ['L2TP', 'L2TP', 'l2tp_vpn_description'], ['L2TP_IPSEC_PSK', 'L2TP/IPSec PSK', 'l2tp_ipsec_psk_vpn_description'], ['L2TP_IPSEC', 'L2TP/IPSec CRT', 'l2tp_ipsec_crt_vpn_description']];

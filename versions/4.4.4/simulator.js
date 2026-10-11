@@ -997,7 +997,7 @@
      second up to WPS_TIMEOUT_S (120 s), after which the failure message and an OK button remain. */
   function wpsDialog() {
     const wps = ui.wps || {mode: 'pbc', start: Date.now(), pin: '30521874'}, elapsed = Math.floor((Date.now() - wps.start) / 1000), done = elapsed >= 120;
-    const text = done ? i18n.t('WPS failed. Please try again in a few minutes.') : elapsed < 1 ? i18n.t('Starting WPS…') : wps.mode === 'pin' ? i18n.t('Enter pin %1$s on your Wi-Fi router. The setup can take up to two minutes to complete.').replace('%1$s', wps.pin) : i18n.t('Press the Wi-Fi Protected Setup button on your router. It may be called "WPS" or contain this symbol:');
+    const text = done ? i18n.t('WPS failed. Please try again in a few minutes.') : elapsed < 1 ? i18n.t('Starting WPS…') : wps.mode === 'pin' ? AndroidStrings.format(i18n.t('Enter pin %1$s on your Wi-Fi router. The setup can take up to two minutes to complete.'), wps.pin) : i18n.t('Press the Wi-Fi Protected Setup button on your router. It may be called "WPS" or contain this symbol:');
     return `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-alert jb-wps" role="dialog" aria-label="${safe(i18n.t('Wi-Fi Protected Setup'))}" data-no-translate><h3 class="ga-title">${safe(i18n.t('Wi-Fi Protected Setup'))}</h3><div class="jb-wps-body"><p>${safe(text)}</p><img src="assets/jb-ic_wps.png" alt=""><span class="jb-progress-h" role="progressbar" aria-valuemin="0" aria-valuemax="120" aria-valuenow="${Math.min(120, elapsed)}"><i style="width:${Math.min(120, elapsed) / 120 * 100}%"></i></span><button type="button" class="jb-holo-button" data-action="close-overlay">${safe(i18n.t(done ? 'OK' : 'Cancel'))}</button></div></div>`;
   }
   setInterval(() => { if (ui.overlay === 'wifi-wps') renderOverlay(); }, 1000);
@@ -1670,7 +1670,7 @@
       case 'qo-new': ui.overlay = 'qo-create'; renderOverlay(); break;
       case 'qo-create': ui.overlay = ''; renderOverlay(); ui.qoKind = id; ui.sub = 'qo-new'; render(); break;
       case 'qo-save': { const [base, ext] = KKExtraApps.QO_KIND[ui.qoKind], label = QO(base), names = new Set(officeFiles().map(f => f.name)); let name = `${label}${ext}`, n = 1; while (names.has(name)) name = `${label} (${n++})${ext}`;
-        data.driveFiles = [{id: `q${Date.now().toString(36)}`, name, kind: ui.qoKind, date: deviceDate().toLocaleDateString(i18n.locale(), {month: 'short', day: 'numeric'}), age: 0, text: ''}, ...officeFiles()]; save(); ui.sub = ''; render(); toast(QO('File saved to %1$s').replace('%1$s', KKExtraApps.local('Device', key => i18n.t(key)))); break; }
+        data.driveFiles = [{id: `q${Date.now().toString(36)}`, name, kind: ui.qoKind, date: deviceDate().toLocaleDateString(i18n.locale(), {month: 'short', day: 'numeric'}), age: 0, text: ''}, ...officeFiles()]; save(); ui.sub = ''; render(); toast(AndroidStrings.format(QO('File saved to %1$s'), KKExtraApps.local('Device', key => i18n.t(key)))); break; }
       case 'qo-rename': ui.overlay = 'qo-rename'; renderOverlay(); overlayRoot.querySelector('[data-qo-name]')?.select(); break;
       case 'qo-rename-ok': { const name = overlayRoot.querySelector('[data-qo-name]')?.value.trim(); if (name) { data.driveFiles = officeFiles().map(f => f.id === ui.qoFile ? {...f, name} : f); save(); } ui.overlay = ''; renderOverlay(); render(); break; }
       case 'qo-delete': ui.overlay = 'qo-delete'; renderOverlay(); break;
@@ -1869,7 +1869,7 @@
         if (data.settings.developerUnlocked) { toast('No need, you are already a developer.'); break; }
         const remaining = 7 - ++ui.buildTaps;
         if (remaining <= 0) { data.settings.developerUnlocked = true; ui.buildTaps = 0; save(); toast('You are now a developer!'); }
-        else if (remaining < 5) toast(i18n.t(remaining === 1 ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.').replace('%d', remaining));
+        else if (remaining < 5) toast(AndroidStrings.format(i18n.t(AndroidStrings.quantity(remaining) === 'one' ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.'), remaining));
         break;
       }
       // The Email app's settings (email-prefs.js, from the image's EmailGoogle preference XMLs).

@@ -95,6 +95,6 @@
     handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);
   }
   // AlarmAlertFullScreen.snooze: "Snoozing for %d minutes."
-  const snoozeMessage=()=>A('alarm_alert_snooze_set').replace('%d','10');
+  const snoozeMessage=()=>AndroidStrings.format(A('alarm_alert_snooze_set'), '10');
   window.ICSDeskClock={normalize,nextOccurrence,due,repeatText,render,overlay,ringing,snoozeMessage,bindRinging};
 })();

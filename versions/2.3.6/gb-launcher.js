@@ -60,10 +60,10 @@
   ];
   const tips = (lang, set) => set === 1 ? HAIKU : TIPS[lang] || TIPS.en;
   // R.string.pager_footer "%1$d of %2$d" (10 sp bold #AAAAAA). The 2.3.6 Hungarian string swaps the numbers ("6/1").
-  const FOOTER = {en: '%1 of %2', hu: '%2/%1', de: '%1 von %2', fr: '%1 sur %2', es: '%1 de %2'};
+  const FOOTER = {res: 'Protips:pager_footer', en: '%1$d of %2$d', hu: '%2$d/%1$d', de: '%1$d von %2$d', fr: '%1$d sur %2$d', es: '%1$d de %2$d'};
   function protips(state, lang) {
     const list = tips(lang, state.set), index = state.index < 0 ? -1 : state.index % list.length, tip = list[index];
-    const bubble = tip ? `<button class="gbtips-bubble" data-action="gb-tip-next" aria-label="${e(tip[0])}"><span class="gbtips-text"><strong>${e(tip[0])}</strong><span>${e(tip[1]).replace(/\n/g, '<br>')}</span></span>${tip[2] ? `<img class="gbtips-callout" src="assets/gb-tips-${tip[2]}.png" alt="">` : ''}<span class="gbtips-footer">${e((FOOTER[lang] || FOOTER.en).replace('%1', index + 1).replace('%2', list.length))}</span></button>` : '';
+    const bubble = tip ? `<button class="gbtips-bubble" data-action="gb-tip-next" aria-label="${e(tip[0])}"><span class="gbtips-text"><strong>${e(tip[0])}</strong><span>${e(tip[1]).replace(/\n/g, '<br>')}</span></span>${tip[2] ? `<img class="gbtips-callout" src="assets/gb-tips-${tip[2]}.png" alt="">` : ''}<span class="gbtips-footer">${e(AndroidStrings.format(AndroidStrings.pick(FOOTER, lang, ''), index + 1, list.length))}</span></button>` : '';
     return `<div class="gbtips">${bubble}<button class="gbtips-droid" data-action="gb-tip-poke" aria-label="Android"><img src="assets/gb-tips-${state.icon || 'droidman_open'}.png" alt=""></button></div>`;
   }
   // ProtipWidget.blink: closed 100 ms, then (open 200 ms, closed 100 ms) per extra blink, then open.

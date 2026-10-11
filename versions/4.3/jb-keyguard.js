@@ -181,7 +181,7 @@
   const settleShows = (offset, velocity) => Math.abs(velocity) > S.fling ? velocity < 0 : offset >= .5;
   // KeyguardMessageArea: owner info by default; important messages replace it for five seconds; lockout counts down.
   function securityMessage({error = '', errorAt = 0, remaining = 0, owner = '', now = Date.now()}, t) {
-    if (remaining) return t('Try again in %d seconds.').replace('%d', remaining);
+    if (remaining) return AndroidStrings.format(t('Try again in %d seconds.'), remaining);
     if (error && now - errorAt < S.message) return t(error);
     return owner || '';
   }

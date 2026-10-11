@@ -136,7 +136,7 @@
   // "No results found." when nothing matches. Artist, album and song names are matched on their own.
   function musicSearch(ctx) {
     const {ui, tracks, music: state} = ctx, m = key => S(ctx, 'music', key), q = String(ui.paQuery || '').trim().toLocaleLowerCase();
-    const list = albums(tracks), has = text => String(text).toLocaleLowerCase().includes(q), more = (n, max) => n > max ? m('%d MORE').replace('%d', n - max) : '';
+    const list = albums(tracks), has = text => String(text).toLocaleLowerCase().includes(q), more = (n, max) => n > max ? AndroidStrings.format(m('%d MORE'), n - max) : '';
     let body = '';
     if (q) {
       const artists = [...new Set(tracks.map(track => track.artist))].filter(has), found = list.filter(album => has(album.album)), songs = tracks.map((track, id) => ({track, id})).filter(({track}) => has(track.title));
@@ -174,8 +174,8 @@
       const tabs = [['genres', 'Genres'], ['artists', 'Artists'], ['albums', 'Albums'], ['songs', 'Songs']];
       const content = tab === 'albums' ? `<div class="pa-grid">${list.map(album => card({action: 'pa-album', id: album.album, artHtml: art('cover', seedOf(album.album), album.album, album.artist), title: album.album, sub: album.artist})).join('')}</div>`
         : tab === 'songs' ? `<div class="pm-songs">${tracks.map((track, id) => `<button class="pm-song${id === state.track ? ' on' : ''}" data-action="pa-song" data-id="${id}" data-queue="all"><span class="pm-qart">${art('cover', seedOf(track.album), track.album)}</span><span><b>${e(track.title)}</b><small>${e(track.artist)}</small></span><time>${time(track.duration)}</time></button>`).join('')}</div>`
-        : tab === 'artists' ? `<div class="pm-songs">${[...new Set(tracks.map(track => track.artist))].map(artist => `<button class="pm-song" data-action="pa-album" data-id="${e(list.find(album => album.artist === artist).album)}"><span class="pm-qart">${art('cover', seedOf(artist), artist)}</span><span><b>${e(artist)}</b><small>${e(t('%d albums').replace('%d', list.filter(album => album.artist === artist).length))}</small></span></button>`).join('')}</div>`
-        : `<div class="pm-songs"><button class="pm-song" data-action="pa-libtab" data-id="albums"><span class="pm-qart">${art('cover', 3, 'Pop')}</span><span><b>${e(t('Pop'))}</b><small>${e(t('%d albums').replace('%d', list.length))}</small></span></button></div>`;
+        : tab === 'artists' ? `<div class="pm-songs">${[...new Set(tracks.map(track => track.artist))].map(artist => `<button class="pm-song" data-action="pa-album" data-id="${e(list.find(album => album.artist === artist).album)}"><span class="pm-qart">${art('cover', seedOf(artist), artist)}</span><span><b>${e(artist)}</b><small>${e(AndroidStrings.format(t('%d albums'), list.filter(album => album.artist === artist).length))}</small></span></button>`).join('')}</div>`
+        : `<div class="pm-songs"><button class="pm-song" data-action="pa-libtab" data-id="albums"><span class="pm-qart">${art('cover', 3, 'Pop')}</span><span><b>${e(t('Pop'))}</b><small>${e(AndroidStrings.format(t('%d albums'), list.length))}</small></span></button></div>`;
       // MyLibraryFragment's tabs in the PlayHeaderListLayout (14 sp sans-serif-medium, #99ffffff, white when selected with
       // a 2 dp white underline).
       tabBar = lpTabs(tabs.map(([id, label]) => [id, m(label)]), tab, 'pa-libtab');
@@ -189,7 +189,7 @@
     } else {
       title = m('Playlists');
       const auto = [['Thumbs up', Object.values(ctx.data.playMusicThumbs || {}).filter(v => v === 1).length], ['Last added', tracks.length]];
-      body = `${section(t('Auto playlists'))}<div class="pm-songs">${auto.map(([name, n], i) => `<button class="pm-song" data-action="pa-libtab-songs"><span class="pm-qart">${art('cover', i + 5, name)}</span><span><b>${e(m(name))}</b><small>${e(t('%d songs').replace('%d', n))}</small></span></button>`).join('')}</div>${state.playlists.length ? section(t('Playlists')) + `<div class="pm-songs">${state.playlists.map((p, i) => `<button class="pm-song" data-action="pa-libtab-songs"><span class="pm-qart">${art('cover', i + 2, p.name)}</span><span><b>${e(p.name)}</b><small>${e(t('%d songs').replace('%d', p.tracks.length))}</small></span></button>`).join('')}</div>` : ''}`;
+      body = `${section(t('Auto playlists'))}<div class="pm-songs">${auto.map(([name, n], i) => `<button class="pm-song" data-action="pa-libtab-songs"><span class="pm-qart">${art('cover', i + 5, name)}</span><span><b>${e(m(name))}</b><small>${e(AndroidStrings.format(t('%d songs'), n))}</small></span></button>`).join('')}</div>${state.playlists.length ? section(t('Playlists')) + `<div class="pm-songs">${state.playlists.map((p, i) => `<button class="pm-song" data-action="pa-libtab-songs"><span class="pm-qart">${art('cover', i + 2, p.name)}</span><span><b>${e(p.name)}</b><small>${e(AndroidStrings.format(t('%d songs'), p.tracks.length))}</small></span></button>`).join('')}</div>` : ''}`;
     }
     return `<div class="app-view pa-app pa-music">${bar(ctx, {title, subtitle, actions: musicActions(ctx), tabs: tabBar})}<div class="pa-scroll">${body}</div>${miniPlayer(ctx)}</div>`;
   }
@@ -218,16 +218,16 @@
     }
     // search_menu: Search (always) and the media route button (only with a cast device); no overflow.
     const actions = `<button class="pa-btn" data-action="pa-search" aria-label="${e(v('Search'))}"><img class="lpa-icon" src="assets/mv36-abc_ic_search_api_mtrl_alpha.png" alt=""></button>`;
-    const movieCard = m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year}, ${t('%d mins.').replace('%d', m.mins)}`, pin: true});
+    const movieCard = m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year}, ${AndroidStrings.format(t('%d mins.'), m.mins)}`, pin: true});
     const shopCard = m => card({action: 'pa-shop', id: m.id, artHtml: art('poster', seedOf(m.id), m.title), title: m.title, sub: `${m.year} · ${m.price}`});
     let body, tabBar = '';
-    if (page === 'watch') body = `<div class="pa-grid">${MOVIES.filter(m => m.progress).map(m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title) + `<i class="pm-progress-strip" style="--p:${m.progress * 100}%"></i>`, title: m.title, sub: t('%d% watched').replace('%d', Math.round(m.progress * 100))})).join('')}</div>${section(v('Recommended for You'), v('Shop'), 'pa-shop')}<div class="pa-grid">${RECOMMENDED.map(shopCard).join('')}</div>`;
+    if (page === 'watch') body = `<div class="pa-grid">${MOVIES.filter(m => m.progress).map(m => card({action: 'pa-movie', id: m.id, artHtml: art('poster', seedOf(m.id), m.title) + `<i class="pm-progress-strip" style="--p:${m.progress * 100}%"></i>`, title: m.title, sub: AndroidStrings.format(t('%d% watched'), Math.round(m.progress * 100))})).join('')}</div>${section(v('Recommended for You'), v('Shop'), 'pa-shop')}<div class="pa-grid">${RECOMMENDED.map(shopCard).join('')}</div>`;
     else if (page === 'wishlist') body = `${section(v('Movies'))}<div class="pa-grid">${RECOMMENDED.map(shopCard).join('')}</div>`;
     else {
       // MyLibraryFragment pages the movies and shows verticals (VerticalsHelper's titles) under PlayHeaderListLayout tabs.
       const tab = ui.paMovieTab || 'movies';
       tabBar = lpTabs([['movies', v('My Movies')], ['shows', v('My TV Shows')]], tab, 'pa-movietab');
-      body = tab === 'shows' ? `<div class="pa-grid">${SHOWS.map(show => card({action: 'pa-movie', id: show.id, artHtml: art('poster', seedOf(show.id), show.title), title: show.title, sub: t('%d episodes').replace('%d', show.episodes), pin: true})).join('')}</div>` : `<div class="pa-grid">${MOVIES.map(movieCard).join('')}</div>`;
+      body = tab === 'shows' ? `<div class="pa-grid">${SHOWS.map(show => card({action: 'pa-movie', id: show.id, artHtml: art('poster', seedOf(show.id), show.title), title: show.title, sub: AndroidStrings.format(t('%d episodes'), show.episodes), pin: true})).join('')}</div>` : `<div class="pa-grid">${MOVIES.map(movieCard).join('')}</div>`;
     }
     const title = v(APPS['play-movies'].pages.find(p => p[0] === page)[1]);
     return `<div class="app-view pa-app pa-movies">${bar(ctx, {title, actions, tabs: tabBar})}<div class="pa-scroll">${body}</div></div>`;
@@ -301,7 +301,7 @@
     const tabBar = page === 'library' ? lpTabs([['all', b('All books')], ['purchases', b('Purchases')]], ui.bkFilterTab || 'all', 'pa-bookstab') : '';
     const body = page === 'read'
       ? `${section(b('Recent'), b('SEE ALL'), 'pa-see-all')}<div class="pa-grid pb-covers">${BOOKS.map(b => `<div class="pb-cover" role="button" tabindex="0" data-action="pa-book" data-id="${b.id}" aria-label="${e(b.title)}">${cover(b)}<span class="pb-pinned">${glyph.pin}</span></div>`).join('')}</div>`
-      : `<div class="pa-grid">${BOOKS.map(b => card({action: 'pa-book', id: b.id, artHtml: cover(b), title: b.title, sub: b.author, note: progress[b.id] ? t('%d% read').replace('%d', Math.round(progress[b.id] / (b.pages.length - 1) * 100)) : ''})).join('')}</div>`;
+      : `<div class="pa-grid">${BOOKS.map(b => card({action: 'pa-book', id: b.id, artHtml: cover(b), title: b.title, sub: b.author, note: progress[b.id] ? AndroidStrings.format(t('%d% read'), Math.round(progress[b.id] / (b.pages.length - 1) * 100)) : ''})).join('')}</div>`;
     return `<div class="app-view pa-app pa-books">${bar(ctx, {title: b(page === 'read' ? 'Read Now' : 'My Library'), actions, tabs: tabBar})}<div class="pa-scroll">${body}</div></div>`;
   }
 
@@ -318,7 +318,7 @@
     const listRow = g => `<div class="pg-row" role="button" tabindex="0" data-action="pa-game" data-id="${g.id}"><span class="pg-icon">${icon(g)}</span><span class="pg-copy"><b>${e(g.title)}</b><small>${e(g.dev)}</small></span>${g.state === 'PURCHASED' ? `<em>${e(p('PURCHASED'))}</em>` : ''}</div>`;
     if (ui.sub === 'game') {
       const g = GAMES.find(item => item.id === ui.paItem) || GAMES[0];
-      return `<div class="app-view pa-app pa-games">${bar(ctx, {title: g.title, up: true, actions: overflow})}<div class="pa-scroll"><div class="pg-hero">${art('poster', seedOf(g.id) + 1, '')}<span class="pg-hero-icon">${icon(g)}</span></div><div class="pg-detail"><b>${e(g.title)}</b><small>${e(g.dev)}</small><button class="pa-chip big" data-action="pa-game-play">${e(p('PLAY'))}</button></div>${section(p('Achievements'))}<div class="pg-achievements">${Array.from({length: Math.min(6, g.achievements)}, (_, i) => `<div class="pg-ach${i < g.got ? ' got' : ''}"><span>${glyph.trophy}</span><b>${e(t('Achievement %d').replace('%d', i + 1))}</b><small>${e(t(i < g.got ? 'Unlocked' : 'Locked'))}</small></div>`).join('')}</div></div></div>`;
+      return `<div class="app-view pa-app pa-games">${bar(ctx, {title: g.title, up: true, actions: overflow})}<div class="pa-scroll"><div class="pg-hero">${art('poster', seedOf(g.id) + 1, '')}<span class="pg-hero-icon">${icon(g)}</span></div><div class="pg-detail"><b>${e(g.title)}</b><small>${e(g.dev)}</small><button class="pa-chip big" data-action="pa-game-play">${e(p('PLAY'))}</button></div>${section(p('Achievements'))}<div class="pg-achievements">${Array.from({length: Math.min(6, g.achievements)}, (_, i) => `<div class="pg-ach${i < g.got ? ' got' : ''}"><span>${glyph.trophy}</span><b>${e(AndroidStrings.format(t('Achievement %d'), i + 1))}</b><small>${e(t(i < g.got ? 'Unlocked' : 'Locked'))}</small></div>`).join('')}</div></div></div>`;
     }
     let body, tabBar = '';
     if (page === 'now') body = `${section(p('Continue playing'))}<div class="pa-grid">${GAMES.slice(0, 2).map(gameCard).join('')}</div>${section(p('Discover new games'))}<div class="pg-list">${GAMES.slice(2).map(listRow).join('')}</div>${section(p('Add players you know'))}<div class="pa-grid">${PLAYERS.map(playerCard).join('')}</div>`;

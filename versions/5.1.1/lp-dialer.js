@@ -144,7 +144,7 @@
     const rows = found.map(person => `<button class="lpd-result" data-action="contact-call" data-id="${person.id}">${letterTile(person, 'lpd-photo')}<span class="lpd-result-copy"><span>${e(person.name)}</span><small>${e(t('Mobile'))} ${e(person.phone)}</small></span></button>`).join('');
     const number = pad ? q : normalize(q);
     const shortcut = (action, icon, label) => `<button class="lpd-result lpd-shortcut" data-action="${action}" data-id="${e(number)}"><span class="lpd-shortcut-icon"><img src="assets/${icon}" alt=""></span><span class="lpd-result-copy"><span>${e(label)}</span></span></button>`;
-    const shortcuts = number ? `${pad ? '' : shortcut('smartdial-call', 'gd-ic_results_phone.png', t('Call %s').replace('%s', number))}${shortcut('phone-add-contact', 'gd-ic_person_add_24dp.png', t('Add to contacts'))}` : '';
+    const shortcuts = number ? `${pad ? '' : shortcut('smartdial-call', 'gd-ic_results_phone.png', AndroidStrings.format(t('Call %s'), number))}${shortcut('phone-add-contact', 'gd-ic_person_add_24dp.png', t('Add to contacts'))}` : '';
     return `<div class="lpd-results">${rows}${shortcuts}</div>`;
   }
   function speedDialPage(data, t, byPhone) {

@@ -66,10 +66,10 @@
     const item=normalize(event),date=parse(item.date),weekday=date.toLocaleDateString(locale,{weekday:'long'});
     if(item.repeat==='daily')return t('Daily');
     if(item.repeat==='weekdays')return t('Every weekday (Mon–Fri)');
-    if(item.repeat==='weekly')return t('Weekly (every %s)').replace('%s',weekday);
-    if(item.repeat==='monthly-weekday'){const n=ordinal(item.date);return t('Monthly (every %1$s %2$s)').replace('%1$s',t(['last','first','second','third','fourth'][n<0?0:n])).replace('%2$s',weekday);}
-    if(item.repeat==='monthly-day')return t('Monthly (on day %s)').replace('%s',date.getDate());
-    if(item.repeat==='yearly')return t('Yearly (on %s)').replace('%s',date.toLocaleDateString(locale,{month:'long',day:'numeric'}));
+    if(item.repeat==='weekly')return AndroidStrings.format(t('Weekly (every %s)'), weekday);
+    if(item.repeat==='monthly-weekday'){const n=ordinal(item.date);return AndroidStrings.format(t('Monthly (every %1$s %2$s)'), t(['last','first','second','third','fourth'][n<0?0:n]), weekday);}
+    if(item.repeat==='monthly-day')return AndroidStrings.format(t('Monthly (on day %s)'), date.getDate());
+    if(item.repeat==='yearly')return AndroidStrings.format(t('Yearly (on %s)'), date.toLocaleDateString(locale,{month:'long',day:'numeric'}));
     return t('One-time event');
   }
   const reminderLabels=['0 minutes','1 minute','5 minutes','10 minutes','15 minutes','20 minutes','25 minutes','30 minutes','45 minutes','1 hour','2 hours','3 hours','12 hours','24 hours','2 days','1 week'];

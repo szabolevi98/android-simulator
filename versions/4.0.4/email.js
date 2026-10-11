@@ -171,13 +171,13 @@ ${source.body}` : '', read: true, starred: false, created: now,
     let head, actions;
     if (selected.length) {
       const chosen = mail.filter(m => selected.includes(m.id)), readExists = chosen.some(m => m.read), nonStar = chosen.some(m => !m.starred);
-      head = `<header class="em-bar em-cab"><button type="button" class="em-done" data-action="email-clear-selection">${img('ic_cab_done_holo_light')}<b>${e(T(lang, 'Done'))}</b></button><span class="em-cab-title">${e(T(lang, '%d selected').replace('%d', selected.length))}</span></header>`;
+      head = `<header class="em-bar em-cab"><button type="button" class="em-done" data-action="email-clear-selection">${img('ic_cab_done_holo_light')}<b>${e(T(lang, 'Done'))}</b></button><span class="em-cab-title">${e(AndroidStrings.format(T(lang, '%d selected'), selected.length))}</span></header>`;
       actions = btn('email-selected-trash', T(lang, 'Delete'), 'email-ic_menu_trash_holo_light') + btn('email-move', T(lang, 'Move'), 'ic_menu_move_to_holo_light')
         + (readExists ? btn('email-selected-unread', T(lang, 'Mark unread'), 'email-ic_menu_mark_unread_holo_light') : btn('email-selected-read', T(lang, 'Mark read'), 'ic_menu_mark_read_holo_light'))
         + (nonStar ? btn('email-selected-star', T(lang, 'Add star'), 'ic_menu_star_holo_light') : btn('email-selected-unstar', T(lang, 'Remove star'), 'ic_menu_star_off_holo_light'));
     } else if (searching) {
       // action_bar_search.xml: a SearchView replaces the spinner; the hint names the IMAP mailbox.
-      head = bar(ctx, `<form class="em-search" data-form="email-search"><img src="assets/em-ic_search_api_holo_light.png" alt=""><input name="query" value="${e(ui.emailQuery)}" placeholder="${e(T(lang, 'Search %1$s').replace('%1$s', display(ctx, folder)))}" aria-label="${e(T(lang, 'Search'))}" autocomplete="off" enterkeyhint="search">${ui.emailQuery ? `<button type="button" data-action="email-search-clear" aria-label="${e(T(lang, 'Clear query'))}">${img('ic_clear_search_api_holo_light')}</button>` : ''}</form>`, {up: true});
+      head = bar(ctx, `<form class="em-search" data-form="email-search"><img src="assets/em-ic_search_api_holo_light.png" alt=""><input name="query" value="${e(ui.emailQuery)}" placeholder="${e(AndroidStrings.format(T(lang, 'Search %1$s'), display(ctx, folder)))}" aria-label="${e(T(lang, 'Search'))}" autocomplete="off" enterkeyhint="search">${ui.emailQuery ? `<button type="button" data-action="email-search-clear" aria-label="${e(T(lang, 'Clear query'))}">${img('ic_clear_search_api_holo_light')}</button>` : ''}</form>`, {up: true});
       actions = btn('email-compose', T(lang, 'Compose'), 'email-ic_menu_compose_normal_holo_light') + btn('email-mailboxes', T(lang, 'Show all folders'), 'ic_menu_move_to_holo_light') + overflow(ctx);
     } else {
       head = bar(ctx, spinner(ctx, display(ctx, folder), account, countText(count(mail, folder))), {up: folder !== 'Inbox'});
@@ -185,7 +185,7 @@ ${source.body}` : '', read: true, starred: false, created: now,
         + btn('email-mailboxes', T(lang, 'Show all folders'), 'ic_menu_move_to_holo_light')
         + (ui.emailRefreshing ? '<span class="em-btn em-progress" role="progressbar"><i></i></span>' : btn('email-refresh', T(lang, 'Refresh'), 'email-ic_menu_refresh_holo_light')) + overflow(ctx);
     }
-    const header = searching && query ? `<div class="em-search-header"><span>${e(T(lang, 'Search results for "%1$s"').replace('%1$s', query))}</span><span>${items.length}</span></div>` : '';
+    const header = searching && query ? `<div class="em-search-header"><span>${e(AndroidStrings.format(T(lang, 'Search results for "%1$s"'), query))}</span><span>${items.length}</span></div>` : '';
     return `<div class="app-view em-app">${head}${header}<div class="em-scroll email-scroll">${rows(ctx, items)}</div>${split(actions)}</div>`;
   }
 
@@ -210,7 +210,7 @@ ${source.body}` : '', read: true, starred: false, created: now,
       ? `<div class="em-details"><table><tr><th>${e(T(lang, 'Date:'))}</th><td>${e(full)}</td></tr>${[['To:', item.to], ['Cc:', item.cc], ['Bcc:', item.bcc]].filter(([, v]) => v).map(([l, v]) => `<tr><th>${e(T(lang, l))}</th><td>${e(v)}</td></tr>`).join('')}</table><button type="button" class="em-expander close" data-action="email-details" aria-expanded="true" aria-label="${e(T(lang, 'Show details'))}"></button></div>`
       : `<div class="em-sub"><span class="em-addresses">${addresses}</span><span class="em-when">${e(when(item, ctx))}</span><button type="button" class="em-expander" data-action="email-details" aria-expanded="false" aria-label="${e(T(lang, 'Show details'))}"></button></div>`;
     const tab = ui.emailTab === 'attachments' && item.attachment ? 'attachments' : 'message';
-    const tabs = item.attachment ? `<div class="em-tabs"><button type="button" data-action="email-tab" data-id="message" aria-selected="${tab === 'message'}">${e(T(lang, 'Message'))}</button><button type="button" data-action="email-tab" data-id="attachments" aria-selected="${tab === 'attachments'}">${e(T(lang, 'Attachment %1$d').replace('%1$d', 1))}</button></div><i class="em-divider"></i>` : '';
+    const tabs = item.attachment ? `<div class="em-tabs"><button type="button" data-action="email-tab" data-id="message" aria-selected="${tab === 'message'}">${e(T(lang, 'Message'))}</button><button type="button" data-action="email-tab" data-id="attachments" aria-selected="${tab === 'attachments'}">${e(AndroidStrings.format(T(lang, 'Attachment %1$d'), 1))}</button></div><i class="em-divider"></i>` : '';
     const body = tab === 'attachments'
       ? `<div class="em-attachment-view"><div class="em-att-row"><span class="em-att-icon">${ctx.photo ? ctx.photo(item.attachment) : img('ic_attachment_holo_light')}</span><span><b>${e(item.attachment.name)}</b><small>${e(item.attachment.size || '214KB')}</small></span></div><div class="em-att-buttons"><button type="button" data-action="email-attachment-view">${e(T(lang, 'View'))}</button><button type="button" data-action="email-attachment-save">${e(T(lang, 'Save'))}</button></div></div>`
       : `<div class="em-body">${e(item.body).replace(/\n/g, '<br>')}</div>`;
@@ -257,7 +257,7 @@ ${source.body}` : '', read: true, starred: false, created: now,
       // AccountSelectorAdapter: the account, the recent-folders header, Drafts and Sent, then Show all folders.
       const recent = ['Drafts', 'Sent'];
       return popup('em-dropdown', entry('email-folder', account, 'Inbox', `<b>${e(countText(count(mail, 'Inbox')))}</b>`)
-        + `<h4>${e(T(lang, 'Recent folders (%s)').replace('%s', account))}</h4>` + recent.map(f => entry('email-folder', display(ctx, f), f, `<b>${e(countText(count(mail, f)))}</b>`)).join('')
+        + `<h4>${e(AndroidStrings.format(T(lang, 'Recent folders (%s)'), account))}</h4>` + recent.map(f => entry('email-folder', display(ctx, f), f, `<b>${e(countText(count(mail, f)))}</b>`)).join('')
         + entry('email-mailboxes', T(lang, 'Show all folders')));
     }
     if (ui.overlay === 'email-menu') {
@@ -342,7 +342,7 @@ ${source.body}` : '', read: true, starred: false, created: now,
       case 'email-clear-selection': ui.emailSelected = []; ctx.render(); break;
       case 'email-selected-read': case 'email-selected-unread': selection().forEach(m => { m.read = action === 'email-selected-read'; }); ui.emailSelected = []; ctx.save(); ctx.render(); break;
       case 'email-selected-star': case 'email-selected-unstar': selection().forEach(m => { m.starred = action === 'email-selected-star'; }); ui.emailSelected = []; ctx.save(); ctx.render(); break;
-      case 'email-selected-trash': { const n = selection().length; trash(mail, ui.emailSelected || []); ui.emailSelected = []; ctx.save(); ctx.render(); ctx.toast(T(lang, n === 1 ? 'Message deleted.' : 'Messages deleted.')); break; }
+      case 'email-selected-trash': { const n = selection().length; trash(mail, ui.emailSelected || []); ui.emailSelected = []; ctx.save(); ctx.render(); ctx.toast(T(lang, AndroidStrings.quantity(n) === 'one' ? 'Message deleted.' : 'Messages deleted.')); break; }
       // Delete in the message view returns to the list (the default auto-advance is the message list).
       case 'email-trash': if (item) { if (item.folder === 'Trash') mail.splice(mail.indexOf(item), 1); else trash(mail, [item.id]); } ui.sub = ''; ctx.save(); ctx.render(); ctx.toast(T(lang, 'Message deleted.')); break;
       case 'email-move': ui.overlay = 'email-move'; ctx.renderOverlay(); break;
@@ -387,7 +387,7 @@ ${source.body}` : '', read: true, starred: false, created: now,
     if (all.some(a => !validAddress(a))) { ctx.toast(T(lang, 'Some email addresses are invalid.')); return true; }
     if (!all.length) { ctx.toast(T(lang, 'You must add at least one recipient.')); return true; }
     if (!recipients(item.to).length) item.to = item.cc || item.bcc;
-    if (item.source && item.includeQuoted !== false) { const source = data.mailbox.find(m => m.id === item.source); if (source) item.body = `${item.body}${T(lang, '%s wrote:').replace('%s', source.from)}${source.body}`; }
+    if (item.source && item.includeQuoted !== false) { const source = data.mailbox.find(m => m.id === item.source); if (source) item.body = `${item.body}${AndroidStrings.format(T(lang, '%s wrote:'), source.from)}${source.body}`; }
     const source = item.source && data.mailbox.find(m => m.id === item.source);
     if (source) { if (item.mode === 'forward') source.forwarded = true; else source.replied = true; }
     send(item, ctx.now); delete item.mode; delete item.source;

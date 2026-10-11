@@ -267,7 +267,7 @@
   const lockControls=ICSLockscreen.controller({getData:()=>data,getUI:()=>ui,t:key=>i18n.t(key),save,render,clock,date:fullDate,carrier:()=>data.settings.airplane?i18n.t('No service.'):data.settings.networkOperator||'Telekom',toast,unlock:()=>{ui.locked=false;ui.sleeping=false;const pending=ui.kgPending;ui.kgPending=null;ui.kgBouncing=false;ui.kgUp=true;home(false);if(pending)afterKeyguardDismiss(pending);},
     // Android 4.3 security views (KeyguardPatternView/PINView/PasswordView) inside the SlidingChallengeLayout.
     // Lollipop security views: the kg_* instructions, the kg_wrong_* errors and the countdown.
-    look:{wrong:kind=>({pattern:'Wrong Pattern',pin:'Wrong PIN',password:'Wrong Password'})[kind],clearMs:2000,message:({state,remaining})=>remaining?i18n.t('Try again in %d seconds.').replace('%d',remaining):state.error&&Date.now()-state.errorAt<5000?i18n.t(state.error):i18n.t({pattern:'Draw your pattern',pin:'Enter PIN',password:'Enter Password'}[state.kind]||''),renderLock:api=>renderSecureKeyguard(api)}});
+    look:{wrong:kind=>({pattern:'Wrong Pattern',pin:'Wrong PIN',password:'Wrong Password'})[kind],clearMs:2000,message:({state,remaining})=>remaining?AndroidStrings.format(i18n.t('Try again in %d seconds.'), remaining):state.error&&Date.now()-state.errorAt<5000?i18n.t(state.error):i18n.t({pattern:'Draw your pattern',pin:'Enter PIN',password:'Enter Password'}[state.kind]||''),renderLock:api=>renderSecureKeyguard(api)}});
   ui.locked=ICSLockscreen.secure(data);if(ui.locked)ui.view='lock';lockControls.lock();lockControls.bind(screen);
   // BatteryMeterView (5.1): 9.5 x 14.5 dp; the button is 25 %-75 % wide and 12 % tall; frame #66FFFFFF, level white,
   // battery_saver_mode_color (#F4511E) at 15 % or less.
@@ -1190,7 +1190,7 @@
      second up to WPS_TIMEOUT_S (120 s), after which the failure message and an OK button remain. */
   function wpsDialog() {
     const wps = ui.wps || {mode: 'pbc', start: Date.now(), pin: '30521874'}, elapsed = Math.floor((Date.now() - wps.start) / 1000), done = elapsed >= 120;
-    const text = done ? i18n.t('WPS failed. Please try again in a few minutes.') : elapsed < 1 ? i18n.t('Starting WPS…') : wps.mode === 'pin' ? i18n.t('Enter pin %1$s on your Wi-Fi router. The setup can take up to two minutes to complete.').replace('%1$s', wps.pin) : i18n.t('Press the Wi-Fi Protected Setup button on your router. It may be called "WPS" or contain this symbol:');
+    const text = done ? i18n.t('WPS failed. Please try again in a few minutes.') : elapsed < 1 ? i18n.t('Starting WPS…') : wps.mode === 'pin' ? AndroidStrings.format(i18n.t('Enter pin %1$s on your Wi-Fi router. The setup can take up to two minutes to complete.'), wps.pin) : i18n.t('Press the Wi-Fi Protected Setup button on your router. It may be called "WPS" or contain this symbol:');
     return `<div class="ga-scrim" data-action="close-overlay"></div><div class="ga-dialog ga-alert jb-wps" role="dialog" aria-label="${safe(i18n.t('Wi-Fi Protected Setup'))}" data-no-translate><h3 class="ga-title">${safe(i18n.t('Wi-Fi Protected Setup'))}</h3><div class="jb-wps-body"><p>${safe(text)}</p><img src="assets/jb-ic_wps.png" alt=""><span class="jb-progress-h" role="progressbar" aria-valuemin="0" aria-valuemax="120" aria-valuenow="${Math.min(120, elapsed)}"><i style="width:${Math.min(120, elapsed) / 120 * 100}%"></i></span><button type="button" class="jb-holo-button" data-action="close-overlay">${safe(i18n.t(done ? 'OK' : 'Cancel'))}</button></div></div>`;
   }
   setInterval(() => { if (ui.overlay === 'wifi-wps') renderOverlay(); }, 1000);
@@ -1227,7 +1227,7 @@
     const deviceRow = (name, paired) => `<button class="settings-row network-row" data-action="bluetooth-pair" data-id="${safe(name)}"><span class="network-signal"><img src="assets/${name === 'Car Audio' ? 'ic_bt_headphones_a2dp' : 'ic_bt_headset_hfp'}.png" alt=""></span><span class="row-copy">${safe(name)}</span>${paired ? '<img class="bt-config-icon" src="assets/ic_bt_config.png" alt="">' : ''}</button>`;
     const on = !!data.settings.bluetooth, name = data.settings.bluetoothName || 'Nexus 6';
     if (on && !ui.bluetoothScanned) { ui.bluetoothScanned = true; }
-    const body = on ? `${data.settings.pairedDevice ? `${label(i18n.t('Paired devices'))}${deviceRow(data.settings.pairedDevice, true)}` : ''}${label(i18n.t('Available devices'))}${['Wireless Headset','Car Audio'].filter(device => device !== data.settings.pairedDevice).map(device => deviceRow(device, false)).join('')}<p class="lp-bt-footer">${safe(i18n.t('%1$s is visible to nearby devices while Bluetooth settings is open.').replace('%1$s', name))}</p>`
+    const body = on ? `${data.settings.pairedDevice ? `${label(i18n.t('Paired devices'))}${deviceRow(data.settings.pairedDevice, true)}` : ''}${label(i18n.t('Available devices'))}${['Wireless Headset','Car Audio'].filter(device => device !== data.settings.pairedDevice).map(device => deviceRow(device, false)).join('')}<p class="lp-bt-footer">${safe(AndroidStrings.format(i18n.t('%1$s is visible to nearby devices while Bluetooth settings is open.'), name))}</p>`
       : `<p class="lp-bt-off">${safe(i18n.t('When Bluetooth is turned on, your device can communicate with other nearby Bluetooth devices.'))}</p>`;
     return appView('Bluetooth', `${switchBar('bluetooth', on)}<div class="connectivity-page">${body}</div>`, '', overflowButton('bluetooth'));
   }
@@ -1288,7 +1288,7 @@
       const off = data.settings.syncOff || {};
       const rows = (window.LPSyncAdapters || []).map(row => ({key: row.en, name: AndroidStrings.pick(row, i18n.language, row.en)})).sort((a, b) => a.name.localeCompare(b.name, i18n.locale())).map(({key, name}) => {
         const on = autoSync && !off[key];
-        return `<button class="settings-row lp-sync-row" data-action="lp-sync-toggle" data-id="${safe(key)}" role="switch" aria-checked="${on}"><span class="row-copy" data-no-translate>${safe(name)}<small>${safe(i18n.t('Last synced %1$s').replace('%1$s', when))}</small></span><span class="lp-mswitch${on ? ' on' : ''}"></span></button>`;
+        return `<button class="settings-row lp-sync-row" data-action="lp-sync-toggle" data-id="${safe(key)}" role="switch" aria-checked="${on}"><span class="row-copy" data-no-translate>${safe(name)}<small>${safe(AndroidStrings.format(i18n.t('Last synced %1$s'), when))}</small></span><span class="lp-mswitch${on ? ' on' : ''}"></span></button>`;
       }).join('');
       return appView('Sync', `<div class="lp-sync-title"><img src="assets/lp-gls-ic_google_selected.png" alt=""><b data-no-translate>${GOOGLE_ACCOUNT}</b><small>Google</small></div>${rows}`, '', overflowButton('sync-account'));
     }
@@ -2234,7 +2234,7 @@
         if (data.settings.developerUnlocked) { toast('No need, you are already a developer.'); break; }
         const remaining = 7 - ++ui.buildTaps;
         if (remaining <= 0) { data.settings.developerUnlocked = true; ui.buildTaps = 0; save(); toast('You are now a developer!'); }
-        else if (remaining < 5) toast(i18n.t(remaining === 1 ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.').replace('%d', remaining));
+        else if (remaining < 5) toast(AndroidStrings.format(i18n.t(AndroidStrings.quantity(remaining) === 'one' ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.'), remaining));
         break;
       }
       case 'toggle-setting': {
@@ -2262,7 +2262,7 @@
         if (data.settings.developerUnlocked) { toast('No need, you are already a developer.'); break; }
         const remaining = 7 - ++ui.buildTaps;
         if (remaining <= 0) { data.settings.developerUnlocked = true; ui.buildTaps = 0; save(); toast('You are now a developer!'); }
-        else if (remaining < 5) toast(i18n.t(remaining === 1 ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.').replace('%d', remaining));
+        else if (remaining < 5) toast(AndroidStrings.format(i18n.t(AndroidStrings.quantity(remaining) === 'one' ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.'), remaining));
         break;
       }
       // The Email app's settings (email-prefs.js, from the image's EmailGoogle preference XMLs).

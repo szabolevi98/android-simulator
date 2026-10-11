@@ -57,8 +57,8 @@
   // TextAppearance.Small at #bf000000. Received messages sit on light blue, sent ones on white.
   function message(m, ctx, person) {
     const T = key => text(ctx.lang, key), name = m.mine ? T('messagelist_sender_self') : person.name;
-    const subject = m.subject ? e(T('inline_subject').replace('%s', m.subject)) + (m.body ? ' - ' : '') : '';
-    const time = m.sending ? T('sending_message') : T('sent_on').replace('%s', stamp(m, ctx));
+    const subject = m.subject ? e(AndroidStrings.format(T('inline_subject'), m.subject)) + (m.body ? ' - ' : '') : '';
+    const time = m.sending ? T('sending_message') : AndroidStrings.format(T('sent_on'), stamp(m, ctx));
     return `<button type="button" class="mms-message gbmms-msg${m.mine ? ' sent' : ' received'}" data-action="mms-message" data-id="${e(m.id)}">${m.attachment ? `<span class="gbmms-mms">${window.ICSMessaging.photo(m.attachment)}</span>` : ''}<span class="gbmms-text">${badge(m.mine ? null : person)}<b>${e(name)}</b>: ${subject}${smileys(m.body || '', ctx.lang)}<br><small>${e(time)}</small></span>${m.locked ? '<img class="gbmms-lock" src="assets/gb-m-ic_lock_message_sms.png" alt="">' : ''}</button>`;
   }
   function compose(ctx) {

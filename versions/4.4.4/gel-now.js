@@ -45,8 +45,8 @@
   const timeLabel = (time, locale) => new Date(`2000-01-01T${time}`).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'});
   function reminderWhen(r, now, locale, s) {
     const time = r.time ? timeLabel(r.time, locale) : '', tomorrow = ymd(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1));
-    if (r.date === ymd(now)) return time ? s('Today, %1$s').replace('%1$s', time) : s('Day 0');
-    if (r.date === tomorrow) return time ? s('Tomorrow, %1$s').replace('%1$s', time) : s('Day 1');
+    if (r.date === ymd(now)) return time ? AndroidStrings.format(s('Today, %1$s'), time) : s('Day 0');
+    if (r.date === tomorrow) return time ? AndroidStrings.format(s('Tomorrow, %1$s'), time) : s('Day 1');
     return time ? `${dayLabel(r.date, locale)}, ${time}` : dayLabel(r.date, locale);
   }
   const upcoming = (data, now) => (data.nowReminders || []).filter(r => at(r) >= now).sort((a, b) => at(a) - at(b));

@@ -22,7 +22,7 @@
   // Gmail2's own words (stock-strings.js, group gmail): [hu, de, fr, es, English when it differs from the key].
   const tr = (lang, key) => { const row = window.StockStrings?.gmail?.[key]; return row ? AndroidStrings.pick(row, lang, key) : key; };
   // A plurals resource: "<key> one" holds the quantity "one" where the language has it.
-  const count = (lang, key, n) => tr(lang, n === 1 && window.StockStrings?.gmail?.[key + ' one'] ? key + ' one' : key).replace(/%(1\$)?d/, n);
+  const count = (lang, key, n) => AndroidStrings.format(tr(lang, AndroidStrings.quantity(n, lang) === 'one' && window.StockStrings?.gmail?.[key + ' one'] ? key + ' one' : key), n);
   const INBOX = ['Primary', 'Social', 'Promotions', 'Updates', 'Forums', 'Priority Inbox'];
   const LABELS = ['Starred', 'Important', 'Chats', 'Sent', 'Outbox', 'Drafts', 'All mail', 'Spam', 'Trash'];
   const FOLDERS = [...INBOX, ...LABELS];

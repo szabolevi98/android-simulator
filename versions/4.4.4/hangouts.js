@@ -14,7 +14,7 @@
   const isArchived = (data, thread) => { const at = archivedAt(data, thread.key); return !!at && !(thread.last?.timestamp > at); };
   // EsApplication's snooze list: 60, 120, 240, 480, 1440 and 4320 minutes as plurals/dnd_hours.
   const SNOOZE_MINUTES = [60, 120, 240, 480, 1440, 4320];
-  const hours = (t, minutes) => minutes === 60 ? H(t, '1 hour') : H(t, '%d hours').replace('%d', minutes / 60);
+  const hours = (t, minutes) => minutes === 60 ? H(t, '1 hour') : AndroidStrings.format(H(t, '%d hours'), minutes / 60);
   // The demo place ShareLocationActivity drops its pin on.
   const PLACE = {address: '1600 Amphitheatre Pkwy, Mountain View, CA', lat: 37.4220, lng: -122.0841};
   const locationBody = t => `${H(t, 'Location')}: ${PLACE.address}\nhttp://maps.google.com/maps?q=${PLACE.lat},${PLACE.lng}`;
@@ -45,7 +45,7 @@
     }).join('');
     if (archived) return `<div class="app-view mms-app hg-app">${bar({up: true, title: H(t, 'Archived Hangouts'), actions: ''})}<div class="mms-scroll hg-threads">${rows || `<p class="hg-empty">${e(H(t, 'No archived Hangouts'))}</p>`}</div></div>`;
     const pending = data.messageDrafts?.new?.body || data.messageDrafts?.new?.attachment;
-    const snoozed = data.hgSnooze > now ? `<div class="hg-dnd-bar"><span><b>${e(H(t, 'Notifications snoozed'))}</b><small>${e(H(t, 'Will resume at %s').replace('%s', new Date(data.hgSnooze).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'})))}</small></span><i></i><button data-action="hg-dnd-cancel">${e(H(t, 'Resume'))}</button></div>` : '';
+    const snoozed = data.hgSnooze > now ? `<div class="hg-dnd-bar"><span><b>${e(H(t, 'Notifications snoozed'))}</b><small>${e(AndroidStrings.format(H(t, 'Will resume at %s'), new Date(data.hgSnooze).toLocaleTimeString(locale, {hour: 'numeric', minute: '2-digit'})))}</small></span><i></i><button data-action="hg-dnd-cancel">${e(H(t, 'Resume'))}</button></div>` : '';
     return `<div class="app-view mms-app hg-app">${bar({title: t('Hangouts'), actions: button('new-message', t('New Hangout'), 'add') + button('mms-menu', t('More options'), 'ic_menu_moreoverflow_normal_holo_light.png')})}${snoozed}<div class="mms-scroll hg-threads">${pending ? `<button class="hg-pending" data-action="new-message">${e(t('Draft'))}: ${e(data.messageDrafts.new.body || t('Picture'))}</button>` : ''}${rows || `<p class="hg-empty">${e(t('No conversations'))}</p>`}</div></div>`;
   }
   function picker(data, ui, t) {

@@ -38,7 +38,7 @@
     const [w, h] = value.split('x').map(Number), ratio = w / h, gcd = (a, b) => b ? gcd(b, a % b) : a;
     const [n, d] = Math.abs(ratio - 16 / 9) < .05 ? [16, 9] : Math.abs(ratio - 4 / 3) < .05 ? [4, 3] : [w / gcd(w, h), h / gcd(w, h)];
     const mp = (w * h / 1e6).toLocaleString(locale, {minimumFractionDigits: 1, maximumFractionDigits: 1});
-    return t('(%1$d:%2$d) %3$s megapixels').replace('%1$d', n).replace('%2$d', d).replace('%3$s', mp);
+    return AndroidStrings.format(t('(%1$d:%2$d) %3$s megapixels'), n, d, mp);
   }
   // The preference lists: [title, entries [value, label]].
   function lists(t, locale) {

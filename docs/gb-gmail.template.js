@@ -201,11 +201,11 @@
     if (kind === 'labels') return {title: t('Change labels'), items: ['Inbox', ...Object.keys(USER_LABELS)].map(l => ({action: 'gm-toggle-label', id: l, title: labelName(lang, l), checked: (ui.gmLabelDraft || []).includes(l)})), choice: 'multi', buttons: [{action: 'gm-labels-ok', title: ctx.ok}, {action: 'close-overlay', title: ctx.cancel}]};
     if (kind === 'accounts') return {title: t('Accounts'), items: [{action: 'gm-label', id: 'Inbox', title: ACCOUNT, summary: `${labelName(lang, 'Inbox')} (${unread(data.gmail23, 'Inbox')})`}]};
     if (kind === 'mode') return {title: t('Reply'), items: [['reply', 'Reply'], ['reply-all', 'Reply all'], ['forward', 'Forward']].map(([id, label]) => ({action: 'gm-mode-pick', id, title: t(label)}))};
-    if (kind === 'about') return {title: 'Gmail', custom: `<div class="gm-about"><img src="${ASSET('logo')}" alt="Gmail"><p>${e(t('Version %s').replace('%s', VERSION))}</p><p>${e(t('©%d Google Inc.').replace('%d', '2011'))}</p></div>`, buttons: [{action: 'close-overlay', title: ctx.ok}]};
+    if (kind === 'about') return {title: 'Gmail', custom: `<div class="gm-about"><img src="${ASSET('logo')}" alt="Gmail"><p>${e(AndroidStrings.format(t('Version %s'), VERSION))}</p><p>${e(AndroidStrings.format(t('©%d Google Inc.'), '2011'))}</p></div>`, buttons: [{action: 'close-overlay', title: ctx.ok}]};
     if (kind === 'discard') return {title: t('Discard'), icon: 'ic_dialog_alert', message: t('Your message has not been sent.\nDiscard your message?'), buttons: [{action: 'gm-discard-ok', title: ctx.ok}, {action: 'close-overlay', title: ctx.cancel}]};
     return null;
   }
-  const plural = (lang, verb, n) => T(lang, `${verb} %1$d conversation${n === 1 ? '' : 's'}${verb === 'Reporting' ? ' as spam' : ''}.`).replace('%1$d', n);
+  const plural = (lang, verb, n) => AndroidStrings.format(T(lang, `${verb} %1$d conversation${AndroidStrings.quantity(n) === 'one' ? '' : 's'}${verb === 'Reporting' ? ' as spam' : ''}.`), n);
   function handle(action, id, ctx) {
     const {data, ui, lang} = ctx, mail = data.gmail23;
     const targets = () => ui.gmView === 'conversation' ? [ui.gmId] : ui.gmSelected || [];
@@ -276,7 +276,7 @@
     const others = [...new Set(c.messages.map(x => x.address))].filter(a => a !== ACCOUNT && a !== m.address);
     const to = mode === 'forward' ? '' : m.address === ACCOUNT ? m.to : m.address;
     const when = new Date(m.created).toLocaleString(locale, {dateStyle: 'medium', timeStyle: 'short'});
-    const quoted = mode === 'forward' ? `---------- Forwarded message ----------\nFrom: ${m.from} <${m.address}>\nDate: ${when}\nSubject: ${c.subject}\n\n${m.body}` : `${T(lang, 'On %s, %s wrote:').replace('%s', when).replace('%s', `${m.from} <${m.address}>`)}\n> ${m.body}`;
+    const quoted = mode === 'forward' ? `---------- Forwarded message ----------\nFrom: ${m.from} <${m.address}>\nDate: ${when}\nSubject: ${c.subject}\n\n${m.body}` : `${AndroidStrings.format(T(lang, 'On %s, %s wrote:'), when, `${m.from} <${m.address}>`)}\n> ${m.body}`;
     return {mode, to, cc: mode === 'reply-all' ? others.join(', ') : '', subject, quoted, include: true};
   }
   function startCompose(ctx, mode, mid) {
@@ -311,7 +311,7 @@
     const recipients = [d.to, d.cc, d.bcc].join(',').split(',').map(s => s.trim()).filter(Boolean);
     if (!recipients.length) { ctx.toast(T(lang, 'Please add at least one recipient.')); return true; }
     const bad = recipients.find(a => !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(a));
-    if (bad) { ctx.toast(T(lang, 'The address %s is invalid.').replace('%s', bad)); return true; }
+    if (bad) { ctx.toast(AndroidStrings.format(T(lang, 'The address %s is invalid.'), bad)); return true; }
     const body = d.quoted && d.include !== false ? `${d.body}\n\n${d.quoted}` : d.body;
     const message = {id: 'gm-m' + Date.now(), from: 'me', address: ACCOUNT, to: d.to, cc: d.cc, body, created: Date.now()};
     if (d.draftId) { const i = data.gmail23.findIndex(c => c.id === d.draftId); if (i >= 0) data.gmail23.splice(i, 1); }

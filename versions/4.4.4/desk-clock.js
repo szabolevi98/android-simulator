@@ -95,6 +95,6 @@
     handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);
   }
   // AlarmStateManager.setSnoozeState: "Snoozing until %s".
-  const snoozeMessage=(until,{hour24=true,locale='en-US'}={})=>A('alarm_alert_snooze_until').replace('%s',until.toLocaleTimeString(locale,{hour:'numeric',minute:'2-digit',hour12:!hour24}));
+  const snoozeMessage=(until,{hour24=true,locale='en-US'}={})=>AndroidStrings.format(A('alarm_alert_snooze_until'), until.toLocaleTimeString(locale,{hour:'numeric',minute:'2-digit',hour12:!hour24}));
   window.ICSDeskClock={normalize,nextOccurrence,due,repeatText,render,overlay,ringing,snoozeMessage,bindRinging};
 })();

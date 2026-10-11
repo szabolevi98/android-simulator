@@ -58,7 +58,7 @@
     if (nextAlarm > now && nextAlarm - now < NEXT_ALARM_LOOKAHEAD) list.push({id: 'alarm', until: nextAlarm, label: ['Until next alarm']});
     return list;
   }
-  const labelOf = (label, t) => t(label[0]).replace('%d', label[1]);
+  const labelOf = (label, t) => AndroidStrings.format(t(label[0]), label[1]);
   // A minute of the simulator: the condition that ends the mode, then the downtime autotrigger. True when the mode changed.
   function tick(s, now, nextAlarm) {
     let changed = false;
@@ -86,7 +86,7 @@
   function endText(c, t, locale, hour24) {
     const time = timeText(c.end, locale, hour24), nextDay = minutesOf(c.start) >= minutesOf(c.end);
     const format = c.sleepNone ? (nextDay ? '%s next day or any alarm before' : '%s or any alarm before') : nextDay ? '%s next day' : '';
-    return format ? t(format).replace('%s', time) : time;
+    return format ? AndroidStrings.format(t(format), time) : time;
   }
   function page(s, {t, locale, hour24}) {
     const c = config(s), mode = s.zenMode || 'all', noDays = !c.days.length;

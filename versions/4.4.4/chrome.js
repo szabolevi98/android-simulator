@@ -26,7 +26,7 @@
   const CS = (ctx, key) => { const row = window.StockStrings?.chrome?.[key]; return row ? AndroidStrings.pick(row, String(ctx.locale || 'en'), key) : ctx.t(key); };
   const PAK = (ctx, key) => AndroidStrings.pick(window.ChromePak?.[key], String(ctx.locale || 'en'), key);
   // ToolbarPhone.updateTabCountVisuals: the count, ":)" past two digits.
-  const tabsButton = (ctx, count, light = false) => { const text = count > 99 ? ':)' : String(count); return `<button type="button" class="chr-btn chr-tabs-btn${light ? ' light' : ''}" data-action="browser-tabs" aria-label="${e(CS(ctx, '%1$d open tabs button.').replace('%1$d', count))}"><span class="${text.length > 1 ? 'two' : ''}">${e(text)}</span></button>`; };
+  const tabsButton = (ctx, count, light = false) => { const text = count > 99 ? ':)' : String(count); return `<button type="button" class="chr-btn chr-tabs-btn${light ? ' light' : ''}" data-action="browser-tabs" aria-label="${e(AndroidStrings.format(CS(ctx, '%1$d open tabs button.'), count))}"><span class="${text.length > 1 ? 'two' : ''}">${e(text)}</span></button>`; };
   const menuButton = (ctx, light = false) => `<button type="button" class="chr-btn chr-menu-btn" data-action="browser-menu" aria-label="${e(CS(ctx, 'More options'))}">${img(light ? 'menu_btn_bg_light' : 'menu_btn_bg')}</button>`;
   const display = url => internal(url) ? '' : url.startsWith('search:') ? url.slice(7) : url;
   function toolbar(ctx) {

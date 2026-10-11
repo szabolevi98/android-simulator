@@ -50,7 +50,7 @@
     const h12 = data.settings?.hour24 === false, parts = new Intl.DateTimeFormat(locale, {hour: 'numeric', minute: '2-digit', hour12: h12}).formatToParts(now);
     const clockText = parts.filter(p => p.type !== 'dayPeriod').map(p => p.value).join('').trim(), ampm = parts.find(p => p.type === 'dayPeriod')?.value || '';
     const nextText = next ? `${next.toLocaleDateString(locale, {weekday: 'short'})} ${next.toLocaleTimeString(locale, {hour: h12 ? 'numeric' : '2-digit', minute: '2-digit', hour12: h12})}` : '';
-    return `<div class="app-view desk-face ${ui.clockDim?'desk-dim':''}"><div class="desk-time-group"><button class="desk-time" data-action="clock-dim" aria-label="Night mode" aria-pressed="${!!ui.clockDim}">${escape(clockText)}${ampm ? `<span class="desk-ampm">${escape(ampm)}</span>` : ''}</button><div class="desk-date">${now.toLocaleDateString(locale,{weekday:'long',month:'long',day:'numeric'})}</div><button class="desk-next" data-action="clock-alarms"><img src="assets/clock-ic_lock_idle_alarm.png" alt=""><span>${escape(next?A('control_set_alarm_with_existing').replace('%s',nextText):A('control_set_alarm'))}</span></button></div></div>`;
+    return `<div class="app-view desk-face ${ui.clockDim?'desk-dim':''}"><div class="desk-time-group"><button class="desk-time" data-action="clock-dim" aria-label="Night mode" aria-pressed="${!!ui.clockDim}">${escape(clockText)}${ampm ? `<span class="desk-ampm">${escape(ampm)}</span>` : ''}</button><div class="desk-date">${now.toLocaleDateString(locale,{weekday:'long',month:'long',day:'numeric'})}</div><button class="desk-next" data-action="clock-alarms"><img src="assets/clock-ic_lock_idle_alarm.png" alt=""><span>${escape(next?AndroidStrings.format(A('control_set_alarm_with_existing'), nextText):A('control_set_alarm'))}</span></button></div></div>`;
   }
   function overlay(ui,t,ctx={}) {
     const alarm=normalize(ui.alarmDraft), e=escape;
@@ -79,6 +79,6 @@
     return `<div class="settings-dialog-scrim"></div><div class="dcal-ics" role="alertdialog" aria-label="${e(r.label)}"><h3 class="dcal-title">${e(r.label)}</h3><div class="dcal-body"><button class="dcal-snooze" data-action="alarm-snooze"><span class="dcal-clock"><b>${e(r.hours)}:${e(r.minutes)}</b>${r.ampm?`<small>${e(r.ampm)}</small>`:''}</span><span>${e(A('alarm_alert_snooze_text'))}</span></button><i class="dcal-divider"></i><button class="dcal-dismiss" data-action="alarm-dismiss">${e(A('alarm_alert_dismiss_text'))}</button></div></div>`;
   }
   // AlarmAlertFullScreen.snooze: "Snoozing for %d minutes."
-  const snoozeMessage=()=>A('alarm_alert_snooze_set').replace('%d','10');
+  const snoozeMessage=()=>AndroidStrings.format(A('alarm_alert_snooze_set'), '10');
   window.ICSDeskClock={normalize,nextOccurrence,due,repeatText,render,overlay,ringing,snoozeMessage};
 })();

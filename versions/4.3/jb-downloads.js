@@ -65,7 +65,7 @@
     return [today.getTime(), today.getTime() - DAY, today.getTime() - 6 * DAY, month.getTime()];
   }
   const binOf = (time, edges) => { const i = edges.findIndex(edge => time >= edge); return i < 0 ? 4 : i; };
-  const binLabel = (lang, i) => [T(lang, 'Today'), T(lang, 'Yesterday'), T(lang, 'Last %d days').replace('%d', 7), T(lang, 'Last month'), T(lang, 'Older')][i];
+  const binLabel = (lang, i) => [T(lang, 'Today'), T(lang, 'Yesterday'), AndroidStrings.format(T(lang, 'Last %d days'), 7), T(lang, 'Last month'), T(lang, 'Older')][i];
   // Formatter.formatFileSize (4.x): "845 KB", "2.13 MB".
   function size(bytes, locale) {
     let value = bytes, unit = 'B';
@@ -97,7 +97,7 @@
     }
     const n = s.selected.length;
     const bar = n
-      ? `<header class="hdl-cab"><button data-action="hdl-deselect" aria-label="${e(T(lang, 'Done'))}"><img src="assets/dl-ic_cab_done_holo_dark.png" alt=""></button><i></i><h2>${e(T(lang, 'Selected %1$d out of %2$d').replace('%1$d', n).replace('%2$d', items.length))}</h2><button data-action="hdl-share" aria-label="${e(T(lang, 'Share'))}"><img src="assets/dl-ic_menu_share.png" alt=""></button><button data-action="hdl-delete" aria-label="${e(T(lang, 'Delete'))}"><img src="assets/dl-ic_menu_delete.png" alt=""></button></header>`
+      ? `<header class="hdl-cab"><button data-action="hdl-deselect" aria-label="${e(T(lang, 'Done'))}"><img src="assets/dl-ic_cab_done_holo_dark.png" alt=""></button><i></i><h2>${e(AndroidStrings.format(T(lang, 'Selected %1$d out of %2$d'), n, items.length))}</h2><button data-action="hdl-share" aria-label="${e(T(lang, 'Share'))}"><img src="assets/dl-ic_menu_share.png" alt=""></button><button data-action="hdl-delete" aria-label="${e(T(lang, 'Delete'))}"><img src="assets/dl-ic_menu_delete.png" alt=""></button></header>`
       : `<header class="hdl-ab"><button data-action="home" aria-label="${e(T(lang, 'Downloads'))}"><img src="assets/downloads.png" alt=""></button><h2>${e(T(lang, s.bySize ? 'Downloads - Sorted by size' : 'Downloads - Sorted by date'))}</h2></header>`;
     return `<div class="app-view hdl" data-no-translate>${bar}<div class="hdl-list">${body}</div>${items.length ? `<div class="hdl-sortbar"><button data-action="hdl-sort">${e(T(lang, s.bySize ? 'Sort by date' : 'Sort by size'))}</button></div>` : ''}</div>`;
   }

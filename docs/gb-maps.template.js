@@ -69,7 +69,7 @@
     if (T(lang, 'imperial') === 'imperial') { const mi = value * .621; return mi < .1 ? T(lang, '{0} ft').replace('{0}', Math.round(mi * 5280 / 50) * 50) : T(lang, '{0} mi').replace('{0}', mi.toFixed(1)); }
     return value < 1 ? T(lang, '{0} m').replace('{0}', Math.round(value * 1000 / 10) * 10) : T(lang, '{0} km').replace('{0}', value.toFixed(1));
   }
-  const minutes = (lang, m) => m >= 60 ? T(lang, '%1$s hr  %2$s min').replace('%1$s', Math.floor(m / 60)).replace('%2$s', m % 60) : T(lang, '%1$s min').replace('%1$s', Math.max(1, m));
+  const minutes = (lang, m) => m >= 60 ? AndroidStrings.format(T(lang, '%1$s hr  %2$s min'), Math.floor(m / 60), m % 60) : AndroidStrings.format(T(lang, '%1$s min'), Math.max(1, m));
   const stars = r => Array.from({length: 5}, (_, i) => `<img src="${A(i < Math.round(r) ? 'hotpot_small_star_on' : 'hotpot_small_star_off')}" alt="">`).join('');
   const poi = id => POIS.find(p => p.id === id);
   const state = ui => (ui.mp ||= {cx: .5, cy: .52, z: 1.5, mode: 'normal', traffic: false, results: [], query: '', selected: '', page: '', route: null, zoomShown: false});
@@ -156,7 +156,7 @@
   // ---------- Latitude ----------
   function latitude(ctx) {
     const {lang, data} = ctx, checked = data.latitudeCheckin;
-    const ago = n => n < 60 ? ctx.t('%d min ago').replace('%d', n) : ctx.t('%d hours ago').replace('%d', Math.round(n / 60));
+    const ago = n => n < 60 ? AndroidStrings.format(ctx.t('%d min ago'), n) : AndroidStrings.format(ctx.t('%d hours ago'), Math.round(n / 60));
     const item = (id, name, desc, time, me) => `<button class="mp-fitem" data-action="${me ? 'mp-me' : 'mp-friend'}" data-id="${id}"><img src="${A('avatar_unknown')}" alt=""><span><span class="mp-frow"><b>${e(name)}</b><small>${e(time)}</small></span><small>${e(desc)}</small></span></button>`;
     const btn = (action, img, label) => `<i class="mp-hdiv"></i><button class="mp-hbtn" data-action="${action}" aria-label="${e(label)}"><img src="${A(img)}" alt=""></button>`;
     return `<div class="app-view mp mp-lat" data-no-translate><div class="mp-header mp-ptitle"><span>${e(T(lang, 'Latitude'))}</span>${btn('mp-checkin', 'btn_latitude_checkin', ctx.t('Check in'))}${btn('mp-addfriend', 'btn_latitude_add_friends', ctx.t('Add friends'))}${btn('mp-refresh', 'btn_latitude_refresh_friends', ctx.t('Refresh'))}</div><div class="mp-scroll">${item('me', ctx.t('Me'), checked ? `${checked}` : 'Riverside Park', ctx.t('Now'), true)}${FRIENDS.map(f => item(f.id, f.name, `${f.place}`, ago(f.minutes))).join('')}</div></div>`;
@@ -173,9 +173,9 @@
   function steps(lang, to) {
     const a = STREETS[(to.name.length) % STREETS.length], b = to.address.replace(/^\d+\s/, '') || STREETS[1];
     return [
-      {icon: 'da_depart', text: T(lang, 'Head %1$s on %2$s').replace('%1$s', T(lang, to.fy < ME.fy ? 'north' : 'south')).replace('%2$s', a), road: a},
-      {icon: to.fx > ME.fx ? 'da_turn_right' : 'da_turn_slight_right', text: T(lang, to.fx > ME.fx ? 'Turn right onto %1$s' : 'Turn left onto %1$s').replace('%1$s', b), road: b},
-      {icon: 'da_turn_straight', text: T(lang, 'Continue onto %1$s').replace('%1$s', b), road: b},
+      {icon: 'da_depart', text: AndroidStrings.format(T(lang, 'Head %1$s on %2$s'), T(lang, to.fy < ME.fy ? 'north' : 'south'), a), road: a},
+      {icon: to.fx > ME.fx ? 'da_turn_right' : 'da_turn_slight_right', text: AndroidStrings.format(T(lang, to.fx > ME.fx ? 'Turn right onto %1$s' : 'Turn left onto %1$s'), b), road: b},
+      {icon: 'da_turn_straight', text: AndroidStrings.format(T(lang, 'Continue onto %1$s'), b), road: b},
       {icon: 'da_turn_arrive', text: T(lang, 'Your destination is on the right.'), road: to.name}
     ];
   }

@@ -83,7 +83,7 @@
     const photo = d.photo != null && ctx.photoUrl(d.photo) ? `<img src="${e(ctx.photoUrl(d.photo))}" alt="">` : '<img src="assets/ce-ic_contact_picture_holo_light.png" alt="">';
     const kinds = ['phones', 'emails', ...ADDABLE.filter(k => d.open[k])];
     const groups = ctx.groups.length ? `<div class="hce-kind">${title(t('Groups'))}${ctx.groups.map(g => `<label class="hce-group"><input type="checkbox" name="groups" value="${e(g.id)}" ${d.groups.includes(g.id) ? 'checked' : ''}><span>${e(g.name)}</span></label>`).join('')}</div>` : '';
-    return `<form id="people-editor" class="hce" data-form="people-save"><div class="hce-account"><span><b>${e(t('%1$s contact').replace('%1$s', t('Phone-only, unsynced')))}</b></span><img src="assets/ce-account_spinner_icon.png" alt=""></div>`
+    return `<form id="people-editor" class="hce" data-form="people-save"><div class="hce-account"><span><b>${e(AndroidStrings.format(t('%1$s contact'), t('Phone-only, unsynced')))}</b></span><img src="assets/ce-account_spinner_icon.png" alt=""></div>`
       + `<div class="hce-head"><div class="hce-name"><div class="hce-fields">${names.map(([n, h]) => input(n, t(h), d[n])).join('')}</div><button type="button" class="hce-round" data-action="hce-expand" aria-label="${e(t('Name'))}" aria-expanded="${expanded}"><img src="assets/ce-ic_menu_expander_${expanded ? 'maximized' : 'minimized'}_holo_light.png" alt=""></button></div><button type="button" class="hce-photo" data-action="hce-photo" aria-label="contact photo">${photo}</button></div>`
       + kinds.map(k => section(lang, k, d)).join('') + groups
       + (ADDABLE.some(k => !d.open[k]) ? `<button type="button" class="hce-more" data-action="hce-more">${e(t('Add another field'))}</button>` : '') + '</form>';

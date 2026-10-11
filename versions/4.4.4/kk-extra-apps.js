@@ -73,7 +73,7 @@
     if (!file) return '';
     if (kind === 'file') return box(file.name, row('qo-rename', file.id, Q('Rename', t)) + row('qo-delete', file.id, Q('Delete', t)));
     if (kind === 'rename') return box(Q('Rename file', t), `<input class="qo-name" data-qo-name value="${e(file.name)}" placeholder="${e(Q('File name', t))}" aria-label="${e(Q('File name', t))}" autocomplete="off" spellcheck="false">`, `<button data-action="close-overlay">${e(Q('Cancel', t))}</button><button data-action="qo-rename-ok">${e(Q('OK', t))}</button>`);
-    if (kind === 'delete') return box(Q('Delete', t), `<p>${e(Q('Are you sure you want to delete %1$s?', t).replace('%1$s', file.name))}</p>`, `<button data-action="close-overlay">${e(Q('Cancel', t))}</button><button data-action="qo-delete-ok">${e(Q('OK', t))}</button>`);
+    if (kind === 'delete') return box(Q('Delete', t), `<p>${e(AndroidStrings.format(Q('Are you sure you want to delete %1$s?', t), file.name))}</p>`, `<button data-action="close-overlay">${e(Q('Cancel', t))}</button><button data-action="qo-delete-ok">${e(Q('OK', t))}</button>`);
     return '';
   }
   window.KKExtraApps = {qoDialog, QO_KIND, local, APPS, render, menu};

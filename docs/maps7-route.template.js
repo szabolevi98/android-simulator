@@ -25,14 +25,14 @@
     const row = window.StockStrings?.maps?.[key];
     return row ? AndroidStrings.pick(row, String(ctx.locale || 'en').slice(0, 2), key) : ctx.t(key);
   }
-  const fmt = (pattern, ...args) => args.reduce((s, a, i) => s.replace(`%${i + 1}$s`, a), pattern).replace('%s', args[0]).replace('%d', args[0]);
+  const fmt = (pattern, ...args) => AndroidStrings.format(pattern, ...args);
   function distance(ctx, km) {
     if (S(ctx, 'imperial') === 'imperial') { const mi = km * .621; return mi < .1 ? fmt(S(ctx, '%s ft'), Math.round(mi * 5280 / 50) * 50) : fmt(S(ctx, '%s mi'), mi.toFixed(1)); }
     return km < 1 ? fmt(S(ctx, '%s m'), Math.round(km * 100) * 10) : fmt(S(ctx, '%s km'), km.toFixed(1));
   }
   // DA_MINUTES / DA_HOURS, joined by DA_TIME_FORMAT_HOURS_AND_MINUTES.
   function duration(ctx, min) {
-    const m = n => fmt(S(ctx, n === 1 ? '%d minute' : '%d minutes'), n), h = n => fmt(S(ctx, n === 1 ? '%d hour' : '%d hours'), n);
+    const m = n => fmt(S(ctx, AndroidStrings.quantity(n) === 'one' ? '%d minute' : '%d minutes'), n), h = n => fmt(S(ctx, AndroidStrings.quantity(n) === 'one' ? '%d hour' : '%d hours'), n);
     return min < 60 ? m(min) : fmt(S(ctx, '%1$s  %2$s'), h(Math.floor(min / 60)), m(min % 60));
   }
   function place(ctx, text) {

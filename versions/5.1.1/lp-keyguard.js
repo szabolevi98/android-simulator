@@ -47,7 +47,7 @@
       <div class="lp-kg-statusbar"><span class="lp-kg-carrier" data-no-translate>${e(p.carrier)}</span><span class="lp-kg-icons">${p.statusIcons}</span><span class="lp-kg-avatar"><img src="assets/lp-fw-ic_account_circle.svg" alt=""></span></div>
       <div class="lp-kg-panel">
         <div class="lp-kg-status" style="top:${top.toFixed(1)}px"><div class="lp-kg-clock" data-no-translate>${e(p.clock)}</div><div class="lp-kg-date"><span data-no-translate>${e(p.alarm ? p.shortDate : p.date)}</span>${alarm}</div>${p.owner ? `<div class="lp-kg-owner" data-no-translate>${e(p.owner)}</div>` : ''}</div>
-        <div class="lp-kg-notes" style="top:${notesTop.toFixed(1)}px">${shown.map(note => noteCard(note, t, p.locale, p.activated === String(note.id))).join('')}${more > 0 ? `<div class="lp-kg-more">${e(t('+%d').replace('%d', more))}</div>` : ''}</div>
+        <div class="lp-kg-notes" style="top:${notesTop.toFixed(1)}px">${shown.map(note => noteCard(note, t, p.locale, p.activated === String(note.id))).join('')}${more > 0 ? `<div class="lp-kg-more">${e(AndroidStrings.format(t('+%d'), more))}</div>` : ''}</div>
       </div>
       <div class="lp-kg-bottom">
         <p class="lp-kg-indication${p.hint ? ' visible' : ''}" role="status">${e(p.hint || '')}</p>
@@ -309,7 +309,7 @@
   const settleShows = (offset, velocity) => Math.abs(velocity) > S.fling ? velocity < 0 : offset >= .5;
   // KeyguardMessageArea: owner info by default; important messages replace it for five seconds; lockout counts down.
   function securityMessage({error = '', errorAt = 0, remaining = 0, owner = '', now = Date.now()}, t) {
-    if (remaining) return t('Try again in %d seconds.').replace('%d', remaining);
+    if (remaining) return AndroidStrings.format(t('Try again in %d seconds.'), remaining);
     if (error && now - errorAt < S.message) return t(error);
     return owner || '';
   }

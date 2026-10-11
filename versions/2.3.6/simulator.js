@@ -767,7 +767,7 @@
     if (ui.overlay === 'gb-dialog-music') {
       const track = ICSMusic.tracks[ui.musicSelected], inPlaylist = ui.sub === 'music-group' && String(ui.musicGroup).startsWith('playlist|');
       if (ui.gbMusicDialog === 'add') return {title: musicText('add_to_playlist'), items: [{action: 'music-add-queue', title: musicText('queue')}, {action: 'music-new-playlist', id: 'add', title: musicText('new_playlist')}, ...ui.music.playlists.map(p => ({action: 'music-add-confirm', id: p.id, title: p.name}))]};
-      if (ui.gbMusicDialog === 'new') return {title: musicText('new_playlist'), custom: `<form data-form="music-playlist"><input name="name" maxlength="60" required aria-label="${safe(i18n.t('Playlist name'))}" value="${safe(musicText('new_playlist_name_template').replace('%d', String(ui.music.playlists.length + 1)))}"></form>`, buttons: [{action: 'music-playlist-save', title: musicText('create_playlist_create_text')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
+      if (ui.gbMusicDialog === 'new') return {title: musicText('new_playlist'), custom: `<form data-form="music-playlist"><input name="name" maxlength="60" required aria-label="${safe(i18n.t('Playlist name'))}" value="${safe(AndroidStrings.format(musicText('new_playlist_name_template'), String(ui.music.playlists.length + 1)))}"></form>`, buttons: [{action: 'music-playlist-save', title: musicText('create_playlist_create_text')}, {action: 'close-overlay', title: GBSettings.text(i18n.language, 'fw_cancel')}]};
       return {title: track?.title || '', items: [{action: 'music-play-selected', title: musicText('play_selection')}, {action: 'music-add-to-playlist', title: musicText('add_to_playlist')}, ...(inPlaylist ? [{action: 'music-remove-from-playlist', title: musicText('remove_from_playlist')}] : []), {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('ringtone_menu')}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('delete_item')}, {action: 'gbset-toast', id: 'Unavailable in this simulator', title: musicText('search_title')}]};
     }
     if (ui.overlay === 'gb-dialog-mms') return GBMms.dialog(ui.gbMmsDialog, gbMmsContext()) || {title: '', items: []};
@@ -820,7 +820,7 @@
       overlayRoot.innerHTML = GBUI.dialog({...gbDialogSpec(), t: key => i18n.t(key)});
     } else if (ui.overlay === 'shade') {
       const time = n => n.id > 1e12 ? new Date(n.id).toLocaleTimeString(i18n.locale(), {hour: 'numeric', minute: '2-digit', hour12: !data.settings.hour24}) : '';
-      const ongoing = ui.activeCall ? [{id: 'call', action: 'gbp-return-call', icon: ui.activeCall.hold ? 'gb-stat_sys_phone_call_on_hold.png' : ui.activeCall.bluetooth ? 'gb-stat_sys_phone_call_bluetooth.png' : 'gb-stat_sys_phone_call.png', title: ui.activeCall.hold ? GBPhone.phoneText(i18n.language, 'notification_on_hold') : GBPhone.phoneText(i18n.language, 'notification_ongoing_call_format').replace('%s', GBPhone.elapsedText(ui.activeCall)), text: contactByPhone(ui.activeCall.number)?.name || ui.activeCall.number}] : [];
+      const ongoing = ui.activeCall ? [{id: 'call', action: 'gbp-return-call', icon: ui.activeCall.hold ? 'gb-stat_sys_phone_call_on_hold.png' : ui.activeCall.bluetooth ? 'gb-stat_sys_phone_call_bluetooth.png' : 'gb-stat_sys_phone_call.png', title: ui.activeCall.hold ? GBPhone.phoneText(i18n.language, 'notification_on_hold') : AndroidStrings.format(GBPhone.phoneText(i18n.language, 'notification_ongoing_call_format'), GBPhone.elapsedText(ui.activeCall)), text: contactByPhone(ui.activeCall.number)?.name || ui.activeCall.number}] : [];
       ongoing.push(...GBNetwork.ongoing(gbNetContext()));
       const latest = data.notifications.map(n => ({id: n.id, icon: noteIcon(n), title: n.title, text: n.detail, time: time(n)}));
       const open = overlayRoot.querySelector('.gbsh');
@@ -1960,7 +1960,7 @@
         // Snooze duration from the Clock settings (snooze_duration: 5, 10, ... 30 minutes).
         const minutes=5*((data.appPrefs?.clock?.snooze_duration??1)+1);
         if(alarm){alarm.enabled=true;alarm.snoozedUntil=deviceDate().getTime()+minutes*60000;save();}
-        ui.overlay='';render();toast(GBDeskClock.text(i18n.language,'alarm_alert_snooze_set').replace('%d',String(minutes)));break;
+        ui.overlay='';render();toast(AndroidStrings.format(GBDeskClock.text(i18n.language,'alarm_alert_snooze_set'), String(minutes)));break;
       }
       case 'alarm-dismiss': ui.overlay=''; render(); break;
       case 'alarm-toggle': { const alarm = data.alarms.find(item => item.id === Number(id)); if (alarm) { alarm.enabled = !alarm.enabled; delete alarm.snoozedUntil; } ui.overlay = ''; save(); render(); if (alarm?.enabled) alarmSetToast(alarm); break; }
