@@ -339,8 +339,8 @@ eseménykezelése együtt van. A rendezés célja, hogy egy későbbi javítás 
 Az audit során a kezdőképernyők több helyen változtak (gyári kezdőképernyők, ikonok, widgetek), ezért a róluk
 készült képek elavulhattak.
 
-- [ ] Az öt verzió kezdőoldali bélyegképét (`versions/<v>/assets/landing-home.jpg`, a katalógus `art.shot`-ja) újra felvenni a mostani kezdőképernyőről, a korábbi felvételek beállításaival (méret, bezárt első indítási tippek, a 2.3.6-nál a két érintés a hullámokon); a hivatkozások `?v=` kulcsát emelni.
-- [ ] A közösségi borítót (`assets/og-cover.jpg`, `node docs/make-og-cover.mjs`) és a portfólió-változatot (`docs/portfolio-cover.html`) az új bélyegképekből újrarajzolni; az `og:image` hivatkozások `?v=` kulcsát emelni.
+- [x] Az öt verzió kezdőoldali bélyegképét (`versions/<v>/assets/landing-home.jpg`, a katalógus `art.shot`-ja) újra felvenni a mostani kezdőképernyőről, a korábbi felvételek beállításaival (méret, bezárt első indítási tippek, a 2.3.6-nál a két érintés a hullámokon); a hivatkozások `?v=` kulcsát emelni. Kész: fej nélküli Chrome-ban a `#screen` dobozáról, a korábbi méretekben (2.3.6 414 × 690, 4.0.4 459 × 815, 4.3 491 × 818, 4.4.4 489 × 870, 5.1.1 486 × 863), feloldva, az első indítási tippek bezárva; a katalógusban a `?v=` emelve – HASH
+- [x] A közösségi borítót (`assets/og-cover.jpg`, `node docs/make-og-cover.mjs`) és a portfólió-változatot (`docs/portfolio-cover.html`) az új bélyegképekből újrarajzolni; az `og:image` hivatkozások `?v=` kulcsát emelni. Kész: `assets/og-cover.jpg` újrarajzolva (`og:image` `?v=13`); a portfólióborító a `node docs/make-og-cover.mjs --portfolio <png>` kapcsolóval készül, és mind az öt telefont mutatja (eddig a 2.3–4.4 négyet, 5.1.1 nélkül); a levente.net portfólió repójába (`web/assets/img/projects/android-simulator.png`) kiírva, ott nincs commitolva – HASH
 
 ## Nem csináljuk meg
 
@@ -520,4 +520,5 @@ készült képek elavulhattak.
 | 2026-10-11 | 13. pont A 1: mentett adatok felmérése (docs/saved-state.md), nevesített átállítási lépések, régi mentés a böngészős folyamatban | b2f99ad |
 | 2026-10-11 | 12. pont: assetleltár (docs/asset-inventory.py, docs/assets/*.tsv) és próba-újragenerálás (--check, 0 eltérés); új tétel: más kiadás képéből származó grafikák | 517c427 |
 | 2026-10-11 | 12. pont, új tétel (részben): a betöltött, más kiadásból származó grafikák cseréje a saját képéire (4.0.4 Kamera/Galéria ikon, stat_notify_more, ic_lock_idle_alarm) | 4dd1ce6 |
+| 2026-10-11 | 14. pont: kezdőoldali bélyegképek, OG-borító és portfólióborító (öt telefonnal) újragenerálva | HASH |
 | 2026-10-10 | 9/D: 4.0.4 Google Beállítások gyári kép szerinti hiánya ellenőrizve helyben és élesben; elavult auditbejegyzés lezárva (a tartalékkód korábban törölve) | 254439c |
