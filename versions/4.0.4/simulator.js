@@ -883,7 +883,7 @@
     root.querySelector('mark')?.scrollIntoView({block:'nearest'});
   }
 
-  /* Google Play Store 3.8.17: ui.market holds the page, section, tab and selection, ui.marketHistory the back stack; downloads
+  /* Google Play Store 3.4.7: ui.market holds the page, section, tab and selection, ui.marketHistory the back stack; downloads
      run on a timer with a notification while they last and "Successfully installed." afterwards. */
   function icsPlayContext() {
     const m = ui.market || {page: 'home'};
@@ -1255,19 +1255,16 @@
       case 'icsp-accept': ui.market = ui.marketHistory.pop() || {page: 'detail', selected: id}; icsPlayDownload(id); break;
       case 'icsp-cancel': clearInterval(ui.marketTimer); ui.marketDownload = null; data.notifications = data.notifications.filter(n => n.kind !== 'market-dl'); save(); renderStatus(); render(); break;
       case 'icsp-open': { const item = ICSPlay.find(id); if (item?.app) openApp(item.app); else toast(ICSPlay.text(i18n.language, 'Unavailable')); break; }
-      case 'icsp-uninstall': data.marketInstalled = (data.marketInstalled || []).filter(x => x !== id); save(); render(); break;
+      case 'icsp-uninstall': ui.overlay = ''; renderOverlay(); data.marketInstalled = (data.marketInstalled || []).filter(x => x !== id); save(); render(); break;
+      case 'icsp-uninstall-ask': ui.overlay = 'icsp-uninstall'; renderOverlay(); break;
       case 'icsp-plus': { const list = data.marketPlus || []; data.marketPlus = list.includes(id) ? list.filter(x => x !== id) : [...list, id]; save(); const top = viewport.querySelector('.icsp-scroll')?.scrollTop || 0; render(); const list2 = viewport.querySelector('.icsp-scroll'); if (list2) list2.scrollTop = top; break; }
       case 'icsp-my-apps': icsPlayGo({page: 'my-apps', tab: 'INSTALLED'}); break;
       case 'icsp-settings': icsPlayGo({page: 'settings'}); break;
       case 'icsp-unavailable': ui.overlay = ''; renderOverlay(); toast(ICSPlay.text(i18n.language, 'Unavailable')); break;
       case 'icsp-pref': { const base = icsPlayContext().prefs; data.marketPrefs = {...base, [id]: !base[id]}; save(); const top = viewport.querySelector('.icsp-scroll')?.scrollTop || 0; render(); const list = viewport.querySelector('.icsp-scroll'); if (list) list.scrollTop = top; break; }
-      case 'icsp-clear-history': data.marketSearches = []; save(); toast(ICSPlay.text(i18n.language, 'Clear search history')); break;
+      case 'icsp-clear-history': data.marketSearches = []; save(); break;
       case 'icsp-search': ui.marketSearching = true; ui.marketEdit = ''; render(); viewport.querySelector('.icsp-bar input')?.focus(); break;
       case 'icsp-search-run': data.marketSearches = [id, ...(data.marketSearches || []).filter(q => q !== id)].slice(0, 10); save(); icsPlayGo({page: 'search', query: id}); break;
-      case 'icsp-review-sort': ui.overlay = 'icsp-sort'; renderOverlay(); break;
-      case 'icsp-review-options': ui.overlay = 'icsp-options'; renderOverlay(); break;
-      case 'icsp-review-sort-pick': { ui.reviewSort = id; ui.overlay = ''; const top = viewport.querySelector('.icsp-scroll')?.scrollTop || 0; render(); const list = viewport.querySelector('.icsp-scroll'); if (list) list.scrollTop = top; break; }
-      case 'icsp-review-option': { ui[id] = !ui[id]; renderOverlay(); const top = viewport.querySelector('.icsp-scroll')?.scrollTop || 0; render(); const list = viewport.querySelector('.icsp-scroll'); if (list) list.scrollTop = top; break; }
       case 'play-my-apps': navigatePlay({page:'my-apps',category:'',query:''}); break;
       case 'play-search': navigatePlay({page:'search',category:'',query:''}); viewport.querySelector('.play-search input')?.focus(); break;
       case 'play-tab': ui.play = {...ICSPlayStore.initial(),tab:id}; ui.playHistory = []; render(); break;

@@ -1,119 +1,535 @@
-/* Google Play Store 3.8.17 as it ran on an Android 4.0.4 Galaxy Nexus in August 2012 (the Verizon Galaxy Nexus stayed on
-   4.0.4 until 21 September 2012). Closed source; rebuilt from period material: Android Police's captures of 3.8.15
-   (15 August 2012: the home tiles with Magazines and Movies & TV, the underlined tabs, My apps, Settings) and 3.8.17
-   (17 August 2012: the home page, Settings with Unlock settings and the AdMob note), plus 3.5.x captures for the parts
-   3.8 kept unchanged (the review histogram with its Sort reviews / Options dialogs, the details layout).
-   Screens: the home page (dark action bar with the Play bag, promo banners with their section stripe, the Apps / Music /
-   Magazines / Movies & TV / Books tiles and the green Games tile with the featured column), the sections with the
-   swipeable tab strip, light list rows, the details page with REVIEWS, the permissions page, downloads, My apps
-   INSTALLED / ALL, search with suggestions and the Holo settings. The catalog is the simulator's fictional one. */
+/* Google Play Store 3.4.7 (com.android.vending), the Phonesky.apk of the Galaxy Nexus's IMM76I image, rebuilt from that
+   APK on the structure of the earlier 3.x rebuild (which followed 3.5 / 3.8 captures): texts in five languages from its
+   resources (docs/apk-strings.py), drawables from its hdpi set (assets/ps347-*), colours and sizes from its values and
+   layouts, menus and settings from res/menu and res/layout/settings.xml.
+   - LegacyActionBar on #3D3D3D (title_background) with ic_ab_back, the Play icon, 18 sp white title,
+     ic_menu_market_search; the overflow (MainActivity: consumption, actions, base): My apps, Accounts, Settings, Help.
+   - corpora_home: the promo, the corpus cells (corpus_cell: the 21 dp corpus strip, the 20 sp bold white name, the
+     ic_market_home_nav_* watermark of CorpusResourceUtils.getCorpusWatermarkIconBig, "see more" with
+     ic_more_arrow_righthome) for the TOC's Apps, Music, Movies and Books, the Games tile and the featured column.
+   - tabbed_browse_lists: the 35 dp PagerTitleStrip on market_tab_bg in the corpus foreground colour.
+   - Details (details_section_order_*): details_summary_apps (#3D3D3D, the 48 dp thumbnail, 22 sp bold title, 16 sp
+     #999999 creator, the Buy / price button, the Install / Open / Uninstall row), screenshots, the byline (stars and
+     count | Updated on, downloads | Size), +1 (ic_plusone_tall_*, "You +1'd this."), Description, What's new, Reviews
+     (HistogramView: "Average" on #404040, "5 stars" … "1 star") and the owned panel (Allow automatic updating).
+     3.4.7 has no review sorting or filters yet.
+   - The purchase page (purchase: "Permissions", the framework's permission groups, "Accept & download"), My apps
+     (my_downloads: one list under my_downloads_section_header "Installed" / "Not installed") and the settings.
+   The catalog, promos and list names are the simulator's own storefront (on the device they came from the server). */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  // Play Store labels in the five simulator languages.
-  const S = {
-    'Google Play': ['Google Play', 'Google Play', 'Google Play', 'Google Play', 'Google Play'],
-    'Apps': ['Apps', 'Alkalmazások', 'Apps', 'Applications', 'Aplicaciones'],
-    'Games': ['Games', 'Játékok', 'Spiele', 'Jeux', 'Juegos'],
-    'Music': ['Music', 'Zene', 'Musik', 'Musique', 'Música'],
-    'Books': ['Books', 'Könyvek', 'Bücher', 'Livres', 'Libros'],
-    'Movies': ['Movies', 'Filmek', 'Filme', 'Films', 'Películas'],
-    'Movies & TV': ['Movies & TV', 'Filmek és TV', 'Filme & Serien', 'Films et séries', 'Películas y TV'],
-    'Magazines': ['Magazines', 'Magazinok', 'Zeitschriften', 'Magazines', 'Revistas'],
-    'Unlock settings': ['Unlock settings', 'Beállítások feloldása', 'Einstellungen entsperren', 'Déverrouiller les paramètres', 'Desbloquear ajustes'],
-    'AdMob info': ['Choose whether to personalize ads from Google and AdMob in mobile apps on this device.', 'Döntse el, hogy a Google és az AdMob személyre szabja-e a hirdetéseket az eszköz mobilalkalmazásaiban.', 'Legen Sie fest, ob Anzeigen von Google und AdMob in mobilen Apps auf diesem Gerät personalisiert werden.', 'Indiquez si les annonces Google et AdMob doivent être personnalisées dans les applications mobiles de cet appareil.', 'Elige si quieres personalizar los anuncios de Google y AdMob en las aplicaciones móviles de este dispositivo.'],
-    'Learn more': ['Learn more', 'További információ', 'Weitere Informationen', 'En savoir plus', 'Más información'],
-    'see more': ['see more', 'továbbiak', 'mehr', 'plus', 'ver más'],
-    'CATEGORIES': ['CATEGORIES', 'KATEGÓRIÁK', 'KATEGORIEN', 'CATÉGORIES', 'CATEGORÍAS'],
-    'GENRES': ['GENRES', 'MŰFAJOK', 'GENRES', 'GENRES', 'GÉNEROS'],
-    'FEATURED': ['FEATURED', 'KIEMELT', 'EMPFOHLEN', 'SÉLECTION', 'DESTACADO'],
-    'TOP PAID': ['TOP PAID', 'LEGNÉPSZERŰBB FIZETŐS', 'TOP-KAUF', 'TOP PAYANTS', 'MÁS VENDIDO'],
-    'TOP FREE': ['TOP FREE', 'LEGNÉPSZERŰBB INGYENES', 'TOP-GRATIS', 'TOP GRATUITS', 'GRATIS MÁS POPULARES'],
-    'TOP GROSSING': ['TOP GROSSING', 'LEGNAGYOBB BEVÉTEL', 'UMSATZSTÄRKSTE', 'MEILLEURES VENTES', 'MÁS RENTABLES'],
-    'TOP NEW PAID': ['TOP NEW PAID', 'ÚJ FIZETŐS', 'NEU & KOSTENPFLICHTIG', 'NOUVEAUTÉS PAYANTES', 'NOVEDADES DE PAGO'],
-    'TOP NEW FREE': ['TOP NEW FREE', 'ÚJ INGYENES', 'NEU & GRATIS', 'NOUVEAUTÉS GRATUITES', 'NOVEDADES GRATUITAS'],
-    'TRENDING': ['TRENDING', 'FELKAPOTT', 'IM TREND', 'TENDANCES', 'TENDENCIAS'],
-    'TOP ALBUMS': ['TOP ALBUMS', 'LEGNÉPSZERŰBB ALBUMOK', 'TOP-ALBEN', 'TOP ALBUMS', 'ÁLBUMES MÁS POPULARES'],
-    'TOP SONGS': ['TOP SONGS', 'LEGNÉPSZERŰBB DALOK', 'TOP-SONGS', 'TOP TITRES', 'CANCIONES MÁS POPULARES'],
-    'NEW RELEASES': ['NEW RELEASES', 'ÚJDONSÁGOK', 'NEUERSCHEINUNGEN', 'NOUVEAUTÉS', 'NOVEDADES'],
-    'TOP SELLING': ['TOP SELLING', 'LEGKELENDŐBB', 'BESTSELLER', 'MEILLEURES VENTES', 'MÁS VENDIDOS'],
-    'My apps': ['My apps', 'Saját alkalmazások', 'Meine Apps', 'Mes applications', 'Mis aplicaciones'],
-    'Accounts': ['Accounts', 'Fiókok', 'Konten', 'Comptes', 'Cuentas'],
-    'Settings': ['Settings', 'Beállítások', 'Einstellungen', 'Paramètres', 'Ajustes'],
-    'Help': ['Help', 'Súgó', 'Hilfe', 'Aide', 'Ayuda'],
-    'FREE': ['FREE', 'INGYENES', 'KOSTENLOS', 'GRATUIT', 'GRATIS'],
-    'Free': ['Free', 'Ingyenes', 'Kostenlos', 'Gratuite', 'Gratis'],
-    'Installed': ['Installed', 'Telepítve', 'Installiert', 'Installée', 'Instalada'],
-    'INSTALLED': ['INSTALLED', 'TELEPÍTVE', 'INSTALLIERT', 'INSTALLÉES', 'INSTALADAS'],
-    'ALL': ['ALL', 'ÖSSZES', 'ALLE', 'TOUTES', 'TODAS'],
-    'Up to date': ['Up to date', 'Naprakész', 'Auf dem neuesten Stand', 'À jour', 'Actualizadas'],
-    'Open': ['Open', 'Megnyitás', 'Öffnen', 'Ouvrir', 'Abrir'],
-    'Uninstall': ['Uninstall', 'Eltávolítás', 'Deinstallieren', 'Désinstaller', 'Desinstalar'],
-    'Accept & download': ['Accept & download', 'Elfogadás és letöltés', 'Akzeptieren & herunterladen', 'Accepter et télécharger', 'Aceptar y descargar'],
-    'Downloading…': ['Downloading…', 'Letöltés…', 'Wird heruntergeladen…', 'Téléchargement…', 'Descargando…'],
-    'Installing…': ['Installing…', 'Telepítés…', 'Wird installiert…', 'Installation…', 'Instalando…'],
-    'Cancel': ['Cancel', 'Mégse', 'Abbrechen', 'Annuler', 'Cancelar'],
-    'OK': ['OK', 'OK', 'OK', 'OK', 'Aceptar'],
-    'DESCRIPTION': ['DESCRIPTION', 'LEÍRÁS', 'BESCHREIBUNG', 'DESCRIPTION', 'DESCRIPCIÓN'],
-    'REVIEWS': ['REVIEWS', 'VÉLEMÉNYEK', 'REZENSIONEN', 'AVIS', 'OPINIONES'],
-    'Average': ['Average', 'Átlag', 'Durchschnitt', 'Moyenne', 'Media'],
-    'stars': ['%d stars', '%d csillag', '%d Sterne', '%d étoiles', '%d estrellas'],
-    'star': ['%d star', '%d csillag', '%d Stern', '%d étoile', '%d estrella'],
-    'Most helpful first': ['Most helpful first', 'Leghasznosabbak elöl', 'Hilfreichste zuerst', 'Les plus utiles en premier', 'Las más útiles primero'],
-    'Newest first': ['Newest first', 'Legújabbak elöl', 'Neueste zuerst', 'Les plus récents en premier', 'Las más recientes primero'],
-    'Options': ['Options', 'Opciók', 'Optionen', 'Options', 'Opciones'],
-    'Sort reviews': ['Sort reviews', 'Vélemények rendezése', 'Rezensionen sortieren', 'Trier les avis', 'Ordenar opiniones'],
-    'Latest version only': ['Latest version only', 'Csak a legújabb verzió', 'Nur neueste Version', 'Dernière version uniquement', 'Solo la última versión'],
-    'From this type of phone only': ['From this type of phone only', 'Csak ilyen típusú telefonról', 'Nur von diesem Telefontyp', 'Uniquement de ce type de téléphone', 'Solo de este tipo de teléfono'],
-    'downloads': ['downloads', 'letöltés', 'Downloads', 'téléchargements', 'descargas'],
-    'Size': ['Size', 'Méret', 'Größe', 'Taille', 'Tamaño'],
-    'Allow automatic updating': ['Allow automatic updating', 'Automatikus frissítés engedélyezése', 'Automatisches Aktualisieren zulassen', 'Autoriser la mise à jour automatique', 'Permitir actualización automática'],
-    'people +1\'d this': ['people +1\'d this', 'ember +1-ezte ezt', 'Personen haben dies mit +1 bewertet', 'personnes ont attribué un +1', 'personas han hecho +1'],
-    'Permissions': ['This application has access to the following:', 'Az alkalmazás a következőkhöz fér hozzá:', 'Diese Anwendung hat Zugriff auf:', 'Cette application a accès aux éléments suivants :', 'Esta aplicación tiene acceso a:'],
-    'Search Google Play': ['Search Google Play', 'Keresés a Google Playen', 'Google Play durchsuchen', 'Rechercher sur Google Play', 'Buscar en Google Play'],
-    'No results': ['No results found.', 'Nincs találat.', 'Keine Ergebnisse.', 'Aucun résultat.', 'No se han encontrado resultados.'],
-    'General': ['General', 'Általános', 'Allgemein', 'Général', 'General'],
-    'Notifications': ['Notifications', 'Értesítések', 'Benachrichtigungen', 'Notifications', 'Notificaciones'],
-    'Notifications summary': ['Notify me about updates to apps or games that I downloaded', 'Értesítés a letöltött alkalmazások és játékok frissítéseiről', 'Über Updates heruntergeladener Apps und Spiele benachrichtigen', 'M\'informer des mises à jour des applications et des jeux téléchargés', 'Notificarme sobre actualizaciones de aplicaciones o juegos descargados'],
-    'Auto-update apps': ['Auto-update apps', 'Alkalmazások automatikus frissítése', 'Apps automatisch aktualisieren', 'Mise à jour automatique des applications', 'Actualizar aplicaciones automáticamente'],
-    'Auto-update summary': ['Automatically update apps by default', 'Az alkalmazások alapértelmezett automatikus frissítése', 'Apps standardmäßig automatisch aktualisieren', 'Mettre à jour automatiquement les applications par défaut', 'Actualizar automáticamente las aplicaciones de forma predeterminada'],
-    'Update over Wi-Fi only': ['Update over Wi-Fi only', 'Frissítés csak Wi-Fi-n', 'Updates nur über WLAN', 'Mise à jour via Wi-Fi uniquement', 'Actualizar solo a través de Wi-Fi'],
-    'Wi-Fi summary': ['Conserves data usage', 'Csökkenti az adatforgalmat', 'Spart Datenvolumen', 'Réduit la consommation de données', 'Reduce el uso de datos'],
-    'Auto-add widgets': ['Auto-add widgets', 'Modulok automatikus hozzáadása', 'Widgets automatisch hinzufügen', 'Ajout automatique de widgets', 'Añadir widgets automáticamente'],
-    'Widgets summary': ['Automatically add Home screen widgets for new apps', 'Kezdőképernyő-modulok automatikus hozzáadása új alkalmazásokhoz', 'Startbildschirm-Widgets für neue Apps automatisch hinzufügen', 'Ajouter automatiquement les widgets des nouvelles applications à l\'écran d\'accueil', 'Añadir automáticamente widgets a la pantalla de inicio para nuevas aplicaciones'],
-    'Clear search history': ['Clear search history', 'Keresési előzmények törlése', 'Suchverlauf löschen', 'Effacer l\'historique de recherche', 'Borrar historial de búsqueda'],
-    'Clear search history summary': ['Remove all the searches you have performed', 'Az összes korábbi keresés eltávolítása', 'Alle bisherigen Suchanfragen entfernen', 'Supprimer toutes les recherches effectuées', 'Eliminar todas las búsquedas realizadas'],
-    'User controls': ['User controls', 'Felhasználói beállítások', 'Nutzereinstellungen', 'Contrôles utilisateur', 'Controles de usuario'],
-    'Content filtering': ['Content filtering', 'Tartalomszűrés', 'Inhaltsfilter', 'Filtrage du contenu', 'Filtrado de contenido'],
-    'Content filtering summary': ['Set the content filtering level to restrict apps that can be downloaded', 'A letölthető alkalmazásokat korlátozó szűrési szint beállítása', 'Filterstufe festlegen, um herunterladbare Apps einzuschränken', 'Définir le niveau de filtrage pour limiter les applications téléchargeables', 'Establece el nivel de filtrado para restringir las aplicaciones que se pueden descargar'],
-    'Use PIN for purchases': ['Use PIN for purchases', 'PIN-kód a vásárlásokhoz', 'PIN für Käufe verwenden', 'Utiliser un code PIN pour les achats', 'Usar PIN para compras'],
-    'Use PIN summary': ['Require PIN before purchasing apps or other content', 'PIN-kód megadása alkalmazások vagy más tartalmak vásárlása előtt', 'Vor dem Kauf von Apps oder anderen Inhalten die PIN abfragen', 'Demander le code PIN avant l\'achat d\'applications ou d\'autres contenus', 'Solicitar PIN antes de comprar aplicaciones u otro contenido'],
-    'Set or change PIN': ['Set or change PIN', 'PIN-kód beállítása vagy módosítása', 'PIN festlegen oder ändern', 'Définir ou modifier le code PIN', 'Establecer o cambiar PIN'],
-    'Set PIN summary': ['Create a PIN to prevent changes to user controls', 'PIN-kód a felhasználói beállítások módosításának megakadályozásához', 'PIN erstellen, um Änderungen an den Nutzereinstellungen zu verhindern', 'Créer un code PIN pour empêcher la modification des contrôles utilisateur', 'Crea un PIN para evitar cambios en los controles de usuario'],
-    'Other': ['Other', 'Egyéb', 'Sonstiges', 'Autres', 'Otros'],
-    'Google AdMob Ads': ['Google AdMob Ads', 'Google AdMob-hirdetések', 'Google AdMob-Anzeigen', 'Annonces Google AdMob', 'Anuncios de Google AdMob'],
-    'AdMob summary': ['Personalize ads based on my interests', 'Hirdetések személyre szabása az érdeklődésem alapján', 'Anzeigen auf meine Interessen abstimmen', 'Personnaliser les annonces en fonction de mes centres d\'intérêt', 'Personalizar anuncios según mis intereses'],
-    'About': ['About', 'Névjegy', 'Über', 'À propos', 'Acerca de'],
-    'Open source licenses': ['Open source licenses', 'Nyílt forráskódú licencek', 'Open-Source-Lizenzen', 'Licences open source', 'Licencias de código abierto'],
-    'Licenses summary': ['License details for open source software', 'Nyílt forráskódú szoftverek licencrészletei', 'Lizenzdetails für Open-Source-Software', 'Informations sur les licences des logiciels libres', 'Detalles de licencias de software libre'],
-    'Build version': ['Build version', 'Build-verzió', 'Build-Version', 'Version de build', 'Versión de compilación'],
-    'Version': ['Version: %s', 'Verzió: %s', 'Version: %s', 'Version : %s', 'Versión: %s'],
-    'Successfully installed.': ['Successfully installed.', 'Sikeresen telepítve.', 'Erfolgreich installiert.', 'Installation réussie.', 'Se ha instalado correctamente.'],
-    'Unavailable': ['Not available in this simulator', 'Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+  const STRINGS = {
+      "Google Play": [
+          "Google Play",
+          "Google Play",
+          "Google Play",
+          "Google Play"
+      ],
+      "My apps": [
+          "Alkalmazásaim",
+          "Meine Apps",
+          "Mes applications",
+          "Mis aplicaciones"
+      ],
+      "Accounts": [
+          "Fiókok",
+          "Konten",
+          "Comptes",
+          "Cuentas"
+      ],
+      "Settings": [
+          "Beállítások",
+          "Einstellungen",
+          "Paramètres",
+          "Ajustes"
+      ],
+      "Help": [
+          "Súgó",
+          "Hilfe",
+          "Aide",
+          "Ayuda"
+      ],
+      "Search Google Play": [
+          "Keresés a Google Playen",
+          "In Google Play suchen",
+          "Recherche Google Play",
+          "Buscar en Google Play"
+      ],
+      "Installed": [
+          "Telepítve",
+          "Installiert",
+          "Installé",
+          "Instalado"
+      ],
+      "Up to date": [
+          "Telepítve",
+          "Installiert",
+          "Installées",
+          "Instaladas",
+          "Installed"
+      ],
+      "Not installed": [
+          "Nincs telepítve",
+          "Nicht installiert",
+          "Non installées",
+          "Sin instalar"
+      ],
+      "Open": [
+          "Megnyitás",
+          "Öffnen",
+          "Ouvrir",
+          "Abrir"
+      ],
+      "Uninstall": [
+          "Eltávolítás",
+          "Deinstallieren",
+          "Désinstaller",
+          "Desinstalar"
+      ],
+      "Install": [
+          "Telepítés",
+          "Installieren",
+          "Installer",
+          "Instalar"
+      ],
+      "Buy": [
+          "Vásárlás",
+          "Kaufen",
+          "Acheter",
+          "Comprar"
+      ],
+      "Accept & download": [
+          "Elfogadás és letöltés",
+          "Akzeptieren/Herunterladen",
+          "Accepter et télécharger",
+          "Aceptar y descargar"
+      ],
+      "Downloading…": [
+          "Letöltés...",
+          "Herunterladen...",
+          "Téléchargement...",
+          "Descargando…"
+      ],
+      "Installing…": [
+          "Telepítés...",
+          "Wird installiert...",
+          "Installation...",
+          "Instalando…"
+      ],
+      "Starting download…": [
+          "Letöltés megkezdése...",
+          "Download wird gestartet...",
+          "Début du téléchargement...",
+          "Iniciando descarga…"
+      ],
+      "Cancel": [
+          "Mégse",
+          "Abbrechen",
+          "Annuler",
+          "Cancelar"
+      ],
+      "OK": [
+          "OK",
+          "OK",
+          "OK",
+          "Aceptar"
+      ],
+      "DESCRIPTION": [
+          "Leírás",
+          "Beschreibung",
+          "Description",
+          "Descripción",
+          "Description"
+      ],
+      "What's new": [
+          "Újdonságok",
+          "Neue Funktionen",
+          "Nouveautés",
+          "Novedades"
+      ],
+      "REVIEWS": [
+          "Vélemények",
+          "Erfahrungsberichte",
+          "Commentaires",
+          "Comentarios",
+          "Reviews"
+      ],
+      "Average": [
+          "Átlagos",
+          "Durchschnitt",
+          "Moyenne",
+          "Media"
+      ],
+      "5 stars": [
+          "5 csillag",
+          "5 Sterne",
+          "5 étoiles",
+          "5 estrellas"
+      ],
+      "4 stars": [
+          "4 csillag",
+          "4 Sterne",
+          "4 étoiles",
+          "4 estrellas"
+      ],
+      "3 stars": [
+          "3 csillag",
+          "3 Sterne",
+          "3 étoiles",
+          "3 estrellas"
+      ],
+      "2 stars": [
+          "2 csillag",
+          "2 Sterne",
+          "2 étoiles",
+          "2 estrellas"
+      ],
+      "1 star": [
+          "1 csillag",
+          "1 Stern",
+          "1 étoile",
+          "1 estrella"
+      ],
+      "See all": [
+          "Összes megtekintése",
+          "Alle anzeigen",
+          "Tout afficher",
+          "Ver todo"
+      ],
+      "see more": [
+          "még több",
+          "Mehr",
+          "voir plus",
+          "ver más"
+      ],
+      "%s downloads": [
+          "%s letöltés",
+          "%s Downloads",
+          "%s téléchargements",
+          "%s descargas"
+      ],
+      "Size: %1$s": [
+          "Méret: %1$s",
+          "Größe: %1$s",
+          "Taille : %1$s",
+          "Tamaño: %1$s"
+      ],
+      "Updated on %1$s": [
+          "Frissítve: %1$s",
+          "Aktualisiert am %1$s",
+          "Mise à jour : %1$s",
+          "Fecha de actualización: %1$s"
+      ],
+      "Allow automatic updating": [
+          "Automatikusan frissíthető",
+          "Automatische Updates",
+          "Autoriser mise à jour auto",
+          "Actualizaciones automáticas"
+      ],
+      "Permissions": [
+          "Engedélyek",
+          "Berechtigungen",
+          "Autorisations",
+          "Permisos"
+      ],
+      "This app requires no special permissions to run.": [
+          "Az alkalmazás futtatásához nincs szükség különleges engedélyekre.",
+          "Für die Ausführung dieser App sind keine besonderen Berechtigungen notwendig.",
+          "Cette application ne nécessite aucune autorisation spéciale.",
+          "Esta aplicación no requiere permisos especiales para ejecutarse."
+      ],
+      "No results": [
+          "Nincs találat.",
+          "Keine Ergebnisse gefunden",
+          "Aucun résultat trouvé.",
+          "No se han encontrado resultados.",
+          "No results found."
+      ],
+      "General": [
+          "Általános",
+          "Allgemein",
+          "Paramètres généraux",
+          "General"
+      ],
+      "Notifications": [
+          "Értesítések",
+          "Benachrichtigungen",
+          "Notifications",
+          "Notificaciones"
+      ],
+      "Notifications summary": [
+          "Tájékoztasson a letöltött alkalmazások és játékok frissítéseiről",
+          "Ich möchte über Updates für heruntergeladene Apps oder Spiele informiert werden.",
+          "M'avertir des mises à jour disponibles pour les applications ou les jeux que j'ai téléchargés",
+          "Notificarme sobre actualizaciones de aplicaciones o juegos que he descargado",
+          "Notify me about updates to apps or games that I downloaded"
+      ],
+      "Auto-update apps": [
+          "Alkalmazások auto. frissítése",
+          "Automatische App-Updates",
+          "Mise à jour auto des applis",
+          "Actualizar automáticamente"
+      ],
+      "Auto-update summary": [
+          "Alkalmazások alapértelmezés szerinti automatikus frissítése",
+          "Apps standardmäßig automatisch aktualisieren",
+          "Automatiquement mettre à jour les applications par défaut",
+          "Actualizar aplicaciones automáticamente de forma predeterminada",
+          "Automatically update apps by default"
+      ],
+      "Update over Wi-Fi only": [
+          "Frissítés csak Wi-Fivel",
+          "Updates nur über WLAN",
+          "Mise à jour via Wi-Fi uniq.",
+          "Actualizar solo por Wi-Fi"
+      ],
+      "Wi-Fi summary": [
+          "Takarékosság az adatforgalommal",
+          "Schränkt den Datenverbrauch ein",
+          "Limite la consommation de données mobiles.",
+          "Permite ahorrar datos móviles",
+          "Conserves data usage"
+      ],
+      "Auto-add widgets": [
+          "Modulok automatikus hozzáadása",
+          "Widgets automatisch hinzufügen",
+          "Ajouter automatiquement des widgets",
+          "Añadir widgets automáticamente"
+      ],
+      "Widgets summary": [
+          "Új alkalmazások moduljainak automatikus felvétele a kezdőképernyőre",
+          "Automatisch Startbildschirm-Widgets für neue Apps hinzufügen",
+          "Ajouter automatiquement des widgets à l'écran d'accueil pour les nouvelles applications",
+          "Añadir widgets al escritorio automáticamente para nuevas aplicaciones",
+          "Automatically add Home screen widgets for new apps"
+      ],
+      "Clear search history": [
+          "Keresési előzmények törlése",
+          "Suchverlauf löschen",
+          "Effacer historique recherches",
+          "Borrar historial de búsqueda"
+      ],
+      "Clear search history summary": [
+          "Az összes végrehajtott keresés törlése",
+          "Alle Suchvorgänge aus dem Verlauf entfernen",
+          "Supprimer toutes les recherches que vous avez effectuées",
+          "Eliminar todas las búsquedas realizadas",
+          "Remove all the searches you have performed"
+      ],
+      "User controls": [
+          "Felhasználói vezérlők",
+          "Nutzersteuerung",
+          "Commandes utilisateur",
+          "Controles de usuario"
+      ],
+      "Unlock settings": [
+          "Beállítások feloldása",
+          "Einstellungen entsperren",
+          "Déverrouiller les paramètres",
+          "Ajustes de desbloqueo"
+      ],
+      "Content filtering": [
+          "Tartalomszűrés",
+          "Filter für Inhalte",
+          "Filtrage du contenu",
+          "Filtro de contenido"
+      ],
+      "Content filtering summary": [
+          "A tartalomszűrés szintjének beállítása a letölthető alkalmazások körének szűkítéséhez",
+          "Beschränken Sie über die Inhaltsfilterung den Zugriff auf Apps, die heruntergeladen werden können.",
+          "Définir le niveau de filtrage du contenu afin de limiter les applications pouvant être téléchargées",
+          "Definir el nivel del filtro de contenido para restringir las aplicaciones que se pueden descargar",
+          "Set the content filtering level to restrict apps that can be downloaded"
+      ],
+      "Use PIN for purchases": [
+          "PIN-kód vásárlásokhoz",
+          "PIN für Käufe verwenden",
+          "Utiliser PIN pour achats",
+          "Usar PIN para compras"
+      ],
+      "Use PIN summary": [
+          "Kérje be a PIN kódot alkalmazás és más tartalom vásárlása előtt",
+          "Vor dem Kauf von Apps oder anderen Inhalten muss eine PIN eingegeben werden.",
+          "Demander un code secret avant l'achat d'applications ou de tout autre contenu",
+          "Solicitar el código PIN para comprar aplicaciones u otro contenido",
+          "Require PIN before purchasing apps or other content"
+      ],
+      "Set or change PIN": [
+          "PIN-kód megadása v módosítása",
+          "PIN festlegen oder ändern",
+          "Définir ou modifier le PIN",
+          "Definir o cambiar PIN"
+      ],
+      "Set PIN summary": [
+          "Hozzon létre PIN kódot a felhasználói vezérlés módosításainak megelőzéséhez",
+          "Erstellen Sie eine PIN, um Änderungen an der Nutzersteuerung zu verhindern.",
+          "Créer un code secret pour empêcher la modification des commandes utilisateur",
+          "Crea un PIN para evitar cambios en los controles de usuario.",
+          "Create a PIN to prevent changes to user controls"
+      ],
+      "Other": [
+          "Egyéb",
+          "Weitere",
+          "Autres",
+          "Otros"
+      ],
+      "Google AdMob Ads": [
+          "Google AdMob hirdetések",
+          "Google AdMob-Anzeigen",
+          "Annonces Google AdMob",
+          "Anuncios de Google AdMob"
+      ],
+      "AdMob summary": [
+          "Hirdetések testreszabása érdeklődési kör alapján",
+          "Anzeigen anhand meiner Interessen personalisieren",
+          "Personnaliser annonces selon centres d'intérêt",
+          "Personalizar anuncios según mis intereses",
+          "Personalize ads based on my interests"
+      ],
+      "AdMob info": [
+          "Döntse el, hogy szeretné-e személyre szabni a Google és az AdMob érdeklődésen alapuló hirdetéseit az eszközön lévő mobilalkalmazásokban. <a href=%1$s>További információ</a>",
+          "Geben Sie an, ob Anzeigen von Google und AdMob in mobilen Apps auf diesem Gerät personalisiert werden sollen. <a href=%1$s>Weitere Informationen</a>",
+          "Choisir de personnaliser ou non les annonces de Google et d'AdMob sur les applications mobiles de cet appareil. <a href=%1$s>En savoir plus</a>",
+          "Selecciona si quieres personalizar anuncios procedentes de Google y de AdMob en las aplicaciones para móviles de este dispositivo. <a href=%1$s>Más información</a>",
+          "Choose whether to personalize ads from Google and AdMob in mobile apps on this device. <a href=\"%1$s\">Learn more</a>"
+      ],
+      "About": [
+          "Névjegy",
+          "Über",
+          "À propos de",
+          "Acerca de"
+      ],
+      "Open source licenses": [
+          "Nyílt forráskódú licencek",
+          "Open-Source-Lizenzen",
+          "Licences Open Source",
+          "Licencias de software libre"
+      ],
+      "Licenses summary": [
+          "A nyílt forráskódú szoftverekhez kapcsolódó licenc részletei",
+          "Lizenzdetails für Open-Source-Software",
+          "Informations sur la licence pour les logiciels Open Source",
+          "Detalles de la licencia de software de código abierto",
+          "License details for open source software"
+      ],
+      "Build version": [
+          "Build verziószáma",
+          "Build-Version",
+          "Version",
+          "Versión de la compilación"
+      ],
+      "Version": [
+          "Verzió: %1$s",
+          "Version: %1$s",
+          "Version : %1$s",
+          "Versión: %1$s",
+          "Version: %1$s"
+      ],
+      "Successfully installed.": [
+          "Sikeresen telepítve.",
+          "Installiert",
+          "Installation réussie",
+          "Instalada correctamente"
+      ],
+      "You +1'd this.": [
+          "Ön +1-ezte ezt.",
+          "Sie geben hierfür +1",
+          "+1 de vous",
+          "Has hecho +1."
+      ],
+      "Uninstall app": [
+          "Alkalmazás eltávolítása",
+          "App deinstallieren",
+          "Désinstallez l'application",
+          "Desinstalar aplicación"
+      ],
+      "Do you want to uninstall this app?": [
+          "Eltávolítja ezt az alkalmazást?",
+          "Möchten Sie diese App deinstallieren?",
+          "Voulez-vous désinstaller cette application ?",
+          "¿Quieres desinstalar esta aplicación?"
+      ],
+      "Network communication": [
+          "Hálózati kommunikáció",
+          "Netzkommunikation",
+          "Communications réseau",
+          "Comunicación de red"
+      ],
+      "full Internet access": [
+          "teljes internet-hozzáférés",
+          "uneingeschränkter Internetzugriff",
+          "Accès Internet complet",
+          "acceso íntegro a Internet"
+      ],
+      "Hardware controls": [
+          "Hardver vezérlése",
+          "Hardware-Steuerelemente",
+          "Commandes du matériel",
+          "Controles de hardware"
+      ],
+      "control vibrator": [
+          "rezgés vezérlése",
+          "Vibrationsalarm steuern",
+          "Contrôle du vibreur",
+          "controlar vibración"
+      ],
+      "Storage": [
+          "Tárhely",
+          "Speicher",
+          "Stockage",
+          "Almacenamiento"
+      ],
+      "modify/delete USB storage contents": [
+          "USB-tár tartalmának módosítása és törlése",
+          "USB-Speicherinhalt ändern/löschen",
+          "Modifier/Supprimer contenu mémoire USB",
+          "modificar/borrar contenido USB"
+      ]
   };
-  const LANGS = ['en', 'hu', 'de', 'fr', 'es'];
-  const text = (lang, key) => (S[key] || [key])[Math.max(0, LANGS.indexOf(lang))] ?? key;
-  const VERSION = '3.8.17';
-  // Section colours and order of the 3.8.17 home tiles: green apps, orange music, purple magazines, red movies & TV, blue
-  // books; Games has its own dark tile with the green title.
-  const SECTIONS = [['apps', 'Apps', '#9fc33b'], ['music', 'Music', '#ef8a2b'], ['magazines', 'Magazines', '#8a64b4'], ['movies', 'Movies & TV', '#d8473e'], ['books', 'Books', '#3d8fd6'], ['games', 'Games', '#9fc33b']];
+  // The storefront itself (corpus and list names, prices, promo lines) came from Google's servers; these are the
+  // simulator's own, and "Unavailable" is the simulator's note for what it does not do.
+  const OWN = {
+    'Apps': ['Alkalmazások', 'Apps', 'Applications', 'Aplicaciones'],
+    'Games': ['Játékok', 'Spiele', 'Jeux', 'Juegos'],
+    'Music': ['Zene', 'Musik', 'Musique', 'Música'],
+    'Books': ['Könyvek', 'Bücher', 'Livres', 'Libros'],
+    'Movies': ['Filmek', 'Filme', 'Films', 'Películas'],
+    'CATEGORIES': ['KATEGÓRIÁK', 'KATEGORIEN', 'CATÉGORIES', 'CATEGORÍAS'],
+    'GENRES': ['MŰFAJOK', 'GENRES', 'GENRES', 'GÉNEROS'],
+    'FEATURED': ['KIEMELT', 'EMPFOHLEN', 'SÉLECTION', 'DESTACADO'],
+    'TOP PAID': ['LEGNÉPSZERŰBB FIZETŐS', 'TOP-KAUF', 'TOP PAYANTS', 'MÁS VENDIDO'],
+    'TOP FREE': ['LEGNÉPSZERŰBB INGYENES', 'TOP-GRATIS', 'TOP GRATUITS', 'GRATIS MÁS POPULARES'],
+    'TOP GROSSING': ['LEGNAGYOBB BEVÉTEL', 'UMSATZSTÄRKSTE', 'MEILLEURES VENTES', 'MÁS RENTABLES'],
+    'TOP NEW PAID': ['ÚJ FIZETŐS', 'NEU & KOSTENPFLICHTIG', 'NOUVEAUTÉS PAYANTES', 'NOVEDADES DE PAGO'],
+    'TOP NEW FREE': ['ÚJ INGYENES', 'NEU & GRATIS', 'NOUVEAUTÉS GRATUITES', 'NOVEDADES GRATUITAS'],
+    'TRENDING': ['FELKAPOTT', 'IM TREND', 'TENDANCES', 'TENDENCIAS'],
+    'TOP ALBUMS': ['LEGNÉPSZERŰBB ALBUMOK', 'TOP-ALBEN', 'TOP ALBUMS', 'ÁLBUMES MÁS POPULARES'],
+    'TOP SONGS': ['LEGNÉPSZERŰBB DALOK', 'TOP-SONGS', 'TOP TITRES', 'CANCIONES MÁS POPULARES'],
+    'NEW RELEASES': ['ÚJDONSÁGOK', 'NEUERSCHEINUNGEN', 'NOUVEAUTÉS', 'NOVEDADES'],
+    'TOP SELLING': ['LEGKELENDŐBB', 'BESTSELLER', 'MEILLEURES VENTES', 'MÁS VENDIDOS'],
+    'FREE': ['INGYENES', 'KOSTENLOS', 'GRATUIT', 'GRATIS'],
+    'Free': ['Ingyenes', 'Kostenlos', 'Gratuit', 'Gratis'],
+    'Free classics': ['Ingyenes klasszikusok', 'Kostenlose Klassiker', 'Classiques gratuits', 'Clásicos gratis'],
+    'Unavailable': ['Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+  };
+  const LANGS = ['hu', 'de', 'fr', 'es'];
+  const text = (lang, key) => {
+    const i = LANGS.indexOf(String(lang || 'en').slice(0, 2)), row = STRINGS[key] || OWN[key];
+    if (!row) return key;
+    return i >= 0 ? row[i] : STRINGS[key]?.[4] || key;
+  };
+  const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/%[sd]/g, () => args[0] ?? '');
+  const stripTags = s => String(s).replace(/<[^>]*>/g, '');
+  const VERSION = '3.4.7';
+  // Corpus colours (values/colors.xml: *_background, the strips; *_foreground, the tab titles) in the TOC's order.
+  const SECTIONS = [['apps', 'Apps', '#96AA39', '#96AA39'], ['music', 'Music', '#F4842D', '#C96D25'], ['movies', 'Movies', '#C74B46', '#BC4742'], ['books', 'Books', '#3F9FE0', '#3C95D3'], ['games', 'Games', '#96AA39', '#96AA39']];
   const TABS = {
     apps: ['CATEGORIES', 'FEATURED', 'TOP PAID', 'TOP FREE', 'TOP GROSSING', 'TOP NEW PAID', 'TOP NEW FREE', 'TRENDING'],
     games: ['CATEGORIES', 'FEATURED', 'TOP PAID', 'TOP FREE', 'TOP GROSSING', 'TOP NEW PAID', 'TOP NEW FREE', 'TRENDING'],
     music: ['GENRES', 'FEATURED', 'TOP ALBUMS', 'TOP SONGS', 'NEW RELEASES'],
     books: ['CATEGORIES', 'FEATURED', 'TOP SELLING', 'NEW RELEASES', 'TOP FREE'],
-    movies: ['CATEGORIES', 'FEATURED', 'TOP SELLING', 'NEW RELEASES'],
-    magazines: ['CATEGORIES', 'FEATURED', 'TOP SELLING']
+    movies: ['CATEGORIES', 'FEATURED', 'TOP SELLING', 'NEW RELEASES']
   };
   // Paid apps, albums, books and films for the sections: public-domain classics, the simulator's own demo albums, fictional films.
   const EXTRA = [
@@ -127,12 +543,9 @@
     {id: 'book-alice', kind: 'books', name: 'Alice\'s Adventures in Wonderland', developer: 'Lewis Carroll', rating: 4.5, price: 'FREE', colors: ['#3a5f8a', '#f0d48a']},
     {id: 'movie-orbit', kind: 'movies', name: 'Orbit Hopper: The Movie', developer: 'Animation', rating: 4.1, price: '$3.99', colors: ['#141c3a', '#8f7fff']},
     {id: 'movie-quiet', kind: 'movies', name: 'A Quiet Afternoon', developer: 'Drama', rating: 3.9, price: '$2.99', colors: ['#3a2a1c', '#e0a868']},
-    {id: 'mag-pocket-tech', kind: 'magazines', name: 'Pocket Tech Monthly', developer: 'August 2012', rating: 4.2, price: '$2.99', colors: ['#1d2b45', '#5fb3e8'], description: 'Phones, tablets and the apps that matter. Single issue.'},
-    {id: 'mag-trail', kind: 'magazines', name: 'Trail & Summit', developer: 'September 2012', rating: 4.4, price: '$3.99', colors: ['#2d3a1f', '#c9a85a'], description: 'Hiking routes, gear and mountain stories.'},
-    {id: 'mag-kitchen', kind: 'magazines', name: 'Weekend Kitchen', developer: 'Summer 2012', rating: 4.0, price: '$1.99', colors: ['#5a2018', '#f2b35e'], description: 'Fifty easy recipes for long summer evenings.'}
   ];
   const DATES = ['March 21, 2012', 'March 2, 2012', 'February 14, 2012', 'January 30, 2012'];
-  const catalog = () => (window.ICSPlayStore?.catalog || []).map((item, i) => ({...item, kind: item.category === 'Games' ? 'games' : 'apps', price: 'FREE', downloads: ['10,000,000+', '1,000,000+', '500,000+', '100,000+'][i % 4], votes: 12000 + i * 4173, updated: DATES[i % 4], plus: 120 + i * 37, size: String(item.size || '').replace(' ', '')}));
+  const catalog = () => (window.ICSPlayStore?.catalog || []).map((item, i) => ({...item, kind: item.category === 'Games' ? 'games' : 'apps', price: 'FREE', downloads: ['10,000,000+', '1,000,000+', '500,000+', '100,000+'][i % 4], votes: 12000 + i * 4173, updated: DATES[i % 4], plus: 120 + i * 37, size: String(item.size || '').replace(' ', ''), whatsnew: 'Bug fixes and performance improvements.'}));
   const all = () => [...catalog(), ...EXTRA.map(item => ({downloads: '50,000+', votes: 812, plus: 46, updated: item.kind === 'magazines' ? 'August 9, 2012' : 'February 1, 2012', size: item.kind === 'books' ? '1.2MB' : item.kind === 'magazines' ? '24MB' : item.kind === 'music' ? '96MB' : item.kind === 'movies' ? '820MB' : item.size, description: item.kind === 'books' ? 'A classic, free from Google Play Books.' : item.kind === 'movies' ? 'Rent and watch within 30 days.' : '', ...item}))];
   const find = id => all().find(item => item.id === id);
   const installedState = (item, ctx) => item.app ? 'installed' : ctx.installed.includes(item.id) ? 'installed' : ctx.downloading === item.id ? ctx.phase : '';
@@ -147,9 +560,10 @@
     : ICONS[item.art] ? `<i class="${cls} icsp-svg" aria-hidden="true">${ICONS[item.art]}</i>`
     : `<i class="${cls} icsp-cover ${item.kind || ''}" style="--a:${(item.colors || ['#2f4f6f', '#8fc0e8'])[0]};--b:${(item.colors || ['#2f4f6f', '#8fc0e8'])[1]}" aria-hidden="true"><b>${e((item.name || '?').slice(0, 1))}</b></i>`;
   const price = (item, ctx, word = false) => item.price === 'FREE' ? text(ctx.lang, word ? 'Free' : 'FREE') : item.price;
-  // The action bar: back caret and bag (only the bag at the top level), the title, search and the Holo overflow button.
+  // The action bar (LegacyActionBar on ICS: the Holo bar): ic_ab_back and the 32 dp Play icon (only the icon at the top
+  // level), the title, ic_menu_market_search and the Holo overflow button.
   function header(ctx, title, back = true) {
-    const up = back ? '<button class="icsp-up" data-action="back" aria-label="Back"><span>‹</span><img src="assets/play-store.svg?v=3" alt=""></button>' : '<span class="icsp-up root"><img src="assets/play-store.svg?v=3" alt=""></span>';
+    const up = back ? '<button class="icsp-up" data-action="back" aria-label="Back"><i class="icsp-caret"></i><img src="assets/ps347-ic_launcher_play_store.png" alt=""></button>' : '<span class="icsp-up root"><img src="assets/ps347-ic_launcher_play_store.png" alt=""></span>';
     if (ctx.searching) return `<form class="icsp-bar searching" data-form="icsp-search">${up}<input name="query" autocomplete="off" aria-label="${e(text(ctx.lang, 'Search Google Play'))}" placeholder="${e(text(ctx.lang, 'Search Google Play'))}" value="${e(ctx.editValue || '')}"><button class="icsp-search" type="submit" aria-label="${e(text(ctx.lang, 'Search Google Play'))}"></button></form>`;
     return `<div class="icsp-bar">${up}<b>${e(title)}</b>${ctx.noMenu ? '' : `<button class="icsp-search" data-action="icsp-search" aria-label="${e(text(ctx.lang, 'Search Google Play'))}"></button>`}${ctx.noMenu ? '' : '<button class="icsp-overflow" data-action="icsp-menu" aria-label="More options"></button>'}</div>`;
   }
@@ -164,12 +578,13 @@
 
   function home(ctx) {
     const T = key => text(ctx.lang, key), items = all(), promo = find('orbit') || items[0];
-    const tiles = SECTIONS.slice(0, 5).map(([id, label, color]) => `<button class="icsp-tile ${id}" style="--c:${color}" data-action="icsp-section" data-id="${id}"><b>${e(T(label))}</b><i class="icsp-mark ${id}"></i></button>`).join('');
+    // CorpusGridItem.bindCorpusTile: corpus_cell with the strip, the name, the watermark and "see more".
+    const tiles = SECTIONS.slice(0, 4).map(([id, label, color]) => `<button class="icsp-tile ${id}" style="--c:${color}" data-action="icsp-section" data-id="${id}"><b>${e(T(label))}</b><i class="icsp-mark ${id}"></i><small>${e(T('see more'))}</small></button>`).join('');
     const stripe = kind => (SECTIONS.find(s => s[0] === kind) || SECTIONS[0])[2];
     const feature = item => `<button class="icsp-feature" style="--a:${(item.colors || ['#222'])[0]};--b:${(item.colors || ['#222', '#555'])[1]}" data-action="icsp-detail" data-id="${e(item.id)}">${art(item, 'icsp-feature-art')}<span><b>${e(item.name)}</b><small>${e(item.developer)}</small></span><span class="icsp-feature-foot">${stars(item.rating)}<em>${e(price(item, ctx))}</em></span></button>`;
     const banner = (item, title, line, cls) => `<button class="icsp-promo ${cls}" style="--c:${stripe(item.kind)}" data-action="icsp-detail" data-id="${e(item.id)}">${art(item, 'icsp-promo-art')}<span><b>${e(title)}</b><small>${e(line)}</small></span></button>`;
     return view(ctx, 'icsp-home', header(ctx, T('Google Play'), false),
-      `${banner(promo, promo.name, promo.description || '', 'space')}<div class="icsp-columns"><div class="icsp-tiles">${tiles}</div><div class="icsp-right"><button class="icsp-games" data-action="icsp-section" data-id="games"><b>${e(T('Games'))}</b><i></i></button>${feature(find('album-first-light'))}${feature(find('mag-pocket-tech'))}</div></div>${banner(find('movie-quiet'), 'A Quiet Afternoon', '$2.99 · Movies & TV', 'film')}${banner(find('book-alice'), 'Free classics', 'Alice\'s Adventures in Wonderland', 'classics')}`);
+      `${banner(promo, promo.name, promo.description || '', 'space')}<div class="icsp-columns"><div class="icsp-tiles">${tiles}</div><div class="icsp-right"><button class="icsp-games" data-action="icsp-section" data-id="games"><b>${e(T('Games'))}</b><i></i></button>${feature(find('album-first-light'))}${feature(find('book-holmes'))}</div></div>${banner(find('movie-quiet'), 'A Quiet Afternoon', `$2.99 · ${T('Movies')}`, 'film')}${banner(find('book-alice'), 'Free classics', 'Alice\'s Adventures in Wonderland', 'classics')}`);
   }
   // A section: the ViewPager title strip (the current tab centred in the section colour, its neighbours at the edges).
   function section(ctx) {
@@ -179,7 +594,7 @@
     const items = all().filter(item => item.kind === id);
     let body;
     if (tab === 'CATEGORIES' || tab === 'GENRES') {
-      const cats = {games: ['Arcade & Action', 'Brain & Puzzle', 'Cards & Casino', 'Casual', 'Live Wallpaper', 'Racing', 'Sports Games', 'Widgets'], apps: ['Books & Reference', 'Business', 'Comics', 'Communication', 'Education', 'Entertainment', 'Finance', 'Health & Fitness', 'Music & Audio', 'Photography', 'Productivity', 'Tools'], music: ['Alternative', 'Classical', 'Electronica', 'Pop', 'Rock', 'Soundtracks'], books: ['Fiction', 'Classics', 'Mystery', 'Children\'s'], movies: ['Action & Adventure', 'Animation', 'Comedy', 'Drama', 'Family'], magazines: ['Business & News', 'Entertainment', 'Food & Cooking', 'Sports & Outdoors', 'Technology']}[id];
+      const cats = {games: ['Arcade & Action', 'Brain & Puzzle', 'Cards & Casino', 'Casual', 'Live Wallpaper', 'Racing', 'Sports Games', 'Widgets'], apps: ['Books & Reference', 'Business', 'Comics', 'Communication', 'Education', 'Entertainment', 'Finance', 'Health & Fitness', 'Music & Audio', 'Photography', 'Productivity', 'Tools'], music: ['Alternative', 'Classical', 'Electronica', 'Pop', 'Rock', 'Soundtracks'], books: ['Fiction', 'Classics', 'Mystery', 'Children\'s'], movies: ['Action & Adventure', 'Animation', 'Comedy', 'Drama', 'Family']}[id];
       body = `<div class="icsp-list">${cats.map(c => `<button class="icsp-cat" data-action="icsp-tab" data-id="${e(tabs[2])}">${e(c)}</button>`).join('')}</div>`;
     } else if (tab === 'FEATURED') {
       const lead = items[0], rest = items.slice(1, 5);
@@ -195,7 +610,8 @@
     const state = installedState(item, ctx);
     return `<button class="icsp-row" data-action="icsp-detail" data-id="${e(item.id)}">${art(item)}<span class="icsp-row-copy"><b>${e(item.name)}</b><small>${e(item.developer)}</small>${stars(item.rating)}</span><em class="${state === 'installed' || item.price === 'FREE' ? 'green' : ''}">${e(state === 'installed' ? text(ctx.lang, 'Installed') : price(item, ctx, true))}</em></button>`;
   }
-  // Reviews (3.5.15): the average with the bar histogram, the Sort reviews / Options spinners and the reviews with the device.
+  // details_reviews: HistogramView ("Average" over the value, the stars and the count; "5 stars" … "1 star") and
+  // reviews_list_item rows (the bold title, stars, author in #999999, date, text). 3.4.7 has no sorting or filters.
   const REVIEWS = [
     {title: 'Love it!', author: 'Joseph', date: '3/23/12', device: 'Samsung Galaxy Nexus', stars: 5, text: 'Exactly what I was looking for. Works great on Ice Cream Sandwich.', newest: 2},
     {title: 'Great update', author: 'James', date: '3/25/12', device: 'Nexus S', stars: 4, text: 'Faster than the last version. Would love a widget.', newest: 1},
@@ -203,42 +619,37 @@
   ];
   function reviews(item, ctx) {
     const T = key => text(ctx.lang, key), total = item.votes, shares = [.62, .2, .09, .04, .05].map((s, i) => Math.round(total * (s + (item.rating - 4.4) * (i ? -.04 : .16))));
-    const max = Math.max(...shares), list = REVIEWS.filter(r => !ctx.reviewDevice || r.device === 'Samsung Galaxy Nexus');
-    const sorted = ctx.reviewSort === 'newest' ? [...list].sort((a, b) => a.newest - b.newest) : list;
-    const label = n => (n === 1 ? T('star') : T('stars')).replace('%d', n);
-    return `<div class="icsp-reviews"><h4>${e(T('REVIEWS'))}</h4><div class="icsp-hist"><div class="icsp-avg"><small>${e(T('Average'))}</small><b>${item.rating.toLocaleString(ctx.locale, {minimumFractionDigits: 1})}</b>${stars(item.rating)}<small>${total.toLocaleString(ctx.locale)}</small></div><div class="icsp-bars">${shares.map((n, i) => `<span><small>${e(label(5 - i))}</small><i style="width:${Math.max(2, Math.round(n / max * 100))}%"></i><em>${Math.max(0, n).toLocaleString(ctx.locale)}</em></span>`).join('')}</div></div><div class="icsp-review-tools"><button data-action="icsp-review-sort">${e(T(ctx.reviewSort === 'newest' ? 'Newest first' : 'Most helpful first'))}</button><button data-action="icsp-review-options">${e(T('Options'))}</button></div>${sorted.map(r => `<div class="icsp-review"><b>${e(r.title)}</b><span>${stars(r.stars)} <strong>${e(r.author)}</strong> ${e(r.date)}</span><small>${e(r.device)}</small><p>${e(r.text)}</p></div>`).join('')}</div>`;
+    const max = Math.max(...shares), label = n => T(n === 1 ? '1 star' : `${n} stars`);
+    return `<div class="icsp-reviews"><h4>${e(T('REVIEWS'))}</h4><div class="icsp-hist"><div class="icsp-avg"><small>${e(T('Average'))}</small><b>${item.rating.toLocaleString(ctx.locale, {minimumFractionDigits: 1})}</b>${stars(item.rating)}<small>${total.toLocaleString(ctx.locale)}</small></div><div class="icsp-bars">${shares.map((n, i) => `<span><small>${e(label(5 - i))}</small><i style="width:${Math.max(2, Math.round(n / max * 100))}%"></i><em>${Math.max(0, n).toLocaleString(ctx.locale)}</em></span>`).join('')}</div></div>${REVIEWS.map(r => `<div class="icsp-review"><b>${e(r.title)}</b><span>${stars(r.stars)} <strong>${e(r.author)}</strong> ${e(r.date)}</span><p>${e(r.text)}</p></div>`).join('')}</div>`;
   }
   function detail(ctx) {
     const T = key => text(ctx.lang, key), item = find(ctx.selected);
     if (!item) return home(ctx);
     const state = installedState(item, ctx);
     let actions = '';
-    if (state === 'installed') actions = `<div class="icsp-actions"><button data-action="icsp-open" data-id="${e(item.id)}">${e(T('Open'))}</button><button data-action="icsp-uninstall" data-id="${e(item.id)}"${item.app ? ' disabled' : ''}>${e(T('Uninstall'))}</button></div>`;
+    if (state === 'installed') actions = `<div class="icsp-actions"><button data-action="icsp-open" data-id="${e(item.id)}">${e(T('Open'))}</button><button data-action="icsp-uninstall-ask" data-id="${e(item.id)}"${item.app ? ' disabled' : ''}>${e(T('Uninstall'))}</button></div>`;
     else if (state === 'downloading' || state === 'installing') actions = `<div class="icsp-actions progress"><div><span>${e(T(state === 'installing' ? 'Installing…' : 'Downloading…'))}</span><i class="icsp-progress"><b style="width:${state === 'installing' ? 100 : Math.round(ctx.progress * 100)}%"></b></i></div><button data-action="icsp-cancel">${e(T('Cancel'))}</button></div>`;
     const priceButton = state ? '' : `<button class="icsp-price" data-action="icsp-buy" data-id="${e(item.id)}">${e(price(item, ctx))}</button>`;
-    const shots = item.kind === 'music' || item.kind === 'books' || item.kind === 'movies' || item.kind === 'magazines' ? '' : `<div class="icsp-shots">${[0, 1, 2].map(n => `<span class="icsp-shot n${n}" style="--a:${(item.colors || ['#2a3a4a', '#9fc33b'])[0]};--b:${(item.colors || ['#2a3a4a', '#9fc33b'])[1]}">${art(item, 'icsp-shot-art')}</span>`).join('')}</div>`;
+    const shots = item.kind === 'music' || item.kind === 'books' || item.kind === 'movies' ? '' : `<div class="icsp-shots">${[0, 1, 2].map(n => `<span class="icsp-shot n${n}" style="--a:${(item.colors || ['#2a3a4a', '#9fc33b'])[0]};--b:${(item.colors || ['#2a3a4a', '#9fc33b'])[1]}">${art(item, 'icsp-shot-art')}</span>`).join('')}</div>`;
     return view(ctx, 'icsp-detail', header(ctx, item.name), `<div class="icsp-head">${art(item, 'icsp-head-art')}<span><b>${e(item.name)}</b><small>${e(item.developer.toUpperCase())}</small></span>${priceButton}</div>${actions ? `<i class="icsp-rule"></i>${actions}<i class="icsp-rule"></i>` : '<i class="icsp-rule"></i>'}${shots}
-      <div class="icsp-info"><div class="icsp-info-row"><span>${stars(item.rating)} <small>${item.votes.toLocaleString(ctx.locale)}</small></span><span>${e(item.updated)}</span></div><div class="icsp-info-row"><span>${e(item.downloads)} ${e(T('downloads'))}</span><span>${e(T('Size'))}: ${e(item.size || '')}</span></div>
-      <div class="icsp-plus"><button data-action="icsp-plus" data-id="${e(item.id)}" class="${ctx.plussed.includes(item.id) ? 'on' : ''}">+1</button><span>${item.plus + (ctx.plussed.includes(item.id) ? 1 : 0)} ${e(T('people +1\'d this'))}</span></div>
+      <div class="icsp-info"><div class="icsp-info-row"><span>${stars(item.rating)} <small>${item.votes.toLocaleString(ctx.locale)}</small></span><span>${e(item.updated)}</span></div><div class="icsp-info-row"><span>${e(fmt(T('%s downloads'), item.downloads))}</span><span>${e(fmt(T('Size: %1$s'), item.size || ''))}</span></div>
+      <div class="icsp-plus"><button data-action="icsp-plus" data-id="${e(item.id)}" class="${ctx.plussed.includes(item.id) ? 'on' : ''}" aria-label="+1"><i></i><em>${item.plus + (ctx.plussed.includes(item.id) ? 1 : 0)}</em></button><span>${ctx.plussed.includes(item.id) ? e(T("You +1'd this.")) : ''}</span></div>
       ${state === 'installed' && !item.app ? `<label class="icsp-auto"><input type="checkbox" data-icsp-auto="${e(item.id)}"${ctx.autoUpdate.includes(item.id) ? ' checked' : ''}><span>${e(T('Allow automatic updating'))}</span></label>` : ''}
-      <div class="icsp-desc"><h4>${e(T('DESCRIPTION'))}</h4><p>${e(item.description || '')}</p></div>${reviews(item, ctx)}</div>`);
+      ${(state === 'installed' ? [["What's new", item.whatsnew], ['DESCRIPTION', item.description]] : [['DESCRIPTION', item.description], ["What's new", item.whatsnew]]).filter(([, body]) => body).map(([title, body]) => `<div class="icsp-desc"><h4>${e(T(title))}</h4><p>${e(body)}</p></div>`).join('')}${reviews(item, ctx)}</div>`);
   }
   function permissions(ctx) {
     const T = key => text(ctx.lang, key), item = find(ctx.selected);
     const groups = item.kind === 'games' ? [['Network communication', 'full Internet access'], ['Hardware controls', 'control vibrator']] : [['Network communication', 'full Internet access'], ['Storage', 'modify/delete USB storage contents']];
-    return `<div class="app-view icsp icsp-perms" data-no-translate>${header(ctx, item.name)}<div class="icsp-head">${art(item, 'icsp-head-art')}<span><b>${e(item.name)}</b><small>${e(item.developer.toUpperCase())}</small></span></div><i class="icsp-rule"></i><div class="icsp-scroll"><p class="icsp-perm-intro">${e(T('Permissions'))}</p>${groups.map(([g, d]) => `<div class="icsp-perm"><i></i><span><b>${e(g)}</b><small>${e(d)}</small></span></div>`).join('')}</div><div class="icsp-accept"><button data-action="icsp-accept" data-id="${e(item.id)}">${e(T('Accept & download'))}</button></div></div>`;
+    return `<div class="app-view icsp icsp-perms" data-no-translate>${header(ctx, item.name)}<div class="icsp-head">${art(item, 'icsp-head-art')}<span><b>${e(item.name)}</b><small>${e(item.developer.toUpperCase())}</small></span></div><i class="icsp-rule"></i><div class="icsp-scroll"><p class="icsp-perm-intro">${e(T('Permissions'))}</p>${groups.map(([g, d]) => `<div class="icsp-perm"><i></i><span><b>${e(T(g))}</b><small>${e(T(d))}</small></span></div>`).join('')}</div><div class="icsp-accept"><button data-action="icsp-accept" data-id="${e(item.id)}">${e(T('Accept & download'))}</button></div></div>`;
   }
   // My apps (3.5.15): INSTALLED and ALL pages; Installed groups its apps under "Up to date" with the count.
+  // My apps (my_downloads): one list under my_downloads_section_header, "Installed" and "Not installed" with their counts.
   function myApps(ctx) {
-    const T = key => text(ctx.lang, key), tab = ctx.tab === 'ALL' ? 'ALL' : 'INSTALLED';
+    const T = key => text(ctx.lang, key);
     const installed = all().filter(item => installedState(item, ctx) === 'installed').sort((a, b) => a.name.localeCompare(b.name));
-    const left = tab === 'ALL' ? `<button data-action="icsp-tab" data-id="INSTALLED">${e(T('INSTALLED'))}</button>` : '<button data-action="icsp-tab" data-id="" disabled></button>';
-    const right = tab === 'ALL' ? '<button data-action="icsp-tab" data-id="" disabled></button>' : `<button data-action="icsp-tab" data-id="ALL">${e(T('ALL'))}</button>`;
-    const strip = `<div class="icsp-tabs" style="--c:#9fc33b" data-icsp-swipe>${left}<b>${e(T(tab))}</b>${right}</div>`;
-    const body = tab === 'ALL'
-      ? `<div class="icsp-list">${all().filter(item => item.kind === 'apps' || item.kind === 'games').filter(item => installedState(item, ctx) === 'installed' || ctx.everInstalled.includes(item.id)).sort((a, b) => a.name.localeCompare(b.name)).map(item => row(item, ctx)).join('')}</div>`
-      : `<div class="icsp-group"><span>${e(T('Up to date'))}</span><b>${installed.length}</b></div><div class="icsp-list">${installed.map(item => row(item, ctx)).join('')}</div>`;
-    return view(ctx, 'icsp-myapps', header(ctx, T('My apps')) + strip, body);
+    const removed = all().filter(item => (item.kind === 'apps' || item.kind === 'games') && installedState(item, ctx) !== 'installed' && ctx.everInstalled.includes(item.id)).sort((a, b) => a.name.localeCompare(b.name));
+    const group = (title, items) => items.length ? `<div class="icsp-group"><span>${e(T(title))}</span><b>${items.length}</b></div><div class="icsp-list">${items.map(item => row(item, ctx)).join('')}</div>` : '';
+    return view(ctx, 'icsp-myapps', header(ctx, T('My apps')), group('Up to date', installed) + group('Not installed', removed));
   }
   function search(ctx) {
     const q = String(ctx.query || '').trim().toLocaleLowerCase(ctx.locale), items = q ? all().filter(item => `${item.name} ${item.developer}`.toLocaleLowerCase(ctx.locale).includes(q)) : [];
@@ -250,7 +661,7 @@
     const cat = title => `<h3 class="icsp-pref-cat">${e(T(title))}</h3>`;
     const chk = (key, title, summary, disabled) => `<button class="icsp-pref" data-action="icsp-pref" data-id="${key}" role="checkbox" aria-checked="${!!s[key]}"${disabled ? ' disabled' : ''}><span><b>${e(T(title))}</b><small>${e(T(summary))}</small></span><img src="assets/btn_check_${s[key] ? 'on' : 'off'}_holo_dark.png" alt=""></button>`;
     const plain = (action, title, summary, raw) => `<button class="icsp-pref" data-action="${action}"><span><b>${e(T(title))}</b><small>${raw ? e(summary) : e(T(summary))}</small></span></button>`;
-    return `<div class="app-view icsp icsp-settings" data-no-translate>${header({...ctx, noMenu: true}, T('Settings'))}<div class="icsp-scroll">${cat('General')}${chk('notify', 'Notifications', 'Notifications summary')}${chk('autoUpdate', 'Auto-update apps', 'Auto-update summary')}${chk('wifiOnly', 'Update over Wi-Fi only', 'Wi-Fi summary')}${chk('widgets', 'Auto-add widgets', 'Widgets summary')}${plain('icsp-clear-history', 'Clear search history', 'Clear search history summary')}${cat('User controls')}<button class="icsp-pref" data-action="icsp-unavailable"${s.pinSet ? '' : ' disabled'}><span><b>${e(T('Unlock settings'))}</b></span></button>${plain('icsp-unavailable', 'Content filtering', 'Content filtering summary')}${chk('pin', 'Use PIN for purchases', 'Use PIN summary', !s.pinSet)}${plain('icsp-unavailable', 'Set or change PIN', 'Set PIN summary')}${cat('Other')}${chk('admob', 'Google AdMob Ads', 'AdMob summary')}<p class="icsp-pref-note">${e(T('AdMob info'))} <u>${e(T('Learn more'))}</u></p>${cat('About')}${plain('icsp-unavailable', 'Open source licenses', 'Licenses summary')}<div class="icsp-pref info"><span><b>${e(T('Build version'))}</b><small>${e(T('Version').replace('%s', VERSION))}</small></span></div></div></div>`;
+    return `<div class="app-view icsp icsp-settings" data-no-translate>${header({...ctx, noMenu: true}, T('Settings'))}<div class="icsp-scroll">${cat('General')}${chk('notify', 'Notifications', 'Notifications summary')}${chk('autoUpdate', 'Auto-update apps', 'Auto-update summary')}${chk('wifiOnly', 'Update over Wi-Fi only', 'Wi-Fi summary')}${chk('widgets', 'Auto-add widgets', 'Widgets summary')}${plain('icsp-clear-history', 'Clear search history', 'Clear search history summary')}${cat('User controls')}<button class="icsp-pref" data-action="icsp-unavailable"${s.pinSet ? '' : ' disabled'}><span><b>${e(T('Unlock settings'))}</b></span></button>${plain('icsp-unavailable', 'Content filtering', 'Content filtering summary')}${chk('pin', 'Use PIN for purchases', 'Use PIN summary', !s.pinSet)}${plain('icsp-unavailable', 'Set or change PIN', 'Set PIN summary')}${cat('Other')}${chk('admob', 'Google AdMob Ads', 'AdMob summary')}<p class="icsp-pref-note">${e(stripTags(T('AdMob info')).replace(/%1\$s/g, ''))}</p>${cat('About')}${plain('icsp-unavailable', 'Open source licenses', 'Licenses summary')}<div class="icsp-pref info"><span><b>${e(T('Build version'))}</b><small>${e(fmt(T('Version'), VERSION))}</small></span></div></div></div>`;
   }
   function render(ctx) {
     if (ctx.page === 'section') return section(ctx);
@@ -265,10 +676,9 @@
   const menu = ctx => [['icsp-my-apps', 'My apps'], ['icsp-unavailable', 'Accounts'], ['icsp-settings', 'Settings'], ['icsp-unavailable', 'Help']].map(([action, title]) => ({action, title: text(ctx.lang, title)}));
   // Holo dialogs: Sort reviews (single choice) and Options (two checkboxes with OK).
   function dialog(kind, ctx) {
-    const T = key => text(ctx.lang, key);
-    if (kind === 'sort') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog icsp-dialog" role="dialog" aria-label="${e(T('Sort reviews'))}"><h3>${e(T('Sort reviews'))}</h3>${[['helpful', 'Most helpful first'], ['newest', 'Newest first']].map(([id, label]) => `<button class="icsp-dlg-row" data-action="icsp-review-sort-pick" data-id="${id}" role="radio" aria-checked="${(ctx.reviewSort || 'helpful') === id}"><span>${e(T(label))}</span><img src="assets/btn_radio_${(ctx.reviewSort || 'helpful') === id ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}</div>`;
-    if (kind === 'options') return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog icsp-dialog" role="dialog" aria-label="${e(T('Options'))}"><h3>${e(T('Options'))}</h3>${[['reviewLatest', 'Latest version only'], ['reviewDevice', 'From this type of phone only']].map(([id, label]) => `<button class="icsp-dlg-row" data-action="icsp-review-option" data-id="${id}" role="checkbox" aria-checked="${!!ctx[id]}"><span>${e(T(label))}</span><img src="assets/btn_check_${ctx[id] ? 'on' : 'off'}_holo_dark.png" alt=""></button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${e(T('OK'))}</button></div></div>`;
+    const T = key => text(ctx.lang, key), item = find(ctx.target || ctx.selected);
+    if (kind === 'uninstall' && item) return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog icsp-dialog" role="dialog" aria-label="${e(T('Uninstall app'))}"><h3>${e(T('Uninstall app'))}</h3><p class="icsp-dlg-text">${e(T('Do you want to uninstall this app?'))}</p><div class="settings-dialog-actions"><button data-action="close-overlay">${e(T('Cancel'))}</button><button data-action="icsp-uninstall" data-id="${e(item.id)}">${e(T('OK'))}</button></div></div>`;
     return '';
   }
-  window.ICSPlay = {SECTIONS, TABS, EXTRA, VERSION, text, all, find, installedState, render, menu, dialog};
+  window.ICSPlay = {SECTIONS, TABS, EXTRA, VERSION, text, fmt, all, find, installedState, render, menu, dialog};
 })();
