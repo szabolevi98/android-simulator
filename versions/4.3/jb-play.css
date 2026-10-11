@@ -226,7 +226,7 @@ img.jbp-card-art,img.jbp-row-art,img.jbp-head-art,img.jbp-shot-art{object-fit:co
 .jbp-pop{--dp:.8516px;position:absolute;right:calc(8*var(--dp));z-index:26;min-width:calc(160*var(--dp));background:#fff;box-shadow:0 calc(1*var(--dp)) calc(4*var(--dp)) #0006}
 .screen .jbp-pop button{display:block;width:100%;padding:calc(8*var(--dp)) calc(12*var(--dp));border:0;border-bottom:1px solid #00000026;background:none;color:#000;text-align:left;font:400 calc(18*var(--dp)) RobotoICS,Arial,sans-serif;white-space:nowrap;cursor:pointer}
 .screen .jbp-pop button:last-child,.screen .jbp-menu button:last-child{border-bottom:0}
-.jbp-menu{--dp:.8516px;position:absolute;top:calc(40*var(--dp));right:0;z-index:26;min-width:calc(196*var(--dp));padding:calc(8*var(--dp)) 0;border-image:url('assets/ps423-menu_dropdown_panel_holo_light.png') 20 fill/calc(10*var(--dp))}
+.jbp-menu{--dp:.8516px;position:absolute;top:calc(var(--sb) + 42*var(--dp));right:0;z-index:26;min-width:calc(196*var(--dp));padding:calc(8*var(--dp)) 0;border-image:url('assets/ps423-menu_dropdown_panel_holo_light.png') 20 fill/calc(10*var(--dp))}
 .screen .jbp-menu button{display:block;width:100%;height:calc(48*var(--dp));padding:0 calc(16*var(--dp));border:0;border-bottom:calc(1*var(--dp)) solid #00000019;background:none;color:#000;text-align:left;font:400 calc(18*var(--dp)) RobotoICS,Arial,sans-serif;white-space:nowrap;cursor:pointer}
 .screen .jbp-pop button:active,.screen .jbp-menu button:active{background:#33b5e580}
 /* Dialogs on dialog_full_holo_light: the #33B5E5 title over its 2 dp rule, rows, the button bar. */

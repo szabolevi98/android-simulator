@@ -32,10 +32,10 @@
   - A folder drawer, letter-tile conversation rows and selection through the sender image.
   - The conversation view with Reply / Reply all / Forward.
   - Compose with Cc/Bcc and attachments.
-- **Google Play Store 4.8.22 (July 2014):**
-  - The navigation drawer (Store home, My apps, My wishlist, Redeem, Settings, Help), opened by its button or a swipe from the left edge.
-  - The six striped tiles with Newsstand, and the "simplified permissions" note.
-  - Clusters with MORE, the grouped permissions dialog, Additional information, and *Require password for purchases*.
+- **Google Play Store 4.5.10, the image's own:** rebuilt from its Phonesky.apk (texts, icons, colours, sizes and menus).
+  - The side drawer (Store home, My apps, My wishlist, Redeem); Settings and Help in the overflow menu.
+  - The corpus links with Newsstand, clusters with their MORE box, the details page with the fixed summary, *Rate this app* for installed apps and the *Rate it!* dialog.
+  - The permissions dialog with the system's permission groups, My apps, the wishlist and the settings (auto-update, shortcuts, content filtering, password).
 - **Hangouts 2.0:** the SMS app, with the conversation list, the New Hangout picker and SMS conversations of white cards. Notifications and shares open it.
 - **Gmail 4.7:** Primary with the Social / Promotions category rows, the label drawer, personal level markers, Archive and a separate offline account.
 - **Play Music, Play Movies & TV, Play Books, Play Games (late 2013):** coloured action bars, drawers and cards. Music plays the simulator's tracks with Now playing and the queue, Movies has a player, Books has a reader with public-domain openings, and Games has achievements.
