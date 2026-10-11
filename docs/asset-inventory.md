@@ -29,30 +29,27 @@ Not traced:
 
 ## 4.3 (mako)
 
-copy: 430, same pixels: 336, resized: 198, converted: 19, own: 8, similar: 7, not traced: 4, generated: 3, cropped: 2
+copy: 432, same pixels: 335, resized: 198, converted: 19, own: 8, similar: 7, generated: 3, not traced: 3, cropped: 2
 
-From another release's image (the own image has no such file; to review): crespo 26, maguro 23, shamu 1 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): crespo 26, maguro 22, shamu 1 — the source column of the TSV names each.
 
 Not traced:
 
-- `versions/4.3/assets/calwidget-header_bg_cal_widget_pressed_holo.png`
 - `versions/4.3/assets/camera-ic_settings_holo_light.png`
 - `versions/4.3/assets/jb-ic_notifications_normal.png`
 - `versions/4.3/assets/jb-kg_widget_bg_padded.png`
 
 ## 4.4.4 (hammerhead)
 
-same pixels: 398, copy: 374, resized: 185, own: 20, converted: 15, similar: 13, not traced: 5, generated: 2
+same pixels: 397, copy: 376, resized: 186, own: 20, converted: 15, similar: 13, not traced: 3, generated: 2
 
-From another release's image (the own image has no such file; to review): maguro 49, mako 20 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): maguro 48, mako 20 — the source column of the TSV names each.
 
 Not traced:
 
 - `versions/4.4.4/assets/aosp-calendar.png`
-- `versions/4.4.4/assets/calwidget-header_bg_cal_widget_pressed_holo.png`
 - `versions/4.4.4/assets/camera-ic_settings_holo_light.png`
 - `versions/4.4.4/assets/jb-kg_widget_bg_padded.png`
-- `versions/4.4.4/assets/kk-dessert_flan.png`
 
 ## 5.1.1 (shamu)
 

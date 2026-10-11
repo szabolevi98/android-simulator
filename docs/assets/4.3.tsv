@@ -112,8 +112,8 @@ versions/4.3/assets/calendar-spinner_pressed_holo_light.png	ee432b7da5e0d14f	cop
 versions/4.3/assets/calendar-stat_notify_calendar.png	66389e644349b4f4	same pixels	mako:/system/app/CalendarGoogle.apk!res/drawable-hdpi/stat_notify_calendar.png	drawable-hdpi		767514e9705e2d98
 versions/4.3/assets/calendar.png	3b26c4834a01ed3e	same pixels	mako:/system/app/CalendarProvider.apk!res/drawable-xhdpi/app_icon.png	drawable-xhdpi		f7f8c5da464e8539
 versions/4.3/assets/calwidget-calendar_widget_preview.png	6f23a76da110b175	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/calendar_widget_preview.png	drawable-hdpi		6ed48a0b690039df
-versions/4.3/assets/calwidget-header_bg_cal_widget_holo.png	33a0ca1b7ca79b8a	same pixels	maguro:/system/app/CalendarGoogle.apk!res/drawable-hdpi/header_bg_cal_widget_holo.9.png	drawable-hdpi		6aaff788fa75a6e0
-versions/4.3/assets/calwidget-header_bg_cal_widget_pressed_holo.png	2e480b86ccef26e7	not traced				
+versions/4.3/assets/calwidget-header_bg_cal_widget_holo.png	fa3c76c750e72076	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-hdpi/header_bg_cal_widget_normal_holo.9.png	drawable-hdpi		fa3c76c750e72076
+versions/4.3/assets/calwidget-header_bg_cal_widget_pressed_holo.png	af2a39bcdd78e4f9	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-hdpi/header_bg_cal_widget_pressed_holo.9.png	drawable-hdpi		af2a39bcdd78e4f9
 versions/4.3/assets/camera-bg_camera_pattern.png	6df2b58664731fc6	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/bg_camera_pattern.png	drawable-xhdpi	resized 230×720 → 173×540, mean difference 0.02	6fb238ca46eb1d20
 versions/4.3/assets/camera-btn_camera_shutter_holo.png	4875395edcb6ab9f	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/btn_camera_shutter_holo.png	drawable-xhdpi	resized 134×134 → 101×101, mean difference 2.10	76053bec6b2900ac
 versions/4.3/assets/camera-btn_camera_shutter_pressed_holo.png	5250c04bd0d38eaa	resized	maguro:/system/app/CameraGoogle.apk!res/drawable-xhdpi/btn_camera_shutter_pressed_holo.png	drawable-xhdpi	resized 134×134 → 101×101, mean difference 2.21	75d405eaf1397dd5
@@ -183,7 +183,7 @@ versions/4.3/assets/dl-list_selector_pressed_holo_dark.png	a8870d94c1533b8c	copy
 versions/4.3/assets/downloads.png	5653d7c3853fbcdc	copy	mako:/system/app/DownloadProviderUi.apk!res/mipmap-xhdpi/ic_launcher_download.png	mipmap-xhdpi		5653d7c3853fbcdc
 versions/4.3/assets/ea7-ic_menu_northup.png	0fbcfff631376396	copy	mako:/system/app/GoogleEarth.apk!res/drawable-xhdpi/ic_menu_northup.png	drawable-xhdpi		0fbcfff631376396
 versions/4.3/assets/ea7-ic_menu_search_holo_dark.png	51511aeb7aa5a2d9	copy	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_menu_search_holo_dark.png	drawable-xhdpi		51511aeb7aa5a2d9
-versions/4.3/assets/ears-appwidget_bg.png	1795a8228e5ab5dc	same pixels	mako:/system/app/Music2.apk!res/drawable-mdpi/appwidget_bg.9.png	drawable-mdpi		a38d49fe297fbc53
+versions/4.3/assets/ears-appwidget_bg.png	1795a8228e5ab5dc	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/appwidget_bg.9.png	drawable-xhdpi		a38d49fe297fbc53
 versions/4.3/assets/ears-btn_price_normal_market.png	1ddf96d2308bb0dc	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/btn_price_normal_market.9.png	drawable-xhdpi		ac1b4b85dc028f40
 versions/4.3/assets/ears-close.png	2ee57b6600a75a55	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/close.png	drawable-xhdpi		fa4ad8f3771320ed
 versions/4.3/assets/ears-cover_result.png	3c377959d6a8a823	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/cover_result.9.png	drawable-xhdpi		bf9c1a8e6b01106d

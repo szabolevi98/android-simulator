@@ -184,8 +184,9 @@ def variants(data, nine=False, rotate=False):
     out = [('', im.convert('RGBA'))]
     if nine and im.size[0] > 2 and im.size[1] > 2:
         out.append((BORDER, out[0][1].crop((1, 1, im.size[0] - 1, im.size[1] - 1))))
-    if im.mode == 'L':
-        out.append((MASK, Image.merge('RGBA', [Image.new('L', im.size, 255)] * 3 + [im])))
+    grey = im.mode == 'L' or im.mode == 'RGB' and np.ptp(np.asarray(im, dtype=np.int16), axis=2).max() <= 8
+    if grey:
+        out.append((MASK, Image.merge('RGBA', [Image.new('L', im.size, 255)] * 3 + [im.convert('L')])))
     if rotate:  # the 2.3.6 Camera's *-p files, turned for the upright phone
         out += [(', '.join(filter(None, [label, name])), v.transpose(t)) for label, v in list(out)
                 for name, t in (('rotated 90°', Image.Transpose.ROTATE_90), ('rotated 270°', Image.Transpose.ROTATE_270))]
