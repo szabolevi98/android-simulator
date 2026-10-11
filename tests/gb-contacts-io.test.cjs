@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 // 2.3.6 Contacts menu (gb-contacts-io.js): Display options, Import/Export, SIM import and sharing.
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},setTimeout:fn=>{fn();return 0;},Date};

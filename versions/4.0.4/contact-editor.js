@@ -16,303 +16,57 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-      "Phone-only, unsynced": [
-          "Csak a telefonon, nem szinkronizált",
-          "Nur Telefon, nicht synchronisiert",
-          "Téléphone uniquement, sans synchronisation",
-          "Solo en el teléfono, no sincronizado"
-      ],
-      "%1$s contact": [
-          "%1$s névjegy",
-          "%1$s-Kontakt",
-          "Contact %1$s",
-          "Contacto de %1$s"
-      ],
-      "Name": [
-          "Név",
-          "Name",
-          "Nom",
-          "Nombre"
-      ],
-      "Name prefix": [
-          "Név előtagja",
-          "Namenpräfix",
-          "Titre",
-          "Prefijo del nombre"
-      ],
-      "Given name": [
-          "Utónév",
-          "Vorname",
-          "Prénom",
-          "Nombre"
-      ],
-      "Middle name": [
-          "Második név",
-          "Zweiter Vorname",
-          "2e prénom",
-          "Segundo nombre"
-      ],
-      "Family name": [
-          "Vezetéknév",
-          "Nachname",
-          "Nom",
-          "Apellidos"
-      ],
-      "Name suffix": [
-          "Név utótagja",
-          "Namensuffix",
-          "Suffixe",
-          "Sufijo del nombre"
-      ],
-      "Phone": [
-          "Telefon",
-          "Telefon",
-          "Téléphone",
-          "Teléfono"
-      ],
-      "Email": [
-          "E-mail cím",
-          "E-Mail",
-          "E-mail",
-          "Correo"
-      ],
-      "Address": [
-          "Cím",
-          "Adresse",
-          "Adresse",
-          "Dirección"
-      ],
-      "IM": [
-          "Azonnali üzenetküldés",
-          "Chat",
-          "Chat",
-          "Nombre de chat"
-      ],
-      "Organization": [
-          "Szervezet",
-          "Firma/Organisation",
-          "Organisation",
-          "Organización"
-      ],
-      "Notes": [
-          "Jegyzetek",
-          "Notizen",
-          "Notes",
-          "Notas"
-      ],
-      "Nickname": [
-          "Becenév",
-          "Alias",
-          "Pseudo",
-          "Seudónimo"
-      ],
-      "Website": [
-          "Webhely",
-          "Website",
-          "Site Web",
-          "Sitio web"
-      ],
-      "Internet call": [
-          "Internetes hívás",
-          "Internetanruf",
-          "Appel Internet",
-          "Llamada por Internet"
-      ],
-      "Company": [
-          "Cég",
-          "Unternehmen",
-          "Entreprise",
-          "Empresa"
-      ],
-      "Title": [
-          "Beosztás",
-          "Titel",
-          "Titre",
-          "Título"
-      ],
-      "Add new": [
-          "Új hozzáadása",
-          "Hinzufügen",
-          "Ajouter",
-          "Añadir nuevo"
-      ],
-      "Add another field": [
-          "Más mező hozzáadása",
-          "Weiteres Feld hinzufügen",
-          "Ajouter un champ",
-          "Añadir otro campo"
-      ],
-      "Take photo": [
-          "Fotó készítése",
-          "Foto machen",
-          "Prendre une photo",
-          "Hacer una foto"
-      ],
-      "Choose photo from Gallery": [
-          "Fotó kiválasztása a Galériából",
-          "Foto aus Galerie auswählen",
-          "Sélectionner une photo dans la galerie",
-          "Seleccionar foto de la galería"
-      ],
-      "Remove photo": [
-          "Fénykép törlése",
-          "Foto entfernen",
-          "Supprimer la photo",
-          "Eliminar foto"
-      ],
-      "Contact photo": [
-          "Ismerős fotója",
-          "Kontaktbild",
-          "Photo du contact",
-          "Foto de contacto"
-      ],
-      "Done": [
-          "Kész",
-          "Fertig",
-          "OK",
-          "OK"
-      ],
-      "Discard": [
-          "Elvetés",
-          "Verwerfen",
-          "Ignorer",
-          "Descartar"
-      ],
-      "Custom label name": [
-          "Egyéni címkenév",
-          "Name des benutzerdef. Labels",
-          "Libellé personnalisé",
-          "Nombre de etiqueta personalizada"
-      ],
-      "Contact saved.": [
-          "Névjegy mentve.",
-          "Kontakt gespeichert",
-          "Contact enregistré.",
-          "El contacto se ha guardado."
-      ],
-      "No pictures are available on the phone.": [
-          "Nincsenek elérhető képek a telefonon.",
-          "Auf dem Telefon sind keine Bilder verfügbar.",
-          "Aucune image disponible sur le téléphone.",
-          "No hay ninguna imagen disponible en el teléfono."
-      ],
-      "Groups": [
-          "Csoportok",
-          "Gruppen",
-          "Groupes",
-          "Grupos"
-      ],
-      "Home": [
-          "Otthoni",
-          "Privat",
-          "Domicile",
-          "Casa"
-      ],
-      "Mobile": [
-          "Mobil",
-          "Mobil",
-          "Mobile",
-          "Móvil"
-      ],
-      "Work": [
-          "Munkahelyi",
-          "Geschäftlich",
-          "Bureau",
-          "Trabajo"
-      ],
-      "Work Fax": [
-          "Munkahelyi fax",
-          "Fax (geschäftl.)",
-          "Télécopie bureau",
-          "Fax del trabajo"
-      ],
-      "Home Fax": [
-          "Otthoni fax",
-          "Fax (privat)",
-          "Télécopie domicile",
-          "Fax de casa"
-      ],
-      "Pager": [
-          "Személyhívó",
-          "Pager",
-          "Téléavertisseur",
-          "Busca"
-      ],
-      "Other": [
-          "Egyéb",
-          "Sonstige",
-          "Autre",
-          "Otro"
-      ],
-      "Custom": [
-          "Egyéni",
-          "Benutzerdefiniert",
-          "Personnalisé",
-          "Personalizado"
-      ],
-      "AIM": [
-          "AIM",
-          "AIM",
-          "AIM",
-          "AIM"
-      ],
-      "Windows Live": [
-          "Windows Live",
-          "Windows Live",
-          "Windows Live",
-          "Windows Live"
-      ],
-      "Yahoo": [
-          "Yahoo",
-          "Yahoo!",
-          "Yahoo",
-          "Yahoo!"
-      ],
-      "Skype": [
-          "Skype",
-          "Skype",
-          "Skype",
-          "Skype"
-      ],
-      "QQ": [
-          "QQ",
-          "QQ",
-          "QQ",
-          "QQ"
-      ],
-      "Google Talk": [
-          "Google Csevegő",
-          "Google Talk",
-          "Google Talk",
-          "Google Talk"
-      ],
-      "ICQ": [
-          "ICQ",
-          "ICQ",
-          "ICQ",
-          "ICQ"
-      ],
-      "Jabber": [
-          "Jabber",
-          "Jabber",
-          "Jabber",
-          "Jabber"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbruch",
-          "Annuler",
-          "Cancelar"
-      ],
-      "OK": [
-          "OK",
-          "OK",
-          "OK",
-          "Aceptar"
-      ]
+    "Phone-only, unsynced": {"res": "Contacts:account_phone", "hu": "Csak a telefonon, nem szinkronizált", "de": "Nur Telefon, nicht synchronisiert", "fr": "Téléphone uniquement, sans synchronisation", "es": "Solo en el teléfono, no sincronizado"},
+    "%1$s contact": {"res": "Contacts:account_type_format", "hu": "%1$s névjegy", "de": "%1$s-Kontakt", "fr": "Contact %1$s", "es": "Contacto de %1$s"},
+    "Name": {"res": "Contacts:nameLabelsGroup", "hu": "Név", "de": "Name", "fr": "Nom", "es": "Nombre"},
+    "Name prefix": {"res": "Contacts:name_prefix", "hu": "Név előtagja", "de": "Namenpräfix", "fr": "Titre", "es": "Prefijo del nombre"},
+    "Given name": {"res": "Contacts:name_given", "hu": "Utónév", "de": "Vorname", "fr": "Prénom", "es": "Nombre"},
+    "Middle name": {"res": "Contacts:name_middle", "hu": "Második név", "de": "Zweiter Vorname", "fr": "2e prénom", "es": "Segundo nombre"},
+    "Family name": {"res": "Contacts:name_family", "hu": "Vezetéknév", "de": "Nachname", "fr": "Nom", "es": "Apellidos"},
+    "Name suffix": {"res": "Contacts:name_suffix", "hu": "Név utótagja", "de": "Namensuffix", "fr": "Suffixe", "es": "Sufijo del nombre"},
+    "Phone": {"res": "Contacts:phoneLabelsGroup", "hu": "Telefon", "de": "Telefon", "fr": "Téléphone", "es": "Teléfono"},
+    "Email": {"res": "Contacts:emailLabelsGroup", "hu": "E-mail cím", "de": "E-Mail", "fr": "E-mail", "es": "Correo"},
+    "Address": {"res": "Contacts:postalLabelsGroup", "hu": "Cím", "de": "Adresse", "fr": "Adresse", "es": "Dirección"},
+    "IM": {"res": "Contacts:imLabelsGroup", "hu": "Azonnali üzenetküldés", "de": "Chat", "fr": "Chat", "es": "Nombre de chat"},
+    "Organization": {"res": "Contacts:organizationLabelsGroup", "hu": "Szervezet", "de": "Firma/Organisation", "fr": "Organisation", "es": "Organización"},
+    "Notes": {"res": "Contacts:label_notes", "hu": "Jegyzetek", "de": "Notizen", "fr": "Notes", "es": "Notas"},
+    "Nickname": {"res": "Contacts:nicknameLabelsGroup", "hu": "Becenév", "de": "Alias", "fr": "Pseudo", "es": "Seudónimo"},
+    "Website": {"res": "Contacts:websiteLabelsGroup", "hu": "Webhely", "de": "Website", "fr": "Site Web", "es": "Sitio web"},
+    "Internet call": {"res": "Contacts:label_sip_address", "hu": "Internetes hívás", "de": "Internetanruf", "fr": "Appel Internet", "es": "Llamada por Internet"},
+    "Company": {"res": "Contacts:ghostData_company", "hu": "Cég", "de": "Unternehmen", "fr": "Entreprise", "es": "Empresa"},
+    "Title": {"res": "Contacts:ghostData_title", "hu": "Beosztás", "de": "Titel", "fr": "Titre", "es": "Título"},
+    "Add new": {"res": "Contacts:add_new_entry_for_section", "hu": "Új hozzáadása", "de": "Hinzufügen", "fr": "Ajouter", "es": "Añadir nuevo"},
+    "Add another field": {"res": "Contacts:add_field", "hu": "Más mező hozzáadása", "de": "Weiteres Feld hinzufügen", "fr": "Ajouter un champ", "es": "Añadir otro campo"},
+    "Take photo": {"res": "Contacts:take_photo", "hu": "Fotó készítése", "de": "Foto machen", "fr": "Prendre une photo", "es": "Hacer una foto"},
+    "Choose photo from Gallery": {"res": "Contacts:pick_photo", "hu": "Fotó kiválasztása a Galériából", "de": "Foto aus Galerie auswählen", "fr": "Sélectionner une photo dans la galerie", "es": "Seleccionar foto de la galería"},
+    "Remove photo": {"res": "Contacts:removePhoto", "hu": "Fénykép törlése", "de": "Foto entfernen", "fr": "Supprimer la photo", "es": "Eliminar foto"},
+    "Contact photo": {"res": "Contacts:attach_photo_dialog_title", "hu": "Ismerős fotója", "de": "Kontaktbild", "fr": "Photo du contact", "es": "Foto de contacto"},
+    "Done": {"res": "Contacts:menu_done", "hu": "Kész", "de": "Fertig", "fr": "OK", "es": "OK"},
+    "Discard": {"res": "Contacts:menu_discard", "hu": "Elvetés", "de": "Verwerfen", "fr": "Ignorer", "es": "Descartar"},
+    "Custom label name": {"res": "Contacts:customLabelPickerTitle", "hu": "Egyéni címkenév", "de": "Name des benutzerdef. Labels", "fr": "Libellé personnalisé", "es": "Nombre de etiqueta personalizada"},
+    "Contact saved.": {"res": "Contacts:contactSavedToast", "hu": "Névjegy mentve.", "de": "Kontakt gespeichert", "fr": "Contact enregistré.", "es": "El contacto se ha guardado."},
+    "No pictures are available on the phone.": {"res": "Contacts:photoPickerNotFoundText", "hu": "Nincsenek elérhető képek a telefonon.", "de": "Auf dem Telefon sind keine Bilder verfügbar.", "fr": "Aucune image disponible sur le téléphone.", "es": "No hay ninguna imagen disponible en el teléfono."},
+    "Groups": {"res": "Contacts:groupsLabel", "hu": "Csoportok", "de": "Gruppen", "fr": "Groupes", "es": "Grupos"},
+    "Home": {"res": "framework:phoneTypeHome", "hu": "Otthoni", "de": "Privat", "fr": "Domicile", "es": "Casa"},
+    "Mobile": {"res": "framework:phoneTypeMobile", "hu": "Mobil", "de": "Mobil", "fr": "Mobile", "es": "Móvil"},
+    "Work": {"res": "framework:phoneTypeWork", "hu": "Munkahelyi", "de": "Geschäftlich", "fr": "Bureau", "es": "Trabajo"},
+    "Work Fax": {"res": "framework:phoneTypeFaxWork", "hu": "Munkahelyi fax", "de": "Fax (geschäftl.)", "fr": "Télécopie bureau", "es": "Fax del trabajo"},
+    "Home Fax": {"res": "framework:phoneTypeFaxHome", "hu": "Otthoni fax", "de": "Fax (privat)", "fr": "Télécopie domicile", "es": "Fax de casa"},
+    "Pager": {"res": "framework:phoneTypePager", "hu": "Személyhívó", "de": "Pager", "fr": "Téléavertisseur", "es": "Busca"},
+    "Other": {"res": "framework:phoneTypeOther", "hu": "Egyéb", "de": "Sonstige", "fr": "Autre", "es": "Otro"},
+    "Custom": {"res": "framework:phoneTypeCustom", "hu": "Egyéni", "de": "Benutzerdefiniert", "fr": "Personnalisé", "es": "Personalizado"},
+    "AIM": {"res": "framework:imProtocolAim", "hu": "AIM", "de": "AIM", "fr": "AIM", "es": "AIM"},
+    "Windows Live": {"res": "framework:imProtocolMsn", "hu": "Windows Live", "de": "Windows Live", "fr": "Windows Live", "es": "Windows Live"},
+    "Yahoo": {"res": "framework:imProtocolYahoo", "hu": "Yahoo", "de": "Yahoo!", "fr": "Yahoo", "es": "Yahoo!"},
+    "Skype": {"res": "framework:imProtocolSkype", "hu": "Skype", "de": "Skype", "fr": "Skype", "es": "Skype"},
+    "QQ": {"res": "framework:imProtocolQq", "hu": "QQ", "de": "QQ", "fr": "QQ", "es": "QQ"},
+    "Google Talk": {"res": "framework:imProtocolGoogleTalk", "hu": "Google Csevegő", "de": "Google Talk", "fr": "Google Talk", "es": "Google Talk"},
+    "ICQ": {"res": "framework:imProtocolIcq", "hu": "ICQ", "de": "ICQ", "fr": "ICQ", "es": "ICQ"},
+    "Jabber": {"res": "framework:imProtocolJabber", "hu": "Jabber", "de": "Jabber", "fr": "Jabber", "es": "Jabber"},
+    "Cancel": {"res": "framework:cancel", "hu": "Mégse", "de": "Abbruch", "fr": "Annuler", "es": "Cancelar"},
+    "OK": {"res": "framework:ok", "hu": "OK", "de": "OK", "fr": "OK", "es": "Aceptar"}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); const row = STRINGS[key]; return row ? (i >= 0 ? row[i] : row[4]) || key : key; };
+  const STR = AndroidStrings.table('', STRINGS), T = (lang, key) => STR.t(key, lang);
   // FallbackAccountType's kinds and their primary types (the spinner lists them; the rest hide behind Custom).
   const KINDS = {
     phones: {title: 'Phone', types: ['mobile', 'home', 'work', 'faxwork', 'faxhome', 'pager', 'other', 'custom'], input: 'tel', hint: 'Phone'},

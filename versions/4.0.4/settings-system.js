@@ -7,1058 +7,180 @@
   'use strict';
   const DEVICE='maguro',ICS=DEVICE==='maguro',KK=DEVICE==='hammerhead',LP=DEVICE==='shamu';
   const STRINGS={
-      "About phone": [
-          "A telefonról",
-          "Über das Telefon",
-          "À propos du téléphone",
-          "Acerca del teléfono"
-      ],
-      "System updates": [
-          "Rendszerfrissítések",
-          "Systemaktualisierungen",
-          "Mises à jour du système",
-          "Actualizaciones del sistema"
-      ],
-      "Status": [
-          "Állapot",
-          "Status",
-          "État",
-          "Estado"
-      ],
-      "Phone number, signal, etc.": [
-          "Telefonszám, jel stb.",
-          "Telefonnummer, Signal usw.",
-          "Numéro de téléphone, signal, etc.",
-          "Número de teléfono, señal, etc."
-      ],
-      "Legal information": [
-          "Jogi információk",
-          "Rechtliche Hinweise",
-          "Informations légales",
-          "Información legal"
-      ],
-      "Model number": [
-          "Modellszám",
-          "Modellnummer",
-          "Numéro du modèle",
-          "Número de modelo"
-      ],
-      "Android version": [
-          "Android verziója",
-          "Android-Version",
-          "Version d'Android",
-          "Versión de Android"
-      ],
-      "Baseband version": [
-          "Alapsáv verziója",
-          "Baseband-Version",
-          "Version de bande de base",
-          "Versión de banda base"
-      ],
-      "Kernel version": [
-          "Kernel verziója",
-          "Kernel-Version",
-          "Version du noyau",
-          "Versión de kernel"
-      ],
-      "Build number": [
-          "Build-szám",
-          "Build-Nummer",
-          "Numéro de build",
-          "Número de compilación"
-      ],
-      "Battery status": [
-          "Akkumulátor állapota",
-          "Akkustatus",
-          "État de la batterie",
-          "Estado de la batería"
-      ],
-      "Battery level": [
-          "Akkumulátorszint",
-          "Akkuladung",
-          "Niveau de la batterie",
-          "Nivel de batería"
-      ],
-      "Network": [
-          "Hálózat",
-          "Netzwerk",
-          "Réseau",
-          "Red"
-      ],
-      "Signal strength": [
-          "Jelerősség",
-          "Signalstärke",
-          "Intensité du signal",
-          "Intensidad de la señal"
-      ],
-      "Mobile network type": [
-          "Mobilhálózat típusa",
-          "Art des Mobilfunknetzes",
-          "Type de réseau mobile",
-          "Tipo de red móvil"
-      ],
-      "Service state": [
-          "Szolgáltatás állapota",
-          "Servicestatus",
-          "État du service",
-          "Estado del servicio"
-      ],
-      "Roaming": [
-          "Barangolás",
-          "Roaming",
-          "Itinérance",
-          "Itinerancia"
-      ],
-      "Mobile network state": [
-          "Mobilhálózat állapota",
-          "Status des Mobilfunknetzes",
-          "État du réseau mobile",
-          "Estado de red móvil"
-      ],
-      "My phone number": [
-          "Saját telefonszámom",
-          "Meine Telefonnummer",
-          "Mon numéro de téléphone",
-          "Mi número de teléfono"
-      ],
-      "IMEI": [
-          "IMEI",
-          "IMEI",
-          "IMEI",
-          "IMEI"
-      ],
-      "IMEI SV": [
-          "IMEI SV",
-          "IMEI SV",
-          "IMEI SV",
-          "IMEI SV"
-      ],
-      "IP address": [
-          "IP-cím",
-          "IP-Adresse",
-          "Adresse IP",
-          "Dirección IP"
-      ],
-      "Wi-Fi MAC address": [
-          "Wi-Fi eszköz MAC-címe",
-          "WLAN-MAC-Adresse",
-          "Adresse MAC Wi-Fi",
-          "Dirección MAC de Wi-Fi"
-      ],
-      "Bluetooth address": [
-          "Bluetooth-cím",
-          "Bluetooth-Adresse",
-          "Adresse Bluetooth",
-          "Dirección de Bluetooth"
-      ],
-      "Serial number": [
-          "Sorozatszám",
-          "Seriennummer",
-          "Numéro de série",
-          "Número de serie"
-      ],
-      "Up time": [
-          "Futásidő",
-          "Betriebszeit",
-          "Durée d'activité",
-          "Tiempo de actividad"
-      ],
-      "Not available": [
-          "Nem érhető el",
-          "Nicht verfügbar",
-          "Non disponible",
-          "No disponible"
-      ],
-      "Unknown": [
-          "Ismeretlen",
-          "Unbekannt",
-          "Inconnu",
-          "Desconocido"
-      ],
-      "Discharging": [
-          "Lemerülés",
-          "Akkubetrieb",
-          "Baisse du niveau de charge",
-          "No se está cargando"
-      ],
-      "In service": [
-          "Szolgáltatás",
-          "In Betrieb",
-          "Service en cours",
-          "En servicio"
-      ],
-      "Not roaming": [
-          "Nem barangol",
-          "Kein Roaming",
-          "Sans itinérance",
-          "Sin itinerancia"
-      ],
-      "Connected": [
-          "Csatlakozva",
-          "Verbunden",
-          "Connecté",
-          "Conectado"
-      ],
-      "Disconnected": [
-          "Szétkapcsolva",
-          "Nicht verbunden",
-          "Déconnecté",
-          "Desconectada"
-      ],
-      "unknown": [
-          "ismeretlen",
-          "unbekannt",
-          "inconnu",
-          "desconocido"
-      ],
-      "Open source licenses": [
-          "Nyílt forráskódú licencek",
-          "Open-Source-Lizenzen",
-          "Licences open source",
-          "Licencias de código abierto"
-      ],
-      "Google legal": [
-          "Google - jogi szabályozás",
-          "Rechtliche Hinweise",
-          "Infos légales Google",
-          "Departamento legal de Google"
-      ],
-      "Location services": [
-          "Helyszolgáltatások",
-          "Standortdienste",
-          "Services de localisation",
-          "Servicios de ubicación"
-      ],
-      "Google's location service": [
-          "A Google helyszolgáltatása",
-          "Standortdienst von Google",
-          "Service de localisation",
-          "Ubicación de Google"
-      ],
-      "Let apps use data from sources such as Wi-Fi and mobile networks to determine your approximate location": [
-          "Engedélyezze az alkalmazásoknak a Wi-Fi és mobiladatok használatát a hozzávetőleges tartózkodási hely meghatározásához",
-          "Zulassen, dass Apps WLAN und Mobilfunknetze für die Bestimmung meines ungefähren Standorts verwenden",
-          "Utiliser les données des réseaux Wi-Fi et mobiles pour déterminer votre position approximative",
-          "Permitir que las aplicaciones usen datos de fuentes como redes Wi-Fi y móviles para determinar tu ubicación aproximada"
-      ],
-      "GPS satellites": [
-          "GPS-műholdak",
-          "GPS-Satelliten",
-          "Satellites GPS",
-          "Satélites GPS"
-      ],
-      "Let apps use GPS to pinpoint your location": [
-          "Engedélyezze a GPS használatát az alkalmazások számára tartózkodási helyének meghatározása érdekében",
-          "Apps dürfen meinen Standort mithilfe von GPS bestimmen.",
-          "Autoriser les applications à utiliser le GPS pour localiser votre position",
-          "Permitir que las aplicaciones usen el GPS para determinar tu ubicación"
-      ],
-      "Backup & reset": [
-          "Biztonsági mentés és visszaállítás",
-          "Sichern & zurücksetzen",
-          "Sauvegarder et réinitialiser",
-          "Copia de seguridad y restauración"
-      ],
-      "Backup & restore": [
-          "Biztonsági mentés és visszaállítás",
-          "Backup und Wiederherstellung",
-          "Sauvegarde et restauration",
-          "Copia de seguridad"
-      ],
-      "Back up my data": [
-          "Adatok biztonsági mentése",
-          "Meine Daten sichern",
-          "Sauvegarder mes données",
-          "Copiar mis datos"
-      ],
-      "Back up app data, Wi-Fi passwords, and other settings to Google servers": [
-          "Alkalmazásadatok, Wi-Fi jelszavak és más beállítások mentése a Google szervereire",
-          "App-Daten, WLAN-Passwörter und andere Einstellungen auf Google-Servern sichern",
-          "Sauvegarder les données des applications, les mots de passe Wi-Fi et autres paramètres de serveurs Google",
-          "Hacer copia de seguridad en servidores de Google de datos de aplicaciones, contraseñas Wi-Fi y otras opciones de configuración",
-          "Back up application data, Wi-Fi passwords, and other settings to Google servers"
-      ],
-      "Backup account": [
-          "Fiók biztonsági mentése",
-          "Sicherungskonto",
-          "Compte de sauvegarde",
-          "Cuenta de copia de seguridad"
-      ],
-      "Automatic restore": [
-          "Automatikus helyreállítás",
-          "Autom. Wiederherstellung",
-          "Restaurer automatiquement",
-          "Restauración automática"
-      ],
-      "When reinstalling an app, restore backed up settings and data": [
-          "Amikor újratelepít egy alkalmazást, a biztonsági mentésből állítsa helyre a beállításait és az adatokat",
-          "Stellen Sie nach der Neuinstallation einer App gesicherte Einstellungen und Daten wieder her.",
-          "Lors de la réinstallation d'une application, restaurer les paramètres et les données sauvegardées",
-          "Cuando vuelvas a instalar una aplicación, restaurar la configuración y los datos incluidos en la copia"
-      ],
-      "Personal data": [
-          "Személyes adatok",
-          "Persönliche Daten",
-          "Données personnelles",
-          "Datos personales"
-      ],
-      "Factory data reset": [
-          "Gyári adatok visszaállítása",
-          "Auf Werkszustand zurück",
-          "Restaurer valeurs d'usine",
-          "Restablecer datos de fábrica"
-      ],
-      "Erases all data on phone": [
-          "Minden adat törlése a telefonról",
-          "Löscht alle Daten auf dem Telefon",
-          "Effacer toutes les données du téléphone",
-          "Borrar todos los datos del teléfono"
-      ],
-      "master_clear_desc": [
-          "Ez minden adatot töröl a telefon belső tárolójáról, többek között: \n \nGoogle Fiókját\nA rendszer- és alkalmazásadatokat és beállításokat \n A letöltött alkalmazásokat",
-          "Hierdurch werden alle Daten aus dem internen Speicher Ihres Telefons gelöscht, u. a.\n\nIhr Google-Konto\nSystem- und App-Daten sowie entsprechende Einstellungen\n und heruntergeladene Apps.",
-          "Cette action effacera toutes les données du stockage interne de votre téléphone, y compris :\n\nVotre compte Google\nLes données et paramètres du système et de l'application\nLes applications téléchargées",
-          "Se borrarán todos los datos del almacenamiento interno del teléfono, por ejemplo:\n\ntu cuenta de Google,\nlos ajustes y los datos de aplicaciones y del sistema,\nlas aplicaciones descargadas.",
-          "This will erase all data from your phone's internal storage, including:\n\nYour Google account\nSystem and app data and settings\nDownloaded apps"
-      ],
-      "master_clear_desc_also_erases_external": [
-          "Zene\nFotók\nMás felhasználói adatok",
-          "Musik\nFotos\nSonstige Nutzerdaten",
-          "Musique\nPhotos\nAutres données utilisateur",
-          "Música\nFotos\nOtros datos de usuario",
-          "Music\nPhotos\nOther user data"
-      ],
-      "master_clear_accounts": [
-          "\n\nJelenleg a következő fiókokba van bejelentkezve:\n",
-          "\n\nSie sind zurzeit in folgenden Konten angemeldet:\n",
-          "\n\nVous êtes actuellement connecté aux comptes suivants :\n",
-          "\n\nHas accedido a las cuentas que se indican a continuación:\n",
-          "\n\nYou are currently signed into the following accounts:\n"
-      ],
-      "Reset phone": [
-          "Telefon visszaállítása",
-          "Telefon zurücksetzen",
-          "Réinitialiser le téléphone",
-          "Restablecer teléfono"
-      ],
-      "No account is currently storing backed up data": [
-          "Jelenleg egyik fiók sem tárol biztonsági mentéseket",
-          "Zurzeit werden in keinem Konto gesicherte Daten gespeichert.",
-          "Aucun compte ne stocke actuellement des données sauvegardées.",
-          "Ninguna cuenta está almacenando datos con copia de seguridad en estos momentos."
-      ],
-      "Accounts & sync": [
-          "Fiókok és szinkronizálás",
-          "Konten & Synchronisierung",
-          "Comptes et synchro",
-          "Cuentas y sincronización"
-      ],
-      "Add account": [
-          "Fiók hozzáadása",
-          "Konto hinzufügen",
-          "Ajouter un compte",
-          "Añadir cuenta"
-      ],
-      "Sync is ON": [
-          "Szinkr. BEKAPCSOLVA",
-          "Synchronisierung AN",
-          "Synchronisation activée",
-          "Sincronización activa"
-      ],
-      "Sync is OFF": [
-          "Szinkr. KIKAPCSOLVA",
-          "Synchronisierung AUS",
-          "Synchronisation désactivée",
-          "La sincronización está desactivada."
-      ],
-      "Data & synchronization": [
-          "Adatok és szinkronizálás",
-          "Daten & Synchronisierung",
-          "Données et synchronisation",
-          "Datos y sincronización"
-      ],
-      "Sync %s": [
-          "%s szinkronizálása",
-          "%s synchronisieren",
-          "Synchroniser %s",
-          "Sincronizar %s"
-      ],
-      "Remove account": [
-          "Fiók törlése",
-          "Konto entfernen",
-          "Supprimer le compte",
-          "Eliminar cuenta"
-      ],
-      "Sync now": [
-          "Szinkronizálás most",
-          "Jetzt synchronisieren",
-          "Synchroniser maintenant",
-          "Sincronizar ahora"
-      ],
-      "Accessibility": [
-          "Kisegítő lehetőségek beállításai",
-          "Einstellungen für Bedienungshilfen",
-          "Paramètres d'accessibilité",
-          "Ajustes de accesibilidad",
-          "Accessibility settings"
-      ],
-      "Services": [
-          "Szolgáltatások",
-          "Dienste",
-          "Services",
-          "Servicios"
-      ],
-      "System": [
-          "Rendszer",
-          "System",
-          "Système",
-          "Sistema"
-      ],
-      "Large text": [
-          "Nagy szöveg",
-          "Großer Text",
-          "Grands caractères",
-          "Texto grande"
-      ],
-      "Power button ends call": [
-          "A bekapcsoló gomb megszakítja a hívást",
-          "Ein/Aus beendet Anruf",
-          "Bouton marche/arrêt raccroche",
-          "Botón encendido cuelga"
-      ],
-      "Auto-rotate screen": [
-          "Képernyő automatikus forgatása",
-          "Display autom. drehen",
-          "Rotation auto écran",
-          "Pantalla giratoria"
-      ],
-      "Speak passwords": [
-          "Jelszavak kimondása",
-          "Passwörter aussprechen",
-          "Énoncer les mots de passe",
-          "Decir contraseñas"
-      ],
-      "Touch & hold delay": [
-          "Érintés és tartási késleltetés",
-          "Reaktionszeit Berühren/Halten",
-          "Délai de pression",
-          "Retraso pulsación prolongada"
-      ],
-      "Install web scripts": [
-          "Internetes szkriptek telepítése",
-          "Webskripts installieren",
-          "Installer des scripts Web",
-          "Instalar scripts web"
-      ],
-      "Off": [
-          "Ki",
-          "Deaktiviert",
-          "Désactivé",
-          "Desactivado"
-      ],
-      "Date & time": [
-          "Dátum és idő",
-          "Datum & Uhrzeit",
-          "Date et heure",
-          "Fecha y hora"
-      ],
-      "Automatic date & time": [
-          "Automatikus dátum és idő",
-          "Autom. Datum/Uhrzeit",
-          "Date/Heure automatique",
-          "Fecha y hora automáticas"
-      ],
-      "Use network-provided time": [
-          "Hálózat által megadott idő használata",
-          "Zeit aus Netzwerk beziehen",
-          "Utiliser la date et l'heure fournies par le réseau",
-          "Usar hora proporcionada por la red"
-      ],
-      "Automatic time zone": [
-          "Automatikus időzóna",
-          "Automatische Zeitzone",
-          "Fuseau horaire automatique",
-          "Zona horaria automática"
-      ],
-      "Use network-provided time zone": [
-          "Hálózat által megadott időzóna használata",
-          "Vom Netzwerk angegebene Zeitzone beibehalten",
-          "Utiliser le fuseau horaire fourni par le réseau",
-          "Usar zona horaria proporcionada por la red"
-      ],
-      "Set date": [
-          "Dátum beállítása",
-          "Datum festlegen",
-          "Définir la date",
-          "Establecer fecha"
-      ],
-      "Set time": [
-          "Idő beállítása",
-          "Uhrzeit festlegen",
-          "Définir l'heure",
-          "Establecer hora"
-      ],
-      "Select time zone": [
-          "Időzóna kiválasztása",
-          "Zeitzone auswählen",
-          "Définir le fuseau horaire",
-          "Seleccionar zona horaria"
-      ],
-      "Use 24-hour format": [
-          "24 órás formátum használata",
-          "24-Stunden-Format",
-          "Utiliser le format 24 h",
-          "Formato de 24 horas"
-      ],
-      "13:00": [
-          "13:00",
-          "13:00",
-          "13:00",
-          "13:00"
-      ],
-      "1:00 pm": [
-          "du. 1:00",
-          "1:00",
-          "1:00 pm",
-          "1:00 p.m."
-      ],
-      "Choose date format": [
-          "Dátumformátum kiválasztása",
-          "Datumsformat",
-          "Choisir le format de date",
-          "Formato de fecha",
-          "Select date format"
-      ],
-      "Security": [
-          "Biztonság",
-          "Sicherheit",
-          "Sécurité",
-          "Seguridad"
-      ],
-      "Screen security": [
-          "Képernyővédelem",
-          "Bildschirmsicherheit",
-          "Sécurité de l'écran",
-          "Pantalla de seguridad"
-      ],
-      "Screen lock": [
-          "Képernyő zárolása",
-          "Bildschirmsperre",
-          "Verrouillage de l'écran",
-          "Bloqueo de pantalla"
-      ],
-      "None": [
-          "Nincs",
-          "Keine",
-          "Aucun",
-          "Ninguno"
-      ],
-      "Slide": [
-          "Csúsztatás",
-          "Finger bewegen",
-          "Faire glisser",
-          "Deslizar"
-      ],
-      "Pattern": [
-          "Mintával biztosítva",
-          "Durch Muster geschützt",
-          "Sécurisé par un schéma",
-          "Protegida con patrón",
-          "Secured with pattern"
-      ],
-      "PIN": [
-          "PIN kóddal biztosítva",
-          "Durch PIN geschützt",
-          "Sécurisé par un code PIN",
-          "Protegida con PIN",
-          "Secured with PIN"
-      ],
-      "Password": [
-          "Jelszóval biztosítva",
-          "Durch Passwort geschützt",
-          "Sécurisé par mot de passe",
-          "Protegida con contraseña",
-          "Secured with password"
-      ],
-      "Make pattern visible": [
-          "Minta láthatóvá tétele",
-          "Muster sichtbar machen",
-          "Faire apparaître le schéma",
-          "Mostrar el patrón"
-      ],
-      "Automatically lock": [
-          "Automatikus zárolás",
-          "Automatisch sperren",
-          "Verrouiller automatiquement",
-          "Bloquear automáticamente"
-      ],
-      "%1$s after sleep": [
-          "%1$s alvó mód után",
-          "Nach %1$s im Ruhezustand",
-          "Après %1$s de veille",
-          "%1$s tras suspender"
-      ],
-      "Immediately": [
-          "Azonnal",
-          "Sofort",
-          "Immédiatement",
-          "Inmediatamente"
-      ],
-      "5 seconds": [
-          "5 másodperc",
-          "5 Sekunden",
-          "5 secondes",
-          "5 segundos"
-      ],
-      "15 seconds": [
-          "15 másodperc",
-          "15 Sekunden",
-          "15 secondes",
-          "15 segundos"
-      ],
-      "30 seconds": [
-          "30 másodperc",
-          "30 Sekunden",
-          "30 secondes",
-          "30 segundos"
-      ],
-      "1 minute": [
-          "1 perc",
-          "1 Minute",
-          "1 minute",
-          "1 minuto"
-      ],
-      "2 minutes": [
-          "2 perc",
-          "2 Minuten",
-          "2 minutes",
-          "2 minutos"
-      ],
-      "5 minutes": [
-          "5 perc",
-          "5 Minuten",
-          "5 minutes",
-          "5 minutos"
-      ],
-      "10 minutes": [
-          "10 perc",
-          "10 Minuten",
-          "10 minutes",
-          "10 minutos"
-      ],
-      "30 minutes": [
-          "30 perc",
-          "30 Minuten",
-          "30 minutes",
-          "30 minutos"
-      ],
-      "Power button instantly locks": [
-          "Bekapcsoló gomb azonnal zár",
-          "Ein-/Aus sperrt Gerät sofort",
-          "Verr. auto bouton MARCHE-ARRÊT",
-          "Bloquear al encender"
-      ],
-      "Vibrate on touch": [
-          "Érintéskor rezegjen",
-          "Bei Berührung vibrieren",
-          "Vibrer au toucher",
-          "Vibrar al pulsar"
-      ],
-      "Owner info": [
-          "Tulajdonosi adatok",
-          "Inhaberinformationen",
-          "Infos propriétaire",
-          "Información del propietario"
-      ],
-      "Encryption": [
-          "Titkosítás",
-          "Verschlüsselung",
-          "Chiffrement",
-          "Encriptación"
-      ],
-      "Encrypt phone": [
-          "Telefon titkosítása",
-          "Telefon verschlüsseln",
-          "Chiffrer le téléphone",
-          "Encriptar teléfono"
-      ],
-      "Require a numeric PIN or password to decrypt your phone each time you power it on": [
-          "A telefon titkosításának feloldásához kérjen minden bekapcsoláskor egy számokból álló PIN kódot vagy jelszót",
-          "Eine numerische PIN oder ein Passwort einrichten, mit dem das Telefon beim Einschalten entschlüsselt werden muss.",
-          "Exiger un code PIN ou un mot de passe numérique pour déchiffrer le téléphone à chaque fois qu'il est allumé",
-          "Solicitar una contraseña o un PIN numérico para descifrar el teléfono cada vez que se encienda"
-      ],
-      "SIM card lock": [
-          "SIM-kártya zárolása",
-          "SIM-Kartensperre",
-          "Verrouillage de la SIM",
-          "Bloqueo de tarjeta SIM"
-      ],
-      "Set up SIM card lock": [
-          "SIM-kártya zárolásának beállítása",
-          "SIM-Sperre einrichten",
-          "Configurer verrouillage carte SIM",
-          "Bloqueo de tarjeta SIM"
-      ],
-      "Passwords": [
-          "Jelszavak",
-          "Passwörter",
-          "Mots de passe",
-          "Contraseñas"
-      ],
-      "Make passwords visible": [
-          "Jelszó láthatóvá tétele",
-          "Passwörter sichtbar",
-          "Faire apparaître les mots de passe",
-          "Mostrar las contraseñas"
-      ],
-      "Device administration": [
-          "Eszközfelügyelet",
-          "Geräteverwaltung",
-          "Gestion de l'appareil",
-          "Administración de dispositivos"
-      ],
-      "Device administrators": [
-          "Eszköz-rendszergazdák",
-          "Geräteadministratoren",
-          "Administrateurs de l'appareil",
-          "Administradores de dispositivos"
-      ],
-      "View or deactivate device administrators": [
-          "Az eszköz rendszergazdáinak megtekintése vagy deaktiválása",
-          "Geräteadministratoren abrufen oder deaktivieren",
-          "Afficher ou désactiver les administrateurs de l'appareil",
-          "Ver o desactivar administradores de dispositivo"
-      ],
-      "Unknown sources": [
-          "Ismeretlen források",
-          "Unbekannte Herkunft",
-          "Sources inconnues",
-          "Orígenes desconocidos"
-      ],
-      "Allow installation of apps from unknown sources": [
-          "Nem a Marketről származó alkalmazások telepítésének engedélyezése",
-          "Installation von Nicht-Market-Apps zulassen",
-          "Autoriser l'installation d'applications ne provenant pas de l'Android Market",
-          "Permitir instalar aplicaciones que no estén en Android Market",
-          "Allow installation of non-Market apps"
-      ],
-      "Credential storage": [
-          "Hitelesítési adatok tárolója",
-          "Anmeldedatenspeicher",
-          "Stockage des identifiants",
-          "Almacenamiento de credenciales"
-      ],
-      "Trusted credentials": [
-          "Megbízható hitelesítő adatok",
-          "Vertrauensw. Anmeldedaten",
-          "Certificats de confiance",
-          "Credenciales de confianza"
-      ],
-      "Display trusted CA certificates": [
-          "Megbízható CA tanúsítványok megjelenítése",
-          "Vertrauenswürdige CA-Zertifikate anzeigen",
-          "Afficher les certificats d'autorité de confiance",
-          "Mostrar certificados de CA de confianza"
-      ],
-      "Install from storage": [
-          "Telepítés tárhelyről",
-          "Von Speicher installieren",
-          "Installer depuis la mémoire",
-          "Instalar desde almacenamiento"
-      ],
-      "Install certificates from storage": [
-          "Tanúsítványok telepítése tárhelyről",
-          "Zertifikate von Speicher installieren",
-          "Installer les certificats depuis la mémoire de stockage",
-          "Instalar certificados desde almacenamiento"
-      ],
-      "Clear credentials": [
-          "Hitelesítési adatok törlése",
-          "Anmeldedaten löschen",
-          "Effacer les identifiants",
-          "Borrar credenciales"
-      ],
-      "Remove all certificates": [
-          "Összes tanúsítvány eltávolítása",
-          "Alle Zertifikate entfernen",
-          "Supprimer tous les certificats",
-          "Eliminar todos los certificados"
-      ],
-      "No available device administrators": [
-          "Nincs elérhető eszközkezelő",
-          "Keine Geräteadministratoren verfügbar",
-          "Aucun administrateur disponible.",
-          "No hay ningún administrador de dispositivos disponible."
-      ],
-      "Tethering & portable hotspot": [
-          "Megosztás és hord. csatl. pont",
-          "Tethering & mobiler Hotspot",
-          "Partage de connexion",
-          "Anclaje a red y zona Wi-Fi"
-      ],
-      "USB tethering": [
-          "USB megosztás",
-          "USB-Tethering",
-          "Via USB",
-          "Anclaje de USB"
-      ],
-      "USB not connected": [
-          "Nincs USB-kapcsolat",
-          "Keine USB-Verbindung",
-          "USB non connecté",
-          "USB no conectado"
-      ],
-      "Portable Wi-Fi hotspot": [
-          "Hordozható Wi-Fi hotspot",
-          "Mobiler WLAN-Hotspot",
-          "Point d'accès Wi-Fi",
-          "Zona Wi-Fi portátil"
-      ],
-      "Set up Wi-Fi hotspot": [
-          "Wi-Fi hotspot konfigurálása",
-          "WLAN-Hotspot konfigurieren",
-          "Configurer le point d'accès Wi-Fi",
-          "Configurar zona Wi-Fi",
-          "Configure Wi-Fi hotspot"
-      ],
-      "Bluetooth tethering": [
-          "Bluetooth megosztása",
-          "Bluetooth-Tethering",
-          "Via Bluetooth",
-          "Anclaje de Bluetooth"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Advanced Wi-Fi": [
-          "Haladó Wi-Fi",
-          "Erweiterte WLAN-Einstellungen",
-          "Paramètres Wi-Fi avancés",
-          "Ajustes avanzados de Wi-Fi"
-      ],
-      "Network notification": [
-          "Hálózati értesítés",
-          "Netzwerkhinweis",
-          "Notification de réseau",
-          "Notificación de red"
-      ],
-      "Notify me when an open network is available": [
-          "Értesítést kérek az elérhető nyitott hálózatokról",
-          "Benachrichtigen, wenn ein offenes Netzwerk verfügbar ist",
-          "Me notifier lorsqu'un réseau ouvert est disponible",
-          "Informarme cuando haya una red abierta disponible"
-      ],
-      "Keep Wi-Fi on during sleep": [
-          "Tartsa bekapcsolva a Wi-Fit alvás közben",
-          "WLAN im Standby-Modus aktiviert lassen",
-          "Wi-Fi actif en veille",
-          "Usar Wi-Fi en suspensión"
-      ],
-      "Always": [
-          "Mindig",
-          "Immer",
-          "Toujours",
-          "Siempre"
-      ],
-      "Only when plugged in": [
-          "Csak ha csatlakoztatva van",
-          "Nur wenn angeschlossen",
-          "Uniquement si l'appareil est branché",
-          "Solo si se está cargando"
-      ],
-      "Never (increases data usage)": [
-          "Soha (növeli az adatforgalmat)",
-          "Nie (erhöht den Datenverbrauch)",
-          "Jamais (utilise plus de données)",
-          "Nunca (aumenta el uso de datos)"
-      ],
-      "Avoid poor connections": [
-          "Kerülje a rossz minőségű kapcsolatokat",
-          "Schlechte Internetverbindungen vermeiden",
-          "Éviter mauvaises connexions",
-          "Solo conexiones buenas"
-      ],
-      "Don't use a Wi-Fi network unless it has a good Internet connection": [
-          "Csak akkor használjon Wi-Fi hálózatot, ha jó internetkapcsolatot tud biztosítani",
-          "WLAN nur bei guter Internetverbindung verwenden",
-          "Ne pas utiliser de réseau Wi-Fi, sauf en cas de connexion Internet de bonne qualité",
-          "No usar una red Wi-Fi a menos que tenga una buena conexión a Internet"
-      ],
-      "Wi-Fi frequency band": [
-          "Wi-Fi frekvenciasáv",
-          "WLAN-Frequenzband",
-          "Plage de fréquences Wi-Fi",
-          "Banda de frecuencia WiFi"
-      ],
-      "Specify the frequency range of operation": [
-          "Adja meg a működési frekvenciatartományt",
-          "Frequenzbereich für Betrieb festlegen",
-          "Définir la plage de fréquences",
-          "Especificar intervalo frecuencia de funcionamiento"
-      ],
-      "Automatic": [
-          "Automatikus",
-          "Automatisch",
-          "Automatique",
-          "Automático",
-          "Auto"
-      ],
-      "5 GHz only": [
-          "Csak 5 GHz",
-          "Nur 5 GHz",
-          "5 GHz uniquement",
-          "Solo 5 GHz"
-      ],
-      "2.4 GHz only": [
-          "Csak 2,4 GHz",
-          "Nur 2,4 GHz",
-          "2,4 GHz uniquement",
-          "Solo 2,4 GHz"
-      ],
-      "MAC address": [
-          "MAC-cím",
-          "MAC-Adresse",
-          "Adresse MAC",
-          "Dirección MAC"
-      ],
-      "Unavailable": [
-          "Nem érhető el",
-          "Nicht verfügbar",
-          "Non disponible",
-          "No disponible"
-      ],
-      "VPN": [
-          "VPN",
-          "VPN",
-          "VPN",
-          "VPN"
-      ],
-      "Add VPN profile": [
-          "VPN-hálózat hozzáadása",
-          "VPN hinzufügen",
-          "Ajouter un réseau VPN",
-          "Añadir red VPN",
-          "Add VPN network"
-      ],
-      "Mobile network settings": [
-          "Mobilhálózati beállítások",
-          "Einstellungen für Mobilfunknetze",
-          "Paramètres du réseau mobile",
-          "Configuración de red móvil"
-      ],
-      "Data enabled": [
-          "Adatok engedélyezése",
-          "Daten aktiviert",
-          "Données activées",
-          "Habilitar datos"
-      ],
-      "Enable data access over Mobile network": [
-          "Adathozzáférés engedélyezése mobilhálózatokon",
-          "Datenzugriff über Mobilfunknetz aktivieren",
-          "Activer l'accès aux données sur le réseau mobile",
-          "Permitir el acceso a los datos a través de la red móvil"
-      ],
-      "Data roaming": [
-          "Adatbarangolás",
-          "Daten-Roaming",
-          "Itinérance des données",
-          "Itinerancia de datos"
-      ],
-      "Connect to data services when roaming": [
-          "Csatlakozás adatszolgáltatásokhoz barangolás során",
-          "Bei Roaming mit Datendienst verbinden",
-          "Se connecter aux services de données lors de l'itinérance",
-          "Establecer conexión con servicios de datos en itinerancia"
-      ],
-      "Preferred network type": [
-          "Hálózati mód",
-          "Netzwerkmodus",
-          "Mode réseau",
-          "Modo de red",
-          "Network Mode"
-      ],
-      "Access Point Names": [
-          "Hozzáférési pontok nevei",
-          "Zugangspunkte",
-          "Noms des points d'accès",
-          "APN"
-      ],
-      "Use only 2G networks": [
-          "Csak 2G hálózatok használata",
-          "Nur 2G-Netzwerke",
-          "Réseau 2G seulement",
-          "Utilizar solo redes 2G"
-      ],
-      "Saves battery": [
-          "Spórol az energiával",
-          "Energiesparend",
-          "Économise la batterie",
-          "Ahorrar batería"
-      ],
-      "Network operators": [
-          "Mobilszolgáltatók",
-          "Mobilfunkanbieter",
-          "Opérateur de réseau",
-          "Operadores de red"
-      ],
-      "Choose a network operator": [
-          "Mobilszolgáltató választása",
-          "Netzbetreiber auswählen",
-          "Choisir un opérateur de réseau",
-          "Seleccionar un operador de red",
-          "Select a network operator"
-      ],
-      "Available networks": [
-          "Elérhető hálózatok",
-          "Verfügbare Netzwerke",
-          "Réseaux disponibles",
-          "Redes disponibles"
-      ],
-      "Search networks": [
-          "Hálózatkeresés",
-          "Netzwerke suchen",
-          "Rechercher les réseaux",
-          "Buscar redes"
-      ],
-      "Search for all available networks": [
-          "Az összes elérhető hálózat megkeresése",
-          "Nach allen verfügbaren Netzwerken suchen",
-          "Chercher tous les réseaux disponibles",
-          "Buscar todas las redes disponibles"
-      ],
-      "Choose automatically": [
-          "Automatikus kiválasztás",
-          "Automatisch auswählen",
-          "Sélection automatique",
-          "Seleccionar automáticamente",
-          "Select automatically"
-      ],
-      "Automatically choose preferred network": [
-          "Preferált hálózat automatikus kiválasztása",
-          "Bevorzugtes Netzwerk automatisch auswählen",
-          "Sélectionner automatiquement",
-          "Seleccionar la red preferida de forma automática",
-          "Automatically select preferred network"
-      ],
-      "APNs": [
-          "APN-ek",
-          "APNs",
-          "APN",
-          "APN"
-      ],
-      "New APN": [
-          "Új APN",
-          "Neuer APN",
-          "Nouvel APN",
-          "APN nuevo"
-      ]
+    "About phone": {"res": "Settings:about_settings", "hu": "A telefonról", "de": "Über das Telefon", "fr": "À propos du téléphone", "es": "Acerca del teléfono"},
+    "System updates": {"res": "Settings:system_update_settings_list_item_title", "hu": "Rendszerfrissítések", "de": "Systemaktualisierungen", "fr": "Mises à jour du système", "es": "Actualizaciones del sistema"},
+    "Status": {"res": "Settings:device_status", "hu": "Állapot", "de": "Status", "fr": "État", "es": "Estado"},
+    "Phone number, signal, etc.": {"res": "Settings:device_status_summary", "hu": "Telefonszám, jel stb.", "de": "Telefonnummer, Signal usw.", "fr": "Numéro de téléphone, signal, etc.", "es": "Número de teléfono, señal, etc."},
+    "Legal information": {"res": "Settings:legal_information", "hu": "Jogi információk", "de": "Rechtliche Hinweise", "fr": "Informations légales", "es": "Información legal"},
+    "Model number": {"res": "Settings:model_number", "hu": "Modellszám", "de": "Modellnummer", "fr": "Numéro du modèle", "es": "Número de modelo"},
+    "Android version": {"res": "Settings:firmware_version", "hu": "Android verziója", "de": "Android-Version", "fr": "Version d'Android", "es": "Versión de Android"},
+    "Baseband version": {"res": "Settings:baseband_version", "hu": "Alapsáv verziója", "de": "Baseband-Version", "fr": "Version de bande de base", "es": "Versión de banda base"},
+    "Kernel version": {"res": "Settings:kernel_version", "hu": "Kernel verziója", "de": "Kernel-Version", "fr": "Version du noyau", "es": "Versión de kernel"},
+    "Build number": {"res": "Settings:build_number", "hu": "Build-szám", "de": "Build-Nummer", "fr": "Numéro de build", "es": "Número de compilación"},
+    "Battery status": {"res": "Settings:battery_status_title", "hu": "Akkumulátor állapota", "de": "Akkustatus", "fr": "État de la batterie", "es": "Estado de la batería"},
+    "Battery level": {"res": "Settings:battery_level_title", "hu": "Akkumulátorszint", "de": "Akkuladung", "fr": "Niveau de la batterie", "es": "Nivel de batería"},
+    "Network": {"res": "Settings:status_operator", "hu": "Hálózat", "de": "Netzwerk", "fr": "Réseau", "es": "Red"},
+    "Signal strength": {"res": "Settings:status_signal_strength", "hu": "Jelerősség", "de": "Signalstärke", "fr": "Intensité du signal", "es": "Intensidad de la señal"},
+    "Mobile network type": {"res": "Settings:status_network_type", "hu": "Mobilhálózat típusa", "de": "Art des Mobilfunknetzes", "fr": "Type de réseau mobile", "es": "Tipo de red móvil"},
+    "Service state": {"res": "Settings:status_service_state", "hu": "Szolgáltatás állapota", "de": "Servicestatus", "fr": "État du service", "es": "Estado del servicio"},
+    "Roaming": {"res": "Settings:status_roaming", "hu": "Barangolás", "de": "Roaming", "fr": "Itinérance", "es": "Itinerancia"},
+    "Mobile network state": {"res": "Settings:status_data_state", "hu": "Mobilhálózat állapota", "de": "Status des Mobilfunknetzes", "fr": "État du réseau mobile", "es": "Estado de red móvil"},
+    "My phone number": {"res": "Settings:status_number", "hu": "Saját telefonszámom", "de": "Meine Telefonnummer", "fr": "Mon numéro de téléphone", "es": "Mi número de teléfono"},
+    "IMEI": {"res": "Settings:status_imei", "hu": "IMEI", "de": "IMEI", "fr": "IMEI", "es": "IMEI"},
+    "IMEI SV": {"res": "Settings:status_imei_sv", "hu": "IMEI SV", "de": "IMEI SV", "fr": "IMEI SV", "es": "IMEI SV"},
+    "IP address": {"res": "Settings:wifi_advanced_ip_address_title", "hu": "IP-cím", "de": "IP-Adresse", "fr": "Adresse IP", "es": "Dirección IP"},
+    "Wi-Fi MAC address": {"res": "Settings:status_wifi_mac_address", "hu": "Wi-Fi eszköz MAC-címe", "de": "WLAN-MAC-Adresse", "fr": "Adresse MAC Wi-Fi", "es": "Dirección MAC de Wi-Fi"},
+    "Bluetooth address": {"res": "Settings:status_bt_address", "hu": "Bluetooth-cím", "de": "Bluetooth-Adresse", "fr": "Adresse Bluetooth", "es": "Dirección de Bluetooth"},
+    "Serial number": {"res": "Settings:status_serial_number", "hu": "Sorozatszám", "de": "Seriennummer", "fr": "Numéro de série", "es": "Número de serie"},
+    "Up time": {"res": "Settings:status_up_time", "hu": "Futásidő", "de": "Betriebszeit", "fr": "Durée d'activité", "es": "Tiempo de actividad"},
+    "Not available": {"res": "Settings:device_info_not_available", "hu": "Nem érhető el", "de": "Nicht verfügbar", "fr": "Non disponible", "es": "No disponible"},
+    "Unknown": {"res": "Settings:device_info_default", "hu": "Ismeretlen", "de": "Unbekannt", "fr": "Inconnu", "es": "Desconocido"},
+    "Discharging": {"res": "Settings:battery_info_status_discharging", "hu": "Lemerülés", "de": "Akkubetrieb", "fr": "Baisse du niveau de charge", "es": "No se está cargando"},
+    "In service": {"res": "Settings:radioInfo_service_in", "hu": "Szolgáltatás", "de": "In Betrieb", "fr": "Service en cours", "es": "En servicio"},
+    "Not roaming": {"res": "Settings:radioInfo_roaming_not", "hu": "Nem barangol", "de": "Kein Roaming", "fr": "Sans itinérance", "es": "Sin itinerancia"},
+    "Connected": {"res": "Settings:radioInfo_data_connected", "hu": "Csatlakozva", "de": "Verbunden", "fr": "Connecté", "es": "Conectado"},
+    "Disconnected": {"res": "Settings:radioInfo_data_disconnected", "hu": "Szétkapcsolva", "de": "Nicht verbunden", "fr": "Déconnecté", "es": "Desconectada"},
+    "unknown": {"res": "Settings:radioInfo_unknown", "hu": "ismeretlen", "de": "unbekannt", "fr": "inconnu", "es": "desconocido"},
+    "Open source licenses": {"res": "Settings:settings_license_activity_title", "hu": "Nyílt forráskódú licencek", "de": "Open-Source-Lizenzen", "fr": "Licences open source", "es": "Licencias de código abierto"},
+    "Google legal": {"res": "GoogleServicesFramework:gls_settings_tos_activity_title", "hu": "Google - jogi szabályozás", "de": "Rechtliche Hinweise", "fr": "Infos légales Google", "es": "Departamento legal de Google"},
+    "Location services": {"res": "Settings:location_settings_title", "hu": "Helyszolgáltatások", "de": "Standortdienste", "fr": "Services de localisation", "es": "Servicios de ubicación"},
+    "Google's location service": {"res": "Settings:location_network_based", "hu": "A Google helyszolgáltatása", "de": "Standortdienst von Google", "fr": "Service de localisation", "es": "Ubicación de Google"},
+    "Let apps use data from sources such as Wi-Fi and mobile networks to determine your approximate location": {"res": "Settings:location_neighborhood_level", "hu": "Engedélyezze az alkalmazásoknak a Wi-Fi és mobiladatok használatát a hozzávetőleges tartózkodási hely meghatározásához", "de": "Zulassen, dass Apps WLAN und Mobilfunknetze für die Bestimmung meines ungefähren Standorts verwenden", "fr": "Utiliser les données des réseaux Wi-Fi et mobiles pour déterminer votre position approximative", "es": "Permitir que las aplicaciones usen datos de fuentes como redes Wi-Fi y móviles para determinar tu ubicación aproximada"},
+    "GPS satellites": {"res": "Settings:location_gps", "hu": "GPS-műholdak", "de": "GPS-Satelliten", "fr": "Satellites GPS", "es": "Satélites GPS"},
+    "Let apps use GPS to pinpoint your location": {"res": "Settings:location_street_level", "hu": "Engedélyezze a GPS használatát az alkalmazások számára tartózkodási helyének meghatározása érdekében", "de": "Apps dürfen meinen Standort mithilfe von GPS bestimmen.", "fr": "Autoriser les applications à utiliser le GPS pour localiser votre position", "es": "Permitir que las aplicaciones usen el GPS para determinar tu ubicación"},
+    "Backup & reset": {"res": "Settings:privacy_settings_title", "hu": "Biztonsági mentés és visszaállítás", "de": "Sichern & zurücksetzen", "fr": "Sauvegarder et réinitialiser", "es": "Copia de seguridad y restauración"},
+    "Backup & restore": {"res": "Settings:backup_section_title", "hu": "Biztonsági mentés és visszaállítás", "de": "Backup und Wiederherstellung", "fr": "Sauvegarde et restauration", "es": "Copia de seguridad"},
+    "Back up my data": {"res": "Settings:backup_data_title", "hu": "Adatok biztonsági mentése", "de": "Meine Daten sichern", "fr": "Sauvegarder mes données", "es": "Copiar mis datos"},
+    "Back up app data, Wi-Fi passwords, and other settings to Google servers": {"res": "Settings:backup_data_summary", "hu": "Alkalmazásadatok, Wi-Fi jelszavak és más beállítások mentése a Google szervereire", "de": "App-Daten, WLAN-Passwörter und andere Einstellungen auf Google-Servern sichern", "fr": "Sauvegarder les données des applications, les mots de passe Wi-Fi et autres paramètres de serveurs Google", "es": "Hacer copia de seguridad en servidores de Google de datos de aplicaciones, contraseñas Wi-Fi y otras opciones de configuración", "en": "Back up application data, Wi-Fi passwords, and other settings to Google servers"},
+    "Backup account": {"res": "Settings:backup_configure_account_title", "hu": "Fiók biztonsági mentése", "de": "Sicherungskonto", "fr": "Compte de sauvegarde", "es": "Cuenta de copia de seguridad"},
+    "Automatic restore": {"res": "Settings:auto_restore_title", "hu": "Automatikus helyreállítás", "de": "Autom. Wiederherstellung", "fr": "Restaurer automatiquement", "es": "Restauración automática"},
+    "When reinstalling an app, restore backed up settings and data": {"res": "Settings:auto_restore_summary", "hu": "Amikor újratelepít egy alkalmazást, a biztonsági mentésből állítsa helyre a beállításait és az adatokat", "de": "Stellen Sie nach der Neuinstallation einer App gesicherte Einstellungen und Daten wieder her.", "fr": "Lors de la réinstallation d'une application, restaurer les paramètres et les données sauvegardées", "es": "Cuando vuelvas a instalar una aplicación, restaurar la configuración y los datos incluidos en la copia"},
+    "Personal data": {"res": "Settings:personal_data_section_title", "hu": "Személyes adatok", "de": "Persönliche Daten", "fr": "Données personnelles", "es": "Datos personales"},
+    "Factory data reset": {"res": "Settings:master_clear_title", "hu": "Gyári adatok visszaállítása", "de": "Auf Werkszustand zurück", "fr": "Restaurer valeurs d'usine", "es": "Restablecer datos de fábrica"},
+    "Erases all data on phone": {"res": "Settings:master_clear_summary", "hu": "Minden adat törlése a telefonról", "de": "Löscht alle Daten auf dem Telefon", "fr": "Effacer toutes les données du téléphone", "es": "Borrar todos los datos del teléfono"},
+    "master_clear_desc": {"res": "Settings:master_clear_desc", "hu": "Ez minden adatot töröl a telefon belső tárolójáról, többek között: \n \nGoogle Fiókját\nA rendszer- és alkalmazásadatokat és beállításokat \n A letöltött alkalmazásokat", "de": "Hierdurch werden alle Daten aus dem internen Speicher Ihres Telefons gelöscht, u. a.\n\nIhr Google-Konto\nSystem- und App-Daten sowie entsprechende Einstellungen\n und heruntergeladene Apps.", "fr": "Cette action effacera toutes les données du stockage interne de votre téléphone, y compris :\n\nVotre compte Google\nLes données et paramètres du système et de l'application\nLes applications téléchargées", "es": "Se borrarán todos los datos del almacenamiento interno del teléfono, por ejemplo:\n\ntu cuenta de Google,\nlos ajustes y los datos de aplicaciones y del sistema,\nlas aplicaciones descargadas.", "en": "This will erase all data from your phone's internal storage, including:\n\nYour Google account\nSystem and app data and settings\nDownloaded apps"},
+    "master_clear_desc_also_erases_external": {"res": "Settings:master_clear_desc_also_erases_external", "hu": "Zene\nFotók\nMás felhasználói adatok", "de": "Musik\nFotos\nSonstige Nutzerdaten", "fr": "Musique\nPhotos\nAutres données utilisateur", "es": "Música\nFotos\nOtros datos de usuario", "en": "Music\nPhotos\nOther user data"},
+    "master_clear_accounts": {"res": "Settings:master_clear_accounts", "hu": "\n\nJelenleg a következő fiókokba van bejelentkezve:\n", "de": "\n\nSie sind zurzeit in folgenden Konten angemeldet:\n", "fr": "\n\nVous êtes actuellement connecté aux comptes suivants :\n", "es": "\n\nHas accedido a las cuentas que se indican a continuación:\n", "en": "\n\nYou are currently signed into the following accounts:\n"},
+    "Reset phone": {"res": "Settings:master_clear_button_text", "hu": "Telefon visszaállítása", "de": "Telefon zurücksetzen", "fr": "Réinitialiser le téléphone", "es": "Restablecer teléfono"},
+    "No account is currently storing backed up data": {"res": "Settings:backup_configure_account_default_summary", "hu": "Jelenleg egyik fiók sem tárol biztonsági mentéseket", "de": "Zurzeit werden in keinem Konto gesicherte Daten gespeichert.", "fr": "Aucun compte ne stocke actuellement des données sauvegardées.", "es": "Ninguna cuenta está almacenando datos con copia de seguridad en estos momentos."},
+    "Accounts & sync": {"res": "Settings:sync_settings", "hu": "Fiókok és szinkronizálás", "de": "Konten & Synchronisierung", "fr": "Comptes et synchro", "es": "Cuentas y sincronización"},
+    "Add account": {"res": "Settings:add_account_label", "hu": "Fiók hozzáadása", "de": "Konto hinzufügen", "fr": "Ajouter un compte", "es": "Añadir cuenta"},
+    "Sync is ON": {"res": "Settings:sync_enabled", "hu": "Szinkr. BEKAPCSOLVA", "de": "Synchronisierung AN", "fr": "Synchronisation activée", "es": "Sincronización activa"},
+    "Sync is OFF": {"res": "Settings:sync_disabled", "hu": "Szinkr. KIKAPCSOLVA", "de": "Synchronisierung AUS", "fr": "Synchronisation désactivée", "es": "La sincronización está desactivada."},
+    "Data & synchronization": {"res": "Settings:header_data_and_synchronization", "hu": "Adatok és szinkronizálás", "de": "Daten & Synchronisierung", "fr": "Données et synchronisation", "es": "Datos y sincronización"},
+    "Sync %s": {"res": "Settings:sync_item_title", "hu": "%s szinkronizálása", "de": "%s synchronisieren", "fr": "Synchroniser %s", "es": "Sincronizar %s"},
+    "Remove account": {"res": "Settings:remove_account_label", "hu": "Fiók törlése", "de": "Konto entfernen", "fr": "Supprimer le compte", "es": "Eliminar cuenta"},
+    "Sync now": {"res": "Settings:sync_menu_sync_now", "hu": "Szinkronizálás most", "de": "Jetzt synchronisieren", "fr": "Synchroniser maintenant", "es": "Sincronizar ahora"},
+    "Accessibility": {"res": "Settings:accessibility_settings_title", "hu": "Kisegítő lehetőségek beállításai", "de": "Einstellungen für Bedienungshilfen", "fr": "Paramètres d'accessibilité", "es": "Ajustes de accesibilidad", "en": "Accessibility settings"},
+    "Services": {"res": "Settings:accessibility_services_title", "hu": "Szolgáltatások", "de": "Dienste", "fr": "Services", "es": "Servicios"},
+    "System": {"res": "Settings:accessibility_system_title", "hu": "Rendszer", "de": "System", "fr": "Système", "es": "Sistema"},
+    "Large text": {"res": "Settings:accessibility_toggle_large_text_title", "hu": "Nagy szöveg", "de": "Großer Text", "fr": "Grands caractères", "es": "Texto grande"},
+    "Power button ends call": {"res": "Settings:accessibility_power_button_ends_call_title", "hu": "A bekapcsoló gomb megszakítja a hívást", "de": "Ein/Aus beendet Anruf", "fr": "Bouton marche/arrêt raccroche", "es": "Botón encendido cuelga"},
+    "Auto-rotate screen": {"res": "Settings:accelerometer_title", "hu": "Képernyő automatikus forgatása", "de": "Display autom. drehen", "fr": "Rotation auto écran", "es": "Pantalla giratoria"},
+    "Speak passwords": {"res": "Settings:accessibility_speak_password_title", "hu": "Jelszavak kimondása", "de": "Passwörter aussprechen", "fr": "Énoncer les mots de passe", "es": "Decir contraseñas"},
+    "Touch & hold delay": {"res": "Settings:accessibility_long_press_timeout_title", "hu": "Érintés és tartási késleltetés", "de": "Reaktionszeit Berühren/Halten", "fr": "Délai de pression", "es": "Retraso pulsación prolongada"},
+    "Install web scripts": {"res": "Settings:accessibility_script_injection_title", "hu": "Internetes szkriptek telepítése", "de": "Webskripts installieren", "fr": "Installer des scripts Web", "es": "Instalar scripts web"},
+    "Off": {"res": "Settings:accessibility_service_state_off", "hu": "Ki", "de": "Deaktiviert", "fr": "Désactivé", "es": "Desactivado"},
+    "Date & time": {"res": "Settings:date_and_time_settings_title", "hu": "Dátum és idő", "de": "Datum & Uhrzeit", "fr": "Date et heure", "es": "Fecha y hora"},
+    "Automatic date & time": {"res": "Settings:date_time_auto", "hu": "Automatikus dátum és idő", "de": "Autom. Datum/Uhrzeit", "fr": "Date/Heure automatique", "es": "Fecha y hora automáticas"},
+    "Use network-provided time": {"res": "Settings:date_time_auto_summaryOn", "hu": "Hálózat által megadott idő használata", "de": "Zeit aus Netzwerk beziehen", "fr": "Utiliser la date et l'heure fournies par le réseau", "es": "Usar hora proporcionada por la red"},
+    "Automatic time zone": {"res": "Settings:zone_auto", "hu": "Automatikus időzóna", "de": "Automatische Zeitzone", "fr": "Fuseau horaire automatique", "es": "Zona horaria automática"},
+    "Use network-provided time zone": {"res": "Settings:zone_auto_summaryOn", "hu": "Hálózat által megadott időzóna használata", "de": "Vom Netzwerk angegebene Zeitzone beibehalten", "fr": "Utiliser le fuseau horaire fourni par le réseau", "es": "Usar zona horaria proporcionada por la red"},
+    "Set date": {"res": "Settings:date_time_set_date", "hu": "Dátum beállítása", "de": "Datum festlegen", "fr": "Définir la date", "es": "Establecer fecha"},
+    "Set time": {"res": "Settings:date_time_set_time", "hu": "Idő beállítása", "de": "Uhrzeit festlegen", "fr": "Définir l'heure", "es": "Establecer hora"},
+    "Select time zone": {"res": "Settings:date_time_set_timezone", "hu": "Időzóna kiválasztása", "de": "Zeitzone auswählen", "fr": "Définir le fuseau horaire", "es": "Seleccionar zona horaria"},
+    "Use 24-hour format": {"res": "Settings:date_time_24hour", "hu": "24 órás formátum használata", "de": "24-Stunden-Format", "fr": "Utiliser le format 24 h", "es": "Formato de 24 horas"},
+    "13:00": {"res": "Settings:date_time_24_hour_sample", "hu": "13:00", "de": "13:00", "fr": "13:00", "es": "13:00"},
+    "1:00 pm": {"res": "Settings:date_time_12_hour_sample", "hu": "du. 1:00", "de": "1:00", "fr": "1:00 pm", "es": "1:00 p.m."},
+    "Choose date format": {"res": "Settings:date_time_date_format", "hu": "Dátumformátum kiválasztása", "de": "Datumsformat", "fr": "Choisir le format de date", "es": "Formato de fecha", "en": "Select date format"},
+    "Security": {"res": "Settings:security_settings_title", "hu": "Biztonság", "de": "Sicherheit", "fr": "Sécurité", "es": "Seguridad"},
+    "Screen security": {"res": "Settings:lock_settings_title", "hu": "Képernyővédelem", "de": "Bildschirmsicherheit", "fr": "Sécurité de l'écran", "es": "Pantalla de seguridad"},
+    "Screen lock": {"res": "Settings:unlock_set_unlock_launch_picker_title", "hu": "Képernyő zárolása", "de": "Bildschirmsperre", "fr": "Verrouillage de l'écran", "es": "Bloqueo de pantalla"},
+    "None": {"res": "Settings:unlock_set_unlock_mode_off", "hu": "Nincs", "de": "Keine", "fr": "Aucun", "es": "Ninguno"},
+    "Slide": {"res": "Settings:unlock_set_unlock_mode_none", "hu": "Csúsztatás", "de": "Finger bewegen", "fr": "Faire glisser", "es": "Deslizar"},
+    "Pattern": {"res": "Settings:unlock_set_unlock_mode_pattern", "hu": "Mintával biztosítva", "de": "Durch Muster geschützt", "fr": "Sécurisé par un schéma", "es": "Protegida con patrón", "en": "Secured with pattern"},
+    "PIN": {"res": "Settings:unlock_set_unlock_mode_pin", "hu": "PIN kóddal biztosítva", "de": "Durch PIN geschützt", "fr": "Sécurisé par un code PIN", "es": "Protegida con PIN", "en": "Secured with PIN"},
+    "Password": {"res": "Settings:unlock_set_unlock_mode_password", "hu": "Jelszóval biztosítva", "de": "Durch Passwort geschützt", "fr": "Sécurisé par mot de passe", "es": "Protegida con contraseña", "en": "Secured with password"},
+    "Make pattern visible": {"res": "Settings:lockpattern_settings_enable_visible_pattern_title", "hu": "Minta láthatóvá tétele", "de": "Muster sichtbar machen", "fr": "Faire apparaître le schéma", "es": "Mostrar el patrón"},
+    "Automatically lock": {"res": "Settings:lock_after_timeout", "hu": "Automatikus zárolás", "de": "Automatisch sperren", "fr": "Verrouiller automatiquement", "es": "Bloquear automáticamente"},
+    "%1$s after sleep": {"res": "Settings:lock_after_timeout_summary", "hu": "%1$s alvó mód után", "de": "Nach %1$s im Ruhezustand", "fr": "Après %1$s de veille", "es": "%1$s tras suspender"},
+    "Immediately": {"res": "Settings:@array/lock_after_timeout_entries:0", "hu": "Azonnal", "de": "Sofort", "fr": "Immédiatement", "es": "Inmediatamente"},
+    "5 seconds": {"res": "Settings:@array/lock_after_timeout_entries:1", "hu": "5 másodperc", "de": "5 Sekunden", "fr": "5 secondes", "es": "5 segundos"},
+    "15 seconds": {"res": "Settings:@array/lock_after_timeout_entries:2", "hu": "15 másodperc", "de": "15 Sekunden", "fr": "15 secondes", "es": "15 segundos"},
+    "30 seconds": {"res": "Settings:@array/lock_after_timeout_entries:3", "hu": "30 másodperc", "de": "30 Sekunden", "fr": "30 secondes", "es": "30 segundos"},
+    "1 minute": {"res": "Settings:@array/lock_after_timeout_entries:4", "hu": "1 perc", "de": "1 Minute", "fr": "1 minute", "es": "1 minuto"},
+    "2 minutes": {"res": "Settings:@array/lock_after_timeout_entries:5", "hu": "2 perc", "de": "2 Minuten", "fr": "2 minutes", "es": "2 minutos"},
+    "5 minutes": {"res": "Settings:@array/lock_after_timeout_entries:6", "hu": "5 perc", "de": "5 Minuten", "fr": "5 minutes", "es": "5 minutos"},
+    "10 minutes": {"res": "Settings:@array/lock_after_timeout_entries:7", "hu": "10 perc", "de": "10 Minuten", "fr": "10 minutes", "es": "10 minutos"},
+    "30 minutes": {"res": "Settings:@array/lock_after_timeout_entries:8", "hu": "30 perc", "de": "30 Minuten", "fr": "30 minutes", "es": "30 minutos"},
+    "Power button instantly locks": {"res": "Settings:lockpattern_settings_enable_power_button_instantly_locks", "hu": "Bekapcsoló gomb azonnal zár", "de": "Ein-/Aus sperrt Gerät sofort", "fr": "Verr. auto bouton MARCHE-ARRÊT", "es": "Bloquear al encender"},
+    "Vibrate on touch": {"res": "Settings:lockpattern_settings_enable_tactile_feedback_title", "hu": "Érintéskor rezegjen", "de": "Bei Berührung vibrieren", "fr": "Vibrer au toucher", "es": "Vibrar al pulsar"},
+    "Owner info": {"res": "Settings:owner_info_settings_title", "hu": "Tulajdonosi adatok", "de": "Inhaberinformationen", "fr": "Infos propriétaire", "es": "Información del propietario"},
+    "Encryption": {"res": "Settings:crypt_keeper_settings_title", "hu": "Titkosítás", "de": "Verschlüsselung", "fr": "Chiffrement", "es": "Encriptación"},
+    "Encrypt phone": {"res": "Settings:crypt_keeper_encrypt_title", "hu": "Telefon titkosítása", "de": "Telefon verschlüsseln", "fr": "Chiffrer le téléphone", "es": "Encriptar teléfono"},
+    "Require a numeric PIN or password to decrypt your phone each time you power it on": {"res": "Settings:crypt_keeper_encrypt_summary", "hu": "A telefon titkosításának feloldásához kérjen minden bekapcsoláskor egy számokból álló PIN kódot vagy jelszót", "de": "Eine numerische PIN oder ein Passwort einrichten, mit dem das Telefon beim Einschalten entschlüsselt werden muss.", "fr": "Exiger un code PIN ou un mot de passe numérique pour déchiffrer le téléphone à chaque fois qu'il est allumé", "es": "Solicitar una contraseña o un PIN numérico para descifrar el teléfono cada vez que se encienda"},
+    "SIM card lock": {"res": "Settings:sim_lock_settings_title", "hu": "SIM-kártya zárolása", "de": "SIM-Kartensperre", "fr": "Verrouillage de la SIM", "es": "Bloqueo de tarjeta SIM"},
+    "Set up SIM card lock": {"res": "Settings:sim_lock_settings_category", "hu": "SIM-kártya zárolásának beállítása", "de": "SIM-Sperre einrichten", "fr": "Configurer verrouillage carte SIM", "es": "Bloqueo de tarjeta SIM"},
+    "Passwords": {"res": "Settings:security_passwords_title", "hu": "Jelszavak", "de": "Passwörter", "fr": "Mots de passe", "es": "Contraseñas"},
+    "Make passwords visible": {"res": "Settings:show_password", "hu": "Jelszó láthatóvá tétele", "de": "Passwörter sichtbar", "fr": "Faire apparaître les mots de passe", "es": "Mostrar las contraseñas"},
+    "Device administration": {"res": "Settings:device_admin_title", "hu": "Eszközfelügyelet", "de": "Geräteverwaltung", "fr": "Gestion de l'appareil", "es": "Administración de dispositivos"},
+    "Device administrators": {"res": "Settings:manage_device_admin", "hu": "Eszköz-rendszergazdák", "de": "Geräteadministratoren", "fr": "Administrateurs de l'appareil", "es": "Administradores de dispositivos"},
+    "View or deactivate device administrators": {"res": "Settings:manage_device_admin_summary", "hu": "Az eszköz rendszergazdáinak megtekintése vagy deaktiválása", "de": "Geräteadministratoren abrufen oder deaktivieren", "fr": "Afficher ou désactiver les administrateurs de l'appareil", "es": "Ver o desactivar administradores de dispositivo"},
+    "Unknown sources": {"res": "Settings:install_applications", "hu": "Ismeretlen források", "de": "Unbekannte Herkunft", "fr": "Sources inconnues", "es": "Orígenes desconocidos"},
+    "Allow installation of apps from unknown sources": {"res": "Settings:install_unknown_applications", "hu": "Nem a Marketről származó alkalmazások telepítésének engedélyezése", "de": "Installation von Nicht-Market-Apps zulassen", "fr": "Autoriser l'installation d'applications ne provenant pas de l'Android Market", "es": "Permitir instalar aplicaciones que no estén en Android Market", "en": "Allow installation of non-Market apps"},
+    "Credential storage": {"res": "Settings:credentials_title", "hu": "Hitelesítési adatok tárolója", "de": "Anmeldedatenspeicher", "fr": "Stockage des identifiants", "es": "Almacenamiento de credenciales"},
+    "Trusted credentials": {"res": "Settings:trusted_credentials", "hu": "Megbízható hitelesítő adatok", "de": "Vertrauensw. Anmeldedaten", "fr": "Certificats de confiance", "es": "Credenciales de confianza"},
+    "Display trusted CA certificates": {"res": "Settings:trusted_credentials_summary", "hu": "Megbízható CA tanúsítványok megjelenítése", "de": "Vertrauenswürdige CA-Zertifikate anzeigen", "fr": "Afficher les certificats d'autorité de confiance", "es": "Mostrar certificados de CA de confianza"},
+    "Install from storage": {"res": "Settings:credentials_install", "hu": "Telepítés tárhelyről", "de": "Von Speicher installieren", "fr": "Installer depuis la mémoire", "es": "Instalar desde almacenamiento"},
+    "Install certificates from storage": {"res": "Settings:credentials_install_summary", "hu": "Tanúsítványok telepítése tárhelyről", "de": "Zertifikate von Speicher installieren", "fr": "Installer les certificats depuis la mémoire de stockage", "es": "Instalar certificados desde almacenamiento"},
+    "Clear credentials": {"res": "Settings:credentials_reset", "hu": "Hitelesítési adatok törlése", "de": "Anmeldedaten löschen", "fr": "Effacer les identifiants", "es": "Borrar credenciales"},
+    "Remove all certificates": {"res": "Settings:credentials_reset_summary", "hu": "Összes tanúsítvány eltávolítása", "de": "Alle Zertifikate entfernen", "fr": "Supprimer tous les certificats", "es": "Eliminar todos los certificados"},
+    "No available device administrators": {"res": "Settings:no_device_admins", "hu": "Nincs elérhető eszközkezelő", "de": "Keine Geräteadministratoren verfügbar", "fr": "Aucun administrateur disponible.", "es": "No hay ningún administrador de dispositivos disponible."},
+    "Tethering & portable hotspot": {"res": "Settings:tether_settings_title_all", "hu": "Megosztás és hord. csatl. pont", "de": "Tethering & mobiler Hotspot", "fr": "Partage de connexion", "es": "Anclaje a red y zona Wi-Fi"},
+    "USB tethering": {"res": "Settings:usb_tethering_button_text", "hu": "USB megosztás", "de": "USB-Tethering", "fr": "Via USB", "es": "Anclaje de USB"},
+    "USB not connected": {"res": "Settings:usb_tethering_unavailable_subtext", "hu": "Nincs USB-kapcsolat", "de": "Keine USB-Verbindung", "fr": "USB non connecté", "es": "USB no conectado"},
+    "Portable Wi-Fi hotspot": {"res": "Settings:wifi_tether_checkbox_text", "hu": "Hordozható Wi-Fi hotspot", "de": "Mobiler WLAN-Hotspot", "fr": "Point d'accès Wi-Fi", "es": "Zona Wi-Fi portátil"},
+    "Set up Wi-Fi hotspot": {"res": "Settings:wifi_tether_configure_ap_text", "hu": "Wi-Fi hotspot konfigurálása", "de": "WLAN-Hotspot konfigurieren", "fr": "Configurer le point d'accès Wi-Fi", "es": "Configurar zona Wi-Fi", "en": "Configure Wi-Fi hotspot"},
+    "Bluetooth tethering": {"res": "Settings:bluetooth_tether_checkbox_text", "hu": "Bluetooth megosztása", "de": "Bluetooth-Tethering", "fr": "Via Bluetooth", "es": "Anclaje de Bluetooth"},
+    "Help": {"res": "Settings:tethering_help_button_text", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "Advanced Wi-Fi": {"res": "Settings:wifi_advanced_titlebar", "hu": "Haladó Wi-Fi", "de": "Erweiterte WLAN-Einstellungen", "fr": "Paramètres Wi-Fi avancés", "es": "Ajustes avanzados de Wi-Fi"},
+    "Network notification": {"res": "Settings:wifi_notify_open_networks", "hu": "Hálózati értesítés", "de": "Netzwerkhinweis", "fr": "Notification de réseau", "es": "Notificación de red"},
+    "Notify me when an open network is available": {"res": "Settings:wifi_notify_open_networks_summary", "hu": "Értesítést kérek az elérhető nyitott hálózatokról", "de": "Benachrichtigen, wenn ein offenes Netzwerk verfügbar ist", "fr": "Me notifier lorsqu'un réseau ouvert est disponible", "es": "Informarme cuando haya una red abierta disponible"},
+    "Keep Wi-Fi on during sleep": {"res": "Settings:wifi_setting_sleep_policy_title", "hu": "Tartsa bekapcsolva a Wi-Fit alvás közben", "de": "WLAN im Standby-Modus aktiviert lassen", "fr": "Wi-Fi actif en veille", "es": "Usar Wi-Fi en suspensión"},
+    "Always": {"res": "Settings:@array/wifi_sleep_policy_entries:0", "hu": "Mindig", "de": "Immer", "fr": "Toujours", "es": "Siempre"},
+    "Only when plugged in": {"res": "Settings:@array/wifi_sleep_policy_entries:1", "hu": "Csak ha csatlakoztatva van", "de": "Nur wenn angeschlossen", "fr": "Uniquement si l'appareil est branché", "es": "Solo si se está cargando"},
+    "Never (increases data usage)": {"res": "Settings:@array/wifi_sleep_policy_entries:2", "hu": "Soha (növeli az adatforgalmat)", "de": "Nie (erhöht den Datenverbrauch)", "fr": "Jamais (utilise plus de données)", "es": "Nunca (aumenta el uso de datos)"},
+    "Avoid poor connections": {"res": "Settings:wifi_enable_watchdog_service", "hu": "Kerülje a rossz minőségű kapcsolatokat", "de": "Schlechte Internetverbindungen vermeiden", "fr": "Éviter mauvaises connexions", "es": "Solo conexiones buenas"},
+    "Don't use a Wi-Fi network unless it has a good Internet connection": {"res": "Settings:wifi_enable_watchdog_service_summary", "hu": "Csak akkor használjon Wi-Fi hálózatot, ha jó internetkapcsolatot tud biztosítani", "de": "WLAN nur bei guter Internetverbindung verwenden", "fr": "Ne pas utiliser de réseau Wi-Fi, sauf en cas de connexion Internet de bonne qualité", "es": "No usar una red Wi-Fi a menos que tenga una buena conexión a Internet"},
+    "Wi-Fi frequency band": {"res": "Settings:wifi_setting_frequency_band_title", "hu": "Wi-Fi frekvenciasáv", "de": "WLAN-Frequenzband", "fr": "Plage de fréquences Wi-Fi", "es": "Banda de frecuencia WiFi"},
+    "Specify the frequency range of operation": {"res": "Settings:wifi_setting_frequency_band_summary", "hu": "Adja meg a működési frekvenciatartományt", "de": "Frequenzbereich für Betrieb festlegen", "fr": "Définir la plage de fréquences", "es": "Especificar intervalo frecuencia de funcionamiento"},
+    "Automatic": {"res": "Settings:@array/wifi_frequency_band_entries:0", "hu": "Automatikus", "de": "Automatisch", "fr": "Automatique", "es": "Automático", "en": "Auto"},
+    "5 GHz only": {"res": "Settings:@array/wifi_frequency_band_entries:1", "hu": "Csak 5 GHz", "de": "Nur 5 GHz", "fr": "5 GHz uniquement", "es": "Solo 5 GHz"},
+    "2.4 GHz only": {"res": "Settings:@array/wifi_frequency_band_entries:2", "hu": "Csak 2,4 GHz", "de": "Nur 2,4 GHz", "fr": "2,4 GHz uniquement", "es": "Solo 2,4 GHz"},
+    "MAC address": {"res": "Settings:wifi_advanced_mac_address_title", "hu": "MAC-cím", "de": "MAC-Adresse", "fr": "Adresse MAC", "es": "Dirección MAC"},
+    "Unavailable": {"res": "Settings:status_unavailable", "hu": "Nem érhető el", "de": "Nicht verfügbar", "fr": "Non disponible", "es": "No disponible"},
+    "VPN": {"res": "Settings:vpn_settings_title", "hu": "VPN", "de": "VPN", "fr": "VPN", "es": "VPN"},
+    "Add VPN profile": {"res": "Settings:vpn_create", "hu": "VPN-hálózat hozzáadása", "de": "VPN hinzufügen", "fr": "Ajouter un réseau VPN", "es": "Añadir red VPN", "en": "Add VPN network"},
+    "Mobile network settings": {"res": "Phone:mobile_networks", "hu": "Mobilhálózati beállítások", "de": "Einstellungen für Mobilfunknetze", "fr": "Paramètres du réseau mobile", "es": "Configuración de red móvil"},
+    "Data enabled": {"res": "Phone:data_enabled", "hu": "Adatok engedélyezése", "de": "Daten aktiviert", "fr": "Données activées", "es": "Habilitar datos"},
+    "Enable data access over Mobile network": {"res": "Phone:data_enable_summary", "hu": "Adathozzáférés engedélyezése mobilhálózatokon", "de": "Datenzugriff über Mobilfunknetz aktivieren", "fr": "Activer l'accès aux données sur le réseau mobile", "es": "Permitir el acceso a los datos a través de la red móvil"},
+    "Data roaming": {"res": "Phone:roaming", "hu": "Adatbarangolás", "de": "Daten-Roaming", "fr": "Itinérance des données", "es": "Itinerancia de datos"},
+    "Connect to data services when roaming": {"res": "Phone:roaming_enable", "hu": "Csatlakozás adatszolgáltatásokhoz barangolás során", "de": "Bei Roaming mit Datendienst verbinden", "fr": "Se connecter aux services de données lors de l'itinérance", "es": "Establecer conexión con servicios de datos en itinerancia"},
+    "Preferred network type": {"res": "Phone:preferred_network_mode_title", "hu": "Hálózati mód", "de": "Netzwerkmodus", "fr": "Mode réseau", "es": "Modo de red", "en": "Network Mode"},
+    "Access Point Names": {"res": "Phone:apn_settings", "hu": "Hozzáférési pontok nevei", "de": "Zugangspunkte", "fr": "Noms des points d'accès", "es": "APN"},
+    "Use only 2G networks": {"res": "Phone:prefer_2g", "hu": "Csak 2G hálózatok használata", "de": "Nur 2G-Netzwerke", "fr": "Réseau 2G seulement", "es": "Utilizar solo redes 2G"},
+    "Saves battery": {"res": "Phone:prefer_2g_summary", "hu": "Spórol az energiával", "de": "Energiesparend", "fr": "Économise la batterie", "es": "Ahorrar batería"},
+    "Network operators": {"res": "Phone:networks", "hu": "Mobilszolgáltatók", "de": "Mobilfunkanbieter", "fr": "Opérateur de réseau", "es": "Operadores de red"},
+    "Choose a network operator": {"res": "Phone:sum_carrier_select", "hu": "Mobilszolgáltató választása", "de": "Netzbetreiber auswählen", "fr": "Choisir un opérateur de réseau", "es": "Seleccionar un operador de red", "en": "Select a network operator"},
+    "Available networks": {"res": "Phone:label_available", "hu": "Elérhető hálózatok", "de": "Verfügbare Netzwerke", "fr": "Réseaux disponibles", "es": "Redes disponibles"},
+    "Search networks": {"res": "Phone:search_networks", "hu": "Hálózatkeresés", "de": "Netzwerke suchen", "fr": "Rechercher les réseaux", "es": "Buscar redes"},
+    "Search for all available networks": {"res": "Phone:sum_search_networks", "hu": "Az összes elérhető hálózat megkeresése", "de": "Nach allen verfügbaren Netzwerken suchen", "fr": "Chercher tous les réseaux disponibles", "es": "Buscar todas las redes disponibles"},
+    "Choose automatically": {"res": "Phone:select_automatically", "hu": "Automatikus kiválasztás", "de": "Automatisch auswählen", "fr": "Sélection automatique", "es": "Seleccionar automáticamente", "en": "Select automatically"},
+    "Automatically choose preferred network": {"res": "Phone:sum_select_automatically", "hu": "Preferált hálózat automatikus kiválasztása", "de": "Bevorzugtes Netzwerk automatisch auswählen", "fr": "Sélectionner automatiquement", "es": "Seleccionar la red preferida de forma automática", "en": "Automatically select preferred network"},
+    "APNs": {"res": "Settings:apn_settings", "hu": "APN-ek", "de": "APNs", "fr": "APN", "es": "APN"},
+    "New APN": {"res": "Settings:menu_new", "hu": "Új APN", "de": "Neuer APN", "fr": "Nouvel APN", "es": "APN nuevo"}
   };
-  const LANGS=['hu','de','fr','es'];
-  const S=key=>{const row=STRINGS[key];if(!row)return key;const i=LANGS.indexOf(window.AndroidI18n?.language);return (i>=0?row[i]:row[4])||key;};
+  const STR=AndroidStrings.table('settings-system',STRINGS),S=key=>STR.t(key);
   const START=Date.now();
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const defaults={autoTime:true,autoZone:true,timeOffset:0,timeZone:'Europe/Budapest',hour24:true,dateFormat:'locale',screenLock:'slide',ownerInfo:'',showOwner:false,lockAfter:'5000',powerInstantLock:true,lockTactile:true,kgWidgets:false,hotspotName:'AndroidAP',hotspotSecurity:'WPA2',bluetoothTether:false,wifiSleep:'always',wifiScanAlways:false,wifiPoorAvoid:false,wifiBand:'auto',wifiOptimize:true,networkOperator:'Telekom',networkAuto:true,networkType:'lte',only2g:false};

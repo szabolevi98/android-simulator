@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},requestAnimationFrame:()=>0,cancelAnimationFrame(){},performance:{now:()=>0}};vm.runInNewContext(fs.readFileSync('versions/2.3.6/gb-statusbar.js','utf8'),context);
 const bar=context.window.GBStatusBar,t=key=>key;

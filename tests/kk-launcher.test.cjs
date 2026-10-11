@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // KitKat Launcher3 clings: first run, then the workspace cling; the folder cling on an open folder; none in overview.
 const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/launcher-clings.js','utf8'),context);

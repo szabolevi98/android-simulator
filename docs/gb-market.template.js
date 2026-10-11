@@ -56,14 +56,11 @@
     "modify/delete SD card contents": "framework:permlab_sdcardWrite"});
   // The storefront itself (promo lines, category names) came from the server; "Unavailable" is the simulator's note.
   const OWN = {
-    'Unavailable': ['Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+    'Unavailable': {own: true, hu: 'Ebben a szimulátorban nem érhető el', de: 'In diesem Simulator nicht verfügbar', fr: 'Non disponible dans ce simulateur', es: 'No disponible en este simulador'}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const text = (lang, key) => {
-    const i = LANGS.indexOf(String(lang || 'en').slice(0, 2)), row = STRINGS[key] || OWN[key];
-    if (!row) return key;
-    return i >= 0 ? row[i] : STRINGS[key]?.[4] || key;
-  };
+  // The APK's text (STRINGS) before the simulator's own (OWN), in the named form strings.js reads.
+  const STR = AndroidStrings.table('', {...OWN, ...STRINGS});
+  const text = (lang, key) => STR.t(key, lang);
   const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/\^(\d)/g, (_, n) => args[n - 1] ?? '');
   const VERSION = '2.3.4';
   const SECTIONS = [['apps', 'Apps'], ['games', 'Games']];

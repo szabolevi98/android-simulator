@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus S: Car Home, Google Voice, Tags and Voice Dialer (gb-extra-apps.js) on GBApps.
 const w={setTimeout,clearTimeout};w.window=w;w.document={querySelector:()=>null};

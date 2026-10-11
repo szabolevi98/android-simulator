@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Recorded videos in the Gallery2 based Gallery (4.3, 4.4.4): slot overlay, PhotoView's play icon, the middle-only tap,
 // the video menu (menu/photo.xml with LocalVideo's operations) and MovieActivity's controller states.

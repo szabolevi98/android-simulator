@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},Intl};
 for(const f of ['gb-strings-contacts.js','gb-strings-phone.js','gb-phone.js'])vm.runInNewContext(fs.readFileSync(`versions/2.3.6/${f}`,'utf8'),context);

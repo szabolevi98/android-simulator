@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus S: News & Weather, Books, Earth and Voice Search (gb-google-apps.js) on GBApps.
 const w={setTimeout,clearTimeout,requestAnimationFrame:()=>0,cancelAnimationFrame(){}};w.window=w;w.document={addEventListener(){}};

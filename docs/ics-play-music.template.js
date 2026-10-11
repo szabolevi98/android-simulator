@@ -14,8 +14,7 @@
     "Shuffle": "shuffle", "Make instant mix": "menu_make_instant_mix", "Add to playlist": "add_to_playlist", "New playlist": "new_playlist_title",
     "Remove from playlist": "remove_from_playlist", "All songs": "all_songs_list", "No songs": "no_tracks_title", "More by artist": "more_by_artist",
     "Current playlist": "queue", "Settings": "settings", "Help": "help_title", "Unknown artist": "unknown_artist_name"});
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
+  const STR = AndroidStrings.table('', STRINGS, AndroidStrings.shared), T = (lang, key) => STR.t(key, lang);
   const TABS = ['Recent', 'Artists', 'Albums', 'Songs', 'Playlists', 'Genres'];
   const GENRE = {'The Demo Tapes': 'Electronic', 'Paper Satellites': 'Indie'};
   const PALETTE = [['#3c5a8a', '#f1b45d'], ['#5a2a5e', '#e0805c'], ['#2c6e5a', '#cfe08a'], ['#7a3a2a', '#f0c070'], ['#2a3a6a', '#8fc0f0']];

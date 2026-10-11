@@ -33,8 +33,8 @@ for key, name in NAMES.items():
     en, tr = by[name]
     if en != key and key != '%d unread': en, tr = direct(name)
     assert en == key or key == '%d unread', (key, en)
-    S[key] = [tr.get(l, en) for l in ('hu', 'de', 'fr', 'es')]
-    if key == '%d unread': S[key] = [v.replace('%d', '%d') for v in S[key]]
+    # The named form strings.js reads: {res, hu, de, fr, es}.
+    S[key] = {'res': f'Gmail:{name}', **{l: tr.get(l, en) for l in ('hu', 'de', 'fr', 'es')}}
 src = open(ROOT + 'docs/ics-gmail.template.js', encoding='utf-8').read()
-open(ROOT + 'versions/4.0.4/ics-gmail.js', 'w', encoding='utf-8', newline='\n').write(src.replace('__STRINGS__', json.dumps(S, ensure_ascii=False, indent=4).replace('\n', '\n  ')))
+open(ROOT + 'versions/4.0.4/ics-gmail.js', 'w', encoding='utf-8', newline='\n').write(src.replace('__STRINGS__', '{\n' + ',\n'.join(f'    {json.dumps(k, ensure_ascii=False)}: {json.dumps(v, ensure_ascii=False)}' for k, v in S.items()) + '\n  }'))
 print(len(S), 'strings')

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // 4.3 and 4.4.4 generate calendar.js from docs/calendar-jb.template.js with their own CalendarGoogle words.
 for(const [v,dev] of [['4.3','mako'],['4.4.4','hammerhead']]){

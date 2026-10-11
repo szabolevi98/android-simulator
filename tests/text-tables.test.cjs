@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
 // Audit point 10: the shared AndroidI18n table as each version's page builds it (i18n.js, then every extension in the
 // load order of index.html). A key may replace a hand-written i18n.js row (the image's wording wins), but no two
@@ -21,6 +22,6 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
   assert.equal(lp['Wireless & networks'].row.hu,'Vezeték nélküli és egyéb hálózatok');
   // The launcher labels that modules used to write by hand now come from the image with their resource.
   assert.equal(sharedTable('4.4.4').writes['Play Newsstand'].row.fr,'Play Kiosque');
-  assert.equal(sharedTable('2.3.6').writes['Voice'].row.hu,'Voice');assert.equal(sharedTable('5.1.1').writes['Add section'].row.hu,'Panel hozzáadása');
+  assert.equal(sharedTable('2.3.6').writes['Voice'].row.hu,'Voice');
   console.log('text-tables ok');
 })().catch(e=>{console.error(e);process.exit(1);});

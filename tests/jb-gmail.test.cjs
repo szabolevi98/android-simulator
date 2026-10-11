@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus 4: Gmail 4.5.1 (Gmail2.apk of JWR66Y): sectioned inbox teaser, drawer, counts and texts from the image.
 const w={};w.window=w;

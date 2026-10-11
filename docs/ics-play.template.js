@@ -23,35 +23,32 @@
   // The storefront itself (corpus and list names, prices, promo lines) came from Google's servers; these are the
   // simulator's own, and "Unavailable" is the simulator's note for what it does not do.
   const OWN = {
-    'Apps': ['Alkalmazások', 'Apps', 'Applications', 'Aplicaciones'],
-    'Games': ['Játékok', 'Spiele', 'Jeux', 'Juegos'],
-    'Music': ['Zene', 'Musik', 'Musique', 'Música'],
-    'Books': ['Könyvek', 'Bücher', 'Livres', 'Libros'],
-    'Movies': ['Filmek', 'Filme', 'Films', 'Películas'],
-    'CATEGORIES': ['KATEGÓRIÁK', 'KATEGORIEN', 'CATÉGORIES', 'CATEGORÍAS'],
-    'GENRES': ['MŰFAJOK', 'GENRES', 'GENRES', 'GÉNEROS'],
-    'FEATURED': ['KIEMELT', 'EMPFOHLEN', 'SÉLECTION', 'DESTACADO'],
-    'TOP PAID': ['LEGNÉPSZERŰBB FIZETŐS', 'TOP-KAUF', 'TOP PAYANTS', 'MÁS VENDIDO'],
-    'TOP FREE': ['LEGNÉPSZERŰBB INGYENES', 'TOP-GRATIS', 'TOP GRATUITS', 'GRATIS MÁS POPULARES'],
-    'TOP GROSSING': ['LEGNAGYOBB BEVÉTEL', 'UMSATZSTÄRKSTE', 'MEILLEURES VENTES', 'MÁS RENTABLES'],
-    'TOP NEW PAID': ['ÚJ FIZETŐS', 'NEU & KOSTENPFLICHTIG', 'NOUVEAUTÉS PAYANTES', 'NOVEDADES DE PAGO'],
-    'TOP NEW FREE': ['ÚJ INGYENES', 'NEU & GRATIS', 'NOUVEAUTÉS GRATUITES', 'NOVEDADES GRATUITAS'],
-    'TRENDING': ['FELKAPOTT', 'IM TREND', 'TENDANCES', 'TENDENCIAS'],
-    'TOP ALBUMS': ['LEGNÉPSZERŰBB ALBUMOK', 'TOP-ALBEN', 'TOP ALBUMS', 'ÁLBUMES MÁS POPULARES'],
-    'TOP SONGS': ['LEGNÉPSZERŰBB DALOK', 'TOP-SONGS', 'TOP TITRES', 'CANCIONES MÁS POPULARES'],
-    'NEW RELEASES': ['ÚJDONSÁGOK', 'NEUERSCHEINUNGEN', 'NOUVEAUTÉS', 'NOVEDADES'],
-    'TOP SELLING': ['LEGKELENDŐBB', 'BESTSELLER', 'MEILLEURES VENTES', 'MÁS VENDIDOS'],
-    'FREE': ['INGYENES', 'KOSTENLOS', 'GRATUIT', 'GRATIS'],
-    'Free': ['Ingyenes', 'Kostenlos', 'Gratuit', 'Gratis'],
-    'Free classics': ['Ingyenes klasszikusok', 'Kostenlose Klassiker', 'Classiques gratuits', 'Clásicos gratis'],
-    'Unavailable': ['Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+    'Apps': {own: true, hu: 'Alkalmazások', de: 'Apps', fr: 'Applications', es: 'Aplicaciones'},
+    'Games': {own: true, hu: 'Játékok', de: 'Spiele', fr: 'Jeux', es: 'Juegos'},
+    'Music': {own: true, hu: 'Zene', de: 'Musik', fr: 'Musique', es: 'Música'},
+    'Books': {own: true, hu: 'Könyvek', de: 'Bücher', fr: 'Livres', es: 'Libros'},
+    'Movies': {own: true, hu: 'Filmek', de: 'Filme', fr: 'Films', es: 'Películas'},
+    'CATEGORIES': {own: true, hu: 'KATEGÓRIÁK', de: 'KATEGORIEN', fr: 'CATÉGORIES', es: 'CATEGORÍAS'},
+    'GENRES': {own: true, hu: 'MŰFAJOK', de: 'GENRES', fr: 'GENRES', es: 'GÉNEROS'},
+    'FEATURED': {own: true, hu: 'KIEMELT', de: 'EMPFOHLEN', fr: 'SÉLECTION', es: 'DESTACADO'},
+    'TOP PAID': {own: true, hu: 'LEGNÉPSZERŰBB FIZETŐS', de: 'TOP-KAUF', fr: 'TOP PAYANTS', es: 'MÁS VENDIDO'},
+    'TOP FREE': {own: true, hu: 'LEGNÉPSZERŰBB INGYENES', de: 'TOP-GRATIS', fr: 'TOP GRATUITS', es: 'GRATIS MÁS POPULARES'},
+    'TOP GROSSING': {own: true, hu: 'LEGNAGYOBB BEVÉTEL', de: 'UMSATZSTÄRKSTE', fr: 'MEILLEURES VENTES', es: 'MÁS RENTABLES'},
+    'TOP NEW PAID': {own: true, hu: 'ÚJ FIZETŐS', de: 'NEU & KOSTENPFLICHTIG', fr: 'NOUVEAUTÉS PAYANTES', es: 'NOVEDADES DE PAGO'},
+    'TOP NEW FREE': {own: true, hu: 'ÚJ INGYENES', de: 'NEU & GRATIS', fr: 'NOUVEAUTÉS GRATUITES', es: 'NOVEDADES GRATUITAS'},
+    'TRENDING': {own: true, hu: 'FELKAPOTT', de: 'IM TREND', fr: 'TENDANCES', es: 'TENDENCIAS'},
+    'TOP ALBUMS': {own: true, hu: 'LEGNÉPSZERŰBB ALBUMOK', de: 'TOP-ALBEN', fr: 'TOP ALBUMS', es: 'ÁLBUMES MÁS POPULARES'},
+    'TOP SONGS': {own: true, hu: 'LEGNÉPSZERŰBB DALOK', de: 'TOP-SONGS', fr: 'TOP TITRES', es: 'CANCIONES MÁS POPULARES'},
+    'NEW RELEASES': {own: true, hu: 'ÚJDONSÁGOK', de: 'NEUERSCHEINUNGEN', fr: 'NOUVEAUTÉS', es: 'NOVEDADES'},
+    'TOP SELLING': {own: true, hu: 'LEGKELENDŐBB', de: 'BESTSELLER', fr: 'MEILLEURES VENTES', es: 'MÁS VENDIDOS'},
+    'FREE': {own: true, hu: 'INGYENES', de: 'KOSTENLOS', fr: 'GRATUIT', es: 'GRATIS'},
+    'Free': {own: true, hu: 'Ingyenes', de: 'Kostenlos', fr: 'Gratuit', es: 'Gratis'},
+    'Free classics': {own: true, hu: 'Ingyenes klasszikusok', de: 'Kostenlose Klassiker', fr: 'Classiques gratuits', es: 'Clásicos gratis'},
+    'Unavailable': {own: true, hu: 'Ebben a szimulátorban nem érhető el', de: 'In diesem Simulator nicht verfügbar', fr: 'Non disponible dans ce simulateur', es: 'No disponible en este simulador'}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const text = (lang, key) => {
-    const i = LANGS.indexOf(String(lang || 'en').slice(0, 2)), row = STRINGS[key] || OWN[key];
-    if (!row) return key;
-    return i >= 0 ? row[i] : STRINGS[key]?.[4] || key;
-  };
+  // The APK's text (STRINGS) before the simulator's own (OWN), in the named form strings.js reads.
+  const STR = AndroidStrings.table('', {...OWN, ...STRINGS});
+  const text = (lang, key) => STR.t(key, lang);
   const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/%[sd]/g, () => args[0] ?? '');
   const stripTags = s => String(s).replace(/<[^>]*>/g, '');
   const VERSION = '3.4.7';

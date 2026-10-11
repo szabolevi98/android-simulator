@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // 5.1.1 navigation bar search panel (SearchPanelView / SearchPanelCircleView android-5.1.1_r9): the dimens, the circle's
 // position, the rubber band, the Google app's assist icon; it launches Google Now in all three Jelly Bean+ simulators.

@@ -13,9 +13,8 @@
   const account = 'icecream.demo@gmail.com';
   // [hu, de, fr, es] from the image's Gmail.apk (docs/ics-gmail-strings.py fills them in from this template, docs/ics-gmail.template.js).
   const STRINGS = __STRINGS__;
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   // Gmail's own texts first, then the shared interface rows (More options, Cancel, ...).
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
+  const STR = AndroidStrings.table('', STRINGS, AndroidStrings.shared), T = (lang, key) => STR.t(key, lang);
   const LABELS = ['Inbox', 'Priority Inbox', 'Starred', 'Important', 'Chats', 'Sent', 'Outbox', 'Drafts', 'All mail', 'Spam', 'Trash'];
   // Gmail 4.0.4's own xhdpi drawables (g4-*: Gmail.apk; Up, Done, the overflow and the spinner from the IMM76I framework).
   const ICON = name => `<img src="assets/g4-${name}.png" alt="">`;

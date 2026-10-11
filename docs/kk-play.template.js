@@ -56,42 +56,39 @@
   // The storefront itself (corpus and list names, cluster titles, promo texts) came from Google's servers; these are the
   // simulator's own, and "Unavailable" is the simulator's note for what it does not do.
   const OWN = {
-    'Apps': ['Alkalmazások', 'Apps', 'Applications', 'Aplicaciones'],
-    'Games': ['Játékok', 'Spiele', 'Jeux', 'Juegos'],
-    'Music': ['Zene', 'Musik', 'Musique', 'Música'],
-    'Books': ['Könyvek', 'Bücher', 'Livres', 'Libros'],
-    'Movies & TV': ['Filmek és TV', 'Filme & Serien', 'Films et séries', 'Películas y TV'],
-    'Newsstand': ['Újságos', 'Kiosk', 'Kiosque', 'Kiosco'],
-    'Featured': ['Kiemelt', 'Empfohlen', 'Sélection', 'Destacado'],
-    'Top Paid': ['Legnépszerűbb fizetős', 'Top-Kauf', 'Top payants', 'Más vendido'],
-    'Top Free': ['Legnépszerűbb ingyenes', 'Top-Gratis', 'Top gratuits', 'Gratis más populares'],
-    'Top Grossing': ['Legnagyobb bevétel', 'Umsatzstärkste', 'Meilleures ventes', 'Más rentables'],
-    'Top New Paid': ['Új fizetős', 'Neu & kostenpflichtig', 'Nouveautés payantes', 'Novedades de pago'],
-    'Top New Free': ['Új ingyenes', 'Neu & gratis', 'Nouveautés gratuites', 'Novedades gratuitas'],
-    'Trending': ['Felkapott', 'Im Trend', 'Tendances', 'Tendencias'],
-    'Top Albums': ['Legnépszerűbb albumok', 'Top-Alben', 'Top albums', 'Álbumes más populares'],
-    'Top Songs': ['Legnépszerűbb dalok', 'Top-Songs', 'Top titres', 'Canciones más populares'],
-    'New Releases': ['Újdonságok', 'Neuerscheinungen', 'Nouveautés', 'Novedades'],
-    'Top Selling': ['Legkelendőbb', 'Bestseller', 'Meilleures ventes', 'Más vendidos'],
-    'Free': ['Ingyenes', 'Kostenlos', 'Gratuit', 'Gratis'],
-    'Recommended for You': ['Önnek ajánljuk', 'Empfehlungen für Sie', 'Recommandations pour vous', 'Recomendado para ti'],
-    'Staff Picks': ['A szerkesztők választása', 'Tipps der Redaktion', 'Choix de l\'équipe', 'Selección del equipo'],
-    'Our favourite apps this week': ['A hét kedvenc alkalmazásai', 'Unsere Lieblings-Apps der Woche', 'Nos applis préférées de la semaine', 'Nuestras aplicaciones favoritas de la semana'],
-    'Albums from $3.99': ['Albumok $3.99-tól', 'Alben ab 3,99 $', 'Albums à partir de 3,99 $', 'Álbumes desde 3,99 $'],
-    'Summer Demo Tapes': ['Nyári demófelvételek', 'Sommer-Demoaufnahmen', 'Démos de l\'été', 'Maquetas de verano'],
-    'Free classics': ['Ingyenes klasszikusok', 'Kostenlose Klassiker', 'Classiques gratuits', 'Clásicos gratis'],
-    'Timeless books, free': ['Időtálló könyvek ingyen', 'Zeitlose Bücher, kostenlos', 'Des livres intemporels, gratuits', 'Libros eternos, gratis'],
-    'Get Unlimited Music': ['Korlátlan zene', 'Unbegrenzte Musik', 'Musique illimitée', 'Música ilimitada'],
-    'Try All Access for Free': ['Próbálja ki ingyen az All Accesst', 'All Access kostenlos testen', 'Essayez All Access gratuitement', 'Prueba All Access gratis'],
-    'Phone Highlights': ['Kiemelt telefonos tartalmak', 'Highlights für Smartphones', 'À la une sur mobile', 'Destacados para móviles'],
-    'Unavailable': ['Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+    'Apps': {own: true, hu: 'Alkalmazások', de: 'Apps', fr: 'Applications', es: 'Aplicaciones'},
+    'Games': {own: true, hu: 'Játékok', de: 'Spiele', fr: 'Jeux', es: 'Juegos'},
+    'Music': {own: true, hu: 'Zene', de: 'Musik', fr: 'Musique', es: 'Música'},
+    'Books': {own: true, hu: 'Könyvek', de: 'Bücher', fr: 'Livres', es: 'Libros'},
+    'Movies & TV': {own: true, hu: 'Filmek és TV', de: 'Filme & Serien', fr: 'Films et séries', es: 'Películas y TV'},
+    'Newsstand': {own: true, hu: 'Újságos', de: 'Kiosk', fr: 'Kiosque', es: 'Kiosco'},
+    'Featured': {own: true, hu: 'Kiemelt', de: 'Empfohlen', fr: 'Sélection', es: 'Destacado'},
+    'Top Paid': {own: true, hu: 'Legnépszerűbb fizetős', de: 'Top-Kauf', fr: 'Top payants', es: 'Más vendido'},
+    'Top Free': {own: true, hu: 'Legnépszerűbb ingyenes', de: 'Top-Gratis', fr: 'Top gratuits', es: 'Gratis más populares'},
+    'Top Grossing': {own: true, hu: 'Legnagyobb bevétel', de: 'Umsatzstärkste', fr: 'Meilleures ventes', es: 'Más rentables'},
+    'Top New Paid': {own: true, hu: 'Új fizetős', de: 'Neu & kostenpflichtig', fr: 'Nouveautés payantes', es: 'Novedades de pago'},
+    'Top New Free': {own: true, hu: 'Új ingyenes', de: 'Neu & gratis', fr: 'Nouveautés gratuites', es: 'Novedades gratuitas'},
+    'Trending': {own: true, hu: 'Felkapott', de: 'Im Trend', fr: 'Tendances', es: 'Tendencias'},
+    'Top Albums': {own: true, hu: 'Legnépszerűbb albumok', de: 'Top-Alben', fr: 'Top albums', es: 'Álbumes más populares'},
+    'Top Songs': {own: true, hu: 'Legnépszerűbb dalok', de: 'Top-Songs', fr: 'Top titres', es: 'Canciones más populares'},
+    'New Releases': {own: true, hu: 'Újdonságok', de: 'Neuerscheinungen', fr: 'Nouveautés', es: 'Novedades'},
+    'Top Selling': {own: true, hu: 'Legkelendőbb', de: 'Bestseller', fr: 'Meilleures ventes', es: 'Más vendidos'},
+    'Free': {own: true, hu: 'Ingyenes', de: 'Kostenlos', fr: 'Gratuit', es: 'Gratis'},
+    'Recommended for You': {own: true, hu: 'Önnek ajánljuk', de: 'Empfehlungen für Sie', fr: 'Recommandations pour vous', es: 'Recomendado para ti'},
+    'Staff Picks': {own: true, hu: 'A szerkesztők választása', de: 'Tipps der Redaktion', fr: 'Choix de l\'équipe', es: 'Selección del equipo'},
+    'Our favourite apps this week': {own: true, hu: 'A hét kedvenc alkalmazásai', de: 'Unsere Lieblings-Apps der Woche', fr: 'Nos applis préférées de la semaine', es: 'Nuestras aplicaciones favoritas de la semana'},
+    'Albums from $3.99': {own: true, hu: 'Albumok $3.99-tól', de: 'Alben ab 3,99 $', fr: 'Albums à partir de 3,99 $', es: 'Álbumes desde 3,99 $'},
+    'Summer Demo Tapes': {own: true, hu: 'Nyári demófelvételek', de: 'Sommer-Demoaufnahmen', fr: 'Démos de l\'été', es: 'Maquetas de verano'},
+    'Free classics': {own: true, hu: 'Ingyenes klasszikusok', de: 'Kostenlose Klassiker', fr: 'Classiques gratuits', es: 'Clásicos gratis'},
+    'Timeless books, free': {own: true, hu: 'Időtálló könyvek ingyen', de: 'Zeitlose Bücher, kostenlos', fr: 'Des livres intemporels, gratuits', es: 'Libros eternos, gratis'},
+    'Get Unlimited Music': {own: true, hu: 'Korlátlan zene', de: 'Unbegrenzte Musik', fr: 'Musique illimitée', es: 'Música ilimitada'},
+    'Try All Access for Free': {own: true, hu: 'Próbálja ki ingyen az All Accesst', de: 'All Access kostenlos testen', fr: 'Essayez All Access gratuitement', es: 'Prueba All Access gratis'},
+    'Phone Highlights': {own: true, hu: 'Kiemelt telefonos tartalmak', de: 'Highlights für Smartphones', fr: 'À la une sur mobile', es: 'Destacados para móviles'},
+    'Unavailable': {own: true, hu: 'Ebben a szimulátorban nem érhető el', de: 'In diesem Simulator nicht verfügbar', fr: 'Non disponible dans ce simulateur', es: 'No disponible en este simulador'}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const text = (lang, key) => {
-    const i = LANGS.indexOf(String(lang || 'en').slice(0, 2)), row = STRINGS[key] || OWN[key];
-    if (!row) return key.trim();
-    return i >= 0 ? row[i] : STRINGS[key]?.[4] || key.trim();
-  };
+  // The APK's text (STRINGS) before the simulator's own (OWN), in the named form strings.js reads.
+  const STR = AndroidStrings.table('', {...OWN, ...STRINGS}, key => key.trim());
+  const text = (lang, key) => STR.t(key, lang);
   // Android's %1$s / %1$d and the ^1 TextUtils.expandTemplate placeholders.
   const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/%[sd]/g, () => args[0] ?? '').replace(/\^(\d)/g, (_, n) => args[n - 1] ?? '');
   const VERSION = '4.5.10';

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},performance:{now:()=>0}};vm.runInNewContext(fs.readFileSync('versions/4.3/beanbag.js','utf8'),context);
 const bag=context.window.JBBeanBag;

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Gmail settings (audit step 5): Gmail 4.5.1 (4.3), 4.6.1 (4.4.4) and 5.0.2 (5.1.1).
 for(const [v,email,about] of [['4.3','jb-email.js',true],['4.4.4','kk-email.js',true],['5.1.1','lp-email.js',false]]){

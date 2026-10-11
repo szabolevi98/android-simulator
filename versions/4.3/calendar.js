@@ -6,50 +6,15 @@
 (() => {
   'use strict';
   const MENU = {
-      "New event": [
-          "Új esemény",
-          "Neuer Termin",
-          "Nouvel événement",
-          "Nuevo evento"
-      ],
-      "Refresh": [
-          "Frissítés",
-          "Aktualisieren",
-          "Actualiser",
-          "Actualizar"
-      ],
-      "Search": [
-          "Keresés",
-          "Suche",
-          "Rechercher",
-          "Buscar"
-      ],
-      "Calendars to display": [
-          "Naptárak",
-          "Anzuzeigende Kalender",
-          "Agendas à afficher",
-          "Calendarios visibles"
-      ],
-      "Send feedback": [
-          "Visszajelzés küldése",
-          "Feedback geben",
-          "Envoyer des commentaires",
-          "Danos tu opinión"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ]
+    "New event": {"res": "CalendarGoogle:event_create", "hu": "Új esemény", "de": "Neuer Termin", "fr": "Nouvel événement", "es": "Nuevo evento"},
+    "Refresh": {"res": "CalendarGoogle:calendar_refresh", "hu": "Frissítés", "de": "Aktualisieren", "fr": "Actualiser", "es": "Actualizar"},
+    "Search": {"res": "CalendarGoogle:search", "hu": "Keresés", "de": "Suche", "fr": "Rechercher", "es": "Buscar"},
+    "Calendars to display": {"res": "CalendarGoogle:menu_select_visible_calendars", "hu": "Naptárak", "de": "Anzuzeigende Kalender", "fr": "Agendas à afficher", "es": "Calendarios visibles"},
+    "Send feedback": {"res": "CalendarGoogle:menu_feedback", "hu": "Visszajelzés küldése", "de": "Feedback geben", "fr": "Envoyer des commentaires", "es": "Danos tu opinión"},
+    "Settings": {"res": "CalendarGoogle:menu_preferences", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Help": {"res": "CalendarGoogle:menu_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"}
   };
-  const M = key => { const row = MENU[key], i = ['hu', 'de', 'fr', 'es'].indexOf(window.AndroidI18n?.language); return row ? i >= 0 ? row[i] : row[4] || key : key; };
+  const MENU_T = AndroidStrings.table('', MENU), M = key => MENU_T.t(key);
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pad = n => String(n).padStart(2, '0');
   const iso = date => `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`;

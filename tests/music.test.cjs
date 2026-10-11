@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.0.4/music.js','utf8'),context);const music=context.window.ICSMusic;
 let state=music.restore();state.queue=[0,1];state.track=1;state.position=music.tracks[1].duration-1;state.playing=true;

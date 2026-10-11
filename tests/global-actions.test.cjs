@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const load=v=>{const context={window:{}};vm.runInNewContext(fs.readFileSync(`versions/${v}/global-actions.js`,'utf8'),context);return context.window.GlobalActions;};
 const ics=load('4.0.4'),jb=load('4.3'),gb=load('2.3.6'),lp=load('5.1.1'),t=k=>k,plain=v=>JSON.parse(JSON.stringify(v));

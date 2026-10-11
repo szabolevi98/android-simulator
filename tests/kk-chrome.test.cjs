@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Stock Nexus 5: Chrome 32.0.1700.99 (Chrome.apk of KTU84P): toolbar, chrome://newtab, incognito, history, overview, menu.
 const context={window:{}};for(const f of ['stock-strings.js','chrome-pak.js','chrome.js'])vm.runInNewContext(fs.readFileSync(`versions/4.4.4/${f}`,'utf8'),context);

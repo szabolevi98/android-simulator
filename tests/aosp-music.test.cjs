@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // AOSP Music on 4.0.4 and 4.3: its own menus (long-press context menus, the legacy menu key), no simulator buttons inside.
 for(const v of ['4.0.4','4.3']){

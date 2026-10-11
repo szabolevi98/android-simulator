@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Downloads opens DocumentsUI in manage mode: KitKat's Holo Light version (kk-downloads.js) and Lollipop's own Material
 // DocumentsUI 5.1.1 (lp-downloads.js), each with the mime icons of its image's APK.

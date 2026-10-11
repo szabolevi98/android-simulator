@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const ctx={window:{}};vm.createContext(ctx);
 for(const module of ['phone-call','messaging'])vm.runInContext(fs.readFileSync(`versions/4.0.4/${module}.js`,'utf8'),ctx);

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus 6: Gmail 5.0.2 (PrebuiltGmail.apk of LMY48Y): the sectioned inbox teaser and texts from the image.
 const w={};w.window=w;

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus 5 (KTU84P) extra launcher apps (audit step 4): drawers and menus from the APKs.
 const w={window:{AndroidI18n:{language:'en',extend(){}}}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/stock-strings.js','utf8')+fs.readFileSync('versions/4.4.4/kk-extra-apps.js','utf8'),w);

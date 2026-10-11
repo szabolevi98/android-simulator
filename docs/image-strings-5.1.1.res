@@ -285,7 +285,3 @@ Call volume	framework:volume_icon_description_incall
 Rename device	Settings:wifi_p2p_menu_rename
 Live Wallpapers	LiveWallpapersPicker:live_wallpaper_picker_label
 Phone|Mute	GoogleDialer:onscreenMuteText
-Add section	PrebuiltNewsWeather:menu_group_add_section
-Edit weather display…	PrebuiltNewsWeather:menu_edit_weather_location
-Remove this section	PrebuiltNewsWeather:menu_remove_section
-Migrate settings	PrebuiltNewsWeather:menu_migrate_settings

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const ctx={window:{}};vm.createContext(ctx);vm.runInContext(fs.readFileSync('versions/4.0.4/launcher-folders.js','utf8'),ctx);const folders=ctx.window.ICSLauncherFolders;
 const fresh=()=>({homePages:Array.from({length:5},()=>Array(16).fill(null)),dock:['phone','people','apps','messaging','browser'],folders:{}});

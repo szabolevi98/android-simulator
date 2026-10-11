@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus 6: Chrome 40.0.2214.89 (Chrome.apk of LMY48Y): menu, native New Tab page, incognito page.
 const context={window:{}};for(const f of ['stock-strings.js','chrome.js'])vm.runInNewContext(fs.readFileSync(`versions/5.1.1/${f}`,'utf8'),context);

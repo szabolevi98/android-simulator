@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // TimeZonePickerDialog of the 4.3 / 4.4.4 / 5.1.1 Calendar (tzpicker.js, generated from each image).
 const same=(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m);

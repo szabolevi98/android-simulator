@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Gallery crop on 2.3.6 (Gallery3D's CropImage / HighlightView) and 4.0.4 (Gallery2's CropImage / CropView): the menu
 // entry, the crop screen, the drags and the cropped copy media.js draws from its source.

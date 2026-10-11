@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // People per image: the words of each image's contacts app (people-strings.js), the menus its code builds and its
 // ContactDeletionInteraction; Gingerbread uses its own AlertDialog and keeps only the shared removal in people.js.

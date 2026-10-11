@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus 6: Google+ 4.9.0 Photos: the white Material bar with the drawer (PhotosHomeActivity's views), CAMERA /
 // HIGHLIGHTS, search and the one-up view with photo_action_bar.xml.

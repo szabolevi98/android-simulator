@@ -4,99 +4,23 @@
    simulator's language; has() tells which items this release's menus carry. */
 (() => {
   'use strict';
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   const STRINGS = {
-      "Edit": [
-          "Szerkesztés",
-          "Bearbeiten",
-          "Modifier",
-          "Editar"
-      ],
-      "Share": [
-          "Megosztás",
-          "Teilen",
-          "Partager",
-          "Compartir"
-      ],
-      "Delete": [
-          "Törlés",
-          "Löschen",
-          "Supprimer",
-          "Eliminar"
-      ],
-      "Set ringtone": [
-          "Csengőhang",
-          "Klingeltonwahl",
-          "Régler sonnerie",
-          "Establecer tono"
-      ],
-      "All calls to voicemail": [
-          "Minden hívás a hangpostára",
-          "Alle Anrufe an Mailbox",
-          "Tous appels vers messag. voc.",
-          "Al buzón de voz"
-      ],
-      "Place on Home screen": [
-          "Helyezze el a kezdőképernyőn",
-          "Auf Startbildschirm platzieren",
-          "Placer sur l'écran d'accueil",
-          "Añadir al escritorio"
-      ],
-      "Contacts to display": [
-          "Megjelenítendő névjegyek",
-          "Kontakte zum Anzeigen",
-          "Contacts à afficher",
-          "Contactos que mostrar"
-      ],
-      "Import/export": [
-          "Importálás/exportálás",
-          "Importieren/Exportieren",
-          "Importer/Exporter",
-          "Importar/exportar"
-      ],
-      "Clear frequents": [
-          "Gyakran keresettek törlése",
-          "\"Häufig kontaktiert\" löschen",
-          "Effacer les contacts fréquents",
-          "Borrar frecuentes"
-      ],
-      "Accounts": [
-          "Fiókok",
-          "Konten",
-          "Comptes",
-          "Cuentas"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "This contact will be deleted.": [
-          "A névjegy törlésre kerül.",
-          "Dieser Kontakt wird gelöscht.",
-          "Ce contact sera supprimé.",
-          "El contacto se eliminará."
-      ],
-      "OK": [
-          "OK",
-          "OK",
-          "OK",
-          "Aceptar"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ]
+    "Edit": {"res": "Contacts:menu_editContact", "hu": "Szerkesztés", "de": "Bearbeiten", "fr": "Modifier", "es": "Editar"},
+    "Share": {"res": "Contacts:menu_share", "hu": "Megosztás", "de": "Teilen", "fr": "Partager", "es": "Compartir"},
+    "Delete": {"res": "Contacts:menu_deleteContact", "hu": "Törlés", "de": "Löschen", "fr": "Supprimer", "es": "Eliminar"},
+    "Set ringtone": {"res": "Contacts:menu_set_ring_tone", "hu": "Csengőhang", "de": "Klingeltonwahl", "fr": "Régler sonnerie", "es": "Establecer tono"},
+    "All calls to voicemail": {"res": "Contacts:menu_redirect_calls_to_vm", "hu": "Minden hívás a hangpostára", "de": "Alle Anrufe an Mailbox", "fr": "Tous appels vers messag. voc.", "es": "Al buzón de voz"},
+    "Place on Home screen": {"res": "Contacts:menu_create_contact_shortcut", "hu": "Helyezze el a kezdőképernyőn", "de": "Auf Startbildschirm platzieren", "fr": "Placer sur l'écran d'accueil", "es": "Añadir al escritorio"},
+    "Contacts to display": {"res": "Contacts:menu_contacts_filter", "hu": "Megjelenítendő névjegyek", "de": "Kontakte zum Anzeigen", "fr": "Contacts à afficher", "es": "Contactos que mostrar"},
+    "Import/export": {"res": "Contacts:menu_import_export", "hu": "Importálás/exportálás", "de": "Importieren/Exportieren", "fr": "Importer/Exporter", "es": "Importar/exportar"},
+    "Clear frequents": {"res": "Contacts:menu_clear_frequents", "hu": "Gyakran keresettek törlése", "de": "\"Häufig kontaktiert\" löschen", "fr": "Effacer les contacts fréquents", "es": "Borrar frecuentes"},
+    "Accounts": {"res": "Contacts:menu_accounts", "hu": "Fiókok", "de": "Konten", "fr": "Comptes", "es": "Cuentas"},
+    "Settings": {"res": "Contacts:menu_settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Help": {"res": "Contacts:menu_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "This contact will be deleted.": {"res": "Contacts:deleteConfirmation", "hu": "A névjegy törlésre kerül.", "de": "Dieser Kontakt wird gelöscht.", "fr": "Ce contact sera supprimé.", "es": "El contacto se eliminará."},
+    "OK": {"res": "framework:ok", "hu": "OK", "de": "OK", "fr": "OK", "es": "Aceptar"},
+    "Cancel": {"res": "framework:cancel", "hu": "Mégse", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"}
   };
-  const t = (key, lang = window.AndroidI18n?.language || 'en') => { const row = STRINGS[key], i = LANGS.indexOf(lang); return row ? i >= 0 ? row[i] : row[4] || key : key; };
+  const STR = AndroidStrings.table('people', STRINGS), t = (key, lang) => STR.t(key, lang);
   window.PeopleStrings = {t, has: key => key in STRINGS, device: 'mako'};
 })();

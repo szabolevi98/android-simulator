@@ -6,19 +6,19 @@ __HEADER__
   // (SwitchPreference), choice (ListPreference: + entries, summaries or null, default index, dialog title), list (a row
   // with its summary: PreferenceScreen, Preference), scale (the animation scale dialog).
   const SECTIONS = __SECTIONS__;
-  // English -> [hu, de, fr, es] as the image's Settings.apk (or framework-res) translates it.
+  // English -> {res, hu, de, fr, es} (strings.js) as the image's Settings.apk (or framework-res) translates it.
   const STRINGS = {
     __STRINGS__
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
+  // The image's text where it has one, else the caller's t (the shared rows).
+  const STR = AndroidStrings.table('', STRINGS), reader = (lang, t) => text => STR.has(text) ? STR.t(text, lang) : t(text);
   const DEFAULTS = {developerEnabled: true, verifyUsb: true, animatorScale: 1};
   const keys = () => SECTIONS.flatMap(([, rows]) => rows.map(row => row[3]).filter(Boolean));
   // PreferenceCategory titles: Holo's list separators are all caps, Material's preference_category_material is not.
   const CATEGORY_CAPS = __CATEGORY_CAPS__;
 
   function render(settings, t, scaleLabel, lang = 'en') {
-    const on = settings.developerEnabled !== false, i = LANGS.indexOf(lang);
-    const T = text => STRINGS[text] && i >= 0 ? STRINGS[text][i] : STRINGS[text] ? text : t(text);
+    const on = settings.developerEnabled !== false, T = reader(lang, t);
     return SECTIONS.map(([category, rows]) => `${category ? `<div class="section-label">${e(CATEGORY_CAPS ? T(category).toLocaleUpperCase() : T(category))}</div>` : ''}${rows.map(([kind, title, summary, key, dependent]) => {
       const disabled = !on || (dependent && !settings.usbDebug) || (key === 'waitDebugger');
       const attrs = disabled ? 'disabled aria-disabled="true"' : '';
@@ -35,7 +35,7 @@ __HEADER__
   function dialog(key, settings, t, lang = 'en') {
     const row = SECTIONS.flatMap(([, rows]) => rows).find(item => item[0] === 'choice' && item[3] === key);
     if (!row) return '';
-    const i = LANGS.indexOf(lang), T = text => STRINGS[text] && i >= 0 ? STRINGS[text][i] : STRINGS[text] ? text : t(text);
+    const T = reader(lang, t);
     const [, , , , , entries, , fallback, title] = row, current = settings[key] ?? fallback;
     return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${e(T(title))}"><h3>${e(T(title))}</h3>${entries.map((entry, n) => `<button class="settings-row wireless-row" data-action="dev-list-pick" data-id="${key}:${n}" role="radio" aria-checked="${n === current}"><span class="row-copy">${e(T(entry))}</span>${CATEGORY_CAPS ? `<img class="holo-radio" src="assets/btn_radio_${n === current ? 'on' : 'off'}_holo_dark.png" alt="">` : `<span class="lp-radio${n === current ? ' on' : ''}" aria-hidden="true"></span>`}</button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${e(t('Cancel'))}</button></div></div>`;
   }

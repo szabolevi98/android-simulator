@@ -24,614 +24,113 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-      "Market": [
-          "Market",
-          "Market",
-          "Android Market",
-          "Market"
-      ],
-      "Android Market": [
-          "Android Market",
-          "Android Market",
-          "Android Market",
-          "Android Market"
-      ],
-      "Search Android Market": [
-          "Keresés az Android Marketen",
-          "Market durchsuchen",
-          "Rechercher...",
-          "Buscar en Android Market"
-      ],
-      "Apps": [
-          "Alkalmazások",
-          "Apps",
-          "Applications",
-          "Aplicaciones"
-      ],
-      "Games": [
-          "Játékok",
-          "Spiele",
-          "Jeux",
-          "Juegos"
-      ],
-      "My apps": [
-          "Saját alk.",
-          "Meine Apps",
-          "Mes applications",
-          "Descargadas"
-      ],
-      "Featured": [
-          "Kiemelt",
-          "Empfohlen",
-          "Sélection de contenu",
-          "Destacados"
-      ],
-      "Top paid": [
-          "Legjobb bevételű",
-          "Top kostenpflichtig",
-          "Top payant",
-          "De pago"
-      ],
-      "Top free": [
-          "Legjobb ingyenes",
-          "Top kostenlos",
-          "Top gratuit",
-          "Gratuitas"
-      ],
-      "Just in": [
-          "Csak itt",
-          "Ganz neu",
-          "Nouveautés",
-          "Nuevas"
-      ],
-      "FREE": [
-          "INGYENES",
-          "GRATIS",
-          "GRATUIT",
-          "GRATUITA"
-      ],
-      "Install": [
-          "Telepítés",
-          "Installieren",
-          "Installer",
-          "Instalar"
-      ],
-      "Uninstall": [
-          "Eltávolítás",
-          "Deinstallieren",
-          "Désinstaller",
-          "Desinstalar"
-      ],
-      "Open": [
-          "Megnyitás",
-          "Öffnen",
-          "Ouvrir",
-          "Abrir"
-      ],
-      "Buy": [
-          "Vásárlás",
-          "Kaufen",
-          "Acheter",
-          "Comprar"
-      ],
-      "Update": [
-          "Frissítés",
-          "Aktualisieren",
-          "Mettre à jour",
-          "Actualizar"
-      ],
-      "Installed": [
-          "Telepítve",
-          "Installiert",
-          "Installé",
-          "Instalada"
-      ],
-      "Downloading": [
-          "Letöltés",
-          "Download...",
-          "Téléchargement en cours",
-          "Descargando..."
-      ],
-      "Installing…": [
-          "Telepítés...",
-          "Installation...",
-          "Installation…",
-          "Instalando…"
-      ],
-      "Uninstalling…": [
-          "Eltávolítás...",
-          "Deinstallation...",
-          "Désinstallation...",
-          "Desinstalando..."
-      ],
-      "Starting download…": [
-          "Letöltés megkezdése...",
-          "Download wird gestartet...",
-          "Début du téléchargement…",
-          "Iniciando descarga…"
-      ],
-      "Downloading…": [
-          "Letöltés...",
-          "Download...",
-          "Téléchargement…",
-          "Descargando..."
-      ],
-      "Cancel download": [
-          "Letöltés megszakítása",
-          "Download abbrechen",
-          "Annuler le téléchargement",
-          "Cancelar descarga"
-      ],
-      "OK": [
-          "OK",
-          "OK",
-          "OK",
-          "Aceptar"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ],
-      "Accept permissions": [
-          "Engedélyek elfogadása",
-          "Berechtigungen akzeptieren",
-          "Accepter les autorisations",
-          "Aceptar permisos"
-      ],
-      "Allow this application to access:": [
-          "Engedély az alkalmazásnak a következők hozzáférésére:",
-          "Dieser Anwendung Zugriff erlauben auf:",
-          "Autoriser cette application à accéder à :",
-          "Permitir a esta aplicación acceder:"
-      ],
-      "No permissions required.": [
-          "Nincs szükséges engedély.",
-          "Keine Berechtigungen erforderlich.",
-          "Aucune autorisation requise.",
-          "No se necesitan permisos."
-      ],
-      "Description": [
-          "Leírás",
-          "Beschreibung",
-          "Description",
-          "Descripción"
-      ],
-      "More": [
-          "Továbbiak",
-          "Mehr",
-          "Plus",
-          "Más"
-      ],
-      "Less": [
-          "Kevesebb",
-          "Weniger",
-          "Moins",
-          "Menos"
-      ],
-      "Version %1$s": [
-          "Verzió: %1$s",
-          "Version %1$s",
-          "Version %1$s",
-          "Versión %1$s"
-      ],
-      "%1$s downloads": [
-          "%1$s letöltés",
-          "%1$s Downloads",
-          "%1$s téléchargements",
-          "%1$s descargas"
-      ],
-      "Rate it!": [
-          "Értékelje!",
-          "Bewerten!",
-          "Donnez votre avis !",
-          "¡Puntúalo!"
-      ],
-      "My review": [
-          "Saját vélemények",
-          "Meine Erfahrungsberichte",
-          "Mon avis",
-          "Mi comentario"
-      ],
-      "Let others know what you think of this application.": [
-          "Hozza mások tudomására, mi a véleménye erről az alkalmazásról.",
-          "Geben Sie Ihre Erfahrungen mit dieser Anwendung weiter.",
-          "Donnez votre avis sur cette application.",
-          "Comparte tu opinión sobre la aplicación con otros usuarios."
-      ],
-      "Unrated": [
-          "Nincs értékelve",
-          "Nicht bewertet",
-          "Aucune classification",
-          "Sin puntuar"
-      ],
-      "Poor": [
-          "Gyenge",
-          "Schwach",
-          "Médiocre",
-          "Mala"
-      ],
-      "Below average": [
-          "Átlag alatti",
-          "Unterdurchschnittlich",
-          "Peu satisfaisant",
-          "Inferior al promedio"
-      ],
-      "Average": [
-          "Átlagos",
-          "Durchschnittlich",
-          "Moyen",
-          "Normal"
-      ],
-      "Above average": [
-          "Átlag feletti",
-          "Überdurchschnittlich",
-          "Très satisfaisant",
-          "Superior a la media"
-      ],
-      "Excellent!": [
-          "Kiváló!",
-          "Ausgezeichnet!",
-          "Excellent !",
-          "Excelente"
-      ],
-      "Allow automatic updating": [
-          "Automatikus frissítés engedélyezése",
-          "Automatische Updates zulassen",
-          "Autoriser la mise à jour automatique",
-          "Actualizaciones automáticas"
-      ],
-      "Reviews": [
-          "Vélemények",
-          "Erfahrungsberichte",
-          "Avis",
-          "Comentarios"
-      ],
-      "The most recent reviews are shown here, touch More below to read all reviews.": [
-          "A legutóbbi értékelések láthatók itt. Az összes értékelés elolvasásához érintse meg a További gombot.",
-          "Hier werden die neuesten Beurteilungen angezeigt. Tippen Sie unten auf \"Mehr\", um alle Beurteilungen zu lesen.",
-          "Les avis les plus récents sont affichés ici. Appuyez sur Plus ci-dessous pour lire tous les avis.",
-          "En esta página se muestran los comentarios más recientes. Toca la opción \"Más\" que aparece a continuación para leer todos los comentarios."
-      ],
-      "Related": [
-          "Kapcsolódó",
-          "Ähnliche",
-          "Voir aussi",
-          "Relacionados"
-      ],
-      "The most relevant applications are shown here. Touch More below to see all related applications.": [
-          "Itt a legrelevánsabb alkalmazások láthatók. Érintse meg a További gombot az összes kapcsolódó alkalmazás megtekintéséhez.",
-          "Hier werden die relevantesten Anwendungen angezeigt. Tippen Sie unten auf \"Mehr\", um alle ähnlichen Anwendungen zu sehen.",
-          "Les applications les plus utiles sont affichées ici. Appuyez sur Plus ci-dessous pour voir la liste de toutes les applications associées.",
-          "Las aplicaciones más importantes se muestran en esta página. Toca la opción \"Más\" situada debajo para ver todas las aplicaciones relacionadas."
-      ],
-      "Developer Info": [
-          "Fejlesztői információk",
-          "Entwickler-Informationen",
-          "Infos sur le développeur",
-          "Información para desarrolladores"
-      ],
-      "Learn more about the creator and designer.": [
-          "További információk a fejlesztőről és a tervezőről.",
-          "Weitere Informationen zum Entwickler und Designer",
-          "En savoir plus sur le créateur et le concepteur",
-          "Más información sobre el creador y el diseñador"
-      ],
-      "Sharing": [
-          "Megosztás",
-          "Freigabe",
-          "Partage",
-          "Uso compartido"
-      ],
-      "Let your friends know about this application.": [
-          "Ismertesse meg ismerőseivel is ezt az alkalmazást.",
-          "Geben Sie Ihre Erfahrungen mit dieser Anwendung an Ihre Freunde weiter.",
-          "Faites découvrir cette application à vos amis.",
-          "Informa a tus amigos sobre esta aplicación."
-      ],
-      "Market content": [
-          "Market-tartalom",
-          "Market-Content",
-          "Contenu Android Market",
-          "Contenido de Market"
-      ],
-      "A chance to give us some feedback.": [
-          "Visszajelzést küldhet nekünk.",
-          "Geben Sie uns Feedback.",
-          "Laissez-nous un commentaire.",
-          "Una oportunidad para enviarnos tus comentarios"
-      ],
-      "Flag as inappropriate": [
-          "Megjelölés nem megfelelőként",
-          "Als unangemessen kennzeichnen",
-          "Signaler du contenu pouvant offenser",
-          "Marcar como inadecuado"
-      ],
-      "Currently downloading": [
-          "Jelenlegi letöltések",
-          "Aktuelle Downloads",
-          "En cours de téléchargement",
-          "Descargas en curso"
-      ],
-      "Downloads": [
-          "Letöltések",
-          "Downloads",
-          "Téléchargements",
-          "Descargas"
-      ],
-      "No downloads from Android Market.": [
-          "Nincsenek letöltések az Android Marketről.",
-          "Keine Downloads von Android Market",
-          "Aucun téléchargement depuis Android Market.",
-          "No hay descargas de Android Market."
-      ],
-      "Update all": [
-          "Összes frissítése",
-          "Alle aktualisieren",
-          "Tout mettre à jour",
-          "Actualizar todo"
-      ],
-      "Search": [
-          "Keresés",
-          "Suche",
-          "Rechercher",
-          "Buscar"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "settings": [
-          "beállítások",
-          "Einstellungen",
-          "paramètres",
-          "ajustes"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Home": [
-          "Otthoni",
-          "Startseite",
-          "Accueil",
-          "Inicio"
-      ],
-      "Security": [
-          "Biztonság",
-          "Sicherheit",
-          "Sécurité",
-          "Seguridad"
-      ],
-      "Clear my review": [
-          "Véleményem törlése",
-          "Meine Rezensionen löschen",
-          "Effacer mon avis",
-          "Borrar mi valoración"
-      ],
-      "Content filtering": [
-          "Tartalomszűrés",
-          "Filter für Inhalte",
-          "Filtrage du contenu",
-          "Filtrado de contenido"
-      ],
-      "Set the content filtering level to restrict applications that can be downloaded.": [
-          "Tartalomszűrő szintjének beállítása letölthető alkalmazások korlátozására.",
-          "Legen Sie die Inhaltsfilterung so fest, dass der Zugriff auf Anwendungen, die heruntergeladen werden können, beschränkt wird.",
-          "Définir le niveau de filtrage du contenu de manière à limiter les applications qui peuvent être téléchargées",
-          "Define el nivel de filtrado de contenido para restringir las aplicaciones que se pueden descargan."
-      ],
-      "Allow apps rated": [
-          "Értékelt alk. engedélyezése",
-          "Bewertete Apps zulassen",
-          "Autoriser app. classées",
-          "Aplicaciones clasificadas"
-      ],
-      "Show all apps": [
-          "Összes alkalmazást megjelenít",
-          "Alle Apps anzeigen",
-          "Afficher toutes applications",
-          "Mostrar todas las aplicaciones"
-      ],
-      "High maturity": [
-          "Érett korosztály",
-          "Hohe Stufe",
-          "Maturité élevée",
-          "Nivel de madurez alto"
-      ],
-      "Medium maturity": [
-          "Közepesen érett korosztály",
-          "Mittlere Stufe",
-          "Maturité moyenne",
-          "Nivel de madurez medio"
-      ],
-      "Low maturity": [
-          "Legfiatalabb korosztály",
-          "Niedrige Stufe",
-          "Maturité faible",
-          "Nivel de madurez bajo"
-      ],
-      "Everyone": [
-          "Mindenki",
-          "Alle Stufen",
-          "Tous",
-          "Todos los públicos"
-      ],
-      "Notifications": [
-          "Értesítések",
-          "Benachrichtigungen",
-          "Notifications",
-          "Notificaciones"
-      ],
-      "Choose whether to be notified if there are updates to apps or games that you have downloaded": [
-          "Döntse el, hogy kér-e értesítést a letöltött alkalmazásokhoz és játékokhoz kijött frissítésekről",
-          "Wählen Sie aus, ob Sie über Aktualisierungen der von Ihnen heruntergeladenen Apps oder Spiele informiert werden möchten.",
-          "Indiquez si vous souhaitez être informé lorsque des mises à jour sont disponibles pour les applications ou les jeux que vous avez téléchargés.",
-          "Elige si deseas que te informemos de las actualizaciones de aplicaciones o de los juegos que te has descargado."
-      ],
-      "Notify me": [
-          "Értesítést kérek",
-          "Mich benachrichtigen",
-          "M'informer",
-          "Informarme"
-      ],
-      "Do not notify me": [
-          "Nem kérek értesítést",
-          "Mich nicht benachrichtigen",
-          "Ne pas m'informer",
-          "No informarme"
-      ],
-      "No matching content in Android Market.": [
-          "Nincs megfelelő tartalom az Android Marketen.",
-          "Keine Treffer in Android Market.",
-          "Aucun contenu correspondant dans Android Market.",
-          "No se ha encontrado ningún contenido coincidente con la solicitud en Android Market."
-      ],
-      "No search results": [
-          "Eredménytelen keresés",
-          "Keine Suchergebnisse",
-          "Aucun résultat de recherche",
-          "Ningún resultado de búsqueda"
-      ],
-      "There are no matches in Android Market for the search: ^1": [
-          "Nincs találat az Android Marketen a következő keresésre: <b>^1</b>",
-          "Es wurden keine Treffer in Android Markt für folgende Suche gefunden: <b>^1</b>",
-          "Aucune correspondance dans Android Market pour la recherche : <b>^1</b>",
-          "No se ha encontrado en Android Market ningún resultado coincidente con la búsqueda: <b>^1</b>",
-          "There are no matches in Android Market for the search: <b>^1</b>"
-      ],
-      "Suggestions:": [
-          "Javaslatok:",
-          "Vorschläge:",
-          "Suggestions :",
-          "Sugerencias:"
-      ],
-      "Make sure all words are spelled correctly.": [
-          "Ellenőrizze, hogy az összes szót helyesen írta-e.",
-          "Überprüfen Sie, ob alle Wörter richtig geschrieben sind.",
-          "Vérifiez que tous les mots sont correctement orthographiés.",
-          "Asegúrate de que todas las palabras estén escritas correctamente."
-      ],
-      "Try different search words.": [
-          "Próbálkozzon más keresőszavakkal.",
-          "Versuchen Sie es mit anderen Suchbegriffen.",
-          "Essayez avec des termes de recherche différents.",
-          "Prueba diferentes palabras de búsqueda."
-      ],
-      "Try more general search words.": [
-          "Próbálkozzon általánosabb keresőszavakkal.",
-          "Versuchen Sie es mit allgemeineren Begriffen.",
-          "Essayez avec des termes de recherche plus généraux.",
-          "Prueba palabras de búsqueda más generales."
-      ],
-      "Uninstall application": [
-          "Alkalmazás eltávolítása",
-          "Anwendung deinstallieren",
-          "Désinstaller l'application",
-          "Desinstalar aplicación"
-      ],
-      "%1$s will be removed from this phone.": [
-          "%1$s el lesz távolítva erről a telefonról.\n\nEzt a tételt további költségek nélkül újratelepítheti a telefonjára.",
-          "%1$s wird von diesem Telefon entfernt.\n\nSie können dieses Element erneut kostenlos auf Ihrem Telefon installieren.",
-          "%1$s sera supprimé de ce téléphone.\n\nVous pourrez réinstaller cet élément sur votre téléphone sans frais supplémentaires.",
-          "%1$s se eliminará del teléfono.\n\nPodrás volver a instalar esta aplicación en el teléfono cuando lo desees sin coste alguno.",
-          "%1$s will be removed from this phone.\n\nThis item can be installed again on your phone at no charge."
-      ],
-      "Please tell us why you removed this item:": [
-          "Kérjük, árulja el, miért távolította el ezt az alkalmazást:",
-          "Bitte teilen Sie uns mit, warum Sie diese Anwendung entfernt haben:",
-          "Merci de nous indiquer la raison pour laquelle vous avez supprimé cet élément :",
-          "Indica el motivo por el que has eliminado este elemento:"
-      ],
-      "I don't use or want it.": [
-          "Nem használom/nincs rá szükségem.",
-          "Ich verwende oder möchte sie nicht.",
-          "Je ne l'utilise pas/ne veux pas l'utiliser.",
-          "No la utilizo o no me interesa."
-      ],
-      "I need more space on my phone.": [
-          "Több helyre van szükségem a telefonon.",
-          "Ich benötige mehr Speicherplatz auf meinem Telefon.",
-          "Je souhaite libérer de l'espace.",
-          "Necesito más espacio en el teléfono."
-      ],
-      "It's defective.": [
-          "Hibás.",
-          "Fehlerhaft",
-          "Il ne fonctionne pas correctement.",
-          "Es defectuosa."
-      ],
-      "It's malicious.": [
-          "Rosszindulatú.",
-          "Schädlich",
-          "Il s'agit d'une application malveillante.",
-          "Es una aplicación malintencionada."
-      ],
-      "I'd rather not say.": [
-          "Inkább nem mondom meg.",
-          "Möchte ich lieber nicht sagen.",
-          "Je préfère ne pas préciser mes raisons.",
-          "Prefiero no indicar el motivo."
-      ],
-      "Successfully installed.": [
-          "Sikeresen telepítve.",
-          "Erfolgreich installiert",
-          "Installation terminée.",
-          "La aplicación se ha instalado correctamente."
-      ],
-      "Network communication": [
-          "Hálózati kommunikáció",
-          "Netzwerkkommunikation",
-          "Communications réseau",
-          "Comunicación de red"
-      ],
-      "full Internet access": [
-          "teljes internet-hozzáférés",
-          "uneingeschränkter Internetzugriff",
-          "Accès Internet complet",
-          "acceso íntegro a Internet"
-      ],
-      "Hardware controls": [
-          "Hardver vezérlése",
-          "Hardware-Steuerelemente",
-          "Commandes du matériel",
-          "Controles de hardware"
-      ],
-      "control vibrator": [
-          "rezgés vezérlése",
-          "Vibrationsalarm steuern",
-          "Contrôle du vibreur",
-          "controlar vibración"
-      ],
-      "Storage": [
-          "Tárhely",
-          "Speicher",
-          "Stockage",
-          "Almacenamiento"
-      ],
-      "modify/delete SD card contents": [
-          "USB-tár tartalmának módosítása és törlése",
-          "USB-Speicherinhalt ändern/löschen",
-          "modif./suppr. contenu mémoire USB",
-          "modificar/borrar contenido USB",
-          "modify/delete USB storage contents"
-      ]
+    "Market": {"res": "Vending:application_name", "hu": "Market", "de": "Market", "fr": "Android Market", "es": "Market"},
+    "Android Market": {"res": "Vending:search_label", "hu": "Android Market", "de": "Android Market", "fr": "Android Market", "es": "Android Market"},
+    "Search Android Market": {"res": "Vending:search_hint", "hu": "Keresés az Android Marketen", "de": "Market durchsuchen", "fr": "Rechercher...", "es": "Buscar en Android Market"},
+    "Apps": {"res": "Vending:apps", "hu": "Alkalmazások", "de": "Apps", "fr": "Applications", "es": "Aplicaciones"},
+    "Games": {"res": "Vending:games", "hu": "Játékok", "de": "Spiele", "fr": "Jeux", "es": "Juegos"},
+    "My apps": {"res": "Vending:my_downloads_title", "hu": "Saját alk.", "de": "Meine Apps", "fr": "Mes applications", "es": "Descargadas"},
+    "Featured": {"res": "Vending:featured_str", "hu": "Kiemelt", "de": "Empfohlen", "fr": "Sélection de contenu", "es": "Destacados"},
+    "Top paid": {"res": "Vending:top_paid", "hu": "Legjobb bevételű", "de": "Top kostenpflichtig", "fr": "Top payant", "es": "De pago"},
+    "Top free": {"res": "Vending:top_free", "hu": "Legjobb ingyenes", "de": "Top kostenlos", "fr": "Top gratuit", "es": "Gratuitas"},
+    "Just in": {"res": "Vending:whats_new", "hu": "Csak itt", "de": "Ganz neu", "fr": "Nouveautés", "es": "Nuevas"},
+    "FREE": {"res": "Vending:asset_free_label", "hu": "INGYENES", "de": "GRATIS", "fr": "GRATUIT", "es": "GRATUITA"},
+    "Install": {"res": "Vending:install", "hu": "Telepítés", "de": "Installieren", "fr": "Installer", "es": "Instalar"},
+    "Uninstall": {"res": "Vending:uninstall", "hu": "Eltávolítás", "de": "Deinstallieren", "fr": "Désinstaller", "es": "Desinstalar"},
+    "Open": {"res": "Vending:launch", "hu": "Megnyitás", "de": "Öffnen", "fr": "Ouvrir", "es": "Abrir"},
+    "Buy": {"res": "Vending:buy", "hu": "Vásárlás", "de": "Kaufen", "fr": "Acheter", "es": "Comprar"},
+    "Update": {"res": "Vending:update", "hu": "Frissítés", "de": "Aktualisieren", "fr": "Mettre à jour", "es": "Actualizar"},
+    "Installed": {"res": "Vending:installed", "hu": "Telepítve", "de": "Installiert", "fr": "Installé", "es": "Instalada"},
+    "Downloading": {"res": "Vending:downloading", "hu": "Letöltés", "de": "Download...", "fr": "Téléchargement en cours", "es": "Descargando..."},
+    "Installing…": {"res": "Vending:installing", "hu": "Telepítés...", "de": "Installation...", "fr": "Installation…", "es": "Instalando…"},
+    "Uninstalling…": {"res": "Vending:uninstalling", "hu": "Eltávolítás...", "de": "Deinstallation...", "fr": "Désinstallation...", "es": "Desinstalando..."},
+    "Starting download…": {"res": "Vending:download_pending", "hu": "Letöltés megkezdése...", "de": "Download wird gestartet...", "fr": "Début du téléchargement…", "es": "Iniciando descarga…"},
+    "Downloading…": {"res": "Vending:download_downloading", "hu": "Letöltés...", "de": "Download...", "fr": "Téléchargement…", "es": "Descargando..."},
+    "Cancel download": {"res": "Vending:cancel_download", "hu": "Letöltés megszakítása", "de": "Download abbrechen", "fr": "Annuler le téléchargement", "es": "Cancelar descarga"},
+    "OK": {"res": "Vending:ok", "hu": "OK", "de": "OK", "fr": "OK", "es": "Aceptar"},
+    "Cancel": {"res": "Vending:cancel", "hu": "Mégse", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"},
+    "Accept permissions": {"res": "Vending:accept_permissions", "hu": "Engedélyek elfogadása", "de": "Berechtigungen akzeptieren", "fr": "Accepter les autorisations", "es": "Aceptar permisos"},
+    "Allow this application to access:": {"res": "Vending:security_settings_desc", "hu": "Engedély az alkalmazásnak a következők hozzáférésére:", "de": "Dieser Anwendung Zugriff erlauben auf:", "fr": "Autoriser cette application à accéder à :", "es": "Permitir a esta aplicación acceder:"},
+    "No permissions required.": {"res": "Vending:no_permissions", "hu": "Nincs szükséges engedély.", "de": "Keine Berechtigungen erforderlich.", "fr": "Aucune autorisation requise.", "es": "No se necesitan permisos."},
+    "Description": {"res": "Vending:info_description_label", "hu": "Leírás", "de": "Beschreibung", "fr": "Description", "es": "Descripción"},
+    "More": {"res": "Vending:info_more", "hu": "Továbbiak", "de": "Mehr", "fr": "Plus", "es": "Más"},
+    "Less": {"res": "Vending:info_less", "hu": "Kevesebb", "de": "Weniger", "fr": "Moins", "es": "Menos"},
+    "Version %1$s": {"res": "Vending:info_version", "hu": "Verzió: %1$s", "de": "Version %1$s", "fr": "Version %1$s", "es": "Versión %1$s"},
+    "%1$s downloads": {"res": "Vending:info_downloadcount_label", "hu": "%1$s letöltés", "de": "%1$s Downloads", "fr": "%1$s téléchargements", "es": "%1$s descargas"},
+    "Rate it!": {"res": "Vending:info_rate_it", "hu": "Értékelje!", "de": "Bewerten!", "fr": "Donnez votre avis !", "es": "¡Puntúalo!"},
+    "My review": {"res": "Vending:info_my_review_label", "hu": "Saját vélemények", "de": "Meine Erfahrungsberichte", "fr": "Mon avis", "es": "Mi comentario"},
+    "Let others know what you think of this application.": {"res": "Vending:info_my_review_description", "hu": "Hozza mások tudomására, mi a véleménye erről az alkalmazásról.", "de": "Geben Sie Ihre Erfahrungen mit dieser Anwendung weiter.", "fr": "Donnez votre avis sur cette application.", "es": "Comparte tu opinión sobre la aplicación con otros usuarios."},
+    "Unrated": {"res": "Vending:unrated", "hu": "Nincs értékelve", "de": "Nicht bewertet", "fr": "Aucune classification", "es": "Sin puntuar"},
+    "Poor": {"res": "Vending:poor", "hu": "Gyenge", "de": "Schwach", "fr": "Médiocre", "es": "Mala"},
+    "Below average": {"res": "Vending:below_average", "hu": "Átlag alatti", "de": "Unterdurchschnittlich", "fr": "Peu satisfaisant", "es": "Inferior al promedio"},
+    "Average": {"res": "Vending:average", "hu": "Átlagos", "de": "Durchschnittlich", "fr": "Moyen", "es": "Normal"},
+    "Above average": {"res": "Vending:above_average", "hu": "Átlag feletti", "de": "Überdurchschnittlich", "fr": "Très satisfaisant", "es": "Superior a la media"},
+    "Excellent!": {"res": "Vending:excellent", "hu": "Kiváló!", "de": "Ausgezeichnet!", "fr": "Excellent !", "es": "Excelente"},
+    "Allow automatic updating": {"res": "Vending:info_allow_auto_updates", "hu": "Automatikus frissítés engedélyezése", "de": "Automatische Updates zulassen", "fr": "Autoriser la mise à jour automatique", "es": "Actualizaciones automáticas"},
+    "Reviews": {"res": "Vending:info_comments_label", "hu": "Vélemények", "de": "Erfahrungsberichte", "fr": "Avis", "es": "Comentarios"},
+    "The most recent reviews are shown here, touch More below to read all reviews.": {"res": "Vending:info_comments_description", "hu": "A legutóbbi értékelések láthatók itt. Az összes értékelés elolvasásához érintse meg a További gombot.", "de": "Hier werden die neuesten Beurteilungen angezeigt. Tippen Sie unten auf \"Mehr\", um alle Beurteilungen zu lesen.", "fr": "Les avis les plus récents sont affichés ici. Appuyez sur Plus ci-dessous pour lire tous les avis.", "es": "En esta página se muestran los comentarios más recientes. Toca la opción \"Más\" que aparece a continuación para leer todos los comentarios."},
+    "Related": {"res": "Vending:asset_similar", "hu": "Kapcsolódó", "de": "Ähnliche", "fr": "Voir aussi", "es": "Relacionados"},
+    "The most relevant applications are shown here. Touch More below to see all related applications.": {"res": "Vending:info_similar_assets_description", "hu": "Itt a legrelevánsabb alkalmazások láthatók. Érintse meg a További gombot az összes kapcsolódó alkalmazás megtekintéséhez.", "de": "Hier werden die relevantesten Anwendungen angezeigt. Tippen Sie unten auf \"Mehr\", um alle ähnlichen Anwendungen zu sehen.", "fr": "Les applications les plus utiles sont affichées ici. Appuyez sur Plus ci-dessous pour voir la liste de toutes les applications associées.", "es": "Las aplicaciones más importantes se muestran en esta página. Toca la opción \"Más\" situada debajo para ver todas las aplicaciones relacionadas."},
+    "Developer Info": {"res": "Vending:info_developer_label", "hu": "Fejlesztői információk", "de": "Entwickler-Informationen", "fr": "Infos sur le développeur", "es": "Información para desarrolladores"},
+    "Learn more about the creator and designer.": {"res": "Vending:info_developer_description", "hu": "További információk a fejlesztőről és a tervezőről.", "de": "Weitere Informationen zum Entwickler und Designer", "fr": "En savoir plus sur le créateur et le concepteur", "es": "Más información sobre el creador y el diseñador"},
+    "Sharing": {"res": "Vending:share_app_label", "hu": "Megosztás", "de": "Freigabe", "fr": "Partage", "es": "Uso compartido"},
+    "Let your friends know about this application.": {"res": "Vending:share_app_description", "hu": "Ismertesse meg ismerőseivel is ezt az alkalmazást.", "de": "Geben Sie Ihre Erfahrungen mit dieser Anwendung an Ihre Freunde weiter.", "fr": "Faites découvrir cette application à vos amis.", "es": "Informa a tus amigos sobre esta aplicación."},
+    "Market content": {"res": "Vending:info_market_content_label", "hu": "Market-tartalom", "de": "Market-Content", "fr": "Contenu Android Market", "es": "Contenido de Market"},
+    "A chance to give us some feedback.": {"res": "Vending:info_market_content_description", "hu": "Visszajelzést küldhet nekünk.", "de": "Geben Sie uns Feedback.", "fr": "Laissez-nous un commentaire.", "es": "Una oportunidad para enviarnos tus comentarios"},
+    "Flag as inappropriate": {"res": "Vending:flagging_title", "hu": "Megjelölés nem megfelelőként", "de": "Als unangemessen kennzeichnen", "fr": "Signaler du contenu pouvant offenser", "es": "Marcar como inadecuado"},
+    "Currently downloading": {"res": "Vending:downloading_section", "hu": "Jelenlegi letöltések", "de": "Aktuelle Downloads", "fr": "En cours de téléchargement", "es": "Descargas en curso"},
+    "Downloads": {"res": "Vending:my_downloads_section", "hu": "Letöltések", "de": "Downloads", "fr": "Téléchargements", "es": "Descargas"},
+    "No downloads from Android Market.": {"res": "Vending:empty_downloads", "hu": "Nincsenek letöltések az Android Marketről.", "de": "Keine Downloads von Android Market", "fr": "Aucun téléchargement depuis Android Market.", "es": "No hay descargas de Android Market."},
+    "Update all": {"res": "Vending:update_all", "hu": "Összes frissítése", "de": "Alle aktualisieren", "fr": "Tout mettre à jour", "es": "Actualizar todo"},
+    "Search": {"res": "Vending:search", "hu": "Keresés", "de": "Suche", "fr": "Rechercher", "es": "Buscar"},
+    "Settings": {"res": "Vending:settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "settings": {"res": "Vending:settings_title", "hu": "beállítások", "de": "Einstellungen", "fr": "paramètres", "es": "ajustes"},
+    "Help": {"res": "Vending:help_and_info", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "Home": {"res": "Vending:home", "hu": "Otthoni", "de": "Startseite", "fr": "Accueil", "es": "Inicio"},
+    "Security": {"res": "Vending:security_settings_menu", "hu": "Biztonság", "de": "Sicherheit", "fr": "Sécurité", "es": "Seguridad"},
+    "Clear my review": {"res": "Vending:clear_my_review", "hu": "Véleményem törlése", "de": "Meine Rezensionen löschen", "fr": "Effacer mon avis", "es": "Borrar mi valoración"},
+    "Content filtering": {"res": "Vending:content_filtering_label", "hu": "Tartalomszűrés", "de": "Filter für Inhalte", "fr": "Filtrage du contenu", "es": "Filtrado de contenido"},
+    "Set the content filtering level to restrict applications that can be downloaded.": {"res": "Vending:content_filtering_description", "hu": "Tartalomszűrő szintjének beállítása letölthető alkalmazások korlátozására.", "de": "Legen Sie die Inhaltsfilterung so fest, dass der Zugriff auf Anwendungen, die heruntergeladen werden können, beschränkt wird.", "fr": "Définir le niveau de filtrage du contenu de manière à limiter les applications qui peuvent être téléchargées", "es": "Define el nivel de filtrado de contenido para restringir las aplicaciones que se pueden descargan."},
+    "Allow apps rated": {"res": "Vending:select_filtering_level", "hu": "Értékelt alk. engedélyezése", "de": "Bewertete Apps zulassen", "fr": "Autoriser app. classées", "es": "Aplicaciones clasificadas"},
+    "Show all apps": {"res": "Vending:no_filtering_all_apps", "hu": "Összes alkalmazást megjelenít", "de": "Alle Apps anzeigen", "fr": "Afficher toutes applications", "es": "Mostrar todas las aplicaciones"},
+    "High maturity": {"res": "Vending:no_filtering", "hu": "Érett korosztály", "de": "Hohe Stufe", "fr": "Maturité élevée", "es": "Nivel de madurez alto"},
+    "Medium maturity": {"res": "Vending:teen_filtering", "hu": "Közepesen érett korosztály", "de": "Mittlere Stufe", "fr": "Maturité moyenne", "es": "Nivel de madurez medio"},
+    "Low maturity": {"res": "Vending:pg_filtering", "hu": "Legfiatalabb korosztály", "de": "Niedrige Stufe", "fr": "Maturité faible", "es": "Nivel de madurez bajo"},
+    "Everyone": {"res": "Vending:safe_filtering", "hu": "Mindenki", "de": "Alle Stufen", "fr": "Tous", "es": "Todos los públicos"},
+    "Notifications": {"res": "Vending:notifications", "hu": "Értesítések", "de": "Benachrichtigungen", "fr": "Notifications", "es": "Notificaciones"},
+    "Choose whether to be notified if there are updates to apps or games that you have downloaded": {"res": "Vending:notification_description", "hu": "Döntse el, hogy kér-e értesítést a letöltött alkalmazásokhoz és játékokhoz kijött frissítésekről", "de": "Wählen Sie aus, ob Sie über Aktualisierungen der von Ihnen heruntergeladenen Apps oder Spiele informiert werden möchten.", "fr": "Indiquez si vous souhaitez être informé lorsque des mises à jour sont disponibles pour les applications ou les jeux que vous avez téléchargés.", "es": "Elige si deseas que te informemos de las actualizaciones de aplicaciones o de los juegos que te has descargado."},
+    "Notify me": {"res": "Vending:enable_notifications_option", "hu": "Értesítést kérek", "de": "Mich benachrichtigen", "fr": "M'informer", "es": "Informarme"},
+    "Do not notify me": {"res": "Vending:disable_notifications_option", "hu": "Nem kérek értesítést", "de": "Mich nicht benachrichtigen", "fr": "Ne pas m'informer", "es": "No informarme"},
+    "No matching content in Android Market.": {"res": "Vending:asset_list_no_items", "hu": "Nincs megfelelő tartalom az Android Marketen.", "de": "Keine Treffer in Android Market.", "fr": "Aucun contenu correspondant dans Android Market.", "es": "No se ha encontrado ningún contenido coincidente con la solicitud en Android Market."},
+    "No search results": {"res": "Vending:search_no_assets_title", "hu": "Eredménytelen keresés", "de": "Keine Suchergebnisse", "fr": "Aucun résultat de recherche", "es": "Ningún resultado de búsqueda"},
+    "There are no matches in Android Market for the search: ^1": {"res": "Vending:search_no_assets", "hu": "Nincs találat az Android Marketen a következő keresésre: <b>^1</b>", "de": "Es wurden keine Treffer in Android Markt für folgende Suche gefunden: <b>^1</b>", "fr": "Aucune correspondance dans Android Market pour la recherche : <b>^1</b>", "es": "No se ha encontrado en Android Market ningún resultado coincidente con la búsqueda: <b>^1</b>", "en": "There are no matches in Android Market for the search: <b>^1</b>"},
+    "Suggestions:": {"res": "Vending:search_suggestions_title", "hu": "Javaslatok:", "de": "Vorschläge:", "fr": "Suggestions :", "es": "Sugerencias:"},
+    "Make sure all words are spelled correctly.": {"res": "Vending:search_suggestion1", "hu": "Ellenőrizze, hogy az összes szót helyesen írta-e.", "de": "Überprüfen Sie, ob alle Wörter richtig geschrieben sind.", "fr": "Vérifiez que tous les mots sont correctement orthographiés.", "es": "Asegúrate de que todas las palabras estén escritas correctamente."},
+    "Try different search words.": {"res": "Vending:search_suggestion2", "hu": "Próbálkozzon más keresőszavakkal.", "de": "Versuchen Sie es mit anderen Suchbegriffen.", "fr": "Essayez avec des termes de recherche différents.", "es": "Prueba diferentes palabras de búsqueda."},
+    "Try more general search words.": {"res": "Vending:search_suggestion3", "hu": "Próbálkozzon általánosabb keresőszavakkal.", "de": "Versuchen Sie es mit allgemeineren Begriffen.", "fr": "Essayez avec des termes de recherche plus généraux.", "es": "Prueba palabras de búsqueda más generales."},
+    "Uninstall application": {"res": "Vending:uninstall_application", "hu": "Alkalmazás eltávolítása", "de": "Anwendung deinstallieren", "fr": "Désinstaller l'application", "es": "Desinstalar aplicación"},
+    "%1$s will be removed from this phone.": {"res": "Vending:uninstall_application_text_non_refund", "hu": "%1$s el lesz távolítva erről a telefonról.\n\nEzt a tételt további költségek nélkül újratelepítheti a telefonjára.", "de": "%1$s wird von diesem Telefon entfernt.\n\nSie können dieses Element erneut kostenlos auf Ihrem Telefon installieren.", "fr": "%1$s sera supprimé de ce téléphone.\n\nVous pourrez réinstaller cet élément sur votre téléphone sans frais supplémentaires.", "es": "%1$s se eliminará del teléfono.\n\nPodrás volver a instalar esta aplicación en el teléfono cuando lo desees sin coste alguno.", "en": "%1$s will be removed from this phone.\n\nThis item can be installed again on your phone at no charge."},
+    "Please tell us why you removed this item:": {"res": "Vending:uninstall_reason_prompt", "hu": "Kérjük, árulja el, miért távolította el ezt az alkalmazást:", "de": "Bitte teilen Sie uns mit, warum Sie diese Anwendung entfernt haben:", "fr": "Merci de nous indiquer la raison pour laquelle vous avez supprimé cet élément :", "es": "Indica el motivo por el que has eliminado este elemento:"},
+    "I don't use or want it.": {"res": "Vending:uninstall_reason_not_use", "hu": "Nem használom/nincs rá szükségem.", "de": "Ich verwende oder möchte sie nicht.", "fr": "Je ne l'utilise pas/ne veux pas l'utiliser.", "es": "No la utilizo o no me interesa."},
+    "I need more space on my phone.": {"res": "Vending:uninstall_reason_storage", "hu": "Több helyre van szükségem a telefonon.", "de": "Ich benötige mehr Speicherplatz auf meinem Telefon.", "fr": "Je souhaite libérer de l'espace.", "es": "Necesito más espacio en el teléfono."},
+    "It's defective.": {"res": "Vending:uninstall_reason_defective", "hu": "Hibás.", "de": "Fehlerhaft", "fr": "Il ne fonctionne pas correctement.", "es": "Es defectuosa."},
+    "It's malicious.": {"res": "Vending:uninstall_reason_malicious", "hu": "Rosszindulatú.", "de": "Schädlich", "fr": "Il s'agit d'une application malveillante.", "es": "Es una aplicación malintencionada."},
+    "I'd rather not say.": {"res": "Vending:uninstall_reason_not_say", "hu": "Inkább nem mondom meg.", "de": "Möchte ich lieber nicht sagen.", "fr": "Je préfère ne pas préciser mes raisons.", "es": "Prefiero no indicar el motivo."},
+    "Successfully installed.": {"res": "Vending:notification_installation_success_message", "hu": "Sikeresen telepítve.", "de": "Erfolgreich installiert", "fr": "Installation terminée.", "es": "La aplicación se ha instalado correctamente."},
+    "Network communication": {"res": "framework:permgrouplab_network", "hu": "Hálózati kommunikáció", "de": "Netzwerkkommunikation", "fr": "Communications réseau", "es": "Comunicación de red"},
+    "full Internet access": {"res": "framework:permlab_createNetworkSockets", "hu": "teljes internet-hozzáférés", "de": "uneingeschränkter Internetzugriff", "fr": "Accès Internet complet", "es": "acceso íntegro a Internet"},
+    "Hardware controls": {"res": "framework:permgrouplab_hardwareControls", "hu": "Hardver vezérlése", "de": "Hardware-Steuerelemente", "fr": "Commandes du matériel", "es": "Controles de hardware"},
+    "control vibrator": {"res": "framework:permlab_vibrate", "hu": "rezgés vezérlése", "de": "Vibrationsalarm steuern", "fr": "Contrôle du vibreur", "es": "controlar vibración"},
+    "Storage": {"res": "framework:permgrouplab_storage", "hu": "Tárhely", "de": "Speicher", "fr": "Stockage", "es": "Almacenamiento"},
+    "modify/delete SD card contents": {"res": "framework:permlab_sdcardWrite", "hu": "USB-tár tartalmának módosítása és törlése", "de": "USB-Speicherinhalt ändern/löschen", "fr": "modif./suppr. contenu mémoire USB", "es": "modificar/borrar contenido USB", "en": "modify/delete USB storage contents"}
   };
   // The storefront itself (promo lines, category names) came from the server; "Unavailable" is the simulator's note.
   const OWN = {
-    'Unavailable': ['Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+    'Unavailable': {own: true, hu: 'Ebben a szimulátorban nem érhető el', de: 'In diesem Simulator nicht verfügbar', fr: 'Non disponible dans ce simulateur', es: 'No disponible en este simulador'}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const text = (lang, key) => {
-    const i = LANGS.indexOf(String(lang || 'en').slice(0, 2)), row = STRINGS[key] || OWN[key];
-    if (!row) return key;
-    return i >= 0 ? row[i] : STRINGS[key]?.[4] || key;
-  };
+  // The APK's text (STRINGS) before the simulator's own (OWN), in the named form strings.js reads.
+  const STR = AndroidStrings.table('', {...OWN, ...STRINGS});
+  const text = (lang, key) => STR.t(key, lang);
   const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/\^(\d)/g, (_, n) => args[n - 1] ?? '');
   const VERSION = '2.3.4';
   const SECTIONS = [['apps', 'Apps'], ['games', 'Games']];

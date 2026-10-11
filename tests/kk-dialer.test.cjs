@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // KitKat Dialer: LetterTileDrawable colours follow Java's String.hashCode; speed dial = starred, then frequently called.
 const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/kk-dialer.js','utf8'),context);

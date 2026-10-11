@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus 4 (JWR66Y): the Play apps of the image, each from its APK (audit step 4).
 const w={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.3/stock-strings.js','utf8')+fs.readFileSync('versions/4.3/play-apps.js','utf8'),w);

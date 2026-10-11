@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // 2.3.6 Voice input & output: VoiceInputOutputSettings with the one recognizer, VoiceSearch 2.1.3's settings, the microphones.
 const dir='versions/2.3.6/',html=fs.readFileSync(dir+'index.html','utf8');

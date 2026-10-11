@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Hangouts (audit step 6): archiving and Archived Hangouts, Snooze notifications with the banner, sharing a location.
 const load=(v,files)=>{const context={document:{documentElement:{lang:'hu'}}};context.window=context;for(const f of files)vm.runInNewContext(fs.readFileSync(`versions/${v}/${f}`,'utf8'),context);return context.window;};

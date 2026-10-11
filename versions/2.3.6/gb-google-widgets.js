@@ -17,153 +17,32 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-      "Latitude": [
-          "Latitude",
-          "Latitude",
-          "Latitude",
-          "Latitude"
-      ],
-      "Traffic": [
-          "Traffic",
-          "Verkehr",
-          "Trafic",
-          "Tráfico"
-      ],
-      "Last Updated: {0}": [
-          "Last Updated: {0}",
-          "Letzte Aktualisierung: {0}",
-          "Dernière mise à jour : {0}",
-          "Últim actualiz: {0}"
-      ],
-      "Unknown location": [
-          "Unknown location",
-          "Unbekannter Ort",
-          "Position inconnue",
-          "Ubicación desconoc"
-      ],
-      "Google Voice Inbox": [
-          "Google Voice Inbox",
-          "Google Voice Inbox",
-          "Google Voice Inbox",
-          "Google Voice Inbox"
-      ],
-      "Google Voice Settings": [
-          "Google Voice Settings",
-          "Google Voice Settings",
-          "Google Voice Settings",
-          "Google Voice Settings"
-      ],
-      "Google Voice": [
-          "Google Voice",
-          "Google Voice",
-          "Google Voice",
-          "Google Voice"
-      ],
-      "Google Voice (%1$d unread)": [
-          "Google Voice (%1$d unread)",
-          "Google Voice (%1$d unread)",
-          "Google Voice (%1$d unread)",
-          "Google Voice (%1$d unread)"
-      ],
-      "Missed call from %1$s": [
-          "Missed call from %1$s",
-          "Missed call from %1$s",
-          "Missed call from %1$s",
-          "Missed call from %1$s"
-      ],
-      "%1$s: %2$s": [
-          "%1$s: %2$s",
-          "%1$s: %2$s",
-          "%1$s: %2$s",
-          "%1$s: %2$s"
-      ],
-      "No messages in your inbox.": [
-          "No messages in your inbox.",
-          "No messages in your inbox.",
-          "No messages in your inbox.",
-          "No messages in your inbox."
-      ],
-      "Do not disturb on": [
-          "Do not disturb on",
-          "Do not disturb on",
-          "Do not disturb on",
-          "Do not disturb on"
-      ],
-      "Do not disturb off": [
-          "Do not disturb off",
-          "Do not disturb off",
-          "Do not disturb off",
-          "Do not disturb off"
-      ],
-      "Calendar": [
-          "Naptár",
-          "Kalender",
-          "Agenda",
-          "Calendar"
-      ],
-      "No upcoming calendar events": [
-          "Nincsenek közelgő események a naptárban",
-          "Keine anstehenden Termine",
-          "Aucun événement à venir",
-          "No hay futuros eventos en el calendario."
-      ],
-      "1 more event": [
-          "1 további esemény",
-          "Ein weiterer Termin",
-          "1 autre événement",
-          "Un (1) evento más"
-      ],
-      "%d more events": [
-          "%d további esemény",
-          "%d weitere Termine",
-          "%d autres événements",
-          "%d eventos más"
-      ],
-      "Rate Places": [
-          "Rate Places",
-          "Orte bewerten",
-          "Donnez votre avis",
-          "Puntuar sitios"
-      ],
-      "You rated:": [
-          "You rated:",
-          "Sie haben bewertet: ",
-          "Votre note : ",
-          "Tu puntuación: "
-      ],
-      "Updated {0}": [
-          "Updated {0}",
-          "Aktualisiert am {0}",
-          "Mis à jour il y a {0}",
-          "Actualizado {0}"
-      ],
-      "Posting publicly as {0}": [
-          "Posting publicly as {0}",
-          "Öffentlich gepostet als {0}",
-          "Post public associé au nom {0}",
-          "Publicado públicamente como {0}"
-      ],
-      "Say more": [
-          "Say more",
-          "Mehr",
-          "Autres commentaires",
-          "¿Algo más?"
-      ],
-      "Select a place:": [
-          "Select a place:",
-          "Ort auswählen: ",
-          "Sélectionnez une adresse : ",
-          "Seleccionar un sitio: "
-      ],
-      "No location information": [
-          "No location information",
-          "Keine Standortinformationen",
-          "Aucune information géographique",
-          "Sin información de ubicación"
-      ]
+    "Latitude": {"res": "Maps:LATITUDE_APP_NAME", "hu": "Latitude", "de": "Latitude", "fr": "Latitude", "es": "Latitude"},
+    "Traffic": {"res": "Maps:TRAFFIC_WIDGET_NAME", "hu": "Traffic", "de": "Verkehr", "fr": "Trafic", "es": "Tráfico"},
+    "Last Updated: {0}": {"res": "Maps:LATITUDE_WIDGET_FRIENDS_LAST_UPDATED_TIME_ABSOLUTE", "hu": "Last Updated: {0}", "de": "Letzte Aktualisierung: {0}", "fr": "Dernière mise à jour : {0}", "es": "Últim actualiz: {0}"},
+    "Unknown location": {"res": "Maps:LATITUDE_WIDGET_FRIENDS_LOCATION_UNKNOWN", "hu": "Unknown location", "de": "Unbekannter Ort", "fr": "Position inconnue", "es": "Ubicación desconoc"},
+    "Google Voice Inbox": {"res": "googlevoice:widget_inbox_label", "hu": "Google Voice Inbox", "de": "Google Voice Inbox", "fr": "Google Voice Inbox", "es": "Google Voice Inbox"},
+    "Google Voice Settings": {"res": "googlevoice:widget_settings_label", "hu": "Google Voice Settings", "de": "Google Voice Settings", "fr": "Google Voice Settings", "es": "Google Voice Settings"},
+    "Google Voice": {"res": "googlevoice:widget_inbox_title_no_messages", "hu": "Google Voice", "de": "Google Voice", "fr": "Google Voice", "es": "Google Voice"},
+    "Google Voice (%1$d unread)": {"res": "googlevoice:widget_inbox_title_unread", "hu": "Google Voice (%1$d unread)", "de": "Google Voice (%1$d unread)", "fr": "Google Voice (%1$d unread)", "es": "Google Voice (%1$d unread)"},
+    "Missed call from %1$s": {"res": "googlevoice:widget_inbox_preview_missed_call", "hu": "Missed call from %1$s", "de": "Missed call from %1$s", "fr": "Missed call from %1$s", "es": "Missed call from %1$s"},
+    "%1$s: %2$s": {"res": "googlevoice:widget_inbox_preview_text_message_in", "hu": "%1$s: %2$s", "de": "%1$s: %2$s", "fr": "%1$s: %2$s", "es": "%1$s: %2$s"},
+    "No messages in your inbox.": {"res": "googlevoice:widget_inbox_preview_no_messages", "hu": "No messages in your inbox.", "de": "No messages in your inbox.", "fr": "No messages in your inbox.", "es": "No messages in your inbox."},
+    "Do not disturb on": {"res": "googlevoice:widget_settings_do_not_disturb_enabled_notification", "hu": "Do not disturb on", "de": "Do not disturb on", "fr": "Do not disturb on", "es": "Do not disturb on"},
+    "Do not disturb off": {"res": "googlevoice:widget_settings_do_not_disturb_disabled_notification", "hu": "Do not disturb off", "de": "Do not disturb off", "fr": "Do not disturb off", "es": "Do not disturb off"},
+    "Calendar": {"res": "CalendarProvider:gadget_title", "hu": "Naptár", "de": "Kalender", "fr": "Agenda", "es": "Calendar"},
+    "No upcoming calendar events": {"res": "CalendarProvider:gadget_no_events", "hu": "Nincsenek közelgő események a naptárban", "de": "Keine anstehenden Termine", "fr": "Aucun événement à venir", "es": "No hay futuros eventos en el calendario."},
+    "1 more event": {"res": "CalendarProvider:@plurals/gadget_more_events:one", "hu": "1 további esemény", "de": "Ein weiterer Termin", "fr": "1 autre événement", "es": "Un (1) evento más"},
+    "%d more events": {"res": "CalendarProvider:@plurals/gadget_more_events:other", "hu": "%d további esemény", "de": "%d weitere Termine", "fr": "%d autres événements", "es": "%d eventos más"},
+    "Rate Places": {"res": "Maps:HOTPOT_WIDGET_NAME", "hu": "Rate Places", "de": "Orte bewerten", "fr": "Donnez votre avis", "es": "Puntuar sitios"},
+    "You rated:": {"res": "Maps:HOTPOT_YOU_RATED", "hu": "You rated:", "de": "Sie haben bewertet: ", "fr": "Votre note : ", "es": "Tu puntuación: "},
+    "Updated {0}": {"res": "Maps:HOTPOT_WIDGET_UPDATED", "hu": "Updated {0}", "de": "Aktualisiert am {0}", "fr": "Mis à jour il y a {0}", "es": "Actualizado {0}"},
+    "Posting publicly as {0}": {"res": "Maps:HOTPOT_WIDGET_POSTING_AS", "hu": "Posting publicly as {0}", "de": "Öffentlich gepostet als {0}", "fr": "Post public associé au nom {0}", "es": "Publicado públicamente como {0}"},
+    "Say more": {"res": "Maps:HOTPOT_WIDGET_SAYMORE", "hu": "Say more", "de": "Mehr", "fr": "Autres commentaires", "es": "¿Algo más?"},
+    "Select a place:": {"res": "Maps:HOTPOT_SNAP_TO_PLACE", "hu": "Select a place:", "de": "Ort auswählen: ", "fr": "Sélectionnez une adresse : ", "es": "Seleccionar un sitio: "},
+    "No location information": {"res": "Maps:HOTPOT_NO_LOCATION", "hu": "No location information", "de": "Keine Standortinformationen", "fr": "Aucune information géographique", "es": "Sin información de ubicación"}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (lang, key) => { const i = LANGS.indexOf(lang), row = STRINGS[key]; return row ? (i >= 0 ? row[i] : row[4]) || key : key; };
+  const STR = AndroidStrings.table('', STRINGS), T = (lang, key) => STR.t(key, lang);
   // Widget providers as AppWidgetPickActivity lists them (minWidth / minHeight: 294 x 146 dip = 4 x 2, 72 x 72 = 1 x 1,
   // 220 x 72 = 3 x 1, 146 x 146 = 2 x 2).
   const PROVIDERS = [

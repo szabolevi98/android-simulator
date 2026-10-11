@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},Date};

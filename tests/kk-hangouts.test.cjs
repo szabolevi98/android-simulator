@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Stock Nexus 5: Hangouts 2.0 presents the shared SMS data (conversation list, New Hangout, conversation, menus).
 const context={window:{}};context.window.window=context.window;

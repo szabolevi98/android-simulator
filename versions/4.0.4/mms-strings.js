@@ -5,380 +5,84 @@
    SmileyParser's emo_im_* icons, in that order). MmsStrings.t(english) answers in the simulator's language. */
 (() => {
   'use strict';
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   const STRINGS = {
-      "Messaging": [
-          "Üzenetek",
-          "SMS/MMS",
-          "SMS/MMS",
-          "Mensajes"
-      ],
-      "New message": [
-          "Új üzenet",
-          "Neue Nachricht",
-          "Nouveau message",
-          "Mensaje nuevo"
-      ],
-      "Search messaging": [
-          "Keresés az üzenetekben",
-          "SMS/MMS durchsuchen",
-          "Rechercher dans les messages",
-          "Buscar mensajes"
-      ],
-      "To": [
-          "Címzett",
-          "An",
-          "À",
-          "Para"
-      ],
-      "Type message": [
-          "Írja be az üzenetet",
-          "Nachricht schreiben",
-          "Saisissez un message",
-          "Escribir mensaje"
-      ],
-      "Draft": [
-          "Piszkozat",
-          "Entwurf",
-          "Brouillon",
-          "Borrador"
-      ],
-      "No conversations.": [
-          "Nincsenek beszélgetések.",
-          "Keine Konversationen",
-          "Aucune conversation",
-          "No hay conversaciones."
-      ],
-      "Attach": [
-          "Csatolás",
-          "Anhängen",
-          "Pièce jointe",
-          "Adjuntar"
-      ],
-      "Call": [
-          "Hívás",
-          "Anrufen",
-          "Appeler",
-          "Llamar"
-      ],
-      "Send": [
-          "Küldés",
-          "Senden",
-          "Envoyer",
-          "Enviar"
-      ],
-      "MMS": [
-          "MMS",
-          "MMS",
-          "MMS",
-          "MMS"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Delete all threads": [
-          "Összes beszélgetés törlése",
-          "Alle Threads löschen",
-          "Supprimer tous les fils de discussion",
-          "Eliminar todas las conversaciones"
-      ],
-      "Add subject": [
-          "Tárgy hozzáadása",
-          "Betreff hinzufügen",
-          "Ajouter un objet",
-          "Añadir asunto"
-      ],
-      "Insert smiley": [
-          "Hangulatjel beszúrása",
-          "Smiley einfügen",
-          "Insérer une émoticône",
-          "Insertar emoticono"
-      ],
-      "Delete thread": [
-          "Szál törlése",
-          "Konversation löschen",
-          "Supprimer le fil",
-          "Eliminar cadena"
-      ],
-      "Discard": [
-          "Elvetés",
-          "Verwerfen",
-          "Supprimer",
-          "Descartar"
-      ],
-      "Add to People": [
-          "Hozzáadás a névjegyekhez",
-          "Zu Kontakten hinzufügen",
-          "Ajouter aux contacts",
-          "Añadir a Contactos"
-      ],
-      "Message options": [
-          "Üzenetbeállítások",
-          "Nachrichtenoptionen",
-          "Options du message",
-          "Opciones del mensaje"
-      ],
-      "Copy text": [
-          "Szöveg másolása",
-          "Text kopieren",
-          "Copier le texte",
-          "Copiar texto"
-      ],
-      "Forward": [
-          "Továbbítás",
-          "Weiterleiten",
-          "Transférer",
-          "Reenviar"
-      ],
-      "Lock": [
-          "Zárolás",
-          "Sperren",
-          "Verrouiller",
-          "Bloquear"
-      ],
-      "Unlock": [
-          "Feloldás",
-          "Entsperren",
-          "Déverrouiller",
-          "Desbloquear"
-      ],
-      "View details": [
-          "Részletek megjelenítése",
-          "Details anzeigen",
-          "Afficher les détails",
-          "Ver detalles"
-      ],
-      "Delete": [
-          "Törlés",
-          "Löschen",
-          "Supprimer",
-          "Eliminar"
-      ],
-      "Delete?": [
-          "Törli?",
-          "Löschen?",
-          "Supprimer ?",
-          "¿Eliminar?"
-      ],
-      "The entire thread will be deleted.": [
-          "Az egész szál törlésre kerül.",
-          "Der gesamte Thread wird gelöscht.",
-          "L'intégralité du fil de discussion va être supprimée.",
-          "Se eliminará toda la cadena."
-      ],
-      "All threads will be deleted.": [
-          "Az összes szál törlésre kerül.",
-          "Alle Threads werden gelöscht.",
-          "Tous les fils de discussion vont être supprimés.",
-          "Se eliminarán todas las conversaciones."
-      ],
-      "Delete locked messages": [
-          "Zárolt üzenetek törlése",
-          "Gesperrte Nachrichten löschen",
-          "Supprimer les messages verrouillés",
-          "Eliminar mensajes bloqueados"
-      ],
-      "The message will be deleted.": [
-          "Az üzenet törlésre kerül.",
-          "Die Nachricht wird gelöscht.",
-          "Le message va être supprimé.",
-          "Se eliminará el mensaje."
-      ],
-      "Delete this locked message?": [
-          "Törli ezt a zárolt üzenetet?",
-          "Diese gesperrte Nachricht löschen?",
-          "Supprimer ce message verrouillé ?",
-          "¿Seguro que quieres eliminar este mensaje bloqueado?"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ],
-      "Message details": [
-          "Üzenet részletei",
-          "Nachrichtendetails",
-          "Détails du message",
-          "Detalles del mensaje"
-      ],
-      "Type: ": [
-          "Típus: ",
-          "Typ: ",
-          "Type : ",
-          "Tipo: "
-      ],
-      "Text message": [
-          "Szöveges üzenet",
-          "SMS",
-          "Message SMS",
-          "Mensaje de texto"
-      ],
-      "Multimedia message": [
-          "Multimédiás üzenet",
-          "Multimedia-Nachricht",
-          "Message multimédia",
-          "Mensaje multimedia"
-      ],
-      "From: ": [
-          "Feladó: ",
-          "Von: ",
-          "De : ",
-          "De: "
-      ],
-      "To: ": [
-          "Címzett: ",
-          "An: ",
-          "À : ",
-          "Para: "
-      ],
-      "Sent: ": [
-          "Elküldve: ",
-          "Gesendet: ",
-          "Date d'envoi : ",
-          "Enviado: "
-      ],
-      "Received: ": [
-          "Kézbesítve: ",
-          "Empfangen: ",
-          "Date de réception : ",
-          "Recibido: "
-      ],
-      "Happy": [
-          "Mosoly",
-          "Glücklich",
-          "Content",
-          "Contento"
-      ],
-      "Sad": [
-          "Szomorú",
-          "Traurig",
-          "Triste",
-          "Triste"
-      ],
-      "Winking": [
-          "Kacsintás",
-          "Zwinkern",
-          "Clin d'œil",
-          "Guiño"
-      ],
-      "Tongue sticking out": [
-          "Nyelvnyújtás",
-          "Frech",
-          "Tire la langue",
-          "Sacando la lengua"
-      ],
-      "Surprised": [
-          "Meglepődött",
-          "Überrascht",
-          "Surpris",
-          "Sorprendido"
-      ],
-      "Kissing": [
-          "Csók",
-          "Kuss",
-          "Bisou",
-          "Besando"
-      ],
-      "Yelling": [
-          "Kiabálás",
-          "Schreien",
-          "Hurle",
-          "Sorpresa"
-      ],
-      "Cool": [
-          "Laza",
-          "Cool",
-          "Cool",
-          "Atractivo"
-      ],
-      "Money mouth": [
-          "Pénz beszél",
-          "Dollarzeichen",
-          "Argent",
-          "Dinero en la boca"
-      ],
-      "Foot in mouth": [
-          "Ha hallgattam volna...",
-          "Fettnäpfchen",
-          "Embarrassé",
-          "Metedura de pata"
-      ],
-      "Embarrassed": [
-          "Zavarban",
-          "Peinlich berührt",
-          "Gêné",
-          "Avergonzado"
-      ],
-      "Angel": [
-          "Angyal",
-          "Engel",
-          "Ange",
-          "Ángel"
-      ],
-      "Undecided": [
-          "Határozatlan",
-          "Unentschlossen",
-          "Indécis",
-          "Indeciso"
-      ],
-      "Crying": [
-          "Sírás",
-          "Weinen",
-          "Pleure",
-          "Llorando"
-      ],
-      "Lips are sealed": [
-          "Szót se szólok",
-          "Versiegelte Lippen",
-          "Motus",
-          "Labios sellados"
-      ],
-      "Laughing": [
-          "Nevetés",
-          "Fröhlich",
-          "Rigole",
-          "Riendo"
-      ],
-      "Confused": [
-          "Összezavarodva",
-          "Verwirrt",
-          "Confus",
-          "Confuso"
-      ],
-      "Heart": [
-          "Szív",
-          "Verliebt",
-          "Cœur",
-          "Corazón"
-      ],
-      "Mad": [
-          "Mérges",
-          "Verärgert",
-          "Mécontent",
-          "Enfadado"
-      ],
-      "Smirk": [
-          "Kacsintás",
-          "Grinsen",
-          "Sourire en coin",
-          "No mola"
-      ],
-      "Poker face": [
-          "Pókerarc",
-          "Pokergesicht",
-          "Lunettes de soleil",
-          "Cara de póquer"
-      ]
+    "Messaging": {"res": "Mms:app_label", "hu": "Üzenetek", "de": "SMS/MMS", "fr": "SMS/MMS", "es": "Mensajes"},
+    "New message": {"res": "Mms:new_message", "hu": "Új üzenet", "de": "Neue Nachricht", "fr": "Nouveau message", "es": "Mensaje nuevo"},
+    "Search messaging": {"res": "Mms:search_hint", "hu": "Keresés az üzenetekben", "de": "SMS/MMS durchsuchen", "fr": "Rechercher dans les messages", "es": "Buscar mensajes"},
+    "To": {"res": "Mms:to_hint", "hu": "Címzett", "de": "An", "fr": "À", "es": "Para"},
+    "Type message": {"res": "Mms:type_to_compose_text_enter_to_send", "hu": "Írja be az üzenetet", "de": "Nachricht schreiben", "fr": "Saisissez un message", "es": "Escribir mensaje"},
+    "Draft": {"res": "Mms:has_draft", "hu": "Piszkozat", "de": "Entwurf", "fr": "Brouillon", "es": "Borrador"},
+    "No conversations.": {"res": "Mms:no_conversations", "hu": "Nincsenek beszélgetések.", "de": "Keine Konversationen", "fr": "Aucune conversation", "es": "No hay conversaciones."},
+    "Attach": {"res": "Mms:add_attachment", "hu": "Csatolás", "de": "Anhängen", "fr": "Pièce jointe", "es": "Adjuntar"},
+    "Pictures": {"res": "Mms:attach_image", "hu": "Képek", "de": "Bilder", "fr": "Images", "es": "Imagen"},
+    "Capture picture": {"res": "Mms:attach_take_photo", "hu": "Kép rögzítése", "de": "Bild aufnehmen", "fr": "Prendre une photo", "es": "Capturar imagen"},
+    "Videos": {"res": "Mms:attach_video", "hu": "Videók", "de": "Videos", "fr": "Vidéos", "es": "Vídeos"},
+    "Capture video": {"res": "Mms:attach_record_video", "hu": "Videó rögzítése", "de": "Video aufnehmen", "fr": "Prendre une vidéo", "es": "Capturar vídeo"},
+    "Audio": {"res": "Mms:attach_sound", "hu": "Hanganyag", "de": "Audio", "fr": "Fichier audio", "es": "Audio"},
+    "Record audio": {"res": "Mms:attach_record_sound", "hu": "Hanganyag rögzítése", "de": "Audio aufnehmen", "fr": "Enregistrer message", "es": "Grabar audio"},
+    "Slideshow": {"res": "Mms:attach_slideshow", "hu": "Diavetítés", "de": "Diashow", "fr": "Diaporama", "es": "Presentación"},
+    "Play": {"res": "Mms:play", "hu": "Lejátszás", "de": "Wiedergeben", "fr": "Lire", "es": "Reproducir"},
+    "Replace": {"res": "Mms:replace", "hu": "Csere", "de": "Ersetzen", "fr": "Remplacer", "es": "Sustituir"},
+    "Remove": {"res": "Mms:remove", "hu": "Törlés", "de": "Entfernen", "fr": "Supprimer", "es": "Eliminar"},
+    "Call": {"res": "Mms:menu_call", "hu": "Hívás", "de": "Anrufen", "fr": "Appeler", "es": "Llamar"},
+    "Send": {"res": "Mms:send", "hu": "Küldés", "de": "Senden", "fr": "Envoyer", "es": "Enviar"},
+    "MMS": {"res": "Mms:mms", "hu": "MMS", "de": "MMS", "fr": "MMS", "es": "MMS"},
+    "Settings": {"res": "Mms:menu_preferences", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Delete all threads": {"res": "Mms:menu_delete_all", "hu": "Összes beszélgetés törlése", "de": "Alle Threads löschen", "fr": "Supprimer tous les fils de discussion", "es": "Eliminar todas las conversaciones"},
+    "Add subject": {"res": "Mms:add_subject", "hu": "Tárgy hozzáadása", "de": "Betreff hinzufügen", "fr": "Ajouter un objet", "es": "Añadir asunto"},
+    "Insert smiley": {"res": "Mms:menu_insert_smiley", "hu": "Hangulatjel beszúrása", "de": "Smiley einfügen", "fr": "Insérer une émoticône", "es": "Insertar emoticono"},
+    "Delete thread": {"res": "Mms:delete_thread", "hu": "Szál törlése", "de": "Konversation löschen", "fr": "Supprimer le fil", "es": "Eliminar cadena"},
+    "Discard": {"res": "Mms:discard", "hu": "Elvetés", "de": "Verwerfen", "fr": "Supprimer", "es": "Descartar"},
+    "Add to People": {"res": "Mms:menu_add_to_contacts", "hu": "Hozzáadás a névjegyekhez", "de": "Zu Kontakten hinzufügen", "fr": "Ajouter aux contacts", "es": "Añadir a Contactos"},
+    "Message options": {"res": "Mms:message_options", "hu": "Üzenetbeállítások", "de": "Nachrichtenoptionen", "fr": "Options du message", "es": "Opciones del mensaje"},
+    "Copy text": {"res": "Mms:copy_message_text", "hu": "Szöveg másolása", "de": "Text kopieren", "fr": "Copier le texte", "es": "Copiar texto"},
+    "Forward": {"res": "Mms:menu_forward", "hu": "Továbbítás", "de": "Weiterleiten", "fr": "Transférer", "es": "Reenviar"},
+    "Lock": {"res": "Mms:menu_lock", "hu": "Zárolás", "de": "Sperren", "fr": "Verrouiller", "es": "Bloquear"},
+    "Unlock": {"res": "Mms:menu_unlock", "hu": "Feloldás", "de": "Entsperren", "fr": "Déverrouiller", "es": "Desbloquear"},
+    "View details": {"res": "Mms:view_message_details", "hu": "Részletek megjelenítése", "de": "Details anzeigen", "fr": "Afficher les détails", "es": "Ver detalles"},
+    "Delete": {"res": "Mms:delete_message", "hu": "Törlés", "de": "Löschen", "fr": "Supprimer", "es": "Eliminar"},
+    "Delete?": {"res": "Mms:confirm_dialog_title", "hu": "Törli?", "de": "Löschen?", "fr": "Supprimer ?", "es": "¿Eliminar?"},
+    "The entire thread will be deleted.": {"res": "Mms:confirm_delete_conversation", "hu": "Az egész szál törlésre kerül.", "de": "Der gesamte Thread wird gelöscht.", "fr": "L'intégralité du fil de discussion va être supprimée.", "es": "Se eliminará toda la cadena."},
+    "All threads will be deleted.": {"res": "Mms:confirm_delete_all_conversations", "hu": "Az összes szál törlésre kerül.", "de": "Alle Threads werden gelöscht.", "fr": "Tous les fils de discussion vont être supprimés.", "es": "Se eliminarán todas las conversaciones."},
+    "Delete locked messages": {"res": "Mms:delete_unlocked", "hu": "Zárolt üzenetek törlése", "de": "Gesperrte Nachrichten löschen", "fr": "Supprimer les messages verrouillés", "es": "Eliminar mensajes bloqueados"},
+    "The message will be deleted.": {"res": "Mms:confirm_delete_message", "hu": "Az üzenet törlésre kerül.", "de": "Die Nachricht wird gelöscht.", "fr": "Le message va être supprimé.", "es": "Se eliminará el mensaje."},
+    "Delete this locked message?": {"res": "Mms:confirm_delete_locked_message", "hu": "Törli ezt a zárolt üzenetet?", "de": "Diese gesperrte Nachricht löschen?", "fr": "Supprimer ce message verrouillé ?", "es": "¿Seguro que quieres eliminar este mensaje bloqueado?"},
+    "Cancel": {"res": "Mms:no", "hu": "Mégse", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"},
+    "Message details": {"res": "Mms:message_details_title", "hu": "Üzenet részletei", "de": "Nachrichtendetails", "fr": "Détails du message", "es": "Detalles del mensaje"},
+    "Type: ": {"res": "Mms:message_type_label", "hu": "Típus: ", "de": "Typ: ", "fr": "Type : ", "es": "Tipo: "},
+    "Text message": {"res": "Mms:text_message", "hu": "Szöveges üzenet", "de": "SMS", "fr": "Message SMS", "es": "Mensaje de texto"},
+    "Multimedia message": {"res": "Mms:multimedia_message", "hu": "Multimédiás üzenet", "de": "Multimedia-Nachricht", "fr": "Message multimédia", "es": "Mensaje multimedia"},
+    "From: ": {"res": "Mms:from_label", "hu": "Feladó: ", "de": "Von: ", "fr": "De : ", "es": "De: "},
+    "To: ": {"res": "Mms:to_address_label", "hu": "Címzett: ", "de": "An: ", "fr": "À : ", "es": "Para: "},
+    "Sent: ": {"res": "Mms:sent_label", "hu": "Elküldve: ", "de": "Gesendet: ", "fr": "Date d'envoi : ", "es": "Enviado: "},
+    "Received: ": {"res": "Mms:received_label", "hu": "Kézbesítve: ", "de": "Empfangen: ", "fr": "Date de réception : ", "es": "Recibido: "},
+    "Happy": {"res": "Mms:@array/default_smiley_names:0", "hu": "Mosoly", "de": "Glücklich", "fr": "Content", "es": "Contento"},
+    "Sad": {"res": "Mms:@array/default_smiley_names:1", "hu": "Szomorú", "de": "Traurig", "fr": "Triste", "es": "Triste"},
+    "Winking": {"res": "Mms:@array/default_smiley_names:2", "hu": "Kacsintás", "de": "Zwinkern", "fr": "Clin d'œil", "es": "Guiño"},
+    "Tongue sticking out": {"res": "Mms:@array/default_smiley_names:3", "hu": "Nyelvnyújtás", "de": "Frech", "fr": "Tire la langue", "es": "Sacando la lengua"},
+    "Surprised": {"res": "Mms:@array/default_smiley_names:4", "hu": "Meglepődött", "de": "Überrascht", "fr": "Surpris", "es": "Sorprendido"},
+    "Kissing": {"res": "Mms:@array/default_smiley_names:5", "hu": "Csók", "de": "Kuss", "fr": "Bisou", "es": "Besando"},
+    "Yelling": {"res": "Mms:@array/default_smiley_names:6", "hu": "Kiabálás", "de": "Schreien", "fr": "Hurle", "es": "Sorpresa"},
+    "Cool": {"res": "Mms:@array/default_smiley_names:7", "hu": "Laza", "de": "Cool", "fr": "Cool", "es": "Atractivo"},
+    "Money mouth": {"res": "Mms:@array/default_smiley_names:8", "hu": "Pénz beszél", "de": "Dollarzeichen", "fr": "Argent", "es": "Dinero en la boca"},
+    "Foot in mouth": {"res": "Mms:@array/default_smiley_names:9", "hu": "Ha hallgattam volna...", "de": "Fettnäpfchen", "fr": "Embarrassé", "es": "Metedura de pata"},
+    "Embarrassed": {"res": "Mms:@array/default_smiley_names:10", "hu": "Zavarban", "de": "Peinlich berührt", "fr": "Gêné", "es": "Avergonzado"},
+    "Angel": {"res": "Mms:@array/default_smiley_names:11", "hu": "Angyal", "de": "Engel", "fr": "Ange", "es": "Ángel"},
+    "Undecided": {"res": "Mms:@array/default_smiley_names:12", "hu": "Határozatlan", "de": "Unentschlossen", "fr": "Indécis", "es": "Indeciso"},
+    "Crying": {"res": "Mms:@array/default_smiley_names:13", "hu": "Sírás", "de": "Weinen", "fr": "Pleure", "es": "Llorando"},
+    "Lips are sealed": {"res": "Mms:@array/default_smiley_names:14", "hu": "Szót se szólok", "de": "Versiegelte Lippen", "fr": "Motus", "es": "Labios sellados"},
+    "Laughing": {"res": "Mms:@array/default_smiley_names:15", "hu": "Nevetés", "de": "Fröhlich", "fr": "Rigole", "es": "Riendo"},
+    "Confused": {"res": "Mms:@array/default_smiley_names:16", "hu": "Összezavarodva", "de": "Verwirrt", "fr": "Confus", "es": "Confuso"},
+    "Heart": {"res": "Mms:@array/default_smiley_names:17", "hu": "Szív", "de": "Verliebt", "fr": "Cœur", "es": "Corazón"},
+    "Mad": {"res": "Mms:@array/default_smiley_names:18", "hu": "Mérges", "de": "Verärgert", "fr": "Mécontent", "es": "Enfadado"},
+    "Smirk": {"res": "Mms:@array/default_smiley_names:19", "hu": "Kacsintás", "de": "Grinsen", "fr": "Sourire en coin", "es": "No mola"},
+    "Poker face": {"res": "Mms:@array/default_smiley_names:20", "hu": "Pókerarc", "de": "Pokergesicht", "fr": "Lunettes de soleil", "es": "Cara de póquer"}
   };
   const SMILEYS = [['Happy', ':-)', 'happy'], ['Sad', ':-(', 'sad'], ['Winking', ';-)', 'winking'], ['Tongue sticking out', ':-P', 'tongue_sticking_out'],
     ['Surprised', '=-O', 'surprised'], ['Kissing', ':-*', 'kissing'], ['Yelling', ':O', 'yelling'], ['Cool', 'B-)', 'cool'], ['Money mouth', ':-$', 'money_mouth'],
     ['Foot in mouth', ':-!', 'foot_in_mouth'], ['Embarrassed', ':-[', 'embarrassed'], ['Angel', 'O:-)', 'angel'], ['Undecided', ':-\\', 'undecided'],
     ['Crying', ":'(", 'crying'], ['Lips are sealed', ':-X', 'lips_are_sealed'], ['Laughing', ':-D', 'laughing'], ['Confused', 'o_O', 'wtf'], ['Heart', '<3', 'heart'],
     ['Mad', 'x-(', 'mad'], ['Smirk', ':-/', 'smirk'], ['Poker face', ':-I', 'pokerface']];
-  const t = (key, lang = window.AndroidI18n?.language || 'en') => { const row = STRINGS[key], i = LANGS.indexOf(lang); return row ? i >= 0 ? row[i] : row[4] || key : key; };
+  const STR = AndroidStrings.table('mms', STRINGS), t = (key, lang) => STR.t(key, lang);
   window.MmsStrings = {t, has: key => key in STRINGS, SMILEYS};
 })();

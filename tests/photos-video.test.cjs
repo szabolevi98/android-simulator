@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Videos in Photos (Google+ 4.2.3 on 4.4.4, 4.9.0 on 5.1.1): tile overlay, the one-up play button without Edit,
 // the Videos view, and VideoViewActivity's MediaController.

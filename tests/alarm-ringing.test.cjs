@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // The ringing alarm per image: 4.0.4 the Holo AlarmAlert dialog, 4.3 / 4.4.4 the AlarmAlertFullScreen glow pad,
 // 5.1.1 the Material AlarmActivity; the words come from each image's DeskClock (alarm-strings.js).

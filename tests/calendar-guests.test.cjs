@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Calendar (audit step 6): guests, Show me as / Privacy (5.1: Visibility) and the event's time zone (4.3 / 4.4.4: the
 // TimeZonePickerDialog button, tzpicker.js, and the details in the device's zone (4.3 / 4.4.4 with its short name,

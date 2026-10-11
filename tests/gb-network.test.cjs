@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 // 2.3.6 network screens (gb-network.js): hotspot, VPN profiles with the credential storage, APNs, network operators.
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},setTimeout:(fn)=>{fn();return 0;},fetch:()=>Promise.resolve({text:()=>''}),Date};

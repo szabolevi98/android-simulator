@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Galaxy Nexus 4.0.4: the framework's DatePickerDialog / TimePickerDialog (ics-pickers.js).
 const ctx={window:{},document:{addEventListener(){}},Intl,Date};vm.runInNewContext(fs.readFileSync('versions/4.0.4/ics-pickers.js','utf8'),ctx);

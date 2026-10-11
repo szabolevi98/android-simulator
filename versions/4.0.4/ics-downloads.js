@@ -13,195 +13,40 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-      "Downloads": [
-          "Letöltések",
-          "Downloads",
-          "Téléchargements",
-          "Descargas"
-      ],
-      "Downloads - Sorted by date": [
-          "Letöltések - Dátum szerint rendezve",
-          "Downloads - Nach Datum sortiert",
-          "Téléchargements : triés par date",
-          "Descargas (por fecha)"
-      ],
-      "Downloads - Sorted by size": [
-          "Letöltések - Méret szerint rendezve",
-          "Downloads - Nach Größe sortiert",
-          "Téléchargements : triés par taille",
-          "Descargas (por tamaño)"
-      ],
-      "Sort by date": [
-          "Rendezés dátum szerint",
-          "Nach Datum sortieren",
-          "Trier par date",
-          "Ordenar por fecha"
-      ],
-      "Sort by size": [
-          "Rendezés méret szerint",
-          "Nach Größe sortieren",
-          "Trier par taille",
-          "Ordenar por tamaño"
-      ],
-      "No downloads.": [
-          "Nincsenek letöltések",
-          "Keine Downloads",
-          "Aucun téléchargement",
-          "No hay descargas."
-      ],
-      "Complete": [
-          "Kész",
-          "Fertig",
-          "Terminé",
-          "Correcta"
-      ],
-      "Failed": [
-          "Sikertelen",
-          "Fehler",
-          "Échec",
-          "Con error"
-      ],
-      "In progress": [
-          "Folyamatban",
-          "Läuft",
-          "En cours…",
-          "En curso"
-      ],
-      "Queued": [
-          "Várólistán",
-          "Eingereiht",
-          "Ajouté à la file d'attente",
-          "En cola"
-      ],
-      "Delete": [
-          "Törlés",
-          "Löschen",
-          "Supprimer",
-          "Eliminar"
-      ],
-      "Remove": [
-          "Törlés",
-          "Entfernen",
-          "Supprimer",
-          "Quitar"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ],
-      "Keep": [
-          "Megőrzés",
-          "Beibehalten",
-          "Conserver",
-          "Conservar"
-      ],
-      "Retry": [
-          "Újra",
-          "Wiederholen",
-          "Réessayer",
-          "Reintentar"
-      ],
-      "Selected %1$d out of %2$d": [
-          "%2$d/%1$d kiválasztva",
-          "%1$d von %2$d ausgewählt",
-          "%1$d téléchargements sélectionnés sur %2$d",
-          "Has seleccionado %1$d de %2$d."
-      ],
-      "Download Failed": [
-          "Letöltés sikertelen",
-          "Download fehlgeschlagen.",
-          "Échec du téléchargement",
-          "Error en la descarga"
-      ],
-      "Do you want to retry downloading the file later or delete it from the queue?": [
-          "Később újra megpróbálja letölteni a fájlt vagy törli a várólistáról?",
-          "Möchten Sie später einen erneuten Downloadversuch für die Datei starten oder die Datei aus der Warteschlange löschen?",
-          "Souhaitez-vous réessayer de télécharger le fichier ultérieurement ou préférez-vous le supprimer de la file d'attente ?",
-          "¿Quieres volver a intentar descargar el archivo más tarde o prefieres eliminarlo de la cola?"
-      ],
-      "File not yet available": [
-          "A fájl még nem érhető el",
-          "Datei noch nicht verfügb.",
-          "Fichier non téléchargé",
-          "Archivo no disponible"
-      ],
-      "This file is queued for future download.": [
-          "A fájl várólistára került későbbi letöltés céljából.",
-          "Diese Datei wurde zum späteren Download in die Warteschlange gestellt.",
-          "Ce fichier est mis en file d'attente et sera téléchargé ultérieurement.",
-          "Este archivo está en cola para descargarlo más tarde."
-      ],
-      "Share via": [
-          "Megosztás:",
-          "Teilen über",
-          "Partager via",
-          "Compartir a través de"
-      ],
-      "Cannot open file": [
-          "A fájlt nem lehet megnyitni",
-          "Datei kann nicht geöffnet werden.",
-          "Impossible d'ouvrir le fichier.",
-          "No se puede abrir el archivo."
-      ],
-      "<Unknown>": [
-          "<Ismeretlen>",
-          "<Unbekannt>",
-          "<Inconnu>",
-          "<Desconocido>"
-      ],
-      "Today": [
-          "ma",
-          "Heute",
-          "aujourd’hui",
-          "hoy"
-      ],
-      "Yesterday": [
-          "tegnap",
-          "Gestern",
-          "hier",
-          "ayer"
-      ],
-      "Last month": [
-          "Múlt hónapban",
-          "Letzter Monat",
-          "Le mois dernier",
-          "El mes pasado"
-      ],
-      "Older": [
-          "Régebbi",
-          "Älter",
-          "Préc.",
-          "Anterior"
-      ],
-      "Last %d days": [
-          "Elmúlt %d napban",
-          "Letzte %d Tage",
-          "Les %d derniers jours",
-          "Últimos %d días"
-      ],
-      "Share": [
-          "Megosztás",
-          "Teilen",
-          "Partager",
-          "Compartir"
-      ],
-      "Done": [
-          "Kész",
-          "Fertig",
-          "OK",
-          "Listo"
-      ]
+    "Downloads": {"res": "DownloadProviderUi:app_label", "hu": "Letöltések", "de": "Downloads", "fr": "Téléchargements", "es": "Descargas"},
+    "Downloads - Sorted by date": {"res": "DownloadProviderUi:download_title_sorted_by_date", "hu": "Letöltések - Dátum szerint rendezve", "de": "Downloads - Nach Datum sortiert", "fr": "Téléchargements : triés par date", "es": "Descargas (por fecha)"},
+    "Downloads - Sorted by size": {"res": "DownloadProviderUi:download_title_sorted_by_size", "hu": "Letöltések - Méret szerint rendezve", "de": "Downloads - Nach Größe sortiert", "fr": "Téléchargements : triés par taille", "es": "Descargas (por tamaño)"},
+    "Sort by date": {"res": "DownloadProviderUi:button_sort_by_date", "hu": "Rendezés dátum szerint", "de": "Nach Datum sortieren", "fr": "Trier par date", "es": "Ordenar por fecha"},
+    "Sort by size": {"res": "DownloadProviderUi:button_sort_by_size", "hu": "Rendezés méret szerint", "de": "Nach Größe sortieren", "fr": "Trier par taille", "es": "Ordenar por tamaño"},
+    "No downloads.": {"res": "DownloadProviderUi:no_downloads", "hu": "Nincsenek letöltések", "de": "Keine Downloads", "fr": "Aucun téléchargement", "es": "No hay descargas."},
+    "Complete": {"res": "DownloadProviderUi:download_success", "hu": "Kész", "de": "Fertig", "fr": "Terminé", "es": "Correcta"},
+    "Failed": {"res": "DownloadProviderUi:download_error", "hu": "Sikertelen", "de": "Fehler", "fr": "Échec", "es": "Con error"},
+    "In progress": {"res": "DownloadProviderUi:download_running", "hu": "Folyamatban", "de": "Läuft", "fr": "En cours…", "es": "En curso"},
+    "Queued": {"res": "DownloadProviderUi:download_queued", "hu": "Várólistán", "de": "Eingereiht", "fr": "Ajouté à la file d'attente", "es": "En cola"},
+    "Delete": {"res": "DownloadProviderUi:delete_download", "hu": "Törlés", "de": "Löschen", "fr": "Supprimer", "es": "Eliminar"},
+    "Remove": {"res": "DownloadProviderUi:remove_download", "hu": "Törlés", "de": "Entfernen", "fr": "Supprimer", "es": "Quitar"},
+    "Cancel": {"res": "DownloadProviderUi:cancel_running_download", "hu": "Mégse", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"},
+    "Keep": {"res": "DownloadProviderUi:keep_queued_download", "hu": "Megőrzés", "de": "Beibehalten", "fr": "Conserver", "es": "Conservar"},
+    "Retry": {"res": "DownloadProviderUi:retry_download", "hu": "Újra", "de": "Wiederholen", "fr": "Réessayer", "es": "Reintentar"},
+    "Selected %1$d out of %2$d": {"res": "DownloadProviderUi:selected_count", "hu": "%2$d/%1$d kiválasztva", "de": "%1$d von %2$d ausgewählt", "fr": "%1$d téléchargements sélectionnés sur %2$d", "es": "Has seleccionado %1$d de %2$d."},
+    "Download Failed": {"res": "DownloadProviderUi:dialog_title_not_available", "hu": "Letöltés sikertelen", "de": "Download fehlgeschlagen.", "fr": "Échec du téléchargement", "es": "Error en la descarga"},
+    "Do you want to retry downloading the file later or delete it from the queue?": {"res": "DownloadProviderUi:dialog_failed_body", "hu": "Később újra megpróbálja letölteni a fájlt vagy törli a várólistáról?", "de": "Möchten Sie später einen erneuten Downloadversuch für die Datei starten oder die Datei aus der Warteschlange löschen?", "fr": "Souhaitez-vous réessayer de télécharger le fichier ultérieurement ou préférez-vous le supprimer de la file d'attente ?", "es": "¿Quieres volver a intentar descargar el archivo más tarde o prefieres eliminarlo de la cola?"},
+    "File not yet available": {"res": "DownloadProviderUi:dialog_title_queued_body", "hu": "A fájl még nem érhető el", "de": "Datei noch nicht verfügb.", "fr": "Fichier non téléchargé", "es": "Archivo no disponible"},
+    "This file is queued for future download.": {"res": "DownloadProviderUi:dialog_queued_body", "hu": "A fájl várólistára került későbbi letöltés céljából.", "de": "Diese Datei wurde zum späteren Download in die Warteschlange gestellt.", "fr": "Ce fichier est mis en file d'attente et sera téléchargé ultérieurement.", "es": "Este archivo está en cola para descargarlo más tarde."},
+    "Share via": {"res": "DownloadProviderUi:download_share_dialog", "hu": "Megosztás:", "de": "Teilen über", "fr": "Partager via", "es": "Compartir a través de"},
+    "Cannot open file": {"res": "DownloadProviderUi:download_no_application_title", "hu": "A fájlt nem lehet megnyitni", "de": "Datei kann nicht geöffnet werden.", "fr": "Impossible d'ouvrir le fichier.", "es": "No se puede abrir el archivo."},
+    "<Unknown>": {"res": "DownloadProviderUi:missing_title", "hu": "<Ismeretlen>", "de": "<Unbekannt>", "fr": "<Inconnu>", "es": "<Desconocido>"},
+    "Today": {"res": "framework:today", "hu": "ma", "de": "Heute", "fr": "aujourd’hui", "es": "hoy"},
+    "Yesterday": {"res": "framework:yesterday", "hu": "tegnap", "de": "Gestern", "fr": "hier", "es": "ayer"},
+    "Last month": {"res": "framework:last_month", "hu": "Múlt hónapban", "de": "Letzter Monat", "fr": "Le mois dernier", "es": "El mes pasado"},
+    "Older": {"res": "framework:older", "hu": "Régebbi", "de": "Älter", "fr": "Préc.", "es": "Anterior"},
+    "Last %d days": {"res": "framework:@plurals/last_num_days:other", "hu": "Elmúlt %d napban", "de": "Letzte %d Tage", "fr": "Les %d derniers jours", "es": "Últimos %d días"},
+    "Share": {"res": "framework:share", "hu": "Megosztás", "de": "Teilen", "fr": "Partager", "es": "Compartir"},
+    "Done": {"res": "framework:action_mode_done", "hu": "Kész", "de": "Fertig", "fr": "OK", "es": "Listo"}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   // From 4.1 DateSorter takes "Today" and "Yesterday" from libcore's LocaleData (ICU) rather than the framework.
-  const ICU = {Today: ['ma', 'Heute', 'aujourd’hui', 'hoy'], Yesterday: ['tegnap', 'Gestern', 'hier', 'ayer']};
-  const T = (lang, key) => {
-    const i = LANGS.indexOf(lang), row = STRINGS[key] || ICU[key];
-    if (!row) return key;
-    return i >= 0 ? row[i] || key : row[4] || key;
-  };
+  const ICU = {Today: {res: 'ICU:today', hu: 'ma', de: 'Heute', fr: 'aujourd’hui', es: 'hoy'}, Yesterday: {res: 'ICU:yesterday', hu: 'tegnap', de: 'Gestern', fr: 'hier', es: 'ayer'}};
+  const STR = AndroidStrings.table('', {...ICU, ...STRINGS}), T = (lang, key) => STR.t(key, lang);
   // The file type decides the icon (the app that opens it) and what a tap does.
   const KINDS = {image: 'gallery', audio: 'music', video: 'gallery', web: 'browser'};
   const DAY = 864e5;

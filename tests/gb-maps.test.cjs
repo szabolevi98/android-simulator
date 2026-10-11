@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus S: Maps 5.4 with Places, Latitude and Navigation (gb-maps.js) on GBApps.
 const w={setTimeout,clearTimeout,requestAnimationFrame:f=>0};w.window=w;w.document={addEventListener(){}};

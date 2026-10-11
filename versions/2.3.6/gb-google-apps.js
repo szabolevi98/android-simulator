@@ -16,592 +16,102 @@
   'use strict';
   const {e} = GBApps;
   const STRINGS = {
-      "News isn't available right now.": [
-          "Sajnáljuk, a hírek jelenleg nem érhetők el.",
-          "Derzeit sind leider keine Nachrichten verfügbar.",
-          "Désolé, les actualités sont indisponibles actuellement.",
-          "No hay datos disponibles en este momento.",
-          "Sorry, news currently unavailable."
-      ],
-      "Updating news topics…": [
-          "A témakörök frissítése...",
-          "Nachrichtenthemen werden aktualisiert...",
-          "Mise à jour des sujets d'actualités en cours...",
-          "Actualizando temas de noticias...",
-          "Updating news topics..."
-      ],
-      "Weather settings": [
-          "Időjárás -- beállítások",
-          "Google Wetter-Einstellungen",
-          "Paramètres de la météo",
-          "Ajustes de Tiempo"
-      ],
-      "Set location, units": [
-          "Hely és mértékegység megadása",
-          "Standort und Maßeinheiten festlegen",
-          "Définir le lieu et le système de mesure",
-          "Establecer ubicación, unidades"
-      ],
-      "News settings": [
-          "Hírek -- beállítások",
-          "Google News-Einstellungen",
-          "Paramètres de l'actualité",
-          "Ajustes de Noticias"
-      ],
-      "Choose topics, manage downloads": [
-          "Témák kiválasztása, letöltések kezelése",
-          "Themen auswählen, Downloads verwalten",
-          "Choisir des sujets, gérer les téléchargements",
-          "Seleccionar temas, administrar descargas",
-          "Pick topics, manage downloads"
-      ],
-      "Refresh settings": [
-          "Frissítési beállítások",
-          "Aktualisierungs-Einstellungen",
-          "Paramètres d'actualisation",
-          "Actualizar configuración"
-      ],
-      "Set up auto-refresh, refresh interval": [
-          "Az automatikus frissítés és a frissítés gyakoriságának beállítása",
-          "Automatische Aktualisierung, Aktualisierungsintervall festlegen",
-          "Définir l'actualisation automatique, la fréquence d'actualisation",
-          "Establecer actualización automática, intervalo de actualización"
-      ],
-      "App version": [
-          "Alkalmazás verziószáma",
-          "Anwendungsversion",
-          "Version de l'application",
-          "Versión de la aplicación",
-          "Application version"
-      ],
-      "Use my location": [
-          "Saját pozíció használata",
-          "Standort verwenden",
-          "Utiliser ma position",
-          "Utilizar Mi ubicación"
-      ],
-      "Automatically determine location": [
-          "Hely automatikus megállapítása",
-          "Standort automatisch bestimmen",
-          "Déterminer automatiquement ma position",
-          "Identificar ubicación automáticamente"
-      ],
-      "Set location": [
-          "Hely beállítása",
-          "Standort manuell festlegen",
-          "Définir un lieu",
-          "Establecer ubicación"
-      ],
-      "Specify your location": [
-          "Adja meg tartózkodási helyét",
-          "Meinen Standort angeben",
-          "Indiquer un lieu",
-          "Especifica tu ubicación"
-      ],
-      "Use metric": [
-          "Metrikus mértékegység használata",
-          "Metrische Einheiten",
-          "Utiliser le système métrique",
-          "Usar sistema métrico"
-      ],
-      "Toggle metric/imperial units": [
-          "Metrikus/angolszász mértékegység váltása",
-          "Zwischen metrischen und angloamerikanischen Einheiten umschalten",
-          "Système métrique/Système impérial",
-          "Alternar unidades métricas/imperiales"
-      ],
-      "Choose news topics": [
-          "Témakörök kiválasztása",
-          "Themen auswählen",
-          "Sélectionner des sujets",
-          "Seleccionar temas de noticias",
-          "Select news topics"
-      ],
-      "Manage news topics": [
-          "Témakörök kezelése",
-          "Nachrichtenthemen verwalten",
-          "Gérer les sujets d'actualités",
-          "Administrar temas de noticias"
-      ],
-      "Prefetch articles": [
-          "Cikkek előzetes lekérése",
-          "Artikel vorabrufen",
-          "Prélire les articles",
-          "Recopilar artículos previamente"
-      ],
-      "Prefetch articles for faster access": [
-          "A cikkek előzetes lekérése a gyorsabb elérés érdekében",
-          "Artikel für schnelleren Zugriff vorabrufen",
-          "Prélire les articles pour un accès plus rapide",
-          "Recopilar artículos previamente para acceder más rápido"
-      ],
-      "Prefetch images": [
-          "Képek előzetes lekérése",
-          "Bilder vorabrufen",
-          "Prélire les images",
-          "Recopilar imágenes previamente"
-      ],
-      "Prefetch images for faster access": [
-          "A képek előzetes lekérése a gyorsabb elérés érdekében",
-          "Bilder für schnelleren Zugriff vorabrufen",
-          "Prélire les images pour un accès plus rapide",
-          "Recopilar imágenes previamente para acceder más rápido"
-      ],
-      "News terms of service": [
-          "Hírek általános szerződési feltételek",
-          "Nutzungsbedingungen",
-          "Conditions d'utilisation",
-          "Condiciones del servicio de Noticias"
-      ],
-      "Mobile privacy policy": [
-          "Mobil adatvédelmi irányelvek",
-          "Google Mobile-Datenschutzbestimmungen",
-          "Règles de confidentialité Google Mobile",
-          "Política de privacidad para móviles"
-      ],
-      "Custom topics": [
-          "Egyéni témák",
-          "Benutzerdefinierte Themen",
-          "Sujets personnalisés",
-          "Personalizar temas",
-          "Custom Topics"
-      ],
-      "Custom topic": [
-          "Egyéni téma",
-          "Benutzerdefiniert",
-          "Sujet personnalisé",
-          "Personalizar tema"
-      ],
-      "Add a custom news topic here": [
-          "Itt adhat hozzá egyéni témaköröket",
-          "Ein benutzerdefiniertes Nachrichtenthema hinzufügen",
-          "Ajouter un sujet d'actualités personnalisé ici",
-          "Añade aquí un tema de noticias personalizado"
-      ],
-      "News topics": [
-          "Témakörök",
-          "Nachrichtenthemen",
-          "Sujets d'actualités",
-          "Temas de noticias",
-          "News Topics"
-      ],
-      "Auto-refresh": [
-          "Automatikus frissítés",
-          "Automat. Aktualisieren",
-          "Automatique",
-          "Actualizar automáticamente"
-      ],
-      "Auto-refresh summary": [
-          "Hírek és időjárás automatikus frissítése",
-          "News und Wetter automatisch aktualisieren",
-          "Actualiser automatiquement les actualités et la météo",
-          "Actualizar automáticamente la información sobre noticias y tiempo",
-          "Automatically refresh news and weather"
-      ],
-      "Refresh interval": [
-          "Frissítés gyakorisága",
-          "Aktualisierungsintervall",
-          "Fréquence d'actualisation",
-          "Intervalo de actualización"
-      ],
-      "Refresh status": [
-          "Frissítés állapota",
-          "Status aktualisieren",
-          "État de l'actualisation",
-          "Actualizar estado"
-      ],
-      "Last refresh %s": [
-          "Utolsó frissítés: %s",
-          "Letzte Aktualisierung: %s",
-          "Dernière actualisation %s",
-          "Última actualización: %s"
-      ],
-      "Last refresh %1$s \nNext refresh %2$s": [
-          "Utolsó frissítés: %1$s \nKövetkező frissítés: %2$s",
-          "Letzte Aktualisierung: %1$s \nNächste Aktualisierung: %2$s",
-          "Dernière actualisation le %1$s \nNouvelle actualisation le %2$s",
-          "Última actualización %1$s \nPróxima actualización %2$s"
-      ],
-      "Type a city or postal code:": [
-          "Adjon meg egy irányítószámot:",
-          "Geben Sie eine Stadt oder eine Postleitzahl ein:",
-          "Saisissez une ville ou un code postal :",
-          "Introduce una ciudad o un código postal:",
-          "Enter a city or postal code:"
-      ],
-      "Type a custom topic:": [
-          "Adjon meg egyéni témát:",
-          "Geben Sie ein benutzerdefiniertes Thema ein:",
-          "Entrez un sujet personnalisé :",
-          "Introduce un tema personalizado:",
-          "Enter a custom topic:"
-      ],
-      "Half an hour": [
-          "Fél óra",
-          "30 Minuten",
-          "Une demi-heure",
-          "Media hora"
-      ],
-      "1 hour": [
-          "1 óra",
-          "1 Stunde",
-          "1 heure",
-          "1 hora"
-      ],
-      "3 hours": [
-          "3 óra",
-          "3 Stunden",
-          "3 heures",
-          "3 horas"
-      ],
-      "6 hours": [
-          "6 óra",
-          "6 Stunden",
-          "6 heures",
-          "6 horas"
-      ],
-      "12 hours": [
-          "12 óra",
-          "12 Stunden",
-          "12 heures",
-          "12 horas"
-      ],
-      "One day": [
-          "Egy nap",
-          "24 Stunden",
-          "Un jour",
-          "Un día"
-      ],
-      "Typeface": [
-          "Betűkép",
-          "Schriftart",
-          "Police",
-          "Tipo de letra"
-      ],
-      "Line space": [
-          "Sortávolság",
-          "Zeilenabstand",
-          "Espace entre les lignes",
-          "Interlineado"
-      ],
-      "Justification": [
-          "Sor igazítása",
-          "Ausrichtung",
-          "Justification",
-          "Justificar"
-      ],
-      "Themes": [
-          "Témák",
-          "Designs",
-          "Thèmes",
-          "Temas"
-      ],
-      "Brightness": [
-          "Fényerő",
-          "Helligkeit",
-          "Luminosité",
-          "Brillo"
-      ],
-      "Use system setting": [
-          "A rendszerbeállítás használata",
-          "Systemeinstellung verwenden",
-          "Utiliser les paramètres système",
-          "Usar ajustes del sistema"
-      ],
-      "News & Weather": [
-          "Hírek és időjárás",
-          "News & Wetter",
-          "Actualités et météo",
-          "Noticias y tiempo"
-      ],
-      "Weather": [
-          "Időjárás",
-          "Google Wetter",
-          "Météo",
-          "Tiempo"
-      ],
-      "Refresh": [
-          "Frissítés",
-          "Aktualisieren",
-          "Actualiser",
-          "Actualizar"
-      ],
-      "Share story": [
-          "Hír megosztása",
-          "Beitrag weiterleiten",
-          "Partager l'histoire",
-          "Compartir noticia"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Humidity: %s%%": [
-          "Páratartalom: %s%%",
-          "Feuchtigkeit: %s %%",
-          "Humidité : %s%%",
-          "Humedad: %s%%"
-      ],
-      "Wind: %1$s %2$s": [
-          "Szélerősség: %1$s %2$s",
-          "Wind: %1$s %2$s",
-          "Vent : %1$s %2$s",
-          "Viento: %1$s %2$s"
-      ],
-      "km/h": [
-          "km/h",
-          "km/h",
-          "km/h",
-          "km/h"
-      ],
-      "mph": [
-          "mph",
-          "mph",
-          "mi/h",
-          "mph"
-      ],
-      "Loading...": [
-          "Betöltés...",
-          "Wird geladen...",
-          "Chargement en cours...",
-          "Cargando..."
-      ],
-      "No weather information": [
-          "Nincsenek időjárásadatok",
-          "Keine Wetterinformationen",
-          "Aucune information météo",
-          "No hay información meteorológica"
-      ],
-      "News": [
-          "Hírek",
-          "News",
-          "Actualités",
-          "Noticias"
-      ],
-      "Books": [
-          "Könyvek",
-          "Google Bücher",
-          "Livres",
-          "Google Libros"
-      ],
-      "Get eBooks": [
-          "E-könyvek beszerzése",
-          "eBooks erhalten",
-          "Acheter livres",
-          "Ver eBooks"
-      ],
-      "My eBooks": [
-          "E-könyveim",
-          "Meine eBooks",
-          "Mes livres",
-          "Mis eBooks"
-      ],
-      "Contents": [
-          "Tartalom",
-          "Inhalt",
-          "Table des matières",
-          "Contenido"
-      ],
-      "Sort order": [
-          "Rendezési elv",
-          "Sortierung",
-          "Ordre de tri",
-          "Orden"
-      ],
-      "Manage eBooks": [
-          "E-könyvek kezelése",
-          "E-Books verwalten",
-          "Gérer mes livres",
-          "Administ eBooks"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "page %1$s of %2$s": [
-          "%2$s/%1$s. oldal",
-          "Seite %1$s von %2$s",
-          "page %1$s sur %2$s",
-          "página %1$s de %2$s"
-      ],
-      "Search results for \"%1$s\"": [
-          "Találatok - \"%1$s\"",
-          "Suchergebnisse für \"%1$s\"",
-          "Résultats de recherche pour \"%1$s\"",
-          "Resultados de búsqueda de \"%1$s\""
-      ],
-      "Your book will open in a moment…": [
-          "Pillanatokon belül olvashatja a könyvet...",
-          "Ihr Buch wird gleich geöffnet…",
-          "Votre livre va bientôt s'ouvrir...",
-          "El libro se abrirá en unos minutos…"
-      ],
-      "Title": [
-          "Megszólítás",
-          "Titel",
-          "Titre",
-          "Título"
-      ],
-      "Author": [
-          "Szerző",
-          "Autor",
-          "Auteur",
-          "Autor"
-      ],
-      "Recently read": [
-          "Nemrég olvasott",
-          "Zuletzt gelesen",
-          "Livres récemment lus",
-          "Leído recientemente"
-      ],
-      "Sort by:": [
-          "Rendezési szempont:",
-          "Sortieren nach:",
-          "Trier par :",
-          "Ordenar por:"
-      ],
-      "About": [
-          "Ismertető",
-          "Über",
-          "À propos de",
-          "Acerca de"
-      ],
-      "Day": [
-          "Nappal",
-          "Tag",
-          "Jour",
-          "Día"
-      ],
-      "Night": [
-          "Éjszaka",
-          "Nacht",
-          "Nuit",
-          "Noche"
-      ],
-      "Text size": [
-          "Szöveg mérete",
-          "Textgröße",
-          "Taille de la police",
-          "Tamaño de la letra"
-      ],
-      "Earth": [
-          "Earth",
-          "Earth",
-          "Earth",
-          "Earth"
-      ],
-      "Layers": [
-          "Layers",
-          "Ebenen",
-          "Données géographiques",
-          "Capas"
-      ],
-      "My Location": [
-          "My Location",
-          "Mein Standort",
-          "Ma position",
-          "Mi ubicación"
-      ],
-      "Search": [
-          "Search",
-          "Suche",
-          "Recherche Google",
-          "Buscar"
-      ],
-      "Example: Pizza": [
-          "Example: Pizza",
-          "Beispiel: Pizza",
-          "Exemple : boulangerie",
-          "Ej.: Barcelona"
-      ],
-      "Clear Search Results": [
-          "Clear Search Results",
-          "Suchergebnisse löschen",
-          "Effacer les résultats",
-          "Borrar resultados"
-      ],
-      "Not Found: %s": [
-          "Not Found: %s",
-          "Nicht gefunden: %s",
-          "Non trouvé : %s",
-          "No encontrado: %s"
-      ],
-      "Fly to": [
-          "Fly to",
-          "Anfliegen",
-          "Aller à",
-          "Volar a"
-      ],
-      "Voice Search": [
-          "Voice Search",
-          "Sprachsuche",
-          "Recherche vocale",
-          "Búsqueda por voz"
-      ],
-      "Speak now": [
-          "Speak now",
-          "Sprechen",
-          "Parlez maintenant",
-          "Habla ahora"
-      ],
-      "Starting up": [
-          "Starting up",
-          "Startvorgang",
-          "En cours de démarrage",
-          "Iniciando"
-      ],
-      "No speech heard": [
-          "No speech heard",
-          "Keine Sprache zu hören",
-          "Aucune requête vocale détectée",
-          "No se oyó la voz"
-      ],
-      "Speak again": [
-          "Speak again",
-          "Erneut sprechen",
-          "Parlez de nouveau",
-          "Habla de nuevo"
-      ],
-      "Cancel": [
-          "Cancel",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ],
-      "Voice Help": [
-          "Help",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Try saying...": [
-          "Try saying...",
-          "Sagen Sie Folgendes...",
-          "Essayez de dire...",
-          "Intenta decir..."
-      ],
-      "Touch Help to learn what you can say": [
-          "Touch Help to learn what you can say",
-          "Berühren Sie Hilfe, um zu erfahren, was Sie sagen können.",
-          "Appuyez sur Aide pour découvrir les expressions que vous pouvez prononcer.",
-          "Presiona Ayuda para conocer lo que puedes decir"
-      ],
-      "or try any Google search by voice": [
-          "or try any Google search by voice",
-          "oder probieren Sie eine beliebige Google Sprachsuche aus.",
-          "ou lancez une recherche vocale Google",
-          "o prueba cualquier buscador por voz de Google"
-      ],
-      "Voice Actions": [
-          "Voice Actions",
-          "Sprachbedienung",
-          "Actions vocales",
-          "Acciones de voz"
-      ]
+    "News & Weather": {"res": "GenieWidget:app_name", "hu": "Hírek és időjárás", "de": "News & Wetter", "fr": "Actualités et météo", "es": "Noticias y tiempo"},
+    "Weather": {"res": "GenieWidget:weather_tab_label", "hu": "Időjárás", "de": "Google Wetter", "fr": "Météo", "es": "Tiempo"},
+    "Refresh": {"res": "GenieWidget:menu_item_refresh", "hu": "Frissítés", "de": "Aktualisieren", "fr": "Actualiser", "es": "Actualizar"},
+    "Share story": {"res": "GenieWidget:menu_item_share", "hu": "Hír megosztása", "de": "Beitrag weiterleiten", "fr": "Partager l'histoire", "es": "Compartir noticia"},
+    "Settings": {"res": "GenieWidget:menu_item_setting", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Humidity: %s%%": {"res": "GenieWidget:weather_humidity", "hu": "Páratartalom: %s%%", "de": "Feuchtigkeit: %s %%", "fr": "Humidité : %s%%", "es": "Humedad: %s%%"},
+    "Wind: %1$s %2$s": {"res": "GenieWidget:weather_wind", "hu": "Szélerősség: %1$s %2$s", "de": "Wind: %1$s %2$s", "fr": "Vent : %1$s %2$s", "es": "Viento: %1$s %2$s"},
+    "km/h": {"res": "GenieWidget:weather_kph", "hu": "km/h", "de": "km/h", "fr": "km/h", "es": "km/h"},
+    "mph": {"res": "GenieWidget:weather_mph", "hu": "mph", "de": "mph", "fr": "mi/h", "es": "mph"},
+    "Loading...": {"res": "GenieWidget:loading", "hu": "Betöltés...", "de": "Wird geladen...", "fr": "Chargement en cours...", "es": "Cargando..."},
+    "No weather information": {"res": "GenieWidget:weather_unavailable", "hu": "Nincsenek időjárásadatok", "de": "Keine Wetterinformationen", "fr": "Aucune information météo", "es": "No hay información meteorológica"},
+    "News": {"res": "GenieWidget:widget_news", "hu": "Hírek", "de": "News", "fr": "Actualités", "es": "Noticias"},
+    "Books": {"res": "BooksPhone:app_name", "hu": "Könyvek", "de": "Google Bücher", "fr": "Livres", "es": "Google Libros"},
+    "Get eBooks": {"res": "BooksPhone:button_shop", "hu": "E-könyvek beszerzése", "de": "eBooks erhalten", "fr": "Acheter livres", "es": "Ver eBooks"},
+    "My eBooks": {"res": "BooksPhone:menu_myebooks", "hu": "E-könyveim", "de": "Meine eBooks", "fr": "Mes livres", "es": "Mis eBooks"},
+    "Contents": {"res": "BooksPhone:menu_toc", "hu": "Tartalom", "de": "Inhalt", "fr": "Table des matières", "es": "Contenido"},
+    "Sort order": {"res": "BooksPhone:menu_sort", "hu": "Rendezési elv", "de": "Sortierung", "fr": "Ordre de tri", "es": "Orden"},
+    "Manage eBooks": {"res": "BooksPhone:menu_view_downloads", "hu": "E-könyvek kezelése", "de": "E-Books verwalten", "fr": "Gérer mes livres", "es": "Administ eBooks"},
+    "Help": {"res": "BooksPhone:menu_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "page %1$s of %2$s": {"res": "BooksPhone:reading_scrub_callout_int_page", "hu": "%2$s/%1$s. oldal", "de": "Seite %1$s von %2$s", "fr": "page %1$s sur %2$s", "es": "página %1$s de %2$s"},
+    "Search results for \"%1$s\"": {"res": "BooksPhone:search_results_pending_title", "hu": "Találatok - \"%1$s\"", "de": "Suchergebnisse für \"%1$s\"", "fr": "Résultats de recherche pour \"%1$s\"", "es": "Resultados de búsqueda de \"%1$s\""},
+    "Your book will open in a moment…": {"res": "BooksPhone:loading_book", "hu": "Pillanatokon belül olvashatja a könyvet...", "de": "Ihr Buch wird gleich geöffnet…", "fr": "Votre livre va bientôt s'ouvrir...", "es": "El libro se abrirá en unos minutos…"},
+    "Title": {"res": "BooksPhone:display_sort_title", "hu": "Megszólítás", "de": "Titel", "fr": "Titre", "es": "Título"},
+    "Author": {"res": "BooksPhone:display_sort_author", "hu": "Szerző", "de": "Autor", "fr": "Auteur", "es": "Autor"},
+    "Recently read": {"res": "BooksPhone:display_sort_date_read", "hu": "Nemrég olvasott", "de": "Zuletzt gelesen", "fr": "Livres récemment lus", "es": "Leído recientemente"},
+    "Sort by:": {"res": "BooksPhone:sort_dialog_title", "hu": "Rendezési szempont:", "de": "Sortieren nach:", "fr": "Trier par :", "es": "Ordenar por:"},
+    "About": {"res": "BooksPhone:menu_reader_about", "hu": "Ismertető", "de": "Über", "fr": "À propos de", "es": "Acerca de"},
+    "Day": {"res": "BooksPhone:pref_themes_day", "hu": "Nappal", "de": "Tag", "fr": "Jour", "es": "Día"},
+    "Night": {"res": "BooksPhone:pref_themes_night", "hu": "Éjszaka", "de": "Nacht", "fr": "Nuit", "es": "Noche"},
+    "Text size": {"res": "BooksPhone:text_size", "hu": "Szöveg mérete", "de": "Textgröße", "fr": "Taille de la police", "es": "Tamaño de la letra"},
+    "Earth": {"res": "GoogleEarth:app_name", "hu": "Earth", "de": "Earth", "fr": "Earth", "es": "Earth"},
+    "Layers": {"res": "GoogleEarth:menu_layer", "hu": "Layers", "de": "Ebenen", "fr": "Données géographiques", "es": "Capas"},
+    "My Location": {"res": "GoogleEarth:my_location", "hu": "My Location", "de": "Mein Standort", "fr": "Ma position", "es": "Mi ubicación"},
+    "Search": {"res": "GoogleEarth:search_id", "hu": "Search", "de": "Suche", "fr": "Recherche Google", "es": "Buscar"},
+    "Example: Pizza": {"res": "GoogleEarth:search_hint", "hu": "Example: Pizza", "de": "Beispiel: Pizza", "fr": "Exemple : boulangerie", "es": "Ej.: Barcelona"},
+    "Clear Search Results": {"res": "GoogleEarth:menu_clear", "hu": "Clear Search Results", "de": "Suchergebnisse löschen", "fr": "Effacer les résultats", "es": "Borrar resultados"},
+    "Not Found: %s": {"res": "GoogleEarth:search_not_found", "hu": "Not Found: %s", "de": "Nicht gefunden: %s", "fr": "Non trouvé : %s", "es": "No encontrado: %s"},
+    "Fly to": {"res": "GoogleEarth:menu_flyto", "hu": "Fly to", "de": "Anfliegen", "fr": "Aller à", "es": "Volar a"},
+    "Voice Search": {"res": "VoiceSearch:appName", "hu": "Voice Search", "de": "Sprachsuche", "fr": "Recherche vocale", "es": "Búsqueda por voz"},
+    "Speak now": {"res": "VoiceSearch:speak_now", "hu": "Speak now", "de": "Sprechen", "fr": "Parlez maintenant", "es": "Habla ahora"},
+    "Starting up": {"res": "VoiceSearch:initializing", "hu": "Starting up", "de": "Startvorgang", "fr": "En cours de démarrage", "es": "Iniciando"},
+    "No speech heard": {"res": "VoiceSearch:speech_timeout", "hu": "No speech heard", "de": "Keine Sprache zu hören", "fr": "Aucune requête vocale détectée", "es": "No se oyó la voz"},
+    "Speak again": {"res": "VoiceSearch:tryagain", "hu": "Speak again", "de": "Erneut sprechen", "fr": "Parlez de nouveau", "es": "Habla de nuevo"},
+    "Cancel": {"res": "VoiceSearch:cancel", "hu": "Cancel", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"},
+    "Voice Help": {"res": "VoiceSearch:help", "hu": "Help", "de": "Hilfe", "fr": "Aide", "es": "Ayuda", "en": "Help"},
+    "Try saying...": {"res": "VoiceSearch:help_header", "hu": "Try saying...", "de": "Sagen Sie Folgendes...", "fr": "Essayez de dire...", "es": "Intenta decir..."},
+    "Touch Help to learn what you can say": {"res": "VoiceSearch:help_hint", "hu": "Touch Help to learn what you can say", "de": "Berühren Sie Hilfe, um zu erfahren, was Sie sagen können.", "fr": "Appuyez sur Aide pour découvrir les expressions que vous pouvez prononcer.", "es": "Presiona Ayuda para conocer lo que puedes decir"},
+    "or try any Google search by voice": {"res": "VoiceSearch:or_try_search", "hu": "or try any Google search by voice", "de": "oder probieren Sie eine beliebige Google Sprachsuche aus.", "fr": "ou lancez une recherche vocale Google", "es": "o prueba cualquier buscador por voz de Google"},
+    "Voice Actions": {"res": "VoiceSearch:voice_actions", "hu": "Voice Actions", "de": "Sprachbedienung", "fr": "Actions vocales", "es": "Acciones de voz"},
+    "News isn't available right now.": {"res": "GenieWidget:news_unavailable", "hu": "Sajnáljuk, a hírek jelenleg nem érhetők el.", "de": "Derzeit sind leider keine Nachrichten verfügbar.", "fr": "Désolé, les actualités sont indisponibles actuellement.", "es": "No hay datos disponibles en este momento.", "en": "Sorry, news currently unavailable."},
+    "Updating news topics…": {"res": "GenieWidget:news_updating", "hu": "A témakörök frissítése...", "de": "Nachrichtenthemen werden aktualisiert...", "fr": "Mise à jour des sujets d'actualités en cours...", "es": "Actualizando temas de noticias...", "en": "Updating news topics..."},
+    "Weather settings": {"res": "GenieWidget:pref_screen_weather", "hu": "Időjárás -- beállítások", "de": "Google Wetter-Einstellungen", "fr": "Paramètres de la météo", "es": "Ajustes de Tiempo"},
+    "Set location, units": {"res": "GenieWidget:pref_screen_weather_desc", "hu": "Hely és mértékegység megadása", "de": "Standort und Maßeinheiten festlegen", "fr": "Définir le lieu et le système de mesure", "es": "Establecer ubicación, unidades"},
+    "News settings": {"res": "GenieWidget:pref_screen_news", "hu": "Hírek -- beállítások", "de": "Google News-Einstellungen", "fr": "Paramètres de l'actualité", "es": "Ajustes de Noticias"},
+    "Choose topics, manage downloads": {"res": "GenieWidget:pref_screen_news_desc", "hu": "Témák kiválasztása, letöltések kezelése", "de": "Themen auswählen, Downloads verwalten", "fr": "Choisir des sujets, gérer les téléchargements", "es": "Seleccionar temas, administrar descargas", "en": "Pick topics, manage downloads"},
+    "Refresh settings": {"res": "GenieWidget:pref_screen_refresh", "hu": "Frissítési beállítások", "de": "Aktualisierungs-Einstellungen", "fr": "Paramètres d'actualisation", "es": "Actualizar configuración"},
+    "Set up auto-refresh, refresh interval": {"res": "GenieWidget:pref_screen_refresh_desc", "hu": "Az automatikus frissítés és a frissítés gyakoriságának beállítása", "de": "Automatische Aktualisierung, Aktualisierungsintervall festlegen", "fr": "Définir l'actualisation automatique, la fréquence d'actualisation", "es": "Establecer actualización automática, intervalo de actualización"},
+    "App version": {"res": "GenieWidget:pref_screen_version", "hu": "Alkalmazás verziószáma", "de": "Anwendungsversion", "fr": "Version de l'application", "es": "Versión de la aplicación", "en": "Application version"},
+    "Use my location": {"res": "GenieWidget:pref_use_my_location", "hu": "Saját pozíció használata", "de": "Standort verwenden", "fr": "Utiliser ma position", "es": "Utilizar Mi ubicación"},
+    "Automatically determine location": {"res": "GenieWidget:pref_use_my_location_desc", "hu": "Hely automatikus megállapítása", "de": "Standort automatisch bestimmen", "fr": "Déterminer automatiquement ma position", "es": "Identificar ubicación automáticamente"},
+    "Set location": {"res": "GenieWidget:pref_set_location", "hu": "Hely beállítása", "de": "Standort manuell festlegen", "fr": "Définir un lieu", "es": "Establecer ubicación"},
+    "Specify your location": {"res": "GenieWidget:pref_set_location_desc", "hu": "Adja meg tartózkodási helyét", "de": "Meinen Standort angeben", "fr": "Indiquer un lieu", "es": "Especifica tu ubicación"},
+    "Use metric": {"res": "GenieWidget:pref_temperature_unit", "hu": "Metrikus mértékegység használata", "de": "Metrische Einheiten", "fr": "Utiliser le système métrique", "es": "Usar sistema métrico"},
+    "Toggle metric/imperial units": {"res": "GenieWidget:pref_temperature_unit_desc", "hu": "Metrikus/angolszász mértékegység váltása", "de": "Zwischen metrischen und angloamerikanischen Einheiten umschalten", "fr": "Système métrique/Système impérial", "es": "Alternar unidades métricas/imperiales"},
+    "Choose news topics": {"res": "GenieWidget:pref_screen_select_topics", "hu": "Témakörök kiválasztása", "de": "Themen auswählen", "fr": "Sélectionner des sujets", "es": "Seleccionar temas de noticias", "en": "Select news topics"},
+    "Manage news topics": {"res": "GenieWidget:pref_screen_select_topics_desc", "hu": "Témakörök kezelése", "de": "Nachrichtenthemen verwalten", "fr": "Gérer les sujets d'actualités", "es": "Administrar temas de noticias"},
+    "Prefetch articles": {"res": "GenieWidget:pref_prefetch_pages", "hu": "Cikkek előzetes lekérése", "de": "Artikel vorabrufen", "fr": "Prélire les articles", "es": "Recopilar artículos previamente"},
+    "Prefetch articles for faster access": {"res": "GenieWidget:pref_prefetch_pages_desc", "hu": "A cikkek előzetes lekérése a gyorsabb elérés érdekében", "de": "Artikel für schnelleren Zugriff vorabrufen", "fr": "Prélire les articles pour un accès plus rapide", "es": "Recopilar artículos previamente para acceder más rápido"},
+    "Prefetch images": {"res": "GenieWidget:pref_prefetch_images", "hu": "Képek előzetes lekérése", "de": "Bilder vorabrufen", "fr": "Prélire les images", "es": "Recopilar imágenes previamente"},
+    "Prefetch images for faster access": {"res": "GenieWidget:pref_prefetch_images_desc", "hu": "A képek előzetes lekérése a gyorsabb elérés érdekében", "de": "Bilder für schnelleren Zugriff vorabrufen", "fr": "Prélire les images pour un accès plus rapide", "es": "Recopilar imágenes previamente para acceder más rápido"},
+    "News terms of service": {"res": "GenieWidget:legal_activity_title", "hu": "Hírek általános szerződési feltételek", "de": "Nutzungsbedingungen", "fr": "Conditions d'utilisation", "es": "Condiciones del servicio de Noticias"},
+    "Mobile privacy policy": {"res": "GenieWidget:pref_screen_privacy", "hu": "Mobil adatvédelmi irányelvek", "de": "Google Mobile-Datenschutzbestimmungen", "fr": "Règles de confidentialité Google Mobile", "es": "Política de privacidad para móviles"},
+    "Custom topics": {"res": "GenieWidget:pref_screen_custom_topics", "hu": "Egyéni témák", "de": "Benutzerdefinierte Themen", "fr": "Sujets personnalisés", "es": "Personalizar temas", "en": "Custom Topics"},
+    "Custom topic": {"res": "GenieWidget:pref_custom_topic_dialog_title", "hu": "Egyéni téma", "de": "Benutzerdefiniert", "fr": "Sujet personnalisé", "es": "Personalizar tema"},
+    "Add a custom news topic here": {"res": "GenieWidget:pref_custom_topic_summary", "hu": "Itt adhat hozzá egyéni témaköröket", "de": "Ein benutzerdefiniertes Nachrichtenthema hinzufügen", "fr": "Ajouter un sujet d'actualités personnalisé ici", "es": "Añade aquí un tema de noticias personalizado"},
+    "News topics": {"res": "GenieWidget:pref_screen_standard_topics", "hu": "Témakörök", "de": "Nachrichtenthemen", "fr": "Sujets d'actualités", "es": "Temas de noticias", "en": "News Topics"},
+    "Auto-refresh": {"res": "GenieWidget:pref_auto_refresh", "hu": "Automatikus frissítés", "de": "Automat. Aktualisieren", "fr": "Automatique", "es": "Actualizar automáticamente"},
+    "Auto-refresh summary": {"res": "GenieWidget:pref_auto_refresh_desc", "hu": "Hírek és időjárás automatikus frissítése", "de": "News und Wetter automatisch aktualisieren", "fr": "Actualiser automatiquement les actualités et la météo", "es": "Actualizar automáticamente la información sobre noticias y tiempo", "en": "Automatically refresh news and weather"},
+    "Refresh interval": {"res": "GenieWidget:dlg_refresh_interval", "hu": "Frissítés gyakorisága", "de": "Aktualisierungsintervall", "fr": "Fréquence d'actualisation", "es": "Intervalo de actualización"},
+    "Refresh status": {"res": "GenieWidget:pref_screen_refreshStatus", "hu": "Frissítés állapota", "de": "Status aktualisieren", "fr": "État de l'actualisation", "es": "Actualizar estado"},
+    "Last refresh %s": {"res": "GenieWidget:refresh_status1", "hu": "Utolsó frissítés: %s", "de": "Letzte Aktualisierung: %s", "fr": "Dernière actualisation %s", "es": "Última actualización: %s"},
+    "Last refresh %1$s \nNext refresh %2$s": {"res": "GenieWidget:refresh_status2", "hu": "Utolsó frissítés: %1$s \nKövetkező frissítés: %2$s", "de": "Letzte Aktualisierung: %1$s \nNächste Aktualisierung: %2$s", "fr": "Dernière actualisation le %1$s \nNouvelle actualisation le %2$s", "es": "Última actualización %1$s \nPróxima actualización %2$s"},
+    "Type a city or postal code:": {"res": "GenieWidget:enterlocation", "hu": "Adjon meg egy irányítószámot:", "de": "Geben Sie eine Stadt oder eine Postleitzahl ein:", "fr": "Saisissez une ville ou un code postal :", "es": "Introduce una ciudad o un código postal:", "en": "Enter a city or postal code:"},
+    "Type a custom topic:": {"res": "GenieWidget:pref_custom_topic_dialog_message", "hu": "Adjon meg egyéni témát:", "de": "Geben Sie ein benutzerdefiniertes Thema ein:", "fr": "Entrez un sujet personnalisé :", "es": "Introduce un tema personalizado:", "en": "Enter a custom topic:"},
+    "Half an hour": {"res": "GenieWidget:@array/array_refresh_interval_descs:0", "hu": "Fél óra", "de": "30 Minuten", "fr": "Une demi-heure", "es": "Media hora"},
+    "1 hour": {"res": "GenieWidget:@array/array_refresh_interval_descs:1", "hu": "1 óra", "de": "1 Stunde", "fr": "1 heure", "es": "1 hora"},
+    "3 hours": {"res": "GenieWidget:@array/array_refresh_interval_descs:2", "hu": "3 óra", "de": "3 Stunden", "fr": "3 heures", "es": "3 horas"},
+    "6 hours": {"res": "GenieWidget:@array/array_refresh_interval_descs:3", "hu": "6 óra", "de": "6 Stunden", "fr": "6 heures", "es": "6 horas"},
+    "12 hours": {"res": "GenieWidget:@array/array_refresh_interval_descs:4", "hu": "12 óra", "de": "12 Stunden", "fr": "12 heures", "es": "12 horas"},
+    "One day": {"res": "GenieWidget:@array/array_refresh_interval_descs:5", "hu": "Egy nap", "de": "24 Stunden", "fr": "Un jour", "es": "Un día"},
+    "Typeface": {"res": "BooksPhone:typeface", "hu": "Betűkép", "de": "Schriftart", "fr": "Police", "es": "Tipo de letra"},
+    "Line space": {"res": "BooksPhone:line_height", "hu": "Sortávolság", "de": "Zeilenabstand", "fr": "Espace entre les lignes", "es": "Interlineado"},
+    "Justification": {"res": "BooksPhone:justification", "hu": "Sor igazítása", "de": "Ausrichtung", "fr": "Justification", "es": "Justificar"},
+    "Themes": {"res": "BooksPhone:themes", "hu": "Témák", "de": "Designs", "fr": "Thèmes", "es": "Temas"},
+    "Brightness": {"res": "BooksPhone:brightness", "hu": "Fényerő", "de": "Helligkeit", "fr": "Luminosité", "es": "Brillo"},
+    "Use system setting": {"res": "BooksPhone:pref_brightness_match", "hu": "A rendszerbeállítás használata", "de": "Systemeinstellung verwenden", "fr": "Utiliser les paramètres système", "es": "Usar ajustes del sistema"}
   };
   const T = GBApps.texts(STRINGS);
 

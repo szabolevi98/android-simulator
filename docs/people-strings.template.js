@@ -4,13 +4,12 @@
    simulator's language; has() tells which items this release's menus carry. */
 (() => {
   'use strict';
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   const STRINGS = __STRINGS__({"Edit": "menu_editContact", "Share": "menu_share", "Delete": "menu_deleteContact",
     "Set ringtone": "?menu_set_ring_tone", "All calls to voicemail": "?menu_redirect_calls_to_vm", "Place on Home screen": "?menu_create_contact_shortcut",
     "Contacts to display": "menu_contacts_filter", "Import/export": "menu_import_export", "Clear frequents": "?menu_clear_frequents",
     "Accounts": "menu_accounts", "Settings": "menu_settings", "Help": "?menu_help",
     "Delete contact?": "?deleteConfirmation_title", "This contact will be deleted.": "deleteConfirmation",
     "OK": "framework:ok", "Cancel": "framework:cancel"});
-  const t = (key, lang = window.AndroidI18n?.language || 'en') => { const row = STRINGS[key], i = LANGS.indexOf(lang); return row ? i >= 0 ? row[i] : row[4] || key : key; };
+  const STR = AndroidStrings.table('people', STRINGS), t = (key, lang) => STR.t(key, lang);
   window.PeopleStrings = {t, has: key => key in STRINGS, device: '__DEVICE__'};
 })();

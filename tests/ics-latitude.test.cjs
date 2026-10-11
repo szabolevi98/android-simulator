@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 // Latitude on the Galaxy Nexus (audit step 9): Maps 6.4's MapsActivity in Latitude mode, map_view_latitude.xml's bar and overflow.
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const c={window:{}};for(const f of ['stock-strings.js','stock-apps.js'])vm.runInNewContext(fs.readFileSync('versions/4.0.4/'+f,'utf8'),c);

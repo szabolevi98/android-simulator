@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Panorama with a demonstration result: the 4.3 / 4.4.4 PanoramaModule layouts, the LP approximation, PANO_ pictures.
 for(const [ver,cam] of [['4.3','jb-camera.js'],['4.4.4','kk-camera.js']]){

@@ -12,276 +12,51 @@
   'use strict';
   const {e} = GBApps;
   const STRINGS = {
-      "YouTube": [
-          "YouTube",
-          "YouTube",
-          "YouTube",
-          "YouTube"
-      ],
-      "Home": [
-          "Home",
-          "Startseite",
-          "Accueil",
-          "Inicio"
-      ],
-      "Browse": [
-          "Browse",
-          "Durchsuchen",
-          "Parcourir",
-          "Explorar"
-      ],
-      "My Channel": [
-          "My Channel",
-          "Mein Kanal",
-          "Ma chaîne",
-          "Mi canal"
-      ],
-      "Upload": [
-          "Upload",
-          "Hochladen",
-          "Ajouter",
-          "Subir"
-      ],
-      "Search": [
-          "Search",
-          "Suche",
-          "Rechercher",
-          "Buscar"
-      ],
-      "Settings": [
-          "Settings",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Search YouTube": [
-          "Search YouTube",
-          "YouTube durchsuchen",
-          "Rechercher sur YouTube",
-          "Buscar en YouTube"
-      ],
-      "Info": [
-          "Info",
-          "Info",
-          "Infos",
-          "Información"
-      ],
-      "Related videos": [
-          "Related videos",
-          "Ähnliche Videos",
-          "Vidéos associées",
-          "Vídeos relacionados"
-      ],
-      "Comments": [
-          "Comments",
-          "Kommentare",
-          "Commentaires",
-          "Comentarios"
-      ],
-      "Description": [
-          "Description",
-          "Beschreibung",
-          "Description",
-          "Descripción"
-      ],
-      "Category": [
-          "Category",
-          "Kategorie",
-          "Catégorie",
-          "Categoría"
-      ],
-      "Tags": [
-          "Tags",
-          "Tags",
-          "Tags",
-          "Etiquetas"
-      ],
-      "%1$,d views": [
-          "%1$,d views",
-          "%1$,d views",
-          "%1$,d views",
-          "%1$,d views"
-      ],
-      "by %1$s": [
-          "by %1$s",
-          "von %1$s",
-          "de %1$s",
-          "de %1$s"
-      ],
-      "%1$d likes, %2$d dislikes": [
-          "%1$d likes, %2$d dislikes",
-          "%1$d positive Bewertungen, %2$d negative Bewertungen",
-          "%1$d aiment, %2$d n'aiment pas",
-          "Me gustan %1$d, no me gustan %2$d"
-      ],
-      "Favorite": [
-          "Favorite",
-          "Favorit",
-          "Favori",
-          "Favoritos"
-      ],
-      "Unfavorite": [
-          "Unfavorite",
-          "Aus Favoriten entfernen",
-          "Supprimer des favoris",
-          "Eliminar de Favoritos"
-      ],
-      "Share": [
-          "Share",
-          "Weitergeben",
-          "Partager",
-          "Compartir"
-      ],
-      "Flag": [
-          "Flag",
-          "Melden",
-          "Signaler",
-          "Marcar"
-      ],
-      "You like this video": [
-          "You like this video",
-          "Ihnen gefällt dieses Video.",
-          "Vous aimez cette vidéo.",
-          "Te gusta este vídeo."
-      ],
-      "You dislike this video": [
-          "You dislike this video",
-          "Ihnen gefällt das Video nicht",
-          "Vous n'aimez pas cette vidéo.",
-          "No te gusta este vídeo."
-      ],
-      "Video added to favorites": [
-          "Video added to favorites",
-          "Video zu Favoriten hinzugefügt",
-          "Vidéo ajoutée aux favoris",
-          "Vídeo añadido a Favoritos"
-      ],
-      "Video removed from favorites": [
-          "Video removed from favorites",
-          "Video aus Favoriten entfernt",
-          "Vidéo supprimée des favoris",
-          "Vídeo eliminado de Favoritos"
-      ],
-      "Results for \"%1$s\"": [
-          "Results for \"%1$s\"",
-          "Ergebnisse für \"%1$s\"",
-          "Résultats pour \"%1$s\"",
-          "Resultados de \"%1$s\""
-      ],
-      "No videos found": [
-          "No videos found",
-          "Keine Videos gefunden",
-          "Aucune vidéo n'a été trouvée.",
-          "No se ha encontrado ningún vídeo."
-      ],
-      "All": [
-          "All",
-          "All",
-          "All",
-          "All"
-      ],
-      "Most viewed": [
-          "Most viewed",
-          "Meistgesehen",
-          "Les plus regardées",
-          "Más vistos"
-      ],
-      "Top rated": [
-          "Top rated",
-          "Beste Bewertung",
-          "Les mieux notées",
-          "Más valorados"
-      ],
-      "Time filter": [
-          "Time filter",
-          "Zeitfilter",
-          "Filtrer par période",
-          "Filtro de tiempo"
-      ],
-      "Today": [
-          "Today",
-          "Heute",
-          "Aujourd'hui",
-          "Hoy"
-      ],
-      "This week": [
-          "This week",
-          "Diese Woche",
-          "Cette semaine",
-          "Esta semana"
-      ],
-      "This month": [
-          "This month",
-          "Diesen Monat",
-          "Ce mois-ci",
-          "Este mes"
-      ],
-      "All time": [
-          "All time",
-          "Gesamte Zeit",
-          "Toutes périodes",
-          "Siempre"
-      ],
-      "Respond to this video...": [
-          "Respond to this video...",
-          "Auf dieses Video antworten...",
-          "Laisser un commentaire vidéo sur cette vidéo...",
-          "Responder a este vídeo..."
-      ],
-      "Post": [
-          "Post",
-          "Post",
-          "Post",
-          "Post"
-      ],
-      "Comment posted": [
-          "Comment posted",
-          "Comment posted",
-          "Comment posted",
-          "Comment posted"
-      ],
-      "Rotate or double tap the video to toggle fullscreen": [
-          "Rotate or double tap the video to toggle fullscreen",
-          "Für Vollbildanzeige drehen oder zweimal auf das Video tippen",
-          "Faites pivoter la vidéo ou appuyez deux fois dessus pour activer le mode plein écran.",
-          "Gira el vídeo o tócalo dos veces para cambiar a pantalla completa."
-      ],
-      "%1$s days ago": [
-          "%1$s days ago",
-          "Vor %1$s Tagen",
-          "il y a %1$s jours",
-          "Hace %1$s días"
-      ],
-      "%1$s weeks ago": [
-          "%1$s weeks ago",
-          "vor %1$s Wochen",
-          "il y a %1$s semaines",
-          "hace %1$s semanas"
-      ],
-      "%1$s months ago": [
-          "%1$s months ago",
-          "vor %1$s Monaten",
-          "il y a %1$s mois",
-          "hace %1$s meses"
-      ],
-      "Subscribe": [
-          "Subscribe",
-          "Abonnieren",
-          "S'inscrire",
-          "Suscribirse"
-      ],
-      "Share this video via": [
-          "Share this video via",
-          "Video weiterleiten über",
-          "Partager cette vidéo via...",
-          "Compartir vídeo a través de"
-      ],
-      "Sign in": [
-          "Sign in",
-          "Anmelden",
-          "Connexion",
-          "Acceder"
-      ]
+    "YouTube": {"res": "YouTube:application_name", "hu": "YouTube", "de": "YouTube", "fr": "YouTube", "es": "YouTube"},
+    "Home": {"res": "YouTube:menu_home", "hu": "Home", "de": "Startseite", "fr": "Accueil", "es": "Inicio"},
+    "Browse": {"res": "YouTube:menu_browse", "hu": "Browse", "de": "Durchsuchen", "fr": "Parcourir", "es": "Explorar"},
+    "My Channel": {"res": "YouTube:menu_my_channel", "hu": "My Channel", "de": "Mein Kanal", "fr": "Ma chaîne", "es": "Mi canal"},
+    "Upload": {"res": "YouTube:menu_upload", "hu": "Upload", "de": "Hochladen", "fr": "Ajouter", "es": "Subir"},
+    "Search": {"res": "YouTube:menu_search", "hu": "Search", "de": "Suche", "fr": "Rechercher", "es": "Buscar"},
+    "Settings": {"res": "YouTube:menu_settings", "hu": "Settings", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Search YouTube": {"res": "YouTube:search_hint", "hu": "Search YouTube", "de": "YouTube durchsuchen", "fr": "Rechercher sur YouTube", "es": "Buscar en YouTube"},
+    "Info": {"res": "YouTube:video_info", "hu": "Info", "de": "Info", "fr": "Infos", "es": "Información"},
+    "Related videos": {"res": "YouTube:video_info_related_label_text", "hu": "Related videos", "de": "Ähnliche Videos", "fr": "Vidéos associées", "es": "Vídeos relacionados"},
+    "Comments": {"res": "YouTube:comments", "hu": "Comments", "de": "Kommentare", "fr": "Commentaires", "es": "Comentarios"},
+    "Description": {"res": "YouTube:description_label_text", "hu": "Description", "de": "Beschreibung", "fr": "Description", "es": "Descripción"},
+    "Category": {"res": "YouTube:category_label_text", "hu": "Category", "de": "Kategorie", "fr": "Catégorie", "es": "Categoría"},
+    "Tags": {"res": "YouTube:tags_label_text", "hu": "Tags", "de": "Tags", "fr": "Tags", "es": "Etiquetas"},
+    "%1$,d views": {"res": "YouTube:views", "hu": "%1$,d views", "de": "%1$,d views", "fr": "%1$,d views", "es": "%1$,d views"},
+    "by %1$s": {"res": "YouTube:video_author", "hu": "by %1$s", "de": "von %1$s", "fr": "de %1$s", "es": "de %1$s"},
+    "%1$d likes, %2$d dislikes": {"res": "YouTube:num_likes_and_dislikes", "hu": "%1$d likes, %2$d dislikes", "de": "%1$d positive Bewertungen, %2$d negative Bewertungen", "fr": "%1$d aiment, %2$d n'aiment pas", "es": "Me gustan %1$d, no me gustan %2$d"},
+    "Favorite": {"res": "YouTube:add_favorite", "hu": "Favorite", "de": "Favorit", "fr": "Favori", "es": "Favoritos"},
+    "Unfavorite": {"res": "YouTube:remove_favorite", "hu": "Unfavorite", "de": "Aus Favoriten entfernen", "fr": "Supprimer des favoris", "es": "Eliminar de Favoritos"},
+    "Share": {"res": "YouTube:share", "hu": "Share", "de": "Weitergeben", "fr": "Partager", "es": "Compartir"},
+    "Flag": {"res": "YouTube:flag", "hu": "Flag", "de": "Melden", "fr": "Signaler", "es": "Marcar"},
+    "You like this video": {"res": "YouTube:rating_like", "hu": "You like this video", "de": "Ihnen gefällt dieses Video.", "fr": "Vous aimez cette vidéo.", "es": "Te gusta este vídeo."},
+    "You dislike this video": {"res": "YouTube:rating_dislike", "hu": "You dislike this video", "de": "Ihnen gefällt das Video nicht", "fr": "Vous n'aimez pas cette vidéo.", "es": "No te gusta este vídeo."},
+    "Video added to favorites": {"res": "YouTube:added_to_favorites", "hu": "Video added to favorites", "de": "Video zu Favoriten hinzugefügt", "fr": "Vidéo ajoutée aux favoris", "es": "Vídeo añadido a Favoritos"},
+    "Video removed from favorites": {"res": "YouTube:removed_from_favorites", "hu": "Video removed from favorites", "de": "Video aus Favoriten entfernt", "fr": "Vidéo supprimée des favoris", "es": "Vídeo eliminado de Favoritos"},
+    "Results for \"%1$s\"": {"res": "YouTube:videos_matching", "hu": "Results for \"%1$s\"", "de": "Ergebnisse für \"%1$s\"", "fr": "Résultats pour \"%1$s\"", "es": "Resultados de \"%1$s\""},
+    "No videos found": {"res": "YouTube:no_videos_found", "hu": "No videos found", "de": "Keine Videos gefunden", "fr": "Aucune vidéo n'a été trouvée.", "es": "No se ha encontrado ningún vídeo."},
+    "All": {"res": "YouTube:all_categories", "hu": "All", "de": "All", "fr": "All", "es": "All"},
+    "Most viewed": {"res": "YouTube:most_viewed_videos", "hu": "Most viewed", "de": "Meistgesehen", "fr": "Les plus regardées", "es": "Más vistos"},
+    "Top rated": {"res": "YouTube:top_rated_videos", "hu": "Top rated", "de": "Beste Bewertung", "fr": "Les mieux notées", "es": "Más valorados"},
+    "Time filter": {"res": "YouTube:time_filter_dialog_title", "hu": "Time filter", "de": "Zeitfilter", "fr": "Filtrer par période", "es": "Filtro de tiempo"},
+    "Today": {"res": "YouTube:time_filter_today", "hu": "Today", "de": "Heute", "fr": "Aujourd'hui", "es": "Hoy"},
+    "This week": {"res": "YouTube:time_filter_this_week", "hu": "This week", "de": "Diese Woche", "fr": "Cette semaine", "es": "Esta semana"},
+    "This month": {"res": "YouTube:time_filter_this_month", "hu": "This month", "de": "Diesen Monat", "fr": "Ce mois-ci", "es": "Este mes"},
+    "All time": {"res": "YouTube:time_filter_all_time", "hu": "All time", "de": "Gesamte Zeit", "fr": "Toutes périodes", "es": "Siempre"},
+    "Respond to this video...": {"res": "YouTube:comment_hint", "hu": "Respond to this video...", "de": "Auf dieses Video antworten...", "fr": "Laisser un commentaire vidéo sur cette vidéo...", "es": "Responder a este vídeo..."},
+    "Post": {"res": "YouTube:comment_post_button", "hu": "Post", "de": "Post", "fr": "Post", "es": "Post"},
+    "Comment posted": {"res": "YouTube:comment_posted", "hu": "Comment posted", "de": "Comment posted", "fr": "Comment posted", "es": "Comment posted"},
+    "Rotate or double tap the video to toggle fullscreen": {"res": "YouTube:promo_fullscreen", "hu": "Rotate or double tap the video to toggle fullscreen", "de": "Für Vollbildanzeige drehen oder zweimal auf das Video tippen", "fr": "Faites pivoter la vidéo ou appuyez deux fois dessus pour activer le mode plein écran.", "es": "Gira el vídeo o tócalo dos veces para cambiar a pantalla completa."},
+    "%1$s days ago": {"res": "YouTube:ago_day_plural", "hu": "%1$s days ago", "de": "Vor %1$s Tagen", "fr": "il y a %1$s jours", "es": "Hace %1$s días"},
+    "%1$s weeks ago": {"res": "YouTube:ago_week_plural", "hu": "%1$s weeks ago", "de": "vor %1$s Wochen", "fr": "il y a %1$s semaines", "es": "hace %1$s semanas"},
+    "%1$s months ago": {"res": "YouTube:ago_month_plural", "hu": "%1$s months ago", "de": "vor %1$s Monaten", "fr": "il y a %1$s mois", "es": "hace %1$s meses"},
+    "Subscribe": {"res": "YouTube:subscribe", "hu": "Subscribe", "de": "Abonnieren", "fr": "S'inscrire", "es": "Suscribirse"},
+    "Share this video via": {"res": "YouTube:send_video", "hu": "Share this video via", "de": "Video weiterleiten über", "fr": "Partager cette vidéo via...", "es": "Compartir vídeo a través de"},
+    "Sign in": {"res": "YouTube:accounts_title", "hu": "Sign in", "de": "Anmelden", "fr": "Connexion", "es": "Acceder"}
   };
   const T = GBApps.texts(STRINGS);
   const A = name => `assets/yt-${name}.png`;

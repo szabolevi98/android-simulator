@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Galaxy Nexus Settings > Language & input (ics-language.js, from language_settings.xml and the pages it opens).
 const ctx={window:{},Intl,requestAnimationFrame:()=>{},document:{querySelector:()=>null}};vm.runInNewContext(fs.readFileSync('versions/4.0.4/ics-language.js','utf8'),ctx);

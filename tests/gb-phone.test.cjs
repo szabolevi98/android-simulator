@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},Intl};
 vm.runInNewContext(fs.readFileSync('versions/2.3.6/gb-strings-contacts.js','utf8'),context);

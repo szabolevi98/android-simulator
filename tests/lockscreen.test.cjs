@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const ctx={window:{},crypto:require('node:crypto').webcrypto,TextEncoder};vm.createContext(ctx);vm.runInContext(fs.readFileSync('versions/4.0.4/lockscreen.js','utf8'),ctx);const lock=ctx.window.ICSLockscreen;
 (async()=>{

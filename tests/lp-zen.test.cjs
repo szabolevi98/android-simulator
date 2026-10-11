@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Lollipop Interruptions (versions/5.1.1/lp-zen.js): ZenModeSettings, ZenModeConditionSelection and Downtime as the
 // android-5.1.1_r26 Settings and DowntimeConditionProvider have them.

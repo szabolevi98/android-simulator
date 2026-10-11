@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // 4.4.4 camera (GoogleCamera 2.0.002 / Camera2 android-4.4.4_r1): AnimationManager's capture animation (flash 300 ms,
 // shrink 400 ms into the frameless top-right thumbnail, hold 2500 ms, slide off 1100 ms), HDR+ and Photo Sphere.

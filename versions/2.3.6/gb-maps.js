@@ -19,400 +19,75 @@
   'use strict';
   const {e} = GBApps;
   const STRINGS = {
-      "Maps": [
-          "Maps",
-          "Maps",
-          "Maps",
-          "Maps"
-      ],
-      "Search Maps": [
-          "Keresés a térképen",
-          "Maps-Suche",
-          "Rechercher sur Google Maps",
-          "Buscar en Maps"
-      ],
-      "Latitude": [
-          "Latitude",
-          "Latitude",
-          "Latitude",
-          "Latitude"
-      ],
-      "Places": [
-          "Places",
-          "Places",
-          "Adresses",
-          "Sitios"
-      ],
-      "Navigation": [
-          "Navigáció",
-          "Navigation",
-          "Navigation",
-          "Navigation"
-      ],
-      "Layers": [
-          "Rétegek",
-          "Ebenen",
-          "Afficher...",
-          "Capas"
-      ],
-      "Clear Map": [
-          "Találatok törlése",
-          "Karte leeren",
-          "Effacer les résultats",
-          "Borrar resultados"
-      ],
-      "Starred Places": [
-          "Csillaggal megjelölt helyek",
-          "Markierte Orte",
-          "Adresses enregistrées",
-          "Sitios destacados"
-      ],
-      "Traffic": [
-          "Forgalom",
-          "Verkehr",
-          "Infos trafic",
-          "Tráfico"
-      ],
-      "Satellite": [
-          "Műhold",
-          "Satellit",
-          "Satellite",
-          "Satélite"
-      ],
-      "Terrain": [
-          "Terrain",
-          "Gelände",
-          "Relief",
-          "Relieve"
-      ],
-      "Map": [
-          "Térkép",
-          "Karte",
-          "Plan",
-          "Mapa"
-      ],
-      "Show Map": [
-          "Térkép megjelenítése",
-          "Karte anzeigen",
-          "Afficher plan",
-          "Ver mapa"
-      ],
-      "Restaurants": [
-          "Éttermek",
-          "Restaurants",
-          "Restaurants",
-          "Restaurantes"
-      ],
-      "Attractions": [
-          "Látnivalók",
-          "Attraktionen",
-          "Attractions",
-          "Lugares de interés"
-      ],
-      "Gas Stations": [
-          "Benzinkutak",
-          "Tankstellen",
-          "Stations-service",
-          "Gasolineras"
-      ],
-      "ATMs & Banks": [
-          "ATM-ek és bankok",
-          "Geldautomaten/Bankfilialen",
-          "Distributeurs automatiques et banques",
-          "Bancos y cajeros automáticos"
-      ],
-      "Walking": [
-          "Gyalog",
-          "Fußweg",
-          "À pied",
-          "A pie"
-      ],
-      "Driving": [
-          "Autóval",
-          "Auto",
-          "Voiture",
-          "En coche"
-      ],
-      "Go": [
-          "Mehet",
-          "Los",
-          "OK",
-          "Ir"
-      ],
-      "Get Directions": [
-          "Útvonaltervezés",
-          "Route berechnen",
-          "Calculer itinéraire",
-          "Cómo llegar"
-      ],
-      "Speak Destination": [
-          "Cél kimondása",
-          "Ziel einsprechen",
-          "Énoncer destination",
-          "Di el destino"
-      ],
-      "Type Destination": [
-          "Cél begépelése",
-          "Ziel eintippen",
-          "Saisir destination",
-          "Teclear destino"
-      ],
-      "Contacts": [
-          "Kapcsolatok",
-          "Kontakte",
-          "Contacts",
-          "Contactos"
-      ],
-      "Recent Destinations": [
-          "Legutóbbi úti célok",
-          "Zuletzt eingegebene Ziele",
-          "Destinations récentes",
-          "Destinos recientes"
-      ],
-      "Destination": [
-          "Cél",
-          "Ziel",
-          "Destination",
-          "Destino"
-      ],
-      "Route Info": [
-          "Útvonalinfó",
-          "Routeninformationen",
-          "Infos sur l'itinéraire",
-          "Información de ruta"
-      ],
-      "Directions List": [
-          "Útvonalterv-lista",
-          "Routenliste",
-          "Itinéraire",
-          "Ruta"
-      ],
-      "Exit Navigation": [
-          "Kilépés a Navigációból",
-          "Navigation beenden",
-          "Quitter la navigation",
-          "Salir de Navigation"
-      ],
-      "Exit navigation?": [
-          "Kilép a navigációból?",
-          "Navigation beenden?",
-          "Quitter le mode Navigation ?",
-          "¿Salir de la navegación?"
-      ],
-      "This will end all route guidance.": [
-          "Ezzel leállítja az útvonalsegédletet.",
-          "Hierdurch wird die Routenführung beendet.",
-          "Vous n'allez plus être guidé.",
-          "Se terminarán las indicaciones de rutas."
-      ],
-      "Mute": [
-          "Elnémítás",
-          "Ton aus",
-          "Silencieux",
-          "Silencio"
-      ],
-      "Unmute": [
-          "Hang visszakapcsolása",
-          "Ton ein",
-          "Vocal",
-          "Reactivar audio"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Configuración"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Search": [
-          "Keresés",
-          "Suchen",
-          "Rechercher",
-          "Buscar"
-      ],
-      "Terms, Privacy & Notices": [
-          "Szerződési feltételek, adatvédelem és jogi közlemények",
-          "Nutzungsbedingungen",
-          "Conditions et confidentialité",
-          "Términos y Privacidad"
-      ],
-      "Turn left onto %1$s": [
-          "Forduljon balra erre: %1$s",
-          "Links auf %1$s abbiegen",
-          "Prendre à gauche sur %1$s",
-          "Gira a la izquierda hacia %1$s."
-      ],
-      "Turn right onto %1$s": [
-          "Forduljon jobbra erre: %1$s",
-          "Rechts auf %1$s abbiegen",
-          "Prendre %1$s complètement à droite",
-          "Gira a la derecha hacia %1$s."
-      ],
-      "Head %1$s on %2$s": [
-          "Menjen %1$si irányba a(z) %2$s úton",
-          "Richtung %1$s auf %2$s fahren",
-          "Suivre la direction %1$s sur %2$s",
-          "Dirección %1$s por %2$s"
-      ],
-      "Continue onto %1$s": [
-          "Tovább erre: %1$s",
-          "Weiter auf %1$s",
-          "Continuer sur %1$s",
-          "Continúa por %1$s."
-      ],
-      "You have arrived.": [
-          "Megérkezett.",
-          "Sie haben das Ziel erreicht.",
-          "Vous êtes arrivé.",
-          "Has llegado."
-      ],
-      "Your destination is on the right.": [
-          "Az úti cél a jobb oldalon található.",
-          "Das Ziel befindet sich auf der rechten Seite.",
-          "Votre destination se trouve sur la droite.",
-          "Tu destino está a la derecha."
-      ],
-      "%1$s min": [
-          "%1$s perc",
-          "%1$s Min.",
-          "%1$s mn",
-          "%1$s min"
-      ],
-      "%1$s hr  %2$s min": [
-          "%1$s óra %2$s perc",
-          "%1$s h %2$s min",
-          "%1$s h %2$s mn",
-          "%1$s h %2$s min"
-      ],
-      "{0} km": [
-          "{0} km",
-          "{0} km",
-          "{0} km",
-          "{0} km"
-      ],
-      "{0} m": [
-          "{0} m",
-          "{0} m",
-          "{0} m",
-          "{0} m"
-      ],
-      "{0} mi": [
-          "{0} mf",
-          "{0} mi",
-          "{0} mi",
-          "{0} mi"
-      ],
-      "{0} ft": [
-          "{0} láb",
-          "{0} ft",
-          "{0} pieds",
-          "{0} pie(s)"
-      ],
-      "imperial": [
-          "metric",
-          "metric",
-          "metric",
-          "metric"
-      ],
-      "north": [
-          "észak",
-          "Norden",
-          "nord",
-          "norte"
-      ],
-      "east": [
-          "kelet",
-          "Osten",
-          "est",
-          "este"
-      ],
-      "south": [
-          "dél",
-          "Süden",
-          "sud",
-          "sur"
-      ],
-      "west": [
-          "nyugat",
-          "Westen",
-          "ouest",
-          "oeste"
-      ],
-      "Getting driving directions": [
-          "Útvonaltervek beolvasása",
-          "Routenplaner wird abgerufen.",
-          "Calcul de l'itinéraire routier",
-          "Obteniendo ruta en coche"
-      ],
-      "Navigate to": [
-          "Navigálás ide:",
-          "Navigiere zu",
-          "Atteindre",
-          "Ir a"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ],
-      "OK": [
-          "OK",
-          "OK",
-          "OK",
-          "Aceptar"
-      ],
-      "Report a Problem": [
-          "Hibabejelentés",
-          "Ein Problem melden",
-          "Signaler problème",
-          "Informar incidencia"
-      ],
-      "Voice guidance": [
-          "Hangos irányítás",
-          "Sprachführung",
-          "Assistant vocal",
-          "Indicaciones de voz"
-      ],
-      "Choose Destination": [
-          "Úti cél kiválasztása",
-          "Ziel auswählen",
-          "Choisir destination",
-          "Elegir destino"
-      ],
-      "Route options": [
-          "Útvonalopciók",
-          "Routenoptionen",
-          "Options itinéraire",
-          "Opciones ruta"
-      ],
-      "Avoid tolls": [
-          "Útdíjak kikerülése",
-          "Mautpflichtige Straßen meiden",
-          "Éviter les péages",
-          "Evitar peajes"
-      ],
-      "Avoiding highways": [
-          "Autópályák kikerülése",
-          "Ohne Autobahn",
-          "Itinéraire sans autoroutes",
-          "Sin autopistas"
-      ],
-      "Avoiding tolls": [
-          "Útdíjak kikerülése",
-          "Ohne Mautpflicht",
-          "Itinéraire sans péages",
-          "Sin peajes"
-      ]
+    "Maps": {"res": "Maps:MAPS_APP_NAME", "hu": "Maps", "de": "Maps", "fr": "Maps", "es": "Maps"},
+    "Search Maps": {"res": "Maps:da_search_maps", "hu": "Keresés a térképen", "de": "Maps-Suche", "fr": "Rechercher sur Google Maps", "es": "Buscar en Maps"},
+    "Latitude": {"res": "Maps:LATITUDE_APP_NAME", "hu": "Latitude", "de": "Latitude", "fr": "Latitude", "es": "Latitude"},
+    "Places": {"res": "Maps:PLACES_APP_NAME", "hu": "Places", "de": "Places", "fr": "Adresses", "es": "Sitios"},
+    "Navigation": {"res": "Maps:da_navigation", "hu": "Navigáció", "de": "Navigation", "fr": "Navigation", "es": "Navigation"},
+    "Layers": {"res": "Maps:da_layers", "hu": "Rétegek", "de": "Ebenen", "fr": "Afficher...", "es": "Capas"},
+    "Clear Map": {"res": "Maps:da_clear_layers", "hu": "Találatok törlése", "de": "Karte leeren", "fr": "Effacer les résultats", "es": "Borrar resultados"},
+    "Starred Places": {"res": "Maps:da_picker_starred_items", "hu": "Csillaggal megjelölt helyek", "de": "Markierte Orte", "fr": "Adresses enregistrées", "es": "Sitios destacados"},
+    "Traffic": {"res": "Maps:da_traffic", "hu": "Forgalom", "de": "Verkehr", "fr": "Infos trafic", "es": "Tráfico"},
+    "Satellite": {"res": "Maps:da_satellite", "hu": "Műhold", "de": "Satellit", "fr": "Satellite", "es": "Satélite"},
+    "Terrain": {"res": "Maps:WALLPAPER_MAP_MODE_TERRAIN", "hu": "Terrain", "de": "Gelände", "fr": "Relief", "es": "Relieve"},
+    "Map": {"res": "Maps:da_map", "hu": "Térkép", "de": "Karte", "fr": "Plan", "es": "Mapa"},
+    "Show Map": {"res": "Maps:da_show_map", "hu": "Térkép megjelenítése", "de": "Karte anzeigen", "fr": "Afficher plan", "es": "Ver mapa"},
+    "Restaurants": {"res": "Maps:da_layer_name_restaurants", "hu": "Éttermek", "de": "Restaurants", "fr": "Restaurants", "es": "Restaurantes"},
+    "Attractions": {"res": "Maps:da_layer_name_attractions", "hu": "Látnivalók", "de": "Attraktionen", "fr": "Attractions", "es": "Lugares de interés"},
+    "Gas Stations": {"res": "Maps:da_layer_name_gas_stations", "hu": "Benzinkutak", "de": "Tankstellen", "fr": "Stations-service", "es": "Gasolineras"},
+    "ATMs & Banks": {"res": "Maps:da_layer_name_atms_and_banks", "hu": "ATM-ek és bankok", "de": "Geldautomaten/Bankfilialen", "fr": "Distributeurs automatiques et banques", "es": "Bancos y cajeros automáticos"},
+    "Walking": {"res": "Maps:da_walking", "hu": "Gyalog", "de": "Fußweg", "fr": "À pied", "es": "A pie"},
+    "Driving": {"res": "Maps:da_driving", "hu": "Autóval", "de": "Auto", "fr": "Voiture", "es": "En coche"},
+    "Go": {"res": "Maps:da_dialog_go", "hu": "Mehet", "de": "Los", "fr": "OK", "es": "Ir"},
+    "Get Directions": {"res": "Maps:da_dialog_get_directions", "hu": "Útvonaltervezés", "de": "Route berechnen", "fr": "Calculer itinéraire", "es": "Cómo llegar"},
+    "Speak Destination": {"res": "Maps:da_picker_speak_destination", "hu": "Cél kimondása", "de": "Ziel einsprechen", "fr": "Énoncer destination", "es": "Di el destino"},
+    "Type Destination": {"res": "Maps:da_picker_type_destination", "hu": "Cél begépelése", "de": "Ziel eintippen", "fr": "Saisir destination", "es": "Teclear destino"},
+    "Contacts": {"res": "Maps:da_picker_contacts", "hu": "Kapcsolatok", "de": "Kontakte", "fr": "Contacts", "es": "Contactos"},
+    "Recent Destinations": {"res": "Maps:da_picker_recent_destinations", "hu": "Legutóbbi úti célok", "de": "Zuletzt eingegebene Ziele", "fr": "Destinations récentes", "es": "Destinos recientes"},
+    "Destination": {"res": "Maps:da_picker_search_hint", "hu": "Cél", "de": "Ziel", "fr": "Destination", "es": "Destino"},
+    "Route Info": {"res": "Maps:da_route_overview", "hu": "Útvonalinfó", "de": "Routeninformationen", "fr": "Infos sur l'itinéraire", "es": "Información de ruta"},
+    "Directions List": {"res": "Maps:da_show_list", "hu": "Útvonalterv-lista", "de": "Routenliste", "fr": "Itinéraire", "es": "Ruta"},
+    "Exit Navigation": {"res": "Maps:da_exit_navigation", "hu": "Kilépés a Navigációból", "de": "Navigation beenden", "fr": "Quitter la navigation", "es": "Salir de Navigation"},
+    "Exit navigation?": {"res": "Maps:da_confirm_exit_title", "hu": "Kilép a navigációból?", "de": "Navigation beenden?", "fr": "Quitter le mode Navigation ?", "es": "¿Salir de la navegación?"},
+    "This will end all route guidance.": {"res": "Maps:da_confirm_exit_text", "hu": "Ezzel leállítja az útvonalsegédletet.", "de": "Hierdurch wird die Routenführung beendet.", "fr": "Vous n'allez plus être guidé.", "es": "Se terminarán las indicaciones de rutas."},
+    "Mute": {"res": "Maps:da_mute", "hu": "Elnémítás", "de": "Ton aus", "fr": "Silencieux", "es": "Silencio"},
+    "Unmute": {"res": "Maps:da_unmute", "hu": "Hang visszakapcsolása", "de": "Ton ein", "fr": "Vocal", "es": "Reactivar audio"},
+    "Settings": {"res": "Maps:da_settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Configuración"},
+    "Help": {"res": "Maps:da_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "Search": {"res": "Maps:da_search_label", "hu": "Keresés", "de": "Suchen", "fr": "Rechercher", "es": "Buscar"},
+    "Terms, Privacy & Notices": {"res": "Maps:da_terms_privacy_notices", "hu": "Szerződési feltételek, adatvédelem és jogi közlemények", "de": "Nutzungsbedingungen", "fr": "Conditions et confidentialité", "es": "Términos y Privacidad"},
+    "Turn left onto %1$s": {"res": "Maps:da_step_turn_left_onto", "hu": "Forduljon balra erre: %1$s", "de": "Links auf %1$s abbiegen", "fr": "Prendre à gauche sur %1$s", "es": "Gira a la izquierda hacia %1$s."},
+    "Turn right onto %1$s": {"res": "Maps:da_step_turn_right_onto", "hu": "Forduljon jobbra erre: %1$s", "de": "Rechts auf %1$s abbiegen", "fr": "Prendre %1$s complètement à droite", "es": "Gira a la derecha hacia %1$s."},
+    "Head %1$s on %2$s": {"res": "Maps:da_step_depart_on", "hu": "Menjen %1$si irányba a(z) %2$s úton", "de": "Richtung %1$s auf %2$s fahren", "fr": "Suivre la direction %1$s sur %2$s", "es": "Dirección %1$s por %2$s"},
+    "Continue onto %1$s": {"res": "Maps:da_step_continue_onto", "hu": "Tovább erre: %1$s", "de": "Weiter auf %1$s", "fr": "Continuer sur %1$s", "es": "Continúa por %1$s."},
+    "You have arrived.": {"res": "Maps:da_destination_reached", "hu": "Megérkezett.", "de": "Sie haben das Ziel erreicht.", "fr": "Vous êtes arrivé.", "es": "Has llegado."},
+    "Your destination is on the right.": {"res": "Maps:da_destination_on_the_right", "hu": "Az úti cél a jobb oldalon található.", "de": "Das Ziel befindet sich auf der rechten Seite.", "fr": "Votre destination se trouve sur la droite.", "es": "Tu destino está a la derecha."},
+    "%1$s min": {"res": "Maps:da_time_format_minutes", "hu": "%1$s perc", "de": "%1$s Min.", "fr": "%1$s mn", "es": "%1$s min"},
+    "%1$s hr  %2$s min": {"res": "Maps:da_time_format_hours", "hu": "%1$s óra %2$s perc", "de": "%1$s h %2$s min", "fr": "%1$s h %2$s mn", "es": "%1$s h %2$s min"},
+    "{0} km": {"res": "Maps:da_distance_format_kilometers_abbreviated", "hu": "{0} km", "de": "{0} km", "fr": "{0} km", "es": "{0} km"},
+    "{0} m": {"res": "Maps:da_distance_format_meters_abbreviated", "hu": "{0} m", "de": "{0} m", "fr": "{0} m", "es": "{0} m"},
+    "{0} mi": {"res": "Maps:da_distance_format_miles_abbreviated", "hu": "{0} mf", "de": "{0} mi", "fr": "{0} mi", "es": "{0} mi"},
+    "{0} ft": {"res": "Maps:da_distance_format_feet_abbreviated", "hu": "{0} láb", "de": "{0} ft", "fr": "{0} pieds", "es": "{0} pie(s)"},
+    "imperial": {"res": "Maps:da_distance_format_mode", "hu": "metric", "de": "metric", "fr": "metric", "es": "metric"},
+    "north": {"res": "Maps:da_direction_north", "hu": "észak", "de": "Norden", "fr": "nord", "es": "norte"},
+    "east": {"res": "Maps:da_direction_east", "hu": "kelet", "de": "Osten", "fr": "est", "es": "este"},
+    "south": {"res": "Maps:da_direction_south", "hu": "dél", "de": "Süden", "fr": "sud", "es": "sur"},
+    "west": {"res": "Maps:da_direction_west", "hu": "nyugat", "de": "Westen", "fr": "ouest", "es": "oeste"},
+    "Getting driving directions": {"res": "Maps:da_waiting_for_directions", "hu": "Útvonaltervek beolvasása", "de": "Routenplaner wird abgerufen.", "fr": "Calcul de l'itinéraire routier", "es": "Obteniendo ruta en coche"},
+    "Navigate to": {"res": "Maps:da_navigate_to", "hu": "Navigálás ide:", "de": "Navigiere zu", "fr": "Atteindre", "es": "Ir a"},
+    "Cancel": {"res": "Maps:da_dialog_cancel", "hu": "Mégse", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"},
+    "OK": {"res": "Maps:da_dialog_ok", "hu": "OK", "de": "OK", "fr": "OK", "es": "Aceptar"},
+    "Report a Problem": {"res": "Maps:da_report_a_problem", "hu": "Hibabejelentés", "de": "Ein Problem melden", "fr": "Signaler problème", "es": "Informar incidencia"},
+    "Voice guidance": {"res": "Maps:da_voice_guidance", "hu": "Hangos irányítás", "de": "Sprachführung", "fr": "Assistant vocal", "es": "Indicaciones de voz"},
+    "Choose Destination": {"res": "Maps:da_picker_choose_destination", "hu": "Úti cél kiválasztása", "de": "Ziel auswählen", "fr": "Choisir destination", "es": "Elegir destino"},
+    "Route options": {"res": "Maps:da_route_options", "hu": "Útvonalopciók", "de": "Routenoptionen", "fr": "Options itinéraire", "es": "Opciones ruta"},
+    "Avoid tolls": {"res": "Maps:da_avoid_tolls", "hu": "Útdíjak kikerülése", "de": "Mautpflichtige Straßen meiden", "fr": "Éviter les péages", "es": "Evitar peajes"},
+    "Avoiding highways": {"res": "Maps:da_avoiding_highways", "hu": "Autópályák kikerülése", "de": "Ohne Autobahn", "fr": "Itinéraire sans autoroutes", "es": "Sin autopistas"},
+    "Avoiding tolls": {"res": "Maps:da_avoiding_tolls", "hu": "Útdíjak kikerülése", "de": "Ohne Mautpflicht", "fr": "Itinéraire sans péages", "es": "Sin peajes"}
   };
   // Navigation's route options offer highways and tolls; the image only has "Avoid tolls" for the check box, so the
   // highways one is Maps 7.5's DIRECTIONS_OPTIONS_AVOID_HIGHWAYS (Nexus 5 image) in the same languages.
-  STRINGS['Avoid highways'] = ['Autópályák elkerülése', 'Autobahnen vermeiden', 'Éviter les autoroutes', 'Evitar autopistas'];
+  STRINGS['Avoid highways'] = {res: 'Maps:DIRECTIONS_OPTIONS_AVOID_HIGHWAYS', hu: 'Autópályák elkerülése', de: 'Autobahnen vermeiden', fr: 'Éviter les autoroutes', es: 'Evitar autopistas'};
   const T = GBApps.texts(STRINGS);
   const APPS = ['maps', 'places', 'latitude', 'navigation'];
   const A = name => `assets/mp-${name}.png`;

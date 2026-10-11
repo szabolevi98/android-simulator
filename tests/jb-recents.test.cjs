@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},document:{}};vm.createContext(context);
 for(const f of ['jb-keyguard.js','jb-recents.js','jb-search.js'])vm.runInContext(fs.readFileSync(`versions/4.3/${f}`,'utf8'),context);

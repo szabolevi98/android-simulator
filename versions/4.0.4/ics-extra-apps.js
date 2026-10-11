@@ -9,28 +9,13 @@
   const APPS = ['messenger', 'navigation', 'local', 'movie-studio'];
   // Places' categories [hu, de, fr, es] from the image's Maps APK.
   const STRINGS = {
-      "Attractions": [
-          "Látnivalók",
-          "Sehenswürdigkeiten",
-          "Attractions",
-          "Atracciones"
-      ],
-      "Gas stations": [
-          "Benzinkutak",
-          "Tankstellen",
-          "Stations-service",
-          "Gasolineras"
-      ],
-      "Restaurants": [
-          "Éttermek",
-          "Restaurants",
-          "Restaurants",
-          "Restaurantes"
-      ]
+    "Attractions": {"res": "Maps:da_layer_name_attractions", "hu": "Látnivalók", "de": "Sehenswürdigkeiten", "fr": "Attractions", "es": "Atracciones"},
+    "Gas stations": {"res": "Maps:da_layer_name_gas_stations", "hu": "Benzinkutak", "de": "Tankstellen", "fr": "Stations-service", "es": "Gasolineras"},
+    "Restaurants": {"res": "Maps:da_layer_name_restaurants", "hu": "Éttermek", "de": "Restaurants", "fr": "Restaurants", "es": "Restaurantes"}
   };  const LANGS = ['hu', 'de', 'fr', 'es'];
   // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
   const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key], i = LANGS.indexOf(window.AndroidI18n?.language); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
-  const local = (key, t) => { const i = LANGS.indexOf(window.AndroidI18n?.language); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : t(key); };
+  const STR = AndroidStrings.table('', STRINGS), local = (key, t) => STR.has(key) ? STR.t(key) : t(key);
   function render(app, {ui, t, chats = [], contacts = []}) {
     if (app === 'messenger') {
       // Google+ 2.4's ConversationListActivity: the EsActionBar with home as up and conversation_list_item_view rows.

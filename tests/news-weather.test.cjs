@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // News & Weather (audit step 6): GenieWidget's Preferences (weather, news topics, refresh) with their effects, the
 // refresh status and the story page; news-prefs.js comes from docs/news-prefs.template.js.

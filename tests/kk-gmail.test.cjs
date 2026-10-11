@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Stock Nexus 5: Gmail 4.6.1 (Gmail2.apk of KTU84P) on the UnifiedEmail screens (sectioned inbox teaser, drawer, carets, Archive, label chip).
 const w={};w.window=w;

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Google Settings' GMS pages (4.3 PrebuiltGmsCore 3.1.58): Ads, Verify apps, Connected apps, Google location settings.
 const dir='versions/4.3/',html=fs.readFileSync(dir+'index.html','utf8');

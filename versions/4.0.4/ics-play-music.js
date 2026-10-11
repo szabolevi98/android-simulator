@@ -10,135 +10,29 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-      "Recent": [
-          "Legutóbbiak",
-          "Letzte",
-          "Sélections récentes",
-          "Reciente"
-      ],
-      "Artists": [
-          "Előadók",
-          "Musiker",
-          "Artistes",
-          "Artistas"
-      ],
-      "Albums": [
-          "Albumok",
-          "Alben",
-          "Albums",
-          "Álbumes"
-      ],
-      "Songs": [
-          "Dalok",
-          "Titel",
-          "Titres",
-          "Canciones"
-      ],
-      "Playlists": [
-          "Lejátszási listák",
-          "Playlists",
-          "Playlists",
-          "Listas"
-      ],
-      "Genres": [
-          "Műfajok",
-          "Genres",
-          "Genres",
-          "Géneros"
-      ],
-      "Search music": [
-          "Zene keresése",
-          "In Musik suchen",
-          "Recherchez musique",
-          "Buscar música"
-      ],
-      "Shuffle all": [
-          "Keverés",
-          "Alle zufällig wiedergeben",
-          "Lecture aléatoire",
-          "Aleatorio"
-      ],
-      "Now playing": [
-          "Most hallható",
-          "Aktuelle Wiedergabe",
-          "À l’écoute",
-          "Reproduciendo"
-      ],
-      "Shuffle": [
-          "Véletlen sorrendű lejátszás",
-          "Zufallsmix",
-          "Lecture aléatoire",
-          "Reproducción aleatoria"
-      ],
-      "Make instant mix": [
-          "Azonnali egyveleg készítése",
-          "Schnellmix erstellen",
-          "Créer un mix instantané",
-          "Mix instantáneo"
-      ],
-      "Add to playlist": [
-          "Hozzáadás lejátszási listához",
-          "Zu Playlist hinzufügen",
-          "Ajouter à la playlist",
-          "Añadir a lista"
-      ],
-      "New playlist": [
-          "Új lejátszási lista",
-          "Neue Playlist",
-          "Nouvelle playlist",
-          "Nueva lista"
-      ],
-      "Remove from playlist": [
-          "Eltávolítás a lejátszási listából",
-          "Aus Playlist entfernen",
-          "Supprimer de la playlist",
-          "Eliminar de lista de reproducción"
-      ],
-      "All songs": [
-          "Minden dal",
-          "Alle Titel",
-          "Tous les titres",
-          "Todas las canciones"
-      ],
-      "No songs": [
-          "Nincsenek dalok",
-          "Keine Titel",
-          "Aucun titre",
-          "Ninguna canción"
-      ],
-      "More by artist": [
-          "Még több ettől az előadótól",
-          "Mehr vom Interpreten",
-          "Autres albums de cet artiste",
-          "Más de este artista"
-      ],
-      "Current playlist": [
-          "Jelenlegi lejátszási lista",
-          "Aktuelle Playlist",
-          "Playlist actuelle",
-          "Lista de reproducción actual"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Unknown artist": [
-          "Ismeretlen előadó",
-          "Unbekannter Musiker",
-          "Artiste inconnu",
-          "Artista desconocido"
-      ]
+    "Recent": {"res": "Music2:spinner_carousel", "hu": "Legutóbbiak", "de": "Letzte", "fr": "Sélections récentes", "es": "Reciente"},
+    "Artists": {"res": "Music2:artists_title", "hu": "Előadók", "de": "Musiker", "fr": "Artistes", "es": "Artistas"},
+    "Albums": {"res": "Music2:albums_title", "hu": "Albumok", "de": "Alben", "fr": "Albums", "es": "Álbumes"},
+    "Songs": {"res": "Music2:tracks_title", "hu": "Dalok", "de": "Titel", "fr": "Titres", "es": "Canciones"},
+    "Playlists": {"res": "Music2:playlists_title", "hu": "Lejátszási listák", "de": "Playlists", "fr": "Playlists", "es": "Listas"},
+    "Genres": {"res": "Music2:genres_title", "hu": "Műfajok", "de": "Genres", "fr": "Genres", "es": "Géneros"},
+    "Search music": {"res": "Music2:search_hint", "hu": "Zene keresése", "de": "In Musik suchen", "fr": "Recherchez musique", "es": "Buscar música"},
+    "Shuffle all": {"res": "Music2:shuffle_all", "hu": "Keverés", "de": "Alle zufällig wiedergeben", "fr": "Lecture aléatoire", "es": "Aleatorio"},
+    "Now playing": {"res": "Music2:nowplaying_title", "hu": "Most hallható", "de": "Aktuelle Wiedergabe", "fr": "À l’écoute", "es": "Reproduciendo"},
+    "Shuffle": {"res": "Music2:shuffle", "hu": "Véletlen sorrendű lejátszás", "de": "Zufallsmix", "fr": "Lecture aléatoire", "es": "Reproducción aleatoria"},
+    "Make instant mix": {"res": "Music2:menu_make_instant_mix", "hu": "Azonnali egyveleg készítése", "de": "Schnellmix erstellen", "fr": "Créer un mix instantané", "es": "Mix instantáneo"},
+    "Add to playlist": {"res": "Music2:add_to_playlist", "hu": "Hozzáadás lejátszási listához", "de": "Zu Playlist hinzufügen", "fr": "Ajouter à la playlist", "es": "Añadir a lista"},
+    "New playlist": {"res": "Music2:new_playlist_title", "hu": "Új lejátszási lista", "de": "Neue Playlist", "fr": "Nouvelle playlist", "es": "Nueva lista"},
+    "Remove from playlist": {"res": "Music2:remove_from_playlist", "hu": "Eltávolítás a lejátszási listából", "de": "Aus Playlist entfernen", "fr": "Supprimer de la playlist", "es": "Eliminar de lista de reproducción"},
+    "All songs": {"res": "Music2:all_songs_list", "hu": "Minden dal", "de": "Alle Titel", "fr": "Tous les titres", "es": "Todas las canciones"},
+    "No songs": {"res": "Music2:no_tracks_title", "hu": "Nincsenek dalok", "de": "Keine Titel", "fr": "Aucun titre", "es": "Ninguna canción"},
+    "More by artist": {"res": "Music2:more_by_artist", "hu": "Még több ettől az előadótól", "de": "Mehr vom Interpreten", "fr": "Autres albums de cet artiste", "es": "Más de este artista"},
+    "Current playlist": {"res": "Music2:queue", "hu": "Jelenlegi lejátszási lista", "de": "Aktuelle Playlist", "fr": "Playlist actuelle", "es": "Lista de reproducción actual"},
+    "Settings": {"res": "Music2:settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Help": {"res": "Music2:help_title", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "Unknown artist": {"res": "Music2:unknown_artist_name", "hu": "Ismeretlen előadó", "de": "Unbekannter Musiker", "fr": "Artiste inconnu", "es": "Artista desconocido"}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
+  const STR = AndroidStrings.table('', STRINGS, AndroidStrings.shared), T = (lang, key) => STR.t(key, lang);
   const TABS = ['Recent', 'Artists', 'Albums', 'Songs', 'Playlists', 'Genres'];
   const GENRE = {'The Demo Tapes': 'Electronic', 'Paper Satellites': 'Indie'};
   const PALETTE = [['#3c5a8a', '#f1b45d'], ['#5a2a5e', '#e0805c'], ['#2c6e5a', '#cfe08a'], ['#7a3a2a', '#f0c070'], ['#2a3a6a', '#8fc0f0']];

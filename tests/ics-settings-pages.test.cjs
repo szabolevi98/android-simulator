@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 // Galaxy Nexus Settings pages from the IMM76I Settings (audit step 9): About, Status, Legal, Accounts & sync, Location,
 // Backup & reset, Factory data reset, Accessibility (settings-system.js, ICS branch).
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');

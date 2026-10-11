@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus S: Gmail 2.3.5.1 (gb-gmail.js) registered on GBApps — list rows, Priority Inbox, archive with undo, reply into the thread.
 const w={};w.window=w;

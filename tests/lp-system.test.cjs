@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 // Lollipop 5.1.1: page wiring, Quick Settings tiles with their AnimatedVectorDrawables, Overview, texts from the image.
 const dir='versions/5.1.1/',html=fs.readFileSync(dir+'index.html','utf8');

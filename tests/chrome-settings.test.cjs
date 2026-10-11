@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Chrome settings and Clear browsing data (audit step 5): Chrome 27 (4.3), 32 (4.4.4) and 40 (5.1.1).
 for(const [v,version,last,inBar] of [['4.3','27.0.1453.111','Developer tools',true],['4.4.4','32.0.1700.99','About Chrome',true],['5.1.1','40.0.2214.89','About Chrome',false]]){

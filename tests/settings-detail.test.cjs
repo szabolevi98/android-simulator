@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const ctx={window:{},console};vm.createContext(ctx);
 for(const name of ['settings-detail','launcher-folders','settings-system','music','email','browser-session'])vm.runInContext(fs.readFileSync(`versions/4.0.4/${name}.js`,'utf8'),ctx);

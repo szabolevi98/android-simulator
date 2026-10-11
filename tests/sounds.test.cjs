@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // The images' ringtones, notification sounds and alarms (docs/sounds.py, docs/sounds-transcode.mjs): every version's
 // sounds.js names its build.prop defaults, each title and file name points to a non-empty WebM in assets/audio, the

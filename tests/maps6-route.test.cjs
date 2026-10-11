@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 // Maps 6.x directions and Navigation's drive (versions/4.0.4 and 4.3 maps-route.js, from docs/maps6-route.template.js).
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 for(const v of ['4.0.4','4.3']){

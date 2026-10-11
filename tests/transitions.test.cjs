@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.0.4/transitions.js','utf8'),context);
 const motion=context.window.ICSTransitions;

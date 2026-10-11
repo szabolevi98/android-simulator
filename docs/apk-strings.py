@@ -1,10 +1,10 @@
 """Fills an app module's text table from a factory image's APK: the template holds
     const STRINGS = __STRINGS__({"English text": "resource_name", ...});
-and the output gets {"English text": [hu, de, fr, es]} as that APK in the image translates the resource (English where it
-has no translation), plus the image's English as a fifth entry when it differs from the key. A value "Apk:resource_name"
-reads another APK of the same image, "?name" may be missing from the image; "@plurals/name:one" (or
-"Apk:@plurals/name:other") reads a quantity of a plurals resource through the Android SDK's aapt2, and "@array/name:2"
-(or "Apk:@array/name:2") an item of a string array. "Telephony:name" reads Phone.apk where the image has it and
+and the output gets {"English text": {res, hu, de, fr, es, en?}} (the named form strings.js reads) as that APK in the
+image translates the resource (English where it has no translation); res names the resource, en carries the image's
+English when it differs from the key. A value "Apk:resource_name" reads another APK of the same image, "?name" may be
+missing from the image; "@plurals/name:one" (or "Apk:@plurals/name:other") reads a quantity of a plurals resource, and
+"@array/name:2" (or "Apk:@array/name:2") an item of a string array (both with androguard). "Telephony:name" reads Phone.apk where the image has it and
 TeleService.apk from 4.4 on; "name_a|name_b" takes the first the image has. __DEVICE__ in the template becomes the device name. The image's string index comes from
 docs/image-index.py.
     python docs/apk-strings.py <device> <apk> <template> <output>
@@ -23,23 +23,27 @@ m = re.search(r'__STRINGS__\((\{.*?\})\)', src, re.S)
 mapping = json.loads(m.group(1))
 PLURALS = {}
 def plural(source, name, quantity):
-    """'@plurals/NAME:one' reads a quantity of a plurals resource through the Android SDK's aapt2 (dump resources)."""
-    import glob, os, subprocess
+    """'@plurals/NAME:one' reads a quantity of a plurals resource with androguard (no Android SDK needed); a language
+    without that quantity takes its 'other' form, as the earlier aapt2 reading did."""
+    import os
     if source not in PLURALS:
-        aapt = sorted(glob.glob(os.path.expandvars(r'%LOCALAPPDATA%/Android/Sdk/build-tools/*/aapt2*')))[-1]
+        from loguru import logger; logger.remove()
+        from androguard.core.apk import APK
         path = next(p for p in [f'{ROOT}_aosp/{device}/system/framework/framework-res.apk'] * (source == 'framework') + [f'{ROOT}_aosp/{device}/system/{d}/{source}.apk' for d in ('app', 'priv-app')] + [f'{ROOT}_aosp/{device}/system/{d}/{source}/{source}.apk' for d in ('app', 'priv-app')] if os.path.exists(p))
-        out = subprocess.run([aapt, 'dump', 'resources', path], capture_output=True, text=True, encoding='utf-8').stdout
-        res, cur, config = {}, None, None
-        for line in out.splitlines():
-            m = re.match(r'\s+resource 0x\w+ plurals/(\S+)', line)
-            if m: cur = res.setdefault(m.group(1), {}); continue
-            if re.match(r'\s+resource ', line): cur = None; continue
-            m = re.match(r'\s+\(([^)]*)\) \(plurals\)', line)
-            if m and cur is not None: config = cur.setdefault(m.group(1), {}); continue
-            m = re.match(r'\s+(one|other)="(.*)"$', line)
-            if m and cur is not None and config is not None: config[m.group(1)] = m.group(2).replace('\\"', '"').replace("\\'", "'")
-        PLURALS[source] = res
-    configs = PLURALS[source][name]
+        apk_file = APK(path)
+        PLURALS[source] = (apk_file.get_android_resources(), 'android' if source == 'framework' else apk_file.get_package(), {})
+    r, pkg, cache = PLURALS[source]
+    if name not in cache:
+        # The quantity attribute ids of a plurals bag (ResTable_map: ^other, ^zero, ^one, ^two, ^few, ^many).
+        ids = {0x01000004: 'other', 0x01000005: 'zero', 0x01000006: 'one', 0x01000007: 'two', 0x01000008: 'few', 0x01000009: 'many'}
+        configs = {}
+        # The resource table's package can differ from the manifest's (EmailGoogle keeps com.android.email's).
+        rid = next(i for i in [r.get_res_id_by_key(p, 'plurals', name) for p in [pkg, *r.get_packages_names()]] if i is not None)
+        for config, entry in r.get_res_configs(rid):
+            lang = config.get_qualifier() or ''
+            configs.setdefault(lang, {ids[k]: r.stringpool_main.getString(v.data) for k, v in entry.item.items if k in ids})
+        cache[name] = configs
+    configs = cache[name]
     en = configs[''][quantity]
     return en, {lang: (configs.get(lang) or {}).get(quantity, (configs.get(lang) or {}).get('other', en)) for lang in ('hu', 'de', 'fr', 'es')}
 ARRAYS = {}
@@ -91,20 +95,30 @@ def _array_text(source, configs, index):
     en = text(configs[''][index], '')
     return en, {lang: text((configs.get(lang) or configs[''])[index], lang if lang in configs or configs[''][index].startswith('@string/') else '') for lang in ('hu', 'de', 'fr', 'es')}
 table = {}
+LANGS = ('hu', 'de', 'fr', 'es')
+# The named form every text table shares (strings.js): {res, hu, de, fr, es, en?}. res is the resource the row was read
+# from ("Vending:install", "Settings:@array/wifi_signal:2", "Gmail:@plurals/unread:other"); en is this image's English
+# wording when it differs from the key.
+def entry(res, tr, en=None):
+    row = {'res': res, **{lang: tr[lang] for lang in LANGS}}
+    if en is not None: row['en'] = en
+    return row
 for key, value in mapping.items():
     if '@array/' in value:
         source, _, rest = value.rpartition(':@array/') if ':@array/' in value else ('', '', value[len('@array/'):])
         name, _, index = rest.partition(':')
-        en, tr = array_item({'Telephony': TELEPHONY}.get(source, source) or apk, name, int(index or 0))
-        table[key] = [tr[lang] for lang in ('hu', 'de', 'fr', 'es')]
-        if en != key: table[key].append(en); print(f'note: {name}:{index} is "{en}" in English, keyed as "{key}"', file=sys.stderr)
+        app = {'Telephony': TELEPHONY}.get(source, source) or apk
+        en, tr = array_item(app, name, int(index or 0))
+        table[key] = entry(f'{app}:@array/{name}:{int(index or 0)}', tr, en if en != key else None)
+        if en != key: print(f'note: {name}:{index} is "{en}" in English, keyed as "{key}"', file=sys.stderr)
         continue
     if '@plurals/' in value:
         source, _, rest = value.rpartition(':@plurals/') if ':@plurals/' in value else ('', '', value[len('@plurals/'):])
         name, _, quantity = rest.partition(':')
         en, tr = plural(source or apk, name, quantity or 'other')
+        # A quantity keeps the key as its English: the key names the form the code fills in.
         if en != key: print(f'note: {name}:{quantity} is "{en}" in English, keyed as "{key}"', file=sys.stderr)
-        table[key] = [tr[lang] for lang in ('hu', 'de', 'fr', 'es')]
+        table[key] = entry(f'{source or apk}:@plurals/{name}:{quantity or "other"}', tr)
         continue
     optional = value.startswith('?'); value = value.lstrip('?')
     # "name_a|name_b": the first of these resources the image has (a string renamed between releases).
@@ -116,9 +130,10 @@ for key, value in mapping.items():
         if optional: print(f'note: {source or apk} has no {name}; left out', file=sys.stderr); continue
         sys.exit(f'{source or apk} has no {name}')
     en, tr = by[(source or apk, name)]
-    table[key] = [tr.get(lang, en) for lang in ('hu', 'de', 'fr', 'es')]
-    # A fifth entry carries this image's English wording when it differs from the key.
-    if en != key: table[key].append(en); print(f'note: {name} is "{en}" in English, keyed as "{key}"', file=sys.stderr)
-out = src[:m.start()] + json.dumps(table, ensure_ascii=False, indent=4).replace('\n', '\n  ') + src[m.end():]
+    table[key] = entry(f'{source or apk}:{name}', {lang: tr.get(lang, en) for lang in LANGS}, en if en != key else None)
+    if en != key: print(f'note: {name} is "{en}" in English, keyed as "{key}"', file=sys.stderr)
+# One entry per line, in the mapping's order.
+body = '{\n' + ',\n'.join(f'    {json.dumps(key, ensure_ascii=False)}: {json.dumps(row, ensure_ascii=False)}' for key, row in table.items()) + '\n  }'
+out = src[:m.start()] + body + src[m.end():]
 open(ROOT + output, 'w', encoding='utf-8', newline='\n').write(out)
 print(len(table), 'strings ->', output)

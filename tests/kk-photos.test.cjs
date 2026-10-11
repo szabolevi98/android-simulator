@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Stock Nexus 5: Google+ 4.2.3 Photos: the host bar with the photo_spinner views, CAMERA / HIGHLIGHTS tabs, the Folders
 // tile and view, search, and the one-up viewer with photo_action_bar.xml.

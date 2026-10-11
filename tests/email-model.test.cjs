@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // 2.3.6 / 4.4.4 / 5.1.1 email.js hold only the local mailbox; each version's own module draws its dialogs:
 // GB discards with a toast (MessageCompose.onDiscard), KitKat and Lollipop ask DiscardConfirmDialogFragment's question.

@@ -23,14 +23,9 @@
     "Today": "?framework:today", "Yesterday": "?framework:yesterday", "Last month": "framework:last_month", "Older": "framework:older",
     "Last %d days": "framework:@plurals/last_num_days:other", "Share": "framework:share", "Done": "framework:action_mode_done"
   });
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   // From 4.1 DateSorter takes "Today" and "Yesterday" from libcore's LocaleData (ICU) rather than the framework.
-  const ICU = {Today: ['ma', 'Heute', 'aujourd’hui', 'hoy'], Yesterday: ['tegnap', 'Gestern', 'hier', 'ayer']};
-  const T = (lang, key) => {
-    const i = LANGS.indexOf(lang), row = STRINGS[key] || ICU[key];
-    if (!row) return key;
-    return i >= 0 ? row[i] || key : row[4] || key;
-  };
+  const ICU = {Today: {res: 'ICU:today', hu: 'ma', de: 'Heute', fr: 'aujourd’hui', es: 'hoy'}, Yesterday: {res: 'ICU:yesterday', hu: 'tegnap', de: 'Gestern', fr: 'hier', es: 'ayer'}};
+  const STR = AndroidStrings.table('', {...ICU, ...STRINGS}), T = (lang, key) => STR.t(key, lang);
   // The file type decides the icon (the app that opens it) and what a tap does.
   const KINDS = {image: 'gallery', audio: 'music', video: 'gallery', web: 'browser'};
   const DAY = 864e5;

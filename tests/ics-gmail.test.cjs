@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Galaxy Nexus: Gmail 4.0.4 (Gmail.apk of IMM76I): layouts, menus and texts from the image.
 const w={};w.window=w;vm.runInNewContext(fs.readFileSync('versions/4.0.4/ics-gmail.js','utf8'),w);

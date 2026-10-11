@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},document:{}};vm.runInNewContext(fs.readFileSync('versions/4.3/jb-devopts.js','utf8'),context);
 const dev=context.window.JBDeveloperOptions,t=k=>k;

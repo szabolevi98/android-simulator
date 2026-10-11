@@ -17,306 +17,56 @@
   'use strict';
   const {e} = GBApps;
   const STRINGS = {
-      "Talk": [
-          "Google Csevegő",
-          "Talk",
-          "Talk",
-          "Google Talk"
-      ],
-      "Google Talk": [
-          "Google Csevegő",
-          "Google Talk",
-          "Google Talk",
-          "Google Talk"
-      ],
-      "Friends list": [
-          "Ismerőslista",
-          "Kontaktliste",
-          "Liste d'amis",
-          "Lista de amigos"
-      ],
-      "Available": [
-          "Elérhető",
-          "Verfügbar",
-          "Disponible",
-          "Disponible"
-      ],
-      "Busy": [
-          "Elfoglalt",
-          "Nicht verfügbar",
-          "Ne pas déranger",
-          "Ocupado/a"
-      ],
-      "Away": [
-          "Nincs a gépnél",
-          "Nicht da",
-          "Absent",
-          "Ausente"
-      ],
-      "Invisible": [
-          "Láthatatlan",
-          "Unsichtbar",
-          "Invisible",
-          "Invisible"
-      ],
-      "Offline": [
-          "Offline",
-          "Offline",
-          "Non connecté",
-          "Desconectado/a"
-      ],
-      "Status message": [
-          "Állapotüzenet",
-          "Statusnachricht",
-          "Disponibilité",
-          "Mensaje de estado"
-      ],
-      "Set Status": [
-          "Állapot beállítása",
-          "Status festlegen",
-          "Définir la disponibilité",
-          "Establecer estado"
-      ],
-      "Type to compose": [
-          "Kezdje meg a gépelést",
-          "Zum Schreiben eintippen",
-          "Saisissez votre message",
-          "Escribir mensaje"
-      ],
-      "Send": [
-          "Küldés",
-          "Senden",
-          "Envoyer",
-          "Enviar"
-      ],
-      "Add friend": [
-          "Ismerős hozzáadása",
-          "Freund hinzufügen",
-          "Ajouter un ami",
-          "Añadir amigo"
-      ],
-      "Search": [
-          "Keresés",
-          "Suche",
-          "Rechercher",
-          "Buscar"
-      ],
-      "All friends": [
-          "Az összes ismerős",
-          "Alle Freunde",
-          "Tous mes amis",
-          "Todos los amigos"
-      ],
-      "Most popular": [
-          "Legkedveltebb",
-          "Beliebteste Kontakte",
-          "Meilleurs amis",
-          "Más frecuentes"
-      ],
-      "Invites": [
-          "Meghívások",
-          "Einladungen",
-          "Invités",
-          "Invitados"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Sign out": [
-          "Kijelentkezés",
-          "Abmelden",
-          "Se déconnecter",
-          "Salir"
-      ],
-      "Switch chats": [
-          "Váltás a csevegések között",
-          "Chat wechseln",
-          "Changer de chat",
-          "Cambiar de chat"
-      ],
-      "Chat off record": [
-          "Csevegés rögzítés nélkül",
-          "Chat vertraulich",
-          "Chat en mode privé",
-          "No guardar registro"
-      ],
-      "Chat on record": [
-          "Csevegés rögzítéssel",
-          "Chat nicht vertraulich",
-          "Chat enregistré",
-          "Guardar registro de chat"
-      ],
-      "Add to chat": [
-          "Hozzáadás a csevegéshez",
-          "Zum Chatten einladen",
-          "Ajouter au chat",
-          "Añadir al chat"
-      ],
-      "End chat": [
-          "Csevegés befejezése",
-          "Chat beenden",
-          "Arrêter le chat",
-          "Finalizar chat"
-      ],
-      "End all chats": [
-          "Minden csevegés befejezése",
-          "Alle Chats beenden",
-          "Quitter tous les chats",
-          "Finalizar todos los chats"
-      ],
-      "Insert smiley": [
-          "Hangulatjel beszúrása",
-          "Smiley einfügen",
-          "Insérer une émoticône",
-          "Insertar emoticono"
-      ],
-      "Clear chat history": [
-          "Csevegési előzmények törlése",
-          "Chat-Protokoll löschen",
-          "Effacer l'historique du chat",
-          "Borrar historial de chat"
-      ],
-      "Friend info": [
-          "Ismerős adatai",
-          "Info zu Freund",
-          "Infos sur l'ami",
-          "Información de tu amigo/a"
-      ],
-      "Video chat": [
-          "Videocsevegés",
-          "Video-Chat",
-          "Chat vidéo",
-          "Chat de vídeo"
-      ],
-      "Voice chat": [
-          "Audiocsevegés",
-          "Voice-Chat",
-          "Chat audio",
-          "Chat de voz"
-      ],
-      "Send video chat invitation?": [
-          "Elküldi a videocsevegési meghívót?",
-          "Video-Chat-Einladung senden?",
-          "Envoyer l'invitation à un chat vidéo ?",
-          "¿Enviar invitación a chat de vídeo?"
-      ],
-      "Send voice chat invitation?": [
-          "Elküldi az audiocsevegési meghívót?",
-          "Voice-Chat-Einladung senden?",
-          "Envoyer l'invitation à un chat audio ?",
-          "¿Enviar invitación a chat de voz?"
-      ],
-      "Calling…": [
-          "Hívás…",
-          "Anruf wird getätigt…",
-          "Appel en cours…",
-          "Llamando…"
-      ],
-      "No active chats": [
-          "Nincs aktív csevegés",
-          "Keine aktiven Chats",
-          "Aucun chat actif",
-          "No hay chats activos."
-      ],
-      "%s is away": [
-          "%s nincs számítógépközelben",
-          "%s ist nicht da.",
-          "Ce contact (%s) est absent.",
-          "%s está ausente."
-      ],
-      "%s is busy": [
-          "%s elfoglalt",
-          "%s ist nicht verfügbar.",
-          "%s n'est pas disponible.",
-          "%s está ocupado/a."
-      ],
-      "%s is offline": [
-          "%s állapota offline",
-          "%s ist offline.",
-          "%s n'est pas en ligne.",
-          "%s está desconectado/a."
-      ],
-      "Chat with %s": [
-          "Csevegés a következő személlyel: %s",
-          "Chat mit %s",
-          "Chatter avec %s",
-          "Chat con %s"
-      ],
-      "Video chat available": [
-          "A videocsevegés elérhető",
-          "Video-Chat verfügbar",
-          "Chat vidéo disponible",
-          "Chat de vídeo disponible"
-      ],
-      "Mobile indicator": [
-          "Mobil állapot jelzése",
-          "Mobilanzeige",
-          "Indicateur de mobile",
-          "Indicador móvil"
-      ],
-      "Search Google Talk": [
-          "Keresés a Google Csevegőben",
-          "Google Talk durchsuchen",
-          "Rechercher dans Google Talk",
-          "Buscar Google Talk"
-      ],
-      "%1$s results for \"%2$s\"": [
-          "%1$s találat a következőre: \"%2$s\"",
-          "%1$s Ergebnisse für \"%2$s\"",
-          "%1$s résultats pour \"%2$s\"",
-          "%1$s resultados de \"%2$s\""
-      ],
-      "Invite a friend to chat": [
-          "Ismerős meghívása csevegésre",
-          "Laden Sie einen Freund zum Chatten ein.",
-          "Inviter un ami à chatter",
-          "Invitar a un amigo a chatear"
-      ],
-      "Send chat invitation to": [
-          "Csevegési meghívás küldése a következőnek:",
-          "Einladung zum Chatten senden an",
-          "Envoyer une invitation à",
-          "Enviar una invitación de chat a"
-      ],
-      "Send invitation": [
-          "Meghívó küldése",
-          "Einladung senden",
-          "Envoyer une invitation",
-          "Enviar invitación"
-      ],
-      "Pending invitations": [
-          "Függőben lévő meghívások",
-          "Ausstehende Einladungen",
-          "Invitations en attente",
-          "Invitaciones pendientes"
-      ],
-      "Blocked friends": [
-          "Letiltott ismerősök",
-          "Blockierte Freunde",
-          "Amis bloqués",
-          "Amigos bloqueados"
-      ],
-      "Blocked": [
-          "Letiltva",
-          "Blockiert",
-          "Bloqués",
-          "Bloqueados"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "View contact": [
-          "Névjegy megtekintése",
-          "Kontakt anzeigen",
-          "Afficher le contact",
-          "Ver contacto"
-      ]
+    "Talk": {"res": "Talk2:app_label", "hu": "Google Csevegő", "de": "Talk", "fr": "Talk", "es": "Google Talk"},
+    "Google Talk": {"res": "Talk2:landing_page_title", "hu": "Google Csevegő", "de": "Google Talk", "fr": "Google Talk", "es": "Google Talk"},
+    "Friends list": {"res": "Talk2:menu_view_roster", "hu": "Ismerőslista", "de": "Kontaktliste", "fr": "Liste d'amis", "es": "Lista de amigos"},
+    "Available": {"res": "Talk2:presence_available", "hu": "Elérhető", "de": "Verfügbar", "fr": "Disponible", "es": "Disponible"},
+    "Busy": {"res": "Talk2:presence_busy", "hu": "Elfoglalt", "de": "Nicht verfügbar", "fr": "Ne pas déranger", "es": "Ocupado/a"},
+    "Away": {"res": "Talk2:presence_away", "hu": "Nincs a gépnél", "de": "Nicht da", "fr": "Absent", "es": "Ausente"},
+    "Invisible": {"res": "Talk2:presence_invisible", "hu": "Láthatatlan", "de": "Unsichtbar", "fr": "Invisible", "es": "Invisible"},
+    "Offline": {"res": "Talk2:presence_offline", "hu": "Offline", "de": "Offline", "fr": "Non connecté", "es": "Desconectado/a"},
+    "Status message": {"res": "Talk2:custom_status_hint", "hu": "Állapotüzenet", "de": "Statusnachricht", "fr": "Disponibilité", "es": "Mensaje de estado"},
+    "Set Status": {"res": "Talk2:set_status_activity_title", "hu": "Állapot beállítása", "de": "Status festlegen", "fr": "Définir la disponibilité", "es": "Establecer estado"},
+    "Type to compose": {"res": "Talk2:compose_hint", "hu": "Kezdje meg a gépelést", "de": "Zum Schreiben eintippen", "fr": "Saisissez votre message", "es": "Escribir mensaje"},
+    "Send": {"res": "Talk2:send", "hu": "Küldés", "de": "Senden", "fr": "Envoyer", "es": "Enviar"},
+    "Add friend": {"res": "Talk2:menu_add", "hu": "Ismerős hozzáadása", "de": "Freund hinzufügen", "fr": "Ajouter un ami", "es": "Añadir amigo"},
+    "Search": {"res": "Talk2:menu_search", "hu": "Keresés", "de": "Suche", "fr": "Rechercher", "es": "Buscar"},
+    "All friends": {"res": "Talk2:menu_show_all_contacts", "hu": "Az összes ismerős", "de": "Alle Freunde", "fr": "Tous mes amis", "es": "Todos los amigos"},
+    "Most popular": {"res": "Talk2:menu_show_quick_contacts", "hu": "Legkedveltebb", "de": "Beliebteste Kontakte", "fr": "Meilleurs amis", "es": "Más frecuentes"},
+    "Invites": {"res": "Talk2:menu_show_invites", "hu": "Meghívások", "de": "Einladungen", "fr": "Invités", "es": "Invitados"},
+    "Settings": {"res": "Talk2:menu_settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Sign out": {"res": "Talk2:menu_sign_out", "hu": "Kijelentkezés", "de": "Abmelden", "fr": "Se déconnecter", "es": "Salir"},
+    "Switch chats": {"res": "Talk2:menu_switch_chats", "hu": "Váltás a csevegések között", "de": "Chat wechseln", "fr": "Changer de chat", "es": "Cambiar de chat"},
+    "Chat off record": {"res": "Talk2:menu_go_off_record", "hu": "Csevegés rögzítés nélkül", "de": "Chat vertraulich", "fr": "Chat en mode privé", "es": "No guardar registro"},
+    "Chat on record": {"res": "Talk2:menu_go_on_record", "hu": "Csevegés rögzítéssel", "de": "Chat nicht vertraulich", "fr": "Chat enregistré", "es": "Guardar registro de chat"},
+    "Add to chat": {"res": "Talk2:menu_add_contact", "hu": "Hozzáadás a csevegéshez", "de": "Zum Chatten einladen", "fr": "Ajouter au chat", "es": "Añadir al chat"},
+    "End chat": {"res": "Talk2:menu_end_conversation", "hu": "Csevegés befejezése", "de": "Chat beenden", "fr": "Arrêter le chat", "es": "Finalizar chat"},
+    "End all chats": {"res": "Talk2:menu_leave_all_chats", "hu": "Minden csevegés befejezése", "de": "Alle Chats beenden", "fr": "Quitter tous les chats", "es": "Finalizar todos los chats"},
+    "Insert smiley": {"res": "Talk2:menu_insert_smiley", "hu": "Hangulatjel beszúrása", "de": "Smiley einfügen", "fr": "Insérer une émoticône", "es": "Insertar emoticono"},
+    "Clear chat history": {"res": "Talk2:menu_clear_chat", "hu": "Csevegési előzmények törlése", "de": "Chat-Protokoll löschen", "fr": "Effacer l'historique du chat", "es": "Borrar historial de chat"},
+    "Friend info": {"res": "Talk2:menu_user_info", "hu": "Ismerős adatai", "de": "Info zu Freund", "fr": "Infos sur l'ami", "es": "Información de tu amigo/a"},
+    "Video chat": {"res": "Talk2:menu_video_chat", "hu": "Videocsevegés", "de": "Video-Chat", "fr": "Chat vidéo", "es": "Chat de vídeo"},
+    "Voice chat": {"res": "Talk2:menu_voice_chat", "hu": "Audiocsevegés", "de": "Voice-Chat", "fr": "Chat audio", "es": "Chat de voz"},
+    "Send video chat invitation?": {"res": "Talk2:confirm_dialog_video_chat_message", "hu": "Elküldi a videocsevegési meghívót?", "de": "Video-Chat-Einladung senden?", "fr": "Envoyer l'invitation à un chat vidéo ?", "es": "¿Enviar invitación a chat de vídeo?"},
+    "Send voice chat invitation?": {"res": "Talk2:confirm_dialog_voice_chat_message", "hu": "Elküldi az audiocsevegési meghívót?", "de": "Voice-Chat-Einladung senden?", "fr": "Envoyer l'invitation à un chat audio ?", "es": "¿Enviar invitación a chat de voz?"},
+    "Calling…": {"res": "Talk2:video_audio_chat_calling", "hu": "Hívás…", "de": "Anruf wird getätigt…", "fr": "Appel en cours…", "es": "Llamando…"},
+    "No active chats": {"res": "Talk2:no_chats", "hu": "Nincs aktív csevegés", "de": "Keine aktiven Chats", "fr": "Aucun chat actif", "es": "No hay chats activos."},
+    "%s is away": {"res": "Talk2:user_away", "hu": "%s nincs számítógépközelben", "de": "%s ist nicht da.", "fr": "Ce contact (%s) est absent.", "es": "%s está ausente."},
+    "%s is busy": {"res": "Talk2:user_busy", "hu": "%s elfoglalt", "de": "%s ist nicht verfügbar.", "fr": "%s n'est pas disponible.", "es": "%s está ocupado/a."},
+    "%s is offline": {"res": "Talk2:user_offline", "hu": "%s állapota offline", "de": "%s ist offline.", "fr": "%s n'est pas en ligne.", "es": "%s está desconectado/a."},
+    "Chat with %s": {"res": "Talk2:chat_with", "hu": "Csevegés a következő személlyel: %s", "de": "Chat mit %s", "fr": "Chatter avec %s", "es": "Chat con %s"},
+    "Video chat available": {"res": "Talk2:video_chat_available", "hu": "A videocsevegés elérhető", "de": "Video-Chat verfügbar", "fr": "Chat vidéo disponible", "es": "Chat de vídeo disponible"},
+    "Mobile indicator": {"res": "Talk2:mobile_indicator_title", "hu": "Mobil állapot jelzése", "de": "Mobilanzeige", "fr": "Indicateur de mobile", "es": "Indicador móvil"},
+    "Search Google Talk": {"res": "Talk2:search_hint", "hu": "Keresés a Google Csevegőben", "de": "Google Talk durchsuchen", "fr": "Rechercher dans Google Talk", "es": "Buscar Google Talk"},
+    "%1$s results for \"%2$s\"": {"res": "Talk2:chat_search_history", "hu": "%1$s találat a következőre: \"%2$s\"", "de": "%1$s Ergebnisse für \"%2$s\"", "fr": "%1$s résultats pour \"%2$s\"", "es": "%1$s resultados de \"%2$s\""},
+    "Invite a friend to chat": {"res": "Talk2:invite_buddy", "hu": "Ismerős meghívása csevegésre", "de": "Laden Sie einen Freund zum Chatten ein.", "fr": "Inviter un ami à chatter", "es": "Invitar a un amigo a chatear"},
+    "Send chat invitation to": {"res": "Talk2:invite_instruction", "hu": "Csevegési meghívás küldése a következőnek:", "de": "Einladung zum Chatten senden an", "fr": "Envoyer une invitation à", "es": "Enviar una invitación de chat a"},
+    "Send invitation": {"res": "Talk2:invite_label", "hu": "Meghívó küldése", "de": "Einladung senden", "fr": "Envoyer une invitation", "es": "Enviar invitación"},
+    "Pending invitations": {"res": "Talk2:pending_invitations_title", "hu": "Függőben lévő meghívások", "de": "Ausstehende Einladungen", "fr": "Invitations en attente", "es": "Invitaciones pendientes"},
+    "Blocked friends": {"res": "Talk2:blocked_title", "hu": "Letiltott ismerősök", "de": "Blockierte Freunde", "fr": "Amis bloqués", "es": "Amigos bloqueados"},
+    "Blocked": {"res": "Talk2:menu_show_blocked_contacts", "hu": "Letiltva", "de": "Blockiert", "fr": "Bloqués", "es": "Bloqueados"},
+    "Help": {"res": "Talk2:menu_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "View contact": {"res": "Talk2:menu_view_contact", "hu": "Névjegy megtekintése", "de": "Kontakt anzeigen", "fr": "Afficher le contact", "es": "Ver contacto"}
   };
   const T = GBApps.texts(STRINGS);
   const A = name => `assets/tk-${name}.png`;

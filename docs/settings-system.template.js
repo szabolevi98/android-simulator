@@ -125,8 +125,7 @@
     "Choose automatically":"Telephony:select_automatically","Automatically choose preferred network":"Telephony:sum_select_automatically",
     "APNs":"apn_settings","New APN":"menu_new"
   });
-  const LANGS=['hu','de','fr','es'];
-  const S=key=>{const row=STRINGS[key];if(!row)return key;const i=LANGS.indexOf(window.AndroidI18n?.language);return (i>=0?row[i]:row[4])||key;};
+  const STR=AndroidStrings.table('settings-system',STRINGS),S=key=>STR.t(key);
   const START=Date.now();
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const defaults={autoTime:true,autoZone:true,timeOffset:0,timeZone:'Europe/Budapest',hour24:true,dateFormat:'locale',screenLock:'slide',ownerInfo:'',showOwner:false,lockAfter:'5000',powerInstantLock:true,lockTactile:true,kgWidgets:false,hotspotName:'AndroidAP',hotspotSecurity:'WPA2',bluetoothTether:false,wifiSleep:'always',wifiScanAlways:false,wifiPoorAvoid:false,wifiBand:'auto',wifiOptimize:true,networkOperator:'Telekom',networkAuto:true,networkType:'lte',only2g:false};

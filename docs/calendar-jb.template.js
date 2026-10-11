@@ -7,7 +7,7 @@
   'use strict';
   const MENU = __STRINGS__({"New event": "event_create", "Refresh": "calendar_refresh", "Search": "search",
     "Calendars to display": "menu_select_visible_calendars", "Send feedback": "menu_feedback", "Settings": "menu_preferences", "Help": "menu_help"});
-  const M = key => { const row = MENU[key], i = ['hu', 'de', 'fr', 'es'].indexOf(window.AndroidI18n?.language); return row ? i >= 0 ? row[i] : row[4] || key : key; };
+  const MENU_T = AndroidStrings.table('', MENU), M = key => MENU_T.t(key);
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pad = n => String(n).padStart(2, '0');
   const iso = date => `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`;

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus 4: Chrome 27.0.1453.111 (Chrome.apk of JWR66Y): toolbar, chrome://newtab, incognito, history, overview, menu.
 const context={window:{}};for(const f of ['stock-strings.js','chrome-pak.js','chrome.js'])vm.runInNewContext(fs.readFileSync(`versions/4.3/${f}`,'utf8'),context);

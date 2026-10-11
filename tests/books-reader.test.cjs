@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Play Books' reader settings and contents (audit step 6): the Display options in each image's order with working
 // theme / typeface / alignment / brightness / size / line height, and the chapter list that jumps to a chapter.

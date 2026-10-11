@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Settings 5.1 Security sub-pages: SIM card lock, Trusted credentials (the image's CA store), Trust agents, usage access.
 const dir='versions/5.1.1/',html=fs.readFileSync(dir+'index.html','utf8');

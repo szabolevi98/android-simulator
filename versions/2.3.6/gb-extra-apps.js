@@ -15,330 +15,60 @@
   'use strict';
   const {e} = GBApps;
   const STRINGS = {
-      "Tags": [
-          "Címkék",
-          "Tags",
-          "Tags",
-          "Etiquetas"
-      ],
-      "Starred": [
-          "Csillagozott címkék",
-          "Markiert",
-          "Favoris",
-          "Destacadas"
-      ],
-      "My tag": [
-          "Saját címke",
-          "Mein Tag",
-          "Mon tag",
-          "Mi etiqueta"
-      ],
-      "You have not scanned any tags.": [
-          "Még nem olvasott be címkét.",
-          "Sie haben keine Tags gescannt.",
-          "Vous n'avez scanné aucun tag.",
-          "No has escaneado ninguna etiqueta."
-      ],
-      "You have no starred tags.": [
-          "Nincsenek csillagozott címkéi.",
-          "Sie haben keine Tags markiert.",
-          "Vous n'avez ajouté aucun tag à vos favoris.",
-          "No has destacado ninguna etiqueta."
-      ],
-      "More info": [
-          "További információ",
-          "Weitere Informationen",
-          "Plus d'infos",
-          "Más información"
-      ],
-      "About Tags": [
-          "A Címkék névjegye",
-          "Über Tags",
-          "À propos des tags",
-          "Acerca de Etiquetas"
-      ],
-      "Back": [
-          "Vissza",
-          "Zurück",
-          "Retour",
-          "Atrás"
-      ],
-      "Next": [
-          "Tovább",
-          "Weiter",
-          "Suivant",
-          "Siguiente"
-      ],
-      "Done": [
-          "Kész",
-          "Fertig",
-          "OK",
-          "Listo"
-      ],
-      "Delete": [
-          "Törlés",
-          "Löschen",
-          "Supprimer",
-          "Eliminar"
-      ],
-      "Tag deleted": [
-          "A címke törölve",
-          "Tag gelöscht",
-          "Tag supprimé",
-          "Etiqueta eliminada"
-      ],
-      "NFC turned off": [
-          "Az NFC ki van kapcsolva",
-          "NFC deaktiviert",
-          "Communication NFC désactivée",
-          "NFC desactivada"
-      ],
-      "You must turn on NFC to scan tags.": [
-          "Címkék beolvasásához be kell kapcsolnia az NFC-t.",
-          "Sie müssen NFC aktivieren, um Tags zu scannen.",
-          "Vous devez activer la communication NFC pour scanner des tags.",
-          "Para escanear etiquetas, debes activar la opción NFC."
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ],
-      "Share my tag": [
-          "Saját címke megosztása",
-          "Mein Tag weitergeben",
-          "Partager mon tag",
-          "Compartir mi etiqueta"
-      ],
-      "Allow others to read my tag": [
-          "Mások elolvashatják a címkéimet",
-          "Anderen das Lesen meines Tags gestatten",
-          "Autoriser les autres à lire mon tag",
-          "Permitir que otros usuarios lean mi etiqueta"
-      ],
-      "Add new tag": [
-          "Új címke hozzáadása",
-          "Neues Tag hinzufügen",
-          "Ajouter un tag",
-          "Añadir nueva etiqueta"
-      ],
-      "You have no tags created.": [
-          "Még nem hozott létre egyetlen címkét sem.",
-          "Sie haben keine Tags erstellt.",
-          "Aucun tag créé",
-          "No has creado ninguna etiqueta."
-      ],
-      "Edit tag": [
-          "Címke szerkesztése",
-          "Tag bearbeiten",
-          "Modifier le tag",
-          "Editar etiqueta"
-      ],
-      "Delete tag": [
-          "Címke törlése",
-          "Tag löschen",
-          "Supprimer le tag",
-          "Eliminar etiqueta"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Set as active tag": [
-          "Beállítás aktív címkeként",
-          "Als aktives Tag festlegen",
-          "Définir en tant que tag actif",
-          "Establecer como etiqueta activa"
-      ],
-      "Text": [
-          "Szöveg",
-          "Text",
-          "Texte",
-          "Texto"
-      ],
-      "URL": [
-          "URL",
-          "URL",
-          "URL",
-          "URL"
-      ],
-      "Title": [
-          "Cím",
-          "Titel",
-          "Titre",
-          "Título"
-      ],
-      "Save": [
-          "Mentés",
-          "Speichern",
-          "Enregistrer",
-          "Guardar"
-      ],
-      "Contact": [
-          "Ismerős",
-          "Kontakt",
-          "Contact",
-          "Contacto"
-      ],
-      "Active tag": [
-          "Aktív címke",
-          "Aktives Tag",
-          "Tag actif",
-          "Etiqueta activa"
-      ],
-      "Call %s": [
-          "%s hívása",
-          "%s anrufen",
-          "Appeler %s",
-          "Llamar al %s"
-      ],
-      "Tags is for organizing and sharing Near Field Communication (NFC) tags.": [
-          "A Címkék az NFC (Near Field Communication -- kis hatósugarú vezeték nélküli kommunikáció) címkék rendszerezésére és megosztására szolgálnak.",
-          "Tags dient zur Organisation und Weitergabe von Tags für Nahfeldkommunikation (NFC).",
-          "Tags vous permet d'organiser et de partager des tags de communication NFC (communication en champ proche).",
-          "Tags se utiliza para organizar y compartir etiquetas de Comunicación de campo cercano (NFC)."
-      ],
-      "You scan a tag by turning on your phone and placing it right next to a tag.": [
-          "Címkét úgy olvashat be, hogy megfordítja a telefonját, és közvetlenül a címke mellé teszi.",
-          "Zum Scannen eines Tags Telefon einschalten und direkt an das Tag halten.",
-          "Pour scanner un tag, il suffit d'allumer votre téléphone et de le rapprocher du tag.",
-          "Para escanear una etiqueta, activa el teléfono y sitúalo junto a la etiqueta."
-      ],
-      "NFC tags can contain text, URLs, pictures, and other kinds of information.": [
-          "Az NFC-címkék tartalmazhatnak szöveget, URL-eket, képeket és másfajta információkat.",
-          "NFC-Tags können Text, URLs, Bilder und andere Informationen enthalten.",
-          "Les tags NFC peuvent contenir du texte, des URL, des images et bien plus encore.",
-          "Las etiquetas NFC pueden contener texto, direcciones URL, imágenes y otros tipos de información."
-      ],
-      "For more information, press Menu and touch Help on any Tags screen.": [
-          "További információért nyomja meg a Menü, majd a Súgó gombot a Címkék bármelyik képernyőjén.",
-          "Über \"Menü\" > \"Hilfe\" erhalten Sie auf allen Tags-Bildschirmen weitere Informationen.",
-          "Pour en savoir plus, appuyez sur \"Menu\", puis sur \"Aide\", à partir de n'importe quelle page de l'application Tags.",
-          "Para obtener más información, pulsa la tecla de menú y toca Ayuda en cualquier pantalla de la aplicación Tags."
-      ],
-      "Starting up.": [
-          "Indítás.",
-          "Startvorgang",
-          "Démarrage en cours",
-          "Iniciando..."
-      ],
-      "Listening…": [
-          "Figyelés...",
-          "Jetzt sprechen...",
-          "Écoute en cours…",
-          "Escuchando..."
-      ],
-      "No results, try again.": [
-          "Nincs találat, próbálja újra.",
-          "Keine Ergebnisse, versuchen Sie es erneut.",
-          "Aucun résultat, réessayez.",
-          "No se ha encontrado ningún resultado. Vuelve a intentarlo."
-      ],
-      "Please try again.": [
-          "Próbálkozzon újra.",
-          "Bitte versuchen Sie es erneut.",
-          "Veuillez réessayer.",
-          "Inténtalo de nuevo."
-      ],
-      "Did you know…": [
-          "Tudta...",
-          "Wussten Sie schon...",
-          "Saviez-vous que...",
-          "¿Sabías que...?"
-      ],
-      "Pressing & holding the green Call button opens the Voice Dialer.": [
-          "A zöld Hívás gomb lenyomásával és nyomva tartásával a Hangtárcsázót nyitja meg.",
-          "Durch Drücken und Halten der grünen Anruftaste wird die Sprachwahl geöffnet.",
-          "Appuyez sur le bouton vert Appel et maintenez la touche enfoncée pour ouvrir l'application Reconnaissance vocale.",
-          "Para abrir la ventana de marcación por voz, mantén pulsado el botón verde de llamada."
-      ],
-      "Voice Dialer": [
-          "Hangtárcsázó",
-          "Sprachwahl",
-          "Reconnaissance vocale",
-          "Marcación por voz"
-      ],
-      "Navigate": [
-          "Navigate",
-          "Navigieren",
-          "Navigation",
-          "Iniciar navegación"
-      ],
-      "Phone": [
-          "Phone",
-          "Telefon",
-          "Téléphone",
-          "Teléfono"
-      ],
-      "Voice Search": [
-          "Voice Search",
-          "Sprachsuche",
-          "Recherche\nvocale",
-          "Búsqueda\npor voz"
-      ],
-      "Contacts": [
-          "Contacts",
-          "Kontakte",
-          "Contacts",
-          "Contactos"
-      ],
-      "Music": [
-          "Music",
-          "Musik",
-          "Musique",
-          "Música"
-      ],
-      "Exit car mode": [
-          "Exit car mode",
-          "Automodus beenden",
-          "Quitter le \nmode Voiture",
-          "Salir de\nmodo coche"
-      ],
-      "Maps": [
-          "Maps",
-          "Google Maps",
-          "Google Maps",
-          "Google Maps"
-      ],
-      "Places": [
-          "Places",
-          "Orte",
-          "Adresses",
-          "Lugares"
-      ],
-      "Car Home": [
-          "Car Home",
-          "Automodus",
-          "Mode Voiture",
-          "Car Home"
-      ],
-      "Add shortcut": [
-          "Add shortcut",
-          "Verknüpfung hinzufügen",
-          "Ajouter un raccourci",
-          "Añadir acceso directo"
-      ],
-      "Day/Night mode": [
-          "Day/Night mode",
-          "Tag-/Nachtmodus",
-          "Mode Jour/Nuit",
-          "Modo nocturno/diurno"
-      ],
-      "Car applications": [
-          "Car applications",
-          "Autoanwendungen",
-          "Applications en mode Voiture",
-          "Aplicaciones de coche"
-      ]
+    "Tags": {"res": "TagGoogle:tab_tags", "hu": "Címkék", "de": "Tags", "fr": "Tags", "es": "Etiquetas"},
+    "Starred": {"res": "TagGoogle:tab_starred", "hu": "Csillagozott címkék", "de": "Markiert", "fr": "Favoris", "es": "Destacadas"},
+    "My tag": {"res": "TagGoogle:tab_my_tag", "hu": "Saját címke", "de": "Mein Tag", "fr": "Mon tag", "es": "Mi etiqueta"},
+    "You have not scanned any tags.": {"res": "TagGoogle:empty_list", "hu": "Még nem olvasott be címkét.", "de": "Sie haben keine Tags gescannt.", "fr": "Vous n'avez scanné aucun tag.", "es": "No has escaneado ninguna etiqueta."},
+    "You have no starred tags.": {"res": "TagGoogle:empty_list_starred", "hu": "Nincsenek csillagozott címkéi.", "de": "Sie haben keine Tags markiert.", "fr": "Vous n'avez ajouté aucun tag à vos favoris.", "es": "No has destacado ninguna etiqueta."},
+    "More info": {"res": "TagGoogle:button_more_info", "hu": "További információ", "de": "Weitere Informationen", "fr": "Plus d'infos", "es": "Más información"},
+    "About Tags": {"res": "TagGoogle:intro_title", "hu": "A Címkék névjegye", "de": "Über Tags", "fr": "À propos des tags", "es": "Acerca de Etiquetas"},
+    "Back": {"res": "TagGoogle:back", "hu": "Vissza", "de": "Zurück", "fr": "Retour", "es": "Atrás"},
+    "Next": {"res": "TagGoogle:next", "hu": "Tovább", "de": "Weiter", "fr": "Suivant", "es": "Siguiente"},
+    "Done": {"res": "TagGoogle:button_done", "hu": "Kész", "de": "Fertig", "fr": "OK", "es": "Listo"},
+    "Delete": {"res": "TagGoogle:button_delete", "hu": "Törlés", "de": "Löschen", "fr": "Supprimer", "es": "Eliminar"},
+    "Tag deleted": {"res": "TagGoogle:tag_deleted", "hu": "A címke törölve", "de": "Tag gelöscht", "fr": "Tag supprimé", "es": "Etiqueta eliminada"},
+    "NFC turned off": {"res": "TagGoogle:dialog_title_nfc_off", "hu": "Az NFC ki van kapcsolva", "de": "NFC deaktiviert", "fr": "Communication NFC désactivée", "es": "NFC desactivada"},
+    "You must turn on NFC to scan tags.": {"res": "TagGoogle:dialog_text_nfc_off", "hu": "Címkék beolvasásához be kell kapcsolnia az NFC-t.", "de": "Sie müssen NFC aktivieren, um Tags zu scannen.", "fr": "Vous devez activer la communication NFC pour scanner des tags.", "es": "Para escanear etiquetas, debes activar la opción NFC."},
+    "Settings": {"res": "TagGoogle:button_settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Cancel": {"res": "TagGoogle:button_cancel", "hu": "Mégse", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"},
+    "Share my tag": {"res": "TagGoogle:turn_on_my_tag", "hu": "Saját címke megosztása", "de": "Mein Tag weitergeben", "fr": "Partager mon tag", "es": "Compartir mi etiqueta"},
+    "Allow others to read my tag": {"res": "TagGoogle:turn_on_my_tag_subtitle", "hu": "Mások elolvashatják a címkéimet", "de": "Anderen das Lesen meines Tags gestatten", "fr": "Autoriser les autres à lire mon tag", "es": "Permitir que otros usuarios lean mi etiqueta"},
+    "Add new tag": {"res": "TagGoogle:add_tag", "hu": "Új címke hozzáadása", "de": "Neues Tag hinzufügen", "fr": "Ajouter un tag", "es": "Añadir nueva etiqueta"},
+    "You have no tags created.": {"res": "TagGoogle:no_tags_created", "hu": "Még nem hozott létre egyetlen címkét sem.", "de": "Sie haben keine Tags erstellt.", "fr": "Aucun tag créé", "es": "No has creado ninguna etiqueta."},
+    "Edit tag": {"res": "TagGoogle:menu_edit", "hu": "Címke szerkesztése", "de": "Tag bearbeiten", "fr": "Modifier le tag", "es": "Editar etiqueta"},
+    "Delete tag": {"res": "TagGoogle:menu_delete", "hu": "Címke törlése", "de": "Tag löschen", "fr": "Supprimer le tag", "es": "Eliminar etiqueta"},
+    "Help": {"res": "TagGoogle:menu_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "Set as active tag": {"res": "TagGoogle:menu_set_as_active", "hu": "Beállítás aktív címkeként", "de": "Als aktives Tag festlegen", "fr": "Définir en tant que tag actif", "es": "Establecer como etiqueta activa"},
+    "Text": {"res": "TagGoogle:tag_text", "hu": "Szöveg", "de": "Text", "fr": "Texte", "es": "Texto"},
+    "URL": {"res": "TagGoogle:url", "hu": "URL", "de": "URL", "fr": "URL", "es": "URL"},
+    "Title": {"res": "TagGoogle:tag_title", "hu": "Cím", "de": "Titel", "fr": "Titre", "es": "Título"},
+    "Save": {"res": "TagGoogle:button_save", "hu": "Mentés", "de": "Speichern", "fr": "Enregistrer", "es": "Guardar"},
+    "Contact": {"res": "TagGoogle:contact", "hu": "Ismerős", "de": "Kontakt", "fr": "Contact", "es": "Contacto"},
+    "Active tag": {"res": "TagGoogle:active_tag", "hu": "Aktív címke", "de": "Aktives Tag", "fr": "Tag actif", "es": "Etiqueta activa"},
+    "Call %s": {"res": "TagGoogle:action_call", "hu": "%s hívása", "de": "%s anrufen", "fr": "Appeler %s", "es": "Llamar al %s"},
+    "Tags is for organizing and sharing Near Field Communication (NFC) tags.": {"res": "TagGoogle:intro_text_about", "hu": "A Címkék az NFC (Near Field Communication -- kis hatósugarú vezeték nélküli kommunikáció) címkék rendszerezésére és megosztására szolgálnak.", "de": "Tags dient zur Organisation und Weitergabe von Tags für Nahfeldkommunikation (NFC).", "fr": "Tags vous permet d'organiser et de partager des tags de communication NFC (communication en champ proche).", "es": "Tags se utiliza para organizar y compartir etiquetas de Comunicación de campo cercano (NFC)."},
+    "You scan a tag by turning on your phone and placing it right next to a tag.": {"res": "TagGoogle:intro_text_usage", "hu": "Címkét úgy olvashat be, hogy megfordítja a telefonját, és közvetlenül a címke mellé teszi.", "de": "Zum Scannen eines Tags Telefon einschalten und direkt an das Tag halten.", "fr": "Pour scanner un tag, il suffit d'allumer votre téléphone et de le rapprocher du tag.", "es": "Para escanear una etiqueta, activa el teléfono y sitúalo junto a la etiqueta."},
+    "NFC tags can contain text, URLs, pictures, and other kinds of information.": {"res": "TagGoogle:intro_text_contents", "hu": "Az NFC-címkék tartalmazhatnak szöveget, URL-eket, képeket és másfajta információkat.", "de": "NFC-Tags können Text, URLs, Bilder und andere Informationen enthalten.", "fr": "Les tags NFC peuvent contenir du texte, des URL, des images et bien plus encore.", "es": "Las etiquetas NFC pueden contener texto, direcciones URL, imágenes y otros tipos de información."},
+    "For more information, press Menu and touch Help on any Tags screen.": {"res": "TagGoogle:intro_text_more2", "hu": "További információért nyomja meg a Menü, majd a Súgó gombot a Címkék bármelyik képernyőjén.", "de": "Über \"Menü\" > \"Hilfe\" erhalten Sie auf allen Tags-Bildschirmen weitere Informationen.", "fr": "Pour en savoir plus, appuyez sur \"Menu\", puis sur \"Aide\", à partir de n'importe quelle page de l'application Tags.", "es": "Para obtener más información, pulsa la tecla de menú y toca Ayuda en cualquier pantalla de la aplicación Tags."},
+    "Starting up.": {"res": "VoiceDialer:initializing", "hu": "Indítás.", "de": "Startvorgang", "fr": "Démarrage en cours", "es": "Iniciando..."},
+    "Listening…": {"res": "VoiceDialer:listening", "hu": "Figyelés...", "de": "Jetzt sprechen...", "fr": "Écoute en cours…", "es": "Escuchando..."},
+    "No results, try again.": {"res": "VoiceDialer:no_results_tts", "hu": "Nincs találat, próbálja újra.", "de": "Keine Ergebnisse, versuchen Sie es erneut.", "fr": "Aucun résultat, réessayez.", "es": "No se ha encontrado ningún resultado. Vuelve a intentarlo."},
+    "Please try again.": {"res": "VoiceDialer:please_try_again", "hu": "Próbálkozzon újra.", "de": "Bitte versuchen Sie es erneut.", "fr": "Veuillez réessayer.", "es": "Inténtalo de nuevo."},
+    "Did you know…": {"res": "VoiceDialer:tool_tip_title", "hu": "Tudta...", "de": "Wussten Sie schon...", "fr": "Saviez-vous que...", "es": "¿Sabías que...?"},
+    "Pressing & holding the green Call button opens the Voice Dialer.": {"res": "VoiceDialer:tool_tip_message", "hu": "A zöld Hívás gomb lenyomásával és nyomva tartásával a Hangtárcsázót nyitja meg.", "de": "Durch Drücken und Halten der grünen Anruftaste wird die Sprachwahl geöffnet.", "fr": "Appuyez sur le bouton vert Appel et maintenez la touche enfoncée pour ouvrir l'application Reconnaissance vocale.", "es": "Para abrir la ventana de marcación por voz, mantén pulsado el botón verde de llamada."},
+    "Voice Dialer": {"res": "VoiceDialer:voiceDialer", "hu": "Hangtárcsázó", "de": "Sprachwahl", "fr": "Reconnaissance vocale", "es": "Marcación por voz"},
+    "Navigate": {"res": "CarHomeGoogle:navigate", "hu": "Navigate", "de": "Navigieren", "fr": "Navigation", "es": "Iniciar navegación"},
+    "Phone": {"res": "CarHomeGoogle:phone", "hu": "Phone", "de": "Telefon", "fr": "Téléphone", "es": "Teléfono"},
+    "Voice Search": {"res": "CarHomeGoogle:speech", "hu": "Voice Search", "de": "Sprachsuche", "fr": "Recherche\nvocale", "es": "Búsqueda\npor voz"},
+    "Contacts": {"res": "CarHomeGoogle:contacts", "hu": "Contacts", "de": "Kontakte", "fr": "Contacts", "es": "Contactos"},
+    "Music": {"res": "CarHomeGoogle:music", "hu": "Music", "de": "Musik", "fr": "Musique", "es": "Música"},
+    "Exit car mode": {"res": "CarHomeGoogle:exit", "hu": "Exit car mode", "de": "Automodus beenden", "fr": "Quitter le \nmode Voiture", "es": "Salir de\nmodo coche"},
+    "Maps": {"res": "CarHomeGoogle:maps", "hu": "Maps", "de": "Google Maps", "fr": "Google Maps", "es": "Google Maps"},
+    "Places": {"res": "CarHomeGoogle:places", "hu": "Places", "de": "Orte", "fr": "Adresses", "es": "Lugares"},
+    "Car Home": {"res": "CarHomeGoogle:app_name", "hu": "Car Home", "de": "Automodus", "fr": "Mode Voiture", "es": "Car Home"},
+    "Add shortcut": {"res": "CarHomeGoogle:label_add_shortcut", "hu": "Add shortcut", "de": "Verknüpfung hinzufügen", "fr": "Ajouter un raccourci", "es": "Añadir acceso directo"},
+    "Day/Night mode": {"res": "CarHomeGoogle:ui_mode_night_label", "hu": "Day/Night mode", "de": "Tag-/Nachtmodus", "fr": "Mode Jour/Nuit", "es": "Modo nocturno/diurno"},
+    "Car applications": {"res": "CarHomeGoogle:shortcut_item_car_apps", "hu": "Car applications", "de": "Autoanwendungen", "fr": "Applications en mode Voiture", "es": "Aplicaciones de coche"}
   };
   const T = GBApps.texts(STRINGS);
 

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Galaxy Nexus 4.0.4 and Nexus 4 4.3: DownloadList (ics-downloads.js / jb-downloads.js from docs/holo-downloads.template.js).
 for(const [v,f,failed] of [['4.0.4','ics-downloads.js','Failed'],['4.3','jb-downloads.js','Unsuccessful']]){

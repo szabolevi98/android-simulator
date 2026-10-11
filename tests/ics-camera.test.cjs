@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 // Galaxy Nexus Camera (audit step 9): CameraGoogle 4.0.4's camera.xml, indicator bars and setting popups.
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const c={window:{}};for(const f of ['stock-strings.js','media.js'])vm.runInNewContext(fs.readFileSync('versions/4.0.4/'+f,'utf8'),c);

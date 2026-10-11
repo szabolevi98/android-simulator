@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Accessibility sub-pages (audit step 5): Touch & hold delay with a real effect on the simulator's long presses,
 // Magnification gestures (triple tap) and the accessibility shortcut page on 4.3 / 4.4.4 / 5.1.1.

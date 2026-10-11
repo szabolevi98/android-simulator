@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.3/jb-deskclock.js','utf8'),context);
 const clock=context.window.JBDeskClock,plain=value=>JSON.parse(JSON.stringify(value));

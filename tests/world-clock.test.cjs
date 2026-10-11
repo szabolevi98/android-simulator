@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // World clock: each image's cities.xml (dc-cities.js) and its DeskClock's CitiesActivity / world clock rows.
 for(const [v,file,count,selected] of [['4.3','jb-deskclock.js',280,false],['4.4.4','kk-deskclock.js',299,true],['5.1.1','lp-deskclock.js',300,true]]){

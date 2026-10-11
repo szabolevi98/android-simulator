@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{}};
 for(const file of ['calendar.js','media.js','widgets.js'])vm.runInNewContext(fs.readFileSync(`versions/4.0.4/${file}`,'utf8'),context);

@@ -47,7 +47,7 @@ def text(source, name):
     """English text of a string resource, its translations recorded in STRINGS."""
     en, tr = by[(source, name)]
     en = en.replace("\\'", "'").replace('\\"', '"')
-    STRINGS.setdefault(en, [tr.get(l, en).replace("\\'", "'").replace('\\"', '"') for l in LANGS]); return en
+    STRINGS.setdefault(en, {'res': f'{source}:{name}', **{l: tr.get(l, en).replace("\\'", "'").replace('\\"', '"') for l in LANGS}}); return en
 def array_text(name, index):
     configs = array_items('Settings', name)
     def item(config):
@@ -56,9 +56,9 @@ def array_text(name, index):
         return x[1:-1], {}
     en, tr = item('')
     if not by.get(('Settings', (configs[''][index] or '')[8:])):
-        STRINGS.setdefault(en, [item(l)[0] if l in configs else en for l in LANGS])
+        STRINGS.setdefault(en, {'res': f'Settings:@array/{name}:{index}', **{l: item(l)[0] if l in configs else en for l in LANGS}})
     else:
-        STRINGS.setdefault(en, [tr.get(l, en) for l in LANGS])
+        STRINGS.setdefault(en, {'res': f'Settings:@array/{name}:{index}', **{l: tr.get(l, en) for l in LANGS}})
     return en
 def ref(value):
     """'@7F0C0123' or '@android:01040013' -> (apk, name)."""
@@ -120,7 +120,7 @@ header = f"""/* Developer options of the {phone} image (Settings.apk res/xml/dev
    docs/devopts.py {device} from docs/devopts.template.js: the rows in the XML's order, the default summaries
    DevelopmentSettings shows, and the image's own Hungarian, German, French and Spanish texts. */"""
 out = src.replace('__HEADER__', header).replace('__SECTIONS__', json.dumps(sections, ensure_ascii=False, indent=2).replace('\n', '\n  '))
-out = out.replace('__STRINGS__', json.dumps(STRINGS, ensure_ascii=False, separators=(',', ':'))[1:-1].replace('],"', '],\n    "'))
+out = out.replace('__STRINGS__', ',\n    '.join(f'{json.dumps(en, ensure_ascii=False)}: {json.dumps(row, ensure_ascii=False)}' for en, row in STRINGS.items()))
 out = out.replace('__CATEGORY_CAPS__', 'false' if prefix == 'lp' else 'true')
 target = f'{ROOT}versions/{version}/{prefix}-devopts.js'
 open(target, 'w', encoding='utf-8', newline='\n').write(out)

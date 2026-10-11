@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Email 4.0.4 (versions/4.0.4/email.js from docs/ics-email.template.js): the mailbox model, then the screens and menus of
 // IMM76I's EmailGoogle.apk (split bar items in menu order, the message view's Delete / Move / Newer / Older, compose's

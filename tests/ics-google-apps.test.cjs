@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // The Galaxy Nexus's Google apps (ics-google-apps.js): APK drawables instead of text glyphs, YouTube 3.5.5's light theme.
 const ctx={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.0.4/ics-google-apps.js','utf8'),ctx);

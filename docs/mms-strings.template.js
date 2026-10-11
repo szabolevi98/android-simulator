@@ -5,7 +5,6 @@
    SmileyParser's emo_im_* icons, in that order). MmsStrings.t(english) answers in the simulator's language. */
 (() => {
   'use strict';
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   const STRINGS = __STRINGS__({"Messaging": "app_label", "New message": "new_message", "Search messaging": "search_hint",
     "To": "to_hint", "Type message": "type_to_compose_text_enter_to_send", "Draft": "has_draft", "No conversations.": "no_conversations",
     "Attach": "add_attachment", "Pictures": "attach_image", "Capture picture": "attach_take_photo", "Videos": "attach_video",
@@ -35,6 +34,6 @@
     ['Foot in mouth', ':-!', 'foot_in_mouth'], ['Embarrassed', ':-[', 'embarrassed'], ['Angel', 'O:-)', 'angel'], ['Undecided', ':-\\', 'undecided'],
     ['Crying', ":'(", 'crying'], ['Lips are sealed', ':-X', 'lips_are_sealed'], ['Laughing', ':-D', 'laughing'], ['Confused', 'o_O', 'wtf'], ['Heart', '<3', 'heart'],
     ['Mad', 'x-(', 'mad'], ['Smirk', ':-/', 'smirk'], ['Poker face', ':-I', 'pokerface']];
-  const t = (key, lang = window.AndroidI18n?.language || 'en') => { const row = STRINGS[key], i = LANGS.indexOf(lang); return row ? i >= 0 ? row[i] : row[4] || key : key; };
+  const STR = AndroidStrings.table('mms', STRINGS), t = (key, lang) => STR.t(key, lang);
   window.MmsStrings = {t, has: key => key in STRINGS, SMILEYS};
 })();

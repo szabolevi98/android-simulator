@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},Intl,Date};vm.runInNewContext(fs.readFileSync('versions/4.3/settings-system.js','utf8'),context);
 const sys=context.window.ICSSystemSettings,t=k=>k;

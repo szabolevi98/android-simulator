@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const ctx={window:{},Intl,Date};vm.createContext(ctx);vm.runInContext(fs.readFileSync('versions/4.0.4/settings-system.js','utf8'),ctx);const sys=ctx.window.ICSSystemSettings;
 const data={settings:{...sys.defaults,autoZone:false,timeZone:'Europe/Budapest'}},stamp=Date.parse('2026-09-30T12:00:00Z');

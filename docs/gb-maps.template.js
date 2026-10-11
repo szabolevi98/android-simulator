@@ -40,7 +40,7 @@
   });
   // Navigation's route options offer highways and tolls; the image only has "Avoid tolls" for the check box, so the
   // highways one is Maps 7.5's DIRECTIONS_OPTIONS_AVOID_HIGHWAYS (Nexus 5 image) in the same languages.
-  STRINGS['Avoid highways'] = ['Autópályák elkerülése', 'Autobahnen vermeiden', 'Éviter les autoroutes', 'Evitar autopistas'];
+  STRINGS['Avoid highways'] = {res: 'Maps:DIRECTIONS_OPTIONS_AVOID_HIGHWAYS', hu: 'Autópályák elkerülése', de: 'Autobahnen vermeiden', fr: 'Éviter les autoroutes', es: 'Evitar autopistas'};
   const T = GBApps.texts(STRINGS);
   const APPS = ['maps', 'places', 'latitude', 'navigation'];
   const A = name => `assets/mp-${name}.png`;

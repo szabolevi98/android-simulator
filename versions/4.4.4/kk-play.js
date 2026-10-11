@@ -17,777 +17,164 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-      "Google Play": [
-          "Google Play",
-          "Google Play",
-          "Google Play",
-          "Google Play"
-      ],
-      "My apps": [
-          "Alkalmazásaim",
-          "Meine Apps",
-          "Mes applications",
-          "Mis aplicaciones"
-      ],
-      "My wishlist": [
-          "Saját kívánságlista",
-          "Meine Wunschliste",
-          "Ma liste de souhaits",
-          "Mi lista de deseos"
-      ],
-      "Redeem": [
-          "Beváltás",
-          "Einlösen",
-          "Utiliser un code",
-          "Canjear"
-      ],
-      "Accounts": [
-          "Fiókok",
-          "Konten",
-          "Comptes",
-          "Cuentas"
-      ],
-      "Store home": [
-          "Az Áruház főoldala",
-          "Store-Startseite",
-          "Accueil du Play Store",
-          "Play Store"
-      ],
-      "Rate this app": [
-          "Alkalmazás értékelése",
-          "App bewerten",
-          "Noter cette application",
-          "Valorar esta aplicación"
-      ],
-      "Open navigation drawer": [
-          "Navigációs fiók megnyitása",
-          "Navigationsleiste öffnen",
-          "Ouvrir le panneau de navigation",
-          "Abrir panel de navegación"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Search Google Play": [
-          "Keresés a Google Playen",
-          "In Play suchen",
-          "Rechercher",
-          "Buscar"
-      ],
-      "Search": [
-          "Keresés",
-          "Suchen",
-          "Rechercher",
-          "Buscar"
-      ],
-      "Share": [
-          "Megosztás",
-          "Teilen",
-          "Partager",
-          "Compartir"
-      ],
-      "Include in wishlist": [
-          "Felvétel a kívánságlistára",
-          "Zu Wunschliste hinzu",
-          "Ajouter à la liste de souhaits",
-          "Incluir en lista de deseos"
-      ],
-      "Remove from wishlist": [
-          "Eltávolítás a kívánságlistáról",
-          "Von Wunschliste entfernen",
-          "Retirer de la liste de souhaits",
-          "Eliminar de lista de deseos"
-      ],
-      "Add to wishlist": [
-          "Felvétel a kívánságlistára",
-          "Auf die Wunschliste",
-          "Ajouter à la liste de souhaits",
-          "Añadir a la lista de deseos"
-      ],
-      "Remove from wishlist ": [
-          "Eltávolítás a kívánságlistáról",
-          "Von Wunschliste entfernen",
-          "Retirer de la liste de souhaits",
-          "Eliminar de lista de deseos",
-          "Remove from wishlist"
-      ],
-      "%1$s added to wishlist": [
-          "A(z) %1$s felkerült a kívánságlistára",
-          "%1$s wurde zur Wunschliste hinzugefügt.",
-          "%1$s a été ajouté à la liste de souhaits.",
-          "%1$s se ha añadido a la lista de deseos."
-      ],
-      "%1$s removed from wishlist": [
-          "A(z) %1$s eltávolítva a kívánságlistáról",
-          "%1$s wurde von der Wunschliste entfernt.",
-          "%1$s a été supprimé de la liste de souhaits.",
-          "%1$s se ha eliminado de la lista de deseos."
-      ],
-      "Go up": [
-          "Felfelé",
-          "Nach oben",
-          "Naviguer vers le haut",
-          "Hacia arriba"
-      ],
-      "Options": [
-          "Beállítások",
-          "Optionen",
-          "Options",
-          "Opciones"
-      ],
-      "see more": [
-          "továbbiak",
-          "Mehr ansehen",
-          "plus",
-          "ver más"
-      ],
-      "%1$d more": [
-          "%1$d további",
-          "%1$d weitere",
-          "%1$d de plus",
-          "%1$d más"
-      ],
-      "Categories": [
-          "Kategóriák",
-          "Kategorien",
-          "Catégories",
-          "Categorías"
-      ],
-      "Genres": [
-          "Stílusok",
-          "Genres",
-          "Genres",
-          "Géneros"
-      ],
-      "Install": [
-          "Telepítés",
-          "Installieren",
-          "Installer",
-          "Instalar"
-      ],
-      "Uninstall": [
-          "Eltávolítás",
-          "Deinstallieren",
-          "Désinstaller",
-          "Desinstalar"
-      ],
-      "Open": [
-          "Megnyitás",
-          "Öffnen",
-          "Ouvrir",
-          "Abrir"
-      ],
-      "Update": [
-          "Frissítés",
-          "Aktualisieren",
-          "Mettre à jour",
-          "Actualizar"
-      ],
-      "Buy %1$s": [
-          "Vásárlás – %1$s",
-          "Für %1$s kaufen",
-          "Acheter (%1$s)",
-          "Comprar por %1$s"
-      ],
-      "Installed": [
-          "Telepítve",
-          "Installiert",
-          "Installé",
-          "Instalada"
-      ],
-      "Up to date": [
-          "Naprakész",
-          "Aktuell",
-          "À jour",
-          "Actualizadas"
-      ],
-      "Updates": [
-          "Frissítések",
-          "Updates",
-          "Mises à jour",
-          "Actualizaciones"
-      ],
-      "Downloading…": [
-          "Letöltés...",
-          "Herunterladen...",
-          "Téléchargement...",
-          "Descargando…"
-      ],
-      "Update all": [
-          "Összes frissítése",
-          "Alle aktualisieren",
-          "Tout mettre à jour",
-          "Actualizar todo"
-      ],
-      "Installed ": [
-          "Telepítve",
-          "Installiert",
-          "Applications installées",
-          "Instaladas",
-          "Installed"
-      ],
-      "All": [
-          "Összes",
-          "Alle",
-          "Toutes",
-          "Todas"
-      ],
-      "Remove": [
-          "Eltávolítás",
-          "Entfernen",
-          "Supprimer",
-          "Eliminar"
-      ],
-      "Remove \"%1$s\" from my apps?": [
-          "Eltávolítja a(z) „%1$s” alkalmazást a saját alkalmazások közül?",
-          "\"%1$s\" aus \"Meine Apps\" entfernen?",
-          "Supprimer %1$s de \"Mes applications\" ?",
-          "¿Quieres eliminar \"%1$s\" de Mis aplicaciones?"
-      ],
-      "Apps and games installed from Google Play Store will appear here.": [
-          "A Google Play Áruházból telepített alkalmazások és játékok itt fognak megjelenni.",
-          "Hier werden Apps und Spiele angezeigt, die über den Google Play Store installiert wurden.",
-          "Les applications et les jeux installés depuis le Google Play Store s'affichent ici.",
-          "Las aplicaciones y los juegos instalados desde Google Play Store aparecerán aquí."
-      ],
-      "Apps and games owned by this account will appear here.": [
-          "A fiókhoz tartozó alkalmazások és játékok itt jelennek meg.",
-          "Hier werden Apps und Spiele angezeigt, die sich im Besitz dieses Kontos befinden.",
-          "Les applications et les jeux associés à ce compte s'affichent ici.",
-          "Las aplicaciones y los juegos de esta cuenta aparecerán aquí."
-      ],
-      "Browse apps": [
-          "Alkalmazások",
-          "Apps ansehen",
-          "Parcourir les applis",
-          "Explorar aplicaciones"
-      ],
-      "Browse games": [
-          "Játékok",
-          "Spiele ansehen",
-          "Parcourir les jeux",
-          "Explorar juegos"
-      ],
-      "There are no items in your wishlist. To add items, tap the bookmark whenever you see it in the menu above.": [
-          "Nincsenek elemek a kívánságlistáján. Elemek hozzáadásához koppintson a könyvjelzőre, amikor az megjelenik a menüben.",
-          "Es befinden sich keine Artikel auf Ihrer Wunschliste. Berühren Sie das Lesezeichen oben im Menü, um Artikel hinzuzufügen.",
-          "Aucun article dans votre liste de souhaits. Pour en ajouter, appuyez sur l'icône d'ajout aux favoris si celle-ci est disponible dans le menu ci-dessus.",
-          "No tienes elementos en tu lista de deseos. Para añadir elementos, toca el marcador cuando aparezca en el menú de arriba."
-      ],
-      "No results found.": [
-          "Nincs találat.",
-          "Keine Ergebnisse",
-          "Aucun résultat trouvé.",
-          "No se han encontrado resultados."
-      ],
-      "No results found for \"%1$s\".": [
-          "Nincs találat a következőre: \"%1$s\".",
-          "Keine Ergebnisse für \"%1$s\" gefunden",
-          "Aucun résultat trouvé pour \"%1$s\".",
-          "No se han encontrado resultados de \"%1$s\"."
-      ],
-      "Description": [
-          "Leírás",
-          "Beschreibung",
-          "Description",
-          "Descripción"
-      ],
-      "What's new": [
-          "Újdonságok",
-          "Neue Funktionen",
-          "Nouveautés",
-          "Novedades"
-      ],
-      "Reviews": [
-          "Vélemények",
-          "Erfahrungsberichte",
-          "Commentaires",
-          "Opiniones"
-      ],
-      "Average": [
-          "Átlagos",
-          "Durchschnitt",
-          "Moyenne",
-          "Media"
-      ],
-      "ALL REVIEWS": [
-          "ÖSSZES VÉLEMÉNY",
-          "ALLE ERFAHRUNGSBERICHTE",
-          "TOUS LES AVIS",
-          "TODAS LAS OPINIONES"
-      ],
-      "Rate & review": [
-          "Értékelések",
-          "Bewerten",
-          "Note et commentaire",
-          "Valorar y opinar"
-      ],
-      "Your review": [
-          "Az Ön véleménye",
-          "Mein Bericht",
-          "Votre avis",
-          "Tu opinión"
-      ],
-      "%s downloads": [
-          "%s letöltés",
-          "%s Downloads",
-          "%s téléchargements",
-          "%s descargas"
-      ],
-      "Cancel this download": [
-          "Letöltés törlése",
-          "Download abbrechen",
-          "Annuler téléchargement",
-          "Cancelar descarga"
-      ],
-      "Starting download…": [
-          "Letöltés megkezdése...",
-          "Download wird gestartet...",
-          "Début du téléchargement...",
-          "Iniciando descarga…"
-      ],
-      "Installing…": [
-          "Telepítés...",
-          "Wird installiert...",
-          "Installation...",
-          "Instalando…"
-      ],
-      "Uninstalling…": [
-          "Eltávolítás...",
-          "Wird deinstalliert...",
-          "Désinstallation...",
-          "Desinstalando…"
-      ],
-      "Rate it!": [
-          "Értékelje!",
-          "Jetzt bewerten!",
-          "Donnez votre avis !",
-          "¡Puntúalo!"
-      ],
-      "Unrated": [
-          "Nincs értékelve",
-          "Nicht bewertet",
-          "Aucune classification",
-          "Sin valorar"
-      ],
-      "Poor": [
-          "Gyenge",
-          "Schwach",
-          "Médiocre",
-          "Baja"
-      ],
-      "Below average": [
-          "Átlagon aluli",
-          "Unterdurchschnittlich",
-          "Peu satisfaisant",
-          "Inferior a la media"
-      ],
-      "Average ": [
-          "Átlagos",
-          "Durchschnittlich",
-          "Moyen",
-          "Media",
-          "Average"
-      ],
-      "Above average": [
-          "Átlag feletti",
-          "Überdurchschnittlich",
-          "Très satisfaisant",
-          "Superior a la media"
-      ],
-      "Excellent": [
-          "Kiváló",
-          "Hervorragend",
-          "Excellent",
-          "Excelente"
-      ],
-      "Summary": [
-          "Összefoglalás",
-          "Zusammenfassung",
-          "Résumé",
-          "Resumen"
-      ],
-      "Comment": [
-          "Megjegyzés",
-          "Kommentar",
-          "Ajouter un commentaire",
-          "Comentar"
-      ],
-      "OK": [
-          "OK",
-          "OK",
-          "OK",
-          "Aceptar"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ],
-      "Do you want to uninstall this app?": [
-          "Eltávolítja ezt az alkalmazást?",
-          "Möchten Sie diese App deinstallieren?",
-          "Voulez-vous désinstaller cette application ?",
-          "¿Quieres desinstalar esta aplicación?"
-      ],
-      "App permissions": [
-          "Alkalmazásengedélyek",
-          "App-Berechtigungen",
-          "Autorisations de l'application",
-          "Permisos de aplicaciones"
-      ],
-      "%1$s needs access to:": [
-          "A(z) <b>%1$s</b> alkalmazás a következőkhöz kér hozzáférést:",
-          "<b>%1$s</b> benötigt folgende Berechtigungen:",
-          "<b>%1$s</b> requiert les autorisations suivantes :",
-          "<b>%1$s</b> necesita acceder a:",
-          "<b>%1$s</b> needs access to:"
-      ],
-      "%1$s does not require any special permissions.": [
-          "A(z) <b>%1$s</b> alkalmazás nem igényel különleges engedélyeket.",
-          "Für <b>%1$s</b> sind keine besonderen Berechtigungen erforderlich.",
-          "<b>%1$s</b> ne requiert aucune autorisation spéciale.",
-          "<b>%1$s</b> no requiere permisos especiales.",
-          "<b>%1$s</b> does not require any special permissions."
-      ],
-      "Accept": [
-          "Elfogadom",
-          "Akzeptieren",
-          "Accepter",
-          "Aceptar"
-      ],
-      "Screenshot": [
-          "Képernyőkép",
-          "Screenshot",
-          "Capture d'écran",
-          "Captura de pantalla"
-      ],
-      "Flag as inappropriate": [
-          "Megjelölés kifogásolhatóként",
-          "Als unangemessen melden",
-          "Signaler du contenu pouvant offenser",
-          "Marcar como inadecuado"
-      ],
-      "Developer": [
-          "Fejlesztő",
-          "Anbieter",
-          "Développeur",
-          "Desarrollador"
-      ],
-      "Visit webpage": [
-          "A webhely felkeresése",
-          "Webseite besuchen",
-          "Accéder au site Web",
-          "Visitar página web"
-      ],
-      "Send email": [
-          "E-mail küldése",
-          "E-Mail senden",
-          "Envoyer un e-mail",
-          "Enviar correo"
-      ],
-      "Privacy policy": [
-          "Adatvédelmi irányelvek",
-          "Datenschutzerklärung",
-          "Règles de confidentialité",
-          "Política de privacidad"
-      ],
-      "General": [
-          "Általános",
-          "Allgemein",
-          "Paramètres généraux",
-          "General"
-      ],
-      "Notifications": [
-          "Értesítések",
-          "Benachrichtigungen",
-          "Notifications",
-          "Notificaciones"
-      ],
-      "Notify me about updates to apps or games that I downloaded": [
-          "Tájékoztasson a letöltött alkalmazások és játékok frissítéseiről",
-          "Ich möchte über Updates für heruntergeladene Apps oder Spiele informiert werden.",
-          "M'avertir des mises à jour disponibles pour les applications ou les jeux que j'ai téléchargés",
-          "Notificarme sobre actualizaciones de aplicaciones o juegos que he descargado"
-      ],
-      "Auto-update apps": [
-          "Alkalmazások automatikus frissítése",
-          "Automatische App-Updates",
-          "Mise à jour automatique des applis",
-          "Actualizar automáticamente"
-      ],
-      "Do not auto-update apps": [
-          "Ne frissítse automatikusan az alkalmazásokat",
-          "Keine automatischen App-Updates",
-          "Ne pas mettre à jour automatiquement les applications",
-          "No actualizar las aplicaciones automáticamente"
-      ],
-      "Auto-update apps at any time. Data charges may apply.": [
-          "Az alkalmazások bármikor automatikusan frissülhetnek. Előfordulhat, hogy a szolgáltató adatforgalmi díjat számít fel.",
-          "Apps jederzeit automatisch aktualisieren. Es können Gebühren für die Datenübertragung anfallen.",
-          "Mettre à jour les applications à tout moment. Des frais supplémentaires liés à la consommation de données peuvent être facturés.",
-          "Actualizar aplicaciones automáticamente en cualquier momento. Es posible que se apliquen cargos de datos."
-      ],
-      "Auto-update apps over Wi-Fi only": [
-          "Alkalmazások automatikus frissítése csak Wi-Fi hálózaton keresztül",
-          "Automatische App-Updates nur über WLAN zulassen",
-          "Mettre à jour automatiquement les applications via Wi-Fi uniquement",
-          "Actualizar las aplicaciones automáticamente solo a través de Wi-Fi"
-      ],
-      "Auto-add shortcuts": [
-          "Parancsikonok automatikus hozzáadása",
-          "Verknüpfungen automatisch hinzufügen",
-          "Ajout automatique de raccourcis",
-          "Añadir accesos directos"
-      ],
-      "Automatically add Home screen shortcuts for new apps": [
-          "Új alkalmazások parancsikonjainak automatikus felvétele a kezdőképernyőre",
-          "Neue Apps automatisch mit dem Startbildschirm verknüpfen",
-          "Ajouter automatiquement des raccourcis à l'écran d'accueil pour les nouvelles applications",
-          "Añadir accesos directos a la pantalla de inicio automáticamente para nuevas aplicaciones"
-      ],
-      "Clear search history": [
-          "Keresési előzmények törlése",
-          "Suchverlauf löschen",
-          "Historique des recherches",
-          "Borrar historial de búsqueda"
-      ],
-      "Remove all the searches you have performed": [
-          "Az összes végrehajtott keresés törlése",
-          "Alle Suchvorgänge aus dem Verlauf entfernen",
-          "Supprimer toutes les recherches effectuées",
-          "Eliminar todas las búsquedas realizadas"
-      ],
-      "User controls": [
-          "Felhasználói vezérlők",
-          "Nutzersteuerung",
-          "Commandes utilisateur",
-          "Controles de usuario"
-      ],
-      "Content filtering": [
-          "Tartalomszűrés",
-          "Filter für Inhalte",
-          "Filtrage du contenu",
-          "Filtro de contenido"
-      ],
-      "Set the content filtering level to restrict apps that can be downloaded": [
-          "A tartalomszűrés szintjének beállítása a letölthető alkalmazások körének szűkítéséhez",
-          "Beschränken Sie über die Inhaltsfilterung den Zugriff auf Apps, die heruntergeladen werden können.",
-          "Définir le niveau de filtrage du contenu afin de limiter les applications pouvant être téléchargées",
-          "Definir el nivel del filtro de contenido para restringir las aplicaciones que se pueden descargar"
-      ],
-      "Password": [
-          "Jelszó",
-          "Passwort",
-          "Mot de passe",
-          "Contraseña"
-      ],
-      "Use password to restrict purchases": [
-          "Jelszó használata a vásárlások korlátozásához",
-          "Passwort zur Beschränkung von Käufen verwenden",
-          "Limiter les achats à l'aide d'un mot de passe",
-          "Usar contraseña para restringir compras"
-      ],
-      "About": [
-          "Névjegy",
-          "Info",
-          "À propos de",
-          "Acerca de"
-      ],
-      "Open source licenses": [
-          "Nyílt forráskódú licencek",
-          "Open-Source-Lizenzen",
-          "Licences Open Source",
-          "Licencias de software libre"
-      ],
-      "License details for open source software": [
-          "A nyílt forráskódú szoftverekhez kapcsolódó licenc részletei",
-          "Lizenzdetails für Open-Source-Software",
-          "Informations sur la licence pour les logiciels Open Source",
-          "Detalles de la licencia de software de código abierto"
-      ],
-      "Build version": [
-          "Build verziószáma",
-          "Build-Version",
-          "Version",
-          "Versión de la compilación"
-      ],
-      "Version: %1$s": [
-          "Verzió: %1$s",
-          "Version: %1$s",
-          "Version : %1$s",
-          "Versión: %1$s"
-      ],
-      "Allow apps rated for": [
-          "Következő alkalmazások engedélyezése:",
-          "Folgende Apps zulassen",
-          "Classification des applications autorisées :",
-          "Permitir aplicaciones clasificadas"
-      ],
-      "Everyone": [
-          "Mindenki",
-          "Alle",
-          "Pour tous",
-          "Para todos"
-      ],
-      "Low maturity": [
-          "Alacsony besorolású",
-          "Stufe 3 - Niedrig",
-          "Niveau 3 - Large",
-          "Nivel de madurez bajo"
-      ],
-      "Medium maturity": [
-          "Közepes besorolású",
-          "Stufe 2 - Mittel",
-          "Niveau 2 - Modéré",
-          "Nivel de madurez medio"
-      ],
-      "High maturity": [
-          "Magas besorolású",
-          "Stufe 1 - Hoch",
-          "Niveau 1 - Strict",
-          "Nivel de madurez alto"
-      ],
-      "Show all apps": [
-          "Összes alkalmazás",
-          "Alle Apps anzeigen",
-          "Afficher toutes app.",
-          "Mostrar todas"
-      ],
-      "Set the content filtering level to restrict apps that can be downloaded to this device.": [
-          "A tartalomszűrés szintjének beállítása az eszközre letölthető alkalmazások körének szűkítéséhez.",
-          "Beschränken Sie über die Inhaltsfilterung den Zugriff auf Apps, die auf dieses Gerät heruntergeladen werden können.",
-          "Permet de définir le niveau de filtrage du contenu de manière à limiter le type d'applications qui peuvent être téléchargées sur cet appareil.",
-          "Definir el nivel del filtro de contenido para restringir las aplicaciones que se pueden descargar en este dispositivo"
-      ],
-      "Auto-update": [
-          "Auto. frissítés",
-          "Autom. Update",
-          "Mise à jour auto",
-          "Actualizar automáticamente"
-      ],
-      "Successfully installed.": [
-          "Sikeresen telepítve.",
-          "Installiert",
-          "Installation réussie",
-          "Instalada correctamente"
-      ],
-      "Successfully installed \"%1$s\"": [
-          "A(z) \"%1$s\" sikeresen telepítve",
-          "\"%1$s\" wurde installiert.",
-          "Installation de \"%1$s\" réussie.",
-          "%1$s instalado correctamente"
-      ],
-      "Choose Google Account": [
-          "Google Fiók kiválasztása",
-          "Google-Konto auswählen",
-          "Sélectionnez un compte Google",
-          "Seleccionar cuenta de Google"
-      ],
-      "Did you mean:": [
-          "Keresési javaslat:",
-          "Meinten Sie:",
-          "Essayez avec :",
-          "Quisiste decir:"
-      ],
-      "Network communication": [
-          "Hálózati kommunikáció",
-          "Netzkommunikation",
-          "Communications réseau",
-          "Comunicación de red"
-      ],
-      "full network access": [
-          "teljes hálózati hozzáférés",
-          "Voller Netzwerkzugriff",
-          "bénéficier d'un accès complet au réseau",
-          "acceso completo a red"
-      ],
-      "view network connections": [
-          "hálózati kapcsolatok megtekintése",
-          "Netzwerkverbindungen abrufen",
-          "afficher les connexions réseau",
-          "ver conexiones de red"
-      ],
-      "Storage": [
-          "Tárhely",
-          "Speicher",
-          "Stockage",
-          "Almacenamiento"
-      ],
-      "modify or delete the contents of your USB storage": [
-          "USB-tár törlése/módosítása",
-          "USB-Speicherinhalte ändern oder löschen",
-          "modifier ou supprimer le contenu de la mémoire USB",
-          "editar o borrar contenido de USB"
-      ],
-      "Affects Battery": [
-          "Hozzáférés az akkumulátor teljesítményéhez",
-          "Auswirkungen auf den Akku",
-          "Affecte la batterie",
-          "Afectar a la batería"
-      ],
-      "control vibration": [
-          "rezgés szabályozása",
-          "Vibrationsalarm steuern",
-          "contrôler le vibreur",
-          "controlar la vibración"
-      ],
-      "prevent phone from sleeping": [
-          "telefon alvó üzemmódjának megakadályozása",
-          "Ruhezustand deaktivieren",
-          "empêcher le téléphone de passer en mode veille",
-          "impedir que el teléfono entre en modo de suspensión"
-      ]
+    "Google Play": {"res": "Phonesky:app_name", "hu": "Google Play", "de": "Google Play", "fr": "Google Play", "es": "Google Play"},
+    "My apps": {"res": "Phonesky:my_downloads_menu", "hu": "Alkalmazásaim", "de": "Meine Apps", "fr": "Mes applications", "es": "Mis aplicaciones"},
+    "My wishlist": {"res": "Phonesky:menu_my_wishlist", "hu": "Saját kívánságlista", "de": "Meine Wunschliste", "fr": "Ma liste de souhaits", "es": "Mi lista de deseos"},
+    "Redeem": {"res": "Phonesky:redeem_gift_card_menu", "hu": "Beváltás", "de": "Einlösen", "fr": "Utiliser un code", "es": "Canjear"},
+    "Accounts": {"res": "Phonesky:menu_switch_accounts", "hu": "Fiókok", "de": "Konten", "fr": "Comptes", "es": "Cuentas"},
+    "Store home": {"res": "Phonesky:menu_home", "hu": "Az Áruház főoldala", "de": "Store-Startseite", "fr": "Accueil du Play Store", "es": "Play Store"},
+    "Rate this app": {"res": "Phonesky:rate_this_app", "hu": "Alkalmazás értékelése", "de": "App bewerten", "fr": "Noter cette application", "es": "Valorar esta aplicación"},
+    "Open navigation drawer": {"res": "Phonesky:side_drawer_open", "hu": "Navigációs fiók megnyitása", "de": "Navigationsleiste öffnen", "fr": "Ouvrir le panneau de navigation", "es": "Abrir panel de navegación"},
+    "Settings": {"res": "Phonesky:settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Help": {"res": "Phonesky:help_and_info", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "Search Google Play": {"res": "Phonesky:search_hint", "hu": "Keresés a Google Playen", "de": "In Play suchen", "fr": "Rechercher", "es": "Buscar"},
+    "Search": {"res": "Phonesky:content_description_search", "hu": "Keresés", "de": "Suchen", "fr": "Rechercher", "es": "Buscar"},
+    "Share": {"res": "Phonesky:content_description_share", "hu": "Megosztás", "de": "Teilen", "fr": "Partager", "es": "Compartir"},
+    "Include in wishlist": {"res": "Phonesky:content_description_wishlist_add", "hu": "Felvétel a kívánságlistára", "de": "Zu Wunschliste hinzu", "fr": "Ajouter à la liste de souhaits", "es": "Incluir en lista de deseos"},
+    "Remove from wishlist": {"res": "Phonesky:content_description_wishlist_remove", "hu": "Eltávolítás a kívánságlistáról", "de": "Von Wunschliste entfernen", "fr": "Retirer de la liste de souhaits", "es": "Eliminar de lista de deseos"},
+    "Add to wishlist": {"res": "Phonesky:wishlist_add", "hu": "Felvétel a kívánságlistára", "de": "Auf die Wunschliste", "fr": "Ajouter à la liste de souhaits", "es": "Añadir a la lista de deseos"},
+    "Remove from wishlist ": {"res": "Phonesky:wishlist_remove", "hu": "Eltávolítás a kívánságlistáról", "de": "Von Wunschliste entfernen", "fr": "Retirer de la liste de souhaits", "es": "Eliminar de lista de deseos", "en": "Remove from wishlist"},
+    "%1$s added to wishlist": {"res": "Phonesky:wishlist_add_success", "hu": "A(z) %1$s felkerült a kívánságlistára", "de": "%1$s wurde zur Wunschliste hinzugefügt.", "fr": "%1$s a été ajouté à la liste de souhaits.", "es": "%1$s se ha añadido a la lista de deseos."},
+    "%1$s removed from wishlist": {"res": "Phonesky:wishlist_remove_success", "hu": "A(z) %1$s eltávolítva a kívánságlistáról", "de": "%1$s wurde von der Wunschliste entfernt.", "fr": "%1$s a été supprimé de la liste de souhaits.", "es": "%1$s se ha eliminado de la lista de deseos."},
+    "Go up": {"res": "Phonesky:content_description_main_icon", "hu": "Felfelé", "de": "Nach oben", "fr": "Naviguer vers le haut", "es": "Hacia arriba"},
+    "Options": {"res": "Phonesky:content_description_options", "hu": "Beállítások", "de": "Optionen", "fr": "Options", "es": "Opciones"},
+    "see more": {"res": "Phonesky:more_results_no_count", "hu": "továbbiak", "de": "Mehr ansehen", "fr": "plus", "es": "ver más"},
+    "%1$d more": {"res": "Phonesky:more_results", "hu": "%1$d további", "de": "%1$d weitere", "fr": "%1$d de plus", "es": "%1$d más"},
+    "Categories": {"res": "Phonesky:category_tab_title", "hu": "Kategóriák", "de": "Kategorien", "fr": "Catégories", "es": "Categorías"},
+    "Genres": {"res": "Phonesky:genres_tab_title", "hu": "Stílusok", "de": "Genres", "fr": "Genres", "es": "Géneros"},
+    "Install": {"res": "Phonesky:install", "hu": "Telepítés", "de": "Installieren", "fr": "Installer", "es": "Instalar"},
+    "Uninstall": {"res": "Phonesky:uninstall", "hu": "Eltávolítás", "de": "Deinstallieren", "fr": "Désinstaller", "es": "Desinstalar"},
+    "Open": {"res": "Phonesky:open", "hu": "Megnyitás", "de": "Öffnen", "fr": "Ouvrir", "es": "Abrir"},
+    "Update": {"res": "Phonesky:update", "hu": "Frissítés", "de": "Aktualisieren", "fr": "Mettre à jour", "es": "Actualizar"},
+    "Buy %1$s": {"res": "Phonesky:buy", "hu": "Vásárlás – %1$s", "de": "Für %1$s kaufen", "fr": "Acheter (%1$s)", "es": "Comprar por %1$s"},
+    "Installed": {"res": "Phonesky:installed_list_state", "hu": "Telepítve", "de": "Installiert", "fr": "Installé", "es": "Instalada"},
+    "Up to date": {"res": "Phonesky:installed_section", "hu": "Naprakész", "de": "Aktuell", "fr": "À jour", "es": "Actualizadas"},
+    "Updates": {"res": "Phonesky:updates_available_section", "hu": "Frissítések", "de": "Updates", "fr": "Mises à jour", "es": "Actualizaciones"},
+    "Downloading…": {"res": "Phonesky:downloading_section", "hu": "Letöltés...", "de": "Herunterladen...", "fr": "Téléchargement...", "es": "Descargando…"},
+    "Update all": {"res": "Phonesky:update_all", "hu": "Összes frissítése", "de": "Alle aktualisieren", "fr": "Tout mettre à jour", "es": "Actualizar todo"},
+    "Installed ": {"res": "Phonesky:my_apps_tab_installed", "hu": "Telepítve", "de": "Installiert", "fr": "Applications installées", "es": "Instaladas", "en": "Installed"},
+    "All": {"res": "Phonesky:my_apps_tab_library", "hu": "Összes", "de": "Alle", "fr": "Toutes", "es": "Todas"},
+    "Remove": {"res": "Phonesky:archive_label", "hu": "Eltávolítás", "de": "Entfernen", "fr": "Supprimer", "es": "Eliminar"},
+    "Remove \"%1$s\" from my apps?": {"res": "Phonesky:archiving_no_uninstall_confirmation", "hu": "Eltávolítja a(z) „%1$s” alkalmazást a saját alkalmazások közül?", "de": "\"%1$s\" aus \"Meine Apps\" entfernen?", "fr": "Supprimer %1$s de \"Mes applications\" ?", "es": "¿Quieres eliminar \"%1$s\" de Mis aplicaciones?"},
+    "Apps and games installed from Google Play Store will appear here.": {"res": "Phonesky:empty_myapps_description_installed", "hu": "A Google Play Áruházból telepített alkalmazások és játékok itt fognak megjelenni.", "de": "Hier werden Apps und Spiele angezeigt, die über den Google Play Store installiert wurden.", "fr": "Les applications et les jeux installés depuis le Google Play Store s'affichent ici.", "es": "Las aplicaciones y los juegos instalados desde Google Play Store aparecerán aquí."},
+    "Apps and games owned by this account will appear here.": {"res": "Phonesky:empty_myapps_description_all", "hu": "A fiókhoz tartozó alkalmazások és játékok itt jelennek meg.", "de": "Hier werden Apps und Spiele angezeigt, die sich im Besitz dieses Kontos befinden.", "fr": "Les applications et les jeux associés à ce compte s'affichent ici.", "es": "Las aplicaciones y los juegos de esta cuenta aparecerán aquí."},
+    "Browse apps": {"res": "Phonesky:empty_myapps_browse_apps", "hu": "Alkalmazások", "de": "Apps ansehen", "fr": "Parcourir les applis", "es": "Explorar aplicaciones"},
+    "Browse games": {"res": "Phonesky:empty_myapps_browse_games", "hu": "Játékok", "de": "Spiele ansehen", "fr": "Parcourir les jeux", "es": "Explorar juegos"},
+    "There are no items in your wishlist. To add items, tap the bookmark whenever you see it in the menu above.": {"res": "Phonesky:my_wishlist_empty", "hu": "Nincsenek elemek a kívánságlistáján. Elemek hozzáadásához koppintson a könyvjelzőre, amikor az megjelenik a menüben.", "de": "Es befinden sich keine Artikel auf Ihrer Wunschliste. Berühren Sie das Lesezeichen oben im Menü, um Artikel hinzuzufügen.", "fr": "Aucun article dans votre liste de souhaits. Pour en ajouter, appuyez sur l'icône d'ajout aux favoris si celle-ci est disponible dans le menu ci-dessus.", "es": "No tienes elementos en tu lista de deseos. Para añadir elementos, toca el marcador cuando aparezca en el menú de arriba."},
+    "No results found.": {"res": "Phonesky:no_results", "hu": "Nincs találat.", "de": "Keine Ergebnisse", "fr": "Aucun résultat trouvé.", "es": "No se han encontrado resultados."},
+    "No results found for \"%1$s\".": {"res": "Phonesky:no_results_for_query", "hu": "Nincs találat a következőre: \"%1$s\".", "de": "Keine Ergebnisse für \"%1$s\" gefunden", "fr": "Aucun résultat trouvé pour \"%1$s\".", "es": "No se han encontrado resultados de \"%1$s\"."},
+    "Description": {"res": "Phonesky:details_description", "hu": "Leírás", "de": "Beschreibung", "fr": "Description", "es": "Descripción"},
+    "What's new": {"res": "Phonesky:details_whats_new", "hu": "Újdonságok", "de": "Neue Funktionen", "fr": "Nouveautés", "es": "Novedades"},
+    "Reviews": {"res": "Phonesky:details_reviews", "hu": "Vélemények", "de": "Erfahrungsberichte", "fr": "Commentaires", "es": "Opiniones"},
+    "Average": {"res": "Phonesky:average_rating", "hu": "Átlagos", "de": "Durchschnitt", "fr": "Moyenne", "es": "Media"},
+    "ALL REVIEWS": {"res": "Phonesky:all_reviews", "hu": "ÖSSZES VÉLEMÉNY", "de": "ALLE ERFAHRUNGSBERICHTE", "fr": "TOUS LES AVIS", "es": "TODAS LAS OPINIONES"},
+    "Rate & review": {"res": "Phonesky:review", "hu": "Értékelések", "de": "Bewerten", "fr": "Note et commentaire", "es": "Valorar y opinar"},
+    "Your review": {"res": "Phonesky:my_review", "hu": "Az Ön véleménye", "de": "Mein Bericht", "fr": "Votre avis", "es": "Tu opinión"},
+    "%s downloads": {"res": "Phonesky:downloads_count", "hu": "%s letöltés", "de": "%s Downloads", "fr": "%s téléchargements", "es": "%s descargas"},
+    "Cancel this download": {"res": "Phonesky:content_description_cancel_download", "hu": "Letöltés törlése", "de": "Download abbrechen", "fr": "Annuler téléchargement", "es": "Cancelar descarga"},
+    "Starting download…": {"res": "Phonesky:download_pending", "hu": "Letöltés megkezdése...", "de": "Download wird gestartet...", "fr": "Début du téléchargement...", "es": "Iniciando descarga…"},
+    "Installing…": {"res": "Phonesky:installing", "hu": "Telepítés...", "de": "Wird installiert...", "fr": "Installation...", "es": "Instalando…"},
+    "Uninstalling…": {"res": "Phonesky:uninstalling", "hu": "Eltávolítás...", "de": "Wird deinstalliert...", "fr": "Désinstallation...", "es": "Desinstalando…"},
+    "Rate it!": {"res": "Phonesky:review_dialog_title", "hu": "Értékelje!", "de": "Jetzt bewerten!", "fr": "Donnez votre avis !", "es": "¡Puntúalo!"},
+    "Unrated": {"res": "Phonesky:review_dialog_unrated", "hu": "Nincs értékelve", "de": "Nicht bewertet", "fr": "Aucune classification", "es": "Sin valorar"},
+    "Poor": {"res": "Phonesky:review_dialog_poor", "hu": "Gyenge", "de": "Schwach", "fr": "Médiocre", "es": "Baja"},
+    "Below average": {"res": "Phonesky:review_dialog_below_average", "hu": "Átlagon aluli", "de": "Unterdurchschnittlich", "fr": "Peu satisfaisant", "es": "Inferior a la media"},
+    "Average ": {"res": "Phonesky:review_dialog_average", "hu": "Átlagos", "de": "Durchschnittlich", "fr": "Moyen", "es": "Media", "en": "Average"},
+    "Above average": {"res": "Phonesky:review_dialog_above_average", "hu": "Átlag feletti", "de": "Überdurchschnittlich", "fr": "Très satisfaisant", "es": "Superior a la media"},
+    "Excellent": {"res": "Phonesky:review_dialog_excellent", "hu": "Kiváló", "de": "Hervorragend", "fr": "Excellent", "es": "Excelente"},
+    "Summary": {"res": "Phonesky:review_dialog_subject_hint", "hu": "Összefoglalás", "de": "Zusammenfassung", "fr": "Résumé", "es": "Resumen"},
+    "Comment": {"res": "Phonesky:review_dialog_body_hint", "hu": "Megjegyzés", "de": "Kommentar", "fr": "Ajouter un commentaire", "es": "Comentar"},
+    "OK": {"res": "Phonesky:ok", "hu": "OK", "de": "OK", "fr": "OK", "es": "Aceptar"},
+    "Cancel": {"res": "Phonesky:cancel", "hu": "Mégse", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"},
+    "Do you want to uninstall this app?": {"res": "Phonesky:uninstall_app_msg", "hu": "Eltávolítja ezt az alkalmazást?", "de": "Möchten Sie diese App deinstallieren?", "fr": "Voulez-vous désinstaller cette application ?", "es": "¿Quieres desinstalar esta aplicación?"},
+    "App permissions": {"res": "Phonesky:permissions_title", "hu": "Alkalmazásengedélyek", "de": "App-Berechtigungen", "fr": "Autorisations de l'application", "es": "Permisos de aplicaciones"},
+    "%1$s needs access to:": {"res": "Phonesky:needs_permissions", "hu": "A(z) <b>%1$s</b> alkalmazás a következőkhöz kér hozzáférést:", "de": "<b>%1$s</b> benötigt folgende Berechtigungen:", "fr": "<b>%1$s</b> requiert les autorisations suivantes :", "es": "<b>%1$s</b> necesita acceder a:", "en": "<b>%1$s</b> needs access to:"},
+    "%1$s does not require any special permissions.": {"res": "Phonesky:no_dangerous_permissions", "hu": "A(z) <b>%1$s</b> alkalmazás nem igényel különleges engedélyeket.", "de": "Für <b>%1$s</b> sind keine besonderen Berechtigungen erforderlich.", "fr": "<b>%1$s</b> ne requiert aucune autorisation spéciale.", "es": "<b>%1$s</b> no requiere permisos especiales.", "en": "<b>%1$s</b> does not require any special permissions."},
+    "Accept": {"res": "Phonesky:accept", "hu": "Elfogadom", "de": "Akzeptieren", "fr": "Accepter", "es": "Aceptar"},
+    "Screenshot": {"res": "Phonesky:content_description_screenshot", "hu": "Képernyőkép", "de": "Screenshot", "fr": "Capture d'écran", "es": "Captura de pantalla"},
+    "Flag as inappropriate": {"res": "Phonesky:flagging_title", "hu": "Megjelölés kifogásolhatóként", "de": "Als unangemessen melden", "fr": "Signaler du contenu pouvant offenser", "es": "Marcar como inadecuado"},
+    "Developer": {"res": "Phonesky:details_developer_links", "hu": "Fejlesztő", "de": "Anbieter", "fr": "Développeur", "es": "Desarrollador"},
+    "Visit webpage": {"res": "Phonesky:link_website", "hu": "A webhely felkeresése", "de": "Webseite besuchen", "fr": "Accéder au site Web", "es": "Visitar página web"},
+    "Send email": {"res": "Phonesky:link_email", "hu": "E-mail küldése", "de": "E-Mail senden", "fr": "Envoyer un e-mail", "es": "Enviar correo"},
+    "Privacy policy": {"res": "Phonesky:privacy_policy", "hu": "Adatvédelmi irányelvek", "de": "Datenschutzerklärung", "fr": "Règles de confidentialité", "es": "Política de privacidad"},
+    "General": {"res": "Phonesky:settings_general_section_header", "hu": "Általános", "de": "Allgemein", "fr": "Paramètres généraux", "es": "General"},
+    "Notifications": {"res": "Phonesky:notifications", "hu": "Értesítések", "de": "Benachrichtigungen", "fr": "Notifications", "es": "Notificaciones"},
+    "Notify me about updates to apps or games that I downloaded": {"res": "Phonesky:notification_description", "hu": "Tájékoztasson a letöltött alkalmazások és játékok frissítéseiről", "de": "Ich möchte über Updates für heruntergeladene Apps oder Spiele informiert werden.", "fr": "M'avertir des mises à jour disponibles pour les applications ou les jeux que j'ai téléchargés", "es": "Notificarme sobre actualizaciones de aplicaciones o juegos que he descargado"},
+    "Auto-update apps": {"res": "Phonesky:auto_update_label", "hu": "Alkalmazások automatikus frissítése", "de": "Automatische App-Updates", "fr": "Mise à jour automatique des applis", "es": "Actualizar automáticamente"},
+    "Do not auto-update apps": {"res": "Phonesky:auto_update_value_disabled", "hu": "Ne frissítse automatikusan az alkalmazásokat", "de": "Keine automatischen App-Updates", "fr": "Ne pas mettre à jour automatiquement les applications", "es": "No actualizar las aplicaciones automáticamente"},
+    "Auto-update apps at any time. Data charges may apply.": {"res": "Phonesky:auto_update_value_enabled", "hu": "Az alkalmazások bármikor automatikusan frissülhetnek. Előfordulhat, hogy a szolgáltató adatforgalmi díjat számít fel.", "de": "Apps jederzeit automatisch aktualisieren. Es können Gebühren für die Datenübertragung anfallen.", "fr": "Mettre à jour les applications à tout moment. Des frais supplémentaires liés à la consommation de données peuvent être facturés.", "es": "Actualizar aplicaciones automáticamente en cualquier momento. Es posible que se apliquen cargos de datos."},
+    "Auto-update apps over Wi-Fi only": {"res": "Phonesky:auto_update_value_wifi_only", "hu": "Alkalmazások automatikus frissítése csak Wi-Fi hálózaton keresztül", "de": "Automatische App-Updates nur über WLAN zulassen", "fr": "Mettre à jour automatiquement les applications via Wi-Fi uniquement", "es": "Actualizar las aplicaciones automáticamente solo a través de Wi-Fi"},
+    "Auto-add shortcuts": {"res": "Phonesky:auto_add_shortcuts_label", "hu": "Parancsikonok automatikus hozzáadása", "de": "Verknüpfungen automatisch hinzufügen", "fr": "Ajout automatique de raccourcis", "es": "Añadir accesos directos"},
+    "Automatically add Home screen shortcuts for new apps": {"res": "Phonesky:auto_add_shortcuts_description", "hu": "Új alkalmazások parancsikonjainak automatikus felvétele a kezdőképernyőre", "de": "Neue Apps automatisch mit dem Startbildschirm verknüpfen", "fr": "Ajouter automatiquement des raccourcis à l'écran d'accueil pour les nouvelles applications", "es": "Añadir accesos directos a la pantalla de inicio automáticamente para nuevas aplicaciones"},
+    "Clear search history": {"res": "Phonesky:clear_history_title", "hu": "Keresési előzmények törlése", "de": "Suchverlauf löschen", "fr": "Historique des recherches", "es": "Borrar historial de búsqueda"},
+    "Remove all the searches you have performed": {"res": "Phonesky:clear_history_summary", "hu": "Az összes végrehajtott keresés törlése", "de": "Alle Suchvorgänge aus dem Verlauf entfernen", "fr": "Supprimer toutes les recherches effectuées", "es": "Eliminar todas las búsquedas realizadas"},
+    "User controls": {"res": "Phonesky:settings_user_controls_section_header", "hu": "Felhasználói vezérlők", "de": "Nutzersteuerung", "fr": "Commandes utilisateur", "es": "Controles de usuario"},
+    "Content filtering": {"res": "Phonesky:content_filtering_label", "hu": "Tartalomszűrés", "de": "Filter für Inhalte", "fr": "Filtrage du contenu", "es": "Filtro de contenido"},
+    "Set the content filtering level to restrict apps that can be downloaded": {"res": "Phonesky:content_filtering_description", "hu": "A tartalomszűrés szintjének beállítása a letölthető alkalmazások körének szűkítéséhez", "de": "Beschränken Sie über die Inhaltsfilterung den Zugriff auf Apps, die heruntergeladen werden können.", "fr": "Définir le niveau de filtrage du contenu afin de limiter les applications pouvant être téléchargées", "es": "Definir el nivel del filtro de contenido para restringir las aplicaciones que se pueden descargar"},
+    "Password": {"res": "Phonesky:change_password_restrict_label", "hu": "Jelszó", "de": "Passwort", "fr": "Mot de passe", "es": "Contraseña"},
+    "Use password to restrict purchases": {"res": "Phonesky:change_password_restrict_summary", "hu": "Jelszó használata a vásárlások korlátozásához", "de": "Passwort zur Beschränkung von Käufen verwenden", "fr": "Limiter les achats à l'aide d'un mot de passe", "es": "Usar contraseña para restringir compras"},
+    "About": {"res": "Phonesky:settings_about_header", "hu": "Névjegy", "de": "Info", "fr": "À propos de", "es": "Acerca de"},
+    "Open source licenses": {"res": "Phonesky:os_licenses_label", "hu": "Nyílt forráskódú licencek", "de": "Open-Source-Lizenzen", "fr": "Licences Open Source", "es": "Licencias de software libre"},
+    "License details for open source software": {"res": "Phonesky:os_licenses_summary", "hu": "A nyílt forráskódú szoftverekhez kapcsolódó licenc részletei", "de": "Lizenzdetails für Open-Source-Software", "fr": "Informations sur la licence pour les logiciels Open Source", "es": "Detalles de la licencia de software de código abierto"},
+    "Build version": {"res": "Phonesky:settings_build_version", "hu": "Build verziószáma", "de": "Build-Version", "fr": "Version", "es": "Versión de la compilación"},
+    "Version: %1$s": {"res": "Phonesky:market_version", "hu": "Verzió: %1$s", "de": "Version: %1$s", "fr": "Version : %1$s", "es": "Versión: %1$s"},
+    "Allow apps rated for": {"res": "Phonesky:content_filter_title", "hu": "Következő alkalmazások engedélyezése:", "de": "Folgende Apps zulassen", "fr": "Classification des applications autorisées :", "es": "Permitir aplicaciones clasificadas"},
+    "Everyone": {"res": "Phonesky:content_filter_everyone", "hu": "Mindenki", "de": "Alle", "fr": "Pour tous", "es": "Para todos"},
+    "Low maturity": {"res": "Phonesky:content_filter_low_maturity", "hu": "Alacsony besorolású", "de": "Stufe 3 - Niedrig", "fr": "Niveau 3 - Large", "es": "Nivel de madurez bajo"},
+    "Medium maturity": {"res": "Phonesky:content_filter_medium_maturity", "hu": "Közepes besorolású", "de": "Stufe 2 - Mittel", "fr": "Niveau 2 - Modéré", "es": "Nivel de madurez medio"},
+    "High maturity": {"res": "Phonesky:content_filter_high_maturity", "hu": "Magas besorolású", "de": "Stufe 1 - Hoch", "fr": "Niveau 1 - Strict", "es": "Nivel de madurez alto"},
+    "Show all apps": {"res": "Phonesky:content_filter_show_all_apps", "hu": "Összes alkalmazás", "de": "Alle Apps anzeigen", "fr": "Afficher toutes app.", "es": "Mostrar todas"},
+    "Set the content filtering level to restrict apps that can be downloaded to this device.": {"res": "Phonesky:info_about_content_filter", "hu": "A tartalomszűrés szintjének beállítása az eszközre letölthető alkalmazások körének szűkítéséhez.", "de": "Beschränken Sie über die Inhaltsfilterung den Zugriff auf Apps, die auf dieses Gerät heruntergeladen werden können.", "fr": "Permet de définir le niveau de filtrage du contenu de manière à limiter le type d'applications qui peuvent être téléchargées sur cet appareil.", "es": "Definir el nivel del filtro de contenido para restringir las aplicaciones que se pueden descargar en este dispositivo"},
+    "Auto-update": {"res": "Phonesky:allow_auto_updating", "hu": "Auto. frissítés", "de": "Autom. Update", "fr": "Mise à jour auto", "es": "Actualizar automáticamente"},
+    "Successfully installed.": {"res": "Phonesky:notification_installation_success_message", "hu": "Sikeresen telepítve.", "de": "Installiert", "fr": "Installation réussie", "es": "Instalada correctamente"},
+    "Successfully installed \"%1$s\"": {"res": "Phonesky:notification_installation_success_status", "hu": "A(z) \"%1$s\" sikeresen telepítve", "de": "\"%1$s\" wurde installiert.", "fr": "Installation de \"%1$s\" réussie.", "es": "%1$s instalado correctamente"},
+    "Choose Google Account": {"res": "Phonesky:select_account", "hu": "Google Fiók kiválasztása", "de": "Google-Konto auswählen", "fr": "Sélectionnez un compte Google", "es": "Seleccionar cuenta de Google"},
+    "Did you mean:": {"res": "Phonesky:suggestion_question", "hu": "Keresési javaslat:", "de": "Meinten Sie:", "fr": "Essayez avec :", "es": "Quisiste decir:"},
+    "Network communication": {"res": "framework:permgrouplab_network", "hu": "Hálózati kommunikáció", "de": "Netzkommunikation", "fr": "Communications réseau", "es": "Comunicación de red"},
+    "full network access": {"res": "framework:permlab_createNetworkSockets", "hu": "teljes hálózati hozzáférés", "de": "Voller Netzwerkzugriff", "fr": "bénéficier d'un accès complet au réseau", "es": "acceso completo a red"},
+    "view network connections": {"res": "framework:permlab_accessNetworkState", "hu": "hálózati kapcsolatok megtekintése", "de": "Netzwerkverbindungen abrufen", "fr": "afficher les connexions réseau", "es": "ver conexiones de red"},
+    "Storage": {"res": "framework:permgrouplab_storage", "hu": "Tárhely", "de": "Speicher", "fr": "Stockage", "es": "Almacenamiento"},
+    "modify or delete the contents of your USB storage": {"res": "framework:permlab_sdcardWrite", "hu": "USB-tár törlése/módosítása", "de": "USB-Speicherinhalte ändern oder löschen", "fr": "modifier ou supprimer le contenu de la mémoire USB", "es": "editar o borrar contenido de USB"},
+    "Affects Battery": {"res": "framework:permgrouplab_affectsBattery", "hu": "Hozzáférés az akkumulátor teljesítményéhez", "de": "Auswirkungen auf den Akku", "fr": "Affecte la batterie", "es": "Afectar a la batería"},
+    "control vibration": {"res": "framework:permlab_vibrate", "hu": "rezgés szabályozása", "de": "Vibrationsalarm steuern", "fr": "contrôler le vibreur", "es": "controlar la vibración"},
+    "prevent phone from sleeping": {"res": "framework:permlab_wakeLock", "hu": "telefon alvó üzemmódjának megakadályozása", "de": "Ruhezustand deaktivieren", "fr": "empêcher le téléphone de passer en mode veille", "es": "impedir que el teléfono entre en modo de suspensión"}
   };
   // The storefront itself (corpus and list names, cluster titles, promo texts) came from Google's servers; these are the
   // simulator's own, and "Unavailable" is the simulator's note for what it does not do.
   const OWN = {
-    'Apps': ['Alkalmazások', 'Apps', 'Applications', 'Aplicaciones'],
-    'Games': ['Játékok', 'Spiele', 'Jeux', 'Juegos'],
-    'Music': ['Zene', 'Musik', 'Musique', 'Música'],
-    'Books': ['Könyvek', 'Bücher', 'Livres', 'Libros'],
-    'Movies & TV': ['Filmek és TV', 'Filme & Serien', 'Films et séries', 'Películas y TV'],
-    'Newsstand': ['Újságos', 'Kiosk', 'Kiosque', 'Kiosco'],
-    'Featured': ['Kiemelt', 'Empfohlen', 'Sélection', 'Destacado'],
-    'Top Paid': ['Legnépszerűbb fizetős', 'Top-Kauf', 'Top payants', 'Más vendido'],
-    'Top Free': ['Legnépszerűbb ingyenes', 'Top-Gratis', 'Top gratuits', 'Gratis más populares'],
-    'Top Grossing': ['Legnagyobb bevétel', 'Umsatzstärkste', 'Meilleures ventes', 'Más rentables'],
-    'Top New Paid': ['Új fizetős', 'Neu & kostenpflichtig', 'Nouveautés payantes', 'Novedades de pago'],
-    'Top New Free': ['Új ingyenes', 'Neu & gratis', 'Nouveautés gratuites', 'Novedades gratuitas'],
-    'Trending': ['Felkapott', 'Im Trend', 'Tendances', 'Tendencias'],
-    'Top Albums': ['Legnépszerűbb albumok', 'Top-Alben', 'Top albums', 'Álbumes más populares'],
-    'Top Songs': ['Legnépszerűbb dalok', 'Top-Songs', 'Top titres', 'Canciones más populares'],
-    'New Releases': ['Újdonságok', 'Neuerscheinungen', 'Nouveautés', 'Novedades'],
-    'Top Selling': ['Legkelendőbb', 'Bestseller', 'Meilleures ventes', 'Más vendidos'],
-    'Free': ['Ingyenes', 'Kostenlos', 'Gratuit', 'Gratis'],
-    'Recommended for You': ['Önnek ajánljuk', 'Empfehlungen für Sie', 'Recommandations pour vous', 'Recomendado para ti'],
-    'Staff Picks': ['A szerkesztők választása', 'Tipps der Redaktion', 'Choix de l\'équipe', 'Selección del equipo'],
-    'Our favourite apps this week': ['A hét kedvenc alkalmazásai', 'Unsere Lieblings-Apps der Woche', 'Nos applis préférées de la semaine', 'Nuestras aplicaciones favoritas de la semana'],
-    'Albums from $3.99': ['Albumok $3.99-tól', 'Alben ab 3,99 $', 'Albums à partir de 3,99 $', 'Álbumes desde 3,99 $'],
-    'Summer Demo Tapes': ['Nyári demófelvételek', 'Sommer-Demoaufnahmen', 'Démos de l\'été', 'Maquetas de verano'],
-    'Free classics': ['Ingyenes klasszikusok', 'Kostenlose Klassiker', 'Classiques gratuits', 'Clásicos gratis'],
-    'Timeless books, free': ['Időtálló könyvek ingyen', 'Zeitlose Bücher, kostenlos', 'Des livres intemporels, gratuits', 'Libros eternos, gratis'],
-    'Get Unlimited Music': ['Korlátlan zene', 'Unbegrenzte Musik', 'Musique illimitée', 'Música ilimitada'],
-    'Try All Access for Free': ['Próbálja ki ingyen az All Accesst', 'All Access kostenlos testen', 'Essayez All Access gratuitement', 'Prueba All Access gratis'],
-    'Phone Highlights': ['Kiemelt telefonos tartalmak', 'Highlights für Smartphones', 'À la une sur mobile', 'Destacados para móviles'],
-    'Unavailable': ['Ebben a szimulátorban nem érhető el', 'In diesem Simulator nicht verfügbar', 'Non disponible dans ce simulateur', 'No disponible en este simulador']
+    'Apps': {own: true, hu: 'Alkalmazások', de: 'Apps', fr: 'Applications', es: 'Aplicaciones'},
+    'Games': {own: true, hu: 'Játékok', de: 'Spiele', fr: 'Jeux', es: 'Juegos'},
+    'Music': {own: true, hu: 'Zene', de: 'Musik', fr: 'Musique', es: 'Música'},
+    'Books': {own: true, hu: 'Könyvek', de: 'Bücher', fr: 'Livres', es: 'Libros'},
+    'Movies & TV': {own: true, hu: 'Filmek és TV', de: 'Filme & Serien', fr: 'Films et séries', es: 'Películas y TV'},
+    'Newsstand': {own: true, hu: 'Újságos', de: 'Kiosk', fr: 'Kiosque', es: 'Kiosco'},
+    'Featured': {own: true, hu: 'Kiemelt', de: 'Empfohlen', fr: 'Sélection', es: 'Destacado'},
+    'Top Paid': {own: true, hu: 'Legnépszerűbb fizetős', de: 'Top-Kauf', fr: 'Top payants', es: 'Más vendido'},
+    'Top Free': {own: true, hu: 'Legnépszerűbb ingyenes', de: 'Top-Gratis', fr: 'Top gratuits', es: 'Gratis más populares'},
+    'Top Grossing': {own: true, hu: 'Legnagyobb bevétel', de: 'Umsatzstärkste', fr: 'Meilleures ventes', es: 'Más rentables'},
+    'Top New Paid': {own: true, hu: 'Új fizetős', de: 'Neu & kostenpflichtig', fr: 'Nouveautés payantes', es: 'Novedades de pago'},
+    'Top New Free': {own: true, hu: 'Új ingyenes', de: 'Neu & gratis', fr: 'Nouveautés gratuites', es: 'Novedades gratuitas'},
+    'Trending': {own: true, hu: 'Felkapott', de: 'Im Trend', fr: 'Tendances', es: 'Tendencias'},
+    'Top Albums': {own: true, hu: 'Legnépszerűbb albumok', de: 'Top-Alben', fr: 'Top albums', es: 'Álbumes más populares'},
+    'Top Songs': {own: true, hu: 'Legnépszerűbb dalok', de: 'Top-Songs', fr: 'Top titres', es: 'Canciones más populares'},
+    'New Releases': {own: true, hu: 'Újdonságok', de: 'Neuerscheinungen', fr: 'Nouveautés', es: 'Novedades'},
+    'Top Selling': {own: true, hu: 'Legkelendőbb', de: 'Bestseller', fr: 'Meilleures ventes', es: 'Más vendidos'},
+    'Free': {own: true, hu: 'Ingyenes', de: 'Kostenlos', fr: 'Gratuit', es: 'Gratis'},
+    'Recommended for You': {own: true, hu: 'Önnek ajánljuk', de: 'Empfehlungen für Sie', fr: 'Recommandations pour vous', es: 'Recomendado para ti'},
+    'Staff Picks': {own: true, hu: 'A szerkesztők választása', de: 'Tipps der Redaktion', fr: 'Choix de l\'équipe', es: 'Selección del equipo'},
+    'Our favourite apps this week': {own: true, hu: 'A hét kedvenc alkalmazásai', de: 'Unsere Lieblings-Apps der Woche', fr: 'Nos applis préférées de la semaine', es: 'Nuestras aplicaciones favoritas de la semana'},
+    'Albums from $3.99': {own: true, hu: 'Albumok $3.99-tól', de: 'Alben ab 3,99 $', fr: 'Albums à partir de 3,99 $', es: 'Álbumes desde 3,99 $'},
+    'Summer Demo Tapes': {own: true, hu: 'Nyári demófelvételek', de: 'Sommer-Demoaufnahmen', fr: 'Démos de l\'été', es: 'Maquetas de verano'},
+    'Free classics': {own: true, hu: 'Ingyenes klasszikusok', de: 'Kostenlose Klassiker', fr: 'Classiques gratuits', es: 'Clásicos gratis'},
+    'Timeless books, free': {own: true, hu: 'Időtálló könyvek ingyen', de: 'Zeitlose Bücher, kostenlos', fr: 'Des livres intemporels, gratuits', es: 'Libros eternos, gratis'},
+    'Get Unlimited Music': {own: true, hu: 'Korlátlan zene', de: 'Unbegrenzte Musik', fr: 'Musique illimitée', es: 'Música ilimitada'},
+    'Try All Access for Free': {own: true, hu: 'Próbálja ki ingyen az All Accesst', de: 'All Access kostenlos testen', fr: 'Essayez All Access gratuitement', es: 'Prueba All Access gratis'},
+    'Phone Highlights': {own: true, hu: 'Kiemelt telefonos tartalmak', de: 'Highlights für Smartphones', fr: 'À la une sur mobile', es: 'Destacados para móviles'},
+    'Unavailable': {own: true, hu: 'Ebben a szimulátorban nem érhető el', de: 'In diesem Simulator nicht verfügbar', fr: 'Non disponible dans ce simulateur', es: 'No disponible en este simulador'}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const text = (lang, key) => {
-    const i = LANGS.indexOf(String(lang || 'en').slice(0, 2)), row = STRINGS[key] || OWN[key];
-    if (!row) return key.trim();
-    return i >= 0 ? row[i] : STRINGS[key]?.[4] || key.trim();
-  };
+  // The APK's text (STRINGS) before the simulator's own (OWN), in the named form strings.js reads.
+  const STR = AndroidStrings.table('', {...OWN, ...STRINGS}, key => key.trim());
+  const text = (lang, key) => STR.t(key, lang);
   // Android's %1$s / %1$d and the ^1 TextUtils.expandTemplate placeholders.
   const fmt = (s, ...args) => String(s).replace(/%(\d)\$[sd]/g, (_, n) => args[n - 1] ?? '').replace(/%[sd]/g, () => args[0] ?? '').replace(/\^(\d)/g, (_, n) => args[n - 1] ?? '');
   const VERSION = '4.5.10';

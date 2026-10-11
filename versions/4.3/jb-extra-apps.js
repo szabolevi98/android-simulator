@@ -10,95 +10,25 @@
   const APPS = ['messenger', 'navigation', 'local', 'currents', 'play-magazines', 'wallet', 'movie-studio'];
   // [hu, de, fr, es] from the image's Maps, Magazines, Google+, Currents and VideoEditor APKs.
   const STRINGS = {
-      "My Library": [
-          "Saját könyvtár",
-          "Meine Bibliothek",
-          "Ma bibliothèque",
-          "Mi biblioteca"
-      ],
-      "Read Now": [
-          "Olvasson most",
-          "Jetzt lesen",
-          "Lire maintenant",
-          "Leer ahora"
-      ],
-      "Contacts": [
-          "Kapcsolatok",
-          "Kontakte",
-          "Contacts",
-          "Contactos"
-      ],
-      "Saved": [
-          "Mentett",
-          "Gespeichert",
-          "Enregistré",
-          "Guardado"
-      ],
-      "Add edition": [
-          "Kiadás hozzáadása",
-          "Ausgabe hinzufügen",
-          "Ajouter l'édition",
-          "Añadir edición"
-      ],
-      "Featured": [
-          "Kiemelt",
-          "Angesagt",
-          "Sélection",
-          "Destacado"
-      ],
-      "Attractions": [
-          "Látnivalók",
-          "Sehenswürdigkeiten",
-          "Attractions",
-          "Atracciones"
-      ],
-      "Gas stations": [
-          "Benzinkutak",
-          "Tankstellen",
-          "Stations-service",
-          "Gasolineras"
-      ],
-      "Restaurants": [
-          "Éttermek",
-          "Restaurants",
-          "Restaurants",
-          "Restaurantes"
-      ],
-      "Type destination": [
-          "Cél begépelése",
-          "Ziel eintippen",
-          "Saisir destination",
-          "Escribe el destino"
-      ],
-      "Speak destination": [
-          "Cél kimondása",
-          "Ziel einsprechen",
-          "Énoncer destination",
-          "Di el destino"
-      ],
-      "Starred places": [
-          "Csillaggal megjelölt helyek",
-          "Markierte Orte",
-          "Adresses enregistrées",
-          "Sitios destacados"
-      ],
-      "New conversation": [
-          "Új beszélgetés",
-          "Neue Unterhaltung",
-          "Nouvelle conversation",
-          "Nueva conversación"
-      ],
-      "Create new project": [
-          "Új projekt létrehoz.",
-          "Neues Projekt erstellen",
-          "Créer un projet",
-          "Crear nuevo proyecto"
-      ]
+    "My Library": {"res": "Magazines:magazines_navigation_my_library", "hu": "Saját könyvtár", "de": "Meine Bibliothek", "fr": "Ma bibliothèque", "es": "Mi biblioteca"},
+    "Read Now": {"res": "Magazines:magazines_navigation_reading_list", "hu": "Olvasson most", "de": "Jetzt lesen", "fr": "Lire maintenant", "es": "Leer ahora"},
+    "Contacts": {"res": "Maps:da_picker_contacts", "hu": "Kapcsolatok", "de": "Kontakte", "fr": "Contacts", "es": "Contactos"},
+    "Saved": {"res": "Currents:save_for_later_name", "hu": "Mentett", "de": "Gespeichert", "fr": "Enregistré", "es": "Guardado"},
+    "Add edition": {"res": "Currents:add_edition", "hu": "Kiadás hozzáadása", "de": "Ausgabe hinzufügen", "fr": "Ajouter l'édition", "es": "Añadir edición"},
+    "Featured": {"res": "Currents:category_featured", "hu": "Kiemelt", "de": "Angesagt", "fr": "Sélection", "es": "Destacado"},
+    "Attractions": {"res": "Maps:da_layer_name_attractions", "hu": "Látnivalók", "de": "Sehenswürdigkeiten", "fr": "Attractions", "es": "Atracciones"},
+    "Gas stations": {"res": "Maps:da_layer_name_gas_stations", "hu": "Benzinkutak", "de": "Tankstellen", "fr": "Stations-service", "es": "Gasolineras"},
+    "Restaurants": {"res": "Maps:da_layer_name_restaurants", "hu": "Éttermek", "de": "Restaurants", "fr": "Restaurants", "es": "Restaurantes"},
+    "Type destination": {"res": "Maps:da_picker_type_destination", "hu": "Cél begépelése", "de": "Ziel eintippen", "fr": "Saisir destination", "es": "Escribe el destino"},
+    "Speak destination": {"res": "Maps:da_picker_speak_destination", "hu": "Cél kimondása", "de": "Ziel einsprechen", "fr": "Énoncer destination", "es": "Di el destino"},
+    "Starred places": {"res": "Maps:da_picker_starred_items", "hu": "Csillaggal megjelölt helyek", "de": "Markierte Orte", "fr": "Adresses enregistrées", "es": "Sitios destacados"},
+    "New conversation": {"res": "PlusOne:menu_new_conversation", "hu": "Új beszélgetés", "de": "Neue Unterhaltung", "fr": "Nouvelle conversation", "es": "Nueva conversación"},
+    "Create new project": {"res": "VideoEditorGoogle:projects_new_project", "hu": "Új projekt létrehoz.", "de": "Neues Projekt erstellen", "fr": "Créer un projet", "es": "Crear nuevo proyecto"}
   };
   const LANGS = ['hu', 'de', 'fr', 'es'];
   // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
   const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key], i = LANGS.indexOf(window.AndroidI18n?.language); return row ? (i >= 0 ? row[i] : row[4] || key) : t(key); };
-  const local = (key, t) => { const i = LANGS.indexOf(window.AndroidI18n?.language); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : t(key); };
+  const STR = AndroidStrings.table('', STRINGS), local = (key, t) => STR.has(key) ? STR.t(key) : t(key);
   const svg = {
     search: '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/></svg>',
     more: '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="19" r="2" fill="currentColor"/></svg>',

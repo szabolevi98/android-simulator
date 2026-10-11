@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // The shared rows, then a version's image-strings.js, as the page loads them.
 function load(version,language){

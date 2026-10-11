@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Nexus S: Google Talk 1.3 (gb-talk.js) and YouTube 2.1.6 (gb-youtube.js) on GBApps.
 const w={setTimeout,clearTimeout,setInterval,clearInterval};w.window=w;w.document={querySelector:()=>null,addEventListener(){}};

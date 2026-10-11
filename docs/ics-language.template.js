@@ -53,8 +53,7 @@
     "Improve speech recognition accuracy": "VoiceSearch:personalization_settings_message", "Google Account dashboard": "VoiceSearch:manage_personalization",
     "Manage your collected data": "VoiceSearch:manage_personalization_message", "Google Text-to-speech Engine": "GoogleTTS:app_name"
   });
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (locale, key) => { const i = LANGS.indexOf(String(locale).slice(0, 2)); const row = STRINGS[key]; return row ? (i >= 0 ? row[i] : row[4]) || key : key; };
+  const STR = AndroidStrings.table('', STRINGS), T = (locale, key) => STR.t(key, locale);
   // LatinImeGoogle res/xml/method.xml subtypes and the defaults of res/xml/prefs.xml (config_default_*).
   const SUBTYPES = ['en_US', 'en_GB', 'ar', 'cs', 'da', 'de', 'es', 'fi', 'fr', 'fr_CA', 'fr_CH', 'hr', 'hu', 'it', 'iw', 'nb', 'nl', 'pl', 'pt', 'ru', 'sr', 'sv', 'tr'];
   const DEFAULTS = {ime: 'latin', latin: true, voiceIme: true, spell: true, proximity: true, autoCap: true, vibrate: true, sound: false, popup: true, settingsKey: false,

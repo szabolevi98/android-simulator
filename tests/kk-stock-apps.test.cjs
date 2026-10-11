@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Stock Nexus 5: the other Google apps in the drawer with simple 2013 screens, and GSMArena's Google folder.
 const w={window:{}};w.window.GELNow={render:()=>'<div class="gnow-page">now</div>'};for(const f of ['news-prefs.js','stock-apps.js'])vm.runInNewContext(fs.readFileSync('versions/4.4.4/'+f,'utf8'),w);

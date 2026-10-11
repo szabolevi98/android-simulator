@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Calendar editor (audit step 6): the repeat and reminder fields are spinners with their own lists, no <select>.
 for(const v of ['4.0.4','4.3','4.4.4','5.1.1']){

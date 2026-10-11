@@ -29,8 +29,7 @@
     "QQ": "framework:imProtocolQq", "Google Talk": "framework:imProtocolGoogleTalk", "ICQ": "framework:imProtocolIcq", "Jabber": "framework:imProtocolJabber",
     "Cancel": "framework:cancel", "OK": "framework:ok"
   });
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); const row = STRINGS[key]; return row ? (i >= 0 ? row[i] : row[4]) || key : key; };
+  const STR = AndroidStrings.table('', STRINGS), T = (lang, key) => STR.t(key, lang);
   // FallbackAccountType's kinds and their primary types (the spinner lists them; the rest hide behind Custom).
   const KINDS = {
     phones: {title: 'Phone', types: ['mobile', 'home', 'work', 'faxwork', 'faxhome', 'pager', 'other', 'custom'], input: 'tel', hint: 'Phone'},

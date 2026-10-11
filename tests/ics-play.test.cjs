@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},Intl};
 for(const f of ['play-store.js','ics-play.js'])vm.runInNewContext(fs.readFileSync(`versions/4.0.4/${f}`,'utf8'),context);

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const context={window:{},encodeURIComponent,ResizeObserver:class{observe(){}}};vm.createContext(context);
 vm.runInContext(fs.readFileSync('versions/4.3/media.js','utf8'),context);vm.runInContext(fs.readFileSync('versions/4.3/gallery-video.js','utf8'),context);vm.runInContext(fs.readFileSync('versions/4.3/jb-gallery.js','utf8'),context);

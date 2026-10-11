@@ -47,9 +47,8 @@
     "Some email addresses are invalid.": "message_compose_error_invalid_email", "Compose (title)": "compose_title", "Folders": "action_bar_mailbox_list_title", "Show details": "message_view_show_details",
     "OK": "okay_action", "Cancel": "cancel_action", "%s wrote:": "message_compose_reply_header_fmt"
   });
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   // The app's own texts (with the image's English as a fifth entry where it differs), then the shared interface rows.
-  const T = (lang, key) => { const row = STRINGS[key], i = LANGS.indexOf(lang); if (row) return i >= 0 ? row[i] : row[4] ?? key; return window.AndroidI18n?.t(key) ?? key; };
+  const STR = AndroidStrings.table('', STRINGS, key => window.AndroidI18n?.t(key) ?? key), T = (lang, key) => STR.t(key, lang);
   const account = 'demo@example.com';
   // MailboxFragmentAdapter.MAILBOX_ORDER_BY; Starred is the combined favourites row, shown while something is starred.
   const folders = ['Inbox', 'Drafts', 'Outbox', 'Sent', 'Trash'];
@@ -251,6 +250,8 @@ ${source.body}` : '', read: true, starred: false, created: now,
     if (source) Object.assign(d, {body: '', source: source.id, includeQuoted: true});
     if (source && mode === 'reply-all') d.cc = [...new Set([...recipients(source.to), ...recipients(source.cc)])].filter(a => a !== account).join(', ');
     if (source) d.mode = mode || 'reply';
+    // The account's signature (email-prefs.js): MessageCompose adds it on a new line after the text.
+    if (ctx.signature) d.body = (d.body || '') + ctx.signature;
     data.mailbox.unshift(d); ui.emailId = d.id; ui.emailCc = !!d.cc; ui.overlay = ''; ui.sub = 'compose';
     ctx.save(); ctx.renderOverlay(); ctx.render(); ctx.focus(source && mode !== 'forward' ? '.email-compose [name=body]' : '.email-compose [name=to]');
   }
@@ -324,7 +325,8 @@ ${source.body}` : '', read: true, starred: false, created: now,
       case 'email-save': keep(ctx); close(); if (item && changed(item)) { ctx.toast(T(lang, 'Message saved as draft.')); ctx.save(); } break;
       case 'email-discard': keep(ctx); ui.overlay = 'email-discard'; ctx.renderOverlay(); break;
       case 'email-confirm-discard': if (item) mail.splice(mail.indexOf(item), 1); { const source = item?.source && mail.find(m => m.id === item.source); ui.sub = source ? 'read' : ''; if (source) ui.emailId = source.id; } close(); ctx.save(); ctx.render(); ctx.toast(T(lang, 'Message discarded.')); break;
-      case 'email-settings': case 'email-attachment-view': case 'email-attachment-save': unsupported(ctx); break;
+      case 'email-settings': close(); ctx.openSettings(); break;
+      case 'email-attachment-view': case 'email-attachment-save': unsupported(ctx); break;
       default: return false;
     }
     return true;

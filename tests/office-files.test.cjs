@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 // Quickoffice 6.3.1 (4.4.4) and Docs / Sheets / Slides 1.4 (5.1.1): create, rename and remove files; Drive lists them.
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const load=(v,files)=>{const context={window:{AndroidI18n:{language:'en',extend(){}}},document:{},Date};for(const f of files)vm.runInNewContext(fs.readFileSync(`versions/${v}/${f}`,'utf8'),context);return context.window;};

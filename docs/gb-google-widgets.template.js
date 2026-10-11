@@ -28,8 +28,7 @@
     "Rate Places": "HOTPOT_WIDGET_NAME", "You rated:": "HOTPOT_YOU_RATED", "Updated {0}": "HOTPOT_WIDGET_UPDATED", "Posting publicly as {0}": "HOTPOT_WIDGET_POSTING_AS",
     "Say more": "HOTPOT_WIDGET_SAYMORE", "Select a place:": "HOTPOT_SNAP_TO_PLACE", "No location information": "HOTPOT_NO_LOCATION"
   });
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (lang, key) => { const i = LANGS.indexOf(lang), row = STRINGS[key]; return row ? (i >= 0 ? row[i] : row[4]) || key : key; };
+  const STR = AndroidStrings.table('', STRINGS), T = (lang, key) => STR.t(key, lang);
   // Widget providers as AppWidgetPickActivity lists them (minWidth / minHeight: 294 x 146 dip = 4 x 2, 72 x 72 = 1 x 1,
   // 220 x 72 = 3 x 1, 146 x 146 = 2 x 2).
   const PROVIDERS = [

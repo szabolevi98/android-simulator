@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Google Camera 2.4 settings (5.1.1): CameraSettingsActivity's screens, ResolutionUtil's size summaries, the options row.
 const dir='versions/5.1.1/',w={window:{}};vm.runInNewContext(fs.readFileSync(dir+'lp-camera.js','utf8'),w);

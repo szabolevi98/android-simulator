@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // 4.3: the Google app is Google Search 2.5.9 (Velvet.apk) on its Now cards, not the KitKat launcher's Google Now page.
 const w={window:{}};for(const f of ['stock-strings.js','velvet-now.js','stock-apps.js'])vm.runInNewContext(fs.readFileSync('versions/4.3/'+f,'utf8'),w);

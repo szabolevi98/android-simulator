@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Keep list and picture notes (audit step 5): Keep 1.0 (4.3), 2.0 (4.4.4) and 3.0 (5.1.1).
 const list=['Milk','Eggs','Bread','Coffee','Apples','Butter','Cheese'].map((text,i)=>({text,checked:i===1||i===4}));

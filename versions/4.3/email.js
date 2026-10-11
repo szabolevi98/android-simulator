@@ -18,372 +18,69 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-      "Compose": [
-          "Levélírás",
-          "Schreiben",
-          "Composer",
-          "Redactar"
-      ],
-      "Search": [
-          "Keresés",
-          "Suche",
-          "Rechercher",
-          "Búsqueda"
-      ],
-      "Show all folders": [
-          "Összes mappa megjelenítése",
-          "Alle Ordner anzeigen",
-          "Afficher tous les dossiers",
-          "Mostrar todas las carpetas"
-      ],
-      "Refresh": [
-          "Frissítés",
-          "Aktualisieren",
-          "Actualiser",
-          "Actualizar"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Delete": [
-          "Törlés",
-          "Löschen",
-          "Supprimer",
-          "Eliminar"
-      ],
-      "Move": [
-          "Áthelyezés",
-          "Verschieben",
-          "Déplacer",
-          "Mover"
-      ],
-      "Mark as unread": [
-          "Megjelölés olvasatlanként",
-          "Als ungelesen markieren",
-          "Marquer comme non lu",
-          "Marcar como no leído"
-      ],
-      "Mark read": [
-          "Megjelölés olvasottként",
-          "Als gelesen markieren",
-          "Marquer comme lu",
-          "Marcar como leído"
-      ],
-      "Mark unread": [
-          "Megjelölés olvasatlanként",
-          "Als ungelesen markieren",
-          "Marquer comme non lu",
-          "Marcar como no leído"
-      ],
-      "Add star": [
-          "Csillagozás",
-          "Markierung hinzufügen",
-          "Activer le suivi",
-          "Añadir estrella"
-      ],
-      "Remove star": [
-          "Csillag eltávolítása",
-          "Markierung entfernen",
-          "Désactiver le suivi",
-          "Eliminar estrella"
-      ],
-      "Star": [
-          "Csillagozás",
-          "Markieren",
-          "Activer le suivi",
-          "Destacar"
-      ],
-      "Reply": [
-          "Válasz",
-          "Antworten",
-          "Répondre",
-          "Responder"
-      ],
-      "Reply all": [
-          "Válasz mindenkinek",
-          "Allen antworten",
-          "Répondre à tous",
-          "Responder a todos"
-      ],
-      "Forward": [
-          "Továbbítás",
-          "Weiterleiten",
-          "Transférer",
-          "Reenviar"
-      ],
-      "Send": [
-          "Küldés",
-          "Senden",
-          "Envoyer",
-          "Enviar"
-      ],
-      "Attach file": [
-          "Fájl csatolása",
-          "Datei anhängen",
-          "Joindre un fichier",
-          "Adjuntar archivo"
-      ],
-      "Add Cc/Bcc": [
-          "Másolatmezők is",
-          "Cc/Bcc hinzufügen",
-          "Ajouter Cc/Cci",
-          "Añadir Cc/Cco"
-      ],
-      "Save draft": [
-          "Piszkozatmentés",
-          "Speichern",
-          "Enregistrer",
-          "Guardar borrador"
-      ],
-      "Discard": [
-          "Elvetés",
-          "Verwerfen",
-          "Supprimer",
-          "Descartar"
-      ],
-      "To": [
-          "Címzett",
-          "An",
-          "À",
-          "Para"
-      ],
-      "Cc": [
-          "Másolatot kap",
-          "Cc",
-          "Cc",
-          "Cc"
-      ],
-      "Bcc": [
-          "Titkos másolat",
-          "Bcc",
-          "Cci",
-          "Cco"
-      ],
-      "Subject": [
-          "Tárgy",
-          "Betreff",
-          "Objet",
-          "Asunto"
-      ],
-      "Compose email": [
-          "Levélírás",
-          "E-Mail schreiben",
-          "Composez un message",
-          "Redactar correo"
-      ],
-      "Include quoted text": [
-          "Idézett szöveg beillesztése",
-          "Zitierten Text einfügen",
-          "Inclure le texte des messages précédents",
-          "Incluir texto citado"
-      ],
-      "Inbox": [
-          "Beérkezett üzenetek",
-          "Posteingang",
-          "Boîte de réception",
-          "Recibidos"
-      ],
-      "Drafts": [
-          "Piszkozatok",
-          "Entwürfe",
-          "Brouillons",
-          "Borradores"
-      ],
-      "Outbox": [
-          "Kimenő levelek",
-          "Postausgang",
-          "Boîte d'envoi",
-          "Enviados"
-      ],
-      "Sent": [
-          "Elküldve",
-          "Gesendet",
-          "Éléments envoyés",
-          "Enviados"
-      ],
-      "Trash": [
-          "Kuka",
-          "Papierkorb",
-          "Corbeille",
-          "Papelera"
-      ],
-      "Starred": [
-          "Csillaggal megjelölt",
-          "Markiert",
-          "Suivis",
-          "Destacados"
-      ],
-      "Recent folders (%s)": [
-          "Legutóbbi mappák (%s)",
-          "Letzte Ordner (%s)",
-          "Dossiers récents (%s)",
-          "Carpetas recientes (%s)"
-      ],
-      "Move to": [
-          "Áthelyezés",
-          "Verschieben",
-          "Déplacer vers",
-          "Mover a"
-      ],
-      "Delete this message?": [
-          "Törli ezt az üzenetet?",
-          "Diese Nachricht löschen?",
-          "Supprimer ce message ?",
-          "¿Eliminar este mensaje?"
-      ],
-      "Message deleted.": [
-          "Üzenet törölve.",
-          "Nachricht gelöscht",
-          "Message supprimé",
-          "Mensaje eliminado"
-      ],
-      "Messages deleted.": [
-          "Az üzenetek törölve.",
-          "Nachrichten gelöscht",
-          "Messages supprimés",
-          "Mensajes eliminados"
-      ],
-      "Message discarded.": [
-          "Üzenet elvetve.",
-          "Nachricht gelöscht",
-          "Message supprimé.",
-          "Mensaje descartado"
-      ],
-      "Message saved as draft.": [
-          "Az üzenet mentve piszkozatként.",
-          "Nachricht als Entwurf gespeichert",
-          "Brouillon enregistré",
-          "Mensaje guardado como borrador"
-      ],
-      "%d selected": [
-          "%d kiválasztva",
-          "%d ausgewählt",
-          "%d sélectionné(s)",
-          "%d seleccionados"
-      ],
-      "To:": [
-          "Címzett:",
-          "An:",
-          "À :",
-          "Para:"
-      ],
-      "Cc:": [
-          "Másolatot kap:",
-          "Cc:",
-          "Cc :",
-          "Cc:"
-      ],
-      "Bcc:": [
-          "Titkos másolat:",
-          "Bcc:",
-          "Cci :",
-          "Cco:"
-      ],
-      "Date:": [
-          "Dátum:",
-          "Datum:",
-          "Date :",
-          "Fecha:"
-      ],
-      "Message": [
-          "Üzenet",
-          "Nachricht",
-          "Message",
-          "Mensaje"
-      ],
-      "Attachment %1$d": [
-          "Melléklet - %1$d",
-          "Anhang: %1$d",
-          "Pièce jointe %1$d",
-          "%1$d adjunto"
-      ],
-      "View": [
-          "Megtekint",
-          "Anzeigen",
-          "Afficher",
-          "Ver"
-      ],
-      "Save": [
-          "Mentés",
-          "Speichern",
-          "Enregistrer",
-          "Guardar"
-      ],
-      "Search %1$s": [
-          "Keresés itt: %1$s",
-          "In %1$s suchen",
-          "Rechercher dans %1$s",
-          "Buscar en %1$s"
-      ],
-      "Results": [
-          "Találatok",
-          "Ergebnisse",
-          "Résultats",
-          "Resultados"
-      ],
-      "No messages": [
-          "Nincsenek üzenetek",
-          "Keine Nachrichten",
-          "Aucun message",
-          "No hay ningún mensaje."
-      ],
-      "You must add at least one recipient.": [
-          "Legalább egy résztvevőt hozzá kell adnia.",
-          "Sie müssen mindestens einen Empfänger hinzufügen.",
-          "Vous devez ajouter au moins un destinataire.",
-          "Debes especificar al menos un destinatario."
-      ],
-      "Some email addresses are invalid.": [
-          "Egyes e-mail címek érvénytelenek.",
-          "Einige E-Mail-Adressen sind ungültig.",
-          "Certaines adresses e-mail sont incorrectes.",
-          "Algunas direcciones de correo electrónico no son válidas."
-      ],
-      "Compose (title)": [
-          "Levélírás",
-          "Schreiben",
-          "Nouveau message",
-          "Redactar",
-          "Compose"
-      ],
-      "Folders": [
-          "Mappák",
-          "Ordner",
-          "Dossiers",
-          "Carpetas"
-      ],
-      "Show details": [
-          "Részletek megjelenítése",
-          "Details anzeigen",
-          "Afficher détails",
-          "Mostrar detalles"
-      ],
-      "OK": [
-          "OK",
-          "OK",
-          "OK",
-          "Aceptar"
-      ],
-      "Cancel": [
-          "Mégse",
-          "Abbrechen",
-          "Annuler",
-          "Cancelar"
-      ],
-      "%s wrote:": [
-          "\n\n%s a következőt írta:\n\n",
-          "\n\n%s schrieb:\n\n",
-          "\n\n%s a écrit :\n\n",
-          "\n\n%s wrote:\n\n",
-          "\n\n%s wrote:\n\n"
-      ]
+    "Compose": {"res": "EmailGoogle:compose_action", "hu": "Levélírás", "de": "Schreiben", "fr": "Composer", "es": "Redactar"},
+    "Search": {"res": "EmailGoogle:search_action", "hu": "Keresés", "de": "Suche", "fr": "Rechercher", "es": "Búsqueda"},
+    "Show all folders": {"res": "EmailGoogle:mailbox_list_account_selector_show_all_folders", "hu": "Összes mappa megjelenítése", "de": "Alle Ordner anzeigen", "fr": "Afficher tous les dossiers", "es": "Mostrar todas las carpetas"},
+    "Refresh": {"res": "EmailGoogle:refresh_action", "hu": "Frissítés", "de": "Aktualisieren", "fr": "Actualiser", "es": "Actualizar"},
+    "Settings": {"res": "EmailGoogle:settings_action", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Delete": {"res": "EmailGoogle:delete_action", "hu": "Törlés", "de": "Löschen", "fr": "Supprimer", "es": "Eliminar"},
+    "Move": {"res": "EmailGoogle:move_action", "hu": "Áthelyezés", "de": "Verschieben", "fr": "Déplacer", "es": "Mover"},
+    "Mark as unread": {"res": "EmailGoogle:mark_as_unread_action", "hu": "Megjelölés olvasatlanként", "de": "Als ungelesen markieren", "fr": "Marquer comme non lu", "es": "Marcar como no leído"},
+    "Mark read": {"res": "EmailGoogle:read_action", "hu": "Megjelölés olvasottként", "de": "Als gelesen markieren", "fr": "Marquer comme lu", "es": "Marcar como leído"},
+    "Mark unread": {"res": "EmailGoogle:unread_action", "hu": "Megjelölés olvasatlanként", "de": "Als ungelesen markieren", "fr": "Marquer comme non lu", "es": "Marcar como no leído"},
+    "Add star": {"res": "EmailGoogle:set_star_action", "hu": "Csillagozás", "de": "Markierung hinzufügen", "fr": "Activer le suivi", "es": "Añadir estrella"},
+    "Remove star": {"res": "EmailGoogle:remove_star_action", "hu": "Csillag eltávolítása", "de": "Markierung entfernen", "fr": "Désactiver le suivi", "es": "Eliminar estrella"},
+    "Star": {"res": "EmailGoogle:favorite_action", "hu": "Csillagozás", "de": "Markieren", "fr": "Activer le suivi", "es": "Destacar"},
+    "Reply": {"res": "EmailGoogle:reply_action", "hu": "Válasz", "de": "Antworten", "fr": "Répondre", "es": "Responder"},
+    "Reply all": {"res": "EmailGoogle:reply_all_action", "hu": "Válasz mindenkinek", "de": "Allen antworten", "fr": "Répondre à tous", "es": "Responder a todos"},
+    "Forward": {"res": "EmailGoogle:forward_action", "hu": "Továbbítás", "de": "Weiterleiten", "fr": "Transférer", "es": "Reenviar"},
+    "Send": {"res": "EmailGoogle:send_action", "hu": "Küldés", "de": "Senden", "fr": "Envoyer", "es": "Enviar"},
+    "Attach file": {"res": "EmailGoogle:add_file_attachment", "hu": "Fájl csatolása", "de": "Datei anhängen", "fr": "Joindre un fichier", "es": "Adjuntar archivo"},
+    "Add Cc/Bcc": {"res": "EmailGoogle:add_cc_bcc_menu", "hu": "Másolatmezők is", "de": "Cc/Bcc hinzufügen", "fr": "Ajouter Cc/Cci", "es": "Añadir Cc/Cco"},
+    "Save draft": {"res": "EmailGoogle:save_draft_action", "hu": "Piszkozatmentés", "de": "Speichern", "fr": "Enregistrer", "es": "Guardar borrador"},
+    "Discard": {"res": "EmailGoogle:discard_action", "hu": "Elvetés", "de": "Verwerfen", "fr": "Supprimer", "es": "Descartar"},
+    "To": {"res": "EmailGoogle:to", "hu": "Címzett", "de": "An", "fr": "À", "es": "Para"},
+    "Cc": {"res": "EmailGoogle:cc", "hu": "Másolatot kap", "de": "Cc", "fr": "Cc", "es": "Cc"},
+    "Bcc": {"res": "EmailGoogle:bcc", "hu": "Titkos másolat", "de": "Bcc", "fr": "Cci", "es": "Cco"},
+    "Subject": {"res": "EmailGoogle:subject_hint", "hu": "Tárgy", "de": "Betreff", "fr": "Objet", "es": "Asunto"},
+    "Compose email": {"res": "EmailGoogle:body_hint", "hu": "Levélírás", "de": "E-Mail schreiben", "fr": "Composez un message", "es": "Redactar correo"},
+    "Include quoted text": {"res": "EmailGoogle:message_compose_quoted_text_label", "hu": "Idézett szöveg beillesztése", "de": "Zitierten Text einfügen", "fr": "Inclure le texte des messages précédents", "es": "Incluir texto citado"},
+    "Inbox": {"res": "EmailGoogle:mailbox_name_display_inbox", "hu": "Beérkezett üzenetek", "de": "Posteingang", "fr": "Boîte de réception", "es": "Recibidos"},
+    "Drafts": {"res": "EmailGoogle:mailbox_name_display_drafts", "hu": "Piszkozatok", "de": "Entwürfe", "fr": "Brouillons", "es": "Borradores"},
+    "Outbox": {"res": "EmailGoogle:mailbox_name_display_outbox", "hu": "Kimenő levelek", "de": "Postausgang", "fr": "Boîte d'envoi", "es": "Enviados"},
+    "Sent": {"res": "EmailGoogle:mailbox_name_display_sent", "hu": "Elküldve", "de": "Gesendet", "fr": "Éléments envoyés", "es": "Enviados"},
+    "Trash": {"res": "EmailGoogle:mailbox_name_display_trash", "hu": "Kuka", "de": "Papierkorb", "fr": "Corbeille", "es": "Papelera"},
+    "Starred": {"res": "EmailGoogle:account_folder_list_summary_starred", "hu": "Csillaggal megjelölt", "de": "Markiert", "fr": "Suivis", "es": "Destacados"},
+    "Recent folders (%s)": {"res": "EmailGoogle:mailbox_list_account_selector_mailbox_header_fmt", "hu": "Legutóbbi mappák (%s)", "de": "Letzte Ordner (%s)", "fr": "Dossiers récents (%s)", "es": "Carpetas recientes (%s)"},
+    "Move to": {"res": "EmailGoogle:move_to_folder_dialog_title", "hu": "Áthelyezés", "de": "Verschieben", "fr": "Déplacer vers", "es": "Mover a"},
+    "Delete this message?": {"res": "EmailGoogle:@plurals/message_delete_confirm:one", "hu": "Törli ezt az üzenetet?", "de": "Diese Nachricht löschen?", "fr": "Supprimer ce message ?", "es": "¿Eliminar este mensaje?"},
+    "Message deleted.": {"res": "EmailGoogle:@plurals/message_deleted_toast:one", "hu": "Üzenet törölve.", "de": "Nachricht gelöscht", "fr": "Message supprimé", "es": "Mensaje eliminado"},
+    "Messages deleted.": {"res": "EmailGoogle:@plurals/message_deleted_toast:other", "hu": "Az üzenetek törölve.", "de": "Nachrichten gelöscht", "fr": "Messages supprimés", "es": "Mensajes eliminados"},
+    "Message discarded.": {"res": "EmailGoogle:message_discarded_toast", "hu": "Üzenet elvetve.", "de": "Nachricht gelöscht", "fr": "Message supprimé.", "es": "Mensaje descartado"},
+    "Message saved as draft.": {"res": "EmailGoogle:message_saved_toast", "hu": "Az üzenet mentve piszkozatként.", "de": "Nachricht als Entwurf gespeichert", "fr": "Brouillon enregistré", "es": "Mensaje guardado como borrador"},
+    "%d selected": {"res": "EmailGoogle:@plurals/message_view_selected_message_count:other", "hu": "%d kiválasztva", "de": "%d ausgewählt", "fr": "%d sélectionné(s)", "es": "%d seleccionados"},
+    "To:": {"res": "EmailGoogle:message_view_to_label", "hu": "Címzett:", "de": "An:", "fr": "À :", "es": "Para:"},
+    "Cc:": {"res": "EmailGoogle:message_view_cc_label", "hu": "Másolatot kap:", "de": "Cc:", "fr": "Cc :", "es": "Cc:"},
+    "Bcc:": {"res": "EmailGoogle:message_view_bcc_label", "hu": "Titkos másolat:", "de": "Bcc:", "fr": "Cci :", "es": "Cco:"},
+    "Date:": {"res": "EmailGoogle:message_view_date_label", "hu": "Dátum:", "de": "Datum:", "fr": "Date :", "es": "Fecha:"},
+    "Message": {"res": "EmailGoogle:message_view_show_message_action", "hu": "Üzenet", "de": "Nachricht", "fr": "Message", "es": "Mensaje"},
+    "Attachment %1$d": {"res": "EmailGoogle:@plurals/message_view_show_attachments_action:one", "hu": "Melléklet - %1$d", "de": "Anhang: %1$d", "fr": "Pièce jointe %1$d", "es": "%1$d adjunto"},
+    "View": {"res": "EmailGoogle:message_view_attachment_view_action", "hu": "Megtekint", "de": "Anzeigen", "fr": "Afficher", "es": "Ver"},
+    "Save": {"res": "EmailGoogle:message_view_attachment_save_action", "hu": "Mentés", "de": "Speichern", "fr": "Enregistrer", "es": "Guardar"},
+    "Search %1$s": {"res": "EmailGoogle:search_mailbox_hint", "hu": "Keresés itt: %1$s", "de": "In %1$s suchen", "fr": "Rechercher dans %1$s", "es": "Buscar en %1$s"},
+    "Results": {"res": "EmailGoogle:search_header_text_fmt", "hu": "Találatok", "de": "Ergebnisse", "fr": "Résultats", "es": "Resultados"},
+    "No messages": {"res": "EmailGoogle:message_list_no_messages", "hu": "Nincsenek üzenetek", "de": "Keine Nachrichten", "fr": "Aucun message", "es": "No hay ningún mensaje."},
+    "You must add at least one recipient.": {"res": "EmailGoogle:message_compose_error_no_recipients", "hu": "Legalább egy résztvevőt hozzá kell adnia.", "de": "Sie müssen mindestens einen Empfänger hinzufügen.", "fr": "Vous devez ajouter au moins un destinataire.", "es": "Debes especificar al menos un destinatario."},
+    "Some email addresses are invalid.": {"res": "EmailGoogle:message_compose_error_invalid_email", "hu": "Egyes e-mail címek érvénytelenek.", "de": "Einige E-Mail-Adressen sind ungültig.", "fr": "Certaines adresses e-mail sont incorrectes.", "es": "Algunas direcciones de correo electrónico no son válidas."},
+    "Compose (title)": {"res": "EmailGoogle:compose_title", "hu": "Levélírás", "de": "Schreiben", "fr": "Nouveau message", "es": "Redactar", "en": "Compose"},
+    "Folders": {"res": "EmailGoogle:action_bar_mailbox_list_title", "hu": "Mappák", "de": "Ordner", "fr": "Dossiers", "es": "Carpetas"},
+    "Show details": {"res": "EmailGoogle:message_view_show_details", "hu": "Részletek megjelenítése", "de": "Details anzeigen", "fr": "Afficher détails", "es": "Mostrar detalles"},
+    "OK": {"res": "EmailGoogle:okay_action", "hu": "OK", "de": "OK", "fr": "OK", "es": "Aceptar"},
+    "Cancel": {"res": "EmailGoogle:cancel_action", "hu": "Mégse", "de": "Abbrechen", "fr": "Annuler", "es": "Cancelar"},
+    "%s wrote:": {"res": "EmailGoogle:message_compose_reply_header_fmt", "hu": "\n\n%s a következőt írta:\n\n", "de": "\n\n%s schrieb:\n\n", "fr": "\n\n%s a écrit :\n\n", "es": "\n\n%s wrote:\n\n", "en": "\n\n%s wrote:\n\n"}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   // The app's own texts (with the image's English as a fifth entry where it differs), then the shared interface rows.
-  const T = (lang, key) => { const row = STRINGS[key], i = LANGS.indexOf(lang); if (row) return i >= 0 ? row[i] : row[4] ?? key; return window.AndroidI18n?.t(key) ?? key; };
+  const STR = AndroidStrings.table('', STRINGS, key => window.AndroidI18n?.t(key) ?? key), T = (lang, key) => STR.t(key, lang);
   const account = 'demo@example.com';
   // MailboxFragmentAdapter.MAILBOX_ORDER_BY; Starred is the combined favourites row, shown while something is starred.
   const folders = ['Inbox', 'Drafts', 'Outbox', 'Sent', 'Trash'];

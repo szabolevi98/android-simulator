@@ -52,7 +52,7 @@ Settings:data_usage_disable_mobile_limit	Set mobile data limit	Mobiladat-korlát
 Settings:data_usage_cycle	Data usage cycle	Adathasználati ciklus -> Adatforgalmi ciklus | Datennutzungszyklus -> Datenverbrauchszyklus | = | Ciclo de uso de datos -> Ciclo de uso	[settings-detail.js]
 Settings:data_usage_menu_restrict_background	Restrict background data	= | Hintergrunddaten beschränken -> Hintergrunddaten | Limiter les données en arrière-plan -> Limiter données arr.-plan | Restringir datos en segundo plano -> Restringir datos de referencia	[settings-detail.js stock-strings.js]
 Settings:memory_size	Total space	Teljes tárhely -> Összes hely | = | = | =	[settings-detail.js stock-strings.js]
-Phone:onscreenAudioText	Audio	Hanganyagok -> Hang | = | = | =	[settings-detail.js stock-strings.js]
+Phone:onscreenAudioText	Audio	Hanganyagok -> Hang | = | = | =	[mms-strings.js settings-detail.js stock-strings.js]
 Settings:memory_media_misc_usage	Misc.	Egyéb -> Egyéb. | = | = | Otros -> Varios	[settings-detail.js stock-strings.js]
 SystemUI:status_bar_recent_inspect_item_title	App info	= | = | Infos sur l’application -> Informations sur l'application | =	[settings-detail.js simulator.js stock-strings.js]
 Settings:force_stop	Force stop	= | Beenden erzwingen -> Stoppen erzwingen | Forcer l’arrêt -> Forcer l'arrêt | =	[settings-detail.js]

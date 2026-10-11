@@ -13,358 +13,67 @@
   const account = 'icecream.demo@gmail.com';
   // [hu, de, fr, es] from the image's Gmail.apk (docs/ics-gmail-strings.py fills them in from this template, docs/ics-gmail.template.js).
   const STRINGS = {
-      "Compose": [
-          "Levélírás",
-          "E-Mail schreiben",
-          "Nouveau message",
-          "Redactar"
-      ],
-      "Search": [
-          "Keresés",
-          "Suchen",
-          "Rechercher",
-          "Buscar"
-      ],
-      "Labels": [
-          "Címkék",
-          "Labels",
-          "Libellés",
-          "Etiquetas"
-      ],
-      "Refresh": [
-          "Frissítés",
-          "Aktualisieren",
-          "Actualiser",
-          "Actualizar"
-      ],
-      "Archive": [
-          "Archiválás",
-          "Archiv.",
-          "Archiver",
-          "Archivar"
-      ],
-      "Delete": [
-          "Törlés",
-          "Löschen",
-          "Suppr.",
-          "Suprimir"
-      ],
-      "Mark unread": [
-          "Megjelölés olvasatlanként",
-          "Als ungelesen markieren",
-          "Marquer comme non lu",
-          "Marcar como no leído"
-      ],
-      "Add star": [
-          "Csillagozás",
-          "Markieren",
-          "Activer le suivi",
-          "Añadir estrella"
-      ],
-      "Remove star": [
-          "Csillag eltávolítása",
-          "Markierung entfernen",
-          "Désactiver le suivi",
-          "Quitar estrella"
-      ],
-      "Reply": [
-          "Válasz",
-          "Antworten",
-          "Répondre",
-          "Responder"
-      ],
-      "Reply all": [
-          "Mindenkinek",
-          "Allen antw.",
-          "Rép. à tous",
-          "Responder a todos"
-      ],
-      "Forward": [
-          "Továbbítás",
-          "Weiterleiten",
-          "Transférer",
-          "Reenviar"
-      ],
-      "Send": [
-          "Küldés",
-          "Senden",
-          "Envoyer",
-          "Enviar"
-      ],
-      "Subject": [
-          "Tárgy",
-          "Betreff",
-          "Objet",
-          "Asunto"
-      ],
-      "To": [
-          "Címzett",
-          "An",
-          "À",
-          "Para"
-      ],
-      "To:": [
-          "Címzett:",
-          "An:",
-          "À :",
-          "Para:"
-      ],
-      "Cc": [
-          "Másolat",
-          "Cc",
-          "Cc",
-          "CC"
-      ],
-      "Bcc": [
-          "Titkos másolat",
-          "Bcc",
-          "Cci",
-          "CCO"
-      ],
-      "Compose email": [
-          "E-mail írása",
-          "E-Mail schreiben",
-          "Composez un message",
-          "Redactar correo"
-      ],
-      "me": [
-          "én",
-          "ich",
-          "moi",
-          "Yo"
-      ],
-      "Done": [
-          "Kész",
-          "Fertig",
-          "OK",
-          "Listo"
-      ],
-      "Change labels": [
-          "Címkék módosítása",
-          "Labels ändern",
-          "Changer de libellés",
-          "Cambiar etiquetas"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "%d unread": [
-          "%d nem olv.",
-          "%d ungel.",
-          "%d non lus",
-          "%d sin leer"
-      ],
-      "No conversations.": [
-          "Nincsenek beszélgetések.",
-          "Keine Konversationen",
-          "Aucune conversation.",
-          "No hay conversaciones."
-      ],
-      "Save draft": [
-          "Piszkozat mentése",
-          "Entwurf speichern",
-          "Enregistrer le brouillon",
-          "Guardar borrador"
-      ],
-      "Discard": [
-          "Elvetés",
-          "Verwerfen",
-          "Supprimer",
-          "Descartar"
-      ],
-      "Inbox": [
-          "Beérkezett üzenetek",
-          "Posteingang",
-          "Boîte de réception",
-          "Recibidos"
-      ],
-      "Starred": [
-          "Csillaggal megjelölt",
-          "Markiert",
-          "Messages suivis",
-          "Destacados"
-      ],
-      "Sent": [
-          "Elküldve",
-          "Gesendet",
-          "Messages envoyés",
-          "Enviados"
-      ],
-      "Drafts": [
-          "Piszkozatok",
-          "Entwürfe",
-          "Brouillons",
-          "Borradores"
-      ],
-      "Outbox": [
-          "Kimenő levelek",
-          "Postausgang",
-          "Boîte d'envoi",
-          "Bandeja de salida"
-      ],
-      "All mail": [
-          "Összes e-mail",
-          "Alle Nachrichten",
-          "Tous les messages",
-          "Todo el correo"
-      ],
-      "Spam": [
-          "Spam",
-          "Spam",
-          "Spam",
-          "Spam"
-      ],
-      "Trash": [
-          "Kuka",
-          "Papierkorb",
-          "Corbeille",
-          "Papelera"
-      ],
-      "Important": [
-          "Fontos",
-          "Wichtig",
-          "Important",
-          "Importante"
-      ],
-      "Chats": [
-          "Csevegések",
-          "Chats",
-          "Tous les chats",
-          "Chats"
-      ],
-      "Priority Inbox": [
-          "Prioritások",
-          "Sortierter Eingang",
-          "Prioritaire",
-          "Prioritarios"
-      ],
-      "Recent labels": [
-          "Legutóbbi címkék",
-          "Aktuelle Labels",
-          "Libellés récents",
-          "Etiquetas recientes"
-      ],
-      "All labels": [
-          "Minden címke",
-          "Alle Labels",
-          "Tous les libellés",
-          "Todas las etiquetas"
-      ],
-      "Sending…": [
-          "Küldés…",
-          "Wird gesendet...",
-          "Envoi…",
-          "Enviando…"
-      ],
-      "Message saved as draft.": [
-          "Az üzenet mentve piszkozatként.",
-          "Nachricht als Entwurf gespeichert",
-          "Message enregistré comme brouillon.",
-          "Mensaje guardado como borrador"
-      ],
-      "Search mail": [
-          "Keresés a levelek között",
-          "Nachr. durchsuchen",
-          "Rech. dans les messages",
-          "Buscar mensaje"
-      ],
-      "Add Cc/Bcc": [
-          "Másolatmezők hozzáadása",
-          "Cc/Bcc hinzufügen",
-          "Ajouter Cc/Cci",
-          "Añadir CC/CCO"
-      ],
-      "Attach file": [
-          "Fájl csatolása",
-          "Datei anhängen",
-          "Joindre un fichier",
-          "Adjuntar archivo"
-      ],
-      "Mark read": [
-          "Megjelölés olvasottként",
-          "Als gelesen markieren",
-          "Marquer comme lu",
-          "Marcar como leído"
-      ],
-      "Star": [
-          "Csillag",
-          "Markierung",
-          "Suivi",
-          "Destacar"
-      ],
-      "Mark important": [
-          "Megjelölés fontosként",
-          "Als wichtig markieren",
-          "Marquer comme important",
-          "Marcar como importante"
-      ],
-      "Mark not important": [
-          "Megjelölés nem fontosként",
-          "Als nicht wichtig markieren",
-          "Marquer comme non important",
-          "Marcar como no importante"
-      ],
-      "Mute": [
-          "Lezárás",
-          "Ignorieren",
-          "Ignorer",
-          "Silenciar"
-      ],
-      "Report spam": [
-          "Ez spam",
-          "Spam melden",
-          "Signaler comme spam",
-          "Marcar como spam"
-      ],
-      "Label settings": [
-          "Címke beállításai",
-          "Label-Einstellungen",
-          "Paramètres du libellé",
-          "Ajustes de etiquetas"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Send feedback": [
-          "Visszajelzés",
-          "Feedback geben",
-          "Envoyer des commentaires",
-          "Enviar comentarios"
-      ],
-      "Manage labels": [
-          "Címkék kezelése",
-          "Labels verwalten",
-          "Gérer les libellés",
-          "Administrar etiquetas"
-      ],
-      "Show all labels": [
-          "Az összes címke megjelenítése",
-          "Alle Labels anzeigen",
-          "Afficher tous les libellés",
-          "Mostrar todas las etiquetas"
-      ],
-      "Recent": [
-          "Legújabbak",
-          "Neueste",
-          "Récents",
-          "Reciente"
-      ],
-      "%s — %s": [
-          "%s — %s",
-          "%s – %s",
-          "%s — %s",
-          "%s — %s"
-      ]
+    "Compose": {"res": "Gmail:compose", "hu": "Levélírás", "de": "E-Mail schreiben", "fr": "Nouveau message", "es": "Redactar"},
+    "Search": {"res": "Gmail:search", "hu": "Keresés", "de": "Suchen", "fr": "Rechercher", "es": "Buscar"},
+    "Labels": {"res": "Gmail:labels", "hu": "Címkék", "de": "Labels", "fr": "Libellés", "es": "Etiquetas"},
+    "Refresh": {"res": "Gmail:refresh", "hu": "Frissítés", "de": "Aktualisieren", "fr": "Actualiser", "es": "Actualizar"},
+    "Archive": {"res": "Gmail:archive", "hu": "Archiválás", "de": "Archiv.", "fr": "Archiver", "es": "Archivar"},
+    "Delete": {"res": "Gmail:delete", "hu": "Törlés", "de": "Löschen", "fr": "Suppr.", "es": "Suprimir"},
+    "Mark unread": {"res": "Gmail:mark_unread", "hu": "Megjelölés olvasatlanként", "de": "Als ungelesen markieren", "fr": "Marquer comme non lu", "es": "Marcar como no leído"},
+    "Add star": {"res": "Gmail:add_star", "hu": "Csillagozás", "de": "Markieren", "fr": "Activer le suivi", "es": "Añadir estrella"},
+    "Remove star": {"res": "Gmail:remove_star", "hu": "Csillag eltávolítása", "de": "Markierung entfernen", "fr": "Désactiver le suivi", "es": "Quitar estrella"},
+    "Reply": {"res": "Gmail:reply", "hu": "Válasz", "de": "Antworten", "fr": "Répondre", "es": "Responder"},
+    "Reply all": {"res": "Gmail:reply_all", "hu": "Mindenkinek", "de": "Allen antw.", "fr": "Rép. à tous", "es": "Responder a todos"},
+    "Forward": {"res": "Gmail:forward", "hu": "Továbbítás", "de": "Weiterleiten", "fr": "Transférer", "es": "Reenviar"},
+    "Send": {"res": "Gmail:send", "hu": "Küldés", "de": "Senden", "fr": "Envoyer", "es": "Enviar"},
+    "Subject": {"res": "Gmail:subject_hint", "hu": "Tárgy", "de": "Betreff", "fr": "Objet", "es": "Asunto"},
+    "To": {"res": "Gmail:to", "hu": "Címzett", "de": "An", "fr": "À", "es": "Para"},
+    "To:": {"res": "Gmail:to_heading", "hu": "Címzett:", "de": "An:", "fr": "À :", "es": "Para:"},
+    "Cc": {"res": "Gmail:cc", "hu": "Másolat", "de": "Cc", "fr": "Cc", "es": "CC"},
+    "Bcc": {"res": "Gmail:bcc", "hu": "Titkos másolat", "de": "Bcc", "fr": "Cci", "es": "CCO"},
+    "Compose email": {"res": "Gmail:body_hint", "hu": "E-mail írása", "de": "E-Mail schreiben", "fr": "Composez un message", "es": "Redactar correo"},
+    "me": {"res": "Gmail:me", "hu": "én", "de": "ich", "fr": "moi", "es": "Yo"},
+    "Done": {"res": "Gmail:menu_done", "hu": "Kész", "de": "Fertig", "fr": "OK", "es": "Listo"},
+    "Change labels": {"res": "Gmail:menu_change_labels", "hu": "Címkék módosítása", "de": "Labels ändern", "fr": "Changer de libellés", "es": "Cambiar etiquetas"},
+    "Settings": {"res": "Gmail:menu_preferences", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "%d unread": {"res": "Gmail:unread", "hu": "%d nem olv.", "de": "%d ungel.", "fr": "%d non lus", "es": "%d sin leer"},
+    "No conversations.": {"res": "Gmail:no_conversations", "hu": "Nincsenek beszélgetések.", "de": "Keine Konversationen", "fr": "Aucune conversation.", "es": "No hay conversaciones."},
+    "Save draft": {"res": "Gmail:save_draft", "hu": "Piszkozat mentése", "de": "Entwurf speichern", "fr": "Enregistrer le brouillon", "es": "Guardar borrador"},
+    "Discard": {"res": "Gmail:discard", "hu": "Elvetés", "de": "Verwerfen", "fr": "Supprimer", "es": "Descartar"},
+    "Inbox": {"res": "Gmail:label_inbox", "hu": "Beérkezett üzenetek", "de": "Posteingang", "fr": "Boîte de réception", "es": "Recibidos"},
+    "Starred": {"res": "Gmail:label_starred", "hu": "Csillaggal megjelölt", "de": "Markiert", "fr": "Messages suivis", "es": "Destacados"},
+    "Sent": {"res": "Gmail:label_sent", "hu": "Elküldve", "de": "Gesendet", "fr": "Messages envoyés", "es": "Enviados"},
+    "Drafts": {"res": "Gmail:label_draft", "hu": "Piszkozatok", "de": "Entwürfe", "fr": "Brouillons", "es": "Borradores"},
+    "Outbox": {"res": "Gmail:label_outbox", "hu": "Kimenő levelek", "de": "Postausgang", "fr": "Boîte d'envoi", "es": "Bandeja de salida"},
+    "All mail": {"res": "Gmail:label_all", "hu": "Összes e-mail", "de": "Alle Nachrichten", "fr": "Tous les messages", "es": "Todo el correo"},
+    "Spam": {"res": "Gmail:label_spam", "hu": "Spam", "de": "Spam", "fr": "Spam", "es": "Spam"},
+    "Trash": {"res": "Gmail:label_trash", "hu": "Kuka", "de": "Papierkorb", "fr": "Corbeille", "es": "Papelera"},
+    "Important": {"res": "Gmail:label_important", "hu": "Fontos", "de": "Wichtig", "fr": "Important", "es": "Importante"},
+    "Chats": {"res": "Gmail:label_chat", "hu": "Csevegések", "de": "Chats", "fr": "Tous les chats", "es": "Chats"},
+    "Priority Inbox": {"res": "Gmail:label_magic_inbox", "hu": "Prioritások", "de": "Sortierter Eingang", "fr": "Prioritaire", "es": "Prioritarios"},
+    "Recent labels": {"res": "Gmail:recent_labels_heading", "hu": "Legutóbbi címkék", "de": "Aktuelle Labels", "fr": "Libellés récents", "es": "Etiquetas recientes"},
+    "All labels": {"res": "Gmail:all_labels_heading", "hu": "Minden címke", "de": "Alle Labels", "fr": "Tous les libellés", "es": "Todas las etiquetas"},
+    "Sending…": {"res": "Gmail:sending", "hu": "Küldés…", "de": "Wird gesendet...", "fr": "Envoi…", "es": "Enviando…"},
+    "Message saved as draft.": {"res": "Gmail:message_saved", "hu": "Az üzenet mentve piszkozatként.", "de": "Nachricht als Entwurf gespeichert", "fr": "Message enregistré comme brouillon.", "es": "Mensaje guardado como borrador"},
+    "Search mail": {"res": "Gmail:search_hint", "hu": "Keresés a levelek között", "de": "Nachr. durchsuchen", "fr": "Rech. dans les messages", "es": "Buscar mensaje"},
+    "Add Cc/Bcc": {"res": "Gmail:add_cc_label", "hu": "Másolatmezők hozzáadása", "de": "Cc/Bcc hinzufügen", "fr": "Ajouter Cc/Cci", "es": "Añadir CC/CCO"},
+    "Attach file": {"res": "Gmail:add_file_attachment", "hu": "Fájl csatolása", "de": "Datei anhängen", "fr": "Joindre un fichier", "es": "Adjuntar archivo"},
+    "Mark read": {"res": "Gmail:mark_read", "hu": "Megjelölés olvasottként", "de": "Als gelesen markieren", "fr": "Marquer comme lu", "es": "Marcar como leído"},
+    "Star": {"res": "Gmail:star", "hu": "Csillag", "de": "Markierung", "fr": "Suivi", "es": "Destacar"},
+    "Mark important": {"res": "Gmail:mark_important", "hu": "Megjelölés fontosként", "de": "Als wichtig markieren", "fr": "Marquer comme important", "es": "Marcar como importante"},
+    "Mark not important": {"res": "Gmail:mark_not_important", "hu": "Megjelölés nem fontosként", "de": "Als nicht wichtig markieren", "fr": "Marquer comme non important", "es": "Marcar como no importante"},
+    "Mute": {"res": "Gmail:mute", "hu": "Lezárás", "de": "Ignorieren", "fr": "Ignorer", "es": "Silenciar"},
+    "Report spam": {"res": "Gmail:report_spam", "hu": "Ez spam", "de": "Spam melden", "fr": "Signaler comme spam", "es": "Marcar como spam"},
+    "Label settings": {"res": "Gmail:menu_label_options", "hu": "Címke beállításai", "de": "Label-Einstellungen", "fr": "Paramètres du libellé", "es": "Ajustes de etiquetas"},
+    "Help": {"res": "Gmail:help_and_info", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "Send feedback": {"res": "Gmail:feedback", "hu": "Visszajelzés", "de": "Feedback geben", "fr": "Envoyer des commentaires", "es": "Enviar comentarios"},
+    "Manage labels": {"res": "Gmail:menu_manage_labels", "hu": "Címkék kezelése", "de": "Labels verwalten", "fr": "Gérer les libellés", "es": "Administrar etiquetas"},
+    "Show all labels": {"res": "Gmail:show_all_labels", "hu": "Az összes címke megjelenítése", "de": "Alle Labels anzeigen", "fr": "Afficher tous les libellés", "es": "Mostrar todas las etiquetas"},
+    "Recent": {"res": "Gmail:recent_labels", "hu": "Legújabbak", "de": "Neueste", "fr": "Récents", "es": "Reciente"},
+    "%s — %s": {"res": "Gmail:subject_and_snippet", "hu": "%s — %s", "de": "%s – %s", "fr": "%s — %s", "es": "%s — %s"}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   // Gmail's own texts first, then the shared interface rows (More options, Cancel, ...).
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
+  const STR = AndroidStrings.table('', STRINGS, AndroidStrings.shared), T = (lang, key) => STR.t(key, lang);
   const LABELS = ['Inbox', 'Priority Inbox', 'Starred', 'Important', 'Chats', 'Sent', 'Outbox', 'Drafts', 'All mail', 'Spam', 'Trash'];
   // Gmail 4.0.4's own xhdpi drawables (g4-*: Gmail.apk; Up, Done, the overflow and the spinner from the IMM76I framework).
   const ICON = name => `<img src="assets/g4-${name}.png" alt="">`;

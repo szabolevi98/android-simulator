@@ -28,600 +28,107 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-      "Stream": [
-          "Fal",
-          "Stream",
-          "Flux",
-          "Novedades"
-      ],
-      "Photos": [
-          "Fotók",
-          "Fotos",
-          "Photos",
-          "Fotos"
-      ],
-      "Profile": [
-          "Profil",
-          "Profil",
-          "Profil",
-          "Perfil"
-      ],
-      "Circles": [
-          "Körök",
-          "Kreise",
-          "Cercles",
-          "Círculos"
-      ],
-      "Messenger": [
-          "Messenger",
-          "Messenger",
-          "Chat +",
-          "Messenger"
-      ],
-      "Games": [
-          "Játékok",
-          "Spiele",
-          "Jeux",
-          "Juegos"
-      ],
-      "All circles": [
-          "Az összes kör",
-          "Alle Kreise",
-          "Tous les cercles",
-          "Todos los círculos"
-      ],
-      "Nearby": [
-          "Közeli",
-          "In der Nähe",
-          "À proximité",
-          "Cercanos"
-      ],
-      "What's hot": [
-          "Népszerűek",
-          "Angesagte Beiträge",
-          "À découvrir",
-          "Temas interesantes"
-      ],
-      "New post": [
-          "Új bejegyzés",
-          "Neuer Beitrag",
-          "Nouveau post",
-          "Publicación nueva"
-      ],
-      "Your albums": [
-          "Albumaid",
-          "Meine Alben",
-          "Vos albums",
-          "Tus álbumes"
-      ],
-      "Photos of you": [
-          "Fotók rólad",
-          "Fotos von mir",
-          "Photos de vous",
-          "Fotos de ti"
-      ],
-      "No posts found.": [
-          "Nincsenek bejegyzések.",
-          "Keine Beiträge gefunden",
-          "Aucun post",
-          "No hay publicaciones."
-      ],
-      "Just now": [
-          "Most",
-          "Jetzt gerade",
-          "À l'instant",
-          "Ahora mismo"
-      ],
-      "Friends list": [
-          "Ismerőslista",
-          "Kontaktliste",
-          "Liste d'amis",
-          "Lista de amigos"
-      ],
-      "Available": [
-          "Elérhető",
-          "Verfügbar",
-          "Disponible",
-          "Disponible"
-      ],
-      "Busy": [
-          "Elfoglalt",
-          "Nicht verfügbar",
-          "Ne pas déranger",
-          "Ocupado/a"
-      ],
-      "Away": [
-          "Nincs a gépnél",
-          "Nicht da",
-          "Absent",
-          "Ausente"
-      ],
-      "Invisible": [
-          "Láthatatlan",
-          "Unsichtbar",
-          "Invisible",
-          "Invisible"
-      ],
-      "Offline": [
-          "Offline",
-          "Offline",
-          "Non connecté",
-          "Desconectado/a"
-      ],
-      "Type message": [
-          "Írja be az üzenetet.",
-          "Nachricht schreiben",
-          "Saisissez un message",
-          "Escribir mensaje"
-      ],
-      "Add friend": [
-          "Ismerős hozzáadása",
-          "Freund hinzufügen",
-          "Ajouter un ami",
-          "Añadir amigo"
-      ],
-      "End chat": [
-          "Csevegés befejezése",
-          "Chat beenden",
-          "Arrêter le chat",
-          "Finalizar chat"
-      ],
-      "Status message": [
-          "Állapotüzenet",
-          "Statusnachricht",
-          "Disponibilité",
-          "Mensaje de estado"
-      ],
-      "Home": [
-          "Főoldal",
-          "Startseite",
-          "Accueil",
-          "Inicio"
-      ],
-      "Browse": [
-          "Böngészés",
-          "Kategorien",
-          "Parcourir",
-          "Explorar"
-      ],
-      "Search YouTube": [
-          "Keresés a YouTube-on",
-          "In YouTube suchen",
-          "Rechercher sur YouTube",
-          "Buscar en YouTube"
-      ],
-      "Like": [
-          "Tetszik",
-          "Gefällt mir",
-          "J'aime",
-          "Me gusta"
-      ],
-      "Dislike": [
-          "Nem tetszik",
-          "Mag ich nicht",
-          "Je n'aime pas",
-          "No me gusta"
-      ],
-      "Share": [
-          "Megosztás",
-          "Teilen",
-          "Partager",
-          "Compartir"
-      ],
-      "Most viewed": [
-          "Legtöbbször megtekintett",
-          "Meistgesehen",
-          "Les plus regardées",
-          "Más vistos"
-      ],
-      "Account": [
-          "Fiók",
-          "Konto",
-          "Compte",
-          "Cuenta"
-      ],
-      "Search": [
-          "Keresés",
-          "Suche",
-          "Rechercher",
-          "Buscar"
-      ],
-      "Record": [
-          "Felvétel",
-          "Aufnehmen",
-          "Enregistrer",
-          "Grabar"
-      ],
-      "Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes"
-      ],
-      "Feedback": [
-          "Visszajelzés",
-          "Feedback",
-          "Commentaires",
-          "Comentarios"
-      ],
-      "Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda"
-      ],
-      "Add to": [
-          "Hozzáadás ide:",
-          "Hinzufügen zu",
-          "Ajouter à",
-          "Añadir a"
-      ],
-      "Info": [
-          "Információ",
-          "Info",
-          "Infos",
-          "Información"
-      ],
-      "Related": [
-          "Kapcsolódó",
-          "Ähnlich",
-          "Vidéos similaires",
-          "Relacionados"
-      ],
-      "Comments": [
-          "Megjegyzések",
-          "Kommentare",
-          "Commentaires",
-          "Comentarios"
-      ],
-      "No comments found.": [
-          "Nincsenek megjegyzések.",
-          "Keine Kommentare gefunden",
-          "Aucun commentaire n'a été trouvé.",
-          "No se han encontrado comentarios."
-      ],
-      "by": [
-          "feltöltötte:",
-          "von",
-          "par",
-          "de"
-      ],
-      "Description": [
-          "Leírás",
-          "Beschreibung",
-          "Description",
-          "Descripción"
-      ],
-      "Category": [
-          "Kategória",
-          "Kategorie",
-          "Catégorie",
-          "Categoría"
-      ],
-      "%1$,d views | %2$,d likes | %3$,d dislikes": [
-          "%1$,d megtekintés | %2$,d tetszik, %3$,d nem",
-          "%1$,d Aufrufe | %2$,d_0 pos. | %3$,d neg.",
-          "%1$,d visionnages | %2$,d \"J'aime\" | %3$,d \"Je n'aime pas\"",
-          "%1$,d reproducciones | %2$,d Me gusta | %3$,d No me gusta"
-      ],
-      "You like this video.": [
-          "Tetszett ez a videó.",
-          "Du magst dieses Video.",
-          "Vous aimez cette vidéo.",
-          "Te gusta este vídeo."
-      ],
-      "You dislike this video.": [
-          "Nem tetszett ez a videó.",
-          "Du magst dieses Video nicht.",
-          "Vous n'aimez pas cette vidéo.",
-          "No te gusta este vídeo."
-      ],
-      "Your Channel": [
-          "A Te csatornád",
-          "Dein Kanal",
-          "Votre chaîne",
-          "Tu canal"
-      ],
-      "Channel views": [
-          "Csatornamegtekintések",
-          "Kanalaufrufe",
-          "Vues (chaîne)",
-          "Reproducciones de canal"
-      ],
-      "Uploaded": [
-          "Feltöltve",
-          "Hochgeladen",
-          "Mise en ligne",
-          "Subidos"
-      ],
-      "Subscribers": [
-          "Feliratkozók",
-          "Abonnenten",
-          "Abonnés",
-          "Suscriptores"
-      ],
-      "Video chat": [
-          "Videocsevegés",
-          "Video-Chat",
-          "Chat vidéo",
-          "Chat de vídeo"
-      ],
-      "Voice chat": [
-          "Audiocsevegés",
-          "Sprach-Chat",
-          "Chat audio",
-          "Chat de voz"
-      ],
-      "Display options": [
-          "Megjelenítési beállítások",
-          "Anzeigeoptionen",
-          "Options d'affichage",
-          "Mostrar opciones"
-      ],
-      "End all chats": [
-          "Minden csevegés befejezése",
-          "Alle Chats beenden",
-          "Quitter tous les chats",
-          "Finalizar todos los chats"
-      ],
-      "Sign out": [
-          "Kijelentkezés",
-          "Abmelden",
-          "Se déconnecter",
-          "Salir"
-      ],
-      "Invites": [
-          "Meghívások",
-          "Einladungen",
-          "Invités",
-          "Invitados"
-      ],
-      "Friend info": [
-          "Ismerős adatai",
-          "Kontaktinfo",
-          "Infos sur l'ami",
-          "Información de tu amigo/a"
-      ],
-      "Add to chat": [
-          "Hozzáadás a csevegéshez",
-          "Zum Chatten einladen",
-          "Ajouter au chat",
-          "Añadir al chat"
-      ],
-      "Clear chat history": [
-          "Csevegési előzmények törlése",
-          "Chat-Protokoll löschen",
-          "Effacer l'historique du chat",
-          "Borrar historial de chat"
-      ],
-      "Shop": [
-          "Bolt",
-          "Kaufmodus",
-          "Boutique",
-          "Tienda"
-      ],
-      "Contents": [
-          "Tartalom",
-          "Inhaltsverzeichnis",
-          "Table des matières",
-          "Índice"
-      ],
-      "My Rentals": [
-          "Saját kölcsönzések",
-          "Meine Leihvideos",
-          "Mes films",
-          "Mis alquileres"
-      ],
-      "Personal Videos": [
-          "Személyes videók",
-          "Persönliche Videos",
-          "Vidéos perso",
-          "Vídeos personales"
-      ],
-      "Movies: Shop": [
-          "Bolt",
-          "Shop",
-          "Boutique",
-          "Tienda",
-          "Shop"
-      ],
-      "Welcome!": [
-          "Üdvözlünk!",
-          "Willkommen!",
-          "Bienvenue !",
-          "¡Te damos la bienvenida!"
-      ],
-      "Looks like you don't have any rentals. Touch the shop icon above to browse our full catalog, or select from our most popular rentals below.": [
-          "Úgy tűnik, nincsenek kölcsönzéseid. Érintsd meg a bolt fenti ikonját teljes katalógusunk böngészéséhez, vagy válassz a legnépszerűbb kölcsönzéseinkből alább.",
-          "Offenbar hast du noch keine Videos geliehen. Berühre oben das Shop-Symbol, um unseren vollständigen Katalog anzusehen, oder triff unten eine Auswahl aus unseren beliebtesten Leihvideos.",
-          "Il semble que vous n'ayez aucune location en cours. Appuyez sur l'icône de la boutique ci-dessus pour parcourir notre catalogue complet ou faites votre choix parmi les locations les plus populaires ci-dessous.",
-          "Parece que no tienes alquileres. Toca el icono de tienda situado arriba para consultar todo el catálogo o selecciona uno de los alquileres más populares que aparecen a continuación."
-      ],
-      "There was a problem with the network": [
-          "Gond volt a hálózattal",
-          "Es gab ein Problem mit dem Netzwerk",
-          "Un problème s'est produit au niveau du réseau.",
-          "Ha ocurrido un problema con la red."
-      ],
-      "Retry": [
-          "Újra",
-          "Wiederholen",
-          "Réessayer",
-          "Reintentar"
-      ],
-      "You don't have any personal videos": [
-          "Nincsenek személyes videóid",
-          "Keine persönlichen Videos vorhanden",
-          "Vous n'avez aucune vidéo personnelle.",
-          "No tienes vídeos personales."
-      ],
-      "Manage offline rentals": [
-          "Offline kölcsönzések kezelése",
-          "Offline-Leihvideos verwalten",
-          "Gérer films hors connexion",
-          "Admin alquileres sin conexión"
-      ],
-      "Movies: Accounts": [
-          "Fiókok",
-          "Konten",
-          "Comptes",
-          "Cuentas",
-          "Accounts"
-      ],
-      "Movies: Settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes",
-          "Settings"
-      ],
-      "Movies: Help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda",
-          "Help"
-      ],
-      "Movies: Contact us": [
-          "Kapcsolatfelvétel",
-          "Kontakt",
-          "Nous contacter",
-          "Contacto",
-          "Contact us"
-      ],
-      "Movies: Send feedback": [
-          "Visszajelzés küldése",
-          "Feedback geben",
-          "Commentaires",
-          "Enviar comentarios",
-          "Send feedback"
-      ],
-      "Google Search": [
-          "Google Keresés",
-          "Google-Suche",
-          "Recherche Google",
-          "Búsqueda de Google"
-      ],
-      "Searchable items": [
-          "Kereshető elemek",
-          "Durchsuchbare Elemente",
-          "Sources",
-          "Elementos de búsqueda"
-      ],
-      "Listening…": [
-          "Figyelés...",
-          "Jetzt sprechen...",
-          "Écoute en cours…",
-          "Escuchando..."
-      ],
-      "No results, try again.": [
-          "Nincs találat, próbálja újra.",
-          "Keine Ergebnisse, versuchen Sie es erneut.",
-          "Aucun résultat, réessayez.",
-          "No se ha encontrado ningún resultado. Vuelve a intentarlo."
-      ],
-      "Did you know…": [
-          "Tudta...",
-          "Wussten Sie schon...",
-          "Saviez-vous que...",
-          "¿Sabías que...?"
-      ],
-      "Search Google Talk": [
-          "Keresés a Google Csevegőben",
-          "In Google Talk suchen",
-          "Rechercher dans Talk",
-          "Buscar Google Talk"
-      ],
-      "Search chat history": [
-          "Keresés a csevegési előzményekben",
-          "In Chat-Liste suchen",
-          "Rechercher dans l'historique des chats",
-          "Buscar en el historial de chat"
-      ],
-      "for '%1$s'": [
-          "a következőre: %1$s",
-          "nach \"%1$s\"",
-          "pour \"%1$s\"",
-          "de \"%1$s\""
-      ],
-      "Send invite": [
-          "Meghívó küldése",
-          "Einladung senden",
-          "Envoyer une invitation",
-          "Enviar invitación"
-      ],
-      "to '%1$s'": [
-          "a következőnek: %1$s",
-          "an \"%1$s\"",
-          "à \"%1$s\"",
-          "a \"%1$s\""
-      ],
-      "Chats matching \"%1$s\"": [
-          "\"%1$s\" keresésnek megfelelő beszélgetések",
-          "Passende Chats zu \"%1$s\"",
-          "Chats correspondant à \"%1$s\"",
-          "Chats que coincidan con \"%1$s\""
-      ],
-      "Invite a friend to chat": [
-          "Ismerős meghívása csevegésre",
-          "Laden Sie einen Freund zum Chatten ein.",
-          "Inviter un ami à chatter",
-          "Invitar a un amigo a chatear"
-      ],
-      "Send chat invitation to": [
-          "Csevegési meghívás küldése a következőnek:",
-          "Einladung zum Chatten senden an",
-          "Envoyer une invitation à",
-          "Enviar una invitación de chat a"
-      ],
-      "Type email address": [
-          "Írjon be egy e-mail címet",
-          "E-Mail-Adresse eingeben",
-          "Saisissez l'adresse e-mail",
-          "Escribe tu correo"
-      ],
-      "DONE": [
-          "KÉSZ",
-          "FERTIG",
-          "TERMINÉ",
-          "LISTO"
-      ],
-      "CANCEL": [
-          "MÉGSE",
-          "Abbrechen",
-          "ANNULER",
-          "CANCELAR"
-      ],
-      "Invitation sent.": [
-          "Meghívó elküldve.",
-          "Einladung gesendet",
-          "Invitation envoyée.",
-          "Invitación enviada"
-      ],
-      "Talk settings": [
-          "Beállítások",
-          "Einstellungen",
-          "Paramètres",
-          "Ajustes",
-          "Settings"
-      ],
-      "Talk help": [
-          "Súgó",
-          "Hilfe",
-          "Aide",
-          "Ayuda",
-          "Help"
-      ],
-      "Send feedback": [
-          "Visszajelzés küldése",
-          "Feedback geben",
-          "Envoyer des commentaires",
-          "Enviar comentarios"
-      ]
+    "Stream": {"res": "PlusOne:home_stream_label", "hu": "Fal", "de": "Stream", "fr": "Flux", "es": "Novedades"},
+    "Photos": {"res": "PlusOne:home_screen_photos_label", "hu": "Fotók", "de": "Fotos", "fr": "Photos", "es": "Fotos"},
+    "Profile": {"res": "PlusOne:home_screen_profile_label", "hu": "Profil", "de": "Profil", "fr": "Profil", "es": "Perfil"},
+    "Circles": {"res": "PlusOne:home_screen_people_label", "hu": "Körök", "de": "Kreise", "fr": "Cercles", "es": "Círculos"},
+    "Messenger": {"res": "PlusOne:home_screen_huddle_label", "hu": "Messenger", "de": "Messenger", "fr": "Chat +", "es": "Messenger"},
+    "Games": {"res": "PlusOne:home_screen_games_label", "hu": "Játékok", "de": "Spiele", "fr": "Jeux", "es": "Juegos"},
+    "All circles": {"res": "PlusOne:stream_circles", "hu": "Az összes kör", "de": "Alle Kreise", "fr": "Tous les cercles", "es": "Todos los círculos"},
+    "Nearby": {"res": "PlusOne:stream_nearby", "hu": "Közeli", "de": "In der Nähe", "fr": "À proximité", "es": "Cercanos"},
+    "What's hot": {"res": "PlusOne:stream_whats_hot", "hu": "Népszerűek", "de": "Angesagte Beiträge", "fr": "À découvrir", "es": "Temas interesantes"},
+    "New post": {"res": "PlusOne:menu_post", "hu": "Új bejegyzés", "de": "Neuer Beitrag", "fr": "Nouveau post", "es": "Publicación nueva"},
+    "Your albums": {"res": "PlusOne:photos_home_your_albums_label", "hu": "Albumaid", "de": "Meine Alben", "fr": "Vos albums", "es": "Tus álbumes"},
+    "Photos of you": {"res": "PlusOne:photos_home_of_you_label", "hu": "Fotók rólad", "de": "Fotos von mir", "fr": "Photos de vous", "es": "Fotos de ti"},
+    "No posts found.": {"res": "PlusOne:no_posts", "hu": "Nincsenek bejegyzések.", "de": "Keine Beiträge gefunden", "fr": "Aucun post", "es": "No hay publicaciones."},
+    "Just now": {"res": "PlusOne:posted_just_now", "hu": "Most", "de": "Jetzt gerade", "fr": "À l'instant", "es": "Ahora mismo"},
+    "Friends list": {"res": "Talk:menu_view_roster", "hu": "Ismerőslista", "de": "Kontaktliste", "fr": "Liste d'amis", "es": "Lista de amigos"},
+    "Available": {"res": "Talk:presence_available", "hu": "Elérhető", "de": "Verfügbar", "fr": "Disponible", "es": "Disponible"},
+    "Busy": {"res": "Talk:presence_busy", "hu": "Elfoglalt", "de": "Nicht verfügbar", "fr": "Ne pas déranger", "es": "Ocupado/a"},
+    "Away": {"res": "Talk:presence_away", "hu": "Nincs a gépnél", "de": "Nicht da", "fr": "Absent", "es": "Ausente"},
+    "Invisible": {"res": "Talk:presence_invisible", "hu": "Láthatatlan", "de": "Unsichtbar", "fr": "Invisible", "es": "Invisible"},
+    "Offline": {"res": "Talk:presence_offline", "hu": "Offline", "de": "Offline", "fr": "Non connecté", "es": "Desconectado/a"},
+    "Type message": {"res": "Talk:compose_hint", "hu": "Írja be az üzenetet.", "de": "Nachricht schreiben", "fr": "Saisissez un message", "es": "Escribir mensaje"},
+    "Add friend": {"res": "Talk:menu_add", "hu": "Ismerős hozzáadása", "de": "Freund hinzufügen", "fr": "Ajouter un ami", "es": "Añadir amigo"},
+    "End chat": {"res": "Talk:menu_end_conversation", "hu": "Csevegés befejezése", "de": "Chat beenden", "fr": "Arrêter le chat", "es": "Finalizar chat"},
+    "Status message": {"res": "Talk:custom_status_hint", "hu": "Állapotüzenet", "de": "Statusnachricht", "fr": "Disponibilité", "es": "Mensaje de estado"},
+    "Home": {"res": "YouTube:tab_feed", "hu": "Főoldal", "de": "Startseite", "fr": "Accueil", "es": "Inicio"},
+    "Browse": {"res": "YouTube:tab_categories", "hu": "Böngészés", "de": "Kategorien", "fr": "Parcourir", "es": "Explorar"},
+    "Search YouTube": {"res": "YouTube:search_hint", "hu": "Keresés a YouTube-on", "de": "In YouTube suchen", "fr": "Rechercher sur YouTube", "es": "Buscar en YouTube"},
+    "Like": {"res": "YouTube:menu_like", "hu": "Tetszik", "de": "Gefällt mir", "fr": "J'aime", "es": "Me gusta"},
+    "Dislike": {"res": "YouTube:menu_dislike", "hu": "Nem tetszik", "de": "Mag ich nicht", "fr": "Je n'aime pas", "es": "No me gusta"},
+    "Share": {"res": "YouTube:menu_share", "hu": "Megosztás", "de": "Teilen", "fr": "Partager", "es": "Compartir"},
+    "Most viewed": {"res": "YouTube:most_viewed_videos", "hu": "Legtöbbször megtekintett", "de": "Meistgesehen", "fr": "Les plus regardées", "es": "Más vistos"},
+    "Account": {"res": "YouTube:tab_account", "hu": "Fiók", "de": "Konto", "fr": "Compte", "es": "Cuenta"},
+    "Search": {"res": "YouTube:menu_search", "hu": "Keresés", "de": "Suche", "fr": "Rechercher", "es": "Buscar"},
+    "Record": {"res": "YouTube:menu_camera", "hu": "Felvétel", "de": "Aufnehmen", "fr": "Enregistrer", "es": "Grabar"},
+    "Settings": {"res": "YouTube:menu_settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes"},
+    "Feedback": {"res": "YouTube:menu_feedback", "hu": "Visszajelzés", "de": "Feedback", "fr": "Commentaires", "es": "Comentarios"},
+    "Help": {"res": "YouTube:menu_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda"},
+    "Add to": {"res": "YouTube:menu_add_to", "hu": "Hozzáadás ide:", "de": "Hinzufügen zu", "fr": "Ajouter à", "es": "Añadir a"},
+    "Info": {"res": "YouTube:video_info", "hu": "Információ", "de": "Info", "fr": "Infos", "es": "Información"},
+    "Related": {"res": "YouTube:video_info_related_label_text", "hu": "Kapcsolódó", "de": "Ähnlich", "fr": "Vidéos similaires", "es": "Relacionados"},
+    "Comments": {"res": "YouTube:comments", "hu": "Megjegyzések", "de": "Kommentare", "fr": "Commentaires", "es": "Comentarios"},
+    "No comments found.": {"res": "YouTube:no_comments_found", "hu": "Nincsenek megjegyzések.", "de": "Keine Kommentare gefunden", "fr": "Aucun commentaire n'a été trouvé.", "es": "No se han encontrado comentarios."},
+    "by": {"res": "YouTube:by", "hu": "feltöltötte:", "de": "von", "fr": "par", "es": "de"},
+    "Description": {"res": "YouTube:description_label_text", "hu": "Leírás", "de": "Beschreibung", "fr": "Description", "es": "Descripción"},
+    "Category": {"res": "YouTube:category_label_text", "hu": "Kategória", "de": "Kategorie", "fr": "Catégorie", "es": "Categoría"},
+    "%1$,d views | %2$,d likes | %3$,d dislikes": {"res": "YouTube:num_views_likes_and_dislikes", "hu": "%1$,d megtekintés | %2$,d tetszik, %3$,d nem", "de": "%1$,d Aufrufe | %2$,d_0 pos. | %3$,d neg.", "fr": "%1$,d visionnages | %2$,d \"J'aime\" | %3$,d \"Je n'aime pas\"", "es": "%1$,d reproducciones | %2$,d Me gusta | %3$,d No me gusta"},
+    "You like this video.": {"res": "YouTube:rating_like", "hu": "Tetszett ez a videó.", "de": "Du magst dieses Video.", "fr": "Vous aimez cette vidéo.", "es": "Te gusta este vídeo."},
+    "You dislike this video.": {"res": "YouTube:rating_dislike", "hu": "Nem tetszett ez a videó.", "de": "Du magst dieses Video nicht.", "fr": "Vous n'aimez pas cette vidéo.", "es": "No te gusta este vídeo."},
+    "Your Channel": {"res": "YouTube:menu_my_channel", "hu": "A Te csatornád", "de": "Dein Kanal", "fr": "Votre chaîne", "es": "Tu canal"},
+    "Channel views": {"res": "YouTube:channel_stats_views_empty", "hu": "Csatornamegtekintések", "de": "Kanalaufrufe", "fr": "Vues (chaîne)", "es": "Reproducciones de canal"},
+    "Uploaded": {"res": "YouTube:channel_stats_uploaded_empty", "hu": "Feltöltve", "de": "Hochgeladen", "fr": "Mise en ligne", "es": "Subidos"},
+    "Subscribers": {"res": "YouTube:channel_stats_subscribers_empty", "hu": "Feliratkozók", "de": "Abonnenten", "fr": "Abonnés", "es": "Suscriptores"},
+    "Video chat": {"res": "Talk:menu_video_chat", "hu": "Videocsevegés", "de": "Video-Chat", "fr": "Chat vidéo", "es": "Chat de vídeo"},
+    "Voice chat": {"res": "Talk:menu_voice_chat", "hu": "Audiocsevegés", "de": "Sprach-Chat", "fr": "Chat audio", "es": "Chat de voz"},
+    "Display options": {"res": "Talk:menu_sort_header", "hu": "Megjelenítési beállítások", "de": "Anzeigeoptionen", "fr": "Options d'affichage", "es": "Mostrar opciones"},
+    "End all chats": {"res": "Talk:menu_leave_all_chats", "hu": "Minden csevegés befejezése", "de": "Alle Chats beenden", "fr": "Quitter tous les chats", "es": "Finalizar todos los chats"},
+    "Sign out": {"res": "Talk:menu_sign_out", "hu": "Kijelentkezés", "de": "Abmelden", "fr": "Se déconnecter", "es": "Salir"},
+    "Invites": {"res": "Talk:menu_show_invites", "hu": "Meghívások", "de": "Einladungen", "fr": "Invités", "es": "Invitados"},
+    "Friend info": {"res": "Talk:menu_user_info", "hu": "Ismerős adatai", "de": "Kontaktinfo", "fr": "Infos sur l'ami", "es": "Información de tu amigo/a"},
+    "Add to chat": {"res": "Talk:menu_add_contact", "hu": "Hozzáadás a csevegéshez", "de": "Zum Chatten einladen", "fr": "Ajouter au chat", "es": "Añadir al chat"},
+    "Clear chat history": {"res": "Talk:menu_clear_chat", "hu": "Csevegési előzmények törlése", "de": "Chat-Protokoll löschen", "fr": "Effacer l'historique du chat", "es": "Borrar historial de chat"},
+    "Shop": {"res": "BooksTablet:menu_shop", "hu": "Bolt", "de": "Kaufmodus", "fr": "Boutique", "es": "Tienda"},
+    "Contents": {"res": "BooksTablet:menu_table_of_contents", "hu": "Tartalom", "de": "Inhaltsverzeichnis", "fr": "Table des matières", "es": "Índice"},
+    "My Rentals": {"res": "Videos:tab_rentals", "hu": "Saját kölcsönzések", "de": "Meine Leihvideos", "fr": "Mes films", "es": "Mis alquileres"},
+    "Personal Videos": {"res": "Videos:tab_personal_videos", "hu": "Személyes videók", "de": "Persönliche Videos", "fr": "Vidéos perso", "es": "Vídeos personales"},
+    "Movies: Shop": {"res": "Videos:menu_shop", "hu": "Bolt", "de": "Shop", "fr": "Boutique", "es": "Tienda", "en": "Shop"},
+    "Welcome!": {"res": "Videos:welcome_title", "hu": "Üdvözlünk!", "de": "Willkommen!", "fr": "Bienvenue !", "es": "¡Te damos la bienvenida!"},
+    "Looks like you don't have any rentals. Touch the shop icon above to browse our full catalog, or select from our most popular rentals below.": {"res": "Videos:welcome_instructions", "hu": "Úgy tűnik, nincsenek kölcsönzéseid. Érintsd meg a bolt fenti ikonját teljes katalógusunk böngészéséhez, vagy válassz a legnépszerűbb kölcsönzéseinkből alább.", "de": "Offenbar hast du noch keine Videos geliehen. Berühre oben das Shop-Symbol, um unseren vollständigen Katalog anzusehen, oder triff unten eine Auswahl aus unseren beliebtesten Leihvideos.", "fr": "Il semble que vous n'ayez aucune location en cours. Appuyez sur l'icône de la boutique ci-dessus pour parcourir notre catalogue complet ou faites votre choix parmi les locations les plus populaires ci-dessous.", "es": "Parece que no tienes alquileres. Toca el icono de tienda situado arriba para consultar todo el catálogo o selecciona uno de los alquileres más populares que aparecen a continuación."},
+    "There was a problem with the network": {"res": "Videos:error_network", "hu": "Gond volt a hálózattal", "de": "Es gab ein Problem mit dem Netzwerk", "fr": "Un problème s'est produit au niveau du réseau.", "es": "Ha ocurrido un problema con la red."},
+    "Retry": {"res": "Videos:retry", "hu": "Újra", "de": "Wiederholen", "fr": "Réessayer", "es": "Reintentar"},
+    "You don't have any personal videos": {"res": "Videos:no_local_videos_found", "hu": "Nincsenek személyes videóid", "de": "Keine persönlichen Videos vorhanden", "fr": "Vous n'avez aucune vidéo personnelle.", "es": "No tienes vídeos personales."},
+    "Manage offline rentals": {"res": "Videos:menu_manage_offline", "hu": "Offline kölcsönzések kezelése", "de": "Offline-Leihvideos verwalten", "fr": "Gérer films hors connexion", "es": "Admin alquileres sin conexión"},
+    "Movies: Accounts": {"res": "Videos:logout", "hu": "Fiókok", "de": "Konten", "fr": "Comptes", "es": "Cuentas", "en": "Accounts"},
+    "Movies: Settings": {"res": "Videos:menu_settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes", "en": "Settings"},
+    "Movies: Help": {"res": "Videos:menu_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda", "en": "Help"},
+    "Movies: Contact us": {"res": "Videos:menu_contact", "hu": "Kapcsolatfelvétel", "de": "Kontakt", "fr": "Nous contacter", "es": "Contacto", "en": "Contact us"},
+    "Movies: Send feedback": {"res": "Videos:menu_feedback", "hu": "Visszajelzés küldése", "de": "Feedback geben", "fr": "Commentaires", "es": "Enviar comentarios", "en": "Send feedback"},
+    "Google Search": {"res": "GoogleQuickSearchBox:google_search_hint", "hu": "Google Keresés", "de": "Google-Suche", "fr": "Recherche Google", "es": "Búsqueda de Google"},
+    "Searchable items": {"res": "GoogleQuickSearchBox:search_sources", "hu": "Kereshető elemek", "de": "Durchsuchbare Elemente", "fr": "Sources", "es": "Elementos de búsqueda"},
+    "Listening…": {"res": "VoiceDialer:listening", "hu": "Figyelés...", "de": "Jetzt sprechen...", "fr": "Écoute en cours…", "es": "Escuchando..."},
+    "No results, try again.": {"res": "VoiceDialer:no_results_tts", "hu": "Nincs találat, próbálja újra.", "de": "Keine Ergebnisse, versuchen Sie es erneut.", "fr": "Aucun résultat, réessayez.", "es": "No se ha encontrado ningún resultado. Vuelve a intentarlo."},
+    "Did you know…": {"res": "VoiceDialer:tool_tip_title", "hu": "Tudta...", "de": "Wussten Sie schon...", "fr": "Saviez-vous que...", "es": "¿Sabías que...?"},
+    "Search Google Talk": {"res": "Talk:search_hint", "hu": "Keresés a Google Csevegőben", "de": "In Google Talk suchen", "fr": "Rechercher dans Talk", "es": "Buscar Google Talk"},
+    "Search chat history": {"res": "Talk:search_chats_line1", "hu": "Keresés a csevegési előzményekben", "de": "In Chat-Liste suchen", "fr": "Rechercher dans l'historique des chats", "es": "Buscar en el historial de chat"},
+    "for '%1$s'": {"res": "Talk:search_chats_line2", "hu": "a következőre: %1$s", "de": "nach \"%1$s\"", "fr": "pour \"%1$s\"", "es": "de \"%1$s\""},
+    "Send invite": {"res": "Talk:add_friend_line1", "hu": "Meghívó küldése", "de": "Einladung senden", "fr": "Envoyer une invitation", "es": "Enviar invitación"},
+    "to '%1$s'": {"res": "Talk:add_friend_line2", "hu": "a következőnek: %1$s", "de": "an \"%1$s\"", "fr": "à \"%1$s\"", "es": "a \"%1$s\""},
+    "Chats matching \"%1$s\"": {"res": "Talk:search_results", "hu": "\"%1$s\" keresésnek megfelelő beszélgetések", "de": "Passende Chats zu \"%1$s\"", "fr": "Chats correspondant à \"%1$s\"", "es": "Chats que coincidan con \"%1$s\""},
+    "Invite a friend to chat": {"res": "Talk:invite_buddy", "hu": "Ismerős meghívása csevegésre", "de": "Laden Sie einen Freund zum Chatten ein.", "fr": "Inviter un ami à chatter", "es": "Invitar a un amigo a chatear"},
+    "Send chat invitation to": {"res": "Talk:invite_instruction", "hu": "Csevegési meghívás küldése a következőnek:", "de": "Einladung zum Chatten senden an", "fr": "Envoyer une invitation à", "es": "Enviar una invitación de chat a"},
+    "Type email address": {"res": "Talk:invite_hint", "hu": "Írjon be egy e-mail címet", "de": "E-Mail-Adresse eingeben", "fr": "Saisissez l'adresse e-mail", "es": "Escribe tu correo"},
+    "DONE": {"res": "Talk:invite_label", "hu": "KÉSZ", "de": "FERTIG", "fr": "TERMINÉ", "es": "LISTO"},
+    "CANCEL": {"res": "Talk:invite_label_cancel", "hu": "MÉGSE", "de": "Abbrechen", "fr": "ANNULER", "es": "CANCELAR"},
+    "Invitation sent.": {"res": "Talk:invitation_sent", "hu": "Meghívó elküldve.", "de": "Einladung gesendet", "fr": "Invitation envoyée.", "es": "Invitación enviada"},
+    "Talk settings": {"res": "Talk:menu_settings", "hu": "Beállítások", "de": "Einstellungen", "fr": "Paramètres", "es": "Ajustes", "en": "Settings"},
+    "Talk help": {"res": "Talk:menu_help", "hu": "Súgó", "de": "Hilfe", "fr": "Aide", "es": "Ayuda", "en": "Help"},
+    "Send feedback": {"res": "Talk:menu_feedback", "hu": "Visszajelzés küldése", "de": "Feedback geben", "fr": "Envoyer des commentaires", "es": "Enviar comentarios"}
   };
   const LANGS = ['hu', 'de', 'fr', 'es'];
   // English reads the image's own text when it differs from the key (the fifth entry).
-  const T = (lang, key) => { const i = LANGS.indexOf(lang); if (lang === 'en' && STRINGS[key]?.[4]) return STRINGS[key][4]; return STRINGS[key] && i >= 0 ? STRINGS[key][i] : STRINGS[key] || lang === 'en' ? key : window.AndroidI18n?.t(key) ?? key; };
+  const STR = AndroidStrings.table('', STRINGS, AndroidStrings.shared), T = (lang, key) => STR.t(key, lang);
   const APPS = ['google-plus', 'talk', 'youtube', 'play-books', 'play-movies', 'search', 'voice-dialer'];
   // Each app's own picture for a person without a photo: Google+'s default_avatar, Talk's ic_contact_picture_holo (its
   // roster and status layouts, hdpi only in Talk.apk), YouTube's avatar_missing.

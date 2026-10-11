@@ -285,9 +285,5 @@ window.AndroidI18n?.extend({
   "Call volume": {"res":"framework:volume_icon_description_incall","hu":"Hívás hangereje","de":"Anruflautstärke","fr":"Volume d'appel","es":"Volumen de llamada"},
   "Rename device": {"res":"Settings:wifi_p2p_menu_rename","hu":"Eszköz átnevezése","de":"Gerät umbenennen","fr":"Renommer l'appareil","es":"Cambiar nombre del dispositivo"},
   "Live Wallpapers": {"res":"LiveWallpapersPicker:live_wallpaper_picker_label","hu":"Élő háttérképek","de":"Live-Hintergründe","fr":"Fonds d'écran animés","es":"Fondos animados"},
-  "Phone|Mute": {"res":"GoogleDialer:onscreenMuteText","hu":"Lezárás","de":"Ton aus","fr":"Silencieux","es":"Silenciar"},
-  "Add section": {"res":"PrebuiltNewsWeather:menu_group_add_section","hu":"Panel hozzáadása","de":"Abschnitt hinzufügen","fr":"Ajouter une section","es":"Añadir sección"},
-  "Edit weather display…": {"res":"PrebuiltNewsWeather:menu_edit_weather_location","hu":"Időjárásinformáció-módosítás…","de":"Wetteranzeige bearbeiten…","fr":"Modifier l'affichage météo…","es":"Editar pantalla de tiempo…"},
-  "Remove this section": {"res":"PrebuiltNewsWeather:menu_remove_section","hu":"A szakasz eltávolítása","de":"Diesen Abschnitt entfernen","fr":"Supprimer cette section","es":"Eliminar esta sección"},
-  "Migrate settings": {"res":"PrebuiltNewsWeather:menu_migrate_settings","hu":"Beállítások áttelepítése","de":"Einstellungen migrieren","fr":"Transférer les paramètres","es":"Migrar ajustes"}
+  "Phone|Mute": {"res":"GoogleDialer:onscreenMuteText","hu":"Lezárás","de":"Ton aus","fr":"Silencieux","es":"Silenciar"}
 }, 'image-strings');

@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // The system keyboards: KitKat's Google Keyboard 2.0 in KLP (kk-ime.js) and Lollipop's 4.0 in LXX Light (lp-ime.js).
 for(const [v,file,name,prefix] of [['4.4.4','kk-ime.js','KKIme','kime'],['5.1.1','lp-ime.js','LPIme','lime']]){

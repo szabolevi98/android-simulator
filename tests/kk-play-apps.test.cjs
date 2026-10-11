@@ -1,3 +1,4 @@
+require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Stock Nexus 5: Play Music, Play Movies & TV, Play Books and Play Games (late 2013 looks, own art and sample content).
 const w={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.4.4/play-apps.js','utf8'),w);
