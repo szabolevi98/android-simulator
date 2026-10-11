@@ -149,62 +149,62 @@
       ]
     ]
   ];
-  // English -> [hu, de, fr, es] as the image's Settings.apk (or framework-res) translates it.
+  // English -> {res, hu, de, fr, es} (strings.js) as the image's Settings.apk (or framework-res) translates it.
   const STRINGS = {
-    "USB debugging":["USB hibakeresés","USB-Debugging","Débogage USB","Depuración USB"],
-    "Debug mode when USB is connected":["Hibakeresés mód USB csatlakoztatásakor","Debugmodus bei Anschluss über USB","Mode débogage lorsqu'un câble USB est connecté","Modo de depuración cuando el dispositivo está conectado por USB"],
-    "Development device ID":["Fejlesztési eszköz azonosítója","Entwicklungsgerät-ID","ID appareil de développement","ID del dispositivo de desarrollo"],
-    "Device information not available":["Nem áll rendelkezésre eszközinformáció","Geräteinformationen nicht verfügbar","Informations sur l'appareil non disponibles.","Información de dispositivo no disponible"],
-    "Stay awake":["Nem kapcsolódik ki","Aktiv lassen","Rester activé","Pantalla activa"],
-    "Screen will never sleep while charging":["A képernyő soha nem kapcsol ki töltés során","Display wird beim Laden nie in den Ruhezustand versetzt","L'écran ne se met jamais en veille lors du chargement","La pantalla nunca entra en modo de suspensión durante la carga"],
-    "Allow mock locations":["Helyutánzatok engedélyezése","Falsche Standorte","Positions fictives","Ubicaciones simuladas"],
-    "HDCP checking":["HDCP ellenőrzés","HDCP-Prüfung","Vérification HDCP","Comprobación de HDCP"],
-    "Never check":["Ellenőrzés soha","Nie prüfen","Ne jamais vérifier","No comprobar"],
-    "Check for DRM content only":["Csak DRM-tartalom ellenőrzése","Nur auf DRM-Inhalte prüfen","Vérifier le contenu GDN uniquement","Buscar solo contenido DRM"],
-    "Always check":["Ellenőrzés mindig","Immer prüfen","Toujours vérifier","Comprobar siempre"],
-    "Never use HDCP checking":["Soha ne használjon HDCP ellenőrzést","HDCP-Prüfung nie verwenden","Ne jamais utiliser la vérification HDCP","No utilizar comprobación de HDCP"],
-    "Use HDCP checking for DRM content only":["Csak DRM-tartalomhoz használjon HDCP ellenőrzést","HDCP-Prüfung nur für DRM-Inhalte verwenden","Utiliser la vérification HDCP uniquement pour le contenu GDN","Utilizar comprobación de HDCP solo para contenido DRM"],
-    "Always use HDCP checking":["Mindig használjon HDCP ellenőrzést","HDCP-Prüfung immer verwenden","Toujours utiliser la vérification HDCP","Utilizar siempre comprobación de HDCP"],
-    "Set HDCP checking behavior":["HDCP-ellenőrzés beállítása","HDCP-Prüfverhalten festl.","Config. vérification HDCP","Definir comprobación HDCP"],
-    "Desktop backup password":["Asztali mentés jelszava","Desktop-Sicherungspasswort","M. de passe sauv. ordinateur","Contraseña copias ordenador"],
-    "Desktop full backups aren't currently protected.":["Az asztali teljes biztonsági mentések jelenleg nem védettek.","Vollständige Desktop-Sicherungen sind derzeit nicht passwortgeschützt.","Les sauvegardes complètes sur ordinateur ne sont actuellement pas protégées.","Las copias de seguridad completas de ordenador no están protegidas"],
-    "User interface":["Felhasználói felület","Benutzeroberfläche","Interface utilisateur","Interfaz de usuario"],
-    "Strict mode enabled":["Szigorú mód engedélyezve","Strikter Modus aktiviert","Mode Strict activé","Modo estricto"],
-    "Flash screen when apps do long operations on main thread":["Képernyővillogás a fő szál hosszú műveleteinél","Bei längeren Aktionen im Hauptthread Bildschirm kurz einblenden","Faire clignoter écran en cas de longues opérations","Destellar si las aplicaciones tardan mucho en el proceso principal"],
-    "Pointer location":["Mutató helye","Zeigerposition","Emplacement du curseur","Ubicación del puntero"],
-    "Screen overlay showing current touch data":["A fedvény mutatja az aktuális érintési adatokat","Overlay mit aktuellen Daten zu Tippaktionen","Superposition écran indiquant données actuelles","Superponer los datos de las pulsaciones en la pantalla"],
-    "Show touches":["Érintések megjelenítése","Berührungen anzeigen","Afficher élément sélectionné","Mostrar toques"],
-    "Show visual feedback for touches":["Érintések vizuális visszajelzésének megjelenítése","Visuelles Feedback für Berührungen anzeigen","Afficher repère visuel pour éléments sélectionnés","Mostrar la ubicación de las pulsaciones en la pantalla"],
-    "Show screen updates":["Képernyőfrissítések","Updates anzeigen","Afficher mises à jour écran","Ver cambios pantalla"],
-    "Flash areas of screen when they update":["A képernyőterületek villognak, amikor frissülnek","Bildschirmbereiche beim Update kurz einblenden","Faire clignoter les mises à jour sur l'écran","Destellar zonas de la pantalla al actualizarse"],
-    "Show CPU usage":["CPU-használat mutatása","CPU-Auslastung anzeigen","Afficher mém. CPU utilisée","Mostrar uso de CPU"],
-    "Screen overlay showing current CPU usage":["Képernyőfedvény a jelenlegi CPU-használattal","Bildschirm-Overlay mit aktueller CPU-Auslastung","Superposition écran indiquant mémoire CPU utilisée","Suporponer el uso de la CPU en la pantalla"],
-    "Force GPU rendering":["GPU-megjelenítés","GPU-Rendering erzwingen","Forcer le rendu GPU","Forzar aceleración GPU"],
-    "Use 2D hardware acceleration in applications":["2D hardvergyorsítás használata az alkalmazásokban","2D-Hardwarebeschleunigung in Apps verwenden","Utiliser accélération matérielle 2D dans applis","Usar aceleración de hardware 2D en aplicaciones"],
-    "Window animation scale":["Ablakanimáció mérete","Maßstab Fensteranimation","Échelle animation fenêtres","Escala de animación ventana"],
-    "Transition animation scale":["Áttűnési animáció mérete","Maßstab Übergangsanimation","Échelle anim. transitions","Escala de transición-animación"],
-    "Apps":["Alkalmazások","Apps","Applications","Aplicaciones"],
-    "Don't keep activities":["Törölje a tevékenységeket","Aktionen nicht speichern","Ne pas conserver activités","Destruir actividades"],
-    "Destroy every activity as soon as the user leaves it":["Tevékenységek törlése, amint elhagyják azokat","Aktivität löschen, sobald der Nutzer diese beendet","Supprimer immédiatement les activités abandonnées","Destruir actividades cuando el usuario las deje"],
-    "Background process limit":["Háttérfolyamat-korlátozás","Hintergrundprozesslimit","Limite processus arr.-plan","Límite de procesos en segundo plano"],
-    "Standard limit":["Normál korlátozás","Standardlimit","Limite standard","Límite estándar"],
-    "No background processes":["Nincsenek háttérfolyamatok","Keine Hintergrundprozesse","Aucun processus en arrière-plan","Sin procesos en segundo plano"],
-    "At most 1 process":["Legfeljebb 1 folyamat","Höchstens ein Prozess","Un processus maximum","1 proceso"],
-    "At most 2 processes":["Legfeljebb 2 folyamat","Höchstens zwei Prozesse","Deux processus maximum","2 procesos"],
-    "At most 3 processes":["Legfeljebb 3 folyamat","Höchstens drei Prozesse","Trois processus maximum","3 procesos"],
-    "At most 4 processes":["Legfeljebb 4 folyamat","Höchstens vier Prozesse","Quatre processus maximum","4 procesos"],
-    "Show all ANRs":["Összes ANR mutatása","Alle ANRS anzeigen","Afficher tous les messages \"L'application ne répond pas\"","Errores sin respuesta"],
-    "Show App Not Responding dialog for background apps":["Az Alkalmazás nem válaszol ablak megjelenítése","Dialogfeld \"App antwortet nicht\" für Hintergrund-Apps anzeigen","Afficher \"L'application ne répond plus\" pour applis en arrière-plan","Mostrar error de que la aplicación no responde para aplicaciones en segundo plano"]
+    "USB debugging": {"res": "Settings:enable_adb", "hu": "USB hibakeresés", "de": "USB-Debugging", "fr": "Débogage USB", "es": "Depuración USB"},
+    "Debug mode when USB is connected": {"res": "Settings:enable_adb_summary", "hu": "Hibakeresés mód USB csatlakoztatásakor", "de": "Debugmodus bei Anschluss über USB", "fr": "Mode débogage lorsqu'un câble USB est connecté", "es": "Modo de depuración cuando el dispositivo está conectado por USB"},
+    "Development device ID": {"res": "Settings:verifier_device_identifier", "hu": "Fejlesztési eszköz azonosítója", "de": "Entwicklungsgerät-ID", "fr": "ID appareil de développement", "es": "ID del dispositivo de desarrollo"},
+    "Device information not available": {"res": "Settings:verifier_device_identifier_not_available", "hu": "Nem áll rendelkezésre eszközinformáció", "de": "Geräteinformationen nicht verfügbar", "fr": "Informations sur l'appareil non disponibles.", "es": "Información de dispositivo no disponible"},
+    "Stay awake": {"res": "Settings:keep_screen_on", "hu": "Nem kapcsolódik ki", "de": "Aktiv lassen", "fr": "Rester activé", "es": "Pantalla activa"},
+    "Screen will never sleep while charging": {"res": "Settings:keep_screen_on_summary", "hu": "A képernyő soha nem kapcsol ki töltés során", "de": "Display wird beim Laden nie in den Ruhezustand versetzt", "fr": "L'écran ne se met jamais en veille lors du chargement", "es": "La pantalla nunca entra en modo de suspensión durante la carga"},
+    "Allow mock locations": {"res": "Settings:allow_mock_location", "hu": "Helyutánzatok engedélyezése", "de": "Falsche Standorte", "fr": "Positions fictives", "es": "Ubicaciones simuladas"},
+    "HDCP checking": {"res": "Settings:hdcp_checking_title", "hu": "HDCP ellenőrzés", "de": "HDCP-Prüfung", "fr": "Vérification HDCP", "es": "Comprobación de HDCP"},
+    "Never check": {"res": "Settings:@array/hdcp_checking_titles:0", "hu": "Ellenőrzés soha", "de": "Nie prüfen", "fr": "Ne jamais vérifier", "es": "No comprobar"},
+    "Check for DRM content only": {"res": "Settings:@array/hdcp_checking_titles:1", "hu": "Csak DRM-tartalom ellenőrzése", "de": "Nur auf DRM-Inhalte prüfen", "fr": "Vérifier le contenu GDN uniquement", "es": "Buscar solo contenido DRM"},
+    "Always check": {"res": "Settings:@array/hdcp_checking_titles:2", "hu": "Ellenőrzés mindig", "de": "Immer prüfen", "fr": "Toujours vérifier", "es": "Comprobar siempre"},
+    "Never use HDCP checking": {"res": "Settings:@array/hdcp_checking_summaries:0", "hu": "Soha ne használjon HDCP ellenőrzést", "de": "HDCP-Prüfung nie verwenden", "fr": "Ne jamais utiliser la vérification HDCP", "es": "No utilizar comprobación de HDCP"},
+    "Use HDCP checking for DRM content only": {"res": "Settings:@array/hdcp_checking_summaries:1", "hu": "Csak DRM-tartalomhoz használjon HDCP ellenőrzést", "de": "HDCP-Prüfung nur für DRM-Inhalte verwenden", "fr": "Utiliser la vérification HDCP uniquement pour le contenu GDN", "es": "Utilizar comprobación de HDCP solo para contenido DRM"},
+    "Always use HDCP checking": {"res": "Settings:@array/hdcp_checking_summaries:2", "hu": "Mindig használjon HDCP ellenőrzést", "de": "HDCP-Prüfung immer verwenden", "fr": "Toujours utiliser la vérification HDCP", "es": "Utilizar siempre comprobación de HDCP"},
+    "Set HDCP checking behavior": {"res": "Settings:hdcp_checking_dialog_title", "hu": "HDCP-ellenőrzés beállítása", "de": "HDCP-Prüfverhalten festl.", "fr": "Config. vérification HDCP", "es": "Definir comprobación HDCP"},
+    "Desktop backup password": {"res": "Settings:local_backup_password_title", "hu": "Asztali mentés jelszava", "de": "Desktop-Sicherungspasswort", "fr": "M. de passe sauv. ordinateur", "es": "Contraseña copias ordenador"},
+    "Desktop full backups aren't currently protected.": {"res": "Settings:local_backup_password_summary_none", "hu": "Az asztali teljes biztonsági mentések jelenleg nem védettek.", "de": "Vollständige Desktop-Sicherungen sind derzeit nicht passwortgeschützt.", "fr": "Les sauvegardes complètes sur ordinateur ne sont actuellement pas protégées.", "es": "Las copias de seguridad completas de ordenador no están protegidas"},
+    "User interface": {"res": "Settings:debug_ui_category", "hu": "Felhasználói felület", "de": "Benutzeroberfläche", "fr": "Interface utilisateur", "es": "Interfaz de usuario"},
+    "Strict mode enabled": {"res": "Settings:strict_mode", "hu": "Szigorú mód engedélyezve", "de": "Strikter Modus aktiviert", "fr": "Mode Strict activé", "es": "Modo estricto"},
+    "Flash screen when apps do long operations on main thread": {"res": "Settings:strict_mode_summary", "hu": "Képernyővillogás a fő szál hosszú műveleteinél", "de": "Bei längeren Aktionen im Hauptthread Bildschirm kurz einblenden", "fr": "Faire clignoter écran en cas de longues opérations", "es": "Destellar si las aplicaciones tardan mucho en el proceso principal"},
+    "Pointer location": {"res": "Settings:pointer_location", "hu": "Mutató helye", "de": "Zeigerposition", "fr": "Emplacement du curseur", "es": "Ubicación del puntero"},
+    "Screen overlay showing current touch data": {"res": "Settings:pointer_location_summary", "hu": "A fedvény mutatja az aktuális érintési adatokat", "de": "Overlay mit aktuellen Daten zu Tippaktionen", "fr": "Superposition écran indiquant données actuelles", "es": "Superponer los datos de las pulsaciones en la pantalla"},
+    "Show touches": {"res": "Settings:show_touches", "hu": "Érintések megjelenítése", "de": "Berührungen anzeigen", "fr": "Afficher élément sélectionné", "es": "Mostrar toques"},
+    "Show visual feedback for touches": {"res": "Settings:show_touches_summary", "hu": "Érintések vizuális visszajelzésének megjelenítése", "de": "Visuelles Feedback für Berührungen anzeigen", "fr": "Afficher repère visuel pour éléments sélectionnés", "es": "Mostrar la ubicación de las pulsaciones en la pantalla"},
+    "Show screen updates": {"res": "Settings:show_screen_updates", "hu": "Képernyőfrissítések", "de": "Updates anzeigen", "fr": "Afficher mises à jour écran", "es": "Ver cambios pantalla"},
+    "Flash areas of screen when they update": {"res": "Settings:show_screen_updates_summary", "hu": "A képernyőterületek villognak, amikor frissülnek", "de": "Bildschirmbereiche beim Update kurz einblenden", "fr": "Faire clignoter les mises à jour sur l'écran", "es": "Destellar zonas de la pantalla al actualizarse"},
+    "Show CPU usage": {"res": "Settings:show_cpu_usage", "hu": "CPU-használat mutatása", "de": "CPU-Auslastung anzeigen", "fr": "Afficher mém. CPU utilisée", "es": "Mostrar uso de CPU"},
+    "Screen overlay showing current CPU usage": {"res": "Settings:show_cpu_usage_summary", "hu": "Képernyőfedvény a jelenlegi CPU-használattal", "de": "Bildschirm-Overlay mit aktueller CPU-Auslastung", "fr": "Superposition écran indiquant mémoire CPU utilisée", "es": "Suporponer el uso de la CPU en la pantalla"},
+    "Force GPU rendering": {"res": "Settings:force_hw_ui", "hu": "GPU-megjelenítés", "de": "GPU-Rendering erzwingen", "fr": "Forcer le rendu GPU", "es": "Forzar aceleración GPU"},
+    "Use 2D hardware acceleration in applications": {"res": "Settings:force_hw_ui_summary", "hu": "2D hardvergyorsítás használata az alkalmazásokban", "de": "2D-Hardwarebeschleunigung in Apps verwenden", "fr": "Utiliser accélération matérielle 2D dans applis", "es": "Usar aceleración de hardware 2D en aplicaciones"},
+    "Window animation scale": {"res": "Settings:window_animation_scale_title", "hu": "Ablakanimáció mérete", "de": "Maßstab Fensteranimation", "fr": "Échelle animation fenêtres", "es": "Escala de animación ventana"},
+    "Transition animation scale": {"res": "Settings:transition_animation_scale_title", "hu": "Áttűnési animáció mérete", "de": "Maßstab Übergangsanimation", "fr": "Échelle anim. transitions", "es": "Escala de transición-animación"},
+    "Apps": {"res": "Settings:debug_applications_category", "hu": "Alkalmazások", "de": "Apps", "fr": "Applications", "es": "Aplicaciones"},
+    "Don't keep activities": {"res": "Settings:immediately_destroy_activities", "hu": "Törölje a tevékenységeket", "de": "Aktionen nicht speichern", "fr": "Ne pas conserver activités", "es": "Destruir actividades"},
+    "Destroy every activity as soon as the user leaves it": {"res": "Settings:immediately_destroy_activities_summary", "hu": "Tevékenységek törlése, amint elhagyják azokat", "de": "Aktivität löschen, sobald der Nutzer diese beendet", "fr": "Supprimer immédiatement les activités abandonnées", "es": "Destruir actividades cuando el usuario las deje"},
+    "Background process limit": {"res": "Settings:app_process_limit_title", "hu": "Háttérfolyamat-korlátozás", "de": "Hintergrundprozesslimit", "fr": "Limite processus arr.-plan", "es": "Límite de procesos en segundo plano"},
+    "Standard limit": {"res": "Settings:@array/app_process_limit_entries:0", "hu": "Normál korlátozás", "de": "Standardlimit", "fr": "Limite standard", "es": "Límite estándar"},
+    "No background processes": {"res": "Settings:@array/app_process_limit_entries:1", "hu": "Nincsenek háttérfolyamatok", "de": "Keine Hintergrundprozesse", "fr": "Aucun processus en arrière-plan", "es": "Sin procesos en segundo plano"},
+    "At most 1 process": {"res": "Settings:@array/app_process_limit_entries:2", "hu": "Legfeljebb 1 folyamat", "de": "Höchstens ein Prozess", "fr": "Un processus maximum", "es": "1 proceso"},
+    "At most 2 processes": {"res": "Settings:@array/app_process_limit_entries:3", "hu": "Legfeljebb 2 folyamat", "de": "Höchstens zwei Prozesse", "fr": "Deux processus maximum", "es": "2 procesos"},
+    "At most 3 processes": {"res": "Settings:@array/app_process_limit_entries:4", "hu": "Legfeljebb 3 folyamat", "de": "Höchstens drei Prozesse", "fr": "Trois processus maximum", "es": "3 procesos"},
+    "At most 4 processes": {"res": "Settings:@array/app_process_limit_entries:5", "hu": "Legfeljebb 4 folyamat", "de": "Höchstens vier Prozesse", "fr": "Quatre processus maximum", "es": "4 procesos"},
+    "Show all ANRs": {"res": "Settings:show_all_anrs", "hu": "Összes ANR mutatása", "de": "Alle ANRS anzeigen", "fr": "Afficher tous les messages \"L'application ne répond pas\"", "es": "Errores sin respuesta"},
+    "Show App Not Responding dialog for background apps": {"res": "Settings:show_all_anrs_summary", "hu": "Az Alkalmazás nem válaszol ablak megjelenítése", "de": "Dialogfeld \"App antwortet nicht\" für Hintergrund-Apps anzeigen", "fr": "Afficher \"L'application ne répond plus\" pour applis en arrière-plan", "es": "Mostrar error de que la aplicación no responde para aplicaciones en segundo plano"}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
+  // The image's text where it has one, else the caller's t (the shared rows).
+  const STR = AndroidStrings.table('', STRINGS), reader = (lang, t) => text => STR.has(text) ? STR.t(text, lang) : t(text);
   const DEFAULTS = {developerEnabled: true, verifyUsb: true, animatorScale: 1};
   const keys = () => SECTIONS.flatMap(([, rows]) => rows.map(row => row[3]).filter(Boolean));
   // PreferenceCategory titles: Holo's list separators are all caps, Material's preference_category_material is not.
   const CATEGORY_CAPS = true;
 
   function render(settings, t, scaleLabel, lang = 'en') {
-    const on = settings.developerEnabled !== false, i = LANGS.indexOf(lang);
-    const T = text => STRINGS[text] && i >= 0 ? STRINGS[text][i] : STRINGS[text] ? text : t(text);
+    const on = settings.developerEnabled !== false, T = reader(lang, t);
     return SECTIONS.map(([category, rows]) => `${category ? `<div class="section-label">${e(CATEGORY_CAPS ? T(category).toLocaleUpperCase() : T(category))}</div>` : ''}${rows.map(([kind, title, summary, key, dependent]) => {
       const disabled = !on || (dependent && !settings.usbDebug) || (key === 'waitDebugger');
       const attrs = disabled ? 'disabled aria-disabled="true"' : '';
@@ -221,7 +221,7 @@
   function dialog(key, settings, t, lang = 'en') {
     const row = SECTIONS.flatMap(([, rows]) => rows).find(item => item[0] === 'choice' && item[3] === key);
     if (!row) return '';
-    const i = LANGS.indexOf(lang), T = text => STRINGS[text] && i >= 0 ? STRINGS[text][i] : STRINGS[text] ? text : t(text);
+    const T = reader(lang, t);
     const [, , , , , entries, , fallback, title] = row, current = settings[key] ?? fallback;
     return `<div class="settings-dialog-scrim" data-action="close-overlay"></div><div class="settings-dialog" role="dialog" aria-label="${e(T(title))}"><h3>${e(T(title))}</h3>${entries.map((entry, n) => `<button class="settings-row wireless-row" data-action="dev-list-pick" data-id="${key}:${n}" role="radio" aria-checked="${n === current}"><span class="row-copy">${e(T(entry))}</span>${CATEGORY_CAPS ? `<img class="holo-radio" src="assets/btn_radio_${n === current ? 'on' : 'off'}_holo_dark.png" alt="">` : `<span class="lp-radio${n === current ? ' on' : ''}" aria-hidden="true"></span>`}</button>`).join('')}<div class="settings-dialog-actions"><button data-action="close-overlay">${e(t('Cancel'))}</button></div></div>`;
   }

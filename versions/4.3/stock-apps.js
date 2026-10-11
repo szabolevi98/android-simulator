@@ -52,17 +52,17 @@
      (preference_header_switch_item.xml: 48 dp minimum, 6 dp margins, the switch 8 dp padded), then Notifications and
      My stuff (only while Google Now is on), Voice, Phone search and Privacy & accounts. The texts are the image's. */
   const VS = {
-    "Settings": ["Beállítások", "Einstellungen", "Paramètres", "Ajustes"],
-    "Google Now": ["Google Asszisztens", "Google Now", "Google Now", "Google Now"],
-    "Notifications": ["Értesítések", "Benachrichtigungen", "Notifications", "Notificaciones"],
-    "My stuff": ["Saját dolgaim", "Meine Inhalte", "Mes infos", "Mis cosas"],
-    "My sports teams, stocks, places, reminders": ["Sportcsapatok, részvények, helyek, emlékeztetők", "Meine Mannschaften, Aktienkurse, Orte, Erinnerungen", "Mes équipes sportives, mes actions, mes adresses, mes rappels", "Mis equipos deportivos, acciones, sitios, recordatorios"],
-    "Voice": ["Hang", "Sprache", "Voix", "Voz"],
-    "Phone search": ["Keresés a telefonon", "Suche im Telefon", "Recherche sur le téléphone", "Búsqueda en teléfono"],
-    "Privacy & accounts": ["Adatvédelem és fiókok", "Datenschutz & Konten", "Confidentialité et comptes", "Privacidad y cuentas"]
+    'Settings': {res: 'Velvet:menu_settings', hu: 'Beállítások', de: 'Einstellungen', fr: 'Paramètres', es: 'Ajustes'},
+    'Google Now': {res: 'Velvet:widget_name', hu: 'Google Asszisztens', de: 'Google Now', fr: 'Google Now', es: 'Google Now'},
+    'Notifications': {res: 'Velvet:notification_preferences', hu: 'Értesítések', de: 'Benachrichtigungen', fr: 'Notifications', es: 'Notificaciones'},
+    'My stuff': {res: 'Velvet:my_stuff_preferences_category', hu: 'Saját dolgaim', de: 'Meine Inhalte', fr: 'Mes infos', es: 'Mis cosas'},
+    'My sports teams, stocks, places, reminders': {res: 'Velvet:my_stuff_preferences_summary', hu: 'Sportcsapatok, részvények, helyek, emlékeztetők', de: 'Meine Mannschaften, Aktienkurse, Orte, Erinnerungen', fr: 'Mes équipes sportives, mes actions, mes adresses, mes rappels', es: 'Mis equipos deportivos, acciones, sitios, recordatorios'},
+    'Voice': {res: 'Velvet:voice_settings', hu: 'Hang', de: 'Sprache', fr: 'Voix', es: 'Voz'},
+    'Phone search': {res: 'Velvet:search_sources', hu: 'Keresés a telefonon', de: 'Suche im Telefon', fr: 'Recherche sur le téléphone', es: 'Búsqueda en teléfono'},
+    'Privacy & accounts': {res: 'Velvet:account_settings', hu: 'Adatvédelem és fiókok', de: 'Datenschutz & Konten', fr: 'Confidentialité et comptes', es: 'Privacidad y cuentas'}
   };
   function searchSettings(ctx) {
-    const i = ['hu', 'de', 'fr', 'es'].indexOf(String(ctx.locale || 'en').slice(0, 2)), V = key => i >= 0 && VS[key] ? VS[key][i] : key;
+    const V = key => AndroidStrings.table('', VS).t(key, String(ctx.locale || 'en'));
     const on = ctx.data.googleNowOn !== false;
     const header = (title, summary = '') => `<button class="sa-row vs-header" data-action="sa-unsupported"><span><b>${e(V(title))}</b>${summary ? `<small>${e(V(summary))}</small>` : ''}</span></button>`;
     const now = `<div class="sa-row vs-header vs-now"><button data-action="sa-unsupported"><span><b>${e(V('Google Now'))}</b></span></button><button class="gms-switch${on ? ' on' : ''}" data-action="google-now-toggle" role="switch" aria-checked="${on}" aria-label="${e(V('Google Now'))}"><i>${e(S(ctx, 'gsettings', on ? 'ON' : 'OFF'))}</i></button></div>`;

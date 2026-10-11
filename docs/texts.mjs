@@ -42,6 +42,7 @@ const JOBS = [
   apk('shamu', 'GoogleContacts', 'docs/people-strings.template.js', 'versions/5.1.1/people-strings.js'),
   apk('shamu', 'Settings', 'docs/settings-system.template.js', 'versions/5.1.1/settings-system.js'),
   // Generators with their own templates or tables.
+  {cmd: ['python', 'docs/devopts.py', 'maguro'], out: ['versions/4.0.4/ics-devopts.js']},
   {cmd: ['python', 'docs/devopts.py', 'mako'], out: ['versions/4.3/jb-devopts.js']},
   {cmd: ['python', 'docs/devopts.py', 'hammerhead'], out: ['versions/4.4.4/kk-devopts.js']},
   {cmd: ['python', 'docs/devopts.py', 'shamu'], out: ['versions/5.1.1/lp-devopts.js']},

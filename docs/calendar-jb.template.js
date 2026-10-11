@@ -114,8 +114,8 @@
   const modes=['Day','Week','Month','Agenda'];
   const icon=name=>`<img src="assets/calendar-${name}_holo_light.png" alt="">`;
   // CalendarGoogle's edit_event_from_label / edit_event_to_label, as the image translates them.
-  const CAL={From:['Kezdete:','Von','Du','Desde'],To:['Vége:','Bis','Au','Hasta']};
-  const ct=(locale,key,t)=>{const i=['hu','de','fr','es'].indexOf(String(locale).slice(0,2));return i>=0&&CAL[key]?CAL[key][i]:CAL[key]?key:t(key);};
+  const CAL={From:{res:'CalendarGoogle:edit_event_from_label',hu:'Kezdete:',de:'Von',fr:'Du',es:'Desde'},To:{res:'CalendarGoogle:edit_event_to_label',hu:'Vége:',de:'Bis',fr:'Au',es:'Hasta'}};
+  const ct=(locale,key,t)=>CAL[key]?AndroidStrings.pick(CAL[key],String(locale),key):t(key);
   // EditEventView: the date as FORMAT_SHOW_DATE | SHOW_WEEKDAY | SHOW_YEAR | ABBREV_MONTH | ABBREV_WEEKDAY, the time with the clock setting.
   const dateButton=(date,locale)=>parse(date).toLocaleDateString(locale,{weekday:'short',month:'short',day:'numeric',year:'numeric'});
   const timeButton=(time,locale,hour24)=>{const [h,m]=String(time||'00:00').split(':').map(Number);return new Date(2012,0,1,h||0,m||0).toLocaleTimeString(locale,{hour:'numeric',minute:'2-digit',hour12:!hour24});};

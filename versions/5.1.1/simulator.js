@@ -1284,9 +1284,9 @@
     if (s === 'sync') return appView('Accounts', `${row('Google', '', 'settings-sub', 'sync-google', '<img class="lp-account-icon" src="assets/lp-gls-ic_google_selected.png" alt="">')}${row('Add account', '', 'toast', 'This feature is not part of the simulator.', '<img class="lp-account-icon" src="assets/lp-set-ic_menu_add_dark.png" alt="">')}`, '', overflowButton('accounts'));
     if (s === 'sync-google') return appView('Google', `${label('Accounts')}${row(GOOGLE_ACCOUNT, i18n.t(autoSync ? 'Sync is ON' : 'Sync is OFF'), 'settings-sub', 'sync-account', `<img class="lp-account-icon" src="assets/lp-set-ic_sync_${autoSync ? 'green' : 'grey'}_holo.png" alt="">`)}`);
     if (s === 'sync-account') {
-      const lang = ['en', 'hu', 'de', 'fr', 'es'].indexOf(i18n.language), when = new Date(SESSION_START).toLocaleString(i18n.locale(), {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'});
+      const when = new Date(SESSION_START).toLocaleString(i18n.locale(), {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit'});
       const off = data.settings.syncOff || {};
-      const rows = (window.LPSyncAdapters || []).map(names => ({key: names[0], name: names[Math.max(0, lang)] || names[0]})).sort((a, b) => a.name.localeCompare(b.name, i18n.locale())).map(({key, name}) => {
+      const rows = (window.LPSyncAdapters || []).map(row => ({key: row.en, name: AndroidStrings.pick(row, i18n.language, row.en)})).sort((a, b) => a.name.localeCompare(b.name, i18n.locale())).map(({key, name}) => {
         const on = autoSync && !off[key];
         return `<button class="settings-row lp-sync-row" data-action="lp-sync-toggle" data-id="${safe(key)}" role="switch" aria-checked="${on}"><span class="row-copy" data-no-translate>${safe(name)}<small>${safe(i18n.t('Last synced %1$s').replace('%1$s', when))}</small></span><span class="lp-mswitch${on ? ' on' : ''}"></span></button>`;
       }).join('');

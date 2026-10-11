@@ -10,17 +10,16 @@
   const APPS = ['newsstand', 'quickoffice', 'wallet'];
   // Screen texts from the APKs (Play Books uses "Read Now" with another translation, so these stay local).
   const STRINGS = {
-    'Read Now': ['Olvasson most', 'Jetzt lesen', 'À lire', 'Leer ahora'],
-    'Open or create new files': ['Fájlok megnyitása vagy új fájlok létrehozása', 'Öffnen oder neue Dateien erstellen', 'Ouvrir ou créer des fichiers', 'Abrir o crear archivos nuevos'],
-    'Drive': ['Drive', 'Google Drive', 'Drive', 'Drive'],
-    'Device': ['Készülék', 'Gerät', 'Appareil', 'Dispositivo'],
-    'Create new file': ['Új fájl létrehozása', 'Neue Datei erstellen', 'Créer un fichier', 'Crear archivo nuevo'],
-    'Recent files': ['Legújabb fájlok', 'Zuletzt verwendete Dateien', 'Fichiers récents', 'Archivos recientes']
+    'Read Now': {res: 'Magazines:read_now_title', hu: 'Olvasson most', de: 'Jetzt lesen', fr: 'À lire', es: 'Leer ahora'},
+    'Open or create new files': {res: 'QuickOffice:open_or_create_new_file_label', hu: 'Fájlok megnyitása vagy új fájlok létrehozása', de: 'Öffnen oder neue Dateien erstellen', fr: 'Ouvrir ou créer des fichiers', es: 'Abrir o crear archivos nuevos'},
+    'Drive': {res: 'QuickOffice:open_from_drive_button', hu: 'Drive', de: 'Google Drive', fr: 'Drive', es: 'Drive'},
+    'Device': {res: 'QuickOffice:open_from_device_button', hu: 'Készülék', de: 'Gerät', fr: 'Appareil', es: 'Dispositivo'},
+    'Create new file': {res: 'QuickOffice:create_new_file_label', hu: 'Új fájl létrehozása', de: 'Neue Datei erstellen', fr: 'Créer un fichier', es: 'Crear archivo nuevo'},
+    'Recent files': {res: 'QuickOffice:recent_files_label', hu: 'Legújabb fájlok', de: 'Zuletzt verwendete Dateien', fr: 'Fichiers récents', es: 'Archivos recientes'}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
   // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
   const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key]; return row ? AndroidStrings.pick(row, window.AndroidI18n?.language, key) : t(key); };
-  const local = (key, t) => { const i = LANGS.indexOf(window.AndroidI18n?.language); return STRINGS[key] && i >= 0 ? STRINGS[key][i] : t(key); };
+  const STR = AndroidStrings.table('', STRINGS), local = (key, t) => STR.has(key) ? STR.t(key) : t(key);
   const svg = {
     drawer: '<svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z" fill="currentColor"/></svg>',
     search: '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/></svg>',

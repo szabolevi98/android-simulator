@@ -12,12 +12,11 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const STRINGS = {
-    'Set': ['Beállítás', 'Speichern', 'Définir', 'Establecer'],
-    'Cancel': ['Mégse', 'Abbruch', 'Annuler', 'Cancelar'],
-    'Set time': ['Idő beállítása', 'Uhrzeit festlegen', "Définir l'heure", 'Establecer hora']
+    'Set': {res: 'framework:date_time_set', hu: 'Beállítás', de: 'Speichern', fr: 'Définir', es: 'Establecer'},
+    'Cancel': {res: 'framework:cancel', hu: 'Mégse', de: 'Abbruch', fr: 'Annuler', es: 'Cancelar'},
+    'Set time': {res: 'framework:time_picker_dialog_title', hu: 'Idő beállítása', de: 'Uhrzeit festlegen', fr: 'Définir l\'heure', es: 'Establecer hora'}
   };
-  const LANGS = ['hu', 'de', 'fr', 'es'];
-  const T = (locale, key) => { const i = LANGS.indexOf(String(locale).slice(0, 2)); return i >= 0 && STRINGS[key] ? STRINGS[key][i] : key; };
+  const STR = AndroidStrings.table('', STRINGS), T = (locale, key) => STR.t(key, locale);
   const two = n => String(n).padStart(2, '0');
   const daysIn = (y, m) => new Date(y, m + 1, 0).getDate();
   // DateFormat.getDateFormatOrder: the order of M, d and y in the locale's short date pattern.
