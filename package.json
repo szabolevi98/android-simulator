@@ -5,13 +5,13 @@
   "scripts": {
     "test": "node --test tests/*.cjs",
     "test:browser": "node tests/browser/flows.mjs",
-    "check:texts": "node docs/text-check.mjs",
-    "check:assets": "node docs/asset-check.mjs",
-    "check:fonts": "node docs/font-check.mjs",
-    "regenerate:texts": "node docs/texts.mjs --check",
-    "regenerate:assets": "python docs/asset-inventory.py --check",
-    "check:unused-assets": "node docs/asset-unused.mjs",
-    "check:unused-css": "node docs/css-unused.mjs",
-    "check:unreachable": "node docs/action-unused.mjs"
+    "check:texts": "node docs/tools/text-check.mjs",
+    "check:assets": "node docs/tools/asset-check.mjs",
+    "check:fonts": "node docs/tools/font-check.mjs",
+    "regenerate:texts": "node docs/tools/texts.mjs --check",
+    "regenerate:assets": "python docs/tools/asset-inventory.py --check",
+    "check:unused-assets": "node docs/tools/asset-unused.mjs",
+    "check:unused-css": "node docs/tools/css-unused.mjs",
+    "check:unreachable": "node docs/tools/action-unused.mjs"
   }
 }

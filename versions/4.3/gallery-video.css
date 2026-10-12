@@ -1,4 +1,4 @@
-/* Videos in the Android 4.3 Gallery (gallery-video.js), written by docs/gallery2-video.py; dp x 0.9. */
+/* Videos in the Android 4.3 Gallery (gallery-video.js), written by docs/tools/gallery2-video.py; dp x 0.9. */
 .g2v-strip{position:absolute;left:0;top:0;bottom:0;aspect-ratio:40/312;background:url('assets/gallery-ic_video_thumb.png') 0 0/100% 100% no-repeat;pointer-events:none}
 .jbgal-slot>.g2v-slot-play{position:absolute;left:50%;top:50%;width:auto;height:16.67%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
 .jbgal-picture>.g2v-photo-play{position:absolute;left:50%;top:50%;width:87px;height:87px;transform:translate(-50%,-50%);pointer-events:none}

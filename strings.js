@@ -33,7 +33,7 @@
       })
       .replace(/\^(\d)/g, (all, n) => args[n - 1] ?? all);
   }
-  // Keys a table was asked for in another language than English but does not have (docs/text-check.mjs reads them).
+  // Keys a table was asked for in another language than English but does not have (docs/tools/text-check.mjs reads them).
   const misses = new Map();
   const miss = (key, lang) => { if (lang !== 'en' && /[A-Za-z]{2}/.test(key)) misses.set(key, (misses.get(key) || 0) + 1); };
   function value(entry, key, lang, missing) {
@@ -66,7 +66,7 @@
   const pick = (entry, lang, key) => value(entry, key, lang ?? 'en');
   // The CLDR plural category of n in a language ('one', 'other', …), as Android's getQuantityString picks it.
   const quantity = (n, lang) => new Intl.PluralRules(LOCALES[code(lang)]).select(Number(n));
-  // Tables keyed by resource name, as docs/gb-strings.py writes them: {strings: {name: {en, hu, …}}, arrays: {name: {en:
+  // Tables keyed by resource name, as docs/tools/gb-strings.py writes them: {strings: {name: {en, hu, …}}, arrays: {name: {en:
   // [...], hu: [...]}}, plurals: {name: {en: {one, other}, …}}}. get() is read on every call, so the order the scripts
   // load in does not matter.
   function resources(get) {

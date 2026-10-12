@@ -1,5 +1,5 @@
-/* Google Maps 7.5.0 (hammerhead KTU84P) directions and navigation, written by docs/maps7-route.py from
-   docs/maps7-route.template.js. The Directions button of the omnibox opens directions_phonestart_page.xml:
+/* Google Maps 7.5.0 (hammerhead KTU84P) directions and navigation, written by docs/tools/maps7-route.py from
+   docs/templates/maps7-route.template.js. The Directions button of the omnibox opens directions_phonestart_page.xml:
    - the floating bar with Back and the travel modes (ic_directions_car / _transit / _bicycling / _walking, _active when chosen), the white DirectionsPanel with
      directions_input_panel.xml (ic_directions_form_dots and the start / end icons in the 54 dp column, the two 17 sp
      waypoint boxes in the 108 dp block, ic_directions_form_swap) and the 48 dp options row (ic_setting, Route options);

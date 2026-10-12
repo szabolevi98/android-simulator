@@ -1,4 +1,4 @@
-/* Videos in Photos (Google+ 4.9.0 of the Nexus 6 LMY48Y image), written by docs/gplus-video.py. MediaView draws
+/* Videos in Photos (Google+ 4.9.0 of the Nexus 6 LMY48Y image), written by docs/tools/gplus-video.py. MediaView draws
    quantum_ic_play_circle_fill_white_36 (36 dp) in the middle of a video's tile, PhotoView ov_play_video_48 in the one-up view; touching
    that starts VideoViewActivity (VideoViewTheme on Theme.AppCompat.Light): video_view_fragment.xml's VideoView with the framework MediaController
    (media_controller.xml: #CC000000, MediaButton.Rew / Play / Ffwd at 71 x 52 dp below 4 dp, the 14 sp bold #BEBEBE

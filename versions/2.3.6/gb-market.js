@@ -1,5 +1,5 @@
 /* Android Market 2.3.4 (com.android.vending), the Vending.apk of the Nexus S's GRK39F image, rebuilt from that APK: texts
-   in five languages from its resources (docs/apk-strings.py), drawables from its hdpi set (assets/gbm234-*), colours and
+   in five languages from its resources (docs/tools/apk-strings.py), drawables from its hdpi set (assets/gbm234-*), colours and
    sizes from its values and layouts, the menu from res/menu/base.xml and the details sections from the code
    (Vending.odex: AssetInfoActivity.setupContentArea).
    - TallTitleBarTheme is Theme.Light.NoTitleBar: white lists under the "velvet" headers. The green arcs are drawn by

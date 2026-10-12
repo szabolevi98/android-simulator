@@ -6,7 +6,7 @@ const P=context.window.JBPlay;
 const ctx=(o={})=>({lang:'en',locale:'en-US',page:'home',installed:[],everInstalled:[],downloading:'',phase:'',progress:0,plussed:[],autoUpdate:[],wishlist:[],rated:{},prefs:{notify:true,shortcuts:true,password:false,autoMode:'wifi'},history:[],...o});
 // Play Store 4.2.3 is the JWR66Y image's Phonesky.apk; no navigation drawer before 4.4.
 assert.equal(P.VERSION,'4.2.3');
-// Texts come from the APK in the five languages (docs/jb-play.template.js through docs/apk-strings.py).
+// Texts come from the APK in the five languages (docs/templates/jb-play.template.js through docs/tools/apk-strings.py).
 assert.equal(P.text('hu','My apps'),'Alkalmazásaim');assert.equal(P.text('de','Auto-add shortcuts'),'Verknüpfungen automatisch hinzufügen');
 assert.equal(P.text('en','Installed '),'Installed');
 // Home: the six corpus links, clusters with the "%d MORE" / "SEE MORE" box (CardListAdapter), the promo banner.

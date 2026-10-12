@@ -492,7 +492,7 @@ The 4.3 version moved from the Galaxy Nexus to the **Nexus 4** (LG E960, `mako`)
 
 ## Device frames redrawn — 2026-10-02
 
-Both handsets are now SVG drawings (`versions/4.0.4/assets/device-galaxy-nexus.svg`, `versions/4.3/assets/device-nexus-4.svg`) instead of CSS shapes. Their outlines were traced from front renders on Wikimedia Commons ([Samsung Galaxy Nexus render](https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_Nexus_Render.png), [Nexus 4](https://commons.wikimedia.org/wiki/File:Nexus_4.png)). Only the outline is traced: the alpha mask, with the side keys cut off, smoothed into a path. The rim, glass, glare, grille, sensors, camera and keys are drawn by `docs/device-frames.py`, and no photo is used.
+Both handsets are now SVG drawings (`versions/4.0.4/assets/device-galaxy-nexus.svg`, `versions/4.3/assets/device-nexus-4.svg`) instead of CSS shapes. Their outlines were traced from front renders on Wikimedia Commons ([Samsung Galaxy Nexus render](https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_Nexus_Render.png), [Nexus 4](https://commons.wikimedia.org/wiki/File:Nexus_4.png)). Only the outline is traced: the alpha mask, with the side keys cut off, smoothed into a path. The rim, glass, glare, grille, sensors, camera and keys are drawn by `docs/tools/device-frames.py`, and no photo is used.
 - **Galaxy Nexus.** The Contour Display silhouette, with arched top and bottom edges and the curved chin, under a metallic rim. The grille sits at the top centre, with the two sensors and the camera to its right. Power is on the right and the volume rocker on the left, at their measured heights. The display window is 306 × 545, the 720 × 1280 panel at 0.425.
 - **Nexus 4.** Rounded corners and gently arched edges under a dark grey rim. The earpiece sits in its recess below the rim at the top centre, with the two sensors on the left and the camera on the right. The display window is 327 × 545, the 768 × 1280 panel at 0.426. The notification LED is still hidden below the display.
 - **Landing cards.** The miniatures use the same drawings.
@@ -538,9 +538,9 @@ The browser demo pages are now dated to 2013 ("2013 Web", a Nexus 4 / Jelly Bean
 
 ## Interface strings from the factory image — 2026-10-04
 
-The shared `i18n.js` rows are hand-written and address the user informally in Hungarian ("Rajzold le…"). The Nexus 4 JWR66Y image addresses the user formally ("Rajzolja le a mintát a feloldáshoz"), and it often words the German, French and Spanish texts differently too. `docs/image-strings.mjs 4.3` writes `versions/4.3/image-strings.js` (372 rows), which overrides the shared rows with the image's own text. The text comes from the image's `strings-index.json`, built by `docs/image-index.py`.
+The shared `i18n.js` rows are hand-written and address the user informally in Hungarian ("Rajzold le…"). The Nexus 4 JWR66Y image addresses the user formally ("Rajzolja le a mintát a feloldáshoz"), and it often words the German, French and Spanish texts differently too. `docs/tools/image-strings.mjs 4.3` writes `versions/4.3/image-strings.js` (372 rows), which overrides the shared rows with the image's own text. The text comes from the image's `strings-index.json`, built by `docs/tools/image-index.py`.
 
-A row is only taken from the APKs whose screens quote it. The calendar view, for example, only reads CalendarGoogle and the framework. When those APKs translate the text in more than one way, the row stays as it was unless `PIN` names the resource. `docs/image-strings-4.3.tsv` lists every change and every skip. Settings header rows are upper-cased, like the list separators (`textAllCaps`). The in-call Mute button reads Phone's `onscreenMuteText` ("Lezárás" in Hungarian, as in the image) through a context row: `i18n.t(text, 'Phone')`. Settings' silent-mode choice keeps the shared "Némítás".
+A row is only taken from the APKs whose screens quote it. The calendar view, for example, only reads CalendarGoogle and the framework. When those APKs translate the text in more than one way, the row stays as it was unless `PIN` names the resource. `docs/reports/image-strings-4.3.tsv` lists every change and every skip. Settings header rows are upper-cased, like the list separators (`textAllCaps`). The in-call Mute button reads Phone's `onscreenMuteText` ("Lezárás" in Hungarian, as in the image) through a context row: `i18n.t(text, 'Phone')`. Settings' silent-mode choice keeps the shared "Némítás".
 
 ## First-boot defaults from the image — 2026-10-04
 
@@ -553,7 +553,7 @@ The Nexus 4 image's SettingsProvider (`defaults.xml` as compiled) was read, toge
 
 ## Calendar date and time pickers (audit step 2) — 2026-10-05
 
-The Calendar editor had browser date and time fields, and on 4.3 and 4.4 a Previous / Next bar of its own. CalendarGoogle in JWR66Y and KTU84P, and Google Calendar 5.0 in LMY48Y, use AOSP's `frameworks/opt/datetimepicker` (their APKs carry `date_picker_dialog.xml` and `time_picker_dialog.xml`). `dtp.js` / `dtp.css` rebuild it from each APK's resources, generated by `docs/datetimepicker.py` from `docs/datetimepicker.template.js`:
+The Calendar editor had browser date and time fields, and on 4.3 and 4.4 a Previous / Next bar of its own. CalendarGoogle in JWR66Y and KTU84P, and Google Calendar 5.0 in LMY48Y, use AOSP's `frameworks/opt/datetimepicker` (their APKs carry `date_picker_dialog.xml` and `time_picker_dialog.xml`). `dtp.js` / `dtp.css` rebuild it from each APK's resources, generated by `docs/tools/datetimepicker.py` from `docs/templates/datetimepicker.template.js`:
 - **Date:**
   - the #999999 day-of-week header over month / day / year, with the active part in #33b5e5 and the rest in #999999;
   - the 270 dp month grid: #999999 days, today in blue, the selected day on a blue circle at alpha 60; it turns with the wheel or a drag;
@@ -571,7 +571,7 @@ The editor's From / To rows (`edit_event_1.xml`) are Holo spinner buttons ("Mon,
 
 ## People editor (audit step 3) — 2026-10-05
 
-The contact editor was a fixed form (name / phone / email / company / notes). It is now the image's ContactEditorFragment for the phone-only account (`contact-editor.js`, generated by `docs/holo-contact-editor.py` from `docs/holo-contact-editor.template.js` with that image's Contacts and framework texts):
+The contact editor was a fixed form (name / phone / email / company / notes). It is now the image's ContactEditorFragment for the phone-only account (`contact-editor.js`, generated by `docs/tools/holo-contact-editor.py` from `docs/templates/holo-contact-editor.template.js` with that image's Contacts and framework texts):
 - **Header:** "Phone-only, unsynced contact" on #eeeeee.
 - **Name:** given / family name, with the expander for prefix, middle name and suffix.
 - **Photo:** the 48 dp photo with Take photo (a new picture in the Gallery), Choose photo from Gallery and Remove photo.
@@ -593,11 +593,11 @@ AOSP Music (kept beside Play Music) had controls of the simulator's own: a "Demo
 - **Use as phone ringtone:** sets the ringtone and toasts the app's `"%s" set as phone ringtone.`
 - **Delete:** asks with `delete_song_desc` and removes the song from the lists.
 
-The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/aosp-music-strings.py`). The demo songs stay silent, without a note on the phone.
+The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/tools/aosp-music-strings.py`). The demo songs stay silent, without a note on the phone.
 
 ## Google apps checked against the JWR66Y APKs (audit step 4) — 2026-10-05
 
-`stock-strings.js` (`docs/stock-strings.py` from `docs/stock-strings.json`) carries each app's own texts as the image translates them, and the bars show the framework's up caret only when there is a way up.
+`stock-strings.js` (`docs/tools/stock-strings.py` from `docs/data/stock-strings.json`) carries each app's own texts as the image translates them, and the bars show the framework's up caret only when there is a way up.
 - **Keep 1.0.81:**
   - `browse_fragment_menu.xml` has no action icons. The overflow holds Single-column / Multi-column view, Refresh, Archived notes, Settings, Send feedback and Help.
   - `quick_edit.xml` spans the width: "Add quick note", a divider, and `add_items_bar.xml` with New note, New list, New recording and New photo.
@@ -638,7 +638,7 @@ The texts come from AOSP Music at the version's tag (`music-strings.js`, `docs/a
   - The app's own 48 dp bar (`common_settings_bg`, the icon, "Google Settings" in 18 sp) over a list with 16 dp margins.
   - The rows come from `GoogleSettingsActivity.e()` in the APK's dex, in its unsorted order: Apps with Google+ Sign-In, Google+, Location, Search, Ads, Verify apps. Play Games only shows with the Games app, which the image lacks.
   - The rows are `simple_list_item_1` at 18 sp. The list had KitKat-era rows (Android Device Manager, Search & Now) under a SERVICES header.
-  - `docs/stock-strings.py` now reads APKs the string index skips (PrebuiltGmsCore) through aapt2.
+  - `docs/tools/stock-strings.py` now reads APKs the string index skips (PrebuiltGmsCore) through aapt2.
 - **Broken lengths:** 44 declarations in 4.3's chrome, hangouts, extra apps, email, Play apps and stock apps CSS read `.851.6px`, plus `.8.46px` and `.2.82px` left over from rescaling KitKat's values. The browser dropped them, so borders, shadows and paddings were missing. They are now `.85px` (1 dp), `.85px` and `.28px`, and `tests/css-numbers.test.cjs` guards all versions.
 - **Play Books 2.8.91 (Books.apk):**
   - The app had Play Books 3's look (Android Police, October 2013): a drawn glyph, "Read Now" with a SEE ALL chip and bare covers. 2.8 is what the image ships.

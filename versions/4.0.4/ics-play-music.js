@@ -5,7 +5,7 @@
    count), song rows with 64 dp album art and the blue playing indicator (played_text #33b5e5), the now-playing bar, and
    the player (nowplaying: big art, the track in white, album and artist at 75 %, the timecodes in #dddddd). It plays the
    simulator's demo library through the shared music engine (music.js), so AOSP Music and Play Music share the queue.
-   Texts are Music2.apk's (docs/apk-strings.py); covers are drawn. */
+   Texts are Music2.apk's (docs/tools/apk-strings.py); covers are drawn. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

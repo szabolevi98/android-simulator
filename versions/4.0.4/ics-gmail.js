@@ -11,7 +11,7 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const account = 'icecream.demo@gmail.com';
-  // [hu, de, fr, es] from the image's Gmail.apk (docs/ics-gmail-strings.py fills them in from this template, docs/ics-gmail.template.js).
+  // [hu, de, fr, es] from the image's Gmail.apk (docs/tools/ics-gmail-strings.py fills them in from this template, docs/templates/ics-gmail.template.js).
   const STRINGS = {
     "Compose": {"res": "Gmail:compose", "hu": "Levélírás", "de": "E-Mail schreiben", "fr": "Nouveau message", "es": "Redactar"},
     "Search": {"res": "Gmail:search", "hu": "Keresés", "de": "Suchen", "fr": "Rechercher", "es": "Buscar"},

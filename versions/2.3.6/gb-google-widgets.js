@@ -12,7 +12,7 @@
      date (17 sp day, 30 sp date), "when" in 14 sp #666666, the 14 sp title, the 11 sp place, "1 more event", or
      "No upcoming calendar events".
    - Rate Places (Maps.apk HotpotWidgetProvider, 4 x 1; hotpot_widget*.xml): see ratePlaces below.
-   Texts are the APKs' (docs/apk-strings.py); friends and places are the Maps module's made-up ones. */
+   Texts are the APKs' (docs/tools/apk-strings.py); friends and places are the Maps module's made-up ones. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

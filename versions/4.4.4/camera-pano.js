@@ -1,4 +1,4 @@
-/* The KitKat camera's panorama (WideAnglePanoramaModule of GoogleCamera 2.0.002, Nexus 5 KTU84P), written by docs/camera-pano.py.
+/* The KitKat camera's panorama (WideAnglePanoramaModule of GoogleCamera 2.0.002, Nexus 5 KTU84P), written by docs/tools/camera-pano.py.
    pano_module_capture.xml (portrait): PanoViewHorizontalBar (#000) above and below the preview area at weights 1 : 2 : 1,
    "Capturing panorama" in the upper bar while capturing; PanoProgressBar over ic_pan_progression (its lens-shaped
    window, 125.5 x 38.5 dp) 20 dp into the lower bar with the ic_pan_left / right_indicator arrows: pano_progress_empty #2E2E2E,

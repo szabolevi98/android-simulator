@@ -1,8 +1,8 @@
 const assert=require('node:assert/strict'),path=require('node:path'),{pathToFileURL}=require('node:url');
 // Audit point 10: every named text entry the five versions load ({res | own | src, hu, de, fr, es, en?}) has all four
-// translations, and no translation brings a placeholder the English lacks (docs/text-entries.mjs).
+// translations, and no translation brings a placeholder the English lacks (docs/tools/text-entries.mjs).
 (async()=>{
-  const T=await import(pathToFileURL(path.resolve('docs/text-entries.mjs')).href);
+  const T=await import(pathToFileURL(path.resolve('docs/tools/text-entries.mjs')).href);
   const all=T.files().flatMap(T.entries);
   assert.ok(all.length>9000,`only ${all.length} entries found`);
   assert.deepEqual(T.check(all),[]);

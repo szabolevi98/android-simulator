@@ -1,6 +1,6 @@
 require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-// Email app settings (audit step 5): generated from each image's EmailGoogle preference XMLs (docs/email-prefs.py).
+// Email app settings (audit step 5): generated from each image's EmailGoogle preference XMLs (docs/tools/email-prefs.py).
 for(const [v,version,sig,first]of [['4.0.4','4.1','\n','auto_advance'],['4.3','4.1','\n','auto_advance'],['4.4.4','6.2-1227136','\n\n','confirm_delete'],['5.1.1','7.0-1669963','\n\n','removal-action']]){
   const w={window:{}};w.window.window=w.window;vm.runInNewContext(fs.readFileSync(`versions/${v}/email-prefs.js`,'utf8'),w);
   const P=w.window.EmailPrefs,t=k=>k,acct='demo@example.com';assert.equal(P.version,version);

@@ -168,7 +168,7 @@
      "Empty Trash" over a non-empty trash, "Move to" in the conversation's overflow, Reply all / Forward / star / Print
      in the message's; the empty-list pictures and texts of ConversationListEmptyView;
    Mail storage and actions are shared with email.js (window.ICSEmail). The texts are each app's own
-   (lp-email-strings.js from docs/lp-email-strings.py); the 4.4 part above still draws the photo picker and the
+   (lp-email-strings.js from docs/tools/lp-email-strings.py); the 4.4 part above still draws the photo picker and the
    discard prompt. */
 (() => {
   'use strict';

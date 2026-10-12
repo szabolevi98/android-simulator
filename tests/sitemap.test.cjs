@@ -1,7 +1,7 @@
 require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // Search engines (audit step 8): sitemap.xml lists the landing page and every available version at the og:url of its
-// page, with a lastmod date; robots.txt allows everything and names the sitemap. Regenerate with docs/make-sitemap.mjs.
+// page, with a lastmod date; robots.txt allows everything and names the sitemap. Regenerate with docs/tools/make-sitemap.mjs.
 const site='https://android.levente.net/',box={window:{}};
 vm.runInNewContext(fs.readFileSync('versions/catalog.js','utf8'),box);
 const versions=box.window.ANDROID_VERSIONS.filter(v=>v.status==='available');

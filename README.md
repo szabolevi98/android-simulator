@@ -40,12 +40,12 @@ What each version does, screen by screen:
 
 ## Social preview image
 
-`assets/og-cover.jpg` (1200 × 630) is the `og:image` of every page. Its source is `docs/og-cover.html`, which lays out the phones from each version's frame and `landing-home.jpg`. To redraw it after a change, for example when a new version gets a landing shot, run the command below. It needs only Node and a local Chrome, or set `CHROME` to point at one. Then bump the `?v=` of `og-cover.jpg` in the `og:image` tags.
+`assets/og-cover.jpg` (1200 × 630) is the `og:image` of every page. Its source is `docs/tools/og-cover.html`, which lays out the phones from each version's frame and `landing-home.jpg`. To redraw it after a change, for example when a new version gets a landing shot, run the command below. It needs only Node and a local Chrome, or set `CHROME` to point at one. Then bump the `?v=` of `og-cover.jpg` in the `og:image` tags.
 
-The portfolio card on levente.net uses a 1600 × 960 variant with an English headline, from `docs/portfolio-cover.html`: `node docs/make-og-cover.mjs --portfolio <png>` renders it (1200 × 720 at a 4/3 device pixel ratio).
+The portfolio card on levente.net uses a 1600 × 960 variant with an English headline, from `docs/tools/portfolio-cover.html`: `node docs/tools/make-og-cover.mjs --portfolio <png>` renders it (1200 × 720 at a 4/3 device pixel ratio).
 
 ```bash
-node docs/make-og-cover.mjs
+node docs/tools/make-og-cover.mjs
 ```
 
 ## Search engines
@@ -53,14 +53,14 @@ node docs/make-og-cover.mjs
 `robots.txt` allows every crawler and points to `sitemap.xml`. The sitemap is a static file that lists the landing page and each available version from `versions/catalog.js`. Each `lastmod` is the date of the last commit that changed that page. Regenerate it after committing page changes, then commit the new `sitemap.xml`:
 
 ```bash
-node docs/make-sitemap.mjs
+node docs/tools/make-sitemap.mjs
 ```
 
 ## Adding a version
 
 1. Create a `versions/<version>/` directory with its own `index.html`, CSS, JavaScript, and assets.
 2. Add an entry to `versions/catalog.js` with `status: 'available'` and a `url` pointing to the new directory.
-3. Run `node docs/make-sitemap.mjs` so that the sitemap lists the new version.
+3. Run `node docs/tools/make-sitemap.mjs` so that the sitemap lists the new version.
 
 Each version keeps its interface and saved state separate, so adding a release does not change the ICS simulation.
 
@@ -80,7 +80,7 @@ npm run test:browser
 ```
 
 Both run on every push (`.github/workflows/tests.yml`). The text, asset and font checks (`npm run check:texts`,
-`check:assets`, `check:fonts`) write their reports to `docs/`; how the factory images are unpacked and the generated
+`check:assets`, `check:fonts`) write their reports to `docs/reports/`; how the factory images are unpacked and the generated
 files rebuilt is in [docs/sources.md](docs/sources.md).
 
 For AOSP asset sources and licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Comparisons with the original interfaces and the remaining differences are in the visual audits: [2.3](docs/visual-audit-2.3.md), [4.0.4](docs/visual-audit.md), [4.3](docs/visual-audit-4.3.md) and [4.4](docs/visual-audit-4.4.md).

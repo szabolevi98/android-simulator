@@ -20,7 +20,7 @@ ui={systemField:'screen-lock'};sys.submit(data,ui,values({choice:'pin'}));assert
 ui={systemField:'owner'};sys.submit(data,ui,values({owner:'<img onerror=bad>',show:'on'}));assert.equal(data.settings.showOwner,true);assert.ok(sys.overlay(data,ui,x=>x).includes('&lt;img onerror=bad&gt;'));
 const removed=data.vpnProfiles[0].id;ui={systemDraft:{id:removed},systemDeleteKind:'vpn',vpnConnected:removed};sys.removeProfile(data,ui);assert.equal(data.vpnProfiles.length,0);assert.equal(ui.vpnConnected,null);
 ui={systemDraft:{id:'default'},systemDeleteKind:'apn'};sys.removeProfile(data,ui);assert.equal(data.apnProfiles.length,1);assert.equal(data.settings.apnId,data.apnProfiles[0].id);
-// Each image's own sub-screens (docs/settings-system.template.js through docs/apk-strings.py).
+// Each image's own sub-screens (docs/templates/settings-system.template.js through docs/tools/apk-strings.py).
 {const load=v=>{const c={window:{},Intl,Date};vm.createContext(c);vm.runInContext(fs.readFileSync(`versions/${v}/settings-system.js`,'utf8'),c);return c.window.ICSSystemSettings;};
   const rows=(v,sub,settings={})=>{const m=load(v);return [...m.render({settings:{...m.defaults,...settings}},{sub},k=>k,'en-US').body.matchAll(/<(?:span class="row-copy"|h3 class="section-label")>([^<]+)/g)].map(x=>x[1].replace(/‑/g,'-'));};
   assert.ok(rows('4.0.4','date').includes('Select date format')&&rows('4.3','date').includes('Choose date format')&&!rows('5.1.1','date').some(r=>/date format/.test(r)));

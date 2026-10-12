@@ -1,4 +1,4 @@
-/* The Android 4.3 camera's panorama (PanoramaModule of GalleryGoogle 1.1.40012, Nexus 4 JWR66Y), written by docs/camera-pano.py.
+/* The Android 4.3 camera's panorama (PanoramaModule of GalleryGoogle 1.1.40012, Nexus 4 JWR66Y), written by docs/tools/camera-pano.py.
    preview_frame_pano.xml (portrait): PanoViewHorizontalBar (#000) above and below the preview area at weights 1 : 2 : 1,
    "Capturing panorama" in the upper bar while capturing; PanoProgressBar over ic_pan_progression (its lens-shaped
    window, 125.5 x 38.5 dp) above the shutter with the ic_pan_left / right_indicator arrows: pano_progress_empty #2E2E2E,

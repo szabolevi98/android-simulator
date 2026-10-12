@@ -4,7 +4,7 @@
    Its menus are the app's: long press opens the context menu of a song, artist, album or playlist (Play, Add to playlist,
    Use as phone ringtone, Delete, Search), the navigation bar's legacy menu key the options (Party shuffle, Shuffle all;
    in the player Library, Party shuffle, Add to playlist, Use as phone ringtone, Delete). Playlists starts with Recently
-   added. Texts: music-strings.js (docs/aosp-music-strings.py). */
+   added. Texts: music-strings.js (docs/tools/aosp-music-strings.py). */
 (() => {
   'use strict';
   const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

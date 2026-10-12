@@ -1,5 +1,5 @@
 /* Google's other apps of the Galaxy Nexus image (IMM76I, spring 2012), as working screens in their 2012 looks, with the
-   APKs' own colours and texts (docs/apk-strings.py):
+   APKs' own colours and texts (docs/tools/apk-strings.py):
    - Google+ 2.4.1 (PlusOne.apk): the home grid (home_screen_*_label) under the #292929 title, the Stream with the
      #3c3c3c tab row and its #dd4b39 line (stream_circles / stream_nearby / stream_whats_hot), posts in #333333 with
      #999999 times and #6f8fc7 links, +1s, Photos (the albums of the simulator's pictures) and Circles.

@@ -1,6 +1,6 @@
 /* Google Play Store 3.4.7 (com.android.vending), the Phonesky.apk of the Galaxy Nexus's IMM76I image, rebuilt from that
    APK on the structure of the earlier 3.x rebuild (which followed 3.5 / 3.8 captures): texts in five languages from its
-   resources (docs/apk-strings.py), drawables from its hdpi set (assets/ps347-*), colours and sizes from its values and
+   resources (docs/tools/apk-strings.py), drawables from its hdpi set (assets/ps347-*), colours and sizes from its values and
    layouts, menus and settings from res/menu and res/layout/settings.xml.
    - LegacyActionBar on #3D3D3D (title_background) with ic_ab_back, the Play icon, 18 sp white title,
      ic_menu_market_search; the overflow (MainActivity: consumption, actions, base): My apps, Accounts, Settings, Help.

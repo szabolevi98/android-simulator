@@ -1,5 +1,5 @@
 require('./lib/vm-strings.cjs');
-// Maps 7.5 / 9.3 directions and navigation (versions/4.4.4 and 5.1.1 maps-route.js, from docs/maps7-route.template.js).
+// Maps 7.5 / 9.3 directions and navigation (versions/4.4.4 and 5.1.1 maps-route.js, from docs/templates/maps7-route.template.js).
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 for(const v of ['4.4.4','5.1.1']){
   const context={window:{},setTimeout:()=>0,clearTimeout(){},requestAnimationFrame(){},Date};

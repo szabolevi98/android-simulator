@@ -15,5 +15,5 @@ for(const v of ['4.0.4','4.3','4.4.4','5.1.1']){
   if(v==='5.1.1'){assert.match(over,/gc-choice/);assert.match(html,/class="gc-switch" role="switch" name="allDay"/);}else assert.match(over,/cal-spin-list[^>]*left:10px;top:20px;width:200px/);
   const sim=fs.readFileSync(`versions/${v}/simulator.js`,'utf8');assert.ok(sim.includes("case 'calspin':")&&sim.includes("case 'calspin-pick':"),v);
 }
-assert.ok(!fs.readFileSync('docs/calendar-jb.template.js','utf8').includes('<select'));
+assert.ok(!fs.readFileSync('docs/templates/calendar-jb.template.js','utf8').includes('<select'));
 console.log('calendar-spinners ok');

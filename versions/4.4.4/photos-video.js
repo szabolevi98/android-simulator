@@ -1,4 +1,4 @@
-/* Videos in Photos (Google+ 4.2.3 of the Nexus 5 KTU84P image), written by docs/gplus-video.py. ImageResourceView draws
+/* Videos in Photos (Google+ 4.2.3 of the Nexus 5 KTU84P image), written by docs/tools/gplus-video.py. ImageResourceView draws
    ov_play_video_32 (32 dp) in the middle of a video's tile, PhotoView ov_play_video_48 in the one-up view; touching
    that starts VideoViewActivity (VideoViewTheme on Theme.Holo.Light): video_view_fragment.xml's VideoView with the framework MediaController
    (media_controller.xml: #CC000000, MediaButton.Rew / Play / Ffwd at 71 x 52 dp below 4 dp, the 14 sp bold #BEBEBE

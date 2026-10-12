@@ -1,5 +1,5 @@
 /* Google Play Store 4.2.3 (com.android.vending), the Phonesky.apk of the Nexus 4's JWR66Y image, rebuilt from that APK:
-   texts in five languages from its resources (docs/apk-strings.py), drawables from res/drawable-xhdpi (assets/ps423-*),
+   texts in five languages from its resources (docs/tools/apk-strings.py), drawables from res/drawable-xhdpi (assets/ps423-*),
    colours and sizes from its values and layouts, menu and settings order from res/menu, res/xml/settings.xml and the
    code (classes.dex).
    - Action bar: Theme.Holo.Light.DarkActionBar with FinskyActionBarStyle: action_bar_bg_home (#666666 over a 2 dp

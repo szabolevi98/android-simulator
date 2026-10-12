@@ -1,6 +1,6 @@
 require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-// 4.3 and 4.4.4 generate calendar.js from docs/calendar-jb.template.js with their own CalendarGoogle words.
+// 4.3 and 4.4.4 generate calendar.js from docs/templates/calendar-jb.template.js with their own CalendarGoogle words.
 for(const [v,dev] of [['4.3','mako'],['4.4.4','hammerhead']]){
   const src=fs.readFileSync(`versions/${v}/calendar.js`,'utf8');
   assert.match(src,new RegExp(`from the ${dev} image's CalendarGoogle\.apk`));assert.doesNotMatch(src,/__STRINGS__|__DEVICE__/);

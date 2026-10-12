@@ -3,7 +3,7 @@
      phone") and Change SIM PIN (EditPinPreference, dependent on the lock). The demo SIM takes the first 4-8 digit PIN
      as its PIN; afterwards a wrong one gives sim_lock_failed / sim_change_failed, a new PIN is typed twice.
    - Trusted credentials (TrustedCredentialsSettings, trusted_credentials.xml): System / User tabs; the system list is
-     the image's 162 CA certificates (lp-cacerts.js, docs/lp-cacerts.py) as trusted_credential.xml rows (primary and
+     the image's 162 CA certificates (lp-cacerts.js, docs/tools/lp-cacerts.py) as trusted_credential.xml rows (primary and
      secondary subject, the Switch); a row opens SslCertificate's details with Disable / Enable and its confirmation.
      The user tab is empty, as nothing is installed.
    - Trust agents (TrustAgentSettings): only with a secure screen lock (otherwise disabled_because_no_backup_security);

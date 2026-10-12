@@ -13,7 +13,7 @@
      quoted_text.xml (#d5d5d5: "Include text" and "Respond inline").
    - LabelsActivity ("Go to labels"): label_item.xml rows with the unread count.
    - The Menu-key menus: conversation_list_menu, conversation_list_menu_organize_mode, conversation_menu, compose_menu.
-   Texts are Gmail.apk's (docs/apk-strings.py); the account and the mail are offline and made up. 1 dp = 0.8625 px. */
+   Texts are Gmail.apk's (docs/tools/apk-strings.py); the account and the mail are offline and made up. 1 dp = 0.8625 px. */
 (() => {
   'use strict';
   const {e} = GBApps;

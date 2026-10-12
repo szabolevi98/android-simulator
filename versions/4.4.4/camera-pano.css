@@ -1,4 +1,4 @@
-/* The KitKat camera's panorama (camera-pano.js), written by docs/camera-pano.py; dp x 0.9. */
+/* The KitKat camera's panorama (camera-pano.js), written by docs/tools/camera-pano.py; dp x 0.9. */
 .pnm{position:absolute;inset:0;display:flex;flex-direction:column;pointer-events:none}
 .pnm-bar{flex:1;display:grid;place-items:center;background:#000;font:400 16.2px Roboto,sans-serif;color:#fff}
 .pnm-area{flex:2;position:relative;overflow:hidden}

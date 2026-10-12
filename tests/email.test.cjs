@@ -1,6 +1,6 @@
 require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-// Email 4.0.4 (versions/4.0.4/email.js from docs/ics-email.template.js): the mailbox model, then the screens and menus of
+// Email 4.0.4 (versions/4.0.4/email.js from docs/templates/ics-email.template.js): the mailbox model, then the screens and menus of
 // IMM76I's EmailGoogle.apk (split bar items in menu order, the message view's Delete / Move / Newer / Older, compose's
 // overflow, the discard confirmation, the Gallery attachment).
 const ctx0={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.0.4/email.js','utf8'),ctx0);const mail=ctx0.window.ICSEmail;
@@ -41,7 +41,7 @@ assert.ok(mail.submit('email',new Map([['to','alex@example.com'],['subject','Hi'
 ctx.lang='hu';ui.sub='';ui.emailFolder='Inbox';html=mail.render(ctx);assert.ok(html.includes('Beérkezett üzenetek'));
 const sim=fs.readFileSync('versions/4.0.4/simulator.js','utf8');
 assert.ok(sim.includes("if (ui.view === 'email' && action.startsWith('email-') && ICSEmail.handle(action, id, emailContext())) return;")&&sim.includes("case 'gallery-pick':"));
-// Email 4.3 (versions/4.3/email.js from docs/email-4.3.template.js): one menu per screen; the message view adds Mark as
+// Email 4.3 (versions/4.3/email.js from docs/templates/email-4.3.template.js): one menu per screen; the message view adds Mark as
 // unread to the bar, the folder list has no menu and a plain "Folders" title.
 {
   const w={window:{}};vm.runInNewContext(fs.readFileSync('versions/4.3/email.js','utf8'),w);const M=w.window.ICSEmail;

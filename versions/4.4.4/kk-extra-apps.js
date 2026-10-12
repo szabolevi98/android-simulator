@@ -17,7 +17,7 @@
     'Create new file': {res: 'QuickOffice:create_new_file_label', hu: 'Új fájl létrehozása', de: 'Neue Datei erstellen', fr: 'Créer un fichier', es: 'Crear archivo nuevo'},
     'Recent files': {res: 'QuickOffice:recent_files_label', hu: 'Legújabb fájlok', de: 'Zuletzt verwendete Dateien', fr: 'Fichiers récents', es: 'Archivos recientes'}
   };
-  // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
+  // Texts the stock-strings index resolves from the image's APKs (docs/data/stock-strings.json).
   const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key]; return row ? AndroidStrings.pick(row, window.AndroidI18n?.language, key) : t(key); };
   const STR = AndroidStrings.table('', STRINGS), local = (key, t) => STR.has(key) ? STR.t(key) : t(key);
   const svg = {

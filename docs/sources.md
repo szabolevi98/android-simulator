@@ -23,41 +23,41 @@ Wayback Machine's capture of the same Google URL (2013-11-13), and its SHA-1 mat
 Python 3.10+ with `androguard`, `loguru`, `ext4` and `Pillow`; Node 20+ for the `.mjs` tools; headless Chrome for the
 runtime checks.
 
-1. `python docs/extract-image.py _aosp/<device> _aosp/<device>/<factory package>` — package → `system.raw.img` → `system/`
+1. `python docs/tools/extract-image.py _aosp/<device> _aosp/<device>/<factory package>` — package → `system.raw.img` → `system/`
    (app, priv-app, framework with the odex files, media, fonts, build.prop).
-2. `python docs/image-index.py _aosp/<device>` — `strings-index.json`: every string resource of the image's APKs
+2. `python docs/tools/image-index.py _aosp/<device>` — `strings-index.json`: every string resource of the image's APKs
    (English → APK, resource name, hu / de / fr / es), which the text generators read.
 
 ## Generated files
 
-- Texts: `node docs/texts.mjs` reruns every text generator with its arguments (the list is in the script);
-  `node docs/texts.mjs --check` fails when an output differs from the committed one. The tables are in the named form
+- Texts: `node docs/tools/texts.mjs` reruns every text generator with its arguments (the list is in the script);
+  `node docs/tools/texts.mjs --check` fails when an output differs from the committed one. The tables are in the named form
   `strings.js` reads (`{res | own | src, hu, de, fr, es, en?}`); `res` names the image resource of each row.
-  `docs/image-strings-<version>.res` fixes which shared rows a version takes from its image.
-- Launcher icons: `python docs/image-icons.py _aosp/<device> <density> <version> <id>=<APK>[:<activity>] …` (2.3.6 hdpi,
+  `docs/data/image-strings-<version>.res` fixes which shared rows a version takes from its image.
+- Launcher icons: `python docs/tools/image-icons.py _aosp/<device> <density> <version> <id>=<APK>[:<activity>] …` (2.3.6 hdpi,
   4.0.4 xhdpi, 4.3 xhdpi, 4.4.4 xxhdpi, 5.1.1 xxxhdpi).
 - Drawables of an app module: each module's header names the APK and density its `assets/<prefix>-*` files come from;
   compiled nine-patches are copied as stored (the APK keeps their padding and stretch areas in the npTc chunk).
 - Boot animations, sounds, fonts and the other data generators: see each `docs/*.py` header.
-- Asset inventory: `python docs/asset-inventory.py [version…]` traces every file of `versions/<v>/assets` (and
+- Asset inventory: `python docs/tools/asset-inventory.py [version…]` traces every file of `versions/<v>/assets` (and
   `assets/audio`) to its image — APK or system file, resource path, density, transformation (copy, same pixels,
   resized, converted, rotated, nine-patch border removed, vector drawn as SVG, transcoded sound, generated sprite sheet)
-  and both hashes — into `docs/assets/<version>.tsv`, with a summary in `docs/asset-inventory.md`. Files no image file
-  matches take their source from `docs/asset-sources.tsv`; the rest are listed for review.
-  `python docs/asset-inventory.py --check` (`npm run regenerate:assets`) is the trial regeneration: every traced file is
-  rebuilt from its source and compared, the boot animation sheets by rerunning `docs/bootanimation.py`.
+  and both hashes — into `docs/reports/assets/<version>.tsv`, with a summary in `docs/reports/asset-inventory.md`. Files no image file
+  matches take their source from `docs/data/asset-sources.tsv`; the rest are listed for review.
+  `python docs/tools/asset-inventory.py --check` (`npm run regenerate:assets`) is the trial regeneration: every traced file is
+  rebuilt from its source and compared, the boot animation sheets by rerunning `docs/tools/bootanimation.py`.
 
 ## Checks
 
 - `node --test tests/*.cjs` — the module tests, including `text-tables`, `text-entries`, `strings` and `assets`.
-- `node docs/text-survey.mjs --md docs/text-survey.md` — the inventory of the text tables (audit point 10).
-- `node docs/text-check.mjs` — every app of every version opened in hu / de / fr / es; missing keys → `docs/text-check.md`.
+- `node docs/tools/text-survey.mjs --md docs/reports/text-survey.md` — the inventory of the text tables (audit point 10).
+- `node docs/tools/text-check.mjs` — every app of every version opened in hu / de / fr / es; missing keys → `docs/reports/text-check.md`.
 - `node tests/asset-inventory.test.cjs` (in `npm test`) — the inventory lists exactly the asset files, with their hashes.
-- `node docs/asset-unused.mjs` — asset files no code, page, test or built-up path uses (a list to check by hand before
+- `node docs/tools/asset-unused.mjs` — asset files no code, page, test or built-up path uses (a list to check by hand before
   deleting; empty after the 2026-10 cleanup).
-- `node docs/css-unused.mjs [version …] [--write]` — CSS rules whose classes / ids no loaded script, page or fetched
+- `node docs/tools/css-unused.mjs [version …] [--write]` — CSS rules whose classes / ids no loaded script, page or fetched
   page can produce, and @keyframes nothing names (`--write` removes them; empty after the 2026-10 cleanup).
-- `node docs/asset-check.mjs` — stylesheet url()s and literal asset paths (case-sensitive), failed requests while every
-  app opens, and the asset folders' inventory → `docs/asset-check.md`.
+- `node docs/tools/asset-check.mjs` — stylesheet url()s and literal asset paths (case-sensitive), failed requests while every
+  app opens, and the asset folders' inventory → `docs/reports/asset-check.md`.
 
 The runtime checks need a server for the repository root (`php -S localhost:8090 -t .`, or `BASE=…`).

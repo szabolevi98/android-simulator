@@ -1,5 +1,5 @@
 /* Google Play Store 4.5.10 (com.android.vending), the Phonesky.apk of the Nexus 5's KTU84P image, rebuilt from that APK
-   as the 4.3 store is (docs/jb-play.template.js): texts in five languages from its resources (docs/apk-strings.py),
+   as the 4.3 store is (docs/templates/jb-play.template.js): texts in five languages from its resources (docs/tools/apk-strings.py),
    drawables from its xxhdpi / xhdpi set (assets/ps4510-*), colours and sizes from its values and layouts, menus and the
    drawer from res/menu and the code (classes.dex). What 4.5.10 changed against 4.2.3:
    - main.xml puts the content in a PlayDrawerLayout: the 288 dp side drawer (MainActivity.calculateSideDrawerWidth:

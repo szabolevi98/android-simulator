@@ -1,4 +1,4 @@
-/* Google Maps 6.14.4 (mako JWR66Y) directions, written by docs/maps6-route.py from docs/maps6-route.template.js:
+/* Google Maps 6.14.4 (mako JWR66Y) directions, written by docs/tools/maps6-route.py from docs/templates/maps6-route.template.js:
    - Directions (directions_input_dialog_with_options.xml): the #D8D8D8 panel with the start and end fields and their
      ic_input_get buttons, the travel-mode RadioGroup (mode_driving / _transit / _bike / _walk, 42 dip), the driving
      options (directions_option_boolean.xml check boxes) and the bottombar_portrait_565 bar with the Navigation button

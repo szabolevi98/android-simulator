@@ -11,7 +11,7 @@ const on=dev.render({developerEnabled:true,usbDebug:false,stayAwake:true},t,v=>`
 assert.ok(on.includes('data-id="stayAwake" role="checkbox" aria-checked="true"')&&on.includes('Animation scale 1x')&&on.includes('>DEBUGGING<'));
 assert.ok(/data-id="waitDebugger"[^>]*disabled/.test(on),'Wait for debugger needs a debug app');
 const off=dev.render({developerEnabled:false},t,v=>`${v}`);assert.equal((off.match(/ disabled /g)||[]).length,35,'master switch off disables every row');
-// 4.4.4 and 5.1.1 from their own images (docs/devopts.py): KitKat's Select runtime, Process Stats and Local terminal;
+// 4.4.4 and 5.1.1 from their own images (docs/tools/devopts.py): KitKat's Select runtime, Process Stats and Local terminal;
 // Lollipop's SwitchPreferences, OEM unlocking, the Wi-Fi rows, Media and its Material category titles.
 for(const [file,first,count,has] of [['versions/4.4.4/kk-devopts.js','check',39,'Select runtime'],['versions/5.1.1/lp-devopts.js','switch',47,'OEM unlocking']]){
   const w={window:{}};vm.runInNewContext(fs.readFileSync(file,'utf8'),w);const d=w.window.JBDeveloperOptions;

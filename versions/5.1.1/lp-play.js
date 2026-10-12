@@ -1,5 +1,5 @@
 /* Google Play Store 5.2.13 (com.android.vending), the Phonesky.apk of the Nexus 6's LMY48Y image, rebuilt from that APK:
-   texts in five languages from its resources (docs/apk-strings.py), drawables from its xxxhdpi / xxhdpi set
+   texts in five languages from its resources (docs/tools/apk-strings.py), drawables from its xxxhdpi / xxhdpi set
    (assets/ps5213-*), colours and sizes from its values, styles and layouts, the drawer, the details modules and the
    settings from its code (classes.dex inside the image's arm/Phonesky.odex) and res/xml/settings.xml.
    - FinskyTheme is Theme.AppCompat.Light.NoActionBar on #EEEEEE: the 56 dp search_toolbar in the corpus colour

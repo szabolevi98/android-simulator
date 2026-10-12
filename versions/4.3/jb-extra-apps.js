@@ -26,7 +26,7 @@
     "Create new project": {"res": "VideoEditorGoogle:projects_new_project", "hu": "Új projekt létrehoz.", "de": "Neues Projekt erstellen", "fr": "Créer un projet", "es": "Crear nuevo proyecto"}
   };
   const LANGS = ['hu', 'de', 'fr', 'es'];
-  // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
+  // Texts the stock-strings index resolves from the image's APKs (docs/data/stock-strings.json).
   const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key]; return row ? AndroidStrings.pick(row, window.AndroidI18n?.language, key) : t(key); };
   const STR = AndroidStrings.table('', STRINGS), local = (key, t) => STR.has(key) ? STR.t(key) : t(key);
   const svg = {

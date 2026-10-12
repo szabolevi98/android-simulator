@@ -1,4 +1,4 @@
-/* Videos in the Android 4.3 Gallery (GalleryGoogle 1.1.40012 of the Nexus 4 JWR66Y image), written by docs/gallery2-video.py.
+/* Videos in the Android 4.3 Gallery (GalleryGoogle 1.1.40012 of the Nexus 4 JWR66Y image), written by docs/tools/gallery2-video.py.
    AbstractSlotRenderer.drawVideoOverlay: ic_video_thumb scaled to the slot height on the left, ic_gallery_play at a
    sixth of the slot in the middle. PhotoView draws ic_control_play (hdpi only, so at 96.7 dp) over a video; a tap in
    the middle sixth (|x - w/2| * 12 <= w, the same for y) plays it in MovieActivity: movie_view.xml's black root, the

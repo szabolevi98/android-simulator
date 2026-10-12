@@ -1,5 +1,5 @@
 /* The search plate and all-apps layout are generated from the KTU84P APKs in gel-factory.css
-   (docs/kitkat-launcher.py); the Google Now pane and its interactions stay here. */
+   (docs/tools/kitkat-launcher.py); the Google Now pane and its interactions stay here. */
 /* Google Now pane (Workspace custom content, CUSTOM_CONTENT_SCREEN_ID): it slides in from the left while the
    workspace, hotseat, page indicator and search bar slide right (updateStateForCustomContent). */
 .kk-home.gel-home{--gnow:0}

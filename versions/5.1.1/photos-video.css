@@ -1,4 +1,4 @@
-/* Videos in Photos (photos-video.js), written by docs/gplus-video.py; dp x 0.906. */
+/* Videos in Photos (photos-video.js), written by docs/tools/gplus-video.py; dp x 0.906. */
 .ph-thumb>.gpv-tile{position:absolute;left:50%;top:50%;width:32.62px;height:32.62px;transform:translate(-50%,-50%);pointer-events:none;object-fit:contain}
 .screen .gpv-play{position:absolute;left:50%;top:50%;z-index:1;width:43.49px;height:43.49px;padding:0;border:0;background:none;transform:translate(-50%,-50%);cursor:pointer}
 .gpv-play img{width:100%;height:100%;display:block}

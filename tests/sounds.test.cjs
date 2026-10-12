@@ -1,6 +1,6 @@
 require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-// The images' ringtones, notification sounds and alarms (docs/sounds.py, docs/sounds-transcode.mjs): every version's
+// The images' ringtones, notification sounds and alarms (docs/tools/sounds.py, docs/tools/sounds-transcode.mjs): every version's
 // sounds.js names its build.prop defaults, each title and file name points to a non-empty WebM in assets/audio, the
 // Settings ringtone lists and Gingerbread's list can find every tone they offer, and the ringing screens are watched.
 const load=v=>{const w={};vm.runInNewContext(fs.readFileSync(`versions/${v}/sounds.js`,'utf8'),{window:w,document:{addEventListener(){},body:{},querySelector(){return null;}},MutationObserver:class{observe(){}},requestAnimationFrame(){}});return w.SystemSounds;};

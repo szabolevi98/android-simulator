@@ -8,7 +8,7 @@
      domain, the status (Complete, Failed, In progress, Queued), the size and the date or time.
    - Checking rows starts the action mode: "Selected 1 out of 5" with Share and Delete (download_menu.xml).
    - A failed download offers Retry / Delete, a queued one Keep / Remove (DownloadList.handleItemClick).
-   Texts are the APK's and the framework's of each image (docs/apk-strings.py). The downloads are made up. */
+   Texts are the APK's and the framework's of each image (docs/tools/apk-strings.py). The downloads are made up. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

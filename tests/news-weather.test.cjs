@@ -1,11 +1,11 @@
 require('./lib/vm-strings.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 // News & Weather (audit step 6): GenieWidget's Preferences (weather, news topics, refresh) with their effects, the
-// refresh status and the story page; news-prefs.js comes from docs/news-prefs.template.js.
-const tpl=fs.readFileSync('docs/news-prefs.template.js','utf8');
+// refresh status and the story page; news-prefs.js comes from docs/templates/news-prefs.template.js.
+const tpl=fs.readFileSync('docs/templates/news-prefs.template.js','utf8');
 for(const [v,apk] of [['2.3.6','1.3.04'],['4.0.4','1.3.04'],['4.3','1.3.11'],['4.4.4','1.3.11']]){
   const src=fs.readFileSync(`versions/${v}/news-prefs.js`,'utf8');
-  assert.equal(src,tpl.replace('__VERSION__',apk).replace(/__IMAGE__/,src.match(/GenieWidget\.apk of the (.+?) image/)[1]),`${v} news-prefs.js is the template (run docs/news-prefs.py)`);
+  assert.equal(src,tpl.replace('__VERSION__',apk).replace(/__IMAGE__/,src.match(/GenieWidget\.apk of the (.+?) image/)[1]),`${v} news-prefs.js is the template (run docs/tools/news-prefs.py)`);
 }
 const ctxOf=(v,ui,data={})=>{const w={window:{}};for(const f of ['stock-strings.js','news-prefs.js','stock-apps.js'])vm.runInNewContext(fs.readFileSync(`versions/${v}/${f}`,'utf8'),w);w.window.GELNow={render:()=>''};return {S:w.window.StockApps,NP:w.window.NewsPrefs,ctx:{ui,data,t:k=>k,lang:'hu',locale:'hu',now:new Date(2014,5,20,12)}};};
 for(const v of ['4.0.4','4.3','4.4.4']){

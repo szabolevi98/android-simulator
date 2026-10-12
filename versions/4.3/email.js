@@ -13,7 +13,7 @@
      sender header with star, reply and the Reply all / Forward popup, the subheader and details, MessageCompose with
      Send and the overflow (Attach file, Add Cc/Bcc, Save draft, Discard, Settings), quoted_text.xml, and Attach file's
      GET_CONTENT for image/* that the Gallery answers.
-   Texts are EmailGoogle.apk's (docs/apk-strings.py fills STRINGS from this template); the account is offline and made up. */
+   Texts are EmailGoogle.apk's (docs/tools/apk-strings.py fills STRINGS from this template); the account is offline and made up. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

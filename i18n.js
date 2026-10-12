@@ -1504,7 +1504,7 @@
   // A context ('Phone') picks a row keyed 'Phone|<English>' first: the same English text that one APK translates differently.
   function lookup(key, context) { return language === 'en' ? key : (context && translations[`${context}|${key}`]?.[language]) || translations[key]?.[language] || key; }
   // Keys asked for through t() that no row has in the current language (translateDOM tries every text node, so it does
-  // not count): docs/text-check.mjs reads them.
+  // not count): docs/tools/text-check.mjs reads them.
   const misses = new Map();
   function t(key, context) {
     const text = lookup(key, context);

@@ -1,0 +1,86 @@
+"""Generates versions/5.1.1/lp-strings.js: the Lollipop interface strings in English, Hungarian, German, French and
+Spanish exactly as the Nexus 6 LMY48Y factory image ships them. Point LMY48Y_SYSTEM at the extracted /system of
+https://dl.google.com/dl/android/aosp/shamu-lmy48y-factory-505ed306.zip and run from the repository root:
+    LMY48Y_SYSTEM=/path/to/system python3 docs/tools/lp-strings.py
+Each entry is (apk, resource name[, quantity]); plurals take the 'other' form. The English text is the lookup key the
+simulator passes to AndroidI18n.t, so an entry whose English text clashes with an earlier one is skipped. A third word
+is a context: the row is keyed '<context>|<English>', which AndroidI18n.t(text, context) reads before the plain row
+(the dialer's 'Older' is not the one Gmail or Email show)."""
+import json, os, re, sys
+from loguru import logger; logger.remove()
+from androguard.core.apk import APK
+SYSTEM = os.environ.get('LMY48Y_SYSTEM') or sys.exit('set LMY48Y_SYSTEM')
+# An entry names the APK by its folder under /system/app or /system/priv-app (framework: framework-res.apk).
+def apk_path(key):
+    if key == 'framework': return os.path.join(SYSTEM, 'framework', 'framework-res.apk')
+    for top in ('priv-app', 'app'):
+        path = os.path.join(SYSTEM, top, key, key + '.apk')
+        if os.path.exists(path): return path
+    sys.exit(f'no APK for {key}')
+ENTRIES = [(l.split() + [''])[:3] for l in open(os.path.join(os.path.dirname(__file__), '..', 'data', 'lp-strings.txt')) if l.strip() and not l.startswith('#')]
+LANGS = ['hu', 'de', 'fr', 'es']
+# The attribute ids of a plurals entry's quantities.
+QUANTITY = {'other': 0x01000004, 'zero': 0x01000005, 'one': 0x01000006, 'two': 0x01000007, 'few': 0x01000008, 'many': 0x01000009}
+def clean(v):
+    v = re.sub(r'\\(["\'])', r'\1', v).replace('\\n', '\n')
+    return v  # androguard escapes quotes but does not wrap the text in them
+cache, rows, seen = {}, [], set()
+for apk_key, name, context in ENTRIES:
+    if apk_key not in cache:
+        a = APK(apk_path(apk_key)); r = a.get_android_resources(); cache[apk_key] = (r, r.get_packages_names()[0])
+    r, pkg = cache[apk_key]
+    if name.startswith('array:'):
+        # A string-array: one row per item, each resolved in every language.
+        rid = r.get_res_id_by_key(pkg, 'array', name[6:])
+        if rid is None: print('missing', apk_key, name, file=sys.stderr); continue
+        per = {}
+        for cfg, entry in r.get_res_configs(rid):
+            q = cfg.get_qualifier() or 'en'
+            if q not in ['en'] + LANGS: continue
+            per[q] = [clean(r.get_resolved_res_configs(item.data, cfg)[0][1] if item.is_reference() else r.stringpool_main.getString(item.data)) for _, item in entry.item.items]
+        for i, en in enumerate(per.get('en', [])):
+            key = f'{context}|{en}' if context else en
+            if key in seen: continue
+            seen.add(key); rows.append([key] + [per.get(q, per['en'])[i] for q in LANGS] + [f'{apk_key}:@array/{name[6:]}:{i}'])
+        continue
+    if name.startswith('plurals:'):
+        # A quantity string, "plurals:name:quantity" (one, other...); a language without that quantity takes 'other'.
+        _, plural, quantity = name.split(':')
+        rid = r.get_res_id_by_key(pkg, 'plurals', plural)
+        if rid is None: print('missing', apk_key, name, file=sys.stderr); continue
+        vals = {}
+        for cfg, entry in r.get_res_configs(rid):
+            q = cfg.get_qualifier() or 'en'
+            if q not in ['en'] + LANGS: continue
+            items = dict(entry.item.items)
+            item = items.get(QUANTITY[quantity]) or items.get(QUANTITY['other'])
+            if item is not None: vals[q] = clean(r.stringpool_main.getString(item.data))
+        en = vals.get('en')
+        if not en or en in seen: continue
+        seen.add(en)
+        rows.append([en] + [vals.get(q, en) for q in LANGS] + [f'{apk_key}:@plurals/{plural}:{quantity}'])
+        continue
+    rid = r.get_res_id_by_key(pkg, 'string', name)
+    if rid is None: print('missing', apk_key, name, file=sys.stderr); continue
+    vals = {}
+    for cfg, v in r.get_resolved_res_configs(rid):
+        q = cfg.get_qualifier() or 'en'
+        if q in ['en'] + LANGS: vals[q] = clean(v)
+    en = vals.get('en')
+    key = f'{context}|{en}' if context and en else en
+    if not en or key in seen: continue
+    seen.add(key)
+    rows.append([key] + [vals.get(q, en) for q in LANGS] + [f'{apk_key}:{name}'])
+# Simulator texts that no APK has (demo notifications, hints): docs/data/lp-strings-extra.tsv, en / hu / de / fr / es.
+for line in open(os.path.join(os.path.dirname(__file__), '..', 'data', 'lp-strings-extra.tsv'), encoding='utf-8'):
+    cols = line.rstrip('\n').split('\t')
+    if len(cols) == 5 and not line.startswith('#') and cols[0] not in seen: seen.add(cols[0]); rows.append(cols + [None])
+# The named form of every text table (strings.js): {English or 'Context|English': {res, hu, de, fr, es}}; the simulator's own
+# rows say own: true instead of a resource.
+def entry(row):
+    key, hu, de, fr, es, res = row
+    return json.dumps(key, ensure_ascii=False) + ': ' + json.dumps({**({'res': res} if res else {'own': True}), 'hu': hu, 'de': de, 'fr': fr, 'es': es}, ensure_ascii=False)
+out = '/* Generated by docs/tools/lp-strings.py from the Nexus 6 LMY48Y factory image (values, -hu, -de, -fr, -es). Do not edit. */\n'
+out += 'window.AndroidI18n?.extend({\n' + ',\n'.join('  ' + entry(row) for row in rows) + "\n}, 'lp-strings');\n"
+open('versions/5.1.1/lp-strings.js', 'w', encoding='utf-8', newline='\n').write(out)
+print(len(rows), 'strings')

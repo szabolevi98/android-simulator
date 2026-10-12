@@ -21,7 +21,7 @@
      (Attach file, Add Cc/Bcc, Save draft, Discard, Settings; no quick responses on a new account); compose_from, the
      To / Cc / Bcc rows with their #aaaaaa headings, Subject, "Compose email", the attachments and quoted_text.xml.
      Attach file sends GET_CONTENT for AttachmentUtilities' image/* (only the Gallery answers, so it opens directly).
-   Texts are EmailGoogle.apk's (docs/apk-strings.py fills STRINGS from this template); the account is offline and made up. */
+   Texts are EmailGoogle.apk's (docs/tools/apk-strings.py fills STRINGS from this template); the account is offline and made up. */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));

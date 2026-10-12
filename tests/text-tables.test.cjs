@@ -4,13 +4,13 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 // load order of index.html). A key may replace a hand-written i18n.js row (the image's wording wins), but no two
 // extensions may write one key with different texts: two resources with one English text need a context.
 (async()=>{
-  const {sharedTable}=await import(pathToFileURL(path.resolve('docs/text-survey.mjs')).href);
+  const {sharedTable}=await import(pathToFileURL(path.resolve('docs/tools/text-survey.mjs')).href);
   for(const v of ['2.3.6','4.0.4','4.3','4.4.4','5.1.1']){
     const table=sharedTable(v);
     assert.deepEqual(table.collisions.filter(c=>c.from!=='i18n.js').map(c=>`${c.key}: ${c.from} → ${c.to}`),[],`${v}: keys written twice`);
     assert.deepEqual(JSON.parse(JSON.stringify(table.conflicts)),[],`${v}: AndroidI18n.conflicts`);
-    // image-strings.js is built from docs/image-strings-<v>.res alone: every listed row, with its resource, nothing else.
-    const res=fs.readFileSync(`docs/image-strings-${v}.res`,'utf8').split('\n').filter(l=>l.trim()&&!l.startsWith('#')).map(l=>l.split('\t'));
+    // image-strings.js is built from docs/data/image-strings-<v>.res alone: every listed row, with its resource, nothing else.
+    const res=fs.readFileSync(`docs/data/image-strings-${v}.res`,'utf8').split('\n').filter(l=>l.trim()&&!l.startsWith('#')).map(l=>l.split('\t'));
     let got;require('node:vm').runInNewContext(fs.readFileSync(`versions/${v}/image-strings.js`,'utf8'),{window:{AndroidI18n:{extend:t=>{got=t;}}}});
     assert.deepEqual(Object.entries(got).map(([k,e])=>[k,e.res]),res,`${v}: image-strings.js follows its .res list`);
     for(const [k,e] of Object.entries(got))for(const l of ['hu','de','fr','es'])assert.equal(typeof e[l],'string',`${v} ${k} ${l}`);

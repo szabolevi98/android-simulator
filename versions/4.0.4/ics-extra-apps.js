@@ -1,4 +1,4 @@
-/* Four launcher apps of the Galaxy Nexus image (IMM76I) as Holo screens, with the APKs' texts (docs/apk-strings.py):
+/* Four launcher apps of the Galaxy Nexus image (IMM76I) as Holo screens, with the APKs' texts (docs/tools/apk-strings.py):
    Messenger (Google+ 2.4's ConversationListActivity: the conversation list, "New conversation"), Navigation (Maps
    6.4's da_destination_activity: Speak destination, Type destination, Contacts, Starred places; Type destination
    drives there with maps-route.js), Places (Maps 6.4's placesv2 categories) and Movie Studio (AOSP VideoEditor
@@ -13,7 +13,7 @@
     "Gas stations": {"res": "Maps:da_layer_name_gas_stations", "hu": "Benzinkutak", "de": "Tankstellen", "fr": "Stations-service", "es": "Gasolineras"},
     "Restaurants": {"res": "Maps:da_layer_name_restaurants", "hu": "Éttermek", "de": "Restaurants", "fr": "Restaurants", "es": "Restaurantes"}
   };  const LANGS = ['hu', 'de', 'fr', 'es'];
-  // Texts the stock-strings index resolves from the image's APKs (docs/stock-strings.json).
+  // Texts the stock-strings index resolves from the image's APKs (docs/data/stock-strings.json).
   const S = (app, key, t) => { const row = window.StockStrings?.[app]?.[key]; return row ? AndroidStrings.pick(row, window.AndroidI18n?.language, key) : t(key); };
   const STR = AndroidStrings.table('', STRINGS), local = (key, t) => STR.has(key) ? STR.t(key) : t(key);
   function render(app, {ui, t, chats = [], contacts = []}) {

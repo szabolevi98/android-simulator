@@ -1,5 +1,5 @@
 /* Settings > Language & input of the Galaxy Nexus image (IMM76I), from Settings.apk res/xml/language_settings.xml and
-   the pages it opens, with the texts of the APKs that draw them (docs/apk-strings.py):
+   the pages it opens, with the texts of the APKs that draw them (docs/tools/apk-strings.py):
    - Language (LocalePicker); Spelling correction (SpellCheckersPreference: Android correction, with LatinImeGoogle's
      spell_checker_settings.xml behind its settings button); Personal dictionary (UserDictionarySettings: the words,
      Add in the action bar, Edit / Delete).
