@@ -28,6 +28,26 @@ runtime checks.
 2. `python docs/tools/image-index.py _aosp/<device>` — `strings-index.json`: every string resource of the image's APKs
    (English → APK, resource name, hu / de / fr / es), which the text generators read.
 
+What `_aosp/<device>/` holds afterwards, all rebuilt by the tools and therefore not in Git: the factory package,
+`system.raw.img`, the unpacked `system/`, `strings-index.json`, `asset-index.json` (the asset inventory's picture
+signatures), and the lists the research tools below write (`launcher-apps.json`, `sounds.json`).
+
+## Reading an app out of the image
+
+What a screen shows comes from its APK and code; these find it.
+
+- `python docs/tools/odex2dex.py <file.odex> <out dir>` — the app's code as dex (Dalvik odex up to 4.4, ART oat odex on
+  5.x), for `dexdump -d`: menu order, which items show, what a button does. `aapt2 dump resources <apk>` resolves the
+  `#7f…` resource ids it prints; `aapt2 dump xmltree <apk> --file res/layout/<name>.xml` shows a compiled layout.
+- `python docs/tools/dex-strings.py <file.odex | file.dex> [regex]` — the string table of a dex or Dalvik odex, for a quick
+  search before disassembling.
+- `python docs/tools/pull-file.py _aosp/<device> <out dir> /app/Gmail.odex …` — copies files out of `system.raw.img`.
+- `python docs/tools/launcher-apps.py _aosp/<device>` — every launcher entry of the image with its English and Hungarian
+  label, APK and version.
+- `python docs/tools/ogg-titles.py _aosp/<device>` — the titles the sound pickers show for the image's ringtones,
+  notifications and alarms.
+- `python docs/tools/dimens.py <apk>` — the dimensions a phone-width configuration sets differently from the default.
+
 ## Generated files
 
 - Texts: `node docs/tools/texts.mjs` reruns every text generator with its arguments (the list is in the script);
