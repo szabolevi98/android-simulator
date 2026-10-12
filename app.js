@@ -15,7 +15,7 @@ for (const version of versions) {
     const art = version.art || {wallpaper: 'wallpaper_chroma.jpg', search: 'ics'};
     card.className = 'version-card';
     card.innerHTML = `
-    <div class="version-art" aria-hidden="true">
+    <a class="version-art" href="${version.url}" tabindex="-1" aria-hidden="true">
       <div class="mini-phone${art.phone ? ` mini-phone-${art.phone}` : ''}">
         <span class="mini-earpiece"></span><span class="mini-camera"></span>
         <div class="mini-screen${art.shot ? ' mini-shot' : ''}" style="background-image:url('${assets}${art.shot || art.wallpaper}')">${art.shot ? '' : `
@@ -27,7 +27,7 @@ for (const version of versions) {
           <div class="mini-nav"><img src="${assets}nav-back.png" alt=""><img src="${assets}nav-home.png" alt=""><img src="${assets}nav-recent.png" alt=""></div>`}
         </div>
       </div>
-    </div>
+    </a>
     <div class="version-details">
       <div class="version-meta"><span class="badge${version.status === 'preview' ? ' badge-preview' : ''}">${i18n.t(version.status === 'preview' ? 'IN PROGRESS' : 'AVAILABLE')}</span><span>${version.year}</span></div>
       <h3>${version.version}</h3>
