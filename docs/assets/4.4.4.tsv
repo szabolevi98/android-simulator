@@ -135,7 +135,6 @@ versions/4.4.4/assets/ce-ic_menu_expander_minimized_holo_light.png	92d53c5b6c3b0
 versions/4.4.4/assets/ce-ic_menu_remove_field_holo_light.png	3d09d6c7f45ab8d6	copy	hammerhead:/system/priv-app/Contacts.apk!res/drawable-xxhdpi/ic_menu_remove_field_holo_light.png	drawable-xxhdpi		3d09d6c7f45ab8d6
 versions/4.4.4/assets/ce-list_section_divider_holo_custom.png	3beba00c3ff798be	copy	hammerhead:/system/priv-app/Contacts.apk!res/drawable-xhdpi/list_section_divider_holo_custom.9.png	drawable-xhdpi		3beba00c3ff798be
 versions/4.4.4/assets/chrome.png	3798f6c3fa5eabce	same pixels	hammerhead:/system/app/Chrome.apk!res/mipmap-xxhdpi/app_icon.png	mipmap-xxhdpi		00d30666d22047cd
-versions/4.4.4/assets/clock-ic_lock_idle_alarm.png	0030f35443a18a19	resized	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_lock_idle_alarm.png	drawable-xhdpi	resized 51×51 → 38×38, mean difference 0.00	a8cc66ae3af56441
 versions/4.4.4/assets/clock-ic_menu_add.png	71b6b64679925e52	resized	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xxhdpi/ic_menu_add.png	drawable-xxhdpi	resized 96×96 → 48×48, mean difference 0.13	bd787a0ba442a442
 versions/4.4.4/assets/clock-ic_setalarm_holo_dark.png	73938521b839f0b5	resized	hammerhead:/system/app/DeskClockGoogle.apk!res/drawable-xhdpi/ic_setalarm_holo_dark.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.53	ab0261e2156fe5ff
 versions/4.4.4/assets/clock.png	2c6d2d7921df3166	same pixels	hammerhead:/system/app/DeskClockGoogle.apk!res/mipmap-xxhdpi/ic_launcher_alarmclock.png	mipmap-xxhdpi		3e2117353e6165e1
