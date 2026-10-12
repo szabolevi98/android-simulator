@@ -349,7 +349,7 @@ A 13. C nagy bontása helyett kisebb ráfordítású, a későbbi munkát segít
 
 - [x] Halott-ág ellenőrző: `docs/tools/action-unused.mjs` (`npm run check:unreachable`) kilistázza azokat a `case '…':` ágakat, amelyek nevét a verzió kódjában semmi nem állítja elő (gomb, hozzárendelés vagy összerakott név); a talált 121 ág mind az öt verzióból kikerült (főleg az ICS-ből örökölt Kamera-, Galéria-, Böngésző- és Beállítások-ágak), az eszköz most nem talál jelöltet. A böngészős folyamat a 2.3.6 Bluetooth-kapcsolóját a saját Beállítások-sorának műveletével (`gbset-check`) állítja – ccecd19
 - [x] A `docs` mappa rendezése: `docs/tools/` (generátorok és ellenőrzők), `docs/templates/` (sablonok), `docs/data/` (a generátorok rögzített bemenetei), `docs/reports/` (az ellenőrzők és generátorok kimenetei); a `docs/` gyökerében csak az olvasnivaló marad. Minden hivatkozás (generált fájlok fejléce, tesztek, `package.json`, README) követi; a szövegtáblák és az assetleltár újragenerálása az útvonalakon kívül azonos fájlokat ad – 1a5332d
-- [x] Szerkezeti leírás: `docs/architecture.md` – a gyökér és a verziómappák felépítése, a `simulator.js` működése (`data` / `ui`, `render()`, egy kattintás- és egy űrlapkezelő), az appmodulok és a generált fájlok, hogyan kell egy appot javítani, a `docs` mappák és az ellenőrző parancsok; a README hivatkozik rá – COMMIT
+- [x] Szerkezeti leírás: `docs/architecture.md` – a gyökér és a verziómappák felépítése, a `simulator.js` működése (`data` / `ui`, `render()`, egy kattintás- és egy űrlapkezelő), az appmodulok és a generált fájlok, hogyan kell egy appot javítani, a `docs` mappák és az ellenőrző parancsok; a README hivatkozik rá – 8ebc1d7
 
 ## Nem csináljuk meg
 
@@ -535,5 +535,5 @@ A 13. C nagy bontása helyett kisebb ráfordítású, a későbbi munkát segít
 | 2026-10-12 | 12. pont, új tétel (folytatás): 4.3 háttérképek (05244e1), telefonos erőforrás a táblagépes helyett (e3d5886), Naptár-widget fejléc (13e70d6), 2.3.6 Google „g” keresőwidget (0ab4537), saját kép azonos alkalmazásának grafikái (4bf71e3), további 99 nem használt fájl törölve (0d1e50d, e73e800, be20367), docs/tools/asset-unused.mjs (dc575f4); élesítve, az éles oldalon a böngészős folyamatok hibátlanok | dc575f4 |
 | 2026-10-12 | 13. pont C (részben): halott CSS mind az öt verzióban (934 szabály, 43 szelektorlista, 6 @keyframes), docs/tools/css-unused.mjs; előtte / utána képernyőképekkel ellenőrizve | 0326f7f |
 | 2026-10-12 | 9/4.5 maradékok: 5.1.1 „Kép kiválasztása” a saját DocumentsUI-jal (7dfe358), 4.3 címzettchipek (7f478b1); 13. C: 4.4.4 / 5.1.1 halott ébresztés-szerkesztő (a4e9c36); élesítve | a4e9c36 |
-| 2026-10-12 | 15. pont: halott ágak (121) és ellenőrző, docs mappa rendezése, docs/architecture.md; 13. C bontás a „Nem csináljuk meg” listára; az audit lezárva, élesítve | COMMIT |
+| 2026-10-12 | 15. pont: halott ágak (121) és ellenőrző, docs mappa rendezése, docs/architecture.md; 13. C bontás a „Nem csináljuk meg” listára; az audit lezárva, élesítve | 8ebc1d7 |
 | 2026-10-10 | 9/D: 4.0.4 Google Beállítások gyári kép szerinti hiánya ellenőrizve helyben és élesben; elavult auditbejegyzés lezárva (a tartalékkód korábban törölve) | 254439c |
