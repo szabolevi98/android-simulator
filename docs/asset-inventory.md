@@ -45,7 +45,7 @@ Not traced:
 
 copy: 614, vector: 198, resized: 159, same pixels: 146, converted: 29, similar: 7, generated: 6, own: 3, not traced: 2, cropped: 1
 
-From another release's image (the own image has no such file; to review): crespo 2, hammerhead 28, maguro 31, mako 22 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): crespo 2, hammerhead 28, maguro 31, mako 21 — the source column of the TSV names each.
 
 Not traced:
 
