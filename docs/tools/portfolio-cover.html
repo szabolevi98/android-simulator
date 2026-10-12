@@ -20,11 +20,11 @@ h1 strong{display:block;font-weight:400;color:#75d3e3}
 .phone>img.frame{position:absolute;inset:0;width:100%;height:100%;z-index:1}
 .phone>.shot{position:absolute;background:center/cover no-repeat;z-index:2}
 .phone>b{position:absolute;left:0;right:0;bottom:-2px;text-align:center;font:700 13px RobotoBold;letter-spacing:.14em;color:#9fd7e2;z-index:3;text-shadow:0 1px 6px #000}
-/* #thumb: the portfolio card's small picture. The card shows it with object-fit:cover from the top (object-position 50% 0),
-   2.04:1 on wide screens (only the top 588 px stay) down to 1.39:1 (about 100 px off each side), so everything sits higher
-   and further in. */
-.thumb .text{left:80px;top:177px}
-.thumb .phones{right:75px;bottom:236px;transform:scale(.95);transform-origin:100% 100%}
+/* #thumb: the portfolio card's small picture. The card crops it with object-fit:cover from the top (object-position
+   50% 0), from 2.04:1 on wide screens (the top 588 px stay) to the whole picture on phones, so the same layout sits
+   100 px higher: less empty band on top, and the phones' feet still inside the wide crop. */
+.thumb .text{top:105px}
+.thumb .phones{bottom:170px}
 </style></head><body>
 <div class="text">
   <div class="brand"><i></i><div>ANDROID <span>TIME MACHINE</span></div></div>
