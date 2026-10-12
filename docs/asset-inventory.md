@@ -31,9 +31,9 @@ Not traced:
 
 ## 4.4.4 (hammerhead)
 
-same pixels: 387, copy: 376, resized: 183, own: 20, converted: 15, similar: 13, not traced: 3, generated: 2
+same pixels: 388, copy: 376, resized: 182, own: 20, converted: 15, similar: 13, not traced: 3, generated: 2
 
-From another release's image (the own image has no such file; to review): maguro 29, mako 14 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): maguro 26, mako 13 — the source column of the TSV names each.
 
 Not traced:
 
