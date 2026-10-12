@@ -57,6 +57,8 @@ runtime checks.
   deleting; empty after the 2026-10 cleanup).
 - `node docs/tools/css-unused.mjs [version …] [--write]` — CSS rules whose classes / ids no loaded script, page or fetched
   page can produce, and @keyframes nothing names (`--write` removes them; empty after the 2026-10 cleanup).
+- `node docs/tools/action-unused.mjs [version …]` — `case` branches whose name no button, assignment or built name
+  produces (dead actions, forms and views; empty after the 2026-10 cleanup).
 - `node docs/tools/asset-check.mjs` — stylesheet url()s and literal asset paths (case-sensitive), failed requests while every
   app opens, and the asset folders' inventory → `docs/reports/asset-check.md`.
 

@@ -6,7 +6,7 @@ Egyeztetve: 2026-10-05. A Play/Market verzióeltérések a 7. pontban maradnak n
 Szabályok: minden lépés a gyári képből (`_aosp/<device>`) dolgozik, nem tippből. Lépésenként tesztek, commit és push;
 élesítés (VPS) csak a legvégén. A kész tételek mellé a commit azonosítója kerül.
 
-**Állapot:** a 9. lépés E) szakasza (Kisebb hibák) kész, az 5.1.1 Naptár időzóna-választójával együtt. A 9/A függő 4.4.4-kezdőképernyő tétele is elkészült a tulajdonos 2026-10-10-i kérésére. A 9/D 4.0.4-es Google Beállítások tétele ellenőrizve és lezárva: a gyári képnek megfelelően nincs ilyen app, az elérhetetlen tartalékkódot a korábbi `254439c` már eltávolította. A 10–13. lépés és a 7–8. pont megbeszélése további feladat.
+**Állapot (2026-10-12): az audit lezárva.** Minden tétel kész, a kipipált tételek végén nincs nyitott maradék. A 13. C pont nagy kódfájl-bontása a tulajdonossal egyeztetve a „Nem csináljuk meg” listára került (indoklás ott); helyette a 15. pont záró rendrakása készült el (halott ágak ellenőrzője, a docs mappa rendezése, szerkezeti leírás). Élesítve az android.levente.net-re.
 
 ## 1. Szöveges ikonok cseréje (becslés: 1–1,5 óra)
 
@@ -328,13 +328,12 @@ is ellenőrizni kell. A felméréskor a repóban nem volt verziózott `.github/w
 Ezekben a több ezer soros fájlokban az állapotkezelés, a navigáció, a renderelés és az alkalmazások
 eseménykezelése együtt van. A rendezés célja, hogy egy későbbi javítás kisebb, áttekinthető egységet érintsen.
 
-- [ ] Az érintett funkciók későbbi javításakor külön modulba kiemelni a mentést, a navigációt és az alkalmazásonkénti eseménykezelést; egyszerre egy jól körülhatárolt területet módosítani.
-- [ ] A közös működési logikát és a verzió saját megjelenését világos interfészekkel összekötni. A generált fájlok módosításakor a sablonok és generátorok is kövessék a bontást; a gyári verziókülönbségek maradjanak meg.
-- [ ] Minden kiemelésnél a meglévő modultesztekkel és a B) pont böngészős folyamataival ellenőrizni a viselkedés azonosságát. A fájlok rendezését külön változtatásként kezelni a funkcionális javításoktól.
+A fájlok bontása (az eredeti három tétel) a tulajdonos döntése szerint nem készül el, lásd a „Nem csináljuk meg” listát; a rész hasznos magja, a nem futó kód és CSS kitakarítása, az alábbi tételekben és a 15. pontban kész.
+
 - [x] (A 12. pont maradéka, 2026-10-12) Halott CSS kitakarítása mind az öt verzióban: azok a szabályok, amelyek egy osztályát vagy azonosítóját a verzió egyetlen betöltött szkriptje, oldala vagy letöltött oldala sem állíthatja elő (a `${…}`-hez vagy `+` összefűzéshez tapadó előtagot / utótagot élőnek veszi), és azok a `@keyframes` blokkok, amelyekre semmi sem hivatkozik. Eszköz: `docs/tools/css-unused.mjs` (`npm run check:unused-css`, `--write` törli; most nem talál jelöltet). Kikerült 934 szabály, 43 szelektorlista szűkült, 6 `@keyframes` (39 fájl, ~84 KB): főleg az örökölt ICS-felület a 2.3.6 `style.css`-ében (263 szabály), a 4.0.4 `stock-apps.css` / `ics-extra-apps.css` KitKat-kori képernyői (Google Now, Keep, YouTube, Drive stb.), a 4.4.4 `messaging.css` régi Mms-listája és az 5.1.1 Chrome / JB-tárcsázó maradványai; az így feleslegessé vált 5.1.1 `jb-btn_call_pressed.png` is törölve. Ellenőrzés: előtte / utána képernyőképek fej nélküli Chrome-ban, rögzített órával, véletlenszámmal, animációk nélkül, minden alkalmazásról és első szintű vezérlőjéről (verziónként 470–770 kép); a két alapfelvételben is egyező képek közül az eltérők mind időzítési zajnak bizonyultak (élő háttérkép, értesítési sáv húzása), célzott újrafelvétellel igazolva. Az összevetés egy elemzőhibát is kiszűrt: a `:is(.settings-row,.list-row)` mindkét osztályt megköveteltnek vette, így kikerült volna a PreferenceCategory előtti elválasztóvonalat elrejtő élő szabály (4.0.4, 4.3, 4.4.4, 5.1.1 Beállítások); most a `:is()` / `:where()` / `:not()` tartalma nem számít kötelezőnek – 0326f7f
 - [x] (2026-10-12) Nem futó JS-ágak, első kör: a 4.4.4 / 5.1.1 Órájában a régi ICS „Ébresztések” lista, „Ébresztés beállítása” képernyő, az Idő / Ismétlés / Törlés ablak és a régi óralap csak egymásból volt elérhető (az `alarm-new` műveletet csak a régi lista adta ki); a `desk-clock.js` az ébresztésmodellt, a riasztáslista által nyitott Címke és Csengőhang ablakot és a csörgő ébresztést tartja meg; a 26 csak hozzájuk tartozó CSS-szabály és az `ic_lock_idle_alarm` kép is kikerült – a4e9c36. Ellenőrző kör a látható hibákra: fej nélküli bejárás (minden alkalmazás és első szintű vezérlője) azokra az elemekre, amelyeknek egyik osztályát sem stílusozza betöltött CSS; az egyetlen valódi hiba az 5.1.1 „Kép kiválasztása” ablaka volt (7dfe358), a többi találat JS-horog vagy szülőn keresztül stílusozott elem.
 
-Állapot (2026-10-11): az A) rész 2–3. tétele és a B) rész kész; a mentési séma egységes verziózása és a C) rész nyitott. 2026-10-12: a C) részből a halott CSS kitakarítása kész; a simulator.js-ek bontása továbbra is a későbbi funkciójavításokkal együtt.
+Állapot (2026-10-12): kész. Az A) és a B) rész, a C) részből a halott CSS és a nem futó ágak kitakarítása elkészült; a nagy fájlok bontása nem készül el (lásd „Nem csináljuk meg”).
 
 ## 14. Bélyegképek és borító újragenerálása (a tulajdonos kérése, 2026-10-11; az audit legvégén)
 
@@ -343,6 +342,14 @@ készült képek elavulhattak.
 
 - [x] Az öt verzió kezdőoldali bélyegképét (`versions/<v>/assets/landing-home.jpg`, a katalógus `art.shot`-ja) újra felvenni a mostani kezdőképernyőről, a korábbi felvételek beállításaival (méret, bezárt első indítási tippek, a 2.3.6-nál a két érintés a hullámokon); a hivatkozások `?v=` kulcsát emelni. Kész: fej nélküli Chrome-ban a `#screen` dobozáról, a korábbi méretekben (2.3.6 414 × 690, 4.0.4 459 × 815, 4.3 491 × 818, 4.4.4 489 × 870, 5.1.1 486 × 863), feloldva, az első indítási tippek bezárva; a katalógusban a `?v=` emelve – 60b909f
 - [x] A közösségi borítót (`assets/og-cover.jpg`, `node docs/tools/make-og-cover.mjs`) és a portfólió-változatot (`docs/tools/portfolio-cover.html`) az új bélyegképekből újrarajzolni; az `og:image` hivatkozások `?v=` kulcsát emelni. Kész: `assets/og-cover.jpg` újrarajzolva (`og:image` `?v=13`); a portfólióborító a `node docs/tools/make-og-cover.mjs --portfolio <png>` kapcsolóval készül, és mind az öt telefont mutatja (eddig a 2.3–4.4 négyet, 5.1.1 nélkül); a levente.net portfólió repójába (`web/assets/img/projects/android-simulator.png`) kiírva, ott nincs commitolva – 60b909f
+
+## 15. Zárás: rendrakás és dokumentáció (a tulajdonos kérése, 2026-10-12)
+
+A 13. C nagy bontása helyett kisebb ráfordítású, a későbbi munkát segítő záró lépések.
+
+- [x] Halott-ág ellenőrző: `docs/tools/action-unused.mjs` (`npm run check:unreachable`) kilistázza azokat a `case '…':` ágakat, amelyek nevét a verzió kódjában semmi nem állítja elő (gomb, hozzárendelés vagy összerakott név); a talált 121 ág mind az öt verzióból kikerült (főleg az ICS-ből örökölt Kamera-, Galéria-, Böngésző- és Beállítások-ágak), az eszköz most nem talál jelöltet. A böngészős folyamat a 2.3.6 Bluetooth-kapcsolóját a saját Beállítások-sorának műveletével (`gbset-check`) állítja – ccecd19
+- [x] A `docs` mappa rendezése: `docs/tools/` (generátorok és ellenőrzők), `docs/templates/` (sablonok), `docs/data/` (a generátorok rögzített bemenetei), `docs/reports/` (az ellenőrzők és generátorok kimenetei); a `docs/` gyökerében csak az olvasnivaló marad. Minden hivatkozás (generált fájlok fejléce, tesztek, `package.json`, README) követi; a szövegtáblák és az assetleltár újragenerálása az útvonalakon kívül azonos fájlokat ad – 1a5332d
+- [x] Szerkezeti leírás: `docs/architecture.md` – a gyökér és a verziómappák felépítése, a `simulator.js` működése (`data` / `ui`, `render()`, egy kattintás- és egy űrlapkezelő), az appmodulok és a generált fájlok, hogyan kell egy appot javítani, a `docs` mappák és az ellenőrző parancsok; a README hivatkozik rá – COMMIT
 
 ## Nem csináljuk meg
 
@@ -356,6 +363,7 @@ készült képek elavulhattak.
 - A fejlesztői beállítások vizuális hatásai (GPU-sávok, másodlagos kijelző)
 - A mutatósebesség hatása
 - Ébresztés bezárt böngészőnél
+- A nagy `simulator.js` fájlok bontása (13. C, döntés 2026-10-12): verziónként egy-egy 2500–4000 soros fájl, az appok nagy része már ma is külön modulban van; a bontás sok mozgatással jár, a látogató semmit nem lát belőle, a közös kódba vonás pedig szembemenne azzal, hogy minden verzió önálló (4. lépés). A biztonsági háló (modultesztek, böngészős folyamatok, képernyőkép-összevetés) és a `docs/architecture.md` leírás mellett a mostani szerkezet karbantartható.
 
 ## Napló
 
@@ -527,4 +535,5 @@ készült képek elavulhattak.
 | 2026-10-12 | 12. pont, új tétel (folytatás): 4.3 háttérképek (05244e1), telefonos erőforrás a táblagépes helyett (e3d5886), Naptár-widget fejléc (13e70d6), 2.3.6 Google „g” keresőwidget (0ab4537), saját kép azonos alkalmazásának grafikái (4bf71e3), további 99 nem használt fájl törölve (0d1e50d, e73e800, be20367), docs/tools/asset-unused.mjs (dc575f4); élesítve, az éles oldalon a böngészős folyamatok hibátlanok | dc575f4 |
 | 2026-10-12 | 13. pont C (részben): halott CSS mind az öt verzióban (934 szabály, 43 szelektorlista, 6 @keyframes), docs/tools/css-unused.mjs; előtte / utána képernyőképekkel ellenőrizve | 0326f7f |
 | 2026-10-12 | 9/4.5 maradékok: 5.1.1 „Kép kiválasztása” a saját DocumentsUI-jal (7dfe358), 4.3 címzettchipek (7f478b1); 13. C: 4.4.4 / 5.1.1 halott ébresztés-szerkesztő (a4e9c36); élesítve | a4e9c36 |
+| 2026-10-12 | 15. pont: halott ágak (121) és ellenőrző, docs mappa rendezése, docs/architecture.md; 13. C bontás a „Nem csináljuk meg” listára; az audit lezárva, élesítve | COMMIT |
 | 2026-10-10 | 9/D: 4.0.4 Google Beállítások gyári kép szerinti hiánya ellenőrizve helyben és élesben; elavult auditbejegyzés lezárva (a tartalékkód korábban törölve) | 254439c |
