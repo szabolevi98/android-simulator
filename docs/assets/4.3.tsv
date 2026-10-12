@@ -677,6 +677,9 @@ versions/4.3/assets/menu_dropdown_panel_holo_light.png	bb9c6a15c36c809f	copy	mak
 versions/4.3/assets/messaging.png	5e25d677dd893d3e	same pixels	mako:/system/app/Mms.apk!res/mipmap-xhdpi/ic_launcher_smsmms.png	mipmap-xhdpi		53eb040f36640d1a
 versions/4.3/assets/messenger.png	d7169df12b20cf12	copy	mako:/system/app/PlusOne.apk!res/mipmap-xhdpi/realtimechat_launcher_icon.png	mipmap-xhdpi		d7169df12b20cf12
 versions/4.3/assets/mms-attachment_editor_bg.png	419557ef8ddd3029	same pixels	mako:/system/app/Mms.apk!res/drawable-xhdpi/attachment_editor_bg.9.png	drawable-xhdpi		bd2bbc89e0a1f44e
+versions/4.3/assets/mms-chip_background.png	b8f4c7456f773c57	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-xhdpi/chip_background.9.png	drawable-xhdpi		b8f4c7456f773c57
+versions/4.3/assets/mms-chip_background_selected.png	d5a6d473e5708347	copy	mako:/system/app/CalendarGoogle.apk!res/drawable-xhdpi/chip_background_selected.9.png	drawable-xhdpi		d5a6d473e5708347
+versions/4.3/assets/mms-chip_delete.png	1d8d2dc139ea68c9	copy	mako:/system/app/PrebuiltGmsCore.apk!res/drawable-xhdpi/chip_delete.png	drawable-xhdpi		1d8d2dc139ea68c9
 versions/4.3/assets/mms-emo_im_angel.png	951f4d6a29d190f4	copy	mako:/system/app/Mms.apk!res/drawable-xhdpi/emo_im_angel.png	drawable-xhdpi		951f4d6a29d190f4
 versions/4.3/assets/mms-emo_im_cool.png	d601d281bda7d88b	copy	mako:/system/app/Mms.apk!res/drawable-xhdpi/emo_im_cool.png	drawable-xhdpi		d601d281bda7d88b
 versions/4.3/assets/mms-emo_im_crying.png	4e5634f5a5884655	copy	mako:/system/app/Mms.apk!res/drawable-xhdpi/emo_im_crying.png	drawable-xhdpi		4e5634f5a5884655

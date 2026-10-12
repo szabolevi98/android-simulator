@@ -1316,6 +1316,8 @@
     const key = ICSMessaging.draftKey(ui);
     return data.messageDrafts[key] ||= {body:'',recipient:''};
   }
+  function removeRecipientChip() { Object.assign(messageDraft(), {recipient: '', chip: false, query: ''}); ui.mmsChipSelected = false; save(); render(); viewport.querySelector('[name=recipient]')?.focus(); }
+
   // While Hangouts is in front the Messaging code works on its chat store (data.hangoutChats / hangoutDrafts).
   function hangoutsScope(fn) {
     if (ui.view !== 'hangouts' || hangoutsSwap) return fn();
@@ -2208,7 +2210,7 @@
       case 'sr-stop': srStop(); break;
       case 'sr-accept': srStop(); srFinish(true); break;
       case 'sr-discard': srStop(); srFinish(false); break;
-      case 'mms-recipient': { const person = contact(id); if (person) { messageDraft().recipient = person.phone; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }
+      case 'mms-recipient': { const person = contact(id); if (person) { Object.assign(messageDraft(), {recipient: person.phone, chip: true, query: ''}); ui.mmsChipSelected = false; save(); render(); viewport.querySelector('.mms-compose textarea').focus(); } break; }
       case 'mms-call': {const person=ICSMessaging.identity(ui.thread,data.contacts);startPhoneCall(person.phone);break;}
       case 'mms-photo': { const photo = data.photos.find(p => p.id === Number(id)); if (photo) { messageDraft().attachment = clone(photo); messageDraft().updated = Date.now(); save(); ui.overlay = ''; render(); scrollMessages(); } break; }
       case 'mms-remove-attachment': delete messageDraft().attachment; save(); render(); scrollMessages(); break;
@@ -2230,6 +2232,7 @@
         if (ui.mmsDelete === 'thread') { delete data.messageDrafts?.[String(ui.thread)]; if (!data.messages.some(m => String(m.contact) === String(ui.thread))) ui.sub = ''; }
         save(); ui.overlay = ''; render(); break;
       }
+      case 'mms-chip': if (!ui.mmsChipSelected) { ui.mmsChipSelected = true; render(); break; } removeRecipientChip(); break;
       case 'new-message': ui.sub = 'new'; ui.overlay = ''; render(); viewport.querySelector('[name=recipient]')?.focus(); break;
       case 'gallery-camera': openApp('camera'); break;
       case 'gallery-album': ui.galleryAlbum=id; ui.sub='album';ui.gallerySlideshow=false;render();break;
@@ -2493,7 +2496,7 @@
       case 'earth-search': ui.earthQuery = String(values.get('query') || '').trim().slice(0, 60); ui.earthSearching = false; render(); break;
       case 'hg-new': { const target = ICSMessaging.recipient(values.get('recipient'), data.contacts); if (!target) { toast('Enter a contact name or valid phone number'); return; } pickHangout(target.key); break; }
       case 'mms-send': {
-        const target = ui.sub === 'thread' ? {key:ui.thread} : ICSMessaging.recipient(values.get('recipient'),data.contacts);
+        const draft = messageDraft(), target = ui.sub === 'thread' ? {key:ui.thread} : ICSMessaging.recipient(draft.chip ? draft.recipient : values.get('recipient'),data.contacts);
         if (!target) { toast('Enter a contact name or valid phone number'); return; }
         sendMessage(target.key, String(values.get('body') || '').trim(), messageDraft().attachment); break;
       }
@@ -2560,9 +2563,8 @@
       const draft = messageDraft();
       if (event.target.name === 'body') draft.body = event.target.value;
       if (event.target.name === 'recipient') {
-        draft.recipient = event.target.value;
-        const query = draft.recipient.trim().toLocaleLowerCase();
-        viewport.querySelector('.mms-suggestions').innerHTML = query ? data.contacts.filter(p => `${p.name} ${p.phone}`.toLocaleLowerCase().includes(query)).slice(0,5).map(p => `<button type="button" data-action="mms-recipient" data-id="${p.id}">${safe(p.name)}<small>${safe(p.phone)}</small></button>`).join('') : '';
+        if (draft.chip) draft.query = event.target.value; else draft.recipient = event.target.value;
+        viewport.querySelector('.mms-suggestions').innerHTML = ICSMessaging.suggestions(event.target.value, data.contacts, key => i18n.t(key));
       }
       draft.updated = Date.now(); save();
       const count = ICSMessaging.counter(draft.body || '');
@@ -3339,6 +3341,7 @@
   window.addEventListener('pointercancel',()=>{const photo=viewport.querySelector('.gallery-image');if(photo)photo.style.transform='';});
   window.addEventListener('pointercancel',()=>{const surface=viewport.querySelector('[data-calendar-swipe]');if(surface)surface.style.transform='';});
   document.addEventListener('keydown', event => {
+    if (event.key === 'Backspace' && event.target.name === 'recipient' && !event.target.value && event.target.closest('.mms-compose') && messageDraft().chip) { event.preventDefault(); removeRecipientChip(); return; }
     const focusedStack = ui.view === 'home' && !ui.overlay && document.activeElement?.closest?.('[data-photo-stack]');
     if (focusedStack && ['ArrowUp','ArrowDown'].includes(event.key)) { event.preventDefault(); const id = focusedStack.dataset.photoStack; stepPhotoStack(id, event.key === 'ArrowDown' ? 1 : -1); viewport.querySelector(`[data-photo-stack="${CSS.escape(id)}"] .phw-front`)?.focus(); return; }
     if(ui.view==='gallery' && ui.sub==='photo' && !ui.overlay && ['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();galleryStep(event.key==='ArrowLeft'?-1:1);return;}

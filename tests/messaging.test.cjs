@@ -45,6 +45,24 @@ for (const [v, cell] of [['4.0.4', false], ['4.3', true]]) {
   assert.doesNotMatch(sim, /Delete this conversation or message from the simulator/);
   assert.match(sim, /mmsDeleteLocked/);
 }
+// 4.3's RecipientsEditor is ex/chips: a picked contact is a chip (photo at its end; selected: chip_delete), and the
+// suggestions are mms_chips_recipient_dropdown_item rows. 4.0.4's MultiAutoCompleteTextView has no chips.
+{
+  const ctx = {window:{}}; vm.runInNewContext(fs.readFileSync('versions/4.3/messaging.js','utf8'), ctx);
+  const J = ctx.window.ICSMessaging, contacts = [{id:1,name:'Alex Morgan',phone:'202-555-0148'},{id:2,name:'Sam Rivera',phone:'202-555-0192'}];
+  const compose = (draft, ui = {}) => J.render({contacts,messages:[],messageDrafts:{new:draft}}, {sub:'new',...ui}, k=>k, 'en-US');
+  let html = compose({recipient:'202-555-0148',chip:true,query:''});
+  assert.match(html, /<button type="button" class="mms-chip" data-action="mms-chip"[^>]*><span>Alex Morgan<\/span><img src="assets\/mms-ic_contact_picture\.png"/);
+  assert.match(html, /<input name="recipient"[^>]*placeholder=""[^>]*value=""/);
+  assert.match(compose({recipient:'202-555-0148',chip:true}, {mmsChipSelected:true}), /class="mms-chip selected"[^]*mms-chip_delete\.png/);
+  assert.doesNotMatch(compose({recipient:'202-555-0148'}), /mms-chip/);
+  const rows = J.suggestions('sam', contacts, k => k === 'Mobile' ? 'Mobil' : k);
+  assert.match(rows, /data-action="mms-recipient" data-id="2"[^]*mms-suggestion-name">Sam Rivera[^]*<span>202-555-0192<\/span><small>Mobil<\/small>[^]*mms-ic_contact_picture\.png/);
+  assert.equal(J.suggestions('  ', contacts, k=>k), '');
+  for (const f of ['mms-chip_background.png','mms-chip_background_selected.png','mms-chip_delete.png']) assert.ok(fs.existsSync(`versions/4.3/assets/${f}`), f);
+  const old = {window:{}}; vm.runInNewContext(fs.readFileSync('versions/4.0.4/messaging.js','utf8'), old);
+  assert.equal(old.window.ICSMessaging.suggestions, undefined);
+}
 // Gingerbread draws Messaging with gb-mms.js; the ICS overlay is gone and messaging.js keeps the shared helpers.
 assert.doesNotMatch(fs.readFileSync('versions/2.3.6/simulator.js','utf8'), /function renderMessageOverlay/);
 const gb = {window:{}}; vm.runInNewContext(fs.readFileSync('versions/2.3.6/messaging.js','utf8'), gb);

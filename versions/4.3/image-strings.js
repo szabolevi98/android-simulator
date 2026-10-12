@@ -380,5 +380,6 @@ window.AndroidI18n?.extend({
   "Live Wallpapers": {"res":"LiveWallpapersPicker:live_wallpaper_picker_label","hu":"Élő háttérképek","de":"Live-Hintergründe","fr":"Fonds d'écran animés","es":"Fondos animados"},
   "To see devices, turn wireless display on.": {"res":"Settings:wifi_display_settings_empty_list_wifi_display_off","hu":"Az eszközök megtekintéséhez kapcsolja be a vezeték nélküli kijelzőt.","de":"Um Geräte zu sehen, aktivieren Sie die kabellose Übertragung.","fr":"Pour voir les appareils, activez l'affichage sans fil.","es":"Para ver los dispositivos, activa la pantalla inalámbrica."},
   "About": {"res":"Phonesky:settings_about_header","hu":"Névjegy","de":"Über","fr":"À propos de","es":"Acerca de"},
-  "Phone|Mute": {"res":"Phone:onscreenMuteText","hu":"Lezárás","de":"Ton aus","fr":"Silencieux","es":"Silenciar"}
+  "Phone|Mute": {"res":"Phone:onscreenMuteText","hu":"Lezárás","de":"Ton aus","fr":"Silencieux","es":"Silenciar"},
+  "Mobile": {"res":"framework:phoneTypeMobile","hu":"Mobil","de":"Mobil","fr":"Mobile","es":"Móvil"}
 }, 'image-strings');

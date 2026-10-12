@@ -380,3 +380,4 @@ Live Wallpapers	LiveWallpapersPicker:live_wallpaper_picker_label
 To see devices, turn wireless display on.	Settings:wifi_display_settings_empty_list_wifi_display_off
 About	Phonesky:settings_about_header
 Phone|Mute	Phone:onscreenMuteText
+Mobile	framework:phoneTypeMobile
