@@ -193,10 +193,6 @@
 .mp7-panel hr{height:.68px;margin:0 13.59px;border:0;border-top:.68px solid #000;border-bottom:.68px solid #66696c}
 .screen .mp7-panel .mp7-menu{height:50.74px;padding-left:13.59px;font:700 16.31px Roboto,sans-serif}
 .screen .mp7-panel button:active{color:#fff}
-.mp7-map.layer-traffic .sa-map g[stroke="#fff"]{stroke:#4caf50}
-.mp7-map.layer-transit .sa-map g[stroke="#fff"]{stroke:#7e57c2;stroke-dasharray:10 6}
-.mp7-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}
-.mp7-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
 .sa-maps7 .sa-maps-card{z-index:1}
 
 /* Keep 2.0.51 (1.0's pieces, KitKat scale) (audit step 4): quick_edit.xml across the width on quick_edit_shadow (xhdpi slices 20 28 36 28), "Add quick

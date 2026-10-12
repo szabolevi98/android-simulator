@@ -21,7 +21,6 @@
 .ga-art.wide{width:100%;aspect-ratio:16/9}
 .ga-art.wide em{font-size:16px}
 .ga-art.cover{width:100%;aspect-ratio:2/3}
-.ga-art.poster{flex:none;width:68px;aspect-ratio:2/3}
 .ga-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px}
 .ga-person{display:flex;align-items:center;gap:9px;padding:7px 10px;border-bottom:1px solid #e3e3e3}
 .ga-person img{width:40.8px;height:40.8px;background:#ddd}
@@ -68,7 +67,7 @@
 .ga-buddy b{font-weight:400;font-size:14.5px;color:#333}
 .ga-buddy small{font-size:11px;color:#777}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#aaa}
-.dot.available{background:#3ab83a}.dot.away{background:#f2b51b}.dot.busy{background:#d33}.dot.invisible,.dot.offline{background:#aaa}
+.dot.available{background:#3ab83a}.dot.away{background:#f2b51b}.dot.busy{background:#d33}.dot.offline{background:#aaa}
 .ga-talk-chat{background:#eeeeee;padding:8px 10px}
 .ga-talk-chat p{margin:0 0 6px;font-size:13.6px;line-height:1.35}
 .ga-talk-chat p.from b{color:#7785e0}.ga-talk-chat p.me b{color:#3492c5}
@@ -169,7 +168,6 @@
 /* VoiceDialer's voice_dialing.xml images: ic_vd_mic_on while listening, ic_vd_retry after "No results" (hdpi 126 x 138). */
 .ga-voice-mic{display:flex;padding:0;border:0;background:none}
 .ga-voice-mic img{width:71.4px;height:78.2px}
-@keyframes ga-pulse{50%{box-shadow:0 0 0 12px #33b5e533}}
 .ga-voice p{margin:0;color:#bbb}
 .ga-voice-tip{display:flex;flex-direction:column;gap:4px;max-width:80%;margin-top:20px;color:#999;font-size:11.9px}
 .ga-voice-tip b{color:#ddd}

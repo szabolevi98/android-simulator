@@ -30,7 +30,6 @@
 .drag-source-icon,.drag-source-widget{visibility:hidden}
 .screen.dragging .launcher-folder{animation:none}
 .screen.dragging .launcher-folder-scrim{background:transparent}
-.screen.dragging .drag-remove{z-index:30}
 
 @keyframes folder-target{from{transform:scale(.77)}to{transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.launcher-folder,.folder-drop-target .app-icon:after{animation:none}}

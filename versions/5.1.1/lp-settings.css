@@ -71,7 +71,6 @@
 .lp-popup-menu{position:absolute;top:calc(var(--sb) + 3.62px);right:3.62px;min-width:181.2px;padding:7.25px 0;background:#fff;border-radius:1.8px;box-shadow:0 3.6px 12.68px #00000059;z-index:40;animation:none;transform-origin:100% 0}
 .lp-popup-menu button{display:block;width:100%;height:43.49px;border:0;background:none;padding:0 14.5px;text-align:left;font:400 14.5px Roboto,sans-serif;color:#000000de;cursor:pointer}
 .lp-popup-menu button:disabled{color:#00000042}
-@keyframes lp-menu-in{from{opacity:0}to{opacity:1}}
 /* Material light AlertDialog: white, 2 dp corners, 24 dp padding, 20 sp medium title, 16 sp message, accent buttons. */
 .screen .settings-dialog-scrim{background:#00000080}
 .screen .settings-dialog{background:#fff;color:#000000de;border:0;border-radius:1.8px;box-shadow:0 10.87px 27px #00000066;padding:21.74px 0 7.25px;width:min(253.68px,calc(100% - 50px))}

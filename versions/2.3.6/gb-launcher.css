@@ -69,7 +69,7 @@
 .gbl-delete .drop-target{display:block;position:relative;width:34.5px;height:34.5px;padding:0;background:none;border:0}
 .gbl-delete .drop-target img{position:absolute;inset:0;width:100%;height:100%}
 .gbl-delete .drop-target .drop-target-active{opacity:0}
-.gbl-delete .drop-target.hover .drop-target-active,.gbl-delete .drop-target.active .drop-target-active{opacity:1}
+.gbl-delete .drop-target.active .drop-target-active{opacity:1}
 
 /* AllApps2D: black, 2 dp padding, 4 columns with 10 dp row spacing, 8 dp from the top and the 56 dp home button below.
    application_boxed: 88 dp items, 5 dp top padding, 13 dip text on up to two lines. */

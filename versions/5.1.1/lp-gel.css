@@ -1,7 +1,6 @@
    drawer geometry are gone: lp-launcher.css sets those from GNL 1.1 / Launcher3 5.1). */
 .kk-home.gel-home .home-search>button:first-child{gap:0}
 .kk-home.gel-home .home-search .kk-qsb-logo{height:30.8px;flex:none}
-.kk-home.gel-home .gel-hint{margin-left:auto;font:400 14.5px/1 RobotoCondensed,'Roboto Condensed',RobotoICS,sans-serif;color:#fff;white-space:nowrap}
 .kk-home.gel-home .home-search .search-microphone{height:28.08px}
    workspace, hotseat, page indicator and search bar slide right (updateStateForCustomContent). */
 .kk-home.gel-home{--gnow:0}

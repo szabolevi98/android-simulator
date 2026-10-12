@@ -177,10 +177,6 @@
 .sa-maps6-zoom{position:absolute;right:6.81px;bottom:10.22px;display:flex}
 .screen .sa-maps6-zoom button{padding:0;border:0;background:none}
 .sa-maps6-zoom img{width:35.77px;height:34.06px;display:block}
-.sa-maps6-map.layer-traffic .sa-map g[stroke="#fff"]{stroke:#4caf50}
-.sa-maps6-map.layer-satellite .sa-map{filter:saturate(.6) brightness(.55) contrast(1.2) hue-rotate(40deg)}
-.sa-maps6-map.layer-terrain .sa-map{filter:sepia(.35) saturate(1.2)}
-.sa-maps6-map.layer-bicycling .sa-map g[stroke="#fff"]{stroke:#2e7d32;stroke-dasharray:6 4}
 
 /* Google+ 4.0 (audit step 4): the light host action bar with ic_gplus_red_32, the notification count (36 dp, #dd4b39,
    1 dp #dddddd border, 3 sp corners, 18 sp bold white), compose_bar.xml (11 sp bold labels under 30 dp icons on black,

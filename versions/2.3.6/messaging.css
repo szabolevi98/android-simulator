@@ -12,7 +12,6 @@
 .mms-recipient{position:relative;padding:5px 8px;background:#fff}.mms-recipient input,.mms-search input{width:100%;border:0;border-bottom:2px solid #33b5e5;background:#fff;color:#111;padding:9px 4px;font-size:16px;outline:none;min-width:0}.mms-suggestions{position:absolute;z-index:4;top:100%;left:8px;right:8px;background:#fff;box-shadow:0 3px 6px #0005;max-height:190px;overflow:auto}.mms-suggestions button{display:block;width:100%;padding:10px;text-align:left;background:white;color:#111!important;border:0;border-bottom:1px solid #ddd}.mms-suggestions small{display:block;color:#777}
 .mms-search{display:flex;padding:5px;background:#fff}.mms-search button{border:0;background:#eee;color:#333!important;font-size:25px;width:42px}
 .mms-photo{height:120px;position:relative;overflow:hidden}.mms-photo::before{content:"";position:absolute;border-radius:50%;background:#ffffff60;width:55px;height:55px;top:12%;right:15%}.mms-photo span{position:absolute;bottom:5px;left:5px;font-size:11px;color:#fff;text-shadow:0 1px 2px #000}
-.mms-dialog{background:#f5f5f5;color:#222;max-height:85%;overflow:auto}.mms-dialog button{color:#222!important}.mms-dialog p{white-space:pre-wrap;overflow-wrap:anywhere}.mms-dialog .mms-photo{height:80px}
 /* Mms 4.0.4 message_list_item_*: the date line uses text_hairline #cccccc. */
 .mms-message time{color:#ccc}
 /* ComposeMessageActivity.updateSendButtonState only disables the button; ic_send_holo_light has no disabled state, so it stays opaque. */

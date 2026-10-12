@@ -55,6 +55,8 @@ runtime checks.
 - `node tests/asset-inventory.test.cjs` (in `npm test`) — the inventory lists exactly the asset files, with their hashes.
 - `node docs/asset-unused.mjs` — asset files no code, page, test or built-up path uses (a list to check by hand before
   deleting; empty after the 2026-10 cleanup).
+- `node docs/css-unused.mjs [version …] [--write]` — CSS rules whose classes / ids no loaded script, page or fetched
+  page can produce, and @keyframes nothing names (`--write` removes them; empty after the 2026-10 cleanup).
 - `node docs/asset-check.mjs` — stylesheet url()s and literal asset paths (case-sensitive), failed requests while every
   app opens, and the asset folders' inventory → `docs/asset-check.md`.
 

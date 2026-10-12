@@ -29,7 +29,6 @@
 .drag-source-icon,.drag-source-widget{visibility:hidden}
 .screen.dragging .launcher-folder{animation:none}
 .screen.dragging .launcher-folder-scrim{background:transparent}
-.screen.dragging .drag-remove{z-index:30}
 
 @keyframes folder-target{from{transform:scale(.77)}to{transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.launcher-folder,.folder-drop-target .app-icon:after{animation:none}}
@@ -170,7 +169,6 @@
 /* Launcher2 4.3 search_bar: 40dp bar on the search_frame nine-patch (translucent white, rounded); the global search
    icon on the left and ic_home_voice_search_holo on the right. */
 .home-search{height:36px;margin:14px 10px 0;border:5.4px solid transparent;border-image:url('assets/jb-search_frame.png') 9 fill / 5.4px stretch;background:none;box-shadow:none;border-radius:0;padding:0 0 0 4px}
-.home-search .google-word{color:#f4f4f4;text-shadow:0 1px 2px #0005}
 .home-search .voice-search{width:36px;flex:none;display:grid;place-items:center}
 .home-search .search-microphone{width:19.8px;height:28.8px;object-fit:contain}
 

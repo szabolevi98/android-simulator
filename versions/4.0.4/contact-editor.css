@@ -34,5 +34,4 @@ textarea.hce-field{resize:none;min-height:calc(64 * var(--d))}
 .people-header .people-done{display:flex;align-items:center;gap:calc(8 * 0.85px);font-weight:700;font-size:calc(12 * 0.85px);text-transform:uppercase}
 .people-header .people-done img{width:calc(32 * 0.85px);height:calc(32 * 0.85px)}
 .people-star img{width:calc(32 * 0.85px);height:calc(32 * 0.85px);display:block}
-.people-portrait-photo{width:calc(96 * 0.85px);height:calc(96 * 0.85px);object-fit:cover}
 .hce-label-input{width:100%;padding:6px 2px;border:0;border-bottom:2px solid #33b5e5;background:none;color:#fff;font-size:16px;outline:0}

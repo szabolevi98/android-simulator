@@ -234,7 +234,7 @@
 .pm-search-empty img{width:86.98px;height:86.98px}
 .pm-search-empty p{margin:14.5px 0 0;font:400 16.31px Roboto,sans-serif;color:#888}
 /* Play Movies & TV / Play Books search (audit step 5): the suggestion list under the SearchView. */
-.pm-search .pm5-logo,.pm-search .mv25-logo{width:28.99px;height:28.99px}
+.pm-search .pm5-logo{width:28.99px;height:28.99px}
 .pa-suggest{flex:1;min-height:0;overflow-y:auto;background:#282828;box-shadow:0 1.81px 3.62px #0006}
 .pa-suggest.books{background:#fff}
 .screen .pa-suggest-row{display:flex;align-items:center;width:100%;min-height:57.98px;padding:3.62px;border:0;background:none;text-align:left;font-family:Roboto,sans-serif}

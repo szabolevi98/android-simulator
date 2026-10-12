@@ -13,7 +13,6 @@
 .desk-time-picker button{display:block;width:100%;border:0;background:none;color:#aaa;font-size:24px;height:38px}
 .desk-time-picker input{font-size:28px;text-align:center;padding:8px 2px!important;border:0!important;border-top:2px solid #33b5e5!important;border-bottom:2px solid #33b5e5!important;border-radius:0!important;background:none!important;appearance:textfield}
 .desk-time-picker input::-webkit-inner-spin-button{appearance:none}
-.desk-ringing-time{font-family:AndroidClock,Roboto,sans-serif;font-size:64px;text-align:center;padding:20px 0}
 /* AlarmAlertFullScreen (alarm_alert.xml, dp x 0.906): black; the 24 sp bold label 32 sp from the top over the clock; the
    DeskClock GlowPadView at the bottom (378 dp: the 135 dp placement radius plus the 108 dp targets), its 270 dp ring of
    2 dp #1AFFFFFF and the snooze / dismiss targets showing only while the alarm handle is held. The theme is
