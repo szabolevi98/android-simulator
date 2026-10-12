@@ -16,7 +16,7 @@ An interactive browser simulator of classic Android releases, each on its own Ne
 
 ## Getting started
 
-**Live demo:** [android.levente.net](https://android.levente.net/), served as a static site from a checkout of `main`. A mirror runs on [GitHub Pages](https://szabolevi98.github.io/android-simulator/).
+**Live demo:** [android.levente.net](https://android.levente.net/), served as a static site from a checkout of `main`. A mirror runs on [GitHub Pages](https://szabolevi98.github.io/android-time-machine/).
 
 GitHub Pages publishes the repository root from the `main` branch automatically after each push. The `.nojekyll` file keeps this plain static site out of Jekyll processing. Deployment progress is available in the repository's **Actions** tab, and the publishing source is configured under **Settings → Pages**.
 
@@ -26,7 +26,7 @@ The project uses static HTML, CSS, and JavaScript. No installation or build step
 php -S 127.0.0.1:8090 -t .
 ```
 
-Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs/android-simulator`.
+Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs/android-time-machine`.
 
 ## Features per version
 
@@ -92,6 +92,6 @@ Copyright © 2026 Levente Szabó (szabolevi98).
 
 The project's original source code is licensed under the **GNU Affero General Public License, Version 3 only** (`AGPL-3.0-only`). See [LICENSE](LICENSE) for the full terms.
 
-If you make a modified version available to users over a network, you must prominently offer those users free access to that version's complete corresponding source code, as required by section 13. The source code is available in this [repository](https://github.com/szabolevi98/android-simulator).
+If you make a modified version available to users over a network, you must prominently offer those users free access to that version's complete corresponding source code, as required by section 13. The source code is available in this [repository](https://github.com/szabolevi98/android-time-machine).
 
 Third-party code, artwork, fonts and other assets remain subject to their own licenses and terms; they are not relicensed under the AGPL. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Android and Google trademarks remain with their respective owners.
