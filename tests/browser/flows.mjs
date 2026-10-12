@@ -42,7 +42,8 @@ const view = () => ev(`[...document.querySelector('#viewport')?.children || []].
 const until = async (expr, ms = 15000) => { for (const end = Date.now() + ms; Date.now() < end; await sleep(200)) if (await ev(expr)) return true; return false; };
 const act = action => ev(`(()=>{const el=document.createElement('button');el.dataset.action=${JSON.stringify(action)};const host=document.querySelector('#viewport').firstElementChild||document.querySelector('#viewport');host.append(el);el.click();el.remove();return true})()`);
 const openApp = app => ev(`(()=>{const el=document.createElement('button');el.dataset.action='open-app';el.dataset.app=${JSON.stringify(app)};const host=document.querySelector('#viewport').firstElementChild;host.append(el);el.click();el.remove();return true})()`);
-const toggle = setting => ev(`(()=>{const el=document.createElement('button');el.dataset.action='toggle-setting';el.dataset.id=${JSON.stringify(setting)};const host=document.querySelector('#viewport').firstElementChild;host.append(el);el.click();el.remove();return true})()`);
+// The Settings switch each image's own screen sends (Gingerbread's CheckBoxPreference rows: gbset-check).
+const toggle = (setting, action = 'toggle-setting') => ev(`(()=>{const el=document.createElement('button');el.dataset.action=${JSON.stringify(action)};el.dataset.id=${JSON.stringify(setting)};const host=document.querySelector('#viewport').firstElementChild;host.append(el);el.click();el.remove();return true})()`);
 const SAVE_KEY = `Object.keys(localStorage).find(k=>/^android-time-machine-\\w+-v1$/.test(k))`;
 const SAVE = `(()=>{const k=${SAVE_KEY};return k&&JSON.parse(localStorage.getItem(k))})()`;
 const key = k => ev(`(document.activeElement || document.body).dispatchEvent(new KeyboardEvent('keydown',{key:${JSON.stringify(k)},bubbles:true}))`);
@@ -62,7 +63,7 @@ async function flow(version, mobile) {
   if (/lock-view/.test(await view())) { await act('unlock'); check('unlocks', await until(`!!document.querySelector('#viewport .home-view')`), await view()); }
   await openApp('settings');
   check('opens Settings', await until(`!!document.querySelector('#viewport .app-view')`), await view());
-  await toggle('bluetooth');
+  await toggle('bluetooth', version === '2.3.6' ? 'gbset-check' : 'toggle-setting');
   const bluetooth = await ev(`${SAVE}?.settings?.bluetooth`);
   check('a changed setting is saved', typeof bluetooth === 'boolean', String(bluetooth));
   if (mobile) { check('fits the phone width', await ev(`document.documentElement.scrollWidth <= innerWidth + 1`)); return steps; }
@@ -79,7 +80,7 @@ async function flow(version, mobile) {
   await load(version);
   check('the language survives a reload', await until(`document.documentElement.lang === 'hu' && AndroidI18n.language === 'hu'`, 6000));
   check('the save reads clean', await ev(`AndroidState.problems.length === 0`), JSON.stringify(await ev(`AndroidState.problems`)));
-  await toggle('bluetooth');
+  await toggle('bluetooth', version === '2.3.6' ? 'gbset-check' : 'toggle-setting');
   check('the reloaded save carries the change', await ev(`${SAVE}?.settings?.bluetooth`) === !bluetooth);
   // The same save as an old one (no revision markers, no clings): every upgrade step runs, twice over two reloads.
   check('there is a save', await ev(`(()=>{const k=${SAVE_KEY};if(!k)return false;const d=JSON.parse(localStorage.getItem(k));delete d.layoutRevision;delete d.wallpaperRevision;delete d.clings;localStorage.setItem(k,JSON.stringify(d));return true;})()`));

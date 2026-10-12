@@ -1286,7 +1286,6 @@
       case 'icsp-clear-history': data.marketSearches = []; save(); break;
       case 'icsp-search': ui.marketSearching = true; ui.marketEdit = ''; render(); viewport.querySelector('.icsp-bar input')?.focus(); break;
       case 'icsp-search-run': data.marketSearches = [id, ...(data.marketSearches || []).filter(q => q !== id)].slice(0, 10); save(); icsPlayGo({page: 'search', query: id}); break;
-      case 'play-my-apps': navigatePlay({page:'my-apps',category:'',query:''}); break;
       case 'play-search': navigatePlay({page:'search',category:'',query:''}); viewport.querySelector('.play-search input')?.focus(); break;
       case 'play-tab': ui.play = {...ICSPlayStore.initial(),tab:id}; ui.playHistory = []; render(); break;
       case 'play-category': navigatePlay({page:'list',category:id,query:''}); break;
@@ -1313,7 +1312,6 @@
       case 'shade': ui.overlay = ui.overlay === 'shade' ? '' : 'shade'; renderOverlay(); break;
       case 'recent': if (ui.view === 'lock') break; if (ui.overlay !== 'recent') captureRecentView(); ui.overlay = ui.overlay === 'recent' ? '' : 'recent'; renderOverlay(); break;
       case 'close-overlay': ui.overlay = ''; screen.style.filter = `brightness(${.5 + data.settings.brightness / 135})`; renderOverlay(); break;
-      case 'remove-recent': event.stopPropagation(); ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
       case 'clear-notifications': data.notifications = []; ui.overlay = ''; save(); renderStatus(); renderOverlay(); break;
       case 'notification-open': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar') { data.notifications = data.notifications.filter(item => item !== note); save(); ui.overlay = ''; openApp('calendar'); ui.selectedEvent = note.eventId; ui.selectedInstance = note.date; ui.selectedDate = note.date; ui.sub = 'event'; render(); break; } }
         ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break;
@@ -1357,7 +1355,6 @@
       case 'sx-vpn-open': ui.systemId=id;ui.systemField='vpn-connect';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
       case 'sx-vpn-edit': ui.systemValues=null;ui.systemDraft=clone((data.vpnProfiles||[]).find(profile=>profile.id===ui.systemId)||{});ui.systemField='vpn-edit';renderOverlay();break;
       case 'sx-profile-delete': ui.systemDeleteKind=id;ui.systemField='profile-delete';renderOverlay();break;
-      case 'sx-vpn-toggle': ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();break;
       case 'sx-network-scan': ui.networkScanned=true;render();break;
       case 'sx-network-auto': data.settings.networkAuto=true;data.settings.networkOperator='Telekom';save();render();break;
       case 'sx-network-select': data.settings.networkAuto=false;data.settings.networkOperator=id;save();render();break;

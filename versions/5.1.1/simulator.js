@@ -1977,7 +1977,6 @@
       }
       case 'cling-dismiss': if (data.clings) { data.clings[id] = true; save(); } LauncherClings.dismiss(clingLayerRoot().querySelector(`[data-cling="${id}"]`), () => syncClings()); break;
       case 'folder-open': ui.folderId=button.dataset.folderId;ui.overlay='folder';renderOverlay();break;
-      case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = id === 'widgets' ? drawerAppPages() : 0; render(); break;
       // Overview mode: Widgets opens all apps on the first widget page; a tap on a page returns to it.
       case 'kk-overview-widgets': ui.overview = false; ui.view = 'drawer'; ui.drawerWidgets = true; ui.drawerPage = drawerAppPages(); render(); break;
       // The Google Now Launcher's third overview button opens the Google Search settings (not simulated).
@@ -2070,7 +2069,6 @@
       case 'kkp-perm-details': ui.marketTarget = id; ui.marketPermOpen = ''; ui.marketPermView = true; ui.overlay = 'jbp-perms'; renderOverlay(); break;
       case 'jbp-search': ui.marketSearching = true; ui.marketEdit = ''; render(); viewport.querySelector('.jbp-bar input')?.focus(); break;
       case 'jbp-search-run': data.marketSearches = [id, ...(data.marketSearches || []).filter(q => q !== id)].slice(0, 10); save(); jbPlayGo({page: 'search', query: id}); break;
-      case 'play-my-apps': navigatePlay({page:'my-apps',category:'',query:''}); break;
       case 'play-search': navigatePlay({page:'search',category:'',query:''}); viewport.querySelector('.play-search input')?.focus(); break;
       case 'play-tab': ui.play = {...ICSPlayStore.initial(),tab:id}; ui.playHistory = []; render(); break;
       case 'play-category': navigatePlay({page:'list',category:id,query:''}); break;
@@ -2126,7 +2124,6 @@
       case 'dream-exit': ui.overlay = ''; renderOverlay(); break;
       case 'kg-add-widget': ui.overlay = 'kg-widget-picker'; renderOverlay(); break;
       case 'kg-pick-widget': { const widgets = data.keyguardWidgets ||= []; if (widgets.length < JBKeyguard.MAX_WIDGETS) { widgets.push({id: `kg-${Date.now()}`, type: id}); save(); ui.kgPage = widgets.length; } ui.overlay = ''; if (ui.kgRelock) { ui.kgRelock = false; const page = ui.kgPage; lockScreen(); ui.kgPage = page; render(); } else render(); break; }
-      case 'qs-user': ui.overlay = ''; openApp('people'); break;
       // Lollipop Quick Settings: the icon toggles, the dual label opens the tile's detail.
       case 'lp-qs-expand': ui.shadeSettings = !ui.shadeSettings; ui.qsDetail = ''; renderOverlay(); break;
       case 'lp-qs-user': toast('Only the owner can be signed in on this simulator.'); break;
@@ -2141,13 +2138,7 @@
       case 'lp-brightness': ui.overlay = 'lp-brightness'; renderOverlay(); break;
       case 'lp-brightness-auto': data.settings.autoBrightness = !data.settings.autoBrightness; save(); renderOverlay(); break;
       case 'qs-settings': ui.overlay = ''; openApp('settings'); break;
-      case 'qs-wifi': ui.overlay = ''; openApp('settings'); ui.sub = 'wifi'; render(); break;
-      case 'qs-rssi': ui.overlay = ''; openApp('settings'); ui.sub = 'data'; render(); break;
-      case 'qs-battery': ui.overlay = ''; openApp('settings'); ui.sub = 'battery'; render(); break;
-      case 'qs-airplane': data.settings.airplane = !data.settings.airplane; if (data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; } save(); renderStatus(); renderOverlay(); break;
-      case 'qs-bluetooth': ui.overlay = ''; openApp('settings'); ui.sub = 'bluetooth'; render(); break;
       case 'qs-alarm': ui.overlay = ''; openApp('clock'); break;
-      case 'qs-location': ui.overlay = ''; openApp('settings'); ui.sub = 'location'; render(); break;
       case 'notification-action': if (button.dataset.noteAction === 'reply') { const note = data.notifications.find(item => String(item.id) === id); releaseHeadsUp(); data.notifications = data.notifications.filter(item => item !== note); save(); renderStatus(); ui.overlay = ''; openApp(note?.channel === 'hangouts' ? 'hangouts' : 'messaging'); openMessageThread(note?.contact || 1); break; } { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar' && button.dataset.noteAction === 'snooze') { data.notifications = data.notifications.filter(item => item !== note); (data.calendarSnoozes ||= []).push({eventId: note.eventId, date: note.date, title: note.title, detail: note.detail, at: deviceDate().getTime() + 5 * 60000}); save(); renderStatus(); if (!data.notifications.length) ui.overlay = ''; renderOverlay(); toast('Snoozed'); } break; }
       case 'notification-open': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar') { data.notifications = data.notifications.filter(item => item !== note); save(); ui.overlay = ''; openApp('calendar'); ui.selectedEvent = note.eventId; ui.selectedInstance = note.date; ui.selectedDate = note.date; ui.sub = 'event'; render(); break; }
         releaseHeadsUp();
@@ -2185,8 +2176,6 @@
       case 'p2p-search': startP2pSearch(); render(); break;
       case 'p2p-menu': ui.overlay = 'p2p-menu'; renderOverlay(); break;
       case 'p2p-rename': ui.overlay = 'p2p-rename'; renderOverlay(); break;
-      case 'wfd-scan': startWfdScan(); render(); break;
-      case 'qs-wifi-display': ui.overlay = ''; ui.view = 'settings'; ui.sub = 'wifi-display'; render(); break;
       case 'connectivity-menu': ui.connectivityMenu = id; ui.overlay = 'connectivity-menu'; renderOverlay(); break;
       case 'lp-settings-menu': ui.lpMenu = id; ui.overlay = 'lp-settings-menu'; renderOverlay(); break;
       case 'lp-auto-sync': data.settings.autoSync = data.settings.autoSync === false; ui.overlay = ''; save(); renderOverlay(); render(); break;
@@ -2213,7 +2202,6 @@
       case 'sx-vpn-open': ui.systemId=id;ui.systemField='vpn-connect';ui.systemError='';ui.systemValues=null;ui.overlay='sx-dialog';renderOverlay();break;
       case 'sx-vpn-edit': ui.systemValues=null;ui.systemDraft=clone((data.vpnProfiles||[]).find(profile=>profile.id===ui.systemId)||{});ui.systemField='vpn-edit';renderOverlay();break;
       case 'sx-profile-delete': ui.systemDeleteKind=id;ui.systemField='profile-delete';renderOverlay();break;
-      case 'sx-vpn-toggle': ui.vpnConnected=ui.vpnConnected===ui.systemId?null:ui.systemId;ui.overlay='';render();break;
       case 'sx-network-scan': ui.networkScanned=true;render();break;
       case 'sx-network-auto': data.settings.networkAuto=true;data.settings.networkOperator='Telekom';save();render();break;
       case 'sx-network-select': data.settings.networkAuto=false;data.settings.networkOperator=id;save();render();break;
@@ -2274,13 +2262,6 @@
         ui.aboutTapTimes = [...(ui.aboutTapTimes || []), performance.now()].slice(-3);
         if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { ui.sub = 'easter'; ui.aboutTapTimes = []; render(); }
         break;
-      case 'developer-tap': {
-        if (data.settings.developerUnlocked) { toast('No need, you are already a developer.'); break; }
-        const remaining = 7 - ++ui.buildTaps;
-        if (remaining <= 0) { data.settings.developerUnlocked = true; ui.buildTaps = 0; save(); toast('You are now a developer!'); }
-        else if (remaining < 5) toast(AndroidStrings.format(i18n.t(AndroidStrings.quantity(remaining) === 'one' ? 'You are now %d step away from being a developer.' : 'You are now %d steps away from being a developer.'), remaining));
-        break;
-      }
       // The Email app's settings (email-prefs.js, from the image's EmailGoogle preference XMLs).
       case 'emailpref-page': ui.emPref = id; render(); break;
       case 'emailpref-toggle': (data.emailPrefs ||= {})[id] = !EmailPrefs.value(data, id, ICSEmail.account); save(); render(); break;
@@ -2305,7 +2286,6 @@
       case 'noop': break;
       case 'browser-search': openApp('chrome'); document.querySelector('.chr-omnibox input')?.focus(); break;
       case 'browser-link': navigateBrowser(url); break;
-      case 'browser-back': browserBack(); break;
       case 'browser-forward': browserForward(); break;
       case 'browser-tabs': ui.sub = 'tabs'; render(); break;
       case 'browser-menu': ui.overlay = 'browser-menu'; renderOverlay(); break;
@@ -2313,12 +2293,10 @@
       case 'browser-bookmark': navigateBrowser(id); break;
       case 'browser-saved': ui.sub='saved'; ui.overlay=''; render(); break;
       case 'browser-save-page': data.savedPages ||= []; if(!data.savedPages.includes(ui.browserUrl))data.savedPages.push(ui.browserUrl); save(); ui.overlay=''; renderOverlay(); toast('Page saved'); break;
-      case 'browser-remove-saved': if(ui.sub==='saved')data.savedPages=data.savedPages.filter(url=>url!==id); else data.bookmarks=data.bookmarks.filter(url=>url!==id); save(); render(); break;
       case 'browser-close-tab': { const last = ui.browserSession.tabs.length === 1; ICSBrowserSession.close(ui.browserSession,Number(id)); if (last && ui.browserOwner === 'chrome') ui.browserSession.tabs[0].history = [ChromeApp.NTP]; saveBrowserState(); render(); break; }
       case 'browser-refresh': ui.overlay=''; render(); break;
       case 'browser-find': ui.browserFind=''; ui.overlay=''; render(); viewport.querySelector('.web-find input')?.focus(); break;
       case 'browser-close-find': ui.browserFind=undefined; render(); break;
-      case 'browser-history': ui.sub = 'history'; render(); break;
       // Chrome menu and New Tab page
       case 'chrome-incognito': chromeNewTab(true); break;
       // Google, Voice Search, Maps, Drive, Keep, YouTube, Google+, Earth, News & Weather, Google Settings
@@ -2484,7 +2462,6 @@
       case 'chrome-clear-cancel': ui.chromeClear = null; render(); break;
       case 'chrome-clear-run': { const picked = ui.chromeClear; if (!picked) break; ui.chromeClear = {...picked, busy: true}; render(); setTimeout(() => { if (picked.history) { data.browserHistory = []; ui.chromeHistoryQuery = ''; } ui.chromeClear = null; save(); render(); }, 900); break; }
       case 'chrome-unsupported': ui.chromePrefMenu = false; if (ui.sub === 'chrome-settings') render(); ui.overlay = ''; renderOverlay(); toast(i18n.t('This feature is not part of the simulator.')); break;
-      case 'browser-back-menu': ui.overlay = ''; renderOverlay(); browserBack(); break;
       case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       case 'browser-new-tab': if (ui.view === 'chrome') { chromeNewTab(false); break; } if (!ICSBrowserSession.add(ui.browserSession)) { toast('Tab limit reached'); break; } ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       case 'browser-save': ui.overlay = ''; renderOverlay(); if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
@@ -2510,7 +2487,6 @@
       case 'incall-digit': if(ui.activeCall)ui.activeCall.digits=(ui.activeCall.digits+id).slice(-24);render();break;
       case 'phone-log-detail': ui.kkLogFrom=ui.sub==='kk-history'?'kk-history':'';ui.phoneCallId=Number(id);ui.sub='call-detail';render();break;
       case 'phone-log-back': ui.sub=ui.kkLogFrom||'';ui.phoneTab='history';render();break;
-      case 'kk-dialer-all': ui.sub = 'kk-all'; ui.overlay = ''; render(); break;
       case 'kk-dialer-history': ui.sub = 'kk-history'; ui.kkDialpad = false; ui.overlay = ''; render(); break;
       case 'kk-dialer-back': ui.sub = ''; render(); break;
       case 'kk-dialer-log-tab': ui.kkLogTab = id; render(); break;
@@ -2530,8 +2506,6 @@
       case 'people-delete': ui.overlay='people-delete'; renderOverlay(); break;
       case 'people-confirm-delete': ICSPeople.remove(data,ui.selectedContact); save(); ui.sub=''; ui.overlay=''; render(); break;
       case 'people-group': ui.peopleGroup=id; ui.sub='group'; ui.peopleQuery=''; render(); break;
-      case 'people-new-group': ui.peopleEditGroup=''; ui.overlay='people-group'; renderOverlay(); break;
-      case 'people-edit-group': ui.peopleEditGroup=ui.peopleGroup; ui.overlay='people-group'; renderOverlay(); break;
       case 'contact': {
         // From the dialer (or any other app) a contact opens Contacts' QuickContactActivity; back returns there.
         if (ui.view !== 'people') { ui.quickContactReturn = {view: ui.view, sub: ui.sub}; captureRecentView(); ui.view = 'people'; }
@@ -2594,35 +2568,13 @@
         save(); ui.overlay = ''; render(); break;
       }
       case 'new-message': ui.sub = 'new'; ui.overlay = ''; render(); viewport.querySelector('[name=recipient]')?.focus(); break;
-      case 'gallery-camera': openApp('camera'); break;
-      case 'gallery-album': ui.galleryAlbum=id; ui.sub='album';ui.gallerySlideshow=false;render();break;
       case 'photo': ui.selectedPhoto=Number(id);if(!galleryItems().some(p=>p.id===Number(id))){ui.galleryCluster='album';ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});}ui.sub='photo';ui.galleryZoom=false;ui.galleryFilm=false;ui.galleryBars=true;ui.galleryFromCamera=false;render();break;
-      case 'gallery-step': galleryStep(Number(id));break;
-      case 'gallery-photo-zoom': ui.galleryZoom=!ui.galleryZoom;render();break;
       case 'gallery-menu': case 'gallery-share': case 'gallery-details': ui.overlay=action;renderOverlay();break;
-      case 'gallery-rotate': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(photo)photo.rotation=((photo.rotation||0)+Number(id)+360)%360;save();ui.overlay='';render();break;}
-      case 'gallery-slideshow': {const items=galleryItems();ui.galleryFilm=false;if(!items.length)break;if(ui.sub!=='photo')ui.selectedPhoto=items[0].id;ui.sub='photo';ui.overlay='';ui.gallerySlideshow=true;ui.gallerySlideAt=Date.now();render();break;}
-      case 'gallery-stop': ui.gallerySlideshow=false;render();break;
       case 'gallery-share-message': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(!photo)break;openApp('messaging');ui.sub='new';messageDraft().attachment=clone(photo);save();render();break;}
-      case 'photo-delete': ui.selectedPhoto=Number(id);ui.overlay='gallery-delete';renderOverlay();break;
-      case 'gallery-confirm-delete': {
-        const items=galleryItems();const index=items.findIndex(p=>p.id===ui.selectedPhoto);
-        data.photos=data.photos.filter(p=>p.id!==ui.selectedPhoto);save();ui.overlay='';
-        const remaining=galleryItems();if(remaining.length)ui.selectedPhoto=remaining[Math.min(index,remaining.length-1)].id;else ui.sub='album';
-        render();toast('Photo deleted');break;
-      }
-      case 'photo-wallpaper': {const photo=data.photos.find(p=>p.id===Number(id));if(!photo)break;data.wallpaper=11;data.customWallpaper=photo.colors;data.customWallpaperPhoto=clone(photo);save();ui.overlay='';render();toast('Wallpaper set');break;}
       case 'shoot': {
         const photo={...ICSMedia.scene(data),id:Date.now(),name:`IMG_${new Date().toISOString().replace(/[-:T]/g,'').slice(0,14)}`,album:'camera',created:Date.now()};
         data.photos.unshift(photo);save();render();screen.animate([{opacity:1},{opacity:.4},{opacity:1}],{duration:240});toast('Photo saved to Gallery');break;
       }
-      case 'camera-review': cameraGallery(ICSMedia.photos(data,'camera')[0]?.id); break;
-      case 'camera-focus': {const preview=viewport.querySelector('.camera-focus-area');preview.classList.remove('focusing');void preview.offsetWidth;preview.classList.add('focusing');break;}
-      case 'camera-flip': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.front=!data.cameraSettings.front;save();render();break;
-      case 'camera-flash': {data.cameraSettings=ICSMedia.settings(data);const choices=['auto','off','on'];data.cameraSettings.flash=choices[(choices.indexOf(data.cameraSettings.flash)+1)%3];save();render();toast(i18n.t('Flash')+': '+i18n.t(data.cameraSettings.flash==='auto'?'Auto':data.cameraSettings.flash==='on'?'On':'Off'));break;}
-      case 'camera-options': case 'camera-balance': ui.overlay=action;renderOverlay();break;
-      case 'camera-set-balance': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.balance=id;save();ui.overlay='';render();break;
-      case 'camera-exposure': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.exposure=Number(id);save();ui.overlay='';render();break;
       case 'calendar-prev': calendarMove(-1); break;
       case 'calendar-next': calendarMove(1); break;
       case 'calendar-day': ui.selectedDate=id;ui.calendarMode=data.calendarMode='Day';save();calendarRender();break;

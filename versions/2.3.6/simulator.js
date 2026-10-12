@@ -1431,9 +1431,7 @@
       case 'ga-confirm': powerConfirm(); break;
       case 'drawer': ui.view = 'drawer'; ui.sub = ''; ui.overlay = ''; render(); break;
       case 'folder-open': ui.folderId=button.dataset.folderId;ui.overlay='folder';renderOverlay();break;
-      case 'drawer-tab': ui.drawerTab = id; ui.drawerPage = 0; render(); break;
       case 'drawer-page': ui.drawerPage = Number(id); render(); break;
-      case 'add-widget': { const added = addWidget(button.dataset.widgetType); if (!added) { toast('This home screen is full'); break; } const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; home(false); ui.photoWidgetSetup = setup; if (added.type === 'photo') { ui.overlay = 'widget-photo-type'; renderOverlay(); } else toast('Widget added'); break; }
       case 'widget-calendar-open': ui.selectedDate = today(); openApp('calendar'); break;
       case 'widget-calendar-event': { const event = data.events.find(item => String(item.id) === id); if (!event) break; const date = button.dataset.date || event.date; ui.selectedDate = date < today() ? today() : date; openApp('calendar'); ui.selectedEvent = event.id; ui.selectedInstance = date; ui.sub = 'event'; render(); break; }
       case 'widget-music-open': { const active = musicActive(); openApp('music'); if (active) { ui.sub = 'player'; render(); } break; }
@@ -1504,11 +1502,8 @@
       case 'gbmk-cancel': clearInterval(ui.marketTimer); ui.marketDownload = null; data.notifications = data.notifications.filter(n => n.kind !== 'market-dl'); save(); render(); renderStatus(); break;
       case 'gbmk-open': { const item = GBMarket.find(id); if (item?.app) openApp(item.app); else toast(GBMarket.text(i18n.language, 'Unavailable')); break; }
       case 'gbmk-uninstall': data.marketInstalled = (data.marketInstalled || []).filter(x => x !== id); save(); if (ui.market?.page === 'uninstall') ui.market = ui.marketHistory.pop() || {page: 'home'}; render(); break;
-      case 'gbmk-plus': { const list = data.marketPlus || []; data.marketPlus = list.includes(id) ? list.filter(x => x !== id) : [...list, id]; save(); const top = viewport.querySelector('.gbmk-scroll')?.scrollTop || 0; render(); viewport.querySelector('.gbmk-scroll').scrollTop = top; break; }
       case 'gbmk-my-apps': gbMarketGo({page: 'my-apps'}); break;
       case 'gbmk-settings': gbMarketGo({page: 'settings'}); break;
-      case 'gbmk-pref': data.marketPrefs = {notify: true, pin: false, ...(data.marketPrefs || {}), [id]: !({notify: true, pin: false, ...(data.marketPrefs || {})})[id]}; save(); render(); break;
-      case 'gbmk-clear-history': data.marketSearches = []; save(); break;
       case 'gbmk-search': ui.marketSearching = true; ui.marketEdit = ''; render(); viewport.querySelector('.gbbr-search input')?.focus(); break;
       case 'gbmk-search-cancel': ui.marketSearching = false; render(); break;
       case 'gbmk-search-run': data.marketSearches = [id, ...(data.marketSearches || []).filter(q => q !== id)].slice(0, 10); save(); gbMarketGo({page: 'search', query: id}); break;
@@ -1585,17 +1580,13 @@
       case 'gb-preview-go': ui.overlay = ''; renderOverlay(); setHomePage(Number(id)); break;
       case 'gb-tip-next': data.protips = {...(data.protips || {set: 0}), index: ((data.protips?.index ?? -1) + 1) % GBLauncher.tips(i18n.language, data.protips?.set).length}; save(); render(); break;
       case 'gb-tip-poke': blinkTips(1); break;
-      case 'lock-media': if (id === 'play') { ui.music.playing = !ui.music.playing; if (ui.music.playing && ui.music.position >= tracks[ui.music.track].duration) ui.music.position = 0; } else ICSMusic.step(ui.music, id === 'previous' ? -1 : 1); ui.musicTrack = ui.music.track; saveMusic(); render(); break;
-      case 'lock-hint': screen.classList.add('lock-dragging'); setTimeout(() => { if (!pointerStart?.lockDrag) lockRelease(null); }, 1000); break;
       case 'shade': if (ui.overlay === 'shade') { closeShade(); break; } if (ui.locked) break; ui.overlay = 'shade'; renderOverlay(); break;
       case 'recent': if (ui.view === 'lock') break; if (ui.overlay !== 'recent') captureRecentView(); ui.overlay = ui.overlay === 'recent' ? '' : 'recent'; renderOverlay(); break;
       case 'close-overlay': if (ui.overlay === 'shade') { closeShade(); break; } ui.overlay = ''; renderOverlay(); break;
-      case 'remove-recent': event.stopPropagation(); ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
       case 'clear-notifications': data.notifications = []; save(); renderStatus(); renderOverlay(); closeShade(); break;
       case 'notification-open': { const note = data.notifications.find(item => String(item.id) === id); if (note?.kind === 'calendar') { data.notifications = data.notifications.filter(item => item !== note); save(); ui.overlay = ''; openApp('calendar'); ui.selectedEvent = note.eventId; ui.selectedInstance = note.date; ui.selectedDate = note.date; ui.sub = 'event'; render(); break; } }
         ui.overlay = ''; if (Number(id) === 2) openMessageThread(1); else { ui.view = 'settings'; ui.sub = 'about'; render(); } break;
       case 'unlock': ui.view = 'home'; render(); break;
-      case 'unlock-camera': openApp('camera'); break;
       case 'settings-sub': if (ui.view === 'settings') (ui.gbSettingsStack ||= []).push(ui.sub); ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
       case 'gbsp-tab': ui.gbAppsTab = id; render(); break;
       case 'gbacc-background': if ((data.settings.backgroundData ?? true)) { ui.gbspDialog = 'background'; ui.overlay = 'gb-dialog-sp'; renderOverlay(); } else { data.settings.backgroundData = true; save(); render(); } break;
@@ -1620,7 +1611,6 @@
       case 'bluetooth-rename': ui.overlay = 'bluetooth-rename'; renderOverlay(); break;
       case 'bluetooth-files': ui.overlay = 'bluetooth-files'; renderOverlay(); break;
       case 'bluetooth-confirm': data.settings.pairedDevice = data.settings.pairedDevice === ui.bluetoothTarget ? '' : ui.bluetoothTarget; save(); ui.overlay = ''; render(); break;
-      case 'wifi-network': ui.wifiTarget = id; ui.overlay = 'wifi-dialog'; renderOverlay(); break;
       case 'wifi-connect': {
         const network = allWifiNetworks().find(item => item.name === ui.wifiTarget);
         if (network?.security !== 'Open' && !overlayRoot.querySelector('.wifi-password')?.value.trim()) { toast('Enter a password'); break; }
@@ -1630,28 +1620,11 @@
       case 'wifi-forget': data.settings.wifiNetwork = ''; save(); ui.overlay = ''; render(); break;
       case 'bluetooth-scan': ui.bluetoothScanned = true; ui.overlay = ''; render(); break;
       case 'bluetooth-pair': ui.bluetoothTarget = id; ui.overlay = 'bluetooth-pair'; renderOverlay(); break;
-      case 'set-language': i18n.setLanguage(id); location.reload(); break;
-      case 'toggle-setting': {
-        const previousScroll = viewport.querySelector('.settings-app')?.scrollTop || 0;
-        data.settings[id] = !data.settings[id];
-        if(id==='autoTime')data.settings.timeOffset=0;
-        if(id==='autoZone'&&!data.settings.autoZone)data.settings.timeZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
-        if (id === 'airplane' && data.settings.airplane) { data.settings.wifi = false; data.settings.bluetooth = false; data.settings.wifiDirect = false; data.settings.portableHotspot = false;data.settings.bluetoothTether=false;ui.vpnConnected=null; }
-        if(id==='portableHotspot'&&data.settings.portableHotspot)data.settings.wifi=false;
-        if(id==='wifi'&&data.settings.wifi)data.settings.portableHotspot=false;
-        if(id==='bluetoothTether'&&data.settings.bluetoothTether)data.settings.bluetooth=true;
-        if(id==='bluetooth'&&!data.settings.bluetooth)data.settings.bluetoothTether=false;
-        if (id === 'nfc' && !data.settings.nfc) data.settings.androidBeam = false;
-        if (id === 'nfc' && data.settings.nfc) data.settings.androidBeam = true;
-        save(); render(); const settingsView = viewport.querySelector('.settings-app'); if (settingsView) settingsView.scrollTop = previousScroll; break;
-      }
       case 'wallpaper': data.wallpaper = Number(id); delete data.liveWallpaper; delete data.customWallpaper; delete data.customWallpaperPhoto; save(); if (ui.view === 'wallpaper-picker') home(false); else render(); toast('Wallpaper set'); break;
-      case 'factory-reset': if (confirm(i18n.t('Reset all local Gingerbread simulator data?'))) resetSimulator(); break;
       case 'about-tap':
         ui.aboutTapTimes = [...(ui.aboutTapTimes || []), performance.now()].slice(-3);
         if (ui.aboutTapTimes.length === 3 && ui.aboutTapTimes[2] - ui.aboutTapTimes[0] <= 500) { (ui.gbSettingsStack ||= []).push(ui.sub); ui.sub = 'easter'; ui.aboutTapTimes = []; render(); }
         break;
-      case 'developer-tap': if (!data.settings.developerUnlocked && ++ui.buildTaps >= 7) { data.settings.developerUnlocked = true; save(); toast('Developer options unlocked'); } break;
       case 'gb-platlogo': toast('Zombie art by Jack Larson'); break;
       case 'toast': toast(id); break;
       case 'noop': break;
@@ -1711,7 +1684,6 @@
       case 'gbqs-clear': ui.overlay = 'gb-dialog-qsb-clear'; renderOverlay(); break;
       case 'gbqs-clear-ok': data.qsbShortcuts = []; save(); ui.overlay = ''; render(); break;
       case 'browser-link': navigateBrowser(url); break;
-      case 'browser-back': browserBack(); break;
       case 'browser-forward': browserForward(); break;
       case 'browser-tabs': ui.sub = 'tabs'; ui.overlay = ''; render(); break;
       case 'browser-menu': ui.overlay = 'browser-menu'; renderOverlay(); break;
@@ -1719,7 +1691,6 @@
       case 'browser-bookmark': navigateBrowser(id); break;
       case 'browser-saved': ui.sub='saved'; ui.overlay=''; render(); break;
       case 'browser-save-page': data.savedPages ||= []; if(!data.savedPages.includes(ui.browserUrl))data.savedPages.push(ui.browserUrl); save(); ui.overlay=''; renderOverlay(); toast('Page saved'); break;
-      case 'browser-remove-saved': if(ui.sub==='saved')data.savedPages=data.savedPages.filter(url=>url!==id); else data.bookmarks=data.bookmarks.filter(url=>url!==id); save(); render(); break;
       case 'browser-close-tab': ICSBrowserSession.close(ui.browserSession,Number(id)); saveBrowserState(); render(); break;
       case 'browser-refresh': ui.overlay=''; browserLoading(); render(); break;
       case 'gbbr-stop': ui.gbBrLoadingUntil = 0; ui.overlay = ''; render(); break;
@@ -1740,7 +1711,6 @@
       case 'gbbr-find-step': { const marks = [...viewport.querySelectorAll('.browser-page mark')]; if (!marks.length) break; ui.gbBrMark = ((ui.gbBrMark ?? -1) + Number(id) + marks.length) % marks.length; marks.forEach((m, k) => m.classList.toggle('current', k === ui.gbBrMark)); marks[ui.gbBrMark].scrollIntoView({block: 'nearest'}); break; }
       case 'browser-find': ui.browserFind=''; ui.overlay=''; render(); viewport.querySelector('.gbbr-find input')?.focus(); break;
       case 'browser-close-find': ui.browserFind=undefined; render(); break;
-      case 'browser-history': ui.sub = 'history'; render(); break;
       case 'browser-tab': ui.browserSession.active = Number(id); ui.sub = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       case 'browser-new-tab': if (!ICSBrowserSession.add(ui.browserSession)) break; browserLoading(); ui.sub = ''; ui.overlay = ''; ui.browserFind = undefined; saveBrowserState(); render(); break;
       case 'browser-save': ui.overlay = ''; renderOverlay(); if (!data.bookmarks.includes(ui.browserUrl)) { data.bookmarks.push(ui.browserUrl); save(); toast('Bookmark saved'); } else toast('Already bookmarked'); break;
@@ -1765,7 +1735,6 @@
       case 'incall-toggle': if(ui.activeCall&&!ui.activeCall.endedAt){ui.activeCall[id]=!ui.activeCall[id];if(id==='hold')ui.activeCall.keypad=false;}render();renderStatus();break;
       case 'incall-digit': if(ui.activeCall)ui.activeCall.digits=(ui.activeCall.digits+id).slice(-24);render();break;
       case 'phone-log-detail': ui.phoneCallId=Number(id);ui.sub='call-detail';render();break;
-      case 'phone-log-back': ui.sub='';ui.phoneTab='history';render();break;
       case 'phone-log-message': { const recipient=ICSMessaging.recipient(id,data.contacts); if(recipient)openMessageThread(recipient.key);else toast('Enter a valid phone number');break; }
       case 'people-search': ui.peopleTab='all'; ui.peopleSearching=true; render(); viewport.querySelector('.people-search input')?.focus(); break;
       case 'people-edit': ui.gbceMoreName = false; ui.gbceSecondary = false; editPerson(); break;
@@ -1780,13 +1749,8 @@
       case 'people-delete': ui.overlay='people-delete'; renderOverlay(); break;
       case 'people-confirm-delete': ICSPeople.remove(data,ui.selectedContact); save(); ui.sub=''; ui.overlay=''; render(); break;
       case 'contact': ui.selectedContact = Number(id); ui.sub = 'detail'; render(); break;
-      case 'new-contact': editPerson(true); break;
-      case 'contact-call': startPhoneCall(contact(id)?.phone||'');break;
-      case 'contact-message': openMessageThread(id); break;
-      case 'contact-email': {const recipient=contact(id)?.email||'';openApp('email');composeEmail(null,false,recipient);break;}
       case 'thread': openMessageThread(id); break;
       case 'mms-search': ui.sub = 'search'; ui.overlay = ''; ui.mmsSearch = ''; render(); viewport.querySelector('.mms-search input')?.focus(); break;
-      case 'mms-menu': ui.gbMenuItems = GBMms.menu(gbMmsContext()); ui.overlay = 'gb-menu-settings'; renderOverlay(); break;
       case 'mms-attach': gbMmsDialog('attach'); break;
       case 'mms-smiley': gbMmsDialog('smiley'); break;
       case 'gbmms-pictures': gbMmsDialog('pictures'); break;
@@ -1859,26 +1823,10 @@
         if (ui.view === 'gallery' && ui.gbgPick) { ui.gbgPick = false; const setup = ui.photoWidgetSetup; ui.photoWidgetSetup = null; const widget = setup && data.homeWidgets[setup.page]?.find(w => w.id === setup.id); if (widget) Object.assign(widget, {source: 'photo', photo: Number(id)}); save(); ui.page = setup?.page ?? ui.page; ui.view = 'home'; ui.sub = ''; render(); break; }
         if (ui.view === 'home') { openApp('gallery'); }
         ui.selectedPhoto=Number(id);ui.galleryAlbum=ICSMedia.album(data.photos.find(p=>p.id===Number(id))||{});ui.sub='photo';ui.galleryZoom=false;render();break;
-      case 'gallery-step': galleryStep(Number(id));break;
-      case 'gallery-photo-zoom': ui.galleryZoom=!ui.galleryZoom;render();break;
       case 'gallery-details': { const photo = gbgSelectedPhotos()[0] || data.photos.find(p => p.id === ui.selectedPhoto); if (photo) ui.selectedPhoto = photo.id; ui.gbgPopup = ''; ui.overlay = 'gb-dialog-gallery'; render(); renderOverlay(); break; }
-      case 'gallery-menu': case 'gallery-share': ui.overlay=action;renderOverlay();break;
-      case 'gallery-rotate': {const photo=data.photos.find(p=>p.id===ui.selectedPhoto);if(photo)photo.rotation=((photo.rotation||0)+Number(id)+360)%360;save();ui.overlay='';render();break;}
+      case 'gallery-share': ui.overlay=action;renderOverlay();break;
       case 'gallery-slideshow': {const items=ICSMedia.photos(data,ui.galleryAlbum);if(!items.length)break;if(ui.sub!=='photo')ui.selectedPhoto=items[0].id;ui.sub='photo';ui.overlay='';ui.gallerySlideshow=true;ui.gallerySlideAt=Date.now();render();break;}
-      case 'gallery-stop': ui.gallerySlideshow=false;render();break;
       case 'gallery-share-message': {const photo=gbgSelectedPhotos()[0]||data.photos.find(p=>p.id===ui.selectedPhoto);gbgEndSelection();if(!photo)break;openApp('messaging');ui.sub='new';messageDraft().attachment=clone(photo);save();render();break;}
-      case 'photo-delete': ui.selectedPhoto=Number(id);ui.overlay='gallery-delete';renderOverlay();break;
-      case 'gallery-confirm-delete': {
-        const items=ICSMedia.photos(data,ui.galleryAlbum);const index=items.findIndex(p=>p.id===ui.selectedPhoto);
-        data.photos=data.photos.filter(p=>p.id!==ui.selectedPhoto);save();ui.overlay='';
-        const remaining=ICSMedia.photos(data,ui.galleryAlbum);if(remaining.length)ui.selectedPhoto=remaining[Math.min(index,remaining.length-1)].id;else ui.sub='album';
-        render();toast('Photo deleted');break;
-      }
-      case 'photo-wallpaper': {const photo=data.photos.find(p=>p.id===Number(id));if(!photo)break;data.wallpaper=99;delete data.liveWallpaper;data.customWallpaper=photo.colors;data.customWallpaperPhoto=clone(photo);save();ui.overlay='';render();toast('Wallpaper set');break;}
-      case 'shoot': {
-        const photo={...ICSMedia.scene(data),id:Date.now(),name:`IMG_${new Date().toISOString().replace(/[-:T]/g,'').slice(0,14)}`,album:'camera',created:Date.now()};
-        data.photos.unshift(photo);save();render();screen.animate([{opacity:1},{opacity:.4},{opacity:1}],{duration:240});toast('Photo saved to Gallery');break;
-      }
       case 'gbcam-popup': ui.gbcamPopup = ui.gbcamPopup === id ? '' : id; render(); break;
       case 'gbcam-popup-close': ui.gbcamPopup = ''; render(); break;
       case 'gbcam-set': { const [key, value] = id.split(':'); gbcamSet({[key]: value}); if (ui.gbcamPopup !== 'settings') ui.gbcamPopup = ''; render(); break; }
@@ -1897,12 +1845,6 @@
         gbcamFocus(() => { const photo = {...ICSMedia.scene(data), id: Date.now(), name: `IMG_${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 8)}_${new Date().toISOString().replace(/[-:T]/g, '').slice(8, 14)}`, album: 'camera', created: Date.now()}; data.photos.unshift(photo); save(); render(); viewport.querySelector('.gbcam-preview')?.animate([{opacity: 1}, {opacity: .15}, {opacity: 1}], {duration: 260}); viewport.querySelector('.gbcam-thumb img')?.animate([{transform: 'scale(1.6)', opacity: .3}, {transform: 'none', opacity: 1}], {duration: 380}); });
         break;
       case 'camera-review': {gbcamStopRecording();const photo=ICSMedia.photos(data,'camera')[0];openApp('gallery');if(photo){ui.galleryAlbum='camera';ui.selectedPhoto=photo.id;ui.sub='photo';render();}break;}
-      case 'camera-focus': {const preview=viewport.querySelector('.camera-focus-area');preview.classList.remove('focusing');void preview.offsetWidth;preview.classList.add('focusing');break;}
-      case 'camera-flip': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.front=!data.cameraSettings.front;save();render();break;
-      case 'camera-flash': {data.cameraSettings=ICSMedia.settings(data);const choices=['auto','off','on'];data.cameraSettings.flash=choices[(choices.indexOf(data.cameraSettings.flash)+1)%3];save();render();toast(i18n.t('Flash')+': '+i18n.t(data.cameraSettings.flash==='auto'?'Auto':data.cameraSettings.flash==='on'?'On':'Off'));break;}
-      case 'camera-options': case 'camera-balance': ui.overlay=action;renderOverlay();break;
-      case 'camera-set-balance': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.balance=id;save();ui.overlay='';render();break;
-      case 'camera-exposure': data.cameraSettings=ICSMedia.settings(data);data.cameraSettings.exposure=Number(id);save();ui.overlay='';render();break;
       case 'calendar-prev': calendarMove(-1); break;
       case 'calendar-next': calendarMove(1); break;
       case 'calendar-day': if ((ui.calendarMode || 'Month') !== 'Day') ui.gbCalBack = ui.calendarMode || 'Month'; ui.selectedDate=id;ui.calendarMode='Day';ui.overlay='';calendarRender();break;
@@ -1960,10 +1902,6 @@
       case 'dc-tone-ok': ui.alarmDraft.tone = ui.dcTemp.tone; ui.overlay = ''; render(); break;
       case 'dc-label-ok': ui.alarmDraft.label = String(overlayRoot.querySelector('[data-dc-label]')?.value || '').trim().slice(0, 60); ui.overlay = ''; render(); break;
       case 'dc-delete-from-list': ui.alarmDraft = ICSDeskClock.normalize(data.alarms.find(alarm => alarm.id === Number(id))); ui.overlay = 'clock-delete'; renderOverlay(); break;
-      case 'alarm-time-step': {
-        const [field,step]=id.split(':'); const input=overlayRoot.querySelector(`[name="${field}"]`);
-        const count=field==='hour'?24:60; input.value=String(((Number(input.value)||0)+Number(step)+count)%count).padStart(2,'0'); break;
-      }
       case 'alarm-save': {
         const alarm=ICSDeskClock.normalize(ui.alarmDraft); delete alarm.snoozedUntil; delete alarm.lastFiredMinute;
         const index=data.alarms.findIndex(item=>item.id===alarm.id);
@@ -2113,10 +2051,6 @@
       }
       case 'calendar-search': ui.calendarSearch=String(values.get('query')||'').trim();render();break;
       case 'music-playlist': {const name=String(values.get('name')||'').trim();if(!name)return;ui.music.playlists.push({id:Date.now(),name,tracks:ui.musicAddPending?[ui.musicSelected]:[]});saveMusic();ui.overlay='';render();break;}
-      case 'alarm-time': ui.alarmDraft.time=String(values.get('hour')).padStart(2,'0')+':'+String(values.get('minute')).padStart(2,'0'); ui.overlay='';render();break;
-      case 'alarm-days': ui.alarmDraft.days=values.getAll('days').map(Number);ui.overlay='';render();break;
-      case 'alarm-tone': ui.alarmDraft.tone=String(values.get('tone'));ui.overlay='';render();break;
-      case 'alarm-label': ui.alarmDraft.label=String(values.get('label')||'').trim();ui.overlay='';render();break;
       case 'email': {const item=data.mailbox.find(item=>item.id===ui.emailId);if(!item)break;for(const key of ['to','cc','bcc','subject','body'])if(values.has(key))item[key]=String(values.get(key)).trim();if(!ICSEmail.recipients(item.to).length){save();toast(emailText('message_compose_error_no_recipients'));break;}if(item.quoted){item.body=[item.body,item.quoted].filter(Boolean).join('\n\n');delete item.quoted;}if(!ICSEmail.send(item)){save();toast(emailText('message_compose_error_invalid_email'));break;}ui.emailCc=false;ui.sub='';ui.emailError='';save();render();break;}
       case 'email-search': ui.emailQuery=String(values.get('query')||'').trim();ui.emailSelected=[];render();break;
       default: break;

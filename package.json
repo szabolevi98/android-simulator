@@ -11,6 +11,7 @@
     "regenerate:texts": "node docs/texts.mjs --check",
     "regenerate:assets": "python docs/asset-inventory.py --check",
     "check:unused-assets": "node docs/asset-unused.mjs",
-    "check:unused-css": "node docs/css-unused.mjs"
+    "check:unused-css": "node docs/css-unused.mjs",
+    "check:unreachable": "node docs/action-unused.mjs"
   }
 }
