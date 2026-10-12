@@ -2,6 +2,8 @@
 //   node docs/tools/make-og-cover.mjs            (set CHROME=/path/to/chrome if Chrome is not found)
 //   node docs/tools/make-og-cover.mjs --portfolio <out.png>   the levente.net portfolio card instead: docs/tools/portfolio-cover.html,
 //                                                       1200 x 720 at 4/3 device pixels = 1600 x 960 PNG
+//   node docs/tools/make-og-cover.mjs --portfolio-thumb <out.png>   the same page laid out for the card's small picture
+//                                                       (portfolio web/assets/img/projects/thumbs/android-simulator.png)
 // After a change, bump ?v= of og-cover.jpg in the og:image tags of index.html and versions/*/index.html.
 import {spawn} from 'node:child_process';
 import {existsSync, mkdtempSync, rmSync, writeFileSync} from 'node:fs';
@@ -10,11 +12,12 @@ import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const portfolio = process.argv.indexOf('--portfolio');
+const thumb = process.argv.indexOf('--portfolio-thumb');
+const portfolio = thumb > 0 ? thumb : process.argv.indexOf('--portfolio');
 const [page, output, width, height, scale] = portfolio > 0
   ? ['portfolio-cover.html', resolve(process.argv[portfolio + 1]), 1200, 720, 4 / 3]
   : ['og-cover.html', join(root, 'assets', 'og-cover.jpg'), 1200, 630, 1];
-const source = pathToFileURL(join(root, 'docs', 'tools', page)).href;
+const source = pathToFileURL(join(root, 'docs', 'tools', page)).href + (thumb > 0 ? '#thumb' : '');
 const candidates = [process.env.CHROME, 'C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser'].filter(Boolean);
 const chromePath = candidates.find(path => existsSync(path));
