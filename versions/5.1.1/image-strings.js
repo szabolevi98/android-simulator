@@ -285,5 +285,12 @@ window.AndroidI18n?.extend({
   "Call volume": {"res":"framework:volume_icon_description_incall","hu":"Hívás hangereje","de":"Anruflautstärke","fr":"Volume d'appel","es":"Volumen de llamada"},
   "Rename device": {"res":"Settings:wifi_p2p_menu_rename","hu":"Eszköz átnevezése","de":"Gerät umbenennen","fr":"Renommer l'appareil","es":"Cambiar nombre del dispositivo"},
   "Live Wallpapers": {"res":"LiveWallpapersPicker:live_wallpaper_picker_label","hu":"Élő háttérképek","de":"Live-Hintergründe","fr":"Fonds d'écran animés","es":"Fondos animados"},
-  "Phone|Mute": {"res":"GoogleDialer:onscreenMuteText","hu":"Lezárás","de":"Ton aus","fr":"Silencieux","es":"Silenciar"}
+  "Phone|Mute": {"res":"GoogleDialer:onscreenMuteText","hu":"Lezárás","de":"Ton aus","fr":"Silencieux","es":"Silenciar"},
+  "List view": {"res":"DocumentsUI:menu_list","hu":"Lista","de":"Listenansicht","fr":"Liste","es":"Vista de lista"},
+  "Recent": {"res":"DocumentsUI:root_recent","hu":"Legutóbbiak","de":"Letzte","fr":"Récents","es":"Reciente"},
+  "Show roots": {"res":"DocumentsUI:drawer_open","hu":"Gyökérszint megjelenítése","de":"Root-Verzeichnis anzeigen","fr":"Afficher les répertoires racines","es":"Mostrar raíces"},
+  "Show internal storage": {"res":"DocumentsUI:menu_advanced_show","hu":"Belső tárhely","de":"Int. Speicher anzeigen","fr":"Aff. mém. stock. interne","es":"Mostrar almac. interno"},
+  "Hide internal storage": {"res":"DocumentsUI:menu_advanced_hide","hu":"Belső tárhely elrejtése","de":"Int. Speicher ausblenden","fr":"Masquer mém. stock. int.","es":"Ocultar almac. interno"},
+  "Show file size": {"res":"DocumentsUI:menu_file_size_show","hu":"Fájlméret megjelenítése","de":"Dateigröße anzeigen","fr":"Afficher taille fichier","es":"Mostrar tamaño archivo"},
+  "Hide file size": {"res":"DocumentsUI:menu_file_size_hide","hu":"Fájlméret elrejtése","de":"Dateigröße ausblenden","fr":"Masquer taille fichier","es":"Ocultar tamaño archivo"}
 }, 'image-strings');

@@ -518,8 +518,6 @@ versions/5.1.1/assets/jb-widget_resize_handle_left.png	998a10a56db4efc6	resized	
 versions/5.1.1/assets/jb-widget_resize_handle_right.png	7f7a9a6d4ce35489	resized	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/widget_resize_handle_right.png	drawable-xhdpi	resized 68×44 → 51×33, mean difference 0.91	c24139646878cb22
 versions/5.1.1/assets/jb-widget_resize_handle_top.png	2a21b9adff487583	resized	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/widget_resize_handle_top.png	drawable-xhdpi	resized 44×68 → 33×51, mean difference 0.91	7290a85aeeb937f1
 versions/5.1.1/assets/jbgal-overflow.png	ee56e40bc32ee418	resized	shamu:/system/app/Music2/Music2.apk!res/drawable-xxhdpi-v4/ic_menu_moreoverflow_normal_holo_dark.png	drawable-xxhdpi-v4	resized 96×96 → 48×48, mean difference 0.00	4d5444d0bdbd11db
-versions/5.1.1/assets/kdu-ic_drawer_glyph.png	1f933a1b0e759893	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_drawer_glyph.png	drawable-xxhdpi		1bba2dbdb3205c17
-versions/5.1.1/assets/kdu-ic_root_recent.png	70fda0687fd83812	same pixels	hammerhead:/system/app/DocumentsUI.apk!res/drawable-xxhdpi/ic_root_recent.png	drawable-xxhdpi		10cd21659bd0e66e
 versions/5.1.1/assets/keep.png	40467c5486ea9550	same pixels	shamu:/system/app/PrebuiltKeep/PrebuiltKeep.apk!res/mipmap-xxxhdpi-v4/ic_launcher.png	mipmap-xxxhdpi-v4		7667670aaec312ce
 versions/5.1.1/assets/kem-ic_arrow.png	d5777647337282b9	resized	mako:/system/app/Gmail2.apk!res/drawable-xhdpi/ic_arrow.png	drawable-xhdpi	resized 96×43 → 144×65, mean difference 0.85	ddd89b73c2928cc4
 versions/5.1.1/assets/kem-ic_attachment_holo_light.png	b7de5097f1934618	resized	maguro:/system/app/EmailGoogle.apk!res/drawable-xhdpi/ic_attachment_holo_light.png	drawable-xhdpi	resized 48×48 → 72×72, mean difference 1.83	de20b4a32cc23a81
@@ -614,6 +612,7 @@ versions/5.1.1/assets/ldu-ic_doc_image.png	f643d7a9612396bc	copy	shamu:/system/a
 versions/5.1.1/assets/ldu-ic_doc_pdf.png	e60a61c5e2974e98	copy	shamu:/system/app/DocumentsUI/DocumentsUI.apk!res/drawable-xxxhdpi-v4/ic_doc_pdf_alpha.png	drawable-xxxhdpi-v4		e60a61c5e2974e98
 versions/5.1.1/assets/ldu-ic_doc_text_am.png	6cf0ff7396d1a7da	copy	shamu:/system/app/DocumentsUI/DocumentsUI.apk!res/drawable-xxxhdpi-v4/ic_doc_text_am_alpha.png	drawable-xxxhdpi-v4		6cf0ff7396d1a7da
 versions/5.1.1/assets/ldu-ic_doc_video_am.png	ea43c712fc72cda5	copy	shamu:/system/app/DocumentsUI/DocumentsUI.apk!res/drawable-xxxhdpi-v4/ic_doc_video_am_alpha.png	drawable-xxxhdpi-v4		ea43c712fc72cda5
+versions/5.1.1/assets/ldu-ic_hamburger.png	b92b6bfb19afb137	copy	shamu:/system/app/DocumentsUI/DocumentsUI.apk!res/drawable-xxxhdpi-v4/ic_hamburger_alpha.png	drawable-xxxhdpi-v4		b92b6bfb19afb137
 versions/5.1.1/assets/ldu-ic_menu_overflow.png	0ae945a160725924	copy	shamu:/system/app/DocumentsUI/DocumentsUI.apk!res/drawable-xxxhdpi-v4/ic_menu_overflow_alpha.png	drawable-xxxhdpi-v4		0ae945a160725924
 versions/5.1.1/assets/ldu-ic_menu_search.png	abb433401445bc8c	copy	shamu:/system/app/DocumentsUI/DocumentsUI.apk!res/drawable-xxxhdpi-v4/ic_menu_search_alpha.png	drawable-xxxhdpi-v4		abb433401445bc8c
 versions/5.1.1/assets/ldu-ic_menu_sortby_am.png	f11325c5c0e8c889	copy	shamu:/system/app/DocumentsUI/DocumentsUI.apk!res/drawable-xxxhdpi-v4/ic_menu_sortby_am_alpha.png	drawable-xxxhdpi-v4		f11325c5c0e8c889

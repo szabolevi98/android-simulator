@@ -981,6 +981,8 @@
       overlayRoot.innerHTML = `<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu"><button data-action="kk-cast-enable" role="menuitemcheckbox" aria-checked="${!!data.settings.wifiDisplay}" class="kk-check-item">${safe(i18n.t('Enable wireless display'))}<img src="assets/btn_check_${data.settings.wifiDisplay ? 'on' : 'off'}_holo_dark.png" alt=""></button></div>`;
     } else if (ui.overlay === 'ldu-sort' || ui.overlay === 'ldu-overflow') {
       overlayRoot.innerHTML = LPDownloads.menu(ui.overlay.slice(4), ui, key => i18n.t(key));
+    } else if (ui.overlay === 'kwp-open-menu') {
+      overlayRoot.innerHTML = KKWallpaperPicker.openFromMenu(ui, key => i18n.t(key));
     } else if (ui.overlay === 'lp-zen-drop') {
       overlayRoot.innerHTML = LPZen.dropdown(ui.zenDrop, data.settings, key => i18n.t(key));
       // overlapAnchor: the list covers the preference, from its start padding.
@@ -2170,6 +2172,9 @@
       case 'ldu-sort': ui.dlSort = id; ui.overlay = ''; render(); break;
       case 'ldu-view': ui.dlGrid = id === 'grid'; ui.overlay = ''; render(); break;
       case 'ldu-search': toast('No items'); break;
+      case 'kwp-open-menu': ui.overlay = 'kwp-open-menu'; renderOverlay(); break;
+      case 'kwp-open-view': ui.pickList = id === 'list'; ui.overlay = ''; render(); break;
+      case 'kwp-open-pref': if (id === 'advanced') ui.pickAdvanced = !ui.pickAdvanced; else ui.pickSize = !ui.pickSize; ui.overlay = ''; renderOverlay(); break;
       case 'settings-sub': ui.overlay = ''; if (id === 'development' && !data.settings.developerUnlocked) break; if (ui.view === 'settings' && !ui.sub) ui.settingsRootScroll = viewport.querySelector('.settings-app')?.scrollTop || 0; ui.sub = id; render(); break;
       case 'sd-dialog': ui.settingsField=id;ui.overlay='sd-dialog';renderOverlay();break;
       case 'sd-apps-tab': ui.settingsAppsTab=id;render();break;

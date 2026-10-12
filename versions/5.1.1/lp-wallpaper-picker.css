@@ -32,12 +32,13 @@
 .kwp-pick-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3.62px;color:#fff;font:400 12.68px RobotoICS,Arial,sans-serif}
 .screen .kwp-pick-label img{width:28.99px;height:28.99px;object-fit:contain}
 
-/* DocumentsUI "Open from" for image/*: the drawer glyph next to the Recent icon, image cards in the grid. */
-.screen .kdu-ab .kwp-roots{display:flex;align-items:center;gap:0}
-.screen .kdu-ab .kwp-roots img.kwp-glyph{width:19.33px;height:28.99px;margin-left:-7.25px}
-.kwp-doc .kdu-icon{overflow:hidden}
-.screen .kdu-grid .kwp-doc .kdu-icon img.kwp-doc-thumb{width:100%;height:100%;object-fit:cover}
-.screen .kdu-grid .kwp-doc .kdu-copy{flex:none;padding-top:0}
+/* DocumentsUI "Open from" for image/* (lp-downloads.css draws the Toolbar, rows and cells): item_doc_grid's centerCrop
+   thumbnail fills the cell under the caption band; in item_doc_list it fills the 40 dp icon box. */
+.screen .ldu-cell.kwp-doc{justify-content:flex-end;overflow:hidden}
+.screen .ldu-cell.kwp-doc>img.kwp-doc-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ldu-cell.kwp-doc .ldu-band{position:relative}
+.screen .ldu-item.kwp-doc .ldu-icon{overflow:hidden}
+.screen .ldu-item.kwp-doc img.kwp-doc-thumb{width:100%;height:100%;object-fit:cover}
 
 /* Settings > Display > Wallpaper (WallpaperTypeSettings): preference rows with the 48 dp app icons. */
 .screen .kk-wallpaper-type{gap:14.5px;min-height:65.2px}

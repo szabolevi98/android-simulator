@@ -285,3 +285,10 @@ Call volume	framework:volume_icon_description_incall
 Rename device	Settings:wifi_p2p_menu_rename
 Live Wallpapers	LiveWallpapersPicker:live_wallpaper_picker_label
 Phone|Mute	GoogleDialer:onscreenMuteText
+List view	DocumentsUI:menu_list
+Recent	DocumentsUI:root_recent
+Show roots	DocumentsUI:drawer_open
+Show internal storage	DocumentsUI:menu_advanced_show
+Hide internal storage	DocumentsUI:menu_advanced_hide
+Show file size	DocumentsUI:menu_file_size_show
+Hide file size	DocumentsUI:menu_file_size_hide

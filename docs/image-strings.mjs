@@ -64,7 +64,7 @@ const VERSIONS = {
     'lp-keyguard.js': ['SystemUI', 'framework', 'Settings'], 'lockscreen.js': ['SystemUI', 'framework', 'Settings'],
     'lp-recents.js': ['SystemUI'], 'lp-shade.js': ['SystemUI', 'framework'], 'lp-qs-icons.js': ['SystemUI'], 'lp-settings-pages.js': ['Settings', 'framework'],
     'lp-devopts.js': ['Settings'], 'lp-deskclock.js': ['DeskClockGoogle', 'framework'], 'lp-gallery.js': ['GalleryGoogle', 'framework'], 'lp-search.js': ['SystemUI', 'framework'],
-    'lp-downloads.js': ['DownloadProviderUi', 'DocumentsUI'], 'lp-play.js': ['Phonesky'], 'lp-wallpaper-picker.js': ['GoogleHome', 'WallpaperCropper'],
+    'lp-downloads.js': ['DownloadProviderUi', 'DocumentsUI'], 'lp-play.js': ['Phonesky'], 'lp-wallpaper-picker.js': ['GoogleHome', 'WallpaperCropper', 'DocumentsUI'],
     'lp-extra-apps.js': [], 'lp-ripple.js': [], 'lp-scroll.js': [], 'messaging.js': ['PrebuiltBugle']},
     keep: {'Forward': "Chrome's toolbar shares it with Email; only Email's text is in the image"},
     // The launcher shows the Maps app's own label (Velvet's search corpus of that name says 'Mapas' in Spanish).
