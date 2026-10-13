@@ -28,12 +28,15 @@ versions/2.1/assets/boot-part0.webp	e60579d2ccc26385	generated	passion:/system/m
 versions/2.1/assets/boot-part1.webp	c821a8d8fc17112a	generated	passion:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/2.1/assets/device-nexus-one.svg	2ad7fa6da390f925	own	drawn by docs/tools/device-frames.py: the outline measured from the maker's front render, the shading drawn			
 versions/2.1/assets/fw-arrow_down_float.png	003ca6caa5cac2e2	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/arrow_down_float.png	drawable-hdpi		003ca6caa5cac2e2
+versions/2.1/assets/fw-bottom_bar.png	fb91934c24ac5a2d	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/bottom_bar.png	drawable-hdpi		fb91934c24ac5a2d
 versions/2.1/assets/fw-btn_check_off.png	0456db300f1d3ee8	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_check_off.png	drawable-hdpi		0456db300f1d3ee8
 versions/2.1/assets/fw-btn_check_off_pressed.png	99e48dd3bac479f0	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_check_off_pressed.png	drawable-hdpi		99e48dd3bac479f0
 versions/2.1/assets/fw-btn_check_off_selected.png	f0c1a00b9ba8568b	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_check_off_selected.png	drawable-hdpi		f0c1a00b9ba8568b
 versions/2.1/assets/fw-btn_check_on.png	0a765f14a4482a95	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_check_on.png	drawable-hdpi		0a765f14a4482a95
 versions/2.1/assets/fw-btn_check_on_pressed.png	646d3c6ba5aee12e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_check_on_pressed.png	drawable-hdpi		646d3c6ba5aee12e
 versions/2.1/assets/fw-btn_check_on_selected.png	acd5aa54e02abba7	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_check_on_selected.png	drawable-hdpi		acd5aa54e02abba7
+versions/2.1/assets/fw-btn_code_lock_default.png	f6f1e3b97fac353c	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_code_lock_default.png	drawable-hdpi		f6f1e3b97fac353c
+versions/2.1/assets/fw-btn_code_lock_touched.png	e71965add1fc4d05	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_code_lock_touched.png	drawable-hdpi		e71965add1fc4d05
 versions/2.1/assets/fw-btn_default_normal.9.png	200b9b2937c9e8a3	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_normal.9.png	drawable-hdpi		200b9b2937c9e8a3
 versions/2.1/assets/fw-btn_default_normal_disable.9.png	0bac926e446f47d2	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_normal_disable.9.png	drawable-hdpi		0bac926e446f47d2
 versions/2.1/assets/fw-btn_default_pressed.9.png	c2feb54002fc6b80	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_pressed.9.png	drawable-hdpi		c2feb54002fc6b80
@@ -46,6 +49,8 @@ versions/2.1/assets/fw-btn_radio_on.png	588e7fef990e9292	copy	passion:/system/fr
 versions/2.1/assets/fw-btn_radio_on_pressed.png	85661bced4256b82	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_radio_on_pressed.png	drawable-hdpi		85661bced4256b82
 versions/2.1/assets/fw-btn_search_dialog_voice_default.9.png	0d995bae5f291e2d	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_search_dialog_voice_default.9.png	drawable-hdpi		0d995bae5f291e2d
 versions/2.1/assets/fw-btn_search_dialog_voice_pressed.9.png	6e2c2151baa682d0	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_search_dialog_voice_pressed.9.png	drawable-hdpi		6e2c2151baa682d0
+versions/2.1/assets/fw-code_lock_bottom.9.png	0767abf06450c7bc	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/code_lock_bottom.9.png	drawable-hdpi		0767abf06450c7bc
+versions/2.1/assets/fw-code_lock_top.9.png	1bfde6211b33c373	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/code_lock_top.9.png	drawable-hdpi		1bfde6211b33c373
 versions/2.1/assets/fw-dark_header_dither.9.png	626e46fa078db35e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/dark_header.9.png	drawable-hdpi		626e46fa078db35e
 versions/2.1/assets/fw-default_wallpaper.jpg	d7299176b8f4743d	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/default_wallpaper.jpg	drawable-hdpi		d7299176b8f4743d
 versions/2.1/assets/fw-dialog_divider_horizontal_light.9.png	86ff44e1b3e4d069	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/dialog_divider_horizontal_light.9.png	drawable-hdpi		86ff44e1b3e4d069
@@ -73,6 +78,7 @@ versions/2.1/assets/fw-ic_lock_airplane_mode.png	940a088d18f3693d	copy	passion:/
 versions/2.1/assets/fw-ic_lock_airplane_mode_off.png	8ff4a38efa2128df	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_lock_airplane_mode_off.png	drawable-hdpi		8ff4a38efa2128df
 versions/2.1/assets/fw-ic_lock_idle_alarm.png	733f9b8c5fcce37b	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_lock_idle_alarm.png	drawable-hdpi		733f9b8c5fcce37b
 versions/2.1/assets/fw-ic_lock_idle_charging.png	1f030bfa55429ce9	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_lock_idle_charging.png	drawable-hdpi		1f030bfa55429ce9
+versions/2.1/assets/fw-ic_lock_idle_lock.png	705064dd935c95cc	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_lock_idle_lock.png	drawable-hdpi		705064dd935c95cc
 versions/2.1/assets/fw-ic_lock_idle_low_battery.png	6ee924e59a30f1b7	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_lock_idle_low_battery.png	drawable-hdpi		6ee924e59a30f1b7
 versions/2.1/assets/fw-ic_lock_power_off.png	6ddbc1b92dcfe7e0	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_lock_power_off.png	drawable-hdpi		6ddbc1b92dcfe7e0
 versions/2.1/assets/fw-ic_lock_ringer_off.png	daffddf125b8762b	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_lock_ringer_off.png	drawable-hdpi		daffddf125b8762b
@@ -90,6 +96,11 @@ versions/2.1/assets/fw-ic_volume.png	608b0d9d72187baa	copy	passion:/system/frame
 versions/2.1/assets/fw-ic_volume_off.png	753baefad79bf359	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_volume_off.png	drawable-hdpi		753baefad79bf359
 versions/2.1/assets/fw-ic_volume_off_small.png	3f8744dfc93bb0da	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_volume_off_small.png	drawable-hdpi		3f8744dfc93bb0da
 versions/2.1/assets/fw-ic_volume_small.png	b82c8a7e36a2c017	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_volume_small.png	drawable-hdpi		b82c8a7e36a2c017
+versions/2.1/assets/fw-indicator_code_lock_drag_direction_green_up.png	92cac54942270c26	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/indicator_code_lock_drag_direction_green_up.png	drawable-hdpi		92cac54942270c26
+versions/2.1/assets/fw-indicator_code_lock_drag_direction_red_up.png	1c9b039660162427	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/indicator_code_lock_drag_direction_red_up.png	drawable-hdpi		1c9b039660162427
+versions/2.1/assets/fw-indicator_code_lock_point_area_default.png	01429356d923b431	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/indicator_code_lock_point_area_default.png	drawable-hdpi		01429356d923b431
+versions/2.1/assets/fw-indicator_code_lock_point_area_green.png	c02cb11cd6831e8c	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/indicator_code_lock_point_area_green.png	drawable-hdpi		c02cb11cd6831e8c
+versions/2.1/assets/fw-indicator_code_lock_point_area_red.png	bc85d5acad67a41c	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/indicator_code_lock_point_area_red.png	drawable-hdpi		bc85d5acad67a41c
 versions/2.1/assets/fw-jog_tab_bar_left_end_confirm_gray.9.png	7456a7701ad74046	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/jog_tab_bar_left_end_confirm_gray.9.png	drawable-hdpi		7456a7701ad74046
 versions/2.1/assets/fw-jog_tab_bar_left_end_confirm_green.9.png	c1c4024898d17a6c	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/jog_tab_bar_left_end_confirm_green.9.png	drawable-hdpi		c1c4024898d17a6c
 versions/2.1/assets/fw-jog_tab_bar_left_end_normal.9.png	1e35238413ba0206	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/jog_tab_bar_left_end_normal.9.png	drawable-hdpi		1e35238413ba0206
@@ -332,6 +343,7 @@ versions/2.1/assets/st-ic_appwidget_settings_sync_off.png	371ad286b1130c8d	copy	
 versions/2.1/assets/st-ic_appwidget_settings_sync_on.png	df900ccac21d2bf9	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_appwidget_settings_sync_on.png	drawable-hdpi		df900ccac21d2bf9
 versions/2.1/assets/st-ic_appwidget_settings_wifi_off.png	0228f10d9245db91	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_appwidget_settings_wifi_off.png	drawable-hdpi		0228f10d9245db91
 versions/2.1/assets/st-ic_appwidget_settings_wifi_on.png	9547ae466e7a5a97	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_appwidget_settings_wifi_on.png	drawable-hdpi		9547ae466e7a5a97
+versions/2.1/assets/st-ic_btn_next.png	f87394f09bca77e4	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_btn_next.png	drawable-hdpi		f87394f09bca77e4
 versions/2.1/assets/st-ic_popup_brightness.png	b83ee80fa0cafd20	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_popup_brightness.png	drawable-hdpi		b83ee80fa0cafd20
 versions/2.1/assets/st-ic_settings_about.png	dfd57766841a1ae2	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_about.png	drawable-hdpi		dfd57766841a1ae2
 versions/2.1/assets/st-ic_settings_accessibility.png	b6a51e6cc344ab58	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_accessibility.png	drawable-hdpi		b6a51e6cc344ab58
@@ -348,3 +360,11 @@ versions/2.1/assets/st-ic_settings_speech.png	bb23336bcde3f48e	copy	passion:/sys
 versions/2.1/assets/st-ic_settings_storage.png	f57a3a60738f1d3b	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_storage.png	drawable-hdpi		f57a3a60738f1d3b
 versions/2.1/assets/st-ic_settings_sync.png	8e42e98a275b7fe6	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_sync.png	drawable-hdpi		8e42e98a275b7fe6
 versions/2.1/assets/st-ic_settings_wireless.png	b9237cbff1130dcc	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_wireless.png	drawable-hdpi		b9237cbff1130dcc
+versions/2.1/assets/st-lock_anim_00.png	5b984d4842beea66	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_00.png	drawable-hdpi		5b984d4842beea66
+versions/2.1/assets/st-lock_anim_02.png	9930d14e7e738f7e	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_02.png	drawable-hdpi		9930d14e7e738f7e
+versions/2.1/assets/st-lock_anim_04.png	3f6ae2fccbbf46e6	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_04.png	drawable-hdpi		3f6ae2fccbbf46e6
+versions/2.1/assets/st-lock_anim_06.png	c51a27f03afeb376	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_06.png	drawable-hdpi		c51a27f03afeb376
+versions/2.1/assets/st-lock_anim_08.png	4980e0cd0585cfdf	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_08.png	drawable-hdpi		4980e0cd0585cfdf
+versions/2.1/assets/st-lock_anim_10.png	3e11b4e60b1941d5	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_10.png	drawable-hdpi		3e11b4e60b1941d5
+versions/2.1/assets/st-lock_anim_12.png	a4bc38246e6c9345	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_12.png	drawable-hdpi		a4bc38246e6c9345
+versions/2.1/assets/st-lock_anim_14.png	f8dae7a137da6c0b	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_14.png	drawable-hdpi		f8dae7a137da6c0b

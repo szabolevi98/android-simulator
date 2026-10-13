@@ -312,3 +312,24 @@ fw-btn_check_off_selected.png	framework/framework-res.apk	drawable/btn_check_off
 fw-seek_thumb_normal.png	framework/framework-res.apk	drawable/seek_thumb_normal
 fw-seek_thumb_pressed.png	framework/framework-res.apk	drawable/seek_thumb_pressed
 fw-seek_thumb_selected.png	framework/framework-res.apk	drawable/seek_thumb_selected
+# ChooseLockPattern and the pattern unlock screen (LockPatternView)
+fw-btn_code_lock_default.png	framework/framework-res.apk	drawable/btn_code_lock_default
+fw-btn_code_lock_touched.png	framework/framework-res.apk	drawable/btn_code_lock_touched
+fw-indicator_code_lock_point_area_default.png	framework/framework-res.apk	drawable/indicator_code_lock_point_area_default
+fw-indicator_code_lock_point_area_green.png	framework/framework-res.apk	drawable/indicator_code_lock_point_area_green
+fw-indicator_code_lock_point_area_red.png	framework/framework-res.apk	drawable/indicator_code_lock_point_area_red
+fw-indicator_code_lock_drag_direction_green_up.png	framework/framework-res.apk	drawable/indicator_code_lock_drag_direction_green_up
+fw-indicator_code_lock_drag_direction_red_up.png	framework/framework-res.apk	drawable/indicator_code_lock_drag_direction_red_up
+fw-bottom_bar.png	framework/framework-res.apk	drawable/bottom_bar
+fw-ic_lock_idle_lock.png	framework/framework-res.apk	drawable/ic_lock_idle_lock
+fw-code_lock_top.9.png	framework/framework-res.apk	drawable/code_lock_top
+fw-code_lock_bottom.9.png	framework/framework-res.apk	drawable/code_lock_bottom
+st-lock_anim_00.png	app/Settings.apk	drawable/lock_anim_00
+st-lock_anim_02.png	app/Settings.apk	drawable/lock_anim_02
+st-lock_anim_04.png	app/Settings.apk	drawable/lock_anim_04
+st-lock_anim_06.png	app/Settings.apk	drawable/lock_anim_06
+st-lock_anim_08.png	app/Settings.apk	drawable/lock_anim_08
+st-lock_anim_10.png	app/Settings.apk	drawable/lock_anim_10
+st-lock_anim_12.png	app/Settings.apk	drawable/lock_anim_12
+st-lock_anim_14.png	app/Settings.apk	drawable/lock_anim_14
+st-ic_btn_next.png	app/Settings.apk	drawable/ic_btn_next

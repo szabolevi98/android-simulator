@@ -157,6 +157,7 @@
     if (n.t === 'RingerVolumePreference' || n.t === 'VolumePreference' || n.t === 'BrightnessPreference') { volumeDialog(c, n); return; }
     if (n.intent?.targetClass) {
       const cls = n.intent.targetClass.split('.').pop();
+      if (cls.startsWith('ChooseLockPattern')) { EC.patternFlow.start(c); return; }
       if (CLASS[cls] && EC.settingsXml[CLASS[cls]]) { c.ui.settingsStack.push(CLASS[cls]); c.render(); c.el.viewport.querySelector('.ecwin-content')?.scrollTo(0, 0); return; }
       c.ui.settingsStack.push(`missing:${cls}`); c.render(); return;
     }
