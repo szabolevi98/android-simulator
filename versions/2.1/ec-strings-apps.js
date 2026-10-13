@@ -122,7 +122,15 @@ EC.strings('apps', {
 "res": "passion:GoogleGoggles:app_name_icon",
 "en": "Goggles",
 "hu": "Goggles",
-"huOwn": true
+"huOwn": true,
+"de": "Goggles",
+"fr": "Goggles",
+"es": "Goggles",
+"untranslated": [
+"de",
+"fr",
+"es"
+]
 },
 "Maps/MAPS_APP_NAME": {
 "res": "passion:Maps:MAPS_APP_NAME",
@@ -211,12 +219,24 @@ EC.strings('apps', {
 "de": "MP3-Downloads",
 "fr": "Boutique MP3",
 "hu": "MP3 Store",
-"huOwn": true
+"huOwn": true,
+"es": "MP3 Store",
+"untranslated": [
+"es"
+]
 },
 "googlevoice/app_icon_name": {
 "res": "passion:googlevoice:app_icon_name",
 "en": "Voice",
 "hu": "Hang",
-"huFrom": "crespo:framework:serviceClassVoice"
+"huFrom": "crespo:framework:serviceClassVoice",
+"de": "Voice",
+"fr": "Voice",
+"es": "Voice",
+"untranslated": [
+"de",
+"fr",
+"es"
+]
 }
 });
