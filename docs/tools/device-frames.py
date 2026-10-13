@@ -75,7 +75,7 @@ TOUCHKEYS = {
     'home': '<path d="M2.5 12.5 12 4.5l9.5 8M6 10.5V19h12v-8.5"/>',
 }
 
-def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False, widen=1.0, glass=None, points=180, soft=1):
+def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False, widen=1.0, glass=None, points=180, soft=1, band=None):
     sx0, sy0, sx1, sy1 = screen
     scale = css_screen[0] / (sx1 - sx0)
     origin = (body_x[0], body_y[0])
@@ -123,10 +123,12 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
                     holes.append(f'<circle cx="{x + math.cos(a) * rr * ring:.2f}" cy="{y + math.sin(a) * rr * ring:.2f}" r="{rr * .1:.2f}" fill="#262a2d"/>')
             feat.append(''.join(holes))
         elif kind == 'trackball':
-            # Nexus One: an optical trackball in a dark ring on the metal chin; it lights up for notifications.
-            _, cx, cy, r = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m; rr = S(r)
-            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{rr + 1.3:.2f}" fill="#0a0807"/>')
-            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{rr:.2f}" fill="url(#ball)" stroke="#8d8c8b" stroke-width=".4"/>')
+            # Nexus One: an optical trackball (ball radius r) in a black ring (outer radius ring) with a faint bevel round it
+            # on the metal chin; it lights up for notifications.
+            _, cx, cy, r, ring = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m; rr = S(r)
+            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{S(ring) + .5:.2f}" fill="#655b58"/>')
+            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{S(ring):.2f}" fill="#070707"/>')
+            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{rr:.2f}" fill="url(#ball)"/>')
         elif kind == 'led':
             _, cx, cy, r = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m
             feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{S(r):.2f}" fill="#141617" stroke="#25292c" stroke-width=".4"/>')
@@ -155,6 +157,15 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
         gd = smooth_path(soften(hull_filter(gpts, gx, gy, points), soft))
         front = (f'<path d="{gd}" transform="translate({m} {m})" fill="url(#front)" stroke="{glass["edge"]}" stroke-width=".9"/>'
                  f'<path d="{gd}" transform="translate({m} {m})" fill="url(#glare)"/>')
+    # Optional dark band along the bottom (Nexus One): the body curving away under the chin. band is the top edge of the
+    # band as reference points; the shape runs from that edge down past the body and is clipped to the outline.
+    under = ''
+    if band:
+        bp = [(S(x - origin[0]) + m + dx, S(y - origin[1]) + m) for x, y in band]
+        bp = [(x, sum(q[1] for q in bp[max(0, i - 3):i + 4]) / len(bp[max(0, i - 3):i + 4])) for i, (x, y) in enumerate(bp)]  # open, not circular
+        edge = 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in bp)
+        under = (f'<path d="{edge} L{bp[-1][0]:.2f} {H:.2f} L{bp[0][0]:.2f} {H:.2f}Z" fill="url(#band)"/>'
+                 f'<path d="{edge}" fill="none" stroke="#120f0e" stroke-width="1"/>')
     gi = p.get('glassInset', 0)
     glass = f'<path d="{d}" transform="translate({m + gi} {m + gi}) scale({(w - 2 * gi) / w:.4f} {(h - 2 * gi) / h:.4f})" fill="none" stroke="url(#glassEdge)" stroke-width="1.1"/>' if gi else ''
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W:.2f} {H:.2f}" width="{W:.2f}" height="{H:.2f}">
@@ -168,14 +179,15 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
 <linearGradient id="key" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
 <linearGradient id="keyTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
 <linearGradient id="front" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#151617"/><stop offset=".5" stop-color="#050506"/><stop offset="1" stop-color="#0c0d0e"/></linearGradient>
-<radialGradient id="ball" cx=".38" cy=".34" r=".7"><stop offset="0" stop-color="#fbfbfb"/><stop offset=".55" stop-color="#cfcfcf"/><stop offset="1" stop-color="#8c8c8c"/></radialGradient>
+<linearGradient id="band" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#3a3230"/><stop offset=".45" stop-color="#211c1b"/><stop offset="1" stop-color="#0b0909"/></linearGradient>
+<radialGradient id="ball" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#c2c2c2"/><stop offset=".66" stop-color="#c2c2c2"/><stop offset=".84" stop-color="#acacac"/><stop offset="1" stop-color="#c4c4c4"/></radialGradient>
 <linearGradient id="glassEdge" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".45" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#fff" stop-opacity=".22"/></linearGradient>
 <clipPath id="clip"><path d="{d}" transform="translate({m} {m})"/></clipPath>
 </defs>
 {''.join(btn)}
 <path d="{d}" transform="translate({m} {m})" fill="url(#body)" stroke="url(#rim)" stroke-width="{p['rimWidth']}"/>
 <g clip-path="url(#clip)"><path d="{d}" transform="translate({m} {m}) scale({(w - 3) / w:.4f} {(h - 3) / h:.4f}) translate(1.5 1.5)" fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width="1.2"/>
-{glass}{'' if front else f'<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#glare)"/>'}<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#chin)"/></g>
+{under}{glass}{'' if front else f'<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#glare)"/>'}<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#chin)"/></g>
 {front}
 {''.join(feat)}
 </svg>'''
@@ -237,8 +249,9 @@ if os.path.exists('n6-render.png'):
 # Wikimedia Commons ("Nexus One.png" by Zach Vega, CC BY-SA 3.0), whose display is 376 x 625 at (38, 100) and whose body
 # (454 x 903) has the real 59.8 x 119 mm proportions. The glass is traced from a mask of the mockup's black front (flood
 # fill from the display). The 3.7" panel at the Nexus S scale (0.575 px per pixel for 4.0") is 255.3 x 425.5 (0.532).
-# Keys from the reviews (GSMArena, Engadget, Android Central): power on the top edge, 3.5 mm jack at the other end, the long
-# thin volume rocker on the left edge; the small charge LED sits right of the earpiece (Commons "Docked Nexus One").
+# Keys: the short power key at the left end of the top edge (owner's photo, 2026-10-13), the 3.5 mm jack at the other end, the
+# long thin volume rocker on the left edge (GSMArena, Engadget, Android Central reviews); the small charge LED sits right of
+# the earpiece (Commons "Docked Nexus One"). The dark band under the chin is where the body curves away, traced per column.
 if os.path.exists('n1-render.png'):
   from PIL import Image, ImageDraw
   if not os.path.exists('n1-glass.png'):
@@ -250,13 +263,28 @@ if os.path.exists('n1-render.png'):
     ImageDraw.floodfill(dark, (227, 400), 255)
     mask = Image.new('RGBA', src.size, (0, 0, 0, 0)); mask.putalpha(dark.point(lambda v: 255 if v == 255 else 0)); mask.save('n1-glass.png')
   ref = Image.open('n1-render.png').convert('RGBA')
-  n1_top = min(y for y in range(60) if ref.getpixel((351, y))[3] > 110)
+  n1_top = min(y for y in range(60) if ref.getpixel((90, y))[3] > 110)
+  # Bottom band: per column, where the metal chin gets markedly darker (a relative drop, since the metal is lighter near the
+  # sides), median-filtered; the trackball columns are bridged.
+  lum = lambda x, y: sum(ref.getpixel((x, y))[:3]) / 3
+  raw = []
+  for x in range(4, 450, 2):
+    if 196 <= x <= 258: continue
+    ys = [y for y in range(790, 903) if ref.getpixel((x, y))[3] > 110]
+    metal = next((y for y in ys if lum(x, y) > 50), None)
+    if metal is None: continue
+    for y in ys:
+      if y > metal + 4 and lum(x, y) < 0.6 * sorted(lum(x, k) for k in range(y - 6, y - 1))[2]:
+        raw.append((x, y)); break
+  n1_band = [(x, sorted(r[1] for r in raw[max(0, i - 4):i + 5])[len(raw[max(0, i - 4):i + 5]) // 2]) for i, (x, _) in enumerate(raw)]
+  # at both ends the band runs up the curved sides to the outline (y 801 at the very edge on the reference)
+  n1_band = [(0, 801)] + n1_band + [(453, 801)]
   svg, info = frame('nexus-one', 'n1-render.png', (0, 453), (0, 902), (38, 100, 414, 725), (255.3, 425.5),
     [('slot', 227, 33, 182, 11), ('led', 392, 33, 3.5),
      ('touchkey', 'back', 86, 753, 32), ('touchkey', 'menu', 181, 753, 32), ('touchkey', 'home', 272, 753, 32), ('touchkey', 'search', 366, 753, 32),
-     ('trackball', 227, 832, 19)],
-    [('top', 318, 384, 4, n1_top), ('left', 150, 300, 4)],
+     ('trackball', 226, 832, 19.5, 24)],
+    [('top', 70, 112, 4, n1_top), ('left', 150, 300, 4)],
     {'body': ['#6f6462', '#463e3c', '#5d5351'], 'rim': ['#a0928f', '#2f2928', '#7c706d'], 'rimWidth': 2.0, 'chin': .08},
-    mirror=True, glass={'mask': 'n1-glass.png', 'edge': '#2a2524'}, points=720, soft=11)
+    mirror=True, glass={'mask': 'n1-glass.png', 'edge': '#2a2524'}, points=720, soft=11, band=n1_band)
   open('device-nexus-one.svg', 'w').write(svg); out['n1'] = info
 print(json.dumps(out, indent=1))

@@ -49,6 +49,7 @@ the other way round:
 
 `docs/tools/device-frames.py` draws `device-nexus-one.svg` (kept in `docs/data/` until the scaffold moves it to `versions/2.1/assets/`) from the front mockup on Wikimedia Commons
 ("Nexus One.png", Zach Vega, CC BY-SA 3.0; only its outline and the glass outline are traced): a brown-grey metal body,
-black glass front with Back, Menu, Home and Search, the trackball on the metal chin, the charge LED right of the earpiece,
-the power key on the top edge and the volume rocker on the left. The 3.7" display window is 255.3 × 425.5 px, the same
+black glass front with Back, Menu, Home and Search, the trackball (measured: ball r 19.5, black ring r 24 on the reference)
+on the metal chin, the dark band where the body curves away under it, the charge LED right of the earpiece,
+the short power key at the left end of the top edge (owner's photo) and the volume rocker on the left. The 3.7" display window is 255.3 × 425.5 px, the same
 scale as the Nexus S (4.0", 276 × 460). A 2.1 home-screen capture for reference: Commons "Nexus one home screen 21.png".
