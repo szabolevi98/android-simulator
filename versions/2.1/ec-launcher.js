@@ -124,6 +124,20 @@
     ws.addEventListener('pointerup', end); ws.addEventListener('pointercancel', end);
   }
 
+  // AddAdapter: the "Add to Home screen" list (add_list_item.xml rows).
+  function addDialog(c) {
+    const L = EC.text('launcher');
+    c.dialog({title: L.t('menu_item_add_item'), icon: 'fw-ic_dialog_menu_generic.png', items: [
+      {label: L.t('group_shortcuts'), icon: 'l2-ic_launcher_shortcut.png'}, {label: L.t('group_widgets'), icon: 'l2-ic_launcher_appwidget.png'},
+      {label: L.t('group_live_folders'), icon: 'l2-ic_launcher_folder.png'}, {label: L.t('group_wallpapers'), icon: 'l2-ic_launcher_wallpaper.png'}],
+      onItem: (i, c) => [() => c.open('add-shortcut'), () => c.open('add-widget'), () => c.open('add-folder'), () => wallpaperChooser(c)][i]()});
+  }
+  // startWallpaper: the chooser of ACTION_SET_WALLPAPER handlers (title chooser_wallpaper).
+  function wallpaperChooser(c) {
+    if (EC.module('wallpaper-chooser')) c.overlay('wallpaper-chooser');
+    else c.open('wallpaper-chooser');
+  }
+
   EC.register('home', {
     app: false,
     init(c) {
@@ -145,7 +159,19 @@
       if (name === 'eclh-voice') { c.open('voice-search'); return true; }
       return false;
     },
-    menu(c) { if (EC.module('home-menu')) c.overlay('home-menu'); return true; },
+    // Launcher.onCreateOptionsMenu: Add (ic_menu_add), Wallpaper (ic_menu_gallery), Search (ic_search_category_default),
+    // Notifications (ic_menu_notifications), Settings (ic_menu_preferences).
+    menu(c) {
+      const L = EC.text('launcher');
+      c.menu([
+        {label: L.t('menu_add'), icon: 'fw-ic_menu_add.png', action: () => addDialog(c)},
+        {label: L.t('menu_wallpaper'), icon: 'fw-ic_menu_gallery.png', action: () => wallpaperChooser(c)},
+        {label: L.t('menu_search'), icon: 'fw-ic_search_category_default.png', action: () => c.open('search')},
+        {label: L.t('menu_notifications'), icon: 'fw-ic_menu_notifications.png', action: () => c.expandShade?.()},
+        {label: L.t('menu_settings'), icon: 'fw-ic_menu_preferences.png', action: () => c.open('settings')}
+      ]);
+      return true;
+    },
     back: () => true
   });
 })();

@@ -189,6 +189,7 @@
         if (row.ticker) startTicker(c, row);
         return row;
       };
+      c.expandShade = () => expand(c);
       c.cancelNotification = id => { c.data.notifications = (c.data.notifications || []).filter(n => n.id !== id); c.save(); c.render(); };
       c.el.status.addEventListener('pointerdown', event => startDrag(c, event, false));
       c.el.overlay.addEventListener('pointerdown', event => { if (event.target.closest('.ecsh-close')) startDrag(c, event, true); });

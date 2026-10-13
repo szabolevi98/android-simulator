@@ -1,0 +1,56 @@
+/* Android 2.1 framework windows (ec-ui.js): the icon menu, the expanded menu, AlertDialog and Toast, in dp / sp. The
+   dividers are divider_horizontal_bright / divider_vertical_bright: one pixel of #00000026. */
+.ecui-scrim{position:absolute;inset:0}
+/* The options panel: full width at the bottom on menu_background_fill_parent_width; rows of 65 dp. */
+.ecui-menu{position:absolute;left:0;right:0;bottom:0;animation:ecui-panel-in .15s cubic-bezier(0,0,.2,1) both}
+.ecui-menu.closing{animation:ecui-panel-out .15s cubic-bezier(.4,0,1,1) both}
+@keyframes ecui-panel-in{from{transform:translateY(25%);opacity:0}}
+@keyframes ecui-panel-out{to{transform:translateY(50%);opacity:0}}
+.ecui-rows{position:relative;z-index:1}
+.ecui-row{display:flex;height:calc(65 * var(--dp))}
+.ecui-row+.ecui-row{border-top:calc(1 * var(--dp)) solid #00000026}
+.ecui-item{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;padding:calc(3 * var(--dp)) calc(3 * var(--dp)) calc(1 * var(--dp));background:none;color:#000!important;font-size:calc(14 * var(--dp))}
+.ecui-item+.ecui-item{border-left:calc(1 * var(--dp)) solid #00000026}
+.ecui-item img{position:relative;z-index:1;width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.ecui-item span{position:relative;z-index:1;max-width:100%;white-space:nowrap;overflow:hidden}
+.ecui-item:disabled{opacity:.5}
+/* The expanded menu: ExpandedMenuView 296 dp wide, list_menu_item_layout rows of 64 dp, textAppearanceLargeInverse. */
+.ecui-expanded{position:absolute;left:50%;bottom:0;width:calc(296 * var(--dp));margin-left:calc(-148 * var(--dp));animation:ecui-panel-in .15s cubic-bezier(0,0,.2,1) both}
+.ecui-xlist{position:relative;z-index:1}
+.ecui-xitem{display:flex;align-items:center;width:100%;height:calc(64 * var(--dp));border:0;padding:0 calc(6 * var(--dp));background:none;color:#000!important;font-size:calc(22 * var(--dp));text-align:left}
+.ecui-xitem+.ecui-xitem{border-top:calc(1 * var(--dp)) solid #00000026}
+.ecui-xitem:active{background:#ffc300}
+
+/* AlertDialog: the window dims what is behind it by 0.6 and sits in the middle; parentPanel padding 3 / 9 / 1 / 3 dp. */
+.ecui-dim{position:absolute;inset:0;background:#00000099}
+.ecui-dialog{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);max-height:100%;display:flex;flex-direction:column;padding:calc(9 * var(--dp)) calc(1 * var(--dp)) calc(3 * var(--dp)) calc(3 * var(--dp));color:#fff}
+.ecui-dialog>div{position:relative;flex:none}
+.ecui-top{min-height:calc(54 * var(--dp))}
+.ecui-title-row{display:flex;align-items:center;margin:calc(6 * var(--dp)) calc(10 * var(--dp)) calc(9 * var(--dp))}
+.ecui-title-row img{align-self:flex-start;padding:calc(6 * var(--dp)) calc(10 * var(--dp)) 0 0;width:calc(42 * var(--dp))}
+.ecui-title{flex:1;min-width:0;font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecui-content{flex:0 1 auto!important;min-height:0;display:flex;flex-direction:column}
+.ecui-scroll{position:relative;z-index:1;overflow-y:auto;min-height:0}
+.ecui-message{padding:calc(2 * var(--dp)) calc(10 * var(--dp)) calc(12 * var(--dp)) calc(14 * var(--dp));font-size:calc(18 * var(--dp));line-height:1.3}
+.ecui-message::before{content:"";display:block;height:calc(5 * var(--dp))}
+/* select_dialog_item: 22 sp black, at least 64 dp, padding 14 / 15 dp; the choice indicator at the right. */
+.ecui-li{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(15 * var(--dp)) 0 calc(14 * var(--dp));background:none;color:#000!important;font-size:calc(22 * var(--dp));text-align:left}
+.ecui-li span{position:relative;z-index:1;flex:1;min-width:0;white-space:nowrap;overflow:hidden}
+.ecui-li-icon{padding:0 calc(15 * var(--dp));gap:calc(14 * var(--dp))}
+.ecui-li-icon img{position:relative;z-index:1;width:calc(48 * var(--dp));height:calc(48 * var(--dp));flex:none}
+.ecui-mark{position:relative;z-index:1;width:calc(38 * var(--dp));height:calc(48 * var(--dp))}
+.ecui-divider{display:block;height:calc(1 * var(--dp));background:#00000026}
+.ecui-custom-inner{position:relative;z-index:1;padding:calc(5 * var(--dp)) 0}
+/* buttonPanel: at least 54 dp, padding 2 / 4 / 2 dp; buttons share the row; one button gets a quarter spacer each side. */
+.ecui-buttons{min-height:calc(54 * var(--dp))}
+.ecui-button-row{position:relative;z-index:1;display:flex;padding:calc(4 * var(--dp)) calc(2 * var(--dp)) 0}
+.ecui-button-row.single{padding-left:calc(2 * var(--dp) + 16.67%);padding-right:calc(2 * var(--dp) + 16.67%)}
+.ecui-button{position:relative;flex:1;min-width:0;min-height:calc(48 * var(--dp));border:0;padding:calc(6 * var(--dp)) calc(10 * var(--dp)) calc(9 * var(--dp));background:none;color:#000!important;font-size:calc(14 * var(--dp))}
+.ecui-button span{position:relative;z-index:1}
+
+/* Toast: toast_frame, 14 sp white with a #bb000000 shadow, bottom centre 64 dp up. */
+.ecui-toast-layer{position:absolute;left:0;right:0;bottom:calc(64 * var(--dp));z-index:40;display:flex;justify-content:center;pointer-events:none}
+.ecui-toast{position:relative;max-width:90%;color:#fff;font-size:calc(14 * var(--dp));text-shadow:0 0 calc(2.75 * var(--dp)) #000000bb;animation:ecui-fade .2s both}
+.ecui-toast span{position:relative;z-index:1}
+.ecui-toast.out{animation:ecui-fade .2s reverse both}
+@keyframes ecui-fade{from{opacity:0}}

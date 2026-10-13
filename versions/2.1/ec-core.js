@@ -155,8 +155,8 @@
     open('search');
   }
 
-  // Toasts: drawn by the toast module once it exists; until then the text goes to the console.
-  function toast(text) { if (modules.toast) modules.toast.show(c, text); else console.info('[toast]', text); }
+  // Toasts: ec-ui.js replaces c.toast with the framework's Toast; until it loads the text goes to the console.
+  function toast(text, long) { if (c.toast !== toast) c.toast(text, long); else console.info('[toast]', text); }
 
   // Screen off / on. With a lock screen built, turning the screen off shows the keyguard (KeyguardViewMediator).
   function lockScreen() {
