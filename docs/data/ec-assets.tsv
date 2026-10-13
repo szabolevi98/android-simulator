@@ -361,3 +361,7 @@ fw-textfield_default.9.png	framework/framework-res.apk	drawable/textfield_defaul
 fw-textfield_selected.9.png	framework/framework-res.apk	drawable/textfield_selected
 fw-btn_dropdown_normal.9.png	framework/framework-res.apk	drawable/btn_dropdown_normal
 fw-btn_dropdown_pressed.9.png	framework/framework-res.apk	drawable/btn_dropdown_pressed
+# Calculator (menu icons)
+cl-advanced.png	app/Calculator.apk	drawable/advanced
+cl-simple.png	app/Calculator.apk	drawable/simple
+cl-clear_history.png	app/Calculator.apk	drawable/clear_history

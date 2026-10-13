@@ -26,6 +26,9 @@ versions/2.1/assets/app-voice-search.png	1f9ff9dc66694f6a	copy	passion:/system/a
 versions/2.1/assets/app-youtube.png	a98f35ba7022e561	copy	passion:/system/app/MediaUploader.apk!res/drawable-hdpi/youtube_main.png	drawable-hdpi		a98f35ba7022e561
 versions/2.1/assets/boot-part0.webp	e60579d2ccc26385	generated	passion:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/2.1/assets/boot-part1.webp	c821a8d8fc17112a	generated	passion:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
+versions/2.1/assets/cl-advanced.png	4ca91ed3a2aebb62	copy	passion:/system/app/Calculator.apk!res/drawable-hdpi/advanced.png	drawable-hdpi		4ca91ed3a2aebb62
+versions/2.1/assets/cl-clear_history.png	6ca148ca0b082b0d	copy	passion:/system/app/Calculator.apk!res/drawable-hdpi/clear_history.png	drawable-hdpi		6ca148ca0b082b0d
+versions/2.1/assets/cl-simple.png	e43731639def92e5	copy	passion:/system/app/Calculator.apk!res/drawable-hdpi/simple.png	drawable-hdpi		e43731639def92e5
 versions/2.1/assets/device-nexus-one.svg	2ad7fa6da390f925	own	drawn by docs/tools/device-frames.py: the outline measured from the maker's front render, the shading drawn			
 versions/2.1/assets/fw-arrow_down_float.png	003ca6caa5cac2e2	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/arrow_down_float.png	drawable-hdpi		003ca6caa5cac2e2
 versions/2.1/assets/fw-bottom_bar.png	fb91934c24ac5a2d	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/bottom_bar.png	drawable-hdpi		fb91934c24ac5a2d

@@ -1,0 +1,28 @@
+/* Android 2.1 Calculator (ec-calculator.js), in dp: black window, display weight 1 over the pads' weight 4. */
+.eccl{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.eccl-display{position:relative;flex:1 1 0;min-height:0;overflow:hidden}
+.eccl-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;padding:calc(8 * var(--dp));font-size:calc(40 * var(--dp));white-space:nowrap;overflow:hidden}
+.eccl-prev{visibility:hidden}
+/* Scroll.UP: the old line leaves upwards while the new one comes up from below (500 ms). */
+.eccl-prev.eccl-up{visibility:visible;animation:eccl-out .5s both}
+.eccl-cur.eccl-up{animation:eccl-in .5s both}
+@keyframes eccl-out{from{transform:none}to{transform:translateY(-100%)}}
+@keyframes eccl-in{from{transform:translateY(100%)}to{transform:none}}
+.eccl-caret{flex:none;width:calc(1.5 * var(--dp));height:calc(44 * var(--dp));margin-left:calc(1 * var(--dp));background:#fff;animation:eccl-blink 1s steps(1) infinite}
+@keyframes eccl-blink{50%{opacity:0}}
+.eccl-switch{position:relative;flex:4 1 0;min-height:0;overflow:hidden}
+.eccl-track{position:absolute;top:0;bottom:0;left:0;width:200%;display:flex;transition:transform .4s}
+.eccl-switch[data-panel="advanced"] .eccl-track{transform:translateX(-50%)}
+.eccl-pad{flex:1;display:flex;flex-direction:column}
+.eccl-row{flex:3 1 0;min-height:0;display:flex}
+.eccl-row-top{flex:2 1 0}
+.eccl-advanced .eccl-row{flex:1 1 0}
+.eccl-btn,.eccl-blank{position:relative;flex:1 1 0;min-width:0;margin:calc(1 * var(--dp));border:0;padding:0;background:linear-gradient(to top,#000,#333);color:#fff;font-size:calc(60 * var(--dp));line-height:1}
+.eccl-blank{flex:3 1 0}
+.eccl-digit{background:linear-gradient(to top,#071622,#253541)}
+.eccl-small{font-size:calc(45 * var(--dp))}
+.eccl-del{font-size:calc(22.5 * var(--dp))}
+.eccl-btn::after{content:"";position:absolute;inset:1px;border:2px solid #fff;opacity:0;pointer-events:none}
+.eccl-btn:active::after{opacity:1}
+.eccl-btn.eccl-fade::after{animation:eccl-flame .35s linear}
+@keyframes eccl-flame{from{opacity:1}to{opacity:0}}
