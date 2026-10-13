@@ -108,7 +108,7 @@
       if (name === 'ecui-li') {
         const i = Number(el.dataset.index), d = dialog;
         if (d.choice === 'multi') { const set = new Set(d.checked || []); set.has(i) ? set.delete(i) : set.add(i); d.checked = [...set]; c.overlay('ui-dialog'); d.onItem?.(i, c, d); return true; }
-        if (d.choice === 'single') { d.checked = i; if (!d.buttons?.length) { closeDialog(c); d.onItem?.(i, c, d); } else c.overlay('ui-dialog'); return true; }
+        if (d.choice === 'single') { d.checked = i; if (!d.buttons?.length || d.closeOnChoice) { closeDialog(c); d.onItem?.(i, c, d); } else c.overlay('ui-dialog'); return true; }
         closeDialog(c); d.onItem?.(i, c, d); return true;
       }
       return dialog?.action?.(name, el, event, c) || false;
@@ -122,6 +122,9 @@
   EC.register('ui', {
     app: false,
     init(c) {
+      // An activity window with the default theme's title bar (screen_title.xml: 25 dp windowTitleSize, title_bar,
+      // TextAppearance.WindowTitle 14 sp bold white with a #bb000000 shadow) and windowContentOverlay title_bar_shadow.
+      c.window = (title, inner, cls = '') => `<div class="ecwin ${cls}"><div class="ecwin-title npp-fw-title_bar"><i class="ec-bg np-fw-title_bar"></i><span>${esc(title)}</span></div><div class="ecwin-body"><div class="ecwin-content">${inner}</div><img class="ecwin-shadow" src="assets/fw-title_bar_shadow.9.png" alt=""></div></div>`;
       c.menu = items => { menu = {items}; c.overlay('ui-menu'); };
       c.dialog = spec => { dialog = {...spec}; c.overlay('ui-dialog'); return dialog; };
       c.closeDialog = () => closeDialog(c);

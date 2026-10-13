@@ -302,3 +302,10 @@ fw-gallery_selected_default.9.png	framework/framework-res.apk	drawable/gallery_s
 fw-gallery_unselected_default.9.png	framework/framework-res.apk	drawable/gallery_unselected_default
 fw-gallery_selected_pressed.9.png	framework/framework-res.apk	drawable/gallery_selected_pressed
 fw-gallery_unselected_pressed.9.png	framework/framework-res.apk	drawable/gallery_unselected_pressed
+# Activity windows and preference lists (ec-ui.js window(), ec-settings.js)
+fw-title_bar.9.png	framework/framework-res.apk	drawable/activity_title_bar
+fw-dark_header_dither.9.png	framework/framework-res.apk	drawable/dark_header
+fw-light_header_dither.9.png	framework/framework-res.apk	drawable/light_header
+fw-list_selector_background_focus.9.png	framework/framework-res.apk	drawable/list_selector_background_focus
+fw-btn_check_on_selected.png	framework/framework-res.apk	drawable/btn_check_on_selected
+fw-btn_check_off_selected.png	framework/framework-res.apk	drawable/btn_check_off_selected

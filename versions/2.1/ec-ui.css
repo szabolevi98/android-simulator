@@ -65,3 +65,11 @@
 .ecui-global-text small{flex:none;height:calc(26 * var(--dp));font-size:calc(14 * var(--dp));color:#323232;line-height:calc(26 * var(--dp))}
 /* resolve_list_item.xml (ChooserActivity / ResolverActivity): padding 10 / 15 dp, a 48 dp icon, the label 10 dp from it. */
 .ecui-li-icon.ecui-resolve{padding:0 calc(15 * var(--dp)) 0 calc(10 * var(--dp));gap:calc(10 * var(--dp))}
+/* Activity windows (c.window): black background (screen_background_dark), the 25 dp title bar, its shadow over the content. */
+.ecwin{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ecwin-title{position:relative;flex:none;height:calc(25 * var(--dp));display:flex;align-items:center}
+.ecwin-title span{position:relative;z-index:1;font-weight:700;font-size:calc(14 * var(--dp));text-shadow:0 0 calc(2.75 * var(--dp)) #000000bb;white-space:nowrap;overflow:hidden}
+.ecwin-body{position:relative;flex:1;min-height:0}
+.ecwin-content{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
+.ecwin-content::-webkit-scrollbar{display:none}
+.ecwin-shadow{position:absolute;left:0;right:0;top:0;width:100%;height:calc(6 * var(--dp));pointer-events:none}

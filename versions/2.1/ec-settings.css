@@ -1,0 +1,13 @@
+/* Android 2.1 Settings (ec-settings.js): preference.xml / preference_icon.xml rows, ListSeparator headers, in dp / sp. */
+.ecpf-list{background:#000}
+.ecpf-cat{position:relative;height:calc(25 * var(--dp));display:flex;align-items:center;padding-left:calc(5 * var(--dp));font-weight:700;font-size:calc(14 * var(--dp));color:#bebebe}
+.ecpf-cat span{position:relative;z-index:1}
+.ecpf-row{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(10 * var(--dp)) 0 0;background:none;color:#fff!important;text-align:left}
+.ecpf-text{position:relative;z-index:1;flex:1;min-width:0;display:flex;flex-direction:column;margin:calc(6 * var(--dp)) calc(6 * var(--dp)) calc(6 * var(--dp)) calc(15 * var(--dp))}
+.ecpf-icon-row .ecpf-text{margin-left:calc(2 * var(--dp))}
+.ecpf-icon{position:relative;z-index:1;flex:none;margin:0 calc(6 * var(--dp));width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.ecpf-title{font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden}
+.ecpf-summary{font-size:calc(14 * var(--dp));color:#bebebe;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ecpf-check{position:relative;z-index:1;flex:none;margin-right:calc(4 * var(--dp));width:calc(38 * var(--dp));height:calc(48 * var(--dp))}
+.ecpf-row:disabled .ecpf-title{color:#ffffff80}.ecpf-row:disabled .ecpf-summary{color:#bebebe80}.ecpf-row:disabled .ecpf-check{opacity:.5}
+.ecpf-divider{display:block;height:calc(1 * var(--dp));background:url('assets/fw-divider_horizontal_dark.9.png') 0 0/100% 100%}
