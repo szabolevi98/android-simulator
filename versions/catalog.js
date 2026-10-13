@@ -1,6 +1,18 @@
 // New releases get a separate directory and one entry here.
 window.ANDROID_VERSIONS = [
   {
+    id: '2.1',
+    name: 'Eclair',
+    version: 'Android 2.1',
+    year: '2010',
+    device: 'Nexus One · Google',
+    description: 'The first Nexus: the trackball, live wallpapers, the 3D app drawer and the Google apps of 2010, rebuilt from the phone’s own system image. Work in progress.',
+    url: 'versions/2.1/',
+    status: 'preview',
+    // The image's own boot animation (bootanimation.zip) until the home screen is built.
+    art: {shot: 'landing-home.jpg?v=1', phone: 'nexusone'}
+  },
+  {
     id: '2.3.6',
     name: 'Gingerbread',
     version: 'Android 2.3.6',

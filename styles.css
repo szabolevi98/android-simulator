@@ -77,3 +77,7 @@ h1{font-size:clamp(38px,4.6vw,60px)}
 .mini-phone-nexus6{aspect-ratio:423/793.18;border:0;border-radius:0;background-image:url('versions/5.1.1/assets/device-nexus-6.svg?v=3')}
 .mini-phone-nexus6 .mini-screen{top:8.49%;bottom:7.96%;left:6.01%;right:5.87%}
 .mini-phone-nexus6 .mini-earpiece,.mini-phone-nexus6 .mini-camera{display:none}
+/* Nexus One miniature (versions/2.1/assets/device-nexus-one.svg): the screen insets are the frame paddings in percent. */
+.mini-phone-nexusone{aspect-ratio:319.58/624.45;border:0;border-radius:0;background-image:url('versions/2.1/assets/device-nexus-one.svg?v=2')}
+.mini-phone-nexusone .mini-screen{top:11.83%;bottom:20.03%;left:9.95%;right:10.16%}
+.mini-phone-nexusone .mini-earpiece,.mini-phone-nexusone .mini-camera{display:none}
