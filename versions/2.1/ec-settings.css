@@ -27,3 +27,6 @@
 .ecpf-zone span{position:relative;z-index:1}
 .ecpf-zone-name{font-size:calc(22 * var(--dp))}
 .ecpf-zone-gmt{font-size:calc(14 * var(--dp));color:#bebebe}
+
+.ecpf-locale{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:calc(5 * var(--dp));background:none;color:#fff;font-size:calc(22 * var(--dp));text-align:left}
+.ecpf-locale span{position:relative;z-index:1;font-size:calc(22 * var(--dp))}

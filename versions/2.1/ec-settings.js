@@ -78,13 +78,24 @@
   }
   const find = (n, key) => n.key === key ? n : (n.c || []).reduce((hit, ch) => hit || find(ch, key), null);
 
-  // Preferences the code adds after inflating a screen's xml (in the order it adds them).
+  // Preferences the code adds after inflating a screen's xml (in the order it adds them): EXTRA[name](c, children)
+  // gives the screen's new list.
   const EXTRA = {
+    // LanguageSettings.onResume: under Text settings each input method (the image has one, VoiceSearchWithKeyboard's
+    // LatinIMEWithVoice, "Android keyboard", isDefault) as a CheckBoxPreference, then "<label> settings" for its
+    // settingsActivity (input_methods_settings_label_format).
+    language_settings: (c, kids) => {
+      const S2 = EC.text('settings2'), label = S2.t('VoiceSearchWithKeyboard/english_ime_name'), at = kids.findIndex(k => k.key === 'text_category') + 1;
+      return [...kids.slice(0, at),
+        {t: 'CheckBoxPreference', key: 'ime_latin', title: label, defaultValue: 'true'},
+        {t: 'PreferenceScreen', key: 'ime_latin_settings', title: S2.fmt('input_methods_settings_label_format', c.lang, label), intent: {targetClass: 'com.google.android.voicesearch.LatinIMEWithVoiceSettings'}},
+        ...kids.slice(at)];
+    },
     // SecuritySettings.createPreferenceHierarchy: the unlock pattern category (its toggles off while no pattern is saved,
     // and Set / Change unlock pattern by savedPatternExists), the SIM card lock, Passwords and the credential storage.
-    security_settings: c => {
+    security_settings: (c, kids) => {
       const has = !!c.data.settings.lockPattern;
-      return [
+      return [...kids,
         {t: 'PreferenceCategory', title: 'string/lock_settings_title', c: [
           {t: 'CheckBoxPreference', key: 'lockenabled', title: 'string/lockpattern_settings_enable_title', summary: 'string/lockpattern_settings_enable_summary', enabled: has ? undefined : 'false'},
           {t: 'CheckBoxPreference', key: 'visiblepattern', title: 'string/lockpattern_settings_enable_visible_pattern_title', defaultValue: 'true', enabled: has ? undefined : 'false'},
@@ -104,12 +115,14 @@
   };
   function withExtra(c, name, node) {
     if (!EXTRA[name] || node.c?.extended) return node;
-    return {...node, c: Object.assign([...(node.c || []), ...EXTRA[name](c)], {extended: true})};
+    return {...node, c: Object.assign(EXTRA[name](c, node.c || []), {extended: true})};
   }
 
   function prune(name, n) {
     if (name === 'sound_and_display_settings' && n.key === 'emergency_tone') return false;
     if (name === 'device_info_settings' && n.key === 'safetylegal') return false;
+    // LanguageSettings: no hardware keyboard (Configuration.KEYBOARD_NOKEYS).
+    if (name === 'language_settings' && n.key === 'hardkeyboard_category') return false;
     return true;
   }
   // DateTimeSettings.updateTimeAndDateDisplay: the date in the short format, the time in getTimeFormat, the zone as
@@ -176,6 +189,7 @@
     if (n.intent?.targetClass) {
       const cls = n.intent.targetClass.split('.').pop();
       if (cls.startsWith('ChooseLockPattern')) { EC.patternFlow.start(c); return; }
+      if (cls === 'LocalePicker') { c.ui.settingsStack.push('locales'); c.render(); return; }
       if (CLASS[cls] && EC.settingsXml[CLASS[cls]]) { c.ui.settingsStack.push(CLASS[cls]); c.render(); c.el.viewport.querySelector('.ecwin-content')?.scrollTo(0, 0); return; }
       c.ui.settingsStack.push(`missing:${cls}`); c.render(); return;
     }
@@ -210,6 +224,12 @@
     list.sort(c.ui.zoneSort === 'name' ? (a, b) => a.name.localeCompare(b.name, c.locale()) : (a, b) => a.off - b.off);
     return list.map(z => `<button type="button" class="ecpf-zone" data-action="ecpf-zone" data-zone="${esc(z.id)}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span class="ecpf-zone-name">${esc(z.name)}</span><span class="ecpf-zone-gmt">${esc(z.gmt)}</span></button><i class="ecpf-divider"></i>`).join('');
   }
+
+  // LocalePicker (locale_picker.xml / locale_picker_item.xml: rows of listPreferredItemHeight, padding 5 dp, 22 sp): the
+  // simulator's languages, each in its own language (Locale.getDisplayLanguage(l), title-cased), sorted by that name.
+  // Choosing one switches the phone's language (ActivityManagerNative.updateConfiguration) and finishes.
+  const LOCALES = [['de', 'Deutsch'], ['en', 'English'], ['es', 'Español'], ['fr', 'Français'], ['hu', 'Magyar']];
+  const localeRows = () => LOCALES.map(([code, name]) => `<button type="button" class="ecpf-locale" data-action="ecpf-locale" data-locale="${code}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span>${esc(name)}</span></button><i class="ecpf-divider"></i>`).join('');
 
   // RingerVolumePreference (preference_dialog_ringervolume.xml: incoming call volume, the notification checkbox and its
   // own bar), VolumePreference (seekbar_dialog.xml, media) and BrightnessPreference (preference_dialog_brightness.xml:
@@ -261,11 +281,13 @@
     },
     render(c) {
       const top = c.ui.settingsStack?.at(-1) || 'settings';
+      if (top === 'locales') return c.window(txt(EC.settingsLabels.LocalePicker), `<div class="ecpf-list">${localeRows()}</div>`);
       if (top === 'zones') return c.window(EC.settingsLabels?.ZoneList ? txt(EC.settingsLabels.ZoneList) : S().t('settings_label'), `<div class="ecpf-list">${zoneRows(c)}</div>`);
       if (top.startsWith('missing:')) return c.window(S().t('settings_label'), `<div class="ec-missing"><b>${esc(c.t('Not built yet'))}</b><span>${esc(top.slice(8))}</span><small>Android 2.1 · Settings.apk</small></div>`);
       return render(c);
     },
     action(name, el, event, c) {
+      if (name === 'ecpf-locale') { c.ui.settingsStack.pop(); window.AndroidI18n.setLanguage(el.dataset.locale); location.reload(); return true; }
       if (name === 'ecpf-zone') { c.data.settings.timeZone = el.dataset.zone; c.save(); c.ui.settingsStack.pop(); c.render(); return true; }
       if (name !== 'ecpf-row') return false;
       const s = current(c), n = nodeAt(s, el.dataset.path);

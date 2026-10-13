@@ -252,5 +252,23 @@ EC.strings('settings2', {
 "es": "Ordenar por zona horaria",
 "hu": "Rendezés időzóna szerint",
 "huFrom": "crespo:Settings:zone_list_menu_sort_by_timezone"
+},
+"input_methods_settings_label_format": {
+"res": "passion:Settings:input_methods_settings_label_format",
+"en": "%1$s settings",
+"de": "%1$s-Einstellungen",
+"fr": "Paramètres %1$s",
+"es": "Configuración de %1$s",
+"hu": "%1$s beállításai",
+"huFrom": "crespo:Settings:input_methods_settings_label_format"
+},
+"VoiceSearchWithKeyboard/english_ime_name": {
+"res": "passion:VoiceSearchWithKeyboard:english_ime_name",
+"en": "Android keyboard",
+"de": "Android-Tastatur",
+"fr": "Clavier Android",
+"es": "Teclado de Android",
+"hu": "Android-billentyűzet",
+"huFrom": "crespo:LatinImeGoogle:english_ime_name"
 }
 });
