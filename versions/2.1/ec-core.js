@@ -74,6 +74,25 @@
 
   EC.context = c;   // for the browser tests and debugging
 
+  // android.text.format.DateFormat.format(pattern, date): the image's patterns ("EEEE, MMMM d", "E h:mm aa") with the
+  // names of the simulator's language. Quoted text ('…') is kept; a doubled quote is a quote.
+  function dateFormat(pattern, date = new Date()) {
+    const loc = i18n.locale(), name = (opts) => date.toLocaleDateString(loc, opts);
+    const h12 = date.getHours() % 12 || 12, pad = n => String(n).padStart(2, '0');
+    const tokens = {
+      EEEE: () => name({weekday: 'long'}), EEE: () => name({weekday: 'short'}), E: () => name({weekday: 'short'}),
+      MMMM: () => name({month: 'long'}),
+      MMM: () => name({month: 'short'}), MM: () => pad(date.getMonth() + 1), M: () => String(date.getMonth() + 1),
+      dd: () => pad(date.getDate()), d: () => String(date.getDate()), yyyy: () => String(date.getFullYear()), yy: () => pad(date.getFullYear() % 100),
+      hh: () => pad(h12), h: () => String(h12), kk: () => pad(date.getHours()), k: () => String(date.getHours()),
+      HH: () => pad(date.getHours()), H: () => String(date.getHours()), mm: () => pad(date.getMinutes()), ss: () => pad(date.getSeconds()),
+      aa: () => date.getHours() < 12 ? 'AM' : 'PM', a: () => date.getHours() < 12 ? 'AM' : 'PM'
+    };
+    return String(pattern).replace(/'([^']*)'|EEEE|EEE|E|MMMM|MMM|MM|M|dd|d|yyyy|yy|hh|h|kk|k|HH|H|mm|ss|aa|a/g, (all, quoted) => quoted !== undefined ? (quoted || "'") : tokens[all]());
+  }
+  c.dateFormat = dateFormat;
+  c.is24 = () => data.settings.hour24 ?? i18n.language !== 'en';
+
   function missing(id, extra = '') {
     const [title, source] = SCREENS[id] || [id, ''];
     return `<div class="ec-missing" data-missing="${safe(id)}"><b>${safe(t('Not built yet'))}</b><span>${safe(t(title))}</span>${source ? `<small>Android 2.1 · ${safe(source)}</small>` : ''}${extra}</div>`;

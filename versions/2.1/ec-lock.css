@@ -1,0 +1,42 @@
+/* Android 2.1 lock screen (ec-lock.js): keyguard_screen_tab_unlock.xml and SlidingTab, in dp / sp.
+   textAppearanceMedium is 18 sp, textColorPrimary (white) on the dark theme. */
+.eclk{position:absolute;inset:0;background:#00000070;color:#fff;font-size:calc(18 * var(--dp));overflow:hidden}
+/* carrier: marginTop 10 dp, marginRight 8 dp, top right; the clock sits 52 dp under it (a TextView of 18 sp is 23.7 dp). */
+.eclk-carrier{position:absolute;top:calc(10 * var(--dp));right:calc(8 * var(--dp));max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:calc(23.7 * var(--dp))}
+.eclk-time{display:flex;align-items:flex-end;margin:calc(85.7 * var(--dp)) 0 calc(10 * var(--dp)) calc(20 * var(--dp));text-shadow:0 0 calc(2 * var(--dp)) #000000c0}
+.eclk-clock{font-size:calc(72 * var(--dp));line-height:normal}
+/* am_pm: 22 sp, marginLeft 8 dp, marginBottom -6 dp, gravity bottom. */
+.eclk-ampm{font-size:calc(22 * var(--dp));margin:0 0 calc(-6 * var(--dp)) calc(8 * var(--dp));line-height:normal}
+.eclk-date{margin-left:calc(24 * var(--dp));line-height:calc(23.7 * var(--dp))}
+/* status1 / status2: marginTop 4 dp, the icon left with drawablePadding 4 dp. */
+.eclk-status{display:flex;align-items:center;gap:calc(4 * var(--dp));margin:calc(4 * var(--dp)) 0 0 calc(24 * var(--dp))}
+.eclk-status img{width:calc(25.333 * var(--dp));height:calc(25.333 * var(--dp))}
+.eclk-locked{display:flex;align-items:center;gap:calc(4 * var(--dp));margin:calc(12 * var(--dp)) 0 0 calc(24 * var(--dp));min-height:calc(23.7 * var(--dp))}
+.eclk-locked img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+
+/* SlidingTab: full width, its tabs' height (138 px = 92 dp), marginBottom 80 dp. */
+.ecst{position:absolute;left:0;right:0;bottom:calc(80 * var(--dp));height:calc(92 * var(--dp));touch-action:none}
+.ecst-slider{position:absolute;inset:0;transition:transform .25s;pointer-events:none}
+.ecst-left.hidden{transform:translateX(calc(-108 * var(--dp)))}
+.ecst-right.hidden{transform:translateX(calc(108 * var(--dp)))}
+.ecst-tab{position:absolute;top:0;width:calc(108 * var(--dp));height:100%;pointer-events:auto;cursor:grab;touch-action:none}
+.ecst-left .ecst-tab{left:0}.ecst-right .ecst-tab{right:0}
+.ecst-tab-bg{position:absolute;inset:0;width:100%;height:100%}
+.ecst-icon{position:absolute;left:50%;top:50%;width:calc(64 * var(--dp));height:calc(64 * var(--dp));margin:calc(-32 * var(--dp)) 0 0 calc(-32 * var(--dp))}
+/* The bar ("text") lies one parent width beyond the tab; its nine-patch padding is 60 / 15 / 40 / 38 px (left end) and
+   15 / 60 / 40 / 38 px (right end). TextAppearance.SlidingTabNormal: 28 sp, textColorTertiary (#808080), black shadow
+   1 px down; SlidingTabActive: 28 sp black. */
+.ecst-bar{position:absolute;top:0;width:100%;height:100%;display:flex;align-items:center;font-size:calc(28 * var(--dp));color:#808080;text-shadow:0 1px 0 #000;white-space:nowrap}
+.ecst-left .ecst-bar{left:-100%;justify-content:flex-end;padding:0 calc(10 * var(--dp)) 0 calc(40 * var(--dp))}
+.ecst-right .ecst-bar{left:100%;justify-content:flex-start;padding:0 calc(40 * var(--dp)) 0 calc(10 * var(--dp))}
+.ecst-bar span{position:relative;z-index:1}
+.ecst-bar-pressed,.ecst-bar-active{opacity:0}
+.ecst-slider.pressed .ecst-bar-pressed{opacity:1}
+.ecst-slider.active .ecst-bar-active{opacity:1}
+.ecst-slider.active .ecst-bar{color:#000;text-shadow:none}
+/* Targets: THRESHOLD * width - 16 dp + 54 dp (left), (1 - THRESHOLD) * width - 54 dp (right); faded in over 500 ms. */
+.ecst-target{position:absolute;top:0;width:calc(16 * var(--dp));height:100%;opacity:0;transition:opacity .5s}
+.ecst-left .ecst-target{left:calc(66.667% + 38 * var(--dp))}
+.ecst-right .ecst-target{left:calc(33.333% - 54 * var(--dp))}
+.ecst-slider.grabbed .ecst-target{opacity:1}
+.ecst-slider:not(.grabbed) .ecst-target{transition:none}
