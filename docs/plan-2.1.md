@@ -43,7 +43,7 @@ the other way round:
 | 3 | Status bar, notification panel, lock screen, power menu, Launcher2 with the 3D drawer, menus and dialogs, trackball LED | 2 |
 | 4 | Settings and the AOSP apps (Phone, Contacts, Messaging, Browser, Email, Calendar, Gallery, Camera, Music, Clock, Calculator) | 2–3 |
 | 5 | Google apps, Market 1.71, widgets, live wallpapers | 2–3 |
-| 6 | Language sweep, landing picture, OG cover, docs, deploy | 1 |
+| 6 | Language sweep, landing picture, docs, deploy (the OG cover stays as it is: owner's decision 2026-10-13) | 1 |
 
 ## The frame
 

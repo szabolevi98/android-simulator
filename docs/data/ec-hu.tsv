@@ -1,0 +1,8 @@
+# Our own Hungarian for Android 2.1 texts the Nexus S 2.3.6 image has no translation of (docs/tools/ec-strings.py marks
+# them huOwn). <English> TAB <Hungarian>. Brand names stay as they are.
+Car Home	Car Home
+Facebook	Facebook
+Goggles	Goggles
+Maps	Térkép
+Voice Search	Hangalapú keresés
+MP3 Store	MP3 Store

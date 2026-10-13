@@ -1,0 +1,36 @@
+/* Android 2.1 home screen (ec-launcher.js): Launcher2 launcher.xml / workspace_screen.xml / application.xml /
+   widget_search.xml, in dp and sp. */
+.eclh{position:absolute;inset:0}
+.eclh-workspace{position:absolute;inset:0;overflow:hidden;touch-action:none}
+.eclh-track{position:absolute;inset:0;will-change:transform}
+/* CellLayout: 4 x 4 cells of 80 x 100 dp, 55 dp left free at the bottom, the rest shared between the rows. */
+.eclh-page{position:absolute;top:0;width:100%;height:100%;box-sizing:border-box;padding-bottom:calc(55 * var(--dp));display:grid;grid-template-columns:repeat(4,calc(80 * var(--dp)));grid-template-rows:repeat(4,calc(100 * var(--dp)));align-content:space-between;justify-content:space-between}
+.eclh-item{position:relative;min-width:0;min-height:0}
+/* BubbleTextView: margins 3 / 13 / 3 / 8 dp, padding 4 dp top and 5 dp sides, the icon, 5 dp, a 13 sp label. */
+.eclh-shortcut{display:flex;flex-direction:column;align-items:center;margin:calc(13 * var(--dp)) calc(3 * var(--dp)) calc(8 * var(--dp));padding:calc(4 * var(--dp)) calc(5 * var(--dp)) 0;border:0;background:none;color:#fff!important;-webkit-tap-highlight-color:transparent}
+.eclh-shortcut img{position:relative;z-index:1;width:calc(48 * var(--dp));height:calc(48 * var(--dp));flex:none}
+.eclh-label{position:relative;z-index:1;display:block;width:100%;margin-top:calc(5 * var(--dp));text-align:center;white-space:nowrap}
+.eclh-label span{display:inline-block;max-width:calc(100% + 10 * var(--dp));box-sizing:border-box;padding:calc(1 * var(--dp)) calc(5 * var(--dp));margin:0 calc(-5 * var(--dp));border-radius:calc(8 * var(--dp));background:#191919b2;font-size:calc(13 * var(--dp));line-height:calc(17.3 * var(--dp));white-space:nowrap;overflow:hidden;text-shadow:0 0 calc(1.333 * var(--dp)) #000;vertical-align:top}
+.eclh-pressed,.eclh-focused{opacity:0}
+.eclh-shortcut:active .eclh-pressed{opacity:1}
+.eclh-shortcut:focus-visible .eclh-focused{opacity:1}
+/* Bottom: previous_screen / next_screen (93 x 56 dp, 6 dp from the side) and all_apps_button (56 dp high), each image at
+   its own size (140 x 80 px). */
+.eclh-arrows,.eclh-allapps{position:absolute;bottom:0;height:calc(56 * var(--dp));border:0;padding:0;background:none;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+.eclh-arrows{width:calc(93 * var(--dp))}
+.eclh-prev{left:calc(6 * var(--dp))}.eclh-next{right:calc(6 * var(--dp))}
+.eclh-allapps{left:50%;width:calc(93.333 * var(--dp));margin-left:calc(-46.667 * var(--dp))}
+.eclh-arrows img,.eclh-allapps img{grid-area:1/1;width:calc(93.333 * var(--dp));height:calc(53.333 * var(--dp))}
+.eclh-arrows .eclh-pressed,.eclh-allapps .eclh-pressed{opacity:0}
+.eclh-arrows:active .eclh-pressed,.eclh-allapps:active .eclh-pressed{opacity:1}
+.eclh-arrows:active .eclh-normal,.eclh-allapps:active .eclh-normal{opacity:0}
+/* The Search widget: 4 x 1 cells; search_floater with padding 14 / 13 / 14 / 12 dp, centred; the 42 dp field with the
+   Google placeholder as its left drawable, the 42 dp voice button 4 dp to its right. */
+.eclh-search{display:flex;align-items:center}
+.eclh-plate{position:relative;display:flex;width:100%;padding:calc(13 * var(--dp)) calc(14 * var(--dp)) calc(12 * var(--dp))}
+.eclh-search-text{position:relative;flex:1;min-width:0;height:calc(42 * var(--dp));border:0;padding:0 0 0 calc(10 * var(--dp));background:none;display:flex;align-items:center}
+.eclh-search-text img{position:relative;z-index:1;width:calc(61.333 * var(--dp));height:calc(24 * var(--dp))}
+.eclh-search-voice{position:relative;flex:none;height:calc(42 * var(--dp));margin-left:calc(4 * var(--dp));border:0;padding:0 calc(13 * var(--dp));background:none;display:grid;place-items:center}
+.eclh-search-voice img{position:relative;z-index:1;width:calc(25.333 * var(--dp));height:calc(30 * var(--dp))}
+.eclh-search-text:active .eclh-pressed,.eclh-search-voice:active .eclh-pressed{opacity:1}
+.eclh-widget-missing .ec-missing{position:absolute;inset:calc(6 * var(--dp));border-radius:calc(4 * var(--dp))}
