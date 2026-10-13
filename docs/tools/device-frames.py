@@ -171,7 +171,8 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
         front = (f'<path d="{gd}" transform="translate({m} {m})" fill="url(#front)" stroke="{glass["edge"]}" stroke-width=".9"/>'
                  f'<path d="{gd}" transform="translate({m} {m})" fill="url(#glare)"/>')
     # Optional dark band along the bottom (Nexus One): the body curving away under the chin. band is the top edge of the
-    # band as reference points; the shape runs from that edge down past the body and is clipped to the outline.
+    # band as reference points; the shape runs from that edge down past the body and is masked to the outline including
+    # the rim stroke, so the light rim does not show round the bottom corners.
     under = ''
     if band:
         bp = [(S(x - origin[0]) + m + dx, S(y - origin[1]) + m) for x, y in band]
@@ -200,8 +201,9 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
 </defs>
 {''.join(btn)}
 <path d="{d}" transform="translate({m} {m})" fill="url(#body)" stroke="url(#rim)" stroke-width="{p['rimWidth']}"/>
+{f'<mask id="bodyMask" maskUnits="userSpaceOnUse" x="0" y="0" width="{W:.2f}" height="{H:.2f}"><path d="{d}" transform="translate({m} {m})" fill="#fff" stroke="#fff" stroke-width="{p["rimWidth"]}"/></mask><g mask="url(#bodyMask)">{under}</g>' if under else ''}
 <g clip-path="url(#clip)"><path d="{d}" transform="translate({m} {m}) scale({(w - 3) / w:.4f} {(h - 3) / h:.4f}) translate(1.5 1.5)" fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width="1.2"/>
-{under}{glass}{'' if front else f'<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#glare)"/>'}<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#chin)"/></g>
+{glass}{'' if front else f'<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#glare)"/>'}<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#chin)"/></g>
 {front}
 {''.join(feat)}
 </svg>'''

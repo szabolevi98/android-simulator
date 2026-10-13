@@ -8,7 +8,7 @@
 @font-face{font-family:DroidSans;src:url('fonts/DroidSans-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
 
 .device{position:relative;width:319.58px;height:624.45px;padding:73.9px 32.48px 125.05px 31.8px}
-.device::before{content:"";position:absolute;inset:0;background:url('assets/device-nexus-one.svg?v=1') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);pointer-events:none}
+.device::before{content:"";position:absolute;inset:0;background:url('assets/device-nexus-one.svg?v=2') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);pointer-events:none}
 .screen{--dp:.79781px;position:relative;width:255.3px;height:425.5px;overflow:hidden;background:#000;color:#fff;font:calc(14 * var(--dp))/1.25 DroidSans,Arial,sans-serif;user-select:none;-webkit-user-select:none;touch-action:pan-y;z-index:1}
 .screen button,.screen input,.screen textarea,.screen select{font:inherit;color:inherit}
 .screen button{cursor:pointer}
