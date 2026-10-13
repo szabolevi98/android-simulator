@@ -67,3 +67,21 @@ Screen unlock pattern	Képernyőfeloldási minta
 Install from SD card	Telepítés SD-kártyáról
 Install encrypted certificates from SD card	Titkosított tanúsítványok telepítése SD-kártyáról
 tz:America/Araguaina	Brazíliai idő
+Speed	Sebesség
+WEP	WEP
+WPA/WPA2 PSK	WPA/WPA2 PSK
+Enterprise(802.1x)	Vállalati (802.1x)
+open network	nyílt hálózat
+secured with WEP	WEP-védelemmel
+secured with WPA/WPA2 PSK	WPA/WPA2 PSK-védelemmel
+secured with 802.1x EAP	802.1x EAP-védelemmel
+Fair	Közepes
+Excellent	Kiváló
+Obtaining address…	Cím lekérése…
+Scanning…	Keresés…
+Connected to %1$s	Csatlakozva: %1$s
+Connecting to %1$s…	Csatlakozás: %1$s…
+Obtaining IP address from %1$s…	IP-cím lekérése innen: %1$s…
+remembered	megjegyezve
+Wireless password	Vezeték nélküli jelszó
+802.1x Enterprise	802.1x vállalati

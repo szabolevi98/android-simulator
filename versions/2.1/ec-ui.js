@@ -43,18 +43,18 @@
     const d = dialog, panels = [];
     if (d.title) panels.push(['top', false]);
     if (d.message || d.items) panels.push(['content', !!d.items]);
-    if (d.html) panels.push(['custom', false]);
+    if (d.html) panels.push(['custom', !!d.inverse]);   // setInverseBackgroundForced
     if (d.buttons?.length) panels.push(['buttons', true]);
     const bg = {};
     panels.forEach(([name, light], i) => {
       const last = i === panels.length - 1, first = i === 0;
       bg[name] = panels.length === 1 ? (light ? 'full_bright' : 'full_dark')
         : first ? (light ? 'top_bright' : 'top_dark')
-        : last ? (light ? (d.buttons?.length && name === 'buttons' && panels[i - 1]?.[1] ? 'bottom_medium' : 'bottom_bright') : 'bottom_dark')
+        : last ? (light ? (d.buttons?.length ? 'bottom_medium' : 'bottom_bright') : 'bottom_dark')
         : (light ? 'center_bright' : 'center_dark');
     });
-    // ListView with buttons below: the bright list sits on bottomMedium; AlertController gives the buttons it.
-    if (d.items && d.buttons?.length) bg.buttons = 'bottom_medium';
+    // AlertController.setBackground: the last panel is bottomMedium when it is light and there are buttons (the button
+    // bar always is), bottomBright when light without buttons, else bottomDark.
     const piece = name => `<i class="ec-bg np-fw-popup_${bg[name]}"></i>`;
     const pad = name => `npp-fw-popup_${bg[name]}`;
     const top = d.title ? `<div class="ecui-top ${pad('top')}">${piece('top')}<div class="ecui-title-row">${d.icon !== null ? `<img src="assets/${esc(d.icon || 'fw-ic_dialog_info.png')}" alt="">` : ''}<span class="ecui-title">${esc(d.title)}</span></div></div>` : '';
@@ -68,7 +68,7 @@
         if (d.rows === 'global') return `<button type="button" class="ecui-li ecui-global" data-action="ecui-li" data-index="${i}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><img src="assets/${esc(icon)}" alt=""><span class="ecui-global-text"><span>${esc(label)}</span>${item.status ? `<small>${esc(item.status)}</small>` : ''}</span></button>`;
         return `<button type="button" class="ecui-li${icon ? ' ecui-li-icon' : ''}${d.rows === 'resolve' ? ' ecui-resolve' : ''}" data-action="ecui-li" data-index="${i}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i>${icon ? `<img src="assets/${esc(icon)}" alt="">` : ''}<span>${esc(label)}</span>${mark(i)}</button>`; }).join('<i class="ecui-divider"></i>')}</div></div>`;
     } else if (d.message) content = `<div class="ecui-content ${pad('content')}">${piece('content')}<div class="ecui-scroll ecui-message">${esc(d.message)}</div></div>`;
-    const custom = d.html ? `<div class="ecui-custom ${pad('custom')}">${piece('custom')}<div class="ecui-custom-inner">${d.html}</div></div>` : '';
+    const custom = d.html ? `<div class="ecui-custom${d.inverse ? ' inverse' : ''} ${pad('custom')}">${piece('custom')}<div class="ecui-custom-inner">${d.html}</div></div>` : '';
     const buttons = d.buttons?.length ? `<div class="ecui-buttons ${pad('buttons')}">${piece('buttons')}<div class="ecui-button-row${d.buttons.length === 1 ? ' single' : ''}">${d.buttons.map((b, i) => `<button type="button" class="ecui-button" data-action="ecui-button" data-index="${i}"><i class="ec-bg np-fw-btn_default_normal"></i><i class="ec-bg ec-pressed np-fw-btn_default_pressed"></i><span>${esc(b.label)}</span></button>`).join('')}</div></div>` : '';
     return `<div class="ecui-dim${d.blur ? ' blur' : ''}${d.closing ? ' closing' : ''}" data-action="ecui-outside"></div><div class="ecui-dialog" role="dialog" aria-label="${esc(d.title || '')}">${top}${content}${custom}${buttons}</div>`;
   }

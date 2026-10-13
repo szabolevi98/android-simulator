@@ -35,7 +35,7 @@
   };
   // Preference keys stored in the phone's state (the rest go to data.prefs with their defaultValue).
   const BOUND = {
-    toggle_airplane: ['airplane'], toggle_wifi: ['wifi'], toggle_bluetooth: ['bluetooth'], silent: ['ringer'],
+    toggle_airplane: ['airplane'], toggle_wifi: ['wifi'], wifi_enabled: ['wifi'], toggle_bluetooth: ['bluetooth'], silent: ['ringer'],
     accelerometer: ['rotate', true], auto_time: ['autoTime', true], '24 hour': ['hour24']
   };
   // build.prop (ERE27); the baseband in the update's radio.img; the kernel of ERE27's boot.img (the update's patch applied
@@ -62,7 +62,7 @@
       const [field] = BOUND[key];
       if (key === 'silent') c.data.settings.ringer = v ? (value(c, 'vibrate') ? 'vibrate' : 'silent') : '';
       else if (key === '24 hour') c.data.settings.hour24 = !!v;
-      else { c.data.settings[field] = v; if (key === 'toggle_wifi') c.data.settings.wifiConnected = v; }
+      else { c.data.settings[field] = v; if (key === 'toggle_wifi' || key === 'wifi_enabled') EC.wifi.switched(c, v); }
       // Automatic on: the network's time and zone again.
       if (key === 'auto_time' && v) { c.data.settings.timeOffset = 0; c.data.settings.timeZone = null; }
     } else (c.data.prefs ||= {})[key] = v;
@@ -181,11 +181,13 @@
     if (name === 'device_info_status') return status(c, n.key) ?? txt(n.summary);
     if (name === 'device_info_memory' && memory(c, n.key)) return memory(c, n.key);
     if (name === 'date_time_prefs' && dateTime[n.key]) return dateTime[n.key](c);
+    if (n.key === 'toggle_wifi' || n.key === 'wifi_enabled') { const t = EC.wifi.toggleSummary(c); if (t) return t; }
     if (n.t === 'CheckBoxPreference' && (n.summaryOn || n.summaryOff)) return txt(value(c, n.key, n.defaultValue) ? n.summaryOn : n.summaryOff) || txt(n.summary);
     return txt(n.summary);
   }
   function row(c, screen, name, n, path) {
     if (!prune(name, n)) return '';
+    if (n.t === 'ProgressCategory' && n.key === 'access_points') return EC.wifi.category(c, txt(n.title)) + EC.wifi.rows(c);
     if (n.t === 'PreferenceCategory') return `<div class="ecpf-cat npp-fw-dark_header_dither"><i class="ec-bg np-fw-dark_header_dither"></i><span>${esc(txt(n.title))}</span></div>${(n.c || []).map((ch, i) => row(c, screen, name, ch, `${path}.${i}`)).join('')}`;
     const off = disabled(c, screen, n) || n.enabled === 'false' || n.key === 'memory_sd_unmount' && c.ui.sdUnmounted || name === 'date_time_prefs' && ['date', 'time', 'timezone'].includes(n.key) && value(c, 'auto_time');
     const check = n.t === 'CheckBoxPreference' ? `<img class="ecpf-check" src="assets/fw-btn_check_${value(c, n.key, n.defaultValue) ? 'on' : 'off'}.png" alt="">` : '';
@@ -217,6 +219,7 @@
   function open(c, n, screen, path) {
     if (n.t === 'CheckBoxPreference') { setValue(c, n.key, !value(c, n.key, n.defaultValue)); c.render(); return; }
     if (screen.name === 'date_time_prefs' && n.key in dateTime) { dateTimeClick(c, n); return; }
+    if (n.key === 'add_other_network') { EC.wifi.add(c); return; }
     if (n.key === 'memory_sd_unmount') { c.ui.sdUnmounted = true; c.render(); return; }
     if (n.key === 'memory_sd_format') { c.ui.settingsStack.push('missing:MediaFormat'); c.render(); return; }
     if (n.t === 'ListPreference') {
@@ -328,6 +331,7 @@
       return render(c);
     },
     action(name, el, event, c) {
+      if (name === 'ecwf-ap') { EC.wifi.dialog(c, el.dataset.ssid); return true; }
       if (name === 'ecpf-locale') { c.ui.settingsStack.pop(); window.AndroidI18n.setLanguage(el.dataset.locale); location.reload(); return true; }
       if (name === 'ecpf-zone') { c.data.settings.timeZone = el.dataset.zone; c.save(); c.ui.settingsStack.pop(); c.render(); return true; }
       if (name !== 'ecpf-row') return false;
@@ -336,6 +340,7 @@
       return true;
     },
     menu(c) {
+      if (c.ui.settingsStack?.at(-1) === 'wifi_settings') { EC.wifi.menu(c); return true; }
       if (c.ui.settingsStack?.at(-1) !== 'zones') return false;
       const T2 = EC.text('settings2'), byName = c.ui.zoneSort === 'name';
       c.menu([byName ? {label: T2.t('zone_list_menu_sort_by_timezone'), icon: 'st-ic_menu_3d_globe.png', action: () => { c.ui.zoneSort = 'offset'; c.render(); }}

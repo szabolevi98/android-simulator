@@ -345,3 +345,19 @@ fw-ic_dialog_time.png	framework/framework-res.apk	drawable/ic_dialog_time
 # ZoneList menu
 st-ic_menu_3d_globe.png	app/Settings.apk	drawable/ic_menu_3d_globe
 fw-ic_menu_sort_alphabetically.png	framework/framework-res.apk	drawable/ic_menu_sort_alphabetically
+# Wi-Fi settings (WifiSettings, AccessPointPreference's wifi_signal level lists, ProgressCategory's spinner)
+st-ic_wifi_signal_1.png	app/Settings.apk	drawable/ic_wifi_signal_1
+st-ic_wifi_signal_2.png	app/Settings.apk	drawable/ic_wifi_signal_2
+st-ic_wifi_signal_3.png	app/Settings.apk	drawable/ic_wifi_signal_3
+st-ic_wifi_signal_4.png	app/Settings.apk	drawable/ic_wifi_signal_4
+st-ic_wifi_lock_signal_1.png	app/Settings.apk	drawable/ic_wifi_lock_signal_1
+st-ic_wifi_lock_signal_2.png	app/Settings.apk	drawable/ic_wifi_lock_signal_2
+st-ic_wifi_lock_signal_3.png	app/Settings.apk	drawable/ic_wifi_lock_signal_3
+st-ic_wifi_lock_signal_4.png	app/Settings.apk	drawable/ic_wifi_lock_signal_4
+st-ic_menu_scan_network.png	app/Settings.apk	drawable/ic_menu_scan_network
+fw-ic_menu_manage.png	framework/framework-res.apk	drawable/ic_menu_manage
+fw-spinner_white_16.png	framework/framework-res.apk	drawable/spinner_white_16
+fw-textfield_default.9.png	framework/framework-res.apk	drawable/textfield_default
+fw-textfield_selected.9.png	framework/framework-res.apk	drawable/textfield_selected
+fw-btn_dropdown_normal.9.png	framework/framework-res.apk	drawable/btn_dropdown_normal
+fw-btn_dropdown_pressed.9.png	framework/framework-res.apk	drawable/btn_dropdown_pressed
