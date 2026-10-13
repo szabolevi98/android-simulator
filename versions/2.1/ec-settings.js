@@ -230,6 +230,7 @@
       return;
     }
     if (n.t === 'RingerVolumePreference' || n.t === 'VolumePreference' || n.t === 'BrightnessPreference') { volumeDialog(c, n); return; }
+    if (n.t === 'DefaultRingtonePreference') { ringtonePicker(c, n); return; }
     if (n.intent?.targetClass) {
       const cls = n.intent.targetClass.split('.').pop();
       if (cls.startsWith('ChooseLockPattern')) { EC.patternFlow.start(c); return; }
@@ -274,6 +275,31 @@
   // Choosing one switches the phone's language (ActivityManagerNative.updateConfiguration) and finishes.
   const LOCALES = [['de', 'Deutsch'], ['en', 'English'], ['es', 'Español'], ['fr', 'Français'], ['hu', 'Magyar']];
   const localeRows = () => LOCALES.map(([code, name]) => `<button type="button" class="ecpf-locale" data-action="ecpf-locale" data-locale="${code}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span>${esc(name)}</span></button><i class="ecpf-divider"></i>`).join('');
+
+  // RingtonePickerActivity (framework, an AlertActivity) for DefaultRingtonePreference: titled by the preference's title;
+  // "Silent" (showSilent), no "Default ringtone" (DefaultRingtonePreference turns showDefault off), then the image's
+  // ringtones or notification sounds by title (MediaStore's title_key); touching one plays it after 300 ms
+  // (DELAY_MS_SELECTION_PLAYED); OK keeps it, Cancel or Back leave the old one. EC.sounds: docs/tools/sounds.py.
+  let preview = null, previewTimer = 0;
+  const stopPreview = () => { clearTimeout(previewTimer); if (preview) { preview.pause(); preview = null; } };
+  function ringtonePicker(c, n) {
+    const cat = n.ringtoneType === '0x00000002' ? 'notifications' : 'ringtones', field = cat === 'ringtones' ? 'ringtone' : 'notificationSound';
+    const F = EC.text('framework'), list = Object.entries(EC.sounds?.list[cat] || {}).map(([file, [title, asset]]) => ({file, title, asset}));
+    const key = t => t.toLocaleLowerCase('en').replace(/[^\p{L}\p{N} ]/gu, '');
+    list.sort((a, b) => key(a.title).localeCompare(key(b.title), 'en'));
+    const cur = c.data.settings[field] ?? EC.sounds?.defaults[cat];
+    const items = [F.t('ringtone_silent'), ...list.map(r => r.title)];
+    const at = cur === '' ? 0 : list.findIndex(r => r.file === cur) + 1;
+    let pick = at;
+    c.dialog({title: txt(n.title), icon: null, items, choice: 'single', checked: at,
+      onSelect: i => {
+        pick = i; stopPreview();
+        if (i) previewTimer = setTimeout(() => { preview = new Audio(`../../assets/audio/${list[i - 1].asset}.webm`); preview.play().catch(() => {}); }, 300);
+      },
+      buttons: [{label: F.t('ok'), action: () => { stopPreview(); c.data.settings[field] = pick ? list[pick - 1].file : ''; c.save(); }},
+                {label: F.t('cancel'), action: stopPreview}],
+      onCancel: stopPreview});
+  }
 
   // RingerVolumePreference (preference_dialog_ringervolume.xml: incoming call volume, the notification checkbox and its
   // own bar), VolumePreference (seekbar_dialog.xml, media) and BrightnessPreference (preference_dialog_brightness.xml:

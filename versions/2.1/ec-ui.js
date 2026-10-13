@@ -109,7 +109,13 @@
       if (name === 'ecui-li') {
         const i = Number(el.dataset.index), d = dialog;
         if (d.choice === 'multi') { const set = new Set(d.checked || []); set.has(i) ? set.delete(i) : set.add(i); d.checked = [...set]; c.overlay('ui-dialog'); d.onItem?.(i, c, d); return true; }
-        if (d.choice === 'single') { d.checked = i; if (!d.buttons?.length || d.closeOnChoice) { closeDialog(c); d.onItem?.(i, c, d); } else c.overlay('ui-dialog'); return true; }
+        if (d.choice === 'single') {
+          d.checked = i;
+          if (!d.buttons?.length || d.closeOnChoice) { closeDialog(c); d.onItem?.(i, c, d); return true; }
+          el.closest('.ecui-scroll')?.querySelectorAll('.ecui-mark').forEach((m, j) => { m.src = `assets/fw-btn_radio_${j === i ? 'on' : 'off'}.png`; });
+          d.onSelect?.(i, c, d);
+          return true;
+        }
         closeDialog(c); d.onItem?.(i, c, d); return true;
       }
       return dialog?.action?.(name, el, event, c) || false;

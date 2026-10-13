@@ -81,5 +81,23 @@ EC.strings('framework', {
 "es": "p.m.",
 "hu": "du.",
 "huFrom": "crespo:framework:pm"
+},
+"ringtone_silent": {
+"res": "passion:framework:ringtone_silent",
+"en": "Silent",
+"de": "Lautlos",
+"fr": "Silencieux",
+"es": "Silencio",
+"hu": "Néma",
+"huFrom": "crespo:framework:ringtone_silent"
+},
+"ringtone_default": {
+"res": "passion:framework:ringtone_default",
+"en": "Default ringtone",
+"de": "Standard-Klingelton",
+"fr": "Sonnerie par défaut",
+"es": "Tono predeterminado",
+"hu": "Alapértelmezett csengőhang",
+"huFrom": "crespo:framework:ringtone_default"
 }
 });
