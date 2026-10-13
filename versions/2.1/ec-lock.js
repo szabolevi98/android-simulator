@@ -29,7 +29,7 @@
   EC.defaults.alarms = EC.defaults.alarms || [];
 
   function nextAlarm(c) {
-    const now = new Date();
+    const now = c.now();
     let best = null;
     for (const alarm of c.data.alarms || []) {
       if (!alarm.enabled) continue;
@@ -53,8 +53,8 @@
     return lines.map(([icon, text]) => `<div class="eclk-status"><img src="assets/${icon}" alt="">${esc(text)}</div>`).join('');
   }
   function time(c) {
-    const now = new Date();
-    return c.is24() ? {time: c.dateFormat('kk:mm', now), ampm: ''} : {time: c.dateFormat('h:mm', now), ampm: now.getHours() < 12 ? 'AM' : 'PM'};
+    const now = c.now();
+    return c.is24() ? {time: c.dateFormat('kk:mm', now), ampm: ''} : {time: c.dateFormat('h:mm', now), ampm: c.javaAmPm(now.getHours())};
   }
 
   // The right tab's resources follow the ringer (LockScreen.updateRightTabResources).

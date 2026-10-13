@@ -54,5 +54,32 @@ EC.strings('framework', {
 "es": "Atención",
 "hu": "Figyelem",
 "huFrom": "crespo:framework:dialog_alert_title"
+},
+"date_time_set": {
+"res": "passion:framework:date_time_set",
+"en": "Set",
+"de": "Einstellen",
+"fr": "Définir",
+"es": "Establecer",
+"hu": "Beállítás",
+"huFrom": "crespo:framework:date_time_set"
+},
+"am": {
+"res": "passion:framework:am",
+"en": "am",
+"de": "vorm.",
+"fr": "matin",
+"es": "a.m.",
+"hu": "de.",
+"huFrom": "crespo:framework:am"
+},
+"pm": {
+"res": "passion:framework:pm",
+"en": "pm",
+"de": "nachm.",
+"fr": "soir",
+"es": "p.m.",
+"hu": "du.",
+"huFrom": "crespo:framework:pm"
 }
 });

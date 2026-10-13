@@ -25,11 +25,11 @@
 
   // is24HourFormat: the setting when set, else the locale's own time format (en-US 12 h; de, fr, es, hu 24 h).
   const hour24 = c => c.data.settings.hour24 ?? c.lang !== 'en';
-  function clockText(c, date = new Date()) {
+  function clockText(c, date = c.now()) {
     if (hour24(c)) return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-    return `${date.getHours() % 12 || 12}:${String(date.getMinutes()).padStart(2, '0')} ${date.getHours() < 12 ? 'AM' : 'PM'}`;
+    return `${date.getHours() % 12 || 12}:${String(date.getMinutes()).padStart(2, '0')} ${c.javaAmPm(date.getHours())}`;
   }
-  const longDate = c => new Date().toLocaleDateString(c.locale(), {year: 'numeric', month: 'long', day: 'numeric'});
+  const longDate = c => c.now().toLocaleDateString(c.locale(), {year: 'numeric', month: 'long', day: 'numeric'});
   // stat_sys_battery level-list: 0-4 → 0, 5-14 → 10, 15-29 → 20, 30-49 → 40, 50-69 → 60, 70-89 → 80, 90-100 → 100.
   const battery = (level, charging) => charging ? 'fw-stat_sys_battery_charge_anim5.png'
     : `fw-stat_sys_battery_${level < 5 ? 0 : level < 15 ? 10 : level < 30 ? 20 : level < 50 ? 40 : level < 70 ? 60 : level < 90 ? 80 : 100}.png`;

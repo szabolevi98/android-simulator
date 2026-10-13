@@ -63,6 +63,8 @@
       if (key === 'silent') c.data.settings.ringer = v ? (value(c, 'vibrate') ? 'vibrate' : 'silent') : '';
       else if (key === '24 hour') c.data.settings.hour24 = !!v;
       else { c.data.settings[field] = v; if (key === 'toggle_wifi') c.data.settings.wifiConnected = v; }
+      // Automatic on: the network's time and zone again.
+      if (key === 'auto_time' && v) { c.data.settings.timeOffset = 0; c.data.settings.timeZone = null; }
     } else (c.data.prefs ||= {})[key] = v;
     c.save();
   }
@@ -110,15 +112,30 @@
     if (name === 'device_info_settings' && n.key === 'safetylegal') return false;
     return true;
   }
+  // DateTimeSettings.updateTimeAndDateDisplay: the date in the short format, the time in getTimeFormat, the zone as
+  // "GMT+01:00, <long name>", the date format as Dec 31 of this year (mDummyDate) in it.
+  function gmt(zone, date = new Date()) {
+    const part = new Intl.DateTimeFormat('en-US', {timeZone: zone, timeZoneName: 'longOffset'}).formatToParts(date).find(x => x.type === 'timeZoneName')?.value || 'GMT';
+    return part === 'GMT' ? 'GMT+00:00' : part;
+  }
+  const zoneName = (c, zone) => new Intl.DateTimeFormat(c.locale(), {timeZone: zone, timeZoneName: 'long'}).formatToParts(new Date()).find(x => x.type === 'timeZoneName')?.value || zone;
+  const dummyDate = c => new Date(c.now().getFullYear(), 11, 31, 13, 0);
+  const dateTime = {
+    date: c => c.shortDate(),
+    time: c => c.timeText(),
+    timezone: c => `${gmt(c.zone())}, ${zoneName(c, c.zone())}`,
+    date_format: c => c.dateFormat(c.shortDatePattern(), dummyDate(c))
+  };
   function summary(c, name, n) {
     if (BUILD[n.key]) return BUILD[n.key];
+    if (name === 'date_time_prefs' && dateTime[n.key]) return dateTime[n.key](c);
     if (n.t === 'CheckBoxPreference' && (n.summaryOn || n.summaryOff)) return txt(value(c, n.key, n.defaultValue) ? n.summaryOn : n.summaryOff) || txt(n.summary);
     return txt(n.summary);
   }
   function row(c, screen, name, n, path) {
     if (!prune(name, n)) return '';
     if (n.t === 'PreferenceCategory') return `<div class="ecpf-cat npp-fw-dark_header_dither"><i class="ec-bg np-fw-dark_header_dither"></i><span>${esc(txt(n.title))}</span></div>${(n.c || []).map((ch, i) => row(c, screen, name, ch, `${path}.${i}`)).join('')}`;
-    const off = disabled(c, screen, n) || n.enabled === 'false';
+    const off = disabled(c, screen, n) || n.enabled === 'false' || name === 'date_time_prefs' && ['date', 'time', 'timezone'].includes(n.key) && value(c, 'auto_time');
     const check = n.t === 'CheckBoxPreference' ? `<img class="ecpf-check" src="assets/fw-btn_check_${value(c, n.key, n.defaultValue) ? 'on' : 'off'}.png" alt="">` : '';
     const icon = n.icon ? `<img class="ecpf-icon" src="assets/st-${n.icon.split('/')[1]}.png" alt="">` : '';
     const sum = summary(c, name, n);
@@ -147,6 +164,7 @@
 
   function open(c, n, screen, path) {
     if (n.t === 'CheckBoxPreference') { setValue(c, n.key, !value(c, n.key, n.defaultValue)); c.render(); return; }
+    if (screen.name === 'date_time_prefs' && n.key in dateTime) { dateTimeClick(c, n); return; }
     if (n.t === 'ListPreference') {
       const entries = arr(n.entries), values = n.entryValues || [], v = String(value(c, n.key, n.defaultValue) ?? '');
       c.dialog({title: txt(n.dialogTitle || n.title), icon: null, items: entries, choice: 'single', checked: values.indexOf(v), closeOnChoice: true,
@@ -164,6 +182,33 @@
     if (n.t === 'PreferenceScreen' && n.c) { c.ui.settingsStack.push(`${screen.name}|${path}`); c.render(); return; }
     if (n.intent?.action) { c.toast(txt(n.title)); return; }
     if (n.t !== 'Preference') c.dialog({title: txt(n.dialogTitle || n.title), icon: null, message: c.t('Not built yet'), buttons: [{label: EC.text('framework').t('ok')}]});
+  }
+
+  // Set date / Set time move the device clock by the difference; Select time zone opens ZoneList; Select date format
+  // lists date_format_values ("" = normal_date_format with the locale's short date) as dummy dates.
+  function dateTimeClick(c, n) {
+    const s = c.data.settings, now = c.now();
+    const move = target => { s.timeOffset = (Number(s.timeOffset) || 0) + (target - c.now()); c.save(); c.render(); };
+    if (n.key === 'date') c.datePicker({date: now, onSet: (y, m, d) => { const t = c.now(); t.setFullYear(y, m, d); move(t); }});
+    else if (n.key === 'time') c.timePicker({hour: now.getHours(), minute: now.getMinutes(), onSet: (h, mi) => { const t = c.now(); t.setHours(h, mi, 0, 0); move(t); }});
+    else if (n.key === 'timezone') { c.ui.settingsStack.push('zones'); c.ui.zoneSort = 'offset'; c.render(); }
+    else {
+      const values = ['', 'MM-dd-yyyy', 'dd-MM-yyyy', 'yyyy-MM-dd'], cur = s.dateFormat || '';
+      const entries = values.map(f => { const text = c.dateFormat(c.shortDatePattern(f), dummyDate(c)); return f ? text : EC.text('settings2').fmt('normal_date_format', c.lang, text); });
+      c.dialog({title: txt(n.dialogTitle || n.title), icon: null, items: entries, choice: 'single', checked: values.indexOf(cur), closeOnChoice: true,
+        buttons: [{label: EC.text('framework').t('cancel')}],
+        onItem: i => { s.dateFormat = values[i]; c.save(); c.render(); }});
+    }
+  }
+  // ZoneList: timezones.xml (ec-timezones.js) as simple_list_item_2 rows, the name over "GMT+01:00", sorted by offset
+  // (setSorting(true)) or by name from the menu: Sort alphabetically (ic_menu_sort_alphabetically) / Sort by time zone
+  // (ic_menu_3d_globe), each shown while the other order is on. Choosing one sets the zone and finishes.
+  function zoneRows(c) {
+    const col = {en: 1, hu: 2, de: 3, fr: 4, es: 5}[c.lang] || 1, at = new Date();
+    const offset = id => { const g = gmt(id, at), m = g.match(/GMT([+-])(\d+):(\d+)/); return m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3])) : 0; };
+    const list = (EC.timeZones || []).map(z => ({id: z[0], name: z[col], gmt: gmt(z[0], at), off: offset(z[0])}));
+    list.sort(c.ui.zoneSort === 'name' ? (a, b) => a.name.localeCompare(b.name, c.locale()) : (a, b) => a.off - b.off);
+    return list.map(z => `<button type="button" class="ecpf-zone" data-action="ecpf-zone" data-zone="${esc(z.id)}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span class="ecpf-zone-name">${esc(z.name)}</span><span class="ecpf-zone-gmt">${esc(z.gmt)}</span></button><i class="ecpf-divider"></i>`).join('');
   }
 
   // RingerVolumePreference (preference_dialog_ringervolume.xml: incoming call volume, the notification checkbox and its
@@ -216,13 +261,22 @@
     },
     render(c) {
       const top = c.ui.settingsStack?.at(-1) || 'settings';
+      if (top === 'zones') return c.window(EC.settingsLabels?.ZoneList ? txt(EC.settingsLabels.ZoneList) : S().t('settings_label'), `<div class="ecpf-list">${zoneRows(c)}</div>`);
       if (top.startsWith('missing:')) return c.window(S().t('settings_label'), `<div class="ec-missing"><b>${esc(c.t('Not built yet'))}</b><span>${esc(top.slice(8))}</span><small>Android 2.1 · Settings.apk</small></div>`);
       return render(c);
     },
     action(name, el, event, c) {
+      if (name === 'ecpf-zone') { c.data.settings.timeZone = el.dataset.zone; c.save(); c.ui.settingsStack.pop(); c.render(); return true; }
       if (name !== 'ecpf-row') return false;
       const s = current(c), n = nodeAt(s, el.dataset.path);
       if (n) open(c, n, s, el.dataset.path);
+      return true;
+    },
+    menu(c) {
+      if (c.ui.settingsStack?.at(-1) !== 'zones') return false;
+      const T2 = EC.text('settings2'), byName = c.ui.zoneSort === 'name';
+      c.menu([byName ? {label: T2.t('zone_list_menu_sort_by_timezone'), icon: 'st-ic_menu_3d_globe.png', action: () => { c.ui.zoneSort = 'offset'; c.render(); }}
+        : {label: T2.t('zone_list_menu_sort_alphabetically'), icon: 'fw-ic_menu_sort_alphabetically.png', action: () => { c.ui.zoneSort = 'name'; c.render(); }}]);
       return true;
     },
     back(c) {

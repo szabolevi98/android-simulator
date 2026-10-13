@@ -225,5 +225,32 @@ EC.strings('settings2', {
 "es": "Borrar almacenamiento de credenciales de todo el contenido y restablecer su contraseña",
 "hu": "A hitelesítési adatok tárolója teljes tartalmának kiürítése és jelszavának visszaállítása",
 "huFrom": "crespo:Settings:credentials_reset_summary"
+},
+"normal_date_format": {
+"res": "passion:Settings:normal_date_format",
+"en": "Normal (%s)",
+"de": "Normal (%s)",
+"fr": "Normal (%s)",
+"es": "Normal (%s)",
+"hu": "Normál (%s)",
+"huFrom": "crespo:Settings:normal_date_format"
+},
+"zone_list_menu_sort_alphabetically": {
+"res": "passion:Settings:zone_list_menu_sort_alphabetically",
+"en": "Sort alphabetically",
+"de": "Alphabetisch sortieren",
+"fr": "Trier par ordre alphabétique",
+"es": "Ordenar alfabéticamente",
+"hu": "Rendezés név szerint",
+"huFrom": "crespo:Settings:zone_list_menu_sort_alphabetically"
+},
+"zone_list_menu_sort_by_timezone": {
+"res": "passion:Settings:zone_list_menu_sort_by_timezone",
+"en": "Sort by time zone",
+"de": "Nach Zeitzone sortieren",
+"fr": "Trier par fuseau horaire",
+"es": "Ordenar por zona horaria",
+"hu": "Rendezés időzóna szerint",
+"huFrom": "crespo:Settings:zone_list_menu_sort_by_timezone"
 }
 });

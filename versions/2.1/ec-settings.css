@@ -20,3 +20,10 @@
 .ecpf-dlg-icon{align-self:center;margin-top:calc(20 * var(--dp));width:calc(52 * var(--dp));height:calc(52 * var(--dp))}
 .ecpf-dlg-pad{padding:calc(20 * var(--dp)) 0}
 .ecpf-dlg [hidden]{display:none}
+
+/* ZoneList rows: simple_list_item_2 (TwoLineListItem, listPreferredItemHeight 64 dp, padding 2 dp; text1 22 sp 6 dp in and
+   down, text2 14 sp under it). */
+.ecpf-zone{position:relative;display:flex;flex-direction:column;justify-content:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:calc(2 * var(--dp)) calc(6 * var(--dp));background:none;color:#fff;text-align:left}
+.ecpf-zone span{position:relative;z-index:1}
+.ecpf-zone-name{font-size:calc(22 * var(--dp))}
+.ecpf-zone-gmt{font-size:calc(14 * var(--dp));color:#bebebe}

@@ -334,3 +334,14 @@ st-lock_anim_12.png	app/Settings.apk	drawable/lock_anim_12
 st-lock_anim_14.png	app/Settings.apk	drawable/lock_anim_14
 st-ic_btn_next.png	app/Settings.apk	drawable/ic_btn_next
 fw-btn_default_transparent_normal.9.png	framework/framework-res.apk	drawable/btn_default_transparent_normal
+# NumberPicker (number_picker.xml) for DatePicker / TimePicker
+fw-timepicker_up_normal.9.png	framework/framework-res.apk	drawable/timepicker_up_normal
+fw-timepicker_up_pressed.9.png	framework/framework-res.apk	drawable/timepicker_up_pressed
+fw-timepicker_down_normal.9.png	framework/framework-res.apk	drawable/timepicker_down_normal
+fw-timepicker_down_pressed.9.png	framework/framework-res.apk	drawable/timepicker_down_pressed
+fw-timepicker_input_normal.9.png	framework/framework-res.apk	drawable/timepicker_input_normal
+fw-timepicker_input_pressed.9.png	framework/framework-res.apk	drawable/timepicker_input_pressed
+fw-ic_dialog_time.png	framework/framework-res.apk	drawable/ic_dialog_time
+# ZoneList menu
+st-ic_menu_3d_globe.png	app/Settings.apk	drawable/ic_menu_3d_globe
+fw-ic_menu_sort_alphabetically.png	framework/framework-res.apk	drawable/ic_menu_sort_alphabetically

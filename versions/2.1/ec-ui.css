@@ -84,3 +84,13 @@
 /* CheckBox with its text (textAppearanceSmall 14 sp). */
 .ecui-check{display:flex;align-items:center;gap:calc(2 * var(--dp));border:0;padding:0;background:none;color:#fff!important;font-size:calc(14 * var(--dp));text-align:left}
 .ecui-check img{width:calc(38 * var(--dp));height:calc(48 * var(--dp));flex:none}
+
+/* DatePicker / TimePicker in their dialogs (padding 5 dp, centred): NumberPicker columns with 1 dp margins (the time
+   picker's minute 5 dp after the hour); the field's text 30 sp, textAppearanceLargeInverse black. */
+.ecui-picker{display:flex;justify-content:center;align-items:flex-start;padding:calc(5 * var(--dp))}
+.ecui-np{display:flex;flex-direction:column;margin:0 calc(1 * var(--dp))}
+.ecui-np+.ecui-np{margin-left:calc(5 * var(--dp))}
+.ecui-np-btn{position:relative;display:block;width:100%;height:calc(38.667 * var(--dp));border:0;padding:0;background:none}
+.ecui-np-input{position:relative;display:flex;align-items:center;justify-content:center;min-height:calc(46 * var(--dp));color:#000;font-size:calc(30 * var(--dp))}
+.ecui-np-input span{position:relative;z-index:1}
+.ecui-ampm{flex:none;margin:calc(43 * var(--dp)) 0 0 calc(5 * var(--dp));padding:calc(6 * var(--dp)) calc(20 * var(--dp)) calc(9 * var(--dp));font-size:calc(22 * var(--dp))}

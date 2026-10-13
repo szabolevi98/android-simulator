@@ -145,6 +145,74 @@
           for (const t of ['pointerup', 'pointercancel']) bar.addEventListener(t, () => bar.classList.remove('pressed'));
         }
       };
+      // NumberPicker (number_picker.xml): timepicker_up_btn, the 30 sp timepicker_input field, timepicker_down_btn; the
+      // values wrap; a held button repeats every 300 ms (mSpeed).
+      const np = (id, text, width) => `<div class="ecui-np" data-np="${id}" style="width:calc(${width} * var(--dp))"><button type="button" class="ecui-np-btn ecui-np-up" data-action="ecui-np" data-dir="1"><i class="ec-bg np-fw-timepicker_up_normal"></i><i class="ec-bg ec-pressed np-fw-timepicker_up_pressed"></i></button><div class="ecui-np-input"><i class="ec-bg np-fw-timepicker_input_normal"></i><span>${esc(text)}</span></div><button type="button" class="ecui-np-btn ecui-np-down" data-action="ecui-np" data-dir="-1"><i class="ec-bg np-fw-timepicker_down_normal"></i><i class="ec-bg ec-pressed np-fw-timepicker_down_pressed"></i></button></div>`;
+      const pad2 = n => String(n).padStart(2, '0');
+      const holdRepeat = (root, step) => {
+        let timer = 0;
+        root.addEventListener('pointerdown', event => {
+          const b = event.target.closest('.ecui-np-btn'); if (!b) return;
+          clearInterval(timer); timer = setInterval(() => step(b), 300);
+          const stop = () => { clearInterval(timer); document.removeEventListener('pointerup', stop); };
+          document.addEventListener('pointerup', stop);
+        });
+      };
+      // DatePickerDialog: ic_dialog_time, the title the date in java.text.DateFormat.FULL, DatePicker (month 80 dp, day
+      // 80 dp, year 95 dp, 1 dp margins; ordered as DateFormat.getDateFormatOrder; years 1900–2100), Set / Cancel.
+      c.datePicker = ({date, onSet}) => {
+        const v = {y: date.getFullYear(), m: date.getMonth(), d: date.getDate()}, loc = c.locale();
+        const title = () => new Date(v.y, v.m, v.d).toLocaleDateString(loc, {dateStyle: 'full'});
+        const days = () => new Date(v.y, v.m + 1, 0).getDate(), month = m => new Date(2000, m, 1).toLocaleDateString(loc, {month: 'short'});
+        const pattern = c.shortDatePattern(), order = ['y', 'M', 'd'].sort((a, b) => pattern.indexOf(a) - pattern.indexOf(b));
+        const col = k => k === 'M' ? np('M', month(v.m), 80) : k === 'd' ? np('d', v.d, 80) : np('y', v.y, 95);
+        const show = root => {
+          root.querySelector('[data-np="M"] span').textContent = month(v.m); root.querySelector('[data-np="d"] span').textContent = v.d;
+          root.querySelector('[data-np="y"] span').textContent = v.y;
+          const t = root.closest('.ecui-dialog')?.querySelector('.ecui-title'); if (t) t.textContent = title();
+        };
+        const step = el => {
+          const k = el.closest('.ecui-np').dataset.np, dir = Number(el.dataset.dir);
+          if (k === 'M') v.m = (v.m + dir + 12) % 12;
+          else if (k === 'd') v.d = (v.d - 1 + dir + days()) % days() + 1;
+          else v.y = v.y + dir > 2100 ? 1900 : v.y + dir < 1900 ? 2100 : v.y + dir;
+          v.d = Math.min(v.d, days());
+          show(el.closest('.ecui-picker'));
+        };
+        c.dialog({title: title(), icon: 'fw-ic_dialog_time.png', html: `<div class="ecui-picker">${order.map(col).join('')}</div>`,
+          mount: root => holdRepeat(root, step),
+          action(name, el) { if (name !== 'ecui-np') return false; step(el); return true; },
+          buttons: [{label: F().t('date_time_set'), action: () => onSet(v.y, v.m, v.d)}, {label: F().t('cancel')}]});
+      };
+      // TimePickerDialog: ic_dialog_time, the title in DateFormat.getTimeFormat, TimePicker (hour and minute 70 dp, 5 dp
+      // apart; 24-hour: 00–23, else 1–12 and the AM / PM button, marginTop 43 dp, padding 20 dp), Set / Cancel.
+      c.timePicker = ({hour, minute, onSet}) => {
+        const v = {h: hour, mi: minute}, h24 = c.is24();
+        const ampm = h => c.javaAmPm(h);
+        const hourText = () => h24 ? pad2(v.h) : String(v.h % 12 || 12);
+        const title = () => c.timeText(new Date(2000, 0, 1, v.h, v.mi));
+        const show = root => {
+          root.querySelector('[data-np="h"] span').textContent = hourText(); root.querySelector('[data-np="mi"] span').textContent = pad2(v.mi);
+          const b = root.querySelector('.ecui-ampm span'); if (b) b.textContent = ampm(v.h);
+          const t = root.closest('.ecui-dialog')?.querySelector('.ecui-title'); if (t) t.textContent = title();
+        };
+        const step = el => {
+          const k = el.closest('.ecui-np').dataset.np, dir = Number(el.dataset.dir);
+          if (k === 'mi') v.mi = (v.mi + dir + 60) % 60;
+          else if (h24) v.h = (v.h + dir + 24) % 24;
+          else { const pm = v.h >= 12, h12 = (v.h % 12 + dir + 12) % 12; v.h = h12 + (pm ? 12 : 0); }
+          show(el.closest('.ecui-picker'));
+        };
+        const amButton = h24 ? '' : `<button type="button" class="ecui-button ecui-ampm" data-action="ecui-ampm"><i class="ec-bg np-fw-btn_default_normal"></i><i class="ec-bg ec-pressed np-fw-btn_default_pressed"></i><span>${esc(ampm(v.h))}</span></button>`;
+        c.dialog({title: title(), icon: 'fw-ic_dialog_time.png', html: `<div class="ecui-picker">${np('h', hourText(), 70)}${np('mi', pad2(v.mi), 70)}${amButton}</div>`,
+          mount: root => holdRepeat(root, step),
+          action(name, el) {
+            if (name === 'ecui-np') { step(el); return true; }
+            if (name === 'ecui-ampm') { v.h = (v.h + 12) % 24; show(el.closest('.ecui-picker')); return true; }
+            return false;
+          },
+          buttons: [{label: F().t('date_time_set'), action: () => onSet(v.h, v.mi)}, {label: F().t('cancel')}]});
+      };
       c.checkbox = (id, checked, label) => `<button type="button" class="ecui-check" data-action="ecui-check" data-check="${esc(id)}" aria-pressed="${!!checked}"><img src="assets/fw-btn_check_${checked ? 'on' : 'off'}.png" alt=""><span>${esc(label)}</span></button>`;
       c.toast = (text, long) => {
         let layer = c.el.screen.querySelector('.ecui-toast-layer');

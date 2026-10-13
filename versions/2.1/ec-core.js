@@ -77,9 +77,33 @@
 
   // android.text.format.DateFormat.format(pattern, date): the image's patterns ("EEEE, MMMM d", "E h:mm aa") with the
   // names of the simulator's language. Quoted text ('…') is kept; a doubled quote is a quote.
-  function dateFormat(pattern, date = new Date()) {
+  // The device clock: the real time, or with Automatic off the time moved by Set date / Set time
+  // (settings.timeOffset, ms) in the zone Select time zone chose (settings.timeZone; none = the browser's). The Date it
+  // returns carries the device's wall-clock fields as local time.
+  function now() {
+    const s = data.settings, auto = s.autoTime !== false;
+    const stamp = Date.now() + (auto ? 0 : Number(s.timeOffset) || 0), zone = !auto && s.timeZone;
+    if (!zone) return new Date(stamp);
+    const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', {timeZone: zone, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'}).formatToParts(new Date(stamp)).map(x => [x.type, x.value]));
+    return new Date(+p.year, p.month - 1, +p.day, +p.hour % 24, +p.minute, +p.second, stamp % 1000);
+  }
+  c.now = now;
+  c.zone = () => (data.settings.autoTime !== false ? '' : data.settings.timeZone) || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // DateFormat.getDateFormat: Settings' date format, or with "" (Normal) the locale's java.text SHORT date (ICU 4.2 /
+  // CLDR 1.7 data of libicudata.so).
+  const SHORT_DATE = {en: 'M/d/yy', hu: 'yyyy.MM.dd.', de: 'dd.MM.yy', fr: 'dd/MM/yy', es: 'dd/MM/yy'};
+  c.shortDatePattern = (setting = data.settings.dateFormat) => setting || SHORT_DATE[i18n.language] || SHORT_DATE.en;
+  c.shortDate = (date = now()) => dateFormat(c.shortDatePattern(), date);
+  // java.text.DateFormatSymbols' AM / PM (ICU 4.2): what SimpleDateFormat's "a", the status bar clock, DigitalClock and
+  // TimePicker show. android.text.format.DateFormat's "a" is framework-res's am / pm instead (DateUtils.getAMPMString).
+  const JAVA_AMPM = {en: ['AM', 'PM'], hu: ['de.', 'du.'], de: ['vorm.', 'nachm.'], fr: ['AM', 'PM'], es: ['a.m.', 'p.m.']};
+  c.javaAmPm = hour => (JAVA_AMPM[i18n.language] || JAVA_AMPM.en)[hour < 12 ? 0 : 1];
+  // DateFormat.getTimeFormat: SimpleDateFormat "h:mm a" or "H:mm".
+  c.timeText = (date = now()) => c.is24() ? `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}` : `${date.getHours() % 12 || 12}:${String(date.getMinutes()).padStart(2, '0')} ${c.javaAmPm(date.getHours())}`;
+  function dateFormat(pattern, date = now()) {
     const loc = i18n.locale(), name = (opts) => date.toLocaleDateString(loc, opts);
     const h12 = date.getHours() % 12 || 12, pad = n => String(n).padStart(2, '0');
+    const ampm = () => { const F = EC.text?.('framework'), key = date.getHours() < 12 ? 'am' : 'pm'; return F?.has(key) ? F.t(key) : key; };
     const tokens = {
       EEEE: () => name({weekday: 'long'}), EEE: () => name({weekday: 'short'}), E: () => name({weekday: 'short'}),
       MMMM: () => name({month: 'long'}),
@@ -87,7 +111,7 @@
       dd: () => pad(date.getDate()), d: () => String(date.getDate()), yyyy: () => String(date.getFullYear()), yy: () => pad(date.getFullYear() % 100),
       hh: () => pad(h12), h: () => String(h12), kk: () => pad(date.getHours()), k: () => String(date.getHours()),
       HH: () => pad(date.getHours()), H: () => String(date.getHours()), mm: () => pad(date.getMinutes()), ss: () => pad(date.getSeconds()),
-      aa: () => date.getHours() < 12 ? 'AM' : 'PM', a: () => date.getHours() < 12 ? 'AM' : 'PM'
+      aa: () => ampm(), a: () => ampm()
     };
     return String(pattern).replace(/'([^']*)'|EEEE|EEE|E|MMMM|MMM|MM|M|dd|d|yyyy|yy|hh|h|kk|k|HH|H|mm|ss|aa|a/g, (all, quoted) => quoted !== undefined ? (quoted || "'") : tokens[all]());
   }
@@ -307,7 +331,7 @@
     });
 
     setInterval(() => {
-      const now = new Date();
+      const now = c.now();
       const timeout = data.settings.screenTimeout ?? 60000;
       if (!document.hidden && !ui.sleeping && !ui.overlay && Date.now() - lastActivity >= timeout && !modules[ui.view]?.keepAwake?.(c)) lockScreen();
       for (const mod of Object.values(modules)) mod.tick?.(c, now);
