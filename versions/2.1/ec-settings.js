@@ -123,6 +123,7 @@
     if (name === 'device_info_settings' && n.key === 'safetylegal') return false;
     // LanguageSettings: no hardware keyboard (Configuration.KEYBOARD_NOKEYS).
     if (name === 'language_settings' && n.key === 'hardkeyboard_category') return false;
+    if (name === 'device_info_status' && ['min_number', 'prl_version', 'meid_number'].includes(n.key)) return false;
     return true;
   }
   // DateTimeSettings.updateTimeAndDateDisplay: the date in the short format, the time in getTimeFormat, the zone as
@@ -139,8 +140,46 @@
     timezone: c => `${gmt(c.zone())}, ${zoneName(c, c.zone())}`,
     date_format: c => c.dateFormat(c.shortDatePattern(), dummyDate(c))
   };
+  // Status (deviceinfo.Status): GSM, so min_number, prl_version and meid_number go; the battery from the battery
+  // broadcast ("Charging (AC)"), "<dBm> dBm   <asu> asu", gsm.network.type, the service / roaming / data state, the up
+  // time as h:mm:ss. The phone's own numbers (IMEI, MAC and Bluetooth addresses, with HTC's 00:23:76 prefix) are
+  // made-up stand-ins.
+  const started = Date.now() - 3 * 3600e3 - 17 * 60e3;
+  function status(c, key) {
+    const s = c.data.settings, T2 = EC.text('settings2'), t = k => T2.t(k), air = !!s.airplane;
+    const up = Math.floor((Date.now() - started) / 1000), pad = n => String(n).padStart(2, '0');
+    return {
+      battery_status: s.charging ? `${t(s.battery >= 100 ? 'battery_info_status_full' : 'battery_info_status_charging')} ${t('battery_info_status_charging_ac')}` : t('battery_info_status_discharging'),
+      battery_level: `${s.battery ?? 78}%`, number: t('device_info_default'), operator_name: air ? t('device_info_default') : (s.carrier || 'T-Mobile'),
+      signal_strength: air ? `0 ${t('radioInfo_display_dbm')}   0 ${t('radioInfo_display_asu')}` : `-81 ${t('radioInfo_display_dbm')}   16 ${t('radioInfo_display_asu')}`,
+      network_type: air ? t('device_info_default') : 'HSDPA', service_state: t(air ? 'radioInfo_service_off' : 'radioInfo_service_in'),
+      roaming_state: t('radioInfo_roaming_not'), data_state: t(air ? 'radioInfo_data_disconnected' : 'radioInfo_data_connected'),
+      imei: '353749030127745', imei_sv: '02', wifi_mac_address: s.wifi ? '00:23:76:5A:21:9C' : t('status_unavailable'),
+      bt_address: s.bluetooth ? '00:23:76:5A:21:9D' : t('status_unavailable'),
+      up_time: `${Math.floor(up / 3600)}:${pad(Math.floor(up / 60) % 60)}:${pad(up % 60)}`
+    }[key];
+  }
+  // Memory: the SD card (the Nexus One came with 4 GB) and the internal storage left for apps, in
+  // Formatter.formatFileSize ("%.2f" under 100, else "%.0f", fileSizeSuffix). Unmount SD card leaves the sizes
+  // Unavailable and itself off (2.1 has no Mount SD card; here a reload puts the card back).
+  function fileSize(c, bytes) {
+    const F = EC.text('settings2');
+    let v = bytes, unit = 'byteShort';
+    for (const u of ['kilobyteShort', 'megabyteShort', 'gigabyteShort']) if (v > 900) { v /= 1024; unit = u; }
+    const num = (v < 100 ? v.toFixed(2) : v.toFixed(0)).replace('.', ['hu', 'de', 'fr', 'es'].includes(c.lang) ? ',' : '.');
+    return F.fmt(`framework/fileSizeSuffix`, c.lang, num, F.t(`framework/${unit}`));
+  }
+  function memory(c, key) {
+    const T2 = EC.text('settings2'), out = c.ui.sdUnmounted;
+    return {
+      memory_sd_size: out ? T2.t('sd_unavailable') : fileSize(c, 3965190144), memory_sd_avail: out ? T2.t('sd_unavailable') : fileSize(c, 3204448256),
+      memory_internal_avail: fileSize(c, 160432128)
+    }[key];
+  }
   function summary(c, name, n) {
     if (BUILD[n.key]) return BUILD[n.key];
+    if (name === 'device_info_status') return status(c, n.key) ?? txt(n.summary);
+    if (name === 'device_info_memory' && memory(c, n.key)) return memory(c, n.key);
     if (name === 'date_time_prefs' && dateTime[n.key]) return dateTime[n.key](c);
     if (n.t === 'CheckBoxPreference' && (n.summaryOn || n.summaryOff)) return txt(value(c, n.key, n.defaultValue) ? n.summaryOn : n.summaryOff) || txt(n.summary);
     return txt(n.summary);
@@ -148,11 +187,11 @@
   function row(c, screen, name, n, path) {
     if (!prune(name, n)) return '';
     if (n.t === 'PreferenceCategory') return `<div class="ecpf-cat npp-fw-dark_header_dither"><i class="ec-bg np-fw-dark_header_dither"></i><span>${esc(txt(n.title))}</span></div>${(n.c || []).map((ch, i) => row(c, screen, name, ch, `${path}.${i}`)).join('')}`;
-    const off = disabled(c, screen, n) || n.enabled === 'false' || name === 'date_time_prefs' && ['date', 'time', 'timezone'].includes(n.key) && value(c, 'auto_time');
+    const off = disabled(c, screen, n) || n.enabled === 'false' || n.key === 'memory_sd_unmount' && c.ui.sdUnmounted || name === 'date_time_prefs' && ['date', 'time', 'timezone'].includes(n.key) && value(c, 'auto_time');
     const check = n.t === 'CheckBoxPreference' ? `<img class="ecpf-check" src="assets/fw-btn_check_${value(c, n.key, n.defaultValue) ? 'on' : 'off'}.png" alt="">` : '';
     const icon = n.icon ? `<img class="ecpf-icon" src="assets/st-${n.icon.split('/')[1]}.png" alt="">` : '';
-    const sum = summary(c, name, n);
-    return `<button type="button" class="ecpf-row${icon ? ' ecpf-icon-row' : ''}" data-action="ecpf-row" data-path="${path}"${off ? ' disabled' : ''}><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i>${icon}<span class="ecpf-text"><span class="ecpf-title">${esc(txt(n.title))}</span>${sum ? `<span class="ecpf-summary">${esc(sum)}</span>` : ''}</span>${check}</button><i class="ecpf-divider"></i>`;
+    const sum = summary(c, name, n), title = txt(n.title);
+    return `<button type="button" class="ecpf-row${icon ? ' ecpf-icon-row' : ''}" data-action="ecpf-row" data-path="${path}"${off ? ' disabled' : ''}><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i>${icon}<span class="ecpf-text"><span class="ecpf-title">${esc(title)}</span>${sum ? `<span class="ecpf-summary">${esc(sum)}</span>` : ''}</span>${check}</button><i class="ecpf-divider"></i>`;
   }
   // The screen on top of the stack: an xml name, or "xml/path" for a nested PreferenceScreen.
   function current(c) {
@@ -178,6 +217,8 @@
   function open(c, n, screen, path) {
     if (n.t === 'CheckBoxPreference') { setValue(c, n.key, !value(c, n.key, n.defaultValue)); c.render(); return; }
     if (screen.name === 'date_time_prefs' && n.key in dateTime) { dateTimeClick(c, n); return; }
+    if (n.key === 'memory_sd_unmount') { c.ui.sdUnmounted = true; c.render(); return; }
+    if (n.key === 'memory_sd_format') { c.ui.settingsStack.push('missing:MediaFormat'); c.render(); return; }
     if (n.t === 'ListPreference') {
       const entries = arr(n.entries), values = n.entryValues || [], v = String(value(c, n.key, n.defaultValue) ?? '');
       c.dialog({title: txt(n.dialogTitle || n.title), icon: null, items: entries, choice: 'single', checked: values.indexOf(v), closeOnChoice: true,

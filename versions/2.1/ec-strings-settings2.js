@@ -270,5 +270,185 @@ EC.strings('settings2', {
 "es": "Teclado de Android",
 "hu": "Android-billentyűzet",
 "huFrom": "crespo:LatinImeGoogle:english_ime_name"
+},
+"battery_info_status_charging": {
+"res": "passion:Settings:battery_info_status_charging",
+"en": "Charging",
+"de": "Wird geladen",
+"fr": "Batterie en charge",
+"es": "Cargando...",
+"hu": "Töltés",
+"huFrom": "crespo:Settings:battery_info_status_charging"
+},
+"battery_info_status_charging_ac": {
+"res": "passion:Settings:battery_info_status_charging_ac",
+"en": "(AC)",
+"de": "(AC)",
+"fr": "(AC)",
+"es": "(CA)",
+"hu": "(Hálózat)",
+"huFrom": "crespo:Settings:battery_info_status_charging_ac"
+},
+"battery_info_status_charging_usb": {
+"res": "passion:Settings:battery_info_status_charging_usb",
+"en": "(USB)",
+"de": "(USB)",
+"fr": "(USB)",
+"es": "(USB)",
+"hu": "(USB)",
+"huFrom": "crespo:Settings:battery_info_status_charging_usb"
+},
+"battery_info_status_discharging": {
+"res": "passion:Settings:battery_info_status_discharging",
+"en": "Discharging",
+"de": "Entladung",
+"fr": "Baisse du niveau de charge",
+"es": "Descargando...",
+"hu": "Lemerülés",
+"huFrom": "crespo:Settings:battery_info_status_discharging"
+},
+"battery_info_status_full": {
+"res": "passion:Settings:battery_info_status_full",
+"en": "Full",
+"de": "Voll",
+"fr": "Chargée",
+"es": "Completa",
+"hu": "Tele",
+"huFrom": "crespo:Settings:battery_info_status_full"
+},
+"device_info_default": {
+"res": "passion:Settings:device_info_default",
+"en": "Unknown",
+"de": "Unbekannt",
+"fr": "Inconnu",
+"es": "Desconocido",
+"hu": "Ismeretlen",
+"huFrom": "crespo:Settings:device_info_default"
+},
+"status_unavailable": {
+"res": "passion:Settings:status_unavailable",
+"en": "Unavailable",
+"de": "Nicht verfügbar",
+"fr": "Non disponible",
+"es": "No disponible",
+"hu": "Nem érhető el",
+"huFrom": "crespo:Settings:status_unavailable"
+},
+"radioInfo_display_dbm": {
+"res": "passion:Settings:radioInfo_display_dbm",
+"en": "dBm",
+"de": "dBm",
+"fr": "dBm",
+"es": "dBm",
+"hu": "dBm",
+"huFrom": "crespo:Settings:radioInfo_display_dbm"
+},
+"radioInfo_display_asu": {
+"res": "passion:Settings:radioInfo_display_asu",
+"en": "asu",
+"de": "ASU",
+"fr": "asu",
+"es": "asu",
+"hu": "asu",
+"huFrom": "crespo:Settings:radioInfo_display_asu"
+},
+"radioInfo_service_in": {
+"res": "passion:Settings:radioInfo_service_in",
+"en": "In service",
+"de": "In Betrieb",
+"fr": "Service en cours",
+"es": "En servicio",
+"hu": "Szolgáltatás",
+"huFrom": "crespo:Settings:radioInfo_service_in"
+},
+"radioInfo_service_off": {
+"res": "passion:Settings:radioInfo_service_off",
+"en": "Radio off",
+"de": "Mobilfunkverbindung aus",
+"fr": "Signal radio désactivé",
+"es": "Señal móvil desactivada",
+"hu": "Rádió kikapcsolva",
+"huFrom": "crespo:Settings:radioInfo_service_off"
+},
+"radioInfo_roaming_not": {
+"res": "passion:Settings:radioInfo_roaming_not",
+"en": "Not roaming",
+"de": "Kein Roaming",
+"fr": "Sans itinérance",
+"es": "Sin itinerancia",
+"hu": "Nem barangol",
+"huFrom": "crespo:Settings:radioInfo_roaming_not"
+},
+"radioInfo_data_connected": {
+"res": "passion:Settings:radioInfo_data_connected",
+"en": "Connected",
+"de": "Verbunden",
+"fr": "Connecté",
+"es": "Conectado",
+"hu": "Csatlakozva",
+"huFrom": "crespo:Settings:radioInfo_data_connected"
+},
+"radioInfo_data_disconnected": {
+"res": "passion:Settings:radioInfo_data_disconnected",
+"en": "Disconnected",
+"de": "Nicht verbunden",
+"fr": "Déconnecté",
+"es": "Desconectada",
+"hu": "Szétkapcsolva",
+"huFrom": "crespo:Settings:radioInfo_data_disconnected"
+},
+"sd_unavailable": {
+"res": "passion:Settings:sd_unavailable",
+"en": "Unavailable",
+"de": "Nicht verfügbar",
+"fr": "Non disponible",
+"es": "No disponible",
+"hu": "Nem érhető el",
+"huFrom": "crespo:Settings:sd_unavailable"
+},
+"framework/byteShort": {
+"res": "passion:framework:byteShort",
+"en": "B",
+"de": "B",
+"fr": "O",
+"es": "B",
+"hu": "B",
+"huFrom": "crespo:framework:byteShort"
+},
+"framework/kilobyteShort": {
+"res": "passion:framework:kilobyteShort",
+"en": "KB",
+"de": "KB",
+"fr": "Ko",
+"es": "KB",
+"hu": "KB",
+"huFrom": "crespo:framework:kilobyteShort"
+},
+"framework/megabyteShort": {
+"res": "passion:framework:megabyteShort",
+"en": "MB",
+"de": "MB",
+"fr": "Mo",
+"es": "MB",
+"hu": "MB",
+"huFrom": "crespo:framework:megabyteShort"
+},
+"framework/gigabyteShort": {
+"res": "passion:framework:gigabyteShort",
+"en": "GB",
+"de": "GB",
+"fr": "Go",
+"es": "GB",
+"hu": "GB",
+"huFrom": "crespo:framework:gigabyteShort"
+},
+"framework/fileSizeSuffix": {
+"res": "passion:framework:fileSizeSuffix",
+"en": "%1$s%2$s",
+"de": "%1$s %2$s",
+"fr": "%1$s %2$s",
+"es": "%1$s %2$s",
+"hu": "%1$s%2$s",
+"huFrom": "crespo:framework:fileSizeSuffix"
 }
 });
