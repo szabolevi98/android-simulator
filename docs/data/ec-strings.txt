@@ -1,0 +1,3 @@
+# Android 2.1 text tables (docs/tools/ec-strings.py): "[table] APKs…" then resource names; array:name / plurals:name.
+[statusbar] framework
+status_bar_clear_all_button status_bar_no_notifications_title status_bar_ongoing_events_title status_bar_latest_events_title

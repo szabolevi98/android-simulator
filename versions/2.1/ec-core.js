@@ -16,9 +16,14 @@
   // Modules add their saved fields here (EC.defaults.contacts = [...]) and their upgrades of older saves.
   const defaults = {settings: {}};
   const upgrades = [];
+  // Text tables: ec-strings-<table>.js (docs/tools/ec-strings.py) call EC.strings(table, rows); modules read them with
+  // EC.text(table).t(name) / .fmt(name, ...args) / .plural(name, n), in the simulator's language.
+  const tables = {};
   const EC = window.EC = {
     register(id, spec) { modules[id] = spec; },
     module: id => modules[id],
+    strings(table, rows) { tables[table] = AndroidStrings.table(`ec-${table}`, rows); },
+    text: table => tables[table] || AndroidStrings.table(`ec-${table}`, {}),
     defaults, upgrades
   };
 
@@ -66,6 +71,8 @@
     overlay(id) { ui.overlay = id; renderOverlay(); }, closeOverlay() { ui.overlay = ''; renderOverlay(); },
     lock: () => lockScreen(), wake: () => wake(), screens: SCREENS
   };
+
+  EC.context = c;   // for the browser tests and debugging
 
   function missing(id, extra = '') {
     const [title, source] = SCREENS[id] || [id, ''];

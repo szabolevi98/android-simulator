@@ -1,0 +1,72 @@
+/* Android 2.1 status bar and notification panel (ec-statusbar.js): framework-res status_bar.xml, status_bar_expanded.xml,
+   status_bar_latest_event(_content).xml, status_bar_tracking.xml. Sizes are the layouts' dp / sp; a nine-patch is drawn
+   on an .ec-bg layer behind the view (ec-ninepatch.css), the view keeps the padding its layout gives. */
+.ec-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.ec-bg~:not(.ec-bg){position:relative;z-index:1}
+.ec-pressed,.ec-focused{opacity:0}
+:active>.ec-pressed{opacity:1}
+:focus-visible>.ec-focused{opacity:1}
+
+/* The bar: notification icons from the left (paddingLeft 6 dp), status icons to the right (paddingRight 6 dp), 25 dp each. */
+.ecsb{position:absolute;inset:0;display:block;color:#000;cursor:pointer;overflow:hidden}
+.ecsb-icons{position:absolute;inset:0;display:flex;align-items:center;transition:transform .4s,opacity .4s}
+.ecsb-notifications{flex:1;min-width:0;display:flex;overflow:hidden;padding-left:calc(6 * var(--dp))}
+.ecsb-status{display:flex;align-items:center;height:100%;padding-right:calc(6 * var(--dp))}
+.ecsb-icon{flex:none;width:calc(25 * var(--dp));height:calc(25 * var(--dp));display:block}
+.ecsb-icon img{width:100%;height:100%;display:block}
+/* The clock is a text icon: 16 sp, bold, black, setPadding(2, 0, 0, 0) in pixels. */
+.ecsb-clock{font:700 calc(16 * var(--dp))/calc(25 * var(--dp)) DroidSans,Arial,sans-serif;padding-left:calc(1.333 * var(--dp));white-space:nowrap}
+/* Ticker: push_up_in / push_up_out over the icons, push_down_in / push_down_out back (400 ms, translate 100%p + alpha). */
+.ecsb-ticker{position:absolute;inset:0;padding-left:calc(6 * var(--dp));pointer-events:none}
+.ecsb-seg{position:absolute;inset:0 0 0 calc(6 * var(--dp));display:flex;align-items:flex-start;animation:ecsb-up-in .4s both}
+.ecsb-seg.out{animation:ecsb-up-out .4s both}
+.ecsb-ticker-icon{margin-right:calc(8 * var(--dp))}
+.ecsb-ticker-text{flex:1;min-width:0;padding:calc(2 * var(--dp)) calc(10 * var(--dp)) 0 0;font-size:calc(14 * var(--dp));line-height:calc(19 * var(--dp));color:#000;white-space:nowrap;overflow:hidden}
+.ecsb-seg:not(.first) .ecsb-ticker-icon{visibility:hidden}
+.ecsb-ticking .ecsb-icons{transform:translateY(-100%);opacity:0}
+.ecsb-ticking.ecsb-ticker-done .ecsb-icons{transform:none;opacity:1}
+.ecsb-ticker-done .ecsb-seg{animation:ecsb-down-out .4s both}
+@keyframes ecsb-up-in{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+@keyframes ecsb-up-out{from{transform:none;opacity:1}to{transform:translateY(-100%);opacity:0}}
+@keyframes ecsb-down-out{from{transform:none;opacity:1}to{transform:translateY(100%);opacity:0}}
+/* DateView: 16 sp bold, textColorPrimaryInverse (black), padding 6 px left and right, over the icons while expanded. */
+.ecsb-date{position:absolute;left:0;top:0;bottom:0;display:none;align-items:center;padding:0 calc(4 * var(--dp));font:700 calc(16 * var(--dp)) DroidSans,Arial,sans-serif;white-space:nowrap}
+.ecsb-expanded .ecsb-date{display:flex}
+.ecsb-expanded .ecsb-notifications{visibility:hidden}
+
+/* The panel: TrackingPatternView tiles status_bar_background (180 px = 120 dp) behind it. */
+.ecsh{position:absolute;inset:calc(25 * var(--dp)) 0 0;overflow:hidden}
+.ecsh-panel{position:absolute;inset:0;display:flex;flex-direction:column;background:url('assets/fw-status_bar_background.png') 0 0/calc(120 * var(--dp)) repeat;will-change:transform}
+.ecsh-header{flex:none;display:flex;align-items:center;min-height:calc(50 * var(--dp));padding:calc(3 * var(--dp)) calc(3 * var(--dp)) calc(5 * var(--dp)) 0}
+/* plmnLabel / spnLabel: textAppearanceLarge (22 sp), textColorSecondaryInverse (#323232), paddingLeft 4 dp. */
+.ecsh-carrier{flex:1;min-width:0;margin:calc(1 * var(--dp)) 0 0 calc(5 * var(--dp));padding:0 0 calc(1 * var(--dp)) calc(4 * var(--dp));font-size:calc(22 * var(--dp));color:#323232;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* clear_all_button: btn_default_small (padding 6 / 13 px top and bottom), paddingLeft / Right 15 dp, 14 sp black. */
+.ecsh-clear{position:relative;flex:none;min-height:calc(36 * var(--dp));margin:calc(4 * var(--dp)) 0 calc(1 * var(--dp));padding:calc(4 * var(--dp)) calc(15 * var(--dp)) calc(8.667 * var(--dp));border:0;background:none;color:#000!important;font-size:calc(14 * var(--dp))}
+.ecsh-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ecsh-scroll::-webkit-scrollbar{display:none}
+.ecsh-list{background:url('assets/fw-status_bar_background.png') 0 0/calc(120 * var(--dp)) repeat}
+/* Section titles: TextAppearance.StatusBarTitle (14 sp bold, textColorPrimary white) on title_bar_portrait (padding
+   9, 2, 9, 3 px; paddingLeft 5 dp), at least its 38 px height. */
+.ecsh-title-bar{position:relative;min-height:calc(25.333 * var(--dp));padding:calc(1.333 * var(--dp)) calc(6 * var(--dp)) calc(2 * var(--dp)) calc(5 * var(--dp));font-weight:700;font-size:calc(14 * var(--dp));line-height:calc(19 * var(--dp));color:#fff}
+/* A notification: 64 sp + a 1 sp divider_horizontal_bright line (#00000026). */
+.ecsh-event{height:calc(65 * var(--dp))}
+.ecsh-item{position:relative;display:flex;flex-direction:column;width:100%;height:calc(64 * var(--dp));border:0;padding:calc(7 * var(--dp)) calc(6 * var(--dp)) 0 calc(5 * var(--dp));background:none;color:#000!important;text-align:left}
+.ecsh-row{display:flex;align-items:center;width:100%;min-width:0}
+.ecsh-row:first-of-type{padding-top:calc(3 * var(--dp))}
+.ecsh-icon{width:calc(25 * var(--dp));height:calc(25 * var(--dp));object-fit:contain;flex:none}
+.ecsh-title{flex:1;min-width:0;padding-left:calc(4 * var(--dp));font-weight:700;font-size:calc(18 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecsh-text{flex:1;min-width:0;padding-left:calc(4 * var(--dp));font-size:calc(14 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecsh-time{flex:none;margin-left:calc(4 * var(--dp));padding-right:calc(5 * var(--dp));font-size:calc(14 * var(--dp))}
+.ecsh-divider{display:block;height:calc(1 * var(--dp));background:#00000026}
+.ecsh-shadow{display:block;width:100%;height:calc(6 * var(--dp))}
+/* CloseDragHandle: status_bar_close_on (92 x 44 px) has two stretch columns (x 15 and 76) either side of the grip, which
+   CSS border images cannot do, so it is five pieces: the ends (15 and 16 px) and the grip (x 16-76) at their size, and
+   the two one-pixel columns stretched to share the rest (a column fills its piece: image width 92 x the piece, placed at
+   x / 91 of the free space). */
+.ecsh-close{position:relative;flex:none;display:flex;height:calc(29.333 * var(--dp));cursor:grab;touch-action:none}
+.ecsh-close i{display:block;height:100%;background:url('assets/fw-status_bar_close_on.9.png') no-repeat}
+.ecsh-close i:nth-child(1){width:calc(10 * var(--dp));background-size:calc(61.333 * var(--dp)) 100%;background-position:0 0}
+.ecsh-close i:nth-child(2){flex:1;background-size:9200% 100%;background-position:16.4835% 0}
+.ecsh-close i:nth-child(3){width:calc(40 * var(--dp));background-size:calc(61.333 * var(--dp)) 100%;background-position:calc(-10.667 * var(--dp)) 0}
+.ecsh-close i:nth-child(4){flex:1;background-size:9200% 100%;background-position:83.5165% 0}
+.ecsh-close i:nth-child(5){width:calc(10 * var(--dp));background-size:calc(61.333 * var(--dp)) 100%;background-position:100% 0}
