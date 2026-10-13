@@ -3,6 +3,7 @@ versions/2.1/assets/device-nexus-one.svg	2ad7fa6da390f925	own	drawn by docs/tool
 versions/2.1/assets/fw-arrow_down_float.png	003ca6caa5cac2e2	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/arrow_down_float.png	drawable-hdpi		003ca6caa5cac2e2
 versions/2.1/assets/fw-btn_default_small_normal.9.png	921fc1664c489c2c	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_small_normal.9.png	drawable-hdpi		921fc1664c489c2c
 versions/2.1/assets/fw-btn_default_small_pressed.9.png	b2f03135c7b5b0eb	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_small_pressed.9.png	drawable-hdpi		b2f03135c7b5b0eb
+versions/2.1/assets/fw-default_wallpaper.jpg	d7299176b8f4743d	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/default_wallpaper.jpg	drawable-hdpi		d7299176b8f4743d
 versions/2.1/assets/fw-divider_horizontal_bright.9.png	9342aa0c86559743	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/divider_horizontal_bright.9.png	drawable-hdpi		9342aa0c86559743
 versions/2.1/assets/fw-ic_emergency.png	7eec6b5a5d9e28cf	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_emergency.png	drawable-hdpi		7eec6b5a5d9e28cf
 versions/2.1/assets/fw-ic_jog_dial_sound_off.png	dbdc712c0263440f	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/ic_jog_dial_sound_off.png	drawable-hdpi		dbdc712c0263440f
@@ -106,3 +107,11 @@ versions/2.1/assets/fw-statusbar_background.9.png	5b410a0073efbc8b	copy	passion:
 versions/2.1/assets/fw-title_bar_portrait.9.png	8a0ba718ad506734	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/title_bar_portrait.9.png	drawable-hdpi		8a0ba718ad506734
 versions/2.1/assets/fw-title_bar_shadow.9.png	bf183abb43bc065e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/title_bar_shadow.9.png	drawable-hdpi		bf183abb43bc065e
 versions/2.1/assets/landing-home.jpg	d2ff2c8f7ec1a927	own	the image's boot animation (/system/media/bootanimation.zip part1/boot_00097.png) centred on the 480 × 800 display as BootAnimation draws it, resized to 414 × 690 for the landing page card			
+versions/2.1/assets/lw-galaxy_thumb.jpg	3a6d39f40a72c02c	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/galaxy_thumb.jpg	drawable-hdpi		3a6d39f40a72c02c
+versions/2.1/assets/lw-glow.png	a24dfdade151f3f3	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/glow.png	drawable-hdpi		a24dfdade151f3f3
+versions/2.1/assets/lw-grass_thumb.jpg	9e7de46366b00508	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/grass_thumb.jpg	drawable-hdpi		9e7de46366b00508
+versions/2.1/assets/lw-nexus_thumb.jpg	ac8a9e095d9f1c4e	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/nexus_thumb.jpg	drawable-hdpi		ac8a9e095d9f1c4e
+versions/2.1/assets/lw-polarclock_thumb.jpg	1f0f0fd8147cce45	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/polarclock_thumb.jpg	drawable-hdpi		1f0f0fd8147cce45
+versions/2.1/assets/lw-pulse.png	08c75bf72d6f0bcb	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/pulse.png	drawable-hdpi		08c75bf72d6f0bcb
+versions/2.1/assets/lw-pyramid_background.png	e760afffa4626a4b	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/pyramid_background.png	drawable-hdpi		e760afffa4626a4b
+versions/2.1/assets/lw-water_thumb.jpg	c75fae46e56a6e68	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/water_thumb.jpg	drawable-hdpi		c75fae46e56a6e68

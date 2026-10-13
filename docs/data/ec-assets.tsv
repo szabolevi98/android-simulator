@@ -106,3 +106,13 @@ fw-ic_lock_idle_low_battery.png	framework/framework-res.apk	drawable/ic_lock_idl
 fw-ic_emergency.png	framework/framework-res.apk	drawable/ic_emergency
 fw-ic_lock_ringer_off.png	framework/framework-res.apk	drawable/ic_lock_ringer_off
 fw-ic_lock_ringer_on.png	framework/framework-res.apk	drawable/ic_lock_ringer_on
+# Live wallpapers (app/LiveWallpapers.apk; the Nexus one is the image's default_wallpaper_component)
+lw-pyramid_background.png	app/LiveWallpapers.apk	drawable/pyramid_background
+lw-pulse.png	app/LiveWallpapers.apk	drawable/pulse
+lw-glow.png	app/LiveWallpapers.apk	drawable/glow
+lw-nexus_thumb.jpg	app/LiveWallpapers.apk	drawable/nexus_thumb
+lw-galaxy_thumb.jpg	app/LiveWallpapers.apk	drawable/galaxy_thumb
+lw-grass_thumb.jpg	app/LiveWallpapers.apk	drawable/grass_thumb
+lw-water_thumb.jpg	app/LiveWallpapers.apk	drawable/water_thumb
+lw-polarclock_thumb.jpg	app/LiveWallpapers.apk	drawable/polarclock_thumb
+fw-default_wallpaper.jpg	framework/framework-res.apk	drawable/default_wallpaper

@@ -12,6 +12,10 @@
 .screen{--dp:.79781px;position:relative;width:255.3px;height:425.5px;overflow:hidden;background:#000;color:#fff;font:calc(14 * var(--dp))/1.25 DroidSans,Arial,sans-serif;user-select:none;-webkit-user-select:none;touch-action:pan-y;z-index:1}
 .screen button,.screen input,.screen textarea,.screen select{font:inherit;color:inherit}
 .screen button{cursor:pointer}
+/* The wallpaper (ec-wallpaper.js): a live wallpaper's canvas, or a picture through --ec-wallpaper, behind every screen. */
+.screen{background:#000 var(--ec-wallpaper,none) 0 0/cover no-repeat}
+#ec-wallpaper{position:absolute;inset:0;width:100%;height:100%;display:block}
+#ec-wallpaper[hidden]{display:none}
 /* The status bar is 25 dp (status_bar_height in the image's framework-res); apps start under it. */
 #status-bar{position:absolute;top:0;left:0;right:0;height:calc(25 * var(--dp));z-index:8}
 #viewport{position:absolute;top:calc(25 * var(--dp));left:0;right:0;bottom:0;overflow:hidden}
