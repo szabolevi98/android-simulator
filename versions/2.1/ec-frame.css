@@ -1,0 +1,71 @@
+/* The Nexus One: the frame drawing, the display and the keys around it.
+   The frame is assets/device-nexus-one.svg (docs/tools/device-frames.py, 319.58 x 624.45). The display window is the
+   3.7" 480 x 800 panel at 255.3 x 425.5 px, the scale of the Nexus S (4.0", 276 x 460). The image is hdpi (density 1.5),
+   so the screen is 320 dp wide and every size of the ec- stylesheets is written as calc(<dp> * var(--dp)):
+   1 dp = 255.3 / 320 px here, and the full width of the phone's display in the mobile layout.
+   Positions on the frame are the generator's: x = ref * 0.67899 + 6 (ref = the mockup's pixels, 6 = the margin). */
+@font-face{font-family:DroidSans;src:url('fonts/DroidSans.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:DroidSans;src:url('fonts/DroidSans-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+
+.device{position:relative;width:319.58px;height:624.45px;padding:73.9px 32.48px 125.05px 31.8px}
+.device::before{content:"";position:absolute;inset:0;background:url('assets/device-nexus-one.svg?v=1') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);pointer-events:none}
+.screen{--dp:.79781px;position:relative;width:255.3px;height:425.5px;overflow:hidden;background:#000;color:#fff;font:calc(14 * var(--dp))/1.25 DroidSans,Arial,sans-serif;user-select:none;-webkit-user-select:none;touch-action:pan-y;z-index:1}
+.screen button,.screen input,.screen textarea,.screen select{font:inherit;color:inherit}
+.screen button{cursor:pointer}
+/* The status bar is 25 dp (status_bar_height in the image's framework-res); apps start under it. */
+#status-bar{position:absolute;top:0;left:0;right:0;height:calc(25 * var(--dp));z-index:8}
+#viewport{position:absolute;top:calc(25 * var(--dp));left:0;right:0;bottom:0;overflow:hidden}
+.screen.no-status #viewport{top:0}
+.screen.no-status #status-bar{display:none}
+#overlay-root{position:absolute;inset:0;z-index:20;pointer-events:none}
+#overlay-root>*{pointer-events:auto}
+/* Screen off: the panel is dark; the first touch or a key wakes it (handled in ec-core.js). */
+.screen.sleeping::after{content:"";position:absolute;inset:0;background:#000;z-index:60}
+
+/* The capacitive keys on the glass (Back, Menu, Home, Search; centres 64.39, 128.90, 190.69, 254.51 at y 517.28). The
+   drawing shows them unlit; their white LEDs light while the phone is in use (ec-core.js, 6 s like PowerManagerService's
+   button light). */
+#nav-bar.touch-keys{position:absolute;left:0;right:0;top:495.28px;height:44px;z-index:2}
+.touch-key{position:absolute;top:0;width:58px;height:44px;margin-left:-29px;border:0;padding:0;background:none;display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.touch-key svg{width:21.73px;height:21.73px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .25s,filter .25s}
+.touch-back{left:64.39px}.touch-menu{left:128.9px}.touch-home{left:190.69px}.touch-search{left:254.51px}
+.touch-keys.lit .touch-key svg{opacity:.9;filter:drop-shadow(0 0 2px #fff8)}
+.touch-key:focus-visible{outline:1px solid #ffffff55;outline-offset:-4px}
+/* The trackball (centre 159.45, 570.92, radius 13.24): pressing it is DPAD_CENTER; it pulses white for notifications
+   while the screen is off. */
+#trackball{position:absolute;left:146.21px;top:557.68px;width:26.48px;height:26.48px;border:0;padding:0;border-radius:50%;background:none;cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+#trackball:active{background:#0000001a}
+#trackball:focus-visible{outline:1px solid #ffffff88;outline-offset:2px}
+#trackball.pulse{animation:ec-trackball 3s ease-in-out infinite}
+@keyframes ec-trackball{0%,55%,100%{box-shadow:none;background:none}20%{box-shadow:0 0 9px 3px #fffc;background:#ffffffd9}}
+/* Side keys: the short power key at the left end of the top edge, the volume rocker on the left edge. */
+.power-key{position:absolute;left:51px;top:0;width:26px;height:14px;z-index:2;cursor:pointer}
+.volume-rocker{position:absolute;left:-3px;top:107.8px;width:12px;height:101.8px;z-index:2;cursor:pointer}
+
+/* A screen that is not rebuilt from the 2.1 image yet: a plain card in the project's own style, so a gap is visible and
+   never looks like an older Android (docs/plan-2.1.md, rule 2). */
+.ec-missing{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(6 * var(--dp));padding:calc(16 * var(--dp));background:repeating-linear-gradient(135deg,#14181c 0 calc(10 * var(--dp)),#181d22 calc(10 * var(--dp)) calc(20 * var(--dp)));color:#9fb3ba;font:calc(12 * var(--dp))/1.4 ui-monospace,Consolas,monospace;text-align:center}
+.ec-missing b{color:#e6c46a;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.ec-missing span{color:#e9f1f3;font-size:calc(14 * var(--dp))}
+.ec-missing small{color:#6f858d;font-size:calc(10 * var(--dp))}
+.ec-missing button{margin-top:calc(8 * var(--dp));border:1px solid #6f858d;background:none;color:#cfdde1;padding:calc(5 * var(--dp)) calc(10 * var(--dp));font:inherit}
+[data-missing="home"]{justify-content:flex-start;overflow-y:auto}
+.ec-missing-list{display:grid;grid-template-columns:1fr 1fr;gap:calc(4 * var(--dp));width:100%;margin-top:calc(6 * var(--dp))}
+.ec-missing-list button{margin:0;padding:calc(5 * var(--dp)) calc(4 * var(--dp));font-size:calc(10 * var(--dp));text-align:left;border-color:#3b4a50}
+#status-bar .ec-missing{flex-direction:row;padding:0;gap:calc(6 * var(--dp));font-size:calc(9 * var(--dp))}
+#status-bar .ec-missing span{font-size:calc(9 * var(--dp))}
+
+/* Phones: the display fills the width, the keys sit in a bar under it, the trackball between Menu and Home. */
+@media(max-width:500px){
+  .device{width:100vw;height:calc(100dvh - 48px);padding:0;display:flex;flex-direction:column;background:#000}
+  .is-fullscreen .device{height:100dvh}
+  .device::before,.power-key,.volume-rocker{display:none}
+  .screen{--dp:calc(100vw / 320);width:100%;height:auto;flex:1;min-height:0}
+  #nav-bar.touch-keys{position:relative;top:auto;flex:none;height:52px;background:#0c0b0b;display:flex}
+  .touch-key{position:static;margin:0;flex:1;height:52px}
+  .touch-key svg{opacity:.35}
+  .touch-key.touch-home{order:4}.touch-key.touch-search{order:5}
+  #trackball{position:absolute;left:50%;top:auto;bottom:12px;margin-left:-14px;width:28px;height:28px;background:radial-gradient(circle at 50% 50%,#c2c2c2 66%,#acacac 84%,#c4c4c4 100%);box-shadow:0 0 0 3px #070707}
+  .touch-keys{padding:0 34px}
+  .touch-key.touch-menu{margin-right:34px}
+}

@@ -39,7 +39,7 @@ the other way round:
 | # | Step | Sessions |
 | --- | --- | --- |
 | 1 | Image, tools, frame (`device-nexus-one.svg`), this plan | done 2026-10-13 |
-| 2 | Scaffold: `index.html`, logic-only `simulator.js`, placeholders, catalogue entry, the leak checks (rules 3–4) | 1 |
+| 2 | Scaffold: `index.html`, the logic-only core `ec-core.js`, placeholders, the leak checks (`tests/ec-leaks.test.cjs`); the catalogue entry follows with the home screen | done 2026-10-13 |
 | 3 | Status bar, notification panel, lock screen, power menu, Launcher2 with the 3D drawer, menus and dialogs, trackball LED | 2 |
 | 4 | Settings and the AOSP apps (Phone, Contacts, Messaging, Browser, Email, Calendar, Gallery, Camera, Music, Clock, Calculator) | 2–3 |
 | 5 | Google apps, Market 1.71, widgets, live wallpapers | 2–3 |
