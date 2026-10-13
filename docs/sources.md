@@ -8,6 +8,7 @@ says what to fetch, how to unpack it and how to rebuild and check the generated 
 
 | Folder | Version | Phone | Build | Fingerprint | Factory package |
 | --- | --- | --- | --- | --- | --- |
+| `_aosp/passion` | 2.1 | Nexus One | ERE27 | google/passion/passion/mahimahi:2.1-update1/ERE27/24178 | `Passion-ERD79.zip` + `signed-passion-ERE27-from-ERD79.a487b405.zip` |
 | `_aosp/crespo` | 2.3.6 | Nexus S | GRK39F | google/soju/crespo:2.3.6/GRK39F/189904 | `soju-grk39f-factory-5ab09c98.tgz` |
 | `_aosp/maguro` | 4.0.4 | Galaxy Nexus | IMM76I | google/yakju/maguro:4.0.4/IMM76I/330937 | `yakju-imm76i-factory-8001e72f.tgz` |
 | `_aosp/mako` | 4.3 | Nexus 4 | JWR66Y | google/occam/mako:4.3/JWR66Y/776638 | `occam-jwr66y-factory-74b1deab.tgz` |
@@ -18,13 +19,27 @@ The packages come from Google's factory image page (`https://dl.google.com/dl/an
 package name is the first eight digits of its SHA-1. Google no longer serves the Nexus S package; the copy used here is the
 Wayback Machine's capture of the same Google URL (2013-11-13), and its SHA-1 matches the name.
 
+Google never published factory packages for the Nexus One. Its 2.1 image is put together from two files of the Internet
+Archive item `media-fire-htc-passion-stock-software` ("Passion OTAs.zip"): `Downloads/Passion-ERD79.zip`, the HTC/Google
+shipping set (fastboot images of the launch build ERD79), and `Downloads/Partial OTAs/Update-Passion-ERE27-From-ERD79.zip`,
+Google's own update, whose SHA-1 (a487b405…) matches the name Google served it under. The update checks the SHA-1 of every
+file it changes: all 178 ERD79 files matched, and all 177 patched files match the update's target hashes.
+
+1. `python docs/tools/yaffs2-extract.py _aosp/passion/images/system.img _aosp/passion/erd79-system` — the YAFFS2
+   `system.img` (2048-byte pages, 64-byte spare) of the ERD79 set → its `/system`.
+2. `python docs/tools/ota-apply.py _aosp/passion/dl/Update-Passion-ERE27-From-ERD79.zip _aosp/passion/erd79-system _aosp/passion/system`
+   — applies the update (BSDIFF40 / IMGDIFF2 patches, new files, deletions) and stops on any hash that does not match.
+
+The image has en, de, es, fr, it, ja, ko, pt, ru and zh resources; Hungarian came with 2.3, so 2.1's Hungarian rows are
+the 2.3.6 image's text where the English matches exactly, and our own translation (marked as such) otherwise.
+
 ## Unpacking and indexing
 
 Python 3.10+ with `androguard`, `loguru`, `ext4` and `Pillow`; Node 20+ for the `.mjs` tools; headless Chrome for the
 runtime checks.
 
 1. `python docs/tools/extract-image.py _aosp/<device> _aosp/<device>/<factory package>` — package → `system.raw.img` → `system/`
-   (app, priv-app, framework with the odex files, media, fonts, build.prop).
+   (app, priv-app, framework with the odex files, media, fonts, build.prop). The Nexus One is unpacked as described above.
 2. `python docs/tools/image-index.py _aosp/<device>` — `strings-index.json`: every string resource of the image's APKs
    (English → APK, resource name, hu / de / fr / es), which the text generators read.
 

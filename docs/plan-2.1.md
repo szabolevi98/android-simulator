@@ -1,0 +1,54 @@
+# Android 2.1 on the Nexus One — plan
+
+Started 2026-10-13. Build: **ERE27** (`google/passion/passion/mahimahi:2.1-update1/ERE27/24178`), the last 2.1 build of
+the Nexus One (the February 2010 update; it also added Google Goggles). The catalogue says "2.1"; About phone shows the image's own
+"2.1-update1". Folder `versions/2.1`, era prefix `ec-` (Eclair). How the image was put together: `docs/sources.md`.
+
+## Rules: built from the image, nothing inherited
+
+Earlier versions were copies of the previous one, and the copied screens kept working until someone rebuilt them; the
+ones nobody reached stayed in the older look (ICS in Jelly Bean, Jelly Bean in KitKat, KitKat in Lollipop). 2.1 starts
+the other way round:
+
+1. **Only logic is copied** from 2.3.6: saving and loading, the click and form dispatch, navigation, timers, the
+   calculator engine. No stylesheet, render function, string table or asset comes over.
+2. **Nothing falls back to an older screen.** A screen that is not rebuilt yet shows a plain "not built yet" placeholder,
+   so a gap is visible instead of quietly looking like Gingerbread.
+3. **`ec-` files only.** `index.html` loads `ec-*` files and the logic-only files `tests/version-files.test.cjs` allows.
+4. **Every asset comes from the passion image** (its hash is in the image, or `docs/data/asset-sources.tsv` names it as
+   our own drawing), checked by the asset inventory. Every visible text is in `_aosp/passion/strings-index.json` or is
+   marked `own`; a text that only the 2.3.6 image has is reported.
+5. Hungarian: the 2.3.6 image's translation where the English text matches exactly, our own (marked `own`) otherwise.
+
+## What the image holds (compared with the Nexus S 2.3.6)
+
+- System look (`framework-res.apk`): 705 PNGs, 46 % byte-identical with 2.3.6. The status bar, notification panel, dialogs,
+  menus, buttons and the lock screen are all different (2.1 has no SystemUI app; the status bar lives in the framework).
+- Apps whose files are mostly shared with 2.3.6 but drawn differently in places: Launcher2 (77 % of PNGs identical, but
+  the all-apps drawer is the RenderScript 3D roll), Settings (72 %), Browser (71 %), Mms (56 %), Contacts (51 %),
+  Email (51 %), Calendar (42 %), Phone (38 %), Camera (24 %), Calculator (25 %).
+- Google apps of the era: Gmail 1.3, Maps 3.4.0 (+ Street View 1.4), Talk 1.3, YouTube 1.5.20 (6 % shared — new work),
+  Market 1.71, Voice Search 1.5.0, Google Voice 0.3.0, News and Weather 1.2.02, Goggles 1.0.1, Car Home, plus
+  Facebook 1.1.3, Amazon MP3 1.6 and Quickoffice.
+- Live wallpapers debuted on this phone: Grass, Galaxy, Water, Polar clock and Nexus (LiveWallpapers.apk), Magic Smoke,
+  and the music visualizers Waveform, Spectrum, VU meter and Many.
+- Locales: en, de, es, fr, it, ja, ko, pt, ru, zh — no Hungarian.
+
+## Order of work (five-hour sessions)
+
+| # | Step | Sessions |
+| --- | --- | --- |
+| 1 | Image, tools, frame (`device-nexus-one.svg`), this plan | done 2026-10-13 |
+| 2 | Scaffold: `index.html`, logic-only `simulator.js`, placeholders, catalogue entry, the leak checks (rules 3–4) | 1 |
+| 3 | Status bar, notification panel, lock screen, power menu, Launcher2 with the 3D drawer, menus and dialogs, trackball LED | 2 |
+| 4 | Settings and the AOSP apps (Phone, Contacts, Messaging, Browser, Email, Calendar, Gallery, Camera, Music, Clock, Calculator) | 2–3 |
+| 5 | Google apps, Market 1.71, widgets, live wallpapers | 2–3 |
+| 6 | Language sweep, landing picture, OG cover, docs, deploy | 1 |
+
+## The frame
+
+`docs/tools/device-frames.py` draws `device-nexus-one.svg` (kept in `docs/data/` until the scaffold moves it to `versions/2.1/assets/`) from the front mockup on Wikimedia Commons
+("Nexus One.png", Zach Vega, CC BY-SA 3.0; only its outline and the glass outline are traced): a brown-grey metal body,
+black glass front with Back, Menu, Home and Search, the trackball on the metal chin, the charge LED right of the earpiece,
+the power key on the top edge and the volume rocker on the left. The 3.7" display window is 255.3 × 425.5 px, the same
+scale as the Nexus S (4.0", 276 × 460). A 2.1 home-screen capture for reference: Commons "Nexus one home screen 21.png".

@@ -39,6 +39,12 @@ def outline(path, body_x, body_y, scale, origin, cut_side_buttons=True, thr=110,
     sc = [((x - ox) * scale, (y - oy) * scale) for x, y in pts]
     return sc
 
+def soften(pts, k):
+    # circular moving average over k points: removes the pixel stairs of a traced edge without moving the corners much
+    if k <= 1: return pts
+    n = len(pts); h = k // 2
+    return [(sum(pts[(i + j) % n][0] for j in range(-h, h + 1)) / (2 * h + 1), sum(pts[(i + j) % n][1] for j in range(-h, h + 1)) / (2 * h + 1)) for i in range(n)]
+
 def smooth_path(pts):
     # Catmull-Rom to cubic Bezier, closed.
     n = len(pts); d = f'M{pts[0][0]:.2f} {pts[0][1]:.2f}'
@@ -49,7 +55,7 @@ def smooth_path(pts):
         d += f'C{c1[0]:.2f} {c1[1]:.2f} {c2[0]:.2f} {c2[1]:.2f} {p2[0]:.2f} {p2[1]:.2f}'
     return d + 'Z'
 
-def hull_filter(pts, cx, cy):
+def hull_filter(pts, cx, cy, points=180):
     # order by angle around the centre and keep the farthest point per angular bin -> clean silhouette
     bins = {}
     for x, y in pts:
@@ -57,8 +63,8 @@ def hull_filter(pts, cx, cy):
         r = math.hypot(x - cx, y - cy)
         if a not in bins or r > bins[a][2]: bins[a] = (x, y, r)
     out = [(x, y) for a, (x, y, r) in sorted(bins.items())]
-    # thin to ~180 points
-    step = max(1, len(out) // 180)
+    # thin to ~180 points (more for a strongly curved top such as the Nexus One's)
+    step = max(1, len(out) // points)
     return out[::step]
 
 # Nexus S capacitive key glyphs in a 24-unit box: Back, Menu, Search, Home (left to right on the glass).
@@ -69,7 +75,7 @@ TOUCHKEYS = {
     'home': '<path d="M2.5 12.5 12 4.5l9.5 8M6 10.5V19h12v-8.5"/>',
 }
 
-def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False, widen=1.0):
+def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False, widen=1.0, glass=None, points=180, soft=1):
     sx0, sy0, sx1, sy1 = screen
     scale = css_screen[0] / (sx1 - sx0)
     origin = (body_x[0], body_y[0])
@@ -81,7 +87,7 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
     if widen != 1.0:
         pts = [((x - w / 2) * widen + w * widen / 2, y) for x, y in pts]
         w *= widen
-    pts = hull_filter(pts, w / 2, h / 2)
+    pts = soften(hull_filter(pts, w / 2, h / 2, points), soft)
     d = smooth_path(pts)
     pad = {'left': (sx0 - body_x[0]) * scale + dx, 'top': (sy0 - body_y[0]) * scale, 'right': (body_x[1] - sx1) * scale + dx, 'bottom': (body_y[1] - sy1) * scale}
     m = 6  # margin for side buttons and the rim stroke
@@ -116,16 +122,39 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
                     a = 2 * math.pi * i / count
                     holes.append(f'<circle cx="{x + math.cos(a) * rr * ring:.2f}" cy="{y + math.sin(a) * rr * ring:.2f}" r="{rr * .1:.2f}" fill="#262a2d"/>')
             feat.append(''.join(holes))
+        elif kind == 'trackball':
+            # Nexus One: an optical trackball in a dark ring on the metal chin; it lights up for notifications.
+            _, cx, cy, r = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m; rr = S(r)
+            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{rr + 1.3:.2f}" fill="#0a0807"/>')
+            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{rr:.2f}" fill="url(#ball)" stroke="#8d8c8b" stroke-width=".4"/>')
+        elif kind == 'led':
+            _, cx, cy, r = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m
+            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{S(r):.2f}" fill="#141617" stroke="#25292c" stroke-width=".4"/>')
         elif kind == 'sensor':
             _, cx, cy, rx, ry = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m
             feat.append(f'<ellipse cx="{x:.2f}" cy="{y:.2f}" rx="{S(rx):.2f}" ry="{S(ry):.2f}" fill="#16191b" stroke="#25292c" stroke-width=".5"/>')
     btn = []
-    for side, y0, y1, out in buttons:
+    for side, y0, y1, out, *edge in buttons:
         yy0, yy1 = S(y0 - origin[1]) + m, S(y1 - origin[1]) + m; o = S(out) + 1.2
+        if side == 'top':
+            # a key on the top edge: y0 / y1 are its x range and edge[0] the y of the outline there, on the reference
+            xx0, xx1 = S(y0 - origin[0]) + m + dx, S(y1 - origin[0]) + m + dx; ye = S(edge[0] - origin[1]) + m
+            btn.append(f'<rect x="{xx0:.2f}" y="{ye - o:.2f}" width="{xx1 - xx0:.2f}" height="{o + .8:.2f}" rx="1.2" fill="url(#keyTop)"/>')
+            continue
         x = m - o if side == 'left' else m + w - .5
         btn.append(f'<rect x="{x:.2f}" y="{yy0:.2f}" width="{o + .5:.2f}" height="{yy1 - yy0:.2f}" rx="1.2" fill="url(#key)"/>')
     p = palette
     # Optional glass panel edge (Nexus S): the curved glass sits inside the plastic bezel and catches a thin highlight.
+    # Optional glass front on a metal body (Nexus One): the black glass is its own traced outline (a mask image of the
+    # reference), drawn over the metal, with the chin below it left in metal.
+    front = ''
+    if glass:
+        gpts = outline(glass['mask'], body_x, body_y, scale, origin, thr=128)
+        gpts = [((x - w / 2 / widen) * widen + w / 2, y) if widen != 1.0 else (x, y) for x, y in gpts]
+        gx = sum(x for x, y in gpts) / len(gpts); gy = sum(y for x, y in gpts) / len(gpts)
+        gd = smooth_path(soften(hull_filter(gpts, gx, gy, points), soft))
+        front = (f'<path d="{gd}" transform="translate({m} {m})" fill="url(#front)" stroke="{glass["edge"]}" stroke-width=".9"/>'
+                 f'<path d="{gd}" transform="translate({m} {m})" fill="url(#glare)"/>')
     gi = p.get('glassInset', 0)
     glass = f'<path d="{d}" transform="translate({m + gi} {m + gi}) scale({(w - 2 * gi) / w:.4f} {(h - 2 * gi) / h:.4f})" fill="none" stroke="url(#glassEdge)" stroke-width="1.1"/>' if gi else ''
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W:.2f} {H:.2f}" width="{W:.2f}" height="{H:.2f}">
@@ -137,17 +166,22 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
 <linearGradient id="grille" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020303"/><stop offset=".55" stop-color="#15181a"/><stop offset="1" stop-color="#050606"/></linearGradient>
 <radialGradient id="lens" cx=".42" cy=".38" r=".6"><stop offset="0" stop-color="#25384a"/><stop offset=".45" stop-color="#0b1219"/><stop offset="1" stop-color="#040608"/></radialGradient>
 <linearGradient id="key" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
+<linearGradient id="keyTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
+<linearGradient id="front" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#151617"/><stop offset=".5" stop-color="#050506"/><stop offset="1" stop-color="#0c0d0e"/></linearGradient>
+<radialGradient id="ball" cx=".38" cy=".34" r=".7"><stop offset="0" stop-color="#fbfbfb"/><stop offset=".55" stop-color="#cfcfcf"/><stop offset="1" stop-color="#8c8c8c"/></radialGradient>
 <linearGradient id="glassEdge" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".45" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#fff" stop-opacity=".22"/></linearGradient>
 <clipPath id="clip"><path d="{d}" transform="translate({m} {m})"/></clipPath>
 </defs>
 {''.join(btn)}
 <path d="{d}" transform="translate({m} {m})" fill="url(#body)" stroke="url(#rim)" stroke-width="{p['rimWidth']}"/>
 <g clip-path="url(#clip)"><path d="{d}" transform="translate({m} {m}) scale({(w - 3) / w:.4f} {(h - 3) / h:.4f}) translate(1.5 1.5)" fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width="1.2"/>
-{glass}<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#glare)"/><rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#chin)"/></g>
+{glass}{'' if front else f'<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#glare)"/>'}<rect x="0" y="0" width="{W:.2f}" height="{H:.2f}" fill="url(#chin)"/></g>
+{front}
 {''.join(feat)}
 </svg>'''
     return svg, {'width': round(W, 2), 'height': round(H, 2), 'margin': m, 'pad': {k: round(v + m, 2) for k, v in pad.items()}, 'scale': scale,
-                 'buttons': [{'side': s, 'top': round(S(a - origin[1]) + m, 1), 'height': round(S(b - a), 1)} for s, a, b, o in buttons]}
+                 'buttons': [{'side': s, 'left': round(S(a - origin[0]) + m + dx, 1), 'width': round(S(b - a), 1)} if s == 'top' else
+                             {'side': s, 'top': round(S(a - origin[1]) + m, 1), 'height': round(S(b - a), 1)} for s, a, b, o, *e in buttons]}
 
 out = {}
 if os.path.exists('gn-render.png'):
@@ -198,4 +232,31 @@ if os.path.exists('n6-render.png'):
     [('right', 1080, 1220, 8), ('right', 1320, 1620, 7)],
     {'body': ['#262728', '#0b0b0c', '#18191a'], 'rim': ['#a3a5a7', '#3d3f41', '#86888a'], 'rimWidth': 3.0, 'chin': .06, 'glassInset': 7}, thr=235, mirror=True)
   open('device-nexus-6.svg', 'w').write(svg); out['n6'] = info
+# Nexus One (HTC PB99100, passion): a brown-grey metal body ("Teflon" coated) with a black glass front, the four capacitive
+# keys (Back, Menu, Home, Search) on the glass and the trackball on the metal chin below it. Traced from the front mockup on
+# Wikimedia Commons ("Nexus One.png" by Zach Vega, CC BY-SA 3.0), whose display is 376 x 625 at (38, 100) and whose body
+# (454 x 903) has the real 59.8 x 119 mm proportions. The glass is traced from a mask of the mockup's black front (flood
+# fill from the display). The 3.7" panel at the Nexus S scale (0.575 px per pixel for 4.0") is 255.3 x 425.5 (0.532).
+# Keys from the reviews (GSMArena, Engadget, Android Central): power on the top edge, 3.5 mm jack at the other end, the long
+# thin volume rocker on the left edge; the small charge LED sits right of the earpiece (Commons "Docked Nexus One").
+if os.path.exists('n1-render.png'):
+  from PIL import Image, ImageDraw
+  if not os.path.exists('n1-glass.png'):
+    src = Image.open('n1-render.png').convert('RGBA'); dark = Image.new('L', src.size, 0); sp = src.load(); dp = dark.load()
+    for yy in range(src.size[1]):
+      for xx in range(src.size[0]):
+        r_, g_, b_, a_ = sp[xx, yy]
+        if a_ > 200 and max(r_, g_, b_) < 48: dp[xx, yy] = 1
+    ImageDraw.floodfill(dark, (227, 400), 255)
+    mask = Image.new('RGBA', src.size, (0, 0, 0, 0)); mask.putalpha(dark.point(lambda v: 255 if v == 255 else 0)); mask.save('n1-glass.png')
+  ref = Image.open('n1-render.png').convert('RGBA')
+  n1_top = min(y for y in range(60) if ref.getpixel((351, y))[3] > 110)
+  svg, info = frame('nexus-one', 'n1-render.png', (0, 453), (0, 902), (38, 100, 414, 725), (255.3, 425.5),
+    [('slot', 227, 33, 182, 11), ('led', 392, 33, 3.5),
+     ('touchkey', 'back', 86, 753, 32), ('touchkey', 'menu', 181, 753, 32), ('touchkey', 'home', 272, 753, 32), ('touchkey', 'search', 366, 753, 32),
+     ('trackball', 227, 832, 19)],
+    [('top', 318, 384, 4, n1_top), ('left', 150, 300, 4)],
+    {'body': ['#6f6462', '#463e3c', '#5d5351'], 'rim': ['#a0928f', '#2f2928', '#7c706d'], 'rimWidth': 2.0, 'chin': .08},
+    mirror=True, glass={'mask': 'n1-glass.png', 'edge': '#2a2524'}, points=720, soft=11)
+  open('device-nexus-one.svg', 'w').write(svg); out['n1'] = info
 print(json.dumps(out, indent=1))
