@@ -73,3 +73,14 @@
 .ecwin-content{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
 .ecwin-content::-webkit-scrollbar{display:none}
 .ecwin-shadow{position:absolute;left:0;right:0;top:0;width:100%;height:calc(6 * var(--dp));pointer-events:none}
+
+/* SeekBar (c.seekbar): the 20 dp progress_horizontal (radius 5 dp, #9d9e9d / #5a5d5a / #747674 track, #ffd300 / #ffb600 /
+   #ffcb00 level) and the 48 x 44 px seek_thumb centred on the level (thumbOffset 8 dp). */
+.ecui-seek{position:relative;height:calc(29.333 * var(--dp));margin:0 calc(8 * var(--dp));touch-action:none;cursor:pointer}
+.ecui-seek-track{position:absolute;left:0;right:0;top:50%;height:calc(10 * var(--dp));margin-top:calc(-5 * var(--dp));border-radius:calc(5 * var(--dp));background:linear-gradient(#9d9e9d,#5a5d5a 75%,#747674);overflow:hidden}
+.ecui-seek-fill{display:block;height:100%;border-radius:calc(5 * var(--dp));background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00)}
+.ecui-seek-thumb{position:absolute;top:50%;width:calc(32 * var(--dp));height:calc(29.333 * var(--dp));margin:calc(-14.667 * var(--dp)) 0 0 calc(-16 * var(--dp));background:url('assets/fw-seek_thumb_normal.png') 0 0/100% 100%}
+.ecui-seek.pressed .ecui-seek-thumb{background-image:url('assets/fw-seek_thumb_pressed.png')}
+/* CheckBox with its text (textAppearanceSmall 14 sp). */
+.ecui-check{display:flex;align-items:center;gap:calc(2 * var(--dp));border:0;padding:0;background:none;color:#fff!important;font-size:calc(14 * var(--dp));text-align:left}
+.ecui-check img{width:calc(38 * var(--dp));height:calc(48 * var(--dp));flex:none}

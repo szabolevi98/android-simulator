@@ -309,3 +309,6 @@ fw-light_header_dither.9.png	framework/framework-res.apk	drawable/light_header
 fw-list_selector_background_focus.9.png	framework/framework-res.apk	drawable/list_selector_background_focus
 fw-btn_check_on_selected.png	framework/framework-res.apk	drawable/btn_check_on_selected
 fw-btn_check_off_selected.png	framework/framework-res.apk	drawable/btn_check_off_selected
+fw-seek_thumb_normal.png	framework/framework-res.apk	drawable/seek_thumb_normal
+fw-seek_thumb_pressed.png	framework/framework-res.apk	drawable/seek_thumb_pressed
+fw-seek_thumb_selected.png	framework/framework-res.apk	drawable/seek_thumb_selected

@@ -1,4 +1,5 @@
 # Settings drawables named by its preference screens (written by docs/tools/ec-prefs.py)
+st-ic_popup_brightness.png	app/Settings.apk	drawable/ic_popup_brightness
 st-ic_settings_about.png	app/Settings.apk	drawable/ic_settings_about
 st-ic_settings_accessibility.png	app/Settings.apk	drawable/ic_settings_accessibility
 st-ic_settings_applications.png	app/Settings.apk	drawable/ic_settings_applications

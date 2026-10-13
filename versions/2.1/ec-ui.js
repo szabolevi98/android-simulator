@@ -104,7 +104,8 @@
     mount(c, root) { dialog?.mount?.(root, c); },
     action(name, el, event, c) {
       if (name === 'ecui-outside') { if (dialog.cancelable !== false) closeDialog(c); return true; }
-      if (name === 'ecui-button') { const b = dialog.buttons[Number(el.dataset.index)], d = dialog; if (b.keep !== true) closeDialog(c); b.action?.(c, d, c.el.overlay); return true; }
+      // The button's action runs first (it may read the dialog's fields or open the next dialog), then the dialog closes.
+      if (name === 'ecui-button') { const b = dialog.buttons[Number(el.dataset.index)], d = dialog; b.action?.(c, d, c.el.overlay); if (b.keep !== true && dialog === d) closeDialog(c); return true; }
       if (name === 'ecui-li') {
         const i = Number(el.dataset.index), d = dialog;
         if (d.choice === 'multi') { const set = new Set(d.checked || []); set.has(i) ? set.delete(i) : set.add(i); d.checked = [...set]; c.overlay('ui-dialog'); d.onItem?.(i, c, d); return true; }
@@ -128,6 +129,23 @@
       c.menu = items => { menu = {items}; c.overlay('ui-menu'); };
       c.dialog = spec => { dialog = {...spec}; c.overlay('ui-dialog'); return dialog; };
       c.closeDialog = () => closeDialog(c);
+      // Widget.SeekBar: progress_horizontal (20 dp high) with the seek_thumb (normal / pressed), thumbOffset 8 dp.
+      c.seekbar = (id, value, max, extra = '') => `<div class="ecui-seek" data-seek="${esc(id)}" data-max="${max}" data-value="${value}" ${extra}><span class="ecui-seek-track"><span class="ecui-seek-fill" style="width:${value / max * 100}%"></span></span><span class="ecui-seek-thumb" style="left:${value / max * 100}%"></span></div>`;
+      c.bindSeek = (root, onChange) => {
+        for (const bar of root.querySelectorAll('.ecui-seek')) {
+          const max = Number(bar.dataset.max);
+          const set = event => {
+            const r = bar.querySelector('.ecui-seek-track').getBoundingClientRect();
+            const v = Math.round(Math.max(0, Math.min(1, (event.clientX - r.left) / r.width)) * max);
+            bar.dataset.value = v; bar.querySelector('.ecui-seek-fill').style.width = `${v / max * 100}%`; bar.querySelector('.ecui-seek-thumb').style.left = `${v / max * 100}%`;
+            onChange?.(bar.dataset.seek, v);
+          };
+          bar.addEventListener('pointerdown', event => { bar.setPointerCapture?.(event.pointerId); bar.classList.add('pressed'); set(event); });
+          bar.addEventListener('pointermove', event => { if (bar.classList.contains('pressed')) set(event); });
+          for (const t of ['pointerup', 'pointercancel']) bar.addEventListener(t, () => bar.classList.remove('pressed'));
+        }
+      };
+      c.checkbox = (id, checked, label) => `<button type="button" class="ecui-check" data-action="ecui-check" data-check="${esc(id)}" aria-pressed="${!!checked}"><img src="assets/fw-btn_check_${checked ? 'on' : 'off'}.png" alt=""><span>${esc(label)}</span></button>`;
       c.toast = (text, long) => {
         let layer = c.el.screen.querySelector('.ecui-toast-layer');
         if (!layer) { layer = document.createElement('div'); layer.className = 'ecui-toast-layer'; c.el.screen.append(layer); }

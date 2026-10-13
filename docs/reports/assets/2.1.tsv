@@ -126,6 +126,9 @@ versions/2.1/assets/fw-popup_full_dark.9.png	3a32613ebda2d599	copy	passion:/syst
 versions/2.1/assets/fw-popup_top_bright.9.png	54f87f6a938d04fa	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/popup_top_bright.9.png	drawable-hdpi		54f87f6a938d04fa
 versions/2.1/assets/fw-popup_top_dark.9.png	c147dcf14d5c82f0	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/popup_top_dark.9.png	drawable-hdpi		c147dcf14d5c82f0
 versions/2.1/assets/fw-pressed_application_background_static.png	9f95a5220ed3091b	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/pressed_application_background_static.png	drawable-hdpi		9f95a5220ed3091b
+versions/2.1/assets/fw-seek_thumb_normal.png	2e24207cce9fc0fa	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/seek_thumb_normal.png	drawable-hdpi		2e24207cce9fc0fa
+versions/2.1/assets/fw-seek_thumb_pressed.png	b917bb7e20ab3b86	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/seek_thumb_pressed.png	drawable-hdpi		b917bb7e20ab3b86
+versions/2.1/assets/fw-seek_thumb_selected.png	040d1c49a2f44b5e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/seek_thumb_selected.png	drawable-hdpi		040d1c49a2f44b5e
 versions/2.1/assets/fw-spinner_white_48.png	f40801889f7aa645	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/spinner_white_48.png	drawable-hdpi		f40801889f7aa645
 versions/2.1/assets/fw-stat_notify_alarm.png	de9383596dc2c9ba	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/stat_notify_alarm.png	drawable-hdpi		de9383596dc2c9ba
 versions/2.1/assets/fw-stat_notify_error.png	fd0fb0ee50025116	copy	passion:/system/app/googlevoice.apk!res/drawable-hdpi/stat_notify_error.png	drawable-hdpi		fd0fb0ee50025116
@@ -329,6 +332,7 @@ versions/2.1/assets/st-ic_appwidget_settings_sync_off.png	371ad286b1130c8d	copy	
 versions/2.1/assets/st-ic_appwidget_settings_sync_on.png	df900ccac21d2bf9	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_appwidget_settings_sync_on.png	drawable-hdpi		df900ccac21d2bf9
 versions/2.1/assets/st-ic_appwidget_settings_wifi_off.png	0228f10d9245db91	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_appwidget_settings_wifi_off.png	drawable-hdpi		0228f10d9245db91
 versions/2.1/assets/st-ic_appwidget_settings_wifi_on.png	9547ae466e7a5a97	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_appwidget_settings_wifi_on.png	drawable-hdpi		9547ae466e7a5a97
+versions/2.1/assets/st-ic_popup_brightness.png	b83ee80fa0cafd20	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_popup_brightness.png	drawable-hdpi		b83ee80fa0cafd20
 versions/2.1/assets/st-ic_settings_about.png	dfd57766841a1ae2	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_about.png	drawable-hdpi		dfd57766841a1ae2
 versions/2.1/assets/st-ic_settings_accessibility.png	b6a51e6cc344ab58	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_accessibility.png	drawable-hdpi		b6a51e6cc344ab58
 versions/2.1/assets/st-ic_settings_applications.png	c91362aa3e74b192	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_applications.png	drawable-hdpi		c91362aa3e74b192

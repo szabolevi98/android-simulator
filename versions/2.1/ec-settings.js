@@ -42,7 +42,9 @@
   // formats it.
   const BUILD = {firmware_version: '2.1-update1', device_model: 'Nexus One', build_number: 'ERE27', baseband_version: '32.24.00.22U_4.03.00.21_2',
     kernel_version: '2.6.29-01117-g4bc62c2\nandroid-build@apa26 #1'};
-  EC.defaults.prefs = {};
+  // SettingsProvider defaults (def_notification_pulse, def_haptic_feedback, def_install_non_market_apps, def_backup_enabled,
+  // def_location_providers_allowed "gps").
+  EC.defaults.prefs = {notification_pulse: true, haptic_feedback: true, toggle_install_applications: false, location_gps: true, location_network: false};
 
   function value(c, key, def) {
     if (BOUND[key]) {
@@ -121,6 +123,7 @@
         onItem: i => { setValue(c, n.key, values[i]); if (n.key === 'screen_timeout') c.data.settings.screenTimeout = Number(values[i]); c.save(); c.render(); }});
       return;
     }
+    if (n.t === 'RingerVolumePreference' || n.t === 'VolumePreference' || n.t === 'BrightnessPreference') { volumeDialog(c, n); return; }
     if (n.intent?.targetClass) {
       const cls = n.intent.targetClass.split('.').pop();
       if (CLASS[cls] && EC.settingsXml[CLASS[cls]]) { c.ui.settingsStack.push(CLASS[cls]); c.render(); c.el.viewport.querySelector('.ecwin-content')?.scrollTo(0, 0); return; }
@@ -131,9 +134,54 @@
     if (n.t !== 'Preference') c.dialog({title: txt(n.dialogTitle || n.title), icon: null, message: c.t('Not built yet'), buttons: [{label: EC.text('framework').t('ok')}]});
   }
 
+  // RingerVolumePreference (preference_dialog_ringervolume.xml: incoming call volume, the notification checkbox and its
+  // own bar), VolumePreference (seekbar_dialog.xml, media) and BrightnessPreference (preference_dialog_brightness.xml:
+  // ic_popup_brightness, Automatic brightness, the bar from 30 to 255 = Power.BRIGHTNESS_DIM + 10 … BRIGHTNESS_ON);
+  // DialogPreference buttons OK / Cancel.
+  function volumeDialog(c, n) {
+    const T2 = EC.text('settings2'), F = EC.text('framework'), s = c.data.settings, v = {...(s.volume || {ring: 5, music: 11, notification: 5})};
+    let html, apply;
+    if (n.t === 'RingerVolumePreference') {
+      let same = s.notificationSameAsRing !== false;
+      html = `<div class="ecpf-dlg"><div class="ecpf-dlg-label">${esc(T2.t('incoming_call_volume_title'))}</div>${c.seekbar('ring', v.ring, 7)}
+        <div class="ecpf-dlg-check">${c.checkbox('same', same, T2.t('checkbox_notification_same_as_incoming_call'))}</div>
+        <div class="ecpf-dlg-notif"${same ? ' hidden' : ''}><div class="ecpf-dlg-label">${esc(T2.t('notification_volume_title'))}</div>${c.seekbar('notification', v.notification, 7)}</div></div>`;
+      apply = root => { v.ring = Number(root.querySelector('[data-seek="ring"]').dataset.value); v.notification = Number(root.querySelector('[data-seek="notification"]').dataset.value); s.notificationSameAsRing = root.querySelector('[data-check="same"]').getAttribute('aria-pressed') === 'true'; s.volume = {...s.volume, ...v}; };
+    } else if (n.t === 'VolumePreference') {
+      html = `<div class="ecpf-dlg">${c.seekbar('music', v.music, 15)}</div>`;
+      apply = root => { v.music = Number(root.querySelector('[data-seek="music"]').dataset.value); s.volume = {...s.volume, ...v}; };
+    } else {
+      const level = s.brightnessLevel ?? 102, auto = s.autoBrightness !== false;
+      html = `<div class="ecpf-dlg"><img class="ecpf-dlg-icon" src="assets/st-ic_popup_brightness.png" alt=""><div class="ecpf-dlg-check">${c.checkbox('auto', auto, T2.t('automatic_brightness'))}</div><div class="ecpf-dlg-pad"${auto ? ' hidden' : ''}>${c.seekbar('brightness', level - 30, 225)}</div></div>`;
+      apply = root => { s.brightnessLevel = 30 + Number(root.querySelector('[data-seek="brightness"]').dataset.value); s.autoBrightness = root.querySelector('[data-check="auto"]').getAttribute('aria-pressed') === 'true'; c.applyBrightness?.(); };
+    }
+    const before = s.brightnessLevel;
+    c.dialog({title: txt(n.dialogTitle || n.title), icon: null, html,
+      mount: root => c.bindSeek(root, (id, val) => { if (id === 'brightness') { s.brightnessLevel = 30 + val; c.applyBrightness?.(); } }),
+      action(name, el) {
+        if (name !== 'ecui-check') return false;
+        const on = el.getAttribute('aria-pressed') !== 'true';
+        el.setAttribute('aria-pressed', on); el.querySelector('img').src = `assets/fw-btn_check_${on ? 'on' : 'off'}.png`;
+        const root = el.closest('.ecpf-dlg');
+        root.querySelector('.ecpf-dlg-notif')?.toggleAttribute('hidden', on);
+        root.querySelector('.ecpf-dlg-pad')?.toggleAttribute('hidden', on);
+        return true;
+      },
+      buttons: [{label: F.t('ok'), action: (c2, d, root) => { apply(root); c.save(); c.render(); }},
+                {label: F.t('cancel'), action: () => { s.brightnessLevel = before; c.applyBrightness?.(); }}],
+      onCancel: () => { s.brightnessLevel = before; c.applyBrightness?.(); }});
+  }
+
   EC.register('settings', {
     title: 'Settings',
-    init(c) { c.ui.settingsStack = ['settings']; },
+    init(c) {
+      c.ui.settingsStack = ['settings'];
+      // The backlight: 30 … 255 (automatic: the light sensor's daytime level), shown as the panel's brightness.
+      // def_screen_brightness 102 and def_screen_brightness_automatic_mode true; the default level shows at full, lower
+      // levels darker down to 30.
+      c.applyBrightness = () => { const s = c.data.settings, level = s.autoBrightness !== false ? 102 : (s.brightnessLevel ?? 102); c.el.screen.style.filter = level >= 102 ? '' : `brightness(${(0.55 + 0.45 * (level - 30) / 72).toFixed(3)})`; };
+      c.applyBrightness();
+    },
     render(c) {
       const top = c.ui.settingsStack?.at(-1) || 'settings';
       if (top.startsWith('missing:')) return c.window(S().t('settings_label'), `<div class="ec-missing"><b>${esc(c.t('Not built yet'))}</b><span>${esc(top.slice(8))}</span><small>Android 2.1 · Settings.apk</small></div>`);

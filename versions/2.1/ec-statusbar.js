@@ -20,7 +20,8 @@
   const icon = (file, cls = '') => `<span class="ecsb-icon${cls}"><img src="assets/${file}" alt=""></span>`;
 
   EC.defaults.notifications = [];
-  Object.assign(EC.defaults.settings, {wifi: true, wifiConnected: true, bluetooth: false, airplane: false, ringer: '', battery: 80, charging: false, gps: false, hour24: null});
+  // SettingsProvider defaults of the image (def_wifi_on false, def_bluetooth_on false, def_airplane_mode_on false).
+  Object.assign(EC.defaults.settings, {wifi: false, wifiConnected: false, bluetooth: false, airplane: false, ringer: '', battery: 80, charging: false, gps: false, hour24: null});
 
   // is24HourFormat: the setting when set, else the locale's own time format (en-US 12 h; de, fr, es, hu 24 h).
   const hour24 = c => c.data.settings.hour24 ?? c.lang !== 'en';

@@ -11,3 +11,12 @@
 .ecpf-check{position:relative;z-index:1;flex:none;margin-right:calc(4 * var(--dp));width:calc(38 * var(--dp));height:calc(48 * var(--dp))}
 .ecpf-row:disabled .ecpf-title{color:#ffffff80}.ecpf-row:disabled .ecpf-summary{color:#bebebe80}.ecpf-row:disabled .ecpf-check{opacity:.5}
 .ecpf-divider{display:block;height:calc(1 * var(--dp));background:url('assets/fw-divider_horizontal_dark.9.png') 0 0/100% 100%}
+/* The volume / brightness dialogs: labels 20 dp in (TextView padding 20 / 20 / 20 dp), bars 6 dp under them, the
+   checkbox 20 dp in, 20 dp free at the bottom; the brightness icon 20 dp down. */
+.ecpf-dlg{display:flex;flex-direction:column;padding-bottom:calc(20 * var(--dp));color:#fff}
+.ecpf-dlg-label{padding:calc(20 * var(--dp)) calc(20 * var(--dp)) calc(6 * var(--dp));font-size:calc(16 * var(--dp))}
+.ecpf-dlg .ecui-seek{margin:0 calc(28 * var(--dp))}
+.ecpf-dlg-check{margin:calc(6 * var(--dp)) calc(20 * var(--dp)) 0}
+.ecpf-dlg-icon{align-self:center;margin-top:calc(20 * var(--dp));width:calc(52 * var(--dp));height:calc(52 * var(--dp))}
+.ecpf-dlg-pad{padding:calc(20 * var(--dp)) 0}
+.ecpf-dlg [hidden]{display:none}

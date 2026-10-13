@@ -25,7 +25,7 @@ SCREENS = ['settings', 'wireless_settings', 'wifi_settings', 'wifi_advanced_sett
 SETTINGS, FRAMEWORK = APK(SYSTEM + 'app/Settings.apk'), APK(SYSTEM + 'framework/framework-res.apk')
 RS, RF = SETTINGS.get_android_resources(), FRAMEWORK.get_android_resources()
 ATTRS = ['key', 'title', 'summary', 'summaryOn', 'summaryOff', 'entries', 'entryValues', 'dependency', 'defaultValue', 'icon',
-         'dialogTitle', 'dialogMessage', 'order', 'disableDependentsState', 'persistent', 'enabled', 'selectable', 'streamType',
+         'dialogTitle', 'dialogMessage', 'dialogIcon', 'order', 'disableDependentsState', 'persistent', 'enabled', 'selectable', 'streamType',
          'ringtoneType', 'showDefault', 'showSilent', 'positiveButtonText', 'negativeButtonText', 'layout', 'widgetLayout']
 strings, arrays, drawables = set(), set(), set()
 
