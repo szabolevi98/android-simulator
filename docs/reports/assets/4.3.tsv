@@ -179,7 +179,7 @@ versions/4.3/assets/dl-list_selector_pressed_holo_dark.png	a8870d94c1533b8c	copy
 versions/4.3/assets/downloads.png	5653d7c3853fbcdc	copy	mako:/system/app/DownloadProviderUi.apk!res/mipmap-xhdpi/ic_launcher_download.png	mipmap-xhdpi		5653d7c3853fbcdc
 versions/4.3/assets/ea7-ic_menu_northup.png	0fbcfff631376396	copy	mako:/system/app/GoogleEarth.apk!res/drawable-xhdpi/ic_menu_northup.png	drawable-xhdpi		0fbcfff631376396
 versions/4.3/assets/ea7-ic_menu_search_holo_dark.png	51511aeb7aa5a2d9	copy	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_menu_search_holo_dark.png	drawable-xhdpi		51511aeb7aa5a2d9
-versions/4.3/assets/ears-appwidget_bg.png	1795a8228e5ab5dc	same pixels	mako:/system/app/Music2.apk!res/drawable-mdpi/appwidget_bg.9.png	drawable-mdpi		a38d49fe297fbc53
+versions/4.3/assets/ears-appwidget_bg.png	1795a8228e5ab5dc	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/appwidget_bg.9.png	drawable-xhdpi		a38d49fe297fbc53
 versions/4.3/assets/ears-btn_price_normal_market.png	1ddf96d2308bb0dc	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/btn_price_normal_market.9.png	drawable-xhdpi		ac1b4b85dc028f40
 versions/4.3/assets/ears-close.png	2ee57b6600a75a55	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/close.png	drawable-xhdpi		fa4ad8f3771320ed
 versions/4.3/assets/ears-cover_result.png	3c377959d6a8a823	same pixels	mako:/system/app/GoogleEars.apk!res/drawable-xhdpi/cover_result.9.png	drawable-xhdpi		bf9c1a8e6b01106d
@@ -777,36 +777,36 @@ versions/4.3/assets/music-appwidget_bg.png	a67f70cb5cada8de	same pixels	mako:/sy
 versions/4.3/assets/music-appwidget_inner_press_c.png	ee5a48a70e80a215	same pixels	mako:/system/app/Music2.apk!res/drawable-hdpi/appwidget_inner_press_c.9.png	drawable-hdpi		5e9d563d42987aab
 versions/4.3/assets/music-appwidget_inner_press_l.png	cb4ef872df52db6a	same pixels	mako:/system/app/Music2.apk!res/drawable-hdpi/appwidget_inner_press_l.9.png	drawable-hdpi		d575e2ae29b896d4
 versions/4.3/assets/music-appwidget_inner_press_r.png	a38f4ba8df12ea99	same pixels	mako:/system/app/Music2.apk!res/drawable-hdpi/appwidget_inner_press_r.9.png	drawable-hdpi		f8dd1100bc28d6f4
-versions/4.3/assets/music-ic_appwidget_music_next.png	e96a17044d11824f	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_appwidget_music_next.png	drawable-hdpi-finger		d2a66e7c3bdedb41
-versions/4.3/assets/music-ic_appwidget_music_pause.png	8348dac7aeb7c97b	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_appwidget_music_pause.png	drawable-hdpi-finger		2800969b6c06d1d9
-versions/4.3/assets/music-ic_appwidget_music_play.png	29cc18452672a67e	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_appwidget_music_play.png	drawable-hdpi-finger		3a7d497aa5bf3bf3
+versions/4.3/assets/music-ic_appwidget_music_next.png	e96a17044d11824f	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_appwidget_music_next.png	drawable-hdpi-finger		d2a66e7c3bdedb41
+versions/4.3/assets/music-ic_appwidget_music_pause.png	8348dac7aeb7c97b	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_appwidget_music_pause.png	drawable-hdpi-finger		2800969b6c06d1d9
+versions/4.3/assets/music-ic_appwidget_music_play.png	29cc18452672a67e	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_appwidget_music_play.png	drawable-hdpi-finger		3a7d497aa5bf3bf3
 versions/4.3/assets/music-ic_media_next.png	49a51b4fa0796545	resized	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_media_next.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.23	8918ef15ba34400a
 versions/4.3/assets/music-ic_media_pause.png	97dad14aba548721	resized	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_media_pause.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.15	0e003bbfa6c3bf67
 versions/4.3/assets/music-ic_media_play.png	14290db89590eb9f	resized	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_media_play.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.23	f8b9deaa73c4b893
 versions/4.3/assets/music-ic_media_previous.png	9012d4d50167fceb	resized	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/ic_media_previous.png	drawable-xhdpi	resized 64×64 → 48×48, mean difference 0.23	5aca1e0686e67f5e
-versions/4.3/assets/music-ic_mp_album_playback.png	847993c1a5cb089f	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_album_playback.png	drawable-hdpi-finger		eb9b10f13138ef3e
-versions/4.3/assets/music-ic_mp_artist_list.png	1faeaf92818da12f	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_artist_list.png	drawable-hdpi-finger		769053d8e024757d
-versions/4.3/assets/music-ic_mp_artist_playback.png	d247543a2fc2d744	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_artist_playback.png	drawable-hdpi-finger		ff4737fe0a5b3d9e
-versions/4.3/assets/music-ic_mp_current_playlist_btn.png	fff7c6cfc5417df9	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_current_playlist_btn.png	drawable-hdpi-finger		80b2e21c2c548689
-versions/4.3/assets/music-ic_mp_playlist_list.png	8e8d4284a1867a5c	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_playlist_list.png	drawable-hdpi-finger		55dbdea63eaea8fb
-versions/4.3/assets/music-ic_mp_playlist_recently_added_list.png	e3283a644aba4801	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_playlist_recently_added_list.png	drawable-hdpi-finger		0a40e804dc61de99
-versions/4.3/assets/music-ic_mp_repeat_all_btn.png	333138e69fcf7229	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_repeat_all_btn.png	drawable-hdpi-finger		ebc419aadee2cebb
-versions/4.3/assets/music-ic_mp_repeat_off_btn.png	4578a838d56fbacf	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_repeat_off_btn.png	drawable-hdpi-finger		30aeadf3a09f811e
-versions/4.3/assets/music-ic_mp_repeat_once_btn.png	4983222ba238082f	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_repeat_once_btn.png	drawable-hdpi-finger		a6e61b1f79889489
-versions/4.3/assets/music-ic_mp_shuffle_off_btn.png	2cdcf1a392526804	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_shuffle_off_btn.png	drawable-hdpi-finger		70c4ad139327b21f
-versions/4.3/assets/music-ic_mp_shuffle_on_btn.png	f6d410aafad00ddc	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_shuffle_on_btn.png	drawable-hdpi-finger		eaf914075b39acf7
-versions/4.3/assets/music-ic_mp_song_list.png	ada4df3d99975feb	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_song_list.png	drawable-hdpi-finger		8eebb86cca55cd8c
-versions/4.3/assets/music-ic_mp_song_playback.png	1e900a2ecccb5cd3	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/ic_mp_song_playback.png	drawable-hdpi-finger		db65557a6d443dfa
-versions/4.3/assets/music-ic_tab_albums_selected.png	15b1ae0c68cb6c8a	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi/ic_tab_albums_selected.png	drawable-hdpi		1e7b7129fb8e2b15
-versions/4.3/assets/music-ic_tab_albums_unselected.png	1978435a08500bd0	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi/ic_tab_albums_unselected.png	drawable-hdpi		fedc27950076f8d8
-versions/4.3/assets/music-ic_tab_artists_selected.png	ac44fe4ed8d7168b	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi/ic_tab_artists_selected.png	drawable-hdpi		fb2592517aa1be62
-versions/4.3/assets/music-ic_tab_artists_unselected.png	3a1fe4fb48c6f634	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi/ic_tab_artists_unselected.png	drawable-hdpi		88f88d003f55505e
-versions/4.3/assets/music-ic_tab_playlists_selected.png	c02769e47fcc1177	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi/ic_tab_playlists_selected.png	drawable-hdpi		b6b3c3d03b41f710
-versions/4.3/assets/music-ic_tab_playlists_unselected.png	c9a04f02c5e7c832	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi/ic_tab_playlists_unselected.png	drawable-hdpi		abdd252748897810
-versions/4.3/assets/music-ic_tab_songs_selected.png	93be6e49b3e6f03a	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi/ic_tab_songs_selected.png	drawable-hdpi		6cc845fbc768a93d
-versions/4.3/assets/music-ic_tab_songs_unselected.png	7b5f3d4b55a9abcd	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi/ic_tab_songs_unselected.png	drawable-hdpi		26f07719d3a4cf06
-versions/4.3/assets/music-indicator_ic_mp_playing_large.png	1a3e755e4ef5de85	same pixels	crespo:/system/app/MusicGoogle.apk!res/drawable-hdpi-finger/indicator_ic_mp_playing_large.png	drawable-hdpi-finger		8f78a0ec7b95efdd
-versions/4.3/assets/music.png	213e04f992c28dc4	same pixels	crespo:/system/app/Mms.apk!res/drawable-hdpi/ic_launcher_musicplayer_2.png	drawable-hdpi		280d823316a94bee
+versions/4.3/assets/music-ic_mp_album_playback.png	847993c1a5cb089f	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_album_playback.png	drawable-hdpi-finger		eb9b10f13138ef3e
+versions/4.3/assets/music-ic_mp_artist_list.png	1faeaf92818da12f	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_artist_list.png	drawable-hdpi-finger		769053d8e024757d
+versions/4.3/assets/music-ic_mp_artist_playback.png	d247543a2fc2d744	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_artist_playback.png	drawable-hdpi-finger		ff4737fe0a5b3d9e
+versions/4.3/assets/music-ic_mp_current_playlist_btn.png	fff7c6cfc5417df9	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_current_playlist_btn.png	drawable-hdpi-finger		80b2e21c2c548689
+versions/4.3/assets/music-ic_mp_playlist_list.png	8e8d4284a1867a5c	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_playlist_list.png	drawable-hdpi-finger		55dbdea63eaea8fb
+versions/4.3/assets/music-ic_mp_playlist_recently_added_list.png	e3283a644aba4801	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_playlist_recently_added_list.png	drawable-hdpi-finger		0a40e804dc61de99
+versions/4.3/assets/music-ic_mp_repeat_all_btn.png	333138e69fcf7229	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_repeat_all_btn.png	drawable-hdpi-finger		ebc419aadee2cebb
+versions/4.3/assets/music-ic_mp_repeat_off_btn.png	4578a838d56fbacf	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_repeat_off_btn.png	drawable-hdpi-finger		30aeadf3a09f811e
+versions/4.3/assets/music-ic_mp_repeat_once_btn.png	4983222ba238082f	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_repeat_once_btn.png	drawable-hdpi-finger		a6e61b1f79889489
+versions/4.3/assets/music-ic_mp_shuffle_off_btn.png	2cdcf1a392526804	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_shuffle_off_btn.png	drawable-hdpi-finger		70c4ad139327b21f
+versions/4.3/assets/music-ic_mp_shuffle_on_btn.png	f6d410aafad00ddc	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_shuffle_on_btn.png	drawable-hdpi-finger		eaf914075b39acf7
+versions/4.3/assets/music-ic_mp_song_list.png	ada4df3d99975feb	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_song_list.png	drawable-hdpi-finger		8eebb86cca55cd8c
+versions/4.3/assets/music-ic_mp_song_playback.png	1e900a2ecccb5cd3	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/ic_mp_song_playback.png	drawable-hdpi-finger		db65557a6d443dfa
+versions/4.3/assets/music-ic_tab_albums_selected.png	15b1ae0c68cb6c8a	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi/ic_tab_albums_selected.png	drawable-hdpi		1e7b7129fb8e2b15
+versions/4.3/assets/music-ic_tab_albums_unselected.png	1978435a08500bd0	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi/ic_tab_albums_unselected.png	drawable-hdpi		fedc27950076f8d8
+versions/4.3/assets/music-ic_tab_artists_selected.png	ac44fe4ed8d7168b	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi/ic_tab_artists_selected.png	drawable-hdpi		fb2592517aa1be62
+versions/4.3/assets/music-ic_tab_artists_unselected.png	3a1fe4fb48c6f634	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi/ic_tab_artists_unselected.png	drawable-hdpi		88f88d003f55505e
+versions/4.3/assets/music-ic_tab_playlists_selected.png	c02769e47fcc1177	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi/ic_tab_playlists_selected.png	drawable-hdpi		b6b3c3d03b41f710
+versions/4.3/assets/music-ic_tab_playlists_unselected.png	c9a04f02c5e7c832	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi/ic_tab_playlists_unselected.png	drawable-hdpi		abdd252748897810
+versions/4.3/assets/music-ic_tab_songs_selected.png	93be6e49b3e6f03a	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi/ic_tab_songs_selected.png	drawable-hdpi		6cc845fbc768a93d
+versions/4.3/assets/music-ic_tab_songs_unselected.png	7b5f3d4b55a9abcd	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi/ic_tab_songs_unselected.png	drawable-hdpi		26f07719d3a4cf06
+versions/4.3/assets/music-indicator_ic_mp_playing_large.png	1a3e755e4ef5de85	same pixels	passion:/system/app/Music.apk!res/drawable-hdpi-finger/indicator_ic_mp_playing_large.png	drawable-hdpi-finger		8f78a0ec7b95efdd
+versions/4.3/assets/music.png	213e04f992c28dc4	same pixels	passion:/system/app/Mms.apk!res/drawable-hdpi/ic_launcher_musicplayer_2.png	drawable-hdpi		280d823316a94bee
 versions/4.3/assets/mv25-ic_chevron_right.png	bba49120986072e1	copy	mako:/system/app/Videos.apk!res/drawable-xhdpi/ic_chevron_right.png	drawable-xhdpi		bba49120986072e1
 versions/4.3/assets/mv25-ic_download.png	65ca2735bde12964	copy	mako:/system/app/Videos.apk!res/drawable-xhdpi/ic_download.png	drawable-xhdpi		65ca2735bde12964
 versions/4.3/assets/mv25-ic_download_background.png	552c3e2d51b9d9b4	copy	mako:/system/app/Videos.apk!res/drawable-xhdpi/ic_download_background.png	drawable-xhdpi		552c3e2d51b9d9b4

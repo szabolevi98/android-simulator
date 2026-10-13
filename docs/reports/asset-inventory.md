@@ -8,7 +8,7 @@ copy: 390, generated: 2, own: 2
 
 ## 2.3.6 (crespo)
 
-same pixels: 1066, copy: 555, transcoded: 169, resized: 52, converted: 31, own: 10, similar: 4, rotated: 4, generated: 2
+same pixels: 1066, copy: 555, transcoded: 241, resized: 52, converted: 31, own: 10, similar: 4, rotated: 4, generated: 2
 
 From another release's image (the own image has no such file; to review): maguro 69, mako 6 — the source column of the TSV names each.
 
@@ -16,7 +16,7 @@ From another release's image (the own image has no such file; to review): maguro
 
 copy: 396, same pixels: 146, resized: 135, own: 15, converted: 4, similar: 4, cropped: 2, generated: 1, not traced: 1
 
-From another release's image (the own image has no such file; to review): crespo 23, hammerhead 1, mako 2 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): hammerhead 1, mako 2, passion 23 — the source column of the TSV names each.
 
 Not traced:
 
@@ -26,7 +26,7 @@ Not traced:
 
 copy: 434, same pixels: 333, resized: 196, converted: 19, own: 8, similar: 7, generated: 3, not traced: 2, cropped: 2
 
-From another release's image (the own image has no such file; to review): crespo 26, maguro 17, shamu 1 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): maguro 17, passion 26, shamu 1 — the source column of the TSV names each.
 
 Not traced:
 
@@ -49,7 +49,7 @@ Not traced:
 
 copy: 615, vector: 198, resized: 158, same pixels: 143, converted: 29, similar: 7, generated: 6, own: 3, not traced: 2, cropped: 1
 
-From another release's image (the own image has no such file; to review): crespo 1, hammerhead 26, maguro 30, mako 21 — the source column of the TSV names each.
+From another release's image (the own image has no such file; to review): hammerhead 26, maguro 30, mako 21, passion 1 — the source column of the TSV names each.
 
 Not traced:
 
