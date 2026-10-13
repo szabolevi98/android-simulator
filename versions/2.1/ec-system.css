@@ -1,0 +1,32 @@
+/* Android 2.1 system windows (ec-system.js): the shutdown progress, the boot animation, recent applications and the
+   volume panel, in dp. */
+.ecsys-progress{display:flex;align-items:center;gap:calc(12 * var(--dp));padding:calc(10 * var(--dp)) calc(14 * var(--dp)) calc(15 * var(--dp));font-size:calc(18 * var(--dp))}
+/* progress_medium_white: spinner_white_48 turned about its centre in 12 frames of 100 ms (animated-rotate). */
+.ecsys-spinner{width:calc(32 * var(--dp));height:calc(32 * var(--dp));animation:ecsys-spin 1.2s steps(12) infinite}
+@keyframes ecsys-spin{to{transform:rotate(360deg)}}
+.ecsys-power{position:absolute;inset:0;z-index:70;background:#000}
+.ecsys-power[hidden]{display:none}
+.ecsys-boot{position:absolute;inset:0;overflow:hidden}
+.ecsys-boot-frame{position:absolute;background-repeat:no-repeat}
+/* RecentApplicationsDialog: panel_background, 3 dp padding, rows of three 87 x 88 dp buttons with a 3 dp margin; 13 dp
+   labels (primary_text_dark_focused) under the icon; no_recent_tasks 285 dp wide, 15 dp above and below. */
+.ecsys-recent{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff}
+.ecsys-recent-body{position:relative;z-index:1;padding:calc(3 * var(--dp))}
+.ecsys-recent-row{display:flex}
+.ecsys-recent-item{position:relative;display:flex;flex-direction:column;align-items:center;width:calc(87 * var(--dp));height:calc(88 * var(--dp));margin:calc(3 * var(--dp));border:0;padding:calc(5 * var(--dp)) 0 calc(2 * var(--dp));background:none;color:#fff!important;font-size:calc(13 * var(--dp))}
+.ecsys-recent-bg{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+.ecsys-recent-item:active .ecsys-recent-bg{opacity:1}
+.ecsys-recent-icon{position:relative;width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.ecsys-recent-item span{position:relative;max-width:100%;overflow:hidden;white-space:nowrap}
+.ecsys-recent-none{width:calc(285 * var(--dp));margin:calc(15 * var(--dp)) 0;text-align:center;font-size:calc(18 * var(--dp))}
+/* VolumePanel: a Toast at the top on panel_background; message (textAppearanceMedium) 14 dp down, the ringer icon, a
+   200 dp progress_horizontal bar with 25 / 14 dp margins (radius 5 dp, #9d9e9d → #5a5d5a → #747674 track, #ffd300 →
+   #ffb600 → #ffcb00 level). */
+.ecsys-vol-layer{position:absolute;left:0;right:0;top:calc(25 * var(--dp));z-index:40;display:flex;justify-content:center;pointer-events:none}
+.ecsys-vol{position:relative;display:flex;flex-direction:column;align-items:center;color:#fff}
+.ecsys-vol>*:not(.ec-bg){position:relative;z-index:1}
+.ecsys-vol-msg{display:flex;align-items:center;gap:calc(6 * var(--dp));margin-top:calc(14 * var(--dp));font-size:calc(18 * var(--dp))}
+.ecsys-vol-msg img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.ecsys-vol-large{margin-top:calc(14 * var(--dp));width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.ecsys-vol-bar{width:calc(200 * var(--dp));height:calc(13.333 * var(--dp));margin:calc(14 * var(--dp)) calc(25 * var(--dp));border-radius:calc(5 * var(--dp));background:linear-gradient(#9d9e9d,#5a5d5a 75%,#747674);overflow:hidden}
+.ecsys-vol-bar i{display:block;height:100%;border-radius:calc(5 * var(--dp));background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00)}

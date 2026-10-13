@@ -54,3 +54,12 @@
 .ecui-toast span{position:relative;z-index:1}
 .ecui-toast.out{animation:ecui-fade .2s reverse both}
 @keyframes ecui-fade{from{opacity:0}}
+/* FLAG_BLUR_BEHIND (GlobalActions, recent apps): config_sf_slowBlur is false on the Nexus One. */
+.ecui-dim.blur{-webkit-backdrop-filter:blur(calc(3 * var(--dp)));backdrop-filter:blur(calc(3 * var(--dp)))}
+/* global_actions_item.xml: padding 11 dp left, 6 dp top and bottom; the icon 9 dp from the text; a 22 sp message over a
+   26 dp line of 14 sp status (textAppearanceSmallInverse, #323232). */
+.ecui-global{padding:calc(6 * var(--dp)) 0 calc(6 * var(--dp)) calc(11 * var(--dp));gap:calc(9 * var(--dp))}
+.ecui-global img{position:relative;z-index:1;width:calc(32 * var(--dp));height:calc(32 * var(--dp));flex:none}
+.ecui-global-text{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;height:calc(52 * var(--dp))}
+.ecui-global-text>span{flex:1;display:flex;align-items:center}
+.ecui-global-text small{flex:none;height:calc(26 * var(--dp));font-size:calc(14 * var(--dp));color:#323232;line-height:calc(26 * var(--dp))}

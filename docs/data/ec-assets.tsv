@@ -200,3 +200,17 @@ fw-ic_menu_gallery.png	framework/framework-res.apk	drawable/ic_menu_gallery
 fw-ic_search_category_default.png	framework/framework-res.apk	drawable/ic_search_category_default
 fw-ic_menu_notifications.png	framework/framework-res.apk	drawable/ic_menu_notifications
 fw-ic_menu_preferences.png	framework/framework-res.apk	drawable/ic_menu_preferences
+# GlobalActions, RecentApplicationsDialog, VolumePanel, ShutdownThread (ec-system.js)
+fw-ic_lock_silent_mode.png	framework/framework-res.apk	drawable/ic_lock_silent_mode
+fw-ic_lock_silent_mode_off.png	framework/framework-res.apk	drawable/ic_lock_silent_mode_off
+fw-ic_lock_airplane_mode.png	framework/framework-res.apk	drawable/ic_lock_airplane_mode
+fw-ic_lock_airplane_mode_off.png	framework/framework-res.apk	drawable/ic_lock_airplane_mode_off
+fw-ic_lock_power_off.png	framework/framework-res.apk	drawable/ic_lock_power_off
+fw-pressed_application_background_static.png	framework/framework-res.apk	drawable/pressed_application_background_static
+fw-focused_application_background_static.png	framework/framework-res.apk	drawable/focused_application_background_static
+fw-ic_volume.png	framework/framework-res.apk	drawable/ic_volume
+fw-ic_volume_off.png	framework/framework-res.apk	drawable/ic_volume_off
+fw-ic_volume_small.png	framework/framework-res.apk	drawable/ic_volume_small
+fw-ic_volume_off_small.png	framework/framework-res.apk	drawable/ic_volume_off_small
+fw-spinner_white_48.png	framework/framework-res.apk	drawable/spinner_white_48
+fw-panel_background.9.png	framework/framework-res.apk	drawable/panel_background

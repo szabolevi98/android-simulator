@@ -204,8 +204,9 @@
     if (key === 'back') back(); else if (key === 'menu') menuKey(); else if (key === 'search') searchKey();
     else if (key === 'home') { if (ui.view !== 'lock') home(); }
   }
-  function powerKey() { if (ui.sleeping) wake(); else lockScreen(); }
-  function powerHold() { if (ui.sleeping) { wake(); return; } ui.overlay = 'power'; renderOverlay(); }
+  // Off: the key boots the phone (ec-system.js). On: a press turns the screen off / on, holding it opens GlobalActions.
+  function powerKey() { if (ui.power === 'off') { c.boot?.(); return; } if (ui.power) return; if (ui.sleeping) wake(); else lockScreen(); }
+  function powerHold() { if (ui.power === 'off') { c.boot?.(); return; } if (ui.power) return; if (ui.sleeping) { wake(); return; } if (c.showPower) c.showPower(); else { ui.overlay = 'power'; renderOverlay(); } }
 
   // The trackball press is DPAD_CENTER: it activates the focused view.
   function trackballPress() {

@@ -106,3 +106,5 @@
 .npp-fw-divider_horizontal_dark{padding:0 0 0 0}
 .np-fw-divider_horizontal_bright_opaque{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/fw-divider_horizontal_bright_opaque.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 0 0 0}  /* res/drawable-hdpi/divider_horizontal_bright_opaque.9.png 1x1 */
 .npp-fw-divider_horizontal_bright_opaque{padding:0 0 0 0}
+.np-fw-panel_background{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(20.6667 * var(--dp)) calc(24 * var(--dp)) calc(26.6667 * var(--dp)) calc(24 * var(--dp));border-image:url('assets/fw-panel_background.9.png') 31 36 40 36 fill / calc(20.6667 * var(--dp)) calc(24 * var(--dp)) calc(26.6667 * var(--dp)) calc(24 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-hdpi/panel_background.9.png 76x76 */
+.npp-fw-panel_background{padding:calc(9.33333 * var(--dp)) calc(12.6667 * var(--dp)) calc(15.3333 * var(--dp)) calc(12.6667 * var(--dp))}
