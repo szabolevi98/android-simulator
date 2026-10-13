@@ -17,7 +17,8 @@
     if (!ref || typeof ref !== 'string') return '';
     if (!ref.startsWith('string/')) return ref;
     const name = ref.slice(7);
-    return S().has(name) ? S().t(name) : S().has(`framework/${name}`) ? S().t(`framework/${name}`) : name;
+    const S2 = EC.text('settings2');
+    return S().has(name) ? S().t(name) : S().has(`framework/${name}`) ? S().t(`framework/${name}`) : S2.has(name) ? S2.t(name) : name;
   };
   const arr = ref => {
     const name = String(ref || '').replace(/^array\//, '');
@@ -75,6 +76,35 @@
   }
   const find = (n, key) => n.key === key ? n : (n.c || []).reduce((hit, ch) => hit || find(ch, key), null);
 
+  // Preferences the code adds after inflating a screen's xml (in the order it adds them).
+  const EXTRA = {
+    // SecuritySettings.createPreferenceHierarchy: the unlock pattern category (its toggles off while no pattern is saved,
+    // and Set / Change unlock pattern by savedPatternExists), the SIM card lock, Passwords and the credential storage.
+    security_settings: c => {
+      const has = !!c.data.settings.lockPattern;
+      return [
+        {t: 'PreferenceCategory', title: 'string/lock_settings_title', c: [
+          {t: 'CheckBoxPreference', key: 'lockenabled', title: 'string/lockpattern_settings_enable_title', summary: 'string/lockpattern_settings_enable_summary', enabled: has ? undefined : 'false'},
+          {t: 'CheckBoxPreference', key: 'visiblepattern', title: 'string/lockpattern_settings_enable_visible_pattern_title', defaultValue: 'true', enabled: has ? undefined : 'false'},
+          {t: 'CheckBoxPreference', key: 'tactilefeedback', title: 'string/lockpattern_settings_enable_tactile_feedback_title', enabled: has ? undefined : 'false'},
+          {t: 'Preference', key: 'unlock_set_change', title: has ? 'string/lockpattern_settings_change_lock_pattern' : 'string/lockpattern_settings_choose_lock_pattern', intent: {targetClass: 'com.android.settings.ChooseLockPatternTutorial'}}]},
+        {t: 'PreferenceCategory', title: 'string/sim_lock_settings_title', c: [
+          {t: 'PreferenceScreen', key: 'sim_lock', title: 'string/sim_lock_settings_category', intent: {targetClass: 'com.android.settings.SimLockSettings'}}]},
+        {t: 'PreferenceCategory', title: 'string/security_passwords_title', c: [
+          {t: 'CheckBoxPreference', key: 'show_password', title: 'string/show_password', summary: 'string/show_password_summary', defaultValue: 'true'}]},
+        {t: 'PreferenceCategory', title: 'string/credentials_category', c: [
+          {t: 'CheckBoxPreference', key: 'enable_credentials', title: 'string/credentials_access', summary: 'string/credentials_access_summary', enabled: 'false'},
+          {t: 'Preference', key: 'install_credentials', title: 'string/credentials_install_certificates', summary: 'string/credentials_install_certificates_summary', enabled: 'false'},
+          {t: 'Preference', key: 'set_password', title: 'string/credentials_set_password', summary: 'string/credentials_set_password_summary'},
+          {t: 'Preference', key: 'reset_credentials', title: 'string/credentials_reset', summary: 'string/credentials_reset_summary', enabled: 'false'}]}
+      ];
+    }
+  };
+  function withExtra(c, name, node) {
+    if (!EXTRA[name] || node.c?.extended) return node;
+    return {...node, c: Object.assign([...(node.c || []), ...EXTRA[name](c)], {extended: true})};
+  }
+
   function prune(name, n) {
     if (name === 'sound_and_display_settings' && n.key === 'emergency_tone') return false;
     if (name === 'device_info_settings' && n.key === 'safetylegal') return false;
@@ -98,9 +128,10 @@
   function current(c) {
     const top = c.ui.settingsStack?.at(-1) || 'settings';
     const [name, path] = top.split('|');
-    let n = EC.settingsXml[name];
+    const root = EC.settingsXml[name] && withExtra(c, name, EC.settingsXml[name]);
+    let n = root;
     for (const i of (path ? path.split('.').slice(1) : [])) n = n?.c?.[Number(i)];
-    return {name, path, node: n, root: EC.settingsXml[name]};
+    return {name, path, node: n, root};
   }
   function nodeAt(screen, path) { let n = screen.root; for (const i of path.split('.').slice(1)) n = n?.c?.[Number(i)]; return n; }
 

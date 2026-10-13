@@ -63,3 +63,6 @@ Format SD card.	SD-kártya formázása.
 Sound & display settings	Hang- és kijelzőbeállítások
 SD card & phone storage settings	SD-kártya és telefontárhely beállításai
 Incoming call volume	Bejövő hívás hangereje
+Screen unlock pattern	Képernyőfeloldási minta
+Install from SD card	Telepítés SD-kártyáról
+Install encrypted certificates from SD card	Titkosított tanúsítványok telepítése SD-kártyáról

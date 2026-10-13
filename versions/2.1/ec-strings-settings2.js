@@ -36,5 +36,194 @@ EC.strings('settings2', {
 "es": "Brillo automático",
 "hu": "Automatikus fényerő",
 "huFrom": "crespo:Settings:automatic_brightness"
+},
+"lock_settings_title": {
+"res": "passion:Settings:lock_settings_title",
+"en": "Screen unlock pattern",
+"de": "Display-Entsperrungsmuster",
+"fr": "Schéma de déverrouillage de l'écran",
+"es": "Patrón de desbloqueo de pantalla",
+"hu": "Képernyőfeloldási minta",
+"huOwn": true
+},
+"lockpattern_settings_enable_title": {
+"res": "passion:Settings:lockpattern_settings_enable_title",
+"en": "Require pattern",
+"de": "Muster erforderlich",
+"fr": "Schéma obligatoire",
+"es": "Patrón obligatorio",
+"hu": "Minta kérése",
+"huFrom": "crespo:Settings:lockpattern_settings_enable_title"
+},
+"lockpattern_settings_enable_summary": {
+"res": "passion:Settings:lockpattern_settings_enable_summary",
+"en": "Must draw pattern to unlock screen",
+"de": "Zum Entsperren muss ein Muster gezeichnet werden",
+"fr": "Vous devez dessiner le schéma pour déverrouiller l'écran.",
+"es": "Se debe crear un patrón para desbloquear la pantalla.",
+"hu": "Mintát kell rajzolni a képernyőzár feloldásához",
+"huFrom": "crespo:Settings:lockpattern_settings_enable_summary"
+},
+"lockpattern_settings_enable_visible_pattern_title": {
+"res": "passion:Settings:lockpattern_settings_enable_visible_pattern_title",
+"en": "Use visible pattern",
+"de": "Muster sichtbar",
+"fr": "Schéma visible",
+"es": "Utilizar patrón visible",
+"hu": "Látható minta használata",
+"huFrom": "crespo:Settings:lockpattern_settings_enable_visible_pattern_title"
+},
+"lockpattern_settings_enable_tactile_feedback_title": {
+"res": "passion:Settings:lockpattern_settings_enable_tactile_feedback_title",
+"en": "Use tactile feedback",
+"de": "Haptisches Feedback",
+"fr": "Retour tactile",
+"es": "Comentarios al crear patrón",
+"hu": "Érintés-visszajelzés használata",
+"huFrom": "crespo:Settings:lockpattern_settings_enable_tactile_feedback_title"
+},
+"lockpattern_settings_choose_lock_pattern": {
+"res": "passion:Settings:lockpattern_settings_choose_lock_pattern",
+"en": "Set unlock pattern",
+"de": "Entsperrungsmuster",
+"fr": "Créer un schéma",
+"es": "Patrón de desbloqueo",
+"hu": "Feloldási minta beállítása",
+"huFrom": "crespo:Settings:lockpattern_settings_choose_lock_pattern"
+},
+"lockpattern_settings_change_lock_pattern": {
+"res": "passion:Settings:lockpattern_settings_change_lock_pattern",
+"en": "Change unlock pattern",
+"de": "Muster ändern",
+"fr": "Modifier le schéma de déverrouillage",
+"es": "Cambiar patrón de desbloqueo",
+"hu": "Feloldási minta módosítása",
+"huFrom": "crespo:Settings:lockpattern_settings_change_lock_pattern"
+},
+"sim_lock_settings_category": {
+"res": "passion:Settings:sim_lock_settings_category",
+"en": "Set up SIM card lock",
+"de": "SIM-Sperrung einrichten",
+"fr": "Configurer blocage SIM",
+"es": "Bloqueo de tarjeta SIM",
+"hu": "SIM-kártya zárolásának beállítása",
+"huFrom": "crespo:Settings:sim_lock_settings_category"
+},
+"sim_lock_settings_title": {
+"res": "passion:Settings:sim_lock_settings_title",
+"en": "SIM card lock",
+"de": "SIM-Kartensperrung",
+"fr": "Blocage de la carte SIM",
+"es": "Bloqueo de tarjeta SIM",
+"hu": "SIM-kártya zárolása",
+"huFrom": "crespo:Settings:sim_lock_settings_title"
+},
+"security_passwords_title": {
+"res": "passion:Settings:security_passwords_title",
+"en": "Passwords",
+"de": "Passwörter",
+"fr": "Mots de passe",
+"es": "Contraseñas",
+"hu": "Jelszavak",
+"huFrom": "crespo:Settings:security_passwords_title"
+},
+"show_password": {
+"res": "passion:Settings:show_password",
+"en": "Visible passwords",
+"de": "Sichtbare Passwörter",
+"fr": "Mots de passe visibles",
+"es": "Contraseñas visibles",
+"hu": "Látható jelszavak",
+"huFrom": "crespo:Settings:show_password"
+},
+"show_password_summary": {
+"res": "passion:Settings:show_password_summary",
+"en": "Show password as you type",
+"de": "Passwort bei der Eingabe anzeigen",
+"fr": "Afficher le mot de passe lors de la saisie",
+"es": "Mostrar contraseña mientras se escribe",
+"hu": "Jelszó megjelenítése gépeléskor",
+"huFrom": "crespo:Settings:show_password_summary"
+},
+"credentials_category": {
+"res": "passion:Settings:credentials_category",
+"en": "Credential storage",
+"de": "Anmeldeinformationsspeicher",
+"fr": "Stockage des identifiants",
+"es": "Almacenamiento de credenciales",
+"hu": "Hitelesítési adatok tárolója",
+"huFrom": "crespo:Settings:credentials_category"
+},
+"credentials_access": {
+"res": "passion:Settings:credentials_access",
+"en": "Use secure credentials",
+"de": "Sichere Anmeldeinformationen verwenden",
+"fr": "Identifiants sécurisés",
+"es": "Utilizar credenciales seguras",
+"hu": "Biztonságos hitelesítő adatok használata",
+"huFrom": "crespo:Settings:credentials_access"
+},
+"credentials_access_summary": {
+"res": "passion:Settings:credentials_access_summary",
+"en": "Allow applications to access secure certificates and other credentials",
+"de": "Anwendungen können sichere Zertifikate und Anmeldeinformationen abrufen.",
+"fr": "Autoriser l'accès des applications aux certificats sécurisés et identifiants",
+"es": "Permitir que las aplicaciones accedan a los certificados seguros y a otras credenciales",
+"hu": "Az alkalmazások hozzáférhetnek a biztonsági tanúsítványokhoz és más hitelesítési adatokhoz",
+"huFrom": "crespo:Settings:credentials_access_summary"
+},
+"credentials_install_certificates": {
+"res": "passion:Settings:credentials_install_certificates",
+"en": "Install from SD card",
+"de": "Von SD-Karte installieren",
+"fr": "Installer depuis la carte SD",
+"es": "Instalar desde la tarjeta SD",
+"hu": "Telepítés SD-kártyáról",
+"huOwn": true
+},
+"credentials_install_certificates_summary": {
+"res": "passion:Settings:credentials_install_certificates_summary",
+"en": "Install encrypted certificates from SD card",
+"de": "Verschlüsselte Zertifikate von SD-Karte installieren",
+"fr": "Installer les certificats cryptés depuis la carte SD",
+"es": "Instalar certificados encriptados de tarjeta SD",
+"hu": "Titkosított tanúsítványok telepítése SD-kártyáról",
+"huOwn": true
+},
+"credentials_set_password": {
+"res": "passion:Settings:credentials_set_password",
+"en": "Set password",
+"de": "Passwort festlegen",
+"fr": "Définir le mot de passe",
+"es": "Establecer contraseña",
+"hu": "Jelszó beállítása",
+"huFrom": "crespo:Settings:credentials_set_password"
+},
+"credentials_set_password_summary": {
+"res": "passion:Settings:credentials_set_password_summary",
+"en": "Set or change the credential storage password",
+"de": "Passwort für Anmeldeinformationsspeicher festlegen oder ändern",
+"fr": "Définir/modifier le mot de passe de stockage des identifiants",
+"es": "Establecer o cambiar la contraseña de almacenamiento de credenciales",
+"hu": "A hitelesítési adatok tárolója jelszavának beállítása és módosítása",
+"huFrom": "crespo:Settings:credentials_set_password_summary"
+},
+"credentials_reset": {
+"res": "passion:Settings:credentials_reset",
+"en": "Clear storage",
+"de": "Speicherinhalt löschen",
+"fr": "Effacer le stockage",
+"es": "Borrar almacenamiento",
+"hu": "Tároló ürítése",
+"huFrom": "crespo:Settings:credentials_reset"
+},
+"credentials_reset_summary": {
+"res": "passion:Settings:credentials_reset_summary",
+"en": "Clear credential storage of all contents and reset its password",
+"de": "Inhalt des Anmeldeinformationsspeichers löschen und Passwort zurücksetzen",
+"fr": "Effacer le contenu du stockage des identifiants et réinitialiser le mot de passe",
+"es": "Borrar almacenamiento de credenciales de todo el contenido y restablecer su contraseña",
+"hu": "A hitelesítési adatok tárolója teljes tartalmának kiürítése és jelszavának visszaállítása",
+"huFrom": "crespo:Settings:credentials_reset_summary"
 }
 });
