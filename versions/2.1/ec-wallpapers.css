@@ -1,0 +1,12 @@
+/* Android 2.1 WallpaperChooser (ec-wallpapers.js): wallpaper_chooser.xml, in dp. */
+.ecwp{position:absolute;inset:0;display:flex;flex-direction:column;background:#000}
+.ecwp-preview{flex:1;min-height:0;background:center/contain no-repeat}
+/* Gallery of 170 x 142 px thumbnails (113 x 95 dp) on gallery_item_background (22 px padding). */
+.ecwp-gallery{flex:none;display:flex;overflow-x:auto;scrollbar-width:none;padding:calc(4 * var(--dp)) 0}
+.ecwp-gallery::-webkit-scrollbar{display:none}
+.ecwp-thumb{flex:none;width:calc(142.667 * var(--dp));height:calc(124 * var(--dp));border:0;padding:calc(14.667 * var(--dp)) calc(14 * var(--dp));background:url('assets/fw-gallery_unselected_default.9.png') 0 0/100% 100%}
+.ecwp-thumb.selected{background-image:url('assets/fw-gallery_selected_default.9.png')}
+.ecwp-thumb:active{background-image:url('assets/fw-gallery_selected_pressed.9.png')}
+.ecwp-thumb img{display:block;width:100%;height:100%}
+.ecwp-bar{flex:none;display:flex;justify-content:center;padding:calc(4 * var(--dp)) 0}
+.ecwp-set{flex:none;padding-left:calc(24 * var(--dp));padding-right:calc(24 * var(--dp))}

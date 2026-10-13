@@ -63,3 +63,5 @@
 .ecui-global-text{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;height:calc(52 * var(--dp))}
 .ecui-global-text>span{flex:1;display:flex;align-items:center}
 .ecui-global-text small{flex:none;height:calc(26 * var(--dp));font-size:calc(14 * var(--dp));color:#323232;line-height:calc(26 * var(--dp))}
+/* resolve_list_item.xml (ChooserActivity / ResolverActivity): padding 10 / 15 dp, a 48 dp icon, the label 10 dp from it. */
+.ecui-li-icon.ecui-resolve{padding:0 calc(15 * var(--dp)) 0 calc(10 * var(--dp));gap:calc(10 * var(--dp))}

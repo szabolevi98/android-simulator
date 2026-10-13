@@ -151,7 +151,7 @@
     app: false,
     init(c) {
       c.wallpaper = {
-        offset(x) { offset = Math.max(0, Math.min(1, x)); },
+        offset(x) { offset = Math.max(0, Math.min(1, x)); c.el.screen.style.setProperty('--ec-wallpaper-x', `${offset * 100}%`); },
         tap(x, y) { if (live?.tap) { const k = 480 / c.el.screen.clientWidth; live.tap(x * k, y * k, performance.now()); } },
         refresh() { ensure(c); wake(c); }
       };

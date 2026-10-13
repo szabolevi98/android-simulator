@@ -13,7 +13,8 @@
 .screen button,.screen input,.screen textarea,.screen select{font:inherit;color:inherit}
 .screen button{cursor:pointer}
 /* The wallpaper (ec-wallpaper.js): a live wallpaper's canvas, or a picture through --ec-wallpaper, behind every screen. */
-.screen{background:#000 var(--ec-wallpaper,none) 0 0/cover no-repeat}
+/* A picture wallpaper is the launcher's 960 x 800 image, as tall as the screen and scrolled with the home screen. */
+.screen{background:#000 var(--ec-wallpaper,none) var(--ec-wallpaper-x,0%) 0/auto 100% no-repeat}
 #ec-wallpaper{position:absolute;inset:0;width:100%;height:100%;display:block}
 #ec-wallpaper[hidden]{display:none}
 /* The status bar is 25 dp (status_bar_height in the image's framework-res); apps start under it. */
