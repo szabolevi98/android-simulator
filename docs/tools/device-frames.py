@@ -101,6 +101,19 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
             feat.append(f'<rect x="{x - ww / 2:.2f}" y="{y - hh / 2:.2f}" width="{ww:.2f}" height="{hh:.2f}" rx="{hh / 2:.2f}" fill="url(#grille)" stroke="#3b3f42" stroke-width=".7"/>')
             dots = int(ww / 2.1)
             feat.append(''.join(f'<circle cx="{x - ww / 2 + hh / 2 + i * (ww - hh) / max(1, dots - 1):.2f}" cy="{y:.2f}" r=".45" fill="#2a2e31"/>' for i in range(dots)))
+        elif kind == 'arcslot':
+            # Nexus One earpiece: a grille slot bent along the curved top edge; its centre line sinks by sag at both ends.
+            _, cx, cy, fw, fh, sag = f; x0_, ww, hh = S(cx - origin[0]) + m + dx, S(fw), S(fh)
+            yc = lambda t: S(cy - origin[1]) + m + S(sag) * t * t  # t = -1 … 1 along the slot
+            n = 24; r = hh / 2; half = ww / 2 - r
+            top = [(x0_ + half * (2 * i / n - 1), yc(2 * i / n - 1) - r) for i in range(n + 1)]
+            bot = [(x0_ + half * (1 - 2 * i / n), yc(1 - 2 * i / n) + r) for i in range(n + 1)]
+            ad = 'M' + ' L'.join(f'{a:.2f} {b:.2f}' for a, b in top)
+            ad += f' A{r:.2f} {r:.2f} 0 0 1 {bot[0][0]:.2f} {bot[0][1]:.2f} L' + ' L'.join(f'{a:.2f} {b:.2f}' for a, b in bot[1:])
+            ad += f' A{r:.2f} {r:.2f} 0 0 1 {top[0][0]:.2f} {top[0][1]:.2f}Z'
+            # a fine grey metal mesh, as on the phone (the mockup's grille averages about #343434)
+            feat.append(f'<path d="{ad}" fill="#2b2b2b"/><path d="{ad}" fill="url(#mesh)"/>'
+                        f'<path d="{ad}" fill="none" stroke="#1d1a19" stroke-width=".7"/>')
         elif kind == 'notch':
             _, cx, y0, w0, w1, depth = f; x = S(cx - origin[0]) + m + dx; top = S(y0 - origin[1]) + m
             a, b, dd = S(w0) / 2, S(w1) / 2, S(depth)
@@ -179,6 +192,7 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
 <linearGradient id="key" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
 <linearGradient id="keyTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
 <linearGradient id="front" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#151617"/><stop offset=".5" stop-color="#050506"/><stop offset="1" stop-color="#0c0d0e"/></linearGradient>
+<pattern id="mesh" width="1.1" height="1.1" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.1" height="1.1" fill="#3c3c3c"/><rect width=".55" height=".55" fill="#232323"/></pattern>
 <linearGradient id="band" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#3a3230"/><stop offset=".45" stop-color="#211c1b"/><stop offset="1" stop-color="#0b0909"/></linearGradient>
 <radialGradient id="ball" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#c2c2c2"/><stop offset=".66" stop-color="#c2c2c2"/><stop offset=".84" stop-color="#acacac"/><stop offset="1" stop-color="#c4c4c4"/></radialGradient>
 <linearGradient id="glassEdge" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".45" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#fff" stop-opacity=".22"/></linearGradient>
@@ -251,7 +265,8 @@ if os.path.exists('n6-render.png'):
 # fill from the display). The 3.7" panel at the Nexus S scale (0.575 px per pixel for 4.0") is 255.3 x 425.5 (0.532).
 # Keys: the short power key at the left end of the top edge (owner's photo, 2026-10-13), the 3.5 mm jack at the other end, the
 # long thin volume rocker on the left edge (GSMArena, Engadget, Android Central reviews); the small charge LED sits right of
-# the earpiece (Commons "Docked Nexus One"). The dark band under the chin is where the body curves away, traced per column.
+# the earpiece (Commons "Docked Nexus One"). The earpiece slot bends with the top edge (its centre line 3.4 px lower at the
+# ends than in the middle, measured on the mockup). The dark band under the chin is where the body curves away, traced per column.
 if os.path.exists('n1-render.png'):
   from PIL import Image, ImageDraw
   if not os.path.exists('n1-glass.png'):
@@ -263,7 +278,7 @@ if os.path.exists('n1-render.png'):
     ImageDraw.floodfill(dark, (227, 400), 255)
     mask = Image.new('RGBA', src.size, (0, 0, 0, 0)); mask.putalpha(dark.point(lambda v: 255 if v == 255 else 0)); mask.save('n1-glass.png')
   ref = Image.open('n1-render.png').convert('RGBA')
-  n1_top = min(y for y in range(60) if ref.getpixel((90, y))[3] > 110)
+  n1_top = min(y for y in range(60) if ref.getpixel((85, y))[3] > 110)
   # Bottom band: per column, where the metal chin gets markedly darker (a relative drop, since the metal is lighter near the
   # sides), median-filtered; the trackball columns are bridged.
   lum = lambda x, y: sum(ref.getpixel((x, y))[:3]) / 3
@@ -280,10 +295,10 @@ if os.path.exists('n1-render.png'):
   # at both ends the band runs up the curved sides to the outline (y 801 at the very edge on the reference)
   n1_band = [(0, 801)] + n1_band + [(453, 801)]
   svg, info = frame('nexus-one', 'n1-render.png', (0, 453), (0, 902), (38, 100, 414, 725), (255.3, 425.5),
-    [('slot', 227, 33, 182, 11), ('led', 392, 33, 3.5),
+    [('arcslot', 227, 32, 182, 10, 3.4), ('led', 392, 33, 3.5),
      ('touchkey', 'back', 86, 753, 32), ('touchkey', 'menu', 181, 753, 32), ('touchkey', 'home', 272, 753, 32), ('touchkey', 'search', 366, 753, 32),
      ('trackball', 226, 832, 19.5, 24)],
-    [('top', 70, 112, 4, n1_top), ('left', 150, 300, 4)],
+    [('top', 72, 98, 4, n1_top), ('left', 150, 300, 4)],
     {'body': ['#6f6462', '#463e3c', '#5d5351'], 'rim': ['#a0928f', '#2f2928', '#7c706d'], 'rimWidth': 2.0, 'chin': .08},
     mirror=True, glass={'mask': 'n1-glass.png', 'edge': '#2a2524'}, points=720, soft=11, band=n1_band)
   open('device-nexus-one.svg', 'w').write(svg); out['n1'] = info
