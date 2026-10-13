@@ -40,3 +40,26 @@
 .ecst-right .ecst-target{left:calc(33.333% - 54 * var(--dp))}
 .ecst-slider.grabbed .ecst-target{opacity:1}
 .ecst-slider:not(.grabbed) .ecst-target{transition:none}
+
+/* UnlockScreen (keyguard_screen_unlock_portrait.xml): a column; carrier marginTop 6 dp; DigitalClock marginTop 15 dp,
+   marginLeft 20 dp, marginBottom 6 dp, timeDisplay 56 sp, am_pm 18 sp (marginLeft 4 dp, marginBottom -6 dp); divider
+   1 dp with 8 dp above and below; status row marginLeft 12 dp, 18 sp; LockPatternView marginTop 2 dp, a square of the
+   height left, centred; the footer's Emergency call: Widget.Button.Transparent (textAppearanceSmall 14 sp, white),
+   ic_emergency with drawablePadding 8 dp. */
+.eclk-unlock{display:flex;flex-direction:column}
+.eclk-head{position:relative;flex:none}
+.eclk-unlock .eclk-carrier{top:calc(6 * var(--dp))}
+.eclk-unlock .eclk-time{margin:calc(15 * var(--dp)) 0 calc(6 * var(--dp)) calc(20 * var(--dp))}
+.eclk-unlock .eclk-clock{font-size:calc(56 * var(--dp))}
+.eclk-unlock .eclk-ampm{font-size:calc(18 * var(--dp));margin-left:calc(4 * var(--dp))}
+.eclk-divider{display:block;flex:none;height:calc(1 * var(--dp));margin:calc(8 * var(--dp)) 0}
+.eclk-statusrow{flex:none;display:flex;align-items:center;margin-left:calc(12 * var(--dp));min-height:calc(25.333 * var(--dp))}
+.eclk-st1{display:flex;align-items:center;gap:calc(4 * var(--dp))}
+.eclk-st1 img{width:calc(25.333 * var(--dp));height:calc(25.333 * var(--dp))}
+.eclk-sep{margin:0 calc(5 * var(--dp))}
+.eclk-patternbox{flex:1;min-height:0;margin-top:calc(2 * var(--dp));display:flex;justify-content:center;overflow:hidden}
+.eclk-pattern{display:block;touch-action:none}
+.eclk-footer{flex:none;display:flex;justify-content:center}
+.eclk-emergency{position:relative;display:flex;align-items:center;gap:calc(8 * var(--dp));min-height:calc(48 * var(--dp));border:0;padding:calc(6.667 * var(--dp)) calc(11.333 * var(--dp)) calc(11.333 * var(--dp)) calc(10.667 * var(--dp));background:none;color:#fff;font-size:calc(14 * var(--dp))}
+.eclk-emergency img,.eclk-emergency span{position:relative;z-index:1}
+.eclk-emergency img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}

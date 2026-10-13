@@ -4,7 +4,7 @@
    joins and caps, to the finger while drawing; the drag-direction arrows (green / red up, turned toward the next cell)
    when the path shows; hit areas 0.6 of a cell (mHitFactor); a cell skipped on a straight line is added
    (detectAndAddHit). Display modes: correct (green), wrong (red), animate (MILLIS_PER_CIRCLE_ANIMATING 700 per cell).
-   EC.pattern(canvas, {onStart, onCellAdded, onDone(cells), stealth, tactile}) returns {clear, show(cells, mode), enable}. */
+   EC.pattern(canvas, {onStart, onCellAdded, onDone(cells), stealth, tactile, scale}) returns {clear, show(cells, mode), enable}. */
 (() => {
   'use strict';
   const img = src => { const i = new Image(); i.src = src; return i; };
@@ -18,7 +18,8 @@
     const ctx = canvas.getContext('2d');
     let cells = [], mode = 'correct', drawing = false, finger = null, enabled = true, animStart = 0, frame = 0;
     const size = () => canvas.width;                   // the canvas is square, in the phone's pixels × ratio
-    const sq = () => size() / 3, k = () => size() / 480;  // bitmaps are hdpi pixels on a 480 px wide view
+    // bitmaps are hdpi pixels (1.5 per dp); opts.scale = canvas pixels per dp (default: the view is 320 dp wide)
+    const sq = () => size() / 3, k = () => (opts.scale || size() / 320) / 1.5;
     const center = (r, cIdx) => [sq() * cIdx + sq() / 2, sq() * r + sq() / 2];
     const has = (r, cIdx) => cells.some(c => c[0] === r && c[1] === cIdx);
     function hit(x, y) {

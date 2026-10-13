@@ -333,3 +333,4 @@ st-lock_anim_10.png	app/Settings.apk	drawable/lock_anim_10
 st-lock_anim_12.png	app/Settings.apk	drawable/lock_anim_12
 st-lock_anim_14.png	app/Settings.apk	drawable/lock_anim_14
 st-ic_btn_next.png	app/Settings.apk	drawable/ic_btn_next
+fw-btn_default_transparent_normal.9.png	framework/framework-res.apk	drawable/btn_default_transparent_normal

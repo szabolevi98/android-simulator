@@ -11,7 +11,17 @@
      beyond it, the target at THRESHOLD * width - targetWidth + tabWidth / 2 (left) or (1 - THRESHOLD) * width - tabWidth / 2
      (right). Grabbing a tab presses it, fades its target in and slides the other tab away; dragging moves tab and bar
      together; crossing the threshold makes them "active" (the confirm drawables, TextAppearance.SlidingTabActive) and
-     triggers; letting go before it slides everything back. */
+     triggers; letting go before it slides everything back.
+   - With an unlock pattern saved and Require pattern on (LockPatternKeyguardView.isSecure), getInitialMode is the
+     UnlockScreen right away, not this one: keyguard_screen_unlock_portrait.xml (#70000000; carrier marginTop 6 dp;
+     DigitalClock 56 sp + am_pm 18 sp; date; divider; status1 | status2 18 sp; the LockPatternView, a square as tall as
+     the space left, centred; Emergency call in Widget.Button.Transparent). updateStatusLines: mInstructions if set
+     (with ic_lock_idle_lock, none when empty), else the battery (ic_lock_idle_charging; plugged in or under
+     LOW_BATTERY_THRESHOLD 20) and / or the next alarm ("|" between, lockscreen_battery_short), else
+     lockscreen_pattern_instructions. A right pattern unlocks at once; a wrong one is shown red with "Sorry, try
+     again" and cleared after PATTERN_CLEAR_TIMEOUT_MS 2000; patterns of MIN_PATTERN_REGISTER_FAIL 3 or more dots count,
+     and FAILED_ATTEMPTS_BEFORE_TIMEOUT 5 of them lock the pattern for FAILED_ATTEMPT_TIMEOUT_MS 30 s (a countdown in
+     status1; LockPatternKeyguardView's showTimeoutDialog). The Google-account fallback (Forgot pattern?) is not built. */
 (() => {
   'use strict';
   const T = () => EC.text('lock');
@@ -37,7 +47,7 @@
   function statusLines(c) {
     const s = c.data.settings, lines = [];
     if (s.charging) lines.push(['fw-ic_lock_idle_charging.png', s.battery >= 100 ? T().t('lockscreen_charged') : T().fmt('lockscreen_plugged_in', c.lang, s.battery)]);
-    else if (s.battery < 15) lines.push(['fw-ic_lock_idle_low_battery.png', T().t('lockscreen_low_battery')]);
+    else if (s.battery < 20) lines.push(['fw-ic_lock_idle_low_battery.png', T().t('lockscreen_low_battery')]);
     const alarm = nextAlarm(c);
     if (alarm) lines.push(['fw-ic_lock_idle_alarm.png', alarm]);
     return lines.map(([icon, text]) => `<div class="eclk-status"><img src="assets/${icon}" alt="">${esc(text)}</div>`).join('');
@@ -58,7 +68,73 @@
       <div class="ecst-tab"><img class="ecst-tab-bg" src="assets/fw-jog_tab_${side}_normal.png" alt=""><img class="ecst-icon" src="assets/${icon}" alt=""></div></div>`;
   }
 
+  // UnlockScreen ---------------------------------------------------------------------------------------------------------
+  const secure = c => !!(c.data.settings.lockPattern && c.data.prefs?.lockenabled);
+  const kg = {instructions: null, failed: 0, total: 0, deadline: 0, clearTimer: 0, countdown: 0};
+  function unlockStatus(c) {
+    const s = c.data.settings, line = (icon, text) => `${icon ? `<img src="assets/${icon}" alt="">` : ''}<span>${esc(text)}</span>`;
+    if (kg.instructions !== null) return `<div class="eclk-st1">${kg.instructions ? line('fw-ic_lock_idle_lock.png', kg.instructions) : ''}</div>`;
+    const battery = s.charging || s.battery < 20, alarm = nextAlarm(c);
+    const charging = () => s.charging ? (s.battery >= 100 ? T().t('lockscreen_charged') : T().fmt('lockscreen_plugged_in', c.lang, s.battery)) : T().t('lockscreen_low_battery');
+    if (battery && !alarm) return `<div class="eclk-st1">${line('fw-ic_lock_idle_charging.png', charging())}</div>`;
+    if (alarm && !battery) return `<div class="eclk-st1">${line('fw-ic_lock_idle_alarm.png', alarm)}</div>`;
+    if (alarm && battery) return `<div class="eclk-st1">${line('fw-ic_lock_idle_alarm.png', alarm)}</div><span class="eclk-sep">|</span><div class="eclk-st1">${line(s.charging ? 'fw-ic_lock_idle_charging.png' : '', T().fmt('lockscreen_battery_short', c.lang, Math.min(100, s.battery)))}</div>`;
+    return `<div class="eclk-st1">${line('fw-ic_lock_idle_lock.png', T().t('lockscreen_pattern_instructions'))}</div>`;
+  }
+  function renderUnlock(c) {
+    const t = time(c);
+    const carrier = c.data.settings.airplane ? T().t('lockscreen_carrier_default') : (c.data.settings.carrier || 'T-Mobile');
+    return `<div class="eclk eclk-unlock"><div class="eclk-head"><div class="eclk-carrier">${esc(carrier)}</div>
+      <div class="eclk-time"><span class="eclk-clock">${esc(t.time)}</span>${t.ampm ? `<span class="eclk-ampm">${t.ampm}</span>` : ''}</div>
+      <div class="eclk-date">${esc(c.dateFormat(T().t('full_wday_month_day_no_year')))}</div></div>
+      <i class="eclk-divider np-fw-divider_horizontal_dark"></i>
+      <div class="eclk-statusrow">${unlockStatus(c)}</div>
+      <div class="eclk-patternbox"><canvas class="eclk-pattern"></canvas></div>
+      <div class="eclk-footer"><button type="button" class="eclk-emergency" data-action="eclk-emergency"><i class="ec-bg np-fw-btn_default_transparent_normal"></i><i class="ec-bg ec-pressed np-fw-btn_default_pressed"></i><img src="assets/fw-ic_emergency.png" alt=""><span>${esc(T().t('lockscreen_emergency_call'))}</span></button></div></div>`;
+  }
+  const refreshStatus = c => { const row = c.el.viewport.querySelector('.eclk-statusrow'); if (row) row.innerHTML = unlockStatus(c); };
+  function lockout(c, view) {
+    view.clear(); view.enable(false);
+    clearInterval(kg.countdown);
+    const tick = () => {
+      const left = Math.round((kg.deadline - Date.now()) / 1000);
+      if (left <= 0) {   // CountDownTimer.onFinish
+        clearInterval(kg.countdown); kg.deadline = 0; kg.failed = 0;
+        kg.instructions = T().t('lockscreen_pattern_instructions'); view.enable(true); refreshStatus(c); return;
+      }
+      kg.instructions = T().fmt('lockscreen_too_many_failed_attempts_countdown', c.lang, left); refreshStatus(c);
+    };
+    tick(); kg.countdown = setInterval(tick, 1000);
+  }
+  function mountUnlock(c, root) {
+    const box = root.querySelector('.eclk-patternbox'), cv = root.querySelector('.eclk-pattern');
+    const side = Math.min(box.clientWidth, box.clientHeight), ratio = window.devicePixelRatio || 1;
+    cv.style.width = cv.style.height = `${side}px`;
+    cv.width = cv.height = Math.round(side * ratio);
+    const view = EC.pattern(cv, {
+      scale: c.el.screen.clientWidth / 320 * ratio, stealth: c.data.prefs.visiblepattern === false, tactile: !!c.data.prefs.tactilefeedback,
+      onStart() { clearTimeout(kg.clearTimer); },
+      onDone(cells) {
+        if (cells.join() === c.data.settings.lockPattern.join()) {   // keyguardDone
+          view.show(cells, 'correct'); kg.instructions = null; kg.failed = 0; c.unlock(); return;
+        }
+        view.show(cells, 'wrong');
+        if (cells.length >= 3) { kg.failed++; kg.total++; }
+        if (kg.failed >= 5) {
+          kg.deadline = Date.now() + 30000; lockout(c, view);
+          // LockPatternKeyguardView.reportFailedPatternAttempt → showTimeoutDialog
+          c.dialog({title: '', html: `<div class="ecui-message">${esc(T().fmt('lockscreen_too_many_failed_attempts_dialog_message', c.lang, kg.total, 30))}</div>`, buttons: [{label: EC.text('framework').t('ok')}]});
+          return;
+        }
+        kg.instructions = T().t('lockscreen_pattern_wrong'); refreshStatus(c);
+        kg.clearTimer = setTimeout(() => view.clear(), 2000);
+      }
+    });
+    if (kg.deadline > Date.now()) lockout(c, view);
+  }
+
   function render(c) {
+    if (secure(c)) return renderUnlock(c);
     const t = time(c), silent = !!c.data.settings.ringer, r = right(silent);
     const carrier = c.data.settings.airplane ? T().t('lockscreen_carrier_default') : (c.data.settings.carrier || 'T-Mobile');
     return `<div class="eclk"><div class="eclk-carrier">${esc(carrier)}</div>
@@ -88,6 +164,7 @@
     toastTimer = setTimeout(() => { box.innerHTML = ''; }, 3500);
   }
   function mount(c, root) {
+    if (root.querySelector('.eclk-pattern')) { mountUnlock(c, root); return; }
     const bar = root.querySelector('.ecst');
     if (!bar) return;
     const px = c.el.screen.clientWidth / 320 / 1.5;
@@ -147,7 +224,13 @@
     app: false,
     render,
     mount,
-    reset() { grab = null; },
+    // onPause / onResume: the status goes back to its default and the pattern is cleared.
+    reset() { grab = null; clearTimeout(kg.clearTimer); if (!kg.deadline) kg.instructions = null; },
+    action(name, el, event, c) {
+      if (name !== 'eclk-emergency') return false;
+      c.overlay('emergency-dialer');   // Phone's EmergencyDialer (not built yet)
+      return true;
+    },
     back: () => true,
     menu: () => true,   // config_disableMenuKeyInLockScreen
     keepAwake: () => false,

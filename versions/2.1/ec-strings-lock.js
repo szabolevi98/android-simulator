@@ -162,5 +162,14 @@ EC.strings('lock', {
 "es": "Pantalla bloqueada",
 "hu": "A képernyő le van zárva.",
 "huFrom": "crespo:framework:lockscreen_screen_locked"
+},
+"lockscreen_battery_short": {
+"res": "passion:framework:lockscreen_battery_short",
+"en": "%d%%",
+"de": "%d %%",
+"fr": "%d %%",
+"es": "%d %%",
+"hu": "%d%%",
+"huFrom": "crespo:framework:lockscreen_battery_short"
 }
 });

@@ -14,5 +14,6 @@
 /* choose_lock_pattern.xml: header 18 sp and footer 14 sp share the space round the square pattern; code_lock_top 2 dp. */
 .ecpt-head,.ecpt-foot{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 calc(10 * var(--dp))}
 .ecpt-head{font-size:calc(18 * var(--dp))}.ecpt-foot{font-size:calc(14 * var(--dp))}
-.ecpt-top{display:block;height:calc(2 * var(--dp));background:url('assets/fw-code_lock_top.9.png') 0 0/100% 100%}
+.ecpt-top{display:block;flex:none;height:calc(2 * var(--dp))}
+.ecpt-bottom{display:block;flex:none;height:calc(8 * var(--dp))}
 .ecpt-pattern{display:block;width:100%;aspect-ratio:1;touch-action:none}

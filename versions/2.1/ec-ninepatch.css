@@ -160,3 +160,5 @@
 .npp-fw-code_lock_top{padding:0 0 0 0}
 .np-fw-code_lock_bottom{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 calc(6 * var(--dp)) calc(8 * var(--dp)) calc(6 * var(--dp));border-image:url('assets/fw-code_lock_bottom.9.png') 0 9 12 9 fill / 0 calc(6 * var(--dp)) calc(8 * var(--dp)) calc(6 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-hdpi/code_lock_bottom.9.png 22x13 */
 .npp-fw-code_lock_bottom{padding:0 0 0 0}
+.np-fw-btn_default_transparent_normal{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(22.6667 * var(--dp)) calc(11.3333 * var(--dp)) calc(24.6667 * var(--dp)) calc(12 * var(--dp));border-image:url('assets/fw-btn_default_transparent_normal.9.png') 34 17 37 18 fill / calc(22.6667 * var(--dp)) calc(11.3333 * var(--dp)) calc(24.6667 * var(--dp)) calc(12 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-hdpi/btn_default_transparent_normal.9.png 36x72 */
+.npp-fw-btn_default_transparent_normal{padding:calc(6.66667 * var(--dp)) calc(11.3333 * var(--dp)) calc(11.3333 * var(--dp)) calc(10.6667 * var(--dp))}

@@ -189,5 +189,23 @@ EC.strings('pattern', {
 "es": "Confirmar patrón guardado",
 "hu": "Erősítse meg az elmentett mintát",
 "huFrom": "crespo:Settings:lockpattern_need_to_unlock"
+},
+"lockpattern_too_many_failed_confirmation_attempts_header": {
+"res": "passion:Settings:lockpattern_too_many_failed_confirmation_attempts_header",
+"en": "Too many incorrect attempts!",
+"de": "Zu viele fehlgeschlagene Versuche!",
+"fr": "Trop de tentatives échouées !",
+"es": "Se han realizado demasiados intentos incorrectos.",
+"hu": "Túl sok helytelen próbálkozás!",
+"huFrom": "crespo:Settings:lockpattern_too_many_failed_confirmation_attempts_header"
+},
+"lockpattern_too_many_failed_confirmation_attempts_footer": {
+"res": "passion:Settings:lockpattern_too_many_failed_confirmation_attempts_footer",
+"en": "Try again in %d seconds.",
+"de": "In %d Sekunden erneut versuchen.",
+"fr": "Réessayer dans %d secondes.",
+"es": "Espera %d segundos y vuelve a intentarlo.",
+"hu": "Próbálja újra %d másodperc múlva.",
+"huFrom": "crespo:Settings:lockpattern_too_many_failed_confirmation_attempts_footer"
 }
 });

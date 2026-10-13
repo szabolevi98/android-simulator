@@ -9,7 +9,12 @@
      Continue off), HelpScreen (how to record, Ok; the animated example L), ChoiceTooShort (too short, Retry, Continue
      off), FirstChoiceValid (pattern entered, Retry, Continue), NeedToConfirm (need to confirm, Cancel off, Confirm off),
      ConfirmWrong (sorry, Cancel, Confirm off), ChoiceConfirmed (confirmed, Cancel, Confirm). A wrong pattern clears after
-     2 s; while drawing the header says lockpattern_recording_inprogress. */
+     2 s; while drawing the header says lockpattern_recording_inprogress.
+   - ConfirmLockPattern (confirm_lock_pattern.xml, no label of its own, so "Settings"): ChooseLockPattern asks for the
+     saved pattern first. Header 18 sp, code_lock_top, the view, code_lock_bottom (8 dp), footer 14 sp. NeedToUnlock
+     (lockpattern_need_to_unlock), NeedToUnlockWrong (lockpattern_need_to_unlock_wrong, cleared after 2 s), and after
+     FAILED_ATTEMPTS_BEFORE_TIMEOUT 5 wrong ones LockedOut for 30 s (the too-many header, a countdown footer). Back
+     cancels it, and ChooseLockPattern finishes with it. */
 (() => {
   'use strict';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[ch]);
@@ -39,9 +44,15 @@
     const st = c.ui.patternStep || 'tutorial', title = P().t('lockpattern_change_lock_pattern_label');
     if (st === 'tutorial') return c.window(title, `<div class="ecpt-page"><div class="ecpt-scroll"><div class="ecpt-title">${esc(P().t('lock_title'))}</div><div class="ecpt-text">${esc(P().t('lock_intro_message'))}</div></div>${textBar(P().t('skip_button_label'), P().t('next_button_label'))}</div>`);
     if (st === 'example') return c.window(title, `<div class="ecpt-page"><div class="ecpt-scroll"><div class="ecpt-title">${esc(P().t('lock_example_title'))}</div><img class="ecpt-anim" src="assets/st-lock_anim_00.png" alt=""><div class="ecpt-text">${esc(P().t('lock_example_message'))}</div></div>${textBar(P().t('skip_button_label'), P().t('next_button_label'))}</div>`);
+    if (st === 'verify') {
+      const out = confirm.deadline > Date.now();
+      const head = out ? P().t('lockpattern_too_many_failed_confirmation_attempts_header') : P().t(confirm.wrong ? 'lockpattern_need_to_unlock_wrong' : 'lockpattern_need_to_unlock');
+      const foot = out ? P().fmt('lockpattern_too_many_failed_confirmation_attempts_footer', c.lang, Math.ceil((confirm.deadline - Date.now()) / 1000)) : '';
+      return c.window(EC.text('settings').t('settings_label'), `<div class="ecpt-record"><div class="ecpt-head">${esc(head)}</div><i class="ecpt-top np-fw-code_lock_top"></i><canvas class="ecpt-pattern"></canvas><i class="ecpt-bottom np-fw-code_lock_bottom"></i><div class="ecpt-foot">${esc(foot)}</div></div>`);
+    }
     const stage = c.ui.patternStage || 'intro', [header, left, right, footer] = STAGES[stage];
     const head = c.ui.patternDrawing ? P().t('lockpattern_recording_inprogress') : stage === 'short' ? P().fmt(header, c.lang, 4) : P().t(header);
-    return c.window(title, `<div class="ecpt-record"><div class="ecpt-head">${esc(head)}</div><i class="ecpt-top"></i><canvas class="ecpt-pattern"></canvas><div class="ecpt-foot">${esc(footer && !c.ui.patternDrawing ? P().t(footer) : '')}</div>${bar(left, right)}</div>`);
+    return c.window(title, `<div class="ecpt-record"><div class="ecpt-head">${esc(head)}</div><i class="ecpt-top np-fw-code_lock_top"></i><canvas class="ecpt-pattern"></canvas><div class="ecpt-foot">${esc(footer && !c.ui.patternDrawing ? P().t(footer) : '')}</div>${bar(left, right)}</div>`);
   }
   function mount(c, root) {
     clearInterval(animTimer);
@@ -51,6 +62,7 @@
       animTimer = setInterval(() => { if (!el.isConnected) { clearInterval(animTimer); return; } i = (i + 1) % frames.length; el.src = `assets/st-lock_anim_${frames[i]}.png`; }, 400);
       return;
     }
+    if (st === 'verify') { mountVerify(c, root); return; }
     if (st !== 'record') return;
     const cv = root.querySelector('.ecpt-pattern'), w = cv.clientWidth, ratio = window.devicePixelRatio || 1;
     cv.width = cv.height = Math.round(w * ratio);
@@ -70,6 +82,35 @@
     view.enable(STAGES[stage][4]);
     if (c.ui.patternShown) view.show(c.ui.patternShown.cells, c.ui.patternShown.mode);
     if (stage === 'help') view.show([0, 1, 4, 7], 'animate');
+  }
+  // ConfirmLockPattern
+  const confirm = {wrong: false, count: 0, deadline: 0, timer: 0};
+  function mountVerify(c, root) {
+    const cv = root.querySelector('.ecpt-pattern'), ratio = window.devicePixelRatio || 1;
+    cv.width = cv.height = Math.round(cv.clientWidth * ratio);
+    const v = EC.pattern(cv, {
+      tactile: !!c.data.prefs?.tactilefeedback, stealth: c.data.prefs?.visiblepattern === false,
+      onStart() { clearTimeout(clearTimer); },
+      onDone(cells) {
+        if (cells.join() === c.data.settings.lockPattern.join()) {   // RESULT_OK: on to ChooseLockPattern
+          Object.assign(confirm, {wrong: false, count: 0}); c.ui.patternStep = 'record'; c.ui.patternStage = 'intro'; c.render(); return;
+        }
+        v.show(cells, 'wrong');
+        if (++confirm.count >= 5) { confirm.deadline = Date.now() + 30000; confirm.count = 0; c.render(); return; }
+        confirm.wrong = true;
+        root.querySelector('.ecpt-head').textContent = P().t('lockpattern_need_to_unlock_wrong');
+        clearTimer = setTimeout(() => v.clear(), 2000);
+      }
+    });
+    if (confirm.deadline > Date.now()) {   // handleAttemptLockout: the view off, the footer counting down
+      v.enable(false);
+      clearInterval(confirm.timer);
+      confirm.timer = setInterval(() => {
+        if (!cv.isConnected) { clearInterval(confirm.timer); return; }
+        if (confirm.deadline <= Date.now()) { clearInterval(confirm.timer); confirm.deadline = 0; confirm.wrong = false; c.render(); return; }
+        root.querySelector('.ecpt-foot').textContent = P().fmt('lockpattern_too_many_failed_confirmation_attempts_footer', c.lang, Math.ceil((confirm.deadline - Date.now()) / 1000));
+      }, 1000);
+    }
   }
   function setText(c, root) {
     const stage = c.ui.patternStage || 'intro', [header, , , footer] = STAGES[stage];
@@ -111,5 +152,5 @@
     menu(c) { if ((c.ui.patternStage || 'intro') === 'intro' && c.ui.patternStep === 'record') go(c, 'help'); return true; },
     back(c) { reset(c); return false; }
   });
-  EC.patternFlow = {start(c) { c.ui.patternStep = c.data.settings.lockPattern ? 'record' : 'tutorial'; c.ui.patternStage = 'intro'; c.ui.patternShown = null; c.open('choose-pattern'); }};
+  EC.patternFlow = {start(c) { confirm.wrong = false; c.ui.patternStep = c.data.settings.lockPattern ? 'verify' : 'tutorial'; c.ui.patternStage = 'intro'; c.ui.patternShown = null; c.open('choose-pattern'); }};
 })();

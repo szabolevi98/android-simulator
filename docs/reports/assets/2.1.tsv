@@ -43,6 +43,7 @@ versions/2.1/assets/fw-btn_default_pressed.9.png	c2feb54002fc6b80	copy	passion:/
 versions/2.1/assets/fw-btn_default_selected.9.png	e47da962f5fc6067	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_selected.9.png	drawable-hdpi		e47da962f5fc6067
 versions/2.1/assets/fw-btn_default_small_normal.9.png	921fc1664c489c2c	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_small_normal.9.png	drawable-hdpi		921fc1664c489c2c
 versions/2.1/assets/fw-btn_default_small_pressed.9.png	b2f03135c7b5b0eb	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_small_pressed.9.png	drawable-hdpi		b2f03135c7b5b0eb
+versions/2.1/assets/fw-btn_default_transparent_normal.9.png	bcee92681a10160b	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_default_transparent_normal.9.png	drawable-hdpi		bcee92681a10160b
 versions/2.1/assets/fw-btn_radio_off.png	c2cda041fece401e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_radio_off.png	drawable-hdpi		c2cda041fece401e
 versions/2.1/assets/fw-btn_radio_off_pressed.png	a8f3398611d095ad	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_radio_off_pressed.png	drawable-hdpi		a8f3398611d095ad
 versions/2.1/assets/fw-btn_radio_on.png	588e7fef990e9292	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/btn_radio_on.png	drawable-hdpi		588e7fef990e9292

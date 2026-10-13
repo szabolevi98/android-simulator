@@ -42,7 +42,8 @@
     'voice-dialer': ['Voice Dialer', 'VoiceDialer.apk'], 'news-weather': ['News and Weather', 'GenieWidget.apk'],
     'car-home': ['Car Home', 'CarDock.apk'], 'google-voice': ['Google Voice', 'googlevoice.apk'], goggles: ['Goggles', 'GoogleGoggles.apk'],
     facebook: ['Facebook', 'Facebook.apk'], 'amazon-mp3': ['Amazon MP3', 'com.amazon.mp3.apk'], quickoffice: ['Quickoffice', 'PassionQuickOffice.apk'],
-    'sound-recorder': ['Sound Recorder', 'SoundRecorder.apk'], 'live-wallpapers': ['Live wallpapers', 'LiveWallpapersPicker.apk']
+    'sound-recorder': ['Sound Recorder', 'SoundRecorder.apk'], 'live-wallpapers': ['Live wallpapers', 'LiveWallpapersPicker.apk'],
+    'emergency-dialer': ['Emergency dialer', 'Phone.apk · EmergencyDialer']
   };
 
   const i18n = window.AndroidI18n;
