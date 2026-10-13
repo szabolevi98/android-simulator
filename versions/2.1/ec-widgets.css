@@ -1,0 +1,18 @@
+/* Android 2.1 home screen widgets (ec-widgets.js), in dp; each fills its 4 x 1 cell span like an AppWidgetHostView. */
+.eclh-widget{display:flex}
+.ecwg-power,.ecwg-news{position:relative;flex:1;display:flex}
+/* Power control: five equal buttons, 1 dp dividers; icon (32 dp, centerInside) over the indicator (fitXY). */
+.ecwg-row{position:relative;z-index:1;flex:1;display:flex}
+.ecwg-toggle{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;border:0;padding:0;background:none}
+.ecwg-toggle>img:not(.ecwg-ind){position:relative;z-index:1;flex:1;min-height:0;width:100%;object-fit:none;object-position:center;transform:scale(.6667)}
+.ecwg-ind{position:relative;z-index:1;display:block;width:100%;height:calc(10 * var(--dp))}
+.ecwg-divider{position:relative;z-index:1;width:calc(1 * var(--dp));background:url('assets/st-appwidget_settings_divider.9.png') 0 0/100% 100%}
+/* News and Weather: the 75 dp weather column (45 dp icon, 22 dp bold temperature) and the 8 s story flipper. */
+.ecwg-weather{position:relative;z-index:1;flex:none;width:calc(75 * var(--dp));display:flex;flex-direction:column;align-items:center;justify-content:space-between;border:0;padding:calc(4 * var(--dp)) 0 calc(4 * var(--dp)) calc(4 * var(--dp));background:none;color:#fff!important}
+.ecwg-weather img{width:calc(45 * var(--dp));height:calc(45 * var(--dp))}
+.ecwg-weather span{font-weight:700;font-size:calc(22 * var(--dp));line-height:1}
+.ecwg-flip{position:relative;z-index:1;flex:1;min-width:0;border:0;padding:calc(4 * var(--dp)) calc(3 * var(--dp)) calc(2 * var(--dp)) calc(7 * var(--dp));background:none;text-align:left;overflow:hidden}
+.ecwg-story{position:relative;z-index:1;display:flex;flex-direction:column;margin:calc(1 * var(--dp)) calc(3 * var(--dp)) calc(2 * var(--dp));padding-left:calc(4 * var(--dp));transition:opacity .3s,transform .3s}
+.ecwg-story.out{opacity:0;transform:translateY(-30%)}
+.ecwg-headline{color:#fff;font-size:calc(14 * var(--dp));line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-right:calc(3 * var(--dp))}
+.ecwg-source{color:#bebebe;font-size:calc(11 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
