@@ -36,7 +36,7 @@
     ['Google opens Nexus One sales to customers in more countries', 'CNET · 5 hours ago'],
     ['Avatar becomes the highest-grossing film of all time', 'BBC News · 6 hours ago']
   ];
-  let flipTimer = 0, story = 0;
+  let flipTimer = Date.now(), story = 0;   // the first flip comes flipInterval after the widget shows
   EC.register('widget:news-weather', {
     render(c) {
       const [headline, source] = STORIES[story % STORIES.length];
