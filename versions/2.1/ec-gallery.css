@@ -1,0 +1,35 @@
+/* Android 2.1 Gallery (ec-gallery.js), in dp: Gallery3D's textures laid out after the 2010 screenshots. */
+.ecga{position:absolute;inset:0;overflow:hidden;background:#000;color:#fff}
+.ecga-bg{position:absolute;inset:-20px;background:center/cover no-repeat;filter:blur(calc(14 * var(--dp))) brightness(.55)}
+.ecga-path{position:absolute;z-index:3;left:0;top:0;height:calc(34 * var(--dp));display:flex;cursor:pointer}
+.ecga-seg{position:relative;display:flex;height:100%}
+.ecga-join{height:100%;width:calc(18 * var(--dp))}
+.ecga-segbody{display:flex;align-items:center;gap:calc(6 * var(--dp));height:100%;padding:0 calc(4 * var(--dp)) 0 calc(10 * var(--dp));background:url('assets/ga-pathbar_bg.png') 0 0/100% 100%;font-size:calc(19 * var(--dp));white-space:nowrap}
+.ecga-seg:not(.first) .ecga-segbody{padding-left:calc(4 * var(--dp))}
+.ecga-segbody img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.ecga-cap{height:100%;width:calc(19 * var(--dp))}
+.ecga-cam{position:absolute;z-index:3;right:0;top:0;width:calc(100 * var(--dp));height:calc(100 * var(--dp));border:0;padding:0;background:none}
+.ecga-cam img{width:100%;height:100%}
+.ecga-albums{position:absolute;left:0;right:0;top:calc(60 * var(--dp));display:flex;flex-direction:column;align-items:center}
+.ecga-stack{position:relative;width:calc(118 * var(--dp));height:calc(94 * var(--dp));border:0;padding:0;background:none}
+.ecga-sitem{position:absolute;left:calc(10 * var(--dp));top:calc(10 * var(--dp));width:calc(96 * var(--dp));height:calc(72 * var(--dp));transform:rotate(var(--r));box-shadow:0 calc(2 * var(--dp)) calc(4 * var(--dp)) #0008}
+.ecga-sitem img,.ecga-cell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ecga-frame{position:absolute;inset:0;width:100%;height:100%}
+.ecga-sbadge{position:absolute;left:calc(14 * var(--dp));bottom:calc(10 * var(--dp));width:calc(22 * var(--dp));height:calc(22 * var(--dp))}
+.ecga-slabel{margin-top:calc(4 * var(--dp));font-size:calc(17 * var(--dp));font-weight:700;white-space:pre;text-shadow:0 0 calc(3 * var(--dp)) #000}
+.ecga-empty{margin:calc(60 * var(--dp)) calc(20 * var(--dp)) 0;text-align:center;font-size:calc(18 * var(--dp))}
+.ecga-mode{position:absolute;z-index:3;right:0;top:0;width:calc(100 * var(--dp));height:calc(93.333 * var(--dp))}
+.ecga-grid{position:absolute;left:0;right:0;top:calc(70 * var(--dp));bottom:calc(60 * var(--dp));overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:calc(10 * var(--dp));padding-bottom:calc(10 * var(--dp));scrollbar-width:none}
+.ecga-cell{position:relative;flex:none;width:calc(96 * var(--dp));height:calc(72 * var(--dp));border:calc(1.5 * var(--dp)) solid #d8d8d8;padding:0;background:#000;box-sizing:content-box;box-shadow:0 calc(2 * var(--dp)) calc(4 * var(--dp)) #0008}
+.ecga-vid{width:calc(32 * var(--dp))!important;height:calc(32 * var(--dp))!important;inset:auto!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)}
+.ecga-scroller{position:absolute;left:50%;bottom:calc(4 * var(--dp));width:calc(104 * var(--dp));height:calc(30.667 * var(--dp));transform:translateX(-50%)}
+.ecga-full .ecga-pic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ecga-pic img{width:100%;transition:transform .2s}
+.ecga-zoom{position:absolute;z-index:3;right:0;top:0;display:flex;flex-direction:column;background:#0008;border-bottom-left-radius:calc(6 * var(--dp))}
+.ecga-zoom button{border:0;padding:0;background:none}
+.ecga-zoom img{display:block;width:calc(43.333 * var(--dp));height:calc(43.333 * var(--dp))}
+.ecga-bar{position:absolute;z-index:3;left:0;right:0;bottom:0;height:calc(38.667 * var(--dp));display:flex;background:url('assets/ga-selection_menu_bg.png') 0 0/100% 100%}
+.ecga-div{flex:none;width:1px;background:url('assets/ga-selection_menu_divider.png') 0 0/100% 100%}
+.ecga-bbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:calc(8 * var(--dp));border:0;padding:0;background:none;color:#fff;font-size:calc(18 * var(--dp))}
+.ecga-bbtn:active{background:#ffffff22}
+.ecga-bbtn img{width:calc(30 * var(--dp));height:calc(30 * var(--dp))}

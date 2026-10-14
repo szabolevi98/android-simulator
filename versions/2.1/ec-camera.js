@@ -105,7 +105,7 @@
       switch (name) {
         case 'eccm-shutter': shoot(c); return true;
         case 'eccm-switch': if (!recording) { video = !video; c.render(); } return true;
-        case 'eccm-review': c.ui.galleryOpen = (c.data.photos || []).length - 1; c.open('gallery'); return true;
+        case 'eccm-review': c.ui.galleryOpen = (c.data.photos || []).length - 1; c.ui.galleryMenu = false; c.open('gallery', 'photo'); return true;
         case 'eccm-menu': c.ui.cameraMenu = c.ui.cameraMenu ? null : true; c.render(); return true;
         case 'eccm-pref': c.ui.cameraMenu = el.dataset.key; c.render(); return true;
         case 'eccm-pick': c.data.cameraPrefs = {...(c.data.cameraPrefs || {}), [el.dataset.key]: el.dataset.value}; c.ui.cameraMenu = true; c.save(); c.render(); return true;

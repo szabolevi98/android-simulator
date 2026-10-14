@@ -96,3 +96,6 @@ pref_camera_video_duration_title savingImage array:pref_camera_flashmode_entries
 array:pref_camera_coloreffect_entries array:pref_camera_recordlocation_entries array:pref_camera_picturesize_entries
 array:pref_camera_jpegquality_entries array:pref_camera_focusmode_entries array:pref_camera_videoquality_entries
 array:pref_camera_video_duration_entries
+[gallery] Gallery3D
+app_name camera slideshow menu share delete more details set_as crop rotate_left rotate_right show_on_map confirm_delete
+are_you_sure cancel no_items
