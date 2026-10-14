@@ -48,3 +48,22 @@
 .ecph-badge{position:relative;z-index:1;flex:none;width:calc(50 * var(--dp));height:calc(56 * var(--dp));margin-right:calc(8 * var(--dp));padding:calc(4 * var(--dp)) calc(4 * var(--dp)) calc(10 * var(--dp))}
 .ecph-badge img{position:relative;z-index:1;display:block;width:100%;height:100%}
 .ecph-name{position:relative;z-index:1;flex:1;min-width:0;font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* ViewContactActivity: the header on title_bar_medium (the badge, 18 sp bold name, the big star), the data rows. */
+.eccv{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.eccv-head{position:relative;flex:none;display:flex;align-items:center;padding:calc(2 * var(--dp)) calc(5 * var(--dp)) calc(2 * var(--dp)) 0}
+.eccv-head .ecph-badge{margin-left:calc(-1 * var(--dp))}
+.eccv-name{position:relative;z-index:1;flex:1;min-width:0;font-size:calc(18 * var(--dp));font-weight:700;text-shadow:0 0 calc(2.75 * var(--dp)) #000000bb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eccv-star{position:relative;z-index:1;border:0;padding:0;background:none}
+.eccv-star img{display:block;width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.eccv-list{position:relative;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.eccv-shadow{position:absolute;left:0;right:0;top:0;height:calc(10 * var(--dp));pointer-events:none}
+.eccv-row{display:flex;min-height:calc(64 * var(--dp))}
+.eccv-main{position:relative;flex:1;min-width:0;display:flex;align-items:center;border:0;padding:0 0 0 calc(9 * var(--dp));background:none;color:#fff;text-align:left}
+.eccv-main>:not(.ec-bg){position:relative;z-index:1}
+.eccv-text{flex:1;min-width:0;display:flex;flex-direction:column;margin-left:calc(5 * var(--dp));padding:calc(5 * var(--dp)) 0 calc(7 * var(--dp))}
+.eccv-t1{font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eccv-t2{font-size:calc(14 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eccv-act{flex:none;width:calc(30 * var(--dp));height:calc(30 * var(--dp));margin:0 calc(14 * var(--dp))}
+.eccv-sms{flex:none;border:0;padding:0 calc(14 * var(--dp));background:#000;display:flex;align-items:center}
+.eccv-sms:active{background:url('assets/fw-list_selector_background_pressed.9.png') 0 0/100% 100%}
+.eccv-sms img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}

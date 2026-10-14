@@ -365,5 +365,167 @@ EC.strings('contacts', {
 "other": "%d napja",
 "one": "tegnap"
 }
+},
+"call_home": {
+"res": "passion:Contacts:call_home",
+"en": "Call home",
+"de": "Anruf (privat)",
+"fr": "Appeler domicile",
+"es": "Llamar a casa",
+"hu": "Otthoni szám hívása",
+"huFrom": "crespo:Contacts:call_home"
+},
+"call_mobile": {
+"res": "passion:Contacts:call_mobile",
+"en": "Call mobile",
+"de": "Anruf (mobil)",
+"fr": "Appeler le mobile",
+"es": "Llamar al móvil",
+"hu": "Mobil hívása",
+"huFrom": "crespo:Contacts:call_mobile"
+},
+"call_work": {
+"res": "passion:Contacts:call_work",
+"en": "Call work",
+"de": "Anruf (Arbeit)",
+"fr": "Appeler bureau",
+"es": "Llamar al trabajo",
+"hu": "Munkahelyi telefon hívása",
+"huFrom": "crespo:Contacts:call_work"
+},
+"call_other": {
+"res": "passion:Contacts:call_other",
+"en": "Call other",
+"de": "Anruf (sonstige)",
+"fr": "Appeler autre",
+"es": "Llamar a otro",
+"hu": "Egyéb szám hívása",
+"huOwn": true
+},
+"sms_home": {
+"res": "passion:Contacts:sms_home",
+"en": "Text home",
+"de": "Text (privat)",
+"fr": "Envoyer un SMS au domicile",
+"es": "Enviar un mensaje de texto a casa",
+"hu": "SMS küldése haza",
+"huFrom": "crespo:Contacts:sms_home"
+},
+"sms_mobile": {
+"res": "passion:Contacts:sms_mobile",
+"en": "Text mobile",
+"de": "Text (mobil)",
+"fr": "Envoyer un SMS vers mobile",
+"es": "Enviar SMS a móvil",
+"hu": "SMS küldése mobiltelefonra",
+"huFrom": "crespo:Contacts:sms_mobile"
+},
+"sms_work": {
+"res": "passion:Contacts:sms_work",
+"en": "Text work",
+"de": "Text (Arbeit)",
+"fr": "Envoyer un SMS au bureau",
+"es": "Enviar SMS a trabajo",
+"hu": "SMS küldése munkahelyi telefonra",
+"huFrom": "crespo:Contacts:sms_work"
+},
+"sms_other": {
+"res": "passion:Contacts:sms_other",
+"en": "Text other",
+"de": "Text (sonstige)",
+"fr": "Envoyer un SMS à autre",
+"es": "Enviar un mensaje de texto a otro",
+"hu": "SMS küldése egyéb számra",
+"huOwn": true
+},
+"email_home": {
+"res": "passion:Contacts:email_home",
+"en": "Email home",
+"de": "E-Mail (privat)",
+"fr": "Env. e-mail domicile",
+"es": "Enviar email a casa",
+"hu": "E-mail küldése haza",
+"huFrom": "crespo:Contacts:email_home"
+},
+"email_work": {
+"res": "passion:Contacts:email_work",
+"en": "Email work",
+"de": "E-Mail (Arbeit)",
+"fr": "Env. e-mail bureau",
+"es": "Enviar email a trabajo",
+"hu": "E-mail küldése munkahelyi címre",
+"huFrom": "crespo:Contacts:email_work"
+},
+"email_other": {
+"res": "passion:Contacts:email_other",
+"en": "Email other",
+"de": "E-Mail (sonstige)",
+"fr": "Envoyer un e-mail à autre adresse",
+"es": "Enviar correo electrónico",
+"hu": "E-mail küldése egyéb címre",
+"huOwn": true
+},
+"menu_share": {
+"res": "passion:Contacts:menu_share",
+"en": "Share",
+"de": "Weiterleiten",
+"fr": "Partager",
+"es": "Compartir",
+"hu": "Megosztás",
+"huFrom": "crespo:Contacts:menu_share"
+},
+"menu_editContact": {
+"res": "passion:Contacts:menu_editContact",
+"en": "Edit contact",
+"de": "Kontakt bearbeiten",
+"fr": "Modifier le contact",
+"es": "Editar contacto",
+"hu": "Névjegy szerkesztése",
+"huFrom": "crespo:Contacts:menu_editContact"
+},
+"menu_deleteContact": {
+"res": "passion:Contacts:menu_deleteContact",
+"en": "Delete contact",
+"de": "Kontakt löschen",
+"fr": "Supprimer le contact",
+"es": "Eliminar contacto",
+"hu": "Névjegy törlése",
+"huFrom": "crespo:Contacts:menu_deleteContact"
+},
+"menu_contactOptions": {
+"res": "passion:Contacts:menu_contactOptions",
+"en": "Options",
+"de": "Optionen",
+"fr": "Options",
+"es": "Opciones",
+"hu": "Beállítások",
+"huFrom": "crespo:Contacts:menu_contactOptions"
+},
+"deleteConfirmation": {
+"res": "passion:Contacts:deleteConfirmation",
+"en": "This contact will be deleted.",
+"de": "Dieser Kontakt wird gelöscht.",
+"fr": "Ce contact sera supprimé.",
+"es": "El contacto se eliminará.",
+"hu": "A névjegy törlésre kerül.",
+"huFrom": "crespo:Contacts:deleteConfirmation"
+},
+"deleteConfirmation_title": {
+"res": "passion:Contacts:deleteConfirmation_title",
+"en": "Delete",
+"de": "Löschen",
+"fr": "Supprimer",
+"es": "Suprimir",
+"hu": "Törlés",
+"huFrom": "crespo:Contacts:deleteConfirmation_title"
+},
+"no_contact_details": {
+"res": "passion:Contacts:no_contact_details",
+"en": "No additional information for this contact",
+"de": "Keine Zusatzinformationen zu diesem Kontakt",
+"fr": "Aucune autre information pour ce contact",
+"es": "No hay información adicional para este contacto.",
+"hu": "Nincsenek további adatok ennél a névjegynél",
+"huFrom": "crespo:Contacts:no_contact_details"
 }
 });

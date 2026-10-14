@@ -206,6 +206,45 @@
     // Launching: Phone opens its last tab, Contacts the list.
     enter(c) { c.ui.phoneTab = tabFor === 'contacts' ? 'contacts' : (c.ui.lastPhoneTab || 'dialer'); }
   });
+  // ViewContactActivity (contact_card_layout.xml): ContactHeaderWidget (title_bar_medium; the QuickContactBadge, the name
+  // in 18 sp bold with a #bb000000 shadow, the btn_star checkbox) over the data list (list_item_text_icons.xml on
+  // title_bar_shadow: "Call mobile" 22 sp over the number 14 sp, sym_action_call at the right, then divider_vertical_dark
+  // and the Text button sym_action_sms; "Email other" with sym_action_email). Menu (menu/view.xml): Edit contact, Share,
+  // Options, Delete contact (deleteConfirmation).
+  const KIND = ['home', 'mobile', 'work', 'other'];
+  function contactView(c) {
+    const p = (c.data.contacts || []).find(x => x.id === c.ui.contactId);
+    if (!p) return '';
+    const kind = KIND[p.phoneType ?? 1] || 'other';
+    const row = (title, sub, action, icon, extra = '') => `<div class="eccv-row"><button type="button" class="eccv-main" data-action="${action}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span class="eccv-text"><span class="eccv-t1">${esc(title)}</span><span class="eccv-t2">${esc(sub)}</span></span><img class="eccv-act" src="assets/${icon}" alt=""></button>${extra}</div><i class="ecph-div"></i>`;
+    const rows = (p.phone ? row(P().t(`call_${kind}`), p.phone, 'eccv-call', 'fw-sym_action_call.png', `<i class="ecph-vdiv"></i><button type="button" class="eccv-sms" data-action="eccv-sms"><img src="assets/ct-sym_action_sms.png" alt=""></button>`) : '')
+      + (p.email ? row(P().t('email_other'), p.email, 'eccv-email', 'fw-sym_action_email.png') : '');
+    return `<div class="eccv"><div class="eccv-head"><i class="ec-bg np-fw-title_bar_medium"></i>${badge()}<span class="eccv-name">${esc(p.name)}</span>
+        <button type="button" class="eccv-star" data-action="eccv-star"><img src="assets/fw-btn_star_big_${p.starred ? 'on' : 'off'}.png" alt=""></button></div>
+      <div class="eccv-list"><i class="eccv-shadow np-ct-title_bar_shadow"></i>${rows || `<div class="ecph-empty top">${esc(P().t('no_contact_details'))}</div>`}</div></div>`;
+  }
+  EC.register('contact-view', {
+    title: 'Contacts',
+    render: contactView,
+    action(name, el, event, c) {
+      const p = (c.data.contacts || []).find(x => x.id === c.ui.contactId);
+      if (!p || !name.startsWith('eccv-')) return false;
+      if (name === 'eccv-star') { p.starred = !p.starred; c.save(); c.render(); }
+      else if (name === 'eccv-call') call(c, p.phone);
+      else if (name === 'eccv-sms') { c.ui.composeTo = p.phone; c.open('messaging'); }
+      else if (name === 'eccv-email') { c.ui.composeTo = p.email; c.open('email'); }
+      return true;
+    },
+    menu(c) {
+      const p = (c.data.contacts || []).find(x => x.id === c.ui.contactId), F = EC.text('framework');
+      c.menu([{label: P().t('menu_editContact'), icon: 'fw-ic_menu_edit.png', action: () => c.open('contact-edit')},
+        {label: P().t('menu_share'), icon: 'fw-ic_menu_share.png', action: () => c.open('contacts-import')},
+        {label: P().t('menu_contactOptions'), icon: 'ct-ic_menu_mark.png', action: () => c.open('contact-edit')},
+        {label: P().t('menu_deleteContact'), icon: 'fw-ic_menu_delete.png', action: () => c.dialog({title: P().t('deleteConfirmation_title'), icon: 'fw-ic_dialog_alert.png', message: P().t('deleteConfirmation'),
+          buttons: [{label: F.t('ok'), action: () => { c.data.contacts = c.data.contacts.filter(x => x !== p); c.save(); c.back(); }}, {label: F.t('cancel')}]})}]);
+      return true;
+    }
+  });
   EC.register('phone', spec('phone'));
   EC.register('contacts', spec('contacts'));
   document.addEventListener('DOMContentLoaded', () => {

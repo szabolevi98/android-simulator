@@ -481,3 +481,12 @@ pn-ic_in_call_touch_dialpad.png	app/Phone.apk	drawable/ic_in_call_touch_dialpad
 pn-ic_in_call_touch_dialpad_close.png	app/Phone.apk	drawable/ic_in_call_touch_dialpad_close
 pn-picture_unknown.png	app/Phone.apk	drawable/picture_unknown
 fw-stat_sys_phone_call.png	framework/framework-res.apk	drawable/stat_sys_phone_call
+fw-title_bar_medium.9.png	framework/framework-res.apk	drawable/title_bar_medium
+fw-btn_star_big_off.png	framework/framework-res.apk	drawable/btn_star_big_off
+fw-btn_star_big_on.png	framework/framework-res.apk	drawable/btn_star_big_on
+fw-sym_action_email.png	framework/framework-res.apk	drawable/sym_action_email
+fw-ic_menu_edit.png	framework/framework-res.apk	drawable/ic_menu_edit
+fw-ic_menu_share.png	framework/framework-res.apk	drawable/ic_menu_share
+ct-sym_action_sms.png	app/Contacts.apk	drawable/sym_action_sms
+ct-ic_menu_mark.png	app/Contacts.apk	drawable/ic_menu_mark
+ct-title_bar_shadow.9.png	app/Contacts.apk	drawable/title_bar_shadow
