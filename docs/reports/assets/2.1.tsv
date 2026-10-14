@@ -326,6 +326,9 @@ versions/2.1/assets/fw-popup_full_dark.9.png	3a32613ebda2d599	copy	passion:/syst
 versions/2.1/assets/fw-popup_top_bright.9.png	54f87f6a938d04fa	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/popup_top_bright.9.png	drawable-hdpi		54f87f6a938d04fa
 versions/2.1/assets/fw-popup_top_dark.9.png	c147dcf14d5c82f0	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/popup_top_dark.9.png	drawable-hdpi		c147dcf14d5c82f0
 versions/2.1/assets/fw-pressed_application_background_static.png	9f95a5220ed3091b	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/pressed_application_background_static.png	drawable-hdpi		9f95a5220ed3091b
+versions/2.1/assets/fw-progressbar_indeterminate1.png	1bdd87110b576a49	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/progressbar_indeterminate1.png	drawable-hdpi		1bdd87110b576a49
+versions/2.1/assets/fw-progressbar_indeterminate2.png	75cb833ead02abb2	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/progressbar_indeterminate2.png	drawable-hdpi		75cb833ead02abb2
+versions/2.1/assets/fw-progressbar_indeterminate3.png	1bdd87110b576a49	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/progressbar_indeterminate3.png	drawable-hdpi		1bdd87110b576a49
 versions/2.1/assets/fw-quickcontact_badge_pressed.9.png	4adbfb1e99a85a23	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/quickcontact_badge_pressed.9.png	drawable-hdpi		4adbfb1e99a85a23
 versions/2.1/assets/fw-quickcontact_badge_unpressed.9.png	5db01a7117b97f39	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/quickcontact_badge_unpressed.9.png	drawable-hdpi		5db01a7117b97f39
 versions/2.1/assets/fw-search_dropdown_background.9.png	b203c7ff891158b2	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/search_dropdown_background.9.png	drawable-hdpi		b203c7ff891158b2

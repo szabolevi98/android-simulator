@@ -31,7 +31,7 @@
 .ecui-title{flex:1;min-width:0;font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ecui-content{flex:0 1 auto!important;min-height:0;display:flex;flex-direction:column}
 .ecui-scroll{position:relative;z-index:1;overflow-y:auto;min-height:0}
-.ecui-message{padding:calc(2 * var(--dp)) calc(10 * var(--dp)) calc(12 * var(--dp)) calc(14 * var(--dp));font-size:calc(18 * var(--dp));line-height:1.3}
+.ecui-message{padding:calc(2 * var(--dp)) calc(10 * var(--dp)) calc(12 * var(--dp)) calc(14 * var(--dp));font-size:calc(18 * var(--dp));line-height:1.3;white-space:pre-line}
 .ecui-message::before{content:"";display:block;height:calc(5 * var(--dp))}
 /* select_dialog_item: 22 sp black, at least 64 dp, padding 14 / 15 dp; the choice indicator at the right. */
 .ecui-li{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(15 * var(--dp)) 0 calc(14 * var(--dp));background:none;color:#000!important;font-size:calc(22 * var(--dp));text-align:left}

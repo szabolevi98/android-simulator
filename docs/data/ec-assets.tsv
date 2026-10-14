@@ -652,3 +652,7 @@ fw-ic_menu_today.png	framework/framework-res.apk	drawable/ic_menu_today
 fw-ic_menu_week.png	framework/framework-res.apk	drawable/ic_menu_week
 ca-btn_circle_normal.png	app/Calendar.apk	drawable/btn_circle_normal
 ca-btn_circle_pressed.png	app/Calendar.apk	drawable/btn_circle_pressed
+# Email.apk account setup; framework indeterminate progress
+fw-progressbar_indeterminate1.png	framework/framework-res.apk	drawable/progressbar_indeterminate1
+fw-progressbar_indeterminate2.png	framework/framework-res.apk	drawable/progressbar_indeterminate2
+fw-progressbar_indeterminate3.png	framework/framework-res.apk	drawable/progressbar_indeterminate3
