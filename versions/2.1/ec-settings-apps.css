@@ -65,3 +65,7 @@
 .ecsx-tut-bar{flex:none;display:flex;padding-top:calc(5 * var(--dp));background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
 .ecsx-tut-bar>span{flex:1}
 .ecsx-tut-bar .ecui-button{flex:none;min-width:calc(110 * var(--dp))}
+.ecsx-word{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(10 * var(--dp));background:none;color:#fff;font-size:calc(22 * var(--dp));text-align:left}
+.ecsx-word span{position:relative;z-index:1}
+.ecsx-ud-empty{padding:calc(10 * var(--dp));color:#fff;font-size:calc(18 * var(--dp))}
+.ecsx-ud-field{margin:0 calc(20 * var(--dp))}

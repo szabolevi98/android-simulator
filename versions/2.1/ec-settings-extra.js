@@ -130,4 +130,48 @@
       return base.action(name, el, event, c);
     };
   });
+
+  // User dictionary (UserDictionarySettings, a ListActivity over the UserDictionary provider): the words A–Z, or
+  // user_dict_settings_empty_text; Menu: Add (ic_menu_add) → "Add to dictionary"; holding a word: Edit / Delete.
+  const words = c => (c.data.userWords ||= []);
+  function wordDialog(c, index) {
+    const w = words(c), edit = index !== undefined;
+    c.dialog({title: t(edit ? 'user_dict_settings_edit_dialog_title' : 'user_dict_settings_add_dialog_title'), icon: null,
+      html: `<div class="ecpf-dlg"><span class="ecwf-edit ecsx-ud-field npp-fw-textfield_default"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_selected"></i><input class="ecwf-input" value="${esc(edit ? w[index] : '')}" autocomplete="off"></span></div>`,
+      buttons: [{label: EC.text('framework').t('ok'), action: (c2, d, root) => {
+        const v = (root.querySelector('input')?.value || '').trim();
+        if (edit) w.splice(index, 1);
+        if (v && !w.includes(v)) w.push(v);
+        c.save(); c.render();
+      }}, {label: EC.text('framework').t('cancel')}]});
+  }
+  PAGES2['user-dictionary'] = c => {
+    const w = words(c).slice().sort((a, b) => a.localeCompare(b, c.locale()));
+    return c.window(t('user_dict_settings_titlebar'), w.length ? `<div class="ecpf-list">${w.map(word => `<button type="button" class="ecsx-word" data-action="ecsx-word" data-word="${esc(word)}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span>${esc(word)}</span></button><i class="ecpf-divider"></i>`).join('')}</div>`
+      : `<div class="ecsx-ud-empty">${esc(t('user_dict_settings_empty_text'))}</div>`);
+  };
+  EC.settingsTargets = {...EC.settingsTargets, UserDictionarySettings: c => show(c, 'user-dictionary')};
+  document.addEventListener('DOMContentLoaded', () => {
+    const m = EC.module('settings'), base = {menu: m.menu, mount: m.mount, action: m.action};
+    m.menu = c => {
+      if (stack(c)?.at(-1) !== 'user-dictionary') return base.menu(c);
+      c.menu([{label: t('user_dict_settings_add_menu_title'), icon: 'fw-ic_menu_add.png', action: () => wordDialog(c)}]);
+      return true;
+    };
+    // Holding a word opens its context menu (the word as title, Edit / Delete).
+    m.mount = (c, root) => {
+      base.mount?.(c, root);
+      for (const el of root.querySelectorAll('.ecsx-word')) {
+        let timer = 0;
+        el.addEventListener('pointerdown', () => { timer = setTimeout(() => {
+          c.suppressClick = Date.now() + 400;
+          const index = words(c).indexOf(el.dataset.word);
+          c.dialog({title: el.dataset.word, icon: null, items: [t('user_dict_settings_context_menu_edit_title'), t('user_dict_settings_context_menu_delete_title')],
+            onItem: i => { if (i === 0) wordDialog(c, index); else { words(c).splice(index, 1); c.save(); c.render(); } }});
+        }, 500); });
+        for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) el.addEventListener(ev, () => clearTimeout(timer));
+      }
+    };
+    m.action = (name, el, event, c) => name === 'ecsx-word' ? true : base.action(name, el, event, c);
+  });
 })();

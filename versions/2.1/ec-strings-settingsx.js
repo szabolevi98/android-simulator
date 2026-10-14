@@ -798,5 +798,68 @@ EC.strings('settingsx', {
 "es": "Lista de FDN",
 "hu": "FDN lista",
 "huFrom": "crespo:Phone:fdnListLabel"
+},
+"user_dict_settings_titlebar": {
+"res": "passion:Settings:user_dict_settings_titlebar",
+"en": "User dictionary",
+"de": "Wörterbuch des Nutzers",
+"fr": "Dictionnaire personnel",
+"es": "Diccionario del usuario",
+"hu": "Felhasználói szótár",
+"huFrom": "crespo:Settings:user_dict_settings_titlebar"
+},
+"user_dict_settings_add_menu_title": {
+"res": "passion:Settings:user_dict_settings_add_menu_title",
+"en": "Add",
+"de": "Hinzufügen",
+"fr": "Ajouter",
+"es": "Añadir",
+"hu": "Hozzáadás",
+"huFrom": "crespo:Settings:user_dict_settings_add_menu_title"
+},
+"user_dict_settings_add_dialog_title": {
+"res": "passion:Settings:user_dict_settings_add_dialog_title",
+"en": "Add to dictionary",
+"de": "Ins Wörterbuch",
+"fr": "Ajouter au dictionnaire",
+"es": "Añadir al diccionario",
+"hu": "Hozzáadás a szótárhoz",
+"huFrom": "crespo:Settings:user_dict_settings_add_dialog_title"
+},
+"user_dict_settings_edit_dialog_title": {
+"res": "passion:Settings:user_dict_settings_edit_dialog_title",
+"en": "Edit word",
+"de": "Wort bearbeiten",
+"fr": "Modifier le mot",
+"es": "Editar palabra",
+"hu": "Szó szerkesztése",
+"huFrom": "crespo:Settings:user_dict_settings_edit_dialog_title"
+},
+"user_dict_settings_context_menu_edit_title": {
+"res": "passion:Settings:user_dict_settings_context_menu_edit_title",
+"en": "Edit",
+"de": "Bearbeiten",
+"fr": "Modifier",
+"es": "Editar",
+"hu": "Szerkesztés",
+"huFrom": "crespo:Settings:user_dict_settings_context_menu_edit_title"
+},
+"user_dict_settings_context_menu_delete_title": {
+"res": "passion:Settings:user_dict_settings_context_menu_delete_title",
+"en": "Delete",
+"de": "Löschen",
+"fr": "Supprimer",
+"es": "Suprimir",
+"hu": "Törlés",
+"huFrom": "crespo:Settings:user_dict_settings_context_menu_delete_title"
+},
+"user_dict_settings_empty_text": {
+"res": "passion:Settings:user_dict_settings_empty_text",
+"en": "You do not have any words in the user dictionary. You can add a word through the menu.",
+"de": "Sie haben keine Wörter im Nutzerwörterbuch. Sie können über das Menü ein Wort hinzufügen.",
+"fr": "Votre dictionnaire personnel ne contient aucun mot. Vous pouvez ajouter un mot via le menu.",
+"es": "No tienes ninguna palabra en el diccionario del usuario. Puedes añadir una palabra a través del menú.",
+"hu": "Nincsenek szavak a felhasználói szótárban. Új szavakat a menüből adhat hozzá.",
+"huFrom": "crespo:Settings:user_dict_settings_empty_text"
 }
 });
