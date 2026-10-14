@@ -126,6 +126,46 @@
   });
   function closeDialog(c) { dialog = null; if (c.ui.overlay === 'ui-dialog') c.closeOverlay(); }
 
+  // SearchDialog (framework search_bar.xml): at the top on search_plate_global (padding 12 / 7 / 12 / 16 dp), the
+  // searchable's 36 dp icon, the textfield_search field, the go button (btn_search_dialog with ic_btn_search) and the
+  // voice button (btn_search_dialog_voice, ic_btn_speak_now); suggestions below on search_dropdown_background
+  // (search_dropdown_item_icons_2line: 32 dp icon, 18 sp text over 14 sp); the rest of the screen dimmed.
+  // c.searchDialog({icon, hint, value, suggest(q) → [{icon, text1, text2, value}], onGo(text), voice}).
+  let search = null;
+  function renderSearch() {
+    const s = search;
+    return `<div class="ecui-sd-dim" data-action="ecui-sd-close"></div><form class="ecui-sd npp-fw-search_plate_global" data-form="ecui-search"><i class="ec-bg np-fw-search_plate_global"></i>
+      <div class="ecui-sd-row"><img class="ecui-sd-app" src="assets/${esc(s.icon)}" alt=""><span class="ecui-sd-field npp-fw-textfield_search_default"><i class="ec-bg np-fw-textfield_search_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_search_selected"></i><input class="ecui-sd-input" data-ime="${esc(s.ime || 'normal')}" value="${esc(s.value || '')}" placeholder="${esc(s.hint || '')}" autocomplete="off" spellcheck="false"></span>
+        <button type="submit" class="ecui-sd-go npp-fw-btn_search_dialog_default"><i class="ec-bg np-fw-btn_search_dialog_default"></i><i class="ec-bg ec-pressed np-fw-btn_search_dialog_pressed"></i><img src="assets/fw-ic_btn_search.png" alt=""></button>
+        <button type="button" class="ecui-sd-voice" data-action="ecui-sd-voice"><i class="ec-bg np-fw-btn_search_dialog_voice_default"></i><i class="ec-bg ec-pressed np-fw-btn_search_dialog_voice_pressed"></i><img src="assets/fw-ic_btn_speak_now.png" alt=""></button></div></form>
+      <div class="ecui-sd-list npp-fw-search_dropdown_background" hidden><i class="ec-bg np-fw-search_dropdown_background"></i><div class="ecui-sd-rows"></div></div>`;
+  }
+  function suggestRows(c, root) {
+    const input = root.querySelector('.ecui-sd-input'), box = root.querySelector('.ecui-sd-list'), rows = search?.suggest?.(input.value) || [];
+    box.hidden = !rows.length;
+    box.querySelector('.ecui-sd-rows').innerHTML = rows.map((r, i) => `<button type="button" class="ecui-sd-item" data-action="ecui-sd-pick" data-index="${i}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i>${r.icon ? `<img src="assets/${esc(r.icon)}" alt="">` : ''}<span><span class="t1">${esc(r.text1)}</span>${r.text2 ? `<span class="t2">${esc(r.text2)}</span>` : ''}</span></button>`).join('');
+    search.rows = rows;
+  }
+  EC.register('ui-search', {
+    app: false,
+    render: () => search ? renderSearch() : '',
+    mount(c, root) {
+      const input = root.querySelector('.ecui-sd-input');
+      if (!input) return;
+      input.addEventListener('input', () => suggestRows(c, root));
+      root.querySelector('form').addEventListener('submit', event => { event.preventDefault(); const go = search.onGo, v = input.value; closeSearch(c); go?.(v); });
+      setTimeout(() => { input.focus(); input.select(); input.dispatchEvent(new FocusEvent('focusin', {bubbles: true})); suggestRows(c, root); }, 30);
+    },
+    action(name, el, event, c) {
+      if (name === 'ecui-sd-close') { closeSearch(c); return true; }
+      if (name === 'ecui-sd-voice') { const v = search.voice; closeSearch(c); v ? v() : c.open('voice-search'); return true; }
+      if (name === 'ecui-sd-pick') { const r = search.rows[Number(el.dataset.index)], go = search.onGo; closeSearch(c); go?.(r.value ?? r.text1); return true; }
+      return false;
+    },
+    back(c) { closeSearch(c); return true; }
+  });
+  function closeSearch(c) { search = null; c.imeBack?.(); if (c.ui.overlay === 'ui-search') c.closeOverlay(); }
+
   EC.register('ui', {
     app: false,
     init(c) {
@@ -133,6 +173,7 @@
       // TextAppearance.WindowTitle 14 sp bold white with a #bb000000 shadow) and windowContentOverlay title_bar_shadow.
       c.window = (title, inner, cls = '') => `<div class="ecwin ${cls}"><div class="ecwin-title npp-fw-title_bar"><i class="ec-bg np-fw-title_bar"></i><span>${esc(title)}</span></div><div class="ecwin-body"><div class="ecwin-content">${inner}</div><img class="ecwin-shadow" src="assets/fw-title_bar_shadow.9.png" alt=""></div></div>`;
       c.menu = items => { menu = {items}; c.overlay('ui-menu'); };
+      c.searchDialog = spec => { search = {...spec}; c.overlay('ui-search'); };
       c.dialog = spec => { dialog = {...spec}; c.overlay('ui-dialog'); return dialog; };
       c.closeDialog = () => closeDialog(c);
       // Widget.SeekBar: progress_horizontal (20 dp high) with the seek_thumb (normal / pressed), thumbOffset 8 dp.

@@ -82,3 +82,7 @@ app_label new_message create_new_message menu_compose_new menu_preferences menu_
 confirm_delete_conversation delete has_draft sent_on name_colon to_hint send type_to_compose_text_enter_to_send
 messagelist_sender_self add_subject add_attachment menu_insert_smiley discard delete_thread all_threads menu_call
 menu_view_contact framework/search_go framework/cancel
+[browser] Browser
+application_name new_tab active_tabs tab_bookmarks tab_most_visited tab_history title_bar_loading page_info stop reload
+back forward save_to_bookmarks find_dot select_dot share_page menu_view_download menu_preferences empty_history
+search_hint open_bookmark new_window add_new_bookmark array:bookmarks

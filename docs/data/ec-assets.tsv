@@ -525,3 +525,34 @@ lk-sym_keyboard_feedback_delete.png	app/VoiceSearchWithKeyboard.apk	drawable/sym
 lk-sym_keyboard_feedback_mic.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_feedback_mic
 lk-sym_keyboard_feedback_return.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_feedback_return
 fw-keyboard_key_feedback_background.9.png	framework/framework-res.apk	drawable/keyboard_key_feedback_background
+# Browser.apk (title_bar.xml, menus, bookmarks)
+br-search_plate_browser.9.png	app/Browser.apk	drawable/search_plate_browser
+br-app_web_browser_sm.png	app/Browser.apk	drawable/app_web_browser_sm
+br-browser_thumbnail.png	app/Browser.apk	drawable/browser_thumbnail
+br-ic_btn_bookmarks.png	app/Browser.apk	drawable/ic_btn_bookmarks
+br-ic_btn_stop_v2.png	app/Browser.apk	drawable/ic_btn_stop_v2
+br-ic_list_bookmark.png	app/Browser.apk	drawable/ic_list_bookmark
+br-ic_menu_new_window.png	app/Browser.apk	drawable/ic_menu_new_window
+br-ic_menu_bookmarks.png	app/Browser.apk	drawable/ic_menu_bookmarks
+br-ic_menu_windows.png	app/Browser.apk	drawable/ic_menu_windows
+br-ic_menu_add_bookmark.png	app/Browser.apk	drawable/ic_menu_add_bookmark
+br-ic_tab_bookmarks_selected.png	app/Browser.apk	drawable/ic_tab_bookmarks_selected
+br-ic_tab_bookmarks_unselected.png	app/Browser.apk	drawable/ic_tab_bookmarks_unselected
+br-ic_tab_history_selected.png	app/Browser.apk	drawable/ic_tab_history_selected
+br-ic_tab_history_unselected.png	app/Browser.apk	drawable/ic_tab_history_unselected
+br-ic_tab_most_visited_selected.png	app/Browser.apk	drawable/ic_tab_most_visited_selected
+br-ic_tab_most_visited_unselected.png	app/Browser.apk	drawable/ic_tab_most_visited_unselected
+br-ic_launcher_browser.png	app/Browser.apk	drawable/ic_launcher_browser
+br-ic_close_tab.png	app/Browser.apk	drawable/ic_close_tab
+br-ic_list_new_window.png	app/Browser.apk	drawable/ic_list_new_window
+fw-ic_menu_refresh.png	framework/framework-res.apk	drawable/ic_menu_refresh
+fw-ic_menu_stop.png	framework/framework-res.apk	drawable/ic_menu_stop
+fw-ic_menu_forward.png	framework/framework-res.apk	drawable/ic_menu_forward
+# framework SearchDialog (search_bar.xml)
+fw-search_plate_global.9.png	framework/framework-res.apk	drawable/search_plate_global
+fw-textfield_search_default.9.png	framework/framework-res.apk	drawable/textfield_search_default
+fw-textfield_search_selected.9.png	framework/framework-res.apk	drawable/textfield_search_selected
+fw-btn_search_dialog_default.9.png	framework/framework-res.apk	drawable/btn_search_dialog_default
+fw-btn_search_dialog_pressed.9.png	framework/framework-res.apk	drawable/btn_search_dialog_pressed
+fw-search_dropdown_background.9.png	framework/framework-res.apk	drawable/search_dropdown_background
+fw-ic_btn_search.png	framework/framework-res.apk	drawable/ic_btn_search
