@@ -120,8 +120,9 @@
     };
   }
 
-  const LIVE = {nexus};
-  let canvas = null, ctx = null, live = null, liveId = '', offset = 0, timer = 0, size = '';
+  // Other files add their live wallpapers here (ec-livewallpapers.js); a renderer is {resize(W, H), draw(ctx, offset, now), tap?}.
+  const LIVE = EC.liveWallpapers = {nexus};
+  let canvas = null, ctx = null, live = null, liveId = '', offset = 0.5, timer = 0, size = '';
   function ensure(c) {
     if (!canvas) {
       canvas = document.createElement('canvas'); canvas.id = 'ec-wallpaper'; canvas.setAttribute('aria-hidden', 'true');
@@ -142,7 +143,7 @@
     if (key !== size) { size = key; canvas.width = Math.round(W * ratio); canvas.height = Math.round(H * ratio); live.resize(W, H); }
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     live.draw(ctx, offset, performance.now());
-    timer = setTimeout(() => frame(c), 45);
+    timer = setTimeout(() => frame(c), live.interval || 45);
   }
   // Home, lock and the drawer show it, and any screen whose module says it has a wallpaper window (Theme.Wallpaper).
   const visible = c => !document.hidden && !c.ui.sleeping && (['home', 'lock', 'drawer'].includes(c.ui.view) || !!EC.module(c.ui.view)?.wallpaper?.(c));
@@ -156,6 +157,8 @@
         tap(x, y) { if (live?.tap) { const k = 480 / c.el.screen.clientWidth; live.tap(x * k, y * k, performance.now()); } },
         refresh() { ensure(c); wake(c); }
       };
+      // Launcher2 starts on its middle screen: xOffset 0.5 until the home screen scrolls.
+      c.wallpaper.offset(0.5);
       ensure(c);
       document.addEventListener('visibilitychange', () => wake(c));
     },
