@@ -1,0 +1,6 @@
+/* Android 2.1 Voice Search / Voice Dialer dialogs (ec-voice.js), in dp / sp. */
+.ecvs-behind{position:absolute;inset:0}
+.ecvs{display:flex;flex-direction:column;align-items:center;padding:calc(5 * var(--dp)) 0 calc(15 * var(--dp))}
+.ecvs-text{margin-top:calc(5 * var(--dp));font-size:calc(28 * var(--dp));text-align:center}
+.ecvs-mic{width:calc(72 * var(--dp));height:calc(72 * var(--dp));margin:calc(8 * var(--dp)) 0}
+.ecvs-brand{width:calc(86 * var(--dp));height:calc(25.333 * var(--dp))}

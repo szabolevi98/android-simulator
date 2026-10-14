@@ -685,3 +685,8 @@ versions/2.1/assets/st-lock_anim_08.png	4980e0cd0585cfdf	copy	passion:/system/ap
 versions/2.1/assets/st-lock_anim_10.png	3e11b4e60b1941d5	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_10.png	drawable-hdpi		3e11b4e60b1941d5
 versions/2.1/assets/st-lock_anim_12.png	a4bc38246e6c9345	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_12.png	drawable-hdpi		a4bc38246e6c9345
 versions/2.1/assets/st-lock_anim_14.png	f8dae7a137da6c0b	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_14.png	drawable-hdpi		f8dae7a137da6c0b
+versions/2.1/assets/vs-ic_dialog_voice_input.png	7d212e12048b3f85	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/ic_dialog_voice_input.png	drawable-hdpi		7d212e12048b3f85
+versions/2.1/assets/vs-ic_logo_google_white.png	9a464914148e4e2d	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/ic_logo_google_white.png	drawable-hdpi		9a464914148e4e2d
+versions/2.1/assets/vs-speak_now_level0.png	ad65cb9878330758	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/speak_now_level0.png	drawable-hdpi		ad65cb9878330758
+versions/2.1/assets/vs-speak_now_level3.png	f0fe34b9fff9ff7f	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/speak_now_level3.png	drawable-hdpi		f0fe34b9fff9ff7f
+versions/2.1/assets/vs-speak_now_level6.png	4e1b3d808f919ce6	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/speak_now_level6.png	drawable-hdpi		4e1b3d808f919ce6

@@ -667,3 +667,9 @@ mk-ic_search_square_button.png	app/Vending.apk	drawable/ic_search_square_button
 mk-btn_square_normal.png	app/Vending.apk	drawable/btn_square_normal
 mk-btn_square_pressed.png	app/Vending.apk	drawable/btn_square_pressed
 mk-ic_network_error.png	app/Vending.apk	drawable/ic_network_error
+# VoiceSearchWithKeyboard RecognitionActivity, VoiceDialer
+vs-speak_now_level0.png	app/VoiceSearchWithKeyboard.apk	drawable/speak_now_level0
+vs-speak_now_level3.png	app/VoiceSearchWithKeyboard.apk	drawable/speak_now_level3
+vs-speak_now_level6.png	app/VoiceSearchWithKeyboard.apk	drawable/speak_now_level6
+vs-ic_logo_google_white.png	app/VoiceSearchWithKeyboard.apk	drawable/ic_logo_google_white
+vs-ic_dialog_voice_input.png	app/VoiceSearchWithKeyboard.apk	drawable/ic_dialog_voice_input

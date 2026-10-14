@@ -122,3 +122,6 @@ Vending/networking_error_title Vending/networking_error Vending/network_error_li
 Gmail/no_conversations Gmail/network_error Gmail/cannot_connect Gmail/retry Talk/signing_in_wait Talk/no_network Talk/sign_in
 YouTube/loading_elipses YouTube/connection_error_title YouTube/no_network YouTube/ok Maps/LOADING Maps/NET_FAIL_TITLE
 Maps/NET_FAIL_BODY
+[voice] VoiceSearchWithKeyboard VoiceDialer
+listening working network_error try_again cancel appName VoiceDialer/listening VoiceDialer/please_try_again
+VoiceDialer/examples VoiceDialer/voiceDialer
