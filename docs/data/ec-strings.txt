@@ -125,3 +125,6 @@ Maps/NET_FAIL_BODY
 [voice] VoiceSearchWithKeyboard VoiceDialer
 listening working network_error try_again cancel appName VoiceDialer/listening VoiceDialer/please_try_again
 VoiceDialer/examples VoiceDialer/voiceDialer
+[cardock] CarDock
+application_name maps navigation voice contacts search home try_saying voice_hint_navigate voice_hint_map
+voice_hint_directions voice_hint_call menu_item_dock_settings

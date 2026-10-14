@@ -153,3 +153,9 @@ IMAP	IMAP
 Connection problem.	Kapcsolódási probléma.
 There is no network connection right now. Please try again later.	Jelenleg nincs hálózati kapcsolat. Próbálja újra később.
 Connection problem	Kapcsolódási probléma
+# Car Home: Voice Search understood English only in 2010, so its hints stay English
+View Map	Térkép megtekintése
+“<font color="#2e4987">navigate to</font> pizza in palo alto”	“<font color="#2e4987">navigate to</font> pizza in palo alto”
+“<font color="#2e4987">map of</font> gas stations”	“<font color="#2e4987">map of</font> gas stations”
+“<font color="#2e4987">directions to</font> 76 9th avenue, new york”	“<font color="#2e4987">directions to</font> 76 9th avenue, new york”
+“<font color="#2e4987">call</font> john doe, mobile phone”	“<font color="#2e4987">call</font> john doe, mobile phone”
