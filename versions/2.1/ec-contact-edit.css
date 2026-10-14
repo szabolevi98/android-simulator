@@ -1,0 +1,47 @@
+/* Android 2.1 Contacts editor (ec-contact-edit.js): act_edit.xml, item_contact_editor.xml, item_kind_section.xml,
+   item_generic_editor.xml (dp; 18 sp fields and titles, 24 sp account type). */
+.ecce{display:flex;flex-direction:column;height:100%;background:#000}
+.ecce-scroll{flex:1;min-height:0;overflow-y:auto}
+.ecce-header{position:relative;height:calc(64 * var(--dp))}
+.ecce-bar{position:absolute;left:0;right:0;top:0;height:calc(4 * var(--dp));background:#666}
+.ecce-hicon{position:absolute;left:calc(7 * var(--dp));top:calc(9 * var(--dp));width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.ecce-account{position:absolute;left:calc(62 * var(--dp));right:0;top:calc(5 * var(--dp));color:#fff;font-size:calc(24 * var(--dp));line-height:calc(32 * var(--dp));white-space:nowrap;overflow:hidden}
+.ecce-hdiv{position:absolute;left:0;right:0;bottom:0}
+.ecce-photo-row{padding:calc(10 * var(--dp)) 0 0 calc(12 * var(--dp))}
+.ecce-photo{position:relative;display:flex;align-items:center;justify-content:center;width:calc(76 * var(--dp));height:calc(76 * var(--dp));border:0;padding:0;background:none}
+.ecce-photo img{position:relative;z-index:1;width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+/* GenericEditorView: label 100 dp, fields 4 dp from it, the round buttons (57 x 72 px) at the right; 10 dp right padding. */
+.ecce-editor{display:flex;align-items:stretch;padding-right:calc(10 * var(--dp))}
+.ecce-name{margin:calc(6 * var(--dp)) 0 calc(4 * var(--dp))}
+.ecce-label{flex:none!important;align-self:flex-start;width:calc(100 * var(--dp));text-align:left;padding-left:calc(12 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecce-fields{flex:1;min-width:0;margin-left:calc(4 * var(--dp));display:flex;flex-direction:column;justify-content:center}
+.ecce-field{margin:0;min-height:calc(48 * var(--dp))}
+.ecce-field .ecwf-input{height:calc(24 * var(--dp))}
+.ecce-side{flex:none;display:flex;flex-direction:column;justify-content:space-between}
+.ecce-round{position:relative;display:block;flex:none;width:calc(38 * var(--dp));height:calc(48 * var(--dp));border:0;padding:0;background:none}
+.ecce-round img{position:absolute;inset:0;width:100%;height:100%}
+.ecce-round .p{opacity:0}.ecce-round:active .p{opacity:1}.ecce-round:active .n{opacity:0}
+.ecce-round.hidden{visibility:hidden}
+/* KindSectionView: header 14 dp in, 2 dp above and below, 10 dp from the right; rows then 6 dp. */
+.ecce-kind-head{display:flex;align-items:center;width:calc(100% - 24 * var(--dp));margin:calc(2 * var(--dp)) calc(10 * var(--dp)) calc(2 * var(--dp)) calc(14 * var(--dp));border:0;padding:0;background:none;color:#fff;font-size:calc(18 * var(--dp));text-align:left}
+.ecce-kind-head span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecce-kind-head .ecce-round{pointer-events:none}
+.ecce-kind-head:active .ecce-round .p{opacity:1}.ecce-kind-head:active .ecce-round .n{opacity:0}
+.ecce-kind{min-height:calc(64 * var(--dp))}
+.ecce-rows{padding-bottom:calc(6 * var(--dp))}
+.ecce-more-head{display:flex;align-items:center;gap:calc(10 * var(--dp));width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 0 0 calc(10 * var(--dp));background:none;color:#fff;font-size:calc(18 * var(--dp));text-align:left}
+.ecce-more-head img{width:calc(32 * var(--dp));height:calc(36 * var(--dp))}
+.ecce-dlg{padding:calc(5 * var(--dp)) calc(5 * var(--dp)) calc(10 * var(--dp))}
+/* ButtonBar: bottom_bar, padding 5 / 4 / 1 dp, two weighted buttons. */
+.ecce-bar-bottom{flex:none;display:flex;padding:calc(5 * var(--dp)) calc(4 * var(--dp)) calc(1 * var(--dp));background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+/* JoinContactActivity: contacts_list_content_join.xml (title_bar_medium, padding 5 dp, the 48 dp ic_join, 10 dp, the
+   title medium with its #bb000000 shadow and the blurb small, 2 dp closer, two lines at most). */
+.ecce-join{display:flex;flex-direction:column;height:100%;background:#000}
+.ecce-join-head{position:relative;flex:none;display:flex;align-items:center;padding:0 calc(5 * var(--dp))}
+.ecce-join-head img{position:relative;width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.ecce-join-head span{position:relative;display:flex;flex-direction:column;padding-left:calc(10 * var(--dp));color:#fff;text-shadow:0 0 calc(2.75 * var(--dp)) #000000bb}
+.ecce-join-head b{font-weight:400;font-size:calc(18 * var(--dp))}
+.ecce-join-head small{margin-top:calc(-2 * var(--dp));font-size:calc(14 * var(--dp));color:#bebebe;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ecce-join .ecph-list{flex:1;min-height:0;overflow-y:auto}
+.ecce-showall{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(10 * var(--dp));background:none;color:#fff;font-size:calc(22 * var(--dp));text-align:left}
+.ecce-showall span{position:relative;z-index:1}

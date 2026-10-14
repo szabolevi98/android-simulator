@@ -47,7 +47,7 @@
     const out = d.length <= 3 ? d : d.length <= 7 ? `${d.slice(0, 3)}-${d.slice(3)}` : `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}`;
     return one ? `1-${out}` : out;
   };
-  const contactFor = (c, number) => (c.data.contacts || []).find(p => digitsOnly(p.phone) === digitsOnly(number));
+  const contactFor = (c, number) => (c.data.contacts || []).find(p => EC.contactModel.raws(p).some(r => (r.phone || []).some(x => digitsOnly(x.value) === digitsOnly(number))));
 
   // DTMF: the two tones of each key (ToneGenerator), TONE_LENGTH_MS 150, quieter than full scale (TONE_RELATIVE_VOLUME 50).
   const DTMF = {1: [697, 1209], 2: [697, 1336], 3: [697, 1477], 4: [770, 1209], 5: [770, 1336], 6: [770, 1477], 7: [852, 1209], 8: [852, 1336], 9: [852, 1477], '*': [941, 1209], 0: [941, 1336], '#': [941, 1477]};
@@ -114,8 +114,8 @@
     if (!list.length) return `<div class="ecph-empty">${esc(P().t('recentCalls_empty'))}</div>`;
     const icons = {1: 'incoming', 2: 'outgoing', 3: 'missed'};
     return list.sort((a, b) => b.when - a.when).map(x => {
-      const p = contactFor(c, x.number), types = P().t('phoneTypes');
-      const label = p ? types[p.phoneType ?? 1] : '';
+      const p = contactFor(c, x.number), entry = p && EC.contactModel.raws(p).flatMap(r => r.phone || []).find(y => digitsOnly(y.value) === digitsOnly(x.number));
+      const label = entry ? EC.contactModel.typeLabel('phone', entry) : '';
       return `<div class="ecph-call"><button type="button" class="ecph-call-main" data-action="ecph-calldetail" data-id="${x.id}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i>
           <span class="ecph-line1">${esc(p ? p.name : x.number)}</span>
           <span class="ecph-line2">${p ? `<b>${esc(label)}</b><span>${esc(x.number)}</span>` : ''}</span>
@@ -188,7 +188,7 @@
       const tab = c.ui.phoneTab || 'dialer', F = EC.text('framework');
       if (tab === 'dialer') {
         if (!c.ui.dialDigits) return true;
-        c.menu([{label: P().t('recentCalls_addToContact'), icon: 'fw-ic_menu_add.png', action: () => c.open('contact-edit')},
+        c.menu([{label: P().t('recentCalls_addToContact'), icon: 'fw-ic_menu_add.png', action: () => EC.contactEdit.open(c, null, {phone: c.ui.dialDigits})},
           {label: P().t('add_2sec_pause'), icon: 'ct-ic_menu_2sec_pause.png', action: () => setDigits(c, c.ui.dialDigits + ',')},
           {label: P().t('wait'), icon: 'ct-ic_menu_wait.png', action: () => setDigits(c, c.ui.dialDigits + ';')}]);
       } else if (tab === 'calls') {
@@ -196,7 +196,7 @@
         c.menu([{label: P().t('recentCalls_deleteAll'), icon: 'fw-ic_menu_delete.png', action: () => { c.data.calls = []; c.save(); c.render(); }}]);
       } else {
         c.menu([{label: P().t('menu_search'), icon: 'fw-ic_menu_search.png', action: () => c.open('search')},
-          {label: P().t('menu_newContact'), icon: 'fw-ic_menu_add.png', action: () => c.open('contact-edit')},
+          {label: P().t('menu_newContact'), icon: 'fw-ic_menu_add.png', action: () => EC.contactEdit.open(c, null)},
           {label: P().t('menu_displayGroup'), icon: 'fw-ic_menu_allfriends.png', action: () => c.open('contacts-display')},
           {label: P().t('menu_accounts'), icon: 'ct-ic_menu_account_list.png', action: () => c.open('settings')},
           {label: P().t('menu_import_export'), icon: 'ct-ic_menu_import_export.png', action: () => c.open('contacts-import')}]);
@@ -208,17 +208,39 @@
   });
   // ViewContactActivity (contact_card_layout.xml): ContactHeaderWidget (title_bar_medium; the QuickContactBadge, the name
   // in 18 sp bold with a #bb000000 shadow, the btn_star checkbox) over the data list (list_item_text_icons.xml on
-  // title_bar_shadow: "Call mobile" 22 sp over the number 14 sp, sym_action_call at the right, then divider_vertical_dark
-  // and the Text button sym_action_sms; "Email other" with sym_action_email). Menu (menu/view.xml): Edit contact, Share,
-  // Options, Delete contact (deleteConfirmation).
-  const KIND = ['home', 'mobile', 'work', 'other'];
+  // title_bar_shadow: the action header in 22 sp over the data in 14 sp, the kind's icon at the right). buildEntries puts
+  // the rows in sections, in this order: phones ("Call mobile", with the Text button sym_action_sms behind
+  // divider_vertical_dark — mShowSmsLinksForAllPhones is on), emails ("Email home"), IM ("Chat using AIM"), postal
+  // addresses ("View home address", 4 lines), organizations (company over title) and nicknames, then notes (10 lines) and
+  // websites. Phones call, emails write, Google Talk opens Talk, addresses Maps, websites the Browser; the rest do nothing.
+  // Menu (menu/view.xml): Edit contact, Share, Options, Delete contact (deleteConfirmation).
+  const PHONE_CALL = {1: 'call_home', 2: 'call_mobile', 3: 'call_work', 4: 'call_fax_work', 5: 'call_fax_home', 6: 'call_pager', 7: 'call_other', 8: 'call_callback', 9: 'call_car',
+    10: 'call_company_main', 11: 'call_isdn', 12: 'call_main', 13: 'call_other_fax', 14: 'call_radio', 15: 'call_telex', 16: 'call_tty_tdd', 17: 'call_work_mobile', 18: 'call_work_pager', 19: 'call_assistant', 20: 'call_mms'};
+  const EMAIL = {1: 'email_home', 2: 'email_work', 3: 'email_other', 4: 'email_mobile'}, MAP = {1: 'map_home', 2: 'map_work', 3: 'map_other'};
+  const CHAT = ['chat_aim', 'chat_msn', 'chat_yahoo', 'chat_skype', 'chat_qq', 'chat_gtalk', 'chat_icq', 'chat_jabber'];
+  // StructuredPostal's formatted address (the provider's PostalSplitter.join): street, PO box, neighborhood,
+  // "city, region postcode", country, a line each.
+  const postalText = x => [x.street, x.pobox, x.neighborhood, [x.city, [x.region, x.postcode].filter(Boolean).join(' ')].filter(Boolean).join(', '), x.country].map(v => String(v || '').trim()).filter(Boolean).join('\n');
+  function entries(c, p) {
+    const raws = EC.contactModel.raws(p), all = kind => raws.flatMap(r => r[kind] || []), E = EC.text('contactedit');
+    // CommonInflater: a custom type (and Assistant) puts its label into the "… %s" string.
+    const fmt = (key, label) => P().fmt(key, c.lang, label || '');
+    const out = [];
+    for (const x of all('phone')) out.push({head: PHONE_CALL[x.type] ? (x.type === 19 ? fmt('call_assistant', x.label) : P().t(PHONE_CALL[x.type])) : fmt('call_custom', x.label), body: x.value, icon: 'fw-sym_action_call.png', action: 'eccv-call', value: x.value, sms: true});
+    for (const x of all('email')) out.push({head: EMAIL[x.type] ? P().t(EMAIL[x.type]) : fmt('email_custom', x.label), body: x.value, icon: 'fw-sym_action_email.png', action: 'eccv-email', value: x.value});
+    for (const x of all('im')) out.push({head: P().t(CHAT[x.type] || 'chat'), body: x.value, icon: 'fw-sym_action_chat.png', action: x.type === 5 ? 'eccv-talk' : 'eccv-none', value: x.value});
+    for (const x of all('postal')) out.push({head: MAP[x.type] ? P().t(MAP[x.type]) : fmt('map_custom', x.label), body: postalText(x), lines: 4, icon: 'ct-sym_action_map.png', action: 'eccv-map', value: postalText(x)});
+    for (const x of all('org')) out.push({head: x.company || '', body: x.title || '', icon: 'ct-sym_action_organization.png', action: 'eccv-none'});
+    for (const x of all('nickname')) out.push({head: E.t('nicknameLabelsGroup'), body: x.value, action: 'eccv-none'});
+    for (const x of all('note')) out.push({head: E.t('label_notes'), body: x.value, lines: 10, icon: 'ct-sym_note.png', action: 'eccv-none'});
+    for (const x of all('website')) out.push({head: E.t('websiteLabelsGroup'), body: x.value, action: 'eccv-web', value: x.value});
+    return out;
+  }
   function contactView(c) {
     const p = (c.data.contacts || []).find(x => x.id === c.ui.contactId);
     if (!p) return '';
-    const kind = KIND[p.phoneType ?? 1] || 'other';
-    const row = (title, sub, action, icon, extra = '') => `<div class="eccv-row"><button type="button" class="eccv-main" data-action="${action}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span class="eccv-text"><span class="eccv-t1">${esc(title)}</span><span class="eccv-t2">${esc(sub)}</span></span><img class="eccv-act" src="assets/${icon}" alt=""></button>${extra}</div><i class="ecph-div"></i>`;
-    const rows = (p.phone ? row(P().t(`call_${kind}`), p.phone, 'eccv-call', 'fw-sym_action_call.png', `<i class="ecph-vdiv"></i><button type="button" class="eccv-sms" data-action="eccv-sms"><img src="assets/ct-sym_action_sms.png" alt=""></button>`) : '')
-      + (p.email ? row(P().t('email_other'), p.email, 'eccv-email', 'fw-sym_action_email.png') : '');
+    const sms = value => `<i class="ecph-vdiv"></i><button type="button" class="eccv-sms" data-action="eccv-sms" data-value="${esc(value)}"><img src="assets/ct-sym_action_sms.png" alt=""></button>`;
+    const rows = entries(c, p).map(e => `<div class="eccv-row"><button type="button" class="eccv-main" data-action="${e.action}" data-value="${esc(e.value || '')}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span class="eccv-text"><span class="eccv-t1">${esc(e.head)}</span><span class="eccv-t2${e.lines ? ' multi' : ''}"${e.lines ? ` style="-webkit-line-clamp:${e.lines}"` : ''}>${esc(e.body)}</span></span>${e.icon ? `<img class="eccv-act" src="assets/${e.icon}" alt="">` : ''}</button>${e.sms ? sms(e.value) : ''}</div><i class="ecph-div"></i>`).join('');
     return `<div class="eccv"><div class="eccv-head"><i class="ec-bg np-fw-title_bar_medium"></i>${badge()}<span class="eccv-name">${esc(p.name)}</span>
         <button type="button" class="eccv-star" data-action="eccv-star"><img src="assets/fw-btn_star_big_${p.starred ? 'on' : 'off'}.png" alt=""></button></div>
       <div class="eccv-list"><i class="eccv-shadow np-ct-title_bar_shadow"></i>${rows || `<div class="ecph-empty top">${esc(P().t('no_contact_details'))}</div>`}</div></div>`;
@@ -229,15 +251,19 @@
     action(name, el, event, c) {
       const p = (c.data.contacts || []).find(x => x.id === c.ui.contactId);
       if (!p || !name.startsWith('eccv-')) return false;
+      const value = el.dataset.value;
       if (name === 'eccv-star') { p.starred = !p.starred; c.save(); c.render(); }
-      else if (name === 'eccv-call') call(c, p.phone);
-      else if (name === 'eccv-sms') { c.ui.composeTo = p.phone; c.open('messaging'); }
-      else if (name === 'eccv-email') { c.ui.composeTo = p.email; c.open('email'); }
+      else if (name === 'eccv-call') call(c, value);
+      else if (name === 'eccv-sms') { c.ui.composeTo = value; c.open('messaging'); }
+      else if (name === 'eccv-email') { c.ui.composeTo = value; c.open('email'); }
+      else if (name === 'eccv-talk') c.open('talk');
+      else if (name === 'eccv-map') c.open('maps');
+      else if (name === 'eccv-web') { const url = /^[a-z]+:/i.test(value) ? value : `http://${value}`; c.ui.browserGo = url; c.open('browser'); }
       return true;
     },
     menu(c) {
       const p = (c.data.contacts || []).find(x => x.id === c.ui.contactId), F = EC.text('framework');
-      c.menu([{label: P().t('menu_editContact'), icon: 'fw-ic_menu_edit.png', action: () => c.open('contact-edit')},
+      c.menu([{label: P().t('menu_editContact'), icon: 'fw-ic_menu_edit.png', action: () => EC.contactEdit.open(c, p.id)},
         {label: P().t('menu_share'), icon: 'fw-ic_menu_share.png', action: () => c.open('contacts-import')},
         {label: P().t('menu_contactOptions'), icon: 'ct-ic_menu_mark.png', action: () => c.open('contact-edit')},
         {label: P().t('menu_deleteContact'), icon: 'fw-ic_menu_delete.png', action: () => c.dialog({title: P().t('deleteConfirmation_title'), icon: 'fw-ic_dialog_alert.png', message: P().t('deleteConfirmation'),

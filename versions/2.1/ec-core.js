@@ -45,7 +45,8 @@
     'sound-recorder': ['Sound Recorder', 'SoundRecorder.apk'], 'live-wallpapers': ['Live wallpapers', 'LiveWallpapersPicker.apk'],
     'emergency-dialer': ['Emergency dialer', 'Phone.apk · EmergencyDialer'],
     'in-call': ['Call', 'Phone.apk · InCallScreen'], 'contact-view': ['Contact', 'Contacts.apk · ViewContactActivity'],
-    'contact-edit': ['Edit contact', 'Contacts.apk · ContactEditorActivity'], 'contacts-display': ['Display options', 'Contacts.apk · DisplayGroupsActivity'],
+    'contact-edit': ['Edit contact', 'Contacts.apk · EditContactActivity'], 'contact-join': ['Join contacts', 'Contacts.apk · JoinContactActivity'],
+    'gallery-pick': ['Select picture', 'Gallery3D.apk · ACTION_GET_CONTENT'], 'contacts-display': ['Display options', 'Contacts.apk · DisplayGroupsActivity'],
     'contacts-import': ['Import/Export', 'Contacts.apk · ImportVCardActivity']
   };
 

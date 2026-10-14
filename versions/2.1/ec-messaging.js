@@ -68,9 +68,10 @@
     const box = root.querySelector('.ecms-suggest'), input = root.querySelector('.ecms-to');
     if (!box || !input) return;
     const q = input.value.trim().toLocaleLowerCase();
-    const types = EC.text('contacts').t('phoneTypes');
-    const hits = q ? (c.data.contacts || []).filter(p => p.name.toLocaleLowerCase().split(/\s+/).some(w => w.startsWith(q)) || digits(p.phone).startsWith(digits(q)) && digits(q)) : [];
-    box.innerHTML = hits.map(p => `<button type="button" class="ecms-hit" data-action="ecms-pick" data-address="${esc(p.phone)}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span class="ecms-hit-l1"><span>${esc(p.name)}</span><span class="ecms-hit-type">${esc(types[p.phoneType ?? 1])}</span></span><span class="ecms-hit-l2">${esc(p.phone)}</span></button>`).join('');
+    // RecipientsAdapter: a row per phone number of the matching contacts.
+    const phones = (c.data.contacts || []).flatMap(p => EC.contactModel.raws(p).flatMap(r => (r.phone || []).map(x => ({name: p.name, phone: x.value, label: EC.contactModel.typeLabel('phone', x)}))));
+    const hits = q ? phones.filter(p => p.name.toLocaleLowerCase().split(/\s+/).some(w => w.startsWith(q)) || digits(p.phone).startsWith(digits(q)) && digits(q)) : [];
+    box.innerHTML = hits.map(p => `<button type="button" class="ecms-hit" data-action="ecms-pick" data-address="${esc(p.phone)}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span class="ecms-hit-l1"><span>${esc(p.name)}</span><span class="ecms-hit-type">${esc(p.label)}</span></span><span class="ecms-hit-l2">${esc(p.phone)}</span></button>`).join('');
   }
   function send(c) {
     const root = c.el.viewport, text = root.querySelector('.ecms-text')?.value.trim();

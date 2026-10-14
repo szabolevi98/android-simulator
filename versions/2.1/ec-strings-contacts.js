@@ -527,5 +527,293 @@ EC.strings('contacts', {
 "es": "No hay información adicional para este contacto.",
 "hu": "Nincsenek további adatok ennél a névjegynél",
 "huFrom": "crespo:Contacts:no_contact_details"
+},
+"call_custom": {
+"res": "passion:Contacts:call_custom",
+"en": "Call %s",
+"de": "%s anrufen",
+"fr": "Appeler %s",
+"es": "Llamar a %s",
+"hu": "%s hívása",
+"huFrom": "crespo:Contacts:call_custom"
+},
+"call_fax_work": {
+"res": "passion:Contacts:call_fax_work",
+"en": "Call work fax",
+"de": "Anruf (Fax, Arbeit)",
+"fr": "Composer télécopie (bureau)",
+"es": "Llamar al fax del trabajo",
+"hu": "Munkahelyi fax hívása",
+"huFrom": "crespo:Contacts:call_fax_work"
+},
+"call_fax_home": {
+"res": "passion:Contacts:call_fax_home",
+"en": "Call home fax",
+"de": "Faxanruf (privat)",
+"fr": "Composer fax (domicile)",
+"es": "Llamar a fax de casa",
+"hu": "Otthoni fax hívása",
+"huFrom": "crespo:Contacts:call_fax_home"
+},
+"call_pager": {
+"res": "passion:Contacts:call_pager",
+"en": "Call pager",
+"de": "Anruf (Pager)",
+"fr": "Appeler téléavertisseur",
+"es": "Llamar a buscapersonas",
+"hu": "Csipogó hívása",
+"huFrom": "crespo:Contacts:call_pager"
+},
+"call_callback": {
+"res": "passion:Contacts:call_callback",
+"en": "Call callback",
+"de": "Rückrufnummer anrufen",
+"fr": "Appeler le numéro de rappel",
+"es": "Llamar a un número de devolución de llamada",
+"hu": "Visszahívási szám hívása",
+"huFrom": "crespo:Contacts:call_callback"
+},
+"call_car": {
+"res": "passion:Contacts:call_car",
+"en": "Call car",
+"de": "Anruf (Auto)",
+"fr": "Appeler voiture",
+"es": "Llamar al coche",
+"hu": "Gépkocsi hívása",
+"huFrom": "crespo:Contacts:call_car"
+},
+"call_company_main": {
+"res": "passion:Contacts:call_company_main",
+"en": "Call company main",
+"de": "Anruf (Firmenhauptnummer)",
+"fr": "Appeler société (principal)",
+"es": "Llamar al teléfono principal de la empresa",
+"hu": "Céges fővonal hívása",
+"huFrom": "crespo:Contacts:call_company_main"
+},
+"call_isdn": {
+"res": "passion:Contacts:call_isdn",
+"en": "Call ISDN",
+"de": "ISDN-Nummer anrufen",
+"fr": "Appeler le numéro RNIS",
+"es": "Llamar a RDSI",
+"hu": "ISDN-telefon hívása",
+"huFrom": "crespo:Contacts:call_isdn"
+},
+"call_main": {
+"res": "passion:Contacts:call_main",
+"en": "Call main",
+"de": "Hauptnummer anrufen",
+"fr": "Appeler le numéro principal",
+"es": "Llamar al teléfono principal",
+"hu": "Fő telefonszám hívása",
+"huFrom": "crespo:Contacts:call_main"
+},
+"call_other_fax": {
+"res": "passion:Contacts:call_other_fax",
+"en": "Call other fax",
+"de": "Andere Faxnummer anrufen",
+"fr": "Composer numéro autre fax",
+"es": "Llamar a otro fax",
+"hu": "Egyéb fax hívása",
+"huOwn": true
+},
+"call_radio": {
+"res": "passion:Contacts:call_radio",
+"en": "Call radio",
+"de": "Anruf (Mobilfunk)",
+"fr": "Appeler par signal radio",
+"es": "Llamar a la radio",
+"hu": "Rádiótelefon hívása",
+"huFrom": "crespo:Contacts:call_radio"
+},
+"call_telex": {
+"res": "passion:Contacts:call_telex",
+"en": "Call telex",
+"de": "Telexnummer anrufen",
+"fr": "Appeler par télex",
+"es": "Llamar al télex",
+"hu": "Telex hívása",
+"huFrom": "crespo:Contacts:call_telex"
+},
+"call_tty_tdd": {
+"res": "passion:Contacts:call_tty_tdd",
+"en": "Call TTY/TDD",
+"de": "TTY/TDD anrufen",
+"fr": "Appeler TTY/TTD (malentendants)",
+"es": "Llamar a TTY/TDD",
+"hu": "TTY/TDD-szám hívása",
+"huFrom": "crespo:Contacts:call_tty_tdd"
+},
+"call_work_mobile": {
+"res": "passion:Contacts:call_work_mobile",
+"en": "Call work mobile",
+"de": "Mobilfunknummer (geschäftlich) anrufen",
+"fr": "Appeler sur le mobile professionnel",
+"es": "Llamar al móvil del trabajo",
+"hu": "Munkahelyi mobil hívása",
+"huFrom": "crespo:Contacts:call_work_mobile"
+},
+"call_work_pager": {
+"res": "passion:Contacts:call_work_pager",
+"en": "Call work pager",
+"de": "Pager (beruflich) anrufen",
+"fr": "Appeler sur le téléavertisseur professionnel",
+"es": "Llamar al buscapersonas del trabajo",
+"hu": "Munkahelyi csipogó hívása",
+"huFrom": "crespo:Contacts:call_work_pager"
+},
+"call_assistant": {
+"res": "passion:Contacts:call_assistant",
+"en": "Call %s",
+"de": "%s anrufen",
+"fr": "Appeler %s",
+"es": "Llamar a %s",
+"hu": "%s hívása",
+"huFrom": "crespo:Contacts:call_assistant"
+},
+"call_mms": {
+"res": "passion:Contacts:call_mms",
+"en": "Call MMS",
+"de": "Anruf (MMS)",
+"fr": "Appeler MMS",
+"es": "Llamar a MMS",
+"hu": "MMS-ben szereplő telefonszám hívása",
+"huFrom": "crespo:Contacts:call_mms"
+},
+"email_mobile": {
+"res": "passion:Contacts:email_mobile",
+"en": "Email mobile",
+"de": "E-Mail (mobil)",
+"fr": "Envoyer un e-mail sur le mobile",
+"es": "Enviar email al móvil",
+"hu": "E-mail küldése mobiltelefonra",
+"huFrom": "crespo:Contacts:email_mobile"
+},
+"email_custom": {
+"res": "passion:Contacts:email_custom",
+"en": "Email %s",
+"de": "E-Mail %s",
+"fr": "Env. e-mail à %s",
+"es": "Correo electrónico %s",
+"hu": "E-mail küldése a(z) %s címre",
+"huFrom": "crespo:Contacts:email_custom"
+},
+"chat_aim": {
+"res": "passion:Contacts:chat_aim",
+"en": "Chat using AIM",
+"de": "Chat über AIM",
+"fr": "Chatter via AIM",
+"es": "Chatear con AIM",
+"hu": "Csevegés AIM-on",
+"huFrom": "crespo:Contacts:chat_aim"
+},
+"chat_msn": {
+"res": "passion:Contacts:chat_msn",
+"en": "Chat using Windows Live",
+"de": "Chat über Windows Live",
+"fr": "Chatter via Windows Live",
+"es": "Chatear con Windows Live",
+"hu": "Csevegés a Windows Live-on",
+"huFrom": "crespo:Contacts:chat_msn"
+},
+"chat_yahoo": {
+"res": "passion:Contacts:chat_yahoo",
+"en": "Chat using Yahoo",
+"de": "Chat über Yahoo",
+"fr": "Chatter via Yahoo",
+"es": "Chatear con Yahoo!",
+"hu": "Csevegés a Yahoon",
+"huFrom": "crespo:Contacts:chat_yahoo"
+},
+"chat_skype": {
+"res": "passion:Contacts:chat_skype",
+"en": "Chat using Skype",
+"de": "Chat über Skype",
+"fr": "Chatter via Skype",
+"es": "Chatear con Skype",
+"hu": "Csevegés Skype használatával",
+"huFrom": "crespo:Contacts:chat_skype"
+},
+"chat_qq": {
+"res": "passion:Contacts:chat_qq",
+"en": "Chat using QQ",
+"de": "Chat über QQ",
+"fr": "Chatter via QQ",
+"es": "Chatear con QQ",
+"hu": "Csevegés a QQ-n",
+"huFrom": "crespo:Contacts:chat_qq"
+},
+"chat_gtalk": {
+"res": "passion:Contacts:chat_gtalk",
+"en": "Chat using Google Talk",
+"de": "Chat über Google Talk",
+"fr": "Chatter via Google Talk",
+"es": "Chatear con Google Talk",
+"hu": "Csevegés a Google Csevegő használatával",
+"huFrom": "crespo:Contacts:chat_gtalk"
+},
+"chat_icq": {
+"res": "passion:Contacts:chat_icq",
+"en": "Chat using ICQ",
+"de": "Chat über ICQ",
+"fr": "Chatter via ICQ",
+"es": "Chatear con ICQ",
+"hu": "Csevegés az ICQ-n",
+"huFrom": "crespo:Contacts:chat_icq"
+},
+"chat_jabber": {
+"res": "passion:Contacts:chat_jabber",
+"en": "Chat using Jabber",
+"de": "Chat über Jabber",
+"fr": "Chatter via Jabber",
+"es": "Chatear con Jabber",
+"hu": "Csevegés Jabberen",
+"huFrom": "crespo:Contacts:chat_jabber"
+},
+"chat": {
+"res": "passion:Contacts:chat",
+"en": "Chat",
+"de": "Chat",
+"fr": "Chat",
+"es": "Chat",
+"hu": "Csevegés",
+"huFrom": "crespo:Contacts:chat"
+},
+"map_home": {
+"res": "passion:Contacts:map_home",
+"en": "View home address",
+"de": "Privatadresse anzeigen",
+"fr": "Afficher adresse perso",
+"es": "Ver dirección de casa",
+"hu": "Otthoni cím megtekintése",
+"huFrom": "crespo:Contacts:map_home"
+},
+"map_work": {
+"res": "passion:Contacts:map_work",
+"en": "View work address",
+"de": "Arbeitsadresse anzeigen",
+"fr": "Afficher adresse prof.",
+"es": "Ver dirección del trabajo",
+"hu": "Munkahelyi cím megtekintése",
+"huFrom": "crespo:Contacts:map_work"
+},
+"map_other": {
+"res": "passion:Contacts:map_other",
+"en": "View other address",
+"de": "Sonstige Adressen anzeigen",
+"fr": "Afficher autre adresse",
+"es": "Ver otras direcciones",
+"hu": "Egyéb cím megtekintése",
+"huOwn": true
+},
+"map_custom": {
+"res": "passion:Contacts:map_custom",
+"en": "View %s address",
+"de": "%s-Adresse anzeigen",
+"fr": "Afficher adresse %s",
+"es": "Ver dirección de %s",
+"hu": "%s cím megtekintése",
+"huFrom": "crespo:Contacts:map_custom"
 }
 });

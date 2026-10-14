@@ -491,6 +491,25 @@ fw-ic_menu_share.png	framework/framework-res.apk	drawable/ic_menu_share
 ct-sym_action_sms.png	app/Contacts.apk	drawable/sym_action_sms
 ct-ic_menu_mark.png	app/Contacts.apk	drawable/ic_menu_mark
 ct-title_bar_shadow.9.png	app/Contacts.apk	drawable/title_bar_shadow
+ct-btn_circle_normal.png	app/Contacts.apk	drawable/btn_circle_normal
+ct-btn_circle_pressed.png	app/Contacts.apk	drawable/btn_circle_pressed
+ct-btn_circle_disable.png	app/Contacts.apk	drawable/btn_circle_disable
+ct-ic_btn_round_minus.png	app/Contacts.apk	drawable/ic_btn_round_minus
+ct-ic_btn_round_plus.png	app/Contacts.apk	drawable/ic_btn_round_plus
+ct-ic_btn_round_more.png	app/Contacts.apk	drawable/ic_btn_round_more
+ct-ic_menu_add_picture.png	app/Contacts.apk	drawable/ic_menu_add_picture
+ct-contact_picture_border_normal.9.png	app/Contacts.apk	drawable/contact_picture_border_normal
+ct-contact_picture_border_pressed.9.png	app/Contacts.apk	drawable/contact_picture_border_pressed
+ct-ic_launcher_contacts.png	app/Contacts.apk	drawable/ic_launcher_contacts
+ct-ic_menu_merge.png	app/Contacts.apk	drawable/ic_menu_merge
+ct-ic_menu_split.png	app/Contacts.apk	drawable/ic_menu_split
+ct-ic_join.png	app/Contacts.apk	drawable/ic_join
+ct-sym_action_map.png	app/Contacts.apk	drawable/sym_action_map
+ct-sym_action_organization.png	app/Contacts.apk	drawable/sym_action_organization
+ct-sym_note.png	app/Contacts.apk	drawable/sym_note
+fw-sym_action_chat.png	framework/framework-res.apk	drawable/sym_action_chat
+fw-ic_menu_save.png	framework/framework-res.apk	drawable/ic_menu_save
+fw-ic_menu_close_clear_cancel.png	framework/framework-res.apk	drawable/ic_menu_close_clear_cancel
 # Mms.apk (conversation_header.xml, compose_message_activity.xml, message_list_item.xml, menus)
 fw-ic_menu_compose.png	framework/framework-res.apk	drawable/ic_menu_compose
 fw-ic_menu_emoticons.png	framework/framework-res.apk	drawable/ic_menu_emoticons

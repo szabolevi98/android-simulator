@@ -23,7 +23,9 @@
 
   function start(c, number) {
     clearInterval(timer);
-    const person = (c.data.contacts || []).find(p => digitsOnly(p.phone) === digitsOnly(number));
+    // The contact and the phone row whose number this is (its type label shows under the name).
+    const rows = (c.data.contacts || []).flatMap(p => EC.contactModel.raws(p).flatMap(r => (r.phone || []).map(x => ({p, x}))));
+    const hit = rows.find(({x}) => digitsOnly(x.value) === digitsOnly(number)), person = hit && {...hit.p, phoneLabel: EC.contactModel.typeLabel('phone', hit.x), phone: hit.x.value};
     call = {number, person, state: 'dialing', start: 0, end: 0, mute: false, speaker: false, dialpad: false, dtmf: '', logId: c.data.calls?.[0]?.id};
     setTimeout(() => { if (call?.state === 'dialing' && call.number === number) { call.state = 'active'; call.start = Date.now(); refresh(c); } }, 2500);
     timer = setInterval(() => { if (call?.state === 'active') updateTime(c); }, 1000);
@@ -54,14 +56,14 @@
   const KEYS = [['1', '1_no_vm'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'], ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['*', 'star'], ['0', '0'], ['#', 'pound']];
   function render(c) {
     if (!call) return '<div class="ecic ecic-ended"></div>';
-    const types = EC.text('contacts').t('phoneTypes'), vm = digitsOnly(call.number) === digitsOnly(VOICEMAIL);
+    const vm = digitsOnly(call.number) === digitsOnly(VOICEMAIL);
     const title = I().t({dialing: 'card_title_dialing', active: 'card_title_in_progress', ended: 'card_title_call_ended'}[call.state]);
     const bg = {dialing: 'unidentified', active: 'connected', ended: 'ended'}[call.state];
     const card = call.dialpad ? `<div class="ecic-dtmf"><div class="ecic-field">${esc(call.dtmf)}</div><div class="ecic-pad">${KEYS.map(([k, img]) => `<button type="button" class="ecph-key" data-action="ecic-key" data-key="${k}"><i class="ec-bg np-ct-btn_dial_normal"></i><i class="ec-bg ec-pressed np-ct-btn_dial_pressed"></i><img class="wht" src="assets/ct-dial_num_${img}_wht.png" alt="${k}"><img class="blk" src="assets/ct-dial_num_${img}_blk.png" alt=""></button>`).join('')}</div></div>`
       : `<div class="ecic-card"><div class="ecic-title">${esc(title)}</div>
         <div class="ecic-photo-row"><span class="ecic-photo npp-pn-incall_photo_border_lg"><i class="ec-bg np-pn-incall_photo_border_lg"></i><img src="assets/pn-picture_unknown.png" alt=""></span>${call.state !== 'dialing' ? `<span class="ecic-time">${esc(elapsed(seconds()))}</span>` : ''}</div>
         <div class="ecic-name">${esc(name(c))}</div>
-        ${call.person ? `<div class="ecic-number"><span>${esc(types[call.person.phoneType ?? 1])}</span>${esc(call.person.phone)}</div>` : vm ? '' : ''}</div>`;
+        ${call.person ? `<div class="ecic-number"><span>${esc(call.person.phoneLabel)}</span>${esc(call.person.phone)}</div>` : vm ? '' : ''}</div>`;
     const btn = (id, label, icon, extra = '') => `<button type="button" class="ecic-btn npp-pn-btn_in_call_main_normal ${extra}" data-action="ecic-${id}"${call.state === 'ended' ? ' disabled' : ''}><i class="ec-bg np-pn-btn_in_call_main_normal"></i><i class="ec-bg ec-pressed np-pn-btn_in_call_main_pressed"></i>${icon ? `<img src="assets/pn-${icon}.png" alt="">` : ''}<span>${esc(label)}</span></button>`;
     const toggle = (id, label, on, off) => `<button type="button" class="ecic-btn ecic-toggle npp-pn-btn_in_call_switch_off_normal" data-action="ecic-${id}"${off || call.state === 'ended' ? ' disabled' : ''}><i class="ec-bg np-pn-btn_in_call_switch_${on ? 'on' : 'off'}_normal"></i><i class="ec-bg ec-pressed np-pn-btn_in_call_switch_${on ? 'on' : 'off'}_pressed"></i><span>${esc(label)}</span></button>`;
     return `<div class="ecic"><i class="ecic-bg np-pn-bg_in_call_gradient_${bg}"></i>
