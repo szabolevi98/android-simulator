@@ -140,3 +140,7 @@ VisualizationWallpapers/vis4_desc VisualizationWallpapers/wallpaper_vis5 Visuali
 LiveWallpapers/clock_settings LiveWallpapers/show_seconds LiveWallpapers/variable_line_width LiveWallpapers/palette
 array:LiveWallpapers/polar_clock_palette_names MagicSmokeWallpapers/ok
 MagicSmokeWallpapers/taptochange
+
+[facebook] Facebook
+login_email_title login_password_title login_signin login_signup login_sign_up_here login_about login_terms
+login_signing_in login_error_generic eula_title eula_agree eula_disagree ok

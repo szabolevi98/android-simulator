@@ -10,6 +10,8 @@ The image has no Hungarian (it came with 2.3), so Hungarian is (owner's decision
   1. the Nexus S 2.3.6 image's translation of exactly the same English text (_aosp/crespo/strings-index.json; the same
      APK and resource name first, then the same name, the same APK, framework, any APK), recorded as huFrom: 'crespo:<apk>:<name>';
   2. otherwise our own translation from docs/data/ec-hu.tsv (<English> TAB <Hungarian>), marked huOwn: true.
+  A row keyed <Apk>/<resource> instead of English overrides 1. for that one resource, where the 2.3.6 text of the same
+  English means something else in that app (Facebook's "Sign up" is not Thinkfree's "Sign up" = log in).
 A row with neither is reported and keeps English. A German, French or Spanish text the image lacks is the English the
 phone shows, listed in the row's untranslated. Each table is EC.strings('<table>', {name: {res, en, hu, de, fr, es, …}}).
 Do not edit the output by hand; rerun this after changing the list."""
@@ -73,7 +75,9 @@ def build(table, spec):
         if kind == 'string':
             row.update({lang: value[lang] for lang in ('en', 'de', 'fr', 'es') if value.get(lang) is not None})
             hu, src = hungarian(value['en'], apk, key)
-            if hu: row['hu'], row['huFrom'] = hu, src
+            # An ec-hu.tsv row keyed Apk/resource wins where crespo's same English means something else there.
+            if f'{apk}/{key}' in OWN: row['hu'], row['huOwn'] = OWN[f'{apk}/{key}'], True
+            elif hu: row['hu'], row['huFrom'] = hu, src
             elif value['en'] in OWN: row['hu'], row['huOwn'] = OWN[value['en']], True
             else: missing.append(value['en'])
         elif kind == 'array':

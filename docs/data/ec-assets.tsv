@@ -715,3 +715,12 @@ ms-noise3.png	app/MagicSmokeWallpapers.apk	drawable/noise3
 ms-noise4.png	app/MagicSmokeWallpapers.apk	drawable/noise4
 ms-noise5.png	app/MagicSmokeWallpapers.apk	drawable/noise5
 vz-albumart.png	app/VisualizationWallpapers.apk	drawable/albumart
+fb-facebook_logo.9.png	app/Facebook.apk	drawable/facebook_logo
+fb-btn_blue_normal.9.png	app/Facebook.apk	drawable/btn_blue_normal
+fb-btn_blue_pressed.9.png	app/Facebook.apk	drawable/btn_blue_pressed
+fb-btn_green_normal.9.png	app/Facebook.apk	drawable/btn_green_normal
+fb-btn_green_pressed.9.png	app/Facebook.apk	drawable/btn_green_pressed
+fb-fixed_divider_horizontal_bright.9.png	app/Facebook.apk	drawable/fixed_divider_horizontal_bright
+fb-eula.html	app/Facebook.apk	raw/eula
+fb-about.html	app/Facebook.apk	raw/about
+fw-ic_menu_info_details.png	framework/framework-res.apk	drawable/ic_menu_info_details

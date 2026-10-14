@@ -1,0 +1,18 @@
+/* Android 2.1 Facebook (ec-facebook.js), in dp / sp. Theme.Light. */
+.ecfb{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;color:#000}
+.ecfb-title{flex:none;height:calc(30 * var(--dp))}
+.ecfb-panel{margin-top:calc(9 * var(--dp));padding:0 calc(5 * var(--dp));background:linear-gradient(#f8f9fb,#cad3e3)}
+.ecfb-label{margin-left:calc(4 * var(--dp));color:#455898;font-size:calc(14 * var(--dp))}
+.ecfb-label.ecfb-gap{margin-top:calc(6 * var(--dp))}
+.ecfb-panel .ecwf-edit{margin-top:0}
+.ecfb-panel input[type=password]{font-size:calc(14 * var(--dp))}
+.ecfb-row{display:flex;justify-content:flex-end;padding:calc(3 * var(--dp)) calc(2 * var(--dp)) calc(8 * var(--dp)) 0}
+.ecfb-btn{position:relative;flex:none;width:calc(100 * var(--dp));border:0;padding:calc(10 * var(--dp));background:none;color:#fff;font-size:calc(14 * var(--dp));font-weight:bold}
+.ecfb-divider{flex:none;display:block;height:1px}
+.ecfb-signup{display:flex;align-items:flex-start;padding:calc(9 * var(--dp)) calc(7 * var(--dp)) 0 calc(15 * var(--dp))}
+.ecfb-signup>span{flex:1;padding-top:calc(10 * var(--dp));color:#455898;font-size:calc(16 * var(--dp));font-weight:bold}
+.ecfb-web{display:block;width:100%;border:0;background:#fff}
+.ecfb-about .ecfb-web{flex:1;min-height:0}
+.ecfb-eula{height:calc(300 * var(--dp))}
+.ecfb-bar{flex:none;display:flex;gap:0;padding:calc(6 * var(--dp)) 0 0;background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.ecfb-bar .ecui-button{flex:1 1 0}
