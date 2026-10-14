@@ -1,0 +1,15 @@
+/* Android 2.1 keyboard (ec-ime.js), in dp / sp: at the bottom of the screen; the screen above shrinks (adjustResize). */
+.ecime{position:absolute;left:0;right:0;bottom:0;z-index:30;touch-action:none;user-select:none}
+.ecime[hidden]{display:none}
+.screen.ime-open #viewport{bottom:var(--ime-height,0)}
+.ecime-keys{position:relative}
+.ecime-row{position:relative;z-index:1;display:flex;height:calc(54 * var(--dp))}
+.ecime-key{position:relative;flex:none;height:100%;border:0;padding:0;background:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:calc(22 * var(--dp));text-shadow:0 0 calc(2.75 * var(--dp)) #000000bb}
+.ecime-key.small{font-size:calc(14 * var(--dp));font-weight:700}
+.ecime-key>span,.ecime-key>img{position:relative;z-index:1}
+.ecime-key>img{width:calc(36 * var(--dp));height:calc(34 * var(--dp))}
+.ecime-key .ec-pressed{opacity:0}
+.ecime-key.down .ec-pressed{opacity:1}
+.ecime-preview{position:absolute;z-index:31;height:calc(80 * var(--dp));min-width:calc(32 * var(--dp));transform:translate(-50%,calc(-100% + 12 * var(--dp)));display:flex;align-items:center;justify-content:center;color:#000;font-size:calc(40 * var(--dp));pointer-events:none}
+.ecime-preview span{position:relative;z-index:1}
+.ecime-preview[hidden]{display:none}

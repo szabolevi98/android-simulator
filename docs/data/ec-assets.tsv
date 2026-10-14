@@ -502,3 +502,26 @@ mm-ic_menu_attachment.png	app/Mms.apk	drawable/ic_menu_attachment
 mm-bottombar_landscape_565.png	app/Mms.apk	drawable/bottombar_landscape_565
 mm-stat_notify_sms.png	app/Mms.apk	drawable/stat_notify_sms
 fw-textfield_pressed.9.png	framework/framework-res.apk	drawable/textfield_pressed
+# VoiceSearchWithKeyboard.apk (LatinIME): KeyboardView keys, icons and preview
+lk-btn_keyboard_key_normal.9.png	app/VoiceSearchWithKeyboard.apk	drawable/btn_keyboard_key_normal
+lk-btn_keyboard_key_pressed.9.png	app/VoiceSearchWithKeyboard.apk	drawable/btn_keyboard_key_pressed
+lk-btn_keyboard_key_normal_on.9.png	app/VoiceSearchWithKeyboard.apk	drawable/btn_keyboard_key_normal_on
+lk-btn_keyboard_key_normal_off.9.png	app/VoiceSearchWithKeyboard.apk	drawable/btn_keyboard_key_normal_off
+lk-btn_keyboard_key_pressed_on.9.png	app/VoiceSearchWithKeyboard.apk	drawable/btn_keyboard_key_pressed_on
+lk-btn_keyboard_key_pressed_off.9.png	app/VoiceSearchWithKeyboard.apk	drawable/btn_keyboard_key_pressed_off
+lk-keyboard_background.9.png	app/VoiceSearchWithKeyboard.apk	drawable/keyboard_background
+lk-sym_keyboard_space.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_space
+lk-sym_keyboard_shift.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_shift
+lk-sym_keyboard_shift_locked.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_shift_locked
+lk-sym_keyboard_delete.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_delete
+lk-sym_keyboard_mic.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_mic
+lk-sym_keyboard_return.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_return
+lk-sym_keyboard_done.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_done
+lk-sym_keyboard_search.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_search
+lk-sym_keyboard_feedback_space.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_feedback_space
+lk-sym_keyboard_feedback_shift.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_feedback_shift
+lk-sym_keyboard_feedback_shift_locked.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_feedback_shift_locked
+lk-sym_keyboard_feedback_delete.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_feedback_delete
+lk-sym_keyboard_feedback_mic.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_feedback_mic
+lk-sym_keyboard_feedback_return.png	app/VoiceSearchWithKeyboard.apk	drawable/sym_keyboard_feedback_return
+fw-keyboard_key_feedback_background.9.png	framework/framework-res.apk	drawable/keyboard_key_feedback_background

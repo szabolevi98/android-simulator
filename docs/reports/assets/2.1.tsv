@@ -230,6 +230,7 @@ versions/2.1/assets/fw-jog_tab_right_pressed.png	a698b65d104fb8d6	copy	passion:/
 versions/2.1/assets/fw-jog_tab_target_gray.png	94688a2a5ff57e9e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/jog_tab_target_gray.png	drawable-hdpi		94688a2a5ff57e9e
 versions/2.1/assets/fw-jog_tab_target_green.png	b828e2a4b2cec152	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/jog_tab_target_green.png	drawable-hdpi		b828e2a4b2cec152
 versions/2.1/assets/fw-jog_tab_target_yellow.png	869eda691c39bd70	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/jog_tab_target_yellow.png	drawable-hdpi		869eda691c39bd70
+versions/2.1/assets/fw-keyboard_key_feedback_background.9.png	7a8d9a2b8ad7d0a9	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/keyboard_key_feedback_background.9.png	drawable-hdpi		7a8d9a2b8ad7d0a9
 versions/2.1/assets/fw-light_header_dither.9.png	5528ed4a58bc3f68	copy	passion:/system/app/Email.apk!res/drawable-hdpi/section_light.9.png	drawable-hdpi		5528ed4a58bc3f68
 versions/2.1/assets/fw-list_selector_background_focus.9.png	bdf4deadfbd6022a	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/list_selector_background_focus.9.png	drawable-hdpi		bdf4deadfbd6022a
 versions/2.1/assets/fw-list_selector_background_pressed.9.png	4238a325f092dd5f	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/list_selector_background_pressed.9.png	drawable-hdpi		4238a325f092dd5f
@@ -433,6 +434,27 @@ versions/2.1/assets/l2-wallpaper_x67_small.jpg	12172f4e5a6b3dbd	copy	passion:/sy
 versions/2.1/assets/l2-wallpaper_zanzibar.jpg	6f2d2a82c2594861	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/wallpaper_zanzibar.jpg	drawable-hdpi		6f2d2a82c2594861
 versions/2.1/assets/l2-wallpaper_zanzibar_small.jpg	6633b97b208eba0c	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/wallpaper_zanzibar_small.jpg	drawable-hdpi		6633b97b208eba0c
 versions/2.1/assets/landing-home.jpg	d2ff2c8f7ec1a927	own	the image's boot animation (/system/media/bootanimation.zip part1/boot_00097.png) centred on the 480 × 800 display as BootAnimation draws it, resized to 414 × 690 for the landing page card			
+versions/2.1/assets/lk-btn_keyboard_key_normal.9.png	5c91e6890eee3622	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_normal.9.png	drawable-hdpi		5c91e6890eee3622
+versions/2.1/assets/lk-btn_keyboard_key_normal_off.9.png	753202b1e8e45e9f	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_normal_off.9.png	drawable-hdpi		753202b1e8e45e9f
+versions/2.1/assets/lk-btn_keyboard_key_normal_on.9.png	47e387cbf9055616	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_normal_on.9.png	drawable-hdpi		47e387cbf9055616
+versions/2.1/assets/lk-btn_keyboard_key_pressed.9.png	25f82224b34f3554	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_pressed.9.png	drawable-hdpi		25f82224b34f3554
+versions/2.1/assets/lk-btn_keyboard_key_pressed_off.9.png	bd66fce5a1a2a540	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_pressed_off.9.png	drawable-hdpi		bd66fce5a1a2a540
+versions/2.1/assets/lk-btn_keyboard_key_pressed_on.9.png	da390c0ef3e46127	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_pressed_on.9.png	drawable-hdpi		da390c0ef3e46127
+versions/2.1/assets/lk-keyboard_background.9.png	d2a74105d8821c57	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/keyboard_background.9.png	drawable-hdpi		d2a74105d8821c57
+versions/2.1/assets/lk-sym_keyboard_delete.png	fa87068c1c31b1e6	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_delete.png	drawable-hdpi		fa87068c1c31b1e6
+versions/2.1/assets/lk-sym_keyboard_done.png	df2577786455ae8d	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_done.png	drawable-hdpi		df2577786455ae8d
+versions/2.1/assets/lk-sym_keyboard_feedback_delete.png	6664988e3390d8d3	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-en-hdpi/sym_keyboard_feedback_delete.png	drawable-en-hdpi		6664988e3390d8d3
+versions/2.1/assets/lk-sym_keyboard_feedback_mic.png	8573bf5d11385887	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_feedback_mic.png	drawable-hdpi		8573bf5d11385887
+versions/2.1/assets/lk-sym_keyboard_feedback_return.png	cbc639047e8ebff9	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_feedback_return.png	drawable-hdpi		cbc639047e8ebff9
+versions/2.1/assets/lk-sym_keyboard_feedback_shift.png	8e05c3661d6b87fd	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_feedback_shift.png	drawable-hdpi		8e05c3661d6b87fd
+versions/2.1/assets/lk-sym_keyboard_feedback_shift_locked.png	88d7bb91f1c7d0c0	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_feedback_shift_locked.png	drawable-hdpi		88d7bb91f1c7d0c0
+versions/2.1/assets/lk-sym_keyboard_feedback_space.png	4a8b4c19c406429d	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_feedback_space.png	drawable-hdpi		4a8b4c19c406429d
+versions/2.1/assets/lk-sym_keyboard_mic.png	e230f6f9b2cec45c	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_mic.png	drawable-hdpi		e230f6f9b2cec45c
+versions/2.1/assets/lk-sym_keyboard_return.png	d0d94bf9fae268e2	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_return.png	drawable-hdpi		d0d94bf9fae268e2
+versions/2.1/assets/lk-sym_keyboard_search.png	f29bb06ea7e16397	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_search.png	drawable-hdpi		f29bb06ea7e16397
+versions/2.1/assets/lk-sym_keyboard_shift.png	bdda223adf160800	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_shift.png	drawable-hdpi		bdda223adf160800
+versions/2.1/assets/lk-sym_keyboard_shift_locked.png	69a4c768c1e67472	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_shift_locked.png	drawable-hdpi		69a4c768c1e67472
+versions/2.1/assets/lk-sym_keyboard_space.png	a807c311e98068bf	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_space.png	drawable-hdpi		a807c311e98068bf
 versions/2.1/assets/lw-galaxy_thumb.jpg	3a6d39f40a72c02c	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/galaxy_thumb.jpg	drawable-hdpi		3a6d39f40a72c02c
 versions/2.1/assets/lw-glow.png	a24dfdade151f3f3	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/glow.png	drawable-hdpi		a24dfdade151f3f3
 versions/2.1/assets/lw-grass_thumb.jpg	9e7de46366b00508	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/grass_thumb.jpg	drawable-hdpi		9e7de46366b00508

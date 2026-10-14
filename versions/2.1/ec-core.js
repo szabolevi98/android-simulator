@@ -166,6 +166,7 @@
     render();
   }
   function back() {
+    if (c.imeBack?.()) return;   // the soft keyboard takes Back first
     if (ui.overlay) { if (!modules[ui.overlay]?.back?.(c)) { ui.overlay = ''; renderOverlay(); } return; }
     if (modules[ui.view]?.back?.(c)) return;
     if (ui.view === 'home' || ui.view === 'lock') return;

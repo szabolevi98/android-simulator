@@ -61,7 +61,7 @@
       return `<div class="ecms-msg${mine ? '' : ' in'}"><span>${esc(pre)}<b>${esc(who)}</b>${esc(post)}${esc(m.body)}</span><i class="ecms-spacer"></i><small>${esc(mine ? M().fmt('sent_on', c.lang, t) : t)}</small></div>`;
     }).join('<i class="ecms-mdiv"></i>');
     return `<div class="ecms-compose">${head}${to}<div class="ecms-history">${items}</div>
-      <div class="ecms-bottom"><span class="ecms-editor"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_selected"></i><textarea class="ecms-text" rows="1" maxlength="1000" placeholder="${esc(M().t('type_to_compose_text_enter_to_send'))}">${esc(c.ui.smsDraft || '')}</textarea></span>
+      <div class="ecms-bottom"><span class="ecms-editor"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_selected"></i><textarea class="ecms-text" data-ime="im" rows="1" maxlength="1000" placeholder="${esc(M().t('type_to_compose_text_enter_to_send'))}">${esc(c.ui.smsDraft || '')}</textarea></span>
         <button type="button" class="ecui-button ecms-send" data-action="ecms-send"><i class="ec-bg np-fw-btn_default_normal"></i><i class="ec-bg ec-pressed np-fw-btn_default_pressed"></i><span>${esc(M().t('send'))}</span></button></div></div>`;
   }
   function suggest(c, root) {
