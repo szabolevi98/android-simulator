@@ -712,6 +712,7 @@ versions/2.1/assets/pn-ic_in_call_touch_dialpad_close.png	9f3954f1c2224966	copy	
 versions/2.1/assets/pn-ic_in_call_touch_end.png	1494f3fade1f2009	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/ic_in_call_touch_end.png	drawable-hdpi		1494f3fade1f2009
 versions/2.1/assets/pn-incall_photo_border_lg.9.png	2ca47f177be0db9d	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/incall_photo_border_lg.9.png	drawable-hdpi		2ca47f177be0db9d
 versions/2.1/assets/pn-picture_unknown.png	637670e40aa23513	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/picture_unknown.png	drawable-hdpi		637670e40aa23513
+versions/2.1/assets/st-app_gauge.9.png	b0a39c7dc50ca0bc	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/app_gauge.9.png	drawable-hdpi		b0a39c7dc50ca0bc
 versions/2.1/assets/st-appwidget_bg.9.png	bc472b6f41224f84	copy	passion:/system/app/Gallery3D.apk!res/drawable-hdpi/appwidget_bg.9.png	drawable-hdpi		bc472b6f41224f84
 versions/2.1/assets/st-appwidget_inner_press_c.9.png	5e9d563d42987aab	copy	passion:/system/app/GenieWidget.apk!res/drawable-hdpi/appwidget_inner_press_c.9.png	drawable-hdpi		5e9d563d42987aab
 versions/2.1/assets/st-appwidget_inner_press_l.9.png	d575e2ae29b896d4	copy	passion:/system/app/GenieWidget.apk!res/drawable-hdpi/appwidget_inner_press_l.9.png	drawable-hdpi		d575e2ae29b896d4
@@ -744,10 +745,14 @@ versions/2.1/assets/st-ic_popup_brightness.png	b83ee80fa0cafd20	copy	passion:/sy
 versions/2.1/assets/st-ic_settings_about.png	dfd57766841a1ae2	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_about.png	drawable-hdpi		dfd57766841a1ae2
 versions/2.1/assets/st-ic_settings_accessibility.png	b6a51e6cc344ab58	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_accessibility.png	drawable-hdpi		b6a51e6cc344ab58
 versions/2.1/assets/st-ic_settings_applications.png	c91362aa3e74b192	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_applications.png	drawable-hdpi		c91362aa3e74b192
+versions/2.1/assets/st-ic_settings_bluetooth.png	e35afeaf040b0e53	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_bluetooth.png	drawable-hdpi		e35afeaf040b0e53
 versions/2.1/assets/st-ic_settings_call.png	f414ecbff216664e	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_call.png	drawable-hdpi		f414ecbff216664e
+versions/2.1/assets/st-ic_settings_cell_standby.png	3b55c01cd17c3f2c	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_cell_standby.png	drawable-hdpi		3b55c01cd17c3f2c
 versions/2.1/assets/st-ic_settings_date_time.png	e5497ee869526ff5	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_date_time.png	drawable-hdpi		e5497ee869526ff5
+versions/2.1/assets/st-ic_settings_display.png	5509c73ea5942be6	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_display.png	drawable-hdpi		5509c73ea5942be6
 versions/2.1/assets/st-ic_settings_dock.png	20620980395ae0f7	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_dock.png	drawable-hdpi		20620980395ae0f7
 versions/2.1/assets/st-ic_settings_language.png	a7211c7402c45335	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_language.png	drawable-hdpi		a7211c7402c45335
+versions/2.1/assets/st-ic_settings_phone_idle.png	93f80148e4b12219	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_phone_idle.png	drawable-hdpi		93f80148e4b12219
 versions/2.1/assets/st-ic_settings_privacy.png	81ba41d48e6662d0	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_privacy.png	drawable-hdpi		81ba41d48e6662d0
 versions/2.1/assets/st-ic_settings_search.png	095f2a5db34a09d1	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_search.png	drawable-hdpi		095f2a5db34a09d1
 versions/2.1/assets/st-ic_settings_security.png	f65b6d75677afb86	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_security.png	drawable-hdpi		f65b6d75677afb86
@@ -755,6 +760,8 @@ versions/2.1/assets/st-ic_settings_sound_display.png	2961383d84389f51	copy	passi
 versions/2.1/assets/st-ic_settings_speech.png	bb23336bcde3f48e	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_speech.png	drawable-hdpi		bb23336bcde3f48e
 versions/2.1/assets/st-ic_settings_storage.png	f57a3a60738f1d3b	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_storage.png	drawable-hdpi		f57a3a60738f1d3b
 versions/2.1/assets/st-ic_settings_sync.png	8e42e98a275b7fe6	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_sync.png	drawable-hdpi		8e42e98a275b7fe6
+versions/2.1/assets/st-ic_settings_voice_calls.png	de4cd6fb9d622217	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_voice_calls.png	drawable-hdpi		de4cd6fb9d622217
+versions/2.1/assets/st-ic_settings_wifi.png	8f512527bf23fb92	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_wifi.png	drawable-hdpi		8f512527bf23fb92
 versions/2.1/assets/st-ic_settings_wireless.png	b9237cbff1130dcc	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_settings_wireless.png	drawable-hdpi		b9237cbff1130dcc
 versions/2.1/assets/st-ic_wifi_lock_signal_1.png	2b675b9f222fe28b	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_wifi_lock_signal_1.png	drawable-hdpi		2b675b9f222fe28b
 versions/2.1/assets/st-ic_wifi_lock_signal_2.png	b6779431fc577074	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/ic_wifi_lock_signal_2.png	drawable-hdpi		b6779431fc577074

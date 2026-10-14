@@ -69,3 +69,26 @@
 .ecsx-word span{position:relative;z-index:1}
 .ecsx-ud-empty{padding:calc(10 * var(--dp));color:#fff;font-size:calc(18 * var(--dp))}
 .ecsx-ud-field{margin:0 calc(20 * var(--dp))}
+/* Battery use (ec-settings-battery.js): preference_powergauge.xml / power_usage_details.xml rows (12 dp in, the 48 dp
+   icon 6 dp from the text, 2 / 8 / 6 dp around it; title medium 18 sp, percent small bold, the app_gauge bar 5 dp under
+   them on #80404040, an empty small summary line), Use details items (medium, bold label 4 dp in, value 10 dp from the
+   right) and power_usage_action_item.xml (4 / 10 dp in, the 150 dp button with weight 0.3 beside a 0.7 spacer). */
+.ecbu-row{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(10 * var(--dp)) 0 calc(12 * var(--dp));background:none;color:#fff!important;text-align:left}
+.ecbu-icon{position:relative;z-index:1;flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));margin-right:calc(6 * var(--dp))}
+.ecbu-body{position:relative;z-index:1;flex:1;min-width:0;display:flex;flex-direction:column;margin:calc(2 * var(--dp)) calc(8 * var(--dp)) calc(6 * var(--dp)) 0}
+.ecbu-top{display:flex;align-items:flex-end;margin-top:calc(2 * var(--dp))}
+.ecbu-title{flex:1;min-width:0;font-size:calc(18 * var(--dp));line-height:calc(24 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecbu-percent{flex:none;font-size:calc(14 * var(--dp));line-height:calc(19 * var(--dp));color:#bebebe}
+.ecbu-gauge{display:block;margin-top:calc(5 * var(--dp));height:calc(10.6667 * var(--dp));background:#40404080}
+.ecbu-gauge i{display:block;height:100%}
+.ecbu-summary{min-height:calc(19 * var(--dp));font-size:calc(14 * var(--dp));line-height:calc(19 * var(--dp));color:#bebebe}
+.ecbu-details{padding:calc(5 * var(--dp)) 0;background:#000}
+.ecbu-list{padding-left:calc(6 * var(--dp))}
+.ecbu-item{display:flex;justify-content:space-between;margin:calc(4 * var(--dp)) calc(10 * var(--dp)) calc(4 * var(--dp)) calc(4 * var(--dp));color:#fff;font-size:calc(18 * var(--dp));line-height:calc(24 * var(--dp));white-space:nowrap}
+.ecbu-details .ecpf-cat{margin-top:calc(6 * var(--dp))}
+.ecbu-details .ecpf-cat:first-of-type{margin-top:0}
+.ecbu-action{display:flex;flex-direction:column;justify-content:center;min-height:calc(64 * var(--dp));padding:0 calc(10 * var(--dp)) 0 calc(4 * var(--dp))}
+.ecbu-sugg{margin-top:calc(2 * var(--dp));color:#fff;font-size:calc(18 * var(--dp));line-height:calc(24 * var(--dp))}
+.ecbu-btns{display:flex}
+.ecbu-btns>span{flex:0.7 1 0}
+.ecbu-btn{flex:0.3 1 calc(150 * var(--dp))!important;padding-right:calc(16 * var(--dp))}

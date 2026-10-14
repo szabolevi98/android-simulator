@@ -72,6 +72,7 @@
   EC.register('incall', {
     title: 'Phone',
     noStatus: () => false,
+    active: () => call?.state === 'active',   // for BatteryStats' phone on time
     init(c) {
       // Dialtacts puts the number in ui.callNumber and opens this screen.
       const open = c.open;

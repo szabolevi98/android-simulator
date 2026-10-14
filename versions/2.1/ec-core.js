@@ -134,7 +134,27 @@
     return missing('home', `<div class="ec-missing-list">${list}</div>`);
   }
 
+  // BatteryStats for Settings › Battery use, from the page load (taken as the phone being unplugged): the time it runs,
+  // the screen on in each brightness bin (noteScreenBrightness: brightness * 5 / 256), the radio on (not in airplane
+  // mode), Wi-Fi and Bluetooth on, and calls. Every change of these goes through render(), which notes the time.
+  const stats = {since: Date.now(), at: Date.now(), state: null, up: 0, screen: [0, 0, 0, 0, 0], radio: 0, wifi: 0, bluetooth: 0, phone: 0};
+  function noteStats() {
+    if (!data) return;
+    const now = Date.now(), d = now - stats.at, was = stats.state;
+    if (was) {
+      if (was.up) stats.up += d;
+      if (was.screen >= 0) stats.screen[was.screen] += d;
+      for (const k of ['radio', 'wifi', 'bluetooth', 'phone']) if (was[k]) stats[k] += d;
+    }
+    const s = data.settings, up = ui.power !== 'off', level = s.autoBrightness !== false ? 102 : (s.brightnessLevel ?? 102);
+    stats.at = now;
+    stats.state = {up, screen: up && !ui.power && !ui.sleeping ? Math.min(4, Math.floor(level * 5 / 256)) : -1, radio: up && !s.airplane,
+      wifi: up && !!s.wifi, bluetooth: up && !!s.bluetooth, phone: up && !!modules.incall?.active?.()};
+  }
+  c.batteryStats = () => { noteStats(); return {...stats, screen: [...stats.screen]}; };
+
   function render() {
+    noteStats();
     const mod = modules[ui.view];
     const noStatus = !!mod?.noStatus?.(c);
     screen.className = `screen${ui.sleeping ? ' sleeping' : ''}${noStatus ? ' no-status' : ''} view-${ui.view}`;

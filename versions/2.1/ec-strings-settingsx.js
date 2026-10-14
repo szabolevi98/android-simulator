@@ -560,6 +560,231 @@ EC.strings('settingsx', {
 "hu": "Előadók, albumok és számok",
 "huFrom": "crespo:MusicGoogle:search_settings_description"
 },
+"power_screen": {
+"res": "passion:Settings:power_screen",
+"en": "Display",
+"de": "Display",
+"fr": "Écran",
+"es": "Pantalla",
+"hu": "Megjelenítés",
+"huFrom": "crespo:Settings:power_screen"
+},
+"power_wifi": {
+"res": "passion:Settings:power_wifi",
+"en": "Wi-Fi",
+"de": "WLAN",
+"fr": "Wi-Fi",
+"es": "Wi-Fi",
+"hu": "Wi-Fi",
+"huFrom": "crespo:Settings:power_wifi"
+},
+"power_bluetooth": {
+"res": "passion:Settings:power_bluetooth",
+"en": "Bluetooth",
+"de": "Bluetooth",
+"fr": "Bluetooth",
+"es": "Bluetooth",
+"hu": "Bluetooth",
+"huFrom": "crespo:Settings:power_bluetooth"
+},
+"power_cell": {
+"res": "passion:Settings:power_cell",
+"en": "Cell standby",
+"de": "Handy-Standby",
+"fr": "Veille GSM",
+"es": "Dispositivo inactivo",
+"hu": "Cella készenlét",
+"huFrom": "crespo:Settings:power_cell"
+},
+"power_phone": {
+"res": "passion:Settings:power_phone",
+"en": "Voice calls",
+"de": "Anrufe",
+"fr": "Appels vocaux",
+"es": "Llamadas de voz",
+"hu": "Hanghívások",
+"huFrom": "crespo:Settings:power_phone"
+},
+"power_idle": {
+"res": "passion:Settings:power_idle",
+"en": "Phone idle",
+"de": "Telefon inaktiv",
+"fr": "Téléphone inactif",
+"es": "Teléfono inactivo",
+"hu": "Telefon - tétlen",
+"huFrom": "crespo:Settings:power_idle"
+},
+"details_subtitle": {
+"res": "passion:Settings:details_subtitle",
+"en": "Use details",
+"de": "Details verwenden",
+"fr": "Détails d'utilisation",
+"es": "Detalles de uso",
+"hu": "Használat részletei",
+"huFrom": "crespo:Settings:details_subtitle"
+},
+"controls_subtitle": {
+"res": "passion:Settings:controls_subtitle",
+"en": "Adjust power use",
+"de": "Energieverbrauch anpassen",
+"fr": "Ajuster la consommation",
+"es": "Ajustar uso de la batería",
+"hu": "Az energiafelhasználás beállítása",
+"huFrom": "crespo:Settings:controls_subtitle"
+},
+"menu_stats_refresh": {
+"res": "passion:Settings:menu_stats_refresh",
+"en": "Refresh",
+"de": "Aktualisieren",
+"fr": "Actualiser",
+"es": "Actualizar",
+"hu": "Frissítés",
+"huFrom": "crespo:Settings:menu_stats_refresh"
+},
+"usage_type_on_time": {
+"res": "passion:Settings:usage_type_on_time",
+"en": "Time on",
+"de": "Aktiviert",
+"fr": "Durée d'activation",
+"es": "Tiempo de activación",
+"hu": "Bekapcsolva eltöltött idő",
+"huFrom": "crespo:Settings:usage_type_on_time"
+},
+"usage_type_no_coverage": {
+"res": "passion:Settings:usage_type_no_coverage",
+"en": "Time without a signal",
+"de": "Zeit ohne Signal",
+"fr": "Durée sans signal",
+"es": "Tiempo sin señal",
+"hu": "Jel nélkül eltelt idő",
+"huFrom": "crespo:Settings:usage_type_no_coverage"
+},
+"battery_desc_voice": {
+"res": "passion:Settings:battery_desc_voice",
+"en": "Battery used by voice calls",
+"de": "Akkuverbrauch durch Anrufe",
+"fr": "Batterie utilisée par les appels vocaux",
+"es": "Batería utilizada por llamadas de voz",
+"hu": "Hanghívások által felhasznált energia",
+"huFrom": "crespo:Settings:battery_desc_voice"
+},
+"battery_desc_standby": {
+"res": "passion:Settings:battery_desc_standby",
+"en": "Battery used when phone is idle",
+"de": "Akkuverbrauch bei inaktivem Telefon",
+"fr": "Batterie utilisée lorsque le téléphone est inactif",
+"es": "Batería utilizada cuando el teléfono está inactivo",
+"hu": "Akkumulátorhasználat, amíg a telefon tétlen volt",
+"huFrom": "crespo:Settings:battery_desc_standby"
+},
+"battery_desc_radio": {
+"res": "passion:Settings:battery_desc_radio",
+"en": "Battery used by cell radio",
+"de": "Akkuverbrauch durch Mobilfunk",
+"fr": "Batterie utilisée par le signal radio cellulaire",
+"es": "Batería utilizada por la radio",
+"hu": "Mobil adó által felhasznált energia",
+"huFrom": "crespo:Settings:battery_desc_radio"
+},
+"battery_desc_display": {
+"res": "passion:Settings:battery_desc_display",
+"en": "Battery used by the display and backlight",
+"de": "Akkuverbrauch durch Display und Beleuchtung",
+"fr": "Batterie utilisée par l'affichage et le rétro-éclairage",
+"es": "Batería utilizada por la pantalla y por la retroiluminación",
+"hu": "A kijelző és a háttérfény által felhasznált energia",
+"huFrom": "crespo:Settings:battery_desc_display"
+},
+"battery_desc_wifi": {
+"res": "passion:Settings:battery_desc_wifi",
+"en": "Battery used by Wi-Fi",
+"de": "Akkuverbrauch durch WLAN",
+"fr": "Batterie utilisée par le Wi-Fi",
+"es": "Batería utilizada por la conexión Wi-Fi",
+"hu": "Wi-Fi által felhasznált energia",
+"huFrom": "crespo:Settings:battery_desc_wifi"
+},
+"battery_desc_bluetooth": {
+"res": "passion:Settings:battery_desc_bluetooth",
+"en": "Battery used by bluetooth",
+"de": "Akkuverbrauch durch Bluetooth",
+"fr": "Batterie utilisée par Bluetooth",
+"es": "Batería utilizada por Bluetooth",
+"hu": "Bluetooth által felhasznált energia",
+"huFrom": "crespo:Settings:battery_desc_bluetooth"
+},
+"battery_sugg_display": {
+"res": "passion:Settings:battery_sugg_display",
+"en": "Reduce the screen brightness and/or screen timeout",
+"de": "Bildschirmhelligkeit und/oder Bildschirm-Timeout verringern",
+"fr": "Réduire la luminosité et/ou le délai de mise en veille de l'écran",
+"es": "Reduce el brillo y el tiempo de espera de la pantalla.",
+"hu": "Csökkentse a képernyő fényerejét és kikapcsolási idejét",
+"huFrom": "crespo:Settings:battery_sugg_display"
+},
+"battery_sugg_wifi": {
+"res": "passion:Settings:battery_sugg_wifi",
+"en": "Turn off Wi-Fi when not using it or where it is not available",
+"de": "WLAN bei Nichtverwendung oder Nichtverfügbarkeit deaktivieren",
+"fr": "Désactiver la fonctionnalité Wi-Fi lorsque vous ne l'utilisez pas ou lorsqu'elle n'est pas disponible",
+"es": "Desactiva la conexión Wi-Fi cuando no la estés utilizando o cuando no esté disponible.",
+"hu": "Kapcsolja ki a Wi-Fi-t, ha nem használja, vagy ahol nincs elérhető hálózat",
+"huFrom": "crespo:Settings:battery_sugg_wifi"
+},
+"battery_sugg_bluetooth_basic": {
+"res": "passion:Settings:battery_sugg_bluetooth_basic",
+"en": "Turn off bluetooth when you aren't using it",
+"de": "Bluetooth bei Nichtverwendung deaktivieren",
+"fr": "Désactivez Bluetooth lorsque vous ne l'utilisez pas.",
+"es": "Desactiva el Bluetooth cuando no lo estés utilizando.",
+"hu": "Ha nem használja, kapcsolja ki a Bluetooth-funkciót",
+"huFrom": "crespo:Settings:battery_sugg_bluetooth_basic"
+},
+"battery_sugg_radio": {
+"res": "passion:Settings:battery_sugg_radio",
+"en": "Switch to airplane mode to save power in areas with no cell coverage",
+"de": "In den Flugmodus wechseln, um in Gebieten ohne Mobilfunkabdeckung Energie zu sparen",
+"fr": "Passez en mode Avion pour économiser la batterie dans les zones sans couverture cellulaire.",
+"es": "Cambia a modo avión para ahorrar batería en zonas sin cobertura.",
+"hu": "Ahol nincs lefedettség, váltson repülőgép módra, hogy spóroljon az energiával",
+"huFrom": "crespo:Settings:battery_sugg_radio"
+},
+"battery_history_days": {
+"res": "passion:Settings:battery_history_days",
+"en": "%1$dd %2$dh %3$dm %4$ds",
+"de": "%1$d d %2$d h %3$d m %4$d s",
+"fr": "%1$d j %2$d h %3$d mn %4$d s",
+"es": "%1$d d %2$d h %3$d min %4$d s",
+"hu": "%1$d n %2$d ó %3$d p %4$d mp",
+"huFrom": "crespo:Settings:battery_history_days"
+},
+"battery_history_hours": {
+"res": "passion:Settings:battery_history_hours",
+"en": "%1$dh %2$dm %3$ds",
+"de": "%1$d h %2$d m %3$d s",
+"fr": "%1$d h %2$d mn %3$d s",
+"es": "%1$d h %2$d min %3$d s",
+"hu": "%1$d ó %2$d p %3$d mp",
+"huFrom": "crespo:Settings:battery_history_hours"
+},
+"battery_history_minutes": {
+"res": "passion:Settings:battery_history_minutes",
+"en": "%1$dm %2$ds",
+"de": "%1$d m %2$d s",
+"fr": "%1$d mn %2$d s",
+"es": "%1$d min %2$d s",
+"hu": "%1$d p %2$d mp",
+"huFrom": "crespo:Settings:battery_history_minutes"
+},
+"battery_history_seconds": {
+"res": "passion:Settings:battery_history_seconds",
+"en": "%1$ds",
+"de": "%1$d s",
+"fr": "%1$d s",
+"es": "%1$d s",
+"hu": "%1$d mp",
+"huFrom": "crespo:Settings:battery_history_seconds"
+},
 "Phone/voicemail_default": {
 "res": "passion:Phone:voicemail_default",
 "en": "My carrier",

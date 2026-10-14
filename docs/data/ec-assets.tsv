@@ -350,6 +350,13 @@ st-ic_wifi_lock_signal_2.png	app/Settings.apk	drawable/ic_wifi_lock_signal_2
 st-ic_wifi_lock_signal_3.png	app/Settings.apk	drawable/ic_wifi_lock_signal_3
 st-ic_wifi_lock_signal_4.png	app/Settings.apk	drawable/ic_wifi_lock_signal_4
 st-ic_menu_scan_network.png	app/Settings.apk	drawable/ic_menu_scan_network
+st-app_gauge.9.png	app/Settings.apk	drawable/app_gauge
+st-ic_settings_display.png	app/Settings.apk	drawable/ic_settings_display
+st-ic_settings_wifi.png	app/Settings.apk	drawable/ic_settings_wifi
+st-ic_settings_bluetooth.png	app/Settings.apk	drawable/ic_settings_bluetooth
+st-ic_settings_cell_standby.png	app/Settings.apk	drawable/ic_settings_cell_standby
+st-ic_settings_phone_idle.png	app/Settings.apk	drawable/ic_settings_phone_idle
+st-ic_settings_voice_calls.png	app/Settings.apk	drawable/ic_settings_voice_calls
 fw-ic_menu_manage.png	framework/framework-res.apk	drawable/ic_menu_manage
 fw-spinner_white_16.png	framework/framework-res.apk	drawable/spinner_white_16
 fw-textfield_default.9.png	framework/framework-res.apk	drawable/textfield_default
