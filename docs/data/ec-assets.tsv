@@ -490,3 +490,15 @@ fw-ic_menu_share.png	framework/framework-res.apk	drawable/ic_menu_share
 ct-sym_action_sms.png	app/Contacts.apk	drawable/sym_action_sms
 ct-ic_menu_mark.png	app/Contacts.apk	drawable/ic_menu_mark
 ct-title_bar_shadow.9.png	app/Contacts.apk	drawable/title_bar_shadow
+# Mms.apk (conversation_header.xml, compose_message_activity.xml, message_list_item.xml, menus)
+fw-ic_menu_compose.png	framework/framework-res.apk	drawable/ic_menu_compose
+fw-ic_menu_emoticons.png	framework/framework-res.apk	drawable/ic_menu_emoticons
+fw-ic_menu_friendslist.png	framework/framework-res.apk	drawable/ic_menu_friendslist
+fw-ic_menu_call.png	framework/framework-res.apk	drawable/ic_menu_call
+fw-ic_menu_send.png	framework/framework-res.apk	drawable/ic_menu_send
+mm-ic_contact_picture.png	app/Mms.apk	drawable/ic_contact_picture
+mm-ic_menu_contact.png	app/Mms.apk	drawable/ic_menu_contact
+mm-ic_menu_attachment.png	app/Mms.apk	drawable/ic_menu_attachment
+mm-bottombar_landscape_565.png	app/Mms.apk	drawable/bottombar_landscape_565
+mm-stat_notify_sms.png	app/Mms.apk	drawable/stat_notify_sms
+fw-textfield_pressed.9.png	framework/framework-res.apk	drawable/textfield_pressed
