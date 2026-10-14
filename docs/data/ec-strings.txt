@@ -99,3 +99,6 @@ array:pref_camera_video_duration_entries
 [gallery] Gallery3D
 app_name camera slideshow menu share delete more details set_as crop rotate_left rotate_right show_on_map confirm_delete
 are_you_sure cancel no_items
+[music] Music
+musicbrowserlabel browse_menu albums_menu tracks_menu playlists_menu party_shuffle shuffle_all recentlyadded
+sdcard_busy_title sdcard_missing_title sdcard_busy_message sdcard_missing_message no_tracks_title

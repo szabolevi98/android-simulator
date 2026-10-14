@@ -1,0 +1,14 @@
+/* Android 2.1 Music (ec-music.js), in dp / sp. */
+.ecmu{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ecmu-bar{flex:none;display:flex;height:calc(64 * var(--dp))}
+.ecmu-tab{position:relative;flex:1 1 0;min-width:0;margin:0 calc(-3 * var(--dp));border:0;padding:calc(7 * var(--dp)) 0 calc(2 * var(--dp));background:none;display:flex;flex-direction:column;align-items:center;justify-content:space-between;color:#808080;font-size:calc(14 * var(--dp))}
+.ecmu-tab.on{color:#fff;z-index:1}
+.ecmu-tab.on .ec-pressed{display:none}
+.ecmu-tab>img,.ecmu-tab>span{position:relative;z-index:1}
+.ecmu-tab>img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.ecmu-list{position:relative;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ecmu-row{position:relative;display:flex;align-items:center;gap:calc(9 * var(--dp));width:100%;height:calc(64 * var(--dp));border:0;padding:0 0 0 calc(4 * var(--dp));background:none;color:#fff;text-align:left;font-size:calc(18 * var(--dp))}
+.ecmu-row>:not(.ec-bg){position:relative;z-index:1}
+.ecmu-row img{width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.ecmu-sd{display:flex;flex-direction:column;align-items:center;margin-top:calc(40 * var(--dp))}
+.ecmu-sd span{padding:calc(8 * var(--dp));font-size:calc(18 * var(--dp));text-align:center}

@@ -614,3 +614,19 @@ ga-icon_more.png	app/Gallery3D.apk	drawable/icon_more
 ga-icon_share.png	app/Gallery3D.apk	drawable/icon_share
 ga-icon_delete.png	app/Gallery3D.apk	drawable/icon_delete
 ga-icon_cancel.png	app/Gallery3D.apk	drawable/icon_cancel
+# Music.apk (buttonbar.xml tabs, lists)
+mu-buttonbar_active.9.png	app/Music.apk	drawable/buttonbar_active
+mu-buttonbar_inactive.9.png	app/Music.apk	drawable/buttonbar_inactive
+mu-buttonbar_pressed.9.png	app/Music.apk	drawable/buttonbar_pressed
+mu-ic_tab_albums_selected.png	app/Music.apk	drawable/ic_tab_albums_selected
+mu-ic_tab_albums_unselected.png	app/Music.apk	drawable/ic_tab_albums_unselected
+mu-ic_tab_artists_selected.png	app/Music.apk	drawable/ic_tab_artists_selected
+mu-ic_tab_artists_unselected.png	app/Music.apk	drawable/ic_tab_artists_unselected
+mu-ic_tab_playlists_selected.png	app/Music.apk	drawable/ic_tab_playlists_selected
+mu-ic_tab_playlists_unselected.png	app/Music.apk	drawable/ic_tab_playlists_unselected
+mu-ic_tab_songs_selected.png	app/Music.apk	drawable/ic_tab_songs_selected
+mu-ic_tab_songs_unselected.png	app/Music.apk	drawable/ic_tab_songs_unselected
+mu-ic_menu_party_shuffle.png	app/Music.apk	drawable/ic_menu_party_shuffle
+mu-ic_menu_shuffle.png	app/Music.apk	drawable/ic_menu_shuffle
+mu-ic_mp_playlist_recently_added_list.png	app/Music.apk	drawable/ic_mp_playlist_recently_added_list
+mu-ic_mp_sd_card.png	app/Music.apk	drawable/ic_mp_sd_card
