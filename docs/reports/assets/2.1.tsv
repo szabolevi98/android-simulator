@@ -205,6 +205,7 @@ versions/2.1/assets/dc-ic_menu_desk_clock.png	017b0307cd6f8409	copy	passion:/sys
 versions/2.1/assets/dc-ic_round_brightness.png	3126dd57f107afd1	copy	passion:/system/app/DeskClock.apk!res/drawable-hdpi/ic_round_brightness.png	drawable-hdpi		3126dd57f107afd1
 versions/2.1/assets/dc-stat_notify_alarm.png	d7d47af0ea22aacd	copy	passion:/system/app/DeskClock.apk!res/drawable-hdpi/stat_notify_alarm.png	drawable-hdpi		d7d47af0ea22aacd
 versions/2.1/assets/device-nexus-one.svg	2ad7fa6da390f925	own	drawn by docs/tools/device-frames.py: the outline measured from the maker's front render, the shading drawn			
+versions/2.1/assets/em-ic_exchange_selected.png	38518e790a6d5c5d	copy	passion:/system/app/Email.apk!res/drawable-hdpi/ic_exchange_selected.png	drawable-hdpi		38518e790a6d5c5d
 versions/2.1/assets/fb-about.html	16044c3304e9c60f	copy	passion:/system/app/Facebook.apk!res/raw/about.html	raw		16044c3304e9c60f
 versions/2.1/assets/fb-btn_blue_normal.9.png	557689d4a34e4089	copy	passion:/system/app/Facebook.apk!res/drawable/btn_blue_normal.9.png	drawable		557689d4a34e4089
 versions/2.1/assets/fb-btn_blue_pressed.9.png	5ed7af945020b503	copy	passion:/system/app/Facebook.apk!res/drawable/btn_blue_pressed.9.png	drawable		5ed7af945020b503
@@ -213,6 +214,7 @@ versions/2.1/assets/fb-btn_green_pressed.9.png	5be0fda5dd923666	copy	passion:/sy
 versions/2.1/assets/fb-eula.html	596350b41ecc8c30	copy	passion:/system/app/Facebook.apk!res/raw/eula.html	raw		596350b41ecc8c30
 versions/2.1/assets/fb-facebook_logo.9.png	417f4639115c4e52	copy	passion:/system/app/Facebook.apk!res/drawable-hdpi/facebook_logo.9.png	drawable-hdpi		417f4639115c4e52
 versions/2.1/assets/fb-fixed_divider_horizontal_bright.9.png	9342aa0c86559743	copy	passion:/system/app/Facebook.apk!res/drawable/fixed_divider_horizontal_bright.9.png	drawable		9342aa0c86559743
+versions/2.1/assets/fb-ic_facebook_selected.png	ca61f0a411f3c0df	copy	passion:/system/app/Facebook.apk!res/drawable-hdpi/ic_facebook_selected.png	drawable-hdpi		ca61f0a411f3c0df
 versions/2.1/assets/fw-android-weberror.png	970a987a16178450	copy	passion:/system/framework/framework-res.apk!assets/webkit/android-weberror.png			970a987a16178450
 versions/2.1/assets/fw-arrow_down_float.png	003ca6caa5cac2e2	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/arrow_down_float.png	drawable-hdpi		003ca6caa5cac2e2
 versions/2.1/assets/fw-bottom_bar.png	fb91934c24ac5a2d	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/bottom_bar.png	drawable-hdpi		fb91934c24ac5a2d

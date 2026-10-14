@@ -241,6 +241,7 @@
       c.ui.settingsStack.push(`missing:${cls}`); c.render(); return;
     }
     if (n.t === 'PreferenceScreen' && n.c) { c.ui.settingsStack.push(`${screen.name}|${path}`); c.render(); return; }
+    if (n.intent?.action && EC.settingsActions?.[n.intent.action]) { EC.settingsActions[n.intent.action](c); return; }
     if (n.intent?.action) { c.toast(txt(n.title)); return; }
     if (n.t !== 'Preference') c.dialog({title: txt(n.dialogTitle || n.title), icon: null, message: c.t('Not built yet'), buttons: [{label: EC.text('framework').t('ok')}]});
   }

@@ -756,3 +756,5 @@ fw-expander_ic_maximized.9.png	framework/framework-res.apk	drawable/expander_ic_
 fw-expander_ic_minimized.9.png	framework/framework-res.apk	drawable/expander_ic_minimized
 fw-ic_menu_sort_by_size.png	framework/framework-res.apk	drawable/ic_menu_sort_by_size
 st-ic_menu_filter_settings.png	app/Settings.apk	drawable/ic_menu_filter_settings
+em-ic_exchange_selected.png	app/Email.apk	drawable/ic_exchange_selected
+fb-ic_facebook_selected.png	app/Facebook.apk	drawable/ic_facebook_selected
