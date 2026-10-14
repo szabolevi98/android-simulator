@@ -73,6 +73,15 @@ EC.strings('settings', {
 "hu": "Tevékenység választása",
 "huFrom": "crespo:Settings:activity_picker_label"
 },
+"Phone/additional_gsm_call_settings": {
+"res": "passion:Phone:additional_gsm_call_settings",
+"en": "Additional settings",
+"de": "Zusätzliche Einstellungen",
+"fr": "Autres paramètres",
+"es": "Configuración adicional",
+"hu": "További beállítások",
+"huFrom": "crespo:Phone:additional_gsm_call_settings"
+},
 "airplane_mode": {
 "res": "passion:Settings:airplane_mode",
 "en": "Airplane mode",
@@ -126,6 +135,15 @@ EC.strings('settings', {
 "es": "Editar punto de acceso",
 "hu": "Hozzáférési pont szerkesztése",
 "huFrom": "crespo:Settings:apn_edit"
+},
+"Phone/apn_settings": {
+"res": "passion:Phone:apn_settings",
+"en": "Access Point Names",
+"de": "Zugangspunkte",
+"fr": "Noms des points d'accès",
+"es": "APN",
+"hu": "Hozzáférési pontok nevei",
+"huFrom": "crespo:Phone:apn_settings"
 },
 "apn_settings": {
 "res": "passion:Settings:apn_settings",
@@ -225,6 +243,24 @@ EC.strings('settings', {
 "es": "Corregir palabras con errores de escritura",
 "hu": "Elgépelt szavak kijavítása",
 "huFrom": "crespo:Settings:auto_replace_summary"
+},
+"Phone/auto_retry_mode_summary": {
+"res": "passion:Phone:auto_retry_mode_summary",
+"en": "Enable Auto Retry mode",
+"de": "Modus für automatische Wiederholung aktivieren",
+"fr": "Activer le mode Réessayer automatiquement",
+"es": "Habilitar modo de reintento automático",
+"hu": "Automatikus újrapróbálkozás mód bekapcsolása",
+"huFrom": "crespo:Phone:auto_retry_mode_summary"
+},
+"Phone/auto_retry_mode_title": {
+"res": "passion:Phone:auto_retry_mode_title",
+"en": "Auto Retry",
+"de": "Automatische Wiederholung",
+"fr": "Réessayer automatiquement",
+"es": "Reintento automático",
+"hu": "Automatikus újrapróbálkozás",
+"huFrom": "crespo:Phone:auto_retry_mode_title"
 },
 "backup_settings_title": {
 "res": "passion:Settings:backup_settings_title",
@@ -478,6 +514,24 @@ EC.strings('settings', {
 "hu": "Eszköz billentyűzete",
 "huOwn": true
 },
+"Phone/call_forwarding_settings": {
+"res": "passion:Phone:call_forwarding_settings",
+"en": "Call forwarding settings",
+"de": "Einstellungen",
+"fr": "Paramètres de transfert d'appel",
+"es": "Configuración de desvío de llamada",
+"hu": "Hívásátirányítás beállításai",
+"huFrom": "crespo:Phone:call_forwarding_settings"
+},
+"Phone/call_settings": {
+"res": "passion:Phone:call_settings",
+"en": "Call settings",
+"de": "Anrufeinstellungen",
+"fr": "Paramètres d'appel",
+"es": "Ajustes de llamadas",
+"hu": "Hívásbeállítások",
+"huFrom": "crespo:Phone:call_settings"
+},
 "call_settings_title": {
 "res": "passion:Settings:call_settings_title",
 "en": "Call settings",
@@ -486,6 +540,42 @@ EC.strings('settings', {
 "es": "Ajustes de llamadas",
 "hu": "Hívásbeállítások",
 "huFrom": "crespo:Settings:call_settings_title"
+},
+"Phone/cdma_options": {
+"res": "passion:Phone:cdma_options",
+"en": "CDMA Options",
+"de": "CDMA-Optionen",
+"fr": "Options CDMA",
+"es": "Opciones de CDMA",
+"hu": "CDMA-beállítások",
+"huFrom": "crespo:Phone:cdma_options"
+},
+"Phone/cell_broadcast_sms": {
+"res": "passion:Phone:cell_broadcast_sms",
+"en": "Cell Broadcast SMS",
+"de": "Cell Broadcast SMS",
+"fr": "Diffusion cellulaire par SMS",
+"es": "SMS de difusión móvil",
+"hu": "Cellán belüli üzenetszórás",
+"huFrom": "crespo:Phone:cell_broadcast_sms"
+},
+"Phone/change_pin": {
+"res": "passion:Phone:change_pin",
+"en": "Change SIM PIN",
+"de": "PIN der SIM-Karte ändern",
+"fr": "Modifier le code PIN de la carte SIM",
+"es": "Cambiar PIN de tarjeta SIM",
+"hu": "SIM-kártya PIN-kódjának módosítása",
+"huFrom": "crespo:Phone:change_pin"
+},
+"Phone/change_pin2": {
+"res": "passion:Phone:change_pin2",
+"en": "Change PIN2",
+"de": "PIN2 ändern",
+"fr": "Modifier le code PIN2",
+"es": "Cambiar PIN2",
+"hu": "PIN2-kód módosítása",
+"huFrom": "crespo:Phone:change_pin2"
 },
 "choose_timezone": {
 "res": "passion:Settings:choose_timezone",
@@ -625,16 +715,25 @@ EC.strings('settings', {
 "debug_intent_sender_label": {
 "res": "passion:Settings:debug_intent_sender_label",
 "en": "Debug intent sender",
-"hu": "Hibakereső intent-küldő",
-"huOwn": true,
+"hu": "Debug intent sender",
 "de": "Debug intent sender",
 "fr": "Debug intent sender",
 "es": "Debug intent sender",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
+},
+"Phone/delete_fdn_contact": {
+"res": "passion:Phone:delete_fdn_contact",
+"en": "Delete fixed dialing contact",
+"de": "Kontakt mit Anrufbegrenzung löschen",
+"fr": "Supprimer le contact à numéro autorisé",
+"es": "Eliminar contacto de marcación fija",
+"hu": "Fix hívószám törlése",
+"huOwn": true
 },
 "details_title": {
 "res": "passion:Settings:details_title",
@@ -798,6 +897,42 @@ EC.strings('settings', {
 "hu": "Hallható érintési hangjelzések",
 "huFrom": "crespo:Settings:dtmf_tone_enable_title"
 },
+"Phone/dtmf_tones_summary": {
+"res": "passion:Phone:dtmf_tones_summary",
+"en": "Set the length of DTMF tones",
+"de": "Länge der DTMF-Töne einstellen",
+"fr": "Définir la durée des tonalités DTMF",
+"es": "Establecer la longitud de los tonos DTMF",
+"hu": "DTMF hangjelzések hosszának beállítása",
+"huFrom": "crespo:Phone:dtmf_tones_summary"
+},
+"Phone/dtmf_tones_title": {
+"res": "passion:Phone:dtmf_tones_title",
+"en": "DTMF Tones",
+"de": "DTMF-Töne",
+"fr": "Tonalités DTMF",
+"es": "Tonos DTMF",
+"hu": "DTMF hangjelzések",
+"huFrom": "crespo:Phone:dtmf_tones_title"
+},
+"Phone/ecm_exit_dialog": {
+"res": "passion:Phone:ecm_exit_dialog",
+"en": "EcmExitDialog",
+"de": "EcmExitDialog",
+"fr": "EcmExitDialog",
+"es": "EcmExitDialog",
+"hu": "EcmExitDialog",
+"huFrom": "crespo:Phone:ecm_exit_dialog"
+},
+"Phone/emergencyDialerIconLabel": {
+"res": "passion:Phone:emergencyDialerIconLabel",
+"en": "Emergency Dialer",
+"de": "Notrufwählprogramm",
+"fr": "Appels d'urgence",
+"es": "Llamada de emergencia",
+"hu": "Segélyhívó tárcsázó",
+"huFrom": "crespo:Phone:emergencyDialerIconLabel"
+},
 "emergency_tone_summary": {
 "res": "passion:Settings:emergency_tone_summary",
 "en": "Set behavior when an emergency call is placed",
@@ -834,6 +969,51 @@ EC.strings('settings', {
 "hu": "Hibakeresés mód USB csatlakoztatásakor",
 "huFrom": "crespo:Settings:enable_adb_summary"
 },
+"Phone/enable_pin": {
+"res": "passion:Phone:enable_pin",
+"en": "Enable/disable SIM PIN",
+"de": "PIN-Abfrage für SIM-Karte aktivieren/deaktivieren",
+"fr": "Activer/désactiver le code PIN de la carte SIM",
+"es": "Habilitar/inhabilitar PIN de tarjeta SIM",
+"hu": "SIM-kártya PIN-kódjának be-/kikapcsolása",
+"huFrom": "crespo:Phone:enable_pin"
+},
+"Phone/enter_pin2_text": {
+"res": "passion:Phone:enter_pin2_text",
+"en": "PIN2",
+"de": "PIN2",
+"fr": "PIN2",
+"es": "PIN2",
+"hu": "PIN2",
+"huFrom": "crespo:Phone:enter_pin2_text"
+},
+"Phone/fdn": {
+"res": "passion:Phone:fdn",
+"en": "Fixed Dialing Numbers",
+"de": "Anrufbegrenzung",
+"fr": "Numéros autorisés",
+"es": "Marcación fija",
+"hu": "Fix hívószámok",
+"huFrom": "crespo:Phone:fdn"
+},
+"Phone/fdnListLabel": {
+"res": "passion:Phone:fdnListLabel",
+"en": "FDN list",
+"de": "Anrufbegrenzung",
+"fr": "Liste numéros autorisés",
+"es": "Lista de FDN",
+"hu": "FDN lista",
+"huFrom": "crespo:Phone:fdnListLabel"
+},
+"Phone/fdn_activation": {
+"res": "passion:Phone:fdn_activation",
+"en": "FDN activation",
+"de": "Aktivierung der Anrufbegrenzung",
+"fr": "Activation des numéros autorisés",
+"es": "Activación de FDN",
+"hu": "FDN aktiválása",
+"huFrom": "crespo:Phone:fdn_activation"
+},
 "firmware_version": {
 "res": "passion:Settings:firmware_version",
 "en": "Firmware version",
@@ -842,6 +1022,42 @@ EC.strings('settings', {
 "es": "Versión del firmware",
 "hu": "Firmware verziója",
 "huOwn": true
+},
+"Phone/get_pin2": {
+"res": "passion:Phone:get_pin2",
+"en": "Enter PIN2",
+"de": "PIN2 eingeben",
+"fr": "Saisir le code PIN2",
+"es": "Introducir PIN2",
+"hu": "Adja meg a PIN2-kódot",
+"huFrom": "crespo:Phone:get_pin2"
+},
+"Phone/gsm_umts_options": {
+"res": "passion:Phone:gsm_umts_options",
+"en": "GSM/UMTS Options",
+"de": "GSM-/UMTS-Optionen",
+"fr": "Options GSM/UMTS",
+"es": "Opciones GSM/UMTS",
+"hu": "GSM/UMTS beállítások",
+"huFrom": "crespo:Phone:gsm_umts_options"
+},
+"Phone/hac_mode_summary": {
+"res": "passion:Phone:hac_mode_summary",
+"en": "Turn on hearing aid compatibility",
+"de": "Hörhilfekompatibilität aktivieren",
+"fr": "Activer la compatibilité du service d'assistance auditive",
+"es": "Activar compatibilidad con audífono",
+"hu": "Hallókészülék-kompatibilitás bekapcsolása",
+"huFrom": "crespo:Phone:hac_mode_summary"
+},
+"Phone/hac_mode_title": {
+"res": "passion:Phone:hac_mode_title",
+"en": "Hearing aids",
+"de": "Hörhilfen",
+"fr": "Assistance auditive",
+"es": "Audífonos",
+"hu": "Hallókészülékek",
+"huFrom": "crespo:Phone:hac_mode_title"
 },
 "haptic_feedback_enable_summary_off": {
 "res": "passion:Settings:haptic_feedback_enable_summary_off",
@@ -932,6 +1148,96 @@ EC.strings('settings', {
 "es": "Versión de kernel",
 "hu": "Kernel verziója",
 "huFrom": "crespo:Settings:kernel_version"
+},
+"Phone/labelCDMAMore": {
+"res": "passion:Phone:labelCDMAMore",
+"en": "CDMA call settings",
+"de": "CDMA-Anrufeinstellungen",
+"fr": "Paramètres d'appel CDMA",
+"es": "Configuración de llamada CDMA",
+"hu": "CDMA-hívásbeállítások",
+"huFrom": "crespo:Phone:labelCDMAMore"
+},
+"Phone/labelCF": {
+"res": "passion:Phone:labelCF",
+"en": "Call forwarding",
+"de": "Rufweiterleitung",
+"fr": "Transfert d'appel",
+"es": "Desvío de llamada",
+"hu": "Hívásátirányítás",
+"huFrom": "crespo:Phone:labelCF"
+},
+"Phone/labelCFB": {
+"res": "passion:Phone:labelCFB",
+"en": "Forward when busy",
+"de": "Weiterleiten falls besetzt",
+"fr": "Transférer si ligne occupée",
+"es": "Línea ocupada",
+"hu": "Átirányítás, ha foglalt",
+"huFrom": "crespo:Phone:labelCFB"
+},
+"Phone/labelCFNRc": {
+"res": "passion:Phone:labelCFNRc",
+"en": "Forward when unreachable",
+"de": "Weiterleiten falls nicht erreichbar",
+"fr": "Transférer si injoignable",
+"es": "No se establece la llamada",
+"hu": "Átirányítás, ha nem érhető el",
+"huFrom": "crespo:Phone:labelCFNRc"
+},
+"Phone/labelCFNRy": {
+"res": "passion:Phone:labelCFNRy",
+"en": "Forward when unanswered",
+"de": "Weiterleiten falls keine Antwort",
+"fr": "Transférer si sans réponse",
+"es": "Llamada sin respuesta",
+"hu": "Átirányítás, ha nem válaszol",
+"huFrom": "crespo:Phone:labelCFNRy"
+},
+"Phone/labelCFU": {
+"res": "passion:Phone:labelCFU",
+"en": "Always forward",
+"de": "Immer weiterleiten",
+"fr": "Toujours transférer",
+"es": "Siempre",
+"hu": "Mindig legyen átirányítás",
+"huFrom": "crespo:Phone:labelCFU"
+},
+"Phone/labelCW": {
+"res": "passion:Phone:labelCW",
+"en": "Call waiting",
+"de": "Anklopfen",
+"fr": "Appel en attente",
+"es": "Llamada en espera",
+"hu": "Hívásvárakoztatás",
+"huFrom": "crespo:Phone:labelCW"
+},
+"Phone/labelCallerId": {
+"res": "passion:Phone:labelCallerId",
+"en": "Caller ID",
+"de": "Anrufer-ID",
+"fr": "Numéro de l'appelant",
+"es": "ID de emisor",
+"hu": "Hívóazonosító",
+"huFrom": "crespo:Phone:labelCallerId"
+},
+"Phone/labelGSMMore": {
+"res": "passion:Phone:labelGSMMore",
+"en": "GSM call settings",
+"de": "GSM-Anrufeinstellungen",
+"fr": "Paramètres d'appel GSM",
+"es": "Configuración de llamadas GSM",
+"hu": "GSM-hívásbeállítások",
+"huFrom": "crespo:Phone:labelGSMMore"
+},
+"Phone/label_available": {
+"res": "passion:Phone:label_available",
+"en": "Available networks",
+"de": "Verfügbare Netzwerke",
+"fr": "Réseaux disponibles",
+"es": "Redes disponibles",
+"hu": "Elérhető hálózatok",
+"huFrom": "crespo:Phone:label_available"
 },
 "language_keyboard_settings_title": {
 "res": "passion:Settings:language_keyboard_settings_title",
@@ -1068,6 +1374,15 @@ EC.strings('settings', {
 "hu": "Feloldási minta módosítása",
 "huFrom": "crespo:Settings:lockpattern_change_lock_pattern_label"
 },
+"Phone/manage_fdn_list": {
+"res": "passion:Phone:manage_fdn_list",
+"en": "FDN list",
+"de": "Begrenzte Rufnummern",
+"fr": "Liste numéros autorisés",
+"es": "Lista de FDN",
+"hu": "FDN lista",
+"huFrom": "crespo:Phone:manage_fdn_list"
+},
 "manageapplications_settings_summary": {
 "res": "passion:Settings:manageapplications_settings_summary",
 "en": "Manage and remove installed applications",
@@ -1149,6 +1464,51 @@ EC.strings('settings', {
 "hu": "Összes hely",
 "huFrom": "crespo:Settings:memory_size"
 },
+"Phone/messageCFB": {
+"res": "passion:Phone:messageCFB",
+"en": "Number when busy",
+"de": "Nummer falls besetzt",
+"fr": "Numéro de renvoi lorsque la ligne est occupée",
+"es": "Número cuando la línea esté ocupada",
+"hu": "Átirányítási szám, ha foglalt",
+"huFrom": "crespo:Phone:messageCFB"
+},
+"Phone/messageCFNRc": {
+"res": "passion:Phone:messageCFNRc",
+"en": "Number when unreachable",
+"de": "Nummer falls nicht erreichbar",
+"fr": "Numéro de renvoi si injoignable",
+"es": "Número cuando no se puede establecer la llamada",
+"hu": "Átirányítási szám, ha nem elérhető",
+"huFrom": "crespo:Phone:messageCFNRc"
+},
+"Phone/messageCFNRy": {
+"res": "passion:Phone:messageCFNRy",
+"en": "Number when unanswered",
+"de": "Nummer falls keine Antwort",
+"fr": "Numéro de renvoi lorsque vous ne répondez pas",
+"es": "Número cuando no se responde la llamada",
+"hu": "Átirányítási szám, ha nem válaszol",
+"huFrom": "crespo:Phone:messageCFNRy"
+},
+"Phone/messageCFU": {
+"res": "passion:Phone:messageCFU",
+"en": "Always use this number",
+"de": "Diese Nummer immer verwenden",
+"fr": "Toujours utiliser ce numéro",
+"es": "Utilizar siempre este número",
+"hu": "Mindig a következő szám használata",
+"huFrom": "crespo:Phone:messageCFU"
+},
+"Phone/mobile_networks": {
+"res": "passion:Phone:mobile_networks",
+"en": "Mobile network settings",
+"de": "Mobile Netzwerkeinstellungen",
+"fr": "Paramètres du réseau mobile",
+"es": "Configuración de red móvil",
+"hu": "Mobilhálózati beállítások",
+"huFrom": "crespo:Phone:mobile_networks"
+},
 "model_number": {
 "res": "passion:Settings:model_number",
 "en": "Model number",
@@ -1175,6 +1535,15 @@ EC.strings('settings', {
 "es": "Redes móviles",
 "hu": "Mobilhálózatok",
 "huFrom": "crespo:Settings:network_settings_title"
+},
+"Phone/networks": {
+"res": "passion:Phone:networks",
+"en": "Network operators",
+"de": "Netzbetreiber",
+"fr": "Opérateur de réseau",
+"es": "Operadores de red",
+"hu": "Mobilszolgáltatók",
+"huFrom": "crespo:Phone:networks"
 },
 "notification_pulse_summary": {
 "res": "passion:Settings:notification_pulse_summary",
@@ -1221,6 +1590,15 @@ EC.strings('settings', {
 "hu": "Értesítési csengőhang",
 "huFrom": "crespo:Settings:notification_sound_title"
 },
+"Phone/other_settings": {
+"res": "passion:Phone:other_settings",
+"en": "Other call settings",
+"de": "Sonstige Anrufeinstellungen",
+"fr": "Autres paramètres d'appel",
+"es": "Otras opciones de llamada",
+"hu": "Egyéb hívásbeállítások",
+"huFrom": "crespo:Phone:other_settings"
+},
 "personal_data_section_title": {
 "res": "passion:Settings:personal_data_section_title",
 "en": "Personal data",
@@ -1229,6 +1607,15 @@ EC.strings('settings', {
 "es": "Datos personales",
 "hu": "Személyes adatok",
 "huFrom": "crespo:Settings:personal_data_section_title"
+},
+"Phone/phoneIconLabel": {
+"res": "passion:Phone:phoneIconLabel",
+"en": "Phone",
+"de": "Telefon",
+"fr": "Téléphone",
+"es": "Teléfono",
+"hu": "Telefon",
+"huFrom": "crespo:Phone:phoneIconLabel"
 },
 "phone_info_label": {
 "res": "passion:Settings:phone_info_label",
@@ -1301,6 +1688,51 @@ EC.strings('settings', {
 "es": "Uso de la batería",
 "hu": "Akkumulátorhasználat",
 "huFrom": "crespo:Settings:power_usage_summary_title"
+},
+"Phone/prefer_2g": {
+"res": "passion:Phone:prefer_2g",
+"en": "Use only 2G networks",
+"de": "Nur 2G-Netzwerke",
+"fr": "Uniquement les réseaux 2G",
+"es": "Utilizar sólo redes 2G",
+"hu": "Csak 2G hálózatok használata",
+"huFrom": "crespo:Phone:prefer_2g"
+},
+"Phone/prefer_2g_summary": {
+"res": "passion:Phone:prefer_2g_summary",
+"en": "Saves battery",
+"de": "Energiesparend",
+"fr": "Économise la batterie",
+"es": "Ahorrar batería",
+"hu": "Spórol az energiával",
+"huFrom": "crespo:Phone:prefer_2g_summary"
+},
+"Phone/preferred_network_mode_dialogtitle": {
+"res": "passion:Phone:preferred_network_mode_dialogtitle",
+"en": "Preferred network mode",
+"de": "Bevorzugter Netzwerkmodus",
+"fr": "Mode réseau préféré",
+"es": "Preferencia de modo de red",
+"hu": "Preferált hálózati mód",
+"huFrom": "crespo:Phone:preferred_network_mode_dialogtitle"
+},
+"Phone/preferred_network_mode_summary": {
+"res": "passion:Phone:preferred_network_mode_summary",
+"en": "Change the network operating mode",
+"de": "Netzwerkbetriebsmodus ändern",
+"fr": "Changer le mode de fonctionnement du réseau",
+"es": "Cambiar el modo operativo de la red",
+"hu": "A hálózati üzemmód megváltoztatása",
+"huFrom": "crespo:Phone:preferred_network_mode_summary"
+},
+"Phone/preferred_network_mode_title": {
+"res": "passion:Phone:preferred_network_mode_title",
+"en": "Network Mode",
+"de": "Netzwerkmodus",
+"fr": "Mode réseau",
+"es": "Modo de red",
+"hu": "Hálózati mód",
+"huFrom": "crespo:Phone:preferred_network_mode_title"
 },
 "privacy_settings": {
 "res": "passion:Settings:privacy_settings",
@@ -1392,6 +1824,33 @@ EC.strings('settings', {
 "hu": "Telefon csengőhangja",
 "huFrom": "crespo:Settings:ringtone_title"
 },
+"Phone/roaming": {
+"res": "passion:Phone:roaming",
+"en": "Data roaming",
+"de": "Daten-Roaming",
+"fr": "Itinérance des données",
+"es": "Itinerancia de datos",
+"hu": "Adatbarangolás",
+"huFrom": "crespo:Phone:roaming"
+},
+"Phone/roaming_disable": {
+"res": "passion:Phone:roaming_disable",
+"en": "Connect to data services when roaming",
+"de": "Bei Roaming mit Datendienst verbinden",
+"fr": "Se connecter aux services de données lors de l'itinérance",
+"es": "Establecer conexión con servicios de datos en itinerancia",
+"hu": "Csatlakozás adatszolgáltatásokhoz barangolás során",
+"huFrom": "crespo:Phone:roaming_disable"
+},
+"Phone/roaming_enable": {
+"res": "passion:Phone:roaming_enable",
+"en": "Connect to data services when roaming",
+"de": "Bei Roaming mit Datendienst verbinden",
+"fr": "Se connecter aux services de données lors de l'itinérance",
+"es": "Establecer conexión con servicios de datos en itinerancia",
+"hu": "Csatlakozás adatszolgáltatásokhoz barangolás során",
+"huFrom": "crespo:Phone:roaming_enable"
+},
 "runningservices_settings_summary": {
 "res": "passion:Settings:runningservices_settings_summary",
 "en": "View and control currently running services",
@@ -1482,6 +1941,15 @@ EC.strings('settings', {
 "hu": "SD-kártya",
 "huOwn": true
 },
+"Phone/search_networks": {
+"res": "passion:Phone:search_networks",
+"en": "Search networks",
+"de": "Netzwerke suchen",
+"fr": "Rechercher les réseaux",
+"es": "Buscar redes",
+"hu": "Hálózatkeresés",
+"huFrom": "crespo:Phone:search_networks"
+},
 "search_settings": {
 "res": "passion:Settings:search_settings",
 "en": "Search",
@@ -1499,6 +1967,24 @@ EC.strings('settings', {
 "es": "Ubicación y seguridad",
 "hu": "Hely és biztonság",
 "huFrom": "crespo:Settings:security_settings_title"
+},
+"Phone/select_automatically": {
+"res": "passion:Phone:select_automatically",
+"en": "Select automatically",
+"de": "Automatisch auswählen",
+"fr": "Sélection automatique",
+"es": "Selección automática",
+"hu": "Automatikus kiválasztás",
+"huFrom": "crespo:Phone:select_automatically"
+},
+"Phone/settings_label": {
+"res": "passion:Phone:settings_label",
+"en": "Network settings",
+"de": "Netzwerkeinstellungen",
+"fr": "Paramètres du réseau",
+"es": "Configuración de red",
+"hu": "Hálózati beállítások",
+"huFrom": "crespo:Phone:settings_label"
 },
 "settings_label": {
 "res": "passion:Settings:settings_label",
@@ -1571,6 +2057,15 @@ EC.strings('settings', {
 "es": "Modo silencio",
 "hu": "Néma üzemmód",
 "huFrom": "crespo:Settings:silent_mode_title"
+},
+"Phone/simContacts_title": {
+"res": "passion:Phone:simContacts_title",
+"en": "Select contacts to import",
+"de": "Kontakte für Import auswählen",
+"fr": "Sélection des contacts à importer",
+"es": "Seleccionar contactos para importar",
+"hu": "Válassza ki az importálni kívánt névjegyeket",
+"huFrom": "crespo:Phone:simContacts_title"
 },
 "sim_change_pin": {
 "res": "passion:Settings:sim_change_pin",
@@ -1729,28 +2224,28 @@ EC.strings('settings', {
 "res": "passion:Settings:status_imei",
 "en": "IMEI",
 "hu": "IMEI",
-"huFrom": "crespo:Contacts:imei",
 "de": "IMEI",
 "fr": "IMEI",
 "es": "IMEI",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "status_imei_sv": {
 "res": "passion:Settings:status_imei_sv",
 "en": "IMEI SV",
 "hu": "IMEI SV",
-"huOwn": true,
 "de": "IMEI SV",
 "fr": "IMEI SV",
 "es": "IMEI SV",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "status_meid_number": {
@@ -1869,6 +2364,177 @@ EC.strings('settings', {
 "es": "Configuración de almacenamiento en teléfono y en tarjeta SD",
 "hu": "SD-kártya és telefontárhely beállításai",
 "huOwn": true
+},
+"Phone/sum_carrier_select": {
+"res": "passion:Phone:sum_carrier_select",
+"en": "Select a network operator",
+"de": "Netzbetreiber auswählen",
+"fr": "Choisir un opérateur réseau",
+"es": "Seleccionar un operador de red",
+"hu": "Mobilszolgáltató választása",
+"huFrom": "crespo:Phone:sum_carrier_select"
+},
+"Phone/sum_cdma_call_settings": {
+"res": "passion:Phone:sum_cdma_call_settings",
+"en": "Additional CDMA only call settings",
+"de": "Zusätzliche Anrufeinstellungen nur für CDMA",
+"fr": "Autres paramètres d'appel \"CDMA uniquement\"",
+"es": "Configuración adicional de llamadas solo CDMA",
+"hu": "További csak CDMA-hívásbeállítások",
+"huFrom": "crespo:Phone:sum_cdma_call_settings"
+},
+"Phone/sum_cfb_disabled": {
+"res": "passion:Phone:sum_cfb_disabled",
+"en": "Disabled",
+"de": "Deaktiviert",
+"fr": "Désactivé",
+"es": "Inhabilitado",
+"hu": "Letiltva",
+"huFrom": "crespo:Phone:sum_cfb_disabled"
+},
+"Phone/sum_cfb_enabled": {
+"res": "passion:Phone:sum_cfb_enabled",
+"en": "Forwarding to {0}",
+"de": "Weiterleitung an {0}",
+"fr": "Transfert vers le {0}",
+"es": "Desviando a {0}",
+"hu": "Átirányítás ide: {0}",
+"huFrom": "crespo:Phone:sum_cfb_enabled"
+},
+"Phone/sum_cfnrc_disabled": {
+"res": "passion:Phone:sum_cfnrc_disabled",
+"en": "Disabled",
+"de": "Deaktiviert",
+"fr": "Désactivé",
+"es": "Inhabilitado",
+"hu": "Kikapcsolva",
+"huFrom": "crespo:Phone:sum_cfnrc_disabled"
+},
+"Phone/sum_cfnrc_enabled": {
+"res": "passion:Phone:sum_cfnrc_enabled",
+"en": "Forwarding to {0}",
+"de": "Weiterleitung an {0}",
+"fr": "Transfert vers le {0}",
+"es": "Desviando a {0}",
+"hu": "Átirányítás ide: {0}",
+"huFrom": "crespo:Phone:sum_cfnrc_enabled"
+},
+"Phone/sum_cfnry_disabled": {
+"res": "passion:Phone:sum_cfnry_disabled",
+"en": "Disabled",
+"de": "Deaktiviert",
+"fr": "Désactivé",
+"es": "Inhabilitado",
+"hu": "Letiltva",
+"huFrom": "crespo:Phone:sum_cfnry_disabled"
+},
+"Phone/sum_cfnry_enabled": {
+"res": "passion:Phone:sum_cfnry_enabled",
+"en": "Forwarding to {0}",
+"de": "Weiterleitung an {0}",
+"fr": "Transfert vers le {0}",
+"es": "Desviando a {0}",
+"hu": "Átirányítás ide: {0}",
+"huFrom": "crespo:Phone:sum_cfnry_enabled"
+},
+"Phone/sum_cfu_disabled": {
+"res": "passion:Phone:sum_cfu_disabled",
+"en": "Disabled",
+"de": "Deaktiviert",
+"fr": "Désactivé",
+"es": "Inhabilitado",
+"hu": "Letiltva",
+"huFrom": "crespo:Phone:sum_cfu_disabled"
+},
+"Phone/sum_cfu_enabled": {
+"res": "passion:Phone:sum_cfu_enabled",
+"en": "Forwarding all calls to {0}",
+"de": "Alle Anrufe weiterleiten an {0}",
+"fr": "Transfert de tous les appels à {0}",
+"es": "Desviar todas las llamadas a {0}",
+"hu": "Minden hívás átirányítása ide: {0}",
+"huFrom": "crespo:Phone:sum_cfu_enabled"
+},
+"Phone/sum_cw_disabled": {
+"res": "passion:Phone:sum_cw_disabled",
+"en": "During a call, notify me of incoming calls",
+"de": "Mich während eines Anrufs über eingehende Anrufe benachrichtigen",
+"fr": "Me signaler les appels entrants lorsque je suis en communication",
+"es": "Informarme de las llamadas entrantes durante las llamadas",
+"hu": "Hívás közben értesítést kérek a beérkező hívásokról",
+"huFrom": "crespo:Phone:sum_cw_disabled"
+},
+"Phone/sum_cw_enabled": {
+"res": "passion:Phone:sum_cw_enabled",
+"en": "During a call, notify me of incoming calls",
+"de": "Mich während eines Anrufs über eingehende Anrufe benachrichtigen",
+"fr": "Me signaler les appels entrants lorsque je suis en communication",
+"es": "Informarme de las llamadas entrantes durante las llamadas",
+"hu": "Hívás közben értesítést kérek a beérkező hívásokról",
+"huFrom": "crespo:Phone:sum_cw_enabled"
+},
+"Phone/sum_fdn": {
+"res": "passion:Phone:sum_fdn",
+"en": "Manage Fixed Dialing Numbers",
+"de": "Begrenzte Rufnummern verwalten",
+"fr": "Gérer la liste de numéros autorisés",
+"es": "Administrar números de marcación fija",
+"hu": "Fix hívószámok kezelése",
+"huFrom": "crespo:Phone:sum_fdn"
+},
+"Phone/sum_fdn_change_pin": {
+"res": "passion:Phone:sum_fdn_change_pin",
+"en": "Change PIN for FDN access",
+"de": "PIN für Zugang zu eingeschränkten Nummern ändern",
+"fr": "Modifier le code PIN pour l'accès aux numéros autorisés",
+"es": "Cambiar PIN para acceso de FDN",
+"hu": "PIN-kód módosítása az FDN eléréséhez",
+"huFrom": "crespo:Phone:sum_fdn_change_pin"
+},
+"Phone/sum_fdn_manage_list": {
+"res": "passion:Phone:sum_fdn_manage_list",
+"en": "Manage phone number list",
+"de": "Telefonnummernliste verwalten",
+"fr": "Gérer la liste des numéros de téléphone",
+"es": "Administrar lista de números de teléfono",
+"hu": "Telefonszámok listájának kezelése",
+"huFrom": "crespo:Phone:sum_fdn_manage_list"
+},
+"Phone/sum_gsm_call_settings": {
+"res": "passion:Phone:sum_gsm_call_settings",
+"en": "Additional GSM only call settings",
+"de": "Zusätzliche Anrufeinstellungen nur für GSM",
+"fr": "Autres paramètres d'appel \"GSM uniquement\"",
+"es": "Configuración adicional de llamadas solo GSM",
+"hu": "További csak GSM hívásbeállítások",
+"huFrom": "crespo:Phone:sum_gsm_call_settings"
+},
+"Phone/sum_search_networks": {
+"res": "passion:Phone:sum_search_networks",
+"en": "Search for all available networks",
+"de": "Nach allen verfügbaren Netzwerken suchen",
+"fr": "Chercher tous les réseaux disponibles",
+"es": "Buscar todas las redes disponibles",
+"hu": "Az összes elérhető hálózat megkeresése",
+"huFrom": "crespo:Phone:sum_search_networks"
+},
+"Phone/sum_select_automatically": {
+"res": "passion:Phone:sum_select_automatically",
+"en": "Automatically select preferred network",
+"de": "Bevorzugtes Netzwerk automatisch auswählen",
+"fr": "Sélectionner automatiquement",
+"es": "Seleccionar la red preferida de forma automática",
+"hu": "Preferált hálózat automatikus kiválasztása",
+"huFrom": "crespo:Phone:sum_select_automatically"
+},
+"Phone/sum_voicemail_choose_provider": {
+"res": "passion:Phone:sum_voicemail_choose_provider",
+"en": "Choose voicemail service",
+"de": "Mailbox-Dienst auswählen",
+"fr": "Choisissez un service de messagerie vocale.",
+"es": "Seleccionar servicio de buzón de voz",
+"hu": "Válassza ki a hangposta-szolgáltatást",
+"huFrom": "crespo:Phone:sum_voicemail_choose_provider"
 },
 "sync_settings": {
 "res": "passion:Settings:sync_settings",
@@ -2050,6 +2716,24 @@ EC.strings('settings', {
 "hu": "Szöveg-beszéd átalakítás beállításai",
 "huFrom": "crespo:Settings:tts_settings_title"
 },
+"Phone/tty_mode_option_summary": {
+"res": "passion:Phone:tty_mode_option_summary",
+"en": "Set TTY mode",
+"de": "TTY-Modus einstellen",
+"fr": "Définir le mode TTY",
+"es": "Establecer modo TTY",
+"hu": "TTY-mód beállítása",
+"huFrom": "crespo:Phone:tty_mode_option_summary"
+},
+"Phone/tty_mode_option_title": {
+"res": "passion:Phone:tty_mode_option_title",
+"en": "TTY mode",
+"de": "TTY-Modus",
+"fr": "Mode TTY",
+"es": "Modo TTY",
+"hu": "TTY-mód",
+"huFrom": "crespo:Phone:tty_mode_option_title"
+},
 "usage_stats_label": {
 "res": "passion:Settings:usage_stats_label",
 "en": "Usage statistics",
@@ -2139,6 +2823,42 @@ EC.strings('settings', {
 "es": "Teléfono en vibración",
 "hu": "Telefon rezgése",
 "huOwn": true
+},
+"Phone/voicemail": {
+"res": "passion:Phone:voicemail",
+"en": "Voicemail",
+"de": "Mailbox",
+"fr": "Messagerie vocale",
+"es": "Buzón de voz",
+"hu": "Hangposta",
+"huFrom": "crespo:Phone:voicemail"
+},
+"Phone/voicemail_provider": {
+"res": "passion:Phone:voicemail_provider",
+"en": "Voicemail service",
+"de": "Mailbox-Dienst",
+"fr": "Service de messagerie",
+"es": "Servicio de buzón de voz",
+"hu": "Hangposta-szolgáltatás",
+"huFrom": "crespo:Phone:voicemail_provider"
+},
+"Phone/voicemail_settings": {
+"res": "passion:Phone:voicemail_settings",
+"en": "Voicemail settings",
+"de": "Mailbox-Einstellungen",
+"fr": "Paramètres",
+"es": "Configuración de buzón de voz",
+"hu": "Hangposta beállításai",
+"huFrom": "crespo:Phone:voicemail_settings"
+},
+"Phone/voicemail_settings_number_label": {
+"res": "passion:Phone:voicemail_settings_number_label",
+"en": "Voicemail number",
+"de": "Mailboxnummer",
+"fr": "Numéro de la messagerie vocale",
+"es": "Número del buzón de voz",
+"hu": "Hangposta száma",
+"huFrom": "crespo:Phone:voicemail_settings_number_label"
 },
 "vpn_add_new_vpn": {
 "res": "passion:Settings:vpn_add_new_vpn",
@@ -2438,6 +3158,57 @@ EC.strings('settings', {
 "Minden animáció"
 ]
 },
+"Phone/clir_display_values": {
+"res": "passion:Phone:clir_display_values",
+"en": [
+"Network default",
+"Hide number",
+"Show number"
+],
+"de": [
+"Netzwerk-Standardeinstellung",
+"Rufnummer unterdrücken",
+"Rufnummer anzeigen"
+],
+"fr": [
+"Réseau par défaut",
+"Masquer le numéro",
+"Afficher le numéro"
+],
+"es": [
+"Valor predeterminado de red",
+"Ocultar número",
+"Mostrar número"
+],
+"hu": [
+"Hálózati alapértelmezés",
+"Szám elrejtése",
+"Szám megjelenítése"
+]
+},
+"Phone/dtmf_tone_entries": {
+"res": "passion:Phone:dtmf_tone_entries",
+"en": [
+"Normal",
+"Long"
+],
+"de": [
+"Normal",
+"Lang"
+],
+"fr": [
+"Normales",
+"Longues"
+],
+"es": [
+"Normal",
+"Largo"
+],
+"hu": [
+"Normál",
+"Hosszú"
+]
+},
 "emergency_tone_entries": {
 "res": "passion:Settings:emergency_tone_entries",
 "en": [
@@ -2464,6 +3235,59 @@ EC.strings('settings', {
 "Ki",
 "Riasztás",
 "Rezgés"
+]
+},
+"Phone/preferred_network_mode_choices": {
+"res": "passion:Phone:preferred_network_mode_choices",
+"en": [
+"Global",
+"EvDo only",
+"CDMA w/o EvDo",
+"CDMA / EvDo auto",
+"GSM / WCDMA auto",
+"WCDMA only",
+"GSM only",
+"GSM / WCDMA preferred"
+],
+"de": [
+"Global",
+"Nur EvDo",
+"CDMA ohne EvDo",
+"CDMA/EvDo (automatisch)",
+"GSM/WCDMA (automatisch)",
+"Nur WCDMA",
+"Nur GSM",
+"GSM/WCDMA bevorzugt"
+],
+"fr": [
+"Général",
+"EvDo uniquement",
+"CDMA sans EvDo",
+"CDMA/EvDo automatique",
+"GSM/WCDMA automatique",
+"WCDMA uniquement",
+"GSM uniquement",
+"GSM/WCDMA préféré"
+],
+"es": [
+"Global",
+"Solo EvDo",
+"CDMA sin EvDo",
+"Modo automático de CDMA/EvDo",
+"Modo automático de GSM/WCDMA",
+"Solo WCDMA",
+"Solo GSM",
+"Preferencia de GSM/WCDMA"
+],
+"hu": [
+"Globális",
+"Csak EvDo",
+"CDMA EvDo nélkül",
+"CDMA / EvDo automatikus",
+"GSM / WCDMA automatikus",
+"Csak WCDMA",
+"Csak GSM",
+"GSM / WCDMA előnyben"
 ]
 },
 "screen_timeout_entries": {
@@ -2588,6 +3412,39 @@ EC.strings('settings', {
 "Normál",
 "Gyors",
 "Nagyon gyors"
+]
+},
+"Phone/tty_mode_entries": {
+"res": "passion:Phone:tty_mode_entries",
+"en": [
+"TTY Off",
+"TTY Full",
+"TTY HCO",
+"TTY VCO"
+],
+"de": [
+"TTY aus",
+"TTY (vollständig)",
+"TTY HCO",
+"TTY VCO"
+],
+"fr": [
+"Mode TTY désactivé",
+"TTY complet",
+"TTY HCO",
+"TTY VCO"
+],
+"es": [
+"TTY desactivado",
+"Modo TTY completo",
+"TTY HCO",
+"TTY VCO"
+],
+"hu": [
+"TTY kikapcsolva",
+"TTY teljes",
+"TTY HCO",
+"TTY VCO"
 ]
 },
 "wifi_sleep_policy_entries": {

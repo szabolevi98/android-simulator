@@ -103,7 +103,7 @@ def build(table, spec):
             missing[:] = [m for m in missing if m not in english]
             row['hu'] = row['en']; gaps.append('hu')
             for field in ('huFrom', 'huOwn'): row.pop(field, None)
-        if spec['huEnglish'] and row.get('hu') is None:
+        if spec.get('huEnglish') and row.get('hu') is None:
             english = row['en'] if isinstance(row['en'], list) else list(row['en'].values()) if isinstance(row['en'], dict) else [row['en']]
             missing[:] = [m for m in missing if m not in english]
             row['hu'] = row['en']; gaps.append('hu')

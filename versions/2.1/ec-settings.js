@@ -113,12 +113,16 @@
       ];
     }
   };
+  // Other files add screens (EC.settingsClass), rows (EC.settingsExtra), removals (EC.settingsPrune) and preference types
+  // with their own click (EC.settingsPrefTypes).
+  Object.assign(EC, {settingsClass: CLASS, settingsExtra: EXTRA, settingsPrune: [], settingsPrefTypes: {}});
   function withExtra(c, name, node) {
     if (!EXTRA[name] || node.c?.extended) return node;
     return {...node, c: Object.assign(EXTRA[name](c, node.c || []), {extended: true})};
   }
 
   function prune(name, n) {
+    for (const f of EC.settingsPrune) if (f(name, n) === false) return false;
     if (name === 'sound_and_display_settings' && n.key === 'emergency_tone') return false;
     if (name === 'device_info_settings' && n.key === 'safetylegal') return false;
     // LanguageSettings: no hardware keyboard (Configuration.KEYBOARD_NOKEYS).
@@ -191,7 +195,7 @@
     if (n.t === 'ProgressCategory' && n.key === 'access_points') return EC.wifi.category(c, txt(n.title)) + EC.wifi.rows(c);
     if (n.t === 'PreferenceCategory') return `<div class="ecpf-cat npp-fw-dark_header_dither"><i class="ec-bg np-fw-dark_header_dither"></i><span>${esc(txt(n.title))}</span></div>${(n.c || []).map((ch, i) => row(c, screen, name, ch, `${path}.${i}`)).join('')}`;
     const off = disabled(c, screen, n) || n.enabled === 'false' || n.key === 'memory_sd_unmount' && c.ui.sdUnmounted || name === 'date_time_prefs' && ['date', 'time', 'timezone'].includes(n.key) && value(c, 'auto_time');
-    const check = n.t === 'CheckBoxPreference' ? `<img class="ecpf-check" src="assets/fw-btn_check_${value(c, n.key, n.defaultValue) ? 'on' : 'off'}.png" alt="">` : '';
+    const check = n.t.endsWith('CheckBoxPreference') ? `<img class="ecpf-check" src="assets/fw-btn_check_${value(c, n.key, n.defaultValue) ? 'on' : 'off'}.png" alt="">` : '';
     const icon = n.icon ? `<img class="ecpf-icon" src="assets/st-${n.icon.split('/')[1]}.png" alt="">` : '';
     const sum = summary(c, name, n), title = txt(n.title);
     return `<button type="button" class="ecpf-row${icon ? ' ecpf-icon-row' : ''}" data-action="ecpf-row" data-path="${path}"${off ? ' disabled' : ''}><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i>${icon}<span class="ecpf-text"><span class="ecpf-title">${esc(title)}</span>${sum ? `<span class="ecpf-summary">${esc(sum)}</span>` : ''}</span>${check}</button><i class="ecpf-divider"></i>`;
@@ -218,6 +222,7 @@
   }
 
   function open(c, n, screen, path) {
+    if (EC.settingsPrefTypes[n.t]) { EC.settingsPrefTypes[n.t](c, n, screen); return; }
     if (n.t === 'CheckBoxPreference') { setValue(c, n.key, !value(c, n.key, n.defaultValue)); c.render(); return; }
     if (screen.name === 'date_time_prefs' && n.key in dateTime) { dateTimeClick(c, n); return; }
     if (n.key === 'add_other_network') { EC.wifi.add(c); return; }
@@ -236,7 +241,9 @@
       const cls = n.intent.targetClass.split('.').pop();
       if (cls.startsWith('ChooseLockPattern')) { EC.patternFlow.start(c); return; }
       if (cls === 'LocalePicker') { c.ui.settingsStack.push('locales'); c.render(); return; }
-      if (CLASS[cls] && EC.settingsXml[CLASS[cls]]) { c.ui.settingsStack.push(CLASS[cls]); c.render(); c.el.viewport.querySelector('.ecwin-content')?.scrollTo(0, 0); return; }
+      const target = CLASS[n.intent.targetClass] || CLASS[cls];
+      if (EC.settingsTargets?.[n.intent.targetClass]) { EC.settingsTargets[n.intent.targetClass](c); return; }
+      if (target && EC.settingsXml[target]) { c.ui.settingsStack.push(target); c.render(); c.el.viewport.querySelector('.ecwin-content')?.scrollTo(0, 0); return; }
       if (EC.settingsTargets?.[cls]) { EC.settingsTargets[cls](c); return; }
       c.ui.settingsStack.push(`missing:${cls}`); c.render(); return;
     }
