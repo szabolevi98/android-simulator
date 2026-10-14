@@ -1,0 +1,45 @@
+/* Android 2.1 Google Goggles (ec-goggles.js), in dp / sp. Portrait screens on white; the capture screen in landscape
+   (533 x 320 dp) turned 90 degrees clockwise, like the Camera. */
+.ecgg{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;color:#000}
+.ecgg-header{flex:none;display:flex;justify-content:center;padding:calc(6 * var(--dp));background:url('assets/gg-header_bg.9.png') 0 0/100% 100%}
+.ecgg-header img{width:calc(166.667 * var(--dp));height:calc(26 * var(--dp))}
+.ecgg-page{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+.ecgg-p1{justify-content:center}
+.ecgg-flip img{display:block;width:calc(320 * var(--dp));height:calc(209 * var(--dp))}
+.ecgg-desc{align-self:stretch;padding:calc(15 * var(--dp)) calc(45 * var(--dp));font-size:calc(20 * var(--dp));text-align:center}
+.ecgg-tos{display:flex;font-size:calc(16 * var(--dp))}
+.ecgg-link{border:0;padding:0;background:none;color:#0000cc;font:inherit}
+.ecgg-band{align-self:stretch;padding:calc(5 * var(--dp));background:#e8ecf9;font-size:calc(16 * var(--dp));text-align:center}
+.ecgg-good{width:calc(320 * var(--dp));height:calc(320 * var(--dp))}
+.ecgg-bad{width:calc(320 * var(--dp));height:calc(107 * var(--dp))}
+.ecgg-video{position:relative;margin-top:calc(7 * var(--dp));display:flex;align-items:center;justify-content:center}
+.ecgg-video>img{width:calc(300 * var(--dp));height:calc(174 * var(--dp))}
+.ecgg-play{position:absolute;border:0;padding:0;background:none}
+.ecgg-play img{display:block;width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.ecgg-nav{flex:none;display:flex;padding-top:calc(3 * var(--dp));background:#fff}
+.ecgg-nav .ecui-button{flex:1 1 0}
+.ecgg-hist{align-items:stretch;font-size:calc(16 * var(--dp))}
+.ecgg-htitle{padding:calc(5 * var(--dp));font-size:calc(20 * var(--dp))}
+.ecgg-hist p{margin:0;padding:calc(10 * var(--dp))}
+.ecgg-learn{align-self:flex-start;margin-left:calc(10 * var(--dp))}
+.ecgg-radios{padding:calc(10 * var(--dp))}
+.ecgg-radio{display:flex;align-items:center;width:100%;border:0;padding:0;background:none;color:#000;font-size:calc(18 * var(--dp));text-align:left}
+.ecgg-radio img{width:calc(32 * var(--dp));height:calc(32 * var(--dp));margin-right:calc(6 * var(--dp))}
+.ecgg-version{padding:calc(4 * var(--dp));background:#e8ecf9;font-size:calc(25 * var(--dp));text-align:center}
+.ecgg-about{display:flex;flex-direction:column;padding:calc(20 * var(--dp)) calc(5 * var(--dp)) 0}
+.ecgg-about .ecui-button{flex:none;margin:calc(5 * var(--dp)) 0}
+.ecgg-land{position:absolute;left:50%;top:50%;width:calc(533.333 * var(--dp));height:calc(320 * var(--dp));transform:translate(-50%,-50%) rotate(90deg);display:flex;background:#000}
+.ecgg-preview{position:relative;flex:1;min-width:0;overflow:hidden}
+.ecgg-cam{position:absolute;inset:0;width:100%;height:100%}
+.ecgg-progress{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;padding:calc(3 * var(--dp))}
+.ecgg-progress>span{position:relative;z-index:1;flex:3;padding-left:calc(15 * var(--dp));color:#fff;font-weight:700;font-size:calc(20 * var(--dp))}
+.ecgg-cancel{position:relative;z-index:1;flex:1;margin-top:calc(2 * var(--dp));border:0;padding:0;background:none}
+.ecgg-cancel img{display:block;margin:auto;width:calc(115.333 * var(--dp));height:calc(46 * var(--dp))}
+.ecgg-bar{position:relative;flex:none;width:calc(100 * var(--dp));display:flex;align-items:center;justify-content:center}
+.ecgg-shutter{position:relative;z-index:1;border:0;padding:0;background:none}
+.ecgg-shutter img,.ecgg-cancel img{pointer-events:none}
+.ecgg-shutter img{display:block;width:calc(73.333 * var(--dp));height:calc(73.333 * var(--dp))}
+.ecgg-shutter .p,.ecgg-cancel .p{display:none}
+.ecgg-shutter:active .n,.ecgg-cancel:active .n{display:none}
+.ecgg-shutter:active .p,.ecgg-cancel:active .p{display:block}
+#overlay-root.ecgg-turned .ecui-dialog{left:50%;right:auto;width:calc(533.333 * var(--dp));max-height:calc(320 * var(--dp));transform:translate(-50%,-50%) rotate(90deg)}

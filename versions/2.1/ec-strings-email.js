@@ -104,42 +104,42 @@ EC.strings('email', {
 "res": "passion:Email:account_setup_account_type_pop_action",
 "en": "POP3",
 "hu": "POP3",
-"huOwn": true,
 "de": "POP3",
 "fr": "POP3",
 "es": "POP3",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "account_setup_account_type_imap_action": {
 "res": "passion:Email:account_setup_account_type_imap_action",
 "en": "IMAP",
 "hu": "IMAP",
-"huOwn": true,
 "de": "IMAP",
 "fr": "IMAP",
 "es": "IMAP",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "account_setup_account_type_exchange_action": {
 "res": "passion:Email:account_setup_account_type_exchange_action",
 "en": "Microsoft Exchange ActiveSync",
 "hu": "Microsoft Exchange ActiveSync",
-"huFrom": "crespo:EmailGoogle:exchange_name_alternate",
 "de": "Microsoft Exchange ActiveSync",
 "fr": "Microsoft Exchange ActiveSync",
 "es": "Microsoft Exchange ActiveSync",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "account_setup_check_settings_retr_info_msg": {

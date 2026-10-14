@@ -122,14 +122,14 @@ EC.strings('apps', {
 "res": "passion:GoogleGoggles:app_name_icon",
 "en": "Goggles",
 "hu": "Goggles",
-"huOwn": true,
 "de": "Goggles",
 "fr": "Goggles",
 "es": "Goggles",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "Maps/MAPS_APP_NAME": {
@@ -228,15 +228,15 @@ EC.strings('apps', {
 "googlevoice/app_icon_name": {
 "res": "passion:googlevoice:app_icon_name",
 "en": "Voice",
-"hu": "Hang",
-"huFrom": "crespo:framework:serviceClassVoice",
+"hu": "Voice",
 "de": "Voice",
 "fr": "Voice",
 "es": "Voice",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 }
 });

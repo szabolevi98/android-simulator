@@ -14,14 +14,14 @@ EC.strings('search', {
 "res": "passion:EnhancedGoogleSearchProvider:google_search_base",
 "en": "http://www.google.com/m?hl=%1$s&gl=%2$s&",
 "hu": "http://www.google.com/m?hl=%1$s&gl=%2$s&",
-"huOwn": true,
 "de": "http://www.google.com/m?hl=%1$s&gl=%2$s&",
 "fr": "http://www.google.com/m?hl=%1$s&gl=%2$s&",
 "es": "http://www.google.com/m?hl=%1$s&gl=%2$s&",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 }
 });

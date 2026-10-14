@@ -356,3 +356,9 @@
 .npp-fb-fixed_divider_horizontal_bright{padding:0 0 0 0}
 .np-nw-widget_bg{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(7 * var(--dp)) calc(8 * var(--dp)) calc(10 * var(--dp)) calc(8 * var(--dp));border-image:url('assets/nw-widget_bg.9.png') 7 8 10 8 fill / calc(7 * var(--dp)) calc(8 * var(--dp)) calc(10 * var(--dp)) calc(8 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable/widget_bg.9.png 68x88 */
 .npp-nw-widget_bg{padding:calc(7 * var(--dp)) calc(8 * var(--dp)) calc(10 * var(--dp)) calc(8 * var(--dp))}
+.np-gg-header_bg{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/gg-header_bg.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 0 0 0}  /* res/drawable/header_bg.9.png 1x45 */
+.npp-gg-header_bg{padding:0 0 0 0}
+.np-gg-button_bar{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 calc(1.33333 * var(--dp));border-image:url('assets/gg-button_bar.9.png') 0 0 0 2 fill / 0 0 0 calc(1.33333 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-hdpi/button_bar.9.png 150x1 */
+.npp-gg-button_bar{padding:0 0 0 calc(1.33333 * var(--dp))}
+.np-gg-progress_area_bg{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(1 * var(--dp)) 0 0 0;border-image:url('assets/gg-progress_area_bg.9.png') 1 0 0 0 fill / calc(1 * var(--dp)) 0 0 0 stretch;padding:0 0 0 0}  /* res/drawable/progress_area_bg.9.png 1x2 */
+.npp-gg-progress_area_bg{padding:calc(1 * var(--dp)) 0 0 0}

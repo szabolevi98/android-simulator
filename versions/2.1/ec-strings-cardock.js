@@ -77,56 +77,56 @@ EC.strings('cardock', {
 "res": "passion:CarDock:voice_hint_navigate",
 "en": "“<font color=\"#2e4987\">navigate to</font> pizza in palo alto”",
 "hu": "“<font color=\"#2e4987\">navigate to</font> pizza in palo alto”",
-"huOwn": true,
 "de": "“<font color=\"#2e4987\">navigate to</font> pizza in palo alto”",
 "fr": "“<font color=\"#2e4987\">navigate to</font> pizza in palo alto”",
 "es": "“<font color=\"#2e4987\">navigate to</font> pizza in palo alto”",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "voice_hint_map": {
 "res": "passion:CarDock:voice_hint_map",
 "en": "“<font color=\"#2e4987\">map of</font> gas stations”",
 "hu": "“<font color=\"#2e4987\">map of</font> gas stations”",
-"huOwn": true,
 "de": "“<font color=\"#2e4987\">map of</font> gas stations”",
 "fr": "“<font color=\"#2e4987\">map of</font> gas stations”",
 "es": "“<font color=\"#2e4987\">map of</font> gas stations”",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "voice_hint_directions": {
 "res": "passion:CarDock:voice_hint_directions",
 "en": "“<font color=\"#2e4987\">directions to</font> 76 9th avenue, new york”",
 "hu": "“<font color=\"#2e4987\">directions to</font> 76 9th avenue, new york”",
-"huOwn": true,
 "de": "“<font color=\"#2e4987\">directions to</font> 76 9th avenue, new york”",
 "fr": "“<font color=\"#2e4987\">directions to</font> 76 9th avenue, new york”",
 "es": "“<font color=\"#2e4987\">directions to</font> 76 9th avenue, new york”",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "voice_hint_call": {
 "res": "passion:CarDock:voice_hint_call",
 "en": "“<font color=\"#2e4987\">call</font> john doe, mobile phone”",
 "hu": "“<font color=\"#2e4987\">call</font> john doe, mobile phone”",
-"huOwn": true,
 "de": "“<font color=\"#2e4987\">call</font> john doe, mobile phone”",
 "fr": "“<font color=\"#2e4987\">call</font> john doe, mobile phone”",
 "es": "“<font color=\"#2e4987\">call</font> john doe, mobile phone”",
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 },
 "menu_item_dock_settings": {

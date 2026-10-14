@@ -363,7 +363,8 @@ EC.strings('browser', {
 "untranslated": [
 "de",
 "fr",
-"es"
+"es",
+"hu"
 ]
 }
 });
