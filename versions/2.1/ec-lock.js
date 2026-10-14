@@ -29,6 +29,7 @@
   EC.defaults.alarms = EC.defaults.alarms || [];
 
   function nextAlarm(c) {
+    if (c.nextAlarm) { const d = c.nextAlarm(); return d && c.dateFormat(c.is24() ? 'E kk:mm' : 'E h:mm aa', d); }
     const now = c.now();
     let best = null;
     for (const alarm of c.data.alarms || []) {

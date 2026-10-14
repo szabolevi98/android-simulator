@@ -284,22 +284,26 @@
   const stopPreview = () => { clearTimeout(previewTimer); if (preview) { preview.pause(); preview = null; } };
   function ringtonePicker(c, n) {
     const cat = n.ringtoneType === '0x00000002' ? 'notifications' : 'ringtones', field = cat === 'ringtones' ? 'ringtone' : 'notificationSound';
+    EC.ringtonePicker(c, {cat, title: txt(n.title), current: c.data.settings[field] ?? EC.sounds?.defaults[cat], onPick: file => { c.data.settings[field] = file; c.save(); }});
+  }
+  // EC.ringtonePicker(c, {cat: 'ringtones' | 'notifications' | 'alarms', title, current (file name, '' = Silent), onPick}).
+  EC.ringtonePicker = (c, {cat, title, current, onPick}) => {
     const F = EC.text('framework'), list = Object.entries(EC.sounds?.list[cat] || {}).map(([file, [title, asset]]) => ({file, title, asset}));
     const key = t => t.toLocaleLowerCase('en').replace(/[^\p{L}\p{N} ]/gu, '');
     list.sort((a, b) => key(a.title).localeCompare(key(b.title), 'en'));
-    const cur = c.data.settings[field] ?? EC.sounds?.defaults[cat];
+    const cur = current;
     const items = [F.t('ringtone_silent'), ...list.map(r => r.title)];
     const at = cur === '' ? 0 : list.findIndex(r => r.file === cur) + 1;
     let pick = at;
-    c.dialog({title: txt(n.title), icon: null, items, choice: 'single', checked: at,
+    c.dialog({title, icon: null, items, choice: 'single', checked: at,
       onSelect: i => {
         pick = i; stopPreview();
         if (i) previewTimer = setTimeout(() => { preview = new Audio(`../../assets/audio/${list[i - 1].asset}.webm`); preview.play().catch(() => {}); }, 300);
       },
-      buttons: [{label: F.t('ok'), action: () => { stopPreview(); c.data.settings[field] = pick ? list[pick - 1].file : ''; c.save(); }},
+      buttons: [{label: F.t('ok'), action: () => { stopPreview(); onPick(pick ? list[pick - 1].file : ''); c.render(); }},
                 {label: F.t('cancel'), action: stopPreview}],
       onCancel: stopPreview});
-  }
+  };
 
   // RingerVolumePreference (preference_dialog_ringervolume.xml: incoming call volume, the notification checkbox and its
   // own bar), VolumePreference (seekbar_dialog.xml, media) and BrightnessPreference (preference_dialog_brightness.xml:

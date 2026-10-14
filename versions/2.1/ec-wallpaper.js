@@ -144,7 +144,8 @@
     live.draw(ctx, offset, performance.now());
     timer = setTimeout(() => frame(c), 45);
   }
-  const visible = c => !document.hidden && !c.ui.sleeping && ['home', 'lock', 'drawer'].includes(c.ui.view);
+  // Home, lock and the drawer show it, and any screen whose module says it has a wallpaper window (Theme.Wallpaper).
+  const visible = c => !document.hidden && !c.ui.sleeping && (['home', 'lock', 'drawer'].includes(c.ui.view) || !!EC.module(c.ui.view)?.wallpaper?.(c));
   function wake(c) { if (!timer) frame(c); }
 
   EC.register('wallpaper', {

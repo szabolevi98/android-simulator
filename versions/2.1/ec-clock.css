@@ -1,0 +1,73 @@
+/* Android 2.1 Clock (ec-clock.js), in dp / sp. */
+/* DeskClock: the wallpaper behind dimmed by 0.4 (0.7 dimmed), window_tint #cc000000 fading in over 500 ms when dimmed;
+   text shadows #c0000000 radius 3. */
+.ecdc{position:absolute;inset:0;display:flex;flex-direction:column;color:#fff;text-shadow:0 0 calc(2 * var(--dp)) #000000c0}
+.ecdc-behind{position:absolute;inset:0;background:#000;opacity:.4;transition:opacity .5s}
+.ecdc.dim .ecdc-behind{opacity:.7}
+.ecdc-tint{position:absolute;inset:0;z-index:2;background:#cc000000;opacity:0;pointer-events:none}
+.ecdc.dim .ecdc-tint{animation:ecdc-dim .5s cubic-bezier(0,0,.2,1) both}
+@keyframes ecdc-dim{from{opacity:0}to{opacity:1}}
+.screen.no-status .ecdc{padding-top:calc(25 * var(--dp))}
+.ecdc-body{position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column;margin:calc(18 * var(--dp)) calc(18 * var(--dp)) calc(14 * var(--dp)) calc(22 * var(--dp))}
+.ecdc-top{display:flex;align-items:center;margin:0 0 calc(6 * var(--dp)) calc(4 * var(--dp))}
+.ecdc-next{flex:1;min-width:0;display:flex;align-items:center;gap:calc(6 * var(--dp));font-size:calc(18 * var(--dp))}
+.ecdc-next img{width:calc(25.333 * var(--dp));height:calc(25.333 * var(--dp))}
+.ecdc-round{position:relative;z-index:3;flex:none;width:calc(50 * var(--dp));height:calc(50 * var(--dp));border:0;padding:0;background:url('assets/dc-btn_in_call_round_normal.png') 0 0/100% 100%}
+.ecdc-round:active{background-image:url('assets/dc-btn_in_call_round_pressed.png')}
+.ecdc-round img{width:100%;height:100%}
+.ecdc-timedate{flex:1;display:flex;flex-direction:column;justify-content:center}
+.ecdc-time{display:flex;align-items:flex-end;margin-bottom:calc(8 * var(--dp))}
+.ecdc-clock{font-size:calc(106 * var(--dp));line-height:1.1;padding-bottom:calc(3 * var(--dp));white-space:nowrap}
+.ecdc-ampm{margin:0 0 calc(18 * var(--dp)) calc(4 * var(--dp));font-size:calc(18 * var(--dp));font-weight:700}
+.ecdc-date{margin-left:calc(4 * var(--dp));font-size:calc(18 * var(--dp))}
+.ecdc-battery{display:flex;justify-content:flex-end;align-items:center;gap:calc(6 * var(--dp));min-height:calc(25.333 * var(--dp));margin-left:calc(4 * var(--dp));font-size:calc(18 * var(--dp))}
+.ecdc-battery img{width:calc(25.333 * var(--dp));height:calc(25.333 * var(--dp))}
+.ecdc-strip{position:relative;z-index:1;flex:none;display:flex}
+.ecdc-sbtn{position:relative;flex:1 1 0;min-width:0;height:calc(80 * var(--dp));border:0;padding:0;background:none;display:flex;align-items:center;justify-content:center}
+.ecdc-sbtn img{position:relative;z-index:1;width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+/* AlarmClock list: the 68 dp left column, 22 sp "Add alarm"; rows' time 28 sp, AM / PM and label 14 sp bold, days 14 sp. */
+.ecac{position:absolute;inset:0;display:flex;flex-direction:column}
+.ecac-add{position:relative;flex:none;display:flex;align-items:center;width:100%;border:0;padding:0;background:none;color:#fff;text-align:left}
+.ecac-add span{position:relative;z-index:1}
+.ecac-add>span:last-child{font-size:calc(22 * var(--dp))}
+.ecac-addicon{display:flex;align-items:center;justify-content:center;width:calc(68 * var(--dp));height:calc(68 * var(--dp))}
+.ecac-addicon img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.ecac-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ecac-row{display:flex;align-items:stretch}
+.ecac-ind{position:relative;flex:none;width:calc(68 * var(--dp));height:calc(68 * var(--dp));border:0;padding:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ecac-ind:active{background:url('assets/fw-list_selector_background_pressed.9.png') 0 0/100% 100%}
+.ecac-clock{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.ecac-bar{width:calc(42 * var(--dp));height:calc(7.333 * var(--dp));padding-top:calc(4 * var(--dp));box-sizing:content-box}
+.ecac-vdiv{flex:none;width:calc(1 * var(--dp));margin:calc(4 * var(--dp)) 0;background:url('assets/fw-divider_vertical_dark.9.png') 0 0/100% 100%}
+.ecac-main{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;border:0;padding:0 calc(16 * var(--dp));background:none;color:#fff;text-align:left}
+.ecac-main>span{position:relative;z-index:1}
+.ecac-line{display:flex;align-items:baseline}
+.ecac-time{font-size:calc(28 * var(--dp));line-height:1;padding-right:calc(6 * var(--dp))}
+.ecac-ampm{font-size:calc(14 * var(--dp));font-weight:700}
+.ecac-label{flex:1;min-width:0;padding-left:calc(8 * var(--dp));text-align:right;font-size:calc(14 * var(--dp));font-weight:700;color:#808080;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecac-days{font-size:calc(14 * var(--dp));color:#bebebe;line-height:1.2}
+.ecac-strip{flex:none;display:flex}
+.ecac-deskbtn{flex:none;width:calc(80 * var(--dp))}
+.ecac-clockbox{position:relative;flex:1;display:flex;align-items:baseline;justify-content:center;padding-top:calc(10 * var(--dp))}
+.ecac-clockbox>span{position:relative;z-index:1}
+.ecac-bigtime{font-size:calc(48 * var(--dp));padding-right:calc(6 * var(--dp))}
+.ecac-bigampm{font-size:calc(14 * var(--dp));font-weight:700}
+/* SetAlarm: the preference list over the ButtonBar of Done / Revert / Delete. */
+.ecsa{position:absolute;inset:0;display:flex;flex-direction:column}
+.ecsa-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ecsa-bar{flex:none;display:flex;padding:calc(4 * var(--dp)) calc(2 * var(--dp)) 0;background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.ecsa-edit{padding:calc(8 * var(--dp)) calc(14 * var(--dp))}
+/* AlarmAlert: dialog.9.png centred; title 22 sp, padding 5 dp; the time 64 sp (padding 30 dp); Snooze and Dismiss
+   (weights 3 / 1 / 3). */
+.ecaa-dim{position:absolute;inset:0;background:#00000099}
+.ecaa{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.ecaa-box{position:relative;display:flex;flex-direction:column;align-items:center;min-width:calc(250 * var(--dp));color:#fff}
+.ecaa-box>*:not(.ec-bg){position:relative;z-index:1}
+.ecaa-title{align-self:stretch;padding:calc(5 * var(--dp));text-align:center;font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecaa-divider{align-self:stretch;display:block;height:calc(1 * var(--dp));margin:0 calc(10 * var(--dp))}
+.ecaa-time{display:flex;align-items:baseline;padding:calc(30 * var(--dp)) 0}
+.ecaa-time span{font-size:calc(64 * var(--dp));line-height:1}
+.ecaa-time b{font-size:calc(18 * var(--dp))}
+.ecaa-bar{align-self:stretch;display:flex;padding:calc(4 * var(--dp)) calc(2 * var(--dp)) 0}
+.ecaa-bar .ecui-button{flex:3 1 0}
+.ecaa-gap{flex:1 1 0}

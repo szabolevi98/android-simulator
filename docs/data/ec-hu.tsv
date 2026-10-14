@@ -85,3 +85,17 @@ Obtaining IP address from %1$s…	IP-cím lekérése innen: %1$s…
 remembered	megjegyezve
 Wireless password	Vezeték nélküli jelszó
 802.1x Enterprise	802.1x vállalati
+Side button behavior	Oldalsó gombok viselkedése
+Set the desired behavior of the side buttons when pressed during an alarm	Itt állítható be, mi történjen az oldalsó gombok ébresztés közben való megnyomására
+This alarm is set for less than 1 minute from now.	Az ébresztés kevesebb mint 1 perc múlva szólal meg.
+This alarm is set for %1$s from now.	Az ébresztés %1$s múlva szólal meg.
+This alarm is set for %2$s from now.	Az ébresztés %2$s múlva szólal meg.
+This alarm is set for %1$s and %2$s from now.	Az ébresztés %1$s és %2$s múlva szólal meg.
+This alarm is set for %3$s from now.	Az ébresztés %3$s múlva szólal meg.
+This alarm is set for %1$s and %3$s from now.	Az ébresztés %1$s és %3$s múlva szólal meg.
+This alarm is set for %2$s and %3$s from now.	Az ébresztés %2$s és %3$s múlva szólal meg.
+This alarm is set for %1$s, %2$s, and %3$s from now.	Az ébresztés %1$s, %2$s és %3$s múlva szólal meg.
+5 minutes	5 perc
+15 minutes	15 perc
+20 minutes	20 perc
+25 minutes	25 perc
