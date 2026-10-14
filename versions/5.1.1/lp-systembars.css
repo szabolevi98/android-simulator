@@ -4,38 +4,38 @@
    draw under fully transparent bars. Icons are SystemUI's vector drawables drawn 17 dp tall
    (status_bar_icon_drawing_size), the clock is 14 sp sans-serif-medium, and the navigation keys are the Material
    triangle, circle and square (ic_sysbar_*, #E5FFFFFF) in 70 dp slots, 36 dp in from both edges. */
-.screen{--sb:22.65px;--nb:43.49px;--lp-sb:#000}
-.status-button,.screen .status-button{background:var(--lp-sb);color:#fff!important;padding:0 7.25px 0 5.44px;transition:background-color .2s}
+.screen{--sb:calc(25 * var(--dp));--nb:calc(48.0023 * var(--dp));--lp-sb:#000}
+.status-button,.screen .status-button{background:var(--lp-sb);color:#fff!important;padding:0 calc(8.0023 * var(--dp)) 0 calc(6.0045 * var(--dp));transition:background-color .2s}
 .status-left{display:flex;align-items:center;height:100%}
-.status-left img{width:15.4px;height:15.4px;margin:0 3.4px 0 3.4px;opacity:.9;object-fit:contain}
+.status-left img{width:calc(16.9978 * var(--dp));height:calc(16.9978 * var(--dp));margin:0 calc(3.7528 * var(--dp)) 0 calc(3.7528 * var(--dp));opacity:.9;object-fit:contain}
 .status-right{display:flex;align-items:center;height:100%}
 /* system_icons.xml / signal_cluster_view.xml: each status icon (alarm, Bluetooth, ...) is a 24 dp box
    (status_bar_icon_size, padding 0) around its 17 dp drawing; the signal cluster follows 2.5 dp after them, Wi-Fi
    (18.41 x 17 dp), the 4 dp wifi_signal_spacer and the 17 dp mobile signal, then signal_cluster_battery_padding (7 dp)
    before the 9.5 dp battery and the clock's 7 dp paddingStart. */
-.status-right>img,.status-cluster>img{height:15.4px;width:auto;display:block}
-.screen .status-right>img{width:21.74px;object-fit:contain;margin:0}
-.status-cluster{display:flex;align-items:center;margin-left:2.27px;padding-left:0;padding-right:6.34px}
+.status-right>img,.status-cluster>img{height:calc(16.9978 * var(--dp));width:auto;display:block}
+.screen .status-right>img{width:calc(23.9956 * var(--dp));object-fit:contain;margin:0}
+.status-cluster{display:flex;align-items:center;margin-left:calc(2.5056 * var(--dp));padding-left:0;padding-right:calc(6.9978 * var(--dp))}
 /* SignalClusterView.apply(): wifi_signal_spacer (4 dp) is only VISIBLE when a mobile data type icon is shown, and
    MobileSignalController shows one only while mobile data is connected, i.e. never next to a connected Wi-Fi, so the
    signal box follows the Wi-Fi box directly; wifi_airplane_spacer (4 dp) does separate Wi-Fi from the airplane icon.
    LTE is a wide type icon (TelephonyIcons.LTE), so the signal gets wide_type_icon_start_padding (2 dp) beside it. */
 .screen .status-right .status-cluster img.status-wifi{margin:0}
-.screen .status-right .status-cluster.lp-wifi-airplane img.status-wifi{margin:0 3.62px 0 0}
-.lp-mobile-wide>img:first-child{margin-left:1.81px}
-.lp-mobile{position:relative;display:block;height:15.4px}
-.lp-mobile img{height:15.4px;width:auto;display:block}
+.screen .status-right .status-cluster.lp-wifi-airplane img.status-wifi{margin:0 calc(3.9956 * var(--dp)) 0 0}
+.lp-mobile-wide>img:first-child{margin-left:calc(1.9978 * var(--dp))}
+.lp-mobile{position:relative;display:block;height:calc(16.9978 * var(--dp))}
+.lp-mobile img{height:calc(16.9978 * var(--dp));width:auto;display:block}
 .lp-mobile .lp-mobile-type{position:absolute;left:0;top:0}
-.kk-battery{flex:none;width:8.61px;height:13.14px;margin:0;display:block}
-.status-clock{padding-left:6.34px;color:#fff;font:500 12.7px Roboto,RobotoICS,Arial,sans-serif;letter-spacing:.01em}
+.kk-battery{flex:none;width:calc(9.5034 * var(--dp));height:calc(14.5034 * var(--dp));margin:0;display:block}
+.status-clock{padding-left:calc(6.9978 * var(--dp));color:#fff;font:500 calc(14.0177 * var(--dp)) Roboto,RobotoICS,Arial,sans-serif;letter-spacing:.01em}
 /* navigation_bar.xml with the Nexus 6's values-sw400dp: 50 dp side padding, 80 dp keys (LMY48Y SystemUI.apk). */
-#nav-bar{background:#000;transition:background-color .2s;justify-content:flex-start;padding:0 45.3px}
-#nav-bar .nav-key{position:relative;flex:none;width:72.48px;height:43.49px;display:grid;place-items:center;border:0;background:none;padding:0;overflow:visible}
+#nav-bar{background:#000;transition:background-color .2s;justify-content:flex-start;padding:0 calc(50 * var(--dp))}
+#nav-bar .nav-key{position:relative;flex:none;width:calc(80 * var(--dp));height:calc(48.0023 * var(--dp));display:grid;place-items:center;border:0;background:none;padding:0;overflow:visible}
 #nav-bar .nav-spacer{flex:1}
 .nav-key img{width:auto;height:auto;opacity:.9}
-.nav-key.nav-back img{width:16.9px}
-.nav-key.nav-home img{width:17.5px}
-.nav-key.nav-recent img{width:16.3px}
+.nav-key.nav-back img{width:calc(18.6535 * var(--dp))}
+.nav-key.nav-home img{width:calc(19.3157 * var(--dp))}
+.nav-key.nav-recent img{width:calc(17.9912 * var(--dp))}
 /* Transparent mode (launcher, keyguard): the content runs under both bars. */
 .screen.kk-translucent #viewport{top:0;bottom:0}
 .screen.kk-translucent .status-button{background:transparent}
@@ -46,8 +46,8 @@
 .screen.kk-lights-out .status-right{opacity:.5}
 .screen.kk-lights-out .status-right>:not(.kk-battery):not(.status-clock){opacity:0}
 .screen.kk-lights-out .nav-key img{opacity:0;transition:opacity .25s}
-.screen.kk-lights-out .nav-key{background:url('assets/lp-ic_sysbar_lights_out_dot_small.png') center/7.25px no-repeat}
-.screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/lp-ic_sysbar_lights_out_dot_large.png');background-size:10.87px}
+.screen.kk-lights-out .nav-key{background:url('assets/lp-ic_sysbar_lights_out_dot_small.png') center/calc(8.0023 * var(--dp)) no-repeat}
+.screen.kk-lights-out .nav-key.nav-home{background-image:url('assets/lp-ic_sysbar_lights_out_dot_large.png');background-size:calc(11.9978 * var(--dp))}
 .nav-key.nav-hidden{visibility:hidden}
 /* Fullscreen windows (PlatLogoActivity, the wallpaper picker) hide the status bar; immersive-sticky windows hide both
    bars until a swipe from an edge brings them back translucent for three seconds. */
@@ -60,7 +60,7 @@
 /* The navigation bar search panel (lp-search.js): SearchPanelView over the whole screen, search_panel_scrim's 250 dp
    gradient (#55000000 at the bottom), the canvas drawing SearchPanelCircleView, and the 70 x 28 dp ic_google_logo. */
 .lp-search{position:absolute;inset:0;z-index:30;touch-action:none;overflow:hidden}
-.lp-search-scrim{position:absolute;left:0;right:0;bottom:0;height:226.5px;background:linear-gradient(to top,#00000055,#0000);opacity:0;pointer-events:none}
+.lp-search-scrim{position:absolute;left:0;right:0;bottom:0;height:calc(250 * var(--dp));background:linear-gradient(to top,#00000055,#0000);opacity:0;pointer-events:none}
 .lp-search-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.lp-search-logo{position:absolute;left:0;top:0;width:63.4px;height:25.4px;padding:0;border:0;background:none;opacity:0}
+.lp-search-logo{position:absolute;left:0;top:0;width:calc(69.978 * var(--dp));height:calc(28.0354 * var(--dp));padding:0;border:0;background:none;opacity:0}
 .lp-search-logo img{display:block;width:100%;height:100%}

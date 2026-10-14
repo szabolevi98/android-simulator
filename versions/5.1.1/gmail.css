@@ -4,29 +4,29 @@
    icon 24 dp in (72 dp start), 16 sp bold #212121 names over 14 sp light #757575 senders, 16 dp end padding, the
    unseen count 12 sp white, 6 dp padded, at least 57 sp wide on a 1 dp rounded rectangle; the 0.5 dp #e5e5e5 divider. */
 .gm-teaser{background:#fff}
-.screen .gm-welcome{display:flex;flex-direction:column;width:100%;padding:14.5px;border:0;border-bottom:.45px solid #e5e5e5;background:#fff;text-align:left;cursor:pointer}
-.gm-welcome b{font:400 19.03px/1.2 Roboto,sans-serif;color:#58585b}
-.gm-welcome span{font:300 14.5px/1.3 Roboto,sans-serif;color:#58585b}
+.screen .gm-welcome{display:flex;flex-direction:column;width:100%;padding:calc(16.0045 * var(--dp));border:0;border-bottom:calc(.4967 * var(--dp)) solid #e5e5e5;background:#fff;text-align:left;cursor:pointer}
+.gm-welcome b{font:400 calc(21.0045 * var(--dp))/1.2 Roboto,sans-serif;color:#58585b}
+.gm-welcome span{font:300 calc(16.0045 * var(--dp))/1.3 Roboto,sans-serif;color:#58585b}
 .gm-welcome .gm-link{font-weight:400;color:#4285f4}
-.screen .gm-section{display:flex;align-items:center;width:100%;min-height:50.74px;padding:0 14.5px 0 0;border:0;border-bottom:.45px solid #e5e5e5;background:#fff;text-align:left;cursor:pointer}
-.gm-section-icon{flex:none;width:21.74px;height:21.74px;margin:0 21.74px;background:var(--gm-color);-webkit-mask:var(--gm-icon) center/contain no-repeat;mask:var(--gm-icon) center/contain no-repeat}
-.gm-section-copy{flex:1;min-width:0;display:flex;flex-direction:column;padding-right:14.5px}
-.gm-section-copy b{font:700 14.5px Roboto,sans-serif;color:#212121;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gm-section-copy small{font:300 12.68px Roboto,sans-serif;color:#757575;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gm-section em{flex:none;min-width:51.64px;padding:0 5.44px;border-radius:.91px;background:var(--gm-color);font:400 10.87px/1.35 Roboto,sans-serif;font-style:normal;color:#fff;text-align:center}
+.screen .gm-section{display:flex;align-items:center;width:100%;min-height:calc(56.0045 * var(--dp));padding:0 calc(16.0045 * var(--dp)) 0 0;border:0;border-bottom:calc(.4967 * var(--dp)) solid #e5e5e5;background:#fff;text-align:left;cursor:pointer}
+.gm-section-icon{flex:none;width:calc(23.9956 * var(--dp));height:calc(23.9956 * var(--dp));margin:0 calc(23.9956 * var(--dp));background:var(--gm-color);-webkit-mask:var(--gm-icon) center/contain no-repeat;mask:var(--gm-icon) center/contain no-repeat}
+.gm-section-copy{flex:1;min-width:0;display:flex;flex-direction:column;padding-right:calc(16.0045 * var(--dp))}
+.gm-section-copy b{font:700 calc(16.0045 * var(--dp)) Roboto,sans-serif;color:#212121;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-section-copy small{font:300 calc(13.9956 * var(--dp)) Roboto,sans-serif;color:#757575;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-section em{flex:none;min-width:calc(56.9978 * var(--dp));padding:0 calc(6.0045 * var(--dp));border-radius:calc(1.0045 * var(--dp));background:var(--gm-color);font:400 calc(11.9978 * var(--dp))/1.35 Roboto,sans-serif;font-style:normal;color:#fff;text-align:center}
 .screen .gm-welcome:active,.screen .gm-section:active{background:#d9d9d9}
-.gm-caret{width:9px;height:auto;margin-right:2px;align-self:center}
-.gm-chip{display:inline-block;margin-left:7.25px;padding:1px 5px;border-radius:2px;background:#eee;font:400 10.87px Roboto,sans-serif;color:#666;vertical-align:middle}
+.gm-caret{width:calc(9.9338 * var(--dp));height:auto;margin-right:calc(2.2076 * var(--dp));align-self:center}
+.gm-chip{display:inline-block;margin-left:calc(8.0023 * var(--dp));padding:calc(1.1038 * var(--dp)) calc(5.5188 * var(--dp));border-radius:calc(2.2076 * var(--dp));background:#eee;font:400 calc(11.9978 * var(--dp)) Roboto,sans-serif;color:#666;vertical-align:middle}
 /* Gmail settings (audit step 5): the preference screens, the category icons, the list and signature dialogs. */
 .gmp-app{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;font-family:Roboto,sans-serif}
 .gmp-bar{flex:none;display:flex;align-items:center}
 .gmp-bar b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .screen .gmp-up{display:flex;align-items:center;height:100%;padding:0;border:0;background:none}
 .gmp-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
-.screen .gmp-row{display:flex;align-items:center;width:100%;min-height:50.74px;padding:7.25px 14.5px;border:0;background:none;text-align:left}
+.screen .gmp-row{display:flex;align-items:center;width:100%;min-height:calc(56.0045 * var(--dp));padding:calc(8.0023 * var(--dp)) calc(16.0045 * var(--dp));border:0;background:none;text-align:left}
 .gmp-text{flex:1;min-width:0;display:flex;flex-direction:column}
-.gmp-text small{margin-top:1.81px;white-space:pre-line;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
-.gmp-cat-icon{flex:none;width:21.74px;height:21.74px;margin-right:28.99px;background:center/contain no-repeat}
+.gmp-text small{margin-top:calc(1.9978 * var(--dp));white-space:pre-line;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
+.gmp-cat-icon{flex:none;width:calc(23.9956 * var(--dp));height:calc(23.9956 * var(--dp));margin-right:calc(31.9978 * var(--dp));background:center/contain no-repeat}
 .gmp-primary{background-image:url('assets/gmp-ic_drawer_primary_24dp.png')}
 .gmp-social{background-image:url('assets/gmp-ic_drawer_social_24dp.png')}
 .gmp-promotions{background-image:url('assets/gmp-ic_drawer_promotions_24dp.png')}
@@ -35,32 +35,32 @@
 .gmp-scrim{position:absolute;inset:0;z-index:40;border:0;background:#0009}
 .gmp-dialog{position:absolute;z-index:41;top:50%;transform:translateY(-50%);background:#fff}
 .gmp-dialog h3{margin:0}
-.screen .gmp-choice{display:flex;align-items:center;width:100%;min-height:43.49px;border:0;background:none;text-align:left}
+.screen .gmp-choice{display:flex;align-items:center;width:100%;min-height:calc(48.0023 * var(--dp));border:0;background:none;text-align:left}
 .gmp-choice span{flex:1}
-.gmp-choice i{flex:none;width:28.99px;height:28.99px}
-.screen .gmp-signature{display:block;width:calc(100% - 29px);margin:7.25px 14.5px;padding:7.25px 3.62px;border:0;border-bottom:1.81px solid #4285f4;background:none;outline:none;resize:none;font:400 14.5px/1.3 Roboto,sans-serif;color:#000}
+.gmp-choice i{flex:none;width:calc(31.9978 * var(--dp));height:calc(31.9978 * var(--dp))}
+.screen .gmp-signature{display:block;width:calc(100% - calc(32.0089 * var(--dp)));margin:calc(8.0023 * var(--dp)) calc(16.0045 * var(--dp));padding:calc(8.0023 * var(--dp)) calc(3.9956 * var(--dp));border:0;border-bottom:calc(1.9978 * var(--dp)) solid #4285f4;background:none;outline:none;resize:none;font:400 calc(16.0045 * var(--dp))/1.3 Roboto,sans-serif;color:#000}
 /* UnifiedEmailTheme v21 (Gmail 5.0): the 56 dp quantum_googred500 #da4336 bar with the white arrow and 20 sp title,
    categories in the #4285f4 accent, 16 sp #de000000 titles over 14 sp #8a000000 summaries, Material check boxes,
    radio buttons and dialogs. */
-.gmp-bar{height:50.74px;background:#da4336;box-shadow:0 1.81px 3.62px #0003}
-.screen .gmp-up{justify-content:center;width:50.74px}
-.gmp-up i{position:relative;width:14.5px;height:1.81px;background:#fff}
-.gmp-up i::before{content:'';position:absolute;left:0;top:50%;width:8.15px;height:8.15px;border-left:1.81px solid #fff;border-bottom:1.81px solid #fff;transform:translate(1px,-50%) rotate(45deg)}
-.gmp-bar b{margin-left:14.5px;font:500 18.12px Roboto,sans-serif;color:#fff}
+.gmp-bar{height:calc(56.0045 * var(--dp));background:#da4336;box-shadow:0 calc(1.9978 * var(--dp)) calc(3.9956 * var(--dp)) #0003}
+.screen .gmp-up{justify-content:center;width:calc(56.0045 * var(--dp))}
+.gmp-up i{position:relative;width:calc(16.0045 * var(--dp));height:calc(1.9978 * var(--dp));background:#fff}
+.gmp-up i::before{content:'';position:absolute;left:0;top:50%;width:calc(8.9956 * var(--dp));height:calc(8.9956 * var(--dp));border-left:calc(1.9978 * var(--dp)) solid #fff;border-bottom:calc(1.9978 * var(--dp)) solid #fff;transform:translate(calc(1.1038 * var(--dp)),-50%) rotate(45deg)}
+.gmp-bar b{margin-left:calc(16.0045 * var(--dp));font:500 calc(20 * var(--dp)) Roboto,sans-serif;color:#fff}
 .screen .gmp-up:active{background:#ffffff33}
 .screen .gmp-row:active,.screen .gmp-dialog button:active{background:#0000001a}
-.gmp-cat{margin:0;padding:14.5px 14.5px 7.25px;font:500 12.68px Roboto,sans-serif;color:#4285f4}
-.screen .gmp-row{min-height:65.23px;padding:10.87px 14.5px}
-.gmp-text b{font:400 14.5px Roboto,sans-serif;color:#000000de}
-.gmp-text small{font:400 12.68px/1.3 Roboto,sans-serif;color:#0000008a}
-.gmp-check{flex:none;position:relative;width:16.31px;height:16.31px;margin:0 2.72px 0 14.5px;box-sizing:border-box;border:1.81px solid #0000008a;border-radius:1.81px}
+.gmp-cat{margin:0;padding:calc(16.0045 * var(--dp)) calc(16.0045 * var(--dp)) calc(8.0023 * var(--dp));font:500 calc(13.9956 * var(--dp)) Roboto,sans-serif;color:#4285f4}
+.screen .gmp-row{min-height:calc(71.9978 * var(--dp));padding:calc(11.9978 * var(--dp)) calc(16.0045 * var(--dp))}
+.gmp-text b{font:400 calc(16.0045 * var(--dp)) Roboto,sans-serif;color:#000000de}
+.gmp-text small{font:400 calc(13.9956 * var(--dp))/1.3 Roboto,sans-serif;color:#0000008a}
+.gmp-check{flex:none;position:relative;width:calc(18.0023 * var(--dp));height:calc(18.0023 * var(--dp));margin:0 calc(3.0023 * var(--dp)) 0 calc(16.0045 * var(--dp));box-sizing:border-box;border:calc(1.9978 * var(--dp)) solid #0000008a;border-radius:calc(1.9978 * var(--dp))}
 .gmp-check.on{border-color:#4285f4;background:#4285f4}
-.gmp-check.on::after{content:'';position:absolute;left:3.62px;top:0.45px;width:4.53px;height:9.06px;border:solid #fff;border-width:0 1.81px 1.81px 0;transform:rotate(45deg)}
-.gmp-dialog{left:21.74px;right:21.74px;padding-bottom:7.25px;border-radius:1.81px;box-shadow:0 10.87px 21.74px #0000004d}
-.gmp-dialog h3{padding:21.74px 21.74px 10.87px;font:500 18.12px Roboto,sans-serif;color:#000000de}
-.screen .gmp-choice{flex-direction:row-reverse;gap:18.12px;padding:0 21.74px;font:400 14.5px Roboto,sans-serif;color:#000000de}
-.gmp-choice i{display:grid;place-items:center;width:21.74px;height:21.74px}
-.gmp-choice i::before{content:'';width:18.12px;height:18.12px;box-sizing:border-box;border:1.81px solid #0000008a;border-radius:50%}
-.gmp-choice.on i::before{border-color:#4285f4;background:radial-gradient(#4285f4 0 4.53px, transparent 4.98px)}
-.gmp-buttons{display:flex;justify-content:flex-end;gap:7.25px;padding:7.25px 7.25px 0}
-.screen .gmp-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;font:500 12.68px Roboto,sans-serif;color:#4285f4;text-transform:uppercase}
+.gmp-check.on::after{content:'';position:absolute;left:calc(3.9956 * var(--dp));top:calc(.4967 * var(--dp));width:calc(5 * var(--dp));height:calc(10 * var(--dp));border:solid #fff;border-width:0 calc(1.9978 * var(--dp)) calc(1.9978 * var(--dp)) 0;transform:rotate(45deg)}
+.gmp-dialog{left:calc(23.9956 * var(--dp));right:calc(23.9956 * var(--dp));padding-bottom:calc(8.0023 * var(--dp));border-radius:calc(1.9978 * var(--dp));box-shadow:0 calc(11.9978 * var(--dp)) calc(23.9956 * var(--dp)) #0000004d}
+.gmp-dialog h3{padding:calc(23.9956 * var(--dp)) calc(23.9956 * var(--dp)) calc(11.9978 * var(--dp));font:500 calc(20 * var(--dp)) Roboto,sans-serif;color:#000000de}
+.screen .gmp-choice{flex-direction:row-reverse;gap:calc(20 * var(--dp));padding:0 calc(23.9956 * var(--dp));font:400 calc(16.0045 * var(--dp)) Roboto,sans-serif;color:#000000de}
+.gmp-choice i{display:grid;place-items:center;width:calc(23.9956 * var(--dp));height:calc(23.9956 * var(--dp))}
+.gmp-choice i::before{content:'';width:calc(20 * var(--dp));height:calc(20 * var(--dp));box-sizing:border-box;border:calc(1.9978 * var(--dp)) solid #0000008a;border-radius:50%}
+.gmp-choice.on i::before{border-color:#4285f4;background:radial-gradient(#4285f4 0 calc(5 * var(--dp)), transparent calc(5.4967 * var(--dp)))}
+.gmp-buttons{display:flex;justify-content:flex-end;gap:calc(8.0023 * var(--dp));padding:calc(8.0023 * var(--dp)) calc(8.0023 * var(--dp)) 0}
+.screen .gmp-buttons button{min-width:calc(63.9956 * var(--dp));height:calc(36.0045 * var(--dp));padding:0 calc(8.0023 * var(--dp));border:0;border-radius:calc(1.9978 * var(--dp));background:none;font:500 calc(13.9956 * var(--dp)) Roboto,sans-serif;color:#4285f4;text-transform:uppercase}

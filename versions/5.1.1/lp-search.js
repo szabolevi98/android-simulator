@@ -10,8 +10,9 @@
    (fast_out_linear_in). */
 (() => {
   'use strict';
-  const DP = .906;
-  const S = {up: 48 * DP, size: 88 * DP, base: 80 * DP, travel: 80 * DP, elevation: 12 * DP, threshold: 100 * DP, scrim: 250 * DP, logo: [70 * DP, 28 * DP], duration: 300, delay: 50, ripple: 400, vibrate: 10};
+  // DP(): 1 dp in CSS px now (the Nexus 6 display is 411.43 dp across: 0.906 px in the desktop frame, more on a phone).
+  const DP = () => { const s = globalThis.document?.querySelector?.('#screen'); return s?.clientWidth ? s.clientWidth / 411.43 : .906; };
+  const S = {up: 48 * DP(), size: 88 * DP(), base: 80 * DP(), travel: 80 * DP(), elevation: 12 * DP(), threshold: 100 * DP(), scrim: 250 * DP(), logo: [70 * DP(), 28 * DP()], duration: 300, delay: 50, ripple: 400, vibrate: 10};
   const bezier = (x1, y1, x2, y2) => t => {
     // Cubic Bézier easing like PathInterpolator, solved for x by bisection.
     let lo = 0, hi = 1, u = t;

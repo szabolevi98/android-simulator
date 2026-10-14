@@ -1,7 +1,7 @@
 /* Google Play Store 5.2.13 (Phonesky.apk of LMY48Y) on the Nexus 6: 1 dp = 0.906 CSS px. Sizes and colours are the
    APK's (values/dimens, values/colors, values/styles and the layouts named below), drawables are its own
    (assets/ps5213-*). Fonts: sans-serif = Roboto 400, sans-serif-medium = Roboto 500, sans-serif-light = Roboto 300. */
-#viewport>.app-view.lpp{--dp:.906px;height:100%;display:flex;flex-direction:column;background:#eee;color:#212121;font-family:Roboto,RobotoICS,Arial,sans-serif;overflow:hidden;position:relative}
+#viewport>.app-view.lpp{height:100%;display:flex;flex-direction:column;background:#eee;color:#212121;font-family:Roboto,RobotoICS,Arial,sans-serif;overflow:hidden;position:relative}
 .lpp button{font-family:inherit}
 .lpp em{font-style:normal}
 .lpp .jbp-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
@@ -10,8 +10,8 @@
 /* search_toolbar: 56 dp, the corpus colour, 20 sp Roboto Medium white title; the drawer toggle (DrawerArrowDrawable's
    three bars) or abc_ic_ab_back_mtrl_am_alpha, ic_search_white, abc_ic_menu_moreoverflow_mtrl_alpha. */
 .lpp-bar{flex:none;display:flex;align-items:center;height:calc(56*var(--dp));background:var(--c);color:#fff;position:relative;z-index:3;box-shadow:0 calc(2*var(--dp)) calc(4*var(--dp)) #0003}
-.lpp-tabs+*,.lpp-bar+.lpp-tabs{box-shadow:none}
-.lpp-bar:has(+.lpp-tabs){box-shadow:none}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-tabs+*,:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-bar+.lpp-tabs{box-shadow:none}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-bar:has(+.lpp-tabs){box-shadow:none}
 .lpp-bar b{flex:1;min-width:0;margin-left:calc(16*var(--dp));font:500 calc(20*var(--dp)) Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .screen .lpp-nav{flex:none;width:calc(56*var(--dp));height:100%;padding:0;border:0;background:center/calc(24*var(--dp)) no-repeat;cursor:pointer}
 .screen .lpp-nav.up{background-image:url('assets/ps5213-abc_ic_ab_back_mtrl_am_alpha.png')}
@@ -32,18 +32,18 @@
 .lpp-suggest i.recent{background-image:url('assets/ps5213-ic_search_recent.png')}
 
 /* PlayHeaderListTabStrip: 48 dp in the toolbar colour, 14 sp Roboto Medium, 12 dp side padding, the white underline. */
-.lpp-tabs{flex:none;display:flex;height:calc(48*var(--dp));padding:0 calc(8*var(--dp));background:var(--c);overflow-x:auto;scrollbar-width:none;position:relative;z-index:2;box-shadow:0 calc(2*var(--dp)) calc(4*var(--dp)) #0003}
-.lpp-tabs::-webkit-scrollbar{display:none}
-.screen .lpp-tabs button{flex:none;position:relative;padding:0 calc(12*var(--dp));border:0;background:none;color:#ffffffb3;font:500 calc(14*var(--dp)) Roboto,sans-serif;white-space:nowrap;cursor:pointer}
-.lpp-tabs.few button{flex:1}
-.screen .lpp-tabs button.on{color:#fff}
-.lpp-tabs button.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(2*var(--dp));background:#fff}
-.screen .lpp-tabs button:active{background:#ffffff40}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-tabs{flex:none;display:flex;height:calc(48*var(--dp));padding:0 calc(8*var(--dp));background:var(--c);overflow-x:auto;scrollbar-width:none;position:relative;z-index:2;box-shadow:0 calc(2*var(--dp)) calc(4*var(--dp)) #0003}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-tabs::-webkit-scrollbar{display:none}
+.screen :where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-tabs button{flex:none;position:relative;padding:0 calc(12*var(--dp));border:0;background:none;color:#ffffffb3;font:500 calc(14*var(--dp)) Roboto,sans-serif;white-space:nowrap;cursor:pointer}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-tabs.few button{flex:1}
+.screen :where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-tabs button.on{color:#fff}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-tabs button.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(2*var(--dp));background:#fff}
+.screen :where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-tabs button:active{background:#ffffff40}
 
 /* Quick links: 48 dp corpus-coloured blocks, white upper-case 13 sp titles; two to a row. */
 .lpp-links{display:grid;grid-template-columns:1fr 1fr;padding:calc(4*var(--dp))}
 .screen .lpp-link{height:calc(40*var(--dp));margin:calc(4*var(--dp));padding:0 calc(8*var(--dp));border:0;border-radius:calc(2*var(--dp));background:var(--c);color:#fff;text-align:left;font:400 calc(13*var(--dp)) Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
-.screen .lpp-link:active{box-shadow:inset 0 0 0 999px #ffffff33}
+.screen .lpp-link:active{box-shadow:inset 0 0 0 calc(1102.6491 * var(--dp)) #ffffff33}
 
 /* play_card_cluster: 8 dp vertical padding; the header (min 48 dp, 20 dp side padding): 18 sp Roboto Medium title,
    16 sp #616161 subtitle, the MORE box (12 sp, 8 / 5 / 6 dp padding) in the corpus colour. */
@@ -54,13 +54,13 @@
 .lpp-cluster h3{margin:0;font:500 calc(18*var(--dp)) Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lpp-cluster-head small{display:block;margin-top:calc(-3*var(--dp));padding-bottom:calc(4*var(--dp));font:400 calc(16*var(--dp)) Roboto,sans-serif;color:#616161;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lpp-cluster-head em{flex:none;padding:calc(5*var(--dp)) calc(8*var(--dp)) calc(6*var(--dp));border-radius:calc(2*var(--dp));color:#fff;font:500 calc(12*var(--dp)) Roboto,sans-serif;white-space:nowrap}
-.lpp-cards{display:grid;grid-template-columns:repeat(3,1fr);padding:0 calc(4*var(--dp))}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-cards{display:grid;grid-template-columns:repeat(3,1fr);padding:0 calc(4*var(--dp))}
 /* PlayCardViewGroup: #FAFAFA, 2 dp corners, 2 dp elevation, 4 dp inset. */
-.lpp-card,.lpp-row{position:relative;min-width:0;margin:calc(4*var(--dp));border-radius:calc(2*var(--dp));background:#fafafa;box-shadow:0 calc(1*var(--dp)) calc(2*var(--dp)) #00000038,0 0 calc(1*var(--dp)) #0000001f}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-card,:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-row{position:relative;min-width:0;margin:calc(4*var(--dp));border-radius:calc(2*var(--dp));background:#fafafa;box-shadow:0 calc(1*var(--dp)) calc(2*var(--dp)) #00000038,0 0 calc(1*var(--dp)) #0000001f}
 .screen .lpp-card-main{display:flex;flex-direction:column;width:100%;padding:0;border:0;border-radius:inherit;background:none;color:#212121;text-align:left;cursor:pointer}
 .screen .lpp-card-main:active,.screen .lpp-row-main:active{background:#0000001a}
-.lpp-card-art{display:block;width:100%;aspect-ratio:1;border-radius:calc(2*var(--dp)) calc(2*var(--dp)) 0 0;font-size:26px;overflow:hidden}
-.lpp-card.apps .lpp-card-art,.lpp-card.games .lpp-card-art{width:calc(100% - 20*var(--dp));margin:calc(10*var(--dp)) calc(10*var(--dp)) 0}
+.lpp-card-art{display:block;width:100%;aspect-ratio:1;border-radius:calc(2*var(--dp)) calc(2*var(--dp)) 0 0;font-size:calc(28.6976 * var(--dp));overflow:hidden}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-card.apps .lpp-card-art,:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-card.games .lpp-card-art{width:calc(100% - 20*var(--dp));margin:calc(10*var(--dp)) calc(10*var(--dp)) 0}
 .lpp-card-copy{display:flex;flex-direction:column;min-width:0;padding:calc(8*var(--dp)) calc(12*var(--dp)) calc(8*var(--dp))}
 .lpp-card-copy b{margin-right:calc(12*var(--dp));font:400 calc(16*var(--dp))/1.2 Roboto,sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em}
 .lpp-card-copy small,.lpp-row-copy small{font:400 calc(12*var(--dp)) Roboto,sans-serif;color:#616161;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -68,10 +68,10 @@
 .lpp-card-foot em,.lpp-row-main>em{font:400 calc(12*var(--dp)) Roboto,sans-serif;text-transform:uppercase;white-space:nowrap}
 .screen .lpp-dots{position:absolute;right:calc(4*var(--dp));width:calc(24*var(--dp));height:calc(32*var(--dp));padding:0;border:0;background:url('assets/ps5213-ic_menu_moreoverflow_card_dark_normal.png') center/calc(32*var(--dp)) no-repeat;cursor:pointer}
 .screen .lpp-dots:active{background-image:url('assets/ps5213-ic_menu_moreoverflow_card_dark_pressed.png')}
-.lpp-card .lpp-dots{top:auto;bottom:calc(48*var(--dp))}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-card .lpp-dots{top:auto;bottom:calc(48*var(--dp))}
 .lpp-cover{display:grid;place-items:center;font-style:normal;background:linear-gradient(150deg,var(--a),var(--b))}
-.lpp-cover b{font-size:1.1em;color:#fff;text-shadow:0 1px 2px #0009}
-.lpp-cover.books{box-shadow:inset 3px 0 #0003}
+.lpp-cover b{font-size:1.1em;color:#fff;text-shadow:0 calc(1.1038 * var(--dp)) calc(2.2076 * var(--dp)) #0009}
+.lpp-cover.books{box-shadow:inset calc(3.3113 * var(--dp)) 0 #0003}
 .lpp-svg svg{width:100%;height:100%;display:block}
 img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero-art,img.lpp-perms-art{object-fit:contain}
 /* StarRatingBar: 11 dp stars, #616161 over #70616161, 1 dp apart. */
@@ -81,23 +81,23 @@ img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero
 .lpp-stars.white i{background:#fff}
 
 /* play_card_listing / play_card_myapps (96 dp): the thumbnail, 12 dp content inset, the label at the bottom right. */
-.lpp-list{padding:calc(4*var(--dp))}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-list{padding:calc(4*var(--dp))}
 .screen .lpp-row-main{display:flex;align-items:stretch;width:100%;height:calc(96*var(--dp));padding:0;border:0;border-radius:inherit;background:none;color:#212121;text-align:left;cursor:pointer}
-.lpp-row-art{flex:none;width:calc(88*var(--dp));height:calc(88*var(--dp));margin:calc(4*var(--dp));font-size:22px}
+.lpp-row-art{flex:none;width:calc(88*var(--dp));height:calc(88*var(--dp));margin:calc(4*var(--dp));font-size:calc(24.2826 * var(--dp))}
 .lpp-row-copy{flex:1;min-width:0;display:flex;flex-direction:column;padding:calc(8*var(--dp)) calc(28*var(--dp)) 0 calc(12*var(--dp))}
 .lpp-row-copy b{font:400 calc(16*var(--dp))/1.3 Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lpp-row-copy small{margin:calc(-2*var(--dp)) 0 calc(4*var(--dp))}
 .lpp-row-main>em{position:absolute;right:calc(12*var(--dp));bottom:calc(8*var(--dp))}
-.lpp-row .lpp-dots{top:calc(4*var(--dp))}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-row .lpp-dots{top:calc(4*var(--dp))}
 .screen .lpp-archive{position:absolute;top:calc(8*var(--dp));right:calc(8*var(--dp));width:calc(24*var(--dp));height:calc(24*var(--dp));padding:0;border:0;background:url('assets/ps5213-ic_play_lists_close.png') center/contain no-repeat;cursor:pointer}
 .lpp-group{display:flex;justify-content:space-between;align-items:center;height:calc(48*var(--dp));padding:calc(4*var(--dp)) calc(20*var(--dp)) 0;font:500 calc(18*var(--dp)) Roboto,sans-serif}
 .lpp-group b{font-weight:500;color:#616161}
-.lpp-empty{margin:calc(32*var(--dp)) calc(16*var(--dp));text-align:center;font:300 calc(18*var(--dp)) Roboto,sans-serif;color:#616161}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-empty{margin:calc(32*var(--dp)) calc(16*var(--dp));text-align:center;font:300 calc(18*var(--dp)) Roboto,sans-serif;color:#616161}
 .lpp-wish-empty{display:flex;flex-direction:column;align-items:center;gap:calc(10*var(--dp));padding:calc(48*var(--dp)) calc(16*var(--dp));text-align:center}
 .lpp-wish-empty i{width:calc(40*var(--dp));height:calc(51*var(--dp));background:url('assets/ps5213-ic_empty_wish.png') center/contain no-repeat}
 .lpp-wish-empty p{margin:0;font:300 calc(18*var(--dp)) Roboto,sans-serif;color:#616161}
 .lpp-catlist{margin:calc(8*var(--dp));border-radius:calc(2*var(--dp));background:#fafafa;box-shadow:0 calc(1*var(--dp)) calc(2*var(--dp)) #00000038}
-.screen .lpp-catlist button{display:block;width:100%;height:calc(48*var(--dp));padding:0 calc(16*var(--dp));border:0;border-bottom:1px solid #0000001a;background:none;color:#212121;text-align:left;font:400 calc(16*var(--dp)) Roboto,sans-serif;cursor:pointer}
+.screen .lpp-catlist button{display:block;width:100%;height:calc(48*var(--dp));padding:0 calc(16*var(--dp));border:0;border-bottom:calc(1.1038 * var(--dp)) solid #0000001a;background:none;color:#212121;text-align:left;font:400 calc(16*var(--dp)) Roboto,sans-serif;cursor:pointer}
 .screen .lpp-catlist button:last-child{border-bottom:0}
 .screen .lpp-catlist button:active{background:#0000001a}
 
@@ -108,8 +108,8 @@ img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero
 .lpp-hero-art{width:28%;aspect-ratio:1;filter:drop-shadow(0 calc(4*var(--dp)) calc(8*var(--dp)) #0006)}
 /* TitleModule: the thumbnail, the 20 sp Roboto Medium title, the 14 sp #616161 creator, the wishlist bookmark and the
    action buttons (Play_DetailsPage_ActionButton: 14 sp Roboto Medium, min 120 dp, 16 dp padding, 7 / 8 dp). */
-.lpp-title{position:relative;display:flex;gap:calc(16*var(--dp));margin-bottom:0;padding:calc(16*var(--dp)) calc(16*var(--dp)) calc(12*var(--dp))}
-.lpp-title-art{flex:none;width:calc(84*var(--dp));height:calc(84*var(--dp));font-size:30px}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-title{position:relative;display:flex;gap:calc(16*var(--dp));margin-bottom:0;padding:calc(16*var(--dp)) calc(16*var(--dp)) calc(12*var(--dp))}
+.lpp-title-art{flex:none;width:calc(84*var(--dp));height:calc(84*var(--dp));font-size:calc(33.1126 * var(--dp))}
 .lpp-title-copy{flex:1;min-width:0;display:flex;flex-direction:column;padding-right:calc(28*var(--dp))}
 .lpp-title-copy b{font:500 calc(20*var(--dp))/1.25 Roboto,sans-serif}
 .lpp-title-copy>small{margin-top:calc(2*var(--dp));font:400 calc(14*var(--dp)) Roboto,sans-serif;color:#616161;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -118,13 +118,13 @@ img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero
 .lpp-btns{display:flex;justify-content:flex-end;gap:calc(8*var(--dp));margin:calc(16*var(--dp)) calc(-28*var(--dp)) 0 0}
 .screen .lpp-btn{min-width:calc(120*var(--dp));padding:calc(7*var(--dp)) calc(16*var(--dp)) calc(8*var(--dp));border:0;border-radius:calc(2*var(--dp));background:var(--c);color:#fff;font:500 calc(14*var(--dp)) Roboto,sans-serif;box-shadow:0 calc(1*var(--dp)) calc(2*var(--dp)) #0003;cursor:pointer}
 .screen .lpp-btn.plain{background:#fff;color:#616161;box-shadow:0 0 0 calc(1*var(--dp)) #0000001f}
-.screen .lpp-btn:active:not(:disabled){box-shadow:inset 0 0 0 999px #0000001a}
+.screen .lpp-btn:active:not(:disabled){box-shadow:inset 0 0 0 calc(1102.6491 * var(--dp)) #0000001a}
 .screen .lpp-btn:disabled{color:#bdbdbd;cursor:default}
 .lpp-dl{display:grid;grid-template-columns:1fr auto;align-items:center;margin:calc(12*var(--dp)) calc(-28*var(--dp)) 0 0}
 .lpp-dl-text{display:flex;justify-content:space-between;font:300 calc(14*var(--dp)) Roboto,sans-serif;color:#616161}
 .lpp-progress{grid-column:1;height:calc(4*var(--dp));margin:calc(6*var(--dp)) 0;background:color-mix(in srgb,var(--c) 30%,#fff)}
 .lpp-progress b{display:block;height:100%;background:var(--c)}
-.lpp-progress.busy b{background:repeating-linear-gradient(-45deg,var(--c) 0 6px,color-mix(in srgb,var(--c) 60%,#fff) 6px 12px)}
+.lpp-progress.busy b{background:repeating-linear-gradient(-45deg,var(--c) 0 calc(6.6226 * var(--dp)),color-mix(in srgb,var(--c) 60%,#fff) calc(6.6226 * var(--dp)) calc(13.2451 * var(--dp)))}
 .screen .lpp-dl-cancel{grid-column:2;grid-row:1/3;width:calc(32*var(--dp));height:calc(32*var(--dp));margin-left:calc(4*var(--dp));padding:0;border:0;background:url('assets/ps5213-ic_menu_close_clear_cancel_light.png') center/contain no-repeat;cursor:pointer}
 /* DiscoveryBar: 16 dp padding, 60 dp badges with their 76 dp titles. */
 .lpp-discovery{display:flex;justify-content:center;gap:calc(4*var(--dp));padding:calc(16*var(--dp)) calc(8*var(--dp))}
@@ -162,7 +162,7 @@ img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero
 .lpp-bars{flex:1;display:flex;flex-direction:column;gap:calc(4*var(--dp));padding-left:calc(22*var(--dp));max-width:calc(190*var(--dp))}
 .lpp-bars span{display:flex;align-items:center;gap:calc(8*var(--dp));font:400 calc(12*var(--dp)) Roboto,sans-serif;color:#616161}
 .lpp-bars i{display:block;height:calc(8*var(--dp));max-width:calc(160*var(--dp))}
-.lpp-review{display:flex;padding:calc(12*var(--dp)) 0 calc(12*var(--dp)) calc(16*var(--dp));border-top:1px solid #0000001a}
+.lpp-review{display:flex;padding:calc(12*var(--dp)) 0 calc(12*var(--dp)) calc(16*var(--dp));border-top:calc(1.1038 * var(--dp)) solid #0000001a}
 .lpp-avatar{flex:none;width:calc(40*var(--dp));height:calc(40*var(--dp));margin-top:calc(10*var(--dp));border-radius:50%;background:#bdbdbd url('assets/ps5213-ic_profile_none.png') center/cover}
 .lpp-review>div{flex:1;min-width:0;padding:calc(8*var(--dp)) calc(16*var(--dp)) 0;font:400 calc(14*var(--dp)) Roboto,sans-serif}
 .lpp-review>div>b{font-weight:400}
@@ -170,7 +170,7 @@ img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero
 .lpp-review-by small{font-size:calc(12*var(--dp));color:#616161}
 .lpp-review strong{display:block;margin-top:calc(12*var(--dp));font-weight:500}
 .lpp-review p{margin:calc(4*var(--dp)) 0 0;line-height:1.6}
-.lpp-all-reviews{display:flex;justify-content:center;padding:calc(12*var(--dp));border-top:1px solid #0000001a}
+.lpp-all-reviews{display:flex;justify-content:center;padding:calc(12*var(--dp));border-top:calc(1.1038 * var(--dp)) solid #0000001a}
 .lpp-all-reviews em{font:500 calc(14*var(--dp)) Roboto,sans-serif}
 /* SecondaryActionsModule: three equal buttons, 12 dp padding, a 32 dp icon cell, 14 sp labels. */
 .lpp-secondary{display:flex}
@@ -211,11 +211,11 @@ img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero
 /* Popups and dialogs: the card overflow (a Material popup: 48 dp rows, 16 sp), the toolbar overflow, Material dialogs. */
 .jbp-pop-scrim,.jbp-dlg-scrim{position:absolute;inset:0;z-index:25}
 .jbp-dlg-scrim{background:#00000080}
-.lpp-pop,.jbp-menu{--dp:.906px;position:absolute;right:calc(8*var(--dp));z-index:26;min-width:calc(160*var(--dp));padding:calc(8*var(--dp)) 0;border-radius:calc(2*var(--dp));background:#fff;box-shadow:0 calc(4*var(--dp)) calc(10*var(--dp)) #0005}
+.lpp-pop,.jbp-menu{position:absolute;right:calc(8*var(--dp));z-index:26;min-width:calc(160*var(--dp));padding:calc(8*var(--dp)) 0;border-radius:calc(2*var(--dp));background:#fff;box-shadow:0 calc(4*var(--dp)) calc(10*var(--dp)) #0005}
 .jbp-menu{top:calc(var(--sb) + 4*var(--dp))}
 .screen .lpp-pop button,.screen .jbp-menu button{display:flex;align-items:center;justify-content:space-between;gap:calc(16*var(--dp));width:100%;height:calc(48*var(--dp));padding:0 calc(16*var(--dp));border:0;background:none;color:#212121;text-align:left;font:400 calc(16*var(--dp)) Roboto,sans-serif;white-space:nowrap;cursor:pointer}
 .screen .lpp-pop button:active,.screen .jbp-menu button:active{background:#0000001a}
-.lpp-dlg{--dp:.906px;position:absolute;left:calc(24*var(--dp));right:calc(24*var(--dp));top:50%;z-index:26;transform:translateY(-50%);max-height:80%;display:flex;flex-direction:column;border-radius:calc(2*var(--dp));background:#fafafa;color:#212121;font-family:Roboto,sans-serif;box-shadow:0 calc(8*var(--dp)) calc(24*var(--dp)) #0007;overflow:hidden}
+.lpp-dlg{position:absolute;left:calc(24*var(--dp));right:calc(24*var(--dp));top:50%;z-index:26;transform:translateY(-50%);max-height:80%;display:flex;flex-direction:column;border-radius:calc(2*var(--dp));background:#fafafa;color:#212121;font-family:Roboto,sans-serif;box-shadow:0 calc(8*var(--dp)) calc(24*var(--dp)) #0007;overflow:hidden}
 .lpp-dlg h3{flex:none;margin:0;padding:calc(24*var(--dp)) calc(24*var(--dp)) calc(12*var(--dp));font:500 calc(20*var(--dp)) Roboto,sans-serif}
 .lpp-dlg p{margin:0;padding:calc(24*var(--dp)) calc(24*var(--dp)) 0;font:400 calc(16*var(--dp)) Roboto,sans-serif;color:#0000008a}
 .screen .lpp-dlg-row{display:flex;align-items:center;gap:calc(24*var(--dp));width:100%;min-height:calc(48*var(--dp));padding:0 calc(24*var(--dp));border:0;background:none;color:#212121;text-align:left;font:400 calc(16*var(--dp)) Roboto,sans-serif;cursor:pointer}
@@ -226,13 +226,13 @@ img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero
 .screen .lpp-dlg-buttons button:active:not(:disabled){background:#0000001a}
 .screen .lpp-dlg-buttons button:disabled{color:#00000042}
 .lpp-dlg .lpp-rate-name{padding:calc(6*var(--dp)) 0;text-align:center;font-size:calc(14*var(--dp))}
-.lpp-field{display:block;width:calc(100% - 48*var(--dp));margin:calc(4*var(--dp)) calc(24*var(--dp));padding:calc(6*var(--dp)) 0;border:0;border-bottom:calc(1*var(--dp)) solid #0000001f;background:none;color:#212121;font:400 calc(16*var(--dp)) Roboto,sans-serif;resize:none;outline:0}
-.lpp-field:focus{border-bottom:calc(2*var(--dp)) solid #009688}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-field{display:block;width:calc(100% - 48*var(--dp));margin:calc(4*var(--dp)) calc(24*var(--dp));padding:calc(6*var(--dp)) 0;border:0;border-bottom:calc(1*var(--dp)) solid #0000001f;background:none;color:#212121;font:400 calc(16*var(--dp)) Roboto,sans-serif;resize:none;outline:0}
+:where(.lpp,.lpp-pop,.jbp-menu,.lpp-dlg,.lpp-perms,.lpp-drawer) .lpp-field:focus{border-bottom:calc(2*var(--dp)) solid #009688}
 /* AppsPermissionsActivity (FinskyLightDialogTheme: Theme.Holo.Light.Dialog): the 50 dp icon and title, the buckets
    (permission_row: 45 dp, an ic_perm_* icon, 16 sp, the expander), the Play logo and ACCEPT, the 12 sp #919191 footer. */
-.lpp-perms{--dp:.906px;position:absolute;left:calc(8*var(--dp));right:calc(8*var(--dp));top:50%;z-index:26;transform:translateY(-50%);max-height:85%;display:flex;flex-direction:column;background:#fff;color:#212121;font-family:Roboto,sans-serif;box-shadow:0 calc(4*var(--dp)) calc(16*var(--dp)) #000a}
+.lpp-perms{position:absolute;left:calc(8*var(--dp));right:calc(8*var(--dp));top:50%;z-index:26;transform:translateY(-50%);max-height:85%;display:flex;flex-direction:column;background:#fff;color:#212121;font-family:Roboto,sans-serif;box-shadow:0 calc(4*var(--dp)) calc(16*var(--dp)) #000a}
 .lpp-perms-head{flex:none;display:flex;align-items:center;gap:calc(10*var(--dp));padding:calc(14*var(--dp)) calc(14*var(--dp)) calc(20*var(--dp))}
-.lpp-perms-art{flex:none;width:calc(50*var(--dp));height:calc(50*var(--dp));font-size:22px}
+.lpp-perms-art{flex:none;width:calc(50*var(--dp));height:calc(50*var(--dp));font-size:calc(24.2826 * var(--dp))}
 .lpp-perms-head b{font:300 calc(21*var(--dp)) Roboto,sans-serif}
 .lpp-perms-list{flex:1;min-height:0;overflow:auto;padding:0 calc(14*var(--dp))}
 .lpp-perms-list>p{margin:0 0 calc(8*var(--dp));font:400 calc(14*var(--dp)) Roboto,sans-serif;color:#8d8d8d}
@@ -253,8 +253,8 @@ img.lpp-card-art,img.lpp-row-art,img.lpp-title-art,img.lpp-shot-art,img.lpp-hero
 /* The side drawer (FinskyDrawerLayout over the whole window): 280 dp, play_drawer_profile_info (148 dp: the cover,
    the 64 dp avatar, the 14 sp name and account), 48 dp rows of 14 sp Roboto Medium with their 24 dp icons 32 dp from
    the text, the current one bold on #EEEEEE, the 16 dp separator with its 1 dp #E5E5E5 rule. */
-.lpp-drawer-scrim{--dp:.906px;position:absolute;inset:0 0 var(--nb);z-index:25;background:#0009;animation:lpp-fade .2s ease-out}
-.lpp-drawer{--dp:.906px;position:absolute;top:0;bottom:var(--nb);left:0;z-index:26;width:min(calc(280*var(--dp)),calc(100% - 56*var(--dp)));display:flex;flex-direction:column;background:#fff;color:#212121;font-family:Roboto,sans-serif;box-shadow:0 0 calc(16*var(--dp)) #0006;animation:lpp-slide .22s cubic-bezier(.2,.8,.3,1)}
+.lpp-drawer-scrim{position:absolute;inset:0 0 var(--nb);z-index:25;background:#0009;animation:lpp-fade .2s ease-out}
+.lpp-drawer{position:absolute;top:0;bottom:var(--nb);left:0;z-index:26;width:min(calc(280*var(--dp)),calc(100% - 56*var(--dp)));display:flex;flex-direction:column;background:#fff;color:#212121;font-family:Roboto,sans-serif;box-shadow:0 0 calc(16*var(--dp)) #0006;animation:lpp-slide .22s cubic-bezier(.2,.8,.3,1)}
 @keyframes lpp-slide{from{transform:translateX(-100%)}}
 @keyframes lpp-fade{from{opacity:0}}
 .lpp-profile{flex:none;position:relative;height:calc(148*var(--dp));padding-top:var(--sb);box-sizing:content-box;background:url('assets/ps5213-bg_default_profile_art.png') center/cover;color:#fff}

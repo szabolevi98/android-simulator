@@ -3,16 +3,16 @@
 /* VolumePanel (dp scaled by 0.9): a TYPE_VOLUME_OVERLAY window 80dp from the top, above the status bar, as wide as
    the screen in portrait. One 64dp row: the 32dp stream icon with 16dp padding and a holo SeekBar (16dp padding, 16dp
    end margin, 13dp track, 32dp thumb). No enter animation; it fades out over config_mediumAnimTime. */
-#volume-layer{position:absolute;left:0;right:0;top:72px;z-index:60;pointer-events:none}
-.vol-panel{pointer-events:auto;border:7.2px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 15 fill/9px stretch}
+#volume-layer{position:absolute;left:0;right:0;top:calc(79.4702 * var(--dp));z-index:60;pointer-events:none}
+.vol-panel{pointer-events:auto;border:calc(7.9471 * var(--dp)) solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 15 fill/calc(9.9338 * var(--dp)) stretch}
 .vol-panel.fading{opacity:0;transition:opacity .4s cubic-bezier(.55,.085,.68,.53);pointer-events:none}
-.vol-item{display:flex;align-items:center;min-height:57.6px}
-.vol-icon{flex:none;padding:14.4px;display:grid}
-.vol-icon img{width:28.8px;height:28.8px}
-.vol-seek{flex:1;min-width:0;height:57.6px;margin-right:14.4px;padding:14.4px;display:flex;align-items:center;cursor:pointer;touch-action:none;outline:none}
-.vol-track{position:relative;flex:1;height:11.7px;background:url('assets/vol-scrubber_track_holo_dark.png') 0 0/100% 100%}
+.vol-item{display:flex;align-items:center;min-height:calc(63.5762 * var(--dp))}
+.vol-icon{flex:none;padding:calc(15.8941 * var(--dp));display:grid}
+.vol-icon img{width:calc(31.7881 * var(--dp));height:calc(31.7881 * var(--dp))}
+.vol-seek{flex:1;min-width:0;height:calc(63.5762 * var(--dp));margin-right:calc(15.8941 * var(--dp));padding:calc(15.8941 * var(--dp));display:flex;align-items:center;cursor:pointer;touch-action:none;outline:none}
+.vol-track{position:relative;flex:1;height:calc(12.914 * var(--dp));background:url('assets/vol-scrubber_track_holo_dark.png') 0 0/100% 100%}
 .vol-progress{position:absolute;left:0;top:0;bottom:0;background:url('assets/vol-scrubber_primary_holo.png') 0 0/100% 100%}
-.vol-thumb{position:absolute;top:50%;width:28.8px;height:28.8px;margin:-14.4px 0 0 -14.4px;background:url('assets/vol-scrubber_control_normal_holo.png') center/100% 100%}
+.vol-thumb{position:absolute;top:50%;width:calc(31.7881 * var(--dp));height:calc(31.7881 * var(--dp));margin:calc(-15.8941 * var(--dp)) 0 0 calc(-15.8941 * var(--dp));background:url('assets/vol-scrubber_control_normal_holo.png') center/100% 100%}
 .vol-seek.pressed .vol-thumb{background-image:url('assets/vol-scrubber_control_pressed_holo.png')}
 .vol-seek.disabled{cursor:default}
 .vol-seek.disabled .vol-track{opacity:.5}
@@ -24,31 +24,31 @@
 /* Lollipop system dialogs; dp x 0.906.
    The volume dialog (SystemUI 5.1): 8 dp in from the sides under the status bar, #263238 with 2 dp corners and 3 dp
    elevation; the #384248 slider panel, the Material seekbar in the #80CBC4 accent, the None / Priority / All row. */
-#volume-layer{top:var(--sb);padding:0 7.25px}
-.screen .vol-panel.lp-vol{border:0;border-image:none;background:#263238;border-radius:1.81px;box-shadow:0 2.7px 7.2px #00000059;overflow:hidden;font-family:Roboto,sans-serif;animation:lp-vol-in .2s cubic-bezier(0,0,.2,1) both}
-@keyframes lp-vol-in{from{transform:translateY(-12px);opacity:0}to{transform:none;opacity:1}}
-.lp-vol .vol-sliders{background:#384248;padding:7.25px 7.25px 0}
-.lp-vol .vol-item{display:flex;align-items:center;height:43.49px;padding:0;margin:0}
-.lp-vol .vol-icon{flex:none;width:43.49px;height:43.49px;display:grid;place-items:center;margin:0}
-.lp-vol .vol-icon img{width:21.74px;height:21.74px}
+#volume-layer{top:var(--sb);padding:0 calc(8.0023 * var(--dp))}
+.screen .vol-panel.lp-vol{border:0;border-image:none;background:#263238;border-radius:calc(1.9978 * var(--dp));box-shadow:0 calc(2.9802 * var(--dp)) calc(7.9471 * var(--dp)) #00000059;overflow:hidden;font-family:Roboto,sans-serif;animation:lp-vol-in .2s cubic-bezier(0,0,.2,1) both}
+@keyframes lp-vol-in{from{transform:translateY(calc(-13.2451 * var(--dp)));opacity:0}to{transform:none;opacity:1}}
+.lp-vol .vol-sliders{background:#384248;padding:calc(8.0023 * var(--dp)) calc(8.0023 * var(--dp)) 0}
+.lp-vol .vol-item{display:flex;align-items:center;height:calc(48.0023 * var(--dp));padding:0;margin:0}
+.lp-vol .vol-icon{flex:none;width:calc(48.0023 * var(--dp));height:calc(48.0023 * var(--dp));display:grid;place-items:center;margin:0}
+.lp-vol .vol-icon img{width:calc(23.9956 * var(--dp));height:calc(23.9956 * var(--dp))}
 .lp-vol .vol-am{filter:brightness(0) invert(1)}
-.lp-vol .vol-seek{flex:1;min-width:0;height:43.49px;padding:0 14.5px 0 7.25px;display:flex;align-items:center;margin:0;cursor:pointer;touch-action:none}
-.lp-vol .vol-track{position:relative;display:block;width:100%;height:1.81px;background:#ffffff4d;border:0;border-radius:0}
+.lp-vol .vol-seek{flex:1;min-width:0;height:calc(48.0023 * var(--dp));padding:0 calc(16.0045 * var(--dp)) 0 calc(8.0023 * var(--dp));display:flex;align-items:center;margin:0;cursor:pointer;touch-action:none}
+.lp-vol .vol-track{position:relative;display:block;width:100%;height:calc(1.9978 * var(--dp));background:#ffffff4d;border:0;border-radius:0}
 .lp-vol .vol-progress{position:absolute;left:0;top:0;bottom:0;background:#80cbc4;height:auto}
-.lp-vol .vol-thumb{position:absolute;top:50%;width:10.87px;height:10.87px;margin:-5.44px 0 0 -5.44px;border-radius:50%;background:#80cbc4;border:0;box-shadow:none;transition:transform .1s}
+.lp-vol .vol-thumb{position:absolute;top:50%;width:calc(11.9978 * var(--dp));height:calc(11.9978 * var(--dp));margin:calc(-6.0045 * var(--dp)) 0 0 calc(-6.0045 * var(--dp));border-radius:50%;background:#80cbc4;border:0;box-shadow:none;transition:transform .1s}
 .lp-vol .vol-seek.pressed .vol-thumb{transform:scale(1.67)}
 .lp-vol .vol-seek.disabled .vol-progress,.lp-vol .vol-seek.disabled .vol-thumb{background:#ffffff4d}
-.lp-vol .vol-divider{flex:none;width:.906px;height:28.99px;margin:0 7.25px;background:#ffffff1f}
-.lp-vol .vol-settings{flex:none;width:43.49px;height:43.49px;border:0;background:none;display:grid;place-items:center;padding:0;cursor:pointer;border-radius:50%}
-.lp-vol .vol-settings img{width:21.74px;height:21.74px;opacity:.7}
-.lp-vol .vol-zen-row{display:flex;padding:0 7.25px 7.25px;background:#384248;box-shadow:0 3.6px 3.6px -1.8px #00000033}
-.lp-vol .vol-zen{flex:1;height:43.49px;border:0;background:none;color:#ffffffb3;font:500 12.68px Roboto,sans-serif;text-transform:uppercase;cursor:pointer}
-.lp-vol .vol-zen.on{color:#fff;box-shadow:inset 0 -1.81px #80cbc4}
-.lp-vol .vol-subhead{display:flex;align-items:center;gap:3.62px;height:56.17px;padding:0 14.5px;color:#fff;font:400 14.5px Roboto,sans-serif}
-.lp-vol .vol-subhead img{width:21.74px;height:21.74px;opacity:.7}
+.lp-vol .vol-divider{flex:none;width:var(--dp);height:calc(31.9978 * var(--dp));margin:0 calc(8.0023 * var(--dp));background:#ffffff1f}
+.lp-vol .vol-settings{flex:none;width:calc(48.0023 * var(--dp));height:calc(48.0023 * var(--dp));border:0;background:none;display:grid;place-items:center;padding:0;cursor:pointer;border-radius:50%}
+.lp-vol .vol-settings img{width:calc(23.9956 * var(--dp));height:calc(23.9956 * var(--dp));opacity:.7}
+.lp-vol .vol-zen-row{display:flex;padding:0 calc(8.0023 * var(--dp)) calc(8.0023 * var(--dp));background:#384248;box-shadow:0 calc(3.9736 * var(--dp)) calc(3.9736 * var(--dp)) calc(-1.9868 * var(--dp)) #00000033}
+.lp-vol .vol-zen{flex:1;height:calc(48.0023 * var(--dp));border:0;background:none;color:#ffffffb3;font:500 calc(13.9956 * var(--dp)) Roboto,sans-serif;text-transform:uppercase;cursor:pointer}
+.lp-vol .vol-zen.on{color:#fff;box-shadow:inset 0 calc(-1.9978 * var(--dp)) #80cbc4}
+.lp-vol .vol-subhead{display:flex;align-items:center;gap:calc(3.9956 * var(--dp));height:calc(61.9978 * var(--dp));padding:0 calc(16.0045 * var(--dp));color:#fff;font:400 calc(16.0045 * var(--dp)) Roboto,sans-serif}
+.lp-vol .vol-subhead img{width:calc(23.9956 * var(--dp));height:calc(23.9956 * var(--dp));opacity:.7}
 /* Toast (Theme.Material: the #323232-ish translucent pill, 2 dp radius, 14 sp white). */
 /* Toast (transient_notification.xml on Theme.Material's toastFrameBackground): framework-res toast_frame.9.png is a
    #555555 ellipse at 90 % whose 9-patch corners are 25 x 21 dp and whose padding is 25 dp across and 11 dp down;
    TextAppearance.Toast is 16 sp sans-serif-condensed in bright_foreground_dark with a #BB000000 shadow of 2.75;
    Toast's gravity is bottom-centre, toast_y_offset (64 dp) above the navigation bar. The Holo border image is off. */
-.screen .toast{left:50%;right:auto;transform:translateX(-50%);max-width:calc(100% - 58px);bottom:calc(var(--nb) + 57.98px);padding:9.97px 22.65px;border:0;border-image:none;border-radius:22.65px / 19.03px;background:#555555e6;box-shadow:none;font:400 14.5px/1.3 RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#fff;text-shadow:0 0 2.75px #000000bb;text-align:center}
+.screen .toast{left:50%;right:auto;transform:translateX(-50%);max-width:calc(100% - calc(64.0177 * var(--dp)));bottom:calc(var(--nb) + calc(63.9956 * var(--dp)));padding:calc(11.0045 * var(--dp)) calc(25 * var(--dp));border:0;border-image:none;border-radius:calc(25 * var(--dp)) / calc(21.0045 * var(--dp));background:#555555e6;box-shadow:none;font:400 calc(16.0045 * var(--dp))/1.3 RobotoCondensed,'Roboto Condensed',Roboto,sans-serif;color:#fff;text-shadow:0 0 calc(3.0354 * var(--dp)) #000000bb;text-align:center}

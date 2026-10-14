@@ -10,14 +10,15 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const DP = 0.906, MAX_NOTES = 4, STATUS_HEIGHT = 140, MIN_SWIPE = 110 * DP, AFFORDANCE_SWIPE = 120 * DP;
+  // DP(): 1 dp in CSS px now (the Nexus 6 display is 411.43 dp across: 0.906 px in the desktop frame, more on a phone).
+  const DP = () => { const s = globalThis.document?.querySelector?.('#screen'); return s?.clientWidth ? s.clientWidth / 411.43 : .906; }, MAX_NOTES = 4, STATUS_HEIGHT = 140, MIN_SWIPE = 110 * DP(), AFFORDANCE_SWIPE = 120 * DP();
   const KLONDIKE = {2: 'ABC', 3: 'DEF', 4: 'GHI', 5: 'JKL', 6: 'MNO', 7: 'PQRS', 8: 'TUV', 9: 'WXYZ', 0: '+'};
   // KeyguardClockPositionAlgorithm: t = notifications / (max + summary card share), clock y fraction 32.5 % -> 18.5 %.
   function clockLayout(count, height) {
     const t = Math.min(1, count / (MAX_NOTES + 44 / 64));
     const fraction = .325 * (1 - t) + .185 * t, margin = 32 * t + 36 * (1 - t);
-    const top = fraction * height - STATUS_HEIGHT * DP / 2;
-    return {top, notesTop: top + STATUS_HEIGHT * DP + margin * DP};
+    const top = fraction * height - STATUS_HEIGHT * DP() / 2;
+    return {top, notesTop: top + STATUS_HEIGHT * DP() + margin * DP()};
   }
   function noteCard(note, t, locale, activated) {
     const icon = note.largeIcon ? `<span class="lp-note-icon large"><img src="assets/${e(note.largeIcon)}" alt=""></span><span class="lp-note-badge" style="background:${e(note.color || '#9e9e9e')}"><img src="assets/${e(note.smallIcon)}" alt=""></span>` : `<span class="lp-note-icon" style="background:${e(note.color || '#9e9e9e')}"><img src="assets/${e(note.smallIcon)}" alt=""></span>`;
@@ -120,7 +121,7 @@
   function bounce(root, reduced) {
     const panel = root?.querySelector('.lp-kg-panel');
     if (!panel?.animate || reduced) return;
-    panel.animate([{transform: 'none'}, {transform: `translateY(${-24 * DP}px)`, offset: .4}, {transform: 'none'}], {duration: 600, easing: 'cubic-bezier(.4,0,.2,1)'});
+    panel.animate([{transform: 'none'}, {transform: `translateY(${-24 * DP()}px)`, offset: .4}, {transform: 'none'}], {duration: 600, easing: 'cubic-bezier(.4,0,.2,1)'});
   }
   window.LPKeyguard = {DP, MAX_NOTES, clockLayout, render, bouncer, attach, bounce};
 })();
@@ -130,9 +131,9 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const DP = .9;
+  const DP = () => (globalThis.document?.querySelector?.('#screen')?.clientWidth ? globalThis.document.querySelector('#screen').clientWidth / 411.43 : .906) * .9 / .906;
   // GlowPadView dimensions and timings (dimens.xml, GlowPadView.java, PointCloud.java).
-  const G = {outer: 135 * DP, inner: 15 * DP, glow: 75 * DP, snap: 40 * DP, waveWidth: 100 * DP, wave: 1350, show: 200, showDelay: 50, hide: 200, innerPoints: 8, minPoint: 2, maxPoint: 4};
+  const G = {outer: 135 * DP(), inner: 15 * DP(), glow: 75 * DP(), snap: 40 * DP(), waveWidth: 100 * DP(), wave: 1350, show: 200, showDelay: 50, hide: 200, innerPoints: 8, minPoint: 2, maxPoint: 4};
   const MAX_WIDGETS = 5;
 
   // PointCloud.makePointCloud: rings from the inner to the outer radius, spaced like the inner ring's points.
@@ -201,13 +202,13 @@
       for (const point of points) {
         const alpha = pointAlpha(point, glow, wave);
         if (alpha <= 0) continue;
-        const size = G.maxPoint + (G.minPoint - G.maxPoint) * point.r / G.outer, s = size / G.maxPoint * 12 / 1.5 * DP;
+        const size = G.maxPoint + (G.minPoint - G.maxPoint) * point.r / G.outer, s = size / G.maxPoint * 12 / 1.5 * DP();
         ctx.globalAlpha = alpha;
         if (dot.complete && dot.naturalWidth) ctx.drawImage(dot, w / 2 + point.x - s / 2, h / 2 + point.y - s / 2, s, s);
       }
       frame = requestAnimationFrame(draw);
     };
-    const ping = () => { wave.alpha = 1; wave.radius = 54 * DP; tween(wave, 'radius', 2 * G.outer, G.wave, quad, 0, () => { wave.radius = 0; wave.alpha = 0; }); };
+    const ping = () => { wave.alpha = 1; wave.radius = 54 * DP(); tween(wave, 'radius', 2 * G.outer, G.wave, quad, 0, () => { wave.radius = 0; wave.alpha = 0; }); };
     const setActive = value => {
       if (value === active) return;
       active = value; root.classList.toggle('jbk-snapped', active);
@@ -296,7 +297,7 @@
 
   /* Secure keyguard (keyguard_host_view, SlidingChallengeLayout, KeyguardSecurityContainer): the security view
      slides up from the bottom over the widget pager; the expand handle fills the 64dp pager bottom padding. */
-  const S = {bound: 64 * DP, edge: 24 * DP, handle: 8 * DP, settle: 600, fadeOut: 100, fadeIn: 160, bouncer: 250, fling: 50 * DP, message: 5000, clear: 2000};
+  const S = {bound: 64 * DP(), edge: 24 * DP(), handle: 8 * DP(), settle: 600, fadeOut: 100, fadeIn: 160, bouncer: 250, fling: 50 * DP(), message: 5000, clear: 2000};
   const KLONDIKE = ['', '', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ'];
   const WRONG = {pattern: 'Wrong Pattern', pin: 'Wrong PIN', password: 'Wrong Password'};
   const challengeAlpha = offset => (offset - 1) ** 3 + 1;

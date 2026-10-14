@@ -8,7 +8,8 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const DP = 0.906, W = 411.43, H = 731.43, STATUS = 25, NAV = 48, SEARCH = 64, TOP_PAD = 16, WIDTH_PAD = 0.03333, BAR = 56, MIN_SCALE = 0.8;
+  // DP(): 1 dp in CSS px now (the Nexus 6 display is 411.43 dp across: 0.906 px in the desktop frame, more on a phone).
+  const DP = () => { const s = globalThis.document?.querySelector?.('#screen'); return s?.clientWidth ? s.clientWidth / 411.43 : .906; }, W = 411.43, H = 731.43, STATUS = 25, NAV = 48, SEARCH = 64, TOP_PAD = 16, WIDTH_PAD = 0.03333, BAR = 56, MIN_SCALE = 0.8;
   // initializeCurve: x(p) and p(x) for f(x) = 1 - 3000^(1 - 1.75x) / 3000, by arc length, 250 steps.
   const STEPS = 250, LOG_BASE = 3000, X_SCALE = 1.75;
   const logFunc = x => 1 - Math.pow(LOG_BASE, -x * X_SCALE + 1) / LOG_BASE;
@@ -61,7 +62,7 @@
     const y = toScreenY(bounded) - visible.top - offset;
     return {rel, top: task.top + y, scale, z: Math.max(20, 20 + bounded * 60)};
   }
-  const px2 = dp => `${(dp * DP).toFixed(2)}px`;
+  const px2 = dp => `${(dp * DP()).toFixed(2)}px`;
   const luminance = hex => { const n = parseInt(String(hex).slice(1, 7), 16); return (.299 * (n >> 16 & 255) + .587 * (n >> 8 & 255) + .114 * (n & 255)) / 255; };
   function render(recent, {names, icon, snapshots, colors, statusColors, t, search, pin}) {
     const tasks = [...recent].reverse();
@@ -82,7 +83,7 @@
       const tr = transform(m.progress[i], value, previous); previous = tr;
       card.hidden = !!tr.hidden;
       if (tr.hidden) return;
-      card.style.transform = `translateY(${(tr.top * DP).toFixed(2)}px) scale(${tr.scale.toFixed(4)})`;
+      card.style.transform = `translateY(${(tr.top * DP()).toFixed(2)}px) scale(${tr.scale.toFixed(4)})`;
       card.style.zIndex = String(i + 1);
       card.style.boxShadow = `0 ${(tr.z / 8).toFixed(1)}px ${(tr.z / 3).toFixed(1)}px #00000059`;
     });
@@ -100,18 +101,18 @@
   const shown = panel => [...panel.querySelectorAll('.lp-task')].filter(card => !card.hidden);
   // elapsed: time since Overview was asked for, so a re-render picks the animation up where it was.
   function enter(panel, from, elapsed = 0) {
-    const cards = shown(panel), start = `translateY(${(offscreen() * DP).toFixed(2)}px) scale(1)`;
+    const cards = shown(panel), start = `translateY(${(offscreen() * DP()).toFixed(2)}px) scale(1)`;
     if (from === 'home') cards.forEach((card, i) => {
       const front = cards.length - i - 1;
       card.animate([{transform: start}, {transform: card.style.transform}], {duration: 225 + front * 12, delay: 100 + front * 12, easing: quintOut, fill: 'backwards'}).currentTime = elapsed;
     });
     else if (from === 'app' && cards.length) {
       const card = cards[cards.length - 1], full = W / size;
-      card.animate([{transform: `translateY(${((STATUS - BAR * full) * DP).toFixed(2)}px) scale(${full.toFixed(4)})`, boxShadow: 'none'}, {transform: card.style.transform}], {duration: 325, easing: fastOutSlowIn, fill: 'backwards'}).currentTime = elapsed;
+      card.animate([{transform: `translateY(${((STATUS - BAR * full) * DP()).toFixed(2)}px) scale(${full.toFixed(4)})`, boxShadow: 'none'}, {transform: card.style.transform}], {duration: 325, easing: fastOutSlowIn, fill: 'backwards'}).currentTime = elapsed;
     }
   }
   function exit(panel) {
-    const end = `translateY(${(offscreen() * DP).toFixed(2)}px) scale(1)`;
+    const end = `translateY(${(offscreen() * DP()).toFixed(2)}px) scale(1)`;
     const runs = shown(panel).map(card => card.animate([{transform: card.style.transform}, {transform: end}], {duration: 225, easing: fastOutLinearIn, fill: 'forwards'}).finished);
     return Promise.all(runs);
   }
@@ -120,7 +121,7 @@
     const stackEl = panel.querySelector('.lp-recents-stack');
     if (!stackEl) return {destroy() {}};
     if (!reduced && from && elapsed < 600) enter(panel, from, elapsed);
-    const per = 1 / (visible.height * DP);
+    const per = 1 / (visible.height * DP());
     const down = event => { if (event.target.closest('.lp-task-dismiss')) return; drag = {y: event.clientY, x: event.clientX, start: value, active: false, id: event.pointerId}; };
     const move = event => {
       if (!drag || event.pointerId !== drag.id) return;

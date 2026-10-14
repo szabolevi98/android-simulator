@@ -1,9 +1,9 @@
 /* The photo illustrations' frames (5.1.1): .media-photo inside the apps' own views, the Share / Details popups, MMS picture\n   attachments, and the camera window over the status bar. The Gallery and Camera apps have their own stylesheets. */
 .media-photo{display:block;width:100%;height:100%;object-fit:cover}
-.media-menu{max-height:calc(100% - 70px);overflow:auto}
-.media-details dd{margin:3px 0 14px;color:#aaa;overflow-wrap:anywhere}
+.media-menu{max-height:calc(100% - calc(77.2627 * var(--dp)));overflow:auto}
+.media-details dd{margin:calc(3.3113 * var(--dp)) 0 calc(15.4526 * var(--dp));color:#aaa;overflow-wrap:anywhere}
 .camera-app{display:flex;flex-direction:column;background:#000;overflow:hidden}
-.mms-photo.media-attachment{height:135px;position:relative;overflow:hidden}
-.media-attachment>span{position:absolute;bottom:0;background:#0008;color:white;width:100%;padding:5px;font-size:12px}
+.mms-photo.media-attachment{height:calc(149.0067 * var(--dp));position:relative;overflow:hidden}
+.media-attachment>span{position:absolute;bottom:0;background:#0008;color:white;width:100%;padding:calc(5.5188 * var(--dp));font-size:calc(13.2451 * var(--dp))}
 .screen:has(>#viewport>.camera-app):not(:has(>#overlay-root>.recent-panel)) #status-bar{display:none}
 .screen:has(>#viewport>.camera-app):not(:has(>#overlay-root>.recent-panel)) #viewport{top:0}

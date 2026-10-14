@@ -9,7 +9,8 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const SHOW = 250, DISMISS = 200; // LauncherClings.SHOW_CLING_DURATION / DISMISS_CLING_DURATION
-  const DP = 0.906;
+  // DP(): 1 dp in CSS px now (the Nexus 6 display is 411.43 dp across: 0.906 px in the desktop frame, more on a phone).
+  const DP = () => { const s = globalThis.document?.querySelector?.('#screen'); return s?.clientWidth ? s.clientWidth / 411.43 : .906; };
   const RING = {outer: 0, inner: 0, lift: 0};
   const KINDS = {workspace: {welcome: 'Welcome', title: 'Wallpapers, widgets, & settings', text: 'Touch & hold background to customize', button: 'GOT IT'}};
   const fresh = () => ({workspace: false});

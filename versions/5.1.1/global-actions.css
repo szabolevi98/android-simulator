@@ -3,33 +3,33 @@
    (dialog_background_material: 2 dp corners) with its elevation shadow, the screen dimmed by backgroundDimAmount 0.6; the
    status and navigation bars sit above the keyguard dialog layer and stay undimmed. */
 .ga-scrim{position:absolute;left:0;right:0;top:var(--ga-top,var(--sb));bottom:var(--ga-bottom,var(--nb));z-index:40;background:#00000099}
-.ga-dialog{position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:min(289.92px,85%);max-height:calc(100% - 90px);overflow:hidden;background:#fff;color:#000000de;border-radius:1.81px;box-shadow:0 10.87px 27px #00000066;font-family:Roboto,sans-serif}
+.ga-dialog{position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:min(calc(320 * var(--dp)),85%);max-height:calc(100% - calc(99.3378 * var(--dp)));overflow:hidden;background:#fff;color:#000000de;border-radius:calc(1.9978 * var(--dp));box-shadow:0 calc(11.9978 * var(--dp)) calc(29.8014 * var(--dp)) #00000066;font-family:Roboto,sans-serif}
 /* global_actions_item.xml (5.1): 64 dp rows with 6 dp vertical and 8 dp start padding; the 32 dp icon centred in a 56 dp
    box (scaleType center, tinted colorControlNormal), 8 dp before the label in textAppearanceLarge (22 sp, textColorPrimary).
    The pressed row is the light ripple colour. */
-.ga-list{padding:7.25px 0;display:flex;flex-direction:column;min-width:217.44px}
-.ga-item{display:flex;align-items:center;width:100%;min-height:57.98px;padding:5.44px 0 5.44px 7.25px;border:0;background:none;text-align:left;color:#000000de;font:inherit}
+.ga-list{padding:calc(8.0023 * var(--dp)) 0;display:flex;flex-direction:column;min-width:calc(240 * var(--dp))}
+.ga-item{display:flex;align-items:center;width:100%;min-height:calc(63.9956 * var(--dp));padding:calc(6.0045 * var(--dp)) 0 calc(6.0045 * var(--dp)) calc(8.0023 * var(--dp));border:0;background:none;text-align:left;color:#000000de;font:inherit}
 .ga-item:active{background-color:#0000001f}
-.ga-icon{flex:none;width:50.74px;height:50.74px;margin-right:7.25px;display:grid;place-items:center}
-.ga-icon img{width:28.99px;height:28.99px;filter:brightness(0);opacity:.54}
+.ga-icon{flex:none;width:calc(56.0045 * var(--dp));height:calc(56.0045 * var(--dp));margin-right:calc(8.0023 * var(--dp));display:grid;place-items:center}
+.ga-icon img{width:calc(31.9978 * var(--dp));height:calc(31.9978 * var(--dp));filter:brightness(0);opacity:.54}
 .ga-text{flex:1;min-width:0}
-.ga-message{font:400 19.93px Roboto,sans-serif;color:#000000de}
+.ga-message{font:400 calc(21.9978 * var(--dp)) Roboto,sans-serif;color:#000000de}
 /* AlertDialog (alert_dialog_material.xml): 20 sp title, 16 sp secondary message, borderless accent buttons at the end. */
-.ga-title{margin:0;padding:21.74px 21.74px 14.5px;font:500 18.12px Roboto,sans-serif;color:#000000de;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ga-body{margin:0;padding:0 21.74px 21.74px;font:400 14.5px/1.4 Roboto,sans-serif;color:#0000008a}
-.ga-buttons{display:flex;justify-content:flex-end;gap:3.62px;padding:0 7.25px 7.25px}
-.ga-buttons button{min-width:57.98px;height:32.62px;padding:0 7.25px;border:0;border-radius:1.81px;background:none;color:#009688;font:500 12.68px Roboto,sans-serif;text-transform:uppercase}
+.ga-title{margin:0;padding:calc(23.9956 * var(--dp)) calc(23.9956 * var(--dp)) calc(16.0045 * var(--dp));font:500 calc(20 * var(--dp)) Roboto,sans-serif;color:#000000de;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ga-body{margin:0;padding:0 calc(23.9956 * var(--dp)) calc(23.9956 * var(--dp));font:400 calc(16.0045 * var(--dp))/1.4 Roboto,sans-serif;color:#0000008a}
+.ga-buttons{display:flex;justify-content:flex-end;gap:calc(3.9956 * var(--dp));padding:0 calc(8.0023 * var(--dp)) calc(8.0023 * var(--dp))}
+.ga-buttons button{min-width:calc(63.9956 * var(--dp));height:calc(36.0045 * var(--dp));padding:0 calc(8.0023 * var(--dp));border:0;border-radius:calc(1.9978 * var(--dp));background:none;color:#009688;font:500 calc(13.9956 * var(--dp)) Roboto,sans-serif;text-transform:uppercase}
 .ga-buttons button:active{background:#0000001f}
 /* ProgressDialog (progress_dialog_material.xml): 18 dp above and below, 24 dp at the sides, the 48 dp Material spinner
    24 dp before the message in TextAppearance.Material (14 sp, textColorPrimary). */
-.ga-progress{display:flex;align-items:center;padding:16.31px 21.74px;font:400 12.68px Roboto,sans-serif;color:#000000de}
-.ga-spinner{flex:none;box-sizing:border-box;width:43.49px;height:43.49px;margin-right:21.74px;border-radius:50%;border:3.62px solid #00968833;border-top-color:#009688;animation:lp-spin 1s linear infinite}
+.ga-progress{display:flex;align-items:center;padding:calc(18.0023 * var(--dp)) calc(23.9956 * var(--dp));font:400 calc(13.9956 * var(--dp)) Roboto,sans-serif;color:#000000de}
+.ga-spinner{flex:none;box-sizing:border-box;width:calc(48.0023 * var(--dp));height:calc(48.0023 * var(--dp));margin-right:calc(23.9956 * var(--dp));border-radius:50%;border:calc(3.9956 * var(--dp)) solid #00968833;border-top-color:#009688;animation:lp-spin 1s linear infinite}
 @keyframes lp-spin{to{transform:rotate(360deg)}}
 /* Powered off, booting and the safe mode watermark sit above every window, including the status and navigation bars. */
 #power-layer{position:absolute;inset:0;z-index:90;pointer-events:none}
 #power-layer>.ga-off,#power-layer>.ga-boot{position:absolute;inset:0;background:#000;pointer-events:auto}
 .ga-boot{overflow:hidden}
 .ga-boot-frame{position:absolute;background-repeat:no-repeat}
-.ga-safe-mode{position:absolute;left:0;bottom:0;padding:2.7px;background:#00000060;color:#ffffff80;font:19.8px Roboto,RobotoICS,sans-serif}
+.ga-safe-mode{position:absolute;left:0;bottom:0;padding:calc(2.9802 * var(--dp));background:#00000060;color:#ffffff80;font:calc(21.8544 * var(--dp)) Roboto,RobotoICS,sans-serif}
 .power-key{cursor:pointer;z-index:1}
 .power-key::before{content:"";position:absolute;inset:-6px -10px -6px -4px}

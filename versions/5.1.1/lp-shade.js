@@ -9,7 +9,8 @@
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
-  const DP = 0.906;
+  // DP(): 1 dp in CSS px now (the Nexus 6 display is 411.43 dp across: 0.906 px in the desktop frame, more on a phone).
+  const DP = () => { const s = globalThis.document?.querySelector?.('#screen'); return s?.clientWidth ? s.clientWidth / 411.43 : .906; };
   // QSPanel: TILE_ASPECT 1.2, qs_tile_height 88 dp, qs_dual_tile_height 112 dp, 3 columns, the dual row underlaps by 8 dp.
   const CELL = {h: 88, w: 88 * 1.2, dualH: 112, dualW: 112 * 1.2, underlap: 8, brightness: 60, brightnessTop: 6};
   const PANEL_WIDTH = 411.43 - 2 * 8; // notification_side_padding on both sides
@@ -65,7 +66,7 @@
     const rows = Math.max(...list.map(tile => tile.row)) + 1;
     return CELL.brightness + CELL.brightnessTop + CELL.dualH - CELL.underlap + (rows - 1) * CELL.h + 8;
   }
-  const px = dp => `${(dp * DP).toFixed(2)}px`;
+  const px = dp => `${(dp * DP()).toFixed(2)}px`;
   let avdSerial = 0;
   // Starts the animated icon of a tile the user just toggled where it is (a re-render picks it up), and parks every
   // other one on its end frame.
@@ -140,7 +141,7 @@
      1 / 2.05 of that offset, so both slide in from above. The cards that do not fit gather in the bottom stack: one
      transitioning card, then up to three 12 dp peeking edges (PiecewiseLinearIndentationFunctor, half linear), the rest
      hidden behind them; the first card always shows and is cut to the space above the peek. */
-  const STACK = {collapsed: 64 * DP, peek: 12 * DP, slowDown: 12 * DP, secondCard: 8 * DP, maxBottom: 3, headerRubber: 2.05};
+  const STACK = {collapsed: 64 * DP(), peek: 12 * DP(), slowDown: 12 * DP(), secondCard: 8 * DP(), maxBottom: 3, headerRubber: 2.05};
   function indentation(items, distance, peek) {
     const base = [0, 4 / 5, 1]; // initBaseValues for three items: cumulative squares 4 and 1 over 5
     if (items < 0) return 0;
@@ -159,7 +160,7 @@
     const previous = [shade.style.height, shade.style.bottom]; shade.style.height = ''; shade.style.bottom = '';
     const top = shade.getBoundingClientRect().top;
     const items = children.map(node => { const r = node.getBoundingClientRect(); return {node, top: r.top - top, height: r.height}; });
-    const first = items[0], gap = items.length > 1 ? Math.max(0, items[1].top - first.top - first.height) : 2 * DP;
+    const first = items[0], gap = items.length > 1 ? Math.max(0, items[1].top - first.top - first.height) : 2 * DP();
     const padding = first ? first.top : (header?.offsetHeight || 0);
     const end = items.length ? items[items.length - 1].top + items[items.length - 1].height + 7.25 : padding;
     const max = Math.min(shade.clientHeight, Math.max(end, header?.offsetHeight || 0));
@@ -228,14 +229,14 @@
   const ease = (x1, y1, x2, y2) => x => { const at = (a, b, t) => 3 * a * (1 - t) * (1 - t) * t + 3 * b * (1 - t) * t * t + t * t * t; let lo = 0, hi = 1; for (let i = 0; i < 24; i++) { const mid = (lo + hi) / 2; if (at(x1, x2, mid) < x) lo = mid; else hi = mid; } return at(y1, y2, (lo + hi) / 2); };
   const CURVES = {linearOutSlowIn: ease(0, 0, .35, 1), fastOutSlowIn: ease(.4, 0, .2, 1), fastOutLinearIn: ease(.4, 0, 1, 1)};
   function flingTiming(from, to, velocity, panel) {
-    const diff = Math.abs(to - from), v = Math.abs(velocity || 0), minV = 250 * DP, maxLen = .4 * Math.sqrt(diff / Math.max(1, panel));
+    const diff = Math.abs(to - from), v = Math.abs(velocity || 0), minV = 250 * DP(), maxLen = .4 * Math.sqrt(diff / Math.max(1, panel));
     if (to > from) {
       const d = v ? diff / v / .35 : Infinity;
       if (d <= maxLen) return {duration: d * 1000, curve: CURVES.linearOutSlowIn};
       return {duration: maxLen * 1000, curve: v >= minV ? CURVES.linearOutSlowIn : CURVES.fastOutSlowIn};
     }
     // applyDismissing: linear-out-faster-in whose y2 grows from 0.4 to 0.5 with the velocity.
-    const y2 = Math.min(.5, Math.max(.4, .4 + (v - minV) / (3000 * DP - minV) * .1)), d = v ? (y2 / .5) * diff / v : Infinity;
+    const y2 = Math.min(.5, Math.max(.4, .4 + (v - minV) / (3000 * DP() - minV) * .1)), d = v ? (y2 / .5) * diff / v : Infinity;
     if (d <= maxLen) return {duration: d * 1000, curve: ease(0, 0, .5, y2)};
     // A canned collapse (no finger velocity) runs at 0.6 of the length (getCannedFlingDurationFactor).
     return {duration: maxLen * 1000 * (v ? 1 : .6), curve: v >= minV ? CURVES.linearOutSlowIn : CURVES.fastOutLinearIn};

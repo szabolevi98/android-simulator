@@ -9,16 +9,17 @@
    0.906 and the physics run at 60 steps a second like the TimeAnimator on the Nexus 6. */
 (() => {
   'use strict';
-  const DP = 0.906;
+  // DP(): 1 dp in CSS px now (the Nexus 6 display is 411.43 dp across: 0.906 px in the desktop frame, more on a phone).
+  const DP = () => { const s = globalThis.document?.querySelector?.('#screen'); return s?.clientWidth ? s.clientWidth / 411.43 : .906; };
   const FLAVORS = ['#9C27B0', '#BA68C8', '#FF9800', '#FFB74D', '#F06292', '#F8BBD0', '#AFB42B', '#CDDC39', '#FFEB3B', '#FFF176', '#795548', '#A1887F'];
   const EASE = 'cubic-bezier(0,0,.5,1)';
   const newColorIndex = () => 2 * Math.floor(Math.random() * FLAVORS.length / 2);
 
   function platLogo(root, {onLand, reduced}) {
     const W = root.clientWidth, H = root.clientHeight;
-    const size = Math.min(Math.min(W, H), 600 * DP) - 100 * DP;
+    const size = Math.min(Math.min(W, H), 600 * DP()) - 100 * DP();
     let taps = 0, timers = [], press = null;
-    root.innerHTML = `<div class="lp-plat-stick" style="width:${32 * DP}px;margin-left:${-16 * DP}px"><svg width="${32 * DP}" height="${H / 2}" viewBox="0 0 ${32 * DP} ${H / 2}" preserveAspectRatio="none"><defs><linearGradient id="lp-plat-g"><stop offset="0" stop-color="#fff"/><stop offset=".75" stop-color="#d5d5d5"/><stop offset="1" stop-color="#aaa"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#lp-plat-g)"/><path d="M0 0H${32 * DP}V${size / 2 + 48 * DP}L0 ${size / 2}Z" fill="#aaa"/></svg></div><button class="lp-plat-logo" style="width:${size}px;height:${size}px;margin:${-size / 2}px 0 0 ${-size / 2}px" aria-label="Android Lollipop"><span class="lp-plat-pop"></span><span class="lp-plat-ripple"></span><span class="lp-plat-highlight"></span><img src="assets/lp-platlogo.svg" alt=""></button>`;
+    root.innerHTML = `<div class="lp-plat-stick" style="width:${32 * DP()}px;margin-left:${-16 * DP()}px"><svg width="${32 * DP()}" height="${H / 2}" viewBox="0 0 ${32 * DP()} ${H / 2}" preserveAspectRatio="none"><defs><linearGradient id="lp-plat-g"><stop offset="0" stop-color="#fff"/><stop offset=".75" stop-color="#d5d5d5"/><stop offset="1" stop-color="#aaa"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#lp-plat-g)"/><path d="M0 0H${32 * DP()}V${size / 2 + 48 * DP()}L0 ${size / 2}Z" fill="#aaa"/></svg></div><button class="lp-plat-logo" style="width:${size}px;height:${size}px;margin:${-size / 2}px 0 0 ${-size / 2}px" aria-label="Android Lollipop"><span class="lp-plat-pop"></span><span class="lp-plat-ripple"></span><span class="lp-plat-highlight"></span><img src="assets/lp-platlogo.svg" alt=""></button>`;
     const im = root.querySelector('.lp-plat-logo'), pop = im.querySelector('.lp-plat-pop'), ripple = im.querySelector('.lp-plat-ripple');
     const logo = im.querySelector('img'), stick = root.querySelector('.lp-plat-stick');
     const flavor = () => { const i = newColorIndex(); pop.style.background = FLAVORS[i]; ripple.style.background = FLAVORS[i + 1]; };
@@ -51,7 +52,7 @@
   }
 
   // lland_config.xml, in px.
-  const P = Object.fromEntries(Object.entries({TRANSLATION_PER_SEC: 100, OBSTACLE_SPACING: 380, BOOST_DV: 550, PLAYER_HIT_SIZE: 40, PLAYER_SIZE: 40, OBSTACLE_WIDTH: 90, OBSTACLE_STEM_WIDTH: 12, OBSTACLE_GAP: 170, OBSTACLE_MIN: 48, BUILDING_WIDTH_MIN: 20, BUILDING_WIDTH_MAX: 250, BUILDING_HEIGHT_MIN: 20, CLOUD_SIZE_MIN: 10, CLOUD_SIZE_MAX: 100, SUN_SIZE: 45, STAR_SIZE_MIN: 3, STAR_SIZE_MAX: 5, G: 30, MAX_V: 1000, SCENERY_Z: 6, OBSTACLE_Z: 18, PLAYER_Z: 18, PLAYER_Z_BOOST: 20}).map(([k, v]) => [k, Math.round(v * DP)]));
+  const P = Object.fromEntries(Object.entries({TRANSLATION_PER_SEC: 100, OBSTACLE_SPACING: 380, BOOST_DV: 550, PLAYER_HIT_SIZE: 40, PLAYER_SIZE: 40, OBSTACLE_WIDTH: 90, OBSTACLE_STEM_WIDTH: 12, OBSTACLE_GAP: 170, OBSTACLE_MIN: 48, BUILDING_WIDTH_MIN: 20, BUILDING_WIDTH_MAX: 250, BUILDING_HEIGHT_MIN: 20, CLOUD_SIZE_MIN: 10, CLOUD_SIZE_MAX: 100, SUN_SIZE: 45, STAR_SIZE_MIN: 3, STAR_SIZE_MAX: 5, G: 30, MAX_V: 1000, SCENERY_Z: 6, OBSTACLE_Z: 18, PLAYER_Z: 18, PLAYER_Z_BOOST: 20}).map(([k, v]) => [k, Math.round(v * DP())]));
   P.OBSTACLE_PERIOD = Math.floor(P.OBSTACLE_SPACING / P.TRANSLATION_PER_SEC);
   const POPS = [['pop_belt', 0, 1], ['pop_droid', 0, 1], ['pop_pizza', 1, 1], ['pop_stripes', 0, 1], ['pop_swirl', 1, 1], ['pop_vortex', 1, 1], ['pop_vortex2', 1, 1], ['pop_ball', 0, 190 / 255]];
   const SKIES = [['#c0c0ff', '#a0a0ff'], ['#000010', '#000000'], ['#000040', '#000010'], ['#a08020', '#204080']];

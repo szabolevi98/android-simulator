@@ -6,4 +6,4 @@
 .lp-ripple-host>b{position:absolute;inset:0;background:var(--ripple);opacity:0}
 .lp-ripple-host>i{position:absolute;border-radius:50%;background:var(--ripple);transform:scale(0)}
 .lp-ripple-host.nav{overflow:visible}
-.lp-ripple-host.nav>i{position:absolute;top:0;bottom:0;border-radius:999px;background:#fff;opacity:.2;transform:scaleX(0)}
+.lp-ripple-host.nav>i{position:absolute;top:0;bottom:0;border-radius:calc(1102.6491 * var(--dp));background:#fff;opacity:.2;transform:scaleX(0)}

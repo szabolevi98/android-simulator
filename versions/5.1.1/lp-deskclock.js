@@ -211,7 +211,7 @@
   function picker(state, {t, hour24, accent = '#ff4081'}) {
     const {hour, minute, mode} = state;
     const showHour = hour24 ? pad(hour) : String(hour % 12 || 12);
-    const R = 270 * 0.906 / 2, numbersR = R * 0.82, innerR = R * 0.55;
+    const R = 270 * (globalThis.document?.querySelector?.('#screen')?.clientWidth ? globalThis.document.querySelector('#screen').clientWidth / 411.43 : .906) / 2, numbersR = R * 0.82, innerR = R * 0.55;
     const values = mode === 'hour' ? (hour24 ? [...Array(12)].map((_, i) => ({v: i === 0 ? 0 : i + 12, label: i === 0 ? '00' : String(i + 12), r: numbersR})).concat([...Array(12)].map((_, i) => ({v: i === 0 ? 12 : i, label: String(i === 0 ? 12 : i), r: innerR}))) : [...Array(12)].map((_, i) => ({v: i === 0 ? 12 : i, label: String(i === 0 ? 12 : i), r: numbersR}))) : [...Array(12)].map((_, i) => ({v: i * 5, label: pad(i * 5), r: numbersR}));
     const current = mode === 'hour' ? (hour24 ? hour : hour % 12 || 12) : minute;
     const angleOf = v => mode === 'hour' ? ((v % 12) / 12) * 360 : (v / 60) * 360;

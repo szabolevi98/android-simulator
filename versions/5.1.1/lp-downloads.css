@@ -3,27 +3,27 @@
    ThemeOverlay.Material.Dark.ActionBar), the material_grey_50 directory, 72 dp list rows and 152 x 176 dp grid cells.
    Icons are the APK's alpha masks painted in their tint. */
 .ldu-app{display:flex;flex-direction:column;height:100%;background:#fafafa;color:#000000de;font-family:Roboto,sans-serif}
-.ldu-toolbar{position:relative;z-index:1;flex:none;height:50.74px;display:flex;align-items:center;background:#37474f;box-shadow:0 2.7px 5.4px #0000003d}
-.ldu-toolbar h2{flex:1;min-width:0;margin:0 0 0 14.5px;font:500 18.12px Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ldu-toolbar button{flex:none;height:100%;width:43.49px;border:0;background:none;display:grid;place-items:center;padding:0;cursor:pointer}
+.ldu-toolbar{position:relative;z-index:1;flex:none;height:calc(56.0045 * var(--dp));display:flex;align-items:center;background:#37474f;box-shadow:0 calc(2.9802 * var(--dp)) calc(5.9603 * var(--dp)) #0000003d}
+.ldu-toolbar h2{flex:1;min-width:0;margin:0 0 0 calc(16.0045 * var(--dp));font:500 calc(20 * var(--dp)) Roboto,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ldu-toolbar button{flex:none;height:100%;width:calc(48.0023 * var(--dp));border:0;background:none;display:grid;place-items:center;padding:0;cursor:pointer}
 .ldu-toolbar button:active{background:#ffffff33}
-.ldu-toolbar .ldu-nav{width:50.74px;margin-left:3.62px}
-.ldu-ab-icon{display:block;width:28.99px;height:28.99px;background:#fff;-webkit-mask:var(--icon) center/contain no-repeat;mask:var(--icon) center/contain no-repeat}
+.ldu-toolbar .ldu-nav{width:calc(56.0045 * var(--dp));margin-left:calc(3.9956 * var(--dp))}
+.ldu-ab-icon{display:block;width:calc(31.9978 * var(--dp));height:calc(31.9978 * var(--dp));background:#fff;-webkit-mask:var(--icon) center/contain no-repeat;mask:var(--icon) center/contain no-repeat}
 .ldu-content{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
-.ldu-empty{margin:0;height:100%;display:grid;place-items:center;font:400 14.5px Roboto,sans-serif;color:#000000de}
-.ldu-item{display:flex;align-items:center;width:100%;min-height:65.23px;padding:0 14.5px;border:0;background:none;text-align:left;cursor:pointer}
+.ldu-empty{margin:0;height:100%;display:grid;place-items:center;font:400 calc(16.0045 * var(--dp)) Roboto,sans-serif;color:#000000de}
+.ldu-item{display:flex;align-items:center;width:100%;min-height:calc(71.9978 * var(--dp));padding:0 calc(16.0045 * var(--dp));border:0;background:none;text-align:left;cursor:pointer}
 .ldu-item:active{background:#0000001f}
-.ldu-icon{flex:none;width:36.24px;height:36.24px;margin-right:14.5px;display:grid;place-items:center}
-.ldu-mime{display:block;width:21.74px;height:21.74px;background:#0000008a;-webkit-mask:var(--icon) center/contain no-repeat;mask:var(--icon) center/contain no-repeat}
+.ldu-icon{flex:none;width:calc(40 * var(--dp));height:calc(40 * var(--dp));margin-right:calc(16.0045 * var(--dp));display:grid;place-items:center}
+.ldu-mime{display:block;width:calc(23.9956 * var(--dp));height:calc(23.9956 * var(--dp));background:#0000008a;-webkit-mask:var(--icon) center/contain no-repeat;mask:var(--icon) center/contain no-repeat}
 .ldu-copy{flex:1;min-width:0;display:flex;flex-direction:column}
-.ldu-title{font:400 14.5px Roboto,sans-serif;color:#000000de;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ldu-title{font:400 calc(16.0045 * var(--dp)) Roboto,sans-serif;color:#000000de;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ldu-line2{display:flex}
-.ldu-line2>span{flex:none;width:81.54px;margin-right:7.25px;font:400 12.68px Roboto,sans-serif;color:#0000008a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ldu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(137.71px,1fr));gap:3.62px;padding:3.62px}
-.ldu-cell{position:relative;height:159.46px;display:flex;flex-direction:column;padding:0;border:0;background:#eee;text-align:left;cursor:pointer}
+.ldu-line2>span{flex:none;width:calc(90 * var(--dp));margin-right:calc(8.0023 * var(--dp));font:400 calc(13.9956 * var(--dp)) Roboto,sans-serif;color:#0000008a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ldu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(151.9978 * var(--dp)),1fr));gap:calc(3.9956 * var(--dp));padding:calc(3.9956 * var(--dp))}
+.ldu-cell{position:relative;height:calc(176.0045 * var(--dp));display:flex;flex-direction:column;padding:0;border:0;background:#eee;text-align:left;cursor:pointer}
 .ldu-cell:active{background:#ddd}
-.ldu-cell .ldu-mime{flex:1;width:100%;height:auto;-webkit-mask-size:21.74px;mask-size:21.74px}
-.ldu-band{flex:none;display:flex;flex-direction:column;padding:7.25px 10.87px 7.25px 14.5px;background:#00000088}
+.ldu-cell .ldu-mime{flex:1;width:100%;height:auto;-webkit-mask-size:calc(23.9956 * var(--dp));mask-size:calc(23.9956 * var(--dp))}
+.ldu-band{flex:none;display:flex;flex-direction:column;padding:calc(8.0023 * var(--dp)) calc(11.9978 * var(--dp)) calc(8.0023 * var(--dp)) calc(16.0045 * var(--dp));background:#00000088}
 .ldu-band .ldu-title{color:#fff}
-.ldu-band .ldu-line2>span{flex:1;width:auto;font-size:10.87px;color:#fff}
-.lp-popup-menu.ldu-popup{top:calc(var(--sb) + 3.62px)}
+.ldu-band .ldu-line2>span{flex:1;width:auto;font-size:calc(11.9978 * var(--dp));color:#fff}
+.lp-popup-menu.ldu-popup{top:calc(var(--sb) + calc(3.9956 * var(--dp)))}

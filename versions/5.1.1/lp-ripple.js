@@ -8,8 +8,9 @@
    Nexus 6 density is 3.5. */
 (() => {
   'use strict';
-  const DP = 0.906, DENSITY = 3.5, DEVICE = DENSITY / DP; // device px per CSS px
-  const ENTER_DELAY = 80, DOWN = 1024, UP = 3400, OPACITY_DECAY = 3, BACKGROUND_ENTER = 667, SLOP = 8 * DP;
+  // DP(): 1 dp in CSS px now (the Nexus 6 display is 411.43 dp across: 0.906 px in the desktop frame, more on a phone).
+  const DP = () => { const s = globalThis.document?.querySelector?.('#screen'); return s?.clientWidth ? s.clientWidth / 411.43 : .906; }, DENSITY = 3.5, DEVICE = DENSITY / DP(); // device px per CSS px
+  const ENTER_DELAY = 80, DOWN = 1024, UP = 3400, OPACITY_DECAY = 3, BACKGROUND_ENTER = 667, SLOP = 8 * DP();
   const TARGETS = 'button, [role="button"], a[href], [data-action], label, summary';
   // Launcher3 presses icons and widgets without a ripple; the status bar, the keyguard handle and sliders have their own.
   const SKIP = '.launcher-icon, .lp-qs-top, .home-search > button, .home-widget, .drawer-app, .folder-icon, .launcher-folder .folder-app, #status-bar, .lock-handle, input[type="range"], .lp-recents, .no-ripple, [disabled], [aria-disabled="true"], .transition-layer';
@@ -35,7 +36,7 @@
     return true;
   }
   function borderless(el, rect) {
-    if (rect.width > 56 * DP || rect.height > 56 * DP) return false;
+    if (rect.width > 56 * DP() || rect.height > 56 * DP()) return false;
     if (el.textContent.trim()) return false;
     const style = getComputedStyle(el);
     return luminance(style.backgroundColor) === null && !el.querySelector('input');
@@ -49,7 +50,7 @@
       // KeyButtonRipple: a horizontal key draws a pill as tall as the key, scaling its width with LogInterpolator.
       node.className = 'lp-ripple-host nav';
       Object.assign(node.style, {left: `${left}px`, top: `${top}px`, width: `${w}px`, height: `${h}px`});
-      const pill = document.createElement('i'), size = Math.min(w, 95 * DP);
+      const pill = document.createElement('i'), size = Math.min(w, 95 * DP());
       Object.assign(pill.style, {width: `${size * 1.35}px`, left: `${(w - size * 1.35) / 2}px`});
       node.append(pill); root.append(node);
       const grow = pill.animate(Array.from({length: 11}, (_, i) => ({transform: `scaleX(${log(i / 10)})`, offset: i / 10})), {duration: 350, fill: 'forwards'});

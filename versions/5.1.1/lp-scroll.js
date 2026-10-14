@@ -7,7 +7,8 @@
    Velocities are in device pixels like the framework's: CSS px x 3.5 / 0.906 on the Nexus 6. */
 (() => {
   'use strict';
-  const DP = 0.906, DEVICE = 3.5 / DP, SLOP = 8 * DP;
+  // DP(): 1 dp in CSS px now (the Nexus 6 display is 411.43 dp across: 0.906 px in the desktop frame, more on a phone).
+  const DP = () => { const s = globalThis.document?.querySelector?.('#screen'); return s?.clientWidth ? s.clientWidth / 411.43 : .906; }, DEVICE = 3.5 / DP(), SLOP = 8 * DP();
   const MIN_FLING = 50 * 3.5, MAX_FLING = 8000 * 3.5;
   const FRICTION = 0.015, DECELERATION_RATE = Math.log(0.78) / Math.log(0.9), INFLEXION = 0.35;
   const PHYSICAL = 9.80665 * 39.37 * 560 * 0.84;

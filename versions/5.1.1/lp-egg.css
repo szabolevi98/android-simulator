@@ -1,6 +1,6 @@
 /* PlatLogoActivity (Theme.Wallpaper.NoTitleBar.Fullscreen) and LLand (Theme.Material.Light.NoActionBar); see lp-egg.js. */
 .lp-platlogo{position:absolute;inset:0;overflow:hidden;background:transparent;touch-action:none;user-select:none}
-.lp-plat-stick{position:absolute;left:50%;top:50%;bottom:0;opacity:0;filter:drop-shadow(0 6px 10px #00000040)}
+.lp-plat-stick{position:absolute;left:50%;top:50%;bottom:0;opacity:0;filter:drop-shadow(0 calc(6.6226 * var(--dp)) calc(11.0376 * var(--dp)) #00000040)}
 .lp-plat-stick svg{display:block}
 .lp-plat-logo{position:absolute;left:50%;top:50%;border:0;padding:0;border-radius:50%;background:none;overflow:hidden;transform:scale(0);cursor:pointer;-webkit-tap-highlight-color:transparent;isolation:isolate}
 .lp-plat-pop{position:absolute;inset:0;border-radius:50%;transition:background .25s}
@@ -13,11 +13,11 @@
 .lp-lland-world{position:absolute;inset:0}
 .lp-lland-world>*{position:absolute;left:0;top:0;transform-origin:50% 50%;background:center/100% 100% no-repeat}
 .lp-lland-cloud{opacity:.25}
-.lp-lland-stem{background:linear-gradient(90deg,#fff,#d5d5d5 75%,#aaa)!important;box-shadow:0 0 10px #00000033}
+.lp-lland-stem{background:linear-gradient(90deg,#fff,#d5d5d5 75%,#aaa)!important;box-shadow:0 0 calc(11.0376 * var(--dp)) #00000033}
 .lp-lland-stem svg{display:block}
-.lp-lland-pop{border-radius:50%;box-shadow:0 5px 14px #00000040}
-.lp-lland-droid{background-image:url(assets/lland-android.svg);filter:drop-shadow(0 4px 6px #00000059);transition:filter .1s}
-.lp-lland-droid.boost{filter:drop-shadow(0 6px 9px #00000066)}
-.lp-lland-score{position:absolute;left:14.5px;top:28.99px;padding:7.25px 14.5px;border-radius:7.25px;background:#fff;color:#aaa;font:400 29px Roboto,sans-serif;box-shadow:0 8px 20px #0000004d;transform:translateY(-500px);transition:transform 1.5s cubic-bezier(0,0,.2,1);pointer-events:none;z-index:2}
+.lp-lland-pop{border-radius:50%;box-shadow:0 calc(5.5188 * var(--dp)) calc(15.4526 * var(--dp)) #00000040}
+.lp-lland-droid{background-image:url(assets/lland-android.svg);filter:drop-shadow(0 calc(4.4151 * var(--dp)) calc(6.6226 * var(--dp)) #00000059);transition:filter .1s}
+.lp-lland-droid.boost{filter:drop-shadow(0 calc(6.6226 * var(--dp)) calc(9.9338 * var(--dp)) #00000066)}
+.lp-lland-score{position:absolute;left:calc(16.0045 * var(--dp));top:calc(31.9978 * var(--dp));padding:calc(8.0023 * var(--dp)) calc(16.0045 * var(--dp));border-radius:calc(8.0023 * var(--dp));background:#fff;color:#aaa;font:400 calc(32.0089 * var(--dp)) Roboto,sans-serif;box-shadow:0 calc(8.8301 * var(--dp)) calc(22.0751 * var(--dp)) #0000004d;transform:translateY(calc(-551.8764 * var(--dp)));transition:transform 1.5s cubic-bezier(0,0,.2,1);pointer-events:none;z-index:2}
 .lp-lland-score.shown{transform:none}
 .lp-lland-score.over{background:#f00;color:#fff}
