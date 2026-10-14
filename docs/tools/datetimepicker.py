@@ -1,6 +1,8 @@
 """Builds versions/<v>/dtp.js and dtp.css (AOSP frameworks/opt/datetimepicker in each image's Calendar) from
 docs/templates/datetimepicker.template.js and the CSS below, with the image's own Done text colour, scale and translations.
     python docs/tools/datetimepicker.py"""
+import sys as _sys; _sys.path.insert(0, __file__.replace('\\', '/').rsplit('/', 1)[0])
+from dp_css import to_dp
 import json
 ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
 VERSIONS = {
@@ -57,5 +59,5 @@ template = open(ROOT + 'docs/templates/datetimepicker.template.js', encoding='ut
 for v, (app, image, d, done) in VERSIONS.items():
     js = template.replace('__STRINGS__', json.dumps(STRINGS, ensure_ascii=False)).replace('__APP__', app).replace('__IMAGE__', image).replace('__DONE__', done)
     open(f'{ROOT}versions/{v}/dtp.js', 'w', encoding='utf-8', newline='\n').write(js)
-    open(f'{ROOT}versions/{v}/dtp.css', 'w', encoding='utf-8', newline='\n').write(CSS % {'app': app, 'image': image, 'd': d, 'done': done})
+    open(f'{ROOT}versions/{v}/dtp.css', 'w', encoding='utf-8', newline='\n').write(to_dp(CSS % {'app': app, 'image': image, 'd': d, 'done': done}, d))
     print(v, 'ok')

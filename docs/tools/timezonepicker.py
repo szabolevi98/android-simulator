@@ -12,6 +12,8 @@ TimeZoneData's list depends on the event's own zone (it is added first, replacin
 builds it at run time. Transitions are kept from 2015 on; "now" for the rule comparison and ICU's metazones is REFERENCE.
 Needs androguard and the ext4 package; the images are unpacked in _aosp/<device> (system.raw.img).
     python docs/tools/timezonepicker.py"""
+import sys as _sys; _sys.path.insert(0, __file__.replace('\\', '/').rsplit('/', 1)[0])
+from dp_css import to_dp
 import json, os, struct, sys
 from datetime import datetime, timezone
 import ext4
@@ -235,7 +237,7 @@ def build(version, device, apk_name, app, image, d, density, material):
     fw = zipfile.ZipFile(f'{ROOT}_aosp/{device}/system/framework/framework-res.apk')
     panel = next(n for n in fw.namelist() if n.endswith('/menu_dropdown_panel_holo_light.9.png') and n.split('/')[1].split('-')[1] == density)
     open(f'{ROOT}versions/{version}/assets/menu_dropdown_panel_holo_light.png', 'wb').write(fw.read(panel))
-    open(f'{ROOT}versions/{version}/tzpicker.css', 'w', encoding='utf-8', newline='\n').write((CSS + (MATERIAL if material else '')) % {'app': app, 'image': image, 'd': d, 'slice': {'xhdpi': 20, 'xxhdpi': 30}[density]})
+    open(f'{ROOT}versions/{version}/tzpicker.css', 'w', encoding='utf-8', newline='\n').write(to_dp((CSS + (MATERIAL if material else '')) % {'app': app, 'image': image, 'd': d, 'slice': {'xhdpi': 20, 'xxhdpi': 30}[density]}, d))
     for name in ('ic_search_holo_light', 'ic_clear_search_holo_light'):
         rid = apk.get_android_resources().get_res_id_by_key(res._apk(apk_name)[1], 'drawable', name)
         files = {}

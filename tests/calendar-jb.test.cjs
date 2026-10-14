@@ -9,6 +9,6 @@ for(const [v,dev] of [['4.3','mako'],['4.4.4','hammerhead']]){
   // all_in_one_title_bar + gcal_all_in_one_addl_options in orderInCategory.
   assert.deepEqual(Array.from(html.matchAll(/<button[^>]*>([^<]*)<\/button>/g),m=>m[1]),['Új esemény','Frissítés','Keresés','Naptárak','Visszajelzés küldése','Beállítások','Súgó']);
 }
-assert.match(fs.readFileSync('versions/4.3/calendar.css','utf8'),/\.cal-check>span\{margin-left:-7\.2px\}/);
+assert.match(fs.readFileSync('versions/4.3/calendar.css','utf8'),/\.cal-check>span\{margin-left:calc\(-8\.4547 \* var\(--dp\)\)\}/);
 assert.doesNotMatch(fs.readFileSync('versions/4.4.4/calendar.css','utf8'),/\.cal-check>span\{margin-left/);
 console.log('Calendar 4.3 / 4.4 checks passed: generated per image, overflow menu in order with the APK words.');

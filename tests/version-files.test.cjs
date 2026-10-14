@@ -17,7 +17,8 @@ const SHARED={
   
   
   
-  'settings-detail.css':[['4.3','4.4.4']],'settings-system.css':[['4.3','4.4.4','5.1.1']],
+  // In dp the stylesheets of one scale stay alike: 4.3 (0.8516 px a dp) no longer matches 4.4.4 / 5.1.1 (0.906).
+  'settings-system.css':[['4.4.4','5.1.1']],
 };
 const files={};
 for(const v of V){
