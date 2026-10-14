@@ -362,3 +362,7 @@
 .npp-gg-button_bar{padding:0 0 0 calc(1.33333 * var(--dp))}
 .np-gg-progress_area_bg{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(1 * var(--dp)) 0 0 0;border-image:url('assets/gg-progress_area_bg.9.png') 1 0 0 0 fill / calc(1 * var(--dp)) 0 0 0 stretch;padding:0 0 0 0}  /* res/drawable/progress_area_bg.9.png 1x2 */
 .npp-gg-progress_area_bg{padding:calc(1 * var(--dp)) 0 0 0}
+.np-fw-expander_ic_maximized{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/fw-expander_ic_maximized.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 calc(31.3333 * var(--dp)) calc(35.3333 * var(--dp)) 0}  /* res/drawable-hdpi/expander_ic_maximized.9.png 48x54 */
+.npp-fw-expander_ic_maximized{padding:0 calc(31.3333 * var(--dp)) calc(35.3333 * var(--dp)) 0}
+.np-fw-expander_ic_minimized{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/fw-expander_ic_minimized.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 calc(31.3333 * var(--dp)) calc(35.3333 * var(--dp)) 0}  /* res/drawable-hdpi/expander_ic_minimized.9.png 48x54 */
+.npp-fw-expander_ic_minimized{padding:0 calc(31.3333 * var(--dp)) calc(35.3333 * var(--dp)) 0}

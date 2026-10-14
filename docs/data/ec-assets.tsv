@@ -749,3 +749,10 @@ am-menu_home.png	app/com.amazon.mp3.apk	drawable/menu_home
 am-menu_search.png	app/com.amazon.mp3.apk	drawable/menu_search
 gv-first_use_icon.png	app/googlevoice.apk	drawable/first_use_icon
 gv-horizontal_rule.png	app/googlevoice.apk	drawable/horizontal_rule
+fw-sym_def_app_icon.png	framework/framework-res.apk	drawable/sym_def_app_icon
+fw-ic_bullet_key_permission.png	framework/framework-res.apk	drawable/ic_bullet_key_permission
+fw-ic_text_dot.png	framework/framework-res.apk	drawable/ic_text_dot
+fw-expander_ic_maximized.9.png	framework/framework-res.apk	drawable/expander_ic_maximized
+fw-expander_ic_minimized.9.png	framework/framework-res.apk	drawable/expander_ic_minimized
+fw-ic_menu_sort_by_size.png	framework/framework-res.apk	drawable/ic_menu_sort_by_size
+st-ic_menu_filter_settings.png	app/Settings.apk	drawable/ic_menu_filter_settings

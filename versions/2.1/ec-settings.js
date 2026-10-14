@@ -162,6 +162,7 @@
   // Memory: the SD card (the Nexus One came with 4 GB) and the internal storage left for apps, in
   // Formatter.formatFileSize ("%.2f" under 100, else "%.0f", fileSizeSuffix). Unmount SD card leaves the sizes
   // Unavailable and itself off (2.1 has no Mount SD card; here a reload puts the card back).
+  EC.fileSize = (c, bytes) => fileSize(c, bytes);
   function fileSize(c, bytes) {
     const F = EC.text('settings2');
     let v = bytes, unit = 'byteShort';
@@ -236,6 +237,7 @@
       if (cls.startsWith('ChooseLockPattern')) { EC.patternFlow.start(c); return; }
       if (cls === 'LocalePicker') { c.ui.settingsStack.push('locales'); c.render(); return; }
       if (CLASS[cls] && EC.settingsXml[CLASS[cls]]) { c.ui.settingsStack.push(CLASS[cls]); c.render(); c.el.viewport.querySelector('.ecwin-content')?.scrollTo(0, 0); return; }
+      if (EC.settingsTargets?.[cls]) { EC.settingsTargets[cls](c); return; }
       c.ui.settingsStack.push(`missing:${cls}`); c.render(); return;
     }
     if (n.t === 'PreferenceScreen' && n.c) { c.ui.settingsStack.push(`${screen.name}|${path}`); c.render(); return; }
