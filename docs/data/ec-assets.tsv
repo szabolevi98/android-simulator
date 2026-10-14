@@ -630,3 +630,25 @@ mu-ic_menu_party_shuffle.png	app/Music.apk	drawable/ic_menu_party_shuffle
 mu-ic_menu_shuffle.png	app/Music.apk	drawable/ic_menu_shuffle
 mu-ic_mp_playlist_recently_added_list.png	app/Music.apk	drawable/ic_mp_playlist_recently_added_list
 mu-ic_mp_sd_card.png	app/Music.apk	drawable/ic_mp_sd_card
+# Calendar.apk (month / day / week / agenda views, edit event)
+ca-month_view_background.9.png	app/Calendar.apk	drawable/month_view_background
+ca-month_view_today_background.9.png	app/Calendar.apk	drawable/month_view_today_background
+ca-month_view_selected.9.png	app/Calendar.apk	drawable/month_view_selected
+ca-month_view_pressed.9.png	app/Calendar.apk	drawable/month_view_pressed
+ca-box_appointment_normal.9.png	app/Calendar.apk	drawable/box_appointment_normal
+ca-box_appointment_pressed.9.png	app/Calendar.apk	drawable/box_appointment_pressed
+ca-box_appointment_selected.9.png	app/Calendar.apk	drawable/box_appointment_selected
+ca-dna_empty.png	app/Calendar.apk	drawable/dna_empty
+ca-dna_1_of_6.png	app/Calendar.apk	drawable/dna_1_of_6
+ca-dna_2345_of_6.png	app/Calendar.apk	drawable/dna_2345_of_6
+ca-dna_6_of_6.png	app/Calendar.apk	drawable/dna_6_of_6
+ca-ic_btn_round_plus.png	app/Calendar.apk	drawable/ic_btn_round_plus
+ca-ic_btn_round_minus.png	app/Calendar.apk	drawable/ic_btn_round_minus
+ca-stat_notify_calendar.png	app/Calendar.apk	drawable/stat_notify_calendar
+fw-ic_menu_agenda.png	framework/framework-res.apk	drawable/ic_menu_agenda
+fw-ic_menu_day.png	framework/framework-res.apk	drawable/ic_menu_day
+fw-ic_menu_month.png	framework/framework-res.apk	drawable/ic_menu_month
+fw-ic_menu_today.png	framework/framework-res.apk	drawable/ic_menu_today
+fw-ic_menu_week.png	framework/framework-res.apk	drawable/ic_menu_week
+ca-btn_circle_normal.png	app/Calendar.apk	drawable/btn_circle_normal
+ca-btn_circle_pressed.png	app/Calendar.apk	drawable/btn_circle_pressed

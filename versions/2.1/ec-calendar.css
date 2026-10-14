@@ -1,0 +1,45 @@
+/* Android 2.1 Calendar (ec-calendar.js), in dp / sp. */
+.eccal{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;color:#000}
+.eccal-title{position:relative;flex:none;height:calc(25 * var(--dp));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:calc(14 * var(--dp));text-shadow:0 0 calc(2.75 * var(--dp)) #000000bb}
+.eccal-title span{position:relative;z-index:1}
+.eccal-names{flex:none;display:flex;height:calc(23 * var(--dp));background:#c3d9ff}
+.eccal-names span{flex:1;display:flex;align-items:center;justify-content:center;color:#112abb;font-weight:700;font-size:calc(14 * var(--dp));padding:0 calc(2 * var(--dp))}
+.eccal-div{flex:none;height:1px;background:url('assets/fw-divider_horizontal_dark.9.png') 0 0/100% 100%}
+.eccal-month{flex:1;min-height:0;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(6,1fr);touch-action:none}
+.eccal-cell{position:relative;border:0;padding:0;background:none;color:#404040;min-width:0}
+.eccal-cell>span{position:absolute;z-index:1;left:calc(6 * var(--dp));bottom:calc(5 * var(--dp));font-size:calc(20 * var(--dp))}
+.eccal-cell.other>span{color:#a0a0a0}
+.eccal-cell.today>span{color:#fff}
+.eccal-dna{position:absolute;z-index:1;right:calc(4 * var(--dp));top:calc(4 * var(--dp));width:calc(9.333 * var(--dp));height:calc(64 * var(--dp));max-height:calc(100% - 8 * var(--dp))}
+.eccal-grid{flex:1;min-height:0;overflow-y:auto;display:flex;scrollbar-width:none}
+.eccal-hours{flex:none;width:calc(30 * var(--dp));background:#e8eef7}
+.eccal-hl{height:calc(52 * var(--dp));border-bottom:1px solid #dddddd;padding:calc(2 * var(--dp)) calc(2 * var(--dp)) 0;color:#446688;font-size:calc(13 * var(--dp));font-weight:700;display:flex;flex-direction:column;align-items:flex-end}
+.eccal-hl small{font-size:calc(10 * var(--dp))}
+.eccal-cols{position:relative;flex:1;display:flex;border-left:1px solid #808080}
+.eccal-col{position:relative;flex:1;min-width:0;border-left:1px solid #dddddd}
+.eccal-col:first-child{border-left:0}
+.eccal-slot{display:block;width:100%;height:calc(52 * var(--dp));border:0;border-bottom:1px solid #dddddd;padding:0;background:#fff}
+.eccal-slot.sel{background:#ffffcc;outline:calc(2 * var(--dp)) solid #b0b0b0;outline-offset:-2px}
+.eccal-ev{position:absolute;left:calc(2 * var(--dp));right:calc(2 * var(--dp));border:0;padding:calc(2 * var(--dp)) calc(4 * var(--dp));background:none;color:#fff;text-align:left;font-size:calc(14 * var(--dp));overflow:hidden}
+.eccal-ev span{position:relative;z-index:1}
+.eccal-banner{flex:none;display:flex;height:calc(24 * var(--dp));background:#c3d9ff;color:#446688;font-size:calc(11 * var(--dp));font-weight:700}
+.eccal-banner i{flex:none;width:calc(30 * var(--dp))}
+.eccal-banner span{flex:1;display:flex;align-items:center;justify-content:center;min-width:0;white-space:nowrap;overflow:hidden}
+.eccal-banner span.today{background:#b0b0b0}
+.eccal-agenda{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.eccal-aday{padding:calc(2 * var(--dp)) calc(8 * var(--dp));background:#c8c8c8;color:#000;font-size:calc(14 * var(--dp));font-weight:700}
+.eccal-aitem{position:relative;display:flex;flex-direction:column;width:100%;border:0;border-bottom:1px solid #dddddd;padding:calc(6 * var(--dp)) calc(8 * var(--dp));background:#fff;color:#000;text-align:left}
+.eccal-aitem>:not(.ec-bg){position:relative;z-index:1}
+.eccal-aitem .t1{font-size:calc(18 * var(--dp))}
+.eccal-aitem .t2{font-size:calc(14 * var(--dp));color:#444}
+.eccal-edit,.eccal-info{flex:1;min-height:0;overflow-y:auto;background:#fafafa;padding:0 calc(6 * var(--dp)) calc(10 * var(--dp));scrollbar-width:none}
+.eccal-l{margin:calc(8 * var(--dp)) 0 calc(2 * var(--dp));font-size:calc(14 * var(--dp));font-weight:700;color:#000}
+.eccal-pair{display:flex;gap:calc(4 * var(--dp))}
+.eccal-eb{color:#000!important;font-size:calc(18 * var(--dp))!important;min-height:calc(48 * var(--dp))}
+.eccal-eb.date{flex:2}
+.eccal-allday{display:flex;align-items:center;justify-content:flex-end;gap:calc(7 * var(--dp));padding-bottom:calc(5 * var(--dp));font-size:calc(18 * var(--dp))}
+.eccal-allday button{border:0;padding:0;background:none}
+.eccal-allday img{display:block;width:calc(38 * var(--dp));height:calc(48 * var(--dp))}
+.eccal-bdiv{display:block;height:1px;background:#0000001f}
+.eccal-ititle{margin-top:calc(8 * var(--dp));font-size:calc(22 * var(--dp))}
+.eccal-v{font-size:calc(18 * var(--dp))}
