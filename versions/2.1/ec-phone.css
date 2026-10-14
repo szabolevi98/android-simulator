@@ -1,0 +1,50 @@
+/* Android 2.1 Phone / Contacts (ec-phone.js), in dp / sp: Theme (black), TabWidget over the tab content. */
+.ecph{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ecph-tabs{position:relative;flex:none;display:flex;height:calc(64 * var(--dp));padding-bottom:calc(2.667 * var(--dp))}
+.ecph-tab{position:relative;flex:1 1 0;min-width:0;margin:0 calc(-3 * var(--dp));border:0;padding:0;background:none;display:flex;flex-direction:column;align-items:center;color:#808080;font-size:calc(14 * var(--dp))}
+.ecph-tab.on{color:#fff;z-index:1}
+.ecph-tab img{position:relative;z-index:1;width:calc(32 * var(--dp));height:calc(32 * var(--dp));margin-top:calc(6 * var(--dp))}
+.ecph-tab span{position:absolute;z-index:1;bottom:calc(5.333 * var(--dp));left:0;right:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecph-tab.on .ec-pressed{display:none}
+.ecph-bar{position:absolute;bottom:0;height:calc(2.667 * var(--dp))}
+.ecph-bar.left{left:0}.ecph-bar.right{right:0}
+.ecph-body{position:relative;flex:1;min-height:0}
+/* Dialer: digits 74 dp; keys 88 x 58 dp in a padded grid; actions 87 / 116 / 87 x 58 dp. */
+.ecph-dialer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center}
+.ecph-digits{position:relative;align-self:stretch;flex:none;height:calc(74 * var(--dp));display:flex;align-items:center;justify-content:center;padding:0 calc(14.667 * var(--dp));font-size:calc(34 * var(--dp));overflow:hidden}
+.ecph-digits span{position:relative;z-index:1;white-space:nowrap}
+.ecph-pad{flex:1;display:grid;grid-template-columns:repeat(3,calc(88 * var(--dp)));grid-auto-rows:calc(58 * var(--dp));align-content:center;gap:calc(4 * var(--dp)) calc(9 * var(--dp));padding:calc(6 * var(--dp)) calc(7 * var(--dp))}
+.ecph-key{position:relative;border:0;padding:0;background:none;display:flex;align-items:center;justify-content:center}
+.ecph-key img{position:relative;z-index:1;width:calc(74 * var(--dp));height:calc(41.333 * var(--dp))}
+.ecph-key .blk,.ecph-key:active .wht{display:none}
+.ecph-key:active .blk{display:block}
+.ecph-actions{flex:none;display:flex;align-items:center;margin-bottom:calc(10 * var(--dp))}
+.ecph-act{position:relative;height:calc(58 * var(--dp));border:0;padding:0;background:none;display:flex;align-items:center;justify-content:center}
+.ecph-act.left,.ecph-act.right{width:calc(87 * var(--dp))}.ecph-act.middle{width:calc(116 * var(--dp))}
+.ecph-act img{position:relative;z-index:1;width:calc(44 * var(--dp));height:calc(41.333 * var(--dp))}
+.ecph-act:disabled img{opacity:.4}
+/* Lists */
+.ecph-list{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
+.ecph-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:calc(22 * var(--dp))}
+.ecph-empty.top{align-items:flex-start;justify-content:flex-start;padding:calc(10 * var(--dp));font-size:calc(20 * var(--dp));color:#bebebe}
+.ecph-div{display:block;height:calc(1 * var(--dp));background:url('assets/fw-divider_horizontal_dark.9.png') 0 0/100% 100%}
+.ecph-div.opaque{background-image:url('assets/fw-divider_horizontal_dark_opaque.9.png')}
+.ecph-call{display:flex;height:calc(64 * var(--dp))}
+.ecph-call-main{position:relative;flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:1fr auto;column-gap:calc(5 * var(--dp));border:0;padding:0 calc(11 * var(--dp)) 0 calc(7 * var(--dp));background:none;color:#fff;text-align:left}
+.ecph-call-main>span,.ecph-call-main>img{position:relative;z-index:1;min-width:0}
+.ecph-line1{grid-column:1;grid-row:1;align-self:center;font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecph-line2{grid-column:1;grid-row:2;margin-bottom:calc(8 * var(--dp));font-size:calc(14 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecph-line2 b{margin-right:calc(5 * var(--dp))}
+.ecph-type{grid-column:2;grid-row:1;justify-self:end;align-self:start;width:calc(24 * var(--dp));height:calc(31.333 * var(--dp))}
+.ecph-date{grid-column:2;grid-row:2;justify-self:end;margin-bottom:calc(8 * var(--dp));font-size:calc(14 * var(--dp));white-space:nowrap}
+.ecph-vdiv{flex:none;width:1px;margin:calc(5 * var(--dp)) 0;background:url('assets/fw-divider_vertical_dark.9.png') 0 0/100% 100%}
+.ecph-callbtn{flex:none;border:0;padding:0 calc(14 * var(--dp));background:#000;display:flex;align-items:center}
+.ecph-callbtn:active{background:url('assets/fw-list_selector_background_pressed.9.png') 0 0/100% 100%}
+.ecph-callbtn img{width:calc(30 * var(--dp));height:calc(30 * var(--dp))}
+.ecph-section,.ecph-sep{position:relative;height:calc(25 * var(--dp));display:flex;align-items:center;font-size:calc(14 * var(--dp));font-weight:700;color:#bebebe}
+.ecph-section span{position:relative;z-index:1;width:calc(56 * var(--dp));text-align:center}
+.ecph-sep span{position:relative;z-index:1;padding-left:calc(5 * var(--dp))}
+.ecph-person{position:relative;display:flex;align-items:center;width:100%;height:calc(64 * var(--dp));border:0;padding:0 0 0 calc(4 * var(--dp));background:none;color:#fff;text-align:left}
+.ecph-badge{position:relative;z-index:1;flex:none;width:calc(50 * var(--dp));height:calc(56 * var(--dp));margin-right:calc(8 * var(--dp));padding:calc(4 * var(--dp)) calc(4 * var(--dp)) calc(10 * var(--dp))}
+.ecph-badge img{position:relative;z-index:1;display:block;width:100%;height:100%}
+.ecph-name{position:relative;z-index:1;flex:1;min-width:0;font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

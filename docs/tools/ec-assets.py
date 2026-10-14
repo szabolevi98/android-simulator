@@ -18,6 +18,8 @@ SYSTEM = ROOT + '_aosp/passion/system/'
 OUT = ROOT + 'versions/2.1/assets/'
 CSS = ROOT + 'versions/2.1/ec-ninepatch.css'
 DENSITIES = ['-hdpi', '', '-nodpi', '-mdpi', '-ldpi']
+# Contacts / Phone keep their touchscreen resources under -finger (drawable-hdpi-finger).
+DENSITIES = [d for base in DENSITIES for d in (base, base + '-finger')]
 
 
 def find(z, resource):
