@@ -278,6 +278,12 @@ def trace(own, path, data):
             for row in img.entries(names, ext):
                 if img.read(row) == data: return 'copy', img, row + [len(data), digest], ''
         return None, None, None, ''
+    if ext == 'gz':   # a compressed system file kept as it is (/system/etc/NOTICE.html.gz)
+        for img in images:
+            for p in sorted(glob.glob(f'{ROOT}_aosp/{img.device}/system/etc/*.gz')):
+                if open(p, 'rb').read() == data:
+                    return 'copy', img, [os.path.relpath(p, f'{ROOT}_aosp/{img.device}/system/').replace(os.sep, '/'), '', len(data), digest], ''
+        return None, None, None, ''
     if ext == 'svg':
         for img in images:
             rows = [r for r in named(img, ('.xml',)) if r[1].startswith('res/drawable')]

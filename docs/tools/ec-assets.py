@@ -3,7 +3,8 @@
     python docs/tools/ec-assets.py
 
 docs/data/ec-assets.tsv lists one file per line: <output name> <TAB> <APK under _aosp/passion/system> <TAB> <resource>,
-e.g. "fw-statusbar_background.9.png	framework/framework-res.apk	drawable/statusbar_background". The resource is taken
+e.g. "fw-statusbar_background.9.png	framework/framework-res.apk	drawable/statusbar_background"; a source that is
+not an APK is a system file copied byte for byte ("st-notice.html.gz	etc/NOTICE.html.gz	-"). The resource is taken
 in the first density the APK has of hdpi, nodpi, mdpi, ldpi (the Nexus One is hdpi) and copied byte for byte.
 
 Every nine-patch gets a class in ec-ninepatch.css: .np-<output name without .9.png> draws it as a CSS border image.
@@ -68,6 +69,10 @@ def main():
     zips, css = {}, []
     os.makedirs(OUT, exist_ok=True)
     for out, apk, resource in rows:
+        if not apk.endswith('.apk'):   # a plain system file (etc/NOTICE.html.gz), copied as it is
+            data = open(SYSTEM + apk, 'rb').read()
+            open(OUT + out, 'wb').write(data)
+            continue
         z = zips.setdefault(apk, zipfile.ZipFile(SYSTEM + apk))
         path = find(z, resource)
         data = z.read(path)

@@ -52,3 +52,16 @@
 .ecsx-li{position:relative;padding-left:calc(16 * var(--dp))}
 .ecsx-li::before{content:"";position:absolute;left:calc(3 * var(--dp));top:.45em;width:calc(6 * var(--dp));height:calc(6 * var(--dp));border-radius:50%;background:currentColor}
 .ecsx-btn{flex:none!important;align-self:center;width:calc(150 * var(--dp));margin-top:calc(40 * var(--dp))}
+.ecsx-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:calc(10 * var(--dp));color:#fff;font-size:calc(14 * var(--dp));text-align:center}
+.ecsx-web{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.ecsx-tut{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ecsx-tut-scroll{flex:1;min-height:0;overflow-y:auto;padding:calc(10 * var(--dp))}
+.ecsx-tut-title{color:#a6c839;font-size:calc(22 * var(--dp))}
+.ecsx-tut-div{display:block;height:calc(2 * var(--dp));margin:calc(5 * var(--dp)) 0 calc(10 * var(--dp));background:#b6d650}
+.ecsx-tut-text{font-size:calc(17 * var(--dp))}
+.ecsx-tut-edit{margin-top:calc(10 * var(--dp))}
+.ecsx-tut-green{margin-top:calc(10 * var(--dp));color:#a6c839;font-size:calc(17 * var(--dp));visibility:hidden}
+.ecsx-tut-scroll:focus-within .ecsx-tut-green{visibility:visible}
+.ecsx-tut-bar{flex:none;display:flex;padding-top:calc(5 * var(--dp));background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.ecsx-tut-bar>span{flex:1}
+.ecsx-tut-bar .ecui-button{flex:none;min-width:calc(110 * var(--dp))}
