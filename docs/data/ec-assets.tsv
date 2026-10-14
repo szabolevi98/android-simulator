@@ -656,3 +656,14 @@ ca-btn_circle_pressed.png	app/Calendar.apk	drawable/btn_circle_pressed
 fw-progressbar_indeterminate1.png	framework/framework-res.apk	drawable/progressbar_indeterminate1
 fw-progressbar_indeterminate2.png	framework/framework-res.apk	drawable/progressbar_indeterminate2
 fw-progressbar_indeterminate3.png	framework/framework-res.apk	drawable/progressbar_indeterminate3
+# Market 1.71 (Vending.apk: title.xml, nav_3buttons.xml)
+mk-title_bar_med_market.9.png	app/Vending.apk	drawable/title_bar_med_market
+mk-btn_strip_normal.9.png	app/Vending.apk	drawable/btn_strip_normal
+mk-btn_strip_pressed.9.png	app/Vending.apk	drawable/btn_strip_pressed
+mk-btn_strip_divider.9.png	app/Vending.apk	drawable/btn_strip_divider
+mk-ic_market_bag_normal.png	app/Vending.apk	drawable/ic_market_bag_normal
+mk-market_android_logo.png	app/Vending.apk	drawable/market_android_logo
+mk-ic_search_square_button.png	app/Vending.apk	drawable/ic_search_square_button
+mk-btn_square_normal.png	app/Vending.apk	drawable/btn_square_normal
+mk-btn_square_pressed.png	app/Vending.apk	drawable/btn_square_pressed
+mk-ic_network_error.png	app/Vending.apk	drawable/ic_network_error

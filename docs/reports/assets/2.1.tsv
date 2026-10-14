@@ -574,6 +574,16 @@ versions/2.1/assets/lw-pulse.png	08c75bf72d6f0bcb	copy	passion:/system/app/LiveW
 versions/2.1/assets/lw-pyramid_background.png	e760afffa4626a4b	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/pyramid_background.png	drawable-hdpi		e760afffa4626a4b
 versions/2.1/assets/lw-water_thumb.jpg	c75fae46e56a6e68	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/water_thumb.jpg	drawable-hdpi		c75fae46e56a6e68
 versions/2.1/assets/lwp-ic_launcher_live_wallpaper.png	6e269f10e2485400	copy	passion:/system/app/LiveWallpapersPicker.apk!res/drawable-hdpi/ic_launcher_live_wallpaper.png	drawable-hdpi		6e269f10e2485400
+versions/2.1/assets/mk-btn_square_normal.png	be6d1849f8b68ce1	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_square_normal.png	drawable-hdpi		be6d1849f8b68ce1
+versions/2.1/assets/mk-btn_square_pressed.png	fc89011ae3bb1abd	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_square_pressed.png	drawable-hdpi		fc89011ae3bb1abd
+versions/2.1/assets/mk-btn_strip_divider.9.png	92b0a9d46ccb3979	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_divider.9.png	drawable-hdpi		92b0a9d46ccb3979
+versions/2.1/assets/mk-btn_strip_normal.9.png	435369f1fc833db9	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_normal.9.png	drawable-hdpi		435369f1fc833db9
+versions/2.1/assets/mk-btn_strip_pressed.9.png	c5ef5c71c4be395a	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_pressed.9.png	drawable-hdpi		c5ef5c71c4be395a
+versions/2.1/assets/mk-ic_market_bag_normal.png	49e52fa228f1e071	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_market_bag_normal.png	drawable-hdpi		49e52fa228f1e071
+versions/2.1/assets/mk-ic_network_error.png	c3714f659fb6c64a	copy	passion:/system/app/Vending.apk!res/drawable-hdpi-finger/ic_network_error.png	drawable-hdpi-finger		c3714f659fb6c64a
+versions/2.1/assets/mk-ic_search_square_button.png	c4255d3712fdc228	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_search_square_button.png	drawable-hdpi		c4255d3712fdc228
+versions/2.1/assets/mk-market_android_logo.png	3937f694fd77f287	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/market_android_logo.png	drawable-hdpi		3937f694fd77f287
+versions/2.1/assets/mk-title_bar_med_market.9.png	1c39e3b2b2b1a857	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/title_bar_med_market.9.png	drawable-hdpi		1c39e3b2b2b1a857
 versions/2.1/assets/mm-bottombar_landscape_565.png	136aeb70c479a5bf	copy	passion:/system/app/Mms.apk!res/drawable-hdpi/bottombar_landscape_565.png	drawable-hdpi		136aeb70c479a5bf
 versions/2.1/assets/mm-ic_contact_picture.png	f81c50acf054f2cd	copy	passion:/system/app/Mms.apk!res/drawable-hdpi/ic_contact_picture.png	drawable-hdpi		f81c50acf054f2cd
 versions/2.1/assets/mm-ic_menu_attachment.png	a92931bc40076432	copy	passion:/system/app/Mms.apk!res/drawable-hdpi/ic_menu_attachment.png	drawable-hdpi		a92931bc40076432
