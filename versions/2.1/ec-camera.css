@@ -1,0 +1,37 @@
+/* Android 2.1 Camera (ec-camera.js), in dp: the landscape layout (533 x 320 dp) turned 90 degrees clockwise. */
+.eccm{position:absolute;inset:0;overflow:hidden;background:#000}
+.eccm-land{position:absolute;left:50%;top:50%;width:calc(533.333 * var(--dp));height:calc(320 * var(--dp));transform:translate(-50%,-50%) rotate(90deg);display:flex;background:url('assets/cm-bg_camera_pattern.png') 0 0/calc(128 * var(--dp)) repeat}
+.eccm-frame-layout{position:relative;flex:1;min-width:0;display:flex;align-items:center;justify-content:center}
+.eccm-gripper{position:absolute;left:0;top:50%;width:calc(32 * var(--dp));height:calc(48 * var(--dp));margin-top:calc(-24 * var(--dp));cursor:pointer}
+.eccm-frame{position:relative;height:calc(300 * var(--dp));aspect-ratio:4/3.03}
+.eccm-preview{position:relative;z-index:0;display:block;width:100%;height:100%;object-fit:cover}
+.eccm-frame>.ec-bg{z-index:1}
+.eccm-indicators{position:absolute;z-index:2;left:calc(13 * var(--dp));top:calc(13 * var(--dp));display:flex;flex-direction:column;gap:calc(2 * var(--dp))}
+.eccm-indicators img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.eccm-focus{position:absolute;z-index:2;left:50%;top:50%;width:calc(104 * var(--dp));height:calc(104 * var(--dp));margin:calc(-52 * var(--dp)) 0 0 calc(-52 * var(--dp))}
+.eccm-rec{position:absolute;z-index:2;right:calc(12 * var(--dp));top:calc(10 * var(--dp));display:flex;align-items:center;gap:calc(4 * var(--dp));color:#fff;font-size:calc(18 * var(--dp));text-shadow:0 0 calc(2 * var(--dp)) #000}
+.eccm-rec img{width:calc(16 * var(--dp));height:calc(16 * var(--dp))}
+.eccm-control{position:relative;flex:none;width:calc(76 * var(--dp));margin:calc(13 * var(--dp)) 0 calc(10 * var(--dp));display:flex;flex-direction:column;align-items:center;justify-content:space-between}
+.eccm-thumb{position:relative;width:calc(52 * var(--dp));height:calc(52 * var(--dp));border:0;background:none}
+.eccm-thumb>img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover}
+.eccm-switch-set{display:flex;flex-direction:column;align-items:center}
+.eccm-switch-set>img{width:calc(38 * var(--dp));height:calc(38 * var(--dp))}
+.eccm-switch-set>img:last-child{margin-bottom:calc(3 * var(--dp))}
+.eccm-switch{position:relative;width:calc(38.667 * var(--dp));height:calc(70 * var(--dp));border:0;padding:0;background:none}
+.eccm-knob{position:absolute;z-index:1;left:0;bottom:0;width:calc(38 * var(--dp));height:calc(38 * var(--dp));transition:bottom .15s}
+.eccm-knob.up{bottom:calc(32 * var(--dp))}
+.eccm-shutter{position:relative;width:calc(70 * var(--dp));height:calc(70 * var(--dp));border:0;padding:0;background:none}
+.eccm-shutter img{position:absolute;inset:0;width:100%;height:100%}
+.eccm-shutter .pressed{opacity:0}.eccm-shutter:active .pressed{opacity:1}
+.eccm-menu{position:absolute;z-index:5;left:0;top:0;bottom:0;width:calc(290 * var(--dp));display:flex;background:url('assets/cm-bg_camera_pattern.png') 0 0/calc(128 * var(--dp)) repeat}
+.eccm-mlist{flex:1;min-width:0;background:#000;overflow-y:auto;scrollbar-width:thin}
+.eccm-handle{flex:none;width:calc(33.333 * var(--dp));cursor:pointer}
+.eccm-mhead{padding:0 calc(5 * var(--dp));background:#222;color:#fff;font-size:calc(14 * var(--dp));line-height:calc(19 * var(--dp))}
+.eccm-mrow{display:flex;flex-direction:column;justify-content:center;width:100%;min-height:calc(64 * var(--dp));border:0;border-bottom:1px solid #ffffff1a;padding:0 calc(5 * var(--dp)) 0 calc(10 * var(--dp));background:none;color:#fff;text-align:left}
+.eccm-mrow:active{background:url('assets/fw-list_selector_background_pressed.9.png') 0 0/100% 100%}
+.eccm-mrow .t1{font-size:calc(22 * var(--dp))}
+.eccm-mrow .t2{font-size:calc(14 * var(--dp));color:#bebebe}
+.eccm-mrow.sub{flex-direction:row;align-items:center;gap:calc(5 * var(--dp))}
+.eccm-mrow.sub .t1{flex:1}
+.eccm-mrow.sub img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.eccm-mrow.sub .radio{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}

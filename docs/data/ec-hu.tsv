@@ -138,3 +138,10 @@ BBC	BBC
 http://www.bbc.co.uk/	http://www.bbc.co.uk/
 Quick Search Box	Gyorskereső mező
 http://www.google.com/m?hl=%1$s&gl=%2$s&	http://www.google.com/m?hl=%1$s&gl=%2$s&
+Video duration	Videó időtartama
+Red Tint	Vörös árnyalat
+Blue Tint	Kék árnyalat
+Green Tint	Zöld árnyalat
+Low (for MMS messages)	Alacsony (MMS-üzenetekhez)
+High (for SD card)	Magas (SD-kártyára)
+%1$d seconds (for MMS)	%1$d másodperc (MMS-hez)
