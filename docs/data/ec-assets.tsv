@@ -738,3 +738,14 @@ gg-menu_about.png	app/GoogleGoggles.apk	drawable/menu_about
 gg-button_bar.9.png	app/GoogleGoggles.apk	drawable/button_bar
 gg-progress_area_bg.9.png	app/GoogleGoggles.apk	drawable/progress_area_bg
 fw-ic_media_play.png	framework/framework-res.apk	drawable/ic_media_play
+am-home_banner.png	app/com.amazon.mp3.apk	drawable/home_banner
+am-home_banner_de.png	app/com.amazon.mp3.apk	drawable-de/home_banner
+am-home_banner_fr.png	app/com.amazon.mp3.apk	drawable-fr/home_banner
+am-home_banner_shadow.png	app/com.amazon.mp3.apk	drawable/home_banner_shadow
+am-home_search.png	app/com.amazon.mp3.apk	drawable/home_search
+am-menu_downloads.png	app/com.amazon.mp3.apk	drawable/menu_downloads
+am-menu_settings.png	app/com.amazon.mp3.apk	drawable/menu_settings
+am-menu_home.png	app/com.amazon.mp3.apk	drawable/menu_home
+am-menu_search.png	app/com.amazon.mp3.apk	drawable/menu_search
+gv-first_use_icon.png	app/googlevoice.apk	drawable/first_use_icon
+gv-horizontal_rule.png	app/googlevoice.apk	drawable/horizontal_rule

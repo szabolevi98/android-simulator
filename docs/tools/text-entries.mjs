@@ -23,7 +23,9 @@ function literal(s, i) {
 // Entries: object literals that open with res / own / src, with the key before them when there is one.
 export function entries(file) {
   const s = fs.readFileSync(path.join(ROOT, file), 'utf8'), out = [];
-  const re = /(?:(['"])((?:\\.|(?!\1).)*)\1\s*:\s*)?\{\s*["']?(?:res|own|src)["']?\s*:/g;
+  // Keys are short one-line strings; bounding them keeps a long text (a licence agreement) from being rescanned
+  // from every quote in it.
+  const re = /(?:(['"])((?:\\.|(?!\1)[^\n]){0,300})\1\s*:\s*)?\{\s*["']?(?:res|own|src)["']?\s*:/g;
   let m;
   while ((m = re.exec(s))) {
     const at = s.indexOf('{', m.index + (m[0].length - m[0].replace(/^[^{]*/, '').length));

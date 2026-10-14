@@ -1,4 +1,13 @@
 file	sha256	status	source	qualifier	transform	source sha256
+versions/2.1/assets/am-home_banner.png	90fe067209934146	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-hdpi/home_banner.png	drawable-hdpi		90fe067209934146
+versions/2.1/assets/am-home_banner_de.png	98509e1be5117bf3	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-de-hdpi/home_banner.png	drawable-de-hdpi		98509e1be5117bf3
+versions/2.1/assets/am-home_banner_fr.png	347c630f179cebb8	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-fr-hdpi/home_banner.png	drawable-fr-hdpi		347c630f179cebb8
+versions/2.1/assets/am-home_banner_shadow.png	48beabb344a2a7fb	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable/home_banner_shadow.png	drawable		48beabb344a2a7fb
+versions/2.1/assets/am-home_search.png	aa8a85bab85b132b	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-hdpi/home_search.png	drawable-hdpi		aa8a85bab85b132b
+versions/2.1/assets/am-menu_downloads.png	700a39a348c3d7cb	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-hdpi/menu_downloads.png	drawable-hdpi		700a39a348c3d7cb
+versions/2.1/assets/am-menu_home.png	b1d4612445ea6f18	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-hdpi/menu_home.png	drawable-hdpi		b1d4612445ea6f18
+versions/2.1/assets/am-menu_search.png	06e0876015ac2f62	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-hdpi/menu_search.png	drawable-hdpi		06e0876015ac2f62
+versions/2.1/assets/am-menu_settings.png	d22afbeae12d1493	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-hdpi/menu_settings.png	drawable-hdpi		d22afbeae12d1493
 versions/2.1/assets/app-amazon-mp3.png	c7fcbeaa751285f7	copy	passion:/system/app/com.amazon.mp3.apk!res/drawable-hdpi/icon_application.png	drawable-hdpi		c7fcbeaa751285f7
 versions/2.1/assets/app-browser.png	23369e879573b58c	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/ic_launcher_browser.png	drawable-hdpi		23369e879573b58c
 versions/2.1/assets/app-calculator.png	57d370fada6a542b	copy	passion:/system/app/Calculator.apk!res/drawable-hdpi/icon.png	drawable-hdpi		57d370fada6a542b
@@ -495,6 +504,8 @@ versions/2.1/assets/gg-shutter.png	776d17b835ed55ce	copy	passion:/system/app/Goo
 versions/2.1/assets/gg-shutter_pressed.png	96cb18574d2a8bc7	copy	passion:/system/app/GoogleGoggles.apk!res/drawable-hdpi/shutter_pressed.png	drawable-hdpi		96cb18574d2a8bc7
 versions/2.1/assets/gg-video_preview.png	2f0e53c0156a6a3b	copy	passion:/system/app/GoogleGoggles.apk!res/drawable/video_preview.png	drawable		2f0e53c0156a6a3b
 versions/2.1/assets/gs-google.png	5f82e8148ec2a4b9	copy	passion:/system/app/EnhancedGoogleSearchProvider.apk!res/drawable-hdpi/google.png	drawable-hdpi		5f82e8148ec2a4b9
+versions/2.1/assets/gv-first_use_icon.png	25b11c29ca54857f	copy	passion:/system/app/googlevoice.apk!res/drawable-hdpi/first_use_icon.png	drawable-hdpi		25b11c29ca54857f
+versions/2.1/assets/gv-horizontal_rule.png	7050f240774644e6	copy	passion:/system/app/googlevoice.apk!res/drawable/horizontal_rule.png	drawable		7050f240774644e6
 versions/2.1/assets/l2-all_apps_button_focused.png	3b36827da3653f7b	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/all_apps_button_focused.png	drawable-hdpi		3b36827da3653f7b
 versions/2.1/assets/l2-all_apps_button_normal.png	da5e63cb3558667e	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/all_apps_button_normal.png	drawable-hdpi		da5e63cb3558667e
 versions/2.1/assets/l2-all_apps_button_pressed.png	ae878e12e987ef0c	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/all_apps_button_pressed.png	drawable-hdpi		ae878e12e987ef0c

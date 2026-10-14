@@ -1,0 +1,20 @@
+/* Android 2.1 Amazon MP3 (ec-amazon.js), in dp / sp. */
+.ecam-home{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;background:#474747}
+.ecam-banner{flex:none;display:flex;justify-content:center;padding:calc(10 * var(--dp)) 0;background:#2c2c2c}
+.ecam-banner img{width:calc(226 * var(--dp));height:calc(95.333 * var(--dp))}
+.ecam-shadow{flex:none;display:block;width:100%;height:calc(16 * var(--dp));padding-bottom:calc(8 * var(--dp));box-sizing:content-box}
+.ecam-btn{flex:none;display:flex;align-items:center;justify-content:center;height:calc(48 * var(--dp));margin:0 calc(16 * var(--dp)) calc(8 * var(--dp));border:calc(2 * var(--dp)) solid #000;border-radius:calc(4 * var(--dp));padding:0;background:linear-gradient(#f8f8e9,#d4d4b3);color:#000;font-size:calc(18 * var(--dp));font-weight:700}
+.ecam-btn:active{border-color:#fff;background:linear-gradient(#fff,#d9d9bb)}
+.ecam-btn img{width:calc(32 * var(--dp));height:calc(32 * var(--dp));margin-right:calc(8 * var(--dp))}
+.ecam-tos{flex:none;align-self:center;margin-bottom:calc(4 * var(--dp));border:0;border-radius:calc(4 * var(--dp));padding:calc(8 * var(--dp));background:none;color:#fff;font-size:calc(12 * var(--dp))}
+.ecam-tos:active{background:#88ffffff}
+.ecam-version{flex:1;display:flex;align-items:flex-end;justify-content:center;color:#888;font-size:calc(12 * var(--dp))}
+.ecam-list{position:absolute;inset:0;background:#000}
+.ecam-item{display:flex;align-items:center;justify-content:center;width:100%;height:calc(48 * var(--dp));border:0;padding:0;background:#2c2c2c;color:#fff;font-size:calc(14 * var(--dp));font-weight:700}
+button.ecam-item:active{background:#c3c3c3;color:#000}
+.ecam-spin{width:calc(16 * var(--dp));height:calc(16 * var(--dp));margin-right:calc(8 * var(--dp));animation:ecwf-spin 1.2s steps(12) infinite}
+.ecam-empty{padding:calc(10 * var(--dp));color:#bebebe;font-size:calc(14 * var(--dp))}
+.ecam-invalid{padding:calc(8 * var(--dp));color:#bebebe;font-size:calc(14 * var(--dp))}
+.ecam-invalid p{margin:0 0 calc(8 * var(--dp))}
+.ecam-eula{max-height:calc(330 * var(--dp));overflow-y:auto;padding:calc(4 * var(--dp));color:#fff;font-size:calc(14 * var(--dp));white-space:pre-line}
+.ecam-field{margin:0 calc(20 * var(--dp))}

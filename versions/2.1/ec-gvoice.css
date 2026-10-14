@@ -1,0 +1,15 @@
+/* Android 2.1 Google Voice setup (ec-gvoice.js), in dp / sp. */
+.ecgv{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ecgv-head{flex:none;display:flex;align-items:center;padding:calc(10 * var(--dp)) calc(13 * var(--dp)) 0}
+.ecgv-head span{flex:1;font-size:calc(22 * var(--dp))}
+.ecgv-head img{width:calc(56 * var(--dp));height:calc(56 * var(--dp))}
+.ecgv-rule{flex:none;display:block;width:calc(100% - 30 * var(--dp));height:calc(2 * var(--dp));margin:calc(10 * var(--dp)) calc(15 * var(--dp))}
+.ecgv-page{flex:1;min-height:0;display:flex;flex-direction:column;padding:0 calc(5 * var(--dp));overflow-y:auto}
+.ecgv-web{padding:calc(8 * var(--dp));background:#fff;color:#000;font-size:calc(16 * var(--dp))}
+.ecgv-web p{margin:calc(16 * var(--dp)) 0 0}
+.ecgv-fields .ecwf-edit{margin:calc(4 * var(--dp)) calc(5 * var(--dp)) 0}
+.ecgv-progress{flex:none;display:flex;align-items:center;gap:calc(8 * var(--dp));padding:calc(5 * var(--dp)) calc(10 * var(--dp)) calc(15 * var(--dp));font-size:calc(14 * var(--dp))}
+.ecgv-spin{width:calc(16 * var(--dp));height:calc(16 * var(--dp));animation:ecwf-spin 1.2s steps(12) infinite}
+.ecgv-bar{flex:none;display:flex;padding:calc(5 * var(--dp)) calc(10 * var(--dp)) 0;background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.ecgv-bar>span{flex:1}
+.ecgv-bar .ecui-button{flex:none;min-width:calc(100 * var(--dp))}

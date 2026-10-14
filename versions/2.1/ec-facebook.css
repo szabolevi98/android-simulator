@@ -10,7 +10,7 @@
 .ecfb-btn{position:relative;flex:none;width:calc(100 * var(--dp));border:0;padding:calc(10 * var(--dp));background:none;color:#fff;font-size:calc(14 * var(--dp));font-weight:bold}
 .ecfb-divider{flex:none;display:block;height:1px}
 .ecfb-signup{display:flex;align-items:flex-start;padding:calc(9 * var(--dp)) calc(7 * var(--dp)) 0 calc(15 * var(--dp))}
-.ecfb-signup>span{flex:1;padding-top:calc(10 * var(--dp));color:#455898;font-size:calc(16 * var(--dp));font-weight:bold}
+.ecfb-signup>span{flex:1;padding-top:calc(10 * var(--dp));color:#455898;font-size:calc(14 * var(--dp));font-weight:bold}
 .ecfb-web{display:block;width:100%;border:0;background:#fff}
 .ecfb-about .ecfb-web{flex:1;min-height:0}
 .ecfb-eula{height:calc(300 * var(--dp))}
