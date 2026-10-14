@@ -33,7 +33,7 @@ if (flag('--compare')) {
     before.forEach((e, i) => {
       const f = after[i];
       if (e[0] !== f[0]) { diffs.push(`#${i} ${e[0]} became ${f[0]}`); return; }
-      const off = [1, 2, 3, 4, 5].some(j => Math.abs(e[j] * k - f[j]) > Math.max(tolerance, rel * Math.abs(e[j] * k)));
+      const off = [1, 2, 3, 4, 5].filter(j => j < 5 || (e[5] && f[5])).some(j => Math.abs(e[j] * k - f[j]) > Math.max(tolerance, rel * Math.abs(e[j] * k)));
       if (off) diffs.push(`#${i} ${e[0]} [${e.slice(1).join(' ')}] -> [${f.slice(1).join(' ')}]`);
     });
     if (diffs.length) { bad++; console.log(`${name}: ${diffs.length} of ${before.length} elements differ`); diffs.slice(0, 6).forEach(d => console.log('   ' + d)); }
@@ -77,16 +77,16 @@ const DUMP = `(() => {
   const root = document.querySelector('#screen'), base = root.getBoundingClientRect(), r = v => Math.round(v * 10) / 10;
   return [...root.querySelectorAll('*')].filter(e => e.getClientRects().length).map(e => {
     const b = e.getBoundingClientRect(), cls = typeof e.className === 'string' ? e.className.trim().split(/\\s+/).slice(0, 2).join('.') : '';
-    return [e.tagName.toLowerCase() + (cls ? '.' + cls : ''), r(b.left - base.left), r(b.top - base.top), r(b.width), r(b.height), r(parseFloat(getComputedStyle(e).fontSize))];
+    return [e.tagName.toLowerCase() + (cls ? '.' + cls : ''), r(b.left - base.left), r(b.top - base.top), r(b.width), r(b.height), e instanceof SVGElement ? 0 : r(parseFloat(getComputedStyle(e).fontSize))];
   });
 })()`;
-// The next tap: a seeded pick among the visible action buttons inside the screen, skipping the keys and the ones that
+// The next tap: a seeded pick (r) among the visible action buttons inside the screen, skipping the keys and the ones that
 // leave the app (home, back, power) or start something without a screen (calls, sounds).
-const TAP = `(() => {
+const TAP = r => `(() => {
   const skip = /^(home|back|power|lock|drawer|open-app|menu-key|search-key|call|dial|end-call|play|ringtone-preview|vol)/;
   const all = [...document.querySelectorAll('#viewport [data-action], #overlay-root [data-action]')].filter(e => e.getClientRects().length && !skip.test(e.dataset.action) && !e.disabled);
   if (!all.length) return '';
-  const el = all[Math.floor(Math.random() * all.length)];
+  const el = all[Math.floor(${r} * all.length)];
   el.click();
   return el.dataset.action + (el.dataset.id ? ':' + el.dataset.id : '');
 })()`;
@@ -110,13 +110,16 @@ result.home = await ev(DUMP);
 const apps = only ? only.split(',') : await ev(`(async()=>{const el=document.createElement('button');el.dataset.action='drawer';document.querySelector('#viewport').firstElementChild.append(el);el.click();el.remove();await new Promise(r=>setTimeout(r,500));return [...new Set([...document.querySelectorAll('#viewport [data-app]')].map(e=>e.dataset.app))]})()`);
 if (!only) { await sleep(300); result.drawer = await ev(DUMP); }
 for (const app of apps) {
+  // The taps' own seeded numbers (not the page's Math.random, which the apps use as time goes by).
+  let seed = [...app].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619), 2166136261) >>> 0;
+  const next = () => { seed = (seed + 0x6D2B79F5) >>> 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
   await fresh();
   await ev(`(()=>{const el=document.createElement('button');el.dataset.action='open-app';el.dataset.app=${JSON.stringify(app)};document.querySelector('#viewport').firstElementChild.append(el);el.click();el.remove();return true})()`);
   await sleep(900);
   let name = app;
   result[name] = await ev(DUMP);
   for (let i = 0; i < clicks; i++) {
-    const tapped = await ev(TAP);
+    const tapped = await ev(TAP(next()));
     if (!tapped) break;
     await sleep(700);
     name += ' > ' + tapped;

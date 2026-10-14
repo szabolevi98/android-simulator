@@ -1,6 +1,6 @@
 /* Google Maps __MAPS__ (__IMAGE__) directions and Navigation's drive, written by docs/tools/maps6-route.py. Sizes in dip times
-   --dp (__DP__ px here); xhdpi 9-patches (2 px per dip) slice at their npTc divs. */
-.mr-input,.mr-list,.mr-nav,.mr-banner{--dp:__DP__px}
+   the page's --dp (__DP__ px in the desktop frame; docs/tools/dp_css.py turns the rest into dp); xhdpi 9-patches (2 px per
+   dip) slice at their npTc divs. */
 .mr-input{display:flex;flex-direction:column;height:100%;background:#d8d8d8}
 .mr-panel{flex:1;min-height:0;overflow-y:auto;padding:calc(9*var(--dp)) calc(4*var(--dp)) 0 calc(6*var(--dp))}
 .mr-row{display:flex;gap:calc(4*var(--dp));margin-bottom:calc(2*var(--dp))}

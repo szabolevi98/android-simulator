@@ -1,7 +1,7 @@
 /* Voice Search 3.0.1 RecognitionActivity (Theme.Holo.Dialog, dialog_full_holo_dark) at the Galaxy Nexus scale (--d: 1 dp);
    xhdpi drawables at half their pixels. */
 .vs3-scrim{position:absolute;inset:0;z-index:40;background:#00000099}
-.vs3-dialog{--d:.85px;position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:min(calc(var(--d)*320),92%);display:flex;flex-direction:column;border:9px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 20 fill/9px stretch;color:#fff;font-family:Roboto,RobotoICS,sans-serif}
+.vs3-dialog{--d:var(--dp);position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:min(calc(var(--d)*320),92%);display:flex;flex-direction:column;border:calc(10.5883 * var(--dp)) solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 20 fill/calc(10.5883 * var(--dp)) stretch;color:#fff;font-family:Roboto,RobotoICS,sans-serif}
 .vs3-body{position:relative;display:flex;flex-direction:column;align-items:center;padding-bottom:calc(var(--d)*16)}
 .vs3-header{align-self:stretch;display:flex;align-items:center;height:calc(var(--d)*48)}
 .vs3-header span{flex:1;min-width:0;margin:0 calc(var(--d)*8) 0 calc(var(--d)*16);font-size:calc(var(--d)*18);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -17,9 +17,9 @@
 @keyframes vs3-turn{to{transform:rotate(360deg)}}
 .vs3-logo{width:calc(var(--d)*76);height:calc(var(--d)*30);margin-top:calc(var(--d)*8)}
 .vs3-lang{margin-top:calc(var(--d)*4);font-size:calc(var(--d)*14);color:#aaa}
-.vs3-buttons{display:flex;border-top:1px solid #ffffff1f;height:calc(var(--d)*48)}
+.vs3-buttons{display:flex;border-top:calc(1.1765 * var(--dp)) solid #ffffff1f;height:calc(var(--d)*48)}
 .screen .vs3-buttons button{flex:1;min-width:0;border:0;background:none;color:#fff;font:400 calc(var(--d)*18) Roboto,RobotoICS,sans-serif;padding:0 calc(var(--d)*8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.vs3-buttons button+button{box-shadow:inset 1px 0 #ffffff1f}
+.vs3-buttons button+button{box-shadow:inset calc(1.1765 * var(--dp)) 0 #ffffff1f}
 .screen .vs3-buttons button:active{background:#33b5e599}
 .vs3-help .vs3-body{height:calc(var(--d)*300);justify-content:center}
 .vs3-spinny{width:calc(var(--d)*76);height:calc(var(--d)*76);border:calc(var(--d)*4) solid #ffffff22;border-top-color:#33b5e5;border-radius:50%;animation:vs3-turn .9s linear infinite;box-sizing:border-box}

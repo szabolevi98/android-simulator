@@ -1,13 +1,15 @@
 /* Launcher2 first-run clings of the IMM76I (Galaxy Nexus) image (Cling.java, workspace_cling.xml, all_apps_cling.xml,
-   folder_cling.xml; the layouts and texts are the same in the 4.0.4 and 4.3 images). Sizes are dp scaled by 0.9; the
+   folder_cling.xml; the layouts and texts are the same in the 4.0.4 and 4.3 images). Sizes are dp (DP() measures the page's --dp); the
    punch-through graphic is scaled by the reveal radius / 94dp (reveal_radius is not a 4.0.4 dimen; Cling.java uses app_icon_size, 48dp). */
 (() => {
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const SHOW = 550, DISMISS = 250; // Launcher.SHOW_CLING_DURATION / DISMISS_CLING_DURATION
-  const REVEAL = 43.2;             // app_icon_size, 48dp
-  const PUNCH = 600 * 0.6 * (48 / 94); // cling.png (400dp) scaled so its 94dp centre radius meets the reveal radius
-  const HAND = [284 * 0.6, 391 * 0.6], HAND_OFFSET = 10.8; // hand.png, app_icon_size / 4
+  // One dp in CSS px now: a probe of calc(100 * var(--dp)) on the screen (1 without a page, as in the tests).
+  const DP = () => { const screen = globalThis.document?.querySelector?.('#screen'); if (!screen) return 1; const probe = document.createElement('i'); probe.style.cssText = 'position:absolute;visibility:hidden;width:calc(100 * var(--dp))'; screen.append(probe); const dp = probe.getBoundingClientRect().width / 100; probe.remove(); return dp || 1; };
+  const REVEAL = 48;             // app_icon_size, 48dp
+  const PUNCH = 400 * (48 / 94); // cling.png (400dp) scaled so its 94dp centre radius meets the reveal radius
+  const HAND = [284 / 1.5, 391 / 1.5], HAND_OFFSET = 48 / 4; // hand.png (hdpi), app_icon_size / 4
   const KINDS = {
     workspace: {bg: 'cling-bg_cling1', title: 'Make yourself at home', text: 'You can put your favorite apps here.', bottom: 'To see all your apps, touch the circle.'},
     allApps: {bg: 'cling-bg_cling2', title: 'Choose some apps', text: 'To add an app to your Home screen, touch & hold it.', hand: true},
@@ -25,8 +27,8 @@
   }
   function markup(kind, t, point) {
     const spec = KINDS[kind];
-    const punch = point ? `<span class="cling-punch" style="left:${point[0]}px;top:${point[1]}px;width:${PUNCH}px;height:${PUNCH}px"></span>` : '';
-    const hand = spec.hand && point ? `<span class="cling-hand" style="left:${point[0] + HAND_OFFSET}px;top:${point[1] + HAND_OFFSET}px;width:${HAND[0]}px;height:${HAND[1]}px"></span>` : '';
+    const punch = point ? `<span class="cling-punch" style="left:${point[0]}px;top:${point[1]}px;width:calc(${PUNCH} * var(--dp));height:calc(${PUNCH} * var(--dp))"></span>` : '';
+    const hand = spec.hand && point ? `<span class="cling-hand" style="left:${point[0] + HAND_OFFSET * DP()}px;top:${point[1] + HAND_OFFSET * DP()}px;width:calc(${HAND[0]} * var(--dp));height:calc(${HAND[1]} * var(--dp))"></span>` : '';
     return `<div class="cling cling-${kind}" data-cling="${kind}" role="dialog" aria-label="${e(t(spec.title))}" style="--cling-bg:url('assets/${spec.bg}.png')"><div class="cling-shade"></div>${punch}${hand}<div class="cling-copy"><h3>${e(t(spec.title))}</h3><p>${e(t(spec.text))}</p></div>${spec.bottom ? `<p class="cling-bottom">${e(t(spec.bottom))}</p>` : ''}<button type="button" class="cling-ok" data-action="cling-dismiss" data-id="${kind}">${e(t('OK'))}</button></div>`;
   }
   /* The shade is cut out where touches pass through: the circle (Cling.onTouchEvent's reveal radius) or the open
@@ -36,7 +38,7 @@
     const shade = root.querySelector('.cling-shade'); if (!shade) return;
     const w = root.clientWidth, h = root.clientHeight, outer = `M0 0H${w}V${h}H0Z`;
     let inner = '';
-    if (hole?.circle) { const [x, y] = hole.circle, r = REVEAL; inner = `M${x - r} ${y}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`; }
+    if (hole?.circle) { const [x, y] = hole.circle, r = REVEAL * DP(); inner = `M${x - r} ${y}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`; }
     else if (hole?.rect) { const {left, top, right, bottom} = hole.rect; inner = `M${left} ${top}H${right}V${bottom}H${left}Z`; }
     const path = `path(evenodd, '${outer}${inner}')`;
     shade.style.clipPath = path;
@@ -49,5 +51,5 @@
     const finish = () => { root.remove(); done?.(); };
     if (animation) animation.finished.then(finish, finish); else finish();
   }
-  window.LauncherClings = {SHOW, DISMISS, REVEAL, PUNCH, HAND, HAND_OFFSET, KINDS, fresh, dismissedAll, wanted, markup, cut, show, dismiss};
+  window.LauncherClings = {DP, SHOW, DISMISS, REVEAL, PUNCH, HAND, HAND_OFFSET, KINDS, fresh, dismissedAll, wanted, markup, cut, show, dismiss};
 })();

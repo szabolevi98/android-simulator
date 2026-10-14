@@ -1,29 +1,29 @@
 /* Launcher2 folders of the IMM76I (Galaxy Nexus) image: folder_icon.xml (portal_ring_inner_holo with up to three preview icons),
    user_folder.xml (portal_container_holo, 74 x 82 dp cells, the folder name) – the same layouts and dimens in the 4.0.4
    and 4.3 images. */
-.app-icon.launcher-folder-icon{position:relative;width:54px;height:54px;display:block;background:url(assets/launcher-portal_ring_inner_holo.png) center/contain no-repeat;overflow:visible}
-.launcher-folder-icon>.folder-preview-item{position:absolute;display:block;width:34px;height:34px;left:7px;top:13px;z-index:3;transform-origin:0 0}
-.launcher-folder-icon>.folder-preview-item:nth-child(2){left:14px;top:9px;transform:scale(.825);z-index:2;filter:brightness(.85)}
-.launcher-folder-icon>.folder-preview-item:nth-child(3){left:21px;top:5px;transform:scale(.65);z-index:1;filter:brightness(.7)}
+.app-icon.launcher-folder-icon{position:relative;width:calc(63.5295 * var(--dp));height:calc(63.5295 * var(--dp));display:block;background:url(assets/launcher-portal_ring_inner_holo.png) center/contain no-repeat;overflow:visible}
+.launcher-folder-icon>.folder-preview-item{position:absolute;display:block;width:calc(40 * var(--dp));height:calc(40 * var(--dp));left:calc(8.2353 * var(--dp));top:calc(15.2942 * var(--dp));z-index:3;transform-origin:0 0}
+.launcher-folder-icon>.folder-preview-item:nth-child(2){left:calc(16.4706 * var(--dp));top:calc(10.5883 * var(--dp));transform:scale(.825);z-index:2;filter:brightness(.85)}
+.launcher-folder-icon>.folder-preview-item:nth-child(3){left:calc(24.7059 * var(--dp));top:calc(5.8824 * var(--dp));transform:scale(.65);z-index:1;filter:brightness(.7)}
 .launcher-folder-icon .folder-preview-item .app-icon{width:100%!important;height:100%!important;background:none;border:0;box-shadow:none;border-radius:0}
 .launcher-folder-icon .folder-preview-item img{width:100%;height:100%;object-fit:contain}
-.dock .launcher-folder-icon>.folder-preview-item{width:29px;height:29px;left:6px;top:11px}
-.dock .launcher-folder-icon>.folder-preview-item:nth-child(2){left:12px;top:8px}
-.dock .launcher-folder-icon>.folder-preview-item:nth-child(3){left:18px;top:4px}
+.dock .launcher-folder-icon>.folder-preview-item{width:calc(34.1177 * var(--dp));height:calc(34.1177 * var(--dp));left:calc(7.0589 * var(--dp));top:calc(12.9412 * var(--dp))}
+.dock .launcher-folder-icon>.folder-preview-item:nth-child(2){left:calc(14.1177 * var(--dp));top:calc(9.4118 * var(--dp))}
+.dock .launcher-folder-icon>.folder-preview-item:nth-child(3){left:calc(21.1765 * var(--dp));top:calc(4.7059 * var(--dp))}
 .dock .launcher-icon .folder-preview-item,.dock .launcher-icon .folder-preview-item .app-icon{display:block}
-.launcher-folder-scrim{position:absolute;inset:24px 0 47px;z-index:19;background:#0003}
-.launcher-folder{position:absolute;z-index:20;max-width:calc(100% - 16px);max-height:calc(100% - 94px);display:flex;flex-direction:column;padding:12px;isolation:isolate;transform-origin:var(--folder-origin,50% 80%);color:#fff}
-.launcher-folder:before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:21px 18px 30px;border-image:url(assets/launcher-portal_container_holo.png) 21 18 30 fill / 21px 18px 30px;pointer-events:none}
+.launcher-folder-scrim{position:absolute;inset:calc(28.2353 * var(--dp)) 0 calc(55.2942 * var(--dp));z-index:19;background:#0003}
+.launcher-folder{position:absolute;z-index:20;max-width:calc(100% - calc(18.8236 * var(--dp)));max-height:calc(100% - calc(110.5883 * var(--dp)));display:flex;flex-direction:column;padding:calc(14.1177 * var(--dp));isolation:isolate;transform-origin:var(--folder-origin,50% 80%);color:#fff}
+.launcher-folder:before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:calc(24.7059 * var(--dp)) calc(21.1765 * var(--dp)) calc(35.2942 * var(--dp));border-image:url(assets/launcher-portal_container_holo.png) 21 18 30 fill / calc(24.7059 * var(--dp)) calc(21.1765 * var(--dp)) calc(35.2942 * var(--dp));pointer-events:none}
 .launcher-folder-grid{display:grid;grid-template-columns:repeat(var(--folder-columns),minmax(0,1fr));overflow-y:auto;min-height:0;overscroll-behavior:contain;scrollbar-width:none;touch-action:none}
-.launcher-folder-cell{height:82px;min-width:0;display:grid;place-items:center}
-.launcher-folder-cell>.launcher-icon{width:100%;height:100%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:5px 2px}
-.launcher-folder-cell .app-icon{width:48px;height:48px;flex:none}
-.launcher-folder-cell .launcher-icon>span:last-child{font-size:12px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.launcher-folder-name{flex:none;margin:0;border-top:1px solid #ffffff10}
-.launcher-folder-name input{display:block;width:100%;padding:10px 4px 7px;border:0;border-radius:0;background:transparent;font:14px RobotoICS,Arial,sans-serif;color:#33b5e5;text-align:center;outline:none;user-select:text;-webkit-user-select:text}
+.launcher-folder-cell{height:calc(96.4706 * var(--dp));min-width:0;display:grid;place-items:center}
+.launcher-folder-cell>.launcher-icon{width:100%;height:100%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(4.7059 * var(--dp));padding:calc(5.8824 * var(--dp)) calc(2.353 * var(--dp))}
+.launcher-folder-cell .app-icon{width:calc(56.4706 * var(--dp));height:calc(56.4706 * var(--dp));flex:none}
+.launcher-folder-cell .launcher-icon>span:last-child{font-size:calc(14.1177 * var(--dp));max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.launcher-folder-name{flex:none;margin:0;border-top:calc(1.1765 * var(--dp)) solid #ffffff10}
+.launcher-folder-name input{display:block;width:100%;padding:calc(11.7648 * var(--dp)) calc(4.7059 * var(--dp)) calc(8.2353 * var(--dp));border:0;border-radius:0;background:transparent;font:calc(16.4706 * var(--dp)) RobotoICS,Arial,sans-serif;color:#33b5e5;text-align:center;outline:none;user-select:text;-webkit-user-select:text}
 .launcher-folder-name input::placeholder{color:#33b5e5;opacity:1}
-.launcher-folder-name input:focus{box-shadow:inset 0 -2px #33b5e5}
-.folder-drop-target .app-icon:after{content:'';position:absolute;inset:-9px;background:url(assets/launcher-portal_ring_outer_holo.png) center/contain no-repeat;pointer-events:none;animation:folder-target 100ms ease-in-out}
+.launcher-folder-name input:focus{box-shadow:inset 0 calc(-2.353 * var(--dp)) #33b5e5}
+.folder-drop-target .app-icon:after{content:'';position:absolute;inset:calc(-10.5883 * var(--dp));background:url(assets/launcher-portal_ring_outer_holo.png) center/contain no-repeat;pointer-events:none;animation:folder-target 100ms ease-in-out}
 .folder-drop-target .app-icon{position:relative}
 .folder-drop-target .folder-preview-item .app-icon:after{display:none}
 

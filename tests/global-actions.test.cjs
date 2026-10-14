@@ -25,7 +25,7 @@ for(const v of ['4.0.4','4.3','4.4.4'])for(const f of ['ga-dialog_full_holo_dark
 {const size=f=>{const b=fs.readFileSync(f);return [b.readUInt32BE(16),b.readUInt32BE(20)];};
 assert.deepEqual(size('versions/4.3/assets/ga-ic_lock_power_off.png'),[64,64]);assert.deepEqual(size('versions/4.4.4/assets/ga-ic_lock_power_off.png'),[96,96]);
 assert.ok(fs.readFileSync('versions/4.4.4/global-actions.css','utf8').includes("ga-dialog_full_holo_dark.png') 30 fill"));
-assert.ok(fs.readFileSync('versions/4.0.4/global-actions.css','utf8').includes('padding:5.4px 0 5.4px 14.4px'),'4.0.4 row: 16dp start padding, no 56dp icon box');}
+assert.ok(fs.readFileSync('versions/4.0.4/global-actions.css','utf8').includes('padding:calc(6.353 * var(--dp)) 0 calc(6.353 * var(--dp)) calc(16.9412 * var(--dp))'),'4.0.4 row: 16dp start padding, no 56dp icon box');}
 // Gingerbread: the list is a GBUI dialog; only the key hold, shutdown and boot come from here.
 assert.deepEqual(Object.keys(gb).sort(),['BOOT_MS','KEY_TIMEOUT','SHUTDOWN_MS','boot','hold','playBoot']);
 // Lollipop: Power off and, when enabled, Take bug report with ic_lock_bugreport; no airplane or ringer rows.

@@ -1,7 +1,7 @@
-/* Google Maps __MAPS__ (__IMAGE__) directions and navigation, written by docs/tools/maps7-route.py. Sizes in dp times --dp
-   (__DP__ px here); text in the app's sizes (large 21 sp, medium 17, small 15, micro 14, link 15) and greys
-   (#222222 / #555555 / #999999, blue #33b5e5, page #eeeeee). */
-.m7r{--dp:__DP__px;display:flex;flex-direction:column;height:100%;background:#eee;color:#222;font-family:Roboto,sans-serif;position:relative}
+/* Google Maps __MAPS__ (__IMAGE__) directions and navigation, written by docs/tools/maps7-route.py. Sizes in dp times the page's
+   --dp (__DP__ px in the desktop frame; docs/tools/dp_css.py turns the rest into dp); text in the app's sizes (large 21 sp,
+   medium 17, small 15, micro 14, link 15) and greys (#222222 / #555555 / #999999, blue #33b5e5, page #eeeeee). */
+.m7r{display:flex;flex-direction:column;height:100%;background:#eee;color:#222;font-family:Roboto,sans-serif;position:relative}
 .m7r-bar{flex:none;display:flex;align-items:center;height:calc(48*var(--dp));margin:calc(8*var(--dp)) calc(8*var(--dp)) 0;background:#fff;box-shadow:0 1px calc(2*var(--dp)) #0000004d;border-radius:calc(2*var(--dp))}
 .screen .m7r-back{flex:none;display:grid;place-items:center;width:calc(48*var(--dp));height:100%;padding:0;border:0;background:none;cursor:pointer}
 .m7r-back img{width:calc(24*var(--dp));height:calc(24*var(--dp))}

@@ -240,7 +240,7 @@
   function updateCpu(cpu) {
     const t = Date.now() / 1000, load = [0.48 + .12 * Math.sin(t / 7), 0.42 + .06 * Math.sin(t / 19), 0.39];
     const procs = [['system_server', 4 + 3 * Math.abs(Math.sin(t / 3))], ['com.android.systemui', 2 + 2 * Math.abs(Math.sin(t / 5))], ['surfaceflinger', 1.5 + Math.abs(Math.sin(t / 2))], ['com.android.launcher', 1 + Math.abs(Math.sin(t / 4))]];
-    cpu.innerHTML = `<b>${load.map(v => v.toFixed(2)).join(' / ')}</b>${procs.map(([name, value]) => `<span><i style="width:${value * 6}px"></i>${name}</span>`).join('')}`;
+    cpu.innerHTML = `<b>${load.map(v => v.toFixed(2)).join(' / ')}</b>${procs.map(([name, value]) => `<span><i style="width:calc(${(value * 6 / .85).toFixed(4)} * var(--dp))"></i>${name}</span>`).join('')}`;
   }
   function pointerMove(screen, event, down, count) {
     const bar = screen.querySelector('.dev-pointer-bar'); if (!bar) return;

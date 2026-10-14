@@ -68,12 +68,16 @@ const PX = /(^|[^\w.#-])(-?)(\d+\.?\d*|\.\d+)px(?![\w-])/g;
 // Whole when exact; otherwise 4 decimals rounded away from zero, so N * scale never falls under the px value: Chrome
 // floors border widths to whole pixels, and 2px written as 1.99996px draws 1px.
 const fmt = n => { const r = Math.round(n); if (Math.abs(n - r) < 1e-6) return String(r); const v = Math.sign(n) * Math.ceil(Math.abs(n) * 1e4 - 1e-6) / 1e4; return v.toFixed(4).replace(/0+$/, '').replace(/^(-?)0\./, '$1.'); };
-let worst = 0;
-function convert(body) {  // px outside url() / strings / comments → calc(N * var(--dp))
+let worst = 0, localDp = 0;
+// px outside url() / strings / comments → calc(N * var(--dp)); exactly one dp (`calc(8 * 0.85px)`, `--d:.85px`) → var(--dp).
+// A module's own `--dp:<scale>px` goes: it would hide the page's --dp on a phone.
+function convert(body) {
+  body = body.replace(/(^|;)\s*--dp\s*:[^;}]*(;|$)/g, (m, a, b) => { localDp++; return a && b ? ';' : ''; });
   return body.replace(/\/\*[\s\S]*?\*\/|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|url\([^)]*\)|[^"'/u]+|./g, chunk => {
     if (/^(\/\*|"|'|url\()/.test(chunk)) return chunk;
     return chunk.replace(PX, (m, pre, sign, num) => {
       const px = Number(sign + num); if (!px) return m;
+      if (Math.abs(px - scale) < 1e-9) return `${pre}var(--dp)`;
       const dp = fmt(px / scale); worst = Math.max(worst, Math.abs(Number(dp) * scale - px));
       return `${pre}calc(${dp} * var(--dp))`;
     });
@@ -135,6 +139,6 @@ for (const f of files) {
   changed++;
   if (write) fs.writeFileSync(`${dir}/${f}`, res);
 }
-console.log(`${version}: ${values} px values in ${changed} of ${files.length} stylesheets → dp (1 dp = ${scale}px; largest rounding ${worst.toFixed(5)}px)${write ? '' : ' [dry run]'}`);
+console.log(`${version}: ${values} px values in ${changed} of ${files.length} stylesheets → dp (1 dp = ${scale}px; largest rounding ${worst.toFixed(5)}px; ${localDp} local --dp removed)${write ? '' : ' [dry run]'}`);
 console.log(`\nkept as page px (${kept.length}):`); kept.forEach(k => console.log('  ' + k));
 console.log(`\nneeds a person (${review.length}):`); review.forEach(k => console.log('  ' + k));

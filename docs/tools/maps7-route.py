@@ -1,6 +1,8 @@
 """Writes versions/<v>/maps-route.js and maps-route.css (Google Maps 7.5 / 9.3 directions and navigation) from
 docs/templates/maps7-route.template.js / .css for the Nexus 5 (4.4.4, Maps 7.5.0) and the Nexus 6 (5.1.1, Maps 9.3.0).
     python docs/tools/maps7-route.py"""
+import sys; sys.path.insert(0, __file__.replace('\\', '/').rsplit('/', 1)[0])
+from dp_css import to_dp
 ROOT = __file__.replace('\\', '/').rsplit('/docs/', 1)[0] + '/'
 VERSIONS = {
     '4.4.4': {'__MAPS__': '7.5.0', '__IMAGE__': 'hammerhead KTU84P', '__DP__': '.906', '__LP__': 'false',
@@ -16,5 +18,6 @@ for ext in ('js', 'css'):
     for v, subs in VERSIONS.items():
         out = template
         for k, val in subs.items(): out = out.replace(k, val)
+        if ext == 'css': out = to_dp(out, subs['__DP__'])
         open(f'{ROOT}versions/{v}/maps-route.{ext}', 'w', encoding='utf-8', newline='\n').write(out)
         print(v, ext, subs['__MAPS__'])
