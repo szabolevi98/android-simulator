@@ -8,11 +8,9 @@
 .ecwg-ind{position:relative;z-index:1;display:block;width:100%;height:calc(10 * var(--dp))}
 .ecwg-divider{position:relative;z-index:1;width:calc(1 * var(--dp));background:url('assets/st-appwidget_settings_divider.9.png') 0 0/100% 100%}
 /* News and Weather: the 75 dp weather column (45 dp icon, 22 dp bold temperature) and the 8 s story flipper. */
-.ecwg-weather{position:relative;z-index:1;flex:none;width:calc(75 * var(--dp));display:flex;flex-direction:column;align-items:center;justify-content:space-between;border:0;padding:calc(4 * var(--dp)) 0 calc(4 * var(--dp)) calc(4 * var(--dp));background:none;color:#fff!important}
-.ecwg-weather img{width:calc(45 * var(--dp));height:calc(45 * var(--dp))}
-.ecwg-weather span{font-weight:700;font-size:calc(22 * var(--dp));line-height:1}
-.ecwg-flip{position:relative;z-index:1;flex:1;min-width:0;border:0;padding:calc(4 * var(--dp)) calc(3 * var(--dp)) calc(2 * var(--dp)) calc(7 * var(--dp));background:none;text-align:left;overflow:hidden}
-.ecwg-story{position:relative;z-index:1;display:flex;flex-direction:column;margin:calc(1 * var(--dp)) calc(3 * var(--dp)) calc(2 * var(--dp));padding-left:calc(4 * var(--dp));transition:opacity .3s,transform .3s}
-.ecwg-story.out{opacity:0;transform:translateY(-30%)}
-.ecwg-headline{color:#fff;font-size:calc(14 * var(--dp));line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-right:calc(3 * var(--dp))}
-.ecwg-source{color:#bebebe;font-size:calc(11 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecwg-loading{position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:calc(14 * var(--dp))}
+.ecwg-spin{width:calc(16 * var(--dp));height:calc(16 * var(--dp));animation:ecwf-spin 1.2s steps(12) infinite}
+.ecwg-loading span{padding-left:calc(4 * var(--dp))}
+.ecwg-retry{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:calc(14 * var(--dp));text-align:center}
+.ecwg-retry .ecui-button{flex:none;margin-top:calc(2 * var(--dp));padding-left:calc(16 * var(--dp));padding-right:calc(16 * var(--dp));font-size:calc(16 * var(--dp))}
+.ecwg-news{overflow:hidden}

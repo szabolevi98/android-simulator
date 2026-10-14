@@ -242,10 +242,6 @@ st-ic_appwidget_settings_brightness_mid.png	app/Settings.apk	drawable/ic_appwidg
 nw-appwidget_dark_bg.9.png	app/GenieWidget.apk	drawable/appwidget_dark_bg
 nw-appwidget_inner_press_l.9.png	app/GenieWidget.apk	drawable/appwidget_inner_press_l
 nw-appwidget_inner_press_r.9.png	app/GenieWidget.apk	drawable/appwidget_inner_press_r
-nw-ic_weather_partly_cloudy_m.png	app/GenieWidget.apk	drawable/ic_weather_partly_cloudy_m
-nw-ic_weather_clear_day_m.png	app/GenieWidget.apk	drawable/ic_weather_clear_day_m
-nw-ic_weather_cloudy_m.png	app/GenieWidget.apk	drawable/ic_weather_cloudy_m
-nw-ic_weather_chance_of_rain_m.png	app/GenieWidget.apk	drawable/ic_weather_chance_of_rain_m
 # Launcher2 WallpaperChooser (array/wallpapers, hdpi) and its picker's labels
 l2-wallpaper_electric.jpg	app/Launcher2.apk	drawable/wallpaper_electric
 l2-wallpaper_electric_small.jpg	app/Launcher2.apk	drawable/wallpaper_electric_small
@@ -724,3 +720,5 @@ fb-fixed_divider_horizontal_bright.9.png	app/Facebook.apk	drawable/fixed_divider
 fb-eula.html	app/Facebook.apk	raw/eula
 fb-about.html	app/Facebook.apk	raw/about
 fw-ic_menu_info_details.png	framework/framework-res.apk	drawable/ic_menu_info_details
+nw-widget_bg.9.png	app/GenieWidget.apk	drawable/widget_bg
+nw-ic_menu_refresh.png	app/GenieWidget.apk	drawable/ic_menu_refresh

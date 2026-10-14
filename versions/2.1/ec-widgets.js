@@ -4,10 +4,9 @@
      (centerInside) over its indicator (ind_on / ind_off / ind_mid; _l, _c, _r by position, fitXY); pressed
      appwidget_inner_press_l / c / r. Brightness steps dim → half → full (ic_..._brightness_off / mid / on).
    - widget:news-weather: GenieWidget.apk's MiniWidgetProvider (minWidth 294 dp, minHeight 72 dp), layout-port/miniwidget.xml
-     on appwidget_dark_bg: the 75 dp weather column (45 dp icon, 22 dp bold temperature; padding 4 dp; pressed
-     appwidget_inner_press_l) and the news ViewFlipper (padding 7 / 4 / 3 / 2 dp; flipInterval 8000 ms) of
-     miniwidget_story.xml rows (14 dp headline up to 3 lines, 11 dp #bebebe source). The stories and the weather are the
-     simulator's own, as a server would send them. */
+     on appwidget_dark_bg. With no connection it never gets to its weather column and news ViewFlipper: it shows
+     widget_loading.xml (the small spinner and "connecting...") while MiniWidgetController tries, then widget_retry.xml
+     ("Sorry, unable to connect. Please try later." and the 16 sp Retry now button, which tries again). */
 (() => {
   'use strict';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[ch]);
@@ -30,31 +29,15 @@
     }
   });
 
-  const STORIES = [
-    ['Apple unveils the iPad, a tablet between the phone and the laptop', 'Reuters · 2 hours ago'],
-    ['Vancouver gets ready for the Winter Olympics opening ceremony', 'AP · 3 hours ago'],
-    ['Google opens Nexus One sales to customers in more countries', 'CNET · 5 hours ago'],
-    ['Avatar becomes the highest-grossing film of all time', 'BBC News · 6 hours ago']
-  ];
-  let flipTimer = Date.now(), story = 0;   // the first flip comes flipInterval after the widget shows
+  // The data service's attempt: "connecting..." for a while, then the retry layout (EC.news is shared with the app).
+  const N = () => EC.text('news');
   EC.register('widget:news-weather', {
     render(c) {
-      const [headline, source] = STORIES[story % STORIES.length];
-      const unit = c.lang === 'en' ? 'F' : 'C', temp = unit === 'F' ? 64 : 18;
-      return `<div class="ecwg-news npp-nw-appwidget_dark_bg"><i class="ec-bg np-nw-appwidget_dark_bg"></i>
-        <button type="button" class="ecwg-weather" data-action="ecwg-news" aria-label="${temp}°"><i class="ec-bg ec-pressed np-nw-appwidget_inner_press_l"></i><img src="assets/nw-ic_weather_partly_cloudy_m.png" alt=""><span>${temp}°</span></button>
-        <button type="button" class="ecwg-flip" data-action="ecwg-news"><i class="ec-bg ec-pressed np-nw-appwidget_inner_press_r"></i><span class="ecwg-story"><span class="ecwg-headline">${esc(headline)}</span><span class="ecwg-source">${esc(source)}</span></span></button></div>`;
+      const body = EC.news.connecting() ? `<div class="ecwg-loading"><img class="ecwg-spin" src="assets/fw-spinner_white_16.png" alt=""><span>${esc(N().t('connecting'))}</span></div>`
+        : `<div class="ecwg-retry"><span>${esc(N().t('retrying'))}</span><button type="button" class="ecui-button" data-action="ecwg-retry"><i class="ec-bg np-fw-btn_default_normal"></i><i class="ec-bg ec-pressed np-fw-btn_default_pressed"></i><span>${esc(N().t('retrynow'))}</span></button></div>`;
+      return `<div class="ecwg-news npp-nw-appwidget_dark_bg"><i class="ec-bg np-nw-appwidget_dark_bg"></i>${body}</div>`;
     },
-    tick(c) {
-      if (c.ui.view !== 'home' || c.ui.sleeping) return;
-      if (Date.now() - flipTimer < 8000) return;
-      flipTimer = Date.now(); story++;
-      const flip = c.el.viewport.querySelector('[data-widget="news-weather"] .ecwg-story');
-      if (!flip) return;
-      const [headline, source] = STORIES[story % STORIES.length];
-      flip.classList.add('out');
-      setTimeout(() => { flip.innerHTML = `<span class="ecwg-headline">${esc(headline)}</span><span class="ecwg-source">${esc(source)}</span>`; flip.classList.remove('out'); }, 300);
-    }
+    tick(c) { if (c.ui.view === 'home' && EC.news.changed()) c.render(); }
   });
 
   // The launcher hands widget taps to these actions.
@@ -70,7 +53,7 @@
           else { s[key] = !s[key]; if (key === 'wifi') s.wifiConnected = s.wifi; }
           c.save(); c.render(); return true;
         }
-        if (name === 'ecwg-news') { c.open('news-weather'); return true; }
+        if (name === 'ecwg-retry') { EC.news.refresh(); c.render(); return true; }
         return base(name, el, event, c);
       };
     }

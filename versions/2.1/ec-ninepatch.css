@@ -354,3 +354,5 @@
 .npp-fb-btn_green_pressed{padding:calc(8 * var(--dp)) calc(5 * var(--dp)) calc(7 * var(--dp)) calc(5 * var(--dp))}
 .np-fb-fixed_divider_horizontal_bright{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/fb-fixed_divider_horizontal_bright.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 0 0 0}  /* res/drawable/fixed_divider_horizontal_bright.9.png 1x1 */
 .npp-fb-fixed_divider_horizontal_bright{padding:0 0 0 0}
+.np-nw-widget_bg{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(7 * var(--dp)) calc(8 * var(--dp)) calc(10 * var(--dp)) calc(8 * var(--dp));border-image:url('assets/nw-widget_bg.9.png') 7 8 10 8 fill / calc(7 * var(--dp)) calc(8 * var(--dp)) calc(10 * var(--dp)) calc(8 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable/widget_bg.9.png 68x88 */
+.npp-nw-widget_bg{padding:calc(7 * var(--dp)) calc(8 * var(--dp)) calc(10 * var(--dp)) calc(8 * var(--dp))}

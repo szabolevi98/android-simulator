@@ -646,10 +646,8 @@ versions/2.1/assets/mu-ic_tab_songs_unselected.png	26f07719d3a4cf06	copy	passion
 versions/2.1/assets/nw-appwidget_dark_bg.9.png	bc472b6f41224f84	copy	passion:/system/app/GenieWidget.apk!res/drawable-hdpi/appwidget_dark_bg.9.png	drawable-hdpi		bc472b6f41224f84
 versions/2.1/assets/nw-appwidget_inner_press_l.9.png	d575e2ae29b896d4	copy	passion:/system/app/GenieWidget.apk!res/drawable-hdpi/appwidget_inner_press_l.9.png	drawable-hdpi		d575e2ae29b896d4
 versions/2.1/assets/nw-appwidget_inner_press_r.9.png	f8dd1100bc28d6f4	copy	passion:/system/app/GenieWidget.apk!res/drawable-hdpi/appwidget_inner_press_r.9.png	drawable-hdpi		f8dd1100bc28d6f4
-versions/2.1/assets/nw-ic_weather_chance_of_rain_m.png	68a26e430f075951	copy	passion:/system/app/GenieWidget.apk!res/drawable/ic_weather_chance_of_rain_m.png	drawable		68a26e430f075951
-versions/2.1/assets/nw-ic_weather_clear_day_m.png	faec8b2639aec121	copy	passion:/system/app/GenieWidget.apk!res/drawable/ic_weather_clear_day_m.png	drawable		faec8b2639aec121
-versions/2.1/assets/nw-ic_weather_cloudy_m.png	4532772ceacb64d7	copy	passion:/system/app/GenieWidget.apk!res/drawable/ic_weather_cloudy_m.png	drawable		4532772ceacb64d7
-versions/2.1/assets/nw-ic_weather_partly_cloudy_m.png	54334ad07e05f2c7	copy	passion:/system/app/GenieWidget.apk!res/drawable/ic_weather_partly_cloudy_m.png	drawable		54334ad07e05f2c7
+versions/2.1/assets/nw-ic_menu_refresh.png	b5aba3f19fab9cb6	copy	passion:/system/app/Facebook.apk!res/drawable-hdpi/ic_menu_refresh.png	drawable-hdpi		b5aba3f19fab9cb6
+versions/2.1/assets/nw-widget_bg.9.png	ae05faf2239afab8	copy	passion:/system/app/GenieWidget.apk!res/drawable/widget_bg.9.png	drawable		ae05faf2239afab8
 versions/2.1/assets/pn-bg_in_call_gradient_connected.9.png	cf231e26f95d36c6	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/bg_in_call_gradient_connected.9.png	drawable-hdpi		cf231e26f95d36c6
 versions/2.1/assets/pn-bg_in_call_gradient_ended.9.png	f886580c733eaae1	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/bg_in_call_gradient_ended.9.png	drawable-hdpi		f886580c733eaae1
 versions/2.1/assets/pn-bg_in_call_gradient_unidentified.9.png	933302f3c08d43c9	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/bg_in_call_gradient_unidentified.9.png	drawable-hdpi		933302f3c08d43c9
