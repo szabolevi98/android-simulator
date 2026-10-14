@@ -4,43 +4,43 @@
    above and below; the list keeps 16 dp at the sides (preference_fragment_padding_side) with list_divider_holo_dark
    (15 % white) between rows. Categories use Widget.Holo.TextView.ListSeparator: 14 sp bold caps #bebebe, 8 dp start
    padding, over list_section_divider_holo_dark (a 2 dp 20 % white line at the bottom). Action bar 48 dp, title 18 sp. */
-.screen .settings-app .actionbar{height:43.49px;padding:0 7.25px 0 0;gap:0}
-.screen .settings-app .actionbar h2{font:400 16.31px RobotoICS,sans-serif;color:#fff;margin-left:7.25px}
-.screen .settings-app .actionbar .up{width:auto;display:flex;align-items:center;padding:0 0 0 2px;height:100%}
-.screen .settings-app .actionbar .up img.settings-header-icon{width:28.99px;height:28.99px}
-.screen .settings-app .actionbar .up img.up-chevron{width:10.87px;height:21.74px;margin-right:-1px}
-.screen .settings-app .section-label{margin:0 14.5px;padding:9.06px 0 2.72px 7.25px;border-bottom:1.81px solid #ffffff33;font:700 12.68px/1.3 RobotoICS,sans-serif;color:#bebebe;letter-spacing:0;text-transform:uppercase}
-.screen .settings-app .settings-row{min-height:43.49px;margin:0 14.5px;width:calc(100% - 29px);padding:5.44px 0;gap:0;border-bottom:.9px solid #ffffff26;font:400 16.31px RobotoICS,sans-serif;color:#fff!important}
+.screen .settings-app .actionbar{height:calc(48.0023 * var(--dp));padding:0 calc(8.0023 * var(--dp)) 0 0;gap:0}
+.screen .settings-app .actionbar h2{font:400 calc(18.0023 * var(--dp)) RobotoICS,sans-serif;color:#fff;margin-left:calc(8.0023 * var(--dp))}
+.screen .settings-app .actionbar .up{width:auto;display:flex;align-items:center;padding:0 0 0 calc(2.2076 * var(--dp));height:100%}
+.screen .settings-app .actionbar .up img.settings-header-icon{width:calc(31.9978 * var(--dp));height:calc(31.9978 * var(--dp))}
+.screen .settings-app .actionbar .up img.up-chevron{width:calc(11.9978 * var(--dp));height:calc(23.9956 * var(--dp));margin-right:calc(-1.1038 * var(--dp))}
+.screen .settings-app .section-label{margin:0 calc(16.0045 * var(--dp));padding:calc(10 * var(--dp)) 0 calc(3.0023 * var(--dp)) calc(8.0023 * var(--dp));border-bottom:calc(1.9978 * var(--dp)) solid #ffffff33;font:700 calc(13.9956 * var(--dp))/1.3 RobotoICS,sans-serif;color:#bebebe;letter-spacing:0;text-transform:uppercase}
+.screen .settings-app .settings-row{min-height:calc(48.0023 * var(--dp));margin:0 calc(16.0045 * var(--dp));width:calc(100% - calc(32.0089 * var(--dp)));padding:calc(6.0045 * var(--dp)) 0;gap:0;border-bottom:calc(.9934 * var(--dp)) solid #ffffff26;font:400 calc(18.0023 * var(--dp)) RobotoICS,sans-serif;color:#fff!important}
 .screen .settings-app .row-copy{line-height:1.3;gap:0}
-.screen .settings-app .row-copy small{font-size:12.68px;color:#bebebe;line-height:1.35}
-.screen .settings-main .row-icon{width:25.37px;height:28.99px;margin:0 5.44px 0 5.44px;flex:none;overflow:visible}
-.screen .settings-main .row-icon img{width:28.99px;height:28.99px;max-width:none}
-.screen .settings-main .row-copy{margin-left:1.81px}
+.screen .settings-app .row-copy small{font-size:calc(13.9956 * var(--dp));color:#bebebe;line-height:1.35}
+.screen .settings-main .row-icon{width:calc(28.0023 * var(--dp));height:calc(31.9978 * var(--dp));margin:0 calc(6.0045 * var(--dp)) 0 calc(6.0045 * var(--dp));flex:none;overflow:visible}
+.screen .settings-main .row-icon img{width:calc(31.9978 * var(--dp));height:calc(31.9978 * var(--dp));max-width:none}
+.screen .settings-main .row-copy{margin-left:calc(1.9978 * var(--dp))}
 .screen .settings-main .connectivity-row{padding:0}
-.screen .settings-main .connectivity-row .connectivity-open{display:flex;align-items:center;flex:1;min-width:0;min-height:43.49px;padding:5.44px 0;gap:0;border:0;background:none;color:#fff;font:inherit;text-align:left}
+.screen .settings-main .connectivity-row .connectivity-open{display:flex;align-items:center;flex:1;min-width:0;min-height:calc(48.0023 * var(--dp));padding:calc(6.0045 * var(--dp)) 0;gap:0;border:0;background:none;color:#fff;font:inherit;text-align:left}
 .screen .settings-main .settings-row .row-copy{text-align:left;align-items:flex-start}
-.screen .settings-main .row-icon{font-size:18px;color:#fff}
+.screen .settings-main .row-icon{font-size:calc(19.8676 * var(--dp));color:#fff}
 /* Theme.Settings 4.4 sets android:actionBarStyle to Widget.Holo.ActionBar.Solid: ab_solid_dark_holo, a #393939 top
    edge over #222 with a 2 dp #1b1b1b foot and no holo blue underline (4.3 kept the transparent bar with the line). */
-.screen .settings-app .actionbar{background:linear-gradient(#393939 0 .906px,#222 .906px calc(100% - 1.81px),#1b1b1b calc(100% - 1.81px))!important;border-bottom:0!important}
+.screen .settings-app .actionbar{background:linear-gradient(#393939 0 var(--dp),#222 var(--dp) calc(100% - calc(1.9978 * var(--dp))),#1b1b1b calc(100% - calc(1.9978 * var(--dp))))!important;border-bottom:0!important}
 /* Holo Switch (Widget.Holo.CompoundButton.Switch, android-4.4.4_r1): switch_bg_holo_dark track and
    switch_thumb(_activated)_holo_dark thumb nine-patches, switchMinWidth 96 dp grown to fit two labels plus
    4 x 12 dp thumbTextPadding (about 106 dp), a 28 dp track, and capital ON / OFF in TextAppearance.Holo.Small
    (14 sp, secondary_text_holo_dark). The thumb slides 150 ms between the ends. */
-.screen .holo-switch{width:96.04px!important;min-width:96.04px!important;height:25.37px;padding:0;overflow:visible;background:none;border-style:solid;border-color:transparent;border-width:10.87px 9.06px 12.68px 7.25px;border-image:url('assets/kk-switch_bg_holo_dark.png') 36 30 42 24 fill / 10.87px 9.06px 12.68px 7.25px stretch;text-shadow:none;font:400 12.68px RobotoICS,sans-serif;box-sizing:border-box}
+.screen .holo-switch{width:calc(106.0045 * var(--dp))!important;min-width:calc(106.0045 * var(--dp))!important;height:calc(28.0023 * var(--dp));padding:0;overflow:visible;background:none;border-style:solid;border-color:transparent;border-width:calc(11.9978 * var(--dp)) calc(10 * var(--dp)) calc(13.9956 * var(--dp)) calc(8.0023 * var(--dp));border-image:url('assets/kk-switch_bg_holo_dark.png') 36 30 42 24 fill / calc(11.9978 * var(--dp)) calc(10 * var(--dp)) calc(13.9956 * var(--dp)) calc(8.0023 * var(--dp)) stretch;text-shadow:none;font:400 calc(13.9956 * var(--dp)) RobotoICS,sans-serif;box-sizing:border-box}
 .screen .holo-switch::before{display:none}
-.screen .holo-switch .switch-label,.screen .settings-app .actionbar .holo-switch .switch-label{position:absolute;z-index:1;top:-10.87px;bottom:-12.68px;left:-17.21px;width:71.57px;height:auto;display:grid;place-items:center;color:#bebebe;border-style:solid;border-color:transparent;border-width:1.81px 21.74px;border-image:url('assets/kk-switch_thumb_holo_dark.png') 6 72 fill / 1.81px 21.74px stretch;transform:none;transition:left .15s ease-out;box-sizing:border-box;line-height:1}
-.screen .holo-switch.on .switch-label,.screen .settings-app .actionbar .holo-switch.on .switch-label{left:28.99px;transform:none;border-image-source:url('assets/kk-switch_thumb_activated_holo_dark.png')}
+.screen .holo-switch .switch-label,.screen .settings-app .actionbar .holo-switch .switch-label{position:absolute;z-index:1;top:calc(-11.9978 * var(--dp));bottom:calc(-13.9956 * var(--dp));left:calc(-18.9956 * var(--dp));width:calc(78.9956 * var(--dp));height:auto;display:grid;place-items:center;color:#bebebe;border-style:solid;border-color:transparent;border-width:calc(1.9978 * var(--dp)) calc(23.9956 * var(--dp));border-image:url('assets/kk-switch_thumb_holo_dark.png') 6 72 fill / calc(1.9978 * var(--dp)) calc(23.9956 * var(--dp)) stretch;transform:none;transition:left .15s ease-out;box-sizing:border-box;line-height:1}
+.screen .holo-switch.on .switch-label,.screen .settings-app .actionbar .holo-switch.on .switch-label{left:calc(31.9978 * var(--dp));transform:none;border-image-source:url('assets/kk-switch_thumb_activated_holo_dark.png')}
 .screen .holo-switch:active .switch-label{border-image-source:url('assets/kk-switch_thumb_pressed_holo_dark.png')}
 .screen .holo-switch:disabled{border-image-source:url('assets/kk-switch_bg_disabled_holo_dark.png')}
 .screen .holo-switch:disabled .switch-label{border-image-source:url('assets/kk-switch_thumb_disabled_holo_dark.png');color:#bebebe80}
-.screen .holo-switch.settings-action-switch{margin:0 7.25px 0 auto}
+.screen .holo-switch.settings-action-switch{margin:0 calc(8.0023 * var(--dp)) 0 auto}
 
 /* ---- Location access and Daydream, carried over from the 4.3 simulator ---- */
 /* Android 4.3 Settings additions: Location access sources and Daydream (DreamSettings, DeskClock Screensaver, Colors). */
 .jb-disabled-group{opacity:.4}
 .jb-dream-row{display:flex;align-items:center;justify-content:space-between}
-.jb-dream-row .holo-radio{width:32px;height:32px;flex:none}
+.jb-dream-row .holo-radio{width:calc(35.3201 * var(--dp));height:calc(35.3201 * var(--dp));flex:none}
 .jb-dream{position:absolute;inset:0;z-index:60;background:#000;cursor:none;overflow:hidden}
 .jb-dream-saver{position:absolute;left:50%;top:var(--top,30%);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;color:#fff;opacity:.45;animation:dream-fade 1.5s ease-in-out}
 .jb-dream-saver[style*="--spot:1"]{--top:62%}.jb-dream-saver[style*="--spot:2"]{--top:42%}.jb-dream-saver[style*="--spot:3"]{--top:75%}
@@ -48,19 +48,19 @@
 .jb-dream-colors{background:linear-gradient(135deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);background-size:400% 400%;animation:dream-colors 30s linear infinite}
 @keyframes dream-colors{0%{background-position:0% 50%;filter:hue-rotate(0)}50%{background-position:100% 50%}100%{background-position:0% 50%;filter:hue-rotate(360deg)}}
 .jb-dream-photo img{width:100%;height:100%;object-fit:cover;animation:dream-fade 1.5s ease-in-out}
-.jb-dream-saver .jbclock-date img{width:14px;height:14px;opacity:.8}
+.jb-dream-saver .jbclock-date img{width:calc(15.4526 * var(--dp));height:calc(15.4526 * var(--dp));opacity:.8}
 
 /* 4.4 Settings: disabled preference text, empty Tap & pay / Printing screens. */
 .kk-pref-disabled .row-copy{color:#ffffff4d}
 .kk-location.jb-disabled-group .row-copy,.kk-location.jb-disabled-group small{color:#ffffff4d}
-.kk-empty-page{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10.87px;min-height:70%;padding:21.74px;text-align:center;color:#ffffffb3;font-size:16.31px}
-.kk-empty-page img{width:86.98px;height:86.98px;opacity:.5}
+.kk-empty-page{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(11.9978 * var(--dp));min-height:70%;padding:calc(23.9956 * var(--dp));text-align:center;color:#ffffffb3;font-size:calc(18.0023 * var(--dp))}
+.kk-empty-page img{width:calc(96.0045 * var(--dp));height:calc(96.0045 * var(--dp));opacity:.5}
 .kk-empty-page p{margin:0}
-.kk-link{border:0;background:none;color:#33b5e5;font-size:14.5px;padding:7.25px}
-.kk-empty-text{margin:0;padding:21.74px 14.5px;text-align:center;color:#ffffff80;font-size:16.31px}
-.kk-ab-text{font:700 12.68px RobotoICS,sans-serif;text-transform:uppercase;color:#fff;padding:0 10.87px;width:auto}
-.holo-menu .kk-check-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.holo-menu .kk-check-item img{width:28.99px;height:28.99px}
+.kk-link{border:0;background:none;color:#33b5e5;font-size:calc(16.0045 * var(--dp));padding:calc(8.0023 * var(--dp))}
+.kk-empty-text{margin:0;padding:calc(23.9956 * var(--dp)) calc(16.0045 * var(--dp));text-align:center;color:#ffffff80;font-size:calc(18.0023 * var(--dp))}
+.kk-ab-text{font:700 calc(13.9956 * var(--dp)) RobotoICS,sans-serif;text-transform:uppercase;color:#fff;padding:0 calc(11.9978 * var(--dp));width:auto}
+.holo-menu .kk-check-item{display:flex;align-items:center;justify-content:space-between;gap:calc(11.0376 * var(--dp))}
+.holo-menu .kk-check-item img{width:calc(31.9978 * var(--dp));height:calc(31.9978 * var(--dp))}
 /* ListView.dispatchDraw draws no divider next to an item that is not enabled, such as a PreferenceCategory header; the
    divider's room stays (fillForMissingDividers). */
 .screen .settings-app :is(.settings-row,.list-row):has(+ .section-label){border-bottom-color:transparent}

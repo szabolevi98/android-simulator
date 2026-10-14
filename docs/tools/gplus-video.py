@@ -18,10 +18,13 @@ VERSIONS = {
               '__SEEKPAD__': '7.25px', '__BARPX__': '3.02px', '__TRACK__': '#00000024', '__PROGRESS__': '#009688',
               '__THUMB__': 'width:10.87px;height:10.87px;border-radius:50%;background:#009688'},
 }
+import sys; sys.path.insert(0, __file__.replace('\\', '/').rsplit('/', 1)[0])
+from dp_css import to_dp  # the stylesheet in dp (1 dp = .906 px in both frames)
 for version, values in VERSIONS.items():
     for ext in ('js', 'css'):
         text = open(f'docs/templates/gplus-video.template.{ext}', encoding='utf-8').read()
         for key, value in values.items(): text = text.replace(key, value)
         assert '__' not in text, (version, ext)
+        if ext == 'css': text = to_dp(text, .906)
         open(f'versions/{version}/photos-video.{ext}', 'w', encoding='utf-8', newline='\n').write(text)
     print(version)

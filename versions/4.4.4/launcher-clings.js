@@ -8,8 +8,8 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const SHOW = 250, DISMISS = 200; // LauncherClings.SHOW_CLING_DURATION / DISMISS_CLING_DURATION
-  const DP = 0.906;
-  const RING = {outer: 60 * DP, inner: 50 * DP, lift: 30 * DP}; // WORKSPACE_*_CIRCLE_RADIUS_DPS, WORKSPACE_CIRCLE_Y_OFFSET_DPS
+  const DP = () => (globalThis.document?.querySelector?.('#screen')?.clientWidth || 326.16) / 360;  // 1 dp in CSS px now (360 dp across)
+  const RING = {get outer() { return 60 * DP(); }, get inner() { return 50 * DP(); }, get lift() { return 30 * DP(); }}; // WORKSPACE_*_CIRCLE_RADIUS_DPS, WORKSPACE_CIRCLE_Y_OFFSET_DPS
   const KINDS = {
     firstRun: {title: 'Welcome', text: 'Make yourself at home.', hint: 'Create more screens for apps and folders'},
     workspace: {title: 'Organize your space', text: 'Touch & hold background to manage wallpaper, widgets and settings.'},

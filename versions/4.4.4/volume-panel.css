@@ -1,16 +1,16 @@
 /* VolumePanel of the KTU84P (Nexus 5) image (dp scaled by 0.9): a TYPE_VOLUME_OVERLAY window 80dp from the top, above the status bar, as wide as
    the screen in portrait. One 64dp row: the 32dp stream icon with 16dp padding and a holo SeekBar (16dp padding, 16dp
    end margin, 13dp track, 32dp thumb). No enter animation; it fades out over config_mediumAnimTime. */
-#volume-layer{position:absolute;left:0;right:0;top:72px;z-index:60;pointer-events:none}
-.vol-panel{pointer-events:auto;border:7.2px solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 30 fill/9px stretch}
+#volume-layer{position:absolute;left:0;right:0;top:calc(79.4702 * var(--dp));z-index:60;pointer-events:none}
+.vol-panel{pointer-events:auto;border:calc(7.9471 * var(--dp)) solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 30 fill/calc(9.9338 * var(--dp)) stretch}
 .vol-panel.fading{opacity:0;transition:opacity .4s cubic-bezier(.55,.085,.68,.53);pointer-events:none}
-.vol-item{display:flex;align-items:center;min-height:57.6px}
-.vol-icon{flex:none;padding:14.4px;display:grid}
-.vol-icon img{width:28.8px;height:28.8px}
-.vol-seek{flex:1;min-width:0;height:57.6px;margin-right:14.4px;padding:14.4px;display:flex;align-items:center;cursor:pointer;touch-action:none;outline:none}
-.vol-track{position:relative;flex:1;height:11.7px;background:url('assets/vol-scrubber_track_holo_dark.png') 0 0/100% 100%}
+.vol-item{display:flex;align-items:center;min-height:calc(63.5762 * var(--dp))}
+.vol-icon{flex:none;padding:calc(15.8941 * var(--dp));display:grid}
+.vol-icon img{width:calc(31.7881 * var(--dp));height:calc(31.7881 * var(--dp))}
+.vol-seek{flex:1;min-width:0;height:calc(63.5762 * var(--dp));margin-right:calc(15.8941 * var(--dp));padding:calc(15.8941 * var(--dp));display:flex;align-items:center;cursor:pointer;touch-action:none;outline:none}
+.vol-track{position:relative;flex:1;height:calc(12.914 * var(--dp));background:url('assets/vol-scrubber_track_holo_dark.png') 0 0/100% 100%}
 .vol-progress{position:absolute;left:0;top:0;bottom:0;background:url('assets/vol-scrubber_primary_holo.png') 0 0/100% 100%}
-.vol-thumb{position:absolute;top:50%;width:28.8px;height:28.8px;margin:-14.4px 0 0 -14.4px;background:url('assets/vol-scrubber_control_normal_holo.png') center/100% 100%}
+.vol-thumb{position:absolute;top:50%;width:calc(31.7881 * var(--dp));height:calc(31.7881 * var(--dp));margin:calc(-15.8941 * var(--dp)) 0 0 calc(-15.8941 * var(--dp));background:url('assets/vol-scrubber_control_normal_holo.png') center/100% 100%}
 .vol-seek.pressed .vol-thumb{background-image:url('assets/vol-scrubber_control_pressed_holo.png')}
 .vol-seek.disabled{cursor:default}
 .vol-seek.disabled .vol-track{opacity:.5}

@@ -4,18 +4,18 @@
    RecognizerView and SearchPlate.onFinishInflate. No screenshot-derived offsets.
    DeviceProfile / CellLayout / ShortcutAndWidgetContainer: 4x5 apps, 60dp icons,
    13sp labels; page bottom 27px and first icon 45px in native pixels. */
-.kk-home.gel-home .home-search{left:0;right:0;top:var(--sb);height:57.98px;margin:0;border:0;border-image:none;padding:10.87px 10.87px 10.87px 10.87px;background:none}
-.kk-home.gel-home .home-search::before{content:'';position:absolute;inset:0;pointer-events:none;border-style:solid;border-color:transparent;border-width:19.93px 20.84px 19.93px 20.84px;border-image:url('assets/gel-search_bg_transparent.png') 66 69 66 69 fill / 19.93px 20.84px 19.93px 20.84px stretch}
-.kk-home.gel-home .home-search>button{position:relative;z-index:1;height:36.24px}
-.kk-home.gel-home .home-search>button:first-child{padding-left:9.06px;gap:0;min-width:0}
-.kk-home.gel-home .home-search .kk-qsb-logo{width:69.16px;height:27.18px;margin-top:5.44px;flex:none}
-.kk-home.gel-home .gel-hint{margin-left:auto;font:400 14.50px/1.25 RobotoCondensed,'Roboto Condensed',sans-serif;color:#fff;white-space:nowrap;text-shadow:0 0.91px 1.81px #0000008c}
-.kk-home.gel-home .home-search .voice-search{flex:0 0 36.24px;padding:0 3.62px;margin-right:3.62px;justify-content:center}
-.kk-home.gel-home .home-search .search-microphone{width:28.99px;height:28.99px;flex:none;object-fit:contain}
+.kk-home.gel-home .home-search{left:0;right:0;top:var(--sb);height:calc(63.9956 * var(--dp));margin:0;border:0;border-image:none;padding:calc(11.9978 * var(--dp)) calc(11.9978 * var(--dp)) calc(11.9978 * var(--dp)) calc(11.9978 * var(--dp));background:none}
+.kk-home.gel-home .home-search::before{content:'';position:absolute;inset:0;pointer-events:none;border-style:solid;border-color:transparent;border-width:calc(21.9978 * var(--dp)) calc(23.0023 * var(--dp)) calc(21.9978 * var(--dp)) calc(23.0023 * var(--dp));border-image:url('assets/gel-search_bg_transparent.png') 66 69 66 69 fill / calc(21.9978 * var(--dp)) calc(23.0023 * var(--dp)) calc(21.9978 * var(--dp)) calc(23.0023 * var(--dp)) stretch}
+.kk-home.gel-home .home-search>button{position:relative;z-index:1;height:calc(40 * var(--dp))}
+.kk-home.gel-home .home-search>button:first-child{padding-left:calc(10 * var(--dp));gap:0;min-width:0}
+.kk-home.gel-home .home-search .kk-qsb-logo{width:calc(76.3356 * var(--dp));height:calc(30 * var(--dp));margin-top:calc(6.0045 * var(--dp));flex:none}
+.kk-home.gel-home .gel-hint{margin-left:auto;font:400 calc(16.0045 * var(--dp))/1.25 RobotoCondensed,'Roboto Condensed',sans-serif;color:#fff;white-space:nowrap;text-shadow:0 calc(1.0045 * var(--dp)) calc(1.9978 * var(--dp)) #0000008c}
+.kk-home.gel-home .home-search .voice-search{flex:0 0 calc(40 * var(--dp));padding:0 calc(3.9956 * var(--dp));margin-right:calc(3.9956 * var(--dp));justify-content:center}
+.kk-home.gel-home .home-search .search-microphone{width:calc(31.9978 * var(--dp));height:calc(31.9978 * var(--dp));flex:none;object-fit:contain}
 .kk-home.gel-home .home-search>button:active img{filter:none}
 .kk-home.gel-home .home-search>button:first-child:active .kk-qsb-logo{content:url('assets/gel-ic_google_small_light_pressed.png')}
 #viewport>.drawer-view.kk-drawer{background:#000000a5}
-.kk-drawer .drawer-page.drawer-apps{top:var(--sb);bottom:calc(var(--nb) + 8.15px);grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr))}
-.kk-drawer .drawer-apps .launcher-icon{height:100%;align-self:stretch;justify-content:center;gap:3.62px;padding:0 2.72px}
-.kk-drawer .drawer-apps .launcher-icon .app-icon{width:54.36px;height:54.36px}
-.kk-drawer .drawer-apps .launcher-icon>span:last-child{font-size:11.78px;line-height:15.70px;max-width:100%}
+.kk-drawer .drawer-page.drawer-apps{top:var(--sb);bottom:calc(var(--nb) + calc(8.9956 * var(--dp)));grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr))}
+.kk-drawer .drawer-apps .launcher-icon{height:100%;align-self:stretch;justify-content:center;gap:calc(3.9956 * var(--dp));padding:0 calc(3.0023 * var(--dp))}
+.kk-drawer .drawer-apps .launcher-icon .app-icon{width:calc(60 * var(--dp));height:calc(60 * var(--dp))}
+.kk-drawer .drawer-apps .launcher-icon>span:last-child{font-size:calc(13.0023 * var(--dp));line-height:calc(17.329 * var(--dp));max-width:100%}

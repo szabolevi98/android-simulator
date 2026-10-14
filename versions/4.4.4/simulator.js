@@ -229,6 +229,8 @@
   appNames.google = 'Google';
   ICSLauncherFolders.initialize(data,apps.map(app=>app[0]));
   const screen = document.querySelector('#screen');
+  // dp → CSS px now: the display is 360 dp wide (the desktop frame's width, the whole width on a phone).
+  const dp = n => n * screen.clientWidth / 360;
   const viewport = document.querySelector('#viewport');
   const statusRoot = document.querySelector('#status-bar');
   const navRoot = document.querySelector('#nav-bar');
@@ -387,7 +389,7 @@
     if (ui.gpv && !viewport.querySelector('[data-gpv-root]')?.isSameNode(ui.gpv.root)) { ui.gpv.destroy(); ui.gpv = null; }
     const gpvRoot = viewport.querySelector('[data-gpv-root]');
     if (gpvRoot && !ui.gpv) { const photo = PhotosApp.list(photosContext())[ui.photosIndex]; if (photo) ui.gpv = {...GPVideo.attach(gpvRoot, {photo, ui, rerender: render, reduced: !!reducedMotion?.matches}), root: gpvRoot}; }
-    if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=8*48;
+    if(ui.view==='calendar' && viewport.querySelector('.cal-time-scroll'))viewport.querySelector('.cal-time-scroll').scrollTop=dp(8*48/.906);
   }
   function restoreWidgetScroll() {
     ui.widgetScroll = ui.widgetScroll || {};
@@ -1006,7 +1008,7 @@
   function renderFolder() {
     const folder=ICSLauncherFolders.folder(data,ui.folderId);if(!folder){ui.overlay='';return '';}
     const {columns,rows}=ICSLauncherFolders.dimensions(folder.items.length);
-    return `<div class="launcher-folder-scrim" data-action="close-overlay"></div><div class="launcher-folder" role="dialog" aria-label="${safe(i18n.t('Folder'))}: ${safe(folderName(ui.folderId))}" style="width:${columns*74+24}px;--folder-columns:${columns}"><div class="launcher-folder-grid">${Array.from({length:columns*rows},(_,slot)=>`<div class="launcher-folder-cell" data-folder-slot="${slot}">${folder.items[slot]?launcherIcon(folder.items[slot]):''}</div>`).join('')}</div><form class="launcher-folder-name" data-form="folder-name"><input name="name" aria-label="Folder name" placeholder="Unnamed folder" maxlength="40" autocomplete="off" value="${safe(folder.name)}"></form></div>`;
+    return `<div class="launcher-folder-scrim" data-action="close-overlay"></div><div class="launcher-folder" role="dialog" aria-label="${safe(i18n.t('Folder'))}: ${safe(folderName(ui.folderId))}" style="width:calc(${((columns*74+24)/.906).toFixed(4)} * var(--dp));--folder-columns:${columns}"><div class="launcher-folder-grid">${Array.from({length:columns*rows},(_,slot)=>`<div class="launcher-folder-cell" data-folder-slot="${slot}">${folder.items[slot]?launcherIcon(folder.items[slot]):''}</div>`).join('')}</div><form class="launcher-folder-name" data-form="folder-name"><input name="name" aria-label="Folder name" placeholder="Unnamed folder" maxlength="40" autocomplete="off" value="${safe(folder.name)}"></form></div>`;
   }
   function positionFolder() {
     const panel=overlayRoot.querySelector('.launcher-folder');if(!panel)return;
@@ -1166,17 +1168,17 @@
   function browserForward() { ICSBrowserSession.move(ui.browserSession,1); ui.overlay = ''; saveBrowserState(); render(); }
   function browserLink(url, title, subtitle = '') { return `<div class="web-result"><a href="#" data-action="browser-link" data-url="${safe(url)}"><strong>${safe(title)}</strong></a><small>${safe(url)}</small><p>${safe(subtitle)}</p></div>`; }
   function renderWebsite(url) {
-    if (url === 'www.google.com') return `<div class="google-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div><form class="search-form" data-form="web-search"><input name="query" aria-label="Search the web" placeholder="Search the web" required><button type="submit">Search</button></form><div class="browser-tiles">${[['www.android.com','Android'],['en.wikipedia.org/wiki/Android','Wikipedia'],['news.example','News'],['retro.example','2014 Web']].map(item => `<button data-action="browser-link" data-url="${item[0]}">${item[1]}</button>`).join('')}</div><p style="font-size:11px;color:#888;margin-top:24px">Offline demo pages · 2014</p>`;
+    if (url === 'www.google.com') return `<div class="google-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div><form class="search-form" data-form="web-search"><input name="query" aria-label="Search the web" placeholder="Search the web" required><button type="submit">Search</button></form><div class="browser-tiles">${[['www.android.com','Android'],['en.wikipedia.org/wiki/Android','Wikipedia'],['news.example','News'],['retro.example','2014 Web']].map(item => `<button data-action="browser-link" data-url="${item[0]}">${item[1]}</button>`).join('')}</div><p style="font-size:calc(12.1413 * var(--dp));color:#888;margin-top:calc(26.4901 * var(--dp))">Offline demo pages · 2014</p>`;
     if (url.startsWith('search:')) {
       const term = url.slice(7);
       return `<h2>Search results</h2><p>Results for <strong>${safe(term)}</strong></p>${browserLink('www.android.com', 'Android – Discover Android 4.4, KitKat', 'KitKat brings immersive mode, a smarter Phone app, printing and Tap & pay to more devices.')}${browserLink('en.wikipedia.org/wiki/Android', 'Android (operating system) – Wikipedia', 'An overview of the Android mobile operating system.')}${browserLink('news.example', 'Tech News', `Stories related to ${term}.`)}`;
     }
-    if (url.includes('android.com')) return `<h2 style="color:#79b93f">android</h2><h3>Meet Android 4.4, KitKat</h3><p>Smart, simple and truly yours: a cleaner look with translucent bars, immersive full-screen apps, caller ID for businesses, printing and Tap &amp; pay — and it runs well on phones with as little as 512 MB of memory.</p><div style="background:#ed1d24;color:white;padding:25px;text-align:center;font-size:38px">🤖<br><small style="font-size:17px">KitKat</small></div>${browserLink('en.wikipedia.org/wiki/Android','Learn about Android','The story of Android.')}`;
+    if (url.includes('android.com')) return `<h2 style="color:#79b93f">android</h2><h3>Meet Android 4.4, KitKat</h3><p>Smart, simple and truly yours: a cleaner look with translucent bars, immersive full-screen apps, caller ID for businesses, printing and Tap &amp; pay — and it runs well on phones with as little as 512 MB of memory.</p><div style="background:#ed1d24;color:white;padding:calc(27.5939 * var(--dp));text-align:center;font-size:calc(41.9427 * var(--dp))">🤖<br><small style="font-size:calc(18.7638 * var(--dp))">KitKat</small></div>${browserLink('en.wikipedia.org/wiki/Android','Learn about Android','The story of Android.')}`;
     if (url.includes('wikipedia.org')) return `<h2>Android (operating system)</h2><p><small>From Wikipedia, the free encyclopedia</small></p><hr><p>Android is a mobile operating system based on a modified version of the Linux kernel. Android 4.0, known as Ice Cream Sandwich, introduced the Holo interface and virtual navigation buttons; versions 4.1–4.3, Jelly Bean, added Project Butter, Google Now and expandable notifications; Android 4.4, KitKat, was tuned to run on devices with 512 MB of RAM and introduced immersive mode and the Storage Access Framework.</p><h3>Versions</h3><p>Gingerbread · Ice Cream Sandwich · Jelly Bean · KitKat</p>${browserLink('www.android.com','Official Android website')}`;
     if (url === 'news.example/nexus-5' || url === 'retro.example/kitkat') return `<article class="web-offline-article"><h2>${url.startsWith('news')?'A day with the Nexus 5':'A closer look at KitKat'}</h2><time>November 1, 2013 · Demo archive</time><p>The phone has a 4.95-inch 1080p screen, translucent system bars and white status icons. Open the app drawer to discover the KitKat experience.</p><h3>Everyday essentials</h3><p>Contacts, messages and the browser share a simple visual language. Swipe between home screens, arrange your favorite apps, and pull down the notification shade.</p><h3>Make it yours</h3><p>Choose a wallpaper, add an analog clock and keep your favorite contacts close. This small offline archive is a fictional snapshot of the early smartphone era.</p>${browserLink('news.example','Back to Tech News')}${browserLink('retro.example/kitkat','Explore KitKat')}</article>`;
     if (url.includes('news.example')) return `<h2>Tech News</h2><p style="color:#777">Thursday, June 19, 2014</p><hr><h3>Android 4.4.4 arrives on the Nexus 5</h3><p>The KitKat update brings security fixes and smaller improvements to Google's Nexus devices.</p><h3>Apps in your pocket</h3><p>Explore the growing world of mobile apps and connected devices.</p>${browserLink('news.example/nexus-5','Read the Nexus 5 story')}${browserLink('retro.example','Visit the 2014 Web')}`;
     if (url.includes('retro.example')) return `<h2>Welcome to the 2014 Web</h2><p>A little time capsule from the early smartphone era.</p><ul><li>Share photos</li><li>Check your email</li><li>Customize your phone</li></ul>${browserLink('retro.example/kitkat','Explore KitKat')}${browserLink('maps.example','Open the sample map')}${browserLink('www.google.com','Back to Google')}`;
-    if (url.includes('maps.example')) return `<h2>Maps</h2><div style="height:230px;background:repeating-linear-gradient(35deg,#e2ead9,#e2ead9 18px,#c7dfd7 18px,#c7dfd7 24px);display:grid;place-items:center;color:#426a68">San Francisco · Demo map</div><p>Map data is a local illustration.</p>`;
+    if (url.includes('maps.example')) return `<h2>Maps</h2><div style="height:calc(253.8632 * var(--dp));background:repeating-linear-gradient(35deg,#e2ead9,#e2ead9 calc(19.8676 * var(--dp)),#c7dfd7 calc(19.8676 * var(--dp)),#c7dfd7 calc(26.4901 * var(--dp)));display:grid;place-items:center;color:#426a68">San Francisco · Demo map</div><p>Map data is a local illustration.</p>`;
     return `<h2>Webpage unavailable</h2><p>The simulator browses a small collection of offline example pages.</p>${browserLink('www.google.com','Go to Google')}`;
   }
   function browserTitle(url) {
@@ -1318,7 +1320,7 @@
     pane.addEventListener('pointerup', event => {
       if (!start) return;
       const dx = event.clientX - start.x, dy = event.clientY - start.y; start = null;
-      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+      if (Math.abs(dx) < dp(44) || Math.abs(dx) < Math.abs(dy)) return;
       const list = PhotosApp.list(photosContext()), next = ui.photosIndex + (dx < 0 ? 1 : -1);
       if (next < 0 || next >= list.length) return;
       ui.photosIndex = next; ui.selectedPhoto = list[next].id; suppressReleaseClick(); render();
@@ -1356,7 +1358,7 @@
   function calendarRender() {
     render();
     const timeline=viewport.querySelector('.cal-time-scroll');
-    if(timeline)timeline.scrollTop=8*48;
+    if(timeline)timeline.scrollTop=dp(8*48/.906);
   }
   function calendarMove(direction) {
     const mode=ui.calendarMode || 'Month';
@@ -2480,7 +2482,7 @@
       const count = ICSMessaging.counter(draft.body || '');
       viewport.querySelector('.mms-counter').textContent = draft.attachment ? 'MMS' : count.count > 1 || count.remaining < 10 ? `${count.remaining} / ${count.count}` : '';
       viewport.querySelector('.mms-send').disabled = !(draft.body || '').trim() && !draft.attachment;
-      if (event.target.name === 'body') { event.target.style.height = '44px'; event.target.style.height = `${Math.min(88,event.target.scrollHeight)}px`; }
+      if (event.target.name === 'body') { event.target.style.height = 'calc(48.5652 * var(--dp))'; event.target.style.height = `${Math.min(dp(97.1303),event.target.scrollHeight)}px`; }
       return;
     }
     if (event.target.dataset.field === 'auto-brightness') { data.settings.autoBrightness = event.target.checked; save(); const slider = event.target.closest('.jb-brightness')?.querySelector('[data-field="brightness"]'); if (slider) slider.disabled = data.settings.autoBrightness; return; }
@@ -2581,7 +2583,7 @@
     screen.querySelectorAll('.drop-target').forEach(node => node.classList.toggle('drop-hover', node === dropTarget && (removeHover || infoHover)));
     dragState.ghost.classList.toggle('tint-delete', removeHover);
     dragState.ghost.classList.toggle('tint-info', infoHover);
-    const direction = ui.overlay ? 0 : x - rect.left < 18 ? -1 : rect.right - x < 18 ? 1 : 0;
+    const direction = ui.overlay ? 0 : x - rect.left < dp(20) ? -1 : rect.right - x < dp(20) ? 1 : 0;
     if (direction !== dragState.edgeDirection) {
       clearTimeout(dragState.edgeTimer);
       dragState.edgeDirection = direction;
@@ -2936,13 +2938,13 @@
     const nextPage = Math.max(ui.overview ? 0 : -1, Math.min(data.homePages.length - 1, ui.page + (dx < 0 ? 1 : -1)));
     screen.classList.remove('page-swiping');
     suppressClickUntil = Date.now() + 350;
-    setHomePage(Math.abs(dx) > 45 ? nextPage : ui.page);
+    setHomePage(Math.abs(dx) > dp(50) ? nextPage : ui.page);
   }
   function finishDrawerPage(dx) {
     const [first, last] = drawerRange();
     const nextPage = Math.max(first,Math.min(last,ui.drawerPage + (dx < 0 ? 1 : -1)));
     suppressClickUntil = Date.now() + 350;
-    if (Math.abs(dx) > 45 && nextPage !== ui.drawerPage) {
+    if (Math.abs(dx) > dp(50) && nextPage !== ui.drawerPage) {
       ui.drawerPage = nextPage; render();
       viewport.querySelector('.drawer-page')?.animate([{transform:`translateX(${dx < 0 ? '100%' : '-100%'})`,opacity:.5},{transform:'translateX(0)',opacity:1}],{duration:210,easing:'ease-out'});
     } else {
@@ -3042,7 +3044,7 @@
     if (!data.settings.magnification || event.button) { magnifyTaps = []; return; }
     const r = screen.getBoundingClientRect(), k = screen.clientWidth / r.width, x = (event.clientX - r.left) * k, y = (event.clientY - r.top) * k, now = performance.now();
     const last = magnifyTaps[magnifyTaps.length - 1];
-    if (last && (now - last.time > 300 || Math.hypot(last.x - x, last.y - y) > 40)) magnifyTaps = [];
+    if (last && (now - last.time > 300 || Math.hypot(last.x - x, last.y - y) > dp(44))) magnifyTaps = [];
     magnifyTaps.push({time: now, x, y});
     if (magnifyTaps.length < 3) return;
     magnifyTaps = [];
@@ -3140,17 +3142,17 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     if (dragState) { moveGhost(event.clientX, event.clientY); return; }
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
-    if (Math.hypot(dx,dy) > 8) { clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); }
+    if (Math.hypot(dx,dy) > dp(9)) { clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); }
     // The wallpaper strip scrolls sideways under a mouse drag as it would under a finger.
-    if (pointerStart.kwpScroll && event.pointerType === 'mouse' && (pointerStart.kwpDragging || Math.abs(dx) > 8)) { pointerStart.kwpDragging = true; const k = screen.getBoundingClientRect().width / screen.offsetWidth || 1; pointerStart.kwpScroll.scrollLeft = pointerStart.kwpLeft - dx / k; suppressClickUntil = Date.now() + 350; event.preventDefault(); return; }
-    if (pointerStart.calculatorSwipe && (pointerStart.calculatorSwiping || Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy))) {
+    if (pointerStart.kwpScroll && event.pointerType === 'mouse' && (pointerStart.kwpDragging || Math.abs(dx) > dp(9))) { pointerStart.kwpDragging = true; const k = screen.getBoundingClientRect().width / screen.offsetWidth || 1; pointerStart.kwpScroll.scrollLeft = pointerStart.kwpLeft - dx / k; suppressClickUntil = Date.now() + 350; event.preventDefault(); return; }
+    if (pointerStart.calculatorSwipe && (pointerStart.calculatorSwiping || Math.abs(dx) > dp(13) && Math.abs(dx) > Math.abs(dy))) {
       pointerStart.calculatorSwiping = true; suppressClickUntil = Date.now() + 350; event.preventDefault();
       try { screen.setPointerCapture(event.pointerId); } catch {}
       const track = viewport.querySelector('.calc-panels');
       if (track) { track.style.transition = 'none'; track.style.transform = `translateX(${Math.max(-screen.clientWidth, Math.min(0, -ui.calcPanel * screen.clientWidth + dx))}px)`; }
       return;
     }
-    if (pointerStart.drawerSwipeEligible && (pointerStart.drawerSwiping || Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.1 && performance.now() - pointerStart.downTime < 260)) {
+    if (pointerStart.drawerSwipeEligible && (pointerStart.drawerSwiping || Math.abs(dx) > dp(13) && Math.abs(dx) > Math.abs(dy) * 1.1 && performance.now() - pointerStart.downTime < 260)) {
       pointerStart.drawerSwiping = true;
       clearTimeout(dragTimer);
       event.preventDefault();
@@ -3160,7 +3162,7 @@
       return;
     }
     const recentCard = ui.overlay === 'recent' ? pointerStart.target.closest('.recent-item') : ui.overlay === 'shade' ? pointerStart.target.closest('.notification') : null;
-    if (recentCard && (pointerStart.recentSwiping || Math.abs(dx) > 9 && Math.abs(dx) > Math.abs(dy))) {
+    if (recentCard && (pointerStart.recentSwiping || Math.abs(dx) > dp(10) && Math.abs(dx) > Math.abs(dy))) {
       pointerStart.recentSwiping = true;
       suppressClickUntil = Date.now() + 350;
       event.preventDefault();
@@ -3169,24 +3171,24 @@
       recentCard.style.opacity = String(Math.max(.25, 1 - Math.abs(dx) / 240));
       return;
     }
-    if((pointerStart.clockSwiping || ui.view==='clock' && !ui.sub && !ui.overlay && pointerStart.target.closest('[data-jbclock-swipe]') && Math.abs(dx)>12 && Math.abs(dx)>Math.abs(dy)*1.2)) {
+    if((pointerStart.clockSwiping || ui.view==='clock' && !ui.sub && !ui.overlay && pointerStart.target.closest('[data-jbclock-swipe]') && Math.abs(dx)>dp(13) && Math.abs(dx)>Math.abs(dy)*1.2)) {
       pointerStart.clockSwiping=true;suppressClickUntil=Date.now()+350;event.preventDefault();
       try{screen.setPointerCapture(event.pointerId);}catch{}
       const track=viewport.querySelector('.jbclock-track'),index=JBDeskClock.TABS.indexOf(data.jbClock?.tab||'clock');
       if(track){track.style.transition='none';track.style.transform=`translateX(calc(${-index*100}% + ${dx}px))`;}return;
     }
-    if(ui.view==='calendar' && !ui.sub && !ui.overlay && !pointerStart.scrolling && pointerStart.target.closest('[data-calendar-swipe]') && Math.abs(dx)>12 && Math.abs(dx)>Math.abs(dy)*1.2) {
+    if(ui.view==='calendar' && !ui.sub && !ui.overlay && !pointerStart.scrolling && pointerStart.target.closest('[data-calendar-swipe]') && Math.abs(dx)>dp(13) && Math.abs(dx)>Math.abs(dy)*1.2) {
       pointerStart.calendarSwiping=true;suppressClickUntil=Date.now()+350;event.preventDefault();
       try{screen.setPointerCapture(event.pointerId);}catch{}
       const surface=viewport.querySelector('[data-calendar-swipe]');surface.style.transform=`translateX(${dx}px)`;return;
     }
-    if (ui.view==='gallery' && ui.sub==='photo' && !ui.overlay && pointerStart.target.closest('[data-gallery-swipe]') && Math.abs(dx)>10 && Math.abs(dx)>Math.abs(dy)) {
+    if (ui.view==='gallery' && ui.sub==='photo' && !ui.overlay && pointerStart.target.closest('[data-gallery-swipe]') && Math.abs(dx)>dp(11) && Math.abs(dx)>Math.abs(dy)) {
       pointerStart.gallerySwiping=true;suppressClickUntil=Date.now()+350;event.preventDefault();
       try{screen.setPointerCapture(event.pointerId);}catch{}
       const picture=viewport.querySelector('.gallery-image');if(picture)picture.style.transform=`translateX(${dx}px)`;return;
     }
     if (pointerStart.lockDrag) { event.preventDefault(); pointerStart.lockActive = lockMove(dx, dy); return; }
-    if (pointerStart.shadeDragging || pointerStart.shadeDragEligible && dy > 8 && dy > Math.abs(dx) || pointerStart.shadeCloseEligible && dy < -8 && -dy > Math.abs(dx)) {
+    if (pointerStart.shadeDragging || pointerStart.shadeDragEligible && dy > dp(9) && dy > Math.abs(dx) || pointerStart.shadeCloseEligible && dy < -dp(9) && -dy > Math.abs(dx)) {
       if (!pointerStart.shadeDragging) { pointerStart.shadeDragging = true; if (ui.overlay !== 'shade') ui.shadeSettings = activeTouches.size >= 2; ui.overlay = 'shade'; renderOverlay(); try { screen.setPointerCapture(event.pointerId); } catch {} }
       event.preventDefault();
       const shade = overlayRoot.querySelector('.notification-shade');
@@ -3195,13 +3197,13 @@
         shade.style.bottom = 'auto';
         // The panel follows the finger; released, it opens fully to the navigation bar (handled below).
         const full = shadeFullHeight(shade), max = screen.clientHeight - shade.offsetTop - navRoot.offsetHeight;
-        shade.style.height = `${Math.max(78, Math.min(max, pointerStart.shadeCloseEligible ? full + dy : dy))}px`;
+        shade.style.height = `${Math.max(dp(86.0928), Math.min(max, pointerStart.shadeCloseEligible ? full + dy : dy))}px`;
         overlayRoot.querySelector('.jb-shade-scrim')?.style.setProperty('opacity', String(Math.min(1, shade.offsetHeight / full)));
       }
       return;
     }
     // StackView: a vertical fling on the front picture moves through the stack.
-    if (pointerStart.photoStack && (pointerStart.photoSwiping || Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx) * 1.2)) {
+    if (pointerStart.photoStack && (pointerStart.photoSwiping || Math.abs(dy) > dp(7) && Math.abs(dy) > Math.abs(dx) * 1.2)) {
       if (!pointerStart.photoSwiping) { pointerStart.photoSwiping = true; clearTimeout(dragTimer); suppressClickUntil = Date.now() + 350; try { screen.setPointerCapture(event.pointerId); } catch {} }
       event.preventDefault();
       const front = viewport.querySelector(`[data-photo-stack="${CSS.escape(pointerStart.photoStack)}"] .phw-front`);
@@ -3209,7 +3211,7 @@
       return;
     }
     if (pointerStart.scrolling) { event.preventDefault(); pointerStart.scrollTarget.scrollTop = pointerStart.scrollTop - dy; return; }
-    if (pointerStart.scrollTarget && Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx)) {
+    if (pointerStart.scrollTarget && Math.abs(dy) > dp(7) && Math.abs(dy) > Math.abs(dx)) {
       clearTimeout(dragTimer);
       pointerStart.scrolling = true; screen.classList.add('settings-scrolling');
       try { screen.setPointerCapture(event.pointerId); } catch {}
@@ -3236,24 +3238,24 @@
     if (!pointerStart || event.pointerId !== pointerStart.pointerId) return;
     clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer);
     const dx = event.clientX - pointerStart.x, dy = event.clientY - pointerStart.y;
-    if(pointerStart.clockSwiping){const tabs=JBDeskClock.TABS,index=tabs.indexOf(data.jbClock?.tab||'clock'),next=Math.max(0,Math.min(tabs.length-1,index+(Math.abs(dx)>45?(dx<0?1:-1):0)));data.jbClock.tab=tabs[next];save();render();suppressClickUntil=Date.now()+350;pointerStart=null;return;}
+    if(pointerStart.clockSwiping){const tabs=JBDeskClock.TABS,index=tabs.indexOf(data.jbClock?.tab||'clock'),next=Math.max(0,Math.min(tabs.length-1,index+(Math.abs(dx)>dp(50)?(dx<0?1:-1):0)));data.jbClock.tab=tabs[next];save();render();suppressClickUntil=Date.now()+350;pointerStart=null;return;}
     // Play Store 4.8: a swipe from the left edge of a top-level page opens the drawer, a swipe to the left closes it.
-    if (ui.view === 'play-store' && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    if (ui.view === 'play-store' && Math.abs(dx) > dp(55) && Math.abs(dx) > Math.abs(dy) * 1.5) {
       const left = (pointerStart.x - screen.getBoundingClientRect().left) / (screen.getBoundingClientRect().width / screen.offsetWidth);
       if (!ui.overlay && dx > 0 && left < 20 && ['home', 'my-apps', 'wishlist'].includes(ui.market?.page || 'home')) { ui.overlay = 'jbp-drawer'; renderOverlay(); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
       if (ui.overlay === 'jbp-drawer' && dx < 0) { ui.overlay = ''; renderOverlay(); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
     }
-    if (ui.view === 'play-store' && (ui.market?.page === 'section' || ui.market?.page === 'my-apps') && !ui.overlay && pointerStart.target.closest('.jbp-scroll') && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) { const tabs = [...viewport.querySelectorAll('.jbp-tabs button')], i = tabs.findIndex(b => b.classList.contains('on')), next = tabs[i + (dx < 0 ? 1 : -1)]; if (next) next.click(); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
-    if(pointerStart.calendarSwiping){if(Math.abs(dx)>45)calendarMove(dx<0?1:-1);else viewport.querySelector('[data-calendar-swipe]').style.transform='';suppressClickUntil=Date.now()+350;pointerStart=null;return;}
-    if (pointerStart.photoSwiping) { if (Math.abs(dy) > 30) stepPhotoStack(pointerStart.photoStack, dy > 0 ? 1 : -1); else render(); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
-    if (pointerStart.gallerySwiping) { if(Math.abs(dx)>45)galleryStep(dx<0?1:-1);else render();suppressClickUntil=Date.now()+350;pointerStart=null;return; }
-    if (pointerStart.calculatorSwiping) { setCalculatorPanel(Math.abs(dx) > 50 ? (dx < 0 ? 1 : 0) : ui.calcPanel); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
+    if (ui.view === 'play-store' && (ui.market?.page === 'section' || ui.market?.page === 'my-apps') && !ui.overlay && pointerStart.target.closest('.jbp-scroll') && Math.abs(dx) > dp(66) && Math.abs(dx) > Math.abs(dy) * 1.5) { const tabs = [...viewport.querySelectorAll('.jbp-tabs button')], i = tabs.findIndex(b => b.classList.contains('on')), next = tabs[i + (dx < 0 ? 1 : -1)]; if (next) next.click(); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
+    if(pointerStart.calendarSwiping){if(Math.abs(dx)>dp(50))calendarMove(dx<0?1:-1);else viewport.querySelector('[data-calendar-swipe]').style.transform='';suppressClickUntil=Date.now()+350;pointerStart=null;return;}
+    if (pointerStart.photoSwiping) { if (Math.abs(dy) > dp(33)) stepPhotoStack(pointerStart.photoStack, dy > 0 ? 1 : -1); else render(); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
+    if (pointerStart.gallerySwiping) { if(Math.abs(dx)>dp(50))galleryStep(dx<0?1:-1);else render();suppressClickUntil=Date.now()+350;pointerStart=null;return; }
+    if (pointerStart.calculatorSwiping) { setCalculatorPanel(Math.abs(dx) > dp(55) ? (dx < 0 ? 1 : 0) : ui.calcPanel); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
     if (pointerStart.drawerSwiping) { finishDrawerPage(dx); pointerStart = null; return; }
     if (pointerStart.recentSwiping) {
       const card = pointerStart.target.closest('.recent-item, .notification');
       if (card) {
         card.style.transition = 'transform .16s ease-out, opacity .16s ease-out';
-        if (Math.abs(dx) > 55) {
+        if (Math.abs(dx) > dp(61)) {
           const id = card.dataset.app;
           card.style.transform = `translateX(${Math.sign(dx || 1) * screen.clientWidth}px)`;
           card.style.opacity = '0';
@@ -3276,7 +3278,7 @@
     }
     if (pointerStart.shadeDragging) {
       suppressClickUntil = Date.now() + 350;
-      const close = pointerStart.shadeCloseEligible ? dy < -55 : dy < 75;
+      const close = pointerStart.shadeCloseEligible ? dy < -dp(61) : dy < dp(83);
       if (close) { ui.overlay = ''; renderOverlay(); }
       else {
         const shade = overlayRoot.querySelector('.notification-shade');
@@ -3286,19 +3288,19 @@
     }
     if (pointerStart.lockDrag) {
       const active = lockMove(dx, dy);
-      if (!active && Math.hypot(dx, dy) > 6) suppressClickUntil = Date.now() + 350;
+      if (!active && Math.hypot(dx, dy) > dp(7)) suppressClickUntil = Date.now() + 350;
       lockRelease(active);
       pointerStart = null; return;
     }
     if (pointerStart.scrolling) { screen.classList.remove('settings-scrolling'); suppressClickUntil = Date.now() + 350; pointerStart = null; return; }
-    if (pointerStart.swiping || pointerStart.pageSwipeEligible && !dragState && Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) && (!pointerStart.source || pointerStart.source.type === 'home' && performance.now() - pointerStart.downTime < 260)) {
+    if (pointerStart.swiping || pointerStart.pageSwipeEligible && !dragState && Math.abs(dx) > dp(50) && Math.abs(dx) > Math.abs(dy) && (!pointerStart.source || pointerStart.source.type === 'home' && performance.now() - pointerStart.downTime < 260)) {
       finishHomePage(dx); pointerStart = null; return;
     }
-    if (!dragState && pointerStart?.source && !['drawer', 'drawer-widget'].includes(pointerStart.source.type) && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 9) startDrag(event.clientX, event.clientY);
+    if (!dragState && pointerStart?.source && !['drawer', 'drawer-widget'].includes(pointerStart.source.type) && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > dp(10)) startDrag(event.clientX, event.clientY);
     if (finishDrag(event.clientX, event.clientY)) { pointerStart = null; return; }
     if (!pointerStart) return;
-    if (ui.overlay === 'shade' && pointerStart.target.closest('.notification') && Math.abs(dx) > 55) { const id = Number(pointerStart.target.closest('.notification').dataset.id); data.notifications = data.notifications.filter(n => n.id !== id); save(); renderStatus(); renderOverlay(); pointerStart = null; return; }
-    if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > 45) { ui.overlay = 'shade'; renderOverlay(); }
+    if (ui.overlay === 'shade' && pointerStart.target.closest('.notification') && Math.abs(dx) > dp(61)) { const id = Number(pointerStart.target.closest('.notification').dataset.id); data.notifications = data.notifications.filter(n => n.id !== id); save(); renderStatus(); renderOverlay(); pointerStart = null; return; }
+    if (!ui.overlay && pointerStart.target.closest('#status-bar') && dy > dp(50)) { ui.overlay = 'shade'; renderOverlay(); }
     pointerStart = null;
   });
   window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); if (ui.extraScreen) { stripEmptyScreens(); save(); if (ui.view === 'home') render(); } setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });

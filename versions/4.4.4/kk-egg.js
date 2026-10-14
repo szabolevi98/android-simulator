@@ -10,7 +10,7 @@
    moves the tile tapped. Placement animates for 500 ms (anticipate-overshoot scale, decelerate move). */
 (() => {
   'use strict';
-  const DP = 0.906;
+  const DP = () => (globalThis.document?.querySelector?.('#screen')?.clientWidth || 326.16) / 360;  // 1 dp in CSS px now (360 dp across)
   const PASTRIES = ['kitkat', 'android'];
   const RARE = ['cupcake', 'donut', 'eclair', 'froyo', 'gingerbread', 'honeycomb', 'ics', 'jellybean'];
   const XRARE = ['petitfour', 'donutburger', 'flan', 'keylimepie'];
@@ -67,7 +67,7 @@
   }
 
   function dessertCase(root, {reduced = false, random = Math.random} = {}) {
-    const cell = 192 * DP * .25;
+    const cell = 192 * DP() * .25;
     const width = root.clientWidth || 326.25, height = root.clientHeight || 580;
     const columns = Math.max(1, Math.floor(width / cell)), rows = Math.max(1, Math.floor(height / cell));
     const grid = document.createElement('div');

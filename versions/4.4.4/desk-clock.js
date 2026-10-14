@@ -59,7 +59,7 @@
   }
   function bindRinging(root) {
     const pad=root.querySelector('.dcal-pad'),handle=root.querySelector('.dcal-handle');if(!pad||!handle)return;
-    const OUTER=135*.906,SNAP=40*.906;let grab=null,target=null;
+    const dp=((globalThis.document?.querySelector?.('#screen')?.clientWidth || 326.16) / 360),OUTER=135*dp,SNAP=40*dp;let grab=null,target=null;
     const place=(x,y)=>{handle.style.transform=`translate(${x}px,${y}px)`;};
     handle.addEventListener('pointerdown',event=>{if(event.button>0)return;event.preventDefault();grab={id:event.pointerId};pad.classList.add('dcal-grabbed');try{handle.setPointerCapture(event.pointerId);}catch{}});
     handle.addEventListener('pointermove',event=>{

@@ -2,9 +2,9 @@
    immersive Dessert Case. */
 .kk-platlogo{position:relative;width:100%;height:100%;overflow:hidden;background:#000000c0;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}
 .kk-egg-bg{position:absolute;inset:0;z-index:0;background:#ed1d24;opacity:0}
-.kk-egg-letter{position:absolute;left:0;right:0;top:50%;transform-origin:50% 50%;margin-top:-.6em;text-align:center;font:700 271.8px/1.2 RobotoBoldJB,RobotoICS,sans-serif;color:#fff;pointer-events:none}
-.kk-egg-logo{position:absolute;z-index:2;left:50%;top:50%;width:277.9px;height:164.9px;margin:-82.45px 0 0 -138.95px;-webkit-user-drag:none;pointer-events:auto}
-.kk-egg-version{position:absolute;left:0;right:0;bottom:36.24px;padding:3.62px;text-align:center;font:300 27.18px/1.2 RobotoLight,RobotoICS,sans-serif;text-transform:uppercase;color:#fff;pointer-events:none}
+.kk-egg-letter{position:absolute;left:0;right:0;top:50%;transform-origin:50% 50%;margin-top:-.6em;text-align:center;font:700 calc(300 * var(--dp))/1.2 RobotoBoldJB,RobotoICS,sans-serif;color:#fff;pointer-events:none}
+.kk-egg-logo{position:absolute;z-index:2;left:50%;top:50%;width:calc(306.7329 * var(--dp));height:calc(182.0089 * var(--dp));margin:calc(-91.0045 * var(--dp)) 0 0 calc(-153.3665 * var(--dp));-webkit-user-drag:none;pointer-events:auto}
+.kk-egg-version{position:absolute;left:0;right:0;bottom:calc(40 * var(--dp));padding:calc(3.9956 * var(--dp));text-align:center;font:300 calc(30 * var(--dp))/1.2 RobotoLight,RobotoICS,sans-serif;text-transform:uppercase;color:#fff;pointer-events:none}
 .kk-dessert{position:relative;width:100%;height:100%;overflow:hidden;background:#000;display:grid;place-items:center;touch-action:none}
 .kk-dessert-grid{position:relative}
 .kk-dessert-tile{position:absolute;left:0;top:0;border:0;padding:0;transform-origin:50% 50%;cursor:pointer}
