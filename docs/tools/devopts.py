@@ -122,6 +122,8 @@ header = f"""/* Developer options of the {phone} image (Settings.apk res/xml/dev
 out = src.replace('__HEADER__', header).replace('__SECTIONS__', json.dumps(sections, ensure_ascii=False, indent=2).replace('\n', '\n  '))
 out = out.replace('__STRINGS__', ',\n    '.join(f'{json.dumps(en, ensure_ascii=False)}: {json.dumps(row, ensure_ascii=False)}' for en, row in STRINGS.items()))
 out = out.replace('__CATEGORY_CAPS__', 'false' if prefix == 'lp' else 'true')
+# 1 dp in px in each frame: the process bars (6 px a unit there) are written in dp.
+out = out.replace('__DP__', {'maguro': '.85', 'mako': '.8516', 'hammerhead': '.906', 'shamu': '.906'}[device])
 target = f'{ROOT}versions/{version}/{prefix}-devopts.js'
 open(target, 'w', encoding='utf-8', newline='\n').write(out)
 print(sum(len(r) for _, r in sections), 'rows,', len(STRINGS), 'texts ->', target)

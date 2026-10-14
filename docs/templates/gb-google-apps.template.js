@@ -101,8 +101,8 @@
   // typeface_custom / typeface_custom_values (the APK carries Vollkorn and Sorts Mill Goudy).
   const TYPEFACES = [['Droid Sans', 'sans'], ['Droid Serif', 'serif'], ['Vollkorn', 'Vollkorn'], ['Sorts Mill Goudy', 'OFLGoudyStMTT']];
   const FACE_CSS = {sans: "'Droid Sans',Arial,sans-serif", serif: "'Droid Serif',Georgia,serif", Vollkorn: "'BK Vollkorn',serif", OFLGoudyStMTT: "'BK Goudy',serif"};
-  // 1 pt = 4/3 CSS px, and the reader's CSS px is a dip (0.8625 px here).
-  const textStyle = pr => `font-size:${((TEXT_PT[pr.textSize] || 18) * 4 / 3 * .8625).toFixed(2)}px;line-height:${LINE_HEIGHT[pr.lineHeight] || 1.6};font-family:${FACE_CSS[pr.typeface] || FACE_CSS.serif};text-align:${pr.justification === 'justify' ? 'justify' : 'left'}`;
+  // 1 pt = 4/3 CSS px, and the reader's CSS px is a dip.
+  const textStyle = pr => `font-size:calc(${((TEXT_PT[pr.textSize] || 18) * 4 / 3).toFixed(3)} * var(--dp));line-height:${LINE_HEIGHT[pr.lineHeight] || 1.6};font-family:${FACE_CSS[pr.typeface] || FACE_CSS.serif};text-align:${pr.justification === 'justify' ? 'justify' : 'left'}`;
   const pageHtml = (book, page) => e(book.pages[page]).replace(/\n/g, '<br>');
   // ReadingPreferenceActivity (Theme.Books.White, no title): the 100 dip TextPreview of the page being read, then
   // preferences.xml's rows between list_view_rule dividers: Text size, Typeface, Line space, Justification (the

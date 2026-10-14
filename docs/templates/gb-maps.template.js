@@ -76,10 +76,12 @@
 
   // ---------- The map (canvas + positioned markers) ----------
   let sheet = null, sheetKey = '', drag = null, zoomTimer = 0, currentUI = null;
+  // 1 dp in CSS px: the display is 320 dp wide (276 px in the desktop frame, the whole width on a phone).
+  const DP = () => (globalThis.document?.querySelector?.('#screen')?.clientWidth || 276) / 320;
   function project(m, w, h, p) { return [(p.fx - m.cx) * 2 * w * m.z + w / 2, (p.fy - m.cy) * h * m.z + h * (m.ay ?? .5)]; }
   function draw(root, m, opts = {}) {
     const canvas = root.querySelector('.mp-canvas'); if (!canvas) return;
-    const w = canvas.clientWidth, h = canvas.clientHeight, r = Math.min(2, window.devicePixelRatio || 1);
+    const w = canvas.clientWidth, h = canvas.clientHeight, r = Math.min(2, window.devicePixelRatio || 1), d = DP();
     if (!w || !h) return;
     if (canvas.width !== Math.round(w * r)) { canvas.width = Math.round(w * r); canvas.height = Math.round(h * r); }
     const key = `${w}x${h}:${m.mode}:${m.traffic}`;
@@ -92,22 +94,22 @@
     if (m.route) {
       const pts = m.route.path.map(p => project(m, w, h, p));
       g.lineCap = 'round'; g.lineJoin = 'round';
-      for (const [width, color] of [[7, '#1c3f9a99'], [4.5, '#4b7bf0d0']]) { g.strokeStyle = color; g.lineWidth = width; g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke(); }
+      for (const [width, color] of [[8.1159 * d, '#1c3f9a99'], [5.2174 * d, '#4b7bf0d0']]) { g.strokeStyle = color; g.lineWidth = width; g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke(); }
     }
     // My location: the blue dot with its accuracy circle.
     const [mx, my] = project(m, w, h, opts.me || ME);
-    g.fillStyle = '#5b8de628'; g.strokeStyle = '#5b8de6aa'; g.lineWidth = 1; g.beginPath(); g.arc(mx, my, 26 * m.z / 1.5, 0, Math.PI * 2); g.fill(); g.stroke();
+    g.fillStyle = '#5b8de628'; g.strokeStyle = '#5b8de6aa'; g.lineWidth = 1; g.beginPath(); g.arc(mx, my, 20.0967 * d * m.z, 0, Math.PI * 2); g.fill(); g.stroke();
     // Navigation draws the car's chevron where my location is, flat on the tilted map.
     const chevron = opts.chevron && root.querySelector('.mp-chevron');
-    if (chevron?.complete) { g.drawImage(chevron, mx - 22, my - 22, 44, 44); return; }
+    if (chevron?.complete) { g.drawImage(chevron, mx - 25.5073 * d, my - 25.5073 * d, 51.0145 * d, 51.0145 * d); return; }
     const dot = root.querySelector('.mp-dotimg');
-    if (dot?.complete) g.drawImage(dot, mx - 6.9, my - 6.9, 13.8, 13.8); else { g.fillStyle = '#2f80ed'; g.beginPath(); g.arc(mx, my, 6, 0, Math.PI * 2); g.fill(); }
+    if (dot?.complete) g.drawImage(dot, mx - 8 * d, my - 8 * d, 16 * d, 16 * d); else { g.fillStyle = '#2f80ed'; g.beginPath(); g.arc(mx, my, 6.9566 * d, 0, Math.PI * 2); g.fill(); }
     // Markers and the bubble are buttons over the canvas.
     root.querySelectorAll('[data-fx]').forEach(el => { const [x, y] = project(m, w, h, {fx: +el.dataset.fx, fy: +el.dataset.fy}); el.style.transform = `translate(${x}px, ${y}px)`; });
   }
   function markers(ctx, m) {
     const {lang} = ctx;
-    const list = m.results.map((id, i) => { const p = poi(id) || m.custom; return p ? `<button class="mp-marker" data-fx="${p.fx}" data-fy="${p.fy}" data-action="mp-select" data-id="${e(p.id)}" aria-label="${e(p.name)}"><i style="background-position:${-6.9 * (i % 10)}px 0"></i></button>` : ''; }).join('');
+    const list = m.results.map((id, i) => { const p = poi(id) || m.custom; return p ? `<button class="mp-marker" data-fx="${p.fx}" data-fy="${p.fy}" data-action="mp-select" data-id="${e(p.id)}" aria-label="${e(p.name)}"><i style="background-position:calc(${-8 * (i % 10)} * var(--dp)) 0"></i></button>` : ''; }).join('');
     const friends = m.friends ? FRIENDS.map(f => `<button class="mp-friend" data-fx="${f.fx}" data-fy="${f.fy}" data-action="mp-friend" data-id="${f.id}" aria-label="${e(f.name)}"><img src="${A('avatar_unknown')}" alt=""></button>`).join('') : '';
     const sel = m.selected && (poi(m.selected) || (m.custom?.id === m.selected ? m.custom : null) || FRIENDS.find(f => f.id === m.selected));
     const bubble = sel ? `<button class="mp-bubble" data-fx="${sel.fx}" data-fy="${sel.fy}" data-action="mp-page" data-id="${e(sel.id)}"><span><b>${e(sel.name)}</b><small>${e(sel.address || sel.place || '')}</small></span><img src="${A('directions_arrow_gray')}" alt=""></button>` : '';
@@ -147,7 +149,7 @@
     if (ui.mpCat) {
       const list = POIS.filter(p => p.cat === ui.mpCat).sort((a, b) => km(ME, a) - km(ME, b));
       const label = CATS.find(c => c[0] === ui.mpCat)?.[1] || '';
-      return `<div class="app-view mp mp-places" data-no-translate><div class="mp-header mp-ptitle"><span>${e(label === 'Restaurants' || label === 'Attractions' || label === 'Gas Stations' ? T(lang, label) : ctx.t(label))}</span><i class="mp-hdiv"></i><button class="mp-hbtn" data-action="mp-show-cat" aria-label="${e(T(lang, 'Map'))}"><img src="${A('btn_show_map')}" alt=""></button></div><div class="mp-scroll">${list.map((p, i) => `<button class="mp-result" data-action="mp-page" data-id="${p.id}"><i class="mp-letter" style="background-position:${-6.9 * i}px 0"></i><span><span class="mp-rtop"><b>${e(p.name)}</b><small>${e(distance(lang, km(ME, p)))}</small></span><small>${e(p.address)}</small><span class="mp-stars">${stars(p.rating)}</span></span></button>`).join('')}</div></div>`;
+      return `<div class="app-view mp mp-places" data-no-translate><div class="mp-header mp-ptitle"><span>${e(label === 'Restaurants' || label === 'Attractions' || label === 'Gas Stations' ? T(lang, label) : ctx.t(label))}</span><i class="mp-hdiv"></i><button class="mp-hbtn" data-action="mp-show-cat" aria-label="${e(T(lang, 'Map'))}"><img src="${A('btn_show_map')}" alt=""></button></div><div class="mp-scroll">${list.map((p, i) => `<button class="mp-result" data-action="mp-page" data-id="${p.id}"><i class="mp-letter" style="background-position:calc(${-8 * i} * var(--dp)) 0"></i><span><span class="mp-rtop"><b>${e(p.name)}</b><small>${e(distance(lang, km(ME, p)))}</small></span><small>${e(p.address)}</small><span class="mp-stars">${stars(p.rating)}</span></span></button>`).join('')}</div></div>`;
     }
     const tile = (id, label, img) => `<button class="mp-tile" data-action="mp-cat" data-id="${id}"><img src="${A(img)}" alt=""><span>${e(label)}</span></button>`;
     return `<div class="app-view mp mp-places" data-no-translate><div class="mp-header"><form class="mp-search" data-form="mp-psearch"><img src="${A('magnifying_glass_grey')}" alt=""><input name="q" placeholder="${e(T(lang, 'Search'))} ${e(T(lang, 'Places'))}" aria-label="${e(T(lang, 'Search'))}" autocomplete="off"></form></div><div class="mp-scroll mp-grid">${CATS.map(([id, label]) => tile(id, ['Restaurants', 'Attractions', 'Gas Stations'].includes(label) ? T(lang, label) : ctx.t(label), `icon_${id}`)).join('')}${tile('add', ctx.t('Add'), 'icon_add')}</div></div>`;
@@ -374,7 +376,7 @@
   document.addEventListener('pointermove', event => {
     if (!drag) return; const ui = currentUI; if (!ui) return;
     const dx = (event.clientX - drag.x) / drag.scale, dy = (event.clientY - drag.y) / drag.scale, w = drag.canvas.clientWidth, h = drag.canvas.clientHeight, m = ui.mp;
-    if (Math.hypot(dx, dy) > 4) drag.moved = true;
+    if (Math.hypot(dx, dy) > 4.6377 * DP()) drag.moved = true;
     m.cx = Math.max(0, Math.min(1, drag.cx - dx / (2 * w * m.z))); m.cy = Math.max(0, Math.min(1, drag.cy - dy / (h * m.z)));
     draw(drag.canvas.closest('.mp-map'), m);
   });
