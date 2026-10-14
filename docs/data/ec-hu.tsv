@@ -200,3 +200,7 @@ restart other applications	más alkalmazások újraindítása
 take pictures	fényképezés
 write calendar data	naptáradatok írása
 write owner data	tulajdonosi adatok írása
+This will erase all data from your phone, including:\nYour Google account\nSystem and application data and settings\nDownloaded applications\nIt will not erase:\nCurrent system software and bundled applications\nSD card files, such as music or photos	Ezzel minden adat törlődik a telefonról, többek között:\nGoogle-fiókja\nA rendszer- és alkalmazásadatok és -beállítások\nA letöltött alkalmazások\nNem törlődnek:\nA jelenlegi rendszerszoftver és a gyárilag telepített alkalmazások\nAz SD-kártyán lévő fájlok, például zenék vagy fényképek
+This action will erase the SD card in the phone. You will lose ALL data on the card!	Ez a művelet törli a telefonban lévő SD-kártyát. A kártyán lévő ÖSSZES adat elvész!
+Format SD card, erasing all your media? Action cannot be reversed!	Formázza az SD-kártyát, és törli az összes médiafájlt? A művelet nem vonható vissza!
+You must draw your unlock pattern to confirm an SD card format.	Az SD-kártya formázásának megerősítéséhez rajzolja le a feloldási mintát.

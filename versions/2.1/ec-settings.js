@@ -222,7 +222,7 @@
     if (screen.name === 'date_time_prefs' && n.key in dateTime) { dateTimeClick(c, n); return; }
     if (n.key === 'add_other_network') { EC.wifi.add(c); return; }
     if (n.key === 'memory_sd_unmount') { c.ui.sdUnmounted = true; c.render(); return; }
-    if (n.key === 'memory_sd_format') { c.ui.settingsStack.push('missing:MediaFormat'); c.render(); return; }
+    if (n.key === 'memory_sd_format') { EC.settingsTargets.MediaFormat(c); return; }
     if (n.t === 'ListPreference') {
       const entries = arr(n.entries), values = n.entryValues || [], v = String(value(c, n.key, n.defaultValue) ?? '');
       c.dialog({title: txt(n.dialogTitle || n.title), icon: null, items: entries, choice: 'single', checked: values.indexOf(v), closeOnChoice: true,

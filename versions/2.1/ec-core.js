@@ -73,7 +73,9 @@
     el: {screen, viewport, status: statusRoot, overlay: overlayRoot, nav: navRoot, device},
     has: id => !!modules[id], title: id => modules[id]?.title || SCREENS[id]?.[0] || id,
     overlay(id) { ui.overlay = id; renderOverlay(); }, closeOverlay() { ui.overlay = ''; renderOverlay(); },
-    lock: () => lockScreen(), wake: () => wake(), screens: SCREENS
+    lock: () => lockScreen(), wake: () => wake(), screens: SCREENS,
+    // Factory data reset: the stored phone is wiped and the page starts again from the boot.
+    factoryReset() { try { localStorage.removeItem(STORE); } catch {} location.reload(); }
   };
 
   EC.context = c;   // for the browser tests and debugging

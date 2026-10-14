@@ -46,8 +46,9 @@
     if (st === 'example') return c.window(title, `<div class="ecpt-page"><div class="ecpt-scroll"><div class="ecpt-title">${esc(P().t('lock_example_title'))}</div><img class="ecpt-anim" src="assets/st-lock_anim_00.png" alt=""><div class="ecpt-text">${esc(P().t('lock_example_message'))}</div></div>${textBar(P().t('skip_button_label'), P().t('next_button_label'))}</div>`);
     if (st === 'verify') {
       const out = confirm.deadline > Date.now();
-      const head = out ? P().t('lockpattern_too_many_failed_confirmation_attempts_header') : P().t(confirm.wrong ? 'lockpattern_need_to_unlock_wrong' : 'lockpattern_need_to_unlock');
-      const foot = out ? P().fmt('lockpattern_too_many_failed_confirmation_attempts_footer', c.lang, Math.ceil((confirm.deadline - Date.now()) / 1000)) : '';
+      // ConfirmLockPattern's extras: a caller (MasterClear, MediaFormat) brings its own header and footer.
+      const head = out ? P().t('lockpattern_too_many_failed_confirmation_attempts_header') : confirm.wrong ? P().t('lockpattern_need_to_unlock_wrong') : confirm.extras?.header || P().t('lockpattern_need_to_unlock');
+      const foot = out ? P().fmt('lockpattern_too_many_failed_confirmation_attempts_footer', c.lang, Math.ceil((confirm.deadline - Date.now()) / 1000)) : confirm.extras?.footer || '';
       return c.window(EC.text('settings').t('settings_label'), `<div class="ecpt-record"><div class="ecpt-head">${esc(head)}</div><i class="ecpt-top np-fw-code_lock_top"></i><canvas class="ecpt-pattern"></canvas><i class="ecpt-bottom np-fw-code_lock_bottom"></i><div class="ecpt-foot">${esc(foot)}</div></div>`);
     }
     const stage = c.ui.patternStage || 'intro', [header, left, right, footer] = STAGES[stage];
@@ -92,8 +93,10 @@
       tactile: !!c.data.prefs?.tactilefeedback, stealth: c.data.prefs?.visiblepattern === false,
       onStart() { clearTimeout(clearTimer); },
       onDone(cells) {
-        if (cells.join() === c.data.settings.lockPattern.join()) {   // RESULT_OK: on to ChooseLockPattern
-          Object.assign(confirm, {wrong: false, count: 0}); c.ui.patternStep = 'record'; c.ui.patternStage = 'intro'; c.render(); return;
+        if (cells.join() === c.data.settings.lockPattern.join()) {   // RESULT_OK: on to ChooseLockPattern, or back to the caller
+          Object.assign(confirm, {wrong: false, count: 0});
+          if (confirm.extras) { const done = confirm.extras.done; confirm.extras = null; c.back(); done(c); return; }
+          c.ui.patternStep = 'record'; c.ui.patternStage = 'intro'; c.render(); return;
         }
         v.show(cells, 'wrong');
         if (++confirm.count >= 5) { confirm.deadline = Date.now() + 30000; confirm.count = 0; c.render(); return; }
@@ -152,5 +155,11 @@
     menu(c) { if ((c.ui.patternStage || 'intro') === 'intro' && c.ui.patternStep === 'record') go(c, 'help'); return true; },
     back(c) { reset(c); return false; }
   });
-  EC.patternFlow = {start(c) { confirm.wrong = false; c.ui.patternStep = c.data.settings.lockPattern ? 'verify' : 'tutorial'; c.ui.patternStage = 'intro'; c.ui.patternShown = null; c.open('choose-pattern'); }};
+  EC.patternFlow = {
+    // ConfirmLockPattern for another screen: {header, footer, done(c)}; with no pattern set, done runs at once.
+    confirm(c, extras) {
+      if (!(c.data.settings.lockPattern && c.data.prefs?.lockenabled)) { extras.done(c); return; }
+      confirm.wrong = false; confirm.extras = extras; c.ui.patternStep = 'verify'; c.open('choose-pattern');
+    },
+    start(c) { confirm.wrong = false; confirm.extras = null; c.ui.patternStep = c.data.settings.lockPattern ? 'verify' : 'tutorial'; c.ui.patternStage = 'intro'; c.ui.patternShown = null; c.open('choose-pattern'); }};
 })();

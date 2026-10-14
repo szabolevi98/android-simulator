@@ -46,3 +46,9 @@
 .ecacs-body .ecwf-edit{margin:calc(2 * var(--dp)) 0 calc(6 * var(--dp))}
 .ecacs-gbar{display:flex;justify-content:center;padding:calc(4 * var(--dp)) calc(2 * var(--dp)) 0;background:#c6c3c6}
 .ecacs-gbar .ecui-button{flex:0 0 50%}
+/* Factory data reset / Format SD card (ec-settings-extra.js). */
+.ecsx-page{display:flex;flex-direction:column;padding:calc(10 * var(--dp));color:#fff}
+.ecsx-text{font-size:calc(18 * var(--dp))}
+.ecsx-li{position:relative;padding-left:calc(16 * var(--dp))}
+.ecsx-li::before{content:"";position:absolute;left:calc(3 * var(--dp));top:.45em;width:calc(6 * var(--dp));height:calc(6 * var(--dp));border-radius:50%;background:currentColor}
+.ecsx-btn{flex:none!important;align-self:center;width:calc(150 * var(--dp));margin-top:calc(40 * var(--dp))}
