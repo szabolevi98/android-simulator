@@ -556,3 +556,4 @@ fw-btn_search_dialog_default.9.png	framework/framework-res.apk	drawable/btn_sear
 fw-btn_search_dialog_pressed.9.png	framework/framework-res.apk	drawable/btn_search_dialog_pressed
 fw-search_dropdown_background.9.png	framework/framework-res.apk	drawable/search_dropdown_background
 fw-ic_btn_search.png	framework/framework-res.apk	drawable/ic_btn_search
+gs-google.png	app/EnhancedGoogleSearchProvider.apk	drawable/google

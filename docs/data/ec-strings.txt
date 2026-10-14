@@ -86,3 +86,5 @@ menu_view_contact framework/search_go framework/cancel
 application_name new_tab active_tabs tab_bookmarks tab_most_visited tab_history title_bar_loading page_info stop reload
 back forward save_to_bookmarks find_dot select_dot share_page menu_view_download menu_preferences empty_history
 search_hint open_bookmark new_window add_new_bookmark array:bookmarks
+[search] GlobalSearch EnhancedGoogleSearchProvider
+search_hint EnhancedGoogleSearchProvider/google_search_base

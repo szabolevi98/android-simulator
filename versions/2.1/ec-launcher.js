@@ -138,6 +138,29 @@
     else c.open('wallpaper-chooser');
   }
 
+  // The search widget opens Quick Search Box (GlobalSearch.apk's SearchDialog: "Quick Search Box", the web source's Google
+  // icon from EnhancedGoogleSearchProvider). Suggestions: the applications and contacts that match; a query goes to the
+  // Browser as google_search_base (http://www.google.com/m?hl=%1$s&gl=%2$s&) + q.
+  EC.quickSearch = c => {
+    const S = EC.text('search');
+    c.searchDialog({icon: 'gs-google.png', hint: S.t('search_hint'),
+      suggest: q => {
+        const v = q.trim().toLocaleLowerCase(c.locale());
+        if (!v) return [];
+        const apps = EC.apps.sorted().filter(a => EC.apps.label(a.id).toLocaleLowerCase(c.locale()).split(/\s+/).some(w => w.startsWith(v))).map(a => ({icon: a.icon, text1: EC.apps.label(a.id), value: `app:${a.id}`}));
+        const people = (c.data.contacts || []).filter(p => p.name.toLocaleLowerCase().split(/\s+/).some(w => w.startsWith(v))).map(p => ({icon: 'ct-ic_contact_list_picture.png', text1: p.name, text2: p.phone, value: `contact:${p.id}`}));
+        return [...apps, ...people].slice(0, 8);
+      },
+      onGo: text => {
+        if (text.startsWith('app:')) { c.open(text.slice(4)); return; }
+        if (text.startsWith('contact:')) { c.ui.contactId = Number(text.slice(8)); c.open('contact-view'); return; }
+        if (!text.trim()) return;
+        const base = AndroidStrings.format(S.t('EnhancedGoogleSearchProvider/google_search_base'), c.lang, c.lang === 'en' ? 'us' : c.lang);
+        c.ui.browserGo = `${base}source=android-search-app&q=${encodeURIComponent(text.trim()).split('%20').join('+')}`;
+        c.open('browser');
+      }});
+  };
+
   EC.register('home', {
     app: false,
     init(c) {
@@ -155,7 +178,7 @@
       if (name === 'eclh-prev') { snapTo(c, (c.ui.homePage ?? DEFAULT_SCREEN) - 1); return true; }
       if (name === 'eclh-next') { snapTo(c, (c.ui.homePage ?? DEFAULT_SCREEN) + 1); return true; }
       if (name === 'eclh-allapps') { c.open('drawer'); return true; }
-      if (name === 'eclh-search') { c.open('search'); return true; }
+      if (name === 'eclh-search') { EC.quickSearch(c); return true; }
       if (name === 'eclh-voice') { c.open('voice-search'); return true; }
       return false;
     },

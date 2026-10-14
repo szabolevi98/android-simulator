@@ -82,6 +82,11 @@
     return c.window(B().t('active_tabs'), `<div class="ecph-list">${add}${rows}</div>`);
   }
 
+  // Other apps hand an address over in ui.browserGo (Quick Search Box, links).
+  document.addEventListener('DOMContentLoaded', () => {
+    const c = EC.context, open = c.open;
+    c.open = (view, sub, opts) => { const r = open(view, sub, opts); if (view === 'browser' && c.ui.browserGo) { const u = c.ui.browserGo; c.ui.browserGo = null; c.ui.sub = ''; load(c, u); } return r; };
+  });
   EC.register('browser', {
     title: 'Browser',
     render(c) {

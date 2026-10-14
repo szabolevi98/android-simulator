@@ -376,6 +376,7 @@ versions/2.1/assets/fw-title_bar_medium.9.png	182f4a8ab01212e6	copy	passion:/sys
 versions/2.1/assets/fw-title_bar_portrait.9.png	8a0ba718ad506734	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/title_bar_portrait.9.png	drawable-hdpi		8a0ba718ad506734
 versions/2.1/assets/fw-title_bar_shadow.9.png	bf183abb43bc065e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/title_bar_shadow.9.png	drawable-hdpi		bf183abb43bc065e
 versions/2.1/assets/fw-toast_frame.9.png	acf8ca732d441531	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/toast_frame.9.png	drawable-hdpi		acf8ca732d441531
+versions/2.1/assets/gs-google.png	5f82e8148ec2a4b9	copy	passion:/system/app/EnhancedGoogleSearchProvider.apk!res/drawable-hdpi/google.png	drawable-hdpi		5f82e8148ec2a4b9
 versions/2.1/assets/l2-all_apps_button_focused.png	3b36827da3653f7b	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/all_apps_button_focused.png	drawable-hdpi		3b36827da3653f7b
 versions/2.1/assets/l2-all_apps_button_normal.png	da5e63cb3558667e	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/all_apps_button_normal.png	drawable-hdpi		da5e63cb3558667e
 versions/2.1/assets/l2-all_apps_button_pressed.png	ae878e12e987ef0c	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/all_apps_button_pressed.png	drawable-hdpi		ae878e12e987ef0c
