@@ -464,3 +464,20 @@ fw-dark_header.9.png	framework/framework-res.apk	drawable/dark_header
 fw-ic_menu_delete.png	framework/framework-res.apk	drawable/ic_menu_delete
 fw-ic_menu_search.png	framework/framework-res.apk	drawable/ic_menu_search
 fw-ic_menu_allfriends.png	framework/framework-res.apk	drawable/ic_menu_allfriends
+# Phone.apk InCallScreen (call_card.xml, call_card_person_info.xml, incall_touch_ui.xml, non_drawer_dialpad.xml)
+pn-bg_in_call_gradient_connected.9.png	app/Phone.apk	drawable/bg_in_call_gradient_connected
+pn-bg_in_call_gradient_ended.9.png	app/Phone.apk	drawable/bg_in_call_gradient_ended
+pn-bg_in_call_gradient_unidentified.9.png	app/Phone.apk	drawable/bg_in_call_gradient_unidentified
+pn-incall_photo_border_lg.9.png	app/Phone.apk	drawable/incall_photo_border_lg
+pn-btn_in_call_main_normal.9.png	app/Phone.apk	drawable/btn_in_call_main_normal
+pn-btn_in_call_main_pressed.9.png	app/Phone.apk	drawable/btn_in_call_main_pressed
+pn-btn_in_call_switch_off_normal.9.png	app/Phone.apk	drawable/btn_in_call_switch_off_normal
+pn-btn_in_call_switch_off_pressed.9.png	app/Phone.apk	drawable/btn_in_call_switch_off_pressed
+pn-btn_in_call_switch_on_normal.9.png	app/Phone.apk	drawable/btn_in_call_switch_on_normal
+pn-btn_in_call_switch_on_pressed.9.png	app/Phone.apk	drawable/btn_in_call_switch_on_pressed
+pn-ic_in_call_touch_add_call.png	app/Phone.apk	drawable/ic_in_call_touch_add_call
+pn-ic_in_call_touch_end.png	app/Phone.apk	drawable/ic_in_call_touch_end
+pn-ic_in_call_touch_dialpad.png	app/Phone.apk	drawable/ic_in_call_touch_dialpad
+pn-ic_in_call_touch_dialpad_close.png	app/Phone.apk	drawable/ic_in_call_touch_dialpad_close
+pn-picture_unknown.png	app/Phone.apk	drawable/picture_unknown
+fw-stat_sys_phone_call.png	framework/framework-res.apk	drawable/stat_sys_phone_call

@@ -37,6 +37,16 @@
   const VOICEMAIL = '+18056377243';   // T-Mobile US voicemail access number (the SIM's)
   const TABS = [['dialer', 'dialerIconLabel', 'dialer'], ['calls', 'recentCallsIconLabel', 'recent'], ['contacts', 'contactsIconLabel', 'contacts'], ['favorites', 'contactsFavoritesLabel', 'starred']];
   const digitsOnly = n => String(n).replace(/[^\d+]/g, '');
+  // PhoneNumberUtils.formatNanpNumber (the dialer's PhoneNumberFormattingTextWatcher): xxx-xxxx, xxx-xxx-xxxx,
+  // 1-xxx-xxx-xxxx as the digits come; anything else (+, *, #, pauses, over 11 digits) stays as typed.
+  EC.formatNumber = text => {
+    const s = String(text);
+    if (!/^\d*$/.test(s)) return s;
+    const one = s.length > 10 && s[0] === '1', d = one ? s.slice(1) : s;
+    if (d.length > 10 || (s.length > 10 && !one)) return s;
+    const out = d.length <= 3 ? d : d.length <= 7 ? `${d.slice(0, 3)}-${d.slice(3)}` : `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}`;
+    return one ? `1-${out}` : out;
+  };
   const contactFor = (c, number) => (c.data.contacts || []).find(p => digitsOnly(p.phone) === digitsOnly(number));
 
   // DTMF: the two tones of each key (ToneGenerator), TONE_LENGTH_MS 150, quieter than full scale (TONE_RELATIVE_VOLUME 50).
@@ -74,14 +84,14 @@
     const digits = c.ui.dialDigits || '';
     const keys = KEYS.map(([k, img]) => `<button type="button" class="ecph-key" data-action="ecph-key" data-key="${k}"><i class="ec-bg np-ct-btn_dial_normal"></i><i class="ec-bg ec-pressed np-ct-btn_dial_pressed"></i><img class="wht" src="assets/ct-dial_num_${img}_wht.png" alt="${k}"><img class="blk" src="assets/ct-dial_num_${img}_blk.png" alt=""></button>`).join('');
     const act = (pos, id, icon, on) => `<button type="button" class="ecph-act ${pos}" data-action="ecph-${id}"${on ? '' : ' disabled'}><i class="ec-bg np-ct-btn_dial_action_${pos}_${on ? 'normal' : 'disable'}"></i>${on ? `<i class="ec-bg ec-pressed np-ct-btn_dial_action_${pos}_pressed"></i>` : ''}<img src="assets/ct-ic_dial_action_${icon}.png" alt=""></button>`;
-    return `<div class="ecph-dialer"><div class="ecph-digits"><i class="ec-bg np-ct-btn_dial_textfield_normal"></i><span>${esc(digits)}</span></div>
+    return `<div class="ecph-dialer"><div class="ecph-digits"><i class="ec-bg np-ct-btn_dial_textfield_normal"></i><span>${esc(EC.formatNumber(digits))}</span></div>
       <div class="ecph-pad">${keys}</div>
       <div class="ecph-actions">${act('left', 'voicemail', 'voice_mail', true)}${act('middle', 'call', 'call', true)}${act('right', 'delete', 'delete', !!digits)}</div></div>`;
   }
   function setDigits(c, value) {
     c.ui.dialDigits = value;
     const span = c.el.viewport.querySelector('.ecph-digits span');
-    if (span) { span.textContent = value; const del = c.el.viewport.querySelector('[data-action="ecph-delete"]'); if (!!value !== !del.disabled) c.render(); }
+    if (span) { span.textContent = EC.formatNumber(value); const del = c.el.viewport.querySelector('[data-action="ecph-delete"]'); if (!!value !== !del.disabled) c.render(); }
   }
   function press(c, key) {
     tone(DTMF[key]);
@@ -92,10 +102,10 @@
   function call(c, number) {
     if (!number) { nack(); return; }
     const p = contactFor(c, number);
-    c.data.calls = [{id: Date.now(), number, type: 2, when: Date.now(), duration: 0}, ...(c.data.calls || [])];
+    c.data.calls = [{id: Date.now(), number: EC.formatNumber(number), type: 2, when: Date.now(), duration: 0}, ...(c.data.calls || [])];
     if (p) p.times = (p.times || 0) + 1;
     c.save();
-    if (EC.module('incall')) { c.ui.callNumber = number; c.open('incall'); } else { c.ui.callNumber = number; c.open('in-call'); }
+    c.ui.callNumber = EC.formatNumber(number); c.open('incall');
   }
 
   // Call log --------------------------------------------------------------------------------------------------------------
