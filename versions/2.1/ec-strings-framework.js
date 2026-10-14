@@ -99,5 +99,14 @@ EC.strings('framework', {
 "es": "Tono predeterminado",
 "hu": "Alapértelmezett csengőhang",
 "huFrom": "crespo:framework:ringtone_default"
+},
+"ringtone_picker_title": {
+"res": "passion:framework:ringtone_picker_title",
+"en": "Ringtones",
+"de": "Klingeltöne",
+"fr": "Sonneries",
+"es": "Tonos",
+"hu": "Csengőhangok",
+"huFrom": "crespo:framework:ringtone_picker_title"
 }
 });

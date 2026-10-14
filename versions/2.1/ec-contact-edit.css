@@ -45,3 +45,31 @@
 .ecce-join .ecph-list{flex:1;min-height:0;overflow-y:auto}
 .ecce-showall{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(10 * var(--dp));background:none;color:#fff;font-size:calc(22 * var(--dp));text-align:left}
 .ecce-showall span{position:relative;z-index:1}
+/* ec-contacts-io.js. Options rows (edit_contact_entry_ringtone / _voicemail.xml): 64 dp, the text 14 dp in with 6 dp
+   above and below (medium label, small data), the MoreButton or the CheckBox at the right, 10 dp right padding;
+   display_header.xml the same 20 dp in. list_separator.xml: #bebebe, centred. create_new_contact.xml: padding 6 / 5 dp,
+   sym_action_add 5 dp in and 11 dp from the medium bold title. */
+.ecio-list,.ecio-display{background:#000}
+.ecio-display{display:flex;flex-direction:column;height:100%}
+.ecio-scroll{flex:1;min-height:0;overflow-y:auto}
+.ecio-row{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(10 * var(--dp)) 0 0;background:none;color:#fff!important;text-align:left}
+.ecio-text{position:relative;z-index:1;flex:1;min-width:0;display:flex;flex-direction:column;margin:calc(6 * var(--dp)) 0 calc(6 * var(--dp)) calc(14 * var(--dp))}
+.ecio-header .ecio-text{margin:calc(6 * var(--dp)) calc(6 * var(--dp)) calc(6 * var(--dp)) calc(20 * var(--dp))}
+.ecio-l1{font-size:calc(18 * var(--dp));line-height:calc(24 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecio-l2{font-size:calc(14 * var(--dp));line-height:calc(19 * var(--dp));color:#bebebe;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ecio-more{position:relative;z-index:1;flex:none;width:calc(38 * var(--dp));height:calc(48 * var(--dp))}
+.ecio-more img{position:absolute;inset:0;width:100%;height:100%}
+.ecio-check{position:relative;z-index:1;flex:none;width:calc(38 * var(--dp));height:calc(48 * var(--dp));margin-right:calc(4 * var(--dp))}
+.ecio-row:not(.ecio-header) .ecio-check{margin-right:0}
+.ecio-div{display:block;height:calc(1 * var(--dp));background:url('assets/fw-divider_horizontal_dark.9.png') 0 0/100% 100%}
+.ecio-sep{position:relative;height:calc(25 * var(--dp));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:calc(14 * var(--dp));color:#bebebe}
+.ecio-sep span{position:relative}
+.ecio-create{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:calc(5 * var(--dp)) calc(6 * var(--dp));background:none;color:#fff;text-align:left}
+.ecio-create img{position:relative;z-index:1;margin:0 calc(11 * var(--dp)) 0 calc(5 * var(--dp));width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.ecio-create span{position:relative;z-index:1;margin-bottom:calc(2 * var(--dp));font-size:calc(18 * var(--dp));font-weight:700}
+/* ProgressDialog STYLE_HORIZONTAL (alert_dialog_progress.xml): the 20 dp Widget.ProgressBar.Horizontal 10 dp in and
+   12 dp down, the percent at the left and "n/total" 50 dp in under it (12 dp bottom padding). */
+.ecio-progress{position:relative;padding:calc(12 * var(--dp)) calc(10 * var(--dp)) calc(12 * var(--dp));color:#fff;font-size:calc(14 * var(--dp))}
+.ecio-hbar{height:calc(10 * var(--dp));margin:calc(5 * var(--dp)) 0 calc(6 * var(--dp));border-radius:calc(5 * var(--dp));background:linear-gradient(#9d9e9d,#5a5d5a 75%,#747674);overflow:hidden}
+.ecio-hbar i{display:block;height:100%;border-radius:calc(5 * var(--dp));background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00)}
+.ecio-nums{display:flex;gap:calc(40 * var(--dp))}

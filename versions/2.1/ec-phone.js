@@ -137,8 +137,9 @@
   }
   const byName = c => (c.data.contacts || []).slice().sort((a, b) => a.name.localeCompare(b.name, c.locale()));
   function contacts(c) {
-    const list = byName(c);
-    return list.length ? `<div class="ecph-list">${contactRows(c, list, true)}</div>` : `<div class="ecph-empty top">${esc(P().t('noContacts'))}</div>`;
+    // Display options' only_phones keeps the contacts that have a number.
+    const only = EC.contactsOnlyPhones?.(c), list = byName(c).filter(p => !only || p.phone);
+    return list.length ? `<div class="ecph-list">${contactRows(c, list, true)}</div>` : `<div class="ecph-empty top">${esc(only ? EC.text('contactsio').t('noContactsWithPhoneNumbers') : P().t('noContacts'))}</div>`;
   }
   function favorites(c) {
     const starred = byName(c).filter(p => p.starred), frequent = (c.data.contacts || []).filter(p => !p.starred && p.times > 0).sort((a, b) => b.times - a.times);
@@ -188,7 +189,7 @@
       const tab = c.ui.phoneTab || 'dialer', F = EC.text('framework');
       if (tab === 'dialer') {
         if (!c.ui.dialDigits) return true;
-        c.menu([{label: P().t('recentCalls_addToContact'), icon: 'fw-ic_menu_add.png', action: () => EC.contactEdit.open(c, null, {phone: c.ui.dialDigits})},
+        c.menu([{label: P().t('recentCalls_addToContact'), icon: 'fw-ic_menu_add.png', action: () => EC.contactPick(c, c.ui.dialDigits)},
           {label: P().t('add_2sec_pause'), icon: 'ct-ic_menu_2sec_pause.png', action: () => setDigits(c, c.ui.dialDigits + ',')},
           {label: P().t('wait'), icon: 'ct-ic_menu_wait.png', action: () => setDigits(c, c.ui.dialDigits + ';')}]);
       } else if (tab === 'calls') {
@@ -199,7 +200,7 @@
           {label: P().t('menu_newContact'), icon: 'fw-ic_menu_add.png', action: () => EC.contactEdit.open(c, null)},
           {label: P().t('menu_displayGroup'), icon: 'fw-ic_menu_allfriends.png', action: () => c.open('contacts-display')},
           {label: P().t('menu_accounts'), icon: 'ct-ic_menu_account_list.png', action: () => c.open('settings')},
-          {label: P().t('menu_import_export'), icon: 'ct-ic_menu_import_export.png', action: () => c.open('contacts-import')}]);
+          {label: P().t('menu_import_export'), icon: 'ct-ic_menu_import_export.png', action: () => EC.contactsIO.importExport(c)}]);
       }
       return true;
     },
@@ -264,8 +265,8 @@
     menu(c) {
       const p = (c.data.contacts || []).find(x => x.id === c.ui.contactId), F = EC.text('framework');
       c.menu([{label: P().t('menu_editContact'), icon: 'fw-ic_menu_edit.png', action: () => EC.contactEdit.open(c, p.id)},
-        {label: P().t('menu_share'), icon: 'fw-ic_menu_share.png', action: () => c.open('contacts-import')},
-        {label: P().t('menu_contactOptions'), icon: 'ct-ic_menu_mark.png', action: () => c.open('contact-edit')},
+        {label: P().t('menu_share'), icon: 'fw-ic_menu_share.png', action: () => EC.contactsIO.share(c)},
+        {label: P().t('menu_contactOptions'), icon: 'ct-ic_menu_mark.png', action: () => c.open('contact-options')},
         {label: P().t('menu_deleteContact'), icon: 'fw-ic_menu_delete.png', action: () => c.dialog({title: P().t('deleteConfirmation_title'), icon: 'fw-ic_dialog_alert.png', message: P().t('deleteConfirmation'),
           buttons: [{label: F.t('ok'), action: () => { c.data.contacts = c.data.contacts.filter(x => x !== p); c.save(); c.back(); }}, {label: F.t('cancel')}]})}]);
       return true;

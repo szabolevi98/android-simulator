@@ -507,6 +507,7 @@ ct-ic_join.png	app/Contacts.apk	drawable/ic_join
 ct-sym_action_map.png	app/Contacts.apk	drawable/sym_action_map
 ct-sym_action_organization.png	app/Contacts.apk	drawable/sym_action_organization
 ct-sym_note.png	app/Contacts.apk	drawable/sym_note
+ct-sym_action_add.png	app/Contacts.apk	drawable/sym_action_add
 fw-sym_action_chat.png	framework/framework-res.apk	drawable/sym_action_chat
 fw-ic_menu_save.png	framework/framework-res.apk	drawable/ic_menu_save
 fw-ic_menu_close_clear_cancel.png	framework/framework-res.apk	drawable/ic_menu_close_clear_cancel

@@ -114,9 +114,11 @@
   // State: c.ui.ce = {id, raws, more, open: {key: true}} (open: name editors and rows whose optional fields show).
   function open(c, id, extras = {}) {
     const p = id != null ? (c.data.contacts || []).find(x => x.id === id) : null;
-    const list = p ? structuredClone(raws(p)) : [newRaw()];
+    // parseExtras puts a given number in a phone row of its own (before ensureKindExists on a new contact).
+    const list = p ? structuredClone(raws(p)) : [{name: {}}];
     for (const r of list) r.name ||= {};
-    if (extras.phone) { const row = list[0].phone.find(x => !filled(x)) || (insertChild(list[0], 'phone'), list[0].phone.at(-1)); row.value = EC.formatNumber(extras.phone); }
+    if (extras.phone) { insertChild(list[0], 'phone'); list[0].phone.at(-1).value = EC.formatNumber(extras.phone); }
+    if (!p) { if (!list[0].phone?.length) insertChild(list[0], 'phone'); insertChild(list[0], 'email'); }
     c.ui.ce = {id: p ? p.id : null, raws: list, more: false, open: {}};
     c.open('contact-edit');
     c.el.viewport.querySelector('.ecce-scroll')?.scrollTo(0, 0);

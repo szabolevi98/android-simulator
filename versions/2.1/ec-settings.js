@@ -296,21 +296,26 @@
     const cat = n.ringtoneType === '0x00000002' ? 'notifications' : 'ringtones', field = cat === 'ringtones' ? 'ringtone' : 'notificationSound';
     EC.ringtonePicker(c, {cat, title: txt(n.title), current: c.data.settings[field] ?? EC.sounds?.defaults[cat], onPick: file => { c.data.settings[field] = file; c.save(); }});
   }
-  // EC.ringtonePicker(c, {cat: 'ringtones' | 'notifications' | 'alarms', title, current (file name, '' = Silent), onPick}).
-  EC.ringtonePicker = (c, {cat, title, current, onPick}) => {
+  // EC.ringtonePicker(c, {cat: 'ringtones' | 'notifications' | 'alarms', title, current (file name, '' = Silent, null =
+  // Default), onPick, showDefault, showSilent}): EXTRA_RINGTONE_SHOW_DEFAULT puts "Default ringtone" first,
+  // EXTRA_RINGTONE_SHOW_SILENT (on unless false) "Silent".
+  EC.ringtonePicker = (c, {cat, title, current, onPick, showDefault = false, showSilent = true}) => {
     const F = EC.text('framework'), list = Object.entries(EC.sounds?.list[cat] || {}).map(([file, [title, asset]]) => ({file, title, asset}));
     const key = t => t.toLocaleLowerCase('en').replace(/[^\p{L}\p{N} ]/gu, '');
     list.sort((a, b) => key(a.title).localeCompare(key(b.title), 'en'));
-    const cur = current;
-    const items = [F.t('ringtone_silent'), ...list.map(r => r.title)];
-    const at = cur === '' ? 0 : list.findIndex(r => r.file === cur) + 1;
+    const fixed = [...(showDefault ? [[F.t('ringtone_default'), null]] : []), ...(showSilent ? [[F.t('ringtone_silent'), '']] : [])];
+    const items = [...fixed.map(([label]) => label), ...list.map(r => r.title)];
+    const values = [...fixed.map(([, v]) => v), ...list.map(r => r.file)];
+    const at = Math.max(0, values.indexOf(current));
     let pick = at;
     c.dialog({title, icon: null, items, choice: 'single', checked: at,
       onSelect: i => {
         pick = i; stopPreview();
-        if (i) previewTimer = setTimeout(() => { preview = new Audio(`../../assets/audio/${list[i - 1].asset}.webm`); preview.play().catch(() => {}); }, 300);
+        // "Default ringtone" plays the default one (EC.sounds.defaults); Silent plays nothing.
+        const file = values[i] === null ? EC.sounds?.defaults[cat] : values[i], item = list.find(r => r.file === file);
+        if (item) previewTimer = setTimeout(() => { preview = new Audio(`../../assets/audio/${item.asset}.webm`); preview.play().catch(() => {}); }, 300);
       },
-      buttons: [{label: F.t('ok'), action: () => { stopPreview(); onPick(pick ? list[pick - 1].file : ''); c.render(); }},
+      buttons: [{label: F.t('ok'), action: () => { stopPreview(); onPick(values[pick]); c.render(); }},
                 {label: F.t('cancel'), action: stopPreview}],
       onCancel: stopPreview});
   };

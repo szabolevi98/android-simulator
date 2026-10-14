@@ -188,6 +188,7 @@ versions/2.1/assets/ct-ic_tab_unselected_contacts.png	a7de58bf25279a7d	copy	pass
 versions/2.1/assets/ct-ic_tab_unselected_dialer.png	c27efe21f24dbc66	copy	passion:/system/app/Contacts.apk!res/drawable-hdpi-finger/ic_tab_unselected_dialer.png	drawable-hdpi-finger		c27efe21f24dbc66
 versions/2.1/assets/ct-ic_tab_unselected_recent.png	16a88d75cdef49c1	copy	passion:/system/app/Contacts.apk!res/drawable-hdpi-finger/ic_tab_unselected_recent.png	drawable-hdpi-finger		16a88d75cdef49c1
 versions/2.1/assets/ct-ic_tab_unselected_starred.png	421581dd9e66fbc8	copy	passion:/system/app/Contacts.apk!res/drawable-hdpi-finger/ic_tab_unselected_starred.png	drawable-hdpi-finger		421581dd9e66fbc8
+versions/2.1/assets/ct-sym_action_add.png	946c5a1d1e3ebd01	copy	passion:/system/app/Contacts.apk!res/drawable-hdpi-finger/sym_action_add.png	drawable-hdpi-finger		946c5a1d1e3ebd01
 versions/2.1/assets/ct-sym_action_map.png	24964d343a6a822c	copy	passion:/system/app/Contacts.apk!res/drawable-hdpi-finger/sym_action_map.png	drawable-hdpi-finger		24964d343a6a822c
 versions/2.1/assets/ct-sym_action_organization.png	8da7b8858960a2cd	copy	passion:/system/app/Contacts.apk!res/drawable-hdpi-finger/sym_action_organization.png	drawable-hdpi-finger		8da7b8858960a2cd
 versions/2.1/assets/ct-sym_action_sms.png	f7b9e234258ab987	copy	passion:/system/app/Contacts.apk!res/drawable-hdpi/sym_action_sms.png	drawable-hdpi		f7b9e234258ab987

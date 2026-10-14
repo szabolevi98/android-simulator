@@ -234,3 +234,11 @@ Phone-only (unsynced)	Csak a telefonon (nem szinkronizált)
 Position	Beosztás
 Call other fax	Egyéb fax hívása
 View other address	Egyéb cím megtekintése
+Import from SD card	Importálás SD-kártyáról
+Export to SD card	Exportálás SD-kártyára
+No SD card detected	Nem található SD-kártya
+Searching for vCard data on SD card	vCard-adatok keresése az SD-kártyán
+Scanning SD card failed	Az SD-kártya beolvasása sikertelen volt
+Scanning SD card failed (Reason: "%s")	Az SD-kártya beolvasása sikertelen volt (A hiba oka: "%s")
+No vCard file found on the SD card	Nem található vCard-fájl az SD-kártyán
+There is no exportable contact. You might choose un-exportable data	Nincs exportálható névjegy. Lehet, hogy nem exportálható adatokat választott.
