@@ -12,11 +12,11 @@ assert.deepEqual(icons(bar.statusIcons({bluetooth:true,ringer:'vibrate',wifi:tru
 assert.deepEqual(icons(bar.statusIcons({wifi:false,data:'3g',battery:50})),['gb-stat_sys_data_fully_connected_3g','gb-stat_sys_signal_4_fully','gb-stat_sys_battery_50']);
 assert.deepEqual(icons(bar.statusIcons({airplane:true,wifi:true,data:'3g',battery:50})),['gb-stat_sys_signal_flightmode','gb-stat_sys_battery_50']);
 // performFling (device px): 200 px/s and half height when closed, the last 25 px when open.
-const h=460,px=bar.PX;
+const h=460,px=bar.PX();
 assert.equal(bar.flingDirection(false,h/2+1,0,h),true);assert.equal(bar.flingDirection(false,h/2-1,0,h),false);
 assert.equal(bar.flingDirection(false,50,201*px,h),true);assert.equal(bar.flingDirection(false,400,-201*px,h),false);
 assert.equal(bar.flingDirection(true,h-5,0,h),true);assert.equal(bar.flingDirection(true,h-30,0,h),false);
-assert.equal(bar.ACCEL,2000*px);
+assert.equal(bar.ACCEL(),2000*px);
 // Shade: sections and the Clear button follow status_bar_expanded.xml.
 const empty=bar.shade({t,carrier:'Telekom',ongoing:[],latest:[],clearable:false});
 assert.match(empty,/No notifications/);assert.match(empty,/gbsh-clear" data-action="clear-notifications" hidden/);assert.doesNotMatch(empty,/>Ongoing</);

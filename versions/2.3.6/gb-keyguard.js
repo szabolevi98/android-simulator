@@ -60,7 +60,7 @@
       if (!drag || event.pointerId !== drag.id) return;
       event.preventDefault();
       const x = (event.clientX - drag.rect.left) * drag.scale, y = (event.clientY - drag.rect.top) * drag.scale;
-      const margin = 50 * 0.575, h = tabs.clientHeight;
+      const margin = 50 * width() / 480, h = tabs.clientHeight;
       if (y < -margin || y > h + margin) { release(); return; }
       const w = width(), tw = tabWidth();
       // moveHandle: the tab's centre follows the finger.

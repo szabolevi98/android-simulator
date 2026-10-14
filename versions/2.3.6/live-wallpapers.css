@@ -13,15 +13,15 @@
    24 dip "Tap to change" bar (12 dip padding, #40000000) and its 160 dip OK button. */
 .lw-picker.gblw{font-family:DroidSans,Arial,sans-serif;scrollbar-width:none}
 .lw-picker.gblw::-webkit-scrollbar{display:none}
-.screen .gblw-entry{display:flex;align-items:center;width:100%;min-height:55.2px;padding:5.18px;border:0;border-bottom:1px solid #ffffff1f;background:none;color:#fff;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
-.screen .gblw-entry:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / 21.28px stretch}
-.gblw-entry img{flex:none;width:64.69px;height:64.69px;object-fit:cover}
-.gblw-copy{min-width:0;display:flex;flex-direction:column;margin:0 6.9px 0 8.63px}
-.gblw-title{font-size:15.53px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gblw-desc{font-size:12.07px;line-height:1.3;color:#bebebe;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.screen .gblw-entry{display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));padding:calc(6.0058 * var(--dp));border:0;border-bottom:calc(1.1595 * var(--dp)) solid #ffffff1f;background:none;color:#fff;text-align:left;font-family:DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gblw-entry:active{border-image:url('assets/gb-list_selector_background_pressed.png') 37 fill / calc(24.6725 * var(--dp)) stretch}
+.gblw-entry img{flex:none;width:calc(75.0029 * var(--dp));height:calc(75.0029 * var(--dp));object-fit:cover}
+.gblw-copy{min-width:0;display:flex;flex-direction:column;margin:0 calc(8 * var(--dp)) 0 calc(10.0058 * var(--dp))}
+.gblw-title{font-size:calc(18.0058 * var(--dp));line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gblw-desc{font-size:calc(13.9943 * var(--dp));line-height:1.3;color:#bebebe;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .app-view.gblw-preview{align-items:center}
-.gblw-buttons{display:flex;padding-bottom:3.45px}
-.screen .gblw-btn{flex:none;width:138px;min-height:41.4px;border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / 2.88px 4.03px 6.9px stretch;padding:5.75px 9.78px 9.78px 9.2px;background:none;color:#000;font:400 12.07px DroidSans,Arial,sans-serif;cursor:pointer}
-.screen .gblw-btn:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / 5.75px 4.6px 9.78px stretch}
-.app-view.gblw-smoke{justify-content:space-between;align-items:center;padding-bottom:3.45px;cursor:pointer}
-.gblw-smoke-hint{align-self:stretch;padding:10.35px;background:#00000040;color:#fff;font:20.7px DroidSans,Arial,sans-serif;text-align:center}
+.gblw-buttons{display:flex;padding-bottom:calc(4 * var(--dp))}
+.screen .gblw-btn{flex:none;width:calc(160 * var(--dp));min-height:calc(48 * var(--dp));border:0 solid transparent;border-image:url('assets/gb-btn_default_normal.png') 5 7 12 7 fill / calc(3.3392 * var(--dp)) calc(4.6725 * var(--dp)) calc(8 * var(--dp)) stretch;padding:calc(6.6667 * var(--dp)) calc(11.3392 * var(--dp)) calc(11.3392 * var(--dp)) calc(10.6667 * var(--dp));background:none;color:#000;font:400 calc(13.9943 * var(--dp)) DroidSans,Arial,sans-serif;cursor:pointer}
+.screen .gblw-btn:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / calc(6.6667 * var(--dp)) calc(5.3334 * var(--dp)) calc(11.3392 * var(--dp)) stretch}
+.app-view.gblw-smoke{justify-content:space-between;align-items:center;padding-bottom:calc(4 * var(--dp));cursor:pointer}
+.gblw-smoke-hint{align-self:stretch;padding:calc(12 * var(--dp));background:#00000040;color:#fff;font:calc(24 * var(--dp)) DroidSans,Arial,sans-serif;text-align:center}

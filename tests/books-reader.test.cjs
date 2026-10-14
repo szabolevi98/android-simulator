@@ -84,7 +84,7 @@ const load=(v,files)=>{const context={window:{}};for(const f of files)vm.runInNe
   const m=w.GBApps.get('books'),ui={},data={},ctx={ui,data,view:'books',lang:'hu',locale:'hu',t:k=>k,save(){},render(){},renderOverlay(){},toast(){},dialog(k){ui.dlg=k;},closeOverlay(){}};
   m.open(ctx,false);m.handle('bk-open','b1',ctx);
   assert.equal(m.menu(ctx).map(i=>i.action).join(),'ga-unsupported,bk-toc,bk-library,bk-settings,ga-unsupported');
-  let html=m.render(ctx);assert.ok(html.includes('font-size:20.70px;line-height:1.6;font-family:\'Droid Serif\'')&&html.includes('data-action="bk-settings"'));
+  let html=m.render(ctx);assert.ok(html.includes('font-size:calc(24.000 * var(--dp));line-height:1.6;font-family:\'Droid Serif\'')&&html.includes('data-action="bk-settings"'));
   m.handle('bk-toc',null,ctx);html=m.render(ctx);assert.equal((html.match(/data-action="bk-goto"/g)||[]).length,3);assert.ok(html.includes('class="current" data-action="bk-goto" data-id="0"'));
   m.handle('bk-goto','4',ctx);assert.equal(data.booksPages.b1,4);assert.ok(!ui.bkToc);
   m.handle('bk-settings',null,ctx);html=m.render(ctx);
@@ -95,7 +95,7 @@ const load=(v,files)=>{const context={window:{}};for(const f of files)vm.runInNe
   m.handle('bk-pref','textSize:2',ctx);m.handle('bk-pref','themes:1',ctx);m.handle('bk-pref','justification:justify',ctx);
   m.handle('bk-typeface',null,ctx);assert.equal(ui.dlg,'typeface');const d=m.dialog('typeface',ctx);assert.equal(d.items.map(i=>i.title).join(),'Droid Sans,Droid Serif,Vollkorn,Sorts Mill Goudy');assert.equal(d.selected,1);
   m.handle('bk-typeface-set','Vollkorn',ctx);assert.ok(m.back(ctx));html=m.render(ctx);
-  assert.ok(html.includes('bk-reader night')&&html.includes('font-size:36.80px')&&html.includes("'BK Vollkorn'")&&html.includes('text-align:justify'));
+  assert.ok(html.includes('bk-reader night')&&html.includes('font-size:calc(42.667 * var(--dp))')&&html.includes("'BK Vollkorn'")&&html.includes('text-align:justify'));
   assert.ok(fs.readFileSync('versions/2.3.6/simulator.js','utf8').includes('[data-bk-bright]'));
 }
 console.log('books-reader ok');

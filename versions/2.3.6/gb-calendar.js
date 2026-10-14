@@ -161,13 +161,13 @@
   // Dialogs: DatePickerDialog / TimePickerDialog (ic_dialog_time, NumberPickers 80 / 80 / 95 dip and 70 dip, Set / Cancel),
   // the Spinner choice lists, the month context menu, the delete confirmations and the recurring scope lists.
   function picker(field, value, step, width) {
-    return `<div class="gbtp-picker"${width ? ` style="width:${width}px"` : ''}><button type="button" class="gbtp-up" data-action="${step}" data-id="${field}:1" aria-label="+"></button><output class="gbtp-input">${e(value)}</output><button type="button" class="gbtp-down" data-action="${step}" data-id="${field}:-1" aria-label="-"></button></div>`;
+    return `<div class="gbtp-picker"${width ? ` style="width:calc(${width} * var(--dp))"` : ''}><button type="button" class="gbtp-up" data-action="${step}" data-id="${field}:1" aria-label="+"></button><output class="gbtp-input">${e(value)}</output><button type="button" class="gbtp-down" data-action="${step}" data-id="${field}:-1" aria-label="-"></button></div>`;
   }
   function dialog(kind, ctx) {
     const T = key => text(ctx.lang, key), temp = ctx.temp || {}, d = C().normalize(ctx.draft || {date: ctx.selected, title: ''});
     if (kind === 'date' || kind === 'endDate') {
       const date = C().parse(temp.value || d[kind]);
-      const pickers = [picker('month', date.toLocaleDateString(ctx.locale, {month: 'short'}), 'gbcal-date-step', 69), picker('day', date.getDate(), 'gbcal-date-step', 69), picker('year', date.getFullYear(), 'gbcal-date-step', 81.94)];
+      const pickers = [picker('month', date.toLocaleDateString(ctx.locale, {month: 'short'}), 'gbcal-date-step', 80), picker('day', date.getDate(), 'gbcal-date-step', 80), picker('year', date.getFullYear(), 'gbcal-date-step', 95)];
       const order = ctx.locale.startsWith('en') ? [0, 1, 2] : ctx.lang === 'hu' ? [2, 0, 1] : [1, 0, 2];
       return {title: fmt(temp.value || d[kind], ctx.locale, {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'}), icon: 'gb-ic_dialog_time.png', custom: `<div class="gbtp gbcal-dp">${order.map(i => pickers[i]).join('')}</div>`, buttons: [{action: 'gbcal-picker-set', title: ctx.setLabel}, {action: 'close-overlay', title: ctx.cancel}]};
     }

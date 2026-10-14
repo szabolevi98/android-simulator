@@ -8,7 +8,8 @@
   'use strict';
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const R = AndroidStrings.resources(() => window.GBStrings?.gallery), text = (lang, key) => R.t(key, lang);
-  const DP = 0.8625, ITEM_W = 96 * DP, ITEM_H = 72 * DP;
+  // 1 dp in CSS px: the display is 320 dp wide (276 px in the desktop frame, the whole width on a phone).
+  const DP = () => (globalThis.document?.querySelector?.('#screen')?.clientWidth || 276) / 320, ITEM_W = () => 96 * DP(), ITEM_H = () => 72 * DP();
   const M = () => window.ICSMedia;
   // LocalDataSource buckets shown in this simulator: the camera roll and the Pictures folder.
   const ALBUMS = ['camera', 'pictures'];
@@ -35,25 +36,25 @@
   // starts centred on the first column.
   function albums(ctx) {
     const sets = ALBUMS.map(key => [key, M().photos(ctx.data, key)]).filter(([, photos]) => photos.length);
-    const yStretch = (320 / 480) / (ctx.width / ctx.height), sx = ITEM_W + 100 * DP, sy = ITEM_H + 70 * DP * Math.max(1, yStretch);
-    const stacks = sets.map(([key, photos], i) => stack(photos, key, ctx.width / 2 - ITEM_W / 2 + Math.floor(i / 3) * sx, (i % 3) * sy - sy - ITEM_H / 2, ctx, ctx.selected.includes(key))).join('');
+    const yStretch = (320 / 480) / (ctx.width / ctx.height), sx = ITEM_W() + 100 * DP(), sy = ITEM_H() + 70 * DP() * Math.max(1, yStretch);
+    const stacks = sets.map(([key, photos], i) => stack(photos, key, ctx.width / 2 - ITEM_W() / 2 + Math.floor(i / 3) * sx, (i % 3) * sy - sy - ITEM_H() / 2, ctx, ctx.selected.includes(key))).join('');
     const cover = sets[0]?.[1][0];
     const width = ctx.width + Math.max(0, Math.ceil(sets.length / 3) - 1) * sx;
     return `<div class="app-view gbg gbg-sets" data-no-translate>${background(cover && M().image(cover))}<div class="gbg-scroll"><div class="gbg-canvas" style="width:${width.toFixed(1)}px">${stacks || `<p class="gbg-empty">${e(text(ctx.lang, 'no_items'))}</p>`}</div></div>${hud(ctx, [home(ctx)], ctx.pick ? '' : `<button class="gbg-camera" data-action="gallery-camera" aria-label="${e(text(ctx.lang, 'camera'))}"></button>`)}</div>`;
   }
   // STATE_GRID_VIEW: 4 rows, 10 dip spacing, column by column; the TimeBar along the bottom.
   function album(ctx) {
-    const photos = M().photos(ctx.data, ctx.album), gap = 10 * DP, cols = Math.ceil(photos.length / 4);
+    const photos = M().photos(ctx.data, ctx.album), gap = 10 * DP(), cols = Math.ceil(photos.length / 4);
     const cells = photos.map((photo, i) => {
-      const x = gap + Math.floor(i / 4) * (ITEM_W + gap), y = (i % 4) * (ITEM_H + gap) - (3 * (ITEM_H + gap)) / 2 - ITEM_H / 2, on = ctx.selected.includes(String(photo.id));
+      const x = gap + Math.floor(i / 4) * (ITEM_W() + gap), y = (i % 4) * (ITEM_H() + gap) - (3 * (ITEM_H() + gap)) / 2 - ITEM_H() / 2, on = ctx.selected.includes(String(photo.id));
       return `<button class="gbg-cell${on ? ' selected' : ''}" style="left:${x.toFixed(2)}px;top:calc(50% - ${(ctx.timebar / 2).toFixed(2)}px + ${y.toFixed(2)}px)" data-action="${ctx.selecting ? 'gbg-toggle' : 'photo'}" data-id="${photo.id}" data-gbg-hold="${photo.id}" aria-label="${e(photo.name)}">${thumb(photo)}${ctx.selecting ? `<img class="gbg-check" src="assets/gb-g3-grid_check_${on ? 'on' : 'off'}.png" alt="">` : ''}</button>`;
     }).join('');
-    const width = Math.max(ctx.width, gap + cols * (ITEM_W + gap));
+    const width = Math.max(ctx.width, gap + cols * (ITEM_W() + gap));
     const month = ctx.now.toLocaleDateString(ctx.locale, {month: 'short', year: 'numeric'});
     const timebar = ctx.selecting ? '' : `<div class="gbg-timebar"><span class="gbg-month">${e(month)}</span><span class="gbg-knob"></span></div>`;
     const toggle = `<button class="gbg-mode${ctx.stackMode ? ' stack' : ''}" data-action="gbg-mode" aria-label="Grid / stack"></button>`;
     const body = ctx.stackMode
-      ? `<div class="gbg-canvas" style="width:${ctx.width}px">${photos.length ? `<button class="gbg-stack" style="left:${(ctx.width / 2 - ITEM_W / 2).toFixed(2)}px;top:calc(50% - ${(ITEM_H / 2).toFixed(2)}px)" data-action="gbg-mode">${photos.slice(0, 4).map((photo, i) => `<span class="gbg-layer" style="transform:rotate(${[0, -6, 5, -3][i]}deg);z-index:${4 - i}">${thumb(photo)}</span>`).reverse().join('')}<span class="gbg-label">${e(month)} (${photos.length})</span></button>` : ''}</div>`
+      ? `<div class="gbg-canvas" style="width:${ctx.width}px">${photos.length ? `<button class="gbg-stack" style="left:${(ctx.width / 2 - ITEM_W() / 2).toFixed(2)}px;top:calc(50% - ${(ITEM_H() / 2).toFixed(2)}px)" data-action="gbg-mode">${photos.slice(0, 4).map((photo, i) => `<span class="gbg-layer" style="transform:rotate(${[0, -6, 5, -3][i]}deg);z-index:${4 - i}">${thumb(photo)}</span>`).reverse().join('')}<span class="gbg-label">${e(month)} (${photos.length})</span></button>` : ''}</div>`
       : `<div class="gbg-canvas" style="width:${width.toFixed(1)}px">${cells}</div>`;
     return `<div class="app-view gbg gbg-album" data-no-translate>${background(photos[0] && M().image(photos[0]))}<div class="gbg-scroll">${body}</div>${timebar}${hud(ctx, [home(ctx), [albumIcon(ctx.album), albumName(ctx.album, ctx.lang), ctx.selecting ? '' : 'gbg-up']], toggle)}</div>`;
   }
@@ -90,7 +91,7 @@
   // and Save / Discard (100 dip, crop_save_text / crop_discard_text) in the bottom corners. HighlightView: makeDefault's
   // square (4/5 of the shorter side, centred) outlined 3 px #ff8a00, the rest of the view shaded ARGB(125, 50, 50, 50);
   // while an edge is dragged (ModifyMode.Grow) camera_crop_width / camera_crop_height sit on the edges' midpoints.
-  const CROP = {hit: 20 / 1.5 * DP, min: 25};
+  const CROP = {get hit() { return 20 / 1.5 * DP(); }, min: 25};
   function cropDefault(photo) {
     const [w, h] = M().size(photo), side = Math.min(w, h) * 4 / 5;
     return {x: (w - side) / 2 / w, y: (h - side) / 2 / h, w: side / w, h: side / h};

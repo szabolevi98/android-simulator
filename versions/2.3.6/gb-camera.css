@@ -3,50 +3,50 @@
    menu_popup lists (GLOptionHeader 12 dip #979797 on #2b2b2b, GLOptionItem 18 dip, 32 dip rows). hdpi px x 0.575, 1 dp = 0.8625 px. */
 .screen.gb-fullscreen #status-bar{display:none}
 .screen.gb-fullscreen #viewport{top:0}
-.gbcam{position:relative;height:100%;overflow:hidden;background:#000 url('assets/gb-cam-bg_camera_pattern.png') 0 0/110.4px 110.4px repeat;color:#fff;font-family:DroidSans,Arial,sans-serif}
+.gbcam{position:relative;height:100%;overflow:hidden;background:#000 url('assets/gb-cam-bg_camera_pattern.png') 0 0/calc(128 * var(--dp)) calc(128 * var(--dp)) repeat;color:#fff;font-family:DroidSans,Arial,sans-serif}
 .gbcam button{font-family:inherit}
-.gbcam-frame{position:absolute;left:0;right:0;top:1.73px;bottom:65.55px;display:grid;place-items:center}
-.screen .gbcam-preview{position:relative;width:100%;max-height:100%;aspect-ratio:3/4;box-sizing:border-box;padding:2.88px;border:0 solid transparent;border-image:url('assets/gb-cam-border_view_finder.png') 40 39 39 40 fill / 23px 22.43px 22.43px 23px stretch;overflow:hidden;cursor:pointer}
-.gbcam-scene{position:absolute;inset:2.88px;overflow:hidden;background:#111}
+.gbcam-frame{position:absolute;left:0;right:0;top:calc(2.0058 * var(--dp));bottom:calc(76 * var(--dp));display:grid;place-items:center}
+.screen .gbcam-preview{position:relative;width:100%;max-height:100%;aspect-ratio:3/4;box-sizing:border-box;padding:calc(3.3392 * var(--dp));border:0 solid transparent;border-image:url('assets/gb-cam-border_view_finder.png') 40 39 39 40 fill / calc(26.6667 * var(--dp)) calc(26.0058 * var(--dp)) calc(26.0058 * var(--dp)) calc(26.6667 * var(--dp)) stretch;overflow:hidden;cursor:pointer}
+.gbcam-scene{position:absolute;inset:calc(3.3392 * var(--dp));overflow:hidden;background:#111}
 .gbcam-scene img{display:block;width:100%;height:100%;object-fit:cover}
-.gbcam-focus{position:absolute;left:50%;top:50%;width:89.7px;height:89.7px;margin:-44.85px 0 0 -44.85px;background:url('assets/gb-cam-focus_focusing.png') 0 0/100% 100%;pointer-events:none}
+.gbcam-focus{position:absolute;left:50%;top:50%;width:calc(104 * var(--dp));height:calc(104 * var(--dp));margin:calc(-52 * var(--dp)) 0 0 calc(-52 * var(--dp));background:url('assets/gb-cam-focus_focusing.png') 0 0/100% 100%;pointer-events:none}
 .gbcam-focus.focused{background-image:url('assets/gb-cam-focus_focused.png')}
 .gbcam-focus.failed{background-image:url('assets/gb-cam-focus_focus_failed.png')}
-.gbcam-rec{position:absolute;right:8.63px;top:8.63px;display:flex;align-items:center;gap:4px;font-size:15.53px;text-shadow:0 0 2px #000;pointer-events:none}
-.gbcam-rec img{width:17.25px;height:17.25px;animation:gbcam-blink 1s steps(2) infinite}
+.gbcam-rec{position:absolute;right:calc(10.0058 * var(--dp));top:calc(10.0058 * var(--dp));display:flex;align-items:center;gap:calc(4.6377 * var(--dp));font-size:calc(18.0058 * var(--dp));text-shadow:0 0 calc(2.3189 * var(--dp)) #000;pointer-events:none}
+.gbcam-rec img{width:calc(20 * var(--dp));height:calc(20 * var(--dp));animation:gbcam-blink 1s steps(2) infinite}
 @keyframes gbcam-blink{50%{opacity:0}}
 /* IndicatorBar: ic_viewfinder_iconbar (turned), highlight #9A2B2B2B, the zoom ratio "#.#x" in 18 dip #A8FFFFFF. */
-.gbcam-iconbar{position:absolute;left:0;right:0;bottom:8.63px;z-index:3;display:flex;height:34.5px;padding:2.88px 0;box-sizing:border-box;background:url('assets/gb-cam-ic_viewfinder_iconbar-p.png') 0 0/100% 100%}
+.gbcam-iconbar{position:absolute;left:0;right:0;bottom:calc(10.0058 * var(--dp));z-index:3;display:flex;height:calc(40 * var(--dp));padding:calc(3.3392 * var(--dp)) 0;box-sizing:border-box;background:url('assets/gb-cam-ic_viewfinder_iconbar-p.png') 0 0/100% 100%}
 .screen .gbcam-ind{flex:1;min-width:0;display:grid;place-items:center;padding:0;border:0;background:none;color:#ffffffa8;cursor:pointer}
 .screen .gbcam-ind.active,.screen .gbcam-ind:active{background:#2b2b2b9a}
-.gbcam-ind img{width:24.15px;height:24.15px}
-.gbcam-ind b{font-size:15.53px;font-weight:400}
+.gbcam-ind img{width:calc(28 * var(--dp));height:calc(28 * var(--dp))}
+.gbcam-ind b{font-size:calc(18.0058 * var(--dp));font-weight:400}
 /* Control bar */
-.gbcam-control{position:absolute;left:0;right:0;bottom:0;height:65.55px;display:flex;align-items:center;justify-content:space-between;padding:0 11.21px 0 8.63px}
-.screen .gbcam-shutter{flex:none;width:60.38px;height:60.38px;padding:0;border:0;background:url('assets/gb-cam-btn_ic_camera_shutter.png') 0 0/100% 100%,url('assets/gb-cam-btn_shutter_normal.png') 0 0/100% 100%;cursor:pointer}
+.gbcam-control{position:absolute;left:0;right:0;bottom:0;height:calc(76 * var(--dp));display:flex;align-items:center;justify-content:space-between;padding:0 calc(12.9972 * var(--dp)) 0 calc(10.0058 * var(--dp))}
+.screen .gbcam-shutter{flex:none;width:calc(70.0058 * var(--dp));height:calc(70.0058 * var(--dp));padding:0;border:0;background:url('assets/gb-cam-btn_ic_camera_shutter.png') 0 0/100% 100%,url('assets/gb-cam-btn_shutter_normal.png') 0 0/100% 100%;cursor:pointer}
 .screen .gbcam-shutter:active{background-image:url('assets/gb-cam-btn_ic_camera_shutter.png'),url('assets/gb-cam-btn_shutter_pressed.png')}
 .screen .gbcam.video .gbcam-shutter{background-image:url('assets/gb-cam-btn_ic_video_record.png'),url('assets/gb-cam-btn_shutter_normal.png')}
 .screen .gbcam.video .gbcam-shutter.stop{background-image:url('assets/gb-cam-btn_ic_video_record_stop.png'),url('assets/gb-cam-btn_shutter_normal.png')}
 .gbcam-switch-set{display:flex;align-items:center}
-.gbcam-switch-set img{width:27.6px;height:27.6px}
-.screen .gbcam-switch{position:relative;width:60.38px;height:33.35px;padding:0;border:0;background:url('assets/gb-cam-btn_mode_switch_bg-p.png') 0 0/100% 100%;cursor:pointer}
-.gbcam-switch i{position:absolute;left:.29px;top:.29px;width:32.78px;height:32.78px;background:url('assets/gb-cam-btn_mode_switch_knob_normal.png') 0 0/100% 100%;transition:left .2s}
-.gbcam-switch.video i{left:calc(100% - 33.07px)}
+.gbcam-switch-set img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.screen .gbcam-switch{position:relative;width:calc(70.0058 * var(--dp));height:calc(38.6667 * var(--dp));padding:0;border:0;background:url('assets/gb-cam-btn_mode_switch_bg-p.png') 0 0/100% 100%;cursor:pointer}
+.gbcam-switch i{position:absolute;left:calc(.3363 * var(--dp));top:calc(.3363 * var(--dp));width:calc(38.0058 * var(--dp));height:calc(38.0058 * var(--dp));background:url('assets/gb-cam-btn_mode_switch_knob_normal.png') 0 0/100% 100%;transition:left .2s}
+.gbcam-switch.video i{left:calc(100% - calc(38.3421 * var(--dp)))}
 .screen .gbcam-switch:active i{background-image:url('assets/gb-cam-btn_mode_switch_knob_pressed.png')}
-.screen .gbcam-thumb{flex:none;width:44.85px;height:44.85px;padding:2.88px;border:0 solid transparent;border-image:url('assets/gb-cam-border_last_picture_normal.png') 37 36 36 37 fill / 21.28px 20.7px 20.7px 21.28px stretch;background:none;overflow:hidden;cursor:pointer}
+.screen .gbcam-thumb{flex:none;width:calc(52 * var(--dp));height:calc(52 * var(--dp));padding:calc(3.3392 * var(--dp));border:0 solid transparent;border-image:url('assets/gb-cam-border_last_picture_normal.png') 37 36 36 37 fill / calc(24.6725 * var(--dp)) calc(24 * var(--dp)) calc(24 * var(--dp)) calc(24.6725 * var(--dp)) stretch;background:none;overflow:hidden;cursor:pointer}
 .screen .gbcam-thumb:active:not(:disabled){border-image-source:url('assets/gb-cam-border_last_picture_pressed.png')}
 .gbcam-thumb img{display:block;width:100%;height:100%;object-fit:cover}
 /* Popups */
 .gbcam-scrim{position:absolute;inset:0;z-index:4}
-.gbcam-popup{position:absolute;z-index:5;bottom:calc(65.55px + 8.63px + 34.5px + 14px);left:clamp(4px,calc(var(--ax) - var(--w) / 2),calc(100% - var(--w) - 4px));width:var(--w);box-sizing:border-box;padding:5.18px 9.2px 13.8px;border:0 solid transparent;border-image:url('assets/gb-cam-menu_popup-p.png') 12 18 27 19 fill / 6.9px 10.35px 15.53px 10.93px stretch}
-.gbcam-triangle{position:absolute;z-index:6;left:calc(var(--ax) - 17.25px);bottom:calc(65.55px + 8.63px + 34.5px - 4px);width:34.5px;height:24.15px;background:url('assets/gb-cam-menu_popup_triangle-p.png') 0 0/100% 100%;pointer-events:none}
-.gbcam-popup-list{max-height:300px;overflow-y:auto;scrollbar-width:thin}
-.gbcam-head{padding:1.73px 3.45px;background:#2b2b2b;color:#979797;font-size:10.35px}
-.screen .gbcam-opt{display:flex;align-items:center;gap:5.18px;width:100%;min-height:27.6px;padding:1.73px 3.45px;border:0;background:none;color:#fff;font-size:15.53px;text-align:left;cursor:pointer}
+.gbcam-popup{position:absolute;z-index:5;bottom:calc(calc(76 * var(--dp)) + calc(10.0058 * var(--dp)) + calc(40 * var(--dp)) + calc(16.2319 * var(--dp)));left:clamp(calc(4.6377 * var(--dp)),calc(var(--ax) - var(--w) / 2),calc(100% - var(--w) - calc(4.6377 * var(--dp))));width:var(--w);box-sizing:border-box;padding:calc(6.0058 * var(--dp)) calc(10.6667 * var(--dp)) calc(16 * var(--dp));border:0 solid transparent;border-image:url('assets/gb-cam-menu_popup-p.png') 12 18 27 19 fill / calc(8 * var(--dp)) calc(12 * var(--dp)) calc(18.0058 * var(--dp)) calc(12.6725 * var(--dp)) stretch}
+.gbcam-triangle{position:absolute;z-index:6;left:calc(var(--ax) - calc(20 * var(--dp)));bottom:calc(calc(76 * var(--dp)) + calc(10.0058 * var(--dp)) + calc(40 * var(--dp)) - calc(4.6377 * var(--dp)));width:calc(40 * var(--dp));height:calc(28 * var(--dp));background:url('assets/gb-cam-menu_popup_triangle-p.png') 0 0/100% 100%;pointer-events:none}
+.gbcam-popup-list{max-height:calc(347.8261 * var(--dp));overflow-y:auto;scrollbar-width:thin}
+.gbcam-head{padding:calc(2.0058 * var(--dp)) calc(4 * var(--dp));background:#2b2b2b;color:#979797;font-size:calc(12 * var(--dp))}
+.screen .gbcam-opt{display:flex;align-items:center;gap:calc(6.0058 * var(--dp));width:100%;min-height:calc(32 * var(--dp));padding:calc(2.0058 * var(--dp)) calc(4 * var(--dp));border:0;background:none;color:#fff;font-size:calc(18.0058 * var(--dp));text-align:left;cursor:pointer}
 .screen .gbcam-opt:active{background:#181818}
-.gbcam-opt>img:first-child,.gbcam-opt>i{flex:none;width:20.7px;height:20.7px}
+.gbcam-opt>img:first-child,.gbcam-opt>i{flex:none;width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
 .gbcam-opt span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gbcam-tick{flex:none;width:16.1px;height:16.1px}
-.gbcam-zoom{display:flex;align-items:center;gap:6px;padding:8px 4px}
+.gbcam-tick{flex:none;width:calc(18.6667 * var(--dp));height:calc(18.6667 * var(--dp))}
+.gbcam-zoom{display:flex;align-items:center;gap:calc(6.9566 * var(--dp));padding:calc(9.2754 * var(--dp)) calc(4.6377 * var(--dp))}
 .gbcam-zoom input{flex:1;accent-color:#9fc742}
-.gbcam-zoom span{font-size:15.53px;color:#ffffffa8;min-width:38px;text-align:right}
+.gbcam-zoom span{font-size:calc(18.0058 * var(--dp));color:#ffffffa8;min-width:calc(44.058 * var(--dp));text-align:right}

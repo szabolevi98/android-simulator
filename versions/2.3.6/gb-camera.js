@@ -55,8 +55,8 @@
     else body = list(which, s, ctx.lang);
     // HeadUpDisplay.layoutPopupWindow: the popup sits beside its indicator (above it when held upright), with the triangle
     // pointing at the indicator's centre and the window kept inside the view.
-    const index = ['settings', 'gps', 'balance', 'flash', 'zoom', 'facing'].indexOf(which), width = which === 'settings' ? 210 : which === 'zoom' ? 190 : 165, ax = (100 - (index + .5) * 100 / 6).toFixed(3);
-    return `<div class="gbcam-scrim" data-action="gbcam-popup-close"></div><div class="gbcam-popup at-${e(which)}" style="--ax:${ax}%;--w:${width}px"><div class="gbcam-popup-list">${body}</div></div><i class="gbcam-triangle" style="--ax:${ax}%"></i>`;
+    const index = ['settings', 'gps', 'balance', 'flash', 'zoom', 'facing'].indexOf(which), width = (which === 'settings' ? 210 : which === 'zoom' ? 190 : 165) / .8625, ax = (100 - (index + .5) * 100 / 6).toFixed(3);
+    return `<div class="gbcam-scrim" data-action="gbcam-popup-close"></div><div class="gbcam-popup at-${e(which)}" style="--ax:${ax}%;--w:calc(${width.toFixed(4)} * var(--dp))"><div class="gbcam-popup-list">${body}</div></div><i class="gbcam-triangle" style="--ax:${ax}%"></i>`;
   }
   function render(ctx) {
     const T = key => text(ctx.lang, key), s = settings(ctx.saved), video = ctx.mode === 'video';

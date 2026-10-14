@@ -18,7 +18,7 @@ assert.match(html,/gbcam-shutter"/);assert.match(html,/gbcam-switch"/);assert.ma
 // Popups: a basic list with icons and ticks, the other-settings list with its headers, zoom; anchored over the indicator.
 html=G.render(ctx({popup:'balance',saved:{balance:'daylight'}}));
 assert.match(html,/gbcam-head">White balance</);assert.equal((html.match(/class="gbcam-opt"/g)||[]).length,5);assert.match(html,/balance:daylight"><img src="assets\/gb-cam-ic_menuselect_wb_daylight.png" alt=""><span>Daylight<\/span><img class="gbcam-tick" src="assets\/gb-cam-ic_menuselect_on.png"/);
-assert.match(html,/--ax:58\.333%;--w:165px/);
+assert.match(html,/--ax:58\.333%;--w:calc\(191\.3043 \* var\(--dp\)\)/);
 html=G.render(ctx({popup:'settings'}));
 for(const t of ['Focus mode','Exposure','Scene mode','Picture size','Picture quality','Color effect','Restore defaults'])assert.match(html,new RegExp(t));
 assert.match(G.render(ctx({popup:'zoom',saved:{zoom:2}})),/data-gbcam-zoom/);

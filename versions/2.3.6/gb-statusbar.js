@@ -1,8 +1,8 @@
 /* Android 2.3.6 SystemUI status bar: status_bar.xml icons, the ticker, the DateView and the status_bar_expanded.xml shade.
-   Sizes are hdpi pixels at 0.575 (1 dp = 0.8625 CSS px). */
+   Sizes are dp (calc(N * var(--dp)) in the stylesheets); PX() is one hdpi pixel of the 480 px panel in CSS px now. */
 (() => {
   'use strict';
-  const PX = 0.575;
+  const PX = () => (globalThis.document?.querySelector?.('#screen')?.clientWidth || 276) / 480;
   const e = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 
   // stat_sys_battery.xml level-list: each 5% step covers the levels up to 2 above it (0-2, 3-7, ... 98-100).
@@ -77,7 +77,7 @@
 
   /* StatusBarService.incrementAnim: y += v t + a t^2 / 2 with a = +-2000 px/s^2. animateExpand flings from the top at
      2000 px/s; animateCollapse from the bottom at -2000 px/s. Positions are the panel's bottom edge from the screen top. */
-  const ACCEL = 2000 * PX;
+  const ACCEL = () => 2000 * PX();
   function place(panel, y, height) { panel.style.transform = `translateY(${Math.round((y - height) * 100) / 100}px)`; }
   function slide(panel, {from, velocity, accel, top, bottom, reduced}, done) {
     const height = bottom;
@@ -95,7 +95,7 @@
   }
   // performFling: thresholds of 200 px/s and the half-height (closed) or last 25 px (open) decide the direction.
   function flingDirection(expanded, y, velocity, displayHeight) {
-    const v = velocity / PX, h = displayHeight / PX, yy = y / PX;
+    const v = velocity / PX(), h = displayHeight / PX(), yy = y / PX();
     if (expanded) return v > 200 || (yy > h - 25 && v > -200);
     return v > 200 || (yy > h / 2 && v > -200);
   }
