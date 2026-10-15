@@ -1,0 +1,51 @@
+# Android 2.1 texts the Nexus One image does not have (docs/tools/ec-strings.py "own:<key>" rows):
+# <table> TAB <key> TAB <English> TAB <source>.
+# Maps 3.4.0 took most of its interface text from a language file it downloaded from Google (strings.dat, not in the
+# APK), so its menus and screens are read from screenshots of Maps 3.4 on the Nexus One:
+#   g091–g100 = GSMArena's Nexus One review screenshots, February 2010 (_aosp/passion/refs/gsmarena-2010-02);
+#   b155 / b156 = the Google Mobile Blog post "Take your places and searches to go with Google Maps for mobile"
+#   (2 February 2010, the Maps 3.4 release with the ERE27 update; _aosp/passion/refs/maps34).
+# Where nothing of the time shows a text, the row says so ("as in …": the closest text that is shown).
+maps	directions	Directions	g092 (menu)
+maps	my_location	My Location	g092 (menu), g095 (directions start)
+maps	join_latitude	Join Latitude	g092 (menu)
+maps	more_layers	More Layers	g093 (dialog title)
+maps	layer_my_maps	My Maps	g093
+maps	layer_wikipedia	Wikipedia	g093
+maps	layer_transit	Transit Lines	g093
+maps	layer_favorite_places	Favorite Places	g093
+maps	latitude	Latitude	g092 ("Join Latitude"); the layer's name
+maps	end_point	End point:	g095 (directions, empty field)
+maps	start_point	Start point:	as in "End point:" (g095)
+maps	go	Go	g095
+maps	whats_nearby	What's nearby?	g098 (dialog title)
+maps	pp_address	Address	b155 (place page tab)
+maps	pp_details	Details	b155
+maps	pp_reviews	Reviews	b155
+maps	show_on_map	Show on map	b155
+maps	get_directions	Get directions	b155
+maps	street_view	Street view	b155
+maps	report_problem	Report a problem	b155
+maps	starred_items	Starred Items	Google LatLong blog, 17 December 2009 "Keep your starred items in sync"; b155's post: starred places are in the "More" menu
+maps	search_results	Search results	as in Maps 3.4's layer list (the search layer)
+maps	no_results	No results	as in the search of the time
+maps	dir_head	Head %1$s on %2$s	Google Maps directions text of 2010 (sent by the server)
+maps	dir_left	Turn left at %1$s	Google Maps directions text of 2010
+maps	dir_right	Turn right at %1$s	Google Maps directions text of 2010
+maps	dir_continue	Continue onto %1$s	Google Maps directions text of 2010
+maps	dir_arrive	Arrive at %1$s	Google Maps directions text of 2010
+maps	dir_about	about %1$s	Google Maps directions text of 2010 ("3.2 km – about 9 mins")
+maps	north	north	Google Maps directions text of 2010
+maps	east	east	Google Maps directions text of 2010
+maps	south	south	Google Maps directions text of 2010
+maps	west	west	Google Maps directions text of 2010
+maps	starred_empty	No starred items	as in the list of the time
+maps	friends_empty	No friends yet	as in Latitude of the time
+maps	add_friends	Add friends	Latitude of the time (friends_add drawable)
+maps	latitude_intro	Latitude lets you see where your friends are, and lets them see where you are. You control who sees your location.	Google's Latitude introduction of 2009–2010
+maps	accept_share	Accept & share	Latitude of the time
+maps	reviews_count	%1$s reviews	b155's post (place page: "35 reviews")
+maps	dir_walk_to	Walk to %1$s	Google Maps transit directions text of 2010
+maps	dir_take	Take the %1$s toward %2$s	Google Maps transit directions text of 2010
+maps	dir_get_off	Get off at %1$s	Google Maps transit directions text of 2010
+maps	map	Map	as in the list menu's ic_menu_see_map command (m); Maps 5.4 da_map

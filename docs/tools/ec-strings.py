@@ -16,12 +16,24 @@ A row with neither is reported and keeps English. A German, French or Spanish te
 phone shows, listed in the row's untranslated; a text with none of the three (an English-only app such as Goggles) is
 English in Hungarian as well, and so is every text of a table marked hu=none (an app without Hungarian: YouTube) and a text without Hungarian in a table marked hu=en (one the phone never shows in
 Hungarian: "[amazon] com.amazon.mp3 hu=en"). Each table is EC.strings('<table>', {name: {res, en, hu, de, fr, es, …}}).
+An APK of the image that has Hungarian itself (Maps 3.4.0) keeps its own (huFrom: 'passion').
+"own:<key>" takes a text the image does not have, from docs/data/ec-own.tsv (<table> TAB <key> TAB <English> TAB <source>):
+Maps 3.4 downloaded most of its interface text from Google's server (strings.dat), so those rows come from screenshots
+of the time, each named in the source column. Such a row is {own: true, source, en, …}; German, French, Spanish and
+Hungarian are the Nexus S 2.3.6 image's translations of exactly the same English in the table's APKs (deFrom, …), then
+any APK for Hungarian and docs/data/ec-hu.tsv (huOwn); otherwise English.
 Do not edit the output by hand; rerun this after changing the list."""
 import json, os, sys
 from image_res import ImageRes, ROOT
 
 PASSION = ImageRes('passion')
 CRESPO_INDEX = json.load(open(ROOT + '_aosp/crespo/strings-index.json', encoding='utf-8'))
+OWN_ROWS = {}
+if os.path.exists(ROOT + 'docs/data/ec-own.tsv'):
+    for line in open(ROOT + 'docs/data/ec-own.tsv', encoding='utf-8'):
+        if line.strip() and not line.startswith('#'):
+            table, key, en, source = line.rstrip('\n').split('\t')
+            OWN_ROWS[(table, key)] = (en.replace('\\n', '\n'), source)
 OWN = {}
 if os.path.exists(ROOT + 'docs/data/ec-hu.tsv'):
     for line in open(ROOT + 'docs/data/ec-hu.tsv', encoding='utf-8'):
@@ -64,9 +76,39 @@ def which_apk(apks, kind, key):
     return None
 
 
+def crespo_text(english, apks, lang):
+    """The 2.3.6 image's text in lang for exactly this English, from the same APKs first."""
+    rows = [r for r in CRESPO_INDEX.get(english) or [] if r[2].get(lang)]
+    hit = next((r for apk in apks for r in rows if r[0] == apk), None)
+    return (hit[2][lang], f'crespo:{hit[0]}:{hit[1]}') if hit else (None, None)
+
+
+def own_row(table, spec, key, missing):
+    if (table, key) not in OWN_ROWS: raise SystemExit(f'{table}: own:{key} is not in docs/data/ec-own.tsv')
+    en, source = OWN_ROWS[(table, key)]
+    row = {'own': True, 'source': source, 'en': en}
+    for lang in ('de', 'fr', 'es'):
+        text, src = crespo_text(en, spec['apks'], lang)
+        if text: row[lang], row[f'{lang}From'] = text, src
+    if spec.get('huNone'): row['hu'] = en
+    else:
+        hu, src = crespo_text(en, spec['apks'], 'hu')
+        if not hu: hu, src = hungarian(en, spec['apks'][0], key)
+        if hu: row['hu'], row['huFrom'] = hu, src
+        elif en in OWN: row['hu'], row['huOwn'] = OWN[en], True
+        else: missing.append(en)
+    gaps = [lang for lang in ('de', 'fr', 'es') if lang not in row]
+    for lang in gaps: row[lang] = en
+    if gaps: row['untranslated'] = gaps
+    return row
+
+
 def build(table, spec):
     entries, missing = {}, []
     for item in spec['keys']:
+        if item.startswith('own:'):
+            entries[item[4:]] = own_row(table, spec, item[4:], missing)
+            continue
         kind, key = item.split(':', 1) if ':' in item else ('string', item)
         name = key
         if '/' in key:   # Apk/resource names the APK; the row is keyed Apk/resource
@@ -80,8 +122,10 @@ def build(table, spec):
         if kind == 'string':
             row.update({lang: value[lang] for lang in ('en', 'de', 'fr', 'es') if value.get(lang) is not None})
             hu, src = hungarian(value['en'], apk, key)
+            # An APK of the image with its own Hungarian (Maps 3.4.0) keeps it.
+            if value.get('hu') is not None: row['hu'], row['huFrom'] = value['hu'], 'passion'
             # An ec-hu.tsv row keyed Apk/resource wins where crespo's same English means something else there.
-            if f'{apk}/{key}' in OWN: row['hu'], row['huOwn'] = OWN[f'{apk}/{key}'], True
+            elif f'{apk}/{key}' in OWN: row['hu'], row['huOwn'] = OWN[f'{apk}/{key}'], True
             elif hu: row['hu'], row['huFrom'] = hu, src
             elif value['en'] in OWN: row['hu'], row['huOwn'] = OWN[value['en']], True
             else: missing.append(value['en'])

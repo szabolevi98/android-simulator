@@ -20,7 +20,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 SYSTEM = ROOT + '_aosp/passion/system/'
 OUT = ROOT + 'versions/2.1/assets/'
 CSS = ROOT + 'versions/2.1/ec-ninepatch.css'
-DENSITIES = ['-hdpi', '', '-nodpi', '-mdpi', '-ldpi']
+# Maps 3.4 names its folders by number (drawable-240dpi = hdpi, drawable-160dpi = mdpi).
+DENSITIES = ['-hdpi', '-240dpi', '', '-nodpi', '-mdpi', '-160dpi', '-ldpi']
 # Contacts / Phone keep their touchscreen resources under -finger (drawable-hdpi-finger).
 DENSITIES = [d for base in DENSITIES for d in (base, base + '-finger')]
 
@@ -62,7 +63,7 @@ def dp(px, per_dp=1.5):
 
 def per_dp(path):
     folder = path.split('/')[1]
-    return 1.5 if '-hdpi' in folder or '-nodpi' in folder else 0.75 if '-ldpi' in folder else 1.0
+    return 1.5 if '-hdpi' in folder or '-240dpi' in folder or '-nodpi' in folder else 0.75 if '-ldpi' in folder else 1.0
 
 
 def main():
