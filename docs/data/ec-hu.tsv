@@ -177,7 +177,6 @@ Half an hour	Fél óra
 6 hours	6 óra
 12 hours	12 óra
 Okay	Rendben
-Google Mail Storage	Google Mail-tárhely
 Google Search (Enhanced)	Google Keresés (bővített)
 Google Settings Provider	Google beállításszolgáltató
 Google Talk Service	Google Talk szolgáltatás
@@ -192,7 +191,6 @@ Sync Feeds	Hírcsatornák szinkronizálása
 Use system cache.	Rendszer-gyorsítótár használata.
 back up and restore the application's data	az alkalmazás adatainak biztonsági mentése és visszaállítása
 modify/delete SD card contents	SD-kártya tartalmának módosítása/törlése
-read Google Mail attachment previews	Google Mail-mellékletek előnézeteinek olvasása
 read calendar data	naptáradatok olvasása
 read owner data	tulajdonosi adatok olvasása
 read system log files	rendszernaplófájlok olvasása
@@ -393,3 +391,7 @@ Accept & share	Elfogadás és megosztás
 Walk to %1$s	Sétáljon ide: %1$s
 Take the %1$s toward %2$s	Szálljon fel erre: %1$s, %2$s felé
 Get off at %1$s	Szálljon le itt: %1$s
+Gmail Storage	Gmail-tárhely
+modify Gmail	Gmail módosítása
+read Gmail	Gmail olvasása
+read Gmail attachment previews	Gmail-mellékletek előnézeteinek olvasása

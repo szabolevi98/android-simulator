@@ -111,12 +111,12 @@ EC.strings('apps', {
 },
 "Gmail/activity_gmail": {
 "res": "passion:Gmail:activity_gmail",
-"en": "Google Mail",
-"de": "Google Mail",
-"fr": "Google Mail",
-"es": "Google Mail",
-"hu": "Google Mail",
-"huFrom": "crespo:Gmail:activity_gmail"
+"en": "Gmail",
+"de": "Gmail",
+"fr": "Gmail",
+"es": "Gmail",
+"hu": "Gmail",
+"huFrom": "crespo:GoogleServicesFramework:gls_login_activity_gmail_domain"
 },
 "GoogleGoggles/app_name_icon": {
 "res": "passion:GoogleGoggles:app_name_icon",

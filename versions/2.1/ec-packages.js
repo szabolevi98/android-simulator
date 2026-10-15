@@ -614,12 +614,12 @@ EC.packages = [
 ],
 "label": {
 "res": "passion:Gmail:activity_gmail",
-"en": "Google Mail",
-"de": "Google Mail",
-"fr": "Google Mail",
-"es": "Google Mail",
-"hu": "Google Mail",
-"huFrom": "crespo:Gmail:activity_gmail"
+"en": "Gmail",
+"de": "Gmail",
+"fr": "Gmail",
+"es": "Gmail",
+"hu": "Gmail",
+"huFrom": "crespo:GoogleServicesFramework:gls_login_activity_gmail_domain"
 }
 },
 {
@@ -646,11 +646,11 @@ EC.packages = [
 ],
 "label": {
 "res": "passion:GmailProvider:application_name",
-"en": "Google Mail Storage",
-"de": "Speicherplatz bei Google Mail",
-"fr": "Espace de stockage sur Google Mail",
-"es": "Almacenamiento de Google Mail",
-"hu": "Google Mail-tárhely",
+"en": "Gmail Storage",
+"de": "Speicherplatz bei Gmail",
+"fr": "Espace de stockage sur Gmail",
+"es": "Almacenamiento de Gmail",
+"hu": "Gmail-tárhely",
 "huOwn": true
 }
 },
@@ -975,7 +975,7 @@ EC.packages = [
 "apk": "LiveWallpapers.apk",
 "version": "2.1-update1",
 "size": 1097295,
-"icon": "pk-com.android.wallpaper.png",
+"icon": "mm-ic_launcher_gallery.png",
 "persistent": false,
 "perms": [
 "android.permission.ACCESS_COARSE_LOCATION",
@@ -1486,7 +1486,7 @@ EC.packages = [
 "apk": "SoundRecorder.apk",
 "version": "2.1-update1",
 "size": 103826,
-"icon": "pk-com.android.soundrecorder.png",
+"icon": "mm-ic_launcher_record_audio.png",
 "persistent": false,
 "perms": [
 "android.permission.INTERNET",
@@ -3686,11 +3686,11 @@ EC.permissions = {
 "dangerous": true,
 "label": {
 "res": "passion:Gmail:read_attachment_preview_label",
-"en": "read Google Mail attachment previews",
-"de": "Anhang-Vorschau in Google Mail lesen",
-"fr": "lire l'aperçu des pièces jointes aux messages Google Mail",
-"es": "leer las vistas previas de los archivos adjuntos de Google Mail",
-"hu": "Google Mail-mellékletek előnézeteinek olvasása",
+"en": "read Gmail attachment previews",
+"de": "Anhangsvorschauen von Gmail lesen",
+"fr": "lire l'aperçu des pièces jointes Gmail",
+"es": "leer vistas previas de los archivos adjuntos de Gmail",
+"hu": "Gmail-mellékletek előnézeteinek olvasása",
 "huOwn": true
 }
 },
@@ -3699,12 +3699,12 @@ EC.permissions = {
 "dangerous": true,
 "label": {
 "res": "passion:GmailProvider:read_perm_label",
-"en": "read Google Mail",
-"de": "E-Mails in Google Mail lesen",
-"fr": "Lecture des messages Google Mail",
-"es": "leer Google Mail",
-"hu": "Google Mail olvasása",
-"huFrom": "crespo:Gmail:read_perm_label"
+"en": "read Gmail",
+"de": "E-Mails in Gmail lesen",
+"fr": "Lecture des messages Gmail",
+"es": "leer Gmail",
+"hu": "Gmail olvasása",
+"huOwn": true
 }
 },
 "com.google.android.providers.gmail.permission.WRITE_GMAIL": {
@@ -3712,12 +3712,12 @@ EC.permissions = {
 "dangerous": true,
 "label": {
 "res": "passion:GmailProvider:write_perm_label",
-"en": "modify Google Mail",
-"de": "Google Mail anpassen",
-"fr": "modifier le compte Google Mail",
-"es": "modificar Google Mail",
-"hu": "Google Mail módosítása",
-"huFrom": "crespo:Gmail:write_perm_label"
+"en": "modify Gmail",
+"de": "Gmail anpassen",
+"fr": "modifier Gmail",
+"es": "modificar Gmail",
+"hu": "Gmail módosítása",
+"huOwn": true
 }
 },
 "com.google.android.googleapps.permission.GOOGLE_MAIL_SWITCH": {

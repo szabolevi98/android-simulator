@@ -53,6 +53,10 @@ class ImageRes:
             for config, entry in r.get_res_configs(rid):
                 if self._lang(config) == lang and entry.key.data_type == 1 and depth < 8:
                     return text(entry.key.data, lang, depth + 1) if any(self._lang(c) == lang for c, _ in r.get_res_configs(entry.key.data)) else text(entry.key.data, 'en', depth + 1)
+                # The configuration's own plain string: androguard's resolved table lets a network-qualified one
+                # (GmailProvider's mcc234 / mcc262 "Google Mail" for the UK and Germany) replace the default.
+                if self._lang(config) == lang and entry.key.data_type == 3:
+                    return r.stringpool_main.getString(entry.key.data)
             return strings['DEFAULT' if lang == 'en' else lang].get(rid)
         out = {'en': text(rid, 'en')}
         out.update({lang: text(rid, lang) for lang in LANGS[1:] if rid in strings.get(lang, {})})
