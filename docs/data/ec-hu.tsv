@@ -303,3 +303,36 @@ Process: %1$s	Folyamat: %1$s
 No .p12 file found in the SD card.	Nem található .p12 fájl az SD-kártyán.
 1 match	1 találat
 %d matches	%d találat
+Reply to all	Válasz mindenkinek
+View labels	Címkék megtekintése
+Back to compose	Vissza a levélíráshoz
+Re:	Re:
+Fwd:	Fwd:
+On %s, %s wrote:<br><br>	%s, %s ezt írta:<br><br>
+---------- Forwarded message ----------<br>From: %1$s<br>Date: %2$s<br>Subject: %3$s<br>To: %4$s<br><br>	---------- Továbbított üzenet ----------<br>Feladó: %1$s<br>Dátum: %2$s<br>Tárgy: %3$s<br>Címzett: %4$s<br><br>
+Edit subject	Tárgy szerkesztése
+Message sent.	Üzenet elküldve.
+Quoted text:	Idézett szöveg:
+To inbox	Vissza a Beérkezett üzenetekhez
+Back to Inbox	Vissza a Beérkezett üzenetekhez
+Confirm delete	Törlés megerősítése
+Show a dialog whenever you delete a conversation	Párbeszédablak megjelenítése beszélgetés törlésekor
+Do you want to delete these %1$d conversations?	Törli ezt a(z) %1$d beszélgetést?
+Do you want to delete this conversation?	Törli ezt a beszélgetést?
+%s read messages	%s olvasott üzenet
+%s read message	%s olvasott üzenet
+Archived %1$d conversations.	%1$d beszélgetés archiválva.
+Archived %1$d conversation.	%1$d beszélgetés archiválva.
+Deleted %1$d conversations.	%1$d beszélgetés törölve.
+Deleted %1$d conversation.	%1$d beszélgetés törölve.
+Muted %1$d conversations.	%1$d beszélgetés lezárva.
+Muted %1$d conversation.	%1$d beszélgetés lezárva.
+Reported %1$d conversations as spam.	%1$d beszélgetés spamként bejelentve.
+Reported %1$d conversation as spam.	%1$d beszélgetés spamként bejelentve.
+Starred %1$d conversations.	%1$d beszélgetés csillagozva.
+Starred %1$d conversation.	%1$d beszélgetés csillagozva.
+Marked %1$d conversations read.	%1$d beszélgetés olvasottként megjelölve.
+Marked %1$d conversation read.	%1$d beszélgetés olvasottként megjelölve.
+Marked %1$d conversations unread.	%1$d beszélgetés olvasatlanként megjelölve.
+Marked %1$d conversation unread.	%1$d beszélgetés olvasatlanként megjelölve.
+Sync %d days	%d napi szinkronizálás

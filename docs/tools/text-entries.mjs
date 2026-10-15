@@ -59,6 +59,8 @@ export function check(list) {
     for (const lang of LANGS) if (typeof entry[lang] !== 'string') problems.push(`${where}: no ${lang}`);
     const en = entry.en ?? key;
     if (typeof en !== 'string') continue;
+    // A Time.format pattern (framework date / time formats: %-e, %b, %Y, %H …) has conversions, not placeholders.
+    if (/%(?:-[a-zA-Z]|[bBYyHMpPeA])/.test(en)) continue;
     const norm = list => new Set(list.map((p, i) => p.replace(/^%([sdf])$/, `%${i + 1}$1`)));
     const base = norm(placeholders(en));
     for (const lang of LANGS) {

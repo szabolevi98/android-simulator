@@ -5,7 +5,9 @@
 docs/data/ec-assets.tsv lists one file per line: <output name> <TAB> <APK under _aosp/passion/system> <TAB> <resource>,
 e.g. "fw-statusbar_background.9.png	framework/framework-res.apk	drawable/statusbar_background"; a source that is
 not an APK is a system file copied byte for byte ("st-notice.html.gz	etc/NOTICE.html.gz	-"). The resource is taken
-in the first density the APK has of hdpi, nodpi, mdpi, ldpi (the Nexus One is hdpi) and copied byte for byte.
+in the first density the APK has of hdpi, nodpi, mdpi, ldpi (the Nexus One is hdpi) and copied byte for byte. A
+resource "assets/<file>" is that file of the APK's assets/ (what its WebViews load from file:///android_asset/), raw
+nine-patches included (their CSS slices them, guide pixels and all, as the WebView does).
 
 Every nine-patch gets a class in ec-ninepatch.css: .np-<output name without .9.png> draws it as a CSS border image.
 Compiled nine-patches keep their stretch areas and padding in the PNG's npTc chunk (no 1 px guide border): the slices
@@ -24,6 +26,8 @@ DENSITIES = [d for base in DENSITIES for d in (base, base + '-finger')]
 
 
 def find(z, resource):
+    # A file of the APK's assets/ (what its WebViews load from file:///android_asset/), taken as it is.
+    if resource.startswith('assets/'): return resource
     kind, name = resource.split('/', 1)
     names = set(z.namelist())
     for d in DENSITIES:
@@ -77,7 +81,7 @@ def main():
         path = find(z, resource)
         data = z.read(path)
         open(OUT + out, 'wb').write(data)
-        if out.endswith('.9.png'):
+        if out.endswith('.9.png') and not resource.startswith('assets/'):
             info = nptc(data)
             if not info: raise SystemExit(f'{out}: no npTc chunk')
             (pl, pr, pt, pb), xs, ys = info

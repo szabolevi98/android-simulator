@@ -390,3 +390,7 @@
 .npp-fw-expander_ic_maximized{padding:0 calc(31.3333 * var(--dp)) calc(35.3333 * var(--dp)) 0}
 .np-fw-expander_ic_minimized{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/fw-expander_ic_minimized.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 calc(31.3333 * var(--dp)) calc(35.3333 * var(--dp)) 0}  /* res/drawable-hdpi/expander_ic_minimized.9.png 48x54 */
 .npp-fw-expander_ic_minimized{padding:0 calc(31.3333 * var(--dp)) calc(35.3333 * var(--dp)) 0}
+.np-gm-text_box{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(14.6667 * var(--dp)) calc(8 * var(--dp)) calc(14.6667 * var(--dp)) calc(8 * var(--dp));border-image:url('assets/gm-text_box.9.png') 22 12 22 12 fill / calc(14.6667 * var(--dp)) calc(8 * var(--dp)) calc(14.6667 * var(--dp)) calc(8 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-hdpi/text_box.9.png 27x47 */
+.npp-gm-text_box{padding:calc(4 * var(--dp)) calc(3.33333 * var(--dp)) calc(4 * var(--dp)) 0}
+.np-gm-divider_horizontal_email{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 calc(128 * var(--dp)) 0 calc(128 * var(--dp));border-image:url('assets/gm-divider_horizontal_email.9.png') 0 128 0 128 fill / 0 calc(128 * var(--dp)) 0 calc(128 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable/divider_horizontal_email.9.png 258x1 */
+.npp-gm-divider_horizontal_email{padding:0 calc(128 * var(--dp)) 0 calc(128 * var(--dp))}

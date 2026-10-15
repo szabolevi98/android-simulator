@@ -1,0 +1,98 @@
+/* Android 2.1 Gmail 1.3 (ec-gmail.js), in dp / sp. Theme.Light: screen_background_light, divider_horizontal_bright. */
+.ecgm{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;color:#000}
+/* custom_title.xml in the title bar: windowTitleStyle at the left, the account (#f6f6f6, shadow 0 1 black) at the right. */
+.ecgm-title{position:relative;flex:none;height:calc(25 * var(--dp));display:flex;align-items:center;color:#fff}
+.ecgm-title>span{position:relative;z-index:1;white-space:nowrap;overflow:hidden}
+.ecgm-tleft{flex:none;max-width:60%;font-weight:700;font-size:calc(14 * var(--dp));text-shadow:0 0 calc(2.75 * var(--dp)) #000000bb;text-overflow:ellipsis}
+.ecgm-tright{flex:1;min-width:0;padding-left:calc(5 * var(--dp));text-align:right;font-size:calc(14 * var(--dp));color:#f6f6f6;text-shadow:0 calc(1 * var(--dp)) calc(0.1 * var(--dp)) #000;text-overflow:ellipsis}
+.ecgm-body{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+.ecgm-scroll{position:relative;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ecgm-scroll::-webkit-scrollbar{display:none}
+
+/* CanvasConversationHeaderView: 60 dp rows; read rows #e7e3e7. */
+.ecgm-row{position:relative;height:calc(60 * var(--dp));overflow:hidden;white-space:nowrap}
+.ecgm-row.read{background:#e7e3e7}
+.ecgm-open{position:absolute;inset:0;border:0;padding:0;background:none}
+.ecgm-check,.ecgm-star{position:absolute;z-index:2;top:0;bottom:0;width:calc(40 * var(--dp));border:0;padding:0;background:none}
+.ecgm-check{left:0}.ecgm-star{right:0}
+.ecgm-check img{position:absolute;left:calc(3 * var(--dp));top:calc(8 * var(--dp));width:calc(23.33 * var(--dp));height:calc(23.33 * var(--dp))}
+.ecgm-star img{position:absolute;right:calc(7 * var(--dp));top:calc(5 * var(--dp));width:calc(23.33 * var(--dp));height:calc(23.33 * var(--dp))}
+.ecgm-l1,.ecgm-l2{position:absolute;z-index:1;display:flex;align-items:center;pointer-events:none}
+.ecgm-l1{left:calc(33.33 * var(--dp));right:calc(30.33 * var(--dp));top:calc(9 * var(--dp));height:calc(22 * var(--dp));font-size:calc(18 * var(--dp))}
+.ecgm-row.nobatch .ecgm-l1,.ecgm-row.nobatch .ecgm-l2{left:calc(5 * var(--dp))}
+.ecgm-subj{flex:none;max-width:calc(100% - 16.34 * var(--dp));overflow:hidden;text-overflow:ellipsis}
+.ecgm-row.nobatch .ecgm-subj{max-width:calc(100% - 44.67 * var(--dp))}
+.ecgm-row:not(.read) .ecgm-subj,.ecgm-row:not(.read) .ecgm-pill{font-weight:700}
+.ecgm-snip{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;color:#777}
+.ecgm-l2{right:calc(7 * var(--dp));top:calc(37 * var(--dp));height:calc(18 * var(--dp));font-size:calc(14 * var(--dp))}
+.ecgm-caret{flex:none;align-self:flex-start;margin:calc(5.7 * var(--dp)) calc(3 * var(--dp)) 0 0;height:calc(7.33 * var(--dp))}
+.ecgm-from{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ecgm-draft{color:#ff0052}
+.ecgm-clip{flex:none;margin-left:calc(4 * var(--dp));width:calc(27.33 * var(--dp));height:calc(18 * var(--dp))}
+.ecgm-pill{flex:none;margin-left:calc(4 * var(--dp));padding:0 calc(3 * var(--dp));height:calc(18 * var(--dp));line-height:calc(18 * var(--dp));border-radius:calc(3 * var(--dp));background:#57a1d0;color:#fff;font-size:calc(12 * var(--dp))}
+.ecgm-date{flex:none;margin-left:calc(4 * var(--dp))}
+.ecgm-div{display:block;height:calc(1 * var(--dp));background:url('assets/fw-divider_horizontal_bright.9.png') 0 0/100% 100%}
+/* undo_textview: #fffff1a8, 5 dp padding, textAppearanceSmall; the bold "Undo" link. */
+.ecgm-undo{flex:none;padding:calc(5 * var(--dp)) 0;background:#fff1a8;text-align:center;font-size:calc(14 * var(--dp));color:#323232}
+.ecgm-undo button{border:0;padding:0;background:none;font:inherit;font-weight:700;color:#5c5cff;text-decoration:underline}
+.ecgm-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:calc(22 * var(--dp))}
+/* ConversationListFooterView's loading row: listPreferredItemHeight, progressBarStyleSmall (spinner_black_16), 22 sp. */
+.ecgm-loading{display:flex;align-items:center;justify-content:center;height:calc(64 * var(--dp));font-size:calc(22 * var(--dp))}
+.ecgm-loading span{padding-left:calc(5 * var(--dp))}
+.ecgm-spin{width:calc(16 * var(--dp));height:calc(16 * var(--dp));animation:ecgm-spin 1.2s steps(12) infinite}
+@keyframes ecgm-spin{to{transform:rotate(360deg)}}
+/* bottom_bar (padding 4 / 5 / 4 / 1 dp) with equal Buttons. */
+.ecgm-bar{flex:none;display:flex;gap:0;padding:calc(5 * var(--dp)) calc(4 * var(--dp)) calc(1 * var(--dp));background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.ecgm-bar .ecgm-bbtn{flex:1;min-width:0;min-height:calc(48 * var(--dp))}
+
+/* HtmlConversationActivity: the WebView (1 CSS px = 1 dp) with Gmail's assets/styles.css. */
+.ecgm-web{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;font-size:calc(14 * var(--dp));line-height:normal}
+.ecgm-web::-webkit-scrollbar{display:none}
+.ecgm-web *{font-size:calc(14 * var(--dp))}
+.ecgm-web table{border-collapse:separate;border-spacing:calc(2 * var(--dp))}
+.ecgm-web table[cellspacing="0"]{border-spacing:0}
+.ecgm-web td{padding:calc(1 * var(--dp))}
+.ecgm-web table[cellpadding="0"] td{padding:0}
+.ecgm-conversationHeaderDiv{padding:calc(5 * var(--dp)) calc(8 * var(--dp)) calc(15 * var(--dp));font-weight:700}
+.ecgm-web .ecgm-conversationHeaderDiv{font-size:calc(15 * var(--dp))}
+.ecgm-labels{padding-top:calc(5 * var(--dp))}
+.ecgm-web .ecgm-labelsDiv{font-size:calc(12 * var(--dp));padding:0 calc(3 * var(--dp));border:calc(2 * var(--dp)) solid transparent;border-image:url('assets/gm-web-label_background.png') 2 fill / calc(2 * var(--dp));color:#fff;font-weight:400}
+.ecgm-headerDiv{position:relative;margin-top:calc(-10 * var(--dp));border-style:solid;border-width:calc(15 * var(--dp)) calc(8 * var(--dp)) calc(12 * var(--dp));border-image:url('assets/gm-web-ic_email_thread_open_top_default.9.png') 15 8 8 8 fill / calc(15 * var(--dp)) calc(8 * var(--dp)) calc(12 * var(--dp))}
+.ecgm-web .ecgm-fromDiv{font-size:calc(16 * var(--dp));font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecgm-web .ecgm-fromDiv span{font-size:inherit}
+.ecgm-presenceBgImg{position:relative;z-index:1;width:calc(18 * var(--dp));padding:0 calc(5 * var(--dp)) calc(2 * var(--dp)) 0;vertical-align:bottom;background:url('assets/gm-web-quickcontact_presence_bg.png') no-repeat 0 0/calc(18 * var(--dp)) calc(19 * var(--dp))}
+.ecgm-presenceImg{display:block;width:calc(18 * var(--dp));vertical-align:bottom}
+.ecgm-bigstar{float:right;width:calc(30 * var(--dp));height:calc(32 * var(--dp))}
+.ecgm-when{white-space:nowrap}
+.ecgm-snippetDiv,.ecgm-addressDiv{overflow:hidden}
+.ecgm-bodyCell{border-right:1px solid #999}
+.ecgm-bodyDiv{padding:calc(5 * var(--dp))}
+.ecgm-messageFooterDiv2{border-style:solid;border-width:calc(2 * var(--dp)) calc(5 * var(--dp)) calc(7 * var(--dp)) calc(4 * var(--dp));border-image:url('assets/gm-web-bg_shadow_bottomcard.9.png') 2 5 7 4 fill / calc(2 * var(--dp)) calc(5 * var(--dp)) calc(7 * var(--dp)) calc(4 * var(--dp))}
+.ecgm-footerButton{float:left;border:0;padding:calc(2 * var(--dp)) calc(2 * var(--dp)) calc(2 * var(--dp)) 0;margin:0 calc(4 * var(--dp));background:transparent;color:inherit}
+.ecgm-footerIconImg{width:calc(32 * var(--dp));height:calc(32 * var(--dp));vertical-align:-20%}
+.ecgm-web .ecgm-footerTextElementDiv{display:inline;font-size:calc(12 * var(--dp));color:#666}
+.ecgm-web [data-action]{cursor:pointer}
+
+/* ComposeActivity (dark title bar; compose_activity.xml on #ededed). */
+.ecgm-compose{background:#ededed}
+.ecgm-cbody{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+.ecgm-cscroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ecgm-content{display:flex;flex-direction:column;margin:calc(8 * var(--dp)) 0 0 calc(10 * var(--dp))}
+.ecgm-field{margin:calc(6 * var(--dp)) 0}
+.ecgm-content>.ecgm-field:nth-of-type(n+1){margin-top:calc(6 * var(--dp))}
+.ecgm-hdiv{display:block;width:100%;height:calc(1 * var(--dp))}
+.ecgm-bodyfield textarea{display:block;resize:none;min-height:calc(72 * var(--dp));padding:calc(5 * var(--dp)) calc(5 * var(--dp)) calc(10 * var(--dp)) calc(7 * var(--dp));box-sizing:border-box}
+.ecgm-quote{padding-bottom:calc(5 * var(--dp));font-size:calc(18 * var(--dp));color:#000}
+.ecgm-quoted{font-size:calc(14 * var(--dp))}
+
+/* LabelsActivity (label_item.xml, Theme.Light). */
+.ecwin.ecgm-light{background:#fff;color:#000}
+.ecgm-label{position:relative;display:flex;align-items:stretch;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0;background:none;color:#000;text-align:left}
+.ecgm-label>:not(.ec-bg){position:relative;z-index:1}
+.ecgm-unreadbar{flex:none;margin:calc(2 * var(--dp)) 0;width:calc(3.33 * var(--dp));height:auto}
+.ecgm-lname{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding-left:calc(5 * var(--dp))}
+.ecgm-lname span{display:flex;align-items:center;gap:calc(10 * var(--dp));font-size:calc(22 * var(--dp))}
+.ecgm-lname img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.ecgm-lname small{font-size:calc(14 * var(--dp));font-weight:700;color:#323232}
+.ecgm-count{align-self:center;position:relative;min-width:calc(80 * var(--dp));margin-right:calc(2 * var(--dp));padding-left:calc(15 * var(--dp))!important;padding-right:calc(15 * var(--dp))!important;text-align:right;font-size:calc(22 * var(--dp));box-sizing:border-box}
+.ecgm-count span{position:relative;z-index:1}

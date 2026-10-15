@@ -4,7 +4,6 @@
      the square search button), nav_3buttons.xml (Apps | Games | Downloads on btn_strip), the full-screen "Loading…",
      then "Attention: A network error has occurred. Retry, or cancel and return to the previous screen." (Retry /
      Cancel), the list ending in "No connection".
-   - Gmail: Inbox, "Loading conversations…", then "No conversations." and "No connection" with Retry.
    - Talk: "Signing in…", then "Network currently unavailable. Will connect automatically when available."
    - YouTube: "Loading…", then "Connection problem." / "There is no network connection right now. Please try again
      later." (OK).
@@ -36,10 +35,6 @@
     });
   }
   // Gmail, Talk, YouTube, Maps --------------------------------------------------------------------------------------------
-  function gmail(c) {
-    const st = c.ui.gmailState || 'loading';
-    return c.window(t('Gmail/label_inbox'), st === 'loading' ? loading(t('Gmail/loading')) : `<div class="ecna-empty">${esc(t('Gmail/no_conversations'))}</div><div class="ecna-status"><span>${esc(t('Gmail/network_error'))}</span><button type="button" class="ecui-button" data-action="ecna-gmail-retry"><i class="ec-bg np-fw-btn_default_normal"></i><i class="ec-bg ec-pressed np-fw-btn_default_pressed"></i><span>${esc(t('Gmail/retry'))}</span></button></div>`);
-  }
   function talk(c) {
     const st = c.ui.talkState || 'loading';
     return c.window(EC.apps.label('talk'), st === 'loading' ? loading(t('Talk/signing_in_wait')) : `<div class="ecna-empty">${esc(t('Talk/no_network'))}</div>`);
@@ -53,13 +48,11 @@
     start
   });
   register('market', market, marketStart);
-  register('gmail', gmail, c => { c.ui.gmailState = 'loading'; later(c, 'gmail', 2000, () => { c.ui.gmailState = 'error'; c.render(); c.toast(t('Gmail/cannot_connect'), true); }); });
   register('talk', talk, c => { c.ui.talkState = 'loading'; later(c, 'talk', 2500, () => { c.ui.talkState = 'error'; c.render(); }); });
   register('youtube', youtube, c => later(c, 'youtube', 2000, () => c.dialog({title: t('YouTube/connection_error_title'), icon: 'fw-ic_dialog_alert.png', message: t('YouTube/no_network'), buttons: [{label: t('YouTube/ok'), action: () => c.back()}], onCancel: () => c.back()})));
   register('maps', maps, c => { c.ui.mapsState = 'loading'; later(c, 'maps', 2000, () => { c.ui.mapsState = 'error'; c.render(); c.dialog({title: t('Maps/NET_FAIL_TITLE'), icon: 'fw-ic_dialog_alert.png', message: t('Maps/NET_FAIL_BODY'), buttons: [{label: EC.text('framework').t('ok')}]}); }); });
-  EC.module('gmail').action = (name, el, event, c) => { if (name !== 'ecna-gmail-retry') return false; EC.module('gmail').start(c); c.render(); return true; };
   document.addEventListener('DOMContentLoaded', () => {
     const c = EC.context, open = c.open;
-    c.open = (view, sub, opts) => { const fresh = c.ui.view !== view; const r = open(view, sub, opts); if (fresh && ['market', 'gmail', 'talk', 'youtube', 'maps'].includes(view)) { EC.module(view).start(c); c.render(); } return r; };
+    c.open = (view, sub, opts) => { const fresh = c.ui.view !== view; const r = open(view, sub, opts); if (fresh && ['market', 'talk', 'youtube', 'maps'].includes(view)) { EC.module(view).start(c); c.render(); } return r; };
   });
 })();
