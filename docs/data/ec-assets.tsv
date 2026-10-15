@@ -1186,3 +1186,65 @@ as-ic_list_sync_anim1.png	app/AccountAndSyncSettings.apk	drawable/ic_list_sync_a
 as-ic_list_sync_anim2.png	app/AccountAndSyncSettings.apk	drawable/ic_list_sync_anim2
 as-ic_list_sync_anim3.png	app/AccountAndSyncSettings.apk	drawable/ic_list_sync_anim3
 as-title_bar.9.png	app/AccountAndSyncSettings.apk	drawable/title_bar
+# Add to Home screen: the shortcut, widget and folder pickers' icons (each from its own APK's manifest) and Launcher2's
+# folder windows (user_folder.xml / live_folder_list.xml: box_launcher_top / _bottom).
+l2-box_launcher_top_normal.9.png	app/Launcher2.apk	drawable/box_launcher_top_normal
+l2-box_launcher_top_pressed.9.png	app/Launcher2.apk	drawable/box_launcher_top_pressed
+l2-box_launcher_bottom.9.png	app/Launcher2.apk	drawable/box_launcher_bottom
+l2-ic_search_widget.png	app/Launcher2.apk	drawable/ic_search_widget
+l2-bg_appwidget_error.9.png	app/Launcher2.apk	drawable/bg_appwidget_error
+br-ic_launcher_shortcut_browser_bookmark.png	app/Browser.apk	drawable/ic_launcher_shortcut_browser_bookmark
+ct-ic_launcher_shortcut_contact.png	app/Contacts.apk	drawable/ic_launcher_shortcut_contact
+ct-ic_launcher_shortcut_directdial.png	app/Contacts.apk	drawable/ic_launcher_shortcut_directdial
+ct-ic_launcher_shortcut_directmessage.png	app/Contacts.apk	drawable/ic_launcher_shortcut_directmessage
+ct-ic_launcher_folder_live_contacts.png	app/Contacts.apk	drawable/ic_launcher_folder_live_contacts
+ct-ic_launcher_folder_live_contacts_starred.png	app/Contacts.apk	drawable/ic_launcher_folder_live_contacts_starred
+ct-ic_launcher_folder_live_contacts_phone.png	app/Contacts.apk	drawable/ic_launcher_folder_live_contacts_phone
+mp-gohome_shortcut_default.png	app/Maps.apk	drawable/gohome_shortcut_default
+mp-gohome_shortcut_ball.png	app/Maps.apk	drawable/gohome_shortcut_ball
+mp-gohome_shortcut_cup.png	app/Maps.apk	drawable/gohome_shortcut_cup
+mp-gohome_shortcut_heart.png	app/Maps.apk	drawable/gohome_shortcut_heart
+mp-gohome_shortcut_home.png	app/Maps.apk	drawable/gohome_shortcut_home
+mp-gohome_shortcut_laptop.png	app/Maps.apk	drawable/gohome_shortcut_laptop
+mp-gohome_shortcut_pizza.png	app/Maps.apk	drawable/gohome_shortcut_pizza
+mp-gohome_mode_driving.png	app/Maps.apk	drawable/gohome_mode_driving
+mp-gohome_mode_walking.png	app/Maps.apk	drawable/gohome_mode_walking
+mp-gohome_mode_public.png	app/Maps.apk	drawable/gohome_mode_public
+mp-gohome_mode_navigate.png	app/Maps.apk	drawable/gohome_mode_navigate
+mu-ic_launcher_shortcut_music_playlist.png	app/Music.apk	drawable/ic_launcher_shortcut_music_playlist
+gm-ic_launcher_shortcut_gmail_label.png	app/Gmail.apk	drawable/ic_launcher_shortcut_gmail_label
+st-ic_launcher_settings.png	app/Settings.apk	drawable/ic_launcher_settings
+bt-ic_launcher_folder_bluetooth.png	app/Bluetooth.apk	drawable/ic_launcher_folder_bluetooth
+fb-livefolder.png	app/Facebook.apk	drawable/livefolder
+dc-ic_widget_analog_clock.png	app/DeskClock.apk	drawable/ic_widget_analog_clock
+cp-app_icon.png	app/CalendarProvider.apk	drawable/app_icon
+# Widgets of the image that the widget picker adds (AppWidgetPickActivity): AnalogAppWidgetProvider (analog_appwidget.xml),
+# CalendarAppWidgetProvider (agenda_appwidget.xml), FacebookWidgetProvider (widget_clear_view.xml), MediaAppWidgetProvider
+# (layout-finger/album_appwidget.xml), PhotoAppWidgetProvider (photo_frame.xml), YouTube's WidgetProvider (widget_layout.xml).
+dc-appwidget_clock_dial.png	app/DeskClock.apk	drawable/appwidget_clock_dial
+dc-appwidget_clock_hour.png	app/DeskClock.apk	drawable/appwidget_clock_hour
+dc-appwidget_clock_minute.png	app/DeskClock.apk	drawable/appwidget_clock_minute
+cp-appwidget_bg.9.png	app/CalendarProvider.apk	drawable/appwidget_bg
+cp-appwidget_bg_press.9.png	app/CalendarProvider.apk	drawable/appwidget_bg_press
+cp-appwidget_calendar_bgtop_blue.9.png	app/CalendarProvider.apk	drawable/appwidget_calendar_bgtop_blue
+mu-appwidget_bg.9.png	app/Music.apk	drawable/appwidget_bg
+mu-appwidget_divider.9.png	app/Music.apk	drawable/appwidget_divider
+mu-appwidget_inner_press_l.9.png	app/Music.apk	drawable/appwidget_inner_press_l
+mu-appwidget_inner_press_c.9.png	app/Music.apk	drawable/appwidget_inner_press_c
+mu-appwidget_inner_press_r.9.png	app/Music.apk	drawable/appwidget_inner_press_r
+mu-ic_appwidget_music_play.png	app/Music.apk	drawable/ic_appwidget_music_play
+mu-ic_appwidget_music_next.png	app/Music.apk	drawable/ic_appwidget_music_next
+yt-widget_background.9.png	app/YouTube.apk	drawable/widget_background
+yt-widget_divider.9.png	app/YouTube.apk	drawable/widget_divider
+yt-appwidget_inner_press_l.9.png	app/YouTube.apk	drawable/appwidget_inner_press_l
+yt-appwidget_inner_press_c.9.png	app/YouTube.apk	drawable/appwidget_inner_press_c
+yt-appwidget_inner_press_r.9.png	app/YouTube.apk	drawable/appwidget_inner_press_r
+yt-ic_widget_camera.png	app/YouTube.apk	drawable/ic_widget_camera
+yt-ic_widget_search.png	app/YouTube.apk	drawable/ic_widget_search
+fb-appwidget_bg.9.png	app/Facebook.apk	drawable/appwidget_bg
+fb-appwidget_bg_press.9.png	app/Facebook.apk	drawable/appwidget_bg_press
+fb-appwidget_top_white.9.png	app/Facebook.apk	drawable/appwidget_top_white
+fb-appwidget_facebook_icon_default.png	app/Facebook.apk	drawable/appwidget_facebook_icon_default
+fb-appwidget_facebook_icon_pressed.png	app/Facebook.apk	drawable/appwidget_facebook_icon_pressed
+ga-appwidget_bg.9.png	app/Gallery3D.apk	drawable/appwidget_bg
+ga-photo_inner.9.png	app/Gallery3D.apk	drawable/photo_inner

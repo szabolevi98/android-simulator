@@ -281,6 +281,16 @@
         st.pressedHome = down.home;
         st.touch = true; st.vel = 0; st.lastY = event.clientY / c.el.screen.clientHeight; st.moveTo = 0;
         cv.setPointerCapture?.(event.pointerId); kick(c);
+        // A long press on an application: the drawer closes and the application is dragged on the home screen.
+        const at = down;
+        setTimeout(() => {
+          if (down !== at || at.moved || at.home) return;
+          const icon = tapped(at.x, at.y);
+          if (icon < 0 || !EC.homeDragNew) return;
+          down = null; st.touch = false;
+          const app = apps[icon], cx = event.clientX, cy = event.clientY;
+          close(c, () => EC.homeDragNew(c, {type: 'app', app: app.id}, cx, cy));
+        }, 600);
       });
       cv.addEventListener('pointermove', event => {
         if (!down || event.pointerId !== down.id) return;

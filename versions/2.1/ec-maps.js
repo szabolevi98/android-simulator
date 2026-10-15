@@ -928,7 +928,16 @@
       return false;
     }
   });
-  EC.maps = {WIKI, st, ui, route, steps, stepTexts, distance, minutes, draw, scale, project, placeAll, PLACES, ROADS, ME, place, toMap, riverX, DP};
+  // Maps' Directions & Navigation home screen shortcut: the directions (or Navigation) to that destination.
+  function directionsTo(c, dest, mode) {
+    c.open('maps');
+    const to = resolve(c, dest, '');
+    if (mode === 'navigate' && to) { EC.mapsNav?.start(c, {...to, name: to.name || dest}); return; }
+    const u = ui(c);
+    u.dir = {from: t('my_location'), fromPlace: 'me', to: dest, toPlace: to?.id || '', mode: mode === 'navigate' ? 'drive' : mode || 'drive'};
+    if (to) getDirections(c); else { u.dirOpen = true; c.render(); }
+  }
+  EC.maps = {directionsTo, WIKI, st, ui, route, steps, stepTexts, distance, minutes, draw, scale, project, placeAll, PLACES, ROADS, ME, place, toMap, riverX, DP};
   document.addEventListener('DOMContentLoaded', () => {
     const c = EC.context, open = c.open;
     // The launcher opens the map; the tiles load for a moment the first time.

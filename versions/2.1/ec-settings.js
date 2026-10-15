@@ -311,6 +311,8 @@
   // EC.ringtonePicker(c, {cat: 'ringtones' | 'notifications' | 'alarms', title, current (file name, '' = Silent, null =
   // Default), onPick, showDefault, showSilent}): EXTRA_RINGTONE_SHOW_DEFAULT puts "Default ringtone" first,
   // EXTRA_RINGTONE_SHOW_SILENT (on unless false) "Silent".
+  // A Settings shortcut on the home screen (Settings' CreateShortcut): that activity over the Settings list.
+  EC.settingsOpenClass = (c, cls) => { c.open('settings'); c.ui.settingsStack = ['settings']; open(c, {intent: {targetClass: cls}}, current(c), ''); };
   EC.ringtonePicker = (c, {cat, title, current, onPick, showDefault = false, showSilent = true}) => {
     // cat 'all': RingtoneManager without a type, every sound (Messaging's Select audio).
     const pool = cat === 'all' ? Object.assign({}, ...['ringtones', 'notifications', 'alarms'].map(k => EC.sounds?.list[k] || {})) : EC.sounds?.list[cat] || {};

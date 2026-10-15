@@ -43,8 +43,13 @@
     if (mod) return `<div class="eclh-item eclh-widget" style="${area}" data-widget="${esc(item.widget)}">${mod.render(c, item)}</div>`;
     return `<div class="eclh-item eclh-widget eclh-widget-missing" style="${area}"><div class="ec-missing"><b>${esc(c.t('Not built yet'))}</b><span>${esc(item.widget)}</span></div></div>`;
   }
+  // Each item carries its index in the screen's list (ec-launcher-edit.js picks it up by that); shortcuts, folders and
+  // live folders are drawn by ec-launcher-edit.js (EC.homeItem).
+  const itemHtml = (c, item, i) => (item.type === 'app' ? shortcut(item) : item.type === 'search' ? search(item) : item.type === 'widget' ? widget(c, item) : EC.homeItem?.(c, item, i) || '')
+    .replace('class="eclh-item', `data-index="${i}" class="eclh-item`);
+  EC.homeItemHtml = (c, item) => itemHtml(c, {...item, x: 0, y: 0}, -1);
   function page(c, items, index) {
-    const html = items.map(item => item.type === 'app' ? shortcut(item) : item.type === 'search' ? search(item) : widget(c, item)).join('');
+    const html = items.map((item, i) => itemHtml(c, item, i)).join('');
     return `<div class="eclh-page" data-page="${index}" style="left:${index * 100}%">${html}</div>`;
   }
   function arrows(side, count) {
@@ -97,6 +102,7 @@
     });
     ws.addEventListener('pointermove', event => {
       if (!drag || event.pointerId !== drag.id) return;
+      if (c.homeEditLock || c.ui.homeDragging) { drag = null; return; }
       const dx = event.clientX - drag.x;
       // mTouchSlop: 16 dp in 2.1's ViewConfiguration.
       if (!drag.moved && Math.abs(dx) < 16 * c.el.screen.clientWidth / 320) return;
@@ -109,6 +115,7 @@
       if (!drag || event.pointerId !== drag.id) return;
       const d = drag; drag = null; ws.classList.remove('eclh-scrolling');
       if (!d.moved) {
+        if (c.homeEditLock) return;
         if (!event.target.closest('.eclh-item')) { const r = c.el.screen.getBoundingClientRect(); c.wallpaper?.tap(event.clientX - r.left, event.clientY - r.top); }
         return;
       }
@@ -130,7 +137,7 @@
     c.dialog({title: L.t('menu_item_add_item'), icon: 'fw-ic_dialog_menu_generic.png', items: [
       {label: L.t('group_shortcuts'), icon: 'l2-ic_launcher_shortcut.png'}, {label: L.t('group_widgets'), icon: 'l2-ic_launcher_appwidget.png'},
       {label: L.t('group_live_folders'), icon: 'l2-ic_launcher_folder.png'}, {label: L.t('group_wallpapers'), icon: 'l2-ic_launcher_wallpaper.png'}],
-      onItem: (i, c) => [() => c.open('add-shortcut'), () => c.open('add-widget'), () => c.open('add-folder'), () => wallpaperChooser(c)][i]()});
+      onItem: (i, c) => [() => EC.homeEdit.pickShortcut(c), () => EC.homeEdit.pickWidget(c), () => EC.homeEdit.pickFolder(c), () => wallpaperChooser(c)][i]()});
   }
   // startWallpaper: the chooser of ACTION_SET_WALLPAPER handlers (title chooser_wallpaper).
   function wallpaperChooser(c) {
@@ -161,6 +168,7 @@
       }});
   };
 
+  EC.home = {addDialog, snapTo, DEFAULT_SCREEN, SCREENS};
   EC.register('home', {
     app: false,
     init(c) {
@@ -187,7 +195,7 @@
     menu(c) {
       const L = EC.text('launcher');
       c.menu([
-        {label: L.t('menu_add'), icon: 'fw-ic_menu_add.png', action: () => addDialog(c)},
+        {label: L.t('menu_add'), icon: 'fw-ic_menu_add.png', action: () => { c.ui.homeAddCell = null; addDialog(c); }},
         {label: L.t('menu_wallpaper'), icon: 'fw-ic_menu_gallery.png', action: () => wallpaperChooser(c)},
         {label: L.t('menu_search'), icon: 'fw-ic_search_category_default.png', action: () => c.open('search')},
         {label: L.t('menu_notifications'), icon: 'fw-ic_menu_notifications.png', action: () => c.expandShade?.()},

@@ -34,3 +34,47 @@
 .eclh-search-voice img{position:relative;z-index:1;width:calc(25.333 * var(--dp));height:calc(30 * var(--dp))}
 .eclh-search-text:active .eclh-pressed,.eclh-search-voice:active .eclh-pressed{opacity:1}
 .eclh-widget-missing .ec-missing{position:absolute;inset:calc(6 * var(--dp));border-radius:calc(4 * var(--dp))}
+/* Home screen editing (ec-launcher-edit.js): the dragged item, the DeleteZone, folders and the picker activities. */
+.eche-hidden{visibility:hidden}
+.eche-ghost{position:absolute;left:0;top:0;z-index:50;pointer-events:none;transform-origin:0 0;opacity:.85}
+.eche-ghost>*{width:100%;height:100%;margin:0 !important}
+.eche-ghost .eclh-pressed,.eche-ghost .eclh-focused{display:none}
+.eche-ghost.trash{filter:sepia(1) saturate(8) hue-rotate(-50deg) brightness(.75)}
+.eche-trash{position:absolute;left:50%;bottom:0;width:calc(93.333 * var(--dp));height:calc(56 * var(--dp));margin-left:calc(-46.667 * var(--dp));display:grid;place-items:center;animation:eche-fade .2s}
+.eche-trash img{grid-area:1/1;width:calc(93.333 * var(--dp));height:calc(53.333 * var(--dp))}
+.eche-trash .p,.eche-trash.hover .n{opacity:0}
+.eche-trash.hover .p{opacity:1}
+@keyframes eche-fade{from{opacity:0}}
+/* user_folder.xml / live_folder_list.xml over the workspace's cells */
+.eche-folder{position:absolute;left:0;right:0;top:0;bottom:calc(55 * var(--dp));z-index:5;display:flex;flex-direction:column;padding:calc(13 * var(--dp)) calc(3 * var(--dp)) 0}
+.eche-ftitle{position:relative;flex:none;display:flex;align-items:center;border:0;background:none;color:#404040;font-weight:700;font-size:calc(14 * var(--dp));text-align:left}
+.eche-ftitle span{position:relative}
+.eche-fbody{position:relative;flex:1;min-height:0;overflow-y:auto}
+.eche-fgrid{position:relative;display:grid;grid-template-columns:repeat(4,1fr);row-gap:calc(10 * var(--dp))}
+.eche-fitem{position:relative;display:flex;flex-direction:column;align-items:center;border:0;padding:calc(4 * var(--dp)) 0;background:none;color:#fff;font-size:calc(13 * var(--dp))}
+.eche-fitem img{position:relative;width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.eche-fitem span{position:relative;max-width:100%;margin-top:calc(5 * var(--dp));overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 0 calc(2 * var(--dp)) #000}
+.eche-flist{position:relative;display:flex;flex-direction:column}
+.eche-frow,.eche-row{position:relative;display:flex;align-items:center;min-height:calc(64 * var(--dp));border:0;padding:0 calc(10 * var(--dp));background:none;color:#fff;text-align:left}
+.eche-frow img,.eche-row img{position:relative;flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));margin-right:calc(10 * var(--dp))}
+.eche-frow>span,.eche-row>span{position:relative;display:flex;flex-direction:column;min-width:0}
+.eche-frow .t1,.eche-row .t1{font-size:calc(18 * var(--dp))}
+.eche-frow .t2,.eche-row .t2{font-size:calc(14 * var(--dp));color:#bebebe;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eche-list{display:flex;flex-direction:column}
+.eche-div{display:block;height:1px;background:url('assets/fw-divider_horizontal_dark.9.png') 0 0/100% 100%}
+.eche-rename{display:flex;flex-direction:column;padding:calc(20 * var(--dp));color:#fff;font-size:calc(18 * var(--dp))}
+.eche-rename .ecwf-edit{margin-top:calc(6 * var(--dp))}
+/* Maps' create_shortcut.xml */
+.eche-gohome{position:absolute;inset:0;display:flex;flex-direction:column;color:#fff}
+.eche-gscroll{flex:1;min-height:0;overflow-y:auto;padding:calc(6 * var(--dp)) calc(8 * var(--dp))}
+.eche-gscroll label{display:block;margin:calc(8 * var(--dp)) 0 calc(4 * var(--dp));font-size:calc(14 * var(--dp))}
+.eche-modes{display:flex;height:calc(48 * var(--dp));margin-top:calc(8 * var(--dp))}
+.eche-modes .ecmp-travel{flex:0 0 calc(190 * var(--dp))}
+.eche-check{display:flex;align-items:center;gap:calc(4 * var(--dp));border:0;padding:0;background:none;color:#fff;font-size:calc(18 * var(--dp))}
+.eche-check img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.eche-icons{display:flex;gap:calc(6 * var(--dp));overflow-x:auto}
+.eche-gicon{flex:none;border:calc(2 * var(--dp)) solid transparent;padding:calc(2 * var(--dp));background:none;border-radius:calc(4 * var(--dp))}
+.eche-gicon.on{border-color:#ff9a00}
+.eche-gicon img{display:block;width:calc(48 * var(--dp));height:calc(48 * var(--dp))}
+.eche-gbar{flex:none;display:flex;justify-content:center;padding-top:calc(5 * var(--dp));background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.eche-gbar .ecui-button{flex:0 0 50%}
