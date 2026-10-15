@@ -33,6 +33,9 @@
   let find = null;      // FindDialog: {query, index, count}
   let selecting = false;   // WebView.emulateShiftHeld
   const defaults = () => { const a = B().t('bookmarks'); const out = []; for (let i = 0; i + 1 < a.length; i += 2) out.push({title: a[i], url: a[i + 1]}); return out; };
+  // The page's own title: one of the simulator's offline pages (ec-browser-pages.js), else the error page's.
+  const titleOf = (c, u) => EC.browserPages?.page(u)?.title || errorTitle(c);
+  const pageTitle = c => titleOf(c, url(c));
   const errorTitle = c => (EC.webErrorPage[c.lang] || EC.webErrorPage.en).match(/<h2>(.*?)<\/h2>/)?.[1].replace(/&[a-z]+;/g, m => ({'&uuml;': 'ü', '&eacute;': 'é', '&aacute;': 'á', '&agrave;': 'à', '&ouml;': 'ö'})[m] || m) || '';
 
   function normalise(text) {
@@ -59,11 +62,13 @@
     const busy = !!loading;
     return `<div class="ecbr-title npp-br-search_plate_browser"><i class="ec-bg np-br-search_plate_browser"></i>
       <div class="ecbr-progress"${busy ? '' : ' style="visibility:hidden"'}><i></i></div>
-      <div class="ecbr-row"><button type="button" class="ecbr-field" data-action="ecbr-edit"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ec-pressed np-fw-textfield_pressed"></i><img src="assets/br-app_web_browser_sm.png" alt=""><span>${esc(busy ? B().t('title_bar_loading') : errorTitle(c))}</span></button>
+      <div class="ecbr-row"><button type="button" class="ecbr-field" data-action="ecbr-edit"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ec-pressed np-fw-textfield_pressed"></i><img src="assets/br-app_web_browser_sm.png" alt=""><span>${esc(busy ? B().t('title_bar_loading') : pageTitle(c))}</span></button>
         <button type="button" class="ecbr-rt" data-action="${busy ? 'ecbr-stop' : 'ecbr-bookmarks'}"><i class="ec-bg np-fw-btn_search_dialog_voice_default"></i><i class="ec-bg ec-pressed np-fw-btn_search_dialog_voice_pressed"></i><img src="assets/br-${busy ? 'ic_btn_stop_v2' : 'ic_btn_bookmarks'}.png" alt=""></button></div></div>`;
   }
   function pageInner(c) {
     if (loading) return '';
+    const own = EC.browserPages?.page(url(c));
+    if (own) return own.html;
     return AndroidStrings.format(EC.webErrorPage[c.lang] || EC.webErrorPage.en, esc(url(c)), esc(url(c)));
   }
   const page = c => `<div class="ecbr-page">${pageInner(c)}</div>`;
@@ -80,7 +85,7 @@
       const list = Object.entries(s.visits).sort((a, b) => b[1] - a[1]).map(([u]) => ({url: u, title: u}));
       body = list.length ? `<div class="ecbr-grid">${list.map(b => cell(b)).join('')}</div>` : `<div class="ecph-empty">${esc(B().t('empty_history'))}</div>`;
     } else {
-      body = s.history.length ? `<div class="ecph-list">${s.history.map(h => `<button type="button" class="ecbr-hist" data-action="ecbr-open" data-url="${esc(h.url)}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><img src="assets/br-app_web_browser_sm.png" alt=""><span><span class="t1">${esc(errorTitle(c))}</span><span class="t2">${esc(h.url)}</span></span></button><i class="ecph-div"></i>`).join('')}</div>`
+      body = s.history.length ? `<div class="ecph-list">${s.history.map(h => `<button type="button" class="ecbr-hist" data-action="ecbr-open" data-url="${esc(h.url)}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><img src="assets/br-app_web_browser_sm.png" alt=""><span><span class="t1">${esc(titleOf(c, h.url))}</span><span class="t2">${esc(h.url)}</span></span></button><i class="ecph-div"></i>`).join('')}</div>`
         : `<div class="ecph-empty">${esc(B().t('empty_history'))}</div>`;
     }
     return `<div class="ecph">${tabs}<div class="ecph-body">${body}</div></div>`;
@@ -173,7 +178,7 @@
 
   function windows(c) {
     const s = st(c);
-    const rows = s.tabs.map((t, i) => `<div class="ecbr-win${i === s.active ? ' on' : ''}"><button type="button" class="ecbr-win-main" data-action="ecbr-switch" data-index="${i}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><img src="assets/br-app_web_browser_sm.png" alt=""><span><span class="t1">${esc(errorTitle(c))}</span><span class="t2">${esc(t.history[t.index])}</span></span></button><button type="button" class="ecbr-win-close" data-action="ecbr-close" data-index="${i}"><img src="assets/br-ic_close_tab.png" alt=""></button></div><i class="ecph-div"></i>`).join('');
+    const rows = s.tabs.map((t, i) => `<div class="ecbr-win${i === s.active ? ' on' : ''}"><button type="button" class="ecbr-win-main" data-action="ecbr-switch" data-index="${i}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><img src="assets/br-app_web_browser_sm.png" alt=""><span><span class="t1">${esc(titleOf(c, t.history[t.index]))}</span><span class="t2">${esc(t.history[t.index])}</span></span></button><button type="button" class="ecbr-win-close" data-action="ecbr-close" data-index="${i}"><img src="assets/br-ic_close_tab.png" alt=""></button></div><i class="ecph-div"></i>`).join('');
     const add = s.tabs.length < MAX_TABS ? `<button type="button" class="ecbr-win-main ecbr-win-new" data-action="ecbr-newtab"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><img src="assets/br-ic_list_new_window.png" alt=""><span><span class="t1">${esc(B().t('new_window'))}</span></span></button><i class="ecph-div"></i>` : '';
     return c.window(B().t('active_tabs'), `<div class="ecph-list">${add}${rows}</div>`);
   }
@@ -196,6 +201,14 @@
       const pageEl = root.querySelector('.ecbr-page');
       pageEl?.addEventListener('pointerdown', event => { if (selecting) selectDrag(c, pageEl, event); });
     },
+    // The search box of the Google page.
+    submit(form, event, c) {
+      if (form.dataset.form !== 'ecbw-search') return false;
+      event.preventDefault(); c.imeBack?.();
+      const q = form.elements.q.value.trim();
+      if (q) load(c, normalise(q).includes('google.com/m?') ? normalise(q) : `http://www.google.com/m?client=ms-android-google&q=${encodeURIComponent(q).split('%20').join('+')}`);
+      return true;
+    },
     action(name, el, event, c) {
       const s = st(c);
       switch (name) {
@@ -208,7 +221,7 @@
         case 'ecbr-bookmarks': c.ui.browserTab = 'bookmarks'; c.open('browser', 'bookmarks'); return true;
         case 'ecbr-tab': c.ui.browserTab = el.dataset.tab; c.render(); return true;
         case 'ecbr-open': c.ui.sub = ''; load(c, el.dataset.url); return true;
-        case 'ecbr-addbm': { const list = s.bookmarks || defaults(); if (!list.some(b => b.url === url(c))) s.bookmarks = [{title: errorTitle(c), url: url(c)}, ...list]; c.save(); c.render(); return true; }
+        case 'ecbr-addbm': { const list = s.bookmarks || defaults(); if (!list.some(b => b.url === url(c))) s.bookmarks = [{title: pageTitle(c), url: url(c)}, ...list]; c.save(); c.render(); return true; }
         case 'ecbr-switch': s.active = Number(el.dataset.index); c.ui.sub = ''; c.save(); c.render(); return true;
         case 'ecbr-close': s.tabs.splice(Number(el.dataset.index), 1); if (!s.tabs.length) s.tabs.push({history: [HOME], index: 0}); s.active = Math.min(s.active, s.tabs.length - 1); c.save(); c.render(); return true;
         case 'ecbr-newtab': if (s.tabs.length < MAX_TABS) { s.tabs.push({history: [HOME], index: 0}); s.active = s.tabs.length - 1; } c.ui.sub = ''; load(c, HOME, false); return true;

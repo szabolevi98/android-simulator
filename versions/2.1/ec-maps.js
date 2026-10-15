@@ -928,7 +928,7 @@
       return false;
     }
   });
-  EC.maps = {st, ui, route, steps, stepTexts, distance, minutes, draw, scale, project, placeAll, PLACES, ROADS, ME, place, toMap, riverX, DP};
+  EC.maps = {WIKI, st, ui, route, steps, stepTexts, distance, minutes, draw, scale, project, placeAll, PLACES, ROADS, ME, place, toMap, riverX, DP};
   document.addEventListener('DOMContentLoaded', () => {
     const c = EC.context, open = c.open;
     // The launcher opens the map; the tiles load for a moment the first time.

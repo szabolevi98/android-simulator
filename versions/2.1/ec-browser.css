@@ -56,3 +56,28 @@
 /* Select text: drawSelectionRegion's #40ff33cc. */
 .ecbr-page ::selection{background:#ff33cc40}
 .ecbr-selecting{touch-action:none;user-select:text}
+/* The simulator's offline pages (ec-browser-pages.js): WebView text at 16 CSS px = 16 dp. */
+.ecbw-a{color:#00e;text-decoration:underline;cursor:pointer}
+.ecbw-google{text-align:center;padding-top:calc(14 * var(--dp))}
+.ecbw-logo{font:700 calc(46 * var(--dp))/1.1 Georgia,'Times New Roman',serif;letter-spacing:calc(-1 * var(--dp))}
+.ecbw-logo.small{font-size:calc(26 * var(--dp));text-align:left;margin-bottom:calc(6 * var(--dp))}
+.ecbw-search{display:flex;gap:calc(4 * var(--dp));margin:calc(10 * var(--dp)) 0}
+.ecbw-search input{flex:1;min-width:0;font:inherit;padding:calc(4 * var(--dp));border:1px solid #999;border-radius:0;background:#fff;color:#000}
+.ecbw-search button{font:inherit;font-size:calc(15 * var(--dp));padding:calc(3 * var(--dp)) calc(8 * var(--dp));background:linear-gradient(#fff,#ddd);color:#000;border:1px solid #999;border-radius:calc(3 * var(--dp))}
+.ecbw-tabs{font-size:calc(14 * var(--dp));color:#00c}
+.ecbw-tabs b{color:#000}
+.ecbw-tiles{display:grid;grid-template-columns:1fr 1fr;gap:calc(8 * var(--dp));margin:calc(22 * var(--dp)) 0}
+.ecbw-tiles .ecbw-a{display:block;padding:calc(12 * var(--dp)) calc(4 * var(--dp));border:1px solid #ccc;background:#f4f7fc;text-decoration:none}
+.ecbw-foot{font-size:calc(12 * var(--dp));color:#888}
+.ecbw-count{font-size:calc(13 * var(--dp));color:#555;background:#e5ecf9;padding:calc(3 * var(--dp)) calc(4 * var(--dp));margin-bottom:calc(8 * var(--dp))}
+.ecbw-result{margin:0 0 calc(12 * var(--dp))}
+.ecbw-snip{font-size:calc(14 * var(--dp))}
+.ecbw-url{font-size:calc(13 * var(--dp));color:#228822}
+.ecbw-wbar{font:calc(22 * var(--dp)) Georgia,'Times New Roman',serif;border-bottom:1px solid #aaa;padding-bottom:calc(4 * var(--dp))}
+.ecbw-wbar span{font-size:.8em;font-variant:small-caps}
+.ecbw-wiki h1{font:calc(24 * var(--dp)) Georgia,'Times New Roman',serif;margin:calc(8 * var(--dp)) 0 0}
+.ecbw-wiki h2{font:calc(19 * var(--dp)) Georgia,'Times New Roman',serif;border-bottom:1px solid #aaa}
+.ecbw-from{font-size:calc(12 * var(--dp));color:#666;margin-top:0}
+.ecbw-alogo{color:#a4c639;font:700 calc(34 * var(--dp))/1 DroidSans,sans-serif;letter-spacing:calc(1 * var(--dp))}
+.ecbw-hero{background:#1c2a30;color:#a4c639;text-align:center;padding:calc(28 * var(--dp)) 0;font-size:calc(32 * var(--dp))}
+.ecbw-date,.ecbw-article time{color:#777;font-size:calc(13 * var(--dp))}
