@@ -200,7 +200,7 @@
     action(name, el, event, c) {
       switch (name) {
         case 'eclw-pick': c.ui.lwPreview = el.dataset.id; go(c, 'preview'); return true;
-        case 'eclw-set': cancelAnimationFrame(frame); c.data.wallpaper = {type: 'live', id: c.ui.lwPreview}; c.save(); c.ui.sub = ''; c.home(); c.wallpaper?.refresh(); return true;
+        case 'eclw-set': cancelAnimationFrame(frame); c.data.wallpaper = {type: 'live', id: c.ui.lwPreview}; c.ui.wallpaperSince = Date.now(); c.save(); c.ui.sub = ''; c.home(); c.wallpaper?.refresh(); return true;
         case 'eclw-settings': go(c, c.ui.lwPreview === 'magicsmoke' ? 'smoke' : 'clock-settings'); return true;
         case 'eclw-pref': pref(c, el.dataset.key); return true;
         case 'eclw-tap': case 'eclw-smoke': {

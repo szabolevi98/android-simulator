@@ -9,6 +9,9 @@
   const U = () => EC.text('music');
   const TABS = [['artists', 'browse_menu'], ['albums', 'albums_menu'], ['songs', 'tracks_menu'], ['playlists', 'playlists_menu']];
   function render(c) {
+    // MusicUtils.bindToService starts MediaPlaybackService; unbound and idle, it stops itself after IDLE_DELAY (60 s).
+    if (!c.ui.musicService || Date.now() - c.ui.musicService.seen > 60000) c.ui.musicService = {since: Date.now()};
+    c.ui.musicService.seen = Date.now();
     const tab = c.ui.musicTab || 'artists';
     const bar = `<div class="ecmu-bar">${TABS.map(([id, label]) => `<button type="button" class="ecmu-tab${id === tab ? ' on' : ''}" data-action="ecmu-tab" data-tab="${id}"><i class="ec-bg np-mu-buttonbar_${id === tab ? 'active' : 'inactive'}"></i><i class="ec-bg ec-pressed np-mu-buttonbar_pressed"></i><img src="assets/mu-ic_tab_${id}_${id === tab ? 'selected' : 'unselected'}.png" alt=""><span>${esc(U().t(label))}</span></button>`).join('')}</div>`;
     let body = '';
@@ -16,6 +19,8 @@
     else if (tab === 'playlists') body = `<button type="button" class="ecmu-row" data-action="ecmu-recent"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><img src="assets/mu-ic_mp_playlist_recently_added_list.png" alt=""><span>${esc(U().t('recentlyadded'))}</span></button><i class="ecph-div"></i>`;
     return `<div class="ecmu">${bar}<div class="ecmu-list">${body}</div></div>`;
   }
+  // Bound while Music is on screen.
+  setInterval(() => { const c = EC.context; if (c?.ui.view === 'music' && c.ui.musicService) c.ui.musicService.seen = Date.now(); }, 5000);
   EC.register('music', {
     title: 'Music',
     render,

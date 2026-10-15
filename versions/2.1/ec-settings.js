@@ -152,7 +152,7 @@
   // broadcast ("Charging (AC)"), "<dBm> dBm   <asu> asu", gsm.network.type, the service / roaming / data state, the up
   // time as h:mm:ss. The phone's own numbers (IMEI, MAC and Bluetooth addresses, with HTC's 00:23:76 prefix) are
   // made-up stand-ins.
-  const started = Date.now() - 3 * 3600e3 - 17 * 60e3;
+  const started = EC.bootAt = Date.now() - 3 * 3600e3 - 17 * 60e3;
   function status(c, key) {
     const s = c.data.settings, T2 = EC.text('settings2'), t = k => T2.t(k), air = !!s.airplane;
     const up = Math.floor((Date.now() - started) / 1000), pad = n => String(n).padStart(2, '0');
@@ -170,12 +170,13 @@
   // Memory: the SD card (the Nexus One came with 4 GB) and the internal storage left for apps, in
   // Formatter.formatFileSize ("%.2f" under 100, else "%.0f", fileSizeSuffix). Unmount SD card leaves the sizes
   // Unavailable and itself off (2.1 has no Mount SD card; here a reload puts the card back).
-  EC.fileSize = (c, bytes) => fileSize(c, bytes);
-  function fileSize(c, bytes) {
+  // formatShortFileSize (short): "%.2f" under 1, "%.1f" under 10, else "%.0f".
+  EC.fileSize = (c, bytes, short = false) => fileSize(c, bytes, short);
+  function fileSize(c, bytes, short = false) {
     const F = EC.text('settings2');
     let v = bytes, unit = 'byteShort';
     for (const u of ['kilobyteShort', 'megabyteShort', 'gigabyteShort']) if (v > 900) { v /= 1024; unit = u; }
-    const num = (v < 100 ? v.toFixed(2) : v.toFixed(0)).replace('.', ['hu', 'de', 'fr', 'es'].includes(c.lang) ? ',' : '.');
+    const num = (short ? v.toFixed(v < 1 ? 2 : v < 10 ? 1 : 0) : v < 100 ? v.toFixed(2) : v.toFixed(0)).replace('.', ['hu', 'de', 'fr', 'es'].includes(c.lang) ? ',' : '.');
     return F.fmt(`framework/fileSizeSuffix`, c.lang, num, F.t(`framework/${unit}`));
   }
   function memory(c, key) {

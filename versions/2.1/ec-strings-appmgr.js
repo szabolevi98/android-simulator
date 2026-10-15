@@ -329,5 +329,131 @@ EC.strings('appmgr', {
 "es": "Mostrar todos",
 "hu": "Az összes megjelenítése",
 "huFrom": "crespo:framework:perms_show_all"
+},
+"runningservices_settings_title": {
+"res": "passion:Settings:runningservices_settings_title",
+"en": "Running services",
+"de": "Ausgeführte Dienste",
+"fr": "Services en cours d'exécution",
+"es": "Servicios en ejecución",
+"hu": "Futó szolgáltatások",
+"huFrom": "crespo:Settings:runningservices_settings_title"
+},
+"no_running_services": {
+"res": "passion:Settings:no_running_services",
+"en": "No running services",
+"de": "Es werden keine Dienste ausgeführt.",
+"fr": "Aucun service en cours d'exécution",
+"es": "No hay servicios en ejecución.",
+"hu": "Nincsenek futó szolgáltatások",
+"huOwn": true
+},
+"service_restarting": {
+"res": "passion:Settings:service_restarting",
+"en": "Restarting",
+"de": "Neustart wird durchgeführt.",
+"fr": "Redémarrage en cours",
+"es": "Reiniciando",
+"hu": "Újraindítás",
+"huFrom": "crespo:Settings:service_restarting"
+},
+"confirm_stop_service": {
+"res": "passion:Settings:confirm_stop_service",
+"en": "Stop service?",
+"de": "Dienst anhalten?",
+"fr": "Arrêter le service ?",
+"es": "¿Quieres detener el servicio?",
+"hu": "Leállítja a szolgáltatást?",
+"huOwn": true
+},
+"confirm_stop_service_msg": {
+"res": "passion:Settings:confirm_stop_service_msg",
+"en": "The service will no longer run until started again. This may have undesirable consequences on the application %1$s.",
+"de": "Der Service muss neu gestartet werden. Dies kann unerwünschte Auswirkungen auf die %1$s-Anwendung haben.",
+"fr": "Le service ne sera plus exécuté tant qu'il ne sera pas relancé. Cette configuration peut avoir des conséquences gênantes sur l'application %1$s.",
+"es": "El servicio no se ejecutará hasta que se vuelva a iniciar, lo que puede provocar consecuencias no deseadas en la aplicación %1$s.",
+"hu": "A szolgáltatás nem fut, amíg újra el nem indítják. Ennek nem kívánt következményei lehetnek a(z) %1$s alkalmazásban.",
+"huOwn": true
+},
+"confirm_stop_stop": {
+"res": "passion:Settings:confirm_stop_stop",
+"en": "Stop",
+"de": "Anhalten",
+"fr": "Arrêter",
+"es": "Detener",
+"hu": "Leállítás",
+"huFrom": "crespo:Settings:service_stop"
+},
+"confirm_stop_cancel": {
+"res": "passion:Settings:confirm_stop_cancel",
+"en": "Cancel",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar",
+"hu": "Mégse",
+"huFrom": "crespo:Settings:cancel"
+},
+"service_started_by_app": {
+"res": "passion:Settings:service_started_by_app",
+"en": "Started by application: touch to stop",
+"de": "Gestartet: Zum Beenden berühren",
+"fr": "Démarré par appl. : appuyez pr arrêter",
+"es": "Iniciado por la aplicación: tocar para detener",
+"hu": "Alkalmazás által elindítva: érintse meg a leállításhoz",
+"huOwn": true
+},
+"service_client_name": {
+"res": "passion:Settings:service_client_name",
+"en": "%1$s: touch to manage",
+"de": "%1$s: Zum Verwalten berühren",
+"fr": "%1$s : appuyez pour gérer",
+"es": "%1$s: tocar para administrar",
+"hu": "%1$s: érintse meg a kezeléshez",
+"huOwn": true
+},
+"service_background_processes": {
+"res": "passion:Settings:service_background_processes",
+"en": "Avail: %2$s+%3$s in %1$d",
+"de": "Verfügbar: %2$s+%3$s in %1$d",
+"fr": "Disponible : %2$s+%3$s dans %1$d",
+"es": "Disp.: %2$s+%3$s en %1$d",
+"hu": "Szabad: %2$s+%3$s, %1$d folyamat",
+"huOwn": true
+},
+"service_foreground_processes": {
+"res": "passion:Settings:service_foreground_processes",
+"en": "Other: %2$s in %1$d",
+"de": "Sonstige: %2$s in %1$d",
+"fr": "Autres : %2$s dans %1$d",
+"es": "Otros: %2$s en %1$d",
+"hu": "Egyéb: %2$s, %1$d folyamat",
+"huOwn": true
+},
+"service_process_name": {
+"res": "passion:Settings:service_process_name",
+"en": "Process: %1$s",
+"de": "Prozess: %1$s",
+"fr": "Processus : %1$s",
+"es": "Proceso: %1$s",
+"hu": "Folyamat: %1$s",
+"huOwn": true
+},
+"framework/input_method_binding_label": {
+"res": "passion:framework:input_method_binding_label",
+"en": "Input method",
+"de": "Eingabemethode",
+"fr": "Mode de saisie",
+"es": "Método de introducción de texto",
+"hu": "Beviteli mód",
+"huFrom": "crespo:framework:input_method_binding_label"
+},
+"framework/wallpaper_binding_label": {
+"res": "passion:framework:wallpaper_binding_label",
+"en": "Wallpaper",
+"de": "Hintergrund",
+"fr": "Fond d'écran",
+"es": "Fondo de pantalla",
+"hu": "Háttérkép",
+"huFrom": "crespo:framework:wallpaper_binding_label"
 }
 });

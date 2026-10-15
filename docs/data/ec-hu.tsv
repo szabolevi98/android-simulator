@@ -292,3 +292,11 @@ o_O	o_O
 Other…	Egyéb…
 %s secs	%s mp
 %s sec	%s mp
+No running services	Nincsenek futó szolgáltatások
+Stop service?	Leállítja a szolgáltatást?
+The service will no longer run until started again. This may have undesirable consequences on the application %1$s.	A szolgáltatás nem fut, amíg újra el nem indítják. Ennek nem kívánt következményei lehetnek a(z) %1$s alkalmazásban.
+Started by application: touch to stop	Alkalmazás által elindítva: érintse meg a leállításhoz
+%1$s: touch to manage	%1$s: érintse meg a kezeléshez
+Avail: %2$s+%3$s in %1$d	Szabad: %2$s+%3$s, %1$d folyamat
+Other: %2$s in %1$d	Egyéb: %2$s, %1$d folyamat
+Process: %1$s	Folyamat: %1$s

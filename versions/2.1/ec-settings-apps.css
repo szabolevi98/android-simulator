@@ -92,3 +92,24 @@
 .ecbu-btns{display:flex}
 .ecbu-btns>span{flex:0.7 1 0}
 .ecbu-btn{flex:0.3 1 calc(150 * var(--dp))!important;padding-right:calc(16 * var(--dp))}
+/* Running services (ec-settings-running.js): running_services.xml / running_services_item.xml, in dp / sp. */
+.ecrs-win .ecwin-content{display:flex;flex-direction:column;overflow:hidden}
+.ecrs{flex:1;min-height:0;display:flex;flex-direction:column;background:#000}
+.ecrs-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ecrs-list::-webkit-scrollbar{display:none}
+.ecrs-empty{display:flex;align-items:center;justify-content:center;height:100%;color:#fff;font-size:calc(22 * var(--dp))}
+.ecrs-item{position:relative;display:flex;flex-direction:column;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0;background:none;color:#fff;text-align:left}
+.ecrs-item>:not(.ec-bg){position:relative;z-index:1}
+.ecrs-proc{background:#505050}
+.ecrs-sep,.ecrs-div{display:block;flex:none;height:calc(1 * var(--dp));background:url('assets/fw-divider_horizontal_dark.9.png') 0 0/100% 100%}
+.ecrs-sep{visibility:hidden}
+.ecrs-sep.on{visibility:visible}
+.ecrs-main{flex:1;display:flex;align-items:center;padding:0 calc(6 * var(--dp))}
+.ecrs-main img{flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));margin:0 calc(11 * var(--dp)) 0 calc(5 * var(--dp));object-fit:contain}
+.ecrs-text{flex:1;min-width:0;display:flex;flex-direction:column}
+.ecrs-top{display:flex;align-items:baseline}
+.ecrs-top b{flex:1;min-width:0;margin-bottom:calc(2 * var(--dp));font-size:calc(18 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecrs-text small{flex:none;font-size:calc(14 * var(--dp));color:#bebebe;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ecrs-text>small{margin-top:calc(-4 * var(--dp));padding-right:calc(4 * var(--dp))}
+.ecrs-bar{flex:none;display:flex;padding:calc(4 * var(--dp));background:#fff;color:#323232;font-size:calc(14 * var(--dp));white-space:nowrap}
+.ecrs-bar span:first-child{flex:1;min-width:0;overflow:hidden}
