@@ -65,7 +65,8 @@ def icon_file(a, r, rid):
 def main():
     existing = {}
     for f in os.listdir(ASSETS):
-        if f.endswith('.png'): existing.setdefault(hashlib.md5(open(ASSETS + f, 'rb').read()).hexdigest(), f)
+        # pk- files are this generator's own output: left out, so a second run lists them again.
+        if f.endswith('.png') and not f.startswith('pk-'): existing.setdefault(hashlib.md5(open(ASSETS + f, 'rb').read()).hexdigest(), f)
     framework = APK(SYSTEM + 'framework/framework-res.apk')
     fr = framework.get_android_resources()
     fx = framework.get_android_manifest_xml()

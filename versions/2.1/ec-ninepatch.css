@@ -502,3 +502,5 @@
 .npp-fw-tab_selected_v4{padding:calc(6 * var(--dp)) calc(2.66667 * var(--dp)) calc(5.33333 * var(--dp)) calc(2.66667 * var(--dp))}
 .np-fw-tab_unselected_v4{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(30.6667 * var(--dp)) calc(3.33333 * var(--dp)) calc(32.6667 * var(--dp)) calc(3.33333 * var(--dp));border-image:url('assets/fw-tab_unselected_v4.9.png') 46 5 49 5 fill / calc(30.6667 * var(--dp)) calc(3.33333 * var(--dp)) calc(32.6667 * var(--dp)) calc(3.33333 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-hdpi/tab_unselected_v4.9.png 11x96 */
 .npp-fw-tab_unselected_v4{padding:calc(6 * var(--dp)) calc(2.66667 * var(--dp)) calc(5.33333 * var(--dp)) calc(2.66667 * var(--dp))}
+.np-as-title_bar{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 calc(64.6667 * var(--dp)) calc(319.333 * var(--dp));border-image:url('assets/as-title_bar.9.png') 0 0 97 479 fill / 0 0 calc(64.6667 * var(--dp)) calc(319.333 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-hdpi/title_bar.9.png 480x98 */
+.npp-as-title_bar{padding:0 0 0 0}

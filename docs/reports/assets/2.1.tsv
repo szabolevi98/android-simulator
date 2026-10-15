@@ -33,6 +33,13 @@ versions/2.1/assets/app-talk.png	4f3888a9a779af2e	copy	passion:/system/app/Talk.
 versions/2.1/assets/app-voice-dialer.png	721ad791a8021917	copy	passion:/system/app/VoiceDialer.apk!res/drawable-hdpi/app_voicedialer.png	drawable-hdpi		721ad791a8021917
 versions/2.1/assets/app-voice-search.png	1f9ff9dc66694f6a	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/app_voicesearch.png	drawable-hdpi		1f9ff9dc66694f6a
 versions/2.1/assets/app-youtube.png	a98f35ba7022e561	copy	passion:/system/app/MediaUploader.apk!res/drawable-hdpi/youtube_main.png	drawable-hdpi		a98f35ba7022e561
+versions/2.1/assets/as-ic_list_sync_anim0.png	183d9423cade0477	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_list_sync_anim0.png	drawable-hdpi		183d9423cade0477
+versions/2.1/assets/as-ic_list_sync_anim1.png	57d342e1e757a496	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_list_sync_anim1.png	drawable-hdpi		57d342e1e757a496
+versions/2.1/assets/as-ic_list_sync_anim2.png	b98cf2db290df3f3	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_list_sync_anim2.png	drawable-hdpi		b98cf2db290df3f3
+versions/2.1/assets/as-ic_list_sync_anim3.png	99d2e7c1b20eb186	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_list_sync_anim3.png	drawable-hdpi		99d2e7c1b20eb186
+versions/2.1/assets/as-ic_sync_green.png	d3b3e819d6882cb7	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_sync_green.png	drawable-hdpi		d3b3e819d6882cb7
+versions/2.1/assets/as-ic_sync_grey.png	31f9a8316d34445d	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_sync_grey.png	drawable-hdpi		31f9a8316d34445d
+versions/2.1/assets/as-title_bar.9.png	d74b87a582d5f496	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/title_bar.9.png	drawable-hdpi		d74b87a582d5f496
 versions/2.1/assets/boot-part0.webp	e60579d2ccc26385	generated	passion:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/2.1/assets/boot-part1.webp	c821a8d8fc17112a	generated	passion:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/2.1/assets/br-app_web_browser_sm.png	00b7010c19e070d9	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/app_web_browser_sm.png	drawable-hdpi		00b7010c19e070d9
@@ -979,12 +986,9 @@ versions/2.1/assets/pk-com.android.launcher2.png	00ab324ea58f3141	copy	passion:/
 versions/2.1/assets/pk-com.android.magicsmoke.png	245820d0d9f38665	copy	passion:/system/app/MagicSmokeWallpapers.apk!res/drawable/ic_launcher_wallpaper.png	drawable		245820d0d9f38665
 versions/2.1/assets/pk-com.android.providers.contacts.png	222d3bd116c1d8c9	copy	passion:/system/app/ContactsProvider.apk!res/drawable-hdpi/app_icon.png	drawable-hdpi		222d3bd116c1d8c9
 versions/2.1/assets/pk-com.android.providers.subscribedfeeds.png	e142e780f4eaa219	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/app_icon.png	drawable-hdpi		e142e780f4eaa219
-versions/2.1/assets/pk-com.android.soundrecorder.png	6341416287f562af	copy	passion:/system/app/Mms.apk!res/drawable-hdpi/ic_launcher_record_audio.png	drawable-hdpi		6341416287f562af
-versions/2.1/assets/pk-com.android.wallpaper.png	5f48383cca1ecc16	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/ic_launcher_gallery.png	drawable-hdpi		5f48383cca1ecc16
 versions/2.1/assets/pk-com.google.android.googleapps.png	c0a4831c185e3cc6	copy	passion:/system/app/GoogleApps.apk!res/drawable-hdpi/ic_google_selected.png	drawable-hdpi		c0a4831c185e3cc6
 versions/2.1/assets/pk-com.google.android.marvin.talkback.png	1c76f9fcb09a31c2	copy	passion:/system/app/talkback.apk!res/drawable/icon.png	drawable		1c76f9fcb09a31c2
 versions/2.1/assets/pk-com.google.android.providers.subscribedfeeds.png	9b7e953666e04dac	copy	passion:/system/app/GoogleSubscribedFeedsProvider.apk!res/drawable/app_icon.png	drawable		9b7e953666e04dac
-versions/2.1/assets/pk-com.google.android.street.png	10287250c0202e26	copy	passion:/system/app/Street.apk!res/drawable/street.png	drawable		10287250c0202e26
 versions/2.1/assets/pk-com.qo.android.htcgep.png	a9a492dc1d448277	copy	passion:/system/app/PassionQuickOffice.apk!res/drawable/qo_main.png	drawable		a9a492dc1d448277
 versions/2.1/assets/pn-bg_in_call_gradient_connected.9.png	cf231e26f95d36c6	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/bg_in_call_gradient_connected.9.png	drawable-hdpi		cf231e26f95d36c6
 versions/2.1/assets/pn-bg_in_call_gradient_ended.9.png	f886580c733eaae1	copy	passion:/system/app/Phone.apk!res/drawable-hdpi/bg_in_call_gradient_ended.9.png	drawable-hdpi		f886580c733eaae1

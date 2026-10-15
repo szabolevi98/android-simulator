@@ -198,5 +198,131 @@ EC.strings('accounts', {
 "es": "Facebook",
 "hu": "Facebook",
 "huOwn": true
+},
+"sync_enabled": {
+"res": "passion:AccountAndSyncSettings:sync_enabled",
+"en": "Sync is ON",
+"de": "Synchronisierung ist aktiviert",
+"fr": "Synchronisation activée",
+"es": "La sincronización está activada.",
+"hu": "Szinkronizálás bekapcsolva",
+"huFrom": "crespo:AccountAndSyncSettings:sync_enabled"
+},
+"sync_disabled": {
+"res": "passion:AccountAndSyncSettings:sync_disabled",
+"en": "Sync is OFF",
+"de": "Synchronisierung deaktiviert",
+"fr": "La synchronisation est désactivée.",
+"es": "La sincronización está desactivada.",
+"hu": "Szinkronizálás kikapcsolva",
+"huFrom": "crespo:AccountAndSyncSettings:sync_disabled"
+},
+"header_data_and_synchronization": {
+"res": "passion:AccountAndSyncSettings:header_data_and_synchronization",
+"en": "Data & synchronization",
+"de": "Daten und Synchronisierung",
+"fr": "Données et synchronisation",
+"es": "Datos y sincronización",
+"hu": "Adatok és szinkronizálás",
+"huFrom": "crespo:AccountAndSyncSettings:header_data_and_synchronization"
+},
+"sync_item_title": {
+"res": "passion:AccountAndSyncSettings:sync_item_title",
+"en": "Sync %s",
+"de": "%s synchronisieren",
+"fr": "Synchroniser %s",
+"es": "Sincronizar %s",
+"hu": "%s szinkronizálása",
+"huFrom": "crespo:AccountAndSyncSettings:sync_item_title"
+},
+"sync_menu_sync_now": {
+"res": "passion:AccountAndSyncSettings:sync_menu_sync_now",
+"en": "Sync now",
+"de": "Jetzt synchronisieren",
+"fr": "Synchroniser maintenant",
+"es": "Sincronizar ahora",
+"hu": "Szinkronizálás most",
+"huFrom": "crespo:AccountAndSyncSettings:sync_menu_sync_now"
+},
+"sync_menu_sync_cancel": {
+"res": "passion:AccountAndSyncSettings:sync_menu_sync_cancel",
+"en": "Cancel sync",
+"de": "Synchronisierung abbrechen",
+"fr": "Annuler la synchronisation",
+"es": "Cancelar sincronización",
+"hu": "Szinkronizálás megszakítása",
+"huFrom": "crespo:AccountAndSyncSettings:sync_menu_sync_cancel"
+},
+"remove_account_label": {
+"res": "passion:AccountAndSyncSettings:remove_account_label",
+"en": "Remove account",
+"de": "Konto entfernen",
+"fr": "Supprimer le compte",
+"es": "Eliminar cuenta",
+"hu": "Fiók eltávolítása",
+"huFrom": "crespo:AccountAndSyncSettings:remove_account_label"
+},
+"really_remove_account_title": {
+"res": "passion:AccountAndSyncSettings:really_remove_account_title",
+"en": "Remove account",
+"de": "Konto entfernen",
+"fr": "Supprimer le compte",
+"es": "Eliminar cuenta",
+"hu": "Fiók eltávolítása",
+"huFrom": "crespo:AccountAndSyncSettings:really_remove_account_title"
+},
+"really_remove_account_message": {
+"res": "passion:AccountAndSyncSettings:really_remove_account_message",
+"en": "Do you really want to remove this account? Removing it will also delete all of its messages, contacts, and other data from the phone. \nProceed?",
+"de": "Möchten Sie dieses Konto wirklich entfernen? Hierdurch werden auch die zugehörigen Nachrichten, Kontakte und anderen Daten auf dem Telefon gelöscht. \nVorgang fortsetzen?",
+"fr": "Voulez-vous vraiment supprimer ce compte ? Cela entraînera également la suppression de tous ses messages, contacts et autres données du téléphone.\nVoulez-vous continuer ?",
+"es": "¿Deseas eliminar realmente esta cuenta? Si la eliminas, se eliminarán también todos los mensajes, los contactos y otros datos del teléfono. \n¿Quieres continuar?",
+"hu": "Valóban törli ezt a fiókot? Ha eltávolítja, akkor vele együtt törli az üzeneteit, a névjegyeit, valamint a telefonon lévő többi vele kapcsolatos adatot. \nFolytatja?",
+"huFrom": "crespo:AccountAndSyncSettings:really_remove_account_message"
+},
+"remove_account_failed": {
+"res": "passion:AccountAndSyncSettings:remove_account_failed",
+"en": "This account is required by some applications. You can only remove it by resetting the phone to factory defaults (which deletes all your personal data). You do that in the Settings application, under Privacy.",
+"de": "Dieses Konto wird von einigen Anwendungen benötigt. Sie können es nur entfernen, indem Sie das Telefon auf die Werkseinstellungen zurücksetzen und so alle persönlichen Daten löschen. Wählen Sie hierfür unter \"Datenschutz\" die Option \"Einstellungen\".",
+"fr": "Ce compte est utilisé par des applications. Pour le supprimer, vous devez rétablir les paramètres par défaut du téléphone (ce qui supprimera toutes vos données personnelles). Pour cela, allez dans l'application Paramètres, sous Confidentialité.",
+"es": "Algunas aplicaciones necesitan esta cuenta. Solo puedes eliminarla restableciendo los valores predeterminados de fábrica del teléfono(esta acción elimina todos tus datos personales). Para ello, accede a \"Ajustes\", \"Privacidad\".",
+"hu": "Erre a fiókra szüksége van néhány alkalmazásnak. Csak úgy távolíthatja el, hogy visszaállítja az alapértelmezett gyári beállításokat (amivel törli az összes személyes adatát). Ezt a Beállítások között, az Adatvédelem alatt teheti meg.",
+"huFrom": "crespo:AccountAndSyncSettings:remove_account_failed"
+},
+"sync_one_time_sync": {
+"res": "passion:AccountAndSyncSettings:sync_one_time_sync",
+"en": "Touch to sync now\n%1$s",
+"de": "Zum sofortigen Synchronisieren berühren\n%1$s",
+"fr": "Touchez l'écran pour lancer la synchronisation \n%1$s",
+"es": "Tocar para realizar la sincronización ahora\n%1$s",
+"hu": "Érintse meg az azonnali szinkronizáláshoz\n%1$s",
+"huFrom": "crespo:AccountAndSyncSettings:sync_one_time_sync"
+},
+"GmailProvider/provider_label": {
+"res": "passion:GmailProvider:provider_label",
+"en": "Gmail",
+"de": "Google Mail",
+"fr": "Gmail",
+"es": "Gmail",
+"hu": "Gmail",
+"huFrom": "crespo:GoogleServicesFramework:gls_login_activity_gmail_domain"
+},
+"CalendarProvider/provider_label": {
+"res": "passion:CalendarProvider:provider_label",
+"en": "Calendar",
+"de": "Kalender",
+"fr": "Agenda",
+"es": "Calendario",
+"hu": "Naptár",
+"huFrom": "crespo:CalendarProvider:provider_label"
+},
+"ContactsProvider/provider_label": {
+"res": "passion:ContactsProvider:provider_label",
+"en": "Contacts",
+"de": "Kontakte",
+"fr": "Contacts",
+"es": "Contactos",
+"hu": "Címtár",
+"huFrom": "crespo:ContactsProvider:provider_label"
 }
 });

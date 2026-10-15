@@ -1509,7 +1509,7 @@ EC.packages = [
 "apk": "Street.apk",
 "version": "1.4",
 "size": 233823,
-"icon": "pk-com.google.android.street.png",
+"icon": "sv-street.png",
 "persistent": false,
 "perms": [
 "android.permission.INTERNET"

@@ -1179,3 +1179,10 @@ fw-ic_menu_compass.png	framework/framework-res.apk	drawable/ic_menu_compass
 mp-da_top_bar_shadow.png	app/Maps.apk	drawable/da_top_bar_shadow
 fw-tab_selected_v4.9.png	framework/framework-res.apk	drawable/tab_selected_v4
 fw-tab_unselected_v4.9.png	framework/framework-res.apk	drawable/tab_unselected_v4
+as-ic_sync_green.png	app/AccountAndSyncSettings.apk	drawable/ic_sync_green
+as-ic_sync_grey.png	app/AccountAndSyncSettings.apk	drawable/ic_sync_grey
+as-ic_list_sync_anim0.png	app/AccountAndSyncSettings.apk	drawable/ic_list_sync_anim0
+as-ic_list_sync_anim1.png	app/AccountAndSyncSettings.apk	drawable/ic_list_sync_anim1
+as-ic_list_sync_anim2.png	app/AccountAndSyncSettings.apk	drawable/ic_list_sync_anim2
+as-ic_list_sync_anim3.png	app/AccountAndSyncSettings.apk	drawable/ic_list_sync_anim3
+as-title_bar.9.png	app/AccountAndSyncSettings.apk	drawable/title_bar
