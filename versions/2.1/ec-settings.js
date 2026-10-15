@@ -48,6 +48,7 @@
   EC.defaults.prefs = {notification_pulse: true, haptic_feedback: true, toggle_install_applications: false, location_gps: true, location_network: false};
 
   function value(c, key, def) {
+    if (EC.settingsChecked[key]) return EC.settingsChecked[key](c);
     if (BOUND[key]) {
       const [field, dflt] = BOUND[key], v = c.data.settings[field];
       if (key === 'silent') return !!v;
@@ -107,18 +108,19 @@
         {t: 'PreferenceCategory', title: 'string/security_passwords_title', c: [
           {t: 'CheckBoxPreference', key: 'show_password', title: 'string/show_password', summary: 'string/show_password_summary', defaultValue: 'true'}]},
         {t: 'PreferenceCategory', title: 'string/credentials_category', c: [
-          {t: 'CheckBoxPreference', key: 'enable_credentials', title: 'string/credentials_access', summary: 'string/credentials_access_summary', enabled: 'false'},
-          {t: 'Preference', key: 'install_credentials', title: 'string/credentials_install_certificates', summary: 'string/credentials_install_certificates_summary', enabled: 'false'},
+          {t: 'CheckBoxPreference', key: 'enable_credentials', title: 'string/credentials_access', summary: 'string/credentials_access_summary'},
+          {t: 'Preference', key: 'install_credentials', title: 'string/credentials_install_certificates', summary: 'string/credentials_install_certificates_summary'},
           {t: 'Preference', key: 'set_password', title: 'string/credentials_set_password', summary: 'string/credentials_set_password_summary'},
-          {t: 'Preference', key: 'reset_credentials', title: 'string/credentials_reset', summary: 'string/credentials_reset_summary', enabled: 'false'}]}
+          {t: 'Preference', key: 'reset_credentials', title: 'string/credentials_reset', summary: 'string/credentials_reset_summary'}]}
       ];
     }
   };
   // Other files add screens (EC.settingsClass), rows (EC.settingsExtra), removals (EC.settingsPrune) and preference types
   // with their own click (EC.settingsPrefTypes).
-  // A preference by its key: its own click (EC.settingsKeys) and summary (EC.settingsSummaries); EC.settingsValue reads a
-  // stored preference as the engine does.
-  Object.assign(EC, {settingsClass: CLASS, settingsExtra: EXTRA, settingsPrune: [], settingsPrefTypes: {}, settingsKeys: {}, settingsSummaries: {}, settingsDisabled: {}, settingsProgress: {}, settingsProgressRows: {},
+  // A preference by its key: its own click (EC.settingsKeys), summary (EC.settingsSummaries), enabled state
+  // (EC.settingsDisabled) and a checkbox state kept elsewhere (EC.settingsChecked); EC.settingsValue reads a stored
+  // preference as the engine does.
+  Object.assign(EC, {settingsClass: CLASS, settingsExtra: EXTRA, settingsPrune: [], settingsPrefTypes: {}, settingsKeys: {}, settingsSummaries: {}, settingsDisabled: {}, settingsChecked: {}, settingsProgress: {}, settingsProgressRows: {},
     settingsValue: (c, key, def) => value(c, key, def)});
   function withExtra(c, name, node) {
     if (!EXTRA[name] || node.c?.extended) return node;

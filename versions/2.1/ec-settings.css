@@ -53,3 +53,12 @@
 .ecwf-pick{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:#00000099}
 .ecwf-pick-list{position:relative;width:calc(300 * var(--dp));color:#000}
 .ecwf-pick-list>*:not(.ec-bg){position:relative;z-index:1}
+
+/* Credential storage dialogs (credentials_unlock_dialog / credentials_password_dialog.xml): padding 15 dp; TextViews in
+   textAppearanceSmall (14 sp, textColorSecondary), the hint 16 sp with 10 sp under it, the error bold red; EditTexts
+   match_parent on textfield_default. */
+.eccr-dlg{padding:calc(15 * var(--dp));color:#bebebe;font-size:calc(14 * var(--dp))}
+.eccr-hint{margin-bottom:calc(10 * var(--dp));font-size:calc(16 * var(--dp))}
+.eccr-error{font-weight:700;color:#f00}
+.eccr-error[hidden]{display:none}
+.eccr-field{margin-top:0}

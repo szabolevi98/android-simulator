@@ -1275,5 +1275,176 @@ EC.strings('settingsx', {
 "es": "No tienes ninguna palabra en el diccionario del usuario. Puedes añadir una palabra a través del menú.",
 "hu": "Nincsenek szavak a felhasználói szótárban. Új szavakat a menüből adhat hozzá.",
 "huFrom": "crespo:Settings:user_dict_settings_empty_text"
+},
+"credentials_unlock": {
+"res": "passion:Settings:credentials_unlock",
+"en": "Enter password",
+"de": "Passwort eingeben",
+"fr": "Saisir le mot de passe",
+"es": "Introducir contraseña",
+"hu": "Jelszó megadása",
+"huFrom": "crespo:Settings:credentials_unlock"
+},
+"credentials_unlock_hint": {
+"res": "passion:Settings:credentials_unlock_hint",
+"en": "Enter the credential storage password.",
+"de": "Geben Sie das Passwort für den Anmeldeinformationsspeicher ein.",
+"fr": "Saisissez le mot de passe du stockage des identifiants.",
+"es": "Introduce la contraseña de almacenamiento de credenciales.",
+"hu": "Adja meg a hitelesítési adatok tárolójának jelszavát.",
+"huFrom": "crespo:Settings:credentials_unlock_hint"
+},
+"credentials_old_password": {
+"res": "passion:Settings:credentials_old_password",
+"en": "Current password:",
+"de": "Aktuelles Passwort:",
+"fr": "Mot de passe actuel :",
+"es": "Contraseña actual:",
+"hu": "Jelenlegi jelszó:",
+"huFrom": "crespo:Settings:credentials_old_password"
+},
+"credentials_new_password": {
+"res": "passion:Settings:credentials_new_password",
+"en": "New password:",
+"de": "Neues Passwort:",
+"fr": "Nouveau mot de passe :",
+"es": "Contraseña nueva:",
+"hu": "Új jelszó:",
+"huFrom": "crespo:Settings:credentials_new_password"
+},
+"credentials_confirm_password": {
+"res": "passion:Settings:credentials_confirm_password",
+"en": "Confirm new password:",
+"de": "Neues Passwort bestätigen:",
+"fr": "Confirmer le nouveau mot de passe :",
+"es": "Confirmar contraseña nueva:",
+"hu": "Új jelszó megerősítése",
+"huFrom": "crespo:Settings:credentials_confirm_password"
+},
+"credentials_first_time_hint": {
+"res": "passion:Settings:credentials_first_time_hint",
+"en": "Set a password for the credential storage (at least 8 characters).",
+"de": "Legen Sie ein mindestens acht Zeichen langes Passwort für den Anmeldeinformationsspeicher fest.",
+"fr": "Définissez un mot de passe pour le stockage des identifiants (au moins 8 caractères).",
+"es": "Establece una contraseña para el almacenamiento de credenciales (ocho caracteres como mínimo).",
+"hu": "Adjon meg egy jelszót a hitelesítési adatok tárolója számára (legalább 8 karakter).",
+"huFrom": "crespo:Settings:credentials_first_time_hint"
+},
+"credentials_wrong_password": {
+"res": "passion:Settings:credentials_wrong_password",
+"en": "Please enter the correct password.",
+"de": "Geben Sie das richtige Passwort ein.",
+"fr": "Veuillez entrer le mot de passe approprié.",
+"es": "Introduce la contraseña correcta.",
+"hu": "Adja meg a helyes jelszót.",
+"huFrom": "crespo:Settings:credentials_wrong_password"
+},
+"credentials_reset_warning": {
+"res": "passion:Settings:credentials_reset_warning",
+"en": "Please enter the correct password. You have one more try to enter the correct password before the credential storage is erased.",
+"de": "Geben Sie das richtige Passwort ein. Sie haben noch einen Versuch, das richtige Passwort einzugeben. Anschließend wird der Anmeldeinformationsspeicher gelöscht.",
+"fr": "Entrez le mot de passe approprié. Il vous reste un essai avant que le stockage des identifiants ne soit effacé.",
+"es": "Introduce la contraseña correcta. Dispones de un intento más para introducir la contraseña antes de que se borre el almacenamiento de credenciales.",
+"hu": "Kérjük, adja meg a helyes jelszót. Még egy alkalommal próbálkozhat, aztán a rendszer törli a hitelesítési adatok tárolóját.",
+"huFrom": "crespo:Settings:credentials_reset_warning"
+},
+"credentials_reset_warning_plural": {
+"res": "passion:Settings:credentials_reset_warning_plural",
+"en": "Please enter the correct password. You have %1$d more tries to enter the correct password before the credential storage is erased.",
+"de": "Geben Sie das richtige Passwort ein. Sie haben noch %1$d Versuche, das richtige Passwort einzugeben. Anschließend wird der Anmeldeinformationsspeicher gelöscht.",
+"fr": "Entrez le mot de passe approprié. Il vous reste %1$d essais avant que les identifiants stockés ne soient effacés.",
+"es": "Introduce la contraseña correcta. Dispones de %1$d intentos más para introducir la contraseña antes de que se borre el almacenamiento de credenciales.",
+"hu": "Kérjük, adja meg a helyes jelszót. Még %1$d alkalommal próbálkozhat, aztán a rendszer törli a hitelesítési adatok tárolóját.",
+"huFrom": "crespo:Settings:credentials_reset_warning_plural"
+},
+"credentials_passwords_mismatch": {
+"res": "passion:Settings:credentials_passwords_mismatch",
+"en": "Passwords do not match.",
+"de": "Die Passwörter stimmen nicht überein.",
+"fr": "Les mots de passe ne concordent pas.",
+"es": "Las contraseñas no coinciden.",
+"hu": "A jelszavak nem egyeznek.",
+"huFrom": "crespo:Settings:credentials_passwords_mismatch"
+},
+"credentials_passwords_empty": {
+"res": "passion:Settings:credentials_passwords_empty",
+"en": "You must enter and confirm a password.",
+"de": "Sie müssen ein Passwort eingeben und bestätigen.",
+"fr": "Vous devez entrer un mot de passe et le confirmer.",
+"es": "Debes introducir una contraseña y confirmarla.",
+"hu": "Be kell írnia egy jelszót és meg kell erősítenie azt.",
+"huFrom": "crespo:Settings:credentials_passwords_empty"
+},
+"credentials_password_empty": {
+"res": "passion:Settings:credentials_password_empty",
+"en": "Please enter the password.",
+"de": "Geben Sie das Passwort ein.",
+"fr": "Veuillez entrer le mot de passe.",
+"es": "Introduce la contraseña.",
+"hu": "Adja meg a jelszót.",
+"huFrom": "crespo:Settings:credentials_password_empty"
+},
+"credentials_password_too_short": {
+"res": "passion:Settings:credentials_password_too_short",
+"en": "The password must have at least 8 characters.",
+"de": "Das Passwort muss mindestens acht Zeichen lang sein.",
+"fr": "Le mot de passe doit contenir au moins 8 caractères.",
+"es": "La contraseña debe tener un mínimo de ocho caracteres.",
+"hu": "A jelszónak legalább 8 karakter hosszúnak kell lennie.",
+"huFrom": "crespo:Settings:credentials_password_too_short"
+},
+"credentials_erased": {
+"res": "passion:Settings:credentials_erased",
+"en": "The credential storage is erased.",
+"de": "Der Speicher für die Anmeldeinformationen wurde gelöscht.",
+"fr": "Le stockage des identifiants est effacé.",
+"es": "Se ha borrado el almacenamiento de credenciales.",
+"hu": "A hitelesítési adatok tárolója kiürítve.",
+"huFrom": "crespo:Settings:credentials_erased"
+},
+"credentials_enabled": {
+"res": "passion:Settings:credentials_enabled",
+"en": "Credential storage is enabled.",
+"de": "Der Anmeldeinformationsspeicher ist aktiviert.",
+"fr": "Stockage des identifiants activé",
+"es": "Almacenamiento de credenciales habilitado",
+"hu": "A hitelesítési adatok tárolója engedélyezve van.",
+"huFrom": "crespo:Settings:credentials_enabled"
+},
+"credentials_disabled": {
+"res": "passion:Settings:credentials_disabled",
+"en": "Credential storage is disabled.",
+"de": "Der Anmeldeinformationsspeicher ist deaktiviert.",
+"fr": "Stockage des identifiants désactivé",
+"es": "Almacenamiento de credenciales inhabilitado",
+"hu": "A hitelesítési adatok tárolója le van tiltva.",
+"huFrom": "crespo:Settings:credentials_disabled"
+},
+"credentials_reset_hint": {
+"res": "passion:Settings:credentials_reset_hint",
+"en": "Are you sure you want to delete all credentials and reset the credential storage password?",
+"de": "Möchten Sie wirklich alle Anmeldeinformationen löschen und das Passwort für den Anmeldeinformationsspeicher zurücksetzen?",
+"fr": "Voulez-vous vraiment supprimer tous les identifiants et réinitialiser le mot de passe du stockage des identifiants ?",
+"es": "¿Estás seguro de que quieres eliminar todas las credenciales y restablecer la contraseña de almacenamiento de credenciales?",
+"hu": "Biztosan törli az összes hitelesítési adatot és visszaállítja a hitelesítési adatok tárolójának jelszavát?",
+"huFrom": "crespo:Settings:credentials_reset_hint"
+},
+"CertInstaller/app_name": {
+"res": "passion:CertInstaller:app_name",
+"en": "Certificate Installer",
+"de": "Zertifikats-Installer",
+"fr": "Programme d'installation du certificat",
+"es": "Instalador de certificados",
+"hu": "Tanúsítványtelepítő",
+"huFrom": "crespo:CertInstaller:app_name"
+},
+"CertInstaller/no_pkcs12_found": {
+"res": "passion:CertInstaller:no_pkcs12_found",
+"en": "No .p12 file found in the SD card.",
+"de": "Auf der SD-Karte wurde keine .p12-Datei gefunden.",
+"fr": "Fichier .p12 introuvable dans la carte SD",
+"es": "No se ha encontrado el archivo .p12 en la tarjeta SD.",
+"hu": "Nem található .p12 fájl az SD-kártyán.",
+"huOwn": true
 }
 });
