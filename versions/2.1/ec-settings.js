@@ -39,10 +39,10 @@
     accelerometer: ['rotate', true], auto_time: ['autoTime', true], '24 hour': ['hour24']
   };
   // build.prop (ERE27); the baseband in the update's radio.img; the kernel of ERE27's boot.img (the update's patch applied
-  // to ERD79's, SHA-1 e7f20e51…: "Linux version 2.6.29-01117-g4bc62c2 (android-build@apa26…) #1"), as DeviceInfoSettings
-  // formats it.
+  // to ERD79's, SHA-1 e7f20e51…: "Linux version 2.6.29-01117-g4bc62c2 (android-build@apa26…) #1 PREEMPT Wed Jan 20 10:24:55
+  // PST 2010"), as DeviceInfoSettings formats it: groups 1, 2 and 3, then the date on a third line (PREEMPT skipped).
   const BUILD = {firmware_version: '2.1-update1', device_model: 'Nexus One', build_number: 'ERE27', baseband_version: '32.24.00.22U_4.03.00.21_2',
-    kernel_version: '2.6.29-01117-g4bc62c2\nandroid-build@apa26 #1'};
+    kernel_version: '2.6.29-01117-g4bc62c2\nandroid-build@apa26 #1\nWed Jan 20 10:24:55 PST 2010'};
   // SettingsProvider defaults (def_notification_pulse, def_haptic_feedback, def_install_non_market_apps, def_backup_enabled,
   // def_location_providers_allowed "gps").
   EC.defaults.prefs = {notification_pulse: true, haptic_feedback: true, toggle_install_applications: false, location_gps: true, location_network: false};

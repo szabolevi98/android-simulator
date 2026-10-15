@@ -16,3 +16,5 @@
 .sx-account img{width:calc(37.6471 * var(--dp));height:calc(37.6471 * var(--dp))}
 .sx-reset{display:block;margin:calc(23.5295 * var(--dp)) auto calc(14.1177 * var(--dp));min-width:calc(141.1765 * var(--dp));min-height:calc(56.4706 * var(--dp));padding:0 calc(18.8236 * var(--dp));border:0;background:#ffffff1a;color:#fff;font-size:calc(18.8236 * var(--dp))}
 
+/* Preference summaries keep their line breaks as the TextView does (About phone's kernel version is three lines). */
+.settings-app .sx-page .row-copy small{white-space:pre-line}

@@ -233,7 +233,7 @@
       // device_info_settings.xml after DeviceInfoSettings: System updates (GoogleServicesFramework handles the intent),
       // Status, Legal information, then the read-only values; the additional update, safety legal and copyright entries
       // have no activity on the image and go.
-      if(ui.sub==='about')return page(S('About phone'),`${row(S('System updates'),'','toast','This feature is not part of the simulator.')}${row(S('Status'),S('Phone number, signal, etc.'),'settings-sub','about-status')}${row(S('Legal information'),'','settings-sub','about-legal')}${info('Model number','Galaxy Nexus')}${info('Android version','4.0.4','about-tap')}${info('Baseband version','I9250XXLA02')}${info('Kernel version','3.0.8-g034fec9\nandroid-build@vpbs1 #1\nTue Mar 13 15:46:20 PDT 2012')}${info('Build number','IMM76I')}`);
+      if(ui.sub==='about')return page(S('About phone'),`${row(S('System updates'),'','toast','This feature is not part of the simulator.')}${row(S('Status'),S('Phone number, signal, etc.'),'settings-sub','about-status')}${row(S('Legal information'),'','settings-sub','about-legal')}${info('Model number','Galaxy Nexus')}${info('Android version','4.0.4','about-tap')}${info('Baseband version','I9250XXLA02')}${info('Kernel version','3.0.8-gda6252b\nandroid-build@vpbs1 #1\nSMP PREEMPT Fri Apr 13 11:35:09 PDT 2012')}${info('Build number','IMM76I')}`);
       // deviceinfo.Status on a GSM phone: the CDMA rows (MIN, PRL version, MEID), ICCID and WiMAX are removed.
       if(ui.sub==='about-status'){
         const up=Math.floor((Date.now()-START)/1000),pad=n=>String(n).padStart(2,'0'),air=p.airplane;
