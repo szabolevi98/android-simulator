@@ -1051,6 +1051,159 @@ EC.strings('settingsx', {
 "hu": "Hozzáadás a szótárhoz",
 "huFrom": "crespo:Settings:user_dict_settings_add_dialog_title"
 },
+"wifi_ip_settings_invalid_ip": {
+"res": "passion:Settings:wifi_ip_settings_invalid_ip",
+"en": "Please type a valid IP address.",
+"de": "Bitte geben Sie eine gültige IP-Adresse ein.",
+"fr": "Saisissez une adresse IP valide.",
+"es": "Introduce una dirección IP válida.",
+"hu": "Kérjük, adjon meg egy érvényes IP-címet.",
+"huFrom": "crespo:Settings:wifi_ip_settings_invalid_ip"
+},
+"sim_enter_pin": {
+"res": "passion:Settings:sim_enter_pin",
+"en": "SIM PIN",
+"de": "PIN für SIM-Karte",
+"fr": "Code PIN de la carte SIM",
+"es": "PIN de tarjeta SIM",
+"hu": "SIM-kártya PIN-kódja",
+"huFrom": "crespo:Settings:sim_enter_pin"
+},
+"sim_enable_sim_lock": {
+"res": "passion:Settings:sim_enable_sim_lock",
+"en": "Lock SIM card",
+"de": "SIM-Karte sperren",
+"fr": "Bloquer la carte SIM",
+"es": "Bloquear tarjeta SIM",
+"hu": "SIM-kártya lezárása",
+"huFrom": "crespo:Settings:sim_enable_sim_lock"
+},
+"sim_disable_sim_lock": {
+"res": "passion:Settings:sim_disable_sim_lock",
+"en": "Unlock SIM card",
+"de": "SIM-Karte entsperren",
+"fr": "Débloquer la carte SIM",
+"es": "Desbloquear tarjeta SIM",
+"hu": "SIM-kártya feloldása",
+"huFrom": "crespo:Settings:sim_disable_sim_lock"
+},
+"sim_enter_old": {
+"res": "passion:Settings:sim_enter_old",
+"en": "Old SIM PIN",
+"de": "Alte PIN der SIM-Karte",
+"fr": "Ancien code PIN de la carte SIM",
+"es": "PIN de tarjeta SIM antiguo",
+"hu": "SIM-kártya régi PIN-kódja",
+"huFrom": "crespo:Settings:sim_enter_old"
+},
+"sim_enter_new": {
+"res": "passion:Settings:sim_enter_new",
+"en": "New SIM PIN",
+"de": "Neue PIN für SIM-Karte",
+"fr": "Nouveau code PIN de la carte SIM",
+"es": "Nuevo PIN de tarjeta SIM",
+"hu": "Új PIN-kód a SIM-kártyához",
+"huFrom": "crespo:Settings:sim_enter_new"
+},
+"sim_reenter_new": {
+"res": "passion:Settings:sim_reenter_new",
+"en": "Re-type new PIN",
+"de": "Neue PIN erneut eingeben",
+"fr": "Confirmez le nouveau code PIN",
+"es": "Volver a introducir PIN nuevo",
+"hu": "Írja be újra az új PIN-kódot",
+"huFrom": "crespo:Settings:sim_reenter_new"
+},
+"sim_bad_pin": {
+"res": "passion:Settings:sim_bad_pin",
+"en": "Incorrect PIN!",
+"de": "Falsche PIN!",
+"fr": "Le code PIN est incorrect !",
+"es": "PIN incorrecto",
+"hu": "Helytelen PIN-kód!",
+"huFrom": "crespo:Settings:sim_bad_pin"
+},
+"sim_pins_dont_match": {
+"res": "passion:Settings:sim_pins_dont_match",
+"en": "PINs don't match!",
+"de": "Die PINs stimmen nicht überein!",
+"fr": "Les codes PIN ne correspondent pas !",
+"es": "Los códigos PIN no coinciden.",
+"hu": "A PIN-kódok nem egyeznek!",
+"huFrom": "crespo:Settings:sim_pins_dont_match"
+},
+"sim_change_failed": {
+"res": "passion:Settings:sim_change_failed",
+"en": "Unable to change PIN.\nPossibly incorrect PIN.",
+"de": "PIN kann nicht geändert werden.\nMöglicherweise falsche Eingabe.",
+"fr": "Impossible de modifier le code PIN.\nIl se peut que ce code PIN soit incorrect.",
+"es": "No se ha podido cambiar el PIN.\nEs posible que no sea correcto.",
+"hu": "Nem lehet módosítani a PIN-kódot.\nValószínűleg rosszat adott meg.",
+"huFrom": "crespo:Settings:sim_change_failed"
+},
+"sim_lock_failed": {
+"res": "passion:Settings:sim_lock_failed",
+"en": "Unable to change SIM card lock state.\nPossibly incorrect PIN.",
+"de": "Status der SIM-Kartensperrung kann nicht geändert werden.\nMöglicherweise falsche PIN.",
+"fr": "Impossible de changer l'état de blocage de la carte SIM.\nIl se peut que le code PIN soit incorrect.",
+"es": "No se ha podido cambiar el estado de bloqueo de la tarjeta SIM.\nEs posible que el PIN sea incorrecto.",
+"hu": "Nem lehet feloldani a SIM-kártya zárolását.\nValószínűleg helytelen PIN-kódot adott meg.",
+"huFrom": "crespo:Settings:sim_lock_failed"
+},
+"sim_enter_ok": {
+"res": "passion:Settings:sim_enter_ok",
+"en": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar",
+"hu": "OK",
+"huFrom": "crespo:Settings:sim_enter_ok"
+},
+"sim_enter_cancel": {
+"res": "passion:Settings:sim_enter_cancel",
+"en": "Cancel",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar",
+"hu": "Mégse",
+"huFrom": "crespo:Settings:sim_enter_cancel"
+},
+"sim_lock_settings": {
+"res": "passion:Settings:sim_lock_settings",
+"en": "SIM card lock settings",
+"de": "Einstellungen",
+"fr": "Paramètres de blocage carte SIM",
+"es": "Configuración de bloqueo de tarjeta SIM",
+"hu": "SIM-kártya lezárási beállításai",
+"huFrom": "crespo:Settings:sim_lock_settings"
+},
+"dock_not_found_title": {
+"res": "passion:Settings:dock_not_found_title",
+"en": "Dock not found",
+"de": "Dock nicht gefunden",
+"fr": "Base introuvable",
+"es": "No se ha encontrado el conector",
+"hu": "A dokkoló nem található",
+"huFrom": "crespo:Settings:dock_not_found_title"
+},
+"dock_not_found_text": {
+"res": "passion:Settings:dock_not_found_text",
+"en": "The phone must be docked to configure dock audio",
+"de": "Zur Konfiguration des Dock-Audios muss das Telefon angedockt sein.",
+"fr": "Pour configurer les paramètres audio de la base, vous devez placer le téléphone sur cette dernière.",
+"es": "El teléfono debe estar conectado para configurar el audio del conector.",
+"hu": "A dokkolóegység hangjának beállításához dokkolni kell a telefont",
+"huFrom": "crespo:Settings:dock_not_found_text"
+},
+"dock_audio_summary_none": {
+"res": "passion:Settings:dock_audio_summary_none",
+"en": "Phone not docked",
+"de": "Telefon nicht angedockt",
+"fr": "Le téléphone n'est pas sur sa base.",
+"es": "Teléfono sin conectar",
+"hu": "A telefon nincs dokkolva",
+"huFrom": "crespo:Settings:dock_audio_summary_none"
+},
 "user_dict_settings_edit_dialog_title": {
 "res": "passion:Settings:user_dict_settings_edit_dialog_title",
 "en": "Edit word",

@@ -70,6 +70,7 @@
   }
   // CheckBoxPreference.shouldDisableDependents: disableDependentsState true → off when checked.
   function disabled(c, screen, node) {
+    if (EC.settingsDisabled[node.key]) return EC.settingsDisabled[node.key](c);
     if (!node.dependency) return false;
     const dep = find(screen, node.dependency);
     if (!dep) return false;
@@ -117,7 +118,7 @@
   // with their own click (EC.settingsPrefTypes).
   // A preference by its key: its own click (EC.settingsKeys) and summary (EC.settingsSummaries); EC.settingsValue reads a
   // stored preference as the engine does.
-  Object.assign(EC, {settingsClass: CLASS, settingsExtra: EXTRA, settingsPrune: [], settingsPrefTypes: {}, settingsKeys: {}, settingsSummaries: {},
+  Object.assign(EC, {settingsClass: CLASS, settingsExtra: EXTRA, settingsPrune: [], settingsPrefTypes: {}, settingsKeys: {}, settingsSummaries: {}, settingsDisabled: {}, settingsProgress: {}, settingsProgressRows: {},
     settingsValue: (c, key, def) => value(c, key, def)});
   function withExtra(c, name, node) {
     if (!EXTRA[name] || node.c?.extended) return node;
@@ -197,6 +198,9 @@
   function row(c, screen, name, n, path) {
     if (!prune(name, n)) return '';
     if (n.t === 'ProgressCategory' && n.key === 'access_points') return EC.wifi.category(c, txt(n.title)) + EC.wifi.rows(c);
+    // Other ProgressCategories (Bluetooth devices): the header, "Scanning" and the spinner while EC.settingsProgress says so,
+    // then the rows EC.settingsProgressRows gives.
+    if (n.t === 'ProgressCategory') return `<div class="ecpf-cat npp-fw-dark_header_dither"><i class="ec-bg np-fw-dark_header_dither"></i><span>${esc(txt(n.title))}</span>${EC.settingsProgress[n.key]?.(c) ? `<span class="ecwf-scan">${esc(EC.text('wifi').t('progress_scanning'))}</span><img class="ecwf-spin" src="assets/fw-spinner_white_16.png" alt="">` : ''}</div>${EC.settingsProgressRows[n.key]?.(c) || ''}`;
     if (n.t === 'PreferenceCategory') return `<div class="ecpf-cat npp-fw-dark_header_dither"><i class="ec-bg np-fw-dark_header_dither"></i><span>${esc(txt(n.title))}</span></div>${(n.c || []).map((ch, i) => row(c, screen, name, ch, `${path}.${i}`)).join('')}`;
     const off = disabled(c, screen, n) || n.enabled === 'false' || n.key === 'memory_sd_unmount' && c.ui.sdUnmounted || name === 'date_time_prefs' && ['date', 'time', 'timezone'].includes(n.key) && value(c, 'auto_time');
     const check = n.t.endsWith('CheckBoxPreference') ? `<img class="ecpf-check" src="assets/fw-btn_check_${value(c, n.key, n.defaultValue) ? 'on' : 'off'}.png" alt="">` : '';
