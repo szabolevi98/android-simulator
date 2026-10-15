@@ -254,69 +254,6 @@ EC.strings('settingsx', {
 "hu": "Kezdés",
 "huFrom": "crespo:SetupWizard:begin_button_label"
 },
-"SetupWizard/keyboard_tutorial_title": {
-"res": "passion:SetupWizard:keyboard_tutorial_title",
-"en": "Using the onscreen keyboard",
-"de": "Verwendung der Bildschirmtastatur",
-"fr": "Utilisation du clavier à l'écran",
-"es": "Uso del teclado en pantalla",
-"hu": "A képernyőn megjelenő billentyűzet használata",
-"huFrom": "crespo:SetupWizard:keyboard_tutorial_title"
-},
-"SetupWizard/keyboard_tutorial_message": {
-"res": "passion:SetupWizard:keyboard_tutorial_message",
-"en": "Touch any text field to open the keyboard and start typing. Try it here!",
-"de": "Berühren Sie ein beliebiges Textfeld, um die Tastatur zu öffnen und mit dem Tippen zu beginnen. Probieren Sie es hier!",
-"fr": "Pour ouvrir le clavier et commencer à saisir votre texte, touchez un champ de texte. Essayez ici !",
-"es": "Para abrir el teclado y comenzar a escribir, toca cualquier campo de texto. Pruébalo aquí.",
-"hu": "A billentyűzet megjelenítéséhez érintse meg bármelyik szövegmezőt, és kezdjen el gépelni. Próbálja ki itt.",
-"huFrom": "crespo:SetupWizard:keyboard_tutorial_message"
-},
-"SetupWizard/keyboard_tutorial_edittext_hint": {
-"res": "passion:SetupWizard:keyboard_tutorial_edittext_hint",
-"en": "Touch here to start typing",
-"de": "Hier berühren, um mit dem Tippen zu beginnen",
-"fr": "Touchez ici pour commencer la saisie.",
-"es": "Toca aquí para comenzar a escribir",
-"hu": "Érintse meg itt a gépelés megkezdéséhez",
-"huFrom": "crespo:SetupWizard:keyboard_tutorial_edittext_hint"
-},
-"SetupWizard/done_button_label_in_tutorial": {
-"res": "passion:SetupWizard:done_button_label_in_tutorial",
-"en": "Done",
-"de": "Fertig",
-"fr": "OK",
-"es": "Hecho",
-"hu": "Kész",
-"huFrom": "crespo:SetupWizard:done_button_label_in_tutorial"
-},
-"SetupWizard/back_button_label": {
-"res": "passion:SetupWizard:back_button_label",
-"en": "Back",
-"de": "Zurück",
-"fr": "Retour",
-"es": "Anterior",
-"hu": "Vissza",
-"huFrom": "crespo:SetupWizard:back_button_label"
-},
-"SetupWizard/next_button_label": {
-"res": "passion:SetupWizard:next_button_label",
-"en": "Next",
-"de": "Weiter",
-"fr": "Suivant",
-"es": "Siguiente",
-"hu": "Tovább",
-"huFrom": "crespo:SetupWizard:next_button_label"
-},
-"SetupWizard/done_typing_message": {
-"res": "passion:SetupWizard:done_typing_message",
-"en": "Done typing? Press your phone's Back button to close the keyboard.",
-"de": "Fertig mit Tippen? Drücken Sie auf Ihrem Telefon die Zurück-Taste, um die Tastatur zu schließen.",
-"fr": "Vous avez fini de saisir votre message ? Appuyez sur la touche Retour de votre téléphone pour fermer le clavier.",
-"es": "¿Has terminado de escribir? Pulsa la tecla (atrás) del teléfono para salir del teclado.",
-"hu": "Végzett a gépeléssel? Nyomja meg a telefonja Vissza gombját a billentyűzet bezárásához.",
-"huFrom": "crespo:SetupWizard:done_typing_message"
-},
 "GlobalSearch/search_settings": {
 "res": "passion:GlobalSearch:search_settings",
 "en": "Search settings",

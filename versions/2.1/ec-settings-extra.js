@@ -9,7 +9,8 @@
      currently up to date."), Copyright (HtcCopyright's AlertActivity), License (SettingsLicenseActivity opens
      /system/etc/NOTICE.html.gz in HTMLViewer as "Open source licenses"), Terms and conditions (GoogleApps' "Google
      legal", offline: the fallback phone-legal URL for the locale), System tutorial (SetupWizard: "Learn how to use your
-     Nexus One" — ro.product.model —, Skip / Begin, then "Using the onscreen keyboard", Back / Next).
+     Nexus One" — ro.product.model —, Skip / Begin; Begin starts the current input method's tutorial, LatinImeTutorial's
+     com.google.android.voicesearch.tutorial: ec-tutorial.js).
    - Search settings (GlobalSearch): Search engine settings ("Settings for Google": EnhancedGoogleSearchProvider's Show
      web suggestions, Share with Google, Search history / Manage search history off with "No account configured"),
      Searchable items (the image's searchables with includeInGlobalSearch, by label) and Clear search shortcuts (none
@@ -72,9 +73,6 @@
       return `<div class="ecsx-tut"><div class="ecsx-tut-scroll"><div class="ecsx-tut-title">${esc(t('SetupWizard/tutorial_intro_title').split('^1').join('Nexus One'))}</div><i class="ecsx-tut-div"></i><div class="ecsx-tut-text">${body}</div></div>
         <div class="ecsx-tut-bar">${tutorialButton('ecsx-tut-skip', t('SetupWizard/skip_button_label'))}<span></span>${tutorialButton('ecsx-tut-begin', t('SetupWizard/begin_button_label'))}</div></div>`;
     },
-    'tutorial-keyboard': c => `<div class="ecsx-tut"><div class="ecsx-tut-scroll"><div class="ecsx-tut-title">${esc(t('SetupWizard/keyboard_tutorial_title'))}</div><i class="ecsx-tut-div"></i><div class="ecsx-tut-text">${esc(t('SetupWizard/keyboard_tutorial_message'))}</div>
-        <span class="ecwf-edit ecsx-tut-edit npp-fw-textfield_default"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_selected"></i><input class="ecwf-input" placeholder="${esc(t('SetupWizard/keyboard_tutorial_edittext_hint'))}" autocomplete="off"></span><div class="ecsx-tut-green">${esc(t('SetupWizard/done_typing_message'))}</div></div>
-        <div class="ecsx-tut-bar">${tutorialButton('ecsx-tut-back', t('SetupWizard/back_button_label'))}<span></span>${tutorialButton('ecsx-tut-done', t('SetupWizard/next_button_label'))}</div></div>`,
     'search-settings': c => c.window(t('GlobalSearch/search_settings'), `<div class="ecpf-list">${cat(t('GlobalSearch/web_search_category_title'))}${pref('ecsx-qsb-engine', t('GlobalSearch/search_engine_settings'), X().fmt('GlobalSearch/search_engine_settings_summary_enabled', c.lang, t('EnhancedGoogleSearchProvider/search_label')))}
         ${cat(t('GlobalSearch/system_search_category_title'))}${pref('ecsx-qsb-sources', t('GlobalSearch/search_sources'), t('GlobalSearch/search_sources_summary'))}${pref('ecsx-none', t('GlobalSearch/clear_shortcuts'), t('GlobalSearch/clear_shortcuts_summary'), undefined, true)}</div>`),
     'search-sources': c => { const q = qsb(c); return c.window(t('GlobalSearch/search_sources'), `<div class="ecpf-list">${SOURCES(c).map(([id, label, desc]) => pref('ecsx-qsb-source', label, desc, q.sources[id] !== false, false, id)).join('')}</div>`); },
@@ -122,9 +120,8 @@
         case 'ecsx-qsb-sources': show(c, 'search-sources'); return true;
         case 'ecsx-qsb-source': q.sources = {...q.sources, [el.dataset.key]: q.sources[el.dataset.key] === false}; c.save(); c.render(); return true;
         case 'ecsx-qsb-toggle': q[el.dataset.key] = !q[el.dataset.key]; c.save(); c.render(); return true;
-        case 'ecsx-tut-begin': stack(c).pop(); show(c, 'tutorial-keyboard'); return true;
-        case 'ecsx-tut-back': stack(c).pop(); show(c, 'tutorial'); return true;
-        case 'ecsx-tut-skip': case 'ecsx-tut-done': stack(c).pop(); c.render(); return true;
+        case 'ecsx-tut-begin': stack(c).pop(); c.render(); c.open('system-tutorial'); return true;
+        case 'ecsx-tut-skip': stack(c).pop(); c.render(); return true;
         case 'ecsx-none': return true;
       }
       return base.action(name, el, event, c);

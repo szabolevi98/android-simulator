@@ -789,6 +789,13 @@ versions/2.1/assets/lk-sym_keyboard_search.png	f29bb06ea7e16397	copy	passion:/sy
 versions/2.1/assets/lk-sym_keyboard_shift.png	bdda223adf160800	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_shift.png	drawable-hdpi		bdda223adf160800
 versions/2.1/assets/lk-sym_keyboard_shift_locked.png	69a4c768c1e67472	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_shift_locked.png	drawable-hdpi		69a4c768c1e67472
 versions/2.1/assets/lk-sym_keyboard_space.png	a807c311e98068bf	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/sym_keyboard_space.png	drawable-hdpi		a807c311e98068bf
+versions/2.1/assets/lt-green_divider.png	77c251ef26ad9870	copy	passion:/system/app/LatinImeTutorial.apk!res/drawable-hdpi/green_divider.png	drawable-hdpi		77c251ef26ad9870
+versions/2.1/assets/lt-img_finger_close.png	e952f6d09d94ba07	copy	passion:/system/app/LatinImeTutorial.apk!res/drawable-hdpi/img_finger_close.png	drawable-hdpi		e952f6d09d94ba07
+versions/2.1/assets/lt-img_finger_open.png	be749a212a5964fc	copy	passion:/system/app/LatinImeTutorial.apk!res/drawable-hdpi/img_finger_open.png	drawable-hdpi		be749a212a5964fc
+versions/2.1/assets/lt-kb_tutorial_close.png	0d4e8a380cf9d363	copy	passion:/system/app/LatinImeTutorial.apk!res/drawable-hdpi/kb_tutorial_close.png	drawable-hdpi		0d4e8a380cf9d363
+versions/2.1/assets/lt-kb_tutorial_open.png	fd286ec5be95cf05	copy	passion:/system/app/LatinImeTutorial.apk!res/drawable-hdpi/kb_tutorial_open.png	drawable-hdpi		fd286ec5be95cf05
+versions/2.1/assets/lt-kb_tutorial_roman_longpress.png	5aedba246a2bfc8e	copy	passion:/system/app/LatinImeTutorial.apk!res/drawable-hdpi/kb_tutorial_roman_longpress.png	drawable-hdpi		5aedba246a2bfc8e
+versions/2.1/assets/lt-kb_tutorial_roman_settings.png	408f3887c281c197	copy	passion:/system/app/LatinImeTutorial.apk!res/drawable-hdpi/kb_tutorial_roman_settings.png	drawable-hdpi		408f3887c281c197
 versions/2.1/assets/lw-flares.png	4684f96a0e5f83cc	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/flares.png	drawable-hdpi		4684f96a0e5f83cc
 versions/2.1/assets/lw-galaxy_thumb.jpg	3a6d39f40a72c02c	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/galaxy_thumb.jpg	drawable-hdpi		3a6d39f40a72c02c
 versions/2.1/assets/lw-glow.png	a24dfdade151f3f3	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/glow.png	drawable-hdpi		a24dfdade151f3f3
@@ -1135,6 +1142,8 @@ versions/2.1/assets/sv-ic_menu_streetview_back.png	d63766b9d958540b	copy	passion
 versions/2.1/assets/sv-ic_menu_streetview_forward.png	f19b77aa82a4a6e8	copy	passion:/system/app/Street.apk!res/drawable/ic_menu_streetview_forward.png	drawable		f19b77aa82a4a6e8
 versions/2.1/assets/sv-maps_google_logo.png	1d374874bbcbedfb	copy	passion:/system/app/Street.apk!res/drawable-240dpi/maps_google_logo.png	drawable-240dpi		1d374874bbcbedfb
 versions/2.1/assets/sv-street.png	10287250c0202e26	copy	passion:/system/app/Street.apk!res/drawable/street.png	drawable		10287250c0202e26
+versions/2.1/assets/sw-ic_btn_back.png	1cf3a3a9692b874b	copy	passion:/system/app/Facebook.apk!res/drawable-hdpi/ic_btn_back.png	drawable-hdpi		1cf3a3a9692b874b
+versions/2.1/assets/sw-ic_btn_next.png	f87394f09bca77e4	copy	passion:/system/app/AccountAndSyncSettings.apk!res/drawable-hdpi/ic_btn_next.png	drawable-hdpi		f87394f09bca77e4
 versions/2.1/assets/tk-android_bottom.png	a22b1eb384818c0d	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/android_bottom.png	drawable-hdpi		a22b1eb384818c0d
 versions/2.1/assets/tk-bottombar_landscape_565.png	47684796f4d09be5	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/bottombar_landscape_565.png	drawable-hdpi		47684796f4d09be5
 versions/2.1/assets/tk-dashboard_highlight_selected.9.png	363042b35b1c34e6	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/dashboard_highlight_selected.9.png	drawable-hdpi		363042b35b1c34e6

@@ -1248,3 +1248,13 @@ fb-appwidget_facebook_icon_default.png	app/Facebook.apk	drawable/appwidget_faceb
 fb-appwidget_facebook_icon_pressed.png	app/Facebook.apk	drawable/appwidget_facebook_icon_pressed
 ga-appwidget_bg.9.png	app/Gallery3D.apk	drawable/appwidget_bg
 ga-photo_inner.9.png	app/Gallery3D.apk	drawable/photo_inner
+# System tutorial (About phone): SetupWizard's TutorialActivity (tutorial_activity.xml) and LatinImeTutorial's ime_tutorial_activity.xml
+sw-ic_btn_next.png	app/SetupWizard.apk	drawable/ic_btn_next
+sw-ic_btn_back.png	app/SetupWizard.apk	drawable/ic_btn_back
+lt-kb_tutorial_open.png	app/LatinImeTutorial.apk	drawable/kb_tutorial_open
+lt-kb_tutorial_close.png	app/LatinImeTutorial.apk	drawable/kb_tutorial_close
+lt-kb_tutorial_roman_longpress.png	app/LatinImeTutorial.apk	drawable/kb_tutorial_roman_longpress
+lt-kb_tutorial_roman_settings.png	app/LatinImeTutorial.apk	drawable/kb_tutorial_roman_settings
+lt-green_divider.png	app/LatinImeTutorial.apk	drawable/green_divider
+lt-img_finger_open.png	app/LatinImeTutorial.apk	drawable/img_finger_open
+lt-img_finger_close.png	app/LatinImeTutorial.apk	drawable/img_finger_close

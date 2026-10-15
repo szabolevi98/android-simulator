@@ -59,7 +59,6 @@
 .ecsx-tut-title{color:#a6c839;font-size:calc(22 * var(--dp))}
 .ecsx-tut-div{display:block;height:calc(2 * var(--dp));margin:calc(5 * var(--dp)) 0 calc(10 * var(--dp));background:#b6d650}
 .ecsx-tut-text{font-size:calc(17 * var(--dp))}
-.ecsx-tut-edit{margin-top:calc(10 * var(--dp))}
 .ecsx-tut-green{margin-top:calc(10 * var(--dp));color:#a6c839;font-size:calc(17 * var(--dp));visibility:hidden}
 .ecsx-tut-scroll:focus-within .ecsx-tut-green{visibility:visible}
 .ecsx-tut-bar{flex:none;display:flex;padding-top:calc(5 * var(--dp));background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}

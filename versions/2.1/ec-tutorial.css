@@ -1,0 +1,26 @@
+/* Android 2.1 System tutorial (ec-tutorial.js), in dp / sp: Theme.NoTitleBar, setupWizardTitle / BodyTextPrimary / TextPrimarySmall. */
+.view-system-tutorial #viewport{background:#000}
+.ectu{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ectu-scroll{position:relative;flex:1;min-height:0;overflow-y:auto;padding:0 calc(5 * var(--dp))}
+.ectu-title{margin-top:calc(11 * var(--dp));color:#a6c839;font-size:calc(22 * var(--dp))}
+.ectu-div{display:block;width:100%;height:calc(1 * var(--dp));margin:calc(14 * var(--dp)) 0 calc(13 * var(--dp))}
+.ectu-small{margin:calc(28 * var(--dp)) 0 0 calc(5 * var(--dp));font-size:calc(14 * var(--dp));white-space:pre-line}
+.ectu-small b{display:block;font-size:calc(17 * var(--dp))}
+.ectu-gap{display:block;height:calc(3 * var(--dp))}
+.ectu-small:first-of-type{margin-top:calc(14 * var(--dp))}
+.ectu-img{display:block;margin:calc(14 * var(--dp)) 0 0 calc(10 * var(--dp));max-width:calc(100% - 10 * var(--dp))}
+.ectu-img[src*="open"]{width:calc(161.333 * var(--dp))}
+.ectu-img[src*="close"]{width:calc(37.333 * var(--dp))}
+.ectu-img[src*="longpress"]{width:calc(294 * var(--dp))}
+.ectu-img[src*="settings"]{width:calc(170 * var(--dp))}
+.ectu-space{display:block;height:calc(40 * var(--dp))}
+.ectu-bar{position:relative;flex:none;display:flex;justify-content:space-between;background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.ectu-btn{flex:0 0 calc(150 * var(--dp));margin:calc(5 * var(--dp));display:flex;align-items:center;justify-content:center;gap:calc(10 * var(--dp))}
+.ectu-btn.left{gap:calc(3 * var(--dp))}
+.ectu-btn img{position:relative;width:calc(21.333 * var(--dp));height:calc(21.333 * var(--dp))}
+/* scroll_anim with hand_anim: in, up 40 % of the screen in 1 s after 200 ms, out at 2 s */
+.ectu-hand{position:absolute;right:0;top:45%;width:calc(160 * var(--dp));height:calc(180 * var(--dp));pointer-events:none;animation:ectu-hand 2.25s forwards}
+.ectu-hand img{position:absolute;inset:0;width:100%;height:100%}
+.ectu-hand .c{animation:ectu-grab 1.2s steps(1) forwards}
+@keyframes ectu-hand{0%{opacity:0;transform:translateY(0)}11%{opacity:1;transform:translateY(1%)}9%{transform:translateY(0)}53%{transform:translateY(-40vh)}89%{opacity:1}100%{opacity:0;transform:translateY(-40vh)}}
+@keyframes ectu-grab{0%{opacity:0}17%{opacity:1}33%{opacity:0}}
