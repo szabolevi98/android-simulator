@@ -154,6 +154,15 @@ EC.strings('settings', {
 "hu": "APN-ek",
 "huFrom": "crespo:Settings:apn_settings"
 },
+"Mms/app_label": {
+"res": "passion:Mms:app_label",
+"en": "Messaging",
+"de": "SMS/MMS",
+"fr": "SMS/MMS",
+"es": "Mensajes",
+"hu": "Üzenetek",
+"huFrom": "crespo:Mms:app_label"
+},
 "application_info_label": {
 "res": "passion:Settings:application_info_label",
 "en": "Application info",
@@ -559,6 +568,15 @@ EC.strings('settings', {
 "hu": "Cellán belüli üzenetszórás",
 "huFrom": "crespo:Phone:cell_broadcast_sms"
 },
+"Mms/change_duration_activity": {
+"res": "passion:Mms:change_duration_activity",
+"en": "Change duration",
+"de": "Dauer ändern",
+"fr": "Changer la durée",
+"es": "Cambiar duración",
+"hu": "Időtartam módosítása",
+"huFrom": "crespo:Mms:change_duration_activity"
+},
 "Phone/change_pin": {
 "res": "passion:Phone:change_pin",
 "en": "Change SIM PIN",
@@ -585,6 +603,15 @@ EC.strings('settings', {
 "es": "Seleccionar zona horaria",
 "hu": "Időzóna kiválasztása",
 "huFrom": "crespo:Settings:choose_timezone"
+},
+"Mms/class_0_message_activity": {
+"res": "passion:Mms:class_0_message_activity",
+"en": "Class 0 Message",
+"de": "Nachricht Klasse 0",
+"fr": "Message catégorie 0",
+"es": "Mensaje de clase 0",
+"hu": "0. osztályú üzenet",
+"huFrom": "crespo:Mms:class_0_message_activity"
 },
 "copyright_title": {
 "res": "passion:Settings:copyright_title",
@@ -734,6 +761,15 @@ EC.strings('settings', {
 "es": "Eliminar contacto de marcación fija",
 "hu": "Fix hívószám törlése",
 "huOwn": true
+},
+"Mms/delivery_report_activity": {
+"res": "passion:Mms:delivery_report_activity",
+"en": "Delivery report",
+"de": "Zustellbericht",
+"fr": "Accusé de réception",
+"es": "Informe de entrega",
+"hu": "Kézbesítési jelentés",
+"huFrom": "crespo:Mms:delivery_report_activity"
 },
 "details_title": {
 "res": "passion:Settings:details_title",
@@ -923,6 +959,24 @@ EC.strings('settings', {
 "es": "EcmExitDialog",
 "hu": "EcmExitDialog",
 "huFrom": "crespo:Phone:ecm_exit_dialog"
+},
+"Mms/edit_slide_activity": {
+"res": "passion:Mms:edit_slide_activity",
+"en": "Edit slide",
+"de": "Dia bearbeiten",
+"fr": "Modifier la diapositive",
+"es": "Editar diapositiva",
+"hu": "Dia szerkesztése",
+"huFrom": "crespo:Mms:edit_slide_activity"
+},
+"Mms/edit_slideshow_activity": {
+"res": "passion:Mms:edit_slideshow_activity",
+"en": "Edit slideshow",
+"de": "Diashow bearbeiten",
+"fr": "Modifier le diaporama",
+"es": "Editar diapositiva",
+"hu": "Diavetítés szerkesztése",
+"huFrom": "crespo:Mms:edit_slideshow_activity"
 },
 "Phone/emergencyDialerIconLabel": {
 "res": "passion:Phone:emergencyDialerIconLabel",
@@ -1689,6 +1743,240 @@ EC.strings('settings', {
 "hu": "Akkumulátorhasználat",
 "huFrom": "crespo:Settings:power_usage_summary_title"
 },
+"Mms/pref_mms_settings_title": {
+"res": "passion:Mms:pref_mms_settings_title",
+"en": "Multimedia message (MMS) settings",
+"de": "Einstellungen für Multimedia-Nachrichten (MMS)",
+"fr": "Paramètres des MMS",
+"es": "Configuración de mensajes multimedia (MMS)",
+"hu": "Multimédiás üzenetek (MMS) beállításai",
+"huFrom": "crespo:Mms:pref_mms_settings_title"
+},
+"Mms/pref_notification_settings_title": {
+"res": "passion:Mms:pref_notification_settings_title",
+"en": "Notification settings",
+"de": "Benachrichtigungseinstellungen",
+"fr": "Paramètres de notification",
+"es": "Configuración de notificaciones",
+"hu": "Értesítési beállítások",
+"huFrom": "crespo:Mms:pref_notification_settings_title"
+},
+"Mms/pref_sms_settings_title": {
+"res": "passion:Mms:pref_sms_settings_title",
+"en": "Text message (SMS) settings",
+"de": "Einstellungen für Textnachrichten (SMS)",
+"fr": "Paramètres des SMS",
+"es": "Configuración de mensajes de texto (SMS)",
+"hu": "Szöveges üzenetek (SMS) beállításai",
+"huFrom": "crespo:Mms:pref_sms_settings_title"
+},
+"Mms/pref_sms_storage_title": {
+"res": "passion:Mms:pref_sms_storage_title",
+"en": "Storage settings",
+"de": "Speichereinstellungen",
+"fr": "Paramètres de stockage",
+"es": "Configuración de almacenamiento",
+"hu": "Tárhelybeállítások",
+"huFrom": "crespo:Mms:pref_sms_storage_title"
+},
+"Mms/pref_summary_auto_delete": {
+"res": "passion:Mms:pref_summary_auto_delete",
+"en": "Delete old messages as limits are reached",
+"de": "Alte Nachrichten beim Erreichen der Grenzwerte löschen",
+"fr": "Supprimer lorsque les limites suivantes sont atteintes",
+"es": "Eliminar mensajes antiguos al superar los límites",
+"hu": "Régi üzenetek törlése a korlát elérésekor",
+"huFrom": "crespo:Mms:pref_summary_auto_delete"
+},
+"Mms/pref_summary_delete_limit": {
+"res": "passion:Mms:pref_summary_delete_limit",
+"en": "%1$s messages per conversation",
+"de": "%1$s Nachrichten pro Konversation",
+"fr": "%1$s messages par conversation",
+"es": "%1$s mensajes por conversación",
+"hu": "%1$s üzenet beszélgetésenként",
+"huFrom": "crespo:Mms:pref_summary_delete_limit"
+},
+"Mms/pref_summary_manage_sim_messages": {
+"res": "passion:Mms:pref_summary_manage_sim_messages",
+"en": "Manage messages stored on your SIM card",
+"de": "Auf der SIM-Karte gespeicherte Nachrichten verwalten",
+"fr": "Gérer les messages enregistrés sur votre carte SIM",
+"es": "Administrar mensajes almacenados en la tarjeta SIM",
+"hu": "A SIM-kártyán lévő üzenetek kezelése",
+"huFrom": "crespo:Mms:pref_summary_manage_sim_messages"
+},
+"Mms/pref_summary_mms_auto_retrieval": {
+"res": "passion:Mms:pref_summary_mms_auto_retrieval",
+"en": "Automatically retrieve messages",
+"de": "Nachrichten automatisch empfangen",
+"fr": "Récupérer automatiquement les messages",
+"es": "Recuperar mensajes automáticamente",
+"hu": "Üzenetek automatikus letöltése",
+"huFrom": "crespo:Mms:pref_summary_mms_auto_retrieval"
+},
+"Mms/pref_summary_mms_delivery_reports": {
+"res": "passion:Mms:pref_summary_mms_delivery_reports",
+"en": "Request a delivery report for each message you send",
+"de": "Zustellbestätigung für jede gesendete Nachricht anfordern",
+"fr": "Demander un accusé de réception pour chaque message envoyé",
+"es": "Solicitar un informe de entrega cada vez que se envíe un mensaje",
+"hu": "Kézbesítési jelentés kérése minden elküldött üzenetről",
+"huFrom": "crespo:Mms:pref_summary_mms_delivery_reports"
+},
+"Mms/pref_summary_mms_read_reports": {
+"res": "passion:Mms:pref_summary_mms_read_reports",
+"en": "Request a read report for each message you send",
+"de": "Lesebestätigung für jede gesendete Nachricht anfordern",
+"fr": "Demander une confirmation de lecture pour chaque message envoyé",
+"es": "Solicitar un informe de mensaje leído cada vez que se envíe un mensaje",
+"hu": "Olvasási visszaigazolás kérése minden elküldött üzenetről",
+"huFrom": "crespo:Mms:pref_summary_mms_read_reports"
+},
+"Mms/pref_summary_mms_retrieval_during_roaming": {
+"res": "passion:Mms:pref_summary_mms_retrieval_during_roaming",
+"en": "Automatically retrieve messages while roaming",
+"de": "Bei Roaming Nachrichten automatisch abrufen",
+"fr": "Récupérer automatiquement les messages en itinérance",
+"es": "Recuperar automáticamente mensajes en itinerancia",
+"hu": "Üzenetek automatikus letöltése barangolás közben",
+"huFrom": "crespo:Mms:pref_summary_mms_retrieval_during_roaming"
+},
+"Mms/pref_summary_notification_enabled": {
+"res": "passion:Mms:pref_summary_notification_enabled",
+"en": "Display message notifications in status bar",
+"de": "Bei Nachrichteneingang Benachrichtigung in Statuszeile anzeigen",
+"fr": "Afficher les notifications de message dans la barre d'état",
+"es": "Mostrar notificación de mensajes en la barra de estado",
+"hu": "Üzenetekkel kapcsolatos értesítések megjelenítése az állapotsoron",
+"huFrom": "crespo:Mms:pref_summary_notification_enabled"
+},
+"Mms/pref_summary_notification_vibrate": {
+"res": "passion:Mms:pref_summary_notification_vibrate",
+"en": "Also vibrate when notified",
+"de": "Bei Benachrichtigung vibrieren",
+"fr": "Vibrer à la réception d'une notification",
+"es": "Vibrar también al notificar",
+"hu": "Rezgés értesítések esetén is",
+"huFrom": "crespo:Mms:pref_summary_notification_vibrateWhen"
+},
+"Mms/pref_summary_sms_delivery_reports": {
+"res": "passion:Mms:pref_summary_sms_delivery_reports",
+"en": "Request a delivery report for each message you send",
+"de": "Zustellbestätigung für jede gesendete Nachricht anfordern",
+"fr": "Demander un accusé de réception pour chaque message envoyé",
+"es": "Solicitar un informe de entrega cada vez que se envíe un mensaje",
+"hu": "Kézbesítési jelentés kérése minden elküldött üzenetről",
+"huFrom": "crespo:Mms:pref_summary_sms_delivery_reports"
+},
+"Mms/pref_title_auto_delete": {
+"res": "passion:Mms:pref_title_auto_delete",
+"en": "Delete old messages",
+"de": "Alte Nachrichten löschen",
+"fr": "Anciens messages",
+"es": "Eliminar mensajes antiguos",
+"hu": "Régi üzenetek törlése",
+"huFrom": "crespo:Mms:pref_title_auto_delete"
+},
+"Mms/pref_title_manage_sim_messages": {
+"res": "passion:Mms:pref_title_manage_sim_messages",
+"en": "Manage SIM card messages",
+"de": "Nachrichten auf SIM-Karte",
+"fr": "Gestion messages carte SIM",
+"es": "Administrar mensajes de SIM",
+"hu": "SIM-kártyán tárolt üzenetek kezelése",
+"huFrom": "crespo:Mms:pref_title_manage_sim_messages"
+},
+"Mms/pref_title_mms_auto_retrieval": {
+"res": "passion:Mms:pref_title_mms_auto_retrieval",
+"en": "Auto-retrieve",
+"de": "Automatisch abrufen",
+"fr": "Récupération auto",
+"es": "Recuperación auto.",
+"hu": "Automatikus letöltés",
+"huFrom": "crespo:Mms:pref_title_mms_auto_retrieval"
+},
+"Mms/pref_title_mms_delete": {
+"res": "passion:Mms:pref_title_mms_delete",
+"en": "Multimedia message limit",
+"de": "Höchstzahl an Multimedia-Nachrichten",
+"fr": "Limite pour les MMS",
+"es": "Límite de mensajes multimedia",
+"hu": "Multimédiás üzenetek korlátja",
+"huFrom": "crespo:Mms:pref_title_mms_delete"
+},
+"Mms/pref_title_mms_delivery_reports": {
+"res": "passion:Mms:pref_title_mms_delivery_reports",
+"en": "Delivery reports",
+"de": "Zustellberichte",
+"fr": "Accusés de réception",
+"es": "Informes de entrega",
+"hu": "Kézbesítési jelentések",
+"huFrom": "crespo:Mms:pref_title_mms_delivery_reports"
+},
+"Mms/pref_title_mms_read_reports": {
+"res": "passion:Mms:pref_title_mms_read_reports",
+"en": "Read reports",
+"de": "Leseberichte",
+"fr": "Confirmations de lecture",
+"es": "Informes de leídos",
+"hu": "Olvasási visszaigazolások",
+"huFrom": "crespo:Mms:pref_title_mms_read_reports"
+},
+"Mms/pref_title_mms_retrieval_during_roaming": {
+"res": "passion:Mms:pref_title_mms_retrieval_during_roaming",
+"en": "Roaming auto-retrieve",
+"de": "Autom. Roaming-Abruf",
+"fr": "Itinérance",
+"es": "Recup. auto. en itinerancia",
+"hu": "Automatikus letöltés barangolás során",
+"huFrom": "crespo:Mms:pref_title_mms_retrieval_during_roaming"
+},
+"Mms/pref_title_notification_enabled": {
+"res": "passion:Mms:pref_title_notification_enabled",
+"en": "Notifications",
+"de": "Benachrichtigungen",
+"fr": "Notifications",
+"es": "Notificaciones",
+"hu": "Értesítések",
+"huFrom": "crespo:Mms:pref_title_notification_enabled"
+},
+"Mms/pref_title_notification_ringtone": {
+"res": "passion:Mms:pref_title_notification_ringtone",
+"en": "Select ringtone",
+"de": "Klingelton auswählen",
+"fr": "Sélectionner une sonnerie",
+"es": "Seleccionar tono",
+"hu": "Csengőhang kiválasztása",
+"huFrom": "crespo:Mms:pref_title_notification_ringtone"
+},
+"Mms/pref_title_notification_vibrate": {
+"res": "passion:Mms:pref_title_notification_vibrate",
+"en": "Vibrate",
+"de": "Vibrieren",
+"fr": "Vibreur",
+"es": "Vibración",
+"hu": "Rezgés",
+"huFrom": "crespo:Mms:pref_title_notification_vibrateWhen"
+},
+"Mms/pref_title_sms_delete": {
+"res": "passion:Mms:pref_title_sms_delete",
+"en": "Text message limit",
+"de": "Höchstzahl an Textnachrichten",
+"fr": "Limite pour les SMS",
+"es": "Límite de mensajes de texto",
+"hu": "Szöveges üzenetek korlátja",
+"huFrom": "crespo:Mms:pref_title_sms_delete"
+},
+"Mms/pref_title_sms_delivery_reports": {
+"res": "passion:Mms:pref_title_sms_delivery_reports",
+"en": "Delivery reports",
+"de": "Zustellberichte",
+"fr": "Accusés de réception",
+"es": "Informes de entrega",
+"hu": "Kézbesítési jelentések",
+"huFrom": "crespo:Mms:pref_title_sms_delivery_reports"
+},
 "Phone/prefer_2g": {
 "res": "passion:Phone:prefer_2g",
 "en": "Use only 2G networks",
@@ -1706,6 +1994,15 @@ EC.strings('settings', {
 "es": "Ahorrar batería",
 "hu": "Spórol az energiával",
 "huFrom": "crespo:Phone:prefer_2g_summary"
+},
+"Mms/preferences_title": {
+"res": "passion:Mms:preferences_title",
+"en": "Settings",
+"de": "Einstellungen",
+"fr": "Paramètres",
+"es": "Ajustes",
+"hu": "Beállítások",
+"huFrom": "crespo:Mms:preferences_title"
 },
 "Phone/preferred_network_mode_dialogtitle": {
 "res": "passion:Phone:preferred_network_mode_dialogtitle",
@@ -1941,6 +2238,15 @@ EC.strings('settings', {
 "hu": "SD-kártya",
 "huOwn": true
 },
+"Mms/search": {
+"res": "passion:Mms:search",
+"en": "Messaging Search",
+"de": "SMS/MMS-Suche",
+"fr": "Recherche SMS/MMS",
+"es": "Búsqueda de mensajes",
+"hu": "Üzenetek keresése",
+"huOwn": true
+},
 "Phone/search_networks": {
 "res": "passion:Phone:search_networks",
 "en": "Search networks",
@@ -2130,6 +2436,15 @@ EC.strings('settings', {
 "hu": "SIM-kártya lezárási beállításai",
 "huFrom": "crespo:Settings:sim_lock_settings"
 },
+"Mms/sim_manage_messages_title": {
+"res": "passion:Mms:sim_manage_messages_title",
+"en": "Text messages on SIM card",
+"de": "Auf SIM-Karte gespeicherte Textnachrichten",
+"fr": "Messages SMS sur la carte SIM",
+"es": "Mensajes de texto de tarjeta SIM",
+"hu": "Szöveges üzenetek a SIM-kártyán",
+"huFrom": "crespo:Mms:sim_manage_messages_title"
+},
 "sim_pin_change": {
 "res": "passion:Settings:sim_pin_change",
 "en": "Change SIM PIN",
@@ -2147,6 +2462,15 @@ EC.strings('settings', {
 "es": "Bloquear tarjeta SIM",
 "hu": "SIM-kártya lezárása",
 "huFrom": "crespo:Settings:sim_pin_toggle"
+},
+"Mms/slideshow_activity": {
+"res": "passion:Mms:slideshow_activity",
+"en": "Slideshow",
+"de": "Diashow",
+"fr": "Diaporama",
+"es": "Presentación",
+"hu": "Diavetítés",
+"huFrom": "crespo:Mms:slideshow_activity"
 },
 "sound_and_display_settings": {
 "res": "passion:Settings:sound_and_display_settings",
@@ -2346,6 +2670,15 @@ EC.strings('settings', {
 "es": "Dirección MAC de Wi-Fi",
 "hu": "Wi-Fi eszköz MAC-címe",
 "huFrom": "crespo:Settings:status_wifi_mac_address"
+},
+"Mms/storage_limits_activity": {
+"res": "passion:Mms:storage_limits_activity",
+"en": "Storage limits",
+"de": "Speichergrenzwerte",
+"fr": "Limites de stockage",
+"es": "Límites de almacenamiento",
+"hu": "Tárhelykorlátok",
+"huFrom": "crespo:Mms:storage_limits_activity"
 },
 "storage_settings": {
 "res": "passion:Settings:storage_settings",

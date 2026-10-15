@@ -213,6 +213,17 @@
           document.addEventListener('pointerup', stop);
         });
       };
+      // c.numberPicker({title, label, value, min, max, onSet, setLabel, cancelLabel}): a dialog with a 100 dp NumberPicker that
+      // stops at its ends (Mms's NumberPickerDialog$NonWrapNumberPicker: a held button repeats every 150 ms) under a 12 sp
+      // centred label.
+      c.numberPicker = ({title, label, value, min, max, onSet, setLabel, cancelLabel}) => {
+        let v = value;
+        const step = el => { v = Math.min(max, Math.max(min, v + Number(el.dataset.dir))); el.closest('.ecui-np').querySelector('span').textContent = v; };
+        c.dialog({title, icon: null, html: `<div class="ecui-npdlg">${label ? `<div class="ecui-npdlg-label">${esc(label)}</div>` : ''}<div class="ecui-picker">${np('n', v, 100)}</div></div>`,
+          mount: root => { let timer = 0; root.addEventListener('pointerdown', event => { const b = event.target.closest('.ecui-np-btn'); if (!b) return; clearInterval(timer); timer = setInterval(() => step(b), 150); const stop = () => { clearInterval(timer); document.removeEventListener('pointerup', stop); }; document.addEventListener('pointerup', stop); }); },
+          action(name, el) { if (name !== 'ecui-np') return false; step(el); return true; },
+          buttons: [{label: setLabel || F().t('date_time_set'), action: () => onSet(v)}, {label: cancelLabel || F().t('cancel')}]});
+      };
       // DatePickerDialog: ic_dialog_time, the title the date in java.text.DateFormat.FULL, DatePicker (month 80 dp, day
       // 80 dp, year 95 dp, 1 dp margins; ordered as DateFormat.getDateFormatOrder; years 1900–2100), Set / Cancel.
       c.datePicker = ({date, onSet}) => {

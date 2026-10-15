@@ -46,7 +46,8 @@
     'emergency-dialer': ['Emergency dialer', 'Phone.apk · EmergencyDialer'],
     'in-call': ['Call', 'Phone.apk · InCallScreen'], 'contact-view': ['Contact', 'Contacts.apk · ViewContactActivity'],
     'contact-edit': ['Edit contact', 'Contacts.apk · EditContactActivity'], 'contact-join': ['Join contacts', 'Contacts.apk · JoinContactActivity'],
-    'gallery-pick': ['Select picture', 'Gallery3D.apk · ACTION_GET_CONTENT'], 'contacts-display': ['Display options', 'Contacts.apk · DisplayGroupsActivity'],
+    'gallery-pick': ['Select picture', 'Gallery3D.apk · ACTION_GET_CONTENT'], 'messaging-settings': ['Settings', 'Mms.apk · MessagingPreferenceActivity'],
+    'sim-messages': ['Text messages on SIM card', 'Mms.apk · ManageSimMessages'], 'contacts-display': ['Display options', 'Contacts.apk · DisplayGroupsActivity'],
     'contact-options': ['Options', 'Contacts.apk · ContactOptionsActivity'], 'sim-contacts': ['SIM contacts', 'Phone.apk · SimContacts'],
     'contact-pick': ['Contacts', 'Contacts.apk · ContactsListActivity (INSERT_OR_EDIT)']
   };

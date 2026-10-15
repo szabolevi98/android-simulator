@@ -115,7 +115,10 @@
   };
   // Other files add screens (EC.settingsClass), rows (EC.settingsExtra), removals (EC.settingsPrune) and preference types
   // with their own click (EC.settingsPrefTypes).
-  Object.assign(EC, {settingsClass: CLASS, settingsExtra: EXTRA, settingsPrune: [], settingsPrefTypes: {}});
+  // A preference by its key: its own click (EC.settingsKeys) and summary (EC.settingsSummaries); EC.settingsValue reads a
+  // stored preference as the engine does.
+  Object.assign(EC, {settingsClass: CLASS, settingsExtra: EXTRA, settingsPrune: [], settingsPrefTypes: {}, settingsKeys: {}, settingsSummaries: {},
+    settingsValue: (c, key, def) => value(c, key, def)});
   function withExtra(c, name, node) {
     if (!EXTRA[name] || node.c?.extended) return node;
     return {...node, c: Object.assign(EXTRA[name](c, node.c || []), {extended: true})};
@@ -183,6 +186,7 @@
   }
   function summary(c, name, n) {
     if (BUILD[n.key]) return BUILD[n.key];
+    if (EC.settingsSummaries[n.key]) return EC.settingsSummaries[n.key](c, n, txt(n.summary));
     if (name === 'device_info_status') return status(c, n.key) ?? txt(n.summary);
     if (name === 'device_info_memory' && memory(c, n.key)) return memory(c, n.key);
     if (name === 'date_time_prefs' && dateTime[n.key]) return dateTime[n.key](c);
@@ -222,6 +226,7 @@
   }
 
   function open(c, n, screen, path) {
+    if (EC.settingsKeys[n.key]) { EC.settingsKeys[n.key](c, n, screen); return; }
     if (EC.settingsPrefTypes[n.t]) { EC.settingsPrefTypes[n.t](c, n, screen); return; }
     if (n.t === 'CheckBoxPreference') { setValue(c, n.key, !value(c, n.key, n.defaultValue)); c.render(); return; }
     if (screen.name === 'date_time_prefs' && n.key in dateTime) { dateTimeClick(c, n); return; }

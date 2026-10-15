@@ -234,5 +234,68 @@ EC.strings('mms', {
 "es": "Cancelar",
 "hu": "Mégse",
 "huFrom": "crespo:framework:cancel"
+},
+"restore_default": {
+"res": "passion:Mms:restore_default",
+"en": "Restore default settings",
+"de": "Standardeinstellungen wiederherstellen",
+"fr": "Rétablir les paramètres par défaut",
+"es": "Restaurar configuración predeterminada",
+"hu": "Alapértelmezett beállítások visszaállítása",
+"huFrom": "crespo:Mms:restore_default"
+},
+"pref_messages_to_save": {
+"res": "passion:Mms:pref_messages_to_save",
+"en": "Set number of messages to save",
+"de": "Anzahl der zu speichernden Nachrichten festlegen",
+"fr": "Définir le nombre de messages à enregistrer",
+"es": "Establecer número de mensajes que quieres guardar",
+"hu": "A menteni kívánt üzenetek számának beállítása",
+"huFrom": "crespo:Mms:pref_messages_to_save"
+},
+"set": {
+"res": "passion:Mms:set",
+"en": "Set",
+"de": "Festlegen",
+"fr": "Définir",
+"es": "Establecer",
+"hu": "Beállítás",
+"huFrom": "crespo:Mms:set"
+},
+"no": {
+"res": "passion:Mms:no",
+"en": "Cancel",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar",
+"hu": "Mégse",
+"huFrom": "crespo:Mms:no"
+},
+"sim_manage_messages_title": {
+"res": "passion:Mms:sim_manage_messages_title",
+"en": "Text messages on SIM card",
+"de": "Auf SIM-Karte gespeicherte Textnachrichten",
+"fr": "Messages SMS sur la carte SIM",
+"es": "Mensajes de texto de tarjeta SIM",
+"hu": "Szöveges üzenetek a SIM-kártyán",
+"huFrom": "crespo:Mms:sim_manage_messages_title"
+},
+"sim_empty": {
+"res": "passion:Mms:sim_empty",
+"en": "No messages on the SIM card.",
+"de": "Keine Nachrichten auf der SIM-Karte",
+"fr": "Aucun message sur la carte SIM.",
+"es": "No hay mensajes en la tarjeta SIM.",
+"hu": "Nincsenek üzenetek a SIM-kártyán.",
+"huFrom": "crespo:Mms:sim_empty"
+},
+"refreshing": {
+"res": "passion:Mms:refreshing",
+"en": "Refreshing…",
+"de": "Aktualisierung wird ausgeführt...",
+"fr": "Actualisation…",
+"es": "Actualizando...",
+"hu": "Frissítés...",
+"huFrom": "crespo:Mms:refreshing"
 }
 });
