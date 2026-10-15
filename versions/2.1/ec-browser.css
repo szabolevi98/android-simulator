@@ -37,3 +37,22 @@
 .ecbr-win.on .t1{font-weight:700}
 .ecbr-win-close{flex:none;border:0;padding:0 calc(12 * var(--dp));background:none}
 .ecbr-win-close img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+/* FindDialog (browser_find.xml): on bottom_bar, padding 4 / 5 / 4 / 1 dp; ImageButtons on btn_default; the field fills
+   the middle (6 dp before close) with the match count under it, right-aligned. A floating dialog: the page under it
+   takes no touches, nothing is dimmed. FindOnPage's highlight: #84be00, 2 px corners, the current match filled. */
+.ecbr-find-catch{position:absolute;inset:0}
+.ecbr-find{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-start;padding:calc(5 * var(--dp)) calc(4 * var(--dp)) calc(1 * var(--dp));background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.ecbr-fbtn{position:relative;flex:none;border:0;background:none}
+.ecbr-fbtn img{position:relative;z-index:1;display:block;width:calc(26 * var(--dp));height:calc(30 * var(--dp))}
+.ecbr-fbtn .ecbr-off{display:none}
+.ecbr-fbtn:disabled .ecbr-off{display:block}
+.ecbr-fbtn:disabled>.np-fw-btn_default_normal,.ecbr-fbtn:disabled>.ec-pressed{display:none}
+.ecbr-find-mid{flex:1;min-width:0;display:flex;flex-direction:column;margin-right:calc(6 * var(--dp))}
+.ecbr-find-mid .ecwf-edit{margin-top:0}
+.ecbr-matches{align-self:flex-end;font-size:calc(14 * var(--dp));color:#323232}
+.ecbr-matches[hidden]{display:block;visibility:hidden}
+.ecbr-match{background:none;color:inherit;border-radius:2px;outline:1px solid #84be00;box-shadow:0 0 2px #000000cc}
+.ecbr-match.current{background:#84be00}
+/* Select text: drawSelectionRegion's #40ff33cc. */
+.ecbr-page ::selection{background:#ff33cc40}
+.ecbr-selecting{touch-action:none;user-select:text}

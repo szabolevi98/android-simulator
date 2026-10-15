@@ -129,7 +129,8 @@ done add_slide add_slide_hint discard_slideshow move_up move_down remove_slide p
 remove_picture remove_music remove_video add_picture add_music add_video duration_sec layout_top layout_bottom duration_selector_title
 type_to_compose_text_or_leave_blank slide_number edit_slideshow_activity edit_slide_activity slideshow_activity array:select_dialog_items
 view_slideshow cannot_add_slide_anymore plurals:slide_duration slide_show_part select_top_text select_bottom_text layout_selector_title
-[browser] Browser
+[browser] Browser framework
+plurals:matches_found text_copied
 application_name new_tab active_tabs tab_bookmarks tab_most_visited tab_history title_bar_loading page_info stop reload
 back forward save_to_bookmarks find_dot select_dot share_page menu_view_download menu_preferences empty_history
 search_hint open_bookmark new_window add_new_bookmark array:bookmarks

@@ -631,6 +631,9 @@ br-ic_tab_most_visited_unselected.png	app/Browser.apk	drawable/ic_tab_most_visit
 br-ic_launcher_browser.png	app/Browser.apk	drawable/ic_launcher_browser
 br-ic_close_tab.png	app/Browser.apk	drawable/ic_close_tab
 br-ic_list_new_window.png	app/Browser.apk	drawable/ic_list_new_window
+br-ic_btn_find_prev.png	app/Browser.apk	drawable/ic_btn_find_prev
+br-ic_btn_find_next.png	app/Browser.apk	drawable/ic_btn_find_next
+br-ic_btn_close_panel.png	app/Browser.apk	drawable/ic_btn_close_panel
 fw-ic_menu_refresh.png	framework/framework-res.apk	drawable/ic_menu_refresh
 fw-ic_menu_stop.png	framework/framework-res.apk	drawable/ic_menu_stop
 fw-ic_menu_forward.png	framework/framework-res.apk	drawable/ic_menu_forward
