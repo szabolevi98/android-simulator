@@ -1536,9 +1536,18 @@
       case 'calspin': {
         const form=viewport.querySelector('form[data-form="event"]');if(!form)break;
         const draft={...ICSCalendar.normalize(ui.eventDraft||{}),...Object.fromEntries(new FormData(form))};
-        const b=button.getBoundingClientRect(),sr=screen.getBoundingClientRect(),k=screen.clientWidth/sr.width;
-        const items=ICSCalendar.spinner(id,draft,i18n.locale(),key=>i18n.t(key)),rowH=screen.clientWidth/8.3,below=(b.bottom-sr.top)*k;
-        ui.calSpin={field:id,value:form.elements[id].value,items,title:button.getAttribute('aria-label')||'',left:(b.left-sr.left)*k,width:b.width*k,top:below+items.length*rowH>screen.clientHeight?Math.max(0,(b.top-sr.top)*k-items.length*rowH):below};
+        // Spinner's drop-down (Widget.Holo.Spinner: ListPopupWindow, no drop-down offsets): PopupWindow.findDropDownPosition
+        // first has the event's ScrollView bring the spinner and the list into view (requestRectangleOnScreen), then opens the
+        // list below the spinner when it fits, otherwise on the side with more room, and ListPopupWindow.getMaxAvailableHeight
+        // caps its height at that room between the status bar and the navigation bar. Rows are 48 dp.
+        const items=ICSCalendar.spinner(id,draft,i18n.locale(),key=>i18n.t(key)),content=items.length*dp(48);
+        const sr=screen.getBoundingClientRect(),k=screen.clientWidth/sr.width,scroller=button.closest('.cal-scroll');
+        if(scroller){const v=scroller.getBoundingClientRect(),a=button.getBoundingClientRect(),top=a.top,bottom=a.bottom+content/k;
+          if(bottom>v.bottom&&top>v.top)scroller.scrollTop+=Math.min(bottom-v.bottom,top-v.top);else if(top<v.top)scroller.scrollTop-=v.top-top;}
+        const b=button.getBoundingClientRect(),above=(b.top-sr.top)*k,below=(b.bottom-sr.top)*k;
+        const room={below:screen.clientHeight-navRoot.offsetHeight-below,above:above-statusRoot.offsetHeight},onTop=content>room.below&&room.above>room.below;
+        const height=Math.min(content,onTop?room.above:room.below);
+        ui.calSpin={field:id,value:form.elements[id].value,items,title:button.getAttribute('aria-label')||'',left:(b.left-sr.left)*k,width:b.width*k,top:onTop?above-height:below,height};
         ui.overlay='calendar-spinner';renderOverlay();break;
       }
       case 'calspin-pick': {

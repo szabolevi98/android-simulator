@@ -163,7 +163,7 @@
     :field==='visibility'?VISIBILITY.map(([value,key])=>({value,label:CS(key)}))
     :[-1,...reminders].map(value=>({value:String(value),label:reminderLabel(value,t)}));
   function overlay(ui,t) {
-    if(ui.overlay==='calendar-spinner'&&ui.calSpin){const sp=ui.calSpin;return `<div class="menu-scrim" data-action="close-overlay"></div><div class="cal-spin-list" role="listbox" style="left:${sp.left}px;top:${sp.top}px;width:${sp.width}px">${sp.items.map(item=>`<button type="button" role="option" aria-selected="${item.value===sp.value}" data-action="calspin-pick" data-id="${e(item.value)}">${e(item.label)}</button>`).join('')}</div>`;}
+    if(ui.overlay==='calendar-spinner'&&ui.calSpin){const sp=ui.calSpin;return `<div class="menu-scrim" data-action="close-overlay"></div><div class="cal-spin-list" role="listbox" style="left:${sp.left}px;top:${sp.top}px;width:${sp.width}px;max-height:${sp.height}px">${sp.items.map(item=>`<button type="button" role="option" aria-selected="${item.value===sp.value}" data-action="calspin-pick" data-id="${e(item.value)}">${e(item.label)}</button>`).join('')}</div>`;}
     const menu=body=>`<div class="menu-scrim" data-action="close-overlay"></div><div class="holo-menu cal-menu">${body}</div>`;
     if(ui.overlay==='calendar-views')return menu(modes.map(mode=>`<button data-action="calendar-mode" data-id="${mode}" aria-pressed="${(ui.calendarMode||'Month')===mode}">${e(t(mode))}</button>`).join(''));
     if(ui.overlay==='calendar-menu')return menu('<button data-action="event-new">New event</button><button data-action="calendar-search">Search</button>');
