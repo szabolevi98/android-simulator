@@ -62,3 +62,11 @@
 .eccr-error{font-weight:700;color:#f00}
 .eccr-error[hidden]{display:none}
 .eccr-field{margin-top:0}
+
+/* VPN (ec-vpn.js): vpn_connect_dialog_view.xml, padding 10 dp; the labels 90 sp wide, right-aligned, 16 sp, 10 sp before
+   the field; Remember username 66 dp in. */
+.ecvp-connect{padding:calc(10 * var(--dp));color:#bebebe}
+.ecvp-line{display:flex;align-items:center}
+.ecvp-label{flex:none;width:calc(90 * var(--dp));margin-right:calc(10 * var(--dp));text-align:right;font-size:calc(16 * var(--dp))}
+.ecvp-edit{flex:1;min-width:0;margin-top:0}
+.ecvp-remember{margin-left:calc(66 * var(--dp))}

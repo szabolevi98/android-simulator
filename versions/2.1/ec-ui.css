@@ -36,6 +36,7 @@
 /* select_dialog_item: 22 sp black, at least 64 dp, padding 14 / 15 dp; the choice indicator at the right. */
 .ecui-li{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0 calc(15 * var(--dp)) 0 calc(14 * var(--dp));background:none;color:#000!important;font-size:calc(22 * var(--dp));text-align:left}
 .ecui-li span{position:relative;z-index:1;flex:1;min-width:0;white-space:nowrap;overflow:hidden}
+.ecui-li:disabled{color:#80000000!important}.ecui-li:disabled .ec-pressed{display:none}
 .ecui-li-icon{padding:0 calc(15 * var(--dp));gap:calc(14 * var(--dp))}
 .ecui-li-icon img{position:relative;z-index:1;width:calc(48 * var(--dp));height:calc(48 * var(--dp));flex:none}
 .ecui-mark{position:relative;z-index:1;width:calc(38 * var(--dp));height:calc(48 * var(--dp))}

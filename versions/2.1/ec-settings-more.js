@@ -20,8 +20,14 @@
   const S = k => EC.text('settings').t(k);
   const F = () => EC.text('framework');
   const prefs = c => c.data.prefs ||= {};
-  const input = (value, type = 'text') => `<span class="ecwf-edit ecsp-field npp-fw-textfield_default"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_selected"></i><input class="ecwf-input" type="${type}"${type === 'password' ? ' inputmode="numeric"' : ''} value="${esc(value)}" autocomplete="off"></span>`;
+  const input = (value, type = 'text', {numeric = type === 'password', hint = ''} = {}) => `<span class="ecwf-edit ecsp-field npp-fw-textfield_default"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_selected"></i><input class="ecwf-input" type="${type}"${numeric ? ' inputmode="numeric"' : ''}${hint ? ` placeholder="${esc(hint)}"` : ''} value="${esc(value)}" autocomplete="off"></span>`;
   const field = value => `<div class="ecpf-dlg">${input(value)}</div>`;
+  // EC.editTextDialog(c, {title, value, password, hint, onOk(text)}): preference_dialog_edittext.xml for EditTextPreferences
+  // other screens build (VPN), OK / Cancel.
+  EC.editTextDialog = (c, {title, value = '', password = false, hint = '', onOk}) => c.dialog({title, icon: null,
+    html: `<div class="ecpf-dlg">${input(value, password ? 'password' : 'text', {numeric: false, hint})}</div>`,
+    mount: root => root.querySelector('.ecpf-dlg input')?.focus(),
+    buttons: [{label: F().t('ok'), action: (c2, d, root) => { const v = root.querySelector('.ecpf-dlg input').value; setTimeout(() => onOk(v), 0); }}, {label: F().t('cancel')}]});
   const DEFAULTS = {bt_name: 'Nexus One'};
   const valueOf = (c, key) => prefs(c)[key] ?? DEFAULTS[key] ?? '';
   const IP = ['ip_address', 'gateway', 'netmask', 'dns1', 'dns2'];

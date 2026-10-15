@@ -47,7 +47,12 @@
       return NO_ERROR;
     },
     lock: () => { unlocked = false; },
-    reset(c) { c.data.keystore = {password: null, retry: MAX_RETRY}; unlocked = false; c.save(); }
+    reset(c) { c.data.keystore = {password: null, retry: MAX_RETRY}; unlocked = false; c.save(); },
+    // insert (only while unlocked), exist and delete (any state): the keys others keep here (VPN secrets VPN_l / VPN_i
+    // + the profile's id). Only that a key exists is kept, not its value.
+    put(c, key) { if (keystore.test(c) !== NO_ERROR) return false; (store(c).keys ||= {})[key] = true; c.save(); return true; },
+    contains: (c, key) => !!store(c).keys?.[key],
+    remove(c, key) { if (store(c).keys) { delete store(c).keys[key]; c.save(); } }
   };
   EC.keystore = {...keystore, NO_ERROR, LOCKED, UNINITIALIZED};
 
