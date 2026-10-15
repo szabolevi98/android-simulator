@@ -272,6 +272,57 @@
       return true;
     }
   });
+  // EmergencyDialer (emergency_dialer.xml, layout-long-finger: the 74 dp digits field in 34 sp over dialpad.xml and
+  // voicemail_dial_delete.xml), from the lock screen's Emergency call (FLAG_SHOW_WHEN_LOCKED). Its onCreate turns the
+  // voicemail button off; dial and delete are on only with digits; holding 0 gives "+", holding delete clears.
+  // placeCall: 112 and 911 (PhoneNumberUtils.isEmergencyNumber without ril.ecclist) go out as CALL_EMERGENCY; any other
+  // number gives the "Emergency call" dialog ("Call not sent, … is not an emergency number!", or "… please dial an
+  // emergency number!" with none). After the call the keyguard is back.
+  const I = () => EC.text('incall');
+  function emergencyDialer(c) {
+    const digits = c.ui.emergencyDigits || '';
+    const keys = KEYS.map(([k, img]) => `<button type="button" class="ecph-key" data-action="eced-key" data-key="${k}"><i class="ec-bg np-ct-btn_dial_normal"></i><i class="ec-bg ec-pressed np-ct-btn_dial_pressed"></i><img class="wht" src="assets/ct-dial_num_${img}_wht.png" alt="${k}"><img class="blk" src="assets/ct-dial_num_${img}_blk.png" alt=""></button>`).join('');
+    const act = (pos, id, icon, on) => `<button type="button" class="ecph-act ${pos}" data-action="eced-${id}"${on ? '' : ' disabled'}><i class="ec-bg np-ct-btn_dial_action_${pos}_${on ? 'normal' : 'disable'}"></i>${on ? `<i class="ec-bg ec-pressed np-ct-btn_dial_action_${pos}_pressed"></i>` : ''}<img src="assets/ct-ic_dial_action_${icon}.png" alt=""></button>`;
+    return `<div class="eced">${c.window(I().t('emergencyDialerIconLabel'), `<div class="ecph-dialer"><div class="ecph-digits"><i class="ec-bg np-ct-btn_dial_textfield_normal"></i><span>${esc(EC.formatNumber(digits))}</span></div>
+      <div class="ecph-pad">${keys}</div>
+      <div class="ecph-actions">${act('left', 'voicemail', 'voice_mail', false)}${act('middle', 'call', 'call', !!digits)}${act('right', 'delete', 'delete', !!digits)}</div></div>`)}</div>`;
+  }
+  const setEmergency = (c, value) => { c.ui.emergencyDigits = value; c.renderOverlay ? c.renderOverlay() : c.overlay('emergency-dialer'); };
+  function emergencyCall(c) {
+    const number = c.ui.emergencyDigits || '';
+    if (['112', '911'].includes(number)) {
+      c.ui.emergencyDigits = ''; c.closeOverlay();
+      c.data.calls = [{id: Date.now(), number, type: 2, when: Date.now(), duration: 0}, ...(c.data.calls || [])]; c.save();
+      if (c.ui.view === 'lock') c.ui.history.push({view: 'lock', sub: ''});
+      c.ui.callNumber = number; c.open('incall');
+      return;
+    }
+    c.dialog({title: I().t('emergency_enable_radio_dialog_title'), icon: null, message: number ? I().fmt('dial_emergency_error', c.lang, number) : I().t('dial_emergency_empty_error'), buttons: [{label: I().t('ok')}]});
+  }
+  EC.register('emergency-dialer', {
+    app: false,
+    underDialog: true,
+    render: emergencyDialer,
+    mount(c, root) {
+      for (const el of root.querySelectorAll('[data-action="eced-key"][data-key="0"], [data-action="eced-delete"]')) {
+        let timer = 0;
+        el.addEventListener('pointerdown', () => { timer = setTimeout(() => {
+          c.suppressClick = Date.now() + 400;
+          if (el.dataset.key === '0') { tone(DTMF[0]); setEmergency(c, (c.ui.emergencyDigits || '') + '+'); } else setEmergency(c, '');
+        }, 500); });
+        for (const t of ['pointerup', 'pointerleave', 'pointercancel']) el.addEventListener(t, () => clearTimeout(timer));
+      }
+    },
+    action(name, el, event, c) {
+      if (!name.startsWith('eced-')) return false;
+      if ((c.suppressClick || 0) > Date.now()) return true;
+      if (name === 'eced-key') { tone(DTMF[el.dataset.key]); if (c.data.prefs?.haptic_feedback !== false) navigator.vibrate?.(30); setEmergency(c, (c.ui.emergencyDigits || '') + el.dataset.key); }
+      if (name === 'eced-delete') setEmergency(c, (c.ui.emergencyDigits || '').slice(0, -1));
+      if (name === 'eced-call') emergencyCall(c);
+      return true;
+    },
+    back(c) { c.ui.emergencyDigits = ''; return false; }
+  });
   EC.register('phone', spec('phone'));
   EC.register('contacts', spec('contacts'));
   document.addEventListener('DOMContentLoaded', () => {

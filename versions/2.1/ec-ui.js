@@ -17,7 +17,7 @@
   'use strict';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[ch]);
   const F = () => EC.text('framework');
-  let menu = null, dialog = null, toastTimer = 0;
+  let menu = null, dialog = null, under = null, toastTimer = 0;
 
   // IconMenuView.layoutItems: as few rows as the items need, the extra items in the lower rows.
   function rows(n) {
@@ -101,7 +101,7 @@
 
   EC.register('ui-dialog', {
     app: false,
-    render: c => dialog ? renderDialog(c) : '',
+    render: c => dialog ? (under ? EC.module(under).render(c) : '') + renderDialog(c) : '',
     mount(c, root) { dialog?.mount?.(root, c); },
     action(name, el, event, c) {
       if (name === 'ecui-outside') { if (dialog.cancelable !== false) closeDialog(c); return true; }
@@ -125,7 +125,12 @@
     back(c) { if (dialog?.cancelable !== false) { const d = dialog; closeDialog(c); d.onCancel?.(c); } return true; },
     menu: () => true
   });
-  function closeDialog(c) { dialog = null; if (c.ui.overlay === 'ui-dialog') c.closeOverlay(); }
+  function closeDialog(c) {
+    dialog = null;
+    if (c.ui.overlay !== 'ui-dialog') return;
+    const back = under; under = null;
+    if (back) c.overlay(back); else c.closeOverlay();
+  }
 
   // SearchDialog (framework search_bar.xml): at the top on search_plate_global (padding 12 / 7 / 12 / 16 dp), the
   // searchable's 36 dp icon, the textfield_search field, the go button (btn_search_dialog with ic_btn_search) and the
@@ -175,7 +180,9 @@
       c.window = (title, inner, cls = '') => `<div class="ecwin ${cls}"><div class="ecwin-title npp-fw-title_bar"><i class="ec-bg np-fw-title_bar"></i><span>${esc(title)}</span></div><div class="ecwin-body"><div class="ecwin-content">${inner}</div><img class="ecwin-shadow" src="assets/fw-title_bar_shadow.9.png" alt=""></div></div>`;
       c.menu = items => { menu = {items}; c.overlay('ui-menu'); };
       c.searchDialog = spec => { search = {...spec}; c.overlay('ui-search'); };
-      c.dialog = spec => { dialog = {...spec}; c.overlay('ui-dialog'); return dialog; };
+      // An overlay screen that asks for it (underDialog: true, e.g. EmergencyDialer over the keyguard) stays under the
+      // dialog and comes back when it closes.
+      c.dialog = spec => { if (c.ui.overlay !== 'ui-dialog') under = EC.module(c.ui.overlay)?.underDialog ? c.ui.overlay : null; dialog = {...spec}; c.overlay('ui-dialog'); return dialog; };
       c.closeDialog = () => closeDialog(c);
       // Widget.SeekBar: progress_horizontal (20 dp high) with the seek_thumb (normal / pressed), thumbOffset 8 dp.
       c.seekbar = (id, value, max, extra = '') => `<div class="ecui-seek" data-seek="${esc(id)}" data-max="${max}" data-value="${value}" ${extra}><span class="ecui-seek-track"><span class="ecui-seek-fill" style="width:${value / max * 100}%"></span></span><span class="ecui-seek-thumb" style="left:${value / max * 100}%"></span></div>`;

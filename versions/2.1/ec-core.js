@@ -213,7 +213,8 @@
     if (ui.view === 'lock' || ui.sleeping) return;
     if (ui.overlay && modules[ui.overlay]?.search?.(c)) return;
     if (modules[ui.view]?.search?.(c)) return;
-    open('search');
+    // Activity.onSearchRequested with no searchable of its own: global search, Quick Search Box's dialog over the app.
+    if (EC.quickSearch) EC.quickSearch(c); else open('search');
   }
 
   // Toasts: ec-ui.js replaces c.toast with the framework's Toast; until it loads the text goes to the console.

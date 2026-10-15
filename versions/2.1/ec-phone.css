@@ -68,3 +68,5 @@
 .eccv-sms{flex:none;border:0;padding:0 calc(14 * var(--dp));background:#000;display:flex;align-items:center}
 .eccv-sms:active{background:url('assets/fw-list_selector_background_pressed.9.png') 0 0/100% 100%}
 .eccv-sms img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+/* EmergencyDialer over the keyguard: a window under the status bar (ec-phone.js). */
+.eced{position:absolute;top:calc(25 * var(--dp));left:0;right:0;bottom:0;background:#000}

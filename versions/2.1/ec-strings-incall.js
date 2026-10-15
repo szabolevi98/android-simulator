@@ -117,5 +117,50 @@ EC.strings('incall', {
 "es": "Llamada actual",
 "hu": "Jelenlegi hívás",
 "huFrom": "crespo:Phone:ongoing"
+},
+"emergencyDialerIconLabel": {
+"res": "passion:Phone:emergencyDialerIconLabel",
+"en": "Emergency Dialer",
+"de": "Notrufwählprogramm",
+"fr": "Appels d'urgence",
+"es": "Llamada de emergencia",
+"hu": "Segélyhívó tárcsázó",
+"huFrom": "crespo:Phone:emergencyDialerIconLabel"
+},
+"emergency_enable_radio_dialog_title": {
+"res": "passion:Phone:emergency_enable_radio_dialog_title",
+"en": "Emergency call",
+"de": "Notruf",
+"fr": "Appel d'urgence",
+"es": "Llamada de emergencia",
+"hu": "Segélyhívás",
+"huFrom": "crespo:Phone:emergency_enable_radio_dialog_title"
+},
+"dial_emergency_error": {
+"res": "passion:Phone:dial_emergency_error",
+"en": "Call not sent, %s is not an emergency number!",
+"de": "Anruf nicht verbunden; %s ist keine Notrufnummer!",
+"fr": "L'appel n'a pas été effectué. %s n'est pas un numéro d'urgence !",
+"es": "No se ha realizado la llamada; %s no es un número de emergencia.",
+"hu": "A hívás nem indítható; a(z) %s nem segélyhívó szám!",
+"huFrom": "crespo:Phone:dial_emergency_error"
+},
+"dial_emergency_empty_error": {
+"res": "passion:Phone:dial_emergency_empty_error",
+"en": "Call not sent, please dial an emergency number!",
+"de": "Anruf nicht verbunden. Wählen Sie eine Notrufnummer!",
+"fr": "L'appel n'a pas été effectué. Veuillez composer un numéro d'urgence !",
+"es": "La llamada no se ha enviado; marca un número de emergencia.",
+"hu": "A hívás nem indítható, kérjük, tárcsázzon egy segélyhívó számot!",
+"huFrom": "crespo:Phone:dial_emergency_empty_error"
+},
+"ok": {
+"res": "passion:Phone:ok",
+"en": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar",
+"hu": "OK",
+"huFrom": "crespo:Phone:ok"
 }
 });

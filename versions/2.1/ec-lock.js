@@ -229,7 +229,7 @@
     reset() { grab = null; clearTimeout(kg.clearTimer); if (!kg.deadline) kg.instructions = null; },
     action(name, el, event, c) {
       if (name !== 'eclk-emergency') return false;
-      c.overlay('emergency-dialer');   // Phone's EmergencyDialer (not built yet)
+      c.overlay('emergency-dialer');   // Phone's EmergencyDialer (ec-phone.js)
       return true;
     },
     back: () => true,
