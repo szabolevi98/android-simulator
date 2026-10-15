@@ -20,7 +20,7 @@ window.ANDROID_VERSIONS = [
     description: 'Touch keys under the glass, the SlidingTab lock screen, option panels behind the Menu key, green status icons and the zombie Gingerbread easter egg.',
     url: 'versions/2.3.6/',
     status: 'available',
-    art: {shot: 'landing-home.jpg?v=8', phone: 'nexuss'}
+    art: {shot: 'landing-home.jpg?v=9', phone: 'nexuss'}
   },
   {
     id: '4.0.4',
