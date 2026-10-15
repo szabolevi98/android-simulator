@@ -41,7 +41,7 @@
   // AlertController.setBackground
   function renderDialog(c) {
     const d = dialog, panels = [];
-    if (d.title) panels.push(['top', false]);
+    if (d.title || d.header) panels.push(['top', false]);
     if (d.message || d.items) panels.push(['content', !!d.items]);
     if (d.html) panels.push(['custom', !!d.inverse]);   // setInverseBackgroundForced
     if (d.buttons?.length) panels.push(['buttons', true]);
@@ -57,7 +57,9 @@
     // bar always is), bottomBright when light without buttons, else bottomDark.
     const piece = name => `<i class="ec-bg np-fw-popup_${bg[name]}"></i>`;
     const pad = name => `npp-fw-popup_${bg[name]}`;
-    const top = d.title ? `<div class="ecui-top ${pad('top')}">${piece('top')}<div class="ecui-title-row">${d.icon !== null ? `<img src="assets/${esc(d.icon || 'fw-ic_dialog_info.png')}" alt="">` : ''}<span class="ecui-title">${esc(d.title)}</span></div></div>` : '';
+    // header: a view in place of the title row (ContextMenu.setHeaderView, e.g. YouTube's thumbnail and title).
+    const top = d.header ? `<div class="ecui-top ${pad('top')}">${piece('top')}<div class="ecui-title-row ecui-header">${d.header}</div></div>`
+      : d.title ? `<div class="ecui-top ${pad('top')}">${piece('top')}<div class="ecui-title-row">${d.icon !== null ? `<img src="assets/${esc(d.icon || 'fw-ic_dialog_info.png')}" alt="">` : ''}<span class="ecui-title">${esc(d.title)}</span></div></div>` : '';
     let content = '';
     if (d.items) {
       const mark = i => d.choice === 'single' ? `<img class="ecui-mark" src="assets/fw-btn_radio_${d.checked === i ? 'on' : 'off'}.png" alt="">`

@@ -38,6 +38,9 @@ versions/2.1/assets/boot-part1.webp	c821a8d8fc17112a	generated	passion:/system/m
 versions/2.1/assets/br-app_web_browser_sm.png	00b7010c19e070d9	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/app_web_browser_sm.png	drawable-hdpi		00b7010c19e070d9
 versions/2.1/assets/br-browser_thumbnail.png	651a9f46553eb4c3	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/browser_thumbnail.png	drawable-hdpi		651a9f46553eb4c3
 versions/2.1/assets/br-ic_btn_bookmarks.png	c871658763b9f262	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/ic_btn_bookmarks.png	drawable-hdpi		c871658763b9f262
+versions/2.1/assets/br-ic_btn_close_panel.png	a4f93b2637ffcc3f	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/ic_btn_close_panel.png	drawable-hdpi		a4f93b2637ffcc3f
+versions/2.1/assets/br-ic_btn_find_next.png	80462af918685a88	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/ic_btn_find_next.png	drawable-hdpi		80462af918685a88
+versions/2.1/assets/br-ic_btn_find_prev.png	595eb65ae7e95d6b	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/ic_btn_find_prev.png	drawable-hdpi		595eb65ae7e95d6b
 versions/2.1/assets/br-ic_btn_stop_v2.png	e3d34f946500fa02	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/ic_btn_stop_v2.png	drawable-hdpi		e3d34f946500fa02
 versions/2.1/assets/br-ic_close_tab.png	d97b4b3224119588	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/ic_close_tab.png	drawable-hdpi		d97b4b3224119588
 versions/2.1/assets/br-ic_launcher_browser.png	23369e879573b58c	copy	passion:/system/app/Browser.apk!res/drawable-hdpi/ic_launcher_browser.png	drawable-hdpi		23369e879573b58c
@@ -282,6 +285,7 @@ versions/2.1/assets/fw-divider_horizontal_bright.9.png	9342aa0c86559743	copy	pas
 versions/2.1/assets/fw-divider_horizontal_bright_opaque.9.png	ac0443f10fea515a	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/divider_horizontal_bright_opaque.9.png	drawable-hdpi		ac0443f10fea515a
 versions/2.1/assets/fw-divider_horizontal_dark.9.png	1b530236f94f8d76	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/divider_horizontal_dark.9.png	drawable-hdpi		1b530236f94f8d76
 versions/2.1/assets/fw-divider_horizontal_dark_opaque.9.png	7686584d43f2ea7a	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/divider_horizontal_dark_opaque.9.png	drawable-hdpi		7686584d43f2ea7a
+versions/2.1/assets/fw-divider_horizontal_dim_dark.9.png	01196ee2d539eeb9	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/divider_horizontal_dim_dark.9.png	drawable-hdpi		01196ee2d539eeb9
 versions/2.1/assets/fw-divider_vertical_bright.9.png	9342aa0c86559743	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/divider_vertical_bright.9.png	drawable-hdpi		9342aa0c86559743
 versions/2.1/assets/fw-divider_vertical_dark.9.png	7686584d43f2ea7a	copy	passion:/system/app/Contacts.apk!res/drawable-hdpi-finger/divider_vertical_dark.9.png	drawable-hdpi-finger		7686584d43f2ea7a
 versions/2.1/assets/fw-editbox_background_focus_yellow.9.png	45c7ec368a480736	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/editbox_background_focus_yellow.9.png	drawable-hdpi		45c7ec368a480736
@@ -349,6 +353,7 @@ versions/2.1/assets/fw-ic_menu_emoticons.png	0d41e79941189465	copy	passion:/syst
 versions/2.1/assets/fw-ic_menu_forward.png	fdc140eb8c06f36e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_forward.png	drawable-hdpi		fdc140eb8c06f36e
 versions/2.1/assets/fw-ic_menu_friendslist.png	a75633b824ea09b9	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_friendslist.png	drawable-hdpi		a75633b824ea09b9
 versions/2.1/assets/fw-ic_menu_gallery.png	f38cefc2c549cae2	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_gallery.png	drawable-hdpi		f38cefc2c549cae2
+versions/2.1/assets/fw-ic_menu_help.png	b347a0a75ae5e235	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_help.png	drawable-hdpi		b347a0a75ae5e235
 versions/2.1/assets/fw-ic_menu_info_details.png	5077b00c63124537	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_info_details.png	drawable-hdpi		5077b00c63124537
 versions/2.1/assets/fw-ic_menu_manage.png	2e5ede9c22f17617	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_manage.png	drawable-hdpi		2e5ede9c22f17617
 versions/2.1/assets/fw-ic_menu_month.png	11101e228707d894	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_month.png	drawable-hdpi		11101e228707d894
@@ -365,6 +370,8 @@ versions/2.1/assets/fw-ic_menu_sort_alphabetically.png	6deff23f7bc1a33d	copy	pas
 versions/2.1/assets/fw-ic_menu_sort_by_size.png	17efbb972ddad089	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_sort_by_size.png	drawable-hdpi		17efbb972ddad089
 versions/2.1/assets/fw-ic_menu_stop.png	9a36d2199c78f540	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_stop.png	drawable-hdpi		9a36d2199c78f540
 versions/2.1/assets/fw-ic_menu_today.png	0c28549948818bb1	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_today.png	drawable-hdpi		0c28549948818bb1
+versions/2.1/assets/fw-ic_menu_upload_you_tube.png	9d4cb20ad5fa957d	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_upload_you_tube.png	drawable-hdpi		9d4cb20ad5fa957d
+versions/2.1/assets/fw-ic_menu_view.png	77bb067a30558cb3	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_view.png	drawable-hdpi		77bb067a30558cb3
 versions/2.1/assets/fw-ic_menu_week.png	07146f7b0adbe7fc	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_menu_week.png	drawable-hdpi		07146f7b0adbe7fc
 versions/2.1/assets/fw-ic_notification_overlay.9.png	1ec70f9f642c03ba	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_notification_overlay.9.png	drawable-hdpi		1ec70f9f642c03ba
 versions/2.1/assets/fw-ic_search_category_default.png	3a622b1249f735e8	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/ic_search_category_default.png	drawable-hdpi		3a622b1249f735e8
@@ -415,19 +422,35 @@ versions/2.1/assets/fw-popup_full_bright.9.png	f0d76290b4e6f4d6	copy	passion:/sy
 versions/2.1/assets/fw-popup_full_dark.9.png	3a32613ebda2d599	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/popup_full_dark.9.png	drawable-hdpi		3a32613ebda2d599
 versions/2.1/assets/fw-popup_top_bright.9.png	54f87f6a938d04fa	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/popup_top_bright.9.png	drawable-hdpi		54f87f6a938d04fa
 versions/2.1/assets/fw-popup_top_dark.9.png	c147dcf14d5c82f0	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/popup_top_dark.9.png	drawable-hdpi		c147dcf14d5c82f0
+versions/2.1/assets/fw-presence_away.png	bc9f6b6b03f790b6	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/presence_away.png	drawable-hdpi		bc9f6b6b03f790b6
+versions/2.1/assets/fw-presence_busy.png	f7f9b91246624889	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/presence_busy.png	drawable-hdpi		f7f9b91246624889
+versions/2.1/assets/fw-presence_invisible.png	c0ec415d3642b039	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/presence_invisible.png	drawable-hdpi		c0ec415d3642b039
+versions/2.1/assets/fw-presence_offline.png	a47597f442385255	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/presence_offline.png	drawable-hdpi		a47597f442385255
+versions/2.1/assets/fw-presence_online.png	5016cf27cc3bbb93	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/presence_online.png	drawable-hdpi		5016cf27cc3bbb93
 versions/2.1/assets/fw-pressed_application_background_static.png	9f95a5220ed3091b	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/pressed_application_background_static.png	drawable-hdpi		9f95a5220ed3091b
 versions/2.1/assets/fw-progressbar_indeterminate1.png	1bdd87110b576a49	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/progressbar_indeterminate1.png	drawable-hdpi		1bdd87110b576a49
 versions/2.1/assets/fw-progressbar_indeterminate2.png	75cb833ead02abb2	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/progressbar_indeterminate2.png	drawable-hdpi		75cb833ead02abb2
 versions/2.1/assets/fw-progressbar_indeterminate3.png	1bdd87110b576a49	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/progressbar_indeterminate3.png	drawable-hdpi		1bdd87110b576a49
 versions/2.1/assets/fw-quickcontact_badge_pressed.9.png	4adbfb1e99a85a23	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/quickcontact_badge_pressed.9.png	drawable-hdpi		4adbfb1e99a85a23
 versions/2.1/assets/fw-quickcontact_badge_unpressed.9.png	5db01a7117b97f39	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/quickcontact_badge_unpressed.9.png	drawable-hdpi		5db01a7117b97f39
+versions/2.1/assets/fw-rate_star_big_half.png	6f7a5a99b3e3099a	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_big_half.png	drawable-hdpi		6f7a5a99b3e3099a
+versions/2.1/assets/fw-rate_star_big_off.png	697ed6c2e8086670	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_big_off.png	drawable-hdpi		697ed6c2e8086670
+versions/2.1/assets/fw-rate_star_big_on.png	a4ab4d528117a0f8	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_big_on.png	drawable-hdpi		a4ab4d528117a0f8
+versions/2.1/assets/fw-rate_star_med_half.png	d56afa50ed786d85	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_med_half.png	drawable-hdpi		d56afa50ed786d85
+versions/2.1/assets/fw-rate_star_med_off.png	5611741a432a310a	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_med_off.png	drawable-hdpi		5611741a432a310a
+versions/2.1/assets/fw-rate_star_med_on.png	cca9eafda5c01509	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_med_on.png	drawable-hdpi		cca9eafda5c01509
+versions/2.1/assets/fw-rate_star_small_half.png	4bd42ba036170efe	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_small_half.png	drawable-hdpi		4bd42ba036170efe
+versions/2.1/assets/fw-rate_star_small_off.png	c33e4a7542529c80	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_small_off.png	drawable-hdpi		c33e4a7542529c80
+versions/2.1/assets/fw-rate_star_small_on.png	9c91a550ef7f5c93	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/rate_star_small_on.png	drawable-hdpi		9c91a550ef7f5c93
 versions/2.1/assets/fw-search_dropdown_background.9.png	b203c7ff891158b2	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/search_dropdown_background.9.png	drawable-hdpi		b203c7ff891158b2
 versions/2.1/assets/fw-search_plate_global.9.png	0d575461124c58cf	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/search_plate_global.9.png	drawable-hdpi		0d575461124c58cf
 versions/2.1/assets/fw-seek_thumb_normal.png	2e24207cce9fc0fa	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/seek_thumb_normal.png	drawable-hdpi		2e24207cce9fc0fa
 versions/2.1/assets/fw-seek_thumb_pressed.png	b917bb7e20ab3b86	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/seek_thumb_pressed.png	drawable-hdpi		b917bb7e20ab3b86
 versions/2.1/assets/fw-seek_thumb_selected.png	040d1c49a2f44b5e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/seek_thumb_selected.png	drawable-hdpi		040d1c49a2f44b5e
+versions/2.1/assets/fw-spinner_black_16.png	de076bf423f37a3e	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/spinner_black_16.png	drawable-hdpi		de076bf423f37a3e
 versions/2.1/assets/fw-spinner_white_16.png	3c12bd5739ae8731	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/spinner_white_16.png	drawable-hdpi		3c12bd5739ae8731
 versions/2.1/assets/fw-spinner_white_48.png	f40801889f7aa645	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/spinner_white_48.png	drawable-hdpi		f40801889f7aa645
+versions/2.1/assets/fw-spinner_white_76.png	e4e4a10549eb8c47	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/spinner_white_76.png	drawable-hdpi		e4e4a10549eb8c47
 versions/2.1/assets/fw-stat_notify_alarm.png	de9383596dc2c9ba	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/stat_notify_alarm.png	drawable-hdpi		de9383596dc2c9ba
 versions/2.1/assets/fw-stat_notify_error.png	fd0fb0ee50025116	copy	passion:/system/app/googlevoice.apk!res/drawable-hdpi/stat_notify_error.png	drawable-hdpi		fd0fb0ee50025116
 versions/2.1/assets/fw-stat_notify_missed_call.png	5b9d42056437982d	copy	passion:/system/framework/framework-res.apk!res/drawable-hdpi/stat_notify_missed_call.png	drawable-hdpi		5b9d42056437982d
@@ -564,6 +587,46 @@ versions/2.1/assets/gg-progress_area_bg.9.png	03924a3a9b9d1551	copy	passion:/sys
 versions/2.1/assets/gg-shutter.png	776d17b835ed55ce	copy	passion:/system/app/GoogleGoggles.apk!res/drawable-hdpi/shutter.png	drawable-hdpi		776d17b835ed55ce
 versions/2.1/assets/gg-shutter_pressed.png	96cb18574d2a8bc7	copy	passion:/system/app/GoogleGoggles.apk!res/drawable-hdpi/shutter_pressed.png	drawable-hdpi		96cb18574d2a8bc7
 versions/2.1/assets/gg-video_preview.png	2f0e53c0156a6a3b	copy	passion:/system/app/GoogleGoggles.apk!res/drawable/video_preview.png	drawable		2f0e53c0156a6a3b
+versions/2.1/assets/gm-btn_check_buttonless_off.png	dd699b5437037658	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/btn_check_buttonless_off.png	drawable-hdpi		dd699b5437037658
+versions/2.1/assets/gm-btn_check_buttonless_on.png	9303e61a6c83a331	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/btn_check_buttonless_on.png	drawable-hdpi		9303e61a6c83a331
+versions/2.1/assets/gm-btn_star_big_buttonless_off.png	51921f684a2b8e5e	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/btn_star_big_buttonless_off.png	drawable-hdpi		51921f684a2b8e5e
+versions/2.1/assets/gm-btn_star_big_buttonless_on.png	e837916c34c07b67	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/btn_star_big_buttonless_on.png	drawable-hdpi		e837916c34c07b67
+versions/2.1/assets/gm-divider_horizontal_email.9.png	bccfce9d5fcbae67	copy	passion:/system/app/Email.apk!res/drawable-hdpi/divider_horizontal_email.9.png	drawable-hdpi		bccfce9d5fcbae67
+versions/2.1/assets/gm-ic_email_caret_double.png	017bc8046adb5813	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi-finger/ic_email_caret_double.png	drawable-hdpi-finger		017bc8046adb5813
+versions/2.1/assets/gm-ic_email_caret_single.png	cd92741591a70af9	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi-finger/ic_email_caret_single.png	drawable-hdpi-finger		cd92741591a70af9
+versions/2.1/assets/gm-ic_gmail_paperclip_small.png	e986b1cb695cd639	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_gmail_paperclip_small.png	drawable-hdpi		e986b1cb695cd639
+versions/2.1/assets/gm-ic_mailboxes_accounts.png	0f9302d05f9b6ac2	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_mailboxes_accounts.png	drawable-hdpi		0f9302d05f9b6ac2
+versions/2.1/assets/gm-ic_menu_archive.png	033db168766be5c3	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_archive.png	drawable-hdpi		033db168766be5c3
+versions/2.1/assets/gm-ic_menu_attachment.png	aec4b9d9645b4fea	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_attachment.png	drawable-hdpi		aec4b9d9645b4fea
+versions/2.1/assets/gm-ic_menu_cc.png	799a223064281fac	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_cc.png	drawable-hdpi		799a223064281fac
+versions/2.1/assets/gm-ic_menu_compose.png	f36144d815510570	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_compose.png	drawable-hdpi		f36144d815510570
+versions/2.1/assets/gm-ic_menu_gmail_deselect_mail.png	fb2a40acccf20f70	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_gmail_deselect_mail.png	drawable-hdpi		fb2a40acccf20f70
+versions/2.1/assets/gm-ic_menu_gmail_mark_read.png	c737b6a84edd5122	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_gmail_mark_read.png	drawable-hdpi		c737b6a84edd5122
+versions/2.1/assets/gm-ic_menu_gmail_mark_unread.png	c1ec98824bce171a	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_gmail_mark_unread.png	drawable-hdpi		c1ec98824bce171a
+versions/2.1/assets/gm-ic_menu_inbox.png	b49f1e2b588161d2	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_inbox.png	drawable-hdpi		b49f1e2b588161d2
+versions/2.1/assets/gm-ic_menu_mute.png	0c8f0b065f037ccf	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_mute.png	drawable-hdpi		0c8f0b065f037ccf
+versions/2.1/assets/gm-ic_menu_navigate.png	3c82301889e92986	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_navigate.png	drawable-hdpi		3c82301889e92986
+versions/2.1/assets/gm-ic_menu_refresh.png	b5aba3f19fab9cb6	copy	passion:/system/app/Facebook.apk!res/drawable-hdpi/ic_menu_refresh.png	drawable-hdpi		b5aba3f19fab9cb6
+versions/2.1/assets/gm-ic_menu_report_spam.png	7fabc63fd816e22b	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_report_spam.png	drawable-hdpi		7fabc63fd816e22b
+versions/2.1/assets/gm-ic_menu_star.png	176894776c33db00	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_menu_star.png	drawable-hdpi		176894776c33db00
+versions/2.1/assets/gm-ic_prev_gmail.png	3d35401f634acf56	copy	passion:/system/app/Gmail.apk!res/drawable-hdpi/ic_prev_gmail.png	drawable-hdpi		3d35401f634acf56
+versions/2.1/assets/gm-ic_sms_unread_msg_indicator.png	ebcead84deb606cb	copy	passion:/system/app/Gmail.apk!res/drawable/ic_sms_unread_msg_indicator.9.png	drawable		ebcead84deb606cb
+versions/2.1/assets/gm-text_box.9.png	60feaa2fcde52564	copy	passion:/system/app/Email.apk!res/drawable-hdpi/text_box.9.png	drawable-hdpi		60feaa2fcde52564
+versions/2.1/assets/gm-web-bg_shadow_bottomcard.9.png	4dd03ba6ba92916d	copy	passion:/system/app/Gmail.apk!assets/bg_shadow_bottomcard.9.png			4dd03ba6ba92916d
+versions/2.1/assets/gm-web-bottom_bar.png	43b4ecaa52c1cb50	copy	passion:/system/app/Gmail.apk!assets/bottom_bar.png			43b4ecaa52c1cb50
+versions/2.1/assets/gm-web-btn_star_big_off.png	a2aaf3c99fa9bd64	copy	passion:/system/app/Gmail.apk!assets/btn_star_big_off.png			a2aaf3c99fa9bd64
+versions/2.1/assets/gm-web-btn_star_big_on.png	768d127f4eac4ab3	copy	passion:/system/app/Gmail.apk!assets/btn_star_big_on.png			768d127f4eac4ab3
+versions/2.1/assets/gm-web-ic_email_thread_open_top_default.9.png	2f673d273e00abde	copy	passion:/system/app/Gmail.apk!assets/ic_email_thread_open_top_default.9.png			2f673d273e00abde
+versions/2.1/assets/gm-web-ic_email_thread_supercompressed.9.png	a440d0388528534e	copy	passion:/system/app/Gmail.apk!assets/ic_email_thread_supercompressed.9.png			a440d0388528534e
+versions/2.1/assets/gm-web-ic_email_thread_supercompressed1.9.png	135289151529bbfc	copy	passion:/system/app/Gmail.apk!assets/ic_email_thread_supercompressed1.9.png			135289151529bbfc
+versions/2.1/assets/gm-web-ic_email_thread_supercompressed2.9.png	72662b2f8ba832f8	copy	passion:/system/app/Gmail.apk!assets/ic_email_thread_supercompressed2.9.png			72662b2f8ba832f8
+versions/2.1/assets/gm-web-ic_forward_default.png	133a55d448e96890	copy	passion:/system/app/Gmail.apk!assets/ic_forward_default.png			133a55d448e96890
+versions/2.1/assets/gm-web-ic_gmail_paperclip_small.png	5ae7e5a9ef805289	copy	passion:/system/app/Gmail.apk!assets/ic_gmail_paperclip_small.png			5ae7e5a9ef805289
+versions/2.1/assets/gm-web-ic_reply_default.png	9e465c6565f6b0eb	copy	passion:/system/app/Gmail.apk!assets/ic_reply_default.png			9e465c6565f6b0eb
+versions/2.1/assets/gm-web-ic_replyall_default.png	efcb306dda0954ce	copy	passion:/system/app/Gmail.apk!assets/ic_replyall_default.png			efcb306dda0954ce
+versions/2.1/assets/gm-web-label_background.png	4b5cdd8f8568d13c	copy	passion:/system/app/Gmail.apk!assets/label_background.png			4b5cdd8f8568d13c
+versions/2.1/assets/gm-web-presence_invisible.png	86011762067123c6	copy	passion:/system/app/Gmail.apk!assets/presence_invisible.png			86011762067123c6
+versions/2.1/assets/gm-web-quickcontact_presence_bg.png	a6dd6077cb8cb789	copy	passion:/system/app/Gmail.apk!assets/quickcontact_presence_bg.png			a6dd6077cb8cb789
 versions/2.1/assets/gs-google.png	5f82e8148ec2a4b9	copy	passion:/system/app/EnhancedGoogleSearchProvider.apk!res/drawable-hdpi/google.png	drawable-hdpi		5f82e8148ec2a4b9
 versions/2.1/assets/gv-first_use_icon.png	25b11c29ca54857f	copy	passion:/system/app/googlevoice.apk!res/drawable-hdpi/first_use_icon.png	drawable-hdpi		25b11c29ca54857f
 versions/2.1/assets/gv-horizontal_rule.png	7050f240774644e6	copy	passion:/system/app/googlevoice.apk!res/drawable/horizontal_rule.png	drawable		7050f240774644e6
@@ -695,16 +758,41 @@ versions/2.1/assets/lw-sunset.jpg	167b72ee6d4c283f	copy	passion:/system/app/Live
 versions/2.1/assets/lw-water_thumb.jpg	c75fae46e56a6e68	copy	passion:/system/app/LiveWallpapers.apk!res/drawable-hdpi/water_thumb.jpg	drawable-hdpi		c75fae46e56a6e68
 versions/2.1/assets/lwp-ic_launcher_live_wallpaper.png	6e269f10e2485400	copy	passion:/system/app/LiveWallpapersPicker.apk!res/drawable-hdpi/ic_launcher_live_wallpaper.png	drawable-hdpi		6e269f10e2485400
 versions/2.1/assets/lwp-livewallpaper_placeholder.png	1a5507d1055bdb77	copy	passion:/system/app/LiveWallpapersPicker.apk!res/drawable-hdpi/livewallpaper_placeholder.png	drawable-hdpi		1a5507d1055bdb77
+versions/2.1/assets/mk-bg_promotion_app.png	a8bd2e02cdb84e34	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/bg_promotion_app.png	drawable-hdpi		a8bd2e02cdb84e34
+versions/2.1/assets/mk-bg_promotion_main.png	653e16d4aaca28a4	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/bg_promotion_main.png	drawable-hdpi		653e16d4aaca28a4
+versions/2.1/assets/mk-bottombar_portrait_565.png	920f195458a80b02	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/bottombar_portrait_565.png	drawable-hdpi		920f195458a80b02
 versions/2.1/assets/mk-btn_square_normal.png	be6d1849f8b68ce1	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_square_normal.png	drawable-hdpi		be6d1849f8b68ce1
 versions/2.1/assets/mk-btn_square_pressed.png	fc89011ae3bb1abd	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_square_pressed.png	drawable-hdpi		fc89011ae3bb1abd
 versions/2.1/assets/mk-btn_strip_divider.9.png	92b0a9d46ccb3979	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_divider.9.png	drawable-hdpi		92b0a9d46ccb3979
+versions/2.1/assets/mk-btn_strip_mark_off.png	0237df901c92135b	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_mark_off.png	drawable-hdpi		0237df901c92135b
+versions/2.1/assets/mk-btn_strip_mark_on.png	39f845e14143fc44	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_mark_on.png	drawable-hdpi		39f845e14143fc44
 versions/2.1/assets/mk-btn_strip_normal.9.png	435369f1fc833db9	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_normal.9.png	drawable-hdpi		435369f1fc833db9
 versions/2.1/assets/mk-btn_strip_pressed.9.png	c5ef5c71c4be395a	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_pressed.9.png	drawable-hdpi		c5ef5c71c4be395a
+versions/2.1/assets/mk-btn_strip_selected.9.png	4654c7ae9166837e	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/btn_strip_selected.9.png	drawable-hdpi		4654c7ae9166837e
+versions/2.1/assets/mk-ic_dialog_rate.png	c977c5ffcd70fbca	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_dialog_rate.png	drawable-hdpi		c977c5ffcd70fbca
+versions/2.1/assets/mk-ic_launcher_androidmarket.png	16cb19d103146029	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_launcher_androidmarket.png	drawable-hdpi		16cb19d103146029
 versions/2.1/assets/mk-ic_market_bag_normal.png	49e52fa228f1e071	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_market_bag_normal.png	drawable-hdpi		49e52fa228f1e071
+versions/2.1/assets/mk-ic_market_bag_pressed.png	6b59170ca644b8c1	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_market_bag_pressed.png	drawable-hdpi		6b59170ca644b8c1
+versions/2.1/assets/mk-ic_menu_clear_rating.png	90a1aade50e08ba2	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_menu_clear_rating.png	drawable-hdpi		90a1aade50e08ba2
+versions/2.1/assets/mk-ic_menu_home.png	d7134e9fe33dd38c	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_menu_home.png	drawable-hdpi		d7134e9fe33dd38c
+versions/2.1/assets/mk-ic_menu_my_downloads.png	fcd417030470ed31	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_menu_my_downloads.png	drawable-hdpi		fcd417030470ed31
+versions/2.1/assets/mk-ic_menu_notifications.png	da789edd39573133	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_menu_notifications.png	drawable-hdpi		da789edd39573133
+versions/2.1/assets/mk-ic_menu_security_setting.png	a3a25b86feae9a53	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_menu_security_setting.png	drawable-hdpi		a3a25b86feae9a53
+versions/2.1/assets/mk-ic_menu_stop.png	b155503a14504530	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_menu_stop.png	drawable-hdpi		b155503a14504530
 versions/2.1/assets/mk-ic_network_error.png	c3714f659fb6c64a	copy	passion:/system/app/Vending.apk!res/drawable-hdpi-finger/ic_network_error.png	drawable-hdpi-finger		c3714f659fb6c64a
 versions/2.1/assets/mk-ic_search_square_button.png	c4255d3712fdc228	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_search_square_button.png	drawable-hdpi		c4255d3712fdc228
+versions/2.1/assets/mk-ic_vm_thumbnail_promo.png	af19d4e8031e2093	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/ic_vm_thumbnail_promo.png	drawable-hdpi		af19d4e8031e2093
 versions/2.1/assets/mk-market_android_logo.png	3937f694fd77f287	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/market_android_logo.png	drawable-hdpi		3937f694fd77f287
+versions/2.1/assets/mk-market_header.9.png	ee23138d9c6027c0	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/market_header.9.png	drawable-hdpi		ee23138d9c6027c0
+versions/2.1/assets/mk-promo_frame_left_normal.9.png	a896a1617053ae75	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/promo_frame_left_normal.9.png	drawable-hdpi		a896a1617053ae75
+versions/2.1/assets/mk-promo_frame_middle_normal.9.png	0bb9b781115d8244	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/promo_frame_middle_normal.9.png	drawable-hdpi		0bb9b781115d8244
+versions/2.1/assets/mk-promo_frame_normal.9.png	9b93d4320cc5a39a	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/promo_frame_normal.9.png	drawable-hdpi		9b93d4320cc5a39a
+versions/2.1/assets/mk-promo_frame_pressed.9.png	cb160e7cc42ea2f7	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/promo_frame_pressed.9.png	drawable-hdpi		cb160e7cc42ea2f7
+versions/2.1/assets/mk-promo_frame_right_normal.9.png	4d1954fa72bba9ec	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/promo_frame_right_normal.9.png	drawable-hdpi		4d1954fa72bba9ec
+versions/2.1/assets/mk-screenshot_frame_normal.9.png	6ed2030a7f46c1ef	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/screenshot_frame_normal.9.png	drawable-hdpi		6ed2030a7f46c1ef
+versions/2.1/assets/mk-stat_sys_install_complete.png	1ed3ae9064bc4a1b	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/stat_sys_install_complete.png	drawable-hdpi		1ed3ae9064bc4a1b
 versions/2.1/assets/mk-title_bar_med_market.9.png	1c39e3b2b2b1a857	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/title_bar_med_market.9.png	drawable-hdpi		1c39e3b2b2b1a857
+versions/2.1/assets/mk-title_bar_shadow.9.png	2339531d4b863c31	copy	passion:/system/app/Vending.apk!res/drawable-hdpi/title_bar_shadow.9.png	drawable-hdpi		2339531d4b863c31
 versions/2.1/assets/mm-attachment_editor_bg.9.png	c840f133b23e2cdf	copy	passion:/system/app/Mms.apk!res/drawable-hdpi/attachment_editor_bg.9.png	drawable-hdpi		c840f133b23e2cdf
 versions/2.1/assets/mm-bottombar_landscape_565.png	136aeb70c479a5bf	copy	passion:/system/app/Mms.apk!res/drawable-hdpi/bottombar_landscape_565.png	drawable-hdpi		136aeb70c479a5bf
 versions/2.1/assets/mm-ic_contact_picture.png	f81c50acf054f2cd	copy	passion:/system/app/Mms.apk!res/drawable-hdpi/ic_contact_picture.png	drawable-hdpi		f81c50acf054f2cd
@@ -874,6 +962,44 @@ versions/2.1/assets/st-lock_anim_10.png	3e11b4e60b1941d5	copy	passion:/system/ap
 versions/2.1/assets/st-lock_anim_12.png	a4bc38246e6c9345	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_12.png	drawable-hdpi		a4bc38246e6c9345
 versions/2.1/assets/st-lock_anim_14.png	f8dae7a137da6c0b	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_14.png	drawable-hdpi		f8dae7a137da6c0b
 versions/2.1/assets/st-notice.html.gz	de17d865930f4ae9	copy	passion:/system/etc/NOTICE.html.gz			de17d865930f4ae9
+versions/2.1/assets/tk-android_bottom.png	a22b1eb384818c0d	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/android_bottom.png	drawable-hdpi		a22b1eb384818c0d
+versions/2.1/assets/tk-bottombar_landscape_565.png	47684796f4d09be5	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/bottombar_landscape_565.png	drawable-hdpi		47684796f4d09be5
+versions/2.1/assets/tk-dashboard_highlight_selected.9.png	363042b35b1c34e6	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/dashboard_highlight_selected.9.png	drawable-hdpi		363042b35b1c34e6
+versions/2.1/assets/tk-dialog_im_switch_chats_strip.9.png	5e741125a7a5d990	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/dialog_im_switch_chats_strip.9.png	drawable-hdpi		5e741125a7a5d990
+versions/2.1/assets/tk-emo_im_heart.png	ab52c1ffcb6fd150	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/emo_im_heart.png	drawable-hdpi		ab52c1ffcb6fd150
+versions/2.1/assets/tk-emo_im_mad.png	812a2436034fde1f	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/emo_im_mad.png	drawable-hdpi		812a2436034fde1f
+versions/2.1/assets/tk-emo_im_pokerface.png	176f4903298e9afd	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/emo_im_pokerface.png	drawable-hdpi		176f4903298e9afd
+versions/2.1/assets/tk-emo_im_smirk.png	17414807cdd30320	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/emo_im_smirk.png	drawable-hdpi		17414807cdd30320
+versions/2.1/assets/tk-ic_contact_picture.png	fae1732755585934	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_contact_picture.png	drawable-hdpi		fae1732755585934
+versions/2.1/assets/tk-ic_contact_picture_2.png	670c823767a2bb1c	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_contact_picture_2.png	drawable-hdpi		670c823767a2bb1c
+versions/2.1/assets/tk-ic_contact_picture_3.png	86ae49a3aea2c03c	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_contact_picture_3.png	drawable-hdpi		86ae49a3aea2c03c
+versions/2.1/assets/tk-ic_im_logo_gtalk_splash.png	b54f990ce3df242b	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_im_logo_gtalk_splash.png	drawable-hdpi		b54f990ce3df242b
+versions/2.1/assets/tk-ic_im_message_not_sent.png	ef4967d33d9411aa	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_im_message_not_sent.png	drawable-hdpi		ef4967d33d9411aa
+versions/2.1/assets/tk-ic_menu_allfriends.png	76b519adcae3638d	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_allfriends.png	drawable-hdpi		76b519adcae3638d
+versions/2.1/assets/tk-ic_menu_blocked_user.png	3b972fe9966923b5	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_blocked_user.png	drawable-hdpi		3b972fe9966923b5
+versions/2.1/assets/tk-ic_menu_chat_dashboard.png	020bc5dc277c2a99	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_chat_dashboard.png	drawable-hdpi		020bc5dc277c2a99
+versions/2.1/assets/tk-ic_menu_chat_off_record.png	472591a2f318f286	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_chat_off_record.png	drawable-hdpi		472591a2f318f286
+versions/2.1/assets/tk-ic_menu_chat_on_record.png	712dbdaac05979a3	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_chat_on_record.png	drawable-hdpi		712dbdaac05979a3
+versions/2.1/assets/tk-ic_menu_contact.png	c195b6151153efd2	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_contact.png	drawable-hdpi		c195b6151153efd2
+versions/2.1/assets/tk-ic_menu_emoticons.png	72f316a2cf446197	copy	passion:/system/app/Talk.apk!res/drawable/ic_menu_emoticons.png	drawable		72f316a2cf446197
+versions/2.1/assets/tk-ic_menu_end_all_conversations.png	769823962a65566d	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_end_all_conversations.png	drawable-hdpi		769823962a65566d
+versions/2.1/assets/tk-ic_menu_end_conversation.png	a85d13739f1f04bb	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_end_conversation.png	drawable-hdpi		a85d13739f1f04bb
+versions/2.1/assets/tk-ic_menu_friendslist.png	fc45ad380268b0f9	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_friendslist.png	drawable-hdpi		fc45ad380268b0f9
+versions/2.1/assets/tk-ic_menu_invite.png	acf8b1dc4f2443c0	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_invite.png	drawable-hdpi		acf8b1dc4f2443c0
+versions/2.1/assets/tk-ic_menu_invites.png	935c98b4ebbf6f1b	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/ic_menu_invites.png	drawable-hdpi		935c98b4ebbf6f1b
+versions/2.1/assets/tk-ic_menu_search.png	facadad1cfbe2c03	copy	passion:/system/app/Talk.apk!res/drawable/ic_menu_search.png	drawable		facadad1cfbe2c03
+versions/2.1/assets/tk-im_avatar_picture_border_normal.9.png	744a4cf3c34d1f8f	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/im_avatar_picture_border_normal.9.png	drawable-hdpi		744a4cf3c34d1f8f
+versions/2.1/assets/tk-im_avatar_picture_border_pressed.9.png	e7366629d6800ab2	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/im_avatar_picture_border_pressed.9.png	drawable-hdpi		e7366629d6800ab2
+versions/2.1/assets/tk-im_bubble_normal.9.png	12bd935e2a88d376	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/im_bubble_normal.9.png	drawable-hdpi		12bd935e2a88d376
+versions/2.1/assets/tk-im_bubble_pressed.9.png	03c09706bafbfd43	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/im_bubble_pressed.9.png	drawable-hdpi		03c09706bafbfd43
+versions/2.1/assets/tk-im_contact_icon_android_dark.png	81c3b920a5aaadaf	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/im_contact_icon_android_dark.png	drawable-hdpi		81c3b920a5aaadaf
+versions/2.1/assets/tk-im_contact_icon_mobile_dark.png	4d5ca22c080223b5	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/im_contact_icon_mobile_dark.png	drawable-hdpi		4d5ca22c080223b5
+versions/2.1/assets/tk-status_chat.png	7239e956c8d95ae3	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/status_chat.png	drawable-hdpi		7239e956c8d95ae3
+versions/2.1/assets/tk-stroke.9.png	e6a199880f036165	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/stroke.9.png	drawable-hdpi		e6a199880f036165
+versions/2.1/assets/tk-textfield_default_dormant.9.png	0dcad2d54e48e070	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/textfield_default_dormant.9.png	drawable-hdpi		0dcad2d54e48e070
+versions/2.1/assets/tk-textfield_pressed.9.png	62a61c8267a66f48	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/textfield_pressed.9.png	drawable-hdpi		62a61c8267a66f48
+versions/2.1/assets/tk-textfield_selected.9.png	0c8ba24ce64aaee6	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/textfield_selected.9.png	drawable-hdpi		0c8ba24ce64aaee6
+versions/2.1/assets/tk-white_toast.9.png	b04673f17d199dd7	copy	passion:/system/app/Talk.apk!res/drawable-hdpi/white_toast.9.png	drawable-hdpi		b04673f17d199dd7
 versions/2.1/assets/ui-KeypressDelete.ogg	28febde04084b658	copy	passion:/system/media/audio/ui/KeypressDelete.ogg			28febde04084b658
 versions/2.1/assets/ui-KeypressReturn.ogg	87b9c5830430701b	copy	passion:/system/media/audio/ui/KeypressReturn.ogg			87b9c5830430701b
 versions/2.1/assets/ui-KeypressSpacebar.ogg	a4cc23a671fb8fb2	copy	passion:/system/media/audio/ui/KeypressSpacebar.ogg			a4cc23a671fb8fb2
@@ -895,3 +1021,60 @@ versions/2.1/assets/vz-vis2.png	d6f4978bc702833b	copy	passion:/system/app/Visual
 versions/2.1/assets/vz-vis3.png	0f7e39d5d3d23993	copy	passion:/system/app/VisualizationWallpapers.apk!res/drawable/vis3.png	drawable		0f7e39d5d3d23993
 versions/2.1/assets/vz-vis4.png	2ef8ecb92496e829	copy	passion:/system/app/VisualizationWallpapers.apk!res/drawable/vis4.png	drawable		2ef8ecb92496e829
 versions/2.1/assets/vz-vis5.png	18b3097f468cfe73	copy	passion:/system/app/VisualizationWallpapers.apk!res/drawable/vis5.png	drawable		18b3097f468cfe73
+versions/2.1/assets/yt-border_youtube_thumbnail.9.png	7d32c54471f8f9d1	copy	passion:/system/app/YouTube.apk!res/drawable/border_youtube_thumbnail.9.png	drawable		7d32c54471f8f9d1
+versions/2.1/assets/yt-border_youtube_thumbnail_pressed.9.png	b08b734f15ed25cb	copy	passion:/system/app/YouTube.apk!res/drawable/border_youtube_thumbnail_pressed.9.png	drawable		b08b734f15ed25cb
+versions/2.1/assets/yt-bottombar_landscape_565.png	07738b17aea5008d	copy	passion:/system/app/YouTube.apk!res/drawable/bottombar_landscape_565.png	drawable		07738b17aea5008d
+versions/2.1/assets/yt-btn_expander_maximized_default.png	08879643335283d2	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_expander_maximized_default.png	drawable-hdpi		08879643335283d2
+versions/2.1/assets/yt-btn_expander_maximized_pressed.png	fb44be1b840ff34f	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_expander_maximized_pressed.png	drawable-hdpi		fb44be1b840ff34f
+versions/2.1/assets/yt-btn_expander_minimized_default.png	e727450233084c29	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_expander_minimized_default.png	drawable-hdpi		e727450233084c29
+versions/2.1/assets/yt-btn_expander_minimized_pressed.png	f3b4e47d6b74de6c	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_expander_minimized_pressed.png	drawable-hdpi		f3b4e47d6b74de6c
+versions/2.1/assets/yt-btn_ffwd.png	b26ca69f1442de0e	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_ffwd.png	drawable-hdpi		b26ca69f1442de0e
+versions/2.1/assets/yt-btn_ffwd_selected.png	16b2ce1442e81527	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_ffwd_selected.png	drawable-hdpi		16b2ce1442e81527
+versions/2.1/assets/yt-btn_pause.png	3cd8ee9db8c572a3	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_pause.png	drawable-hdpi		3cd8ee9db8c572a3
+versions/2.1/assets/yt-btn_pause_selected.png	cfbdb5302cbebcc8	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_pause_selected.png	drawable-hdpi		cfbdb5302cbebcc8
+versions/2.1/assets/yt-btn_play.png	1cd7a6d514069c64	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_play.png	drawable-hdpi		1cd7a6d514069c64
+versions/2.1/assets/yt-btn_play_selected.png	d19bdcb32799e2d1	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_play_selected.png	drawable-hdpi		d19bdcb32799e2d1
+versions/2.1/assets/yt-btn_rew.png	f382b08e9cd371c6	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_rew.png	drawable-hdpi		f382b08e9cd371c6
+versions/2.1/assets/yt-btn_rew_selected.png	2fd280fca2ee7e02	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/btn_rew_selected.png	drawable-hdpi		2fd280fca2ee7e02
+versions/2.1/assets/yt-btn_thin.9.png	344fa1572e0d40c7	copy	passion:/system/app/YouTube.apk!res/drawable/btn_thin.9.png	drawable		344fa1572e0d40c7
+versions/2.1/assets/yt-btn_thin_pressed.9.png	b5b7f5d5046c070a	copy	passion:/system/app/YouTube.apk!res/drawable/btn_thin_pressed.9.png	drawable		b5b7f5d5046c070a
+versions/2.1/assets/yt-button_background_pressed.9.png	9821ce97c0a0a2ec	copy	passion:/system/app/YouTube.apk!res/drawable/button_background_pressed.9.png	drawable		9821ce97c0a0a2ec
+versions/2.1/assets/yt-ic_camera.png	4bba418a7ba8ce79	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_camera.png	drawable-hdpi		4bba418a7ba8ce79
+versions/2.1/assets/yt-ic_comment.png	99681f4edd2a983c	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_comment.png	drawable-hdpi		99681f4edd2a983c
+versions/2.1/assets/yt-ic_favorite.png	2154d558638a06ac	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_favorite.png	drawable-hdpi		2154d558638a06ac
+versions/2.1/assets/yt-ic_flag.png	c8e933b8a5b00ffc	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_flag.png	drawable-hdpi		c8e933b8a5b00ffc
+versions/2.1/assets/yt-ic_info.png	9f06a5aa1da74b04	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_info.png	drawable-hdpi		9f06a5aa1da74b04
+versions/2.1/assets/yt-ic_info_pressed.png	992f9588a55c8c63	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_info_pressed.png	drawable-hdpi		992f9588a55c8c63
+versions/2.1/assets/yt-ic_menu_comment.png	1e675b90d459281d	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_menu_comment.png	drawable-hdpi		1e675b90d459281d
+versions/2.1/assets/yt-ic_menu_favorite.png	c70c6d2e40c40900	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_menu_favorite.png	drawable-hdpi		c70c6d2e40c40900
+versions/2.1/assets/yt-ic_menu_favorite_remove_youtube.png	f1edf1b3dd58fb8b	copy	passion:/system/app/YouTube.apk!res/drawable/ic_menu_favorite_remove_youtube.png	drawable		f1edf1b3dd58fb8b
+versions/2.1/assets/yt-ic_menu_favorite_youtube.png	a103263b359ebe67	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_menu_favorite_youtube.png	drawable-hdpi		a103263b359ebe67
+versions/2.1/assets/yt-ic_menu_flag.png	4f07ada465710bcd	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_menu_flag.png	drawable-hdpi		4f07ada465710bcd
+versions/2.1/assets/yt-ic_menu_home.png	8db5882031b00386	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_menu_home.png	drawable-hdpi		8db5882031b00386
+versions/2.1/assets/yt-ic_menu_info.png	bbceb06f8716ac76	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_menu_info.png	drawable-hdpi		bbceb06f8716ac76
+versions/2.1/assets/yt-ic_menu_more_catagories.png	bc9b13c95c366ebd	copy	passion:/system/app/YouTube.apk!res/drawable/ic_menu_more_catagories.png	drawable		bc9b13c95c366ebd
+versions/2.1/assets/yt-ic_menu_my_account.png	5f82e913d20ebdb6	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_menu_my_account.png	drawable-hdpi		5f82e913d20ebdb6
+versions/2.1/assets/yt-ic_menu_signout.png	310318c89953081d	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_menu_signout.png	drawable-hdpi		310318c89953081d
+versions/2.1/assets/yt-ic_most_discussed.png	f2652681a819fa63	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_most_discussed.png	drawable-hdpi		f2652681a819fa63
+versions/2.1/assets/yt-ic_most_recent.png	57beb415f41bf86a	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_most_recent.png	drawable-hdpi		57beb415f41bf86a
+versions/2.1/assets/yt-ic_most_viewed.png	e7c852b96d1a9ef5	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_most_viewed.png	drawable-hdpi		e7c852b96d1a9ef5
+versions/2.1/assets/yt-ic_my_videos.png	d03809d77b2a8167	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_my_videos.png	drawable-hdpi		d03809d77b2a8167
+versions/2.1/assets/yt-ic_playlists.png	908adfbbcfd01b07	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_playlists.png	drawable-hdpi		908adfbbcfd01b07
+versions/2.1/assets/yt-ic_rate.png	a81422fb7c6e7714	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_rate.png	drawable-hdpi		a81422fb7c6e7714
+versions/2.1/assets/yt-ic_rate_star_small_empty.png	8eddd896588c7a47	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_rate_star_small_empty.png	drawable-hdpi		8eddd896588c7a47
+versions/2.1/assets/yt-ic_rate_star_small_full.png	b592078b57f92f03	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_rate_star_small_full.png	drawable-hdpi		b592078b57f92f03
+versions/2.1/assets/yt-ic_rate_star_small_half.png	2858333667b2bf1e	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_rate_star_small_half.png	drawable-hdpi		2858333667b2bf1e
+versions/2.1/assets/yt-ic_search_button.png	3a622b1249f735e8	copy	passion:/system/app/GenieWidget.apk!res/drawable-hdpi/ic_search_button.png	drawable-hdpi		3a622b1249f735e8
+versions/2.1/assets/yt-ic_share.png	9e6719d73ea585c9	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_share.png	drawable-hdpi		9e6719d73ea585c9
+versions/2.1/assets/yt-ic_subscriptions.png	e63ad3261c5ef716	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_subscriptions.png	drawable-hdpi		e63ad3261c5ef716
+versions/2.1/assets/yt-ic_top_rated.png	6d4d32a43a4d9cb5	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_top_rated.png	drawable-hdpi		6d4d32a43a4d9cb5
+versions/2.1/assets/yt-ic_unfavorite.png	689920a99dd591a6	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_unfavorite.png	drawable-hdpi		689920a99dd591a6
+versions/2.1/assets/yt-ic_youtube_logo.png	f9b8aeea0f06f62c	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_youtube_logo.png	drawable-hdpi		f9b8aeea0f06f62c
+versions/2.1/assets/yt-ic_youtube_thumbnail_small.png	307f05ccc26a947c	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/ic_youtube_thumbnail_small.png	drawable-hdpi		307f05ccc26a947c
+versions/2.1/assets/yt-media_controller_bg.9.png	e53ce23e6a7ee4ac	copy	passion:/system/app/YouTube.apk!res/drawable/media_controller_bg.9.png	drawable		e53ce23e6a7ee4ac
+versions/2.1/assets/yt-play_bug_large.png	de5e8f60735c96ef	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/play_bug_large.png	drawable-hdpi		de5e8f60735c96ef
+versions/2.1/assets/yt-playbar.9.png	e7fbb1855b5f3f75	copy	passion:/system/app/YouTube.apk!res/drawable/playbar.9.png	drawable		e7fbb1855b5f3f75
+versions/2.1/assets/yt-playbar_buffered.9.png	802f7dd6351b1360	copy	passion:/system/app/YouTube.apk!res/drawable/playbar_buffered.9.png	drawable		802f7dd6351b1360
+versions/2.1/assets/yt-playbar_frame.9.png	72c088167fd5de29	copy	passion:/system/app/YouTube.apk!res/drawable/playbar_frame.9.png	drawable		72c088167fd5de29
+versions/2.1/assets/yt-playhead.png	752f84d5c9d7aa9c	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/playhead.png	drawable-hdpi		752f84d5c9d7aa9c
+versions/2.1/assets/yt-playhead_selected.png	237b277ab284ac99	copy	passion:/system/app/YouTube.apk!res/drawable-hdpi/playhead_selected.png	drawable-hdpi		237b277ab284ac99

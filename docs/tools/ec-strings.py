@@ -14,7 +14,7 @@ The image has no Hungarian (it came with 2.3), so Hungarian is (owner's decision
   English means something else in that app (Facebook's "Sign up" is not Thinkfree's "Sign up" = log in).
 A row with neither is reported and keeps English. A German, French or Spanish text the image lacks is the English the
 phone shows, listed in the row's untranslated; a text with none of the three (an English-only app such as Goggles) is
-English in Hungarian as well, and so is a text without Hungarian in a table marked hu=en (one the phone never shows in
+English in Hungarian as well, and so is every text of a table marked hu=none (an app without Hungarian: YouTube) and a text without Hungarian in a table marked hu=en (one the phone never shows in
 Hungarian: "[amazon] com.amazon.mp3 hu=en"). Each table is EC.strings('<table>', {name: {res, en, hu, de, fr, es, …}}).
 Do not edit the output by hand; rerun this after changing the list."""
 import json, os, sys
@@ -39,7 +39,8 @@ def tables():
             name, *apks = line[1:].replace(']', ' ').split()
             # "hu=en": the app never shows these texts in Hungarian (Amazon MP3 opens its Unsupported Locale page).
             flags = {a for a in apks if '=' in a}
-            current = out.setdefault(name, {'apks': [a for a in apks if a not in flags], 'keys': [], 'huEnglish': 'hu=en' in flags})
+            # "hu=none": the app has no Hungarian at all (YouTube), so every text stays English there, even one 2.3.6 translates elsewhere.
+            current = out.setdefault(name, {'apks': [a for a in apks if a not in flags], 'keys': [], 'huEnglish': 'hu=en' in flags, 'huNone': 'hu=none' in flags})
         else:
             current['keys'] += line.split()
     return out
@@ -99,6 +100,11 @@ def build(table, spec):
         for lang in gaps: row[lang] = row['en']
         # Text the image translates into none of them (an English-only app) is English on every phone: Hungarian too.
         if len(gaps) == 3:
+            english = row['en'] if isinstance(row['en'], list) else list(row['en'].values()) if isinstance(row['en'], dict) else [row['en']]
+            missing[:] = [m for m in missing if m not in english]
+            row['hu'] = row['en']; gaps.append('hu')
+            for field in ('huFrom', 'huOwn'): row.pop(field, None)
+        if spec.get('huNone') and 'hu' not in gaps:
             english = row['en'] if isinstance(row['en'], list) else list(row['en'].values()) if isinstance(row['en'], dict) else [row['en']]
             missing[:] = [m for m in missing if m not in english]
             row['hu'] = row['en']; gaps.append('hu')
