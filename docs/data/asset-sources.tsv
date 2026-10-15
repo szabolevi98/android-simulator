@@ -1,7 +1,7 @@
 # Sources of the asset files no file of a factory image matches (docs/tools/asset-inventory.py): <path pattern, * = any>	<source>
 # Each source is the one THIRD_PARTY_NOTICES.md or the adding commit names; files without a row here stay "not traced".
 versions/*/assets/device-*.svg	drawn by docs/tools/device-frames.py: the outline measured from the maker's front render, the shading drawn
-versions/2.1/assets/landing-home.jpg	a screenshot of the simulator's own 2.1 home screen (the default screen with the Nexus live wallpaper), resized to 414 × 690 for the landing page card
+versions/2.1/assets/landing-home.jpg	a screenshot of the simulator's own 2.1 home screen (the default screen with the Nexus live wallpaper, its pulses placed for the shot: two of each colour in the free areas), resized to 414 × 690 for the landing page card
 versions/*/assets/landing-home.jpg	capture of the simulator's own home screen for the landing page card
 versions/2.3.6/assets/play-store.svg	project-authored redrawing of the 2010–2011 Android Market bag (THIRD_PARTY_NOTICES.md)
 versions/*/assets/play-store.svg	Wikimedia Commons "Google Play Store (2012-2014).svg", CC BY-SA 3.0, view box cropped (THIRD_PARTY_NOTICES.md)

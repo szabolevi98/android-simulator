@@ -9,7 +9,7 @@ window.ANDROID_VERSIONS = [
     description: 'The first Nexus: the trackball, live wallpapers, the 3D app drawer and the Google apps of 2010, rebuilt from the phone’s own system image.',
     url: 'versions/2.1/',
     status: 'available',
-    art: {shot: 'landing-home.jpg?v=2', phone: 'nexusone'}
+    art: {shot: 'landing-home.jpg?v=3', phone: 'nexusone'}
   },
   {
     id: '2.3.6',

@@ -767,7 +767,7 @@ versions/2.1/assets/l2-wallpaper_x67.jpg	a2e6dfe1f88f3578	copy	passion:/system/a
 versions/2.1/assets/l2-wallpaper_x67_small.jpg	12172f4e5a6b3dbd	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/wallpaper_x67_small.jpg	drawable-hdpi		12172f4e5a6b3dbd
 versions/2.1/assets/l2-wallpaper_zanzibar.jpg	6f2d2a82c2594861	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/wallpaper_zanzibar.jpg	drawable-hdpi		6f2d2a82c2594861
 versions/2.1/assets/l2-wallpaper_zanzibar_small.jpg	6633b97b208eba0c	copy	passion:/system/app/Launcher2.apk!res/drawable-hdpi/wallpaper_zanzibar_small.jpg	drawable-hdpi		6633b97b208eba0c
-versions/2.1/assets/landing-home.jpg	a21846602ff43509	own	a screenshot of the simulator's own 2.1 home screen (the default screen with the Nexus live wallpaper), resized to 414 × 690 for the landing page card			
+versions/2.1/assets/landing-home.jpg	d8585cecc4447f6e	own	a screenshot of the simulator's own 2.1 home screen (the default screen with the Nexus live wallpaper, its pulses placed for the shot: two of each colour in the free areas), resized to 414 × 690 for the landing page card			
 versions/2.1/assets/lk-btn_keyboard_key_normal.9.png	5c91e6890eee3622	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_normal.9.png	drawable-hdpi		5c91e6890eee3622
 versions/2.1/assets/lk-btn_keyboard_key_normal_off.9.png	753202b1e8e45e9f	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_normal_off.9.png	drawable-hdpi		753202b1e8e45e9f
 versions/2.1/assets/lk-btn_keyboard_key_normal_on.9.png	47e387cbf9055616	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/btn_keyboard_key_normal_on.9.png	drawable-hdpi		47e387cbf9055616
