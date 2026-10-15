@@ -109,8 +109,10 @@
       preview ||= Object.assign(document.createElement('div'), {className: 'ecime-preview npp-fw-keyboard_key_feedback_background'});
       preview.innerHTML = `<i class="ec-bg np-fw-keyboard_key_feedback_background"></i><span>${esc(span.textContent)}</span>`;
       const r = btn.getBoundingClientRect(), s = c.el.screen.getBoundingClientRect();
-      preview.style.left = `${r.left + r.width / 2 - s.left}px`; preview.style.top = `${r.top - s.top}px`;
       c.el.screen.append(preview); preview.hidden = false;
+      // Centred over the key by its own size (no transform: a nine-patch between device pixels shows seams).
+      const pr = preview.getBoundingClientRect();
+      preview.style.left = `${r.left + r.width / 2 - pr.width / 2 - s.left}px`; preview.style.top = `calc(${r.top - s.top - pr.height}px + 12 * var(--dp))`;
     }
     key(c, btn);
     if (btn.dataset.repeat) { clearInterval(repeat); repeat = setTimeout(() => { repeat = setInterval(() => key(c, btn), 50); }, 400); }

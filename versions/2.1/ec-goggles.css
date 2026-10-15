@@ -42,4 +42,4 @@
 .ecgg-shutter .p,.ecgg-cancel .p{display:none}
 .ecgg-shutter:active .n,.ecgg-cancel:active .n{display:none}
 .ecgg-shutter:active .p,.ecgg-cancel:active .p{display:block}
-#overlay-root.ecgg-turned .ecui-dialog{left:50%;right:auto;width:calc(533.333 * var(--dp));max-height:calc(320 * var(--dp));transform:translate(-50%,-50%) rotate(90deg)}
+#overlay-root.ecgg-turned .ecui-dialog{left:50%;right:auto;top:50%;bottom:auto;margin:0;width:calc(533.333 * var(--dp));max-height:calc(320 * var(--dp));transform:translate(-50%,-50%) rotate(90deg)}

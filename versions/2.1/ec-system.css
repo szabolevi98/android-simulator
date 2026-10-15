@@ -10,7 +10,7 @@
 .ecsys-boot-frame{position:absolute;background-repeat:no-repeat}
 /* RecentApplicationsDialog: panel_background, 3 dp padding, rows of three 87 x 88 dp buttons with a 3 dp margin; 13 dp
    labels (primary_text_dark_focused) under the icon; no_recent_tasks 285 dp wide, 15 dp above and below. */
-.ecsys-recent{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff}
+.ecsys-recent{position:absolute;inset:0;margin:auto;width:fit-content;height:fit-content;color:#fff}
 .ecsys-recent-body{position:relative;z-index:1;padding:calc(3 * var(--dp))}
 .ecsys-recent-row{display:flex}
 .ecsys-recent-item{position:relative;display:flex;flex-direction:column;align-items:center;width:calc(87 * var(--dp));height:calc(88 * var(--dp));margin:calc(3 * var(--dp));border:0;padding:calc(5 * var(--dp)) 0 calc(2 * var(--dp));background:none;color:#fff!important;font-size:calc(13 * var(--dp))}

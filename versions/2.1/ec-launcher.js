@@ -72,7 +72,12 @@
   let scroll = null;   // {from, to, start, duration}
   function setScroll(c, x) {
     const track = c.el.viewport.querySelector('.eclh-track');
-    if (track) track.style.transform = `translateX(${-x * 100}%)`;
+    // The pages' nine-patches (the search widget's) draw with hairline seams when the track sits between device pixels,
+    // so the offset is rounded to whole ones (the little correction keeps the percentage, which follows any resize).
+    if (track) {
+      const w = track.getBoundingClientRect().width, d = devicePixelRatio || 1, px = -x * w;
+      track.style.transform = `translateX(calc(${-x * 100}% + ${(Math.round(px * d) / d - px).toFixed(4)}px))`;
+    }
     c.wallpaper?.offset(x / (SCREENS - 1));
   }
   function snapTo(c, which, from = c.ui.homeScroll ?? c.ui.homePage ?? DEFAULT_SCREEN) {

@@ -22,7 +22,7 @@
 .ecga-grid{position:absolute;left:0;right:0;top:calc(70 * var(--dp));bottom:calc(60 * var(--dp));overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:calc(10 * var(--dp));padding-bottom:calc(10 * var(--dp));scrollbar-width:none}
 .ecga-cell{position:relative;flex:none;width:calc(96 * var(--dp));height:calc(72 * var(--dp));border:calc(1.5 * var(--dp)) solid #d8d8d8;padding:0;background:#000;box-sizing:content-box;box-shadow:0 calc(2 * var(--dp)) calc(4 * var(--dp)) #0008}
 .ecga-vid{width:calc(32 * var(--dp))!important;height:calc(32 * var(--dp))!important;inset:auto!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)}
-.ecga-scroller{position:absolute;left:50%;bottom:calc(4 * var(--dp));width:calc(104 * var(--dp));height:calc(30.667 * var(--dp));transform:translateX(-50%)}
+.ecga-scroller{position:absolute;left:0;right:0;bottom:calc(4 * var(--dp));width:calc(104 * var(--dp));height:calc(30.667 * var(--dp));margin:0 auto}
 .ecga-full .ecga-pic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .ecga-pic img{width:100%;transition:transform .2s}
 .ecga-zoom{position:absolute;z-index:3;right:0;top:0;display:flex;flex-direction:column;background:#0008;border-bottom-left-radius:calc(6 * var(--dp))}

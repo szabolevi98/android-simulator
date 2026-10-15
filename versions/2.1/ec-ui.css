@@ -23,7 +23,7 @@
 
 /* AlertDialog: the window dims what is behind it by 0.6 and sits in the middle; parentPanel padding 3 / 9 / 1 / 3 dp. */
 .ecui-dim{position:absolute;inset:0;background:#00000099}
-.ecui-dialog{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);max-height:100%;display:flex;flex-direction:column;padding:calc(9 * var(--dp)) calc(1 * var(--dp)) calc(3 * var(--dp)) calc(3 * var(--dp));color:#fff}
+.ecui-dialog{position:absolute;inset:0;margin:auto 0;height:fit-content;max-height:100%;display:flex;flex-direction:column;padding:calc(9 * var(--dp)) calc(1 * var(--dp)) calc(3 * var(--dp)) calc(3 * var(--dp));color:#fff}
 .ecui-dialog>div{position:relative;flex:none}
 .ecui-top{min-height:calc(54 * var(--dp))}
 .ecui-title-row{display:flex;align-items:center;margin:calc(6 * var(--dp)) calc(10 * var(--dp)) calc(9 * var(--dp))}

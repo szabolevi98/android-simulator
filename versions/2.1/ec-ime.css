@@ -10,6 +10,6 @@
 .ecime-key>img{width:calc(36 * var(--dp));height:calc(34 * var(--dp))}
 .ecime-key .ec-pressed{opacity:0}
 .ecime-key.down .ec-pressed{opacity:1}
-.ecime-preview{position:absolute;z-index:31;height:calc(80 * var(--dp));min-width:calc(32 * var(--dp));transform:translate(-50%,calc(-100% + 12 * var(--dp)));display:flex;align-items:center;justify-content:center;color:#000;font-size:calc(40 * var(--dp));pointer-events:none}
+.ecime-preview{position:absolute;z-index:31;height:calc(80 * var(--dp));min-width:calc(32 * var(--dp));display:flex;align-items:center;justify-content:center;color:#000;font-size:calc(40 * var(--dp));pointer-events:none}
 .ecime-preview span{position:relative;z-index:1}
 .ecime-preview[hidden]{display:none}

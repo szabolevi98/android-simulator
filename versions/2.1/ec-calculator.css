@@ -11,8 +11,8 @@
 .eccl-caret{flex:none;width:calc(1.5 * var(--dp));height:calc(44 * var(--dp));margin-left:calc(1 * var(--dp));background:#fff;animation:eccl-blink 1s steps(1) infinite}
 @keyframes eccl-blink{50%{opacity:0}}
 .eccl-switch{position:relative;flex:4 1 0;min-height:0;overflow:hidden}
-.eccl-track{position:absolute;top:0;bottom:0;left:0;width:200%;display:flex;transition:transform .4s}
-.eccl-switch[data-panel="advanced"] .eccl-track{transform:translateX(-50%)}
+.eccl-track{position:absolute;top:0;bottom:0;left:0;width:200%;display:flex;transition:left .4s}
+.eccl-switch[data-panel="advanced"] .eccl-track{left:-100%}
 .eccl-pad{flex:1;display:flex;flex-direction:column}
 .eccl-row{flex:3 1 0;min-height:0;display:flex}
 .eccl-row-top{flex:2 1 0}
