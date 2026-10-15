@@ -7,7 +7,7 @@
 /* AlarmAlert (alarm_alert.xml) in Theme.Holo.Dialog (dp x 0.9): the label as the holo blue window title over its 2 dp
    rule; the clock (80 dp AndroidClock time, 20 dp bold AM/PM; 24 / 20 / 24 / 80 dp padding) inside the full-width
    borderless Snooze button, whose text sits 16 dp above its bottom; a 1 dp divider 16 dp in; the 48 dp Dismiss button. */
-.dcal-ics{position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:95%;border:calc(8.4706 * var(--dp)) solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 20 fill/calc(10.5883 * var(--dp)) stretch;color:#fff;font-family:RobotoICS,Roboto,sans-serif}
+.dcal-ics{position:absolute;z-index:41;inset:0;margin:auto;height:fit-content;width:95%;border:calc(8.4706 * var(--dp)) solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 20 fill/calc(10.5883 * var(--dp)) stretch;color:#fff;font-family:RobotoICS,Roboto,sans-serif}
 .dcal-title{margin:0 calc(16.9412 * var(--dp));line-height:calc(67.7648 * var(--dp));font-size:calc(23.2942 * var(--dp));font-weight:400;color:#33b5e5;border-bottom:calc(2.1177 * var(--dp)) solid #33b5e5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dcal-body{display:flex;flex-direction:column}
 .dcal-snooze{display:flex;flex-direction:column;align-items:center;width:100%;padding:calc(25.4118 * var(--dp)) calc(21.1765 * var(--dp)) calc(16.9412 * var(--dp)) calc(25.4118 * var(--dp));border:0;background:none;color:#fff;font:400 calc(19.0589 * var(--dp)) RobotoICS,Roboto,sans-serif;cursor:pointer}

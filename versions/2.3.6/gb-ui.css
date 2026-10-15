@@ -18,9 +18,9 @@
 
 /* AlertDialog: dimmed by 0.6, dialog_enter / dialog_exit (scale 0.9 + fade, 150 ms). */
 .gbdlg-scrim{position:absolute;inset:0;z-index:40;background:#00000099;animation:gbdlg-fade .15s}
-.gbdlg{position:absolute;left:0;right:0;top:50%;z-index:41;max-height:calc(100% - calc(34.7827 * var(--dp)));transform:translateY(-50%);display:flex;flex-direction:column;padding:0 calc(2.0058 * var(--dp));color:#fff;font-family:DroidSans,Arial,sans-serif;animation:gbdlg-in .15s cubic-bezier(.25,.46,.45,.94)}
+.gbdlg{position:absolute;left:0;right:0;top:0;bottom:0;margin-block:auto;height:fit-content;z-index:41;max-height:calc(100% - calc(34.7827 * var(--dp)));display:flex;flex-direction:column;padding:0 calc(2.0058 * var(--dp));color:#fff;font-family:DroidSans,Arial,sans-serif;animation:gbdlg-in .15s cubic-bezier(.25,.46,.45,.94)}
 .gbdlg.closing{animation:gbdlg-out .15s cubic-bezier(.55,.085,.68,.53) forwards}
-@keyframes gbdlg-in{from{transform:translateY(-50%) scale(.9);opacity:0}}
+@keyframes gbdlg-in{from{transform:scale(.9);opacity:0}}
 @keyframes gbdlg-out{to{transform:translateY(-50%) scale(.9);opacity:0}}
 @keyframes gbdlg-fade{from{opacity:0}}
 .gbdlg-section{border:0 solid transparent;flex:none}
@@ -56,7 +56,7 @@
 .gbdlg-button:active{border-image:url('assets/gb-btn_default_pressed.png') 10 8 17 8 fill / calc(6.6667 * var(--dp)) calc(5.3334 * var(--dp)) calc(11.3392 * var(--dp)) stretch}
 /* Toast (transient_notification.xml): toast_frame, 14 sp white text with a #BB000000 shadow, 64 dip above the bottom,
    toast_enter / toast_exit 400 ms fades. */
-.screen .toast{left:50%;right:auto;bottom:calc(64 * var(--dp));max-width:calc(100% - calc(27.8261 * var(--dp)));transform:translateX(-50%);width:max-content;border:0 solid transparent;border-image:url('assets/gb-toast_frame.png') 42 48 42 48 fill / calc(28 * var(--dp)) calc(32 * var(--dp)) stretch;border-radius:0;background:none;box-shadow:none;padding:calc(15.3392 * var(--dp)) calc(27.3392 * var(--dp)) calc(20.6725 * var(--dp));color:#fff;font:400 calc(13.9943 * var(--dp))/1.35 DroidSans,Arial,sans-serif;text-shadow:0 0 calc(2.7479 * var(--dp)) #000000bb;text-align:center;animation:gbtoast-in .4s cubic-bezier(.25,.46,.45,.94)}
+.screen .toast{left:0;right:0;margin-inline:auto;bottom:calc(64 * var(--dp));max-width:calc(100% - calc(27.8261 * var(--dp)));width:max-content;border:0 solid transparent;border-image:url('assets/gb-toast_frame.png') 42 48 42 48 fill / calc(28 * var(--dp)) calc(32 * var(--dp)) stretch;border-radius:0;background:none;box-shadow:none;padding:calc(15.3392 * var(--dp)) calc(27.3392 * var(--dp)) calc(20.6725 * var(--dp));color:#fff;font:400 calc(13.9943 * var(--dp))/1.35 DroidSans,Arial,sans-serif;text-shadow:0 0 calc(2.7479 * var(--dp)) #000000bb;text-align:center;animation:gbtoast-in .4s cubic-bezier(.25,.46,.45,.94)}
 @keyframes gbtoast-in{from{opacity:0}}
 .gbdlg-text{display:flex;flex-direction:column;min-width:0;flex:1}
 .gbdlg-text span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

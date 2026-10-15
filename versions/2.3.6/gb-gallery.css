@@ -60,7 +60,7 @@
 .gbg-popup{position:absolute;bottom:calc(44.9972 * var(--dp));z-index:13;min-width:calc(173.9131 * var(--dp));max-width:calc(100% - calc(9.2754 * var(--dp)));padding:calc(6.0058 * var(--dp)) calc(10.0058 * var(--dp)) calc(14.6667 * var(--dp));border:0 solid transparent;border-image:url('assets/gb-g3-popup.png') 17 22 28 22 fill / calc(11.3392 * var(--dp)) calc(14.6667 * var(--dp)) calc(18.6667 * var(--dp)) calc(14.6667 * var(--dp)) stretch}
 .gbg-popup::after{content:"";position:absolute;bottom:calc(-13.9131 * var(--dp));width:calc(40 * var(--dp));height:calc(28 * var(--dp));background:url('assets/gb-g3-popup_triangle_bottom.png') 0 0/100% 100%}
 .gbg-popup.at-0{left:calc(2.3189 * var(--dp))}.gbg-popup.at-0::after{left:22%}
-.gbg-popup.at-1{left:50%;transform:translateX(-50%)}.gbg-popup.at-1::after{left:calc(50% - calc(19.7102 * var(--dp)))}
+.gbg-popup.at-1{left:0;right:0;width:fit-content;margin-inline:auto}.gbg-popup.at-1::after{left:calc(50% - calc(19.7102 * var(--dp)))}
 .gbg-popup.at-2{right:calc(2.3189 * var(--dp))}.gbg-popup.at-2::after{right:12%}
 .screen .gbg-popup button{display:flex;align-items:center;gap:calc(10.0058 * var(--dp));width:100%;min-height:calc(40 * var(--dp));padding:0 calc(8 * var(--dp));border:0;border-radius:calc(3.4783 * var(--dp));background:none;color:#fff;font-size:calc(16 * var(--dp));text-align:left;white-space:nowrap;cursor:pointer}
 .screen .gbg-popup button:active{background:url('assets/gb-g3-popup_option_selected.png') 0 0/100% 100%}

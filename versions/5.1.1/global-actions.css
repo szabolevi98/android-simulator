@@ -3,7 +3,7 @@
    (dialog_background_material: 2 dp corners) with its elevation shadow, the screen dimmed by backgroundDimAmount 0.6; the
    status and navigation bars sit above the keyguard dialog layer and stay undimmed. */
 .ga-scrim{position:absolute;left:0;right:0;top:var(--ga-top,var(--sb));bottom:var(--ga-bottom,var(--nb));z-index:40;background:#00000099}
-.ga-dialog{position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:min(calc(320 * var(--dp)),85%);max-height:calc(100% - calc(99.3378 * var(--dp)));overflow:hidden;background:#fff;color:#000000de;border-radius:calc(1.9978 * var(--dp));box-shadow:0 calc(11.9978 * var(--dp)) calc(29.8014 * var(--dp)) #00000066;font-family:Roboto,sans-serif}
+.ga-dialog{position:absolute;z-index:41;inset:0;margin:auto;height:fit-content;width:min(calc(320 * var(--dp)),85%);max-height:calc(100% - calc(99.3378 * var(--dp)));overflow:hidden;background:#fff;color:#000000de;border-radius:calc(1.9978 * var(--dp));box-shadow:0 calc(11.9978 * var(--dp)) calc(29.8014 * var(--dp)) #00000066;font-family:Roboto,sans-serif}
 /* global_actions_item.xml (5.1): 64 dp rows with 6 dp vertical and 8 dp start padding; the 32 dp icon centred in a 56 dp
    box (scaleType center, tinted colorControlNormal), 8 dp before the label in textAppearanceLarge (22 sp, textColorPrimary).
    The pressed row is the light ripple colour. */

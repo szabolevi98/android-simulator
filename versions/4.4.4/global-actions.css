@@ -3,7 +3,7 @@
    Theme.Holo.Dialog.Alert: 95% of the portrait width, dialog_full_holo_dark with 8dp of shadow padding, dimmed 0.6
    behind it (the status and navigation bars sit above the keyguard dialog layer and stay undimmed). */
 .ga-scrim{position:absolute;left:0;right:0;top:var(--ga-top,var(--sb));bottom:var(--ga-bottom,var(--nb));z-index:40;background:#00000099}
-.ga-dialog{position:absolute;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:95%;max-height:calc(100% - calc(99.3378 * var(--dp)));overflow:hidden;border:calc(7.9471 * var(--dp)) solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 30 fill/calc(9.9338 * var(--dp)) stretch;color:#f3f3f3;font-family:Roboto,RobotoICS,sans-serif}
+.ga-dialog{position:absolute;z-index:41;inset:0;margin:auto;height:fit-content;width:95%;max-height:calc(100% - calc(99.3378 * var(--dp)));overflow:hidden;border:calc(7.9471 * var(--dp)) solid transparent;border-image:url('assets/ga-dialog_full_holo_dark.png') 30 fill/calc(9.9338 * var(--dp)) stretch;color:#f3f3f3;font-family:Roboto,RobotoICS,sans-serif}
 .ga-list{padding:0 calc(7.9471 * var(--dp));display:flex;flex-direction:column;min-height:calc(63.5762 * var(--dp))}
 .ga-list>*+*{box-shadow:inset 0 calc(1.1038 * var(--dp)) #ffffff26}
 /* global_actions_item.xml: listPreferredItemHeight 64dp, 8dp start padding, a 56dp icon box and 22sp / 14sp text. */

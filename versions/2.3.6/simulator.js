@@ -379,6 +379,18 @@
     const animations = [...ICSTransitions.play(outgoing, spec.exit, factor), ...ICSTransitions.play(incoming, spec.enter, factor)];
     activeTransition = {name, factor, start: performance.now(), layers, animations, timer: setTimeout(endTransition, ICSTransitions.length(spec) * factor + 40)};
   }
+  /* A nine-patch (border-image) under a transform that is not a whole number of device pixels draws with hairline
+     seams at its slice edges, so the resting home page and calculator panel tracks get their percentage offsets rounded
+     to device pixels (the percentage stays, so a resize keeps them in place; the px correction is under one pixel). */
+  function snapResting(root) {
+    const d = window.devicePixelRatio || 1, sel = '.home-pages, .calc-panels';
+    for (const el of root.matches?.(sel) ? [root] : root.querySelectorAll(sel)) {
+      const m = /^translateX\((?:calc\()?(-?[\d.]+)%(?: ([+-]) ([\d.]+)px\))?\)$/.exec(el.style.transform);
+      if (!m) continue;
+      const percent = +m[1], px = m[2] === '-' ? -m[3] : +(m[3] || 0), x = el.getBoundingClientRect().width * percent / 100 + px;
+      el.style.transform = `translateX(calc(${percent}% + ${(px + Math.round(x * d) / d - x).toFixed(4)}px))`;
+    }
+  }
   function render() {
     viewport.querySelectorAll('.home-widget .calw-list').forEach(list => { (ui.widgetScroll ||= {})[list.closest('.home-widget').dataset.widgetId] = list.scrollTop; });
     if(ui.locked)ui.view='lock';
@@ -392,6 +404,7 @@
     else if (ui.view === 'drawer') viewport.innerHTML = renderDrawer();
     else viewport.innerHTML = renderApp();
     if (GBApps.has(ui.view)) GBApps.get(ui.view).mounted?.(gappContext());
+    snapResting(viewport);
     renderOverlay();
     i18n.translateDOM(screen);
     const scene = {view: ui.view, sub: ui.sub}, transit = ui.sleeping ? '' : ICSTransitions.kind(lastScene, scene, pendingNav);
@@ -1303,7 +1316,7 @@
     const track = viewport.querySelector('.calc-panels');
     if (!track) return;
     track.style.transition = '';
-    track.style.transform = `translateX(-${index * 50}%)`;
+    track.style.transform = `translateX(-${index * 50}%)`; snapResting(track);
     track.querySelectorAll('.ics-calc-grid,.gbcalc-pad').forEach((panel, i) => { panel.inert = i !== index; });
   }
   const MUSIC = AndroidStrings.resources(() => window.GBStrings?.music), musicText = key => MUSIC.t(key, i18n.language);
@@ -2417,7 +2430,7 @@
     const track = viewport.querySelector('.home-pages');
     if (!track) return;
     track.style.transition = '';
-    track.style.transform = `translateX(${-ui.page * 100}%)`;
+    track.style.transform = `translateX(${-ui.page * 100}%)`; snapResting(track);
     tweenWallpaperOffset(ui.page / 4);
     if (data.wallpaper !== 99) { screen.style.transition = 'background-position .35s cubic-bezier(.16,1,.3,1)'; screen.style.backgroundPositionX = `${ui.page * 25}%`; }
     track.querySelectorAll('.home-grid').forEach((grid, index) => { grid.inert = index !== ui.page; });
@@ -2728,7 +2741,7 @@
     if (ui.overlay === 'shade' && pointerStart.target.closest('.notification') && Math.abs(dx) > dp(64)) { const id = Number(pointerStart.target.closest('.notification').dataset.id); data.notifications = data.notifications.filter(n => n.id !== id); save(); renderStatus(); renderOverlay(); pointerStart = null; return; }
     pointerStart = null;
   });
-  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });
+  window.addEventListener('pointercancel', () => { clearTimeout(calculatorClearTimer); clearTimeout(messageHoldTimer); const calcTrack = viewport.querySelector('.calc-panels'); if (calcTrack) { calcTrack.style.transition = ''; calcTrack.style.transform = `translateX(-${ui.calcPanel * 50}%)`; snapResting(calcTrack); } clearTimeout(eggTimer); clearTimeout(dragTimer); clearTimeout(homeLongPressTimer); clearTimeout(dragState?.edgeTimer);clearTimeout(dragState?.folderExitTimer);clearTimeout(dragState?.folderHoverTimer);clearFolderDragFeedback();dragState?.ghost.remove(); clearDragOutlines(); dragState = null; screen.classList.remove('dragging', 'page-swiping', 'settings-scrolling', 'lock-dragging'); setHomePage(ui.page); const drawerPage = viewport.querySelector('.drawer-page'); if (drawerPage) drawerPage.style.transform = ''; const lockHandle = viewport.querySelector('.lock-handle'); if (lockHandle) lockHandle.style.removeProperty('--lock-x'); if (pointerStart?.shadeDragging || ui.overlay === 'recent' || ui.overlay === 'shade' || ui.overlay === 'folder') renderOverlay(); pointerStart = null; });
   window.addEventListener('pointercancel',()=>{const photo=viewport.querySelector('.gallery-image');if(photo)photo.style.transform='';});
   window.addEventListener('pointercancel',()=>{const surface=viewport.querySelector('[data-calendar-swipe]');if(surface)surface.style.transform='';});
   document.addEventListener('keydown', event => {
