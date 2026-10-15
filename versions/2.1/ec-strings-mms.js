@@ -903,5 +903,438 @@ EC.strings('mms', {
 "es": "Eliminar mensajes bloqueados",
 "hu": "Zárolt üzenetek törlése",
 "huFrom": "crespo:Mms:delete_unlocked"
+},
+"view": {
+"res": "passion:Mms:view",
+"en": "View",
+"de": "Anzeigen",
+"fr": "Afficher",
+"es": "Ver",
+"hu": "Megtekintés",
+"huFrom": "crespo:Mms:view"
+},
+"replace": {
+"res": "passion:Mms:replace",
+"en": "Replace",
+"de": "Ersetzen",
+"fr": "Remplacer",
+"es": "Sustituir",
+"hu": "Csere",
+"huFrom": "crespo:Mms:replace"
+},
+"remove": {
+"res": "passion:Mms:remove",
+"en": "Remove",
+"de": "Entfernen",
+"fr": "Supprimer",
+"es": "Eliminar",
+"hu": "Törlés",
+"huFrom": "crespo:Mms:remove"
+},
+"play": {
+"res": "passion:Mms:play",
+"en": "Play",
+"de": "Wiedergeben",
+"fr": "Lire",
+"es": "Reproducir",
+"hu": "Lejátszás",
+"huFrom": "crespo:Mms:play"
+},
+"edit": {
+"res": "passion:Mms:edit",
+"en": "Edit",
+"de": "Bearbeiten",
+"fr": "Modifier",
+"es": "Editar",
+"hu": "Szerkesztés",
+"huFrom": "crespo:Mms:edit"
+},
+"select_audio": {
+"res": "passion:Mms:select_audio",
+"en": "Select audio",
+"de": "Audio auswählen",
+"fr": "Sélectionnez un fichier audio",
+"es": "Seleccionar audio",
+"hu": "Hanganyag kiválasztása",
+"huFrom": "crespo:Mms:select_audio"
+},
+"done": {
+"res": "passion:Mms:done",
+"en": "Done",
+"de": "Fertig",
+"fr": "OK",
+"es": "Hecho",
+"hu": "Kész",
+"huFrom": "crespo:Mms:done"
+},
+"add_slide": {
+"res": "passion:Mms:add_slide",
+"en": "Add slide",
+"de": "Dia hinzufügen",
+"fr": "Ajouter une diapositive",
+"es": "Añadir diapositiva",
+"hu": "Dia hozzáadása",
+"huFrom": "crespo:Mms:add_slide"
+},
+"add_slide_hint": {
+"res": "passion:Mms:add_slide_hint",
+"en": "Select to create new slide.",
+"de": "Neues Dia erstellen",
+"fr": "Sélectionner cet élément pour créer une nouvelle diapositive.",
+"es": "Selecciona esta opción para crear una diapositiva nueva.",
+"hu": "Új dia létrehozásához válassza ezt.",
+"huFrom": "crespo:Mms:add_slide_hint"
+},
+"discard_slideshow": {
+"res": "passion:Mms:discard_slideshow",
+"en": "Discard slideshow",
+"de": "Diashow verwerfen",
+"fr": "Supprimer le diaporama",
+"es": "Descartar presentación",
+"hu": "Diavetítés elvetése",
+"huFrom": "crespo:Mms:discard_slideshow"
+},
+"move_up": {
+"res": "passion:Mms:move_up",
+"en": "Move up",
+"de": "Nach oben verschieben",
+"fr": "Déplacer vers le haut",
+"es": "Mover arriba",
+"hu": "Fel",
+"huFrom": "crespo:Mms:move_up"
+},
+"move_down": {
+"res": "passion:Mms:move_down",
+"en": "Move down",
+"de": "Nach unten verschieben",
+"fr": "Déplacer vers le bas",
+"es": "Mover abajo",
+"hu": "Le",
+"huFrom": "crespo:Mms:move_down"
+},
+"remove_slide": {
+"res": "passion:Mms:remove_slide",
+"en": "Remove slide",
+"de": "Dia entfernen",
+"fr": "Supprimer la diapositive",
+"es": "Eliminar diapositiva",
+"hu": "Dia eltávolítása",
+"huFrom": "crespo:Mms:remove_slide"
+},
+"preview": {
+"res": "passion:Mms:preview",
+"en": "Preview",
+"de": "Vorschau",
+"fr": "Aperçu",
+"es": "Vista previa",
+"hu": "Előnézet",
+"huFrom": "crespo:Mms:preview"
+},
+"preview_slideshow": {
+"res": "passion:Mms:preview_slideshow",
+"en": "Preview",
+"de": "Vorschau",
+"fr": "Aperçu",
+"es": "Vista previa",
+"hu": "Előnézet",
+"huFrom": "crespo:Mms:preview_slideshow"
+},
+"replace_image": {
+"res": "passion:Mms:replace_image",
+"en": "Replace picture",
+"de": "Bild ersetzen",
+"fr": "Remplacer l'image",
+"es": "Sustituir imagen",
+"hu": "Kép kicserélése",
+"huFrom": "crespo:Mms:replace_image"
+},
+"remove_text": {
+"res": "passion:Mms:remove_text",
+"en": "Remove text",
+"de": "Text entfernen",
+"fr": "Supprimer le texte",
+"es": "Eliminar texto",
+"hu": "Szöveg törlése",
+"huFrom": "crespo:Mms:remove_text"
+},
+"remove_picture": {
+"res": "passion:Mms:remove_picture",
+"en": "Remove picture",
+"de": "Bild entfernen",
+"fr": "Supprimer l'image",
+"es": "Eliminar imagen",
+"hu": "Kép eltávolítása",
+"huFrom": "crespo:Mms:remove_picture"
+},
+"remove_music": {
+"res": "passion:Mms:remove_music",
+"en": "Remove music",
+"de": "Musik entfernen",
+"fr": "Supprimer la musique",
+"es": "Eliminar música",
+"hu": "Zene eltávolítása",
+"huFrom": "crespo:Mms:remove_music"
+},
+"remove_video": {
+"res": "passion:Mms:remove_video",
+"en": "Remove video",
+"de": "Video entfernen",
+"fr": "Supprimer la vidéo",
+"es": "Eliminar vídeo",
+"hu": "Videó eltávolítása",
+"huFrom": "crespo:Mms:remove_video"
+},
+"add_picture": {
+"res": "passion:Mms:add_picture",
+"en": "Add picture",
+"de": "Bild hinzufügen",
+"fr": "Ajouter une image",
+"es": "Añadir imagen",
+"hu": "Kép hozzáadása",
+"huFrom": "crespo:Mms:add_picture"
+},
+"add_music": {
+"res": "passion:Mms:add_music",
+"en": "Add music",
+"de": "Musik hinzufügen",
+"fr": "Ajouter de la musique",
+"es": "Añadir música",
+"hu": "Zene hozzáadása",
+"huFrom": "crespo:Mms:add_music"
+},
+"add_video": {
+"res": "passion:Mms:add_video",
+"en": "Add video",
+"de": "Video hinzufügen",
+"fr": "Ajouter une vidéo",
+"es": "Añadir vídeo",
+"hu": "Videó hozzáadása",
+"huFrom": "crespo:Mms:add_video"
+},
+"duration_sec": {
+"res": "passion:Mms:duration_sec",
+"en": "Duration (%s sec)",
+"de": "Dauer (%s s)",
+"fr": "Durée (%s s.)",
+"es": "Duración (%s segundos)",
+"hu": "Időtartam (%s mp)",
+"huFrom": "crespo:Mms:duration_sec"
+},
+"layout_top": {
+"res": "passion:Mms:layout_top",
+"en": "Layout (top)",
+"de": "Layout (oben)",
+"fr": "Mise en page (haut)",
+"es": "Diseño (arriba)",
+"hu": "Elrendezés (fent)",
+"huFrom": "crespo:Mms:layout_top"
+},
+"layout_bottom": {
+"res": "passion:Mms:layout_bottom",
+"en": "Layout (bottom)",
+"de": "Layout (unten)",
+"fr": "Mise en page (bas)",
+"es": "Diseño (abajo)",
+"hu": "Elrendezés (lent)",
+"huFrom": "crespo:Mms:layout_bottom"
+},
+"duration_selector_title": {
+"res": "passion:Mms:duration_selector_title",
+"en": "Duration for slide ",
+"de": "Dauer für Dia ",
+"fr": "Durée de la diapositive ",
+"es": "Duración de la diapositiva ",
+"hu": "A dia időtartama ",
+"huFrom": "crespo:Mms:duration_selector_title"
+},
+"type_to_compose_text_or_leave_blank": {
+"res": "passion:Mms:type_to_compose_text_or_leave_blank",
+"en": "Type to compose text, or leave blank",
+"de": "Geben Sie einen Text ein oder lassen Sie das Feld leer.",
+"fr": "Saisissez votre texte ou laissez le champ vide.",
+"es": "Introduce algún texto o deja el campo vacío.",
+"hu": "Kezdje meg a gépelést vagy hagyja üresen",
+"huFrom": "crespo:Mms:type_to_compose_text_or_leave_blank"
+},
+"slide_number": {
+"res": "passion:Mms:slide_number",
+"en": "Slide %s",
+"de": "Dia %s",
+"fr": "Diapositive %s",
+"es": "Diapositiva %s",
+"hu": "%s. dia",
+"huFrom": "crespo:Mms:slide_number"
+},
+"edit_slideshow_activity": {
+"res": "passion:Mms:edit_slideshow_activity",
+"en": "Edit slideshow",
+"de": "Diashow bearbeiten",
+"fr": "Modifier le diaporama",
+"es": "Editar diapositiva",
+"hu": "Diavetítés szerkesztése",
+"huFrom": "crespo:Mms:edit_slideshow_activity"
+},
+"edit_slide_activity": {
+"res": "passion:Mms:edit_slide_activity",
+"en": "Edit slide",
+"de": "Dia bearbeiten",
+"fr": "Modifier la diapositive",
+"es": "Editar diapositiva",
+"hu": "Dia szerkesztése",
+"huFrom": "crespo:Mms:edit_slide_activity"
+},
+"slideshow_activity": {
+"res": "passion:Mms:slideshow_activity",
+"en": "Slideshow",
+"de": "Diashow",
+"fr": "Diaporama",
+"es": "Presentación",
+"hu": "Diavetítés",
+"huFrom": "crespo:Mms:slideshow_activity"
+},
+"select_dialog_items": {
+"res": "passion:Mms:select_dialog_items",
+"en": [
+"1 second",
+"2 seconds",
+"3 seconds",
+"4 seconds",
+"5 seconds",
+"6 seconds",
+"7 seconds",
+"8 seconds",
+"9 seconds",
+"10 seconds",
+"Other…"
+],
+"de": [
+"1 Sekunde",
+"2 Sekunden",
+"3 Sekunden",
+"4 Sekunden",
+"5 Sekunden",
+"6 Sekunden",
+"7 Sekunden",
+"8 Sekunden",
+"9 Sekunden",
+"10 Sekunden",
+"Weitere..."
+],
+"fr": [
+"1 seconde",
+"2 secondes",
+"3 secondes",
+"4 secondes",
+"5 secondes",
+"6 secondes",
+"7 secondes",
+"8 secondes",
+"9 secondes",
+"10 secondes",
+"Plus..."
+],
+"es": [
+"1 segundo",
+"2 segundos",
+"3 segundos",
+"4 segundos",
+"5 segundos",
+"6 segundos",
+"7 segundos",
+"8 segundos",
+"9 segundos",
+"10 segundos",
+"Otra..."
+],
+"hu": [
+"1 másodperc",
+"2 másodperc",
+"3 másodperc",
+"4 másodperc",
+"5 másodperc",
+"6 másodperc",
+"7 másodperc",
+"8 másodperc",
+"9 másodperc",
+"10 másodperc",
+"Egyéb…"
+]
+},
+"view_slideshow": {
+"res": "passion:Mms:view_slideshow",
+"en": "View slideshow",
+"de": "Diashow anzeigen",
+"fr": "Voir le diaporama",
+"es": "Ver presentación",
+"hu": "Diavetítés megtekintése",
+"huFrom": "crespo:Mms:view_slideshow"
+},
+"cannot_add_slide_anymore": {
+"res": "passion:Mms:cannot_add_slide_anymore",
+"en": "Cannot add more slides.",
+"de": "Es können keine weiteren Dias hinzugefügt werden.",
+"fr": "Impossible d'ajouter d'autres diapositives.",
+"es": "No se pueden añadir más diapositivas.",
+"hu": "Nem lehet további diákat hozzáadni.",
+"huFrom": "crespo:Mms:cannot_add_slide_anymore"
+},
+"slide_duration": {
+"res": "passion:Mms:slide_duration",
+"en": {
+"other": "%s secs",
+"one": "%s sec"
+},
+"de": {
+"other": "%s Sek.",
+"one": "%s Sek."
+},
+"fr": {
+"other": "%s s",
+"one": "%s s"
+},
+"es": {
+"other": "%s segundos",
+"one": "%s segundos"
+},
+"hu": {
+"other": "%s mp",
+"one": "%s mp"
+}
+},
+"slide_show_part": {
+"res": "passion:Mms:slide_show_part",
+"en": "Part %1$s/%2$s",
+"de": "Teil %1$s/%2$s",
+"fr": "Partie %1$s/%2$s",
+"es": "Parte %1$s/%2$s",
+"hu": "%2$s/%1$s. rész",
+"huFrom": "crespo:Mms:slide_show_part"
+},
+"select_top_text": {
+"res": "passion:Mms:select_top_text",
+"en": "Text on top",
+"de": "Text oben",
+"fr": "Texte en haut de l'écran",
+"es": "Texto arriba",
+"hu": "A szöveg felül",
+"huFrom": "crespo:Mms:select_top_text"
+},
+"select_bottom_text": {
+"res": "passion:Mms:select_bottom_text",
+"en": "Text on bottom",
+"de": "Text unten",
+"fr": "Texte en bas de l'écran",
+"es": "Texto abajo",
+"hu": "A szöveg alul",
+"huFrom": "crespo:Mms:select_bottom_text"
+},
+"layout_selector_title": {
+"res": "passion:Mms:layout_selector_title",
+"en": "Slideshow layout ",
+"de": "Layout der Diashow ",
+"fr": "Mise en page du diaporama ",
+"es": "Diseño de presentación ",
+"hu": "Diavetítés elrendezése ",
+"huFrom": "crespo:Mms:layout_selector_title"
 }
 });

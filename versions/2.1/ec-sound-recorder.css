@@ -1,0 +1,20 @@
+/* Android 2.1 Sound Recorder (ec-sound-recorder.js): layout-port/main.xml in dp; the VUMeter is 200 x 80 px. */
+.ecsr{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ecsr-div{flex:none;display:block;height:calc(1 * var(--dp));background:url('assets/fw-divider_horizontal_dark.9.png') 0 0/100% 100%}
+.ecsr-panel{position:relative;flex:none;height:calc(242 * var(--dp));background:url('assets/sr-gradient_bg.png') 0 0/100% 100%}
+.ecsr-time{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-size:calc(112 * var(--dp));line-height:1}
+.ecsr-state{position:absolute;left:0;right:0;bottom:calc(50% + 56 * var(--dp));display:flex;align-items:center;justify-content:center;gap:calc(3.333 * var(--dp));font-size:calc(18 * var(--dp))}
+.ecsr-state img{width:calc(12 * var(--dp));height:calc(12 * var(--dp))}
+.ecsr-progress{position:absolute;left:calc(20 * var(--dp));right:calc(20 * var(--dp));bottom:calc(50% + 60 * var(--dp));height:calc(10 * var(--dp));border-radius:calc(5 * var(--dp));background:linear-gradient(#9d9e9d,#5a5d5a 75%,#747674);overflow:hidden}
+.ecsr-progress i{display:block;height:100%;border-radius:calc(5 * var(--dp));background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00)}
+.ecsr-middle{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.ecsr-exit{display:flex;width:100%}
+.ecsr-exit .ecui-button:first-child{margin:0 calc(2 * var(--dp)) 0 calc(15 * var(--dp))}
+.ecsr-exit .ecui-button:last-child{margin:0 calc(15 * var(--dp)) 0 calc(2 * var(--dp))}
+.ecsr-vu{position:relative;width:calc(133.333 * var(--dp));height:calc(53.333 * var(--dp))}
+.ecsr-vu img{display:block;width:100%;height:100%}
+.ecsr-needle{position:absolute;left:calc(50% - 42.667 * var(--dp));top:calc(44.333 * var(--dp));width:calc(42.667 * var(--dp));height:1px;background:#fff;box-shadow:calc(1.333 * var(--dp)) calc(1.333 * var(--dp)) 0 #0000003c;transform-origin:100% 50%}
+.ecsr-pivot{position:absolute;left:calc(50% - 2.333 * var(--dp));top:calc(42 * var(--dp));width:calc(4.667 * var(--dp));height:calc(4.667 * var(--dp));border-radius:50%;background:#fff}
+.ecsr-bar{flex:none;height:calc(60 * var(--dp));display:flex;justify-content:center;padding:calc(4 * var(--dp)) 0;background:url('assets/fw-title_bar.9.png') 0 0/100% 100%}
+.ecsr-btn{position:relative;width:calc(71 * var(--dp));height:100%;border:0;padding:0;background:none;display:flex;align-items:center;justify-content:center}
+.ecsr-btn img{position:relative;z-index:1;width:calc(20 * var(--dp))}

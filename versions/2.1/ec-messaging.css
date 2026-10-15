@@ -51,3 +51,65 @@
 .ecms-hitline img{padding:calc(2 * var(--dp)) calc(5 * var(--dp)) 0 0;width:calc(25 * var(--dp))}
 .ecms-hitsnip{font-size:calc(13 * var(--dp));color:#323232;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ecms-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#000;font-size:calc(18 * var(--dp))}
+/* ec-mms-attach.js. AttachmentEditor (attachment_editor_bg, 5 dp right padding): the picture 150 dp high beside the
+   column of 100 x 50 dp buttons; audio: the icon (10 dp under it) and the names; slideshow: the 240 x 180 dp
+   picture_frame with mms_play_btn, Edit / Send 80 x 50 dp. */
+.ecma{position:relative;flex:none;display:flex;align-items:center;padding-right:calc(5 * var(--dp));color:#fff}
+.ecma>:not(.ec-bg){position:relative;z-index:1}
+.ecma-media{position:relative;flex:1;min-width:0;height:calc(150 * var(--dp));display:flex;align-items:center;justify-content:center}
+.ecma-media img:first-child{max-width:100%;max-height:100%}
+.ecma-overlay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.ecma-btns{flex:none;display:flex;flex-direction:column}
+.ecma-btns .ecma-btn{flex:none;height:calc(50 * var(--dp));min-height:0}
+.ecma-audio{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;font-size:calc(14 * var(--dp))}
+.ecma-audio img{padding-bottom:calc(10 * var(--dp))}
+.ecma-show{flex:1;min-width:0;display:flex;align-items:center;justify-content:center}
+.ecma-showframe{position:relative;width:calc(240 * var(--dp));height:calc(180 * var(--dp))}
+.ecma-showbody{position:relative;z-index:1;display:flex;flex-direction:column;width:100%;height:100%;color:#000;font-size:calc(14 * var(--dp))}
+.ecma-showbody.top{flex-direction:column-reverse}
+.ecma-showimg{flex:1;min-height:0;width:100%;object-fit:contain}
+.ecma-playbtn{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-50%);border:0;padding:0;background:none}
+.ecma-btns.two{justify-content:center}
+/* mms_layout_view in a message row: 7 dp above and below. */
+.ecma-row{position:relative;align-self:flex-start;padding:calc(7 * var(--dp)) 0}
+.ecma-rowpic{position:relative;display:block;max-width:calc(160 * var(--dp))}
+.ecma-rowpic img{position:relative;z-index:1;display:block;max-width:calc(160 * var(--dp));max-height:calc(120 * var(--dp))}
+/* SlideshowActivity: the slide's picture with its text at the bottom or the top. */
+.ecma-slide{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ecma-slide.top{flex-direction:column-reverse}
+.ecma-slidemedia{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.ecma-slidemedia img{max-width:100%;max-height:100%}
+.ecma-slidetext{flex:none;padding:calc(5 * var(--dp));font-size:calc(18 * var(--dp));text-align:center}
+.ecma-playing{display:flex;align-items:center;gap:calc(5 * var(--dp))}
+/* SlideshowEditActivity rows (slideshow_edit_item.xml) and SlideEditorActivity (edit_slide_activity.xml). */
+.ecma-slides{position:absolute;inset:0;overflow-y:auto;background:#000}
+.ecma-srow{position:relative;display:flex;align-items:center;width:100%;min-height:calc(64 * var(--dp));border:0;padding:0;background:none;color:#fff;text-align:left}
+.ecma-srow>:not(.ec-bg){position:relative;z-index:1}
+.ecma-sthumb{flex:none;width:calc(60 * var(--dp));height:calc(60 * var(--dp));padding-left:calc(2 * var(--dp));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ecma-sthumb img{max-width:100%;max-height:100%}
+.ecma-stext{flex:1;min-width:0;display:flex;flex-direction:column}
+.ecma-snum{padding-left:calc(5 * var(--dp));font-size:calc(22 * var(--dp))}
+.ecma-sline{display:flex;font-size:calc(18 * var(--dp));color:#bebebe}
+.ecma-sprev,.ecma-sname{padding:0 calc(5 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ecma-sdur{flex:none;margin-left:auto;padding:0 calc(10 * var(--dp))}
+.ecma-editor{position:absolute;inset:0;display:flex;flex-direction:column;background:#000}
+.ecma-epanel{position:relative;flex:1;min-height:0;display:flex;align-items:center}
+.ecma-epanel>:not(.ec-bg){position:relative;z-index:1}
+.ecma-eleft{flex:1;min-width:0;align-self:stretch;display:flex;flex-direction:column;margin:calc(10 * var(--dp)) calc(20 * var(--dp))}
+.ecma-epic{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.ecma-epic img{position:relative;z-index:1;max-width:100%;max-height:100%}
+.ecma-eaudio{display:flex;align-items:center;gap:calc(4 * var(--dp));color:#000;font-size:calc(14 * var(--dp))}
+.ecma-ectl{flex:none;display:flex;flex-direction:column}
+.ecma-enav{display:flex}
+.ecma-small{flex:none;height:calc(50 * var(--dp));min-height:0;padding:0 calc(8 * var(--dp))}
+.ecma-small img{position:relative;z-index:1}
+.ecma-ebottom{flex:none;display:flex;align-items:flex-end;padding-bottom:calc(2 * var(--dp))}
+.ecma-ebottom .ecwf-edit{flex:1;margin:0}
+.ecma-ebottom .ecwf-input{font-size:calc(15 * var(--dp))}
+.ecma-ebottom .ecma-btn{flex:none}
+.ecma-small img,.ecma-eaudio img,.ecma-playing img,.ecma-rowicon{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.ecma-playbtn img{display:block;width:calc(65.333 * var(--dp));height:calc(65.333 * var(--dp))}
+.ecma-overlay{width:calc(25.333 * var(--dp));height:calc(25.333 * var(--dp))}
+.ecma-audio img{width:calc(48 * var(--dp));height:calc(48 * var(--dp));box-sizing:content-box}
+img.ecma-sthumb{object-fit:none}
+img.ecma-sthumb,.ecma-sthumb>img[src*="ic_launcher"]{width:calc(48 * var(--dp));height:calc(48 * var(--dp))}

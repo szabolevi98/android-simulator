@@ -91,12 +91,13 @@
     return {count, remaining: count * part - units};
   }
   // WorkingMessage: a subject, or text of MmsConfig.getSmsToMmsTextThreshold() (4) messages or more, needs MMS.
-  const needsMms = c => c.ui.smsSubject !== undefined || smsLength(c.ui.smsDraft || '').count >= 4;
+  const needsMms = c => c.ui.smsSubject !== undefined || !!c.ui.smsAttach || smsLength(c.ui.smsDraft || '').count >= 4;
+  EC.mmsNeeds = needsMms;
   const recipient = c => c.ui.smsThread || (() => {
     const raw = (c.ui.smsTo || '').trim(), hit = (c.data.contacts || []).find(p => p.name.toLocaleLowerCase() === raw.toLocaleLowerCase());
     return hit ? hit.phone : raw;
   })();
-  const prepared = c => !!recipient(c) && !!(c.ui.smsDraft || '').trim();
+  const prepared = c => !!recipient(c) && (!!(c.ui.smsDraft || '').trim() || !!c.ui.smsAttach);
 
   // Conversation list ---------------------------------------------------------------------------------------------------------
   function list(c) {
@@ -145,9 +146,10 @@
   function messageHtml(c, m) {
     const mine = m.box !== 1, who = mine ? M().t('messagelist_sender_self') : nameOf(c, m.address), t = stamp(c, when(c, m));
     const [pre, post = ''] = M().t('name_colon').split('%s');
-    const subject = m.subject !== undefined && m.subject !== null && m.mms ? `${esc(M().fmt('inline_subject', c.lang, m.subject))}${m.body ? ' - ' : ''}` : '';
+    // formatMessage: "<Subject: …>" only when there is one (TextUtils.isEmpty).
+    const subject = m.mms && m.subject ? `${esc(M().fmt('inline_subject', c.lang, m.subject))}${m.body ? ' - ' : ''}` : '';
     const icon = m.box === 4 ? 'mm-ic_email_pending.png' : m.locked ? 'mm-ic_lock_message_sms.png' : '';
-    return `<div class="ecms-msg${mine ? '' : ' in'}" data-id="${m.id}"><span class="ecms-body"><span>${esc(pre)}<b>${esc(who)}</b>${esc(post)}${subject}${withSmileys(m.body)}</span><i class="ecms-spacer"></i><small>${esc(mine ? M().fmt('sent_on', c.lang, t) : t)}</small></span>${icon ? `<img class="ecms-status" src="assets/${icon}" alt="">` : ''}</div>`;
+    return `<div class="ecms-msg${mine ? '' : ' in'}" data-id="${m.id}"><span class="ecms-body">${EC.mmsRowView?.(m) || ''}<span>${esc(pre)}<b>${esc(who)}</b>${esc(post)}${subject}${withSmileys(m.body)}</span><i class="ecms-spacer"></i><small>${esc(mine ? M().fmt('sent_on', c.lang, t) : t)}</small></span>${icon ? `<img class="ecms-status" src="assets/${icon}" alt="">` : ''}</div>`;
   }
   function compose(c) {
     const address = c.ui.smsThread, fresh = !address;
@@ -157,8 +159,10 @@
     const to = fresh ? `<div class="ecms-to-wrap">${edit('ecms-to', `data-field="to" placeholder="${esc(M().t('to_hint'))}" value="${esc(c.ui.smsTo || '')}"`)}<div class="ecms-suggest"></div></div>` : '';
     const subject = c.ui.smsSubject !== undefined ? edit('ecms-subj', `maxlength="40" placeholder="${esc(M().t('subject_hint'))}" value="${esc(c.ui.smsSubject)}"`) : '';
     const top = to || subject ? `<div class="ecms-top">${to}${subject}</div>` : '';
-    return `<div class="ecms-compose">${head}${top}<div class="ecms-history">${msgs.map(m => messageHtml(c, m)).join('<i class="ecms-mdiv"></i>')}</div>
-      <div class="ecms-bottom"><span class="ecms-editor"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_selected"></i><textarea class="ecms-text" data-ime="im" rows="1" maxlength="1000" placeholder="${esc(M().t('type_to_compose_text_enter_to_send'))}">${esc(c.ui.smsDraft || '')}</textarea><b class="ecms-counter" hidden></b></span>
+    // A slideshow carries its own text and Send (drawBottomPanel hides the editor).
+    const show = c.ui.smsAttach?.type === 'slideshow';
+    return `<div class="ecms-compose">${head}${top}<div class="ecms-history">${msgs.map(m => messageHtml(c, m)).join('<i class="ecms-mdiv"></i>')}</div>${EC.mmsAttachEditor?.(c) || ''}
+      <div class="ecms-bottom"${show ? ' hidden' : ''}><span class="ecms-editor"><i class="ec-bg np-fw-textfield_default"></i><i class="ec-bg ecwf-focus np-fw-textfield_selected"></i><textarea class="ecms-text" data-ime="im" rows="1" maxlength="1000" placeholder="${esc(M().t('type_to_compose_text_enter_to_send'))}">${esc(c.ui.smsDraft || '')}</textarea><b class="ecms-counter" hidden></b></span>
         <button type="button" class="ecui-button ecms-send" data-action="ecms-send"${prepared(c) ? '' : ' disabled'}><i class="ec-bg np-fw-btn_default_normal"></i><i class="ec-bg ec-pressed np-fw-btn_default_pressed"></i><span>${esc(M().t('send'))}</span></button></div></div>`;
   }
   // updateCounter, updateSendButtonState and the protocol change, as the text changes.
@@ -185,9 +189,9 @@
   function send(c) {
     if (!prepared(c)) return;
     const address = recipient(c), mms = needsMms(c);
-    const m = {id: Date.now(), address, body: (c.ui.smsDraft || '').trim(), box: 4, when: Date.now(), read: true, ...(mms ? {mms: true, subject: c.ui.smsSubject ?? ''} : {})};
+    const m = {id: Date.now(), address, body: (c.ui.smsDraft || '').trim(), box: 4, when: Date.now(), read: true, ...(mms ? {mms: true, subject: c.ui.smsSubject ?? ''} : {}), ...(c.ui.smsAttach ? {attach: c.ui.smsAttach} : {})};
     c.data.sms = [...(c.data.sms || []), m];
-    c.ui.smsThread = address; c.ui.smsDraft = ''; c.ui.smsTo = ''; c.ui.smsSubject = undefined;
+    c.ui.smsThread = address; c.ui.smsDraft = ''; c.ui.smsTo = ''; c.ui.smsSubject = undefined; c.ui.smsAttach = null;
     c.save(); c.render();
     // SmsReceiverService: the message leaves the outbox once the radio has sent it.
     setTimeout(() => { m.box = 2; c.save(); if (c.ui.view === 'messaging') c.render(); }, mms ? 4000 : 1500);
@@ -278,8 +282,8 @@
     action(name, el, event, c) {
       if ((c.suppressClick || 0) > Date.now() && name.startsWith('ecms-')) return true;
       switch (name) {
-        case 'ecms-new': c.ui.smsThread = null; c.ui.smsTo = ''; c.ui.smsSubject = undefined; c.open('messaging', 'compose'); return true;
-        case 'ecms-open': c.ui.smsThread = el.dataset.address; c.ui.smsSubject = undefined; c.open('messaging', 'compose'); return true;
+        case 'ecms-new': c.ui.smsThread = null; c.ui.smsTo = ''; c.ui.smsSubject = undefined; c.ui.smsAttach = null; c.open('messaging', 'compose'); return true;
+        case 'ecms-open': c.ui.smsThread = el.dataset.address; c.ui.smsSubject = undefined; c.ui.smsAttach = null; c.open('messaging', 'compose'); return true;
         case 'ecms-pick': c.ui.smsThread = el.dataset.address; c.ui.smsTo = ''; c.render(); return true;
         case 'ecms-send': send(c); return true;
       }
@@ -300,11 +304,11 @@
       c.menu([...(address ? [{label: M().t('menu_call'), icon: 'fw-ic_menu_call.png', action: () => { c.ui.callNumber = EC.formatNumber?.(address) || address; c.open('incall'); }}] : []),
         ...(p ? [{label: M().t('menu_view_contact'), icon: 'mm-ic_menu_contact.png', action: () => { c.ui.contactId = p.id; c.open('contact-view'); }}] : []),
         ...(c.ui.smsSubject === undefined ? [{label: M().t('add_subject'), icon: 'fw-ic_menu_edit.png', action: () => { const was = needsMms(c); c.ui.smsSubject = ''; c.render(); c.el.viewport.querySelector('.ecms-subj')?.focus(); if (!was) c.toast(M().t('converting_to_picture_message')); }}] : []),
-        {label: M().t('add_attachment'), icon: 'mm-ic_menu_attachment.png', action: () => attach(c)},
+        ...(c.ui.smsAttach ? [] : [{label: M().t('add_attachment'), icon: 'mm-ic_menu_attachment.png', action: () => attach(c)}]),
         ...(prepared(c) ? [{label: M().t('send'), icon: 'fw-ic_menu_send.png', action: () => send(c)}] : []),
         {label: M().t('menu_insert_smiley'), icon: 'fw-ic_menu_emoticons.png', action: () => insertSmiley(c)},
         t?.list.length ? {label: M().t('delete_thread'), icon: 'fw-ic_menu_delete.png', action: () => confirmDelete(c, M().t('confirm_delete_conversation'), t.list, () => { c.ui.sub = ''; })}
-          : {label: M().t('discard'), icon: 'fw-ic_menu_delete.png', action: () => { c.ui.smsDraft = ''; c.ui.smsSubject = undefined; c.back(); }},
+          : {label: M().t('discard'), icon: 'fw-ic_menu_delete.png', action: () => { c.ui.smsDraft = ''; c.ui.smsSubject = undefined; c.ui.smsAttach = null; c.back(); }},
         {label: M().t('all_threads'), icon: 'fw-ic_menu_friendslist.png', action: () => { c.ui.sub = ''; c.render(); }},
         ...(address && !p ? [{label: M().t('menu_add_to_contacts'), icon: 'fw-ic_menu_add.png', action: () => EC.contactPick(c, address)}] : [])]);
       return true;
