@@ -53,14 +53,17 @@ const chrome = spawn(CHROME, ['--headless=new', '--no-sandbox', '--hide-scrollba
 let ws;
 for (let i = 0; i < 160 && !ws; i++) { try { const p = (await (await fetch(`http://127.0.0.1:${port}/json`)).json()).find(t => t.type === 'page'); if (p) ws = new WebSocket(p.webSocketDebuggerUrl); } catch {} if (!ws) await sleep(250); }
 await new Promise(r => ws.onopen = r);
-let id = 0; const pending = {}, errors = [];
+let id = 0; const pending = {}, errors = [], dialogs = [];
 ws.onmessage = m => {
   const d = JSON.parse(m.data);
+  // A page dialog (alert / confirm / beforeunload) would block every later call: accept it and say so.
+  if (d.method === 'Page.javascriptDialogOpening') { dialogs.push(`${d.params.type}: ${d.params.message.slice(0, 60)}`); send('Page.handleJavaScriptDialog', {accept: true}); }
   if (d.method === 'Runtime.exceptionThrown') errors.push(d.params.exceptionDetails.exception?.description?.split('\n')[0] || d.params.exceptionDetails.text);
   if (pending[d.id]) { pending[d.id](d); delete pending[d.id]; }
 };
 const send = (method, params = {}) => new Promise(r => { pending[++id] = r; ws.send(JSON.stringify({id, method, params})); });
-const ev = async expr => { const r = await send('Runtime.evaluate', {expression: expr, awaitPromise: true, returnByValue: true}); return r.result?.result?.value; };
+// Every evaluation gets 20 s: a page that stops answering (a script that never ends) is reported, not waited for.
+const ev = async expr => { const r = await Promise.race([send('Runtime.evaluate', {expression: expr, awaitPromise: true, returnByValue: true}), sleep(20000).then(() => ({timeout: true}))]); if (r.timeout) throw new Error('page not answering'); return r.result?.result?.value; };
 const until = async (expr, ms = 15000) => { for (const end = Date.now() + ms; Date.now() < end; await sleep(150)) if (await ev(expr)) return true; return false; };
 
 await send('Runtime.enable'); await send('Page.enable');
@@ -87,9 +90,11 @@ const TAP = r => `(() => {
   const all = [...document.querySelectorAll('#viewport [data-action], #overlay-root [data-action]')].filter(e => e.getClientRects().length && !skip.test(e.dataset.action) && !e.disabled);
   if (!all.length) return '';
   const el = all[Math.floor(${r} * all.length)];
-  el.click();
+  el.setAttribute('data-layout-tap', '');
   return el.dataset.action + (el.dataset.id ? ':' + el.dataset.id : '');
 })()`;
+// The tap itself, apart from the pick, so a tap that never returns (a page that stops answering) is known by name.
+const CLICK = `(() => { const el = document.querySelector('[data-layout-tap]'); el?.removeAttribute('data-layout-tap'); el?.click(); return true; })()`;
 
 async function fresh() {
   await send('Page.navigate', {url: `${BASE}/versions/${version}/`}); await sleep(200);
@@ -105,6 +110,7 @@ async function fresh() {
 }
 
 const result = {};
+let stuck = '';
 await fresh();
 result.home = await ev(DUMP);
 const apps = only ? only.split(',') : await ev(`(async()=>{const el=document.createElement('button');el.dataset.action='drawer';document.querySelector('#viewport').firstElementChild.append(el);el.click();el.remove();await new Promise(r=>setTimeout(r,500));return [...new Set([...document.querySelectorAll('#viewport [data-app]')].map(e=>e.dataset.app))]})()`);
@@ -117,17 +123,25 @@ for (const app of apps) {
   await ev(`(()=>{const el=document.createElement('button');el.dataset.action='open-app';el.dataset.app=${JSON.stringify(app)};document.querySelector('#viewport').firstElementChild.append(el);el.click();el.remove();return true})()`);
   await sleep(900);
   let name = app;
-  result[name] = await ev(DUMP);
-  for (let i = 0; i < clicks; i++) {
-    const tapped = await ev(TAP(next()));
-    if (!tapped) break;
-    await sleep(700);
-    name += ' > ' + tapped;
+  try {
     result[name] = await ev(DUMP);
+    for (let i = 0; i < clicks; i++) {
+      const tapped = await ev(TAP(next()));
+      if (!tapped) break;
+      name += ' > ' + tapped;
+      await ev(CLICK);
+      await sleep(700);
+      result[name] = await ev(DUMP);
+    }
+  } catch (error) {
+    // The page no longer answers: report the screen and the tap that did it, and stop (the tab cannot be used again).
+    console.log(`\nSTUCK ${name}: ${error.message}`); stuck = name; break;
   }
   process.stdout.write('.');
 }
 fs.writeFileSync(out, JSON.stringify(result));
+if (stuck) process.exitCode = 3;
 console.log(`\n${Object.keys(result).length} screens, ${Object.values(result).reduce((n, s) => n + (s?.length || 0), 0)} boxes -> ${out}`);
+if (dialogs.length) console.log('page dialogs (accepted):', [...new Set(dialogs)].join(' | '));
 if (errors.length) console.log('exceptions:', [...new Set(errors)].slice(0, 5).join(' | '));
 ws.close(); chrome.kill();
