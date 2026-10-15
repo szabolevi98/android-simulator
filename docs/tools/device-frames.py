@@ -75,20 +75,40 @@ TOUCHKEYS = {
     'home': '<path d="M2.5 12.5 12 4.5l9.5 8M6 10.5V19h12v-8.5"/>',
 }
 
-def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False, widen=1.0, glass=None, points=180, soft=1, band=None):
+def superellipse_body(x0, y0, x1, y1, a, b, n, steps=48):
+    # A body measured rather than traced pixel by pixel (Nexus 5X): straight sides and edges, the four corners the
+    # superellipse ((x - cx) / a)^n + ((y - cy) / b)^n = 1 fitted to the reference's corner, in reference coordinates.
+    pts = []
+    for cx, cy, sx, sy in ((x1 - a, y0 + b, 1, -1), (x1 - a, y1 - b, 1, 1), (x0 + a, y1 - b, -1, 1), (x0 + a, y0 + b, -1, -1)):
+        # clockwise from the top edge: top-right, bottom-right, bottom-left, top-left
+        rng = range(steps + 1) if sx * sy > 0 else range(steps, -1, -1)
+        for i in rng:
+            t = i / steps * math.pi / 2
+            c, s = math.cos(t), math.sin(t)
+            pts.append((cx + sx * a * c ** (2 / n), cy + sy * b * s ** (2 / n)))
+    return pts
+
+def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, palette, thr=110, mirror=False, widen=1.0, glass=None, points=180, soft=1, band=None, contour=None):
     sx0, sy0, sx1, sy1 = screen
     scale = css_screen[0] / (sx1 - sx0)
     origin = (body_x[0], body_y[0])
-    pts = outline(ref, body_x, body_y, scale, origin, thr=thr, mirror=mirror)
     w = (body_x[1] - body_x[0]) * scale; h = (body_y[1] - body_y[0]) * scale
+    if contour:
+        # an outline given as reference points (superellipse_body): used as it is, a closed polyline dense enough to be smooth
+        pts = [((x - origin[0]) * scale, (y - origin[1]) * scale) for x, y in contour]
+    else:
+        pts = outline(ref, body_x, body_y, scale, origin, thr=thr, mirror=mirror)
     # widen: a render narrower than the real phone (Nexus S) is stretched about its centre line to the real width;
     # the display window and the features keep their size and move with the centre (dx).
     dx = w * (widen - 1) / 2
     if widen != 1.0:
         pts = [((x - w / 2) * widen + w * widen / 2, y) for x, y in pts]
         w *= widen
-    pts = soften(hull_filter(pts, w / 2, h / 2, points), soft)
-    d = smooth_path(pts)
+    if contour:
+        d = 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in pts) + 'Z'
+    else:
+        pts = soften(hull_filter(pts, w / 2, h / 2, points), soft)
+        d = smooth_path(pts)
     pad = {'left': (sx0 - body_x[0]) * scale + dx, 'top': (sy0 - body_y[0]) * scale, 'right': (body_x[1] - sx1) * scale + dx, 'bottom': (body_y[1] - sy1) * scale}
     m = 6  # margin for side buttons and the rim stroke
     W, H = w + 2 * m, h + 2 * m
@@ -96,6 +116,22 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
     feat = []
     for f in features:
         kind = f[0]
+        if kind == 'frontcam':
+            # Nexus 5X front camera: a dark lens (radius r) in a faintly lighter ring (radius ring) on the glass, with the
+            # small warm reflection low on the right that the press image shows.
+            _, cx, cy, ring, r = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m
+            feat.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{S(ring):.2f}" fill="#ffffff" fill-opacity=".045"/>'
+                        f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{S(r):.2f}" fill="url(#lens)" stroke="#121315" stroke-width=".5"/>'
+                        f'<circle cx="{x + S(r) * .42:.2f}" cy="{y + S(r) * .42:.2f}" r="{S(r) * .26:.2f}" fill="#d9a3a0" fill-opacity=".55"/>')
+            continue
+        if kind == 'meshslot':
+            # Nexus 5X earpiece / loudspeaker: a dark rounded slot with a fine grid of holes and a faint lit lower lip.
+            _, cx, cy, fw, fh = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m; ww, hh = S(fw), S(fh)
+            r = f'x="{x - ww / 2:.2f}" y="{y - hh / 2:.2f}" width="{ww:.2f}" height="{hh:.2f}" rx="{hh / 2:.2f}"'
+            feat.append(f'<rect {r} fill="#17181a"/><rect {r} fill="url(#holes)"/>'
+                        f'<rect {r} fill="none" stroke="#08090a" stroke-width=".6"/>'
+                        f'<path d="M{x - ww / 2 + hh / 2:.2f} {y + hh / 2 + .45:.2f}H{x + ww / 2 - hh / 2:.2f}" stroke="#ffffff" stroke-opacity=".08" stroke-width=".6"/>')
+            continue
         if kind == 'slot':
             _, cx, cy, fw, fh = f; x, y = S(cx - origin[0]) + m + dx, S(cy - origin[1]) + m; ww, hh = S(fw), S(fh)
             feat.append(f'<rect x="{x - ww / 2:.2f}" y="{y - hh / 2:.2f}" width="{ww:.2f}" height="{hh:.2f}" rx="{hh / 2:.2f}" fill="url(#grille)" stroke="#3b3f42" stroke-width=".7"/>')
@@ -193,6 +229,7 @@ def frame(name, ref, body_x, body_y, screen, css_screen, features, buttons, pale
 <linearGradient id="key" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
 <linearGradient id="keyTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#55595c"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
 <linearGradient id="front" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#151617"/><stop offset=".5" stop-color="#050506"/><stop offset="1" stop-color="#0c0d0e"/></linearGradient>
+<pattern id="holes" width="1.25" height="1.25" patternUnits="userSpaceOnUse"><circle cx=".62" cy=".62" r=".36" fill="#050506"/></pattern>
 <pattern id="mesh" width="1.1" height="1.1" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.1" height="1.1" fill="#3c3c3c"/><rect width=".55" height=".55" fill="#232323"/></pattern>
 <linearGradient id="band" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#3a3230"/><stop offset=".45" stop-color="#211c1b"/><stop offset="1" stop-color="#0b0909"/></linearGradient>
 <radialGradient id="ball" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#c2c2c2"/><stop offset=".66" stop-color="#c2c2c2"/><stop offset=".84" stop-color="#acacac"/><stop offset="1" stop-color="#c4c4c4"/></radialGradient>
@@ -304,27 +341,24 @@ if os.path.exists('n1-render.png'):
     {'body': ['#6f6462', '#463e3c', '#5d5351'], 'rim': ['#a0928f', '#2f2928', '#7c706d'], 'rimWidth': 2.0, 'chin': .08},
     mirror=True, glass={'mask': 'n1-glass.png', 'edge': '#2a2524'}, points=720, soft=11, band=n1_band)
   open('device-nexus-one.svg', 'w').write(svg); out['n1'] = info
-# Nexus 5X (LG-H791, bullhead), Carbon: black glass front in a dark body with a grey rim, rounded top and bottom, the long
-# earpiece slot in the top bezel with the front camera far left of it, the loudspeaker slot (with the notification LED)
-# under the display, the power key above the volume rocker on the right edge. Traced from the owner's front photo
-# (n5x-photo.png, 232 x 456 on white, GSMArena's official image; 2026-10-15): upscaled 4x, the alpha is the distance from
-# the white background, and it is stretched by 1.0108 vertically so that its display (804 x 1414 there) is 16:9 like the
-# 1080 x 1920 panel (the body then is 2.035 high to wide; the real 147 x 72.6 mm is 2.025). Keys from the side view of the
-# same GSMArena set: power at 26-34 %, volume 40-56 % of the height. The body box (27-901) leaves the keys out of the
-# outline; its bottom stops where the photo starts to show the phone's bottom edge under the front. The 5.2" panel at 1 dp = 0.833 px is 342.73 x 609.3
+# Nexus 5X (LG-H791, bullhead), Carbon front: black glass in a dark charcoal body with a thin grey rim, straight sides and
+# straight top and bottom edges joined by large rounded corners, the perforated earpiece slot in the top bezel with the front
+# camera far left of it, the same slot (loudspeaker and notification LED) under the display, the power key above the volume
+# rocker on the right edge. Measured on LG's press image (Wikimedia Commons "Nexus 5X (White).jpg", LG Electronics on
+# Flickr, CC BY 2.0; 1160 x 1372, kept as _aosp/bullhead/refs/lg-nexus-5x-white.jpg). The phone there is turned by about
+# 0.1 degrees and its bottom edge shows below the front, so the outline is not traced pixel by pixel but built from
+# measurements (sub-pixel edges where the brightness crosses 160): sides at x 14.2 and 671.0 (656.8 wide), the top edge at
+# y 23.2 and the bottom one 1353.1 (the real 147 x 72.6 mm proportion), and four equal corners, the superellipse
+# a 104, b 100, n 2.5 fitted to both top corners at once (0.26 px rms). Also measured there: the display 599 x 1058 at
+# (43, 155) (the 16:9 window is centred in it, 3.5 px taller at both ends), slots 240 x 20 centred at x 342 (y 78 and
+# 1304), the camera's dark lens 12 px across in a faintly lighter ring 22 px across at (136.5, 78.5), the power key
+# y 372-460 and the volume rocker 553-749, both 6 px proud. The 5.2" panel at 1 dp = 0.833 px is 342.73 x 609.3
 # (411.43 x 731.43 dp), the Nexus 5's 4.95" at 326.25 px wide scaled by 5.2 / 4.95.
-if os.path.exists('n5x-photo.png') or os.path.exists('n5x-render.png'):
-  if not os.path.exists('n5x-render.png'):
-    from PIL import ImageFilter
-    ph = Image.open('n5x-photo.png').convert('RGB'); big = ph.resize((ph.width * 4, ph.height * 4), Image.LANCZOS); bp = big.load()
-    alpha = Image.new('L', big.size, 0); al = alpha.load()
-    for y in range(big.height):
-      for x in range(big.width): al[x, y] = 255 if 255 - min(bp[x, y]) > 60 else 0
-    big.putalpha(alpha.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5)))
-    big.resize((big.width, round(big.height * 804 * 16 / 9 / 1414)), Image.LANCZOS).save('n5x-render.png')
-  svg, info = frame('nexus-5x', 'n5x-render.png', (27, 901), (10, 1796), (62.5, 188, 866.5, 1617.3), (342.73, 609.3),
-    [('slot', 463, 85.9, 308, 20), ('lens', 191, 86.9, 9), ('slot', 463.5, 1731, 311, 21)],
-    [('right', 483, 615, 7), ('right', 734, 1009, 7)],
-    {'body': ['#2b2b2c', '#151516', '#222223'], 'rim': ['#7a7b7d', '#3a3b3c', '#6a6b6d'], 'rimWidth': 3.0, 'chin': .05}, soft=5)
-  open('device-nexus-5x.svg', 'w').write(svg); out['n5x'] = info
+n5x_box = (14.2, 23.2, 671.0, 1353.1)
+svg, info = frame('nexus-5x', None, (n5x_box[0], n5x_box[2]), (n5x_box[1], n5x_box[3]), (43, 151.56, 642, 1216.44), (342.73, 609.3),
+  [('meshslot', 342.6, 78, 240, 20), ('frontcam', 136.5, 78.5, 11, 6), ('meshslot', 342.6, 1304, 240, 20)],
+  [('right', 372, 461, 6), ('right', 553, 750, 6)],
+  {'body': ['#29292b', '#202021', '#18181a'], 'rim': ['#6a6b6d', '#3b3c3d', '#5e5f61'], 'rimWidth': 2.4, 'chin': .05, 'glassInset': 2.2},
+  contour=superellipse_body(*n5x_box, 104, 100, 2.5))
+open('device-nexus-5x.svg', 'w').write(svg); out['n5x'] = info
 print(json.dumps(out, indent=1))

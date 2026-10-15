@@ -28,10 +28,10 @@ html,body{overscroll-behavior-y:none}
 /* As on the other versions' pages: on a narrow phone the back link keeps its arrow only. */
 @media(max-width:420px){.back-link [data-i18n]{display:none}}
 
-/* Nexus 5X front (assets/device-nexus-5x.svg, traced by docs/tools/device-frames.py, 384.57 x 773.34): the 5.2" display
-   window is 342.73 x 609.28 at (21.13, 81.88). */
-.device.n5x{position:relative;width:min(340px,80vw);aspect-ratio:384.57/773.34;background:url('assets/device-nexus-5x.svg?v=2') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000)}
-.device.n5x .screen{position:absolute;top:10.59%;bottom:10.63%;left:5.49%;right:5.39%;overflow:hidden;background:#000;container-type:inline-size}
+/* Nexus 5X front (assets/device-nexus-5x.svg, built by docs/tools/device-frames.py from LG's press image, 387.8 x 772.93):
+   the 5.2" display window is 342.73 x 609.3 at (22.48, 79.44). */
+.device.n5x{position:relative;width:min(340px,80vw);aspect-ratio:387.8/772.93;background:url('assets/device-nexus-5x.svg?v=5') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000)}
+.device.n5x .screen{position:absolute;top:10.28%;bottom:10.89%;left:5.8%;right:5.83%;overflow:hidden;background:#000;container-type:inline-size}
 /* Recovery while an update installs: the robot with its hatch open, the turning icosahedron, "Installing system update…"
    and the progress bar on black. */
 .recovery{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4cqw;color:#fff;font-family:Roboto,Arial,sans-serif}
