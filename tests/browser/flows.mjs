@@ -1,4 +1,4 @@
-// Browser flows for the five versions (audit point 13 B): the page in headless Chrome, as a visitor uses it.
+// Browser flows for the six versions (audit point 13 B): the page in headless Chrome, as a visitor uses it.
 //   start (boot, then the lock screen or the home screen) → unlock → open Settings → Back → hold the power key for the
 //   power menu → Back closes it → switch the language → reload: the language and the save survive, the save reads clean
 //   → the save made old (no revision markers, no clings) upgrades without a problem on two reloads
@@ -16,7 +16,7 @@ const BASE = process.env.BASE || 'http://localhost:8090';
 const CHROME = process.env.CHROME || (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : 'google-chrome');
 const ARTIFACTS = path.join(ROOT, 'tests', 'browser', 'artifacts');
 const picked = process.argv.slice(2).filter(a => /^\d/.test(a));
-const VERSIONS = picked.length ? picked : ['2.3.6', '4.0.4', '4.3', '4.4.4', '5.1.1'];
+const VERSIONS = picked.length ? picked : ['2.1', '2.3.6', '4.0.4', '4.3', '4.4.4', '5.1.1'];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'flows-')), port = 9100 + Math.floor(Math.random() * 600);
@@ -49,9 +49,45 @@ const SAVE = `(()=>{const k=${SAVE_KEY};return k&&JSON.parse(localStorage.getIte
 const key = k => ev(`(document.activeElement || document.body).dispatchEvent(new KeyboardEvent('keydown',{key:${JSON.stringify(k)},bubbles:true}))`);
 const dialogs = () => ev(`document.querySelectorAll('[role=dialog],[role=alertdialog]').length`);
 
+// Android 2.1 is built from its own image with its own modules (ec-*.js): its screens are EC.context's views.
+const EC21 = {home: `EC.context?.ui.view === 'home' && !!document.querySelector('#viewport .eclh')`, lock: `EC.context?.ui.view === 'lock'`};
 async function load(version) {
   await send('Page.navigate', {url: `${BASE}/versions/${version}/`});
+  if (version === '2.1') return until(`(${EC21.home}) || (${EC21.lock})`, 25000);
   return until(`!!document.querySelector('#viewport .home-view, #viewport .lock-view')`, 25000);
+}
+// 2.1: Settings › Wireless & networks › the Bluetooth check box, as a visitor touches them.
+const bluetooth21 = () => ev(`(()=>{const c=EC.context;c.ui.settingsStack=['settings','wireless_settings'];c.render();const row=[...document.querySelectorAll('#viewport .ecpf-row')].find(r=>r.querySelector('.ecpf-title')?.textContent==='Bluetooth');row?.click();return !!row})()`);
+async function flow21(mobile) {
+  const steps = [], check = (name, ok, detail = '') => { steps.push({name, ok, detail}); if (!ok) throw new Error(`${name}${detail ? ': ' + detail : ''}`); };
+  const view = () => ev(`EC.context?.ui.view + '/' + (EC.context?.ui.overlay || '')`);
+  check('boots to the lock or home screen', await load('2.1'), await view());
+  if (await ev(EC21.lock)) { await ev(`EC.context.unlock()`); check('unlocks', await until(EC21.home), await view()); }
+  await ev(`EC.context.open('settings')`);
+  check('opens Settings', await until(`EC.context.ui.view === 'settings' && !!document.querySelector('#viewport .ecwin')`), await view());
+  check('touches Bluetooth', await bluetooth21());
+  const bluetooth = await ev(`${SAVE}?.settings?.bluetooth`);
+  check('a changed setting is saved', typeof bluetooth === 'boolean', String(bluetooth));
+  if (mobile) { check('fits the phone width', await ev(`document.documentElement.scrollWidth <= innerWidth + 1`)); return steps; }
+  await key('Escape'); await sleep(200); await key('Escape');
+  check('Back leaves Settings', await until(`EC.context.ui.view !== 'settings'`), await view());
+  const MENU = `!!document.querySelector('#overlay-root [role=dialog]')`;
+  await ev(`(async()=>{const k=document.querySelector('#power-button');k.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));await new Promise(r=>setTimeout(r,1500));k.dispatchEvent(new PointerEvent('pointerup',{bubbles:true}));})()`);
+  check('holding power opens the power menu', await until(MENU, 4000));
+  await key('Escape');
+  check('Back closes the menu', await until(`!(${MENU})`, 4000));
+  await ev(`(()=>{const s=document.querySelector('#language-select');s.value='hu';s.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  check('switches to Hungarian', await until(`document.documentElement.lang === 'hu'`, 4000));
+  await load('2.1');
+  check('the language survives a reload', await until(`document.documentElement.lang === 'hu' && AndroidI18n.language === 'hu'`, 6000));
+  check('the save reads clean', await ev(`AndroidState.problems.length === 0`), JSON.stringify(await ev(`AndroidState.problems`)));
+  check('the reloaded save carries the change', await ev(`EC.context.data.settings.bluetooth`) === bluetooth);
+  // An older save: without the home screen's revision and the newer apps' fields; the upgrades fill them in.
+  check('there is a save', await ev(`(()=>{const k=${SAVE_KEY};if(!k)return false;const d=JSON.parse(localStorage.getItem(k));delete d.home?.revision;delete d.maps;delete d.accountSync;delete d.youtube;localStorage.setItem(k,JSON.stringify(d));return true;})()`));
+  for (const pass of ['first', 'second']) {
+    check(`an old save upgrades cleanly (${pass} load)`, await load('2.1') && await ev(`AndroidState.problems.length === 0`), JSON.stringify(await ev(`AndroidState.problems`)));
+  }
+  return steps;
 }
 async function flow(version, mobile) {
   const steps = [], check = (name, ok, detail = '') => { steps.push({name, ok, detail}); if (!ok) throw new Error(`${name}${detail ? ': ' + detail : ''}`); };
@@ -59,6 +95,7 @@ async function flow(version, mobile) {
   await send('Emulation.setDeviceMetricsOverride', mobile ? {width: 375, height: 812, deviceScaleFactor: 2, mobile: true} : {width: 1280, height: 900, deviceScaleFactor: 1, mobile: false});
   await send('Page.navigate', {url: `${BASE}/versions/${version}/`}); await sleep(300);
   await ev(`localStorage.clear(); localStorage.setItem('android-time-machine-language', 'en')`);
+  if (version === '2.1') { steps.push(...await flow21(mobile)); return mobile ? steps : finish(steps, check); }
   check('boots to the lock or home screen', await load(version), await view());
   if (/lock-view/.test(await view())) { await act('unlock'); check('unlocks', await until(`!!document.querySelector('#viewport .home-view')`), await view()); }
   await openApp('settings');
@@ -87,6 +124,9 @@ async function flow(version, mobile) {
   for (const pass of ['first', 'second']) {
     check(`an old save upgrades cleanly (${pass} load)`, await load(version) && await ev(`AndroidState.problems.length === 0`), JSON.stringify(await ev(`AndroidState.problems`)));
   }
+  return finish(steps, check);
+}
+async function finish(steps, check) {
   await sleep(500);
   check('no exception', errors.length === 0, errors.join(' | '));
   // PHP's built-in server sometimes refuses a connection under the burst of requests; a file it serves on a second try
@@ -100,7 +140,7 @@ async function flow(version, mobile) {
 }
 
 let failures = 0;
-for (const [version, mobile] of [...VERSIONS.map(v => [v, false]), ...(picked.length ? [] : [['5.1.1', true], ['2.3.6', true]])]) {
+for (const [version, mobile] of [...VERSIONS.map(v => [v, false]), ...(picked.length ? [] : [['5.1.1', true], ['2.3.6', true], ['2.1', true]])]) {
   const name = `${version}${mobile ? ' (phone width)' : ''}`;
   try { const steps = await flow(version, mobile); console.log(`ok   ${name}: ${steps.map(s => s.name).join(', ')}`); }
   catch (error) {

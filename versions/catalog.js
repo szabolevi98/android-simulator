@@ -6,11 +6,10 @@ window.ANDROID_VERSIONS = [
     version: 'Android 2.1',
     year: '2010',
     device: 'Nexus One · Google',
-    description: 'The first Nexus: the trackball, live wallpapers, the 3D app drawer and the Google apps of 2010, rebuilt from the phone’s own system image. Work in progress.',
+    description: 'The first Nexus: the trackball, live wallpapers, the 3D app drawer and the Google apps of 2010, rebuilt from the phone’s own system image.',
     url: 'versions/2.1/',
-    status: 'preview',
-    // The image's own boot animation (bootanimation.zip) until the home screen is built.
-    art: {shot: 'landing-home.jpg?v=1', phone: 'nexusone'}
+    status: 'available',
+    art: {shot: 'landing-home.jpg?v=2', phone: 'nexusone'}
   },
   {
     id: '2.3.6',

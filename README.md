@@ -8,6 +8,7 @@ An interactive browser simulator of classic Android releases, each on its own Ne
 
 | Version | Phone | Store |
 | --- | --- | --- |
+| [Android 2.1 Eclair](docs/features-2.1.md) | Nexus One | Android Market 1.71 |
 | [Android 2.3.6 Gingerbread](docs/visual-audit-2.3.md) | Nexus S | Android Market 2.3.4 |
 | [Android 4.0.4 Ice Cream Sandwich](docs/features-4.0.4.md) | Galaxy Nexus | Google Play Store 3.4.7 |
 | [Android 4.3 Jelly Bean](docs/features-4.3.md) | Nexus 4 | Google Play Store 4.2.3 |
@@ -32,6 +33,7 @@ Then visit `http://127.0.0.1:8090/`. With XAMPP, place the repository in `htdocs
 
 What each version does, screen by screen:
 
+- [Android 2.1 Eclair](docs/features-2.1.md) on the Nexus One, rebuilt from its ERE27 image alone
 - [Android 2.3.6 Gingerbread](docs/visual-audit-2.3.md) on the Nexus S (the audit doubles as its feature list)
 - [Android 4.0.4 Ice Cream Sandwich](docs/features-4.0.4.md) on the Galaxy Nexus
 - [Android 4.3 Jelly Bean](docs/features-4.3.md) on the Nexus 4

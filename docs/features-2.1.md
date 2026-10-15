@@ -1,0 +1,28 @@
+# Android 2.1 Eclair (Nexus One) – features
+
+[← Back to the README](../README.md)
+
+The Nexus One as Google's February 2010 update left it: the factory build ERD79 with the official ERE27 over-the-air update applied (`google/passion/passion/mahimahi:2.1-update1/ERE27/24178`). Everything is rebuilt from that image alone (its APKs, odex code, resources and sounds); nothing is inherited from the other versions, and the code comments name the classes and resources each screen follows ([plan](plan-2.1.md), [sources](sources.md)). The image has no Hungarian: Hungarian is the Nexus S 2.3.6 image's translation of the same English text, or our own where that has none.
+
+## System
+
+- **Status bar and notifications:** the Eclair status bar with its icons, the pull-down shade with ongoing and latest events and Clear, and the trackball's notification light.
+- **Lock screen:** the SlidingTab keyguard (unlock and silent mode), the pattern lock with its tutorial, setup and the wrong-pattern countdown, and the emergency dialer.
+- **Power, recents and volume:** GlobalActions with silent and airplane mode, power off and the shutdown dialog, the boot animation, the recent applications dialog and the volume panel.
+- **Keyboard:** the Android keyboard (LatinIME with voice input) with its own layouts, previews and long-press keys.
+
+## Launcher
+
+- **Launcher2:** five home screens with the default workspace, the Google search widget, the News and Weather and Power Control widgets, and the 3D All apps (the "rollo" drawer, drawn in WebGL).
+- **Home screen editing:** a long press on an empty cell opens Add to Home screen; a long press on an item picks it up to move it, put it in a folder or drop it on the trashcan. The pickers list the image's own shortcuts (Applications, Bookmark, Contact, Direct dial, Direct message, Directions & Navigation, Gmail label, Music playlist, Settings, Toggle Google Voice), widgets (Analog clock, Calendar, Facebook, Music, News and Weather, Picture frame, Power Control, Search, YouTube) and folders (new folders and the live folders).
+- **Wallpapers:** the wallpaper gallery and the live wallpapers of the image: Nexus, Galaxy, Grass, Water, Magic Smoke, Many, Polar clock, Waveform, Spectrum and VU, with their settings.
+
+## Apps
+
+- **Phone and Contacts:** the dialer, call log, contacts and favourites tabs, the in-call screen, contact details, the contact editor, import and export.
+- **Messaging:** conversations, compose, MMS attachments and slideshows, and the messaging settings.
+- **Browser:** windows, bookmarks, most visited and history, find on page and select text, with a small offline web of early 2010 (the Google mobile page, android.com, Wikipedia and a news site).
+- **Gallery 3D, Camera and Music:** the 3D gallery with crop, the camera with its settings, and Music with an empty SD card.
+- **Email, Calendar, Clock, Calculator, Sound Recorder and Car Home.**
+- **Google apps of the image,** with a made-up Google account (eclair.demo@gmail.com) and made-up content: Gmail 1.3, Google Talk 1.3, YouTube 1.5.20, Android Market 1.71, Google Maps 3.4.0 (a drawn city with search, place pages, directions, layers, Latitude, Navigation (Beta) and Street View), Goggles, Google Voice, Amazon MP3, Facebook and News and Weather. Maps took most of its menus from a language file it downloaded; those texts come from screenshots of the time ([docs/data/ec-own.tsv](data/ec-own.tsv)).
+- **Settings:** every screen of the image's Settings: wireless and Wi-Fi, Bluetooth, call settings and mobile networks, sound and display, location and security with credential storage and VPN, applications with Manage applications, running services and battery use, accounts and sync with the Google account, privacy and factory reset, storage, search, language and keyboard, accessibility, text-to-speech, date and time, About phone with the system tutorial.
