@@ -185,6 +185,10 @@
     if (name) { sound = new Audio(`../../assets/audio/${name}.webm`); sound.loop = true; sound.play().catch(() => {}); }
     if (a.vibrate) { navigator.vibrate?.([500, 500]); buzz = setInterval(() => navigator.vibrate?.([500, 500]), 1000); }
     clearTimeout(timeout); timeout = setTimeout(() => stop(c, true), 10 * 60000);
+    // AlarmReceiver: the ongoing notification while it rings (FLAG_SHOW_LIGHTS, ledARGB 0xff00ff00, 500 / 500 ms), which
+    // opens AlarmAlert again.
+    c.notify({icon: 'dc-stat_notify_alarm.png', title: a.label || K().t('default_label'), text: K().t('alarm_notify_text'), ongoing: true, alarmId: a.id, overlay: 'alarm-alert',
+      lights: {color: '#00ff00', on: 500, off: 500}});
     if (c.ui.sleeping) c.wake();
     c.overlay('alarm-alert');
   }
@@ -193,6 +197,8 @@
     clearInterval(buzz); clearTimeout(timeout); navigator.vibrate?.(0);
     const a = ringing; ringing = null;
     if (c.ui.overlay === 'alarm-alert') c.closeOverlay();
+    // ALARM_KILLED: updateNotification puts the silenced one (FLAG_AUTO_CANCEL, no lights) in its place.
+    if (a) for (const n of (c.data.notifications || []).filter(n => n.alarmId === a.id && n.lights)) c.cancelNotification(n.id);
     if (silenced && a) c.notify({icon: 'dc-stat_notify_alarm.png', title: a.label || K().t('default_label'), text: K().fmt('alarm_alert_alert_silenced', c.lang, 10), view: 'clock', sub: 'alarms'});
   }
   function finishAlarm(c, a, snooze) {

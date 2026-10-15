@@ -181,6 +181,18 @@
     fling(d.c, y1, (y1 - y0) / Math.max(0.001, (t1 - t0) / 1000), d.expanded);
   });
 
+  // NotificationManagerService.updateLightsLocked (services.odex): the newest notification with FLAG_SHOW_LIGHTS
+  // ({lights: {color, on, off}}: ledARGB, ledOnMS, ledOffMS) flashes LIGHT_ID_NOTIFICATIONS, LIGHT_FLASH_TIMED, while the
+  // screen is off, no call is going on and Settings' "Pulse notification light" (notification_light_pulse) is on. On
+  // the Nexus One that light is the trackball (lights.mahimahi.so: jogball-backlight color and period).
+  EC.register('led', {
+    app: false, render: () => '',
+    pulse(c) {
+      if (c.data.prefs?.notification_pulse === false || EC.module('incall')?.active?.()) return null;
+      return (c.data.notifications || []).find(n => n.lights)?.lights || null;
+    }
+  });
+
   EC.register('statusbar', {
     init(c) {
       c.notify = n => {
@@ -218,7 +230,7 @@
         if (!n) return true;
         if (!n.ongoing) c.data.notifications = c.data.notifications.filter(x => x !== n);
         c.save(); c.ui.overlay = ''; panelY = 0;
-        if (n.view) c.open(n.view, n.sub || ''); else c.render();
+        if (n.view) c.open(n.view, n.sub || ''); else if (n.overlay) c.overlay(n.overlay); else c.render();
         return true;
       }
       return false;

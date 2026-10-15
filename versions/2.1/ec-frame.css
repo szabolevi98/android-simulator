@@ -36,13 +36,13 @@
 .touch-back{left:64.39px}.touch-menu{left:128.9px}.touch-home{left:190.69px}.touch-search{left:254.51px}
 .touch-keys.lit .touch-key svg{opacity:.9;filter:drop-shadow(0 0 2px #fff8)}
 .touch-key:focus-visible{outline:1px solid #ffffff55;outline-offset:-4px}
-/* The trackball (centre 159.45, 570.92, radius 13.24): pressing it is DPAD_CENTER; it pulses white for notifications
-   while the screen is off. */
+/* The trackball (centre 159.45, 570.92, radius 13.24): pressing it is DPAD_CENTER. While the screen is off it is the
+   notification light: lit in the notification's colour for its on time, dark for the off time (ec-core.js sets
+   --led-color, --led-period and --led-on). */
 #trackball{position:absolute;left:146.21px;top:557.68px;width:26.48px;height:26.48px;border:0;padding:0;border-radius:50%;background:none;cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
 #trackball:active{background:#0000001a}
 #trackball:focus-visible{outline:1px solid #ffffff88;outline-offset:2px}
-#trackball.pulse{animation:ec-trackball 3s ease-in-out infinite}
-@keyframes ec-trackball{0%,55%,100%{box-shadow:none;background:none}20%{box-shadow:0 0 9px 3px #fffc;background:#ffffffd9}}
+#trackball.pulse::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--led-color,#fff);box-shadow:0 0 9px 3px var(--led-color,#fff);opacity:0;animation:ec-trackball var(--led-period,1000ms) linear infinite}
 /* Side keys: the short power key at the left end of the top edge, the volume rocker on the left edge. */
 .power-key{position:absolute;left:51px;top:0;width:26px;height:14px;z-index:2;cursor:pointer}
 .volume-rocker{position:absolute;left:-3px;top:107.8px;width:12px;height:101.8px;z-index:2;cursor:pointer}

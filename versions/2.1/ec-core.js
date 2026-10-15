@@ -165,7 +165,15 @@
     viewport.innerHTML = mod ? mod.render(c) : ui.view === 'home' ? missingHome() : missing(ui.view);
     mod?.mount?.(c, viewport);
     renderOverlay();
-    trackball.classList.toggle('pulse', ui.sleeping && !!modules.led?.pulse?.(c));
+    // The notification light (ec-statusbar.js 'led'): its colour, on and off times.
+    const led = ui.sleeping ? modules.led?.pulse?.(c) : null;
+    trackball.classList.toggle('pulse', !!led);
+    if (led) {
+      const on = +(led.on * 100 / (led.on + led.off)).toFixed(2), sheet = document.getElementById('ec-led') || document.head.appendChild(Object.assign(document.createElement('style'), {id: 'ec-led'}));
+      const rule = `@keyframes ec-trackball{0%,${on - 0.01}%{opacity:.85}${on}%,100%{opacity:0}}`;
+      if (sheet.textContent !== rule) sheet.textContent = rule;
+      trackball.style.setProperty('--led-color', led.color); trackball.style.setProperty('--led-period', `${led.on + led.off}ms`);
+    }
   }
   function renderOverlay() {
     if (!ui.overlay) { overlayRoot.innerHTML = ''; return; }
