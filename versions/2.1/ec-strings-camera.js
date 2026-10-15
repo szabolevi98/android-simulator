@@ -451,5 +451,41 @@ EC.strings('camera', {
 "10 perc",
 "30 perc"
 ]
+},
+"review_cancel": {
+"res": "passion:Camera:review_cancel",
+"en": "CANCEL",
+"de": "ABBRECHEN",
+"fr": "ANNULER",
+"es": "CANCELAR",
+"hu": "MÉGSE",
+"huFrom": "crespo:CameraGoogle:review_cancel"
+},
+"review_retake": {
+"res": "passion:Camera:review_retake",
+"en": "RETAKE",
+"de": "ERNEUT AUFNEHMEN",
+"fr": "AUTRE PHOTO",
+"es": "VOLVER A REALIZAR",
+"hu": "ÚJ FELVÉTEL",
+"huFrom": "crespo:CameraGoogle:review_retake"
+},
+"review_play": {
+"res": "passion:Camera:review_play",
+"en": "PLAY",
+"de": "WIEDERGEBEN",
+"fr": "LIRE",
+"es": "REPRODUCIR",
+"hu": "LEJÁTSZÁS",
+"huFrom": "crespo:CameraGoogle:review_play"
+},
+"review_ok": {
+"res": "passion:Camera:review_ok",
+"en": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar",
+"hu": "OK",
+"huFrom": "crespo:CameraGoogle:review_ok"
 }
 });

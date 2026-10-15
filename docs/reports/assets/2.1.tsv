@@ -91,10 +91,17 @@ versions/2.1/assets/cm-bg_camera_pattern.png	f5e43e834057332e	copy	passion:/syst
 versions/2.1/assets/cm-border_last_picture_normal.9.png	d2f23b41f19ee510	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/border_last_picture_normal.9.png	drawable-hdpi		d2f23b41f19ee510
 versions/2.1/assets/cm-border_last_picture_pressed.9.png	7e815b26b142112e	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/border_last_picture_pressed.9.png	drawable-hdpi		7e815b26b142112e
 versions/2.1/assets/cm-border_view_finder.9.png	a51e683c83665d44	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/border_view_finder.9.png	drawable-hdpi		a51e683c83665d44
+versions/2.1/assets/cm-btn_camera_review_normal.9.png	7a712d6d95461c69	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_camera_review_normal.9.png	drawable-hdpi		7a712d6d95461c69
+versions/2.1/assets/cm-btn_camera_review_pressed.9.png	9784365fea9dc258	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_camera_review_pressed.9.png	drawable-hdpi		9784365fea9dc258
 versions/2.1/assets/cm-btn_gripper.png	cbfa4ada21d5351f	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_gripper.png	drawable-hdpi		cbfa4ada21d5351f
 versions/2.1/assets/cm-btn_ic_camera_shutter.png	1ccd8bbe1096fab8	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_camera_shutter.png	drawable-hdpi		1ccd8bbe1096fab8
 versions/2.1/assets/cm-btn_ic_mode_switch_camera.png	2646784ff8a8675d	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_mode_switch_camera.png	drawable-hdpi		2646784ff8a8675d
 versions/2.1/assets/cm-btn_ic_mode_switch_video.png	5462e6eeb97d35cd	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_mode_switch_video.png	drawable-hdpi		5462e6eeb97d35cd
+versions/2.1/assets/cm-btn_ic_review_cancel.png	0824d6199ef53631	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_review_cancel.png	drawable-hdpi		0824d6199ef53631
+versions/2.1/assets/cm-btn_ic_review_done.png	ed683081f3768623	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_review_done.png	drawable-hdpi		ed683081f3768623
+versions/2.1/assets/cm-btn_ic_review_play.png	b44492f73e2b7756	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_review_play.png	drawable-hdpi		b44492f73e2b7756
+versions/2.1/assets/cm-btn_ic_review_retake_photo.png	b718eba60c301f24	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_review_retake_photo.png	drawable-hdpi		b718eba60c301f24
+versions/2.1/assets/cm-btn_ic_review_retake_video.png	06b9c2384369da19	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_review_retake_video.png	drawable-hdpi		06b9c2384369da19
 versions/2.1/assets/cm-btn_ic_video_record.png	dada91aad156e1b1	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_video_record.png	drawable-hdpi		dada91aad156e1b1
 versions/2.1/assets/cm-btn_ic_video_record_stop.png	081cb1cce7861a0b	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_ic_video_record_stop.png	drawable-hdpi		081cb1cce7861a0b
 versions/2.1/assets/cm-btn_mode_switch_bg.9.png	27d6413fa0370fcc	copy	passion:/system/app/Camera.apk!res/drawable-hdpi/btn_mode_switch_bg.9.png	drawable-hdpi		27d6413fa0370fcc
@@ -514,6 +521,8 @@ versions/2.1/assets/ga-btn_hud_zoom_in_normal.png	e7eb91e6aee05a52	copy	passion:
 versions/2.1/assets/ga-btn_hud_zoom_in_pressed.png	9b1a1233a18b5d72	copy	passion:/system/app/Gallery3D.apk!res/drawable-hdpi/btn_hud_zoom_in_pressed.png	drawable-hdpi		9b1a1233a18b5d72
 versions/2.1/assets/ga-btn_hud_zoom_out_normal.png	ac314fb1d9bfd60c	copy	passion:/system/app/Gallery3D.apk!res/drawable-hdpi/btn_hud_zoom_out_normal.png	drawable-hdpi		ac314fb1d9bfd60c
 versions/2.1/assets/ga-btn_hud_zoom_out_pressed.png	76fca9c884a12676	copy	passion:/system/app/Gallery3D.apk!res/drawable-hdpi/btn_hud_zoom_out_pressed.png	drawable-hdpi		76fca9c884a12676
+versions/2.1/assets/ga-camera_crop_height.png	cd0057f384fd0a90	copy	passion:/system/app/Gallery3D.apk!res/drawable/camera_crop_height.png	drawable		cd0057f384fd0a90
+versions/2.1/assets/ga-camera_crop_width.png	e4b0b4ba4d0e56ec	copy	passion:/system/app/Gallery3D.apk!res/drawable/camera_crop_width.png	drawable		e4b0b4ba4d0e56ec
 versions/2.1/assets/ga-default_background.png	8515467f64fb8d7b	copy	passion:/system/app/Gallery3D.apk!res/drawable/default_background.png	drawable		8515467f64fb8d7b
 versions/2.1/assets/ga-fullscreen_hud_bg.png	2af8ff4238faf415	copy	passion:/system/app/Gallery3D.apk!res/drawable/fullscreen_hud_bg.png	drawable		2af8ff4238faf415
 versions/2.1/assets/ga-icon_camera_small.png	5b4d5a84fa655ff9	copy	passion:/system/app/Gallery3D.apk!res/drawable-hdpi/icon_camera_small.png	drawable-hdpi		5b4d5a84fa655ff9

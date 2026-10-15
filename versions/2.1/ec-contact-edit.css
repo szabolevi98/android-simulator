@@ -73,3 +73,4 @@
 .ecio-hbar{height:calc(10 * var(--dp));margin:calc(5 * var(--dp)) 0 calc(6 * var(--dp));border-radius:calc(5 * var(--dp));background:linear-gradient(#9d9e9d,#5a5d5a 75%,#747674);overflow:hidden}
 .ecio-hbar i{display:block;height:100%;border-radius:calc(5 * var(--dp));background:linear-gradient(#ffd300,#ffb600 75%,#ffcb00)}
 .ecio-nums{display:flex;gap:calc(40 * var(--dp))}
+.ecce-photo-img{position:relative;z-index:1;width:calc(64 * var(--dp));height:calc(64 * var(--dp));background-repeat:no-repeat}

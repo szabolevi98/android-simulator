@@ -638,6 +638,15 @@ cm-ic_camera_sym_gps.png	app/Camera.apk	drawable/ic_camera_sym_gps
 cm-focus_focusing.9.png	app/Camera.apk	drawable/focus_focusing
 cm-focus_focused.9.png	app/Camera.apk	drawable/focus_focused
 cm-focus_focus_failed.9.png	app/Camera.apk	drawable/focus_focus_failed
+cm-btn_ic_review_cancel.png	app/Camera.apk	drawable/btn_ic_review_cancel
+cm-btn_ic_review_retake_photo.png	app/Camera.apk	drawable/btn_ic_review_retake_photo
+cm-btn_ic_review_retake_video.png	app/Camera.apk	drawable/btn_ic_review_retake_video
+cm-btn_ic_review_play.png	app/Camera.apk	drawable/btn_ic_review_play
+cm-btn_ic_review_done.png	app/Camera.apk	drawable/btn_ic_review_done
+cm-btn_camera_review_normal.9.png	app/Camera.apk	drawable/btn_camera_review_normal
+cm-btn_camera_review_pressed.9.png	app/Camera.apk	drawable/btn_camera_review_pressed
+ga-camera_crop_width.png	app/Gallery3D.apk	drawable/camera_crop_width
+ga-camera_crop_height.png	app/Gallery3D.apk	drawable/camera_crop_height
 # Gallery3D.apk (its GL textures)
 ga-pathbar_bg.png	app/Gallery3D.apk	drawable/pathbar_bg
 ga-pathbar_cap.png	app/Gallery3D.apk	drawable/pathbar_cap

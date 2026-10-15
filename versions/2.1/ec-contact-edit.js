@@ -95,7 +95,13 @@
     if (phone && !LEGACY_PHONE.includes(phone.type)) p.phoneType = 3;
     p.email = email ? email.value : '';
   }
-  EC.contactModel = {KINDS, raws, displayName, typeLabel, apply};
+  // A contact's photo (the first raw contact's that has one; ContactsProvider's photo_id) as CSS: the picture, cropped.
+  function photoCss(photo) {
+    const {x = 0, y = 0, w = 1, h = 1} = photo.crop || {};
+    return `background-image:url('${EC.media.url(photo, 160)}');background-size:${100 / w}% ${100 / h}%;background-position:${w < 1 ? x / (1 - w) * 100 : 0}% ${h < 1 ? y / (1 - h) * 100 : 0}%`;
+  }
+  const photoOf = p => p && raws(p).find(r => r.photo)?.photo;
+  EC.contactModel = {KINDS, raws, displayName, typeLabel, apply, photoCss, photoOf};
 
   // EntityModifier.insertChild: getBestValidType, the first type no row uses yet (else the last one).
   function bestType(kind, rows) {
@@ -147,7 +153,7 @@
   function contactEditor(c, ri, raw) {
     const more = c.ui.ce.more;
     return `<div class="ecce-raw"><div class="ecce-header"><i class="ecce-bar"></i><img class="ecce-hicon" src="assets/ct-ic_launcher_contacts.png" alt=""><span class="ecce-account">${esc(T().fmt('account_type_format', c.lang, t('account_phone')))}</span><i class="ecpf-divider ecce-hdiv"></i></div>
-      <div class="ecce-photo-row"><button type="button" class="ecce-photo npp-ct-contact_picture_border_normal" data-action="ecce-photo"><i class="ec-bg np-ct-contact_picture_border_normal"></i><i class="ec-bg ec-pressed np-ct-contact_picture_border_pressed"></i><img src="assets/ct-ic_menu_add_picture.png" alt=""></button></div>
+      <div class="ecce-photo-row"><button type="button" class="ecce-photo npp-ct-contact_picture_border_normal" data-action="ecce-photo" data-key="${ri}"><i class="ec-bg np-ct-contact_picture_border_normal"></i><i class="ec-bg ec-pressed np-ct-contact_picture_border_pressed"></i>${raw.photo ? `<span class="ecce-photo-img" style="${photoCss(raw.photo)}"></span>` : '<img src="assets/ct-ic_menu_add_picture.png" alt="">'}</button></div>
       ${nameEditor(c, ri, raw)}
       ${KINDS.filter(k => !k.secondary).map(k => section(c, ri, raw, k)).join('')}
       <i class="ecpf-divider"></i><button type="button" class="ecce-more-head" data-action="ecce-secondary"><img src="assets/fw-expander_ic_${more ? 'maximized' : 'minimized'}.9.png" alt=""><span>${esc(t('edit_secondary_collapse'))}</span></button>
@@ -181,8 +187,9 @@
     return list.map(r => {
       const out = {name: Object.fromEntries(Object.entries(r.name || {}).filter(([, v]) => String(v ?? '').trim()))};
       for (const kind of KINDS) { const rows = (r[kind.id] || []).filter(filled); if (rows.length) out[kind.id] = rows; }
+      if (r.photo) out.photo = r.photo;
       return out;
-    }).filter(r => Object.keys(r.name).length || KINDS.some(k => r[k.id]));
+    }).filter(r => Object.keys(r.name).length || r.photo || KINDS.some(k => r[k.id]));
   }
   // Returns the saved contact (or null when there was nothing to keep). Saving for Join says nothing (SAVE_MODE_JOIN).
   function persist(c, quiet = false) {
@@ -272,7 +279,15 @@
         case 'ecce-delete': ce.raws[Number(ri)][kindId].splice(Number(i), 1); c.render(); break;
         case 'ecce-more': ce.open[el.dataset.key] = true; c.render(); break;
         case 'ecce-label': labelDialog(c, el.dataset.key); break;
-        case 'ecce-photo': c.open('gallery-pick'); break;
+        case 'ecce-photo': {
+          // PhotoListener.onRequest: no photo yet → the picture picker with a 1:1 crop (getPhotoPickIntent); with one,
+          // createPhotoDialog: Use this photo, Remove icon, Change icon.
+          const raw = ce.raws[Number(ri)], pick = () => EC.galleryPick(c, {crop: true, onPick: p => { raw.photo = {seed: p.seed, effect: p.effect, wb: p.wb, crop: p.crop}; c.render(); }});
+          if (!raw.photo) { pick(); break; }
+          const items = [() => { ce.primaryPhoto = Number(ri); }, () => { delete raw.photo; c.render(); }, pick];
+          c.dialog({title: t('attachToContact'), icon: null, rows: 'simple', items: [t('use_photo_as_primary'), t('removePicture'), t('changePicture')], onItem: i => setTimeout(items[i], 0)});
+          break;
+        }
       }
       return true;
     },

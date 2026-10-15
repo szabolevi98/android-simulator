@@ -35,3 +35,11 @@
 .eccm-mrow.sub .t1{flex:1}
 .eccm-mrow.sub img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
 .eccm-mrow.sub .radio{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+/* attach_camera_control.xml: ReviewControlGroup (15 dp apart), ReviewControlIcon on btn_camera_review (99 x 70 px) with
+   the 54 px icon in its middle, ReviewControlText 12 sp under it. */
+.eccm-attach{justify-content:space-between}
+.eccm-review-top{display:flex;flex-direction:column;align-items:center}
+.eccm-review{display:flex;flex-direction:column;align-items:center;margin-bottom:calc(15 * var(--dp));border:0;padding:0;background:none;color:#fff;font-size:calc(12 * var(--dp))}
+.eccm-attach>.eccm-review{margin-bottom:0}
+.eccm-review-icon{position:relative;display:flex;align-items:center;justify-content:center;width:calc(66 * var(--dp));height:calc(46.6667 * var(--dp))}
+.eccm-review-icon img{position:relative;z-index:1;width:calc(36 * var(--dp));height:calc(36 * var(--dp))}

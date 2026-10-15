@@ -153,5 +153,23 @@ EC.strings('gallery', {
 "es": "No hay ningún elemento en tu colección.",
 "hu": "Nincsenek elemek a gyűjteményében",
 "huFrom": "crespo:Gallery3DGoogle:no_items"
+},
+"crop_save_text": {
+"res": "passion:Gallery3D:crop_save_text",
+"en": "Save",
+"de": "Speichern",
+"fr": "Enregistrer",
+"es": "Guardar",
+"hu": "Mentés",
+"huFrom": "crespo:Gallery3DGoogle:crop_save_text"
+},
+"crop_discard_text": {
+"res": "passion:Gallery3D:crop_discard_text",
+"en": "Discard",
+"de": "Verwerfen",
+"fr": "Annuler",
+"es": "Descartar",
+"hu": "Elvetés",
+"huFrom": "crespo:Gallery3DGoogle:crop_discard_text"
 }
 });

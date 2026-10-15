@@ -433,6 +433,42 @@ EC.strings('contactedit', {
 "hu": "A névjegy törlésével több fiókból is töröl adatokat.",
 "huFrom": "crespo:Contacts:multipleContactDeleteConfirmation"
 },
+"attachToContact": {
+"res": "passion:Contacts:attachToContact",
+"en": "Contact icon",
+"de": "Kontaktsymbol",
+"fr": "Icône de contact",
+"es": "Icono de contacto",
+"hu": "Névjegyikon",
+"huFrom": "crespo:Contacts:attachToContact"
+},
+"use_photo_as_primary": {
+"res": "passion:Contacts:use_photo_as_primary",
+"en": "Use this photo",
+"de": "Dieses Foto verwenden",
+"fr": "Utiliser cette photo",
+"es": "Utilizar esta foto",
+"hu": "Fotó felhasználása",
+"huFrom": "crespo:Contacts:use_photo_as_primary"
+},
+"removePicture": {
+"res": "passion:Contacts:removePicture",
+"en": "Remove icon",
+"de": "Symbol entfernen",
+"fr": "Supprimer l'icône",
+"es": "Eliminar icono",
+"hu": "Ikon eltávolítása",
+"huFrom": "crespo:Contacts:removePicture"
+},
+"changePicture": {
+"res": "passion:Contacts:changePicture",
+"en": "Change icon",
+"de": "Symbol ändern",
+"fr": "Changer d'icône",
+"es": "Cambiar icono",
+"hu": "Ikon megváltoztatása",
+"huFrom": "crespo:Contacts:changePicture"
+},
 "framework/phoneTypeCustom": {
 "res": "passion:framework:phoneTypeCustom",
 "en": "Custom",

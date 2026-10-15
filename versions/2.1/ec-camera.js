@@ -12,6 +12,11 @@
      "Camera settings" over camera_preferences.xml's rows that the Nexus One's camera offers (Flash mode, White
      balance, Color effect, Store location, Picture size, Picture quality, Focus mode; no Scene mode), each opening its
      entries with radio buttons. Menu: Gallery, Settings.
+   - IMAGE_CAPTURE / VIDEO_CAPTURE (EC.cameraCapture, e.g. Messaging's Capture picture / video): attach_camera_control.xml
+     instead of the control bar: CANCEL at the top, the shutter at the bottom; once taken the picture stays on the
+     preview, RETAKE (and PLAY for a video) join CANCEL and OK takes the shutter's place (ReviewControlIcon:
+     btn_camera_review with the icon, ReviewControlText 12 sp under it). A captured picture goes back to the caller
+     only (Mms gives an EXTRA_OUTPUT); a video is saved like any other.
    What the camera sees is the simulator's drawn scene (ec-media.js). */
 (() => {
   'use strict';
@@ -33,6 +38,15 @@
   const entries = (p, c) => { const list = C().t(p[2]); return p[0] === 'size' ? [list[0], ...list.slice(2)] : list; };
   let frame = 0, focus = '', recording = null, video = false;
 
+  // Capture mode: c.ui.capture = {video, onDone(item), taken}.
+  const review = (action, icon, label) => `<button type="button" class="eccm-review" data-action="${action}"><span class="eccm-review-icon"><i class="ec-bg np-cm-btn_camera_review_normal"></i><i class="ec-bg ec-pressed np-cm-btn_camera_review_pressed"></i><img src="assets/cm-${icon}.png" alt=""></span><span>${esc(C().t(label))}</span></button>`;
+  function captureControl(c) {
+    const cap = c.ui.capture, taken = cap.taken;
+    return `<div class="eccm-control eccm-attach"><div class="eccm-review-top">${review('eccm-cap-cancel', 'btn_ic_review_cancel', 'review_cancel')}
+        ${taken ? review('eccm-cap-retake', cap.video ? 'btn_ic_review_retake_video' : 'btn_ic_review_retake_photo', 'review_retake') : ''}${taken && cap.video ? review('eccm-cap-play', 'btn_ic_review_play', 'review_play') : ''}</div>
+      ${taken ? review('eccm-cap-ok', 'btn_ic_review_done', 'review_ok') : `<button type="button" class="eccm-shutter" data-action="eccm-shutter"><img class="bg" src="assets/cm-btn_shutter_normal.png" alt=""><img class="bg pressed" src="assets/cm-btn_shutter_pressed.png" alt=""><img class="ic" src="assets/cm-${video ? (recording ? 'btn_ic_video_record_stop' : 'btn_ic_video_record') : 'btn_ic_camera_shutter'}.png" alt=""></button>`}</div>`;
+  }
+  EC.cameraCapture = (c, {video: v = false, onDone}) => { c.ui.capture = {video: v, onDone, taken: null}; video = v; c.ui.cameraMenu = null; c.open('camera'); };
   function render(c) {
     const s = prefs(c), last = (c.data.photos || []).at(-1);
     const icons = PREFS.filter(p => p[4]).map(p => p[4][p[3].indexOf(s[p[0]])]).filter(Boolean);
@@ -43,10 +57,10 @@
           <div class="eccm-indicators">${icons.map(i => `<img src="assets/cm-${i}.png" alt="">`).join('')}</div>
           ${focus ? `<i class="eccm-focus np-cm-${focus}"></i>` : ''}
           ${recording ? `<div class="eccm-rec"><img src="assets/cm-ic_recording_indicator.png" alt=""><span>${esc(clock(Date.now() - recording))}</span></div>` : ''}</div></div>
-      <div class="eccm-control">
+      ${c.ui.capture ? captureControl(c) : `<div class="eccm-control">
         <button type="button" class="eccm-thumb npp-cm-border_last_picture_normal" data-action="eccm-review"${last ? '' : ' disabled'}><i class="ec-bg np-cm-border_last_picture_normal"></i><i class="ec-bg ec-pressed np-cm-border_last_picture_pressed"></i>${last ? `<img src="${EC.media.url(last, 120)}" alt="">` : ''}</button>
         <div class="eccm-switch-set"><img src="assets/cm-btn_ic_mode_switch_video.png" alt=""><button type="button" class="eccm-switch" data-action="eccm-switch"><i class="ec-bg np-cm-btn_mode_switch_bg"></i><img class="eccm-knob${video ? ' up' : ''}" src="assets/cm-btn_mode_switch_knob_normal.png" alt=""></button><img src="assets/cm-btn_ic_mode_switch_camera.png" alt=""></div>
-        <button type="button" class="eccm-shutter" data-action="eccm-shutter"><img class="bg" src="assets/cm-btn_shutter_normal.png" alt=""><img class="bg pressed" src="assets/cm-btn_shutter_pressed.png" alt=""><img class="ic" src="assets/cm-${video ? (recording ? 'btn_ic_video_record_stop' : 'btn_ic_video_record') : 'btn_ic_camera_shutter'}.png" alt=""></button></div>
+        <button type="button" class="eccm-shutter" data-action="eccm-shutter"><img class="bg" src="assets/cm-btn_shutter_normal.png" alt=""><img class="bg pressed" src="assets/cm-btn_shutter_pressed.png" alt=""><img class="ic" src="assets/cm-${video ? (recording ? 'btn_ic_video_record_stop' : 'btn_ic_video_record') : 'btn_ic_camera_shutter'}.png" alt=""></button></div>`}
       ${menu}</div></div>`;
   }
   const clock = ms => { const s = Math.floor(ms / 1000); return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; };
@@ -65,7 +79,9 @@
     cancelAnimationFrame(frame);
     const cv = c.el.viewport.querySelector('.eccm-preview');
     if (!cv) return;
-    const s = prefs(c);
+    const s = prefs(c), taken = c.ui.capture?.taken;
+    // A taken picture stays on the preview.
+    if (taken) { EC.media.draw(cv, {seed: taken.seed, effect: taken.effect, wb: taken.wb, t: 0}); return; }
     const step = t => {
       if (!cv.isConnected) return;
       EC.media.draw(cv, {seed: c.ui.cameraSeed, effect: s.effect, wb: s.wb, t});
@@ -75,7 +91,11 @@
   }
   function shoot(c) {
     if (video) {
-      if (recording) { const id = Date.now(); c.data.photos = [...(c.data.photos || []), {id, seed: c.ui.cameraSeed, effect: prefs(c).effect, wb: prefs(c).wb, video: Math.round((Date.now() - recording) / 1000)}]; recording = null; c.save(); }
+      if (recording) {
+        const item = {id: Date.now(), seed: c.ui.cameraSeed, effect: prefs(c).effect, wb: prefs(c).wb, video: Math.round((Date.now() - recording) / 1000), when: Date.now()};
+        c.data.photos = [...(c.data.photos || []), item]; recording = null; c.save();
+        if (c.ui.capture) c.ui.capture.taken = item;
+      }
       else recording = Date.now();
       c.render(); return;
     }
@@ -84,8 +104,8 @@
     setTimeout(() => {
       focus = 'focus_focused'; c.render();
       setTimeout(() => {
-        const s = prefs(c);
-        c.data.photos = [...(c.data.photos || []), {id: Date.now(), seed: c.ui.cameraSeed, effect: s.effect, wb: s.wb, size: s.size, when: Date.now()}];
+        const s = prefs(c), item = {id: Date.now(), seed: c.ui.cameraSeed, effect: s.effect, wb: s.wb, size: s.size, when: Date.now()};
+        if (c.ui.capture) c.ui.capture.taken = item; else c.data.photos = [...(c.data.photos || []), item];
         c.ui.cameraSeed = (c.ui.cameraSeed * 7 + 13) % 99991 + 1;   // the next view
         focus = ''; c.save(); c.render();
       }, 350);
@@ -104,6 +124,10 @@
     action(name, el, event, c) {
       switch (name) {
         case 'eccm-shutter': shoot(c); return true;
+        case 'eccm-cap-cancel': c.back(); return true;
+        case 'eccm-cap-retake': c.ui.capture.taken = null; c.render(); return true;
+        case 'eccm-cap-play': { const i = (c.data.photos || []).indexOf(c.ui.capture.taken); if (i >= 0) { c.ui.galleryOpen = i; c.ui.galleryMenu = false; c.open('gallery', 'photo'); } return true; }
+        case 'eccm-cap-ok': { const {onDone, taken} = c.ui.capture; c.back(); onDone?.(taken); return true; }
         case 'eccm-switch': if (!recording) { video = !video; c.render(); } return true;
         case 'eccm-review': c.ui.galleryOpen = (c.data.photos || []).length - 1; c.ui.galleryMenu = false; c.open('gallery', 'photo'); return true;
         case 'eccm-menu': c.ui.cameraMenu = c.ui.cameraMenu ? null : true; c.render(); return true;
@@ -120,6 +144,7 @@
     back(c) {
       if (c.ui.cameraMenu) { c.ui.cameraMenu = c.ui.cameraMenu === true ? null : true; c.render(); return true; }
       cancelAnimationFrame(frame); recording = null; focus = '';
+      if (c.ui.capture) { c.ui.capture = null; video = false; }
       return false;
     }
   });

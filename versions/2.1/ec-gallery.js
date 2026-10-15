@@ -10,13 +10,34 @@
      the scroller (scroller_new) at the bottom.
    - A picture: full screen on black, the zoom buttons (btn_hud_zoom_in / _out) at the top right, the bottom bar
      (selection_menu_bg) Slideshow | Menu; Menu turns it into Share | Delete | More (Details, Set as, Crop, Rotate Left /
-     Right, Show on map). Flicks go to the next / previous picture. Slideshow shows them one after the other. */
+     Right, Show on map). Flicks go to the next / previous picture. Slideshow shows them one after the other.
+   - GET_CONTENT / PICK (EC.galleryPick): the same albums with only the pictures or only the videos asked for; a tap on
+     one gives it back. With "crop" (Contacts' photo, aspect 1:1) CropImage (cropimage.xml) comes first: the picture on
+     #55000000, the HighlightView box (4/5 of the shorter side, centred, the outside dimmed, camera_crop_width /
+     _height at its edges) that moves where it is dragged, and Save / Discard (100 dp) at the bottom. */
 (() => {
   'use strict';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[ch]);
   const G = () => EC.text('gallery');
   let slideshow = 0, zoom = 1;
-  const photos = c => c.data.photos || [];
+  // In pick mode only the kind asked for.
+  const photos = c => { const all = c.data.photos || [], pick = c.ui.galleryPick; return pick ? all.filter(p => !!p.video === !!pick.video) : all; };
+  EC.galleryPick = (c, {video = false, crop = false, onPick}) => { c.ui.galleryPick = {video, crop, onPick}; c.open('gallery', ''); };
+  function picked(c, p, crop) {
+    const pick = c.ui.galleryPick;
+    c.ui.galleryPick = null; c.ui.crop = null;
+    while (c.ui.view === 'gallery') c.back();
+    pick?.onPick?.({...p, ...(crop ? {crop} : {})});
+  }
+  // CropImage: the box in fractions of the picture (x, y, w, h).
+  function cropView(c) {
+    const p = photos(c)[c.ui.crop?.index], box = c.ui.crop?.box;
+    if (!p || !box) return '';
+    const pct = v => `${(v * 100).toFixed(3)}%`;
+    return `<div class="ecga ecga-cropview"><div class="ecga-cropimg"><img src="${EC.media.url(p, 640)}" alt=""><div class="ecga-cropbox" style="left:${pct(box.x)};top:${pct(box.y)};width:${pct(box.w)};height:${pct(box.h)}">
+        <img class="w l" src="assets/ga-camera_crop_width.png" alt=""><img class="w r" src="assets/ga-camera_crop_width.png" alt=""><img class="h t" src="assets/ga-camera_crop_height.png" alt=""><img class="h b" src="assets/ga-camera_crop_height.png" alt=""></div></div>
+      <div class="ecga-cropbtns">${[['ecga-crop-save', 'crop_save_text'], ['ecga-crop-discard', 'crop_discard_text']].map(([a, k]) => `<button type="button" class="ecui-button" data-action="${a}"><i class="ec-bg np-fw-btn_default_normal"></i><i class="ec-bg ec-pressed np-fw-btn_default_pressed"></i><span>${esc(G().t(k))}</span></button>`).join('')}</div></div>`;
+  }
   function pathbar(c, parts) {
     const seg = (icon, text, first) => `<span class="ecga-seg${first ? ' first' : ''}">${first ? '' : '<img class="ecga-join" src="assets/ga-pathbar_join.png" alt="">'}<span class="ecga-segbody"><img src="assets/ga-${icon}.png" alt="">${text ? `<span>${esc(text)}</span>` : ''}</span></span>`;
     return `<div class="ecga-path" data-action="ecga-up">${parts.map((p, i) => seg(p[0], p[1], i === 0)).join('')}<img class="ecga-cap" src="assets/ga-pathbar_cap.png" alt=""></div>`;
@@ -55,8 +76,22 @@
   EC.register('gallery', {
     title: 'Gallery',
     noStatus: c => c.ui.sub === 'photo',
-    render(c) { return c.ui.sub === 'photo' ? photo(c) : c.ui.sub === 'album' ? album(c) : albums(c); },
+    render(c) { return c.ui.sub === 'crop' ? cropView(c) : c.ui.sub === 'photo' ? photo(c) : c.ui.sub === 'album' ? album(c) : albums(c); },
     mount(c, root) {
+      const cropBox = root.querySelector('.ecga-cropbox');
+      if (cropBox) {
+        const frame = cropBox.parentElement;
+        cropBox.addEventListener('pointerdown', e => {
+          const r = frame.getBoundingClientRect(), box = c.ui.crop.box, x0 = e.clientX, y0 = e.clientY, bx = box.x, by = box.y;
+          cropBox.setPointerCapture(e.pointerId);
+          const move = ev => {
+            box.x = Math.min(1 - box.w, Math.max(0, bx + (ev.clientX - x0) / r.width)); box.y = Math.min(1 - box.h, Math.max(0, by + (ev.clientY - y0) / r.height));
+            cropBox.style.left = `${box.x * 100}%`; cropBox.style.top = `${box.y * 100}%`;
+          };
+          cropBox.addEventListener('pointermove', move);
+          cropBox.addEventListener('pointerup', () => cropBox.removeEventListener('pointermove', move), {once: true});
+        });
+      }
       const pic = root.querySelector('.ecga-pic');
       if (!pic) return;
       let x0 = null;
@@ -68,7 +103,14 @@
       switch (name) {
         case 'ecga-camera': c.open('camera'); return true;
         case 'ecga-album': c.open('gallery', 'album'); return true;
-        case 'ecga-photo': c.ui.galleryOpen = Number(el.dataset.index); zoom = 1; c.ui.galleryMenu = false; c.open('gallery', 'photo'); return true;
+        case 'ecga-photo': {
+          const pick = c.ui.galleryPick, i = Number(el.dataset.index);
+          if (pick?.crop) { const img = el.querySelector('img'), ratio = img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 4 / 3, side = 0.8 * Math.min(1, 1 / ratio); c.ui.crop = {index: i, box: {w: side, h: side * ratio, x: (1 - side) / 2, y: (1 - side * ratio) / 2}}; c.open('gallery', 'crop'); return true; }
+          if (pick) { picked(c, photos(c)[i]); return true; }
+          c.ui.galleryOpen = i; zoom = 1; c.ui.galleryMenu = false; c.open('gallery', 'photo'); return true;
+        }
+        case 'ecga-crop-save': picked(c, photos(c)[c.ui.crop.index], {...c.ui.crop.box}); return true;
+        case 'ecga-crop-discard': c.ui.crop = null; c.back(); return true;
         case 'ecga-up': if (c.ui.sub) c.back(); return true;
         case 'ecga-tap': if (slideshow) { clearInterval(slideshow); slideshow = 0; c.render(); } return true;
         case 'ecga-zoomin': zoom = Math.min(4, zoom * 1.5); c.render(); return true;
@@ -89,6 +131,7 @@
     back(c) {
       if (slideshow) { clearInterval(slideshow); slideshow = 0; c.render(); return true; }
       if (c.ui.galleryMenu) { c.ui.galleryMenu = false; c.render(); return true; }
+      if (!c.ui.sub && c.ui.galleryPick) c.ui.galleryPick = null;   // RESULT_CANCELED
       return false;
     }
   });

@@ -125,14 +125,15 @@
   }
 
   // Contacts and favorites -------------------------------------------------------------------------------------------------
-  const badge = () => `<span class="ecph-badge"><i class="ec-bg np-fw-quickcontact_badge_unpressed"></i><img src="assets/ct-ic_contact_list_picture.png" alt=""></span>`;
+  // QuickContactBadge: the contact's photo, else ic_contact_list_picture.
+  const badge = p => { const photo = EC.contactModel.photoOf(p); return `<span class="ecph-badge"><i class="ec-bg np-fw-quickcontact_badge_unpressed"></i>${photo ? `<span class="ecph-photo" style="${EC.contactModel.photoCss(photo)}"></span>` : '<img src="assets/ct-ic_contact_list_picture.png" alt="">'}</span>`; };
   function contactRows(c, list, sections) {
     let last = '';
     return list.map(p => {
       const letter = (p.name[0] || '#').toLocaleUpperCase(c.locale());
       const head = sections && letter !== last ? `<div class="ecph-section"><i class="ec-bg np-fw-dark_header"></i><span>${esc(letter)}</span></div>` : '';
       last = letter;
-      return `${head}<button type="button" class="ecph-person" data-action="ecph-person" data-id="${p.id}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i>${badge()}<span class="ecph-name">${esc(p.name)}</span></button><i class="ecph-div opaque"></i>`;
+      return `${head}<button type="button" class="ecph-person" data-action="ecph-person" data-id="${p.id}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i>${badge(p)}<span class="ecph-name">${esc(p.name)}</span></button><i class="ecph-div opaque"></i>`;
     }).join('');
   }
   const byName = c => (c.data.contacts || []).slice().sort((a, b) => a.name.localeCompare(b.name, c.locale()));
@@ -242,7 +243,7 @@
     if (!p) return '';
     const sms = value => `<i class="ecph-vdiv"></i><button type="button" class="eccv-sms" data-action="eccv-sms" data-value="${esc(value)}"><img src="assets/ct-sym_action_sms.png" alt=""></button>`;
     const rows = entries(c, p).map(e => `<div class="eccv-row"><button type="button" class="eccv-main" data-action="${e.action}" data-value="${esc(e.value || '')}"><i class="ec-bg ec-pressed np-fw-list_selector_background_pressed"></i><span class="eccv-text"><span class="eccv-t1">${esc(e.head)}</span><span class="eccv-t2${e.lines ? ' multi' : ''}"${e.lines ? ` style="-webkit-line-clamp:${e.lines}"` : ''}>${esc(e.body)}</span></span>${e.icon ? `<img class="eccv-act" src="assets/${e.icon}" alt="">` : ''}</button>${e.sms ? sms(e.value) : ''}</div><i class="ecph-div"></i>`).join('');
-    return `<div class="eccv"><div class="eccv-head"><i class="ec-bg np-fw-title_bar_medium"></i>${badge()}<span class="eccv-name">${esc(p.name)}</span>
+    return `<div class="eccv"><div class="eccv-head"><i class="ec-bg np-fw-title_bar_medium"></i>${badge(p)}<span class="eccv-name">${esc(p.name)}</span>
         <button type="button" class="eccv-star" data-action="eccv-star"><img src="assets/fw-btn_star_big_${p.starred ? 'on' : 'off'}.png" alt=""></button></div>
       <div class="eccv-list"><i class="eccv-shadow np-ct-title_bar_shadow"></i>${rows || `<div class="ecph-empty top">${esc(P().t('no_contact_details'))}</div>`}</div></div>`;
   }

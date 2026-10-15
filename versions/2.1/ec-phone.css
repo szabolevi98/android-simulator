@@ -46,7 +46,8 @@
 .ecph-sep span{position:relative;z-index:1;padding-left:calc(5 * var(--dp))}
 .ecph-person{position:relative;display:flex;align-items:center;width:100%;height:calc(64 * var(--dp));border:0;padding:0 0 0 calc(4 * var(--dp));background:none;color:#fff;text-align:left}
 .ecph-badge{position:relative;z-index:1;flex:none;width:calc(50 * var(--dp));height:calc(56 * var(--dp));margin-right:calc(8 * var(--dp));padding:calc(4 * var(--dp)) calc(4 * var(--dp)) calc(10 * var(--dp))}
-.ecph-badge img{position:relative;z-index:1;display:block;width:100%;height:100%}
+.ecph-badge img,.ecph-photo{position:relative;z-index:1;display:block;width:100%;height:100%}
+.ecph-photo{background-repeat:no-repeat}
 .ecph-name{position:relative;z-index:1;flex:1;min-width:0;font-size:calc(22 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* ViewContactActivity: the header on title_bar_medium (the badge, 18 sp bold name, the big star), the data rows. */
 .eccv{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}

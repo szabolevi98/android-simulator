@@ -33,3 +33,14 @@
 .ecga-bbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:calc(8 * var(--dp));border:0;padding:0;background:none;color:#fff;font-size:calc(18 * var(--dp))}
 .ecga-bbtn:active{background:#ffffff22}
 .ecga-bbtn img{width:calc(30 * var(--dp));height:calc(30 * var(--dp))}
+/* CropImage (cropimage.xml): the picture fitted on #55000000, the HighlightView box (the outside dimmed, the
+   camera_crop_width / _height handles at its edges), Save / Discard 100 dp at the bottom, 10 dp in. */
+.ecga-cropview{display:flex;flex-direction:column;background:#000}
+.ecga-cropimg{position:relative;flex:none;margin:auto;max-width:100%;background:#00000055}
+.ecga-cropimg>img{display:block;width:100%}
+.ecga-cropbox{position:absolute;box-shadow:0 0 0 999px #3232327d;outline:calc(2 * var(--dp)) solid #ff8a00;touch-action:none;cursor:move}
+.ecga-cropbox img{position:absolute;width:calc(32 * var(--dp))}
+.ecga-cropbox .w{top:50%;transform:translate(-50%,-50%)}.ecga-cropbox .w.l{left:0}.ecga-cropbox .w.r{left:100%}
+.ecga-cropbox .h{left:50%;transform:translate(-50%,-50%)}.ecga-cropbox .h.t{top:0}.ecga-cropbox .h.b{top:100%}
+.ecga-cropbtns{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:0;padding:0 calc(10 * var(--dp))}
+.ecga-cropbtns .ecui-button{flex:none;width:calc(100 * var(--dp))}
