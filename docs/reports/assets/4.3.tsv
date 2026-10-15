@@ -408,29 +408,29 @@ versions/4.3/assets/jb-stat_sys_data_fully_connected_h.png	196cb6f2d4be5a5c	resi
 versions/4.3/assets/jb-status_bar_close_on.png	e3e325893cf1e4e8	resized	mako:/system/app/SystemUI.apk!res/drawable-xhdpi/status_bar_close_on.9.png	drawable-xhdpi	resized 64×72 → 48×54, mean difference 0.55	59eea308accce6b1
 versions/4.3/assets/jb-sym_keyboard_return_holo.png	a926b373cc2831ee	resized	mako:/system/framework/framework-res.apk!res/drawable-xhdpi/sym_keyboard_return_holo.png	drawable-xhdpi	resized 76×52 → 57×39, mean difference 1.39	83f50495b88503ac
 versions/4.3/assets/jb-wallpaper_01.jpg	73ff1c9e4caa5d5f	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_01.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 1.05	8cd87daa4ed27080
-versions/4.3/assets/jb-wallpaper_01_small.jpg	8197ab28018f7afb	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_01_small.jpg	drawable-nodpi		8197ab28018f7afb
+versions/4.3/assets/jb-wallpaper_01_small.jpg	f42a28bd8b3af299	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_01_small.jpg	drawable-xhdpi		f42a28bd8b3af299
 versions/4.3/assets/jb-wallpaper_02.jpg	7bc5f737eed0335c	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_02.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 2.55	49aa0a5a8cdc6b1f
-versions/4.3/assets/jb-wallpaper_02_small.jpg	244180169b530a00	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_02_small.jpg	drawable-nodpi		244180169b530a00
+versions/4.3/assets/jb-wallpaper_02_small.jpg	686e94154d123cb2	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_02_small.jpg	drawable-xhdpi		686e94154d123cb2
 versions/4.3/assets/jb-wallpaper_03.jpg	9da69bde04d02077	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_03.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.91	7f2317dfbae4f2d0
-versions/4.3/assets/jb-wallpaper_03_small.jpg	9bf0c1c250863603	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_03_small.jpg	drawable-nodpi		9bf0c1c250863603
+versions/4.3/assets/jb-wallpaper_03_small.jpg	5f5d63e8fa1eb216	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_03_small.jpg	drawable-xhdpi		5f5d63e8fa1eb216
 versions/4.3/assets/jb-wallpaper_04.jpg	5a1e93b8bc6c71ae	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_04.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.53	fd734ffe868328e3
-versions/4.3/assets/jb-wallpaper_04_small.jpg	0c1b8b28c64152c3	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_04_small.jpg	drawable-nodpi		0c1b8b28c64152c3
+versions/4.3/assets/jb-wallpaper_04_small.jpg	8a428bf1252c8e09	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_04_small.jpg	drawable-xhdpi		8a428bf1252c8e09
 versions/4.3/assets/jb-wallpaper_05.jpg	b72ed924d9d218a9	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_05.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.28	e120b5baa9a2b739
-versions/4.3/assets/jb-wallpaper_05_small.jpg	e7ce6216b0cdcf7b	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_05_small.jpg	drawable-nodpi		e7ce6216b0cdcf7b
+versions/4.3/assets/jb-wallpaper_05_small.jpg	8197ab28018f7afb	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_05_small.jpg	drawable-xhdpi		8197ab28018f7afb
 versions/4.3/assets/jb-wallpaper_06.jpg	f0289709acfe4872	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_06.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 1.14	35cb45acc961d6a6
 versions/4.3/assets/jb-wallpaper_06_small.jpg	9bf0c1c250863603	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_06_small.jpg	drawable-xhdpi		9bf0c1c250863603
 versions/4.3/assets/jb-wallpaper_07.jpg	e944331fc41d9a93	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_07.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.57	6a5e8078a899be31
 versions/4.3/assets/jb-wallpaper_07_small.jpg	0c1b8b28c64152c3	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_07_small.jpg	drawable-xhdpi		0c1b8b28c64152c3
 versions/4.3/assets/jb-wallpaper_08.jpg	0ae4e5464c223ad6	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_08.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.72	677b4cd1aa1dcafd
-versions/4.3/assets/jb-wallpaper_08_small.jpg	c0acb4823ef2b6ca	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_08_small.jpg	drawable-nodpi		c0acb4823ef2b6ca
+versions/4.3/assets/jb-wallpaper_08_small.jpg	cc9f9af916b51d18	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_08_small.jpg	drawable-xhdpi		cc9f9af916b51d18
 versions/4.3/assets/jb-wallpaper_09.jpg	b359ff3fab5160d1	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_09.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.63	5030c938f19be62c
-versions/4.3/assets/jb-wallpaper_09_small.jpg	12527a86596d0d57	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_09_small.jpg	drawable-nodpi		12527a86596d0d57
+versions/4.3/assets/jb-wallpaper_09_small.jpg	7e5edeecc2a969ed	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_09_small.jpg	drawable-xhdpi		7e5edeecc2a969ed
 versions/4.3/assets/jb-wallpaper_10.jpg	8268b71926ec02b6	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_10.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.86	3275bf2ff5a12571
-versions/4.3/assets/jb-wallpaper_10_small.jpg	8243b0f616e7d332	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_10_small.jpg	drawable-nodpi		8243b0f616e7d332
+versions/4.3/assets/jb-wallpaper_10_small.jpg	244180169b530a00	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_10_small.jpg	drawable-xhdpi		244180169b530a00
 versions/4.3/assets/jb-wallpaper_11.jpg	1a85c29928f23205	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_11.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.35	ca3aea27bc7a8a59
-versions/4.3/assets/jb-wallpaper_11_small.jpg	cc9f9af916b51d18	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_11_small.jpg	drawable-nodpi		cc9f9af916b51d18
+versions/4.3/assets/jb-wallpaper_11_small.jpg	7c25d740cd40beba	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_11_small.jpg	drawable-xhdpi		7c25d740cd40beba
 versions/4.3/assets/jb-wallpaper_12.jpg	1649b5976633efeb	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_12.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 1.40	77fa6ea026b2d5a7
-versions/4.3/assets/jb-wallpaper_12_small.jpg	7e5edeecc2a969ed	copy	mako:/system/app/Launcher2.apk!res/drawable-nodpi/wallpaper_12_small.jpg	drawable-nodpi		7e5edeecc2a969ed
+versions/4.3/assets/jb-wallpaper_12_small.jpg	c0acb4823ef2b6ca	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_12_small.jpg	drawable-xhdpi		c0acb4823ef2b6ca
 versions/4.3/assets/jb-wallpaper_13.jpg	899b6cb61f3f8589	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_13.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 0.75	584cbe14b8744099
 versions/4.3/assets/jb-wallpaper_13_small.jpg	8243b0f616e7d332	copy	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_13_small.jpg	drawable-xhdpi		8243b0f616e7d332
 versions/4.3/assets/jb-wallpaper_14.jpg	dd767765bc503e46	converted	mako:/system/app/Launcher2.apk!res/drawable-xhdpi/wallpaper_14.jpg	drawable-xhdpi	JPG, resized 1436×1196 → 960×800, mean difference 1.25	f678d05300ef1024
