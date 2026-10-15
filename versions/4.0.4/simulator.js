@@ -629,7 +629,19 @@
       ui.vs3Timer = setTimeout(() => { clearInterval(ui.vs3Tick); if (ui.overlay === 'vs3') { ui.vs3 = {phase: 'error'}; renderOverlay(); } }, ICSVoice.LISTEN_MS);
     }, ICSVoice.WAIT_MS);
   }
+  /* RecentsPanelView.handleSwipe and the card's "Remove from list": ActivityManager.removeTask(id, REMOVE_TASK_KILL_PROCESS).
+     The task and its saved state go; when it is the app on screen, that app is gone too, so once the panel closes (Back,
+     the Recent apps key, the scrim, the last card) the home screen is there, with no app-closing transition. */
+  function removeTask(id) {
+    ui.recent = ui.recent.filter(item => item !== id);
+    delete ui.recentState?.[id]; delete ui.recentSnapshots[id];
+    if (ui.view === id) ui.removedTask = id;
+  }
   function renderOverlay() {
+    if (ui.removedTask && ui.overlay !== 'recent') {
+      const gone = ui.removedTask; ui.removedTask = null;
+      if (ui.view === gone) { ui.view = 'home'; ui.sub = ''; lastScene = {view: 'home', sub: ''}; render(); return; }
+    }
     if (ui.view === 'downloads' && ui.overlay.startsWith('hdl-')) { overlayRoot.innerHTML = HoloDownloads.overlay(dlContext()) || ''; return; }
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.view === 'play-music' && ui.overlay.startsWith('pm4-')) { overlayRoot.innerHTML = ICSPlayMusic.overlay(playMusicContext()) || ''; return; }
@@ -2327,7 +2339,7 @@
               if (ui.overlay === 'shade') { if (!data.notifications.length) ui.overlay = ''; renderOverlay(); }
               return;
             }
-            ui.recent = ui.recent.filter(item => item !== id);
+            removeTask(id);
             if (ui.overlay !== 'recent') return;
             if (!ui.recent.length) ui.overlay = '';
             renderOverlay();

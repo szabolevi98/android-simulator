@@ -857,7 +857,19 @@
     const next = overlayRoot.querySelector('[data-tzp-search]');
     if (next && (focus || at !== null)) { next.focus(); const end = at ?? next.value.length; next.setSelectionRange(end, end); }
   }
+  /* RecentsPanelView.handleSwipe and the card's "Remove from list": ActivityManager.removeTask(id, REMOVE_TASK_KILL_PROCESS).
+     The task and its saved state go; when it is the app on screen, that app is gone too, so once the panel closes (Back,
+     the Recent apps key, the scrim, the last card) the home screen is there, with no app-closing transition. */
+  function removeTask(id) {
+    ui.recent = ui.recent.filter(item => item !== id);
+    delete ui.recentState?.[id]; delete ui.recentSnapshots[id];
+    if (ui.view === id) ui.removedTask = id;
+  }
   function renderOverlay() {
+    if (ui.removedTask && ui.overlay !== 'recent') {
+      const gone = ui.removedTask; ui.removedTask = null;
+      if (ui.view === gone) { ui.view = 'home'; ui.sub = ''; lastScene = {view: 'home', sub: ''}; render(); return; }
+    }
     if (ui.view === 'downloads' && ui.overlay.startsWith('hdl-')) { overlayRoot.innerHTML = HoloDownloads.overlay(dlContext()) || ''; return; }
     const closingFolder = overlayRoot.querySelector('.launcher-folder');
     if (ui.overlay === 'shade') {
@@ -1884,7 +1896,7 @@
       }
       case 'recent-app-info': ui.overlay = ''; ui.recentPopup = null; openApp('settings'); ui.settingsApp = id; ui.sub = 'app-info'; render(); break;
       case 'close-overlay': if (ui.overlay === 'recent') { closeRecents(); break; } ui.overlay = ''; renderOverlay(); break;
-      case 'remove-recent': event.stopPropagation(); ui.recentPopup = null; ui.recent = ui.recent.filter(item => item !== id); renderOverlay(); break;
+      case 'remove-recent': event.stopPropagation(); ui.recentPopup = null; removeTask(id); if (!ui.recent.length) ui.overlay = ''; renderOverlay(); break;
       case 'clear-notifications': {
         const rows = [...overlayRoot.querySelectorAll('.jb-note')], delays = JBShade.clearDelays(rows.length);
         if (reducedMotion?.matches || !rows.length) { data.notifications = []; ui.overlay = ''; save(); renderStatus(); renderOverlay(); break; }
@@ -3306,7 +3318,7 @@
               if (ui.overlay === 'shade') { if (!data.notifications.length) ui.overlay = ''; renderOverlay(); }
               return;
             }
-            ui.recent = ui.recent.filter(item => item !== id);
+            removeTask(id);
             if (ui.overlay !== 'recent') return;
             if (!ui.recent.length) ui.overlay = '';
             renderOverlay();
