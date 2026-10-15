@@ -81,3 +81,7 @@ h1{font-size:clamp(38px,4.6vw,60px)}
 .mini-phone-nexusone{aspect-ratio:319.58/624.45;border:0;border-radius:0;background-image:url('versions/2.1/assets/device-nexus-one.svg?v=2')}
 .mini-phone-nexusone .mini-screen{top:11.83%;bottom:20.03%;left:9.95%;right:10.16%}
 .mini-phone-nexusone .mini-earpiece,.mini-phone-nexusone .mini-camera{display:none}
+/* Nexus 5X (6.0.1 preview): 302.4 x 600, the display window at (21.7, 70.8), 259 x 460.4. */
+.mini-phone-nexus5x{aspect-ratio:302.4/600;border:0;border-radius:0;background-image:url('versions/6.0.1/assets/device-nexus-5x.svg?v=1')}
+.mini-phone-nexus5x .mini-screen{top:11.8%;bottom:11.47%;left:7.18%;right:7.18%}
+.mini-phone-nexus5x .mini-earpiece,.mini-phone-nexus5x .mini-camera{display:none}

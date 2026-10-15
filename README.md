@@ -15,6 +15,8 @@ An interactive browser simulator of classic Android releases, each on its own Ne
 | [Android 4.4.4 KitKat](docs/features-4.4.4.md) | Nexus 5 (Google apps) | Google Play Store 4.5.10 |
 | [Android 5.1.1 Lollipop](docs/features-5.1.1.md) | Nexus 6 (Google apps) | Google Play Store 5.2.13 |
 
+Android 6.0.1 Marshmallow on the Nexus 5X is next: its landing card opens a preview page with the phone installing a system update in recovery (`versions/6.0.1/`).
+
 ## Getting started
 
 **Live demo:** [android.levente.net](https://android.levente.net/), served as a static site from a checkout of `main`. A mirror runs on [GitHub Pages](https://szabolevi98.github.io/android-time-machine/).

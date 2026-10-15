@@ -66,5 +66,16 @@ window.ANDROID_VERSIONS = [
     url: 'versions/5.1.1/',
     status: 'available',
     art: {shot: 'landing-home.jpg?v=4', phone: 'nexus6'}
+  },
+  {
+    id: '6.0.1',
+    name: 'Marshmallow',
+    version: 'Android 6.0.1',
+    year: '2015',
+    device: 'Nexus 5X · Google',
+    description: 'Marshmallow on the Nexus 5X: Now on Tap, Doze, app permissions, Nexus Imprint and the vertically scrolling app drawer. Coming next.',
+    url: 'versions/6.0.1/',
+    status: 'preview',
+    art: {shot: 'landing-home.jpg?v=1', phone: 'nexus5x'}
   }
 ];

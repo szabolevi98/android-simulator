@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 302.4 600" width="302.4" height="600">
+<!-- Nexus 5X (LG-H791, bullhead), Carbon: drawn from the published dimensions (147 x 72.6 mm, 5.2" 16:9 panel) at 4 px a mm
+     with a 6 px margin for the keys. Front: the earpiece grille in the top bezel with the front camera left of it, the
+     loudspeaker grille (with the notification LED) under the display; power key above the volume rocker on the right edge. -->
+<defs>
+<linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a2b2d"/><stop offset=".45" stop-color="#121314"/><stop offset="1" stop-color="#202123"/></linearGradient>
+<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b5d60"/><stop offset=".5" stop-color="#232425"/><stop offset="1" stop-color="#4c4e51"/></linearGradient>
+<linearGradient id="front" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#151617"/><stop offset=".5" stop-color="#060607"/><stop offset="1" stop-color="#0d0e0f"/></linearGradient>
+<linearGradient id="glare" x1="0" y1="0" x2="1" y2=".55"><stop offset="0" stop-color="#fff" stop-opacity=".11"/><stop offset=".38" stop-color="#fff" stop-opacity=".04"/><stop offset=".385" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="glassEdge" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".45" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient>
+<linearGradient id="grille" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020303"/><stop offset=".55" stop-color="#15181a"/><stop offset="1" stop-color="#050606"/></linearGradient>
+<radialGradient id="lens" cx=".42" cy=".38" r=".6"><stop offset="0" stop-color="#25384a"/><stop offset=".45" stop-color="#0b1219"/><stop offset="1" stop-color="#040608"/></radialGradient>
+<linearGradient id="key" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#121416"/><stop offset=".55" stop-color="#4a4d50"/><stop offset="1" stop-color="#1b1e20"/></linearGradient>
+<clipPath id="clip"><rect x="6" y="6" width="290.4" height="588" rx="34" ry="36"/></clipPath>
+</defs>
+<rect x="295.4" y="208" width="4.2" height="44" rx="1.4" fill="url(#key)"/>
+<rect x="295.4" y="272" width="4.2" height="88" rx="1.4" fill="url(#key)"/>
+<rect x="6" y="6" width="290.4" height="588" rx="34" ry="36" fill="url(#body)" stroke="url(#rim)" stroke-width="2.6"/>
+<rect x="9.2" y="9.2" width="284" height="581.6" rx="31" ry="33" fill="url(#front)" stroke="url(#glassEdge)" stroke-width="1"/>
+<g clip-path="url(#clip)"><rect x="0" y="0" width="302.4" height="600" fill="url(#glare)"/></g>
+<rect x="114.2" y="35.4" width="74" height="6.4" rx="3.2" fill="url(#grille)" stroke="#33383b" stroke-width=".7"/>
+<g fill="#2a2e31"><circle cx="118.6" cy="38.6" r=".5"/><circle cx="123.6" cy="38.6" r=".5"/><circle cx="128.6" cy="38.6" r=".5"/><circle cx="133.6" cy="38.6" r=".5"/><circle cx="138.6" cy="38.6" r=".5"/><circle cx="143.6" cy="38.6" r=".5"/><circle cx="148.6" cy="38.6" r=".5"/><circle cx="153.6" cy="38.6" r=".5"/><circle cx="158.6" cy="38.6" r=".5"/><circle cx="163.6" cy="38.6" r=".5"/><circle cx="168.6" cy="38.6" r=".5"/><circle cx="173.6" cy="38.6" r=".5"/><circle cx="178.6" cy="38.6" r=".5"/><circle cx="183.6" cy="38.6" r=".5"/></g>
+<circle cx="86" cy="38.6" r="6.2" fill="url(#lens)" stroke="#2c3236" stroke-width=".8"/>
+<ellipse cx="216" cy="38.6" rx="2.6" ry="2.6" fill="#16191b" stroke="#25292c" stroke-width=".5"/>
+<rect x="114.2" y="558.2" width="74" height="6.4" rx="3.2" fill="url(#grille)" stroke="#33383b" stroke-width=".7"/>
+<g fill="#2a2e31"><circle cx="118.6" cy="561.4" r=".5"/><circle cx="123.6" cy="561.4" r=".5"/><circle cx="128.6" cy="561.4" r=".5"/><circle cx="133.6" cy="561.4" r=".5"/><circle cx="138.6" cy="561.4" r=".5"/><circle cx="143.6" cy="561.4" r=".5"/><circle cx="148.6" cy="561.4" r=".5"/><circle cx="153.6" cy="561.4" r=".5"/><circle cx="158.6" cy="561.4" r=".5"/><circle cx="163.6" cy="561.4" r=".5"/><circle cx="168.6" cy="561.4" r=".5"/><circle cx="173.6" cy="561.4" r=".5"/><circle cx="178.6" cy="561.4" r=".5"/><circle cx="183.6" cy="561.4" r=".5"/></g>
+</svg>
