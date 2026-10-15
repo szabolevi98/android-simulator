@@ -40,10 +40,10 @@ the other way round:
 | --- | --- | --- |
 | 1 | Image, tools, frame (`device-nexus-one.svg`), this plan | done 2026-10-13 |
 | 2 | Scaffold: `index.html`, the logic-only core `ec-core.js`, placeholders, the leak checks (`tests/ec-leaks.test.cjs`); the catalogue entry follows with the home screen | done 2026-10-13 |
-| 3 | Status bar, notification panel, lock screen, power menu, Launcher2 with the 3D drawer, menus and dialogs, trackball LED | 2 |
-| 4 | Settings and the AOSP apps (Phone, Contacts, Messaging, Browser, Email, Calendar, Gallery, Camera, Music, Clock, Calculator) | 2–3 |
-| 5 | Google apps, Market 1.71, widgets, live wallpapers | 2–3 |
-| 6 | Language sweep, landing picture, docs, deploy (the OG cover stays as it is: owner's decision 2026-10-13) | 1 |
+| 3 | Status bar, notification panel, lock screen, power menu, Launcher2 with the 3D drawer, menus and dialogs, trackball LED | done 2026-10-14 |
+| 4 | Settings and the AOSP apps (Phone, Contacts, Messaging, Browser, Email, Calendar, Gallery, Camera, Music, Clock, Calculator) | done 2026-10-15 |
+| 5 | Google apps, Market 1.71, widgets, live wallpapers; home screen editing with every shortcut, widget and folder of the image | done 2026-10-15 |
+| 6 | Language sweep, landing picture, docs, deploy (the OG cover stays as it is: owner's decision 2026-10-13) | done 2026-10-15: every text table has Hungarian, [features-2.1.md](features-2.1.md), available and deployed (f99cedb) |
 
 ## The frame
 
