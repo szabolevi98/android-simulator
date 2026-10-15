@@ -304,4 +304,27 @@ if os.path.exists('n1-render.png'):
     {'body': ['#6f6462', '#463e3c', '#5d5351'], 'rim': ['#a0928f', '#2f2928', '#7c706d'], 'rimWidth': 2.0, 'chin': .08},
     mirror=True, glass={'mask': 'n1-glass.png', 'edge': '#2a2524'}, points=720, soft=11, band=n1_band)
   open('device-nexus-one.svg', 'w').write(svg); out['n1'] = info
+# Nexus 5X (LG-H791, bullhead), Carbon: black glass front in a dark body with a grey rim, rounded top and bottom, the long
+# earpiece slot in the top bezel with the front camera far left of it, the loudspeaker slot (with the notification LED)
+# under the display, the power key above the volume rocker on the right edge. Traced from the owner's front photo
+# (n5x-photo.png, 232 x 456 on white, GSMArena's official image; 2026-10-15): upscaled 4x, the alpha is the distance from
+# the white background, and it is stretched by 1.0108 vertically so that its display (804 x 1414 there) is 16:9 like the
+# 1080 x 1920 panel (the body then is 2.035 high to wide; the real 147 x 72.6 mm is 2.025). Keys from the side view of the
+# same GSMArena set: power at 26-34 %, volume 40-56 % of the height. The body box (27-901) leaves the keys out of the
+# outline; its bottom stops where the photo starts to show the phone's bottom edge under the front. The 5.2" panel at 1 dp = 0.833 px is 342.73 x 609.3
+# (411.43 x 731.43 dp), the Nexus 5's 4.95" at 326.25 px wide scaled by 5.2 / 4.95.
+if os.path.exists('n5x-photo.png') or os.path.exists('n5x-render.png'):
+  if not os.path.exists('n5x-render.png'):
+    from PIL import ImageFilter
+    ph = Image.open('n5x-photo.png').convert('RGB'); big = ph.resize((ph.width * 4, ph.height * 4), Image.LANCZOS); bp = big.load()
+    alpha = Image.new('L', big.size, 0); al = alpha.load()
+    for y in range(big.height):
+      for x in range(big.width): al[x, y] = 255 if 255 - min(bp[x, y]) > 60 else 0
+    big.putalpha(alpha.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5)))
+    big.resize((big.width, round(big.height * 804 * 16 / 9 / 1414)), Image.LANCZOS).save('n5x-render.png')
+  svg, info = frame('nexus-5x', 'n5x-render.png', (27, 901), (10, 1796), (62.5, 188, 866.5, 1617.3), (342.73, 609.3),
+    [('slot', 463, 85.9, 308, 20), ('lens', 191, 86.9, 9), ('slot', 463.5, 1731, 311, 21)],
+    [('right', 483, 615, 7), ('right', 734, 1009, 7)],
+    {'body': ['#2b2b2c', '#151516', '#222223'], 'rim': ['#7a7b7d', '#3a3b3c', '#6a6b6d'], 'rimWidth': 3.0, 'chin': .05}, soft=5)
+  open('device-nexus-5x.svg', 'w').write(svg); out['n5x'] = info
 print(json.dumps(out, indent=1))

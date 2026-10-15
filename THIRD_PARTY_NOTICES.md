@@ -271,6 +271,6 @@ The 5.1.1 build follows the Nexus 6 factory image `shamu-lmy48y` (build LMY48Y, 
 
 ## Android 6.0.1 preview (Nexus 5X)
 
-- `versions/6.0.1/assets/device-nexus-5x.svg` is the simulator's own drawing from the Nexus 5X's published dimensions (147 × 72.6 mm, 5.2-inch 16:9 display). The layout of the front and the keys follows Google's Nexus hardware help page (front camera, earpiece, power key above the volume keys) and GSMArena's review (the loudspeaker and notification LED in the grille under the display).
+- `versions/6.0.1/assets/device-nexus-5x.svg` is the simulator's own drawing. Its outline and the positions of the earpiece and loudspeaker slots, the front camera and the keys are traced by `docs/tools/device-frames.py` from the Nexus 5X's official front and side product images as published by GSMArena ([its Nexus 5X review](https://www.gsmarena.com/lg_nexus_5x-review-1338.php)). The images themselves are not redistributed.
 - The recovery picture on `versions/6.0.1/` (the Android robot with an open hatch and a turning icosahedron) is the simulator's own drawing, as on the earlier 5.1.1 preview. The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.
 - `versions/6.0.1/assets/Roboto-Regular.ttf` is the same file as `versions/5.1.1/assets/Roboto-Regular.ttf` (the Nexus 6 LMY48Y image's system font, Apache License 2.0).
