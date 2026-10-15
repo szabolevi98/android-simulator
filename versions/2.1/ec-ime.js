@@ -10,6 +10,9 @@
      -12 dp) shows above a pressed character key; delete and space repeat (isRepeatable).
    - It opens when a text field of the screen gets focus (soft input adjustResize: the screen above shrinks) and closes on
      Back or when the field loses focus. Auto-capitalisation: at the start and after ". ", "! ", "? " (sentence caps).
+   - Android keyboard settings (prefs.xml): Vibrate on keypress (off; vibrate_duration_ms 30), Sound on keypress (off;
+     AudioManager.playSoundEffect FX_KEYPRESS_STANDARD / SPACEBAR / DELETE / RETURN, /system/media/audio/ui, not in
+     silent mode), Auto-capitalization (on), Voice input (on: the mic key; off: the plain layouts).
    A computer keyboard keeps typing into the same fields. */
 (() => {
   'use strict';
@@ -19,7 +22,7 @@
   // The field's keyboardMode (EditorInfo → LatinIME.onStartInputView).
   function mode(el) {
     const kind = el.dataset.ime || (el.type === 'email' ? 'email' : el.type === 'url' ? 'url' : 'normal');
-    return `id/mode_${kind}_voice`;
+    return EC.context?.data.prefs?.enable_voice_input === false ? `id/mode_${kind}` : `id/mode_${kind}_voice`;
   }
   function rows(c) {
     const data = EC.keyboardXml[sheet === 'qwerty' ? base(c) : sheet], want = field ? mode(field) : 'id/mode_normal_voice';
@@ -60,6 +63,7 @@
   // Sentence capitalisation (TextUtils.getCapsMode with CAP_MODE_SENTENCES).
   function autoCap() {
     if (shift === 2 || !field) return;
+    if (EC.context?.data.prefs?.auto_cap === false) { shift = 0; return; }
     const before = field.value.slice(0, field.selectionStart ?? field.value.length);
     shift = !field.dataset.noCaps && (/^\s*$/.test(before) || /[.!?]\s+$/.test(before)) ? 1 : 0;
   }
@@ -97,7 +101,9 @@
     if (!btn) return;
     event.preventDefault();   // keeps the focus in the field
     btn.classList.add('down');
-    navigator.vibrate?.(c.data.prefs?.haptic_feedback === false ? 0 : 20);
+    const p = c.data.prefs || {}, code = Number(btn.dataset.code);
+    if (p.vibrate_on) navigator.vibrate?.(30);
+    if (p.sound_on && !c.data.settings.ringer) { const fx = code === 32 ? 'Spacebar' : code === -5 ? 'Delete' : code === 10 ? 'Return' : 'Standard'; new Audio(`assets/ui-Keypress${fx}.ogg`).play().catch(() => {}); }
     const span = btn.querySelector('span');
     if (span && span.textContent.length === 1) {
       preview ||= Object.assign(document.createElement('div'), {className: 'ecime-preview npp-fw-keyboard_key_feedback_background'});

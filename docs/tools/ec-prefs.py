@@ -30,8 +30,10 @@ PHONE_SCREENS = ['call_feature_setting', 'gsm_umts_call_options', 'gsm_umts_addi
 SETTINGS, FRAMEWORK, PHONE = APK(SYSTEM + 'app/Settings.apk'), APK(SYSTEM + 'framework/framework-res.apk'), APK(SYSTEM + 'app/Phone.apk')
 # Mms.apk's MessagingPreferenceActivity (Messaging › Settings): res/xml/preferences.xml as mms_preferences.
 MMS = APK(SYSTEM + 'app/Mms.apk')
+# The keyboard's LatinIMESettings (Language & keyboard › Android keyboard settings): res/xml/prefs.xml as latinime_prefs.
+IME = APK(SYSTEM + 'app/VoiceSearchWithKeyboard.apk')
 RS, RF = SETTINGS.get_android_resources(), FRAMEWORK.get_android_resources()
-APPS = {'Settings': RS, 'Phone': PHONE.get_android_resources(), 'Mms': MMS.get_android_resources()}
+APPS = {'Settings': RS, 'Phone': PHONE.get_android_resources(), 'Mms': MMS.get_android_resources(), 'VoiceSearchWithKeyboard': IME.get_android_resources()}
 current = ['Settings']   # the APK whose @7F… references are being read
 ATTRS = ['key', 'title', 'summary', 'summaryOn', 'summaryOff', 'entries', 'entryValues', 'dependency', 'defaultValue', 'icon',
          'dialogTitle', 'dialogMessage', 'dialogIcon', 'order', 'disableDependentsState', 'persistent', 'enabled', 'selectable', 'streamType',
@@ -53,7 +55,7 @@ def ref(value):
     if kind == 'string': strings.add((key, apk))
     elif kind == 'array': arrays.add((key, apk))
     elif kind == 'drawable': drawables.add((key, apk))
-    return f'{kind}/{apk}/{key}' if apk in ('Phone', 'Mms') and kind in ('string', 'array') else name
+    return f'{kind}/{apk}/{key}' if apk in ('Phone', 'Mms', 'VoiceSearchWithKeyboard') and kind in ('string', 'array') else name
 
 
 def values(value):
@@ -98,6 +100,8 @@ def main():
         data[name] = node(AXMLPrinter(PHONE.get_file(f'res/xml/{name}.xml')).get_xml_obj())
     current[0] = 'Mms'
     data['mms_preferences'] = node(AXMLPrinter(MMS.get_file('res/xml/preferences.xml')).get_xml_obj())
+    current[0] = 'VoiceSearchWithKeyboard'
+    data['latinime_prefs'] = node(AXMLPrinter(IME.get_file('res/xml/prefs.xml')).get_xml_obj())
     current[0] = 'Settings'
     # Each activity's android:label: the window title of its screen.
     NS = '{http://schemas.android.com/apk/res/android}'

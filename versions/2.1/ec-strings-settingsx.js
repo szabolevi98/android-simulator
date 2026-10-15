@@ -1204,6 +1204,42 @@ EC.strings('settingsx', {
 "hu": "A telefon nincs dokkolva",
 "huFrom": "crespo:Settings:dock_audio_summary_none"
 },
+"VoiceSearchWithKeyboard/voice_warning_title": {
+"res": "passion:VoiceSearchWithKeyboard:voice_warning_title",
+"en": "Voice input",
+"de": "Spracheingabe",
+"fr": "Saisie vocale",
+"es": "Introducción de voz",
+"hu": "Hangbevitel",
+"huFrom": "crespo:LatinImeGoogle:voice_warning_title"
+},
+"VoiceSearchWithKeyboard/voice_warning_may_not_understand": {
+"res": "passion:VoiceSearchWithKeyboard:voice_warning_may_not_understand",
+"en": "Voice input is an experimental feature using Google's networked speech recognition.",
+"de": "Die Spracheingabe ist eine Funktion im Versuchsstadium, die die vernetzte Spracherkennung von Google verwendet.",
+"fr": "La saisie vocale est une fonctionnalité expérimentale qui fait appel à la reconnaissance vocale en réseau de Google.",
+"es": "La introducción de voz es una función en fase experimental que utiliza la tecnología de reconocimiento de voz en red de Google.",
+"hu": "A hangbevitel a Google hálózati beszédfelismerését alkalmazó kísérleti funkció.",
+"huFrom": "crespo:LatinImeGoogle:voice_warning_may_not_understand"
+},
+"VoiceSearchWithKeyboard/voice_warning_locale_not_supported": {
+"res": "passion:VoiceSearchWithKeyboard:voice_warning_locale_not_supported",
+"en": "Voice input is not currently supported for your language, but does work in English.",
+"de": "Spracheingaben werden derzeit nicht für Ihre Sprache unterstützt, funktionieren jedoch in Englisch.",
+"fr": "La saisie vocale n'est pas encore prise en charge pour votre langue, mais elle fonctionne en anglais.",
+"es": "Actualmente la introducción de voz no está disponible en tu idioma, pero se puede utilizar en inglés.",
+"hu": "A hangbevitel szolgáltatás jelenleg nem támogatja az Ön nyelvét, ám angolul működik.",
+"huFrom": "crespo:LatinImeGoogle:voice_warning_locale_not_supported"
+},
+"VoiceSearchWithKeyboard/voice_hint_dialog_message": {
+"res": "passion:VoiceSearchWithKeyboard:voice_hint_dialog_message",
+"en": "To use voice input, press the microphone button or slide your finger across the on-screen keyboard.",
+"de": "Um die Spracheingabe zu verwenden, drücken Sie den Mikrofonknopf oder ziehen Sie Ihren Finger über die Bildschirmtastatur.",
+"fr": "Pour utiliser la saisie vocale, appuyez sur la touche du microphone ou faites glisser votre doigt sur le clavier à l'écran.",
+"es": "Para utilizar la función de introducción de voz, pulsa el botón de micrófono o desliza el dedo por el teclado en pantalla.",
+"hu": "A hangbevitel használatához nyomja meg a mikrofon gombját vagy húzza végig az ujját a képernyő-billentyűzeten.",
+"huFrom": "crespo:LatinImeGoogle:voice_hint_dialog_message"
+},
 "user_dict_settings_edit_dialog_title": {
 "res": "passion:Settings:user_dict_settings_edit_dialog_title",
 "en": "Edit word",

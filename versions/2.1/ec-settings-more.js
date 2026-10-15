@@ -8,7 +8,10 @@
    - IccLockSettings (sim_lock_settings.xml, "SIM card lock settings"): Lock SIM card asks "SIM PIN" (4 to 8 digits, else
      "Incorrect PIN!"); the SIM refuses it ("Unable to change SIM card lock state. Possibly incorrect PIN." — this SIM's
      PIN is not known here). Change SIM PIN stays off while the lock is off.
-   - DockSettings › Audio: not docked, "Phone not docked" and the "Dock not found" dialog. */
+   - DockSettings › Audio: not docked, "Phone not docked" and the "Dock not found" dialog.
+   - Android keyboard settings (VoiceSearchWithKeyboard's LatinIMESettings, res/xml/prefs.xml): Quick fixes only where the
+     language has AutoText (English); turning Voice input on asks first ("Voice input": the experimental-feature note,
+     for other languages the English-only note before it, then the hint; OK / Cancel). ec-ime.js follows the settings. */
 (() => {
   'use strict';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[ch]);
@@ -49,6 +52,17 @@
   EC.settingsKeys.sim_toggle = c => pinDialog(c, t(prefs(c).sim_toggle ? 'sim_disable_sim_lock' : 'sim_enable_sim_lock'), t('sim_enter_pin'), () => c.toast(t('sim_lock_failed')));
   EC.settingsKeys.sim_pin = c => pinDialog(c, t('sim_change_pin'), t('sim_enter_old'), () => pinDialog(c, t('sim_change_pin'), t('sim_enter_new'), first =>
     pinDialog(c, t('sim_change_pin'), t('sim_reenter_new'), again => c.toast(t(first === again ? 'sim_change_failed' : 'sim_pins_dont_match')))));
+
+  // LatinIMESettings.
+  EC.settingsClass.LatinIMEWithVoiceSettings = EC.settingsClass.LatinIMESettings = 'latinime_prefs';
+  EC.settingsPrune.push((name, n) => !(name === 'latinime_prefs' && n.key === 'quick_fixes' && EC.context?.lang !== 'en'));
+  EC.settingsKeys.enable_voice_input = c => {
+    const set = v => { prefs(c).enable_voice_input = v; c.save(); c.render(); };
+    if (EC.settingsValue(c, 'enable_voice_input', 'true') && prefs(c).enable_voice_input !== false) { set(false); return; }
+    const V = k => t(`VoiceSearchWithKeyboard/${k}`), supported = c.lang === 'en';
+    c.dialog({title: V('voice_warning_title'), icon: null, message: [...(supported ? [] : [V('voice_warning_locale_not_supported')]), V('voice_warning_may_not_understand'), V('voice_hint_dialog_message')].join('\n\n'),
+      buttons: [{label: F().t('ok'), action: () => set(true)}, {label: F().t('cancel')}]});
+  };
 
   // DockSettings.
   EC.settingsSummaries.dock_audio = () => t('dock_audio_summary_none');

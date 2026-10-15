@@ -860,3 +860,7 @@ st-ic_menu_filter_settings.png	app/Settings.apk	drawable/ic_menu_filter_settings
 em-ic_exchange_selected.png	app/Email.apk	drawable/ic_exchange_selected
 fb-ic_facebook_selected.png	app/Facebook.apk	drawable/ic_facebook_selected
 st-notice.html.gz	etc/NOTICE.html.gz	-
+ui-KeypressStandard.ogg	media/audio/ui/KeypressStandard.ogg	-
+ui-KeypressDelete.ogg	media/audio/ui/KeypressDelete.ogg	-
+ui-KeypressReturn.ogg	media/audio/ui/KeypressReturn.ogg	-
+ui-KeypressSpacebar.ogg	media/audio/ui/KeypressSpacebar.ogg	-

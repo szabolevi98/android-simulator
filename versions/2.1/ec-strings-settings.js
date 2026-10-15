@@ -199,6 +199,15 @@ EC.strings('settings', {
 "hu": "Alkalmazások kezelése",
 "huFrom": "crespo:Settings:applications_settings_summary"
 },
+"VoiceSearchWithKeyboard/auto_cap": {
+"res": "passion:VoiceSearchWithKeyboard:auto_cap",
+"en": "Auto-capitalization",
+"de": "Autom. Groß-/Kleinschreibung",
+"fr": "Majuscules auto",
+"es": "Uso de mayúsculas auto.",
+"hu": "Automatikusan nagy kezdőbetű",
+"huFrom": "crespo:LatinImeGoogle:auto_cap"
+},
 "auto_caps": {
 "res": "passion:Settings:auto_caps",
 "en": "Auto-cap",
@@ -216,6 +225,24 @@ EC.strings('settings', {
 "es": "Escribir en mayúsculas la primera letra de las frases",
 "hu": "Mondatok kezdése nagy kezdőbetűvel",
 "huFrom": "crespo:Settings:auto_caps_summary"
+},
+"VoiceSearchWithKeyboard/auto_complete": {
+"res": "passion:VoiceSearchWithKeyboard:auto_complete",
+"en": "Auto-complete",
+"de": "Autom. vervollständigen",
+"fr": "Saisie semi-automatique",
+"es": "Autocompletar",
+"hu": "Automatikus kiegészítés",
+"huFrom": "crespo:LatinImeGoogle:auto_complete"
+},
+"VoiceSearchWithKeyboard/auto_complete_summary": {
+"res": "passion:VoiceSearchWithKeyboard:auto_complete_summary",
+"en": "Spacebar and punctuation automatically insert highlighted word",
+"de": "Leertaste und Interpunktion fügen autom. ein markiertes Wort ein",
+"fr": "Insérer auto. le terme surligné avec barre espace/ponctuation",
+"es": "La barra espaciadora y los signos de puntuación insertan automáticamente la palabra resaltada.",
+"hu": "A szóköz és az írásjelek használata automatikusan beszúrja a kiemelt szót",
+"huFrom": "crespo:LatinImeGoogle:auto_complete_summary"
 },
 "auto_punctuate": {
 "res": "passion:Settings:auto_punctuate",
@@ -1032,6 +1059,24 @@ EC.strings('settings', {
 "hu": "SIM-kártya PIN-kódjának be-/kikapcsolása",
 "huFrom": "crespo:Phone:enable_pin"
 },
+"VoiceSearchWithKeyboard/enable_voice": {
+"res": "passion:VoiceSearchWithKeyboard:enable_voice",
+"en": "Voice input",
+"de": "Spracheingabe",
+"fr": "Saisie vocale",
+"es": "Introducción de voz",
+"hu": "Hangbevitel",
+"huFrom": "crespo:LatinImeGoogle:voice_warning_title"
+},
+"VoiceSearchWithKeyboard/english_ime_settings": {
+"res": "passion:VoiceSearchWithKeyboard:english_ime_settings",
+"en": "Android keyboard settings",
+"de": "Android-Tastatureinstellungen",
+"fr": "Paramètres du clavier Android",
+"es": "Configuración del teclado de Android",
+"hu": "Android billentyűzetbeállítások",
+"huFrom": "crespo:LatinImeGoogle:english_ime_settings"
+},
 "Phone/enter_pin2_text": {
 "res": "passion:Phone:enter_pin2_text",
 "en": "PIN2",
@@ -1743,6 +1788,15 @@ EC.strings('settings', {
 "hu": "Akkumulátorhasználat",
 "huFrom": "crespo:Settings:power_usage_summary_title"
 },
+"VoiceSearchWithKeyboard/prediction_category": {
+"res": "passion:VoiceSearchWithKeyboard:prediction_category",
+"en": "Word suggestion settings",
+"de": "Einstellungen für Wortvorschläge",
+"fr": "Paramètres de la saisie prédictive",
+"es": "Configuración de sugerencia de palabras",
+"hu": "Szójavaslati beállítások",
+"huFrom": "crespo:LatinImeGoogle:prediction_category"
+},
 "Mms/pref_mms_settings_title": {
 "res": "passion:Mms:pref_mms_settings_title",
 "en": "Multimedia message (MMS) settings",
@@ -2058,6 +2112,24 @@ EC.strings('settings', {
 "hu": "Proxybeállítások",
 "huFrom": "crespo:Settings:proxy_settings_label"
 },
+"VoiceSearchWithKeyboard/quick_fixes": {
+"res": "passion:VoiceSearchWithKeyboard:quick_fixes",
+"en": "Quick fixes",
+"de": "Quick Fixes",
+"fr": "Corrections rapides",
+"es": "Correcciones rápidas",
+"hu": "Gyorsjavítások",
+"huFrom": "crespo:LatinImeGoogle:quick_fixes"
+},
+"VoiceSearchWithKeyboard/quick_fixes_summary": {
+"res": "passion:VoiceSearchWithKeyboard:quick_fixes_summary",
+"en": "Corrects commonly typed mistakes",
+"de": "Korrigiert gängige Tippfehler",
+"fr": "Corrige les fautes de frappe courantes",
+"es": "Corrige los errores tipográficos que se cometen con más frecuencia.",
+"hu": "Kijavítja a gyakori gépelési hibákat",
+"huFrom": "crespo:LatinImeGoogle:quick_fixes_summary"
+},
 "quick_launch_summary": {
 "res": "passion:Settings:quick_launch_summary",
 "en": "Set keyboard shortcuts to launch applications",
@@ -2346,6 +2418,24 @@ EC.strings('settings', {
 "hu": "Beállítások",
 "huFrom": "crespo:Settings:settings_shortcut"
 },
+"VoiceSearchWithKeyboard/show_suggestions": {
+"res": "passion:VoiceSearchWithKeyboard:show_suggestions",
+"en": "Show suggestions",
+"de": "Vorschläge anzeigen",
+"fr": "Afficher les suggestions",
+"es": "Mostrar sugerencias",
+"hu": "Javaslatok megjelenítése",
+"huFrom": "crespo:LatinImeGoogle:show_suggestions"
+},
+"VoiceSearchWithKeyboard/show_suggestions_summary": {
+"res": "passion:VoiceSearchWithKeyboard:show_suggestions_summary",
+"en": "Display suggested words while typing",
+"de": "Vorgeschlagene Wörter während des Tippens anzeigen",
+"fr": "Afficher les suggestions de terme lors de la saisie",
+"es": "Muestra las palabras sugeridas mientras se escribe.",
+"hu": "A javasolt szavak megjelenítése gépelés közben",
+"huFrom": "crespo:LatinImeGoogle:show_suggestions_summary"
+},
 "silent_mode_summary": {
 "res": "passion:Settings:silent_mode_summary",
 "en": "All sounds except media & alarms are silenced",
@@ -2516,6 +2606,15 @@ EC.strings('settings', {
 "es": "Selección sonora",
 "hu": "Hallható kijelölés",
 "huFrom": "crespo:Settings:sound_effects_enable_title"
+},
+"VoiceSearchWithKeyboard/sound_on_keypress": {
+"res": "passion:VoiceSearchWithKeyboard:sound_on_keypress",
+"en": "Sound on keypress",
+"de": "Sound bei Tastendruck",
+"fr": "Son à chaque touche",
+"es": "Sonido al pulsar tecla",
+"hu": "Hangjelzés billentyű megnyomása esetén",
+"huFrom": "crespo:LatinImeGoogle:sound_on_keypress"
 },
 "sound_settings": {
 "res": "passion:Settings:sound_settings",
@@ -3138,6 +3237,15 @@ EC.strings('settings', {
 "es": "Diccionario del usuario",
 "hu": "Felhasználói szótár",
 "huFrom": "crespo:Settings:user_dict_settings_titlebar"
+},
+"VoiceSearchWithKeyboard/vibrate_on_keypress": {
+"res": "passion:VoiceSearchWithKeyboard:vibrate_on_keypress",
+"en": "Vibrate on keypress",
+"de": "Vibrieren bei Tastendruck",
+"fr": "Vibrer à chaque touche",
+"es": "Vibrar al pulsar tecla",
+"hu": "Rezgés billentyű megnyomása esetén",
+"huFrom": "crespo:LatinImeGoogle:vibrate_on_keypress"
 },
 "vibrate_summary": {
 "res": "passion:Settings:vibrate_summary",

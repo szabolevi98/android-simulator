@@ -874,6 +874,10 @@ versions/2.1/assets/st-lock_anim_10.png	3e11b4e60b1941d5	copy	passion:/system/ap
 versions/2.1/assets/st-lock_anim_12.png	a4bc38246e6c9345	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_12.png	drawable-hdpi		a4bc38246e6c9345
 versions/2.1/assets/st-lock_anim_14.png	f8dae7a137da6c0b	copy	passion:/system/app/Settings.apk!res/drawable-hdpi/lock_anim_14.png	drawable-hdpi		f8dae7a137da6c0b
 versions/2.1/assets/st-notice.html.gz	de17d865930f4ae9	copy	passion:/system/etc/NOTICE.html.gz			de17d865930f4ae9
+versions/2.1/assets/ui-KeypressDelete.ogg	28febde04084b658	copy	passion:/system/media/audio/ui/KeypressDelete.ogg			28febde04084b658
+versions/2.1/assets/ui-KeypressReturn.ogg	87b9c5830430701b	copy	passion:/system/media/audio/ui/KeypressReturn.ogg			87b9c5830430701b
+versions/2.1/assets/ui-KeypressSpacebar.ogg	a4cc23a671fb8fb2	copy	passion:/system/media/audio/ui/KeypressSpacebar.ogg			a4cc23a671fb8fb2
+versions/2.1/assets/ui-KeypressStandard.ogg	a0564cc9bad8667a	copy	passion:/system/media/audio/ui/KeypressStandard.ogg			a0564cc9bad8667a
 versions/2.1/assets/vs-ic_dialog_voice_input.png	7d212e12048b3f85	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/ic_dialog_voice_input.png	drawable-hdpi		7d212e12048b3f85
 versions/2.1/assets/vs-ic_logo_google_white.png	9a464914148e4e2d	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/ic_logo_google_white.png	drawable-hdpi		9a464914148e4e2d
 versions/2.1/assets/vs-speak_now_level0.png	ad65cb9878330758	copy	passion:/system/app/VoiceSearchWithKeyboard.apk!res/drawable-hdpi/speak_now_level0.png	drawable-hdpi		ad65cb9878330758
