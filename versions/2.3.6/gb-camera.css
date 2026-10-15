@@ -48,5 +48,5 @@
 .gbcam-opt span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gbcam-tick{flex:none;width:calc(18.6667 * var(--dp));height:calc(18.6667 * var(--dp))}
 .gbcam-zoom{display:flex;align-items:center;gap:calc(6.9566 * var(--dp));padding:calc(9.2754 * var(--dp)) calc(4.6377 * var(--dp))}
-.gbcam-zoom input{flex:1;accent-color:#9fc742}
+.gbcam-zoom input{flex:none;width:calc(149.5653 * var(--dp));accent-color:#9fc742}
 .gbcam-zoom span{font-size:calc(18.0058 * var(--dp));color:#ffffffa8;min-width:calc(44.058 * var(--dp));text-align:right}

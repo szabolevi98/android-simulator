@@ -7,10 +7,11 @@
   const defaultData = {
     // Launcher2 shows its clings on the first run; saved desktops from before count as dismissed.
     clings: LauncherClings.fresh(),
-    // JWR66Y's framework default_wallpaper.jpg (= Launcher2 wallpaper_01), the Jelly Bean bokeh picture. The image's
+    // JWR66Y's framework default_wallpaper.jpg (drawable-xhdpi, the Nexus 4's: = Launcher2's xhdpi wallpaper_05, index 4),
+    // the Jelly Bean bokeh picture; wallpaper_01 is that picture only in the tablets' sw600dp set. The image's
     // default_wallpaper_component is Phase Beam, as on the Galaxy Nexus; the simulator keeps Phase Beam for 4.0.4 only so
     // the two versions do not open on the same wallpaper. Phase Beam stays in the live wallpaper picker.
-    wallpaper: 0, wallpaperRevision: 2,
+    wallpaper: 4, wallpaperRevision: 3,
     // JWR66Y's Launcher2 default_workspace.xml: the analog clock, the Google folder and Play Store on the middle screen,
     // Play Recommendations right of it; the dock holds Camera, Chrome, all apps, Messaging and Phone. Revision 3.
     layoutRevision: 3,
@@ -122,6 +123,14 @@
         if ((saved.wallpaperRevision || 0) < 2) {
           if (result.liveWallpaper?.id === 'phasebeam') { delete result.liveWallpaper; result.wallpaper = 0; }
           result.wallpaperRevision = 2;
+        }
+      }],
+      // Revision 3: the first-boot picture was wallpaper_01 (the colour circles) by mistake; a desktop still on it moves to
+      // the image's default_wallpaper, wallpaper_05.
+      ['wallpaper revision 3', (result, saved) => {
+        if ((saved.wallpaperRevision || 0) < 3) {
+          if (result.wallpaper === 0 && !result.liveWallpaper) result.wallpaper = 4;
+          result.wallpaperRevision = 3;
         }
       }]
     ]);

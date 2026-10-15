@@ -1,7 +1,7 @@
 // Layout dump: the box of every element of the simulated screen, for every app and a few seeded random taps inside it.
 // Two dumps of the same version (before / after a CSS change that must not move anything) are compared element by
 // element, so a sizing refactor is checked on numbers instead of screenshots.
-//   node docs/tools/layout-dump.mjs <version> <out.json> [--clicks N] [--apps a,b] [--phone WxH]
+//   node docs/tools/layout-dump.mjs <version> <out.json> [--clicks N] [--apps a,b] [--phone WxH] [--seed N]
 //   node docs/tools/layout-dump.mjs --compare <before.json> <after.json> [--tolerance px] [--scale k] [--relative r]
 // Boxes are the elements inside #screen, measured from its top left. With --phone the page runs at that phone size; pick one whose display
 // has the desktop display's shape (2.3.6: 414x790 gives 414 x 690 = 1.5 x 276 x 460) and compare the desktop dump with
@@ -43,7 +43,7 @@ if (flag('--compare')) {
 }
 
 const [version, out] = args;
-const clicks = Number(opt('--clicks', '3')), only = opt('--apps', ''), phone = opt('--phone', '');
+const clicks = Number(opt('--clicks', '3')), only = opt('--apps', ''), phone = opt('--phone', ''), tapSeed = Number(opt('--seed', '0'));
 const BASE = process.env.BASE || 'http://localhost/android-simulator';
 const CHROME = process.env.CHROME || (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : 'google-chrome');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -111,7 +111,7 @@ const apps = only ? only.split(',') : await ev(`(async()=>{const el=document.cre
 if (!only) { await sleep(300); result.drawer = await ev(DUMP); }
 for (const app of apps) {
   // The taps' own seeded numbers (not the page's Math.random, which the apps use as time goes by).
-  let seed = [...app].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619), 2166136261) >>> 0;
+  let seed = ([...app].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619), 2166136261) + tapSeed * 0x9E3779B9) >>> 0;
   const next = () => { seed = (seed + 0x6D2B79F5) >>> 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
   await fresh();
   await ev(`(()=>{const el=document.createElement('button');el.dataset.action='open-app';el.dataset.app=${JSON.stringify(app)};document.querySelector('#viewport').firstElementChild.append(el);el.click();el.remove();return true})()`);
