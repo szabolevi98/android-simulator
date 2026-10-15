@@ -243,3 +243,39 @@ Scanning SD card failed (Reason: "%s")	Az SD-kártya beolvasása sikertelen volt
 No vCard file found on the SD card	Nem található vCard-fájl az SD-kártyán
 There is no exportable contact. You might choose un-exportable data	Nincs exportálható névjegy. Lehet, hogy nem exportálható adatokat választott.
 Messaging Search	Üzenetek keresése
+%s results for "%s"	%s találat erre: "%s"
+%s result for "%s"	%s találat erre: "%s"
+Happy	Boldog
+Sad	Szomorú
+Winking	Kacsintó
+Tongue sticking out	Nyelvet öltő
+Surprised	Meglepett
+Kissing	Csókoló
+Yelling	Kiabáló
+Cool	Menő
+Money mouth	Pénzéhes
+Foot in mouth	Bakizó
+Embarrassed	Zavarban van
+Angel	Angyal
+Undecided	Bizonytalan
+Crying	Síró
+Lips are sealed	Lakat a számon
+Laughing	Nevető
+Confused	Értetlen
+:-)	:-)
+:-(	:-(
+;-)	;-)
+:-P	:-P
+=-O	=-O
+:-*	:-*
+:O	:O
+B-)	B-)
+:-$	:-$
+:-!	:-!
+:-[	:-[
+O:-)	O:-)
+:-\	:-\
+:'(	:'(
+:-X	:-X
+:-D	:-D
+o_O	o_O

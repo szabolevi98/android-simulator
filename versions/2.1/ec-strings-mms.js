@@ -297,5 +297,611 @@ EC.strings('mms', {
 "es": "Actualizando...",
 "hu": "Frissítés...",
 "huFrom": "crespo:Mms:refreshing"
+},
+"menu_add_to_contacts": {
+"res": "passion:Mms:menu_add_to_contacts",
+"en": "Add to Contacts",
+"de": "Zu Kontakten hinzufügen",
+"fr": "Ajouter aux contacts",
+"es": "Añadir a contactos",
+"hu": "Hozzáadás a névjegyekhez",
+"huFrom": "crespo:Mms:menu_add_to_contacts"
+},
+"subject_hint": {
+"res": "passion:Mms:subject_hint",
+"en": "Subject",
+"de": "Betreff",
+"fr": "Objet",
+"es": "Asunto",
+"hu": "Tárgy",
+"huFrom": "crespo:Mms:subject_hint"
+},
+"converting_to_picture_message": {
+"res": "passion:Mms:converting_to_picture_message",
+"en": "Converting to multimedia message…",
+"de": "Konvertierung in Multimedia-Nachricht wird ausgeführt...",
+"fr": "Conversion en message multimédia...",
+"es": "Convirtiendo en mensaje multimedia...",
+"hu": "Konvertálás multimédiás üzenetté...",
+"huFrom": "crespo:Mms:converting_to_picture_message"
+},
+"converting_to_text_message": {
+"res": "passion:Mms:converting_to_text_message",
+"en": "Converting to text message…",
+"de": "Konvertierung in Textnachricht wird ausgeführt...",
+"fr": "Conversion en message SMS…",
+"es": "Convirtiendo en mensaje de texto...",
+"hu": "Konvertálás szöveges üzenetté...",
+"huFrom": "crespo:Mms:converting_to_text_message"
+},
+"inline_subject": {
+"res": "passion:Mms:inline_subject",
+"en": "<Subject: %s>",
+"de": "<Betreff: %s>",
+"fr": "<Objet : %s>",
+"es": "<Asunto: %s>",
+"hu": "<Tárgy: %s>",
+"huFrom": "crespo:Mms:inline_subject"
+},
+"menu_view": {
+"res": "passion:Mms:menu_view",
+"en": "View thread",
+"de": "Thread anzeigen",
+"fr": "Afficher le fil de discussion",
+"es": "Ver cadena",
+"hu": "Szál megtekintése",
+"huFrom": "crespo:Mms:menu_view"
+},
+"menu_delete": {
+"res": "passion:Mms:menu_delete",
+"en": "Delete thread",
+"de": "Thread löschen",
+"fr": "Supprimer le fil de discussion",
+"es": "Eliminar cadena",
+"hu": "Szál törlése",
+"huFrom": "crespo:Mms:menu_delete"
+},
+"confirm_delete_all_conversations": {
+"res": "passion:Mms:confirm_delete_all_conversations",
+"en": "All threads will be deleted.",
+"de": "Alle Threads werden gelöscht.",
+"fr": "Tous les fils de discussion vont être supprimés.",
+"es": "Se eliminarán todas las cadenas.",
+"hu": "Az összes szál törlésre kerül.",
+"huFrom": "crespo:Mms:confirm_delete_all_conversations"
+},
+"confirm_delete_message": {
+"res": "passion:Mms:confirm_delete_message",
+"en": "The message will be deleted.",
+"de": "Die Nachricht wird gelöscht.",
+"fr": "Le message va être supprimé.",
+"es": "Se eliminará el mensaje.",
+"hu": "Az üzenet törlésre kerül.",
+"huFrom": "crespo:Mms:confirm_delete_message"
+},
+"confirm_delete_locked_message": {
+"res": "passion:Mms:confirm_delete_locked_message",
+"en": "Are you sure you want to delete this locked message?",
+"de": "Möchten Sie diese gesperrte Nachricht wirklich löschen?",
+"fr": "Voulez-vous vraiment supprimer le message verrouillé ?",
+"es": "¿Estás seguro de que quieres eliminar este mensaje bloqueado?",
+"hu": "Biztosan törli ezt a zárolt üzenetet?",
+"huFrom": "crespo:Mms:confirm_delete_locked_message"
+},
+"menu_lock": {
+"res": "passion:Mms:menu_lock",
+"en": "Lock message",
+"de": "Nachricht sperren",
+"fr": "Verrouiller le message",
+"es": "Bloquear mensaje",
+"hu": "Üzenet zárolása",
+"huFrom": "crespo:Mms:menu_lock"
+},
+"menu_unlock": {
+"res": "passion:Mms:menu_unlock",
+"en": "Unlock message",
+"de": "Nachricht entsperren",
+"fr": "Déverrouiller le message",
+"es": "Desbloquear mensaje",
+"hu": "Üzenet zárolásának feloldása",
+"huFrom": "crespo:Mms:menu_unlock"
+},
+"menu_forward": {
+"res": "passion:Mms:menu_forward",
+"en": "Forward",
+"de": "Weiterleiten",
+"fr": "Transférer",
+"es": "Reenviar",
+"hu": "Továbbítás",
+"huFrom": "crespo:Mms:menu_forward"
+},
+"copy_message_text": {
+"res": "passion:Mms:copy_message_text",
+"en": "Copy message text",
+"de": "Nachrichtentext kopieren",
+"fr": "Copier le texte du message",
+"es": "Copiar texto del mensaje",
+"hu": "Üzenet szövegének másolása",
+"huFrom": "crespo:Mms:copy_message_text"
+},
+"view_message_details": {
+"res": "passion:Mms:view_message_details",
+"en": "View message details",
+"de": "Nachrichtendetails anzeigen",
+"fr": "Afficher les détails du message",
+"es": "Ver detalles de mensaje",
+"hu": "Üzenet részleteinek megtekintése",
+"huFrom": "crespo:Mms:view_message_details"
+},
+"delete_message": {
+"res": "passion:Mms:delete_message",
+"en": "Delete message",
+"de": "Nachricht löschen",
+"fr": "Supprimer le message",
+"es": "Eliminar mensaje",
+"hu": "Üzenet törlése",
+"huFrom": "crespo:Mms:delete_message"
+},
+"message_options": {
+"res": "passion:Mms:message_options",
+"en": "Message options",
+"de": "Nachrichtenoptionen",
+"fr": "Options du message",
+"es": "Opciones del mensaje",
+"hu": "Üzenetbeállítások",
+"huFrom": "crespo:Mms:message_options"
+},
+"message_details_title": {
+"res": "passion:Mms:message_details_title",
+"en": "Message details",
+"de": "Nachrichtendetails",
+"fr": "Détails du message",
+"es": "Detalles del mensaje",
+"hu": "Üzenet részletei",
+"huFrom": "crespo:Mms:message_details_title"
+},
+"message_type_label": {
+"res": "passion:Mms:message_type_label",
+"en": "Type: ",
+"de": "Typ: ",
+"fr": "Type : ",
+"es": "Tipo: ",
+"hu": "Típus: ",
+"huFrom": "crespo:Mms:message_type_label"
+},
+"text_message": {
+"res": "passion:Mms:text_message",
+"en": "Text message",
+"de": "Textnachricht",
+"fr": "Message SMS",
+"es": "Mensaje de texto",
+"hu": "Szöveges üzenet",
+"huFrom": "crespo:Mms:text_message"
+},
+"multimedia_message": {
+"res": "passion:Mms:multimedia_message",
+"en": "Multimedia message",
+"de": "Multimedia-Nachricht",
+"fr": "Message multimédia",
+"es": "Mensaje multimedia",
+"hu": "Multimédiás üzenet",
+"huFrom": "crespo:Mms:multimedia_message"
+},
+"from_label": {
+"res": "passion:Mms:from_label",
+"en": "From: ",
+"de": "Von: ",
+"fr": "De : ",
+"es": "De: ",
+"hu": "Feladó: ",
+"huFrom": "crespo:Mms:from_label"
+},
+"to_address_label": {
+"res": "passion:Mms:to_address_label",
+"en": "To: ",
+"de": "An: ",
+"fr": "À : ",
+"es": "Para: ",
+"hu": "Címzett: ",
+"huFrom": "crespo:Mms:to_address_label"
+},
+"sent_label": {
+"res": "passion:Mms:sent_label",
+"en": "Sent: ",
+"de": "Gesendet: ",
+"fr": "Date d'envoi : ",
+"es": "Enviado: ",
+"hu": "Elküldött: ",
+"huFrom": "crespo:Mms:sent_label"
+},
+"received_label": {
+"res": "passion:Mms:received_label",
+"en": "Received: ",
+"de": "Empfangen: ",
+"fr": "Date de réception : ",
+"es": "Recibido: ",
+"hu": "Kézbesítve: ",
+"huFrom": "crespo:Mms:received_label"
+},
+"subject_label": {
+"res": "passion:Mms:subject_label",
+"en": "Subject: ",
+"de": "Betreff: ",
+"fr": "Objet : ",
+"es": "Asunto: ",
+"hu": "Tárgy: ",
+"huFrom": "crespo:Mms:subject_label"
+},
+"yes": {
+"res": "passion:Mms:yes",
+"en": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar",
+"hu": "OK",
+"huFrom": "crespo:Mms:yes"
+},
+"menu_call_back": {
+"res": "passion:Mms:menu_call_back",
+"en": "Call %s",
+"de": "%s anrufen",
+"fr": "Appeler %s",
+"es": "Llamar a %s",
+"hu": "%s hívása",
+"huFrom": "crespo:Mms:menu_call_back"
+},
+"menu_send_email": {
+"res": "passion:Mms:menu_send_email",
+"en": "Send email to %s",
+"de": "E-Mail an %s senden",
+"fr": "Envoyer un e-mail à %s",
+"es": "Enviar mensaje a %s",
+"hu": "E-mail küldése a következőnek: %s",
+"huFrom": "crespo:Mms:menu_send_email"
+},
+"menu_add_address_to_contacts": {
+"res": "passion:Mms:menu_add_address_to_contacts",
+"en": "Add %s to Contacts",
+"de": "%s zu Kontakten hinzufügen",
+"fr": "Ajouter %s aux contacts",
+"es": "Añadir %s a contactos",
+"hu": "%s hozzáadása a Címtárhoz",
+"huFrom": "crespo:Mms:menu_add_address_to_contacts"
+},
+"search_hint": {
+"res": "passion:Mms:search_hint",
+"en": "Messaging Search",
+"de": "SMS/MMS-Suche",
+"fr": "Recherche SMS/MMS",
+"es": "Búsqueda de mensajes",
+"hu": "Üzenetek keresése",
+"huOwn": true
+},
+"search_label": {
+"res": "passion:Mms:search_label",
+"en": "Messaging",
+"de": "SMS/MMS",
+"fr": "SMS/MMS",
+"es": "Mensajes",
+"hu": "Üzenetek",
+"huFrom": "crespo:Mms:search_label"
+},
+"search_empty": {
+"res": "passion:Mms:search_empty",
+"en": "No matches",
+"de": "Keine Übereinstimmungen",
+"fr": "Aucune correspondance",
+"es": "No hay coincidencias.",
+"hu": "Nincs találat",
+"huFrom": "crespo:Mms:search_empty"
+},
+"search_results_title": {
+"res": "passion:Mms:search_results_title",
+"en": {
+"other": "%s results for \"%s\"",
+"one": "%s result for \"%s\""
+},
+"de": {
+"other": "%s Ergebnisse für \"%s\"",
+"one": "%s Ergebnis für \"%s\""
+},
+"fr": {
+"other": "%s résultats pour \"%s\"",
+"one": "%s résultat pour \"%s\""
+},
+"es": {
+"other": "%s resultados de \"%s\"",
+"one": "%s resultados de \"%s\""
+},
+"hu": {
+"other": "%s találat erre: \"%s\"",
+"one": "%s találat erre: \"%s\""
+}
+},
+"default_smiley_texts": {
+"res": "passion:Mms:default_smiley_texts",
+"en": [
+":-)",
+":-(",
+";-)",
+":-P",
+"=-O",
+":-*",
+":O",
+"B-)",
+":-$",
+":-!",
+":-[",
+"O:-)",
+":-\\",
+":'(",
+":-X",
+":-D",
+"o_O"
+],
+"de": [
+":-)",
+":-(",
+";-)",
+":-P",
+"=-O",
+":-*",
+":O",
+"B-)",
+":-$",
+":-!",
+":-[",
+"O:-)",
+":-\\",
+":'(",
+":-X",
+":-D",
+"o_O"
+],
+"fr": [
+":-)",
+":-(",
+";-)",
+":-P",
+"=-O",
+":-*",
+":O",
+"B-)",
+":-$",
+":-!",
+":-[",
+"O:-)",
+":-\\",
+":'(",
+":-X",
+":-D",
+"o_O"
+],
+"es": [
+":-)",
+":-(",
+";-)",
+":-P",
+"=-O",
+":-*",
+":O",
+"B-)",
+":-$",
+":-!",
+":-[",
+"O:-)",
+":-\\",
+":'(",
+":-X",
+":-D",
+"o_O"
+],
+"hu": [
+":-)",
+":-(",
+";-)",
+":-P",
+"=-O",
+":-*",
+":O",
+"B-)",
+":-$",
+":-!",
+":-[",
+"O:-)",
+":-\\",
+":'(",
+":-X",
+":-D",
+"o_O"
+]
+},
+"default_smiley_names": {
+"res": "passion:Mms:default_smiley_names",
+"en": [
+"Happy",
+"Sad",
+"Winking",
+"Tongue sticking out",
+"Surprised",
+"Kissing",
+"Yelling",
+"Cool",
+"Money mouth",
+"Foot in mouth",
+"Embarrassed",
+"Angel",
+"Undecided",
+"Crying",
+"Lips are sealed",
+"Laughing",
+"Confused"
+],
+"de": [
+"Glücklich",
+"Traurig",
+"Zwinkern",
+"Zunge rausstrecken",
+"Überrascht",
+"Kuss",
+"Ausruf",
+"Cool",
+"Lass Taten sprechen",
+"Fettnäpfchen",
+"Peinlich berührt",
+"Engel",
+"Unentschlossen",
+"Weinen",
+"Versiegelte Lippen",
+"Lachen",
+"Verwirrt"
+],
+"fr": [
+"Content",
+"Triste",
+"Clin d'œil",
+"Tire la langue",
+"Surpris",
+"Bisou",
+"Hurle",
+"Cool",
+"Argent",
+"Embarrassé",
+"Gêné",
+"Ange",
+"Indécis",
+"Pleure",
+"Motus",
+"Rigole",
+"Confus"
+],
+"es": [
+"Contento",
+"Triste",
+"Guiño",
+"Sacando la lengua",
+"Sorprendido",
+"Besando",
+"Gritando",
+"Atractivo",
+"Dinero en la boca",
+"Metedura de pata",
+"Avergonzado",
+"Ángel",
+"Indeciso",
+"Llorando",
+"Labios sellados",
+"Riendo",
+"Confuso"
+],
+"hu": [
+"Boldog",
+"Szomorú",
+"Kacsintó",
+"Nyelvet öltő",
+"Meglepett",
+"Csókoló",
+"Kiabáló",
+"Menő",
+"Pénzéhes",
+"Bakizó",
+"Zavarban van",
+"Angyal",
+"Bizonytalan",
+"Síró",
+"Lakat a számon",
+"Nevető",
+"Értetlen"
+]
+},
+"attach_image": {
+"res": "passion:Mms:attach_image",
+"en": "Pictures",
+"de": "Bilder",
+"fr": "Images",
+"es": "Imágenes",
+"hu": "Képek",
+"huFrom": "crespo:Mms:attach_image"
+},
+"attach_take_photo": {
+"res": "passion:Mms:attach_take_photo",
+"en": "Capture picture",
+"de": "Bild aufnehmen",
+"fr": "Prendre une photo",
+"es": "Capturar imagen",
+"hu": "Kép rögzítése",
+"huFrom": "crespo:Mms:attach_take_photo"
+},
+"attach_video": {
+"res": "passion:Mms:attach_video",
+"en": "Videos",
+"de": "Videos",
+"fr": "Vidéos",
+"es": "Vídeos",
+"hu": "Videók",
+"huFrom": "crespo:Mms:attach_video"
+},
+"attach_record_video": {
+"res": "passion:Mms:attach_record_video",
+"en": "Capture video",
+"de": "Video aufnehmen",
+"fr": "Faire une vidéo",
+"es": "Capturar vídeo",
+"hu": "Videó rögzítése",
+"huFrom": "crespo:Mms:attach_record_video"
+},
+"attach_sound": {
+"res": "passion:Mms:attach_sound",
+"en": "Audio",
+"de": "Audio",
+"fr": "Fichier audio",
+"es": "Audio",
+"hu": "Hanganyag",
+"huFrom": "crespo:Mms:attach_sound"
+},
+"attach_record_sound": {
+"res": "passion:Mms:attach_record_sound",
+"en": "Record audio",
+"de": "Audio aufnehmen",
+"fr": "Enregistrer message",
+"es": "Grabar audio",
+"hu": "Hanganyag rögzítése",
+"huFrom": "crespo:Mms:attach_record_sound"
+},
+"attach_slideshow": {
+"res": "passion:Mms:attach_slideshow",
+"en": "Slideshow",
+"de": "Diashow",
+"fr": "Diaporama",
+"es": "Presentación",
+"hu": "Diavetítés",
+"huFrom": "crespo:Mms:attach_slideshow"
+},
+"menu_edit": {
+"res": "passion:Mms:menu_edit",
+"en": "Edit",
+"de": "Bearbeiten",
+"fr": "Modifier",
+"es": "Editar",
+"hu": "Szerkesztés",
+"huFrom": "crespo:Mms:menu_edit"
+},
+"forward_prefix": {
+"res": "passion:Mms:forward_prefix",
+"en": "Fwd: ",
+"de": "WG: ",
+"fr": "TR : ",
+"es": "Fwd: ",
+"hu": "Fwd: ",
+"huFrom": "crespo:Mms:forward_prefix"
+},
+"delete_unlocked": {
+"res": "passion:Mms:delete_unlocked",
+"en": "Delete locked messages",
+"de": "Gesperrte Nachrichten löschen",
+"fr": "Supprimer les messages verrouillés",
+"es": "Eliminar mensajes bloqueados",
+"hu": "Zárolt üzenetek törlése",
+"huFrom": "crespo:Mms:delete_unlocked"
 }
 });

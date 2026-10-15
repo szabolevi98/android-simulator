@@ -66,6 +66,10 @@
 /* resolve_list_item.xml (ChooserActivity / ResolverActivity): padding 10 / 15 dp, a 48 dp icon, the label 10 dp from it. */
 .ecui-npdlg{display:flex;flex-direction:column;align-items:center}
 .ecui-npdlg-label{width:100%;padding:calc(1 * var(--dp));text-align:center;color:#fff;font-size:calc(12 * var(--dp))}
+.ecui-li.ecui-smiley{padding:0 calc(10 * var(--dp)) 0 calc(18 * var(--dp));gap:calc(15 * var(--dp))}
+.ecui-li.ecui-smiley img{position:relative;z-index:1;flex:none;width:calc(20 * var(--dp));height:calc(20 * var(--dp))}
+.ecui-li .ecui-smiley-text{flex:none}
+.ecui-li-icon.ecui-iconlist{padding:calc(1 * var(--dp)) calc(9 * var(--dp));gap:calc(9 * var(--dp))}
 .ecui-li.ecui-simple{padding-left:calc(6 * var(--dp))}
 .ecui-li-icon.ecui-resolve{padding:0 calc(15 * var(--dp)) 0 calc(10 * var(--dp));gap:calc(10 * var(--dp))}
 /* Activity windows (c.window): black background (screen_background_dark), the 25 dp title bar, its shadow over the content. */
