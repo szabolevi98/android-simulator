@@ -37,7 +37,7 @@
     };
     if (s.navAgreed && !s.navAsk) { go(); return; }
     let ask = false;
-    const html = `<div class="ecmn-agree"><div class="ecmn-agreetext">${esc(t('da_agreement'))}</div><button type="button" class="ecmn-check" data-action="ecmn-check"><img src="assets/fw-btn_check_off.png" alt=""><span>${esc(t('da_disclaimer_checkbox'))}</span></button></div>`;
+    const html = `<div class="ecmn-agree"><div class="ecmn-agreescroll"><div class="ecmn-agreetext">${esc(t('da_agreement'))}</div></div><button type="button" class="ecmn-check" data-action="ecmn-check"><img src="assets/fw-btn_check_off.png" alt=""><span>${esc(t('da_disclaimer_checkbox'))}</span></button></div>`;
     c.dialog({title: `${t('da_google_maps_navigation')}`, icon: null, html,
       action(name, el) { if (name !== 'ecmn-check') return false; ask = !ask; el.querySelector('img').src = `assets/fw-btn_check_${ask ? 'on' : 'off'}.png`; return true; },
       buttons: [{label: t('da_dialog_accept'), action: () => { s.navAgreed = true; s.navAsk = ask; c.save(); go(); }}, {label: t('da_dialog_dont_accept')}]});
@@ -120,7 +120,7 @@
     const n = ns(c), canvas = root.querySelector('.ecmn-canvas');
     if (!canvas || !n) return;
     const pos = n.pos || {x: P().ME.x, y: P().ME.y, heading: 0};
-    const view = {...P().st(c), x: pos.x, y: pos.y, z: n.overview ? 14 : n.zoom, route: n.route || null, hideMe: true};
+    const view = {...P().st(c), x: pos.x, y: pos.y, z: n.overview ? 14 : n.zoom, route: n.route || null, hideMe: true, res: 1};
     // Draw a larger square map, then turn it with CSS about the car.
     P().draw(c, canvas, view);
     const wrap = root.querySelector('.ecmn-map');
@@ -282,7 +282,7 @@
       let d = ((deg - s.yaw + 540) % 360) - 180;
       if (Math.abs(d) > s.fov / 2 + 20) continue;
       const x = w / 2 + d / s.fov * w, hor = h / 2;
-      g.fillStyle = '#f7d62ccc'; g.beginPath(); g.moveTo(x - 1.5 * dp, hor); g.lineTo(x + 1.5 * dp, hor); g.lineTo(x + 30 * dp, h); g.lineTo(x - 30 * dp, h); g.closePath(); g.fill();
+      g.fillStyle = '#f2d02aa8'; g.beginPath(); g.moveTo(x - 1 * dp, hor); g.lineTo(x + 1 * dp, hor); g.lineTo(x + 14 * dp, h); g.lineTo(x - 14 * dp, h); g.closePath(); g.fill();
       // the arrow: a dark chevron with a light edge on the line
       const ay = hor + (h - hor) * (dir > 0 ? 0.42 : 0.75), aw = (dir > 0 ? 26 : 40) * dp;
       g.fillStyle = '#4a4a3acc'; g.strokeStyle = '#e8e6d8'; g.lineWidth = 1.5 * dp;

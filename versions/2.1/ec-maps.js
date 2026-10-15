@@ -298,7 +298,7 @@
     sat = {dp, c: cv}; return cv;
   }
   function draw(c, canvas, view = st(c)) {
-    const w = canvas.clientWidth, h = canvas.clientHeight, r = Math.min(2, window.devicePixelRatio || 1), dp = DP();
+    const w = canvas.clientWidth, h = canvas.clientHeight, r = view.res || Math.min(2, window.devicePixelRatio || 1), dp = DP();
     if (!w || !h) return;
     if (canvas.width !== Math.round(w * r) || canvas.height !== Math.round(h * r)) { canvas.width = Math.round(w * r); canvas.height = Math.round(h * r); }
     const g = canvas.getContext('2d'), s = scale(view.z, dp), S = view.satellite ? STYLE.sat : STYLE.map;
@@ -543,7 +543,7 @@
   function renderDirections(c) {
     const u = ui(c), r = u.route, list = steps(c);
     const head = `<div class="ecmp-dhead"><div class="ecmp-dh1"><i class="ecmp-lpin" style="--cell:0"></i><span>${esc(r.from.name)}</span></div><div class="ecmp-dh2"><i class="ecmp-lpin" style="--cell:1"></i><span><b>${esc(r.to.name)}</b><small>${esc(`${distance(c, r.total)} – ${fmt(c, 'dir_about', minutes(c, r.min))}`)}</small></span></div>
-      <div class="ecmp-dbtns">${hbtn('ecmp-showroute', 'ic_menu_see_map', t('show_on_map'))}${r.mode === 'drive' ? hbtn('ecmp-navigate', 'da_ic_list_navigate', t('da_navigate')) : ''}${hbtn('ecmp-reverse', 'ic_menu_reverse_directions', t('directions'))}</div></div><img class="ecmp-div" src="assets/fw-divider_horizontal_dark.9.png" alt="">`;
+      <div class="ecmp-dbtns">${hbtn('ecmp-showroute', 'ic_menu_see_map', t('show_on_map'))}${r.mode === 'drive' ? hbtn('ecmp-navigate', 'da_ic_list_navigate', t('da_navigate')) : ''}</div></div><img class="ecmp-div" src="assets/fw-divider_horizontal_dark.9.png" alt="">`;
     const rows = list.map((s, i) => listRow('ecmp-step', `data-index="${i}"`, `<span class="ecmp-snum">${i + 1}.</span><span class="ecmp-rtext"><span>${esc(s.text)}</span></span>${s.len ? `<span class="ecmp-rdist">${esc(distance(c, s.len))}</span>` : ''}`)).join('');
     return `<div class="ecmp-list">${head}<div class="ecmp-scroll">${rows}</div></div>`;
   }

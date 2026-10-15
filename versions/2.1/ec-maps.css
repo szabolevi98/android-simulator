@@ -142,8 +142,10 @@
 /* Navigation (da_navigation.xml) */
 .ecmn{position:absolute;inset:0;overflow:hidden;background:#eae6dd;color:#fff}
 .ecmn-map{position:absolute;left:0;right:0;top:calc(84 * var(--dp));bottom:calc(50 * var(--dp));overflow:hidden;perspective:calc(380 * var(--dp))}
-.ecmn-canvas{position:absolute;left:50%;top:calc(72% - 256 * var(--dp));width:calc(512 * var(--dp));height:calc(512 * var(--dp));margin-left:calc(-256 * var(--dp));transform:rotateX(52deg) rotate(var(--rot,0deg));transform-origin:50% 50%}
-.ecmn-map.flat .ecmn-canvas{top:calc(50% - 256 * var(--dp));transform:none}
+.ecmn-canvas{position:absolute;left:50%;top:calc(72% - 480 * var(--dp));width:calc(960 * var(--dp));height:calc(960 * var(--dp));margin-left:calc(-480 * var(--dp));transform:rotateX(52deg) rotate(var(--rot,0deg));transform-origin:50% 50%}
+.ecmn-map.flat .ecmn-canvas{top:calc(50% - 480 * var(--dp));transform:none}
+.ecmn-map::after{content:"";position:absolute;left:0;right:0;top:0;height:28%;background:linear-gradient(#d9d6cf,#d9d6cf00);pointer-events:none}
+.ecmn-map.flat::after{display:none}
 .ecmn-chev{position:absolute;z-index:1;left:50%;top:72%;width:calc(56 * var(--dp));height:calc(56 * var(--dp));margin:calc(-28 * var(--dp)) 0 0 calc(-28 * var(--dp))}
 .ecmn-map.flat .ecmn-chev{display:none}
 .ecmn-top{position:absolute;left:0;right:0;top:0;height:calc(84 * var(--dp))}
@@ -177,7 +179,8 @@
 .ecmn-lrow span{flex:1}
 .ecmn-lrow small{flex:none;color:#bebebe;font-size:calc(14 * var(--dp))}
 .ecmn-ldiv{display:block;height:1px;background:#333}
-.ecmn-agree{padding:0 calc(10 * var(--dp)) calc(4 * var(--dp)) calc(14 * var(--dp));color:#fff;max-height:calc(250 * var(--dp));overflow-y:auto}
+.ecmn-agree{padding:0 calc(10 * var(--dp)) calc(4 * var(--dp)) calc(14 * var(--dp));color:#fff}
+.ecmn-agreescroll{max-height:calc(190 * var(--dp));overflow-y:auto}
 .ecmn-agreetext{padding:calc(5 * var(--dp));font-size:calc(18 * var(--dp));white-space:pre-line}
 .ecmn-check{display:flex;align-items:center;gap:calc(4 * var(--dp));border:0;padding:0;background:none;color:#fff;font-size:calc(18 * var(--dp));text-align:left}
 .ecmn-check img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
