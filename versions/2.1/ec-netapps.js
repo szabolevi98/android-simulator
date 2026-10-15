@@ -4,7 +4,6 @@
      the square search button), nav_3buttons.xml (Apps | Games | Downloads on btn_strip), the full-screen "Loading…",
      then "Attention: A network error has occurred. Retry, or cancel and return to the previous screen." (Retry /
      Cancel), the list ending in "No connection".
-   - Talk: "Signing in…", then "Network currently unavailable. Will connect automatically when available."
    - YouTube: "Loading…", then "Connection problem." / "There is no network connection right now. Please try again
      later." (OK).
    - Maps: the empty map, then "Network failure" / "This application requires a working data connection." */
@@ -35,10 +34,6 @@
     });
   }
   // Gmail, Talk, YouTube, Maps --------------------------------------------------------------------------------------------
-  function talk(c) {
-    const st = c.ui.talkState || 'loading';
-    return c.window(EC.apps.label('talk'), st === 'loading' ? loading(t('Talk/signing_in_wait')) : `<div class="ecna-empty">${esc(t('Talk/no_network'))}</div>`);
-  }
   function youtube(c) { return c.window(EC.apps.label('youtube'), loading(t('YouTube/loading_elipses'))); }
   function maps(c) { return `<div class="ecna-map">${c.ui.mapsState === 'error' ? '' : loading(t('Maps/LOADING'))}</div>`; }
 
@@ -48,11 +43,10 @@
     start
   });
   register('market', market, marketStart);
-  register('talk', talk, c => { c.ui.talkState = 'loading'; later(c, 'talk', 2500, () => { c.ui.talkState = 'error'; c.render(); }); });
   register('youtube', youtube, c => later(c, 'youtube', 2000, () => c.dialog({title: t('YouTube/connection_error_title'), icon: 'fw-ic_dialog_alert.png', message: t('YouTube/no_network'), buttons: [{label: t('YouTube/ok'), action: () => c.back()}], onCancel: () => c.back()})));
   register('maps', maps, c => { c.ui.mapsState = 'loading'; later(c, 'maps', 2000, () => { c.ui.mapsState = 'error'; c.render(); c.dialog({title: t('Maps/NET_FAIL_TITLE'), icon: 'fw-ic_dialog_alert.png', message: t('Maps/NET_FAIL_BODY'), buttons: [{label: EC.text('framework').t('ok')}]}); }); });
   document.addEventListener('DOMContentLoaded', () => {
     const c = EC.context, open = c.open;
-    c.open = (view, sub, opts) => { const fresh = c.ui.view !== view; const r = open(view, sub, opts); if (fresh && ['market', 'talk', 'youtube', 'maps'].includes(view)) { EC.module(view).start(c); c.render(); } return r; };
+    c.open = (view, sub, opts) => { const fresh = c.ui.view !== view; const r = open(view, sub, opts); if (fresh && ['market', 'youtube', 'maps'].includes(view)) { EC.module(view).start(c); c.render(); } return r; };
   });
 })();

@@ -1,0 +1,61 @@
+/* Android 2.1 Google Talk 1.3 (ec-talk.js), in dp / sp. The title bars reuse ec-gmail.css' custom title. */
+.ectk{position:absolute;inset:0;display:flex;flex-direction:column;background:#000;color:#fff}
+.ectk-tright{padding:0 calc(1 * var(--dp)) 0 calc(30 * var(--dp))}
+.ectk-tspin{position:relative;z-index:1;flex:none;width:calc(16 * var(--dp));height:calc(16 * var(--dp));margin:0 calc(4 * var(--dp));animation:ecgm-spin 1.2s steps(12) infinite}
+/* signing_in_activity.xml: the splash logo 10 dp over the spinner and "Signing in…" (10 dp after it), centred. */
+.ectk-signing{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ectk-signing>img{width:calc(150 * var(--dp));height:calc(110 * var(--dp));margin-bottom:calc(10 * var(--dp))}
+.ectk-signing>div{display:flex;align-items:center}
+.ectk-signing span{padding-left:calc(10 * var(--dp));font-size:calc(14 * var(--dp));color:#bebebe}
+.ectk-spin48{width:calc(48 * var(--dp));height:calc(48 * var(--dp));animation:ecgm-spin 1.2s steps(12) infinite}
+.ectk-list{position:relative;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+/* status_view.xml: #5b5c5c, padding 2 / 3 / 7 / 3 dp; the 58 dp picture on avatar_border (padding 5 dp), the status field
+   (custom_status_textfield_background, white text) 3 dp either side, the 35 dp presence button. */
+.ectk-status{display:flex;align-items:center;min-height:calc(64 * var(--dp));padding:calc(3 * var(--dp)) calc(7 * var(--dp)) calc(3 * var(--dp)) calc(2 * var(--dp));background:#5b5c5c;box-sizing:border-box}
+.ectk-avatar{position:relative;flex:none;width:calc(58 * var(--dp));height:calc(58 * var(--dp));padding:calc(5 * var(--dp))!important;box-sizing:border-box}
+.ectk-avatar img{position:relative;z-index:1;display:block;width:100%;height:100%}
+.ectk-sfield{position:relative;flex:1;min-width:0;margin:calc(2 * var(--dp)) calc(3 * var(--dp)) 0}
+.ectk-sfield input{color:#fff}
+.ectk-sfield input:focus{color:#000}
+.ectk-sbtn{position:relative;flex:none;width:calc(35 * var(--dp));min-height:calc(48 * var(--dp));margin-top:calc(2 * var(--dp));border:0;padding:0;background:none;display:flex;align-items:center;justify-content:center}
+.ectk-sbtn img{position:relative;z-index:1;width:calc(18 * var(--dp));height:calc(18 * var(--dp))}
+/* roster_list_item.xml: 64 dp, padding 2 dp; the badge 2 dp in with 10 dp after it; the text 6 dp in, 10 dp before the
+   presence icon; name textAppearanceMedium bold, status textAppearanceSmall. Chatting friends on im_bubble_normal. */
+.ectk-row{position:relative;display:flex;align-items:center;width:100%;height:calc(64 * var(--dp));border:0;padding:calc(2 * var(--dp));background:none;color:#fff;text-align:left;box-sizing:border-box}
+.ectk-row .ecph-badge{margin:0 calc(10 * var(--dp)) 0 calc(2 * var(--dp))}
+.ectk-row.offline .ecph-badge img,.ectk-row.offline .ectk-presence{filter:grayscale(1) brightness(.6)}
+.ectk-text{position:relative;z-index:1;flex:1;min-width:0;align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding:0 calc(38 * var(--dp)) 0 calc(6 * var(--dp));margin-right:calc(5 * var(--dp));box-sizing:border-box}
+.ectk-text>span,.ectk-text>img{position:relative;z-index:1}
+.ectk-l1{font-size:calc(18 * var(--dp));font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ectk-l2{font-size:calc(14 * var(--dp));color:#bebebe;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ectk-presence{position:absolute!important;right:calc(10 * var(--dp));top:50%;width:calc(18 * var(--dp));height:calc(18 * var(--dp));margin-top:calc(-9 * var(--dp))}
+.ectk-type{position:absolute!important;right:calc(28 * var(--dp));bottom:calc(2 * var(--dp));width:calc(33.33 * var(--dp));height:calc(24 * var(--dp))}
+.ectk-emo{width:calc(20 * var(--dp));height:calc(20 * var(--dp));vertical-align:text-bottom}
+/* ChatScreen: ContactHeaderWidget on title_bar_medium, the white history, bottombar_landscape_565 with the field and Send. */
+.ectk-chat{background:#fff}
+.ectk-head{color:#fff}
+.ectk-hname{position:relative;z-index:1;flex:1;min-width:0;display:flex;flex-direction:column}
+.ectk-hname small{font-size:calc(14 * var(--dp));color:#bebebe;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ectk-hpres{position:relative;z-index:1;flex:none;padding:0 calc(6 * var(--dp)) 0 calc(3 * var(--dp));width:calc(18 * var(--dp));height:calc(18 * var(--dp))}
+.ectk-history{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;background:#fff;display:flex;flex-direction:column}
+.ectk-history>:first-child{margin-top:auto}
+.ectk-msg{background:#fff;color:#000}
+.ectk-msg.in{background:#ecfbff}
+.ectk-body{padding:calc(5 * var(--dp)) calc(7 * var(--dp)) calc(3 * var(--dp));font-size:calc(18 * var(--dp));word-wrap:break-word}
+.ectk-ts{padding:0 calc(7 * var(--dp)) calc(3 * var(--dp));font-size:calc(14 * var(--dp));color:#808080}
+.ectk-note{padding:calc(5 * var(--dp)) calc(7 * var(--dp)) calc(3 * var(--dp));font-size:calc(14.4 * var(--dp));font-style:italic;color:#aaa}
+.ectk-input{flex:none;display:flex;align-items:stretch;padding:calc(4 * var(--dp)) calc(5 * var(--dp)) 0;background:url('assets/tk-bottombar_landscape_565.png') 0 0/100% 100%}
+.ectk-input .ecwf-edit{flex:1;min-width:0;margin:0}
+.ectk-send{flex:none;margin-left:calc(4 * var(--dp));min-width:calc(64 * var(--dp))}
+/* AddBuddyScreen: padding 9 dp, the instruction in textAppearanceMedium; ButtonBar (bottom_bar) with the button over
+   half the width. */
+.ectk-add{flex:1;display:flex;flex-direction:column}
+.ectk-addbody{flex:1;padding:calc(9 * var(--dp))}
+.ectk-addlabel{font-size:calc(18 * var(--dp));margin-bottom:calc(2 * var(--dp))}
+.ectk-bbar{display:flex;justify-content:center;padding:calc(5 * var(--dp)) calc(4 * var(--dp)) calc(1 * var(--dp));background:url('assets/fw-bottom_bar.png') 0 0/100% 100%}
+.ectk-bbar .ecui-button{width:50%}
+.ectk-info{padding:calc(10 * var(--dp));color:#fff;font-size:calc(14 * var(--dp))}
+.ectk-info b{display:block;margin-bottom:calc(8 * var(--dp));font-size:calc(18 * var(--dp))}
+/* The Status dialog's simple_dropdown_item_1line rows with the presence icon. */
+.ecui-li.ecui-r-talk{gap:calc(10 * var(--dp))}
+.ecui-li.ecui-r-talk img{position:relative;z-index:1;flex:none;width:calc(18 * var(--dp));height:calc(18 * var(--dp))}
