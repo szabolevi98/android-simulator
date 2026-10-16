@@ -1,0 +1,3 @@
+# Settings vector drawables named by its preference screens (written by docs/tools/mm-prefs.py)
+gms-ic_google_settings.svg	priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk	ic_google_settings	-
+st-ic_settings_memory.svg	priv-app/Settings/Settings.apk	ic_settings_memory	-

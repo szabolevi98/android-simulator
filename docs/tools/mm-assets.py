@@ -2,7 +2,7 @@
 
     python docs/tools/mm-assets.py
 
-docs/data/mm-assets.tsv lists one file per line: <output name> <TAB> <APK under _aosp/bullhead/system> <TAB> <resource>,
+docs/data/mm-assets.tsv (and every docs/data/mm-assets-*.tsv a tool writes, e.g. mm-prefs.py's) lists one file per line: <output name> <TAB> <APK under _aosp/bullhead/system> <TAB> <resource>,
 e.g. "sui-ic_sysbar_back.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_back"; a source that is not an APK is a
 system file copied byte for byte. The Nexus 5X is 420 dpi and takes xxhdpi resources (480 dpi, scaled down by 420/480),
 so a resource is taken in the first density the APK has of xxhdpi, nodpi, xhdpi, xxxhdpi, hdpi, mdpi or none (with or
@@ -13,7 +13,7 @@ Every nine-patch gets a class in mm-ninepatch.css: .np-<output name without .9.p
 its npTc chunk (stretch areas and padding), border widths in dp (xxhdpi 3 px per dp, xhdpi 2, xxxhdpi 4, hdpi 1.5,
 nodpi 3 like the density Android loads it at, mdpi 1), written as calc(n * var(--dp)); .npp-<name> is the whole padding
 of the nine-patch, for a view whose background it is. Run it again after changing the list; do not edit the CSS."""
-import os, re, struct, zipfile
+import glob, os, re, struct, zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + '/'
 SYSTEM = ROOT + '_aosp/bullhead/system/'
@@ -59,7 +59,7 @@ def dp(px, per):
 
 
 def main():
-    rows = [line.rstrip('\n').split('\t') for line in open(ROOT + 'docs/data/mm-assets.tsv', encoding='utf-8')
+    rows = [line.rstrip('\n').split('\t') for f in sorted(glob.glob(ROOT + 'docs/data/mm-assets*.tsv')) for line in open(f, encoding='utf-8')
             if line.strip() and not line.startswith('#')]
     zips, css = {}, []
     os.makedirs(OUT, exist_ok=True)

@@ -154,3 +154,8 @@
 .mmud-avatar img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
 .mmud-item.on{color:#80cbc4;font-weight:500}
 .mmud-item.on .mmud-avatar{box-shadow:inset 0 0 0 calc(2 * var(--dp)) #80cbc4}
+/* BrightnessDialog: the dark Material dialog window at the top, 95 % wide, its background inset 16 dp, 2 dp corners. */
+.mmbd{position:absolute;inset:0;z-index:30}
+.mmbd-out{position:absolute;inset:0}
+.mmbd-win{position:absolute;top:calc(40 * var(--dp));left:calc(2.5% + 16 * var(--dp));right:calc(2.5% + 16 * var(--dp));padding:0 calc(16 * var(--dp));border-radius:calc(2 * var(--dp));background:#424242;box-shadow:0 calc(8 * var(--dp)) calc(24 * var(--dp)) rgba(0,0,0,.4)}
+.mmbd-slider{position:relative;height:calc(60 * var(--dp))}

@@ -1,0 +1,41 @@
+/* Android 6.0.1 Settings (mm-settings.js), in dp: Theme.Settings, dashboard_category.xml, dashboard_tile.xml,
+   preference_material_settings.xml, the framework's preference_category_material.xml and the Material action bar. */
+.mmst{position:absolute;inset:0;display:flex;flex-direction:column;background:#fafafa;color:rgba(0,0,0,.871);font-family:Roboto,sans-serif;line-height:1.172}
+.mmst-ab{position:relative;z-index:2;flex:none;display:flex;align-items:center;height:calc(56 * var(--dp));background:#263238;color:#fff;box-shadow:0 calc(2 * var(--dp)) calc(4 * var(--dp)) rgba(0,0,0,.24)}
+.mmst-up{flex:none;width:calc(56 * var(--dp));height:calc(56 * var(--dp));padding:0;border:0;border-radius:50%;background:none;display:grid;place-items:center}
+.mmst-up:active,.mmst-ab-btn:active{background:rgba(255,255,255,.2)}
+.mmst-up img,.mmst-ab-btn img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmst-abtitle{flex:1;min-width:0;padding-left:calc(16 * var(--dp));font:500 calc(20 * var(--dp))/1.172 Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmst-abtitle.up{padding-left:calc(16 * var(--dp))}
+.mmst-ab-btn{flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));margin-right:calc(4 * var(--dp));padding:0;border:0;border-radius:50%;background:none;display:grid;place-items:center}
+.mmst-content{position:relative;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
+/* The dashboard's cards. */
+.mmst-card{margin-bottom:calc(8 * var(--dp));background:#fff;box-shadow:0 calc(1.5 * var(--dp)) calc(4 * var(--dp)) rgba(0,0,0,.18)}
+.mmst-cardtitle{height:calc(48 * var(--dp));padding-left:calc(16 * var(--dp));display:flex;align-items:center;color:#009688;font:500 calc(14 * var(--dp))/1.172 Roboto,sans-serif}
+.mmst-tile{display:flex;align-items:center;width:100%;min-height:calc(72 * var(--dp));padding:0;border:0;background:none;color:rgba(0,0,0,.871);font-size:calc(16 * var(--dp));text-align:left}
+.mmst-tile:active,.mmst-pref:active{background:rgba(0,0,0,.12)}
+.mmst-tile .mmst-ic{margin:0 calc(32 * var(--dp)) 0 calc(16 * var(--dp))}
+.mmst-tile span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmst-ic{flex:none;display:block;width:calc(24 * var(--dp));height:calc(24 * var(--dp));-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.mmst-divider{display:block;height:calc(1 * var(--dp));margin-left:calc(72 * var(--dp));background:rgba(0,0,0,.122)}
+/* A preference row and a category. */
+.mmst-list{padding-bottom:calc(8 * var(--dp))}
+.mmst-pref{display:flex;align-items:center;width:100%;min-height:calc(48 * var(--dp));padding:0 calc(16 * var(--dp));border:0;background:none;color:inherit;text-align:left}
+.mmst-pref.disabled{opacity:.4}
+.mmst-iconframe{flex:none;display:flex;align-items:center;min-width:calc(48 * var(--dp));padding:calc(4 * var(--dp)) calc(12 * var(--dp)) calc(4 * var(--dp)) 0}
+.mmst-texts{flex:1;min-width:0;display:flex;flex-direction:column;padding:calc(16 * var(--dp)) 0}
+.mmst-title{font-size:calc(16 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmst-summary{color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp));line-height:1.3}
+.mmst-widget{flex:none;display:flex;align-items:center;padding-left:calc(16 * var(--dp))}
+.mmst-cat{padding:calc(16 * var(--dp)) calc(16 * var(--dp)) 0;margin-bottom:calc(16 * var(--dp));color:#009688;font:500 calc(14 * var(--dp))/1.172 Roboto,sans-serif}
+/* The Material CheckBox (ic_checkbox_checked / unchecked, colorControlNormal #8a000000 or the accent). */
+.mmst-check{display:block;width:calc(32 * var(--dp));height:calc(32 * var(--dp));background:rgba(0,0,0,.541);-webkit-mask:url('assets/fw-ic_checkbox_unchecked.svg') center/100%;mask:url('assets/fw-ic_checkbox_unchecked.svg') center/100%}
+.mmst-check.on{background:#009688;-webkit-mask-image:url('assets/fw-ic_checkbox_checked.svg');mask-image:url('assets/fw-ic_checkbox_checked.svg')}
+/* The Material light switch's colours under Theme.Settings: colorForeground black, the accent teal. */
+.mmst .mmw-switch,.mmdlg .mmw-switch{--mmw-fg:#000;--mmw-accent:#009688;--mmw-thumb:#f1f1f1}
+/* select_dialog_singlechoice_material: a radio before each 16 sp choice, 48 dp rows. */
+.mmst-choice{display:flex;align-items:center;gap:calc(20 * var(--dp));width:100%;min-height:calc(48 * var(--dp));padding:0 calc(24 * var(--dp)) 0 calc(20 * var(--dp));font-size:calc(16 * var(--dp))}
+.mmst-choice .mmw-radio{--mmw-normal:rgba(0,0,0,.541);--mmw-accent:#009688}
+.mmst-edit{padding:calc(16 * var(--dp)) calc(24 * var(--dp)) calc(8 * var(--dp))}
+.mmst-input{width:100%;box-sizing:border-box;padding:calc(8 * var(--dp)) 0;border:0;border-bottom:calc(2 * var(--dp)) solid #009688;background:none;outline:none;font:calc(16 * var(--dp)) Roboto,sans-serif}
+.mmst-missing{position:absolute;inset:0}

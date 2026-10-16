@@ -105,6 +105,26 @@
 
   // The brightness slider: the automatic adjustment (0..2048 for -1..1) or the level above the minimum.
   function sliderValue(s) { return s.brightnessAuto ? (s.brightnessAdj + 1) / 2 : s.brightness / 255; }
+  const sliderMarkup = (c, value) => `<div class="mmqs-slider" role="slider" aria-label="${c.safe(T().t('accessibility_brightness'))}" aria-valuenow="${Math.round(value * 100)}" style="--v:${value.toFixed(4)}"><i class="mmqs-track"></i><i class="mmqs-progress"></i><img class="mmqs-thumb" src="${A('sui-ic_brightness_thumb.svg')}" alt=""></div>`;
+  // The slider follows the pointer (the SeekBar 20 dp in at each end); the setting is saved when it is let go.
+  function bindSlider(c, slider) {
+    slider?.addEventListener('pointerdown', event => {
+      event.preventDefault(); event.stopPropagation();
+      try { slider.setPointerCapture(event.pointerId); } catch {}
+      const s = c.data.settings;
+      const move = e => {
+        const r = slider.getBoundingClientRect(), pad = 20 * c.el.screen.clientWidth / W;
+        const v = Math.min(1, Math.max(0, (e.clientX - r.left - pad) / (r.width - 2 * pad)));
+        if (s.brightnessAuto) s.brightnessAdj = Math.round(v * 2048) / 1024 - 1; else s.brightness = Math.round(v * 255);
+        slider.style.setProperty('--v', v.toFixed(4)); slider.setAttribute('aria-valuenow', Math.round(v * 100));
+        sys().applyBrightness(c);
+      };
+      move(event);
+      const up = () => { slider.removeEventListener('pointermove', move); c.save(); };
+      slider.addEventListener('pointermove', move);
+      slider.addEventListener('pointerup', up, {once: true}); slider.addEventListener('pointercancel', up, {once: true});
+    });
+  }
 
   // StatusBarHeaderView's clock: SplitClockView, the time and in 12-hour locales the AM / PM part at 14 sp.
   function headerClock(c) {
@@ -132,7 +152,7 @@
       <div class="mmsh-panel">
         <div class="mmsh-stack" data-action="mmsh-close">${notes.length ? '' : `<div class="mmsh-empty">${c.safe(t.t('empty_shade_text'))}</div>`}</div>
         <div class="mmsh-qs"><div class="mmqs-panel" style="height:calc(${geo.height.toFixed(3)} * var(--dp))">
-          <div class="mmqs-brightness"><div class="mmqs-slider" role="slider" aria-label="${c.safe(t.t('accessibility_brightness'))}" aria-valuenow="${Math.round(value * 100)}" style="--v:${value.toFixed(4)}"><i class="mmqs-track"></i><i class="mmqs-progress"></i><img class="mmqs-thumb" src="${A('sui-ic_brightness_thumb.svg')}" alt=""></div></div>
+          <div class="mmqs-brightness">${sliderMarkup(c, value)}</div>
           ${list.map(tile => tileHtml(c, tile)).join('')}${detail}</div></div>
         <div class="mmsh-header" data-action="mmsh-header">
           ${dhead}${scan}<div class="mmsh-clockdate"><div class="mmsh-clock">${headerClock(c)}</div><div class="mmsh-date">${c.safe(headerDate(c))}</div></div>
@@ -158,23 +178,7 @@
     if (st.detail) st.revealed = true;
     if (st.scanUntil > Date.now()) { clearTimeout(st.scanTimer); st.scanTimer = setTimeout(() => root.querySelector('.mmsh-scan')?.remove(), st.scanUntil - Date.now()); }
     // The slider follows the pointer; the setting is saved when it is let go.
-    const slider = root.querySelector('.mmqs-slider');
-    slider?.addEventListener('pointerdown', event => {
-      event.preventDefault(); event.stopPropagation();
-      try { slider.setPointerCapture(event.pointerId); } catch {}
-      const s = c.data.settings;
-      const move = e => {
-        const r = slider.getBoundingClientRect(), pad = r.width * 20 / (W - 16 - 32);
-        const v = Math.min(1, Math.max(0, (e.clientX - r.left - pad) / (r.width - 2 * pad)));
-        if (s.brightnessAuto) s.brightnessAdj = Math.round(v * 2048) / 1024 - 1; else s.brightness = Math.round(v * 255);
-        slider.style.setProperty('--v', v.toFixed(4)); slider.setAttribute('aria-valuenow', Math.round(v * 100));
-        sys().applyBrightness(c);
-      };
-      move(event);
-      const up = () => { slider.removeEventListener('pointermove', move); c.save(); };
-      slider.addEventListener('pointermove', move);
-      slider.addEventListener('pointerup', up, {once: true}); slider.addEventListener('pointercancel', up, {once: true});
-    });
+    bindSlider(c, root.querySelector('.mmqs-slider'));
     // Dragging the panel: down opens quick settings, up closes them, then the shade.
     const panel = root.querySelector('.mmsh-panel');
     let start = null;
@@ -268,5 +272,16 @@
       if (clock) clock.innerHTML = headerClock(c);
       if (date) date.textContent = headerDate(c);
     }
+  });
+
+  // SystemUI's BrightnessDialog (android.intent.action.SHOW_BRIGHTNESS_DIALOG, Settings' Brightness level): an activity
+  // in Theme.DeviceDefault.Dialog (the dark Material dialog, background_floating_material_dark #424242 inset 16 dp, 95 %
+  // of the width) at the top (Gravity.TOP), without the dim (FLAG_DIM_BEHIND cleared) and without a title, holding
+  // quick_settings_brightness_dialog.xml; a touch outside or Back finishes it (the volume keys too).
+  MM.register('brightness', {
+    app: false,
+    render: c => `<div class="mmbd"><div class="mmbd-out" data-action="mmbd-close"></div><div class="mmbd-win"><div class="mmbd-slider">${sliderMarkup(c, sliderValue(c.data.settings))}</div></div></div>`,
+    mount(c, root) { bindSlider(c, root.querySelector('.mmqs-slider')); },
+    action(name, el, event, c) { if (name === 'mmbd-close') { c.closeOverlay(); return true; } return false; }
   });
 })();

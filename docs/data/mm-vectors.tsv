@@ -118,3 +118,10 @@ sui-ic_dnd.svg	priv-app/SystemUI/SystemUI.apk	ic_dnd	-
 sui-ic_dnd_total_silence.svg	priv-app/SystemUI/SystemUI.apk	ic_dnd_total_silence	-
 sui-recents_dismiss_light.svg	priv-app/SystemUI/SystemUI.apk	recents_dismiss_light	-
 sui-recents_dismiss_dark.svg	priv-app/SystemUI/SystemUI.apk	recents_dismiss_dark	-
+# framework action bar icons (tinted the dark action bar's colorControlNormal, white)
+fw-ic_ab_back_material.svg	framework/framework-res.apk	ic_ab_back_material	tint=#ffffffff
+fw-ic_search_api_material.svg	framework/framework-res.apk	ic_search_api_material	tint=#ffffffff
+fw-ic_menu_moreoverflow_material.svg	framework/framework-res.apk	ic_menu_moreoverflow_material	tint=#ffffffff
+# framework Material CheckBox (btn_check_material_anim: ic_checkbox_checked / unchecked, drawn black as masks for their tint)
+fw-ic_checkbox_checked.svg	framework/framework-res.apk	ic_checkbox_checked	tint=#ff000000
+fw-ic_checkbox_unchecked.svg	framework/framework-res.apk	ic_checkbox_unchecked	tint=#ff000000

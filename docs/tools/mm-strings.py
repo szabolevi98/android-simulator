@@ -77,6 +77,8 @@ def build(table, spec, own):
         value = getattr(BULLHEAD, kind)([apk], key)
         row = {'res': f'bullhead:{apk}:{key}', **({'args': args} if args else {})}
         row.update({lang: value[lang] for lang in LANGS if value.get(lang) is not None})
+        if 'en' not in row:   # no default value the 5X reads (e.g. an array only some configurations define)
+            print(f'{table}: {kind} {key} has no default value; left out'); continue
         gaps = [lang for lang in LANGS[1:] if lang not in row]
         for lang in gaps: row[lang] = row['en']
         if gaps: row['untranslated'] = gaps

@@ -1,5 +1,5 @@
 """Android 6.0.1: draws the image's VectorDrawables as SVG files for versions/6.0.1/assets (status bar signal and Wi-Fi
-levels, quick settings icons …). docs/data/mm-vectors.tsv lists them: <output file> TAB <APK under system/> TAB <drawable>
+levels, quick settings icons …). docs/data/mm-vectors.tsv (and docs/data/mm-vectors-*.tsv) lists them: <output file> TAB <APK under system/> TAB <drawable>
 TAB <theme style or -> (the style that resolves ?attr colours, e.g. SystemUI's DualToneLightTheme for the status bar),
 or tint=<colour> for a drawable the code draws through a SRC_IN colour filter (a colour may be @android:color/name), or
 start for an AnimatedVectorDrawable shown without being started (its base vector instead of the end state).
@@ -65,7 +65,11 @@ def color(value, apk, theme):
 
 def tree(apk, name, folder='drawable'):
     """The drawable's (or animator's) XML as nested [tag, {attr: value}, children]."""
-    text = subprocess.run([AAPT, 'dump', 'xmltree', SYSTEM + apk, '--file', f'res/{folder}/{name}.xml'], capture_output=True, text=True, encoding='utf-8', errors='replace').stdout
+    text = ''
+    # The folder as given, else its -v21 / -anydpi-v21 variants (GMS Core's ic_google_settings is drawable-anydpi-v21).
+    for f in (folder, f'{folder}-v21', f'{folder}-anydpi-v21'):
+        text = subprocess.run([AAPT, 'dump', 'xmltree', SYSTEM + apk, '--file', f'res/{f}/{name}.xml'], capture_output=True, text=True, encoding='utf-8', errors='replace').stdout
+        if text.strip(): break
     root, stack = None, []
     for line in text.splitlines():
         indent = len(line) - len(line.lstrip())
@@ -205,7 +209,8 @@ def svg(apk, name, theme):
             f'<!-- {apk} res/drawable/{name}.xml ({("AnimatedVectorDrawable, not started" if started is False else "AnimatedVectorDrawable, the end state") if base else "VectorDrawable"}), drawn by docs/tools/mm-vectors.py -->{inner}</svg>\n')
 
 if __name__ == '__main__':
-    rows = [l.rstrip('\n').split('\t') for l in open(ROOT + 'docs/data/mm-vectors.tsv', encoding='utf-8') if l.strip() and not l.startswith('#')]
+    import glob
+    rows = [l.rstrip('\n').split('\t') for f in sorted(glob.glob(ROOT + 'docs/data/mm-vectors*.tsv')) for l in open(f, encoding='utf-8') if l.strip() and not l.startswith('#')]
     for out, apk, name, theme in rows:
         open(OUT + out, 'w', encoding='utf-8', newline='\n').write(svg(apk, name, None if theme == '-' else theme))
     print(len(rows), 'vectors')

@@ -1,0 +1,25 @@
+# Settings drawables named by its preference screens (written by docs/tools/mm-prefs.py)
+st-ic_menu_add_dark.png	priv-app/Settings/Settings.apk	drawable/ic_menu_add_dark
+st-ic_settings_about_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_about_alpha
+st-ic_settings_accessibility_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_accessibility_alpha
+st-ic_settings_accounts_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_accounts_alpha
+st-ic_settings_applications_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_applications_alpha
+st-ic_settings_backup_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_backup_alpha
+st-ic_settings_battery_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_battery_alpha
+st-ic_settings_bluetooth_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_bluetooth_alpha
+st-ic_settings_data_usage_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_data_usage_alpha
+st-ic_settings_date_time_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_date_time_alpha
+st-ic_settings_development_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_development_alpha
+st-ic_settings_display_am_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_display_am_alpha
+st-ic_settings_home_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_home_alpha
+st-ic_settings_language_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_language_alpha
+st-ic_settings_location_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_location_alpha
+st-ic_settings_more_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_more_alpha
+st-ic_settings_multiuser_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_multiuser_alpha
+st-ic_settings_nfc_payment_am_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_nfc_payment_am_alpha
+st-ic_settings_notifications_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_notifications_alpha
+st-ic_settings_print_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_print_alpha
+st-ic_settings_security_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_security_alpha
+st-ic_sim_sd.png	priv-app/Settings/Settings.apk	drawable/ic_sim_sd
+st-ic_settings_storage_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_storage_alpha
+st-ic_settings_wireless_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_wireless_alpha

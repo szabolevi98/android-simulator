@@ -48,6 +48,12 @@ class ImageRes:
         if not found:
             return None
         r, strings, rid = found
+        # A string that is a reference to a framework string (6.0.1 Settings' zen_mode_settings_title) is that string.
+        for config, entry in r.get_res_configs(rid):
+            if self._lang(config) == 'en' and entry.key.data_type == 1 and entry.key.data >> 24 == 1 and 'framework' not in apks:
+                fr = self._apk('framework')[0]
+                name = (fr.get_resource_xml_name(entry.key.data) or '').split('/')[-1]
+                if name: return self.string(['framework'], name)
         def text(rid, lang, depth=0):
             # A value that references another string (@string/other) reads that one in the same configuration.
             for config, entry in r.get_res_configs(rid):
