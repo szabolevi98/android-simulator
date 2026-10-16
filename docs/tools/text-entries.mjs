@@ -65,7 +65,10 @@ export function check(list) {
     const base = norm(placeholders(en));
     for (const lang of LANGS) {
       if (typeof entry[lang] !== 'string') continue;
-      const extra = [...norm(placeholders(entry[lang]))].filter(p => !base.has(p) && !(/^%\d+[sdf]$/.test(p) && [...base].some(b => b.slice(-1) !== p.slice(-1) && b.slice(0, -1) === p.slice(0, -1))));
+      // entry.args: the code formats the text with that many arguments whatever the English shows (6.0.1's Launcher3
+      // String.format(all_apps_search_market_message, the market's name): a translation may use them.
+      const passed = new Set(Array.from({length: entry.args || 0}, (_, i) => [`%${i + 1}s`, `%${i + 1}d`]).flat());
+      const extra = [...norm(placeholders(entry[lang]))].filter(p => !base.has(p) && !passed.has(p) && !(/^%\d+[sdf]$/.test(p) && [...base].some(b => b.slice(-1) !== p.slice(-1) && b.slice(0, -1) === p.slice(0, -1))));
       if (extra.length) problems.push(`${where}: ${lang} has ${extra.join(' ')} that the English lacks`);
     }
   }

@@ -115,6 +115,7 @@ MM.strings('launcher', {
 },
 "all_apps_search_market_message": {
 "res": "bullhead:Velvet:all_apps_search_market_message",
+"args": 1,
 "en": "Search for more apps",
 "hu": "Keresse fel ezt: %1$s",
 "de": "Gehe zu %1$s",

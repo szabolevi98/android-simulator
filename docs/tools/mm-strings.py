@@ -6,7 +6,7 @@
 docs/data/mm-strings.txt lists the tables: a line "[table] Apk Apk …" starts one (the APKs as in the image, 'framework' =
 framework-res.apk, tried in order), then resource names separated by spaces or newlines; "array:name" and "plurals:name"
 take a string-array or a plurals resource, "Apk/name" reads a resource of that APK (the row is keyed Apk/name), and
-"own:<key>" a text the image does not have, from docs/data/mm-own.tsv (<table> TAB <key> TAB <English> TAB <Hungarian>
+"name+args<n>" marks a text the code formats with n arguments the English may not show, and "own:<key>" a text the image does not have, from docs/data/mm-own.tsv (<table> TAB <key> TAB <English> TAB <Hungarian>
 TAB <German> TAB <French> TAB <Spanish> TAB <source>; an empty language is the English).
 Unlike 2.1, 6.0.1 ships every language of the simulator itself, Hungarian included, so each row is the image's own text;
 a language the image does not translate shows the English, as the phone does, and the row lists it as untranslated.
@@ -63,6 +63,9 @@ def build(table, spec, own):
             if gaps: row['untranslated'] = gaps
             entries[key] = row
             continue
+        # "name+args<n>": the code formats the text with n arguments even where the English has no placeholder for them.
+        args = 0
+        if '+args' in item: item, args = item.split('+args')[0], int(item.split('+args')[1])
         kind, key = item.split(':', 1) if ':' in item else ('string', item)
         name = key
         if '/' in key:
@@ -72,7 +75,7 @@ def build(table, spec, own):
             apk = which_apk(spec['apks'], kind, key)
         if not apk: raise SystemExit(f'{table}: {kind} {key} is not in {spec["apks"]}')
         value = getattr(BULLHEAD, kind)([apk], key)
-        row = {'res': f'bullhead:{apk}:{key}'}
+        row = {'res': f'bullhead:{apk}:{key}', **({'args': args} if args else {})}
         row.update({lang: value[lang] for lang in LANGS if value.get(lang) is not None})
         gaps = [lang for lang in LANGS[1:] if lang not in row]
         for lang in gaps: row[lang] = row['en']
