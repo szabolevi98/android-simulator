@@ -6,3 +6,7 @@
 .npp-fw-btn_switch_to_on_mtrl_00012{padding:calc(3.66667 * var(--dp)) calc(3.66667 * var(--dp)) calc(3.66667 * var(--dp)) calc(3.66667 * var(--dp))}
 .np-gel-search_bg{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(21 * var(--dp)) calc(21 * var(--dp)) calc(21 * var(--dp)) calc(21 * var(--dp));border-image:url('assets/gel-search_bg.9.png') 63 63 63 63 fill / calc(21 * var(--dp)) calc(21 * var(--dp)) calc(21 * var(--dp)) calc(21 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-xxhdpi-v4/search_bg.9.png 144x144 */
 .npp-gel-search_bg{padding:calc(8 * var(--dp)) calc(8 * var(--dp)) calc(8 * var(--dp)) calc(8 * var(--dp))}
+.np-sui-recents_status_gradient{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/sui-recents_status_gradient.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 0 0 0}  /* res/drawable-xxhdpi-v4/recents_status_gradient.9.png 12x120 */
+.npp-sui-recents_status_gradient{padding:0 0 0 0}
+.np-sui-recents_lower_gradient{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/sui-recents_lower_gradient.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 0 0 0}  /* res/drawable-xxhdpi-v4/recents_lower_gradient.9.png 12x234 */
+.npp-sui-recents_lower_gradient{padding:0 0 0 0}

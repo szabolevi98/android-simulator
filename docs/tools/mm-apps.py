@@ -9,6 +9,7 @@
   turns its SetupActivity's icon off on a system install (toggleAppIcon).
 - The label (the activity's, else the application's) in en, hu, de, fr, es from the APK; a language it lacks shows the
   English, and is listed in the row's untranslated.
+- The colour: the theme's colorPrimary (Overview's task header); Theme.DeviceDefault's #212121 without a theme.
 - The icon: the activity's or the application's, at the density Launcher3 asks for: InvariantDeviceProfile.
   getLauncherIconDensity picks the smallest density whose 48 dp icon is at least iconBitmapSize (63.9 dp at 420 dpi =
   168 px), xxxhdpi here, else the nearest below; copied byte for byte to versions/6.0.1/assets/app-<id>.png.
@@ -18,6 +19,8 @@ Each app gets the simulator's screen id (docs below); an app without one keeps i
 import json, os, re, sys, glob, zipfile, subprocess
 from loguru import logger; logger.remove()
 from androguard.core.apk import APK
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from apk_theme import Themes
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace(os.sep, '/') + '/'
 SYSTEM = ROOT + '_aosp/bullhead/system/'
@@ -87,6 +90,9 @@ def icon_path(z, r, value):
     raise KeyError(r.get_resource_xml_name(rid))
 
 
+THEMES = Themes(SYSTEM)
+
+
 def apps():
     rows = []
     for path in sorted(glob.glob(SYSTEM + 'app/*/*.apk') + glob.glob(SYSTEM + 'priv-app/*/*.apk')):
@@ -106,7 +112,16 @@ def apps():
                 if tag == 'activity-alias' and not e.get(NS + 'icon'):
                     target = next((t for t in app.iter('activity') if t.get(NS + 'name') in (e.get(NS + 'targetActivity'),)), None)
                     if target is not None and target.get(NS + 'icon'): icon = target.get(NS + 'icon')
-                rows.append({'apk': path[len(SYSTEM):], 'pkg': pkg, 'cls': cls, 'label': label, 'iconRes': icon, 'r': r})
+                # The task's colour in Overview: Activity.onCreate gives the TaskDescription the theme's colorPrimary
+                # (the activity's theme, an alias's target's, else the application's; none: Theme.DeviceDefault).
+                theme = e.get(NS + 'theme')
+                if tag == 'activity-alias':
+                    target = next((t for t in app.iter('activity') if t.get(NS + 'name') == e.get(NS + 'targetActivity')), None)
+                    if target is not None: theme = target.get(NS + 'theme') or theme
+                theme = theme or app.get(NS + 'theme')
+                rel = path[len(SYSTEM):].replace(os.sep, '/')
+                color = THEMES.attr(rel, theme, 'colorPrimary') if theme else None
+                rows.append({'apk': path[len(SYSTEM):], 'pkg': pkg, 'cls': cls, 'label': label, 'iconRes': icon, 'r': r, 'color': color or '#ff212121'})
     return rows
 
 
@@ -147,7 +162,7 @@ if __name__ == '__main__':
         open(f'{OUT}assets/app-{id}.png', 'wb').write(z.read(src))
         label = row['label']; gaps = [l for l in LANGS[1:] if l not in label]
         label.update({l: label['en'] for l in gaps})
-        data[id] = {'pkg': row['pkg'], 'cls': row['cls'], 'label': label, 'icon': f'assets/app-{id}.png',
+        data[id] = {'pkg': row['pkg'], 'cls': row['cls'], 'label': label, 'icon': f'assets/app-{id}.png', 'color': '#' + row['color'][-6:],
                     'res': f"bullhead:{row['apk'].replace(os.sep, '/')}:{src}", **({'untranslated': gaps} if gaps else {})}
         print(id, row['cls'], density, label['en'], '/', label['hu'])
     byComponent = {(v['pkg'], v['cls']): k for k, v in data.items()}

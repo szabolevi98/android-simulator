@@ -116,3 +116,5 @@ sui-ic_volume_expand_animation.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_expa
 sui-ic_volume_collapse_animation.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_collapse_animation	start
 sui-ic_dnd.svg	priv-app/SystemUI/SystemUI.apk	ic_dnd	-
 sui-ic_dnd_total_silence.svg	priv-app/SystemUI/SystemUI.apk	ic_dnd_total_silence	-
+sui-recents_dismiss_light.svg	priv-app/SystemUI/SystemUI.apk	recents_dismiss_light	-
+sui-recents_dismiss_dark.svg	priv-app/SystemUI/SystemUI.apk	recents_dismiss_dark	-

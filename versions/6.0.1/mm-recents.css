@@ -1,0 +1,30 @@
+/* Android 6.0.1 Overview (mm-recents.js), in dp: recents.xml, recents_task_view.xml, recents_task_view_header.xml; the
+   stack is laid out in window pixels (2.625 a dp), so the screen's whole window is its area. */
+.screen.view-recents{background:#000 url('assets/fw-default_wallpaper.jpg') left top/auto 100% no-repeat}
+.screen.view-recents #viewport{top:0;bottom:0}
+.screen.view-recents .mmnb{background:transparent}
+.mmrc{position:absolute;inset:0;z-index:0;overflow:hidden;font-family:Roboto,sans-serif;line-height:1.172;touch-action:none;user-select:none}
+.mmrc-top{position:absolute;left:0;right:0;top:0;height:calc(40 * var(--dp));pointer-events:none;z-index:50}
+.mmrc-bottom{position:absolute;left:0;right:0;bottom:0;height:calc(78 * var(--dp));pointer-events:none;z-index:50}
+/* The search bar space: 64 dp under the status bar, the search widget in it. */
+.mmrc-search{position:absolute;left:0;right:0;top:calc(24 * var(--dp));height:calc(64 * var(--dp));display:flex;z-index:40}
+.mmrc-plate{flex:1;padding:0;border:0;background:none;text-align:left}
+.mmrc-plate img{display:block;width:calc(62 * var(--dp));height:calc(23 * var(--dp));margin:calc(14 * var(--dp)) 0 0 calc(16 * var(--dp))}
+.mmrc-mic{flex:none;width:calc(56 * var(--dp));background:#616161;-webkit-mask:url('assets/gel-ic_mic_none.png') center/calc(24 * var(--dp)) no-repeat;mask:url('assets/gel-ic_mic_none.png') center/calc(24 * var(--dp)) no-repeat}
+.mmrc-stack{position:absolute;inset:0}
+.mmrc-task{position:absolute;border-radius:calc(2 * var(--dp));overflow:hidden;background:#e6e6e6;box-shadow:0 calc(var(--z) * .15) calc(var(--z) * .3) rgba(0,0,0,.35);transform-origin:50% 50%;transition:translate .2s,opacity .2s}
+.mmrc-thumb{position:absolute;inset:0;overflow:hidden;background:#fff}
+.mmrc-thumb::after{content:"";position:absolute;inset:0;background:#000;opacity:var(--dim)}
+/* The thumbnail: the left screen at the card's width (a 1080 px window scaled down), its status bar colour on top. */
+.mmrc-shot{position:absolute;left:0;top:0;width:calc(411.4286 * var(--dp));height:calc(731.4286 * var(--dp));transform:scale(var(--k));transform-origin:0 0;pointer-events:none}
+.mmrc-sb{position:absolute;left:0;right:0;top:0;height:calc(24 * var(--dp))}
+.mmrc-vp{position:absolute;left:0;right:0;top:calc(24 * var(--dp));bottom:calc(48 * var(--dp));overflow:hidden}
+.mmrc-head{position:absolute;left:0;right:0;top:0;height:calc(56 * var(--dp));display:flex;align-items:center;color:rgba(0,0,0,.8)}
+.mmrc-head.light{color:#eee}
+.mmrc-icon{flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));margin-left:calc(8 * var(--dp));padding:calc(8 * var(--dp));border:0;border-radius:50%;background:none}
+.mmrc-icon img{width:100%;height:100%;display:block}
+.mmrc-label{flex:1;min-width:0;margin-left:calc(8 * var(--dp));font:500 calc(16 * var(--dp))/1.172 Roboto,sans-serif;white-space:nowrap;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+.mmrc-dismiss{flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));margin-right:calc(4 * var(--dp));padding:calc(12 * var(--dp));border:0;border-radius:50%;background:none}
+.mmrc-dismiss img{width:100%;height:100%;display:block}
+.mmrc-icon:active,.mmrc-dismiss:active{background:rgba(255,255,255,.2)}
+.mmrc-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);color:#fff;font-size:calc(16 * var(--dp))}

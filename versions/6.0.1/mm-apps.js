@@ -13,6 +13,7 @@ MM.appsData = {
 "hu": "Számológép"
 },
 "icon": "assets/app-calculator.png",
+"color": "#00bcd4",
 "res": "bullhead:app/CalculatorGoogle/CalculatorGoogle.apk:res/mipmap-xxxhdpi-v4/ic_launcher_calculator.png"
 },
 "calendar": {
@@ -26,6 +27,7 @@ MM.appsData = {
 "hu": "Naptár"
 },
 "icon": "assets/app-calendar.png",
+"color": "#ffffff",
 "res": "bullhead:app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk:res/mipmap-xxxhdpi-v4/quantum_logo_calendar_launcher_color_48.png"
 },
 "chrome": {
@@ -39,6 +41,7 @@ MM.appsData = {
 "es": "Chrome"
 },
 "icon": "assets/app-chrome.png",
+"color": "#212121",
 "res": "bullhead:app/Chrome/Chrome.apk:res/mipmap-xxxhdpi-v4/app_icon.png",
 "untranslated": [
 "hu",
@@ -58,6 +61,7 @@ MM.appsData = {
 "es": "Device Policy"
 },
 "icon": "assets/app-device-policy.png",
+"color": "#3aa3db",
 "res": "bullhead:app/DMAgent/DMAgent.apk:res/drawable-xhdpi-v4/launcher.png",
 "untranslated": [
 "hu",
@@ -76,6 +80,7 @@ MM.appsData = {
 "hu": "Letöltések"
 },
 "icon": "assets/app-downloads.png",
+"color": "#212121",
 "res": "bullhead:app/DownloadProviderUi/DownloadProviderUi.apk:res/mipmap-xxxhdpi-v4/ic_launcher_download.png"
 },
 "drive": {
@@ -89,6 +94,7 @@ MM.appsData = {
 "hu": "Drive"
 },
 "icon": "assets/app-drive.png",
+"color": "#e0e0e0",
 "res": "bullhead:app/Drive/Drive.apk:res/mipmap-xxxhdpi-v4/quantum_logo_drive_launcher_color_48.png"
 },
 "camera": {
@@ -102,6 +108,7 @@ MM.appsData = {
 "hu": "Fényképezőgép"
 },
 "icon": "assets/app-camera.png",
+"color": "#212121",
 "res": "bullhead:app/GoogleCamera/GoogleCamera.apk:res/mipmap-xxxhdpi-v4/logo_google_camera_color_44in48dp.png"
 },
 "hangouts": {
@@ -115,6 +122,7 @@ MM.appsData = {
 "es": "Hangouts"
 },
 "icon": "assets/app-hangouts.png",
+"color": "#0f9d58",
 "res": "bullhead:app/Hangouts/Hangouts.apk:res/mipmap-xxxhdpi-v4/quantum_logo_hangouts_launcher_color_48.png",
 "untranslated": [
 "hu",
@@ -134,6 +142,7 @@ MM.appsData = {
 "hu": "Térkép"
 },
 "icon": "assets/app-maps.png",
+"color": "#e6e6e6",
 "res": "bullhead:app/Maps/Maps.apk:res/mipmap-xxxhdpi-v4/ic_launcher.png"
 },
 "play-music": {
@@ -147,6 +156,7 @@ MM.appsData = {
 "hu": "Play Zene"
 },
 "icon": "assets/app-play-music.png",
+"color": "#e65100",
 "res": "bullhead:app/Music2/Music2.apk:res/mipmap-xxxhdpi-v4/ic_launcher_play_music.png"
 },
 "photos": {
@@ -160,6 +170,7 @@ MM.appsData = {
 "hu": "Fotók"
 },
 "icon": "assets/app-photos.png",
+"color": "#ffffff",
 "res": "bullhead:app/Photos/Photos.apk:res/mipmap-xxxhdpi-v4/quantum_logo_photos_launcher_color_48.png"
 },
 "play-games": {
@@ -173,6 +184,7 @@ MM.appsData = {
 "hu": "Play Játékok"
 },
 "icon": "assets/app-play-games.png",
+"color": "#efefef",
 "res": "bullhead:app/PlayGames/PlayGames.apk:res/mipmap-xxxhdpi-v4/ic_launcher_play_games.png"
 },
 "messenger": {
@@ -186,6 +198,7 @@ MM.appsData = {
 "hu": "Messenger"
 },
 "icon": "assets/app-messenger.png",
+"color": "#0288d1",
 "res": "bullhead:app/PrebuiltBugle/PrebuiltBugle.apk:res/drawable-xxhdpi-v4/ic_launcher.png"
 },
 "clock": {
@@ -199,6 +212,7 @@ MM.appsData = {
 "hu": "Óra"
 },
 "icon": "assets/app-clock.png",
+"color": "#212121",
 "res": "bullhead:app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk:res/mipmap-xxxhdpi-v4/ic_launcher_alarmclock.png"
 },
 "gmail": {
@@ -212,6 +226,7 @@ MM.appsData = {
 "hu": "Gmail"
 },
 "icon": "assets/app-gmail.png",
+"color": "#da4336",
 "res": "bullhead:app/PrebuiltGmail/PrebuiltGmail.apk:res/mipmap-xxxhdpi-v4/ic_launcher_mail.png"
 },
 "project-fi": {
@@ -225,6 +240,7 @@ MM.appsData = {
 "es": "Project Fi"
 },
 "icon": "assets/app-project-fi.png",
+"color": "#0f9d58",
 "res": "bullhead:app/Tycho/Tycho.apk:res/mipmap-xxxhdpi-v4/ic_launcher.png",
 "untranslated": [
 "hu",
@@ -244,6 +260,7 @@ MM.appsData = {
 "hu": "Google Play Filmek és TV"
 },
 "icon": "assets/app-play-movies.png",
+"color": "#212121",
 "res": "bullhead:app/Videos/Videos.apk:res/mipmap-xxxhdpi-v4/ic_launcher_videos.png"
 },
 "android-pay": {
@@ -257,6 +274,7 @@ MM.appsData = {
 "es": "Android Pay"
 },
 "icon": "assets/app-android-pay.png",
+"color": "#f5f5f5",
 "res": "bullhead:app/Wallet/Wallet.apk:res/mipmap-xxxhdpi-v4/quantum_logo_android_pay_launcher_color_48.png",
 "untranslated": [
 "hu",
@@ -276,6 +294,7 @@ MM.appsData = {
 "hu": "YouTube"
 },
 "icon": "assets/app-youtube.png",
+"color": "#e62117",
 "res": "bullhead:app/YouTube/YouTube.apk:res/mipmap-xxxhdpi-v4/ic_launcher.png"
 },
 "contacts": {
@@ -289,6 +308,7 @@ MM.appsData = {
 "hu": "Névjegyek"
 },
 "icon": "assets/app-contacts.png",
+"color": "#0288d1",
 "res": "bullhead:priv-app/GoogleContacts/GoogleContacts.apk:res/mipmap-xxxhdpi-v4/ic_contacts_clr_48cv_44dp.png"
 },
 "phone": {
@@ -302,6 +322,7 @@ MM.appsData = {
 "hu": "Telefon"
 },
 "icon": "assets/app-phone.png",
+"color": "#0288d1",
 "res": "bullhead:priv-app/GoogleDialer/GoogleDialer.apk:res/mipmap-xxxhdpi-v4/ic_dialer_clr_48cv_44dp.png"
 },
 "play-store": {
@@ -315,6 +336,7 @@ MM.appsData = {
 "hu": "Play Áruház"
 },
 "icon": "assets/app-play-store.png",
+"color": "#f5f5f5",
 "res": "bullhead:priv-app/Phonesky/Phonesky.apk:res/mipmap-xxhdpi-v4/ic_launcher_play_store.png"
 },
 "settings": {
@@ -328,6 +350,7 @@ MM.appsData = {
 "hu": "Beállítások"
 },
 "icon": "assets/app-settings.png",
+"color": "#263238",
 "res": "bullhead:priv-app/Settings/Settings.apk:res/mipmap-xxxhdpi-v4/ic_launcher_settings.png"
 },
 "search": {
@@ -341,6 +364,7 @@ MM.appsData = {
 "hu": "Google"
 },
 "icon": "assets/app-search.png",
+"color": "#212121",
 "res": "bullhead:priv-app/Velvet/Velvet.apk:res/mipmap-xxxhdpi-v4/ic_launcher_google_search.png"
 }
 };

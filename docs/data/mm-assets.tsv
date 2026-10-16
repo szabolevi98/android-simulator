@@ -30,3 +30,6 @@ gel-ic_mic_none.png	priv-app/Velvet/Velvet.apk	drawable/ic_mic_none
 gel-ic_arrow_back_grey.png	priv-app/Velvet/Velvet.apk	drawable/ic_arrow_back_grey
 gel-ic_search_grey.png	priv-app/Velvet/Velvet.apk	drawable/ic_search_grey
 gel-search_bg.9.png	priv-app/Velvet/Velvet.apk	drawable/search_bg
+# SystemUI Overview (recents.xml scrims; the task header's dismiss buttons)
+sui-recents_status_gradient.9.png	priv-app/SystemUI/SystemUI.apk	drawable/recents_status_gradient
+sui-recents_lower_gradient.9.png	priv-app/SystemUI/SystemUI.apk	drawable/recents_lower_gradient

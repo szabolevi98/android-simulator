@@ -94,7 +94,17 @@
     return `<div class="mm-missing-nav">${[['back', 'Back'], ['home', 'Home'], ['recents', 'Recent apps']].map(([key, label]) => `<button type="button" data-action="mm-key" data-key="${key}">${safe(t(label))}</button>`).join('')}</div>`;
   }
 
+  // Overview's thumbnails: the screen an app was left on (its HTML, the status bar's colour and the page), kept when
+  // another screen takes its place.
+  let shown = {view: '', sub: ''};
+  function snapshot() {
+    const v = shown.view;
+    if (v && v !== ui.view && SCREENS[v] && !SYSTEM.includes(v) && !v.startsWith('qs-')) {
+      (ui.thumbs ||= {})[v] = {html: viewport.innerHTML, sub: shown.sub, status: statusRoot.querySelector('.mmsb')?.style.background || ''};
+    }
+  }
   function render() {
+    snapshot();
     const mod = modules[ui.view];
     const noStatus = !!mod?.noStatus?.(c), noNav = !!mod?.noNav?.(c);
     screen.className = `screen${ui.sleeping ? ' sleeping' : ''}${noStatus ? ' no-status' : ''}${noNav ? ' no-nav' : ''} view-${ui.view}`;
@@ -104,6 +114,7 @@
     else navRoot.innerHTML = missingNav();
     viewport.innerHTML = mod ? mod.render(c) : ui.view === 'home' ? missingHome() : missing(ui.view);
     mod?.mount?.(c, viewport);
+    shown = {view: ui.view, sub: ui.sub};
     renderOverlay();
   }
   function renderOverlay() {
@@ -168,7 +179,7 @@
     if (ui.sleeping) { wake(); return; }
     if (key === 'back') back();
     else if (key === 'home') { if (ui.view !== 'lock') home(); }
-    else if (key === 'recents') { if (ui.view !== 'lock') open('recents'); }
+    else if (key === 'recents') { if (ui.view === 'lock') return; if (ui.view === 'recents' && modules.recents?.recentsKey) modules.recents.recentsKey(c); else { ui.recentsState = null; ui.overlay = ''; open('recents'); } }
     else if (key === 'assist') { if (ui.view !== 'lock') modules.assist?.show?.(c); }
   }
   // ui.power: '' on, 'off' (shut down: the key boots it, mm-power.js), 'boot' or 'shutdown' (keys do nothing).
