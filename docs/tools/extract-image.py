@@ -75,13 +75,15 @@ with open(RAW, 'rb') as fh:
                 try: child = volume.inode_at(target if target.startswith('/') else f'{path}/{target}')
                 except FileNotFoundError: continue
                 if isinstance(child, Directory): continue
-            if everything or name.endswith(('.apk', '.jar', '.odex')):
+            if everything or name.endswith(('.apk', '.jar', '.odex', '.oat')):
                 target = OUT + full
                 os.makedirs(os.path.dirname(target), exist_ok=True)
                 with open(target, 'wb') as out: out.write(child.open().read())
                 count += 1
     # The system fonts too: the stylesheets name each image's own Roboto / Droid files (audit point 12).
-    for top, everything in (('app', False), ('priv-app', False), ('framework', False), ('media', True), ('fonts', True)):
+    # 6.0.1 keeps the framework's code in framework/<abi>/boot*.oat and each app's in app/X/oat/<abi>/X.odex
+    # (docs/tools/oat2dex.py); /system/etc holds the permission and default-app lists.
+    for top, everything in (('app', False), ('priv-app', False), ('framework', False), ('media', True), ('fonts', True), ('etc', True)):
         try: node = volume.inode_at('/' + top)
         except FileNotFoundError: continue
         walk(node, '/' + top, everything)
