@@ -19,3 +19,14 @@ sui-ic_phone_24dp.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_phone_24dp
 sui-ic_camera_alt_24dp.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_camera_alt_24dp
 # framework GlobalActions: PowerAction's icon (ic_lock_power_off is a bitmap of this alpha mask tinted colorControlNormal)
 fw-ic_lock_power_off_alpha.png	framework/framework-res.apk	drawable/ic_lock_power_off_alpha
+# Google Now Launcher (Launcher3 and GEL in Velvet.apk): folder ring, all apps button, page indicator, the search bar
+gel-portal_ring_inner.png	priv-app/Velvet/Velvet.apk	drawable/portal_ring_inner
+gel-ic_allapps.png	priv-app/Velvet/Velvet.apk	drawable/ic_allapps
+gel-ic_allapps_pressed.png	priv-app/Velvet/Velvet.apk	drawable/ic_allapps_pressed
+gel-ic_pageindicator_default.png	priv-app/Velvet/Velvet.apk	drawable/ic_pageindicator_default
+gel-ic_pageindicator_current.png	priv-app/Velvet/Velvet.apk	drawable/ic_pageindicator_current
+gel-ic_searchbox_google.png	priv-app/Velvet/Velvet.apk	drawable/ic_searchbox_google
+gel-ic_mic_none.png	priv-app/Velvet/Velvet.apk	drawable/ic_mic_none
+gel-ic_arrow_back_grey.png	priv-app/Velvet/Velvet.apk	drawable/ic_arrow_back_grey
+gel-ic_search_grey.png	priv-app/Velvet/Velvet.apk	drawable/ic_search_grey
+gel-search_bg.9.png	priv-app/Velvet/Velvet.apk	drawable/search_bg

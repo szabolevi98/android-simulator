@@ -14,8 +14,9 @@
 .device{position:relative;width:387.8px;height:772.93px;padding:79.44px 22.59px 84.19px 22.48px}
 .device::before{content:"";position:absolute;inset:0;background:url('assets/device-nexus-5x.svg?v=5') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);pointer-events:none}
 .screen{--dp:.833022px;position:relative;width:342.73px;height:609.3px;overflow:hidden;background:#000;color:#fff;font:calc(14 * var(--dp))/1.25 Roboto,Arial,sans-serif;user-select:none;-webkit-user-select:none;touch-action:pan-y;z-index:1}
-.screen button,.screen input,.screen textarea,.screen select{font:inherit;color:inherit}
-.screen button{cursor:pointer}
+/* Without specificity, so every module's own button and field rules win over these defaults. */
+:where(.screen) :where(button,input,textarea,select){font:inherit;color:inherit}
+:where(.screen) :where(button){cursor:pointer}
 /* status_bar_height 24 dp and navigation_bar_height 48 dp (framework-res); apps sit between them. */
 #status-bar{position:absolute;top:0;left:0;right:0;height:calc(24 * var(--dp));z-index:8}
 #nav-bar{position:absolute;bottom:0;left:0;right:0;height:calc(48 * var(--dp));z-index:8}

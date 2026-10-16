@@ -34,7 +34,8 @@
     statusbar: ['Status bar', 'SystemUI.apk · PhoneStatusBar'], navbar: ['Navigation bar', 'SystemUI.apk · NavigationBarView'],
     shade: ['Notifications', 'SystemUI.apk · NotificationPanelView'], power: ['Power menu', 'framework-res.apk · GlobalActions'],
     recents: ['Overview', 'SystemUI.apk · RecentsActivity'], volume: ['Volume', 'SystemUI.apk · VolumeDialog'],
-    drawer: ['Apps', 'Velvet.apk · AllAppsContainerView'], search: ['Google', 'Velvet.apk'],
+    drawer: ['Apps', 'Velvet.apk · AllAppsContainerView'], search: ['Google', 'Velvet.apk'], now: ['Google Now', 'Velvet.apk · Now cards'],
+    'device-policy': ['Device Policy', 'DMAgent.apk'],
     settings: ['Settings', 'Settings.apk'], phone: ['Phone', 'GoogleDialer.apk'], contacts: ['Contacts', 'GoogleContacts.apk'],
     messenger: ['Messenger', 'PrebuiltBugle.apk'], chrome: ['Chrome', 'Chrome.apk'], gmail: ['Gmail', 'PrebuiltGmail.apk'],
     calendar: ['Calendar', 'CalendarGooglePrebuilt.apk'], camera: ['Camera', 'GoogleCamera.apk'], photos: ['Photos', 'Photos.apk'],
@@ -50,7 +51,7 @@
     'qs-cast': ['Cast screen', 'SystemUI.apk · CastTile detail'], 'qs-user': ['Users', 'SystemUI.apk · UserDetailView'],
     'user-guest': ['Guest', 'SystemUI.apk · UserSwitcherController'], 'user-add': ['Add user', 'SystemUI.apk · UserSwitcherController.AddUserDialog']
   };
-  const SYSTEM = ['home', 'lock', 'statusbar', 'navbar', 'shade', 'power', 'recents', 'volume', 'drawer'];
+  const SYSTEM = ['home', 'lock', 'statusbar', 'navbar', 'shade', 'power', 'recents', 'volume', 'drawer', 'now'];
 
   const i18n = window.AndroidI18n;
   const t = (key, context) => i18n.t(key, context);
@@ -117,6 +118,8 @@
     if (ui.view !== view && !replace && ui.view !== 'home' && ui.view !== 'lock') ui.history.push({view: ui.view, sub: ui.sub});
     ui.view = view; ui.sub = sub; ui.overlay = '';
     if (modules[view]?.app !== false && SCREENS[view] && !SYSTEM.includes(view)) ui.recent = [view, ...ui.recent.filter(id => id !== view)].slice(0, 20);
+    // The launcher's predicted apps follow what was opened last (kept with the saved state).
+    if (window.MM.appsData?.[view]) { data.recentApps = [view, ...(data.recentApps || []).filter(id => id !== view)].slice(0, 12); save(); }
     render();
   }
   function home() {
