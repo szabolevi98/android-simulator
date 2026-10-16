@@ -1,4 +1,8 @@
 file	sha256	status	source	qualifier	transform	source sha256
+versions/6.0.1/assets/boot-part0.webp	273ab0813062f4d8	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
+versions/6.0.1/assets/boot-part1.webp	768599a777099c0d	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
+versions/6.0.1/assets/boot-part2.webp	0ab38eb11cbf0301	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
+versions/6.0.1/assets/boot-part3.webp	373c73629ab6f5c3	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/6.0.1/assets/device-nexus-5x.svg	6d86c7705924c946	own	drawn by docs/tools/device-frames.py: the outline measured from the maker's front render, the shading drawn			
 versions/6.0.1/assets/fw-btn_radio_to_on_mtrl_000.png	2dd9c8672627cd22	copy	bullhead:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/btn_radio_to_on_mtrl_000.png	drawable-xxhdpi-v4		2dd9c8672627cd22
 versions/6.0.1/assets/fw-btn_radio_to_on_mtrl_015.png	259843ddf1ab113b	copy	bullhead:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/btn_radio_to_on_mtrl_015.png	drawable-xxhdpi-v4		259843ddf1ab113b
@@ -7,6 +11,7 @@ versions/6.0.1/assets/fw-btn_switch_to_on_mtrl_00012.9.png	c808ca74b7fa7707	copy
 versions/6.0.1/assets/fw-default_wallpaper.jpg	99fb3c77ca99c156	copy	bullhead:/system/framework/framework-res.apk!res/drawable-nodpi-v4/default_wallpaper.jpg	drawable-nodpi-v4		99fb3c77ca99c156
 versions/6.0.1/assets/fw-ic_account_circle-guest.svg	8aec6d67489a5a97	vector	bullhead:/system/framework/framework-res.apk!res/drawable/ic_account_circle.xml	drawable	vector drawable drawn as SVG	9f6c373c9083fe54
 versions/6.0.1/assets/fw-ic_account_circle-user0.svg	cb030b42c57b7cef	vector	bullhead:/system/framework/framework-res.apk!res/drawable/ic_account_circle.xml	drawable	vector drawable drawn as SVG	9f6c373c9083fe54
+versions/6.0.1/assets/fw-ic_lock_power_off_alpha.png	a025aa11040a02b8	copy	bullhead:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/ic_lock_power_off_alpha.png	drawable-xxhdpi-v4		a025aa11040a02b8
 versions/6.0.1/assets/landing-home.jpg	d519cd458d66fa80	own	capture of the simulator's own home screen for the landing page card		closest: mean difference 7.39 (maguro:/system/media/bootanimation.zip!part0/f0000.jpg)	
 versions/6.0.1/assets/sui-ic_access_alarms_big.svg	54c66bc3509e3272	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_access_alarms_big.xml	drawable	vector drawable drawn as SVG	0ccaaf84a45203f4
 versions/6.0.1/assets/sui-ic_access_alarms_small.svg	47179ef1318c04db	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_access_alarms_small.xml	drawable	vector drawable drawn as SVG	af9011404059dd63

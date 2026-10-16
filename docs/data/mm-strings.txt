@@ -43,3 +43,6 @@ quick_settings_user_title owner_name guest_nickname user_add_user
 # The keyguard: KeyguardIndicationController's hints and charging texts, CarrierText, the bottom area's buttons
 keyguard_unlock camera_hint phone_hint keyguard_charged keyguard_plugged_in keyguard_indication_charging_time
 airplane_mode accessibility_camera_button accessibility_phone_button accessibility_unlock_button
+[power] framework
+# GlobalActions (config_globalActionsList: power, bugreport, users), ShutdownThread, the safe mode reboot and watermark
+global_action_power_off power_off shutdown_progress reboot_safemode_title reboot_safemode_confirm safeMode cancel ok

@@ -65,7 +65,7 @@
   const device = document.querySelector('#device');
 
   let data = null;
-  const ui = {view: 'home', sub: '', overlay: '', history: [], recent: [], sleeping: false};
+  const ui = {view: 'home', sub: '', overlay: '', history: [], recent: [], sleeping: false, power: ''};
   const save = () => AndroidState.save(STORE, data);
 
   // The context every module hook gets.
@@ -161,14 +161,16 @@
 
   // The navigation bar's keys. Held Home is the assist gesture; Overview opens the recents screen.
   function keyPress(key) {
+    if (ui.power) return;
     if (ui.sleeping) { wake(); return; }
     if (key === 'back') back();
     else if (key === 'home') { if (ui.view !== 'lock') home(); }
     else if (key === 'recents') { if (ui.view !== 'lock') open('recents'); }
     else if (key === 'assist') { if (ui.view !== 'lock') modules.assist?.show?.(c); }
   }
-  function powerKey() { if (ui.sleeping) wake(); else lockScreen(); }
-  function powerHold() { if (ui.sleeping) { wake(); return; } ui.overlay = 'power'; renderOverlay(); }
+  // ui.power: '' on, 'off' (shut down: the key boots it, mm-power.js), 'boot' or 'shutdown' (keys do nothing).
+  function powerKey() { if (ui.power === 'off') { c.boot?.(); return; } if (ui.power) return; if (ui.sleeping) wake(); else lockScreen(); }
+  function powerHold() { if (ui.power === 'off') { c.boot?.(); return; } if (ui.power) return; if (ui.sleeping) { wake(); return; } ui.overlay = 'power'; renderOverlay(); }
 
   function volumeKey(direction) { modules.volume?.key?.(c, direction); }
   function bindVolume(element, direction) {
@@ -219,7 +221,7 @@
       else if (event.key === 'Home' && !typing) { event.preventDefault(); keyPress('home'); }
     });
 
-    screen.addEventListener('pointerdown', event => { if (ui.sleeping) { event.preventDefault(); event.stopPropagation(); wake(); } }, true);
+    screen.addEventListener('pointerdown', event => { if (ui.power) { event.preventDefault(); event.stopPropagation(); return; } if (ui.sleeping) { event.preventDefault(); event.stopPropagation(); wake(); } }, true);
     for (const key of [document.querySelector('#power-button'), document.querySelector('.power-key')]) holdable(key, powerKey, powerHold);
     bindVolume(document.querySelector('#volume-down'), -1);
     bindVolume(document.querySelector('#volume-up'), 1);
@@ -258,7 +260,7 @@
       const now = new Date();
       // A screen may keep its own user activity timeout (the keyguard's 10 s).
       const timeout = modules[ui.view]?.timeout?.(c) ?? data.settings.screenTimeout ?? 30000;
-      if (!document.hidden && !ui.sleeping && !ui.overlay && Date.now() - lastActivity >= timeout && !modules[ui.view]?.keepAwake?.(c)) lockScreen();
+      if (!document.hidden && !ui.sleeping && !ui.power && !ui.overlay && Date.now() - lastActivity >= timeout && !modules[ui.view]?.keepAwake?.(c)) lockScreen();
       for (const mod of Object.values(modules)) mod.tick?.(c, now);
     }, 1000);
 
