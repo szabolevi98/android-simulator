@@ -1,0 +1,58 @@
+/* The Nexus 5X: the frame drawing, the display and the side keys.
+   The frame is assets/device-nexus-5x.svg (docs/tools/device-frames.py, measured on LG's press image, 387.8 x 772.93).
+   The display window is the 5.2" 1080 x 1920 panel at 342.73 x 609.3 px from (22.48, 79.44). The image's density is 420
+   (ro.sf.lcd_density, resources from xxhdpi), so the screen is 1080 / 2.625 = 411.43 dp wide and every size of the mm-
+   stylesheets is written as calc(<dp> * var(--dp)): 1 dp = 342.73 / 411.43 px here, and the full width of the phone's
+   display in the mobile layout. The navigation bar is on the screen (SystemUI), so the frame has no keys of its own. */
+@font-face{font-family:Roboto;src:url('fonts/Roboto-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:Roboto;src:url('fonts/Roboto-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:Roboto;src:url('fonts/Roboto-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+@font-face{font-family:Roboto;src:url('fonts/Roboto-Light.ttf') format('truetype');font-weight:300;font-display:swap}
+
+.device{position:relative;width:387.8px;height:772.93px;padding:79.44px 22.59px 84.19px 22.48px}
+.device::before{content:"";position:absolute;inset:0;background:url('assets/device-nexus-5x.svg?v=5') 0 0/100% 100% no-repeat;filter:drop-shadow(0 28px 40px #000c) drop-shadow(0 0 1px #000);pointer-events:none}
+.screen{--dp:.833022px;position:relative;width:342.73px;height:609.3px;overflow:hidden;background:#000;color:#fff;font:calc(14 * var(--dp))/1.25 Roboto,Arial,sans-serif;user-select:none;-webkit-user-select:none;touch-action:pan-y;z-index:1}
+.screen button,.screen input,.screen textarea,.screen select{font:inherit;color:inherit}
+.screen button{cursor:pointer}
+/* status_bar_height 24 dp and navigation_bar_height 48 dp (framework-res); apps sit between them. */
+#status-bar{position:absolute;top:0;left:0;right:0;height:calc(24 * var(--dp));z-index:8}
+#nav-bar{position:absolute;bottom:0;left:0;right:0;height:calc(48 * var(--dp));z-index:8}
+#viewport{position:absolute;top:calc(24 * var(--dp));left:0;right:0;bottom:calc(48 * var(--dp));overflow:hidden}
+.screen.no-status #viewport{top:0}
+.screen.no-status #status-bar{display:none}
+.screen.no-nav #viewport{bottom:0}
+.screen.no-nav #nav-bar{display:none}
+#overlay-root{position:absolute;inset:0;z-index:20;pointer-events:none}
+#overlay-root>*{pointer-events:auto}
+/* Screen off: the panel is dark; the first touch or a key wakes it (handled in mm-core.js). */
+.screen.sleeping::after{content:"";position:absolute;inset:0;background:#000;z-index:60}
+
+/* Side keys on the right edge, where the drawing has them (device-nexus-5x.svg: power at y 205.57, 50.92 long; the
+   volume rocker at y 309.14, 112.72 long): touch areas a little wider than the 5.13 px keys. */
+.power-key{position:absolute;left:378px;top:205.57px;width:12px;height:50.92px;z-index:2;cursor:pointer}
+.volume-rocker{position:absolute;left:378px;top:309.14px;width:12px;height:112.72px;z-index:2;cursor:pointer}
+
+/* A screen that is not rebuilt from the 6.0.1 image yet: a plain card in the project's own style, so a gap is visible and
+   never looks like an older Android (docs/plan-6.0.1.md, rule 2). */
+.mm-missing{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(6 * var(--dp));padding:calc(16 * var(--dp));background:repeating-linear-gradient(135deg,#14181c 0 calc(10 * var(--dp)),#181d22 calc(10 * var(--dp)) calc(20 * var(--dp)));color:#cfdde1;font-family:Arial,Helvetica,sans-serif;font-size:calc(12 * var(--dp));text-align:center}
+.mm-missing b{color:#e6c46a;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.mm-missing span{color:#e9f1f3;font-size:calc(15 * var(--dp))}
+.mm-missing small{color:#6f858d;font-size:calc(11 * var(--dp))}
+.mm-missing button{margin-top:calc(8 * var(--dp));border:1px solid #6f858d;background:none;color:#cfdde1;padding:calc(6 * var(--dp)) calc(12 * var(--dp));font:inherit}
+[data-missing="home"]{justify-content:flex-start;overflow-y:auto}
+.mm-missing-list{display:grid;grid-template-columns:1fr 1fr;gap:calc(5 * var(--dp));width:100%;margin-top:calc(6 * var(--dp))}
+.mm-missing-list button{margin:0;padding:calc(6 * var(--dp)) calc(5 * var(--dp));font-size:calc(12 * var(--dp));text-align:left;border-color:#3b4a50}
+#status-bar .mm-missing{flex-direction:row;padding:0;gap:calc(6 * var(--dp));font-size:calc(10 * var(--dp))}
+#status-bar .mm-missing span{font-size:calc(10 * var(--dp))}
+/* The stand-in for the navigation bar: three plain text keys in the card's style. */
+.mm-missing-nav{display:flex;height:100%;background:#14181c;border-top:1px solid #3b4a50;font-family:Arial,Helvetica,sans-serif}
+.mm-missing-nav button{flex:1;border:0;background:none;color:#cfdde1;font-size:calc(12 * var(--dp))}
+.mm-missing-nav button:active{background:#22292f}
+
+/* Phones: the display fills the width and the height under the site header. */
+@media(max-width:500px){
+  .device{width:100vw;height:calc(100dvh - 48px);padding:0;display:flex;flex-direction:column;background:#000}
+  .is-fullscreen .device{height:100dvh}
+  .device::before,.power-key,.volume-rocker{display:none}
+  .screen{--dp:calc(100vw / 411.4286);width:100%;height:auto;flex:1;min-height:0}
+}

@@ -40,7 +40,7 @@ The same rules as 2.1 ([plan-2.1.md](plan-2.1.md)), with 5.1.1 as the version th
 | # | Step | Sessions |
 | --- | --- | --- |
 | 1 | Image (download, SHA-256, unpack), `oat2dex.py`, strings index, this plan | done 2026-10-16 |
-| 2 | Scaffold: `versions/6.0.1/index.html` with the approved frame, the logic-only core, placeholders, leak checks; the preview page goes | 1 |
+| 2 | Scaffold: `versions/6.0.1/index.html` with the approved frame, the logic-only core, placeholders, leak checks; the preview page goes | done 2026-10-16 |
 | 3 | Status bar, quick settings and notification shade, lock screen, power menu, volume panel, Google Now Launcher with the drawer, recents, dialogs and menus | 2 |
 | 4 | Settings (with app permissions, Doze, Do not disturb) and the core apps: Phone, Contacts, Messenger, Chrome, Gmail, Calendar, Camera, Photos, Clock, Calculator | 3 |
 | 5 | Google apps and Play Store from the image's APKs with made-up offline content, widgets, live wallpapers, Now on Tap | 2–3 |
