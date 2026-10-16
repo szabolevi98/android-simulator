@@ -1,0 +1,8 @@
+/* Android 6.0.1 Toast (mm-toast.js), in dp: toast_frame's padding (11 / 25 dp) around the message. */
+.mmtoast-layer{position:absolute;left:0;right:0;bottom:calc((48 + 64) * var(--dp));z-index:65;display:flex;justify-content:center;pointer-events:none}
+.screen.no-nav .mmtoast-layer{bottom:calc(64 * var(--dp))}
+.mmtoast{position:relative;max-width:calc(100% - 32 * var(--dp));padding:calc(11 * var(--dp)) calc(25 * var(--dp));color:#fff;font:calc(16 * var(--dp))/1.172 'Roboto Condensed',Roboto,sans-serif;text-align:center;text-shadow:0 0 calc(1.048 * var(--dp)) rgba(0,0,0,.733);animation:mmtoast-in .2s}
+.mmtoast::before{content:"";position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:calc(21 * var(--dp)) calc(25 * var(--dp));border-image:url('assets/fw-toast_frame.9.png') 63 75 63 75 fill/calc(21 * var(--dp)) calc(25 * var(--dp)) stretch}
+.mmtoast span{position:relative}
+.mmtoast.out{opacity:0;transition:opacity .25s}
+@keyframes mmtoast-in{from{opacity:0}}

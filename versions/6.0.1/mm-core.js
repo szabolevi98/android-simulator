@@ -35,7 +35,8 @@
     shade: ['Notifications', 'SystemUI.apk · NotificationPanelView'], power: ['Power menu', 'framework-res.apk · GlobalActions'],
     recents: ['Overview', 'SystemUI.apk · RecentsActivity'], volume: ['Volume', 'SystemUI.apk · VolumeDialog'],
     drawer: ['Apps', 'Velvet.apk · AllAppsContainerView'], search: ['Google', 'Velvet.apk'], now: ['Google Now', 'Velvet.apk · Now cards'],
-    'device-policy': ['Device Policy', 'DMAgent.apk'],
+    'device-policy': ['Device Policy', 'DMAgent.apk'], wallpapers: ['Wallpapers', 'Velvet.apk · GelWallpaperPickerActivity'],
+    widgets: ['Widgets', 'Velvet.apk · WidgetsContainerView'], 'home-settings': ['Settings', 'Velvet.apk · Launcher settings'],
     settings: ['Settings', 'Settings.apk'], phone: ['Phone', 'GoogleDialer.apk'], contacts: ['Contacts', 'GoogleContacts.apk'],
     messenger: ['Messenger', 'PrebuiltBugle.apk'], chrome: ['Chrome', 'Chrome.apk'], gmail: ['Gmail', 'PrebuiltGmail.apk'],
     calendar: ['Calendar', 'CalendarGooglePrebuilt.apk'], camera: ['Camera', 'GoogleCamera.apk'], photos: ['Photos', 'Photos.apk'],
@@ -148,7 +149,7 @@
   }
 
   // Toasts: drawn by the toast module once it exists; until then the text goes to the console.
-  function toast(text) { if (modules.toast) modules.toast.show(c, text); else console.info('[toast]', text); }
+  function toast(text, long) { if (modules.toast) modules.toast.show(c, text, long); else console.info('[toast]', text); }
 
   // Screen off / on. With a lock screen built, turning the screen off shows the keyguard (KeyguardViewMediator).
   function lockScreen() {

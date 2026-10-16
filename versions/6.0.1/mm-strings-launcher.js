@@ -183,5 +183,13 @@ MM.strings('launcher', {
 "de": "Seite %1$d von %2$d",
 "fr": "Page %1$d sur %2$d",
 "es": "Página %1$d de %2$d"
+},
+"first_run_cling_title": {
+"res": "bullhead:Velvet:first_run_cling_title",
+"en": "Welcome",
+"hu": "Üdvözöljük!",
+"de": "Hallo!",
+"fr": "Bienvenue",
+"es": "Te damos la bienvenida"
 }
 });

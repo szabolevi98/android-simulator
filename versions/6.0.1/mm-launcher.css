@@ -74,3 +74,60 @@
 .mmd-divider{display:block;height:calc(1 * var(--dp));margin:0 calc(8 * var(--dp)) calc(8 * var(--dp));background:rgba(0,0,0,.118)}
 .mmd-empty{padding:calc(40 * var(--dp)) calc(16 * var(--dp)) calc(8 * var(--dp));color:#212121;opacity:.56;font:500 calc(14 * var(--dp))/1.172 Roboto,sans-serif}
 .mmd-market{display:block;margin:0 calc(8 * var(--dp));padding:calc(12 * var(--dp)) calc(8 * var(--dp));border:0;background:none;color:#009688;font:500 calc(14 * var(--dp)) Roboto,sans-serif;text-transform:uppercase}
+
+/* Dragging (DragController): the drag view is the icon scaled by dragViewScale ((168 + 12 dp) / 168), under the
+   finger; the search bar gives way to search_drop_target_bar.xml (DropTargetButton: 14 sp white, a 4 px shadow 1 px
+   down, the 20 dp icon 7.5 dp before it); a target under the finger takes its hover tint (Remove #c1c1c1, App info
+   #009688). */
+.mmh-targets{position:absolute;left:0;right:0;top:calc(12.190 * var(--dp));height:calc(56 * var(--dp));display:flex;opacity:0;pointer-events:none;transition:opacity .2s}
+.mmh.dragging .mmh-targets{opacity:1}
+.mmh.dragging .mmh-qsb{opacity:0}
+.mmh-targets span{flex:1;display:flex;align-items:center;justify-content:center;gap:calc(7.5 * var(--dp));color:#fff;font:calc(14 * var(--dp))/1.172 Roboto,sans-serif;text-shadow:0 calc(.381 * var(--dp)) calc(1.524 * var(--dp)) #000;white-space:nowrap}
+.mmh-targets img{width:calc(20 * var(--dp));height:calc(20 * var(--dp))}
+.mmh-targets span[data-target="remove"].hover{color:#c1c1c1}
+.mmh-targets span[data-target="info"].hover{color:#009688}
+.mmh-dragview{position:absolute;z-index:20;width:calc(68.571 * var(--dp));height:calc(68.571 * var(--dp));margin:calc(-34.286 * var(--dp)) 0 0 calc(-34.286 * var(--dp));pointer-events:none;transition:filter .15s}
+.mmh-dragview>img{width:100%;height:100%;filter:drop-shadow(0 calc(2 * var(--dp)) calc(4 * var(--dp)) rgba(0,0,0,.4))}
+.mmh-dragview.remove{filter:sepia(1) hue-rotate(-50deg) saturate(3) brightness(.8)}
+.mmh-dragview.folder .mmh-icon{position:relative;width:calc(80.610 * var(--dp));height:calc(96.533 * var(--dp))}
+.mmh-dragview.folder .mmh-icon>span{display:none}
+.mmh-icon.hs.mmh-folder{transform:translateY(calc(8 * var(--dp)))}
+.mmh-icon.hs.mmh-folder>span{display:none}
+/* Overview mode: the pages shrunk to config_workspaceOverviewShrinkPercentage 70 % about the cells' centre and moved
+   104.5 px up to centre them over the 120 dp overview panel (overview_panel.xml: 80 dp buttons 20 dp apart, the
+   12 sp condensed caps labels 4 dp under their icons); each page on screenpanel; no search bar or hotseat. */
+/* Workspace scales as a whole about the current page's centre: each page shrinks about its own cells' centre and moves
+   30 % of a page width towards the current one per page between them; the Now page stays out of overview. */
+.mmh-page{transform-origin:50% calc(309.524 * var(--dp));transition:transform .3s cubic-bezier(.2,.8,.3,1)}
+.mmh.overview .mmh-page{transform:translateX(calc((var(--page) - var(--i)) * 30%)) translateY(calc(-39.810 * var(--dp))) scale(.7)}
+.mmh-nowpage{transition:opacity .3s}
+.mmh.overview .mmh-nowpage{opacity:0}
+.mmh-panel{position:absolute;left:calc(4.190 * var(--dp));right:calc(4.190 * var(--dp));top:calc(68.190 * var(--dp));height:calc(482.667 * var(--dp));box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(2.667 * var(--dp)) calc(4 * var(--dp)) calc(3 * var(--dp));border-image:url('assets/gel-screenpanel.9.png') 8 12 9 fill/calc(2.667 * var(--dp)) calc(4 * var(--dp)) calc(3 * var(--dp)) stretch;opacity:0;transition:opacity .3s;pointer-events:none}
+.mmh.overview .mmh-panel{opacity:1}
+.mmh.overview .mmh-qsb,.mmh.overview .mmh-hotseat{opacity:0;pointer-events:none}
+.mmh-qsb,.mmh-hotseat{transition:opacity .3s}
+.mmh.overview .mmh-dots{opacity:1}
+.mmh-overview{position:absolute;left:50%;bottom:0;width:calc(280 * var(--dp));height:calc(120 * var(--dp));margin-left:calc(-140 * var(--dp));display:flex;justify-content:space-between;opacity:0;pointer-events:none;transition:opacity .3s}
+.mmh.overview .mmh-overview{opacity:1;pointer-events:auto}
+.mmh-overview button{flex:none;width:calc(80 * var(--dp));padding:0;border:0;background:none;display:flex;flex-direction:column;align-items:center;color:#fff;font:calc(12 * var(--dp))/1.172 'Roboto Condensed',Roboto,sans-serif;text-transform:uppercase}
+.mmh-overview i{width:calc(42.667 * var(--dp));height:calc(42.667 * var(--dp));margin-bottom:calc(4 * var(--dp));background:center/100% no-repeat}
+.mmh-ov-wallpaper i{background-image:url('assets/gel-ic_wallpaper.png')}
+.mmh-ov-wallpaper:active i{background-image:url('assets/gel-ic_wallpaper_pressed.png')}
+.mmh-ov-widget i{background-image:url('assets/gel-ic_widget.png')}
+.mmh-ov-widget:active i{background-image:url('assets/gel-ic_widget_pressed.png')}
+.mmh-ov-setting i{background-image:url('assets/gel-ic_setting.png')}
+.mmh-ov-setting:active i{background-image:url('assets/gel-ic_setting_pressed.png')}
+/* The open folder's name: an ExtendedEditText, 14 sp condensed #777, the hint #808080. */
+input.mmh-fname{border:0;background:none;outline:none;padding:calc(4 * var(--dp)) 0 calc(8 * var(--dp));width:auto}
+input.mmh-fname::placeholder{color:#808080}
+/* The first-run long-press cling: the #80000000 scrim, the 360 dp box (cling_bg) a third down the free space with
+   longpress_cling_welcome_content.xml. */
+.mmh-cling{position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;background:rgba(0,0,0,.5)}
+.mmh-cling>i{flex:1}
+.mmh-cling>i.mmh-cling-2x{flex:2}
+.mmh-cling-box{width:calc(360 * var(--dp));max-width:100%;padding:calc(40.667 * var(--dp)) calc(5.667 * var(--dp)) calc(42.333 * var(--dp));color:rgba(0,0,0,.882);font-family:Roboto,sans-serif;line-height:1.172}
+.mmh-cling-1{padding:0 calc(36 * var(--dp));margin-bottom:calc(8 * var(--dp));font-size:calc(34 * var(--dp))}
+.mmh-cling-2{padding:0 calc(36 * var(--dp));margin-bottom:calc(5.3 * var(--dp));font:500 calc(20 * var(--dp))/1.172 Roboto,sans-serif}
+.mmh-cling-3{padding:0 calc(36 * var(--dp));color:rgba(0,0,0,.6);font-size:calc(16 * var(--dp))}
+.mmh-cling-box button{display:block;margin:calc(27 * var(--dp)) calc(12 * var(--dp)) 0 auto;min-height:calc(48 * var(--dp));padding:0 calc(24 * var(--dp));border:0;border-radius:calc(2 * var(--dp));background:none;color:#fff;font:500 calc(14 * var(--dp))/1.172 Roboto,sans-serif;text-transform:uppercase}
+.mmh-cling-box button:active{background:rgba(255,255,255,.2)}

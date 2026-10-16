@@ -49,6 +49,15 @@
 
   function mount(c, root) {
     const st = c.ui.drawer; st.fresh = false;
+    // An app held in the drawer is picked up onto the workspace (AllAppsContainerView.onLongClick: beginDragShared).
+    root.querySelector('.mmd-scroll')?.addEventListener('pointerdown', e => {
+      const app = e.target.closest('.mmd-app'); if (!app || e.button) return;
+      const x0 = e.clientX, y0 = e.clientY;
+      const cancel = () => { clearTimeout(timer); document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', cancel); };
+      const mv = ev => { if (Math.hypot(ev.clientX - x0, ev.clientY - y0) > 10) cancel(); };
+      const timer = setTimeout(() => { cancel(); MM.launcherDragFromDrawer?.(c, app.dataset.app, x0, y0); }, 500);
+      document.addEventListener('pointermove', mv); document.addEventListener('pointerup', cancel);
+    });
     const input = root.querySelector('.mmd-input'), scroll = root.querySelector('.mmd-scroll');
     input?.addEventListener('input', () => { st.query = input.value; scroll.innerHTML = grid(c); scroll.scrollTop = 0; });
   }

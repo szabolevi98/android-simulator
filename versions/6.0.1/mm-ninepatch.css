@@ -10,3 +10,9 @@
 .npp-sui-recents_status_gradient{padding:0 0 0 0}
 .np-sui-recents_lower_gradient{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:0 0 0 0;border-image:url('assets/sui-recents_lower_gradient.9.png') 0 0 0 0 fill / 0 0 0 0 stretch;padding:0 0 0 0}  /* res/drawable-xxhdpi-v4/recents_lower_gradient.9.png 12x234 */
 .npp-sui-recents_lower_gradient{padding:0 0 0 0}
+.np-fw-toast_frame{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(21 * var(--dp)) calc(25 * var(--dp)) calc(21 * var(--dp)) calc(25 * var(--dp));border-image:url('assets/fw-toast_frame.9.png') 63 75 63 75 fill / calc(21 * var(--dp)) calc(25 * var(--dp)) calc(21 * var(--dp)) calc(25 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-xxhdpi-v4/toast_frame.9.png 156x132 */
+.npp-fw-toast_frame{padding:calc(11 * var(--dp)) calc(25 * var(--dp)) calc(11 * var(--dp)) calc(25 * var(--dp))}
+.np-gel-cling_bg{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(12 * var(--dp)) calc(8 * var(--dp)) calc(26.6667 * var(--dp)) calc(7.33333 * var(--dp));border-image:url('assets/gel-cling_bg.9.png') 36 24 80 22 fill / calc(12 * var(--dp)) calc(8 * var(--dp)) calc(26.6667 * var(--dp)) calc(7.33333 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-xxhdpi-v4/cling_bg.9.png 143x119 */
+.npp-gel-cling_bg{padding:calc(4.66667 * var(--dp)) calc(5.66667 * var(--dp)) calc(18.3333 * var(--dp)) calc(5.66667 * var(--dp))}
+.np-gel-screenpanel{box-sizing:border-box;border-style:solid;border-color:transparent;border-width:calc(2.66667 * var(--dp)) calc(4 * var(--dp)) calc(3 * var(--dp)) calc(4 * var(--dp));border-image:url('assets/gel-screenpanel.9.png') 8 12 9 12 fill / calc(2.66667 * var(--dp)) calc(4 * var(--dp)) calc(3 * var(--dp)) calc(4 * var(--dp)) stretch;padding:0 0 0 0}  /* res/drawable-xxhdpi-v4/screenpanel.9.png 41x41 */
+.npp-gel-screenpanel{padding:0 calc(1 * var(--dp)) 0 calc(0.666667 * var(--dp))}

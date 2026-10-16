@@ -32,7 +32,7 @@
     const cellContent = fontHeight + iconSize + drawablePadding, hotseatH = iconSize + edge * 4, indicatorH = 53;
     const ws = {left: 11, top: searchBottom, right: W - 11, bottom: H - hotseatH - indicatorH};
     return {edge, iconSize, textSize, drawablePadding, fontHeight, W, H, searchTop, searchBottom, cellContent, hotseatH, indicatorH, ws,
-      cellW: (ws.right - ws.left) / 5, cellH: (ws.bottom - ws.top) / 5, hotseatIcon: 147, allAppsButton: Math.trunc((1 - .17) * 147),
+      cellW: (ws.right - ws.left) / 5, cellH: (ws.bottom - ws.top) / 5, hsCellW: (W - edge * 4) / 5, hotseatIcon: 147, allAppsButton: Math.trunc((1 - .17) * 147),
       folderCellW: iconSize + edge * 3, folderCellH: cellContent + edge, folderIcon: iconSize + edge * 2};
   })();
   MM.launcherGrid = G;
@@ -54,13 +54,14 @@
   const folderTitle = (c, f) => typeof f.title === 'string' ? f.title : (f.title?.[c.lang] || f.title?.en || '');
   MM.appLabel = label;
 
-  function icon(c, item, where) {
-    if (item.type === 'folder') return folderIcon(c, item, where);
+  // An item's view; src names where it lives for the drag code ("ws:<page>:<index>", "hs:<rank>", "fd:<index>").
+  function icon(c, item, where, src = '') {
+    if (item.type === 'folder') return folderIcon(c, item, where, src);
     const a = MM.appsData[item.app];
-    return `<button type="button" class="mmh-icon ${where}" data-action="mmh-app" data-app="${item.app}"><img src="${a?.icon}" alt=""><span>${c.safe(label(c, item.app))}</span></button>`;
+    return `<button type="button" class="mmh-icon ${where}" data-action="mmh-app" data-app="${item.app}" data-src="${src}"><img src="${a?.icon}" alt=""><span>${c.safe(label(c, item.app))}</span></button>`;
   }
   // FolderIcon.computePreviewDrawingParams / computePreviewItemDrawingParams, for its first three items.
-  function folderPreview(f) {
+  function folderPreview(f, cellW = G.cellW) {
     const previewSize = G.folderIcon, padding = 11, avail = previewSize - 2 * padding;
     const adjusted = Math.trunc(avail / 2 * 1.8), unscaledH = Math.trunc(G.iconSize * 1.18);
     const baseScale = adjusted / unscaledH, baseSize = Math.trunc(G.iconSize * baseScale), shift = baseSize * .18;
@@ -70,33 +71,45 @@
       // dispatchDraw translates by mPreviewOffsetY (preview padding + folderBackgroundOffset); transY adds the icon's
       // top padding (11 px in a workspace cell); transX centres the item in the cell.
       const y = (padding - G.edge) + avail - ((1 - r) * shift + size + (1 - scale) * baseSize) + 11;
-      const x = (G.cellW - size) / 2;
+      const x = (cellW - size) / 2;
       return {app, x, y, size, overlay: Math.trunc((1 - r) * 80) / 255};
     }).reverse();
   }
-  function folderIcon(c, f, where) {
-    const items = folderPreview(f).map(p => `<span class="mmh-fi" style="left:${dp(p.x)};top:${dp(p.y)};width:${dp(p.size)};height:${dp(p.size)};--shade:${p.overlay.toFixed(3)}"><img src="${MM.appsData[p.app]?.icon}" alt=""></span>`).join('');
-    return `<button type="button" class="mmh-icon mmh-folder ${where}" data-action="mmh-folder" aria-label="${c.safe(T().fmt('folder_name_format', null, folderTitle(c, f)))}"><i class="mmh-ring"></i>${items}<span>${c.safe(folderTitle(c, f))}</span></button>`;
+  function folderIcon(c, f, where, src = '') {
+    const items = folderPreview(f, where === 'hs' ? G.hsCellW : G.cellW).map(p => `<span class="mmh-fi" style="left:${dp(p.x)};top:${dp(p.y)};width:${dp(p.size)};height:${dp(p.size)};--shade:${p.overlay.toFixed(3)}"><img src="${MM.appsData[p.app]?.icon}" alt=""></span>`).join('');
+    return `<button type="button" class="mmh-icon mmh-folder ${where}" data-action="mmh-folder" data-src="${src}" aria-label="${c.safe(T().fmt('folder_name_format', null, folderTitle(c, f)))}"><i class="mmh-ring"></i>${items}<span>${c.safe(folderTitle(c, f))}</span></button>`;
   }
 
   function pageHtml(c, items, p) {
-    return `<div class="mmh-page" data-page="${p}">${items.map((it, i) => `<div class="mmh-cell" style="left:${dp(G.cellW * it.x)};top:${dp(G.cellH * it.y)}" data-index="${i}">${icon(c, it, 'ws')}</div>`).join('')}</div>`;
+    return `<div class="mmh-page" data-page="${p}" style="--i:${p}"><i class="mmh-panel"></i>${items.map((it, i) => `<div class="mmh-cell" style="left:${dp(G.cellW * it.x)};top:${dp(G.cellH * it.y)}" data-index="${i}">${icon(c, it, 'ws', `ws:${p}:${i}`)}</div>`).join('')}</div>`;
+  }
+
+  // An item and where it is, from a drag source name.
+  function locate(h, src) {
+    const [kind, a, b] = src.split(':');
+    if (kind === 'ws') { const list = h.pages[+a - 1]; return {kind, list, index: +b, item: list?.[+b]}; }
+    if (kind === 'hs') { const v = h.hotseat[+a]; return {kind, rank: +a, item: typeof v === 'string' ? {type: 'app', app: v} : v}; }
+    return null;
   }
 
   function render(c) {
     const h = home(c), st = c.ui.home || (c.ui.home = {page: 1, folder: null});
     const t = T();
-    const hotseat = h.hotseat.map((id, rank) => `<div class="mmh-hs" style="left:${dp(G.edge * 2 + rank * (G.W - G.edge * 4) / 5)}">${id === 'allapps'
+    const hotseat = h.hotseat.map((v, rank) => `<div class="mmh-hs" data-rank="${rank}" style="left:${dp(G.edge * 2 + rank * G.hsCellW)}">${v === 'allapps'
       ? `<button type="button" class="mmh-allapps" data-action="mmh-allapps" aria-label="${c.safe(t.t('all_apps_button_label'))}"></button>`
-      : id ? icon(c, {type: 'app', app: id}, 'hs') : ''}</div>`).join('');
+      : v ? icon(c, typeof v === 'string' ? {type: 'app', app: v} : v, 'hs', `hs:${rank}`) : ''}</div>`).join('');
     const pages = h.pages.map((items, i) => pageHtml(c, items, i + 1)).join('');
     const dots = [0, ...h.pages.map((_, i) => i + 1)].map(i => `<i class="${i === st.page ? 'on' : ''}"></i>`).join('');
-    return `<div class="mmh${st.page === 0 ? ' now' : ''}" style="--page:${st.page}">
+    // search_drop_target_bar.xml: Remove and App info (Uninstall only for an app the user installed: none here).
+    const targets = `<div class="mmh-targets"><span data-target="remove"><img src="assets/gel-ic_remove_launcher.png" alt="">${c.safe(t.t('delete_target_label'))}</span><span data-target="info"><img src="assets/gel-ic_info_launcher.png" alt="">${c.safe(t.t('info_target_label'))}</span></div>`;
+    const overview = `<div class="mmh-overview">${[['wallpaper', 'wallpaper_button_text'], ['widget', 'widget_button_text'], ['setting', 'settings_button_text']].map(([k, s]) => `<button type="button" class="mmh-ov-${k}" data-action="mmh-ov" data-ov="${k}"><i></i><span>${c.safe(t.t(s))}</span></button>`).join('')}</div>`;
+    const cling = !c.data.homeClingSeen ? `<div class="mmh-cling"><i></i><div class="mmh-cling-box np-gel-cling_bg"><div class="mmh-cling-1">${c.safe(t.t('first_run_cling_title'))}</div><div class="mmh-cling-2">${c.safe(t.t('workspace_cling_longpress_title'))}</div><div class="mmh-cling-3">${c.safe(t.t('workspace_cling_longpress_description'))}</div><button type="button" data-action="mmh-cling">${c.safe(t.t('workspace_cling_longpress_dismiss'))}</button></div><i class="mmh-cling-2x"></i></div>` : '';
+    return `<div class="mmh${st.page === 0 ? ' now' : ''}${st.overview ? ' overview' : ''}" style="--page:${st.page}">
       <div class="mmh-strip"><div class="mmh-nowpage">${c.missing('now')}</div>${pages}</div>
       <div class="mmh-qsb np-gel-search_bg"><button type="button" class="mmh-qsb-plate" data-action="mmh-search" aria-label="${c.safe(t.t('accessibility_google_search_button'))}"><img src="assets/gel-ic_searchbox_google.png" alt="Google"></button><button type="button" class="mmh-qsb-mic" data-action="mmh-voice" aria-label="${c.safe(t.t('accessibility_voice_button'))}"><i></i></button></div>
-      <div class="mmh-dots">${dots}</div>
-      <div class="mmh-hotseat">${hotseat}</div>
-      ${st.folder ? folderHtml(c, st.folder) : ''}</div>`;
+      ${targets}<div class="mmh-dots">${dots}</div>
+      <div class="mmh-hotseat">${hotseat}</div>${overview}
+      ${st.folder ? folderHtml(c, st.folder) : ''}${cling}</div>`;
   }
 
   // Folder / FolderPagedView.
@@ -110,67 +123,189 @@
       if (x === ox && y === oy) return [x, y];
     }
   }
+  function folderOf(c, ref) { const loc = locate(home(c), ref); return loc?.item?.type === 'folder' ? loc : null; }
   function folderHtml(c, ref) {
-    const h = home(c), f = h.pages[ref.page - 1]?.[ref.index];
-    if (!f) return '';
+    const loc = folderOf(c, ref);
+    if (!loc) return '';
+    const f = loc.item;
     const [cols, rows] = folderGrid(f.items.length), inset = 11, padX = 11, padTop = 21, footer = 32 + Math.ceil(37 * 1.172);
     const w = cols * G.folderCellW + padX * 2 + inset * 2, hgt = rows * G.folderCellH + padTop + footer + inset * 2;
-    const cx = G.ws.left + G.cellW * (f.x + .5), cy = G.ws.top + G.cellH * f.y + 11 + G.iconSize / 2;
+    const cx = loc.kind === 'hs' ? G.edge * 2 + G.hsCellW * (loc.rank + .5) : G.ws.left + G.cellW * (f.x + .5);
+    const cy = loc.kind === 'hs' ? G.H - G.hotseatH / 2 : G.ws.top + G.cellH * f.y + 11 + G.iconSize / 2;
     const left = Math.min(Math.max(G.ws.left, cx - w / 2), G.ws.right - w), top = Math.min(Math.max(G.ws.top, cy - hgt / 2), G.ws.bottom - hgt);
-    const cells = f.items.map((id, i) => `<div class="mmh-fcell" style="left:${dp(inset + padX + (i % cols) * G.folderCellW)};top:${dp(inset + padTop + Math.floor(i / cols) * G.folderCellH)}">${icon(c, {type: 'app', app: id}, 'fd')}</div>`).join('');
+    const cells = f.items.map((id, i) => `<div class="mmh-fcell" style="left:${dp(inset + padX + (i % cols) * G.folderCellW)};top:${dp(inset + padTop + Math.floor(i / cols) * G.folderCellH)}">${icon(c, {type: 'app', app: id}, 'fd', `fd:${i}`)}</div>`).join('');
+    const title = folderTitle(c, f);
     return `<div class="mmh-fscrim" data-action="mmh-close-folder"></div><div class="mmh-fpanel" style="left:${dp(left)};top:${dp(top)};width:${dp(w)};height:${dp(hgt)};--ox:${dp(cx - left)};--oy:${dp(cy - top)}">
-      <div class="mmh-fgrid">${cells}</div><div class="mmh-fname" style="top:${dp(inset + padTop + rows * G.folderCellH)}">${c.safe(folderTitle(c, f) || T().t('folder_hint_text'))}</div></div>`;
+      <div class="mmh-fgrid">${cells}</div><input class="mmh-fname" style="top:${dp(inset + padTop + rows * G.folderCellH)}" value="${c.safe(title)}" placeholder="${c.safe(T().t('folder_hint_text'))}" spellcheck="false"></div>`;
+  }
+
+  // Removing an item from a folder: one left replaces the folder (Folder.replaceFolderWithFinalItem), none removes it.
+  function tidyFolder(h, loc) {
+    const f = loc.item;
+    if (f.items.length > 1) return;
+    const rest = f.items[0];
+    if (loc.kind === 'ws') { if (rest) loc.list[loc.index] = {type: 'app', app: rest, x: f.x, y: f.y}; else loc.list.splice(loc.index, 1); }
+    else h.hotseat[loc.rank] = rest || null;
+  }
+
+  // Drag and drop (DragController, Workspace / Hotseat as drop targets, DeleteDropTarget, InfoDropTarget).
+  function startDrag(c, root, d) {
+    const st = c.ui.home, el = root.querySelector('.mmh');
+    st.dragging = d;
+    el.classList.add('dragging');
+    if (st.folder && d.from === 'fd') { st.folder = null; el.querySelector('.mmh-fpanel')?.remove(); el.querySelector('.mmh-fscrim')?.remove(); }
+    const view = document.createElement('div');
+    view.className = 'mmh-dragview';
+    view.innerHTML = `<img src="${MM.appsData[d.item.type === 'folder' ? d.item.items[0] : d.item.app]?.icon}" alt="">`;
+    if (d.item.type === 'folder') view.innerHTML = el.querySelector(`[data-src="${d.src}"]`)?.outerHTML || view.innerHTML, view.classList.add('folder');
+    el.append(view);
+    d.view = view;
+    if (d.srcEl) d.srcEl.style.visibility = 'hidden';
+    navigator.vibrate?.(20);
+  }
+  function target(c, root, x, y) {
+    const r = root.querySelector('.mmh').getBoundingClientRect(), k = r.width / G.W;
+    const px = (x - r.left) / k, py = (y - r.top) / k;
+    if (py < G.searchBottom) return {kind: px < G.W / 2 ? 'remove' : 'info'};
+    if (py > G.H - G.hotseatH) return {kind: 'hs', rank: Math.max(0, Math.min(4, Math.floor((px - G.edge * 2) / G.hsCellW)))};
+    if (py < G.ws.bottom) return {kind: 'ws', x: Math.max(0, Math.min(4, Math.floor((px - G.ws.left) / G.cellW))), y: Math.max(0, Math.min(4, Math.floor((py - G.ws.top) / G.cellH)))};
+    return null;
+  }
+  function moveDrag(c, root, x, y) {
+    const d = c.ui.home.dragging, r = root.querySelector('.mmh').getBoundingClientRect();
+    d.view.style.left = `${x - r.left}px`; d.view.style.top = `${y - r.top}px`;
+    const t = target(c, root, x, y);
+    root.querySelectorAll('.mmh-targets span').forEach(s => s.classList.toggle('hover', !!t && s.dataset.target === t.kind));
+    d.view.classList.toggle('remove', t?.kind === 'remove');
+  }
+  function endDrag(c, root, x, y) {
+    const st = c.ui.home, d = st.dragging, h = home(c);
+    st.dragging = null;
+    const t = target(c, root, x, y), page = st.page > 0 ? st.page : 1;
+    const app = d.item.type === 'app' ? d.item.app : null;
+    // Taking the item out of where it was (a drawer item is a copy and leaves nothing behind).
+    const take = () => {
+      if (d.from === 'ws') { const loc = locate(h, d.src); loc.list.splice(loc.index, 1); }
+      else if (d.from === 'hs') h.hotseat[+d.src.split(':')[1]] = null;
+      else if (d.from === 'fd') { const loc = folderOf(c, d.folder); loc.item.items.splice(d.index, 1); tidyFolder(h, loc); }
+    };
+    if (t?.kind === 'info' && app) { c.render(); c.open('settings', `app:${app}`); return; }
+    if (t?.kind === 'remove' && d.from !== 'drawer') { take(); c.save(); c.render(); return; }
+    const fresh = {...d.item};
+    if (t?.kind === 'ws') {
+      const list = h.pages[page - 1];
+      const hit = list.findIndex(it => it.x === t.x && it.y === t.y);
+      const self = d.from === 'ws' && d.src === `ws:${page}:${hit}`;
+      if (hit < 0 || self) { take(); const l2 = h.pages[page - 1]; l2.push({...fresh, x: t.x, y: t.y}); }
+      else if (app && list[hit].type === 'app') { take(); const l2 = h.pages[page - 1], at = l2.findIndex(it => it.x === t.x && it.y === t.y); l2[at] = {type: 'folder', title: '', items: [l2[at].app, app], x: t.x, y: t.y}; }
+      else if (app && list[hit].type === 'folder') { take(); const l2 = h.pages[page - 1], at = l2.findIndex(it => it.x === t.x && it.y === t.y); l2[at].items.push(app); }
+      else { c.render(); return; }
+      c.save(); c.render(); return;
+    }
+    if (t?.kind === 'hs' && h.hotseat[t.rank] !== 'allapps') {
+      const cur = h.hotseat[t.rank], self = d.from === 'hs' && d.src === `hs:${t.rank}`;
+      if (!cur || self) { take(); h.hotseat[t.rank] = fresh.type === 'app' ? fresh.app : fresh; }
+      else if (app && typeof cur === 'string') { take(); h.hotseat[t.rank] = {type: 'folder', title: '', items: [cur, app]}; }
+      else if (app && cur.type === 'folder') { take(); h.hotseat[t.rank].items.push(app); }
+      c.save(); c.render(); return;
+    }
+    c.render();
   }
 
   function mount(c, root) {
     const el = root.querySelector('.mmh'), strip = root.querySelector('.mmh-strip');
     if (!el) return;
     const st = c.ui.home, h = home(c), last = h.pages.length;
-    let drag = null;
+    const name = el.querySelector('.mmh-fname');
+    name?.addEventListener('change', () => { const loc = folderOf(c, st.folder); if (loc) { loc.item.title = name.value; c.save(); } });
+    name?.addEventListener('keydown', e => { if (e.key === 'Enter') name.blur(); e.stopPropagation(); });
+    let press = null;
+    const longPress = 500;   // ViewConfiguration's long press timeout
     el.addEventListener('pointerdown', e => {
-      if (e.button || st.folder || e.target.closest('.mmh-hotseat,.mmh-qsb')) return;
-      drag = {x: e.clientX, y: e.clientY, moved: false, w: el.clientWidth};
+      if (e.button || st.dragging) return;
+      if (e.target.closest('.mmh-qsb,.mmh-overview,.mmh-cling,.mmh-fname,.mmh-allapps')) return;
+      const src = e.target.closest('[data-src]');
+      press = {x: e.clientX, y: e.clientY, moved: false, w: el.clientWidth, src, timer: 0};
+      press.timer = setTimeout(() => {
+        if (!press || press.moved) return;
+        if (st.folder && !src) return;
+        st.suppressClick = true;
+        if (src) {
+          const s = src.dataset.src;
+          let item, from = s.split(':')[0], folder = null, index = 0;
+          if (from === 'fd') { folder = st.folder; index = +s.split(':')[1]; item = {type: 'app', app: folderOf(c, folder).item.items[index]}; }
+          else item = locate(h, s).item;
+          startDrag(c, root, {src: s, from, item, folder, index, srcEl: src});
+          moveDrag(c, root, press.x, press.y);
+        } else if (st.page > 0 && !st.overview) {
+          // Launcher.onLongClick on the workspace: overview mode (and the long-press cling is done).
+          c.data.homeClingSeen = true; c.save();
+          st.overview = true; c.render();
+        }
+        press = null;
+      }, longPress);
     });
-    el.addEventListener('pointermove', e => {
-      if (!drag) return;
-      const dx = e.clientX - drag.x;
-      if (!drag.moved && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(e.clientY - drag.y)) { drag.moved = true; strip.style.transition = 'none'; el.classList.add('scrolling'); }
-      if (drag.moved) strip.style.transform = `translateX(calc(${-st.page * 100}% + ${dx}px))`;
-    });
+    const move = e => {
+      if (st.dragging) { moveDrag(c, root, e.clientX, e.clientY); return; }
+      if (!press) return;
+      const dx = e.clientX - press.x;
+      if (!press.moved && Math.hypot(dx, e.clientY - press.y) > 10) {
+        press.moved = true; clearTimeout(press.timer);
+        if (Math.abs(dx) > Math.abs(e.clientY - press.y) && !st.folder) { press.scroll = true; strip.style.transition = 'none'; el.classList.add('scrolling'); }
+      }
+      if (press.scroll) strip.style.transform = `translateX(calc(${-st.page * 100}% + ${dx}px))`;
+    };
     const end = e => {
-      if (!drag) return;
-      const d = drag; drag = null;
-      if (!d.moved) return;
+      if (st.dragging) { endDrag(c, root, e.clientX, e.clientY); return; }
+      if (!press) return;
+      const p = press; press = null; clearTimeout(p.timer);
+      if (!p.scroll) return;
       st.suppressClick = true; setTimeout(() => { st.suppressClick = false; });
-      const dx = e.clientX - d.x;
+      const dx = e.clientX - p.x;
       let page = st.page;
-      if (dx < -d.w / 4 && page < last) page++;
-      else if (dx > d.w / 4 && page > 0) page--;
+      if (dx < -p.w / 4 && page < last) page++;
+      else if (dx > p.w / 4 && page > (st.overview ? 1 : 0)) page--;
       strip.style.transition = ''; strip.style.transform = '';
       el.classList.remove('scrolling');
       st.page = page; el.style.setProperty('--page', page); el.classList.toggle('now', page === 0);
       root.querySelectorAll('.mmh-dots i').forEach((dot, i) => dot.classList.toggle('on', i === page));
     };
-    el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+    // Moves and the release go to the document: a drag may start in the drawer and the pointer leave the launcher.
+    document.addEventListener('pointermove', move);
+    document.addEventListener('pointerup', end, true);
+    root._mmhOff?.();
+    root._mmhOff = () => { document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', end, true); };
+    // A drag the drawer started (an app held there) continues here.
+    if (st.pendingDrag) {
+      const d = st.pendingDrag; st.pendingDrag = null;
+      startDrag(c, root, {src: '', from: 'drawer', item: {type: 'app', app: d.app}});
+      moveDrag(c, root, d.x, d.y);
+    }
   }
+
+  MM.launcherDragFromDrawer = (c, app, x, y) => {
+    const st = c.ui.home || (c.ui.home = {page: 1, folder: null});
+    st.pendingDrag = {app, x, y}; st.suppressClick = true;
+    c.ui.drawer = null; c.home();
+  };
 
   MM.register('home', {
     app: false,
     render, mount,
-    reset(c) { if (c.ui.home) { c.ui.home.folder = null; c.ui.home.page = 1; } },
-    back(c) { if (c.ui.home?.folder) { c.ui.home.folder = null; c.render(); } return true; },
+    reset(c) { if (c.ui.home) { Object.assign(c.ui.home, {folder: null, overview: false}); if (!c.ui.home.pendingDrag) c.ui.home.page = 1; } },
+    back(c) { const st = c.ui.home; if (st?.folder || st?.overview) { st.folder = null; st.overview = false; c.render(); } return true; },
     action(name, el, event, c) {
       const st = c.ui.home;
-      if (st?.suppressClick) return true;
+      if (st?.suppressClick) { st.suppressClick = false; return true; }
+      if (st?.overview && name !== 'mmh-ov') { st.overview = false; c.render(); return true; }
       if (name === 'mmh-app') { if (st.folder) st.folder = null; c.open(el.dataset.app); return true; }
-      if (name === 'mmh-folder') {
-        const cell = el.closest('.mmh-cell'), page = +el.closest('.mmh-page').dataset.page;
-        st.folder = {page, index: +cell.dataset.index}; c.render(); return true;
-      }
+      if (name === 'mmh-folder') { st.folder = el.dataset.src; c.render(); return true; }
       if (name === 'mmh-close-folder') { st.folder = null; c.render(); return true; }
       if (name === 'mmh-allapps') { c.open('drawer'); return true; }
       if (name === 'mmh-search') { c.open('search'); return true; }
       if (name === 'mmh-voice') { c.open('search', 'voice'); return true; }
+      if (name === 'mmh-cling') { c.data.homeClingSeen = true; c.save(); c.render(); return true; }
+      if (name === 'mmh-ov') { st.overview = false; c.open({wallpaper: 'wallpapers', widget: 'widgets', setting: 'home-settings'}[el.dataset.ov]); return true; }
       return false;
     }
   });

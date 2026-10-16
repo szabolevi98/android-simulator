@@ -36,16 +36,27 @@ versions/6.0.1/assets/fw-default_wallpaper.jpg	99fb3c77ca99c156	copy	bullhead:/s
 versions/6.0.1/assets/fw-ic_account_circle-guest.svg	8aec6d67489a5a97	vector	bullhead:/system/framework/framework-res.apk!res/drawable/ic_account_circle.xml	drawable	vector drawable drawn as SVG	9f6c373c9083fe54
 versions/6.0.1/assets/fw-ic_account_circle-user0.svg	cb030b42c57b7cef	vector	bullhead:/system/framework/framework-res.apk!res/drawable/ic_account_circle.xml	drawable	vector drawable drawn as SVG	9f6c373c9083fe54
 versions/6.0.1/assets/fw-ic_lock_power_off_alpha.png	a025aa11040a02b8	copy	bullhead:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/ic_lock_power_off_alpha.png	drawable-xxhdpi-v4		a025aa11040a02b8
+versions/6.0.1/assets/fw-toast_frame.9.png	79dd93fbe750d293	copy	bullhead:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/toast_frame.9.png	drawable-xxhdpi-v4		79dd93fbe750d293
+versions/6.0.1/assets/gel-cling_bg.9.png	a7648c0a6be7114a	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/cling_bg.9.png	drawable-xxhdpi-v4		a7648c0a6be7114a
 versions/6.0.1/assets/gel-ic_allapps.png	032e2fa7a49215e7	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_allapps.png	drawable-xxhdpi-v4		032e2fa7a49215e7
 versions/6.0.1/assets/gel-ic_allapps_pressed.png	d165841d2046b2fc	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_allapps_pressed.png	drawable-xxhdpi-v4		d165841d2046b2fc
 versions/6.0.1/assets/gel-ic_arrow_back_grey.png	4ebc975addf79a40	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_arrow_back_grey.png	drawable-xxhdpi-v4		4ebc975addf79a40
 versions/6.0.1/assets/gel-ic_clear.svg	e3b0c44298fc1c14	vector	bullhead:/system/app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk!res/drawable-v21/ic_clear.xml	drawable-v21	vector drawable drawn as SVG	53370cd1865d8fa1
+versions/6.0.1/assets/gel-ic_info_launcher.png	e6013e5fce2ffe8c	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_info_launcher.png	drawable-xxhdpi-v4		e6013e5fce2ffe8c
 versions/6.0.1/assets/gel-ic_mic_none.png	caff75b7db80aabc	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_mic_none.png	drawable-xxhdpi-v4		caff75b7db80aabc
 versions/6.0.1/assets/gel-ic_pageindicator_current.png	3384836521dec9b6	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_pageindicator_current.png	drawable-xxhdpi-v4		3384836521dec9b6
 versions/6.0.1/assets/gel-ic_pageindicator_default.png	0ceba1d788199478	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_pageindicator_default.png	drawable-xxhdpi-v4		0ceba1d788199478
+versions/6.0.1/assets/gel-ic_remove_launcher.png	7b4a82fa4212c79f	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_remove_launcher.png	drawable-xxhdpi-v4		7b4a82fa4212c79f
 versions/6.0.1/assets/gel-ic_search_grey.png	8584d59c3aa530fd	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_search_grey.png	drawable-xxhdpi-v4		8584d59c3aa530fd
 versions/6.0.1/assets/gel-ic_searchbox_google.png	27fdb15f7e21f4df	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_searchbox_google.png	drawable-xxhdpi-v4		27fdb15f7e21f4df
+versions/6.0.1/assets/gel-ic_setting.png	157a5f0a7efc32d1	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_setting.png	drawable-xxhdpi-v4		157a5f0a7efc32d1
+versions/6.0.1/assets/gel-ic_setting_pressed.png	e6a559b323abb7c4	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_setting_pressed.png	drawable-xxhdpi-v4		e6a559b323abb7c4
+versions/6.0.1/assets/gel-ic_wallpaper.png	d226e11f77a16495	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_wallpaper.png	drawable-xxhdpi-v4		d226e11f77a16495
+versions/6.0.1/assets/gel-ic_wallpaper_pressed.png	d1d620ed21240f56	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_wallpaper_pressed.png	drawable-xxhdpi-v4		d1d620ed21240f56
+versions/6.0.1/assets/gel-ic_widget.png	fcd82eb7032c0a97	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_widget.png	drawable-xxhdpi-v4		fcd82eb7032c0a97
+versions/6.0.1/assets/gel-ic_widget_pressed.png	f5027aca5412c108	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_widget_pressed.png	drawable-xxhdpi-v4		f5027aca5412c108
 versions/6.0.1/assets/gel-portal_ring_inner.png	cb684598871fd094	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/portal_ring_inner.png	drawable-xxhdpi-v4		cb684598871fd094
+versions/6.0.1/assets/gel-screenpanel.9.png	5367af4067b16862	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/screenpanel.9.png	drawable-xxhdpi-v4		5367af4067b16862
 versions/6.0.1/assets/gel-search_bg.9.png	023562590363b025	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/search_bg.9.png	drawable-xxhdpi-v4		023562590363b025
 versions/6.0.1/assets/landing-home.jpg	d519cd458d66fa80	own	capture of the simulator's own home screen for the landing page card		closest: mean difference 7.39 (maguro:/system/media/bootanimation.zip!part0/f0000.jpg)	
 versions/6.0.1/assets/sui-ic_access_alarms_big.svg	54c66bc3509e3272	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_access_alarms_big.xml	drawable	vector drawable drawn as SVG	0ccaaf84a45203f4

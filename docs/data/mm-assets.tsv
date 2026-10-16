@@ -33,3 +33,16 @@ gel-search_bg.9.png	priv-app/Velvet/Velvet.apk	drawable/search_bg
 # SystemUI Overview (recents.xml scrims; the task header's dismiss buttons)
 sui-recents_status_gradient.9.png	priv-app/SystemUI/SystemUI.apk	drawable/recents_status_gradient
 sui-recents_lower_gradient.9.png	priv-app/SystemUI/SystemUI.apk	drawable/recents_lower_gradient
+# framework Toast (transient_notification.xml)
+fw-toast_frame.9.png	framework/framework-res.apk	drawable/toast_frame
+# Launcher3 overview panel buttons and the first-run cling
+gel-ic_wallpaper.png	priv-app/Velvet/Velvet.apk	drawable/ic_wallpaper
+gel-ic_wallpaper_pressed.png	priv-app/Velvet/Velvet.apk	drawable/ic_wallpaper_pressed
+gel-ic_widget.png	priv-app/Velvet/Velvet.apk	drawable/ic_widget
+gel-ic_widget_pressed.png	priv-app/Velvet/Velvet.apk	drawable/ic_widget_pressed
+gel-ic_setting.png	priv-app/Velvet/Velvet.apk	drawable/ic_setting
+gel-ic_setting_pressed.png	priv-app/Velvet/Velvet.apk	drawable/ic_setting_pressed
+gel-cling_bg.9.png	priv-app/Velvet/Velvet.apk	drawable/cling_bg
+gel-ic_remove_launcher.png	priv-app/Velvet/Velvet.apk	drawable/ic_remove_launcher
+gel-ic_info_launcher.png	priv-app/Velvet/Velvet.apk	drawable/ic_info_launcher
+gel-screenpanel.9.png	priv-app/Velvet/Velvet.apk	drawable/screenpanel
