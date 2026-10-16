@@ -47,7 +47,8 @@
     // Quick settings details (QSPanel.showDetail), drawn inside the shade.
     'qs-wifi': ['Wi-Fi', 'SystemUI.apk · WifiTile detail'], 'qs-bt': ['Bluetooth', 'SystemUI.apk · BluetoothTile detail'],
     'qs-dnd': ['Do not disturb', 'SystemUI.apk · ZenModePanel'], 'qs-cell': ['Mobile data', 'SystemUI.apk · CellularTile detail'],
-    'qs-cast': ['Cast screen', 'SystemUI.apk · CastTile detail'], 'qs-user': ['Users', 'SystemUI.apk · UserDetailView']
+    'qs-cast': ['Cast screen', 'SystemUI.apk · CastTile detail'], 'qs-user': ['Users', 'SystemUI.apk · UserDetailView'],
+    'user-guest': ['Guest', 'SystemUI.apk · UserSwitcherController'], 'user-add': ['Add user', 'SystemUI.apk · UserSwitcherController.AddUserDialog']
   };
   const SYSTEM = ['home', 'lock', 'statusbar', 'navbar', 'shade', 'power', 'recents', 'volume', 'drawer'];
 
@@ -83,7 +84,7 @@
   }
   // While the launcher is missing, its card lists every screen of the version so each one can still be reached.
   function missingHome() {
-    const list = Object.keys(SCREENS).filter(id => !['home', 'statusbar', 'navbar', 'lock'].includes(id) && !id.startsWith('qs-'))
+    const list = Object.keys(SCREENS).filter(id => !['home', 'statusbar', 'navbar', 'lock'].includes(id) && !/^(qs|user)-/.test(id))
       .map(id => `<button type="button" data-action="mm-open" data-view="${id}">${safe(t(SCREENS[id][0]))}${modules[id] ? '' : ' ·'}</button>`).join('');
     return missing('home', `<div class="mm-missing-list">${list}</div>`);
   }

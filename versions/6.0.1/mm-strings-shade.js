@@ -437,14 +437,5 @@ MM.strings('shade', {
 "de": "Telekom",
 "fr": "Telekom",
 "es": "Telekom"
-},
-"ssid": {
-"own": true,
-"source": "the simulator's Wi-Fi network, as in every version (5.1.1 Wi-Fi list)",
-"en": "Home Network",
-"hu": "Home Network",
-"de": "Home Network",
-"fr": "Home Network",
-"es": "Home Network"
 }
 });

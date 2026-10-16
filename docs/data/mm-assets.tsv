@@ -7,3 +7,9 @@ sui-ic_sysbar_recent.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_recen
 sui-ic_sysbar_menu.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_menu
 sui-ic_sysbar_lights_out_dot_small.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_lights_out_dot_small
 sui-ic_sysbar_lights_out_dot_large.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_lights_out_dot_large
+# framework Material Switch thumb (switch_thumb_material_anim: the off and on frames, tinted in CSS by multiply)
+fw-btn_switch_to_on_mtrl_00001.9.png	framework/framework-res.apk	drawable/btn_switch_to_on_mtrl_00001
+fw-btn_switch_to_on_mtrl_00012.9.png	framework/framework-res.apk	drawable/btn_switch_to_on_mtrl_00012
+# framework Material RadioButton (btn_radio_material_anim: the off and on frames, tinted in CSS as SRC_IN)
+fw-btn_radio_to_on_mtrl_000.png	framework/framework-res.apk	drawable/btn_radio_to_on_mtrl_000
+fw-btn_radio_to_on_mtrl_015.png	framework/framework-res.apk	drawable/btn_radio_to_on_mtrl_015

@@ -41,9 +41,9 @@
     const s = c.data.settings, t = T(), st = c.ui.shade || {}, sy = sys();
     const wifi = sy.wifiState(c), mobile = sy.mobile(c);
     const out = [];
-    out.push({id: 'wifi', dual: true, label: wifi === 'connected' ? MM.text('shade').t('ssid') : t.t('quick_settings_wifi_label'),
+    out.push({id: 'wifi', dual: true, label: wifi === 'connected' ? s.wifiSsid : t.t('quick_settings_wifi_label'),
       icon: wifi === 'off' ? 'sui-ic_qs_wifi_disabled.svg' : wifi === 'searching' ? 'sui-ic_qs_wifi_no_network.svg' : 'sui-ic_qs_wifi_full_4.svg',
-      desc: t.fmt('accessibility_quick_settings_wifi', null, wifi === 'off' ? t.t('accessibility_wifi_off') : wifi === 'searching' ? t.t('accessibility_no_wifi') : t.fmt('accessibility_wifi_name', null, t.t('ssid')))});
+      desc: t.fmt('accessibility_quick_settings_wifi', null, wifi === 'off' ? t.t('accessibility_wifi_off') : wifi === 'searching' ? t.t('accessibility_no_wifi') : t.fmt('accessibility_wifi_name', null, s.wifiSsid))});
     out.push({id: 'bt', dual: true, label: t.t('quick_settings_bluetooth_label'), icon: s.bluetooth ? 'sui-ic_qs_bluetooth_on.svg' : 'sui-ic_qs_bluetooth_off.svg',
       desc: t.t(s.bluetooth ? 'accessibility_quick_settings_bluetooth_on' : 'accessibility_quick_settings_bluetooth_off')});
     // inversion: visible only while on or recently used (UsageTracker); the simulator has no colour inversion yet.
@@ -124,8 +124,10 @@
     const notes = c.notifications?.() || [];
     const qsH = 8 + geo.height + 8;
     const value = sliderValue(c.data.settings);
-    const detail = st.detail ? `<div class="mmqs-detail">${c.missing(`qs-${st.detail}`)}</div>` : '';
-    return `<div class="mmsh${st.qs ? ' qs' : ''}${st.opened ? ' shown' : ''}" style="--qs-h:${qsH.toFixed(3)}">
+    const detail = st.detail ? `<div class="mmqs-detail">${MM.qsDetail?.has(st.detail) ? MM.qsDetail.render(c, st.detail, st.origin) : c.missing(`qs-${st.detail}`)}</div>` : '';
+    const dhead = st.detail && MM.qsDetail?.has(st.detail) ? MM.qsDetail.header(c, st.detail) : '';
+    const scan = st.detail && st.scanUntil > Date.now() ? '<i class="mmsh-scan"></i>' : '';
+    return `<div class="mmsh${st.qs ? ' qs' : ''}${st.detail ? ' detail' : ''}${st.opened ? ' shown' : ''}" style="--qs-h:${qsH.toFixed(3)}">
       <div class="mmsh-scrim" data-action="mmsh-close"></div>
       <div class="mmsh-panel">
         <div class="mmsh-stack" data-action="mmsh-close">${notes.length ? '' : `<div class="mmsh-empty">${c.safe(t.t('empty_shade_text'))}</div>`}</div>
@@ -133,7 +135,7 @@
           <div class="mmqs-brightness"><div class="mmqs-slider" role="slider" aria-label="${c.safe(t.t('accessibility_brightness'))}" aria-valuenow="${Math.round(value * 100)}" style="--v:${value.toFixed(4)}"><i class="mmqs-track"></i><i class="mmqs-progress"></i><img class="mmqs-thumb" src="${A('sui-ic_brightness_thumb.svg')}" alt=""></div></div>
           ${list.map(tile => tileHtml(c, tile)).join('')}${detail}</div></div>
         <div class="mmsh-header" data-action="mmsh-header">
-          <div class="mmsh-clockdate"><div class="mmsh-clock">${headerClock(c)}</div><div class="mmsh-date">${c.safe(headerDate(c))}</div></div>
+          ${dhead}${scan}<div class="mmsh-clockdate"><div class="mmsh-clock">${headerClock(c)}</div><div class="mmsh-date">${c.safe(headerDate(c))}</div></div>
           <div class="mmsh-right">
             <span class="mmsh-cluster">${MM.signalCluster ? MM.signalCluster(c) : ''}</span>
             <button type="button" class="mmsh-sys" data-action="mmsh-battery" aria-label="${c.safe(t.fmt('accessibility_battery_level', null, b.level))}"><span class="mmsh-batt"></span><span class="mmsh-level">${c.safe(level)}</span></button>
@@ -153,6 +155,9 @@
     // Opening: the panel is laid out pulled up, then slides down (a forced layout makes the transition start).
     const shade = root.querySelector('.mmsh');
     if (!st.opened && shade) { void shade.offsetHeight; st.opened = true; shade.classList.add('shown'); }
+    // The detail's circular reveal plays once; the scan line goes when the access points are in.
+    if (st.detail) st.revealed = true;
+    if (st.scanUntil > Date.now()) { clearTimeout(st.scanTimer); st.scanTimer = setTimeout(() => root.querySelector('.mmsh-scan')?.remove(), st.scanUntil - Date.now()); }
     // The slider follows the pointer; the setting is saved when it is let go.
     const slider = root.querySelector('.mmqs-slider');
     slider?.addEventListener('pointerdown', event => {
@@ -225,7 +230,15 @@
     if (id === 'bt' && !s.bluetooth) sy.setBluetooth(c, true);
     showDetail(c, id);
   }
-  function showDetail(c, id) { c.ui.shade.detail = id; refresh(c); }
+  function showDetail(c, id) {
+    const st = c.ui.shade, tile = tiles(c), geo = layout(tile), hit = tile.find(x => x.id === id);
+    st.detail = id; st.revealed = false;
+    st.origin = hit ? {x: hit.x + hit.w / 2, y: hit.y + hit.h / 2 + 10} : null;
+    st.scanUntil = MM.qsDetail?.scanning(id) ? Date.now() + 1200 : 0;
+    void geo; refresh(c);
+  }
+  function closeDetail(c) { const st = c.ui.shade; st.detail = ''; st.revealed = false; refresh(c); }
+  const ctl = {refresh, close, closeDetail};
 
   MM.register('shade', {
     app: false,
@@ -233,7 +246,7 @@
     back(c) {
       const st = c.ui.shade;
       if (!st) return false;
-      if (st.detail) { st.detail = ''; refresh(c); return true; }
+      if (st.detail) { closeDetail(c); return true; }
       if (st.qs) { setQs(c, false); return true; }
       close(c); return true;
     },
@@ -247,6 +260,7 @@
       if (name === 'mmsh-user') { if (!st.qs) { setQs(c, true); return true; } showDetail(c, 'user'); return true; }
       if (name === 'mmqs-click') { click(c, el.dataset.tile); return true; }
       if (name === 'mmqs-secondary') { secondary(c, el.dataset.tile); return true; }
+      if (/^mm(qd|zp|ud)-/.test(name)) return !!MM.qsDetail?.action(c, name, el, ctl);
       return false;
     },
     tick(c, now) {

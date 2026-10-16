@@ -82,3 +82,17 @@ sui-ic_settings.svg	priv-app/SystemUI/SystemUI.apk	ic_settings	-
 sui-ic_access_alarms_small.svg	priv-app/SystemUI/SystemUI.apk	ic_access_alarms_small	-
 fw-ic_account_circle-user0.svg	framework/framework-res.apk	ic_account_circle	tint=@android:color/user_icon_1
 sui-ic_qs_signal_lte.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_signal_lte	-
+# SystemUI quick settings details: empty states, the Wi-Fi levels and lock of QSDetailItems, ZenModePanel's buttons
+sui-ic_qs_wifi_detail_empty.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_wifi_detail_empty	-
+sui-ic_qs_bluetooth_detail_empty.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_bluetooth_detail_empty	-
+sui-ic_qs_cast_detail_empty.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_cast_detail_empty	-
+sui-qs_ic_wifi_lock.svg	priv-app/SystemUI/SystemUI.apk	qs_ic_wifi_lock	-
+sui-ic_qs_wifi_full_1.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_wifi_full_1	-
+sui-ic_qs_wifi_full_2.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_wifi_full_2	-
+sui-ic_qs_wifi_full_3.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_wifi_full_3	-
+sui-ic_qs_minus.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_minus	-
+sui-ic_qs_plus.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_plus	-
+sui-ic_close.svg	priv-app/SystemUI/SystemUI.apk	ic_close	-
+sui-ic_qs_cancel.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_cancel	-
+sui-ic_add_circle_qs.svg	priv-app/SystemUI/SystemUI.apk	ic_add_circle_qs	-
+fw-ic_account_circle-guest.svg	framework/framework-res.apk	ic_account_circle	tint=@android:color/user_icon_default_white
