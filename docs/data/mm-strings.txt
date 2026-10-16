@@ -39,3 +39,7 @@ accessibility_quick_settings_less_time accessibility_quick_settings_more_time ac
 zen_mode_until plurals:zen_mode_duration_minutes plurals:zen_mode_duration_hours
 # UserSwitcherController's user detail
 quick_settings_user_title owner_name guest_nickname user_add_user
+[lock] SystemUI framework
+# The keyguard: KeyguardIndicationController's hints and charging texts, CarrierText, the bottom area's buttons
+keyguard_unlock camera_hint phone_hint keyguard_charged keyguard_plugged_in keyguard_indication_charging_time
+airplane_mode accessibility_camera_button accessibility_phone_button accessibility_unlock_button

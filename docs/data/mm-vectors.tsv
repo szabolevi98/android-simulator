@@ -96,3 +96,7 @@ sui-ic_close.svg	priv-app/SystemUI/SystemUI.apk	ic_close	-
 sui-ic_qs_cancel.svg	priv-app/SystemUI/SystemUI.apk	ic_qs_cancel	-
 sui-ic_add_circle_qs.svg	priv-app/SystemUI/SystemUI.apk	ic_add_circle_qs	-
 fw-ic_account_circle-guest.svg	framework/framework-res.apk	ic_account_circle	tint=@android:color/user_icon_default_white
+# SystemUI keyguard (keyguard_bottom_area.xml LockIcon, keyguard_status_area.xml alarm)
+sui-ic_lock_24dp.svg	priv-app/SystemUI/SystemUI.apk	ic_lock_24dp	-
+sui-ic_lock_open_24dp.svg	priv-app/SystemUI/SystemUI.apk	ic_lock_open_24dp	-
+sui-ic_access_alarms_big.svg	priv-app/SystemUI/SystemUI.apk	ic_access_alarms_big	-

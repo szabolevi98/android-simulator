@@ -1,0 +1,41 @@
+/* Android 6.0.1 lock screen (mm-lock.js), in dp: keyguard_status_bar.xml, keyguard_status_view.xml,
+   keyguard_status_area.xml and keyguard_bottom_area.xml. The panel is the screen above the 48 dp navigation bar. */
+.mmlk{position:absolute;inset:0;overflow:hidden;font-family:Roboto,sans-serif;line-height:1.172;touch-action:none}
+.mmlk-wall{position:absolute;inset:0;background:url('assets/fw-default_wallpaper.jpg') center/cover no-repeat}
+.mmlk-scrim{position:absolute;inset:0;background:#000;opacity:.45;transition:opacity .26s}
+.mmlk.leaving .mmlk-scrim{opacity:0}
+.mmlk-panel{position:absolute;left:0;right:0;top:0;height:calc(683.43 * var(--dp));transition:transform .26s cubic-bezier(.4,0,.2,1),opacity .26s}
+.mmlk.leaving .mmlk-panel{opacity:0}
+.mmlk-panel.hinting{animation:mmlk-hint .7s}
+@keyframes mmlk-hint{0%{transform:none}35%{transform:translateY(calc(-75 * var(--dp)));animation-timing-function:cubic-bezier(.3,1.6,.6,1)}100%{transform:none}}
+/* KeyguardStatusBarView: 40 dp; the carrier 16 dp in; the system icons in a 60 dp container; the 34 dp avatar switch. */
+.mmlk-bar{position:absolute;left:0;right:0;top:0;height:calc(40 * var(--dp));display:flex}
+.mmlk-carrier{flex:1;min-width:0;margin-left:calc(16 * var(--dp));color:#fff;font-size:calc(14 * var(--dp));line-height:calc(40 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmlk-icons{flex:none;display:flex;align-items:center;height:calc(60 * var(--dp));margin-left:calc(16 * var(--dp));padding-right:calc(4 * var(--dp))}
+.mmlk-cluster{display:flex;align-items:center}
+.mmlk-batt{display:flex}
+.mmlk-batt svg{width:calc(9.5 * var(--dp));height:calc(14.5 * var(--dp))}
+.mmlk-level{margin-left:calc(6 * var(--dp));padding-right:calc(2 * var(--dp));color:#fff;font-size:calc(12 * var(--dp))}
+.mmlk-user{flex:none;display:grid;place-items:center;width:calc(34 * var(--dp));height:calc(40 * var(--dp));margin-right:calc(3 * var(--dp))}
+.mmlk-user img{width:calc(22 * var(--dp));height:calc(22 * var(--dp))}
+/* KeyguardStatusView, centred on the clock position. */
+.mmlk-status{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;transform:translateY(-50%);color:#fff;pointer-events:none}
+.mmlk-clock{font:300 calc(96 * var(--dp))/1.172 Roboto,sans-serif;margin-bottom:calc(-10 * var(--dp));white-space:nowrap}
+.mmlk-date{font-size:calc(14 * var(--dp));letter-spacing:.15em;text-transform:uppercase;white-space:nowrap}
+.mmlk-owner{max-width:calc(100% - 32 * var(--dp));margin-top:calc(6 * var(--dp));color:rgba(255,255,255,.8);font-size:calc(14 * var(--dp));letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* The bottom area: the indication 65 dp up, the 56 dp affordances and lock icon at the bottom. */
+.mmlk-indication{position:absolute;left:0;right:0;bottom:calc(65 * var(--dp));color:#fff;font-size:calc(14 * var(--dp));font-style:italic;text-align:center;pointer-events:none}
+.mmlk-aff,.mmlk-lock{position:absolute;bottom:0;width:calc(56 * var(--dp));height:calc(56 * var(--dp));padding:0;border:0;background:none;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+.mmlk-aff img,.mmlk-lock img{position:relative;width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+/* The affordance icons are tinted #ffffffff (SRC_IN), what brightness(0) invert(1) does to a bitmap's opaque pixels. */
+.mmlk-aff img{filter:brightness(0) invert(1)}
+.mmlk-phone{left:0}
+.mmlk-camera{right:0}
+.mmlk-lock{left:50%;margin-left:calc(-28 * var(--dp))}
+/* KeyguardAffordanceView: while dragged a white circle grows from keyguard_affordance_min_background_radius 30 dp. */
+.mmlk-aff i{position:absolute;left:50%;top:50%;width:calc(60 * var(--dp));height:calc(60 * var(--dp));margin:calc(-30 * var(--dp)) 0 0 calc(-30 * var(--dp));border-radius:50%;background:#fff;opacity:0;transform:scale(calc(1 + var(--grow, 0) * .6));transition:opacity .2s}
+.mmlk-aff.dragging i{opacity:.25}
+.mmlk-aff.hinting{animation:mmlk-aff-hint .6s}
+.mmlk-phone.hinting{--dir:1}
+.mmlk-camera.hinting{--dir:-1}
+@keyframes mmlk-aff-hint{40%{transform:translateX(calc(var(--dir) * 60 * var(--dp)))}100%{transform:none}}

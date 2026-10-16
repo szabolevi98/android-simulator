@@ -13,3 +13,7 @@ fw-btn_switch_to_on_mtrl_00012.9.png	framework/framework-res.apk	drawable/btn_sw
 # framework Material RadioButton (btn_radio_material_anim: the off and on frames, tinted in CSS as SRC_IN)
 fw-btn_radio_to_on_mtrl_000.png	framework/framework-res.apk	drawable/btn_radio_to_on_mtrl_000
 fw-btn_radio_to_on_mtrl_015.png	framework/framework-res.apk	drawable/btn_radio_to_on_mtrl_015
+# The default wallpaper (framework default_wallpaper, the Marshmallow beach) and the keyguard's bitmap icons
+fw-default_wallpaper.jpg	framework/framework-res.apk	drawable/default_wallpaper
+sui-ic_phone_24dp.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_phone_24dp
+sui-ic_camera_alt_24dp.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_camera_alt_24dp

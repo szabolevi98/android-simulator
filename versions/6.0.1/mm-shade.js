@@ -149,8 +149,7 @@
 
   // The header's battery is the status bar's BatteryMeterView drawing.
   function mount(c, root) {
-    const bar = c.el.status.querySelector('.mmsb-battery');
-    const slot = root.querySelector('.mmsh-batt'); if (bar && slot) slot.appendChild(bar.cloneNode(true));
+    const slot = root.querySelector('.mmsh-batt'); if (slot && MM.batteryMeter) slot.innerHTML = MM.batteryMeter();
     const st = c.ui.shade;
     // Opening: the panel is laid out pulled up, then slides down (a forced layout makes the transition start).
     const shade = root.querySelector('.mmsh');
@@ -162,7 +161,7 @@
     const slider = root.querySelector('.mmqs-slider');
     slider?.addEventListener('pointerdown', event => {
       event.preventDefault(); event.stopPropagation();
-      slider.setPointerCapture?.(event.pointerId);
+      try { slider.setPointerCapture(event.pointerId); } catch {}
       const s = c.data.settings;
       const move = e => {
         const r = slider.getBoundingClientRect(), pad = r.width * 20 / (W - 16 - 32);

@@ -25,6 +25,7 @@
 
   // BatteryMeterView.draw, in dp (9.5 x 14.5).
   const BOLT = [73, 0, 392, 0, 201, 259, 442, 259, 4, 703, 157, 334, 0, 334];
+  let clipIds = 0;
   function batterySvg(level, plugged) {
     const W = 9.5, H = 14.5, button = H * 0.105, inset = Math.round(W * 0.25 * 3) / 3;
     const bf = {l: inset, t: 0, r: W - inset, b: button}, f = {l: 0, t: button, r: W, b: H};
@@ -42,12 +43,15 @@
       const pct = Math.min(1, Math.max(0, (bb - levelTop) / (bb - bt)));
       cut = pct > 0.3;
     }
-    const clip = `<clipPath id="mmsb-lv"><rect x="0" y="${levelTop}" width="${W}" height="${H - levelTop}"/></clipPath>`;
+    const id = `mmsb-lv${++clipIds}`;   // one per drawing: the status bar, the shade header and the keyguard each draw it
+    const clip = `<clipPath id="${id}"><rect x="0" y="${levelTop}" width="${W}" height="${H - levelTop}"/></clipPath>`;
     const body = cut ? `<path d="${shape} ${bolt}" fill-rule="evenodd"` : `<path d="${shape}"`;
     return `<svg class="mmsb-battery" viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs>${clip}</defs>${body} fill="#ffffff" fill-opacity=".302"/>`
-      + `${body} fill="${color}" clip-path="url(#mmsb-lv)"/>${plugged && !cut ? `<path d="${bolt}" fill="#fff"/>` : ''}`
+      + `${body} fill="${color}" clip-path="url(#${id})"/>${plugged && !cut ? `<path d="${bolt}" fill="#fff"/>` : ''}`
       + `${!plugged && level <= 5 ? `<text x="${W / 2}" y="${f.t + (f.b - f.t) * .75}" text-anchor="middle" font-size="${H * .75}" font-weight="700" fill="#f4511e">!</text>` : ''}</svg>`;
   }
+
+  MM.batteryMeter = () => { const b = MM.battery(); return batterySvg(b.level, b.plugged); };
 
   const is24 = c => c.data.settings.time24 ?? !new Intl.DateTimeFormat(c.locale(), {hour: 'numeric'}).resolvedOptions().hour12;
   const clock = (c, now = new Date()) => is24(c) ? `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}` : `${now.getHours() % 12 || 12}:${String(now.getMinutes()).padStart(2, '0')}`;

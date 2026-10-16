@@ -7,7 +7,7 @@
    - the site controls around the phone: language, full screen, reset
    Every screen is drawn by an mm- module that registers itself:
      MM.register(id, {title, app, render(c), mount(c, root), action(name, el, event, c), submit(form, event, c),
-                      back(c), tick(c, now), noStatus(c), noNav(c), keepAwake(c)})
+                      back(c), tick(c, now), noStatus(c), noNav(c), keepAwake(c), timeout(c)})
    render() returns the screen's HTML; the other hooks are optional and return true when they handled the event.
    A screen no module draws shows the "not built yet" card instead of an older version's screen. */
 (() => {
@@ -256,7 +256,8 @@
 
     setInterval(() => {
       const now = new Date();
-      const timeout = data.settings.screenTimeout ?? 30000;
+      // A screen may keep its own user activity timeout (the keyguard's 10 s).
+      const timeout = modules[ui.view]?.timeout?.(c) ?? data.settings.screenTimeout ?? 30000;
       if (!document.hidden && !ui.sleeping && !ui.overlay && Date.now() - lastActivity >= timeout && !modules[ui.view]?.keepAwake?.(c)) lockScreen();
       for (const mod of Object.values(modules)) mod.tick?.(c, now);
     }, 1000);
