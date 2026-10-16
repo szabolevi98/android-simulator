@@ -17,9 +17,14 @@
   // Modules add their saved fields here (MM.defaults.contacts = [...]) and their upgrades of older saves.
   const defaults = {settings: {}};
   const upgrades = [];
+  // Text tables: mm-strings-<table>.js (docs/tools/mm-strings.py) call MM.strings(table, rows); modules read them with
+  // MM.text(table).t(name) / .fmt(name, ...args) / .plural(name, n), in the simulator's language.
+  const tables = {};
   const MM = window.MM = {
     register(id, spec) { modules[id] = spec; },
     module: id => modules[id],
+    strings(table, rows) { tables[table] = AndroidStrings.table(`mm-${table}`, rows); },
+    text: table => tables[table] || AndroidStrings.table(`mm-${table}`, {}),
     defaults, upgrades
   };
 
@@ -38,7 +43,11 @@
     'play-store': ['Play Store', 'Phonesky.apk'], 'play-music': ['Play Music', 'Music2.apk'], 'play-movies': ['Play Movies & TV', 'Videos.apk'],
     'play-games': ['Play Games', 'PlayGames.apk'], 'android-pay': ['Android Pay', 'Wallet.apk'], 'project-fi': ['Project Fi', 'Tycho.apk'],
     downloads: ['Downloads', 'DownloadProviderUi.apk'], documents: ['Documents', 'DocumentsUI.apk'],
-    'live-wallpapers': ['Live wallpapers', 'LiveWallpapersPicker.apk'], 'google-settings': ['Google Settings', 'PrebuiltGmsCore.apk']
+    'live-wallpapers': ['Live wallpapers', 'LiveWallpapersPicker.apk'], 'google-settings': ['Google Settings', 'PrebuiltGmsCore.apk'],
+    // Quick settings details (QSPanel.showDetail), drawn inside the shade.
+    'qs-wifi': ['Wi-Fi', 'SystemUI.apk · WifiTile detail'], 'qs-bt': ['Bluetooth', 'SystemUI.apk · BluetoothTile detail'],
+    'qs-dnd': ['Do not disturb', 'SystemUI.apk · ZenModePanel'], 'qs-cell': ['Mobile data', 'SystemUI.apk · CellularTile detail'],
+    'qs-cast': ['Cast screen', 'SystemUI.apk · CastTile detail'], 'qs-user': ['Users', 'SystemUI.apk · UserDetailView']
   };
   const SYSTEM = ['home', 'lock', 'statusbar', 'navbar', 'shade', 'power', 'recents', 'volume', 'drawer'];
 
@@ -65,7 +74,7 @@
     el: {screen, viewport, status: statusRoot, overlay: overlayRoot, nav: navRoot, device},
     has: id => !!modules[id], title: id => modules[id]?.title || SCREENS[id]?.[0] || id,
     overlay(id) { ui.overlay = id; renderOverlay(); }, closeOverlay() { ui.overlay = ''; renderOverlay(); },
-    lock: () => lockScreen(), wake: () => wake(), screens: SCREENS
+    lock: () => lockScreen(), wake: () => wake(), screens: SCREENS, missing: (id, extra) => missing(id, extra)
   };
 
   function missing(id, extra = '') {
@@ -74,7 +83,7 @@
   }
   // While the launcher is missing, its card lists every screen of the version so each one can still be reached.
   function missingHome() {
-    const list = Object.keys(SCREENS).filter(id => !['home', 'statusbar', 'navbar', 'lock'].includes(id))
+    const list = Object.keys(SCREENS).filter(id => !['home', 'statusbar', 'navbar', 'lock'].includes(id) && !id.startsWith('qs-'))
       .map(id => `<button type="button" data-action="mm-open" data-view="${id}">${safe(t(SCREENS[id][0]))}${modules[id] ? '' : ' ·'}</button>`).join('');
     return missing('home', `<div class="mm-missing-list">${list}</div>`);
   }

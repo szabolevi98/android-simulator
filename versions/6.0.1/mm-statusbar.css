@@ -11,7 +11,9 @@
 .mmsb-signal{display:flex;align-items:center;margin-left:calc(2.5 * var(--dp));padding-right:calc(7 * var(--dp))}
 .mmsb-wifi{width:calc(18.41 * var(--dp));height:calc(17 * var(--dp))}
 .mmsb-spacer{width:calc(4 * var(--dp))}
-.mmsb-mobile{width:calc(17 * var(--dp));height:calc(17 * var(--dp))}
+.mmsb-mobile{position:relative;width:calc(17 * var(--dp));height:calc(17 * var(--dp))}
+.mmsb-mobile img{position:absolute;left:0;top:0;height:100%}
+.mmsb-airplane{width:calc(17.25 * var(--dp));height:calc(18 * var(--dp))}
 .mmsb-battery{width:calc(9.5 * var(--dp));height:calc(14.5 * var(--dp))}
 .mmsb-clock{flex:none;display:flex;align-items:center;padding-left:calc(7 * var(--dp));color:#fff;font:500 calc(14 * var(--dp)) Roboto,sans-serif}
 

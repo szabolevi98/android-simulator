@@ -53,6 +53,17 @@
   const clock = (c, now = new Date()) => is24(c) ? `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}` : `${now.getHours() % 12 || 12}:${String(now.getMinutes()).padStart(2, '0')}`;
   MM.clockText = clock;
 
+  // signal_cluster_view.xml: Wi-Fi, the spacer when the mobile signal shows too, the mobile signal with its data type
+  // drawn over it, the airplane after its spacer (mm-system.js decides what shows).
+  function signalCluster(c) {
+    const s = c.signal?.() || {wifi: 'stat_sys_wifi_signal_4_fully', mobile: 'stat_sys_signal_4_fully'};
+    const wifi = s.wifi ? `<img class="mmsb-wifi" src="${A(`${s.wifi}.svg`)}" alt="">` : '';
+    const mobile = s.mobile ? `<span class="mmsb-mobile">${[s.mobile, s.type].filter(Boolean).map(name => `<img src="${A(`${name}.svg`)}" alt="">`).join('')}</span>` : '';
+    const airplane = s.airplane ? `${s.wifi ? '<i class="mmsb-spacer"></i>' : ''}<img class="mmsb-airplane" src="${A('stat_sys_airplane_mode.svg')}" alt="">` : '';
+    return `<span class="mmsb-signal">${wifi}${wifi && mobile ? '<i class="mmsb-spacer"></i>' : ''}${mobile}${airplane}</span>`;
+  }
+  MM.signalCluster = signalCluster;
+
   let lastMinute = -1;
   MM.register('statusbar', {
     render(c) {
@@ -60,11 +71,11 @@
       const b = MM.battery(), notes = (c.notifications?.() || []).map(n => `<img class="mmsb-note" src="${c.safe(n.icon)}" alt="">`).join('');
       const status = (c.statusIcons?.() || []).map(name => `<img class="mmsb-icon" src="${A(`${name}.svg`)}" alt="">`).join('');
       return `<div class="mmsb" style="background:${bg}" data-action="mmsb-pull"><div class="mmsb-notes">${notes}</div>
-        <div class="mmsb-system"><span class="mmsb-icons">${status}</span><span class="mmsb-signal"><img class="mmsb-wifi" src="${A('stat_sys_wifi_signal_4_fully.svg')}" alt=""><i class="mmsb-spacer"></i><img class="mmsb-mobile" src="${A('stat_sys_signal_4_fully.svg')}" alt=""></span>${batterySvg(b.level, b.plugged)}</div>
+        <div class="mmsb-system"><span class="mmsb-icons">${status}</span>${signalCluster(c)}${batterySvg(b.level, b.plugged)}</div>
         <span class="mmsb-clock">${clock(c)}</span></div>`;
     },
     // Pulling the bar down opens the notification shade.
-    action(name, el, event, c) { if (name === 'mmsb-pull') { c.overlay('shade'); return true; } return false; },
+    action(name, el, event, c) { if (name === 'mmsb-pull') { const shade = MM.module('shade'); if (shade) shade.open(c); else c.overlay('shade'); return true; } return false; },
     tick(c, now) {
       if (now.getMinutes() === lastMinute) return;
       lastMinute = now.getMinutes();

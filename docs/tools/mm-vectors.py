@@ -1,6 +1,7 @@
 """Android 6.0.1: draws the image's VectorDrawables as SVG files for versions/6.0.1/assets (status bar signal and Wi-Fi
 levels, quick settings icons …). docs/data/mm-vectors.tsv lists them: <output file> TAB <APK under system/> TAB <drawable>
-TAB <theme style or -> (the style that resolves ?attr colours, e.g. SystemUI's DualToneLightTheme for the status bar).
+TAB <theme style or -> (the style that resolves ?attr colours, e.g. SystemUI's DualToneLightTheme for the status bar),
+or tint=<colour> for a drawable the code draws through a SRC_IN colour filter (a colour may be @android:color/name).
     python docs/tools/mm-vectors.py
 Reads the compiled XML with aapt2 (xmltree) and the colours and styles with aapt2 (dump resources); framework colours
 (@0x01…) come from framework-res.apk. VectorDrawable 6.0 semantics: a group is translate(tx + px, ty + py) rotate(r)
@@ -37,7 +38,11 @@ def table(apk):
     return _tables[apk]
 
 def color(value, apk, theme):
-    """#aarrggbb (or a reference to one) -> (#rrggbb, alpha)."""
+    """#aarrggbb (or a reference to one) -> (#rrggbb, alpha). A theme "tint=<colour>" is a SRC_IN colour filter: every
+    colour becomes the tint, keeping its own alpha times the tint's (UserIcons.getDefaultUserIcon's setColorFilter)."""
+    if theme and theme.startswith('tint='):
+        (c, a), (tc, ta) = color(value, apk, None), color(theme[5:], apk, None)
+        return tc, a * ta
     for _ in range(8):
         if value.startswith('?'):
             colors, styles, names = table(apk)
@@ -57,9 +62,9 @@ def color(value, apk, theme):
     if len(v) == 4: return '#' + ''.join(ch * 2 for ch in v[1:]), int(v[0] * 2, 16) / 255
     return '#' + ''.join(ch * 2 for ch in v), 1.0
 
-def tree(apk, name):
-    """The drawable's XML as nested [tag, {attr: value}, children]."""
-    text = subprocess.run([AAPT, 'dump', 'xmltree', SYSTEM + apk, '--file', f'res/drawable/{name}.xml'], capture_output=True, text=True, encoding='utf-8', errors='replace').stdout
+def tree(apk, name, folder='drawable'):
+    """The drawable's (or animator's) XML as nested [tag, {attr: value}, children]."""
+    text = subprocess.run([AAPT, 'dump', 'xmltree', SYSTEM + apk, '--file', f'res/{folder}/{name}.xml'], capture_output=True, text=True, encoding='utf-8', errors='replace').stdout
     root, stack = None, []
     for line in text.splitlines():
         indent = len(line) - len(line.lstrip())
@@ -78,6 +83,43 @@ def tree(apk, name):
             if q: value = q.group(1)
             stack[-1][1][key] = value
     return root
+
+def resource(apk, ref):
+    """@0x7f05003f -> (APK, 'anim', 'ic_…'): the type and name of a resource id."""
+    rid = ref.lstrip('@')
+    src = FRAMEWORK if rid.startswith('0x01') else apk
+    names = {v: k for k, v in table(src)[2].items()}
+    kind, name = names[rid].split('/', 1)
+    return src, kind, name
+
+def end_values(apk, ref):
+    """{property: value} an animator leaves behind: for each property the valueTo of the objectAnimator (or its
+    propertyValuesHolder) that ends last, a <set> running its children together or one after another (ordering 1)."""
+    src, kind, name = resource(apk, ref)
+    finals = {}
+    def walk(node, start):
+        tag, attrs, kids, _ = node
+        if tag == 'objectAnimator':
+            end = start + num(attrs.get('startOffset')) + num(attrs.get('duration'), 300)
+            holders = [k[1] for k in kids if k[0] == 'propertyValuesHolder'] or [attrs]
+            for h in holders:
+                if h.get('propertyName') and 'valueTo' in h and end >= finals.get(h['propertyName'], (-1,))[0]:
+                    finals[h['propertyName']] = (end, h['valueTo'])
+            return end
+        if tag == 'set':
+            t = last = start + num(attrs.get('startOffset'))
+            for k in kids:
+                e = walk(k, last if attrs.get('ordering') == '1' else t)
+                last = e if attrs.get('ordering') == '1' else max(last, e)
+            return last
+        return start
+    walk(tree(src, name, kind), 0)
+    return {p: v for p, (_, v) in finals.items()}
+
+def apply(node, overrides):
+    tag, attrs, kids, _ = node
+    attrs.update(overrides.get(attrs.get('name'), {}))
+    for k in kids: apply(k, overrides)
 
 num = lambda v, d=0.0: float(re.sub(r'(dp|dip|px)$', '', v)) if v is not None else d
 fmt = lambda x: ('%.4f' % (x + 0.0)).rstrip('0').rstrip('.')
@@ -98,24 +140,47 @@ def paint(attrs, apk, theme):
     return ' '.join(out)
 
 def body(children, apk, theme, ids):
+    # A clip-path clips what follows it in its group, in the group's own coordinates: the siblings after it go into a
+    # <g> without a transform that carries the clip (on a transformed child the clip would move with the child).
     parts, clip = [], None
     for tag, attrs, kids, _ in children:
-        wrap = f' clip-path="url(#{clip})"' if clip else ''
+        wrap = ''
         if tag == 'clip-path':
-            ids[0] += 1; clip = f'c{ids[0]}'
-            parts.append(f'<clipPath id="{clip}"><path d="{attrs.get("pathData", "")}"/></clipPath>')
+            ids[0] += 1
+            if clip: parts.append('</g>')
+            clip = f'c{ids[0]}'
+            parts.append(f'<clipPath id="{clip}"><path d="{attrs.get("pathData", "")}"/></clipPath><g clip-path="url(#{clip})">')
         elif tag == 'path':
-            parts.append(f'<path d="{attrs.get("pathData", "")}" {paint(attrs, apk, theme)}{wrap}/>')
+            # Trimming (an animation's end state): nothing left draws nothing; a part of a stroke is a dash of the
+            # path's length.
+            ts, te, to = num(attrs.get('trimPathStart')), num(attrs.get('trimPathEnd'), 1), num(attrs.get('trimPathOffset'))
+            if te - ts <= 0: continue
+            dash = ''
+            if (ts, te) != (0, 1):
+                assert 'fillColor' not in attrs or color(attrs['fillColor'], apk, theme)[1] == 0, f'{attrs.get("name")}: trimmed fill'
+                dash = f' pathLength="1" stroke-dasharray="{fmt(te - ts)} 1" stroke-dashoffset="{fmt(-(ts + to))}"'
+            parts.append(f'<path d="{attrs.get("pathData", "")}" {paint(attrs, apk, theme)}{dash}{wrap}/>')
         elif tag == 'group':
             px, py = num(attrs.get('pivotX')), num(attrs.get('pivotY'))
             tx, ty = num(attrs.get('translateX')), num(attrs.get('translateY'))
             r, sx, sy = num(attrs.get('rotation')), num(attrs.get('scaleX'), 1), num(attrs.get('scaleY'), 1)
             t = f'translate({fmt(tx + px)} {fmt(ty + py)}) rotate({fmt(r)}) scale({fmt(sx)} {fmt(sy)}) translate({fmt(-px)} {fmt(-py)})'
             parts.append(f'<g transform="{t}"{wrap}>{body(kids, apk, theme, ids)}</g>')
+    if clip: parts.append('</g>')
     return ''.join(parts)
 
 def svg(apk, name, theme):
-    tag, attrs, kids, _ = tree(apk, name)
+    tag, attrs, kids, _ = node = tree(apk, name)
+    base = None
+    # An <animated-vector> (QSTile.AnimationIcon): drawn as its animations leave it, the state the tile shows at rest
+    # (AnimationIcon.getDrawable starts the drawable and stops it at once, which jumps to the end).
+    if tag == 'animated-vector':
+        overrides = {}
+        for t in kids:
+            if t[0] == 'target': overrides.setdefault(t[1]['name'], {}).update(end_values(apk, t[1]['animation']))
+        _, _, base = resource(apk, attrs['drawable'])
+        tag, attrs, kids, _ = node = tree(apk, base)
+        apply(node, overrides)
     # An <inset> around an inline vector (stat_sys_alarm): the insets (dp) widen the box in viewport units.
     inset = {k: 0.0 for k in ('Left', 'Top', 'Right', 'Bottom')}
     if tag == 'inset':
@@ -133,7 +198,7 @@ def svg(apk, name, theme):
     inner = body(kids, apk, theme, [0])
     if alpha < 1: inner = f'<g opacity="{fmt(alpha)}">{inner}</g>'
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{fmt(w)}" height="{fmt(h)}" viewBox="{fmt(x0)} {fmt(y0)} {fmt(vw)} {fmt(vh)}">'
-            f'<!-- {apk} res/drawable/{name}.xml (VectorDrawable), drawn by docs/tools/mm-vectors.py -->{inner}</svg>\n')
+            f'<!-- {apk} res/drawable/{name}.xml ({"AnimatedVectorDrawable, the end state" if base else "VectorDrawable"}), drawn by docs/tools/mm-vectors.py -->{inner}</svg>\n')
 
 if __name__ == '__main__':
     rows = [l.rstrip('\n').split('\t') for l in open(ROOT + 'docs/data/mm-vectors.tsv', encoding='utf-8') if l.strip() and not l.startswith('#')]

@@ -1,0 +1,86 @@
+/* Android 6.0.1 notification shade and quick settings (mm-shade.js), in dp: SystemUI's status_bar_expanded.xml,
+   status_bar_expanded_header.xml, qs_panel.xml, quick_settings_brightness_dialog.xml and QSPanel / QSTileView's own
+   layout code (see mm-shade.js). Roboto's line height (ascent + descent of the image's font) is 1.172. */
+.mmsh{position:absolute;left:0;right:0;top:0;bottom:calc(48 * var(--dp));overflow:hidden;font-family:Roboto,sans-serif;line-height:1.172}
+.screen.no-nav .mmsh{bottom:0}
+/* ScrimController: the behind scrim at 0.62 black when the panel is open. */
+.mmsh-scrim{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .3s linear}
+.mmsh.shown .mmsh-scrim{opacity:.62}
+.mmsh-panel{position:absolute;inset:0;pointer-events:none;transform:translateY(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.mmsh.shown .mmsh-panel{transform:none}
+.mmsh.static .mmsh-panel,.mmsh.static .mmsh-scrim,.mmsh.static *{transition:none!important}
+.mmsh.closing .mmsh-panel{transition-duration:.25s}
+.mmsh-panel>*{pointer-events:auto}
+
+/* StatusBarHeaderView: 60 dp, 116 dp with quick settings, 8 dp padding at the sides, elevation 4 dp. */
+.mmsh-header{position:absolute;top:0;left:0;right:0;z-index:2;height:calc(60 * var(--dp));background:#384248;box-shadow:0 calc(2 * var(--dp)) calc(4 * var(--dp)) rgba(0,0,0,.24),0 0 calc(4 * var(--dp)) rgba(0,0,0,.12);transition:height .3s cubic-bezier(.4,0,.2,1);cursor:pointer}
+.mmsh.qs .mmsh-header{height:calc(116 * var(--dp))}
+/* The clock (split_clock_view: TextAppearance.StatusBar.Expanded.Clock, sans-serif-medium white; 14 sp collapsed, 20 sp
+   expanded, the AM / PM part at qs_time_collapsed_size) above the date group, 24 dp from the left (8 padding + 16 margin),
+   the date group 10 dp from the bottom collapsed and clock_expanded_bottom_margin 20 dp expanded. */
+.mmsh-clockdate{position:absolute;left:calc(24 * var(--dp));bottom:calc(10 * var(--dp));transition:bottom .3s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.mmsh.qs .mmsh-clockdate{bottom:calc(20 * var(--dp))}
+.mmsh-clock{color:#fff;font-weight:500;white-space:nowrap}
+.mmsh-time{font-size:calc(14 * var(--dp));transition:font-size .3s cubic-bezier(.4,0,.2,1)}
+.mmsh.qs .mmsh-time{font-size:calc(20 * var(--dp))}
+.mmsh-ampm{font-size:calc(14 * var(--dp))}
+/* TextAppearance.StatusBar.Expanded.Date: qs_date_collapsed_size 14 sp, #b2ffffff. */
+.mmsh-date{color:rgba(255,255,255,.698);font-size:calc(14 * var(--dp));white-space:nowrap}
+/* The right side: the signal cluster, system_icons_super_container (the battery, then the level 6 dp after it, 2 dp
+   padding after the text, 4 dp at the end), the 48 dp settings button container and the multi-user switch. */
+.mmsh-right{position:absolute;top:0;right:calc(8 * var(--dp));height:calc(60 * var(--dp));display:flex;align-items:center}
+.mmsh-cluster{display:flex;align-items:center;height:calc(24 * var(--dp))}
+.mmsh-sys{display:flex;align-items:center;height:calc(60 * var(--dp));padding:0 calc(4 * var(--dp)) 0 0;border:0;background:none;cursor:default}
+.mmsh.qs .mmsh-sys{cursor:pointer}
+.mmsh-batt{display:flex}
+.mmsh-batt svg{width:calc(9.5 * var(--dp));height:calc(14.5 * var(--dp))}
+.mmsh-level{display:none;margin-left:calc(6 * var(--dp));padding-right:calc(2 * var(--dp));color:#fff;font-size:calc(12 * var(--dp))}
+.mmsh.qs .mmsh-level{display:inline}
+.mmsh-gear{width:0;height:calc(60 * var(--dp));padding:0;border:0;background:none;overflow:hidden;opacity:0;display:grid;place-items:center;transition:width .3s cubic-bezier(.4,0,.2,1),opacity .3s}
+.mmsh-gear img{width:calc(24 * var(--dp));height:calc(24 * var(--dp));transform:rotate(90deg);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.mmsh.qs .mmsh-gear{width:calc(48 * var(--dp));opacity:1}
+.mmsh.qs .mmsh-gear img{transform:none}
+.mmsh-user{width:calc(34 * var(--dp));height:calc(60 * var(--dp));margin-right:calc(13 * var(--dp));padding:0;border:0;background:none;display:grid;place-items:center;cursor:default;transition:width .3s cubic-bezier(.4,0,.2,1),margin .3s cubic-bezier(.4,0,.2,1)}
+.mmsh-user img{width:calc(24 * var(--dp));height:calc(24 * var(--dp));transform:scale(.9167);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.mmsh.qs .mmsh-user{width:calc(48 * var(--dp));margin-right:calc(8 * var(--dp));cursor:pointer}
+.mmsh.qs .mmsh-user img{transform:none}
+
+/* QSContainer: qs_background_primary (#263238, 2 dp corners, the top 2 dp under the header), 8 dp padding above and
+   below, elevation 2 dp; collapsed it sits behind the header. --qs-h is its height in dp. */
+.mmsh-qs{position:absolute;left:calc(8 * var(--dp));right:calc(8 * var(--dp));top:calc(114 * var(--dp));z-index:1;padding:calc(10 * var(--dp)) 0 calc(8 * var(--dp));background:#263238;border-radius:calc(2 * var(--dp));box-shadow:0 calc(1 * var(--dp)) calc(2 * var(--dp)) rgba(0,0,0,.24);transform:translateY(calc((-56 - var(--qs-h)) * var(--dp)));visibility:hidden;transition:transform .3s cubic-bezier(.4,0,.2,1),visibility 0s .3s}
+.mmsh.qs .mmsh-qs{transform:none;visibility:visible;transition:transform .3s cubic-bezier(.4,0,.2,1),visibility 0s}
+.mmqs-panel{position:relative}
+/* The brightness slider: 6 dp down, 16 dp padding, the SeekBar's 20 dp ends, 16 dp above and below the 28 dp thumb. */
+.mmqs-brightness{position:absolute;top:calc(6 * var(--dp));left:calc(16 * var(--dp));right:calc(16 * var(--dp));height:calc(60 * var(--dp))}
+.mmqs-slider{position:relative;height:100%;cursor:pointer;touch-action:none}
+.mmqs-track,.mmqs-progress{position:absolute;left:calc(20 * var(--dp));top:calc(29 * var(--dp));height:calc(2 * var(--dp))}
+.mmqs-track{right:calc(20 * var(--dp));background:rgba(255,255,255,.3)}
+.mmqs-progress{width:calc((100% - 40 * var(--dp)) * var(--v));background:#80cbc4}
+.mmqs-thumb{position:absolute;top:calc(16 * var(--dp));left:calc(6 * var(--dp) + (100% - 40 * var(--dp)) * var(--v));width:calc(28 * var(--dp));height:calc(28 * var(--dp));pointer-events:none}
+/* QSTileView: the icon 18 dp down (24 dp high), the label 54 dp down. */
+.mmqs-tile{position:absolute;padding:0;border:0;background:none;color:inherit;-webkit-tap-highlight-color:transparent}
+.mmqs-tile::before,.mmqs-top::before{content:"";position:absolute;left:50%;top:calc(30 * var(--dp));width:calc(58 * var(--dp));height:calc(58 * var(--dp));margin:calc(-29 * var(--dp)) 0 0 calc(-29 * var(--dp));border-radius:50%;background:#fff;opacity:0;transition:opacity .2s}
+.mmqs-tile:not(.dual):active::before,.mmqs-top:active::before{opacity:.12}
+.mmqs-icon{position:absolute;top:calc(18 * var(--dp));left:50%;height:calc(24 * var(--dp));transform:translateX(-50%)}
+.mmqs-signal{position:absolute;top:calc(18 * var(--dp));left:50%;width:calc(32 * var(--dp));height:calc(24 * var(--dp));transform:translateX(-50%)}
+.mmqs-signal img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.mmqs-signal .mmqs-overlay{right:auto;width:calc(17.333 * var(--dp))}
+.mmqs-label{position:absolute;top:calc(54 * var(--dp));left:0;right:0;min-height:2.344em;color:rgba(255,255,255,.702);font:calc(12 * var(--dp))/1.172 'Roboto Condensed',Roboto,sans-serif;text-align:center;overflow:hidden}
+/* A dual tile: the top part (qs_tile_spacing down, as high as the padding, the icon and the space below it) switches,
+   the label under the 1 dp divider opens the detail. */
+.mmqs-top{position:absolute;left:0;right:0;top:calc(4 * var(--dp));height:calc(50 * var(--dp));padding:0;border:0;background:none}
+.mmqs-top::before{top:calc(26 * var(--dp))}
+.mmqs-top .mmqs-icon,.mmqs-top .mmqs-signal{top:calc(14 * var(--dp))}
+.mmqs-divider{position:absolute;left:0;right:0;top:calc(54 * var(--dp));height:calc(1 * var(--dp));background:rgba(255,255,255,.161)}
+.mmqs-dual{position:absolute;left:0;right:0;top:calc(54 * var(--dp));padding:calc(8 * var(--dp)) 0;border:0;background:none;color:rgba(255,255,255,.702)}
+.mmqs-dual:active{background:rgba(255,255,255,.12)}
+.mmqs-line{display:flex;justify-content:center;align-items:center;height:calc(24 * var(--dp))}
+.mmqs-line span{min-width:0;padding:0 calc(6 * var(--dp));font:calc(12 * var(--dp))/1.172 'Roboto Condensed',Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmqs-line img{flex:none;width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmqs-detail{position:absolute;inset:calc(-10 * var(--dp)) 0 calc(-8 * var(--dp));z-index:3;border-radius:calc(2 * var(--dp));overflow:hidden}
+
+/* The notification stack: notifications_top_padding 8 dp under the header or the quick settings, 8 dp at the sides. */
+.mmsh-stack{position:absolute;left:calc(8 * var(--dp));right:calc(8 * var(--dp));top:calc(68 * var(--dp));transition:top .3s cubic-bezier(.4,0,.2,1)}
+.mmsh.qs .mmsh-stack{top:calc((124 + var(--qs-h)) * var(--dp))}
+/* EmptyShadeView: 64 dp, the text 12 dp down, 20 sp white, centred. */
+.mmsh-empty{height:calc(64 * var(--dp));box-sizing:border-box;padding-top:calc(12 * var(--dp));color:#fff;font-size:calc(20 * var(--dp));text-align:center}

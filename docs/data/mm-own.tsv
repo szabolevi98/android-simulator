@@ -1,0 +1,3 @@
+# Android 6.0.1 texts the image does not have (docs/tools/mm-strings.py): table TAB key TAB English TAB Hungarian TAB German TAB French TAB Spanish TAB source
+shade	carrier	Telekom	Telekom	Telekom	Telekom	Telekom	the simulator's network operator, as in every version (5.1.1 networkOperator)
+shade	ssid	Home Network	Home Network	Home Network	Home Network	Home Network	the simulator's Wi-Fi network, as in every version (5.1.1 Wi-Fi list)
