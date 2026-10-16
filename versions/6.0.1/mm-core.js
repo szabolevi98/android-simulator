@@ -126,13 +126,20 @@
   }
 
   // Opening a screen: an app goes to the front of the recent list (Overview keeps every task; trimmed here at 20).
-  function open(view, sub = '', {replace = false} = {}) {
+  // from: an element the screen opens out of (the launcher's ActivityOptions.makeClipRevealAnimation from the icon).
+  function open(view, sub = '', {replace = false, from = null} = {}) {
     if (ui.view !== view && !replace && ui.view !== 'home' && ui.view !== 'lock') ui.history.push({view: ui.view, sub: ui.sub});
     ui.view = view; ui.sub = sub; ui.overlay = '';
     if (modules[view]?.app !== false && SCREENS[view] && !SYSTEM.includes(view)) ui.recent = [view, ...ui.recent.filter(id => id !== view)].slice(0, 20);
     // The launcher's predicted apps follow what was opened last (kept with the saved state).
     if (window.MM.appsData?.[view]) { data.recentApps = [view, ...(data.recentApps || []).filter(id => id !== view)].slice(0, 12); save(); }
+    const box = from?.getBoundingClientRect?.(), vb = viewport.getBoundingClientRect();
     render();
+    // AppTransition's clip reveal: the window grows out of the icon's bounds (fast out, slow in).
+    if (box && viewport.animate) {
+      const inset = `inset(${box.top - vb.top}px ${vb.right - box.right}px ${vb.bottom - box.bottom}px ${box.left - vb.left}px)`;
+      viewport.animate([{clipPath: inset}, {clipPath: 'inset(0px 0px 0px 0px)'}], {duration: 300, easing: 'cubic-bezier(.4,0,.2,1)'});
+    }
   }
   function home() {
     if (ui.view === 'lock') return;

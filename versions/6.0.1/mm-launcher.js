@@ -298,7 +298,7 @@
       const st = c.ui.home;
       if (st?.suppressClick) { st.suppressClick = false; return true; }
       if (st?.overview && name !== 'mmh-ov') { st.overview = false; c.render(); return true; }
-      if (name === 'mmh-app') { if (st.folder) st.folder = null; c.open(el.dataset.app); return true; }
+      if (name === 'mmh-app') { if (st.folder) st.folder = null; c.open(el.dataset.app, '', {from: el.querySelector('img')}); return true; }
       if (name === 'mmh-folder') { st.folder = el.dataset.src; c.render(); return true; }
       if (name === 'mmh-close-folder') { st.folder = null; c.render(); return true; }
       if (name === 'mmh-allapps') { c.open('drawer'); return true; }

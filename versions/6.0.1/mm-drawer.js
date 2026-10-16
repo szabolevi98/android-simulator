@@ -70,7 +70,7 @@
     back(c) { c.ui.drawer = null; return false; },
     action(name, el, event, c) {
       // Launching keeps the drawer: Back from the app returns to it (the launcher stays in its apps state).
-      if (name === 'mmd-app') { c.open(el.dataset.app); return true; }
+      if (name === 'mmd-app') { c.open(el.dataset.app, '', {from: el.querySelector('img')}); return true; }
       if (name === 'mmd-market') { c.open('play-store', `search:${c.ui.drawer.query}`); return true; }
       return false;
     }
