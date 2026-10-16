@@ -1,0 +1,26 @@
+/* Android 6.0.1 status bar and navigation bar (mm-statusbar.js), in dp: SystemUI's status_bar.xml, system_icons.xml,
+   signal_cluster_view.xml and navigation_bar.xml (sw400dp values). */
+.mmsb{display:flex;align-items:stretch;height:100%;padding:0 calc(8 * var(--dp)) 0 calc(6 * var(--dp));box-sizing:border-box;cursor:default}
+/* The notification icons: status_bar_icon_size 24 dp boxes, the icon drawn at status_bar_icon_drawing_size 17 dp with
+   status_bar_icon_drawing_alpha 0.9. */
+.mmsb-notes{flex:1;min-width:0;display:flex;align-items:center;overflow:hidden}
+.mmsb-note{flex:none;width:calc(17 * var(--dp));height:calc(17 * var(--dp));padding:0 calc(3.5 * var(--dp));opacity:.9;object-fit:contain}
+.mmsb-system{flex:none;display:flex;align-items:center}
+.mmsb-icons{display:flex;align-items:center}
+.mmsb-icon{height:calc(17 * var(--dp))}
+.mmsb-signal{display:flex;align-items:center;margin-left:calc(2.5 * var(--dp));padding-right:calc(7 * var(--dp))}
+.mmsb-wifi{width:calc(18.41 * var(--dp));height:calc(17 * var(--dp))}
+.mmsb-spacer{width:calc(4 * var(--dp))}
+.mmsb-mobile{width:calc(17 * var(--dp));height:calc(17 * var(--dp))}
+.mmsb-battery{width:calc(9.5 * var(--dp));height:calc(14.5 * var(--dp))}
+.mmsb-clock{flex:none;display:flex;align-items:center;padding-left:calc(7 * var(--dp));color:#fff;font:500 calc(14 * var(--dp)) Roboto,sans-serif}
+
+/* navigation_bar.xml: 50 dp sides, three 80 dp keys, the flexible gaps between them. */
+.mmnb{display:flex;height:100%;background:#000}
+.mmnb-side{flex:none;width:calc(50 * var(--dp))}
+.mmnb-gap{flex:1}
+.mmnb-key{position:relative;flex:none;width:calc(80 * var(--dp));height:100%;border:0;padding:0;background:none;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+.mmnb-key img{position:relative;width:calc(22 * var(--dp));height:calc(22 * var(--dp))}
+/* KeyButtonRipple: a white pill as tall as the bar, alpha 0.2, scaled up over 350 ms while pressed, faded over 450 ms. */
+.mmnb-ripple{position:absolute;left:50%;top:50%;width:calc(48 * var(--dp));height:calc(48 * var(--dp));margin:calc(-24 * var(--dp)) 0 0 calc(-24 * var(--dp));border-radius:50%;background:#fff;opacity:0;transform:scale(.4);transition:opacity .45s cubic-bezier(.2,0,.2,1),transform .35s cubic-bezier(.2,0,.2,1)}
+.mmnb-key.pressed .mmnb-ripple{opacity:.2;transform:scale(1.35);transition:opacity 0s,transform .35s cubic-bezier(.2,0,.2,1)}

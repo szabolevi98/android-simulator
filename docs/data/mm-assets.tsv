@@ -1,0 +1,9 @@
+# Android 6.0.1 drawables copied from the Nexus 5X image by docs/tools/mm-assets.py: <output>	<APK under system/>	<resource>
+# SystemUI navigation bar (navigation_bar.xml: KeyButtonView back / home / recent_apps, the menu and IME keys, lights out)
+sui-ic_sysbar_back.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_back
+sui-ic_sysbar_back_ime.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_back_ime
+sui-ic_sysbar_home.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_home
+sui-ic_sysbar_recent.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_recent
+sui-ic_sysbar_menu.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_menu
+sui-ic_sysbar_lights_out_dot_small.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_lights_out_dot_small
+sui-ic_sysbar_lights_out_dot_large.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_sysbar_lights_out_dot_large
