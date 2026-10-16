@@ -100,3 +100,19 @@ fw-ic_account_circle-guest.svg	framework/framework-res.apk	ic_account_circle	tin
 sui-ic_lock_24dp.svg	priv-app/SystemUI/SystemUI.apk	ic_lock_24dp	-
 sui-ic_lock_open_24dp.svg	priv-app/SystemUI/SystemUI.apk	ic_lock_open_24dp	-
 sui-ic_access_alarms_big.svg	priv-app/SystemUI/SystemUI.apk	ic_access_alarms_big	-
+# SystemUI VolumeDialog (volume_dialog_row.xml rows, the expand button's AnimatedVectorDrawables at their end state, ZenFooter)
+sui-ic_volume_ringer.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_ringer	-
+sui-ic_volume_ringer_mute.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_ringer_mute	-
+sui-ic_volume_ringer_vibrate.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_ringer_vibrate	-
+sui-ic_volume_media.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_media	-
+sui-ic_volume_media_mute.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_media_mute	-
+sui-ic_volume_alarm.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_alarm	-
+sui-ic_volume_alarm_mute.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_alarm_mute	-
+sui-ic_volume_voice.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_voice	-
+sui-ic_volume_system.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_system	-
+sui-ic_volume_system_mute.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_system_mute	-
+sui-ic_volume_settings.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_settings	-
+sui-ic_volume_expand_animation.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_expand_animation	start
+sui-ic_volume_collapse_animation.svg	priv-app/SystemUI/SystemUI.apk	ic_volume_collapse_animation	start
+sui-ic_dnd.svg	priv-app/SystemUI/SystemUI.apk	ic_dnd	-
+sui-ic_dnd_total_silence.svg	priv-app/SystemUI/SystemUI.apk	ic_dnd_total_silence	-

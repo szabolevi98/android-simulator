@@ -1,0 +1,35 @@
+/* Android 6.0.1 volume panel (mm-volume.js), in dp: volume_dialog.xml, volume_dialog_row.xml, volume_zen_footer.xml. */
+.mmvol-layer{position:absolute;inset:0;z-index:25;pointer-events:none;font-family:Roboto,sans-serif;line-height:1.172}
+.mmvol-layer.open{pointer-events:auto}
+/* The window: the screen's width less 2 x 8 dp, at the top; the dialog 8 dp in from it, 4 dp margin below. */
+.mmvol-dialog{position:absolute;top:0;left:calc(16 * var(--dp));right:calc(16 * var(--dp));margin-bottom:calc(4 * var(--dp));border-radius:calc(2 * var(--dp));background:#263238;color:#fff;box-shadow:0 calc(2 * var(--dp)) calc(4 * var(--dp)) rgba(0,0,0,.3);transform:translateY(-110%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.mmvol-layer.open .mmvol-dialog{transform:none}
+.mmvol-content{padding:calc(8 * var(--dp)) 0}
+.mmvol-space{display:block;height:calc(8 * var(--dp))}
+.mmvol-row{position:relative;padding:0 calc(8 * var(--dp))}
+.mmvol-header{padding:calc(4 * var(--dp)) calc(12 * var(--dp)) 0;color:#b0bec5;font-size:calc(12 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmvol-row.dim .mmvol-header{opacity:.5}
+.mmvol-line{display:flex;align-items:center}
+.mmvol-icon,.mmvol-settings,.mmvol-expand{flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));padding:0;border:0;border-radius:calc(2 * var(--dp));background:none;display:grid;place-items:center}
+.mmvol-icon:active,.mmvol-settings:active,.mmvol-expand:active,.mmvol-end:active{background:rgba(255,255,255,.12)}
+.mmvol-icon img,.mmvol-expand img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmvol-icon.off{opacity:.5}
+.mmvol-settings img{width:calc(20 * var(--dp));height:calc(20 * var(--dp))}
+/* The SeekBar: 8 dp padding, the 2 dp track (white at 0.3), the progress and the 12 dp thumb in the row's tint. */
+.mmvol-slider{position:relative;flex:1;align-self:stretch;margin:0;cursor:pointer;touch-action:none;--tint:#b0bec5}
+.mmvol-row.active .mmvol-slider{--tint:#80cbc4}
+.mmvol-slider.off{--tint:#b0bec5;opacity:.5;cursor:default}
+.mmvol-track,.mmvol-progress{position:absolute;left:calc(8 * var(--dp));top:calc(50% - 1 * var(--dp));height:calc(2 * var(--dp))}
+.mmvol-track{right:calc(8 * var(--dp));background:rgba(255,255,255,.3)}
+.mmvol-progress{width:calc((100% - 16 * var(--dp)) * var(--v));background:var(--tint)}
+.mmvol-thumb{position:absolute;top:calc(50% - 6 * var(--dp));left:calc(2 * var(--dp) + (100% - 16 * var(--dp)) * var(--v));width:calc(12 * var(--dp));height:calc(12 * var(--dp));border-radius:50%;background:var(--tint)}
+/* The expand button on the first row's settings button (8 dp row padding, below the header line). */
+.mmvol-expand{position:absolute;right:calc(8 * var(--dp));top:calc(8 * var(--dp) + 4 * var(--dp) + 12 * var(--dp) * 1.172);z-index:1}
+/* ZenFooter. */
+.mmvol-divider{display:block;height:calc(1 * var(--dp));margin:calc(8 * var(--dp)) 0 calc(12 * var(--dp));background:rgba(255,255,255,.161)}
+.mmvol-zenrow{display:flex;align-items:center;padding:0 calc(8 * var(--dp))}
+.mmvol-zenrow>img{flex:none;width:calc(24 * var(--dp));height:calc(24 * var(--dp));padding:calc(12 * var(--dp));margin-right:calc(7 * var(--dp))}
+.mmvol-zenrow>div{flex:1;min-width:0}
+.mmvol-zen1{font-weight:500;font-size:calc(14 * var(--dp))}
+.mmvol-zen2{margin-top:calc(1 * var(--dp));color:#b0b3c5;font-size:calc(14 * var(--dp))}
+.mmvol-end{display:block;margin:0 calc(8 * var(--dp)) 0 auto;padding:calc(12 * var(--dp)) calc(15 * var(--dp));border:0;border-radius:calc(2 * var(--dp));background:none;color:#80cbc4;font:500 calc(14 * var(--dp))/1.172 Roboto,sans-serif;text-transform:uppercase}

@@ -46,3 +46,8 @@ airplane_mode accessibility_camera_button accessibility_phone_button accessibili
 [power] framework
 # GlobalActions (config_globalActionsList: power, bugreport, users), ShutdownThread, the safe mode reboot and watermark
 global_action_power_off power_off shutdown_progress reboot_safemode_title reboot_safemode_confirm safeMode cancel ok
+[volume] SystemUI framework
+# VolumeDialog (headers from volume_stream_titles, which the image has in English only) and ZenFooter
+array:volume_stream_titles volume_stream_muted volume_stream_vibrate volume_stream_limited_dnd volume_stream_vibrate_dnd
+volume_stream_muted_dnd volume_zen_end_now interruption_level_none interruption_level_alarms interruption_level_priority
+zen_mode_forever_dnd accessibility_volume_expand accessibility_volume_collapse zen_mode_until

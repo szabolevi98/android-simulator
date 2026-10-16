@@ -1,7 +1,8 @@
 """Android 6.0.1: draws the image's VectorDrawables as SVG files for versions/6.0.1/assets (status bar signal and Wi-Fi
 levels, quick settings icons …). docs/data/mm-vectors.tsv lists them: <output file> TAB <APK under system/> TAB <drawable>
 TAB <theme style or -> (the style that resolves ?attr colours, e.g. SystemUI's DualToneLightTheme for the status bar),
-or tint=<colour> for a drawable the code draws through a SRC_IN colour filter (a colour may be @android:color/name).
+or tint=<colour> for a drawable the code draws through a SRC_IN colour filter (a colour may be @android:color/name), or
+start for an AnimatedVectorDrawable shown without being started (its base vector instead of the end state).
     python docs/tools/mm-vectors.py
 Reads the compiled XML with aapt2 (xmltree) and the colours and styles with aapt2 (dump resources); framework colours
 (@0x01…) come from framework-res.apk. VectorDrawable 6.0 semantics: a group is translate(tx + px, ty + py) rotate(r)
@@ -171,13 +172,16 @@ def body(children, apk, theme, ids):
 
 def svg(apk, name, theme):
     tag, attrs, kids, _ = node = tree(apk, name)
-    base = None
+    base, started = None, theme != 'start'
     # An <animated-vector> (QSTile.AnimationIcon): drawn as its animations leave it, the state the tile shows at rest
     # (AnimationIcon.getDrawable starts the drawable and stops it at once, which jumps to the end).
     if tag == 'animated-vector':
         overrides = {}
-        for t in kids:
-            if t[0] == 'target': overrides.setdefault(t[1]['name'], {}).update(end_values(apk, t[1]['animation']))
+        # theme "start": the drawable as set and never started (VolumeDialog's expand button), its plain vector.
+        if theme == 'start': theme = None
+        else:
+            for t in kids:
+                if t[0] == 'target': overrides.setdefault(t[1]['name'], {}).update(end_values(apk, t[1]['animation']))
         _, _, base = resource(apk, attrs['drawable'])
         tag, attrs, kids, _ = node = tree(apk, base)
         apply(node, overrides)
@@ -198,7 +202,7 @@ def svg(apk, name, theme):
     inner = body(kids, apk, theme, [0])
     if alpha < 1: inner = f'<g opacity="{fmt(alpha)}">{inner}</g>'
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{fmt(w)}" height="{fmt(h)}" viewBox="{fmt(x0)} {fmt(y0)} {fmt(vw)} {fmt(vh)}">'
-            f'<!-- {apk} res/drawable/{name}.xml ({"AnimatedVectorDrawable, the end state" if base else "VectorDrawable"}), drawn by docs/tools/mm-vectors.py -->{inner}</svg>\n')
+            f'<!-- {apk} res/drawable/{name}.xml ({("AnimatedVectorDrawable, not started" if started is False else "AnimatedVectorDrawable, the end state") if base else "VectorDrawable"}), drawn by docs/tools/mm-vectors.py -->{inner}</svg>\n')
 
 if __name__ == '__main__':
     rows = [l.rstrip('\n').split('\t') for l in open(ROOT + 'docs/data/mm-vectors.tsv', encoding='utf-8') if l.strip() and not l.startswith('#')]

@@ -98,6 +98,8 @@
         const s = c.data.settings, out = [];
         if (s.bluetooth) out.push('stat_sys_data_bluetooth');
         if (s.zen) out.push(s.zen === 2 ? 'stat_sys_dnd_total_silence' : 'stat_sys_dnd');
+        // The volume slot: vibrate unless total silence or alarms only (PhoneStatusBarPolicy.updateVolumeZen).
+        if (s.ringerMode === 'vibrate' && s.zen !== 2 && s.zen !== 3) out.push('stat_sys_ringer_vibrate');
         return out;
       };
       c.signal = () => {
