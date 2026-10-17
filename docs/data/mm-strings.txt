@@ -72,3 +72,8 @@ byteShort kilobyteShort megabyteShort gigabyteShort terabyteShort fileSizeSuffix
 # Formatter.formatShortElapsedTime
 durationDays+args1 durationDayHours+args2 durationDayHour+args2 durationHours+args1 durationHourMinutes+args2 durationHourMinute+args2
 durationMinutes+args1 durationMinute+args1
+[calculator] CalculatorGoogle framework
+# CalculatorGoogle (the AOSP 6.0 Calculator with Google's menu): the pads, the display's errors and mode, the menu
+app_name const_e const_pi op_add op_sub op_mul op_div op_fact op_pct op_pow op_sqrt op_sqr fun_sin fun_cos fun_tan fun_arcsin
+fun_arccos fun_arctan fun_ln fun_log fun_exp fun_10pow mode_deg mode_rad eq clr del inv dec_point error_nan error_syntax
+error_aborted error_overflow error_zero_divide menu_leading menu_fraction menu_licenses menu_feedback menu_help

@@ -1,0 +1,26 @@
+/* Calculator (mm-calculator.js), in dp: display.xml over CalculatorPadViewPager. */
+.mmca{position:absolute;inset:0;display:flex;flex-direction:column;background:#fafafa;font-family:Roboto,sans-serif;overflow:hidden}
+.mmca-display{position:relative;z-index:2;flex:none;background:#fff;box-shadow:0 calc(2 * var(--dp)) calc(4 * var(--dp)) rgba(0,0,0,.24)}
+.mmca-toolbar{display:flex;align-items:center;height:calc(56 * var(--dp));padding-left:calc(16 * var(--dp))}
+.mmca-mode{flex:1;color:rgba(0,0,0,.541);font:500 calc(16 * var(--dp))/1 Roboto,sans-serif;text-transform:uppercase}
+.mmca .mm-overflow:active{background:rgba(0,0,0,.12)}
+.mmca .mm-overflow img{filter:invert(1) opacity(.54)}
+.mmca-formula{min-height:calc(74 * 1.17 * var(--dp));padding:calc(16 * var(--dp)) calc(16 * var(--dp)) calc(28 * var(--dp));box-sizing:content-box;color:rgba(0,0,0,.541);font-weight:300;line-height:1.17;text-align:right;white-space:nowrap;overflow:hidden;direction:ltr}
+.mmca-result{height:calc(42 * 1.17 * var(--dp));padding:calc(16 * var(--dp)) calc(16 * var(--dp)) calc(42 * var(--dp));box-sizing:content-box;color:rgba(0,0,0,.424);font:300 calc(42 * var(--dp))/1.17 Roboto,sans-serif;text-align:right;white-space:nowrap;overflow:hidden;direction:ltr}
+.mmca-result.error{color:#f40056}
+.mmca-reveal{position:absolute;inset:0;pointer-events:none;opacity:0}
+.mmca-pager{position:relative;flex:1;display:flex;min-height:0}
+.mmca-b{border:0;background:none;color:#fff;font:300 calc(36 * var(--dp))/1 Roboto,sans-serif;padding:0}
+.mmca-b:active{background:rgba(255,255,255,.12)}
+.mmca-numeric{flex:264;display:grid;grid-template:repeat(4,1fr)/repeat(3,1fr);padding:calc(12 * var(--dp)) calc(12 * var(--dp)) calc(20 * var(--dp));background:#434343}
+.mmca-operator{flex:96;display:grid;grid-template-rows:repeat(5,1fr);padding:calc(8 * var(--dp)) calc(28 * var(--dp)) calc(24 * var(--dp)) calc(4 * var(--dp));background:#636363}
+.mmca-operator .mmca-b{font-size:calc(27 * var(--dp))}
+.mmca-b.text{font-size:calc(20 * var(--dp));text-transform:uppercase}
+/* The advanced pad: the next page, 7/9 of the pager wide, its edge 24 dp in (pad_page_margin) until it slides open. */
+.mmca-advanced{position:absolute;top:0;bottom:0;left:calc(100% - 24 * var(--dp));width:calc(700% / 9);display:grid;grid-template:repeat(5,1fr)/repeat(3,1fr);padding:calc(12 * var(--dp)) calc(20 * var(--dp)) calc(20 * var(--dp));box-sizing:border-box;background:#1de9b6;box-shadow:0 0 calc(4 * var(--dp)) rgba(0,0,0,.3);transition:left .3s cubic-bezier(.4,0,.2,1)}
+.mmca-pager.adv .mmca-advanced{left:calc(200% / 9)}
+.mmca-advanced .mmca-b{color:rgba(0,0,0,.6);font-size:calc(23 * var(--dp))}
+.mmca-advanced .mmca-b.text{font-size:calc(20 * var(--dp))}
+.mmca-advanced .mmca-b:active{background:rgba(0,0,0,.12)}
+.mmca-advanced .mmca-b.on{background:rgba(0,0,0,.12)}
+.mmca-pager:not(.adv) .mmca-advanced .mmca-b{pointer-events:none}
