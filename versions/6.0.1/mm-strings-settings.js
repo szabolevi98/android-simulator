@@ -7482,6 +7482,126 @@ MM.strings('settings', {
 "one": "1 aplicación ha utilizado memoria durante las últimas %2$s"
 }
 },
+"data_usage_enable_mobile": {
+"res": "bullhead:Settings:data_usage_enable_mobile",
+"en": "Cellular data",
+"hu": "Mobiladat-kapcsolat",
+"de": "Mobilfunkdaten",
+"fr": "Données mobiles",
+"es": "Datos móviles"
+},
+"data_usage_disable_mobile_limit": {
+"res": "bullhead:Settings:data_usage_disable_mobile_limit",
+"en": "Set cellular data limit",
+"hu": "Mobiladatkorlát beállítása",
+"de": "Mobilfunklimit festlegen",
+"fr": "Définir limite données mob.",
+"es": "Establecer límite de datos"
+},
+"data_usage_sweep_warning": {
+"res": "bullhead:Settings:data_usage_sweep_warning",
+"en": "^1 ^2\nwarning",
+"hu": "^1 ^2\nfigyelmeztetés",
+"de": "^1^2\nWarnung",
+"fr": "^1^2\nalerte",
+"es": "^1 ^2\naviso"
+},
+"data_usage_disclaimer": {
+"res": "bullhead:Settings:data_usage_disclaimer",
+"en": "Carrier data accounting may differ from your device.",
+"hu": "A szolgáltató adatszámlálási módja eltérhet az eszközétől.",
+"de": "Ihr Mobilfunkanbieter berechnet die Datennutzung eventuell anders als das Gerät.",
+"fr": "Le suivi de conso effectué par l'opérateur peut différer de celui de l'appareil.",
+"es": "El uso de datos del operador puede ser diferente al calculado por el dispositivo."
+},
+"data_usage_menu_restrict_background": {
+"res": "bullhead:Settings:data_usage_menu_restrict_background",
+"en": "Restrict background data",
+"hu": "Háttéradatok korlátozása",
+"de": "Hintergrunddaten beschränken",
+"fr": "Limiter données arr.-plan",
+"es": "Restringir conexiones automáticas"
+},
+"data_usage_menu_show_wifi": {
+"res": "bullhead:Settings:data_usage_menu_show_wifi",
+"en": "Show Wi‑Fi",
+"hu": "Wi‑Fi megjelenítése",
+"de": "WLAN-Daten anzeigen",
+"fr": "Afficher le Wi‑Fi",
+"es": "Mostrar Wi‑Fi"
+},
+"data_usage_menu_cellular_networks": {
+"res": "bullhead:Settings:data_usage_menu_cellular_networks",
+"en": "Cellular networks",
+"hu": "Mobilhálózatok",
+"de": "Mobilfunknetze",
+"fr": "Réseaux mobiles",
+"es": "Redes móviles"
+},
+"data_usage_tab_wifi": {
+"res": "bullhead:Settings:data_usage_tab_wifi",
+"en": "Wi‑Fi",
+"hu": "Wi-Fi",
+"de": "WLAN",
+"fr": "Wi-Fi",
+"es": "Wi-Fi"
+},
+"data_usage_restrict_background_title": {
+"res": "bullhead:Settings:data_usage_restrict_background_title",
+"en": "Restrict background data?",
+"hu": "Korlátozza a háttéradatokat?",
+"de": "Hintergrunddaten beschränken?",
+"fr": "Limiter les données en arrière-plan ?",
+"es": "¿Restringir conexiones automáticas?"
+},
+"data_usage_restrict_background": {
+"res": "bullhead:Settings:data_usage_restrict_background",
+"en": "If you restrict background cellular data, some apps and services won’t work unless you’re connected to Wi‑Fi.",
+"hu": "Ha korlátozza a háttérben zajló mobiladat-forgalmat, néhány alkalmazás és szolgáltatás nem fog működni, ha nem csatlakozik Wi-Fi-hálózathoz.",
+"de": "Wenn du die mobilen Hintergrunddaten beschränkst, funktionieren einige Apps und Dienste nur bei einer aktiven WLAN-Verbindung.",
+"fr": "Si vous limitez les données mobiles en arrière-plan, certains services et applications ne fonctionneront que si vous êtes connecté au réseau Wi‑Fi.",
+"es": "Si restringes las conexiones automáticas, algunas aplicaciones y algunos servicios no funcionarán sin conexión Wi‑Fi."
+},
+"data_usage_disable_mobile": {
+"res": "bullhead:Settings:data_usage_disable_mobile",
+"en": "Turn off cellular data?",
+"hu": "Kikapcsolja a mobiladat-kapcsolatot?",
+"de": "Mobilfunkdaten deaktivieren?",
+"fr": "Désactiver les données mobiles ?",
+"es": "¿Desactivar datos móviles?"
+},
+"data_usage_limit_dialog_title": {
+"res": "bullhead:Settings:data_usage_limit_dialog_title",
+"en": "Limiting data usage",
+"hu": "Adatforgalom korlátozása",
+"de": "Datenverbrauch begrenzen",
+"fr": "Limitation conso de données mobiles",
+"es": "Limitar uso de datos"
+},
+"data_usage_limit_dialog_mobile": {
+"res": "bullhead:Settings:data_usage_limit_dialog_mobile",
+"en": "Your phone will turn off cellular data once it reaches the limit you set.\n\nSince data usage is measured by your phone, and your carrier may account for usage differently, consider setting a conservative limit.",
+"hu": "Telefonja kikapcsolja a mobiladat-kapcsolatot, amint eléri a beállított korlátot.\n\nMivel az adathasználatot a telefon méri, és szolgáltatójának mérései ettől eltérhetnek, érdemes lehet szigorúbb korlátot megadnia.",
+"de": "Mobilfunkdaten werden auf deinem Telefon deaktiviert, sobald das von dir festgelegte Limit erreicht wird.\n\nDa die Datennutzung von deinem Telefon berechnet wird und dein Mobilfunkanbieter die Nutzung möglicherweise anders berechnet, solltest du das Limit eher niedrig ansetzen.",
+"fr": "Les données mobiles sont désactivées par votre téléphone lorsque la limite que vous avez définie est atteinte.\n\nLa consommation des données mesurée par le téléphone peut différer de celle mesurée par votre opérateur. Nous vous recommandons donc de définir un seuil plus bas.",
+"es": "Tu teléfono desactivará los datos móviles cuando alcance el límite que has establecido.\n\nEl uso de datos determinado por el teléfono puede variar del recuento realizado por el operador, por lo que te recomendamos que establezcas un límite moderado."
+},
+"data_usage_app_summary_title": {
+"res": "bullhead:Settings:data_usage_app_summary_title",
+"en": "App data usage",
+"hu": "Alkalmazás adathasználata",
+"de": "Datennutzung durch Apps",
+"fr": "Conso données",
+"es": "Uso de datos de la aplicación"
+},
+"data_usage_cycle_editor_title": {
+"res": "bullhead:Settings:data_usage_cycle_editor_title",
+"en": "Usage cycle reset date",
+"hu": "Használati ciklus visszaállításának ideje",
+"de": "Datum für Zurücksetzung der Nutzungszyklen",
+"fr": "Date de réinitialisation du cycle de consommation",
+"es": "Elige el día en el que empezará cada ciclo"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

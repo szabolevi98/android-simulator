@@ -208,3 +208,21 @@ div.mmst-pref:active{background:none}
 .mmme-row span{flex:1}
 .mmme-row span+span{text-align:right;color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
 .mmme-space{display:block;height:calc(16 * var(--dp))}
+/* data_usage_header.xml / data_usage_cycles.xml / data_usage_chart.xml. */
+.mmst-divider.full{margin-left:0}
+.mmdu-cycle{display:flex;align-items:center;min-height:calc(48 * var(--dp));padding:0 calc(16 * var(--dp));font-size:calc(16 * var(--dp))}
+.mmdu-cycle span{flex:1;text-align:right}
+.mmdu-spinner{display:flex;align-items:center;gap:calc(8 * var(--dp));padding:calc(8 * var(--dp)) 0;border:0;background:none;color:rgba(0,0,0,.871);font-size:calc(16 * var(--dp))}
+.mmdu-spinner i{width:0;height:0;border-left:calc(5 * var(--dp)) solid transparent;border-right:calc(5 * var(--dp)) solid transparent;border-top:calc(5 * var(--dp)) solid rgba(0,0,0,.541)}
+.mmdu-chart{height:calc(228 * var(--dp));padding:calc(16 * var(--dp)) calc(40 * var(--dp)) 0 calc(16 * var(--dp));box-sizing:border-box;display:flex;flex-direction:column}
+.mmdu-plot{position:relative;flex:1}
+.mmdu-plot svg{position:absolute;inset:0;width:100%;height:100%}
+.mmdu-sweep{position:absolute;left:0;right:calc(-29 * var(--dp));height:0}
+.mmdu-sweep i{display:block;position:absolute;left:0;right:0;top:calc(-1 * var(--dp));height:calc(14 * var(--dp))}
+.mmdu-label{position:absolute;left:calc(4 * var(--dp));bottom:calc(4 * var(--dp));color:rgba(0,0,0,.541);white-space:nowrap;line-height:1}
+.mmdu-label b{font-weight:400;font-size:calc(21 * var(--dp))}
+.mmdu-label small{font-size:calc(9 * var(--dp))}
+.mmdu-label em{font-style:normal;font-size:calc(12 * var(--dp))}
+.mmdu-dates{display:flex;justify-content:space-between;height:calc(24 * var(--dp));align-items:center;color:rgba(0,0,0,.871);font-size:calc(12 * var(--dp))}
+.mmdu-disclaimer{padding:calc(8 * var(--dp)) calc(16 * var(--dp)) 0;color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+.mmdu-pad{display:block;height:calc(8 * var(--dp))}

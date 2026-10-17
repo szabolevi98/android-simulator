@@ -136,7 +136,12 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'high_power_apps', 'battery_saver_turn_on_automatically_never', 'battery_saver_turn_on_automatically_pct+args1',
          # ProcessStatsBase / ProcessStatsSummary
          'memory_settings_title', 'app_list_memory_use', 'menu_duration_3h', 'menu_duration_6h', 'menu_duration_12h', 'menu_duration_1d',
-         'array:ram_states', 'plurals:memory_usage_apps_summary']
+         'array:ram_states', 'plurals:memory_usage_apps_summary',
+         # DataUsageSummary
+         'data_usage_summary_title', 'data_usage_enable_mobile', 'data_usage_disable_mobile_limit', 'data_usage_sweep_warning', 'data_usage_disclaimer',
+         'data_usage_menu_restrict_background', 'data_usage_menu_show_wifi', 'data_usage_menu_cellular_networks', 'data_usage_tab_wifi',
+         'data_usage_restrict_background_title', 'data_usage_restrict_background', 'data_usage_disable_mobile', 'data_usage_limit_dialog_title',
+         'data_usage_limit_dialog_mobile', 'data_usage_app_summary_title', 'data_usage_cycle_editor_title']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -272,6 +277,9 @@ def main():
     # Bitmaps the Settings code sets itself: BluetoothDevicePreference's class icons and preference_bluetooth's gear.
     # Location's injected setting: GMS Core's Google Location History with its ic_google icon.
     png.append('gms-ic_google.png\tpriv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk\tdrawable/ic_google')
+    # DataUsageSummary's chart: ChartGridView's border and the warning sweep.
+    for name in ['data_grid_border', 'data_sweep_warning_activated']:
+        png.append(f'st-{name}.9.png	{APKPATH}	drawable/{name}')
     # RegulatoryInfoDisplayActivity's image for the SKU (ro.boot.hardware.sku; the simulator is the US LG-H790).
     png.append(f'st-regulatory_info_lgh790.png	{APKPATH}	drawable/regulatory_info_lgh790')
     for name in ['ic_bt_headset_hfp', 'ic_bt_headphones_a2dp', 'ic_bt_config']:
