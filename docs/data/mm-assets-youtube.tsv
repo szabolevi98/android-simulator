@@ -1,0 +1,17 @@
+# YouTube 10.28.60 (app/YouTube): the toolbar, tabs, video cards and the watch page (mm-youtube.js)
+yt-action_bar_logo_release.png	app/YouTube/YouTube.apk	drawable/action_bar_logo_release
+yt-ic_tab_home.png	app/YouTube/YouTube.apk	drawable/ic_tab_home
+yt-ic_tab_subscriptions.png	app/YouTube/YouTube.apk	drawable/ic_tab_subscriptions
+yt-ic_tab_account.png	app/YouTube/YouTube.apk	drawable/ic_tab_account
+yt-ic_menu_search_mtrl_alpha.png	app/YouTube/YouTube.apk	drawable/ic_menu_search_mtrl_alpha
+yt-abc_ic_menu_moreoverflow_mtrl_alpha.png	app/YouTube/YouTube.apk	drawable/abc_ic_menu_moreoverflow_mtrl_alpha
+yt-contextual_menu_anchor_normal.png	app/YouTube/YouTube.apk	drawable/contextual_menu_anchor_normal
+yt-ic_like.png	app/YouTube/YouTube.apk	drawable/ic_like
+yt-ic_dislike.png	app/YouTube/YouTube.apk	drawable/ic_dislike
+yt-ic_share.png	app/YouTube/YouTube.apk	drawable/ic_share
+yt-ic_overflow_addtoplaylist.png	app/YouTube/YouTube.apk	drawable/ic_overflow_addtoplaylist
+yt-ic_subscribe.png	app/YouTube/YouTube.apk	drawable/ic_subscribe
+yt-ic_media_play.png	app/YouTube/YouTube.apk	drawable/ic_media_play
+yt-ic_media_pause.png	app/YouTube/YouTube.apk	drawable/ic_media_pause
+yt-ic_miniplayer.png	app/YouTube/YouTube.apk	drawable/ic_miniplayer
+yt-ic_account_circle.png	app/YouTube/YouTube.apk	drawable/ic_account_circle

@@ -180,3 +180,7 @@ details_description rate_this_app updates_available_section more read_more app_d
 SEARCH YOUR_PLACES YOUR_TIMELINE OFFLINE_MAPS_TITLE LAYER_TRAFFIC LAYER_PUBLIC_TRANSIT LAYER_BICYCLING LAYER_SATELLITE
 LAYER_GOOGLE_EARTH TIPS_AND_TRICKS SETTINGS HELP SEND_FEEDBACK DIRECTIONS_YOUR_LOCATION DIRECTIONS_CHOOSE_END_POINT
 START_NAVIGATION NAVIGATION
+[youtube] YouTube framework
+# YouTube 10.28.60: search, the video cards, the watch page
+home_phone_label search_hint subscribe subscribed menu_share accessibility_addto settings menu_help channel_watch_history
+plurals:author_and_views plurals:age_and_views plurals:minutes_ago plurals:hours_ago plurals:days_ago plurals:weeks_ago

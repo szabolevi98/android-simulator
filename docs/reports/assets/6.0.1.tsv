@@ -516,3 +516,19 @@ versions/6.0.1/assets/sui-stat_sys_wifi_signal_4_fully.svg	d529b6ae377a4174	vect
 versions/6.0.1/assets/sui-stat_sys_wifi_signal_null.svg	dd37e55ca1609257	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/stat_sys_wifi_signal_null.xml	drawable	vector drawable drawn as SVG	9cdf7da31705f42c
 versions/6.0.1/assets/sui-stat_sys_zen_important.svg	2bfc85973c2d6b73	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/stat_sys_zen_important.xml	drawable	vector drawable drawn as SVG	06cd809f509f5310
 versions/6.0.1/assets/sui-stat_sys_zen_none.svg	a5d565436ce6f33d	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/stat_sys_zen_none.xml	drawable	vector drawable drawn as SVG	f8c06b768052300e
+versions/6.0.1/assets/yt-abc_ic_menu_moreoverflow_mtrl_alpha.png	a74d5dff31f9a537	copy	bullhead:/system/app/CloudPrint2/CloudPrint2.apk!res/drawable-xxhdpi-v4/abc_ic_menu_moreoverflow_mtrl_alpha.png	drawable-xxhdpi-v4		a74d5dff31f9a537
+versions/6.0.1/assets/yt-action_bar_logo_release.png	4cd12f7cc2b8b0a6	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xhdpi-v4/action_bar_logo_release.png	drawable-xhdpi-v4		4cd12f7cc2b8b0a6
+versions/6.0.1/assets/yt-contextual_menu_anchor_normal.png	9b7076d765f1107e	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/contextual_menu_anchor_normal.png	drawable-xxhdpi-v4		9b7076d765f1107e
+versions/6.0.1/assets/yt-ic_account_circle.png	831430d6b50b64f8	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_account_circle.png	drawable-xxhdpi-v4		831430d6b50b64f8
+versions/6.0.1/assets/yt-ic_dislike.png	37028fa7133fd4c4	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_dislike.png	drawable-xxhdpi-v4		37028fa7133fd4c4
+versions/6.0.1/assets/yt-ic_like.png	bc3d763dbec33c04	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_like.png	drawable-xxhdpi-v4		bc3d763dbec33c04
+versions/6.0.1/assets/yt-ic_media_pause.png	59d7c4300f6875fe	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_media_pause.png	drawable-xxhdpi-v4		59d7c4300f6875fe
+versions/6.0.1/assets/yt-ic_media_play.png	0d59ab4b27db9f3d	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_media_play.png	drawable-xxhdpi-v4		0d59ab4b27db9f3d
+versions/6.0.1/assets/yt-ic_menu_search_mtrl_alpha.png	5d823fb9d40c1fb6	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_menu_search_mtrl_alpha.png	drawable-xxhdpi-v4		5d823fb9d40c1fb6
+versions/6.0.1/assets/yt-ic_miniplayer.png	60943babe6d62dfc	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_miniplayer.png	drawable-xxhdpi-v4		60943babe6d62dfc
+versions/6.0.1/assets/yt-ic_overflow_addtoplaylist.png	6f62e0a21fc3c7e9	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_overflow_addtoplaylist.png	drawable-xxhdpi-v4		6f62e0a21fc3c7e9
+versions/6.0.1/assets/yt-ic_share.png	7f677500f73e2bce	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_share.png	drawable-xxhdpi-v4		7f677500f73e2bce
+versions/6.0.1/assets/yt-ic_subscribe.png	7411fc6a5acc290c	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_subscribe.png	drawable-xxhdpi-v4		7411fc6a5acc290c
+versions/6.0.1/assets/yt-ic_tab_account.png	f9b930913d9fd8ab	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_tab_account.png	drawable-xxhdpi-v4		f9b930913d9fd8ab
+versions/6.0.1/assets/yt-ic_tab_home.png	a97e77174cc1e952	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_tab_home.png	drawable-xxhdpi-v4		a97e77174cc1e952
+versions/6.0.1/assets/yt-ic_tab_subscriptions.png	3292321e4069178d	copy	bullhead:/system/app/YouTube/YouTube.apk!res/drawable-xxhdpi-v4/ic_tab_subscriptions.png	drawable-xxhdpi-v4		3292321e4069178d

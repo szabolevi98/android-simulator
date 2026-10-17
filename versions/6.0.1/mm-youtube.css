@@ -1,0 +1,61 @@
+/* YouTube (mm-youtube.js), in dp: YouTube 10.28.60's toolbar with image tabs, video cards and the watch page. */
+.mmyt{position:absolute;inset:0;display:flex;flex-direction:column;background:#f1f1f1;color:#333;font-family:Roboto,sans-serif;overflow:hidden}
+.mmyt-head{flex:none;position:relative;z-index:3;background:#e62117;box-shadow:0 calc(1 * var(--dp)) calc(3 * var(--dp)) rgba(0,0,0,.25)}
+.mmyt-bar1{display:flex;align-items:center;height:calc(56 * var(--dp));padding:0 calc(4 * var(--dp)) 0 calc(16 * var(--dp))}
+.mmyt-logo{width:calc(37 * var(--dp));height:calc(32 * var(--dp))}
+.mmyt-flex{flex:1}
+.mmyt-btn{width:calc(48 * var(--dp));height:calc(48 * var(--dp));padding:0;border:0;border-radius:50%;background:none;display:grid;place-items:center}
+.mmyt-btn img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmyt-btn:first-of-type img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.mmyt-tabs{position:relative;display:flex;height:calc(48 * var(--dp))}
+.mmyt-tabs>button{flex:1;padding:0 calc(20 * var(--dp));border:0;background:none;display:grid;place-items:center}
+.mmyt-tabs>button:active{background:rgba(0,0,0,.31)}
+.mmyt-tabs img{width:calc(32 * var(--dp));height:calc(32 * var(--dp));opacity:.6;filter:brightness(0)}
+.mmyt-tabs>button.on img{opacity:1;filter:none}
+.mmyt-under{position:absolute;left:0;bottom:0;width:33.333%;height:calc(2 * var(--dp));background:#fff;transition:transform .2s}
+.mmyt-page{flex:1;min-height:0;overflow-y:auto}
+.mmyt-feed{padding:calc(8 * var(--dp)) calc(8 * var(--dp)) calc(16 * var(--dp))}
+.mmyt-card{position:relative;display:flex;flex-direction:column;width:100%;margin-bottom:calc(8 * var(--dp));padding:0 0 calc(12 * var(--dp));border:0;border-radius:calc(2 * var(--dp));background:#fff;box-shadow:0 calc(1 * var(--dp)) calc(2 * var(--dp)) rgba(0,0,0,.18);text-align:left;font-family:Roboto,sans-serif}
+.mmyt-thumb{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;background:#000}
+.mmyt-thumb.big{width:100%}
+.mmyt-thumb.small{flex:none;width:calc(128 * var(--dp));margin:calc(8 * var(--dp)) calc(16 * var(--dp)) calc(4 * var(--dp)) 0}
+.mmyt-svg{display:block;width:100%;height:100%}
+.mmyt-thumb small{position:absolute;right:calc(4 * var(--dp));bottom:calc(4 * var(--dp));padding:calc(1 * var(--dp)) calc(4 * var(--dp));background:rgba(0,0,0,.8);color:#fff;font-size:calc(12 * var(--dp))}
+.mmyt-ctitle{margin:calc(12 * var(--dp)) calc(40 * var(--dp)) 0 calc(12 * var(--dp));font-size:calc(18 * var(--dp));line-height:1.25;color:#333}
+.mmyt-cmeta{margin:calc(3 * var(--dp)) calc(12 * var(--dp)) 0;font-size:calc(14 * var(--dp));color:#757575}
+.mmyt-anchor{position:absolute;right:calc(16 * var(--dp));bottom:calc(14 * var(--dp));width:calc(4 * var(--dp));height:calc(16 * var(--dp))}
+.mmyt-empty{display:grid;place-items:center;height:60%}
+.mmyt-empty img{width:calc(96 * var(--dp));height:calc(96 * var(--dp));filter:brightness(0);opacity:.15}
+.mmyt-acct{background:#fff;min-height:100%}
+.mmyt-ahead{display:flex;flex-direction:column;align-items:center;padding:calc(24 * var(--dp));font-size:calc(14 * var(--dp));color:#757575}
+.mmyt-ahead img{width:calc(72 * var(--dp));height:calc(72 * var(--dp));margin-bottom:calc(12 * var(--dp));border-radius:50%}
+.mmyt-ahead b{font-weight:500;font-size:calc(18 * var(--dp));color:#333}
+.mmyt-arow{display:block;width:100%;height:calc(56 * var(--dp));padding:0 calc(16 * var(--dp));border:0;border-top:1px solid #eee;background:none;color:#333;font:calc(16 * var(--dp)) Roboto,sans-serif;text-align:left}
+/* The watch page. */
+.mmyt-watch{background:#fff}
+.mmyt-player{flex:none;position:relative;aspect-ratio:16/9;background:#000;overflow:hidden;cursor:pointer}
+.mmyt-psvg{position:absolute;inset:0;width:100%;height:100%}
+.mmyt-ctl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(64 * var(--dp));height:calc(64 * var(--dp));border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center}
+.mmyt-ctl img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.mmyt-time{position:absolute;left:calc(12 * var(--dp));bottom:calc(10 * var(--dp));color:#fff;font-size:calc(12 * var(--dp));text-shadow:0 0 calc(2 * var(--dp)) #000}
+.mmyt-bar{position:absolute;left:0;right:0;bottom:0;height:calc(3 * var(--dp));background:rgba(255,255,255,.3)}
+.mmyt-bar i{display:block;height:100%;background:#e62117}
+.mmyt-mini{position:absolute;left:calc(4 * var(--dp));top:calc(4 * var(--dp));width:calc(40 * var(--dp));height:calc(40 * var(--dp));padding:calc(8 * var(--dp));border:0;background:none}
+.mmyt-mini img{width:100%;height:100%;filter:invert(1)}
+.mmyt-wpage{flex:1;min-height:0;overflow-y:auto}
+.mmyt-info{padding:calc(12 * var(--dp)) calc(16 * var(--dp)) 0;font-size:calc(14 * var(--dp));color:#757575}
+.mmyt-info h1{margin:0 0 calc(4 * var(--dp));font:400 calc(18 * var(--dp))/1.3 Roboto,sans-serif;color:#333}
+.mmyt-acts{display:flex;justify-content:space-around;padding:calc(8 * var(--dp)) 0;border-bottom:1px solid #e5e5e5}
+.mmyt-acts button{display:flex;flex-direction:column;align-items:center;padding:calc(4 * var(--dp)) calc(8 * var(--dp));border:0;background:none;color:#757575;font:calc(12 * var(--dp)) Roboto,sans-serif}
+.mmyt-acts button.on img{filter:sepia(1) saturate(20) hue-rotate(-40deg)}
+.mmyt-acts img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.mmyt-acts button:nth-child(n+3) img{width:calc(24 * var(--dp));height:calc(24 * var(--dp));margin:calc(4 * var(--dp))}
+.mmyt-chan{display:flex;align-items:center;gap:calc(12 * var(--dp));padding:calc(12 * var(--dp)) calc(16 * var(--dp));border-bottom:1px solid #e5e5e5}
+.mmyt-cav{flex:none;width:calc(40 * var(--dp));height:calc(40 * var(--dp))}
+.mmyt-chan>b{flex:1;font-weight:500;font-size:calc(14 * var(--dp))}
+.mmyt-sub{padding:calc(8 * var(--dp)) calc(12 * var(--dp));border:0;border-radius:calc(2 * var(--dp));background:#e62117;color:#fff;font:500 calc(14 * var(--dp)) Roboto,sans-serif;text-transform:uppercase}
+.mmyt-sub.on{background:#eee;color:#757575}
+.mmyt-compact{display:flex;width:100%;padding:0 calc(16 * var(--dp)) calc(4 * var(--dp));border:0;background:none;text-align:left;font-family:Roboto,sans-serif}
+.mmyt-ctext{flex:1;min-width:0;display:flex;flex-direction:column;padding-top:calc(6 * var(--dp))}
+.mmyt-ctext b{font-weight:400;font-size:calc(14 * var(--dp));color:#333;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mmyt-ctext small{font-size:calc(12 * var(--dp));color:#999}
