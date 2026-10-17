@@ -115,4 +115,66 @@
     },
     set(c, key, v) { S(c).otherSounds = {...(S(c).otherSounds || {}), [key]: v}; return true; }
   };
+
+  /* Do not disturb (ZenModeSettings, ZenModePrioritySettings, ZenModeAutomationSettings) over the zen config: the
+     framework's default_zen_mode_config.xml allows calls, reminders and events, not messages; ZenModeConfig's
+     DEFAULT_SOURCE is contacts and repeat callers are off (config_zen_repeat_callers_threshold 15 minutes). The priority
+     summary joins Alarms with the allowed kinds in lower case (join_many_items_middle); a DropDownPreference holds
+     From anyone / From contacts only / From starred contacts only / None. Automatic rules lists ZenModeHelper's default
+     rules (Weeknight and Weekend schedules, Event), all off, with ic_schedule / ic_event, then Add rule. */
+  const zen = c => S(c).zenConfig || (S(c).zenConfig = {calls: true, messages: false, reminders: true, events: true, repeatCallers: false, callsFrom: 1, messagesFrom: 1});
+  const SOURCES = [['zen_mode_from_anyone', 0], ['zen_mode_from_contacts', 1], ['zen_mode_from_starred', 2], ['zen_mode_from_none', -1]];
+  const source = (z, kind) => z[kind] ? z[kind + 'From'] : -1;
+  H.zen_mode_settings = {
+    summary(c, key) {
+      if (key !== 'priority_settings') return undefined;
+      const t = T(), z = zen(c);
+      let out = t.t('zen_mode_alarms');
+      for (const [on, name] of [[z.reminders, 'zen_mode_reminders'], [z.events, 'zen_mode_events'], [z.calls || z.repeatCallers, 'zen_mode_selected_callers'], [z.messages, 'zen_mode_selected_messages']])
+        if (on) out = t.fmt('join_many_items_middle', null, out, t.t(name).toLocaleLowerCase(c.locale()));
+      return out;
+    }
+  };
+  H.zen_mode_priority_settings = {
+    get(c, key) {
+      const z = zen(c);
+      if (key === 'alarms') return true;
+      if (key === 'reminders' || key === 'events') return z[key];
+      if (key === 'repeat_callers') return z.repeatCallers;
+      return undefined;
+    },
+    set(c, key, v) {
+      const z = zen(c);
+      if (key === 'reminders' || key === 'events') { z[key] = v; return true; }
+      if (key === 'repeat_callers') { z.repeatCallers = v; return true; }
+      return false;
+    },
+    disabled: (c, key) => key === 'alarms',
+    summary(c, key) {
+      const t = T(), z = zen(c);
+      if (key === 'messages' || key === 'calls') return t.t(SOURCES.find(([, v]) => v === source(z, key))[0]);
+      if (key === 'repeat_callers') return t.fmt('zen_mode_repeat_callers_summary', null, 15);
+      return undefined;
+    },
+    click(c, key) {
+      if (key !== 'messages' && key !== 'calls') return false;
+      const t = T(), z = zen(c), cur = source(z, key);
+      c.dialog({items: SOURCES.map(([label, v]) => ({html: `<span class="mmst-choice"><i class="mmw-radio${v === cur ? ' on' : ''}"></i><span>${c.safe(t.t(label))}</span></span>`})),
+        onItem: i => { const v = SOURCES[i][1]; z[key] = v !== -1; if (v !== -1) z[key + 'From'] = v; c.save(); c.render(); }});
+      return true;
+    }
+  };
+  const RULES = [['framework/zen_mode_default_weeknights_name', 'ic_schedule'], ['framework/zen_mode_default_weekends_name', 'ic_schedule'], ['framework/zen_mode_default_events_name', 'ic_event']];
+  MM.settingsScreens['xml:zen_mode_automation_settings'] = {
+    title: () => T().t('zen_mode_automation_settings_title'),
+    render(c) {
+      const t = T(), row = (icon, title, summary, action) => `<button type="button" class="mmst-pref" data-action="${action}"><span class="mmst-iconframe"><img class="mmst-ic" src="assets/st-${icon}.svg" alt=""></span><span class="mmst-texts"><span class="mmst-title">${c.safe(title)}</span>${summary ? `<span class="mmst-summary">${c.safe(summary)}</span>` : ''}</span></button>`;
+      return `<div class="mmst-list">${RULES.map(([name, icon]) => row(icon, t.t(name), t.t('switch_off_text'), 'mmzr-rule')).join('')}${row('ic_add', t.t('zen_mode_add_rule'), '', 'mmzr-add')}</div>`;
+    },
+    action(c, name) {
+      if (name === 'mmzr-rule') { MM.settingsGo(c, 'missing:com.android.settings.notification.ZenModeScheduleRuleSettings', ''); return true; }
+      if (name === 'mmzr-add') { MM.settingsGo(c, 'missing:com.android.settings.notification.ZenRuleNameDialog', ''); return true; }
+      return false;
+    }
+  };
 })();

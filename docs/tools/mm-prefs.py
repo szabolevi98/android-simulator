@@ -65,7 +65,13 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'radioInfo_data_disconnected', 'regulatory_information',
          # NotificationSettings, OtherSoundSettings
          'lock_screen_notifications_summary_show', 'lock_screen_notifications_summary_hide', 'lock_screen_notifications_summary_disable',
-         'manage_notification_access_summary_zero', 'muted_by+args1']
+         'manage_notification_access_summary_zero', 'muted_by+args1',
+         # ZenModeSettings, ZenModePrioritySettings, ZenModeAutomationSettings (the default rules' names are the framework's)
+         'join_many_items_middle+args2', 'zen_mode_alarms', 'zen_mode_reminders', 'zen_mode_events', 'zen_mode_selected_callers',
+         'zen_mode_selected_messages', 'zen_mode_from_anyone', 'zen_mode_from_contacts', 'zen_mode_from_starred', 'zen_mode_from_none',
+         'zen_mode_repeat_callers_summary+args1', 'zen_mode_add_rule', 'zen_mode_automation_settings_title',
+         'framework/zen_mode_default_weeknights_name', 'framework/zen_mode_default_weekends_name',
+         'framework/zen_mode_default_events_name']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -96,7 +102,8 @@ def drawable(apk, key):
         elif root == 'vector':
             info = {'icon': f'{prefix}{key}.svg', 'kind': 'vector', 'res': key, 'path': path}
             # A vector tinted by a theme attribute (the framework's ic_audio_* in ?colorControlNormal): SRC_IN in its colour.
-            tint = re.search(r'tint\(0x01010121\)=\?(0x[0-9a-f]{8})', out)
+            # A path filled with a theme attribute (ic_schedule's ?colorControlNormal) the same way.
+            tint = re.search(r'tint\(0x01010121\)=\?(0x[0-9a-f]{8})', out) or re.search(r'fillColor\(0x01010404\)=\?(0x[0-9a-f]{8})', out)
             if tint: info['theme'] = 'tint=' + THEMES.attr(APKPATH, APP_THEME, tint.group(1))
         else:
             info = {'icon': None, 'kind': root}
@@ -203,6 +210,9 @@ def main():
     # VolumeSeekBarPreference's mute icons and NotificationSettings.updateRingOrNotificationPreference's vibrate icon.
     for key in ['ic_audio_media_mute', 'ic_audio_alarm_mute', 'ic_audio_ring_notif_mute', 'ic_audio_ring_notif_vibrate']:
         drawable('framework', key)
+    # ZenModeAutomationSettings' rule icons and Add rule.
+    for key in ['ic_schedule', 'ic_event', 'ic_label', 'ic_add']:
+        drawable('Settings', key)
     for (apk, key), d in sorted(drawables.items()):
         if d['kind'] == 'png': png.append(f"{d['icon']}\t{d['path']}\tdrawable/{d['res']}")
         elif d['kind'] == 'vector': vec.append(f"{d['icon']}\t{d['path']}\t{d['res']}\t{d.get('theme', '-')}")

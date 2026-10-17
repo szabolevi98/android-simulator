@@ -58,8 +58,12 @@
     'com.android.settings.TrustAgentSettings': 'trust_agent_settings', 'com.android.settings.fuelgauge.BatterySaverSettings': 'battery_saver_settings',
     'com.android.settings.UsageAccessSettings': 'usage_access_settings', 'com.android.settings.wfd.WifiDisplaySettings': 'wifi_display_settings',
     'com.android.settings.notification.AppNotificationSettings': 'app_notification_settings', 'com.android.settings.SecuritySettings': 'security_settings_misc',
-    'com.android.settings.deviceinfo.ImeiInformation': 'device_info_phone_status'
+    'com.android.settings.deviceinfo.ImeiInformation': 'device_info_phone_status',
+    'com.android.settings.notification.ZenModeAutomationSettings': 'zen_mode_automation_settings'
   };
+  // The screens other parts of the system open by a short name (Quick Settings' "More settings", the launcher's links).
+  const ALIASES = {zen: 'xml:zen_mode_settings', 'zen-priority': 'xml:zen_mode_priority_settings', users: 'xml:user_settings',
+    cast: 'xml:wifi_display_settings', display: 'xml:display_settings', sound: 'xml:notification_settings'};
   function screenOf(fragment) {
     if (!fragment) return null;
     if (FRAGMENTS[fragment]) return FRAGMENTS[fragment];
@@ -185,7 +189,7 @@
   // -- the activity ---------------------------------------------------------------------------------------------------
   function render(c) {
     const st = state(c);
-    if (!st.stack.length && c.ui.sub && c.ui.sub !== st.opened) { st.opened = c.ui.sub; st.stack = [{screen: c.ui.sub.startsWith('app:') ? c.ui.sub : c.ui.sub, title: ''}]; }
+    if (c.ui.sub && c.ui.sub !== st.opened) { st.opened = c.ui.sub; st.stack = [{screen: ALIASES[c.ui.sub] || c.ui.sub, title: ''}]; }
     const cur = current(c);
     let title = T().t('settings_label_launcher'), body, bar = '';
     if (!cur) body = dashboard(c);

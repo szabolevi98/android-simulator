@@ -5903,6 +5903,104 @@ MM.strings('settings', {
 "fr": "Son coupé par : %1$s",
 "es": "Silenciado por %1$s"
 },
+"join_many_items_middle": {
+"res": "bullhead:Settings:join_many_items_middle",
+"args": 2,
+"en": "%1$s, %2$s",
+"hu": "%1$s, %2$s",
+"de": "%1$s, %2$s",
+"fr": "%1$s, %2$s",
+"es": "%1$s, %2$s"
+},
+"zen_mode_selected_callers": {
+"res": "bullhead:Settings:zen_mode_selected_callers",
+"en": "Selected callers",
+"hu": "Kijelölt hívók",
+"de": "Ausgewählte Anrufer",
+"fr": "Appelants sélectionnés",
+"es": "Contactos seleccionados"
+},
+"zen_mode_selected_messages": {
+"res": "bullhead:Settings:zen_mode_selected_messages",
+"en": "Selected messages",
+"hu": "Kijelölt üzenetek",
+"de": "Ausgewählte Nachrichten",
+"fr": "Messages sélectionnés",
+"es": "Mensajes seleccionados"
+},
+"zen_mode_from_anyone": {
+"res": "bullhead:Settings:zen_mode_from_anyone",
+"en": "From anyone",
+"hu": "Bárkitől",
+"de": "Von beliebiger Person",
+"fr": "De tout le monde",
+"es": "De cualquier usuario"
+},
+"zen_mode_from_contacts": {
+"res": "bullhead:Settings:zen_mode_from_contacts",
+"en": "From contacts only",
+"hu": "Csak a névjegyek között szereplőktől",
+"de": "Nur von Kontakten",
+"fr": "Des contacts uniquement",
+"es": "Solo de contactos"
+},
+"zen_mode_from_starred": {
+"res": "bullhead:Settings:zen_mode_from_starred",
+"en": "From starred contacts only",
+"hu": "Csak a megcsillagozott névjegyektől",
+"de": "Nur von markierten Kontakten",
+"fr": "Des contacts favoris uniquement",
+"es": "Solo de contactos destacados"
+},
+"zen_mode_from_none": {
+"res": "bullhead:Settings:zen_mode_from_none",
+"en": "None",
+"hu": "Senkitől",
+"de": "Keine",
+"fr": "Aucun",
+"es": "Ninguno"
+},
+"zen_mode_repeat_callers_summary": {
+"res": "bullhead:Settings:zen_mode_repeat_callers_summary",
+"args": 1,
+"en": "If the same person calls a second time within a %d minute period, allow it",
+"hu": "Ha %d percen belül másodjára is hív valaki, akkor engedélyezze",
+"de": "Zulassen, falls dieselbe Person innerhalb von %d Minuten erneut anruft",
+"fr": "Si la même personne appelle deux fois en %d minute(s), autoriser le deuxième appel",
+"es": "Permitir llamadas que procedan de la misma persona si no han pasado más de %d minutos desde su primera llamada"
+},
+"zen_mode_add_rule": {
+"res": "bullhead:Settings:zen_mode_add_rule",
+"en": "Add rule",
+"hu": "Szabály hozzáadása",
+"de": "Regel hinzufügen",
+"fr": "Ajouter une règle",
+"es": "Añadir regla"
+},
+"framework/zen_mode_default_weeknights_name": {
+"res": "bullhead:framework:zen_mode_default_weeknights_name",
+"en": "Weeknight",
+"hu": "Hétköznap éjszaka",
+"de": "Abends unter der Woche",
+"fr": "Soirée de semaine",
+"es": "Noche de entre semana"
+},
+"framework/zen_mode_default_weekends_name": {
+"res": "bullhead:framework:zen_mode_default_weekends_name",
+"en": "Weekend",
+"hu": "Hétvége",
+"de": "Wochenende",
+"fr": "Week-end",
+"es": "Fin de semana"
+},
+"framework/zen_mode_default_events_name": {
+"res": "bullhead:framework:zen_mode_default_events_name",
+"en": "Event",
+"hu": "Esemény",
+"de": "Termin",
+"fr": "Événement",
+"es": "Evento"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [
