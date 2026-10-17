@@ -1,6 +1,6 @@
 /* Android 6.0.1 Settings: Accounts (AccountSettings) and Add an account (ChooseAccountActivity), Settings.apk MTC20K,
    as MM.settingsScreens.accounts / 'add-account'.
-   - With no account and no work profile: the Add account row (ic_menu_add: ic_menu_add_white in the accent); the
+   - The Google row for the demo account (gms auth_gls_label), then the Add account row (ic_menu_add: ic_menu_add_white in the accent); the
      overflow menu's Auto-sync data, checked (ContentResolver's master sync is on), with
      ConfirmAutoSyncChangeFragment's dialogs before a change.
    - ChooseAccountActivity: the account types the image's authenticators declare, by label: GMS Core's Google
@@ -16,12 +16,15 @@
   MM.settingsScreens.accounts = {
     title: () => T().t('account_settings_title'),
     actions: c => MM.menu.button(c),
+    // AccountSettings.updateUi: one row per account type on the phone (the demo Google account, MM.account), then Add account.
     render(c) {
-      return `<div class="mmst-list"><button type="button" class="mmst-pref" data-action="mmac-add"><span class="mmst-iconframe"><i class="mmst-ic" style="background:#009688;-webkit-mask-image:url('assets/st-ic_menu_add_white.png');mask-image:url('assets/st-ic_menu_add_white.png')"></i></span><span class="mmst-texts"><span class="mmst-title">${c.safe(T().t('add_account_label'))}</span></span></button></div>`;
+      const google = MM.account ? `<button type="button" class="mmst-pref" data-action="mmac-google"><span class="mmst-iconframe"><img class="mmst-ic" src="assets/gms-auth_gls_ic_google_selected.png" alt=""></span><span class="mmst-texts"><span class="mmst-title">${c.safe(T().t('PrebuiltGmsCore/auth_gls_label'))}</span></span></button>` : '';
+      return `<div class="mmst-list">${google}<button type="button" class="mmst-pref" data-action="mmac-add"><span class="mmst-iconframe"><i class="mmst-ic" style="background:#009688;-webkit-mask-image:url('assets/st-ic_menu_add_white.png');mask-image:url('assets/st-ic_menu_add_white.png')"></i></span><span class="mmst-texts"><span class="mmst-title">${c.safe(T().t('add_account_label'))}</span></span></button></div>`;
     },
     action(c, name) {
       const t = T(), s = S(c);
       if (name === 'mmac-add') { MM.settingsGo(c, 'add-account', t.t('header_add_an_account')); return true; }
+      if (name === 'mmac-google') { MM.settingsGo(c, 'missing:com.android.settings.accounts.AccountSyncSettings', ''); return true; }
       if (name === 'mm-menu') {
         const on = s.autoSync ?? true;
         c.menu([{label: t.t('data_usage_menu_auto_sync'), checked: on, action: c => c.dialog({title: t.t(on ? 'data_usage_auto_sync_off_dialog_title' : 'data_usage_auto_sync_on_dialog_title'),
