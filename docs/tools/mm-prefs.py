@@ -141,7 +141,11 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'data_usage_summary_title', 'data_usage_enable_mobile', 'data_usage_disable_mobile_limit', 'data_usage_sweep_warning', 'data_usage_disclaimer',
          'data_usage_menu_restrict_background', 'data_usage_menu_show_wifi', 'data_usage_menu_cellular_networks', 'data_usage_tab_wifi',
          'data_usage_restrict_background_title', 'data_usage_restrict_background', 'data_usage_disable_mobile', 'data_usage_limit_dialog_title',
-         'data_usage_limit_dialog_mobile', 'data_usage_app_summary_title', 'data_usage_cycle_editor_title']
+         'data_usage_limit_dialog_mobile', 'data_usage_app_summary_title', 'data_usage_cycle_editor_title',
+         # AccountSettings, ChooseAccountActivity (the authenticators of GMS Core and Gmail)
+         'add_account_label', 'header_add_an_account', 'data_usage_menu_auto_sync', 'data_usage_auto_sync_on_dialog_title',
+         'data_usage_auto_sync_on_dialog', 'data_usage_auto_sync_off_dialog_title', 'data_usage_auto_sync_off_dialog',
+         'PrebuiltGmsCore/auth_gls_label', 'PrebuiltGmail/exchange_eas_name', 'PrebuiltGmail/imap_name', 'PrebuiltGmail/pop3_name']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -277,6 +281,8 @@ def main():
     # Bitmaps the Settings code sets itself: BluetoothDevicePreference's class icons and preference_bluetooth's gear.
     # Location's injected setting: GMS Core's Google Location History with its ic_google icon.
     png.append('gms-ic_google.png\tpriv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk\tdrawable/ic_google')
+    # ChooseAccountActivity's Google account type (GMS Core's authenticator icon).
+    png.append('gms-auth_gls_ic_google_selected.png	priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk	drawable/auth_gls_ic_google_selected')
     # DataUsageSummary's chart: ChartGridView's border and the warning sweep.
     for name in ['data_grid_border', 'data_sweep_warning_activated']:
         png.append(f'st-{name}.9.png	{APKPATH}	drawable/{name}')
@@ -293,7 +299,7 @@ def main():
     for key in ['ic_settings_display', 'ic_power_system', 'ic_settings_cell_standby', 'ic_settings_phone_idle', 'ic_settings_wireless']:
         drawable('Settings', key)
     # ZenModeAutomationSettings' rule icons and Add rule.
-    for key in ['ic_schedule', 'ic_event', 'ic_label', 'ic_add']:
+    for key in ['ic_schedule', 'ic_event', 'ic_label', 'ic_add', 'ic_menu_add']:
         drawable('Settings', key)
     for (apk, key), d in sorted(drawables.items()):
         if d['kind'] == 'png': png.append(f"{d['icon']}\t{d['path']}\tdrawable/{d['res']}")

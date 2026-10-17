@@ -7602,6 +7602,92 @@ MM.strings('settings', {
 "fr": "Date de réinitialisation du cycle de consommation",
 "es": "Elige el día en el que empezará cada ciclo"
 },
+"add_account_label": {
+"res": "bullhead:Settings:add_account_label",
+"en": "Add account",
+"hu": "Fiók hozzáadása",
+"de": "Konto hinzufügen",
+"fr": "Ajouter un compte",
+"es": "Añadir cuenta"
+},
+"data_usage_menu_auto_sync": {
+"res": "bullhead:Settings:data_usage_menu_auto_sync",
+"en": "Auto-sync data",
+"hu": "Adatok automatikus szinkronizálása",
+"de": "Daten automatisch synchronisieren",
+"fr": "Synchronisation automatique des données",
+"es": "Sincronización automática"
+},
+"data_usage_auto_sync_on_dialog_title": {
+"res": "bullhead:Settings:data_usage_auto_sync_on_dialog_title",
+"en": "Turn auto-sync data on?",
+"hu": "Bekapcsolja a szinkronizálást?",
+"de": "Automatische Synchronisierung aktivieren?",
+"fr": "Activer synchro auto données ?",
+"es": "¿Activar sincronización automática?"
+},
+"data_usage_auto_sync_on_dialog": {
+"res": "bullhead:Settings:data_usage_auto_sync_on_dialog",
+"en": "Any changes you make to your accounts on the web will be automatically copied to your phone.\n\nSome accounts may also automatically copy any changes you make on the phone to the web. A Google Account works this way.",
+"hu": "A rendszer azonnal átmásolja telefonjára a fiókot érintő valamennyi módosítást, amelyet az interneten hajt végre.\n\nEgyes fiókok a telefonon végrehajtott módosításokat is automatikusan átmásolhatják az internetre. Ez a Google-fiókok működésének lényege.",
+"de": "Änderungen, die du im Web an deinem Konto vornimmst, werden automatisch auf dein Telefon kopiert.\n\nBei manchen Konten werden ggf. auch automatisch alle Änderungen, die du auf dem Telefon vornimmst, ins Web kopiert. Das ist die übliche Synchronisierungsfunktion eines Google-Kontos.",
+"fr": "Toutes les modifications que vous apportez à vos comptes sur le Web sont automatiquement copiées sur votre téléphone.\n\nPour certains comptes, les modifications effectuées sur le téléphone peuvent également être copiées automatiquement sur le Web. C'est le principe d'un compte Google.",
+"es": "Los cambios que hagas en tus cuentas en la Web se copiarán automáticamente en el teléfono.\n\nEs posible que algunas cuentas copien también en la Web los cambios que hagas en el teléfono. Así funcionan las cuentas de Google."
+},
+"data_usage_auto_sync_off_dialog_title": {
+"res": "bullhead:Settings:data_usage_auto_sync_off_dialog_title",
+"en": "Turn auto-sync data off?",
+"hu": "Kikapcsolja a szinkronizálást?",
+"de": "Autom. Synchronisierung deaktivieren?",
+"fr": "Désactiver synchro auto données ?",
+"es": "¿Desactivar sincronización automática?"
+},
+"data_usage_auto_sync_off_dialog": {
+"res": "bullhead:Settings:data_usage_auto_sync_off_dialog",
+"en": "This will conserve data and battery usage, but you’ll need to sync each account manually to collect recent information. And you won’t receive notifications when updates occur.",
+"hu": "Ez mérsékelni fogja az adat- és akkumulátorhasználatot, de minden egyes fiókot manuálisan kell majd szinkronizálnia a legfrissebb információk begyűjtéséhez. Továbbá nem fog értesítéseket kapni a frissítésekről.",
+"de": "So reduzierst du den Datenverbrauch und schonst den Akku, musst jedoch jedes einzelne Konto manuell synchronisieren, um neue Informationen abzurufen. Außerdem erhältst du keine Benachrichtigungen, wenn Aktualisierungen erfolgen.",
+"fr": "Cette action limite la consommation des données et l'utilisation de la batterie, mais vous devrez synchroniser manuellement chaque compte pour obtenir les dernières informations. Vous ne recevrez pas non plus de notifications en cas de mise à jour.",
+"es": "Esto te permitirá ahorrar datos y batería, pero tendrás que sincronizar cada cuenta de forma manual para recopilar información reciente y no recibirás notificaciones cuando haya actualizaciones."
+},
+"PrebuiltGmsCore/auth_gls_label": {
+"res": "bullhead:PrebuiltGmsCore:auth_gls_label",
+"en": "Google",
+"hu": "Google",
+"de": "Google",
+"fr": "Google",
+"es": "Google"
+},
+"PrebuiltGmail/exchange_eas_name": {
+"res": "bullhead:PrebuiltGmail:exchange_eas_name",
+"en": "Exchange",
+"hu": "Exchange",
+"de": "Exchange",
+"fr": "Exchange",
+"es": "Exchange",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"PrebuiltGmail/imap_name": {
+"res": "bullhead:PrebuiltGmail:imap_name",
+"en": "Personal (IMAP)",
+"hu": "Személyes (IMAP)",
+"de": "Privat (IMAP)",
+"fr": "Personnel (IMAP)",
+"es": "Personal (IMAP)"
+},
+"PrebuiltGmail/pop3_name": {
+"res": "bullhead:PrebuiltGmail:pop3_name",
+"en": "Personal (POP3)",
+"hu": "Személyes (POP3)",
+"de": "Privat (POP3)",
+"fr": "Personnel (POP3)",
+"es": "Personal (POP3)"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

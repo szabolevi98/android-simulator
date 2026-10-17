@@ -70,6 +70,7 @@ versions/6.0.1/assets/gel-ic_widget_pressed.png	f5027aca5412c108	copy	bullhead:/
 versions/6.0.1/assets/gel-portal_ring_inner.png	cb684598871fd094	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/portal_ring_inner.png	drawable-xxhdpi-v4		cb684598871fd094
 versions/6.0.1/assets/gel-screenpanel.9.png	5367af4067b16862	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/screenpanel.9.png	drawable-xxhdpi-v4		5367af4067b16862
 versions/6.0.1/assets/gel-search_bg.9.png	023562590363b025	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/search_bg.9.png	drawable-xxhdpi-v4		023562590363b025
+versions/6.0.1/assets/gms-auth_gls_ic_google_selected.png	3f65f591599a6239	copy	bullhead:/system/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk!res/drawable-xxhdpi-v4/auth_gls_ic_google_selected.png	drawable-xxhdpi-v4		3f65f591599a6239
 versions/6.0.1/assets/gms-ic_google.png	b1f36b9fc14bc46f	copy	bullhead:/system/app/PlayGames/PlayGames.apk!res/drawable-xxhdpi-v4/ic_google.png	drawable-xxhdpi-v4		b1f36b9fc14bc46f
 versions/6.0.1/assets/gms-ic_google_settings.svg	c45ec4be45b1950a	vector	bullhead:/system/app/PlayGames/PlayGames.apk!res/drawable-anydpi-v21/ic_google_settings.xml	drawable-anydpi-v21	vector drawable drawn as SVG	853b3748a0d5a040
 versions/6.0.1/assets/landing-home.jpg	d519cd458d66fa80	own	capture of the simulator's own home screen for the landing page card		closest: mean difference 7.39 (maguro:/system/media/bootanimation.zip!part0/f0000.jpg)	
@@ -84,6 +85,7 @@ versions/6.0.1/assets/st-ic_expand_less.svg	aed759622e190ebe	vector	bullhead:/sy
 versions/6.0.1/assets/st-ic_expand_more.svg	9c0f0fe220fe6b44	vector	bullhead:/system/app/PrintSpooler/PrintSpooler.apk!res/drawable/ic_expand_more.xml	drawable	vector drawable drawn as SVG	d6f9cbcfaf30ffbd
 versions/6.0.1/assets/st-ic_label.svg	5f1ad29d247ca658	vector	bullhead:/system/app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk!res/drawable/ic_label.xml	drawable	vector drawable drawn as SVG	55eb82a5dcd7f860
 versions/6.0.1/assets/st-ic_menu_add_dark.png	a69dadcc09e5e93d	copy	bullhead:/system/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk!res/drawable-xxhdpi-v4/ic_menu_add_dark.png	drawable-xxhdpi-v4		a69dadcc09e5e93d
+versions/6.0.1/assets/st-ic_menu_add_white.png	cab3b7c577f6bc70	copy	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable-xxhdpi-v4/ic_menu_add_white.png	drawable-xxhdpi-v4		cab3b7c577f6bc70
 versions/6.0.1/assets/st-ic_power_system.png	de6588039b7d1d32	copy	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable-xxhdpi-v4/ic_power_system.png	drawable-xxhdpi-v4		de6588039b7d1d32
 versions/6.0.1/assets/st-ic_schedule.svg	7f6f60bce0312609	vector	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable/ic_schedule.xml	drawable	vector drawable drawn as SVG	7da1da9dbfcabefa
 versions/6.0.1/assets/st-ic_settings_24dp.svg	d4298254879998e5	vector	bullhead:/system/framework/framework-res.apk!res/drawable/ic_settings_24dp.xml	drawable	vector drawable drawn as SVG	e3a719716b5953fe

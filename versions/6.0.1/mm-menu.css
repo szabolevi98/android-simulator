@@ -9,3 +9,6 @@
 .mmmenu-item{display:flex;align-items:center;height:calc(48 * var(--dp));padding:0 calc(16 * var(--dp));border:0;background:none;color:rgba(0,0,0,.871);font:calc(16 * var(--dp))/1.172 Roboto,sans-serif;text-align:left;white-space:nowrap}
 .mmmenu-item:active{background:rgba(0,0,0,.12)}
 .mmmenu-item:disabled{color:rgba(0,0,0,.26)}
+.mmmenu-item span{flex:1}
+.mmmenu-check{flex:none;width:calc(32 * var(--dp));height:calc(32 * var(--dp));margin-left:calc(16 * var(--dp));background:rgba(0,0,0,.541);-webkit-mask:url('assets/fw-ic_checkbox_unchecked.svg') center/100%;mask:url('assets/fw-ic_checkbox_unchecked.svg') center/100%}
+.mmmenu-check.on{background:#009688;-webkit-mask-image:url('assets/fw-ic_checkbox_checked.svg');mask-image:url('assets/fw-ic_checkbox_checked.svg')}

@@ -6,7 +6,8 @@
    widest row (popup_menu_item_layout: 196 dp at least, the title 16 dp from the start and 16 dp from the end, 48 dp
    dropdownListPreferredItemHeight, TextAppearance.Material.Menu 16 sp in textColorPrimary, a disabled item at
    disabled_alpha_material_light 0.26). The popup_window_enter transition grows it out of the button's corner.
-   Use: c.menu([{label, disabled, action(c)}]) opens it as the overlay 'menu'; MM.menu.button(c) is the overflow button's
+   A checkable item (checked: true / false) has list_menu_item_checkbox's CheckBox at its end.
+   Use: c.menu([{label, disabled, checked, action(c)}]) opens it as the overlay 'menu'; MM.menu.button(c) is the overflow button's
    markup with data-action "mm-menu" for a module to open its own items. */
 (() => {
   'use strict';
@@ -18,7 +19,7 @@
     app: false,
     init(c) { c.menu = list => { c.ui.menuItems = list; c.overlay('menu'); }; },
     render: c => `<div class="mmmenu"><div class="mmmenu-out" data-action="mmmenu-close"></div><div class="mmmenu-pop" role="menu">${items(c).map((it, i) =>
-      `<button type="button" class="mmmenu-item" role="menuitem" data-action="mmmenu-item" data-index="${i}"${it.disabled ? ' disabled' : ''}>${c.safe(it.label)}</button>`).join('')}</div></div>`,
+      `<button type="button" class="mmmenu-item" role="menuitem" data-action="mmmenu-item" data-index="${i}"${it.disabled ? ' disabled' : ''}><span>${c.safe(it.label)}</span>${'checked' in it ? `<i class="mmmenu-check${it.checked ? ' on' : ''}"></i>` : ''}</button>`).join('')}</div></div>`,
     action(name, el, event, c) {
       if (name === 'mmmenu-close') { c.closeOverlay(); return true; }
       if (name === 'mmmenu-item') { const it = items(c)[+el.dataset.index]; c.closeOverlay(); it?.action?.(c); return true; }
