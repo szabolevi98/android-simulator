@@ -196,3 +196,16 @@ menu_show_trash menu_notifications menu_settings menu_help_and_feedback create_n
 create_new_choice_upload create_new_choice_scan create_new_choice_document create_new_choice_sheet create_new_choice_slide
 empty_doclist empty_doclist_for_my_drive_view empty_doclist_for_my_drive_view_details title_grouper_files
 fast_scroll_title_grouper_collections
+[playmusic] Music2 framework
+# Play Music 6.0: the drawer and the empty library
+launcher_name top_menu_mainstage top_menu_my_library playlists_title top_menu_instant_mixes top_menu_shop settings
+help_title no_music_heading no_music_setup_uploader_body empty_screen_my_library_all_music empty_screen_playlists
+[playmovies] Videos framework
+# Play Movies & TV 3.8: the drawer and the empty library
+application_name_with_tv tab_watch_now tab_my_library menu_shop menu_settings menu_help_and_feedback no_movies no_shows
+wishlist_is_empty
+[playgames] PlayGames framework
+# Play Games 3.2: the drawer
+games_app_launcher_name games_dest_nav_drawer_home games_dest_nav_drawer_my_games games_dest_nav_drawer_inbox
+games_dest_nav_drawer_players games_dest_nav_drawer_recommended_games games_dest_nav_drawer_settings
+games_dest_nav_drawer_help
