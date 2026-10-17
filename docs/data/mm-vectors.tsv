@@ -129,3 +129,17 @@ fw-ic_checkbox_unchecked.svg	framework/framework-res.apk	ic_checkbox_unchecked	t
 sui-ic_backspace_24dp.svg	priv-app/SystemUI/SystemUI.apk	ic_backspace_24dp	-
 fw-ic_dialog_alert_material.svg	framework/framework-res.apk	ic_dialog_alert_material	tint=#8a000000
 fw-ic_spinner_caret.svg	framework/framework-res.apk	ic_spinner_caret	tint=#8a000000
+ca-ic_menu.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_menu	-
+ca-ic_today.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_today	-
+ca-ic_search.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_search	-
+ca-ic_overflow.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_overflow	-
+ca-ic_agenda.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_agenda	-
+ca-ic_week.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_week	-
+ca-ic_date.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_date	-
+ca-ic_settings.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_settings	-
+ca-ic_help.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_help	-
+ca-ic_location.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_location	-
+ca-ic_notes.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_notes	-
+ca-ic_notification.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_notification	-
+ca-ic_calendar.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_calendar	-
+ca-ic_edit_white.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_edit_white	-
