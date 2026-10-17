@@ -7290,6 +7290,97 @@ MM.strings('settings', {
 "fr": "Le libellé \"Autre\" fait référence aux fichiers partagés enregistrés par les applications, aux fichiers téléchargés sur Internet ou via le Bluetooth, aux fichiers Android, etc. \n\nPour afficher l'intégralité du contenu de la mémoire de stockage \"^1\", appuyez sur \"Explorer\".",
 "es": "En Otros se incluyen archivos compartidos almacenados por aplicaciones, archivos descargados de Internet o por Bluetooth, archivos de Android y mucho más. \n\nPara ver todo el contenido de este dispositivo de almacenamiento (^1), toca Explorar."
 },
+"power_discharging_duration": {
+"res": "bullhead:Settings:power_discharging_duration",
+"args": 2,
+"en": "%1$s - approx. %2$s left",
+"hu": "%1$s – kb. %2$s van hátra",
+"de": "%1$s – noch etwa %2$s",
+"fr": "%1$s – Temps restant : %2$s environ",
+"es": "%1$s - Quedan %2$s aproximadamente"
+},
+"power_charging": {
+"res": "bullhead:Settings:power_charging",
+"args": 2,
+"en": "%1$s - %2$s",
+"hu": "%1$s – %2$s",
+"de": "%1$s – %2$s",
+"fr": "%1$s – %2$s",
+"es": "%1$s - %2$s"
+},
+"power_screen": {
+"res": "bullhead:Settings:power_screen",
+"en": "Screen",
+"hu": "Képernyő",
+"de": "Display",
+"fr": "Écran",
+"es": "Pantalla"
+},
+"power_cell": {
+"res": "bullhead:Settings:power_cell",
+"en": "Cell standby",
+"hu": "Cella készenlét",
+"de": "Mobilfunk-Standby",
+"fr": "Veille GSM",
+"es": "Dispositivo inactivo"
+},
+"power_idle": {
+"res": "bullhead:Settings:power_idle",
+"en": "Phone idle",
+"hu": "Telefon - tétlen",
+"de": "Ruhezustand",
+"fr": "Téléphone inactif",
+"es": "Teléfono inactivo"
+},
+"power_wifi": {
+"res": "bullhead:Settings:power_wifi",
+"en": "Wi‑Fi",
+"hu": "Wi-Fi",
+"de": "WLAN",
+"fr": "Wi-Fi",
+"es": "Wi-Fi"
+},
+"process_kernel_label": {
+"res": "bullhead:Settings:process_kernel_label",
+"en": "Android OS",
+"hu": "Android OS",
+"de": "Android OS",
+"fr": "Plate-forme Android",
+"es": "SO Android"
+},
+"framework/android_system_label": {
+"res": "bullhead:framework:android_system_label",
+"en": "Android System",
+"hu": "Android rendszer",
+"de": "Android-System",
+"fr": "Système Android",
+"es": "Sistema Android"
+},
+"PrebuiltGmsCore/common_app_name": {
+"res": "bullhead:PrebuiltGmsCore:common_app_name",
+"en": "Google Play services",
+"hu": "Google Play-szolgáltatások",
+"de": "Google Play-Dienste",
+"fr": "Services Google Play",
+"es": "Servicios de Google Play"
+},
+"battery_saver_turn_on_automatically_never": {
+"res": "bullhead:Settings:battery_saver_turn_on_automatically_never",
+"en": "Never",
+"hu": "Soha",
+"de": "Nie",
+"fr": "Jamais",
+"es": "Nunca"
+},
+"battery_saver_turn_on_automatically_pct": {
+"res": "bullhead:Settings:battery_saver_turn_on_automatically_pct",
+"args": 1,
+"en": "at %1$s battery",
+"hu": "%1$s-os töltöttségnél",
+"de": "bei Akku von %1$s",
+"fr": "Lorsque la batterie atteint %1$s",
+"es": "con un %1$s de batería"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

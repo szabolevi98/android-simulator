@@ -69,3 +69,6 @@ recents_empty_message recents_app_info_button_label accessibility_recents_item_w
 action_menu_overflow_description ringtone_picker_title ringtone_silent ok cancel
 # Formatter.formatFileSize / formatShortFileSize
 byteShort kilobyteShort megabyteShort gigabyteShort terabyteShort fileSizeSuffix+args2
+# Formatter.formatShortElapsedTime
+durationDays+args1 durationDayHours+args2 durationDayHour+args2 durationHours+args1 durationHourMinutes+args2 durationHourMinute+args2
+durationMinutes+args1 durationMinute+args1

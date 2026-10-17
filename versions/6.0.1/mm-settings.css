@@ -189,3 +189,12 @@ div.mmst-pref:active{background:none}
 .mmsg-of{color:rgba(0,0,0,.871);font-size:calc(14 * var(--dp))}
 .mmsg-bar{height:calc(4 * var(--dp));margin:calc(16 * var(--dp)) 0 calc(8 * var(--dp));background:rgba(0,150,136,.3)}
 .mmsg-bar i{display:block;height:100%;background:#009688}
+/* battery_history_chart.xml: 16 dp at the sides, the Medium header, the 120 dp chart, the Small time labels. */
+.mmbt-chart{padding:calc(16 * var(--dp)) calc(16 * var(--dp)) calc(8 * var(--dp))}
+.mmbt-head{color:rgba(0,0,0,.541);font-size:calc(18 * var(--dp));margin-bottom:calc(12 * var(--dp))}
+.mmbt-chart svg{display:block;width:100%;height:calc(120 * var(--dp))}
+.mmbt-times{display:flex;justify-content:space-between;margin-top:calc(4 * var(--dp));color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+/* AppProgressPreference's bar under the label (relative to the largest) and the tinted system icons. */
+.mmbt-bar{display:block;height:calc(4 * var(--dp));margin-top:calc(8 * var(--dp));background:rgba(0,150,136,.25)}
+.mmbt-bar i{display:block;height:100%;background:#009688}
+.mmbt-ic{flex:none;width:calc(40 * var(--dp));height:calc(40 * var(--dp));margin-right:calc(16 * var(--dp));background:#009688;-webkit-mask-size:60%;mask-size:60%;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}

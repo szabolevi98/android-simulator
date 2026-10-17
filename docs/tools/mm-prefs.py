@@ -129,7 +129,11 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          # PrivateVolumeSettings
          'storage_detail_apps', 'storage_detail_images', 'storage_detail_videos', 'storage_detail_audio', 'storage_detail_other',
          'storage_detail_cached', 'storage_menu_explore', 'storage_volume_used+args1', 'storage_size_large', 'framework/storage_internal',
-         'memory_clear_cache_title', 'memory_clear_cache_message', 'storage_detail_dialog_other']
+         'memory_clear_cache_title', 'memory_clear_cache_message', 'storage_detail_dialog_other',
+         # PowerUsageSummary, BatteryEntry, BatterySaverSettings, Utils.formatPercentage
+         'power_usage_summary_title', 'power_discharging_duration+args2', 'power_charging+args2', 'power_screen', 'power_cell', 'power_idle',
+         'power_wifi', 'process_kernel_label', 'framework/android_system_label', 'PrebuiltGmsCore/common_app_name', 'battery_saver',
+         'high_power_apps', 'battery_saver_turn_on_automatically_never', 'battery_saver_turn_on_automatically_pct+args1']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -274,6 +278,9 @@ def main():
         drawable('framework', key)
     # ManageApplications' action bar gear (ic_settings_24dp in the action bar's white).
     vec.append(f'st-ic_settings_24dp.svg\t{APKPATH}\tic_settings_24dp\ttint=#ffffffff')
+    # BatteryEntry's icons for the system's own drains.
+    for key in ['ic_settings_display', 'ic_power_system', 'ic_settings_cell_standby', 'ic_settings_phone_idle', 'ic_settings_wireless']:
+        drawable('Settings', key)
     # ZenModeAutomationSettings' rule icons and Add rule.
     for key in ['ic_schedule', 'ic_event', 'ic_label', 'ic_add']:
         drawable('Settings', key)

@@ -89,5 +89,77 @@ MM.strings('framework', {
 "de": "%1$s %2$s",
 "fr": "%1$s %2$s",
 "es": "%1$s %2$s"
+},
+"durationDays": {
+"res": "bullhead:framework:durationDays",
+"args": 1,
+"en": "%1$d days",
+"hu": "%1$d nap",
+"de": "%1$d Tage",
+"fr": "%1$d jours",
+"es": "%1$d días"
+},
+"durationDayHours": {
+"res": "bullhead:framework:durationDayHours",
+"args": 2,
+"en": "%1$d day %2$d hrs",
+"hu": "%1$d nap %2$d óra",
+"de": "%1$d Tag %2$d Std.",
+"fr": "%1$d j et %2$d h",
+"es": "%1$d día %2$d h"
+},
+"durationDayHour": {
+"res": "bullhead:framework:durationDayHour",
+"args": 2,
+"en": "%1$d day %2$d hr",
+"hu": "%1$d nap %2$d óra",
+"de": "%1$d Tag %2$d Std.",
+"fr": "%1$d j et %2$d h",
+"es": "%1$d día %2$d h"
+},
+"durationHours": {
+"res": "bullhead:framework:durationHours",
+"args": 1,
+"en": "%1$d hrs",
+"hu": "%1$d óra",
+"de": "%1$d Std.",
+"fr": "%1$d h",
+"es": "%1$d h"
+},
+"durationHourMinutes": {
+"res": "bullhead:framework:durationHourMinutes",
+"args": 2,
+"en": "%1$d hr %2$d mins",
+"hu": "%1$d óra %2$d perc",
+"de": "%1$d Std. %2$d Min.",
+"fr": "%1$d h et %2$d min",
+"es": "%1$d h %2$d min"
+},
+"durationHourMinute": {
+"res": "bullhead:framework:durationHourMinute",
+"args": 2,
+"en": "%1$d hr %2$d min",
+"hu": "%1$d óra %2$d perc",
+"de": "%1$d Std. %2$d Min.",
+"fr": "%1$d h et %2$d min",
+"es": "%1$d h %2$d min"
+},
+"durationMinutes": {
+"res": "bullhead:framework:durationMinutes",
+"args": 1,
+"en": "%1$d mins",
+"hu": "%1$d perc",
+"de": "%1$d Min.",
+"fr": "%1$d min",
+"es": "%1$d min"
+},
+"durationMinute": {
+"res": "bullhead:framework:durationMinute",
+"args": 1,
+"en": "%1$d min",
+"hu": "%1$d perc",
+"de": "%1$d min",
+"fr": "%1$d min",
+"es": "%1$d min"
 }
 });

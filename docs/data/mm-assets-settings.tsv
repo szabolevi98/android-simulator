@@ -5,6 +5,7 @@ st-ic_bt_headset_hfp.png	priv-app/Settings/Settings.apk	drawable/ic_bt_headset_h
 st-ic_bt_headphones_a2dp.png	priv-app/Settings/Settings.apk	drawable/ic_bt_headphones_a2dp
 st-ic_bt_config.png	priv-app/Settings/Settings.apk	drawable/ic_bt_config
 st-ic_menu_add_dark.png	priv-app/Settings/Settings.apk	drawable/ic_menu_add_dark
+st-ic_power_system.png	priv-app/Settings/Settings.apk	drawable/ic_power_system
 st-ic_settings_about_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_about_alpha
 st-ic_settings_accessibility_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_accessibility_alpha
 st-ic_settings_accounts_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_accounts_alpha
@@ -12,6 +13,7 @@ st-ic_settings_applications_alpha.png	priv-app/Settings/Settings.apk	drawable/ic
 st-ic_settings_backup_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_backup_alpha
 st-ic_settings_battery_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_battery_alpha
 st-ic_settings_bluetooth_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_bluetooth_alpha
+st-ic_settings_cell_standby.png	priv-app/Settings/Settings.apk	drawable/ic_settings_cell_standby
 st-ic_settings_data_usage_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_data_usage_alpha
 st-ic_settings_date_time_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_date_time_alpha
 st-ic_settings_development_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_development_alpha
@@ -23,6 +25,7 @@ st-ic_settings_more_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_setting
 st-ic_settings_multiuser_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_multiuser_alpha
 st-ic_settings_nfc_payment_am_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_nfc_payment_am_alpha
 st-ic_settings_notifications_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_notifications_alpha
+st-ic_settings_phone_idle.png	priv-app/Settings/Settings.apk	drawable/ic_settings_phone_idle
 st-ic_settings_print_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_print_alpha
 st-ic_settings_security_alpha.png	priv-app/Settings/Settings.apk	drawable/ic_settings_security_alpha
 st-ic_sim_sd.png	priv-app/Settings/Settings.apk	drawable/ic_sim_sd
