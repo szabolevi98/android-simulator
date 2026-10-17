@@ -77,3 +77,11 @@ durationMinutes+args1 durationMinute+args1
 app_name const_e const_pi op_add op_sub op_mul op_div op_fact op_pct op_pow op_sqrt op_sqr fun_sin fun_cos fun_tan fun_arcsin
 fun_arccos fun_arctan fun_ln fun_log fun_exp fun_10pow mode_deg mode_rad eq clr del inv dec_point error_nan error_syntax
 error_aborted error_overflow error_zero_divide menu_leading menu_fraction menu_licenses menu_feedback menu_help
+[clock] PrebuiltDeskClockGoogle framework
+# DeskClock 4.2.1: the tabs, the alarm rows, the clock page, the timer and the stopwatch
+app_label menu_alarm menu_clock menu_timer menu_stopwatch alarm_repeat alarm_vibrate label default_label no_alarms ringtone
+delete expand_alarm collapse_alarm button_alarms button_cities menu_item_settings menu_item_night_mode menu_item_help
+hours_label minutes_label seconds_label timer_start timer_delete timer_reset timer_add_timer sw_start_button sw_stop_button
+sw_reset_button sw_lap_button sw_share_button sw_resume_button alarm_is_set alarm_deleted alarm_undo
+full_wday_month_day_no_year abbrev_wday_month_day_no_year time_picker_set time_picker_cancel every_day
+array:alarm_set plurals:days plurals:hours plurals:minutes

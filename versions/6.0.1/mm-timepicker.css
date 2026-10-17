@@ -1,0 +1,8 @@
+/* TimePickerDialog (mm-timepicker.js): the 60 dp header time, the 224 dp radial picker. */
+.mmtp{color:#fff}
+.mmtp-head{display:flex;align-items:center;justify-content:center;height:calc(96 * var(--dp));font:calc(60 * var(--dp))/1 Roboto,sans-serif}
+.mmtp-head>button{padding:0;border:0;background:none;font:inherit}
+.mmtp-ampm{display:flex;flex-direction:column;margin-left:calc(16 * var(--dp))}
+.mmtp-ampm button{padding:calc(2 * var(--dp)) 0;border:0;background:none;font:calc(16 * var(--dp))/1.2 Roboto,sans-serif;text-align:left;text-transform:uppercase}
+.mmtp-body{display:flex;justify-content:center;padding:calc(16 * var(--dp)) 0 calc(8 * var(--dp))}
+.mmtp-dial{width:calc(224 * var(--dp));height:calc(224 * var(--dp));font-family:Roboto,sans-serif;touch-action:none;cursor:pointer}

@@ -1,0 +1,25 @@
+# DeskClock 4.2.1 (PrebuiltDeskClockGoogle): the tab icons, the FAB and footer icons, the alarm row's icons (mm-clock.js)
+dc-ic_tab_alarm_activated.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_tab_alarm_activated
+dc-ic_tab_alarm_normal.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_tab_alarm_normal
+dc-ic_tab_clock_activated.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_tab_clock_activated
+dc-ic_tab_clock_normal.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_tab_clock_normal
+dc-ic_tab_timer_activated.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_tab_timer_activated
+dc-ic_tab_timer_normal.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_tab_timer_normal
+dc-ic_tab_stopwatch_activated.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_tab_stopwatch_activated
+dc-ic_tab_stopwatch_normal.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_tab_stopwatch_normal
+dc-ic_add_white_24dp.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_add_white_24dp
+dc-ic_language_white_24dp.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_language_white_24dp
+dc-ic_start_white_24dp.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_start_white_24dp
+dc-ic_pause_white_24dp.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_pause_white_24dp
+dc-ic_reset_white_24dp.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_reset_white_24dp
+dc-ic_lap_white_24dp.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_lap_white_24dp
+dc-ic_share.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_share
+dc-ic_alarm_small.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_alarm_small
+dc-ic_expand_down.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_expand_down
+dc-ic_delete_small.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_delete_small
+dc-ic_ringtone.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_ringtone
+dc-ic_label_normal.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_label_normal
+dc-ic_noalarms.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_noalarms
+dc-ic_add_timer.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_add_timer
+dc-ic_backspace_normal.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_backspace_normal
+dc-ic_backspace_disabled.png	app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk	drawable/ic_backspace_disabled

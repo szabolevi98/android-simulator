@@ -1,0 +1,76 @@
+/* Clock (mm-clock.js), in dp: desk_clock.xml on the hour's background colour. */
+.mmck{position:absolute;inset:0;display:flex;flex-direction:column;color:#fff;font-family:Roboto,sans-serif;transition:background-color 1s}
+.mmck-tabs{flex:none;display:flex;align-items:stretch;height:calc(56 * var(--dp))}
+.mmck-tabs>button[data-tab]{flex:1;border:0;background:none;display:grid;place-items:center}
+.mmck-tabs>button[data-tab]:active{background:rgba(255,255,255,.12)}
+.mmck-tabs>button img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmck-page{flex:1;min-height:0;overflow-y:auto;position:relative}
+/* Clock page: main_clock_frame.xml. */
+.mmck-clock{display:flex;flex-direction:column;align-items:center;padding:calc(64 * var(--dp)) calc(12 * var(--dp)) 0}
+.mmck-big{font:200 calc(70 * var(--dp))/1.1 Roboto,sans-serif;letter-spacing:-.01em}
+.mmck-ampm{font:400 calc(16 * var(--dp)) Roboto,sans-serif;margin-left:calc(4 * var(--dp))}
+.mmck-labels{display:flex;align-items:center;gap:calc(8 * var(--dp));margin-top:calc(8 * var(--dp));font:500 calc(14 * var(--dp)) Roboto,sans-serif;text-transform:uppercase}
+.mmck-next{display:flex;align-items:center;gap:calc(2 * var(--dp));color:rgba(255,255,255,.69)}
+.mmck-next img{width:calc(16 * var(--dp));height:calc(16 * var(--dp))}
+.mmck-hair{display:block;align-self:stretch;height:calc(1 * var(--dp));margin-top:calc(24 * var(--dp));background:rgba(255,255,255,.157)}
+/* Alarm page: alarm_time_collapsed / _expanded.xml. */
+.mmck-alarms{padding-bottom:calc(96 * var(--dp))}
+.mmck-alarm{padding:0 calc(12 * var(--dp))}
+.mmck-sum{display:flex;align-items:center;margin-top:calc(12 * var(--dp))}
+.mmck-sum>i{flex:1}
+.mmck-time{padding:0;border:0;background:none;color:#fff;font:100 calc(64 * var(--dp))/1.1 Roboto,sans-serif}
+.mmck-aampm{font:400 calc(24 * var(--dp)) Roboto,sans-serif;margin-left:calc(4 * var(--dp))}
+.mmck-switch{border:0;background:none;padding:0;height:calc(48 * var(--dp));display:grid;place-items:center;--mmw-accent:#da4336;--mmw-fg:#fff}
+.mmck-line{display:flex;align-items:center;min-height:calc(48 * var(--dp));font-size:calc(16 * var(--dp))}
+.mmck-label{color:rgba(255,255,255,.7);padding:0 calc(4 * var(--dp))}
+.mmck-days{flex:1;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmck-line img,.mmck-collapse img{width:calc(24 * var(--dp));height:calc(24 * var(--dp));margin:calc(12 * var(--dp))}
+.mmck-alarm .mmck-hair{margin:0 calc(4 * var(--dp))}
+.mmck-check{display:flex;align-items:center;gap:calc(12 * var(--dp));min-height:calc(48 * var(--dp));font-size:calc(16 * var(--dp))}
+.mmck-check input{position:absolute;opacity:0}
+.mmck-check i{width:calc(18 * var(--dp));height:calc(18 * var(--dp));border:calc(2 * var(--dp)) solid #fff;border-radius:calc(2 * var(--dp));box-sizing:border-box}
+.mmck-check input:checked+i{background:#da4336;border-color:#da4336}
+.mmck-dayrow{display:flex;justify-content:space-between;height:calc(48 * var(--dp));align-items:center}
+.mmck-day{width:calc(36 * var(--dp));height:calc(36 * var(--dp));border:0;border-radius:50%;background:none;color:#fff;font:500 calc(14 * var(--dp)) Roboto,sans-serif}
+.mmck-day.on{background:#fff;color:#212121}
+.mmck-opts{display:flex;align-items:center;justify-content:space-between}
+.mmck-ring{display:flex;align-items:center;gap:calc(16 * var(--dp));min-height:calc(48 * var(--dp));padding-left:calc(4 * var(--dp));font-size:calc(16 * var(--dp))}
+.mmck-ring img,.mmck-labelbtn img,.mmck-del img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmck-labelbtn{display:flex;align-items:center;gap:calc(16 * var(--dp));width:100%;padding:calc(12 * var(--dp)) calc(4 * var(--dp));border:0;background:none;color:#fff;font-size:calc(16 * var(--dp));text-align:left}
+.mmck-labelbtn span{color:rgba(255,255,255,.5)}
+.mmck-foot{display:flex;justify-content:space-between;align-items:center;height:calc(72 * var(--dp))}
+.mmck-del{display:flex;align-items:center;gap:calc(16 * var(--dp));border:0;background:none;color:#fff;font:500 calc(14 * var(--dp)) Roboto,sans-serif;text-transform:uppercase}
+.mmck-collapse{border:0;background:none;padding:0;transform:rotate(180deg)}
+.mmck-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:calc(8 * var(--dp));color:rgba(255,255,255,.69);font-size:calc(16 * var(--dp))}
+/* Timer page: TimerSetupView. */
+.mmck-setup{display:flex;flex-direction:column;height:100%;padding:calc(16 * var(--dp));box-sizing:border-box}
+.mmck-digits{position:relative;display:flex;align-items:baseline;justify-content:center;padding:calc(16 * var(--dp)) 0;color:rgba(255,255,255,.5);font:100 calc(56 * var(--dp))/1 Roboto,sans-serif}
+.mmck-digits.set{color:#fff}
+.mmck-digits small{font-size:calc(20 * var(--dp));margin-right:calc(6 * var(--dp))}
+.mmck-back{position:absolute;right:0;top:50%;transform:translateY(-50%);border:0;background:none;padding:calc(8 * var(--dp))}
+.mmck-back img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmck-pad{flex:1;display:flex;flex-direction:column;padding-bottom:calc(72 * var(--dp))}
+.mmck-pad>div{flex:1;display:flex}
+.mmck-pad button,.mmck-pad i{flex:1}
+.mmck-pad button{border:0;border-radius:50%;background:none;color:#fff;font:100 calc(36 * var(--dp)) Roboto,sans-serif}
+.mmck-pad button:active{background:rgba(255,255,255,.12)}
+/* The 280 dp circle (CircleTimerView) of the timer and the stopwatch. */
+.mmck-circlewrap{display:flex;justify-content:center;padding-top:calc(24 * var(--dp))}
+.mmck-circle{position:relative;width:calc(280 * var(--dp));height:calc(280 * var(--dp));display:grid;place-items:center}
+.mmck-circle svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.mmck-circle circle{fill:none;stroke:rgba(255,255,255,.15);stroke-width:1}
+.mmck-circle circle.arc{stroke:#da4336;stroke-width:1.5;stroke-dasharray:calc(var(--p) * 100) 100}
+.mmck-ctime{font:100 calc(56 * var(--dp))/1 Roboto,sans-serif}
+.mmck-ctime small{font-size:calc(28 * var(--dp))}
+.mmck-laps{padding:calc(16 * var(--dp)) calc(32 * var(--dp)) calc(96 * var(--dp))}
+.mmck-laps>div{display:flex;justify-content:space-between;padding:calc(8 * var(--dp)) 0;font-size:calc(16 * var(--dp));color:rgba(255,255,255,.69)}
+.mmck-laps small{font-size:.8em}
+/* The footer and the FAB in the accent. */
+.mmck-footer{position:absolute;left:0;right:0;bottom:calc(16 * var(--dp));display:flex;align-items:center;pointer-events:none}
+.mmck-footer>*{flex:1;display:flex;justify-content:center;pointer-events:auto}
+.mmck-fab{flex:none;width:calc(56 * var(--dp));height:calc(56 * var(--dp));border:0;border-radius:50%;background:#da4336;display:grid;place-items:center;box-shadow:0 calc(4 * var(--dp)) calc(8 * var(--dp)) rgba(0,0,0,.4)}
+.mmck-fab:active{background:#e5644f}
+.mmck-fab img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmck-fabspace{flex:none;width:calc(56 * var(--dp));height:calc(56 * var(--dp))}
+.mmck-side{border:0;border-radius:50%;background:none;width:calc(56 * var(--dp));height:calc(56 * var(--dp));display:grid;place-items:center}
+.mmck-side img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
