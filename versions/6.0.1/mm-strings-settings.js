@@ -7736,6 +7736,100 @@ MM.strings('settings', {
 "fr": "Application à utiliser aux terminaux de paiement sans contact :",
 "es": "En un terminal Tocar y pagar, paga con:"
 },
+"screensaver_settings_dream_start": {
+"res": "bullhead:Settings:screensaver_settings_dream_start",
+"en": "Start now",
+"hu": "Indítás most",
+"de": "Jetzt starten",
+"fr": "Commencer",
+"es": "Iniciar ahora"
+},
+"screensaver_settings_when_to_dream": {
+"res": "bullhead:Settings:screensaver_settings_when_to_dream",
+"en": "When to daydream",
+"hu": "Álmodozás ideje",
+"de": "Daydream starten",
+"fr": "Quand activer",
+"es": "Cuándo activarlo"
+},
+"screensaver_settings_summary_dock": {
+"res": "bullhead:Settings:screensaver_settings_summary_dock",
+"en": "While docked",
+"hu": "Dokkolt állapotban",
+"de": "Bei angedocktem Gerät",
+"fr": "Sur la station d'accueil",
+"es": "Con el dispositivo en un dock"
+},
+"screensaver_settings_summary_sleep": {
+"res": "bullhead:Settings:screensaver_settings_summary_sleep",
+"en": "While charging",
+"hu": "Töltés közben",
+"de": "Während des Ladevorgangs",
+"fr": "Pendant la charge",
+"es": "Durante la carga"
+},
+"screensaver_settings_summary_either_short": {
+"res": "bullhead:Settings:screensaver_settings_summary_either_short",
+"en": "Either",
+"hu": "Bármelyik",
+"de": "Immer",
+"fr": "Dans les deux cas",
+"es": "Ambos casos"
+},
+"screensaver_settings_disabled_prompt": {
+"res": "bullhead:Settings:screensaver_settings_disabled_prompt",
+"en": "To control what happens when the phone is docked and/or sleeping, turn Daydream on.",
+"hu": "Az Álmodozás bekapcsolásával beállíthatja, hogy mit csináljon a telefon dokkolt vagy alvó állapotban.",
+"de": "Um festzulegen, was geschieht, wenn das Telefon angedockt oder im Ruhezustand ist, aktiviere \"Daydream\".",
+"fr": "Pour contrôler le comportement du téléphone lorsqu'il se trouve sur une station d'accueil et/ou lorsqu'il est en veille, activez l'écran de veille interactif.",
+"es": "Para controlar lo que ocurre cuando el teléfono está en un dock o inactivo, debes activar el salvapantallas."
+},
+"BasicDreams/color_dream_name": {
+"res": "bullhead:BasicDreams:color_dream_name",
+"en": "Colors",
+"hu": "Színek",
+"de": "Farben",
+"fr": "Couleurs",
+"es": "Colores"
+},
+"LiveWallpapersPicker/live_wallpaper_picker_label": {
+"res": "bullhead:LiveWallpapersPicker:live_wallpaper_picker_label",
+"en": "Live Wallpapers",
+"hu": "Élő háttérképek",
+"de": "Live-Hintergründe",
+"fr": "Fonds d'écran animés",
+"es": "Fondos animados"
+},
+"Photos/photos_setwallpaper_app_name": {
+"res": "bullhead:Photos:photos_setwallpaper_app_name",
+"en": "Photos",
+"hu": "Photos",
+"de": "Photos",
+"fr": "Photos",
+"es": "Photos",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"Velvet/pick_wallpaper": {
+"res": "bullhead:Velvet:pick_wallpaper",
+"en": "Wallpapers",
+"hu": "Háttérképek",
+"de": "Hintergründe",
+"fr": "Fonds d'écran",
+"es": "Fondos de pantalla"
+},
+"Photos/photos_theme_google_photos": {
+"res": "bullhead:Photos:photos_theme_google_photos",
+"en": "Photos",
+"hu": "Fotók",
+"de": "Fotos",
+"fr": "Photos",
+"es": "Fotos"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

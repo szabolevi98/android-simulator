@@ -41,7 +41,8 @@
     'com.android.settings.accounts.AccountSettings': 'accounts', 'com.android.settings.inputmethod.InputMethodAndLanguageSettings': 'xml:language_settings',
     'com.android.settings.PrivacySettings': 'xml:privacy_settings', 'com.android.settings.DateTimeSettings': 'xml:date_time_prefs',
     'com.android.settings.accessibility.AccessibilitySettings': 'xml:accessibility_settings', 'com.android.settings.print.PrintSettingsFragment': 'xml:print_settings',
-    'com.android.settings.DevelopmentSettings': 'xml:development_prefs', 'com.android.settings.DeviceInfoSettings': 'xml:device_info_settings'
+    'com.android.settings.DevelopmentSettings': 'xml:development_prefs', 'com.android.settings.DeviceInfoSettings': 'xml:device_info_settings',
+    'com.android.settings.DreamSettings': 'dream', 'com.android.settings.WallpaperTypeSettings': 'wallpaper-type'
   };
   // Other preference fragments of the image whose screen is a res/xml of the same name.
   const XML_FRAGMENTS = {

@@ -42,7 +42,7 @@
         return t.fmt('screen_timeout_summary', null, entries[best]);
       }
       if (key === 'auto_rotate') return t.t(s.rotationLocked ? 'display_auto_rotate_stay_in_portrait' : 'display_auto_rotate_rotate');
-      if (key === 'screensaver') return s.dreams === false ? t.t('screensaver_settings_summary_off') : MM.appLabel(c, 'clock');
+      if (key === 'screensaver') return s.dreams === false ? t.t('screensaver_settings_summary_off') : {colors: () => t.t('BasicDreams/color_dream_name'), photos: () => t.t('Photos/photos_theme_google_photos')}[s.dream]?.() || MM.appLabel(c, 'clock');
       return undefined;
     },
     click(c, key) {

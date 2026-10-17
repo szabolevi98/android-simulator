@@ -23,6 +23,7 @@ versions/6.0.1/assets/app-project-fi.png	93a00554ab0fa31d	copy	bullhead:/system/
 versions/6.0.1/assets/app-search.png	c9dd419b800ceacd	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/mipmap-xxxhdpi-v4/ic_launcher_google_search.png	mipmap-xxxhdpi-v4		c9dd419b800ceacd
 versions/6.0.1/assets/app-settings.png	95337b618ba7c599	copy	bullhead:/system/priv-app/Settings/Settings.apk!res/mipmap-xxxhdpi-v4/ic_launcher_settings.png	mipmap-xxxhdpi-v4		95337b618ba7c599
 versions/6.0.1/assets/app-youtube.png	410baa2ebad0aeb5	copy	bullhead:/system/app/YouTube/YouTube.apk!res/mipmap-xxxhdpi-v4/ic_launcher.png	mipmap-xxxhdpi-v4		410baa2ebad0aeb5
+versions/6.0.1/assets/bd-colors_icon.png	3fe1de646cede7ef	copy	bullhead:/system/app/BasicDreams/BasicDreams.apk!res/mipmap-xhdpi-v4/colors_icon.png	mipmap-xhdpi-v4		3fe1de646cede7ef
 versions/6.0.1/assets/boot-part0.webp	273ab0813062f4d8	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/6.0.1/assets/boot-part1.webp	768599a777099c0d	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/6.0.1/assets/boot-part2.webp	0ab38eb11cbf0301	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
@@ -55,6 +56,7 @@ versions/6.0.1/assets/gel-ic_allapps_pressed.png	d165841d2046b2fc	copy	bullhead:
 versions/6.0.1/assets/gel-ic_arrow_back_grey.png	4ebc975addf79a40	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_arrow_back_grey.png	drawable-xxhdpi-v4		4ebc975addf79a40
 versions/6.0.1/assets/gel-ic_clear.svg	e3b0c44298fc1c14	vector	bullhead:/system/app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk!res/drawable-v21/ic_clear.xml	drawable-v21	vector drawable drawn as SVG	53370cd1865d8fa1
 versions/6.0.1/assets/gel-ic_info_launcher.png	e6013e5fce2ffe8c	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_info_launcher.png	drawable-xxhdpi-v4		e6013e5fce2ffe8c
+versions/6.0.1/assets/gel-ic_launcher_wallpaper.png	09ac0c1b92920fa7	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/mipmap-xxhdpi-v4/ic_launcher_wallpaper.png	mipmap-xxhdpi-v4		09ac0c1b92920fa7
 versions/6.0.1/assets/gel-ic_mic_none.png	caff75b7db80aabc	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_mic_none.png	drawable-xxhdpi-v4		caff75b7db80aabc
 versions/6.0.1/assets/gel-ic_pageindicator_current.png	3384836521dec9b6	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_pageindicator_current.png	drawable-xxhdpi-v4		3384836521dec9b6
 versions/6.0.1/assets/gel-ic_pageindicator_default.png	0ceba1d788199478	copy	bullhead:/system/priv-app/Velvet/Velvet.apk!res/drawable-xxhdpi-v4/ic_pageindicator_default.png	drawable-xxhdpi-v4		0ceba1d788199478
@@ -74,6 +76,7 @@ versions/6.0.1/assets/gms-auth_gls_ic_google_selected.png	3f65f591599a6239	copy	
 versions/6.0.1/assets/gms-ic_google.png	b1f36b9fc14bc46f	copy	bullhead:/system/app/PlayGames/PlayGames.apk!res/drawable-xxhdpi-v4/ic_google.png	drawable-xxhdpi-v4		b1f36b9fc14bc46f
 versions/6.0.1/assets/gms-ic_google_settings.svg	c45ec4be45b1950a	vector	bullhead:/system/app/PlayGames/PlayGames.apk!res/drawable-anydpi-v21/ic_google_settings.xml	drawable-anydpi-v21	vector drawable drawn as SVG	853b3748a0d5a040
 versions/6.0.1/assets/landing-home.jpg	d519cd458d66fa80	own	capture of the simulator's own home screen for the landing page card		closest: mean difference 7.39 (maguro:/system/media/bootanimation.zip!part0/f0000.jpg)	
+versions/6.0.1/assets/lw-ic_launcher_live_wallpaper.png	06afb1f349962092	copy	bullhead:/system/app/LiveWallpapersPicker/LiveWallpapersPicker.apk!res/mipmap-xxhdpi-v4/ic_launcher_live_wallpaper.png	mipmap-xxhdpi-v4		06afb1f349962092
 versions/6.0.1/assets/st-data_grid_border.9.png	9c43caeec6e89350	copy	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable-xxhdpi-v4/data_grid_border.9.png	drawable-xxhdpi-v4		9c43caeec6e89350
 versions/6.0.1/assets/st-data_sweep_warning_activated.9.png	bb81284d175fd12a	copy	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable-xxhdpi-v4/data_sweep_warning_activated.9.png	drawable-xxhdpi-v4		bb81284d175fd12a
 versions/6.0.1/assets/st-ic_add.svg	377278ecbc726667	vector	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable/ic_add.xml	drawable	vector drawable drawn as SVG	0598bd276a63b9e1

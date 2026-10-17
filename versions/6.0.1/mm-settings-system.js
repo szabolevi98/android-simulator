@@ -333,4 +333,60 @@
       return true;
     }
   };
+
+  /* Daydream (DreamSettings): its switch bar (screensaver_enabled, config_dreamsEnabledByDefault true), the dreams
+     DreamBackend finds in the image sorted by caption (DeskClock's Clock and Google Photos' Photos with their settings
+     button, BasicDreams' Colors; SystemUI's DessertCaseDream is disabled), dream_info_row.xml: the 40 dp icon, the
+     Medium caption, the radio, the nav_divider and ic_bt_config; the overflow's Start now and When to daydream (While
+     docked by default: config_dreamsActivatedOnDockByDefault true, OnSleep false). Off, the list gives way to
+     screensaver_settings_disabled_prompt. */
+  const DREAMS = [['clock', () => MM.appLabel(core, 'clock'), 'assets/app-clock.png', true], ['colors', () => T().t('BasicDreams/color_dream_name'), 'assets/bd-colors_icon.png', false],
+    ['photos', () => T().t('Photos/photos_theme_google_photos'), 'assets/app-photos.png', true]];
+  let core = null;
+  MM.register('settings-dreams', {app: false, init(c) { core = c; }, render: () => ''});
+  const WHEN = [['dock', 'screensaver_settings_summary_dock'], ['sleep', 'screensaver_settings_summary_sleep'], ['either', 'screensaver_settings_summary_either_short']];
+  MM.settingsScreens.dream = {
+    title: () => T().t('screensaver_settings_title'),
+    bar(c) {
+      const on = S(c).dreams !== false, t = T();
+      return `<button type="button" class="mmst-switchbar" data-action="mmdr-toggle"><span>${c.safe(t.t(on ? 'switch_on_text' : 'switch_off_text'))}</span><i class="mmw-switch${on ? ' on' : ''}"><i class="mmw-thumb"></i></i></button>`;
+    },
+    actions: c => MM.menu.button(c),
+    render(c) {
+      const s = S(c), cur = s.dream || 'clock', collator = new Intl.Collator(c.locale());
+      if (s.dreams === false) return `<div class="mmst-empty center"><span>${c.safe(T().t('screensaver_settings_disabled_prompt'))}</span></div>`;
+      const list = DREAMS.map(([id, label, icon, settings]) => ({id, label: label(), icon, settings})).sort((a, b) => collator.compare(a.label, b.label));
+      return `<div class="mmst-list">${list.map(d => `<div class="mmdr-row"><button type="button" class="mmdr-main" data-action="mmdr-pick" data-id="${d.id}"><img src="${d.icon}" alt=""><span>${c.safe(d.label)}</span><i class="mmw-radio${d.id === cur ? ' on' : ''}"></i></button>${d.settings ? `<i class="mmdr-div"></i><button type="button" class="mmbt-config" data-action="mmdr-settings" data-id="${d.id}"><img src="assets/st-ic_bt_config.png" alt=""></button>` : ''}</div>`).join('')}</div>`;
+    },
+    action(c, name, el) {
+      const t = T(), s = S(c);
+      if (name === 'mmdr-toggle') { s.dreams = s.dreams === false; c.save(); c.render(); return true; }
+      if (name === 'mmdr-pick') { s.dream = el.dataset.id; c.save(); c.render(); return true; }
+      if (name === 'mmdr-settings') { MM.settingsGo(c, `missing:${el.dataset.id === 'clock' ? 'com.android.deskclock.settings.ScreensaverSettingsActivity' : 'com.google.android.apps.photos.daydream.DreamSettingsActivity'}`, ''); return true; }
+      if (name === 'mm-menu') {
+        const on = s.dreams !== false, when = s.dreamWhen || 'dock';
+        c.menu([{label: t.t('screensaver_settings_dream_start'), disabled: !on, action: c => MM.settingsGo(c, `missing:dream:${s.dream || 'clock'}`, '')},
+          {label: t.t('screensaver_settings_when_to_dream'), disabled: !on, action: c => c.dialog({title: t.t('screensaver_settings_when_to_dream'),
+            items: WHEN.map(([v, label]) => ({html: `<span class="mmst-choice"><i class="mmw-radio${v === when ? ' on' : ''}"></i><span>${c.safe(t.t(label))}</span></span>`})),
+            onItem: i => { s.dreamWhen = WHEN[i][0]; c.save(); }})}]);
+        return true;
+      }
+      return false;
+    }
+  };
+  // WallpaperTypeSettings: the activities that handle SET_WALLPAPER, each with its label and icon.
+  MM.settingsScreens['wallpaper-type'] = {
+    title: () => T().t('wallpaper_settings_fragment_title'),
+    render(c) {
+      const t = T(), items = [['live', t.t('LiveWallpapersPicker/live_wallpaper_picker_label'), 'assets/lw-ic_launcher_live_wallpaper.png'], ['photos', t.t('Photos/photos_setwallpaper_app_name'), 'assets/app-photos.png'], ['wallpapers', t.t('Velvet/pick_wallpaper'), 'assets/gel-ic_launcher_wallpaper.png']];
+      return `<div class="mmst-list">${items.map(([id, label, icon]) => `<button type="button" class="mmst-pref" data-action="mmwp-pick" data-id="${id}"><span class="mmst-iconframe"><img class="mmst-ic big" src="${icon}" alt=""></span><span class="mmst-texts"><span class="mmst-title">${c.safe(label)}</span></span></button>`).join('')}</div>`;
+    },
+    action(c, name, el) {
+      if (name !== 'mmwp-pick') return false;
+      const id = el.dataset.id;
+      if (id === 'wallpapers') c.open('wallpapers');
+      else MM.settingsGo(c, `missing:${id === 'live' ? 'com.android.wallpaper.livepicker.LiveWallpaperActivity' : 'com.google.android.apps.photos.setwallpaper.SetWallpaperActivity'}`, '');
+      return true;
+    }
+  };
 })();

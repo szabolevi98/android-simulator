@@ -148,7 +148,12 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'PrebuiltGmsCore/auth_gls_label', 'PrebuiltGmail/exchange_eas_name', 'PrebuiltGmail/imap_name', 'PrebuiltGmail/pop3_name',
          # PaymentSettings
          'nfc_payment_settings_title', 'nfc_payment_default', 'nfc_payment_default_not_set', 'nfc_payment_use_default', 'nfc_payment_favor_default',
-         'nfc_payment_favor_open', 'nfc_payment_pay_with']
+         'nfc_payment_favor_open', 'nfc_payment_pay_with',
+         # DreamSettings, WallpaperTypeSettings (the image's dreams and SET_WALLPAPER activities)
+         'screensaver_settings_title', 'screensaver_settings_dream_start', 'screensaver_settings_when_to_dream', 'screensaver_settings_summary_dock',
+         'screensaver_settings_summary_sleep', 'screensaver_settings_summary_either_short', 'screensaver_settings_disabled_prompt',
+         'BasicDreams/color_dream_name', 'LiveWallpapersPicker/live_wallpaper_picker_label', 'Photos/photos_setwallpaper_app_name',
+         'Velvet/pick_wallpaper', 'wallpaper_settings_fragment_title', 'Photos/photos_theme_google_photos']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -286,6 +291,10 @@ def main():
     png.append('gms-ic_google.png\tpriv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk\tdrawable/ic_google')
     # ChooseAccountActivity's Google account type (GMS Core's authenticator icon).
     png.append('gms-auth_gls_ic_google_selected.png	priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk	drawable/auth_gls_ic_google_selected')
+    # DreamSettings' Colors (BasicDreams) and WallpaperTypeSettings' Live Wallpapers and Wallpapers (the activities' icons).
+    png.append('bd-colors_icon.png	app/BasicDreams/BasicDreams.apk	mipmap/colors_icon')
+    png.append('lw-ic_launcher_live_wallpaper.png	app/LiveWallpapersPicker/LiveWallpapersPicker.apk	mipmap/ic_launcher_live_wallpaper')
+    png.append('gel-ic_launcher_wallpaper.png	priv-app/Velvet/Velvet.apk	mipmap/ic_launcher_wallpaper')
     # DataUsageSummary's chart: ChartGridView's border and the warning sweep.
     for name in ['data_grid_border', 'data_sweep_warning_activated']:
         png.append(f'st-{name}.9.png	{APKPATH}	drawable/{name}')

@@ -1,6 +1,9 @@
 # Settings drawables named by its preference screens (written by docs/tools/mm-prefs.py)
 gms-ic_google.png	priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk	drawable/ic_google
 gms-auth_gls_ic_google_selected.png	priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk	drawable/auth_gls_ic_google_selected
+bd-colors_icon.png	app/BasicDreams/BasicDreams.apk	mipmap/colors_icon
+lw-ic_launcher_live_wallpaper.png	app/LiveWallpapersPicker/LiveWallpapersPicker.apk	mipmap/ic_launcher_live_wallpaper
+gel-ic_launcher_wallpaper.png	priv-app/Velvet/Velvet.apk	mipmap/ic_launcher_wallpaper
 st-data_grid_border.9.png	priv-app/Settings/Settings.apk	drawable/data_grid_border
 st-data_sweep_warning_activated.9.png	priv-app/Settings/Settings.apk	drawable/data_sweep_warning_activated
 st-regulatory_info_lgh790.png	priv-app/Settings/Settings.apk	drawable/regulatory_info_lgh790

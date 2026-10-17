@@ -226,3 +226,12 @@ div.mmst-pref:active{background:none}
 .mmdu-dates{display:flex;justify-content:space-between;height:calc(24 * var(--dp));align-items:center;color:rgba(0,0,0,.871);font-size:calc(12 * var(--dp))}
 .mmdu-disclaimer{padding:calc(8 * var(--dp)) calc(16 * var(--dp)) 0;color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
 .mmdu-pad{display:block;height:calc(8 * var(--dp))}
+/* dream_info_row.xml: the 40 dp icon 6 dp before the Medium caption, the radio, the divider and the settings button. */
+.mmdr-row{display:flex;align-items:stretch;padding:0 calc(16 * var(--dp))}
+.mmdr-main{flex:1;min-width:0;display:flex;align-items:center;gap:calc(6 * var(--dp));padding:calc(10 * var(--dp)) 0;border:0;background:none;color:rgba(0,0,0,.871);font-size:calc(18 * var(--dp));text-align:left}
+.mmdr-main img{width:calc(40 * var(--dp));height:calc(40 * var(--dp))}
+.mmdr-main span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmdr-main .mmw-radio{--mmw-normal:rgba(0,0,0,.541);--mmw-accent:#009688}
+.mmdr-div{width:calc(1 * var(--dp));margin:calc(12 * var(--dp)) calc(8 * var(--dp));background:rgba(0,0,0,.12)}
+.mmst-ic.big{width:calc(40 * var(--dp));height:calc(40 * var(--dp))}
+.mmdr-row .mmbt-config{align-self:center}
