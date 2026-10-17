@@ -108,7 +108,18 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'lock_screen_notifications_interstitial_message', 'unlock_disable_frp_warning_title', 'unlock_disable_frp_warning_content_pin',
          'unlock_disable_frp_warning_content_pattern', 'unlock_disable_frp_warning_content_password', 'unlock_disable_frp_warning_ok',
          'lock_after_timeout_summary_with_exception+args2', 'lock_immediately_summary_with_exception+args1',
-         'lockpattern_settings_power_button_instantly_locks_summary+args1', 'install_all_warning']
+         'lockpattern_settings_power_button_instantly_locks_summary+args1', 'install_all_warning',
+         # PrivacySettings, LocationSettings / LocationMode / RecentLocationApps (GMS Core's injected Location History),
+         # InputMethodAndLanguageSettings (LatinImeGoogle's and Velvet's input methods), UserSettings
+         'accessibility_feature_state_on', 'accessibility_feature_state_off', 'backup_configure_account_default_summary',
+         'location_mode_high_accuracy_title', 'location_mode_battery_saving_title', 'location_mode_sensors_only_title',
+         'location_mode_location_off_title', 'location_mode_screen_title', 'location_no_recent_apps', 'location_menu_scanning',
+         'location_scanning_screen_title', 'location_high_battery_use', 'location_low_battery_use',
+         'PrebuiltGmsCore/location_ulr_setting_label', 'LatinImeGoogle/english_ime_name', 'LatinImeGoogle/spell_checker_service_name',
+         'LatinImeGoogle/subtype_en_US', 'Velvet/ime_service_label', 'Velvet/voice_ime_language_auto', 'user_you+args1', 'user_owner',
+         'user_guest', 'user_add_user_menu', 'user_add_user_title', 'user_add_user_message_long', 'user_setup_dialog_title',
+         'user_setup_dialog_message', 'user_setup_button_setup_now', 'user_setup_button_setup_later', 'user_new_user_name',
+         'user_summary_not_set_up', 'user_add_on_lockscreen_menu', 'ok']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -240,6 +251,8 @@ def main():
     for name in ['ic_expand_more', 'ic_expand_less']:
         vec.append(f'st-{name}.svg	{APKPATH}	{name}	tint=#8a000000')
     # Bitmaps the Settings code sets itself: BluetoothDevicePreference's class icons and preference_bluetooth's gear.
+    # Location's injected setting: GMS Core's Google Location History with its ic_google icon.
+    png.append('gms-ic_google.png\tpriv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk\tdrawable/ic_google')
     # RegulatoryInfoDisplayActivity's image for the SKU (ro.boot.hardware.sku; the simulator is the US LG-H790).
     png.append(f'st-regulatory_info_lgh790.png	{APKPATH}	drawable/regulatory_info_lgh790')
     for name in ['ic_bt_headset_hfp', 'ic_bt_headphones_a2dp', 'ic_bt_config']:

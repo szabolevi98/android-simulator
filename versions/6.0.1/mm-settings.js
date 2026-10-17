@@ -194,13 +194,15 @@
     let title = T().t('settings_label_launcher'), body, bar = '';
     if (!cur) body = dashboard(c);
     else {
+      // A screen with code of its own draws itself, or adds a bar / actions to its res/xml (Location's switch bar).
       const custom = MM.settingsScreens[cur.screen.split(':')[0]] || MM.settingsScreens[cur.screen];
-      if (custom) { title = custom.title?.(c, cur) || cur.title; body = custom.render(c, cur); bar = custom.bar?.(c, cur) || ''; }
+      bar = custom?.bar?.(c, cur) || '';
+      if (custom?.render) { title = custom.title?.(c, cur) || cur.title; body = custom.render(c, cur); }
       else if (cur.xml && X()[cur.xml]) { title = cur.title || str(nodeOf(cur).title) || title; body = `<div class="mmst-list">${cur.nested ? '' : MM.settingsHooks[cur.xml]?.top?.(c) || ''}${rows(c, nodeOf(cur), cur.xml)}</div>`; }
       else { title = cur.title || title; body = `<div class="mmst-missing">${c.missing('settings', `<small>${c.safe(cur.screen.replace(/^missing:/, ''))}</small>`)}</div>`; }
     }
     const up = !!cur;
-    const actions = !cur ? `<button type="button" class="mmst-ab-btn" data-action="mmst-search" aria-label="${c.safe(T().t('search_menu'))}"><img src="assets/fw-ic_search_api_material.svg" alt=""></button>` : (MM.settingsScreens[cur.screen.split(':')[0]]?.actions?.(c, cur) || '');
+    const actions = !cur ? `<button type="button" class="mmst-ab-btn" data-action="mmst-search" aria-label="${c.safe(T().t('search_menu'))}"><img src="assets/fw-ic_search_api_material.svg" alt=""></button>` : ((MM.settingsScreens[cur.screen.split(':')[0]] || MM.settingsScreens[cur.screen])?.actions?.(c, cur) || '');
     return `<div class="mmst"><div class="mmst-ab">${up ? `<button type="button" class="mmst-up" data-action="mmst-up" aria-label="Navigate up"><img src="assets/fw-ic_ab_back_material.svg" alt=""></button>` : ''}<span class="mmst-abtitle${up ? ' up' : ''}">${c.safe(title)}</span>${actions}</div>${bar}
       <div class="mmst-content">${body}</div></div>`;
   }

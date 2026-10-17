@@ -179,3 +179,6 @@ div.mmst-pref:active{background:none}
 .mmsc-error{flex:1;display:flex;align-items:center;justify-content:center;margin:0 calc(12 * var(--dp));color:#ff5621;font-size:calc(14 * var(--dp))}
 .mmsc-cpat{display:flex;justify-content:center;margin-top:auto}
 .mmsc-cpat .mmpt{width:calc(312 * var(--dp))}
+/* RadioButtonPreference (Location mode): the radio at the start of the row. */
+.mmst-radiopref{gap:calc(16 * var(--dp))}
+.mmst-radiopref .mmw-radio{--mmw-normal:rgba(0,0,0,.541);--mmw-accent:#009688}

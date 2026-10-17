@@ -6842,6 +6842,223 @@ MM.strings('settings', {
 "fr": "Votre téléphone et vos données personnelles sont plus vulnérables face aux attaques d'applications provenant de sources inconnues. Vous reconnaissez être seul responsable de tout dommage subi par votre téléphone ou de toute perte de données pouvant découler de l'utilisation de ces applications.",
 "es": "El teléfono y los datos personales son más vulnerables a los ataques de aplicaciones de origen desconocido. El usuario acepta ser el único responsable de cualquier daño en el teléfono o pérdida de datos que se pueda derivar del uso de estas aplicaciones."
 },
+"accessibility_feature_state_on": {
+"res": "bullhead:Settings:accessibility_feature_state_on",
+"en": "On",
+"hu": "be",
+"de": "An",
+"fr": "Activé",
+"es": "Sí"
+},
+"accessibility_feature_state_off": {
+"res": "bullhead:Settings:accessibility_feature_state_off",
+"en": "Off",
+"hu": "Ki",
+"de": "Aus",
+"fr": "Désactivé",
+"es": "No"
+},
+"backup_configure_account_default_summary": {
+"res": "bullhead:Settings:backup_configure_account_default_summary",
+"en": "No account is currently storing backed up data",
+"hu": "Jelenleg egyik fiók sem tárol biztonsági mentéseket",
+"de": "Zurzeit werden in keinem Konto gesicherte Daten gespeichert.",
+"fr": "Aucun compte ne stocke actuellement des données sauvegardées.",
+"es": "Ninguna cuenta está almacenando datos con copia de seguridad en estos momentos."
+},
+"location_no_recent_apps": {
+"res": "bullhead:Settings:location_no_recent_apps",
+"en": "No apps have requested location recently",
+"hu": "Az utóbbi időben egy alkalmazás sem kért le helyadatokat.",
+"de": "Keine App hat kürzlich den Standort abgefragt.",
+"fr": "Aucune demande d'accès à votre position n'a récemment été envoyée pour une application.",
+"es": "Ninguna aplicación ha solicitado la ubicación recientemente"
+},
+"location_menu_scanning": {
+"res": "bullhead:Settings:location_menu_scanning",
+"en": "Scanning",
+"hu": "Beolvasás",
+"de": "Suche",
+"fr": "Recherche",
+"es": "Buscando"
+},
+"location_high_battery_use": {
+"res": "bullhead:Settings:location_high_battery_use",
+"en": "High battery use",
+"hu": "Magas akkumulátorhasználat",
+"de": "Hoher Akkuverbrauch",
+"fr": "Forte utilisation de la batterie",
+"es": "Uso de batería elevado"
+},
+"location_low_battery_use": {
+"res": "bullhead:Settings:location_low_battery_use",
+"en": "Low battery use",
+"hu": "Alacsony akkumulátorhasználat",
+"de": "Geringer Akkuverbrauch",
+"fr": "Faible utilisation de batterie",
+"es": "Poco uso de batería"
+},
+"PrebuiltGmsCore/location_ulr_setting_label": {
+"res": "bullhead:PrebuiltGmsCore:location_ulr_setting_label",
+"en": "Google Location History",
+"hu": "Google Helyelőzmények",
+"de": "Google Standortverlauf",
+"fr": "Historique des positions Google",
+"es": "Historial de Ubicaciones de Google"
+},
+"LatinImeGoogle/english_ime_name": {
+"res": "bullhead:LatinImeGoogle:english_ime_name",
+"en": "Google Keyboard",
+"hu": "Google-billentyűzet",
+"de": "Google-Tastatur",
+"fr": "Clavier Google",
+"es": "Teclado de Google"
+},
+"LatinImeGoogle/spell_checker_service_name": {
+"res": "bullhead:LatinImeGoogle:spell_checker_service_name",
+"en": "Google Spell Checker",
+"hu": "Google helyesírás-ellenőrző",
+"de": "Google-Rechtschreibprüfung",
+"fr": "Correcteur orthographique Google",
+"es": "Corrector de Google"
+},
+"LatinImeGoogle/subtype_en_US": {
+"res": "bullhead:LatinImeGoogle:subtype_en_US",
+"en": "English (US)",
+"hu": "angol (amerikai)",
+"de": "Englisch (USA)",
+"fr": "Anglais (États-Unis)",
+"es": "inglés (EE.UU.)"
+},
+"Velvet/ime_service_label": {
+"res": "bullhead:Velvet:ime_service_label",
+"en": "Google voice typing",
+"hu": "Google hangalapú gépelés",
+"de": "Google Spracheingabe",
+"fr": "Google voice typing",
+"es": "Dictado por voz de Google"
+},
+"Velvet/voice_ime_language_auto": {
+"res": "bullhead:Velvet:voice_ime_language_auto",
+"en": "Automatic",
+"hu": "Automatikus",
+"de": "Automatisch",
+"fr": "Automatique",
+"es": "Automático"
+},
+"user_you": {
+"res": "bullhead:Settings:user_you",
+"args": 1,
+"en": "You (%s)",
+"hu": "Ön (%s)",
+"de": "Ich (%s)",
+"fr": "Vous (%s)",
+"es": "Tú (%s)"
+},
+"user_owner": {
+"res": "bullhead:Settings:user_owner",
+"en": "Owner",
+"hu": "Tulajdonos",
+"de": "Eigentümer",
+"fr": "Propriétaire",
+"es": "Propietario"
+},
+"user_guest": {
+"res": "bullhead:Settings:user_guest",
+"en": "Guest",
+"hu": "Vendég",
+"de": "Gast",
+"fr": "Invité",
+"es": "Invitado"
+},
+"user_add_user_menu": {
+"res": "bullhead:Settings:user_add_user_menu",
+"en": "Add user",
+"hu": "Felhasználó hozzáad.",
+"de": "Nutzer hinzufügen",
+"fr": "Ajouter un utilisateur",
+"es": "Añadir usuario"
+},
+"user_add_user_title": {
+"res": "bullhead:Settings:user_add_user_title",
+"en": "Add new user?",
+"hu": "Hozzáad új felhasználót?",
+"de": "Neuen Nutzer hinzufügen?",
+"fr": "Ajouter un utilisateur ?",
+"es": "¿Añadir nuevo usuario?"
+},
+"user_add_user_message_long": {
+"res": "bullhead:Settings:user_add_user_message_long",
+"en": "You can share this device with other people by creating additional users. Each user has their own space, which they can customize with apps, wallpaper, and so on. Users can also adjust device settings like Wi‑Fi that affect everyone.\n\nWhen you add a new user, that person needs to set up their space.\n\nAny user can update apps for all other users.",
+"hu": "További felhasználók létrehozásával megoszthatja ezt az eszközt másokkal. Minden felhasználó saját tárterülettel rendelkezik, amelyet személyre szabhat saját alkalmazásaival, háttérképével stb. A felhasználók módosíthatják az eszköz beállításait is, például a Wi‑Fi használatát, amely mindenkit érint.\n\nHa új felhasználót ad hozzá, az illetőnek be kell állítania saját tárterületét.\n\nBármely felhasználó frissítheti az alkalmazásokat valamennyi felhasználó számára.",
+"de": "Du kannst dieses Gerät für andere Nutzer freigeben, indem du weitere Nutzer erstellst. Jeder Nutzer erhält einen eigenen Bereich, in dem er Apps, den Hintergrund usw. personalisieren kann. Jeder Nutzer kann zudem Geräteeinstellungen wie WLAN ändern, die sich auf alle Nutzer auswirken.\n\nWenn du einen neuen Nutzer hinzufügst, muss dieser seinen Bereich einrichten.\n\nJeder Nutzer kann Apps für alle anderen Nutzer aktualisieren.",
+"fr": "Vous pouvez partager cet appareil avec d'autres personnes en ajoutant des utilisateurs. Chaque utilisateur dispose de son propre espace, où il peut personnaliser, entre autres, ses applications et son fond d'écran. Chacun peut également modifier les paramètres de l'appareil, tels que le Wi-Fi, qui affectent tous les utilisateurs.\n\nLorsque vous ajoutez un utilisateur, celui-ci doit configurer son espace.\n\nN'importe quel utilisateur peut mettre à jour les applications pour tous les autres utilisateurs.",
+"es": "Puedes crear más usuarios para compartir este dispositivo con otras personas. Cada usuario tiene su propio espacio, que puede personalizar con aplicaciones, fondos de pantalla, etc., y puede modificar opciones de configuración del dispositivo que afectan a todos los usuarios, como la conexión Wi‑Fi.\n\nCuando se añade un usuario, este debe configurar su espacio.\n\nCualquier usuario puede actualizar las aplicaciones del resto de usuarios."
+},
+"user_setup_dialog_title": {
+"res": "bullhead:Settings:user_setup_dialog_title",
+"en": "Set up user now?",
+"hu": "Beállít most egy felhasználót?",
+"de": "Nutzer jetzt einrichten?",
+"fr": "Configurer l'utilisateur ?",
+"es": "¿Configurar usuario ahora?"
+},
+"user_setup_dialog_message": {
+"res": "bullhead:Settings:user_setup_dialog_message",
+"en": "Make sure the person is available to take the device and set up their space",
+"hu": "Győződjön meg arról, hogy a személy hozzá tud férni az eszközhöz, hogy beállíthassa a területét",
+"de": "Die Person muss Zugang zu dem Gerät haben und ihren Speicherplatz einrichten.",
+"fr": "Assurez-vous que la personne est disponible, et qu'elle peut utiliser l'appareil pour configurer son espace.",
+"es": "Asegúrate de que la persona pueda acceder al dispositivo y configurar su espacio"
+},
+"user_setup_button_setup_now": {
+"res": "bullhead:Settings:user_setup_button_setup_now",
+"en": "Set up now",
+"hu": "Beállítás most",
+"de": "Jetzt einrichten",
+"fr": "Configurer",
+"es": "Configurar ahora"
+},
+"user_setup_button_setup_later": {
+"res": "bullhead:Settings:user_setup_button_setup_later",
+"en": "Not now",
+"hu": "Most nem",
+"de": "Nicht jetzt",
+"fr": "Pas maintenant",
+"es": "Ahora no"
+},
+"user_new_user_name": {
+"res": "bullhead:Settings:user_new_user_name",
+"en": "New user",
+"hu": "Új felhasználó",
+"de": "Neuer Nutzer",
+"fr": "Nouvel utilisateur",
+"es": "Nuevo usuario"
+},
+"user_summary_not_set_up": {
+"res": "bullhead:Settings:user_summary_not_set_up",
+"en": "Not set up",
+"hu": "Nincs beállítva",
+"de": "Nicht eingerichtet",
+"fr": "Non configuré",
+"es": "Sin configurar"
+},
+"user_add_on_lockscreen_menu": {
+"res": "bullhead:Settings:user_add_on_lockscreen_menu",
+"en": "Add users when device is locked",
+"hu": "Új felhasználó zárolt módban",
+"de": "Nutzer von Sperrbildschirm aus hinzufügen",
+"fr": "Ajout utilis. quand appareil verr.",
+"es": "Añadir usuarios con disp. bloqueado"
+},
+"ok": {
+"res": "bullhead:framework:ok",
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [
