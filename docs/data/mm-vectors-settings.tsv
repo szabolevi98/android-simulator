@@ -1,3 +1,10 @@
 # Settings vector drawables named by its preference screens (written by docs/tools/mm-prefs.py)
 gms-ic_google_settings.svg	priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk	ic_google_settings	-
+st-ic_wifi_signal_1.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_1	tint=#ff009688
+st-ic_wifi_signal_2.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_2	tint=#ff009688
+st-ic_wifi_signal_3.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_3	tint=#ff009688
+st-ic_wifi_signal_4.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_4	tint=#ff009688
+st-ic_wifi_signal_lock.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_lock	tint=#ff009688
+st-ic_expand_more.svg	priv-app/Settings/Settings.apk	ic_expand_more	tint=#8a000000
+st-ic_expand_less.svg	priv-app/Settings/Settings.apk	ic_expand_less	tint=#8a000000
 st-ic_settings_memory.svg	priv-app/Settings/Settings.apk	ic_settings_memory	-

@@ -23,21 +23,32 @@
 
   // The simulator's Wi-Fi networks, as every version has them (names are data, not interface text): level is
   // WifiManager.calculateSignalLevel(rssi, 4), 0..3; saved ones connect without a password.
-  const NETWORKS = [{ssid: 'AndroidAP', secure: true, level: 3}, {ssid: 'CoffeeShop', secure: false, level: 2},
-    {ssid: 'Home Network', secure: true, level: 3, saved: true}, {ssid: 'Library Wi-Fi', secure: false, level: 1}];
+  // freq (MHz) and speed (Mbps) are the WifiInfo the connection reports.
+  const NETWORKS = [{ssid: 'AndroidAP', secure: true, level: 3, freq: 2437, speed: 72}, {ssid: 'CoffeeShop', secure: false, level: 2, freq: 2412, speed: 54},
+    {ssid: 'Home Network', secure: true, level: 3, saved: true, freq: 5180, speed: 433}, {ssid: 'Library Wi-Fi', secure: false, level: 1, freq: 2462, speed: 24}];
 
   const sys = MM.system = {
     live,
-    // WifiTracker's list: AccessPoint.compareTo puts the active network first, then the stronger, then by name.
+    // WifiTracker's list: AccessPoint.compareTo puts the active network first, then the saved ones, then the stronger,
+    // then by name.
     accessPoints(c) {
       const s = c.data.settings, connected = sys.wifiState(c) === 'connected';
-      return NETWORKS.map(n => ({...n, saved: n.saved || (s.wifiSaved || []).includes(n.ssid), active: connected && n.ssid === s.wifiSsid}))
-        .sort((a, b) => (b.active - a.active) || (b.level - a.level) || a.ssid.localeCompare(b.ssid, undefined, {sensitivity: 'base'}));
+      const forgotten = s.wifiForgotten || [];
+      return NETWORKS.map(n => ({...n, saved: (n.saved && !forgotten.includes(n.ssid)) || (s.wifiSaved || []).includes(n.ssid), active: connected && n.ssid === s.wifiSsid}))
+        .sort((a, b) => (b.active - a.active) || (b.saved - a.saved) || (b.level - a.level) || a.ssid.localeCompare(b.ssid, undefined, {sensitivity: 'base'}));
     },
     connectWifi(c, ssid) {
       const s = c.data.settings;
       s.wifiSsid = ssid; s.wifiSaved = [...new Set([...(s.wifiSaved || []), ssid])];
+      s.wifiForgotten = (s.wifiForgotten || []).filter(n => n !== ssid);
       sys.setWifi(c, true);
+    },
+    // WifiManager.forget: the network's configuration goes; forgetting the connected one disconnects.
+    forgetWifi(c, ssid) {
+      const s = c.data.settings;
+      s.wifiSaved = (s.wifiSaved || []).filter(n => n !== ssid); s.wifiForgotten = [...new Set([...(s.wifiForgotten || []), ssid])];
+      if (s.wifiSsid === ssid) s.wifiSsid = '';
+      c.save(); sys.changed(c);
     },
     // MobileDataControllerImpl.getDataUsageInfo: the policy's cycle (NetworkPolicyManagerService made it start on the
     // day the SIM was first seen; the simulator's starts on the 1st), the default 2 GB warning, no limit. The usage is
@@ -50,8 +61,8 @@
       catch { const f = new Intl.DateTimeFormat(c.locale(), {month: 'short', day: 'numeric'}); period = `${f.format(start)} – ${f.format(end)}`; }
       return {usage, warning: 2147483648, limit: 0, period, carrier: c.data.settings.airplane ? '' : MM.text('shade').t('carrier')};
     },
-    // Wi-Fi: off, searching (a moment after switching it on) or connected.
-    wifiState(c) { const s = c.data.settings; return !s.wifi ? 'off' : live.wifiConnecting > Date.now() ? 'searching' : 'connected'; },
+    // Wi-Fi: off, searching (a moment after switching it on, or with no network to join) or connected.
+    wifiState(c) { const s = c.data.settings; return !s.wifi ? 'off' : live.wifiConnecting > Date.now() || !s.wifiSsid ? 'searching' : 'connected'; },
     setWifi(c, on) {
       const s = c.data.settings;
       s.wifi = on; if (on) live.wifiConnecting = Date.now() + 2500;
@@ -86,6 +97,8 @@
       sys.applyBrightness(c);
       const bar = MM.module('statusbar'); if (bar) { c.el.status.innerHTML = bar.render(c); bar.mount?.(c, c.el.status); }
       if (c.ui.overlay === 'shade') MM.module('shade')?.refresh?.(c);
+      // An open Settings screen follows the radios (the Wi-Fi and Bluetooth lists, their switch bars).
+      if (c.ui.view === 'settings' && !c.ui.overlay && !c.ui.sleeping) c.render();
     }
   };
 

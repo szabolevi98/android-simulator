@@ -1,0 +1,11 @@
+/* The framework overflow menu (mm-menu.js), in dp: the button in the action bar and the popup over it. */
+.mm-overflow{flex:none;align-self:stretch;min-width:calc(36 * var(--dp));padding:0 calc(10 * var(--dp)) 0 calc(6 * var(--dp));border:0;border-radius:50%;background:none;display:grid;place-items:center}
+.mm-overflow:active{background:rgba(255,255,255,.2)}
+.mm-overflow img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmmenu{position:absolute;inset:0;z-index:30}
+.mmmenu-out{position:absolute;inset:0}
+.mmmenu-pop{position:absolute;top:calc(24 * var(--dp));right:calc(4 * var(--dp));min-width:calc(196 * var(--dp));max-width:calc(100% - 8 * var(--dp));display:flex;flex-direction:column;border-radius:calc(2 * var(--dp));background:#fff;box-shadow:0 calc(8 * var(--dp)) calc(16 * var(--dp)) rgba(0,0,0,.3),0 0 calc(4 * var(--dp)) rgba(0,0,0,.12);overflow:hidden;transform-origin:top right;animation:mmmenu-in .25s cubic-bezier(.4,0,.2,1)}
+@keyframes mmmenu-in{from{opacity:0;clip-path:inset(0 0 100% 30% round calc(2 * var(--dp)))}to{opacity:1;clip-path:inset(0 0 0 0 round calc(2 * var(--dp)))}}
+.mmmenu-item{display:flex;align-items:center;height:calc(48 * var(--dp));padding:0 calc(16 * var(--dp));border:0;background:none;color:rgba(0,0,0,.871);font:calc(16 * var(--dp))/1.172 Roboto,sans-serif;text-align:left;white-space:nowrap}
+.mmmenu-item:active{background:rgba(0,0,0,.12)}
+.mmmenu-item:disabled{color:rgba(0,0,0,.26)}

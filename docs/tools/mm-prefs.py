@@ -34,8 +34,19 @@ ATTRS = ['key', 'title', 'summary', 'summaryOn', 'summaryOff', 'entries', 'entry
          'widgetLayout', 'fragment', 'switchTextOn', 'switchTextOff', 'max', 'id', 'positiveButtonText', 'negativeButtonText',
          'ringtoneType', 'showDefault', 'showSilent', 'singleLine', 'inputType', 'password']
 SKIP = {'appwidget_info', 'file_paths'}
-EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framework/ok', 'display_auto_rotate_rotate',
-         'display_auto_rotate_stay_in_portrait', 'screensaver_settings_summary_off']
+EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framework/ok',
+         'switch_on_text', 'switch_off_text', 'status_unavailable',
+         # DisplaySettings
+         'display_auto_rotate_rotate', 'display_auto_rotate_stay_in_portrait', 'screensaver_settings_summary_off',
+         # WifiSettings, AccessPoint, WifiConfigController, SavedAccessPointsWifiSettings
+         'wifi_settings', 'wifi_empty_list_wifi_off', 'wifi_starting', 'wifi_stopping', 'wifi_empty_list_wifi_on', 'wifi_add_network',
+         'wifi_saved_access_points_label', 'wifi_saved_access_points_titlebar', 'menu_stats_refresh', 'wifi_menu_advanced',
+         'wifi_advanced_titlebar', 'wifi_menu_connect', 'wifi_menu_forget', 'wifi_menu_modify', 'wifi_remembered', 'wifi_not_in_range',
+         'wifi_status', 'wifi_signal', 'wifi_speed', 'link_speed+args1', 'wifi_frequency', 'wifi_band_24ghz', 'wifi_band_5ghz',
+         'wifi_security', 'wifi_security_none', 'wifi_security_wpa2', 'wifi_password', 'wifi_show_password', 'wifi_show_advanced',
+         'wifi_connect', 'wifi_forget', 'wifi_cancel', 'wifi_save', 'wifi_ssid', 'wifi_ssid_hint', 'wifi_ip_settings',
+         'proxy_settings_title', 'array:wifi_status', 'array:wifi_signal', 'array:wifi_security', 'array:wifi_ip_settings',
+         'array:wifi_proxy_settings']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -140,6 +151,13 @@ def main():
     png = ['# Settings drawables named by its preference screens (written by docs/tools/mm-prefs.py)']
     vec = ['# Settings vector drawables named by its preference screens (written by docs/tools/mm-prefs.py)',
            'gms-ic_google_settings.svg	priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk	ic_google_settings	-']
+    # Drawables the Settings code sets itself: AccessPointPreference's wifi_signal (a level list of ic_wifi_signal_1..4
+    # with ic_wifi_signal_lock layered over a secured network), every path in ?wifi_signal_color (#009688).
+    for name in ['ic_wifi_signal_1', 'ic_wifi_signal_2', 'ic_wifi_signal_3', 'ic_wifi_signal_4', 'ic_wifi_signal_lock']:
+        vec.append(f'st-{name}.svg	{APKPATH}	{name}	tint=#ff' + THEMES.attr(APKPATH, APP_THEME, 'wifi_signal_color')[-6:])
+    # wifi_advanced_toggle's ic_expand: ic_expand_more, checked ic_expand_less, in the dialog's colorControlNormal.
+    for name in ['ic_expand_more', 'ic_expand_less']:
+        vec.append(f'st-{name}.svg	{APKPATH}	{name}	tint=#8a000000')
     for (apk, key), d in sorted(drawables.items()):
         if d['kind'] == 'png': png.append(f"{d['icon']}\t{d['path']}\tdrawable/{d['res']}")
         elif d['kind'] == 'vector': vec.append(f"{d['icon']}\t{d['path']}\t{d['res']}\t-")

@@ -15,7 +15,8 @@
      after the texts), a category preference_category_material.xml (Body2 in the accent, 16 dp above and below);
      SwitchPreference / CheckBoxPreference keep their value, a ListPreference opens a single choice dialog and shows its
      entry as the summary where the summary says %s, an EditTextPreference a text dialog.
-   - Screens with code of their own (Wi-Fi, Bluetooth, Apps …) register in MM.settingsScreens; a fragment no screen
+   - Screens with code of their own (Wi-Fi, Bluetooth, Apps …) register in MM.settingsScreens ({title, render, bar (above
+     the scrolling list: a switch bar), actions (action bar buttons), mount, action, back}); a fragment no screen
      draws shows the not-built-yet card in the content area. */
 (() => {
   'use strict';
@@ -87,7 +88,7 @@
   // A screen "xml:<name>" is a res/xml file; "xml:<name>#<key>" one of its nested PreferenceScreens.
   const current = c => { const s = state(c).stack.at(-1); if (!s) return null; const ref = s.screen.startsWith('xml:') ? s.screen.slice(4) : null; return {...s, xml: ref ? ref.split('#')[0] : null, nested: ref?.split('#')[1] || null}; };
   const nodeOf = cur => cur.nested ? findKey(X()[cur.xml], cur.nested) : X()[cur.xml];
-  function go(c, screen, title) { state(c).stack.push({screen, title}); c.render(); c.el.viewport.querySelector('.mmst-content')?.scrollTo(0, 0); }
+  function go(c, screen, title) { const st = state(c); st.stack.push({screen, title}); if (st.scroll) delete st.scroll[screen]; c.render(); }
   MM.settingsGo = go;
 
   // -- the dashboard ----------------------------------------------------------------------------------------------
@@ -150,7 +151,9 @@
     if (n.t === 'SwitchPreference' || hook.switch?.includes(n.key)) widget = `<i class="mmw-switch${v ? ' on' : ''}"><i class="mmw-thumb"></i></i>`;
     if (n.t === 'CheckBoxPreference') widget = `<i class="mmst-check${v ? ' on' : ''}"></i>`;
     const ic = n.icon?.icon ? `<span class="mmst-iconframe">${n.icon.tint ? `<i class="mmst-ic" style="background:${n.icon.tint};-webkit-mask-image:url('assets/${n.icon.icon}');mask-image:url('assets/${n.icon.icon}')"></i>` : `<img class="mmst-ic" src="assets/${n.icon.icon}" alt="">`}</span>` : '';
-    return `<button type="button" class="mmst-pref${disabled ? ' disabled' : ''}" data-action="mmst-pref" data-key="${c.safe(n.key || '')}" ${disabled ? 'disabled' : ''}>${ic}<span class="mmst-texts"><span class="mmst-title">${c.safe(title)}</span>${summary ? `<span class="mmst-summary">${c.safe(summary)}</span>` : ''}</span>${widget ? `<span class="mmst-widget">${widget}</span>` : ''}</button>`;
+    // A row not selectable (setSelectable(false)) is plain text; wifi_advance_layout draws its texts in the Small size.
+    const tag = hook.selectable?.(c, n.key, n) === false ? 'div' : 'button', small = n.layout === 'layout/wifi_advance_layout' ? ' small' : '';
+    return `<${tag} ${tag === 'button' ? 'type="button" ' : ''}class="mmst-pref${disabled ? ' disabled' : ''}${small}" data-action="mmst-pref" data-key="${c.safe(n.key || '')}" ${disabled ? 'disabled' : ''}>${ic}<span class="mmst-texts"><span class="mmst-title">${c.safe(title)}</span>${summary ? `<span class="mmst-summary">${c.safe(summary)}</span>` : ''}</span>${widget ? `<span class="mmst-widget">${widget}</span>` : ''}</${tag}>`;
   }
   function findKey(node, key) {
     if (!node) return null;
@@ -180,22 +183,24 @@
     const st = state(c);
     if (!st.stack.length && c.ui.sub && c.ui.sub !== st.opened) { st.opened = c.ui.sub; st.stack = [{screen: c.ui.sub.startsWith('app:') ? c.ui.sub : c.ui.sub, title: ''}]; }
     const cur = current(c);
-    let title = T().t('settings_label_launcher'), body;
+    let title = T().t('settings_label_launcher'), body, bar = '';
     if (!cur) body = dashboard(c);
     else {
       const custom = MM.settingsScreens[cur.screen.split(':')[0]] || MM.settingsScreens[cur.screen];
-      if (custom) { title = custom.title?.(c, cur) || cur.title; body = custom.render(c, cur); }
+      if (custom) { title = custom.title?.(c, cur) || cur.title; body = custom.render(c, cur); bar = custom.bar?.(c, cur) || ''; }
       else if (cur.xml && X()[cur.xml]) { title = cur.title || str(nodeOf(cur).title) || title; body = `<div class="mmst-list">${cur.nested ? '' : MM.settingsHooks[cur.xml]?.top?.(c) || ''}${rows(c, nodeOf(cur), cur.xml)}</div>`; }
       else { title = cur.title || title; body = `<div class="mmst-missing">${c.missing('settings', `<small>${c.safe(cur.screen.replace(/^missing:/, ''))}</small>`)}</div>`; }
     }
     const up = !!cur;
     const actions = !cur ? `<button type="button" class="mmst-ab-btn" data-action="mmst-search" aria-label="${c.safe(T().t('search_menu'))}"><img src="assets/fw-ic_search_api_material.svg" alt=""></button>` : (MM.settingsScreens[cur.screen.split(':')[0]]?.actions?.(c, cur) || '');
-    return `<div class="mmst"><div class="mmst-ab">${up ? `<button type="button" class="mmst-up" data-action="mmst-up" aria-label="Navigate up"><img src="assets/fw-ic_ab_back_material.svg" alt=""></button>` : ''}<span class="mmst-abtitle${up ? ' up' : ''}">${c.safe(title)}</span>${actions}</div>
+    return `<div class="mmst"><div class="mmst-ab">${up ? `<button type="button" class="mmst-up" data-action="mmst-up" aria-label="Navigate up"><img src="assets/fw-ic_ab_back_material.svg" alt=""></button>` : ''}<span class="mmst-abtitle${up ? ' up' : ''}">${c.safe(title)}</span>${actions}</div>${bar}
       <div class="mmst-content">${body}</div></div>`;
   }
 
   function mount(c, root) {
-    const cur = current(c);
+    const cur = current(c), st = state(c), key = cur?.screen || '', content = root.querySelector('.mmst-content');
+    // A screen keeps its scroll position while it is in the stack (re-rendered or returned to).
+    if (content) { content.scrollTop = st.scroll?.[key] || 0; content.addEventListener('scroll', () => { (st.scroll ||= {})[key] = content.scrollTop; }, {passive: true}); }
     const custom = cur && (MM.settingsScreens[cur.screen.split(':')[0]] || MM.settingsScreens[cur.screen]);
     custom?.mount?.(c, root, cur);
   }

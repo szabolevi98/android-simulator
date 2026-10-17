@@ -56,4 +56,40 @@
       return false;
     }
   };
+
+  /* wifi_advanced_settings (AdvancedWifiSettings.initPreferences / refreshWifiInfo): Network notification follows
+     wifi_networks_available_notification_on (def_networks_available_notification_on true) and is enabled with Wi-Fi on;
+     Use open Wi-Fi automatically stays (GCS.apk is a network scorer), off until a scorer is chosen; the 5X is dual band
+     (config_wifi_dual_band_support), the band 0 (Automatic) as its summary; Keep Wi-Fi on during sleep shows the entry of
+     wifi_sleep_policy (def_wifi_sleep_policy 2, Always); MAC address and IP address are not selectable, the IP
+     address Unavailable without a connection (the MAC is the simulator's own, in LG's 64:bc:0c range). */
+  H.wifi_advanced_settings = {
+    get(c, key) {
+      const s = S(c);
+      if (key === 'notify_open_networks') return s.wifiNotify ?? true;
+      if (key === 'wifi_assistant') return !!s.wifiAssistant;
+      if (key === 'sleep_policy') return String(s.wifiSleepPolicy ?? 2);
+      if (key === 'frequency_band') return String(s.wifiBand ?? 0);
+      return undefined;
+    },
+    set(c, key, v) {
+      const s = S(c);
+      if (key === 'notify_open_networks') { s.wifiNotify = v; return true; }
+      if (key === 'wifi_assistant') { s.wifiAssistant = v; return true; }
+      if (key === 'sleep_policy') { s.wifiSleepPolicy = +v; return true; }
+      if (key === 'frequency_band') { s.wifiBand = +v; return true; }
+      return false;
+    },
+    switch: ['wifi_assistant'],
+    disabled: (c, key) => key === 'notify_open_networks' && !S(c).wifi,
+    selectable: (c, key) => key !== 'mac_address' && key !== 'current_ip_address',
+    summary(c, key, n) {
+      const t = T(), s = S(c), connected = MM.system.wifiState(c) === 'connected';
+      if (key === 'sleep_policy') { const i = n.entryValues.indexOf(String(s.wifiSleepPolicy ?? 2)); return MM.settingsArr(n.entries)[i] || ''; }
+      if (key === 'frequency_band') return MM.settingsArr(n.entries)[s.wifiBand ?? 0];
+      if (key === 'mac_address') return '64:bc:0c:8a:4f:21';
+      if (key === 'current_ip_address') return connected ? '192.168.1.104' : t.t('status_unavailable');
+      return undefined;
+    }
+  };
 })();

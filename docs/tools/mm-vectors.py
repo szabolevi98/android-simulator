@@ -42,7 +42,8 @@ def color(value, apk, theme):
     """#aarrggbb (or a reference to one) -> (#rrggbb, alpha). A theme "tint=<colour>" is a SRC_IN colour filter: every
     colour becomes the tint, keeping its own alpha times the tint's (UserIcons.getDefaultUserIcon's setColorFilter)."""
     if theme and theme.startswith('tint='):
-        (c, a), (tc, ta) = color(value, apk, None), color(theme[5:], apk, None)
+        # A theme attribute's own colour is not looked up under a tint: it is taken as opaque.
+        (c, a), (tc, ta) = color(value, apk, None) if not value.startswith('?') else (None, 1), color(theme[5:], apk, None)
         return tc, a * ta
     for _ in range(8):
         if value.startswith('?'):

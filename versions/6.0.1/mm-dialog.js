@@ -11,8 +11,8 @@
      colorAccent #009688);
    - progress_dialog_material.xml: the 48 dp indeterminate spinner (vector_drawable_progress_bar_medium: a 19 dp circle,
      4 dp stroke, square caps, in colorControlActivated) 24 dp before the message, 18 dp above and below.
-   Use: c.dialog({title, icon, message, items: [{html}], buttons: [{label, action(c)}], progress, cancelable, onItem(i, c),
-   onLongItem(i, c)}) opens it as the overlay 'dialog'; MM.dialog.markup / .action draw and drive the same for a module
+   Use: c.dialog({title, icon, message, items: [{html}], html, buttons: [{label, action(c), neutral, disabled}], progress,
+   cancelable, onItem(i, c), onLongItem(i, c), mount(c, win)}) opens it as the overlay 'dialog'; MM.dialog.markup / .action draw and drive the same for a module
    that owns its overlay (the power menu). */
 (() => {
   'use strict';
@@ -21,7 +21,7 @@
     const message = d.message ? `<div class="mmdlg-message${d.title ? '' : ' first'}">${c.safe(d.message)}</div>` : '';
     const progress = d.progress ? `<div class="mmdlg-progress"><svg class="mmdlg-spinner" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="19"/></svg><span>${c.safe(d.progress)}</span></div>` : '';
     const items = d.items ? `<div class="mmdlg-list">${d.items.map((item, i) => `<button type="button" class="mmdlg-item" data-action="mmdlg-item" data-index="${i}">${item.html}</button>`).join('')}</div>` : '';
-    const buttons = d.buttons?.length ? `<div class="mmdlg-buttons">${d.buttons.map((b, i) => `${b.neutral ? '' : i === 0 || d.buttons[i - 1]?.neutral ? '<i class="mmdlg-spacer"></i>' : ''}<button type="button" class="mmdlg-button" data-action="mmdlg-button" data-index="${i}">${c.safe(b.label)}</button>`).join('')}</div>` : '';
+    const buttons = d.buttons?.length ? `<div class="mmdlg-buttons">${d.buttons.map((b, i) => `${b.neutral ? '' : i === 0 || d.buttons[i - 1]?.neutral ? '<i class="mmdlg-spacer"></i>' : ''}<button type="button" class="mmdlg-button" data-action="mmdlg-button" data-index="${i}"${b.disabled ? ' disabled' : ''}>${c.safe(b.label)}</button>`).join('')}</div>` : '';
     return `<div class="mmdlg"><div class="mmdlg-dim" data-action="mmdlg-cancel"></div><div class="mmdlg-win" role="dialog">${head}${message}${progress}${items}${d.html || ''}${buttons}</div></div>`;
   }
   function close(c) { if (c.ui.overlay === 'dialog') { c.ui.dialogSpec = null; c.closeOverlay(); } }
@@ -47,7 +47,7 @@
     app: false,
     init(c) { c.dialog = spec => { c.ui.dialogSpec = spec; c.overlay('dialog'); }; c.closeDialog = () => close(c); },
     render: c => c.ui.dialogSpec ? markup(c, c.ui.dialogSpec) : '',
-    mount(c, root) { if (c.ui.dialogSpec) mountLong(c, root, c.ui.dialogSpec); },
+    mount(c, root) { const d = c.ui.dialogSpec; if (d) { mountLong(c, root, d); d.mount?.(c, root.querySelector('.mmdlg-win')); } },
     back(c) { const d = c.ui.dialogSpec; if (d?.cancelable === false) return true; close(c); d?.onCancel?.(c); return true; },
     action(name, el, event, c) { return c.ui.dialogSpec ? action(c, name, el, c.ui.dialogSpec) : false; }
   });

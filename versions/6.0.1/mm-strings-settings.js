@@ -4947,6 +4947,22 @@ MM.strings('settings', {
 "fr": "OK",
 "es": "Aceptar"
 },
+"switch_on_text": {
+"res": "bullhead:Settings:switch_on_text",
+"en": "On",
+"hu": "Be",
+"de": "An",
+"fr": "Activé",
+"es": "Sí"
+},
+"status_unavailable": {
+"res": "bullhead:Settings:status_unavailable",
+"en": "Unavailable",
+"hu": "Nem érhető el",
+"de": "Nicht verfügbar",
+"fr": "Non disponible",
+"es": "No disponible"
+},
 "display_auto_rotate_rotate": {
 "res": "bullhead:Settings:display_auto_rotate_rotate",
 "en": "Rotate the contents of the screen",
@@ -4970,6 +4986,469 @@ MM.strings('settings', {
 "de": "Aus",
 "fr": "Désactivé",
 "es": "No"
+},
+"wifi_empty_list_wifi_off": {
+"res": "bullhead:Settings:wifi_empty_list_wifi_off",
+"en": "To see available networks, turn Wi‑Fi on.",
+"hu": "Kapcsolja be a Wi-Fit a hálózatok megjelenítéséhez",
+"de": "WLAN aktivieren, um verfügbare Netze abzurufen",
+"fr": "Activez le Wi-Fi pour voir les réseaux disponibles.",
+"es": "Para ver redes disponibles, activa el Wi-Fi."
+},
+"wifi_starting": {
+"res": "bullhead:Settings:wifi_starting",
+"en": "Turning Wi‑Fi on…",
+"hu": "Bekapcsolja a Wi-Fit?",
+"de": "WLAN wird aktiviert…",
+"fr": "Activation du Wi-Fi en cours…",
+"es": "Activando Wi‑Fi…"
+},
+"wifi_stopping": {
+"res": "bullhead:Settings:wifi_stopping",
+"en": "Turning off Wi‑Fi…",
+"hu": "Wi-Fi kikapcsolása...",
+"de": "WLAN wird deaktiviert…",
+"fr": "Désactivation du Wi-Fi en cours…",
+"es": "Desactivando Wi‑Fi…"
+},
+"wifi_empty_list_wifi_on": {
+"res": "bullhead:Settings:wifi_empty_list_wifi_on",
+"en": "Searching for Wi‑Fi networks…",
+"hu": "Wi-Fi hálózatok keresése...",
+"de": "Suche nach WLAN-Netzwerken läuft…",
+"fr": "Recherche de réseaux Wi-Fi en cours…",
+"es": "Buscando redes Wi-Fi…"
+},
+"menu_stats_refresh": {
+"res": "bullhead:Settings:menu_stats_refresh",
+"en": "Refresh",
+"hu": "Frissítés",
+"de": "Aktualisieren",
+"fr": "Actualiser",
+"es": "Actualizar"
+},
+"wifi_menu_advanced": {
+"res": "bullhead:Settings:wifi_menu_advanced",
+"en": "Advanced",
+"hu": "Speciális",
+"de": "Erweitert",
+"fr": "Options avancées",
+"es": "Ajustes avanzados"
+},
+"wifi_menu_connect": {
+"res": "bullhead:Settings:wifi_menu_connect",
+"en": "Connect to network",
+"hu": "Csatlakozás a hálózathoz",
+"de": "Mit Netzwerk verbinden",
+"fr": "Se connecter au réseau",
+"es": "Conectarse a la red"
+},
+"wifi_menu_forget": {
+"res": "bullhead:Settings:wifi_menu_forget",
+"en": "Forget network",
+"hu": "Hálózat elfelejtése",
+"de": "Netzwerk entfernen",
+"fr": "Retirer le réseau",
+"es": "Olvidar red"
+},
+"wifi_menu_modify": {
+"res": "bullhead:Settings:wifi_menu_modify",
+"en": "Modify network",
+"hu": "Hálózat módosítása",
+"de": "Netzwerk ändern",
+"fr": "Modifier le réseau",
+"es": "Modificar red"
+},
+"wifi_remembered": {
+"res": "bullhead:Settings:wifi_remembered",
+"en": "Saved",
+"hu": "Saved",
+"de": "Saved",
+"fr": "Saved",
+"es": "Saved",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"wifi_not_in_range": {
+"res": "bullhead:Settings:wifi_not_in_range",
+"en": "Not in range",
+"hu": "Not in range",
+"de": "Not in range",
+"fr": "Not in range",
+"es": "Not in range",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"wifi_status": {
+"res": "bullhead:Settings:wifi_status",
+"en": "Status",
+"hu": "Állapot",
+"de": "Status",
+"fr": "État",
+"es": "Estado"
+},
+"wifi_signal": {
+"res": "bullhead:Settings:wifi_signal",
+"en": "Signal strength",
+"hu": "Jelerősség",
+"de": "Signalstärke",
+"fr": "Intensité du signal",
+"es": "Intensidad de la señal"
+},
+"wifi_speed": {
+"res": "bullhead:Settings:wifi_speed",
+"en": "Link speed",
+"hu": "Vonalsebesség",
+"de": "Geschwindigkeit",
+"fr": "Vitesse de connexion",
+"es": "Velocidad de enlace"
+},
+"link_speed": {
+"res": "bullhead:Settings:link_speed",
+"args": 1,
+"en": "%1$d Mbps",
+"hu": "%1$d Mb/s",
+"de": "%1$d Mbit/s",
+"fr": "%1$d Mbit/s",
+"es": "%1$d Mbps"
+},
+"wifi_frequency": {
+"res": "bullhead:Settings:wifi_frequency",
+"en": "Frequency",
+"hu": "Frekvencia",
+"de": "Frequenz",
+"fr": "Fréquence",
+"es": "Frecuencia"
+},
+"wifi_band_24ghz": {
+"res": "bullhead:Settings:wifi_band_24ghz",
+"en": "2.4 GHz",
+"hu": "2,4 GHz",
+"de": "2,4 GHz",
+"fr": "2,4 GHz",
+"es": "2,4 GHz"
+},
+"wifi_band_5ghz": {
+"res": "bullhead:Settings:wifi_band_5ghz",
+"en": "5 GHz",
+"hu": "5 GHz",
+"de": "5 GHz",
+"fr": "5 GHz",
+"es": "5 GHz"
+},
+"wifi_security": {
+"res": "bullhead:Settings:wifi_security",
+"en": "Security",
+"hu": "Biztonság",
+"de": "Sicherheit",
+"fr": "Sécurité",
+"es": "Seguridad"
+},
+"wifi_security_none": {
+"res": "bullhead:Settings:wifi_security_none",
+"en": "None",
+"hu": "None",
+"de": "None",
+"fr": "None",
+"es": "None",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"wifi_security_wpa2": {
+"res": "bullhead:Settings:wifi_security_wpa2",
+"en": "WPA2 PSK",
+"hu": "WPA2 PSK",
+"de": "WPA2 PSK",
+"fr": "WPA2 PSK",
+"es": "WPA2 PSK",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"wifi_password": {
+"res": "bullhead:Settings:wifi_password",
+"en": "Password",
+"hu": "Jelszó",
+"de": "Passwort",
+"fr": "Mot de passe",
+"es": "Contraseña"
+},
+"wifi_show_password": {
+"res": "bullhead:Settings:wifi_show_password",
+"en": "Show password",
+"hu": "Jelszó megjelenítése",
+"de": "Passwort anzeigen",
+"fr": "Afficher le mot de passe",
+"es": "Mostrar contraseña"
+},
+"wifi_show_advanced": {
+"res": "bullhead:Settings:wifi_show_advanced",
+"en": "Advanced options",
+"hu": "Speciális beállítások",
+"de": "Erweiterte Optionen",
+"fr": "Options avancées",
+"es": "Opciones avanzadas"
+},
+"wifi_connect": {
+"res": "bullhead:Settings:wifi_connect",
+"en": "Connect",
+"hu": "Kapcsolódás",
+"de": "Verbinden",
+"fr": "Se connecter",
+"es": "Conectar"
+},
+"wifi_forget": {
+"res": "bullhead:Settings:wifi_forget",
+"en": "Forget",
+"hu": "Elfelejt",
+"de": "Entfernen",
+"fr": "Retirer",
+"es": "Olvidar"
+},
+"wifi_cancel": {
+"res": "bullhead:Settings:wifi_cancel",
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
+"wifi_save": {
+"res": "bullhead:Settings:wifi_save",
+"en": "Save",
+"hu": "Mentés",
+"de": "Speichern",
+"fr": "Enregistrer",
+"es": "Guardar"
+},
+"wifi_ssid": {
+"res": "bullhead:Settings:wifi_ssid",
+"en": "Network name",
+"hu": "Hálózat neve",
+"de": "Netzwerkname",
+"fr": "Nom du réseau",
+"es": "Nombre de la red"
+},
+"wifi_ssid_hint": {
+"res": "bullhead:Settings:wifi_ssid_hint",
+"en": "Enter the SSID",
+"hu": "SSID megadása",
+"de": "SSID eingeben",
+"fr": "Saisissez le SSID",
+"es": "Introduce el SSID"
+},
+"wifi_ip_settings": {
+"res": "bullhead:Settings:wifi_ip_settings",
+"en": "IP settings",
+"hu": "IP-beállítások",
+"de": "IP-Einstellungen",
+"fr": "Paramètres IP",
+"es": "Ajustes de IP"
+},
+"array:wifi_status": {
+"res": "bullhead:Settings:wifi_status",
+"en": [
+"",
+"Scanning…",
+"Connecting…",
+"Authenticating…",
+"Obtaining IP address…",
+"Connected",
+"Suspended",
+"Disconnecting…",
+"Disconnected",
+"Unsuccessful",
+"Blocked",
+"Temporarily avoiding poor connection"
+],
+"hu": [
+"",
+"Keresés...",
+"Kapcsolódás…",
+"Hitelesítés...",
+"IP-cím lekérése...",
+"Csatlakozva",
+"Felfüggesztve",
+"Kapcsolat bontása...",
+"Nincs kapcsolat",
+"Sikertelen",
+"Letiltva",
+"A rossz minőségű kapcsolatok átmeneti elkerülése"
+],
+"de": [
+"",
+"Scan läuft…",
+"Verbindung wird hergestellt...",
+"Authentifizierung...",
+"IP-Adresse wird abgerufen...",
+"Verbunden",
+"Angehalten",
+"Verbindung wird getrennt...",
+"Nicht verbunden",
+"Nicht erfolgreich",
+"Blockiert",
+"Schlechte Internetverbindung wird vorübergehend vermieden."
+],
+"fr": [
+"",
+"Recherche…",
+"Connexion…",
+"Authentification...",
+"Récupération de l'adresse IP…",
+"Connecté",
+"Interrompu",
+"Déconnexion…",
+"Déconnecté",
+"Échec",
+"Bloqué",
+"Mauvaise connexion évitée momentanément"
+],
+"es": [
+"",
+"Buscando...",
+"Estableciendo conexión...",
+"Autenticando...",
+"Obteniendo dirección IP…",
+"Conexión establecida",
+"Suspendida",
+"Desconectando...",
+"Desconectada",
+"Con error",
+"Bloqueada",
+"Inhabilitando conexión inestable temporalmente..."
+]
+},
+"array:wifi_signal": {
+"res": "bullhead:Settings:wifi_signal",
+"en": [
+"Poor",
+"Fair",
+"Good",
+"Excellent"
+],
+"hu": [
+"Gyenge",
+"Közepes",
+"Jó",
+"Kiváló"
+],
+"de": [
+"Schwach",
+"Gut",
+"Gut",
+"Ausgezeichnet"
+],
+"fr": [
+"Faible",
+"Satisfaisante",
+"Bonne",
+"Excellente"
+],
+"es": [
+"Mala",
+"Aceptable",
+"Buena",
+"Excelente"
+]
+},
+"array:wifi_security": {
+"res": "bullhead:Settings:wifi_security",
+"en": [
+"None",
+"WEP",
+"",
+"802.1x EAP"
+],
+"hu": [
+"None",
+"WEP",
+"",
+"802.1x EAP"
+],
+"de": [
+"None",
+"WEP",
+"",
+"802.1x EAP"
+],
+"fr": [
+"None",
+"WEP",
+"",
+"802.1x EAP"
+],
+"es": [
+"None",
+"WEP",
+"",
+"802.1x EAP"
+]
+},
+"array:wifi_ip_settings": {
+"res": "bullhead:Settings:wifi_ip_settings",
+"en": [
+"DHCP",
+"Static"
+],
+"hu": [
+"DHCP",
+"Statikus"
+],
+"de": [
+"DHCP",
+"Statisch"
+],
+"fr": [
+"Protocole DHCP",
+"Statique"
+],
+"es": [
+"Protocolo DHCP",
+"IP estática"
+]
+},
+"wifi_proxy_settings": {
+"res": "bullhead:Settings:wifi_proxy_settings",
+"en": [
+"None",
+"Manual",
+"Proxy Auto-Config"
+],
+"hu": [
+"Nincs",
+"Kézi",
+"Proxy auto. beállítása"
+],
+"de": [
+"Keiner",
+"Manuell",
+"Autom. Proxy-Konfig."
+],
+"fr": [
+"Aucun",
+"Manuel",
+"Configuration auto du proxy"
+],
+"es": [
+"Ninguno",
+"Manual",
+"Proxy autoconfigurado"
+]
 },
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",

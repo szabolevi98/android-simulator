@@ -39,3 +39,44 @@
 .mmst-edit{padding:calc(16 * var(--dp)) calc(24 * var(--dp)) calc(8 * var(--dp))}
 .mmst-input{width:100%;box-sizing:border-box;padding:calc(8 * var(--dp)) 0;border:0;border-bottom:calc(2 * var(--dp)) solid #009688;background:none;outline:none;font:calc(16 * var(--dp)) Roboto,sans-serif}
 .mmst-missing{position:absolute;inset:0}
+/* The SwitchBar (switch_bar.xml): 56 dp, #37474f, 16 dp at the sides, the Title text in white, the dark switch with
+   switch_accent_color. Under it the pinned progress header: TrimmedHorizontalProgressBar, 3 dp, the accent's
+   indeterminate bars (progress_indeterminate_horizontal_material_trimmed). */
+.mmst-switchbar{position:relative;z-index:1;flex:none;display:flex;align-items:center;width:100%;height:calc(56 * var(--dp));padding:0 calc(16 * var(--dp));border:0;background:#37474f;color:#fff;font:500 calc(20 * var(--dp))/1.172 Roboto,sans-serif;text-align:left}
+.mmst-switchbar:active{background:#4b5a61}
+.mmst-switchbar span{flex:1;min-width:0}
+.mmst-switchbar .mmw-switch{--mmw-fg:#fff;--mmw-accent:#7fcac3;--mmw-thumb:#bdbdbd}
+.mmst-pinned{position:relative;z-index:1;flex:none}
+.mmst-progress{position:relative;height:calc(3 * var(--dp));overflow:hidden}
+.mmst-progress i{position:absolute;top:0;bottom:0;background:#009688;animation:mmst-bar1 2s linear infinite}
+.mmst-progress i+i{animation:mmst-bar2 2s linear infinite}
+@keyframes mmst-bar1{0%{left:-50%;right:100%}20%{left:-50%;right:100%}59%{left:30%;right:-20%}80%,100%{left:100%;right:-60%}}
+@keyframes mmst-bar2{0%{left:-20%;right:100%}38%{left:10%;right:60%}68%{left:60%;right:-10%}100%{left:100%;right:-60%}}
+/* The list's empty view: start | centre in the remaining height, 16 dp padding, Small text (Medium for the off message). */
+.mmst-empty{display:flex;align-items:center;min-height:100%;box-sizing:border-box;padding:calc(16 * var(--dp));color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+.mmst-empty .medium{font-size:calc(18 * var(--dp))}
+/* A plain list dialog row (a context menu): select_dialog_item_material, 48 dp, the dialog's 24 dp padding, 16 sp. */
+.mmst-dlgitem{display:flex;align-items:center;width:100%;min-height:calc(48 * var(--dp));padding:0 calc(24 * var(--dp));font-size:calc(16 * var(--dp))}
+/* AccessPointPreference's signal: the 26 x 24 dp level drawable with the lock layered over it. */
+.mmwf-signal{position:relative;display:block;width:calc(26 * var(--dp));height:calc(24 * var(--dp))}
+.mmwf-signal img{position:absolute;inset:0;width:100%;height:100%}
+/* wifi_dialog.xml: wifi_item rows (8 dp margins and padding, 8 dp above), the label (14 sp, secondary, 8 dp in), the
+   value (14 sp bold), the edit field (18 sp, 4 dp in), the check boxes (14 sp), the spinners. */
+.mmwf-dialog{padding-bottom:calc(8 * var(--dp))}
+.mmwf-item{display:flex;flex-direction:column;margin:calc(8 * var(--dp)) calc(8 * var(--dp)) 0;padding:0 calc(8 * var(--dp))}
+.mmwf-label{padding-left:calc(8 * var(--dp));color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+.mmwf-value{padding-left:calc(8 * var(--dp));color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp));font-weight:700}
+.mmwf-edit{margin-left:calc(4 * var(--dp));padding:calc(8 * var(--dp)) calc(4 * var(--dp));border:0;border-bottom:calc(2 * var(--dp)) solid #009688;background:none;outline:none;color:rgba(0,0,0,.871);font:calc(18 * var(--dp)) Roboto,sans-serif}
+.mmwf-edit::placeholder{color:rgba(0,0,0,.38)}
+.mmwf-check{display:flex;align-items:center;gap:calc(4 * var(--dp));min-height:calc(48 * var(--dp));color:rgba(0,0,0,.871);font-size:calc(14 * var(--dp))}
+.mmwf-check input{position:absolute;opacity:0;pointer-events:none}
+.mmwf-check input:checked+.mmst-check{background:#009688;-webkit-mask-image:url('assets/fw-ic_checkbox_checked.svg');mask-image:url('assets/fw-ic_checkbox_checked.svg')}
+.mmwf-spinner{margin:calc(4 * var(--dp)) 0 0 calc(4 * var(--dp));padding:calc(8 * var(--dp)) calc(4 * var(--dp));border:0;border-bottom:calc(1 * var(--dp)) solid rgba(0,0,0,.38);background:none;color:rgba(0,0,0,.871);font:calc(16 * var(--dp)) Roboto,sans-serif}
+.mmwf-adv{padding-left:calc(8 * var(--dp))}
+.mmwf-adv span{flex:1}
+.mmwf-expand{flex:none;width:calc(24 * var(--dp));height:calc(24 * var(--dp));background:url('assets/st-ic_expand_more.svg') center/100%}
+.mmwf-adv input:checked~.mmwf-expand{background-image:url('assets/st-ic_expand_less.svg')}
+/* wifi_advance_layout: 48 dp at least, 6 dp above and below, the title and the summary in TextAppearance.Small (14 sp). */
+.mmst-pref.small .mmst-texts{padding:calc(6 * var(--dp)) 0}
+.mmst-pref.small .mmst-title,.mmst-pref.small .mmst-summary{font-size:calc(14 * var(--dp))}
+div.mmst-pref:active{background:none}
