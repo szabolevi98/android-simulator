@@ -1,0 +1,19 @@
+# Chrome 44 (app/Chrome): the document-mode toolbar, the menu's icon row, the New Tab page, the first run (mm-chrome.js)
+cr-google_logo.png	app/Chrome/Chrome.apk	drawable/google_logo
+cr-btn_mic.png	app/Chrome/Chrome.apk	drawable/btn_mic
+cr-btn_menu.png	app/Chrome/Chrome.apk	drawable/btn_menu
+cr-ic_omnibox_magnifier.png	app/Chrome/Chrome.apk	drawable/ic_omnibox_magnifier
+cr-ic_omnibox_page.png	app/Chrome/Chrome.apk	drawable/ic_omnibox_page
+cr-btn_right.png	app/Chrome/Chrome.apk	drawable/btn_right
+cr-btn_star.png	app/Chrome/Chrome.apk	drawable/btn_star
+cr-btn_star_filled.png	app/Chrome/Chrome.apk	drawable/btn_star_filled
+cr-btn_info.png	app/Chrome/Chrome.apk	drawable/btn_info
+cr-btn_toolbar_reload.png	app/Chrome/Chrome.apk	drawable/btn_toolbar_reload
+cr-btn_close.png	app/Chrome/Chrome.apk	drawable/btn_close
+cr-ic_most_visited_placeholder.png	app/Chrome/Chrome.apk	drawable/ic_most_visited_placeholder
+cr-btn_recents.png	app/Chrome/Chrome.apk	drawable/btn_recents
+cr-btn_delete_url.png	app/Chrome/Chrome.apk	drawable/btn_delete_url
+cr-omnibox_https_valid.png	app/Chrome/Chrome.apk	drawable/omnibox_https_valid
+cr-toolbar_shadow_normal.png	app/Chrome/Chrome.apk	drawable/toolbar_shadow_normal
+cr-fre_product_logo.png	app/Chrome/Chrome.apk	drawable/fre_product_logo
+cr-textbox.9.png	app/Chrome/Chrome.apk	drawable/textbox

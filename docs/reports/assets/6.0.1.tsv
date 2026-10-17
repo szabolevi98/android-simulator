@@ -41,6 +41,24 @@ versions/6.0.1/assets/boot-part0.webp	273ab0813062f4d8	generated	bullhead:/syste
 versions/6.0.1/assets/boot-part1.webp	768599a777099c0d	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/6.0.1/assets/boot-part2.webp	0ab38eb11cbf0301	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/6.0.1/assets/boot-part3.webp	373c73629ab6f5c3	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
+versions/6.0.1/assets/cr-btn_close.png	cb24830b19923a6f	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_close.png	drawable-xxhdpi-v4		cb24830b19923a6f
+versions/6.0.1/assets/cr-btn_delete_url.png	7fa8a0ccc8e334d7	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_delete_url.png	drawable-xxhdpi-v4		7fa8a0ccc8e334d7
+versions/6.0.1/assets/cr-btn_info.png	24c8e8e60dc7aba1	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_info.png	drawable-xxhdpi-v4		24c8e8e60dc7aba1
+versions/6.0.1/assets/cr-btn_menu.png	fc9c05ad7ad8b03d	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_menu.png	drawable-xxhdpi-v4		fc9c05ad7ad8b03d
+versions/6.0.1/assets/cr-btn_mic.png	9f01ccd22e505032	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_mic.png	drawable-xxhdpi-v4		9f01ccd22e505032
+versions/6.0.1/assets/cr-btn_recents.png	0906cbf6c49b3207	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_recents.png	drawable-xxhdpi-v4		0906cbf6c49b3207
+versions/6.0.1/assets/cr-btn_right.png	898d93603e437250	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_right.png	drawable-xxhdpi-v4		898d93603e437250
+versions/6.0.1/assets/cr-btn_star.png	ea4be7aafef466f2	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_star.png	drawable-xxhdpi-v4		ea4be7aafef466f2
+versions/6.0.1/assets/cr-btn_star_filled.png	4d045fa869f76f83	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_star_filled.png	drawable-xxhdpi-v4		4d045fa869f76f83
+versions/6.0.1/assets/cr-btn_toolbar_reload.png	d14bc8f53f95139f	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/btn_toolbar_reload.png	drawable-xxhdpi-v4		d14bc8f53f95139f
+versions/6.0.1/assets/cr-fre_product_logo.png	ac8ac986e4197f5c	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/fre_product_logo.png	drawable-xxhdpi-v4		ac8ac986e4197f5c
+versions/6.0.1/assets/cr-google_logo.png	6cf17ef198ab82ba	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/google_logo.png	drawable-xxhdpi-v4		6cf17ef198ab82ba
+versions/6.0.1/assets/cr-ic_most_visited_placeholder.png	0426d1c003f1a9ad	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/ic_most_visited_placeholder.png	drawable-xxhdpi-v4		0426d1c003f1a9ad
+versions/6.0.1/assets/cr-ic_omnibox_magnifier.png	df8bd2edc0b1b19b	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/ic_omnibox_magnifier.png	drawable-xxhdpi-v4		df8bd2edc0b1b19b
+versions/6.0.1/assets/cr-ic_omnibox_page.png	a16737ffc63e1997	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/ic_omnibox_page.png	drawable-xxhdpi-v4		a16737ffc63e1997
+versions/6.0.1/assets/cr-omnibox_https_valid.png	34f4af6b46b467ba	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/omnibox_https_valid.png	drawable-xxhdpi-v4		34f4af6b46b467ba
+versions/6.0.1/assets/cr-textbox.9.png	d02d84eecc307fa4	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/textbox.9.png	drawable-xxhdpi-v4		d02d84eecc307fa4
+versions/6.0.1/assets/cr-toolbar_shadow_normal.png	0d86fddbcfa773e9	copy	bullhead:/system/app/Chrome/Chrome.apk!res/drawable-xxhdpi-v4/toolbar_shadow_normal.png	drawable-xxhdpi-v4		0d86fddbcfa773e9
 versions/6.0.1/assets/ct-fab_blue.png	4db487e978edfe1c	copy	bullhead:/system/priv-app/GoogleContacts/GoogleContacts.apk!res/drawable-xxhdpi-v4/fab_blue.png	drawable-xxhdpi-v4		4db487e978edfe1c
 versions/6.0.1/assets/ct-ic_ab_search.png	e2cf3d0c2df20b47	copy	bullhead:/system/priv-app/GoogleContacts/GoogleContacts.apk!res/drawable-xxhdpi-v4/ic_ab_search.png	drawable-xxhdpi-v4		e2cf3d0c2df20b47
 versions/6.0.1/assets/ct-ic_arrow_back_24dp.png	3bac2989a790f258	copy	bullhead:/system/priv-app/GoogleContacts/GoogleContacts.apk!res/drawable-xxhdpi-v4/ic_arrow_back_24dp.png	drawable-xxhdpi-v4		3bac2989a790f258

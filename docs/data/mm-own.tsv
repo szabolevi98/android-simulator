@@ -1,2 +1,7 @@
 # Android 6.0.1 texts the image does not have (docs/tools/mm-strings.py): table TAB key TAB English TAB Hungarian TAB German TAB French TAB Spanish TAB source
 shade	carrier	Telekom	Telekom	Telekom	Telekom	Telekom	the simulator's network operator, as in every version (5.1.1 networkOperator)
+chrome	neterror_title	This webpage is not available	Ez a weboldal nem érhető el	Diese Webseite ist nicht verfügbar.	Page Web inaccessible	Esta página web no está disponible	Chrome.apk assets/<lang>.pak resource 17073
+chrome	neterror_reload	Reload	Újratöltés	Neu laden	Actualiser	Cargar de nuevo	Chrome.apk assets/<lang>.pak resource 17266
+chrome	neterror_details	Details	Részletek	Details	Détails	Detalles	Chrome.apk assets/<lang>.pak resource 17233
+chrome	neterror_hide_details	Hide details	Részletek elrejtése	Details ausblenden	Masquer les détails	Ocultar detalles	Chrome.apk assets/<lang>.pak resource 17234
+chrome	neterror_dns	Unable to resolve the server's DNS address.	Nem sikerült feloldani a szerver DNS-címét.	Die DNS-Adresse des Servers kann nicht aufgelöst werden.	Impossible de résoudre l'adresse DNS du serveur.	No se puede resolver la dirección DNS del servidor.	Chrome.apk assets/<lang>.pak resource 17119
