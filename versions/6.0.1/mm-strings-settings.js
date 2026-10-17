@@ -7830,6 +7830,136 @@ MM.strings('settings', {
 "fr": "Photos",
 "es": "Fotos"
 },
+"GooglePackageInstaller/app_permissions": {
+"res": "bullhead:GooglePackageInstaller:app_permissions",
+"en": "App permissions",
+"hu": "Alkalmazásengedélyek",
+"de": "App-Berechtigungen",
+"fr": "Autoris. des applis",
+"es": "Permisos de aplicaciones"
+},
+"GooglePackageInstaller/app_permissions_group_summary": {
+"res": "bullhead:GooglePackageInstaller:app_permissions_group_summary",
+"args": 2,
+"en": "%1$d of %2$d apps allowed",
+"hu": "%2$d/%1$d alkalmazás engedélyezve",
+"de": "%1$d von %2$d Apps sind berechtigt.",
+"fr": "%1$d application(s) autorisée(s) sur %2$d",
+"es": "%1$d de %2$d aplicaciones permitidas"
+},
+"GooglePackageInstaller/system_warning": {
+"res": "bullhead:GooglePackageInstaller:system_warning",
+"en": "If you deny this permission, basic features of your device may no longer function as intended.",
+"hu": "Ha ezt nem engedélyezi, akkor előfordulhat, hogy az eszköz egyes alapfunkciói nem megfelelően fognak működni.",
+"de": "Wenn du diese Berechtigung deaktivierst, funktionieren grundlegende Funktionen deines Geräts möglicherweise nicht mehr ordnungsgemäß.",
+"fr": "Si vous rejetez cette autorisation, il est possible que cela affecte certaines fonctionnalités de base de votre appareil.",
+"es": "Si deniegas este permiso, es posible que algunas funciones básicas de tu dispositivo dejen de funcionar correctamente."
+},
+"GooglePackageInstaller/grant_dialog_button_deny": {
+"res": "bullhead:GooglePackageInstaller:grant_dialog_button_deny",
+"en": "Deny",
+"hu": "Elutasítás",
+"de": "Ablehnen",
+"fr": "Refuser",
+"es": "Rechazar"
+},
+"GooglePackageInstaller/cancel": {
+"res": "bullhead:GooglePackageInstaller:cancel",
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
+"GooglePackageInstaller/permission_title": {
+"res": "bullhead:GooglePackageInstaller:permission_title",
+"args": 1,
+"en": "%1$s permissions",
+"hu": "A(z) %1$s jogosultságai",
+"de": "Berechtigungen für %1$s",
+"fr": "Autorisations d'accès aux données \"%1$s\"",
+"es": "Permisos: %1$s"
+},
+"GooglePackageInstaller/menu_show_system": {
+"res": "bullhead:GooglePackageInstaller:menu_show_system",
+"en": "Show system",
+"hu": "Rendszerfolyamatok megjelenítése",
+"de": "System anzeigen",
+"fr": "Afficher les processus système",
+"es": "Mostrar aplicaciones del sistema"
+},
+"high_power_on": {
+"res": "bullhead:Settings:high_power_on",
+"en": "Ignoring battery optimization",
+"hu": "Akkumulátoroptimalizálás figyelmen kívül hagyása",
+"de": "Akku-Leistungsoptimierung ignorieren",
+"fr": "Autorisée à ignorer l'optimisation de la batterie",
+"es": "Ignorando la optimización de la batería"
+},
+"high_power_off": {
+"res": "bullhead:Settings:high_power_off",
+"en": "Optimizing battery use",
+"hu": "Akkumulátorhasználat optimalizálása",
+"de": "Akkuverbrauch optimiert",
+"fr": "Utilisation de la batterie optimisée",
+"es": "Optimizando el uso de la batería"
+},
+"high_power_filter_on": {
+"res": "bullhead:Settings:high_power_filter_on",
+"en": "Not optimized",
+"hu": "Nincs optimalizálva",
+"de": "Nicht optimiert",
+"fr": "Non optimisées",
+"es": "No optimizadas"
+},
+"high_power_system": {
+"res": "bullhead:Settings:high_power_system",
+"en": "Battery optimization not available",
+"hu": "Nincs lehetőség akkumulátoroptimalizálásra",
+"de": "Akku-Leistungsoptimierung nicht verfügbar",
+"fr": "Optimisation de la batterie non disponible",
+"es": "Optimización de la batería no disponible"
+},
+"ignore_optimizations_on": {
+"res": "bullhead:Settings:ignore_optimizations_on",
+"en": "Don’t optimize",
+"hu": "Ne legyen optimalizálva",
+"de": "Nicht optimieren",
+"fr": "Ne pas optimiser",
+"es": "No optimizar"
+},
+"ignore_optimizations_on_desc": {
+"res": "bullhead:Settings:ignore_optimizations_on_desc",
+"en": "May drain your battery more quickly",
+"hu": "Előfordulhat, hogy az akkumulátor gyorsabban merül le.",
+"de": "Ihr Akku entleert sich hierdurch möglicherweise schneller.",
+"fr": "Risque de décharger la batterie plus rapidement.",
+"es": "La batería se puede agotar más rápido"
+},
+"ignore_optimizations_off": {
+"res": "bullhead:Settings:ignore_optimizations_off",
+"en": "Optimize",
+"hu": "Optimalizálás",
+"de": "Optimieren",
+"fr": "Optimiser",
+"es": "Optimizar"
+},
+"ignore_optimizations_off_desc": {
+"res": "bullhead:Settings:ignore_optimizations_off_desc",
+"en": "Recommended for better battery life",
+"hu": "Ajánlott a hosszabb akkumulátor-üzemidő érdekében.",
+"de": "Zur Verlängerung der Akkulaufzeit empfohlen",
+"fr": "Recommandé pour améliorer l'autonomie de la batterie",
+"es": "Recomendado para mejorar la duración de la batería"
+},
+"done": {
+"res": "bullhead:Settings:done",
+"en": "Done",
+"hu": "Kész",
+"de": "Fertig",
+"fr": "OK",
+"es": "Listo"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

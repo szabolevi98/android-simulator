@@ -235,3 +235,15 @@ div.mmst-pref:active{background:none}
 .mmdr-div{width:calc(1 * var(--dp));margin:calc(12 * var(--dp)) calc(8 * var(--dp));background:rgba(0,0,0,.12)}
 .mmst-ic.big{width:calc(40 * var(--dp));height:calc(40 * var(--dp))}
 .mmdr-row .mmbt-config{align-self:center}
+/* PackageInstaller's header.xml: actionBarSize on colorPrimary, the 40 dp icon centred in 72 dp, the Medium label. */
+.mmpi-header{position:relative;z-index:1;flex:none;display:flex;align-items:center;height:calc(56 * var(--dp));background:#263238;color:#fff;font-size:calc(18 * var(--dp))}
+.mmpi-header>img{width:calc(72 * var(--dp));height:calc(40 * var(--dp));object-fit:contain}
+.mmpi-header span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmpi-header button{width:calc(56 * var(--dp));height:calc(56 * var(--dp));margin-right:calc(16 * var(--dp));border:0;border-radius:50%;background:none;display:grid;place-items:center}
+.mmpi-header button img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+/* HighPowerDetail's choice. */
+.mmhp-dlg{padding:0 calc(24 * var(--dp)) calc(8 * var(--dp))}
+.mmhp-dlg p{margin:0 0 calc(8 * var(--dp));color:rgba(0,0,0,.541)}
+.mmhp-opt>span{display:flex;flex-direction:column}
+.mmhp-opt small{color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+.mmhp-opt:disabled{opacity:.4}

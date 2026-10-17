@@ -41,12 +41,11 @@
   function permissions(c, id) {
     const t = T(), a = MM.appsData[id], asked = a.permGroups || [];
     if (!asked.length) return t.t('runtime_permissions_summary_no_permissions_requested');
-    const roles = ROLES[id] === null ? asked : ROLES[id] || [];
-    const granted = asked.filter(g => roles.includes(g)).map(g => t.t(`framework/permgrouplab_${g}`));
-    if (!granted.length) return t.t('runtime_permissions_summary_no_permissions_granted');
+    const allowed = asked.filter(g => granted(c, id, g)).map(g => t.t(`framework/permgrouplab_${g}`));
+    if (!allowed.length) return t.t('runtime_permissions_summary_no_permissions_granted');
     const collator = new Intl.Collator(c.locale());
-    granted.sort((x, y) => collator.compare(x, y));
-    try { return new Intl.ListFormat(c.locale(), {type: 'conjunction'}).format(granted); } catch { return granted.join(', '); }
+    allowed.sort((x, y) => collator.compare(x, y));
+    try { return new Intl.ListFormat(c.locale(), {type: 'conjunction'}).format(allowed); } catch { return allowed.join(', '); }
   }
 
   // -- the list ------------------------------------------------------------------------------------------------------
@@ -125,7 +124,122 @@
         }}]});
         return true;
       }
-      if (name === 'mmai-pref') { MM.settingsGo(c, `missing:${el.dataset.key}`, ''); return true; }
+      if (name === 'mmai-pref') {
+        if (el.dataset.key === 'permission_settings' && (MM.appsData[id].permGroups || []).length) MM.settingsGo(c, `app-perms:${id}`, t.t('GooglePackageInstaller/app_permissions'));
+        else MM.settingsGo(c, `missing:${el.dataset.key}`, '');
+        return true;
+      }
+      return false;
+    }
+  };
+
+  // -- App permissions (GooglePackageInstaller) ----------------------------------------------------------------------
+  /* AppPermissionsFragment (ManagePermissionsActivity, the Settings theme): header.xml under the action bar (the app's
+     icon in the 72 dp start area, its label in Medium white on colorPrimary #263238, ic_info at the end), then a
+     SwitchPreference per platform permission group the app requests, sorted by label, with the framework's
+     perm_group_* icon in colorControlNormal; turning off a group the system granted (a default handler's) warns
+     system_warning with Cancel / Deny. ManagePermissionsFragment (Configure apps > App permissions): the groups with
+     "%1$d of %2$d apps allowed"; PermissionAppsFragment: the apps asking for a group, each with its switch. */
+  const GROUPS = ['calendar', 'camera', 'contacts', 'location', 'microphone', 'phone', 'sensors', 'sms', 'storage'];
+  const groupIcon = g => `assets/fw-perm_group_${g === 'phone' ? 'phone_calls' : g}.svg`;
+  const groupLabel = g => T().t(`framework/permgrouplab_${g}`);
+  const defaultGrant = (id, g) => ROLES[id] === null ? true : (ROLES[id] || []).includes(g);
+  const granted = (c, id, g) => { const p = (S(c).perms || {})[id] || {}; return g in p ? p[g] : defaultGrant(id, g); };
+  function setGrant(c, id, g, v) { const s = S(c); s.perms = {...(s.perms || {})}; s.perms[id] = {...(s.perms[id] || {}), [g]: v}; c.save(); }
+  const byLabel = (c, list) => { const col = new Intl.Collator(c.locale()); return list.sort((a, b) => col.compare(groupLabel(a), groupLabel(b))); };
+  MM.appPermissionGranted = granted;
+
+  const permRow = (c, action, key, icon, title, on, summary = '') => `<button type="button" class="mmst-pref" data-action="${action}" data-key="${key}"><span class="mmst-iconframe">${icon}</span><span class="mmst-texts"><span class="mmst-title">${c.safe(title)}</span>${summary ? `<span class="mmst-summary">${c.safe(summary)}</span>` : ''}</span><span class="mmst-widget"><i class="mmw-switch${on ? ' on' : ''}"><i class="mmw-thumb"></i></i></span></button>`;
+  MM.settingsScreens['app-perms'] = {
+    title: () => T().t('GooglePackageInstaller/app_permissions'),
+    bar(c, cur) {
+      const id = cur.screen.split(':')[1], a = MM.appsData[id];
+      return `<div class="mmpi-header"><img src="${a.icon}" alt=""><span>${c.safe(MM.appLabel(c, id))}</span><button type="button" data-action="mmpi-info"><img src="assets/pi-ic_info.svg" alt=""></button></div>`;
+    },
+    render(c, cur) {
+      const id = cur.screen.split(':')[1], groups = byLabel(c, [...(MM.appsData[id].permGroups || [])]);
+      return `<div class="mmst-list">${groups.map(g => permRow(c, 'mmpi-toggle', g, `<img class="mmst-ic" src="${groupIcon(g)}" alt="">`, groupLabel(g), granted(c, id, g))).join('')}</div>`;
+    },
+    action(c, name, el, cur) {
+      const t = T(), id = cur.screen.split(':')[1];
+      if (name === 'mmpi-info') { c.ui.settings.stack.pop(); c.render(); return true; }
+      if (name !== 'mmpi-toggle') return false;
+      const g = el.dataset.key, on = granted(c, id, g);
+      if (on && defaultGrant(id, g)) c.dialog({message: t.t('GooglePackageInstaller/system_warning'), buttons: [{label: t.t('GooglePackageInstaller/cancel')}, {label: t.t('GooglePackageInstaller/grant_dialog_button_deny'), action: c => { setGrant(c, id, g, false); c.render(); }}]});
+      else { setGrant(c, id, g, !on); c.render(); }
+      return true;
+    }
+  };
+  const asking = (c, g) => ids(c).filter(id => (MM.appsData[id].permGroups || []).includes(g));
+  MM.settingsScreens['perm-groups'] = {
+    title: () => T().t('GooglePackageInstaller/app_permissions'),
+    render(c) {
+      const t = T();
+      return `<div class="mmst-list">${byLabel(c, [...GROUPS]).map(g => { const apps = asking(c, g), n = apps.filter(id => granted(c, id, g)).length;
+        return `<button type="button" class="mmst-pref" data-action="mmpg-group" data-key="${g}"><span class="mmst-iconframe"><img class="mmst-ic" src="${groupIcon(g)}" alt=""></span><span class="mmst-texts"><span class="mmst-title">${c.safe(groupLabel(g))}</span><span class="mmst-summary">${c.safe(t.fmt('GooglePackageInstaller/app_permissions_group_summary', null, n, apps.length))}</span></span></button>`; }).join('')}</div>`;
+    },
+    action(c, name, el) {
+      if (name !== 'mmpg-group') return false;
+      MM.settingsGo(c, `perm-apps:${el.dataset.key}`, T().fmt('GooglePackageInstaller/permission_title', null, groupLabel(el.dataset.key)));
+      return true;
+    }
+  };
+  MM.settingsScreens['perm-apps'] = {
+    render(c, cur) {
+      const g = cur.screen.split(':')[1];
+      return `<div class="mmst-list">${asking(c, g).map(id => permRow(c, 'mmpa-toggle', id, `<img class="mmst-ic big" src="${MM.appsData[id].icon}" alt="">`, MM.appLabel(c, id), granted(c, id, g))).join('')}</div>`;
+    },
+    action(c, name, el, cur) {
+      if (name !== 'mmpa-toggle') return false;
+      const t = T(), g = cur.screen.split(':')[1], id = el.dataset.key, on = granted(c, id, g);
+      if (on && defaultGrant(id, g)) c.dialog({message: t.t('GooglePackageInstaller/system_warning'), buttons: [{label: t.t('GooglePackageInstaller/cancel')}, {label: t.t('GooglePackageInstaller/grant_dialog_button_deny'), action: c => { setGrant(c, id, g, false); c.render(); }}]});
+      else { setGrant(c, id, g, !on); c.render(); }
+      return true;
+    }
+  };
+
+  // -- Battery optimization (HighPowerApps, LIST_TYPE_HIGH_POWER) ------------------------------------------------------
+  /* The spinner's Not optimized (the device idle whitelist: the image's sysconfig allow-in-power-save packages, Google
+     Play services and Project Fi among the apps) and All apps; each row "Not optimized" or "Optimizing battery use";
+     HighPowerDetail's choice (Don't optimize / Optimize with their descriptions), not available for a system-whitelisted
+     package (high_power_system). */
+  const WHITELIST = ['gms', 'project-fi'];
+  const notOptimized = (c, id) => WHITELIST.includes(id) || (S(c).highPower || []).includes(id);
+  const powerApps = c => ['gms', ...ids(c)];
+  const appIcon = id => id === 'gms' ? 'assets/gms-ic_google.png' : MM.appsData[id].icon;
+  const appName = (c, id) => id === 'gms' ? T().t('PrebuiltGmsCore/common_app_name') : MM.appLabel(c, id);
+  MM.settingsScreens['high-power'] = {
+    title: () => T().t('high_power_apps'),
+    bar(c) {
+      const t = T(), all = c.ui.highPowerAll;
+      return `<div class="mmst-spinbar"><button type="button" class="mmst-spinner" data-action="mmhp-filter"><span>${c.safe(t.t(all ? 'filter_all_apps' : 'high_power_filter_on'))}</span><i></i></button></div>`;
+    },
+    render(c) {
+      const t = T(), col = new Intl.Collator(c.locale());
+      const list = powerApps(c).filter(id => c.ui.highPowerAll || notOptimized(c, id)).sort((a, b) => col.compare(appName(c, a), appName(c, b)));
+      return `<div class="mmst-list">${list.map(id => `<button type="button" class="mmap-row" data-action="mmhp-app" data-app="${id}"><img src="${appIcon(id)}" alt=""><span class="mmap-texts"><span class="mmap-line"><span class="mmap-label">${c.safe(appName(c, id))}</span></span><span class="mmap-sub">${c.safe(t.t(notOptimized(c, id) ? 'high_power_on' : 'high_power_off'))}</span></span></button>`).join('')}</div>`;
+    },
+    action(c, name, el) {
+      const t = T(), s = S(c);
+      if (name === 'mmhp-filter') {
+        const opts = [['high_power_filter_on', false], ['filter_all_apps', true]];
+        c.dialog({items: opts.map(([l, v]) => ({html: `<span class="mmst-choice"><i class="mmw-radio${!!c.ui.highPowerAll === v ? ' on' : ''}"></i><span>${c.safe(t.t(l))}</span></span>`})), onItem: i => { c.ui.highPowerAll = opts[i][1]; c.render(); }});
+        return true;
+      }
+      if (name !== 'mmhp-app') return false;
+      const id = el.dataset.app, sys = WHITELIST.includes(id), on = notOptimized(c, id);
+      const opt = (v, label, desc) => `<button type="button" class="mmsc-radio mmhp-opt" data-v="${v}"${sys ? ' disabled' : ''}><i class="mmw-radio${(v === 'on') === on ? ' on' : ''}"></i><span><span>${c.safe(t.t(label))}</span><small>${c.safe(t.t(desc))}</small></span></button>`;
+      c.dialog({title: appName(c, id), html: `<div class="mmhp-dlg">${sys ? `<p>${c.safe(t.t('high_power_system'))}</p>` : ''}${opt('on', 'ignore_optimizations_on', 'ignore_optimizations_on_desc')}${opt('off', 'ignore_optimizations_off', 'ignore_optimizations_off_desc')}</div>`,
+        buttons: [{label: t.t('done'), action: c => { const v = c.ui.highPowerPick; if (!sys && v) { s.highPower = (s.highPower || []).filter(x => x !== id); if (v === 'on') s.highPower.push(id); c.save(); c.render(); } }}],
+        mount(c, win) { c.ui.highPowerPick = null; win.querySelectorAll('.mmhp-opt').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); c.ui.highPowerPick = b.dataset.v; win.querySelectorAll('.mmhp-opt .mmw-radio').forEach(r => r.classList.toggle('on', r.closest('.mmhp-opt') === b)); })); }});
+      return true;
+    }
+  };
+  MM.settingsHooks.advanced_apps = {
+    click(c, key) {
+      const t = T();
+      if (key === 'manage_perms') { MM.settingsGo(c, 'perm-groups', t.t('GooglePackageInstaller/app_permissions')); return true; }
+      if (key === 'high_power_apps') { MM.settingsGo(c, 'high-power', t.t('high_power_apps')); return true; }
       return false;
     }
   };

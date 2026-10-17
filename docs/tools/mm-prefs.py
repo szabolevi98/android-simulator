@@ -153,7 +153,14 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'screensaver_settings_title', 'screensaver_settings_dream_start', 'screensaver_settings_when_to_dream', 'screensaver_settings_summary_dock',
          'screensaver_settings_summary_sleep', 'screensaver_settings_summary_either_short', 'screensaver_settings_disabled_prompt',
          'BasicDreams/color_dream_name', 'LiveWallpapersPicker/live_wallpaper_picker_label', 'Photos/photos_setwallpaper_app_name',
-         'Velvet/pick_wallpaper', 'wallpaper_settings_fragment_title', 'Photos/photos_theme_google_photos']
+         'Velvet/pick_wallpaper', 'wallpaper_settings_fragment_title', 'Photos/photos_theme_google_photos',
+         # GooglePackageInstaller's AppPermissionsFragment, ManagePermissionsFragment, PermissionAppsFragment
+         'GooglePackageInstaller/app_permissions', 'GooglePackageInstaller/app_permissions_group_summary+args2',
+         'GooglePackageInstaller/system_warning', 'GooglePackageInstaller/grant_dialog_button_deny', 'GooglePackageInstaller/cancel',
+         'GooglePackageInstaller/permission_title+args1', 'GooglePackageInstaller/menu_show_system', 'app_permissions',
+         # HighPowerApps, HighPowerDetail
+         'high_power_on', 'high_power_off', 'high_power_filter_on', 'high_power_system', 'ignore_optimizations_on', 'ignore_optimizations_on_desc',
+         'ignore_optimizations_off', 'ignore_optimizations_off_desc', 'done']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -305,6 +312,11 @@ def main():
     # VolumeSeekBarPreference's mute icons and NotificationSettings.updateRingOrNotificationPreference's vibrate icon.
     for key in ['ic_audio_media_mute', 'ic_audio_alarm_mute', 'ic_audio_ring_notif_mute', 'ic_audio_ring_notif_vibrate']:
         drawable('framework', key)
+    # PackageInstaller's permission screens: the framework's group icons in colorControlNormal (Utils.applyTint), the
+    # header's info button in white.
+    for g in ['calendar', 'camera', 'contacts', 'location', 'microphone', 'phone_calls', 'sensors', 'sms', 'storage']:
+        vec.append(f'fw-perm_group_{g}.svg\tframework/framework-res.apk\tperm_group_{g}\ttint=#8a000000')
+    vec.append('pi-ic_info.svg\tpriv-app/GooglePackageInstaller/GooglePackageInstaller.apk\tic_info\ttint=#ffffffff')
     # ManageApplications' action bar gear (ic_settings_24dp in the action bar's white).
     vec.append(f'st-ic_settings_24dp.svg\t{APKPATH}\tic_settings_24dp\ttint=#ffffffff')
     # BatteryEntry's icons for the system's own drains.
