@@ -24,6 +24,19 @@ versions/6.0.1/assets/app-search.png	c9dd419b800ceacd	copy	bullhead:/system/priv
 versions/6.0.1/assets/app-settings.png	95337b618ba7c599	copy	bullhead:/system/priv-app/Settings/Settings.apk!res/mipmap-xxxhdpi-v4/ic_launcher_settings.png	mipmap-xxxhdpi-v4		95337b618ba7c599
 versions/6.0.1/assets/app-youtube.png	410baa2ebad0aeb5	copy	bullhead:/system/app/YouTube/YouTube.apk!res/mipmap-xxxhdpi-v4/ic_launcher.png	mipmap-xxxhdpi-v4		410baa2ebad0aeb5
 versions/6.0.1/assets/bd-colors_icon.png	3fe1de646cede7ef	copy	bullhead:/system/app/BasicDreams/BasicDreams.apk!res/mipmap-xhdpi-v4/colors_icon.png	mipmap-xhdpi-v4		3fe1de646cede7ef
+versions/6.0.1/assets/bg-ic_add_white.png	8712ef49d2c96bda	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/ic_add_white.png	drawable-xxhdpi-v4		8712ef49d2c96bda
+versions/6.0.1/assets/bg-ic_arrow_back_light.png	93d01cbffe38b055	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/ic_arrow_back_light.png	drawable-xxhdpi-v4		93d01cbffe38b055
+versions/6.0.1/assets/bg-ic_attachment_dark.png	a1fecbd0af7d65fc	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/ic_attachment_dark.png	drawable-xxhdpi-v4		a1fecbd0af7d65fc
+versions/6.0.1/assets/bg-ic_emoji_dark.png	82f01ddec9833059	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/ic_emoji_dark.png	drawable-xxhdpi-v4		82f01ddec9833059
+versions/6.0.1/assets/bg-ic_person_add_light.png	99ed129361970b36	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/ic_person_add_light.png	drawable-xxhdpi-v4		99ed129361970b36
+versions/6.0.1/assets/bg-ic_person_light.png	fa00d1e14da9e5e0	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/ic_person_light.png	drawable-xxhdpi-v4		fa00d1e14da9e5e0
+versions/6.0.1/assets/bg-ic_phone_small_light.png	dc3efda232109750	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/ic_phone_small_light.png	drawable-xxhdpi-v4		dc3efda232109750
+versions/6.0.1/assets/bg-ic_search_light.png	b2e1fe777bcc2d3f	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/ic_search_light.png	drawable-xxhdpi-v4		b2e1fe777bcc2d3f
+versions/6.0.1/assets/bg-ic_send_light.png	b5e9ea1354e30eda	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/ic_send_light.png	drawable-xxhdpi-v4		b5e9ea1354e30eda
+versions/6.0.1/assets/bg-ic_sms_delivery_ok.png	ff28fcba9732f016	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/ic_sms_delivery_ok.png	drawable-xxhdpi-v4		ff28fcba9732f016
+versions/6.0.1/assets/bg-msg_bubble_incoming.9.png	110618ff2fe52c51	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/msg_bubble_incoming.9.png	drawable-xxhdpi-v4		110618ff2fe52c51
+versions/6.0.1/assets/bg-msg_bubble_input.9.png	dd86564d9e539c10	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/msg_bubble_input.9.png	drawable-xxhdpi-v4		dd86564d9e539c10
+versions/6.0.1/assets/bg-msg_bubble_outgoing.9.png	874ed2e24fe68f1e	copy	bullhead:/system/app/PrebuiltBugle/PrebuiltBugle.apk!res/drawable-xxhdpi-v4/msg_bubble_outgoing.9.png	drawable-xxhdpi-v4		874ed2e24fe68f1e
 versions/6.0.1/assets/boot-part0.webp	273ab0813062f4d8	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/6.0.1/assets/boot-part1.webp	768599a777099c0d	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	
 versions/6.0.1/assets/boot-part2.webp	0ab38eb11cbf0301	generated	bullhead:/system/media/bootanimation.zip		sprite sheet of the part, cropped and scaled (docs/tools/bootanimation.py)	

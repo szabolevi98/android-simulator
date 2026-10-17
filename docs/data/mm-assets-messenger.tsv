@@ -1,0 +1,14 @@
+# Messenger 1.4.533 (app/PrebuiltBugle): the conversation list, the conversation and its compose bar, the contact picker (mm-messenger.js)
+bg-ic_send_light.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_send_light
+bg-ic_attachment_dark.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_attachment_dark
+bg-ic_emoji_dark.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_emoji_dark
+bg-ic_add_white.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_add_white
+bg-ic_search_light.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_search_light
+bg-ic_phone_small_light.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_phone_small_light
+bg-ic_person_add_light.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_person_add_light
+bg-ic_person_light.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_person_light
+bg-ic_arrow_back_light.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_arrow_back_light
+bg-ic_sms_delivery_ok.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/ic_sms_delivery_ok
+bg-msg_bubble_incoming.9.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/msg_bubble_incoming
+bg-msg_bubble_outgoing.9.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/msg_bubble_outgoing
+bg-msg_bubble_input.9.png	app/PrebuiltBugle/PrebuiltBugle.apk	drawable/msg_bubble_input
