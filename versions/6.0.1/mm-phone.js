@@ -247,8 +247,8 @@
   // A screen opened with a sub: 'call:<number>' places the call, 'dial:<number>' opens the dialpad with it.
   function consume(c) {
     const u = ui(c), sub = c.ui.sub || '';
-    if (!sub || sub === u.opened) return;
-    u.opened = sub;
+    if (!sub) return;
+    u.opened = sub; c.ui.sub = '';
     if (sub.startsWith('call:')) { u.dialpad = false; u.digits = ''; u.search = null; u.screen = ''; begin(c, sub.slice(5)); }
     else if (sub.startsWith('dial:')) { u.screen = ''; u.search = null; u.dialpad = true; u.digits = P().digits(sub.slice(5)); }
   }
@@ -261,6 +261,8 @@
     return main(c);
   }
   function mount(c, root) {
+    const u = ui(c), page = root.querySelector('.mmph-page, .mmph-results, .mmph-hist');
+    if (page) { const key = `${u.screen}|${u.tab}|${u.historyTab}|${u.dialpad}|${u.search !== null}`; page.scrollTop = u.scroll?.[key] || 0; page.addEventListener('scroll', () => { (u.scroll ||= {})[key] = page.scrollTop; }, {passive: true}); }
     const input = root.querySelector('.mmph-sinput');
     if (input) {
       input.addEventListener('input', () => { ui(c).search = input.value; const pos = input.selectionStart; c.render(); const i2 = c.el.viewport.querySelector('.mmph-sinput'); if (i2) { i2.focus(); i2.setSelectionRange(pos, pos); } });

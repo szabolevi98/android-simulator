@@ -127,3 +127,5 @@ fw-ic_checkbox_checked.svg	framework/framework-res.apk	ic_checkbox_checked	tint=
 fw-ic_checkbox_unchecked.svg	framework/framework-res.apk	ic_checkbox_unchecked	tint=#ff000000
 # The keyguard bouncer (keyguard_pin_view.xml): the delete key
 sui-ic_backspace_24dp.svg	priv-app/SystemUI/SystemUI.apk	ic_backspace_24dp	-
+fw-ic_dialog_alert_material.svg	framework/framework-res.apk	ic_dialog_alert_material	tint=#8a000000
+fw-ic_spinner_caret.svg	framework/framework-res.apk	ic_spinner_caret	tint=#8a000000
