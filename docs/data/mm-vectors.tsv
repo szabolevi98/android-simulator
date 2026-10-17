@@ -143,3 +143,5 @@ ca-ic_notes.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_notes	-
 ca-ic_notification.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_notification	-
 ca-ic_calendar.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_calendar	-
 ca-ic_edit_white.svg	app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk	ic_edit_white	-
+cm-ic_switch_camera_back.svg	app/GoogleCamera/GoogleCamera.apk	ic_switch_camera_back	-
+cm-ic_switch_camera_front.svg	app/GoogleCamera/GoogleCamera.apk	ic_switch_camera_front	-

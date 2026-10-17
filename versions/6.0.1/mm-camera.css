@@ -1,0 +1,30 @@
+/* Camera (mm-camera.js), in dp: Google Camera 3.1.024's viewfinder, bottom bar, mode options and mode list. */
+.mmcm{position:absolute;inset:0;display:flex;flex-direction:column;background:#1b1b1b;overflow:hidden;font-family:Roboto,sans-serif;color:#fff}
+.mmcm-preview{flex:none;position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;background:#000}
+.mmcm-scene{position:absolute;inset:0;width:100%;height:100%}
+.mmcm-flashfx{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.mmcm-count{position:absolute;inset:0;display:grid;place-items:center;font:300 calc(96 * var(--dp)) Roboto,sans-serif;text-shadow:0 0 calc(8 * var(--dp)) rgba(0,0,0,.5)}
+.mmcm-rec{position:absolute;left:50%;top:calc(16 * var(--dp));transform:translateX(-50%);display:flex;align-items:center;gap:calc(8 * var(--dp));padding:calc(4 * var(--dp)) calc(10 * var(--dp));border-radius:calc(2 * var(--dp));background:rgba(0,0,0,.3);font-size:calc(16 * var(--dp))}
+.mmcm-rec i{width:calc(10 * var(--dp));height:calc(10 * var(--dp));border-radius:50%;background:#db4437}
+.mmcm-burger{position:absolute;left:0;top:0;width:calc(88 * var(--dp));height:calc(88 * var(--dp));padding:calc(16 * var(--dp)) calc(48 * var(--dp)) calc(48 * var(--dp)) calc(16 * var(--dp));border:0;background:none;display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box}
+.mmcm-burger i{display:block;height:calc(2 * var(--dp));background:#fff;box-shadow:0 0 calc(2 * var(--dp)) rgba(0,0,0,.4)}
+.mmcm-opts{position:absolute;right:0;top:0;display:flex;height:calc(56 * var(--dp))}
+.mmcm-opts button{width:calc(48 * var(--dp));height:calc(56 * var(--dp));padding:0;border:0;background:none;display:grid;place-items:center}
+.mmcm-opts img{width:calc(32 * var(--dp));height:calc(32 * var(--dp))}
+.mmcm-opts img.hdr{width:calc(40 * var(--dp));height:calc(40 * var(--dp))}
+.mmcm-bottom{flex:1;display:flex;align-items:center;justify-content:space-between;padding:0 calc(25 * var(--dp)) 0 calc(36 * var(--dp))}
+.mmcm-switch{width:calc(48 * var(--dp));height:calc(48 * var(--dp));padding:calc(12 * var(--dp));border:0;border-radius:50%;background:none}
+.mmcm-switch img{width:100%;height:100%}
+.mmcm-shutter{width:calc(84 * var(--dp));height:calc(84 * var(--dp));padding:0;border:0;border-radius:50%;box-shadow:0 calc(3 * var(--dp)) calc(6 * var(--dp)) rgba(0,0,0,.4);display:grid;place-items:center;transition:transform .1s}
+.mmcm-shutter:active{transform:scale(.94)}
+.mmcm-shutter img{width:100%;height:100%}
+.mmcm-shutter.rec img{opacity:0}
+.mmcm-shutter.rec::after{content:"";position:absolute;width:calc(28 * var(--dp));height:calc(28 * var(--dp));border-radius:calc(2 * var(--dp));background:#fff}
+.mmcm-thumb{width:calc(54 * var(--dp));height:calc(54 * var(--dp));padding:0;border:0;border-radius:50%;background:#333;overflow:hidden}
+.mmcm-tsvg{width:100%;height:100%}
+.mmcm-mscrim{position:absolute;inset:0;z-index:10;background:rgba(0,0,0,.4)}
+.mmcm-modes{position:absolute;z-index:11;left:0;top:0;bottom:0;width:calc(260 * var(--dp));padding-top:calc(72 * var(--dp));background:rgba(0,0,0,.75);animation:mmcm-in .2s cubic-bezier(.4,0,.2,1)}
+@keyframes mmcm-in{from{transform:translateX(-100%)}}
+.mmcm-mode{display:flex;align-items:center;width:100%;height:calc(60 * var(--dp));padding:0;border:0;background:none;color:#fff;font:calc(16 * var(--dp)) Roboto,sans-serif;text-align:left}
+.mmcm-mode i{flex:none;display:grid;place-items:center;width:calc(40 * var(--dp));height:calc(40 * var(--dp));margin:0 calc(16 * var(--dp)) 0 calc(8 * var(--dp));border-radius:50%;background:rgba(0,0,0,.298)}
+.mmcm-mode img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}

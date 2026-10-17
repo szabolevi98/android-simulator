@@ -1,0 +1,22 @@
+# Google Camera 3.1.024 (app/GoogleCamera): the mode list, the shutter, the mode options (mm-camera.js)
+cm-ic_camera_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_camera_normal
+cm-ic_video_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_video_normal
+cm-ic_refocus_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_refocus_normal
+cm-ic_photosphere_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_photosphere_normal
+cm-ic_panorama_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_panorama_normal
+cm-ic_settings_normal_nopadding.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_settings_normal_nopadding
+cm-ic_capture_camera_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_capture_camera_normal
+cm-ic_capture_video.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_capture_video
+cm-ic_capture_refocus.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_capture_refocus
+cm-ic_capture_pano.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_capture_pano
+cm-ic_flash_off_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_flash_off_normal
+cm-ic_flash_auto_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_flash_auto_normal
+cm-ic_flash_on_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_flash_on_normal
+cm-ic_hdr_plus_off_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_hdr_plus_off_normal
+cm-ic_hdr_plus_on_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_hdr_plus_on_normal
+cm-ic_hdr_plus_auto_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_hdr_plus_auto_normal
+cm-ic_timer_off_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_timer_off_normal
+cm-ic_timer_3s_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_timer_3s_normal
+cm-ic_timer_10s_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_timer_10s_normal
+cm-ic_exposure_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_exposure_normal
+cm-ic_cancel_normal.png	app/GoogleCamera/GoogleCamera.apk	drawable/ic_cancel_normal

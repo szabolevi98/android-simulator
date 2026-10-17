@@ -153,3 +153,8 @@ reminders_calendar_name drawer_birthdays_text drawer_holidays_text today no_even
 reminder edit_label_all_day more_options edit_event_delete edit_label discard_dialog_body_new_event
 discard_dialog_body_existing_event discard_dialog_discard discard_dialog_keep_editing delete_this_event_title
 edit_location_hint edit_description_hint edit_recurrence_none
+[camera] GoogleCamera framework
+# Google Camera 3.1.024: the mode list, the shutter, the mode options' descriptions
+mode_camera mode_video mode_refocus mode_photosphere mode_panorama mode_settings accessibility_shutter_button
+accessibility_mode_options array:camera_flash_descriptions array:hdr_plus_descriptions array:countdown_duration_descriptions
+video_recording_started video_recording_stopped
