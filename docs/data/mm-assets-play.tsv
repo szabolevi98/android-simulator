@@ -1,0 +1,19 @@
+# Google Play Store 5.12.7 (priv-app/Phonesky): the toolbar, drawer, cards, details and download icons (mm-play.js)
+ps-ic_search_white.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_search_white
+ps-ic_menu_moreoverflow_white.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_menu_moreoverflow_white
+ps-ic_menu_moreoverflow_card_dark_normal.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_menu_moreoverflow_card_dark_normal
+ps-ic_drawer_home.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_home
+ps-ic_drawer_home_selected.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_home_selected
+ps-ic_drawer_myapps.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_myapps
+ps-ic_drawer_myapps_selected.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_myapps_selected
+ps-ic_drawer_wishlist.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_wishlist
+ps-ic_drawer_people.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_people
+ps-ic_drawer_myaccount.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_myaccount
+ps-ic_drawer_redeem.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_redeem
+ps-ic_drawer_settings.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_drawer_settings
+ps-ic_mic_dark.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_mic_dark
+ps-ic_search_recent.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_search_recent
+ps-ic_profile_none.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_profile_none
+ps-ic_whats_new.png	priv-app/Phonesky/Phonesky.apk	drawable/ic_whats_new
+ps-play_ic_dl_m_download_00000.png	priv-app/Phonesky/Phonesky.apk	drawable/play_ic_dl_m_download_00000
+ps-play_ic_dl_m_finish_00015.png	priv-app/Phonesky/Phonesky.apk	drawable/play_ic_dl_m_finish_00015
