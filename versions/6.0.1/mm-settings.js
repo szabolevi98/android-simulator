@@ -154,7 +154,7 @@
     const own = hook.row?.(c, n.key, n);
     if (own) return own;
     const title = hook.title?.(c, n.key, n) ?? str(n.title), summary = summaryOf(c, n, xml);
-    const v = value(c, n), disabled = hook.disabled?.(c, n.key, n) || String(n.enabled) === 'false' || (n.dependency && !value(c, findKey(X()[xml], n.dependency) || {}));
+    const v = value(c, n), disabled = hook.disabled?.(c, n.key, n) || String(n.enabled) === 'false' || (n.dependency && dependentsOff(c, findKey(X()[xml], n.dependency)));
     let widget = '';
     if (n.t === 'SwitchPreference' || hook.switch?.includes(n.key)) widget = `<i class="mmw-switch${v ? ' on' : ''}"><i class="mmw-thumb"></i></i>`;
     if (n.t === 'CheckBoxPreference') widget = `<i class="mmst-check${v ? ' on' : ''}"></i>`;
@@ -162,6 +162,13 @@
     // A row not selectable (setSelectable(false)) is plain text; wifi_advance_layout draws its texts in the Small size.
     const tag = hook.selectable?.(c, n.key, n) === false ? 'div' : 'button', small = n.layout === 'layout/wifi_advance_layout' ? ' small' : '';
     return `<${tag} ${tag === 'button' ? 'type="button" ' : ''}class="mmst-pref${disabled ? ' disabled' : ''}${small}" data-action="mmst-pref" data-key="${c.safe(n.key || '')}" ${disabled ? 'disabled' : ''}>${ic}<span class="mmst-texts"><span class="mmst-title">${c.safe(title)}</span>${summary ? `<span class="mmst-summary">${c.safe(summary)}</span>` : ''}</span>${widget ? `<span class="mmst-widget">${widget}</span>` : ''}</${tag}>`;
+  }
+  // Preference.shouldDisableDependents: a two-state dependency disables its dependents when its value equals
+  // disableDependentsState (false unless the XML says so).
+  function dependentsOff(c, dep) {
+    if (!dep) return false;
+    const v = value(c, dep);
+    return String(dep.disableDependentsState) === 'true' ? !!v : !v;
   }
   function findKey(node, key) {
     if (!node) return null;

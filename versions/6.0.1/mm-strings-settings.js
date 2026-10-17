@@ -7169,6 +7169,22 @@ MM.strings('settings', {
 "fr": "Ces paramètres sont en cours de développement. Ils peuvent endommager votre appareil et les applications qui s'y trouvent, ou provoquer leur dysfonctionnement.",
 "es": "Estos ajustes están destinados únicamente a los desarrolladores. Pueden provocar que el dispositivo o las aplicaciones no funcionen correctamente."
 },
+"android_beam_on_summary": {
+"res": "bullhead:Settings:android_beam_on_summary",
+"en": "Ready to transmit app content via NFC",
+"hu": "Készen áll az alkalmazási tartalmak továbbítására kis hatósugarú vezeték nélküli kommunikáció segítségével",
+"de": "Bereit zur Übertragung von App-Inhalten über NFC",
+"fr": "Prêt à partager le contenu d'applications via NFC",
+"es": "Listo para compartir contenido de aplicaciones por NFC"
+},
+"android_beam_off_summary": {
+"res": "bullhead:Settings:android_beam_off_summary",
+"en": "Off",
+"hu": "Ki",
+"de": "Aus",
+"fr": "Désactivé",
+"es": "No"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

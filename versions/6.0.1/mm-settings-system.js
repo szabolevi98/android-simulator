@@ -282,4 +282,34 @@
       return true;
     }
   };
+
+  /* wireless_settings (WirelessSettings, "More"): network service discovery, WiMAX (config_wimaxEnabled false), the
+     proxy, Manage mobile plan (config_show_mobile_plan false) and Wi-Fi calling (the carrier does not enable WFC) go;
+     airplane mode is the system's; NFC (NfcNci, on) and Android Beam (On / Off, off with NFC off) stay without depending
+     on airplane mode (airplane_mode_toggleable_radios lists nfc and wifi); Tethering & portable hotspot, VPN, Cellular
+     networks and Emergency broadcasts (CellBroadcastReceiver, config_cellBroadcastAppLinks) stay. */
+  H.wireless_settings = {
+    hidden: ['toggle_nsd', 'wimax_settings', 'proxy_settings', 'manage_mobile_plan', 'wifi_calling_settings'],
+    get(c, key) {
+      const s = S(c);
+      if (key === 'toggle_airplane') return !!s.airplane;
+      if (key === 'toggle_nfc') return s.nfc ?? true;
+      return undefined;
+    },
+    set(c, key, v) {
+      const s = S(c);
+      if (key === 'toggle_airplane') { MM.system.setAirplane(c, v); return true; }
+      if (key === 'toggle_nfc') { s.nfc = v; return true; }
+      return false;
+    },
+    disabled: (c, key) => key === 'android_beam_settings' && !(S(c).nfc ?? true),
+    summary(c, key) {
+      if (key === 'android_beam_settings') return T().t((S(c).nfc ?? true) && (S(c).beam ?? true) ? 'android_beam_on_summary' : 'android_beam_off_summary');
+      return undefined;
+    },
+    click(c, key, n) {
+      if (key === 'mobile_network_settings' || key === 'cell_broadcast_settings') { MM.settingsGo(c, `missing:${n.intent.targetClass}`, MM.settingsStr(n.title)); return true; }
+      return false;
+    }
+  };
 })();

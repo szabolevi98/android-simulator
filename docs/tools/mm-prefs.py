@@ -125,7 +125,7 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'accessibility_global_gesture_preference_summary_off', 'accessibility_global_gesture_preference_summary_on',
          'talkback/talkback_title', 'talkback/switch_service_name', 'CloudPrint2/app_name', 'print_feature_state_on',
          'print_feature_state_off', 'mock_location_app_not_set', 'debug_app_not_set', 'adb_warning_title', 'adb_warning_message',
-         'dev_settings_warning_title', 'dev_settings_warning_message']
+         'dev_settings_warning_title', 'dev_settings_warning_message', 'android_beam_on_summary', 'android_beam_off_summary']
 strings, arrays, drawables = set(), set(), {}
 
 
