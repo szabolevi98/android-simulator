@@ -5734,6 +5734,118 @@ MM.strings('settings', {
 "fr": "Annuler",
 "es": "Cancelar"
 },
+"show_dev_countdown": {
+"res": "bullhead:Settings:show_dev_countdown",
+"en": {
+"other": "You are now %1$d steps away from being a developer.",
+"one": "You are now %1$d step away from being a developer."
+},
+"hu": {
+"other": "%1$d lépésre van attól, hogy fejlesztő legyen.",
+"one": "%1$d lépésre van attól, hogy fejlesztő legyen."
+},
+"de": {
+"other": "In %1$d Schritten bist du Entwickler.",
+"one": "In %1$d Schritt bist du Entwickler."
+},
+"fr": {
+"other": "Plus que %1$d étapes pour devenir développeur",
+"one": "Plus que %1$d étape pour devenir développeur"
+},
+"es": {
+"other": "Solo te quedan %1$d pasos de ser un desarrollador.",
+"one": "Solo te queda %1$d paso de ser un desarrollador."
+}
+},
+"show_dev_on": {
+"res": "bullhead:Settings:show_dev_on",
+"en": "You are now a developer!",
+"hu": "Ön mostantól már fejlesztő!",
+"de": "Du bist jetzt Entwickler!",
+"fr": "Vous êtes désormais un développeur !",
+"es": "¡Ahora están activadas las opciones de desarrollo!"
+},
+"show_dev_already": {
+"res": "bullhead:Settings:show_dev_already",
+"en": "No need, you are already a developer.",
+"hu": "Nincs rá szükség, Ön már fejlesztő.",
+"de": "Okay, du bist bereits Entwickler.",
+"fr": "Inutile, vous êtes déjà un développeur.",
+"es": "Las opciones de desarrollo ya están activadas."
+},
+"battery_info_status_discharging": {
+"res": "bullhead:Settings:battery_info_status_discharging",
+"en": "Not charging",
+"hu": "Nem tölt",
+"de": "Wird nicht geladen",
+"fr": "Pas en charge",
+"es": "No se está cargando"
+},
+"battery_info_status_charging": {
+"res": "bullhead:Settings:battery_info_status_charging",
+"en": "Charging",
+"hu": "Töltés",
+"de": "Wird aufgeladen",
+"fr": "Batterie en charge",
+"es": "Cargando"
+},
+"battery_info_status_full": {
+"res": "bullhead:Settings:battery_info_status_full",
+"en": "Full",
+"hu": "Feltöltve",
+"de": "Voll",
+"fr": "pleine",
+"es": "Completa"
+},
+"sim_signal_strength": {
+"res": "bullhead:Settings:sim_signal_strength",
+"args": 2,
+"en": "%1$d dBm %2$d asu",
+"hu": "%1$d dBm %2$d asu",
+"de": "%1$d dBm %2$d asu",
+"fr": "%1$d dBm %2$d asu",
+"es": "%1$d dBm %2$d asu"
+},
+"radioInfo_service_in": {
+"res": "bullhead:Settings:radioInfo_service_in",
+"en": "In service",
+"hu": "Szolgáltatás",
+"de": "In Betrieb",
+"fr": "Service en cours",
+"es": "En servicio"
+},
+"radioInfo_service_off": {
+"res": "bullhead:Settings:radioInfo_service_off",
+"en": "Radio off",
+"hu": "Rádió kikapcsolva",
+"de": "Mobilfunkverbindung aus",
+"fr": "Signal radio désactivé",
+"es": "Señal móvil desactivada"
+},
+"radioInfo_roaming_not": {
+"res": "bullhead:Settings:radioInfo_roaming_not",
+"en": "Not roaming",
+"hu": "Nem barangol",
+"de": "Kein Roaming",
+"fr": "Sans itinérance",
+"es": "Sin itinerancia"
+},
+"radioInfo_data_connected": {
+"res": "bullhead:Settings:radioInfo_data_connected",
+"en": "Connected",
+"hu": "Csatlakozva",
+"de": "Verbunden",
+"fr": "Connecté",
+"es": "Conectado"
+},
+"radioInfo_data_disconnected": {
+"res": "bullhead:Settings:radioInfo_data_disconnected",
+"en": "Disconnected",
+"hu": "Szétkapcsolva",
+"de": "Nicht verbunden",
+"fr": "Déconnecté",
+"es": "Desconectada"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

@@ -57,7 +57,8 @@
     'com.android.settings.DateTimeSettings': 'date_time_prefs', 'com.android.settings.ScreenPinningSettings': 'screen_pinning_settings',
     'com.android.settings.TrustAgentSettings': 'trust_agent_settings', 'com.android.settings.fuelgauge.BatterySaverSettings': 'battery_saver_settings',
     'com.android.settings.UsageAccessSettings': 'usage_access_settings', 'com.android.settings.wfd.WifiDisplaySettings': 'wifi_display_settings',
-    'com.android.settings.notification.AppNotificationSettings': 'app_notification_settings', 'com.android.settings.SecuritySettings': 'security_settings_misc'
+    'com.android.settings.notification.AppNotificationSettings': 'app_notification_settings', 'com.android.settings.SecuritySettings': 'security_settings_misc',
+    'com.android.settings.deviceinfo.ImeiInformation': 'device_info_phone_status'
   };
   function screenOf(fragment) {
     if (!fragment) return null;
@@ -234,7 +235,7 @@
         if (n.t === 'EditTextPreference') { textDialog(c, n, cur.xml); return true; }
         if (n.fragment) { go(c, screenOf(n.fragment), str(n.title)); return true; }
         if (n.t === 'PreferenceScreen' && n.c && !n.fragment) { go(c, `xml:${cur.xml}#${n.key}`, str(n.title)); return true; }
-        if (n.intent) { go(c, `missing:${n.intent.targetClass || n.intent.action || ''}`, str(n.title)); return true; }
+        if (n.intent) { go(c, screenOf(n.intent.targetClass) && !screenOf(n.intent.targetClass).startsWith('missing:') ? screenOf(n.intent.targetClass) : `missing:${n.intent.targetClass || n.intent.action || ''}`, str(n.title)); return true; }
         return true;
       }
       return false;

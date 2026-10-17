@@ -53,6 +53,7 @@
   function boot(c) {
     const data = window.BootAnimationData;
     c.ui.power = 'boot'; c.ui.overlay = '';
+    if (MM.system) MM.system.live.bootAt = Date.now();   // SystemClock.elapsedRealtime starts again
     ensureLayer(c).hidden = false;
     layer.innerHTML = '<div class="mmpw-boot"><div class="mmpw-frame"></div></div>';
     const frame = layer.querySelector('.mmpw-frame');

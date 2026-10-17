@@ -1,4 +1,5 @@
 # Settings drawables named by its preference screens (written by docs/tools/mm-prefs.py)
+st-regulatory_info_lgh790.png	priv-app/Settings/Settings.apk	drawable/regulatory_info_lgh790
 st-ic_bt_headset_hfp.png	priv-app/Settings/Settings.apk	drawable/ic_bt_headset_hfp
 st-ic_bt_headphones_a2dp.png	priv-app/Settings/Settings.apk	drawable/ic_bt_headphones_a2dp
 st-ic_bt_config.png	priv-app/Settings/Settings.apk	drawable/ic_bt_config

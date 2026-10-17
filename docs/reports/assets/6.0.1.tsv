@@ -100,6 +100,7 @@ versions/6.0.1/assets/st-ic_wifi_signal_2.svg	52bd70bba214edda	vector	bullhead:/
 versions/6.0.1/assets/st-ic_wifi_signal_3.svg	3a961c52124d4c48	vector	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable/ic_wifi_signal_3.xml	drawable	vector drawable drawn as SVG	cecf7b9459954c31
 versions/6.0.1/assets/st-ic_wifi_signal_4.svg	ba8832854d5bed94	vector	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable/ic_wifi_signal_4.xml	drawable	vector drawable drawn as SVG	a7c92c6598b27303
 versions/6.0.1/assets/st-ic_wifi_signal_lock.svg	e296e8539aea5e08	vector	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable/ic_wifi_signal_lock.xml	drawable	vector drawable drawn as SVG	0b91a8beb4274a19
+versions/6.0.1/assets/st-regulatory_info_lgh790.png	87e0bb273c123306	copy	bullhead:/system/priv-app/Settings/Settings.apk!res/drawable-xhdpi-v4/regulatory_info_lgh790.png	drawable-xhdpi-v4		87e0bb273c123306
 versions/6.0.1/assets/sui-ic_access_alarms_big.svg	54c66bc3509e3272	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_access_alarms_big.xml	drawable	vector drawable drawn as SVG	0ccaaf84a45203f4
 versions/6.0.1/assets/sui-ic_access_alarms_small.svg	47179ef1318c04db	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_access_alarms_small.xml	drawable	vector drawable drawn as SVG	af9011404059dd63
 versions/6.0.1/assets/sui-ic_add_circle_qs.svg	40f4e83a9edd44cf	vector	bullhead:/system/priv-app/SystemUI/SystemUI.apk!res/drawable/ic_add_circle_qs.xml	drawable	vector drawable drawn as SVG	3fbdb23a1bb849e0

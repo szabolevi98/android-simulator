@@ -19,7 +19,7 @@
   Object.assign(MM.defaults.settings, {wifi: true, wifiSsid: 'Home Network', bluetooth: false, airplane: false, zen: 0, zenFavorite: 3, zenUntil: 0, mobileData: true,
     rotationLocked: false, location: true, brightnessAuto: true, brightness: 78, brightnessAdj: 0});
   // What is not saved: the flashlight (it goes off with the camera service on a reboot) and the radios coming up.
-  const live = {flashlight: false, wifiConnecting: 0, btConnecting: {}, btPairing: null, btTurningOn: 0, btScanUntil: 0};
+  const live = {flashlight: false, wifiConnecting: 0, btConnecting: {}, btPairing: null, btTurningOn: 0, btScanUntil: 0, bootAt: Date.now()};
 
   // The simulator's Wi-Fi networks, as every version has them (names are data, not interface text): level is
   // WifiManager.calculateSignalLevel(rssi, 4), 0..3; saved ones connect without a password.

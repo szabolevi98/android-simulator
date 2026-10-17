@@ -106,3 +106,8 @@ div.mmst-pref:active{background:none}
 .mmbt-label{padding-top:calc(16 * var(--dp));color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
 .mmbt-label.use{padding-bottom:calc(4 * var(--dp))}
 .mmbt-profiles .mmwf-edit{margin-left:0;width:100%;box-sizing:border-box}
+/* A summary keeps its line breaks (the kernel version's three lines). */
+.mmst-summary{white-space:pre-line}
+/* regulatory_info.xml: the image fitted to the dialog's width, scrolling. */
+.mmst-regulatory{max-height:calc(420 * var(--dp));overflow-y:auto}
+.mmst-regulatory img{display:block;width:100%;height:auto}

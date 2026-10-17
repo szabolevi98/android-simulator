@@ -56,7 +56,12 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'bluetooth_disconnect_all_profiles+args1', 'bluetooth_pairing_request+args1', 'bluetooth_pairing_accept',
          'bluetooth_pairing_decline', 'bluetooth_pairing_key_msg', 'bluetooth_pairing_shares_phonebook+args1', 'bluetooth_rename_button',
          'progress_scanning', 'bluetooth_preference_paired_dialog_name_label', 'bluetooth_device_advanced_profile_header_title',
-         'bluetooth_profile_headset', 'bluetooth_profile_a2dp', 'bluetooth_profile_pbap', 'forget', 'okay', 'cancel']
+         'bluetooth_profile_headset', 'bluetooth_profile_a2dp', 'bluetooth_profile_pbap', 'forget', 'okay', 'cancel',
+         # DeviceInfoSettings, Status, SimStatus, ImeiInformation, RegulatoryInfoDisplayActivity, Utils.getBatteryStatus
+         'plurals:show_dev_countdown', 'show_dev_on', 'show_dev_already', 'battery_info_status_discharging',
+         'battery_info_status_charging', 'battery_info_status_full', 'sim_signal_strength+args2', 'device_info_default',
+         'radioInfo_service_in', 'radioInfo_service_off', 'radioInfo_roaming_not', 'radioInfo_data_connected',
+         'radioInfo_data_disconnected', 'regulatory_information']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -169,6 +174,8 @@ def main():
     for name in ['ic_expand_more', 'ic_expand_less']:
         vec.append(f'st-{name}.svg	{APKPATH}	{name}	tint=#8a000000')
     # Bitmaps the Settings code sets itself: BluetoothDevicePreference's class icons and preference_bluetooth's gear.
+    # RegulatoryInfoDisplayActivity's image for the SKU (ro.boot.hardware.sku; the simulator is the US LG-H790).
+    png.append(f'st-regulatory_info_lgh790.png	{APKPATH}	drawable/regulatory_info_lgh790')
     for name in ['ic_bt_headset_hfp', 'ic_bt_headphones_a2dp', 'ic_bt_config']:
         png.append(f'st-{name}.png	{APKPATH}	drawable/{name}')
     for (apk, key), d in sorted(drawables.items()):
