@@ -40,5 +40,54 @@ MM.strings('framework', {
 "de": "Abbrechen",
 "fr": "Annuler",
 "es": "Cancelar"
+},
+"byteShort": {
+"res": "bullhead:framework:byteShort",
+"en": "B",
+"hu": "B",
+"de": "B",
+"fr": "o",
+"es": "B"
+},
+"kilobyteShort": {
+"res": "bullhead:framework:kilobyteShort",
+"en": "KB",
+"hu": "KB",
+"de": "KB",
+"fr": "Ko",
+"es": "KB"
+},
+"megabyteShort": {
+"res": "bullhead:framework:megabyteShort",
+"en": "MB",
+"hu": "MB",
+"de": "MB",
+"fr": "Mo",
+"es": "MB"
+},
+"gigabyteShort": {
+"res": "bullhead:framework:gigabyteShort",
+"en": "GB",
+"hu": "GB",
+"de": "GB",
+"fr": "Go",
+"es": "GB"
+},
+"terabyteShort": {
+"res": "bullhead:framework:terabyteShort",
+"en": "TB",
+"hu": "TB",
+"de": "TB",
+"fr": "To",
+"es": "TB"
+},
+"fileSizeSuffix": {
+"res": "bullhead:framework:fileSizeSuffix",
+"args": 2,
+"en": "%1$s %2$s",
+"hu": "%1$s %2$s",
+"de": "%1$s %2$s",
+"fr": "%1$s %2$s",
+"es": "%1$s %2$s"
 }
 });

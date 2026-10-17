@@ -71,7 +71,19 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'zen_mode_selected_messages', 'zen_mode_from_anyone', 'zen_mode_from_contacts', 'zen_mode_from_starred', 'zen_mode_from_none',
          'zen_mode_repeat_callers_summary+args1', 'zen_mode_add_rule', 'zen_mode_automation_settings_title',
          'framework/zen_mode_default_weeknights_name', 'framework/zen_mode_default_weekends_name',
-         'framework/zen_mode_default_events_name']
+         'framework/zen_mode_default_events_name',
+         # ManageApplications, InstalledAppDetails, AppStorageSettings, the permission summary (PackageInstaller's group labels
+         # are the framework's permgrouplab_*)
+         'applications_settings', 'application_info_label', 'filter_all_apps', 'filter_enabled_apps', 'filter_apps_disabled',
+         'advanced_apps', 'menu_show_system', 'menu_hide_system', 'reset_app_preferences', 'reset_app_preferences_title',
+         'reset_app_preferences_desc', 'reset_app_preferences_button', 'no_applications', 'disabled', 'version_text+args1',
+         'uninstall_text', 'disable_text', 'enable_text', 'force_stop', 'force_stop_dlg_title', 'force_stop_dlg_text', 'dlg_ok',
+         'dlg_cancel', 'app_disable_dlg_text', 'app_disable_dlg_positive', 'storage_summary_format+args2', 'storage_type_internal',
+         'no_data_usage', 'runtime_permissions_summary_no_permissions_granted', 'runtime_permissions_summary_no_permissions_requested',
+         'notifications_enabled', 'launch_defaults_none', 'no_battery_summary', 'no_memory_use_summary', 'computing_size',
+         'framework/permgrouplab_calendar', 'framework/permgrouplab_camera', 'framework/permgrouplab_contacts',
+         'framework/permgrouplab_location', 'framework/permgrouplab_microphone', 'framework/permgrouplab_phone',
+         'framework/permgrouplab_sensors', 'framework/permgrouplab_sms', 'framework/permgrouplab_storage']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -210,6 +222,8 @@ def main():
     # VolumeSeekBarPreference's mute icons and NotificationSettings.updateRingOrNotificationPreference's vibrate icon.
     for key in ['ic_audio_media_mute', 'ic_audio_alarm_mute', 'ic_audio_ring_notif_mute', 'ic_audio_ring_notif_vibrate']:
         drawable('framework', key)
+    # ManageApplications' action bar gear (ic_settings_24dp in the action bar's white).
+    vec.append(f'st-ic_settings_24dp.svg\t{APKPATH}\tic_settings_24dp\ttint=#ffffffff')
     # ZenModeAutomationSettings' rule icons and Add rule.
     for key in ['ic_schedule', 'ic_event', 'ic_label', 'ic_add']:
         drawable('Settings', key)

@@ -6001,6 +6001,328 @@ MM.strings('settings', {
 "fr": "Événement",
 "es": "Evento"
 },
+"filter_all_apps": {
+"res": "bullhead:Settings:filter_all_apps",
+"en": "All apps",
+"hu": "Az összes alkalmazás",
+"de": "Alle Apps",
+"fr": "Toutes les applications",
+"es": "Todas las aplicaciones"
+},
+"filter_enabled_apps": {
+"res": "bullhead:Settings:filter_enabled_apps",
+"en": "Enabled",
+"hu": "Engedélyezve",
+"de": "Aktiviert",
+"fr": "Activées",
+"es": "Habilitadas"
+},
+"filter_apps_disabled": {
+"res": "bullhead:Settings:filter_apps_disabled",
+"en": "Disabled",
+"hu": "Nincs engedélyezve",
+"de": "Deaktiviert",
+"fr": "Désactivées",
+"es": "Inhabilitadas"
+},
+"menu_show_system": {
+"res": "bullhead:Settings:menu_show_system",
+"en": "Show system",
+"hu": "Rendszer megjelenítése",
+"de": "Systemprozesse anzeigen",
+"fr": "Afficher les processus système",
+"es": "Mostrar aplicaciones del sistema"
+},
+"menu_hide_system": {
+"res": "bullhead:Settings:menu_hide_system",
+"en": "Hide system",
+"hu": "Rendszer elrejtése",
+"de": "System ausblenden",
+"fr": "Masquer les processus système",
+"es": "Ocultar aplicaciones del sistema"
+},
+"reset_app_preferences": {
+"res": "bullhead:Settings:reset_app_preferences",
+"en": "Reset app preferences",
+"hu": "Alapbeállítások",
+"de": "App-Einstell. zurücksetzen",
+"fr": "Réinitialiser préférences",
+"es": "Restablecer preferencias"
+},
+"reset_app_preferences_title": {
+"res": "bullhead:Settings:reset_app_preferences_title",
+"en": "Reset app preferences?",
+"hu": "Visszaállítja a beállításokat?",
+"de": "App-Einstellungen zurücksetzen?",
+"fr": "Réinitialiser préférences ?",
+"es": "¿Restablecer preferencias de las aplicaciones?"
+},
+"reset_app_preferences_desc": {
+"res": "bullhead:Settings:reset_app_preferences_desc",
+"en": "This will reset all preferences for:\n\n Disabled apps\n Disabled app notifications\n Default applications for actions\n Background data restrictions for apps\n Any permission restrictions\n\n You will not lose any app data.",
+"hu": "Ez visszaállítja a következőkre vonatkozó összes beállítást:\n\n Letiltott alkalmazások\n Letiltott alkalmazásértesítések\n Alapértelmezett alkalmazások adott műveletekhez\n Alkalmazások háttéradat-korlátozása\n Minden engedélykorlátozás\n\n Az alkalmazásadatok nem vesznek el.",
+"de": "Dies wird die folgenden Einstellungen zurücksetzen:\n\n Deaktivierte Apps\n Deaktivierte App-Benachrichtigungen\n Standard-Apps für bestimmte Aktionen\n Einschränkungen der Hintergrunddaten für Apps\n Jegliche Zugriffsbeschränkungen\n\n Alle App-Daten bleiben erhalten.",
+"fr": "Cette opération a pour effet de réinitialiser toutes les préférences relatives aux éléments suivants :\n\n Applications désactivées\n Notifications associées aux applications désactivées\n Applications par défaut pour les actions\n Restrictions de données en arrière-plan pour les applications\n Restrictions d'autorisations\n\n Les données liées aux applications seront conservées.",
+"es": "Se restablecerán todas las preferencias de:\n\n Aplicaciones inhabilitadas\n Notificaciones de aplicaciones inhabilitadas\n Aplicaciones predeterminadas\n Restricciones de datos de aplicaciones\n Restricciones de permisos\n\nNo se perderán los datos de las aplicaciones."
+},
+"reset_app_preferences_button": {
+"res": "bullhead:Settings:reset_app_preferences_button",
+"en": "Reset apps",
+"hu": "Alapbeállítások",
+"de": "Apps zurücksetzen",
+"fr": "Réinitialiser applis",
+"es": "Restablecer aplicaciones"
+},
+"no_applications": {
+"res": "bullhead:Settings:no_applications",
+"en": "No apps.",
+"hu": "Nincsenek alkalmazások.",
+"de": "Keine Apps",
+"fr": "Aucune application",
+"es": "No hay aplicaciones."
+},
+"disabled": {
+"res": "bullhead:Settings:disabled",
+"en": "Disabled",
+"hu": "Letiltva",
+"de": "Deaktiviert",
+"fr": "Désactivée",
+"es": "Inhabilitada"
+},
+"version_text": {
+"res": "bullhead:Settings:version_text",
+"args": 1,
+"en": "version %1$s",
+"hu": "Verzió: %1$s",
+"de": "Version %1$s",
+"fr": "version %1$s",
+"es": "versión %1$s"
+},
+"uninstall_text": {
+"res": "bullhead:Settings:uninstall_text",
+"en": "Uninstall",
+"hu": "Eltávolítás",
+"de": "Deinstallieren",
+"fr": "Désinstaller",
+"es": "Desinstalar"
+},
+"disable_text": {
+"res": "bullhead:Settings:disable_text",
+"en": "Disable",
+"hu": "Letiltás",
+"de": "Deaktivieren",
+"fr": "Désactiver",
+"es": "Inhabilitar"
+},
+"enable_text": {
+"res": "bullhead:Settings:enable_text",
+"en": "Enable",
+"hu": "Engedélyezés",
+"de": "Aktivieren",
+"fr": "Activer",
+"es": "Habilitar"
+},
+"force_stop": {
+"res": "bullhead:Settings:force_stop",
+"en": "Force stop",
+"hu": "Kényszerített leállítás",
+"de": "Beenden erzwingen",
+"fr": "Forcer l'arrêt",
+"es": "Forzar detención"
+},
+"force_stop_dlg_title": {
+"res": "bullhead:Settings:force_stop_dlg_title",
+"en": "Force stop?",
+"hu": "Kényszeríti a leállítást?",
+"de": "Beenden erzwingen?",
+"fr": "Forcer l'arrêt ?",
+"es": "¿Forzar detención?"
+},
+"force_stop_dlg_text": {
+"res": "bullhead:Settings:force_stop_dlg_text",
+"en": "If you force stop an app, it may misbehave.",
+"hu": "Ha egy alkalmazást leállásra kényszerít, lehetséges, hogy az hibásan fog működni.",
+"de": "Das Beenden der App zu erzwingen kann zu unerwünschtem Verhalten führen.",
+"fr": "L'arrêt forcé d'une application peut provoquer un fonctionnement instable.",
+"es": "Si se detiene una aplicación, es posible que no funcione correctamente."
+},
+"dlg_ok": {
+"res": "bullhead:Settings:dlg_ok",
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"dlg_cancel": {
+"res": "bullhead:Settings:dlg_cancel",
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
+"app_disable_dlg_text": {
+"res": "bullhead:Settings:app_disable_dlg_text",
+"en": "If you disable this app, other apps may no longer function as intended.",
+"hu": "Ha letiltja ezt az alkalmazást, akkor lehet, hogy más alkalmazások nem megfelelően fognak működni.",
+"de": "Wenn du diese App deaktivierst, funktionieren andere Apps möglicherweise nicht mehr ordnungsgemäß.",
+"fr": "Si vous désactivez cette application, il est possible que d'autres applications ne fonctionnent plus comme prévu.",
+"es": "Si inhabilitas esta aplicación, es posible que otras aplicaciones no funcionen correctamente."
+},
+"app_disable_dlg_positive": {
+"res": "bullhead:Settings:app_disable_dlg_positive",
+"en": "Disable app",
+"hu": "Alkalmazás letiltása",
+"de": "App deaktivieren",
+"fr": "Désactiver l'application",
+"es": "Inhabilitar aplicación"
+},
+"storage_summary_format": {
+"res": "bullhead:Settings:storage_summary_format",
+"args": 2,
+"en": "%1$s used in %2$s",
+"hu": "%1$s felhasználva itt: %2$s",
+"de": "%1$s %2$s belegt",
+"fr": "Utilisation de la %2$s : %1$s",
+"es": "%1$s usados en %2$s"
+},
+"no_data_usage": {
+"res": "bullhead:Settings:no_data_usage",
+"en": "No data used",
+"hu": "Nincs felhasznált adatmennyiség",
+"de": "Keine Daten genutzt",
+"fr": "Aucune donnée utilisée",
+"es": "No se han usado datos"
+},
+"runtime_permissions_summary_no_permissions_granted": {
+"res": "bullhead:Settings:runtime_permissions_summary_no_permissions_granted",
+"en": "No permissions granted",
+"hu": "Nincsenek megadott engedélyek",
+"de": "Keine Berechtigungen gewährt",
+"fr": "Aucune autorisation accordée",
+"es": "No se han concedido permisos"
+},
+"runtime_permissions_summary_no_permissions_requested": {
+"res": "bullhead:Settings:runtime_permissions_summary_no_permissions_requested",
+"en": "No permissions requested",
+"hu": "Nincsenek kért engedélyek",
+"de": "Keine Berechtigungen angefordert",
+"fr": "Aucune autorisation demandée",
+"es": "No se han solicitado permisos"
+},
+"notifications_enabled": {
+"res": "bullhead:Settings:notifications_enabled",
+"en": "Normal",
+"hu": "Normál",
+"de": "Normal",
+"fr": "Normales",
+"es": "Normal"
+},
+"launch_defaults_none": {
+"res": "bullhead:Settings:launch_defaults_none",
+"en": "No defaults set",
+"hu": "Nincs alapbeállítás",
+"de": "Keine Standardeinstellungen festgelegt",
+"fr": "Aucun paramètre par défaut défini",
+"es": "No se han establecido valores predeterminados"
+},
+"no_battery_summary": {
+"res": "bullhead:Settings:no_battery_summary",
+"en": "No battery use since last full charge",
+"hu": "Nem használta az akkumulátort az utolsó teljes feltöltés óta",
+"de": "Kein Verbrauch seit dem letzten vollen Aufladen",
+"fr": "Aucune utilisation de la batterie depuis la dernière charge complète",
+"es": "No ha usado batería desde la última carga completa"
+},
+"no_memory_use_summary": {
+"res": "bullhead:Settings:no_memory_use_summary",
+"en": "No memory used in last 3 hours",
+"hu": "Nem volt memóriahasználat az elmúlt 3 óra során",
+"de": "Kein Speicherverbrauch in den letzten drei Stunden",
+"fr": "Pas de mémoire utilisée au cours des trois dernières heures",
+"es": "No se ha usado memoria durante las últimas 3 horas"
+},
+"computing_size": {
+"res": "bullhead:Settings:computing_size",
+"en": "Computing…",
+"hu": "Számítás...",
+"de": "Berechnung...",
+"fr": "Traitement...",
+"es": "Calculando…"
+},
+"framework/permgrouplab_calendar": {
+"res": "bullhead:framework:permgrouplab_calendar",
+"en": "Calendar",
+"hu": "Naptár",
+"de": "Kalender",
+"fr": "Agenda",
+"es": "Calendario"
+},
+"framework/permgrouplab_camera": {
+"res": "bullhead:framework:permgrouplab_camera",
+"en": "Camera",
+"hu": "Fényképezőgép",
+"de": "Kamera",
+"fr": "Appareil photo",
+"es": "Cámara"
+},
+"framework/permgrouplab_contacts": {
+"res": "bullhead:framework:permgrouplab_contacts",
+"en": "Contacts",
+"hu": "Névjegyek",
+"de": "Kontakte",
+"fr": "Contacts",
+"es": "Contactos"
+},
+"framework/permgrouplab_location": {
+"res": "bullhead:framework:permgrouplab_location",
+"en": "Location",
+"hu": "Helyadatok",
+"de": "Standort",
+"fr": "Position",
+"es": "Ubicación"
+},
+"framework/permgrouplab_microphone": {
+"res": "bullhead:framework:permgrouplab_microphone",
+"en": "Microphone",
+"hu": "Mikrofon",
+"de": "Mikrofon",
+"fr": "Microphone",
+"es": "Micrófono"
+},
+"framework/permgrouplab_phone": {
+"res": "bullhead:framework:permgrouplab_phone",
+"en": "Phone",
+"hu": "Telefon",
+"de": "Telefon",
+"fr": "Téléphone",
+"es": "Teléfono"
+},
+"framework/permgrouplab_sensors": {
+"res": "bullhead:framework:permgrouplab_sensors",
+"en": "Body Sensors",
+"hu": "Testérzékelők",
+"de": "Körpersensoren",
+"fr": "Capteurs corporels",
+"es": "Sensores corporales"
+},
+"framework/permgrouplab_sms": {
+"res": "bullhead:framework:permgrouplab_sms",
+"en": "SMS",
+"hu": "SMS",
+"de": "SMS",
+"fr": "SMS",
+"es": "SMS"
+},
+"framework/permgrouplab_storage": {
+"res": "bullhead:framework:permgrouplab_storage",
+"en": "Storage",
+"hu": "Tárhely",
+"de": "Speicher",
+"fr": "Stockage",
+"es": "Almacenamiento"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

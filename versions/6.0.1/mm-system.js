@@ -33,6 +33,18 @@
   const BT_DEVICES = [{id: 'headset', name: 'Wireless Headset', cls: 0x404, profiles: ['headset'], pairing: 'pin', rssi: -60},
     {id: 'car', name: 'Car Audio', cls: 0x408, profiles: ['headset', 'a2dp', 'pbap'], pairing: 'confirm', rssi: -70}];
 
+  // Formatter.formatBytes: a unit up past 900 (1024 each), "%.2f" under 100 and "%.0f" from 100; the short form
+  // (formatShortFileSize) "%.2f" under 1, "%.1f" under 10, "%.0f" from 10; fileSizeSuffix joins number and unit, the
+  // number in the locale's digits as String.format gives it.
+  MM.fileSize = (c, bytes, short = false) => {
+    const f = MM.text('framework'), units = ['byteShort', 'kilobyteShort', 'megabyteShort', 'gigabyteShort', 'terabyteShort'];
+    let v = bytes, u = 0;
+    while (v > 900 && u < units.length - 1) { v /= 1024; u++; }
+    const digits = v < 1 ? 2 : v < 10 ? (short ? 1 : 2) : v < 100 ? (short ? 0 : 2) : 0;
+    const n = new Intl.NumberFormat(c.locale(), {minimumFractionDigits: digits, maximumFractionDigits: digits, useGrouping: false}).format(v);
+    return f.fmt('fileSizeSuffix', null, n, f.t(units[u]));
+  };
+
   const sys = MM.system = {
     live,
     // CachedBluetoothDeviceManager's devices: bonded ones (connected first) and those the scan has found.

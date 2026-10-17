@@ -7,6 +7,7 @@ st-ic_wifi_signal_4.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_4	tint=#ff
 st-ic_wifi_signal_lock.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_lock	tint=#ff009688
 st-ic_expand_more.svg	priv-app/Settings/Settings.apk	ic_expand_more	tint=#8a000000
 st-ic_expand_less.svg	priv-app/Settings/Settings.apk	ic_expand_less	tint=#8a000000
+st-ic_settings_24dp.svg	priv-app/Settings/Settings.apk	ic_settings_24dp	tint=#ffffffff
 st-ic_add.svg	priv-app/Settings/Settings.apk	ic_add	tint=#8a000000
 st-ic_event.svg	priv-app/Settings/Settings.apk	ic_event	tint=#8a000000
 st-ic_label.svg	priv-app/Settings/Settings.apk	ic_label	tint=#8a000000

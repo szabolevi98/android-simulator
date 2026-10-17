@@ -14,6 +14,10 @@ MM.appsData = {
 },
 "icon": "assets/app-calculator.png",
 "color": "#00bcd4",
+"version": "5.2 (3142008)",
+"codeSize": 2499138,
+"permGroups": [],
+"targetSdk": 23,
 "res": "bullhead:app/CalculatorGoogle/CalculatorGoogle.apk:res/mipmap-xxxhdpi-v4/ic_launcher_calculator.png"
 },
 "calendar": {
@@ -28,6 +32,14 @@ MM.appsData = {
 },
 "icon": "assets/app-calendar.png",
 "color": "#ffffff",
+"version": "5.2.3-99559785-l_release",
+"codeSize": 29295709,
+"permGroups": [
+"calendar",
+"contacts",
+"location"
+],
+"targetSdk": 23,
 "res": "bullhead:app/CalendarGooglePrebuilt/CalendarGooglePrebuilt.apk:res/mipmap-xxxhdpi-v4/quantum_logo_calendar_launcher_color_48.png"
 },
 "chrome": {
@@ -42,6 +54,16 @@ MM.appsData = {
 },
 "icon": "assets/app-chrome.png",
 "color": "#212121",
+"version": "44.0.2403.633",
+"codeSize": 79574051,
+"permGroups": [
+"camera",
+"contacts",
+"location",
+"microphone",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Chrome/Chrome.apk:res/mipmap-xxxhdpi-v4/app_icon.png",
 "untranslated": [
 "hu",
@@ -62,6 +84,14 @@ MM.appsData = {
 },
 "icon": "assets/app-device-policy.png",
 "color": "#3aa3db",
+"version": "6.81",
+"codeSize": 6123452,
+"permGroups": [
+"contacts",
+"location",
+"phone"
+],
+"targetSdk": 23,
 "res": "bullhead:app/DMAgent/DMAgent.apk:res/drawable-xhdpi-v4/launcher.png",
 "untranslated": [
 "hu",
@@ -81,6 +111,10 @@ MM.appsData = {
 },
 "icon": "assets/app-downloads.png",
 "color": "#212121",
+"version": "6.0.1",
+"codeSize": 248832,
+"permGroups": [],
+"targetSdk": 23,
 "res": "bullhead:app/DownloadProviderUi/DownloadProviderUi.apk:res/mipmap-xxxhdpi-v4/ic_launcher_download.png"
 },
 "drive": {
@@ -95,6 +129,14 @@ MM.appsData = {
 },
 "icon": "assets/app-drive.png",
 "color": "#e0e0e0",
+"version": "2.3.327.05.45",
+"codeSize": 36756481,
+"permGroups": [
+"camera",
+"contacts",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Drive/Drive.apk:res/mipmap-xxxhdpi-v4/quantum_logo_drive_launcher_color_48.png"
 },
 "camera": {
@@ -109,6 +151,15 @@ MM.appsData = {
 },
 "icon": "assets/app-camera.png",
 "color": "#212121",
+"version": "3.1.024 (2544260-40)",
+"codeSize": 58980426,
+"permGroups": [
+"camera",
+"location",
+"microphone",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/GoogleCamera/GoogleCamera.apk:res/mipmap-xxxhdpi-v4/logo_google_camera_color_44in48dp.png"
 },
 "hangouts": {
@@ -123,6 +174,18 @@ MM.appsData = {
 },
 "icon": "assets/app-hangouts.png",
 "color": "#0f9d58",
+"version": "4.1.102314611",
+"codeSize": 42294574,
+"permGroups": [
+"camera",
+"contacts",
+"location",
+"microphone",
+"phone",
+"sms",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Hangouts/Hangouts.apk:res/mipmap-xxxhdpi-v4/quantum_logo_hangouts_launcher_color_48.png",
 "untranslated": [
 "hu",
@@ -143,6 +206,15 @@ MM.appsData = {
 },
 "icon": "assets/app-maps.png",
 "color": "#e6e6e6",
+"version": "9.13.0",
+"codeSize": 72438953,
+"permGroups": [
+"contacts",
+"location",
+"phone",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Maps/Maps.apk:res/mipmap-xxxhdpi-v4/ic_launcher.png"
 },
 "play-music": {
@@ -157,6 +229,13 @@ MM.appsData = {
 },
 "icon": "assets/app-play-music.png",
 "color": "#e65100",
+"version": "6.0.1985S.2228307",
+"codeSize": 43541174,
+"permGroups": [
+"contacts",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Music2/Music2.apk:res/mipmap-xxxhdpi-v4/ic_launcher_play_music.png"
 },
 "photos": {
@@ -171,6 +250,15 @@ MM.appsData = {
 },
 "icon": "assets/app-photos.png",
 "color": "#ffffff",
+"version": "1.4.0.102264174",
+"codeSize": 52210831,
+"permGroups": [
+"contacts",
+"location",
+"phone",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Photos/Photos.apk:res/mipmap-xxxhdpi-v4/quantum_logo_photos_launcher_color_48.png"
 },
 "play-games": {
@@ -185,6 +273,12 @@ MM.appsData = {
 },
 "icon": "assets/app-play-games.png",
 "color": "#efefef",
+"version": "3.2.19 (2156483-048)",
+"codeSize": 33431783,
+"permGroups": [
+"contacts"
+],
+"targetSdk": 23,
 "res": "bullhead:app/PlayGames/PlayGames.apk:res/mipmap-xxxhdpi-v4/ic_launcher_play_games.png"
 },
 "messenger": {
@@ -199,6 +293,18 @@ MM.appsData = {
 },
 "icon": "assets/app-messenger.png",
 "color": "#0288d1",
+"version": "1.4.533 (2276492-38)",
+"codeSize": 24829142,
+"permGroups": [
+"camera",
+"contacts",
+"location",
+"microphone",
+"phone",
+"sms",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/PrebuiltBugle/PrebuiltBugle.apk:res/drawable-xxhdpi-v4/ic_launcher.png"
 },
 "clock": {
@@ -213,6 +319,13 @@ MM.appsData = {
 },
 "icon": "assets/app-clock.png",
 "color": "#212121",
+"version": "4.2.1 (2383161)",
+"codeSize": 11170279,
+"permGroups": [
+"phone",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk:res/mipmap-xxxhdpi-v4/ic_launcher_alarmclock.png"
 },
 "gmail": {
@@ -227,6 +340,14 @@ MM.appsData = {
 },
 "icon": "assets/app-gmail.png",
 "color": "#da4336",
+"version": "5.7.106634191.release",
+"codeSize": 28316500,
+"permGroups": [
+"calendar",
+"contacts",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/PrebuiltGmail/PrebuiltGmail.apk:res/mipmap-xxxhdpi-v4/ic_launcher_mail.png"
 },
 "project-fi": {
@@ -241,6 +362,16 @@ MM.appsData = {
 },
 "icon": "assets/app-project-fi.png",
 "color": "#0f9d58",
+"version": "E.1.4.07-xxhdpi (2284211)",
+"codeSize": 14268194,
+"permGroups": [
+"contacts",
+"location",
+"phone",
+"sms",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Tycho/Tycho.apk:res/mipmap-xxxhdpi-v4/ic_launcher.png",
 "untranslated": [
 "hu",
@@ -261,6 +392,14 @@ MM.appsData = {
 },
 "icon": "assets/app-play-movies.png",
 "color": "#212121",
+"version": "3.8.12",
+"codeSize": 23163437,
+"permGroups": [
+"contacts",
+"phone",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Videos/Videos.apk:res/mipmap-xxxhdpi-v4/ic_launcher_videos.png"
 },
 "android-pay": {
@@ -275,6 +414,15 @@ MM.appsData = {
 },
 "icon": "assets/app-android-pay.png",
 "color": "#f5f5f5",
+"version": "1.0.103778191",
+"codeSize": 27542767,
+"permGroups": [
+"camera",
+"contacts",
+"location",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/Wallet/Wallet.apk:res/mipmap-xxxhdpi-v4/quantum_logo_android_pay_launcher_color_48.png",
 "untranslated": [
 "hu",
@@ -295,6 +443,14 @@ MM.appsData = {
 },
 "icon": "assets/app-youtube.png",
 "color": "#e62117",
+"version": "10.28.60",
+"codeSize": 71910816,
+"permGroups": [
+"camera",
+"contacts",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:app/YouTube/YouTube.apk:res/mipmap-xxxhdpi-v4/ic_launcher.png"
 },
 "contacts": {
@@ -309,6 +465,17 @@ MM.appsData = {
 },
 "icon": "assets/app-contacts.png",
 "color": "#0288d1",
+"version": "1.2",
+"codeSize": 14238753,
+"permGroups": [
+"calendar",
+"contacts",
+"location",
+"phone",
+"sms",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:priv-app/GoogleContacts/GoogleContacts.apk:res/mipmap-xxxhdpi-v4/ic_contacts_clr_48cv_44dp.png"
 },
 "phone": {
@@ -323,6 +490,15 @@ MM.appsData = {
 },
 "icon": "assets/app-phone.png",
 "color": "#0288d1",
+"version": "2.21",
+"codeSize": 16525579,
+"permGroups": [
+"contacts",
+"location",
+"phone",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:priv-app/GoogleDialer/GoogleDialer.apk:res/mipmap-xxxhdpi-v4/ic_dialer_clr_48cv_44dp.png"
 },
 "play-store": {
@@ -337,6 +513,16 @@ MM.appsData = {
 },
 "icon": "assets/app-play-store.png",
 "color": "#f5f5f5",
+"version": "5.12.7",
+"codeSize": 35849365,
+"permGroups": [
+"contacts",
+"location",
+"phone",
+"sms",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:priv-app/Phonesky/Phonesky.apk:res/mipmap-xxhdpi-v4/ic_launcher_play_store.png"
 },
 "settings": {
@@ -351,6 +537,15 @@ MM.appsData = {
 },
 "icon": "assets/app-settings.png",
 "color": "#263238",
+"version": "6.0.1",
+"codeSize": 28498663,
+"permGroups": [
+"contacts",
+"location",
+"phone",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:priv-app/Settings/Settings.apk:res/mipmap-xxxhdpi-v4/ic_launcher_settings.png"
 },
 "search": {
@@ -365,6 +560,19 @@ MM.appsData = {
 },
 "icon": "assets/app-search.png",
 "color": "#212121",
+"version": "5.3.27.19.arm64",
+"codeSize": 53355115,
+"permGroups": [
+"calendar",
+"camera",
+"contacts",
+"location",
+"microphone",
+"phone",
+"sms",
+"storage"
+],
+"targetSdk": 23,
 "res": "bullhead:priv-app/Velvet/Velvet.apk:res/mipmap-xxxhdpi-v4/ic_launcher_google_search.png"
 }
 };

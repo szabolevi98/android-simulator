@@ -9,6 +9,9 @@
   turns its SetupActivity's icon off on a system install (toggleAppIcon).
 - The label (the activity's, else the application's) in en, hu, de, fr, es from the APK; a language it lacks shows the
   English, and is listed in the row's untranslated.
+- The version (versionName), the code size (the APK and its oat files, PackageStats.codeSize) and the runtime
+  permission groups it requests (its uses-permission of the framework's dangerous permissions) and its targetSdkVersion
+  (below 23 every requested permission is granted at install) for Settings' Apps.
 - The colour: the theme's colorPrimary (Overview's task header); Theme.DeviceDefault's #212121 without a theme.
 - The icon: the activity's or the application's, at the density Launcher3 asks for: InvariantDeviceProfile.
   getLauncherIconDensity picks the smallest density whose 48 dp icon is at least iconBitmapSize (63.9 dp at 420 dpi =
@@ -93,8 +96,19 @@ def icon_path(z, r, value):
 THEMES = Themes(SYSTEM)
 
 
+def dangerous_groups():
+    """The framework manifest's dangerous permissions and their groups (android.permission-group.CAMERA -> camera)."""
+    x = APK(SYSTEM + 'framework/framework-res.apk').get_android_manifest_xml(); out = {}
+    for p in x.iter('permission'):
+        level, group = p.get(NS + 'protectionLevel'), p.get(NS + 'permissionGroup')
+        if group and level is not None and (int(level, 16) if level.startswith('0x') else int(level)) & 0xf == 1:
+            out[p.get(NS + 'name')] = group.split('.')[-1].lower()
+    return out
+
+
 def apps():
     rows = []
+    groups = dangerous_groups()
     for path in sorted(glob.glob(SYSTEM + 'app/*/*.apk') + glob.glob(SYSTEM + 'priv-app/*/*.apk')):
         a = APK(path); x = a.get_android_manifest_xml(); r = a.get_android_resources()
         pkg = x.get('package'); app = x.find('application')
@@ -121,7 +135,13 @@ def apps():
                 theme = theme or app.get(NS + 'theme')
                 rel = path[len(SYSTEM):].replace(os.sep, '/')
                 color = THEMES.attr(rel, theme, 'colorPrimary') if theme else None
-                rows.append({'apk': path[len(SYSTEM):], 'pkg': pkg, 'cls': cls, 'label': label, 'iconRes': icon, 'r': r, 'color': color or '#ff212121'})
+                # PackageStats' code size: the APK and its pre-optimised oat files in the app's folder; the versionName.
+                folder = os.path.dirname(path)
+                size = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(folder) for f in fs)
+                # The runtime permission groups it asks for (uses-permission of a dangerous permission).
+                asked = sorted({groups[u.get(NS + 'name')] for u in x.iter('uses-permission') if u.get(NS + 'name') in groups})
+                rows.append({'apk': path[len(SYSTEM):], 'pkg': pkg, 'cls': cls, 'label': label, 'iconRes': icon, 'r': r, 'color': color or '#ff212121',
+                             'version': a.get_androidversion_name(), 'size': size, 'perms': asked, 'target': int(a.get_target_sdk_version() or 0)})
     return rows
 
 
@@ -163,7 +183,7 @@ if __name__ == '__main__':
         label = row['label']; gaps = [l for l in LANGS[1:] if l not in label]
         label.update({l: label['en'] for l in gaps})
         data[id] = {'pkg': row['pkg'], 'cls': row['cls'], 'label': label, 'icon': f'assets/app-{id}.png', 'color': '#' + row['color'][-6:],
-                    'res': f"bullhead:{row['apk'].replace(os.sep, '/')}:{src}", **({'untranslated': gaps} if gaps else {})}
+                    'version': row['version'], 'codeSize': row['size'], 'permGroups': row['perms'], 'targetSdk': row['target'], 'res': f"bullhead:{row['apk'].replace(os.sep, '/')}:{src}", **({'untranslated': gaps} if gaps else {})}
         print(id, row['cls'], density, label['en'], '/', label['hu'])
     byComponent = {(v['pkg'], v['cls']): k for k, v in data.items()}
     items = layout()

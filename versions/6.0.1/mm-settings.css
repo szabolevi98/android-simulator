@@ -123,3 +123,26 @@ div.mmst-pref:active{background:none}
 .mmst-seek-progress{width:calc((100% - 32 * var(--dp)) * var(--v));background:#009688}
 .mmst-seek-thumb{position:absolute;top:calc(10 * var(--dp));left:calc(10 * var(--dp) + (100% - 32 * var(--dp)) * var(--v));width:calc(12 * var(--dp));height:calc(12 * var(--dp));border-radius:50%;background:#009688}
 .mmst-seek:active .mmst-seek-thumb{transform:scale(1.5)}
+/* apps_filter_spinner.xml: the switch bar's #37474f, 56 dp, the Spinner 64 dp in (white text, the Material arrow). */
+.mmst-spinbar{position:relative;z-index:1;flex:none;display:flex;align-items:center;height:calc(56 * var(--dp));background:#37474f}
+.mmst-spinner{display:flex;align-items:center;gap:calc(8 * var(--dp));height:calc(48 * var(--dp));margin-left:calc(56 * var(--dp));padding:0 calc(8 * var(--dp));border:0;background:none;color:#fff;font-size:calc(16 * var(--dp))}
+.mmst-spinner:active{background:rgba(255,255,255,.2)}
+.mmst-spinner i{width:0;height:0;border-left:calc(5 * var(--dp)) solid transparent;border-right:calc(5 * var(--dp)) solid transparent;border-top:calc(5 * var(--dp)) solid rgba(255,255,255,.7);margin-top:calc(4 * var(--dp))}
+.mmst-empty.center{justify-content:center;font-size:calc(22 * var(--dp))}
+/* app_item.xml: 72 dp at least, 16 dp padding, the 40 dp icon 16 dp before the texts, the size at the end. */
+.mmap-row{display:flex;align-items:flex-start;width:100%;min-height:calc(72 * var(--dp));padding:calc(16 * var(--dp));box-sizing:border-box;border:0;background:none;color:inherit;text-align:left}
+.mmap-row:not(.static):active{background:rgba(0,0,0,.12)}
+.mmap-row img{flex:none;width:calc(40 * var(--dp));height:calc(40 * var(--dp));margin-right:calc(16 * var(--dp))}
+.mmap-texts{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;min-height:calc(40 * var(--dp))}
+.mmap-line{display:flex;align-items:baseline}
+.mmap-label{flex:0 1 auto;min-width:0;font-size:calc(16 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmap-size{flex:1 0 auto;margin-left:calc(6 * var(--dp));text-align:right;color:rgba(0,0,0,.541);font-size:calc(16 * var(--dp));white-space:nowrap}
+.mmap-sub{color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+/* installed_app_details.xml: 5 dp above, 10 dp below, two_buttons_panel's 120 dp buttons with the 0.2 weight space. */
+.mmai-head{padding:calc(5 * var(--dp)) 0 calc(10 * var(--dp))}
+.mmai-head .mmap-row{padding-bottom:0}
+.mmai-buttons{display:flex;padding:calc(9 * var(--dp)) calc(16 * var(--dp)) 0}
+.mmai-buttons i{flex:.2}
+.mmai-button{flex:.4;min-width:calc(120 * var(--dp));min-height:calc(36 * var(--dp));margin:calc(6 * var(--dp)) 0;border:0;border-radius:calc(2 * var(--dp));background:#d6d7d7;color:rgba(0,0,0,.871);font:500 calc(14 * var(--dp))/1 Roboto,sans-serif;text-transform:uppercase;box-shadow:0 calc(1 * var(--dp)) calc(2 * var(--dp)) rgba(0,0,0,.24)}
+.mmai-button:active{background:#bfc0c0}
+.mmai-button:disabled{background:rgba(0,0,0,.12);color:rgba(0,0,0,.26);box-shadow:none}

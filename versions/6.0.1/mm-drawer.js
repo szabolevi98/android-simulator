@@ -20,7 +20,7 @@
 
   function apps(c) {
     const collator = new Intl.Collator(c.locale(), {sensitivity: 'base'});
-    return Object.keys(MM.appsData || {}).sort((a, b) => collator.compare(MM.appLabel(c, a), MM.appLabel(c, b)));
+    return Object.keys(MM.appsData || {}).filter(id => !MM.appDisabled(c, id)).sort((a, b) => collator.compare(MM.appLabel(c, a), MM.appLabel(c, b)));
   }
   function matches(c, id, q) {
     if (!q) return true;

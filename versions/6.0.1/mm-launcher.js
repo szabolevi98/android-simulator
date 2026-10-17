@@ -53,10 +53,14 @@
   const label = (c, id) => { const a = MM.appsData[id]; return a ? (a.label[c.lang] || a.label.en) : id; };
   const folderTitle = (c, f) => typeof f.title === 'string' ? f.title : (f.title?.[c.lang] || f.title?.en || '');
   MM.appLabel = label;
+  // Apps turned off in Settings (InstalledAppDetails' Disable): the launcher and the drawer leave them out.
+  MM.appDisabled = (c, id) => (c.data.settings.disabledApps || []).includes(id);
 
   // An item's view; src names where it lives for the drag code ("ws:<page>:<index>", "hs:<rank>", "fd:<index>").
   function icon(c, item, where, src = '') {
     if (item.type === 'folder') return folderIcon(c, item, where, src);
+    // A disabled package's shortcuts go (Launcher3's PackageUpdatedTask on a disabled app).
+    if (MM.appDisabled(c, item.app)) return '';
     const a = MM.appsData[item.app];
     return `<button type="button" class="mmh-icon ${where}" data-action="mmh-app" data-app="${item.app}" data-src="${src}"><img src="${a?.icon}" alt=""><span>${c.safe(label(c, item.app))}</span></button>`;
   }

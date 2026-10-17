@@ -65,3 +65,5 @@ recents_empty_message recents_app_info_button_label accessibility_recents_item_w
 [framework] framework
 # Framework widgets every app shares: the action bar's overflow button, RingtonePickerActivity
 action_menu_overflow_description ringtone_picker_title ringtone_silent ok cancel
+# Formatter.formatFileSize / formatShortFileSize
+byteShort kilobyteShort megabyteShort gigabyteShort terabyteShort fileSizeSuffix+args2
