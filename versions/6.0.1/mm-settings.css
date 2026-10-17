@@ -80,3 +80,29 @@
 .mmst-pref.small .mmst-texts{padding:calc(6 * var(--dp)) 0}
 .mmst-pref.small .mmst-title,.mmst-pref.small .mmst-summary{font-size:calc(14 * var(--dp))}
 div.mmst-pref:active{background:none}
+/* BluetoothDevicePreference (preference_bt_icon.xml, 16 dp list padding, the 24 dp icon with 6 dp at each side, 15 dp
+   before the texts) and preference_bluetooth's 8 dp padded ic_bt_config in the 58 dp widget frame. */
+.mmbt-row{display:flex;align-items:stretch}
+.mmbt-row.disabled{opacity:.4}
+.mmbt-dev{flex:1;min-width:0;display:flex;align-items:center;min-height:calc(48 * var(--dp));padding:0 0 0 calc(16 * var(--dp));border:0;background:none;color:inherit;text-align:left}
+.mmbt-dev:active,.mmbt-config:active{background:rgba(0,0,0,.12)}
+.mmbt-icon{flex:none;width:calc(24 * var(--dp));height:calc(24 * var(--dp));margin:0 calc(21 * var(--dp)) 0 calc(6 * var(--dp))}
+.mmbt-widget{flex:none;display:flex;align-items:center;justify-content:flex-end;min-width:calc(58 * var(--dp));padding-right:calc(16 * var(--dp))}
+.mmbt-config{padding:calc(8 * var(--dp));border:0;background:none;display:grid}
+.mmbt-config img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+/* BluetoothProgressCategory: the title with the small spinner (16 dp) 16 dp after it while scanning. */
+.mmbt-cat{display:flex;align-items:center}
+.mmbt-cat span{flex:1}
+.mmbt-spin{width:calc(16 * var(--dp));height:calc(16 * var(--dp));margin-left:calc(16 * var(--dp));fill:none;stroke:#009688;stroke-width:5;stroke-dasharray:80 120;animation:mmbt-spin 1.2s linear infinite;transform-origin:center}
+@keyframes mmbt-spin{to{transform:rotate(360deg)}}
+.mmbt-visible .mmst-texts{padding:calc(8 * var(--dp)) 0 calc(16 * var(--dp))}
+/* bluetooth_pin_confirm.xml (16 dp in, 8 dp margins): the Body1 caption, the Headline key, the phonebook check box. */
+.mmbt-pin{padding:0 calc(24 * var(--dp)) calc(8 * var(--dp)) calc(16 * var(--dp))}
+.mmbt-caption{margin:calc(8 * var(--dp)) calc(8 * var(--dp)) 0;color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+.mmbt-key{margin:0 calc(8 * var(--dp)) calc(8 * var(--dp));font-size:calc(24 * var(--dp))}
+.mmbt-share{margin:0 calc(8 * var(--dp));color:rgba(0,0,0,.541)}
+/* device_profiles_settings.xml: 25 dp in, the Body1 labels 16 dp above, the name field, the profiles' check boxes. */
+.mmbt-profiles{padding:0 calc(24 * var(--dp)) calc(8 * var(--dp)) calc(25 * var(--dp))}
+.mmbt-label{padding-top:calc(16 * var(--dp));color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+.mmbt-label.use{padding-bottom:calc(4 * var(--dp))}
+.mmbt-profiles .mmwf-edit{margin-left:0;width:100%;box-sizing:border-box}

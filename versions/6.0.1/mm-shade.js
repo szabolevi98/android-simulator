@@ -44,8 +44,12 @@
     out.push({id: 'wifi', dual: true, label: wifi === 'connected' ? s.wifiSsid : t.t('quick_settings_wifi_label'),
       icon: wifi === 'off' ? 'sui-ic_qs_wifi_disabled.svg' : wifi === 'searching' ? 'sui-ic_qs_wifi_no_network.svg' : 'sui-ic_qs_wifi_full_4.svg',
       desc: t.fmt('accessibility_quick_settings_wifi', null, wifi === 'off' ? t.t('accessibility_wifi_off') : wifi === 'searching' ? t.t('accessibility_no_wifi') : t.fmt('accessibility_wifi_name', null, s.wifiSsid))});
-    out.push({id: 'bt', dual: true, label: t.t('quick_settings_bluetooth_label'), icon: s.bluetooth ? 'sui-ic_qs_bluetooth_on.svg' : 'sui-ic_qs_bluetooth_off.svg',
-      desc: t.t(s.bluetooth ? 'accessibility_quick_settings_bluetooth_on' : 'accessibility_quick_settings_bluetooth_off')});
+    // BluetoothTile.handleUpdateState: connected shows the last device's name, connecting its own icon.
+    const bt = s.bluetooth ? sy.btDevices(c).filter(d => d.bonded) : [], btOn = bt.find(d => d.connected), btIng = bt.some(d => d.connecting);
+    out.push({id: 'bt', dual: true, label: btOn ? btOn.name : t.t('quick_settings_bluetooth_label'),
+      icon: !s.bluetooth ? 'sui-ic_qs_bluetooth_off.svg' : btOn ? 'sui-ic_qs_bluetooth_connected.svg' : btIng ? 'sui-ic_qs_bluetooth_connecting.svg' : 'sui-ic_qs_bluetooth_on.svg',
+      desc: !s.bluetooth ? t.t('accessibility_quick_settings_bluetooth_off') : btOn ? `${t.t('accessibility_quick_settings_bluetooth_connected')} ${t.fmt('accessibility_bluetooth_name', null, btOn.name)}`
+        : t.t(btIng ? 'accessibility_quick_settings_bluetooth_connecting' : 'accessibility_quick_settings_bluetooth_on')});
     // inversion: visible only while on or recently used (UsageTracker); the simulator has no colour inversion yet.
     const zen = s.zen;
     out.push({id: 'dnd', label: t.t(['quick_settings_dnd_label', 'quick_settings_dnd_priority_label', 'quick_settings_dnd_none_label', 'quick_settings_dnd_alarms_label'][zen]),

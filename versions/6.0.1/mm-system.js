@@ -19,7 +19,7 @@
   Object.assign(MM.defaults.settings, {wifi: true, wifiSsid: 'Home Network', bluetooth: false, airplane: false, zen: 0, zenFavorite: 3, zenUntil: 0, mobileData: true,
     rotationLocked: false, location: true, brightnessAuto: true, brightness: 78, brightnessAdj: 0});
   // What is not saved: the flashlight (it goes off with the camera service on a reboot) and the radios coming up.
-  const live = {flashlight: false, wifiConnecting: 0, btConnecting: 0};
+  const live = {flashlight: false, wifiConnecting: 0, btConnecting: {}, btPairing: null, btTurningOn: 0, btScanUntil: 0};
 
   // The simulator's Wi-Fi networks, as every version has them (names are data, not interface text): level is
   // WifiManager.calculateSignalLevel(rssi, 4), 0..3; saved ones connect without a password.
@@ -27,8 +27,33 @@
   const NETWORKS = [{ssid: 'AndroidAP', secure: true, level: 3, freq: 2437, speed: 72}, {ssid: 'CoffeeShop', secure: false, level: 2, freq: 2412, speed: 54},
     {ssid: 'Home Network', secure: true, level: 3, saved: true, freq: 5180, speed: 433}, {ssid: 'Library Wi-Fi', secure: false, level: 1, freq: 2462, speed: 24}];
 
+  // The simulator's Bluetooth devices, as the other versions have them (names are data): a headset that pairs with the
+  // legacy PIN (BluetoothDevice class 0x404, Phone audio) and a car kit with a display (0x408 handsfree: passkey
+  // confirmation, Phone audio, Media audio and Contact sharing). rssi orders the found ones.
+  const BT_DEVICES = [{id: 'headset', name: 'Wireless Headset', cls: 0x404, profiles: ['headset'], pairing: 'pin', rssi: -60},
+    {id: 'car', name: 'Car Audio', cls: 0x408, profiles: ['headset', 'a2dp', 'pbap'], pairing: 'confirm', rssi: -70}];
+
   const sys = MM.system = {
     live,
+    // CachedBluetoothDeviceManager's devices: bonded ones (connected first) and those the scan has found.
+    btDevices(c) {
+      const s = c.data.settings, bonded = s.btBonded || [], connected = s.btConnected || [], names = s.btNames || {};
+      return BT_DEVICES.map(d => ({...d, name: names[d.id] || d.name, bonded: bonded.includes(d.id), connected: connected.includes(d.id),
+        pairing: live.btPairing === d.id, connecting: live.btConnecting?.[d.id] > Date.now(), mode: d.pairing}));
+    },
+    // Pairing ends bonded and connected (the profiles connect as A2DP / HFP sinks do after bonding).
+    btBond(c, id) {
+      const s = c.data.settings;
+      live.btPairing = null;
+      s.btBonded = [...new Set([...(s.btBonded || []), id])];
+      sys.btConnect(c, id);
+    },
+    btConnect(c, id) {
+      live.btConnecting[id] = Date.now() + 1500; sys.changed(c);
+      setTimeout(() => { const s = c.data.settings; if ((s.btBonded || []).includes(id) && s.bluetooth) { s.btConnected = [...new Set([...(s.btConnected || []), id])]; c.save(); } sys.changed(c); }, 1550);
+    },
+    btDisconnect(c, id) { const s = c.data.settings; s.btConnected = (s.btConnected || []).filter(d => d !== id); c.save(); sys.changed(c); },
+    btForget(c, id) { const s = c.data.settings; s.btBonded = (s.btBonded || []).filter(d => d !== id); s.btConnected = (s.btConnected || []).filter(d => d !== id); c.save(); sys.changed(c); },
     // WifiTracker's list: AccessPoint.compareTo puts the active network first, then the saved ones, then the stronger,
     // then by name.
     accessPoints(c) {
@@ -69,7 +94,14 @@
       c.save(); sys.changed(c);
       if (on) setTimeout(() => sys.changed(c), 2600);
     },
-    setBluetooth(c, on) { c.data.settings.bluetooth = on; c.save(); sys.changed(c); },
+    // BluetoothAdapter: STATE_TURNING_ON for a moment, then on with the bonded devices reconnecting; off drops them.
+    setBluetooth(c, on) {
+      const s = c.data.settings;
+      s.bluetooth = on; live.btTurningOn = on ? Date.now() + 1000 : 0;
+      if (!on) s.btConnected = [];
+      c.save(); sys.changed(c);
+      if (on) setTimeout(() => sys.changed(c), 1050);
+    },
     setAirplane(c, on) {
       const s = c.data.settings;
       if (on === s.airplane) return;
@@ -109,7 +141,7 @@
       // The status icons (PhoneStatusBarPolicy) and the signal cluster (SignalClusterView), for mm-statusbar.js.
       c.statusIcons = () => {
         const s = c.data.settings, out = [];
-        if (s.bluetooth) out.push('stat_sys_data_bluetooth');
+        if (s.bluetooth) out.push((s.btConnected || []).length ? 'stat_sys_data_bluetooth_connected' : 'stat_sys_data_bluetooth');
         if (s.zen) out.push(s.zen === 2 ? 'stat_sys_dnd_total_silence' : 'stat_sys_dnd');
         // The volume slot: vibrate unless total silence or alarms only (PhoneStatusBarPolicy.updateVolumeZen).
         if (s.ringerMode === 'vibrate' && s.zen !== 2 && s.zen !== 3) out.push('stat_sys_ringer_vibrate');

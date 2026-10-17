@@ -46,7 +46,17 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'wifi_security', 'wifi_security_none', 'wifi_security_wpa2', 'wifi_password', 'wifi_show_password', 'wifi_show_advanced',
          'wifi_connect', 'wifi_forget', 'wifi_cancel', 'wifi_save', 'wifi_ssid', 'wifi_ssid_hint', 'wifi_ip_settings',
          'proxy_settings_title', 'array:wifi_status', 'array:wifi_signal', 'array:wifi_security', 'array:wifi_ip_settings',
-         'array:wifi_proxy_settings']
+         'array:wifi_proxy_settings',
+         # BluetoothSettings, BluetoothDevicePreference, CachedBluetoothDevice, BluetoothPairingDialog, DeviceProfilesSettings,
+         # BluetoothNameDialogFragment
+         'bluetooth_settings', 'bluetooth_empty_list_bluetooth_off', 'bluetooth_turning_on', 'bluetooth_preference_paired_devices',
+         'bluetooth_preference_found_devices', 'bluetooth_is_visible_message+args1', 'bluetooth_search_for_devices',
+         'bluetooth_searching_for_devices', 'bluetooth_rename_device', 'bluetooth_show_received_files', 'bluetooth_no_devices_found',
+         'bluetooth_pairing', 'bluetooth_connected', 'bluetooth_connecting', 'bluetooth_device_details', 'bluetooth_disconnect_title',
+         'bluetooth_disconnect_all_profiles+args1', 'bluetooth_pairing_request+args1', 'bluetooth_pairing_accept',
+         'bluetooth_pairing_decline', 'bluetooth_pairing_key_msg', 'bluetooth_pairing_shares_phonebook+args1', 'bluetooth_rename_button',
+         'progress_scanning', 'bluetooth_preference_paired_dialog_name_label', 'bluetooth_device_advanced_profile_header_title',
+         'bluetooth_profile_headset', 'bluetooth_profile_a2dp', 'bluetooth_profile_pbap', 'forget', 'okay', 'cancel']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -158,6 +168,9 @@ def main():
     # wifi_advanced_toggle's ic_expand: ic_expand_more, checked ic_expand_less, in the dialog's colorControlNormal.
     for name in ['ic_expand_more', 'ic_expand_less']:
         vec.append(f'st-{name}.svg	{APKPATH}	{name}	tint=#8a000000')
+    # Bitmaps the Settings code sets itself: BluetoothDevicePreference's class icons and preference_bluetooth's gear.
+    for name in ['ic_bt_headset_hfp', 'ic_bt_headphones_a2dp', 'ic_bt_config']:
+        png.append(f'st-{name}.png	{APKPATH}	drawable/{name}')
     for (apk, key), d in sorted(drawables.items()):
         if d['kind'] == 'png': png.append(f"{d['icon']}\t{d['path']}\tdrawable/{d['res']}")
         elif d['kind'] == 'vector': vec.append(f"{d['icon']}\t{d['path']}\t{d['res']}\t-")

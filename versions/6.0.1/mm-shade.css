@@ -159,3 +159,6 @@
 .mmbd-out{position:absolute;inset:0}
 .mmbd-win{position:absolute;top:calc(40 * var(--dp));left:calc(2.5% + 16 * var(--dp));right:calc(2.5% + 16 * var(--dp));padding:0 calc(16 * var(--dp));border-radius:calc(2 * var(--dp));background:#424242;box-shadow:0 calc(8 * var(--dp)) calc(24 * var(--dp)) rgba(0,0,0,.4)}
 .mmbd-slider{position:relative;height:calc(60 * var(--dp))}
+.mmqd-close{flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));display:grid;place-items:center;border-radius:50%}
+.mmqd-close:active{background:rgba(255,255,255,.12)}
+.mmqd-close img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}

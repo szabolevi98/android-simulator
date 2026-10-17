@@ -8,7 +8,7 @@
      sans-serif-medium) and, when getToggleState is not null, a Switch; clicking it calls setToggleState.
    - QSDetailItems (qs_detail_items.xml): 16 dp padding at the top and sides, rows of qs_detail_item.xml (48 dp minimum: a 24
      dp icon, 12 + 12 dp, the title at 16 sp and the summary 2 dp under it at 14 sp in system_accent_color, the 48 dp
-     disconnect button), at most 7 (quick_settings_detail_max_item_count); with none, the 56 dp empty icon and its text
+     disconnect button, ic_qs_cancel), at most 7 (quick_settings_detail_max_item_count); with none, the 56 dp empty icon and its text
      20 dp under it (14 sp qs_subhead), centred.
    - WifiTile.WifiDetailAdapter: the access points as WifiTracker sorts them (the active one first, then by level, then by
      name), AccessPointControllerImpl's ic_qs_wifi_full_0..3 by WifiManager.calculateSignalLevel(rssi, 4) with
@@ -51,7 +51,7 @@
     if (!list.length) return `<div class="mmqd-items"><div class="mmqd-empty"><img src="${A(empty.icon)}" alt=""><span>${t(empty.text)}</span></div></div>`;
     return `<div class="mmqd-items"><div class="mmqd-list${empty.hidden ? ' hidden' : ''}">${list.slice(0, 7).map((item, i) => `<button type="button" class="mmqd-item" data-action="mmqd-item" data-index="${i}">
       <span class="mmqd-icon"><img src="${A(item.icon)}" alt="">${item.overlay ? `<img src="${A(item.overlay)}" alt="">` : ''}</span>
-      <span class="mmqd-text"><span class="mmqd-line1">${t(item.line1)}</span>${item.line2 ? `<span class="mmqd-line2">${t(item.line2)}</span>` : ''}</span></button>`).join('')}</div></div>`;
+      <span class="mmqd-text"><span class="mmqd-line1">${t(item.line1)}</span>${item.line2 ? `<span class="mmqd-line2">${t(item.line2)}</span>` : ''}</span>${item.canDisconnect ? `<span class="mmqd-close" data-action="mmqd-disconnect" data-index="${i}" role="button"><img src="${A('sui-ic_qs_cancel.svg')}" alt=""></span>` : ''}</button>`).join('')}</div></div>`;
   }
 
   // ZenModeConfig.getFormattedTime: the time ("hma" / "Hm" best pattern), with the weekday when it is not today.
@@ -107,13 +107,21 @@
     return `<div class="mmud">${users.map(u => `<button type="button" class="mmud-item${u.current ? ' on' : ''}" data-action="mmud-user" data-user="${u.id}"><span class="mmud-avatar"><img src="${A(u.icon)}" alt=""></span><span class="mmud-name">${c.safe(u.name)}</span></button>`).join('')}</div>`;
   }
 
+  // BluetoothDetailAdapter.updateItems: the bonded devices, connected (canDisconnect) or connecting with their icon.
+  const bonded = c => MM.system.btDevices(c).filter(d => d.bonded);
+  function btItems(c) {
+    const t = T();
+    return bonded(c).map(d => d.connected ? {icon: 'sui-ic_qs_bluetooth_connected.svg', line1: d.name, line2: t.t('quick_settings_connected'), canDisconnect: true}
+      : d.connecting ? {icon: 'sui-ic_qs_bluetooth_connecting.svg', line1: d.name, line2: t.t('quick_settings_connecting')} : {icon: 'sui-ic_qs_bluetooth_on.svg', line1: d.name});
+  }
+
   function content(c, id) {
     const t = T(), s = c.data.settings;
     if (id === 'wifi') {
       const list = MM.system.accessPoints(c).map(ap => ({icon: `sui-ic_qs_wifi_full_${ap.level}.svg`, overlay: ap.secure ? 'sui-qs_ic_wifi_lock.svg' : '', line1: ap.ssid, line2: ap.active ? t.t('wifi_status')[5] : ''}));
       return items(c, list, {icon: 'sui-ic_qs_wifi_detail_empty.svg', text: t.t('quick_settings_wifi_detail_empty_text'), hidden: !s.wifi});
     }
-    if (id === 'bt') return items(c, [], {icon: 'sui-ic_qs_bluetooth_detail_empty.svg', text: t.t('quick_settings_bluetooth_detail_empty_text')});
+    if (id === 'bt') return items(c, btItems(c), {icon: 'sui-ic_qs_bluetooth_detail_empty.svg', text: t.t('quick_settings_bluetooth_detail_empty_text'), hidden: !s.bluetooth});
     if (id === 'cast') return items(c, [], {icon: 'sui-ic_qs_cast_detail_empty.svg', text: t.t('quick_settings_cast_detail_empty_text')});
     if (id === 'cell') return dataUsage(c);
     if (id === 'dnd') return zenPanel(c);
@@ -156,6 +164,12 @@
           if (ap.secure && !ap.saved) { c.closeOverlay(); c.open('settings', 'wifi'); return true; }
           sys.connectWifi(c, ap.ssid); ctl.close(c);
         } else ctl.closeDetail(c);
+        return true;
+      }
+      if (name === 'mmqd-disconnect' && id === 'bt') { const d = bonded(c)[+el.dataset.index]; if (d) sys.btDisconnect(c, d.id); ctl.refresh(c); return true; }
+      if (name === 'mmqd-item' && id === 'bt') {
+        const d = bonded(c)[+el.dataset.index];
+        if (d && !d.connected && !d.connecting) { sys.btConnect(c, d.id); ctl.refresh(c); setTimeout(() => c.ui.overlay === 'shade' && ctl.refresh(c), 1600); }
         return true;
       }
       if (name === 'mmzp-zen') { const zen = +el.dataset.zen; s.zenFavorite = zen; sys.setZen(c, zen); ctl.refresh(c); return true; }

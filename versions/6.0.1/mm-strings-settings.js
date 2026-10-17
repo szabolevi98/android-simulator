@@ -787,6 +787,7 @@ MM.strings('settings', {
 },
 "bluetooth_pairing_request": {
 "res": "bullhead:Settings:bluetooth_pairing_request",
+"args": 1,
 "en": "Pair with %1$s?",
 "hu": "Párosítja a következővel: %1$s?",
 "de": "Pairing mit %1$s durchführen?",
@@ -5449,6 +5450,289 @@ MM.strings('settings', {
 "Manual",
 "Proxy autoconfigurado"
 ]
+},
+"bluetooth_empty_list_bluetooth_off": {
+"res": "bullhead:Settings:bluetooth_empty_list_bluetooth_off",
+"en": "When Bluetooth is turned on, your device can communicate with other nearby Bluetooth devices.",
+"hu": "Ha a Bluetooth aktív, az eszköz képes kommunikálni a közelben lévő Bluetooth-eszközökkel.",
+"de": "Bei aktiviertem Bluetooth kann Ihr Gerät mit Bluetooth-Geräten in der Nähe kommunizieren.",
+"fr": "L'activation du Bluetooth permet à votre appareil de communiquer avec les appareils Bluetooth à proximité.",
+"es": "Bluetooth permite la comunicación con dispositivos Bluetooth cercanos."
+},
+"bluetooth_turning_on": {
+"res": "bullhead:Settings:bluetooth_turning_on",
+"en": "Turning Bluetooth on…",
+"hu": "Bluetooth bekapcsolása...",
+"de": "Bluetooth wird aktiviert...",
+"fr": "Activation du Bluetooth...",
+"es": "Activando Bluetooth…"
+},
+"bluetooth_preference_paired_devices": {
+"res": "bullhead:Settings:bluetooth_preference_paired_devices",
+"en": "Paired devices",
+"hu": "Párosított eszközök",
+"de": "Pairing-Geräte",
+"fr": "Périphériques associés",
+"es": "Dispositivos sincronizados"
+},
+"bluetooth_preference_found_devices": {
+"res": "bullhead:Settings:bluetooth_preference_found_devices",
+"en": "Available devices",
+"hu": "Elérhető eszközök",
+"de": "Verfügbar",
+"fr": "Appareils",
+"es": "Dispositivos disponibles"
+},
+"bluetooth_is_visible_message": {
+"res": "bullhead:Settings:bluetooth_is_visible_message",
+"args": 1,
+"en": "%1$s is visible to nearby devices while Bluetooth settings is open.",
+"hu": "A(z) %1$s látható a közeli eszközök számára, ha a Bluetooth-beállítások nyitva vannak.",
+"de": "%1$s ist bei aktiviertem Bluetooth für Geräte in der Nähe sichtbar.",
+"fr": "%1$s est visible par les appareils à proximité dont le Bluetooth a été activé.",
+"es": "%1$s será visible para dispositivos cercanos mientras los ajustes de Bluetooth estén abiertos."
+},
+"bluetooth_search_for_devices": {
+"res": "bullhead:Settings:bluetooth_search_for_devices",
+"en": "Refresh",
+"hu": "Frissítés",
+"de": "Aktualisieren",
+"fr": "Actualiser",
+"es": "Actualizar"
+},
+"bluetooth_searching_for_devices": {
+"res": "bullhead:Settings:bluetooth_searching_for_devices",
+"en": "Searching…",
+"hu": "Keresés...",
+"de": "Suche läuft...",
+"fr": "Recherche...",
+"es": "Buscando…"
+},
+"bluetooth_rename_device": {
+"res": "bullhead:Settings:bluetooth_rename_device",
+"en": "Rename this device",
+"hu": "Eszköz átnevezése",
+"de": "Gerät umbenennen",
+"fr": "Renommer cet appareil",
+"es": "Cambiar nombre del dispositivo"
+},
+"bluetooth_show_received_files": {
+"res": "bullhead:Settings:bluetooth_show_received_files",
+"en": "Show received files",
+"hu": "Fogadott fájlok megjelenítése",
+"de": "Empfangene Dateien anzeigen",
+"fr": "Afficher les fichiers reçus",
+"es": "Mostrar archivos recibidos"
+},
+"bluetooth_no_devices_found": {
+"res": "bullhead:Settings:bluetooth_no_devices_found",
+"en": "No nearby Bluetooth devices were found.",
+"hu": "Nem található a közelben Bluetooth-eszköz.",
+"de": "Kein Bluetooth-Gerät in der Nähe gefunden",
+"fr": "Aucun appareil Bluetooth détecté.",
+"es": "No hay dispositivos Bluetooth cercanos."
+},
+"bluetooth_pairing": {
+"res": "bullhead:Settings:bluetooth_pairing",
+"en": "Pairing…",
+"hu": "Pairing…",
+"de": "Pairing…",
+"fr": "Pairing…",
+"es": "Pairing…",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"bluetooth_connected": {
+"res": "bullhead:Settings:bluetooth_connected",
+"en": "Connected",
+"hu": "Connected",
+"de": "Connected",
+"fr": "Connected",
+"es": "Connected",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"bluetooth_connecting": {
+"res": "bullhead:Settings:bluetooth_connecting",
+"en": "Connecting…",
+"hu": "Connecting…",
+"de": "Connecting…",
+"fr": "Connecting…",
+"es": "Connecting…",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"bluetooth_device_details": {
+"res": "bullhead:Settings:bluetooth_device_details",
+"en": "Device settings",
+"hu": "Eszközbeállítások",
+"de": "Geräteeinstellungen",
+"fr": "Paramètres de l'appareil",
+"es": "Ajustes del dispositivo"
+},
+"bluetooth_disconnect_title": {
+"res": "bullhead:Settings:bluetooth_disconnect_title",
+"en": "Disconnect?",
+"hu": "Leválasztja?",
+"de": "Verbindung trennen?",
+"fr": "Déconnecter ?",
+"es": "¿Desconectar?"
+},
+"bluetooth_disconnect_all_profiles": {
+"res": "bullhead:Settings:bluetooth_disconnect_all_profiles",
+"args": 1,
+"en": "This will end your connection with:<br><b>%1$s</b>",
+"hu": "Ezzel befejezi a kapcsolatot a következővel:<br><b>%1$s</b>",
+"de": "Hierdurch wird die Verbindung mit<br><b>%1$s</b> getrennt.",
+"fr": "Cela va mettre fin à votre connexion avec :<br><b>%1$s</b>",
+"es": "Finalizará la conexión con<br><b>%1$s</b>."
+},
+"bluetooth_pairing_accept": {
+"res": "bullhead:Settings:bluetooth_pairing_accept",
+"en": "Pair",
+"hu": "Pair",
+"de": "Pair",
+"fr": "Pair",
+"es": "Pair",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"bluetooth_pairing_decline": {
+"res": "bullhead:Settings:bluetooth_pairing_decline",
+"en": "Cancel",
+"hu": "Cancel",
+"de": "Cancel",
+"fr": "Cancel",
+"es": "Cancel",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"bluetooth_pairing_key_msg": {
+"res": "bullhead:Settings:bluetooth_pairing_key_msg",
+"en": "Bluetooth pairing code",
+"hu": "Bluetooth-párosítókód",
+"de": "Bluetooth-Pairing-Code",
+"fr": "Code d'association Bluetooth",
+"es": "Código de vinculación por Bluetooth"
+},
+"bluetooth_pairing_shares_phonebook": {
+"res": "bullhead:Settings:bluetooth_pairing_shares_phonebook",
+"args": 1,
+"en": "Allow %1$s to access your contacts and call history",
+"hu": "A(z) %1$s engedélyezése a névjegyek és híváselőzmények eléréséhez",
+"de": "Zulassen, dass %1$s auf Ihre Kontakte und Ihre Anrufliste zugreifen kann",
+"fr": "Autoriser %1$s à accéder à vos contacts et à l'historique des appels",
+"es": "Permitir que %1$s acceda a tus contactos y al historial de llamadas"
+},
+"bluetooth_rename_button": {
+"res": "bullhead:Settings:bluetooth_rename_button",
+"en": "Rename",
+"hu": "Átnevezés",
+"de": "Umbenennen",
+"fr": "Renommer",
+"es": "Cambiar nombre"
+},
+"progress_scanning": {
+"res": "bullhead:Settings:progress_scanning",
+"en": "Searching",
+"hu": "Keresés",
+"de": "Suche läuft",
+"fr": "Recherche en cours",
+"es": "Buscando"
+},
+"bluetooth_preference_paired_dialog_name_label": {
+"res": "bullhead:Settings:bluetooth_preference_paired_dialog_name_label",
+"en": "Name",
+"hu": "Név",
+"de": "Name",
+"fr": "Nom",
+"es": "Nombre"
+},
+"bluetooth_profile_headset": {
+"res": "bullhead:Settings:bluetooth_profile_headset",
+"en": "Phone audio",
+"hu": "Phone audio",
+"de": "Phone audio",
+"fr": "Phone audio",
+"es": "Phone audio",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"bluetooth_profile_a2dp": {
+"res": "bullhead:Settings:bluetooth_profile_a2dp",
+"en": "Media audio",
+"hu": "Media audio",
+"de": "Media audio",
+"fr": "Media audio",
+"es": "Media audio",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"bluetooth_profile_pbap": {
+"res": "bullhead:Settings:bluetooth_profile_pbap",
+"en": "Contact sharing",
+"hu": "Contact sharing",
+"de": "Contact sharing",
+"fr": "Contact sharing",
+"es": "Contact sharing",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"forget": {
+"res": "bullhead:Settings:forget",
+"en": "Forget",
+"hu": "Elfelejt",
+"de": "Entfernen",
+"fr": "Supprimer",
+"es": "Olvidar"
+},
+"okay": {
+"res": "bullhead:Settings:okay",
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"cancel": {
+"res": "bullhead:Settings:cancel",
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
 },
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
