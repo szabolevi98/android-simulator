@@ -68,7 +68,7 @@
   // ---- pages -------------------------------------------------------------------------------------------------------
   function thumb(c, target) {
     const p = MM.web.page(target);
-    return `<div class="mmcr-thumb" aria-hidden="true"><div class="mmcr-thumbpage mmw">${p ? p.html : ''}</div></div>`;
+    return `<div class="mmcr-thumb" aria-hidden="true"><div class="mmcr-thumbpage mmwb">${p ? p.html : ''}</div></div>`;
   }
   function ntp(c) {
     const t = T(), mv = mostVisited(c);
@@ -98,7 +98,7 @@
     if (u.editing) return `<div class="mmcr">${toolbar(c)}<div class="mmcr-suggest"></div></div>`;
     if (cur === NTP) return `<div class="mmcr">${toolbar(c)}${ntp(c)}</div>`;
     const p = MM.web.page(cur);
-    return `<div class="mmcr">${toolbar(c)}${p ? `<div class="mmcr-page"><div class="mmw">${p.html}</div></div>` : errorPage(c, cur)}</div>`;
+    return `<div class="mmcr">${toolbar(c)}${p ? `<div class="mmcr-page"><div class="mmwb">${p.html}</div></div>` : errorPage(c, cur)}</div>`;
   }
 
   // ---- the app menu -------------------------------------------------------------------------------------------------

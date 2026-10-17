@@ -39,14 +39,14 @@
   const parse = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
   const fmt = (c, d, o) => new Intl.DateTimeFormat(c.locale(), o).format(d);
   const time = (c, hm) => { const [h, m] = hm.split(':').map(Number); return fmt(c, new Date(2000, 0, 1, h, m), {hour: 'numeric', minute: '2-digit'}); };
-  const ic = (src, cls = '') => `<img class="mmca-ic ${cls}" src="${src}" alt="">`;
+  const ic = (src, cls = '') => `<img class="mmcl-ic ${cls}" src="${src}" alt="">`;
 
   // ---- first run --------------------------------------------------------------------------------------------------
   function oobe(c) {
     const t = T(), u = ui(c), i = u.oobe, imgs = ['icon', 'richness', 'quickcreate', 'smartmail'];
     const disc = t.t('oobe_disclaimers')[i];
-    return `<div class="mmca mmca-oobe"><div class="mmca-oimg${i ? '' : ' logo'}"><img src="${A(imgs[i])}" alt=""></div><div class="mmca-otext"><h1>${esc(c, t.t('oobe_headers')[i])}</h1><p>${esc(c, t.t('oobe_main_texts')[i])}</p>${disc ? `<small>${esc(c, disc)}</small>` : ''}</div>
-      <div class="mmca-obar"><span class="mmca-dots">${imgs.map((_, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</span>${i === 3 ? `<button type="button" class="mmca-done" data-action="mmca-oobedone">${esc(c, t.t('oobe_done'))}</button>` : `<button type="button" class="mmca-onext" data-action="mmca-oobenext" aria-label="next"></button>`}</div></div>`;
+    return `<div class="mmcl mmcl-oobe"><div class="mmcl-oimg${i ? '' : ' logo'}"><img src="${A(imgs[i])}" alt=""></div><div class="mmcl-otext"><h1>${esc(c, t.t('oobe_headers')[i])}</h1><p>${esc(c, t.t('oobe_main_texts')[i])}</p>${disc ? `<small>${esc(c, disc)}</small>` : ''}</div>
+      <div class="mmcl-obar"><span class="mmcl-dots">${imgs.map((_, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</span>${i === 3 ? `<button type="button" class="mmcl-done" data-action="mmcl-oobedone">${esc(c, t.t('oobe_done'))}</button>` : `<button type="button" class="mmcl-onext" data-action="mmcl-oobenext" aria-label="next"></button>`}</div></div>`;
   }
 
   // ---- the Schedule view --------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@
         const day = new Date(weekStart); day.setDate(day.getDate() + k);
         if (day.getDate() === 1 && day >= first && day <= last && day.getMonth() !== month) {
           month = day.getMonth();
-          out += `<div class="mmca-month" style="background-image:url('assets/ca-bkg_${MONTHS[month]}.jpg')"><i></i><span>${esc(c, fmt(c, day, {month: 'long', ...(day.getFullYear() !== today.getFullYear() ? {year: 'numeric'} : {})}))}</span></div>`;
+          out += `<div class="mmcl-month" style="background-image:url('assets/ca-bkg_${MONTHS[month]}.jpg')"><i></i><span>${esc(c, fmt(c, day, {month: 'long', ...(day.getFullYear() !== today.getFullYear() ? {year: 'numeric'} : {})}))}</span></div>`;
         }
       }
       out += week(c, weekStart, weekEnd);
@@ -74,7 +74,7 @@
         const key = iso(day), list = byDay.get(key) || [], isToday = +day === +today;
         if ((list.length || isToday) && day >= first && day <= last) {
           const cls = isToday ? 'today' : day < today ? 'past' : '';
-          out += `<div class="mmca-day ${cls}" ${isToday ? 'id="mmca-today"' : ''}><div class="mmca-dhead"><small>${esc(c, fmt(c, day, {weekday: 'short'}))}</small><b>${day.getDate()}</b></div><div class="mmca-chips">${list.map(e => `<button type="button" class="mmca-chip${e.allDay ? '' : ' two'}" style="background:${PEACOCK}" data-action="mmca-event" data-id="${e.id}"><b>${esc(c, e.title)}</b>${e.allDay ? '' : `<span>${esc(c, `${time(c, e.start)} – ${time(c, e.end)}`)}${e.where ? `, ${esc(c, e.where)}` : ''}</span>`}</button>`).join('') || `<span class="mmca-none">${esc(c, t.t('no_events'))}</span>`}</div></div>`;
+          out += `<div class="mmcl-day ${cls}" ${isToday ? 'id="mmcl-today"' : ''}><div class="mmcl-dhead"><small>${esc(c, fmt(c, day, {weekday: 'short'}))}</small><b>${day.getDate()}</b></div><div class="mmcl-chips">${list.map(e => `<button type="button" class="mmcl-chip${e.allDay ? '' : ' two'}" style="background:${PEACOCK}" data-action="mmcl-event" data-id="${e.id}"><b>${esc(c, e.title)}</b>${e.allDay ? '' : `<span>${esc(c, `${time(c, e.start)} – ${time(c, e.end)}`)}${e.where ? `, ${esc(c, e.where)}` : ''}</span>`}</button>`).join('') || `<span class="mmcl-none">${esc(c, t.t('no_events'))}</span>`}</div></div>`;
         }
       }
       d.setDate(d.getDate() + 7);
@@ -83,21 +83,21 @@
   }
   function week(c, a, b) {
     const same = a.getMonth() === b.getMonth();
-    return `<div class="mmca-week">${esc(c, same ? `${fmt(c, a, {month: 'short', day: 'numeric'})} – ${b.getDate()}` : `${fmt(c, a, {month: 'short', day: 'numeric'})} – ${fmt(c, b, {month: 'short', day: 'numeric'})}`)}</div>`;
+    return `<div class="mmcl-week">${esc(c, same ? `${fmt(c, a, {month: 'short', day: 'numeric'})} – ${b.getDate()}` : `${fmt(c, a, {month: 'short', day: 'numeric'})} – ${fmt(c, b, {month: 'short', day: 'numeric'})}`)}</div>`;
   }
   function main(c) {
     const t = T(), u = ui(c);
-    return `<div class="mmca"><div class="mmca-bar"><button type="button" class="mmca-btn" data-action="mmca-drawer">${ic(V('ic_menu'))}</button><button type="button" class="mmca-month-title" data-action="mmca-picker"><span>${esc(c, fmt(c, new Date(), {month: 'long'}))}</span><img src="${A('ic_arrow_down')}" alt=""></button><i class="mmca-flex"></i>
-      <button type="button" class="mmca-btn" data-action="mmca-today" aria-label="${esc(c, t.t('today'))}">${ic(V('ic_today'))}</button>${MM.menu.button(c, 'mmca-over')}</div>
-      <div class="mmca-page mmca-sched">${schedule(c)}</div><button type="button" class="mmca-fab" data-action="mmca-new" aria-label="${esc(c, t.t('event'))}"><img src="${A('btn_create')}" alt=""></button>${u.drawer ? drawer(c) : ''}</div>`;
+    return `<div class="mmcl"><div class="mmcl-bar"><button type="button" class="mmcl-btn" data-action="mmcl-drawer">${ic(V('ic_menu'))}</button><button type="button" class="mmcl-month-title" data-action="mmcl-picker"><span>${esc(c, fmt(c, new Date(), {month: 'long'}))}</span><img src="${A('ic_arrow_down')}" alt=""></button><i class="mmcl-flex"></i>
+      <button type="button" class="mmcl-btn" data-action="mmcl-today" aria-label="${esc(c, t.t('today'))}">${ic(V('ic_today'))}</button>${MM.menu.button(c, 'mmcl-over')}</div>
+      <div class="mmcl-page mmcl-sched">${schedule(c)}</div><button type="button" class="mmcl-fab" data-action="mmcl-new" aria-label="${esc(c, t.t('event'))}"><img src="${A('btn_create')}" alt=""></button>${u.drawer ? drawer(c) : ''}</div>`;
   }
   function drawer(c) {
     const t = T();
-    const item = (icon, key, action, on = false) => `<button type="button" class="mmca-ditem${on ? ' on' : ''}" data-action="${action}">${ic(icon)}<span>${esc(c, t.t(key))}</span></button>`;
-    const cal = (key, color) => `<div class="mmca-dcal"><i style="background:${color}"></i><span>${esc(c, t.t(key))}</span></div>`;
-    return `<div class="mmca-scrim" data-action="mmca-drawer"></div><div class="mmca-drawer"><div class="mmca-dlist">${item(V('ic_agenda'), 'agenda_view_label', 'mmca-drawer', true)}${item(A('ic_hourview'), 'hourly_view_label', 'mmca-dayview')}${item(V('ic_week'), 'week_view_label', 'mmca-weekview')}${item(A('ic_monthview'), 'month_view_label', 'mmca-monthview')}
-      <i class="mmca-ddiv"></i><div class="mmca-dacct"><img src="assets/gm-avatar_placeholder.png" alt=""><span>${esc(c, MM.account.email)}</span></div>${cal('my_events', PEACOCK)}${cal('reminders_calendar_name', '#4285f4')}${cal('drawer_birthdays_text', '#9e69af')}${cal('drawer_holidays_text', '#0b8043')}
-      <i class="mmca-ddiv"></i>${item(V('ic_settings'), 'drawer_settings', 'mmca-settings')}${item(V('ic_help'), 'drawer_help_feedback', 'mmca-help')}</div></div>`;
+    const item = (icon, key, action, on = false) => `<button type="button" class="mmcl-ditem${on ? ' on' : ''}" data-action="${action}">${ic(icon)}<span>${esc(c, t.t(key))}</span></button>`;
+    const cal = (key, color) => `<div class="mmcl-dcal"><i style="background:${color}"></i><span>${esc(c, t.t(key))}</span></div>`;
+    return `<div class="mmcl-scrim" data-action="mmcl-drawer"></div><div class="mmcl-drawer"><div class="mmcl-dlist">${item(V('ic_agenda'), 'agenda_view_label', 'mmcl-drawer', true)}${item(A('ic_hourview'), 'hourly_view_label', 'mmcl-dayview')}${item(V('ic_week'), 'week_view_label', 'mmcl-weekview')}${item(A('ic_monthview'), 'month_view_label', 'mmcl-monthview')}
+      <i class="mmcl-ddiv"></i><div class="mmcl-dacct"><img src="assets/gm-avatar_placeholder.png" alt=""><span>${esc(c, MM.account.email)}</span></div>${cal('my_events', PEACOCK)}${cal('reminders_calendar_name', '#4285f4')}${cal('drawer_birthdays_text', '#9e69af')}${cal('drawer_holidays_text', '#0b8043')}
+      <i class="mmcl-ddiv"></i>${item(V('ic_settings'), 'drawer_settings', 'mmcl-settings')}${item(V('ic_help'), 'drawer_help_feedback', 'mmcl-help')}</div></div>`;
   }
 
   // ---- an event and the editor --------------------------------------------------------------------------------------
@@ -107,20 +107,20 @@
   }
   function info(c, e) {
     const t = T();
-    return `<div class="mmca mmca-info"><div class="mmca-head" style="background:${PEACOCK}"><div class="mmca-hbar"><button type="button" class="mmca-btn" data-action="mmca-up"><img src="assets/gm-ic_arrow_back_wht_24dp.png" alt=""></button><i class="mmca-flex"></i><button type="button" class="mmca-btn" data-action="mmca-delete" aria-label="${esc(c, t.t('edit_event_delete'))}"><img src="assets/gm-ic_delete_wht_24dp.png" alt=""></button></div><h1>${esc(c, e.title)}</h1></div>
-      <button type="button" class="mmca-efab" data-action="mmca-edit" aria-label="${esc(c, t.t('edit_label'))}">${ic(V('ic_edit_white'))}</button>
-      <div class="mmca-page"><div class="mmca-row">${ic(V('ic_date'))}<span>${esc(c, when(c, e))}</span></div>${e.where ? `<div class="mmca-row">${ic(V('ic_location'))}<span>${esc(c, e.where)}</span></div>` : ''}${e.note ? `<div class="mmca-row">${ic(V('ic_notes'))}<span>${esc(c, e.note)}</span></div>` : ''}<div class="mmca-row">${ic(V('ic_calendar'))}<span>${esc(c, t.t('my_events'))}<small>${esc(c, MM.account.email)}</small></span></div></div></div>`;
+    return `<div class="mmcl mmcl-info"><div class="mmcl-head" style="background:${PEACOCK}"><div class="mmcl-hbar"><button type="button" class="mmcl-btn" data-action="mmcl-up"><img src="assets/gm-ic_arrow_back_wht_24dp.png" alt=""></button><i class="mmcl-flex"></i><button type="button" class="mmcl-btn" data-action="mmcl-delete" aria-label="${esc(c, t.t('edit_event_delete'))}"><img src="assets/gm-ic_delete_wht_24dp.png" alt=""></button></div><h1>${esc(c, e.title)}</h1></div>
+      <button type="button" class="mmcl-efab" data-action="mmcl-edit" aria-label="${esc(c, t.t('edit_label'))}">${ic(V('ic_edit_white'))}</button>
+      <div class="mmcl-page"><div class="mmcl-row">${ic(V('ic_date'))}<span>${esc(c, when(c, e))}</span></div>${e.where ? `<div class="mmcl-row">${ic(V('ic_location'))}<span>${esc(c, e.where)}</span></div>` : ''}${e.note ? `<div class="mmcl-row">${ic(V('ic_notes'))}<span>${esc(c, e.note)}</span></div>` : ''}<div class="mmcl-row">${ic(V('ic_calendar'))}<span>${esc(c, t.t('my_events'))}<small>${esc(c, MM.account.email)}</small></span></div></div></div>`;
   }
   function editor(c) {
     const t = T(), d = ui(c).draft;
     const date = s => esc(c, fmt(c, parse(s), {weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'}));
-    return `<div class="mmca mmca-edit"><div class="mmca-ehead" style="background:${PEACOCK}"><button type="button" class="mmca-btn" data-action="mmca-cancel"><img src="${A('ic_cancel_white')}" alt=""></button><i class="mmca-flex"></i><button type="button" class="mmca-save" data-action="mmca-save">${esc(c, t.t('edit_event_save'))}</button></div>
-      <div class="mmca-etitle" style="background:${PEACOCK}"><input data-f="title" value="${esc(c, d.title)}" placeholder="${esc(c, t.t('edit_title_hint'))}" autocomplete="off"></div>
-      <div class="mmca-page"><div class="mmca-seg">${ic(V('ic_date'))}<div class="mmca-when"><label class="mmca-allday"><span>${esc(c, t.t('edit_label_all_day'))}</span><button type="button" class="mmca-sw" data-action="mmca-allday" role="switch" aria-checked="${d.allDay}"><i class="mmw-switch${d.allDay ? ' on' : ''}"><i class="mmw-thumb"></i></i></button></label>
-        <div class="mmca-wrow"><input type="date" data-f="date" value="${d.date}"><span class="mmca-wshow">${date(d.date)}</span>${d.allDay ? '' : `<span class="mmca-tpick"><span>${esc(c, time(c, d.start))}</span><input type="time" data-f="start" value="${d.start}"></span>`}</div>
-        ${d.allDay ? '' : `<div class="mmca-wrow"><span class="mmca-wshow">${date(d.date)}</span><span class="mmca-tpick"><span>${esc(c, time(c, d.end))}</span><input type="time" data-f="end" value="${d.end}"></span></div>`}<span class="mmca-more">${esc(c, t.t('more_options'))}</span></div></div>
-        <div class="mmca-seg">${ic(V('ic_location'))}<input class="mmca-sin" data-f="where" value="${esc(c, d.where)}" placeholder="${esc(c, t.t('edit_location_hint'))}"></div>
-        <div class="mmca-seg">${ic(V('ic_notes'))}<input class="mmca-sin" data-f="note" value="${esc(c, d.note)}" placeholder="${esc(c, t.t('edit_description_hint'))}"></div></div></div>`;
+    return `<div class="mmcl mmcl-edit"><div class="mmcl-ehead" style="background:${PEACOCK}"><button type="button" class="mmcl-btn" data-action="mmcl-cancel"><img src="${A('ic_cancel_white')}" alt=""></button><i class="mmcl-flex"></i><button type="button" class="mmcl-save" data-action="mmcl-save">${esc(c, t.t('edit_event_save'))}</button></div>
+      <div class="mmcl-etitle" style="background:${PEACOCK}"><input data-f="title" value="${esc(c, d.title)}" placeholder="${esc(c, t.t('edit_title_hint'))}" autocomplete="off"></div>
+      <div class="mmcl-page"><div class="mmcl-seg">${ic(V('ic_date'))}<div class="mmcl-when"><label class="mmcl-allday"><span>${esc(c, t.t('edit_label_all_day'))}</span><button type="button" class="mmcl-sw" data-action="mmcl-allday" role="switch" aria-checked="${d.allDay}"><i class="mmw-switch${d.allDay ? ' on' : ''}"><i class="mmw-thumb"></i></i></button></label>
+        <div class="mmcl-wrow"><input type="date" data-f="date" value="${d.date}"><span class="mmcl-wshow">${date(d.date)}</span>${d.allDay ? '' : `<span class="mmcl-tpick"><span>${esc(c, time(c, d.start))}</span><input type="time" data-f="start" value="${d.start}"></span>`}</div>
+        ${d.allDay ? '' : `<div class="mmcl-wrow"><span class="mmcl-wshow">${date(d.date)}</span><span class="mmcl-tpick"><span>${esc(c, time(c, d.end))}</span><input type="time" data-f="end" value="${d.end}"></span></div>`}<span class="mmcl-more">${esc(c, t.t('more_options'))}</span></div></div>
+        <div class="mmcl-seg">${ic(V('ic_location'))}<input class="mmcl-sin" data-f="where" value="${esc(c, d.where)}" placeholder="${esc(c, t.t('edit_location_hint'))}"></div>
+        <div class="mmcl-seg">${ic(V('ic_notes'))}<input class="mmcl-sin" data-f="note" value="${esc(c, d.note)}" placeholder="${esc(c, t.t('edit_description_hint'))}"></div></div></div>`;
   }
   function closeEditor(c, ask) {
     const u = ui(c), d = u.draft, t = T();
@@ -146,9 +146,9 @@
     statusColor: () => '#000',
     render,
     mount(c, root) {
-      const sched = root.querySelector('.mmca-sched'), today = root.querySelector('#mmca-today');
+      const sched = root.querySelector('.mmcl-sched'), today = root.querySelector('#mmcl-today');
       if (sched && today && !ui(c).scrolled) { sched.scrollTop = Math.max(0, today.offsetTop - 120); ui(c).scrolled = true; }
-      root.querySelectorAll('.mmca-edit [data-f]').forEach(i => i.addEventListener('input', () => { ui(c).draft[i.dataset.f] = i.value; if (i.type === 'date' || i.type === 'time') c.render(); }));
+      root.querySelectorAll('.mmcl-edit [data-f]').forEach(i => i.addEventListener('input', () => { ui(c).draft[i.dataset.f] = i.value; if (i.type === 'date' || i.type === 'time') c.render(); }));
     },
     back(c) {
       const u = ui(c);
@@ -160,27 +160,27 @@
     action(name, el, event, c) {
       const u = ui(c), t = T(), e = events(c).find(x => x.id === +(el.dataset.id || u.screen.slice(6)));
       switch (name) {
-        case 'mmca-oobenext': u.oobe++; c.render(); return true;
-        case 'mmca-oobedone': c.data.calendarOobe = true; c.save(); c.render(); return true;
-        case 'mmca-drawer': u.drawer = !u.drawer; c.render(); return true;
-        case 'mmca-today': { const s = c.el.viewport.querySelector('.mmca-sched'), d = c.el.viewport.querySelector('#mmca-today'); if (s && d) s.scrollTo({top: Math.max(0, d.offsetTop - 120), behavior: 'smooth'}); return true; }
-        case 'mmca-picker': c.open('missing-calendar-month-picker'); return true;
-        case 'mmca-dayview': case 'mmca-weekview': case 'mmca-monthview': c.open(`missing-calendar-${name.slice(5)}`); return true;
-        case 'mmca-settings': c.open('missing-calendar-settings'); return true;
-        case 'mmca-help': c.open('missing-help'); return true;
-        case 'mmca-event': u.screen = `event:${e.id}`; c.render(); return true;
-        case 'mmca-up': u.screen = ''; c.render(); return true;
-        case 'mmca-new': startEdit(c, null); c.render(); return true;
-        case 'mmca-edit': startEdit(c, e); c.render(); return true;
-        case 'mmca-cancel': closeEditor(c, true); return true;
-        case 'mmca-allday': u.draft.allDay = !u.draft.allDay; c.render(); return true;
-        case 'mmca-save': {
+        case 'mmcl-oobenext': u.oobe++; c.render(); return true;
+        case 'mmcl-oobedone': c.data.calendarOobe = true; c.save(); c.render(); return true;
+        case 'mmcl-drawer': u.drawer = !u.drawer; c.render(); return true;
+        case 'mmcl-today': { const s = c.el.viewport.querySelector('.mmcl-sched'), d = c.el.viewport.querySelector('#mmcl-today'); if (s && d) s.scrollTo({top: Math.max(0, d.offsetTop - 120), behavior: 'smooth'}); return true; }
+        case 'mmcl-picker': c.open('missing-calendar-month-picker'); return true;
+        case 'mmcl-dayview': case 'mmcl-weekview': case 'mmcl-monthview': c.open(`missing-calendar-${name.slice(5)}`); return true;
+        case 'mmcl-settings': c.open('missing-calendar-settings'); return true;
+        case 'mmcl-help': c.open('missing-help'); return true;
+        case 'mmcl-event': u.screen = `event:${e.id}`; c.render(); return true;
+        case 'mmcl-up': u.screen = ''; c.render(); return true;
+        case 'mmcl-new': startEdit(c, null); c.render(); return true;
+        case 'mmcl-edit': startEdit(c, e); c.render(); return true;
+        case 'mmcl-cancel': closeEditor(c, true); return true;
+        case 'mmcl-allday': u.draft.allDay = !u.draft.allDay; c.render(); return true;
+        case 'mmcl-save': {
           const d = u.draft, list = events(c); delete d.orig;
           if (!d.title.trim()) d.title = t.t('event');
           if (d.id) Object.assign(list.find(x => x.id === d.id), d); else { d.id = Math.max(0, ...list.map(x => x.id)) + 1; list.push(d); }
           c.save(); u.draft = null; u.screen = `event:${d.id}`; c.render(); return true;
         }
-        case 'mmca-delete': c.dialog({message: t.t('delete_this_event_title'), buttons: [{label: MM.text('framework').t('cancel')}, {label: MM.text('framework').t('ok'), action: c => { c.data.events = events(c).filter(x => x !== e); c.save(); u.screen = ''; c.render(); }}]}); return true;
+        case 'mmcl-delete': c.dialog({message: t.t('delete_this_event_title'), buttons: [{label: MM.text('framework').t('cancel')}, {label: MM.text('framework').t('ok'), action: c => { c.data.events = events(c).filter(x => x !== e); c.save(); u.screen = ''; c.render(); }}]}); return true;
         case 'mm-menu': c.menu([{label: t.t('search'), action: c => c.open('missing-calendar-search')}, {label: t.t('calendar_refresh'), action: c => c.render()}]); return true;
       }
       return false;

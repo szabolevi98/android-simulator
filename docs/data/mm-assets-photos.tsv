@@ -1,0 +1,18 @@
+# Google Photos 1.4.0 (app/Photos): the onboarding, the drawer, the grid, the viewer (mm-photos.js)
+pt-quantum_logo_photos_launcher_color_48.png	app/Photos/Photos.apk	mipmap/quantum_logo_photos_launcher_color_48
+pt-quantum_ic_menu_grey600_24.png	app/Photos/Photos.apk	drawable/quantum_ic_menu_grey600_24
+pt-quantum_ic_search_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_search_white_24
+pt-quantum_ic_arrow_back_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_arrow_back_white_24
+pt-quantum_ic_share_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_share_white_24
+pt-quantum_ic_edit_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_edit_white_24
+pt-quantum_ic_info_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_info_white_24
+pt-quantum_ic_delete_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_delete_white_24
+pt-quantum_ic_more_vert_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_more_vert_white_24
+pt-quantum_ic_more_vert_grey600_24.png	app/Photos/Photos.apk	drawable/quantum_ic_more_vert_grey600_24
+pt-quantum_ic_photos_grey600_18.png	app/Photos/Photos.apk	drawable/quantum_ic_photos_grey600_18
+pt-quantum_ic_photo_album_grey600_24.png	app/Photos/Photos.apk	drawable/quantum_ic_photo_album_grey600_24
+pt-quantum_ic_settings_grey600_24.png	app/Photos/Photos.apk	drawable/quantum_ic_settings_grey600_24
+pt-quantum_ic_help_grey600_24.png	app/Photos/Photos.apk	drawable/quantum_ic_help_grey600_24
+pt-quantum_ic_delete_grey600_24.png	app/Photos/Photos.apk	drawable/quantum_ic_delete_grey600_24
+pt-quantum_ic_cloud_done_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_cloud_done_white_24
+pt-quantum_ic_photosphere_white_24.png	app/Photos/Photos.apk	drawable/quantum_ic_photosphere_white_24
