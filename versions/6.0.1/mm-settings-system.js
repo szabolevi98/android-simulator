@@ -312,4 +312,25 @@
       return false;
     }
   };
+
+  /* Tap & pay (PaymentSettings, the 5X has NFC and host card emulation): NfcPaymentPreference (Payment default, the
+     default payment service's app: Android Pay, the image's only one, which CardEmulationManager makes the default)
+     and NfcForegroundPreference (Use default: Always / Except when another payment app is open); the default's
+     dialog asks nfc_payment_pay_with over the payment apps. */
+  MM.settingsScreens['nfc-payment'] = {
+    title: () => T().t('nfc_payment_settings_title'),
+    render(c) {
+      const t = T(), s = S(c), app = MM.appLabel(c, 'android-pay');
+      const row = (key, title, summary) => `<button type="button" class="mmst-pref" data-action="mmpy-pref" data-key="${key}"><span class="mmst-texts"><span class="mmst-title">${c.safe(title)}</span><span class="mmst-summary">${c.safe(summary)}</span></span></button>`;
+      return `<div class="mmst-list">${row('default', t.t('nfc_payment_default'), s.paymentDefault === false ? t.t('nfc_payment_default_not_set') : app)}${row('foreground', t.t('nfc_payment_use_default'), t.t(s.paymentForeground ? 'nfc_payment_favor_open' : 'nfc_payment_favor_default'))}</div>`;
+    },
+    action(c, name, el) {
+      if (name !== 'mmpy-pref') return false;
+      const t = T(), s = S(c);
+      const radio = (on, label) => ({html: `<span class="mmst-choice"><i class="mmw-radio${on ? ' on' : ''}"></i><span>${c.safe(label)}</span></span>`});
+      if (el.dataset.key === 'default') c.dialog({title: t.t('nfc_payment_pay_with'), items: [radio(s.paymentDefault !== false, MM.appLabel(c, 'android-pay'))], onItem: () => { s.paymentDefault = true; c.save(); c.render(); }});
+      else c.dialog({title: t.t('nfc_payment_use_default'), items: [radio(!s.paymentForeground, t.t('nfc_payment_favor_default')), radio(!!s.paymentForeground, t.t('nfc_payment_favor_open'))], onItem: i => { s.paymentForeground = i === 1; c.save(); c.render(); }});
+      return true;
+    }
+  };
 })();

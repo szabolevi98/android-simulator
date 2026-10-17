@@ -7688,6 +7688,54 @@ MM.strings('settings', {
 "fr": "Personnel (POP3)",
 "es": "Personal (POP3)"
 },
+"nfc_payment_default": {
+"res": "bullhead:Settings:nfc_payment_default",
+"en": "Payment default",
+"hu": "Fizetéshez alapértelmezett",
+"de": "Standard-App für Zahlungen",
+"fr": "Application de paiement par défaut",
+"es": "Aplicación de pago predeterminada"
+},
+"nfc_payment_default_not_set": {
+"res": "bullhead:Settings:nfc_payment_default_not_set",
+"en": "Not set",
+"hu": "Nincs megadva",
+"de": "Nicht festgelegt",
+"fr": "Non définie",
+"es": "No definida"
+},
+"nfc_payment_use_default": {
+"res": "bullhead:Settings:nfc_payment_use_default",
+"en": "Use default",
+"hu": "Alapértelmezett használata",
+"de": "Standard-App verwenden",
+"fr": "Utiliser l'application par défaut",
+"es": "Usar aplicación predeterminada"
+},
+"nfc_payment_favor_default": {
+"res": "bullhead:Settings:nfc_payment_favor_default",
+"en": "Always",
+"hu": "Mindig",
+"de": "Immer",
+"fr": "Toujours",
+"es": "Siempre"
+},
+"nfc_payment_favor_open": {
+"res": "bullhead:Settings:nfc_payment_favor_open",
+"en": "Except when another payment app is open",
+"hu": "Kivéve, ha meg van nyitva egy másik alkalmazás a fizetéshez",
+"de": "Außer wenn eine andere Zahlungs-App geöffnet ist",
+"fr": "Sauf si une autre application de paiement est ouverte",
+"es": "Excepto si hay otra aplicación de pago abierta"
+},
+"nfc_payment_pay_with": {
+"res": "bullhead:Settings:nfc_payment_pay_with",
+"en": "At a Tap & pay terminal, pay with:",
+"hu": "Érintéses fizetésre alkalmas terminál fizetés a következővel:",
+"de": "Am Terminal für das mobile Bezahlen mit folgender App bezahlen:",
+"fr": "Application à utiliser aux terminaux de paiement sans contact :",
+"es": "En un terminal Tocar y pagar, paga con:"
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

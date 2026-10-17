@@ -145,7 +145,10 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          # AccountSettings, ChooseAccountActivity (the authenticators of GMS Core and Gmail)
          'add_account_label', 'header_add_an_account', 'data_usage_menu_auto_sync', 'data_usage_auto_sync_on_dialog_title',
          'data_usage_auto_sync_on_dialog', 'data_usage_auto_sync_off_dialog_title', 'data_usage_auto_sync_off_dialog',
-         'PrebuiltGmsCore/auth_gls_label', 'PrebuiltGmail/exchange_eas_name', 'PrebuiltGmail/imap_name', 'PrebuiltGmail/pop3_name']
+         'PrebuiltGmsCore/auth_gls_label', 'PrebuiltGmail/exchange_eas_name', 'PrebuiltGmail/imap_name', 'PrebuiltGmail/pop3_name',
+         # PaymentSettings
+         'nfc_payment_settings_title', 'nfc_payment_default', 'nfc_payment_default_not_set', 'nfc_payment_use_default', 'nfc_payment_favor_default',
+         'nfc_payment_favor_open', 'nfc_payment_pay_with']
 strings, arrays, drawables = set(), set(), {}
 
 
