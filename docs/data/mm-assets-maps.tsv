@@ -1,0 +1,19 @@
+# Google Maps 9.13 (app/Maps): the search box, the side menu, the FABs (mm-maps.js)
+mp-ic_qu_menu.png	app/Maps/Maps.apk	drawable/ic_qu_menu
+mp-ic_qu_mic.png	app/Maps/Maps.apk	drawable/ic_qu_mic
+mp-ic_qu_search.png	app/Maps/Maps.apk	drawable/ic_qu_search
+mp-ic_qu_directions_white.png	app/Maps/Maps.apk	drawable/ic_qu_directions_white
+mp-ic_qu_direction_mylocation.png	app/Maps/Maps.apk	drawable/ic_qu_direction_mylocation
+mp-quantum_ic_location_searching_black_24.png	app/Maps/Maps.apk	drawable/quantum_ic_location_searching_black_24
+mp-ic_qu_fab_circle.png	app/Maps/Maps.apk	drawable/ic_qu_fab_circle
+mp-ic_qu_place.png	app/Maps/Maps.apk	drawable/ic_qu_place
+mp-ic_qu_traffic.png	app/Maps/Maps.apk	drawable/ic_qu_traffic
+mp-ic_qu_search_transit.png	app/Maps/Maps.apk	drawable/ic_qu_search_transit
+mp-ic_qu_satellite.png	app/Maps/Maps.apk	drawable/ic_qu_satellite
+mp-ic_qu_savedplace.png	app/Maps/Maps.apk	drawable/ic_qu_savedplace
+mp-quantum_ic_location_history_black_24.png	app/Maps/Maps.apk	drawable/quantum_ic_location_history_black_24
+mp-ic_qu_navigation_white.png	app/Maps/Maps.apk	drawable/ic_qu_navigation_white
+mp-button_compass.png	app/Maps/Maps.apk	drawable/button_compass
+mp-quantum_logo_avatar_circle_blue_color_144.png	app/Maps/Maps.apk	drawable/quantum_logo_avatar_circle_blue_color_144
+mp-ic_qu_arrow_right.png	app/Maps/Maps.apk	drawable/ic_qu_arrow_right
+mp-ic_qu_menu_grabber.png	app/Maps/Maps.apk	drawable/ic_qu_menu_grabber

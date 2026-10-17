@@ -290,6 +290,24 @@ versions/6.0.1/assets/gms-ic_google.png	b1f36b9fc14bc46f	copy	bullhead:/system/a
 versions/6.0.1/assets/gms-ic_google_settings.svg	c45ec4be45b1950a	vector	bullhead:/system/app/PlayGames/PlayGames.apk!res/drawable-anydpi-v21/ic_google_settings.xml	drawable-anydpi-v21	vector drawable drawn as SVG	853b3748a0d5a040
 versions/6.0.1/assets/landing-home.jpg	d519cd458d66fa80	own	capture of the simulator's own home screen for the landing page card		closest: mean difference 7.39 (maguro:/system/media/bootanimation.zip!part0/f0000.jpg)	
 versions/6.0.1/assets/lw-ic_launcher_live_wallpaper.png	06afb1f349962092	copy	bullhead:/system/app/LiveWallpapersPicker/LiveWallpapersPicker.apk!res/mipmap-xxhdpi-v4/ic_launcher_live_wallpaper.png	mipmap-xxhdpi-v4		06afb1f349962092
+versions/6.0.1/assets/mp-button_compass.png	2c0a0d3f5bfa279e	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/button_compass.png	drawable-xxhdpi-v4		2c0a0d3f5bfa279e
+versions/6.0.1/assets/mp-ic_qu_arrow_right.png	0d54a4df89da56b3	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_arrow_right.png	drawable-xxhdpi-v4		0d54a4df89da56b3
+versions/6.0.1/assets/mp-ic_qu_direction_mylocation.png	b623802da4779bfb	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_direction_mylocation.png	drawable-xxhdpi-v4		b623802da4779bfb
+versions/6.0.1/assets/mp-ic_qu_directions_white.png	2085bd9653b522a6	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_directions_white.png	drawable-xxhdpi-v4		2085bd9653b522a6
+versions/6.0.1/assets/mp-ic_qu_fab_circle.png	0f58a17e121bd12a	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_fab_circle.png	drawable-xxhdpi-v4		0f58a17e121bd12a
+versions/6.0.1/assets/mp-ic_qu_menu.png	72a93d58535930c1	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_menu.png	drawable-xxhdpi-v4		72a93d58535930c1
+versions/6.0.1/assets/mp-ic_qu_menu_grabber.png	6234af6e5d76defa	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_menu_grabber.png	drawable-xxhdpi-v4		6234af6e5d76defa
+versions/6.0.1/assets/mp-ic_qu_mic.png	e3e928fc91422845	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_mic.png	drawable-xxhdpi-v4		e3e928fc91422845
+versions/6.0.1/assets/mp-ic_qu_navigation_white.png	6f17b1761e532ea0	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_navigation_white.png	drawable-xxhdpi-v4		6f17b1761e532ea0
+versions/6.0.1/assets/mp-ic_qu_place.png	3c8d80a0b47ad881	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_place.png	drawable-xxhdpi-v4		3c8d80a0b47ad881
+versions/6.0.1/assets/mp-ic_qu_satellite.png	3390fe572af15018	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_satellite.png	drawable-xxhdpi-v4		3390fe572af15018
+versions/6.0.1/assets/mp-ic_qu_savedplace.png	b04f3c9d459edb5e	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_savedplace.png	drawable-xxhdpi-v4		b04f3c9d459edb5e
+versions/6.0.1/assets/mp-ic_qu_search.png	4d521ab2e63d62fe	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_search.png	drawable-xxhdpi-v4		4d521ab2e63d62fe
+versions/6.0.1/assets/mp-ic_qu_search_transit.png	4ca1572f41bfb548	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_search_transit.png	drawable-xxhdpi-v4		4ca1572f41bfb548
+versions/6.0.1/assets/mp-ic_qu_traffic.png	7e74ef65b7114e01	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/ic_qu_traffic.png	drawable-xxhdpi-v4		7e74ef65b7114e01
+versions/6.0.1/assets/mp-quantum_ic_location_history_black_24.png	553b8ad339859643	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/quantum_ic_location_history_black_24.png	drawable-xxhdpi-v4		553b8ad339859643
+versions/6.0.1/assets/mp-quantum_ic_location_searching_black_24.png	fd0c7ee5dfbea1b4	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/quantum_ic_location_searching_black_24.png	drawable-xxhdpi-v4		fd0c7ee5dfbea1b4
+versions/6.0.1/assets/mp-quantum_logo_avatar_circle_blue_color_144.png	eeff67d80914d753	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/quantum_logo_avatar_circle_blue_color_144.png	drawable-xxhdpi-v4		eeff67d80914d753
 versions/6.0.1/assets/pi-ic_info.svg	407bc69bd74c5137	vector	bullhead:/system/priv-app/GooglePackageInstaller/GooglePackageInstaller.apk!res/drawable/ic_info.xml	drawable	vector drawable drawn as SVG	ca90b2266f6a805c
 versions/6.0.1/assets/ps-ic_drawer_home.png	4a8dc7d3da0f5caa	copy	bullhead:/system/priv-app/Phonesky/Phonesky.apk!res/drawable-xhdpi-v4/ic_drawer_home.png	drawable-xhdpi-v4		4a8dc7d3da0f5caa
 versions/6.0.1/assets/ps-ic_drawer_home_selected.png	2965201fdfe6445b	copy	bullhead:/system/priv-app/Phonesky/Phonesky.apk!res/drawable-xhdpi-v4/ic_drawer_home_selected.png	drawable-xhdpi-v4		2965201fdfe6445b
