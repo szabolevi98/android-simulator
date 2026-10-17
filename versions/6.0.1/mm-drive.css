@@ -1,0 +1,33 @@
+/* Drive (mm-drive.js), in dp: Drive 2.3's grey toolbar, empty My Drive, create panel and drawer. */
+.mmgd{position:absolute;inset:0;display:flex;flex-direction:column;background:#eee;color:#212121;font-family:Roboto,sans-serif;overflow:hidden}
+.mmgd-bar{flex:none;position:relative;z-index:3;display:flex;align-items:center;height:calc(56 * var(--dp));padding-right:calc(4 * var(--dp));background:#e0e0e0;color:#212121;box-shadow:0 calc(1 * var(--dp)) calc(3 * var(--dp)) rgba(0,0,0,.2)}
+.mmgd-title{flex:1;min-width:0;padding-left:calc(16 * var(--dp));font:500 calc(20 * var(--dp)) Roboto,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmgd-btn{flex:none;width:calc(48 * var(--dp));height:calc(48 * var(--dp));padding:0;border:0;border-radius:50%;background:none;display:grid;place-items:center}
+.mmgd-bar>.mmgd-btn:first-child{width:calc(56 * var(--dp));height:calc(56 * var(--dp))}
+.mmgd-btn img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmgd-page{flex:1;min-height:0;overflow-y:auto}
+.mmgd-empty{display:flex;flex-direction:column;align-items:center;padding:calc(48 * var(--dp)) calc(16 * var(--dp)) calc(32 * var(--dp));color:#757575;text-align:center}
+.mmgd-empty img{width:calc(120 * var(--dp));height:auto;padding-top:calc(16 * var(--dp))}
+.mmgd-empty b{padding-top:calc(16 * var(--dp));font-weight:400;font-size:calc(20 * var(--dp))}
+.mmgd-empty span{padding-top:calc(16 * var(--dp));font-size:calc(16 * var(--dp))}
+.mmgd-group{padding:calc(16 * var(--dp)) calc(16 * var(--dp)) calc(8 * var(--dp));font:500 calc(14 * var(--dp)) Roboto,sans-serif;color:#757575}
+.mmgd-row{display:flex;align-items:center;gap:calc(24 * var(--dp));height:calc(56 * var(--dp));padding:0 calc(16 * var(--dp));background:#fff;border-bottom:1px solid #eee;font-size:calc(16 * var(--dp))}
+.mmgd-row img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmgd-scrim{position:absolute;inset:0;z-index:10;background:rgba(0,0,0,.5)}
+.mmgd-drawer{position:absolute;z-index:11;left:0;top:0;bottom:0;width:calc(280 * var(--dp));background:#fff;overflow-y:auto;animation:mmgd-in .2s cubic-bezier(.4,0,.2,1)}
+@keyframes mmgd-in{from{transform:translateX(-100%)}}
+.mmgd-dhead{display:flex;flex-direction:column;padding:calc(24 * var(--dp)) calc(16 * var(--dp)) calc(12 * var(--dp));margin-bottom:calc(8 * var(--dp));background:#757575;color:#fff;font-size:calc(14 * var(--dp))}
+.mmgd-dhead img{width:calc(56 * var(--dp));height:calc(56 * var(--dp));margin-bottom:calc(16 * var(--dp));border-radius:50%}
+.mmgd-dhead b{font-weight:500}
+.mmgd-dhead small{font-size:inherit;opacity:.8}
+.mmgd-di{display:flex;align-items:center;width:100%;height:calc(48 * var(--dp));padding:0 calc(16 * var(--dp));border:0;background:none;color:#212121;font:500 calc(14 * var(--dp)) Roboto,sans-serif;text-align:left}
+.mmgd-di.on{background:#eee;color:#4285f4}
+.mmgd-di img{width:calc(24 * var(--dp));height:calc(24 * var(--dp));margin-right:calc(32 * var(--dp));opacity:.6}
+.mmgd-di.text{font-weight:400}
+.mmgd-div{display:block;height:1px;margin:calc(8 * var(--dp)) 0;background:#e0e0e0}
+.mmgd-sheet{position:absolute;z-index:11;left:0;right:0;bottom:0;padding-bottom:calc(8 * var(--dp));background:#fff;animation:mmgd-up .2s ease-out}
+@keyframes mmgd-up{from{transform:translateY(100%)}}
+.mmgd-stitle{padding:calc(16 * var(--dp));font:500 calc(16 * var(--dp)) Roboto,sans-serif;color:#757575}
+.mmgd-crow{display:flex;align-items:center;gap:calc(16 * var(--dp));width:100%;padding:calc(14 * var(--dp)) calc(15 * var(--dp));border:0;background:none;font:calc(16 * var(--dp)) Roboto,sans-serif;text-align:left}
+.mmgd-crow:active{background:rgba(0,0,0,.06)}
+.mmgd-crow img{width:calc(40 * var(--dp));height:calc(40 * var(--dp))}

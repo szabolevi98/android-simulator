@@ -1,0 +1,21 @@
+# Drive 2.3 (app/Drive): the toolbar, drawer, create panel and empty view (mm-drive.js)
+dr-quantum_ic_menu_grey600_24.png	app/Drive/Drive.apk	drawable/quantum_ic_menu_grey600_24
+dr-ic_menu_search_alpha.png	app/Drive/Drive.apk	drawable/ic_menu_search_alpha
+dr-ic_add.png	app/Drive/Drive.apk	drawable/ic_add
+dr-ic_empty_drive.png	app/Drive/Drive.apk	drawable/ic_empty_drive
+dr-ic_drive_my_drive.png	app/Drive/Drive.apk	drawable/ic_drive_my_drive
+dr-ic_drive_recently_opened.png	app/Drive/Drive.apk	drawable/ic_drive_recently_opened
+dr-ic_drive_starred.png	app/Drive/Drive.apk	drawable/ic_drive_starred
+dr-ic_drive_offline.png	app/Drive/Drive.apk	drawable/ic_drive_offline
+dr-ic_drive_upload.png	app/Drive/Drive.apk	drawable/ic_drive_upload
+dr-ic_drive_trash.png	app/Drive/Drive.apk	drawable/ic_drive_trash
+dr-ic_empty_shared_with_me.png	app/Drive/Drive.apk	drawable/ic_empty_shared_with_me
+dr-ic_createpanel_folder.png	app/Drive/Drive.apk	drawable/ic_createpanel_folder
+dr-ic_createpanel_upload.png	app/Drive/Drive.apk	drawable/ic_createpanel_upload
+dr-ic_createpanel_scan.png	app/Drive/Drive.apk	drawable/ic_createpanel_scan
+dr-ic_createpanel_doc.png	app/Drive/Drive.apk	drawable/ic_createpanel_doc
+dr-ic_createpanel_sheet.png	app/Drive/Drive.apk	drawable/ic_createpanel_sheet
+dr-ic_createpanel_slide.png	app/Drive/Drive.apk	drawable/ic_createpanel_slide
+dr-ic_type_folder.png	app/Drive/Drive.apk	drawable/ic_type_folder
+dr-ic_type_doc.png	app/Drive/Drive.apk	drawable/ic_type_doc
+dr-ic_type_sheet.png	app/Drive/Drive.apk	drawable/ic_type_sheet

@@ -157,6 +157,26 @@ versions/6.0.1/assets/dc-ic_tab_stopwatch_normal.png	c2d0720393d64198	copy	bullh
 versions/6.0.1/assets/dc-ic_tab_timer_activated.png	7b4385fe55ad1595	copy	bullhead:/system/app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk!res/drawable-xxhdpi-v4/ic_tab_timer_activated.png	drawable-xxhdpi-v4		7b4385fe55ad1595
 versions/6.0.1/assets/dc-ic_tab_timer_normal.png	c9173c8d85924564	copy	bullhead:/system/app/PrebuiltDeskClockGoogle/PrebuiltDeskClockGoogle.apk!res/drawable-xxhdpi-v4/ic_tab_timer_normal.png	drawable-xxhdpi-v4		c9173c8d85924564
 versions/6.0.1/assets/device-nexus-5x.svg	6d86c7705924c946	own	drawn by docs/tools/device-frames.py: the outline measured from the maker's front render, the shading drawn			
+versions/6.0.1/assets/dr-ic_add.png	c63e09363eb080a0	copy	bullhead:/system/app/CloudPrint2/CloudPrint2.apk!res/drawable-xxhdpi-v4/ic_add.png	drawable-xxhdpi-v4		c63e09363eb080a0
+versions/6.0.1/assets/dr-ic_createpanel_doc.png	5acaad2168d56125	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_createpanel_doc.png	drawable-xxhdpi-v4		5acaad2168d56125
+versions/6.0.1/assets/dr-ic_createpanel_folder.png	d147212d0dd8caf7	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_createpanel_folder.png	drawable-xxhdpi-v4		d147212d0dd8caf7
+versions/6.0.1/assets/dr-ic_createpanel_scan.png	0308c162ee0c3afc	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_createpanel_scan.png	drawable-xxhdpi-v4		0308c162ee0c3afc
+versions/6.0.1/assets/dr-ic_createpanel_sheet.png	cd1b14c98865929b	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_createpanel_sheet.png	drawable-xxhdpi-v4		cd1b14c98865929b
+versions/6.0.1/assets/dr-ic_createpanel_slide.png	902e1a9506696142	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_createpanel_slide.png	drawable-xxhdpi-v4		902e1a9506696142
+versions/6.0.1/assets/dr-ic_createpanel_upload.png	3f84f07cf189faf9	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_createpanel_upload.png	drawable-xxhdpi-v4		3f84f07cf189faf9
+versions/6.0.1/assets/dr-ic_drive_my_drive.png	4af25010c6c9bcf2	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_drive_my_drive.png	drawable-xxhdpi-v4		4af25010c6c9bcf2
+versions/6.0.1/assets/dr-ic_drive_offline.png	743cf87ec0f044d5	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_drive_offline.png	drawable-xxhdpi-v4		743cf87ec0f044d5
+versions/6.0.1/assets/dr-ic_drive_recently_opened.png	2ce2c54170ca82e9	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_drive_recently_opened.png	drawable-xxhdpi-v4		2ce2c54170ca82e9
+versions/6.0.1/assets/dr-ic_drive_starred.png	03120cdf944e697c	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_drive_starred.png	drawable-xxhdpi-v4		03120cdf944e697c
+versions/6.0.1/assets/dr-ic_drive_trash.png	416fef8a5784c11c	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_drive_trash.png	drawable-xxhdpi-v4		416fef8a5784c11c
+versions/6.0.1/assets/dr-ic_drive_upload.png	60142cc8a1d0cece	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_drive_upload.png	drawable-xxhdpi-v4		60142cc8a1d0cece
+versions/6.0.1/assets/dr-ic_empty_drive.png	41a0a2826afd3121	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_empty_drive.png	drawable-xxhdpi-v4		41a0a2826afd3121
+versions/6.0.1/assets/dr-ic_empty_shared_with_me.png	f874dfadb0ee5398	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_empty_shared_with_me.png	drawable-xxhdpi-v4		f874dfadb0ee5398
+versions/6.0.1/assets/dr-ic_menu_search_alpha.png	db0469b399521932	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_menu_search_alpha.png	drawable-xxhdpi-v4		db0469b399521932
+versions/6.0.1/assets/dr-ic_type_doc.png	eb0254d58d3b4a48	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_type_doc.png	drawable-xxhdpi-v4		eb0254d58d3b4a48
+versions/6.0.1/assets/dr-ic_type_folder.png	5b15f3ef18042de2	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_type_folder.png	drawable-xxhdpi-v4		5b15f3ef18042de2
+versions/6.0.1/assets/dr-ic_type_sheet.png	4a70fcf24edef36b	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/ic_type_sheet.png	drawable-xxhdpi-v4		4a70fcf24edef36b
+versions/6.0.1/assets/dr-quantum_ic_menu_grey600_24.png	28f72804b7b8ba43	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/quantum_ic_menu_grey600_24.png	drawable-xxhdpi-v4		28f72804b7b8ba43
 versions/6.0.1/assets/fw-btn_radio_to_on_mtrl_000.png	2dd9c8672627cd22	copy	bullhead:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/btn_radio_to_on_mtrl_000.png	drawable-xxhdpi-v4		2dd9c8672627cd22
 versions/6.0.1/assets/fw-btn_radio_to_on_mtrl_015.png	259843ddf1ab113b	copy	bullhead:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/btn_radio_to_on_mtrl_015.png	drawable-xxhdpi-v4		259843ddf1ab113b
 versions/6.0.1/assets/fw-btn_switch_to_on_mtrl_00001.9.png	c4603dac2f0cd1d1	copy	bullhead:/system/framework/framework-res.apk!res/drawable-xxhdpi-v4/btn_switch_to_on_mtrl_00001.9.png	drawable-xxhdpi-v4		c4603dac2f0cd1d1
@@ -288,6 +308,14 @@ versions/6.0.1/assets/gm-ic_star_outline_20dp.png	ee9c82cd8389e9d1	copy	bullhead
 versions/6.0.1/assets/gms-auth_gls_ic_google_selected.png	3f65f591599a6239	copy	bullhead:/system/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk!res/drawable-xxhdpi-v4/auth_gls_ic_google_selected.png	drawable-xxhdpi-v4		3f65f591599a6239
 versions/6.0.1/assets/gms-ic_google.png	b1f36b9fc14bc46f	copy	bullhead:/system/app/PlayGames/PlayGames.apk!res/drawable-xxhdpi-v4/ic_google.png	drawable-xxhdpi-v4		b1f36b9fc14bc46f
 versions/6.0.1/assets/gms-ic_google_settings.svg	c45ec4be45b1950a	vector	bullhead:/system/app/PlayGames/PlayGames.apk!res/drawable-anydpi-v21/ic_google_settings.xml	drawable-anydpi-v21	vector drawable drawn as SVG	853b3748a0d5a040
+versions/6.0.1/assets/ho-ic_call_white_32.png	d81eec7999ff2fc5	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/ic_call_white_32.png	drawable-xxhdpi-v4		d81eec7999ff2fc5
+versions/6.0.1/assets/ho-ic_menu_archive.png	7831d49382e5d980	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/ic_menu_archive.png	drawable-xxhdpi-v4		7831d49382e5d980
+versions/6.0.1/assets/ho-ic_send_green_24.png	2697533de1d3e054	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/ic_send_green_24.png	drawable-xxhdpi-v4		2697533de1d3e054
+versions/6.0.1/assets/ho-ic_send_grey_24.png	7ec78b3287a2e46d	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/ic_send_grey_24.png	drawable-xxhdpi-v4		7ec78b3287a2e46d
+versions/6.0.1/assets/ho-quantum_ic_add_white_24.png	2c4e6c09c5aec219	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/quantum_ic_add_white_24.png	drawable-xxhdpi-v4		2c4e6c09c5aec219
+versions/6.0.1/assets/ho-quantum_ic_search_black_24.png	9ec18d8f5ed1085c	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/quantum_ic_search_black_24.png	drawable-xxhdpi-v4		9ec18d8f5ed1085c
+versions/6.0.1/assets/ho-quantum_ic_send_white_24.png	40e13c15793b7e7f	copy	bullhead:/system/app/Drive/Drive.apk!res/drawable-xxhdpi-v4/quantum_ic_send_white_24.png	drawable-xxhdpi-v4		40e13c15793b7e7f
+versions/6.0.1/assets/ho-quantum_ic_videocam_white_24.png	96941d80cad37ae0	copy	bullhead:/system/app/Hangouts/Hangouts.apk!res/drawable-xxhdpi-v4/quantum_ic_videocam_white_24.png	drawable-xxhdpi-v4		96941d80cad37ae0
 versions/6.0.1/assets/landing-home.jpg	d519cd458d66fa80	own	capture of the simulator's own home screen for the landing page card		closest: mean difference 7.39 (maguro:/system/media/bootanimation.zip!part0/f0000.jpg)	
 versions/6.0.1/assets/lw-ic_launcher_live_wallpaper.png	06afb1f349962092	copy	bullhead:/system/app/LiveWallpapersPicker/LiveWallpapersPicker.apk!res/mipmap-xxhdpi-v4/ic_launcher_live_wallpaper.png	mipmap-xxhdpi-v4		06afb1f349962092
 versions/6.0.1/assets/mp-button_compass.png	2c0a0d3f5bfa279e	copy	bullhead:/system/app/Maps/Maps.apk!res/drawable-xxhdpi-v4/button_compass.png	drawable-xxhdpi-v4		2c0a0d3f5bfa279e

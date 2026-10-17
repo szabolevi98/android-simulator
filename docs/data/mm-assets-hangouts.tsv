@@ -1,0 +1,9 @@
+# Hangouts 4.1 (app/Hangouts): the FAB, the toolbar actions, the compose bar (mm-hangouts.js)
+ho-quantum_ic_add_white_24.png	app/Hangouts/Hangouts.apk	drawable/quantum_ic_add_white_24
+ho-quantum_ic_videocam_white_24.png	app/Hangouts/Hangouts.apk	drawable/quantum_ic_videocam_white_24
+ho-ic_call_white_32.png	app/Hangouts/Hangouts.apk	drawable/ic_call_white_32
+ho-quantum_ic_send_white_24.png	app/Hangouts/Hangouts.apk	drawable/quantum_ic_send_white_24
+ho-quantum_ic_search_black_24.png	app/Hangouts/Hangouts.apk	drawable/quantum_ic_search_black_24
+ho-ic_send_green_24.png	app/Hangouts/Hangouts.apk	drawable/ic_send_green_24
+ho-ic_send_grey_24.png	app/Hangouts/Hangouts.apk	drawable/ic_send_grey_24
+ho-ic_menu_archive.png	app/Hangouts/Hangouts.apk	drawable/ic_menu_archive

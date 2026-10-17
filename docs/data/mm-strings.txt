@@ -184,3 +184,15 @@ START_NAVIGATION NAVIGATION
 # YouTube 10.28.60: search, the video cards, the watch page
 home_phone_label search_hint subscribe subscribed menu_share accessibility_addto settings menu_help channel_watch_history
 plurals:author_and_views plurals:age_and_views plurals:minutes_ago plurals:hours_ago plurals:days_ago plurals:weeks_ago
+[hangouts] Hangouts framework
+# Hangouts 4.1: the conversation list, the drawer, a conversation
+app_name fab_new_conversation realtimechat_send_button_description realtimechat_message_text_hint menu_invites
+dnd_menu_item home_menu_settings help_feedback_menu_item_text menu_archived_conversations video_call_title
+voice_call_title posted_now
+[drive] Drive framework
+# Drive 2.3: the drawer, My Drive, the create panel
+app_name_drive menu_my_drive menu_shared_with_me menu_show_recent menu_show_starred menu_show_pinned menu_show_upload
+menu_show_trash menu_notifications menu_settings menu_help_and_feedback create_new_choice_title create_new_choice_folder
+create_new_choice_upload create_new_choice_scan create_new_choice_document create_new_choice_sheet create_new_choice_slide
+empty_doclist empty_doclist_for_my_drive_view empty_doclist_for_my_drive_view_details title_grouper_files
+fast_scroll_title_grouper_collections
