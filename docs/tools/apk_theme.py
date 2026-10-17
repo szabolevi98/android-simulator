@@ -88,6 +88,7 @@ class Themes:
     def _value(self, apk, value, start, depth):
         value = value.strip()
         if value.startswith('#'): return value
+        if value.startswith('(file) res/color'): return self._selector(apk, value.split(' ')[1], start, depth)
         if value.startswith('?'):   # ?attr/name, ?0x0101… : again from the start theme
             ref = value[1:]
             if ref.startswith('attr/'): return self._resolve_attr(start, None, ref[5:], start, depth + 1)
@@ -104,3 +105,25 @@ class Themes:
             if not lines: return None
             return self._value(src, lines[0].split(' ')[0] if not lines[0].startswith('(') else lines[0], start, depth + 1)
         return None
+
+    def _selector(self, apk, path, start, depth):
+        """A ColorStateList file: its default item (the last one, with no state), android:color times android:alpha."""
+        out = subprocess.run([AAPT, 'dump', 'xmltree', self.system + apk, '--file', path], capture_output=True, text=True,
+                             encoding='utf-8', errors='replace').stdout
+        items = re.split(r'\n\s*E: item', out)[1:]
+        if not items: return None
+        item = items[-1]
+        m = re.search(r'color\(0x010101a5\)=(\S+)', item)
+        if not m: return None
+        raw = m.group(1)
+        color = self._value(apk, '@' + raw[1:] if raw.startswith('@') else raw, start, depth + 1) if not raw.startswith('#') else raw
+        a = re.search(r'alpha\(0x0101031f\)=(\S+)', item)
+        if color and a:
+            alpha = self._value(apk, a.group(1), start, depth + 1) if a.group(1)[0] in '?@' else a.group(1)
+            try:
+                f = float(alpha)
+                base = int(color[1:3], 16) if len(color) == 9 else 255
+                color = '#%02x%s' % (round(base * f), color[-6:])
+            except (TypeError, ValueError):
+                pass
+        return color

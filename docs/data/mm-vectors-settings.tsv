@@ -7,4 +7,11 @@ st-ic_wifi_signal_4.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_4	tint=#ff
 st-ic_wifi_signal_lock.svg	priv-app/Settings/Settings.apk	ic_wifi_signal_lock	tint=#ff009688
 st-ic_expand_more.svg	priv-app/Settings/Settings.apk	ic_expand_more	tint=#8a000000
 st-ic_expand_less.svg	priv-app/Settings/Settings.apk	ic_expand_less	tint=#8a000000
-st-ic_settings_memory.svg	priv-app/Settings/Settings.apk	ic_settings_memory	-
+st-ic_settings_memory.svg	priv-app/Settings/Settings.apk	ic_settings_memory	tint=#ff009688
+fw-ic_audio_alarm.svg	framework/framework-res.apk	ic_audio_alarm	tint=#8a000000
+fw-ic_audio_alarm_mute.svg	framework/framework-res.apk	ic_audio_alarm_mute	tint=#8a000000
+fw-ic_audio_media.svg	framework/framework-res.apk	ic_audio_media	tint=#8a000000
+fw-ic_audio_media_mute.svg	framework/framework-res.apk	ic_audio_media_mute	tint=#8a000000
+fw-ic_audio_ring_notif.svg	framework/framework-res.apk	ic_audio_ring_notif	tint=#8a000000
+fw-ic_audio_ring_notif_mute.svg	framework/framework-res.apk	ic_audio_ring_notif_mute	tint=#8a000000
+fw-ic_audio_ring_notif_vibrate.svg	framework/framework-res.apk	ic_audio_ring_notif_vibrate	tint=#8a000000

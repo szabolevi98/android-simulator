@@ -22,7 +22,7 @@
     const progress = d.progress ? `<div class="mmdlg-progress"><svg class="mmdlg-spinner" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="19"/></svg><span>${c.safe(d.progress)}</span></div>` : '';
     const items = d.items ? `<div class="mmdlg-list">${d.items.map((item, i) => `<button type="button" class="mmdlg-item" data-action="mmdlg-item" data-index="${i}">${item.html}</button>`).join('')}</div>` : '';
     const buttons = d.buttons?.length ? `<div class="mmdlg-buttons">${d.buttons.map((b, i) => `${b.neutral ? '' : i === 0 || d.buttons[i - 1]?.neutral ? '<i class="mmdlg-spacer"></i>' : ''}<button type="button" class="mmdlg-button" data-action="mmdlg-button" data-index="${i}"${b.disabled ? ' disabled' : ''}>${c.safe(b.label)}</button>`).join('')}</div>` : '';
-    return `<div class="mmdlg"><div class="mmdlg-dim" data-action="mmdlg-cancel"></div><div class="mmdlg-win" role="dialog">${head}${message}${progress}${items}${d.html || ''}${buttons}</div></div>`;
+    return `<div class="mmdlg"><div class="mmdlg-dim" data-action="mmdlg-cancel"></div><div class="mmdlg-win" role="dialog">${head}${message}${progress}${items}${d.html ? `<div class="mmdlg-body">${d.html}</div>` : ''}${buttons}</div></div>`;
   }
   function close(c) { if (c.ui.overlay === 'dialog') { c.ui.dialogSpec = null; c.closeOverlay(); } }
   function action(c, name, el, d, done = () => close(c)) {

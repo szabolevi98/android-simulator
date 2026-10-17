@@ -111,3 +111,15 @@ div.mmst-pref:active{background:none}
 /* regulatory_info.xml: the image fitted to the dialog's width, scrolling. */
 .mmst-regulatory{max-height:calc(420 * var(--dp));overflow-y:auto}
 .mmst-regulatory img{display:block;width:100%;height:auto}
+/* preference_volume_slider.xml: 16 dp at the sides, 8 dp above and below, the Subhead title, 6 dp under it the 24 dp icon
+   and the Material SeekBar 24 dp after its start (16 dp padding inside, the 2 dp track in colorControlNormal at 0.3,
+   the progress and the thumb, a 12 dp circle at rest, in the accent). */
+.mmst-volume{min-height:calc(72 * var(--dp));padding:calc(8 * var(--dp)) calc(16 * var(--dp));box-sizing:border-box}
+.mmst-volrow{position:relative;display:flex;align-items:center;margin-top:calc(6 * var(--dp));height:calc(32 * var(--dp))}
+.mmst-volicon{flex:none;width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmst-seek{position:relative;flex:1;height:100%;cursor:pointer;touch-action:none}
+.mmst-seek-track,.mmst-seek-progress{position:absolute;left:calc(16 * var(--dp));top:calc(15 * var(--dp));height:calc(2 * var(--dp))}
+.mmst-seek-track{right:calc(16 * var(--dp));background:rgba(0,0,0,.26)}
+.mmst-seek-progress{width:calc((100% - 32 * var(--dp)) * var(--v));background:#009688}
+.mmst-seek-thumb{position:absolute;top:calc(10 * var(--dp));left:calc(10 * var(--dp) + (100% - 32 * var(--dp)) * var(--v));width:calc(12 * var(--dp));height:calc(12 * var(--dp));border-radius:50%;background:#009688}
+.mmst-seek:active .mmst-seek-thumb{transform:scale(1.5)}

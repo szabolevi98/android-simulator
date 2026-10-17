@@ -63,5 +63,5 @@ accessibility_voice_button long_press_widget_to_add default_scroll_format first_
 # RecentsActivity: the empty view, the task header's buttons
 recents_empty_message recents_app_info_button_label accessibility_recents_item_will_be_dismissed
 [framework] framework
-# Framework widgets every app shares: the action bar's overflow button
-action_menu_overflow_description
+# Framework widgets every app shares: the action bar's overflow button, RingtonePickerActivity
+action_menu_overflow_description ringtone_picker_title ringtone_silent ok cancel

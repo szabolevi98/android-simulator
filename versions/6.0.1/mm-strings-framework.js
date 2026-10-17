@@ -8,5 +8,37 @@ MM.strings('framework', {
 "de": "Weitere Optionen",
 "fr": "Plus d'options",
 "es": "Más opciones"
+},
+"ringtone_picker_title": {
+"res": "bullhead:framework:ringtone_picker_title",
+"en": "Ringtones",
+"hu": "Csengőhangok",
+"de": "Klingeltöne",
+"fr": "Sonneries",
+"es": "Tonos"
+},
+"ringtone_silent": {
+"res": "bullhead:framework:ringtone_silent",
+"en": "None",
+"hu": "Egyik sem",
+"de": "Ohne",
+"fr": "Aucune",
+"es": "Ninguno"
+},
+"ok": {
+"res": "bullhead:framework:ok",
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"cancel": {
+"res": "bullhead:framework:cancel",
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
 }
 });

@@ -737,6 +737,14 @@ MM.strings('settings', {
 "fr": "Économiseur de batterie",
 "es": "Ahorro de batería"
 },
+"framework/battery_saver_description": {
+"res": "bullhead:framework:battery_saver_description",
+"en": "To help improve battery life, battery saver reduces your device’s performance and limits vibration, ambient display, location services, and most background data. Email, messaging, and other apps that rely on syncing may not update unless you open them.\n\nBattery saver turns off automatically when your device is charging.",
+"hu": "Az akkumulátoridő növelése érdekében az energiatakarékos mód csökkenti az eszköz teljesítményét, és korlátozza a rezgést, a helyszolgáltatásokat, valamint a legtöbb háttéradatot is. Előfordulhat, hogy azok az e-mail-, üzenetküldő és egyéb alkalmazások, amelyek szinkronizálására számít, csak akkor frissítenek, ha megnyitja azokat.\n\nAz energiatakarékos mód automatikusan kikapcsol, ha eszköze töltőn van.",
+"de": "Der Energiesparmodus schont den Akku, indem er die Leistung des Geräts reduziert und die Vibrationsfunktion sowie die meisten Hintergrunddatenaktivitäten einschränkt. E-Mail, SMS/MMS und andere Apps, die auf Ihrem Gerät synchronisiert werden, werden möglicherweise erst nach dem Öffnen aktualisiert.\n\nDer Energiesparmodus wird automatisch deaktiviert, wenn Ihr Gerät aufgeladen wird.",
+"fr": "Pour améliorer l'autonomie de la batterie, l'économiseur de batterie réduit les performances et désactive le vibreur, les services de localisation et la plupart des données en arrière-plan. Les messageries électroniques ou autres applications utilisant la synchronisation pourraient ne pas se mettre à jour, sauf si vous les ouvrez.\n\nL'économiseur de batterie s'éteint automatiquement lorsque l'appareil est en charge.",
+"es": "Para ayudar a mejorar la duración de la batería, la función de ahorro de energía reduce el rendimiento del dispositivo y limita la vibración, los servicios de ubicación y la mayor parte de la transmisión de datos en segundo plano. Es posible que las aplicaciones que se sincronizan, como las de correo y mensajes, no se actualicen a menos que las abras.\n\nLa función de ahorro de energía se desactiva automáticamente cuando el dispositivo se está cargando."
+},
 "battery_saver_turn_on_automatically_title": {
 "res": "bullhead:Settings:battery_saver_turn_on_automatically_title",
 "en": "Turn on automatically",
@@ -865,6 +873,14 @@ MM.strings('settings', {
 "de": "Schaltfläche zum Abrufen von Fehlerberichten im Menü \"Ein/Aus\" anzeigen",
 "fr": "Afficher un bouton dans le menu de démarrage permettant de créer un rapport d'erreur",
 "es": "Mostrar un botón en el menú de encendido para crear un informe de errores"
+},
+"framework/bugreport_title": {
+"res": "bullhead:framework:bugreport_title",
+"en": "Take bug report",
+"hu": "Hibajelentés készítése",
+"de": "Fehlerbericht abrufen",
+"fr": "Créer un rapport de bug",
+"es": "Crear informe de errores"
 },
 "build_number": {
 "res": "bullhead:Settings:build_number",
@@ -5845,6 +5861,47 @@ MM.strings('settings', {
 "de": "Nicht verbunden",
 "fr": "Déconnecté",
 "es": "Desconectada"
+},
+"lock_screen_notifications_summary_show": {
+"res": "bullhead:Settings:lock_screen_notifications_summary_show",
+"en": "Show all notification content",
+"hu": "Az összes értesítés jelenjen meg",
+"de": "Gesamten Nachrichteninhalt anzeigen",
+"fr": "Afficher tout le contenu des notifications",
+"es": "Mostrar contenido de notificaciones"
+},
+"lock_screen_notifications_summary_hide": {
+"res": "bullhead:Settings:lock_screen_notifications_summary_hide",
+"en": "Hide sensitive notification content",
+"hu": "Rejtse el a bizalmas tartalmat",
+"de": "Vertrauliche Benachrichtigungsinhalte ausblenden",
+"fr": "Masquer le contenu des notifications sensibles",
+"es": "Ocultar notificaciones sensibles"
+},
+"lock_screen_notifications_summary_disable": {
+"res": "bullhead:Settings:lock_screen_notifications_summary_disable",
+"en": "Don’t show notifications at all",
+"hu": "Semmilyen értesítés ne jelenjen meg",
+"de": "Keine Benachrichtigungen anzeigen",
+"fr": "N'afficher aucune notification",
+"es": "No mostrar notificaciones"
+},
+"manage_notification_access_summary_zero": {
+"res": "bullhead:Settings:manage_notification_access_summary_zero",
+"en": "Apps cannot read notifications",
+"hu": "Az alkalmazások nem tudják olvasni az értesítéseket",
+"de": "Apps können keine Benachrichtigungen lesen.",
+"fr": "Les applications ne peuvent pas lire les notifications.",
+"es": "Las aplicaciones no pueden leer notificaciones"
+},
+"muted_by": {
+"res": "bullhead:framework:muted_by",
+"args": 1,
+"en": "Muted by %1$s",
+"hu": "A(z) %1$s elnémította",
+"de": "Stummgeschaltet durch %1$s",
+"fr": "Son coupé par : %1$s",
+"es": "Silenciado por %1$s"
 },
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",

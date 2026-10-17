@@ -24,3 +24,7 @@
 .mmdlg-button{min-width:calc(64 * var(--dp));min-height:calc(48 * var(--dp));padding:0 calc(8 * var(--dp));border:0;border-radius:calc(2 * var(--dp));background:none;color:#009688;font:500 calc(14 * var(--dp))/1.172 Roboto,sans-serif;text-transform:uppercase}
 .mmdlg-button:active{background:rgba(0,0,0,.12)}
 .mmdlg-button:disabled{color:rgba(0,0,0,.26)}
+/* The title and the buttons stay; a long list or custom view scrolls between them (AlertController's scrollable panels). */
+.mmdlg-win{display:flex;flex-direction:column;overflow:hidden}
+.mmdlg-win>*{flex:none}
+.mmdlg-win>.mmdlg-list,.mmdlg-win>.mmdlg-body,.mmdlg-win>.mmdlg-message{flex:0 1 auto;min-height:0;overflow-y:auto}

@@ -146,6 +146,9 @@
   }
   function pref(c, n, xml) {
     const hook = MM.settingsHooks[xml] || {};
+    // A preference with a layout of its own (VolumeSeekBarPreference …) draws itself.
+    const own = hook.row?.(c, n.key, n);
+    if (own) return own;
     const title = hook.title?.(c, n.key, n) ?? str(n.title), summary = summaryOf(c, n, xml);
     const v = value(c, n), disabled = hook.disabled?.(c, n.key, n) || String(n.enabled) === 'false' || (n.dependency && !value(c, findKey(X()[xml], n.dependency) || {}));
     let widget = '';
@@ -204,6 +207,7 @@
     if (content) { content.scrollTop = st.scroll?.[key] || 0; content.addEventListener('scroll', () => { (st.scroll ||= {})[key] = content.scrollTop; }, {passive: true}); }
     const custom = cur && (MM.settingsScreens[cur.screen.split(':')[0]] || MM.settingsScreens[cur.screen]);
     custom?.mount?.(c, root, cur);
+    if (cur?.xml) MM.settingsHooks[cur.xml]?.mount?.(c, root);
   }
 
   MM.register('settings', {

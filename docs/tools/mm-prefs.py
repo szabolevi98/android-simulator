@@ -7,7 +7,8 @@ Writes
                                        c: [children]} with every resource reference by name ("string/wifi_settings",
                                        "array/…"), entryValues as their values; an icon is {icon, tint?} naming its asset;
                                        MM.settingsLabels = {activity: its android:label}; MM.settingsTheme = the colours
-                                       of Theme.Settings (docs/tools/apk_theme.py)
+                                       of Theme.Settings (docs/tools/apk_theme.py); MM.settingsRingtones = the
+                                       system sounds' titles and defaults
   versions/6.0.1/mm-strings-settings.js  the strings and arrays those screens name (docs/tools/mm-strings.py)
   docs/data/mm-assets-settings.tsv, docs/data/mm-vectors-settings.tsv  the drawables they name: a bitmap drawable of an
                                        *_alpha PNG tinted by an attribute (the dashboard's icons) is the PNG and the
@@ -61,13 +62,16 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'plurals:show_dev_countdown', 'show_dev_on', 'show_dev_already', 'battery_info_status_discharging',
          'battery_info_status_charging', 'battery_info_status_full', 'sim_signal_strength+args2', 'device_info_default',
          'radioInfo_service_in', 'radioInfo_service_off', 'radioInfo_roaming_not', 'radioInfo_data_connected',
-         'radioInfo_data_disconnected', 'regulatory_information']
+         'radioInfo_data_disconnected', 'regulatory_information',
+         # NotificationSettings, OtherSoundSettings
+         'lock_screen_notifications_summary_show', 'lock_screen_notifications_summary_hide', 'lock_screen_notifications_summary_disable',
+         'manage_notification_access_summary_zero', 'muted_by+args1']
 strings, arrays, drawables = set(), set(), {}
 
 
 def name_of(value):
-    if not isinstance(value, str) or not re.fullmatch(r'@[0-9A-Fa-f]{8}', value): return None
-    rid = int(value[1:], 16)
+    if not isinstance(value, str) or not re.fullmatch(r'@(android:)?[0-9A-Fa-f]{8}', value): return None
+    rid = int(value[-8:], 16)
     res = RF if rid >> 24 == 1 else RS
     n = res.get_resource_xml_name(rid)
     return (('framework' if rid >> 24 == 1 else 'Settings'), n.split(':', 1)[-1].lstrip('@')) if n else None
@@ -91,6 +95,9 @@ def drawable(apk, key):
             if color: info['tint'] = '#' + color[-6:]
         elif root == 'vector':
             info = {'icon': f'{prefix}{key}.svg', 'kind': 'vector', 'res': key, 'path': path}
+            # A vector tinted by a theme attribute (the framework's ic_audio_* in ?colorControlNormal): SRC_IN in its colour.
+            tint = re.search(r'tint\(0x01010121\)=\?(0x[0-9a-f]{8})', out)
+            if tint: info['theme'] = 'tint=' + THEMES.attr(APKPATH, APP_THEME, tint.group(1))
         else:
             info = {'icon': None, 'kind': root}
     else:
@@ -136,6 +143,20 @@ def node(e):
     return out
 
 
+def ringtones():
+    """The sounds MediaScanner finds in system/media/audio (their Vorbis TITLE), in MediaStore's title order, and the
+    defaults build.prop names (ro.config.ringtone, notification_sound, alarm_alert)."""
+    out, props = {}, dict(l.split('=', 1) for l in open(SYSTEM + 'build.prop', encoding='utf-8').read().splitlines() if '=' in l and not l.startswith('#'))
+    for kind, folder, prop in (('ringtone', 'ringtones', 'ro.config.ringtone'), ('notification', 'notifications', 'ro.config.notification_sound'),
+                               ('alarm', 'alarms', 'ro.config.alarm_alert')):
+        titles = {}
+        for f in sorted(os.listdir(SYSTEM + 'media/audio/' + folder)):
+            m = re.search(rb'TITLE=([^\x00-\x1f]*)', open(SYSTEM + 'media/audio/' + folder + '/' + f, 'rb').read(20000), re.I)
+            titles[f] = m.group(1).decode('utf-8') if m else os.path.splitext(f)[0]
+        out[kind] = {'titles': sorted(titles.values(), key=str.lower), 'default': titles.get(props.get(prop, ''), '')}
+    return out
+
+
 def main():
     data = {}
     for path in sorted(p for p in ST.get_files() if re.fullmatch(r'res/xml/\w+\.xml', p)):
@@ -152,7 +173,8 @@ def main():
     open(ROOT + 'versions/6.0.1/mm-settings-data.js', 'w', encoding='utf-8', newline='\n').write(
         head + 'MM.settingsXml = ' + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + ';\n'
         + 'MM.settingsLabels = ' + json.dumps(labels, ensure_ascii=False, separators=(',', ':')) + ';\n'
-        + 'MM.settingsTheme = ' + json.dumps({k: '#' + v for k, v in theme.items()}) + ';\n')
+        + 'MM.settingsTheme = ' + json.dumps({k: '#' + v for k, v in theme.items()}) + ';\n'
+        + 'MM.settingsRingtones = ' + json.dumps(ringtones(), ensure_ascii=False, separators=(',', ':')) + ';\n')
     spec = importlib.util.spec_from_file_location('mm_strings', ROOT + 'docs/tools/mm-strings.py')
     ms = importlib.util.module_from_spec(spec); spec.loader.exec_module(ms)
     keys = [n if apk == 'Settings' else f'framework/{n}' for n, apk in sorted(strings)]
@@ -178,9 +200,12 @@ def main():
     png.append(f'st-regulatory_info_lgh790.png	{APKPATH}	drawable/regulatory_info_lgh790')
     for name in ['ic_bt_headset_hfp', 'ic_bt_headphones_a2dp', 'ic_bt_config']:
         png.append(f'st-{name}.png	{APKPATH}	drawable/{name}')
+    # VolumeSeekBarPreference's mute icons and NotificationSettings.updateRingOrNotificationPreference's vibrate icon.
+    for key in ['ic_audio_media_mute', 'ic_audio_alarm_mute', 'ic_audio_ring_notif_mute', 'ic_audio_ring_notif_vibrate']:
+        drawable('framework', key)
     for (apk, key), d in sorted(drawables.items()):
         if d['kind'] == 'png': png.append(f"{d['icon']}\t{d['path']}\tdrawable/{d['res']}")
-        elif d['kind'] == 'vector': vec.append(f"{d['icon']}\t{d['path']}\t{d['res']}\t-")
+        elif d['kind'] == 'vector': vec.append(f"{d['icon']}\t{d['path']}\t{d['res']}\t{d.get('theme', '-')}")
     open(ROOT + 'docs/data/mm-assets-settings.tsv', 'w', encoding='utf-8', newline='\n').write('\n'.join(png) + '\n')
     open(ROOT + 'docs/data/mm-vectors-settings.tsv', 'w', encoding='utf-8', newline='\n').write('\n'.join(vec) + '\n')
     print(len(data), 'screens,', len(strings), 'strings,', len(arrays), 'arrays,', len(drawables), 'drawables')
