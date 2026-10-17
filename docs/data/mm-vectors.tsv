@@ -125,3 +125,5 @@ fw-ic_menu_moreoverflow_material.svg	framework/framework-res.apk	ic_menu_moreove
 # framework Material CheckBox (btn_check_material_anim: ic_checkbox_checked / unchecked, drawn black as masks for their tint)
 fw-ic_checkbox_checked.svg	framework/framework-res.apk	ic_checkbox_checked	tint=#ff000000
 fw-ic_checkbox_unchecked.svg	framework/framework-res.apk	ic_checkbox_unchecked	tint=#ff000000
+# The keyguard bouncer (keyguard_pin_view.xml): the delete key
+sui-ic_backspace_24dp.svg	priv-app/SystemUI/SystemUI.apk	ic_backspace_24dp	-

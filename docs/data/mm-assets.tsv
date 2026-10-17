@@ -46,3 +46,5 @@ gel-cling_bg.9.png	priv-app/Velvet/Velvet.apk	drawable/cling_bg
 gel-ic_remove_launcher.png	priv-app/Velvet/Velvet.apk	drawable/ic_remove_launcher
 gel-ic_info_launcher.png	priv-app/Velvet/Velvet.apk	drawable/ic_info_launcher
 gel-screenpanel.9.png	priv-app/Velvet/Velvet.apk	drawable/screenpanel
+# The keyguard bouncer (keyguard_pin_view.xml): the enter key
+sui-ic_done_wht.png	priv-app/SystemUI/SystemUI.apk	drawable/ic_done_wht

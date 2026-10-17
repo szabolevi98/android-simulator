@@ -39,3 +39,37 @@
 .mmlk-phone.hinting{--dir:1}
 .mmlk-camera.hinting{--dir:-1}
 @keyframes mmlk-aff-hint{40%{transform:translateX(calc(var(--dir) * 60 * var(--dp)))}100%{transform:none}}
+/* The bouncer (mm-lock.js): the in-front scrim, the security container at the bottom, 320 dp wide. */
+.mmbo{position:absolute;inset:0;z-index:5;color:#fff}
+.mmbo-scrim{position:absolute;inset:0;background:rgba(0,0,0,.75);animation:mmbo-in .2s}
+@keyframes mmbo-in{from{opacity:0}}
+.mmbo-container{position:absolute;left:50%;bottom:0;width:min(100%,calc(320 * var(--dp)));height:min(calc(100% - 24 * var(--dp)),calc(450 * var(--dp)));transform:translateX(-50%);padding-top:calc(8 * var(--dp));box-sizing:border-box;animation:mmbo-up .3s cubic-bezier(.4,0,.2,1)}
+@keyframes mmbo-up{from{transform:translate(-50%,calc(40 * var(--dp)));opacity:0}}
+.mmbo-view{display:flex;flex-direction:column;height:100%}
+.mmbo-view.password,.mmbo-view.pattern{height:min(100%,calc(400 * var(--dp)));margin-top:auto}
+.mmbo-container:has(.password),.mmbo-container:has(.pattern){display:flex;flex-direction:column;justify-content:flex-end}
+.mmbo-msg{flex:none;min-height:calc(19 * var(--dp));text-align:center;color:rgba(255,255,255,.7);font-size:calc(14 * var(--dp));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mmbo-rows{flex:1;display:flex;flex-direction:column;min-height:0}
+.mmbo-row0,.mmbo-row{flex:1;display:flex;min-height:0}
+.mmbo-row0{position:relative;align-items:center;justify-content:center;padding-bottom:calc(16 * var(--dp));border-bottom:calc(1 * var(--dp)) solid rgba(255,255,255,.157)}
+.mmbo-entry{display:flex;gap:calc(8 * var(--dp));align-items:center}
+.mmbo-entry i{width:calc(9 * var(--dp));height:calc(9 * var(--dp));border-radius:50%;background:#fff;animation:mmbo-dot .15s}
+@keyframes mmbo-dot{from{transform:scale(0)}}
+.mmbo-del{position:absolute;right:0;top:0;bottom:calc(16 * var(--dp));padding:calc(8 * var(--dp)) calc(8 * var(--dp)) calc(8 * var(--dp)) calc(24 * var(--dp));border:0;background:none;display:grid;place-items:center}
+.mmbo-del img{width:calc(24 * var(--dp));height:calc(24 * var(--dp))}
+.mmbo-row>*{flex:1}
+.mmbo-key{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;border:0;border-radius:50%;background:none;color:#fff}
+.mmbo-key:active,.mmbo-del:active,.mmbo-emergency:active{background:rgba(255,255,255,.15)}
+.mmbo-digit{font:300 calc(36 * var(--dp))/1 Roboto,sans-serif}
+.mmbo-letters{min-height:calc(14 * var(--dp));margin-top:calc(2 * var(--dp));color:rgba(255,255,255,.5);font-size:calc(12 * var(--dp))}
+.mmbo-key img{width:calc(24 * var(--dp));height:calc(24 * var(--dp));margin-bottom:calc(11 * var(--dp))}
+.mmbo-eca{flex:none;display:flex;justify-content:center;margin-top:calc(-10 * var(--dp))}
+.mmbo-emergency{min-height:calc(48 * var(--dp));padding:0 calc(16 * var(--dp));border:0;border-radius:calc(2 * var(--dp));background:none;color:rgba(255,255,255,.7);font:calc(14 * var(--dp)) Roboto,sans-serif;text-transform:uppercase}
+.mmbo-space7{flex:7}.mmbo-space2{flex:2}
+.mmbo-field{align-self:center;width:calc(280 * var(--dp));padding:calc(8 * var(--dp)) 0;border:0;border-bottom:calc(2 * var(--dp)) solid #80cbc4;background:none;outline:none;text-align:center;color:#fff;font:calc(16 * var(--dp)) Roboto,sans-serif}
+.mmbo-pat{flex:1;display:flex;justify-content:center;align-items:center;min-height:0;margin:0 calc(8 * var(--dp)) calc(4 * var(--dp))}
+.mmbo-pat .mmpt{height:100%;max-width:100%;--mmpt-regular:#fff;--mmpt-success:#fff;--mmpt-error:#f4511e}
+.mmbo-container.locked .mmbo-rows,.mmbo-container.locked .mmbo-pat,.mmbo-container.locked .mmbo-field{opacity:.4}
+/* With the bouncer up the keyguard panel has collapsed away; only its status bar stays over the scrim. */
+.mmlk.bouncing .mmlk-panel>:not(.mmlk-bar){opacity:0;pointer-events:none;transition:opacity .2s}
+.mmlk.bouncing .mmlk-bar{z-index:6}

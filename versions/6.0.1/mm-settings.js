@@ -37,7 +37,7 @@
     'com.android.settings.applications.ManageApplications': 'apps', 'com.android.settings.deviceinfo.StorageSettings': 'storage',
     'com.android.settings.fuelgauge.PowerUsageSummary': 'battery', 'com.android.settings.applications.ProcessStatsSummary': 'memory',
     'com.android.settings.users.UserSettings': 'xml:user_settings', 'com.android.settings.nfc.PaymentSettings': 'nfc-payment',
-    'com.android.settings.location.LocationSettings': 'xml:location_settings', 'com.android.settings.SecuritySettings': 'security',
+    'com.android.settings.location.LocationSettings': 'xml:location_settings', 'com.android.settings.SecuritySettings': 'xml:security',
     'com.android.settings.accounts.AccountSettings': 'accounts', 'com.android.settings.inputmethod.InputMethodAndLanguageSettings': 'xml:language_settings',
     'com.android.settings.PrivacySettings': 'xml:privacy_settings', 'com.android.settings.DateTimeSettings': 'xml:date_time_prefs',
     'com.android.settings.accessibility.AccessibilitySettings': 'xml:accessibility_settings', 'com.android.settings.print.PrintSettingsFragment': 'xml:print_settings',

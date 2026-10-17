@@ -83,7 +83,32 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'notifications_enabled', 'launch_defaults_none', 'no_battery_summary', 'no_memory_use_summary', 'computing_size',
          'framework/permgrouplab_calendar', 'framework/permgrouplab_camera', 'framework/permgrouplab_contacts',
          'framework/permgrouplab_location', 'framework/permgrouplab_microphone', 'framework/permgrouplab_phone',
-         'framework/permgrouplab_sensors', 'framework/permgrouplab_sms', 'framework/permgrouplab_storage']
+         'framework/permgrouplab_sensors', 'framework/permgrouplab_sms', 'framework/permgrouplab_storage',
+         # SecuritySettings, ChooseLockGeneric / Password / Pattern, ConfirmLockPassword / Pattern, EncryptionInterstitial,
+         # RedactionInterstitial, OwnerInfoSettings, GMS Core's Smart Lock trust agent
+         'lock_after_timeout_summary+args1', 'disabled_because_no_backup_security', 'security_settings_fingerprint_preference_title',
+         'security_settings_fingerprint_preference_summary_none', 'credential_storage_type_hardware', 'PrebuiltGmsCore/auth_google_trust_agent_title',
+         'owner_info_settings_title', 'save', 'current_screen_lock', 'unlock_set_unlock_mode_off', 'unlock_set_unlock_mode_none',
+         'unlock_set_unlock_mode_pattern', 'unlock_set_unlock_mode_pin', 'unlock_set_unlock_mode_password',
+         'lockpassword_choose_your_password_header', 'lockpassword_choose_your_pin_header', 'lockpassword_choose_your_pattern_header',
+         'lockpassword_confirm_your_password_header', 'lockpassword_confirm_your_pin_header', 'lockpassword_confirm_your_pattern_header',
+         'lockpassword_confirm_passwords_dont_match', 'lockpassword_confirm_pins_dont_match', 'lockpassword_continue_label',
+         'lockpassword_cancel_label', 'lockpassword_ok_label', 'lockpassword_press_continue', 'lockpassword_password_too_short+args1',
+         'lockpassword_pin_too_short+args1', 'lockpassword_password_too_long+args1', 'lockpassword_pin_too_long+args1',
+         'lockpassword_pin_contains_non_digits', 'lockpassword_password_requires_alpha', 'lockpassword_illegal_character',
+         'lockpattern_recording_intro_header', 'lockpattern_recording_inprogress', 'lockpattern_recording_incorrect_too_short+args1',
+         'lockpattern_pattern_entered_header', 'lockpattern_need_to_confirm', 'lockpattern_need_to_unlock_wrong',
+         'lockpattern_pattern_confirmed_header', 'lockpattern_retry_button_text', 'lockpattern_continue_button_text',
+         'lockpattern_confirm_button_text', 'lockpattern_tutorial_cancel_label', 'lockpassword_confirm_your_password_generic',
+         'lockpassword_confirm_your_pin_generic', 'lockpassword_confirm_your_pattern_generic', 'lockpassword_invalid_password',
+         'lockpassword_invalid_pin', 'encryption_interstitial_header', 'encryption_interstitial_message_pin',
+         'encryption_interstitial_message_pattern', 'encryption_interstitial_message_password', 'encrypt_require_pin',
+         'encrypt_require_pattern', 'encrypt_require_password', 'encrypt_dont_require_pin', 'encrypt_dont_require_pattern',
+         'encrypt_dont_require_password', 'encryption_continue_button', 'lock_screen_notifications_interstitial_title',
+         'lock_screen_notifications_interstitial_message', 'unlock_disable_frp_warning_title', 'unlock_disable_frp_warning_content_pin',
+         'unlock_disable_frp_warning_content_pattern', 'unlock_disable_frp_warning_content_password', 'unlock_disable_frp_warning_ok',
+         'lock_after_timeout_summary_with_exception+args2', 'lock_immediately_summary_with_exception+args1',
+         'lockpattern_settings_power_button_instantly_locks_summary+args1', 'install_all_warning']
 strings, arrays, drawables = set(), set(), {}
 
 

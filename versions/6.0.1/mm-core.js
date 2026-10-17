@@ -161,7 +161,8 @@
   // Screen off / on. With a lock screen built, turning the screen off shows the keyguard (KeyguardViewMediator).
   function lockScreen() {
     ui.overlay = ''; ui.sleeping = true;
-    if (modules.lock) { if (ui.view !== 'lock') ui.beforeLock = {view: ui.view, sub: ui.sub}; ui.view = 'lock'; modules.lock.reset?.(c); }
+    // A lock set to None (Settings' unlock_set_off) keeps no keyguard: the screen just goes off.
+    if (modules.lock && modules.lock.shouldLock?.(c) !== false) { if (ui.view !== 'lock') ui.beforeLock = {view: ui.view, sub: ui.sub}; ui.view = 'lock'; modules.lock.reset?.(c); }
     render();
   }
   function wake() { ui.sleeping = false; lastActivity = Date.now(); render(); }

@@ -80,5 +80,46 @@ MM.strings('lock', {
 "de": "Entsperren",
 "fr": "Déverrouiller",
 "es": "Desbloquear"
+},
+"kg_wrong_pattern": {
+"res": "bullhead:SystemUI:kg_wrong_pattern",
+"en": "Wrong Pattern",
+"hu": "Helytelen minta",
+"de": "Falsches Muster",
+"fr": "Schéma incorrect.",
+"es": "El patrón es incorrecto"
+},
+"kg_wrong_password": {
+"res": "bullhead:SystemUI:kg_wrong_password",
+"en": "Wrong Password",
+"hu": "Helytelen jelszó",
+"de": "Falsches Passwort",
+"fr": "Mot de passe incorrect.",
+"es": "Contraseña incorrecta"
+},
+"kg_wrong_pin": {
+"res": "bullhead:SystemUI:kg_wrong_pin",
+"en": "Wrong PIN",
+"hu": "Helytelen PIN-kód",
+"de": "Falsche PIN",
+"fr": "Code PIN incorrect.",
+"es": "PIN incorrecto"
+},
+"kg_too_many_failed_attempts_countdown": {
+"res": "bullhead:SystemUI:kg_too_many_failed_attempts_countdown",
+"args": 1,
+"en": "Try again in %d seconds.",
+"hu": "Próbálkozzon újra %d másodperc múlva.",
+"de": "Versuche es in %d Sekunden erneut.",
+"fr": "Réessayez dans %d secondes.",
+"es": "Inténtalo de nuevo en %d segundos."
+},
+"lockscreen_emergency_call": {
+"res": "bullhead:framework:lockscreen_emergency_call",
+"en": "Emergency",
+"hu": "Vészhívás",
+"de": "Notfall",
+"fr": "Urgences",
+"es": "Emergencia"
 }
 });

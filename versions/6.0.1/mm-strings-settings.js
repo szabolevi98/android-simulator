@@ -2356,6 +2356,7 @@ MM.strings('settings', {
 },
 "lock_after_timeout_summary": {
 "res": "bullhead:Settings:lock_after_timeout_summary",
+"args": 1,
 "en": "%1$s after sleep",
 "hu": "%1$s alvó mód után",
 "de": "Nach %1$s im Ruhezustand",
@@ -6322,6 +6323,524 @@ MM.strings('settings', {
 "de": "Speicher",
 "fr": "Stockage",
 "es": "Almacenamiento"
+},
+"disabled_because_no_backup_security": {
+"res": "bullhead:Settings:disabled_because_no_backup_security",
+"en": "To use, first set a screen lock",
+"hu": "A használathoz előbb állítson be egy képernyőzárat",
+"de": "Lege zunächst eine Displaysperre fest, damit du die Option verwenden kannst.",
+"fr": "Pour continuer, vous devez tout d'abord verrouiller l'écran.",
+"es": "Para usarlo, debes establecer una pantalla de bloqueo"
+},
+"security_settings_fingerprint_preference_summary_none": {
+"res": "bullhead:Settings:security_settings_fingerprint_preference_summary_none",
+"en": "Touch to set up fingerprint",
+"hu": "Érintse meg ujjlenyomat beállításához",
+"de": "Zum Einrichten des Fingerabdrucks berühren",
+"fr": "Appuyez pour configurer les empreintes digitales.",
+"es": "Toca para configurar la huella digital"
+},
+"credential_storage_type_hardware": {
+"res": "bullhead:Settings:credential_storage_type_hardware",
+"en": "Hardware-backed",
+"hu": "hardveresen támogatott",
+"de": "Hardware-gestützt",
+"fr": "Intégré au matériel",
+"es": "Almacenado en hardware"
+},
+"PrebuiltGmsCore/auth_google_trust_agent_title": {
+"res": "bullhead:PrebuiltGmsCore:auth_google_trust_agent_title",
+"en": "Smart Lock",
+"hu": "Smart Lock",
+"de": "Smart Lock",
+"fr": "Smart Lock",
+"es": "Smart Lock",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"save": {
+"res": "bullhead:Settings:save",
+"en": "Save",
+"hu": "Mentés",
+"de": "Speichern",
+"fr": "Enregistrer",
+"es": "Guardar"
+},
+"current_screen_lock": {
+"res": "bullhead:Settings:current_screen_lock",
+"en": "Current screen lock",
+"hu": "Jelenlegi képernyőzár",
+"de": "Aktuelle Displaysperre",
+"fr": "Verrouillage de l'écran actuel",
+"es": "Bloqueo de pantalla actual"
+},
+"lockpassword_choose_your_password_header": {
+"res": "bullhead:Settings:lockpassword_choose_your_password_header",
+"en": "Choose your password",
+"hu": "Adjon meg egy jelszót",
+"de": "Passwort festlegen",
+"fr": "Choisir votre mot de passe",
+"es": "Selecciona tu contraseña"
+},
+"lockpassword_choose_your_pin_header": {
+"res": "bullhead:Settings:lockpassword_choose_your_pin_header",
+"en": "Choose your PIN",
+"hu": "Adja meg PIN kódját",
+"de": "PIN festlegen",
+"fr": "Choisir votre code PIN",
+"es": "Elige tu PIN"
+},
+"lockpassword_choose_your_pattern_header": {
+"res": "bullhead:Settings:lockpassword_choose_your_pattern_header",
+"en": "Choose your pattern",
+"hu": "Válassza ki a mintát",
+"de": "Muster wählen",
+"fr": "Choisissez votre schéma",
+"es": "Elige un patrón"
+},
+"lockpassword_confirm_your_password_header": {
+"res": "bullhead:Settings:lockpassword_confirm_your_password_header",
+"en": "Confirm your password",
+"hu": "Jelszó megerősítése",
+"de": "Passwort bestätigen",
+"fr": "Confirmer le mot de passe",
+"es": "Confirma tu contraseña"
+},
+"lockpassword_confirm_your_pin_header": {
+"res": "bullhead:Settings:lockpassword_confirm_your_pin_header",
+"en": "Confirm your PIN",
+"hu": "PIN-kód megerősítése",
+"de": "PIN bestätigen",
+"fr": "Confirmer votre code PIN",
+"es": "Confirma el número PIN"
+},
+"lockpassword_confirm_your_pattern_header": {
+"res": "bullhead:Settings:lockpassword_confirm_your_pattern_header",
+"en": "Confirm your pattern",
+"hu": "Erősítse meg a mintát",
+"de": "Muster bestätigen",
+"fr": "Confirmez votre schéma",
+"es": "Confirma el patrón"
+},
+"lockpassword_confirm_passwords_dont_match": {
+"res": "bullhead:Settings:lockpassword_confirm_passwords_dont_match",
+"en": "Passwords don’t match",
+"hu": "A jelszavak nem egyeznek",
+"de": "Die Passwörter stimmen nicht überein.",
+"fr": "Les mots de passe ne correspondent pas.",
+"es": "Las contraseñas no coinciden"
+},
+"lockpassword_confirm_pins_dont_match": {
+"res": "bullhead:Settings:lockpassword_confirm_pins_dont_match",
+"en": "PINs don’t match",
+"hu": "A PIN kódok nem egyeznek",
+"de": "Die PINs stimmen nicht überein.",
+"fr": "Les codes PIN ne correspondent pas.",
+"es": "Los números PIN no coinciden"
+},
+"lockpassword_continue_label": {
+"res": "bullhead:Settings:lockpassword_continue_label",
+"en": "Continue",
+"hu": "Folytatás",
+"de": "Weiter",
+"fr": "Continuer",
+"es": "Continuar"
+},
+"lockpassword_cancel_label": {
+"res": "bullhead:Settings:lockpassword_cancel_label",
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
+"lockpassword_ok_label": {
+"res": "bullhead:Settings:lockpassword_ok_label",
+"en": "OK",
+"hu": "OK",
+"de": "OK",
+"fr": "OK",
+"es": "Aceptar"
+},
+"lockpassword_press_continue": {
+"res": "bullhead:Settings:lockpassword_press_continue",
+"en": "Touch Continue when done",
+"hu": "Ha kész, érintse meg a Folytatás gombot",
+"de": "Wähle \"Weiter\", sobald du fertig bist.",
+"fr": "Appuyez sur Continuer une fois l'opération terminée.",
+"es": "Tocar Continuar al terminar"
+},
+"lockpassword_password_too_short": {
+"res": "bullhead:Settings:lockpassword_password_too_short",
+"args": 1,
+"en": "Password must be at least %d characters",
+"hu": "A jelszónak legalább %d karakter hosszúnak kell lennie",
+"de": "Das Passwort muss mindestens %d Zeichen enthalten.",
+"fr": "Le mot de passe doit comporter au moins %d caractères.",
+"es": "La contraseña debe contener al menos %d caracteres"
+},
+"lockpassword_pin_too_short": {
+"res": "bullhead:Settings:lockpassword_pin_too_short",
+"args": 1,
+"en": "PIN must be at least %d digits",
+"hu": "A PIN kódnak legalább %d számjegyűnek kell lennie.",
+"de": "Die PIN muss mindestens %d Ziffern enthalten.",
+"fr": "Le code PIN doit comporter au moins %d chiffres.",
+"es": "El PIN debe contener al menos %d dígitos"
+},
+"lockpassword_password_too_long": {
+"res": "bullhead:Settings:lockpassword_password_too_long",
+"args": 1,
+"en": "Password must be fewer than %d characters.",
+"hu": "A jelszónak rövidebbnek kell lennie %d karakternél.",
+"de": "Das Passwort muss weniger als %d Zeichen haben.",
+"fr": "Le mot de passe doit comporter moins de %d caractères.",
+"es": "La contraseña debe tener menos de %d caracteres."
+},
+"lockpassword_pin_too_long": {
+"res": "bullhead:Settings:lockpassword_pin_too_long",
+"args": 1,
+"en": "PIN must be fewer than %d digits.",
+"hu": "A PIN kódnak rövidebbnek kell lennie %d számjegynél.",
+"de": "Die PIN muss weniger als %d Stellen haben.",
+"fr": "Le code PIN doit comporter moins de %d chiffres.",
+"es": "El PIN debe tener menos de %d dígitos."
+},
+"lockpassword_pin_contains_non_digits": {
+"res": "bullhead:Settings:lockpassword_pin_contains_non_digits",
+"en": "PIN must contain only digits 0-9.",
+"hu": "A PIN-kód csak számokat tartalmazhat, 0-tól 9-ig.",
+"de": "PIN darf nur die Ziffern 0 bis 9 enthalten.",
+"fr": "Le code PIN ne doit contenir que des chiffres compris entre 0 et 9.",
+"es": "El PIN solo debe contener dígitos comprendidos entre el 0 y el 9."
+},
+"lockpassword_password_requires_alpha": {
+"res": "bullhead:Settings:lockpassword_password_requires_alpha",
+"en": "Password must contain at least one letter.",
+"hu": "A jelszónak tartalmaznia kell legalább egy betűt.",
+"de": "Das Passwort muss mindestens einen Buchstaben enthalten.",
+"fr": "Le mot de passe doit comporter au moins une lettre.",
+"es": "La contraseña debe tener al menos una letra."
+},
+"lockpassword_illegal_character": {
+"res": "bullhead:Settings:lockpassword_illegal_character",
+"en": "Password contains an illegal character.",
+"hu": "A jelszó nem használható karaktert tartalmaz.",
+"de": "Das Passwort enthält ein ungültiges Zeichen.",
+"fr": "Le mot de passe contient un caractère non autorisé.",
+"es": "La contraseña contiene un carácter no permitido."
+},
+"lockpattern_recording_intro_header": {
+"res": "bullhead:Settings:lockpattern_recording_intro_header",
+"en": "Draw an unlock pattern",
+"hu": "Rajzoljon egy feloldási mintát",
+"de": "Zeichne ein Entsperrungsmuster.",
+"fr": "Dessinez un schéma de déverrouillage.",
+"es": "Crea un patrón de desbloqueo"
+},
+"lockpattern_recording_inprogress": {
+"res": "bullhead:Settings:lockpattern_recording_inprogress",
+"en": "Release finger when done",
+"hu": "Emelje fel az ujját, ha kész",
+"de": "Lasse die Tasten los, wenn du fertig bist.",
+"fr": "Relevez le doigt lorsque vous avez terminé.",
+"es": "Levanta el dedo cuando termines"
+},
+"lockpattern_recording_incorrect_too_short": {
+"res": "bullhead:Settings:lockpattern_recording_incorrect_too_short",
+"args": 1,
+"en": "Connect at least %d dots. Try again.",
+"hu": "Kapcsoljon össze legalább %d pontot. Próbálja újra.",
+"de": "Verbinde mindestens %d Punkte. Bitte versuche es erneut.",
+"fr": "Veuillez relier au moins %d points. Veuillez réessayer.",
+"es": "Une al menos %d puntos. Inténtalo de nuevo."
+},
+"lockpattern_pattern_entered_header": {
+"res": "bullhead:Settings:lockpattern_pattern_entered_header",
+"en": "Pattern recorded",
+"hu": "Minta rögzítve",
+"de": "Muster wurde aufgezeichnet.",
+"fr": "Schéma enregistré",
+"es": "Patrón guardado"
+},
+"lockpattern_need_to_confirm": {
+"res": "bullhead:Settings:lockpattern_need_to_confirm",
+"en": "Draw pattern again to confirm",
+"hu": "Rajzolja újra a mintát a megerősítéshez",
+"de": "Zeichne das Muster zur Bestätigung erneut.",
+"fr": "Redessinez le schéma pour le confirmer.",
+"es": "Vuelve a dibujar el patrón para confirmarlo"
+},
+"lockpattern_need_to_unlock_wrong": {
+"res": "bullhead:Settings:lockpattern_need_to_unlock_wrong",
+"en": "Wrong pattern",
+"hu": "Helytelen minta",
+"de": "Falsches Muster",
+"fr": "Schéma incorrect.",
+"es": "Patrón incorrecto"
+},
+"lockpattern_pattern_confirmed_header": {
+"res": "bullhead:Settings:lockpattern_pattern_confirmed_header",
+"en": "Your new unlock pattern",
+"hu": "Az új feloldási minta",
+"de": "Ihr neues Entsperrungsmuster:",
+"fr": "Votre nouveau schéma de déverrouillage",
+"es": "Tu nuevo patrón de desbloqueo"
+},
+"lockpattern_retry_button_text": {
+"res": "bullhead:Settings:lockpattern_retry_button_text",
+"en": "Clear",
+"hu": "Törlés",
+"de": "Löschen",
+"fr": "Effacer",
+"es": "Borrar"
+},
+"lockpattern_continue_button_text": {
+"res": "bullhead:Settings:lockpattern_continue_button_text",
+"en": "Continue",
+"hu": "Folytatás",
+"de": "Weiter",
+"fr": "Continuer",
+"es": "Continuar"
+},
+"lockpattern_confirm_button_text": {
+"res": "bullhead:Settings:lockpattern_confirm_button_text",
+"en": "Confirm",
+"hu": "Megerősítés",
+"de": "Bestätigen",
+"fr": "Confirmer",
+"es": "Confirmar"
+},
+"lockpattern_tutorial_cancel_label": {
+"res": "bullhead:Settings:lockpattern_tutorial_cancel_label",
+"en": "Cancel",
+"hu": "Mégse",
+"de": "Abbrechen",
+"fr": "Annuler",
+"es": "Cancelar"
+},
+"lockpassword_confirm_your_password_generic": {
+"res": "bullhead:Settings:lockpassword_confirm_your_password_generic",
+"en": "Enter your device password to continue.",
+"hu": "A folytatáshoz adja meg eszköze jelszavát.",
+"de": "Gib zum Fortfahren das Passwort für dein Gerät ein.",
+"fr": "Saisissez le mot de passe de l'appareil pour continuer.",
+"es": "Para continuar, introduce la contraseña del dispositivo."
+},
+"lockpassword_confirm_your_pin_generic": {
+"res": "bullhead:Settings:lockpassword_confirm_your_pin_generic",
+"en": "Enter your device PIN to continue.",
+"hu": "A folytatáshoz adja meg eszköze PIN kódját.",
+"de": "Gib zum Fortfahren die PIN für dein Gerät ein.",
+"fr": "Saisissez le code d'accès de l'appareil pour continuer.",
+"es": "Para continuar, introduce el PIN del dispositivo."
+},
+"lockpassword_confirm_your_pattern_generic": {
+"res": "bullhead:Settings:lockpassword_confirm_your_pattern_generic",
+"en": "Use your device pattern to continue.",
+"hu": "A folytatáshoz használja eszköze mintáját.",
+"de": "Gib zum Fortfahren das Muster für dein Gerät ein.",
+"fr": "Utilisez le schéma de l'appareil pour continuer.",
+"es": "Para continuar, dibuja el patrón del dispositivo."
+},
+"lockpassword_invalid_password": {
+"res": "bullhead:Settings:lockpassword_invalid_password",
+"en": "Wrong password",
+"hu": "Helytelen jelszó",
+"de": "Falsches Passwort",
+"fr": "Mot de passe incorrect.",
+"es": "Contraseña incorrecta"
+},
+"lockpassword_invalid_pin": {
+"res": "bullhead:Settings:lockpassword_invalid_pin",
+"en": "Wrong PIN",
+"hu": "Helytelen PIN-kód",
+"de": "Falsche PIN",
+"fr": "Code d'accès incorrect.",
+"es": "PIN incorrecto"
+},
+"encryption_interstitial_header": {
+"res": "bullhead:Settings:encryption_interstitial_header",
+"en": "Secure start-up",
+"hu": "Biztonságos indítás",
+"de": "Sicherer Start",
+"fr": "Démarrage sécurisé",
+"es": "Inicio seguro"
+},
+"encryption_interstitial_message_pin": {
+"res": "bullhead:Settings:encryption_interstitial_message_pin",
+"en": "You can further protect this device by requiring your PIN before it starts up. Until the device starts up, it can’t receive calls, messages, or notifications, including alarms. \n\nThis helps protect data on lost or stolen devices.",
+"hu": "További védelmet adhat az eszköznek, ha annak elindítása előtt PIN kódot kér. Amíg az eszköz el nem indul, nem fogadhat hívásokat, üzeneteket vagy értesítéseket, az ébresztőket is beleértve. \n\nEz segít megóvni adatait, ha ellopják eszközét.",
+"de": "Du kannst dieses Gerät noch weiter schützen, indem du festlegst, dass vor dem Gerätestart die Eingabe deiner PIN erforderlich ist. Bis das Gerät startet, können weder Anrufe noch Nachrichten, Benachrichtigungen oder Alarme empfangen werden. \n\nSo schützt du Daten auf verloren gegangenen oder gestohlenen Geräten.",
+"fr": "Pour améliorer la protection de cet appareil, vous pouvez exiger la saisie du code PIN avant le démarrage. Dans ce cas, l'appareil ne reçoit pas d'appels, de messages ni de notifications, y compris les alertes, tant qu'il n'a pas démarré. \n\nCette fonctionnalité permet de protéger les données en cas de perte ou de vol de l'appareil.",
+"es": "Puedes solicitar el PIN del dispositivo antes de iniciarlo para aumentar la protección. Hasta que el dispositivo no se inicie, no podrá recibir llamadas, mensajes ni notificaciones, como alarmas. \n\nEsta opción ayuda a proteger los datos en dispositivos perdidos o robados."
+},
+"encryption_interstitial_message_pattern": {
+"res": "bullhead:Settings:encryption_interstitial_message_pattern",
+"en": "You can further protect this device by requiring your pattern before it starts up. Until the device starts up, it can’t receive calls, messages, or notifications, including alarms. \n\nThis helps protect data on lost or stolen devices.",
+"hu": "További védelmet adhat az eszköznek, ha annak elindítása előtt mintát kér. Amíg az eszköz el nem indul, nem fogadhat hívásokat, üzeneteket vagy értesítéseket, az ébresztőket is beleértve. \n\nEz segít megóvni adatait, ha ellopják eszközét.",
+"de": "Du kannst dieses Gerät noch weiter schützen, indem du festlegst, dass vor dem Gerätestart die Eingabe deines Musters erforderlich ist. Bis das Gerät startet, können weder Anrufe noch Nachrichten, Benachrichtigungen oder Alarme empfangen werden. \n\nSo schützt du Daten auf verloren gegangenen oder gestohlenen Geräten.",
+"fr": "Pour améliorer la protection de cet appareil, vous pouvez exiger la saisie du schéma avant le démarrage. L'appareil ne reçoit pas d'appels, de messages ni de notifications, y compris les alertes, tant qu'il n'a pas démarré. \n\nCette fonctionnalité permet de protéger les données en cas de perte ou de vol de l'appareil.",
+"es": "Puedes solicitar el patrón del dispositivo antes de iniciarlo para aumentar la protección. Hasta que el dispositivo no se inicie, no podrá recibir llamadas, mensajes ni notificaciones, como alarmas. \n\nEsta opción ayuda a proteger los datos en dispositivos perdidos o robados."
+},
+"encryption_interstitial_message_password": {
+"res": "bullhead:Settings:encryption_interstitial_message_password",
+"en": "You can further protect this device by requiring your password before it starts up. Until the device starts up, it can’t receive calls, messages, or notifications, including alarms. \n\nThis helps protect data on lost or stolen devices.",
+"hu": "További védelmet nyújthat az eszköz számára, ha annak elindítása előtt jelszót kér. Amíg az eszköz el nem indul, nem fogadhat hívásokat, üzeneteket vagy értesítéseket, az ébresztőket is beleértve. \n\nEz segít megóvni adatait, ha ellopják eszközét.",
+"de": "Du kannst dieses Gerät noch weiter schützen, indem du festlegst, dass vor dem Gerätestart die Eingabe deines Passworts erforderlich ist. Bis das Gerät startet, können weder Anrufe noch Nachrichten, Benachrichtigungen oder Alarme empfangen werden. \n\nSo schützt du Daten auf verloren gegangenen oder gestohlenen Geräten.",
+"fr": "Pour améliorer la protection de cet appareil, vous pouvez exiger la saisie du mot de passe avant le démarrage. L'appareil ne reçoit pas d'appels, de messages ni de notifications, y compris les alertes, tant qu'il n'a pas démarré. \n\nCette fonctionnalité permet de protéger les données en cas de perte ou de vol de l'appareil.",
+"es": "Puedes solicitar la contraseña del dispositivo antes de iniciarlo para aumentar la protección. Hasta que el dispositivo no se inicie, no podrá recibir llamadas, mensajes ni notificaciones, como alarmas. \n\nEsta opción ayuda a proteger los datos en dispositivos perdidos o robados."
+},
+"encrypt_require_pin": {
+"res": "bullhead:Settings:encrypt_require_pin",
+"en": "Require PIN to start device",
+"hu": "Az eszköz indításakor kérjen PIN kódot",
+"de": "PIN zum Starten des Geräts erforderlich",
+"fr": "Exiger un code PIN pour démarrer l'appareil",
+"es": "Requerir PIN para iniciar dispositivo"
+},
+"encrypt_require_pattern": {
+"res": "bullhead:Settings:encrypt_require_pattern",
+"en": "Require pattern to start device",
+"hu": "Az eszköz indításakor kérje minta megadását",
+"de": "Muster zum Starten des Geräts erforderlich",
+"fr": "Exiger un schéma pour démarrer l'appareil",
+"es": "Requerir patrón para iniciar dispositivo"
+},
+"encrypt_require_password": {
+"res": "bullhead:Settings:encrypt_require_password",
+"en": "Require password to start device",
+"hu": "Az eszköz indításakor kérjen jelszót",
+"de": "Passwort zum Starten des Geräts erforderlich",
+"fr": "Exiger un mot de passe pour démarrer l'appareil",
+"es": "Requerir contraseña para iniciar dispositivo"
+},
+"encrypt_dont_require_pin": {
+"res": "bullhead:Settings:encrypt_dont_require_pin",
+"en": "No thanks",
+"hu": "Nem, köszönöm",
+"de": "Nein danke",
+"fr": "Non, merci",
+"es": "No, gracias"
+},
+"encrypt_dont_require_pattern": {
+"res": "bullhead:Settings:encrypt_dont_require_pattern",
+"en": "No thanks",
+"hu": "Nem, köszönöm",
+"de": "Nein danke",
+"fr": "Non, merci",
+"es": "No, gracias"
+},
+"encrypt_dont_require_password": {
+"res": "bullhead:Settings:encrypt_dont_require_password",
+"en": "No thanks",
+"hu": "Nem, köszönöm",
+"de": "Nein danke",
+"fr": "Non, merci",
+"es": "No, gracias"
+},
+"encryption_continue_button": {
+"res": "bullhead:Settings:encryption_continue_button",
+"en": "Continue",
+"hu": "Tovább",
+"de": "Weiter",
+"fr": "Continuer",
+"es": "Continuar"
+},
+"lock_screen_notifications_interstitial_title": {
+"res": "bullhead:Settings:lock_screen_notifications_interstitial_title",
+"en": "Notifications",
+"hu": "Értesítések",
+"de": "Benachrichtigungen",
+"fr": "Notifications",
+"es": "Notificaciones"
+},
+"lock_screen_notifications_interstitial_message": {
+"res": "bullhead:Settings:lock_screen_notifications_interstitial_message",
+"en": "When your device is locked, how do you want notifications to show?",
+"hu": "Ha az eszköz zárolva van, hogyan kívánja megjeleníteni az értesítéseket?",
+"de": "Wie sollen Benachrichtigungen angezeigt werden, wenn Ihr Gerät gesperrt ist?",
+"fr": "Lorsque votre appareil est verrouillé, comment voulez-vous que les notifications s'affichent ?",
+"es": "¿Cómo quieres que se muestren las notificaciones cuando esté bloqueado el dispositivo?"
+},
+"unlock_disable_frp_warning_title": {
+"res": "bullhead:Settings:unlock_disable_frp_warning_title",
+"en": "Remove device protection?",
+"hu": "Kikapcsolja az eszközvédelmet?",
+"de": "Geräteschutz entfernen?",
+"fr": "Supprimer la protection de l'appareil ?",
+"es": "¿Eliminar protección del dispositivo?"
+},
+"unlock_disable_frp_warning_content_pin": {
+"res": "bullhead:Settings:unlock_disable_frp_warning_content_pin",
+"en": "Device protection features will not work without your PIN.",
+"hu": "Az eszközvédelmi funkciók nem működnek a PIN-kód nélkül.",
+"de": "Die Geräteschutzeinstellungen funktionieren ohne Ihre PIN nicht.",
+"fr": "Les fonctionnalités de protection de l'appareil ne fonctionnent pas sans votre code.",
+"es": "Las funciones de protección del dispositivo no funcionarán sin tu PIN."
+},
+"unlock_disable_frp_warning_content_pattern": {
+"res": "bullhead:Settings:unlock_disable_frp_warning_content_pattern",
+"en": "Device protection features will not work without your pattern.",
+"hu": "Az eszközvédelmi funkciók nem működnek a minta nélkül.",
+"de": "Die Geräteschutzeinstellungen funktionieren ohne Ihr Muster nicht.",
+"fr": "Les fonctionnalités de protection de l'appareil ne fonctionnent pas sans votre schéma.",
+"es": "Las funciones de protección del dispositivo no funcionarán sin tu patrón."
+},
+"unlock_disable_frp_warning_content_password": {
+"res": "bullhead:Settings:unlock_disable_frp_warning_content_password",
+"en": "Device protection features will not work without your password.",
+"hu": "Az eszközvédelmi funkciók nem működnek a jelszó nélkül.",
+"de": "Die Geräteschutzeinstellungen funktionieren ohne Ihr Passwort nicht.",
+"fr": "Les fonctionnalités de protection de l'appareil ne fonctionnent pas sans votre mot de passe.",
+"es": "Las funciones de protección del dispositivo no funcionarán sin tu contraseña."
+},
+"unlock_disable_frp_warning_ok": {
+"res": "bullhead:Settings:unlock_disable_frp_warning_ok",
+"en": "Yes, remove",
+"hu": "Igen, kikapcsolom",
+"de": "Ja, entfernen",
+"fr": "Oui, supprimer",
+"es": "Sí, eliminar"
+},
+"lock_after_timeout_summary_with_exception": {
+"res": "bullhead:Settings:lock_after_timeout_summary_with_exception",
+"args": 2,
+"en": "%1$s after sleep, except when kept unlocked by %2$s",
+"hu": "%1$s alvó üzemmód után; kivéve akkor, amikor %2$s feloldva tartja",
+"de": "Nach %1$s im Ruhezustand, außer bei dauerhafter Entsperrung durch %2$s",
+"fr": "%1$s après la mise en veille, sauf lorsque l'appareil est maintenu en activité par %2$s",
+"es": "%1$s después de activar el modo de suspensión, salvo si %2$s mantiene el dispositivo desbloqueado"
+},
+"lock_immediately_summary_with_exception": {
+"res": "bullhead:Settings:lock_immediately_summary_with_exception",
+"args": 1,
+"en": "Immediately after sleep, except when kept unlocked by %1$s",
+"hu": "Rögtön az alvó mód bekapcsolása után, kivéve ha a(z) %1$s feloldva tartja",
+"de": "Unmittelbar nach Aktivierung des Ruhemodus, außer bei dauerhafter Entsperrung durch %1$s",
+"fr": "Immédiatement après la mise en veille, sauf lorsque l'appareil est maintenu en activité par %1$s",
+"es": "Inmediatamente después de activar el modo de suspensión (salvo si %1$s mantiene el dispositivo desbloqueado)"
+},
+"lockpattern_settings_power_button_instantly_locks_summary": {
+"res": "bullhead:Settings:lockpattern_settings_power_button_instantly_locks_summary",
+"args": 1,
+"en": "Except when kept unlocked by %1$s",
+"hu": "Kivéve, amikor %1$s feloldva tartja",
+"de": "Außer bei dauerhafter Entsperrung durch %1$s",
+"fr": "Sauf lorsque l'appareil est maintenu en activité par %1$s",
+"es": "Salvo si %1$s mantiene el dispositivo desbloqueado"
+},
+"install_all_warning": {
+"res": "bullhead:Settings:install_all_warning",
+"en": "Your phone and personal data are more vulnerable to attack by apps from unknown sources. You agree that you are solely responsible for any damage to your phone or loss of data that may result from using these apps.",
+"hu": "A telefonra és a személyes adatokra sokkal nagyobb veszélyt jelentenek az ismeretlen forrásból származó alkalmazások támadásai. Ön kijelenti, hogy egyedül Ön felel a telefonon bekövetkező minden olyan kárért vagy adatvesztésért, amely ezen alkalmazások használatából fakad.",
+"de": "Apps mit unbekannter Herkunft können gefährlich für dein Telefon und deine personenbezogenen Daten sein. Du erklärst dich damit einverstanden, dass du die Verantwortung für alle Schäden an deinem Telefon und jegliche Datenverluste trägst, die aus der Verwendung dieser Apps entstehen können.",
+"fr": "Votre téléphone et vos données personnelles sont plus vulnérables face aux attaques d'applications provenant de sources inconnues. Vous reconnaissez être seul responsable de tout dommage subi par votre téléphone ou de toute perte de données pouvant découler de l'utilisation de ces applications.",
+"es": "El teléfono y los datos personales son más vulnerables a los ataques de aplicaciones de origen desconocido. El usuario acepta ser el único responsable de cualquier daño en el teléfono o pérdida de datos que se pueda derivar del uso de estas aplicaciones."
 },
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",

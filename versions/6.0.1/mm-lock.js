@@ -36,7 +36,7 @@
     const carrier = s.airplane ? t.t('airplane_mode') : MM.text('shade').t('carrier');
     const b = MM.battery();
     const indication = st.hint || (b.plugged ? t.t(b.level >= 100 ? 'keyguard_charged' : 'keyguard_plugged_in') : '');
-    return `<div class="mmlk">
+    return `<div class="mmlk${st.bouncer ? ' bouncing' : ''}">
       <div class="mmlk-wall"></div><div class="mmlk-scrim"></div>
       <div class="mmlk-panel">
         <div class="mmlk-bar" data-action="mmlk-pull"><span class="mmlk-carrier">${c.safe(carrier)}</span>
@@ -44,12 +44,90 @@
           <span class="mmlk-user"><img src="${A('fw-ic_account_circle-user0.svg')}" alt=""></span></div>
         <div class="mmlk-status" style="top:calc(${(PANEL_H * 0.325).toFixed(2)} * var(--dp))">
           <div class="mmlk-clock">${clockText(c)}</div><div class="mmlk-date">${c.safe(dateText(c))}</div>
-          ${s.showOwnerInfo && s.ownerInfo ? `<div class="mmlk-owner">${c.safe(s.ownerInfo)}</div>` : ''}</div>
+          ${s.lock?.ownerInfo ? `<div class="mmlk-owner">${c.safe(s.lock.ownerInfo)}</div>` : ''}</div>
         <div class="mmlk-indication">${c.safe(indication)}</div>
         <button type="button" class="mmlk-aff mmlk-phone" data-aff="phone" aria-label="${c.safe(t.t('accessibility_phone_button'))}"><i></i><img src="${A('sui-ic_phone_24dp.png')}" alt=""></button>
-        <button type="button" class="mmlk-lock" data-action="mmlk-hint" aria-label="${c.safe(t.t('accessibility_unlock_button'))}"><img src="${A('sui-ic_lock_open_24dp.svg')}" alt=""></button>
+        <button type="button" class="mmlk-lock" data-action="mmlk-hint" aria-label="${c.safe(t.t('accessibility_unlock_button'))}"><img src="${A(secure(c) ? 'sui-ic_lock_24dp.svg' : 'sui-ic_lock_open_24dp.svg')}" alt=""></button>
         <button type="button" class="mmlk-aff mmlk-camera" data-aff="camera" aria-label="${c.safe(t.t('accessibility_camera_button'))}"><i></i><img src="${A('sui-ic_camera_alt_24dp.png')}" alt=""></button>
-      </div></div>`;
+      </div>${st.bouncer ? bouncer(c) : ''}</div>`;
+  }
+
+  const secure = c => ['pin', 'password', 'pattern'].includes(c.data.settings.lock?.type);
+
+  /* The bouncer (KeyguardBouncer over ScrimController's in-front scrim, black at 0.75): keyguard_host_view's
+     KeyguardSecurityContainer at the bottom (BouncerSecurityContainer) above the navigation bar, keyguard_security_width
+     320 dp wide, 8 dp of keyguard_security_view_margin above the view:
+     - keyguard_pin_view.xml (450 dp high at most): the message area (14 sp, textColorSecondary), the PasswordTextView row
+       (9 dp dots password_char_padding 8 dp apart, the ic_backspace_24dp key, a 1 dp #28ffffff divider) and four rows of
+       NumPadKey (the digit 36 sp sans-serif-light white, the letters 12 sp at 50 %), the last with 0 and the
+       ic_done_wht enter key; keyguard_password_view.xml (400 dp: 7 : 2 spaces around the 280 dp 16 sp field);
+       keyguard_pattern_view.xml (400 dp: the LockPatternView in the framework's white with error #f4511e, 8 dp at
+       the sides);
+     - the emergency button (lockscreen_emergency_call, 14 sp caps, textColorSecondary) at the bottom;
+     - a wrong entry: kg_wrong_pin / password / pattern; five in a row lock it for 30 s
+       (kg_too_many_failed_attempts_countdown); Back hides the bouncer. */
+  const KLONDIKE = ['+', '', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ'];
+  function bouncer(c) {
+    const s = c.data.settings, type = s.lock.type, st = c.ui.lockState, t = T();
+    const eca = `<div class="mmbo-eca"><button type="button" class="mmbo-emergency" data-action="mmbo-emergency">${c.safe(t.t('lockscreen_emergency_call'))}</button></div>`;
+    const msg = `<div class="mmbo-msg">${c.safe(st.message || '')}</div>`;
+    let view;
+    if (type === 'pin') {
+      const key = d => `<button type="button" class="mmbo-key" data-action="mmbo-digit" data-d="${d}"><span class="mmbo-digit">${d}</span><span class="mmbo-letters">${KLONDIKE[d]}</span></button>`;
+      view = `<div class="mmbo-view pin">${msg}<div class="mmbo-rows"><div class="mmbo-row0"><span class="mmbo-entry">${'<i></i>'.repeat((st.entry || '').length)}</span><button type="button" class="mmbo-del" data-action="mmbo-del"><img src="${A('sui-ic_backspace_24dp.svg')}" alt=""></button></div>
+        ${[[1, 2, 3], [4, 5, 6], [7, 8, 9]].map(r => `<div class="mmbo-row">${r.map(key).join('')}</div>`).join('')}<div class="mmbo-row"><i></i>${key(0)}<button type="button" class="mmbo-key" data-action="mmbo-enter"><img src="${A('sui-ic_done_wht.png')}" alt=""></button></div></div>${eca}</div>`;
+    } else if (type === 'password') {
+      view = `<div class="mmbo-view password"><i class="mmbo-space7"></i>${msg}<input class="mmbo-field" type="password" autocomplete="off" spellcheck="false"><i class="mmbo-space2"></i>${eca}</div>`;
+    } else view = `<div class="mmbo-view pattern">${msg}<div class="mmbo-pat">${MM.pattern.markup('mmbo-pattern')}</div>${eca}</div>`;
+    return `<div class="mmbo"><div class="mmbo-scrim"></div><div class="mmbo-container${st.lockedUntil > Date.now() ? ' locked' : ''}">${view}</div></div>`;
+  }
+  function checked(c, ok) {
+    const st = c.ui.lockState, t = T(), type = c.data.settings.lock.type;
+    if (ok) { st.verified = true; st.fails = 0; const then = st.bouncer; st.bouncer = null; c.unlock(); if (then && then !== 'unlock') c.open(then); return; }
+    st.entry = ''; st.fails = (st.fails || 0) + 1;
+    st.message = t.t(type === 'pin' ? 'kg_wrong_pin' : type === 'password' ? 'kg_wrong_password' : 'kg_wrong_pattern');
+    if (st.fails >= 5) {
+      st.fails = 0; st.lockedUntil = Date.now() + 30000;
+      const tick = () => {
+        if (!c.ui.lockState?.bouncer) return;
+        const left = Math.ceil((st.lockedUntil - Date.now()) / 1000), el = c.el.viewport.querySelector('.mmbo-msg');
+        if (left <= 0) { st.message = ''; c.render(); return; }
+        st.message = t.fmt('kg_too_many_failed_attempts_countdown', null, left); if (el) el.textContent = st.message;
+        setTimeout(tick, 1000);
+      };
+      tick();
+    }
+    c.render();
+  }
+  function mountBouncer(c, root) {
+    const st = c.ui.lockState, l = c.data.settings.lock, locked = () => st.lockedUntil > Date.now();
+    const box = root.querySelector('.mmbo');
+    box?.addEventListener('pointerdown', e => e.stopPropagation());
+    box?.addEventListener('click', e => {
+      const a = e.target.closest('[data-action]')?.dataset.action;
+      if (!a) return;
+      e.stopPropagation();
+      if (locked()) return;
+      if (a === 'mmbo-digit') { if ((st.entry || '').length < 16) st.entry = (st.entry || '') + e.target.closest('[data-d]').dataset.d; st.message = ''; c.render(); }
+      else if (a === 'mmbo-del') { st.entry = (st.entry || '').slice(0, -1); c.render(); }
+      else if (a === 'mmbo-enter') { if (st.entry) checked(c, st.entry === l.secret); }
+      else if (a === 'mmbo-emergency') { st.bouncer = null; c.open('emergency-dialer'); }
+    });
+    const field = root.querySelector('.mmbo-field');
+    if (field) {
+      field.disabled = locked();
+      field.addEventListener('keydown', e => { if (e.key === 'Enter' && field.value) { e.preventDefault(); checked(c, field.value === l.secret); } });
+      setTimeout(() => field.focus(), 30);
+    }
+    const pat = root.querySelector('.mmbo-pattern');
+    if (pat) {
+      MM.pattern.init(pat);
+      MM.pattern.bind(pat, {enabled: () => !locked(), onStart: () => { st.message = ''; const m = root.querySelector('.mmbo-msg'); if (m) m.textContent = ''; },
+        onDone: cells => {
+          if (cells.join('') === l.secret) { MM.pattern.show(pat, cells, 'correct'); checked(c, true); }
+          else { MM.pattern.show(pat, cells, 'wrong'); setTimeout(() => checked(c, false), 600); }
+        }});
+    }
   }
 
   function setHint(c, root, text) {
@@ -61,12 +139,17 @@
 
   function unlock(c, root, then) {
     const panel = root.querySelector('.mmlk-panel'), lk = root.querySelector('.mmlk');
+    // A secure lock shows the bouncer first (the camera opens in its secure mode without it).
+    if (secure(c) && then !== 'camera' && !c.ui.lockState.verified) {
+      c.ui.lockState.bouncer = then || 'unlock'; c.render(); return;
+    }
     lk?.classList.add('leaving');
     if (panel) panel.style.transform = `translateY(calc(-${PANEL_H} * var(--dp)))`;
     setTimeout(() => { c.unlock(); if (then) c.open(then); }, 260);
   }
 
   function mount(c, root) {
+    if (c.ui.lockState?.bouncer) mountBouncer(c, root);
     const slot = root.querySelector('.mmlk-batt'); if (slot && MM.batteryMeter) slot.innerHTML = MM.batteryMeter();
     const lk = root.querySelector('.mmlk'), panel = root.querySelector('.mmlk-panel');
     if (!lk || !panel) return;
@@ -129,11 +212,12 @@
   let lastMinute = -1;
   MM.register('lock', {
     app: false,
-    noStatus: () => true, noNav: () => true,
+    noStatus: () => true, noNav: c => !c.ui.lockState?.bouncer,
+    shouldLock: c => (c.data.settings.lock?.type || 'swipe') !== 'none',
     timeout: () => 10000,
     reset(c) { c.ui.lockState = {hint: ''}; },
     render, mount,
-    back: () => true,
+    back(c) { if (c.ui.lockState?.bouncer) { c.ui.lockState.bouncer = null; c.render(); } return true; },
     action(name, el, event, c) {
       if (name === 'mmlk-hint') return true;   // handled by the gesture code
       if (name === 'mmlk-pull') return true;

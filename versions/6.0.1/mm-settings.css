@@ -146,3 +146,36 @@ div.mmst-pref:active{background:none}
 .mmai-button{flex:.4;min-width:calc(120 * var(--dp));min-height:calc(36 * var(--dp));margin:calc(6 * var(--dp)) 0;border:0;border-radius:calc(2 * var(--dp));background:#d6d7d7;color:rgba(0,0,0,.871);font:500 calc(14 * var(--dp))/1 Roboto,sans-serif;text-transform:uppercase;box-shadow:0 calc(1 * var(--dp)) calc(2 * var(--dp)) rgba(0,0,0,.24)}
 .mmai-button:active{background:#bfc0c0}
 .mmai-button:disabled{background:rgba(0,0,0,.12);color:rgba(0,0,0,.26);box-shadow:none}
+/* choose_lock_password.xml / choose_lock_pattern.xml: the Medium header (two lines, centred), the 24 sp entry 30 dp in
+   from the sides, or the header, a 2 dp rule and the pattern; SecurityPreferenceButtonContainer's borderless buttons
+   sharing the bottom. */
+.mmsc-choose{display:flex;flex-direction:column;height:100%;box-sizing:border-box}
+.mmsc-header{min-height:calc(2 * 1.3 * 18 * var(--dp));padding:calc(16 * var(--dp)) calc(16 * var(--dp)) 0;display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(0,0,0,.541);font-size:calc(18 * var(--dp));line-height:1.3}
+.mmsc-entry{margin:calc(8 * var(--dp)) calc(30 * var(--dp)) 0;padding:calc(8 * var(--dp)) 0;border:0;border-bottom:calc(2 * var(--dp)) solid #009688;background:none;outline:none;text-align:center;color:rgba(0,0,0,.871);font:calc(24 * var(--dp)) Roboto,sans-serif}
+.mmsc-fill{flex:1}
+.mmsc-buttons{display:flex;flex:none;padding:0 calc(8 * var(--dp))}
+.mmsc-buttons>*{flex:1}
+.mmsc-button{min-height:calc(48 * var(--dp));border:0;border-radius:calc(2 * var(--dp));background:none;color:rgba(0,0,0,.871);font:500 calc(14 * var(--dp))/1 Roboto,sans-serif;text-transform:uppercase}
+.mmsc-button:active{background:rgba(0,0,0,.12)}
+.mmsc-button:disabled{color:rgba(0,0,0,.26)}
+.mmsc-choose.pattern .mmsc-header{flex:1;color:rgba(0,0,0,.871)}
+.mmsc-rule{flex:none;height:calc(2 * var(--dp))}
+.mmsc-patwrap{flex:none;display:flex;justify-content:center;padding:calc(8 * var(--dp)) 0}
+.mmsc-patwrap .mmpt{width:calc(320 * var(--dp))}
+/* encryption_interstitial.xml / redaction_interstitial.xml: the Medium message, the radio buttons 16 (8) dp apart. */
+.mmsc-inter{padding:calc(16 * var(--dp)) calc(16 * var(--dp)) 0}
+.mmsc-inter.redaction{padding-top:calc(8 * var(--dp))}
+.mmsc-medium{margin:0;color:rgba(0,0,0,.541);font-size:calc(18 * var(--dp));line-height:1.3}
+.mmsc-radios{margin-top:calc(8 * var(--dp))}
+.mmsc-radio{display:flex;align-items:center;gap:calc(8 * var(--dp));width:100%;min-height:calc(48 * var(--dp));margin-top:calc(8 * var(--dp));padding:0;border:0;background:none;color:rgba(0,0,0,.871);font-size:calc(16 * var(--dp));text-align:left}
+.mmsc-radio .mmw-radio{--mmw-normal:rgba(0,0,0,.541);--mmw-accent:#009688}
+.mmst-content>.mmsc-buttons{position:absolute;left:0;right:0;bottom:0}
+/* confirm_lock_password_base.xml / confirm_lock_pattern_base.xml (Theme.ConfirmDeviceCredentials, 16 dp margins). */
+.mmsc-confirm{display:flex;flex-direction:column;height:100%;box-sizing:border-box}
+.mmsc-cheader{margin:calc(16 * var(--dp)) calc(16 * var(--dp)) 0;color:#009688;font-size:calc(24 * var(--dp))}
+.mmsc-details{margin:calc(12 * var(--dp)) calc(16 * var(--dp)) 0;color:rgba(0,0,0,.871);font-size:calc(14 * var(--dp));line-height:1.4}
+.mmsc-cancel{align-self:flex-start;margin:calc(16 * var(--dp)) calc(16 * var(--dp)) 0;min-height:calc(48 * var(--dp));padding:0 calc(16 * var(--dp));border:0;border-radius:calc(2 * var(--dp));background:none;color:rgba(0,0,0,.871);font:500 calc(14 * var(--dp))/1 Roboto,sans-serif;text-transform:uppercase}
+.mmsc-centry{align-self:center;width:calc(208 * var(--dp));margin-top:calc(-40 * var(--dp));padding:calc(8 * var(--dp)) 0;border:0;border-bottom:calc(2 * var(--dp)) solid #009688;background:none;outline:none;text-align:center;font:calc(16 * var(--dp)) Roboto,sans-serif}
+.mmsc-error{flex:1;display:flex;align-items:center;justify-content:center;margin:0 calc(12 * var(--dp));color:#ff5621;font-size:calc(14 * var(--dp))}
+.mmsc-cpat{display:flex;justify-content:center;margin-top:auto}
+.mmsc-cpat .mmpt{width:calc(312 * var(--dp))}

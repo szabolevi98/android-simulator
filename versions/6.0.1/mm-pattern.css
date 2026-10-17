@@ -1,0 +1,9 @@
+/* LockPatternView (mm-pattern.js): the colours are the theme's, as --mmpt-regular / --mmpt-success / --mmpt-error. */
+.mmpt{position:relative;aspect-ratio:1;touch-action:none;--mmpt-regular:#37474f;--mmpt-success:#009688;--mmpt-error:#ff5621}
+.mmpt svg{display:block;width:100%;height:100%;overflow:visible}
+.mmpt-dot{fill:var(--mmpt-regular)}
+.mmpt-path{fill:none;stroke:var(--mmpt-regular);stroke-linecap:round;stroke-linejoin:round}
+.mmpt[data-mode="correct"] .mmpt-path,.mmpt[data-mode="correct"] .mmpt-dot.on{stroke:var(--mmpt-success);fill:var(--mmpt-success)}
+.mmpt[data-mode="correct"] .mmpt-path{fill:none}
+.mmpt[data-mode="wrong"] .mmpt-path{stroke:var(--mmpt-error)}
+.mmpt[data-mode="wrong"] .mmpt-dot.on{fill:var(--mmpt-error)}
