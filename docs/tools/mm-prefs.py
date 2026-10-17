@@ -119,7 +119,13 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'LatinImeGoogle/subtype_en_US', 'Velvet/ime_service_label', 'Velvet/voice_ime_language_auto', 'user_you+args1', 'user_owner',
          'user_guest', 'user_add_user_menu', 'user_add_user_title', 'user_add_user_message_long', 'user_setup_dialog_title',
          'user_setup_dialog_message', 'user_setup_button_setup_now', 'user_setup_button_setup_later', 'user_new_user_name',
-         'user_summary_not_set_up', 'user_add_on_lockscreen_menu', 'ok']
+         'user_summary_not_set_up', 'user_add_on_lockscreen_menu', 'ok',
+         # AccessibilitySettings (the image's services: talkback.apk's TalkBack and Switch Access), PrintSettingsFragment
+         # (CloudPrint2's Cloud Print)
+         'accessibility_global_gesture_preference_summary_off', 'accessibility_global_gesture_preference_summary_on',
+         'talkback/talkback_title', 'talkback/switch_service_name', 'CloudPrint2/app_name', 'print_feature_state_on',
+         'print_feature_state_off', 'mock_location_app_not_set', 'debug_app_not_set', 'adb_warning_title', 'adb_warning_message',
+         'dev_settings_warning_title', 'dev_settings_warning_message']
 strings, arrays, drawables = set(), set(), {}
 
 
@@ -166,8 +172,10 @@ def ref(value):
     if not hit: return value
     apk, name = hit
     kind, key = name.split('/', 1)
-    if kind == 'string': strings.add((key, apk)); return f'string/{key}'
-    if kind == 'array': arrays.add((key, apk)); return f'array/{key}'
+    # A framework resource keeps its table key's prefix ("string/framework/bugreport_title").
+    pre = 'framework/' if apk == 'framework' else ''
+    if kind == 'string': strings.add((key, apk)); return f'string/{pre}{key}'
+    if kind == 'array': arrays.add((key, apk)); return f'array/{pre}{key}'
     if kind == 'drawable' or kind == 'mipmap':
         d = drawable(apk, key)
         return {k: v for k, v in d.items() if k in ('icon', 'tint')}

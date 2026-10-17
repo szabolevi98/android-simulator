@@ -186,4 +186,100 @@
       return false;
     }
   };
+
+  /* accessibility_settings (AccessibilitySettings): the services the image installs (talkback.apk's TalkBack, whose
+     service has no label of its own so the application's, and Switch Access, enabled from -v21), Off; Captions,
+     Magnification gestures and Color correction On / Off (updateFeatureSummary); Power button ends call stays (a power
+     key on a voice capable phone), Auto-rotate screen (rotation supported) is the rotation lock's opposite,
+     Accessibility shortcut stays (config_longPressOnPowerBehavior 1) with its On / Off; Touch & hold delay the entry of
+     long_press_timeout (500, Short). */
+  const SERVICES = [['a11y_talkback', 'talkback/talkback_title'], ['a11y_switch', 'talkback/switch_service_name']];
+  (() => {
+    const cat = MM.settingsXml.accessibility_settings?.c.find(n => n.key === 'services_category');
+    if (cat && !cat.c) cat.c = SERVICES.map(([key, title]) => ({t: 'Preference', key, title: `string/${title}`}));
+    const pc = MM.settingsXml.print_settings?.c.find(n => n.key === 'print_services_category');
+    if (pc && !pc.c) pc.c = [{t: 'Preference', key: 'print_cloud', title: 'string/CloudPrint2/app_name'}];
+  })();
+  const SWITCHES = {toggle_large_text_preference: 'largeText', toggle_high_text_contrast_preference: 'highContrast', toggle_power_button_ends_call_preference: 'powerEndsCall',
+    toggle_speak_password_preference: 'speakPasswords', toggle_inversion_preference: 'inversion'};
+  H.accessibility_settings = {
+    get(c, key) {
+      const a = S(c).a11y || {};
+      if (key === 'toggle_lock_screen_rotation_preference') return !S(c).rotationLocked;
+      if (key === 'select_long_press_timeout_preference') return String(a.longPress ?? 500);
+      return SWITCHES[key] ? !!a[SWITCHES[key]] : undefined;
+    },
+    set(c, key, v) {
+      const s = S(c), a = s.a11y || (s.a11y = {});
+      if (key === 'toggle_lock_screen_rotation_preference') { s.rotationLocked = !v; MM.system?.changed(c); return true; }
+      if (key === 'select_long_press_timeout_preference') { a.longPress = +v; return true; }
+      if (SWITCHES[key]) { a[SWITCHES[key]] = v; return true; }
+      return false;
+    },
+    summary(c, key) {
+      const t = T(), a = S(c).a11y || {};
+      if (SERVICES.some(([k]) => k === key) || key === 'captioning_preference_screen' || key === 'screen_magnification_preference_screen' || key === 'daltonizer_preference_screen')
+        return t.t(a[key] ? 'accessibility_feature_state_on' : 'accessibility_feature_state_off');
+      if (key === 'enable_global_gesture_preference_screen') return t.t(a.shortcut ? 'accessibility_global_gesture_preference_summary_on' : 'accessibility_global_gesture_preference_summary_off');
+      return undefined;
+    },
+    click(c, key) {
+      if (SERVICES.some(([k]) => k === key)) { MM.settingsGo(c, `missing:com.android.settings.accessibility.ToggleAccessibilityServicePreferenceFragment#${key}`, T().t(SERVICES.find(([k]) => k === key)[1])); return true; }
+      return false;
+    }
+  };
+  // print_settings (PrintSettingsFragment): no print jobs (the category goes), the installed services with On / Off
+  // (ENABLED_PRINT_SERVICES starts empty).
+  H.print_settings = {
+    hidden: ['print_jobs_category'],
+    summary: (c, key) => key === 'print_cloud' ? T().t(S(c).cloudPrint ? 'print_feature_state_on' : 'print_feature_state_off') : undefined,
+    click(c, key) { if (key !== 'print_cloud') return false; MM.settingsGo(c, 'missing:com.android.settings.print.PrintServiceSettingsFragment', T().t('CloudPrint2/app_name')); return true; }
+  };
+
+  /* development_prefs (DevelopmentSettings.onCreate on the user build): Clear USB debugging authorizations stays
+     (ro.adb.secure), the terminal goes (no com.android.terminal), OEM unlocking stays (the 5X's persistent data block),
+     Verify apps over USB stays (package_verifier_enable), multi-window and HDCP checking go (removed on a "user" build),
+     Picture color mode goes (fewer than two colour transforms), Color temperature stays (Settings'
+     config_enableColorTemperature; English only in the image). The list rows show their entry (updateXxxOptions), mock
+     location and the debug app their "not set" texts. The switch bar turns the whole screen on and off (Allow development
+     settings? before on); USB debugging asks Allow USB debugging?. */
+  const DEV_DEFAULTS = {select_logd_size: '262144', select_usb_configuration: 'mtp', window_animation_scale: '1', transition_animation_scale: '1',
+    animator_duration_scale: '1', overlay_display_devices: '', debug_hw_overdraw: 'false', show_non_rect_clip: 'hide', simulate_color_space: '-1',
+    track_frame_time: 'false', enable_opengl_traces: '0', app_process_limit: '-1', verify_apps_over_usb: true};
+  const dev = c => S(c).dev || (S(c).dev = {on: true});
+  H.development_prefs = {
+    hidden: ['enable_terminal', 'enable_multi_window', 'hdcp_checking', 'color_mode'],
+    get(c, key) { const d = dev(c); return key in d ? d[key] : key in DEV_DEFAULTS ? DEV_DEFAULTS[key] : undefined; },
+    set(c, key, v) { dev(c)[key] = v; return true; },
+    disabled: c => !dev(c).on,
+    summary(c, key, n) {
+      const t = T();
+      if (key === 'mock_location_app') return t.t('mock_location_app_not_set');
+      if (key === 'debug_app') return t.t('debug_app_not_set');
+      if (n.t === 'ListPreference' && n.entryValues) { const v = String(dev(c)[key] ?? DEV_DEFAULTS[key] ?? ''); const i = n.entryValues.indexOf(v); return i >= 0 ? MM.settingsArr(n.entries)[i] : ''; }
+      return undefined;
+    },
+    click(c, key) {
+      const t = T(), d = dev(c);
+      if (key === 'enable_adb' && !d.enable_adb) {
+        c.dialog({title: t.t('adb_warning_title'), message: t.t('adb_warning_message'), buttons: [{label: t.t('cancel')}, {label: t.t('okay'), action: c => { d.enable_adb = true; c.save(); c.render(); }}]});
+        return true;
+      }
+      if (['bugreport', 'local_backup_password', 'running_apps', 'clear_adb_keys', 'mock_location_app', 'debug_app', 'inactive_apps'].includes(key)) { MM.settingsGo(c, `missing:com.android.settings.DevelopmentSettings#${key}`, ''); return true; }
+      return false;
+    }
+  };
+  MM.settingsScreens['xml:development_prefs'] = {
+    bar(c) {
+      const on = dev(c).on, t = T();
+      return `<button type="button" class="mmst-switchbar" data-action="mmdv-toggle"><span>${c.safe(t.t(on ? 'switch_on_text' : 'switch_off_text'))}</span><i class="mmw-switch${on ? ' on' : ''}"><i class="mmw-thumb"></i></i></button>`;
+    },
+    action(c, name) {
+      if (name !== 'mmdv-toggle') return false;
+      const t = T(), d = dev(c);
+      if (d.on) { d.on = false; c.save(); c.render(); }
+      else c.dialog({title: t.t('dev_settings_warning_title'), message: t.t('dev_settings_warning_message'), buttons: [{label: t.t('cancel')}, {label: t.t('okay'), action: c => { d.on = true; c.save(); c.render(); }}]});
+      return true;
+    }
+  };
 })();

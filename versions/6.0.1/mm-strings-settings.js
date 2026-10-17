@@ -7059,6 +7059,116 @@ MM.strings('settings', {
 "fr": "OK",
 "es": "Aceptar"
 },
+"accessibility_global_gesture_preference_summary_off": {
+"res": "bullhead:Settings:accessibility_global_gesture_preference_summary_off",
+"en": "Off",
+"hu": "Ki",
+"de": "Aus",
+"fr": "Désactivé",
+"es": "No"
+},
+"accessibility_global_gesture_preference_summary_on": {
+"res": "bullhead:Settings:accessibility_global_gesture_preference_summary_on",
+"en": "On",
+"hu": "Be",
+"de": "An",
+"fr": "Activé",
+"es": "Sí"
+},
+"talkback/talkback_title": {
+"res": "bullhead:talkback:talkback_title",
+"en": "TalkBack",
+"hu": "TalkBack",
+"de": "TalkBack",
+"fr": "TalkBack",
+"es": "TalkBack",
+"untranslated": [
+"hu",
+"de",
+"fr",
+"es"
+]
+},
+"talkback/switch_service_name": {
+"res": "bullhead:talkback:switch_service_name",
+"en": "Switch Access",
+"hu": "Kapcsolóalapú hozzáférés",
+"de": "Schalterzugriff",
+"fr": "Switch Access",
+"es": "Accesibilidad mediante interruptor"
+},
+"CloudPrint2/app_name": {
+"res": "bullhead:CloudPrint2:app_name",
+"en": "Cloud Print",
+"hu": "Cloud Print",
+"de": "Cloud Print",
+"fr": "Google Cloud Print",
+"es": "Cloud Print"
+},
+"print_feature_state_on": {
+"res": "bullhead:Settings:print_feature_state_on",
+"en": "On",
+"hu": "Be",
+"de": "An",
+"fr": "Activé",
+"es": "Sí"
+},
+"print_feature_state_off": {
+"res": "bullhead:Settings:print_feature_state_off",
+"en": "Off",
+"hu": "Ki",
+"de": "Aus",
+"fr": "Désactivé",
+"es": "No"
+},
+"mock_location_app_not_set": {
+"res": "bullhead:Settings:mock_location_app_not_set",
+"en": "No mock location app set",
+"hu": "Nincs kiválasztott helyimitáló alkalmazás",
+"de": "Keine App für simulierte Standorte eingerichtet",
+"fr": "Aucune application de position fictive définie",
+"es": "Aplicación para simular ubicación no establecida"
+},
+"debug_app_not_set": {
+"res": "bullhead:Settings:debug_app_not_set",
+"en": "No debug application set",
+"hu": "Nincs beállítva alkalmazás hibakereséshez",
+"de": "Keine Debugging-App festgelegt",
+"fr": "Aucune application à déboguer définie",
+"es": "Aplicación de depuración no configurada"
+},
+"adb_warning_title": {
+"res": "bullhead:Settings:adb_warning_title",
+"en": "Allow USB debugging?",
+"hu": "Engedélyezi az USB hibakeresést?",
+"de": "USB-Debugging zulassen?",
+"fr": "Autoriser le débogage USB ?",
+"es": "¿Permitir depuración por USB?"
+},
+"adb_warning_message": {
+"res": "bullhead:Settings:adb_warning_message",
+"en": "USB debugging is intended for development purposes only. Use it to copy data between your computer and your device, install apps on your device without notification, and read log data.",
+"hu": "Az USB hibakeresés fejlesztési célokat szolgál. Használhatja adatok másolására a számítógép és a készülék között, alkalmazások a készülékre való értesítés nélküli telepítésére és naplózási adatok olvasására.",
+"de": "USB-Debugging ist nur für Entwicklungszwecke vorgesehen. Damit kannst du Daten zwischen deinem Computer und deinem Gerät kopieren, Apps auf deinem Gerät ohne Benachrichtigung installieren und Protokolldaten lesen.",
+"fr": "Le débogage USB est conçu uniquement pour le développement. Utilisez-le pour copier des données entre votre ordinateur et votre appareil, installer des applications sur votre appareil sans notification et lire les données de journal.",
+"es": "La depuración por USB solo está indicada para actividades de desarrollo. Puedes utilizarla para intercambiar datos entre el ordenador y el dispositivo, para instalar aplicaciones en el dispositivo sin recibir notificaciones y para leer datos de registro."
+},
+"dev_settings_warning_title": {
+"res": "bullhead:Settings:dev_settings_warning_title",
+"en": "Allow development settings?",
+"hu": "Engedélyezi a fejlesztői beállításokat?",
+"de": "Entwicklungseinstellungen zulassen?",
+"fr": "Activer les paramètres de développement ?",
+"es": "¿Permitir ajustes de desarrollo?"
+},
+"dev_settings_warning_message": {
+"res": "bullhead:Settings:dev_settings_warning_message",
+"en": "These settings are intended for development use only. They can cause your device and the applications on it to break or misbehave.",
+"hu": "Ezek a beállítások csak fejlesztői használatra szolgálnak. Használatuk esetén eszköze vagy alkalmazásai meghibásodhatnak, illetve nem várt módon viselkedhetnek.",
+"de": "Diese Einstellungen sind ausschließlich für Entwicklungszwecke gedacht. Sie können dein Gerät und die darauf installierten Apps beschädigen oder zu unerwünschtem Verhalten führen.",
+"fr": "Ces paramètres sont en cours de développement. Ils peuvent endommager votre appareil et les applications qui s'y trouvent, ou provoquer leur dysfonctionnement.",
+"es": "Estos ajustes están destinados únicamente a los desarrolladores. Pueden provocar que el dispositivo o las aplicaciones no funcionen correctamente."
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [
