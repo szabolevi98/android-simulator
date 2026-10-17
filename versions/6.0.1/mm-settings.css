@@ -198,3 +198,13 @@ div.mmst-pref:active{background:none}
 .mmbt-bar{display:block;height:calc(4 * var(--dp));margin-top:calc(8 * var(--dp));background:rgba(0,150,136,.25)}
 .mmbt-bar i{display:block;height:100%;background:#009688}
 .mmbt-ic{flex:none;width:calc(40 * var(--dp));height:calc(40 * var(--dp));margin-right:calc(16 * var(--dp));background:#009688;-webkit-mask-size:60%;mask-size:60%;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+/* proc_stats_ui.xml (the Display1 used memory in the accent, the 28 dp colour bar) and horizontal_preference rows. */
+.mmme-head{padding:0 calc(16 * var(--dp))}
+.mmme-state{margin:calc(5 * var(--dp)) 0;color:#009688;font-size:calc(34 * var(--dp));line-height:1.2}
+.mmme-state small{font-size:.6em}
+.mmme-bar{height:calc(28 * var(--dp));margin-bottom:calc(15 * var(--dp));background:#ced7db}
+.mmme-bar i{display:block;height:100%;background:#009587}
+.mmme-row{display:flex;padding:calc(1 * var(--dp)) calc(16 * var(--dp)) 0;min-height:calc(32 * var(--dp));align-items:center;font-size:calc(16 * var(--dp))}
+.mmme-row span{flex:1}
+.mmme-row span+span{text-align:right;color:rgba(0,0,0,.541);font-size:calc(14 * var(--dp))}
+.mmme-space{display:block;height:calc(16 * var(--dp))}

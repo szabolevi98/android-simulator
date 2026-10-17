@@ -7381,6 +7381,107 @@ MM.strings('settings', {
 "fr": "Lorsque la batterie atteint %1$s",
 "es": "con un %1$s de batería"
 },
+"app_list_memory_use": {
+"res": "bullhead:Settings:app_list_memory_use",
+"en": "App usage",
+"hu": "Alkalmazáshasználat",
+"de": "App-Nutzung",
+"fr": "Utilisation par les applis",
+"es": "Uso de las aplicaciones"
+},
+"menu_duration_3h": {
+"res": "bullhead:Settings:menu_duration_3h",
+"en": "3 hours",
+"hu": "3 óra",
+"de": "3 Stunden",
+"fr": "3 heures",
+"es": "3 horas"
+},
+"menu_duration_6h": {
+"res": "bullhead:Settings:menu_duration_6h",
+"en": "6 hours",
+"hu": "6 óra",
+"de": "6 Stunden",
+"fr": "6 heures",
+"es": "6 horas"
+},
+"menu_duration_12h": {
+"res": "bullhead:Settings:menu_duration_12h",
+"en": "12 hours",
+"hu": "12 óra",
+"de": "12 Stunden",
+"fr": "12 heures",
+"es": "12 horas"
+},
+"menu_duration_1d": {
+"res": "bullhead:Settings:menu_duration_1d",
+"en": "1 day",
+"hu": "1 nap",
+"de": "1 Tag",
+"fr": "1 jour",
+"es": "1 día"
+},
+"ram_states": {
+"res": "bullhead:Settings:ram_states",
+"en": [
+"Normal",
+"Moderate",
+"Low",
+"Critical",
+"?"
+],
+"hu": [
+"Normál",
+"Közepes",
+"Alacsony",
+"Kritikus",
+"?"
+],
+"de": [
+"Normal",
+"Mittelmäßig",
+"Wenig",
+"Kritisch",
+"?"
+],
+"fr": [
+"Normale",
+"Moyenne",
+"Faible",
+"Critique",
+"?"
+],
+"es": [
+"Normal",
+"Moderada",
+"Baja",
+"Crítica",
+"(?)"
+]
+},
+"memory_usage_apps_summary": {
+"res": "bullhead:Settings:memory_usage_apps_summary",
+"en": {
+"other": "%1$d apps used memory in the last %2$s",
+"one": "1 app used memory in the last %2$s"
+},
+"hu": {
+"other": "%1$d alkalmazás használta a memóriát az elmúlt %2$s során",
+"one": "1 alkalmazás használta a memóriát az elmúlt %2$s során"
+},
+"de": {
+"other": "%1$d Apps haben den Speicher in den letzten %2$s verbraucht.",
+"one": "1 App hat den Speicher in den letzten %2$s verbraucht."
+},
+"fr": {
+"other": "%1$d applications ont utilisé de la mémoire au cours de la période suivante : %2$s.",
+"one": "%1$d application a utilisé de la mémoire au cours de la période suivante : %2$s."
+},
+"es": {
+"other": "%1$d aplicaciones han utilizado memoria durante las últimas %2$s",
+"one": "1 aplicación ha utilizado memoria durante las últimas %2$s"
+}
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

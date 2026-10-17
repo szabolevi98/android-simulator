@@ -133,7 +133,10 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          # PowerUsageSummary, BatteryEntry, BatterySaverSettings, Utils.formatPercentage
          'power_usage_summary_title', 'power_discharging_duration+args2', 'power_charging+args2', 'power_screen', 'power_cell', 'power_idle',
          'power_wifi', 'process_kernel_label', 'framework/android_system_label', 'PrebuiltGmsCore/common_app_name', 'battery_saver',
-         'high_power_apps', 'battery_saver_turn_on_automatically_never', 'battery_saver_turn_on_automatically_pct+args1']
+         'high_power_apps', 'battery_saver_turn_on_automatically_never', 'battery_saver_turn_on_automatically_pct+args1',
+         # ProcessStatsBase / ProcessStatsSummary
+         'memory_settings_title', 'app_list_memory_use', 'menu_duration_3h', 'menu_duration_6h', 'menu_duration_12h', 'menu_duration_1d',
+         'array:ram_states', 'plurals:memory_usage_apps_summary']
 strings, arrays, drawables = set(), set(), {}
 
 
