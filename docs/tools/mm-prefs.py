@@ -125,7 +125,11 @@ EXTRA = ['settings_label_launcher', 'search_menu', 'framework/cancel', 'framewor
          'accessibility_global_gesture_preference_summary_off', 'accessibility_global_gesture_preference_summary_on',
          'talkback/talkback_title', 'talkback/switch_service_name', 'CloudPrint2/app_name', 'print_feature_state_on',
          'print_feature_state_off', 'mock_location_app_not_set', 'debug_app_not_set', 'adb_warning_title', 'adb_warning_message',
-         'dev_settings_warning_title', 'dev_settings_warning_message', 'android_beam_on_summary', 'android_beam_off_summary']
+         'dev_settings_warning_title', 'dev_settings_warning_message', 'android_beam_on_summary', 'android_beam_off_summary',
+         # PrivateVolumeSettings
+         'storage_detail_apps', 'storage_detail_images', 'storage_detail_videos', 'storage_detail_audio', 'storage_detail_other',
+         'storage_detail_cached', 'storage_menu_explore', 'storage_volume_used+args1', 'storage_size_large', 'framework/storage_internal',
+         'memory_clear_cache_title', 'memory_clear_cache_message', 'storage_detail_dialog_other']
 strings, arrays, drawables = set(), set(), {}
 
 

@@ -7185,6 +7185,111 @@ MM.strings('settings', {
 "fr": "Désactivé",
 "es": "No"
 },
+"storage_detail_apps": {
+"res": "bullhead:Settings:storage_detail_apps",
+"en": "Apps",
+"hu": "Alkalmazások",
+"de": "Apps",
+"fr": "Applications",
+"es": "Aplicaciones"
+},
+"storage_detail_images": {
+"res": "bullhead:Settings:storage_detail_images",
+"en": "Images",
+"hu": "Képek",
+"de": "Bilder",
+"fr": "Images",
+"es": "Imágenes"
+},
+"storage_detail_videos": {
+"res": "bullhead:Settings:storage_detail_videos",
+"en": "Videos",
+"hu": "Videók",
+"de": "Videos",
+"fr": "Vidéos",
+"es": "Vídeos"
+},
+"storage_detail_audio": {
+"res": "bullhead:Settings:storage_detail_audio",
+"en": "Audio",
+"hu": "Hang",
+"de": "Audiodateien",
+"fr": "Audio",
+"es": "Audio"
+},
+"storage_detail_other": {
+"res": "bullhead:Settings:storage_detail_other",
+"en": "Other",
+"hu": "Egyéb",
+"de": "Andere",
+"fr": "Autre",
+"es": "Otros"
+},
+"storage_detail_cached": {
+"res": "bullhead:Settings:storage_detail_cached",
+"en": "Cached data",
+"hu": "Gyorsítótárazott adatok",
+"de": "Daten im Cache",
+"fr": "Données en cache",
+"es": "Datos almacenados en caché"
+},
+"storage_menu_explore": {
+"res": "bullhead:Settings:storage_menu_explore",
+"en": "Explore",
+"hu": "Felfedezés",
+"de": "Erkunden",
+"fr": "Explorer",
+"es": "Explorar"
+},
+"storage_volume_used": {
+"res": "bullhead:Settings:storage_volume_used",
+"args": 1,
+"en": "Used of %1$s",
+"hu": "Összesen: %1$s",
+"de": "von %1$s verwendet",
+"fr": "Utilisé(s) sur %1$s",
+"es": "En uso de %1$s"
+},
+"storage_size_large": {
+"res": "bullhead:Settings:storage_size_large",
+"en": "^1 ^2",
+"hu": "^1 ^2",
+"de": "^1 ^2",
+"fr": "^1 ^2",
+"es": "^1 ^2"
+},
+"framework/storage_internal": {
+"res": "bullhead:framework:storage_internal",
+"en": "Internal storage",
+"hu": "Belső tárhely",
+"de": "Interner Speicher",
+"fr": "Mémoire de stockage interne",
+"es": "Almacenamiento interno"
+},
+"memory_clear_cache_title": {
+"res": "bullhead:Settings:memory_clear_cache_title",
+"en": "Clear cached data?",
+"hu": "Törli a gyorsítótárban tárolt adatokat?",
+"de": "Daten im Cache löschen?",
+"fr": "Effacer les données mises en cache ?",
+"es": "¿Borrar datos almacenados en caché?"
+},
+"memory_clear_cache_message": {
+"res": "bullhead:Settings:memory_clear_cache_message",
+"en": "This will clear cached data for all apps.",
+"hu": "Ez törli az alkalmazások gyorsítótárbeli adatait.",
+"de": "Daten im Cache werden für alle Apps gelöscht.",
+"fr": "Les données en cache des applications seront effacées.",
+"es": "Se borrarán los datos en caché de las aplicaciones."
+},
+"storage_detail_dialog_other": {
+"res": "bullhead:Settings:storage_detail_dialog_other",
+"en": "Other includes shared files saved by apps, files downloaded from the Internet or Bluetooth, Android files, and so on. \n\nTo see the entire contents of this ^1, touch Explore.",
+"hu": "Az Egyéb kategóriába tartoznak az alkalmazások által mentett megosztott fájlok, az internetről, illetve Bluetooth-kapcsolaton keresztül letöltött fájlok, az androidos fájlok stb. \n\nAz adathordozó (^1) teljes tartalmának megtekintéséhez érintse meg a Felfedezés lehetőséget.",
+"de": "\"Andere\" beinhaltet beispielsweise von Apps gespeicherte gemeinsam genutzte Dateien, aus dem Internet oder per Bluetooth heruntergeladene Dateien oder Android-Dateien. \n\nTippe zum Ansehen des gesamten Inhalts von ^1 auf \"Erkunden\".",
+"fr": "Le libellé \"Autre\" fait référence aux fichiers partagés enregistrés par les applications, aux fichiers téléchargés sur Internet ou via le Bluetooth, aux fichiers Android, etc. \n\nPour afficher l'intégralité du contenu de la mémoire de stockage \"^1\", appuyez sur \"Explorer\".",
+"es": "En Otros se incluyen archivos compartidos almacenados por aplicaciones, archivos descargados de Internet o por Bluetooth, archivos de Android y mucho más. \n\nPara ver todo el contenido de este dispositivo de almacenamiento (^1), toca Explorar."
+},
 "animator_duration_scale_entries": {
 "res": "bullhead:Settings:animator_duration_scale_entries",
 "en": [

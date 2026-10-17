@@ -182,3 +182,10 @@ div.mmst-pref:active{background:none}
 /* RadioButtonPreference (Location mode): the radio at the start of the row. */
 .mmst-radiopref{gap:calc(16 * var(--dp))}
 .mmst-radiopref .mmw-radio{--mmw-normal:rgba(0,0,0,.541);--mmw-accent:#009688}
+/* storage_summary.xml: 16 dp padding, the used size 36 sp in #607d8b with a small unit, "Used of" in Body1, the 8 dp bar. */
+.mmsg-summary{padding:calc(16 * var(--dp))}
+.mmsg-used{color:#607d8b;font-size:calc(36 * var(--dp));line-height:1.2;white-space:nowrap}
+.mmsg-used small{font-size:.6em}
+.mmsg-of{color:rgba(0,0,0,.871);font-size:calc(14 * var(--dp))}
+.mmsg-bar{height:calc(4 * var(--dp));margin:calc(16 * var(--dp)) 0 calc(8 * var(--dp));background:rgba(0,150,136,.3)}
+.mmsg-bar i{display:block;height:100%;background:#009688}
